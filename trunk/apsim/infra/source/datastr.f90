@@ -9,6 +9,7 @@ module DataStrModule
    ! ====================================================================
       use ConstantsModule
       use StringModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -148,6 +149,7 @@ module DataStrModule
       subroutine split_off_units (record, units)
    ! ====================================================================
       use StringModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -229,6 +231,7 @@ module DataStrModule
    !     ===========================================================
       use ConstantsModule
       use StringModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments

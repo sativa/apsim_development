@@ -11,5 +11,6 @@ module Infrastructure
    use ReadModule
    Use InterfaceModule
    Use PostBoxModule
+   Use EventModule
 end module Infrastructure
                                               

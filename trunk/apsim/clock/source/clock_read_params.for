@@ -2,11 +2,8 @@
       subroutine read_params ()
 * ====================================================================
       use ClockModule
+      use Infrastructure
       implicit none
-      include 'const.inc'              ! Constant definitions
-      include 'date.pub'                          
-      include 'read.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *     read in all parameters
@@ -35,7 +32,7 @@
      .                    '(date)',
      .                    date_st,
      .                    numvals)
-      call String_to_jday (date_st, g%start_date, numvals, 0.0)
+      call String_to_jday (date_st, g%start_date, numvals, 0.0d0)
 
       if (numvals.eq.0) then
          call fatal_error (ERR_User
@@ -50,7 +47,7 @@
      .                    '(date)',
      .                    date_st,
      .                    numvals)
-      call String_to_jday (date_st, g%end_date, numvals, 0.0)
+      call String_to_jday (date_st, g%end_date, numvals, 0.0d0)
 
       if (numvals.eq.0) then
          call fatal_error (ERR_User

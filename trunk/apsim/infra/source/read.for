@@ -1,3 +1,8 @@
+      module ReadModule
+               
+      contains
+      
+      
 C     Last change:  P     8 Nov 2000   12:19 pm
 * ====================================================================
        subroutine read_real_var
@@ -5,9 +10,10 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      .    units, variable, numvals,
      .    lower_limit, upper_limit)
 * ====================================================================
+      use DataStrModule
+      use DataModule
+      use ConstantsModule
       implicit none
-      dll_export read_real_var
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -33,11 +39,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     13/7/99 dph reworked to use new Read_parameter routine
  
 *+ Calls
-      dll_import read_parameter
-      dll_import string_to_real_var
-      dll_import bound_check_real_var
-      character read_parameter*(function_string_len)
-                                       ! function
  
 *+ Constant Values
  
@@ -57,7 +58,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
  
  
  
@@ -69,9 +70,10 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      .     units, variable, numvals,
      .     lower_limit, upper_limit)
 * ====================================================================
+      use DataStrModule
+      use DataModule
+      use ConstantsModule
       implicit none
-      dll_export read_integer_var
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -97,11 +99,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     13/7/99 dph reworked to use new Read_parameter routine
  
 *+ Calls
-      dll_import read_parameter
-      dll_import string_to_integer_var
-      dll_import bound_check_integer_var
-      character read_parameter*(function_string_len)
-                                       ! function
  
 *+ Constant Values
  
@@ -121,7 +118,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
  
  
  
@@ -133,9 +130,10 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      .     units, variable, numvals,
      .     lower_limit, upper_limit)
 * ====================================================================
+      use DataStrModule
+      use DataModule
+      use ConstantsModule
       implicit none
-      dll_export read_double_var
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -160,11 +158,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     23/9/96 dph added if statement to check for blank
 *     13/7/99 dph reworked to use new Read_parameter routine 
 *+ Calls
-      dll_import read_parameter
-      dll_import string_to_double_var
-      dll_import bound_check_double_var
-      character read_parameter*(function_string_len)
-                                       ! function
  
 *+ Constant Values
  
@@ -185,7 +178,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
  
  
  
@@ -196,9 +189,9 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      .    (section_name, variable_name,
      .     units, variable, numvals)
 * ====================================================================
+      use DataStrModule
+      use ConstantsModule
       implicit none
-      dll_export read_logical_var
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -222,10 +215,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     13/7/99 dph reworked to use new Read_parameter routine
  
 *+ Calls
-      dll_import read_parameter
-      dll_import string_to_logical_var
-      character read_parameter*(function_string_len)
-                                       ! function
  
 *+ Constant Values
  
@@ -243,7 +232,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
  
  
  
@@ -254,9 +243,8 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      .    (section_name, variable_name,
      .     units, variable, numvals)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export read_char_var
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -278,9 +266,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     23/9/96 dph added if statement to check for blank
 *     13/7/99 dph reworked to use new Read_parameter routine 
 *+ Calls
-      dll_import read_parameter
-      character read_parameter*(function_string_len)
-                                       ! function
  
 *+ Constant Values
  
@@ -297,11 +282,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
- 
- 
- 
-
+      end subroutine
 
 * ====================================================================
        subroutine read_real_var_optional
@@ -309,9 +290,10 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      .    units, variable, numvals,
      .    lower_limit, upper_limit)
 * ====================================================================
+      use DataModule
+      use DataStrModule
+      use ConstantsModule
       implicit none
-      dll_export read_real_var_optional
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -334,10 +316,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     DPH 18/10/94
 *     13/7/99 dph reworked to use new Read_parameter_optional routine 
 *+ Calls
-      dll_import read_parameter_optional
-      dll_import string_to_real_var
-      dll_import bound_check_real_var
-      logical read_parameter_optional  ! function
  
 *+ Constant Values
  
@@ -363,7 +341,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine read_integer_var_optional
@@ -371,9 +349,10 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      .     units, variable, numvals,
      .     lower_limit, upper_limit)
 * ====================================================================
+      use DataModule
+      use DataStrModule
+      use ConstantsModule
       implicit none
-      dll_export read_integer_var_optional
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -398,10 +377,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     13/7/99 dph reworked to use new Read_parameter_optional routine 
  
 *+ Calls
-      dll_import read_parameter_optional
-      dll_import string_to_integer_var
-      dll_import bound_check_integer_var
-      logical read_parameter_optional  ! function
  
 *+ Constant Values
  
@@ -428,7 +403,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine read_double_var_optional
@@ -436,9 +411,10 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      .     units, variable, numvals,
      .     lower_limit, upper_limit)
 * ====================================================================
+      use DataModule
+      use DataStrModule
+      use ConstantsModule
       implicit none
-      dll_export read_double_var_optional
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -463,11 +439,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     13/7/99 dph reworked to use new Read_parameter_optional routine 
  
 *+ Calls
-      dll_import read_parameter_optional
-      dll_import split_off_units
-      dll_import string_to_double_var
-      dll_import bound_check_double_var
-      logical read_parameter_optional  ! function
  
 *+ Constant Values
  
@@ -494,16 +465,16 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine read_logical_var_optional
      .    (section_name, variable_name,
      .     units, variable, numvals)
 * ====================================================================
+      use DataStrModule
+      use ConstantsModule
       implicit none
-      dll_export read_logical_var_optional
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -526,9 +497,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     13/7/99 dph reworked to use new Read_parameter_optional routine 
  
 *+ Calls
-      dll_import read_parameter_optional
-      dll_import string_to_logical_var
-      logical read_parameter_optional  ! function
  
 *+ Constant Values
  
@@ -553,7 +521,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
  
  
  
@@ -565,8 +533,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      .     units, variable, numvals)
 * ====================================================================
       implicit none
-      dll_export read_char_var_optional
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -588,8 +554,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     13/7/99 dph reworked to use new Read_parameter_optional routine 
  
 *+ Calls
-      dll_import read_parameter_optional
-      logical read_parameter_optional  ! function
  
 *+ Constant Values
  
@@ -610,7 +574,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine read_real_array
@@ -618,9 +582,10 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      .    units, variable, numvals,
      .    lower_limit, upper_limit)
 * ====================================================================
+      use DataModule
+      use DataStrModule
+      use ConstantsModule
       implicit none
-      dll_export read_real_array
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -647,11 +612,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     13/7/99 dph reworked to use new Read_parameter routine 
  
 *+ Calls
-      dll_import read_parameter
-      dll_import string_to_real_array
-      dll_import bound_check_real_array
-      character read_parameter*(function_string_len)
-                                       ! function
  
 *+ Constant Values
  
@@ -670,7 +630,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
 
 
 * ====================================================================
@@ -679,9 +639,10 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      .     units, variable, numvals,
      .     lower_limit, upper_limit)
 * ====================================================================
+      use DataModule
+      use DataStrModule
+      use ConstantsModule
       implicit none
-      dll_export read_integer_array
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -708,11 +669,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     13/7/99 dph reworked to use new Read_parameter routine 
  
 *+ Calls
-      dll_import read_parameter
-      dll_import string_to_integer_array
-      dll_import bound_check_integer_array
-      character read_parameter*(function_string_len)
-                                       ! function
  
 *+ Constant Values
  
@@ -731,7 +687,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine read_double_array
@@ -739,9 +695,10 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      .     units, variable, numvals,
      .     lower_limit, upper_limit)
 * ====================================================================
+      use DataModule
+      use DataStrModule
+      use ConstantsModule
       implicit none
-      dll_export read_double_array
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -768,11 +725,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     13/7/99 dph reworked to use new Read_parameter routine 
  
 *+ Calls
-      dll_import read_parameter
-      dll_import string_to_double_array
-      dll_import bound_check_double_array
-      character read_parameter*(function_string_len)
-                                       ! function
  
 *+ Constant Values
  
@@ -791,16 +743,16 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine read_logical_array
      .    (section_name, variable_name, size_of,
      .     units, variable, numvals)
 * ====================================================================
+      use DataStrModule
+      use ConstantsModule
       implicit none
-      dll_export read_logical_array
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -825,10 +777,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     13/7/99 dph reworked to use new Read_parameter routine 
  
 *+ Calls
-      dll_import read_parameter
-      dll_import string_to_logical_array
-      character read_parameter*(function_string_len)
-                                       ! function
  
 *+ Constant Values
  
@@ -845,16 +793,16 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine read_char_array
      .    (section_name, variable_name, size_of,
      .     units, variable, numvals)
 * ====================================================================
+      use DataStrModule
+      use ConstantsModule
       implicit none
-      dll_export read_char_array
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -879,10 +827,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     13/7/99 dph reworked to use new Read_parameter routine 
  
 *+ Calls
-      dll_import read_parameter
-      dll_import string_to_char_array
-      character read_parameter*(function_string_len)
-                                       ! function
  
 *+ Constant Values
  
@@ -899,7 +843,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine read_real_array_optional
@@ -907,9 +851,10 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      .    units, variable, numvals,
      .    lower_limit, upper_limit)
 * ====================================================================
+      use DataModule
+      use DataStrModule
+      use ConstantsModule
       implicit none
-      dll_export read_real_array_optional
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -935,11 +880,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     13/7/99 dph reworked to use new Read_parameter routine 
  
 *+ Calls
-      dll_import read_parameter_optional
-      dll_import fill_real_array
-      dll_import string_to_real_array
-      dll_import bound_check_real_array
-      logical read_parameter_optional  ! function
  
 *+ Constant Values
  
@@ -966,7 +906,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine read_integer_array_optional
@@ -974,9 +914,10 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      .     units, variable, numvals,
      .     lower_limit, upper_limit)
 * ====================================================================
+      use DataModule
+      use DataStrModule
+      use ConstantsModule
       implicit none
-      dll_export read_integer_array_optional
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -1002,12 +943,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     13/7/99 dph reworked to use new Read_parameter routine 
  
 *+ Calls
-      dll_import read_parameter_optional
-      dll_import fill_integer_array
-      dll_import string_to_integer_array
-      dll_import bound_check_integer_array
-      logical read_parameter_optional
-                                       ! function
  
 *+ Constant Values
  
@@ -1034,7 +969,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine read_double_array_optional
@@ -1042,9 +977,10 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      .     units, variable, numvals,
      .     lower_limit, upper_limit)
 * ====================================================================
+      use DataModule
+      use DataStrModule
+      use ConstantsModule
       implicit none
-      dll_export read_double_array_optional
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -1070,12 +1006,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     13/7/99 dph reworked to use new Read_parameter routine 
  
 *+ Calls
-      dll_import read_parameter_optional
-      dll_import fill_double_array
-      dll_import string_to_double_array
-      dll_import bound_check_double_array
-      logical read_parameter_optional
-                                       ! function
  
 *+ Constant Values
  
@@ -1102,16 +1032,17 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine read_logical_array_optional
      .    (section_name, variable_name, size_of,
      .     units, variable, numvals)
 * ====================================================================
+      use DataModule
+      use DataStrModule
+      use ConstantsModule
       implicit none
-      dll_export read_logical_array_optional
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -1135,11 +1066,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     13/7/99 dph reworked to use new Read_parameter routine 
  
 *+ Calls
-      dll_import read_parameter_optional
-      dll_import fill_logical_array
-      dll_import string_to_logical_array
-      logical read_parameter_optional
-                                       ! function
  
 *+ Constant Values
  
@@ -1164,16 +1090,17 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine read_char_array_optional
      .    (section_name, variable_name, size_of,
      .     units, variable, numvals)
 * ====================================================================
+      use DataModule
+      use DataStrModule
+      use ConstantsModule
       implicit none
-      dll_export read_char_array_optional
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character section_name*(*)       ! (INPUT) section name to search for
@@ -1197,11 +1124,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     13/7/99 dph reworked to use new Read_parameter routine 
  
 *+ Calls
-      dll_import read_parameter_optional
-      dll_import fill_char_array
-      dll_import string_to_char_array
-      logical read_parameter_optional
-                                       ! function
  
 *+ Constant Values
  
@@ -1226,18 +1148,17 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       endif
  
       return
-      end
+      end subroutine
  
 * ====================================================================
        logical function Read_parameter_optional 
      .  (Parameter_name, Section_name, Parameter_value, Parameter_units)
 * ====================================================================
+      use DataModule
+      use DataStrModule
+      use ConstantsModule
+      use ErrorModule
       implicit none
-      dll_export read_parameter_optional
-      include 'const.inc'
-      include 'apsimengine.pub'
-      include 'componentinterface.inc'
-      include 'string.pub'
  
 *+ Sub-Program Arguments
       character Parameter_name*(*)     ! (INPUT) name of parameter to retrieve
@@ -1257,10 +1178,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     dph 20/10/00 Updated to use new property, constant or generic types.
  
 *+ Calls
-      dll_import push_routine
-      dll_import pop_routine
- 
-      character*(function_string_len) lower_case
       
 *+ Constant Values
       character myname*(*)             ! Name of this routine
@@ -1274,39 +1191,41 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       call push_routine(myname)
 
       ! Get property value.
-      property = component_getproperty(ComponentData,
-     .                                 Parameter_name,
-     .                                 section_name)
-      if (property .ne. 0) then
-         call property_getvalue(property, parameter_value)
-      end if
+!      property = component_getproperty(ComponentData,
+!     .                                 Parameter_name,
+!     .                                 section_name)
+!      if (property .ne. 0) then
+!         call property_getvalue(property, parameter_value)
+!      end if
+!
+!      ! If we got a property, convert value to lower_case.
+!      ! If we didn't get a property, then return .false.
+!      if (property .ne. 0) then
+!         Parameter_value = Lower_case(Parameter_value)
+!         Parameter_units = ' '
+!         Read_parameter_optional = .true.
+!         call component_freeproperty(property)
+!
+!      else
+!         ! couldn't find property.  Signal that all is not ok.
+!         Parameter_value = " "
+!         Read_parameter_optional = .false.
+!      endif
 
-      ! If we got a property, convert value to lower_case.
-      ! If we didn't get a property, then return .false.
-      if (property .ne. 0) then
-         Parameter_value = Lower_case(Parameter_value)
-         Parameter_units = ' '
-         Read_parameter_optional = .true.
-         call component_freeproperty(property)
-
-      else
-         ! couldn't find property.  Signal that all is not ok.
-         Parameter_value = " "
-         Read_parameter_optional = .false.
-      endif
+      Read_parameter_optional = .false.
 
       call pop_routine(myname)
       
       return
-      end
+      end function
 
 * ====================================================================
-       character*(*) function Read_parameter 
+       character*(1000) function Read_parameter 
      .     (Parameter_name, Section_name)
 * ====================================================================
+      use ErrorModule
+      use ConstantsModule
       implicit none
-      dll_export read_parameter
-      include 'const.inc'
 
 *+ Sub-Program Arguments
       character Parameter_name*(*)     ! (INPUT) name of parameter to retrieve
@@ -1323,12 +1242,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     dph 13/7/99 Created as part of the new infrastructure re-design.
  
 *+ Calls
-      dll_import push_routine
-      dll_import fatal_error
-      dll_import pop_routine
-      dll_import read_parameter_optional
-      logical read_parameter_optional
-                                       ! function
  
 *+ Constant Values
       character myname*(*)             ! Name of this routine
@@ -1368,7 +1281,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       Read_parameter = Parameter_value
       call pop_routine(myname)
       return
-      end
+      end function
 
 
 * ====================================================================
@@ -1381,9 +1294,9 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      :                                ,lower
      :                                ,upper)
 * ====================================================================
+      use ErrorModule
+      use ConstantsModule
       implicit none
-      include 'const.inc'
-      include 'error.pub'          
 
 *+  Sub-Program Arguments
       character section_names(*)*(*)   ! list of sections to search
@@ -1406,7 +1319,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     25-11-1997 - neilh - Programmed and Specified
 
 *+  Calls
-      dll_import read_real_var_optional
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -1446,7 +1358,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
  
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -1461,9 +1373,9 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      :                                ,lower
      :                                ,upper)
 * ====================================================================
+      use ErrorModule
+      use ConstantsModule
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character section_names(*)*(*)   ! list of sections to search
@@ -1487,7 +1399,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     25-11-1997 - neilh - Programmed and Specified
 
 *+  Calls
-      dll_import read_real_array_optional
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -1528,7 +1439,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
  
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -1541,9 +1452,9 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      :                                ,array
      :                                ,numvals)
 * ====================================================================
+      use ErrorModule
+      use ConstantsModule
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character section_names(*)*(*)   ! list of sections to search
@@ -1565,7 +1476,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     25-11-1997 - neilh - Programmed and Specified
 
 *+  Calls
-      dll_import read_char_array_optional
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -1604,7 +1514,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
  
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -1616,9 +1526,9 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      :                                ,variable
      :                                ,numvals)
 * ====================================================================
+      use ErrorMOdule
+      use ConstantsModule
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character section_names(*)*(*)   ! list of sections to search
@@ -1636,7 +1546,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *   Search for %5 in files (Lower Bound = %7, Upper Bound = %8)
 
 *+  Calls
-      dll_import read_char_var_optional
 
 *+  Changes
 *     25-11-1997 - neilh - Programmed and Specified
@@ -1677,7 +1586,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
  
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -1691,9 +1600,9 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      :                                ,lower
      :                                ,upper)
 * ====================================================================
+      use ErrorModule
+      use ConstantsModule
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character section_names(*)*(*)   ! list of sections to search
@@ -1702,8 +1611,8 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       character units*(*)              ! required units of variable
       integer   variable               ! variable value to return
       integer   numvals                ! number of values returned
-      real      lower                  ! lower bound of variable value
-      real      upper                  ! upper bound of variable value
+      integer   lower                  ! lower bound of variable value
+      integer   upper                  ! upper bound of variable value
 
 *+  Purpose
 *      Read a real value from input files using a list of possible sections
@@ -1713,7 +1622,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *   Search for %5 in files (Lower Bound = %7, Upper Bound = %8)
 
 *+  Calls
-      dll_import read_integer_var_optional
 
 *+  Changes
 *     25-11-1997 - neilh - Programmed and Specified
@@ -1756,7 +1664,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
  
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -1771,9 +1679,9 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      :                                ,lower
      :                                ,upper)
 * ====================================================================
+      use ErrorMOdule
+      use ConstantsModule
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character section_names(*)*(*)   ! list of sections to search
@@ -1783,8 +1691,8 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       character units*(*)              ! required units of variable
       integer   array(*)               ! variable value to return
       integer   numvals                ! number of values returned
-      real      lower                  ! lower bound of variable value
-      real      upper                  ! upper bound of variable value
+      integer   lower                  ! lower bound of variable value
+      integer   upper                  ! upper bound of variable value
 
 *+  Purpose
 *      Read an array from input files using a list of possible sections
@@ -1797,7 +1705,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *     25-11-1997 - neilh - Programmed and Specified
 
 *+  Calls
-      dll_import read_integer_array_optional
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -1838,6 +1745,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
  
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
-
+      end module ReadModule

@@ -1,6 +1,6 @@
 module StringModule
       
-   dll_import Strings_equal
+   dll_import strings_equal
    interface
    
       function Strings_equal(st1, st2)
@@ -1163,6 +1163,7 @@ module StringModule
    ! ====================================================================
       integer function word_count (string)
    ! ====================================================================
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -1240,6 +1241,7 @@ module StringModule
    ! ====================================================================
       subroutine get_a_word (string, nth, word)
    ! ====================================================================
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
