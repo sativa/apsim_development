@@ -107,6 +107,11 @@ class __declspec(dllexport) ControlFileConverter
       //---------------------------------------------------------------------------
       bool executeMoveParametersOutOfCon(const std::string arguments) throw(runtime_error);
 
+      // ------------------------------------------------------------------
+      // Execute the RemoveSumAvgToTracker command. Returns true on success
+      // ------------------------------------------------------------------
+      bool executeRemoveSumAvgToTracker(const std::string& arguments) throw(runtime_error);
+
    };
 
 // ------------------------------------------------------------------
