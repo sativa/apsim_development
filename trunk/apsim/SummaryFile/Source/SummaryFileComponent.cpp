@@ -118,8 +118,6 @@ void SummaryFileComponent::respondToEvent(unsigned int& fromID, unsigned int& ev
       else
          componentName = "";
       writeLine(componentName.c_str(), errorMessage);
-      if (isFatal)
-         terminateSimulation();
       }
    }
 

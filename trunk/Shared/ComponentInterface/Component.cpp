@@ -488,6 +488,8 @@ void Component::error(const FString& msg, bool isFatal)
                                                      ErrorData(isFatal, cMessage));
       errorMessage->toAcknowledge = true;
       sendMessage(errorMessage);
+      if (isFatal)
+         terminateSimulation();
       }
    }
 
