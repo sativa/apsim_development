@@ -1,6 +1,6 @@
-<Simulation executable="c:\mydata\development\apsim\protocolmanager\lib\protocolmanager.dll">
+<Simulation executable="c:\development\apsim\protocolmanager\lib\protocolmanager.dll">
    <title>Simple System Simulation</title>
-   <component name="log" executable="c:\mydata\development\apsim\log\lib\log.dll">
+   <component name="log" executable="c:\development\apsim\log\lib\log.dll">
       <initdata>
          <parameters name="sample">
             <property name="debug_output">on</property>
@@ -9,21 +9,21 @@
       </initdata>
    </component>
 
-   <component name="SummaryFile" executable="c:\mydata\development\apsim\summaryfile\lib\summaryfile.dll">
+   <component name="SummaryFile" executable="c:\development\apsim\summaryfile\lib\summaryfile.dll">
       <initdata>
          <parameters name="sample">
             <property name="summaryfile">wheat.sum</property>
          </parameters>
       </initdata>
    </component>
-   <component name="Screen" executable="c:\mydata\development\apsim\screen\lib\screen.dll">
+   <component name="Screen" executable="c:\development\apsim\screen\lib\screen.dll">
       <initdata>
          <parameters name="sample">
             <property name="screen_output">on</property>
          </parameters>
       </initdata>
    </component>
-   <component name="clock" executable="c:\mydata\development\apsim\clock\lib\clock.dll">
+   <component name="clock" executable="c:\development\apsim\clock\lib\clock.dll">
       <initdata>
          <parameters name="sample">
             <property name="start_date">14/6/1988</property>
@@ -31,7 +31,7 @@
          </parameters>
       </initdata>
    </component>
-   <component name="report" executable="c:\mydata\development\apsim\report\lib\report.dll">
+   <component name="report" executable="c:\development\apsim\report\lib\report.dll">
       <initdata>
          <parameters name="sample">
             <property name="outputfile">wheat.out</property>
@@ -42,7 +42,7 @@
          </variables>
       </initdata>
    </component>   
-   <component name="manager" executable="c:\mydata\development\apsim\manager\lib\manager.dll">
+   <component name="manager" executable="c:\development\apsim\manager\lib\manager.dll">
       <initdata>
          <rules>
             <rule name="sample.end_of_day" condition="end_of_day">
@@ -53,8 +53,8 @@
    </component>
   
                      
-   <system name="SubSystem" executable="c:\mydata\development\apsim\protocolmanager\lib\protocolmanager.dll">
-      <component name="Met" executable="c:\mydata\development\apsim\input\lib\input.dll">
+   <system name="SubSystem" executable="c:\development\apsim\protocolmanager\lib\protocolmanager.dll">
+      <component name="Met" executable="c:\development\apsim\input\lib\input.dll">
 	      <initdata>
 	         <weather name="weather">
 	            <property name="Latitude">-27.11</property>
@@ -62,12 +62,12 @@
 	            <property name="amp">10.40</property>
 	         </weather>
 	         <parameters name="weather">
-	            <property name="filename">c:\mydata\development\apsim\met\sample\dalby.met</property>
+	            <property name="filename">c:\development\apsim\met\sample\dalby.met</property>
 	         </parameters>
 	      </initdata>
 	   </component>
                 
-      <component name="report2" executable="c:\mydata\development\apsim\report\lib\report.dll">
+      <component name="report2" executable="c:\development\apsim\report\lib\report.dll">
          <initdata>
             <parameters name="sample">
                <property name="outputfile">wheat2.out</property>
