@@ -90,6 +90,7 @@
          sequence
          real    rain                                 ! precipitation (mm/d)
          real    runon                                ! external run-on of H2O (mm/d)
+         real    interception                         ! canopy interception loss (mm)
          real    radn                                 ! solar radiation (mj/m^2/day)
          real    mint                                 ! minimum air temperature (oC)
          real    maxt                                 ! maximum air temperature (oC)
@@ -337,7 +338,10 @@
 
       call soilwat2_cover_surface_runoff (g%cover_surface_runoff)
 c dsg 070302 added runon
-      call soilwat2_runoff (g%rain, g%runon, g%runoff_pot)
+      call soilwat2_runoff (g%rain
+     :                     ,g%runon
+     :                     ,g%interception
+     :                     ,g%runoff_pot)
 
       ! DSG  041200
       ! g%runoff_pot is the runoff which would have occurred without
@@ -438,7 +442,7 @@ c dsg 070302 added runon
 
 
 *     ===========================================================
-      subroutine soilwat2_runoff ( rain,runon, runoff )
+      subroutine soilwat2_runoff ( rain,runon, interception, runoff )
 *     ===========================================================
       Use Infrastructure
       implicit none
@@ -446,6 +450,7 @@ c dsg 070302 added runon
 *+  Sub-Program Arguments
       real       rain            ! (INPUT) rainfall (mm)
       real       runon           ! (INPUT) run on (mm)
+      real       interception    ! (INPUT) interception loss(mm)
       real       runoff          ! (OUTPUT) runoff (mm)
 
 *+  Purpose
@@ -477,9 +482,9 @@ c dsg 070302 added runon
 
       runoff = 0.0
 
-      if ((rain+runon) .gt. 0.0) then
+      if ((rain+runon-interception) .gt. 0.0) then
          if (g%obsrunoff_name .eq. blank ) then
-            call soilwat2_scs_runoff (rain,runon, runoff)
+            call soilwat2_scs_runoff (rain,runon, interception, runoff)
          else
            if ( g%obsrunoff_found ) then
                runoff = g%obsrunoff
@@ -490,12 +495,13 @@ c dsg 070302 added runon
      :      ', Using predicted runoff for missing observation'
 
                call warning_error (err_user, string)
-               call soilwat2_scs_runoff (rain,runon, runoff)
+               call soilwat2_scs_runoff
+     :              (rain,runon, interception, runoff)
            endif
          endif
 
 c dsg 070302 added runon
-         call soilwat2_tillage_addrain(g%rain,g%runon)  ! Update rain since tillage accumulator
+         call soilwat2_tillage_addrain(g%rain,g%runon,interception)  ! Update rain since tillage accumulator
                                                 ! NB. this needs to be done _after_ cn
                                                 ! calculation.
 
@@ -509,7 +515,7 @@ c dsg 070302 added runon
 
 
 *     ===========================================================
-      subroutine soilwat2_scs_runoff (rain,runon, runoff)
+      subroutine soilwat2_scs_runoff (rain,runon, interception,runoff)
 *     ===========================================================
       Use Infrastructure
       implicit none
@@ -517,6 +523,7 @@ c dsg 070302 added runon
 *+  Sub-Program Arguments
       real       rain                  ! (input) rainfall for day (mm)
       real       runon                 ! (input) run on for day (mm)
+      real       interception          ! (INPUT) interception loss (mm)
       real       runoff                ! (output) runoff for day (mm)
 
 *+  Purpose
@@ -634,11 +641,16 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
           ! curve number will be decided from scs curve number table ??dms
 
       s = 254.0* (divide (100.0, cn, 1000000.0) - 1.0)
-      xpb = (rain + runon) - 0.2*s
+      xpb = (rain + runon - interception) - 0.2*s
       xpb = l_bound (xpb, 0.0)
 
-      runoff = divide (xpb*xpb, (rain + runon + 0.8*s), 0.0)
-      call bound_check_real_var (runoff, 0.0, (rain + runon), 'runoff')
+      runoff = divide (xpb*xpb
+     :                ,(rain + runon - interception + 0.8*s)
+     :                ,0.0)
+      call bound_check_real_var (runoff
+     :                          ,0.0
+     :                          ,(rain + runon - interception)
+     :                          ,'runoff')
 
       call pop_routine (my_name)
       return
@@ -3863,6 +3875,15 @@ c  dsg   070302  added runon
           g%runon = 0.0
       endif
 
+         call get_real_var_optional (unknown_module,
+     :                               'interception', '(mm)',
+     :                               g%interception, numvals,
+     :                               0.0, 100.0)
+
+      if (numvals.eq.0) then
+          g%interception = 0.0
+      endif
+
       call pop_routine (my_name)
       return
       end subroutine
@@ -4886,6 +4907,7 @@ c         g%crop_module(:) = ' '               ! list of modules
          g%day  = 0                           ! day of year
          g%rain = 0.0                         ! precipitation (mm/d)
          g%runon = 0.0                        ! run on H20 (mm/d)
+         g%interception = 0.0
          g%radn = 0.0                         ! solar radiation (mj/m^2/day)
          g%mint = 0.0                         ! minimum air temperature (oC)
          g%maxt = 0.0                         ! maximum air temperature (oC)
@@ -5989,6 +6011,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 
 c dsg 070302 added runon
       infiltration_1 = g%rain + g%runon -  g%runoff_pot
+     :               - g%interception
 
       if (p%irrigation_layer.eq.0) then
         infiltration_1 = infiltration_1 + g%irrigation
@@ -6113,7 +6136,7 @@ c dsg 070302 added runon
 
 
 *     ===========================================================
-      subroutine soilwat2_tillage_addrain ( rain, runon )
+      subroutine soilwat2_tillage_addrain ( rain, runon, interception)
 *     ===========================================================
       Use Infrastructure
       implicit none
@@ -6121,6 +6144,8 @@ c dsg 070302 added runon
 *+  Sub-Program Arguments
       real      rain                   ! (INPUT) today's rainfall (mm)
       real      runon                  ! (INPUT) today's run on (mm)
+      real      interception           ! (INPUT) todays interception loss (mm)
+
 *+  Purpose
 *     accumulate rainfall fo  r tillage cn reduction
 
@@ -6143,6 +6168,7 @@ c dsg 070302 added runon
       call push_routine (my_name)
 
       g%tillage_rain_sum = g%tillage_rain_sum + rain + runon
+     :                   - interception
 
       if (g%tillage_cn_rain .gt. 0.0 .and.
      :    g%tillage_rain_sum .gt. g%tillage_cn_rain) then
