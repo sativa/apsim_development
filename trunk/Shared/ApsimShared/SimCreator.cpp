@@ -159,10 +159,6 @@ SimCreator::SimCreator(const std::string& controlFileName)
 SimCreator::~SimCreator(void)
    {
    delete con;
-   for (Components::iterator i = components.begin();
-                             i != components.end();
-                             i++)
-      delete i->second;
    }
 //---------------------------------------------------------------------------
 // Create SIM files for the given control.  All sims are stored in the
@@ -242,39 +238,46 @@ void SimCreator::createSim(const string& sectionName,
       string instanceName = m->instanceName;
       string dllFileName = m->dllFileName;
 
-      ApsimComponentData component = simulation.addComponent(instanceName);
+      ApsimComponentData* component;
 
       // See if we've already parsed the .ini file this component.
       string iniFileName = con->getIniFileForInstance(sectionName, instanceName);
       if (iniFileName != "")
          {
+         string componentXML;
+
          Components::iterator c = components.find(iniFileName);
-         if (c != components.end())
-            component.copyAllFrom(*(c->second));
-
-         else
+         if (c == components.end())
             {
-            ApsimComponentData* iniComponent = new ApsimComponentData();
-            ImportSection importSection(*iniComponent, moduleName);
+            ApsimComponentData iniComponent;
+            ImportSection importSection(iniComponent, moduleName);
             con->enumerateParametersForInstance(sectionName, instanceName, true, importSection.callback);
-            components.insert(make_pair(iniFileName, iniComponent));
-            component.copyAllFrom(*iniComponent);
+            componentXML = iniComponent.getXML();
+            components.insert(make_pair(iniFileName, componentXML));
             }
+         else
+            componentXML = c->second;
+         component = new ApsimComponentData(componentXML);
+         component->setName(instanceName);
+         *component = simulation.addComponent(*component);
          }
+      else
+         component = new ApsimComponentData(simulation.addComponent(instanceName));
 
-      component.setExecutableFileName(dllFileName);
+      component->setExecutableFileName(dllFileName);
 
       if (Str_i_Eq(moduleName, "input") || Str_i_Eq(moduleName, "soi"))
          {
          string fileName = con->getFileForModule(sectionName, moduleName);
-         component.setProperty("parameters", "file", "filename", fileName);
+         component->setProperty("parameters", "file", "filename", fileName);
          }
 
       else
          {
-         ImportSection importSection(component, moduleName);
+         ImportSection importSection(*component, moduleName);
          con->enumerateParametersForInstance(sectionName, instanceName, false, importSection.callback);
          }
+      delete component;
       }
    simulation.write();
    if (simCreatorEvent != NULL)
