@@ -1,24 +1,24 @@
 [Instructions]
-import   = d:\apsuite\apsim\infra\lib\apsimengine.imp
-import   = d:\apsuite\apsim\infra\lib\apsiminfra.imp
-include  = d:\apsuite\apsim\infra
+import   = %apsuite\apsim\infra\lib\apsimengine.imp
+import   = %apsuite\apsim\infra\lib\apsiminfra.imp
+include  = %apsuite\apsim\infra
 module   = .
-module   = d:\apsuite\apsim\infra\source
-module   = d:\apsuite\apsim\infra\componentinterface
+module   = %apsuite\apsim\infra\source
+module   = %apsuite\apsim\infra\componentinterface
 
-library  = d:\apsuite\apsim\infra\lib\apsinfra.lib
-object   = d:\apsuite\apsim\infra\ComponentInterface\FORTRANComponent.obj
-object   = d:\apsuite\apsim\infra\ComponentInterface\Component.obj
-object   = d:\apsuite\apsim\infra\ComponentInterface\TypeConverter.obj
-object   = d:\apsuite\apsim\infra\ComponentInterface\Vector.obj
-object   = d:\apsuite\apsim\infra\ComponentInterface\Message.obj
-object   = d:\apsuite\apsim\infra\ComponentInterface\MessageData.obj
-object   = d:\apsuite\apsim\infra\ComponentInterface\Type.obj
-object   = d:\apsuite\apsim\infra\ComponentInterface\Variant.obj
-object   = d:\apsuite\apsim\infra\ComponentInterface\Variants.obj
-object   = d:\apsuite\apsim\infra\ComponentInterface\registers.obj
+library  = %apsuite\apsim\infra\lib\apsinfra.lib
+object   = %apsuite\apsim\infra\ComponentInterface\FORTRANComponent.obj
+object   = %apsuite\apsim\infra\ComponentInterface\Component.obj
+object   = %apsuite\apsim\infra\ComponentInterface\TypeConverter.obj
+object   = %apsuite\apsim\infra\ComponentInterface\Vector.obj
+object   = %apsuite\apsim\infra\ComponentInterface\Message.obj
+object   = %apsuite\apsim\infra\ComponentInterface\MessageData.obj
+object   = %apsuite\apsim\infra\ComponentInterface\Type.obj
+object   = %apsuite\apsim\infra\ComponentInterface\Variant.obj
+object   = %apsuite\apsim\infra\ComponentInterface\Variants.obj
+object   = %apsuite\apsim\infra\ComponentInterface\registers.obj
 
-;library  = d:\apsuite\apsim\infra\ComponentInterface\FORTRANComponentInterface.lib
+;library  = %apsuite\apsim\infra\ComponentInterface\FORTRANComponentInterface.lib
 
 compile=@lf95 -c "%fi" -winconsole -dll -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink -g @compiler.rsp
 link=@lf95 @%rf -exe %ex -winconsole -dll -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink -g @linker.rsp 
