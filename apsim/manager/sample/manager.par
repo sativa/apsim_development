@@ -6,10 +6,12 @@ Module_names =   clock      clock
 Variable_names =  year       day   
 Variable_alias =  -           -   
 Units =          -            -   
-Module_names =   manager     manager     manager 
-Variable_names =  avtemp     avtempi     feb_or_not
-Variable_alias =   -          -           -
-Units =            -          -           -
+
+
+Module_names =   manager     manager     manager     manager     manager      met
+Variable_names =  avtemp     avtempi     feb_or_not  fixed_rain  rain_amount  rain
+Variable_alias =   -          -           -          -           -            -
+Units =            -          -           -          -           -            -
 
 
 [sample.clock.parameters]
@@ -18,8 +20,12 @@ simulation_end_day = 99
 simulation_start_year = 1988
 simulation_end_year = 1988
 
+[sample.manager.init]
+fixed_rain = 'no'
+rain_amount = 0
 
-[sample.manager.end_of_day]
+[sample.manager.end_of_day]                             
+
 ! calculate a local variable (average temperature) using
 ! mint and maxt from the met.module.
 avtemp = (mint + maxt) / 2
@@ -30,8 +36,15 @@ avtempi=nearest_int(avtemp)
 !check whether a particular day is in february
 !1 - yes,  0 - no
 feb_or_not=date_within('1-feb,28-feb')
-! Only output every third day.
-if (report.days_since_last_report = 3) then
-   report do_output
+        
+if (fixed_rain = 'yes') then
+   met set rain = rain_amount
 endif
+        
+report do_output
 
+[sample.operatns.parameters]
+1988 10 manager set fixed_rain = yes
+1988 10 manager set rain_amount = 50 
+1988 20 manager set fixed_rain = no
+1988 20 manager set rain_amount = 0 
