@@ -4,8 +4,6 @@
 #include "MessageData.h"
 #include "Type.h"
 #include "Variant.h"
-#include <stdio.h>
-#include "debughook.h"
 namespace protocol {
 
 //---------------------------------------------------------------------------
