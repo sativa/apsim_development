@@ -18,7 +18,7 @@
      Component DLL          = c:\development\apsim\input\lib\input.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
 
@@ -136,30 +136,29 @@
             CONA:                     2.50 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-              2000.0    26.7     0.0  mungbean
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    30.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -443,7 +442,7 @@
       grains/plant           =    0.0                         maximum lai            =      3.512
       total above ground biomass (kg/ha)    =     1913.7
       live above ground biomass (kg/ha)     =     1913.7
-      green above ground biomass (kg/ha)    =     1903.3
+      green above ground biomass (kg/ha)    =     1903.4
       senesced above ground biomass (kg/ha) =       10.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   21.0
@@ -479,7 +478,7 @@
 24 January 1989(Day of year=24), lucerne: 
       stage 6.0 flowering
                      biomass =         189.66 (g/m^2)   lai          =   1.474 (m^2/m^2)
-                     stover N conc =     2.77 (%)     extractable sw =   76.01 (mm)
+                     stover N conc =     2.77 (%)     extractable sw =   76.02 (mm)
 25 January 1989(Day of year=25), manager: 
      Manager sending message :- lucerne harvest  height = 50 (mm)
 25 January 1989(Day of year=25), lucerne: 
@@ -491,7 +490,7 @@
       grains/plant           =    0.0                         maximum lai            =      3.512
       total above ground biomass (kg/ha)    =     1896.6
       live above ground biomass (kg/ha)     =     1896.6
-      green above ground biomass (kg/ha)    =     1886.8
+      green above ground biomass (kg/ha)    =     1886.9
       senesced above ground biomass (kg/ha) =        9.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   21.0
@@ -510,7 +509,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               1364.23                    0.00
+                          DM (kg/ha) =               1364.25                    0.00
                           N  (kg/ha) =                 38.23                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -519,7 +518,7 @@
      
       stage 4.0 end_of_juvenile
                      biomass =          53.24 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.69 (%)     extractable sw =   76.01 (mm)
+                     stover N conc =     2.69 (%)     extractable sw =   76.02 (mm)
 11 February 1989(Day of year=42), lucerne: 
       stage 5.0 floral_initiation
                      biomass =          84.16 (g/m^2)   lai          =   0.575 (m^2/m^2)
@@ -527,7 +526,7 @@
 22 February 1989(Day of year=53), lucerne: 
       stage 6.0 flowering
                      biomass =         160.16 (g/m^2)   lai          =   1.124 (m^2/m^2)
-                     stover N conc =     2.91 (%)     extractable sw =  132.32 (mm)
+                     stover N conc =     2.91 (%)     extractable sw =  132.33 (mm)
 23 February 1989(Day of year=54), manager: 
      Manager sending message :- lucerne harvest  height = 50 (mm)
 23 February 1989(Day of year=54), lucerne: 
@@ -558,7 +557,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               1073.63                    0.00
+                          DM (kg/ha) =               1073.66                    0.00
                           N  (kg/ha) =                 31.17                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -567,26 +566,26 @@
      
       stage 4.0 end_of_juvenile
                      biomass =          52.80 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.88 (%)     extractable sw =  132.32 (mm)
+                     stover N conc =     2.88 (%)     extractable sw =  132.33 (mm)
 11 March 1989(Day of year=70), lucerne: 
       stage 5.0 floral_initiation
                      biomass =          78.68 (g/m^2)   lai          =   0.503 (m^2/m^2)
-                     stover N conc =     4.51 (%)     extractable sw =  112.24 (mm)
+                     stover N conc =     4.51 (%)     extractable sw =  112.25 (mm)
 22 March 1989(Day of year=81), lucerne: 
       stage 6.0 flowering
-                     biomass =         179.66 (g/m^2)   lai          =   1.644 (m^2/m^2)
+                     biomass =         179.67 (g/m^2)   lai          =   1.644 (m^2/m^2)
                      stover N conc =     2.72 (%)     extractable sw =   83.65 (mm)
 23 March 1989(Day of year=82), manager: 
      Manager sending message :- lucerne harvest  height = 50 (mm)
 23 March 1989(Day of year=82), lucerne: 
      
-      flowering day          =   81                           stover (kg/ha)         =     1796.6
+      flowering day          =   81                           stover (kg/ha)         =     1796.7
       maturity day           =    0                           grain yield (kg/ha)    =        0.0
       grain % water content  =   15.5                         grain yield wet (kg/ha)=        0.0
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      3.512
-      total above ground biomass (kg/ha)    =     1796.6
-      live above ground biomass (kg/ha)     =     1796.6
+      total above ground biomass (kg/ha)    =     1796.7
+      live above ground biomass (kg/ha)     =     1796.7
       green above ground biomass (kg/ha)    =     1792.5
       senesced above ground biomass (kg/ha) =        4.2
       dead above ground biomass (kg/ha)     =        0.0
@@ -623,7 +622,7 @@
 21 April 1989(Day of year=111), lucerne: 
       stage 6.0 flowering
                      biomass =         110.25 (g/m^2)   lai          =   0.947 (m^2/m^2)
-                     stover N conc =     3.47 (%)     extractable sw =  111.95 (mm)
+                     stover N conc =     3.47 (%)     extractable sw =  111.96 (mm)
 22 April 1989(Day of year=112), manager: 
      Manager sending message :- lucerne harvest  height = 50 (mm)
 22 April 1989(Day of year=112), lucerne: 
@@ -663,7 +662,7 @@
      
       stage 4.0 end_of_juvenile
                      biomass =          48.41 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     3.65 (%)     extractable sw =  111.95 (mm)
+                     stover N conc =     3.65 (%)     extractable sw =  111.96 (mm)
 12 May 1989(Day of year=132), lucerne: 
       stage 5.0 floral_initiation
                      biomass =          53.66 (g/m^2)   lai          =   0.140 (m^2/m^2)
@@ -671,7 +670,7 @@
 27 May 1989(Day of year=147), lucerne: 
       stage 6.0 flowering
                      biomass =         100.09 (g/m^2)   lai          =   0.976 (m^2/m^2)
-                     stover N conc =     3.51 (%)     extractable sw =  167.84 (mm)
+                     stover N conc =     3.51 (%)     extractable sw =  167.85 (mm)
 28 May 1989(Day of year=148), manager: 
      Manager sending message :- lucerne harvest  height = 50 (mm)
 28 May 1989(Day of year=148), lucerne: 
@@ -711,11 +710,11 @@
      
       stage 4.0 end_of_juvenile
                      biomass =          45.97 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     3.69 (%)     extractable sw =  167.84 (mm)
+                     stover N conc =     3.69 (%)     extractable sw =  167.85 (mm)
 30 June 1989(Day of year=181), lucerne: 
       stage 5.0 floral_initiation
                      biomass =         104.33 (g/m^2)   lai          =   0.716 (m^2/m^2)
-                     stover N conc =     3.99 (%)     extractable sw =  157.02 (mm)
+                     stover N conc =     3.99 (%)     extractable sw =  157.03 (mm)
 19 July 1989(Day of year=200), manager: 
      Manager sending message :- lucerne harvest
 19 July 1989(Day of year=200), lucerne: 
@@ -755,7 +754,7 @@
      
       stage 4.0 end_of_juvenile
                      biomass =          30.14 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     3.52 (%)     extractable sw =  130.84 (mm)
+                     stover N conc =     3.52 (%)     extractable sw =  130.85 (mm)
 19 July 1989(Day of year=200), manager: 
      Manager sending message :- lucerne end_crop
 19 July 1989(Day of year=200), lucerne: 
