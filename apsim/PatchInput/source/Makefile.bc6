@@ -9,13 +9,13 @@ BCB = $(MAKEDIR)\..
 
 PROJECT=..\lib\PatchInput.dll
 
-OBJFILES=PatchInput.obj PatchInputComponent.obj
+OBJFILES=PatchInput.obj PatchInputComponent.obj $(APSROOT)\apsim\input\source\InputComponent.obj $(APSROOT)\apsim\input\source\StringVariant.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
 	$(APSROOT)\Shared\general\general.lib \
-	$(APSROOT)\Shared\Protocol\Protocol.lib
-
+	$(APSROOT)\Shared\Protocol\Protocol.lib \
+   $(BCB)\Components\Boost\libs\date_time\date_time.lib
 USERDEFINES = 
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
 INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface;$(APSROOT)\apsim\input\source
