@@ -234,7 +234,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       save InstancePointers
       type (ManagerData),pointer :: g
 
-      contains 
+      contains
 
 ! ====================================================================
        subroutine Manager_Init ()
@@ -510,7 +510,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !- Implementation Section ----------------------------------
 
       call push_routine (my_name)
-      
+
       ! Go call the parsing routine.
 
       g%start_token = g%rule_indexes(2)
@@ -658,7 +658,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       if (Variable_index .gt. 0) then
          if (g%local_variable_is_real(Variable_index)) then
             call string_to_real_var
-     .          (g%local_variable_values(Variable_index), realValue, 
+     .          (g%local_variable_values(Variable_index), realValue,
      .           numvals)
             call respond2get_real_var (Variable_name, '()',
      .                                 realValue)
@@ -804,9 +804,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !+  Local Variables
       character Str*300                ! Dummy value returned by APSIM
       integer read_status
-      real realValue       
-      
-      integer, parameter :: Ok_status=0                 
+      real realValue
+
+      integer, parameter :: Ok_status=0
 
 !- Implementation Section ----------------------------------
 
@@ -820,10 +820,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Fatal_error(ERR_user, str)
 
       else
-         read (Variable_value, '(g25.0)', 
+         read (Variable_value, '(g25.0)',
      .      iostat=read_status) realValue
 
-         g%local_variable_is_real(g%num_local_variables) 
+         g%local_variable_is_real(g%num_local_variables)
      .       = (read_status.eq.OK_status)
 
          call assign_string (
@@ -832,8 +832,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call assign_string (
      :        g%local_variable_values(g%num_local_variables)
      :      , Variable_value)
-     
-     
+
+
       endif
 
       return
@@ -952,7 +952,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       character Str*300                ! Dummy value returned by APSIM
       character Params(2)*(50)         ! params from function call
       double precision d_var_val       ! double precision of variable_value
-      double precision today           ! todays date.            
+      double precision today           ! todays date.
       character todayStr*(50)
       integer modNameID                ! ID for module.
       integer regID
@@ -1160,6 +1160,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
        subroutine Parse_action (Action_string)
 ! ====================================================================
       Use Infrastructure
+      !Use ConstantsModule
       implicit none
 
 !+  Sub-Program Arguments
@@ -1201,7 +1202,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       logical ok
 
 !- Implementation Section ----------------------------------
-       
+
       call split_line (Action_string, Module_name, Data_string, Blank)
       Data_string = adjustl(Data_string)
       call split_line (Data_string, Action, Data_string, Blank)
@@ -1245,19 +1246,29 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Get_next_variable (Data_string,
      .                           Variable_name,
      .                           value)
-         ok = component_name_to_id(Module_name, modNameID) 
-         call set_char_var(modNameID, Variable_name, 
+         ok = component_name_to_id(Module_name, modNameID)
+         call set_char_var(modNameID, Variable_name,
      .                     ' ', value)
 
       else if (Data_was_stored) then
-         call Action_send (Module_name, Action)
-
+         if (Module_name.eq.All_active_modules)then
+            regID=Add_Registration(EventReg,Action,' ',' ',' ')
+            call Event_Send(Action)
+         else
+            call Action_send (Module_name, Action)
+         endif
       endif
 
       call Delete_postbox ()
 
       return
       end subroutine
+
+c      subroutine check_registration(Action)
+c      character Action*(*)
+c
+c      return
+c      end subroutine
 
 ! ====================================================================
 ! Replace all local variables names in the specified string with the
@@ -3280,7 +3291,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
       end module ManagerModule
-      
+
 !     ===========================================================
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
