@@ -1,4 +1,4 @@
-C     Last change:  E    18 Dec 2000    4:54 pm
+C     Last change:  E    19 Dec 2000    3:45 pm
 
 C       INCLUDE 'CropMod.inc'
 
@@ -25,6 +25,7 @@ C       INCLUDE 'CropMod.inc'
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'sunf_process')
 
+      INTEGER GetSwitchCode
 
 c      INTEGER num_layers
 
@@ -34,65 +35,68 @@ c      INTEGER num_layers
 !CROP WATER SUPPLY
 c     if (g%plant_status.eq.status_alive) then
 
-      call sunf_nit_stress(400)        !CT
+
+      call nitrogen_stress           (GetSwitchCode(c%nit_switch,7))
+
+
+      !SECTION 1:  PLANT WATER REALTION
+      call water_supply              (GetSwitchCode(c%wat_switch,1))
+      call water_demand              (GetSwitchCode(c%wat_switch,2))
+      call water_uptake              (GetSwitchCode(c%wat_switch,3))
+      call water_stress              (GetSwitchCode(c%wat_switch,4))
 
 
 
+      !SECTION 2:  PHENOLOGICAL DEVELOPMENT
+*     call thermal_time              (GetSwitchCode(c%phen_switch,2))   !thermal time will be separated from phenology subroutine
+*     call photoperiodism            (GetSwitchCode(c%phen_switch,4))
+      call vernalization             (GetSwitchCode(c%phen_switch,3))
+      call phenology_initalisation   (GetSwitchCode(c%phen_switch,1))
+      call phenology                 (GetSwitchCode(c%phen_switch,5))
 
 
-      call sunf_water_supply(1)        !CT
-
-      call sunf_temp_stress(1)         !CT
-      call sunf_light_supply(500)      !EW already checked
-      call sunf_bio_RUE(1)             !CT
-      call sunf_transpiration_eff(1)   !CT No bounding on VPD or TE
-      call sunf_water_demand(1)        !CT!movable!
-
-      call sunf_water_uptake(2)      !CT
-
-      call sunf_water_stress(1)        !CT
+      !SECTION 5: CANOPY FORMATION - ABOVE GROUND PART
+      call leaf_number_initialisation(GetSwitchCode(c%leafno_switch,1))
+      call leaf_number_final         (GetSwitchCode(c%leafno_switch,2))
+      call leaf_initiation           (GetSwitchCode(c%leafno_switch,3))
+      call leaf_appearance           (GetSwitchCode(c%leafno_switch,4))
 
 
-
-
-      call sunf_phenology_init(2)     !1 = works with two leaf appearance rates, 2= works with lar lookup table - Enli
-      call sunf_phenology(400)        !different TT for grainfill, EW not checked yet
-
-
-
-
-!NODE NUMBER and APPEARANCE
-         call sunf_leaf_no_init(1)      !CT
-         call sunf_leaf_no_pot(500)     !400 - two leaf appearance rates, 500 = lar lookup table - Enli
+      !SECTION 3: CARBOHYDRATE/BIOMASS PRODUCTION
+      call biomass_rue               (GetSwitchCode(c%carb_switch,1))
+      call biomass_te                (GetSwitchCode(c%carb_switch,2))
+      call biomass_actual            (GetSwitchCode(c%carb_switch,3))
 
 
 
-
-         call sunf_leaf_area_pot(500)      !TPLA (works using new template)
+      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
+        ! call sunf_leaf_area_pot_en(500)      !TPLA (works using new template)
          call sunf_leaf_area_stressed(1)!CT
 
 
 
-
-!BIOMASS Water_limited, light_N_temp limited, actual
-         call sunf_bio_RUE(1)           !CT delta_bio_light
-         call sunf_bio_TE(1)            !CT delta_bio_water
-         call sunf_bio_actual(1)         !same as maize_bio_actual
-
-!ECONOMIC YIELD - demand
-         call sunf_bio_init(1)           !these 2 routines are together
-         call sunf_bio_grain_demand_stress(1)!CT
-         call sunf_bio_grain_demand(500) !CT HI approach EW ???? neet to be changed for  critical_temp = 15.0 ????
-         call sunf_bio_partition(500)   !EW we changed this subroutine for sunflower biom partition
-         call sunf_bio_retrans(1)       !CT
+      !SECTION 4: CARBOHYDRATE/BIOMASS PARTITIONING AND ORGAN BIOMASS GROWTH
+      call biomass_initialisation    (GetSwitchCode(c%part_switch,1))
+      call biomass_yieldpart_demand  (GetSwitchCode(c%part_switch,2))
+      call biomass_partition         (GetSwitchCode(c%part_switch,3))
+      call biomass_retranslocation   (GetSwitchCode(c%part_switch,4))
 
 
 
-!LEAF AREA - Actual (biomass limited)
+      call tillering_initialisation  (GetSwitchCode(c%tiller_switch,1))
+      call tillering                 (GetSwitchCode(c%tiller_switch,2))
+
+       call leaf_area_initialisation  (GetSwitchCode(c%can_switch,1))
+c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
+c      call leaf_area_actual          (GetSwitchCode(c%can_switch,3))
+c      call crop_height               (GetSwitchCode(c%can_switch,4))
+
+
+c         call sunf_leaf_area_pot_en(500)      !TPLA (works using new template)
+c         call sunf_leaf_area_stressed(1)!CT
+
          call sunf_leaf_area_actual(400) !Limits g%dlt_lai by C
-
          call sunf_height(1)            !CT
-
 
 
 
@@ -245,521 +249,10 @@ c      PRINT *, "else=", option
 
 
 
-*     ===========================================================
-      subroutine sunf_water_supply (Option)
-*     ===========================================================
-      use CropModModule
-      implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'
-      include 'error.pub'                         
-      include 'data.pub'
-      include 'science.pub'
-
-*+  Sub-Program Arguments
-      integer Option                   ! (INPUT) template option number
-
-*+  Purpose
-*     Soil water supply
-
-*+  Changes
-*     5/9/96 dph
-*     970312 slw - templated
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sunf_water_supply')
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      if (Option .eq. 1) then
-
-
-         call cproc_sw_supply1 (
-     :                 c%minsw
-     :                ,g%dlayer
-     :                ,p%ll_dep
-     :                ,g%dul_dep
-     :                ,g%sw_dep
-     :                ,g%num_layers
-     :                ,g%root_depth
-     :                ,p%kl
-     :                ,g%sw_avail
-     :                ,g%sw_avail_pot
-     :                ,g%sw_supply
-     :                )
-
- 
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
 
 
 *     ===========================================================
-      subroutine sunf_water_stress(Option)
-*     ===========================================================
-      use CropModModule
-      implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'
-      include 'crp_comm.pub'                      
-      include 'error.pub'                         
-      include 'data.pub'
-      include 'science.pub'
-
-*+  Sub-Program Arguments
-      integer    Option       ! (INPUT) option number
-
-*+  Purpose
-*     Get current water stress factors (0-1)
-
-*+  Changes
-*     010994 jngh specified and programmed
-*     970312 slw - templated
-
-*+  Constant Values
-      character  my_name*(*) ! name of procedure
-      parameter (my_name = 'crop_water_stress')
-
-*+  Local Variables
-      real ext_sw_supply (max_layer) ! external sw supply (mm)
-
-c      INTEGER    deepest_layer
-c      REAL       sw_supply_sum
-c      REAL       ratio
-c      CHARACTER  string*100
-
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      if (Option .eq. 1) then
-         if (p%uptake_source .eq. 'apsim') then
-            ! this would have been avoided if we have
-            ! each stress factor in its own routine! - NIH
-            ! photo requires (really) actually water uptake
-            ! but expansion requires pot water uptake.
-            ! we only have one supply variable.
- 
-            call crop_get_ext_uptakes(
-     :                 p%uptake_source   ! uptake flag
-     :                ,c%crop_type       ! crop type
-     :                ,'water'           ! uptake name
-     :                ,1.0               ! unit conversion factor
-     :                ,0.0               ! uptake lbound
-     :                ,100.0             ! uptake ubound
-     :                ,ext_sw_supply     ! uptake array
-     :                ,max_layer         ! array dim
-     :                )
-            call crop_swdef_photo(max_layer, g%dlayer, g%root_depth,
-     :           g%sw_demand, ext_sw_supply, g%swdef_photo)
-         else
-            call crop_swdef_photo(max_layer, g%dlayer, g%root_depth,
-     :           g%sw_demand, g%sw_supply, g%swdef_photo)
-         endif
- 
-         call crop_swdef_expansion(c%num_sw_demand_ratio,
-     :        c%x_sw_demand_ratio, c%y_swdef_leaf, max_layer, g%dlayer,
-     :        g%root_depth,g%sw_demand, g%sw_supply, g%swdef_expansion)
-
-
-
-
-c         deepest_layer = find_layer_no (g%root_depth, g%dlayer
-c     :                                , max_layer)
-c         sw_supply_sum = sum_real_array (g%sw_supply, deepest_layer)
-c
-c         ratio = divide(sw_supply_sum, g%sw_demand,0.0)
-
-c        write (string, '(3x, i4, 4f7.1)')
-c     :                   deepest_layer, sw_supply_sum
-c     :                 , g%sw_demand, ratio, g%swdef_expansion
-c
-c        call write_string(string)
-
-
-
-         call crop_swdef_pheno(c%num_sw_avail_ratio,
-     :        c%x_sw_avail_ratio, c%y_swdef_pheno, max_layer, g%dlayer,
-     :        g%root_depth, g%sw_avail, g%sw_avail_pot, g%swdef_pheno)
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine sunf_nit_stress(Option)
-*     ===========================================================
-      use CropModModule
-      implicit none
-      include   'const.inc'
-      include 'crp_nitn.pub'
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      integer    Option                ! (INPUT) option number
-
-*+  Purpose
-*     Get current Nitrogen stress factors (0-1)
-
-*+  Changes
-*     010994 jngh specified and programmed
-*     970225 slw modified to split stress factors
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sunf_nit_stress')
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      if (Option .eq. 1) then
- 
-         call crop_nfact_pheno(leaf, stem, g%dm_green,
-     .                         g%N_conc_crit,
-     .                         g%N_conc_min,
-     .                         g%N_green,
-     .                         c%N_fact_pheno, g%nfact_pheno)
-         call crop_nfact_photo(leaf, stem,
-     .                     g%dm_green,
-     .                     g%N_conc_crit,
-     .                     g%N_conc_min,
-     .                     g%N_green,
-     .                     c%N_fact_photo, g%nfact_photo)
-         call crop_nfact_grain_conc(leaf, stem,
-     .                     g%dm_green,
-     .                     g%N_conc_crit,
-     .                     g%N_conc_min,
-     .                     g%N_green, g%nfact_grain_conc)
-         call crop_nfact_expansion(leaf,
-     .                     g%dm_green,
-     .                     g%N_conc_crit,
-     .                     g%N_conc_min,
-     .                     g%N_green,
-     .                     c%N_fact_expansion,
-     .                     g%nfact_expansion)
- 
-      else if (Option .eq. 400) then
- 
-         call crop_nfact_pheno(leaf, stem, g%dm_green,
-     .                         g%N_conc_crit,
-     .                         g%N_conc_min,
-     .                         g%N_green,
-     .                         c%N_fact_pheno, g%nfact_pheno)
- 
-         call crop_nfact_photo(leaf, stem,
-     .                     g%dm_green,
-     .                     g%N_conc_crit,
-     .                     g%N_conc_min,
-     .                     g%N_green,
-     .                     c%N_fact_photo, g%nfact_photo)
-         call crop_nfact_grain_conc(leaf, stem,
-     .                     g%dm_green,
-     .                     g%N_conc_crit,
-     .                     g%N_conc_min,
-     .                     g%N_green, g%nfact_grain_conc)
-         call crop_nfact_expansion(leaf,
-     .                     g%dm_green,
-     .                     g%N_conc_crit,
-     .                     g%N_conc_min,
-     .                     g%N_green,
-     .                     c%N_fact_expansion,
-     .                     g%nfact_expansion)
- 
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine sunf_temp_stress(Option)
-*     ===========================================================
-      use CropModModule
-      implicit none
-      include 'const.inc'
-c     include 'stress.inc'
-      include 'crp_temp.pub'
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      integer Option         ! (INPUT) option number
-
-*+  Purpose
-*     Get current temperature stress factors (0-1)
-
-*+  Changes
-*     010994 jngh specified and programmed
-*     970312 slw - templated
-
-*+  Constant Values
-      character  my_name*(*) ! name of procedure
-      parameter (my_name = 'sunf_temp_stress')
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      if (Option .eq. 1) then
-          call crop_temperature_stress_photo
-     :               (c%num_ave_temp, c%x_ave_temp, c%y_stress_photo,
-     :                g%maxt, g%mint,  g%temp_stress_photo)
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine sunf_light_supply (Option)
-*     ===========================================================
-      use CropModModule
-      implicit none
-      include 'const.inc'
-      include 'crp_util.pub'
-      include 'error.pub'                         
-      include 'science.pub'
-      include 'data.pub'
-
-*+  Sub-Program Arguments
-      integer Option                   ! (INPUT) template option number
-
-*+  Purpose
-*     light supply
-
-*+  Changes
-*     5/9/96 dph
-*     970312 slw - templated
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sunf_light_supply')
-
-*+  Local Variables
-      real extinct_coef
-      real extinct_coef_at_flowerng
-      save extinct_coef_at_flowerng
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-      if (Option .eq. 400) then
-      
-        extinct_coef = linear_interp_real (g%row_spacing
-     :                                   ,c%x_row_spacing
-     :                                   ,c%y_extinct_coef
-     :                                   ,c%num_row_spacing)
-
-        g%cover_green = 1.0 - exp (-extinct_coef*g%lai)
- 
-        call crop_radn_int0(g%cover_green,
-     :                     g%fr_intc_radn, g%radn, g%radn_int)
-         
-         
-      !NEW ADDED PART FOR SUNFLOWER    
-      else if (Option .eq. 500) then
-
-
-      !EW extinction coefficient needs value when lai is small 
-      !   extinction coefficient should not increase after anthesis
-
-        if (g%lai.gt.0.0) then
-            extinct_coef = 3.76 * g%lai ** (-0.81)   !!!MCW
-        else
-            extinct_coef = 0.5
-        endif
-        
-        extinct_coef = bound(extinct_coef, 0.4, 1.0)
-
-        if (on_day_of (flowering, g%current_stage, g%days_tot)) 
-     :     extinct_coef_at_flowerng = extinct_coef
-        
-        
-        if (stage_is_between (flowering, maturity, g%current_stage))
-     :     extinct_coef = extinct_coef_at_flowerng 
-      
-        
-       g%cover_green = 1.0 - exp (-extinct_coef*g%lai)
- 
-       call crop_radn_int0(g%cover_green,
-     :                     g%fr_intc_radn, g%radn, g%radn_int)
- 
-
-
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine sunf_bio_RUE (Option)
-*     ===========================================================
-      use CropModModule
-      implicit none
-      include 'const.inc'
-      include 'crp_biom.pub'
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      integer Option                   ! (INPUT) template option number
-
-*+  Purpose
-*     biomass light
-
-*+  Changes
-*     5/9/96 dph
-*     970312 slw - templated
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sunf_bio_RUE')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-      if (Option .eq. 1) then
-         ! potential by photosynthesis
- 
-         call crop_dm_pot_rue(
-     .          g%current_stage,
-     .          c%rue,
-     .          g%radn_int,
-     .          g%temp_stress_photo,
-     .          g%nfact_photo,
-     .          g%dlt_dm_light)
- 
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine sunf_transpiration_eff (Option)
-*     ===========================================================
-      use CropModModule
-      implicit none
-      include     'const.inc'
-      include 'crp_watr.pub'
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      integer    Option                ! (INPUT) option number
-
-*+  Purpose
-*     Calculate today's transpiration efficiency from min and max
-*     temperatures and converting mm water to g dry matter
-*     (g dm/m^2/mm water)
-
-*+  Changes
-*     5/9/96 dph
-*     970312 slw - templated
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sunf_transpiration_eff')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-      if (Option .eq. 1) then
- 
-         call cproc_transp_eff1(
-     :               c%svp_fract
-     :             , c%transp_eff_cf
-     :             , g%current_stage
-     :             , g%maxt
-     :             , g%mint
-     :             , g%transp_eff
-     :             )
- 
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine sunf_water_demand (Option)
-*     ===========================================================
-      use CropModModule
-      implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      integer Option                   ! (INPUT) template option number
-
-*+  Purpose
-*     Soil water demand
-
-*+  Changes
-*     5/9/96 dph
-*     970312 slw - templated
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sunf_water_demand')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-      if (Option .eq. 1) then
- 
-         call cproc_sw_demand1(
-     :           g%dlt_dm_light
-     :         , g%transp_eff
-     :         , g%sw_demand
-     :         )
- 
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine sunf_phenology_init (option)
+      subroutine sunf_phenology_init ()
 *     ===========================================================
       use CropModModule
       implicit none
@@ -767,13 +260,11 @@ c     include 'stress.inc'
       include 'error.pub'
 
 *+  Sub-Program Arguments
-      integer option
 
 *+  Purpose
 *     Initialise crop growth stage targets
 
 *+  Changes
-*     240498 igh specified and programmed
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -782,11 +273,7 @@ c     include 'stress.inc'
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      if (option .eq. 1)  then
- 
-      
-      else if (option .eq. 2)  then 
-      
+
        call sunf_phen_init_new (
      .          g%current_stage,
      .          g%days_tot,
@@ -804,11 +291,9 @@ c     include 'stress.inc'
      .          g%leaf_no_final,
      .          c%leaf_no_rate_change,
      .          c%leaf_no_at_emerg,
-
      .          p%determinate_crop,
      .          p%x_node_num_lar,
      .          p%y_node_lar,
-
      .          p%tt_fi_to_flag,
      .          p%tt_flag_to_flower,
      .          p%tt_flower_to_start_grain,
@@ -816,8 +301,184 @@ c     include 'stress.inc'
      .          p%tt_maturity_to_ripe,
      .          g%phase_tt)
 
-      else   
-         call Fatal_error (ERR_internal, 'Invalid template option')
+
+      call pop_routine (my_name)
+      return
+      end
+
+*     ===========================================================
+      subroutine sunf_phen_init_new (
+     .          g_current_stage,
+     .          g_days_tot,
+     .          c_shoot_lag,
+     .          g_sowing_depth,
+     .          c_shoot_rate,
+     .          p_tt_emerg_to_endjuv,
+     .          p_tt_endjuv_to_init,
+     .          g_day_of_year,
+     .          g_latitude,
+     .          c_twilight,
+     .          p_photoperiod_crit1,
+     .          p_photoperiod_crit2,
+     .          p_photoperiod_slope,
+     .          g_leaf_no_final,
+     .          c_leaf_no_rate_change,
+     .          c_leaf_no_at_emerg,
+     .          p_determinate_crop,
+     .          p_x_node_num_lar,
+     .          p_y_node_lar,
+     .          p_tt_fi_to_flag,
+     .          p_tt_flag_to_flower,
+     .          p_tt_flower_to_start_grain,
+     .          p_tt_flower_to_maturity,
+     .          p_tt_maturity_to_ripe,
+     .          g_phase_tt)
+*     ===========================================================
+      implicit none
+      include   'CropDefCons.inc'
+      include 'science.pub'
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      real      g_current_stage
+      real      g_days_tot(*)
+      real      c_shoot_lag
+      real      g_sowing_depth
+      real      c_shoot_rate
+      real      p_tt_emerg_to_endjuv
+      real      p_tt_endjuv_to_init
+      integer   g_day_of_year
+      real      g_latitude
+      real      c_twilight
+      real      p_photoperiod_crit1
+      real      p_photoperiod_crit2
+      real      p_photoperiod_slope
+      real      g_leaf_no_final
+      real      c_leaf_no_rate_change
+      real      c_leaf_no_at_emerg
+
+      integer   p_determinate_crop
+      real      p_x_node_num_lar(*)
+      real      p_y_node_lar(*)
+
+      REAL      p_tt_fi_to_flag
+      real      p_tt_flag_to_flower
+      real      p_tt_flower_to_start_grain
+      real      p_tt_flower_to_maturity
+      real      p_tt_maturity_to_ripe
+      real      g_phase_tt (*)           ! (INPUT/OUTPUT) cumulative growing
+                                       ! degree days required for
+                                       ! each stage (deg days)
+
+*+  Purpose
+*       Returns cumulative thermal time targets required for the
+*       individual developmental stages.
+*
+*   Called by srop_phenology(1) in croptree.for
+
+*+  Changes
+*     010994 jngh specified and programmed
+*     070495 psc added 2nd leaf appearance rate
+*     090695 psc l_bound added (otherwise won't progress if g_phase_tt=0)
+*     120995 glh restructured routine
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sunf_phen_init_new')
+
+*+  Local Variables
+c      real       tt_emerg_to_flag_leaf ! thermal time to develop
+c                                       ! and fully expand all leaves (oC)
+      real       photoperiod           ! daylength (hours)
+c     real       leaf_no_change
+      
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      ! set estimates of phase thermal time targets at germination
+ 
+      if (on_day_of (germ, g_current_stage, g_days_tot)) then
+         g_phase_tt(germ_to_emerg) = c_shoot_lag
+     :                             + g_sowing_depth*c_shoot_rate
+ 
+         g_phase_tt(emerg_to_endjuv) = p_tt_emerg_to_endjuv
+         g_phase_tt(endjuv_to_init)  = p_tt_endjuv_to_init
+ 
+      
+      ! revise thermal time target for floral initialisation at emergence
+ 
+      elseif (on_day_of (emerg, g_current_stage, g_days_tot) .or.
+     :        stage_is_between (emerg, endjuv, g_current_stage) .or.
+     :        on_day_of (endjuv, g_current_stage, g_days_tot)) then
+ 
+         photoperiod = day_length (g_day_of_year, g_latitude,c_twilight)
+ 
+         if (photoperiod.le.p_photoperiod_crit1) then
+            g_phase_tt(endjuv_to_init) = p_tt_endjuv_to_init
+ 
+         elseif (photoperiod.lt.p_photoperiod_crit2) then
+ 
+            g_phase_tt(endjuv_to_init) = p_tt_endjuv_to_init +
+     :      p_photoperiod_slope*(photoperiod - p_photoperiod_crit1)
+ 
+         elseif (photoperiod.ge.p_photoperiod_crit2) then
+            g_phase_tt(endjuv_to_init) = p_tt_endjuv_to_init +
+     :      p_photoperiod_slope*(p_photoperiod_crit2
+     :                         - p_photoperiod_crit1)
+ 
+         else
+         endif
+ 
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+c
+c         leaf_no_change = max(g_leaf_no_final - p_x_node_num_lar(3),
+c     :                        c_leaf_no_at_emerg)
+c
+c         leaf_no_change = min (leaf_no_change, g_leaf_no_final)
+c
+c
+c      if (p_determinate_crop.eq.0) leaf_no_change=p_x_node_num_lar(3)
+c
+c
+c      if (leaf_no_change .gt. p_x_node_num_lar(2)) then
+c         tt_emerg_to_flag_leaf =
+c    :     (p_x_node_num_lar(2)-c_leaf_no_at_emerg )*p_y_node_lar(1)
+c     :    +(leaf_no_change     -p_x_node_num_lar(2))*p_y_node_lar(2)
+c     :    +                     p_x_node_num_lar(3) *p_y_node_lar(3)
+c      else
+c         tt_emerg_to_flag_leaf =
+c     :     (leaf_no_change - c_leaf_no_at_emerg) *p_y_node_lar(1)
+c     :    +                  p_x_node_num_lar(3) *p_y_node_lar(3)
+c      endif
+
+c
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     
+c         g_phase_tt(init_to_flag) = tt_emerg_to_flag_leaf
+c     :              - g_phase_tt(emerg_to_endjuv)
+c     :              - g_phase_tt(endjuv_to_init)
+ 
+         g_phase_tt(init_to_flag) = p_tt_fi_to_flag
+
+ 
+         g_phase_tt(flag_to_flower) = p_tt_flag_to_flower
+ 
+         g_phase_tt(flower_to_start_grain) =
+     :                    p_tt_flower_to_start_grain
+ 
+         g_phase_tt(end_grain_to_maturity) =
+     :                  0.05*p_tt_flower_to_maturity
+ 
+         g_phase_tt(start_to_end_grain) = p_tt_flower_to_maturity
+     :                  - g_phase_tt(flower_to_start_grain)
+     :                  - g_phase_tt(end_grain_to_maturity)
+       
+         g_phase_tt(maturity_to_ripe) = p_tt_maturity_to_ripe
+      else
+          ! do nothing
       endif
  
       call pop_routine (my_name)
@@ -826,8 +487,10 @@ c     include 'stress.inc'
 
 
 
+
+
 * ====================================================================
-       subroutine sunf_phenology (Option)
+       subroutine sunf_phenology ()
 * ====================================================================
       use CropModModule
       implicit none
@@ -836,7 +499,6 @@ c     include 'stress.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
-      integer    Option                ! (INPUT) option number
 
 *+  Purpose
 *     <insert here>
@@ -851,10 +513,7 @@ c     include 'stress.inc'
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
-      If (Option .eq. 1) then
 
-      elseif (Option .eq. 400) then
- 
 !version with 2 thermal times (different for GF)
       call sunf_phenology2 (
      .       g%previous_stage,
@@ -891,151 +550,11 @@ c     include 'stress.inc'
      .          p%tt_switch_stage)                                   !<------------- Enli added the switch
 
 
-      elseif (Option .eq. 403) then
- 
-!version with 2 thermal times (different for GF)
-      call sunf_phenology3 (
-     .       g%previous_stage,
-     .       g%current_stage,
- 
-     .       g%maxt, g%mint,
-     .       c%x_temp, c%y_tt,
-     .       c%num_temp, g%dlt_tt,
- 
-     :       c%num_sw_avail_ratio,
-     :       c%x_sw_avail_ratio, c%y_swdef_pheno, g%dlayer,
-     :       g%root_depth, g%sw_avail, g%sw_avail_pot, g%swdef_pheno,
- 
-     .       g%dm_green,
-     .       g%N_conc_crit, g%N_conc_min, g%N_green,
-     .       c%N_fact_pheno, g%nfact_pheno,
- 
-     .          g%days_tot,
-     .          c%shoot_lag,
-     .          g%sowing_depth,
-     .          c%shoot_rate,
-     .          p%tt_emerg_to_endjuv,
-     .          p%tt_endjuv_to_init,
-     .          g%day_of_year,
-     .          g%latitude,
-     .          c%twilight,
-     .          p%photoperiod_crit1,
-     .          p%photoperiod_crit2,
-     .          p%photoperiod_slope,
-     .          g%leaf_no_final,
-     .          c%leaf_no_rate_change,
-     .          c%leaf_no_at_emerg,
-     .          c%leaf_app_rate1,
-     .          c%leaf_app_rate2,
-     .          g%tt_tot,
-     .          p%tt_flag_to_flower,
-     .          p%tt_flower_to_start_grain,
-     .          p%tt_flower_to_maturity,
-     .          p%tt_maturity_to_ripe,
-     .          g%phase_tt,
- 
-     .          g%sw_dep,
-     .          p%ll_dep,
-     .          c%pesw_germ,
- 
-     .          g%dlt_stage,
- 
-     .          c%tt_base,
-     .          c%tt_opt,
-     .          g%tt_tot_fm,
-     .          g%dlt_tt_fm,
-     .          g%sw_supply_demand_ratio)
- 
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
       call pop_routine (myname)
       return
       end
 
 
-
-*     ===========================================================
-      subroutine sunf_water_uptake (Option)
-*     ===========================================================
-      use CropModModule
-      implicit none
-      include 'const.inc'
-      include 'science.pub'
-      include 'data.pub'                          
-      include 'crp_watr.pub'                      
-      include 'crp_comm.pub'                      
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      integer Option                   ! (INPUT) template option number
-
-*+  Purpose
-*     Soil water uptake
-
-*+  Changes
-*     5/9/96 dph
-*     970312 slw - templated
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sunf_water_uptake')
-
-*+  Local Variables
-      integer    deepest_layer
-      integer    layer                 ! layer number of profile ()
-      real       ext_sw_supply(max_layer)
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-      if (p%uptake_source .eq. 'apsim') then
-         call crop_get_ext_uptakes(
-     :                 p%uptake_source   ! uptake flag
-     :                ,c%crop_type       ! crop type
-     :                ,'water'           ! uptake name
-     :                ,1.0               ! unit conversion factor
-     :                ,0.0               ! uptake lbound
-     :                ,100.0             ! uptake ubound
-     :                ,ext_sw_supply     ! uptake array
-     :                ,max_layer         ! array dim
-     :                )
- 
-         do 100 layer = 1, g%num_layers
-            g%dlt_sw_dep(layer) = -ext_sw_supply(layer)
-  100    continue
- 
- 
-      elseif (Option .eq. 1) then
- 
-         call crop_sw_uptake0(max_layer, g%dlayer, g%root_depth,
-     :              g%sw_demand, g%sw_supply, g%dlt_sw_dep)
- 
-      elseif (Option .eq. 2) then
- 
-         deepest_layer = find_layer_no
-     :                   (g%root_depth, g%dlayer, max_layer)
-         g%sw_supply_sum = sum_real_array (g%sw_supply, deepest_layer)
-         g%sw_supply_demand_ratio = divide(g%sw_supply_sum
-     :                                           , g%sw_demand,0.0)
- 
- 
-         call cproc_sw_uptake1(
-     :            max_layer,
-     :            g%dlayer,
-     :            g%root_depth,
-     :            g%sw_demand,
-     :            g%sw_supply,
-     :            g%dlt_sw_dep)
- 
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
 
 
 
@@ -1205,55 +724,13 @@ c     include 'stress.inc'
 
 
 
-*     ===========================================================
-      subroutine sunf_leaf_no_init (Option)
-*     ===========================================================
-      use CropModModule
-      implicit none
-      include 'const.inc'
-      include 'crp_cnpy.pub'
-      include 'error.pub'                         
 
-*+  Sub-Program Arguments
-      integer Option                   ! (INPUT) template option number
 
-*+  Purpose
-*
-
-*+  Changes
-*      28/4/98 igh
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sunf_leaf_no_init')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-      if (Option .eq. 1) then
- 
-         call cproc_leaf_no_init1
-     :               (
-     :                c%leaf_no_at_emerg
-     :              , g%current_stage
-     :              , emerg
-     :              , g%days_tot
-     :              , g%leaf_no
-     :              , g%node_no
-     :               )
- 
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
 
 
 
 * ====================================================================
-       subroutine sunf_leaf_no_pot (Option)
+       subroutine sunf_leaf_area_pot_en (Option)
 * ====================================================================
       use CropModModule
       implicit none
@@ -1272,73 +749,7 @@ c     include 'stress.inc'
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
-      parameter (myname = 'sunf_leaf_no_pot')
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
- 
-      If (Option .eq. 400) then
- 
-      else if (Option .eq. 500) then
-      
-      call sunf_leaf_number_new(
-     .          emerg,
-     .          flag_leaf,
-
-     .          g%current_stage,
-     .          g%days_tot,
-     .          g%phase_tt,
- 
-     .          p%determinate_crop,
-     .          p%x_node_num_lar,
-     .          p%y_node_lar,
-     .          p%num_node_lar,
-
-     .          c%leaf_init_rate,
-     .          p%rel_leaf_init_rate,
-     .          c%leaf_no_seed,
-     .          c%leaf_no_min,
-     .          c%leaf_no_max,
-     .          g%leaf_no_final,
-     .          g%leaf_no,
-
-     .          g%dlt_tt,
-     .          g%dlt_leaf_no,
-     .          g%node_no)
-      
-      
-      else
-      
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (myname)
-      return
-      end
-
-
-
-* ====================================================================
-       subroutine sunf_leaf_area_pot (Option)
-* ====================================================================
-      use CropModModule
-      implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      integer    Option                ! (INPUT) option number
-
-*+  Purpose
-*     <insert here>
-
-*+  Changes
-*     <insert here>
-
-*+  Constant Values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'sunf_leaf_area_pot')
+      parameter (myname = 'sunf_leaf_area_pot_en')
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -1348,7 +759,7 @@ c     include 'stress.inc'
 ! For sunflower have to allow leaf growth to continue until anthesis, not flag leaf
 ! See Rawson and Turner AJAR 1982
  
-       call sunf_leaf_area_pot_new(
+       call sunf_leaf_area_pot(
      .          emerg,
      .          flowering,
      .          now,
@@ -1435,398 +846,9 @@ c     include 'stress.inc'
 
 
 
-*     ===========================================================
-      subroutine sunf_bio_TE (Option)
-*     ===========================================================
-      use CropModModule
-      implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      integer Option                   ! (INPUT) template option number
-
-*+  Purpose
-*      bio water
-
-*+  Changes
-*     5/9/96 dph
-*     970317 slw new template form
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sunf_bio_TE')
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      if (Option .eq. 1) then
- 
-         call cproc_bio_water1(
-     .           max_layer
-     .         , g%dlayer
-     .         , g%root_depth
-     .         , g%sw_supply
-     .         , g%transp_eff
-     .         , g%dlt_dm_water
-     .         )
- 
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
 
 
 
-*     ===========================================================
-      subroutine sunf_bio_init (Option)
-*     ===========================================================
-      use CropModModule
-      implicit none
-      include 'const.inc'
-      include 'error.pub'
-
-*+  Sub-Program Arguments
-      integer Option                   ! (INPUT) template option number
-
-*+  Purpose
-*     bio actual
-
-*+  Changes
-*     5/9/96 dph
-*     970317 slw new template form
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sunf_bio_actual')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-      if (Option .eq. 1) then
-         ! use whichever is limiting
- 
-         !scc need to feed this back to N/leaf area interaction
-         !Note that dlt_dm_light is w. RUE as limited by temperature and Nfac
-         call sunf_dm_init (g%current_stage,
-     .          g%days_tot,
-     .          c%dm_root_init,
-     .          g%plants,
-     .          c%dm_stem_init,
-     .          c%dm_leaf_init,
-     :          c%flower_trans_frac,   !added for sunflower
-     .          c%stem_trans_frac,
-     .          c%leaf_trans_frac,
-     .          g%dm_green, g%dm_plant_min)
- 
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine sunf_bio_actual (Option)
-*     ===========================================================
-      use CropModModule
-      implicit none
-      include 'const.inc'
-      include 'error.pub'
-
-*+  Sub-Program Arguments
-      integer Option                   ! (INPUT) template option number
-
-*+  Purpose
-*     bio actual
-
-*+  Changes
-*     5/9/96 dph
-*     970317 slw new template form
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sunf_bio_actual')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-      if (Option .eq. 1) then
-         ! use whichever is limiting
- 
-         !scc need to feed this back to N/leaf area interaction
-         !Note that dlt_dm_light is w. RUE as limited by temperature and Nfac
- 
-         g%dlt_dm = min (g%dlt_dm_light, g%dlt_dm_water)
- 
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine sunf_bio_grain_demand_stress (Option)
-*     ===========================================================
-      use CropModModule
-      implicit none
-      include   'const.inc'
-      include 'crp_biom.pub'
-      include 'error.pub'                         
-      include 'data.pub'
-
-*+  Sub-Program Arguments
-      integer    Option                ! (INPUT) option number
-
-*+  Purpose
-*       Simulate crop grain biomass demand stress factor
-
-*+  Changes
-*      280598 nih specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sunf_bio_grain_demand_Stress')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-      if (Option .eq. 1) then
- 
-        g%swdef_photo = divide(g%sw_supply_sum,g%sw_demand,1.0)
- 
-        if(g%swdef_photo .ge.1.0) then
-           g%swdef_photo = 1.0
-        endif
- 
-         call cproc_yieldpart_demand_stress1
-     :               (
-     :                g%nfact_photo
-     :              , g%swdef_photo
-     :              , g%temp_stress_photo
-     :              , g%dlt_dm_stress_max
-     :               )
- 
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine sunf_bio_grain_demand (Option)
-*     ===========================================================
-      use CropModModule
-      implicit none
-      include   'const.inc'
-      include 'crp_biom.pub'
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      integer    Option                ! (INPUT) option number
-
-*+  Purpose
-*       Simulate crop grain biomass demand.
-
-*+  Changes
-*      250894 jngh specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sunf_bio_grain_demand')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-      if (Option .eq. 500) then
-         call sunf_bio_yieldpart_demand1
-     :               (
-     :                g%current_stage
-     :              , flag_leaf ! Start Stress_stage
-     :              , start_grain_fill
-     :              , maturity
-     :              , grain
-     :              , root
-     :              , max_part
-     :              , g%dlt_dm
-     :              , g%dm_green
-     :              , g%dm_senesced
-     :              , g%days_tot
-     :              , g%dm_stress_max
-     :              , p%hi_incr
-     :              , p%x_hi_max_pot_stress
-     :              , p%y_hi_max_pot
-     :              , p%num_hi_max_pot
-     :              , g%mint
-     :              , g%dlt_dm_grain_demand
-     :              ,p%x_hi_incr_min_temp              !Enli added the following three variables (lookup tab)
-     :              ,p%y_hi_incr_reduct_fac
-     :              ,p%mum_hi_incr_min_temp 
-     :               )
- 
-      elseif (Option .eq. 1) then
-         call cproc_bio_yieldpart_demand1
-     :               (
-     :                g%current_stage
-     :              , flag_leaf ! Start Stress_stage
-     :              , start_grain_fill
-     :              , maturity
-     :              , grain
-     :              , root
-     :              , max_part
-     :              , g%dlt_dm
-     :              , g%dm_green
-     :              , g%dm_senesced
-     :              , g%days_tot
-     :              , g%dm_stress_max
-     :              , p%hi_incr
-     :              , p%x_hi_max_pot_stress
-     :              , p%y_hi_max_pot
-     :              , p%num_hi_max_pot
-     :              , g%dlt_dm_grain_demand
-     :               )
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-* ====================================================================
-       subroutine sunf_bio_partition (Option)
-* ====================================================================
-      use CropModModule
-      implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      integer    Option                ! (INPUT) option number
-
-*+  Purpose
-*     <insert here>
-
-*+  Changes
-*     <insert here>
-
-*+  Constant Values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'sunf_bio_partition')
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
- 
-!Should be the old sorghum one.....
-      If (Option .eq. 400) then
- 
-        elseif (Option .eq. 500) then
-
-      call sproc_bio_partition2 (
-     .          g%current_stage,
-     .          c%ratio_root_shoot,
-     .          g%dlt_dm,
-     .          g%leaf_no,
-     .          c%partition_rate_leaf,
-     .          g%dlt_lai_stressed,
-     .          c%sla_min,
-     .          c%frac_stem2flower,
-     :          c%frac_pod2grain,
-     :          c%grain_energy,
-     .          g%dlt_dm_grain_demand,
-     :          g%phase_tt,
-     :          g%tt_tot,
-     .          g%dlt_dm_green)
- 
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (myname)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine sunf_bio_retrans (Option)
-*     ===========================================================
-      use CropModModule
-      implicit none
-      include 'const.inc'
-      include 'crp_biom.pub'
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      integer Option                   ! (INPUT) template option number
-
-*+  Purpose
-*     bio retrans
-
-*+  Changes
-*     5/9/96 dph
-*     970317 slw new template form
-
-*+  Constant Values
-      integer num_supply_pools
-      parameter (num_supply_pools = 3)
-*
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sunf_bio_retrans')
-
-*+  Local Variables
-      integer supply_pools(num_supply_pools)
-      data supply_pools /flower,stem,leaf/
-      save /supply_pools/
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-      if (Option .eq. 1) then
- 
-         call cproc_dm_retranslocate1
-     :               (
-     :                g%current_stage
-     :              , start_grain_fill
-     :              , maturity
-     :              , grain
-     :              , max_part
-     :              , supply_pools
-     :              , num_supply_pools
-     :              , g%dlt_dm_grain_demand
-     :              , g%dlt_dm_green
-     :              , g%dm_green
-     :              , g%dm_plant_min
-     :              , g%plants
-     :              , g%dlt_dm_green_retrans
-     :               )
- 
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
 
 
 
@@ -3073,129 +2095,12 @@ c look at its calculation. Not used at present.
       end
 
 
-*     ===========================================================
-      subroutine sunf_leaf_number_new(
-     .          start_leaf_stage,
-     .          end_leaf_stage,
-
-     .          g_current_stage,
-     .          g_days_tot,
-     .          g_phase_tt,
- 
-     .          p_determinate_crop,
-     .          p_x_node_num_lar,
-     .          p_y_node_lar,
-     .          p_num_node_lar,
-
-     .          c_leaf_init_rate,
-     .          p_rel_leaf_init_rate,
-     .          c_leaf_no_seed,
-     .          c_leaf_no_min,
-     .          c_leaf_no_max,
-     .          g_leaf_no_final,
-     .          g_leaf_no,
-
-     .          g_dlt_tt,
-     .          g_dlt_leaf_no,
-     .          g_node_no)
-*     ===========================================================
-      implicit none
-      include 'CropDefCons.inc' !!!THESE SHOULD BE READ IN as part of initialisation
-      include 'error.pub'
-
-*+  Sub-Program Arguments
-      integer    start_leaf_stage
-      integer    end_leaf_stage
-
-      real       g_current_stage
-      real       g_days_tot(*)
-      real       g_phase_tt(*)
-
-
-      integer    p_determinate_crop
-      real       p_x_node_num_lar(*)
-      real       p_y_node_lar(*)
-      integer    p_num_node_lar
-      
-
-      real       c_leaf_init_rate
-      real       p_rel_leaf_init_rate
-
-*
-      real       c_leaf_no_seed
-      real       c_leaf_no_min
-      real       c_leaf_no_max
-      real       g_leaf_no_final         ! (OUTPUT) maximum total leaf number
-*
-      real       g_leaf_no(*)
-
-      real       g_dlt_tt
-      real       g_dlt_leaf_no           ! (OUTPUT) new fraction of oldest
-      real       g_node_no                                       ! expanding leaf
-
-*+  Purpose
-*     Initialises final leaf number and controls leaf appearance
-*
-*   Called by _process
-*
-*   Number of options: 1
-*   Option 1:
-*     Applies to cereals
-*   Calls srop_leaf_number_final1, srop_leaf_appearance1 in crop.for
-
-*+  Changes
-*      5/9/96 dph
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sunf_leaf_number_new')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-         call sunf_leaf_number_final1 (
-     .          emerg,
-     .          floral_init,
-     .          plant_end,
- 
-     .          g_current_stage,
-     .          g_days_tot,
-     .          g_phase_tt,
-     .          c_leaf_init_rate,
-     .          p_rel_leaf_init_rate,
-     .          c_leaf_no_seed,
-     .          c_leaf_no_min,
-     .          c_leaf_no_max,
-     .          g_leaf_no_final)
- 
-      call sunf_leaf_appearance_new(
-     .          g_leaf_no,
-     .          g_leaf_no_final,
-
-     .          p_determinate_crop,
-     .          p_x_node_num_lar,
-     .          p_y_node_lar,
-     .          p_num_node_lar,
-     
-     .          start_leaf_stage,
-     .          end_leaf_stage,
-     
-     .          g_current_stage,
-     .          g_days_tot,
-     .          g_dlt_tt,
-     .          g_dlt_leaf_no)
- 
-      call pop_routine (my_name)
-      return
-      end
-
 
 *     ===========================================================
       subroutine sunf_leaf_number_final1 (
      .          start_leaf_init,
      .          end_leaf_init,
      .          reset_stage,
- 
      .          g_current_stage,
      .          g_days_tot,
      .          g_phase_tt,
@@ -3215,7 +2120,6 @@ c look at its calculation. Not used at present.
       integer    start_leaf_init !stage to begin (e.g. emerg) est. final leaf no.
       integer    end_leaf_init !stage to end (e.g. floral_init) est. final leaf no.
       integer    reset_stage   !stage to reset final leaf no.
-*
       real       g_current_stage
       real       g_days_tot(*)
       real       g_phase_tt(*)
@@ -3291,18 +2195,15 @@ c look at its calculation. Not used at present.
 
 
 *     ===========================================================
-      subroutine sunf_leaf_appearance_new(
+      subroutine sunf_leaf_appearance(
      .          g_leaf_no,
      .          g_leaf_no_final,
-
      .          p_determinate_crop,
      .          p_x_node_num_lar,
      .          p_y_node_lar,
      .          p_num_node_lar,
-     
      .          start_leaf_stage,
      .          end_leaf_stage,
-     
      .          g_current_stage,
      .          g_days_tot,
      .          g_dlt_tt,
@@ -3759,489 +2660,8 @@ c (how do we do this w. TPLA approach?)
 
 
 
-*     ===========================================================
-      subroutine sunf_phen_init_new (
-     .          g_current_stage,
-     .          g_days_tot,
-     .          c_shoot_lag,
-     .          g_sowing_depth,
-     .          c_shoot_rate,
-     .          p_tt_emerg_to_endjuv,
-     .          p_tt_endjuv_to_init,
-     .          g_day_of_year,
-     .          g_latitude,
-     .          c_twilight,
-     .          p_photoperiod_crit1,
-     .          p_photoperiod_crit2,
-     .          p_photoperiod_slope,
-     .          g_leaf_no_final,
-     .          c_leaf_no_rate_change,
-     .          c_leaf_no_at_emerg,
-
-     .          p_determinate_crop,
-     .          p_x_node_num_lar,
-     .          p_y_node_lar,
-
-     .          p_tt_fi_to_flag,
-     .          p_tt_flag_to_flower,
-     .          p_tt_flower_to_start_grain,
-     .          p_tt_flower_to_maturity,
-     .          p_tt_maturity_to_ripe,
-     .          g_phase_tt)
-*     ===========================================================
-      implicit none
-      include   'CropDefCons.inc'
-      include 'science.pub'
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      real      g_current_stage
-      real      g_days_tot(*)
-      real      c_shoot_lag
-      real      g_sowing_depth
-      real      c_shoot_rate
-      real      p_tt_emerg_to_endjuv
-      real      p_tt_endjuv_to_init
-      integer   g_day_of_year
-      real      g_latitude
-      real      c_twilight
-      real      p_photoperiod_crit1
-      real      p_photoperiod_crit2
-      real      p_photoperiod_slope
-      real      g_leaf_no_final
-      real      c_leaf_no_rate_change
-      real      c_leaf_no_at_emerg
-
-      integer   p_determinate_crop
-      real      p_x_node_num_lar(*)
-      real      p_y_node_lar(*)
-
-      REAL      p_tt_fi_to_flag
-      real      p_tt_flag_to_flower
-      real      p_tt_flower_to_start_grain
-      real      p_tt_flower_to_maturity
-      real      p_tt_maturity_to_ripe
-      real      g_phase_tt (*)           ! (INPUT/OUTPUT) cumulative growing
-                                       ! degree days required for
-                                       ! each stage (deg days)
-
-*+  Purpose
-*       Returns cumulative thermal time targets required for the
-*       individual developmental stages.
-*
-*   Called by srop_phenology(1) in croptree.for
-
-*+  Changes
-*     010994 jngh specified and programmed
-*     070495 psc added 2nd leaf appearance rate
-*     090695 psc l_bound added (otherwise won't progress if g_phase_tt=0)
-*     120995 glh restructured routine
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sunf_phen_init_new')
-
-*+  Local Variables
-c      real       tt_emerg_to_flag_leaf ! thermal time to develop
-c                                       ! and fully expand all leaves (oC)
-      real       photoperiod           ! daylength (hours)
-c     real       leaf_no_change
-      
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      ! set estimates of phase thermal time targets at germination
- 
-      if (on_day_of (germ, g_current_stage, g_days_tot)) then
-         g_phase_tt(germ_to_emerg) = c_shoot_lag
-     :                             + g_sowing_depth*c_shoot_rate
- 
-         g_phase_tt(emerg_to_endjuv) = p_tt_emerg_to_endjuv
-         g_phase_tt(endjuv_to_init)  = p_tt_endjuv_to_init
- 
-      
-      ! revise thermal time target for floral initialisation at emergence
- 
-      elseif (on_day_of (emerg, g_current_stage, g_days_tot) .or.
-     :        stage_is_between (emerg, endjuv, g_current_stage) .or.
-     :        on_day_of (endjuv, g_current_stage, g_days_tot)) then
- 
-         photoperiod = day_length (g_day_of_year, g_latitude,c_twilight)
- 
-         if (photoperiod.le.p_photoperiod_crit1) then
-            g_phase_tt(endjuv_to_init) = p_tt_endjuv_to_init
- 
-         elseif (photoperiod.lt.p_photoperiod_crit2) then
- 
-            g_phase_tt(endjuv_to_init) = p_tt_endjuv_to_init +
-     :      p_photoperiod_slope*(photoperiod - p_photoperiod_crit1)
- 
-         elseif (photoperiod.ge.p_photoperiod_crit2) then
-            g_phase_tt(endjuv_to_init) = p_tt_endjuv_to_init +
-     :      p_photoperiod_slope*(p_photoperiod_crit2
-     :                         - p_photoperiod_crit1)
- 
-         else
-         endif
- 
-
-!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-c
-c         leaf_no_change = max(g_leaf_no_final - p_x_node_num_lar(3),
-c     :                        c_leaf_no_at_emerg)
-c
-c         leaf_no_change = min (leaf_no_change, g_leaf_no_final)
-c
-c
-c      if (p_determinate_crop.eq.0) leaf_no_change=p_x_node_num_lar(3)
-c
-c
-c      if (leaf_no_change .gt. p_x_node_num_lar(2)) then
-c         tt_emerg_to_flag_leaf =
-c    :     (p_x_node_num_lar(2)-c_leaf_no_at_emerg )*p_y_node_lar(1)
-c     :    +(leaf_no_change     -p_x_node_num_lar(2))*p_y_node_lar(2)
-c     :    +                     p_x_node_num_lar(3) *p_y_node_lar(3)
-c      else
-c         tt_emerg_to_flag_leaf =
-c     :     (leaf_no_change - c_leaf_no_at_emerg) *p_y_node_lar(1)
-c     :    +                  p_x_node_num_lar(3) *p_y_node_lar(3)
-c      endif
-
-c
-!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-     
-c         g_phase_tt(init_to_flag) = tt_emerg_to_flag_leaf
-c     :              - g_phase_tt(emerg_to_endjuv)
-c     :              - g_phase_tt(endjuv_to_init)
- 
-         g_phase_tt(init_to_flag) = p_tt_fi_to_flag
-
- 
-         g_phase_tt(flag_to_flower) = p_tt_flag_to_flower
- 
-         g_phase_tt(flower_to_start_grain) =
-     :                    p_tt_flower_to_start_grain
- 
-         g_phase_tt(end_grain_to_maturity) =
-     :                  0.05*p_tt_flower_to_maturity
- 
-         g_phase_tt(start_to_end_grain) = p_tt_flower_to_maturity
-     :                  - g_phase_tt(flower_to_start_grain)
-     :                  - g_phase_tt(end_grain_to_maturity)
-       
-         g_phase_tt(maturity_to_ripe) = p_tt_maturity_to_ripe
-      else
-          ! do nothing
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
 
 
-
-
-
-*     ===========================================================
-      subroutine sunf_phenology3 (
-     .       g_previous_stage,
-     .       g_current_stage,
- 
-     .       g_maxt, g_mint,
-     .       c_x_temp, c_y_tt,
-     .       c_num_temp, g_dlt_tt,
- 
-     :       C_num_sw_avail_ratio,
-     :       C_x_sw_avail_ratio, C_y_swdef_pheno, G_dlayer,
-     :       g_root_depth, g_sw_avail, g_sw_avail_pot, g_swdef_pheno,
- 
-     .       g_dm_green,
-     .       g_N_conc_crit, g_N_conc_min, g_N_green,
-     .       c_N_fact_pheno, g_nfact_pheno,
- 
-     .          g_days_tot,
-     .          c_shoot_lag,
-     .          g_sowing_depth,
-     .          c_shoot_rate,
-     .          p_tt_emerg_to_endjuv,
-     .          p_tt_endjuv_to_init,
-     .          g_day_of_year,
-     .          g_latitude,
-     .          c_twilight,
-     .          p_photoperiod_crit1,
-     .          p_photoperiod_crit2,
-     .          p_photoperiod_slope,
-     .          g_leaf_no_final,
-     .          c_leaf_no_rate_change,
-     .          c_leaf_no_at_emerg,
-     .          c_leaf_app_rate1,
-     .          c_leaf_app_rate2,
-     .          g_tt_tot,
-     .          p_tt_flag_to_flower,
-     .          p_tt_flower_to_start_grain,
-     .          p_tt_flower_to_maturity,
-     .          p_tt_maturity_to_ripe,
-     .          g_phase_tt,
- 
-     .          g_sw_dep,
-     .          p_ll_dep,
-     .          c_pesw_germ,
- 
-     .          g_dlt_stage,
- 
-     .          c_tt_base,
-     .          c_tt_opt,
-     .          g_tt_tot_fm,
-     .          g_dlt_tt_fm,
-     .          g_sw_supply_demand_ratio)
- 
- 
- 
-*     ===========================================================
-      implicit none
-      include 'CropDefCons.inc'
-      include 'const.inc'
-c     include 'stress.inc' !to set value of photo - not sure if correct way
-      include 'science.pub'                       
-      include 'crp_phen.pub'                      
-      include 'error.pub'                         
-
-*+  Purpose
-*     Use temperature, photoperiod and genetic characteristics
-*     to determine when the crop begins a new growth phase.
-*     The initial daily thermal time and height are also set.
-*     Has a different thermal time during grain filling....
-*
-*   Called by _process
-*
-*   Number of options: 1
-*   Option 1:
-*     Designed for cereals...???
-*   Calls srop_pheno_swdef_fact1, srop_pheno_n_fact1
-*         srop_thermal_time1,
-*         srop_phenology_init1, srop_phase_devel1, srop_devel1 in crop.for
-
-*+  Notes
-cscc 030997 HAVE to generalise this routine. Could do so by being able to
-c specify init routine and stages to apply water and N stress
-cscc Needs to incorporate water stress and low N effects on phenology
-c usually by slowing down leaf appearance in vegetative phase
-c and often hastening leaf senescence in grainfilling phase
-c Water stress effect during grainfilling is partly because the canopy heats up
-c more than it would if it were irrigated. Really need to predict canopy temp.
-c somehow ...
-c But if slow down leaf appearance etc. need to relate that to the leaf area mod
-c (how do we do this w. TPLA approach?)
-
-*+  Changes
-*     010994 jngh specified and programmed
-
-*+  Calls
-      real       g_maxt
-      real       g_mint
-      real       c_x_temp(*)
-      real       c_y_tt(*)
-      integer    c_num_temp
-      real       g_dlt_tt                ! (OUTPUT) daily thermal time (oC)
-*
-      INTEGER c_num_sw_avail_ratio  ! (INPUT)
-      REAL    c_x_sw_avail_ratio(*) ! (INPUT)
-      REAL    c_y_swdef_pheno(*)    ! (INPUT)
-      REAL    g_dlayer(max_layer)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL    g_root_depth          ! (INPUT)  depth of roots (mm)
-      REAL    g_sw_avail(max_layer)         ! (INPUT)  actual extractable soil water (mm
-      REAL    g_sw_avail_pot(max_layer)     ! (INPUT)  potential extractable soil water
-      REAL    G_swdef_pheno         ! (OUTPUT) sw stress factor (0-1)
-      REAL    G_nfact_pheno         ! (OUTPUT) sw stress factor (0-1)
-*
-      REAL       g_dm_green(max_part)         ! (INPUT)  live plant dry weight (biomass
-      REAL       g_n_conc_crit(max_part)      ! (INPUT)  critical N concentration (g N/
-      REAL       g_n_conc_min(max_part)       ! (INPUT)  minimum N concentration (g N/g
-      REAL       g_n_green(max_part)          ! (INPUT)  plant nitrogen content (g N/m^
-      REAL       c_n_fact_pheno        ! (INPUT)  multipler for N deficit effect
-*
-      real      g_days_tot(*)
-      real      c_shoot_lag
-      real      g_sowing_depth
-      real      c_shoot_rate
-      real      p_tt_emerg_to_endjuv
-      real      p_tt_endjuv_to_init
-      integer   g_day_of_year
-      real      g_latitude
-      real      c_twilight
-      real      p_photoperiod_crit1
-      real      p_photoperiod_crit2
-      real      p_photoperiod_slope
-      real      g_leaf_no_final
-      real      c_leaf_no_rate_change
-      real      c_leaf_no_at_emerg
-      real      c_leaf_app_rate1
-      real      c_leaf_app_rate2
-      real      g_tt_tot(*)
-      real      p_tt_flag_to_flower
-      real      p_tt_flower_to_start_grain
-      real      p_tt_flower_to_maturity
-      real      p_tt_maturity_to_ripe
-      real      G_phase_tt (*) ! (INPUT/OUTPUT) cumulative growing
-                               ! degree days required for stage (deg days)
-*
-      real       g_sw_dep(max_layer)
-      real       p_ll_dep(max_layer)
-      real       c_pesw_germ
-      real       G_phase_dvl           ! (OUTPUT) fraction of current phase elap
-*
-      real       g_dlt_stage             ! (OUTPUT) change in growth stage
-      real       g_current_stage         ! (OUTPUT) new stage no.
-      real       g_previous_stage         ! (OUTPUT) new stage no.
-*
-      real       c_tt_base      !variables used in thermal time for GF
-      real       c_tt_opt       !variables used in thermal time for GF
-      real       g_tt_tot_fm    !variables used in thermal time for GF
-      real       g_dlt_tt_fm    !variables used in thermal time for GF
-      real       g_sw_supply_demand_ratio
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sunf_phenology3')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-!alternative option for thermal time during grain_fill
-!has 2 extra variables -
-!     .          g_tt_tot_fm,
-!     .          g_dlt_tt_fm,
- 
-         g_previous_stage = g_current_stage
- 
-         call crop_thermal_time
-     :               (
-     :                C_num_temp
-     :              , C_x_temp
-     :              , C_y_tt
-     :              , G_current_stage
-     :              , G_maxt
-     :              , G_mint
-     :              , emerg             !start_stress_stage
-     :              , flowering         !end_stress_stage
-     :              , G_nfact_pheno
-     :              , G_swdef_pheno
-     :              , g_dlt_tt
-     :               )
- 
-!         call srop_thermal_time1 (
-!     .          g_maxt, g_mint,
-!     .          c_x_temp, c_y_tt,
-!     .          c_num_temp, g_dlt_tt)
- 
-!should generalise this....
-         call srop_thermal_time2 (
-     .          g_maxt, g_mint,
-     .          c_tt_base, c_tt_opt,
-     .          g_dlt_tt_fm)
- 
-         if (stage_is_between(emerg, flowering, g_current_stage))then
- 
-            !Modify g_dlt_tt by stress factors
- 
-          if(stage_is_between(emerg,floral_init,g_current_stage))then
- 
-             call srop_pheno_swdef_fact1(C_num_sw_avail_ratio,
-     :        C_x_sw_avail_ratio, C_y_swdef_pheno, max_layer,G_dlayer,
-     :        G_root_depth, G_sw_avail, G_sw_avail_pot, g_swdef_pheno)
- 
-          else
- 
-             call srop_pheno_swdef_fact2 (
-     .        g_sw_supply_demand_ratio,
-     .        g_swdef_pheno)
- 
-          endif
-!         prevent N stress on phenology before end juvenile  GMC
-          if (stage_is_between(sowing, endjuv, g_current_stage))then
-             g_nfact_pheno = 1.0
-          else
-             call srop_pheno_N_fact1(leaf, stem, g_dm_green,
-     .      g_N_conc_crit, g_N_conc_min, g_N_green,
-     .      c_N_fact_pheno, g_nfact_pheno)
-          endif
- 
-!         g_nfact_pheno = 1.0 !Needed for SLN model at present...
- 
-          g_dlt_tt = g_dlt_tt *
-     :             min (g_swdef_pheno, g_nfact_pheno)
- 
-         else
- 
-            g_dlt_tt = g_dlt_tt
- 
-         endif
- 
-         ! initialise phenology phase targets
- 
-!Determine fraction of phase that has elapsed
-!    If stage is between flowering and maturity, use this function to calc
-!       daily thermal time for phenology decisions only
- 
-         if (stage_is_between(flowering, maturity,
-     .                g_current_stage)) then
-            call srop_phase_devel1(
-     .          g_current_stage,
-     .          g_sowing_depth,
-     .          g_dlayer,
-     .          g_sw_dep,
-     .          p_ll_dep,
-     .          c_pesw_germ,
-     .          g_days_tot,
-     .          g_tt_tot_fm,
-     .          g_dlt_tt_fm,
-     .          g_phase_tt,
-     .          g_phase_dvl)
-        else
-           call srop_phase_devel1(
-     .          g_current_stage,
-     .          g_sowing_depth,
-     .          g_dlayer,
-     .          g_sw_dep,
-     .          p_ll_dep,
-     .          c_pesw_germ,
-     .          g_days_tot,
-     .          g_tt_tot,
-     .          g_dlt_tt,
-     .          g_phase_tt,
-     .          g_phase_dvl)
-        endif
- 
-! calculate new delta and the new stage
- 
-!         call srop_devel1 (
-!     .          g_dlt_stage,
-!     .          g_current_stage,
-!     .          g_phase_dvl,
-!     .          max_stage)
- 
-         call crop_devel
-     :               (
-     :                G_current_stage
-     :              , max_stage
-     :              , G_phase_dvl
-     :              , g_dlt_stage, g_current_stage
-     :               )
- 
-         call accumulate (g_dlt_tt, g_tt_tot
-     :               , g_previous_stage, g_dlt_stage)
- 
-         call accumulate (1.0, g_days_tot
-     :               , g_previous_stage, g_dlt_stage)
- 
-         call accumulate (g_dlt_tt_fm, g_tt_tot_fm
-     :               , g_previous_stage, g_dlt_stage)
- 
-      call pop_routine (my_name)
-      return
-      end
 
 
 *     ===========================================================
@@ -7050,7 +5470,7 @@ csc  true....
 
 
 *     ===========================================================
-      subroutine sunf_leaf_area_pot_new (
+      subroutine sunf_leaf_area_pot (
      .          begin_stage,
      .          end_stage_TPLA_plateau,
      .          current,
