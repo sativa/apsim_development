@@ -1,11 +1,12 @@
-//---------------------------------------------------------------------------
-
+#include <general/pch.h>
+#include <vcl.h>
 #include <stdio.h>
-#include <math>
-#include <limits>
+#include <math.h>
 #include <values.h>
-
-#include "PlantLibrary.h"
+#include <limits>
+#include <vector>
+#include <string>
+#include "Plantlibrary.h"
 
 using namespace std;
 
@@ -396,6 +397,7 @@ float sum_part_of_real(float *array,     // array to be summed
  *   "array"("size_of-1").  This function returns the sum of the
  *   elements of "array" from "array"("start") up to, and
  *   including "array"("stop").
+ * NB index origin 0!!
  */
 
    {
@@ -548,6 +550,24 @@ void fill_real_array (float *var,  //(OUTPUT) array to set
       var[indx] = value;
       }
    }
+//===========================================================================
+void fill_integer_array (int *var,  //(OUTPUT) array to set
+                      int value, //(IN) scalar value to set array to
+                      int limit)   //(IN) number of elements
+//===========================================================================
+
+/*Purpose
+ *   sets int array var to value up to level limit
+ */
+
+   {
+   //Implementation Section ----------------------------------
+
+   for (int indx = 0; indx < limit; indx++)
+      {
+      var[indx] = value;
+      }
+   }
 
 #ifdef ANACHRONISTIC_FORTRAN_MATH
 //===========================================================================
@@ -672,6 +692,46 @@ void bound_check_real_array (float *array,// (INPUT) array to be checked
      {
       bound_check_real_var (array[indx], lower_bound,
                             upper_bound, array_name);
+     }
+}
+
+// ================================================================
+void bound_check_integer_array (int *array,// (INPUT) array to be checked
+                             int    array_size,    // (INPUT) array size_of
+                             int  lower_bound,// (INPUT) lower bound of values
+                             int  upper_bound,// (INPUT) upper bound of values
+                             const char *array_name)// (INPUT) key string of array
+
+{
+//+ Purpose
+//     check bounds of values in an array
+
+//+  Definition
+//     This subroutine will issue a warning message using the
+//     name of "array", "name", for each element of "array" that is
+//     greater than  ("upper" + 2 * error_margin("upper")) or less
+//     than ("lower" - 2 *error_margin("lower")).  If
+//     ("lower" - 2 *error_margin("lower")) is greater than "upper",
+//     then a warning message will be flagged to that effect "size"
+//     times.
+
+//+ Assumptions
+//      each element has same bounds.
+
+//+  Mission Statement
+//      Check that all %1 lies between %2 and %3
+
+//+ Changes
+//     010794 PdeV.      initial coding
+//     19/10/94 DPH Changed name from bndchk_array
+
+//+ Calls
+
+  //- Implementation Section ----------------------------------
+  for (int indx = 0; indx < array_size; indx++)
+     {
+      bound_check_integer_var (array[indx], lower_bound,
+                               upper_bound, array_name);
      }
 }
 

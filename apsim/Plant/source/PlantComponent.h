@@ -16,14 +16,29 @@ class PlantComponent : public protocol::Component
       virtual void doInit1(const FString& sdml);
       virtual void doInit2(void);
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
+      virtual void respondToMethod(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       virtual bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData);
+      unsigned int addGettableVar(const char *systemName, protocol::DataTypeCode myType, bool isArray, const char *units);
 
-      std::string getProperty(const std::string &a, const std::string& b) const 
+      std::string readParameter(const string& sectionName,
+                                const string& variableName)
+          {
+          std::string valueString = componentData->getProperty(sectionName, variableName);
+          if (valueString.length() <= 0)
+             {
+             string baseSection = componentData->getProperty(sectionName, "derived_from");
+             if (baseSection.length() > 0)
+                {
+                return readParameter(sectionName, variableName);
+                }
+             }
+          return valueString;
+          }
+      std::string getProperty(const std::string &a, const std::string& b) const
          {
          return componentData->getProperty(a,b);
          }
-      //void error(const string &, bool);
    private:
       Plant     *plant;    // The plant module
    };

@@ -1,11 +1,13 @@
-//---------------------------------------------------------------------------
-
-
-#include <string.h>
+#include <general/pch.h>
+#include <vcl.h>
+#include <stdio.h>
 #include <math.h>
-#include "PlantLibrary.h"
-
-
+#include <vector>
+#include <string>
+#include <ComponentInterface/Component.h>
+#include <ApsimShared/ApsimComponentData.h>
+#include "PlantComponent.h"
+#include "Plantlibrary.h"
 
 //===========================================================================
 void crop_pool_fraction_delta (const int num_part,   // (INPUT)  number of plant parts                
@@ -28,9 +30,9 @@ void crop_pool_fraction_delta (const int num_part,   // (INPUT)  number of plant
       }
    }
 //==========================================================================
-void crop_store_value(int day_of_year, 
+void crop_store_value(int day_of_year,
                                int year,
-                               float *array, 
+                               float *array,
                                float value)
 //==========================================================================
 /*Purpose
@@ -42,23 +44,22 @@ void crop_store_value(int day_of_year,
  *   value:     value to be stored
  *Calls
  *   leap_year
+ *   index origin 0 for this array!!
  */
 
    {
-   array[day_of_year] = value;
+   array[day_of_year-1] = value;
 
-   int temp = year - 1;
-
-   if ((day_of_year) == 365 && leap_year(temp))
+   if (day_of_year == 365 && leap_year(year - 1))
       {
-      array[366] = 0.0;
+      array[365] = 0.0;
       }
    }
 
 //==========================================================================
-float crop_running_ave(int day_of_year, 
+float crop_running_ave(int day_of_year,
                        int year,
-                       float *array, 
+                       float *array,
                        int number_of_days)
 //==========================================================================
 /*Purpose
@@ -69,24 +70,26 @@ float crop_running_ave(int day_of_year,
  *   year:         year
  *   array:        array to use for average
  *   number_of_yays: number of days to average over
+ *   index origin 0 for this array!!
  */
 
    {
    //Implementation
-   int start_day = offset_day_of_year(year, 
-                                      day_of_year, 
+   int start_day = offset_day_of_year(year,
+                                      day_of_year,
                                       -1 * number_of_days);
 
-   return divide(sum_part_of_real(array, start_day, day_of_year, 366),
-                 float(abs(number_of_days)), 0.0);
+   return divide(sum_part_of_real(array, start_day-1, day_of_year-1, 366)
+                , float(abs(number_of_days))
+                , 0.0);
    }
 
 
 //==========================================================================
-void crop_part_fraction_delta (int part_no,            // (INPUT)                           
-                               float *fraction,         // (INPUT)  fraction for each part   
-                               float part,             // (INPUT)  part value to use        
-                               float *dlt_part)        // (OUTPUT) change in part           
+void crop_part_fraction_delta (int part_no,            // (INPUT)
+                               float *fraction,         // (INPUT)  fraction for each part
+                               float part,             // (INPUT)  part value to use
+                               float *dlt_part)        // (OUTPUT) change in part
 //==========================================================================
 /*Purpose
  *   Calculate change in a particular plant pool
@@ -206,3 +209,24 @@ int SameValue(float a, float b, float error_margin=1.0E6) {
 int SameValue(float a, float b) {
      return(SameValue(a,b,1.0E6));
 }
+
+
+// AIEEEEE when will this stuff ever die??XXXXX
+// Floating point to ascii (string).
+string ftoa(double Float, char *fmtspec)
+   {
+   char fbuf[80], buf[80];
+   sprintf(fbuf, "%%%sf", fmtspec);
+   sprintf(buf, fbuf, Float);
+   return(string(buf));
+   }
+
+//integer to ascii
+string itoa(int value, int width)
+   {
+   char fbuf[80], buf[80];
+   sprintf(fbuf, "%%%dd", width);
+   sprintf(buf, fbuf, value);
+   return(string(buf));
+   }
+

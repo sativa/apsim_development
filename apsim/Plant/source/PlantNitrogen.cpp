@@ -1,11 +1,66 @@
-//---------------------------------------------------------------------------
-
-#include <string>
+#include <general/pch.h>
+#include <vcl.h>
+#include <stdio.h>
 #include <math.h>
-#include "PlantLibrary.h"
-//---------------------------------------------------------------------------
+#include <vector>
+#include <string>
+#include <general/string_functions.h>
+#include "Plantlibrary.h"
+//+  Purpose
+//       Derives seneseced plant nitrogen (g N/m^2)
 
-using namespace std;
+//+  Mission Statement
+//   Calculate change in senesced plant Nitrogen
+
+//+  Changes
+//       121297 nih specified and programmed
+void legnew_n_senescence1
+    (
+     int    num_part               // (INPUT) number of plant part
+    ,float  *c_n_sen_conc          // (INPUT)  N concentration of senesced materia  (g/m^2)
+    ,float  *g_dlt_dm_senesced     // (INPUT)  plant biomass senescence (g/m^2)
+    ,float  *g_n_green             // (INPUT) nitrogen in plant material (g/m^2)
+    ,float  *g_dm_green            // (INPUT) plant material (g/m^2)
+    ,float  *dlt_n_senesced_trans  // (OUTPUT)  plant N senescence (g/m^2)
+    ,float  *dlt_n_senesced        // (OUTPUT) actual nitrogen senesced from plant parts (g/m^2)
+    ) {
+
+//+  Local Variables
+    int   part;                                   // plant part counter variable
+    float green_n_conc;                           // N conc of green material (g/g)
+    float sen_n_conc;                             // N conc of senescing material (g/g)
+    float dlt_n_in_senescing_part;
+
+//- Implementation Section ----------------------------------
+
+
+    // first we zero all plant component deltas
+    for (part = 0; part < num_part; part++)
+       {
+       green_n_conc = divide (g_n_green[part]
+       ,g_dm_green[part]
+       ,0.0);
+
+       dlt_n_in_senescing_part = g_dlt_dm_senesced[part]
+       * green_n_conc;
+
+       sen_n_conc = min (c_n_sen_conc[part], green_n_conc);
+
+       dlt_n_senesced[part] = g_dlt_dm_senesced[part]
+       * sen_n_conc;
+
+       dlt_n_senesced[part] = u_bound (dlt_n_senesced[part]
+       , g_n_green[part]);
+
+       dlt_n_senesced_trans[part] = dlt_n_in_senescing_part
+       - dlt_n_senesced[part];
+
+       dlt_n_senesced_trans[part] = l_bound(dlt_n_senesced_trans[part]
+       , 0.0);
+
+       }
+    }
+
 
 //===========================================================================
 void crop_n_conc_ratio(const int leaf,         //IN
@@ -950,262 +1005,256 @@ void cproc_n_supply2 (float *g_dlayer,                // (INPUT)
          g_swdef_fixation, g_N_fix_pot);
    }
 
-#ifdef NOTYET
-//=========================================================================
-extern "C" void _stdcall _export cproc_n_demand2(const int *max_part, int *demand_parts,
-      const int *num_demand_parts, float *G_dlt_dm_green, float *G_dlt_n_retrans,
-      float *G_dm_green, float *G_n_conc_crit, float *G_n_conc_max, float *G_n_green,
-      float *N_demand, float *N_max)
-//=========================================================================
 
-/*  Purpose
-*       Return plant nitrogen demand for each plant component
-*
-*  Mission Statement
-*       Calculate nitrogen demand and maximum uptake for each plant pool
-*
-*  Notes
-*           Nitrogen required for grain growth has already been removed
-*           from the stover.  Thus the total N demand is the sum of the
-*           demands of the stover and roots.  Stover N demand consists of
-*           two components:
-*           Firstly, the demand for nitrogen by the new growth.
-*           Secondly, the demand due to the difference between
-*           the actual N concentration and the critical N concentration
-*           of the tops (stover), which can be positive or negative
-*
-*           NOTE that this routine will not work if the root:shoot ratio
-*           is broken. - NIH
-*
-*  Changes
-*     010994 jngh specified and programmed
-*     210498 nih  adapted to crop template specifications
-*
-*  Sub-Program Arguments
-*      int *max_part                   // (INPUT)
-*      int *demand_parts (*)           // (INPUT)
-*      int *num_demand_parts           // (INPUT)
-*      float *G_dlt_dm_green(*)        // (INPUT)  plant biomass growth (g/m^2)
-*      float *G_dlt_n_retrans(*)       // (INPUT)  nitrogen retranslocated out fr
-*      float *G_dm_green(*)            // (INPUT)  live plant dry weight (biomass
-*      float *G_n_conc_crit(*)         // (INPUT)  critical N concentration (g N/
-*      float *G_n_conc_max(*)          // (INPUT)  maximum N concentration (g N/g
-*      float *G_n_green(*)             // (INPUT)  plant nitrogen content (g N/m^
-*      float *N_demand (*)             // (OUTPUT) critical plant nitrogen demand
-*                                      // (g/m^2)
-*      float *N_max (*)                // (OUTPUT) max plant nitrogen demand
-*                                      // (g/m^2)
-*/
-   {
-   // Local Variables
-   int counter;
-   float N_crit;                 // critical N amount (g/m^2)
-   float N_demand_new;           // demand for N by new growth
-                                 // (g/m^2)
-   float N_demand_old;           // demand for N by old biomass
-                                 // (g/m^2)
-   float N_potential;            // maximum N uptake potential (g/m^2)
-   float N_max_new;              // N required by new growth to reach
-                                 // N_conc_max  (g/m^2)
-   float N_max_old;              // N required by old biomass to reach
-                                 // N_conc_max  (g/m^2)
-   int part;                     // plant part
-   float part_fract;             // plant part fraction of dm  (0-1)
-   float zero = 0.0;
 
-   //- Implementation Section ----------------------------------
-   fill_real_array (N_demand, &zero, max_part);
-   fill_real_array (N_max, &zero, max_part);
 
-   for(counter = 0; counter < *num_demand_parts; counter ++)
-      {
-      part = demand_parts[counter];
+//+  Purpose
+//       Return actual plant nitrogen uptake from each soil layer.
 
-            // need to calculate dm using potential rue not affected by
-            // N and temperature
+//+  Mission Statement
+//   Calculate crop Nitrogen Uptake
 
-      if (G_dm_green[part - 1] > 0.0)
+//+  Changes
+void cproc_n_uptake3
+    (
+     float  *g_dlayer                            // (INPUT)  thickness of soil layer I (mm)
+    ,int    max_layer                            // (INPUT)  max number of soil layers
+    ,float  *g_no3gsm_uptake_pot                 // (INPUT)  potential NO3 (supply)
+    ,float  g_n_fix_pot                          // (INPUT) potential N fixation (g/m2)
+    ,const char   *c_n_supply_preference         // (INPUT)c_n_supply_preference*(*)
+    ,float  *g_soil_n_demand                     // (INPUT)  critical plant nitrogen demand
+    ,float  *g_n_max                             // (INPUT)  maximum plant nitrogen demand
+    ,int    max_part                             // (INPUT)  number of plant parts
+    ,float  g_root_depth                         // (INPUT)  depth of roots (mm)
+    ,float  *dlt_no3gsm                          // (OUTPUT) actual plant N uptake from NO3 in each layer (g/m^2)
+    ) {
+
+//+  Local Variables
+    int   deepest_layer;                          // deepest layer in which the roots are growing
+    int   layer;                                  // soil layer number of profile
+    float n_demand;                               // total nitrogen demand (g/m^2)
+    float no3gsm_uptake;                          // plant NO3 uptake from layer (g/m^2)
+    float n_max;                                  // potential N uptake per plant (g/m^2)
+    float no3gsm_supply;
+    float scalef;
+
+//- Implementation Section ----------------------------------
+
+    deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer);
+
+    no3gsm_supply = sum_real_array (g_no3gsm_uptake_pot, deepest_layer+1);
+
+    n_demand = sum_real_array (g_soil_n_demand, max_part);
+
+    if (Str_i_Eq(c_n_supply_preference,"fixation"))
+        {
+        n_demand = l_bound (n_demand - g_n_fix_pot, 0.0);
+        }
+
+    // get actual change in N contents
+    fill_real_array (dlt_no3gsm, 0.0, max_layer);
+
+    if (n_demand > no3gsm_supply)
+        {
+        scalef = 0.99999  ;                       // avoid taking it all up as it can
+                                                  // cause rounding errors to take
+                                                  // no3 below zero.
+        }
+    else
+        {
+        scalef = divide (n_demand
+                         ,no3gsm_supply
+                         ,0.0);
+        }
+
+    for (layer = 0; layer <= deepest_layer; layer++)
+        {
+         // allocate nitrate
+        no3gsm_uptake = g_no3gsm_uptake_pot[layer] * scalef;
+        dlt_no3gsm[layer] = - no3gsm_uptake;
+        }
+    }
+
+
+//+  Purpose
+//      Calculate nitrogen supplies from soil and fixation
+
+//+  Mission Statement
+//   Calculate crop Nitrogen supplies (soil + fixation)
+
+//+  Changes
+//     21-04-1998 - neilh - Programmed and Specified
+void cproc_n_supply3 (
+     float  g_dlayer[]                        // (INPUT)
+    ,int    max_layer                        // (INPUT)
+    ,float  g_no3gsm[]                        // (INPUT)
+    ,float  g_no3gsm_min[]                    // (INPUT)
+    ,float  *g_no3gsm_uptake_pot
+    ,float  g_root_depth                     // (INPUT)
+    ,float  *g_root_length
+    ,float  g_bd[]
+    ,float  c_n_stress_start_stage
+    ,float  c_total_n_uptake_max
+    ,float  c_no3_uptake_max
+    ,float  c_no3_conc_half_max
+    ,float  *g_sw_avail_pot                  // (INPUT)
+    ,float  *g_sw_avail                      // (INPUT)
+    ,float  g_current_stage                  // (INPUT)
+    ,float  *c_n_fix_rate                    // (INPUT)
+    ,float  fixation_determinant             // (INPUT)
+    ,float  g_swdef_fixation                 // (INPUT)
+    ,float  *g_n_fix_pot                      // (INPUT)
+    ) {
+
+//+  Local variables
+    float no3ppm;
+    int   deepest_layer;
+    int layer;
+    float umax;
+    float swfac;
+    float total_n_uptake_pot;
+    float scalef;
+
+    deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer);
+    if (g_current_stage >= c_n_stress_start_stage)
+       {
+       for (layer = 0; layer<= deepest_layer; layer++)
          {
-               // get N demands due to difference between actual N concentrations
-               // and critical N concentrations of tops (stover) and roots.
+         no3ppm = (g_no3gsm[layer] - g_no3gsm_min[layer])
+            * divide (1000.0, g_bd[layer]*g_dlayer[layer], 0.0);
+         umax = c_no3_uptake_max *
+              divide(no3ppm
+                     ,no3ppm + c_no3_conc_half_max
+                     ,0.0);
+         umax=l_bound(umax,0.0);
+                                                       //**2
+         swfac = divide(g_sw_avail[layer],g_sw_avail_pot[layer],0.0) ;
+         swfac = bound(swfac,0.0,1.0);
 
-         N_crit       = G_dm_green[part - 1] * G_n_conc_crit[part - 1];
-         N_potential  = G_dm_green[part - 1] * G_n_conc_max[part - 1];
+         g_no3gsm_uptake_pot[layer] = umax
+                * g_root_length[layer] * 1e6
+                * swfac;                                      //mm2 to m2
 
-               // retranslocation is -ve for outflows
-
-         N_demand_old = N_crit -
-                     (G_n_green[part - 1] + G_dlt_n_retrans[part - 1]);
-         N_max_old    = N_potential -
-                     (G_n_green[part - 1] + G_dlt_n_retrans[part - 1]);
-
-
-               // get potential N demand (critical N) of potential growth
-
-         N_demand_new = G_dlt_dm_green[part - 1] * G_n_conc_crit[part - 1];
-         N_max_new    = G_dlt_dm_green[part - 1] * G_n_conc_max[part - 1];
-
-         N_demand[part - 1] = N_demand_old + N_demand_new;
-         N_max[part - 1]    = N_max_old    + N_max_new;
-
-         N_demand[part - 1] = l_bound (N_demand[part - 1], 0.0);
-         N_max[part - 1]    = l_bound (N_max[part - 1], 0.0);
+         g_no3gsm_uptake_pot[layer] =
+                    u_bound(g_no3gsm_uptake_pot[layer]
+                            ,g_no3gsm[layer]-g_no3gsm_min[layer]);
          }
+       }
+    else
+       {
+          // No N stress whilst N is present in soil
+          // crop has access to all that it wants early on
+          // to avoid effects of small differences in N supply
+          // having affect during the most sensitive part
+          // of canopy development.
+
+          for (layer = 0; layer <= deepest_layer; layer++)
+             {
+             g_no3gsm_uptake_pot[layer]
+                = l_bound(g_no3gsm[layer]-g_no3gsm_min[layer],0.0);
+             }
+       }
+     total_n_uptake_pot = sum_real_array(g_no3gsm_uptake_pot,deepest_layer+1);
+     scalef = divide(c_total_n_uptake_max, total_n_uptake_pot,0.0);
+     scalef = bound(scalef,0.0,1.0);
+     for (layer = 0; layer <= deepest_layer; layer++)
+         {
+         g_no3gsm_uptake_pot[layer] = scalef * g_no3gsm_uptake_pot[layer];
+         }
+
+    // determine N from fixation
+    crop_n_fixation_pot1 (g_current_stage
+                         , c_n_fix_rate
+                         , fixation_determinant
+                         , g_swdef_fixation
+                         , g_n_fix_pot);
+
+    }
+
+//  Purpose
+//     Calculate nitrogen supplies from soil and fixation
+//
+//  Mission Statement
+//  Calculate crop Nitrogen supplies (soil + fixation)
+void cproc_n_supply4 (float* g_dlayer    //! (INPUT)
+               ,float* g_bd                     //
+               ,int max_layer                   //! (INPUT)
+               ,float* g_no3gsm                 //! (INPUT)
+               ,float* g_no3gsm_min             //! (INPUT)
+               ,float* g_no3gsm_uptake_pot      //  (output)
+               ,float g_root_depth              //! (INPUT)
+               ,float c_n_stress_start_stage    //
+               ,float c_kln                     //
+               ,float c_total_n_uptake_max      //
+               ,float* g_sw_avail_pot           //! (INPUT)
+               ,float* g_sw_avail               //! (INPUT)
+               ,float g_current_stage           //! (INPUT)
+               ,float *c_n_fix_rate             //! (INPUT)
+               ,float fixation_determinant      //! (INPUT)
+               ,float g_swdef_fixation          //! (INPUT)
+               ,float *g_n_fix_pot)             //! (outPUT)
+  {
+      float no3ppm;
+      int deepest_layer;
+      int layer;
+      float swfac;
+      float total_n_uptake_pot;
+      float scalef;
+
+      deepest_layer = find_layer_no (g_root_depth
+                                      ,g_dlayer
+                                      ,max_layer);
+
+      if (g_current_stage >= c_n_stress_start_stage)
+         {
+         for (layer = 0; layer <= deepest_layer; layer++)
+            {
+            no3ppm = (g_no3gsm[layer] - g_no3gsm_min[layer])
+                   * divide (1000.0, g_bd[layer]*g_dlayer[layer], 0.0);
+
+           swfac = divide(g_sw_avail[layer],g_sw_avail_pot[layer],0.0); //**2
+           swfac = bound (swfac,0.0,1.0);
+
+           g_no3gsm_uptake_pot[layer] =
+                         (g_no3gsm[layer] - g_no3gsm_min[layer])
+                                 * c_kln * no3ppm
+                                     * swfac;
+
+           g_no3gsm_uptake_pot[layer]
+                         = u_bound(g_no3gsm_uptake_pot[layer]
+                                  ,g_no3gsm[layer]-g_no3gsm_min[layer]);
+
+            }
+        }
       else
-         {
-         N_demand[part - 1] = 0.0;
-         N_max[part - 1]    = 0.0;
-         }
-      }
-         // this routine does not allow excess N in one component to move
-         // to another component deficient in N
-   return;
+        {
+        // No N stress whilst N is present in soil
+        // crop has access to all that it wants early on
+        // to avoid effects of small differences in N supply
+        // having affect during the most sensitive part
+        // of canopy development.
+
+        for (layer = 0; layer <= deepest_layer; layer++)
+           {
+           g_no3gsm_uptake_pot[layer]
+               = l_bound(g_no3gsm[layer]-g_no3gsm_min[layer],0.0);
+           }
+        }
+
+      total_n_uptake_pot = sum_real_array(g_no3gsm_uptake_pot, deepest_layer+1);
+      scalef = divide(c_total_n_uptake_max, total_n_uptake_pot,0.0);
+      scalef = bound(scalef,0.0,1.0);
+      for (layer = 0; layer <= deepest_layer; layer++)
+           {
+           g_no3gsm_uptake_pot[layer] = scalef * g_no3gsm_uptake_pot[layer];
+           }
+
+      // determine N from fixation
+      crop_n_fixation_pot1(g_current_stage
+                         , c_n_fix_rate
+                         , fixation_determinant
+                         , g_swdef_fixation
+                         , g_n_fix_pot);
+
    }
-#endif
-#ifdef NOTYET
-//=========================================================================
-extern "C" void _stdcall _export cproc_n_uptake2(float *C_no3_diffn_const, float *G_dlayer,
-      const int *max_layer, float *G_no3gsm_diffn_pot, float *G_no3gsm_mflow_avail,
-      float *G_N_fix_pot, char *C_n_supply_preference, float *G_n_demand,
-      float *G_n_max, int *max_part, float *G_root_depth, float *dlt_NO3gsm,
-      float *dlt_NO3gsm_massflow, float *dlt_NO3gsm_diffusion)
-//=========================================================================
 
-/*  Purpose
-*       Return actual plant nitrogen uptake from
-*       each soil layer.
-*
-*  Mission Statement
-*   Calculate crop Nitrogen Uptake
-*
-*  Changes
-*       160498 nih specified and programmed
-*       281100 ew  added the arguments for mass flow and diffusion uptake
-*
-*
-*  Constant Values
-*      character  my_name*(*)           // name of procedure
-*      parameter (my_name = 'cproc_N_uptake2')
-*
-*
-*  Sub-Program Arguments
-*      float *C_no3_diffn_const        // (INPUT)  time constant for uptake by di
-*      float *G_dlayer(*)              // (INPUT)  thickness of soil layer I (mm)
-*      int *max_layer                  // (INPUT)  max number of soil layers
-*      float *G_no3gsm_diffn_pot(*)    // (INPUT)  potential NO3 (supply) from so
-*      float *G_no3gsm_mflow_avail(*)  // (INPUT)  potential NO3 (supply) from
-*      float *G_N_Fix_Pot              // (INPUT) potential N fixation (g/m2)
-*      char *C_n_supply_preference*(*) //(INPUT)
-*      float *G_n_demand(*)            // (INPUT)  critical plant nitrogen demand
-*      int *max_part                   // (INPUT)  number of plant parts
-*      float *G_n_max(*)               // (INPUT)  maximum plant nitrogen demand
-*      float *G_root_depth             // (INPUT)  depth of roots (mm)
-*      float *dlt_NO3gsm(*)            // (OUTPUT) actual plant N uptake
-*                                      // from NO3 in each layer (g/m^2)
-*      float *dlt_NO3gsm_massflow(*)   //(OUTPUT) actual plant N uptake from mass flow (g/m2)
-*      float *dlt_NO3gsm_diffusion(*)  //(OUTPUT) actual plant N uptake from diffusion (g/m2)
-*/
-
-   {
-
-   // Local Variables
-   int deepest_layer;            // deepest layer in which the roots are
-                                 // growing
-   float NO3gsm_diffn;           // actual N available (supply) for
-                                 // plant (g/m^2) by diffusion
-   float NO3gsm_mflow;           // actual N available (supply) for
-                                 // plant (g/m^2) by mass flow
-   float *NO3gsm_diffn_avail = new float[crop_max_layer]; // potential NO3 (supply)
-                                 // from soil (g/m^2), by diffusion
-   float NO3gsm_diffn_supply;    // total potential N uptake (supply)
-                                 // for plant (g/m^2) by diffusion
-   float NO3gsm_mflow_supply;    // total potential N uptake (supply)
-                                 // for plant (g/m^2) by mass flow
-   float diffn_fract;            // fraction of nitrogen to use (0-1)
-                                 // for diffusion
-   float mflow_fract;            // fraction of nitrogen to use (0-1)
-                                 // for mass flow
-   int layer;                    // soil layer number of profile
-   float N_demand;               // total nitrogen demand (g/m^2)
-   float NO3gsm_uptake;          // plant NO3 uptake from layer (g/m^2)
-   float N_max;                  // potential N uptake per plant (g/m^2)
-   float zero = 0.0;
-   float temp1;                  //Vars to pass composite terms to functions
-   float temp2;                  //expecting a pointer
-   //- Implementation Section ----------------------------------
-            // get potential N uptake (supply) from the root profile.
-            // get totals for diffusion and mass flow.
-
-   deepest_layer = find_layer_no (G_root_depth, G_dlayer, max_layer);
-   for(layer = 0; layer <= deepest_layer; layer++)
-      {
-      NO3gsm_diffn_avail[layer] = G_no3gsm_diffn_pot[layer] -
-                                    G_no3gsm_mflow_avail[layer];
-      NO3gsm_diffn_avail[layer] = l_bound (&NO3gsm_diffn_avail[layer], &zero);
-      }
-
-   NO3gsm_mflow_supply = sum_real_array (G_no3gsm_mflow_avail, deepest_layer+1);
-   NO3gsm_diffn_supply = sum_real_array (NO3gsm_diffn_avail, deepest_layer+1);
-
-            // get actual total nitrogen uptake for diffusion and mass flow.
-            // If demand is not satisfied by mass flow, then use diffusion.
-            // N uptake above N critical can only happen via mass flow.
-
-   N_demand = sum_real_array (G_n_demand, max_part);
-   N_max    = sum_real_array (G_n_max, max_part);
-
-   if (NO3gsm_mflow_supply >= N_demand)
-      {
-      NO3gsm_mflow = NO3gsm_mflow_supply;
-      NO3gsm_mflow = u_bound (&NO3gsm_mflow, &N_max);
-      NO3gsm_diffn = 0.0;
-      }
-   else
-      {
-      NO3gsm_mflow = NO3gsm_mflow_supply;
-
-      if (strcmp(C_n_supply_preference,"active") == 0)
-         {
-         temp1 = N_demand - NO3gsm_mflow;
-         NO3gsm_diffn = bound (&temp1, &zero, &NO3gsm_diffn_supply);
-         }
-      else if (strcmp(C_n_supply_preference,"fixation") == 0)
-         {
-         temp1 =  N_demand - NO3gsm_mflow - *G_N_fix_pot;
-         NO3gsm_diffn = bound (&temp1, &zero, &NO3gsm_diffn_supply);
-         }
-      else
-         {
-         fatal_error (&err_user, "bad n supply preference");
-         }
-
-      NO3gsm_diffn = divide (NO3gsm_diffn, *C_no3_diffn_const, 0.0);
-      }
-
-            // get actual change in N contents
-
-   fill_real_array (dlt_NO3gsm, &zero, max_layer);
-
-   for(layer = 0 ; layer < deepest_layer; layer++)
-      {
-               // allocate nitrate
-               // Find proportion of nitrate uptake to be taken from layer
-               // by diffusion and mass flow
-
-      mflow_fract = divide (&G_no3gsm_mflow_avail[layer], &NO3gsm_mflow_supply, &zero);
-
-      diffn_fract = divide (&NO3gsm_diffn_avail[layer], &NO3gsm_diffn_supply, &zero);
-
-               // now find how much nitrate the plant removes from
-               // the layer by both processes
-
-      NO3gsm_uptake = NO3gsm_mflow * mflow_fract + NO3gsm_diffn * diffn_fract;
-      dlt_NO3gsm[layer] = -1 * NO3gsm_uptake;
-
-
-      dlt_NO3gsm_massflow [layer] = - 1 * NO3gsm_mflow * mflow_fract;
-      dlt_NO3gsm_diffusion[layer] = - 1 * NO3gsm_diffn * diffn_fract;
-      }
-   return;
-   }
-#endif

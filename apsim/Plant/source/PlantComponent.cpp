@@ -73,8 +73,14 @@ void PlantComponent::respondToEvent(unsigned int& /*fromID*/, unsigned int& even
    {
    plant->doEvent(eventID, variant);
    }
-// ------------------------------------------------------------------
-// Return a variable to caller. 
+
+void PlantComponent::respondToMethod(unsigned int& /*fromID*/, unsigned int& eventID, protocol::Variant& variant)
+   {
+   plant->doEvent(eventID, variant);
+   }
+
+   // ------------------------------------------------------------------
+// Return a variable to caller.
 // ------------------------------------------------------------------
 void PlantComponent::respondToGet(unsigned int& /*fromID*/, protocol::QueryValueData& queryData)
    {
@@ -90,4 +96,34 @@ bool PlantComponent::respondToSet(unsigned int& /*fromID*/, protocol::QuerySetVa
    return (plant->setVariable(setValueData.ID, setValueData));
    }
 
+
+// Register a variable to the rest of the system
+// returns an identifier for later use..
+unsigned int PlantComponent::addGettableVar(const char *systemName,
+                                            protocol::DataTypeCode myType,
+                                            bool isArray,
+                                            const char *units)
+   {
+      char buffer[200];
+      // Build the xml fragment that describes this variable
+      strcpy(buffer, "<type kind=\"");
+      switch (myType)
+        {
+      	case protocol::DTint4:   {strcat(buffer, "integer4"); break;}
+      	case protocol::DTsingle: {strcat(buffer, "single"); break;}
+      	case protocol::DTboolean:{strcat(buffer, "boolean"); break;}
+      	case protocol::DTstring: {strcat(buffer, "string"); break;}
+      	default: {error("Undefined gettable var type", 1);}
+        }
+      strcat(buffer, "\" array=\"");
+      switch (isArray)
+         {
+   	 case false: {strcat(buffer, "F"); break;}
+   	 case true:  {strcat(buffer, "T"); break;}
+         }
+      strcat(buffer, "\" units=\"(");
+      strcat(buffer, units);
+      strcat(buffer, ")\"/>");
+      return (this->addRegistration(protocol::respondToGetReg, systemName, buffer));
+   }
 

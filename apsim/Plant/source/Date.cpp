@@ -1,9 +1,10 @@
-//---------------------------------------------------------------------------
-#include <string.h>
+#include <general/pch.h>
+#include <vcl.h>
+#include <stdio.h>
 #include <math.h>
-#include "PlantLibrary.h"
-
-//---------------------------------------------------------------------------
+#include <vector>
+#include <string>
+#include "Plantlibrary.h"
 
 //==========================================================================
 int offset_day_of_year (int iyr,     //(INPUT) day of year number
