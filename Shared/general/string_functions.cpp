@@ -309,3 +309,27 @@ void Get_words_from_double_null_term (char* St, list<string>& Words)
       }
    }
 
+//----------------------------------------------------------------------------
+int NumOccurrences (string text, string substring)
+//----------------------------------------------------------------------------
+// Description:
+//   Return the number of occurrences of a given substring with the given string
+//
+// Notes:
+//
+//  Changes:
+//    NH 13/12/2000
+
+   {
+   int counter = 0;       // count of occurences
+   unsigned int pos = 0;  // search position - start at the beginning
+
+
+   while (text.find(substring,pos)!=text.npos)
+      {
+      counter++;
+      pos =text.find(substring,pos)+1;
+      };
+   return counter;
+   }
+
