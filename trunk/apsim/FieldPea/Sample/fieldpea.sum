@@ -20,7 +20,7 @@
      Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
 
@@ -45,9 +45,9 @@
         soilwat2.eos
         soilwat2.eo
         met.rain
-        residue2.residue_wt
-        residue2.residue_cover
-        residue2.residue_n
+        surfaceom.surfaceom_wt
+        surfaceom.surfaceom_cover
+        surfaceom.surfaceom_n
         fieldpea.das
         fieldpea.stage
         fieldpea.lai
@@ -185,30 +185,29 @@
             CONA:                     3.00 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = wheat
+      Residue type = wheat
+      Overall mass =  0.00000000E+00
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying lignin mass =  0.00000000E+00
+                            C:N =  -NaN
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-                 0.0     0.0     0.0  wheat
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    10.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -509,8 +508,8 @@
 6 December 2003(Day of year=340), fieldpea: 
      
       flowering day          =  280                           stover (kg/ha)         =     5599.9
-      maturity day           =  339                           grain yield (kg/ha)    =     1633.8
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1856.6
+      maturity day           =  339                           grain yield (kg/ha)    =     1633.9
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1856.7
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      5.251
       total above ground biomass (kg/ha)    =     7233.8

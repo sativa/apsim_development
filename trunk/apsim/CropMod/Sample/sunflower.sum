@@ -20,7 +20,7 @@
      Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\CropMod\lib\CropMod.dll
 
@@ -192,30 +192,29 @@
             CONA:                     2.50 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-              2000.0    26.7     0.0  mungbean
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    30.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -353,16 +352,16 @@
                           stover N conc =    3.856266       extractable sw =    141.3767
 21 April 1988(Day of year=112), sunflower: 
       stage    6.0 flag_leaf
-                          biomass =           375.8550       lai =     2.927768
-                          stover N conc =    2.188620       extractable sw =    239.2681
+                          biomass =           375.8550       lai =     2.927769
+                          stover N conc =    2.188621       extractable sw =    239.2681
 22 April 1988(Day of year=113), sunflower: 
       stage    7.0 flowering
-                          biomass =           387.9895       lai =     2.909118
-                          stover N conc =    2.192716       extractable sw =    234.2422
+                          biomass =           387.9894       lai =     2.909119
+                          stover N conc =    2.192717       extractable sw =    234.2422
 26 April 1988(Day of year=117), sunflower: 
       stage    8.0 start_grain_fill
-                          biomass =           439.1920       lai =     2.820458
-                          stover N conc =    2.023558       extractable sw =    212.0421
+                          biomass =           439.1919       lai =     2.820459
+                          stover N conc =    2.023559       extractable sw =    212.0421
 31 May 1988(Day of year=152), sunflower: 
       stage    9.0 end_grain_fill
                           biomass =           690.2394       lai =    0.8283715
@@ -410,31 +409,31 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0420338
-      water stress 2 =       0.0642244   nitrogen stress 2 =       0.2300758
+      water stress 2 =       0.0642244   nitrogen stress 2 =       0.2300759
      
      
      
       stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0093687
-      water stress 2 =       0.0428567   nitrogen stress 2 =       0.1293324
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0093686
+      water stress 2 =       0.0428567   nitrogen stress 2 =       0.1293323
      
      
      
       stress indices for flag_leaf
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0229815
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2183852
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0229810
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2183848
      
      
      
       stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0050771
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1766062
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0050770
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1766057
      
      
      
       stress indices for start_grain_fill
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0143118   nitrogen stress 2 =       0.0884030
+      water stress 2 =       0.0143118   nitrogen stress 2 =       0.0884026
 4 June 1988(Day of year=156), manager: 
      Manager sending message :- sunflower end_crop
 4 June 1988(Day of year=156), sunflower: 

@@ -21,7 +21,7 @@
      Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
      Component DLL          = c:\development\apsim\cropmod\lib\cropmod.dll
@@ -184,30 +184,29 @@
             CONA:                     2.50 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-              2000.0    26.7     0.0  mungbean
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    30.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -496,16 +495,16 @@
      
 29 April 1988(Day of year=120), sunflower: 
       stage    9.0 end_grain_fill
-                          biomass =           710.3932       lai =    0.5049349
-                          stover N conc =    1.277089       extractable sw =    219.7287
+                          biomass =           710.3958       lai =    0.5049349
+                          stover N conc =    1.277097       extractable sw =    219.7286
 1 May 1988(Day of year=122), sunflower: 
       stage   10.0 maturity
-                          biomass =           718.3920       lai =    0.2430038
-                          stover N conc =    1.295061       extractable sw =    216.3929
+                          biomass =           718.3945       lai =    0.2430038
+                          stover N conc =    1.295068       extractable sw =    216.3928
 2 May 1988(Day of year=123), sunflower: 
       stage   11.0 harvest_ripe
-                          biomass =           718.3920       lai =     0.000000
-                          stover N conc =    1.319520       extractable sw =    214.6678
+                          biomass =           718.3945       lai =     0.000000
+                          stover N conc =    1.319527       extractable sw =    214.6677
 3 May 1988(Day of year=124), manager: 
      Manager sending message :- sunflower harvest
 3 May 1988(Day of year=124), sunflower: 
@@ -515,16 +514,16 @@
      flowering (DAS) =  79                  maturity (DAS)  = 113
       flowering day  =   88                  stover (kg/ha) =    5350.6
       maturity day        =  122             grain yield (kg/ha) =    1833.3
-      grain % water content   =    9.0       grain yield wet (kg/ha) =    2014.6
+      grain % water content   =    9.0       grain yield wet (kg/ha) =    2014.7
       grain wt (g) =     0.000               grains/m^2   =     0.000
       grains/head =   0.0                    maximum lai = 2.073
       total above ground biomass (kg/ha) =    7183.9
       live above ground biomass (kg/ha) =    7183.9
-      green above ground biomass (kg/ha) =    5201.9
+      green above ground biomass (kg/ha) =    5202.0
       senesced above ground biomass (kg/ha) =    1982.0
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  32.0
-      grain N percent =      1.91            total N content (kg/ha) =     82.51
+      grain N percent =      1.91            total N content (kg/ha) =     82.52
       grain N uptake (kg/ha) =     35.06     senesced N content (kg/ha) =     13.87
       green N content (kg/ha) =     33.59    dead N content (kg/ha) =      0.00
       grain P percent =      0.00            total P content (kg/ha) =      0.00
@@ -564,8 +563,8 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2469508
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.3975607
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2469399
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.3975519
 3 May 1988(Day of year=124), manager: 
      Manager sending message :- sunflower end_crop
 3 May 1988(Day of year=124), sunflower: 
