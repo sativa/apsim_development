@@ -56,7 +56,7 @@ class Scenario {
       std::string name;
       FactorContainer factors;
 
-      void makeUsValid(void);
+      void makeUsValid(const std::string factor_name);
       Scenario createScenarioForAddIn(const AddInBase* addIn);
 };
 

@@ -52,7 +52,7 @@ bool Scenario::setFactorValue(const string& factor_name,
                                               factor_name);
    if (found_pos != factors.end()) {
       (*found_pos).setValue(factor_value);
-      makeUsValid();
+      makeUsValid(factor_name);
       return true;
    }
    else
@@ -83,7 +83,7 @@ void Scenario::getFactorAttributes(const std::string& factorName,
       factorBitmap = (*found_pos).getImage();
       }
    }
-void Scenario::makeUsValid(void)
+void Scenario::makeUsValid(const string factor_name)
    {
    // take a temporary copy of all factors.
    FactorContainer newFactors;
@@ -99,7 +99,7 @@ void Scenario::makeUsValid(void)
          {
          currentAddIn = (*f).getAddIn();
          Scenario newScenario = createScenarioForAddIn(currentAddIn);
-         currentAddIn->makeScenarioValid(newScenario);
+         currentAddIn->makeScenarioValid(newScenario, factor_name);
          newScenario.getFactors(newFactors);
          }
       }
@@ -128,7 +128,7 @@ void Scenario::getFactorValues(const std::string& factorName,
    if (found_pos != factors.end())
       {
       const AddInBase* addIn = (*found_pos).getAddIn();
-      addIn->getFactorValues(factorName, values);
+      addIn->getFactorValues(*this, factorName, values);
       }
    }
 

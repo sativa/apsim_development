@@ -35,8 +35,15 @@ class DBSimulation
       ~DBSimulation (void);
 
       // return true if this simulation equals the specified scenario.
-      bool operator!= (const Scenario& rhs) const;
+      bool operator!= (const std::string& rhsTitle) const
+         {
+         return (strcmpi(title, rhsTitle.c_str()) != 0);
+         }
 
+      bool partialTitleCompare(const char* partialTitle) const
+         {
+         return (strncmpi(partialTitle, title, strlen(partialTitle)) == 0);
+         }
       // read in all simulation info. from the current record in the
       // specified indexTable.
       void readFromIndex(const std::string& databaseFilename,
@@ -50,8 +57,7 @@ class DBSimulation
 
       // calculate a rank based on how close the factors and values
       // passed in are to our factors and values.
-      unsigned int calculateRank(const std::vector<std::string>& factorNames,
-                                 const std::vector<std::string>& factorValues) const;
+      unsigned int calculateRank(const std::string& titleToMatch) const;
 
       // read all data from the open dataset and store in all_data
       virtual void readData(TAPSTable& data, const std::string& simulationName);
