@@ -275,6 +275,7 @@ void __fastcall TDrill_down_form::ScenarioTreeMouseDown(TObject *Sender,
             ValueSelectPopup->Top = y - ValueSelectPopup->Height - 10;
          ValueSelectPopup->Show();
          }
+      scenarios->makeScenariosValid();
       }
    weAreExpanding = fullExpColl = false;
    }

@@ -66,8 +66,26 @@ void __fastcall TValueSelectPopup::FormShow(TObject *Sender)
                                  i++)
       {
       TListItem* NewItem = ListView->Items->Add();
-      NewItem->Caption = (*i).c_str();
-      NewItem->Checked = ((*i) == CurrentValue);
+      string Value = (*i);
+      if(Value[0] == '~')
+         {
+         NewItem->Caption = Value.substr(1,(Value.length() - 1)).c_str();
+         NewItem->StateIndex = 2;
+         NewItem->Checked = false;
+         }
+      else
+         {
+         NewItem->Caption = (*i).c_str();
+         NewItem->Checked = ((*i) == CurrentValue);
+         if(NewItem->Checked)
+            {
+            NewItem->StateIndex = 1;
+            }
+         else
+            {
+            NewItem->StateIndex = 0;
+            }
+         }
       }
    if (ListView->SortType == Listactns::stData)
       ListView->AlphaSort();
@@ -149,3 +167,29 @@ int TValueSelectPopup::checkedCount(void)
    }
    return count;
 }
+void __fastcall TValueSelectPopup::FormMouseDown(TObject *Sender,
+      TMouseButton Button, TShiftState Shift, int X, int Y)
+   {
+   TListItem *LI = ListView->GetItemAt(X, Y);
+   if(!LI)
+      {
+      return;
+      }
+
+   if( LI->StateIndex == 0)
+      {
+      LI->StateIndex = 1;
+      LI->Checked = true;
+      }
+   else if(LI->StateIndex == 1)
+      {
+       LI->StateIndex = 0;
+       LI->Checked = false;
+      }
+   else if(LI->StateIndex == 2)
+      {
+       LI->Checked = false;
+      }
+   }
+//---------------------------------------------------------------------------
+

@@ -11,6 +11,7 @@
 #include "paramchklist.hpp"
 #include <ComCtrls.hpp>
 #include <ExtCtrls.hpp>
+#include <ImgList.hpp>
 #include <vector>
 #include <string>
 using std::vector;
@@ -25,6 +26,7 @@ __published:	// IDE-managed Components
    TLabel *applyLabel;
    TLabel *applyToAllLabel;
    TImage *Image;
+   TImageList *StateImages;
    void __fastcall ListViewCompare(TObject *Sender, TListItem *Item1,
           TListItem *Item2, int Data, int &Compare);
    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
@@ -33,6 +35,8 @@ __published:	// IDE-managed Components
    void __fastcall applyToAllLabelClick(TObject *Sender);
    void __fastcall ListViewChange(TObject *Sender, TListItem *Item,
           TItemChange Change);
+   void __fastcall FormMouseDown(TObject *Sender, TMouseButton Button,
+          TShiftState Shift, int X, int Y);
 private:	// User declarations
    TSortType WhatSortType(std::vector<std::string>& items);
    int checkedCount(void);
