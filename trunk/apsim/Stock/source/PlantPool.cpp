@@ -85,6 +85,55 @@ const PlantPool &PlantPool::operator=(const PlantPool &other)
 }
 
 //===========================================================================
+PlantPool PlantPool::operator+ (const PlantPool &y) const
+//===========================================================================
+
+/*Definition
+ */
+
+   {
+   //Constant Values
+
+   //Local Varialbes
+   PlantPool result;
+
+   //Implementation
+   result.green.leaf = green.leaf + y.green.leaf;
+   result.green.stem = green.stem + y.green.stem;
+   result.senesced.leaf = senesced.leaf + y.senesced.leaf;
+   result.senesced.stem = senesced.stem + y.senesced.stem;
+   result.dead.leaf = dead.leaf + y.dead.leaf;
+   result.dead.stem = dead.stem + y.dead.stem;
+
+   return result;
+   }
+
+
+//===========================================================================
+PlantPool PlantPool::operator- (const PlantPool &y) const
+//===========================================================================
+
+/*Definition
+ */
+
+   {
+   //Constant Values
+
+   //Local Varialbes
+   PlantPool result;
+
+   //Implementation
+   result.green.leaf = green.leaf - y.green.leaf;
+   result.green.stem = green.stem - y.green.stem;
+   result.senesced.leaf = senesced.leaf - y.senesced.leaf;
+   result.senesced.stem = senesced.stem - y.senesced.stem;
+   result.dead.leaf = dead.leaf - y.dead.leaf;
+   result.dead.stem = dead.stem - y.dead.stem;
+
+   return result;
+   }
+
+//===========================================================================
 PlantPool PlantPool::operator* (const PlantPool &y) const
 //===========================================================================
 
