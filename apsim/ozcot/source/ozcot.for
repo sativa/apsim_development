@@ -17,10 +17,12 @@
 !- Implementation Section ----------------------------------
 
       if (doAllocate) then
+         allocate(id)
          allocate(g)
          allocate(c)
 
       else
+         deallocate(id)
          deallocate(g)
          deallocate(c)
 
@@ -43,7 +45,8 @@
 
 !- Implementation Section ----------------------------------
 
-         call ozcot_zero_all_globals ()
+      call do_registrations(id)
+      call ozcot_zero_all_globals ()
 
 
       return
@@ -56,7 +59,7 @@
       ml_external do_commence
 
 !+  Purpose
-! 
+!
 
 !- Implementation Section ----------------------------------
 
@@ -100,7 +103,7 @@
 
 
 !     ===========================================================
-      subroutine drespondToEvent(fromID,eventID, variant)
+      subroutine respondToEvent(fromID,eventID, variant)
 !     ===========================================================
       use OzcotModule
       use ComponentInterfaceModule
@@ -117,31 +120,31 @@
 
 !- Implementation Section ----------------------------------
 
-      if (eventID.eq.TickId) then
+      if (eventID.eq.id%Tick) then
          call ozcot_ONtick ()
 
-      elseif (eventID.eq.NewMetId) then
+      elseif (eventID.eq.id%NewMet) then
          call ozcot_ONNewMet (variant)
-         
-      elseif (eventID.eq.LightProfileCalculatedId)then
+
+      elseif (eventID.eq.id%LightProfileCalculated)then
          call ozcot_ONLightProfileCalculated(variant)
-         
-      elseif (eventID.eq.CropWaterSupplyCalculatedId) then
+
+      elseif (eventID.eq.id%CropWaterSupplyCalculated) then
          call ozcot_ONCropWaterSupplyCalculated (variant)
 
-      elseif (eventID.eq.SoilWaterChangedId) then
+      elseif (eventID.eq.id%SoilWaterChanged) then
          call ozcot_ONSoilWaterChanged(variant)
 
-      elseif (eventID.eq.SoilWaterBalanceCalculatedId) then
+      elseif (eventID.eq.id%SoilWaterBalanceCalculated) then
          call ozcot_ONSoilWaterBalanceCalculated (variant)
 
-      elseif (eventID.eq.SolutesChangedId) then
+      elseif (eventID.eq.id%SolutesChanged) then
          call ozcot_ONSolutesChanged (variant)
 
-      elseif (eventID.eq.SoilTemperatureChangedId)then
+      elseif (eventID.eq.id%SoilTemperatureChanged)then
          call ozcot_ONSoilTemperatureChanged(variant)
 
-      elseif (eventID.eq.DoCropGrowthId)then
+      elseif (eventID.eq.id%DoCropGrowth)then
          call ozcot_ONDoCropGrowth()
          if (g%zero_variables) then
             call ozcot_zero_variables()
@@ -155,10 +158,10 @@
          call ozcot_Process ()
          call ozcot_set_other_variables ()
          call ozcot_post ()
-         
 
 
-      elseif (eventID.eq.CropNitrogenSupplyCalculatedId) then
+
+      elseif (eventID.eq.id%CropNitrogenSupplyCalculated) then
          call ozcot_ONCropNitrogenSupplyCalculated(variant)
 
       else
@@ -169,7 +172,7 @@
 
 
 !     ===========================================================
-      subroutine drespondToMethod(fromID,methodID, variant)
+      subroutine respondToMethod(fromID,methodID, variant)
 !     ===========================================================
       use OzcotModule
       use ComponentInterfaceModule
@@ -189,8 +192,8 @@
 
 !- Implementation Section ----------------------------------
 
-         
-      if (methodID.eq.sowID) then
+
+      if (methodID.eq.id%sow) then
          if (ozcot_my_type ()) then
                ! request and receive variables from owner-modules
 !jh            call ozcot_get_other_variables ()
@@ -209,8 +212,8 @@
          endif
 
 ! *************************************************************************
-         
-      elseif (methodID.eq.harvestID) then
+
+      elseif (methodID.eq.id%harvest) then
          if (ozcot_my_type ()) then
                ! harvest crop - turn into residue
             if (g%crop_in) then
@@ -225,7 +228,7 @@
 
 ! *************************************************************************
 
-      elseif (methodID.eq.end_cropID) then
+      elseif (methodID.eq.id%end_crop) then
          if (ozcot_my_type ()) then
                ! end crop - turn into residue
             if (g%crop_in) then
@@ -241,7 +244,7 @@
 
 ! *************************************************************************
 
-      elseif (methodID.eq.kill_cropID) then
+      elseif (methodID.eq.id%kill_crop) then
          if (ozcot_my_type ()) then
                ! kill crop - die
 !            call ozcot_kill_crop
@@ -258,7 +261,7 @@
 
 ! *************************************************************************
 
-      elseif (methodID.eq.end_runID) then
+      elseif (methodID.eq.id%end_run) then
          call ozcot_end_run ()
 
 
@@ -286,7 +289,7 @@
       end
 
 * ====================================================================
-       subroutine drespondToGet (fromID,Variable_info)
+       subroutine respondToGet (fromID,Variable_info)
 * ====================================================================
       use OzcotModule
       use ComponentInterfaceModule
@@ -318,161 +321,161 @@
       call push_routine(myname)
       ! **** Repeat for each variable
 
-      if (Variable_info%id  .eq. dasId) then
+      if (Variable_info%id  .eq. id%das) then
          call return_das (Variable_info , g%das)
 
-      else if (Variable_info%id  .eq. sumddId) then
+      else if (Variable_info%id  .eq. id%sumdd) then
          call return_sumdd (Variable_info , g%sumdd)
 
-      else if (Variable_info%id  .eq. sitesId) then
+      else if (Variable_info%id  .eq. id%sites) then
          call return_sites (Variable_info, g%sites)
 
-      else if (Variable_info%id  .eq. squarzId) then
+      else if (Variable_info%id  .eq. id%squarz) then
          call return_squarz (Variable_info, g%squarz)
 
-      else if (Variable_info%id  .eq. bollzId) then
+      else if (Variable_info%id  .eq. id%bollz) then
          call return_bollz (Variable_info, g%bollz)
 
-      else if (Variable_info%id  .eq. openzId) then
+      else if (Variable_info%id  .eq. id%openz) then
          call return_openz (Variable_info, g%openz)
 
-      else if (Variable_info%id  .eq. alintId) then
+      else if (Variable_info%id  .eq. id%alint) then
          call return_alint (Variable_info, g%alint)
 
-      else if (Variable_info%id  .eq. openwtId) then
+      else if (Variable_info%id  .eq. id%openwt) then
          call return_openwt (Variable_info, g%openwt*10.0)
 
-      else if (Variable_info%id  .eq. frudwId) then
+      else if (Variable_info%id  .eq. id%frudw) then
          call return_frudw (Variable_info, g%frudw*10.0)
 
-      else if (Variable_info%id  .eq. frudw_totId) then
+      else if (Variable_info%id  .eq. id%frudw_tot) then
          dm = (g%frudw + g%openwt) * 10.0
          call return_frudw_tot (Variable_info, dm)
 
-      else if (Variable_info%id  .eq. frudw_shedId) then
+      else if (Variable_info%id  .eq. id%frudw_shed) then
          dm = g%frudw_shed * 10.0
          call return_frudw_shed (Variable_info, dm)
 
-      else if (Variable_info%id  .eq. frunId) then
+      else if (Variable_info%id  .eq. id%frun) then
          call return_frun (Variable_info, g%frun*10.0)
 
-      else if (Variable_info%id  .eq. bloadId) then
+      else if (Variable_info%id  .eq. id%bload) then
          call return_bload (Variable_info, g%bload)
 
-      else if (Variable_info%id  .eq. frunId) then
+      else if (Variable_info%id  .eq. id%frun) then
          call return_frun (Variable_info, g%frun)
 
-      else if (Variable_info%id  .eq. carcap_cId) then
+      else if (Variable_info%id  .eq. id%carcap_c) then
          call return_carcap_c (Variable_info, g%carcap_c)
 
-      else if (Variable_info%id  .eq. carcap_nId) then
+      else if (Variable_info%id  .eq. id%carcap_n) then
          call return_carcap_n (Variable_info, g%carcap_n)
 
-      else if (Variable_info%id  .eq. vnstrsId) then
+      else if (Variable_info%id  .eq. id%vnstrs) then
          call return_vnstrs (Variable_info, g%vnstrs)
 
-      else if (Variable_info%id  .eq. fnstrsId) then
+      else if (Variable_info%id  .eq. id%fnstrs) then
          call return_fnstrs (Variable_info, g%fnstrs)
 
-      else if (Variable_info%id  .eq. dmId) then
+      else if (Variable_info%id  .eq. id%dm) then
          dm = g%dw_total * 10.
          call return_dm (Variable_info, dm)
 
-      else if (Variable_info%id  .eq. dw_bollId) then
+      else if (Variable_info%id  .eq. id%dw_boll) then
          dm = g%dw_boll * 10.
          call return_dw_boll (Variable_info, dm)
 
-      else if (Variable_info%id  .eq. dw_rootId) then
+      else if (Variable_info%id  .eq. id%dw_root) then
          dm = g%dw_root * 10.
          call return_dw_root (Variable_info, dm)
 
-      else if (Variable_info%id  .eq. dw_leafId) then
+      else if (Variable_info%id  .eq. id%dw_leaf) then
          dm = g%dw_leaf * 10.
          call return_dw_leaf (Variable_info, dm)
 
-      else if (Variable_info%id  .eq. dw_stemId) then
+      else if (Variable_info%id  .eq. id%dw_stem) then
          dm = g%dw_stem * 10.
          call return_dw_stem (Variable_info, dm)
 
-      else if (Variable_info%id  .eq. totnupId) then
+      else if (Variable_info%id  .eq. id%totnup) then
          totnup = g%total_n * 10.
          call return_totnup (Variable_info, totnup)
 
-      else if (Variable_info%id  .eq. yieldId) then
+      else if (Variable_info%id  .eq. id%yield) then
          yield = g%alint / 227.
          call return_yield (Variable_info, yield)
 
-      else if (Variable_info%id  .eq. laiId) then
+      else if (Variable_info%id  .eq. id%lai) then
          call return_lai (Variable_info, g%alai)
 
-      elseif (Variable_info%id  .eq. cover_greenId) then
+      elseif (Variable_info%id  .eq. id%cover_green) then
          cover = l_bound (1.0 - g%tr, 0.0)
 
          call return_cover_green (Variable_info, cover)
 
-      elseif (Variable_info%id  .eq. cover_totId) then
+      elseif (Variable_info%id  .eq. id%cover_tot) then
          cover = g%f_intz
 
          call return_cover_tot (Variable_info, cover)
 
-      elseif (Variable_info%id  .eq. heightId) then
+      elseif (Variable_info%id  .eq. id%height) then
 !nh this is a simple fix only due to the limited future
 !nh for this module!!!!!
          call return_height (Variable_info, 900.0)
 
-      else if (Variable_info%id  .eq. availnId) then
+      else if (Variable_info%id  .eq. id%availn) then
          call return_availn (Variable_info, g%availn)
 
-      else if (Variable_info%id  .eq. uptaknId) then
+      else if (Variable_info%id  .eq. id%uptakn) then
          call return_uptakn (Variable_info, g%uptakn)
 
-      else if (Variable_info%id  .eq. tsno3Id) then
+      else if (Variable_info%id  .eq. id%tsno3) then
          call return_tsno3 (Variable_info, g%tsno3)
 
-      else if (Variable_info%id  .eq. ysno3Id) then
+      else if (Variable_info%id  .eq. id%ysno3) then
          call return_ysno3 (Variable_info, g%yest_tsno3)
 
-      else if (Variable_info%id  .eq. tsnh4Id) then
+      else if (Variable_info%id  .eq. id%tsnh4) then
          call return_tsnh4 (Variable_info, g%tsnh4)
 
-      else if (Variable_info%id  .eq. ysnh4Id) then
+      else if (Variable_info%id  .eq. id%ysnh4) then
          call return_ysnh4 (Variable_info, g%yest_tsnh4)
 
-      else if (Variable_info%id  .eq. d_nupId) then
+      else if (Variable_info%id  .eq. id%d_nup) then
          d_nup = g%dn_plant * 10.
          call return_d_nup (Variable_info, d_nup)
 
-      else if (Variable_info%id  .eq. rtdepId) then
+      else if (Variable_info%id  .eq. id%rtdep) then
          call return_rtdep (Variable_info, g%rtdep)
 
-      else if (Variable_info%id  .eq. s_bed_miId) then
+      else if (Variable_info%id  .eq. id%s_bed_mi) then
          call return_s_bed_mi (Variable_info, g%s_bed_mi)
 
-      else if (Variable_info%id  .eq. smiId) then
+      else if (Variable_info%id  .eq. id%smi) then
          call return_smi (Variable_info, g%smi)
 
-      else if (Variable_info%id  .eq. wliId) then
+      else if (Variable_info%id  .eq. id%wli) then
          call return_wli (Variable_info, g%wli)
 
-      else if (Variable_info%id  .eq. evap_plantId) then
+      else if (Variable_info%id  .eq. id%evap_plant) then
          call return_evap_plant (Variable_info, g%ep)
 
-      else if (Variable_info%id  .eq. evap_soilId) then
+      else if (Variable_info%id  .eq. id%evap_soil) then
          call return_evap_soil (Variable_info, g%es)
 
-      else if (Variable_info%id  .eq. evap_potId) then
+      else if (Variable_info%id  .eq. id%evap_pot) then
          call return_evap_pot (Variable_info, g%eo)
 
-      else if (Variable_info%id  .eq. evap_totId) then
+      else if (Variable_info%id  .eq. id%evap_tot) then
          call return_evap_tot (Variable_info, g%et)
 
-      else if (Variable_info%id  .eq. ozcot_crop_inId) then
+      else if (Variable_info%id  .eq. id%ozcot_crop_in) then
          call return_ozcot_crop_in (Variable_info, g%crop_in)
 
-      else if (Variable_info%id  .eq. ozcot_statusId) then
+      else if (Variable_info%id  .eq. id%ozcot_status) then
          call return_ozcot_status (Variable_info, g%iend)
 
-      else if (Variable_info%id  .eq. bolls_scId) then
+      else if (Variable_info%id  .eq. id%bolls_sc) then
          if (g%openz.gt.0.0) then
             bollsc = g%openwt/g%openz
          else
@@ -480,13 +483,13 @@
          endif
          call return_bolls_sc (Variable_info, bollsc)
 
-      else if (Variable_info%id  .eq. nuptakeId) then
+      else if (Variable_info%id  .eq. id%nuptake) then
          call return_nuptake (Variable_info, g%total_n*10.0)
 
-      else if (Variable_info%id  .eq. squarz_maxId) then
+      else if (Variable_info%id  .eq. id%squarz_max) then
          call return_squarz_max (Variable_info, g%sqzx)
 
-      else if (Variable_info%id  .eq. lai_maxId) then
+      else if (Variable_info%id  .eq. id%lai_max) then
          call return_lai_max (Variable_info, g%alaiz)
 
       else
@@ -500,7 +503,7 @@
 
 
 * ====================================================================
-      logical function drespondToSet (fromID,VariableID, variant)
+      logical function  respondToSet (fromID,VariableID, variant)
 * ====================================================================
       use OzcotModule
       use ComponentInterfaceModule
@@ -520,17 +523,17 @@
 
 
 *+  Calls
- 
+
 *+  Constant Values
       character  my_name*(*)
       parameter (my_name='ozcot_set_my_variable')
- 
+
 *+  Local Variables
 
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
           call error ('There are no OZCOT variables available to set'
      :        ,.true.)
 
@@ -4180,7 +4183,7 @@ C      can be day of year (+ve) or days after sowing (-ve), assigned to local
 C      variable JNAPLC(J) on first day of season or day of sowing.
 
       use OzcotModule
-      use ComponentInterfaceModule      
+      use ComponentInterfaceModule
       implicit none
 
 !jh      INTEGER JNAPLC(2)                         ! local variable, day of applcn
@@ -4336,7 +4339,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !     assuming water logging is limited to plant row.
 
       use OzcotModule
-      use ComponentInterfaceModule      
+      use ComponentInterfaceModule
       implicit none
 
 
@@ -5462,7 +5465,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 *+  Local Variables
       integer    numvals               ! number of values returned
       logical    found
-      
+
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
@@ -5470,15 +5473,15 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       call write_string (new_line//'    - Reading constants')
 
 
- 
- 
+
+
       found = read_parameter (
      :           section_name         ! Section header
      :         , 'mcn'                ! Keyword
      :         , c%mcn                ! Variable
      :         , 1.0                  ! Lower Limit for bound checking
      :         , 50.0)                ! Upper Limit for bound checking
- 
+
 
 
 
@@ -6053,7 +6056,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       character  string*200            ! output string
       integer    numvals               ! number of values read
       logical    found
-      
+
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
@@ -6657,5 +6660,5 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       call pop_routine (myname)
       return
       end
-      
+
       
