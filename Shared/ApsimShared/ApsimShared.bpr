@@ -16,8 +16,8 @@
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TAboutForm.dfm TSplashForm.dfm TMoveParametersForm.dfm"/>
     <LIBFILES value="..\general\general.lib"/>
-    <LIBRARIES value="xmlrtl.lib Tee.lib TMSC6.lib"/>
-    <SPARELIBS value="vcl.lib rtl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib Tee.lib xmlrtl.lib"/>
+    <LIBRARIES value="xmlrtl.lib TMSC6.lib"/>
+    <SPARELIBS value="vcl.lib rtl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib xmlrtl.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
       vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi ibxpress.bpi visualclx.bpi 
       visualdbclx.bpi vclie.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi 
