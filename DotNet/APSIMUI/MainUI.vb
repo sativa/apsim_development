@@ -112,6 +112,9 @@ Public Class MainUI
     Friend WithEvents Splitter1 As System.Windows.Forms.Splitter
     Friend WithEvents SimulationExplorer As DataTree
     Friend WithEvents UIPanel As System.Windows.Forms.Panel
+    Friend WithEvents EmailButton As System.Windows.Forms.ToolBarButton
+    Friend WithEvents NewsButton As System.Windows.Forms.ToolBarButton
+    Friend WithEvents SeparatorButton As System.Windows.Forms.ToolBarButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MainUI))
@@ -141,16 +144,18 @@ Public Class MainUI
         Me.FileNewButton = New System.Windows.Forms.ToolBarButton
         Me.FileOpenButton = New System.Windows.Forms.ToolBarButton
         Me.FileSaveButton = New System.Windows.Forms.ToolBarButton
+        Me.EmailButton = New System.Windows.Forms.ToolBarButton
         Me.Separator1 = New System.Windows.Forms.ToolBarButton
         Me.CutButton = New System.Windows.Forms.ToolBarButton
         Me.copyButton = New System.Windows.Forms.ToolBarButton
         Me.PasteButton = New System.Windows.Forms.ToolBarButton
         Me.Separator2 = New System.Windows.Forms.ToolBarButton
-        Me.RunButton = New System.Windows.Forms.ToolBarButton
-        Me.ExportButton = New System.Windows.Forms.ToolBarButton
-        Me.UIHelpButton = New System.Windows.Forms.ToolBarButton
         Me.ToolBoxButton = New System.Windows.Forms.ToolBarButton
         Me.toolBoxContextMenu = New System.Windows.Forms.ContextMenu
+        Me.RunButton = New System.Windows.Forms.ToolBarButton
+        Me.ExportButton = New System.Windows.Forms.ToolBarButton
+        Me.NewsButton = New System.Windows.Forms.ToolBarButton
+        Me.UIHelpButton = New System.Windows.Forms.ToolBarButton
         Me.ButtonImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
@@ -171,6 +176,7 @@ Public Class MainUI
         Me.SimulationExplorer = New DataTreeControl.DataTree
         Me.Splitter1 = New System.Windows.Forms.Splitter
         Me.UIPanel = New System.Windows.Forms.Panel
+        Me.SeparatorButton = New System.Windows.Forms.ToolBarButton
         Me.HelpBrowserPanel.SuspendLayout()
         CType(Me.HelpBrowser, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -306,7 +312,7 @@ Public Class MainUI
         'ToolBar1
         '
         Me.ToolBar1.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
-        Me.ToolBar1.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.FileNewButton, Me.FileOpenButton, Me.FileSaveButton, Me.Separator1, Me.CutButton, Me.copyButton, Me.PasteButton, Me.Separator2, Me.RunButton, Me.ExportButton, Me.UIHelpButton, Me.ToolBoxButton})
+        Me.ToolBar1.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.FileNewButton, Me.FileOpenButton, Me.FileSaveButton, Me.EmailButton, Me.Separator1, Me.CutButton, Me.copyButton, Me.PasteButton, Me.Separator2, Me.ToolBoxButton, Me.RunButton, Me.ExportButton, Me.SeparatorButton, Me.NewsButton, Me.UIHelpButton})
         Me.ToolBar1.DropDownArrows = True
         Me.ToolBar1.ImageList = Me.ButtonImageList
         Me.ToolBar1.Location = New System.Drawing.Point(0, 0)
@@ -334,6 +340,12 @@ Public Class MainUI
         Me.FileSaveButton.Text = "Save"
         Me.FileSaveButton.ToolTipText = "Save current simulation"
         '
+        'EmailButton
+        '
+        Me.EmailButton.ImageIndex = 12
+        Me.EmailButton.Text = "Email"
+        Me.EmailButton.ToolTipText = "Email your simulation to a friend"
+        '
         'Separator1
         '
         Me.Separator1.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
@@ -357,6 +369,14 @@ Public Class MainUI
         '
         Me.Separator2.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
         '
+        'ToolBoxButton
+        '
+        Me.ToolBoxButton.DropDownMenu = Me.toolBoxContextMenu
+        Me.ToolBoxButton.ImageIndex = 9
+        Me.ToolBoxButton.Style = System.Windows.Forms.ToolBarButtonStyle.DropDownButton
+        Me.ToolBoxButton.Text = "ToolBoxes"
+        Me.ToolBoxButton.ToolTipText = "Load a modelling toolbox for use"
+        '
         'RunButton
         '
         Me.RunButton.ImageIndex = 8
@@ -367,18 +387,16 @@ Public Class MainUI
         Me.ExportButton.ImageIndex = 7
         Me.ExportButton.Text = "Export"
         '
+        'NewsButton
+        '
+        Me.NewsButton.ImageIndex = 13
+        Me.NewsButton.Text = "News"
+        Me.NewsButton.ToolTipText = "Get the latest information from APSIM.info"
+        '
         'UIHelpButton
         '
         Me.UIHelpButton.ImageIndex = 6
         Me.UIHelpButton.Text = "Help"
-        '
-        'ToolBoxButton
-        '
-        Me.ToolBoxButton.DropDownMenu = Me.toolBoxContextMenu
-        Me.ToolBoxButton.ImageIndex = 9
-        Me.ToolBoxButton.Style = System.Windows.Forms.ToolBarButtonStyle.DropDownButton
-        Me.ToolBoxButton.Text = "ToolBoxes"
-        Me.ToolBoxButton.ToolTipText = "Load a modelling toolbox for use"
         '
         'ButtonImageList
         '
@@ -511,6 +529,10 @@ Public Class MainUI
         Me.UIPanel.Size = New System.Drawing.Size(715, 226)
         Me.UIPanel.TabIndex = 15
         '
+        'SeparatorButton
+        '
+        Me.SeparatorButton.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
+        '
         'MainUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -592,6 +614,8 @@ Public Class MainUI
             APSIMFile.Save()
         ElseIf e.Button Is UIHelpButton Then
             UpdateHelpBrowser()
+        ElseIf e.Button Is NewsButton Then
+            GetLatestNews()
         End If
     End Sub
 
@@ -694,16 +718,23 @@ Public Class MainUI
     Private Sub ViewMenuHelp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ViewMenuHelp.Click
         ViewMenuHelp.Checked = Not ViewMenuHelp.Checked
         If ViewMenuHelp.Checked = True Then
-            HelpBrowser.Visible = True
-            HelpBrowsertoolBar.Visible = True
-            HelpBrowserPanel.Height = Me.Height / 3
-            HorizontalSplitter.Enabled = True
+            ShowHelpBrowser()
         Else
-            HelpBrowser.Visible = False
-            HelpBrowsertoolBar.Visible = False
-            HelpBrowserPanel.Height = 1
-            HorizontalSplitter.Enabled = False
+            CloseHelpBrowser()
         End If
+    End Sub
+
+    Private Sub ShowHelpBrowser()
+        HelpBrowser.Visible = True
+        HelpBrowsertoolBar.Visible = True
+        HelpBrowserPanel.Height = Me.Height / 3
+        HorizontalSplitter.Enabled = True
+    End Sub
+    Private Sub CloseHelpBrowser()
+        HelpBrowser.Visible = False
+        HelpBrowsertoolBar.Visible = False
+        HelpBrowserPanel.Height = 1
+        HorizontalSplitter.Enabled = False
     End Sub
 
     Private Sub PopulateToolBoxContextMenu()
@@ -738,6 +769,9 @@ Public Class MainUI
         'Dim type As String = MainUImanager.APSIMFile.GetDataType(SimulationExplorer.SelectedNode.FullPath)
         'MsgBox(type)
 
+    End Sub
+    Private Sub GetLatestNews()
+        HelpBrowser.Navigate("www.apsim.info")
     End Sub
 
     'Private Sub FindTreeNode(ByVal path As String)

@@ -48,8 +48,6 @@ Public Class UIManager
                     _UI = New SimulationUI
                 Case "metfile"
                     _UI = New MetUI
-                Case "rule"
-                    _UI = New RuleUI
                 Case "tracker"
                     _UI = New TrackerUI
                 Case "soil"
@@ -60,6 +58,10 @@ Public Class UIManager
                     _UI = New explorerui
                 Case "summaryfile"
                     _UI = New SummaryFileUI
+                Case "logic"
+                    _UI = New LogicUI
+                Case "crop"
+                    _UI = New CropUI
                 Case Else
                     _UI = New ParameterUI
             End Select

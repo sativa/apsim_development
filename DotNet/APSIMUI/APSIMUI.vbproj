@@ -134,6 +134,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "CropUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CropUI.resx"
+                    DependentUpon = "CropUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "DocumentationUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -161,6 +171,16 @@
                 <File
                     RelPath = "ExplorerUI.resx"
                     DependentUpon = "ExplorerUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "LogicUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "LogicUI.resx"
+                    DependentUpon = "LogicUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -211,16 +231,6 @@
                 <File
                     RelPath = "ParameterUI.resx"
                     DependentUpon = "ParameterUI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "RuleUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RuleUI.resx"
-                    DependentUpon = "RuleUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
