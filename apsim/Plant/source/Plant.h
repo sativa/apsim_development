@@ -1413,6 +1413,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       string   module_name;                             // module name
       string   crop_class;                                // crop type
       status_t plant_status;                              // status of crop
+      bool  plant_status_out_today;
       string   cultivar;                                // name of cultivar
       string   pre_dormancy_crop_class;
       float swdef_expansion;
