@@ -3,7 +3,7 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.05.03"/>
-    <PROJECT value="OutlookManager.exe"/>
+    <PROJECT value="..\..\OutlookManager.exe"/>
     <OBJFILES value="OutlookManager.obj TMain_form.obj TFilespec_form.obj TBatch_import_form.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
@@ -75,6 +75,11 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
+[Excluded Packages]
+$(BCB)\Projects\Bpl\APSUI.bpl=APSuite user interface components
+$(BCB)\Projects\Bpl\DB.bpl=c:\program files\borland\cbuilder5\Projects\Bpl\DB
+$(BCB)\Projects\Bpl\TAChartPackage.bpl=TAChart
+
 [HistoryLists\hlIncludePath]
 Count=20
 Item0=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\
@@ -130,6 +135,10 @@ Item0=$(BCB)\source\vcl
 [HistoryLists\hlConditionals]
 Count=1
 Item0=_RTLDLL;USEPACKAGES
+
+[HistoryLists\hlFinalOutputDir]
+Count=1
+Item0=..\..\
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
