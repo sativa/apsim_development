@@ -19,7 +19,7 @@ void TChartForm::setComponent(TComponent* component)
    {
    TPropertyForm::setComponent(component);
    graph = dynamic_cast<TGraph*>(component);
-   SeriesNumberEdit->Text = graph->seriesNumber;
+   SeriesNumberEdit->Text = graph->seriesNumbers;
    }
 //---------------------------------------------------------------------------
 void __fastcall TChartForm::ChartPropertiesButtonClick(TObject *Sender)
@@ -29,7 +29,7 @@ void __fastcall TChartForm::ChartPropertiesButtonClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TChartForm::SeriesNumberEditChange(TObject *Sender)
    {
-   graph->seriesNumber = StrToIntDef(SeriesNumberEdit->Text, 0);
+   graph->seriesNumbers = SeriesNumberEdit->Text;
    }
 //---------------------------------------------------------------------------
 
