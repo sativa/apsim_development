@@ -2134,7 +2134,7 @@ C     condition. This is because of the wrap-around between years.
      :     sum_real_array(g%dlt_dm_plant, max_part)
 
       g%acc_growth = g%acc_growth +
-     :     sum_real_array(g%dlt_dm_plant, max_layer)
+     :     sum_real_array(g%dlt_dm_plant, max_part)
 
 cplp
 c      write (*,*) 'g%acc_et_summer: ', g%acc_et_summer
@@ -3876,7 +3876,7 @@ cpdev. One of these is right. I don't know which...
       elseif (variable_name .eq. 'n_uptake') then
          call respond2get_real_var (
      :        'n_uptake',
-     :        '(mm)', g%N_uptake)
+     :        '(kg/ha)', g%N_uptake)
 
       elseif (variable_name .eq. 'n_index') then
          call respond2get_real_var (
