@@ -170,6 +170,7 @@
 
 !     ================================================================
       type MilletConstants
+      Sequence
          real       a_const             ! leaf area breadth intercept
          real       a_slope1            ! leaf area breadth slope1
          real       a_slope2            ! leaf area breadth slope2
@@ -406,6 +407,7 @@
 
 
       type MilletGlobals
+      Sequence
          real       canopy_height               ! canopy height (mm)
          real       cnd_grain_conc (max_stage)  ! cumulative nitrogen stress type 2
          real       cnd_photo (max_stage)       ! cumulative nitrogen stress type 1
@@ -588,7 +590,7 @@
 
 
       type MilletParameters
-         sequence
+      Sequence
          integer    est_days_emerg_to_init ! estimated days from emergence to floral initiation
          real       grain_gth_rate      ! potential grain growth rate (G3) (mg/grain/day)
          real       head_grain_no_max   ! maximum kernel number (was G2) (grains/plant)
@@ -622,27 +624,11 @@
 
 
       ! instance variables.
-      type (MilletGlobals), pointer :: g
-      type (MilletParameters), pointer :: p
-      type (MilletConstants), pointer :: c
-      save g
-      save p
-      save c
-
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-
-      type MilletDataPtr
-         type (MilletGlobals), pointer ::    gptr
-         type (MilletParameters), pointer :: pptr
-         type (MilletConstants), pointer ::  cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type MilletDataPtr
-
-      type (MilletDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
-      save Instances
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (MilletGlobals),pointer :: g
+      type (MilletParameters),pointer :: p
+      type (MilletConstants),pointer :: c
 
       contains
 
@@ -744,265 +730,6 @@
 !     may not be dll exported, millet(), millet_alloc() and millet_free().
 
 
-!     ===========================================================
-      Recursive
-     :subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-*+  Mission Statement
-*     Instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-!     ===========================================================
-      Recursive
-     :subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-*+  Mission Statement
-*     De-instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-      deallocate (Instances(anInstanceNo)%cptr)
-
-      return
-      end subroutine
-!     ===========================================================
-      Recursive
-     :subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-*+  Mission Statement
-*     Swap an instance into global pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-      c => Instances(anInstanceNo)%cptr
-
-      return
-      end subroutine
-
-*     ================================================================
-      Recursive
-     :subroutine Main (action, data_string)
-*     ================================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      character  action*(*)            ! (INPUT) Message action to perform
-      character  data_string*(*)       ! (INPUT) Message data
-
-*+  Purpose
-*      This module simulates phenology, root, leaf, stem, panicle, and grain growth,
-*      water and nitrogen uptake, photosynthesis, and leaf and root senescence.
-
-*+  Mission Statement
-*     Handles communications for Maize
-
-*+  Changes
-*      250894 jngh specified and programmed
-*      220696 jngh added message_unused to else
-*      190599 jngh removed reference to version and mes_presence
-
-
-*+  Constant Values
-      character  my_name*(*)           ! name of this procedure
-      parameter (my_name='Millet_main')
-
-*+  Local Variables
-      character  module_name*8         ! module name
-
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
-      call get_current_module (module_name)
-
-
-!        call write_string('millet('// module_name // ' '
-!       :         // g%last_mdl_name //' ' //g%stem_class//action)
-!        g%last_mdl_name = module_name
-
-      if (action.eq.ACTION_get_variable) then
-            ! respond to request for variable values - from modules
-         call millet_send_my_variable (Data_string)
-
-      elseif (action.eq.ACTION_set_variable) then
-            ! respond to request to reset variable values - from modules
-         call millet_set_my_variable (data_string)
-
-      else if (Action .eq. Event_tick) then
-         call millet_Ontick()
-
-      else if (Action .eq. Event_newmet) then
-         call millet_Onnewmet()
-
-      elseif (action.eq.ACTION_prepare) then
-         if (g%plant_status.ne.status_out) then
-            call millet_zero_daily_variables ()
-!               ! request and receive variables from owner-modules
-            call millet_get_other_variables ()
-!               ! do crop prepare processes
-            call millet_prepare ()
-         else
-!            ! crop not in
-            call millet_zero_variables ()
-!               ! set class
-            call millet_set_my_class (module_name)
-         endif
-
-      elseif (action.eq.ACTION_process) then
-         if (g%plant_status.ne.status_out) then
-!            call millet_zero_daily_variables ()
-               ! request and receive variables from owner-modules
-           call millet_get_other_variables ()
-               ! do crop processes
-            call millet_process ()
-               ! send changes to owner-modules
-            call millet_set_other_variables ()
-         else
-            ! crop not in
-         endif
-
-      elseif (action.eq.ACTION_init) then
-            ! zero pools
-         call millet_zero_variables ()
-            ! Get constants
-         call millet_init ()
-            ! set class
-         call millet_set_my_class (module_name)
-            ! request and receive variables from owner-modules
-         call millet_get_other_parameters ()
-         call millet_get_other_variables ()
-
-      elseif (action.eq.ACTION_sow) then
-
-         if (millet_my_type ()) then
-
-            if (g%stem_class .eq. class_tiller) then
-               call fatal_error (err_user,
-     :                      'Cannot sow initiated tiller!')
-            else
-
-              ! request and receive variables from owner-modules
-               call millet_get_other_variables ()
-               ! start crop and do  more initialisations
-               call millet_start_crop ()
-            endif
-         else
-            ! not my type!
-            call message_unused ()
-         endif
-
-      elseif (action.eq.ACTION_initiate_crop) then
-
-         if (millet_my_type ()) then
-
-            if (g%stem_class .eq. class_main) then
-               call fatal_error (err_user,
-     :                      'Cannot initiate main tiller!')
-            else
-               ! request and receive variables from owner-modules
-               call millet_get_other_variables ()
-               ! start crop and do  more initialisations
-               call millet_initiate ()
-            endif
-
-         else
-            ! not my type!
-            call message_unused ()
-         endif
-
-      elseif (action.eq.ACTION_harvest) then
-         if (millet_my_type ()) then
-               ! harvest crop - turn into residue
-              call millet_harvest ()
-         else
-            ! not my type!
-            call message_unused ()
-         endif
-
-      elseif (action.eq.ACTION_end_crop) then
-         if (millet_my_type ()) then
-               ! end crop - turn into residue
-            call millet_end_crop ()
-         else
-            ! not my type!
-            call message_unused ()
-         endif
-
-      elseif (action.eq.ACTION_kill_crop) then
-         if (millet_my_type ()) then
-               ! kill crop - die
-            call millet_kill_crop (
-     :          g%plant_status,
-     :          g%dm_green,
-     :          g%dm_senesced,
-     :          g%dm_dead)
-         else
-            ! not my type!
-            call message_unused ()
-         endif
-
-      elseif (Action.eq.ACTION_Create) then
-         call Millet_zero_all_globals ()
-
-cjh special for erik - start
-      elseif (action.eq.'stop_growth') then
-         if (millet_my_type ()) then
-               ! stop crop growth and development
-            call millet_stop_growth (.true.)
-         else
-            ! not my type!
-            call message_unused ()
-         endif
-cjh special for erik - end
-
-      else
-               ! don't use message
-         call message_unused ()
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
 * ====================================================================
       Recursive
      :subroutine Millet_prepare ()
@@ -5388,3 +5115,219 @@ cpsc
       end subroutine
 
       end module MilletModule
+
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use MilletModule
+      implicit none
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+         allocate(c)
+      else
+         deallocate(g)
+         deallocate(p)
+         deallocate(c)
+      end if
+      return
+      end subroutine
+
+
+
+*     ================================================================
+      Recursive
+     :subroutine Main (action, data_string)
+*     ================================================================
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+      character  action*(*)            ! (INPUT) Message action to perform
+      character  data_string*(*)       ! (INPUT) Message data
+
+*+  Purpose
+*      This module simulates phenology, root, leaf, stem, panicle, and grain growth,
+*      water and nitrogen uptake, photosynthesis, and leaf and root senescence.
+
+*+  Mission Statement
+*     Handles communications for Maize
+
+*+  Changes
+*      250894 jngh specified and programmed
+*      220696 jngh added message_unused to else
+*      190599 jngh removed reference to version and mes_presence
+
+
+*+  Constant Values
+      character  my_name*(*)           ! name of this procedure
+      parameter (my_name='Millet_main')
+
+*+  Local Variables
+      character  module_name*8         ! module name
+
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+      call get_current_module (module_name)
+
+
+!        call write_string('millet('// module_name // ' '
+!       :         // g%last_mdl_name //' ' //g%stem_class//action)
+!        g%last_mdl_name = module_name
+
+      if (action.eq.ACTION_get_variable) then
+            ! respond to request for variable values - from modules
+         call millet_send_my_variable (Data_string)
+
+      elseif (action.eq.ACTION_set_variable) then
+            ! respond to request to reset variable values - from modules
+         call millet_set_my_variable (data_string)
+
+      else if (Action .eq. Event_tick) then
+         call millet_Ontick()
+
+      else if (Action .eq. Event_newmet) then
+         call millet_Onnewmet()
+
+      elseif (action.eq.ACTION_prepare) then
+         if (g%plant_status.ne.status_out) then
+            call millet_zero_daily_variables ()
+!               ! request and receive variables from owner-modules
+            call millet_get_other_variables ()
+!               ! do crop prepare processes
+            call millet_prepare ()
+         else
+!            ! crop not in
+            call millet_zero_variables ()
+!               ! set class
+            call millet_set_my_class (module_name)
+         endif
+
+      elseif (action.eq.ACTION_process) then
+         if (g%plant_status.ne.status_out) then
+!            call millet_zero_daily_variables ()
+               ! request and receive variables from owner-modules
+           call millet_get_other_variables ()
+               ! do crop processes
+            call millet_process ()
+               ! send changes to owner-modules
+            call millet_set_other_variables ()
+         else
+            ! crop not in
+         endif
+
+      elseif (action.eq.ACTION_init) then
+            ! zero pools
+         call millet_zero_variables ()
+            ! Get constants
+         call millet_init ()
+            ! set class
+         call millet_set_my_class (module_name)
+            ! request and receive variables from owner-modules
+         call millet_get_other_parameters ()
+         call millet_get_other_variables ()
+
+      elseif (action.eq.ACTION_sow) then
+
+         if (millet_my_type ()) then
+
+            if (g%stem_class .eq. class_tiller) then
+               call fatal_error (err_user,
+     :                      'Cannot sow initiated tiller!')
+            else
+
+              ! request and receive variables from owner-modules
+               call millet_get_other_variables ()
+               ! start crop and do  more initialisations
+               call millet_start_crop ()
+            endif
+         else
+            ! not my type!
+            call message_unused ()
+         endif
+
+      elseif (action.eq.ACTION_initiate_crop) then
+
+         if (millet_my_type ()) then
+
+            if (g%stem_class .eq. class_main) then
+               call fatal_error (err_user,
+     :                      'Cannot initiate main tiller!')
+            else
+               ! request and receive variables from owner-modules
+               call millet_get_other_variables ()
+               ! start crop and do  more initialisations
+               call millet_initiate ()
+            endif
+
+         else
+            ! not my type!
+            call message_unused ()
+         endif
+
+      elseif (action.eq.ACTION_harvest) then
+         if (millet_my_type ()) then
+               ! harvest crop - turn into residue
+              call millet_harvest ()
+         else
+            ! not my type!
+            call message_unused ()
+         endif
+
+      elseif (action.eq.ACTION_end_crop) then
+         if (millet_my_type ()) then
+               ! end crop - turn into residue
+            call millet_end_crop ()
+         else
+            ! not my type!
+            call message_unused ()
+         endif
+
+      elseif (action.eq.ACTION_kill_crop) then
+         if (millet_my_type ()) then
+               ! kill crop - die
+            call millet_kill_crop (
+     :          g%plant_status,
+     :          g%dm_green,
+     :          g%dm_senesced,
+     :          g%dm_dead)
+         else
+            ! not my type!
+            call message_unused ()
+         endif
+
+      elseif (Action.eq.ACTION_Create) then
+         call Millet_zero_all_globals ()
+
+cjh special for erik - start
+      elseif (action.eq.'stop_growth') then
+         if (millet_my_type ()) then
+               ! stop crop growth and development
+            call millet_stop_growth (.true.)
+         else
+            ! not my type!
+            call message_unused ()
+         endif
+cjh special for erik - end
+
+      else
+               ! don't use message
+         call message_unused ()
+      endif
+
+      call pop_routine (my_name)
+      return
+      end subroutine
