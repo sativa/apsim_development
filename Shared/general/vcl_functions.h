@@ -271,4 +271,12 @@ void GENERAL_EXPORT loadComponent(AnsiString filename, TComponent*& component);
 // ------------------------------------------------------------------
 void GENERAL_EXPORT saveComponent(AnsiString filename, TComponent* component);
 
+//---------------------------------------------------------------------------
+// Replace all macros of the form $componentName.propertyName$ with the value
+// of the specified property.  Only component owned by the specified owner
+// will be found.
+//---------------------------------------------------------------------------
+AnsiString GENERAL_EXPORT replaceComponentPropertyMacros
+      (TComponent* owner, AnsiString text);
+
 #endif

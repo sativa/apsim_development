@@ -3,7 +3,9 @@
 
 #include <general\vcl_functions.h>
 #include <general\string_functions.h>
+#include <general\stringTokenizer.h>
 #include <general\path.h>
+#include <typinfo.hpp>
 #include <list>
 using namespace std;
 #include <vcl\dbtables.hpp>
@@ -315,7 +317,7 @@ void Doubles_to_olevariant (vector<double>& StlArray, VARIANT& OleVariant)
    // Fill OleArray.
    float* OleArrayPtr;
    SafeArrayAccessData(OleVariant.parray, (void HUGEP* FAR*) &OleArrayPtr);
-   for (long i=0; i < StlArray.size(); i++)
+   for (unsigned i=0; i < StlArray.size(); i++)
       OleArrayPtr[i] = StlArray[i];
 
    SafeArrayUnaccessData (OleVariant.parray);
@@ -363,7 +365,7 @@ void Strings_to_olevariant (vector<string>& StlArray, VARIANT& OleVariant)
    // Fill OleArray.
    BSTR* OleArrayPtr;
    SafeArrayAccessData(OleVariant.parray, (void HUGEP* FAR*) &OleArrayPtr);
-   for (long i=0; i < StlArray.size(); i++)
+   for (unsigned i=0; i < StlArray.size(); i++)
       {
       Variant st = StlArray[i].c_str();
       OleArrayPtr[i] = st.AsType(varOleStr);
@@ -418,4 +420,42 @@ void saveComponent(AnsiString filename, TComponent* component)
 
    }
 
+//---------------------------------------------------------------------------
+// Replace all macros of the form $componentName.propertyName$ with the value
+// of the specified property.  Only component owned by the specified owner
+// will be found.
+//---------------------------------------------------------------------------
+AnsiString replaceComponentPropertyMacros(TComponent* owner, AnsiString text)
+   {
+   string newText = text.c_str();
+   unsigned posStartMacro = newText.find("$");
+   while (posStartMacro != string::npos)
+      {
+      StringTokenizer tokenizer(newText.substr(posStartMacro+1), " .$", true);
+      string componentName = tokenizer.nextToken();
+      string delimiter = tokenizer.nextToken();
+      if (delimiter == ".")
+         {
+         string propertyName = tokenizer.nextToken();
+         string macroChar = tokenizer.nextToken();
+         if (macroChar == "$")
+            {
+            TComponent* component = getComponent<TComponent>(owner, componentName.c_str());
+            if (component != NULL)
+               {
+               try
+                  {
+                  AnsiString value = GetPropValue(component, propertyName.c_str(), true);
+                  int posEndMacro = newText.find("$", posStartMacro+1);
+                  newText.replace(posStartMacro, posEndMacro-posStartMacro+1, value.c_str());
+                  }
+               catch (Exception& error)
+                  { }
+               }
+            }
+         }
+      posStartMacro = newText.find("$", posStartMacro+1);
+      }
+   return newText.c_str();
+   }
 
