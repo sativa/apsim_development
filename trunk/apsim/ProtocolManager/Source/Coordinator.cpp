@@ -92,6 +92,12 @@ void Coordinator::doInit1(const FString& sdml)
       string sdmlString(sdml.f_str(), sdml.length());
       simulationData.readXML(sdmlString);
 
+      // read in title and register a respondToGet
+      static const char* stringDDML = "<type kind=\"string\"\\>";
+
+      title = simulationData.getTitle();
+      titleID = addRegistration(respondToGetReg, "title", stringDDML);
+
       // loop through all services specified in SDML and create
       // and add a componentAlias object to our list of components.
       std::vector<string> serviceNames;
@@ -728,5 +734,13 @@ unsigned Coordinator::componentNameToID(const std::string& name)
          return componentI->first;
       }
    return INT_MAX;
+   }
+// ------------------------------------------------------------------
+// return one of our variables to caller
+// ------------------------------------------------------------------
+void Coordinator::respondToGet(unsigned int& fromID, QueryValueData& queryData)
+   {
+   if (queryData.ID == titleID)
+      sendVariable(queryData, FString(title.c_str()));
    }
 

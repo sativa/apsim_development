@@ -32,6 +32,8 @@ class Coordinator : public protocol::Component
       unsigned int childComponentID;
       std::vector<PMRegistrationItem> registrations;
       bool afterInit2;
+      string title;
+      unsigned titleID;
 
       virtual void doInit1(const FString& sdml);
       virtual void doInit2(void);
@@ -45,6 +47,7 @@ class Coordinator : public protocol::Component
       virtual void onRequestComponentIDMessage(unsigned int fromID, protocol::RequestComponentIDData& data);
       virtual void onQueryInfoMessage(unsigned int fromID, unsigned int messageID, protocol::QueryInfoData& queryInfo);
       virtual void onRequestSetValueMessage(unsigned int fromID, protocol::RequestSetValueData& setValueData);
+      virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
 
       void addComponent(const std::string& name,
                         const std::string& executable,
