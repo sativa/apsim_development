@@ -273,6 +273,12 @@
       <respondToMethodCallReg name="end_crop" type="end_crop"/>
       <respondToMethodCallReg name="kill_crop" type="kill_crop"/>
       <respondToMethodCallReg name="end_run" type="end_run"/>
+      <respondToMethodCallReg name="reduce" type="reduce"/>
+      <respondToMethodCallReg name="spray" type="spray"/>
+      <respondToMethodCallReg name="delay" type="delay"/>
+      <respondToMethodCallReg name="spring" type="spring"/>
+      <respondToMethodCallReg name="dormancy" type="dormancy"/>
+      <respondToMethodCallReg name="kill_stem" type="kill_stem"/>
       <eventReg name="crop_chopped" type="crop_chopped"/>
       <getVariableReg name="sw_dep" type="sw_dep"/>
       <getVariableReg name="no3" type="no3"/>
