@@ -35,6 +35,13 @@ string _export getApsimDirectory(void) throw(runtime_error)
 std::string _export getAppHomeDirectory(void) throw(std::runtime_error)
    {
    string applicationName = Path(Application->ExeName.c_str()).Get_name_without_ext();
-   return getApsimDirectory() + "\\" + applicationName;
+   try
+      {
+      return getApsimDirectory() + "\\" + applicationName;
+      }
+   catch (const exception& error)
+      {
+      return Path(Application->ExeName.c_str()).Get_directory();
+      }
    }
 
