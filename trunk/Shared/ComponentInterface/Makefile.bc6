@@ -7,10 +7,11 @@ BCB = $(MAKEDIR)\..
 !include $(APSROOT)\APSBuild\platform.make
 !include $(APSROOT)\APSBuild\cpp.make
 
-OBJECTS = ApsimFortranWrapper.obj FORTRANComponentWrapper.obj Component.obj \
+OBJECTS = Component.obj \
       message.obj Type.obj TypeConverter.obj variant.obj Variants.obj \
       MessageData.obj ApsimVariant.obj ArraySpecifier.obj Registrations.obj \
       RegistrationItem.obj ProtocolVector.obj datatypes.obj
+WRAPPEROBJECTS = $(OBJECTS) ApsimFortranWrapper.obj FORTRANComponentWrapper.obj
 
 PACKAGES = vcl.bpi rtl.bpi
 USERDEFINES =
@@ -20,9 +21,9 @@ LIBPATH = $(SYSLIBPATH)
 LIBRARIES = rtl.lib
 LIBFILES = $(APSROOT)\Shared\ApsimShared\ApsimShared.lib
 
-source: ../../Bin/ApsimFortranWrapper.dll SimpleWrapper.obj
+source: ../../Bin/ApsimFortranWrapper.dll ComponentInterface.lib SimpleWrapper.obj
 
-ALLOBJ = c0d32.obj $(PACKAGES) $(OBJECTS)
+ALLOBJ = c0d32.obj $(PACKAGES) $(WRAPPEROBJECTS)
 ALLRES = $(RESFILES)
 ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib
 # ---------------------------------------------------------------------------
@@ -32,15 +33,15 @@ CFLAG1 = -WD -Od -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -
 WARNINGS = -w-par
 LFLAGS = -aa -Tpd -x -Gn -Gi -v
 
-CC=$(BCB)/Bin/bcc32.exe
-RANLIB=$(BCB)/Bin/TLib.exe
+CC=$(BCB)\Bin\bcc32.exe
+RANLIB=$(BCB)\Bin\TLib.exe
 LINKER=$(BCB)\Bin\ilink32.exe
 IMPDEF=$(BCB)\Bin\impdef.exe
 
 .cpp.obj:
     $(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
 
-../../Bin/ApsimFortranWrapper.dll: $(OBJECTS)
+../../Bin/ApsimFortranWrapper.dll: $(WRAPPEROBJECTS)
 	$(LINKER) @&&!
 $(LFLAGS) -L$(LIBPATH) +
 $(ALLOBJ), +
@@ -51,6 +52,12 @@ $(ALLRES)
 !
 	$(IMPDEF) ApsimFortranWrapper.def ..\..\Bin\ApsimFortranWrapper.dll
 	$(APSROOT)\Tools\def2imp\def2imp.exe ApsimFortranWrapper.def ApsimFortranWrapper.imp
+
+ComponentInterface.lib: $(OBJECTS)
+	$(RANLIB) /u $@ @&&!
+	$(LFLAGS) $?
+
+!
 
 # NB. Assumption here that we are always working within the development tree. NB.
 # Datatypes.
