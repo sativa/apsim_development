@@ -949,6 +949,21 @@ void Data::deleteReport(const std::string& userName,
    executeQuery(connection, sql.str());
    }
 //---------------------------------------------------------------------------
+// Rename the specified report file for the specified user.
+//---------------------------------------------------------------------------
+void Data::renameReport(const std::string& userName,
+                        const std::string& oldReportName,
+                        const std::string& newReportName)
+   {
+   unsigned userId = getUserId(userName);
+
+   ostringstream sql;
+   sql << "UPDATE [Reports] SET [name] = " << singleQuoted(newReportName)
+       << " WHERE userId = " << userId
+       << " AND name = " << singleQuoted(oldReportName);
+   executeQuery(connection, sql.str());
+   }
+//---------------------------------------------------------------------------
 // Store the specified report file for the specified user and paddock.
 //---------------------------------------------------------------------------
 void Data::storeReport(const std::string& userName,

@@ -348,6 +348,12 @@ class Data
                           const std::string& reportName,
                           const std::string& fileName);
 
+      //---------------------------------------------------------------------------
+      // Rename the specified report file for the specified user.
+      //---------------------------------------------------------------------------
+      void renameReport(const std::string& userName,
+                        const std::string& oldReportName,
+                        const std::string& newReportName);
 
 
 

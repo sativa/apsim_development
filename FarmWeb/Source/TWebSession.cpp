@@ -620,7 +620,7 @@ void TWebSession::generateReportFilesAndEmail(AnsiString emailAddress,
          }
       }
    else
-      showMessage("A guest is not allowed to create a new report.");
+      showMessage("A visitor is not allowed to create a new report.");
    }
 //---------------------------------------------------------------------------
 // Return a URL to the help page.

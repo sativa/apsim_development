@@ -214,4 +214,34 @@ void __fastcall TReportsForm::ShowButtonClick(TObject *Sender)
       }
    }
 //---------------------------------------------------------------------------
+void __fastcall TReportsForm::RenameButtonClick(TObject *Sender)
+   {
+   webSession->showInfoForm("Consultant name", "", "", "", renameCallback);
+   }
+//---------------------------------------------------------------------------
+// User has finished renaming a report.
+//---------------------------------------------------------------------------
+void __fastcall TReportsForm::renameCallback(bool okClicked,
+                                             AnsiString text1,
+                                             AnsiString text2,
+                                             AnsiString text3,
+                                             AnsiString text4)
+   {
+   if (okClicked && text1 != "")
+      {
+      try
+         {
+         string reportName = reportNames[ReportList->ItemIndex];
+         string newReportName = string("#GIF#") + text1.c_str();
+         data->renameReport(userName, reportName, newReportName);
+         populateReportList();
+         }
+      catch (const exception& err)
+         {
+         webSession->showMessage(err.what());
+         }
+      }
+   webSession->show(this);
+   }
+//---------------------------------------------------------------------------
 
