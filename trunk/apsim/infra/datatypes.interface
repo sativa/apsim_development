@@ -177,7 +177,15 @@
    </type>
 
    !!!!! IRRIGATE types !!!!!
-
+   <type name="irrigation" kind="single" unit="mm" description="Amount of irrigation applied"/>
+   <type name="irrig_tot" kind="single" unit="mm" description="Total irrigation entering the profile when used in conjunction with the irrigation_efficiency mechanism"/>
+   <type name="irrig_loss" kind="single" unit="mm" description="Losses resulting from an application of irrigation in conjunction with the irrigation_efficiency mechanism"/>
+   <type name="irr_fasw" kind="single" unit="mm" description="Fraction of available soil water within the critical irrigation soil depth"/>
+   <type name="irr_deficit" kind="single" unit="mm" description="Deficit of soil water within the critical irrigation depth"/>
+   <type name="carry_over" kind="single" unit="Ml" description="Amount of irrigation allocation unused as at reset of allocation"/>
+   
+   <type name="irrigstring" kind="string" unit="" description="Irrigation string: amount=xx (kg/ha), time=xx:xx (hh:mm), duration=xx (min), {solute_name}...."/>
+   
    <type name="irrigated" description="Sent to SWIM when an irrigation occurs">
       <field name="amount" kind="double" unit="mm" description="Amount of irrigation applied"/>
       <field name="time" kind="string" description="Time of application"/>
@@ -576,18 +584,6 @@
       </field>
       <field name="transmission" kind = "single"/>
    </type>
-
-   <type name="CanopyWaterBalance">
-      <field name="Canopy" array="T">
-         <element>
-         <field name="name" kind="string"/>
-         <field name="CropType" kind="string"/>
-         <field name="PotentialEp" kind="single"/>
-         </element>
-      </field>
-      <field name="eo" kind = "single"/>
-      <field name="interception" kind = "single"/>
-   </type>   
    
    <type name="canopy" array="T">
       <element>
@@ -650,7 +646,7 @@
     !!!! FERTILISER Types !!!!!!
 
    <type name="fertiliser" kind="single" unit="kg/ha" description="Amount of fertiliser applied"/>
-   <type name="fertsyntax" kind="string" unit="" description="Fertiliser syntax: amount=xx (kg/ha), depth=xx (mm), type=xx"/>
+   <type name="fertstring" kind="string" unit="" description="Fertiliser string: amount=xx (kg/ha), depth=xx (mm), type=xx"/>
    <type name="FertiliserConstituents" array="T">
       <element>
       <field name="name" kind="string"/>
@@ -685,7 +681,6 @@
             <field name="amount"  kind="single" units="kg/ha"/>
             <field name="C"       kind="single" units="kg/ha"/>
             <field name="N"       kind="single" units="kg/ha"/>
-            <field name="P"       kind="single" units="kg/ha"/>
             <field name="AshAlk"  kind="single" units="kg/ha"/>
             </element>
          </field>
