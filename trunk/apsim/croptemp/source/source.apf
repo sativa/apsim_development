@@ -19,5 +19,5 @@ crp_oxdef.f90 = crp_oxdef.f90
 CropLibrary.f90 = CropLibrary.f90
 
 [APSBuild]
-binary = ..\lib\croptemp.dll
-moduletype=iscroptemplate
+binary = ..\lib\croptemp.lib
+compilerFile = library.compile
