@@ -569,7 +569,7 @@ c     include 'fertiliz.inc'
      :         , p%fert_year          ! Array
      :         , numvals              ! Number of values returned
      :         , 1800                 ! Lower Limit for bound checking
-     :         , 2000)                ! Upper Limit for bound checking
+     :         , 2100)                ! Upper Limit for bound checking
 
          if (numvals.ne.numdays) then
             call fatal_error(err_user,
