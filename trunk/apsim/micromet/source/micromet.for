@@ -119,7 +119,7 @@
 !+  Sub-Program Arguments
       integer, intent(in out) :: fromID
       integer, intent(in) :: eventID
-      integer, intent(in) :: variant
+      integer, intent(in out) :: variant
 
 !- Implementation Section ----------------------------------
 
@@ -2062,7 +2062,8 @@ c      g%ComponentFrgr(:) = 0.0
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      
+      profile%NumInterceptions = g%NumComponents
+
       do 100 j=1,g%NumComponents
 
          profile%interception(j)%name = g%canopies(j)%name
@@ -2075,7 +2076,7 @@ c      g%ComponentFrgr(:) = 0.0
      :                       = g%Rs(i,j)     
    50    continue
   100 continue
-      profile%transmission = g%met%radn - g%Rs(i,j)
+      profile%transmission = g%met%radn - sum(g%Rs(:,:))
       
       call publish_LightProfile(LightProfileCalculatedID
      :            ,profile,.false.)
@@ -2116,6 +2117,8 @@ c      g%ComponentFrgr(:) = 0.0
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
+      CanopyWaterBalance%NumCanopys = g%NumComponents
+      
       do 100 j=1,g%NumComponents
 
          CanopyWaterBalance%canopy(j)%name = g%canopies(j)%name
