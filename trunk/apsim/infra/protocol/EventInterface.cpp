@@ -46,7 +46,8 @@ extern "C" _export void __stdcall ei_free
 extern "C" _export void __stdcall ei_getname
    (EventInterface** EI, char* Name, long NameLength)
    {
-   FString(Name, NameLength) = (*EI)->getComponentName().c_str();
+   if (*EI != NULL)
+      FString(Name, NameLength) = (*EI)->getComponentName().c_str();
    }
 
 // ------------------------------------------------------------------
