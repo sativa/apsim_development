@@ -1,29 +1,27 @@
-*     ===========================================================
-      character*(*) function soilwat2_version ()
-*     ===========================================================
+* ====================================================================
+      subroutine APSIM_soilwat2 (action, data_string)
+* ====================================================================
       implicit none
+      dll_export apsim_soilwat2
+      include   'const.inc'            ! mes_presence, mes_init, mes_process
+      include 'engine.pub'
       include 'error.pub'
  
-*+  Purpose
-*       return version number of soilwat2 module
+*+  Sub-Program Arguments
+      character action*(*)             ! (input) action to perform
+      character data_string*(*)        ! (input) data for action
  
-*+  Notes
-*         Rev 1.5   12 Oct 1995 17:08:26   PVCSUSER
-*      solute getting fixed
-*
-*         Rev 1.4   05 Sep 1995 17:13:18   PVCSUSER
-*      Changed solute upper limit from 1000 to 30000 kg/ha
-*
-*         Rev 1.3   05 Sep 1995 12:17:10   PVCSUSER
-*      Accepts any solute to move
-*
-*         Rev 1.2   19 Jul 1995 14:42:46   PVCSUSER
-*
+*+  Purpose
+*      this module performs ceres_maize water balance
+*       simulates runoff, infiltration, flux (drainage), unsaturated flow,
+*       evaporation, solute movement (nitrate, urea), total transpiration.
  
 *+  Mission Statement
-*     Version number
+*     SoilWat2
  
 *+  Changes
+* =====================================================
+*     Notes transferred from version routine record
 *     011092 jngh  specified and programmed
 *     161292 jngh  changed to new engine
 *     170393 jngh  changed to next new engine
@@ -50,54 +48,8 @@
 *     270897 pdev  better handling of observed runoff
 *     270897 pdev  Eo from system if required
 *     270897 pdev  cn_red, cn_cov changeable from manager
- 
-*+  Constant Values
-      character  my_name*(*)           ! procedure name
-      parameter (my_name = 'soilwat2_version')
-*
-* jpd V1.1 includes selected changes from PhilV1.0 30/9/94
-*
-      character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V2.15 090299')
- 
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-cnh      soilwat2_version =
-cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
- 
-      soilwat2_version = version_number
- 
-      call pop_routine (my_name)
-      return
-      end
- 
- 
- 
-* ====================================================================
-      subroutine APSIM_soilwat2 (action, data_string)
-* ====================================================================
-      implicit none
-      dll_export apsim_soilwat2
-      include   'const.inc'            ! mes_presence, mes_init, mes_process
-      include 'string.pub'
-      include 'engine.pub'
-      include 'error.pub'
- 
-*+  Sub-Program Arguments
-      character action*(*)             ! (input) action to perform
-      character data_string*(*)        ! (input) data for action
- 
-*+  Purpose
-*      this module performs ceres_maize water balance
-*       simulates runoff, infiltration, flux (drainage), unsaturated flow,
-*       evaporation, solute movement (nitrate, urea), total transpiration.
- 
-*+  Mission Statement
-*     SoilWat2
- 
-*+  Changes
+* =====================================================
+
 *      260692 jngh specified and programmed
 *      090992 jngh removed include of global.cmn
 *      161292 jngh changed to new engine
@@ -108,31 +60,20 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
 *      071097 PdeV added tillage message
 *      090298 jngh changed init phase to only get met variables
  
-*+  Calls
-                                       ! mes_post, lu_summary_file,
-                                       ! mes_get_variable, mes_set_variable
-*
-      character  soilwat2_version*52    ! function
- 
+
 *+  Constant Values
       character  my_name*(*)           ! name of this module
       parameter (my_name = 'soilwat2')
- 
-*+  Local Variables
-      character  module_name*8         ! module name
  
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       call set_warning_off ()
- 
-      if (action.eq.mes_presence) then      ! report presence
-         call get_current_module (module_name)
-         write (*, *) 'module_name = '
-     :               , module_name(:lastnb(module_name))
-     :               // blank
-     :               // soilwat2_version ()
- 
+
+      if (action.eq.mes_get_variable) then
+               ! respond to request for variable values - from modules
+         call soilwat2_send_my_variable (Data_string)
+  
       else if (action.eq.mes_init) then
          call soilwat2_zero_variables ()
          call soilwat2_get_met_variables ()
@@ -154,10 +95,6 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
       else if (action.eq.mes_set_variable) then
                ! respond to request to reset variable values - from modules
          call soilwat2_set_my_variable (data_string)
- 
-      else if (action.eq.mes_get_variable) then
-               ! respond to request for variable values - from modules
-         call soilwat2_send_my_variable (Data_string)
  
       else if (action.eq.mes_process) then
          call soilwat2_zero_daily_variables ()
@@ -3132,6 +3069,7 @@ c     he should have. Any ideas? Perhaps
       subroutine soilwat2_get_other_variables ()
 * ====================================================================
       implicit none
+      include 'error.pub'
  
 *+  Purpose
 *      get the value/s of a variable/array.
@@ -5168,7 +5106,6 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       implicit none
       include   'const.inc'
       include   'soilwat2.inc'
-      include   'data.pub'
       include   'error.pub'
       include   'write.pub'
  
@@ -5192,9 +5129,6 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *        090299   jngh changed name from reset to init
 *                       removed calls to zero variables and get other variables
  
-*+  Calls
-      character  soilwat2_version*52    ! function
- 
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
       parameter (my_name  = 'soilwat2_init')
@@ -5203,8 +5137,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
       call push_routine (my_name)
             ! zero pools
-      call report_event (' Initialising, '
-     :                // soilwat2_version ())
+      call report_event (' Initialising ')
  
           ! Get all coefficients from file
  
