@@ -55,6 +55,7 @@ class ToolBarAddInBase
       void setWorkingData(Scenarios* current, TAPSTable* data)
          {  scenarios = current;
             working = data;
+            youNeedUpdating();
          };
 
    protected:
