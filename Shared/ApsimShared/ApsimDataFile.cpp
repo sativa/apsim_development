@@ -287,9 +287,9 @@ extern "C" unsigned _export __stdcall newApsimDataFile
    return (unsigned) new ApsimDataFile(fileName);
    }
 extern "C" void _export __stdcall deleteApsimDataFile
-   (ApsimDataFile* dataFile)
+   (ApsimDataFile** dataFile)
    {
-   delete dataFile;
+   delete (*dataFile);
    }
 extern "C" unsigned _export __stdcall ApsimDataFile_getFieldValue
    (ApsimDataFile** dataFile, unsigned* fieldIndex, char* value, unsigned valueLength)
