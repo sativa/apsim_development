@@ -4,6 +4,7 @@
 #pragma hdrstop
 
 #include "CompileThread.h"
+#include "CreateDataTypesF90.h"
 #include <general\exec.h>
 #include <fstream>
 #include <general\io_functions.h>
@@ -504,17 +505,12 @@ void CompileThread::createDataTypesModule(ApsimProject& apf)
       interfaceFilePath.Back_up_directory();
       interfaceFilePath.Set_name(moduleName.c_str());
       interfaceFilePath.Set_extension(".interface");
+
       if (interfaceFilePath.Exists())
          {
-         // Get path of this executable and use it to find the datatypescreate program
-         Path homePath(Application->ExeName.c_str());
-         homePath.Back_up_directory();
-
-         // run the DataTypesCreate tool
-         CommandLineToExecute = homePath.Get_directory()
-              + "\\apsim\\infra\\datatypes\\datatypescreate.exe"
-              + " " + interfaceFilePath.Get_path();
-         Synchronize(runCommandLine);
+         CreateDataTypesF90 converter;
+         ofstream out(Compiler_output_filename.c_str(), ios::app);
+         converter.convert(interfaceFilePath.Get_path(), out);
          }
       }
    }
