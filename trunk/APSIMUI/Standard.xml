@@ -24,12 +24,12 @@
     <filename name="filename">sample.sum</filename>
   </summaryfile>
   <metfile name="metfile">
-    <filename name="filename">C:\program files\apsim36\apsim\met\sample\dalby.met</filename>
+    <filename name="filename">C:\Program Files\Apsim40\apsim\met\sample\dalby.met</filename>
     <dummy name="dummy">hello there</dummy>
   </metfile>
   <manager name="Manager">
-    <rule name="Variable sowing rule" condition="start_of_day">
-      <data><![CDATA[
+    <rule name="Variable sowing rule">
+      <condition name="start_of_day"><![CDATA[
       if (crop_in = 0) then
          if (date_within('[date1], [date2]') = 1) then
             surface_moist = (sw(1) - ll15(1)) / (dul(1)- ll15(1))
@@ -41,7 +41,7 @@
             endif
          endif
       endif
-            ]]></data>
+            ]]></condition>
       <category name="Sowing criteria">
         <property name="date1" value="1-jan" type="text" description="Enter sowing window START date (dd-mmm) : " />
         <property name="date2" value="1-dec" type="text" description="Enter sowing window END date (dd-mmm) : " />
@@ -60,12 +60,12 @@
         <property name="row_spacing" value="500" type="text" description="Enter row spacing (mm) : " />
       </category>
     </rule>
-    <rule name="Sowing fertiliser" condition="[modulename].[eventname]">
-      <data><![CDATA[
+    <rule name="Sowing fertiliser">
+      <condition name="[modulename].[eventname]"><![CDATA[
       if ([fert_amount_sow] > 0) then
          fertiliz apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
       endif
-            ]]></data>
+            ]]></condition>
       <category name="When should fertiliser be applied">
         <property name="modulename" value="" type="modulename" description="On which module should the event come from : " />
         <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
