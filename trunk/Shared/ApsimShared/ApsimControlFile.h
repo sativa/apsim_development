@@ -32,9 +32,20 @@ class ApsimControlFile
 
       // return a list of output/summary filenames
       void getOutputFileNames(const std::string& section,
-                              std::vector<std::string> fileNames) const;
+                              std::vector<std::string>& fileNames) const;
       void getSummaryFileNames(const std::string& section,
-                               std::vector<std::string> fileNames) const;
+                               std::vector<std::string>& fileNames) const;
+
+      // Run apsim using the specified configuration file.
+      // If sections.size() > 0 then only those sections specified will be run
+      // If sections.size() == 0 then all sections will be run.
+      void run(const std::vector<std::string>& sections,
+               const std::string& configurationFile,
+               bool quiet = false) const;
+
+      // Create a SIM file for the specified section and return its filename.
+      std::string createSIM(const std::string& section,
+                            const std::string& configurationFile) const;
 
    private:
       string fileName;

@@ -5,6 +5,7 @@
 
 #include "ApsimControlFile.h"
 #include "ApsimDirectories.h"
+#include "ApsimSimulationFile.h"
 #include <general\string_functions.h>
 #include <general\stristr.h>
 #include <general\IniFile.h>
@@ -259,7 +260,7 @@ void ApsimControlFile::setSectionContents(const string& section,
 // Return a list of all output file names for the specified section
 // ------------------------------------------------------------------
 void ApsimControlFile::getOutputFileNames(const string& section,
-                                          vector<string> fileNames) const
+                                          vector<string>& fileNames) const
    {
    vector<string> reportInstances;
    getInstances(section, "report", reportInstances);
@@ -272,7 +273,7 @@ void ApsimControlFile::getOutputFileNames(const string& section,
 // Return a list of all summary file names for the specified section
 // ------------------------------------------------------------------
 void ApsimControlFile::getSummaryFileNames(const string& section,
-                                           vector<string> fileNames) const
+                                           vector<string>& fileNames) const
    {
    vector<string> reportInstances;
    getInstances(section, "report", reportInstances);
@@ -282,6 +283,27 @@ void ApsimControlFile::getSummaryFileNames(const string& section,
       getParamValues(section, *instanceI, "summaryfile", fileNames);
    }
 
+// ------------------------------------------------------------------
+// Run apsim using the specified configuration file.
+// If sections.size() > 0 then only those sections specified will be run
+// If sections.size() == 0 then all sections will be run.
+// ------------------------------------------------------------------
+void ApsimControlFile::run(const vector<string>& sections,
+                           const string& configurationFile,
+                           bool quiet) const
+   {
+   vector<string> sectionsToRun = sections;
+   if (sectionsToRun.size() == 0)
+      getAllSectionNames(sectionsToRun);
+
+   for (vector<string>::const_iterator sectionI = sectionsToRun.begin();
+                                       sectionI != sectionsToRun.end();
+                                       sectionI++)
+      {
+      ApsimSimulationFile simulation(createSIM(*sectionI, configurationFile));
+      simulation.run(quiet);
+      }
+   }
 // ------------------------------------------------------------------
 // Return a list of instance names for the specified module name.
 // ------------------------------------------------------------------
@@ -802,4 +824,14 @@ void ApsimControlFile::getAllConstantFiles(const string& controlSection,
                     fileNames.end());
    }
 */
+// ------------------------------------------------------------------
+// Create a SIM file for the specified section and return its filename.
+// ------------------------------------------------------------------
+std::string ApsimControlFile::createSIM(const string& section,
+                                        const string& configurationFile) const
+   {
+   string simulationFileName;
+
+   return simulationFileName;
+   }
 
