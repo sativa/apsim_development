@@ -1,4 +1,4 @@
-C     Last change:  E    29 May 2000   11:04 am
+C     Last change:  E     7 Sep 2000    3:59 pm
 
 *     ===========================================================
       subroutine crop_dm_potential (current_stage,
@@ -1062,53 +1062,21 @@ c     REAL       root_fr
       call push_routine (my_name)
  
 
-
       current_stage = int (g_current_stage)
 
       root_shoot_ratio  = c_ratio_root_shoot(current_stage)
       root_fr_min       = root_shoot_ratio/(1.0+root_shoot_ratio)
 
  
-      dlt_dm_root_min   = g_dlt_dm * divide(root_fr_min,
-     :                               1.0-root_fr_min, 0.0)
-
+      dlt_dm_root_min   = g_dlt_dm * root_shoot_ratio  
       dlt_dm_tot        = g_dlt_dm + dlt_dm_root_min
  
 
       !------------------------------------------------------------------------------------
       !the tops and root fraction
 
-      if (stage_is_between (emerg, floral_init, g_current_stage)) then
-        
-         root_fraction = root_fr_min
-         tops_fraction = 1.0 -root_fraction
-
-         tops_fraction = (1.0- root_fr_min)
-     :                  * min(g_swdef_expansion,g_nfact_expansion)
-         root_fraction = 1.0 - tops_fraction
-
-      elseif (stage_is_between (floral_init, start_grain_fill,
-     :                          g_current_stage)) then
-      
-         tops_fraction = (1.0- root_fr_min)
-     :                  * min(g_swdef_expansion,g_nfact_expansion)
-         root_fraction = 1.0 - tops_fraction
-
-      elseif (stage_is_between (start_grain_fill,end_grain_fill,
-     :                          g_current_stage)) then
-      
-         root_fraction = root_fr_min
-         tops_fraction = 1.0 -root_fraction
-
-      else
-
-         tops_fraction = 1.0
-         root_fraction = 0.0
-
-      endif
-
-         root_fraction = root_fr_min
-         tops_fraction = 1.0 - root_fraction
+       root_fraction = root_fr_min
+       tops_fraction = 1.0 - root_fraction
 
     
       !------------------------------------------------------------------------------------
@@ -1117,31 +1085,50 @@ c     REAL       root_fr
       call fill_real_array (g_dlt_dm_green, 0.0, max_part)
       
 
-      !PARTITION FRACTION
-      sum_tt = sum_between(emerg, flowering, g_tt_tot)
-      cum_tt = sum_between(emerg, flowering, g_phase_tt)
+      sum_tt = sum_between(floral_init, flag_leaf, g_tt_tot)
+      cum_tt = sum_between(floral_init, flag_leaf, g_phase_tt)
       x      = sum_tt/cum_tt
 
+      if (stage_is_between (emerg, floral_init, g_current_stage)) then
 
-      if (stage_is_between (emerg, flowering, g_current_stage)) then
-c         root_fraction = -0.6545*x**3 + 1.469*x**2 - 1.3083*x + 0.4996
-c         root_fraction = bound(root_fraction, 0.0, 0.5)
-c         root_fraction =  root_fraction/stress_fac
-c         tops_fraction = 1.0 - root_fraction
+          leaf_fraction = 0.65
+          stem_fraction = 1.0 - leaf_fraction
 
-          leaf_fraction = 10.452*x**6 - 29.044*x**5 + 24.818*x**4
-     :                  - 2.1823*x**3 - 5.1915*x**2 + 0.1493*x + 0.9994
+      elseif (stage_is_between (floral_init,flag_leaf,
+     :                            g_current_stage)) then
+
+
+          leaf_fraction = 0.65 * (1.0 - x)
           leaf_fraction = bound(leaf_fraction, 0.0, 1.0)
 
-      !   leaf_fraction = tops_fraction * leaf_fraction
           stem_fraction = 1.0 - leaf_fraction
 
       else
-c         root_fraction = 0.0
           leaf_fraction = 0.0
-          stem_fraction = 0.0
-c         tops_fraction = 1.0 - root_fraction
+          stem_fraction = 1.0
       endif
+
+ccccccccccccccccccccccccccc
+      !PARTITION FRACTION -THIS EQUATIONS ARE BASED ON GROOT'S DATA WAGGENNIG
+      ! sum_tt = sum_between(emerg, flowering, g_tt_tot)
+      ! cum_tt = sum_between(emerg, flowering, g_phase_tt)
+      ! x      = sum_tt/cum_tt
+
+      ! if (stage_is_between (emerg, flowering, g_current_stage)) then
+      !
+      !     leaf_fraction = 10.452*x**6 - 29.044*x**5 + 24.818*x**4
+      !:                  - 2.1823*x**3 - 5.1915*x**2 + 0.1493*x + 0.9994
+
+      !     leaf_fraction = bound(leaf_fraction, 0.0, 1.0)
+
+      !     stem_fraction = 1.0 - leaf_fraction
+
+      ! else
+      !     leaf_fraction = 0.0
+      !     stem_fraction = 0.0
+      ! endif
+ccccccccccccccccccccccccccc
+
 
       if (stage_is_between (flowering, start_grain_fill,
      :                               g_current_stage)) then
@@ -1158,26 +1145,31 @@ c         tops_fraction = 1.0 - root_fraction
       g_dlt_dm_green(stem) = dlt_dm_tot * tops_fraction * stem_fraction
 
 
+
       if (stage_is_between (emerg, flag_leaf, g_current_stage)) then
 
           dlt_dm_leaf_max = MIN(g_dlt_dm_green(leaf),
      :                           g_dlt_lai/(c_sla_min*1E-6))
 
-         g_dlt_dm_green(root) = g_dlt_dm_green(root) +
-     :          g_dlt_dm_green(leaf) - dlt_dm_leaf_max
+         g_dlt_dm_green(root) =   g_dlt_dm_green(root)
+     :                          + g_dlt_dm_green(leaf)
+     :                          - dlt_dm_leaf_max
 
-         g_dlt_dm_green(leaf) = dlt_dm_leaf_max
+         g_dlt_dm_green(leaf) =  dlt_dm_leaf_max
 
       endif
 
 
+
       if (stage_is_between (start_grain_fill, end_grain_fill
      :                              , g_current_stage)) then
+
          g_dlt_dm_green(grain)= min(dlt_dm_tot*tops_fraction,
      :                              g_dlt_dm_grain_demand)
-         g_dlt_dm_green(stem) = dlt_dm_tot
+         g_dlt_dm_green(stem) = dlt_dm_tot*tops_fraction
      :                        - g_dlt_dm_green(grain)
          g_dlt_dm_green(stem) = max(0.0, g_dlt_dm_green(stem))
+
       endif
 
 
@@ -1689,137 +1681,6 @@ c        dm_green(grain)   = min(0.0035*grain_num, dm_plant_min(stem))
 
 
 
-*     ===========================================================
-      subroutine wheat_dm_init (
-     .          g_current_stage,
-     .          g_days_tot,
-     .          c_dm_root_init,
-     .          g_plants,
-     .          c_dm_stem_init,
-     .          c_dm_leaf_init,
-     .          c_stem_trans_frac,
-     .          c_leaf_trans_frac,
-     .          c_initial_tpla,
-     .          c_sla_min,
-     .          c_sla_max,
-     .          dm_green,
-     .          dm_plant_min,
-     .          p_grain_num_coeff,
-     .          g_dm_seed_reserve,
-     .          g_lai,
-     .          g_grain_no)
-*     ===========================================================
-      implicit none
-      include   'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                          
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-       real g_current_stage
-       real g_days_tot(*)
-       real c_dm_root_init
-       real g_plants
-       real c_dm_stem_init
-       real c_dm_leaf_init
-       real c_stem_trans_frac
-       real c_leaf_trans_frac
-       REAL c_initial_tpla
-       real c_sla_min
-       real c_sla_max
-       real dm_green(*)           ! (INPUT/OUTPUT) plant part weights (g/m^2)
-       real dm_plant_min(*)       ! (OUTPUT) minimum weight of each plant part (g/plant)
-       REAL p_grain_num_coeff
-       real g_dm_seed_reserve
-       real g_lai
-       REAL g_grain_no
-
-*+  Purpose
-*       Initialise plant weights and plant weight minimums
-*       at required instances.
-
-*+  Changes
-*     010994 jngh specified and programmed
-*     970317 slw new template form
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'wheat_dm_init')
-
-*+  Local Variables
-      real       dm_plant_leaf         ! dry matter in leaves (g/plant)
-      real       dm_plant_stem         ! dry matter in stems (g/plant)
-      !REAL       sla
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-         ! initialise plant weight
-         ! initialisations - set up dry matter for leaf, stem, flower, grain
-         ! and root
- 
-
-      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
-             ! seedling has just emerged.
- 
-             ! initialise root, stem and leaf.
- 
-         dm_green(root)  = c_dm_root_init * g_plants
-         dm_green(stem)  = c_dm_stem_init * g_plants
-         dm_green(leaf)  = c_dm_leaf_init * g_plants
-         dm_green(grain) = 0.0
-         dm_green(flower)= 0.0
-         
-         g_dm_seed_reserve = 0.012 * g_plants                    ! (g/m2)   !  ew
-         g_lai             = c_initial_tpla *1.0E-6 * g_plants   !  ew
-
-         !sla    = 0.75*c_sla_max + 0.25*c_sla_min
-         g_lai  = dm_green(leaf)*20000.0*1.0E-6
-
-         g_grain_no = 0.0
-
-c for nwheat min stem weight at beginning of grain filling stage, no carbon mobile from leaves
-      elseif (on_day_of (start_grain_fill
-     :                 , g_current_stage, g_days_tot)) then
- 
-         ! we are at first day of grainfill.
-         ! set the minimum weight of leaf; used for translocation to grain and stem
- 
-         dm_plant_leaf      = divide (dm_green(leaf), g_plants, 0.0)
-         dm_plant_min(leaf) = dm_plant_leaf * (1.0 - c_leaf_trans_frac)
-        
-         dm_plant_stem      = divide (dm_green(stem), g_plants, 0.0)
-         dm_plant_min(stem) = dm_plant_stem * (1.0 - c_stem_trans_frac)
-
-            ! Initial grain weigth is taken from
-            ! this immobile stem as simplification to
-            ! having grain filling prior to grain filling.
-            ! In Nwheat stem did not include leaf sheath
-            ! and so a leaf sheath approximation is removed below.
-
-         g_grain_no = p_grain_num_coeff * dm_green(stem)
-
-         dm_green(grain)   = min(0.0035*g_grain_no
-     :                          ,dm_plant_min(stem)*g_plants)
-
-c        dm_green(grain)   = min(0.0035*grain_num, dm_plant_min(stem))
-
-         dm_green(stem)    = dm_green(stem) - dm_green(grain)
-
-
-         !dm_plant_min(grain)= dm_green(grain)/ g_plants
-         !dm_plant_min(stem) = dm_plant_min(stem) - dm_plant_min(grain)
- 
-
-      else   ! no changes
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
 
 
 
@@ -2020,18 +1881,26 @@ c        dm_green(grain)   = min(0.0035*grain_num, dm_plant_min(stem))
           ! tiller is half of that for the whole plant. all subsequent
           ! tillers have half of till_tt_infl of tiller 1.
 
+          !the coefficient for tiller_area_max is changed from 1.0 to 2.0 based on Porter JR, 1984.
+          !A model of canopy development in winter wheat. J. Agric. Sci. Camb. 102:383-392.
+
+          !Millet data indicates max leaf area for main shoot is pretty comparable to that of the tillers
+
+          !Max tiller area should be related to final leaf number
+
           g_tiller_area_pot(1)   = 0.0
-          g_tiller_area_max(1)   = 1.0 / (g_plants/sm2smm*100.0) !cm2 per tiller  ??
+          g_tiller_area_max(1)   = 2.0 / (g_plants/sm2smm*100.0) !cm2 per tiller  - this should be related to final leaf number
  
           c_tiller_curve  (1)    = 0.018
           c_tiller_tt_infl(1)    = 400.0
         
           do n = 2, max_leaf
             g_tiller_area_pot(n) = 0.0
-            g_tiller_area_max(n) = 1.0/(g_plants/sm2smm*100.0)
+            g_tiller_area_max(n) = 2.0/(g_plants/sm2smm*100.0)
  
-            c_tiller_curve(n)        = c_tiller_curve(1) * 2.0
-            c_tiller_tt_infl(n)      = c_tiller_tt_infl(1) / 2.0
+            c_tiller_curve(n)        = c_tiller_curve(1)   * 1.5  !2.0
+            c_tiller_tt_infl(n)      = c_tiller_tt_infl(1) / 1.5  !2.0
+
           end do
 
 
@@ -2043,10 +1912,11 @@ c        dm_green(grain)   = min(0.0035*grain_num, dm_plant_min(stem))
        !=====================================================================
        !After emergence till flowering, calculation
 
+
 c      elseif (stage_is_between(emerg,flowering,g_current_stage)) then !originally in i_wheat is flowering
        elseif (stage_is_between(emerg,flag_leaf,g_current_stage)) then !originally in i_wheat is flowering
 
-         ! crop has emerged, calculate leaf area
+        ! crop has emerged, calculate leaf area
 
          tiller_tt_tot_today = g_tiller_tt_tot + dly_therm_time
 
@@ -2063,7 +1933,29 @@ c      elseif (stage_is_between(emerg,flowering,g_current_stage)) then !original
            g_dlt_tiller_area_pot(n)= l_bound(tiller_area_pot(n)-
      .                                     g_tiller_area_pot(n),0.0)
          end do
- 
+
+
+
+
+
+       !Tillering stops after floral initiation
+       if (stage_is_between(floral_init,flag_leaf,g_current_stage)) then !originally in i_wheat is flowering
+
+         do n = 1, max_leaf
+
+           if (tiller_area_pot(n) .eq. 0.0) then
+            g_tiller_area_max(n) = 0.0
+           endif
+         end do
+       endif
+
+
+
+
+
+
+
+
        else
          continue       ! don't do anything. leaves have stopped growing
 
@@ -2143,7 +2035,7 @@ c      elseif (stage_is_between(emerg,flowering,g_current_stage)) then !original
            ! phyl_ind (tiller 2 - 5 start to grow simultanously).
            do n = 2, 5
              tt_til = tt_tot - 5.0 * phint
-             tt_til = tt_tot - (3+n-1) * phint
+             tt_til = tt_tot - real(3+n-1) * phint
       !       n_till_start = MAX(0.0, REAL(n))    !ew changed the start tiller phyllochrons
       !       tt_til = tt_now - n_till_start * phint
 
@@ -2269,9 +2161,6 @@ c      elseif (stage_is_between(emerg,flowering,g_current_stage)) then !original
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 cew added the following section for wheat approach
 
-        g_leaf_primodia =  g_leaf_primodia
-     :                   + divide (g_dlt_tt
-     :                           , c_leaf_init_rate, 0.0)
 
         g_leaf_no_final = MAX(g_leaf_no_final, g_leaf_primodia)
 
@@ -2287,108 +2176,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          g_leaf_no_final = 0.0
  
       endif
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-
-
-*======================================================================
-      subroutine wht_leaf_appearance2 (
-     .          g_leaf_no,
-     .          g_leaf_no_final,
-     .          c_leaf_no_rate_change,
-     .          c_leaf_app_rate2,
-     .          c_leaf_app_rate1,
-     .          g_current_stage,
-     .          g_days_tot,
-     .          g_dlt_tt,
-     .          g_dlt_leaf_no)
-*======================================================================
-*+  Purpose
-*       Return the fractional increase in emergence of the oldest
-*       expanding leaf.
-*       Note ! this does not take account of the other younger leaves
-*       that are currently expanding
-*
-*   Called by srop_leaf_number(1) in croptree.for
-
-*+  Changes
-*       031194 jngh specified and programmed
-*       070495 psc  added 2nd leaf appearance rate
-*       260596 glh  corrected error in leaf no calcn
-
-
-      implicit none
-      include   'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                          
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      real       g_leaf_no(*)
-      real       g_leaf_no_final
-      real       c_leaf_no_rate_change
-      real       c_leaf_app_rate2
-      real       c_leaf_app_rate1
-      real       g_current_stage
-      real       g_days_tot(*)
-      real       g_dlt_tt
-      real       g_dlt_leaf_no           ! (OUTPUT) new fraction of oldest
-                                         ! expanding leaf
-  
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'wht_leaf_appearance2')
-
-*+  Local Variables
-      real       leaf_no_remaining     ! number of leaves to go before all
-                                       ! are fully expanded
-      real       leaf_no_now           ! number of fully expanded leaves
-      real       leaf_app_rate         ! rate of leaf appearance (oCd/leaf)
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-cglh uses sowing, not emerg to calc leaf no.
- 
-      leaf_no_now = sum_between (emerg, now, g_leaf_no)
-      leaf_no_remaining = g_leaf_no_final - leaf_no_now
- 
-!scc Peter's 2 stage version used here, modified to apply
-! to last few leaves before flag
-!i.e. c_leaf_no_rate_change is leaf number from the top down (e.g. 4)
- 
-      if (leaf_no_remaining .le. c_leaf_no_rate_change) then
-         leaf_app_rate = c_leaf_app_rate2
-      else
-         leaf_app_rate = c_leaf_app_rate1
-      endif
- 
-      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
- 
-         ! initialisation done elsewhere.
-         g_dlt_leaf_no = 0.0
- 
-      elseif (leaf_no_remaining.gt.0.0) then
- 
-             ! if leaves are still growing, the cumulative number of
-             ! phyllochrons or fully expanded leaves is calculated from
-             ! daily thermal time for the day.
-
-         g_dlt_leaf_no = divide (g_dlt_tt, leaf_app_rate, 0.0)
-         g_dlt_leaf_no = bound (g_dlt_leaf_no, 0.0, leaf_no_remaining)
- 
-      else
-             ! we have full number of leaves.
- 
-         g_dlt_leaf_no = 0.0
- 
-      endif
- 
       call pop_routine (my_name)
       return
       end
@@ -2727,11 +2514,6 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
      :                                      REAL(days_after_emerg),0.0)
          end if
 
-c         PRINT *, "days_after_emerg=", days_after_emerg
-c         PRINT *, "g_days_tot      =", g_days_tot(1:5)
-c         PRINT *, "solrad          =", solrad
-c         PRINT *, "g_accum_rad_10d =", g_accum_rad_10d
-c         pause
 
       endif
  
@@ -2872,11 +2654,6 @@ c         pause
 
        supply_demand_ratio = divide (g_sw_supply_sum, g_sw_demand,10.0)
 
-c       PRINT *, "=============================================="
-c       PRINT *, "g_lai               = ", g_lai
-c       PRINT *, "supply              = ", g_sw_supply_sum
-c       print *, "demand              = ", g_sw_demand
-c       PRINT *, "supply/demand ratio = ", supply_demand_ratio
 
       if ((g_sw_demand.gt.0.0).and. (supply_demand_ratio.lt.0.8)) then !0.8
 
@@ -2891,8 +2668,6 @@ c       PRINT *, "supply/demand ratio = ", supply_demand_ratio
      .                                 dlt_leaf_sen_water)
 
 
-c       PRINT *, "---------------------------------------------"
-c       PRINT *, "dlt_leaf_sen_water  = ",dlt_leaf_sen_water
 
       else
          dlt_leaf_sen_water = 0.0
@@ -3017,15 +2792,6 @@ c       PRINT *, "dlt_leaf_sen_water  = ",dlt_leaf_sen_water
       ! calculates the effective lai to produce this amount of biomass
       lai_sustainable =   (alog(1.0-rint_act)) 
      .                  / (-iw_kvalue(lai_act,current_stage))
- 
-
-      !PRINT *, "==================================="
-
-      !PRINT *,"lai_act         =", lai_act
-      !PRINT *,"lai_sustainable =", lai_sustainable
-
-      !PRINT *, "==================================="
-
 
       ! calculates 1/10 of the difference between actual and effective lai
       if (lai_act .ge. lai_sustainable) then  
@@ -3306,10 +3072,6 @@ c       PRINT *, "dlt_leaf_sen_water  = ",dlt_leaf_sen_water
       tt_current = sum_between(emerg, now, g_tt_tot)
        
       if (dm_green(leaf).gt.0.0 .and. tt_current.gt. 75.0) then
-
-         !PRINT *, "n_con_leaf              =", n_conc_leaf
-         !PRINT *, "p_sln_critical * sla_est=",p_sln_critical * sla_est
-
 
 
          if(N_conc_leaf .lt. (p_sln_critical * sla_est)) then
@@ -3843,21 +3605,6 @@ c""""""""""""""""""""""""""""""""""""""""""""""""""
       dlt_N_green(grain) = 0.0
 
 
-      !PRINT *, "==============================================="
-      !PRINT *, "N_uptake_sum      =",  N_uptake_sum
-      !PRINT *, "N_demand          =",  N_demand
-      !PRINT *, "N_excess          =",  N_excess
-      !PRINT *, "N_capacity_sum    =",  N_capacity_sum
-      !PRINT *, "==============================================="
-      !PRINT *, "N_leaf      =",  dlt_N_green(1)
-      !PRINT *, "N_stem      =",  dlt_N_green(2)
-      !PRINT *, "N_root      =",  dlt_N_green(3)
-      !PRINT *, "N_flower    =",  dlt_N_green(4)
-      !PRINT *, "N_grain     =",  dlt_N_green(5)
-      !PRINT *, "==============================================="
-      !PRINT *, "N_Green     =",  sum_real_array (dlt_N_green, max_part)
-      !PRINT *, "==============================================="
-
       call bound_check_real_var (
      :             sum_real_array (dlt_N_green, max_part)
      :           , N_uptake_sum, N_uptake_sum
@@ -3870,235 +3617,8 @@ c""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
 
-
-
-
-      
 *     ===========================================================
-      subroutine wheat_phenology_init
-     :               (
-     :                C_shoot_lag
-     :              , C_shoot_rate
-     :              , C_twilight
-     :              , G_current_stage
-     :              , G_days_tot
-     :              , G_day_of_year
-     :              , G_year
-     :              , G_latitude
-     :              , g_maxt
-     :              , g_mint
-     :              , G_sowing_depth
-     :              , g_tt_tot
-     :              , g_leaf_no_final
-     :              , c_leaf_no_at_emerg
-     :              , c_leaf_app_rate1
-     :              , c_leaf_app_rate2
-     :              , c_leaf_no_rate_change
-     :              , P_photoperiod
-     :              , P_phase_tt_init
-     :              , p_num_photoperiod
-     :              , g_cumvd
-     :              , p_x_vfac_cumvd
-     :              , p_y_vfac
-     :              , p_num_x_vfac_cumvd
-     :              , P_tt_emerg_to_endjuv
-     :              , P_tt_flower_to_maturity
-     :              , P_tt_flower_to_start_grain
-     :              , P_tt_flag_to_flower
-     :              , P_tt_maturity_to_ripe
-     :              , p_est_days_emerg_to_init
-     :              , phase_tt
-     :               )
-*     ===========================================================
-      implicit none
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                       
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      REAL       C_shoot_lag           ! (INPUT)  minimum growing degree days fo
-      REAL       C_shoot_rate          ! (INPUT)  growing deg day increase with
-      REAL       C_twilight            ! (INPUT)  twilight in angular distance b
-      REAL       G_current_stage       ! (INPUT)  current phenological stage
-      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
-      INTEGER    G_day_of_year         ! (INPUT)  day of year
-      INTEGEr    G_year                ! (INPUT)  year
-      REAL       G_latitude            ! (INPUT)  latitude (degrees, negative fo
-      REAL       G_maxt
-      REAL       G_mint
-      REAL       G_sowing_depth        ! (INPUT)  sowing depth (mm)
-      REAL       G_tt_tot(*)           ! (INPUT)  total tt in each stage
-      REAL       G_leaf_no_final       ! (INPUT)  final leaf number
-      REAL       c_leaf_no_at_emerg    ! (INPUT)
-      REAL       c_leaf_app_rate1      ! (INPUT)
-      REAL       c_leaf_app_rate2      ! (INPUT)
-      REAL       c_leaf_no_rate_change ! (INPUT)      
-      REAL       P_photoperiod(*)      ! (INPUT)
-      REAL       P_phase_tt_init(*)    ! (INPUT)
-      INTEGER    P_num_photoperiod     ! (INPUT)
-      REAL       g_cumvd
-      REAL       p_x_vfac_cumvd(*)
-      REAL       p_y_vfac(*)
-      INTEGER    p_num_x_vfac_cumvd
-      REAL       P_tt_emerg_to_endjuv  ! (INPUT)  Growing degree days to complet
-      REAL       P_tt_flower_to_maturity ! (INPUT)  Growing degree days to compl
-      REAL       P_tt_flower_to_start_grain ! (INPUT)  growing degree-days for f
-      REAL       P_tt_flag_to_flower   !(INPUT)
-      REAL       P_tt_maturity_to_ripe ! (INPUT)  growing deg day required to fo
-      REAL       p_est_days_emerg_to_init ! (INPUT) estimate of days to init
-      real       phase_tt (*)          ! (INPUT/OUTPUT) cumulative growing
-                                       ! degree days required for
-                                       ! each stage (deg days)
-
-*+  Purpose
-*       Returns cumulative thermal time targets required for the
-*       individual growth stages.
-
-*+  Changes
-*     <insert here>
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'wheat_phenology_init')
-
-*+  Local Variables
-      real       photoperiod           ! hours of photosynthetic light (hours)
-      integer    est_day_of_floral_init
-      real       leaf_no
-      real       tt_emerg_to_flag_leaf 
-      real       pp_tt
-      real       vern_tt
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
-
-
-
-      !CURRENT WHEAT MODEL PHENOLOGY
-      !        emerg  EndJuv    FI  FlagLf  Flowering, Bgrainfill Egrainfill Maturity
-      ! TT          1   400-2900  2phl       
-      
-      
-* Vernalisation process - cumulative vernalisaion days
-         call wheat_vernaliz_days (g_current_Stage
-     :                            ,germ
-     :                            ,floral_init
-     :                            ,g_maxt
-     :                            ,g_mint
-     :                            ,g_cumvd)
-
-* On the germination day, calculate the tt for emergence
-      if (on_day_of (germ, g_current_stage, g_days_tot)) then
-         phase_tt(germ_to_emerg) = c_shoot_lag
-     :                           + g_sowing_depth*c_shoot_rate
-
-         phase_tt(emerg_to_endjuv) = p_tt_emerg_to_endjuv
-
-         !This is only to avoid a warning in leaf number final
-         phase_tt(endjuv_to_init)  = 400.0
-
- 
-* On the day of emergence,make an estimate of phase duration for endjuv to floral init  
-      elseif (on_day_of (emerg, g_current_stage, g_days_tot)) then
-    
-         !Determine the estimated day of year 
-         est_day_of_floral_init = offset_day_of_year (g_year
-     :                                  , g_day_of_year
-     :                                  , p_est_days_emerg_to_init)
-     
-         !Calculate the photoperiod on the estimated day
-         photoperiod = day_length (est_day_of_floral_init
-     :                           , g_latitude, c_twilight)
-
-         !Estimate the TT from endjuv to floral initiation: parameters in wheat.par
-         phase_tt(endjuv_to_init) = linear_interp_real
-     :                              (photoperiod
-     :                              ,p_photoperiod
-     :                              ,p_phase_tt_init
-     :                              ,p_num_photoperiod)
- 
-* Between endjuv and floral initiation, the target should be set every day based on 
-* photoperiod and vernalisation
-      elseif (stage_is_between (endjuv, floral_init
-     :                        , g_current_stage)) then
- 
-         photoperiod = day_length (g_day_of_year, g_latitude
-     :                           , c_twilight)
- 
-         pp_tt = linear_interp_real (photoperiod
-     :                              ,p_photoperiod
-     :                              ,p_phase_tt_init
-     :                              ,p_num_photoperiod)
-
-         ! Vernalisation will also affect target
-         ! based upon fastest photoperiod conditions
-        
-      !!EW: changed from multiplying to the dividing relation
-      
-         vern_tt = p_phase_tt_init (p_num_photoperiod)
-     :           / linear_interp_real (g_cumvd                
-     :                                ,p_x_vfac_cumvd
-     :                                ,p_y_vfac
-     :                                ,p_num_x_vfac_cumvd)
-     
-
-        !Use the maximum thermal time value determined by photoperiod and vernalis.
-        phase_tt(endjuv_to_init)=max(pp_tt,vern_tt)
-
-*???????????????????????????????????????????????????????????????????????????????????????
-*???????????????????????????????????????????????????????????????????????????????????????
-
-        !Determine the TT from emergence to flag leaf based on the leaf number
-        leaf_no = max (g_leaf_no_final - c_leaf_no_rate_change,
-     :                 c_leaf_no_at_emerg)
-        leaf_no = min (leaf_no, g_leaf_no_final)
-
-         tt_emerg_to_flag_leaf = (leaf_no - c_leaf_no_at_emerg)
-     :                         * c_leaf_app_rate1
-     :                         + (g_leaf_no_final - leaf_no)
-     :                         * c_leaf_app_rate2
-
-         phase_tt(init_to_flag) = tt_emerg_to_flag_leaf
-     :              - sum_between (emerg, floral_init, g_tt_tot)
-
-
-*cnh use old nwheat approach for time being
-        !THIS FOLLOWING PARTS WILL CAUSE INCONSISTENCE (FLAG LEAF STAGE AND LEAF NUMBER) - ENLI
-
-        ! if (leaf_no.lt.c_leaf_no_rate_change) then
-        !    phase_tt(init_to_flag) = 3.0 * c_leaf_app_rate1
-        ! else
-        !    phase_tt(init_to_flag) = 3.0 * c_leaf_app_rate2
-        ! endif
-        !-------------------- TILL HERE --------------------------------------------------------
-
-         phase_tt(flag_to_flower) = p_tt_flag_to_flower
- 
-         phase_tt(flower_to_start_grain) =
-     :                    p_tt_flower_to_start_grain
- 
-         phase_tt(end_grain_to_maturity) =
-     :                  0.05*p_tt_flower_to_maturity
- 
-         phase_tt(start_to_end_grain) = p_tt_flower_to_maturity
-     :                  - phase_tt(flower_to_start_grain)
-     :                  - phase_tt(end_grain_to_maturity)
-         phase_tt(maturity_to_ripe) = p_tt_maturity_to_ripe
- 
-      else
- 
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine wheat_phenology_init_ew
+      subroutine wheat_phenology_init_nwheat
      :               (
      :                C_shoot_lag
      :              , C_shoot_rate
@@ -4111,6 +3631,7 @@ c""""""""""""""""""""""""""""""""""""""""""""""""""
      :              , p_phyllochron
      :              , g_vern_eff
      :              , g_photop_eff
+     :              , g_dlt_tt
      :               )
 *     ===========================================================
       implicit none
@@ -4131,6 +3652,7 @@ c""""""""""""""""""""""""""""""""""""""""""""""""""
       REAL       p_phyllochron
       REAL       g_vern_eff
       REAL       g_photop_eff
+      REAL       g_dlt_tt
 
 
 *+  Purpose
@@ -4142,24 +3664,21 @@ c""""""""""""""""""""""""""""""""""""""""""""""""""
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'wheat_phenology_init_ew')
+      parameter (my_name = 'wheat_phenology_init_nwheat')
 
 *+  Local Variables
+c     REAL vern_php_eff
+
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
 
 
-
-      !CURRENT WHEAT MODEL PHENOLOGY
-      !        emerg  EndJuv    FI  FlagLf  Flowering, Bgrainfill Egrainfill Maturity
-      ! TT          1   400-2900  2phl       
-      
-      
 * On the germination day, calculate the tt for emergence
-c     if (on_day_of (germ, g_current_stage, g_days_tot)) then
-      if (on_day_of (sowing, g_current_stage, g_days_tot)) then
+      if (on_day_of (sowing, g_current_stage, g_days_tot).OR.
+     :    stage_is_between(sowing, emerg, g_current_stage)) then
+
          phase_tt(germ_to_emerg) = c_shoot_lag
      :                           + g_sowing_depth*c_shoot_rate
 
@@ -4178,37 +3697,29 @@ c     if (on_day_of (germ, g_current_stage, g_days_tot)) then
      :                   - phase_tt(end_grain_to_maturity)
 
          phase_tt(maturity_to_ripe) = 1.0
+         phase_tt(ripe_to_harvest)  = 1.0
 
-* On the day of emergence,make an estimate of phase duration for endjuv to floral init  
-      elseif (on_day_of (emerg, g_current_stage, g_days_tot)) then
-    
-
-* Between endjuv and floral initiation, the target should be set every day based on 
-* photoperiod and vernalisation
-*      elseif (stage_is_between (endjuv, floral_init
-*     :                        , g_current_stage)) then
-*
-*        !Use the smaller one of vernalization and photoperiod effect
-*        vern_php_eff = MIN(g_vern_eff, g_photop_eff)
-*
-*
-*       !PRINT *, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-*        !PRINT *, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-*        !PRINT *, "g_vern_eff   =", g_vern_eff
-*        !PRINT *, "g_photop_eff =", g_photop_eff
-*        !PRINT *, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-*        !PRINT *, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-*        !PRINT *, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-*
-*
-*        !Use the maximum thermal time value determined by photoperiod and vernalis.
-*        phase_tt(endjuv_to_init)= divide(400.0,
-*     :                                   vern_php_eff,
-*     :                                   10.0*400.0)
-
-      else
- 
       endif
+
+
+c      PRINT *, 'p_startgf_to_mat=', p_startgf_to_mat
+
+
+
+* Between germ and floral initiation, the target should be set every day based on
+* photoperiod and vernalisation
+c      if (stage_is_between (emerg, floral_init
+c     :                      , g_current_stage)) then
+
+c        !Use the smaller one of vernalization and photoperiod effect
+c        vern_php_eff = MIN(g_vern_eff, g_photop_eff)
+c
+c        !Change the thermal time target for endjuv to init
+c
+c        phase_tt(endjuv_to_init)= phase_tt(endjuv_to_init)
+c     :                          + g_dlt_tt *(1.0 - vern_php_eff)
+c
+c      endif
 
 
       call pop_routine (my_name)
@@ -4218,7 +3729,11 @@ c     if (on_day_of (germ, g_current_stage, g_days_tot)) then
 
 
 *     =====================================================================
-      subroutine crop_crown_temp(tempmx, tempmn, snow, tempcx, tempcn)
+      subroutine crop_crown_temp_nwheat(tempmx,
+     :                                  tempmn,
+     :                                  snow,
+     :                                  tempcx,
+     :                                  tempcn)
 *     =====================================================================
       implicit none
 
@@ -4243,7 +3758,7 @@ c     if (on_day_of (germ, g_current_stage, g_days_tot)) then
 
 *+  Constant Values
       character  myname*(*)            ! name of subroutine
-      parameter (myname = 'crop_crown_temp')
+      parameter (myname = 'crop_crown_temp_nwheat')
  
 *- Implementation Section ----------------------------------
  
@@ -4271,11 +3786,13 @@ c     if (on_day_of (germ, g_current_stage, g_days_tot)) then
  
  
 * ====================================================================
-      subroutine wheat_vernaliz_days (g_current_Stage
+      subroutine wheat_vernaliz_days_nwheat(g_current_Stage
      :                               ,start_stage
      :                               ,end_stage
      :                               ,g_maxt
      :                               ,g_mint
+     :                               ,g_snow
+     :                               ,g_dlt_cumvd
      :                               ,g_cumvd)
 * ====================================================================
       implicit none
@@ -4289,7 +3806,9 @@ c     if (on_day_of (germ, g_current_stage, g_days_tot)) then
       integer end_stage        !Stage vernalisation ends
       real    g_maxt           !Daily maximum Temperature 
       real    g_mint           !Daily minimum temperature
-      real    g_cumvd          !Cumulative vernalisation days
+      real    g_snow           !Snow depth of the day (mm)
+      real    g_dlt_cumvd      !vernalisation day today
+      real    g_cumvd          !cumulative vernalisation days till yesterday
  
 *+  Purpose
 *     Calculate daily vernalisation and accumulate to g_cumvd
@@ -4329,7 +3848,8 @@ c     if (on_day_of (germ, g_current_stage, g_days_tot)) then
  
        ! The cumulative vernalization has not reached the required level of vernalization
  
-         call crop_crown_temp (g_maxt,g_mint,0.0,tempcx,tempcn)
+         call crop_crown_temp_nwheat (g_maxt,g_mint,g_snow,
+     :                                tempcx,tempcn)
 
          tempcr = (tempcn+tempcx)/2.0
  
@@ -4338,40 +3858,38 @@ c     if (on_day_of (germ, g_current_stage, g_days_tot)) then
             vd2 = 0.5 + 13.44 / (g_maxt-g_mint + 3.)**2 * tempcr
             vd = min (vd1, vd2)
             vd = l_bound (vd, 0.0)
-            g_cumvd = g_cumvd + vd
+            g_dlt_cumvd = vd
  
          else
             ! too cold or too warm - no vernalization
          endif
  
-         if (g_maxt .gt. 30. .and. g_cumvd .lt. 10.) then
+         if (g_maxt .gt. 30. .and. g_cumvd+g_dlt_cumvd .lt. 10.) then
             ! high temperature will reduce vernalization
-            g_cumvd = g_cumvd - 0.5*(g_maxt - 30.)
-            g_cumvd = l_bound (g_cumvd, 0.0)
+            g_dlt_cumvd = - 0.5*(g_maxt - 30.)
+            g_dlt_cumvd = - MIN(-g_dlt_cumvd, g_cumvd)
          else
          endif
  
       else
-         ! vernalization is complete
+            g_dlt_cumvd = 0.0
+
       endif
 
 
       call pop_routine (myname)
       return
       end
- 
- 
-
-
 
 
 
 * ====================================================================
-      subroutine wheat_vernaliz_effect(current_stage,
+      subroutine wheat_vernaliz_effect_nwheat(current_stage,
      :                                 start_stage,
      :                                 end_stage,
      :                                 p_vern_sen,
      :                                 cumvd,
+     :                                 dlt_cumvd,
      :                                 reqvd,
      :                                 vern_effect)
 * ====================================================================
@@ -4387,6 +3905,7 @@ c     if (on_day_of (germ, g_current_stage, g_days_tot)) then
       INTEGER end_stage
       REAL    p_vern_sen
       REAL    cumvd
+      REAL    dlt_cumvd
       REAL    reqvd
       REAL    vern_effect
 
@@ -4414,7 +3933,7 @@ c     if (on_day_of (germ, g_current_stage, g_days_tot)) then
 
          if (reqvd .lt. 0.0) reqvd = 50.0
 
-         vfac = 1. - p_vern_sen * (reqvd - cumvd)
+         vfac = 1. - p_vern_sen * (reqvd - (cumvd+dlt_cumvd))
          vern_effect = bound (vfac, 0.0, 1.0)
  
       else
@@ -7051,9 +6570,9 @@ c     stage = int(g_current_stage)
          dlt_dm_yield = rgfill*g_grain_no*(p_max_gfill_rate*mg2gm)
 
 
-c ==========================================================================================
+c ======================================================================
 c   This part in between handling the grain n/c ratio
-c ==========================================================================================
+c ======================================================================
 
         !cnh Change similar to Senthold - He used max kernal weight of 55 mg
          dlt_dm_yield = bound (dlt_dm_yield
@@ -7091,7 +6610,7 @@ c ==============================================================================
 
        dlt_dm_yield = divide (nflow,grain_nc_ratio,0.0)
 
-c ==========================================================================================
+c ======================================================================
 
       else
           ! we are out of grain fill period
@@ -7862,8 +7381,6 @@ c           nfactor = 1.0 !l_bound (nfactor, 0.0)
 
          g_dlt_tiller_no = g_dlt_tt * 0.005 * (rtsw - 1.)
 
-c         PRINT *, tiller_no_sq, rtsw, g_dlt_tiller_no
-
       else if (istage .eq. flag_leaf) then     !80 degree days longer than the original period ?????????
 
          optfr = min (g_nfact_expansion, g_swdef_photo)
@@ -8275,91 +7792,6 @@ c      istage = int(g_current_stage)
       return
       end
  
-
-
-* ====================================================================
-       subroutine cproc_root_length_init_ew (
-     :                stage_to_init
-     :               ,g_current_stage
-     :               ,g_days_tot
-     :               ,root_wt
-     :               ,c_specific_root_length
-     :               ,g_root_depth
-     :               ,g_dlayer
-     :               ,g_root_length
-     :               ,max_layer)
-* ====================================================================
-      implicit none
-      !dll_export cproc_root_length_init1
-      include 'convert.inc'
-      include 'data.pub'                          
-      include 'science.pub'                       
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      integer stage_to_init
-      real    g_current_stage
-      real    g_days_tot(*)
-      real    g_dlayer(*)
-      real    root_wt
-      real    c_specific_root_length
-      real    g_root_length(*)
-      real    g_root_Depth
-      integer max_layer
-
-
-*   -----------------------------------------------------------
-*   THIS SUBROUTINE SHOULD REPLACE THE ONE IN THE CROP LIBARAY
-*   -----------------------------------------------------------
-
-
-*+  Purpose
-*     Initialise crop root length to expected values at emergence
-
-*+  Mission Statement
-*   Initialise crop root length (on first day of %1)
-
-*+  Changes
-*     02-05-1997 - huth - Programmed and Specified
-
-*+  Constant Values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'cproc_root_length_init_ew')
-
-*+  Local Variables
-      real    initial_root_length      ! initial root length (mm/mm^2)
-      real    rld                      ! initial root length density (mm/mm^3)
-      integer num_root_layers          ! number of layers with roots
-      integer layer                    ! simple layer counter variable
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
- 
-      if (on_day_of (stage_to_init, g_current_stage, g_days_tot)) then
-         initial_root_length = root_wt/sm2smm * c_specific_root_length
-         rld = divide (initial_root_length
-     :                ,g_root_depth
-     :                ,0.0)
-         num_root_layers = find_layer_no (g_root_depth
-     :                                   ,g_dlayer
-     :                                   ,max_layer)
- 
-         call fill_real_array (g_root_length, 0.0, max_layer)
-
-
-         do 100 layer = 1, num_root_layers
-            g_root_length(layer) = rld * g_dlayer(layer)
-     :                           * root_proportion (layer  ! The crop template function wrong ->num_root_layers
-     :                                             ,g_dlayer
-     :                                             ,g_root_depth)
-  100    continue
-
-      else
-      endif
- 
-      call pop_routine (myname)
-      return
-      end
 
 
 
@@ -9188,7 +8620,7 @@ c     REAL      leaf_no_new
       REAL      leaf_frac
       integer   greenlfno
 c     INTEGER   istage
-      REAL      stress_fact
+c     REAL      stress_fact
       REAL      sum_tt
       REAL      tot_tt
  
@@ -9200,7 +8632,7 @@ c     INTEGER   istage
 
       if (stage_is_between(emerg, maturity, g_current_stage)) then
 
-         stress_fact = MIN(g_swdef_expansion,g_nfact_expansion)
+c        stress_fact = MIN(g_swdef_expansion,g_nfact_expansion)
 
           leaf_no_now = sum_between (emerg, now, g_leaf_no)
           greenlfno   = 4 !5
@@ -9341,7 +8773,7 @@ c     :             * g_lai_stage
       real       slfn
       real       slft                  ! low temperature factor (0-1)
       real       slfw                  ! drought stress factor (0-1)
-      REAL       stress_fact
+c     REAL       stress_fact
 
 C     INTEGER    counter
 c     INTEGER    dyingleaf
@@ -9355,7 +8787,7 @@ c     REAL       excess_sla
 
 
       if (stage_is_between(emerg, flag_leaf, g_current_stage) ) then
-          stress_fact = MIN(g_swdef_expansion,g_nfact_expansion)
+c         stress_fact = MIN(g_swdef_expansion,g_nfact_expansion)
 c         g_dlt_slai_age = 5* (1 - stress_fact) * g_dlt_slai_age
           g_dlt_slai_age = 0!1* (1 - stress_fact) * g_dlt_slai_age
       endif
@@ -9491,9 +8923,6 @@ c         g_dlt_slai_age = 5* (1 - stress_fact) * g_dlt_slai_age
 
           excess_sla =  MAX(0.0, g_dlt_slai - g_plsc (dyingleaf))
 
-          !PRINT *, "======================================="
-          !PRINT *, "excess_sla = ", excess_sla
-
           !adjust the plsc leaf area array to reflect leaf senesence
  
           if (excess_sla .gt. 0.0) then
@@ -9628,7 +9057,7 @@ c         g_dlt_slai_age = 5* (1 - stress_fact) * g_dlt_slai_age
      :                             g_mint,
      :                             0.0,
      :                             26.0,
-     :                             30.0,
+     :                             34.0,
      :                             g_dlt_tt)
 
 
@@ -9697,7 +9126,7 @@ c         g_dlt_slai_age = 5* (1 - stress_fact) * g_dlt_slai_age
      :                                  g_mint,
      :                                  tbase,  !0.0
      :                                  topt,   !26.0
-     :                                  tmax,   !30.0
+     :                                  tmax,   !34.0
      :                                  g_dlt_tt)
 *     ===========================================================
       implicit none
@@ -9740,7 +9169,7 @@ c         g_dlt_slai_age = 5* (1 - stress_fact) * g_dlt_slai_age
  
       ! -------- calculate crown temperatures ---------
  
-      call crop_crown_temp (g_maxt,g_mint,0.0,tempcx,tempcn)
+      call crop_crown_temp_nwheat (g_maxt,g_mint,0.0,tempcx,tempcn)
 
       tempcr = (tempcx + tempcn)/2.0
       tdif = tempcx - tempcn
@@ -10008,19 +9437,12 @@ c     dll_export dm_retranslocate_nw
                dm_retranslocate(supply_pools(counter))
      :                               = - dlt_dm_retrans_part
 
-c            print *,"dm_retranslocate(supply_pools(counter))=",
-c     :               dm_retranslocate(supply_pools(counter))
-
 
   100       continue
  
             dm_retranslocate(grain_part_no)
      :                             = - sum_real_array (dm_retranslocate
      :                                                , max_part)
- 
-c            print *,"dm_retranslocate(grain_part_no)=",
-c     :               dm_retranslocate(grain_part_no)
-
 
 
                ! ??? check that stem and leaf are >= min wts
@@ -10568,5 +9990,689 @@ c        g_dlt_dm_green(stem) = g_dlt_dm
 
 
 
+
+C     Last change:  E    18 Aug 2000    3:51 pm
+*     ===========================================================
+      subroutine crop_leaf_area_pot_wang (
+     .          g_plants,
+     .          g_current_stage,
+     .          phint,
+     .          g_dlt_tt,
+     .          g_leaf_no,
+     .          g_dlt_lai_pot,
+     .          g_tiller_no)
+*     ===========================================================
+*+  Purpose
+*       returns increment in total leaf area
+
+*+  Changes
+*    Enli programmed based on the old i-wheat routine
+
+      implicit none
+      include 'CropDefCons.inc'
+      include 'convert.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
+ 
+*+  Constant Values
+      character  my_name*(*)            ! name of subroutine
+      parameter (my_name = 'crop_leaf_area_pot_wang')
+
+
+*+  Arguments
+      real g_plants
+      real g_current_stage
+      real phint
+      real g_dlt_tt
+      real g_leaf_no
+      real g_dlt_lai_pot
+      REAL g_tiller_no
+
+*+  Local Variables
+
+      real dlt_tpla_today
+      REAL dlt_leaf_no
+      REAL leaf_no_after_fi
+      REAL current_leaf_size
+c     real leaf_no_now
+      REAL leaf_size
+
+*+  Calls
+
+      
+*+ --Implementation section ---------------------------
+       call push_routine (my_name)
+       
+
+       if (stage_is_between(emerg,flag_leaf,g_current_stage)) then
+          dlt_leaf_no = divide(g_dlt_tt, phint, 0.0)
+       else
+          dlt_leaf_no = 0.0
+       endif
+
+
+c      leaf_no_now      = sum_between(emerg,      12,g_leaf_no)
+       leaf_no_after_fi = sum_between(floral_init,12,g_leaf_no)
+
+
+       leaf_size = 653.0
+
+       if (leaf_no_after_fi.le.0.0) then
+         current_leaf_size = leaf_size !653.0 !mm2
+       else
+         current_leaf_size = 653.0+INT(leaf_no_after_fi+1.0)*522.0 !mm2
+         current_leaf_size = leaf_size
+     :                  +INT(leaf_no_after_fi+1.0)*522.0 !mm2
+       end if
+
+
+       !CERES
+c       if (leaf_no_after_fi.le.0.0) then
+c          current_leaf_size = 1400.0*(leaf_no_now**0.6)
+c       else
+c         current_leaf_size = 1400.0+INT(leaf_no_after_fi+1.0)*2*522.0 !mm2
+c       endif
+
+       !leaf_area = leaf_area * (0.3 + 0.7 * g_tiller_no)
+       
+
+
+
+      !mm2 per plant
+       dlt_tpla_today = current_leaf_size * dlt_leaf_no *g_tiller_no
+
+c       dlt_tpla_today =711.95*(EXP(0.2824*(leaf_no_now + dlt_leaf_no))
+c     :                        - EXP(0.2824*leaf_no_now))
+c     :                        * g_tiller_no
+
+
+
+      ! m2 leaf area / m2
+      g_dlt_lai_pot = dlt_tpla_today * g_plants *1E-6
+
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+*     ===========================================================
+      subroutine cproc_leaf_area_pot_iw_new (
+     .          g_plants,
+     .          g_current_stage,
+     .          phint,
+     .          g_dlt_tt,
+     .          g_tiller_area_max,
+     .          c_tiller_curve,
+     .          c_tiller_tt_infl,
+     .          g_tiller_tt_tot,
+     .          g_tiller_area_pot,
+     .          g_dlt_tiller_area_pot,
+     .          g_dlt_lai_pot,
+     .          g_tiller_no)
+*     ===========================================================
+*+  Purpose
+*       returns increment in total leaf area
+
+*+  Changes
+*    Enli programmed based on the old i-wheat routine
+
+      implicit none
+      include 'CropDefCons.inc'
+      include 'convert.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
+ 
+*+  Constant Values
+      character  my_name*(*)            ! name of subroutine
+      parameter (my_name = 'cproc_leaf_area_pot_iw_new')
+
+*+  Local Variables
+      real tpla_dlt_today
+
+*+  Arguments
+      real g_plants
+      real g_current_stage
+      real phint
+      real g_dlt_tt
+      real g_tiller_area_max(*)
+
+      real c_tiller_curve(*)
+      real c_tiller_tt_infl(*)
+      real g_tiller_tt_tot
+      real g_tiller_area_pot(*)
+
+      real g_dlt_tiller_area_pot(*)
+      real g_dlt_lai_pot
+      REAL g_tiller_no
+
+*+  Calls
+
+      
+*+ --Implementation section ---------------------------
+       call push_routine (my_name)
+       
+
+       call iw_tiller_area_pot_new  (
+     .                               g_plants,
+     .                               phint,
+     .                               g_dlt_tt,
+     .                               g_current_stage,
+     .                               g_tiller_area_max,
+     .                               c_tiller_curve,
+     .                               c_tiller_tt_infl,
+     .                               g_tiller_tt_tot,
+     .                               g_tiller_area_pot,
+     .                               g_dlt_tiller_area_pot,
+     .                               g_tiller_no)
+
+      !cm2 per plant
+      tpla_dlt_today = sum_real_array (g_dlt_tiller_area_pot, max_leaf)
+      tpla_dlt_today = MAX(0.0, tpla_dlt_today)
+
+      ! m2 leaf area / m2
+      g_dlt_lai_pot = tpla_dlt_today* smm2sm * g_plants * 100.0
+
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+
+
+
+*==================================================================
+      subroutine iw_tiller_area_pot_new (
+     .                               g_plants,
+     .                               phint,
+     .                               dly_therm_time,
+     .                               g_current_stage,
+     .                               g_tiller_area_max,
+     .                               c_tiller_curve,
+     .                               c_tiller_tt_infl,
+     .                               g_tiller_tt_tot,
+     .                               g_tiller_area_pot,
+     .                               g_dlt_tiller_area_pot,
+     .                               g_tiller_no)
+*=================================================================
+*+  Purpose
+*       returns increment in total tiller area
+
+*+  Changes
+*    EW modified from the old i-wheat routine
+
+      implicit none
+      include 'CropDefCons.inc'
+      include 'convert.inc'            ! sm2smm
+      include 'science.pub'                       
+      include 'error.pub'
+      include 'data.pub'                         
+
+*+  Function arguments
+      real g_plants
+      real phint
+      real dly_therm_time
+      real g_current_stage
+      real g_tiller_area_max(*)
+      real c_tiller_curve(*)   ! curvature coefficient for tillers
+      real c_tiller_tt_infl(*) ! inflection point for tiller development
+      real g_tiller_tt_tot     ! thermal time till now for tillering
+      real g_tiller_area_pot(*)
+      real g_dlt_tiller_area_pot(*)
+      REAL g_tiller_no
+ 
+
+*+  Constant Values
+      character  myname*(*)            ! name of subroutine
+      parameter (myname = 'iw_tiller_area_pot_new')
+
+*+  Local Variables
+      integer   n                      ! do loop counter
+      integer   istage
+      REAL      tiller_tt_tot_today
+      real      tiller_area_pot(max_leaf)
+
+
+*- Implementation Section ----------------------------------
+ 
+       call push_routine (myname)
+       
+       call fill_real_array(g_dlt_tiller_area_pot, 0.0, max_leaf)
+       call fill_real_array(      tiller_area_pot, 0.0, max_leaf)
+       
+       istage = int(g_current_stage)
+      
+       !=====================================================================
+       !Before emergence, initialisation, parameters should be externalised later
+
+       if (istage .lt. emerg) then ! crop hasn't emerged yet
+          ! till_curve and till_tt_infl are inversly related and
+          ! their product equals 7.2. till_tt_infl for the first
+          ! tiller is half of that for the whole plant. all subsequent
+          ! tillers have half of till_tt_infl of tiller 1.
+
+          !the coefficient for tiller_area_max is changed from 1.0 to 2.0 based on Porter JR, 1984.
+          !A model of canopy development in winter wheat. J. Agric. Sci. Camb. 102:383-392.
+
+          !Millet data indicates max leaf area for main shoot is pretty comparable to that of the tillers
+
+          !Max tiller area should be related to final leaf number
+
+          g_tiller_area_pot(1)   = 0.0
+          g_tiller_area_max(1)   = 2.0 / (g_plants/sm2smm*100.0) !cm2 per tiller  - this should be related to final leaf number
+ 
+          c_tiller_curve  (1)    = 0.018
+          c_tiller_tt_infl(1)    = 400.0!400.0
+        
+          do n = 2, max_leaf
+            g_tiller_area_pot(n) = 0.0
+            g_tiller_area_max(n) = 2.0/(g_plants/sm2smm*100.0)
+ 
+            c_tiller_curve(n)        = c_tiller_curve(1)   * 1.5
+            c_tiller_tt_infl(n)      = c_tiller_tt_infl(1) / 1.5
+
+          end do
+
+
+          if (istage.lt.germ) then
+c         if (istage.lt.emerg) then
+                g_tiller_tt_tot = 0.0   ! in original i_wheat tt accumulated from germination - ew
+          endif
+ 
+
+       !=====================================================================
+       !After emergence till flowering, calculation
+
+
+c      elseif (stage_is_between(emerg,flowering,g_current_stage)) then !originally in i_wheat is flowering
+       elseif (stage_is_between(emerg,flag_leaf,g_current_stage)) then !originally in i_wheat is flowering
+
+        ! crop has emerged, calculate leaf area
+
+         tiller_tt_tot_today = g_tiller_tt_tot + dly_therm_time
+
+         call iw_tiller_area_pot_anyday_new (
+     .                               tiller_tt_tot_today,
+     .                               phint,
+     .                               g_tiller_area_max,
+     .                               c_tiller_curve,
+     .                               c_tiller_tt_infl,
+     .                               tiller_area_pot,
+     .                               g_tiller_no)
+
+         do n = 1, max_leaf
+
+           g_dlt_tiller_area_pot(n)= l_bound(tiller_area_pot(n)-
+     .                                     g_tiller_area_pot(n),0.0)
+         end do
+
+
+
+
+
+       !Tillering stops after floral initiation
+       if (stage_is_between(floral_init,flag_leaf,g_current_stage)) then !originally in i_wheat is flowering
+
+         do n = 1, max_leaf
+
+           if (tiller_area_pot(n) .eq. 0.0) then
+            g_tiller_area_max(n) = 0.0
+           endif
+         end do
+       endif
+
+
+
+
+
+
+
+
+       else
+         continue       ! don't do anything. leaves have stopped growing
+
+       endif
+ 
+  
+      call pop_routine (myname)
+      return
+      end
+
+
+
+
+*==================================================================
+      subroutine iw_tiller_area_pot_anyday_new (
+     .                               tt_tot,
+     .                               phint,
+     .                               g_tiller_area_max,
+     .                               c_tiller_curve,
+     .                               c_tiller_tt_infl,
+     .                               tiller_area_pot,
+     .                               g_tiller_no)
+*=================================================================
+*+  Purpose
+*       returns increment in total tiller area
+
+*+  Changes
+*    EW modified from the old i-wheat routine
+
+      implicit none
+      include 'CropDefCons.inc'
+      include 'convert.inc'            ! sm2smm
+      include 'science.pub'                       
+      include 'error.pub'
+      include 'data.pub'                         
+
+*+  Function arguments
+
+      REAL    tt_tot
+      real    phint
+      REAL    g_tiller_area_max(*)
+      real    c_tiller_curve(*)   ! curvature coefficient for tillers
+      real    c_tiller_tt_infl(*) ! inflection point for tiller development
+      real    tiller_area_pot(*)
+      REAL    g_tiller_no
+
+
+*+  Constant Values
+      character  myname*(*)            ! name of subroutine
+      parameter (myname = 'iw_tiller_area_pot_anyday')
+
+*+  Local Variables
+      REAL    tt_til
+      INTEGER n
+
+
+*- Implementation Section ----------------------------------
+
+       call push_routine (myname)
+
+           ! only grows leaves if anthesis date has not yet been reached.
+           ! after one phyl_ind the crop starts to develop (main stem only).
+           ! until then, any growth (i.e. leaf area) is not considered and
+           ! is assumed to come from seed reserves (not modelled). this
+           ! avoids the problems of very early growth predictions.
+           ! the following section is for the mainstem tiller only.
+
+           if((tt_tot - phint) .le. 0.0) then
+c          if(tt_tot .le. 0.0) then
+              tiller_area_pot(1) = 0.0
+           else
+              tiller_area_pot(1) = g_tiller_area_max(1) /
+     .                          (1.0 + exp( - c_tiller_curve(1) *
+     .                    ((tt_tot - phint) -c_tiller_tt_infl(1))))
+c     .                    ((tt_tot - 0.0) -c_tiller_tt_infl(1))))
+           endif
+ 
+   
+           ! this section is for all other tillers.
+           ! tillering starts after 5 phyl_ind at a rate of 1 tiller per
+           ! phyl_ind (tiller 2 - 5 start to grow simultanously).
+           do n = 2, 1 + INT(g_tiller_no) !max_leaf
+             tt_til = tt_tot - 5.0 * phint
+             tt_til = tt_tot - real(3+n-1) * phint
+c             tt_til = tt_tot - (1.5+n-1) * phint
+      !       n_till_start = MAX(0.0, REAL(n))    !ew changed the start tiller phyllochrons
+      !       tt_til = tt_now - n_till_start * phint
+
+
+             if(tt_til.le.0.0) then
+                tiller_area_pot(n) = 0.0
+             else
+                tiller_area_pot(n) = g_tiller_area_max(n)/
+     .                             (1.0 + exp( - c_tiller_curve(n)
+     .                          * (tt_til - c_tiller_tt_infl(n))))
+             endif
+           end do
+ 
+
+
+      call pop_routine (myname)
+      return
+      end
+
+
+
+
+
+
+
+
+
+
+*======================================================================
+
+*  PHENOLOGY
+
+
+ 
+
+*======================================================================
+      subroutine Crop_Photoperiodism (
+     .          current_stage,
+     .          start_stage,
+     .          end_stage,
+     .          days_tot,
+     .          vernalisation,
+     .          photoperiod,
+     .          photop_opt,
+     .          photop_sen,
+     .          leaf_no_seed,
+     .          leaf_no_min,
+     .          leaf_no_max,
+     .          leaf_primordia_vern,
+     .          leaf_no_final)
+*======================================================================
+*+  Purpose
+*       Calculate total leaf number determined by photoperiod
+
+*+  Changes
+*       20000305 Ew programmed
+
+
+      implicit none
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      real    current_stage
+      integer start_stage
+      integer end_stage
+      real    days_tot(*)
+      REAL    vernalisation
+      real    photoperiod
+      real    photop_opt
+      real    photop_sen
+      real    leaf_no_seed
+      real    leaf_no_min
+      real    leaf_no_max
+      REAL    leaf_primordia_vern
+      real    leaf_no_final
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Crop_Photoperiodism')
+
+*+  Local Variables
+      REAL leaf_min
+      REAL leaf_max
+      REAL leaf_no_final_photop
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+
+      if (stage_is_between(start_stage, end_stage,current_stage) .or.
+     .    on_day_of (start_stage,current_stage,days_tot)         .or.
+     .    on_day_of (end_stage,  current_stage,days_tot))        then
+ 
+         leaf_min = leaf_no_min - leaf_no_seed
+         leaf_max = leaf_no_max - leaf_no_seed
+
+         if (photoperiod .gt. photop_opt)  photoperiod = photop_opt
+
+
+         leaf_no_final_photop = leaf_min + (leaf_max - leaf_min) *
+     :           (1.0 - photoperiod/photop_opt)**(10.0-9.0*photop_sen)
+
+
+         leaf_no_final = leaf_no_final_photop + leaf_primordia_vern
+
+         leaf_no_final = MIN(leaf_no_final, leaf_no_max)
+
+
+         call bound_check_real_var (leaf_no_final
+     :                            , leaf_no_min, leaf_no_max
+     :                            , 'leaf_no_final')
+ 
+      else
+
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+
+
+
+
+
+
+
+
+
+
+* ====================================================================
+       subroutine tillering_Wang (
+     :                  g_current_stage,
+     :                  emerg,
+     :                  floral_init,
+     :                  flag_leaf,
+     :                  dm_stem,
+     :                  dlt_dm_stem,
+     :                  g_tt_tot,
+     :                  g_phase_tt,
+     :                  g_dlt_tt,
+     :                  g_phint,
+     :                  g_leaf_no,
+     :                  g_tiller_no_pot,
+     :                  g_dlt_leaf_no,
+     :                  g_tiller_no,
+     :                  g_plants,
+     :                  g_swdef_tiller,
+     :                  g_nfact_tiller,
+     :                  g_dm_tiller_pot,
+     :                  p_dm_tiller_max,
+     :                  g_dlt_tiller_no_pot,
+     :                  g_dlt_tiller_no,
+     :                  g_dlt_tiller_no_sen)
+* ====================================================================
+      implicit none
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
+
+* arguments
+      real      g_current_stage    !(INPUT) current dev stage
+      integer   emerg              !(INPUT) stage of emergence
+      integer   floral_init        !(INPUT) stage of floral initiation
+      integer   flag_leaf          !(INPUT) stage of flag leaf
+      real      dm_stem            !(INPUT) stem biomass (g/m2)
+      real      dlt_dm_stem        !(INPUT) stem biomass growth rate (g/m/d)
+      real      g_tt_tot(*)        !(INPUT) accumulated thermal time each stage (Cd)
+      real      g_phase_tt(*)      !(INPUT) thermal time needed for each stage to finish (Cd)
+      real      g_dlt_tt           !(INPUT) daily thermal time (Cd)
+      real      g_phint            !(INPUT) phyllochron interval (Cd)
+      real      g_leaf_no(*)       !(INPUT) leaves developed in each stage
+      real      g_dlt_leaf_no      !(INPUT) leaf no growth rate (leaves/d)
+      real      g_tiller_no_pot    !(INPUT)
+      real      g_tiller_no        !(INPUT) tiller number per plant (tillers/plt)
+      real      g_plants           !(INPUT) plant density (plants/m2)
+      real      g_swdef_tiller     !(INPUT) water stress factor for tillering
+      real      g_nfact_tiller     !(INPUT) n stress factor for tillering
+      real      g_dm_tiller_pot    !(OUTPUT)potential tiller weight (g/tl)
+      real      p_dm_tiller_max    !(INPUT) single tiller weight when elongation ceases (g/tiller)
+      real      g_dlt_tiller_no_pot
+      real      g_dlt_tiller_no    !(OUTPUT)tiller num growth rate (tillers/d)
+      real      g_dlt_tiller_no_sen!(OUTPUT)tiller num senesced today (tillers/d)
+      
+      
+*+  Purpose
+*     <insert here>
+ 
+*+  Notes
+*    if translocation from stem is to occur during stages for tillering
+*    - it will have to effect this.
+ 
+*+  Mission Statement
+*     Calculate tiller development
+ 
+*+  Changes
+*     990311 ew  reprogrammed based on nwheat routine
+ 
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'tillering_wang')
+ 
+*+  Local Variables
+       REAL    leaf_no_now
+
+       INTEGER flower
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+ 
+
+
+      !tiller_no_sq = g_tiller_no * g_plants
+
+      leaf_no_now = sum_between(emerg,12,g_leaf_no)
+
+      flower = flag_leaf + 1
+
+      if (stage_is_between(emerg, flower, g_current_stage)) then
+      
+            !After 2.5 leaves, tiller emerges at a potential rate of one tiller/phyllochron
+            if (leaf_no_now .lt. 2.5) then
+                g_dlt_tiller_no_pot = 0.0
+            else
+                g_dlt_tiller_no_pot =  divide(g_dlt_tt, g_phint,0.0)
+            end if
+
+            g_dlt_tiller_no = g_dlt_tiller_no_pot *
+     :                       min (g_swdef_tiller,g_nfact_tiller)
+
+         else
+            g_dlt_tiller_no = 0.0
+         endif
+
+
+
+      if ((g_dlt_tiller_no .lt. 0.0) .and.
+     :    (g_tiller_no + g_dlt_tiller_no .lt. 1.0)) then
+         ! this delta would drop tiln below 1 tiller/plant
+         g_dlt_tiller_no = -1.0*(g_tiller_no - 1.)
+      endif
+
+ 
+      if (g_dlt_tiller_no .lt. 0.0) then
+         ! we are actually killing tillers - keep track of these
+         g_dlt_tiller_no_sen =  - g_dlt_tiller_no
+      endif
+ 
+
+      call pop_routine (myname)
+      return
+      end
 
 
