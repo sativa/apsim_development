@@ -1,4 +1,4 @@
-C     Last change:  E    14 Feb 2001    2:54 pm
+C     Last change:  E    14 Feb 2001    3:50 pm
 
 
 ***************************************************************************
@@ -3844,7 +3844,7 @@ cew - added this section
          !   sunf_leaf_area_devel_plant
 
 !scc This coeff. moved from sunf.ini to sunf.par file
-      call read_real_var (cultivar
+      call read_real_var_optional (cultivar
      :                    , 'main_stem_coef', '()'
      :                    , p%main_stem_coef, numvals
      :                    , 0.0, 10.0)
@@ -3905,7 +3905,7 @@ cSCC changed lower limit from 0 to -1000
          ! TEMPLATE OPTION
          !   sunf_check_grain_no  sunf_grain_no
 
-      call read_real_var (cultivar
+      call read_real_var_optional (cultivar
      :                    , 'head_grain_no_max', '()'
      :                    , p%head_grain_no_max, numvals
      :                    , 0.0, c%head_grain_no_max_ub)
@@ -3913,7 +3913,7 @@ cSCC changed lower limit from 0 to -1000
          ! TEMPLATE OPTION
          !   sunf_dm_grain
 
-      call read_real_var (cultivar
+      call read_real_var_optional (cultivar
      :                    , 'grain_gth_rate', '()'
      :                    , p%grain_gth_rate, numvals
      :                    , 0.0, c%grain_gth_rate_ub)
@@ -3930,12 +3930,12 @@ cSCC changed lower limit from 0 to -1000
      :                    , p%tt_flower_to_maturity, numvals
      :                    , 0.0, c%tt_flower_to_maturity_ub)
  
-      call read_integer_var (cultivar
+      call read_integer_var_optional (cultivar
      :                    , 'est_days_endjuv_to_init', '()'
      :                    , p%est_days_endjuv_to_init, numvals
      :                    , 0, 100)
  
-      call read_real_var (cultivar
+      call read_real_var_optional (cultivar
      :                    , 'pp_endjuv_to_init', '()'
      :                    , p%pp_endjuv_to_init, numvals
      :                    , 0.0, c%pp_endjuv_to_init_ub)
@@ -3986,7 +3986,7 @@ cSCC changed lower limit from 0 to -1000
      :                    , p%tt_maturity_to_ripe, numvals
      :                    , 0.0, c%tt_maturity_to_ripe_ub)
  
-      call read_real_var (cultivar
+      call read_real_var_optional (cultivar
      :                    , 'dm_per_seed', '()'
      :                    , p%dm_per_seed, numvals
      :                    , 0.0, 1.0)
@@ -4081,15 +4081,15 @@ c     :                'pp_endjuv_to_init        = '
 c     :               , p%pp_endjuv_to_init
 c      call write_string (string)
 
-      write (string, '(4x, a, f7.2)')
-     :                'head_grain_no_max        = '
-     :               , p%head_grain_no_max
-      call write_string (string)
- 
-      write (string, '(4x, a, f7.2)')
-     :                'grain_gth_rate           = '
-     :               , p%grain_gth_rate
-      call write_string (string)
+c      write (string, '(4x, a, f7.2)')
+c     :                'head_grain_no_max        = '
+c     :               , p%head_grain_no_max
+c      call write_string (string)
+c
+c      write (string, '(4x, a, f7.2)')
+c     :                'grain_gth_rate           = '
+c     :               , p%grain_gth_rate
+c      call write_string (string)
 
 
          ! TEMPLATE OPTION
