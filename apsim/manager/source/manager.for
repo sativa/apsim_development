@@ -977,8 +977,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
          if (Is_apsim_variable) then
             call Split_line(variable_name, Mod_name, Var_name, '.')
-            ok = get_simulation_information(Mod_name, componentInfo, 
-     .                                      modNameID, regID)
+            ok = component_name_to_id(Mod_name, modNameID)
             call Get_char_var
      .           (modNameID, Var_name, '()',
      .            Variable_value, Numvals)
@@ -1070,8 +1069,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       Is_apsim_variable = (index(variable_name, '.') .gt. 0)
       if (Is_apsim_variable) then
          call Split_line(variable_name, Mod_name, Var_name, '.')
-         ok = get_simulation_information(Mod_name, componentInfo, 
-     .                                   modNameID, regID)
+         ok = component_name_to_id(Mod_name, modNameID)
          call set_char_var(modNameID,
      .         trim(var_name), ' ',
      .         trim(Variable_value) )
@@ -1221,8 +1219,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Get_next_variable (Data_string,
      .                           Variable_name,
      .                           Data_string)
-         ok = get_simulation_information(Module_name, componentInfo, 
-     .                                   modNameID, regID)
+         ok = component_name_to_id(Module_name, modNameID)
          call set_char_var(modNameID, Variable_name, 
      .                     ' ', Data_string)
 

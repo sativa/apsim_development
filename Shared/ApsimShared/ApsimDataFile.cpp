@@ -9,7 +9,7 @@
 #include <general\string_functions.h>
 #include <general\stl_functions.h>
 #include <general\inifile.h>
-
+#include "fstring.h"
 #pragma package(smart_init)
 
 using namespace std;
@@ -275,5 +275,37 @@ TDateTime ApsimDataFile::getDate(void) const throw(std::runtime_error)
       int month = StrToInt(fieldValues[monthI].c_str());
       return TDateTime(year, month, day);
       }
+   }
+// ------------------------------------------------------------------
+// ------------------------------------------------------------------
+extern "C" unsigned _export __stdcall newApsimDataFile
+   (const char* filename, unsigned filenameLength)
+   {
+   string fileName(filename, filenameLength);
+   return (unsigned) new ApsimDataFile(fileName);
+   }
+extern "C" void _export __stdcall deleteApsimDataFile
+   (ApsimDataFile* dataFile)
+   {
+   delete dataFile;
+   }
+extern "C" unsigned _export __stdcall ApsimDataFile_getFieldValue
+   (ApsimDataFile* dataFile, unsigned* fieldIndex, char* value, unsigned valueLength)
+   {
+   try
+      {
+      string valueString = dataFile->getFieldValue(*fieldIndex);
+      FString(value, valueLength) = valueString.c_str();
+      return true;
+      }
+   catch (...)
+      {
+      return false;
+      }
+   }
+extern "C" unsigned _export __stdcall ApsimDataFile_next
+   (ApsimDataFile* dataFile)
+   {
+   return dataFile->next();
    }
 

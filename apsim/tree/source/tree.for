@@ -870,13 +870,10 @@ c      write (*,*) 'pesw_cap = ', pesw_capacity
       call new_postbox ()
 
       if (p%uptake_source .eq. 'calc') then
-        call post_real_array ('dlt_sw_dep',
+        call set_real_array (unknown_module,
+     :     'dlt_sw_dep',
      :     '(mm)',
      :     g%dlt_sw_dep, num_layers)
-
-        call Action_send( All_active_modules,
-     :     ACTION_Set_variable,
-     :     'dlt_sw_dep')
       else
       endif
 
@@ -1300,6 +1297,8 @@ c      not have the same meaning.....
       integer   layer
       integer   numvals
       real      value
+      integer   owner_module_id
+      logical   ok
 
 *- Implementation Section ----------------------------------
 
@@ -1351,13 +1350,15 @@ c      not have the same meaning.....
       if (numvals .le. 0) then
          call get_real_var_optional (unknown_module, 'eo', '(mm)'
      :              , value, numvals, c%pan_lb, c%pan_ub)
-         call get_posting_module (owner_module)
+         owner_module_id = get_posting_module ()
+         ok = component_id_to_name(owner_module_id, owner_module)
          write (string, '(a,a,a)')
      :        '  Pan evap approximated by ',
      :        owner_module(:lastnb(owner_module)),
      :        '.eo'
       else
-         call get_posting_module (owner_module)
+         owner_module_id = get_posting_module ()
+         ok = component_id_to_name(owner_module_id, owner_module)
          write (string, '(a, a, a)')
      :        '  Using Pan evap from ',
      :        owner_module(:lastnb(owner_module)),
@@ -1440,6 +1441,7 @@ c      not have the same meaning.....
       subroutine main (action, data_string)
 *     ================================================================
       Use Infrastructure
+      Use TreeModule
       implicit none
       ml_external Main
 

@@ -1716,7 +1716,8 @@
 *====================================================================
       subroutine main (Action, Data_string)
 *====================================================================
-      Use infrastructure
+      Use infrastructure    
+      Use Tamet2Module
       implicit none
       ml_external Main
 

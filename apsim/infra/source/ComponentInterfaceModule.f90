@@ -75,7 +75,7 @@ module ComponentInterfaceModule
       logical                          :: isOptional
       logical                          :: read_parameter
       end function
-
+                   
       function get_componentData( )
       ml_external get_componentData
       integer :: get_componentData
@@ -113,8 +113,34 @@ module ComponentInterfaceModule
       ml_external ApsimComponentData_getRuleLine 
       integer, intent(in) :: lineNumber        
       character(len=*), intent(in out) :: line
-      end subroutine
-                          
+      end subroutine 
+      
+      function newApsimDataFile(fileName)
+      ml_external newApsimDataFile
+      character(len=*), intent(in) :: fileName
+      integer                      :: newApsimDataFile
+      end function newApsimDataFile
+      
+      subroutine deleteApsimDataFile(dataFile)
+      ml_external deleteApsimDataFile
+      integer, intent(in)          :: dataFile
+      end subroutine deleteApsimDataFile
+      
+      function ApsimDataFile_getFieldValue(dataFile, fieldIndex, value)
+      ml_external ApsimDataFile_getFieldValue 
+      integer, intent(in)              :: dataFile
+      integer, intent(in)              :: fieldIndex
+      character(len=*), intent(in out) :: value
+      logical                          :: ApsimDataFile_getFieldValue
+      end function ApsimDataFile_getFieldValue
+
+      function ApsimDataFile_next(dataFile)
+      ml_external ApsimDataFile_next
+      integer, intent(in)          :: dataFile
+      logical                      :: ApsimDataFile_next
+      end function ApsimDataFile_next         
+
+                         
 !      subroutine send_message(amessage)
 !      use ProtocolModule
 !      ml_external send_message
@@ -319,14 +345,14 @@ module ComponentInterfaceModule
        integer, intent(in out)      :: numvals
        end subroutine get_char_vars 
 
-       subroutine set_char_var(componentID, variableName, units, value)   
-       ml_external set_char_var
+       subroutine set_real_var(componentID, variableName, units, value)   
+       ml_external set_real_var
        integer, intent(in)              :: componentID
        character(len=*), intent(in)     :: variableName
        character(len=*), intent(in)     :: units
-       character(len=*), intent(in)     :: value         
-       end subroutine set_char_var 
-                                 
+       real, intent(in)                 :: value         
+       end subroutine set_real_var 
+
        subroutine set_real_array(componentID, variableName, units, value, numvals)                                 
        ml_external set_real_array
        integer, intent(in)              :: componentID
@@ -336,6 +362,14 @@ module ComponentInterfaceModule
        integer, intent(in)              :: numvals         
        end subroutine set_real_array 
        
+       subroutine set_double_var(componentID, variableName, units, value)   
+       ml_external set_double_var
+       integer, intent(in)              :: componentID
+       character(len=*), intent(in)     :: variableName
+       character(len=*), intent(in)     :: units
+       double precision, intent(in)     :: value         
+       end subroutine set_double_var 
+
        subroutine set_double_array(componentID, variableName, units, value, numvals)                                 
        ml_external set_double_array
        integer, intent(in)              :: componentID
@@ -345,6 +379,21 @@ module ComponentInterfaceModule
        integer, intent(in)              :: numvals         
        end subroutine set_double_array 
        
+       subroutine set_char_var(componentID, variableName, units, value)   
+       ml_external set_char_var
+       integer, intent(in)              :: componentID
+       character(len=*), intent(in)     :: variableName
+       character(len=*), intent(in)     :: units
+       character(len=*), intent(in)     :: value         
+       end subroutine set_char_var 
+
+       subroutine set_char_array(componentID, variableName, units, value)   
+       ml_external set_char_array
+       integer, intent(in)              :: componentID
+       character(len=*), intent(in)     :: variableName
+       character(len=*), intent(in)     :: units
+       character(len=*), intent(in)     :: value(*)         
+       end subroutine set_char_array 
        
        subroutine respond2get_integer_var(variableName, units, value)   
        ml_external respond2get_integer_var
@@ -541,6 +590,16 @@ module ComponentInterfaceModule
        integer, intent(in)              :: lower
        integer, intent(in)              :: upper
        end subroutine collect_integer_var 
+
+       subroutine collect_integer_var_optional(variableName, units, value, numvals, lower, upper)   
+       ml_external collect_integer_var_optional
+       character(len=*), intent(in)     :: variableName
+       character(len=*), intent(in)     :: units
+       integer, intent(in out)          :: value
+       integer, intent(in out)          :: numvals
+       integer, intent(in)              :: lower
+       integer, intent(in)              :: upper
+       end subroutine collect_integer_var_optional 
 
        subroutine collect_double_var(variableName, units, value, numvals, lower, upper)   
        ml_external collect_double_var

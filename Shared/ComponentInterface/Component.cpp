@@ -360,7 +360,7 @@ unsigned Component::addRegistration(RegistrationType kind,
          }
       }
    RegistrationItem* newRegistration = new RegistrationItem
-         (this, kind, name, type);
+         (this, kind, regName, type);
    unsigned id = (unsigned) newRegistration;
    registrations.push_back(newRegistration);
 
