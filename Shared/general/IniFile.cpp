@@ -38,7 +38,7 @@ IniFile::~IniFile(void)
 void IniFile::setFileName(const string& file)
    {
    fileName = file;
-   if (ExtractFileDir(fileName.c_str()) == "")
+   if (fileName.find('\\') == string::npos)
       {
       string fullPath = string(GetCurrentDir().c_str()) + "\\" + fileName;
       fileName = fullPath;
@@ -76,7 +76,7 @@ void IniFile::parse(void)
          if (posClose != string::npos)
             {
             string sectionName = contents.substr(posOpen+1, posClose-posOpen-1);
-            Strip(sectionName, " ");
+            stripLeadingTrailing(sectionName, " ");
             sectionNames.push_back(sectionName);
             sectionIndexes.push_back(posOpen);
             }
@@ -191,7 +191,7 @@ bool IniFile::read(const string& sectionName, const string& key,
 // ------------------------------------------------------------------
 bool IniFile::findMatchingKeys(const string& sectionName, const string& key,
                                vector<string>& values, bool allowMultiple) const
-	{
+        {
    string line;
    string sectionContents;
    readSection(sectionName, sectionContents);
@@ -215,14 +215,14 @@ bool IniFile::findMatchingKeys(const string& sectionName, const string& key,
 // Read and return a list of section names.
 // ------------------------------------------------------------------
 void IniFile::readSectionNames(vector<string>& sections) const
-	{
+        {
    sections = sectionNames;
    }
 // ------------------------------------------------------------------
 // Read and return the contents of the specified section.
 // ------------------------------------------------------------------
 void IniFile::readSection(const string& section, string& contentsString) const
-	{
+        {
    unsigned posStartSection;
    unsigned posEndSection;
    if (getSectionPosition(section, posStartSection, posEndSection))
@@ -234,7 +234,7 @@ void IniFile::readSection(const string& section, string& contentsString) const
 bool IniFile::getSectionPosition(const string& section,
                                  unsigned& posStartSection,
                                  unsigned& posEndSection) const
-	{
+        {
    vector<string>::const_iterator i = find_if(sectionNames.begin(),
                                               sectionNames.end(),
                                               CaseInsensitiveStringComparison(section));
@@ -277,7 +277,7 @@ void IniFile::updateIndexesAfter(const string& section, unsigned numChars)
 // Write contents to a section in file.
 // ------------------------------------------------------------------
 void IniFile::writeSection(const string& section, const string& newContents)
-	{
+        {
    doBackup();
    unsigned posStartSection;
    unsigned posEndSection;
@@ -319,7 +319,7 @@ void IniFile::writeSection(const string& section, const string& newContents)
 // Write a string to ini file.
 // ------------------------------------------------------------------
 void IniFile::write(const string& section, const string& key, const string& value)
-	{
+        {
    doBackup();
    if (value == "")
       deleteKey(section, key);
@@ -335,7 +335,7 @@ void IniFile::write(const string& section, const string& key, const string& valu
 // ------------------------------------------------------------------
 void IniFile::write(const string& section, const string& key,
                     const vector<string>& values)
-	{
+        {
    doBackup();
    unsigned insertPos;
    string contents;
@@ -362,7 +362,7 @@ void IniFile::write(const string& section, const string& key,
 // in a section.
 // ------------------------------------------------------------------
 void IniFile::deleteKey(const string& section, const string& key)
-	{
+        {
    doBackup();
    unsigned insertPos;
    string contents;
@@ -379,7 +379,7 @@ void IniFile::deleteKey(const string& section, const string& key)
 // deleted.
 // ------------------------------------------------------------------
 void IniFile::deleteSection(const string& section)
-	{
+        {
    doBackup();
    vector<string>::iterator i = find(sectionNames.begin(),
                                      sectionNames.end(),
@@ -412,7 +412,7 @@ void IniFile::deleteSection(const string& section)
 // ------------------------------------------------------------------
 void IniFile::getKeysInSection(const string& section,
                                vector<string>& keys) const
-	{
+        {
    string sectionContents;
    readSection(section, sectionContents);
 
@@ -433,62 +433,11 @@ void IniFile::getKeysInSection(const string& section,
       }
    }
 // ------------------------------------------------------------------
-// Helper function - Get a section name from the specified line.
-// ie look for [section] on the line passed in.
-// Returns name if found.  Blank otherwise.
-// ------------------------------------------------------------------
-string getSectionName(const std::string& line)
-   {
-   string section;
-   unsigned int posOpen = line.find_first_not_of (" \t");
-   if (posOpen != string::npos && line[posOpen] == '[')
-      {
-      int posClose = line.find(']');
-      if (posClose != string::npos)
-         section = line.substr(posOpen+1, posClose-posOpen-1);
-      }
-   Strip(section, " ");
-   return section;
-   }
-// ------------------------------------------------------------------
-// Get a value from an .ini line. ie look for keyname = keyvalue
-// on the line passed in.  Returns the value if found or blank otherwise.
-// ------------------------------------------------------------------
-string getKeyValue(const string& line, const string& key)
-   {
-   string keyFromLine;
-   string valueFromLine;
-   getKeyNameAndValue(line, keyFromLine, valueFromLine);
-   if (Str_i_Eq(keyFromLine, key))
-      return valueFromLine;
-   else
-      return "";
-   }
-// ------------------------------------------------------------------
-// Return the key name and value on the line.
-// ------------------------------------------------------------------
-void getKeyNameAndValue(const string& line, string& key, string& value)
-   {
-   int posEquals = line.find('=');
-   if (posEquals != string::npos)
-      {
-      key = line.substr(0, posEquals);
-      Strip(key, " ");
-      value = line.substr(posEquals+1);
-      Strip(value, " ");
-      }
-   else
-      {
-      key = "";
-      value = "";
-      }
-   }
-// ------------------------------------------------------------------
 // rename the specified section
 // ------------------------------------------------------------------
 void IniFile::renameSection(const string& oldSection,
                             const string& newSection)
-	{
+        {
    doBackup();
    vector<string>::iterator i = find(sectionNames.begin(),
                                      sectionNames.end(),

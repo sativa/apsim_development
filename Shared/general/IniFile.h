@@ -7,7 +7,7 @@
 // Class handling the reading and writting to/from INI files.
 // ------------------------------------------------------------------
 class IniFile
-	{
+        {
    public:
       IniFile(void);
       ~IniFile(void);
@@ -66,24 +66,5 @@ class IniFile
       void doBackup();
    };
 
-// ------------------------------------------------------------------
-// Helper function - Get a section name from the specified line.
-// ie look for [section] on the line passed in.
-// Returns name if found.  Blank otherwise.
-// ------------------------------------------------------------------
-std::string getSectionName(const std::string& line);
-
-// ------------------------------------------------------------------
-// Get a value from an .ini line. ie look for keyname = keyvalue
-// on the line passed in.  Returns the value if found or blank otherwise.
-// ------------------------------------------------------------------
-std::string getKeyValue(const std::string& line, const std::string& key);
-
-// ------------------------------------------------------------------
-// Return the key name and value on the line.
-// ------------------------------------------------------------------
-void getKeyNameAndValue(const std::string& line,
-                        std::string& key,
-                        std::string& value);
 
 #endif

@@ -1,28 +1,16 @@
 #include <general\pch.h>
-#include <vcl.h>
 #pragma hdrstop
 
 #include <general\string_functions.h>
 #include <tchar.h>
 #include <strstream>
 #include <iomanip>
-#include <sysutils.hpp>
 #include "stristr.h"
 using namespace std;
 // ------------------------------------------------------------------
-//  Short description:
-//    removes leading and trailing characters.
-
-//  Notes:
-
-//  Changes:
-//    DPH 17/4/1997
-//    dph 14/10/97 work around bug in Borland string class in routine
-//                 find_last_not_of.  Doesn't work with 2 character string !!
-//    dph 27/3/98 changed call to remove with call to replace in line with standard.
-
+// removes leading and trailing characters.
 // ------------------------------------------------------------------
-void Strip (string& text, const char* separators)
+void stripLeadingTrailing(string& text, const string& separators)
    {
    size_t Pos;
 
@@ -62,6 +50,45 @@ void Strip (char* text, const char* separators)
       }
    }
 
+// ------------------------------------------------------------------
+// Split off a substring delimited with the specified character and
+// return substring.
+// ------------------------------------------------------------------
+std::string splitOffAfterDelimiter(std::string& value, const std::string& delimiter)
+   {
+   string returnString;
+
+   unsigned pos = value.find(delimiter);
+   if (pos != string::npos)
+      {
+      returnString = value.substr(pos + delimiter.length());
+      value.erase(pos);
+      }
+   return returnString;
+   }
+// ------------------------------------------------------------------
+// Split off a bracketed value from the end of the specified string.
+// The bracketed value is then returned, without the brackets,
+// or blank if not found.
+// ------------------------------------------------------------------
+string splitOffBracketedValue(string& value,
+                              char openBracket, char closeBracket)
+   {
+   string returnString;
+
+   unsigned posCloseBracket = value.find_last_not_of(" ");
+   if (posCloseBracket != string::npos && value[posCloseBracket] == closeBracket)
+      {
+      unsigned posOpenBracket = value.find_last_of(openBracket, posCloseBracket-1);
+      if (posOpenBracket != string::npos)
+         {
+         returnString = value.substr(posOpenBracket+1, posCloseBracket-posOpenBracket-1);
+         value.erase(posOpenBracket);
+         stripLeadingTrailing(returnString, " ");
+         }
+      }
+   return returnString;
+   }
 // ------------------------------------------------------------------
 //  Short description:
 //    Return true if string passed in is numerical.  False otherwise.
@@ -193,11 +220,10 @@ bool replaceAll(string& St, const string& subString, const string& replacementSt
 // ------------------------------------------------------------------
 string ftoa(double Float, int Num_decplaces)
    {
-//   ostrstream buf;
-//   buf.setf(std::ios::fixed, std::ios::floatfield);
-//   buf << std::setprecision(Num_decplaces) << Float << std::ends;
-//   return buf.str();
-   return FloatToStrF(Float, ffFixed, 12, Num_decplaces).c_str();
+   ostringstream buf;
+   buf.setf(std::ios::fixed, std::ios::floatfield);
+   buf << std::setprecision(Num_decplaces) << Float << std::ends;
+   return buf.str();
    }
 
 // ------------------------------------------------------------------
@@ -335,7 +361,7 @@ void getAttributeNameAndValue(const string& line,
    {
    // get the bit to the left of the equals sign.
    string leftOfEquals = line.substr(0, posEquals);
-   Strip(leftOfEquals, " ");
+   stripLeadingTrailing(leftOfEquals, " ");
 
    // get the last word on the left of the equals i.e. the attribute name
    unsigned lastSpace = leftOfEquals.find_last_of(" \t");
@@ -383,4 +409,54 @@ void removeAttributeFromLine(std::string& line, const std::string& attribute)
          line.erase(startPos, endPos-startPos+1);
       }
    }
-
+   // ------------------------------------------------------------------
+// Helper function - Get a section name from the specified line.
+// ie look for [section] on the line passed in.
+// Returns name if found.  Blank otherwise.
+// ------------------------------------------------------------------
+   string getSectionName(const std::string& line)
+      {
+      string section;
+      unsigned int posOpen = line.find_first_not_of (" \t");
+      if (posOpen != string::npos && line[posOpen] == '[')
+         {
+         int posClose = line.find(']');
+         if (posClose != string::npos)
+            section = line.substr(posOpen+1, posClose-posOpen-1);
+         }
+      stripLeadingTrailing(section, " ");
+      return section;
+      }
+// ------------------------------------------------------------------
+// Get a value from an .ini line. ie look for keyname = keyvalue
+// on the line passed in.  Returns the value if found or blank otherwise.
+// ------------------------------------------------------------------
+   string getKeyValue(const string& line, const string& key)
+      {
+      string keyFromLine;
+      string valueFromLine;
+      getKeyNameAndValue(line, keyFromLine, valueFromLine);
+      if (Str_i_Eq(keyFromLine, key))
+         return valueFromLine;
+      else
+         return "";
+      }
+// ------------------------------------------------------------------
+// Return the key name and value on the line.
+// ------------------------------------------------------------------
+   void getKeyNameAndValue(const string& line, string& key, string& value)
+      {
+      int posEquals = line.find('=');
+      if (posEquals != string::npos)
+         {
+         key = line.substr(0, posEquals);
+         stripLeadingTrailing(key, " ");
+         value = line.substr(posEquals+1);
+         stripLeadingTrailing(value, " ");
+         }
+      else
+         {
+         key = "";
+         value = "";
+         }
+      }
