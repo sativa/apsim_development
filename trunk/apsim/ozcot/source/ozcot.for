@@ -6859,10 +6859,9 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       fraction_to_Residue(leaf) = 1.0
 
       dlt_dm_crop(pod) = (g%dw_boll - g%openwt) * gm2kg/sm2ha
+      dlt_dm_crop(pod) = l_bound(dlt_dm_crop(pod), 0.0)
       dlt_dm_N(pod) = dlt_dm_crop(pod) * 0.4 / 100.0
       fraction_to_Residue(pod) = 1.0
-!      print*, 'g%dw_root, g%openwt,g%dw_stem, g%dw_leaf,g%dw_boll'
-!      print*, g%dw_root, g%openwt,g%dw_stem, g%dw_leaf,g%dw_boll
 !     call crop_top_residue (c%crop_type, dm_residue, N_residue)
 
       if (sum(dlt_dm_crop) .gt. 0.0) then
