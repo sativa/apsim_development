@@ -715,23 +715,32 @@ void Coordinator::reorderSubscriptions(::Registrations::Subscriptions& subs)
 
    // Loop through all the component orders and make sure the subs passed in
    // are in the same order.
-   for (unsigned o = 0; o != componentOrders.size(); o++)
+   for (::Registrations::Subscriptions::iterator sub = subs.begin();
+                                                 sub != subs.end();
+                                                 sub++)
       {
-      for (::Registrations::Subscriptions::iterator sub = subs.begin();
-                                                    sub != subs.end();
-                                                    sub++)
+      if (find(componentOrders.begin(), componentOrders.end(),
+               sub->first) == componentOrders.end())
+         newSubs.push_back(*sub);
+      else
          {
-         if (sub->first == componentOrders[o])
+         unsigned numFound = 0;
+         for (unsigned o = 0; o != componentOrders.size(); o++)
             {
-            newSubs.push_back(*sub);
-            subs.erase(sub);
-            break;
+            for (::Registrations::Subscriptions::iterator s = subs.begin();
+                                                          s != subs.end();
+                                                          s++)
+               {
+               if (s->first == componentOrders[o])
+                  {
+                  newSubs.push_back(*s);
+                  numFound++;
+                  }
+               }
             }
+         sub += numFound-1;
          }
       }
-   // copy whatever is left in subs to the end of the newSubs container.
-   copy(subs.begin(), subs.end(), back_inserter(newSubs));
-
    subs = newSubs;
    }
 // ------------------------------------------------------------------
