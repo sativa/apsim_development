@@ -145,6 +145,8 @@
       <getVariableReg name="no3_min" type="no3_min"/>
       <setVariableReg name="no3" type="no3"/>
       <eventReg name="crop_chopped" type="crop_chopped"/>
+      <eventReg name="sowing" type="sowing"/>
+      <eventReg name="harvesting" type="harvesting"/>
       <respondToEventReg name="hail" type="hail"/>
       <respondToEventReg name="tick" type="tick"/>
       <respondToEventReg name="newmet" type="newmet"/>

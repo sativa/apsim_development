@@ -969,9 +969,7 @@ c+!!!!!!!!! check order dependency of deltas
       call push_routine (my_name)
 
           ! crop harvested. Report status
-      call new_postbox()
-      call event_send('harvesting')
-      call delete_postbox()
+      call publish_null(id%harvesting)
 
       yield = (g%dm_green(grain) + g%dm_dead(grain))
      :      * gm2kg / sm2ha
@@ -1890,9 +1888,7 @@ cjh special for erik - end
 !gd
 !         call get_name (module_name)
 !         write(*,*) 'len_trim', len_trim(module_name)
-      call new_postbox()
-      call event_send('sowing')
-      call delete_postbox()
+      call publish_null(id%sowing)
 
       call Write_string ( 'Sow')
 

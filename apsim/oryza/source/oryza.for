@@ -613,9 +613,7 @@
          call fatal_error(err_user, 
      :      'Already in the ground - did you forget to "end_crop"?')
       else
-         call new_postbox()
-         call event_send('sowing')
-         call delete_postbox()
+         call publish_null(id%sowing)
 
          call oryza_read_param ()
          
@@ -694,9 +692,7 @@
       call push_routine (my_name)
 
       if (g%plant_status.ne.status_out) then
-         call new_postbox()
-         call event_send('harvesting')
-         call delete_postbox()
+         call publish_null(id%harvesting)
 
          g%plant_status = status_out
 
