@@ -1,0 +1,11 @@
+[general]
+name = docs
+uses = *.*
+apf = %apsuite\apsim\base-docs.apf
+
+[docs]
+doc = Interface document; %thispath\croptemp_int.pdf
+doc = Crop template APSeudo document; %thispath\croptemp_pseudo.html
+doc = Crop template programming guide; %thispath\crop tempplate programming.html
+doc = April 1998 Crop template statistics; %thispath\april 1998 crop template statistics.xls
+doc = Pseudo Code; %thispath\croptemp_pseudo.html

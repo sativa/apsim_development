@@ -1,0 +1,29 @@
+[general]
+name = soilp
+apf = %apsuite\apsim\Base-module.apf
+apf = %thispath\docs\docs.apf
+optional_apf = %thispath\source\source.apf
+
+[dll]
+target  = target dll; %thispath\lib\soilp.dll
+
+[contacts]
+contact = Merv Probert - Module Developer; mailto:Merv.Probert@tag.csiro.au
+
+[apseudo]
+title=The APSIM SoilP Model
+parfile=
+parshowall=yes
+inifile=%thispath\soilp.ini
+inishowall=yes
+rddfile=
+
+heading = SoilP timestep calculations; soilp_process
+heading = Decompose residues; soilp_min_residues
+heading = Incorporate fresh organic matter; soilp_incorp_residues
+heading = Tillage; soilp_tillage
+
+
+
+
+
