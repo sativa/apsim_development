@@ -1,18 +1,11 @@
-[test.clock.parameters]  
-simulation_start_day =    1   
-simulation_end_day =      99   
-simulation_start_year =   1988   
-simulation_end_year =     1988   
-
-! Author  : Dean Holzworth
-! Comment : This example demonstrates some of the capability of the met
-!           module.  It outputs 2 different types of date formats to the
-!           output file and uses the manager to output after 31 january.
-
+version = 2.2
 [apsim.test]  
-  Module = clock    [test]      
 
-  Module = report   report.par [general]     report.par [input]     report.par [met]      
-  Module = met      %apsuite\apsim\met\sample\dalby.met[weather]      
-  Module = manager  test.man [test]      
 
+title=Test of clock module
+module = clock report.par[test]
+module = report report.par[general] report.par[input] report.par[met]
+module = input(met) %apsuite\apsim\met\sample\dalby.met[weather]
+module = manager test.man[test]
+module = SummaryFile  report.par[test]
+module = Screen  report.par[test]
