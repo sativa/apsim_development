@@ -38,19 +38,27 @@ class DEToolBar : public ToolBarAddInBase
       std::string Base_case;
       int Investment_period;
       AnalysisType NPV_flag;
-      bool needs_update;
+      bool edit_needs_update, npv_needs_update;
       int Begin_year, End_year;
-      void __fastcall buttonClick(TObject* Sender);
+      void __fastcall editButtonClick(TObject* Sender);
+      void __fastcall costsButtonClick(TObject* Sender);
       vector<DEEconConfig> Econ_configs;
       vector<double> Tax_brackets, Tax_rates;
 
       void getConfigs();
 
       static int numObjects;
+      static TToolButton* Edit_configs_button;
       static TToolButton* Costs_benefits_button;
-      static Graphics::TBitmap* glyph;
-      static int glyph_position;
+      static Graphics::TBitmap* Edit_glyph;
+      static Graphics::TBitmap* Costs_glyph;
+      static int Edit_glyph_position, Costs_glyph_position;
       static TToolBar* Toolbar;
+
+      void __fastcall updateConfigs();
+      void saveConfigs();
+      void getAllFactorValues(const std::string& factorName,
+                                   std::vector<std::string>& factorValues) const;
 
 
 };

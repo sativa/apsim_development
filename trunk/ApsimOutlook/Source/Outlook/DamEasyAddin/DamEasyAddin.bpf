@@ -1,8 +1,6 @@
 USEUNIT("DamEasyAddin.cpp");
 USEFORM("TDamEasy_form.cpp", DamEasy_form);
 USEUNIT("DamEasyEcon.cpp");
-USEFORM("..\TVALUESELECTIONFORM.cpp", ValueSelectionForm);
-USEFORM("TDEValueSelectionForm.cpp", DEValueSelectionForm);
 USEUNIT("..\scenario.cpp");
 USELIB("C:\Program Files\Borland\CBuilder5\Projects\Lib\general.lib");
 USEUNIT("DEEconConfig.cpp");
@@ -11,6 +9,7 @@ USELIB("C:\Program Files\Borland\CBuilder5\Lib\memmgr.lib");
 USEUNIT("DEToolBar.cpp");
 USEFORM("AddCostsBenefits.cpp", AddCostsBenefitsForm);
 USEUNIT("..\Scenarios.cpp");
+USEFORM("..\TTabRenameForm.cpp", TabRenameForm);
 //---------------------------------------------------------------------------
 This file is used by the project manager only and should be treated like the project file
 

@@ -1,6 +1,6 @@
 object DamEasy_form: TDamEasy_form
-  Left = 340
-  Top = 378
+  Left = 264
+  Top = 260
   BorderStyle = bsDialog
   Caption = 'Economic configuration'
   ClientHeight = 423
@@ -342,72 +342,72 @@ object DamEasy_form: TDamEasy_form
     Top = 68
     Width = 73
     Height = 21
-    TabOrder = 1
+    TabOrder = 0
   end
   object CCS_box: TEdit
     Left = 191
     Top = 92
     Width = 73
     Height = 21
-    TabOrder = 2
+    TabOrder = 1
   end
   object Panel1: TPanel
     Left = 120
     Top = 227
     Width = 228
     Height = 5
-    TabOrder = 25
+    TabOrder = 23
   end
   object Crop_cash_box: TEdit
     Left = 565
     Top = 135
     Width = 73
     Height = 21
-    TabOrder = 15
+    TabOrder = 14
   end
   object Overhead_box: TEdit
     Left = 565
     Top = 159
     Width = 73
     Height = 21
-    TabOrder = 16
+    TabOrder = 15
   end
   object Allocation_box: TEdit
     Left = 565
     Top = 38
     Width = 73
     Height = 21
-    TabOrder = 11
+    TabOrder = 10
   end
   object OOA_price_box: TEdit
     Left = 565
     Top = 62
     Width = 73
     Height = 21
-    TabOrder = 12
+    TabOrder = 11
   end
   object Storage_pumping_box: TEdit
     Left = 565
     Top = 86
     Width = 73
     Height = 21
-    TabOrder = 13
+    TabOrder = 12
   end
   object Irrigation_operating_box: TEdit
     Left = 565
     Top = 111
     Width = 73
     Height = 21
-    TabOrder = 14
+    TabOrder = 13
   end
   object ApplyButton: TBitBtn
     Left = 428
     Top = 370
     Width = 75
     Height = 28
-    Caption = 'Apply'
+    Caption = 'Ok'
     ModalResult = 1
-    TabOrder = 22
+    TabOrder = 21
     Glyph.Data = {
       DE010000424DDE01000000000000760000002800000024000000120000000100
       0400000000006801000000000000000000001000000000000000000000000000
@@ -432,7 +432,7 @@ object DamEasy_form: TDamEasy_form
     Top = 370
     Width = 75
     Height = 28
-    TabOrder = 23
+    TabOrder = 22
     Kind = bkCancel
   end
   object Harvesting_and_levies_box: TEdit
@@ -440,7 +440,7 @@ object DamEasy_form: TDamEasy_form
     Top = 183
     Width = 73
     Height = 21
-    TabOrder = 17
+    TabOrder = 16
   end
   object Interest_rate_box: TEdit
     Left = 191
@@ -449,21 +449,21 @@ object DamEasy_form: TDamEasy_form
     Height = 21
     Color = clBtnFace
     Enabled = False
-    TabOrder = 8
+    TabOrder = 7
   end
   object Inflation_rate_input_box: TEdit
     Left = 191
     Top = 116
     Width = 73
     Height = 21
-    TabOrder = 3
+    TabOrder = 2
   end
   object Inflation_rate_cane_box: TEdit
     Left = 191
     Top = 141
     Width = 73
     Height = 21
-    TabOrder = 4
+    TabOrder = 3
   end
   object Repayment_time_box: TEdit
     Left = 191
@@ -472,7 +472,7 @@ object DamEasy_form: TDamEasy_form
     Height = 21
     Enabled = False
     ParentColor = True
-    TabOrder = 9
+    TabOrder = 8
     OnExit = Repayment_time_boxExit
   end
   object Panel3: TPanel
@@ -480,14 +480,14 @@ object DamEasy_form: TDamEasy_form
     Top = 23
     Width = 216
     Height = 5
-    TabOrder = 26
+    TabOrder = 24
   end
   object OFWS_pump_cost_box: TEdit
     Left = 566
     Top = 281
     Width = 73
     Height = 21
-    TabOrder = 19
+    TabOrder = 18
   end
   object OFWS_payment_method: TRadioGroup
     Left = 35
@@ -501,7 +501,7 @@ object DamEasy_form: TDamEasy_form
       'Up-front payment'
       'Loan repayment')
     ParentCtl3D = False
-    TabOrder = 7
+    TabOrder = 6
     OnClick = OFWS_payment_methodClick
   end
   object Panel4: TPanel
@@ -509,14 +509,14 @@ object DamEasy_form: TDamEasy_form
     Top = 53
     Width = 241
     Height = 5
-    TabOrder = 27
+    TabOrder = 25
   end
   object Number_partners_box: TEdit
     Left = 191
     Top = 165
     Width = 73
     Height = 21
-    TabOrder = 5
+    TabOrder = 4
     OnExit = Number_partners_boxExit
   end
   object StartYearCombo: TComboBox
@@ -526,75 +526,35 @@ object DamEasy_form: TDamEasy_form
     Height = 21
     Style = csDropDownList
     ItemHeight = 13
-    TabOrder = 10
+    TabOrder = 9
   end
   object OFWS_construction_box: TEdit
     Left = 566
     Top = 305
     Width = 73
     Height = 21
-    TabOrder = 20
+    TabOrder = 19
   end
   object Reticulation_box: TEdit
     Left = 566
     Top = 329
     Width = 73
     Height = 21
-    TabOrder = 21
-  end
-  object RestoreButton: TBitBtn
-    Left = 604
-    Top = 370
-    Width = 75
-    Height = 28
-    Caption = 'Restore'
-    TabOrder = 24
-    OnClick = RestoreButtonClick
-    Glyph.Data = {
-      DE010000424DDE01000000000000760000002800000024000000120000000100
-      0400000000006801000000000000000000001000000000000000000000000000
-      80000080000000808000800000008000800080800000C0C0C000808080000000
-      FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333444444
-      33333333333F8888883F33330000324334222222443333388F3833333388F333
-      000032244222222222433338F8833FFFFF338F3300003222222AAAAA22243338
-      F333F88888F338F30000322222A33333A2224338F33F8333338F338F00003222
-      223333333A224338F33833333338F38F00003222222333333A444338FFFF8F33
-      3338888300003AAAAAAA33333333333888888833333333330000333333333333
-      333333333333333333FFFFFF000033333333333344444433FFFF333333888888
-      00003A444333333A22222438888F333338F3333800003A2243333333A2222438
-      F38F333333833338000033A224333334422224338338FFFFF8833338000033A2
-      22444442222224338F3388888333FF380000333A2222222222AA243338FF3333
-      33FF88F800003333AA222222AA33A3333388FFFFFF8833830000333333AAAAAA
-      3333333333338888883333330000333333333333333333333333333333333333
-      0000}
-    NumGlyphs = 2
-  end
-  object ConfigNameBox: TEdit
-    Left = 136
-    Top = 15
-    Width = 209
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    Font.Style = [fsBold]
-    ParentFont = False
-    TabOrder = 0
+    TabOrder = 20
   end
   object Panel2: TPanel
     Left = 536
     Top = 265
     Width = 169
     Height = 5
-    TabOrder = 28
+    TabOrder = 26
   end
   object Investment_rate_box: TEdit
     Left = 191
     Top = 189
     Width = 73
     Height = 21
-    TabOrder = 6
+    TabOrder = 5
   end
   object Tax_yes_no: TCheckBox
     Left = 407
@@ -607,13 +567,25 @@ object DamEasy_form: TDamEasy_form
     Checked = True
     ParentBiDiMode = False
     State = cbChecked
-    TabOrder = 18
+    TabOrder = 17
   end
   object Payment_constant_box: TEdit
     Left = 565
     Top = 230
     Width = 73
     Height = 21
-    TabOrder = 29
+    TabOrder = 27
+  end
+  object ConfigNameCombo: TComboBox
+    Left = 136
+    Top = 16
+    Width = 209
+    Height = 21
+    Style = csDropDownList
+    ItemHeight = 13
+    TabOrder = 28
+    OnChange = ConfigNameComboChange
+    OnExit = ConfigNameComboExit
+    OnKeyPress = ConfigNameComboKeyPress
   end
 end
