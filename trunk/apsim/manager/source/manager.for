@@ -862,7 +862,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 ! ====================================================================
        subroutine Manager_new_local_variable(Variable_name,
-     .                                       Variable_value)
+     .                                      Variable_value, RHSisString)
 ! ====================================================================
       Use Infrastructure
       implicit none
@@ -870,6 +870,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !+  Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to store
       character Variable_value*(*)     ! (INPUT) Variable value to store
+      logical   RHSisString
 
 !+  Purpose
 !     Add a new local variable to list.
@@ -891,19 +892,15 @@ C     Last change:  P    25 Oct 2000    9:26 am
       g%num_local_variables = g%num_local_variables + 1
 
       if (g%num_local_variables .gt. Max_local_variables) then
-         write (str, '(50a)' )
+         write (str, '(3a)' )
      .      'Too many local variables have been specified in ',
      .      new_line,
      .      'manager file.'
          call Fatal_error(ERR_user, str)
 
       else
-         call str_to_real_var
-     .               (Variable_value, realValue, read_status)
-
-         g%local_variable_is_real(g%num_local_variables)
-     .       = (read_status.eq.OK_status)
-
+         g%local_variable_is_real(g%num_local_variables) = .not.
+     :                                                     RHSisString
          call assign_string (
      :        g%local_variable_names(g%num_local_variables)
      :      , Variable_name)
@@ -913,6 +910,20 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
       endif
+      if (RHSisString) then
+         write (str, '(4a)' )
+     .           'Manager creating a new local string variable : ',
+     .            trim(variable_name),
+     .            ' = ',
+     .            trim(Variable_value)
+      else
+         write (str, '(4a)' )
+     .           'Manager creating a new local real variable : ',
+     .            trim(variable_name),
+     .            ' = ',
+     .            trim(Variable_value)
+      endif
+      call Write_string (str)
 
       return
       end subroutine
@@ -1122,15 +1133,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
                ! variable not already defined.  Add variable to list.
 
                if (Numvals .eq. 0) then
-                  Variable_value = '0'
-                  call manager_new_local_variable
-     .                (variable_name, Variable_value)
-                  write (str, '(4a)' )
-     .              'Manager creating a new local variable : ',
-     .               trim(variable_name),
-     .               ' = '//trim(Variable_value)
-                  call Write_string (str)
+                  Variable_value = Real_or_not('0')
                   valueIsReal = .true.
+                  call manager_new_local_variable
+     .                (variable_name, Variable_value, .not.valueIsReal)
 
                else
                   ! Found variable elsewhere in APSIM
@@ -1155,7 +1161,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 ! ====================================================================
        subroutine Parse_set_variable
-     .           (Variable_Name, Variable_Value)
+     .           (Variable_Name, Variable_Value, RHSisString)
 ! ====================================================================
       Use Infrastructure
       implicit none
@@ -1163,6 +1169,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !+  Sub-Program Arguments
       character     Variable_Name*(*)  ! (INPUT) name of variable
       character     Variable_Value*(*) ! (INPUT) value of variable to set
+      logical       RHSisString
 
 !+  Purpose
 !     The parsing routine has requested a set variable
@@ -1189,11 +1196,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
       integer modNameID                ! ID for module.
       integer regID
       logical ok
-      integer read_status
-      real realValue
-
-      integer, parameter :: Ok_status=0
-      integer, parameter :: Not_ok=1
 
 !- Implementation Section ----------------------------------
       variable_name = lower_case(variable_name)
@@ -1225,14 +1227,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
                ! Add variable to local variable list.
 
                call manager_new_local_variable(variable_name,
-     .              Variable_value)
-
-               write (str, '(4a)' )
-     .           'Manager creating a new local variable : ',
-     .            trim(variable_name),
-     .            ' = ',
-     .            trim(Variable_value)
-               call Write_string (str)
+     .              Variable_value, RHSisString)
 
             else
                call set_variable_in_other_module(Unknown_module,
@@ -1243,13 +1238,33 @@ C     Last change:  P    25 Oct 2000    9:26 am
          else
             ! make sure this value matches the type
             if (g%local_variable_is_real(variable_index)) then
-               call str_to_real_var
-     .                     (Variable_value, realValue, read_status)
-               if (read_status.ne.OK_status) then
+               if (RHSisString) then
                  write(str, '(12a)')
      .           'Cannot change the type of a manager local variable.',
      .           new_line,
      .           'Type is being changed from a real to a string.',
+     .           new_line,
+     .           'Variable name: ',
+     .           Trim(Variable_name),
+     .           new_line,
+     .           'Existing value: ',
+     .           Trim(g%local_variable_values(variable_index)),
+     .           new_line,
+     .           'New value: ',
+     .           Trim(Variable_value)
+
+                 call error(str, .true.)
+               else
+                  ! ok
+               endif
+            else
+               if (RHSisString) then
+                  ! ok
+               else
+                 write(str, '(12a)')
+     .           'Cannot change the type of a manager local variable.',
+     .           new_line,
+     .           'Type is being changed from a string to a real.',
      .           new_line,
      .           'Variable name: ',
      .           Trim(Variable_name),
@@ -1344,6 +1359,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .         'Your manager file has a set command that does not',
      .         new_line,
      .         ' have a equals sign in it.  Please correct problem.'
+     :         , new_line
+     :         , 'Set command:- ', trim(Action_string)
             call Fatal_error(ERR_user, msg)
          endif
       endif
@@ -1370,6 +1387,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .         'Your manager file has data in an action line that does',
      .         new_line,
      .         ' not have a equals sign in it.  Please correct problem.'
+     :         , new_line
+     :         , 'Action line:- ', trim(action_string)
             call Fatal_error(ERR_user, msg)
          endif
       endif
@@ -1807,11 +1826,20 @@ c      end subroutine
 !+  Local Variables
        character     Variable_value*(Buffer_size)
                                           ! value to assign the variable
+       integer       Var_index
+       logical       RHSisString
+       integer       token1
+       character     Word_name1*(Buffer_size)
+      integer read_status
+      real realValue
+       integer, parameter :: Ok_status=0
 
 !- Implementation Section ----------------------------------
 
        call   Get_next_token(Token_array, Token_array2)
+       token1 = g%token
        g%number_expressions = 1
+       word_name1 =  g%buffer
        call assign_string (g%expression_array(g%number_expressions)
      :                   , g%buffer)
        g%expression_array2(g%number_expressions) = g%token
@@ -1831,8 +1859,33 @@ c      end subroutine
        call   Process_expression
 
        if (g%all_ok .eq. YES) then
-              call assign_string (Variable_value, g%expression_result)
-              call   Parse_set_variable(Variable_Name, Variable_Value)
+          if (g%number_expressions .eq.1) then
+             if (token1 .eq. C_LITERAL) then
+                RHSisString = .true.
+             elseif (token1 .eq. C_WORD) then
+                ! Try to find variable in local variable list.
+                Var_index = find_string_in_array
+     :               (word_name1, g%local_variable_names,
+     :               g%num_local_variables)
+                if (var_index .gt. 0) then
+                   RHSisString
+     :                     = .not. g%local_variable_is_real(var_index)
+                else
+                   RHSisString = .false.
+                endif
+             else
+                RHSisString = .false.
+             endif
+          else
+             RHSisString = .false.
+          endif
+          call assign_string (Variable_value, g%expression_result)
+          call str_to_real_var
+     .                     (Variable_value, realValue, read_status)
+          RHSisString = read_status.ne.OK_status .or. RHSisString
+          call   Parse_set_variable(Variable_Name, Variable_Value
+     :                              , RHSisString)
+       else
        endif
 
        return
@@ -2923,12 +2976,11 @@ c      end subroutine
 
        call Str_to_double_var(Variable_value, Temp, Double_flag)
 
-       if     (Double_flag .eq. 0) then
-              call Real_var_to_string(real(Temp), Variable_value)
+       if (Double_flag .eq. 0) then
+          call Real_var_to_string(real(Temp), Real_or_not)
+       else
+          Real_or_not = Variable_Value
        endif
-
-
-       Real_or_not = Variable_Value
 
        return
        end function
