@@ -428,8 +428,8 @@ void ReportComponent::writeHeadings(void)
                          f++)
       (*f).writeHeadings(headingLine, unitLine);
 
-   headingLine << ends;
-   unitLine << ends;
+//   headingLine << ends;
+//   unitLine << ends;
 
    // output summary_file
    protocol::Variant* variant;
