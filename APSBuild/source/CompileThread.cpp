@@ -642,15 +642,13 @@ void CompileThread::CreateComponentInterface(APSIM_project& apf)
    interfaceFilePath.Append_path(moduleName.c_str());
    interfaceFilePath.Set_name(moduleName.c_str());
    interfaceFilePath.Set_extension(".interface");
-   if (!interfaceFilePath.Exists())
-      throw string("Cannot find APSIM interface file: " +
-                   interfaceFilePath.Get_path() +
-                   ".  All APSIM modules must have an interface file.");
+   if (interfaceFilePath.Exists())
+      {
+      Path sourcePath(GetSourceDirectory(apf).c_str());
+      sourcePath.Change_directory();
 
-   Path sourcePath(GetSourceDirectory(apf).c_str());
-   sourcePath.Change_directory();
-
-   // generate interface file.
-   GenerateComponentInterface(interfaceFilePath.Get_path().c_str());
+      // generate interface file.
+      GenerateComponentInterface(interfaceFilePath.Get_path().c_str());
+      }
    }
 
