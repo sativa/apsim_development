@@ -417,13 +417,13 @@ void Round_to_nearest (double& Value, double Nearest, bool Round_up);
 
 // ------------------------------------------------------------------
 template <class container1, class container2>
-void StringContainerToDoubleContainer (container1& StringContainer,
+void StringContainerToDoubleContainer (const container1& StringContainer,
                                        container2& DoubleContainer)
    {
    DoubleContainer.erase(DoubleContainer.begin(), DoubleContainer.end());
-   for (container1::iterator i = StringContainer.begin();
-                             i != StringContainer.end();
-                             i++)
+   for (container1::const_iterator i = StringContainer.begin();
+                                   i != StringContainer.end();
+                                   i++)
       DoubleContainer.push_back ( atof( (*i).c_str() ));
    }
 
@@ -439,13 +439,13 @@ void StringContainerToDoubleContainer (container1& StringContainer,
 
 // ------------------------------------------------------------------
 template <class container1, class container2>
-void StringContainerToIntegerContainer (container1& StringContainer,
+void StringContainerToIntegerContainer (const container1& StringContainer,
                                         container2& IntegerContainer)
    {
    IntegerContainer.erase(IntegerContainer.begin(), IntegerContainer.end());
-   for (container1::iterator i = StringContainer.begin();
-                             i != StringContainer.end();
-                             i++)
+   for (container1::const_iterator i = StringContainer.begin();
+                                   i != StringContainer.end();
+                                   i++)
       IntegerContainer.push_back ( atoi( (*i).c_str() ));
    }
 
@@ -461,13 +461,13 @@ void StringContainerToIntegerContainer (container1& StringContainer,
 
 // ------------------------------------------------------------------
 template <class container1, class container2>
-void DoubleContainerToStringContainer (container1& DoubleContainer,
+void DoubleContainerToStringContainer (const container1& DoubleContainer,
                                        container2& StringContainer)
    {
    StringContainer.erase(StringContainer.begin(), StringContainer.end());
-   for (container1::iterator i = DoubleContainer.begin();
-                             i != DoubleContainer.end();
-                             i++)
+   for (container1::const_iterator i = DoubleContainer.begin();
+                                   i != DoubleContainer.end();
+                                   i++)
       StringContainer.push_back (ftoa(*i, 3));
    }
 // ------------------------------------------------------------------
@@ -478,13 +478,13 @@ void DoubleContainerToStringContainer (container1& DoubleContainer,
 //    DPH 15/8/2001
 // ------------------------------------------------------------------
 template <class container1, class container2>
-void IntegerContainerToStringContainer (container1& IntegerContainer,
+void IntegerContainerToStringContainer (const container1& IntegerContainer,
                                         container2& StringContainer)
    {
    StringContainer.erase(StringContainer.begin(), StringContainer.end());
-   for (container1::iterator i = IntegerContainer.begin();
-                             i != IntegerContainer.end();
-                             i++)
+   for (container1::const_iterator i = IntegerContainer.begin();
+                                   i != IntegerContainer.end();
+                                   i++)
       {
       char buffer[100];
       itoa(*i, buffer, 10);
