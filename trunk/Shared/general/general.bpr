@@ -7,7 +7,8 @@
     <OBJFILES value="date_class.obj db_functions.obj exec.obj general.obj IniFile.obj 
       io_functions.obj macro.obj macros.obj MacroSubstFile.obj MacroValue.obj 
       math_functions.obj path.obj stream_functions.obj stream_processor.obj 
-      string_functions.obj StringTokenizer.obj stristr.obj vcl_functions.obj"/>
+      string_functions.obj StringTokenizer.obj stristr.obj vcl_functions.obj 
+      xml.obj MSXML2_TLB.obj MSXML2_OCX.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -22,23 +23,23 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL"/>
     <MAINSOURCE value="general.bpf"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(SHARED)"/>
-    <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="..\..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)"/>
+    <LIBPATH value="..\..;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <LISTFILE value=""/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
-      -tW -tWM"/>
+    <CFLAG1 value="-vGc -vGt -vGd -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k 
+      -y -v -vi- -c -tW -tWM"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <AFLAGS value="/mx /w2 /zd"/>
-    <LFLAGS value="/P64"/>
+    <LFLAGS value="/P128"/>
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
     <ALLOBJ value="$(OBJFILES)"/>
-    <ALLLIB value=""/>
+    <ALLLIB value="cg32.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
@@ -61,6 +62,9 @@
       <FILE FILENAME="StringTokenizer.cpp" FORMNAME="" UNITNAME="StringTokenizer.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="stristr.cpp" FORMNAME="" UNITNAME="stristr.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="vcl_functions.cpp" FORMNAME="" UNITNAME="vcl_functions.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="xml.cpp" FORMNAME="" UNITNAME="xml" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="MSXML2_TLB.cpp" FORMNAME="" UNITNAME="MSXML2_TLB.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="MSXML2_OCX.cpp" FORMNAME="" UNITNAME="MSXML2_OCX.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -94,15 +98,17 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=3
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item1=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item2=$(BCB)\include;$(BCB)\include\vcl
+Count=4
+Item0=..\..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item2=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item3=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=2
-Item0=$(BCB)\lib\obj;$(BCB)\lib
-Item1=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\lib\obj;$(BCB)\lib
+Count=3
+Item0=..\..;$(BCB)\lib\obj;$(BCB)\lib
+Item1=$(BCB)\lib\obj;$(BCB)\lib
+Item2=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -113,10 +119,11 @@ Count=1
 Item0=_DEBUG
 
 [HistoryLists\hlTlibPageSize]
-Count=3
-Item0=0x0040
-Item1=0x0020
-Item2=0x0010
+Count=4
+Item0=0x0080
+Item1=0x0040
+Item2=0x0020
+Item3=0x0010
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
@@ -136,6 +143,6 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=0
-LinkCGLIB=0
+LinkCGLIB=1
   </IDEOPTIONS>
 </PROJECT>
