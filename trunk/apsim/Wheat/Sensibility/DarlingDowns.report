@@ -6,7 +6,7 @@ object data: TForm
   Align = alClient
   BorderIcons = []
   BorderStyle = bsNone
-  ClientHeight = 861
+  ClientHeight = 839
   ClientWidth = 1384
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -272,6 +272,7 @@ object data: TForm
     subscriptionComponentNames.Strings = (
       'Warra1500HighNProb.onSourceDataChanged'
       'Gunnedah1500Prob.onSourceDataChanged'
+      'Dalby1500Prob.onSourceDataChanged'
       'Graph2.afterDataRefresh')
     sortFields = 'year'
     filenames.Strings = (
@@ -377,6 +378,7 @@ object data: TForm
     subscriptionComponentNames.Strings = (
       'Warra600LowNProb.onSourceDataChanged'
       'Walgett600Prob.onSourceDataChanged'
+      'Roma600Prob.onSourceDataChanged'
       'Graph2.afterDataRefresh')
     sortFields = 'year'
     filenames.Strings = (
@@ -482,6 +484,7 @@ object data: TForm
     subscriptionComponentNames.Strings = (
       'Warra1500LowNProb.onSourceDataChanged'
       'Walgett1500Prob.onSourceDataChanged'
+      'Roma1500Prob.onSourceDataChanged'
       'Graph2.afterDataRefresh')
     sortFields = 'year'
     filenames.Strings = (
@@ -644,7 +647,7 @@ object data: TForm
   end
 end
 object Page1: TQuickRep
-  Left = 167
+  Left = 164
   Top = 43
   Width = 556
   Height = 786
@@ -742,7 +745,7 @@ object Page1: TQuickRep
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.LabelsFont.Height = -19
         BottomAxis.LabelsSeparation = 100
-        BottomAxis.Maximum = 8000
+        BottomAxis.Maximum = 6000
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         BottomAxis.Title.Caption = 'Yield (kg/ha)'
@@ -888,8 +891,7 @@ object Page1: TQuickRep
           'and  400mm at Dalby.  100 kg/ha N is applied at Dalby and 40 kg/' +
           'ha at Roma.  '
         'Sown mid May.'
-        ''
-        'Average Yields for ???????????????')
+        '')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -899,8 +901,7 @@ object Page1: TQuickRep
         'e or ideal sowing moisture conditions.'#13#10#13#10'A wheat crop sown on d' +
         'iffering depths of wet soil with profile PAWC of 130 mm at Roma ' +
         #13#10'and  400mm at Dalby.  100 kg/ha N is applied at Dalby and 40 k' +
-        'g/ha at Roma.  '#13#10'Sown mid May.'#13#10#13#10'Average Yields for ???????????' +
-        '????'#13#10
+        'g/ha at Roma.  '#13#10'Sown mid May.'#13#10#13#10
       FontSize = 12
     end
     object Text2: TText
@@ -972,7 +973,7 @@ object Page1: TQuickRep
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.LabelsFont.Height = -19
         BottomAxis.LabelsSeparation = 100
-        BottomAxis.Maximum = 8000
+        BottomAxis.Maximum = 6000
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         BottomAxis.Title.Caption = 'Yield (kg/ha)'

@@ -636,8 +636,8 @@ object data: TForm
   end
 end
 object Page1: TQuickRep
-  Left = 178
-  Top = 0
+  Left = 45
+  Top = -271
   Width = 794
   Height = 1123
   Frame.Color = clBlack
@@ -729,10 +729,12 @@ object Page1: TQuickRep
         Height = 1
         BackWall.Visible = False
         BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
         BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.LabelsFont.Height = -19
         BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 6000
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         BottomAxis.Title.Caption = 'Yield (kg/ha)'
@@ -880,8 +882,8 @@ object Page1: TQuickRep
         ''
         'Predicted Wheat Yields should '
         
-          '1) never exceed 4.5 t/ha for the high N treatments  and 2 t/ha f' +
-          'or the low N treatments.'
+          '1) rarely exceed 4.5 - 5 t/ha for the high N treatments  and 2 t' +
+          '/ha for the low N treatments.'
         
           '2) get down to below 1 t/ha for low sowing PAWC and 2 t/ha for h' +
           'igh sowing PAWC'
@@ -902,12 +904,12 @@ object Page1: TQuickRep
         'ies from Dr M Probert).  Starting soil NO3 of 50 kg/ha (similar ' +
         'to Trial'#39's 0N treatments) for low N system and '#13#10'100 kg/ha for h' +
         'igh N system.  Sown mid May.'#13#10#13#10'Predicted Wheat Yields should '#13#10 +
-        '1) never exceed 4.5 t/ha for the high N treatments  and 2 t/ha f' +
-        'or the low N treatments.'#13#10'2) get down to below 1 t/ha for low so' +
-        'wing PAWC and 2 t/ha for high sowing PAWC'#13#10'Predicted Grain N% sh' +
-        'ould'#13#10'1) Decrease from 3% at 1 t/ha to 2% at 4.5 t/ha for the Hi' +
-        'gh N conditions.'#13#10'2) Decrease from 2.5 % at 1 t/ha to 1.5% at 2 ' +
-        't/ha  for the Low N conditions.'#13#10
+        '1) rarely exceed 4.5 - 5 t/ha for the high N treatments  and 2 t' +
+        '/ha for the low N treatments.'#13#10'2) get down to below 1 t/ha for l' +
+        'ow sowing PAWC and 2 t/ha for high sowing PAWC'#13#10'Predicted Grain ' +
+        'N% should'#13#10'1) Decrease from 3% at 1 t/ha to 2% at 4.5 t/ha for t' +
+        'he High N conditions.'#13#10'2) Decrease from 2.5 % at 1 t/ha to 1.5% ' +
+        'at 2 t/ha  for the Low N conditions.'#13#10
       FontSize = 10
     end
     object Text2: TText
@@ -974,10 +976,12 @@ object Page1: TQuickRep
         Height = 1
         BackWall.Visible = False
         BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
         BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.LabelsFont.Height = -19
         BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 6000
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         BottomAxis.Title.Caption = 'Yield (kg/ha)'
