@@ -117,7 +117,7 @@ class PlantPhenology {
    string stageName(void);
    string previousStageName(void);
    string stageName(int);
-   /*float stageCode (void);*/
+   float stageCode (void);
    
    void get_stage(protocol::Component *, protocol::QueryValueData &);
    void get_stage_name(protocol::Component *, protocol::QueryValueData &);
