@@ -6,7 +6,7 @@
 #include <algorith>
 #include <functional>
 #include <boost\lexical_cast.hpp>
-#include <string_functions.h>  // ftoa()
+#include <general\string_functions.h>  // ftoa()
 
 // ------------------------------------------------------------------
 //  Short description:
