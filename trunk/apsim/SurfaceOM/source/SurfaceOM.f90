@@ -1706,7 +1706,7 @@ subroutine surfom_Send_my_variable (Variable_name)
    !             where 'wheat' is the name of the surfom
    else if (index(Variable_name,'surfaceom_wt_').eq.1) then
 
-      surfnum = surfom_number (Variable_name(4:))
+      surfnum = surfom_number (Variable_name(14:))
 
       if (surfnum.gt.0)then
          total_wt =sum(g%SurfOM(surfnum)%Standing(1:MaxFr)%amount)+sum(g%SurfOM(surfnum)%Lying(1:MaxFr)%amount)
@@ -1717,7 +1717,7 @@ subroutine surfom_Send_my_variable (Variable_name)
    ! where 'wheat' is the name of the surfom
    else if (index(Variable_name,'surfaceom_c_').eq.1) then
 
-      surfnum = surfom_number (Variable_name(3:))
+      surfnum = surfom_number (Variable_name(13:))
       if (surfnum.gt.0)then
          total_c =sum(g%SurfOM(surfnum)%Standing(1:MaxFr)%c)+sum(g%SurfOM(surfnum)%Lying(1:MaxFr)%c)
          call respond2Get_real_var (Variable_name,'(kg/ha)',total_c)
@@ -1728,7 +1728,7 @@ subroutine surfom_Send_my_variable (Variable_name)
    ! where 'wheat' is the name of the surfom
    else if (index(Variable_name,'surfaceom_n_').eq.1) then
 
-      surfnum = surfom_number (Variable_name(3:))
+      surfnum = surfom_number (Variable_name(13:))
       if (surfnum.gt.0)then
          total_n =sum(g%SurfOM(surfnum)%Standing(1:MaxFr)%n)+sum(g%SurfOM(surfnum)%Lying(1:MaxFr)%n)
          call respond2Get_real_var (Variable_name,'(kg/ha)',total_n)
@@ -1737,7 +1737,7 @@ subroutine surfom_Send_my_variable (Variable_name)
    ! Individual surfom P can be requested here in the format 'surfaceom_p_wheat' (for example)
    ! where 'wheat' is the name of the surfom
    else if (index(Variable_name,'surfaceom_p_').eq.1) then
-      surfnum = surfom_number (Variable_name(3:))
+      surfnum = surfom_number (Variable_name(13:))
       if (surfnum.gt.0)then
          total_p =sum(g%surfom(surfnum)%Standing(1:MaxFr)%P)+ sum(g%surfom(surfnum)%Lying(1:MaxFr)%P)
          call respond2Get_real_var (Variable_name,'(kg/ha)',Total_P)
@@ -1747,7 +1747,7 @@ subroutine surfom_Send_my_variable (Variable_name)
    ! Individual surfom AshAlk can be requested here in the format 'surfaceom_ashalk_wheat' (for example)
    ! where 'wheat' is the name of the surfom
    else if (index(Variable_name,'surfaceom_ashalk_').eq.1) then
-      surfnum = surfom_number (Variable_name(8:))
+      surfnum = surfom_number (Variable_name(18:))
       if (surfnum.gt.0)then
          total_AshAlk =sum(g%surfom(surfnum)%Standing(1:MaxFr)%AshAlk) + sum(g%surfom(surfnum)%Lying(1:MaxFr)%AshAlk)
          call respond2Get_real_var (Variable_name,'(kg/ha)',total_AshAlk)
@@ -1757,7 +1757,7 @@ subroutine surfom_Send_my_variable (Variable_name)
    ! Individual surfom NO3 pool can be requested here in the format 'surfaceom_no3_wheat' (for example)
    ! where 'wheat' is the name of the surfom
    else if (index(Variable_name,'surfaceom_no3_').eq.1) then
-      surfnum = surfom_number (Variable_name(5:))
+      surfnum = surfom_number (Variable_name(15:))
       if (surfnum.gt.0)then
          call respond2Get_real_var (Variable_name,'(kg/ha)',g%SurfOM(surfnum)%no3)
       endif
@@ -1766,7 +1766,7 @@ subroutine surfom_Send_my_variable (Variable_name)
    ! Individual surfom NH4 pool can be requested here in the format 'surfaceom_nh4_wheat' (for example)
    ! where 'wheat' is the name of the surfom
    else if (index(Variable_name,'surfaceom_nh4_').eq.1) then
-      surfnum = surfom_number (Variable_name(5:))
+      surfnum = surfom_number (Variable_name(15:))
       if (surfnum.gt.0)then
          call respond2Get_real_var (Variable_name,'(kg/ha)',g%SurfOM(surfnum)%nh4)
       endif
@@ -1775,7 +1775,7 @@ subroutine surfom_Send_my_variable (Variable_name)
    ! Individual surfom PO4 pool can be requested here in the format 'surfaceom_labile_p_wheat' (for example)
    ! where 'wheat' is the name of the surfom
    else if (index(Variable_name,'surfaceom_labile_p_').eq.1) then
-      surfnum = surfom_number (Variable_name(5:))
+      surfnum = surfom_number (Variable_name(20:))
       if (surfnum.gt.0)then
          call respond2Get_real_var (Variable_name,'(kg/ha)',g%SurfOM(surfnum)%po4)
       endif
@@ -1784,7 +1784,7 @@ subroutine surfom_Send_my_variable (Variable_name)
    ! Individual surfom C in pool1 can be requested here in the format 'surfaceom_c1_wheat' (for example)
    ! where 'wheat' is the name of the surfom
    else if (index(Variable_name,'surfaceom_c1_').eq.1) then
-      surfnum = surfom_number (Variable_name(9:))
+      surfnum = surfom_number (Variable_name(14:))
       if (surfnum.gt.0)then
          call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(1)%C+ g%SurfOM(surfnum)%Lying(1)%C))
       endif
@@ -1793,7 +1793,7 @@ subroutine surfom_Send_my_variable (Variable_name)
    ! Individual surfom C in pool2 can be requested here in the format 'surfaceom_c2_wheat' (for example)
    ! where 'wheat' is the name of the surfom
    else if (index(Variable_name,'surfaceom_c2_').eq.1) then
-      surfnum = surfom_number (Variable_name(9:))
+      surfnum = surfom_number (Variable_name(14:))
       if (surfnum.gt.0)then
          call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(2)%C+ g%SurfOM(surfnum)%Lying(2)%C))
       endif
@@ -1802,7 +1802,7 @@ subroutine surfom_Send_my_variable (Variable_name)
 	! Individual surfom C in pool3 can be requested here in the format 'surfaceom_c3_wheat' (for example)
 	! where 'wheat' is the name of the surfom
    else if (index(Variable_name,'surfaceom_c3_').eq.1) then
-      surfnum = surfom_number (Variable_name(9:))
+      surfnum = surfom_number (Variable_name(14:))
       if (surfnum.gt.0)then
          call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(3)%C+ g%SurfOM(surfnum)%Lying(3)%C))
       endif
@@ -1811,7 +1811,7 @@ subroutine surfom_Send_my_variable (Variable_name)
 	! Individual surfom N in pool1 can be requested here in the format 'surfaceom_n1_wheat' (for example)
 	! where 'wheat' is the name of the surfom
    else if (index(Variable_name,'surfaceom_n1_').eq.1) then
-      surfnum = surfom_number (Variable_name(9:))
+      surfnum = surfom_number (Variable_name(14:))
       if (surfnum.gt.0)then
          call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(1)%N+ g%SurfOM(surfnum)%Lying(1)%N))
       endif
@@ -1820,7 +1820,7 @@ subroutine surfom_Send_my_variable (Variable_name)
 	! Individual surfom N in pool2 can be requested here in the format 'surfaceom_n2_wheat' (for example)
 	! where 'wheat' is the name of the surfom
    else if (index(Variable_name,'surfaceom_n2_').eq.1) then
-      surfnum = surfom_number (Variable_name(9:))
+      surfnum = surfom_number (Variable_name(14:))
       if (surfnum.gt.0)then
          call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(2)%N+ g%SurfOM(surfnum)%Lying(2)%N))
       endif
@@ -1828,7 +1828,7 @@ subroutine surfom_Send_my_variable (Variable_name)
 	! Individual surfom N in pool3 can be requested here in the format 'surfaceom_n3_wheat' (for example)
 	! where 'wheat' is the name of the surfom
    else if (index(Variable_name,'surfaceom_n3_').eq.1) then
-      surfnum = surfom_number (Variable_name(9:))
+      surfnum = surfom_number (Variable_name(14:))
       if (surfnum.gt.0)then
          call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(3)%N+ g%SurfOM(surfnum)%Lying(3)%N))
       endif
@@ -1837,7 +1837,7 @@ subroutine surfom_Send_my_variable (Variable_name)
 	! Individual surfom P in pool1 can be requested here in the format 'surfaceom_p1_wheat' (for example)
 	! where 'wheat' is the name of the surfom
    else if (index(Variable_name,'surfaceom_p1_').eq.1) then
-      surfnum = surfom_number (Variable_name(9:))
+      surfnum = surfom_number (Variable_name(14:))
       if (surfnum.gt.0)then
          call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(1)%P+ g%SurfOM(surfnum)%Lying(1)%P))
       endif
@@ -1845,7 +1845,7 @@ subroutine surfom_Send_my_variable (Variable_name)
 	! Individual surfom P in pool2 can be requested here in the format 'surfaceom_p2_wheat' (for example)
 	! where 'wheat' is the name of the surfom
    else if (index(Variable_name,'surfaceom_p2_').eq.1) then
-      surfnum = surfom_number (Variable_name(9:))
+      surfnum = surfom_number (Variable_name(14:))
       if (surfnum.gt.0)then
          call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(2)%P+ g%SurfOM(surfnum)%Lying(2)%P))
       endif
@@ -1854,7 +1854,7 @@ subroutine surfom_Send_my_variable (Variable_name)
 	! Individual surfom P in pool3 can be requested here in the format 'surfaceom_p3_wheat' (for example)
 	! where 'wheat' is the name of the surfom
    else if (index(Variable_name,'surfaceom_p3_').eq.1) then
-      surfnum = surfom_number (Variable_name(9:))
+      surfnum = surfom_number (Variable_name(14:))
       if (surfnum.gt.0)then
          call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(3)%P+ g%SurfOM(surfnum)%Lying(3)%P))
       endif
@@ -1896,7 +1896,7 @@ subroutine surfom_Send_my_variable (Variable_name)
 
 	! Individual surfom cover is reported here in the format 'surfaceom_cover_wheat'
    else if (index(variable_name,'surfaceom_cover_').eq.1) then
-      surfnum = surfom_number (Variable_name(14:))
+      surfnum = surfom_number (Variable_name(17:))
       cover1 = surfom_Cover(surfnum)
       call respond2get_real_var (variable_name, '(m^2/m^2)', cover1)
 
