@@ -545,6 +545,10 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       call push_routine (This_routine)
 
+      if (g%End_current_run) then
+         goto 100
+      endif                                     
+
       ! Main timestep loop
 
 10    continue
@@ -788,6 +792,9 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       else if (Action.eq.ACTION_Continue) then
          g%pause_current_run = .false.
+
+      else if (Action.eq.ACTION_End_run) then
+         g%end_current_run = .true.
 
       else if (Action.eq.ACTION_Finish) then
          ! must have been a fatal error better tell crops
