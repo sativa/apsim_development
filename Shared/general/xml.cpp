@@ -31,6 +31,8 @@ struct XMLDocumentImpl
    XMLDocumentImpl(const string& fileName)
       : xmlDoc(CoDOMDocument40::Create())
       {
+      if (!FileExists(fileName.c_str()))
+         throw runtime_error("Cannot find file: " + fileName);
       short isSuccessful;
       xmlDoc->load(asVariant(fileName), &isSuccessful);
       if (!isSuccessful)
