@@ -1,5 +1,3 @@
-!      include 'apswim.inc'
-
 C     Last change:  DSG  15 Jun 2000    3:40 pm
 * =====================================================================
       subroutine apswim_gsurf(deqrain,surfcon)
@@ -8,12 +6,13 @@ C     Last change:  DSG  15 Jun 2000    3:40 pm
 *     gets soil surface conductance, surfcon
 *
       use APSwimModule
+      use ComponentInterfaceModule
+
       implicit none
 
 *     Global Variables
       double precision ddivide
 
-      include 'data.pub'                                                     _
 
 *     Subroutine Arguments
       double precision deqrain
@@ -68,8 +67,9 @@ C     Last change:  DSG  15 Jun 2000    3:40 pm
 *     solves for this time step
 *
       use APSwimModule
+      use ComponentInterfaceModule
+
       implicit none
-      include 'data.pub'
 
 *     Global Variables
       double precision apswim_wpf    ! function
@@ -274,7 +274,7 @@ c      parameter (rad=0.1d0)
          TD_Eo = apswim_cevap(end_of_day)-apswim_cevap(start_of_day)
 
          tot_pep = 0d0
-         do 10 iveg=1,g%nveg
+         do 10 iveg=1,g%num_crops
             trf(iveg) = apswim_transp_redn (iveg)
             tot_pep = tot_pep + ddivide(g%pep(iveg)*trf(iveg)
      :                                 ,TD_Eo
@@ -289,14 +289,14 @@ c      parameter (rad=0.1d0)
             scale = 1d0
          endif
 
-         do 50 j=1,g%nveg
+         do 50 j=1,g%num_crops
             g%rtp(j) = ddivide(g%pep(j)*trf(j),TD_Eo, 0d0)*rep*scale
 50       continue
 
          ! pot soil evap rate is not linked to apsim timestep
          tresp = sep/g%dt*scale
 
-         do 60 iveg=1,g%nveg
+         do 60 iveg=1,g%num_crops
             do 60 i=0,p%n
 cnh               g%rld(i,iveg)=g%rld(i,iveg)/p%dx(i)
                if(g%rld(i,iveg).lt.1d-20)g%rld(i,iveg)=1d-20
@@ -304,6 +304,7 @@ cnh               g%rld(i,iveg)=g%rld(i,iveg)/p%dx(i)
 cnh now use root_raidus as in initialisation file
 cnh               g%rc(i,iveg)=-log(pi*rad**2*rldi)/(4.*pi*rldi*p%dx(i))
 
+               !print*,g%root_radius(iveg),rldi
                g%rc(i,iveg)=-log(pi*g%root_radius(iveg)**2*rldi)
      :                        /(4.*pi*rldi*p%dx(i))
 
@@ -311,7 +312,7 @@ cnh               g%rc(i,iveg)=-log(pi*rad**2*rldi)/(4.*pi*rldi*p%dx(i))
 
       else if(istat.eq.1)then
 *        update cumulative transpiration
-         do 70 i=1,g%nveg
+         do 70 i=1,g%num_crops
             g%ctp(i)=g%ctp(i)+g%rtp(i)*g%dt
             g%ct(i)=g%ct(i)+g%rt(i)*g%dt
 cnh
@@ -324,7 +325,7 @@ cnh
       else if(istat.eq.2)then
 *        update cumulative solute uptake
 
-         do 90 i=1,g%nveg
+         do 90 i=1,g%num_crops
             do 80 j=0,p%n
                do 95 solnum=1,p%num_solutes
                   g%slup(i,solnum)=g%slup(i,solnum)
@@ -365,8 +366,9 @@ c        timestep??????? !!
 *     this include p%isol, g%csl, p%slos
 
       use APSwimModule
+      use ComponentInterfaceModule
+
       implicit none
-      include 'data.pub'
 
 *     Global Variables
 cnh      double precision grad
@@ -832,8 +834,9 @@ cnh         if(g%psi(p%n).ge.0.)then
 *
 
       use APSwimModule
+      use ComponentInterfaceModule
+
       implicit none
-      include 'data.pub'
 
 *     Global Variables
       double precision apswim_slupf
@@ -1503,12 +1506,12 @@ c      parameter (gr=1.4d-7)
          do 10 j=1,3
          tqexp(j,i)=0.
 cnh
-        do 5 k=1,g%nveg
+        do 5 k=1,g%num_crops
            g%qr(i,k) = 0d0
  5      continue
 cnh
 10    continue
-      do 100 iveg=1,g%nveg
+      do 100 iveg=1,g%num_crops
 *        find transpiration rates
          g%rt(iveg)=0.
          ttr=g%rtp(iveg)
