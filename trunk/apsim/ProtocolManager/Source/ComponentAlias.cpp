@@ -20,15 +20,7 @@ ComponentAlias::ComponentAlias(const string& n,
                                unsigned int parentID)
    : ID(componentAliasID), name(n)
    {
-   try
-      {
-      computation = new Computation(name, dllFileName, componentAliasID, parentID);
-      }
-   catch (string& msg)
-      {
-      ::MessageBox(NULL, msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
-      computation = NULL; 
-      }
+   computation = new Computation(name, dllFileName, componentAliasID, parentID);
    }
 
 // ------------------------------------------------------------------

@@ -37,7 +37,7 @@ CallbackType* callback = &messageCallback;
 Computation::Computation(const string& name,
                          const string& fileName,
                          unsigned int componentId,
-                         unsigned int parentId)
+                         unsigned int parentId) throw (runtime_error)
    {
    // need to give the component to the transport layer.  Need a better
    // way of doing this.
@@ -112,15 +112,13 @@ void Computation::deleteInstance(void) const
 //    dph 22/2/2000
 
 // ------------------------------------------------------------------
-string Computation::getWrapperFilename(const std::string& filename)
+string Computation::getWrapperFilename(const string& filename) throw (runtime_error)
    {
    void _stdcall (*wrapperDll)(char* dllFileName);
    (FARPROC) wrapperDll = GetProcAddress(handle, "wrapperDLL");
    if (wrapperDll == NULL)
-      {
-      string msg = "Cannot find entry point 'wrapperDll' in dll: " + filename;
-      throw msg;
-      }
+      throw runtime_error("Cannot find entry point 'wrapperDll' in dll: " + filename);
+
    else
       {
       // Go get the wrapperDll filename.
@@ -141,7 +139,7 @@ string Computation::getWrapperFilename(const std::string& filename)
 //    dph 22/2/2000
 
 // ------------------------------------------------------------------
-bool Computation::loadComponent(const std::string& filename)
+bool Computation::loadComponent(const std::string& filename) throw (runtime_error)
    {
    createInstanceProc = NULL;
    deleteInstanceProc = NULL;
@@ -164,10 +162,10 @@ bool Computation::loadComponent(const std::string& filename)
       if (createInstanceProc == NULL ||
           deleteInstanceProc == NULL ||
           messageToLogicProc == NULL)
-          {
-          throw string("Not a valid APSIM DLL.  Missing 1 or more entry points.  DLL=" +
-                       filename);
-          }
+          throw runtime_error
+             ("Not a valid APSIM DLL.  Missing 1 or more entry points.  DLL=" +
+              filename);
+
       return true;
       }
    else
@@ -185,8 +183,7 @@ bool Computation::loadComponent(const std::string& filename)
       string errorMessage = ("Cannot load DLL: " + filename + ".  " + (LPTSTR) lpMsgBuf);
       LocalFree( lpMsgBuf );
 
-      ::MessageBox(NULL, errorMessage.c_str(), "Error", MB_ICONSTOP | MB_OK);
-      return false;
+      throw runtime_error(errorMessage);
       }
    }
 

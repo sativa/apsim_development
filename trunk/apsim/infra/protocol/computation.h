@@ -3,6 +3,7 @@
 #define computationH
 #include "interfaces.h"
 #include "ProtocolExport.h"
+#include <stdexcept>
 
 namespace protocol {
 typedef _stdcall void (CallbackType)(const unsigned int *compInst, Message *message);
@@ -26,7 +27,7 @@ class PROTOCOL_EXPORT Computation : public IComputation
       Computation(const std::string& name,
                   const std::string& fileName,
                   unsigned int componentId,
-                  unsigned int parentId);
+                  unsigned int parentId) throw (std::runtime_error);
       ~Computation(void);
 
       bool isOk(void) const  {return (createInstanceProc != NULL &&
@@ -47,7 +48,7 @@ class PROTOCOL_EXPORT Computation : public IComputation
                           unsigned int componentId,
                           unsigned int parentId);
       virtual void deleteInstance(void) const;
-      std::string getWrapperFilename(const std::string& filename);
+      std::string getWrapperFilename(const std::string& filename) throw(std::runtime_error);
 
       void _stdcall (*createInstanceProc)(const char* dllFileName,
                                           const unsigned int* componentID,
@@ -60,7 +61,7 @@ class PROTOCOL_EXPORT Computation : public IComputation
       void _stdcall (*messageToLogicProc)(const int* anInstanceNo,
                                           const Message* messageHeader,
                                           bool* bProcessed);
-      bool loadComponent(const std::string& filename);
+      bool loadComponent(const std::string& filename) throw (std::runtime_error);
       void unloadComponent(void);
 
    };

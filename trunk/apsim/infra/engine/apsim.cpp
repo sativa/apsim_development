@@ -2,38 +2,18 @@
 #include "Simulation.h"
 #include <string>
 #include <fstream>
-#include <general\path.h>
-#include <dir.h>
 using namespace std;
 using namespace protocol;
 //---------------------------------------------------------------------------
-void start(const char* simFilename)
-   {
-   ifstream in(simFilename);
-   if (in)
-      {
-      chdir(Path(simFilename).Get_directory().c_str());
-      string sdml;
-      getline(in, sdml, '\0');
-
-      Simulation simulation;
-      simulation.init(sdml);
-      simulation.commence();
-      simulation.term();
-      }
-   else
-      {
-      cout << "Cannot find file: " << simFilename;
-      }
-   }
-//---------------------------------------------------------------------------
 int main(int argc, char* argv[])
    {
+   Simulation simulation;
+
    if (argc == 3 && strcmpi(argv[1], "/q") == 0)
-      start(argv[2]);
+      simulation.go(argv[2]);
 
    else if (argc == 2)
-      start(argv[1]);
+      simulation.go(argv[1]);
 
    else
       {

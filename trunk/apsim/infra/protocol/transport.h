@@ -26,7 +26,7 @@ class Message;
 class Transport : public ITransport
    {
    public:
-      Transport(void) {}
+      Transport(void) : messageHook(NULL) {}
 
       void deliverMessage(Message* message);
       void addComponent(unsigned int id,
