@@ -78,8 +78,8 @@ inherited TextForm: TTextForm
     OnClick = FontButtonClick
   end
   object Label6: TLabel [7]
-    Left = 39
-    Top = 112
+    Left = 7
+    Top = 96
     Width = 24
     Height = 13
     Caption = 'Text:'
@@ -94,9 +94,9 @@ inherited TextForm: TTextForm
     TabOrder = 3
   end
   object TextEdit: TRichEdit
-    Left = 72
+    Left = 8
     Top = 112
-    Width = 148
+    Width = 212
     Height = 217
     Anchors = [akLeft, akTop, akRight, akBottom]
     BevelInner = bvNone
@@ -105,6 +105,7 @@ inherited TextForm: TTextForm
     BorderStyle = bsNone
     ScrollBars = ssBoth
     TabOrder = 2
+    WordWrap = False
     OnExit = TextEditExit
   end
   object FontDialog: TFontDialog
