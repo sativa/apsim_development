@@ -7,8 +7,8 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'crp_phen.pub'                      
-      include 'error.pub'                         
+      include 'crp_phen.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -29,11 +29,11 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
       parameter (my_name = 'sugar_phenology')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_phenology1 (
      :                             g%previous_stage
      :                            ,g%current_stage
@@ -67,11 +67,11 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
      :                            ,g%tt_tot
      :                            ,g%days_tot
      :                            )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -84,7 +84,7 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -105,13 +105,13 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
       parameter (my_name = 'sugar_phenology_init')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
             ! initialise phenology phase targets
- 
+
          call sugar_phen_init
      :               (
      :                c%shoot_lag
@@ -125,12 +125,12 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
      :              , p%tt_flowering_to_crop_end
      :              , g%phase_tt
      :               )
- 
- 
+
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -151,9 +151,9 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_height_max          ! (INPUT)  maximum canopy height (mm)
@@ -182,22 +182,22 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
       real       pot_height            ! potential height (mm)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (stage_is_between (emerg, flowering
      :                    , g_current_stage)) then
- 
+
          dm_stem_plant = divide (g_dm_green(sstem), g_plants, 0.0)
          pot_height = c_height_stem_slope * dm_stem_plant
          pot_height = bound (pot_height, 0.0, c_height_max)
          dlt_canopy_height = pot_height - g_canopy_height
- 
+
       else
          dlt_canopy_height = 0.0
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -210,8 +210,8 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'crp_root.pub'                      
-      include 'error.pub'                         
+      include 'crp_root.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -231,9 +231,9 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_root_depth1 (
      :                              g%dlayer
      :                             ,c%num_sw_ratio
@@ -251,7 +251,7 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -269,7 +269,7 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_nfact_photo         ! (INPUT)
@@ -293,15 +293,15 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
       parameter (my_name = 'sugar_rue_reduction')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
- 
+
+
       sugar_rue_reduction = min (g_temp_stress_photo
      :                      , g_nfact_photo
      :                      ,g_oxdef_photo
      :                      ,g_lodge_redn_photo)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -320,8 +320,8 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_extinction_coef     ! (INPUT)  radiation extinction coefficie
@@ -349,23 +349,23 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
                                        ! by leaves (0-1) (m^2/m^2)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (reals_are_equal (g_fr_intc_radn, 0.0)) then
             ! we need to calculate our own interception
- 
+
             ! this equation implies that leaf interception of
             ! solar radiation obeys Beer's law
- 
+
          cover = 1.0 - exp (-c_extinction_coef*g_lai)
          radn_int = cover * g_radn
- 
+
       else
             ! interception has already been calculated for us
          radn_int = g_fr_intc_radn * g_radn
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -378,7 +378,7 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -399,10 +399,10 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
             ! Plant leaf development
       if (Option .eq. 1) then
- 
+
          call sugar_leaf_area_devel
      :               (
      :                c%leaf_no_correction
@@ -417,15 +417,15 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
      :              , c%tillerf_leaf_size_no
      :              , g%dlt_lai_pot
      :               )
- 
+
 c         g%dlt_lai_stressed = g%dlt_lai_pot
 c     :                    * g%nfact_expansion
 c     :                    * g%swdef_expansion
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -438,7 +438,7 @@ c     :                    * g%swdef_expansion
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -458,10 +458,10 @@ c     :                    * g%swdef_expansion
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
             ! Plant leaf development
       if (Option .eq. 1) then
- 
+
          call sugar_init_leaf_area
      :               (
      :                c%initial_tpla
@@ -474,7 +474,7 @@ c     :                    * g%swdef_expansion
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -500,8 +500,8 @@ c     :                    * g%swdef_expansion
       implicit none
       include   'convert.inc'
       include   'sugconst.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_leaf_no_correction  ! (INPUT)  corrects for other growing lea
@@ -547,12 +547,12 @@ cbak
                                        ! after the current one
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
            ! once leaf no is calculated leaf area of largest expanding leaf
            ! is determined
- 
+
       leaf_no_effective = sum_between (emerg, now, g_leaf_no)
      :                  + c_leaf_no_correction
       area = sugar_leaf_size
@@ -565,13 +565,13 @@ cbak
      :              , C_tillerf_leaf_size_no
      :              , leaf_no_effective
      :               )
- 
+
 cbak
- 
+
       dlt_lai_pot = g_dlt_leaf_no * area * smm2sm * g_plants
 cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
- 
- 
+
+
       call pop_routine (my_name)
       return
       end
@@ -592,8 +592,8 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_leaf_size(*)        ! (INPUT)
@@ -622,25 +622,25 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
       real tiller_factor
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       leaf_size = linear_interp_real
      :                     (real(leaf_no)
      :                     ,c_leaf_size_no
      :                     ,c_leaf_size
      :                     ,c_num_leaf_size
      :                     )
- 
+
       tiller_factor = linear_interp_real
      :                     (real(leaf_no)
      :                     ,c_tillerf_leaf_size_no
      :                     ,c_tillerf_leaf_size
      :                     ,c_num_tillerf_leaf_size
      :                     )
- 
+
       sugar_leaf_size = leaf_size * tiller_Factor
- 
+
       call pop_routine (my_name)
       return
       end
@@ -663,8 +663,8 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
       implicit none
       include   'convert.inc'
       include   'sugconst.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dlt_dm_green(*)     ! (INPUT)  plant biomass growth (g/m^2)
@@ -702,13 +702,13 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
          ! limit the delta leaf area by carbon supply
          ! and stress factors
- 
+
       leaf_no_today = sum_between (emerg, now, g_leaf_no)
      :              + g_dlt_leaf_no
- 
+
       sla_max = sugar_sla_max
      :               (
      :                C_num_sla_lfno
@@ -717,9 +717,9 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
      :              , leaf_no_today
      :               )
       dlt_lai_carbon = g_dlt_dm_green(leaf) * sla_max * smm2sm
- 
+
       g_dlt_lai = min (g_dlt_lai_stressed, dlt_lai_carbon)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -732,7 +732,7 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -751,9 +751,9 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
       parameter (my_name = 'sugar_leaf_death')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          call sugar_leaf_death_grass
      :               (
@@ -768,7 +768,7 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -797,8 +797,8 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
       implicit none
       include   'convert.inc'
       include   'sugconst.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_dm_root_sen_frac    ! (INPUT)  fraction of root dry matter senescing each day (0-1)
@@ -845,15 +845,15 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
       integer    leaf_no_senescing     ! leaf number senescing today
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! first we zero all plant component deltas
- 
+
       call fill_real_array (dlt_dm_senesced, 0.0, max_part)
- 
+
       lai_today = g_lai + g_dlt_lai
- 
+
       if (g_dlt_slai .lt. lai_today) then
          slai_today = g_slai + g_dlt_slai
          leaf_no_senesced = sugar_leaf_no_from_lai
@@ -866,36 +866,36 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
          dm_senesced_leaf_plant =
      :        sum_real_array (g_leaf_dm, int (leaf_no_senesced))
      :      + mod (leaf_no_senesced, 1.0) * g_leaf_dm(leaf_no_senescing)
- 
+
          dm_senesced_leaf = dm_senesced_leaf_plant * g_plants
          dm_senesced_leaf = l_bound (dm_senesced_leaf
      :                                   , g_dm_senesced(leaf))
- 
+
          dlt_dm_senesced(leaf) = dm_senesced_leaf
      :                         - g_dm_senesced(leaf)
- 
+
          ! Take related cabbage with the dying leaf
- 
+
          dlt_dm_senesced(cabbage) = divide (
      :                                      dlt_dm_senesced (leaf)
      :                                     ,c_leaf_cabbage_ratio
      :                                     ,0.0)
      :                            * c_cabbage_sheath_fr
- 
+
 c         dlt_dm_senesced(cabbage) =
 c     :         u_bound(dlt_dm_senesced(cabbage),
 c     :         g_dm_green(cabbage)+g_dlt_dm_green(cabbage))
- 
+
       else
          dlt_dm_senesced(leaf) = g_dm_green(leaf)
      :                         + g_dlt_dm_green(leaf)
- 
+
          dlt_dm_senesced(cabbage) = g_dm_green(cabbage)
      :                         + g_dlt_dm_green(cabbage)
       endif
- 
+
       dlt_dm_senesced(root) = g_dm_green(root) * c_dm_root_sen_frac
- 
+
       call pop_routine (my_name)
       return
       end
@@ -913,8 +913,8 @@ c     :         g_dm_green(cabbage)+g_dlt_dm_green(cabbage))
       implicit none
       include   'convert.inc'
       include   'sugconst.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_leaf_area(*)        ! (INPUT)  leaf area of each leaf (mm^2)
@@ -944,18 +944,18 @@ c     :         g_dm_green(cabbage)+g_dlt_dm_green(cabbage))
       real       leaf_fract            ! fraction of last leaf (0-1)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       leaf_area = divide (lai, g_plants, 0.0) * sm2smm
       leaf_no = get_cumulative_index_real (leaf_area, g_leaf_area
      :                                   , max_leaf)
- 
+
       leaf_area_whole = sum_real_array (g_leaf_area, leaf_no - 1)
       leaf_area_part = leaf_area - leaf_area_whole
       leaf_fract = divide (leaf_area_part, g_leaf_area(leaf_no), 0.0)
       sugar_leaf_no_from_lai = real (leaf_no - 1) + leaf_fract
- 
+
       call pop_routine (my_name)
       return
       end
@@ -974,8 +974,8 @@ c     :         g_dm_green(cabbage)+g_dlt_dm_green(cabbage))
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_n_cabbage_sen_conc  ! (INPUT)  N concentration of senesced ca
@@ -1000,13 +1000,13 @@ c     :         g_dm_green(cabbage)+g_dlt_dm_green(cabbage))
       parameter (my_name  = 'sugar_N_senescence')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! first we zero all plant component deltas
- 
+
       call fill_real_array (dlt_N_senesced, 0.0, max_part)
- 
+
       dlt_N_senesced(leaf) = g_dlt_dm_senesced(leaf)
      :                     * c_N_leaf_sen_conc
       dlt_N_senesced(cabbage) = g_dlt_dm_senesced(cabbage)
@@ -1014,7 +1014,7 @@ c     :         g_dm_green(cabbage)+g_dlt_dm_green(cabbage))
       dlt_N_senesced(root) = g_dlt_dm_senesced(root)
      :                     * c_N_root_sen_conc
 cnh what checks are there that there is enough N in plant to provide this
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1027,9 +1027,9 @@ cnh what checks are there that there is enough N in plant to provide this
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'crp_nitn.pub'                      
-      include 'crp_biom.pub'                      
+      include 'crp_cnpy.pub'
+      include 'crp_nitn.pub'
+      include 'crp_biom.pub'
       include 'error.pub'
       include 'data.pub'
 
@@ -1051,7 +1051,7 @@ cnh what checks are there that there is enough N in plant to provide this
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          if (.not.reals_are_equal(c%sen_detach_frac(leaf),
      :    c%sen_detach_frac(cabbage))) then
@@ -1066,7 +1066,7 @@ cnh what checks are there that there is enough N in plant to provide this
      :                              , c%dead_detach_frac
      :                              , g%dm_dead
      :                              , g%dlt_dm_dead_detached)
- 
+
          call cproc_n_detachment1( max_part
      :                           , c%sen_detach_frac
      :                           , g%n_senesced
@@ -1074,7 +1074,7 @@ cnh what checks are there that there is enough N in plant to provide this
      :                           , c%dead_detach_frac
      :                           , g%n_dead
      :                           , g%dlt_n_dead_detached)
- 
+
          call cproc_lai_detachment1 (leaf
      :                             , c%sen_detach_frac
      :                             , g%slai
@@ -1082,11 +1082,11 @@ cnh what checks are there that there is enough N in plant to provide this
      :                             , c%dead_detach_frac
      :                             , g%tlai_dead
      :                             , g%dlt_tlai_dead_detached)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1113,9 +1113,9 @@ cnh what checks are there that there is enough N in plant to provide this
       implicit none
       include   'convert.inc'
       include   'sugconst.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_dm_cabbage_init     ! (INPUT)  cabbage "    "        "        "
@@ -1155,16 +1155,16 @@ cnh what checks are there that there is enough N in plant to provide this
       real    root_length_layer
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! initialise plant weight
          ! initialisations - set up dry matter for leaf, stem,..etc,
          ! and root
- 
+
       if (on_day_of (emerg, g_current_stage, g_days_tot)) then
              ! seedling has just emerged.
- 
+
              ! we initialise root_wt no by adding all root together
              ! as specified by the rlv given by user at sowing.
          num_layers = count_of_real_vals (g_dlayer, max_layer)
@@ -1176,18 +1176,18 @@ cnh what checks are there that there is enough N in plant to provide this
      :                              ,0.0)
             dm_green(root) = dm_green(root) +   root_wt_layer
   100    continue
- 
+
          dm_green(sstem) = c_dm_sstem_init * g_plants
          dm_green(leaf) = c_dm_leaf_init * g_plants
          leaf_dm(1) = c_dm_leaf_init
          dm_green(cabbage) = c_dm_cabbage_init * g_plants
          dm_green(sucrose) = c_dm_sucrose_init * g_plants
- 
+
 cnh     NO MINIMUMS SET AS YET
- 
+
       else   ! no changes
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1216,7 +1216,7 @@ cnh     NO MINIMUMS SET AS YET
       implicit none
       include   'convert.inc'
       include   'sugconst.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_cane_fraction       ! (INPUT)
@@ -1254,9 +1254,9 @@ cnh     NO MINIMUMS SET AS YET
       parameter (my_name  = 'sugar_dm_partition')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       call sugar_dm_partition_rules
      :               (
      :                C_cane_fraction
@@ -1274,7 +1274,7 @@ cnh     NO MINIMUMS SET AS YET
      :                        ,dlt_dm_green
      :                        ,partition_xs
      :               )
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1289,8 +1289,8 @@ cnh     NO MINIMUMS SET AS YET
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dm_retranslocate(*)   ! (INPUT) actual change in plant part
@@ -1313,19 +1313,19 @@ cnh     NO MINIMUMS SET AS YET
       real       mass_balance          ! sum of translocated carbo (g/m^2)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! now translocate carbohydrate between plant components
- 
+
       call fill_real_array (dm_retranslocate, 0.0, max_part)
- 
+
          ! now check that we have mass balance
- 
+
       mass_balance = sum_real_array (dm_retranslocate, max_part)
       call bound_check_real_var (mass_balance, 0.0, 0.0
      :                         , 'dm_retranslocate mass balance')
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1343,8 +1343,8 @@ cnh     NO MINIMUMS SET AS YET
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass
@@ -1372,9 +1372,9 @@ cnh     NO MINIMUMS SET AS YET
       integer    part                  ! plant part number
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       call sugar_N_retrans_avail
      :               (
      :                G_dm_green
@@ -1382,19 +1382,19 @@ cnh     NO MINIMUMS SET AS YET
      :              , G_n_green
      :              , N_avail
      :               )  ! grain N potential (supply)
- 
+
           ! limit retranslocation to total available N
- 
+
       call fill_real_array (dlt_N_retrans, 0.0, max_part)
- 
+
              ! just check that we got the maths right.
- 
+
       do 1000 part = 1, max_part
          call bound_check_real_var (abs (dlt_N_retrans(part))
      :                            , 0.0, N_avail(part)
      :                            , 'dlt_N_retrans(part)')
 1000  continue
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1412,8 +1412,8 @@ cnh     NO MINIMUMS SET AS YET
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass
@@ -1445,17 +1445,17 @@ cnh     NO MINIMUMS SET AS YET
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
          ! now find the available N of each part.
- 
+
       do 1000 part = 1, max_part
          N_min = g_N_conc_min(part) * g_dm_green(part)
          N_avail(part) = l_bound (g_N_green(part) - N_min, 0.0)
 1000  continue
- 
+
       N_avail(sucrose) = 0.0
       N_avail(root) = 0.0
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1483,9 +1483,9 @@ cnh     NO MINIMUMS SET AS YET
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_n_conc_crit_root    ! (INPUT)  critical N concentration of ro
@@ -1530,21 +1530,21 @@ cnh     NO MINIMUMS SET AS YET
       real       stage_code            ! interpolated current stage code
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       call fill_real_array (N_conc_crit, 0.0, max_part)
       call fill_real_array (N_conc_min, 0.0, max_part)
- 
+
       if (stage_is_between (emerg, crop_end, g_current_stage)) then
- 
+
          N_conc_crit(root) = c_N_conc_crit_root
          N_conc_min(root) = c_N_conc_min_root
- 
+
              ! the tops critical N percentage concentration is the stover
              ! (non-grain shoot) concentration below which N concentration
              ! begins to affect plant growth.
- 
+
          numvals = count_of_real_vals (c_x_stage_code, max_stage)
          stage_code = sugar_stage_code
      :               (
@@ -1568,30 +1568,30 @@ cnh     NO MINIMUMS SET AS YET
      :                             , c_x_stage_code
      :                             , c_y_N_conc_crit_cabbage
      :                             , numvals)
- 
+
              ! the  minimum N concentration is the N concentration
              ! below which N does not fall.
- 
+
          ! nih - I put cane minimum conc in the sstem element of the
          ! array because there is no 'cane' (sstem+sucrose) pool
          N_conc_min(sstem) = linear_interp_real (stage_code
      :                             , c_x_stage_code
      :                             , c_y_N_conc_min_cane
      :                             , numvals)
- 
+
          N_conc_min(leaf) = linear_interp_real (stage_code
      :                             , c_x_stage_code
      :                             , c_y_N_conc_min_leaf
      :                             , numvals)
- 
+
          N_conc_min(cabbage) = linear_interp_real (stage_code
      :                             , c_x_stage_code
      :                             , c_y_N_conc_min_cabbage
      :                             , numvals)
- 
+
       else
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1679,9 +1679,9 @@ cnh     NO MINIMUMS SET AS YET
       implicit none
       include   'convert.inc'
       include   'sugconst.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_canopy_height       ! (INPUT)  canopy height (mm)
@@ -1798,18 +1798,18 @@ cnh     NO MINIMUMS SET AS YET
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
          ! Note.
          ! Accumulate is used to add a value into a specified array element.
          ! If a specified increment of the element indicates a new element
          ! is started, the value is distributed proportionately between the
          ! two elements of the array
- 
+
          ! Add is used to add the elements of one array into the corresponding
          ! elements of another array.
- 
+
          ! now update with deltas
- 
+
          ! The following table describes the transfer of material that should
          ! take place
          !                        POOLS
@@ -1819,7 +1819,7 @@ cnh     NO MINIMUMS SET AS YET
          ! dlt_senesced      -      +
          ! dlt_dead          -      -       +
          ! dlt_detached             -       -      (outgoing only)
- 
+
 cnh
       ! take out water with detached stems
       g_plant_wc(sstem) = g_plant_wc(sstem)
@@ -1829,94 +1829,94 @@ cnh
      :                                  ,0.0)
      :                    )
       call add_real_array (g_dlt_plant_wc, g_plant_wc, max_part)
- 
+
          ! transfer N
- 
+
       dying_fract = divide (-g_dlt_plants, g_plants, 0.0)
- 
+
       do 1000 part = 1, max_part
          dlt_N_green_dead = g_N_green(part) * dying_fract
          g_N_green(part) = g_N_green(part) - dlt_N_green_dead
          g_N_dead(part) = g_N_dead(part) + dlt_N_green_dead
- 
+
          dlt_N_senesced_dead = g_N_senesced(part) * dying_fract
          g_N_senesced(part) = g_N_senesced(part) - dlt_N_senesced_dead
          g_N_dead(part) = g_N_dead(part) + dlt_N_senesced_dead
 1000  continue
- 
+
       call subtract_real_array (g_dlt_N_dead_detached, g_N_dead
      :                        , max_part)
- 
+
       call add_real_array (g_dlt_N_green, g_N_green, max_part)
       call add_real_array (g_dlt_N_retrans, g_N_green, max_part)
       call add_real_array (g_dlt_N_realloc, g_N_green, max_part)
       call subtract_real_array (g_dlt_N_senesced, g_N_green
      :                        , max_part)
- 
+
       call add_real_array (g_dlt_N_senesced, g_N_senesced
      :                   , max_part)
       call subtract_real_array (g_dlt_N_detached, g_N_senesced
      :                        , max_part)
- 
- 
+
+
          ! Transfer plant dry matter
- 
+
       dlt_dm_plant = divide (g_dlt_dm, g_plants, 0.0)
- 
+
       call accumulate (dlt_dm_plant, g_dm_plant_top_tot
      :               , g_previous_stage, g_dlt_stage)
- 
+
       do 2000 part = 1, max_part
          dlt_dm_green_dead = g_dm_green(part) * dying_fract
          g_dm_green(part) = g_dm_green(part) - dlt_dm_green_dead
          g_dm_dead(part) = g_dm_dead(part) + dlt_dm_green_dead
- 
+
          dlt_dm_senesced_dead = g_dm_senesced(part) * dying_fract
          g_dm_senesced(part) = g_dm_senesced(part)
      :                       - dlt_dm_senesced_dead
          g_dm_dead(part) = g_dm_dead(part) + dlt_dm_senesced_dead
 2000  continue
- 
+
       call subtract_real_array (g_dlt_dm_dead_detached, g_dm_dead
      :                        , max_part)
- 
+
       call add_real_array (g_dlt_dm_green, g_dm_green, max_part)
       call add_real_array (g_dlt_dm_green_retrans, g_dm_green, max_part)
       call add_real_array (g_dlt_dm_realloc, g_dm_green, max_part)
       call subtract_real_array (g_dlt_dm_senesced, g_dm_green
      :                        , max_part)
- 
+
       call add_real_array (g_dlt_dm_senesced, g_dm_senesced
      :                   , max_part)
       call subtract_real_array (g_dlt_dm_detached, g_dm_senesced
      :                        , max_part)
- 
- 
+
+
 c      dm_residue = (sum_real_array (g_dlt_dm_detached, max_part)
 c     :           - g_dlt_dm_detached(root))
 c      N_residue = (sum_real_array (g_dlt_N_detached, max_part)
 c     :          - g_dlt_N_detached(root))
 c
 c      call sugar_top_residue (dm_residue, N_residue)
- 
+
 c             ! put roots into root residue
- 
+
 c      call sugar_root_incorp (g_dlt_dm_detached(root)
 c     :                    , g_dlt_N_detached(root))
- 
- 
+
+
       call sugar_update_other_variables ()
- 
+
          ! transfer plant leaf area
       dlt_lai_dead  = g_lai  * dying_fract
       dlt_slai_dead = g_slai * dying_fract
- 
+
       g_lai = g_lai + g_dlt_lai - dlt_lai_dead - g_dlt_slai
       g_slai = g_slai + g_dlt_slai - dlt_slai_dead - g_dlt_slai_detached
       g_tlai_dead = g_tlai_dead + dlt_lai_dead + dlt_slai_dead
      :            - g_dlt_tlai_dead_detached
- 
- 
+
+
          ! plant leaf development
          ! need to account for truncation of partially developed leaf (add 1)
 c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
@@ -1927,34 +1927,34 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
       node_no = 1.0 + sum_between (emerg, now, g_node_no)
      :              - g_node_no_detached
      :              - c_leaf_no_at_emerg
- 
+
       node_no = l_bound(node_no, 1.0)
- 
+
       dlt_leaf_area = divide (g_dlt_lai, g_plants, 0.0) * sm2smm
       call accumulate (dlt_leaf_area, g_leaf_area
      :               , node_no, g_dlt_node_no)
- 
+
       dlt_dm_plant_leaf = divide (g_dlt_dm_green(leaf), g_plants, 0.0)
       call accumulate (dlt_dm_plant_leaf, g_leaf_dm
      :               , node_no, g_dlt_node_no)
- 
+
       call accumulate (g_dlt_leaf_no, g_leaf_no
      :               , g_previous_stage, g_dlt_stage)
       call accumulate (g_dlt_node_no, g_node_no
      :               , g_previous_stage, g_dlt_stage)
- 
+
       call accumulate (g_dlt_node_no_dead, g_node_no_dead
      :               , g_previous_stage, g_dlt_stage)
- 
- 
+
+
       ! detached leaf area needs to be accounted for
- 
+
       dlt_leaf_area = divide (g_dlt_slai_detached, g_plants, 0.0)
      :              * sm2smm
       num_leaves = count_of_Real_vals(g_leaf_area,max_leaf)
       num_leaves = max_leaf
       dlt_leaf_dm = divide (g_dlt_dm_detached(leaf), g_plants ,0.0)
- 
+
       empty_leaves = -1
       do 111 leaf_rec = 1,num_leaves
         if (g_leaf_area(leaf_rec).le.dlt_leaf_area) then
@@ -1976,7 +1976,7 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
         else
         endif
   111 continue
- 
+
       if (empty_leaves.gt.0) then
          g_node_no_detached = g_node_no_detached + empty_leaves
          !kludgy solution for now
@@ -1989,22 +1989,22 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
   112    continue
       else
       endif
- 
- 
+
+
          ! plant stress
- 
+
       call accumulate (1.0 - g_swdef_photo, g_cswd_photo
      :               , g_previous_stage, g_dlt_stage)
       call accumulate (1.0 - g_swdef_expansion, g_cswd_expansion
      :               , g_previous_stage, g_dlt_stage)
       call accumulate (1.0 - g_swdef_pheno, g_cswd_pheno
      :               , g_previous_stage, g_dlt_stage)
- 
+
       call accumulate (1.0 - g_nfact_photo, g_cnd_photo
      :               , g_previous_stage, g_dlt_stage)
- 
+
          ! other plant states
- 
+
       g_canopy_height = g_canopy_height + g_dlt_canopy_height
       g_plants = g_plants + g_dlt_plants
       g_root_depth = g_root_depth + g_dlt_root_depth
@@ -2012,7 +2012,7 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
      :                         , g_root_length, max_layer)
       call subtract_real_array (g_dlt_root_length_senesced
      :                         , g_root_length, max_layer)
- 
+
       call sugar_N_conc_limits
      :               (
      :                C_n_conc_crit_root
@@ -2030,7 +2030,7 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
      :              , G_tt_tot
      :              , g_N_conc_crit, g_N_conc_min
      :               )  ! plant N concentr
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2043,8 +2043,8 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2053,7 +2053,7 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
 *      Determine plant death in crop
 
 *+  Mission Statement
-*     Determine plant death 
+*     Determine plant death
 
 *+  Changes
 *       290994 jngh specified and programmed
@@ -2063,11 +2063,11 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
       parameter (my_name = 'sugar_plant_death')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call sugar_failure_germination
      :               (
      :                c%days_germ_limit
@@ -2076,7 +2076,7 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
      :              , g%plants
      :              , g%dlt_plants_failure_germ
      :               )
- 
+
          call sugar_failure_emergence
      :               (
      :                c%tt_emerg_limit
@@ -2085,7 +2085,7 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
      :              , g%tt_tot
      :              , g%dlt_plants_failure_emergence
      :               )
- 
+
          call sugar_failure_leaf_sen
      :               (
      :                g%current_stage
@@ -2093,7 +2093,7 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
      :              , g%plants
      :              , g%dlt_plants_failure_leaf_sen
      :               )
- 
+
          call sugar_death_drought
      :               (
      :                c%leaf_no_crit
@@ -2105,7 +2105,7 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
      :              , g%swdef_photo
      :              , g%dlt_plants_death_drought
      :               )
- 
+
          call sugar_death_lodging
      :               (
      :                g%lodge_flag
@@ -2117,7 +2117,7 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
      :              , g%plants
      :              , g%dlt_plants_death_lodging
      :               )
- 
+
 c         call sugar_death_external_action (g%dlt_plants_death_external)
          call sugar_death_actual
      :               (
@@ -2140,11 +2140,11 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
      :               )
          else
          endif
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2175,9 +2175,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
       include   'const.inc'            ! new_line, lu_scr_sum, blank,
       include   'convert.inc'
       include   'sugconst.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_stage_code_list(*)  ! (INPUT)  list of stage numbers
@@ -2228,9 +2228,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
       real       N_green_conc_percent  ! n% of tops less flower (incl grain)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       stage_no = int (g_current_stage)
       if (on_day_of (stage_no, g_current_stage, g_days_tot)) then
              ! new phase has begun.
@@ -2239,24 +2239,24 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
      :                  , c_stage_code_list(stage_no)
      :                  , c_stage_names(stage_no)
          call write_string (string)
- 
+
          biomass = sum_real_array (g_dm_green, max_part)
      :           - g_dm_green(root)
- 
+
      :           + sum_real_array (g_dm_senesced, max_part)
      :           - g_dm_senesced(root)
- 
+
      :           + sum_real_array (g_dm_dead, max_part)
      :           - g_dm_dead(root)
- 
+
          dm_green = sum_real_array (g_dm_green, max_part)
      :            - g_dm_green(root)
          N_green = sum_real_array (g_N_green, max_part)
      :           - g_N_green(root)
- 
+
          N_green_conc_percent = divide (N_green, dm_green, 0.0)
      :                        * fract2pcnt
- 
+
          deepest_layer = find_layer_no (g_root_depth, g_dlayer
      :                                , max_layer)
          do 1000 layer = 1, deepest_layer
@@ -2264,7 +2264,7 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
             pesw(layer) = l_bound (pesw(layer), 0.0)
 1000     continue
          pesw_tot = sum_real_array (pesw, deepest_layer)
- 
+
          if (stage_is_between (emerg, crop_end, g_current_stage)) then
             write (string, '(2(a, g16.7e2), a, 2(a, g16.7e2))')
      :              '                     biomass =       '
@@ -2279,10 +2279,10 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
             call write_string (string)
          else
          endif
- 
+
       else
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2304,8 +2304,8 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_n_cabbage_init_conc ! (INPUT)     "   cabbage    "
@@ -2331,9 +2331,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
       parameter (my_name = 'sugar_N_init')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (on_day_of (emerg, g_current_stage, g_days_tot)) then
          if (N_green(root).eq.0.0) then
             ! There is no root system currently operating from
@@ -2347,10 +2347,10 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
          N_green(leaf) = c_N_leaf_init_conc*g_dm_green(leaf)
          N_green(cabbage) = c_N_cabbage_init_conc*g_dm_green(cabbage)
          N_green(sucrose) = 0.0
- 
+
       else
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2368,8 +2368,8 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       INTEGER    C_num_sla_lfno        ! (INPUT)
@@ -2393,16 +2393,16 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
       parameter (my_name = 'sugar_sla_min')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       sla_min = linear_interp_real
      :                     (real(leaf_no)
      :                     ,c_sla_lfno
      :                     ,c_sla_min
      :                     ,c_num_sla_lfno
      :                     )
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2420,8 +2420,8 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       INTEGER    C_num_sla_lfno        ! (INPUT)
@@ -2434,7 +2434,7 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 *       of a specified leaf no.
 
 *+  Mission Statement
-*     Return maximum specific leaf area of a leaf number 
+*     Return maximum specific leaf area of a leaf number
 
 *+  Changes
 *       05/05/95 nih specified and programmed
@@ -2444,16 +2444,16 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
       parameter (my_name = 'sugar_sla_max')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       sugar_sla_max = linear_interp_real
      :                     (real(leaf_no)
      :                     ,c_sla_lfno
      :                     ,c_sla_max
      :                     ,c_num_sla_lfno
      :                     )
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2465,9 +2465,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 * ====================================================================
       use sugarModule
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -2490,7 +2490,7 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       deepest_layer = find_layer_no (g%root_depth, g%dlayer, max_layer)
       asw_pot = 0.0
       asw     = 0.0
@@ -2498,9 +2498,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
          asw_pot = asw_pot + g%sw_avail_pot (layer)
          asw = asw + u_bound (g%sw_avail(layer), g%sw_avail_pot(layer))
   100 continue
- 
+
       sugar_profile_fasw = divide (asw, asw_pot, 0.0)
- 
+
       call pop_routine (myname)
       return
       end
@@ -2527,9 +2527,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 * ====================================================================
       implicit none
        include 'sugconst.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_cane_dmf_tt(*)      ! (INPUT)
@@ -2575,33 +2575,33 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       call fill_real_array (g_dlt_plant_wc, 0.0, max_part)
- 
+
       tt = sum_between (begcane,now,g_tt_tot)
- 
+
       cane_dmf_max = linear_interp_real (tt
      :                                  ,c_cane_dmf_tt
      :                                  ,c_cane_dmf_max
      :                                  ,c_num_cane_dmf)
- 
+
       cane_dmf_min = linear_interp_real (tt
      :                                  ,c_cane_dmf_tt
      :                                  ,c_cane_dmf_min
      :                                  ,c_num_cane_dmf)
- 
+
       stress_factor_min = min (g_swdef_stalk
      :                        ,g_nfact_stalk
      :                        ,g_temp_stress_stalk)
- 
+
       cane_dmf = cane_dmf_max
      :         - stress_factor_min * (cane_dmf_max-cane_dmf_min)
- 
+
       sucrose_fraction =
      :        divide (g_dlt_dm_green(sucrose)
      :               ,g_dlt_dm_green(sstem) + g_dlt_dm_green(sucrose)
      :               ,0.0)
- 
+
       g_dlt_plant_wc(sstem) = divide (g_dlt_dm_green(sstem)
      :                               ,cane_dmf
      :                               ,0.0)
@@ -2609,10 +2609,10 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 
       ! Approach above is unstable - assume DMF is fixed
       cane_dmf = 0.3
-      g_dlt_plant_wc(sstem) = (g_dlt_dm_green(sstem) 
+      g_dlt_plant_wc(sstem) = (g_dlt_dm_green(sstem)
      :                         + g_dlt_dm_green(sucrose))
      :                      * (1.0 - cane_dmf)/cane_dmf
- 
+
       call pop_routine (myname)
       return
       end
@@ -2633,9 +2633,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       INTEGER    c_num_stress_factor_Stalk ! (INPUT)
@@ -2666,28 +2666,28 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
                                        ! factors on stalk growth
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       stress_factor_min = min (g_swdef_stalk
      :                        ,g_nfact_stalk
      :                        ,g_temp_stress_stalk)
- 
+
       ! this should give same results as old version for now
- 
+
       sucrose_fraction = linear_interp_real (stress_Factor_min
      :                                      ,c_stress_factor_stalk
      :                                      ,c_sucrose_fraction_stalk
      :                                      ,c_num_stress_factor_Stalk
      :                                      )
- 
+
       call bound_check_real_var (sucrose_fraction
      :                        , 0.0
      :                        , 1.0
      :                        , 'fraction of Cane C to sucrose')
- 
+
       sucrose_fraction = bound (sucrose_fraction, 0.0, 1.0)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2701,9 +2701,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
       implicit none
       include   'const.inc'            ! lu_scr_sum, blank
       include   'convert.inc'          ! smm2sm
-      include 'crp_comm.pub'                      
-      include 'intrface.pub'                      
-      include 'error.pub'                         
+      include 'crp_comm.pub'
+      include 'intrface.pub'
+      include 'error.pub'
       include 'componentinterface.inc'
 
 *+  Purpose
@@ -2744,76 +2744,76 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
       real       dlt_dm_N(max_part)    ! N content of dm removed (kg/ha)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       ! request and receive variables from owner-modules
 c      call sugar_get_other_variables ()
- 
+
       call collect_real_var ('fraction', '()'
      :                      , fraction, numvals, 0.0, 1.0)
- 
+
       call collect_real_var ('n_eff', '()'
      :                      , n_eff, numvals, 0.0, 1.0)
- 
+
       call collect_real_var ('c_eff', '()'
      :                      , c_eff, numvals, 0.0, 1.0)
- 
+
       call collect_char_var_optional ('report', '()'
      :                               , report, numvals)
       if (numvals.eq.0) then
          report = 'no'
       else
       endif
- 
+
       ! Note - I could use loops here but I want to be specific.
       dm_grazed = 0.0
       n_grazed = 0.0
       dlt_dm_crop(:) = 0.0
       dlt_dm_N(:) = 0.0
- 
+
          ! leaf
       dm_grazed = g%dm_green(leaf)*fraction
       n_grazed =  g%n_green(leaf)*fraction
       dlt_dm_crop(leaf) = dm_grazed * gm2kg/sm2ha
       dlt_dm_N(leaf) = n_grazed * gm2kg/sm2ha
-      
+
       g%dm_graze = g%dm_graze + dm_grazed
       g%n_graze = g%n_graze + n_grazed
       g%dm_green(leaf) = g%dm_green(leaf) * (1. - fraction)
       g%n_green(leaf) = g%n_green(leaf) * (1. - fraction)
       g%plant_wc(leaf) = g%plant_wc(leaf) * (1. - fraction)
- 
+
          ! cabbage
       dm_grazed = g%dm_green(cabbage)*fraction
       n_grazed =  g%n_green(cabbage)*fraction
       dlt_dm_crop(cabbage) = dm_grazed * gm2kg/sm2ha
       dlt_dm_N(cabbage) = n_grazed * gm2kg/sm2ha
-      
+
       g%dm_graze = g%dm_graze + g%dm_green(cabbage)*fraction
       g%n_graze = g%n_graze + g%n_green(cabbage)*fraction
       g%dm_green(cabbage) = g%dm_green(cabbage) * (1. - fraction)
       g%n_green(cabbage) = g%n_green(cabbage) * (1. - fraction)
       g%plant_wc(cabbage) = g%plant_wc(cabbage) * (1. - fraction)
- 
+
          ! structural stem
       dm_grazed = g%dm_green(sstem)*fraction
       n_grazed =  g%n_green(sstem)*fraction
       dlt_dm_crop(sstem) = dm_grazed * gm2kg/sm2ha
       dlt_dm_N(sstem) = n_grazed * gm2kg/sm2ha
-      
+
       g%dm_graze = g%dm_graze + g%dm_green(sstem)*fraction
       g%n_graze = g%n_graze + g%n_green(sstem)*fraction
       g%dm_green(sstem)= g%dm_green(sstem) * (1. - fraction)
       g%n_green(sstem)= g%n_green(sstem) * (1. - fraction)
       g%plant_wc(sstem) = g%plant_wc(sstem) * (1. - fraction)
- 
+
          ! sucrose
       dm_grazed = g%dm_green(sucrose)*fraction
       n_grazed =  g%n_green(sucrose)*fraction
       dlt_dm_crop(sucrose) = dm_grazed * gm2kg/sm2ha
       dlt_dm_N(sucrose) = n_grazed * gm2kg/sm2ha
-      
+
       g%dm_graze = g%dm_graze + g%dm_green(sucrose)*fraction
       g%n_graze = g%n_graze + g%n_green(sucrose)*fraction
 !cjh      dm_grazed = dm_grazed + g%dm_green(sucrose)*fraction*c_eff
@@ -2824,36 +2824,36 @@ c      call sugar_get_other_variables ()
 
       dm_residue = g%dm_graze *c_eff
       N_residue = g%N_graze *n_eff
-      
+
       ! remove material from crop
 
 !      call crop_top_residue (c%crop_type, dm_grazed, n_grazed)
       fraction_to_residue(:) = 0.0
 
       if (sum(dlt_dm_crop) .gt. 0.0) then
-         call sugar_Send_Crop_Chopped_Event 
+         call sugar_Send_Crop_Chopped_Event
      :                (c%crop_type
      :               , part_name
      :               , dlt_dm_crop
-     :               , dlt_dm_N                                                       
+     :               , dlt_dm_N
      :               , fraction_to_Residue
      :               , max_part)
       else
          ! no surface residue
       endif
-                                      
+
       ! now add the dung    (manure module?)
-      call crop_top_residue (c%crop_type, dm_residue, n_residue, 
+      call crop_top_residue (c%crop_type, dm_residue, n_residue,
      .                       eventInterface)
 
- 
+
       ! Now we need to update the leaf tracking info
- 
+
       g%lai = g%lai * (1. - fraction)
- 
+
          ! get highest senescing leaf
- 
- 
+
+
       node_no_dead = sugar_leaf_no_from_lai
      :               (
      :                g%leaf_area
@@ -2873,9 +2873,9 @@ c      call sugar_get_other_variables ()
          g%leaf_dm (leaf_no) = g%leaf_dm (leaf_no)
      :                        *(1.-fraction_removed)
   100 continue
- 
+
              ! report
- 
+
       if (report.eq.'yes') then
          write(string,'(1x,A,f4.1,A,f4.2,A,f4.2,A)')
      :              'Grazing '
@@ -2888,7 +2888,7 @@ c      call sugar_get_other_variables ()
          call Write_string(string)
       else
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2901,7 +2901,7 @@ c      call sugar_get_other_variables ()
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2921,9 +2921,9 @@ c      call sugar_get_other_variables ()
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call sugar_init_root_depth
      :               (
      :                g%dlayer
@@ -2935,7 +2935,7 @@ c      call sugar_get_other_variables ()
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2948,8 +2948,8 @@ c      call sugar_get_other_variables ()
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'crp_root.pub'                      
-      include 'error.pub'                         
+      include 'crp_root.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2968,11 +2968,11 @@ c      call sugar_get_other_variables ()
       parameter (my_name = 'sugar_root_dist')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
           call cproc_root_length_growth1
      :               (
      :                c%specific_root_length
@@ -2995,11 +2995,11 @@ c      call sugar_get_other_variables ()
      :              , p%ll_dep
      :              , max_layer
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3012,8 +3012,8 @@ c      call sugar_get_other_variables ()
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
+      include 'crp_watr.pub'
+      include 'error.pub'
       include 'crp_comm.pub'
 
 *+  Sub-Program Arguments
@@ -3038,10 +3038,10 @@ c      call sugar_get_other_variables ()
 *- Implementation Section ----------------------------------
 c+!!!!!!!!! check order dependency of deltas
       call push_routine (my_name)
- 
- 
+
+
       if (Option .eq. 1) then
- 
+
        call cproc_sw_supply1 (
      :                        c%sw_dep_lb
      :                       ,g%dlayer
@@ -3055,7 +3055,7 @@ c+!!!!!!!!! check order dependency of deltas
      :                       ,g%sw_avail_pot
      :                       ,g%sw_supply
      :                       )
- 
+
          if (g%uptake_source.eq.'apsim') then
             ! Use the water uptake values given by some other
             ! module in the APSIM system. (eg APSWIM)
@@ -3071,14 +3071,14 @@ c+!!!!!!!!! check order dependency of deltas
      :                ,g%sw_supply       ! uptake array
      :                ,max_layer         ! array dim
      :                )
-         else 
+         else
          endif
- 
- 
+
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3091,8 +3091,8 @@ c+!!!!!!!!! check order dependency of deltas
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
+      include 'crp_watr.pub'
+      include 'error.pub'
       include 'data.pub'
 
 *+  Sub-Program Arguments
@@ -3116,10 +3116,10 @@ c+!!!!!!!!! check order dependency of deltas
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
- 
+
+
       if (Option .eq. 1) then
- 
+
          if (g%uptake_source.eq.'calc') then
             call cproc_sw_uptake1 (g%num_layers
      :                            ,g%dlayer
@@ -3127,20 +3127,20 @@ c+!!!!!!!!! check order dependency of deltas
      :                            ,g%sw_demand
      :                            ,g%sw_supply
      :                            ,g%dlt_sw_dep)
- 
+
          else
             ! Use the water uptake values already given by some other
-            ! module in the APSIM system. (eg APSWIM)            
+            ! module in the APSIM system. (eg APSWIM)
             do 100 layer = 1, g%num_layers
                g%dlt_sw_dep(layer) = -1.0 * g%sw_supply(layer)
   100       continue
 
          endif
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3153,8 +3153,8 @@ c+!!!!!!!!! check order dependency of deltas
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
+      include 'crp_watr.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3171,23 +3171,33 @@ c+!!!!!!!!! check order dependency of deltas
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'sugar_water_demand')
+*+  Local Variables
+      real cover_green
 
 *- Implementation Section ----------------------------------
 c+!!!!!!!!! check order dependency of deltas
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_sw_demand1 (
      :          g%dlt_dm_pot_rue,
      :          g%transp_eff,
-     :          g%sw_demand)
- 
- 
+     :          g%sw_demand_te)
+
+         cover_green = 1.0 - exp (-c%extinction_coef * g%lai)
+
+          call cproc_sw_demand_bound(
+     :         g%sw_demand_te
+     :        ,p%eo_crop_factor
+     :        ,g%eo
+     :        ,cover_green
+     :        ,g%sw_demand)
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3200,7 +3210,7 @@ c+!!!!!!!!! check order dependency of deltas
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3220,9 +3230,9 @@ c+!!!!!!!!! check order dependency of deltas
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call sugar_radn_int
      :               (
      :                c%extinction_coef
@@ -3231,11 +3241,11 @@ c+!!!!!!!!! check order dependency of deltas
      :              , g%radn
      :              , g%radn_int
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3248,7 +3258,7 @@ c+!!!!!!!!! check order dependency of deltas
       use sugarModule
       implicit none
       include     'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3268,9 +3278,9 @@ c+!!!!!!!!! check order dependency of deltas
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call sugar_dm_pot_rue
      :               (
      :                c%rue
@@ -3282,7 +3292,7 @@ c+!!!!!!!!! check order dependency of deltas
      :              , g%lodge_redn_photo
      :              , g%dlt_dm_pot_rue
      :               )
- 
+
          call sugar_dm_pot_rue_pot
      :               (
      :                c%rue
@@ -3290,11 +3300,11 @@ c+!!!!!!!!! check order dependency of deltas
      :              , g%radn_int
      :              , g%dlt_dm_pot_rue_pot
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3316,7 +3326,7 @@ c+!!!!!!!!! check order dependency of deltas
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_rue(*)              ! (INPUT)  radiation use efficiency (g dm
@@ -3354,9 +3364,9 @@ c+!!!!!!!!! check order dependency of deltas
                                        ! no stress (g biomass/mj)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       current_phase = int (g_current_stage)
       rue = c_rue(current_phase)
      :    * sugar_rue_reduction
@@ -3366,15 +3376,15 @@ c+!!!!!!!!! check order dependency of deltas
      :              , G_oxdef_photo
      :              , G_lodge_redn_photo
      :               )
- 
+
          ! potential dry matter production with temperature
          ! and N content stresses is calculated.
          ! This is g of dry biomass produced per MJ of intercepted
          ! radiation under stressed conditions.
- 
+
 cnh      call sugar_radn_int (radn_int)
       dlt_dm_pot = rue * g_radn_int
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3392,7 +3402,7 @@ cnh      call sugar_radn_int (radn_int)
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_rue(*)              ! (INPUT)  radiation use efficiency (g dm/mj)
@@ -3422,20 +3432,20 @@ cnh      call sugar_radn_int (radn_int)
                                        ! no stress (g biomass/mj)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       current_phase = int (g_current_stage)
       rue = c_rue(current_phase)
- 
+
          ! potential dry matter production with temperature
          ! and N content stresses is calculated.
          ! This is g of dry biomass produced per MJ of intercepted
          ! radiation under stressed conditions.
- 
+
 cnh      call sugar_radn_int (radn_int)
       dlt_dm_pot = rue * g_radn_int
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3448,8 +3458,8 @@ cnh      call sugar_radn_int (radn_int)
       use sugarModule
       implicit none
       include     'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
+      include 'crp_watr.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3471,16 +3481,16 @@ cnh      call sugar_radn_int (radn_int)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_transp_eff1(c%svp_fract, c%transp_eff_cf,
      :            g%current_stage,g%maxt, g%mint, g%transp_eff)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3500,9 +3510,9 @@ cnh      call sugar_radn_int (radn_int)
 * ====================================================================
       implicit none
        include 'sugconst.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       INTEGER    C_num_ave_temp        ! (INPUT)  size_of of critical temperatur
@@ -3530,18 +3540,18 @@ cnh      call sugar_radn_int (radn_int)
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
- 
+
+
          ! now get the temperature stress factor that reduces
          ! photosynthesis (0-1)
- 
+
       ave_temp = (g_maxt + g_mint) /2.0
- 
+
       tfac = linear_interp_real (ave_temp
      :                          , c_x_ave_temp, c_y_stress_photo
      :                          , c_num_ave_temp)
       tfac = bound (tfac, 0.0, 1.0)
- 
+
       call pop_routine (myname)
       return
       end
@@ -3554,8 +3564,8 @@ cnh      call sugar_radn_int (radn_int)
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
+      include 'crp_watr.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3574,9 +3584,9 @@ cnh      call sugar_radn_int (radn_int)
       parameter (my_name = 'sugar_water_stress_pheno')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          call crop_swdef_pheno(c%num_sw_avail_ratio,
      :           c%x_sw_avail_ratio, c%y_swdef_pheno, g%num_layers,
@@ -3585,7 +3595,7 @@ cnh      call sugar_radn_int (radn_int)
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3598,8 +3608,8 @@ cnh      call sugar_radn_int (radn_int)
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
+      include 'crp_watr.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3618,16 +3628,16 @@ cnh      call sugar_radn_int (radn_int)
       parameter (my_name = 'sugar_water_stress_photo')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          call crop_swdef_photo(g%num_layers, g%dlayer, g%root_depth,
      :                   g%sw_demand,g%sw_supply, g%swdef_photo)
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3640,8 +3650,8 @@ cnh      call sugar_radn_int (radn_int)
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
+      include 'crp_watr.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3663,9 +3673,9 @@ c      real       mungb_swdef           ! function
       parameter (my_name = 'sugar_water_stress_expansion')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          call crop_swdef_expansion(c%num_sw_demand_ratio,
      :           c%x_sw_demand_ratio, c%y_swdef_leaf,
@@ -3674,7 +3684,7 @@ c      real       mungb_swdef           ! function
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3687,7 +3697,7 @@ c      real       mungb_swdef           ! function
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3706,11 +3716,11 @@ c      real       mungb_swdef           ! function
       parameter (my_name = 'sugar_nit_stress_photo')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call sugar_nfact
      :               (
      :                g%dm_green
@@ -3720,11 +3730,11 @@ c      real       mungb_swdef           ! function
      :              , c%k_nfact_photo
      :              , g%nfact_photo
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3737,7 +3747,7 @@ c      real       mungb_swdef           ! function
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3756,11 +3766,11 @@ c      real       mungb_swdef           ! function
       parameter (my_name = 'sugar_nit_stress_expansion')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call sugar_nfact
      :               (
      :                g%dm_green
@@ -3770,11 +3780,11 @@ c      real       mungb_swdef           ! function
      :              , c%k_nfact_expansion
      :              , g%nfact_expansion
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3787,8 +3797,8 @@ c      real       mungb_swdef           ! function
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
+      include 'crp_cnpy.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3807,11 +3817,11 @@ c      real       mungb_swdef           ! function
       parameter (my_name = 'sugar_height')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_canopy_height
      :               (
      :                g%canopy_height
@@ -3823,13 +3833,13 @@ c      real       mungb_swdef           ! function
      :              , sstem
      :              , g%dlt_canopy_height
      :               )
- 
- 
+
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
- 
+
+
       call pop_routine (my_name)
       return
       end
@@ -3842,7 +3852,7 @@ c      real       mungb_swdef           ! function
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3862,9 +3872,9 @@ c      real       mungb_swdef           ! function
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call sugar_dm_init
      :               (
      :                c%dm_cabbage_init
@@ -3880,14 +3890,14 @@ c      real       mungb_swdef           ! function
      :              , g%dm_green, g%dm_plant_min
      :              , g%leaf_dm
      :               )
- 
+
             ! use whichever is limiting
          g%dlt_dm = min (g%dlt_dm_pot_rue, g%dlt_dm_pot_te)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3900,8 +3910,8 @@ c      real       mungb_swdef           ! function
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3924,12 +3934,12 @@ c      real       mungb_swdef           ! function
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          leaf_no_today = sum_between (emerg, now, g%leaf_no)
      :              + g%dlt_leaf_no
- 
+
          call sugar_sla_min
      :               (
      :                c%num_sla_lfno
@@ -3947,7 +3957,7 @@ c      real       mungb_swdef           ! function
      :              , g%temp_stress_stalk
      :              , g%sucrose_fraction
      :               )
- 
+
          call sugar_dm_partition
      :               (
      :                c%cane_fraction
@@ -3965,11 +3975,11 @@ c      real       mungb_swdef           ! function
      :                          , g%dlt_dm_green
      :                          , g%partition_xs
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3998,9 +4008,9 @@ c      real       mungb_swdef           ! function
       implicit none
       include   'convert.inc'
       include   'sugconst.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_cane_fraction       ! (INPUT)
@@ -4047,64 +4057,64 @@ c      real       mungb_swdef           ! function
                                        ! of cane growth (deg days)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! Root must be satisfied. The roots don't take any of the
          ! carbohydrate produced - that is for tops only.  Here we assume
          ! that enough extra was produced to meet demand. Thus the root
          ! growth is not removed from the carbo produced by the model.
- 
+
          ! first we zero all plant component deltas
- 
+
       call fill_real_array (dlt_dm_green, 0.0, max_part)
       partition_xs = 0.0
- 
+
          ! now we get the root delta for all stages - partition scheme
          ! specified in coeff file
- 
+
       current_phase = int (g_current_stage)
       dlt_dm_green(root) = c_ratio_root_shoot(current_phase)*dlt_dm
- 
- 
+
+
       dlt_leaf_max = divide (dlt_lai_pot
      :                      , g_sla_min*smm2sm
      :                      , 0.0)
- 
+
       if (stage_is_between (emerg, begcane, g_current_stage)) then
             ! we have leaf and cabbage development only
- 
+
          dlt_dm_green(leaf) = dlt_dm
      :                      * (1.0 - 1.0/(c_leaf_cabbage_ratio+1.0))
- 
+
          dlt_dm_green(leaf) = u_bound (dlt_dm_green(leaf),dlt_leaf_max)
- 
+
          dlt_dm_green(cabbage) = dlt_dm_green(leaf)/c_leaf_cabbage_ratio
- 
+
          partition_xs       = dlt_dm
      :                      - dlt_dm_green(leaf)
      :                      - dlt_dm_green(cabbage)
- 
+
          ! Put the excess dry matter in sstem
          dlt_dm_green (sstem) = partition_xs
- 
+
       elseif (stage_is_between (begcane, crop_end
      :                        , g_current_stage)) then
- 
+
          ! if leaf component makes leaves too thick extra goes to sstem
- 
+
          dlt_cane_min = c_cane_fraction * dlt_dm
- 
+
          dlt_dm_green(leaf) = (dlt_dm - dlt_cane_min)
      :                      * (1.0 - 1.0/(c_leaf_cabbage_ratio+1.0))
- 
+
          dlt_dm_green(leaf) = u_bound (dlt_dm_green(leaf),dlt_leaf_max)
          dlt_dm_green(cabbage) = dlt_dm_green(leaf)/c_leaf_cabbage_ratio
          dlt_cane = dlt_dm - dlt_dm_green(leaf)
      :                       - dlt_dm_green(cabbage)
- 
+
          tt_since_begcane = sum_between (begcane,now,g_tt_tot)
- 
+
          if ((tt_since_begcane .gt. c_sucrose_delay)
      :                        .and.
      :       (g_dm_green(SStem).gt. g_min_sstem_sucrose))
@@ -4112,45 +4122,45 @@ c      real       mungb_swdef           ! function
             ! the SStem pool gets (1 - c_sucrose_fraction) of the DEMAND
             ! for C. Extra C above the demand for cane goes only into
             ! the sucrose pool.
- 
+
             dlt_dm_green(SStem) = dlt_cane_min
      :                          * (1.- g_sucrose_fraction)
             dlt_dm_green(Sucrose) = dlt_cane_min * g_sucrose_fraction
- 
+
             partition_xs = dlt_cane - dlt_cane_min
             dlt_dm_green(Sucrose) = dlt_dm_green(Sucrose) + partition_xs
- 
+
          else
             ! nih - should excess C go into sucrose here too even though
             ! we have not started into the sugar accumulation phase????
             dlt_dm_green(SStem) = dlt_cane
             partition_xs = dlt_cane - dlt_cane_min
- 
+
          endif
- 
+
       else
             ! no partitioning
       endif
- 
+
 cnh Due to small rounding errors I will say that small errors are ok
- 
+
          ! do mass balance check - roots are not included
       dlt_dm_green_tot = sum_real_array (dlt_dm_green, max_part)
      :                 - dlt_dm_green(root)
- 
+
       call bound_check_real_var (dlt_dm_green_tot
      :                        , dlt_dm - 1.e-6
      :                        , dlt_dm + 1.e-6
      :                        , 'dlt_dm_green_tot mass balance')
- 
+
          ! check that deltas are in legal range
- 
+
       call bound_check_real_array (dlt_dm_green
      :                        , -1.e-6
      :                        , dlt_dm + 1.e-6
      :                        , 'dlt_dm_green'
      :                        , max_part)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4179,7 +4189,7 @@ cnh Due to small rounding errors I will say that small errors are ok
       implicit none
       include   'convert.inc'
       include   'sugconst.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_cane_fraction       ! (INPUT)
@@ -4217,9 +4227,9 @@ cnh Due to small rounding errors I will say that small errors are ok
       parameter (my_name  = 'sugar_dm_partition_pot')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       call sugar_dm_partition_rules
      :               (
      :                C_cane_fraction
@@ -4237,7 +4247,7 @@ cnh Due to small rounding errors I will say that small errors are ok
      :                        ,dlt_dm_green
      :                        ,partition_xs
      :               )
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4250,8 +4260,8 @@ cnh Due to small rounding errors I will say that small errors are ok
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
+      include 'crp_cnpy.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4272,21 +4282,21 @@ cnh Due to small rounding errors I will say that small errors are ok
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
             ! Plant leaf development
       if (Option .eq. 1) then
- 
+
          call cproc_leaf_area_stressed1 (
      :                                   g%dlt_lai_pot
      :                                  ,g%swdef_expansion
      :                                  ,g%nfact_expansion
      :                                  ,g%dlt_lai_stressed
      :                                  )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4299,7 +4309,7 @@ cnh Due to small rounding errors I will say that small errors are ok
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4320,9 +4330,9 @@ cnh Due to small rounding errors I will say that small errors are ok
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
             ! limit the delta leaf area by carbon supply
          call sugar_leaf_area
      :               (
@@ -4338,7 +4348,7 @@ cnh Due to small rounding errors I will say that small errors are ok
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4351,7 +4361,7 @@ cnh Due to small rounding errors I will say that small errors are ok
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4371,18 +4381,18 @@ cnh Due to small rounding errors I will say that small errors are ok
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call sugar_dm_retranslocate
      :               (
      :                g%dlt_dm_green_retrans
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4403,9 +4413,9 @@ cnh Due to small rounding errors I will say that small errors are ok
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_green_leaf_no       ! (INPUT)
@@ -4438,40 +4448,40 @@ cnh Due to small rounding errors I will say that small errors are ok
       real       total_leaf_no         ! total number of leaves today
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       node_no_dead_yesterday = sum_between (emerg, now, g_node_no_dead)
- 
+
       if (stage_is_between (emerg, crop_end, g_current_stage)) then
- 
+
          ! this approach won't work if the growing point gets killed
          ! we will require an approach that integrates the app rate
          ! function to create a dlfno vs tt curve.
          ! this is quick and dirty to allow testing of green leaf
          ! approach
- 
+
          leaf_no_today = sum_between (emerg, now, g_leaf_no)
      :                 + g_dlt_leaf_no
          node_no_dead_today = leaf_no_today - c_green_leaf_no
          node_no_dead_today = l_bound(node_no_dead_today,0.0)
- 
- 
+
+
       elseif (on_day_of (crop_end
      :                 , g_current_stage, g_days_tot)) then
- 
+
          total_leaf_no = sum_between (emerg, now, g_leaf_no)
          node_no_dead_today = total_leaf_no
- 
+
       else
          node_no_dead_today = 0.0
       endif
- 
+
       node_no_dead_today = bound (node_no_dead_today
      :                           , node_no_dead_yesterday
      :                           , real(max_leaf))
       dlt_node_no_dead = node_no_dead_today - node_no_dead_yesterday
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4495,8 +4505,8 @@ cnh Due to small rounding errors I will say that small errors are ok
       implicit none
       include   'convert.inc'
       include   'sugconst.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dlt_node_no_dead    ! (INPUT)  fraction of oldest green leaf
@@ -4532,17 +4542,17 @@ cnh Due to small rounding errors I will say that small errors are ok
       real       dead_fr_highest_dleaf
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! now calculate the leaf senescence
          ! due to normal phenological (phasic) development
- 
+
          ! get highest leaf no. senescing today
- 
+
 c      leaf_no_dead = int (1.0
 c     :                   + sum_between (emerg, now, g_leaf_no_dead))
- 
+
       ! note that the first leaf record really contains
       ! 1+c_leaf_no_at_emerg leaves in it - not 1.
       node_no_dead = int (1.0
@@ -4550,25 +4560,25 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
      :                   - g_node_no_detached
      :                   - c_leaf_no_at_emerg
       node_no_dead = max(node_no_dead,1)
- 
+
       dead_fr_highest_dleaf = mod(
      :                   1.0 + sum_between (emerg, now, g_node_no_dead)
      :                   - g_node_no_detached
      :                   - c_leaf_no_at_emerg
      :                   , 1.0)
- 
+
          ! get area senesced from highest leaf no.
- 
+
       dlt_leaf_area = mod (g_dlt_node_no_dead, 1.0)
      :                 * g_leaf_area(node_no_dead)
- 
+
       slai_age = (sum_real_array (g_leaf_area, node_no_dead - 1)
      :         + dead_fr_highest_dleaf * g_leaf_area (node_no_dead)
      :         + dlt_leaf_area)
      :         * smm2sm * g_plants
- 
+
       dlt_slai_age = bound (slai_age - g_slai, 0.0, g_lai)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4581,7 +4591,7 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4600,21 +4610,21 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       parameter (my_name = 'sugar_leaf_area_sen_actual')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          ! now take largest of deltas
          g%dlt_slai = max (g%dlt_slai_age
      :                   , g%dlt_slai_light
      :                   , g%dlt_slai_water
      :                   , g%dlt_slai_frost)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4627,7 +4637,7 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4647,9 +4657,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call sugar_N_senescence
      :               (
      :                c%n_cabbage_sen_conc
@@ -4658,11 +4668,11 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
      :              , g%dlt_dm_senesced
      :              , g%dlt_N_senesced
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4675,7 +4685,7 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4695,9 +4705,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call sugar_dm_senescence
      :               (
      :                c%dm_root_sen_frac
@@ -4715,11 +4725,11 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
      :              , g%leaf_area
      :              , g%dlt_dm_senesced
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4732,8 +4742,8 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'crp_root.pub'                      
-      include 'error.pub'                         
+      include 'crp_root.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4753,9 +4763,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
           call cproc_root_length_senescence1
      :               (
      :                c%specific_root_length
@@ -4766,11 +4776,11 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
      :              , g%dlt_root_length_senesced
      :              , max_layer
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4783,7 +4793,7 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4803,9 +4813,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call sugar_N_init
      :               (
      :                c%n_cabbage_init_conc
@@ -4817,11 +4827,11 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
      :              , g%dm_green
      :              , g%N_green
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4834,9 +4844,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'data.pub'                          
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'crp_nitn.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4859,12 +4869,12 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
             ! find potential N uptake (supply, available N)
       if (Option .eq. 1) then
          fixation_determinant = sum_real_array(g%dm_green, max_part)
      :                        - g%dm_green(root)
- 
+
          call cproc_n_supply2 (
      :            g%dlayer
      :          , max_layer
@@ -4883,11 +4893,11 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
      :          , g%swdef_fixation
      :          , g%N_fix_pot
      :          )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4900,7 +4910,7 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4920,9 +4930,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call sugar_N_retranslocate
      :               (
      :                g%dm_green
@@ -4930,11 +4940,11 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
      :              , g%n_green
      :              , g%dlt_N_retrans
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4947,7 +4957,7 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4975,15 +4985,15 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          ! Use estimate from prepare stage
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4997,9 +5007,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       implicit none
       include   'const.inc'
       include   'convert.inc'
-      include 'crp_nitn.pub'                      
-      include 'crp_comm.pub'                      
-      include 'error.pub'                         
+      include 'crp_nitn.pub'
+      include 'crp_comm.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5019,7 +5029,7 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (g%uptake_source .eq. 'apsim') then
         ! NIH - note that I use a -ve conversion
          ! factor FOR NOW to make it a delta.
@@ -5033,9 +5043,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
      :                ,g%dlt_no3gsm      ! uptake array
      :                ,max_layer         ! array dim
      :                )
- 
+
       elseif (Option .eq. 1) then
- 
+
           call cproc_N_uptake1
      :               (
      :                c%no3_diffn_const
@@ -5054,7 +5064,7 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -5067,7 +5077,7 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5087,9 +5097,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call sugar_N_partition
      :               (
      :                g%dlayer
@@ -5098,11 +5108,11 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
      :              , g%root_depth
      :              , g%dlt_N_green
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -5114,7 +5124,7 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 *     ===========================================================
       use sugarModule
       implicit none
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Purpose
 *       cleanup after crop processes
@@ -5131,7 +5141,7 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call sugar_update
      :               (
      :                G%canopy_height
@@ -5244,7 +5254,7 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
      :              , g%year
      :              , p%ll_dep
      :               )
- 
+
       call pop_routine (my_name)
       return
       end
@@ -5273,9 +5283,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_current_stage       ! (INPUT)  current phenological stage
@@ -5316,11 +5326,11 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
- 
+
+
 cnh I have removed most of the variables because they were either calculated
 cnh wrongly or irrelevant.
- 
+
              ! get totals
       N_conc_stover = divide ((g_N_green(leaf)
      :                       + g_N_green(sstem)
@@ -5331,21 +5341,21 @@ cnh wrongly or irrelevant.
      :                       + g_dm_green(cabbage)
      :                       + g_dm_green(sucrose))
      :                       , 0.0)
- 
+
           ! note - g_N_conc_crit should be done before the stages change
 cnh wrong!!!
 c      N_conc_stover_crit = (g_N_conc_crit(leaf) + g_N_conc_crit(stem))
 c     :                   * 0.5
       N_green_demand = sum_real_array (g_N_demand, max_part)
- 
+
       deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
- 
+
       if (on_day_of (sowing, g_current_stage, g_days_tot)) then
          g_transpiration_tot =
      :           - sum_real_array (g_dlt_sw_dep, deepest_layer)
          g_N_conc_act_stover_tot = N_conc_stover
          g_N_demand_tot = N_green_demand
- 
+
       else
          g_transpiration_tot = g_transpiration_tot
      :                       + (-sum_real_array (g_dlt_sw_dep
@@ -5353,15 +5363,15 @@ c     :                   * 0.5
          g_N_conc_act_stover_tot = N_conc_stover
          g_N_demand_tot = g_N_demand_tot + N_green_demand
       endif
- 
+
       g_lai_max = max (g_lai_max, g_lai)
       if (on_day_of (flowering, g_current_stage, g_days_tot)) then
          g_isdate = g_day_of_year
       else
       endif
- 
- 
- 
+
+
+
       call pop_routine (my_name)
       return
       end
@@ -5374,7 +5384,7 @@ c     :                   * 0.5
       use sugarModule
       implicit none
       include     'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5394,9 +5404,9 @@ c     :                   * 0.5
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call sugar_water_content
      :               (
      :                c%cane_dmf_tt
@@ -5412,11 +5422,11 @@ c     :                   * 0.5
      :              , g%dlt_plant_wc
      :              , g%plant_wc
      :              , g%tt_tot)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -5436,9 +5446,9 @@ c     :                   * 0.5
       implicit none
       include   'const.inc'            ! new_line
       include   'sugconst.inc'
-      include 'data.pub'                          
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_days_germ_limit     ! (INPUT)  maximum days allowed after sowing for germination to take place (days)
@@ -5466,15 +5476,15 @@ c     :                   * 0.5
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (stage_is_between (sowing, sprouting, g_current_stage)
      :   .and. sum_between (sowing, now, g_days_tot)
      :         .ge.c_days_germ_limit) then
- 
+
          dlt_plants = - g_plants
- 
+
          write (string, '(3a, f4.0, a)')
      :                 ' crop failure because of lack of'
      :                  ,new_line
@@ -5483,12 +5493,12 @@ c     :                   * 0.5
      :                  , ' days of sowing'
          call write_string (string)
 c         call sugar_kill_crop ()
- 
+
       else
          dlt_plants = 0.0
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -5508,9 +5518,9 @@ c         call sugar_kill_crop ()
       implicit none
       include   'const.inc'            ! new_line
       include   'sugconst.inc'
-      include 'data.pub'                          
-      include 'science.pub'                       
-            include 'error.pub'                         
+      include 'data.pub'
+      include 'science.pub'
+            include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_tt_emerg_limit      ! (INPUT)  maximum degree days allowed for emergence to take place (deg day)
@@ -5538,25 +5548,25 @@ c         call sugar_kill_crop ()
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (stage_is_between (sprouting, emerg, g_current_stage)
      :       .and. sum_between (sprouting, now, g_tt_tot)
      :       .gt.c_tt_emerg_limit) then
- 
+
          dlt_plants = - g_plants
- 
+
          write (string, '(a)')
      :                 ' failed emergence due to deep planting'
          call write_string (string)
 c         call sugar_kill_crop ()
- 
+
       else
          dlt_plants = 0.0
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -5575,9 +5585,9 @@ c         call sugar_kill_crop ()
       implicit none
       include   'const.inc'            ! new_line
       include   'sugconst.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_current_stage       ! (INPUT)  current phenological stage
@@ -5604,25 +5614,25 @@ c         call sugar_kill_crop ()
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (reals_are_equal (g_lai, 0.0)
      :       .and. stage_is_between (emerg, crop_end
      :                             , g_current_stage)) then
- 
+
          dlt_plants = - g_plants
- 
+
          write (string, '(3a)')
      :                ' crop failure because of total leaf senescence.'
          call write_string (string)
 c         call sugar_kill_crop ()
- 
+
       else
          dlt_plants = 0.0
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -5643,7 +5653,7 @@ c         call sugar_kill_crop ()
       implicit none
       include   'const.inc'            ! new_line
       include   'sugconst.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dlt_plants_death_drought ! (INPUT)
@@ -5669,16 +5679,16 @@ c         call sugar_kill_crop ()
       parameter (my_name = 'sugar_death_actual')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
- 
+
+
       dlt_plants = min (g_dlt_plants_failure_germ
      :                , g_dlt_plants_failure_emergence
      :                , g_dlt_plants_failure_leaf_sen
      :                , g_dlt_plants_death_drought
      :                , G_dlt_plants_death_lodging)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -5701,8 +5711,8 @@ c         call sugar_kill_crop ()
       implicit none
       include   'const.inc'            ! new_line
       include   'sugconst.inc'
-      include 'data.pub'                          
-            include 'error.pub'                         
+      include 'data.pub'
+            include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_leaf_no_crit        ! (INPUT)  critical number of leaves below which portion of the crop may die due to water stress
@@ -5736,32 +5746,32 @@ c         call sugar_kill_crop ()
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       cswd_photo = sum_between (emerg, crop_end, g_cswd_photo)
       leaf_no = sum_between (emerg, now, g_leaf_no)
- 
+
       if (leaf_no.lt.c_leaf_no_crit
      :       .and. cswd_photo.gt.c_swdf_photo_limit
      :       .and. g_swdef_photo.lt.1.0) then
- 
+
          killfr = c_swdf_photo_rate* (cswd_photo - c_swdf_photo_limit)
          killfr = bound (killfr, 0.0, 1.0)
          dlt_plants = - g_plants*killfr
- 
+
          write (string, '(a, i4, a)')
      :          'plant_kill.',
      :          nint (killfr*100.0)
      :         , '% failure because of water stress.'
- 
+
          call write_string (string)
- 
+
       else
          dlt_plants = 0.0
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -5782,9 +5792,9 @@ c         call sugar_kill_crop ()
       include   'const.inc'
       include   'convert.inc'          ! gm2kg, sm2ha
       include   'sugconst.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
@@ -5819,33 +5829,33 @@ c         call sugar_kill_crop ()
       real       N_uptake_sum          ! total plant N uptake (g/m^2)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       call fill_real_array (dlt_N_green, 0.0, max_part)
       deepest_layer = find_layer_no(g_root_depth, g_dlayer, max_layer)
- 
+
                ! find proportion of uptake to be
                ! distributed to each plant part and distribute it.
       N_uptake_sum = - sum_real_array (g_dlt_NO3gsm, deepest_layer)
       N_demand = sum_real_array (g_N_demand, max_part)
- 
+
       ! Partition N, according to relative demand, to each plant
       ! part but do not allow supply to exceed demand.  Any excess
       ! supply is to go into cane. - NIH 13/3/96
- 
+
       do 1300 part = 1, max_part
          plant_part_fract = divide (g_N_demand(part), N_demand, 0.0)
          dlt_N_green(part) = min(N_uptake_sum, N_demand)
      :                     * plant_part_fract
 1300  continue
- 
+
       if (N_uptake_sum.gt.N_demand) then
          dlt_N_green(sstem) = dlt_N_green(sstem)
      :                      + (N_uptake_sum - N_demand)
       else
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -5858,8 +5868,8 @@ c         call sugar_kill_crop ()
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
+      include 'crp_watr.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5881,9 +5891,9 @@ c      real       mungb_swdef           ! function
       parameter (my_name = 'sugar_water_log')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
           call crop_oxdef_photo1
      :               (
@@ -5899,11 +5909,11 @@ c      real       mungb_swdef           ! function
      :              , max_layer
      :              , g%oxdef_photo
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -5916,7 +5926,7 @@ c      real       mungb_swdef           ! function
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5938,9 +5948,9 @@ c      real       mungb_swdef           ! function
       parameter (my_name = 'sugar_water_stress_stalk')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          call sugar_swdef_demand_ratio
      :               (
@@ -5953,11 +5963,11 @@ c      real       mungb_swdef           ! function
      :              , g%sw_supply
      :              , g%swdef_stalk
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -5970,7 +5980,7 @@ c      real       mungb_swdef           ! function
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5989,11 +5999,11 @@ c      real       mungb_swdef           ! function
       parameter (my_name = 'sugar_temp_stress_photo')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
 cnh I made it a subroutine like all the rest
           call sugar_temperature_stress
      :               (
@@ -6004,11 +6014,11 @@ cnh I made it a subroutine like all the rest
      :              , g%mint
      :              , g%temp_stress_photo
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -6021,7 +6031,7 @@ cnh I made it a subroutine like all the rest
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6040,11 +6050,11 @@ cnh I made it a subroutine like all the rest
       parameter (my_name = 'sugar_temp_stress_stalk')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
 cnh I made it a subroutine like all the rest
           call sugar_temperature_stress
      :               (
@@ -6055,11 +6065,11 @@ cnh I made it a subroutine like all the rest
      :              , g%mint
      :              , g%temp_stress_stalk
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -6071,7 +6081,7 @@ cnh I made it a subroutine like all the rest
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6090,21 +6100,21 @@ cnh I made it a subroutine like all the rest
       parameter (my_name = 'sugar_lodge_redn_photo')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          if (g%lodge_flag) then
             g%lodge_redn_photo = c%lodge_redn_photo
          else
             g%lodge_redn_photo = 1.0
          endif
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -6115,7 +6125,7 @@ cnh I made it a subroutine like all the rest
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6134,11 +6144,11 @@ cnh I made it a subroutine like all the rest
       parameter (my_name = 'sugar_nit_stress_stalk')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call sugar_nfact
      :               (
      :                g%dm_green
@@ -6148,11 +6158,11 @@ cnh I made it a subroutine like all the rest
      :              , c%k_nfact_stalk
      :              , g%nfact_stalk
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -6173,8 +6183,8 @@ cnh I made it a subroutine like all the rest
       implicit none
       include   'const.inc'
       include   'sugconst.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass
@@ -6231,53 +6241,53 @@ cbak      real       N_stover_min          ! minimum top nitrogen (g/m^2)
                                        ! (0-1)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! calculate actual N concentrations
- 
+
 c      dm_stover = g_dm_green(leaf) + g_dm_green(sstem)
 c     :          + g_dm_green(cabbage)
 c      N_stover = g_N_green(leaf) + g_N_green(sstem)
 c     :          + g_N_green(cabbage)
 c
 c      N_conc_stover = divide (N_stover, dm_stover, 0.0)
- 
+
        N_conc_leaf = divide (g_N_green(leaf), g_dm_green(leaf), 0.0)
- 
+
          ! calculate critical N concentrations
 cbak   Base N deficiency on leaf N concentrations
- 
+
        N_leaf_crit = g_N_conc_crit(leaf) * g_dm_green(leaf)
- 
+
 c      N_stem_crit = g_N_conc_crit(sstem) * g_dm_green(sstem)
 c      N_cabbage_crit = g_N_conc_crit(cabbage) * g_dm_green(cabbage)
 c      N_stover_crit = N_leaf_crit + N_stem_crit + N_cabbage_crit
 cbak
        N_conc_leaf_crit = divide (N_leaf_crit, g_dm_green(leaf), 0.0)
- 
- 
+
+
          ! calculate minimum N concentrations
- 
+
        N_leaf_min = g_N_conc_min(leaf) * g_dm_green(leaf)
- 
+
 c      N_stem_min = g_N_conc_min(sstem) * g_dm_green(sstem)
 c      N_cabbage_min = g_N_conc_min(cabbage) * g_dm_green(cabbage)
 c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
- 
+
        N_conc_leaf_min = divide (N_leaf_min, g_dm_green(leaf), 0.0)
- 
+
          ! calculate shortfall in N concentrations
- 
+
       N_conc_ratio = divide ((N_conc_leaf - N_conc_leaf_min)
      :              , (N_conc_leaf_crit - N_conc_leaf_min), 0.0)
- 
+
          ! calculate 0-1 N deficiency factors
- 
- 
+
+
           N_def = k_nfact * N_conc_ratio
           nfact = bound (N_def, 0.0, 1.0)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -6296,11 +6306,11 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
      :              , G_plants
      :              , g_dlt_plants_death_lodging
      :               )
- 
+
 * ====================================================================
       implicit none
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       logical g_lodge_flag
@@ -6331,21 +6341,21 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       if (g_lodge_flag) then
- 
+
          min_stress_factor = min(g_swdef_photo, g_oxdef_photo)
- 
+
          death_fraction = linear_interp_real (min_stress_factor
      :                                       ,c_stress_lodge
      :                                       ,c_death_fr_lodge
      :                                       ,c_num_stress_lodge)
- 
+
          g_dlt_plants_death_lodging = - g_plants * death_fraction
       else
          g_dlt_plants_death_lodging = 0.0
       endif
- 
+
       call pop_routine (myname)
       return
       end
@@ -6358,9 +6368,9 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6380,18 +6390,18 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
          ! These ideally should go in new routines but it seems overkill for
          ! a simple.  This is a patch job
- 
+
          if (on_day_of (begcane, g%current_stage, g%days_tot)) then
             g%min_sstem_sucrose = c%min_sstem_sucrose
          else
          endif
          if (stage_is_between (begcane, crop_end
      :                        , g%current_stage)) then
- 
+
             g%dlt_min_sstem_sucrose = c%min_sstem_sucrose_redn
      :                     * (1.0 - min(g%nfact_stalk, g%swdef_stalk))
             g%dlt_min_sstem_sucrose = u_bound(g%dlt_min_sstem_sucrose
@@ -6403,7 +6413,7 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -6416,7 +6426,7 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6440,9 +6450,9 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call sugar_realloc_cabbage
      :               (
      :                leaf
@@ -6456,11 +6466,11 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
      :              , g%dlt_dm_realloc
      :              , g%dlt_n_realloc
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -6481,11 +6491,11 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
      :              , g_dlt_dm_realloc
      :              , g_dlt_n_realloc
      :               )
- 
+
 *     ===========================================================
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer leaf
@@ -6522,22 +6532,22 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call fill_real_array (g_dlt_dm_realloc, 0.0, max_part)
       call fill_real_array (g_dlt_n_realloc, 0.0, max_part)
- 
+
       realloc_wt = g_dlt_dm_senesced(cabbage)
      :           * (divide (1.0,c_cabbage_sheath_fr,0.0) - 1.0)
       g_dlt_dm_realloc(cabbage) = - realloc_wt
       g_dlt_dm_realloc(sstem) = realloc_wt
- 
+
       ! this is not 100% accurate but swings and round-abouts will look after
       ! it - I hope (NIH)
       realloc_n = divide (g_n_green (cabbage), g_dm_green(cabbage),0.0)
      :          * realloc_wt
       g_dlt_n_realloc(cabbage) = - realloc_n
       g_dlt_n_realloc(sstem) = realloc_n
- 
+
       call pop_routine (my_name)
       return
       end
@@ -6555,8 +6565,8 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
@@ -6570,7 +6580,7 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 *       affected by relative moisture content at the rooting front.
 
 *+  Mission Statement
-*     Gets the increase in plant root depth 
+*     Gets the increase in plant root depth
 
 *+  Notes
 *         there is a discrepency when the root crosses into another
@@ -6591,17 +6601,17 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
       integer    num_root_layers       !
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
 cnh      if (on_day_of (sprouting, g_current_stage, g_days_tot)) then
       if (g_root_depth .eq. 0.0) then
- 
+
              ! initialise root depth
              ! this version does not take account of sowing depth.
 cnh it used to do this on first day of sprouting
 cnh         dlt_root_depth = c_initial_root_depth
- 
+
 cnh now I say roots are at bottom of deepest layer that user said had a value
 cnh for rlv at initialisation.
             num_root_layers = count_of_real_vals (g_root_length
@@ -6609,12 +6619,12 @@ cnh for rlv at initialisation.
             dlt_root_depth =
      :                 sum_real_array (g_dlayer, num_root_layers)
      :                 - g_root_depth
- 
+
       else  ! we have no root growth
- 
+
          ! do nothing
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -6627,8 +6637,8 @@ cnh for rlv at initialisation.
       use sugarModule
       implicit none
       include     'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
+      include 'crp_watr.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6648,16 +6658,16 @@ cnh for rlv at initialisation.
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call cproc_bio_water1 (max_layer, g%dlayer, g%root_depth,
      :               g%sw_supply, g%transp_eff, g%dlt_dm_pot_te)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -6670,8 +6680,8 @@ cnh for rlv at initialisation.
       use sugarModule
       implicit none
       include 'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
+      include 'crp_cnpy.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option
@@ -6692,7 +6702,7 @@ cnh for rlv at initialisation.
 *- Implementation Section ----------------------------------
       call push_routine (myname)
       if (Option .eq. 1) then
- 
+
          call sugar_leaf_area_sen_age0
      :               (
      :                g%dlt_node_no_dead
@@ -6705,11 +6715,11 @@ cnh for rlv at initialisation.
      :              , c%leaf_no_at_emerg
      :              , g%dlt_slai_age
      :               )
- 
+
          call crop_leaf_area_sen_water1(c%sen_rate_water,
      :           g%lai, g%swdef_photo, g%plants, 0.0, g%dlt_slai_water)
- 
- 
+
+
          call crop_leaf_area_sen_light1 (
      .          c%lai_sen_light,
      .          c%sen_light_slope,
@@ -6717,18 +6727,18 @@ cnh for rlv at initialisation.
      .          g%plants,
      .          0.0,
      .          g%dlt_slai_light)
- 
+
          call crop_leaf_area_sen_frost1(c%frost_temp,
      :                c%frost_fraction, c%num_frost_temp, g%lai,
      :                g%mint, g%plants, 0.0, g%dlt_slai_frost)
- 
- 
+
+
          ! now take largest of deltas
          g%dlt_slai = max (g%dlt_slai_age
      :                   , g%dlt_slai_light
      :                   , g%dlt_slai_water
      :                   , g%dlt_slai_frost)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -6752,8 +6762,8 @@ cnh for rlv at initialisation.
       implicit none
       include   'convert.inc'
       include   'sugconst.inc'
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_initial_tpla        ! (INPUT)  initial plant leaf area (mm^2)
@@ -6777,15 +6787,15 @@ cnh for rlv at initialisation.
       parameter (my_name = 'sugar_init_leaf_area')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (on_day_of (emerg, g_current_stage, g_days_tot)) then
          lai = c_initial_tpla * smm2sm * g_plants
          leaf_area(1) = c_initial_tpla
       else
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -6798,8 +6808,8 @@ cnh for rlv at initialisation.
       use sugarModule
       implicit none
       include 'const.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option
@@ -6830,15 +6840,15 @@ cnh for rlv at initialisation.
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
             ! Option 1 is to assume that the distribution of plant
             ! C will be similar after today and so N demand is that
             ! required to raise all plant parts to max N conc.
- 
+
          ! calculate potential new shoot and root growth
       dm_green_tot = sum_real_array (g%dm_green, max_part)
- 
+
       do 100 part = 1, max_part
          dlt_dm_green_pot(part) = g%dlt_dm_pot_rue_pot
      :                          * divide (g%dm_green(part)
@@ -6846,7 +6856,7 @@ cnh for rlv at initialisation.
      :                                   ,0.0)
          dlt_N_retrans(part) = 0.0
   100 continue
- 
+
          call sugar_N_demand
      :               (
      :                dlt_dm_green_pot
@@ -6856,11 +6866,11 @@ cnh for rlv at initialisation.
      :              , g%n_green
      :              , g%N_demand
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -6880,8 +6890,8 @@ cnh for rlv at initialisation.
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dlt_dm_green_pot(*) ! (INPUT)  plant biomass growth (g/m^2)
@@ -6930,72 +6940,72 @@ c      integer    current_phase         ! current phase number
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
          ! calculate potential new shoot and root growth
- 
+
 c      current_phase = int (g_current_stage)
- 
+
             ! need to calculate dm using potential rue not affected by
             ! N and temperature
- 
+
 cnh      do 500 part = 1, max_part
 cnh         part_fract = divide (g_dlt_dm_green(part), g_dlt_dm, 0.0)
 cnh         dlt_dm_pot(part) = dlt_dm_pot_radn * part_fract
 cnh         dlt_dm_pot(part) = bound (dlt_dm_pot(part)
 cnh     :                           , 0.0, dlt_dm_pot_radn)
 cnh500   continue
- 
+
             ! recalculate roots because today's drymatter production
             ! does not include roots
- 
+
 C      dlt_dm_pot(root) = g_dlt_dm_pot_rue_pot
 C     :                 * c_ratio_root_shoot(current_phase)
- 
- 
+
+
          ! g_dlt_dm_pot is above ground biomass only so leave roots
          ! out of comparison
- 
+
       call bound_check_real_var (
      :             sum_real_array (G_dlt_dm_green_pot, max_part)
      :           - g_dlt_dm_green_pot(root)
      :           , 0.0, g_dlt_dm_pot_rue_pot
      :           , 'dlt_dm_pot - dlt_dm_pot(root)')
- 
- 
+
+
       ! NIH - note stem stuff is redone down later.
- 
+
       do 1000 part = 1, max_part
          if (g_dm_green(part).gt.0.0) then
- 
+
                ! get N demands due to difference between actual N concentrations
                ! and critical N concentrations of tops (stover) and roots.
- 
+
             N_crit = g_dm_green(part) * g_N_conc_crit(part)
             N_demand_old = N_crit - g_N_green(part)
- 
- 
+
+
                ! get potential N demand (critical N) of potential growth
- 
+
             N_demand_new = g_dlt_dm_green_pot(part)
      :                   * g_N_conc_crit(part)
- 
+
             N_demand(part) = N_demand_old + N_demand_new
             N_demand(part) = l_bound (N_demand(part), 0.0)
- 
+
          else
             N_demand(part) = 0.0
- 
+
          endif
- 
+
 1000  continue
- 
+
 cnh I am not 100% happy with this but as this is a first attempt at fully
 cnh utilizing a sucrose pool I shall put in this quick fix for now and
 cnh re-evaluate later.  Note that g_N_conc_crit(Sstem) is really the crit.
 cnh conc for CANE.
- 
+
       ! SStem demand for N is based on N conc in cane (i.e SStem+sucrose)
- 
+
       N_crit = (g_dm_green(sstem)+g_dm_green(sucrose))
      :                    * g_N_conc_crit(sstem)
       N_demand_old = N_crit - g_N_green(sstem)
@@ -7004,7 +7014,7 @@ cnh conc for CANE.
      :             * g_N_conc_crit(sstem)
       N_demand(sstem) = N_demand_old + N_demand_new
       N_demand(sstem) = l_bound (N_demand(sstem), 0.0)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -7017,7 +7027,7 @@ cnh conc for CANE.
             use sugarModule
       implicit none
       include   'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -7036,11 +7046,11 @@ cnh conc for CANE.
       parameter (my_name = 'sugar_nit_stress_pheno')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Option .eq. 1) then
- 
+
          call sugar_nfact
      :               (
      :                g%dm_green
@@ -7050,11 +7060,11 @@ cnh conc for CANE.
      :              , c%k_nfact_pheno
      :              , g%nfact_pheno
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -7078,8 +7088,8 @@ cnh conc for CANE.
 *     ===========================================================
       implicit none
       include   'sugconst.inc'
-      include 'science.pub'                       
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_shoot_lag           ! (INPUT)  minimum growing degree days fo
@@ -7111,9 +7121,9 @@ cnh conc for CANE.
       parameter (my_name = 'sugar_phen_init')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (on_day_of (sprouting, g_current_stage, g_days_tot)) then
          if (G_ratoon_no .eq. 0) then
             phase_tt(sprouting_to_emerg) = c_shoot_lag
@@ -7127,16 +7137,16 @@ cnh conc for CANE.
          endif
       elseif (on_day_of (emerg, g_current_stage, g_days_tot)) then
          phase_tt(emerg_to_begcane) = p_tt_emerg_to_begcane
- 
+
       elseif (on_day_of (begcane, g_current_stage, g_days_tot)) then
          phase_tt(begcane_to_flowering) = p_tt_begcane_to_flowering
- 
+
       elseif (on_day_of (flowering, g_current_stage, g_days_tot)) then
          phase_tt(flowering_to_crop_end) = p_tt_flowering_to_crop_end
- 
+
       else
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -7159,9 +7169,9 @@ cnh conc for CANE.
       implicit none
       include   'const.inc'
       include   'sugconst.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       INTEGER    C_num_sw_demand_ratio ! (INPUT)
@@ -7194,19 +7204,19 @@ cnh conc for CANE.
       real       sw_supply_sum         ! total supply over profile (mm)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
       deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
- 
+
             ! get potential water that can be taken up when profile is full
- 
+
          sw_supply_sum = sum_real_array (g_sw_supply, deepest_layer)
          sw_demand_ratio = divide (sw_supply_sum, g_sw_demand, 10.0)
- 
+
          swdef = linear_interp_real (sw_demand_ratio
      :                       , c_x_sw_demand_ratio, c_y_swdef_leaf
      :                       , c_num_sw_demand_ratio)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -7219,8 +7229,8 @@ cnh conc for CANE.
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
+      include 'crp_cnpy.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -7240,10 +7250,10 @@ cnh conc for CANE.
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
             ! Plant leaf development
       if (Option .eq. 1) then
- 
+
             ! initialise total leaf number
          call cproc_leaf_no_init1
      :               (
@@ -7254,11 +7264,11 @@ cnh conc for CANE.
      :              , g%leaf_no
      :              , g%node_no
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -7271,8 +7281,8 @@ cnh conc for CANE.
       use sugarModule
       implicit none
       include   'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
+      include 'crp_cnpy.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -7292,10 +7302,10 @@ cnh conc for CANE.
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
             ! Plant leaf development
       if (Option .eq. 1) then
- 
+
          call cproc_leaf_no_pot1
      :               (
      :                c%x_node_no_app
@@ -7314,11 +7324,11 @@ cnh conc for CANE.
      :              , g%dlt_leaf_no !_pot
      :              , g%dlt_node_no !_pot
      :               )
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
