@@ -297,6 +297,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "SoilUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SoilUI.resx"
+                    DependentUpon = "SoilUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "ToolBox.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
