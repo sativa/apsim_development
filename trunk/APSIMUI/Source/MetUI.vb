@@ -1,6 +1,6 @@
 Imports System
 Imports System.IO
-Imports scpl
+
 Public Class MetUI
     Inherits BaseUI
 
@@ -8,7 +8,7 @@ Public Class MetUI
 
     Public Sub New()
         MyBase.New()
-
+        Xceed.Chart.Licenser.LicenseKey = "CHT30-YTL57-0UXLJ-145A"
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 
@@ -231,33 +231,34 @@ Public Class MetUI
 
     End Sub
 
-    Private Sub BrowseButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub BrowseButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BrowseButton.Click
         Try
             If OpenFileDialog.ShowDialog() = DialogResult.OK Then
                 MetFileTextBox.Text = OpenFileDialog.FileName
-                MyData.Child("filename").Value = MetFileTextBox.Text
-                Me.Refresh()
+                GetNewMetFile()
             Else
             End If
-        Catch ex as system.exception
+        Catch ex As System.Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in browsing to new met file")
         End Try
     End Sub
 
-    Private Sub MetFileTextBox_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub MetFileTextBox_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MetFileTextBox.Leave
+        GetNewMetFile()
+    End Sub
+
+    Private Sub GetNewMetFile()
         Try
-            If MetFileTextBox.Visible = True Then
-                MyData.Child("filename").Value = MetFileTextBox.Text
-                Me.Refresh()
-            End If
-        Catch ex as system.exception
+            MyData.Child("filename").Value = MetFileTextBox.Text
+            Me.Refresh()
+        Catch ex As System.Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in updating met file name information")
         End Try
     End Sub
 
-
-
-    Private Sub MetUI_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
+    Private Sub MetFileTextBox_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MetFileTextBox.KeyUp
+        If e.KeyCode = Keys.Enter Then
+            GetNewMetFile()
+        End If
     End Sub
 End Class

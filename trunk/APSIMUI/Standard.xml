@@ -6,9 +6,6 @@
   </clock>
   <outputfile name="outputfile">
     <filename name="filename">sample.out</filename>
-    <frequency name="frequency">End_of_day</frequency>
-    <variable alias="year" name="year" module="clock" description="Year" />
-    <variable alias="day" name="day" module="clock" description="Day" />
     <event name="start_of_day" module="clock" description="Start of daily simulation time step" />
     <outputfiledescription name="My Variables">
       <variables>
@@ -28,7 +25,7 @@
   </metfile>
   <manager name="Manager">
     <rule name="Variable sowing rule" condition="start_of_day">
-      <data><![CDATA[   
+      <data><![CDATA[
       if (crop_in = 0) then
          if (date_within('[date1], [date2]') = 1) then
             surface_moist = (sw(1) - ll15(1)) / (dul(1)- ll15(1))
@@ -60,7 +57,7 @@
       </category>
     </rule>
     <rule name="Sowing fertiliser" condition="[modulename].[eventname]">
-      <data><![CDATA[   
+      <data><![CDATA[
       if ([fert_amount_sow] > 0) then
          fertiliz apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
       endif

@@ -73,7 +73,7 @@ namespace CSGeneral
 		public void ReadFromFile(string FileName)
 			{
 			if (!File.Exists(FileName))
-				throw new Exception("Cannot find file: " + _FileName);
+				throw new Exception("Cannot find file: " + FileName);
 
 			_FileName = FileName;
 			StreamReader In = new StreamReader(_FileName);

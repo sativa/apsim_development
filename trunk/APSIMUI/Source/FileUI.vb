@@ -74,10 +74,10 @@ Public Class FileUI
         '
         Me.RichTextBox.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RichTextBox.Font = New System.Drawing.Font("Courier New", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RichTextBox.Location = New System.Drawing.Point(0, 56)
+        Me.RichTextBox.Location = New System.Drawing.Point(0, 52)
         Me.RichTextBox.Name = "RichTextBox"
         Me.RichTextBox.ReadOnly = True
-        Me.RichTextBox.Size = New System.Drawing.Size(937, 430)
+        Me.RichTextBox.Size = New System.Drawing.Size(984, 396)
         Me.RichTextBox.TabIndex = 3
         Me.RichTextBox.Text = ""
         Me.RichTextBox.WordWrap = False
@@ -94,7 +94,7 @@ Public Class FileUI
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 23)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(937, 33)
+        Me.Panel1.Size = New System.Drawing.Size(984, 29)
         Me.Panel1.TabIndex = 4
         '
         'ToolBar1
@@ -107,10 +107,10 @@ Public Class FileUI
         Me.ToolBar1.Dock = System.Windows.Forms.DockStyle.Right
         Me.ToolBar1.DropDownArrows = True
         Me.ToolBar1.ImageList = Me.ImageList
-        Me.ToolBar1.Location = New System.Drawing.Point(841, 0)
+        Me.ToolBar1.Location = New System.Drawing.Point(904, 0)
         Me.ToolBar1.Name = "ToolBar1"
         Me.ToolBar1.ShowToolTips = True
-        Me.ToolBar1.Size = New System.Drawing.Size(96, 33)
+        Me.ToolBar1.Size = New System.Drawing.Size(80, 29)
         Me.ToolBar1.TabIndex = 10
         Me.ToolBar1.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right
         '
@@ -152,25 +152,25 @@ Public Class FileUI
         Me.SummaryFileTextBox.AutoSize = False
         Me.SummaryFileTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.SummaryFileTextBox.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.SummaryFileTextBox.Location = New System.Drawing.Point(75, 4)
+        Me.SummaryFileTextBox.Location = New System.Drawing.Point(62, 3)
         Me.SummaryFileTextBox.Name = "SummaryFileTextBox"
-        Me.SummaryFileTextBox.Size = New System.Drawing.Size(765, 28)
+        Me.SummaryFileTextBox.Size = New System.Drawing.Size(841, 25)
         Me.SummaryFileTextBox.TabIndex = 9
         Me.SummaryFileTextBox.Text = ""
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(8, 8)
+        Me.Label1.Location = New System.Drawing.Point(7, 7)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(64, 18)
+        Me.Label1.Size = New System.Drawing.Size(54, 16)
         Me.Label1.TabIndex = 8
         Me.Label1.Text = "File name"
         '
         'FileUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
-        Me.ClientSize = New System.Drawing.Size(937, 526)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
+        Me.ClientSize = New System.Drawing.Size(984, 488)
         Me.Controls.Add(Me.RichTextBox)
         Me.Controls.Add(Me.Panel1)
         Me.Name = "FileUI"
@@ -216,20 +216,22 @@ Public Class FileUI
 
     End Sub
 
-    Private Sub SummaryFileTextBox_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub SummaryFileTextBox_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SummaryFileTextBox.Leave
         Try
             If SummaryFileTextBox.Visible = True Then
                 MyData.Child("filename").Value = SummaryFileTextBox.Text
                 Me.Refresh()
             End If
-        Catch ex as system.exception
+        Catch ex As System.Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in updating summary file name information")
         End Try
     End Sub
 
-    Private Sub SummaryFileTextBox_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        MyData.Child("filename").Value = SummaryFileTextBox.Text
-        Me.Refresh()
+    Private Sub SummaryFileTextBox_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles SummaryFileTextBox.KeyUp
+        If e.KeyCode = Keys.Enter Then
+            MyData.Child("filename").Value = SummaryFileTextBox.Text
+            Me.Refresh()
+        End If
     End Sub
 
 
@@ -238,11 +240,23 @@ Public Class FileUI
     ' ----------------------------------------------
     Private Sub BrowseMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BrowseMenuItem.Click
         Try
+            Select Case LCase(Path.GetExtension(SummaryFileTextBox.Text))
+                Case ".out"
+                    OpenFileDialog.FilterIndex = 1
+                Case ".sum"
+                    OpenFileDialog.FilterIndex = 2
+                Case Else
+                    OpenFileDialog.FilterIndex = 3
+            End Select
+
             If OpenFileDialog.ShowDialog() = DialogResult.OK Then
                 SummaryFileTextBox.Text = OpenFileDialog.FileName
+                MyData.Child("filename").Value = SummaryFileTextBox.Text
+                Me.Refresh()
             Else
             End If
-        Catch ex as system.exception
+
+        Catch ex As System.Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in browsing to new summary file")
         End Try
     End Sub
@@ -283,4 +297,6 @@ Public Class FileUI
         Writer.Close()
         Return Filename
     End Function
+
+
 End Class
