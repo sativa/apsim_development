@@ -41,11 +41,31 @@ class APSIMClockPublic
    start                  : APSIMMethod = Start simulation
    pause                  : APSIMMethod = Pause simulation
    cont                   : APSIMMethod = Continue simulation
+   end_run                : APSIMMethod = Message that run is to end
 
-   tick                   : APSIMEvent  = Tick event
+   tick                   : APSIMClockTickEvent  = Tick event
+
+end
+
+; -----------------------------------------------------------
+; Clock's external interface which documents things in other 
+; components that this component uses.
+; Contains:
+;    Properties used in other components
+;    Methods called in other components
+;    Events from other components that this component uses.
+; -----------------------------------------------------------
+
+class APSIMClockExternal
+
+   tick                    : APSIMClockTickEvent        = Change in the simulation system time and the duration of the new time step
+   new_profile             : APSIMNewProfileEvent       = To notify all interested modules of the change in soil water profile characteristic information
+
 end
 
 class APSIMClock : APSIMComponent
-   dll  : string
-   public  : APSIMClockPublic
+   dll       : string
+   public    : APSIMClockPublic
+   External  : APSIMClockExternal
 end
+
