@@ -507,10 +507,8 @@ void CompileThread::GetFilesForCompiler (APSIM_project& apf, const char* Key, li
 // ------------------------------------------------------------------
 void CompileThread::DeleteFiles (APSIM_project& apf, const char* Filespec)
    {
-   string FSpec = GetSourceDirectory(apf) + "\\" + Filespec;
-
    list<string> Files;
-   Get_directory_listing (".", FSpec.c_str(), Files, FA_NORMAL, true);
+   Get_directory_listing (GetSourceDirectory(apf).c_str(), Filespec, Files, FA_NORMAL, true);
    for (list<string>::iterator i = Files.begin();
                                i != Files.end();
                                i++)
