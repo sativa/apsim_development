@@ -67,5 +67,23 @@ PROTOCOLComponent::~PROTOCOLComponent(void)
 // ------------------------------------------------------------------
 void PROTOCOLComponent::term(void)
    {
-   computation->term();
+   if (computation != NULL)
+      computation->terminate();
    }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     initialise component
+
+//  Notes:
+
+//  Changes:
+//    dph 22/2/2000
+
+// ------------------------------------------------------------------
+void PROTOCOLComponent::init(void)
+   {
+   if (computation != NULL)
+      computation->initialise();
+   }
+

@@ -4,7 +4,11 @@
 #include "interfaces.h"
 #include "component.h"
 #include <list>
+#include <map>
+class EventRegistration;
+
 typedef std::list<PROTOCOLComponent*> ComponentList;
+typedef std::map<string, EventRegistration*> EventRegistrationList;
 // ------------------------------------------------------------------
 //  Short description:
 //    This unit provides the functionality to manage a "system".
@@ -50,6 +54,10 @@ class PROTOCOL_EXPORT PROTOCOLCoordinator : public PROTOCOLComponent,
       // publish an event.
       virtual void publishEvent(PROTOCOLEvent& anEvent) const;
 
+      // register an interest in an event.
+      virtual void registerSubscribedEvent(FString& eventName,
+                                           FString& componentName);
+
       // start and end the simulation.
       virtual void start(void);
       virtual void finish(void);
@@ -64,6 +72,8 @@ class PROTOCOL_EXPORT PROTOCOLCoordinator : public PROTOCOLComponent,
       ISystemConfiguration* systemConfiguration;
       string sequencerName;
       ComponentList::iterator previousComponent;
+
+      EventRegistrationList eventRegistrations;
 
       void getComponentInfo(const string& name);
       void getComponentList(list<string>& names);

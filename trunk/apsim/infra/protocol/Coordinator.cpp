@@ -5,6 +5,44 @@
 #include <assert.h>
 #include <general\stl_functions.h>
 #include <sstream>
+#include <set>
+#include <functional>
+using namespace std;
+
+// ------------------------------------------------------------------
+//  Short description:
+//    Class for encapsulating a particular event and the components
+//    that have registered an interest in it.
+
+//  Notes:
+
+//  Changes:
+//    dph 22/2/2000
+
+// ------------------------------------------------------------------
+class EventRegistration
+   {
+   public:
+      EventRegistration(void) { };
+      void registerComponent(PROTOCOLComponent* component)
+         {registeredComponents.insert(component);}
+      void deregisterComponent(PROTOCOLComponent* component)
+         {registeredComponents.erase(component);}
+      void publishEvent(PROTOCOLEvent& anEvent)
+         {
+         for (ComponentSet::iterator i = registeredComponents.begin();
+                                     i != registeredComponents.end();
+                                     i++)
+            {
+            (*i)->getComputation()->inEvent(anEvent);
+            }
+         }
+
+   private:
+      typedef set<PROTOCOLComponent*, Pless<PROTOCOLComponent> > ComponentSet;
+      ComponentSet registeredComponents;
+   };
+
 
 // DPH - need to remove this - see coordinator::publishevent.
 extern CallbackFunction<int>* TickCallback;
@@ -74,10 +112,7 @@ void PROTOCOLCoordinator::init()
       // get all configuration data for this component and pass to new component.
       std::ostringstream ssdl;
       comp->write(ssdl);
-      IComponent* newComponent = addComponent(comp->getName(),
-                                              comp->getDllFilename(),
-                                              ssdl.str());
-      newComponent->init();
+      addComponent(comp->getName(), comp->getDllFilename(), ssdl.str());
       }
    // loop through all systems specified in configuration and create
    // and add a component object to our list of components.
@@ -90,10 +125,12 @@ void PROTOCOLCoordinator::init()
       string dllFileName;
       ISystemConfiguration* sim = systemConfiguration->getISystem(name);
 
-      IComponent* newSystem = addCoordinator(sim->getName(),
-                                             sim);
-      newSystem->init();
+      addCoordinator(sim->getName(), sim);
       }
+
+   // initialise the previous component - used in sendMessageToFirst.
+   previousComponent = components.begin();
+
    // if we are the top level coordinator then get the name of the sequencer.
    // DPH HACK - shouldn't hardwire CLOCK
    if (parent == NULL)
@@ -186,8 +223,13 @@ void PROTOCOLCoordinator::start(void)
    // should only be called as a top level PM
    assert (parent == NULL);
 
-   // initialise the previous component - used in sendMessageToFirst.
-   previousComponent = components.begin();
+   // initialise all components.
+   for (ComponentList::iterator componentI = components.begin();
+                                componentI != components.end();
+                                componentI++)
+      {
+      (*componentI)->init();
+      }
 
    sendMessage(sequencerName.c_str(), PROTOCOLMessage("start"));
    }
@@ -296,6 +338,16 @@ void PROTOCOLCoordinator::publishEvent(PROTOCOLEvent& event) const
       TickCallback->callback(1);
 
    broadcastMessage(event);
+   // go locate the appropriate event registration object.
+   // If found then call its publishevent method.
+   // If not found then assume noone has registered an interest in it.
+//   EventRegistrationList::const_iterator eventRegI
+//      = eventRegistrations.find(event.action.c_str());
+//   if (eventRegI != eventRegistrations.end())
+//      {
+//      EventRegistration* ptr = (*eventRegI).second;
+//      ptr->publishEvent(event);
+//      }
    }
 
 // ------------------------------------------------------------------
@@ -337,10 +389,8 @@ PROTOCOLComponent* PROTOCOLCoordinator::addComponent(const string& name,
                                                      const string& ssdl)
    {
    PROTOCOLComponent* component = new PROTOCOLComponent(name, this, dllFileName, ssdl);
-
-   component->init(/*cDscFile*/);
    components.push_back(component);
-//   comp.Activate     {should perhaps delay this until init time}
+
    return component;
    }
 
@@ -384,10 +434,8 @@ PROTOCOLComponent* PROTOCOLCoordinator::addCoordinator(const string& name,
                                                        ISystemConfiguration* sysConfiguration)
    {
    PROTOCOLCoordinator* coordinator = new PROTOCOLCoordinator(name, this, sysConfiguration);
-
-   coordinator->init();
    components.push_back(coordinator);
-//   comp.Activate     {should perhaps delay this until init time}
+
    return coordinator;
    }
 
@@ -408,5 +456,51 @@ void PROTOCOLCoordinator::enumerateComponents
                                       compI != components.end();
                                       compI++)
       f.callback(*compI);
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     register an interest in an event.
+
+//  Notes:
+
+//  Changes:
+//    dph 22/2/2000
+
+// ------------------------------------------------------------------
+void PROTOCOLCoordinator::registerSubscribedEvent(FString& eventName,
+                                                  FString& componentName)
+   {
+   // go locate a pre-existing event registration.  If found then add this
+   // component to it.  If not found then create a new event registration
+   // and then add component to it.
+   EventRegistrationList::iterator eventRegI
+      = eventRegistrations.find(eventName.c_str());
+   EventRegistration* ptr;
+   if (eventRegI == eventRegistrations.end())
+      {
+      ptr = new EventRegistration;
+      eventRegistrations.insert(
+         EventRegistrationList::value_type(eventName.c_str(), ptr));
+      }
+   else
+      ptr = (*eventRegI).second;
+
+   // go locate component.
+   ComponentList::iterator componentI = find_if(components.begin(),
+                                                components.end(),
+                                                PEqualToName<IComponent>(componentName.c_str()));
+
+   if (componentI == components.end())
+      {
+      string msg = "Cannot register event: ";
+      msg += eventName.c_str();
+      msg += ".  Component: ";
+      msg += componentName.c_str();
+      msg += " not found.";
+      throw msg;
+      }
+
+   ptr->registerComponent(*componentI);
    }
 

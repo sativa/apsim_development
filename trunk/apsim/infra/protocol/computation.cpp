@@ -90,7 +90,7 @@ void PROTOCOLComputation::create(void) const
 //    dph 22/2/2000
 
 // ------------------------------------------------------------------
-void PROTOCOLComputation::init(void) const
+void PROTOCOLComputation::initialise(void) const
    {
    if (MessageCallback)
       MessageCallback->callback(component->getName().c_str(),
@@ -111,7 +111,7 @@ void PROTOCOLComputation::init(void) const
 //    dph 22/2/2000
 
 // ------------------------------------------------------------------
-void PROTOCOLComputation::term(void) const
+void PROTOCOLComputation::terminate(void) const
    {
    if (MessageCallback)
       MessageCallback->callback(component->getName().c_str(),
