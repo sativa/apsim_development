@@ -7,6 +7,7 @@
 #include <general\string_functions.h>
 #include <general\stristr.h>
 #include <ComponentInterface\datatypes.h>
+#include <ApsimShared\ApsimDataFile.h>
 
 using namespace std;
 
@@ -50,6 +51,13 @@ void PatchInputComponent::respondToEvent(unsigned int& fromID, unsigned int& eve
       protocol::newmetType newmet;
       variant.unpack(newmet);
       todaysDate = newmet.today;
+      GDate today;
+      today.Set(todaysDate);
+
+      // if we don't have year data and today is 1st jan then rewind the file.
+      if (yearI == NULL && today.Get_day_of_year() == 1)
+         data->first();
+
       if (advanceToTodaysData())
          {
          for (TemporalVariables::iterator t = temporalVariables.begin();
