@@ -40,7 +40,8 @@ string asString(Variant st)
 // ------------------------------------------------------------------
 void formatXML(std::string& xml)
    {
-   Replace_all(xml, "\r\n", "\n");
+   Replace_all(xml, "\r\n", "");
+   Replace_all(xml, "\t", "");
    int level = 0;
    unsigned pos = xml.find("><");
    while (pos != string::npos)
@@ -250,14 +251,17 @@ XMLNode XMLNode::appendChild(const std::string& nodeName, bool alwaysAppend)
 // ------------------------------------------------------------------
 // Delete a child node from this node.
 // ------------------------------------------------------------------
-void XMLNode::deleteChild(const std::string& nodeName)
+XMLNode::iterator XMLNode::erase(XMLNode::iterator& child)
    {
-   iterator child = find_if(begin(), end(), EqualToName<XMLNode>(nodeName));
    if (child != end())
       {
+      iterator next = child;
+      next++;
       node->removeChild(child->node);   // presumably we don't have to delete the child.
       parent->setDirty(true);
+      return next;
       }
+   return child;
    }
 // ------------------------------------------------------------------
 // Return the next sibling.
