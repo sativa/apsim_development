@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<?xml-stylesheet type="text/xsl" href="documentation.xsl"?>
+<?xml-stylesheet type="text/xsl" href="shared/documentation.xsl"?>
 <!DOCTYPE document [
 <!ELEMENT component ANY>
-<!ENTITY released SYSTEM "../apsim/released apsim.xml" NDATA XML>
-<!ENTITY loc SYSTEM "../../apsuite/apsim/" NDATA TEXT>
+<!ENTITY released SYSTEM "shared/modules.xml" NDATA XML>
+<!ENTITY loc SYSTEM "../apsim/" NDATA TEXT>
 ]>
 <document>
    <component name="APSFront template plugin pack" type="apsfront template plugin pack.pdf" description="Guide to the template plugin feature in APSFront" />
