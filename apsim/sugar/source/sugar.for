@@ -1875,7 +1875,7 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
      :              * sm2smm
       num_leaves = count_of_Real_vals(g_leaf_area,max_leaf)
       num_leaves = max_leaf
-      dlt_leaf_dm = g_dlt_dm_detached(leaf)/g_plants
+      dlt_leaf_dm = divide (g_dlt_dm_detached(leaf), g_plants ,0.0)
  
       empty_leaves = -1
       do 111 leaf_rec = 1,num_leaves
