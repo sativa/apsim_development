@@ -499,7 +499,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .                                     g%num_rules)
       ! Go tokenize each rule.
       do rule = 1, g%num_rules
-         call Split_line (rule_names(rule), dummy, rule_type, '.')
+         call apsimcomponentdata_loadrule(get_componentData(),
+     .                                    Rule_names(rule))
+
+         call apsimcomponentdata_getrulecondition(rule_type)
          rule_type = Lower_case(rule_type)
 
          call write_string (new_line
@@ -519,8 +522,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
          else
             g%rule_regIds(rule) = 0
          endif
-         call apsimcomponentdata_loadrule(get_componentData(),
-     .                                    Rule_names(rule))
          if (g%rule_indexes(rule) .eq. 0) then
             g%rule_indexes(rule) = g%last_token + 2
             g%start_token = g%last_token + 2
@@ -537,7 +538,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       end subroutine
 
 ! ====================================================================
-       subroutine ProcessRules(regId)
+       recursive subroutine ProcessRules(regId)
 ! ====================================================================
       Use Infrastructure
       implicit none
@@ -3642,7 +3643,7 @@ c      end subroutine
 ! ====================================================================
 ! This routine is the event handler for all events
 ! ====================================================================
-      subroutine respondToEvent(fromID, eventID, variant)
+      recursive subroutine respondToEvent(fromID, eventID, variant)
       use ManagerModule
       Use infrastructure
       implicit none
