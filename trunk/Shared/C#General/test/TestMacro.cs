@@ -250,7 +250,85 @@ namespace test
 			string Result = macro.Go(new APSIMData(Values), Template);
 			}
 
+		// -------------------------------------------
+		// Test that white space is removed
+		// -------------------------------------------
+		[Test]
+		public void TestWhiteSpace()
+		{
+			const string input=
+      "<simulations name='Untitled Simulation Set'>\n"+
+      "   <simulation name='Untitled'>\n"+
+      "      <outputfile name='outputfile'>\n"+
+      "         <filename name='filename'>sample.out</filename>\n"+
+      "         <frequency name='frequency'>End_of_day</frequency>\n"+
+      "         <variable name='year' module='clock' description='Year'/>\n"+
+      "         <variable name='day' module='clock' description='Day'/>\n"+
+      "         <event name='start_of_day' description='Start of daily simulation time step'/>\n"+
+      "      </outputfile>\n"+
+      "   </simulation>\n"+
+	  "</simulations>";
+      
+			const string Template = 
+					  "[foreach simulations.simulation as sim]\r\n"+
+					  "[foreach sim.outputfile as out]\r\n" +
+					  "[foreach out.variable as var]\r\n" +
+  					  "   [var.name]\r\n" +
+					  "[endfor]\r\n" + 
+					  "   hello\r\n"+
+					  "[endfor]\r\n"+ 
+					  "[endfor]\r\n"; 
+			Macro macro = new Macro();
+			string Result = macro.Go(new APSIMData(input), Template);
+			Assert.AreEqual(Result, 
+				"   year\r\n" +
+				"   day\r\n" +
+				"   hello\r\n") ;				
 
+		}
+
+		// -------------------------------------------
+		// Test that macros work with a comment
+		// -------------------------------------------
+		[Test]
+		public void TestComment()
+		{
+			const string Template = 
+					  "[foreach simulation.soil as s]\n" +
+					  "[foreach s.crop]\n" +
+					  "[comment] hello [endcomment]\n"+
+					  "[if [s.name] = soil1]\n" +
+					  "[simulation.name] [s.name] [crop.name]\n" +
+					  "[endif]\n" +
+					  "[endfor]\n" + 
+					  "[endfor]\n"; 
+
+			Macro macro = new Macro();
+			string Result = macro.Go(new APSIMData(Values), Template);
+			Assert.AreEqual(Result, 
+				"s soil1 sorghum\n" +
+				"s soil1 wheat\n");
+		}
+		// -------------------------------------------
+		// Test that macros work with a comment
+		// -------------------------------------------
+		[Test]
+		public void TestDataPath()
+		{
+			const string Template = 
+					  "[foreach simulation.soil as s]\n" +
+					  "[foreach s.crop as crop]\n" +
+					  "[s.crop.name]\n" +
+					  "[endfor]\n" + 
+					  "[endfor]\n"; 
+
+			Macro macro = new Macro();
+			string Result = macro.Go(new APSIMData(Values), Template);
+			Assert.AreEqual(Result, 
+				"sorghum\n" +
+				"wheat\n"+
+				"sorghum\n");
+		}
 
 		}
 	}
