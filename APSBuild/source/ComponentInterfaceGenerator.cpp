@@ -97,11 +97,9 @@ void GenerateComponentInterface(const string& interfaceFileName)
    string macrofile = getApsimDirectory() + "\\apsbuild\\ComponentInterface.amf";
 
    // Set up macrosubst file object using the derived file name
-   MacroSubstFile* AMF = new MacroSubstFile ();
+   MacroSubstFile* AMF = new MacroSubstFile (macrofile);
    try
       {
-      AMF->read(macrofile);
-
       // Loop through all registrations and create a macro value for each.
       for (ApsimComponentData::RegIterator reg = component->regBegin();
                                            reg != component->regEnd();
