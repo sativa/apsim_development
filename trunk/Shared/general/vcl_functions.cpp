@@ -198,7 +198,7 @@ TDataSet* GENERAL_EXPORT Get_active_dataset(TComponent* component, const char* D
    for (int i = 0; i < component->ComponentCount; i++)
       {
       TDataSet* dataset = dynamic_cast<TDataSet*> (component->Components[i]);
-      if (dataset != NULL && dataset->Name == Dataset_name)
+      if (dataset != NULL && dataset->Name.AnsiCompareIC(Dataset_name) == 0)
          return dataset;
       }
    return NULL;
