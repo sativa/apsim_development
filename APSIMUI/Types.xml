@@ -260,6 +260,10 @@
       <ShowInMainTree>Yes</ShowInMainTree>
       <LargeIcon>Images\drink_blue32.png</LargeIcon>
       <SmallIcon>Images\drink_blue16.png</SmallIcon>
+      <drops>
+         <drop name="soil"/>
+      </drops>
+
    </InitWater>
    <soilp>
       <UItype>generic</UItype>
@@ -505,6 +509,7 @@
       <SmallIcon>Images\folder_closed16.png</SmallIcon>
       <drops>
          <drop name="folder"/>
+         <drop name="toolbox"/>
      </drops>
    </folder>
    <erosion>
@@ -1327,6 +1332,24 @@
          <variable name="sw_demand_vol" description ="SW Demand (ML)"/>
      </variables>
    </spaceslurp>
+
+   <climatechange>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Description>This component allows the user to apply modifiers to daily climate variables in order to investigate the effects of climate change.</Description>
+      <Documentation name="Met module documentation">../apsim/met/docs/met_science.htm</Documentation>
+      <LargeIcon>Images\thermometer32.png</LargeIcon>
+      <SmallIcon>Images\thermometer16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="metfile"/>
+         <drop name="folder"/>
+     </drops>
+
+     <variables>
+     </variables>
+   </climatechange>
 
 </Types>
 
