@@ -1,6 +1,6 @@
-version = 3.2
+version = 3.3
 [apsim.g2w0]     ! Treatment4
-module = clock     ghab2.man [9900]
+module = clock   ghab2.man [9900] %apsuite\apsim\clock\clock.ini [standard]
 module = report    reportCP.par [all]   reportCP.par [g2w0_00]
 module = input(met)       telhadya.met [weather]
 module = manager   ghab2.man  [g200]     ghab2.man [all]
