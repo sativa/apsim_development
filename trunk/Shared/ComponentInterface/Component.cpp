@@ -394,16 +394,24 @@ void Component::respondToGet(unsigned int& /*fromID*/, QueryValueData& queryData
 void Component::respondToEvent(unsigned int& fromID, unsigned int& eventID, Variant& variant)
   {
   boost::function3<void, unsigned &, unsigned &, protocol::Variant &> pf;
-  UInt2EventMap::iterator pf_iterator;
+  UInt2EventMap::iterator ipf, ipf1, ipf2;
 
-  for (pf_iterator = eventMap.find(eventID);
-       pf_iterator != eventMap.end();
-       pf_iterator++) 
+  ipf1 = eventMap.lower_bound(eventID);
+  ipf2 = eventMap.upper_bound(eventID);
+  
+  for (ipf = ipf1; ipf != ipf2; ipf++)
      {
-     pf = pf_iterator->second;
+     pf = ipf->second;
      (pf)(fromID, eventID, variant);
      }
   }
+
+// As far as component is concerned, methods are treated in the same manner as events
+void Component::respondToMethod(unsigned int& fromID, unsigned int& methodID, Variant& variant)
+  {
+  respondToEvent(fromID, methodID, variant);
+  }
+
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -920,12 +928,13 @@ void varInfo::sendVariable(Component *systemInterface, QueryValueData& qd)
       }
    }
 
-void Component::addEvent(const char *systemName,
-                         protocol::RegistrationType type,
-                         boost::function3<void, unsigned &, unsigned &, protocol::Variant &> ptr)
+unsigned int Component::addEvent(const char *systemName,
+                                 protocol::RegistrationType type,
+                                 boost::function3<void, unsigned &, unsigned &, protocol::Variant &> ptr)
    {
    unsigned int id = addRegistration(type, systemName, "", "");
    eventMap.insert(UInt2EventMap::value_type(id,ptr));
+   return id;
    }
 
 // Build the xml fragment that describes this variable and publish to system
