@@ -61,6 +61,7 @@ void addDBField(TDataSet* dataset,
          catch (...)
             {
             fieldDef->DataType = ftString;
+            fieldDef->Size = 200;
             }
          }
       }
@@ -189,7 +190,7 @@ void appendDBRecord(TDataSet* dataset,
    catch (...)
       {
       dataset->Post();
-      throw runtime_error("Invalid data found in column: " + fieldNames[fieldI] + ".");
+      throw runtime_error("Invalid data found in column: " + fieldNames[fieldI] + ". Value=" + fieldValues[fieldI]);
       }
    dataset->Post();
    }
@@ -282,3 +283,44 @@ TDataSet* runQuery(TADOConnection* connection, const string& sql)
    return query;
    }
 
+// ------------------------------------------------------------------
+// Fill dataset from the contents of the specified grid.
+// ------------------------------------------------------------------
+void fillDataSetFromGrid(TDataSet* dataset, TStringGrid* grid, const string& seriesName)
+   {
+   dataset->DisableControls();
+   dataset->Active = false;
+   dataset->FieldDefs->Clear();
+   vector<string> fieldNames, fieldValues;
+   for (int col = 0; col != grid->ColCount; col++)
+      {
+      string name = grid->Cells[col][0].c_str();
+      replaceAll(name, "\r", "");
+      fieldNames.push_back(name);
+      fieldValues.push_back(grid->Cells[col][1].c_str());
+      }
+   if (seriesName != "")
+      {
+      fieldNames.push_back("series");
+      fieldValues.push_back(seriesName);
+      }
+
+   addDBFields(dataset, fieldNames, fieldValues);
+   dataset->Active = true;
+   for (int row = 1; row != grid->RowCount; row++)
+      {
+      if (grid->Cells[0][row] == "")
+         break;
+
+      fieldValues.erase(fieldValues.begin(), fieldValues.end());
+      for (int col = 0; col != grid->ColCount; col++)
+         fieldValues.push_back(grid->Cells[col][row].c_str());
+      if (seriesName != "")
+         fieldValues.push_back(seriesName);
+      appendDBRecord(dataset, fieldNames, fieldValues);
+      }
+   dataset->EnableControls();
+   dataset->First();
+   dataset->Edit();
+   dataset->Post();
+   }
