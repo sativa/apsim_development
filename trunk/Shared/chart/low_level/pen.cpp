@@ -52,7 +52,7 @@ Pen::~Pen (void)
 
 void Pen::Set_TChartpen (TChartPen* Pen)
    {
-   Pen->Color = TColor(Colour);
+   Pen->Color = COLORREF(Colour);
    Pen->Style = TPenStyle(Style);
    }
 

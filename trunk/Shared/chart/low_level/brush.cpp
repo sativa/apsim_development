@@ -48,7 +48,7 @@ Brush::~Brush (void)
 // ------------------------------------------------------------------
 void Brush::Set_TChartBrush (TChartBrush* Brush)
    {
-   Brush->Color = TColor(Colour);
+   Brush->Color = COLORREF(Colour);
    Brush->Style = TBrushStyle(Style);
    }
 
