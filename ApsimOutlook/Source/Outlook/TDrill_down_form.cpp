@@ -14,8 +14,6 @@
 #include <strstream>
 //---------------------------------------------------------------------------
 #pragma link "Grids"
-#pragma link "HgGrid"
-#pragma link "HgHGrid"
 #pragma link "TSelected_simulations"
 #pragma resource "*.dfm"
 TDrill_down_form *Drill_down_form;
@@ -126,7 +124,7 @@ void TDrill_down_form::Create_tabs (void)
 
    Tab_control->TabIndex = Tab_control->Tabs->IndexOf(CurrentTabName);
    if (Tab_control->TabIndex == -1)
-      Tab_control->TabIndex = 0;
+      Tab_control->TabIndex = 0;  
    }
 
 // ------------------------------------------------------------------

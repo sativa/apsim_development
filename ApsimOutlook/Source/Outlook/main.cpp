@@ -13,7 +13,6 @@
 //---------------------------------------------------------------------
 #pragma link "TSimulations"
 #pragma link "TSimulations_from_mdbs"
-#pragma link "TB97"
 #pragma resource "*.dfm"
 TMainForm *MainForm;
 extern AnsiString CommandLine;
@@ -40,9 +39,10 @@ void __fastcall TMainForm::CreateMDIChild(String Name)
 	TMDIChild *Child;
 
 	//--- create a new MDI child window ----
-	Child = new TMDIChild(Application);
-   Child->Set_toolbar (Chart_window_toolbar);
-	Child->Caption = Name;
+   Child = new TMDIChild(Application);
+   Child->Show();
+   Child->Set_toolbar (ToolBar2);
+   Child->Caption = Name;
    Child->Set_all_simulations(All_simulations);
    Child->SetPresentationFonts(FilePresentationFontsMenu->Checked);
    }
@@ -85,11 +85,11 @@ void __fastcall TMainForm::UpdateMenuItems(TObject *Sender)
 	Window_arrange_icons_menu->Enabled = MDIChildCount > 0;
 	Window_minimize_all_menu->Enabled = MDIChildCount > 0;
 
-   Chart_window_toolbar->Visible = MDIChildCount > 0;
+   ToolBar2->Visible = MDIChildCount > 0;
    Print_button->Enabled = MDIChildCount > 0;
    Copy_button->Enabled = MDIChildCount > 0;
    Copy_without_button->Enabled = MDIChildCount > 0;
-   EXCEL_button->Enabled = MDIChildCount > 0;
+   Excel_button->Enabled = MDIChildCount > 0;
    }
 //---------------------------------------------------------------------
 void __fastcall TMainForm::FormDestroy(TObject *Sender)
@@ -202,7 +202,7 @@ void __fastcall TMainForm::FilePresentationFontsMenuClick(TObject *Sender)
       {
       TMDIChild* Child = dynamic_cast<TMDIChild*> (MDIChildren[i]);
       Child->SetPresentationFonts(FilePresentationFontsMenu->Checked);
-		}
+      }
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormShow(TObject *Sender)
@@ -231,4 +231,12 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
       }
    }
 //---------------------------------------------------------------------------
+void __fastcall TMainForm::Evaluate(TObject *Sender)
+   {
+   ShellExecute (this->Handle, "open",
+                 "http://www.apsru.gov.au/whopper/survey.htm", NULL, "", SW_SHOW);
+   }
+//---------------------------------------------------------------------------
+
+
 
