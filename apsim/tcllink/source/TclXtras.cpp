@@ -11,7 +11,7 @@ extern "C" void TkWinXInit(HINSTANCE);
 extern int apsimGetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 extern int apsimSetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 extern int apsimRegisterGetSetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
-extern int apsimSendEventProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
+extern int apsimSendMessageProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 
 Tcl_Interp * StartTcl (ClientData cd,  const char *exeFileName)
    {
@@ -57,7 +57,7 @@ Tcl_Interp * StartTcl (ClientData cd,  const char *exeFileName)
    Tcl_CreateObjCommand(interp, "apsimGet", apsimGetProc, cd, NULL);
    Tcl_CreateObjCommand(interp, "apsimSet", apsimSetProc, cd, NULL);
    Tcl_CreateObjCommand(interp, "apsimRegisterGetSet", apsimRegisterGetSetProc, cd, NULL);
-   Tcl_CreateObjCommand(interp, "apsimSendEvent", apsimSendEventProc, cd, NULL);
+   Tcl_CreateObjCommand(interp, "apsimSendMessage", apsimSendMessageProc, cd, NULL);
    return interp;
    }
 
