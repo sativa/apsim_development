@@ -113,9 +113,12 @@ C      call set_warning_off ()
       if (Action.eq.ACTION_Get_variable) then
          call fertiliz_Send_my_variable (Data_string)
   
-      else if (Action.eq.ACTION_Init) then
+      else if (Action.eq.ACTION_Create) then
  
          call fertiliz_zero_variables ()
+
+      else if (Action.eq.ACTION_Init) then
+ 
          call fertiliz_Init ()
  
       else if (Action.eq.EVENT_tick) then
@@ -134,6 +137,9 @@ C      call set_warning_off ()
          call fertiliz_get_other_variables ()
          call fertiliz_set_my_variable (Data_string)
  
+      else if (Action .eq. EVENT_new_profile) then
+         call fertiliz_OnNew_Profile()
+
       else
             ! Don't use message
          call Message_unused ()
@@ -339,17 +345,7 @@ c     include   'fertiliz.inc'         ! fertiliz common block
  
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
-      call Get_real_array (
-     :      unknown_module  ! Module that responds (Not Used)
-     :    , 'dlayer'        ! Variable Name
-     :    , max_layer       ! Array size_of
-     :    , '(mm)'          ! Units                (Not Used)
-     :    , g%dlayer        ! Variable
-     :    , numvals         ! Number of values returned
-     :    , 0.0             ! Lower Limit for bound checking
-     :    , 1000.0)         ! Upper Limit for bound checking
- 
+  
       call pop_routine (my_name)
       return
       end
@@ -877,4 +873,44 @@ c     include   'fertiliz.inc'
       end
  
  
+
+*     ===========================================================
+      subroutine fertiliz_ONNew_Profile ()
+*     ===========================================================
+      use FertilizModule
+      implicit none
+      include 'event.inc'
+      include 'intrface.pub'
+      include 'error.pub'
  
+*+  Purpose
+*     Update internal soil layer structure with new data
+
+*+  Mission Statement
+*     Update internal soil layer structure with new data
+ 
+*+  Changes
+*        150600 nih 
+
+*+  Local Variables
+      integer numvals
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'fertiliz_ONNew_Profile')
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+         call collect_real_array
+     :         (DATA_dlayer  ! Name of Variable  (not used)
+     :        , max_layer    ! size of array to be set
+     :        , '(mm)'       ! Units of variable (not used)
+     :        , g%dlayer     ! Variable array
+     :        , numvals      ! Number of elements returned
+     :        , 0.0          ! Lower Limit for bound checking
+     :        , 1000.0)      ! Upper Limit for bound checking
+
+      call pop_routine (myname)
+      return
+      end
