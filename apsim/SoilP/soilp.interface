@@ -49,6 +49,7 @@
       <respondToEventReg name="incorp_fom_p" type="incorp_fom_p"/>
       <respondToEventReg name="FreshOrganicMatterIncorporated" type="FPoolProfileLayer"/>
       <respondToEventReg name="decomposed" type="decomposed"/>
+      <respondToEventReg name="ActualResidueDecompositionCalculated" type="SurfaceOrganicMatterDecomp"/>
       <getVariableReg name="dlayer" type="dlayer"/>
       <getVariableReg name="st" type="st"/>
       <getVariableReg name="sw_dep" type="sw_dep"/>
