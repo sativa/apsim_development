@@ -1,9 +1,0 @@
-USEUNIT("RotationAddIn.cpp");
-USEFORM("TRotationForm.cpp", RotationForm);
-USEUNIT("RotAddIn.cpp");
-USELIB("general.lib");
-//---------------------------------------------------------------------------
-This file is used by the project manager only and should be treated like the project file
-
-
-DllEntryPoint
