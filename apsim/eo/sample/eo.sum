@@ -1,6 +1,5 @@
-Output_file=eo.out
- 
-Report - initialising,V1.5  21/7/96
+report - Output_file=eo.out
+report - initialising,V1.6  21/8/98
 Title =eo sample
 Screen output =on
  
@@ -19,7 +18,7 @@ Variables =evap
 latitude =  -27.31
  MET Initialised, Version: V1.4 25/11/96
 ---------------------------------------------------------
- day=   1 date=  1  1 1996 manager  - Initialising, Version : V1.30  02/10/96
+ day=   1 date=  1  1 1996 manager  - Initialising, Version : V1.40  23/04/98
  
 Manager rules
 ------- -----
@@ -59,3 +58,5 @@ report do_output
  
 ======= Start of APSIM simulation ============================
 Simulation is terminating due to end criteria being met.
+ 
+======= End of APSIM simulation ==============================
