@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.2
+     Version                = 3.3
      Title                  = Sorghum summer-grass Simulation
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -26,6 +26,11 @@
      Component DLL          = c:\development\apsim\sorghum\lib\sorghum.dll
 
 ------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+        report
      Simulation start date =  9/04/1988
      Simulation end date   = 30/05/1989
      Time step =           = 1440 (mins)
@@ -407,31 +412,31 @@
 29 November 1988(Day of year=334), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           52.85678       lai =    0.6709458
-                          stover N conc =    2.458212       extractable sw =    295.3338
+                          stover N conc =    2.458210       extractable sw =    295.3339
 21 December 1988(Day of year=356), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           368.0118       lai =     2.986853
-                          stover N conc =    1.765709       extractable sw =    489.0864
+                          stover N conc =    1.765708       extractable sw =    489.0864
 28 December 1988(Day of year=363), sorghum: 
       stage    7.0 flowering
                           biomass =           512.0425       lai =     2.896465
-                          stover N conc =    1.473455       extractable sw =    554.1163
+                          stover N conc =    1.473455       extractable sw =    554.1164
 30 December 1988(Day of year=365), sorghum: 
       stage    8.0 start_grain_fill
                           biomass =           552.9618       lai =     2.859178
-                          stover N conc =    1.362072       extractable sw =    540.3962
+                          stover N conc =    1.362072       extractable sw =    540.3964
 1 February 1989(Day of year=32), sorghum: 
       stage    9.0 end_grain_fill
-                          biomass =           1104.586       lai =     1.261595
-                          stover N conc =   0.6600807       extractable sw =    454.4524
+                          biomass =           1099.317       lai =     1.261595
+                          stover N conc =   0.6062466       extractable sw =    455.5506
 2 February 1989(Day of year=33), sorghum: 
       stage   10.0 maturity
-                          biomass =           1113.025       lai =     1.196933
-                          stover N conc =   0.6525007       extractable sw =    451.1758
+                          biomass =           1107.242       lai =     1.196933
+                          stover N conc =   0.5993699       extractable sw =    452.4554
 3 February 1989(Day of year=34), sorghum: 
       stage   11.0 harvest_ripe
-                          biomass =           1113.024       lai =     0.000000
-                          stover N conc =   0.7269011       extractable sw =    449.7271
+                          biomass =           1107.242       lai =     0.000000
+                          stover N conc =   0.6707996       extractable sw =    451.0744
 4 February 1989(Day of year=35), manager: 
      Manager sending message :- sorghum harvest
 4 February 1989(Day of year=35), sorghum: 
@@ -439,20 +444,20 @@
      
      
      flowering (DAS) =  58                  maturity (DAS)  =  95
-      flowering day  =  363                  stover (kg/ha) =    5704.1
+      flowering day  =  363                  stover (kg/ha) =    5646.3
       maturity day        =   33             grain yield (kg/ha) =    5426.1
       grain % water content   =   13.0       grain yield wet (kg/ha) =    6236.9
       grain wt (g) =     0.022               grains/m^2   = 24602.557
       grains/head =2460.3                    maximum lai = 2.997
-      total above ground biomass (kg/ha) =   11130.2
-      live above ground biomass (kg/ha) =   11130.2
-      green above ground biomass (kg/ha) =    9486.8
+      total above ground biomass (kg/ha) =   11072.4
+      live above ground biomass (kg/ha) =   11072.4
+      green above ground biomass (kg/ha) =    9429.0
       senesced above ground biomass (kg/ha) =    1643.5
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  15.6
-      grain N percent =      0.86            total N content (kg/ha) =     85.36
-      grain N uptake (kg/ha) =     46.56     senesced N content (kg/ha) =     16.40
-      green N content (kg/ha) =     22.40    dead N content (kg/ha) =      0.00
+      grain N percent =      0.77            total N content (kg/ha) =     79.38
+      grain N uptake (kg/ha) =     41.71     senesced N content (kg/ha) =     16.13
+      green N content (kg/ha) =     21.54    dead N content (kg/ha) =      0.00
      
      
      
@@ -487,18 +492,18 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0057135
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0155568
       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
 4 February 1989(Day of year=35), manager: 
      Manager sending message :- sorghum kill_crop
 4 February 1989(Day of year=35), sorghum: 
-         kill. Standing above-ground dm =  5704.1 (kg/ha)
+         kill. Standing above-ground dm =  5646.3 (kg/ha)
 4 February 1989(Day of year=35), manager: 
      Manager sending message :- sorghum end_crop
 4 February 1989(Day of year=35), sorghum: 
          ended. Yield (dw) =     0.0
-                                               straw residue = 5704.1 kg/ha
-                                               straw N =   38.8 kg/ha
+                                               straw residue = 5646.3 kg/ha
+                                               straw N =   37.7 kg/ha
                                                root residue = 1947.5 kg/ha
                                                root N =    3.9 kg/ha
 30 May 1989(Day of year=150), clock: 
