@@ -32,11 +32,11 @@
     <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
-    <USERDEFINES value=""/>
+    <USERDEFINES value="BOOST_REGEX_STATIC_LINK"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="ApsimShared.bpf"/>
     <INCLUDEPATH value="..\..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)"/>
-    <LIBPATH value="..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms"/>
+    <LIBPATH value="..\..;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms;$(BCB)\components\Boost\libs\regex\build\bcb6"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -118,9 +118,6 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
-[Excluded Packages]
-..\Lib\C6\DCLgtQRC60Pro.bpl=(untitled)
-
 [HistoryLists\hlIncludePath]
 Count=7
 Item0=..\..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
@@ -132,23 +129,25 @@ Item5=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms
 Item6=Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=8
-Item0=..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
-Item1=C:\Program Files\Borland\CBuilder6\Bin;C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
-Item2=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
-Item3=..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item4=C:\Program Files\Borland\CBuilder6\Projects;..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item5=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item6=$(BCB)\lib\obj;$(BCB)\lib
-Item7=Shared\ApsimShared;$(BCB)\lib\obj;$(BCB)\lib
+Count=9
+Item0=..\..;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms;$(BCB)\components\Boost\libs\regex\build\bcb6
+Item1=..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item2=C:\Program Files\Borland\CBuilder6\Bin;C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item3=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item4=..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item5=C:\Program Files\Borland\CBuilder6\Projects;..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item6=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item7=$(BCB)\lib\obj;$(BCB)\lib
+Item8=Shared\ApsimShared;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
 Item0=$(BCB)\source\vcl
 
 [HistoryLists\hlConditionals]
-Count=1
-Item0=_DEBUG
+Count=2
+Item0=BOOST_REGEX_STATIC_LINK
+Item1=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
 Count=2
