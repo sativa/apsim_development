@@ -861,7 +861,8 @@ cnh         if(g%psi(p%n).ge.0.)then
       double precision dabs
       double precision dfac
       double precision dmax
-      double precision dum
+      double precision dum1
+      double precision dum2(0:M)
       double precision exco1
       double precision exco2
       double precision exco3
@@ -961,6 +962,7 @@ cnh         j=indxsl(solnum,i)
             c2(i)=1.
             exco1=p%ex(solnum,j)
             exco2=p%betaex(solnum,j)
+            exco3 = 0d0
          else
 *           nonlinear Freundlich exchange isotherm
             nonlin=.TRUE.
@@ -1096,7 +1098,7 @@ cnh     :            dum,fail)
         csltemp(i) = g%csl(solnum,i)
    63 continue
       call apswim_thomas
-     :      (neq,0,a(k),b(k),c_(k),rhs(k),dum,d(k),csltemp(k),dum,fail)
+     :   (neq,0,a(k),b(k),c_(k),rhs(k),dum1,d(k),csltemp(k),dum2,fail)
       do 64 i=0,p%n
         g%csl(solnum,i) = csltemp(i)
    64 continue

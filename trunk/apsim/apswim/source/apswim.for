@@ -1627,19 +1627,19 @@ cnh
 *      common/space/p%n, p%x, p%dx
 * =====================================================================
       p%n= 0
-      call dset2 (p%x,0,M,0,M,0d0)
-      call dset2 (p%dx,0,M,0,M,0d0)
+      p%x(:)=0d0
+      p%dx(:)=0d0
 
 * =====================================================================
 *      common/soilvr/g%p,g%psi,g%th,g%thold,g%hk,g%q,
 *     1              g%h,g%hold,g%ron,g%roff,g%res,g%resp,g%rex,g%qs,g%qex
 * =====================================================================
-      call dset2 (g%p,0,M,0,M,0d0)
-      call dset2 (g%psi,0,M,0,M,0d0)
-      call dset2 (g%th,0,M,0,M,0d0)
-      call dset2 (g%thold,0,M,0,M,0d0)
-      call dset2 (g%hk,0,M,0,M,0d0)
-      call dset2 (g%q,0,M+1,0,M+1,0d0)
+      g%p(:)=0d0
+      g%psi(:)=0d0
+      g%th(:)=0d0
+      g%thold(:)=0d0
+      g%hk(:)=0d0
+      g%q(:)=0d0
       g%h = 0d0
       g%hold = 0d0
       g%ron = 0d0
@@ -1825,7 +1825,7 @@ cnh      ntsl = 0
       p%itbc = 0
       p%ibbc = 0
       p%swt = 0d0
-      call dset2 (g%swta,1,M,1,M,0d0)
+      g%swta(:)=0d0
       p%slswt = 0d0
 
 * =====================================================================
@@ -2095,53 +2095,6 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
       return
       end
 
-
-
-* ====================================================================
-       subroutine dset2 (array,startdim,enddim,start,end,value)
-* ====================================================================
-      implicit none
-      include 'error.pub'
-
-*+  Sub-Program Arguments
-       integer startdim
-       integer enddim
-       double precision array(*)
-       integer start
-       integer end
-       double precision value
-
-*+  Purpose
-*   Set array(startdim:enddim) to value from elements start to end
-
-*+  Changes
-*   5/7/94 NIH programmed and specified
-
-*+  Constant Values
-      character myname*(*)               ! name of current procedure
-      parameter (myname = 'dset2')
-
-*+  Local Variables
-       integer counter
-       integer temp
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-c      do 100 counter = start, end
-c         array (counter) = value
-c  100 continue
-
-      temp = 1 - startdim
-      enddim = enddim
-
-      do 100 counter = start + temp, end + temp
-         array (counter) = value
-  100 continue
-
-      call pop_routine (myname)
-      return
-      end
 
 
 
@@ -3699,10 +3652,10 @@ c      eqr0  = 0.d0
       implicit none
 
 *+  Sub-Program Arguments
-      integer          num_cord    ! (INPUT) size_of of tables
-      double precision x         ! (INPUT) value for interpolation
-      double precision x_cord(*)   ! (INPUT) p%x co-ordinates of function
-      double precision y_cord(*)   ! (INPUT) y co_ordinates of function
+      integer          num_cord         ! (INPUT) size_of of tables
+      double precision x                ! (INPUT) value for interpolation
+      double precision x_cord(num_cord) ! (INPUT) p%x co-ordinates of function
+      double precision y_cord(num_cord) ! (INPUT) y co_ordinates of function
 
 *+  Purpose
 *       Linearly interpolates a value y for a given value x and a given
@@ -4485,6 +4438,10 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
             elseif (Ctot .lt. 0d0) then
                ! Ctot only slightly negative
                Ctot = 0d0
+
+            elseif (Ctot .lt. 1d-30) then
+               ! Ctot is REALLY small
+               Ctot = 0d0  ! Too avoid underflow with reals
 
             else
                ! Ctot is positive
@@ -6485,7 +6442,7 @@ c      endif
       ! to avoid updating the counter - VERY BAD PROGRAMMING (NIH)
       do 30 i=1, nc-1
          if (Doubles_are_equal(c(i),c(i+1))) then
-            do 25 j=i+1,nc
+            do 25 j=i+1,nc-1
                c(j) = c(j+1)
    25       continue
             c(nc) = 0d0
@@ -7684,10 +7641,10 @@ c      pause
        double precision amount          ! (mm)
        double precision duration        ! (min)
        double precision time            ! (min since start)
-       double precision SWIMtime(*)
-       double precision SWIMAmt(*)
-       integer          SWIMNumPairs
        integer          SWIMArraySize
+       double precision SWIMtime(SWIMArraySize)
+       double precision SWIMAmt(SWIMArraySize)
+       integer          SWIMNumPairs
 
 *+  Purpose
 *     <insert here>
