@@ -638,6 +638,7 @@ float WheatPhenology::crown_temp_nwheat (float maxt, float mint, float snow)
 // NB. There are 2 ways to advance from one stage to the next:
 // via the dltStage calculation in stage_devel(), or
 // via thermal time accumulation 
+#if 0
 void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
    {
    vernalisation(sw);
@@ -675,7 +676,8 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
          fstress = ps.swdef_flower;              //g.swdef_pheno_flower;
       else if (inPhase("grainfill"))
          fstress = ps.swdef_grainfill;           //g.swdef_pheno_grainfill;
-
+      else if (inPhase("harvest_ripe"))
+         fstress = 0.0;                          //stop development
       dlt_tt_phenol = dlt_tt *
                       fstress *
                       min(vern_eff, photop_eff);
@@ -701,11 +703,131 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
    // get rid of any remaining tt into the next stage
    if (balance_tt > 0.0)
       phases[(int)currentStage].add(balance_days, balance_tt);
-
    //if ((int)currentStage != (int)previousStage) parent->onPhenologyEvent(phases[(int)currentStage]);
    cumvd += dlt_cumvd;
    das++;
    }
+#else
+///////// This uses the "old" methodology///////////////
+void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
+   {
+   float phase_devel, new_stage;
+
+   vernalisation(sw);
+
+   if (inPhase("sowing"))
+      {
+      dlt_tt_phenol = dlt_tt;
+      // can't germinate on same day as sowing, because we would miss out on
+      // day of sowing elsewhere. 
+      if (das == 0)
+         {
+         dltStage = 0.0;
+         }
+      else if ( plant_germination(pesw_germ, sowing_depth, sw) )
+         {
+      	dltStage = 1.0;
+         }
+      phase_devel = dltStage;
+      new_stage = currentStage + dltStage;
+      }
+   else if (inPhase("germination"))
+      {
+      int layer_no_seed = sw.find_layer_no (sowing_depth);
+      float fasw_seed = divide (sw.sw_dep[layer_no_seed] - sw.ll_dep[layer_no_seed],
+                                sw.dul_dep[layer_no_seed] - sw.ll_dep[layer_no_seed], 0.0);
+      fasw_seed = bound (fasw_seed, 0.0, 1.0);
+
+      dlt_tt_phenol = dlt_tt *
+                       min(vern_eff, photop_eff) *
+                       rel_emerg_rate[fasw_seed];
+
+      const pPhase &current = phases[currentStage];
+      phase_devel = divide(current.getTT() + dlt_tt_phenol, current.getTTTarget(), 1.0);
+      new_stage = floor(currentStage) + phase_devel;
+      dltStage = new_stage - currentStage;
+      }
+   else if (inPhase("above_ground"))
+      {
+      float fstress = min (ps.swdef, ps.nfact);  //eme2fi: (g.swdef_pheno, g.nfact_pheno);
+      if (inPhase("flowering"))
+         fstress = ps.swdef_flower;              //g.swdef_pheno_flower;
+      else if (inPhase("grainfill"))
+         fstress = ps.swdef_grainfill;           //g.swdef_pheno_grainfill;
+      else if (inPhase("harvest_ripe"))
+         fstress = 0.0;                          //stop development
+      dlt_tt_phenol = dlt_tt *
+                      fstress *
+                      min(vern_eff, photop_eff);
+
+      const pPhase &current = phases[currentStage];
+      phase_devel = divide(current.getTT() + dlt_tt_phenol, current.getTTTarget(), 1.0);
+      new_stage = floor(currentStage) + phase_devel;
+      dltStage = new_stage - currentStage;
+      }
+   else
+      {
+      // ??Hmmm. should probably stop dead here??
+      dlt_tt_phenol = dlt_tt;
+      dltStage = 0.0;
+      }
+
+   /// accumulate() to objects
+   float value = dlt_tt_phenol;             //  (INPUT) value to add to array
+   float p_index = currentStage;           //  (INPUT) current p_index no       
+   float dlt_index = dltStage;       //  (INPUT) increment in p_index no  
+
+   {
+   int current_index;           // current index number ()
+   float fract_in_old;           // fraction of value in last index
+   float index_devel;            // fraction_of of current index elapsed ()
+   int new_index;                // number of index just starting ()
+   float portion_in_new;         // portion of value in next index
+   float portion_in_old;         // portion of value in last index
+
+   // (implicit) assert(dlt_index <= 1.0);
+   current_index = int(p_index);
+
+   // make sure the index is something we can work with
+   if(current_index >= 0)
+      {
+      index_devel = p_index - floor(p_index) + dlt_index;
+      if (index_devel >= 1.0)
+         {
+         // now we need to divvy
+         new_index = (int) (p_index + min (1.0, dlt_index));
+         if (reals_are_equal(fmod(p_index,1.0),0.0))
+            {
+            fract_in_old = 1.0 - divide(index_devel - 1.0, dlt_index, 0.0);
+            portion_in_old = fract_in_old * (value + phases[current_index].getTT())-
+                                 phases[current_index].getTT();
+            }
+         else
+            {
+            fract_in_old = 1.0 - divide(index_devel - 1.0, dlt_index, 0.0);
+            portion_in_old = fract_in_old * value;
+            }
+         portion_in_new = value - portion_in_old;
+         phases[current_index].add(fract_in_old, portion_in_old);
+         phases[new_index].add(1.0-fract_in_old, portion_in_new);
+         }
+      else
+         {
+         phases[current_index].add(1.0, value);
+         }
+      }
+   }
+
+   if (phase_devel >= 1.0)
+      currentStage = floor(currentStage + 1.0);
+   else
+      currentStage = new_stage;
+
+   cumvd += dlt_cumvd;
+   das++;
+   }
+
+#endif
 
 //+  Mission Statement
 //     Photoperiod factor
@@ -1196,7 +1318,7 @@ void LegumePhenology::process(const environment_t &e, const pheno_stress_t &ps)
    currentStage += dltStage;
 
    if ((unsigned int)currentStage >= phases.size() || currentStage < 0.0)
-     throw std::runtime_error("stage has gone wild in WheatPhenology::process()..");
+     throw std::runtime_error("stage has gone wild in LegumePhenology::process()..");
 
    // get rid of any remaining tt into the next stage
    if (balance_tt > 0.0)
