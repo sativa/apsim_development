@@ -21,7 +21,6 @@ class APSIMFrmrptPublic
    report_start   : APSIMIntegerArray  = Report start, (), READ_OPT
    
    sysinit        : APSIMMethod        = System initialization stage
-   process        : APSIMMethod        = System process stage
    end_run        : APSIMMethod        = System end run stage
    
    do_output      : APSIMDoOutputMethod        = Message to FRMRPT from MANAGER
@@ -38,6 +37,9 @@ end
 ;    Events from other components that this component uses.
 ; -----------------------------------------------------------
 class APSIMFrmrptExternal
+
+   process        : APSIMEvent        = System process stage
+
 end
 
 class APSIMFrmrpt
