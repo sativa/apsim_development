@@ -1,4 +1,5 @@
-#include <vcl\vcl.h>
+#include <general\pch.h>
+#include <vcl.h>
 #pragma hdrstop
 
 #include <general\vcl_functions.h>
@@ -20,7 +21,7 @@ using namespace std;
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Grid_input_from_csv (TStringGrid* grid, istream& csv_stream)
+void Grid_input_from_csv (TStringGrid* grid, istream& csv_stream)
    {
    // loop through all lines on input stream.
    char Line[1000];
@@ -58,7 +59,7 @@ void GENERAL_EXPORT Grid_input_from_csv (TStringGrid* grid, istream& csv_stream)
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Grid_output_to_csv (TStringGrid* grid, ostream& csv_stream)
+void Grid_output_to_csv (TStringGrid* grid, ostream& csv_stream)
    {
    for (int row = 0; row < grid->RowCount; row++)
       {
@@ -80,7 +81,7 @@ void GENERAL_EXPORT Grid_output_to_csv (TStringGrid* grid, ostream& csv_stream)
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Grid_clear (TStringGrid* grid)
+void Grid_clear (TStringGrid* grid)
    {
    for (int row = 0; row < grid->RowCount; row++)
       for (int col = 0; col < grid->ColCount; col++)
@@ -98,7 +99,7 @@ void GENERAL_EXPORT Grid_clear (TStringGrid* grid)
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Select_items_in_listbox(TListBox* listbox, TStrings* Items_to_select)
+void Select_items_in_listbox(TListBox* listbox, TStrings* Items_to_select)
    {
    if (listbox->MultiSelect)
       {
@@ -126,7 +127,7 @@ void GENERAL_EXPORT Select_items_in_listbox(TListBox* listbox, TStrings* Items_t
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Get_selected_items_from_listbox(TListBox* listbox, TStrings* Selected_items)
+void Get_selected_items_from_listbox(TListBox* listbox, TStrings* Selected_items)
    {
    Selected_items->Clear();
    if (listbox->MultiSelect)
@@ -154,7 +155,7 @@ void GENERAL_EXPORT Get_selected_items_from_listbox(TListBox* listbox, TStrings*
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Give_files_to_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list)
+void Give_files_to_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list)
    {
    string Initial_file_name;
 
@@ -182,7 +183,7 @@ void GENERAL_EXPORT Give_files_to_open_dialog (TOpenDialog* Open_dialog, TString
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Get_files_from_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list)
+void Get_files_from_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list)
    {
    File_list->Clear();
    File_list->AddStrings(Open_dialog->Files);
@@ -198,7 +199,7 @@ void GENERAL_EXPORT Get_files_from_open_dialog (TOpenDialog* Open_dialog, TStrin
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-TColor GENERAL_EXPORT ColorStringToTColor (const char* ColourString)
+TColor ColorStringToTColor (const char* ColourString)
    {
    if (Str_i_Eq(ColourString, "Aqua"))
       return clAqua;
@@ -251,7 +252,7 @@ TColor GENERAL_EXPORT ColorStringToTColor (const char* ColourString)
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-TFontStyles GENERAL_EXPORT FontStringToTFontStyles (const char* StyleString)
+TFontStyles FontStringToTFontStyles (const char* StyleString)
    {
    TFontStyles FontStyles;
 
@@ -461,7 +462,7 @@ AnsiString replaceComponentPropertyMacros(TComponent* owner, AnsiString text)
 //---------------------------------------------------------------------------
 // Return a list of component names in the macros in the specified string.
 //---------------------------------------------------------------------------
-void GENERAL_EXPORT getComponentNamesFromMacros(AnsiString text, TStrings* componentNames)
+void getComponentNamesFromMacros(AnsiString text, TStrings* componentNames)
    {
    string newText = text.c_str();
    unsigned posStartMacro = newText.find("$");

@@ -1,4 +1,8 @@
-#include <general\path.h>
+#include <general\pch.h>
+#include <vcl.h>
+#pragma hdrstop
+
+#include "path.h"
 #include <windows.h>
 #include <dir.h>
 #include <io.h>

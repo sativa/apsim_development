@@ -1,11 +1,9 @@
 #ifndef vclfunctionsH
 #define vclfunctionsH
 
-#include <general\general.h>
-
-#include "Grids.hpp"
+#include <Grids.hpp>
+#include <db.hpp>
 #include <fstream>
-#include <vcl\db.hpp>
 #include <oleauto.h>
 #include <vector>
 // ------------------------------------------------------------------
@@ -61,7 +59,7 @@ void Stl_2_tstrings (STL_container& ls, TStrings* VCL_list)
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Grid_input_from_csv (TStringGrid* grid, std::istream& csv_stream);
+void Grid_input_from_csv (TStringGrid* grid, std::istream& csv_stream);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -73,7 +71,7 @@ void GENERAL_EXPORT Grid_input_from_csv (TStringGrid* grid, std::istream& csv_st
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Grid_output_to_csv (TStringGrid* grid, std::ostream& csv_stream);
+void Grid_output_to_csv (TStringGrid* grid, std::ostream& csv_stream);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -85,7 +83,7 @@ void GENERAL_EXPORT Grid_output_to_csv (TStringGrid* grid, std::ostream& csv_str
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Grid_clear (TStringGrid* grid);
+void Grid_clear (TStringGrid* grid);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -98,7 +96,7 @@ void GENERAL_EXPORT Grid_clear (TStringGrid* grid);
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Select_items_in_listbox(TListBox* listbox, TStrings* Items_to_select);
+void Select_items_in_listbox(TListBox* listbox, TStrings* Items_to_select);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -110,7 +108,7 @@ void GENERAL_EXPORT Select_items_in_listbox(TListBox* listbox, TStrings* Items_t
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Get_selected_items_from_listbox(TListBox* listbox, TStrings* Selected_items);
+void Get_selected_items_from_listbox(TListBox* listbox, TStrings* Selected_items);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -122,7 +120,7 @@ void GENERAL_EXPORT Get_selected_items_from_listbox(TListBox* listbox, TStrings*
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-TComponent* GENERAL_EXPORT Locate_component(TComponent* component, const char* Component_name);
+TComponent* Locate_component(TComponent* component, const char* Component_name);
 
 // ------------------------------------------------------------------
 // Retrieve a component of type T, from the specified owner component
@@ -170,7 +168,7 @@ void getComponentNames(TComponent* owner, TStrings* componentNames)
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Get_files_from_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list);
+void Get_files_from_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -183,7 +181,7 @@ void GENERAL_EXPORT Get_files_from_open_dialog (TOpenDialog* Open_dialog, TStrin
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Give_files_to_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list);
+void Give_files_to_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -195,7 +193,7 @@ void GENERAL_EXPORT Give_files_to_open_dialog (TOpenDialog* Open_dialog, TString
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-TColor GENERAL_EXPORT ColorStringToTColor (const char* ColourString);
+TColor ColorStringToTColor (const char* ColourString);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -207,7 +205,7 @@ TColor GENERAL_EXPORT ColorStringToTColor (const char* ColourString);
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-TFontStyles GENERAL_EXPORT FontStringToTFontStyles (const char* StyleString);
+TFontStyles FontStringToTFontStyles (const char* StyleString);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -220,7 +218,7 @@ TFontStyles GENERAL_EXPORT FontStringToTFontStyles (const char* StyleString);
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT OleVariantInit (VARIANT& OleVariant, int NumElements, VARTYPE DataType);
+void OleVariantInit (VARIANT& OleVariant, int NumElements, VARTYPE DataType);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -233,7 +231,7 @@ void GENERAL_EXPORT OleVariantInit (VARIANT& OleVariant, int NumElements, VARTYP
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Doubles_to_olevariant (std::vector<double>& StlArray, VARIANT& OleVariant);
+void Doubles_to_olevariant (std::vector<double>& StlArray, VARIANT& OleVariant);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -246,7 +244,7 @@ void GENERAL_EXPORT Doubles_to_olevariant (std::vector<double>& StlArray, VARIAN
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Olevariant_to_doubles (VARIANT& OleVariant, std::vector<double>& StlArray);
+void Olevariant_to_doubles (VARIANT& OleVariant, std::vector<double>& StlArray);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -259,29 +257,29 @@ void GENERAL_EXPORT Olevariant_to_doubles (VARIANT& OleVariant, std::vector<doub
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Strings_to_olevariant (std::vector<std::string>& StlArray, VARIANT& OleVariant);
+void Strings_to_olevariant (std::vector<std::string>& StlArray, VARIANT& OleVariant);
 
 // ------------------------------------------------------------------
 // Load a component from a stream.
 // ------------------------------------------------------------------
-void GENERAL_EXPORT loadComponent(AnsiString filename, TComponent*& component);
+void loadComponent(AnsiString filename, TComponent*& component);
 
 // ------------------------------------------------------------------
 // Save a component to a stream.  Works best saving an entire form.
 // ------------------------------------------------------------------
-void GENERAL_EXPORT saveComponent(AnsiString filename, TComponent* component);
+void saveComponent(AnsiString filename, TComponent* component);
 
 //---------------------------------------------------------------------------
 // Replace all macros of the form $componentName.propertyName$ with the value
 // of the specified property.  Only component owned by the specified owner
 // will be found.
 //---------------------------------------------------------------------------
-AnsiString GENERAL_EXPORT replaceComponentPropertyMacros
+AnsiString replaceComponentPropertyMacros
       (TComponent* owner, AnsiString text);
 
 //---------------------------------------------------------------------------
 // Return a list of component names in the macros in the specified string.
 //---------------------------------------------------------------------------
-void GENERAL_EXPORT getComponentNamesFromMacros(AnsiString st, TStrings* componentNames);
+void getComponentNamesFromMacros(AnsiString st, TStrings* componentNames);
 
 #endif

@@ -1,7 +1,11 @@
 //---------------------------------------------------------------------------
+#include <general\pch.h>
+#include <vcl.h>
+#pragma hdrstop
+
 #include <general\stream_processor.h>
 #include <general\stream_functions.h>
-#include <strstrea.h>
+#include <sstream.h>
 
 static const int MAX_DEFINE_NAME_SIZE = 50;
 static const int MAX_LINE_SIZE = 1000;
@@ -41,7 +45,7 @@ bool Line_processor::Replace_macros (string& Line)
    while (Macro_pos != string::npos)
       {
       // get macro name from line
-      istrstream Word_stream (&Line[Macro_pos]);
+      istringstream Word_stream (&Line[Macro_pos]);
       string Macro_name;
       Read_token(Word_stream, "", " ,\n\'()[]-+/*.", Macro_name);
 

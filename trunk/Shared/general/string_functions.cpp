@@ -1,10 +1,14 @@
+#include <general\pch.h>
+#include <vcl.h>
+#pragma hdrstop
+
 #include <general\string_functions.h>
 #include <tchar.h>
 #include <strstream>
 #include <iomanip>
 #include <sysutils.hpp>
 #include "stristr.h"
-using std::ostrstream;
+using namespace std;
 // ------------------------------------------------------------------
 //  Short description:
 //    removes leading and trailing characters.
@@ -18,7 +22,7 @@ using std::ostrstream;
 //    dph 27/3/98 changed call to remove with call to replace in line with standard.
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Strip (string& text, const char* separators)
+void Strip (string& text, const char* separators)
    {
    size_t Pos;
 
@@ -45,7 +49,7 @@ void GENERAL_EXPORT Strip (string& text, const char* separators)
 //    DPH 17/4/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Strip (char* text, const char* separators)
+void Strip (char* text, const char* separators)
    {
    if (text[0] != 0)
       {
@@ -69,7 +73,7 @@ void GENERAL_EXPORT Strip (char* text, const char* separators)
 //    dph 6/7/2001 added code to remove TAB chars d423
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Get_keyname_and_value (const char* line, string& Key_name, string& Key_value)
+void Get_keyname_and_value (const char* line, string& Key_name, string& Key_value)
    {
    string Str_line = line;
 
@@ -105,7 +109,7 @@ void GENERAL_EXPORT Get_keyname_and_value (const char* line, string& Key_name, s
 //    dph 6/7/2001 added code to remove TAB chars d423
 
 // ------------------------------------------------------------------
-string GENERAL_EXPORT Get_key_value (const char* line, const char* Key_name)
+string Get_key_value (const char* line, const char* Key_name)
    {
 
    string Str_line = line;
@@ -141,7 +145,7 @@ string GENERAL_EXPORT Get_key_value (const char* line, const char* Key_name)
 //    dph 6/7/2001 added code to remove TAB chars d423
 
 // ------------------------------------------------------------------
-string GENERAL_EXPORT Get_section_name (const char* line)
+string Get_section_name (const char* line)
    {
    string Str_line = line;
    string Section_name;
@@ -168,7 +172,7 @@ string GENERAL_EXPORT Get_section_name (const char* line)
 //    DPH 29/4/1997
 
 // ------------------------------------------------------------------
-bool GENERAL_EXPORT Is_numerical (const char* Text)
+bool Is_numerical (const char* Text)
    {
    char *endptr;
    strtod(Text, &endptr);
@@ -185,7 +189,7 @@ bool GENERAL_EXPORT Is_numerical (const char* Text)
 //    DPH 29/4/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT To_lower (string& St)
+void To_lower (string& St)
    {
    char* buffer = new char[St.length() + 1];
    strcpy(buffer, St.c_str());
@@ -204,7 +208,7 @@ void GENERAL_EXPORT To_lower (string& St)
 //    DPH 29/4/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT To_upper (string& St)
+void To_upper (string& St)
    {
    char* buffer = new char[St.length() + 1];
    strcpy(buffer, St.c_str());
@@ -225,7 +229,7 @@ void GENERAL_EXPORT To_upper (string& St)
 //    dph 27/3/98 changed string::npos to string::string::npos in line with standard.
 
 // ------------------------------------------------------------------
-bool GENERAL_EXPORT Replace_all (string& St, const char* Sub_string, const char* Replacement_string)
+bool Replace_all (string& St, const char* Sub_string, const char* Replacement_string)
    {
    bool replacementMade = false;
    size_t Pos = St.find(Sub_string);
@@ -249,7 +253,7 @@ bool GENERAL_EXPORT Replace_all (string& St, const char* Sub_string, const char*
 //    dph 27/3/98 changed npos to string::npos in line with standard.
 
 // ------------------------------------------------------------------
-string GENERAL_EXPORT ftoa(double Float, int Num_decplaces)
+string ftoa(double Float, int Num_decplaces)
    {
 //   ostrstream buf;
 //   buf.setf(std::ios::fixed, std::ios::floatfield);
@@ -268,7 +272,7 @@ string GENERAL_EXPORT ftoa(double Float, int Num_decplaces)
 //    SB ????
 
 // ------------------------------------------------------------------
-int GENERAL_EXPORT Str_i_Cmp(const string &a, const string &b)
+int Str_i_Cmp(const string &a, const string &b)
 {	return stricmp(a.c_str(),b.c_str());
 }
 
@@ -321,7 +325,7 @@ void Get_words_from_double_null_term (char* St, list<string>& Words)
    }
 
 //----------------------------------------------------------------------------
-int GENERAL_EXPORT NumOccurrences (string text, string substring)
+int NumOccurrences (string text, string substring)
 //----------------------------------------------------------------------------
 // Description:
 //   Return the number of occurrences of a given substring with the given string

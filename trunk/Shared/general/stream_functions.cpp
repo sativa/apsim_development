@@ -1,6 +1,10 @@
-#include <general\stream_functions.h>
-#include <strstrea.h>
+#include <general\pch.h>
+#include <vcl.h>
+#pragma hdrstop
 
+#include <general\stream_functions.h>
+#include <sstream>
+using namespace std;
 // ------------------------------------------------------------------
 //  Short description:
 //    Read in a token.  Skip all leading skip characters and stop when
@@ -14,10 +18,10 @@
 //    DPH 17/4/1997 - moved to C++ builder.
 
 // ------------------------------------------------------------------
-char GENERAL_EXPORT Read_token(istream& In_stream,
-                               const char* Init_skip_chars,
-                               const char* Delimiter_chars,
-                               string& Token)
+char Read_token(istream& In_stream,
+                const char* Init_skip_chars,
+                const char* Delimiter_chars,
+                string& Token)
    {
    // Clear the strings contents
    Token = "";
@@ -72,7 +76,7 @@ char GENERAL_EXPORT Read_token(istream& In_stream,
 //    DPH 8/10/97
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Read_stream(istream& In_stream, string& Contents)
+void Read_stream(istream& In_stream, string& Contents)
    {
    getline (In_stream, Contents, '\0');
    }
@@ -90,14 +94,14 @@ void GENERAL_EXPORT Read_stream(istream& In_stream, string& Contents)
 //    DPH 8/10/97
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Convert_2_CSV(istream& In_stream, ostream& Out_stream)
+void Convert_2_CSV(istream& In_stream, ostream& Out_stream)
    {
    string Variable;
    string Line;
    getline(In_stream, Line);
    while (In_stream)
       {
-      istrstream Line_stream((char*) Line.c_str());
+      istringstream Line_stream((char*) Line.c_str());
       Line_stream >> Variable;
       while (Line_stream)
          {

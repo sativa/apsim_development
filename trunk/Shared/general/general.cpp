@@ -1,4 +1,5 @@
 //---------------------------------------------------------------------------
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 //---------------------------------------------------------------------------
@@ -20,29 +21,6 @@
 //
 //   If your DLL uses the dynamic version of the RTL, you do not need to
 //   explicitly add MEMMGR.LIB as this will be done implicitly for you
-//---------------------------------------------------------------------------
-USEUNIT("vcl_functions.cpp");
-USEUNIT("exec.cpp");
-USEUNIT("ini_file.cpp");
-USEUNIT("io_functions.cpp");
-USEUNIT("macros.cpp");
-USEUNIT("math_functions.cpp");
-USEUNIT("path.cpp");
-USEUNIT("stream_functions.cpp");
-USEUNIT("stream_processor.cpp");
-USEUNIT("string_functions.cpp");
-USEUNIT("stristr.cpp");
-USEUNIT("date_class.cpp");
-USEUNIT("StringTokenizer.cpp");
-USEUNIT("XMLTreeNode.cpp");
-USEUNIT("TreeNode.cpp");
-USEUNIT("VirtualTreeNode.cpp");
-USEUNIT("XMLTreeData.cpp");
-USEUNIT("TreeData.cpp");
-USEUNIT("MacroSubstFile.cpp");
-USEUNIT("Macro.cpp");
-USEUNIT("MacroValue.cpp");
-USEUNIT("db_functions.cpp");
 //---------------------------------------------------------------------------
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*)
 {

@@ -4,7 +4,6 @@
 #define MacroH
 #include <vector>
 #include <string>
-#include <general\general.h>
 #include "MacroValue.h"
 // ------------------------------------------------------------------
 //  Short description:
@@ -13,7 +12,7 @@
 //  Changes:
 //    DPH 22/8/2001 reworked from NIH original
 // ------------------------------------------------------------------
-class GENERAL_EXPORT Macro
+class Macro
    {
    public:
       // constructor and destructor
@@ -21,9 +20,9 @@ class GENERAL_EXPORT Macro
       ~Macro();
 
       // != operator so that other objects can do a find on name.
-      bool operator!=(const std::string& rhsName)
+      bool operator==(const std::string& rhsName)
          {
-         return !Str_i_Eq(getName(), rhsName);
+         return Str_i_Eq(getName(), rhsName);
          }
 
       // return a macro name to caller.

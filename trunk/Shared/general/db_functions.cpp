@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
@@ -13,9 +13,9 @@ using namespace std;
 // Does NOT removes any existing fields of the dataset
 // The values are used to determine the datatype of the field.
 //---------------------------------------------------------------------------
-void GENERAL_EXPORT addDBFields(TDataSet* dataset,
-                                vector<string>& fieldNames,
-                                vector<string>& fieldValues) throw(runtime_error)
+void addDBFields(TDataSet* dataset,
+                 vector<string>& fieldNames,
+                 vector<string>& fieldValues) throw(runtime_error)
    {
    // make sure we have the same number of values as we do field names.
    if (fieldValues.size() != fieldNames.size())
@@ -32,7 +32,7 @@ void GENERAL_EXPORT addDBFields(TDataSet* dataset,
 // The fieldValue is used to determine the datatype of the field.
 // A field is not added if it already exists.
 //---------------------------------------------------------------------------
-void GENERAL_EXPORT addDBField(TDataSet* dataset,
+void addDBField(TDataSet* dataset,
                                const string& fieldName,
                                const string& fieldValue)
    {
@@ -68,7 +68,7 @@ void GENERAL_EXPORT addDBField(TDataSet* dataset,
 //---------------------------------------------------------------------------
 // Return a list of field names to caller for the specified dataset.
 //---------------------------------------------------------------------------
-void GENERAL_EXPORT getDBFieldNames(TDataSet* dataset,
+void getDBFieldNames(TDataSet* dataset,
                                     std::vector<std::string>& fieldNames)
    {
    for (int field = 0; field < dataset->FieldCount; field++)
@@ -79,7 +79,7 @@ void GENERAL_EXPORT getDBFieldNames(TDataSet* dataset,
 // specified dataset and returns a vector of numbers for the specified field.
 // Will through runtime_error if cannot convert the values to a float.
 // ------------------------------------------------------------------
-void GENERAL_EXPORT getDBFieldValues(TDataSet* dataset,
+void getDBFieldValues(TDataSet* dataset,
                                      const string& fieldName,
                                      vector<double>& values) throw (runtime_error)
    {
@@ -105,7 +105,7 @@ void GENERAL_EXPORT getDBFieldValues(TDataSet* dataset,
 // This routine loops through all records from First to Eof on the
 // specified dataset and returns a vector of numbers for the specified field.
 // ------------------------------------------------------------------
-void GENERAL_EXPORT getDBFieldValues(TDataSet* dataset,
+void getDBFieldValues(TDataSet* dataset,
                                      const std::string& fieldName,
                                      vector<string>& values)
    {
@@ -122,7 +122,7 @@ void GENERAL_EXPORT getDBFieldValues(TDataSet* dataset,
 // Returns true if a record was copied.
 // The newly appended record will be the current record after this operation.
 //---------------------------------------------------------------------------
-bool GENERAL_EXPORT copyDBRecord(TDataSet* source, TDataSet* destination)
+bool copyDBRecord(TDataSet* source, TDataSet* destination)
    {
    if (!source->Eof)
       {
@@ -139,7 +139,7 @@ bool GENERAL_EXPORT copyDBRecord(TDataSet* source, TDataSet* destination)
 // Append a new record to the specified dataset.
 // Then add the specified values to the new record and post the changes.
 //---------------------------------------------------------------------------
-void GENERAL_EXPORT appendDBRecord(TDataSet* dataset,
+void appendDBRecord(TDataSet* dataset,
                                    vector<string>& fieldNames,
                                    vector<string>& fieldValues) throw(runtime_error)
    {

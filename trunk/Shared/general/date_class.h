@@ -1,12 +1,8 @@
 #if !defined (DATE_CLASS_H)
 #define DATE_CLASS_H
 
-#include <general\general.h>
-
 #include <iostream.h>
 #include <string>
-using std::string;
-#include <vcl\sysutils.hpp>
 // ------------------------------------------------------------------
 //  Short description:
 //    Class for encapsulating dates
@@ -19,10 +15,10 @@ using std::string;
 //    dph 6/8/97 changed the write formatting system to a more general one.
 
 // ------------------------------------------------------------------
-class GENERAL_EXPORT GDate
+class GDate
    {
    protected :
-      string Format_string;             // Current write format default "D/M/YYYY"
+      std::string Format_string;             // Current write format default "D/M/YYYY"
       unsigned long Julian_day;         // Julian day
       bool Must_have_year;              // Must we have a year when checking dates?
 
@@ -156,7 +152,7 @@ class GENERAL_EXPORT GDate
 //    DPH 3/2/98
 
 // ------------------------------------------------------------------
-TDateTime GENERAL_EXPORT Get_file_date_time (const char* File_name);
+TDateTime Get_file_date_time (const char* File_name);
 
 
 #endif

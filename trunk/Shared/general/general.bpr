@@ -2,54 +2,72 @@
 <!-- C++Builder XML Project -->
 <PROJECT>
   <MACROS>
-    <VERSION value="BCB.05.03"/>
-    <PROJECT value="&quot;c:\program files\borland\cbuilder5\Projects\Bpl\general.dll&quot;"/>
-    <OBJFILES value="general.obj vcl_functions.obj exec.obj ini_file.obj io_functions.obj 
-      macros.obj math_functions.obj path.obj stream_functions.obj 
-      stream_processor.obj string_functions.obj stristr.obj date_class.obj 
-      StringTokenizer.obj XMLTreeNode.obj TreeNode.obj VirtualTreeNode.obj 
-      XMLTreeData.obj TreeData.obj MacroSubstFile.obj Macro.obj MacroValue.obj 
-      db_functions.obj"/>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="general.lib"/>
+    <OBJFILES value="date_class.obj db_functions.obj exec.obj general.obj ini_file.obj 
+      io_functions.obj macro.obj macros.obj MacroSubstFile.obj MacroValue.obj 
+      math_functions.obj path.obj stream_functions.obj stream_processor.obj 
+      string_functions.obj StringTokenizer.obj stristr.obj TExplorerMenu.obj 
+      TMenuItemCommand.obj vcl_functions.obj"/>
     <RESFILES value=""/>
-    <IDLFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
     <LIBFILES value=""/>
-    <LIBRARIES value="OpenXML.lib"/>
-    <SPARELIBS value="vcl50.lib OpenXML.lib"/>
-    <PACKAGES value="vcl50.bpi vcldb50.bpi vclbde50.bpi ibsmp50.bpi vclx50.bpi bcbsmp50.bpi 
-      vcldbx50.bpi dclocx50.bpi qrpt50.bpi nmfast50.bpi TEE4C5.bpi TEEUI4C5.bpi 
-      TEEPRO4C5.bpi VCLADO50.bpi"/>
+    <LIBRARIES value=""/>
+    <PACKAGES value=""/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
-    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
-    <RELEASELIBPATH value="$(BCB)\lib\release"/>
-    <LINKER value="ilink32"/>
-    <USERDEFINES value="BUILDING_GENERAL"/>
-    <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
-    <MAINSOURCE value="general.cpp"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;k:\;&quot;j:\openxml\&quot;"/>
-    <LIBPATH value="$(BCB)\Projects\Lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib"/>
-    <WARNINGS value="-w-par -w-8027 -w-8026"/>
-    <WARNOPTSTR value=""/>
+    <LINKER value="TLib"/>
+    <USERDEFINES value="_DEBUG"/>
+    <SYSDEFINES value="_RTLDLL;NO_STRICT"/>
+    <MAINSOURCE value="general.bpf"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(SHARED)"/>
+    <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
+    <WARNINGS value="-w-par"/>
+    <LISTFILE value=""/>
+    <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=&quot;c:\program files\borland\cbuilder5\lib\vcl50.csm&quot; -Hc -Vx -Ve 
-      -Tkh30000 -X- -r- -a8 -b- -k -y -v -vi- -c -tWM"/>
-    <PFLAGS value="-$YD -$W -$O- -v -M -JPHNE"/>
-    <RFLAGS value="= /i$(BCB)\include /i$(BCB)\include\vcl /i..\ /d_RTLDLL /dBUILDING_GENERAL 
-      /dUSEPACKAGES /mx /w2 /zd"/>
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
+      -tW -tWM"/>
+    <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <AFLAGS value="/mx /w2 /zd"/>
-    <LFLAGS value="-l&quot;c:\program files\borland\cbuilder5\Projects\Lib\&quot; -D&quot;&quot; -aa -Tpd -x -Gn 
-      -Gi -v"/>
+    <LFLAGS value="/P64"/>
+    <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
-    <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
-    <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <ALLOBJ value="$(OBJFILES)"/>
+    <ALLLIB value=""/>
+    <OTHERFILES value=""/>
   </LINKER>
+  <FILELIST>
+      <FILE FILENAME="general.bpf" FORMNAME="" UNITNAME="general" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="date_class.cpp" FORMNAME="" UNITNAME="date_class.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="db_functions.cpp" FORMNAME="" UNITNAME="db_functions.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="exec.cpp" FORMNAME="" UNITNAME="exec.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="general.cpp" FORMNAME="" UNITNAME="general.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ini_file.cpp" FORMNAME="" UNITNAME="ini_file.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="io_functions.cpp" FORMNAME="" UNITNAME="io_functions.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="macro.cpp" FORMNAME="" UNITNAME="macro.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="macros.cpp" FORMNAME="" UNITNAME="macros.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="MacroSubstFile.cpp" FORMNAME="" UNITNAME="MacroSubstFile.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="MacroValue.cpp" FORMNAME="" UNITNAME="MacroValue.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="math_functions.cpp" FORMNAME="" UNITNAME="math_functions.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="path.cpp" FORMNAME="" UNITNAME="path.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="stream_functions.cpp" FORMNAME="" UNITNAME="stream_functions.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="stream_processor.cpp" FORMNAME="" UNITNAME="stream_processor.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="string_functions.cpp" FORMNAME="" UNITNAME="string_functions.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="StringTokenizer.cpp" FORMNAME="" UNITNAME="StringTokenizer.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="stristr.cpp" FORMNAME="" UNITNAME="stristr.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TExplorerMenu.cpp" FORMNAME="" UNITNAME="TExplorerMenu.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TMenuItemCommand.cpp" FORMNAME="" UNITNAME="TMenuItemCommand.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="vcl_functions.cpp" FORMNAME="" UNITNAME="vcl_functions.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
   <IDEOPTIONS>
 [Version Info]
 IncludeVerInfo=0
@@ -63,7 +81,7 @@ PreRelease=0
 Special=0
 Private=0
 DLL=0
-Locale=1033
+Locale=3081
 CodePage=1252
 
 [Version Info Keys]
@@ -78,56 +96,42 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
-[Excluded Packages]
-$(BCB)\Projects\Bpl\SEGReport.bpl=SEG Report Component
-$(BCB)\projects\bpl\APSGeneral.bpl=APSuite General Components
-$(BCB)\Projects\Bpl\DclTee4C5.bpl=TeeChart 4.0 Components
-
 [HistoryLists\hlIncludePath]
-Count=8
-Item0=$(BCB)\include;$(BCB)\include\vcl;k:\;j:\openxml\
-Item1=$(BCB)\include;$(BCB)\include\vcl;j:\openxml\
-Item2=$(BCB)\include;$(BCB)\include\vcl;j:\openxml
-Item3=C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl;..
-Item4=$(BCB)\include;$(BCB)\include\vcl;..
-Item5=$(BCB)\include;$(BCB)\include\vcl;..Item1=$(BCB)\include;$(BCB)\include\vcl;..Item1=$(BCB)\include;$(BCB)\include\vcl;..[HistoryLists\hlLibraryPath]
-Item6=
-Item7=
+Count=2
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item1=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=3
-Item0=$(BCB)\Projects\Lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
-Item1=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
-Item2=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Count=1
+Item0=$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
 Item0=$(BCB)\source\vcl
 
 [HistoryLists\hlConditionals]
+Count=1
+Item0=_DEBUG
+
+[HistoryLists\hlTlibPageSize]
 Count=3
-Item0=BUILDING_GENERAL
-Item1=_RTLDLL;BUILDING_GENERAL;USEPACKAGES
-Item2=_RTLDLL;USEPACKAGES;BUILDING_GENERAL
-
-[HistoryLists\hlFinalOutputDir]
-Count=2
-Item0=c:\program files\borland\cbuilder5\Projects\Bpl\
-Item1=$(BCB)\Projects\Bpl
-
-[HistoryLists\hIBPIOutputDir]
-Count=2
-Item0=c:\program files\borland\cbuilder5\Projects\Lib\
-Item1=c:\program files\borland\cbuilder5\Projects\Lib
+Item0=0x0040
+Item1=0x0020
+Item2=0x0010
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
 RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
 HostApplication=
 RemoteHost=
 RemotePath=
+RemoteLauncher=
+RemoteCWD=
 RemoteDebug=0
 
 [Compiler]

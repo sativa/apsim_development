@@ -1,7 +1,9 @@
+#include <general\pch.h>
+#include <vcl.h>
+#pragma hdrstop
+
 #include <general\date_class.h>
 
-#include <iomanip.h>
-#include <strstrea.h>
 #include <dos.h>
 #include <general\stream_functions.h>
 #include <general\string_functions.h>
@@ -82,7 +84,7 @@ static const unsigned int Acc_days_in_month[13] =
 
 // -------------------- Executable code section ----------------------
 
-   istrstream In_stream((char*) Str);
+   istringstream In_stream((char*) Str);
    Read(In_stream);
    }
 
@@ -193,7 +195,7 @@ int Month_string_2_integer (string& Month_string)
 
 // -------------------- Executable code section ----------------------
 
-   ostrstream Out_stream(Str, 50);
+   ostringstream Out_stream(Str, 50);
    Write(Out_stream);
    Out_stream << ends;
    }
@@ -710,7 +712,7 @@ int Month_string_2_integer (string& Month_string)
 //    DPH 3/2/98
 
 // ------------------------------------------------------------------
-TDateTime GENERAL_EXPORT Get_file_date_time (const char* File_name)
+TDateTime Get_file_date_time (const char* File_name)
    {
    TDateTime Date_time;
    int Handle = FileOpen(File_name, fmOpenRead);
