@@ -1,6 +1,6 @@
-[APSIM.sample_input]
-module=report     input.par[sample]
-module=input      dalby.met[weather]  input.par[sample]
-module=manager    input.par[sample]
-
-
+[apsim.sample_input]  
+Module=clock input.par [sample]  
+Module=report input.par [sample]  
+Module=met DALBY.MET [weather]  
+Module=manager input.par [sample]  
+Module=input [test] input.par [test]
