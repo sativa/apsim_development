@@ -234,7 +234,7 @@ try {
                                      message->from,
                                      message->messageID));
    }
-catch (const std::exception &e) 
+catch (const std::exception &e)
    {
    this->error(e.what(), true);
    }
@@ -384,21 +384,13 @@ void Component::respondToEvent(unsigned int& fromID, unsigned int& eventID, Vari
 
   ipf1 = eventMap.lower_bound(eventID);
   ipf2 = eventMap.upper_bound(eventID);
-  
+
   for (ipf = ipf1; ipf != ipf2; ipf++)
      {
      pf = ipf->second;
      (pf)(fromID, eventID, variant);
      }
   }
-
-// As far as component is concerned, methods are treated in the same manner as events
-void Component::respondToMethod(unsigned int& fromID, unsigned int& methodID, Variant& variant)
-  {
-  respondToEvent(fromID, methodID, variant);
-  }
-
-
 // ------------------------------------------------------------------
 //  Short description:
 //     send a message to infrastructure.
@@ -855,7 +847,7 @@ void varInfo::sendVariable(Component *systemInterface, QueryValueData& qd)
    }
 
 unsigned int Component::addEvent(const char *systemName,
-                                 protocol::RegistrationType type,
+                                 RegistrationType type,
                                  boost::function3<void, unsigned &, unsigned &, protocol::Variant &> ptr)
    {
    unsigned int id = addRegistration(type, systemName, "", "");
