@@ -1,0 +1,32 @@
+report - Output_file=manager.out
+report - initialising,V1.6  21/8/98
+Title =accum dalby
+Screen output =off
+ 
+Variable list
+-------------
+ 
+Module = clock
+Variables =year,day
+ 
+Module = manager
+Variables =avtemp
+---------------------------------------------------------
+ INPUT (met) Initialised, Version: V3.0 26/11/98
+---------------------------------------------------------
+ day=   1 date=  1  1 1988 manager  - Initialising, Version : V1.40  23/04/98
+ 
+Manager rules
+------- -----
+avtemp = (mint + maxt) / 2
+if (days_since_last_report = 3) then
+report do_output
+endif
+ 
+-----------------------------------------------------------
+ 
+======= Start of APSIM simulation ============================
+ day=   1 date=  1  1 1988 manager  - Manager creating a new local variable : avtemp =     25.1999988500000
+Simulation is terminating due to end criteria being met.
+ 
+======= End of APSIM simulation ==============================
