@@ -68,6 +68,7 @@ ApsimComponentData& ApsimComponentData::operator=(const ApsimComponentData& rhs)
    delete xmlDoc;
    xmlDoc = NULL;
    dataTypesFile = NULL;
+   return *this;
    }
 // ------------------------------------------------------------------
 // Return name of component to caller.
