@@ -11,7 +11,7 @@ using namespace std;
 // home directory.  Will throw a runtime error if the current
 // Application is not in the apsim directory structure.
 // ------------------------------------------------------------------
-string getApsimDirectory(void) throw(runtime_error)
+string _export getApsimDirectory(void) throw(runtime_error)
    {
    Path path(Application->ExeName.c_str());
    path.Set_name("version.ini");
