@@ -1175,6 +1175,7 @@
       dll_import remove_array_spec
       dll_import Loader_SendAction
       dll_import Loader_SendActionToFirstComp
+      dll_import Loader_SendActionToAllComps
       logical Loader_SendAction
       logical Loader_SendActionToFirstComp
  
@@ -1240,6 +1241,7 @@
 *+ Calls
       dll_import Loader_SendAction
       dll_import Loader_SendActionToFirstComp
+      dll_import Loader_SendActionToAllComps
       logical Loader_SendAction
       logical Loader_SendActionToFirstComp
  
