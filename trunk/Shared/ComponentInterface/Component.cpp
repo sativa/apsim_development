@@ -419,6 +419,7 @@ bool Component::readParameter
     FString& variableValue, bool optional)
    {
    if (ApsimComponentData_getProperty(componentData,
+                                      sectionName,
                                       variableName,
                                       variableValue))
       return true;

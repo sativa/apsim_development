@@ -23,10 +23,15 @@ class __declspec(dllexport) ApsimComponentData
       void setExecutableFileName(const std::string& executable);
 
       // property methods
-      std::string getProperty(const std::string& name) const;
-      void setProperty(const std::string& group,
+      std::string getProperty(const std::string& propertyType,
+                              const std::string& name) const;
+      void setProperty(const std::string& propertyType,
+                       const std::string& groupName,
                        const std::string& name,
                        const std::string& value);
+      bool replaceProperty(const std::string& propertyType,
+                           const std::string& name,
+                           const std::string& value);
 
       std::string getXML(void) const;
                        

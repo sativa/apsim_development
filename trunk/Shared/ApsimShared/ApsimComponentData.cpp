@@ -55,24 +55,6 @@ string ApsimComponentData::getExecutableFileName(void) const
    return node.getAttribute("executable");
    }
 // ------------------------------------------------------------------
-// Return the value of a specific property to caller.
-// ------------------------------------------------------------------
-std::string ApsimComponentData::getProperty(const std::string& name) const
-   {
-   XMLNode initData = getInitData();
-   for (XMLNode::iterator groupI = initData.begin();
-                          groupI != initData.end();
-                          groupI++)
-      {
-      XMLNode::iterator propertyI = find_if(groupI->begin(),
-                                            groupI->end(),
-                                            NodeEquals<XMLNode>("property", name));
-      if (propertyI != groupI->end())
-         return propertyI->getValue();
-      }
-   return "";
-   }
-// ------------------------------------------------------------------
 // Return an iterator to the initdata node.
 // ------------------------------------------------------------------
 XMLNode ApsimComponentData::getInitData(void) const
@@ -97,14 +79,64 @@ void ApsimComponentData::setExecutableFileName(const std::string& executable)
    node.setAttribute("executable", executable);
    }
 // ------------------------------------------------------------------
+// Return the value of a specific property to caller.
+// ------------------------------------------------------------------
+std::string ApsimComponentData::getProperty(const std::string& propertyType,
+                                            const std::string& name) const
+   {
+   XMLNode initData = getInitData();
+   for (XMLNode::iterator groupI = initData.begin();
+                          groupI != initData.end();
+                          groupI++)
+      {
+      if (Str_i_Eq(groupI->getName(), propertyType))
+         {
+         XMLNode::iterator propertyI = find_if(groupI->begin(),
+                                               groupI->end(),
+                                               NodeEquals<XMLNode>("property", name));
+         if (propertyI != groupI->end())
+            return propertyI->getValue();
+         }
+      }
+   return "";
+   }
+// ------------------------------------------------------------------
+// Try and replace the value of the specified property.  Return true
+// if property was found.  False otherwise.
+// ------------------------------------------------------------------
+bool ApsimComponentData::replaceProperty(const std::string& propertyType,
+                                         const std::string& name,
+                                         const std::string& value)
+   {
+   XMLNode initData = getInitData();
+   for (XMLNode::iterator groupI = initData.begin();
+                          groupI != initData.end();
+                          groupI++)
+      {
+      if (Str_i_Eq(groupI->getName(), propertyType))
+         {
+         XMLNode::iterator propertyI = find_if(groupI->begin(),
+                                               groupI->end(),
+                                               NodeEquals<XMLNode>("property", name));
+         if (propertyI != groupI->end())
+            {
+            propertyI->setValue(value);
+            return true;
+            }
+         }
+      }
+   return false;
+   }
+// ------------------------------------------------------------------
 // Set the value of a specified property.
 // ------------------------------------------------------------------
-void ApsimComponentData::setProperty(const string& group,
+void ApsimComponentData::setProperty(const string& propertyType,
+                                     const string& groupName,
                                      const string& name,
                                      const string& value)
    {
    XMLNode initData = getInitData();
-   XMLNode groupNode = initData.appendChild(group);
+   XMLNode groupNode = appendChildIfNotExist(initData, propertyType, groupName);
    XMLNode property = appendChildIfNotExist(groupNode, "property", name);
    property.setValue(value);
    }
@@ -279,10 +311,11 @@ extern "C" void _export __stdcall deleteApsimComponentData
    }
 extern "C" bool _export __stdcall ApsimComponentData_getProperty
    (ApsimComponentData* componentData,
+    const FString& propertyType,
     const FString& name,
     FString& value)
    {
-   value = componentData->getProperty(asString(name)).c_str();
+   value = componentData->getProperty(asString(propertyType), asString(name)).c_str();
    return (value.length() > 0);
    }
 extern "C" void _export __stdcall ApsimComponentData_getRuleNames
