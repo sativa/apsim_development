@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(map)
+
+[Contents]
+Registrations.f90 = Registrations.f90
+map.for = map.for
+
+[APSBuild]
+binary = ..\lib\map.dll
+compilerfile=release.compile

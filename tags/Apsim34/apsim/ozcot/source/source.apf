@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(ozcot)
+
+[Contents]
+Registrations.f90 = Registrations.f90
+ozcot.for = ozcot.for
+
+[APSBuild]
+binary = ..\lib\ozcot.dll
+compilerfile=release.compile

@@ -1,0 +1,64 @@
+[sample.report.parameters]
+outputfile  =Egrandis.out
+
+variable = clock.dd/mm/yyyy as date
+variable = Egrandis.age
+variable = Egrandis.fw
+variable = Egrandis.fvpd
+variable = Egrandis.ft
+variable = Egrandis.fn
+variable = Egrandis.lai
+variable = Egrandis.height
+variable = Egrandis.adm_green(1) as stem
+variable = Egrandis.adm_green(2) as branch
+variable = Egrandis.adm_green(3) as bark
+
+[sample.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1987
+end_date=31/12/1996
+
+[sample.manager.start_of_day]
+
+
+if day = 1 and year = 1987 then
+   Egrandis establish plants = 1111., init_section = seedling
+   fertiliz apply amount = 200, type = no3_n, depth = 50
+endif
+
+if end_month = 1 then
+   !monthly application of irrigation
+   irrigate apply amount = 50
+endif
+
+[sample.manager.end_of_day]
+if end_month = 1 then
+   report do_output
+endif
+
+
+[sample.micromet.parameters]
+soil_albedo = 0.13
+layer_ga = 0.01666
+
+!      Interception = A_interception * (rain ^ B_interception)
+!                   + C_interception * Total_LAI
+!                   + D_interception
+! Standard LAI approach
+a_interception = 0.0
+b_interception = 0.0
+c_interception = 1.0
+d_interception = 0.0
+
+[sample.Egrandis.parameters]
+crop_type     =  grandis
+uptake_source =  calc
+n_uptake_source = calc
+
+ xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
+ kl   = 0.08 0.08 0.07 0.06 0.05 0.05 0.04  ! Water Extraction Parameter (0-1)
+ rlv  = 0.01 0.01 0    0    0    0    0     ! Initial root length density
+[sample.SummaryFile.parameters]
+summaryfile=Egrandis.sum
+[sample.Screen.parameters]
+screen_output=on
