@@ -69,7 +69,7 @@
       <field name="vp"    kind="single" units="????"/>
    </type>
 
-   !!!!! APSWIM types !!!!!
+   !!!!! Soilwater balance types !!!!!
 
    <type name="dlayer" kind="single" array="T" unit="mm" description="soil layer depth"/>
    <type name="bd" kind="single" array="T" unit="g/cc" description="soil layer bulk density"/>
@@ -130,6 +130,26 @@
    <type name="solute_n_conc_absorb" kind="single" array="T" unit="" description=""/>
    <type name="EosCalculated" kind="single" unit="mm" description="potential soil water evaporation"/>
    <type name="esw" kind="single" unit="mm" description="Extractable soil water"/>
+   <type name="profile_esw_depth" kind="single" unit="mm" description="initial depth of extractable soil water distributed from the top down"/>
+   <type name="insoil" kind="single" unit="" description="switch describing initial soil water"/>
+   <type name="dlt_dlayer" kind="single" array="T" unit="mm" description="change in thickness of soil layer"/>
+   <type name="profile_fesw" kind="single" unit="0-1" description="initial fraction of esw of profile distributed from top down"/>
+   <type name="wet_soil_depth" kind="single" unit="mm" description="initial depth of soil filled to drained upper limit (field capacity)"/>
+   <type name="cona" kind="single" unit="" description="stage 2 drying coefficient"/>
+   <type name="u" kind="single" unit="mm" description="upper limit of stage 1 soil evaporation"/>
+   <type name="A_to_evap_fact" kind="single" unit="" description="factor to convert A to coefficient"/>
+   <type name="sw_top_crit" kind="single" unit="" description="critical sw ratio in top layer below which stage 2 evaporation occurs"/>
+   <type name="sumes1_max" kind="single" unit="mm" description="upper limit of sumes1"/>
+   <type name="sumes2_max" kind="single" unit="mm" description="upper limit of sumes2"/>
+   <type name="solute_flow_eff" kind="single" unit="" description="efficiency of moving solute with flow"/>
+   <type name="solute_flux_eff" kind="single" unit="" description="efficiency of moving solute with flux"/>
+   <type name="gravity_gradient" kind="single" unit="0-1" description="gradient due to hydraulic differentials"/>
+   <type name="specific_bd" kind="single" unit="g/cc" description="specific bulk density"/>
+   <type name="mobile_solutes" kind="string" array="T" unit="" description="names of all possible mobile solutes"/>
+   <type name="immobile_solutes" kind="string" array="T" unit="" description="names of all possible immobile solutes"/>
+   <type name="act_evap_method" kind="string" unit="" description="actual soil evaporation model being used"/>
+   <type name="water_table" kind="single" unit="mm" description="water table depth"/>
+   <type name="sws" kind="single" array="T" unit="" description="Volumetric soil water"/>
 
    <type name="SoilWaterProfileLayer" array="T">
       <element>
