@@ -1,0 +1,161 @@
+##################################################
+#file %apsuite\shared\componentinterface\datatypes.h
+#ifndef DataTypesH
+#define DataTypesH
+#include <ComponentInterface\MessageData.h>
+#include "ProtocolVector.h"
+namespace protocol {
+
+#for_each structure
+//-------------------- structure.nameType
+#define structure.nameTypeDDML \
+structure.cddml
+struct structure.nameType
+   {
+   #for_each structure.field
+   #if (structure.field.isArrayAndStructure = T)
+   protocol::vector<structure.field.ctypeType> structure.field.name;
+   #elseif (structure.field.array = T)
+   protocol::vector<structure.field.ctype> structure.field.name;
+   #elseif (structure.field.isStructure = T)
+   structure.field.ctype structure.field.name;
+   #else
+   structure.field.ctype structure.field.name;
+   #endif
+   #endfor
+   };
+inline protocol::MessageData& operator<<(protocol::MessageData& messageData, const structure.nameType& data)
+   {
+   #for_each structure.field
+   messageData << data.structure.field.name;
+   #endfor
+   return messageData;
+   }
+inline protocol::MessageData& operator>>(protocol::MessageData& messageData, structure.nameType& data)
+   {
+   #for_each structure.field
+   messageData >> data.structure.field.name;
+   #endfor
+   return messageData;
+   }
+inline unsigned int memorySize(const structure.nameType& data)
+   {
+   return 0
+   #for_each structure.field
+      + protocol::memorySize(data.structure.field.name)
+   #endfor;
+   }
+
+#endfor
+#endif
+} // protocol
+#endfile
+##################################################
+#file %apsuite\shared\componentinterface\datatypes.cpp
+#include "DataTypes.h"
+#include "FortranComponent.h"
+const unsigned max_array_size = 100;
+
+// turn off the warnings about "Functions containing for are not expanded inline.
+#pragma warn -inl
+
+#for_each structure
+namespace protocol {
+struct Fstructure.nameType
+   {
+   #for_each structure.field
+   #if (structure.field.isArrayAndStructure = T)
+   structure.field.ctypeType structure.field.name[max_array_size];
+   #elseif (structure.field.array = T)
+   structure.field.ctype structure.field.name[max_array_size];
+   #elseif (structure.field.isStructure = T)
+   structure.field.ctypeType structure.field.name;
+   #else
+   structure.field.ctype structure.field.name;
+   #endif
+   #if (structure.field.array = T)
+   unsigned num_structure.field.name;
+   #endif
+   #endfor
+   };
+inline protocol::MessageData& operator<<(protocol::MessageData& messageData, const Fstructure.nameType& data)
+   {
+   #for_each structure.field
+   #if (structure.field.array = T)
+   messageData << data.num_structure.field.name;
+   for (unsigned i = 0; i != data.num_structure.field.name; i++)
+      messageData << data.structure.field.name[i];
+   #else
+   messageData << data.structure.field.name;
+   #endif
+   #endfor
+   return messageData;
+   }
+inline protocol::MessageData& operator>>(protocol::MessageData& messageData, Fstructure.nameType& data)
+   {
+   #for_each structure.field
+   #if (structure.field.array = T)
+   messageData >> data.num_structure.field.name;
+   for (unsigned i = 0; i != data.num_structure.field.name; i++)
+      messageData >> data.structure.field.name[i];
+   #else
+   messageData >> data.structure.field.name;
+   #endif
+   #endfor
+   return messageData;
+   }
+inline unsigned int memorySize(const Fstructure.nameType& data)
+   {
+   return 0
+   #for_each structure.field
+      #if (structure.field.array = T)
+      + 4 + data.num_structure.field.name * protocol::memorySize(data.structure.field.name[0])
+      #else
+      + protocol::memorySize(data.structure.field.name);
+      #endif
+   #endfor;
+   }
+};
+extern "C" void __stdcall publish_structure.name(unsigned* id, const protocol::Fstructure.nameType* data)
+   {
+   FortranProxyComponent::currentInstance->publish(*id, *data);
+   }
+extern "C" void __stdcall unpack_structure.name(protocol::Variant* variant, protocol::Fstructure.nameType* data)
+   {
+   variant->unpack(*data);
+   }
+#endfor
+
+// restore the warnings about "Functions containing for are not expanded inline.
+#pragma warn .inl
+
+#endfile
+##################################################
+#file %apsuite\apsim\infra\source\datatypes.f90
+module dataTypes
+   character(len=*), parameter :: nullTypeDDML = '<type/>'
+   integer, parameter :: max_array_size = 100
+#for_each structure
+!-------------------- structure.nameType
+   character(len=*), parameter :: structure.nameTypeDDML = &
+structure.forddml
+   type structure.nameType
+      sequence
+      #for_each structure.field
+      #if (structure.field.isStructure = T)
+      type(structure.field.forTypeType) :: structure.field.name
+      #elseif (structure.field.array = T)
+      structure.field.fortype :: structure.field.name(max_array_size)
+      #elseif (structure.field.isArrayAndStructure = T)
+      type(structure.field.forTypeType) :: structure.field.name(max_array_size)
+      #else
+      structure.field.fortype :: structure.field.name
+      #endif
+      #if (structure.field.array = T)
+      integer :: num_structure.field.name
+      #endif
+      #endfor
+   end type structure.nameType
+#endfor
+end module dataTypes
+#endfile
