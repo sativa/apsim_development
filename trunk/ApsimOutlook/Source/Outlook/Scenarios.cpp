@@ -236,12 +236,18 @@ void Scenarios::createMultipleScenariosFrom(const Scenario& scenario,
 
       if (factorValues.size() > 1)
          {
-         string newName = newScenario->getName();
-         if (Str_i_Eq(newName, "default"))
-            newName = "";
+         string newName;
+         if (Str_i_Eq(factorName, "Simulation"))
+            newName = *v;
          else
-            newName = newName + ";";
-         newName += string(factorName) + "=" + *v;
+            {
+            string newName = newScenario->getName();
+            if (Str_i_Eq(newName, "default"))
+               newName = "";
+            else
+               newName = newName + ";";
+            newName += string(factorName) + "=" + *v;
+            }
          newScenario->setName(newName.c_str());
          }
       scenarios.push_back(newScenario);
