@@ -90,7 +90,6 @@
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'irrigate')
- 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
@@ -158,10 +157,12 @@
 *                 implemented postbox method for data transfer
 *     110996 nih  added increment for g_irr_applied
 *      160399 nih  added irrigation allocation
+*      070600 dsg  added default solute concentration capacity
  
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'irrigate_irrigate')
+
  
 *+  Local Variables
       real       amount                ! amount of irrigation to apply
@@ -178,6 +179,7 @@
  
       ! Look for all irrigation information
       ! -----------------------------------
+
  
       Call collect_real_var (
      :                       'amount'
@@ -222,6 +224,7 @@
           ! got a value
       endif
  
+
  
       ! look for any solute information in the postbox
       ! ----------------------------------------------
@@ -233,6 +236,19 @@
      :                     , numvals_solute(solnum)
      :                     , 0.0
      :                     , 1000.0)
+      if (numvals_solute(solnum).eq.0) then
+
+*  if there are no solute quantities supplied, apply 
+*  default solute concentrations if they are provided
+
+        solute(solnum)= amount*p%default_conc_solute(solnum)/100.0 
+
+      else
+
+      endif
+
+      g%irrigation_solutes(solnum) = g%irrigation_solutes(solnum) +
+     :  solute(solnum)
 
   100 continue
  
@@ -252,16 +268,16 @@
      :                        ,'(hh:mm)'
      :                        , time)
  
+
       do 200 solnum = 1, g%num_solutes
-         if (numvals_solute(solnum) .ne.0) then
-            ! NOTE - solutes NOT lost due to inefficiency!!!!!
+
             call post_real_var   (g%solute_names(solnum)
      :                           ,'(kg/ha)'
      :                           , solute(solnum))
-         else
-         endif
+
 200   continue
- 
+
+
       call event_send (EVENT_irrigated)
  
       call delete_postbox ()
@@ -271,7 +287,8 @@
       g%irrigation_tot = g%irrigation_tot + amount
       g%irrigation_loss = g%irrigation_loss 
      :                  + amount * (1. - p%irrigation_efficiency)
- 
+
+   
       call pop_routine (my_name)
       return
       end
@@ -416,6 +433,7 @@
       include 'data.pub'
       include 'read.pub'
       include 'error.pub'
+
  
 *+  Purpose
 *      Read in all parameters from parameter file.
@@ -425,6 +443,7 @@
  
 *+  Changes
 *      201097 IGH - added profile depth to bound checking
+*      070600 DSG - added default solute concentrations
  
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -517,10 +536,9 @@
          p%default_duration = 60.*24. !i.e. 24 hours
       else
       endif
- 
- 
-  100 continue
- 
+
+
+   
          ! Read in automatic irrigation info from parameter file
          !         -------------------------
  
@@ -655,8 +673,6 @@
       parameter (my_name = 'irrigate_zero_variables')
  
 *+  Local Variables
-      integer counter
-      integer solnum
  
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -677,11 +693,9 @@
       call fill_char_array (g%solute_owners, ' ', max_solutes)
       g%num_solutes = 0
  
-      do 200 solnum=1,max_solutes
-         do 100 counter=1, max_irrigs
-            g%irrigation_solutes(solnum,counter) = 0.0
-  100    continue
-  200 continue
+      g%irrigation_solutes_shed(:,:) = 0.0
+      g%irrigation_solutes(:)=0.0
+      p%default_conc_solute(:)=0.0
  
       p%automatic_irrigation = 'off'
       p%manual_irrigation = 'off'
@@ -793,14 +807,19 @@
 *+  Changes
 *      011195 jngh  added call to message_unused
 *      230399 nih   added output for irrigation_fasw and irrigation_def
+*      070600 dsg   added output for solutes in irrigation (irrigation_XXX)
  
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'irrigate_send_my_variable')
 
+*+  Calls
+      INTEGER  irrigate_solute_number   ! function
+
 *+  Local Variables
       real fasw
       real swdef
+      INTEGER solnum
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -874,6 +893,21 @@
      :                variable_name           ! variable name
      :              , '(Ml)'                  ! units
      :              , (g%carry_over/100))           ! array
+
+      else if (index(Variable_name,'irrigation_').eq.1) then
+
+         solnum = irrigate_solute_number (Variable_name(12:))
+
+         if (solnum.gt.0)then 
+         
+         call respond2Get_real_var (
+     :            Variable_name,
+     :            '(kg/ha)',
+     :            g%irrigation_solutes(solnum))
+         else
+           call Message_unused ()
+         endif
+
  
       else
          call Message_unused ()
@@ -1105,6 +1139,7 @@
 *     110395 jngh moved messaging to to apply routine
 *     060696 jngh implemented postbox method for data transfer
 *     110996 nih  added increment for g_irr_applied
+*     070600 dsg  added default solute concentration capacity
  
 *+  Constant Values
       character  my_name*(*)           ! name of this procedure
@@ -1165,10 +1200,30 @@
      :                              , mytime)
  
                do 200 solnum = 1, g%num_solutes
-                  ! NOTE - solutes NOT lost due to inefficiency!!!!!
+
+c    Check whether to apply default solute concentrations
+      
+      if (reals_are_equal(g%irrigation_solutes_shed(solnum,irigno)
+     :  ,0.0)) then
+
+         if(p%default_conc_solute(solnum).gt.0.0) then
+
+      g%irrigation_solutes_shed(solnum,irigno) =
+     :  p%amount(irigno)*p%default_conc_solute(solnum)/100.0
+         else
+         endif
+       else
+       endif
+
+               g%irrigation_solutes(solnum) = 
+     :                      g%irrigation_solutes(solnum) +
+     :                      g%irrigation_solutes_shed(solnum,irigno)
+
+
+
                      call post_real_var (g%solute_names(solnum)
      :                    ,'(kg/ha)'
-     :                    , g%irrigation_solutes(solnum, irigno))
+     :                    , g%irrigation_solutes_shed(solnum, irigno))
 200            continue
  
                call event_send (EVENT_irrigated)
@@ -1180,7 +1235,6 @@
                g%irrigation_tot = g%irrigation_tot + amount
                g%irrigation_loss = g%irrigation_loss
      :                        + amount * (1. - p%irrigation_efficiency)
-
                g%irr_pointer = irigno + 1
  
             else
@@ -1221,6 +1275,7 @@
 *      060696 jngh implemented postbox method for data transfer
 *      110996 nih  added increment for g_irr_applied
 *      160399 nih  added irrigation allocation
+*      070600 dsg  added default solute concentration capacity
  
 *+  Constant Values
       character  my_name*(*)           ! name of this module
@@ -1231,6 +1286,8 @@
       real       avail_fr              ! fraction of avalable water in
                                        !    specified profile
       real       swdef                 ! sw deficit (mm)
+      real       solute(max_solutes)             ! amount of each solute to be applied in irrigation water (kg/ha)
+      integer    solnum                            ! counter
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -1241,6 +1298,20 @@
          amount = divide (swdef, p%irrigation_efficiency, 0.0)
  
          call irrigate_check_allocation(amount)
+
+
+      do 100 solnum = 1, g%num_solutes
+
+* apply default solute concentrations
+
+       solute(solnum)=amount*p%default_conc_solute(solnum)/100.0
+       
+       g%irrigation_solutes(solnum)=
+     : g%irrigation_solutes(solnum) + solute(solnum)
+
+  100 continue
+
+
 
          call new_postbox ()
  
@@ -1258,16 +1329,12 @@
      :                        ,'(hh:mm)'
      :                        , p%default_time)
  
-!         No solutes in automatic irrigation just yet - later on
  
-!         do 200 solnum = 1, g%num_solutes
-!            if (numvals_solute(solnum) .ne.0) then
-!               call post_real_var   (p%solutes(solnum)
-!     :                              ,'(kg/ha)'
-!     :                              , solute(solnum))
-!            else
-!            endif
-!200      continue
+          do 200 solnum = 1, g%num_solutes
+                call post_real_var   (g%solute_names(solnum)
+     :                              ,'(kg/ha)'
+     :                              , solute(solnum))
+200      continue
  
          call event_send(EVENT_irrigated) 
          call delete_postbox ()
@@ -1327,7 +1394,9 @@
       g%irrigation_loss = 0.0
 
       g%carry_over = 0.0
- 
+
+      g%irrigation_solutes(:) = 0.0
+
       call pop_routine (my_name)
       return
       end
@@ -1409,7 +1478,7 @@
 *     ===========================================================
       use IrrigateModule
       implicit none
-      include    'const.inc'
+      include 'const.inc'
       include 'event.inc'
       include 'postbox.pub'
       include 'data.pub'
@@ -1428,18 +1497,34 @@
 *+  Changes
 *     091298 nih  created
 *     160399 nih  added irrigation allocation
+*     070600 dsg  added default solute concentration capacity
   
 *+  Constant Values
       character  my_name*(*)           ! name of this procedure
       parameter (my_name = 'irrigate_set_amount')
  
 *+  Local Variables
+      real  solute(max_solutes)        ! amount of solute in irrigation water (kg/ha)
+      integer    solnum                ! solute number counter variable
  
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
       if (amount.ge.0.) then
 
          call irrigate_check_allocation(amount)
+
+ 
+      do 100 solnum = 1, g%num_solutes
+
+* apply default solute concentrations
+
+        solute(solnum)= amount*p%default_conc_solute(solnum)/100.0 
+
+
+            g%irrigation_solutes(solnum) = 
+     :      g%irrigation_solutes(solnum) + solute(solnum)
+
+  100 continue
 
          call new_postbox ()
  
@@ -1455,7 +1540,15 @@
      :                        ,'(hh:mm)'
      :                        , p%default_time)
  
+      do 200 solnum = 1, g%num_solutes
+
+            call post_real_var   (g%solute_names(solnum)
+     :                           ,'(kg/ha)'
+     :                           , solute(solnum))
+
+200   continue
  
+
          call event_send(EVENT_irrigated) 
          call delete_postbox ()
  
@@ -1603,6 +1696,7 @@ cnh note that results may be strange if swdep < ll15
       include 'error.pub'
       include 'read.pub'
       include 'intrface.pub'
+      include 'string.pub'
  
 *+  Purpose
 *     Add new solute to internal list of system solutes
@@ -1612,6 +1706,7 @@ cnh note that results may be strange if swdep < ll15
  
 *+  Changes
 *       170599 nih - specified
+*       070600 dsg   added default solute concentraion capacity
  
 *+  Constant Values
       character  my_name*(*)           ! this subroutine name
@@ -1620,29 +1715,38 @@ cnh note that results may be strange if swdep < ll15
       character  section_name*(*)
       parameter (section_name = 'parameters')
  
+*+  Calls
+      Character  string_concat*(100)   ! function
+
 *+  Local Variables
+      integer num
       integer numvals
       integer num_irrigs
       character names(max_solutes)*32
       character sender*(max_module_name_size)
+      character default_name*200
+      character dummy*200
       integer counter1
       integer counter2
-      real       temp_solute(max_irrigs)! temp solute array (kg/ha)
+      real    temp_solute(max_irrigs)! temp solute array (kg/ha)
 
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
+
 
       call collect_char_var (DATA_sender
      :                      ,'()'
      :                      ,sender
      :                      ,numvals)
 
+
       call collect_char_array (DATA_new_solute_names
      :                        ,max_solutes
      :                        ,'()'
      :                        ,names
      :                        ,numvals)
+
 
       if (g%num_solutes+numvals.gt.max_solutes) then
          call fatal_error (ERR_Internal
@@ -1665,11 +1769,36 @@ cnh note that results may be strange if swdep < ll15
      :            , 0.0                  ! Lower Limit for bound checking
      :            , 1000.)               ! Upper Limit for bound checking
 
-               do 50 counter2=1, num_irrigs
-                  g%irrigation_solutes(g%num_solutes,counter2) =
+
+
+* Look for any default solute information which may be 
+* specified in the parameter file.  Form of parameter :
+* default_sss_conc, where 'sss' is the solute name.
+
+!      default_name = 'default_'//trim(g%solute_names(g%num_solutes))
+!    ://'_conc'
+
+      dummy = string_concat('default_',g%solute_names(g%num_solutes))
+      default_name = string_concat(dummy,'_conc')
+   
+      call read_real_array_optional (
+     :           section_name             ! Section header
+     :         , default_name             ! Keyword
+     :         , g%num_solutes            ! array size
+     :         , '(ppm)'                  ! Units
+     :         , p%default_conc_solute(g%num_solutes) ! Array
+     :         , num                      ! Number of values returned
+     :         , 0.0                      ! Lower Limit for bound checking
+     :         , 10000.0)                  ! Upper Limit for bound checking
+ 
+
+
+          do 50 counter2=1, num_irrigs
+                  g%irrigation_solutes_shed(g%num_solutes,counter2) =
      :                                   temp_solute(counter2)
 
    50          continue
+
 
 
   100    continue
@@ -1678,4 +1807,56 @@ cnh note that results may be strange if swdep < ll15
       call pop_routine (my_name)
       return
       end
+
+
+
+* ====================================================================
+       integer function irrigate_solute_number (solname)
+* ====================================================================
+      use IrrigateModule
+      implicit none
+      include 'error.pub'
+      include 'const.inc'            ! Global constant definitions
+      include 'event.inc'
+      include 'postbox.pub'
+      include 'intrface.pub'
+
+
+*+  Sub-Program Arguments
+       character solname*(*)
+
+*+  Purpose
+*     <insert here>
+
+*+  Changes
+*   DonG - 070600 - Included to allow reporting specification of solute variables
+
+*+  Constant Values
+      character myname*(*)               ! name of current procedure
+      parameter (myname = 'irrigate_solute_number')
+
+*+  Local Variables
+       integer counter
+       integer solnum
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      solnum = 0
+      do 100 counter = 1, g%num_solutes
+         if (g%solute_names(counter).eq.solname) then
+            solnum = counter
+         else
+         endif
+  100 continue
+
+      irrigate_solute_number = solnum
+
+ 
+      call pop_routine (myname)
+      return
+      end
+
+
+
  
