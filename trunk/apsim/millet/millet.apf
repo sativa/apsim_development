@@ -1,0 +1,13 @@
+[general]
+name = millet
+
+[Binaries]
+binary=millet
+
+[millet]
+compiler_switches = %apsuite\apsim\infra\lf90.fig
+source  = source\millet.for
+target  = lib\millet.dll
+include = %apsuite\apsim\infra\
+
+import  = %apsuite\apsim\infra\lib\APSinfra.imp
