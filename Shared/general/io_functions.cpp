@@ -16,20 +16,21 @@ using namespace std;
 
 // Drop-in replacements for vcl routines.
 std::string ExpandFileName(const char *s){
-   fs::path p(s);
+   fs::path p(s, fs::native);
    fs::path q = system_complete(p);
    return(q.native_file_string());
 }
 
 bool FileExists (const std::string &f) {
-   fs::path p(f);
+   fs::path p(f, fs::native);
    return (fs::exists(p));
 }
 
 bool DirectoryExists (const std::string &d) {
-   fs::path p(d);
+   fs::path p(d, fs::native);
    return (fs::exists(p) && fs::is_directory(p));
 }
+
 //---------------------------------------------------------------------------
 // Remove the path and extension from the specified file.
 //---------------------------------------------------------------------------
@@ -407,5 +408,21 @@ void renameOnCollision(std::string& name, bool isFile)
       collisionIndex++;
       }
    name = newName;
+   }
+// ------------------------------------------------------------------
+// Remove invalid file name characters from the specified string e.g. / \ | *
+// ------------------------------------------------------------------
+void removeInvalidFileNameChars(string& fileName)
+   {
+   replaceAll(fileName, "\\", "_");
+   replaceAll(fileName, "/", "_");
+   replaceAll(fileName, ":", "_");
+   replaceAll(fileName, "'", "_");
+   replaceAll(fileName, "\"", "_");
+   replaceAll(fileName, "*", "_");
+   replaceAll(fileName, "?", "_");
+   replaceAll(fileName, "<", "_");
+   replaceAll(fileName, ">", "_");
+   replaceAll(fileName, "|", "_");
    }
 

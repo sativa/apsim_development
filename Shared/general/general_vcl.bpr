@@ -4,7 +4,7 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="general_vcl.lib"/>
-    <OBJFILES value="db_functions.obj vcl_functions.obj xml.obj MSXML2_TLB.obj MSXML2_OCX.obj"/>
+    <OBJFILES value="db_functions.obj vcl_functions.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -42,9 +42,6 @@
       <FILE FILENAME="general_vcl.bpf" FORMNAME="" UNITNAME="general_vcl" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="db_functions.cpp" FORMNAME="" UNITNAME="db_functions" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="vcl_functions.cpp" FORMNAME="" UNITNAME="vcl_functions" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="xml.cpp" FORMNAME="" UNITNAME="xml" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="MSXML2_TLB.cpp" FORMNAME="" UNITNAME="MSXML2_TLB" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="MSXML2_OCX.cpp" FORMNAME="" UNITNAME="MSXML2_OCX" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
