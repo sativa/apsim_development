@@ -1,0 +1,13 @@
+[general]
+name = soi module
+
+[Binaries]
+binary=soi
+
+[soi]
+compiler_switches = %apsuite\apsim\infra\lf90.fig
+source  = source\soi.for
+target  = lib\soi.dll
+include = %apsuite\apsim\infra\
+
+import  = %apsuite\apsim\infra\lib\APSinfra.imp
