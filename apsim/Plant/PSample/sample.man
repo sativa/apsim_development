@@ -28,8 +28,8 @@ end_date = 30/12/1993     ! dd/mm/yyyy
  P_uptake_cum = 0.0
  dlt_residue_P = 0.0
  below_gnd_diff = 0.0
- residue_P_yest = 0.0
- P_below_ground_yest = 0.0
+ residue_P_yday = 0.0
+ P_below_ground_yday = 0.0
  dlt_residue_P_cum = 0.0
 
 [mungbean.manager.start_of_day]
@@ -39,17 +39,31 @@ end_date = 30/12/1993     ! dd/mm/yyyy
         mungbean sow crop_class = plant, cultivar = emerald, plants = 40, sowing_depth = 50
    endif
 
-   if (mungbean.stage = 10) then
-       mungbean harvest
-       mungbean end_crop
-   endif
-
   ! if crop killed due to stress, end simulation
    if (mungbean.plant_status = 'dead')  then
       mungbean harvest
       mungbean kill_crop
       mungbean end_crop
   endif
+
+   if (mungbean.stage_name = 'harvest_ripe') then
+       mungbean harvest
+       mungbean kill_crop
+       mungbean end_crop
+   endif
+
+!   if (mungbean.stage_name = 'harvest_ripe') then
+!       mungbean harvest
+!       mungbean end_crop
+!   endif
+
+ if (clock.day=151 and clock.year=1993) then
+    residue2 tillage type = burn_95
+ elseif (clock.day=121 and clock.year=1993) then
+   residue2 tillage type = chisel ()
+ endif
+
+
 
 [mungbean.manager.end_of_day]
 
@@ -60,7 +74,7 @@ dlt_systemP = systemP - systemP_yday
 
 if (systemP_yday >= 0.00001) then
     cum_error_systemP = dlt_systemP + cum_error_systemP
-    dlt_residue_P = residue2.residue_P - residue_P_yest
+    dlt_residue_P = residue2.residue_P - residue_P_yday
 else
     cum_error_systemP = 0.0
     dlt_residue_P = 0.0
@@ -69,15 +83,15 @@ endif
 P_plant = (mungbean.P_green() + mungbean.P_sen() + mungbean.P_dead())*10.0
 P_uptake_cum = P_uptake_cum + uptake_P_mungbean()
 P_pl_up_diff = P_plant - P_uptake_cum
-below_gnd_diff = P_below_ground - P_below_ground_yest + uptake_P_mungbean() - dlt_residue_P
-residue_P_yest =  residue2.residue_P
-P_below_ground_yest = P_below_ground
+below_gnd_diff = P_below_ground - P_below_ground_yday
+residue_P_yday =  residue2.residue_P
 
-  if (mungbean.stage >=1 and mungbean.stage <= 11) then
+!  if (mungbean.stage >=1 and mungbean.stage <= 11) then
     report do_output
-  endif
+!  endif
 
 systemP_yday = systemP
+P_below_ground_yday = P_below_ground
 
 [mungbean.SummaryFile.parameters]
 summaryfile = mungbean.sum
