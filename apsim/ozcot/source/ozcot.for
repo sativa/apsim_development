@@ -1255,6 +1255,7 @@
       g%idayx = 0
       p%num_ll_vals = 0
       g%crop_in = .false.
+      g%iend = 0
       g%zero_variables = .false.
 
       g%sumdd         = 0.0
@@ -2387,7 +2388,7 @@
               call ozcot_snbal                  ! soil n balance
 !              if(isow.gt.0 .and. i.gt.isow) call pltgrw (i,iend,nszn)
 !              if(openz.gt.0.0) call harvest(iend)
-!      print*, g%crop_in, g%das, g%isow, g%openz, g%iend subroutine
+!      print*, g%crop_in, g%das, g%isow, g%openz, g%iend
       if (g%crop_in) then
               IF(g%isow.GT.0 .AND. g%das.GT.0) CALL ozcot_pltgrw
 !              if(iend.eq.2)  go to 32     ! end of season
@@ -2463,7 +2464,8 @@
 
 !---- crop development complete? ---------------------------------------------
 !      IF(g%openz.GT.0.0 .AND. g%bollz.LT.1.0 .AND. g%iend.EQ.0) THEN
-      IF(g%openz.GT.0.0 .AND. g%bollz/g%rs.LT.1.0 .AND. g%iend.EQ.0)THEN
+!jh skip row correction
+      IF(g%openz.GT.0.0 .AND. g%bollz*g%rs.LT.1.0 .AND. g%iend.EQ.0)THEN
           g%iend=6                               ! bolls/m < 1; end of season
           WRITE(string,774)              ! mature bolls will be forced open.
 774       FORMAT(' *** All bolls open; crop finished.')
@@ -2638,6 +2640,7 @@
      :                           ,g%fnstrs)    ! apply N stress       !const  n_stress_boll_min, n_stress_boll_max, n_stress_boll_pwr
         ENDIF
         STRSBL = AMIN1(FBCSTR,FBWSTR,FBNSTR) ! minimum of Cc, water & N stress
+!        STRSBL = 1.0  ! debug
 
 !------- efect of temperature on final boll weight ----------------------------
 
@@ -2650,6 +2653,8 @@
         ENDIF                                 !           y fac   0  1  1  0
         IF(F_TEMP.LT.0.) F_TEMP = 0.
         IF(F_TEMP.GT.1.) F_TEMP = 1.
+
+!        F_TEMP = 1.   ! debug
 
 !jh v2001
         g%BGRVAR = p%scboll * F_TEMP * g%bper   ! nominal boll growth rate this day
@@ -2742,7 +2747,7 @@
               g%ireliefco = 0           ! reset counter
           ENDIF
       ENDIF
-
+!      g%istress = 0  !debug
 !----photosynthetic capacity --------------------------------------------------
 !-----light interception modified to give hedgerow effect with skip row - abh 5/11/96 ------
 
@@ -2765,6 +2770,7 @@
 !jh v2001
       IF(g%smi .LT. c%relp_smi_crit) THEN                                                           !const    sw_stress_pn_crit
           rel_p =c%relp_intercept+c%relp_slope*g%smi              ! effect of water stress on Pp              !const    sw_stress_pn_smi_intc, sw_stress_smi_pn_slope
+!          rel_p =c%relp_intercept+c%relp_slope*0.86  !debug            ! effect of water stress on Pp              !const    sw_stress_pn_smi_intc, sw_stress_smi_pn_slope
           IF(rel_p.GT.1.)rel_p = 1.           ! (TURNER g%et al 1986).                    !const
           rel_p = rel_p -c%relp_intercept                                                             !const
           rel_p = ozcot_stress(c%relp_low,c%relp_high,c%relp_a,rel_p)   ! increase severity of stress         !const   sw_stress_relp_min, sw_stress_relp_max, sw_stress_relp_pwr,
@@ -2793,6 +2799,7 @@
      * g%carcap_c = (PN-RM)/(g%bgrvar*p%FBURR) ! carrying capacity, carbon, no stress
       IF(g%carcap_c.LT.0.) g%carcap_c = 0. ! trap
 !jh v2001
+!jh need rs correction
       IF(g%carcap_c.GT.500.) g%carcap_c = 500. ! limit when low temp gives low BGR
 !jh v2001
 
@@ -3311,16 +3318,18 @@
 !     square, which is therefore treated as a special case below.
 !-----------------------------------------------------------------------------
 
-      IF(g%cutout.GT.0.) THEN
+      IF(g%cutout.GT.0. .and. g%bollz.gt.0.0) THEN        ! post 1st flower
           BLR=g%bload/g%cutout     ! boll load ratio
           IF(BLR.GT.1.) BLR=1.     ! full boll load
-      ELSE                         ! ie CUTOUT = 0
-          IF(ndas.EQ.g%isq+1) THEN      ! day after 1st square ?
+      ELSE IF(g%cutout.GT.0. .and. g%bollz.eq.0.0) THEN  ! pre-1st fl / all boll shed
+!          IF(ndas.EQ.g%isq+1) THEN      ! day after 1st square ?
               BLR = 0.             ! if so, no boll load
-          ELSE
+      ELSE IF(g%cutout.eq.0. .and. ndas.EQ.g%isq+1) THEN
+          BLR = 0.             ! if so, no boll load
+      else                     ! CUTOUT=0 and not day after 1st square
               BLR = 1.             ! full boll load because CUTOUT=0
           ENDIF
-      ENDIF
+!      ENDIF
 
 !     if cutout is caused by water stress (ie SMI < 0.25) then
 !     10% of fruiting sites become inactive for FRUGEN every day after 5 days
@@ -3651,10 +3660,15 @@
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
+!jh skip row correction
+      g%alai_row = g%alai
+      IF(g%NSKIP.GT.0)g%alai_row = g%alai*g%rs        ! lai in hedgerow
+
       IF(g%openz/(g%bollz+g%openz).GT.c%OPEN_DEF/100.
      :   .AND. g%n_def.EQ. 0) THEN
           g%J_DEF = g%iday                           ! day OPEN_DEF% open
-          IF(g%alai .LT. 0.5) then
+!jh skip row correction
+          IF(g%alai_row .LT. 0.5) then
           else IF(g%n_def.EQ.0) THEN
              g%n_def = 1                               ! 1st defoliant spray     !const
              g%i_def = g%iday                          ! g%day of 1st defol.
@@ -3664,7 +3678,8 @@
           else
           endif
       else IF(g%n_def.EQ.1 .AND. g%iday-g%i_def.eq.10) THEN ! 10 days since 1st?
-          IF(g%alai.GT.0.2) THEN
+!jh skip row correction
+          IF(g%alai_row.GT.0.2) THEN
              g%n_def=2                             ! 2nd defoliant spray      !const
              g%i_def2=g%iday                        ! g%day of 2nd defol
              write (string, '(4x, a, i4)')
@@ -3672,6 +3687,7 @@
              call write_string (string)
           else
              g%j_pick = g%jdate                    ! date of picking
+!jh need rs correction   ???
              if(g%bollz.LT.10) THEN                ! 10 bolls worth picking
                 g%n_pick = 1                       ! count picks               !const
                 write (string, '(4x, a, i4, a)')
@@ -3690,6 +3706,7 @@
           endif
       else IF(g%n_def.EQ.2 .AND. g%iday-g%i_def2.EQ.10) THEN
           g%j_pick = g%jdate                         ! date of picking
+!jh need rs correction  ???
           IF(g%bollz.LT.10) THEN                       ! 10 bolls worth picking
              g%n_pick = 1                               ! count picks
              write (string, '(4x, a, i4, a)')
@@ -4105,6 +4122,7 @@
 !      fruno(i-isow)=0.5      ! as in 1983/84 version
       g%fruno(g%das)=1.0*g%ppm ! average plant has 1 square
       g%fruno(g%das)=0.5*g%ppm ! 50% plants have 1 square
+!jh need rs correction ??? this has 0.5 fruit/m2 regardless of rowspacing
       g%fruno(g%das)=0.5       ! as in 1983/84 version
       GO TO 43
 
@@ -4142,13 +4160,15 @@
       subroutine ozcot_laigen
 * ====================================================================
 
-!     estimates current lai. generates new leaves daily as a
+!     estimates current lai. generates new leaf area daily as a
 !     function of dd and fruiting site production. initial area
 !     is a function of dd to first square then a function of new
 !     sites. relative rate of area expansion a function of dd
 !     to 1st square, then a function of dsites .
-!      all leaf areas are square meters per plant except alai
-!      which is m**2/m**2 i.e. lai.
+!     AREAS ARE SQUARE M LEAF PER SQUARE M LAND (ALAI & DLAI)
+!     OR SQUARE M PER SITE (dLdS & dLdS_max)
+
+!     Revised by ABH April 1995
 
       Use Infrastructure
       implicit none
@@ -4158,9 +4178,13 @@
       real dlds_x
       real vlnstr
       real flfsmi
+      real flfsmi_x
       real actrgr
       real alaix
       real ddleaf
+      real range
+      real hi
+      real a
       integer index
       integer in
       integer l
@@ -4190,6 +4214,22 @@
          RETURN
       endif
 
+!------- Calculate water stress from SMI and VPD -------------------------------
+
+        RANGE = g%vpd-15.0
+        IF(RANGE .gt. 15.0) RANGE = 15.0
+
+        HI = 0.5 + 0.4/15.0*RANGE         ! SMI below which stress occurs
+        IF (HI .GT. 1.0) HI = 1.0
+        IF (HI .LT. 0.01) HI = 0.01
+
+        A = 1.0 - 0.7/15.0*RANGE          ! shapes of response to SMI
+        IF (A .GT. 1.0) A = 1.0
+        IF (A .LT. 0.01) A = 0.01
+
+        FLFSMI = ozcot_stress(0.0, HI, A, g%smi)    ! stress factor
+        FLFSMI_X = ozcot_stress(0.0, HI, A, 1.0)    ! stress factor
+
 !------- calculate rate of leaf area expansion --------------------------------
 
 !jh      A  =   0.1847  !
@@ -4197,17 +4237,19 @@
 !jh      B2 =  -0.01514 ! 29 April 1988
 !jh      B3 =   0.01984 ! expts WN8283 & 8384
 
-      dLdS_X = (c%a+c%b1*0.75+c%b2*g%vpd+c%b3*0.75*g%vpd) ! sqrt area/site, no water stress
-      if(dLdS_X.LT.0.) dLdS_X = 0.
-      dLdS_X = dLdS_X**2                      ! area per site, no water stress
+!      dLdS_X = (c%a+c%b1*0.75+c%b2*g%vpd+c%b3*0.75*g%vpd) ! sqrt area/site, no water stress
+!      if(dLdS_X.LT.0.) dLdS_X = 0.
+!      dLdS_X = dLdS_X**2                      ! area per site, no water stress
 
-      dLdS = (c%a+c%b1*g%smi+c%b2*g%vpd+c%b3*g%smi*g%vpd) ! sqrt area per site
-      if(dLdS.LT.0.) dLdS = 0.
-      dLdS = dLdS**2                          ! area per site
-      FLFSMI = ozcot_stress(c%flfsmi_low
-     :                      ,c%flfsmi_high
-     :                      ,c%flfsmi_a
-     :                      ,g%smi) ! pre-squaring
+!      dLdS = (c%a+c%b1*g%smi+c%b2*g%vpd+c%b3*g%smi*g%vpd) ! sqrt area per site
+!      dLdS = (c%a+c%b1*g%smi*1.2+c%b2*g%vpd+c%b3*g%smi*1.2*g%vpd) !debug  ! sqrt area per site
+!      dLdS = (c%a+c%b1*0.75+c%b2*g%vpd+c%b3*0.75*g%vpd) !debug  ! sqrt area per site
+!      if(dLdS.LT.0.) dLdS = 0.
+!      dLdS = dLdS**2                          ! area per site
+!      FLFSMI = ozcot_stress(c%flfsmi_low
+!     :                      ,c%flfsmi_high
+!     :                      ,c%flfsmi_a
+!     :                      ,g%smi) ! pre-squaring
 
 !-------------------------------------------------------------------------------
 
@@ -4231,12 +4273,19 @@
 11       continue
          g%dlai(g%iday)=ALAIX-g%alai   ! days increase with water
       else                              ! crop now squaring
+         dLdS = p%dLdS_max*FLFSMI        ! adjust for water stress
+         IF(dLdS.LT.0.) dLdS = 0.
+         dLdS = dLdS**2                ! area per site
+         dLdS = dLdS*p%flai        ! adjust for variety, 87 MKI calib'n
+         g%dlai(g%iday) = g%fruno(g%iday-1)*dLdS ! days incr in LAI
                                              ! without water stress
+!         dLdS_X = p%dLdS_max*FLFSMI        ! adjust for water stress
+         dLdS_X = p%dLdS_max*FLFSMI_X
+         IF(dLdS_X.LT.0.) dLdS_X = 0.
+         dLdS_X = dLdS_X**2                ! area per site
          dLdS_X = dLdS_X*p%flai    ! adjust for variety, 87 MKI calib'n
          g%dlai_pot = g%fruno(g%iday-1)*dLdS_X ! days incr in LAI
                                               ! with water stress
-         dLdS = dLdS*p%flai        ! adjust for variety, 87 MKI calib'n
-         g%dlai(g%iday) = g%fruno(g%iday-1)*dLdS ! days incr in LAI
       endif
 
       VLNSTR = ozcot_stress(c%vlnstr_low
@@ -4732,7 +4781,11 @@
 !     proposal 3/1/97 try when convenient ABH
 
       FN=ozcot_stress(0.75,1.0,1.0,g%FNSTRS) ! nitrogen stress 30 Dec 1992
-      IF(g%alai.GT.3.) FL = 1.0-(g%alai-3.0)/3.0  ! effect of LAI > 3
+!jh skip row correction ??
+      g%alai_row = g%alai
+!      IF(g%NSKIP.GT.0)g%alai_row = g%alai*g%rs        ! lai in hedgerow
+
+      IF(g%alai_row.GT.3.) FL = 1.0-(g%alai_row-3.0)/3.0  ! effect of LAI > 3
       IF(FL.GT.1.)FL=1.
       IF(FL.LT.0.)FL=0.
 
@@ -5035,12 +5088,15 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
         SMI_30 = (SMI_30*g%dlayr_cm(1)
      :         + (g%swlayr(2)/g%ullayr(2))*(30.-g%dlayr_cm(1)))/30.
 480     g%smi=AMAX1(SMI_RT,SMI_30)
+!jh        g%smi=SMI_RT   !debug
         g%smi = min(1.0, g%smi)
 !jh      print*, smi_rt, g%rtdep
 !jh        g%wli = g%sw/g%UL
 !jhtemp
 !jh        g%wli = SMI_RT
         g%wli = g%smi
+!        g%smi = 0.86 !debug
+!        g%wli = 0.86 !debug
 
 ! correction of indices for soilwat2 water movements
 !jhtemp        g%smi = -0.107 + 1.187*g%smi
@@ -5109,7 +5165,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       else
          ozcot_stress=(1.-(1.-ozcot_stress)**A)
       endif
-
+!      ozcot_stress=1. !debug
       call pop_routine(myname)
       RETURN
       end function
@@ -6566,7 +6622,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       string = '    ------------------------------------------------'
       call write_string (string)
 
-!      print*, g%crop_in, g%das, g%isow, g%openz, g%iend subroutine
+!      print*, g%crop_in, g%das, g%isow, g%openz, g%iend
       call pop_routine (my_name)
       return
       end subroutine
@@ -6772,6 +6828,11 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       write (string, '(4x, a, f7.2)')
      :                'fburr      = '
      :               , p%fburr
+      call write_string (string)
+
+      write (string, '(4x, a, f7.2)')
+     :                'dLdS_max  = '
+     :               , p%dLdS_max
       call write_string (string)
 
       write (string, '(4x, a, f7.2)')
@@ -6981,6 +7042,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       g%crop_in = .false.
       g%plant_status = status_out
       g%zero_variables = .true.
+      g%iend = 0
 
       call pop_routine (my_name)
       return
