@@ -374,6 +374,13 @@ void Double_container_2_string (container_type& container,
 bool Replace_all (std::string& St, const char* Sub_string, const char* Replacement_string);
 
 // ------------------------------------------------------------------
+// function that takes a string and replaces all occurrances of
+// the substring with the replacement string.  Case insensitive.
+// Return true if a replacement was made.
+// ------------------------------------------------------------------
+bool replaceAll(string& St, const std::string& subString, const std::string& replacementString);
+
+// ------------------------------------------------------------------
 //  Short description:
 //     convert a double to a string.
 
