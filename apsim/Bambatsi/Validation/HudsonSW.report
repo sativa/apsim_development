@@ -92,9 +92,8 @@ object data: TForm
     SortID = 0
     SubLanguageID = 1
     LocaleID = 1024
-    fileName = 
-      'C:\Program Files\Apsim33\apsim\Bambatsi\Validation\BambatsiValid' +
-      'ation.xls'
+    fileName =
+      'BambatsiValidation.xls'
     pageName = 'HudsonBiomass'
     Left = 127
     Top = 86
@@ -397,9 +396,8 @@ object data: TForm
       'Graph1.afterDataRefresh'
       'Graph4.afterDataRefresh'
       'Graph2.afterDataRefresh')
-    fileName = 
-      'C:\Program Files\Apsim33\apsim\Bambatsi\Validation\BambatsiValid' +
-      'ation.xls'
+    fileName =
+      'BambatsiValidation.xls'
     pageName = 'HudsonSW'
     Left = 142
     Top = 154
@@ -453,9 +451,8 @@ object data: TForm
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
       'Graph3.afterDataRefresh')
-    fileName = 
-      'C:\Program Files\Apsim33\apsim\Bambatsi\Validation\BambatsiValid' +
-      'ation.xls'
+    fileName =
+      'BambatsiValidation.xls'
     pageName = 'HudsonRunoff'
     Left = 103
     Top = 218
@@ -1735,13 +1732,13 @@ object Page1: TQuickRep
       Font.Style = []
       Lines.Strings = (
         'Model output is compared to measured pasture production'
-        
+
           'and soil water balance for Hudson Trial Site (Data provided by R' +
           '. Young)')
       ParentFont = False
       Transparent = False
       WordWrap = True
-      text = 
+      text =
         'Model output is compared to measured pasture production'#13#10'and soi' +
         'l water balance for Hudson Trial Site (Data provided by R. Young' +
         ')'#13#10
