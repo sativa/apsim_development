@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.2
+     Version                = 3.3
      Title                  = Winter dicot fallow Simulation
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -23,6 +23,11 @@
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+        report
      Simulation start date =  9/04/1988
      Simulation end date   = 30/05/1989
      Time step =           = 1440 (mins)
@@ -277,23 +282,23 @@
                           stover N conc =    6.000000       extractable sw =    29.03172
 20 June 1988(Day of year=172), weed: 
       stage    4.0 end_of_juvenile
-                          biomass =           179.6170       lai =     2.755577
-                          stover N conc =    3.121005       extractable sw =    201.1385
+                          biomass =           179.6134       lai =     2.755464
+                          stover N conc =    3.120907       extractable sw =    201.1388
 28 July 1988(Day of year=210), weed: 
       stage    5.0 floral_initiation
-                          biomass =           626.3749       lai =     5.387364
-                          stover N conc =    1.547410       extractable sw =    261.6096
+                          biomass =           633.0846       lai =     5.378384
+                          stover N conc =    1.628720       extractable sw =    260.1573
 1 August 1988(Day of year=214), weed: 
       stage    6.0 flowering
-                          biomass =           676.2603       lai =     5.399193
-                          stover N conc =    1.469778       extractable sw =    248.4516
+                          biomass =           687.3087       lai =     5.390522
+                          stover N conc =    1.551706       extractable sw =    246.2626
 10 August 1988(Day of year=223), weed: 
       stage    7.0 start_grain_fill
-                          biomass =           781.2815       lai =     5.282033
-                          stover N conc =    1.318076       extractable sw =    222.0815
+                          biomass =           797.8123       lai =     5.295944
+                          stover N conc =    1.413001       extractable sw =    218.3560
 14 September 1988(Day of year=258), weed: 
       crop failure because of total leaf senescence.
-         Plant Death. Standing above-ground dm = 10785.5 (kg/ha)
+         Plant Death. Standing above-ground dm = 11420.8 (kg/ha)
 15 September 1988(Day of year=259), manager: 
      Manager sending message :- weed kill_crop
 15 September 1988(Day of year=259), weed: 
@@ -301,10 +306,10 @@
 15 September 1988(Day of year=259), manager: 
      Manager sending message :- weed end_crop
 15 September 1988(Day of year=259), weed: 
-         Crop ended. Yield (dw) =  1619.1
-                                               straw residue =10794.0 kg/ha
-                                               straw N =  109.0 kg/ha
-                                               root residue = 2906.6 kg/ha
-                                               root N =   14.8 kg/ha
+         Crop ended. Yield (dw) =  1714.5
+                                               straw residue =11429.9 kg/ha
+                                               straw N =  107.9 kg/ha
+                                               root residue = 3091.1 kg/ha
+                                               root N =   11.4 kg/ha
 30 May 1989(Day of year=150), clock: 
      Simulation is terminating due to end criteria being met.
