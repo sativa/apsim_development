@@ -208,7 +208,9 @@ bool ApsimDataFile::readNextRecord(istream& in) throw(runtime_error)
       {
       Split_string(line, " ", fieldValues);
       if (fieldValues.size() != fieldNames.size())
+         {
          throw runtime_error("Not enough values on line: " + line);
+         }
       return true;
       }
    else
@@ -290,11 +292,11 @@ extern "C" void _export __stdcall deleteApsimDataFile
    delete dataFile;
    }
 extern "C" unsigned _export __stdcall ApsimDataFile_getFieldValue
-   (ApsimDataFile* dataFile, unsigned* fieldIndex, char* value, unsigned valueLength)
+   (ApsimDataFile** dataFile, unsigned* fieldIndex, char* value, unsigned valueLength)
    {
    try
       {
-      string valueString = dataFile->getFieldValue(*fieldIndex);
+      string valueString = (*dataFile)->getFieldValue(*fieldIndex);
       FString(value, valueLength) = valueString.c_str();
       return true;
       }
@@ -304,8 +306,16 @@ extern "C" unsigned _export __stdcall ApsimDataFile_getFieldValue
       }
    }
 extern "C" unsigned _export __stdcall ApsimDataFile_next
-   (ApsimDataFile* dataFile)
+   (ApsimDataFile** dataFile)
    {
-   return dataFile->next();
+   try
+      {
+      return (*dataFile)->next();
+      }
+   catch (const runtime_error& err)
+      {
+      ::MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
+      return false;
+      }
    }
 
