@@ -94,18 +94,18 @@ void GENERAL_EXPORT Convert_2_CSV(istream& In_stream, ostream& Out_stream)
    {
    string Variable;
    string Line;
+   getline(In_stream, Line);
    while (In_stream)
       {
-      getline(In_stream, Line);
-
       istrstream Line_stream((char*) Line.c_str());
       Line_stream >> Variable;
-      while (Variable.length() > 0)
+      while (Line_stream)
          {
          Out_stream << Variable << ',';
          Line_stream >> Variable;
          }
       Out_stream << endl;
+      getline(In_stream, Line);
       }
    }
 
