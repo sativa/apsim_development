@@ -433,7 +433,7 @@ void Plant::doRegistrations(void)
                     &Plant::get_biomass_wt, "g/m^2", "Biomass weight");
 
    setupGetFunction("green_biomass", protocol::DTsingle, 1,
-                    &Plant::get_green_biomass, "g/m^2", "Green Biomass weight");
+                    &Plant::get_green_biomass, "kg/ha", "Green Biomass weight");
 
    setupGetVar("dlt_dm", protocol::DTsingle, 1,
                &g.dlt_dm, "g/m^2", "Change in dry matter");
