@@ -322,9 +322,7 @@
               , max_layer          &
               , G_sowing_depth          &
               , G_sw_dep          &
-              , P_ll_dep          &
-              , current_stage          &
-               )
+              , P_ll_dep)
 !     ===========================================================
 
 !      dll_export crop_germination
@@ -344,7 +342,6 @@
       REAL       G_sowing_depth        ! (INPUT)  sowing depth (mm)
       REAL       G_sw_dep(*)           ! (INPUT)  soil water content of layer L
       REAL       P_ll_dep(*)           ! (INPUT)  lower limit of plant-extractab
-      real       current_stage         ! (OUTPUT) phenological stage number
 
 !+  Purpose
 !      Determine germination based on soil water availability
@@ -374,7 +371,7 @@
 
       if (stage_is_between (sowing_stage          &
                      ,germ_stage          &
-                     ,current_stage)) then
+                     ,G_current_stage)) then
 
          layer_no_seed = find_layer_no (g_sowing_depth, g_dlayer          &
                                 , max_layer)
@@ -496,9 +493,7 @@
               , max_layer          &
               , G_sowing_depth          &
               , G_sw_dep          &
-              , P_ll_dep          &
-              , g_current_stage          &
-               )
+              , P_ll_dep)
 
       elseif (stage_is_between (germ_stage          &
                          ,end_development_stage          &
