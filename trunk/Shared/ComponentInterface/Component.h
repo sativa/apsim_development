@@ -300,6 +300,7 @@ class Component
                           const char *desc);
 #endif
    protected:
+      char         *dllName;
       unsigned int componentID;
       unsigned int parentID;
       ApsimComponentData* componentData;
@@ -381,7 +382,8 @@ class Component
       const unsigned int* callbackArg;
       CallbackType* messageCallback;
 
-      void setup(const unsigned int componentid,
+      void setup(const char *dllname,
+                 const unsigned int componentid,
                  const unsigned int parentid,
                  const unsigned int* callbackarg,
                  void* messagecallback);

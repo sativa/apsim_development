@@ -4,16 +4,11 @@
 BCB = $(MAKEDIR)\..
 !endif
 
-
-# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
-#APSROOT=c:/progra~1/apsim33
-#APSROOT=c:/development
-
 !include $(APSROOT)\APSBuild\platform.make
 !include $(APSROOT)\APSBuild\cpp.make
 
 OBJECTS = Component.obj message.obj Type.obj TypeConverter.obj variant.obj \
-    Variants.obj FORTRANComponent.obj MessageData.obj ApsimVariant.obj \
+    Variants.obj MessageData.obj ApsimVariant.obj \
     ArraySpecifier.obj Registrations.obj RegistrationItem.obj \
     ProtocolVector.obj datatypes.obj
 
@@ -21,24 +16,46 @@ USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT
 INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
 LIBPATH = $(SYSLIBPATH)
+LIBFILES = $(APSROOT)\Shared\general\general.lib \
+    $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+    $(BCB)\Components\Boost\libs\filesystem\filesystem.lib \
+    $(BCB)\Components\Boost\libs\date_time\date_time.lib
 
+source: ComponentInterface.lib ../../Bin/ApsimFortranWrapper.dll SimpleWrapper.obj
 
+ALLOBJ = c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJECTS)
+ALLRES = $(RESFILES)
+ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
 # ---------------------------------------------------------------------------
 CFLAG1 = $(SYSCFLAGS) -x- -RT- -tWM 
 WARNINGS = -w-par
-LFLAGS = 
+LFLAGS = -l. -D"" -aa -Tpd -x -Gn -Gi
 
 CC=$(BCB)/Bin/bcc32.exe
-LD=$(BCB)/Bin/TLib.exe
+RANLIB=$(BCB)/Bin/TLib.exe
+LINKER=$(BCB)\Bin\ilink32.exe
+IMPDEF=$(BCB)\Bin\impdef.exe
 
 .cpp.obj:
     $(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
 
-ComponentInterface.lib: $(OBJECTS) 
-	$(LD) /u $@ @&&!
+ComponentInterface.lib: $(OBJECTS) FORTRANComponent.obj 
+	$(RANLIB) /u $@ @&&!
 	$(LFLAGS) $? 
 
 !
+
+../../Bin/ApsimFortranWrapper.dll: $(OBJECTS) FORTRANComponentWrapper.obj
+	$(LINKER) @&&!
+$(LFLAGS) -L$(LIBPATH) +
+$(OBJECTS) FORTRANComponentWrapper.obj, +
+..\..\Bin\ApsimFortranWrapper.dll,, +
+$(ALLLIB), +
+$(DEFFILE), +
+$(ALLRES)
+!
+	$(IMPDEF) ApsimFortranWrapper.def ..\..\Bin\ApsimFortranWrapper.dll
+	$(APSROOT)\Tools\def2imp\def2imp.exe ApsimFortranWrapper.def ApsimFortranWrapper.imp
 
 # NB. Assumption here that we are always working within the development tree. NB.
 # Datatypes.
