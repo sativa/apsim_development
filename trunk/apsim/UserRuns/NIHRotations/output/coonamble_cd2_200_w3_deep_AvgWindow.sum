@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.5
+     Version                = 3.6
      Title                  = site=coonamble; soil=cd2; treatment=w3; Nrate=200; RootDepth=deep; Sowing = AvgWindow
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -471,7 +471,7 @@
      
                       Residue Initial Parameters
          ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorous  Report
+           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
            (fraction/day) (ratio) (ratio)  aware      additions
          ------------------------------------------------
                   0.100   100.0     0.0       F       no
@@ -775,40 +775,27 @@
       senesced above ground biomass (kg/ha) =     2263.9
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   50.1
+      DM Root:Shoot ratio    =    0.156                       Harvest Index          =      0.369
+      Stover C:N ratio       =   30.643                       Root C:N ratio         =     17.022
       grain N percent        =       2.27                     total N content (kg/ha)=     191.64
       grain N uptake (kg/ha) =      96.69                     senesced N content (kg/ha)=   11.32
       green N content (kg/ha)=      83.64                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.384
-         water stress 2 =  0.000     nitrogen stress 2 =  0.384
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.007     nitrogen stress 1 =  0.008
-         water stress 2 =  0.009     nitrogen stress 2 =  0.008
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.189     nitrogen stress 1 =  0.000
-         water stress 2 =  0.255     nitrogen stress 2 =  0.003
-     
-      stress indices for flowering
-         water stress 1 =  0.221     nitrogen stress 1 =  0.000
-         water stress 2 =  0.296     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.244     nitrogen stress 1 =  0.000
-         water stress 2 =  0.322     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.384        0.384
+         end_of_juvenile      to floral_initiation       0.007        0.009        0.008        0.008
+         floral_initiation    to flowering               0.189        0.255        0.000        0.003
+         flowering            to start_grain_fill        0.221        0.296        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.244        0.322        0.000        0.000
      
      Crop harvested.
-         tops residue =  7274.12 kg/ha
-         tops N       =  94.94 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               7274.12                    0.00
+                          N  (kg/ha) =                 94.94                    0.00
      
-         tops removed =  4255.34 kg/ha
-         tops N removed= 96.69 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               4255.34                    0.00
+                          N  (kg/ha) =                 96.69                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -821,11 +808,11 @@
      Manager sending message :- wheat end_crop
 10 November 1958(Day of year=314), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1798.9 kg/ha
-         root N =           42.3 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.21                 1798.94
+                          N  (kg/ha) =                  0.01                   42.27
+                          P  (kg/ha) =                                          0.00
+     
 21 May 1959(Day of year=141), manager: 
      Manager sending message :- chickpea sow  plants = 25, sowing_depth = 80, cultivar = amethyst
 21 May 1959(Day of year=141), chickpea: 
@@ -952,50 +939,37 @@
       senesced above ground biomass (kg/ha) =        0.0
       dead above ground biomass (kg/ha)     =     3763.9
       number of leaves       =  237.1
+      DM Root:Shoot ratio    =    0.221                       Harvest Index          =      0.379
+      Stover C:N ratio       =   24.171                       Root C:N ratio         =     25.956
       grain N percent        =       3.60                     total N content (kg/ha)=      90.07
       grain N uptake (kg/ha) =      51.41                     senesced N content (kg/ha)=    0.00
       green N content (kg/ha)=       0.00                     dead N content (kg/ha) =      38.66
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.005
-         water stress 2 =  0.000     nitrogen stress 2 =  0.005
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.001
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.067     nitrogen stress 1 =  0.000
-         water stress 2 =  0.095     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.458     nitrogen stress 1 =  0.000
-         water stress 2 =  0.543     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.005        0.005
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.001
+         floral_initiation    to flowering               0.000        0.000        0.000        0.000
+         flowering            to start_grain_fill        0.067        0.095        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.458        0.543        0.000        0.000
      
      Crop harvested.
-         tops residue =  2335.85 kg/ha
-         tops N       =  38.66 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               2335.85                    0.00
+                          N  (kg/ha) =                 38.66                    0.00
      
-         tops removed =  1428.09 kg/ha
-         tops N removed= 51.41 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1428.09                    0.00
+                          N  (kg/ha) =                 51.41                    0.00
      
 10 November 1959(Day of year=314), manager: 
      Manager sending message :- chickpea end_crop
 10 November 1959(Day of year=314), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.0 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =    830.9 kg/ha
-         root N =           12.8 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                  830.90
+                          N  (kg/ha) =                  0.00                   12.80
+                          P  (kg/ha) =                                          0.00
+     
 30 May 1961(Day of year=150), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = sunco
 30 May 1961(Day of year=150), wheat: 
@@ -1093,40 +1067,27 @@
       senesced above ground biomass (kg/ha) =        0.0
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =    0.0
+      DM Root:Shoot ratio    =    0.000                       Harvest Index          =      0.000
+      Stover C:N ratio       =    0.000                       Root C:N ratio         =      0.000
       grain N percent        =       0.00                     total N content (kg/ha)=       0.00
       grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=    0.00
       green N content (kg/ha)=       0.00                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
+         floral_initiation    to flowering               0.000        0.000        0.000        0.000
+         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.000
      
      Crop harvested.
-         tops residue =  0.00 kg/ha
-         tops N       =  0.00 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                    0.00
+                          N  (kg/ha) =                  0.00                    0.00
      
-         tops removed =  0.00 kg/ha
-         tops N removed= 0.00 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =                  0.00                    0.00
+                          N  (kg/ha) =                  0.00                    0.00
      
 9 July 1961(Day of year=190), manager: 
      Manager sending message :- wheat kill_crop
@@ -1136,11 +1097,11 @@
      Manager sending message :- wheat end_crop
 9 July 1961(Day of year=190), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.0 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =      0.0 kg/ha
-         root N =            0.0 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                    0.00
+                          N  (kg/ha) =                  0.00                    0.00
+                          P  (kg/ha) =                                          0.00
+     
 30 May 1962(Day of year=150), manager: 
      Manager sending message :- chickpea sow  plants = 25, sowing_depth = 80, cultivar = amethyst
 30 May 1962(Day of year=150), chickpea: 
@@ -1266,50 +1227,37 @@
       senesced above ground biomass (kg/ha) =        0.0
       dead above ground biomass (kg/ha)     =     4718.1
       number of leaves       =  245.9
+      DM Root:Shoot ratio    =    0.209                       Harvest Index          =      0.404
+      Stover C:N ratio       =   23.903                       Root C:N ratio         =     26.137
       grain N percent        =       3.60                     total N content (kg/ha)=     115.66
       grain N uptake (kg/ha) =      68.58                     senesced N content (kg/ha)=    0.00
       green N content (kg/ha)=       0.00                     dead N content (kg/ha) =      47.07
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.016
-         water stress 2 =  0.000     nitrogen stress 2 =  0.016
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.018     nitrogen stress 1 =  0.000
-         water stress 2 =  0.025     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.372     nitrogen stress 1 =  0.000
-         water stress 2 =  0.450     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.016        0.016
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
+         floral_initiation    to flowering               0.000        0.000        0.000        0.000
+         flowering            to start_grain_fill        0.018        0.025        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.372        0.450        0.000        0.000
      
      Crop harvested.
-         tops residue =  2813.06 kg/ha
-         tops N       =  47.07 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               2813.06                    0.00
+                          N  (kg/ha) =                 47.07                    0.00
      
-         tops removed =  1905.08 kg/ha
-         tops N removed= 68.58 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1905.08                    0.00
+                          N  (kg/ha) =                 68.58                    0.00
      
 14 November 1962(Day of year=318), manager: 
      Manager sending message :- chickpea end_crop
 14 November 1962(Day of year=318), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.0 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =    988.4 kg/ha
-         root N =           15.1 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                  988.36
+                          N  (kg/ha) =                  0.00                   15.13
+                          P  (kg/ha) =                                          0.00
+     
 20 May 1963(Day of year=140), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = sunco
 20 May 1963(Day of year=140), wheat: 
@@ -1535,40 +1483,27 @@
       senesced above ground biomass (kg/ha) =     2516.9
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   50.6
+      DM Root:Shoot ratio    =    0.193                       Harvest Index          =      0.273
+      Stover C:N ratio       =   25.870                       Root C:N ratio         =     16.052
       grain N percent        =       2.47                     total N content (kg/ha)=     152.50
       grain N uptake (kg/ha) =      57.11                     senesced N content (kg/ha)=   12.58
       green N content (kg/ha)=      82.80                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.207
-         water stress 2 =  0.000     nitrogen stress 2 =  0.207
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.044     nitrogen stress 1 =  0.003
-         water stress 2 =  0.059     nitrogen stress 2 =  0.003
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.352     nitrogen stress 1 =  0.000
-         water stress 2 =  0.436     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.164     nitrogen stress 1 =  0.000
-         water stress 2 =  0.229     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.393     nitrogen stress 1 =  0.000
-         water stress 2 =  0.479     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.207        0.207
+         end_of_juvenile      to floral_initiation       0.044        0.059        0.003        0.003
+         floral_initiation    to flowering               0.352        0.436        0.000        0.000
+         flowering            to start_grain_fill        0.164        0.229        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.393        0.479        0.000        0.000
      
      Crop harvested.
-         tops residue =  6168.85 kg/ha
-         tops N       =  95.37 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               6168.85                    0.00
+                          N  (kg/ha) =                 95.37                    0.00
      
-         tops removed =  2314.89 kg/ha
-         tops N removed= 57.11 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               2314.89                    0.00
+                          N  (kg/ha) =                 57.11                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -1581,11 +1516,11 @@
      Manager sending message :- wheat end_crop
 8 November 1963(Day of year=312), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1638.2 kg/ha
-         root N =           40.8 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.21                 1638.22
+                          N  (kg/ha) =                  0.01                   40.82
+                          P  (kg/ha) =                                          0.00
+     
 3 June 1964(Day of year=155), manager: 
      Manager sending message :- chickpea sow  plants = 25, sowing_depth = 80, cultivar = amethyst
 3 June 1964(Day of year=155), chickpea: 
@@ -1711,50 +1646,37 @@
       senesced above ground biomass (kg/ha) =        0.0
       dead above ground biomass (kg/ha)     =     1964.7
       number of leaves       =  244.7
+      DM Root:Shoot ratio    =    0.264                       Harvest Index          =      0.404
+      Stover C:N ratio       =   24.134                       Root C:N ratio         =     26.028
       grain N percent        =       3.60                     total N content (kg/ha)=      47.99
       grain N uptake (kg/ha) =      28.58                     senesced N content (kg/ha)=    0.00
       green N content (kg/ha)=       0.00                     dead N content (kg/ha) =      19.40
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.009
-         water stress 2 =  0.000     nitrogen stress 2 =  0.009
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.023     nitrogen stress 1 =  0.000
-         water stress 2 =  0.032     nitrogen stress 2 =  0.003
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.465     nitrogen stress 1 =  0.000
-         water stress 2 =  0.565     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.419     nitrogen stress 1 =  0.000
-         water stress 2 =  0.499     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.383     nitrogen stress 1 =  0.000
-         water stress 2 =  0.457     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.009        0.009
+         end_of_juvenile      to floral_initiation       0.023        0.032        0.000        0.003
+         floral_initiation    to flowering               0.465        0.565        0.000        0.000
+         flowering            to start_grain_fill        0.419        0.499        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.383        0.457        0.000        0.000
      
      Crop harvested.
-         tops residue =  1170.77 kg/ha
-         tops N       =  19.40 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               1170.77                    0.00
+                          N  (kg/ha) =                 19.40                    0.00
      
-         tops removed =  793.95 kg/ha
-         tops N removed= 28.58 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =                793.95                    0.00
+                          N  (kg/ha) =                 28.58                    0.00
      
 19 November 1964(Day of year=324), manager: 
      Manager sending message :- chickpea end_crop
 19 November 1964(Day of year=324), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.0 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =    518.3 kg/ha
-         root N =            8.0 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                  518.27
+                          N  (kg/ha) =                  0.00                    7.96
+                          P  (kg/ha) =                                          0.00
+     
 24 May 1967(Day of year=144), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = sunco
 24 May 1967(Day of year=144), wheat: 
@@ -1954,40 +1876,27 @@
       senesced above ground biomass (kg/ha) =     2752.7
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   46.6
+      DM Root:Shoot ratio    =    0.217                       Harvest Index          =      0.230
+      Stover C:N ratio       =   21.571                       Root C:N ratio         =     16.774
       grain N percent        =       2.62                     total N content (kg/ha)=     151.48
       grain N uptake (kg/ha) =      44.88                     senesced N content (kg/ha)=   13.76
       green N content (kg/ha)=      92.84                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.190
-         water stress 2 =  0.000     nitrogen stress 2 =  0.190
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.011     nitrogen stress 1 =  0.003
-         water stress 2 =  0.019     nitrogen stress 2 =  0.003
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.486     nitrogen stress 1 =  0.000
-         water stress 2 =  0.583     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.506     nitrogen stress 1 =  0.000
-         water stress 2 =  0.606     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.421     nitrogen stress 1 =  0.000
-         water stress 2 =  0.502     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.190        0.190
+         end_of_juvenile      to floral_initiation       0.011        0.019        0.003        0.003
+         floral_initiation    to flowering               0.486        0.583        0.000        0.000
+         flowering            to start_grain_fill        0.506        0.606        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.421        0.502        0.000        0.000
      
      Crop harvested.
-         tops residue =  5748.51 kg/ha
-         tops N       =  106.59 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               5748.51                    0.00
+                          N  (kg/ha) =                106.59                    0.00
      
-         tops removed =  1714.19 kg/ha
-         tops N removed= 44.88 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1714.19                    0.00
+                          N  (kg/ha) =                 44.88                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -2000,11 +1909,11 @@
      Manager sending message :- wheat end_crop
 3 November 1967(Day of year=307), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1622.1 kg/ha
-         root N =           38.7 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.21                 1622.09
+                          N  (kg/ha) =                  0.01                   38.68
+                          P  (kg/ha) =                                          0.00
+     
 19 May 1968(Day of year=140), manager: 
      Manager sending message :- chickpea sow  plants = 25, sowing_depth = 80, cultivar = amethyst
 19 May 1968(Day of year=140), chickpea: 
@@ -2130,50 +2039,37 @@
       senesced above ground biomass (kg/ha) =        0.0
       dead above ground biomass (kg/ha)     =     3647.6
       number of leaves       =  226.4
+      DM Root:Shoot ratio    =    0.231                       Harvest Index          =      0.328
+      Stover C:N ratio       =   24.544                       Root C:N ratio         =     25.683
       grain N percent        =       3.60                     total N content (kg/ha)=      83.02
       grain N uptake (kg/ha) =      43.07                     senesced N content (kg/ha)=    0.00
       green N content (kg/ha)=       0.00                     dead N content (kg/ha) =      39.95
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.008
-         water stress 2 =  0.000     nitrogen stress 2 =  0.008
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.049     nitrogen stress 1 =  0.000
-         water stress 2 =  0.074     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.554     nitrogen stress 1 =  0.000
-         water stress 2 =  0.649     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.008        0.008
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
+         floral_initiation    to flowering               0.000        0.000        0.000        0.000
+         flowering            to start_grain_fill        0.049        0.074        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.554        0.649        0.000        0.000
      
      Crop harvested.
-         tops residue =  2451.25 kg/ha
-         tops N       =  39.95 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               2451.25                    0.00
+                          N  (kg/ha) =                 39.95                    0.00
      
-         tops removed =  1196.40 kg/ha
-         tops N removed= 43.07 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1196.40                    0.00
+                          N  (kg/ha) =                 43.07                    0.00
      
 11 November 1968(Day of year=316), manager: 
      Manager sending message :- chickpea end_crop
 11 November 1968(Day of year=316), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.0 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =    843.2 kg/ha
-         root N =           13.1 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                  843.22
+                          N  (kg/ha) =                  0.00                   13.13
+                          P  (kg/ha) =                                          0.00
+     
 24 June 1969(Day of year=175), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = hartog
 24 June 1969(Day of year=175), wheat: 
@@ -2337,40 +2233,27 @@
       senesced above ground biomass (kg/ha) =     1770.4
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   41.8
+      DM Root:Shoot ratio    =    0.177                       Harvest Index          =      0.386
+      Stover C:N ratio       =   21.635                       Root C:N ratio         =     16.114
       grain N percent        =       2.58                     total N content (kg/ha)=     159.02
       grain N uptake (kg/ha) =      74.34                     senesced N content (kg/ha)=    8.85
       green N content (kg/ha)=      75.83                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.398
-         water stress 2 =  0.000     nitrogen stress 2 =  0.398
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.031     nitrogen stress 1 =  0.011
-         water stress 2 =  0.044     nitrogen stress 2 =  0.011
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.409     nitrogen stress 1 =  0.000
-         water stress 2 =  0.491     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.046     nitrogen stress 1 =  0.000
-         water stress 2 =  0.078     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.004     nitrogen stress 1 =  0.000
-         water stress 2 =  0.015     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.398        0.398
+         end_of_juvenile      to floral_initiation       0.031        0.044        0.011        0.011
+         floral_initiation    to flowering               0.409        0.491        0.000        0.000
+         flowering            to start_grain_fill        0.046        0.078        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.004        0.015        0.000        0.000
      
      Crop harvested.
-         tops residue =  4580.10 kg/ha
-         tops N       =  84.67 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               4580.10                    0.00
+                          N  (kg/ha) =                 84.67                    0.00
      
-         tops removed =  2878.72 kg/ha
-         tops N removed= 74.34 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               2878.72                    0.00
+                          N  (kg/ha) =                 74.34                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -2383,11 +2266,11 @@
      Manager sending message :- wheat end_crop
 17 November 1969(Day of year=321), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1322.9 kg/ha
-         root N =           32.8 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.20                 1322.90
+                          N  (kg/ha) =                  0.01                   32.84
+                          P  (kg/ha) =                                          0.00
+     
 27 July 1971(Day of year=208), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = hartog
 27 July 1971(Day of year=208), wheat: 
@@ -2659,40 +2542,27 @@
       senesced above ground biomass (kg/ha) =     1578.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   38.1
+      DM Root:Shoot ratio    =    0.195                       Harvest Index          =      0.342
+      Stover C:N ratio       =   24.064                       Root C:N ratio         =     16.508
       grain N percent        =       2.75                     total N content (kg/ha)=     121.15
       grain N uptake (kg/ha) =      56.05                     senesced N content (kg/ha)=    7.89
       green N content (kg/ha)=      57.20                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.432
-         water stress 2 =  0.000     nitrogen stress 2 =  0.432
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.026     nitrogen stress 1 =  0.015
-         water stress 2 =  0.037     nitrogen stress 2 =  0.015
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.399     nitrogen stress 1 =  0.000
-         water stress 2 =  0.496     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.352     nitrogen stress 1 =  0.000
-         water stress 2 =  0.436     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.220     nitrogen stress 1 =  0.000
-         water stress 2 =  0.281     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.432        0.432
+         end_of_juvenile      to floral_initiation       0.026        0.037        0.015        0.015
+         floral_initiation    to flowering               0.399        0.496        0.000        0.000
+         flowering            to start_grain_fill        0.352        0.436        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.220        0.281        0.000        0.000
      
      Crop harvested.
-         tops residue =  3916.16 kg/ha
-         tops N       =  65.09 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               3916.16                    0.00
+                          N  (kg/ha) =                 65.09                    0.00
      
-         tops removed =  2035.53 kg/ha
-         tops N removed= 56.05 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               2035.53                    0.00
+                          N  (kg/ha) =                 56.05                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -2705,11 +2575,11 @@
      Manager sending message :- wheat end_crop
 3 December 1971(Day of year=337), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1160.5 kg/ha
-         root N =           28.1 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.20                 1160.46
+                          N  (kg/ha) =                  0.01                   28.12
+                          P  (kg/ha) =                                          0.00
+     
 28 June 1973(Day of year=179), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = hartog
 28 June 1973(Day of year=179), wheat: 
@@ -3017,40 +2887,27 @@
       senesced above ground biomass (kg/ha) =     2081.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   41.5
+      DM Root:Shoot ratio    =    0.132                       Harvest Index          =      0.405
+      Stover C:N ratio       =   34.234                       Root C:N ratio         =     17.336
       grain N percent        =       2.23                     total N content (kg/ha)=     202.05
       grain N uptake (kg/ha) =     114.09                     senesced N content (kg/ha)=   10.41
       green N content (kg/ha)=      77.55                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.434
-         water stress 2 =  0.000     nitrogen stress 2 =  0.434
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.001     nitrogen stress 1 =  0.013
-         water stress 2 =  0.004     nitrogen stress 2 =  0.013
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.143     nitrogen stress 1 =  0.000
-         water stress 2 =  0.202     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.001     nitrogen stress 1 =  0.000
-         water stress 2 =  0.011     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.434        0.434
+         end_of_juvenile      to floral_initiation       0.001        0.004        0.013        0.013
+         floral_initiation    to flowering               0.143        0.202        0.000        0.000
+         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.001        0.011        0.000        0.000
      
      Crop harvested.
-         tops residue =  7527.97 kg/ha
-         tops N       =  87.95 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               7527.97                    0.00
+                          N  (kg/ha) =                 87.95                    0.00
      
-         tops removed =  5117.44 kg/ha
-         tops N removed= 114.09 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               5117.44                    0.00
+                          N  (kg/ha) =                114.09                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -3063,11 +2920,11 @@
      Manager sending message :- wheat end_crop
 14 November 1973(Day of year=318), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1666.0 kg/ha
-         root N =           38.4 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.20                 1666.04
+                          N  (kg/ha) =                  0.01                   38.44
+                          P  (kg/ha) =                                          0.00
+     
 24 June 1975(Day of year=175), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = hartog
 24 June 1975(Day of year=175), wheat: 
@@ -3302,40 +3159,27 @@
       senesced above ground biomass (kg/ha) =     1820.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   40.8
+      DM Root:Shoot ratio    =    0.182                       Harvest Index          =      0.310
+      Stover C:N ratio       =   25.398                       Root C:N ratio         =     16.535
       grain N percent        =       2.37                     total N content (kg/ha)=     124.84
       grain N uptake (kg/ha) =      50.44                     senesced N content (kg/ha)=    9.10
       green N content (kg/ha)=      65.29                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.143
-         water stress 2 =  0.000     nitrogen stress 2 =  0.143
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.036     nitrogen stress 1 =  0.003
-         water stress 2 =  0.055     nitrogen stress 2 =  0.003
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.303     nitrogen stress 1 =  0.000
-         water stress 2 =  0.374     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.284     nitrogen stress 1 =  0.000
-         water stress 2 =  0.384     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.391     nitrogen stress 1 =  0.000
-         water stress 2 =  0.476     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.143        0.143
+         end_of_juvenile      to floral_initiation       0.036        0.055        0.003        0.003
+         floral_initiation    to flowering               0.303        0.374        0.000        0.000
+         flowering            to start_grain_fill        0.284        0.384        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.391        0.476        0.000        0.000
      
      Crop harvested.
-         tops residue =  4723.69 kg/ha
-         tops N       =  74.39 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               4723.69                    0.00
+                          N  (kg/ha) =                 74.39                    0.00
      
-         tops removed =  2126.33 kg/ha
-         tops N removed= 50.44 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               2126.33                    0.00
+                          N  (kg/ha) =                 50.44                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -3348,11 +3192,11 @@
      Manager sending message :- wheat end_crop
 15 November 1975(Day of year=319), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1249.8 kg/ha
-         root N =           30.2 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.20                 1249.82
+                          N  (kg/ha) =                  0.01                   30.23
+                          P  (kg/ha) =                                          0.00
+     
 23 June 1976(Day of year=175), manager: 
      Manager sending message :- chickpea sow  plants = 25, sowing_depth = 80, cultivar = amethyst
 23 June 1976(Day of year=175), chickpea: 
@@ -3478,50 +3322,37 @@
       senesced above ground biomass (kg/ha) =        0.0
       dead above ground biomass (kg/ha)     =     4031.3
       number of leaves       =  242.9
+      DM Root:Shoot ratio    =    0.256                       Harvest Index          =      0.343
+      Stover C:N ratio       =   24.352                       Root C:N ratio         =     25.824
       grain N percent        =       3.60                     total N content (kg/ha)=      93.29
       grain N uptake (kg/ha) =      49.79                     senesced N content (kg/ha)=    0.00
       green N content (kg/ha)=       0.00                     dead N content (kg/ha) =      43.50
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.008
-         water stress 2 =  0.000     nitrogen stress 2 =  0.008
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.004
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.025     nitrogen stress 1 =  0.000
-         water stress 2 =  0.051     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.521     nitrogen stress 1 =  0.000
-         water stress 2 =  0.609     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.008        0.008
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.004
+         floral_initiation    to flowering               0.000        0.000        0.000        0.000
+         flowering            to start_grain_fill        0.025        0.051        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.521        0.609        0.000        0.000
      
      Crop harvested.
-         tops residue =  2648.22 kg/ha
-         tops N       =  43.50 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               2648.22                    0.00
+                          N  (kg/ha) =                 43.50                    0.00
      
-         tops removed =  1383.07 kg/ha
-         tops N removed= 49.79 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1383.07                    0.00
+                          N  (kg/ha) =                 49.79                    0.00
      
 30 November 1976(Day of year=335), manager: 
      Manager sending message :- chickpea end_crop
 30 November 1976(Day of year=335), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.0 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1030.2 kg/ha
-         root N =           16.0 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                 1030.24
+                          N  (kg/ha) =                  0.00                   15.96
+                          P  (kg/ha) =                                          0.00
+     
 21 May 1977(Day of year=141), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = sunco
 21 May 1977(Day of year=141), wheat: 
@@ -3667,40 +3498,27 @@
       senesced above ground biomass (kg/ha) =     2389.9
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   50.0
+      DM Root:Shoot ratio    =    0.237                       Harvest Index          =      0.234
+      Stover C:N ratio       =   28.802                       Root C:N ratio         =     16.517
       grain N percent        =       2.61                     total N content (kg/ha)=     103.55
       grain N uptake (kg/ha) =      37.83                     senesced N content (kg/ha)=   11.95
       green N content (kg/ha)=      53.77                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.448
-         water stress 2 =  0.000     nitrogen stress 2 =  0.448
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.098     nitrogen stress 1 =  0.033
-         water stress 2 =  0.126     nitrogen stress 2 =  0.099
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.472     nitrogen stress 1 =  0.000
-         water stress 2 =  0.567     nitrogen stress 2 =  0.001
-     
-      stress indices for flowering
-         water stress 1 =  0.249     nitrogen stress 1 =  0.000
-         water stress 2 =  0.306     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.381     nitrogen stress 1 =  0.000
-         water stress 2 =  0.468     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.448        0.448
+         end_of_juvenile      to floral_initiation       0.098        0.126        0.033        0.099
+         floral_initiation    to flowering               0.472        0.567        0.000        0.001
+         flowering            to start_grain_fill        0.249        0.306        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.381        0.468        0.000        0.000
      
      Crop harvested.
-         tops residue =  4731.72 kg/ha
-         tops N       =  65.70 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               4731.72                    0.00
+                          N  (kg/ha) =                 65.70                    0.00
      
-         tops removed =  1446.71 kg/ha
-         tops N removed= 37.83 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1446.71                    0.00
+                          N  (kg/ha) =                 37.83                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -3713,11 +3531,11 @@
      Manager sending message :- wheat end_crop
 6 November 1977(Day of year=310), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1463.0 kg/ha
-         root N =           35.4 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.20                 1462.96
+                          N  (kg/ha) =                  0.01                   35.43
+                          P  (kg/ha) =                                          0.00
+     
 23 May 1978(Day of year=143), manager: 
      Manager sending message :- chickpea sow  plants = 25, sowing_depth = 80, cultivar = amethyst
 23 May 1978(Day of year=143), chickpea: 
@@ -3843,50 +3661,37 @@
       senesced above ground biomass (kg/ha) =        0.0
       dead above ground biomass (kg/ha)     =     3518.1
       number of leaves       =  224.0
+      DM Root:Shoot ratio    =    0.210                       Harvest Index          =      0.385
+      Stover C:N ratio       =   24.157                       Root C:N ratio         =     26.239
       grain N percent        =       3.60                     total N content (kg/ha)=      84.57
       grain N uptake (kg/ha) =      48.73                     senesced N content (kg/ha)=    0.00
       green N content (kg/ha)=       0.00                     dead N content (kg/ha) =      35.84
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.004
-         water stress 2 =  0.000     nitrogen stress 2 =  0.004
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.043     nitrogen stress 1 =  0.000
-         water stress 2 =  0.058     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.374     nitrogen stress 1 =  0.000
-         water stress 2 =  0.452     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.004        0.004
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
+         floral_initiation    to flowering               0.000        0.000        0.000        0.000
+         flowering            to start_grain_fill        0.043        0.058        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.374        0.452        0.000        0.000
      
      Crop harvested.
-         tops residue =  2164.43 kg/ha
-         tops N       =  35.84 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               2164.43                    0.00
+                          N  (kg/ha) =                 35.84                    0.00
      
-         tops removed =  1353.64 kg/ha
-         tops N removed= 48.73 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1353.64                    0.00
+                          N  (kg/ha) =                 48.73                    0.00
      
 16 November 1978(Day of year=320), manager: 
      Manager sending message :- chickpea end_crop
 16 November 1978(Day of year=320), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.0 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =    739.6 kg/ha
-         root N =           11.3 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                  739.59
+                          N  (kg/ha) =                  0.00                   11.27
+                          P  (kg/ha) =                                          0.00
+     
 23 June 1979(Day of year=174), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = hartog
 23 June 1979(Day of year=174), wheat: 
@@ -4103,40 +3908,27 @@
       senesced above ground biomass (kg/ha) =     1579.1
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   42.1
+      DM Root:Shoot ratio    =    0.204                       Harvest Index          =      0.278
+      Stover C:N ratio       =   25.234                       Root C:N ratio         =     17.233
       grain N percent        =       2.42                     total N content (kg/ha)=     113.99
       grain N uptake (kg/ha) =      42.18                     senesced N content (kg/ha)=    7.90
       green N content (kg/ha)=      63.92                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.392
-         water stress 2 =  0.000     nitrogen stress 2 =  0.392
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.075     nitrogen stress 1 =  0.010
-         water stress 2 =  0.101     nitrogen stress 2 =  0.010
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.243     nitrogen stress 1 =  0.000
-         water stress 2 =  0.307     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.549     nitrogen stress 1 =  0.000
-         water stress 2 =  0.649     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.454     nitrogen stress 1 =  0.000
-         water stress 2 =  0.546     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.392        0.392
+         end_of_juvenile      to floral_initiation       0.075        0.101        0.010        0.010
+         floral_initiation    to flowering               0.243        0.307        0.000        0.000
+         flowering            to start_grain_fill        0.549        0.649        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.454        0.546        0.000        0.000
      
      Crop harvested.
-         tops residue =  4530.33 kg/ha
-         tops N       =  71.80 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               4530.33                    0.00
+                          N  (kg/ha) =                 71.80                    0.00
      
-         tops removed =  1740.12 kg/ha
-         tops N removed= 42.18 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1740.12                    0.00
+                          N  (kg/ha) =                 42.18                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -4149,11 +3941,11 @@
      Manager sending message :- wheat end_crop
 15 November 1979(Day of year=319), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1276.8 kg/ha
-         root N =           29.6 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.20                 1276.78
+                          N  (kg/ha) =                  0.01                   29.64
+                          P  (kg/ha) =                                          0.00
+     
 19 May 1980(Day of year=140), manager: 
      Manager sending message :- chickpea sow  plants = 25, sowing_depth = 80, cultivar = amethyst
 19 May 1980(Day of year=140), chickpea: 
@@ -4279,50 +4071,37 @@
       senesced above ground biomass (kg/ha) =        0.0
       dead above ground biomass (kg/ha)     =     2777.8
       number of leaves       =  207.9
+      DM Root:Shoot ratio    =    0.273                       Harvest Index          =      0.288
+      Stover C:N ratio       =   24.544                       Root C:N ratio         =     25.471
       grain N percent        =       3.60                     total N content (kg/ha)=      61.03
       grain N uptake (kg/ha) =      28.79                     senesced N content (kg/ha)=    0.00
       green N content (kg/ha)=       0.00                     dead N content (kg/ha) =      32.24
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.006
-         water stress 2 =  0.000     nitrogen stress 2 =  0.006
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.202     nitrogen stress 1 =  0.000
-         water stress 2 =  0.258     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.516     nitrogen stress 1 =  0.000
-         water stress 2 =  0.609     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.006        0.006
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
+         floral_initiation    to flowering               0.000        0.000        0.000        0.000
+         flowering            to start_grain_fill        0.202        0.258        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.516        0.609        0.000        0.000
      
      Crop harvested.
-         tops residue =  1978.10 kg/ha
-         tops N       =  32.24 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               1978.10                    0.00
+                          N  (kg/ha) =                 32.24                    0.00
      
-         tops removed =  799.70 kg/ha
-         tops N removed= 28.79 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =                799.70                    0.00
+                          N  (kg/ha) =                 28.79                    0.00
      
 6 November 1980(Day of year=311), manager: 
      Manager sending message :- chickpea end_crop
 6 November 1980(Day of year=311), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.0 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =    759.3 kg/ha
-         root N =           11.9 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                  759.33
+                          N  (kg/ha) =                  0.00                   11.92
+                          P  (kg/ha) =                                          0.00
+     
 30 May 1981(Day of year=150), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = sunco
 30 May 1981(Day of year=150), wheat: 
@@ -4539,40 +4318,27 @@
       senesced above ground biomass (kg/ha) =     3220.4
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   51.6
+      DM Root:Shoot ratio    =    0.208                       Harvest Index          =      0.293
+      Stover C:N ratio       =   24.521                       Root C:N ratio         =     16.051
       grain N percent        =       3.49                     total N content (kg/ha)=     180.18
       grain N uptake (kg/ha) =      84.71                     senesced N content (kg/ha)=   16.10
       green N content (kg/ha)=      79.36                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.360
-         water stress 2 =  0.000     nitrogen stress 2 =  0.360
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.026     nitrogen stress 1 =  0.007
-         water stress 2 =  0.040     nitrogen stress 2 =  0.007
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.605     nitrogen stress 1 =  0.000
-         water stress 2 =  0.701     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.423     nitrogen stress 1 =  0.000
-         water stress 2 =  0.497     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.078     nitrogen stress 1 =  0.000
-         water stress 2 =  0.101     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.360        0.360
+         end_of_juvenile      to floral_initiation       0.026        0.040        0.007        0.007
+         floral_initiation    to flowering               0.605        0.701        0.000        0.000
+         flowering            to start_grain_fill        0.423        0.497        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.078        0.101        0.000        0.000
      
      Crop harvested.
-         tops residue =  5852.04 kg/ha
-         tops N       =  95.45 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               5852.04                    0.00
+                          N  (kg/ha) =                 95.45                    0.00
      
-         tops removed =  2429.77 kg/ha
-         tops N removed= 84.71 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               2429.77                    0.00
+                          N  (kg/ha) =                 84.71                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -4585,11 +4351,11 @@
      Manager sending message :- wheat end_crop
 10 November 1981(Day of year=314), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1725.5 kg/ha
-         root N =           43.0 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.21                 1725.51
+                          N  (kg/ha) =                  0.01                   43.00
+                          P  (kg/ha) =                                          0.00
+     
 20 May 1983(Day of year=140), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = sunco
 20 May 1983(Day of year=140), wheat: 
@@ -4717,40 +4483,27 @@
       senesced above ground biomass (kg/ha) =     3075.7
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   51.8
+      DM Root:Shoot ratio    =    0.163                       Harvest Index          =      0.354
+      Stover C:N ratio       =   49.740                       Root C:N ratio         =     17.286
       grain N percent        =       2.55                     total N content (kg/ha)=     208.15
       grain N uptake (kg/ha) =     132.08                     senesced N content (kg/ha)=   15.38
       green N content (kg/ha)=      60.69                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.448
-         water stress 2 =  0.000     nitrogen stress 2 =  0.448
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.021     nitrogen stress 1 =  0.010
-         water stress 2 =  0.033     nitrogen stress 2 =  0.010
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.065     nitrogen stress 1 =  0.000
-         water stress 2 =  0.100     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.468     nitrogen stress 1 =  0.000
-         water stress 2 =  0.568     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.204     nitrogen stress 1 =  0.000
-         water stress 2 =  0.281     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.448        0.448
+         end_of_juvenile      to floral_initiation       0.021        0.033        0.010        0.010
+         floral_initiation    to flowering               0.065        0.100        0.000        0.000
+         flowering            to start_grain_fill        0.468        0.568        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.204        0.281        0.000        0.000
      
      Crop harvested.
-         tops residue =  9459.01 kg/ha
-         tops N       =  76.06 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               9459.01                    0.00
+                          N  (kg/ha) =                 76.06                    0.00
      
-         tops removed =  5185.49 kg/ha
-         tops N removed= 132.08 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               5185.49                    0.00
+                          N  (kg/ha) =                132.08                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -4763,11 +4516,11 @@
      Manager sending message :- wheat end_crop
 4 November 1983(Day of year=308), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   2390.5 kg/ha
-         root N =           55.3 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.21                 2390.50
+                          N  (kg/ha) =                  0.01                   55.32
+                          P  (kg/ha) =                                          0.00
+     
 27 July 1984(Day of year=209), manager: 
      Manager sending message :- chickpea sow  plants = 25, sowing_depth = 80, cultivar = amethyst
 27 July 1984(Day of year=209), chickpea: 
@@ -4893,50 +4646,37 @@
       senesced above ground biomass (kg/ha) =        0.0
       dead above ground biomass (kg/ha)     =     3522.2
       number of leaves       =  293.2
+      DM Root:Shoot ratio    =    0.265                       Harvest Index          =      0.348
+      Stover C:N ratio       =   24.266                       Root C:N ratio         =     26.210
       grain N percent        =       3.60                     total N content (kg/ha)=      81.99
       grain N uptake (kg/ha) =      44.14                     senesced N content (kg/ha)=    0.00
       green N content (kg/ha)=       0.00                     dead N content (kg/ha) =      37.85
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.002
-         water stress 2 =  0.000     nitrogen stress 2 =  0.006
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.005     nitrogen stress 1 =  0.000
-         water stress 2 =  0.008     nitrogen stress 2 =  0.023
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.056     nitrogen stress 1 =  0.000
-         water stress 2 =  0.087     nitrogen stress 2 =  0.004
-     
-      stress indices for flowering
-         water stress 1 =  0.287     nitrogen stress 1 =  0.000
-         water stress 2 =  0.361     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.434     nitrogen stress 1 =  0.000
-         water stress 2 =  0.525     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.002        0.006
+         end_of_juvenile      to floral_initiation       0.005        0.008        0.000        0.023
+         floral_initiation    to flowering               0.056        0.087        0.000        0.004
+         flowering            to start_grain_fill        0.287        0.361        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.434        0.525        0.000        0.000
      
      Crop harvested.
-         tops residue =  2296.04 kg/ha
-         tops N       =  37.85 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               2296.04                    0.00
+                          N  (kg/ha) =                 37.85                    0.00
      
-         tops removed =  1226.15 kg/ha
-         tops N removed= 44.14 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1226.15                    0.00
+                          N  (kg/ha) =                 44.14                    0.00
      
 11 December 1984(Day of year=346), manager: 
      Manager sending message :- chickpea end_crop
 11 December 1984(Day of year=346), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.0 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =    934.1 kg/ha
-         root N =           14.3 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                  934.11
+                          N  (kg/ha) =                  0.00                   14.26
+                          P  (kg/ha) =                                          0.00
+     
 20 May 1988(Day of year=141), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = sunco
 20 May 1988(Day of year=141), wheat: 
@@ -5148,40 +4888,27 @@
       senesced above ground biomass (kg/ha) =     2523.4
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   50.8
+      DM Root:Shoot ratio    =    0.213                       Harvest Index          =      0.234
+      Stover C:N ratio       =   21.952                       Root C:N ratio         =     15.675
       grain N percent        =       2.62                     total N content (kg/ha)=     143.83
       grain N uptake (kg/ha) =      43.97                     senesced N content (kg/ha)=   12.62
       green N content (kg/ha)=      87.24                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.433
-         water stress 2 =  0.000     nitrogen stress 2 =  0.433
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.037     nitrogen stress 1 =  0.010
-         water stress 2 =  0.051     nitrogen stress 2 =  0.010
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.364     nitrogen stress 1 =  0.000
-         water stress 2 =  0.441     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.430     nitrogen stress 1 =  0.000
-         water stress 2 =  0.530     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.580     nitrogen stress 1 =  0.000
-         water stress 2 =  0.680     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.433        0.433
+         end_of_juvenile      to floral_initiation       0.037        0.051        0.010        0.010
+         floral_initiation    to flowering               0.364        0.441        0.000        0.000
+         flowering            to start_grain_fill        0.430        0.530        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.580        0.680        0.000        0.000
      
      Crop harvested.
-         tops residue =  5479.72 kg/ha
-         tops N       =  99.84 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               5479.72                    0.00
+                          N  (kg/ha) =                 99.84                    0.00
      
-         tops removed =  1675.31 kg/ha
-         tops N removed= 43.97 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1675.31                    0.00
+                          N  (kg/ha) =                 43.97                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -5194,11 +4921,11 @@
      Manager sending message :- wheat end_crop
 31 October 1988(Day of year=305), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1524.5 kg/ha
-         root N =           38.9 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.21                 1524.51
+                          N  (kg/ha) =                  0.01                   38.90
+                          P  (kg/ha) =                                          0.00
+     
 20 May 1989(Day of year=140), manager: 
      Manager sending message :- chickpea sow  plants = 25, sowing_depth = 80, cultivar = amethyst
 20 May 1989(Day of year=140), chickpea: 
@@ -5324,50 +5051,37 @@
       senesced above ground biomass (kg/ha) =        0.0
       dead above ground biomass (kg/ha)     =     3401.7
       number of leaves       =  217.9
+      DM Root:Shoot ratio    =    0.229                       Harvest Index          =      0.350
+      Stover C:N ratio       =   24.331                       Root C:N ratio         =     26.124
       grain N percent        =       3.60                     total N content (kg/ha)=      79.23
       grain N uptake (kg/ha) =      42.90                     senesced N content (kg/ha)=    0.00
       green N content (kg/ha)=       0.00                     dead N content (kg/ha) =      36.33
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.017
-         water stress 2 =  0.000     nitrogen stress 2 =  0.017
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.114     nitrogen stress 1 =  0.000
-         water stress 2 =  0.155     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.463     nitrogen stress 1 =  0.000
-         water stress 2 =  0.553     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.017        0.017
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
+         floral_initiation    to flowering               0.000        0.000        0.000        0.000
+         flowering            to start_grain_fill        0.114        0.155        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.463        0.553        0.000        0.000
      
      Crop harvested.
-         tops residue =  2210.01 kg/ha
-         tops N       =  36.33 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               2210.01                    0.00
+                          N  (kg/ha) =                 36.33                    0.00
      
-         tops removed =  1191.73 kg/ha
-         tops N removed= 42.90 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1191.73                    0.00
+                          N  (kg/ha) =                 42.90                    0.00
      
 11 November 1989(Day of year=315), manager: 
      Manager sending message :- chickpea end_crop
 11 November 1989(Day of year=315), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.0 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =    779.3 kg/ha
-         root N =           11.9 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                  779.30
+                          N  (kg/ha) =                  0.00                   11.93
+                          P  (kg/ha) =                                          0.00
+     
 21 May 1990(Day of year=141), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = sunco
 21 May 1990(Day of year=141), wheat: 
@@ -5504,40 +5218,27 @@
       senesced above ground biomass (kg/ha) =     3011.4
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   54.1
+      DM Root:Shoot ratio    =    0.207                       Harvest Index          =      0.236
+      Stover C:N ratio       =   25.694                       Root C:N ratio         =     16.544
       grain N percent        =       2.73                     total N content (kg/ha)=     166.17
       grain N uptake (kg/ha) =      58.35                     senesced N content (kg/ha)=   15.06
       green N content (kg/ha)=      92.76                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.350
-         water stress 2 =  0.000     nitrogen stress 2 =  0.350
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.001     nitrogen stress 1 =  0.006
-         water stress 2 =  0.003     nitrogen stress 2 =  0.006
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.358     nitrogen stress 1 =  0.000
-         water stress 2 =  0.427     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.460     nitrogen stress 1 =  0.000
-         water stress 2 =  0.560     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.557     nitrogen stress 1 =  0.000
-         water stress 2 =  0.653     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.350        0.350
+         end_of_juvenile      to floral_initiation       0.001        0.003        0.006        0.006
+         floral_initiation    to flowering               0.358        0.427        0.000        0.000
+         flowering            to start_grain_fill        0.460        0.560        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.557        0.653        0.000        0.000
      
      Crop harvested.
-         tops residue =  6925.67 kg/ha
-         tops N       =  107.81 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               6925.67                    0.00
+                          N  (kg/ha) =                107.81                    0.00
      
-         tops removed =  2138.58 kg/ha
-         tops N removed= 58.35 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               2138.58                    0.00
+                          N  (kg/ha) =                 58.35                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -5550,11 +5251,11 @@
      Manager sending message :- wheat end_crop
 9 November 1990(Day of year=313), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1876.9 kg/ha
-         root N =           45.4 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.21                 1876.94
+                          N  (kg/ha) =                  0.01                   45.38
+                          P  (kg/ha) =                                          0.00
+     
 6 June 1993(Day of year=157), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = sunco
 6 June 1993(Day of year=157), wheat: 
@@ -5708,40 +5409,27 @@
       senesced above ground biomass (kg/ha) =     2632.2
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   47.7
+      DM Root:Shoot ratio    =    0.157                       Harvest Index          =      0.375
+      Stover C:N ratio       =   34.373                       Root C:N ratio         =     17.071
       grain N percent        =       2.37                     total N content (kg/ha)=     206.10
       grain N uptake (kg/ha) =     113.28                     senesced N content (kg/ha)=   13.16
       green N content (kg/ha)=      79.66                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.434
-         water stress 2 =  0.000     nitrogen stress 2 =  0.434
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.024     nitrogen stress 1 =  0.011
-         water stress 2 =  0.034     nitrogen stress 2 =  0.012
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.152     nitrogen stress 1 =  0.000
-         water stress 2 =  0.213     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.215     nitrogen stress 1 =  0.000
-         water stress 2 =  0.300     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.234     nitrogen stress 1 =  0.000
-         water stress 2 =  0.312     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.434        0.434
+         end_of_juvenile      to floral_initiation       0.024        0.034        0.011        0.012
+         floral_initiation    to flowering               0.152        0.213        0.000        0.000
+         flowering            to start_grain_fill        0.215        0.300        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.234        0.312        0.000        0.000
      
      Crop harvested.
-         tops residue =  7975.76 kg/ha
-         tops N       =  92.80 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               7975.76                    0.00
+                          N  (kg/ha) =                 92.80                    0.00
      
-         tops removed =  4779.24 kg/ha
-         tops N removed= 113.28 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               4779.24                    0.00
+                          N  (kg/ha) =                113.28                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -5754,11 +5442,11 @@
      Manager sending message :- wheat end_crop
 12 November 1993(Day of year=316), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   2008.6 kg/ha
-         root N =           47.1 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.21                 2008.63
+                          N  (kg/ha) =                  0.01                   47.06
+                          P  (kg/ha) =                                          0.00
+     
 22 May 1995(Day of year=142), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = sunco
 22 May 1995(Day of year=142), wheat: 
@@ -5886,40 +5574,27 @@
       senesced above ground biomass (kg/ha) =     2092.4
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   49.1
+      DM Root:Shoot ratio    =    0.206                       Harvest Index          =      0.269
+      Stover C:N ratio       =   58.917                       Root C:N ratio         =     17.089
       grain N percent        =       2.47                     total N content (kg/ha)=      75.08
       grain N uptake (kg/ha) =      43.02                     senesced N content (kg/ha)=   10.46
       green N content (kg/ha)=      21.59                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.402
-         water stress 2 =  0.000     nitrogen stress 2 =  0.402
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.004     nitrogen stress 1 =  0.111
-         water stress 2 =  0.010     nitrogen stress 2 =  0.148
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.384     nitrogen stress 1 =  0.104
-         water stress 2 =  0.465     nitrogen stress 2 =  0.120
-     
-      stress indices for flowering
-         water stress 1 =  0.283     nitrogen stress 1 =  0.000
-         water stress 2 =  0.356     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.457     nitrogen stress 1 =  0.000
-         water stress 2 =  0.546     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.402        0.402
+         end_of_juvenile      to floral_initiation       0.004        0.010        0.111        0.148
+         floral_initiation    to flowering               0.384        0.465        0.104        0.120
+         flowering            to start_grain_fill        0.283        0.356        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.457        0.546        0.000        0.000
      
      Crop harvested.
-         tops residue =  4721.39 kg/ha
-         tops N       =  32.04 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               4721.39                    0.00
+                          N  (kg/ha) =                 32.04                    0.00
      
-         tops removed =  1738.58 kg/ha
-         tops N removed= 43.02 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1738.58                    0.00
+                          N  (kg/ha) =                 43.02                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -5932,11 +5607,11 @@
      Manager sending message :- wheat end_crop
 29 October 1995(Day of year=302), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1330.7 kg/ha
-         root N =           31.1 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.21                 1330.67
+                          N  (kg/ha) =                  0.01                   31.15
+                          P  (kg/ha) =                                          0.00
+     
 25 June 1996(Day of year=177), manager: 
      Manager sending message :- chickpea sow  plants = 25, sowing_depth = 80, cultivar = amethyst
 25 June 1996(Day of year=177), chickpea: 
@@ -6062,50 +5737,37 @@
       senesced above ground biomass (kg/ha) =        0.0
       dead above ground biomass (kg/ha)     =     1536.7
       number of leaves       =  218.0
+      DM Root:Shoot ratio    =    0.342                       Harvest Index          =      0.270
+      Stover C:N ratio       =   23.918                       Root C:N ratio         =     24.844
       grain N percent        =       3.60                     total N content (kg/ha)=      33.71
       grain N uptake (kg/ha) =      14.96                     senesced N content (kg/ha)=    0.00
       green N content (kg/ha)=       0.00                     dead N content (kg/ha) =      18.75
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.002
-         water stress 2 =  0.000     nitrogen stress 2 =  0.002
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.044     nitrogen stress 1 =  0.000
-         water stress 2 =  0.063     nitrogen stress 2 =  0.000
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.017     nitrogen stress 1 =  0.000
-         water stress 2 =  0.022     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.420     nitrogen stress 1 =  0.000
-         water stress 2 =  0.499     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.581     nitrogen stress 1 =  0.000
-         water stress 2 =  0.673     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.002        0.002
+         end_of_juvenile      to floral_initiation       0.044        0.063        0.000        0.000
+         floral_initiation    to flowering               0.017        0.022        0.000        0.000
+         flowering            to start_grain_fill        0.420        0.499        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.581        0.673        0.000        0.000
      
      Crop harvested.
-         tops residue =  1121.20 kg/ha
-         tops N       =  18.75 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               1121.20                    0.00
+                          N  (kg/ha) =                 18.75                    0.00
      
-         tops removed =  415.50 kg/ha
-         tops N removed= 14.96 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =                415.50                    0.00
+                          N  (kg/ha) =                 14.96                    0.00
      
 28 November 1996(Day of year=333), manager: 
      Manager sending message :- chickpea end_crop
 28 November 1996(Day of year=333), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.0 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =    524.9 kg/ha
-         root N =            8.5 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                  524.87
+                          N  (kg/ha) =                  0.00                    8.45
+                          P  (kg/ha) =                                          0.00
+     
 21 May 1997(Day of year=141), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = sunco
 21 May 1997(Day of year=141), wheat: 
@@ -6269,40 +5931,27 @@
       senesced above ground biomass (kg/ha) =     1137.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   50.2
+      DM Root:Shoot ratio    =    0.209                       Harvest Index          =      0.333
+      Stover C:N ratio       =   21.075                       Root C:N ratio         =     16.737
       grain N percent        =       2.71                     total N content (kg/ha)=      70.55
       grain N uptake (kg/ha) =      29.36                     senesced N content (kg/ha)=    5.69
       green N content (kg/ha)=      35.50                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.342
-         water stress 2 =  0.000     nitrogen stress 2 =  0.342
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.214     nitrogen stress 1 =  0.006
-         water stress 2 =  0.254     nitrogen stress 2 =  0.006
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.414     nitrogen stress 1 =  0.000
-         water stress 2 =  0.478     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.342        0.342
+         end_of_juvenile      to floral_initiation       0.214        0.254        0.006        0.006
+         floral_initiation    to flowering               0.414        0.478        0.000        0.000
+         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.000
      
      Crop harvested.
-         tops residue =  2170.06 kg/ha
-         tops N       =  41.18 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               2170.06                    0.00
+                          N  (kg/ha) =                 41.18                    0.00
      
-         tops removed =  1082.75 kg/ha
-         tops N removed= 29.36 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1082.75                    0.00
+                          N  (kg/ha) =                 29.36                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -6315,11 +5964,11 @@
      Manager sending message :- wheat end_crop
 5 November 1997(Day of year=309), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =    679.6 kg/ha
-         root N =           16.2 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.19                  679.63
+                          N  (kg/ha) =                  0.01                   16.24
+                          P  (kg/ha) =                                          0.00
+     
 20 May 1998(Day of year=140), manager: 
      Manager sending message :- chickpea sow  plants = 25, sowing_depth = 80, cultivar = amethyst
 20 May 1998(Day of year=140), chickpea: 
@@ -6445,50 +6094,37 @@
       senesced above ground biomass (kg/ha) =        0.0
       dead above ground biomass (kg/ha)     =     5018.5
       number of leaves       =  262.8
+      DM Root:Shoot ratio    =    0.153                       Harvest Index          =      0.438
+      Stover C:N ratio       =   23.803                       Root C:N ratio         =     26.112
       grain N percent        =       3.60                     total N content (kg/ha)=     126.48
       grain N uptake (kg/ha) =      79.04                     senesced N content (kg/ha)=    0.00
       green N content (kg/ha)=       0.00                     dead N content (kg/ha) =      47.44
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.003
-         water stress 2 =  0.000     nitrogen stress 2 =  0.003
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.205     nitrogen stress 1 =  0.000
-         water stress 2 =  0.267     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.003        0.003
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
+         floral_initiation    to flowering               0.000        0.000        0.000        0.000
+         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.205        0.267        0.000        0.000
      
      Crop harvested.
-         tops residue =  2822.88 kg/ha
-         tops N       =  47.44 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               2822.88                    0.00
+                          N  (kg/ha) =                 47.44                    0.00
      
-         tops removed =  2195.64 kg/ha
-         tops N removed= 79.04 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               2195.64                    0.00
+                          N  (kg/ha) =                 79.04                    0.00
      
 9 November 1998(Day of year=313), manager: 
      Manager sending message :- chickpea end_crop
 9 November 1998(Day of year=313), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.0 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =    769.1 kg/ha
-         root N =           11.8 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                  769.05
+                          N  (kg/ha) =                  0.00                   11.78
+                          P  (kg/ha) =                                          0.00
+     
 12 June 1999(Day of year=163), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = hartog
 12 June 1999(Day of year=163), wheat: 
@@ -6732,40 +6368,27 @@
       senesced above ground biomass (kg/ha) =     1806.0
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   43.0
+      DM Root:Shoot ratio    =    0.192                       Harvest Index          =      0.302
+      Stover C:N ratio       =   24.929                       Root C:N ratio         =     16.550
       grain N percent        =       2.55                     total N content (kg/ha)=     131.05
       grain N uptake (kg/ha) =      53.33                     senesced N content (kg/ha)=    9.03
       green N content (kg/ha)=      68.69                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.340
-         water stress 2 =  0.000     nitrogen stress 2 =  0.340
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.029     nitrogen stress 1 =  0.008
-         water stress 2 =  0.041     nitrogen stress 2 =  0.008
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.329     nitrogen stress 1 =  0.000
-         water stress 2 =  0.415     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.125     nitrogen stress 1 =  0.000
-         water stress 2 =  0.190     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.328     nitrogen stress 1 =  0.000
-         water stress 2 =  0.408     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.340        0.340
+         end_of_juvenile      to floral_initiation       0.029        0.041        0.008        0.008
+         floral_initiation    to flowering               0.329        0.415        0.000        0.000
+         flowering            to start_grain_fill        0.125        0.190        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.328        0.408        0.000        0.000
      
      Crop harvested.
-         tops residue =  4843.44 kg/ha
-         tops N       =  77.71 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               4843.44                    0.00
+                          N  (kg/ha) =                 77.71                    0.00
      
-         tops removed =  2094.79 kg/ha
-         tops N removed= 53.33 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               2094.79                    0.00
+                          N  (kg/ha) =                 53.33                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -6778,11 +6401,11 @@
      Manager sending message :- wheat end_crop
 6 November 1999(Day of year=310), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1333.4 kg/ha
-         root N =           32.2 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.20                 1333.45
+                          N  (kg/ha) =                  0.01                   32.23
+                          P  (kg/ha) =                                          0.00
+     
 27 May 2000(Day of year=148), manager: 
      Manager sending message :- chickpea sow  plants = 25, sowing_depth = 80, cultivar = amethyst
 27 May 2000(Day of year=148), chickpea: 
@@ -6908,50 +6531,37 @@
       senesced above ground biomass (kg/ha) =        0.0
       dead above ground biomass (kg/ha)     =     3270.8
       number of leaves       =  236.4
+      DM Root:Shoot ratio    =    0.218                       Harvest Index          =      0.385
+      Stover C:N ratio       =   24.174                       Root C:N ratio         =     26.238
       grain N percent        =       3.60                     total N content (kg/ha)=      78.62
       grain N uptake (kg/ha) =      45.34                     senesced N content (kg/ha)=    0.00
       green N content (kg/ha)=       0.00                     dead N content (kg/ha) =      33.28
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.009
-         water stress 2 =  0.000     nitrogen stress 2 =  0.009
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.241     nitrogen stress 1 =  0.000
-         water stress 2 =  0.299     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.215     nitrogen stress 1 =  0.000
-         water stress 2 =  0.266     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.009        0.009
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
+         floral_initiation    to flowering               0.000        0.000        0.000        0.000
+         flowering            to start_grain_fill        0.241        0.299        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.215        0.266        0.000        0.000
      
      Crop harvested.
-         tops residue =  2011.36 kg/ha
-         tops N       =  33.28 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               2011.36                    0.00
+                          N  (kg/ha) =                 33.28                    0.00
      
-         tops removed =  1259.41 kg/ha
-         tops N removed= 45.34 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1259.41                    0.00
+                          N  (kg/ha) =                 45.34                    0.00
      
 10 November 2000(Day of year=315), manager: 
      Manager sending message :- chickpea end_crop
 10 November 2000(Day of year=315), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.0 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =    712.3 kg/ha
-         root N =           10.9 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                  712.30
+                          N  (kg/ha) =                  0.00                   10.86
+                          P  (kg/ha) =                                          0.00
+     
 10 June 2001(Day of year=161), manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 80, cultivar = hartog
 10 June 2001(Day of year=161), wheat: 
@@ -7195,40 +6805,27 @@
       senesced above ground biomass (kg/ha) =     2329.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   43.7
+      DM Root:Shoot ratio    =    0.191                       Harvest Index          =      0.320
+      Stover C:N ratio       =   22.001                       Root C:N ratio         =     16.677
       grain N percent        =       2.54                     total N content (kg/ha)=     155.20
       grain N uptake (kg/ha) =      61.60                     senesced N content (kg/ha)=   11.65
       green N content (kg/ha)=      81.95                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.432
-         water stress 2 =  0.000     nitrogen stress 2 =  0.432
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.023     nitrogen stress 1 =  0.011
-         water stress 2 =  0.039     nitrogen stress 2 =  0.011
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.426     nitrogen stress 1 =  0.000
-         water stress 2 =  0.517     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.465     nitrogen stress 1 =  0.000
-         water stress 2 =  0.565     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.233     nitrogen stress 1 =  0.000
-         water stress 2 =  0.300     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.432        0.432
+         end_of_juvenile      to floral_initiation       0.023        0.039        0.011        0.011
+         floral_initiation    to flowering               0.426        0.517        0.000        0.000
+         flowering            to start_grain_fill        0.465        0.565        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.233        0.300        0.000        0.000
      
      Crop harvested.
-         tops residue =  5148.15 kg/ha
-         tops N       =  93.59 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               5148.15                    0.00
+                          N  (kg/ha) =                 93.59                    0.00
      
-         tops removed =  2423.40 kg/ha
-         tops N removed= 61.60 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               2423.40                    0.00
+                          N  (kg/ha) =                 61.60                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -7241,10 +6838,10 @@
      Manager sending message :- wheat end_crop
 10 November 2001(Day of year=314), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.2 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1445.4 kg/ha
-         root N =           34.7 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.21                 1445.37
+                          N  (kg/ha) =                  0.01                   34.67
+                          P  (kg/ha) =                                          0.00
+     
 31 December 2002(Day of year=365), clock: 
      Simulation is terminating due to end criteria being met.
