@@ -1,34 +1,3 @@
-*     ===========================================================
-      character*(*) function sugar_version ()
-*     ===========================================================
-      implicit none
-      include 'error.pub'                         
-
-*+  Purpose
-*       Return version number of sugar module
-
-*+  Changes
-*       060495 nih taken from template
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_version')
-*
-      character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V0.3 040497')
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      sugar_version = version_number
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
 *     ================================================================
       subroutine APSIM_sugar (action, data_string)
 *     ================================================================
@@ -37,7 +6,6 @@
       include   'sugar.inc'            !
       include   'const.inc'            ! mes_presence, mes_init, mes_process
       include 'crp_comm.pub'                      
-      include 'string.pub'                        
       include 'engine.pub'                        
       include 'error.pub'                         
 
@@ -54,17 +22,11 @@
 *+  Changes
 *      250894 jngh specified and programmed
 *      050996 nih  added graze action
-*
-
-*+  Calls
-      character  sugar_version*15      ! function
+*      060599 sdb  removed version reference and presence action
 
 *+  Constant Values
       character  my_name*(*)           ! name of this procedure
       parameter (my_name='sugar')
-
-*+  Local Variables
-      character  module_name*8         ! module name
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -72,14 +34,7 @@
          ! initialise error flags
       call set_warning_off ()
  
-      if (action.eq.mes_presence) then      ! report presence
-         call get_current_module (module_name)
-         write(*, *) 'module_name = '
-     :              , module_name(:lastnb(module_name))
-     :              // blank
-     :              // sugar_version ()
- 
-      elseif (action.eq.mes_init) then
+      if (action.eq.mes_init) then
             ! Get constants
          call sugar_init ()
  
@@ -267,7 +222,7 @@
       include   'const.inc'            ! new_line, lu_scr_sum, blank,
       include   'convert.inc'          ! gm2kg, sm2ha, sm2smm
       include   'sugar.inc'
-      include 'string.pub'                        
+      include 'string.pub'  
       include 'data.pub'                          
       include 'crp_comm.pub'                      
       include 'write.pub'                         
@@ -705,9 +660,7 @@ c      g_oxdef_photo = 0.0
 
 *+  Changes
 *     060495 nih taken from template
-
-*+  Calls
-      character  sugar_version*20      ! function
+*     060599 sdb  removed version reference
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -721,10 +674,8 @@ c      g_oxdef_photo = 0.0
       call sugar_zero_soil_globals()
 
 cnh      call report_date_and_event (g_day_of_year,g_year,
-cnh     :                 ' Initialising, Version : '
-cnh     :                  // sugar_version ())
-      call report_event (' Initialising, Version : '
-     :                     // sugar_version ())
+cnh     :                 ' Initialising')
+      call report_event (' Initialising')
  
            ! initialize crop variables
  
@@ -748,7 +699,7 @@ cnh     :                  // sugar_version ())
       implicit none
       include   'const.inc'            ! lu_scr_sum, blank
       include   'sugar.inc'
-      include 'string.pub'                        
+      include 'string.pub'
       include 'intrface.pub'                      
       include 'write.pub'                         
       include 'error.pub'                         
