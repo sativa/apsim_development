@@ -72,6 +72,13 @@ Coordinator::~Coordinator(void)
 // ------------------------------------------------------------------
 void Coordinator::doInit1(const FString& sdml)
    {
+   // If this is the GOD PM then add a ComponentAlias for ourselves.
+   // This is because we sometimes send messages (e.g error)to our 'parent' PM
+   // which is ourself.
+   if (componentID == parentID)
+      components.insert(Components::value_type(componentID,
+            new ComponentAlias("MasterPM", componentID)));
+
    Component::doInit1(sdml);
 
    SOMSystem systemData(*componentData);
@@ -130,7 +137,10 @@ void Coordinator::doInit2(void)
    for (Components::iterator componentI = components.begin();
                              componentI != components.end();
                              componentI++)
-      sendMessage(newInit2Message(componentID, componentI->second->ID));
+      {
+      if (componentI->second->ID != 0)
+         sendMessage(newInit2Message(componentID, componentI->second->ID));
+      }
    }
 
 // ------------------------------------------------------------------
@@ -198,7 +208,7 @@ void Coordinator::addComponent(SOMComponent componentData)
    catch (const runtime_error& except)
       {
       delete componentAlias;
-      error(except.what(), true);
+      throw;       // cannot call error during Init1.
       }
    }
 
@@ -555,7 +565,7 @@ void Coordinator::findRegistrations(const std::string& name,
 
    // If we've got this far, then we can just just look for the variable
    // without having to worry about a component prefix.
-   for (unsigned componentID = 1; componentID <= components.size(); componentID++)
+   for (unsigned componentID = 0; componentID < components.size(); componentID++)
       {
       PMRegistrationItem* reg = findRegistration(componentID, name, type);
       if (reg != NULL)

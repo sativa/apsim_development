@@ -5,6 +5,14 @@
 using namespace std;
 using namespace protocol;
 // ------------------------------------------------------------------
+// constructor used only by the GOD PM.
+// ------------------------------------------------------------------
+ComponentAlias::ComponentAlias(const string& n,
+                               unsigned int componentAliasID)
+   : ID(componentAliasID), name(n), computation(NULL)
+   { }
+
+// ------------------------------------------------------------------
 //  Short description:
 //     constructor
 
