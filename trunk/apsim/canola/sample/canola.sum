@@ -10,7 +10,7 @@ Module = clock
 Variables =day,year
  
 Module = canola
-Variables =lai,biomass,green_biomass
+Variables =lai,biomass,green_biomass,pai
 ---------------------------------------------------------
  INPUT (met) Initialising:
 ---------------------------------------------------------
@@ -29,7 +29,8 @@ Manager rules
 if day = 130 and year  = 1988 then
 fertiliz apply amount = 100 (kg/ha), depth = 50 (mm), type = no3_n
 canola sow cultivar = hyola, plants = 40 (/m2), sowing_depth = 20 (mm), row_spacing = 300 (mm)
-elseif day = 290 and year = 1988 then
+endif
+if canola.stage_name = 'harvest_ripe' or canola.plant_status = 'dead' then
 canola harvest
 canola end_crop
 endif
@@ -207,110 +208,71 @@ report do_output
     ------------------------------------------------
  day= 131 date= 10  5 1988 canola   -  stage    2.0 germination
  day= 142 date= 21  5 1988 canola   -  stage    3.0 emergence
-                     biomass =           8.000000       lai =    0.3200000e-01
-                     stover N conc =    6.500000       extractable sw =    26.29426
+                     biomass =           1.200000       lai =    0.3200000e-01
+                     stover N conc =    6.500000       extractable sw =    51.17480
  day= 170 date= 18  6 1988 canola   -  stage    4.0 end_of_juvenile
-                     biomass =           69.03509       lai =     1.205531
-                     stover N conc =    5.162664       extractable sw =    90.48437
+                     biomass =           46.01286       lai =    0.9158397
+                     stover N conc =    5.059787       extractable sw =    92.91586
  day= 200 date= 18  7 1988 canola   -  stage    5.0 floral_initiation
-                     biomass =           348.1278       lai =     4.629514
-                     stover N conc =    4.041545       extractable sw =    151.1208
+                     biomass =           315.9473       lai =     4.435043
+                     stover N conc =    4.257101       extractable sw =    154.2271
  day= 203 date= 21  7 1988 canola   -  stage    6.0 flowering
-                     biomass =           387.3932       lai =     4.814792
-                     stover N conc =    3.701066       extractable sw =    139.5506
+                     biomass =           355.5092       lai =     4.647271
+                     stover N conc =    3.871646       extractable sw =    142.1435
  day= 219 date=  6  8 1988 canola   -  stage    7.0 start_grain_fill
-                     biomass =           604.2054       lai =     4.445957
-                     stover N conc =    2.415820       extractable sw =    94.10727
+                     biomass =           570.6667       lai =     3.525275
+                     stover N conc =    2.613817       extractable sw =    137.4324
  day= 272 date= 28  9 1988 canola   -  stage    8.0 end_grain_fill
-                     biomass =           951.9562       lai =     4.029033
-                     stover N conc =   0.5949444       extractable sw =    86.71327
+                     biomass =           942.8004       lai =    0.2000000e-02
+                     stover N conc =   0.2416122       extractable sw =    99.45490
  day= 275 date=  1 10 1988 canola   -  stage    9.0 maturity
-                     biomass =           964.4552       lai =     4.026316
-                     stover N conc =   0.5799235       extractable sw =    77.27147
+                     biomass =           949.3596       lai =    0.2000000e-02
+                     stover N conc =   0.2508959       extractable sw =    93.82034
  day= 276 date=  2 10 1988 canola   -  stage   10.0 harvest_ripe
-                     biomass =           964.4551       lai =    0.1907349e-05
-                     stover N conc =   0.6243979       extractable sw =    76.02673
- day= 277 date=  3 10 1988 canola   -  stage   10.0 harvest_ripe
-                     biomass =           964.4551       lai =    0.1907349e-05
-                     stover N conc =   0.6243979       extractable sw =    75.63233
- day= 278 date=  4 10 1988 canola   -  stage   10.0 harvest_ripe
-                     biomass =           964.4551       lai =    0.1907349e-05
-                     stover N conc =   0.6243978       extractable sw =    75.29906
- day= 279 date=  5 10 1988 canola   -  stage   10.0 harvest_ripe
-                     biomass =           964.4552       lai =    0.1907349e-05
-                     stover N conc =   0.6243980       extractable sw =    75.00948
- day= 280 date=  6 10 1988 canola   -  stage   10.0 harvest_ripe
-                     biomass =           964.4552       lai =    0.1907349e-05
-                     stover N conc =   0.6243979       extractable sw =    74.75268
- day= 281 date=  7 10 1988 canola   -  stage   10.0 harvest_ripe
-                     biomass =           964.4552       lai =    0.1907349e-05
-                     stover N conc =   0.6243979       extractable sw =    74.52137
- day= 282 date=  8 10 1988 canola   -  stage   10.0 harvest_ripe
-                     biomass =           964.4551       lai =    0.1907349e-05
-                     stover N conc =   0.6243981       extractable sw =    74.31036
- day= 283 date=  9 10 1988 canola   -  stage   10.0 harvest_ripe
-                     biomass =           964.4552       lai =    0.1907349e-05
-                     stover N conc =   0.6243981       extractable sw =    74.11584
- day= 284 date= 10 10 1988 canola   -  stage   10.0 harvest_ripe
-                     biomass =           964.4551       lai =    0.1907349e-05
-                     stover N conc =   0.6243980       extractable sw =    73.93494
- day= 285 date= 11 10 1988 canola   -  stage   10.0 harvest_ripe
-                     biomass =           964.4552       lai =    0.1907349e-05
-                     stover N conc =   0.6243977       extractable sw =    73.76538
- day= 286 date= 12 10 1988 canola   -  stage   10.0 harvest_ripe
-                     biomass =           964.4553       lai =    0.1907349e-05
-                     stover N conc =   0.6243979       extractable sw =    73.60541
- day= 287 date= 13 10 1988 canola   -  stage   10.0 harvest_ripe
-                     biomass =           964.4553       lai =    0.1907349e-05
-                     stover N conc =   0.6243978       extractable sw =    73.45359
- day= 288 date= 14 10 1988 canola   -  stage   10.0 harvest_ripe
-                     biomass =           964.4551       lai =    0.1907349e-05
-                     stover N conc =   0.6243981       extractable sw =    73.30878
- day= 289 date= 15 10 1988 canola   -  stage   10.0 harvest_ripe
-                     biomass =           964.4552       lai =    0.1907349e-05
-                     stover N conc =   0.6243979       extractable sw =    73.17000
- Day= 290 Year =  1988     Manager sending message :- canola harvest
+                     biomass =           949.3596       lai =    0.2000000e-02
+                     stover N conc =   0.2508957       extractable sw =    92.67863
+ Day= 277 Year =  1988     Manager sending message :- canola harvest
  
- flowering day  =  203                  stover (kg/ha) =    6521.7
- maturity day        =  275             grain yield (kg/ha) =    3122.8
- grain % water content   =    8.5       grain yield wet (kg/ha) =    3412.9
+ flowering day  =  203                  stover (kg/ha) =    6322.0
+ maturity day        =  275             grain yield (kg/ha) =    3171.6
+ grain % water content   =    8.5       grain yield wet (kg/ha) =    3466.2
  grain wt (g) =     0.000               grains/m^2   =     0.000
- grains/head =   0.0                    maximum lai = 4.848
- total above ground biomass (kg/ha) =    9644.6
- live above ground biomass (kg/ha) =    9644.6
- green above ground biomass (kg/ha) =    6991.4
- senesced above ground biomass (kg/ha) =    2653.2
+ grains/head =   0.0                    maximum lai = 4.672
+ total above ground biomass (kg/ha) =    9493.6
+ live above ground biomass (kg/ha) =    9493.6
+ green above ground biomass (kg/ha) =    7084.5
+ senesced above ground biomass (kg/ha) =    2409.1
  dead above ground biomass (kg/ha) =       0.0
  number of leaves =  26.7
- grain N percent =      3.56            total N content (kg/ha) =    148.71
- grain N uptake (kg/ha) =    111.29     senesced N content (kg/ha) =     13.27
- green N content (kg/ha) =     24.16    dead N content (kg/ha) =      0.00
+ grain N percent =      3.99            total N content (kg/ha) =    148.41
+ grain N uptake (kg/ha) =    126.55     senesced N content (kg/ha) =     12.05
+ green N content (kg/ha) =      9.82    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
- water stress 1 =       0.0000000   nitrogen stress 1 =       0.0580231
- water stress 2 =       0.0000000   nitrogen stress 2 =       0.2012374
+ water stress 1 =       0.0000000   nitrogen stress 1 =       0.2072661
+ water stress 2 =       0.0000000   nitrogen stress 2 =       0.3587643
  
  stress indices for end_of_juvenile
- water stress 1 =       0.0000000   nitrogen stress 1 =       0.0607914
- water stress 2 =       0.0000000   nitrogen stress 2 =       0.2237018
+ water stress 1 =       0.0000000   nitrogen stress 1 =       0.0544841
+ water stress 2 =       0.0000000   nitrogen stress 2 =       0.2138948
  
  stress indices for floral_initiation
- water stress 1 =       0.0000000   nitrogen stress 1 =       0.1511672
- water stress 2 =       0.0000000   nitrogen stress 2 =       0.2529676
+ water stress 1 =       0.0000000   nitrogen stress 1 =       0.0249241
+ water stress 2 =       0.0000000   nitrogen stress 2 =       0.1329920
  
  stress indices for flowering
  water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
  water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
  
  stress indices for start_grain_fill
- water stress 1 =       0.0170825   nitrogen stress 1 =       0.3797181
- water stress 2 =       0.0227750   nitrogen stress 2 =       0.4104062
- Day= 290 Year =  1988     Manager sending message :- canola end_crop
- day= 290 date= 16 10 1988 canola   -     ended. Yield (dw) =     0.0
-                                          straw residue =  602.4 kg/ha
-                                          straw N =    1.9 kg/ha
-                                          root residue = 2986.8 kg/ha
-                                          root N =   28.3 kg/ha
+ water stress 1 =       0.0016967   nitrogen stress 1 =       0.1122945
+ water stress 2 =       0.0035943   nitrogen stress 2 =       0.1249260
+ Day= 277 Year =  1988     Manager sending message :- canola end_crop
+ day= 277 date=  3 10 1988 canola   -     ended. Yield (dw) =     0.0
+                                          straw residue =  562.4 kg/ha
+                                          straw N =    2.0 kg/ha
+                                          root residue = 3093.0 kg/ha
+                                          root N =   30.9 kg/ha
 Simulation is terminating due to end criteria being met.
  
 ======= End of APSIM simulation ==============================

@@ -20,7 +20,8 @@ Manager rules
 ------- -----
 if day = 330 and year  = 1988 then
 cowpea sow cultivar = banjo, plants = 25 (/m2), sowing_depth = 40 (mm)
-elseif day = 50 and year = 1989 then
+endif
+if cowpea.stage_name = 'harvest_ripe' or cowpea.plant_status = 'dead' then
 cowpea harvest
 cowpea end_crop
 endif
@@ -193,77 +194,71 @@ report do_output
     ------------------------------------------------
  day= 331 date= 26 11 1988 cowpea   -  stage    2.0 germination
  day= 336 date=  1 12 1988 cowpea   -  stage    3.0 emergence
-                     biomass =           10.15000       lai =    0.2000000
-                     stover N conc =    6.000000       extractable sw =    23.17695
- day=  10 date= 10  1 1989 cowpea   -  stage    4.0 end_of_juvenile
-                     biomass =           420.5338       lai =     5.118012
-                     stover N conc =    3.062184       extractable sw =    153.3391
- day=  15 date= 15  1 1989 cowpea   -  stage    5.0 floral_initiation
-                     biomass =           530.2545       lai =     6.095997
-                     stover N conc =    2.815297       extractable sw =    137.0054
- day=  17 date= 17  1 1989 cowpea   -  stage    6.0 flowering
-                     biomass =           571.4462       lai =     6.337609
-                     stover N conc =    2.784801       extractable sw =    156.0393
- day=  23 date= 23  1 1989 cowpea   -  stage    7.0 start_grain_fill
-                     biomass =           652.9242       lai =     6.186649
-                     stover N conc =    2.672745       extractable sw =    120.6873
- day=  45 date= 14  2 1989 cowpea   -  stage    8.0 end_grain_fill
-                     biomass =           866.4905       lai =     1.750100
-                     stover N conc =    2.288395       extractable sw =    67.25081
- day=  46 date= 15  2 1989 cowpea   -  stage    9.0 maturity
-                     biomass =           871.2371       lai =     1.530419
-                     stover N conc =    2.313847       extractable sw =    63.50562
- day=  47 date= 16  2 1989 cowpea   -  stage   10.0 harvest_ripe
-                     biomass =           871.2371       lai =    0.9536743e-06
-                     stover N conc =    2.710065       extractable sw =    60.39357
- day=  48 date= 17  2 1989 cowpea   -  stage   10.0 harvest_ripe
-                     biomass =           871.2371       lai =    0.9536743e-06
-                     stover N conc =    2.710065       extractable sw =    59.67225
- day=  49 date= 18  2 1989 cowpea   -  stage   10.0 harvest_ripe
-                     biomass =           871.2371       lai =    0.9536743e-06
-                     stover N conc =    2.710066       extractable sw =    59.04790
- Day=  50 Year =  1989     Manager sending message :- cowpea harvest
+                     biomass =          0.7500000       lai =    0.2500000e-01
+                     stover N conc =    6.000000       extractable sw =    45.57298
+ day=   9 date=  9  1 1989 cowpea   -  stage    4.0 end_of_juvenile
+                     biomass =           336.1581       lai =     4.674975
+                     stover N conc =    3.020109       extractable sw =    177.0642
+ day=  13 date= 13  1 1989 cowpea   -  stage    5.0 floral_initiation
+                     biomass =           426.1851       lai =     5.641269
+                     stover N conc =    2.861996       extractable sw =    165.3382
+ day=  15 date= 15  1 1989 cowpea   -  stage    6.0 flowering
+                     biomass =           474.3685       lai =     6.030820
+                     stover N conc =    2.776291       extractable sw =    184.4301
+ day=  22 date= 22  1 1989 cowpea   -  stage    7.0 start_grain_fill
+                     biomass =           591.7503       lai =     6.175560
+                     stover N conc =    2.658832       extractable sw =    129.6550
+ day=  43 date= 12  2 1989 cowpea   -  stage    8.0 end_grain_fill
+                     biomass =           823.4058       lai =     2.143494
+                     stover N conc =    2.155645       extractable sw =    76.62656
+ day=  44 date= 13  2 1989 cowpea   -  stage    9.0 maturity
+                     biomass =           830.1586       lai =     1.909209
+                     stover N conc =    2.171360       extractable sw =    72.20441
+ day=  45 date= 14  2 1989 cowpea   -  stage   10.0 harvest_ripe
+                     biomass =           830.1585       lai =    0.0000000
+                     stover N conc =    2.696317       extractable sw =    68.02391
+ Day=  46 Year =  1989     Manager sending message :- cowpea harvest
  
- flowering day  =   17                  stover (kg/ha) =    6246.3
- maturity day        =   46             grain yield (kg/ha) =    2466.1
- grain % water content   =   12.0       grain yield wet (kg/ha) =    2802.4
+ flowering day  =   15                  stover (kg/ha) =    5808.0
+ maturity day        =   44             grain yield (kg/ha) =    2493.6
+ grain % water content   =   12.0       grain yield wet (kg/ha) =    2833.6
  grain wt (g) =     0.000               grains/m^2   =     0.000
- grains/head =   0.0                    maximum lai = 6.338
- total above ground biomass (kg/ha) =    8712.4
- live above ground biomass (kg/ha) =    8712.4
- green above ground biomass (kg/ha) =    5733.2
- senesced above ground biomass (kg/ha) =    2979.1
+ grains/head =   0.0                    maximum lai = 6.297
+ total above ground biomass (kg/ha) =    8301.6
+ live above ground biomass (kg/ha) =    8301.6
+ green above ground biomass (kg/ha) =    5385.8
+ senesced above ground biomass (kg/ha) =    2915.8
  dead above ground biomass (kg/ha) =       0.0
- number of leaves =  27.6
- grain N percent =      4.50            total N content (kg/ha) =    202.49
- grain N uptake (kg/ha) =    110.97     senesced N content (kg/ha) =      2.98
- green N content (kg/ha) =     88.54    dead N content (kg/ha) =      0.00
+ number of leaves =  26.0
+ grain N percent =      4.50            total N content (kg/ha) =    193.11
+ grain N uptake (kg/ha) =    112.21     senesced N content (kg/ha) =      2.92
+ green N content (kg/ha) =     77.98    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
- water stress 1 =       0.0070341   nitrogen stress 1 =       0.0041104
- water stress 2 =       0.0109707   nitrogen stress 2 =       0.0041104
+ water stress 1 =       0.0000649   nitrogen stress 1 =       0.0042661
+ water stress 2 =       0.0026796   nitrogen stress 2 =       0.0155240
  
  stress indices for end_of_juvenile
- water stress 1 =       0.0626286   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.1209495   nitrogen stress 2 =       0.0000000
+ water stress 1 =       0.0797974   nitrogen stress 1 =       0.0000000
+ water stress 2 =       0.1378964   nitrogen stress 2 =       0.0000000
  
  stress indices for floral_initiation
- water stress 1 =       0.1011653   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.1977193   nitrogen stress 2 =       0.0000000
+ water stress 1 =       0.0089916   nitrogen stress 1 =       0.0000000
+ water stress 2 =       0.0366304   nitrogen stress 2 =       0.0000000
  
  stress indices for flowering
- water stress 1 =       0.3512170   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.4366895   nitrogen stress 2 =       0.0000000
+ water stress 1 =       0.3207276   nitrogen stress 1 =       0.0000000
+ water stress 2 =       0.4139875   nitrogen stress 2 =       0.0000000
  
  stress indices for start_grain_fill
- water stress 1 =       0.3638113   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.4401681   nitrogen stress 2 =       0.0000000
- Day=  50 Year =  1989     Manager sending message :- cowpea end_crop
- day=  50 date= 19  2 1989 cowpea   -     ended. Yield (dw) =     0.0
+ water stress 1 =       0.3412983   nitrogen stress 1 =       0.0000000
+ water stress 2 =       0.4131974   nitrogen stress 2 =       0.0000000
+ Day=  46 Year =  1989     Manager sending message :- cowpea end_crop
+ day=  46 date= 15  2 1989 cowpea   -     ended. Yield (dw) =     0.0
                                           straw residue =    0.0 kg/ha
                                           straw N =    0.0 kg/ha
-                                          root residue = 4464.7 kg/ha
-                                          root N =   73.2 kg/ha
+                                          root residue = 3947.6 kg/ha
+                                          root N =   63.7 kg/ha
 Simulation is terminating due to end criteria being met.
  
 ======= End of APSIM simulation ==============================
