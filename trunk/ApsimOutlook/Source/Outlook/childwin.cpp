@@ -26,6 +26,9 @@
 #pragma link "TAPSTable_2_TDataSet"
 #pragma link "TAuto_size_panel"
 #pragma link "kbmMemTable"
+#pragma link "AdvGrid"
+#pragma link "BaseGrid"
+#pragma link "dbadvgrd"
 #pragma resource "*.dfm"
 
 static const char* OPTIONS_SECTION = "options";
@@ -377,7 +380,9 @@ void __fastcall TMDIChild::ViewData(TObject *Sender)
    ChartsViewDataMenu->Checked = !ChartsViewDataMenu->Checked;
    Splitter->Visible = ChartsViewDataMenu->Checked;
    Grid->Visible = ChartsViewDataMenu->Checked;
+   Grid->Datasource = NULL;
    APSTable_2_TDataSet->Refresh();
+   Grid->Datasource = Grid_data_source;
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::ChartsNoChartMenuClick(TObject *Sender)
@@ -395,12 +400,13 @@ void __fastcall TMDIChild::SendDataToEXCEL(TObject *Sender)
    {
    TCursor Saved_Cursor = Screen->Cursor;
    Screen->Cursor = crHourGlass;
-   if (!Excel->IsCreated() || !Excel->Visible)
-      Excel->CreateExcelInstance();
 
+   Grid->Datasource = NULL;
    APSTable_2_TDataSet->Refresh();
-   Excel->DataSetToExcel (APSTable_2_TDataSet);
-   Excel->Visible = true;
+   Grid->Datasource = Grid_data_source;
+   Grid->ExcelClipboardFormat = true;
+   Grid->CopyToClipBoard();
+
    Screen->Cursor = Saved_Cursor;
    }
 //---------------------------------------------------------------------------
