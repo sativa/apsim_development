@@ -19,7 +19,7 @@
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
      Component DLL          = c:\development\apsim\soiltemp\lib\soiltemp.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
      Component DLL          = c:\development\apsim\parasite\lib\parasite.dll
@@ -168,30 +168,29 @@
 ------- soiltemp Initialisation -----------------------------------------------
      Initialising :
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-              2000.0    26.7     0.0  mungbean
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    30.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -367,7 +366,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.02735163 <= 10000.00
+     Condition : 0.00 <= -0.02731539 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -377,7 +376,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.005251512 <= 10000.00
+     Condition : 0.00 <= -0.005244556 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -387,7 +386,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.02735163 <= 10000.00
+     Condition : 0.00 <= -0.02731539 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -397,7 +396,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.005251512 <= 10000.00
+     Condition : 0.00 <= -0.005244556 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -407,7 +406,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.02735163 <= 10000.00
+     Condition : 0.00 <= -0.02731539 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -417,7 +416,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.005251512 <= 10000.00
+     Condition : 0.00 <= -0.005244556 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -428,7 +427,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.08497099 <= 10000.00
+     Condition : 0.00 <= -0.08493926 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -438,7 +437,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01631443 <= 10000.00
+     Condition : 0.00 <= -0.01630834 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -448,7 +447,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.08497099 <= 10000.00
+     Condition : 0.00 <= -0.08493926 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -458,7 +457,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01631443 <= 10000.00
+     Condition : 0.00 <= -0.01630834 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -468,7 +467,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.08497099 <= 10000.00
+     Condition : 0.00 <= -0.08493926 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -478,7 +477,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01631443 <= 10000.00
+     Condition : 0.00 <= -0.01630834 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -489,7 +488,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.10758 <= 10000.00
+     Condition : 0.00 <= -0.1075585 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -499,7 +498,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02065535 <= 10000.00
+     Condition : 0.00 <= -0.02065123 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -509,7 +508,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.10758 <= 10000.00
+     Condition : 0.00 <= -0.1075585 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -519,7 +518,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02065535 <= 10000.00
+     Condition : 0.00 <= -0.02065123 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -529,7 +528,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.10758 <= 10000.00
+     Condition : 0.00 <= -0.1075585 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -539,7 +538,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02065535 <= 10000.00
+     Condition : 0.00 <= -0.02065123 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -550,7 +549,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1071391 <= 10000.00
+     Condition : 0.00 <= -0.1071467 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -560,7 +559,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.0205707 <= 10000.00
+     Condition : 0.00 <= -0.02057217 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -570,7 +569,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1071391 <= 10000.00
+     Condition : 0.00 <= -0.1071467 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -580,7 +579,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.0205707 <= 10000.00
+     Condition : 0.00 <= -0.02057217 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -590,7 +589,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1071391 <= 10000.00
+     Condition : 0.00 <= -0.1071467 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -600,7 +599,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.0205707 <= 10000.00
+     Condition : 0.00 <= -0.02057217 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -672,7 +671,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.102111 <= 10000.00
+     Condition : 0.00 <= -0.1021035 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -682,7 +681,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01960532 <= 10000.00
+     Condition : 0.00 <= -0.01960387 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -692,7 +691,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.102111 <= 10000.00
+     Condition : 0.00 <= -0.1021035 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -702,7 +701,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01960532 <= 10000.00
+     Condition : 0.00 <= -0.01960387 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -712,7 +711,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.102111 <= 10000.00
+     Condition : 0.00 <= -0.1021035 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -722,7 +721,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01960532 <= 10000.00
+     Condition : 0.00 <= -0.01960387 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -733,7 +732,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1173699 <= 10000.00
+     Condition : 0.00 <= -0.1173716 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -743,7 +742,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02253502 <= 10000.00
+     Condition : 0.00 <= -0.02253536 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -753,7 +752,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1173699 <= 10000.00
+     Condition : 0.00 <= -0.1173716 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -763,7 +762,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02253502 <= 10000.00
+     Condition : 0.00 <= -0.02253536 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -773,7 +772,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1173699 <= 10000.00
+     Condition : 0.00 <= -0.1173716 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -783,7 +782,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02253502 <= 10000.00
+     Condition : 0.00 <= -0.02253536 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -794,7 +793,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1238359 <= 10000.00
+     Condition : 0.00 <= -0.123853 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -804,7 +803,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02377649 <= 10000.00
+     Condition : 0.00 <= -0.02377977 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -814,7 +813,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1238359 <= 10000.00
+     Condition : 0.00 <= -0.123853 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -824,7 +823,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02377649 <= 10000.00
+     Condition : 0.00 <= -0.02377977 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -834,7 +833,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1238359 <= 10000.00
+     Condition : 0.00 <= -0.123853 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -844,7 +843,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02377649 <= 10000.00
+     Condition : 0.00 <= -0.02377977 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -855,7 +854,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1115183 <= 10000.00
+     Condition : 0.00 <= -0.1115078 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -865,7 +864,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02141151 <= 10000.00
+     Condition : 0.00 <= -0.02140949 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -875,7 +874,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1115183 <= 10000.00
+     Condition : 0.00 <= -0.1115078 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -885,7 +884,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02141151 <= 10000.00
+     Condition : 0.00 <= -0.02140949 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -895,7 +894,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1115183 <= 10000.00
+     Condition : 0.00 <= -0.1115078 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -905,7 +904,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02141151 <= 10000.00
+     Condition : 0.00 <= -0.02140949 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -916,7 +915,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.0860558 <= 10000.00
+     Condition : 0.00 <= -0.08605165 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -926,7 +925,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01652271 <= 10000.00
+     Condition : 0.00 <= -0.01652192 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -936,7 +935,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.0860558 <= 10000.00
+     Condition : 0.00 <= -0.08605165 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -946,7 +945,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01652271 <= 10000.00
+     Condition : 0.00 <= -0.01652192 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -956,7 +955,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.0860558 <= 10000.00
+     Condition : 0.00 <= -0.08605165 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -966,7 +965,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01652271 <= 10000.00
+     Condition : 0.00 <= -0.01652192 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -977,7 +976,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.08111667 <= 10000.00
+     Condition : 0.00 <= -0.08111534 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -987,7 +986,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.0155744 <= 10000.00
+     Condition : 0.00 <= -0.01557415 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -997,7 +996,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.08111667 <= 10000.00
+     Condition : 0.00 <= -0.08111534 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1007,7 +1006,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.0155744 <= 10000.00
+     Condition : 0.00 <= -0.01557415 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1017,7 +1016,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.08111667 <= 10000.00
+     Condition : 0.00 <= -0.08111534 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1027,7 +1026,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.0155744 <= 10000.00
+     Condition : 0.00 <= -0.01557415 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1038,7 +1037,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06484918 <= 10000.00
+     Condition : 0.00 <= -0.06485892 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1048,7 +1047,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01245104 <= 10000.00
+     Condition : 0.00 <= -0.01245291 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1058,7 +1057,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06484918 <= 10000.00
+     Condition : 0.00 <= -0.06485892 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1068,7 +1067,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01245104 <= 10000.00
+     Condition : 0.00 <= -0.01245291 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1078,7 +1077,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06484918 <= 10000.00
+     Condition : 0.00 <= -0.06485892 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1088,7 +1087,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01245104 <= 10000.00
+     Condition : 0.00 <= -0.01245291 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1099,7 +1098,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1130496 <= 10000.00
+     Condition : 0.00 <= -0.113041 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1109,7 +1108,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02170553 <= 10000.00
+     Condition : 0.00 <= -0.02170387 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1119,7 +1118,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1130496 <= 10000.00
+     Condition : 0.00 <= -0.113041 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1129,7 +1128,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02170553 <= 10000.00
+     Condition : 0.00 <= -0.02170387 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1139,7 +1138,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1130496 <= 10000.00
+     Condition : 0.00 <= -0.113041 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1149,7 +1148,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02170553 <= 10000.00
+     Condition : 0.00 <= -0.02170387 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1160,7 +1159,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1481226 <= 10000.00
+     Condition : 0.00 <= -0.1481124 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1170,7 +1169,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02843954 <= 10000.00
+     Condition : 0.00 <= -0.02843759 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1180,7 +1179,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1481226 <= 10000.00
+     Condition : 0.00 <= -0.1481124 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1190,7 +1189,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02843954 <= 10000.00
+     Condition : 0.00 <= -0.02843759 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1200,7 +1199,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1481226 <= 10000.00
+     Condition : 0.00 <= -0.1481124 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1210,7 +1209,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02843954 <= 10000.00
+     Condition : 0.00 <= -0.02843759 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1282,7 +1281,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1141791 <= 10000.00
+     Condition : 0.00 <= -0.114205 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1292,7 +1291,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02192239 <= 10000.00
+     Condition : 0.00 <= -0.02192736 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1302,7 +1301,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1141791 <= 10000.00
+     Condition : 0.00 <= -0.114205 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1312,7 +1311,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02192239 <= 10000.00
+     Condition : 0.00 <= -0.02192736 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1322,7 +1321,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1141791 <= 10000.00
+     Condition : 0.00 <= -0.114205 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1332,7 +1331,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02192239 <= 10000.00
+     Condition : 0.00 <= -0.02192736 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1343,7 +1342,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.09815525 <= 10000.00
+     Condition : 0.00 <= -0.09814885 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1353,7 +1352,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01884581 <= 10000.00
+     Condition : 0.00 <= -0.01884458 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1363,7 +1362,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.09815525 <= 10000.00
+     Condition : 0.00 <= -0.09814885 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1373,7 +1372,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01884581 <= 10000.00
+     Condition : 0.00 <= -0.01884458 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1383,7 +1382,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.09815525 <= 10000.00
+     Condition : 0.00 <= -0.09814885 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1393,7 +1392,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01884581 <= 10000.00
+     Condition : 0.00 <= -0.01884458 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1404,7 +1403,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.07964106 <= 10000.00
+     Condition : 0.00 <= -0.07964785 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1414,7 +1413,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01529108 <= 10000.00
+     Condition : 0.00 <= -0.01529239 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1424,7 +1423,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.07964106 <= 10000.00
+     Condition : 0.00 <= -0.07964785 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1434,7 +1433,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01529108 <= 10000.00
+     Condition : 0.00 <= -0.01529239 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1444,7 +1443,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.07964106 <= 10000.00
+     Condition : 0.00 <= -0.07964785 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1454,7 +1453,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01529108 <= 10000.00
+     Condition : 0.00 <= -0.01529239 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1526,7 +1525,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06734269 <= 10000.00
+     Condition : 0.00 <= -0.06733532 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1536,7 +1535,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.0129298 <= 10000.00
+     Condition : 0.00 <= -0.01292838 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1546,7 +1545,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06734269 <= 10000.00
+     Condition : 0.00 <= -0.06733532 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1556,7 +1555,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.0129298 <= 10000.00
+     Condition : 0.00 <= -0.01292838 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1566,7 +1565,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06734269 <= 10000.00
+     Condition : 0.00 <= -0.06733532 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1576,7 +1575,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.0129298 <= 10000.00
+     Condition : 0.00 <= -0.01292838 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1587,7 +1586,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06534347 <= 10000.00
+     Condition : 0.00 <= -0.06535213 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1597,7 +1596,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01254595 <= 10000.00
+     Condition : 0.00 <= -0.01254761 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1607,7 +1606,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06534347 <= 10000.00
+     Condition : 0.00 <= -0.06535213 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1617,7 +1616,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01254595 <= 10000.00
+     Condition : 0.00 <= -0.01254761 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1627,7 +1626,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06534347 <= 10000.00
+     Condition : 0.00 <= -0.06535213 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1637,7 +1636,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01254595 <= 10000.00
+     Condition : 0.00 <= -0.01254761 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1648,7 +1647,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.07506751 <= 10000.00
+     Condition : 0.00 <= -0.07505892 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1658,7 +1657,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01441296 <= 10000.00
+     Condition : 0.00 <= -0.01441131 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1668,7 +1667,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.07506751 <= 10000.00
+     Condition : 0.00 <= -0.07505892 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1678,7 +1677,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01441296 <= 10000.00
+     Condition : 0.00 <= -0.01441131 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1688,7 +1687,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.07506751 <= 10000.00
+     Condition : 0.00 <= -0.07505892 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1698,7 +1697,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01441296 <= 10000.00
+     Condition : 0.00 <= -0.01441131 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1709,7 +1708,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.0748125 <= 10000.00
+     Condition : 0.00 <= -0.07481167 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1719,7 +1718,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.014364 <= 10000.00
+     Condition : 0.00 <= -0.01436384 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1729,7 +1728,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.0748125 <= 10000.00
+     Condition : 0.00 <= -0.07481167 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1739,7 +1738,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.014364 <= 10000.00
+     Condition : 0.00 <= -0.01436384 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1749,7 +1748,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.0748125 <= 10000.00
+     Condition : 0.00 <= -0.07481167 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1759,7 +1758,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.014364 <= 10000.00
+     Condition : 0.00 <= -0.01436384 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1770,7 +1769,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.069025 <= 10000.00
+     Condition : 0.00 <= -0.06903181 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1780,7 +1779,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.0132528 <= 10000.00
+     Condition : 0.00 <= -0.01325411 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1790,7 +1789,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.069025 <= 10000.00
+     Condition : 0.00 <= -0.06903181 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1800,7 +1799,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.0132528 <= 10000.00
+     Condition : 0.00 <= -0.01325411 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1810,7 +1809,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.069025 <= 10000.00
+     Condition : 0.00 <= -0.06903181 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1820,7 +1819,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.0132528 <= 10000.00
+     Condition : 0.00 <= -0.01325411 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1831,7 +1830,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06674966 <= 10000.00
+     Condition : 0.00 <= -0.06675041 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1841,7 +1840,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01281594 <= 10000.00
+     Condition : 0.00 <= -0.01281608 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1851,7 +1850,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06674966 <= 10000.00
+     Condition : 0.00 <= -0.06675041 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1861,7 +1860,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01281594 <= 10000.00
+     Condition : 0.00 <= -0.01281608 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1871,7 +1870,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06674966 <= 10000.00
+     Condition : 0.00 <= -0.06675041 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1881,7 +1880,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01281594 <= 10000.00
+     Condition : 0.00 <= -0.01281608 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1892,7 +1891,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06410673 <= 10000.00
+     Condition : 0.00 <= -0.06410008 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1902,7 +1901,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01230849 <= 10000.00
+     Condition : 0.00 <= -0.01230722 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1912,7 +1911,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06410673 <= 10000.00
+     Condition : 0.00 <= -0.06410008 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1922,7 +1921,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01230849 <= 10000.00
+     Condition : 0.00 <= -0.01230722 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1932,7 +1931,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06410673 <= 10000.00
+     Condition : 0.00 <= -0.06410008 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1942,7 +1941,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01230849 <= 10000.00
+     Condition : 0.00 <= -0.01230722 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1953,7 +1952,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1078869 <= 10000.00
+     Condition : 0.00 <= -0.1078731 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1963,7 +1962,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02071428 <= 10000.00
+     Condition : 0.00 <= -0.02071163 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1973,7 +1972,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1078869 <= 10000.00
+     Condition : 0.00 <= -0.1078731 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1983,7 +1982,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02071428 <= 10000.00
+     Condition : 0.00 <= -0.02071163 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1993,7 +1992,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.1078869 <= 10000.00
+     Condition : 0.00 <= -0.1078731 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2003,7 +2002,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.02071428 <= 10000.00
+     Condition : 0.00 <= -0.02071163 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2014,7 +2013,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.09275711 <= 10000.00
+     Condition : 0.00 <= -0.09276945 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2024,7 +2023,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01780936 <= 10000.00
+     Condition : 0.00 <= -0.01781174 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2034,7 +2033,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.09275711 <= 10000.00
+     Condition : 0.00 <= -0.09276945 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2044,7 +2043,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01780936 <= 10000.00
+     Condition : 0.00 <= -0.01781174 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2054,7 +2053,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.09275711 <= 10000.00
+     Condition : 0.00 <= -0.09276945 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2064,7 +2063,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01780936 <= 10000.00
+     Condition : 0.00 <= -0.01781174 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2075,7 +2074,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.08793692 <= 10000.00
+     Condition : 0.00 <= -0.08792597 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2085,7 +2084,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01688389 <= 10000.00
+     Condition : 0.00 <= -0.01688179 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2095,7 +2094,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.08793692 <= 10000.00
+     Condition : 0.00 <= -0.08792597 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2105,7 +2104,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01688389 <= 10000.00
+     Condition : 0.00 <= -0.01688179 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2115,7 +2114,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.08793692 <= 10000.00
+     Condition : 0.00 <= -0.08792597 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2125,7 +2124,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01688389 <= 10000.00
+     Condition : 0.00 <= -0.01688179 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2136,7 +2135,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06827288 <= 10000.00
+     Condition : 0.00 <= -0.06827461 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2146,7 +2145,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01310839 <= 10000.00
+     Condition : 0.00 <= -0.01310873 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2156,7 +2155,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06827288 <= 10000.00
+     Condition : 0.00 <= -0.06827461 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2166,7 +2165,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01310839 <= 10000.00
+     Condition : 0.00 <= -0.01310873 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2176,7 +2175,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06827288 <= 10000.00
+     Condition : 0.00 <= -0.06827461 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2186,7 +2185,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01310839 <= 10000.00
+     Condition : 0.00 <= -0.01310873 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2197,7 +2196,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06663398 <= 10000.00
+     Condition : 0.00 <= -0.06664195 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2207,7 +2206,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01279373 <= 10000.00
+     Condition : 0.00 <= -0.01279525 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2217,7 +2216,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06663398 <= 10000.00
+     Condition : 0.00 <= -0.06664195 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2227,7 +2226,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01279373 <= 10000.00
+     Condition : 0.00 <= -0.01279525 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2237,7 +2236,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06663398 <= 10000.00
+     Condition : 0.00 <= -0.06664195 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2247,7 +2246,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01279373 <= 10000.00
+     Condition : 0.00 <= -0.01279525 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2258,7 +2257,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06962627 <= 10000.00
+     Condition : 0.00 <= -0.06963334 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2268,7 +2267,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01336825 <= 10000.00
+     Condition : 0.00 <= -0.0133696 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2278,7 +2277,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06962627 <= 10000.00
+     Condition : 0.00 <= -0.06963334 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2288,7 +2287,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01336825 <= 10000.00
+     Condition : 0.00 <= -0.0133696 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2298,7 +2297,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.06962627 <= 10000.00
+     Condition : 0.00 <= -0.06963334 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2308,7 +2307,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01336825 <= 10000.00
+     Condition : 0.00 <= -0.0133696 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2319,7 +2318,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.07165501 <= 10000.00
+     Condition : 0.00 <= -0.07166405 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2329,7 +2328,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01375776 <= 10000.00
+     Condition : 0.00 <= -0.0137595 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2339,7 +2338,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.07165501 <= 10000.00
+     Condition : 0.00 <= -0.07166405 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2349,7 +2348,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01375776 <= 10000.00
+     Condition : 0.00 <= -0.0137595 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2359,7 +2358,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.07165501 <= 10000.00
+     Condition : 0.00 <= -0.07166405 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2369,7 +2368,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01375776 <= 10000.00
+     Condition : 0.00 <= -0.0137595 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2441,7 +2440,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.05792786 <= 10000.00
+     Condition : 0.00 <= -0.05792743 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2451,7 +2450,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01112215 <= 10000.00
+     Condition : 0.00 <= -0.01112207 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2461,7 +2460,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.05792786 <= 10000.00
+     Condition : 0.00 <= -0.05792743 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2471,7 +2470,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01112215 <= 10000.00
+     Condition : 0.00 <= -0.01112207 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2481,7 +2480,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.05792786 <= 10000.00
+     Condition : 0.00 <= -0.05792743 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2491,7 +2490,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01112215 <= 10000.00
+     Condition : 0.00 <= -0.01112207 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2502,7 +2501,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.05449905 <= 10000.00
+     Condition : 0.00 <= -0.05449947 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2512,7 +2511,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01046382 <= 10000.00
+     Condition : 0.00 <= -0.0104639 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2522,7 +2521,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.05449905 <= 10000.00
+     Condition : 0.00 <= -0.05449947 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2532,7 +2531,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01046382 <= 10000.00
+     Condition : 0.00 <= -0.0104639 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2542,7 +2541,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_dm_demand
-     Condition : 0.00 <= -0.05449905 <= 10000.00
+     Condition : 0.00 <= -0.05449947 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2552,7 +2551,7 @@
                       -------------------
      Bound check warning while getting variable.
      Variable  : parasite_sw_demand
-     Condition : 0.00 <= -0.01046382 <= 10000.00
+     Condition : 0.00 <= -0.0104639 <= 10000.00
      Component name: fababean
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2573,18 +2572,18 @@
 19 November 1988(Day of year=324), fababean: 
      
       flowering day          =  194                           stover (kg/ha)         =     7805.3
-      maturity day           =  322                           grain yield (kg/ha)    =     7802.0
+      maturity day           =  322                           grain yield (kg/ha)    =     7801.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     8916.5
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      6.284
       total above ground biomass (kg/ha)    =    15607.3
       live above ground biomass (kg/ha)     =    15607.3
-      green above ground biomass (kg/ha)    =    14987.9
+      green above ground biomass (kg/ha)    =    14987.8
       senesced above ground biomass (kg/ha) =      619.4
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  717.9
       DM Root:Shoot ratio    =    0.288                       Harvest Index          =      0.500
-      Stover C:N ratio       =   28.312                       Root C:N ratio         =     15.318
+      Stover C:N ratio       =   28.313                       Root C:N ratio         =     15.318
       grain N percent        =       4.50                     total N content (kg/ha)=     461.36
       grain N uptake (kg/ha) =     351.09                     senesced N content (kg/ha)=    6.19
       green N content (kg/ha)=     104.08                     dead N content (kg/ha) =       0.00
@@ -2598,11 +2597,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               7805.33                    0.00
+                          DM (kg/ha) =               7805.31                    0.00
                           N  (kg/ha) =                110.27                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               7801.95                    0.00
+                          DM (kg/ha) =               7801.94                    0.00
                           N  (kg/ha) =                351.09                    0.00
      
 19 November 1988(Day of year=324), manager: 
@@ -2610,7 +2609,7 @@
 19 November 1988(Day of year=324), fababean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 4499.80
+                          DM (kg/ha) =                  0.00                 4499.79
                           N  (kg/ha) =                  0.00                  117.50
                           P  (kg/ha) =                                          0.00
      
