@@ -75,14 +75,14 @@
       character (len=255)  :: infile               = blank
       character (len=255)  :: outfile              = blank
       
-*- Implementation Section ----------------------------------
+*- Implementation Section -----------------
 
 
       call getcl (record)
       num_words = word_count (record)
       if (num_words .eq. 2) then
          read (record, *) infile, outfile
-         open (10, infile)
+         open (10, infile, status='old')
          
       else
          print*, ' Incorrect number of arguments'
@@ -202,7 +202,9 @@
          
          first_data_record = .true.
          eof = ios.ne.0
-   
+         monthlyt(:,:) = 0.0
+         monthlyd(:,:) = 0
+
          do while  (.not. eof )
             nrecs = 1 + nrecs
             recs(nrecs) = record
@@ -245,33 +247,40 @@
          
             ! zero incomplete years
          
-         do k = lbound(monthlyd, dim=2), ubound(monthlyd, dim=2)
-            if (sum(monthlyd(:,k), dim = 1) < 365) then
-               monthlyd(:,k) = 0
-            else
-            endif
-      enddo
+!         do k = lbound(monthlyd, dim=2), ubound(monthlyd, dim=2)
+!            if (sum(monthlyd(:,k), dim = 1) < 365) then
+!               monthlyd(:,k) = 0
+!            else
+!            endif
+!         enddo
       
             ! calculate average monthly temperatures for each year
    
          where (monthlyd > 0) 
             monthlyt = monthlyt/monthlyd
          elsewhere
-            monthlyt = 0.0
+            monthlyt = -1.0e6
          end where
          
             ! calculate average monthly temperatures over all years
-   
-         ave_monthlyt = sum (monthlyt,dim=2)
-     :                / count (monthlyt > 0.0, dim=2)
+         ave_monthlyt(:) = -1.0e6
+         where (count (monthlyt > -1.0e6, dim=2) > 0) 
+            ave_monthlyt = sum (monthlyt,dim=2, mask=monthlyt > -1.0e6)
+     :                   / count (monthlyt > -1.0e6, dim=2)
+         elsewhere
+            ave_monthlyt = -1.0e6
+         end where
    
             ! get the average annual temperature
-         avet = sum (ave_monthlyt) / 12.0
+         ampt(:) = -1.0e6
+         avet = sum (ave_monthlyt, mask=ave_monthlyt > -1.0e6) 
+     :         / count(ave_monthlyt > -1.0e6)
             ! get the amplitude for each year
          ampt = maxval (monthlyt, dim=1)
-     :        - minval (monthlyt, dim=1)
+     :        - minval (monthlyt, dim=1, mask=monthlyt > -1.0e6)
             ! now get the average amplitude
-         amp = sum (ampt) / count (ampt > 0.0)   
+         amp = 0.0
+         amp = sum (ampt, mask=ampt > -1.0e6) / count (ampt > -1.0e6)   
           
          print*, ' TAV = ', avet, ' AMP = ', amp
          print*
@@ -282,7 +291,7 @@
          end do
 
          call date_and_time (date_str, time_str)
-         write (20, '(a, 2(i3, a, i4, a))') 
+         write (20, '(/a, 2(i3, a, i4, a))') 
      :                     '   ! TAV and AMP inserted by "tav_amp" on '
      :                  // date_str(7:8) // '/'
      :                  // date_str(5:6) // '/'
@@ -293,7 +302,7 @@
      :                  , end_day, '/', end_year, ' (ddd/yyyy)'
          write (20, '(a, f6.2, a)') ' tav = ', avet, ' (oC) '
      :      // '    ! annual average ambient temperature'
-         write (20, '(a, f6.2, a)') ' amp = ', amp, ' (oC) '
+         write (20, '(a, f6.2, a/)') ' amp = ', amp, ' (oC) '
      :      // '    ! annual amplitude in mean monthly temperature'
          do k = nrec_headers, nrecs
             write (20, '(a)') trim (recs(k))
@@ -346,7 +355,7 @@
        integer   lower_char            ! Lowercase character code
        integer   string_end            ! end of string position
  
-*- Implementation Section ----------------------------------
+*- Implementation Section -----------------
  
  
       ! Calculate the difference between 'A' and 'a' and apply this difference
@@ -407,7 +416,7 @@
                                        ! character was on an entity
       integer string_end               ! position of end  of string
  
-*- Implementation Section ----------------------------------
+*- Implementation Section -----------------
  
  
             ! Take each character in string in turn and check if it
@@ -461,7 +470,7 @@
       logical Found                    ! Found string ?
       integer Indx                     ! Index into array.
  
-*- Implementation Section ----------------------------------
+*- Implementation Section -----------------
  
       ! Go find the module if possible.
  
@@ -547,7 +556,7 @@
       data      month(11)/ 30/
       data      month(12)/ 31/
  
-*- Implementation Section ----------------------------------
+*- Implementation Section -----------------
  
               ! check for leap year and set feb and year length accordingly
  
@@ -624,7 +633,7 @@
       logical Y100                     ! Not leap year - century
       logical Y400                     ! Leap year - 4th century
  
-*- Implementation Section ----------------------------------
+*- Implementation Section -----------------
  
       ! Divisible by 4 ?
  
