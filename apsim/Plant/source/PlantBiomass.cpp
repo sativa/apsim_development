@@ -4,17 +4,16 @@
 #include <math.h>
 #include <vector>
 #include <string>
-#include <general/string_functions.h>
 #include "Plantlibrary.h"
 
 
 //============================================================================
-void crop_dm_pot_rue (float current_stage,         //(IN)                             
-                      float *rue,                  //(IN)                             
-                      float radn_int,              //(IN)                             
-                      float temp_stress_photo,     //(IN)                             
-                      float nfact_photo,           //(IN)                             
-                      float *dlt_dm_pot)           //(OUTPUT) potential dry matter    
+void crop_dm_pot_rue (float current_stage,         //(IN)
+                      float *rue,                  //(IN)
+                      float radn_int,              //(IN)
+                      float temp_stress_photo,     //(IN)
+                      float nfact_photo,           //(IN)
+                      float *dlt_dm_pot)           //(OUTPUT) potential dry matter
                                                    //(carbohydrate) production (g/m^2)
 //============================================================================
 
@@ -28,35 +27,35 @@ void crop_dm_pot_rue (float current_stage,         //(IN)
    int current_phase;            // current phase number
    float usrue;                  // radiation use efficiency under
                                  // no stress (g biomass/mj)
-                                                                                                                        
+
    //Implementation Section ----------------------------------
-                                                                                                                        
+
    current_phase = int (current_stage);
    usrue = rue[current_phase-1] * min(temp_stress_photo, nfact_photo);
-                                                                                                                        
-     /*  ! potential dry matter production with temperature                                                             
-         ! and N content stresses is calculated.                                                                        
-         ! This is g of dry biomass produced per M_j of intercepted                                                     
-         ! radiation under stressed conditions.                                                                         
-     */                                                                                                                 
-                                                                                                                        
+
+     /*  ! potential dry matter production with temperature
+         ! and N content stresses is calculated.
+         ! This is g of dry biomass produced per M_j of intercepted
+         ! radiation under stressed conditions.
+     */
+
    *dlt_dm_pot = usrue * radn_int;
    }
 
 //============================================================================
 void crop_dm_senescence0(const int num_part,              //(INPUT)  number of plant parts
-                         const int root,                  //(INPUT)  number of plant root part          
-                         const int leaf,                  //(INPUT)  number for plant leaf part         
-                         const int stem,                  //(INPUT)  number for plant stem part         
-                         float dm_leaf_sen_frac,         //(INPUT)  fraction of senescing leaf dry     
-                         float dm_root_sen_frac,         //(INPUT)  fraction of root dry matter se     
-                         float *dlt_dm_green,             //(INPUT)  plant biomass growth (g/m^2)       
-                         float *dlt_dm_green_retrans,     //(INPUT)  plant biomass retranslocated       
-                         float dlt_lai,                  //(INPUT)  actual change in live plant la     
-                         float dlt_slai,                 //(INPUT)  area of leaf that senesces fro     
-                         float *dm_green,                 //(INPUT)  live plant dry weight (biomass     
-                         float lai,                      //(INPUT)  live plant green lai               
-                         float *dlt_dm_senesced,          //(OUTPUT) actual biomass senesced from plant parts (g/m^2)           
+                         const int root,                  //(INPUT)  number of plant root part
+                         const int leaf,                  //(INPUT)  number for plant leaf part
+                         const int stem,                  //(INPUT)  number for plant stem part
+                         float dm_leaf_sen_frac,         //(INPUT)  fraction of senescing leaf dry
+                         float dm_root_sen_frac,         //(INPUT)  fraction of root dry matter se
+                         float *dlt_dm_green,             //(INPUT)  plant biomass growth (g/m^2)
+                         float *dlt_dm_green_retrans,     //(INPUT)  plant biomass retranslocated
+                         float dlt_lai,                  //(INPUT)  actual change in live plant la
+                         float dlt_slai,                 //(INPUT)  area of leaf that senesces fro
+                         float *dm_green,                 //(INPUT)  live plant dry weight (biomass
+                         float lai,                      //(INPUT)  live plant green lai
+                         float *dlt_dm_senesced,          //(OUTPUT) actual biomass senesced from plant parts (g/m^2)
                          float *dlt_dm_sen_retrans)       //(OUTPUT) reduction in senesced biomass as a result of retranslocation
 //============================================================================
 
@@ -70,21 +69,21 @@ void crop_dm_senescence0(const int num_part,              //(INPUT)  number of p
    float dm_green_leaf_today;    // today's green leaf dry matter (g/m^2)
    float lai_today;            // today's green lai
    float sla_today;            // today's specific leaf area (m^2/g)
-                                                                                                                        
+
    // first we zero all plant component deltas
-                                                                                                                        
+
    fill_real_array (dlt_dm_senesced, 0.0, num_part);
    fill_real_array (dlt_dm_sen_retrans, 0.0, num_part);
-                                                                                                                        
+
    //-------------SENESCENCE O_f BIOMASS ---------------------
    lai_today = lai + dlt_lai;
-                                                                                                                        
+
    if (dlt_slai < lai_today)
       {
       dm_green_leaf_today = dm_green[leaf] + dlt_dm_green[leaf]
                                 + dlt_dm_green_retrans[leaf]; // -ve outflow
       sla_today = divide (lai_today, dm_green_leaf_today, 0.0);
-                                                                                                                        
+
       dlt_dm_senescing = divide (dlt_slai, sla_today, 0.0);
       }
    else
@@ -95,21 +94,21 @@ void crop_dm_senescence0(const int num_part,              //(INPUT)  number of p
    dlt_dm_senesced[stem] = 0.0;
    dlt_dm_senesced[root] = dm_green[root] * dm_root_sen_frac;
 
-                                                                                                                        
+
    //-------------RETRANSLOCATION of BIOMASS FROM SENESCENCE----------
      /* a proportion of senesced leaf dry matter may be
-        retranslocated to the stem */                                                                                   
-                                                                                                                        
+        retranslocated to the stem */
+
    dlt_dm_sen_retrans[leaf]= dlt_dm_senescing * (1.0 - dm_leaf_sen_frac);
    dlt_dm_green_retrans[stem] = dlt_dm_green_retrans[stem]
                                + dlt_dm_sen_retrans[leaf];
    }
 
 //============================================================================
-void crop_dm_dead_detachment(const int num_part,                                                        
-                             float *dead_detach_frac,         //(INPUT)  fraction of dead plant parts detached  
-                             float *dm_dead,                  //(INPUT)  dry wt of dead plants (g/m^2)     
-                             float *dlt_dm_dead_detached)     //(OUTPUT) change in dm of dead plant        
+void crop_dm_dead_detachment(const int num_part,
+                             float *dead_detach_frac,         //(INPUT)  fraction of dead plant parts detached
+                             float *dm_dead,                  //(INPUT)  dry wt of dead plants (g/m^2)
+                             float *dlt_dm_dead_detached)     //(OUTPUT) change in dm of dead plant
 //============================================================================
 
 /*Purpose
@@ -119,7 +118,7 @@ void crop_dm_dead_detachment(const int num_part,
 
    {
    //Implementation Section ----------------------------------
-                                                                                                                        
+
    for (int part=0 ; part < num_part; part++)
       {
       dlt_dm_dead_detached[part] = dm_dead[part] * dead_detach_frac[part];
@@ -128,16 +127,16 @@ void crop_dm_dead_detachment(const int num_part,
 
 
 //============================================================================
-void cproc_dm_senescence1 (const int num_part,           //(INPUT)  number of plant parts      
-                           const int max_table,          //(INPUT)  max lookup length          
+void cproc_dm_senescence1 (const int num_part,           //(INPUT)  number of plant parts
+                           const int max_table,          //(INPUT)  max lookup length
                            float independant_variable,   //(INPUT)  independant variable which
-                           float **c_x_dm_sen_frac,      //(INPUT)  lookup for independant variabl   is said to drive senescence. 
-                           float **c_y_dm_sen_frac,      // (INPUT)  fraction of  material senescin              
-                           int   *c_num_dm_sen_frac,     // (INPUT)  fraction of  material sene         
-                           float *g_dm_green,            // (INPUT)  live plant dry weight (biomass     
-                           float *g_dlt_dm_green,        // (INPUT)  plant biomass growth (g/m^2)       
-                           float *g_dlt_dm_green_retrans,// (INPUT)  plant biomass retranslocat         
-                           float *dlt_dm_senesced)       // (OUTPUT) actual biomass senesced from plant parts (g/m^2)           
+                           float **c_x_dm_sen_frac,      //(INPUT)  lookup for independant variabl   is said to drive senescence.
+                           float **c_y_dm_sen_frac,      // (INPUT)  fraction of  material senescin
+                           int   *c_num_dm_sen_frac,     // (INPUT)  fraction of  material sene
+                           float *g_dm_green,            // (INPUT)  live plant dry weight (biomass
+                           float *g_dlt_dm_green,        // (INPUT)  plant biomass growth (g/m^2)
+                           float *g_dlt_dm_green_retrans,// (INPUT)  plant biomass retranslocat
+                           float *dlt_dm_senesced)       // (OUTPUT) actual biomass senesced from plant parts (g/m^2)
 //============================================================================
 
 /*Purpose
@@ -146,9 +145,9 @@ void cproc_dm_senescence1 (const int num_part,           //(INPUT)  number of pl
    {
    //Local Variables
    float  fraction_senescing;      // dm senesced (g/m^2)
-                                                                                                                        
+
    //Implementation Section ----------------------------------
-                                                                                                                        
+
    for (int part = 0; part < num_part; part++)
       {
       fraction_senescing
@@ -156,28 +155,28 @@ void cproc_dm_senescence1 (const int num_part,           //(INPUT)  number of pl
                            c_x_dm_sen_frac[part],
                            c_y_dm_sen_frac[part],
                            c_num_dm_sen_frac[part]);
-                                                                                                                        
+
       fraction_senescing = bound (fraction_senescing, 0.0, 1.0);
       dlt_dm_senesced[part] = (g_dm_green[part] + g_dlt_dm_green[part] +
                                  g_dlt_dm_green_retrans[part])* fraction_senescing;
       }
-                                                                                                                        
+
    }
-                                                                                                                        
+
 //============================================================================
-void cproc_dm_retranslocate1 (float g_current_stage,         //(INPUT)  current phenological stage                                       
-                              int start_grnfil,              //(INPUT)                                                                   
-                              int end_grnfil,                //(INPUT)                                                                   
-                              int grain_part_no,             //(INPUT)                                                                   
-                              int max_part,                  //(INPUT)                                                                   
-                              int *supply_pools,             //(INPUT)                                                                   
-                              int num_supply_pools,          //(INPUT)                                                                   
-                              float g_dlt_dm_grain_demand,   //(INPUT)  grain dm demand (g/m^2)                                          
-                              float *g_dlt_dm_green,         //(INPUT)  plant biomass growth (g/m^2)                                     
-                              float *g_dm_green,             //(INPUT)  live plant dry weight (biomass                                   
-                              float *g_dm_plant_min,         //(INPUT)  minimum weight of each plant p                                   
-                              float g_plants,                //(INPUT)  Plant density (plants/m^2)                                       
-                              float *dm_retranslocate)       //(OUTPUT) actual change in plant part weights due to translocation (g/m^2) 
+void cproc_dm_retranslocate1 (float g_current_stage,         //(INPUT)  current phenological stage
+                              int start_grnfil,              //(INPUT)
+                              int end_grnfil,                //(INPUT)
+                              int grain_part_no,             //(INPUT)
+                              int max_part,                  //(INPUT)
+                              int *supply_pools,             //(INPUT)
+                              int num_supply_pools,          //(INPUT)
+                              float g_dlt_dm_grain_demand,   //(INPUT)  grain dm demand (g/m^2)
+                              float *g_dlt_dm_green,         //(INPUT)  plant biomass growth (g/m^2)
+                              float *g_dm_green,             //(INPUT)  live plant dry weight (biomass
+                              float *g_dm_plant_min,         //(INPUT)  minimum weight of each plant p
+                              float g_plants,                //(INPUT)  Plant density (plants/m^2)
+                              float *dm_retranslocate)       //(OUTPUT) actual change in plant part weights due to translocation (g/m^2)
 //============================================================================
 
 /*Purpose
@@ -247,11 +246,11 @@ void cproc_dm_retranslocate1 (float g_current_stage,         //(INPUT)  current 
 
 //============================================================================
 void cproc_dm_detachment1( const int max_part,
-                           float *c_sen_detach_frac, 
-                           float *g_dm_senesced, 
+                           float *c_sen_detach_frac,
+                           float *g_dm_senesced,
                            float *g_dlt_dm_detached,
-                           float *c_dead_detach_frac, 
-                           float *g_dm_dead, 
+                           float *c_dead_detach_frac,
+                           float *g_dm_dead,
                            float *g_dlt_dm_dead_detached)
 //============================================================================
 /*  Purpose
@@ -270,23 +269,23 @@ void cproc_dm_detachment1( const int max_part,
    }
 
 //========================================================================
-void cproc_bio_yieldpart_demand1(float G_current_stage,             // (INPUT)  current phenological stage                
-                                 int Start_stress_stage,            // (INPUT)                                            
-                                 int Start_grainfill_stage,         // (INPUT)                                            
-                                 int End_grainfill_stage,           // (INPUT)                                            
-                                 int Yield_part,                    // (INPUT)                                            
-                                 int Root_part,                     // (INPUT)                                            
-                                 int Max_part,                      // (INPUT)                                            
-                                 float G_dlt_dm,                   // (INPUT)  the daily biomass production (            
-                                 float *G_dm_green,                 // (INPUT)  live plant dry weight (biomass            
-                                 float *G_dm_senesced,              // (INPUT)  senesced plant dry wt (g/m^2)             
-                                 float *G_days_tot,                 // (INPUT)  duration of each phase (days)             
-                                 float *G_dm_stress_max,            // (INPUT)  sum of maximum daily stress on            
-                                 float P_hi_incr,                  // (INPUT)  harvest index increment per da            
-                                 float *P_x_hi_max_pot_stress,      // (INPUT) Potential Max HI Stress dete               
-                                 float *P_y_hi_max_pot,             // (INPUT) Potential Max HI                           
-                                 int P_num_hi_max_pot,             // (INPUT) Number of lookup pairs                     
-                                 float *Dlt_dm_yieldpart_demand)    //(OUTPUT) grain dry matter potential (g/m^2)         
+void cproc_bio_yieldpart_demand1(float G_current_stage,             // (INPUT)  current phenological stage
+                                 int Start_stress_stage,            // (INPUT)
+                                 int Start_grainfill_stage,         // (INPUT)
+                                 int End_grainfill_stage,           // (INPUT)
+                                 int Yield_part,                    // (INPUT)
+                                 int Root_part,                     // (INPUT)
+                                 int Max_part,                      // (INPUT)
+                                 float G_dlt_dm,                   // (INPUT)  the daily biomass production (
+                                 float *G_dm_green,                 // (INPUT)  live plant dry weight (biomass
+                                 float *G_dm_senesced,              // (INPUT)  senesced plant dry wt (g/m^2)
+                                 float *G_days_tot,                 // (INPUT)  duration of each phase (days)
+                                 float *G_dm_stress_max,            // (INPUT)  sum of maximum daily stress on
+                                 float P_hi_incr,                  // (INPUT)  harvest index increment per da
+                                 float *P_x_hi_max_pot_stress,      // (INPUT) Potential Max HI Stress dete
+                                 float *P_y_hi_max_pot,             // (INPUT) Potential Max HI
+                                 int P_num_hi_max_pot,             // (INPUT) Number of lookup pairs
+                                 float *Dlt_dm_yieldpart_demand)    //(OUTPUT) grain dry matter potential (g/m^2)
 //========================================================================
 /*  Purpose
 *        Find grain demand for carbohydrate using daily increase in harvest index (g/m^2)
@@ -318,9 +317,9 @@ void cproc_bio_yieldpart_demand1(float G_current_stage,             // (INPUT)  
       stress_sum = sum_between (Start_stress_stage-1, Start_grainfill_stage-1, G_dm_stress_max);
       days_sum = sum_between (Start_stress_stage-1, Start_grainfill_stage-1, G_days_tot);
       ave_stress = divide (stress_sum, days_sum, 1.0);
-      hi_max_pot = linear_interp_real(ave_stress, 
+      hi_max_pot = linear_interp_real(ave_stress,
                                       P_x_hi_max_pot_stress,
-                                      P_y_hi_max_pot, 
+                                      P_y_hi_max_pot,
                                       P_num_hi_max_pot);
 
       // effective grain filling period
@@ -346,9 +345,9 @@ void cproc_bio_yieldpart_demand1(float G_current_stage,             // (INPUT)  
 
 
 //===========================================================================
-void cproc_yieldpart_demand_stress1(float G_nfact_photo,         // (INPUT)                        
-                                    float G_swdef_photo,         // (INPUT)                        
-                                    float G_temp_stress_photo,   // (INPUT)                        
+void cproc_yieldpart_demand_stress1(float G_nfact_photo,         // (INPUT)
+                                    float G_swdef_photo,         // (INPUT)
+                                    float G_temp_stress_photo,   // (INPUT)
                                     float *Dlt_dm_stress_max)    // (OUTPUT) max daily stress (0-1)
 //===========================================================================
 /* Purpose
@@ -376,13 +375,13 @@ void cproc_yieldpart_demand_stress1(float G_nfact_photo,         // (INPUT)
 
 
 //===========================================================================
-void cproc_bio_init1(float *C_dm_init,         //(INPUT)                                
+void cproc_bio_init1(float *C_dm_init,         //(INPUT)
                      int   Init_stage,         //(INPUT)
-                     float G_current_stage,    //(INPUT)  current phenological stage    
+                     float G_current_stage,    //(INPUT)  current phenological stage
 
-                     float G_plants,           //(INPUT)  Plant density (plants/m^2)    
+                     float G_plants,           //(INPUT)  Plant density (plants/m^2)
                      float Max_part,           //(INPUT)
-                     float *G_dm_green)        //(INPUT/OUTPUT) plant part weights  (g/m^2)        
+                     float *G_dm_green)        //(INPUT/OUTPUT) plant part weights  (g/m^2)
 //===========================================================================
 /*  Purpose
 *       Initialise plant weights at a specified growth stage
@@ -411,17 +410,17 @@ void cproc_bio_init1(float *C_dm_init,         //(INPUT)
 
 //==========================================================================
 void cproc_rue_n_gradients(int   day,                  // !day of the year
-                           float latitude,           //latitude in degree                                                                      
-                           float radiation,          //daily global radiation (MJ/m2/d)                                                        
-                           float tempmax,            //daily maximum tempeature (C)                                                            
+                           float latitude,           //latitude in degree
+                           float radiation,          //daily global radiation (MJ/m2/d)
+                           float tempmax,            //daily maximum tempeature (C)
                            float tempmin,            //daily minimum tempeature (C)
-                           float lai_green,          //leaf area index (-)                                                                     
-                           float sln_gradient,      //SLN gradients in canopy (g N/m2 leaf)                                                   
-                           float pmaxmax,            //potential assimilation rate (SLN ASYMPTOTE) (mg CO2/m2.s)                               
-                           float shadow_projection,  //shadow projection (=0.5)                                                                
-                           float biomass_conversion, //biomass coversion for biochemical coversion and maintenance respiration (mg DM / mgCO2)  
-                           float scatter_coeff,      //scattering coefficients (=0.15)                                                         
-                           float *rue_sln)            //rue based on SLN gradients in the canopy (g DM / MJ)                                    
+                           float lai_green,          //leaf area index (-)
+                           float sln_gradient,      //SLN gradients in canopy (g N/m2 leaf)
+                           float pmaxmax,            //potential assimilation rate (SLN ASYMPTOTE) (mg CO2/m2.s)
+                           float shadow_projection,  //shadow projection (=0.5)
+                           float biomass_conversion, //biomass coversion for biochemical coversion and maintenance respiration (mg DM / mgCO2)
+                           float scatter_coeff,      //scattering coefficients (=0.15)
+                           float *rue_sln)            //rue based on SLN gradients in the canopy (g DM / MJ)
 //===========================================================================
 /*  Purpose
 *
@@ -438,18 +437,18 @@ void cproc_rue_n_gradients(int   day,                  // !day of the year
 *
 *
 *  Sub-Program Arguments
-*      int   
-*      float 
-*      float 
-*      float 
-*      float 
-*      float 
-*      float 
-*      float 
-*      float 
-*      float 
-*      float 
-*      float 
+*      int
+*      float
+*      float
+*      float
+*      float
+*      float
+*      float
+*      float
+*      float
+*      float
+*      float
+*      float
 *
 */
    {
@@ -719,11 +718,11 @@ void cproc_rue_n_gradients(int   day,                  // !day of the year
 
 //=========================================================================
 void crop_dm_pot_rue_co2 (float current_stage,
-                          float *rue, 
-                          float radn_int, 
-                          float temp_stress_photo, 
+                          float *rue,
+                          float radn_int,
+                          float temp_stress_photo,
                           float nfact_photo,
-                          float co2_modifier, 
+                          float co2_modifier,
                           float *dlt_dm_pot)     //(OUTPUT) potential dry matter  (carbohydrate) production (g/m^2
 //=========================================================================
 /*  Purpose
