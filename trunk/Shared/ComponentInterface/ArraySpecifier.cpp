@@ -116,7 +116,7 @@ ArraySpecifier* ArraySpecifier::create(char* name, char* type)
       // and add array="T" to the type.
       if (arraySpecifier != NULL)
          {
-//         *--posOpenBracket = 0;  // removes the array specifier.
+         *--posOpenBracket = 0;  // removes the array specifier.
 //         FString typeString(type, 1000, CString);
 //         Type(typeString).setArray(true);  // assume there is plenty of space!
          }

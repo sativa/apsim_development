@@ -23,6 +23,7 @@ class RegistrationItem
                        const FString& componentName);
       ~RegistrationItem(void)
          {
+         delete [] originalName;
          delete [] name;
          delete [] type;
          delete [] componentName;
@@ -35,7 +36,7 @@ class RegistrationItem
       bool isMatch(RegistrationType rhsKind, const FString& rhsName,
                    const FString& rhsComponentName)
          {
-         return (kind == rhsKind && rhsName == name
+         return (kind == rhsKind && rhsName == originalName
                  && rhsComponentName == componentName);
          }
 
@@ -74,6 +75,7 @@ class RegistrationItem
       char* name;
       char* type;
       char* componentName;
+      char* originalName;
 
       Variants variants;
       bool haveCreatedTypeConverter;

@@ -19,6 +19,11 @@ RegistrationItem::RegistrationItem(Component* p, RegistrationType k,
    strcpy(name, "");
    strncat(name, n.f_str(), n.length());
 
+   // create a buffer for name string and point our name object to it.
+   originalName = new char[n.length()+1];
+   strcpy(originalName, "");
+   strncat(originalName, n.f_str(), n.length());
+
    // create a buffer for type string and point our type object to it.
    type = new char[t.getTypeString().length()+20];
    strcpy(type, "");
