@@ -29,6 +29,10 @@ end_year = 1988
 [sample.manager.start_of_day]
 if day = 10 then
    fertiliz apply amount = 100 (kg/ha), depth = 20 (mm), type = no3_n
+
+elseif day = 25 then
+   fertiliz.fert_no3_n = 100
+
 endif
 
 [sample.manager.end_of_day]
