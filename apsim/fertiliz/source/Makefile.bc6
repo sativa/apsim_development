@@ -16,13 +16,14 @@
 # Main target
 source: ..\lib\fertiliz.dll
 
-..\lib\fertiliz.dll: Registrations.obj fertiliz.obj fertiliz.imp $(STATICLINKEDOBJECTS) 
+..\lib\fertiliz.dll: Registrations.obj fertiliz.obj fertiliz.imp $(STATICLINKEDOBJECTS)
+	if not exist ..\lib mkdir ..\lib
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
 	$(LF95) fertiliz.obj Registrations.obj -exe ..\lib\fertiliz.dll fertiliz.imp @linker.tmp
 	$(RM) linker.tmp
-   
+
 fertiliz.obj: fertiliz.for
 fertiliz.imp:
 	$(ECHO) -implib ApsimShared.dll > fertiliz.imp
