@@ -3132,6 +3132,7 @@ c     he should have. Any ideas? Perhaps
       subroutine soilwat2_get_other_variables ()
 * ====================================================================
       implicit none
+      include 'error.pub'
  
 *+  Purpose
 *      get the value/s of a variable/array.
