@@ -1,4 +1,4 @@
-C     Last change:  E    18 Jan 2001    4:29 pm
+C     Last change:  E    22 Jan 2001   12:11 pm
 
 *     ===========================================================
       subroutine crop_dm_potential (current_stage,
@@ -1235,24 +1235,21 @@ ccccccccccccccccccccccccccc
 
       endif
 
+
       !====================================================
       !dry matter accumulation for retanslocation pools
-
 
       if (stage_is_between (c_start_retrans_dm_stage,
      :                      c_end_retrans_dm_stage,
      :                      g_current_stage)) then
-
          do part = 1, max_part
            g_dlt_dm_green_retrans_pool(part) = g_dlt_dm_green(part)
          end do
-
       else
-
-          g_dlt_dm_green_retrans_pool(part) = 0.0
-
+         do part = 1, max_part
+           g_dlt_dm_green_retrans_pool(part) = 0.0
+         end do
       endif
-
 
       !====================================================
 
