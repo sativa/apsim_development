@@ -15,12 +15,13 @@ class Component;
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-class TypeConverter
+class __declspec(dllexport) TypeConverter
    {
    protected:
-      static MessageData bufferMessageData;
+      MessageData& bufferMessageData;
 
    public:
+      TypeConverter(void);
       virtual ~TypeConverter(void) { }
 
       template <class T>

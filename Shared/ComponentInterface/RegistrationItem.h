@@ -43,13 +43,7 @@ class RegistrationItem
       // ------------------------------------------------------------------
       // Return the destination component ID or -1 if not found.
       // ------------------------------------------------------------------
-      int getComponentID(void);
-
-      // ------------------------------------------------------------------
-      // Return the fully qualified name of the registration
-      // e.g. componentname.name
-      // ------------------------------------------------------------------
-      void getFQN(char* name);
+      char* getComponentName(void) {return componentName;}
 
       // ------------------------------------------------------------------
       // Return the type string of the registration to caller.

@@ -12,8 +12,13 @@
 using namespace std;
 using namespace protocol;
 char buffer[1000];
-MessageData TypeConverter::bufferMessageData(buffer, sizeof(buffer));
+MessageData bufferMD(buffer, sizeof(buffer));
 
+
+TypeConverter::TypeConverter(void)
+   : bufferMessageData(bufferMD)
+   {
+   }
 
 class Int4FromInt4 : public TypeConverter
    {
@@ -377,7 +382,7 @@ static TypeConverter* scalarConversionMatrix[9][9] =  {
 //  Changes:
 //    DPH 7/6/2001
 // ------------------------------------------------------------------
-bool protocol::getTypeConverter(Component* parent,
+bool _export protocol::getTypeConverter(Component* parent,
                                 const FString& name,
                                 const Type& sourceType,
                                 const Type& destType,
@@ -393,7 +398,7 @@ bool protocol::getTypeConverter(Component* parent,
 // Return a data type converter if possible or NULL if none
 // available.
 // ------------------------------------------------------------------
-bool protocol::getTypeConverter(Component* parent,
+bool _export protocol::getTypeConverter(Component* parent,
                                 const FString& name,
                                 protocol::DataTypeCode sourceTypeCode,
                                 protocol::DataTypeCode destTypeCode,

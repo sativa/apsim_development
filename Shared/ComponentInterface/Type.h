@@ -36,7 +36,7 @@ enum DataTypeCode  {DTint1 = 0,
 // is passed in then the type is read-only and cannot be
 // modified.
 // ------------------------------------------------------------------
-class Type
+class __declspec(dllexport) Type
    {
    public:
       Type(void) : code(DTunknown) { };

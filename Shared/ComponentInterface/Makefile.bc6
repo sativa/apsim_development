@@ -10,8 +10,9 @@ BCB = $(MAKEDIR)\..
 OBJECTS = Component.obj \
       message.obj Type.obj TypeConverter.obj variant.obj Variants.obj \
       MessageData.obj ApsimVariant.obj ArraySpecifier.obj Registrations.obj \
-      RegistrationItem.obj ProtocolVector.obj 
-WRAPPEROBJECTS = $(OBJECTS) datatypes.obj ApsimFortranWrapper.obj FORTRANComponentWrapper.obj
+      RegistrationItem.obj ProtocolVector.obj RegistrationType.obj \
+      EntryPoints.obj
+WRAPPEROBJECTS = $(OBJECTS) datatypes.obj FORTRANComponentWrapper.obj
 
 PACKAGES = vcl.bpi rtl.bpi
 USERDEFINES =
@@ -19,9 +20,9 @@ SYSDEFINES = NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES
 INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost
 LIBPATH = $(SYSLIBPATH)
 LIBRARIES = rtl.lib
-LIBFILES = $(APSROOT)\Shared\ApsimShared\ApsimShared.lib
+LIBFILES = $(APSROOT)\Shared\ApsimShared\ApsimShared.lib $(APSROOT)\Shared\general\general.lib
 
-source: ../../Bin/ApsimFortranWrapper.dll ComponentInterface.lib SimpleWrapper.obj 
+source: ComponentInterface.dll SimpleWrapper.obj
 
 ALLOBJ = c0d32.obj $(PACKAGES) $(WRAPPEROBJECTS)
 ALLRES = $(RESFILES)
@@ -34,40 +35,36 @@ WARNINGS = -w-par
 LFLAGS = $(SYSLDFLAGS) -aa -Tpd -x -Gn -Gi -v
 
 CC=$(BCB)\Bin\bcc32.exe
-RANLIB=$(BCB)\Bin\TLib.exe
 LINKER=$(BCB)\Bin\ilink32.exe
 IMPDEF=$(BCB)\Bin\impdef.exe
 
 .cpp.obj:
     $(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
 
-../../Bin/ApsimFortranWrapper.dll: $(WRAPPEROBJECTS)
+
+ComponentInterface.dll: $(WRAPPEROBJECTS)
 	$(LINKER) @&&!
 $(LFLAGS) -L$(LIBPATH) +
 $(ALLOBJ), +
-..\..\Bin\ApsimFortranWrapper.dll,, +
+ComponentInterface.dll,, +
 $(ALLLIB), +
 $(DEFFILE), +
 $(ALLRES)
 !
-	$(IMPDEF) ApsimFortranWrapper.def ..\..\Bin\ApsimFortranWrapper.dll
-	$(APSROOT)\Tools\def2imp\def2imp.exe ApsimFortranWrapper.def ApsimFortranWrapper.imp
+	$(IMPDEF) ComponentInterface.def ComponentInterface.dll
+	$(APSROOT)\Tools\def2imp\def2imp.exe ComponentInterface.def ComponentInterface.imp
+	move /Y ComponentInterface.dll ..\..\bin
 
-ComponentInterface.lib: $(OBJECTS)
-	$(RANLIB) /u $@ @&&!
-	/P128 $?
-
-!
 
 # NB. Assumption here that we are always working within the development tree. NB.
 # Datatypes.
 datatypes.obj: datatypes.cpp datatypes.h
-datatypes.cpp datatypes.h:  $(APSROOT)\apsim\infra\datatypes.interface $(APSROOT)\APSBuild\datatypes.macro
+datatypes.cpp datatypes.h:  $(APSROOT)\apsim\infra\datatypes.interface $(APSROOT)\APSBuild\datatypes.macro $(APSROOT)\Bin\CreateDataTypesSource.exe
 	cd $(APSROOT)\Bin
 	$(APSROOT)\Bin\CreateDataTypesSource.exe
    cd $(APSROOT)\Shared\ComponentInterface
 # NB. Assumption here that we are always working within the development tree. NB.
 
 clean:
-	$(RM) ComponentInterface.lib $(OBJECTS) datatypes.cpp datatypes.h FORTRANComponentWrapper.obj ApsimFortranWrapper.obj
+	$(RM) ComponentInterface.lib $(OBJECTS) datatypes.cpp datatypes.h FORTRANComponentWrapper.obj ComponentInterface.obj
 	

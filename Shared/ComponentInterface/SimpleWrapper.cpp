@@ -28,12 +28,12 @@ struct Instance
 // Statically linked to fortran code:
 extern Instance instancepointers_;
 
-// Simple stub to be linked with fortran dlls. This will cause 
+// Simple stub to be linked with fortran dlls. This will cause
 // Computation::loadComponent(computation.cpp) to firstly load
 // the fortran wrapper, followed by the fortran after.
 extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
    {
-   strcpy(wrapperDll, "ApsimFortranWrapper.dll");
+   strcpy(wrapperDll, "ComponentInterface.dll");
    }
 
 // Accessor to instance pointers

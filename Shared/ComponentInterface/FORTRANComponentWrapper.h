@@ -100,14 +100,14 @@ class FortranWrapper : public protocol::Component
          int regId;
          if (componentID == 0)
             regId = FortranWrapper::currentInstance->addRegistration
-               (protocol::getVariableReg, variableName, dataTypeString);
+               (RegistrationType::get, variableName, dataTypeString);
          else
             {
             FString alias;
             char componentIDSt[20];
             itoa(componentID, componentIDSt, 10);
             regId = FortranWrapper::currentInstance->addRegistration
-               (protocol::getVariableReg, variableName, dataTypeString,
+               (RegistrationType::get, variableName, dataTypeString,
                 alias, FString(componentIDSt));
             }
 
@@ -140,7 +140,7 @@ class FortranWrapper : public protocol::Component
                     const FString& dataTypeString, T& value, unsigned& numvals)
          {
          int regId = FortranWrapper::currentInstance->addRegistration
-            (protocol::getVariableReg, variableName, dataTypeString);
+            (RegistrationType::get, variableName, dataTypeString);
          if (requestNo == 1)
              getVariables(regId, vars);
          if (vars != NULL)
@@ -161,20 +161,21 @@ class FortranWrapper : public protocol::Component
       void respond2var(const FString& variableName, const FString& units,
                        const FString& dataTypeString, const T& value)
          {
-         if (inApsimGetQuery)
+         if (inApsimGetQuery)                         
             {
-            char buffer[200];
+            static char buffer[1000];
             strcpy(buffer, "");
             strncat(buffer, dataTypeString.f_str(), dataTypeString.length());
-            unsigned insertPos = dataTypeString.find(">");
+/*            unsigned insertPos = dataTypeString.find(">");
             if (insertPos != FString::npos)
                {
+               insertPos--;
                buffer[insertPos] = 0;
                strcat(buffer, " units=\"");
                strncat(buffer, units.f_str(), units.length());
-               strcat(buffer, "\">");
+               strcat(buffer, "\"/>");
                }
-            addRegistration(protocol::respondToGetReg, variableName, buffer);
+*/            addRegistration(RegistrationType::respondToGet, variableName, buffer);
             }
          else
             sendVariable(queryData, value);
@@ -189,7 +190,7 @@ class FortranWrapper : public protocol::Component
          else
             itoa(componentID, componentIDString, 10);
          FString alias;
-         unsigned variableID = addRegistration(protocol::setVariableReg,
+         unsigned variableID = addRegistration(RegistrationType::set,
                                                variableName,
                                                dataTypeString,
                                                alias,
@@ -248,37 +249,16 @@ class FortranWrapper : public protocol::Component
          outgoingApsimVariant.store(variableName, dataType, isArray, value);
          }
 
-      void event_send(const FString& eventName)
+      void event_send(const FString& eventName, const FString& moduleName = "")
          {
-         unsigned eventID = getRegistrationID(protocol::eventReg, eventName);
+         unsigned eventID = getRegistrationID(RegistrationType::event, eventName);
          if (eventID == 0)
             {
-            char buffer[200];
-            strcpy(buffer, "Cannot publish event ");
-            strncat(buffer, eventName.f_str(), eventName.length());
-            strcat(buffer, " as it hasn't been registered.\n");
-            strcat(buffer, "Component = ");
-            strcat(buffer, name);
-            error(buffer, true);
-            }
-         else
-            publish(eventID, outgoingApsimVariant);
-         }
-      void action_send(const FString& moduleName, const FString& actionName)
-         {
-         char actionString[100];
-         strcpy(actionString, "");
-         strncat(actionString, moduleName.f_str(), moduleName.length());
-         strcat(actionString, ".");
-         strncat(actionString, actionName.f_str(), actionName.length());
-         unsigned actionID = getRegistrationID(protocol::methodCallReg, actionString);
-         if (actionID == 0)
-            {
             FString alias("");
-            actionID = addRegistration(protocol::methodCallReg, actionName, nullType,
-                                       alias, moduleName);
+            eventID = addRegistration(RegistrationType::event, eventName, nullType,
+                                      alias, moduleName);
             }
-         publish(actionID, outgoingApsimVariant);
+         publish(eventID, outgoingApsimVariant);
          }
       unsigned getFromID(void)
          {
@@ -293,7 +273,6 @@ class FortranWrapper : public protocol::Component
       virtual bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& querySetData);
       virtual void notifyTermination(void);
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& var);
-      virtual void respondToMethod(unsigned int& fromID, unsigned int& methodID, protocol::Variant& var);
       virtual void onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData);
       virtual bool onApsimSetQuery(protocol::ApsimSetQueryData& apsimSetQueryData);
 

@@ -4,7 +4,27 @@
 #include "message.h"
 #include "variant.h"
 #include "ProtocolVector.h"
+#include "RegistrationType.h"
 namespace protocol {
+
+// --------------- RegistrationType streaming ------------
+
+inline MessageData& operator>> (MessageData& messageData, RegistrationType& regType)
+   {
+   unsigned kindId;
+   messageData >> kindId;
+   regType = RegistrationType((RegistrationType::Type) kindId);
+   return messageData;
+   }
+inline MessageData& operator<< (MessageData& messageData, const RegistrationType& regType)
+   {
+   messageData << (unsigned) regType.type();
+   return messageData;
+   }
+inline unsigned int memorySize(const RegistrationType& )
+   {
+   return 4;
+   }
 
 // --------------- NO DATA structure ------------
 struct NoData
@@ -73,11 +93,6 @@ inline Message* newCompleteMessage(unsigned int from,
    }
 
 // --------------- Deregister ------------
-enum RegistrationType {getVariableReg=1, respondToGetReg=2,
-                       setVariableReg=8, respondToSetReg=3,
-                                         respondToGetSetReg=4,
-                       eventReg=5,       respondToEventReg=6,
-                       methodCallReg=9,  respondToMethodCallReg=7};
 struct DeregisterData
    {
    RegistrationType kind;
@@ -85,9 +100,7 @@ struct DeregisterData
    };
 inline MessageData& operator>> (MessageData& messageData, DeregisterData& data)
    {
-   int k;
-   messageData >> k >> data.ID;
-   data.kind = (RegistrationType) k;
+   messageData >> data.kind >> data.ID;
    return messageData;
    }
 inline Message* newDeregisterMessage(unsigned int from,
@@ -262,16 +275,13 @@ inline Message* newPublishEventMessage(unsigned int from,
       messageData << data[i];
    return msg;
    }
-
 // -------------- QueryInfo --------------
 enum SimulationInformationKind {respondToGetInfo = 2,
                                 respondToSetInfo = 3,
                                 respondToGetSetInfo = 4,
                                 eventInfo = 5,
                                 respondToEventInfo = 6,
-                                respondToMethodInfo = 7,
-                                componentInfo = 8,
-                                methodCallInfo = 9};
+                                componentInfo = 8};
 struct QueryInfoData
    {
    FString name;
@@ -327,25 +337,22 @@ inline Message* newQuerySetValueMessage(unsigned int from,
 struct QueryValueData
    {
    unsigned int ID;
-   unsigned int replytoID;
-   unsigned int replyID;
+   unsigned int requestedByID;
    };
 inline MessageData& operator>> (MessageData& messageData, QueryValueData& data)
    {
-   messageData >> data.ID >> data.replytoID >> data.replyID;
+   messageData >> data.ID >> data.requestedByID;
    return messageData;
    }
 inline Message* newQueryValueMessage(unsigned int from,
                                      unsigned int to,
                                      unsigned int ID,
-                                     unsigned int replytoID,
-                                     unsigned int replyID)
+                                     unsigned int requestedByID)
    {
    Message* msg = constructMessage(QueryValue, from, to, false,
-                             memorySize(ID) +
-                             memorySize(replytoID) + memorySize(replyID));
+                                   memorySize(ID) + memorySize(requestedByID));
    MessageData messageData(msg);
-   messageData << ID << replytoID << replyID;
+   messageData << ID << requestedByID;
    return msg;
    }
 
@@ -360,9 +367,7 @@ struct RegisterData
    };
 inline MessageData& operator>> (MessageData& messageData, RegisterData& data)
    {
-   int kind;
-   messageData >> kind >> data.ID >> data.destID >> data.name >> data.type;
-   data.kind = (RegistrationType) kind;
+   messageData >> data.kind >> data.ID >> data.destID >> data.name >> data.type;
    return messageData;
    }
 inline Message* newRegisterMessage(unsigned int from,
@@ -489,26 +494,53 @@ inline Message* newReturnInfoMessage(unsigned int from,
 // ---------------- ReturnValue ----------------
 struct ReturnValueData
    {
+   unsigned int fromID;
    unsigned int ID;
    Variant variant;
    };
 inline MessageData& operator>> (MessageData& messageData, ReturnValueData& data)
    {
-   messageData >> data.ID >> data.variant;
+   messageData >> data.fromID >> data.ID >> data.variant;
+   return messageData;
+   }
+
+inline Message* newReturnValueMessage(unsigned int from,
+                                      unsigned int to,
+                                      unsigned int compID,
+                                      unsigned int ID,
+                                      Variant& data)
+   {
+   Message* msg = constructMessage(ReturnValue, from, to, false,
+                          memorySize(compID) + memorySize(ID) + memorySize(data));
+   MessageData messageData(msg);
+   messageData << compID;
+   messageData << ID;
+   messageData << data;
+   return msg;
+   }
+// ---------------- ReplyValue ----------------
+struct ReplyValueData
+   {
+   unsigned int queryID;
+   Variant variant;
+   };
+inline MessageData& operator>> (MessageData& messageData, ReplyValueData& data)
+   {
+   messageData >> data.queryID >> data.variant;
    return messageData;
    }
 
 template <class T>
-inline Message* newReturnValueMessage(unsigned int from,
+inline Message* newReplyValueMessage(unsigned int from,
                                       unsigned int to,
-                                      unsigned int ID,
+                                      unsigned int queryID,
                                       const Type& type,
                                       const T& data)
    {
-   Message* msg = constructMessage(ReturnValue, from, to, false,
-                          memorySize(ID) + memorySize(type) + memorySize(data));
+   Message* msg = constructMessage(ReplyValue, from, to, false,
+                                   memorySize(queryID) + memorySize(type) + memorySize(data));
    MessageData messageData(msg);
-   messageData << ID;
+   messageData << queryID;
    messageData << type;
    messageData << data;
    return msg;

@@ -123,7 +123,7 @@ typedef std::multimap<unsigned, pfcall, less<unsigned> >   UInt2EventMap;
 // ------------------------------------------------------------------
 // Manages a single instance of an APSIM Component
 // ------------------------------------------------------------------
-class Component
+class __declspec(dllexport) Component
    {
    public:
       Component(void);
@@ -192,15 +192,6 @@ class Component
                                             data, numValues));
          }
 
-      // Call a method in another component.
-      template <class T>
-      void methodCall(unsigned int methodID, T& data)
-         {
-         sendMessage(newPublishEventMessage(componentID, parentID, methodID,
-                                            getRegistrationType(methodID),
-                                            data));
-         }
-
       // Write a line to the summary file.
       void writeString(const FString& st);
 
@@ -209,11 +200,11 @@ class Component
       void sendVariable(QueryValueData& queryValueData,
                         const T& value)
          {
-         sendMessage(newReturnValueMessage(componentID,
-                                           queryValueData.replytoID,
-                                           queryValueData.replyID,
-                                           getRegistrationType(queryValueData.ID),
-                                           value));
+         sendMessage(newReplyValueMessage(componentID,
+                                          parentID,
+                                          queryValueData.ID,
+                                          getRegistrationType(queryValueData.ID),
+                                          value));
          }
 
       // convert to and from a compname to an ID.
@@ -232,7 +223,6 @@ class Component
       virtual void doInit2(void) { }
       virtual void doCommence(void) { }
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, Variant& variant);
-      virtual void respondToMethod(unsigned int& fromID, unsigned int& methodID, Variant& variant);
       virtual void respondToGet(unsigned int& fromID, QueryValueData& queryData);
       virtual bool respondToSet(unsigned int& fromID, QuerySetValueData& setValueData) {return false;}
       virtual void notifyTermination(void) { }
@@ -262,6 +252,7 @@ class Component
       virtual bool onApsimSetQuery(ApsimSetQueryData& apsimSetQueryData) {return false;}
       virtual void onApsimChangeOrderData(protocol::MessageData& messageData) { }
       virtual void onQuerySetValueMessage(unsigned fromID, QuerySetValueData& querySetData);
+      virtual void onReplyValueMessage(unsigned fromID, ReplyValueData replyValueData) { }
 
       // Send a message
       void sendMessage(Message* message)
@@ -304,7 +295,7 @@ class Component
 
       UInt2InfoMap getVarMap;                  // List of variables we can send to system
       UInt2EventMap eventMap;                  // List of events we handle
-      
+
       const unsigned int* callbackArg;
       CallbackType* messageCallback;
 

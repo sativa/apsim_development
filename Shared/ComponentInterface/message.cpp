@@ -67,11 +67,11 @@ void deleteMessages(void)
 //    dph 14/5/2001
 
 // ------------------------------------------------------------------
-Message* constructMessage(MessageType messageType,
-                          unsigned int fromID,
-                          unsigned int toID,
-                          bool acknowledgementRequired,
-                          unsigned int numDataBytes)
+Message* _export constructMessage(MessageType messageType,
+                                  unsigned int fromID,
+                                  unsigned int toID,
+                                  bool acknowledgementRequired,
+                                  unsigned int numDataBytes)
    {
    Message* message;
    if (nextFreeMessage > MAX_NUM_MESSAGES)
@@ -104,7 +104,7 @@ Message* constructMessage(MessageType messageType,
    return message;
    }
 
-void deleteMessage(Message* message)
+void _export deleteMessage(Message* message)
    {
    if (message->nDataBytes > MAX_MESSAGE_SIZE - sizeof(Message))
       delete [] message;
