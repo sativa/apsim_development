@@ -32,19 +32,23 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
 //  Changes:
 //    DPH 28/10/97
 //    dph 7/7/2000 added support for .sim files.
+//    dph 17/1/2000 added support for /CREATESIM switch
 
 // ------------------------------------------------------------------
-   if (_argc == 2 || _argc == 3)
+   string filename;
+   bool quietRun = false;
+   bool createSIM = false;
+   for (int argIndex = 1; argIndex < _argc; argIndex++)
       {
-      string filename;
-      bool quietRun = false;
-      if (stricmp(_argv[1], "/q") == 0)
-         {
+      if (stricmp(_argv[argIndex], "/q") == 0)
          quietRun = true;
-         filename = _argv[2];
-         }
+      else if (stricmp(_argv[argIndex], "/CreateSIM") == 0)
+         createSIM = true;
       else
-         filename = _argv[1];
+         filename = _argv[argIndex];
+      }
+   if (filename != "")
+      {
       if (FileExists(filename.c_str()))
          {
          APSIMSimulationCollection* simulations = NULL;
@@ -76,12 +80,26 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
 
          try
             {
-            AllocConsole();
-            simulations->run();
-            if (!quietRun)
-               MessageBox(NULL, "APSIM has finished", "For your information", MB_ICONINFORMATION | MB_OK);
-
-            FreeConsole();
+            if (createSIM)
+               {
+               list<string> simulationNames;
+               simulations->getNames(simulationNames);
+               for (list<string>::iterator i = simulationNames.begin();
+                                           i != simulationNames.end();
+                                           i++)
+                  {
+                  simulations->get(*i)->readFromFile();
+                  simulations->get(*i)->writeToFile();
+                  }
+               }
+            else
+               {
+               AllocConsole();
+               simulations->run();
+               if (!quietRun)
+                  MessageBox(NULL, "APSIM has finished", "For your information", MB_ICONINFORMATION | MB_OK);
+               FreeConsole();
+               }
             }
          catch (string& msg)
             {
@@ -100,7 +118,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
       }
    else
       {
-      MessageBox (NULL, "Usage:  APSRun [/Q] [.con file | .run file | "
+      MessageBox (NULL, "Usage:  APSRun [/Q] [/CreateSIM] [.con file | .run file | "
                         ".sim file]",
                   "Error",
                   MB_ICONSTOP | MB_OK);
