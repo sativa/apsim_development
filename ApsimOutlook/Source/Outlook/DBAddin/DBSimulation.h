@@ -8,6 +8,8 @@
 #include <DbTables.hpp>
 #include <ADODB.hpp>
 #include <scenario.h>
+#define MAX_DATABASE_FILENAME_LENGTH 200
+
 // ------------------------------------------------------------------
 //  Short description:
 //    This class encapsulates a single simulation in a database.  A
@@ -55,10 +57,9 @@ class DBSimulation
       virtual void readData(TAPSTable& data, const std::string& simulationName);
 
    protected:
-      std::string databaseFilename;
+      char* title;
+      char databaseFilename[MAX_DATABASE_FILENAME_LENGTH];
       int simulationId;
-      std::vector<std::string> factorNames;
-      std::vector<std::string> factorValues;
       TADOQuery* dataset;
       TADOConnection* db;
 
@@ -66,6 +67,7 @@ class DBSimulation
       std::string getOrderFieldName(std::vector<std::string>& fieldNames);
       void open (void);
       void close (void);
+      void getFactors(std::vector<std::string>& names, std::vector<std::string>& values) const;
    };
 
 #endif

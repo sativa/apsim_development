@@ -26,6 +26,7 @@ DBSimulation::DBSimulation (void)
    {
    dataset = NULL;
    db = NULL;
+   title = NULL;
    }
 
 // ------------------------------------------------------------------
@@ -40,6 +41,7 @@ DBSimulation::DBSimulation (void)
 // ------------------------------------------------------------------
 DBSimulation::~DBSimulation (void)
    {
+   delete [] title;
    close();
    }
 
@@ -57,27 +59,12 @@ DBSimulation::~DBSimulation (void)
 void DBSimulation::readFromIndex (const string& dbFilename,
                                   TDataSet* indexTable)
    {
-   factorNames.erase(factorNames.begin(), factorNames.end());
-   factorValues.erase(factorValues.begin(), factorValues.end());
-
-   databaseFilename = dbFilename;
+   strcpy(databaseFilename, dbFilename.c_str());
    simulationId = indexTable->FieldValues["SimulationID"];
-   string title = AnsiString(indexTable->FieldValues["Name"]).c_str();
-   vector<string> factorAndValues;
-   Split_string(title, ";", factorAndValues);
-   string factor, value;
-   for (unsigned int i = 0; i < factorAndValues.size(); i++)
-      {
-      Get_keyname_and_value(factorAndValues[i].c_str(), factor, value);
-      if (factor == "")
-         {
-         factor = SIMULATION_FACTOR_NAME;
-         value = factorAndValues[i];
-         }
 
-      factorNames.push_back(factor);
-      factorValues.push_back(value);
-      }
+   string titleSt = AnsiString(indexTable->FieldValues["Name"]).c_str();
+   title = new char[titleSt.length() + 1];
+   strcpy(title, titleSt.c_str());
    }
 
 // ------------------------------------------------------------------
@@ -130,7 +117,7 @@ void DBSimulation::open (void)
    string connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;"
                              "Data Source=####;"
                              "Persist Security Info=False";
-   Replace_all(connectionString, "####", databaseFilename.c_str());
+   Replace_all(connectionString, "####", databaseFilename);
    db->ConnectionString = connectionString.c_str();
    db->LoginPrompt = false;
    db->Mode = cmShareExclusive;
@@ -231,6 +218,9 @@ void DBSimulation::getFieldNames (TADOConnection* db, vector<string>& fieldNames
 // ------------------------------------------------------------------
 void DBSimulation::readData(TAPSTable& data, const string& simulationName)
    {
+   vector<string> factorNames, factorValues;
+   getFactors(factorNames, factorValues);
+
    open();
 
    // get a list of field names from our open dataset.
@@ -283,6 +273,8 @@ void DBSimulation::readData(TAPSTable& data, const string& simulationName)
 // ------------------------------------------------------------------
 void DBSimulation::getFactors(std::vector<Factor>& factors) const
    {
+   vector<string> factorNames, factorValues;
+   getFactors(factorNames, factorValues);
    for (unsigned int i = 0; i < factorNames.size(); i++)
       factors.push_back(Factor(NULL, factorNames[i], factorValues[i], NULL));
    }
@@ -303,6 +295,9 @@ bool DBSimulation::operator!= (const Scenario& rhs) const
    {
    vector<string> rhsFactorNames;
    rhs.getFactorNames(rhsFactorNames);
+   vector<string> factorNames, factorValues;
+   getFactors(factorNames, factorValues);
+
    vector<string>::iterator place =
           search(rhsFactorNames.begin(),rhsFactorNames.end(),
                  factorNames.begin(),factorNames.end());
@@ -339,6 +334,9 @@ bool DBSimulation::operator!= (const Scenario& rhs) const
 unsigned int DBSimulation::calculateRank
    (const vector<string>& rhsFactorNames, const vector<string>& rhsFactorValues) const
    {
+   vector<string> factorNames, factorValues;
+   getFactors(factorNames, factorValues);
+
    unsigned int count = 0;
    for (unsigned int f = 0; f < factorNames.size(); f++)
       {
@@ -363,6 +361,9 @@ unsigned int DBSimulation::calculateRank
 // ------------------------------------------------------------------
 string DBSimulation::getFactorValue(const string& factorName) const
    {
+   vector<string> factorNames, factorValues;
+   getFactors(factorNames, factorValues);
+
    if (factorName == SIMULATION_FACTOR_NAME)
       return factorValues[0];
    else
@@ -374,6 +375,34 @@ string DBSimulation::getFactorValue(const string& factorName) const
          return "";
       else
          return factorValues[f-factorNames.begin()];
+      }
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//    return all factor names and values to caller.
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/4/01
+
+// ------------------------------------------------------------------
+void DBSimulation::getFactors(vector<string>& names, vector<string>& values) const
+   {
+   names.erase(names.begin(), names.end());
+   values.erase(values.begin(), values.end());
+
+   vector<string> titleBits;
+   string titleString(title);
+   Split_string (titleString, ";", titleBits);
+
+   for (unsigned int i = 0; i < titleBits.size(); i++)
+      {
+      string name, value;
+      Get_keyname_and_value (titleBits[i].c_str(), name, value);
+      names.push_back (name);
+      values.push_back (value);
       }
    }
 
