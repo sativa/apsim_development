@@ -1,16 +1,9 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %apsuite\apsim\base-source.apf
+[Dependencies]
+Dependency = %licensed_source(solute)
 
-[source]
-source  = solute.for; %thispath\solute.for
+[Contents]
+solute.for = solute.for
 
-[styles]
-style = Maximum number of solutes
-style = Number of solutes
-style = Solute number
-
-Number of solutes = num_solutes; number of solutes
-Solute number = solnum; solute number
-Maximum number of solutes = max_solutes; maximum number of solutes
+[APSBuild]
+binary = ..\lib\solute.dll
+lf90file = %apsuite\apsbuild\module.lf90

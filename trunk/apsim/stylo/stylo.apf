@@ -1,8 +1,11 @@
-[general]
-name = stylo
-apf = %apsuite\apsim\base-legume.apf
-optional_apf = %thispath\sample\sample.apf
-optional_apf = %thispath\source\source.apf
+[Dependencies]
+Dependency = %licensed(stylo)
+Uses = %apsuite\apsim\legume\legume.apf
 
-[dll]
-target  = target dll; %thispath\lib\stylo.dll
+[Contents]
+Executable = lib\lib.apf
+Source = source\source.apf
+Sample = sample\sample.apf
+
+[References]
+Docs = %apsuite\apsim\legume\docs\docs.apf

@@ -1,12 +1,10 @@
-[general]
-name = accum
-apf = %apsuite\apsim\base-module.apf
-apf = %thispath\docs\docs.apf
-optional_apf = %thispath\sample\sample.apf
-optional_apf = %thispath\source\source.apf
+[Dependencies]
+Dependency = %licensed(accum)
 
-[dll]
-target  = target dll; %thispath\lib\accum.dll
-
+[Contents]
+Executable = lib\lib.apf
+Source = source\source.apf
+Sample = sample\sample.apf
+Documentation = docs\docs.apf
 [contacts]
 contact = Dean Holzworth - Module Developer; mailto:Dean.Holzworth@tag.csiro.au

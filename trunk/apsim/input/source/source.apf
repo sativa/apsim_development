@@ -1,8 +1,9 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %apsuite\apsim\base-source.apf
+[Dependencies]
+Dependency = %licensed_source(input)
 
-[source]
-source  = input.for; %thispath\input.for
+[Contents]
+input.for = input.for
 
+[APSBuild]
+binary = ..\lib\input.dll
+lf90file = %apsuite\apsbuild\module.lf90

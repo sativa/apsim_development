@@ -1,12 +1,11 @@
-[general]
-name = frmrpt
-apf = %apsuite\apsim\base-module.apf
-apf = %thispath\docs\docs.apf
-optional_apf = %thispath\sample\sample.apf
-optional_apf = %thispath\source\source.apf
+[Dependencies]
+Dependency = %licensed(frmrpt)
 
-[dll]
-target  = target dll; %thispath\lib\frmrpt.dll
+[Contents]
+Executable = lib\lib.apf
+Source = source\source.apf
+Sample = sample\sample.apf
+Documentation = docs\docs.apf
 
 [contacts]
 contact = Stephen Braithwaite - Module Developer; mailto:Stephen.Braithwaite@tag.csiro.au

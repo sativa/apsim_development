@@ -1,8 +1,9 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %apsuite\apsim\base-source.apf
+[Dependencies]
+Dependency = %licensed_source(irrigate)
 
-[source]
-source  = irrigate.for; %thispath\irrigate.for
+[Contents]
+irrigate.for = irrigate.for
 
+[APSBuild]
+binary = ..\lib\irrigate.dll
+lf90file = %apsuite\apsbuild\module.lf90

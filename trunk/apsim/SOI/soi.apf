@@ -1,12 +1,11 @@
-[general]
-name = soi
-apf = %apsuite\apsim\base-module.apf
-apf = %thispath\docs\docs.apf
-optional_apf = %thispath\sample\sample.apf
-optional_apf = %thispath\source\source.apf
+[Dependencies]
+Dependency = %licensed(soi)
 
-[dll]
-target  = target dll; %thispath\lib\soi.dll
+[Contents]
+Executable = lib\lib.apf
+Source = source\source.apf
+Sample = sample\sample.apf
+Documentation = docs\docs.apf
 
 [contacts]
 contact = Roger Stone - Module Developer; mailto:StoneR@dpi.qld.gov.au

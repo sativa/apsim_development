@@ -1,8 +1,9 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %apsuite\apsim\base-source.apf
+[Dependencies]
+Dependency = %licensed_source(soilwat2)
 
-[source]
-source  = soilwat2.for; %thispath\soilwat2.for
+[Contents]
+soilwat2.for = soilwat2.for
 
+[APSBuild]
+binary = ..\lib\soilwat2.dll
+lf90file = %apsuite\apsbuild\module.lf90
