@@ -1,7 +1,12 @@
-[standard.met.weather]    
+[standard.met.weather]
 
-site =  Patancheru  ()   
-latitude =   17.53 (deg.)   
+site =  Patancheru  ()
+latitude =   17.53 (deg.)
+
+
+   ! TAV and AMP inserted by "tav_amp" on 28/10/1999 at 16:35 for period from   1/1974 to 212/1997 (ddd/yyyy)
+ tav =  25.83 (oC)     ! annual average ambient temperature
+ amp =  11.95 (oC)     ! annual amplitude in mean monthly temperature
 
 year  monthx  dom   day  maxt  mint  RH07  RH14  evap  rain  wind   sun    radn
  ()     ()    ()    ()  (oC)  (oC)   (%)   (%)  (mm)  (mm) (kph)  (hr)    (MJ)

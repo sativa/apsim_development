@@ -12,8 +12,11 @@ eo_durn   = 720 (min)
 !MinT on day 82 of 1982 is lowered from 18.6 to 17.6
 !to avoid APSIM crash
 
- tav =  15.43 (oC)
- amp =  17.09 (oC)
+
+   ! TAV and AMP inserted by "tav_amp" on 28/10/1999 at 16:44 for period from   1/1957 to 129/1998 (ddd/yyyy)
+ tav =  15.43 (oC)     ! annual average ambient temperature
+ amp =  16.99 (oC)     ! annual amplitude in mean monthly temperature
+
 year  day radn  MaxT   MinT  Rain  Evap    vp   Code
 ()    () (mj/m2) (oC)  (oC)  (mm)   ()     ()    ()
 1957   1  31.0  31.1   11.2   0.0   9.0   6.0  000311
