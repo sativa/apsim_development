@@ -1,4 +1,4 @@
-Version = 2.0
+Version = 3.0
 NumPages = 1
 object data: TForm
   Left = 4
@@ -6,8 +6,8 @@ object data: TForm
   Align = alClient
   BorderIcons = []
   BorderStyle = bsNone
-  ClientHeight = 840
-  ClientWidth = 1234
+  ClientHeight = 885
+  ClientWidth = 1269
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -24,6 +24,11 @@ object data: TForm
     AttachMaxCount = 1
     FieldDefs = <
       item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
         Name = 'Depth'
         DataType = ftFloat
       end
@@ -35,19 +40,9 @@ object data: TForm
         Name = 'Series'
         DataType = ftString
         Size = 200
-      end
-      item
-        Name = 'Title'
-        DataType = ftString
-        Size = 200
       end>
-    IndexFieldNames = 'Series;Depth'
     IndexName = 'mainIndex'
-    IndexDefs = <
-      item
-        Name = 'mainIndex'
-        Fields = 'Series;Depth'
-      end>
+    IndexDefs = <>
     SortOptions = []
     AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
     CommaTextOptions = [mtfSaveData]
@@ -69,7 +64,7 @@ object data: TForm
       'Text1.afterDataRefresh'
       'Graph1.afterDataRefresh')
     addToToolBar = True
-    sortFields = 'Depth'
+    groupByFields = 'Series'
     filenames.Strings = (
       '..\Shared\Soil\soil.out')
     Left = 80
@@ -77,7 +72,7 @@ object data: TForm
   end
 end
 object Page1: TQuickRep
-  Left = 29
+  Left = 0
   Top = 0
   Width = 992
   Height = 1403
@@ -158,12 +153,17 @@ object Page1: TQuickRep
         1981.2)
       seriesNumbers = '*'
       title = ' '
+      subTitle = ' '
       leftAxisTitle = 'Depth (cm)'
       topAxisTitle = 'Water (mm/mm)'
       rightAxisTitle = ' '
       bottomAxisTitle = ' '
       footTitle = ' '
-      seriesTitle = '$seriesName'
+      seriesTitle1 = '$seriesName'
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
       object QRDBChart1: TQRDBChart
         Left = -1
         Top = -1
@@ -212,13 +212,10 @@ object Page1: TQuickRep
           21)
         object Series1: TLineSeries
           HorizAxis = aTopAxis
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
           DataSource = data.data
-          SeriesColor = clRed
-          Title = '_DUL,'
+          Title = '$seriesName'
           LinePen.Width = 3
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -233,13 +230,11 @@ object Page1: TQuickRep
         object Series2: TLineSeries
           Tag = 1
           HorizAxis = aTopAxis
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
           DataSource = data.data
           SeriesColor = clGreen
-          Title = '_LL15,'
+          Title = 'Sorghum'
           LinePen.Width = 3
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -254,13 +249,11 @@ object Page1: TQuickRep
         object Series3: TLineSeries
           Tag = 2
           HorizAxis = aTopAxis
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
           DataSource = data.data
           SeriesColor = clYellow
-          Title = 'Cotton,'
+          Title = '_DUL'
           LinePen.Width = 3
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -275,13 +268,11 @@ object Page1: TQuickRep
         object Series4: TLineSeries
           Tag = 3
           HorizAxis = aTopAxis
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
           DataSource = data.data
           SeriesColor = clBlue
-          Title = 'Sorghum,'
+          Title = '_LL15'
           LinePen.Width = 3
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -322,7 +313,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        'MyTitle')
+        'Sample soil file')
       ParentFont = False
       Transparent = False
       WordWrap = True

@@ -5,7 +5,6 @@ inherited ChartForm: TChartForm
   VertScrollBar.Visible = False
   Caption = 'ChartForm'
   OldCreateOrder = True
-  OnShow = FormShow
   PixelsPerInch = 120
   TextHeight = 16
   inherited AdvPanelGroup1: TAdvPanelGroup
@@ -69,7 +68,7 @@ inherited ChartForm: TChartForm
         BevelKind = bkFlat
         BorderStyle = bsNone
         TabOrder = 0
-        OnExit = NameEditExit
+        OnExit = SeriesNumberEditChange
       end
     end
   end
