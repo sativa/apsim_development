@@ -24,8 +24,9 @@ simulation_end_year = 1989
 
 if day = 330 and year  = 1988 then
    peanut sow cultivar = early_bunch, plants = 10 (/m2), sowing_depth = 40 (mm)
+endif
 
-elseif day = 105 and year = 1989 then
+if peanut.stage_name = 'harvest_ripe' or peanut.plant_status = 'dead' then
    peanut harvest
    peanut end_crop   
 

@@ -26,12 +26,9 @@ simulation_end_year = 1989
 if day = 150 and year = 1988 then
    lucerne sow cultivar = trifecta, plants = 200 (/m2), sowing_depth = 40 (mm)
 
-elseif (day = 300 and year = 1988) or (day = 360 and year = 1988) or
-       (day = 40 and year = 1989) or (day = 100 and year = 1989) or 
-       (day = 150 and year = 1989) then
+elseif lucerne.stage_name = 'flowering' then
    lucerne harvest height = 50 (mm)
     
-
 elseif day = 200 and year = 1989 then
    lucerne harvest
    lucerne end_crop   
