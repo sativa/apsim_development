@@ -8,10 +8,10 @@ module_names=    clock clock
 variable_names=  day   year     
 variable_alias=  -     -      
 
-module_names=    canola   canola   canola
-variable_names=  lai      biomass  green_biomass
-variable_alias=  -        -        -     
-units=           -         -       -     
+module_names=    canola   canola   canola        canola
+variable_names=  lai      biomass  green_biomass pai
+variable_alias=  -        -        -             -
+units=           -         -       -             -
 
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
