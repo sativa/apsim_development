@@ -52,6 +52,7 @@
 *      201093 jngh specified and programmed
 *      011195 jngh  added call to message_unused
 *      090299 jngh removed find crops and get other variables from init
+*      100299 jngh added find crops back in
 
 *+  Calls
       character  canopy_version*20     ! function
@@ -80,7 +81,7 @@
       else if (Action.eq.MES_Init) then
          call canopy_zero_variables ()
          call canopy_init ()
-!         call canopy_find_crops ()
+         call canopy_find_crops ()
 !         call canopy_get_other_variables ()
  
       else if (Action .eq. MES_Prepare) then
