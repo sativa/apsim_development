@@ -77,11 +77,17 @@ bool Field::getValues(void)
    bool ok = parent->getVariable(variableID, variant, true);
    if (ok)
       {
-      variant->unpack(values);
+      bool ok = variant->unpack(values);
       unit = asString(variant->getType().getUnits());
       arrayIndex = variant->getLowerBound();
       if (unit[0] != '(')
          unit = "(" + unit + ")";
+      if (!ok)
+         {
+         string msg = "Cannot use array notation on a scalar variable.\n"
+                      "Variable name: " + VariableName;
+         parent->error(msg.c_str(), false);
+         }
       }
    else
       unit = "(?)";
