@@ -39,7 +39,7 @@ endif
 [orobanche.manager.init]
 oro_in = 0
 [orobanche.manager.start_of_day]
-if (fababean.stage_code >= 1.0 AND oro_in = 0) then
+if (fababean.stage >= 1.0 AND oro_in = 0) then
    orobanche start cultivar = crenata, density = 600.0 (parasites/kg soil), depth = 100.0 (mm), host = fababean ()
    oro_in = 1
 endif

@@ -210,7 +210,7 @@
           ---------------------------------------------------------
 
 ------- peanut Initialisation -------------------------------------------------
-      initialising
+     phenology model: Legume
 ------- Start of simulation  --------------------------------------------------
 25 November 1988(Day of year=330), manager: 
      Manager sending message :- peanut sow  cultivar = early_bunch, plants = 10 (/m2), sowing_depth = 40 (mm)
@@ -220,19 +220,19 @@
       - reading cultivar parameters
          ------------------------------------------------
         cultivar                   = early_bunch
-        est_days_emerg_to_init     =        2
-        cum_vernal_days            =       0.00     100.00
-        tt_emerg_to_endjuv         =       5.00       5.00
-        x_pp_endjuv_to_init        =      12.00      17.00
-        y_tt_endjuv_to_init        =       0.00       5.00
-        x_pp_init_to_flower        =       1.00      24.00
-        y_tt_init_to_flower        =     380.00     380.00
-        x_pp_flower_to_start_grain =       1.00      24.00
-        y_tt_flower_to_start_grain =     300.00     300.00
-        x_pp_start_to_end_grain    =       1.00      24.00
-        y_tt_start_to_end_grain    =    1020.50    1020.50
-        tt_end_grain_to_maturity   =      69.50
-        tt_maturity_to_ripe        =       5.00
+        est_days_emerg_to_init     = 2 (days)
+        cum_vernal_days            =       0     100 (vd)
+        tt_emerg_to_endjuv         =       5       5 (dd)
+        x_pp_endjuv_to_init        =      12      17 (h)
+        y_tt_endjuv_to_init        =       1       5 (dd)
+        x_pp_init_to_flower        =       1      24 (h)
+        y_tt_init_to_flower        =     380     380 (dd)
+        x_pp_flower_to_start_grain =       1      24 (h)
+        y_tt_flower_to_start_grain =     300     300 (dd)
+        x_pp_start_to_end_grain    =       1      24 (h)
+        y_tt_start_to_end_grain    =  1020.5  1020.5 (dd)
+        tt_end_grain_to_maturity   =         70 (dd)
+        tt_maturity_to_ripe        =          5 (dd)
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0064     0.0064
         x_hi_max_pot_stress        =       0.00       1.00
@@ -273,26 +273,26 @@
 2 December 1988(Day of year=337), peanut: 
       stage 3.0 emergence
                      biomass =           0.45 (g/m^2)   lai          =   0.006 (m^2/m^2)
-                     stover N conc =     4.60 (%)     extractable sw =   45.67 (mm)
+                     stover N conc =     4.60 (%)    extractable sw =   45.67 (mm)
 3 December 1988(Day of year=338), peanut: 
       stage 4.0 end_of_juvenile
                      biomass =           0.52 (g/m^2)   lai          =   0.007 (m^2/m^2)
-                     stover N conc =     4.23 (%)     extractable sw =   45.62 (mm)
+                     stover N conc =     4.01 (%)    extractable sw =   45.62 (mm)
 4 December 1988(Day of year=339), peanut: 
       stage 5.0 floral_initiation
                      biomass =           0.63 (g/m^2)   lai          =   0.010 (m^2/m^2)
-                     stover N conc =     4.11 (%)     extractable sw =   45.55 (mm)
+                     stover N conc =     3.66 (%)    extractable sw =   45.55 (mm)
 29 December 1988(Day of year=364), peanut: 
       stage 6.0 flowering
                      biomass =          58.97 (g/m^2)   lai          =   0.901 (m^2/m^2)
-                     stover N conc =     2.61 (%)     extractable sw =  214.94 (mm)
+                     stover N conc =     2.59 (%)    extractable sw =  214.94 (mm)
 19 January 1989(Day of year=19), peanut: 
       stage 7.0 start_grain_fill
-                     biomass =         371.46 (g/m^2)   lai          =   2.975 (m^2/m^2)
-                     stover N conc =     2.50 (%)     extractable sw =  213.32 (mm)
+                     biomass =         371.53 (g/m^2)   lai          =   2.976 (m^2/m^2)
+                     stover N conc =     2.35 (%)    extractable sw =  213.29 (mm)
 14 April 1989(Day of year=104), peanut: 
       stage 8.0 end_grain_fill
-                     biomass =        1142.82 (g/m^2)   lai          =   4.594 (m^2/m^2)
-                     stover N conc =     1.18 (%)     extractable sw =   65.72 (mm)
+                     biomass =        1140.27 (g/m^2)   lai          =   4.373 (m^2/m^2)
+                     stover N conc =     1.48 (%)    extractable sw =   66.18 (mm)
 20 April 1989(Day of year=110), clock: 
      Simulation is terminating due to end criteria being met.

@@ -210,7 +210,7 @@
           ---------------------------------------------------------
 
 ------- lupin Initialisation --------------------------------------------------
-      initialising
+     phenology model: Legume
 ------- Start of simulation  --------------------------------------------------
 9 May 1988(Day of year=130), manager: 
      Manager sending message :- lupin sow  cultivar = belara, plants = 25 (/m2), sowing_depth = 40 (mm)
@@ -220,19 +220,19 @@
       - reading cultivar parameters
          ------------------------------------------------
         cultivar                   = belara
-        est_days_emerg_to_init     =       83
-        cum_vernal_days            =       0.00      25.00
-        tt_emerg_to_endjuv         =     375.00     375.00
-        x_pp_endjuv_to_init        =      10.80      16.00
-        y_tt_endjuv_to_init        =     560.00       1.00
-        x_pp_init_to_flower        =       1.00      24.00
-        y_tt_init_to_flower        =     140.00     140.00
-        x_pp_flower_to_start_grain =       1.00      24.00
-        y_tt_flower_to_start_grain =     500.00     500.00
-        x_pp_start_to_end_grain    =       1.00      24.00
-        y_tt_start_to_end_grain    =     450.00     450.00
-        tt_end_grain_to_maturity   =      50.00
-        tt_maturity_to_ripe        =       1.00
+        est_days_emerg_to_init     = 83 (days)
+        cum_vernal_days            =       0      25 (vd)
+        tt_emerg_to_endjuv         =     375     375 (dd)
+        x_pp_endjuv_to_init        =    10.8      16 (h)
+        y_tt_endjuv_to_init        =     560       1 (dd)
+        x_pp_init_to_flower        =       1      24 (h)
+        y_tt_init_to_flower        =     140     140 (dd)
+        x_pp_flower_to_start_grain =       1      24 (h)
+        y_tt_flower_to_start_grain =     500     500 (dd)
+        x_pp_start_to_end_grain    =       1      24 (h)
+        y_tt_start_to_end_grain    =     450     450 (dd)
+        tt_end_grain_to_maturity   =         50 (dd)
+        tt_maturity_to_ripe        =          1 (dd)
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0080     0.0080
         x_hi_max_pot_stress        =       0.00       1.00
@@ -273,79 +273,81 @@
 17 May 1988(Day of year=138), lupin: 
       stage 3.0 emergence
                      biomass =           5.00 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     6.50 (%)     extractable sw =   19.44 (mm)
+                     stover N conc =     6.50 (%)    extractable sw =   19.44 (mm)
 12 June 1988(Day of year=164), lupin: 
       stage 4.0 end_of_juvenile
                      biomass =           6.42 (g/m^2)   lai          =   0.022 (m^2/m^2)
-                     stover N conc =     5.69 (%)     extractable sw =  200.63 (mm)
+                     stover N conc =     5.69 (%)    extractable sw =  200.63 (mm)
 19 July 1988(Day of year=201), lupin: 
       stage 5.0 floral_initiation
                      biomass =          70.32 (g/m^2)   lai          =   0.846 (m^2/m^2)
-                     stover N conc =     3.47 (%)     extractable sw =  313.76 (mm)
+                     stover N conc =     3.78 (%)    extractable sw =  313.76 (mm)
 31 July 1988(Day of year=213), lupin: 
       stage 6.0 flowering
-                     biomass =         150.64 (g/m^2)   lai          =   1.491 (m^2/m^2)
-                     stover N conc =     3.26 (%)     extractable sw =  297.24 (mm)
+                     biomass =         150.64 (g/m^2)   lai          =   1.497 (m^2/m^2)
+                     stover N conc =     3.26 (%)    extractable sw =  297.24 (mm)
 6 September 1988(Day of year=250), lupin: 
       stage 7.0 start_grain_fill
-                     biomass =         512.40 (g/m^2)   lai          =   2.865 (m^2/m^2)
-                     stover N conc =     2.00 (%)     extractable sw =  250.58 (mm)
+                     biomass =         512.94 (g/m^2)   lai          =   2.898 (m^2/m^2)
+                     stover N conc =     1.99 (%)    extractable sw =  250.48 (mm)
 12 October 1988(Day of year=286), lupin: 
       stage 8.0 end_grain_fill
-                     biomass =         892.44 (g/m^2)   lai          =   0.500 (m^2/m^2)
-                     stover N conc =     1.74 (%)     extractable sw =  168.02 (mm)
+                     biomass =         898.29 (g/m^2)   lai          =   0.542 (m^2/m^2)
+                     stover N conc =     1.75 (%)    extractable sw =  166.28 (mm)
 17 October 1988(Day of year=291), lupin: 
       stage 9.0 maturity
-                     biomass =         906.31 (g/m^2)   lai          =   0.251 (m^2/m^2)
-                     stover N conc =     1.74 (%)     extractable sw =  157.16 (mm)
+                     biomass =         913.30 (g/m^2)   lai          =   0.280 (m^2/m^2)
+                     stover N conc =     1.75 (%)    extractable sw =  154.71 (mm)
 18 October 1988(Day of year=292), lupin: 
       stage 10.0 harvest_ripe
-                     biomass =         906.31 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.77 (%)     extractable sw =  155.96 (mm)
+                     biomass =         913.30 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     1.78 (%)    extractable sw =  153.39 (mm)
 19 October 1988(Day of year=293), manager: 
      Manager sending message :- lupin harvest
 19 October 1988(Day of year=293), lupin: 
      
-      flowering day          =  213                           stover (kg/ha)         =     6797.3
-      maturity day           =  291                           grain yield (kg/ha)    =     2265.8
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     2574.7
+      flowering day          =  213                           stover (kg/ha)         =     6849.8
+      maturity day           =  291                           grain yield (kg/ha)    =     2283.3
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     2594.6
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
-      grains/plant           =    0.0                         maximum lai            =      2.937
-      total above ground biomass (kg/ha)    =     9063.1
-      live above ground biomass (kg/ha)     =     9063.1
-      green above ground biomass (kg/ha)    =     6954.0
-      senesced above ground biomass (kg/ha) =     2109.1
+      grains/plant           =    0.0                         maximum lai            =      2.968
+      total above ground biomass (kg/ha)    =     9133.0
+      live above ground biomass (kg/ha)     =     9133.0
+      green above ground biomass (kg/ha)    =     7019.4
+      senesced above ground biomass (kg/ha) =     2113.7
       dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =  388.2
-      DM Root:Shoot ratio    =    0.227                       Harvest Index          =      0.250
-      Stover C:N ratio       =   29.075                       Root C:N ratio         =     19.579
-      grain N percent        =       5.50                     total N content (kg/ha)=     218.13
-      grain N uptake (kg/ha) =     124.62                     senesced N content (kg/ha)=   10.55
-      green N content (kg/ha)=      82.97                     dead N content (kg/ha) =       0.00
+      number of leaves       =  389.2
+      DM Root:Shoot ratio    =    0.226                       Harvest Index          =      0.250
+      Stover C:N ratio       =   28.825                       Root C:N ratio         =     19.580
+      grain N percent        =       5.50                     total N content (kg/ha)=     220.63
+      grain N uptake (kg/ha) =     125.58                     senesced N content (kg/ha)=   10.57
+      green N content (kg/ha)=      84.49                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.006
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.049
-         floral_initiation    to flowering               0.000        0.000        0.000        0.029
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.059
+         floral_initiation    to flowering               0.000        0.000        0.000        0.014
          flowering            to start_grain_fill        0.000        0.000        0.000        0.000
          start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.000
      
+     
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6797.31                    0.00
-                          N  (kg/ha) =                 93.51                    0.00
+                          DM (kg/ha) =               6849.79                    0.00
+                          N  (kg/ha) =                 95.05                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2265.77                    0.00
-                          N  (kg/ha) =                124.62                    0.00
+                          DM (kg/ha) =               2283.26                    0.00
+                          N  (kg/ha) =                125.58                    0.00
      
+      stage 11.0 end_crop
 19 October 1988(Day of year=293), manager: 
      Manager sending message :- lupin end_crop
 19 October 1988(Day of year=293), lupin: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 2060.99
-                          N  (kg/ha) =                  0.00                   42.11
+                          DM (kg/ha) =                  0.00                 2066.28
+                          N  (kg/ha) =                  0.00                   42.21
                           P  (kg/ha) =                                          0.00
      
 26 October 1988(Day of year=300), clock: 
