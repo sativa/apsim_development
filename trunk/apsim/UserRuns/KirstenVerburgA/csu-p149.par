@@ -148,7 +148,7 @@ endif
 !endif
 
 if (year = 1992 and day = 350) then
-   soiln2 incorp_fom dlt_fom_wt = 500 2500 1500 1000 500 300 200 150 50 10 0 0 0 0 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 ()
+   soiln2 add_roots dlt_fom_wt = 500 2500 1500 1000 500 300 200 150 50 10 0 0 0 0 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 ()
 endif
 
 [csu-S.manager.start_of_day]
@@ -177,11 +177,11 @@ cum_drain_90 = cum_drain_90 + apswim.flow(9)
 cum_leach_25 = cum_leach_25 + apswim.flow_no3(4)
 cum_leach_90 = cum_leach_90 + apswim.flow_no3(9)
 cum_rain     = cum_rain + met.rain
-cum_ET       = cum_ET + apswim.es + wheat.ep + lucerne.ep + canola.ep
+cum_ET       = cum_ET + apswim.es + weed.ep + lucerne.ep + canola.ep
 cum_drain    = cum_drain + apswim.drain
 cum_drain180 = cum_drain180 + apswim.flow(13)
 cum_E        = cum_E + apswim.es
-cum_T        = cum_T + wheat.ep + lucerne.ep + canola.ep
+cum_T        = cum_T + weed.ep + lucerne.ep + canola.ep
 
 !summary terms
 no3_025      = no3(1) + no3(2) + no3(3) + no3(4)
@@ -250,7 +250,7 @@ report4 do_end_day_output
 
 [weeds.manager.start_of_day]
 if ((day = 361) and (year = 1992)) then
-   wheat sow plants = 40, depth = 40, cultivar = weed
+   weed sow plants = 40, sowing_depth = 40,crop_class = winter_grass, cultivar = early
    cult = 2
    crop_in = 1
 endif
@@ -260,14 +260,15 @@ if ((crop_in = 0) and (lucerne.plant_status = 'out')) then
       ! weeds allowed to germinate
       if ((date_within('1-dec,28-feb') and (rain[2] >= 25)) or
           (date_within('1-mar,30-apr') and (rain[2] >= 20))) then
-         wheat sow plants = 40, depth = 40, cultivar = weed
+         weed sow plants = 40, sowing_depth = 40, crop_class = winter_grass, cultivar = early
          cult = 2
          crop_in = 1
       endif
    endif
 endif
-if ((cult = 2) and ((wheat.stage_name = 'harvest_ripe') or (today = date('1-may')))) then
-      wheat harvest
+if ((cult = 2) and ((weed.stage_name = 'harvest_ripe') or (today = date('1-may')))) then
+      weed harvest
+      weed end_crop
       crop_in = 0
       cult = 0
 endif
@@ -285,10 +286,11 @@ endif
 
 !------1993 wheat-------
 !wheat sown and DAP (17 kg N/ha, 25 kg P/ha) applied on 6/6/93
-157 1993 wheat sow plants = 210, depth = 40, cultivar = janz
+157 1993 wheat sow plants = 210, sowing_depth = 40, cultivar = janz
 157 1993 fertiliz apply amount = 17 (kg/ha), type = nh4_n, depth = 60 (mm)
 !wheat harvest on 15/12/93
 349 1993 wheat harvest
+349 1993 wheat end_crop
 
 !-------1994 fallow-------
 !tillage: stubble burnt 13/4/94, assumed tilled not long after
@@ -592,13 +594,13 @@ storage =     .10   ! (cm water/cm of +ve Psi)
 
 ! --------------------crop apswim parameters ----------------------
 [all.apswim.crop]
-   ! ------------------------------------------
-crop_name =                  wheat  lucerne canola
-   ! ------------------------------------------
-min_xylem_potential =       -15000. -15000.  -15000. (mbar)
-root_radius =                0.24     0.24   0.24    (mm)
-root_conductance =         1.4d-7   1.4d-7   1.4d-7
-   ! ------------------------------------------
+   ! ---------------------------------------------------
+crop_name =                  weed    wheat  lucerne canola
+   ! ---------------------------------------------------
+min_xylem_potential =       -15000.  -15000. -15000.  -15000. (mbar)
+root_radius =                0.24     0.24     0.24   0.24    (mm)
+root_conductance =         1.4d-7   1.4d-7   1.4d-7   1.4d-7
+   ! ---------------------------------------------------
 
 ! --------------------- soil type information -------------------------
 [all.apswim.soil1]
@@ -686,7 +688,7 @@ beta =                              0   0    0    0   0   0   0
                   ! ---------------------------------------------
 
 !******************** wheat module ********************
-[all.wheat.janz]
+[all.wheat.parameters]
 uptake_source =  apsim
 
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13      14      15      16      17      18      19      20
@@ -695,7 +697,7 @@ xf        =        1       1       1     0.9    0.75     0.5    0.35    0.15    
 ll        =    0.112   0.112   0.163   0.163   0.163   0.166   0.182   0.214   0.261   0.267   0.261   0.284   0.284   0.267   0.284   0.267   0.276   0.284   0.284   0.284
 kl        =     0.07    0.07    0.07    0.07    0.05    0.05    0.04    0.04    0.04    0.04       0       0       0       0       0       0       0       0       0       0
 
-[all.wheat.weed]
+[all.weed.parameters]
 uptake_source =  apsim
 
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13      14      15      16      17      18      19      20
@@ -782,6 +784,7 @@ screen_output = off
 
 [all.tracker1.parameters]
 variable = sum of met.rain since report1.reported as sum@met_rain on post
+variable = sum of weed.ep since report1.reported as sum@weed_ep on post
 variable = sum of wheat.ep since report1.reported as sum@wheat_ep on post
 variable = sum of lucerne.ep since report1.reported as sum@lucerne_ep on post
 variable = sum of canola.ep since report1.reported as sum@canola_ep on post
@@ -801,6 +804,7 @@ variable = sum of canola.dlt_n_fixed since report2.reported as sum@canola_dlt_n_
 
 [all.tracker3.parameters]
 variable = sum of met.rain since report4.reported as sum@met_rain on post
+variable = sum of weed.ep since report4.reported as sum@weed_ep on post
 variable = sum of wheat.ep since report4.reported as sum@wheat_ep on post
 variable = sum of lucerne.ep since report4.reported as sum@lucerne_ep on post
 variable = sum of canola.ep since report4.reported as sum@canola_ep on post
