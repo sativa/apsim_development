@@ -20,7 +20,6 @@
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
      Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
      Component DLL          = c:\development\apsim\grasp\lib\grasp.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Simulation start date =  1/01/1988
@@ -192,9 +191,6 @@
      
      
      
-
-------- tracker Initialisation ------------------------------------------------
-     Tracker variables:
 ------- Start of simulation  --------------------------------------------------
 1 January 1989(Day of year=1), clock: 
      Simulation is terminating due to end criteria being met.
