@@ -21,13 +21,15 @@ INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
 LIBPATH = $(SYSLIBPATH)
 
 # ---------------------------------------------------------------------------
-CFLAG1 = -Od -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC -tWM- -c
+# 'Wizard' generated:
+#CFLAG1 = -Od -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC -tWM- -c
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -tWM 
 WARNINGS = -w-par
 LFLAGS =  -ap -Tpe -x -Gn -v
 
 STDOBJ = c0x32.obj vcl.bpi Memmgr.Lib sysinit.obj
 ALLRES = $(RESFILES)
-ALLLIB = $(LIBFILES) import32.lib cw32i.lib
+ALLLIB = $(LIBFILES) import32.lib cw32mti.lib 
 
 CC=$(BCB)\Bin\bcc32.exe
 LD=$(BCB)\Bin\ilink32
