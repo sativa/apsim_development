@@ -560,7 +560,7 @@ c      g%ComponentFrgr(:) = 0.0
       call unpack_canopy(variant, canopies, num_canopies)
 
       do 100 counter = 1, num_canopies
-      
+
          ComponentNo = Micromet_Component_Number
      :                   (canopies(counter)%name)
 
@@ -579,7 +579,7 @@ c      g%ComponentFrgr(:) = 0.0
 
          endif
   100 continue
-  
+
       call pop_routine (myname)
       return
       end
@@ -615,10 +615,10 @@ c      g%ComponentFrgr(:) = 0.0
       call Micromet_Met_Variables ()
       call Micromet_Canopy_Compartments ()
       call Micromet_Canopy_Energy_Balance ()
-      
+
       call Micromet_Energy_Balance_Event()
       call Micromet_Water_Balance_Event()
-      
+
       call pop_routine (myname)
       return
       end
@@ -736,7 +736,7 @@ c      g%ComponentFrgr(:) = 0.0
       real    CanopyBase
       integer key(2*max_components - 1)
       integer layer
-      
+
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
@@ -844,8 +844,8 @@ c      g%ComponentFrgr(:) = 0.0
      :                        (bottom
      :                        ,g%canopies(j)%layer(:)%cumheight
      :                        ,g%canopies(j)%layer(:)%cumcover
-     :                        ,g%canopies(j)%numlayers)     
-     
+     :                        ,g%canopies(j)%numlayers)
+
   200    continue
 
          ! Calculate fractional contribution for layer i and component j
@@ -993,7 +993,7 @@ c      g%ComponentFrgr(:) = 0.0
 
   100    continue
   150 continue
-  
+
          ! Calculate extinction for individual layers
          ! ==========================================
 
@@ -1392,7 +1392,7 @@ c      g%ComponentFrgr(:) = 0.0
       character  search_order(max_table)*32 ! sections to search
       integer    num_sections          ! number of sections to search
       logical    found
-      
+
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
@@ -2058,7 +2058,7 @@ c      g%ComponentFrgr(:) = 0.0
       integer i
       type (LightProfileType)::profile
       integer layer
-            
+
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
@@ -2068,16 +2068,17 @@ c      g%ComponentFrgr(:) = 0.0
 
          profile%interception(j)%name = g%canopies(j)%name
          profile%interception(j)%CropType = g%canopies(j)%CropType
-         
+         profile%interception(j)%NumLayers = g%NumLayers
+
          do 50 i = 1,g%NumLayers
             profile%interception(j)%layer(i)%thickness
      :                       = g%DeltaZ(i)
             profile%interception(j)%layer(i)%amount
-     :                       = g%Rs(i,j)     
+     :                       = g%Rs(i,j)
    50    continue
   100 continue
       profile%transmission = g%met%radn - sum(g%Rs(:,:))
-      
+
       call publish_LightProfile(LightProfileCalculatedID
      :            ,profile,.false.)
 
@@ -2118,18 +2119,18 @@ c      g%ComponentFrgr(:) = 0.0
       call push_routine (myname)
 
       CanopyWaterBalance%NumCanopys = g%NumComponents
-      
+
       do 100 j=1,g%NumComponents
 
          CanopyWaterBalance%canopy(j)%name = g%canopies(j)%name
          CanopyWaterBalance%canopy(j)%CropType = g%canopies(j)%CropType
-         CanopyWaterBalance%canopy(j)%potentialEp 
+         CanopyWaterBalance%canopy(j)%potentialEp
      :                 =  sum(g%PET(1:g%NumLayers,j))
   100 continue
-  
+
       CanopyWaterBalance%interception = sum(g%Interception(:,:))
       CanopyWaterBalance%Eo = 0.0
-   
+
       call publish_CanopyWaterBalance(CanopyWaterBalanceCalculatedID
      :            ,CanopyWaterBalance,.false.)
 
@@ -2146,7 +2147,7 @@ c      g%ComponentFrgr(:) = 0.0
 
 *+  Sub-Program Arguments
       character name*(*)
-      
+
 *+  Purpose
 *       Find record number for a given canopy name
 
