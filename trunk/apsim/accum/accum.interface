@@ -18,7 +18,7 @@ include base.interface
 class APSIMAccumPublic
    accum_variables         : APSIMStringArray   = Accum variables, (), READ
    sysinit                 : APSIMMethod        = System initialization stage
-   post                    : APSIMMethod        = System post stage
+
 end
 
 ; -----------------------------------------------------------
@@ -30,6 +30,9 @@ end
 ;    Events from other components that this component uses.
 ; -----------------------------------------------------------
 class APSIMAccumExternal
+
+   post                    : APSIMEvent        = System post stage
+
 end
 
 class APSIMAccum
