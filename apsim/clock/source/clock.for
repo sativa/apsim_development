@@ -95,6 +95,7 @@
 
 *+  Changes
 *     dph 25/11/96
+*     nih 28/04/99 - added simple sub-daily timestep function
 
 *+  Calls
       character  clock_version*20      ! function
@@ -105,7 +106,7 @@
       parameter (This_routine='clock_init')
 
 *+  Local Variables
-       character msg*400               ! message to write to summary file
+!       character msg*400               ! message to write to summary file
        logical ok                      ! did clock advance to next day ok?
 
 *- Implementation Section ----------------------------------
@@ -120,7 +121,9 @@
 cih
       g_end_current_run = .false.
  
-      g_current_date = g_start_date - 1
+      g_current_date = g_start_date - 1.
+      g_current_time = -g_timestep
+
       ok = clock_advance_clock ()
  
       ! tell user we have initialised.
@@ -153,6 +156,7 @@ cih
 
 *+  Changes
 *     dph 25/11/96
+*     nih 28/04/99 - added timestep parameter
 
 *+  Constant Values
       character This_routine*(*)       ! name of this routine
@@ -202,7 +206,26 @@ cih
      .                       2100)
       call day_of_year_to_date (day_of_year, year, thisdate)
       g_end_date = Date_to_jday (thisdate(1), thisdate(2), thisdate(3))
+
+      call read_integer_var_optional ('parameters',
+     .                       'timestep',
+     .                       '(min)',
+     .                       g_timestep,
+     .                       numvals,
+     .                       1,
+     .                       mins_in_day)
  
+      if (numvals.eq.0) then
+         g_timestep = mins_in_day
+      else
+      endif
+
+      if (mod(mins_in_day,g_timestep).ne.0) then
+         call fatal_error (Err_User, 
+     :       'Timestep must be factor of 1440 minutes (one day)')
+      else
+      endif
+
       call pop_routine (this_routine)
       return
       end
@@ -225,6 +248,7 @@ cih
 
 *+  Changes
 *     dph 25/11/96
+*     nih 28/04/99 - added simple sub-daily timestep function
 
 *+  Constant Values
       character This_routine*(*)       ! name of this routine
@@ -233,11 +257,13 @@ cih
 *- Implementation Section ----------------------------------
  
       call push_routine (This_routine)
- 
-      g_current_date = g_current_date + 1
- 
+      g_current_time = g_current_time + g_timestep
+
+      g_current_date = g_start_date
+     :               + int(g_current_time/dble(mins_in_day))
+
       ! check for end of run conditions.
- 
+
       if (g_current_date .eq. g_end_date + 1) then
          call Write_string (lu_scr_sum,
      .       'Simulation is terminating due to end ' //
@@ -278,6 +304,7 @@ cih
 
 *+  Changes
 *     dph 25/11/96
+*     nih 28/04/99 - added timestep output
 
 *+  Constant Values
       character This_routine*(*)       ! name of this routine
@@ -299,6 +326,10 @@ cih
          call respond2get_integer_var (Variable_name,
      .                                 '(year)',
      .                                 g_year)
+      else if (variable_name .eq. 'timestep') then
+         call respond2get_integer_var (Variable_name,
+     .                                 '(min)',
+     .                                 g_timestep)
       else if (variable_name .eq. 'day_of_month') then
          call jday_to_date (thisdate(1), thisdate(2), thisdate(3),
      .                      g_current_date)
@@ -321,8 +352,7 @@ cih
          Logical_to_return = End_week (g_day, g_year)
          call Respond2get_logical_var
      .       (variable_name, '(0-1)', Logical_to_return)
- 
- 
+  
       else if (Variable_name .eq. 'start_month') then
          Logical_to_return = Start_month (g_day, g_year)
          call Respond2get_logical_var
