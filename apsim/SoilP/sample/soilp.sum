@@ -75,7 +75,9 @@
      elseif day = 15 then
         fertiliz apply amount = 20 (kg/ha), depth = 35 (mm), type = banded_p
      elseif day = 20 then
-        act_mods tillage type = disc ()
+        soilwat2 tillage type = disc ()
+        residue2 tillage type = disc ()
+        soilp tillage type = disc ()
      endif
      
      SECTION:- end_of_day
@@ -272,19 +274,23 @@
         20.00 of banded phosphorus (banded_p)
                                               added at depth   35.00 (layer   1)
 20 January 1988(Day of year=20), manager: 
-     Manager sending message :- act_mods tillage  type = disc
+     Manager sending message :- soilwat2 tillage  type = disc
 20 January 1988(Day of year=20), soilwat2: 
      
          - Reading tillage CN info
      Soil tilled using disc
                                              CN reduction =     0.00
                                              Acc rain     =     0.00
+20 January 1988(Day of year=20), manager: 
+     Manager sending message :- residue2 tillage  type = disc
 20 January 1988(Day of year=20), residue2: 
      
          - Reading residue tillage info
      Residue removed using disc
                                              Fraction Incorporated =     0.50
                                              Incorporated Depth    =   200.00
+20 January 1988(Day of year=20), manager: 
+     Manager sending message :- soilp tillage  type = disc
 20 January 1988(Day of year=20), soilp: 
      Banded P destroyed
 30 January 1988(Day of year=30), clock: 
