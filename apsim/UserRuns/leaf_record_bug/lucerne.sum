@@ -210,7 +210,7 @@
           ---------------------------------------------------------
 
 ------- lucerne Initialisation ------------------------------------------------
-      initialising
+     phenology model: Legume
 ------- Start of simulation  --------------------------------------------------
 29 May 1988(Day of year=150), manager: 
      Manager sending message :- lucerne sow  cultivar = trifecta, plants = 200 (/m2), sowing_depth = 40 (mm)
@@ -220,19 +220,19 @@
       - reading cultivar parameters
          ------------------------------------------------
         cultivar                   = trifecta
-        est_days_emerg_to_init     =       30
-        cum_vernal_days            =       0.00     100.00
-        tt_emerg_to_endjuv         =     700.00     700.00
-        x_pp_endjuv_to_init        =      10.70      17.00
-        y_tt_endjuv_to_init        =     300.00     300.00
-        x_pp_init_to_flower        =       1.00      24.00
-        y_tt_init_to_flower        =     200.00     200.00
-        x_pp_flower_to_start_grain =       1.00      24.00
-        y_tt_flower_to_start_grain =     100.00     100.00
-        x_pp_start_to_end_grain    =       1.00      24.00
-        y_tt_start_to_end_grain    =    9400.00    9400.00
-        tt_end_grain_to_maturity   =     500.00
-        tt_maturity_to_ripe        =       5.00
+        est_days_emerg_to_init     = 30 (days)
+        cum_vernal_days            =       0     100 (vd)
+        tt_emerg_to_endjuv         =     700     700 (dd)
+        x_pp_endjuv_to_init        =    10.7      17 (h)
+        y_tt_endjuv_to_init        =     300     300 (dd)
+        x_pp_init_to_flower        =       1      24 (h)
+        y_tt_init_to_flower        =     200     200 (dd)
+        x_pp_flower_to_start_grain =       1      24 (h)
+        y_tt_flower_to_start_grain =     100     100 (dd)
+        x_pp_start_to_end_grain    =       1      24 (h)
+        y_tt_start_to_end_grain    =    9400    9400 (dd)
+        tt_end_grain_to_maturity   =        500 (dd)
+        tt_maturity_to_ripe        =          5 (dd)
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0001     0.0001
         x_hi_max_pot_stress        =       0.00       1.00
@@ -273,19 +273,19 @@
 7 June 1988(Day of year=159), lucerne: 
       stage 3.0 emergence
                      biomass =           1.00 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     6.00 (%)     extractable sw =   33.00 (mm)
+                     stover N conc =     6.00 (%)    extractable sw =   33.00 (mm)
 21 August 1988(Day of year=234), lucerne: 
       stage 4.0 end_of_juvenile
                      biomass =         144.12 (g/m^2)   lai          =   1.437 (m^2/m^2)
-                     stover N conc =     5.77 (%)     extractable sw =  151.97 (mm)
+                     stover N conc =     5.77 (%)    extractable sw =  151.97 (mm)
 16 September 1988(Day of year=260), lucerne: 
       stage 5.0 floral_initiation
                      biomass =         331.17 (g/m^2)   lai          =   2.852 (m^2/m^2)
-                     stover N conc =     4.07 (%)     extractable sw =  240.28 (mm)
+                     stover N conc =     4.39 (%)    extractable sw =  240.28 (mm)
 30 September 1988(Day of year=274), lucerne: 
       stage 6.0 flowering
                      biomass =         450.57 (g/m^2)   lai          =   3.513 (m^2/m^2)
-                     stover N conc =     3.16 (%)     extractable sw =  192.65 (mm)
+                     stover N conc =     3.36 (%)    extractable sw =  192.65 (mm)
 1 October 1988(Day of year=275), manager: 
      Manager sending message :- lucerne harvest
 1 October 1988(Day of year=275), lucerne: 
@@ -302,23 +302,22 @@
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   29.5
       DM Root:Shoot ratio    =    0.438                       Harvest Index          =      0.000
-      Stover C:N ratio       =   12.863                       Root C:N ratio         =     16.000
-      grain N percent        =       0.00                     total N content (kg/ha)=     140.12
+      Stover C:N ratio       =   12.141                       Root C:N ratio         =     16.000
+      grain N percent        =       0.00                     total N content (kg/ha)=     148.45
       grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=    4.14
-      green N content (kg/ha)=     135.98                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=     144.31                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.016        0.111
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.002        0.005
+         emergence            to end_of_juvenile         0.000        0.000        0.016        0.113
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.002
          floral_initiation    to flowering               0.000        0.000        0.000        0.000
-         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.000
+     
       - reading constants for regrowth(lucerne)
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =               3991.22                    0.00
-                          N  (kg/ha) =                124.36                    0.00
+                          N  (kg/ha) =                131.63                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                  0.00                    0.00
@@ -326,14 +325,14 @@
      
       stage 4.0 end_of_juvenile
                      biomass =          51.44 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     3.11 (%)     extractable sw =  192.65 (mm)
+                     stover N conc =     3.33 (%)    extractable sw =  192.65 (mm)
 1 October 1988(Day of year=275), manager: 
      Manager sending message :- lucerne end_crop
 1 October 1988(Day of year=275), lucerne: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                514.45                 1974.39
-                          N  (kg/ha) =                 15.76                   49.36
+                          N  (kg/ha) =                 16.82                   49.36
                           P  (kg/ha) =                                          0.00
      
 31 December 2000(Day of year=366), clock: 
