@@ -477,26 +477,26 @@
          - Reading constants
 ------- Start of simulation  --------------------------------------------------
 1 January 1957(Day of year=1), manager: 
-     Manager creating a new local real variable : maw10 =     17.0000000000000
-     Manager creating a new local real variable : maw30 =     41.7999955000000
-     Manager creating a new local real variable : maw50 =     66.5999985000000
-     Manager creating a new local real variable : maw70 =     90.2000046000000
+     Manager creating a new local real variable : maw10 =     16.9999961000000
+     Manager creating a new local real variable : maw30 =     41.7999997000000
+     Manager creating a new local real variable : maw50 =     66.6000023000000
+     Manager creating a new local real variable : maw70 =     90.2000042000000
      Manager creating a new local real variable : maw90 =     112.600006600000
-     Manager creating a new local real variable : maw110 =     134.600006100000
+     Manager creating a new local real variable : maw110 =     134.600006400000
      Manager creating a new local real variable : maw130 =     156.200004500000
      Manager creating a new local real variable : maw150 =     177.199997000000
-     Manager creating a new local real variable : maw170 =     198.000000100000
-     Manager creating a new local real variable : maw190 =     201.599998500000
-     Manager creating a new local real variable : paw10 =     17.0000000000000
-     Manager creating a new local real variable : paw30 =     41.7999955000000
-     Manager creating a new local real variable : paw50 =     66.5999985000000
-     Manager creating a new local real variable : paw70 =     90.2000046000000
+     Manager creating a new local real variable : maw170 =     197.999992400000
+     Manager creating a new local real variable : maw190 =     201.600002300000
+     Manager creating a new local real variable : paw10 =     16.9999961000000
+     Manager creating a new local real variable : paw30 =     41.7999997000000
+     Manager creating a new local real variable : paw50 =     66.6000023000000
+     Manager creating a new local real variable : paw70 =     90.2000042000000
      Manager creating a new local real variable : paw90 =     112.600006600000
-     Manager creating a new local real variable : paw110 =     134.600006100000
+     Manager creating a new local real variable : paw110 =     134.600006400000
      Manager creating a new local real variable : paw130 =     156.200004500000
      Manager creating a new local real variable : paw150 =     177.199997000000
-     Manager creating a new local real variable : paw170 =     198.000000100000
-     Manager creating a new local real variable : paw190 =     201.599998500000
+     Manager creating a new local real variable : paw170 =     197.999992400000
+     Manager creating a new local real variable : paw190 =     201.600002300000
      Manager creating a new local real variable : fasw10 =     1.00000000000000
      Manager creating a new local real variable : fasw30 =     1.00000000000000
      Manager creating a new local real variable : fasw50 =     1.00000000000000
@@ -575,7 +575,7 @@
          ------------------------------------------------
      
 21 May 1958(Day of year=141), manager: 
-     Manager creating a new local real variable : rz_no3 =     71.9279984900000
+     Manager creating a new local real variable : rz_no3 =     71.9278097200000
      Manager sending message :- surfaceom tillage  type = planter
 21 May 1958(Day of year=141), SurfaceOM: 
      
@@ -790,7 +790,7 @@
       flowering day          =  272                           stover (kg/ha)         =     4678.5
       maturity day           =  310                           grain yield (kg/ha)    =     1851.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2116.3
-      grain wt (g)           =    0.025                       grains/m^2             =   7267.560
+      grain wt (g)           =    0.025                       grains/m^2             =   7267.586
       grains/plant           =   72.7                         maximum lai            =      2.465
       total above ground biomass (kg/ha)    =     6530.3
       live above ground biomass (kg/ha)     =     6530.3
@@ -813,11 +813,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4678.31                    0.00
+                          DM (kg/ha) =               4678.33                    0.00
                           N  (kg/ha) =                 16.42                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1851.75                    0.00
+                          DM (kg/ha) =               1851.77                    0.00
                           N  (kg/ha) =                 28.82                    0.00
      
       stage 4.0 end_of_juvenile
@@ -832,7 +832,7 @@
 8 November 1959(Day of year=312), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1076.31
+                          DM (kg/ha) =                  0.20                 1076.32
                           N  (kg/ha) =                  0.01                   10.71
                           P  (kg/ha) =                                          0.00
      
@@ -930,7 +930,7 @@
                      stover N conc =     1.98 (%)     extractable sw =  103.84 (mm)
 1 October 1960(Day of year=275), wheat: 
       stage 6.0 flowering
-                     biomass =         522.86 (g/m^2)   lai          =   1.386 (m^2/m^2)
+                     biomass =         522.85 (g/m^2)   lai          =   1.386 (m^2/m^2)
                      stover N conc =     0.76 (%)     extractable sw =   71.46 (mm)
 8 October 1960(Day of year=282), wheat: 
       stage 7.0 start_grain_fill
@@ -955,7 +955,7 @@
       flowering day          =  275                           stover (kg/ha)         =     4654.1
       maturity day           =  313                           grain yield (kg/ha)    =     1663.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1900.6
-      grain wt (g)           =    0.023                       grains/m^2             =   7262.858
+      grain wt (g)           =    0.023                       grains/m^2             =   7262.836
       grains/plant           =   72.6                         maximum lai            =      2.641
       total above ground biomass (kg/ha)    =     6317.1
       live above ground biomass (kg/ha)     =     6317.1
@@ -978,7 +978,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4653.93                    0.00
+                          DM (kg/ha) =               4653.91                    0.00
                           N  (kg/ha) =                 16.69                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -1120,7 +1120,7 @@
       flowering day          =  275                           stover (kg/ha)         =     4041.1
       maturity day           =  307                           grain yield (kg/ha)    =     1631.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1864.4
-      grain wt (g)           =    0.025                       grains/m^2             =   6634.401
+      grain wt (g)           =    0.025                       grains/m^2             =   6634.404
       grains/plant           =   66.3                         maximum lai            =      2.775
       total above ground biomass (kg/ha)    =     5672.5
       live above ground biomass (kg/ha)     =     5672.5
@@ -1143,7 +1143,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4040.90                    0.00
+                          DM (kg/ha) =               4040.91                    0.00
                           N  (kg/ha) =                 14.91                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -1268,15 +1268,15 @@
                      stover N conc =     0.34 (%)     extractable sw =   87.34 (mm)
 9 November 1962(Day of year=313), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         736.50 (g/m^2)   lai          =   0.198 (m^2/m^2)
+                     biomass =         736.51 (g/m^2)   lai          =   0.198 (m^2/m^2)
                      stover N conc =     0.29 (%)     extractable sw =   99.60 (mm)
 10 November 1962(Day of year=314), wheat: 
       stage 9.0 maturity
-                     biomass =         736.50 (g/m^2)   lai          =   0.173 (m^2/m^2)
+                     biomass =         736.51 (g/m^2)   lai          =   0.173 (m^2/m^2)
                      stover N conc =     0.29 (%)     extractable sw =   99.01 (mm)
 11 November 1962(Day of year=315), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         736.50 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         736.51 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.29 (%)     extractable sw =  101.18 (mm)
 12 November 1962(Day of year=316), manager: 
      Manager sending message :- wheat harvest
@@ -1285,10 +1285,10 @@
       flowering day          =  276                           stover (kg/ha)         =     5438.9
       maturity day           =  314                           grain yield (kg/ha)    =     1926.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2201.3
-      grain wt (g)           =    0.022                       grains/m^2             =   8567.031
+      grain wt (g)           =    0.022                       grains/m^2             =   8567.039
       grains/plant           =   85.7                         maximum lai            =      2.726
-      total above ground biomass (kg/ha)    =     7365.0
-      live above ground biomass (kg/ha)     =     7365.0
+      total above ground biomass (kg/ha)    =     7365.1
+      live above ground biomass (kg/ha)     =     7365.1
       green above ground biomass (kg/ha)    =     6063.6
       senesced above ground biomass (kg/ha) =     1301.5
       dead above ground biomass (kg/ha)     =        0.0
@@ -1308,7 +1308,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5438.73                    0.00
+                          DM (kg/ha) =               5438.74                    0.00
                           N  (kg/ha) =                 18.45                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -1327,7 +1327,7 @@
 12 November 1962(Day of year=316), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1274.47
+                          DM (kg/ha) =                  0.20                 1274.48
                           N  (kg/ha) =                  0.01                   11.25
                           P  (kg/ha) =                                          0.00
      
@@ -1442,7 +1442,7 @@
 9 November 1963(Day of year=313), wheat: 
       stage 10.0 harvest_ripe
                      biomass =         620.87 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.30 (%)     extractable sw =   50.96 (mm)
+                     stover N conc =     0.30 (%)     extractable sw =   50.95 (mm)
 10 November 1963(Day of year=314), manager: 
      Manager sending message :- wheat harvest
 10 November 1963(Day of year=314), wheat: 
@@ -1450,7 +1450,7 @@
       flowering day          =  276                           stover (kg/ha)         =     4566.1
       maturity day           =  312                           grain yield (kg/ha)    =     1642.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1877.3
-      grain wt (g)           =    0.023                       grains/m^2             =   7142.335
+      grain wt (g)           =    0.023                       grains/m^2             =   7142.341
       grains/plant           =   71.4                         maximum lai            =      2.301
       total above ground biomass (kg/ha)    =     6208.7
       live above ground biomass (kg/ha)     =     6208.7
@@ -1473,7 +1473,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4565.88                    0.00
+                          DM (kg/ha) =               4565.89                    0.00
                           N  (kg/ha) =                 15.97                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -1482,7 +1482,7 @@
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
-                     stover N conc =     6.30 (%)     extractable sw =   50.96 (mm)
+                     stover N conc =     6.30 (%)     extractable sw =   50.95 (mm)
 10 November 1963(Day of year=314), manager: 
      Manager sending message :- wheat kill_crop
 10 November 1963(Day of year=314), wheat: 
@@ -1602,11 +1602,11 @@
                      stover N conc =     0.31 (%)     extractable sw =   52.69 (mm)
 15 November 1964(Day of year=320), wheat: 
       stage 9.0 maturity
-                     biomass =         571.50 (g/m^2)   lai          =   0.142 (m^2/m^2)
+                     biomass =         571.51 (g/m^2)   lai          =   0.142 (m^2/m^2)
                      stover N conc =     0.31 (%)     extractable sw =   51.55 (mm)
 16 November 1964(Day of year=321), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         571.50 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         571.51 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)     extractable sw =   51.26 (mm)
 17 November 1964(Day of year=322), manager: 
      Manager sending message :- wheat harvest
@@ -1615,11 +1615,11 @@
       flowering day          =  280                           stover (kg/ha)         =     3997.8
       maturity day           =  320                           grain yield (kg/ha)    =     1717.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1962.6
-      grain wt (g)           =    0.028                       grains/m^2             =   6129.602
+      grain wt (g)           =    0.028                       grains/m^2             =   6129.600
       grains/plant           =   61.3                         maximum lai            =      2.470
-      total above ground biomass (kg/ha)    =     5715.0
-      live above ground biomass (kg/ha)     =     5715.0
-      green above ground biomass (kg/ha)    =     4593.3
+      total above ground biomass (kg/ha)    =     5715.1
+      live above ground biomass (kg/ha)     =     5715.1
+      green above ground biomass (kg/ha)    =     4593.4
       senesced above ground biomass (kg/ha) =     1121.7
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   49.9
@@ -1642,7 +1642,7 @@
                           N  (kg/ha) =                 14.43                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1717.28                    0.00
+                          DM (kg/ha) =               1717.30                    0.00
                           N  (kg/ha) =                 24.73                    0.00
      
       stage 4.0 end_of_juvenile
@@ -1775,7 +1775,7 @@
       flowering day          =  293                           stover (kg/ha)         =     5739.0
       maturity day           =  327                           grain yield (kg/ha)    =     2748.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3140.6
-      grain wt (g)           =    0.030                       grains/m^2             =   9167.720
+      grain wt (g)           =    0.030                       grains/m^2             =   9167.691
       grains/plant           =   91.7                         maximum lai            =      4.421
       total above ground biomass (kg/ha)    =     8487.0
       live above ground biomass (kg/ha)     =     8487.0
@@ -1798,11 +1798,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5738.80                    0.00
+                          DM (kg/ha) =               5738.78                    0.00
                           N  (kg/ha) =                 21.49                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2748.00                    0.00
+                          DM (kg/ha) =               2748.01                    0.00
                           N  (kg/ha) =                 65.33                    0.00
      
       stage 4.0 end_of_juvenile
@@ -1937,10 +1937,10 @@
      Manager sending message :- wheat harvest
 3 November 1967(Day of year=307), wheat: 
      
-      flowering day          =  273                           stover (kg/ha)         =     4154.7
+      flowering day          =  273                           stover (kg/ha)         =     4154.8
       maturity day           =  305                           grain yield (kg/ha)    =     1536.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1755.8
-      grain wt (g)           =    0.022                       grains/m^2             =   7028.917
+      grain wt (g)           =    0.022                       grains/m^2             =   7028.932
       grains/plant           =   70.3                         maximum lai            =      2.713
       total above ground biomass (kg/ha)    =     5691.1
       live above ground biomass (kg/ha)     =     5691.1
@@ -1963,7 +1963,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4154.55                    0.00
+                          DM (kg/ha) =               4154.56                    0.00
                           N  (kg/ha) =                 14.93                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -2102,10 +2102,10 @@
      Manager sending message :- wheat harvest
 9 November 1968(Day of year=314), wheat: 
      
-      flowering day          =  279                           stover (kg/ha)         =     5376.9
-      maturity day           =  312                           grain yield (kg/ha)    =     1933.1
+      flowering day          =  279                           stover (kg/ha)         =     5376.8
+      maturity day           =  312                           grain yield (kg/ha)    =     1933.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2209.2
-      grain wt (g)           =    0.022                       grains/m^2             =   8887.516
+      grain wt (g)           =    0.022                       grains/m^2             =   8887.462
       grains/plant           =   88.9                         maximum lai            =      2.943
       total above ground biomass (kg/ha)    =     7309.9
       live above ground biomass (kg/ha)     =     7309.9
@@ -2114,7 +2114,7 @@
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   51.6
       DM Root:Shoot ratio    =    0.183                       Harvest Index          =      0.264
-      Stover C:N ratio       =  111.956                       Root C:N ratio         =     42.893
+      Stover C:N ratio       =  111.957                       Root C:N ratio         =     42.893
       grain N percent        =       1.34                     total N content (kg/ha)=      45.18
       grain N uptake (kg/ha) =      25.97                     senesced N content (kg/ha)=    6.80
       green N content (kg/ha)=      12.41                     dead N content (kg/ha) =       0.00
@@ -2128,11 +2128,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5376.67                    0.00
+                          DM (kg/ha) =               5376.64                    0.00
                           N  (kg/ha) =                 19.20                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1933.05                    0.00
+                          DM (kg/ha) =               1933.04                    0.00
                           N  (kg/ha) =                 25.97                    0.00
      
       stage 4.0 end_of_juvenile
@@ -2147,7 +2147,7 @@
 9 November 1968(Day of year=314), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1335.44
+                          DM (kg/ha) =                  0.20                 1335.43
                           N  (kg/ha) =                  0.01                   12.45
                           P  (kg/ha) =                                          0.00
      
@@ -2245,23 +2245,23 @@
                      stover N conc =     2.01 (%)     extractable sw =  148.32 (mm)
 29 September 1969(Day of year=272), wheat: 
       stage 6.0 flowering
-                     biomass =         681.06 (g/m^2)   lai          =   1.695 (m^2/m^2)
+                     biomass =         681.06 (g/m^2)   lai          =   1.696 (m^2/m^2)
                      stover N conc =     0.72 (%)     extractable sw =  107.93 (mm)
 6 October 1969(Day of year=279), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         755.09 (g/m^2)   lai          =   1.283 (m^2/m^2)
-                     stover N conc =     0.38 (%)     extractable sw =   88.41 (mm)
+                     biomass =         755.10 (g/m^2)   lai          =   1.283 (m^2/m^2)
+                     stover N conc =     0.38 (%)     extractable sw =   88.40 (mm)
 2 November 1969(Day of year=306), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         806.05 (g/m^2)   lai          =   0.185 (m^2/m^2)
+                     biomass =         806.06 (g/m^2)   lai          =   0.185 (m^2/m^2)
                      stover N conc =     0.31 (%)     extractable sw =  138.55 (mm)
 3 November 1969(Day of year=307), wheat: 
       stage 9.0 maturity
-                     biomass =         806.05 (g/m^2)   lai          =   0.166 (m^2/m^2)
+                     biomass =         806.06 (g/m^2)   lai          =   0.166 (m^2/m^2)
                      stover N conc =     0.31 (%)     extractable sw =  136.08 (mm)
 4 November 1969(Day of year=308), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         806.05 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         806.06 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)     extractable sw =  133.90 (mm)
 5 November 1969(Day of year=309), manager: 
      Manager sending message :- wheat harvest
@@ -2270,16 +2270,16 @@
       flowering day          =  272                           stover (kg/ha)         =     5948.3
       maturity day           =  307                           grain yield (kg/ha)    =     2112.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2414.0
-      grain wt (g)           =    0.022                       grains/m^2             =   9772.143
+      grain wt (g)           =    0.022                       grains/m^2             =   9772.187
       grains/plant           =   97.7                         maximum lai            =      3.046
-      total above ground biomass (kg/ha)    =     8060.5
-      live above ground biomass (kg/ha)     =     8060.5
+      total above ground biomass (kg/ha)    =     8060.6
+      live above ground biomass (kg/ha)     =     8060.6
       green above ground biomass (kg/ha)    =     6646.3
       senesced above ground biomass (kg/ha) =     1414.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   52.8
       DM Root:Shoot ratio    =    0.168                       Harvest Index          =      0.262
-      Stover C:N ratio       =  112.910                       Root C:N ratio         =     40.034
+      Stover C:N ratio       =  112.910                       Root C:N ratio         =     40.033
       grain N percent        =       1.60                     total N content (kg/ha)=      54.87
       grain N uptake (kg/ha) =      33.80                     senesced N content (kg/ha)=    7.07
       green N content (kg/ha)=      14.00                     dead N content (kg/ha) =       0.00
@@ -2293,11 +2293,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5948.10                    0.00
+                          DM (kg/ha) =               5948.13                    0.00
                           N  (kg/ha) =                 21.06                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2112.22                    0.00
+                          DM (kg/ha) =               2112.23                    0.00
                           N  (kg/ha) =                 33.80                    0.00
      
       stage 4.0 end_of_juvenile
@@ -2430,7 +2430,7 @@
       flowering day          =  297                           stover (kg/ha)         =     4586.6
       maturity day           =  332                           grain yield (kg/ha)    =     2086.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2384.5
-      grain wt (g)           =    0.030                       grains/m^2             =   6992.896
+      grain wt (g)           =    0.030                       grains/m^2             =   6992.895
       grains/plant           =   69.9                         maximum lai            =      4.059
       total above ground biomass (kg/ha)    =     6673.1
       live above ground biomass (kg/ha)     =     6673.1
@@ -2599,7 +2599,7 @@
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   42.0
       DM Root:Shoot ratio    =    0.138                       Harvest Index          =      0.419
-      Stover C:N ratio       =  109.116                       Root C:N ratio         =     21.930
+      Stover C:N ratio       =  109.117                       Root C:N ratio         =     21.930
       grain N percent        =       2.06                     total N content (kg/ha)=     129.61
       grain N uptake (kg/ha) =     103.97                     senesced N content (kg/ha)=   10.41
       green N content (kg/ha)=      15.23                     dead N content (kg/ha) =       0.00
@@ -2617,7 +2617,7 @@
                           N  (kg/ha) =                 25.62                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               5044.27                    0.00
+                          DM (kg/ha) =               5044.26                    0.00
                           N  (kg/ha) =                103.97                    0.00
      
       stage 4.0 end_of_juvenile
@@ -2755,7 +2755,7 @@
       flowering day          =  276                           stover (kg/ha)         =     5086.9
       maturity day           =  315                           grain yield (kg/ha)    =     1956.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2236.1
-      grain wt (g)           =    0.024                       grains/m^2             =   8119.572
+      grain wt (g)           =    0.024                       grains/m^2             =   8119.543
       grains/plant           =   81.2                         maximum lai            =      2.889
       total above ground biomass (kg/ha)    =     7043.5
       live above ground biomass (kg/ha)     =     7043.5
@@ -2778,11 +2778,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5086.73                    0.00
+                          DM (kg/ha) =               5086.70                    0.00
                           N  (kg/ha) =                 18.14                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1956.61                    0.00
+                          DM (kg/ha) =               1956.60                    0.00
                           N  (kg/ha) =                 29.29                    0.00
      
       stage 4.0 end_of_juvenile
@@ -2797,7 +2797,7 @@
 13 November 1974(Day of year=317), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1235.12
+                          DM (kg/ha) =                  0.20                 1235.11
                           N  (kg/ha) =                  0.01                   12.28
                           P  (kg/ha) =                                          0.00
      
@@ -2920,7 +2920,7 @@
       flowering day          =  281                           stover (kg/ha)         =     4292.4
       maturity day           =  317                           grain yield (kg/ha)    =     1711.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1956.1
-      grain wt (g)           =    0.026                       grains/m^2             =   6467.638
+      grain wt (g)           =    0.026                       grains/m^2             =   6467.639
       grains/plant           =   64.7                         maximum lai            =      2.670
       total above ground biomass (kg/ha)    =     6003.9
       live above ground biomass (kg/ha)     =     6003.9
@@ -3085,7 +3085,7 @@
       flowering day          =  287                           stover (kg/ha)         =     4643.6
       maturity day           =  325                           grain yield (kg/ha)    =     1746.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1996.4
-      grain wt (g)           =    0.024                       grains/m^2             =   7245.347
+      grain wt (g)           =    0.024                       grains/m^2             =   7245.346
       grains/plant           =   72.5                         maximum lai            =      2.753
       total above ground biomass (kg/ha)    =     6390.4
       live above ground biomass (kg/ha)     =     6390.4
@@ -3250,7 +3250,7 @@
       flowering day          =  275                           stover (kg/ha)         =     3262.0
       maturity day           =  309                           grain yield (kg/ha)    =     1241.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1419.0
-      grain wt (g)           =    0.023                       grains/m^2             =   5297.671
+      grain wt (g)           =    0.023                       grains/m^2             =   5297.674
       grains/plant           =   53.0                         maximum lai            =      1.991
       total above ground biomass (kg/ha)    =     4503.6
       live above ground biomass (kg/ha)     =     4503.6
@@ -3259,7 +3259,7 @@
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   50.7
       DM Root:Shoot ratio    =    0.202                       Harvest Index          =      0.276
-      Stover C:N ratio       =  109.417                       Root C:N ratio         =     41.732
+      Stover C:N ratio       =  109.417                       Root C:N ratio         =     41.731
       grain N percent        =       1.56                     total N content (kg/ha)=      31.29
       grain N uptake (kg/ha) =      19.36                     senesced N content (kg/ha)=    4.72
       green N content (kg/ha)=       7.21                     dead N content (kg/ha) =       0.00
@@ -3415,7 +3415,7 @@
       flowering day          =  278                           stover (kg/ha)         =     5441.1
       maturity day           =  316                           grain yield (kg/ha)    =     1941.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2218.7
-      grain wt (g)           =    0.023                       grains/m^2             =   8510.209
+      grain wt (g)           =    0.023                       grains/m^2             =   8510.205
       grains/plant           =   85.1                         maximum lai            =      2.663
       total above ground biomass (kg/ha)    =     7382.5
       live above ground biomass (kg/ha)     =     7382.5
@@ -3457,7 +3457,7 @@
 14 November 1978(Day of year=318), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1230.07
+                          DM (kg/ha) =                  0.20                 1230.06
                           N  (kg/ha) =                  0.01                   11.82
                           P  (kg/ha) =                                          0.00
      
@@ -3577,10 +3577,10 @@
      Manager sending message :- wheat harvest
 16 November 1979(Day of year=320), wheat: 
      
-      flowering day          =  284                           stover (kg/ha)         =     4371.8
+      flowering day          =  284                           stover (kg/ha)         =     4371.7
       maturity day           =  318                           grain yield (kg/ha)    =     1686.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1926.9
-      grain wt (g)           =    0.024                       grains/m^2             =   7092.064
+      grain wt (g)           =    0.024                       grains/m^2             =   7092.037
       grains/plant           =   70.9                         maximum lai            =      2.367
       total above ground biomass (kg/ha)    =     6057.8
       live above ground biomass (kg/ha)     =     6057.8
@@ -3603,11 +3603,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4371.57                    0.00
+                          DM (kg/ha) =               4371.55                    0.00
                           N  (kg/ha) =                 15.38                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1686.04                    0.00
+                          DM (kg/ha) =               1686.03                    0.00
                           N  (kg/ha) =                 29.94                    0.00
      
       stage 4.0 end_of_juvenile
@@ -3622,7 +3622,7 @@
 16 November 1979(Day of year=320), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.19                 1122.45
+                          DM (kg/ha) =                  0.19                 1122.44
                           N  (kg/ha) =                  0.01                   11.64
                           P  (kg/ha) =                                          0.00
      
@@ -3720,7 +3720,7 @@
                      stover N conc =     1.97 (%)     extractable sw =   93.59 (mm)
 25 September 1980(Day of year=269), wheat: 
       stage 6.0 flowering
-                     biomass =         496.19 (g/m^2)   lai          =   1.524 (m^2/m^2)
+                     biomass =         496.18 (g/m^2)   lai          =   1.524 (m^2/m^2)
                      stover N conc =     0.85 (%)     extractable sw =   49.76 (mm)
 1 October 1980(Day of year=275), wheat: 
       stage 7.0 start_grain_fill
@@ -3745,7 +3745,7 @@
       flowering day          =  269                           stover (kg/ha)         =     4178.1
       maturity day           =  302                           grain yield (kg/ha)    =     1514.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1730.7
-      grain wt (g)           =    0.022                       grains/m^2             =   6928.672
+      grain wt (g)           =    0.022                       grains/m^2             =   6928.652
       grains/plant           =   69.3                         maximum lai            =      2.822
       total above ground biomass (kg/ha)    =     5692.5
       live above ground biomass (kg/ha)     =     5692.5
@@ -3768,11 +3768,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4177.93                    0.00
+                          DM (kg/ha) =               4177.91                    0.00
                           N  (kg/ha) =                 15.49                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1514.38                    0.00
+                          DM (kg/ha) =               1514.37                    0.00
                           N  (kg/ha) =                 27.82                    0.00
      
       stage 4.0 end_of_juvenile
@@ -3893,15 +3893,15 @@
                      stover N conc =     0.50 (%)     extractable sw =   71.47 (mm)
 10 November 1981(Day of year=314), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         521.06 (g/m^2)   lai          =   0.150 (m^2/m^2)
+                     biomass =         521.07 (g/m^2)   lai          =   0.150 (m^2/m^2)
                      stover N conc =     0.31 (%)     extractable sw =  125.23 (mm)
 11 November 1981(Day of year=315), wheat: 
       stage 9.0 maturity
-                     biomass =         521.06 (g/m^2)   lai          =   0.135 (m^2/m^2)
+                     biomass =         521.07 (g/m^2)   lai          =   0.135 (m^2/m^2)
                      stover N conc =     0.31 (%)     extractable sw =  122.88 (mm)
 12 November 1981(Day of year=316), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         521.06 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         521.07 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)     extractable sw =  121.59 (mm)
 13 November 1981(Day of year=317), manager: 
      Manager sending message :- wheat harvest
@@ -3909,11 +3909,11 @@
      
       flowering day          =  280                           stover (kg/ha)         =     3713.6
       maturity day           =  315                           grain yield (kg/ha)    =     1497.1
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1710.9
-      grain wt (g)           =    0.026                       grains/m^2             =   5847.840
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1711.0
+      grain wt (g)           =    0.026                       grains/m^2             =   5847.861
       grains/plant           =   58.5                         maximum lai            =      2.553
-      total above ground biomass (kg/ha)    =     5210.6
-      live above ground biomass (kg/ha)     =     5210.6
+      total above ground biomass (kg/ha)    =     5210.7
+      live above ground biomass (kg/ha)     =     5210.7
       green above ground biomass (kg/ha)    =     4049.9
       senesced above ground biomass (kg/ha) =     1160.7
       dead above ground biomass (kg/ha)     =        0.0
@@ -3933,11 +3933,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3713.36                    0.00
+                          DM (kg/ha) =               3713.38                    0.00
                           N  (kg/ha) =                 13.60                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1497.07                    0.00
+                          DM (kg/ha) =               1497.09                    0.00
                           N  (kg/ha) =                 25.63                    0.00
      
       stage 4.0 end_of_juvenile
@@ -3952,7 +3952,7 @@
 13 November 1981(Day of year=317), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1012.99
+                          DM (kg/ha) =                  0.20                 1013.00
                           N  (kg/ha) =                  0.01                   10.36
                           P  (kg/ha) =                                          0.00
      
@@ -4070,7 +4070,7 @@
       flowering day          =  270                           stover (kg/ha)         =     8716.8
       maturity day           =  307                           grain yield (kg/ha)    =     4237.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4842.4
-      grain wt (g)           =    0.029                       grains/m^2             =  14376.292
+      grain wt (g)           =    0.029                       grains/m^2             =  14376.300
       grains/plant           =  143.8                         maximum lai            =      6.182
       total above ground biomass (kg/ha)    =    12953.9
       live above ground biomass (kg/ha)     =    12953.9
@@ -4093,7 +4093,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               8716.54                    0.00
+                          DM (kg/ha) =               8716.55                    0.00
                           N  (kg/ha) =                 32.30                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -4235,7 +4235,7 @@
       flowering day          =  300                           stover (kg/ha)         =     3371.2
       maturity day           =  333                           grain yield (kg/ha)    =     1476.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1687.1
-      grain wt (g)           =    0.027                       grains/m^2             =   5420.031
+      grain wt (g)           =    0.027                       grains/m^2             =   5420.039
       grains/plant           =   54.2                         maximum lai            =      2.354
       total above ground biomass (kg/ha)    =     4847.5
       live above ground biomass (kg/ha)     =     4847.5
@@ -4258,11 +4258,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3371.04                    0.00
+                          DM (kg/ha) =               3371.05                    0.00
                           N  (kg/ha) =                 12.21                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1476.22                    0.00
+                          DM (kg/ha) =               1476.23                    0.00
                           N  (kg/ha) =                 27.80                    0.00
      
       stage 4.0 end_of_juvenile
@@ -4400,7 +4400,7 @@
       flowering day          =  282                           stover (kg/ha)         =     4145.5
       maturity day           =  318                           grain yield (kg/ha)    =     1832.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2094.6
-      grain wt (g)           =    0.029                       grains/m^2             =   6288.573
+      grain wt (g)           =    0.029                       grains/m^2             =   6288.586
       grains/plant           =   62.9                         maximum lai            =      2.903
       total above ground biomass (kg/ha)    =     5978.2
       live above ground biomass (kg/ha)     =     5978.2
@@ -4423,11 +4423,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4145.27                    0.00
+                          DM (kg/ha) =               4145.28                    0.00
                           N  (kg/ha) =                 15.20                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1832.76                    0.00
+                          DM (kg/ha) =               1832.77                    0.00
                           N  (kg/ha) =                 33.73                    0.00
      
       stage 4.0 end_of_juvenile
@@ -4540,7 +4540,7 @@
                      stover N conc =     2.04 (%)     extractable sw =   32.55 (mm)
 25 October 1986(Day of year=298), wheat: 
       stage 6.0 flowering
-                     biomass =         291.12 (g/m^2)   lai          =   0.596 (m^2/m^2)
+                     biomass =         291.11 (g/m^2)   lai          =   0.596 (m^2/m^2)
                      stover N conc =     1.30 (%)     extractable sw =   12.89 (mm)
 31 October 1986(Day of year=304), wheat: 
       stage 7.0 start_grain_fill
@@ -4565,7 +4565,7 @@
       flowering day          =  298                           stover (kg/ha)         =     2430.5
       maturity day           =  332                           grain yield (kg/ha)    =      928.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1061.2
-      grain wt (g)           =    0.024                       grains/m^2             =   3880.739
+      grain wt (g)           =    0.024                       grains/m^2             =   3880.735
       grains/plant           =   38.8                         maximum lai            =      2.173
       total above ground biomass (kg/ha)    =     3359.0
       live above ground biomass (kg/ha)     =     3359.0
@@ -4584,7 +4584,7 @@
          end_of_juvenile      to floral_initiation       0.005        0.013        0.257        0.285
          floral_initiation    to flowering               0.402        0.482        0.216        0.242
          flowering            to start_grain_fill        0.703        0.803        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.259        0.309        0.190        0.377
+         start_grain_fill     to end_grain_fill          0.259        0.309        0.189        0.377
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
@@ -4725,7 +4725,7 @@
       flowering day          =  268                           stover (kg/ha)         =     3771.3
       maturity day           =  303                           grain yield (kg/ha)    =     1102.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1259.6
-      grain wt (g)           =    0.019                       grains/m^2             =   5737.567
+      grain wt (g)           =    0.019                       grains/m^2             =   5737.561
       grains/plant           =   57.4                         maximum lai            =      3.591
       total above ground biomass (kg/ha)    =     4873.4
       live above ground biomass (kg/ha)     =     4873.4
@@ -4869,7 +4869,7 @@
                      stover N conc =     1.00 (%)     extractable sw =   45.75 (mm)
 9 October 1989(Day of year=282), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         658.82 (g/m^2)   lai          =   1.193 (m^2/m^2)
+                     biomass =         658.83 (g/m^2)   lai          =   1.193 (m^2/m^2)
                      stover N conc =     0.66 (%)     extractable sw =   35.78 (mm)
 6 November 1989(Day of year=310), wheat: 
       stage 8.0 end_grain_fill
@@ -4890,7 +4890,7 @@
       flowering day          =  275                           stover (kg/ha)         =     5300.5
       maturity day           =  312                           grain yield (kg/ha)    =     1983.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2266.8
-      grain wt (g)           =    0.024                       grains/m^2             =   8373.618
+      grain wt (g)           =    0.024                       grains/m^2             =   8373.631
       grains/plant           =   83.7                         maximum lai            =      4.079
       total above ground biomass (kg/ha)    =     7284.0
       live above ground biomass (kg/ha)     =     7284.0
@@ -4913,7 +4913,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5300.33                    0.00
+                          DM (kg/ha) =               5300.34                    0.00
                           N  (kg/ha) =                 20.03                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -5055,7 +5055,7 @@
       flowering day          =  275                           stover (kg/ha)         =     3964.4
       maturity day           =  311                           grain yield (kg/ha)    =     1456.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1664.2
-      grain wt (g)           =    0.023                       grains/m^2             =   6367.372
+      grain wt (g)           =    0.023                       grains/m^2             =   6367.378
       grains/plant           =   63.7                         maximum lai            =      2.029
       total above ground biomass (kg/ha)    =     5420.6
       live above ground biomass (kg/ha)     =     5420.6
@@ -5078,11 +5078,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3964.18                    0.00
+                          DM (kg/ha) =               3964.19                    0.00
                           N  (kg/ha) =                 12.95                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1456.19                    0.00
+                          DM (kg/ha) =               1456.20                    0.00
                           N  (kg/ha) =                 19.00                    0.00
      
       stage 4.0 end_of_juvenile
@@ -5195,7 +5195,7 @@
                      stover N conc =     1.93 (%)     extractable sw =   34.92 (mm)
 29 September 1991(Day of year=272), wheat: 
       stage 6.0 flowering
-                     biomass =         314.03 (g/m^2)   lai          =   0.555 (m^2/m^2)
+                     biomass =         314.02 (g/m^2)   lai          =   0.555 (m^2/m^2)
                      stover N conc =     1.20 (%)     extractable sw =   18.51 (mm)
 5 October 1991(Day of year=278), wheat: 
       stage 7.0 start_grain_fill
@@ -5220,7 +5220,7 @@
       flowering day          =  272                           stover (kg/ha)         =     2642.6
       maturity day           =  305                           grain yield (kg/ha)    =      868.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      992.9
-      grain wt (g)           =    0.022                       grains/m^2             =   4028.088
+      grain wt (g)           =    0.022                       grains/m^2             =   4028.078
       grains/plant           =   40.3                         maximum lai            =      2.607
       total above ground biomass (kg/ha)    =     3511.4
       live above ground biomass (kg/ha)     =     3511.4
@@ -5229,8 +5229,8 @@
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   48.0
       DM Root:Shoot ratio    =    0.225                       Harvest Index          =      0.247
-      Stover C:N ratio       =   94.829                       Root C:N ratio         =     27.066
-      grain N percent        =       2.47                     total N content (kg/ha)=      32.61
+      Stover C:N ratio       =   94.830                       Root C:N ratio         =     27.066
+      grain N percent        =       2.47                     total N content (kg/ha)=      32.60
       grain N uptake (kg/ha) =      21.46                     senesced N content (kg/ha)=    5.83
       green N content (kg/ha)=       5.32                     dead N content (kg/ha) =       0.00
      
@@ -5243,7 +5243,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2642.38                    0.00
+                          DM (kg/ha) =               2642.37                    0.00
                           N  (kg/ha) =                 11.13                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -5385,7 +5385,7 @@
       flowering day          =  299                           stover (kg/ha)         =     3188.5
       maturity day           =  332                           grain yield (kg/ha)    =     1558.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1781.1
-      grain wt (g)           =    0.029                       grains/m^2             =   5313.297
+      grain wt (g)           =    0.029                       grains/m^2             =   5313.291
       grains/plant           =   53.1                         maximum lai            =      2.529
       total above ground biomass (kg/ha)    =     4746.9
       live above ground biomass (kg/ha)     =     4746.9
@@ -5408,11 +5408,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3188.29                    0.00
+                          DM (kg/ha) =               3188.28                    0.00
                           N  (kg/ha) =                 11.77                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1558.44                    0.00
+                          DM (kg/ha) =               1558.43                    0.00
                           N  (kg/ha) =                 31.68                    0.00
      
       stage 4.0 end_of_juvenile
@@ -5521,7 +5521,7 @@
                      stover N conc =     5.83 (%)     extractable sw =   24.09 (mm)
 27 August 1993(Day of year=239), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         238.85 (g/m^2)   lai          =   3.359 (m^2/m^2)
+                     biomass =         238.84 (g/m^2)   lai          =   3.359 (m^2/m^2)
                      stover N conc =     2.01 (%)     extractable sw =   67.66 (mm)
 3 October 1993(Day of year=276), wheat: 
       stage 6.0 flowering
@@ -5530,37 +5530,37 @@
 9 October 1993(Day of year=282), wheat: 
       stage 7.0 start_grain_fill
                      biomass =         705.86 (g/m^2)   lai          =   1.543 (m^2/m^2)
-                     stover N conc =     0.57 (%)     extractable sw =   69.47 (mm)
+                     stover N conc =     0.57 (%)     extractable sw =   69.48 (mm)
 8 November 1993(Day of year=312), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         818.34 (g/m^2)   lai          =   0.220 (m^2/m^2)
+                     biomass =         818.33 (g/m^2)   lai          =   0.220 (m^2/m^2)
                      stover N conc =     0.31 (%)     extractable sw =   60.05 (mm)
 10 November 1993(Day of year=314), wheat: 
       stage 9.0 maturity
-                     biomass =         818.61 (g/m^2)   lai          =   0.183 (m^2/m^2)
+                     biomass =         818.60 (g/m^2)   lai          =   0.183 (m^2/m^2)
                      stover N conc =     0.31 (%)     extractable sw =   58.48 (mm)
 11 November 1993(Day of year=315), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         818.61 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         818.60 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)     extractable sw =   58.24 (mm)
 12 November 1993(Day of year=316), manager: 
      Manager sending message :- wheat harvest
 12 November 1993(Day of year=316), wheat: 
      
-      flowering day          =  276                           stover (kg/ha)         =     5622.4
+      flowering day          =  276                           stover (kg/ha)         =     5622.3
       maturity day           =  314                           grain yield (kg/ha)    =     2563.7
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2930.0
-      grain wt (g)           =    0.029                       grains/m^2             =   8886.487
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2929.9
+      grain wt (g)           =    0.029                       grains/m^2             =   8886.448
       grains/plant           =   88.9                         maximum lai            =      3.415
-      total above ground biomass (kg/ha)    =     8186.1
-      live above ground biomass (kg/ha)     =     8186.1
-      green above ground biomass (kg/ha)    =     6669.5
+      total above ground biomass (kg/ha)    =     8186.0
+      live above ground biomass (kg/ha)     =     8186.0
+      green above ground biomass (kg/ha)    =     6669.4
       senesced above ground biomass (kg/ha) =     1516.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   48.2
       DM Root:Shoot ratio    =    0.167                       Harvest Index          =      0.313
       Stover C:N ratio       =  111.687                       Root C:N ratio         =     37.748
-      grain N percent        =       1.75                     total N content (kg/ha)=      64.90
+      grain N percent        =       1.75                     total N content (kg/ha)=      64.89
       grain N uptake (kg/ha) =      44.76                     senesced N content (kg/ha)=    7.58
       green N content (kg/ha)=      12.55                     dead N content (kg/ha) =       0.00
      
@@ -5573,11 +5573,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5622.16                    0.00
+                          DM (kg/ha) =               5622.13                    0.00
                           N  (kg/ha) =                 20.12                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2563.71                    0.00
+                          DM (kg/ha) =               2563.69                    0.00
                           N  (kg/ha) =                 44.76                    0.00
      
       stage 4.0 end_of_juvenile
@@ -5592,7 +5592,7 @@
 12 November 1993(Day of year=316), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1369.36
+                          DM (kg/ha) =                  0.20                 1369.35
                           N  (kg/ha) =                  0.01                   14.51
                           P  (kg/ha) =                                          0.00
      
@@ -5859,7 +5859,7 @@
                      stover N conc =     1.22 (%)     extractable sw =   31.25 (mm)
 14 October 1996(Day of year=288), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         426.90 (g/m^2)   lai          =   0.905 (m^2/m^2)
+                     biomass =         426.91 (g/m^2)   lai          =   0.905 (m^2/m^2)
                      stover N conc =     0.95 (%)     extractable sw =   20.34 (mm)
 11 November 1996(Day of year=316), wheat: 
       stage 8.0 end_grain_fill
@@ -5880,7 +5880,7 @@
       flowering day          =  282                           stover (kg/ha)         =     3445.0
       maturity day           =  317                           grain yield (kg/ha)    =     1364.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1558.9
-      grain wt (g)           =    0.025                       grains/m^2             =   5441.922
+      grain wt (g)           =    0.025                       grains/m^2             =   5441.936
       grains/plant           =   54.4                         maximum lai            =      2.902
       total above ground biomass (kg/ha)    =     4809.0
       live above ground biomass (kg/ha)     =     4809.0
@@ -5907,7 +5907,7 @@
                           N  (kg/ha) =                 18.66                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1364.04                    0.00
+                          DM (kg/ha) =               1364.05                    0.00
                           N  (kg/ha) =                 30.12                    0.00
      
       stage 4.0 end_of_juvenile
@@ -6043,9 +6043,9 @@
 5 November 1997(Day of year=309), wheat: 
      
       flowering day          =  269                           stover (kg/ha)         =     2498.3
-      maturity day           =  307                           grain yield (kg/ha)    =     1756.1
+      maturity day           =  307                           grain yield (kg/ha)    =     1756.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2007.0
-      grain wt (g)           =    0.050                       grains/m^2             =   3488.030
+      grain wt (g)           =    0.050                       grains/m^2             =   3488.032
       grains/plant           =   34.9                         maximum lai            =      1.482
       total above ground biomass (kg/ha)    =     4254.4
       live above ground biomass (kg/ha)     =     4254.4
@@ -6207,10 +6207,10 @@
      Manager sending message :- wheat harvest
 8 November 1998(Day of year=312), wheat: 
      
-      flowering day          =  270                           stover (kg/ha)         =     6068.6
+      flowering day          =  270                           stover (kg/ha)         =     6068.7
       maturity day           =  310                           grain yield (kg/ha)    =     2713.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3101.3
-      grain wt (g)           =    0.028                       grains/m^2             =   9684.258
+      grain wt (g)           =    0.028                       grains/m^2             =   9684.300
       grains/plant           =   96.8                         maximum lai            =      3.286
       total above ground biomass (kg/ha)    =     8782.3
       live above ground biomass (kg/ha)     =     8782.3
@@ -6233,11 +6233,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6068.45                    0.00
+                          DM (kg/ha) =               6068.47                    0.00
                           N  (kg/ha) =                 21.26                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2713.62                    0.00
+                          DM (kg/ha) =               2713.63                    0.00
                           N  (kg/ha) =                 50.08                    0.00
      
       stage 4.0 end_of_juvenile
@@ -6252,7 +6252,7 @@
 8 November 1998(Day of year=312), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1374.53
+                          DM (kg/ha) =                  0.20                 1374.54
                           N  (kg/ha) =                  0.01                   15.27
                           P  (kg/ha) =                                          0.00
      
@@ -6324,7 +6324,7 @@
 11 June 1999(Day of year=162), fertiliz: 
      
         - Reading Fertiliser Type Parameters
-        32.88 of n as nitrate (no3_n)
+        32.87 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 11 June 1999(Day of year=162), manager: 
      Manager sending message :- surfaceom tillage  type = planter
@@ -6350,23 +6350,23 @@
                      stover N conc =     2.09 (%)     extractable sw =  101.21 (mm)
 1 October 1999(Day of year=274), wheat: 
       stage 6.0 flowering
-                     biomass =         491.44 (g/m^2)   lai          =   1.600 (m^2/m^2)
-                     stover N conc =     0.81 (%)     extractable sw =   53.32 (mm)
+                     biomass =         491.43 (g/m^2)   lai          =   1.600 (m^2/m^2)
+                     stover N conc =     0.81 (%)     extractable sw =   53.33 (mm)
 7 October 1999(Day of year=280), wheat: 
       stage 7.0 start_grain_fill
                      biomass =         553.72 (g/m^2)   lai          =   1.216 (m^2/m^2)
                      stover N conc =     0.49 (%)     extractable sw =   79.35 (mm)
 2 November 1999(Day of year=306), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         604.29 (g/m^2)   lai          =   0.223 (m^2/m^2)
+                     biomass =         604.28 (g/m^2)   lai          =   0.223 (m^2/m^2)
                      stover N conc =     0.31 (%)     extractable sw =   75.12 (mm)
 4 November 1999(Day of year=308), wheat: 
       stage 9.0 maturity
-                     biomass =         604.53 (g/m^2)   lai          =   0.190 (m^2/m^2)
+                     biomass =         604.52 (g/m^2)   lai          =   0.190 (m^2/m^2)
                      stover N conc =     0.30 (%)     extractable sw =   71.72 (mm)
 5 November 1999(Day of year=309), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         604.53 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         604.52 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)     extractable sw =   71.01 (mm)
 6 November 1999(Day of year=310), manager: 
      Manager sending message :- wheat harvest
@@ -6375,10 +6375,10 @@
       flowering day          =  274                           stover (kg/ha)         =     4320.0
       maturity day           =  308                           grain yield (kg/ha)    =     1725.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1971.7
-      grain wt (g)           =    0.025                       grains/m^2             =   6909.093
+      grain wt (g)           =    0.025                       grains/m^2             =   6909.047
       grains/plant           =   69.1                         maximum lai            =      2.680
-      total above ground biomass (kg/ha)    =     6045.3
-      live above ground biomass (kg/ha)     =     6045.3
+      total above ground biomass (kg/ha)    =     6045.2
+      live above ground biomass (kg/ha)     =     6045.2
       green above ground biomass (kg/ha)    =     4874.8
       senesced above ground biomass (kg/ha) =     1170.4
       dead above ground biomass (kg/ha)     =        0.0
@@ -6398,11 +6398,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4319.80                    0.00
+                          DM (kg/ha) =               4319.76                    0.00
                           N  (kg/ha) =                 15.30                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1725.28                    0.00
+                          DM (kg/ha) =               1725.26                    0.00
                           N  (kg/ha) =                 27.69                    0.00
      
       stage 4.0 end_of_juvenile
@@ -6417,7 +6417,7 @@
 6 November 1999(Day of year=310), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1125.13
+                          DM (kg/ha) =                  0.20                 1125.12
                           N  (kg/ha) =                  0.01                   10.80
                           P  (kg/ha) =                                          0.00
      
@@ -6489,7 +6489,7 @@
 27 May 2000(Day of year=148), fertiliz: 
      
         - Reading Fertiliser Type Parameters
-        36.74 of n as nitrate (no3_n)
+        36.75 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 27 May 2000(Day of year=148), manager: 
      Manager sending message :- surfaceom tillage  type = planter
@@ -6540,7 +6540,7 @@
       flowering day          =  274                           stover (kg/ha)         =     3496.4
       maturity day           =  311                           grain yield (kg/ha)    =     1636.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1870.8
-      grain wt (g)           =    0.031                       grains/m^2             =   5363.444
+      grain wt (g)           =    0.031                       grains/m^2             =   5363.451
       grains/plant           =   53.6                         maximum lai            =      2.924
       total above ground biomass (kg/ha)    =     5133.3
       live above ground biomass (kg/ha)     =     5133.3
@@ -6549,7 +6549,7 @@
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   51.9
       DM Root:Shoot ratio    =    0.201                       Harvest Index          =      0.319
-      Stover C:N ratio       =  105.514                       Root C:N ratio         =     31.392
+      Stover C:N ratio       =  105.513                       Root C:N ratio         =     31.392
       grain N percent        =       2.13                     total N content (kg/ha)=      48.18
       grain N uptake (kg/ha) =      34.92                     senesced N content (kg/ha)=    6.79
       green N content (kg/ha)=       6.47                     dead N content (kg/ha) =       0.00
@@ -6702,10 +6702,10 @@
      Manager sending message :- wheat harvest
 10 November 2001(Day of year=314), wheat: 
      
-      flowering day          =  275                           stover (kg/ha)         =     3910.6
+      flowering day          =  275                           stover (kg/ha)         =     3910.5
       maturity day           =  312                           grain yield (kg/ha)    =     1765.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2018.1
-      grain wt (g)           =    0.030                       grains/m^2             =   5917.946
+      grain wt (g)           =    0.030                       grains/m^2             =   5917.938
       grains/plant           =   59.2                         maximum lai            =      3.000
       total above ground biomass (kg/ha)    =     5676.4
       live above ground biomass (kg/ha)     =     5676.4
@@ -6732,7 +6732,7 @@
                           N  (kg/ha) =                 14.57                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1765.83                    0.00
+                          DM (kg/ha) =               1765.82                    0.00
                           N  (kg/ha) =                 32.54                    0.00
      
       stage 4.0 end_of_juvenile

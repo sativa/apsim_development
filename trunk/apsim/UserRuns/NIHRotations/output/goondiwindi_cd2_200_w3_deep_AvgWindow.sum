@@ -566,26 +566,26 @@
          - Reading constants
 ------- Start of simulation  --------------------------------------------------
 1 January 1957(Day of year=1), manager: 
-     Manager creating a new local real variable : maw10 =     17.0000000000000
-     Manager creating a new local real variable : maw30 =     41.7999955000000
-     Manager creating a new local real variable : maw50 =     66.5999985000000
-     Manager creating a new local real variable : maw70 =     90.2000046000000
+     Manager creating a new local real variable : maw10 =     16.9999961000000
+     Manager creating a new local real variable : maw30 =     41.7999997000000
+     Manager creating a new local real variable : maw50 =     66.6000023000000
+     Manager creating a new local real variable : maw70 =     90.2000042000000
      Manager creating a new local real variable : maw90 =     112.600006600000
-     Manager creating a new local real variable : maw110 =     134.600006100000
+     Manager creating a new local real variable : maw110 =     134.600006400000
      Manager creating a new local real variable : maw130 =     156.200004500000
      Manager creating a new local real variable : maw150 =     177.199997000000
-     Manager creating a new local real variable : maw170 =     198.000000100000
-     Manager creating a new local real variable : maw190 =     201.599998500000
-     Manager creating a new local real variable : paw10 =     17.0000000000000
-     Manager creating a new local real variable : paw30 =     41.7999955000000
-     Manager creating a new local real variable : paw50 =     66.5999985000000
-     Manager creating a new local real variable : paw70 =     90.2000046000000
+     Manager creating a new local real variable : maw170 =     197.999992400000
+     Manager creating a new local real variable : maw190 =     201.600002300000
+     Manager creating a new local real variable : paw10 =     16.9999961000000
+     Manager creating a new local real variable : paw30 =     41.7999997000000
+     Manager creating a new local real variable : paw50 =     66.6000023000000
+     Manager creating a new local real variable : paw70 =     90.2000042000000
      Manager creating a new local real variable : paw90 =     112.600006600000
-     Manager creating a new local real variable : paw110 =     134.600006100000
+     Manager creating a new local real variable : paw110 =     134.600006400000
      Manager creating a new local real variable : paw130 =     156.200004500000
      Manager creating a new local real variable : paw150 =     177.199997000000
-     Manager creating a new local real variable : paw170 =     198.000000100000
-     Manager creating a new local real variable : paw190 =     201.599998500000
+     Manager creating a new local real variable : paw170 =     197.999992400000
+     Manager creating a new local real variable : paw190 =     201.600002300000
      Manager creating a new local real variable : fasw10 =     1.00000000000000
      Manager creating a new local real variable : fasw30 =     1.00000000000000
      Manager creating a new local real variable : fasw50 =     1.00000000000000
@@ -664,7 +664,7 @@
          ------------------------------------------------
      
 14 June 1958(Day of year=165), manager: 
-     Manager creating a new local real variable : rz_no3 =     84.5439991400000
+     Manager creating a new local real variable : rz_no3 =     84.5445356000000
 14 June 1958(Day of year=165), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -1633,7 +1633,7 @@
 3 June 1966(Day of year=154), fertiliz: 
      
         - Reading Fertiliser Type Parameters
-        50.77 of n as nitrate (no3_n)
+        50.76 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 3 June 1966(Day of year=154), manager: 
      Manager sending message :- surfaceom tillage  type = planter
@@ -1980,7 +1980,7 @@
                      stover N conc =     3.11 (%)     extractable sw =   51.12 (mm)
 22 September 1968(Day of year=266), wheat: 
       stage 6.0 flowering
-                     biomass =         536.23 (g/m^2)   lai          =   0.593 (m^2/m^2)
+                     biomass =         536.24 (g/m^2)   lai          =   0.593 (m^2/m^2)
                      stover N conc =     2.23 (%)     extractable sw =   11.19 (mm)
 29 September 1968(Day of year=273), wheat: 
       stage 7.0 start_grain_fill
@@ -2005,7 +2005,7 @@
       flowering day          =  266                           stover (kg/ha)         =     4466.2
       maturity day           =  303                           grain yield (kg/ha)    =     1208.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1381.3
-      grain wt (g)           =    0.018                       grains/m^2             =   6852.687
+      grain wt (g)           =    0.018                       grains/m^2             =   6852.694
       grains/plant           =   68.5                         maximum lai            =      3.123
       total above ground biomass (kg/ha)    =     5674.8
       live above ground biomass (kg/ha)     =     5674.8
@@ -2028,7 +2028,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4465.97                    0.00
+                          DM (kg/ha) =               4465.98                    0.00
                           N  (kg/ha) =                 64.15                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -2191,7 +2191,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2640.53                    0.00
+                          DM (kg/ha) =               2640.54                    0.00
                           N  (kg/ha) =                 44.49                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -3004,7 +3004,7 @@
                           N  (kg/ha) =                 76.75                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1511.36                    0.00
+                          DM (kg/ha) =               1511.35                    0.00
                           N  (kg/ha) =                 39.98                    0.00
      
       stage 4.0 end_of_juvenile

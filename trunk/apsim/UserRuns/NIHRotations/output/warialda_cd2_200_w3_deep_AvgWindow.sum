@@ -566,26 +566,26 @@
          - Reading constants
 ------- Start of simulation  --------------------------------------------------
 1 January 1957(Day of year=1), manager: 
-     Manager creating a new local real variable : maw10 =     17.0000000000000
-     Manager creating a new local real variable : maw30 =     41.7999955000000
-     Manager creating a new local real variable : maw50 =     66.5999985000000
-     Manager creating a new local real variable : maw70 =     90.2000046000000
+     Manager creating a new local real variable : maw10 =     16.9999961000000
+     Manager creating a new local real variable : maw30 =     41.7999997000000
+     Manager creating a new local real variable : maw50 =     66.6000023000000
+     Manager creating a new local real variable : maw70 =     90.2000042000000
      Manager creating a new local real variable : maw90 =     112.600006600000
-     Manager creating a new local real variable : maw110 =     134.600006100000
+     Manager creating a new local real variable : maw110 =     134.600006400000
      Manager creating a new local real variable : maw130 =     156.200004500000
      Manager creating a new local real variable : maw150 =     177.199997000000
-     Manager creating a new local real variable : maw170 =     198.000000100000
-     Manager creating a new local real variable : maw190 =     201.599998500000
-     Manager creating a new local real variable : paw10 =     17.0000000000000
-     Manager creating a new local real variable : paw30 =     41.7999955000000
-     Manager creating a new local real variable : paw50 =     66.5999985000000
-     Manager creating a new local real variable : paw70 =     90.2000046000000
+     Manager creating a new local real variable : maw170 =     197.999992400000
+     Manager creating a new local real variable : maw190 =     201.600002300000
+     Manager creating a new local real variable : paw10 =     16.9999961000000
+     Manager creating a new local real variable : paw30 =     41.7999997000000
+     Manager creating a new local real variable : paw50 =     66.6000023000000
+     Manager creating a new local real variable : paw70 =     90.2000042000000
      Manager creating a new local real variable : paw90 =     112.600006600000
-     Manager creating a new local real variable : paw110 =     134.600006100000
+     Manager creating a new local real variable : paw110 =     134.600006400000
      Manager creating a new local real variable : paw130 =     156.200004500000
      Manager creating a new local real variable : paw150 =     177.199997000000
-     Manager creating a new local real variable : paw170 =     198.000000100000
-     Manager creating a new local real variable : paw190 =     201.599998500000
+     Manager creating a new local real variable : paw170 =     197.999992400000
+     Manager creating a new local real variable : paw190 =     201.600002300000
      Manager creating a new local real variable : fasw10 =     1.00000000000000
      Manager creating a new local real variable : fasw30 =     1.00000000000000
      Manager creating a new local real variable : fasw50 =     1.00000000000000
@@ -663,7 +663,7 @@
          ------------------------------------------------
      
 24 June 1957(Day of year=175), manager: 
-     Manager creating a new local real variable : rz_no3 =     56.4240007300000
+     Manager creating a new local real variable : rz_no3 =     56.4243221200000
 24 June 1957(Day of year=175), fertiliz: 
      
         - Reading Fertiliser Type Parameters
@@ -1311,7 +1311,7 @@
 31 May 1961(Day of year=151), fertiliz: 
      
         - Reading Fertiliser Type Parameters
-       129.02 of n as nitrate (no3_n)
+       129.03 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 31 May 1961(Day of year=151), manager: 
      Manager sending message :- surfaceom tillage  type = planter
@@ -1367,14 +1367,14 @@
       total above ground biomass (kg/ha)    =     7060.9
       live above ground biomass (kg/ha)     =     7060.9
       green above ground biomass (kg/ha)    =     3919.9
-      senesced above ground biomass (kg/ha) =     3140.9
+      senesced above ground biomass (kg/ha) =     3141.0
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   51.3
       DM Root:Shoot ratio    =    0.250                       Harvest Index          =      0.204
       Stover C:N ratio       =   21.657                       Root C:N ratio         =     14.967
       grain N percent        =       3.04                     total N content (kg/ha)=     147.54
       grain N uptake (kg/ha) =      43.67                     senesced N content (kg/ha)=   15.70
-      green N content (kg/ha)=      88.17                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=      88.16                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
@@ -2038,7 +2038,7 @@
                           N  (kg/ha) =                 31.01                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1012.47                    0.00
+                          DM (kg/ha) =               1012.48                    0.00
                           N  (kg/ha) =                 36.45                    0.00
      
 11 November 1967(Day of year=315), manager: 
@@ -2439,7 +2439,7 @@
 20 July 1971(Day of year=201), fertiliz: 
      
         - Reading Fertiliser Type Parameters
-       152.10 of n as nitrate (no3_n)
+       152.11 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 20 July 1971(Day of year=201), manager: 
      Manager sending message :- surfaceom tillage  type = planter
@@ -3297,7 +3297,7 @@
       flowering day          =  276                           stover (kg/ha)         =     4310.3
       maturity day           =  312                           grain yield (kg/ha)    =     1525.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1743.2
-      grain wt (g)           =    0.023                       grains/m^2             =   6612.979
+      grain wt (g)           =    0.023                       grains/m^2             =   6612.976
       grains/plant           =   66.1                         maximum lai            =      3.667
       total above ground biomass (kg/ha)    =     5835.6
       live above ground biomass (kg/ha)     =     5835.6
@@ -4114,7 +4114,7 @@
       number of leaves       =   50.3
       DM Root:Shoot ratio    =    0.148                       Harvest Index          =      0.431
       Stover C:N ratio       =   43.868                       Root C:N ratio         =     16.864
-      grain N percent        =       2.25                     total N content (kg/ha)=     235.52
+      grain N percent        =       2.25                     total N content (kg/ha)=     235.53
       grain N uptake (kg/ha) =     153.38                     senesced N content (kg/ha)=   16.14
       green N content (kg/ha)=      66.00                     dead N content (kg/ha) =       0.00
      
@@ -5077,7 +5077,7 @@
       number of leaves       =   50.0
       DM Root:Shoot ratio    =    0.194                       Harvest Index          =      0.259
       Stover C:N ratio       =   25.232                       Root C:N ratio         =     16.225
-      grain N percent        =       2.51                     total N content (kg/ha)=     162.70
+      grain N percent        =       2.51                     total N content (kg/ha)=     162.71
       grain N uptake (kg/ha) =      57.90                     senesced N content (kg/ha)=   15.39
       green N content (kg/ha)=      89.41                     dead N content (kg/ha) =       0.00
      
