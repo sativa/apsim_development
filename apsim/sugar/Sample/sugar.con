@@ -1,8 +1,7 @@
-[apsim.sample_sugar]
 version=2.2
+[apsim.sample_sugar]
+
 title=Sugar Sample Simulation
-summaryfile=sugar.sum
-screen_output=on
 module = clock    sugar.par [sample]
 module = report   sugar.par [sample]
 module = Input(Met)      %apsuite\apsim\met\SAMPLE\INGHAM.MET [weather]
@@ -13,3 +12,5 @@ module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     
 module = residue2 %apsuite\apsim\residue2\sample\residue2.par [sugar_residue]     %apsuite\apsim\residue2\residue2.ini [standard]
 module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = sugar    sugar.par [sample]      %apsuite\apsim\sugar\sugar.ini [standard]
+module = screen   sugar.par [sample]
+module = summaryfile sugar.par [sample]
