@@ -35,8 +35,7 @@ bool GENERAL_EXPORT Exec(const char* Command_line,
                        NULL,                   // pointer to process security attributes
                        NULL,                   // pointer to thread security attributes
                        false,                  // handle inheritance flag
-                       CREATE_NEW_CONSOLE |    // creation flags
-                       NORMAL_PRIORITY_CLASS,
+                       NORMAL_PRIORITY_CLASS,  // creation flags
                        NULL,                   // pointer to new environment block
                        NULL,                   // pointer to current directory name
                        &StartupInfo,           // pointer to STARTUPINFO
