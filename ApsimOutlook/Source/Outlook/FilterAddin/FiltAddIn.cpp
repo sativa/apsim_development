@@ -99,23 +99,20 @@ void FiltAddIn::decorateToolBar(TToolBar* toolbar)
 // ------------------------------------------------------------------
 void __fastcall FiltAddIn::buttonClick(TObject* Sender)
    {
-   bool ok = working->first();
-   if (ok)
+   if (working->first())
       {
       fieldValues.clearFields();
       fieldValues.setupFields(*working->begin());
-      FilterForm = new TFilterForm(Application->MainForm);
-      FilterForm->filterAddIn = this;
-      fieldValues.giveFieldsToFilterBox(*FilterForm->FilterBox1);
-      fieldValues.giveFieldsToFilterBox(*FilterForm->FilterBox2);
-      fieldValues.giveFieldsToFilterBox(*FilterForm->FilterBox3);
-      fieldValues.giveFieldsToFilterBox(*FilterForm->FilterBox4);
-      fieldValues.giveFieldsToFilterBox(*FilterForm->FilterBox5);
-      needsUpdating = (FilterForm->ShowModal() == mrOk);
-      delete FilterForm;
       }
-   else
-      ShowMessage("No data to filter!");
+   FilterForm = new TFilterForm(Application->MainForm);
+   FilterForm->filterAddIn = this;
+   fieldValues.giveFieldsToFilterBox(*FilterForm->FilterBox1);
+   fieldValues.giveFieldsToFilterBox(*FilterForm->FilterBox2);
+   fieldValues.giveFieldsToFilterBox(*FilterForm->FilterBox3);
+   fieldValues.giveFieldsToFilterBox(*FilterForm->FilterBox4);
+   fieldValues.giveFieldsToFilterBox(*FilterForm->FilterBox5);
+   needsUpdating = (FilterForm->ShowModal() == mrOk);
+   delete FilterForm;
    }
 
 // ------------------------------------------------------------------
@@ -167,8 +164,6 @@ void FiltAddIn::doCalculations(TAPSTable& data)
          {
          expressionParser->ClearExpressions();
          string filterMinusBraces = *filterI;
-         Replace_all(filterMinusBraces, "(", "");
-         Replace_all(filterMinusBraces, ")", "");
          Replace_all(filterMinusBraces, "[", "");
          Replace_all(filterMinusBraces, "]", "");
          expressionParser->AddExpression(filterMinusBraces.c_str());

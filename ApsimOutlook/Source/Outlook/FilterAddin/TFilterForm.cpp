@@ -26,10 +26,12 @@ __fastcall TFilterForm::TFilterForm(TComponent* Owner)
    Path iniPath(Application->ExeName.c_str());
    iniPath.Set_extension(".ini");
    ini.Set_file_name(iniPath.Get_path().c_str());
+   inFormShow = false;
    }
 //---------------------------------------------------------------------------
 void __fastcall TFilterForm::FormShow(TObject *Sender)
    {
+   inFormShow = true;
    // populate the comboboxes with most recent filter values.
    list<string> mostRecentFilters;
    ini.Read_list("filters", "filter", mostRecentFilters);
@@ -73,6 +75,7 @@ void __fastcall TFilterForm::FormShow(TObject *Sender)
       FilterCombo5->ItemIndex = FilterCombo5->Items->IndexOf(filters[4].c_str());
       FilterCombo5Change(NULL);
       }
+   inFormShow = false;
    }
 //---------------------------------------------------------------------------
 void __fastcall TFilterForm::FormClose(TObject *Sender,
@@ -127,7 +130,7 @@ void TFilterForm::addToVectorIfUnique(vector<string>& strings, const string& st)
 //---------------------------------------------------------------------------
 void TFilterForm::PutFilterInCombo(TComboBox* combo, AnsiString filter)
    {
-   if (filter != "")
+   if (!inFormShow)
       {
       // We need to put the filter string (from the filter box) into
       // the combo box list so that it appears in the edit box of
@@ -158,8 +161,6 @@ void TFilterForm::PutFilterInCombo(TComboBox* combo, AnsiString filter)
          combo->ItemIndex = combo->Tag;
          }
       }
-   else
-      combo->Tag = -1;
    }
 //---------------------------------------------------------------------------
 void __fastcall TFilterForm::FilterCombo1Change(TObject *Sender)

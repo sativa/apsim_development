@@ -36,19 +36,22 @@ void FieldValues::setupFields(const TAPSRecord& record)
                                  fieldI != fieldNames.end();
                                  fieldI++)
       {
-      string nameWithoutSpaces = *fieldI;
-      Replace_all(nameWithoutSpaces, " ", "_");
+      string nameWithoutUnit = *fieldI;
+      unsigned posUnit = nameWithoutUnit.find_first_of("(");
+      if (posUnit != string::npos)
+         nameWithoutUnit.erase(posUnit);
+      Replace_all(nameWithoutUnit, " ", "_");
 
       string value = record.getFieldValue(*fieldI);
       if (Is_numerical(value.c_str()))
          {
-         fieldInfo.push_back(FieldInfo(nameWithoutSpaces.c_str(), true, fieldInfo.size()));
+         fieldInfo.push_back(FieldInfo(nameWithoutUnit.c_str(), true, fieldInfo.size()));
          numericValues.push_back(StrToFloat(value.c_str()));
          stringValues.push_back("");
          }
       else
          {
-         fieldInfo.push_back(FieldInfo(nameWithoutSpaces.c_str(), false, fieldInfo.size()));
+         fieldInfo.push_back(FieldInfo(nameWithoutUnit.c_str(), false, fieldInfo.size()));
          stringValues.push_back(value.c_str());
          numericValues.push_back(0.0);
          }
@@ -94,8 +97,6 @@ void FieldValues::giveFieldsToParser(TExpressionParser& parser)
       {
       // The parser cannot handle square or round braces - removethem.
       string parserFieldName = fieldInfoI->name.c_str();
-      Replace_all(parserFieldName, "(", "");
-      Replace_all(parserFieldName, ")", "");
       Replace_all(parserFieldName, "[", "");
       Replace_all(parserFieldName, "]", "");
 
