@@ -78,15 +78,15 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       call push_routine (this_routine)
 
-      ! read in all parameters for clock module.
+      g%end_current_run = .false.
+      g%pause_current_run = .false.
 
+      ! read in all parameters for clock module.
       call clock_read_timesteps ()
       call clock_read_params ()
 
       ! set the clock to start_day.
 
-      g%end_current_run = .false.
-      g%pause_current_run = .false.
 
       g%current_date = g%start_date
       g%current_time = -g%timestep
@@ -231,35 +231,36 @@ C     Last change:  E     5 Dec 2000    8:52 am
 *- Implementation Section ----------------------------------
 
       call push_routine (This_routine)
-      g%current_time = g%current_time + g%timestep
+      if (.not. g%end_current_run) then
+         g%current_time = g%current_time + g%timestep
 
-      g%current_date = g%start_date
-     :               + int(g%current_time/dble(mins_in_day))
+         g%current_date = g%start_date
+     :                  + int(g%current_time/dble(mins_in_day))
 
-      ! set the event to publish next
-      g%currentTimestepEvent = 1
+         ! set the event to publish next
+         g%currentTimestepEvent = 1
 
-      ! check for end of run conditions.
+         ! check for end of run conditions.
 
-      if (int(g%current_date) .eq. int(g%end_date + 1)) then
-         call Write_string (
-     .       'Simulation is terminating due to end ' //
-     .       'criteria being met.')
-         call terminate_simulation()
-         g%end_current_run = .true.
-      else
-         ! convert julian day to day and year for speed reasons later.
+         if (int(g%current_date) .eq. int(g%end_date + 1)) then
+            call Write_string (
+     .          'Simulation is terminating due to end ' //
+     .          'criteria being met.')
+            call terminate_simulation()
+            g%end_current_run = .true.
+         else
+            ! convert julian day to day and year for speed reasons later.
 
-         call jday_to_day_of_year (g%current_date,
-     .                             g%day,
-     .                             g%year)
+            call jday_to_day_of_year (g%current_date,
+     .                                g%day,
+     .                                g%year)
 
-         g%end_current_run = .false.
+            g%end_current_run = .false.
 
-         call Clock_DoTick()
+            call Clock_DoTick()
 
+         endif
       endif
-
 
       call pop_routine (This_routine)
       return
