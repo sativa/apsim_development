@@ -76,11 +76,9 @@ C     Last change:  E     5 Dec 2000    8:52 am
       character (len=*), intent(in) :: sdml
 
 !- Implementation Section ----------------------------------
-      
+
       call do_registrations()
-      
-      call clock_read_timesteps()
-      
+
       g%end_current_run = .false.
       return
       end
@@ -159,6 +157,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
 *+  Calls
       integer :: registrationNameToID
+      logical clock_read_params
+      logical  clock_read_timesteps
 
 *+  Constant Values
       character This_routine*(*)       ! name of this routine
@@ -167,50 +167,56 @@ C     Last change:  E     5 Dec 2000    8:52 am
 *+  Local Variables
       character msg*400                ! message to write to summary file
       integer day, month, year
+      logical ok
 
 *- Implementation Section ----------------------------------
 
       call push_routine (this_routine)
 
+      ok = clock_read_timesteps()
+
       ! read in all parameters for clock module.
-
-      call clock_read_params ()
-
-      ! set the clock to start_day.
-
-      g%pause_current_run = .false.
-      g%percent_complete = -1
-
-      g%current_date = g%start_date
-      g%current_time = -g%timestep
-      call jday_to_day_of_year (g%current_date,
-     .                          g%day,
-     .                          g%year)
-
-      call clock_advance_clock()
-
-      ! write parameters to summary file.
-      call jday_to_date (day, month, year, g%start_date)
-      write (msg, '(a, i2,a,i2,a,i4)')
-     .      'Simulation start date = ',
-     .      day, '/', month, '/', year
-      if (msg(28:28) .eq. Blank) then
-         msg(28:28) = '0'
+      if (ok) then
+         ok = clock_read_params ()
       endif
-      call Write_string (msg)
 
-      call jday_to_date (day, month, year, g%end_date)
-      write (msg, '(a, i2,a,i2,a,i4)')
-     .      'Simulation end date   = ',
-     .      day, '/', month, '/', year
-      if (msg(28:28) .eq. Blank) then
-         msg(28:28) = '0'
+      if (ok) then
+         ! set the clock to start_day.
+
+         g%pause_current_run = .false.
+         g%percent_complete = -1
+
+         g%current_date = g%start_date
+         g%current_time = -g%timestep
+         call jday_to_day_of_year (g%current_date,
+     .                             g%day,
+     .                             g%year)
+
+         call clock_advance_clock()
+
+         ! write parameters to summary file.
+         call jday_to_date (day, month, year, g%start_date)
+         write (msg, '(a, i2,a,i2,a,i4)')
+     .         'Simulation start date = ',
+     .         day, '/', month, '/', year
+         if (msg(28:28) .eq. Blank) then
+            msg(28:28) = '0'
+         endif
+         call Write_string (msg)
+
+         call jday_to_date (day, month, year, g%end_date)
+         write (msg, '(a, i2,a,i2,a,i4)')
+     .         'Simulation end date   = ',
+     .         day, '/', month, '/', year
+         if (msg(28:28) .eq. Blank) then
+            msg(28:28) = '0'
+         endif
+         call Write_string (msg)
+
+         write (msg, '(a, i4, a)')
+     .      'Time step =           = ', g%timestep, ' (mins)'
+         call Write_string (msg)
       endif
-      call Write_string (msg)
-
-      write (msg, '(a, i4, a)')
-     .   'Time step =           = ', g%timestep, ' (mins)'
-      call Write_string (msg)
 
       call pop_routine (this_routine)
       return
@@ -218,7 +224,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
 
 * ====================================================================
-      subroutine clock_read_params ()
+      logical function clock_read_params ()
 * ====================================================================
       use ClockModule
       use DateModule
@@ -251,23 +257,28 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       ! go get a start date
       found = read_parameter('parameters', 'start_date', date_st)
-      call String_to_jday (date_st, g%start_date, numvals, 0.0d0)
+      if (found) then
+         call String_to_jday (date_st, g%start_date, numvals, 0.0d0)
 
-      if (numvals.eq.0) then
-         call error ('Cannot convert the date:'
-     .               // TRIM(date_st)
-     .               //' to a valid date (dd/mm/yyyy)', .true.)
+         if (numvals.eq.0) then
+            call error ('Cannot convert the date:'
+     .                  // TRIM(date_st)
+     .                  //' to a valid date (dd/mm/yyyy)', .true.)
+         endif
+
+         ! go get an end date
+         found = read_parameter('parameters', 'end_date', date_st)
+         if (found) then
+            call String_to_jday (date_st, g%end_date, numvals, 0.0d0)
+
+            if (numvals.eq.0) then
+               call error ('Cannot convert the date:'
+     .                     // TRIM(date_st)
+     .                     //' to a valid date (dd/mm/yyyy)', .true.)
+            endif
+         endif
       endif
-
-      ! go get an end date
-      found = read_parameter('parameters', 'end_date', date_st)
-      call String_to_jday (date_st, g%end_date, numvals, 0.0d0)
-
-      if (numvals.eq.0) then
-         call error ('Cannot convert the date:'
-     .               // TRIM(date_st)
-     .               //' to a valid date (dd/mm/yyyy)', .true.)
-      endif
+      clock_read_params = found
 
       found = read_parameter('parameters', 'timestep', g%timestep, 1,
      .                   mins_in_day, .true.)
@@ -288,7 +299,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
       end
 
 * ====================================================================
-      subroutine clock_read_timesteps ()
+      logical function clock_read_timesteps ()
 * ====================================================================
       use ClockModule
       use DateModule
@@ -319,16 +330,17 @@ C     Last change:  E     5 Dec 2000    8:52 am
      .                       'timestep_events',
      .                       timestepEvents,
      .                       g%numTimestepEvents)
-      
+
       ! Register all timestep events.
       do i=1, g%numTimestepEvents
          g%timestepEvents(i) = add_registration
      .         (eventReg, timestepEvents(i), nullddml)
       enddo
 
+      clock_read_timesteps = found
       call pop_routine (this_routine)
       return
-      end subroutine
+      end function
 
 * ====================================================================
       subroutine clock_advance_clock ()
