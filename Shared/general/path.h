@@ -84,6 +84,64 @@ class remove_directory_and_copy : private std::unary_function <string, void >
          }
     };
 
+// ------------------------------------------------------------------
+//  Short description:
+//     generic "for_each" function for prepending a path to every item in a list
+//     and storing in a given stl container.
+
+//  Notes:
+
+//  Changes:
+//    DPH 28/10/97
+
+// ------------------------------------------------------------------
+template < class Container >
+class prepend_directory_and_copy : private std::unary_function <string, void >
+   {
+   private:
+      Container& container;
+      string Directory;
+   public:
+      prepend_directory_and_copy(const char* directory, Container& c )
+         : Directory(directory), container(c) { }
+      void operator() (const string& x)
+         {
+         Path p (Directory.c_str());
+         p.Append_path (x.c_str());
+         container.push_back (p.Get_path());
+         }
+    };
+
+// ------------------------------------------------------------------
+//  Short description:
+//     generic "for_each" function for removing directories and extensions
+//     from a list of paths and storing just the names in a given stl container.
+
+//  Notes:
+
+//  Changes:
+//    DPH 28/10/97
+
+// ------------------------------------------------------------------
+template < class Container >
+class remove_directory_ext_and_copy : private std::unary_function <string, void >
+   {
+   private:
+      Container& container;
+   public:
+      remove_directory_ext_and_copy( Container& c )
+         : container(c) { }
+      void operator() (const string& x)
+         {
+         if (x.find(":") == string::npos)
+            {
+            Path p(x.c_str());
+            container.push_back (p.Get_name_without_ext());
+            }
+         else
+            container.push_back (x); 
+         }
+    };
 
 #endif
 

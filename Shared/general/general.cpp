@@ -27,13 +27,12 @@ USEUNIT("ini_file.cpp");
 USEUNIT("io_functions.cpp");
 USEUNIT("macros.cpp");
 USEUNIT("math_functions.cpp");
-USEUNIT("path.cpp");
+USEUNIT("path.cpp");                      
 USEUNIT("stream_functions.cpp");
 USEUNIT("stream_processor.cpp");
 USEUNIT("string_functions.cpp");
 USEUNIT("stristr.cpp");
 USEUNIT("date_class.cpp");
-USELIB("C:\Program Files\Borland\CBuilder3\Lib\memmgr.lib");
 //---------------------------------------------------------------------------
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*)
 {

@@ -230,16 +230,14 @@ class remove_substring_and_copy : private std::unary_function < string, void >
       string Substring;
    public:
       remove_substring_and_copy( const char* sub, Container& c )
-         : Substring ( sub ), cont(c) { }
+         : Substring ( sub ), container(c) { }
       void operator(  ) ( const string& x )
          {
-         size_t pos = x.find(Substring);
-         if (x != string::npos)
-            {
-            string new_st(x);
-            new_st.remove(pos);
-            container.push_back (new_st);
-            }
+         string new_st(x);
+         size_t pos = new_st.find(Substring);
+         if (pos != string::npos)
+            new_st.erase(pos);
+         container.push_back (new_st);
          }
     };
 
@@ -393,6 +391,19 @@ string GENERAL_EXPORT ftoa(double Float, int Num_decplaces);
 // ------------------------------------------------------------------
 int GENERAL_EXPORT Str_i_Cmp(const string &a, const string &b);
 #define Str_i_Eq(a,b)  (!Str_i_Cmp((a),(b)))
+
+// ------------------------------------------------------------------
+//  Short description:
+//     replace all chars in a give string with a replacement.  Can
+//     handle a NULL char as a replacement char.
+
+//  Notes:
+
+//  Changes:
+//    DPH 11/9/98
+
+// ------------------------------------------------------------------
+void Replace_all_chars (char* St, char Char_to_replace, char Replacement_char);
 
 #endif
 

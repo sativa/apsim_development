@@ -112,7 +112,7 @@ int Month_string_2_integer (string& Month_string)
       if (Month_string.length() == 3)
          This_string.replace (3, NPOS, "");
 
-      Found = (This_string == Month_string);
+      Found = (Str_i_Eq(This_string, Month_string));
       }
 
    if (Found)

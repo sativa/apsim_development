@@ -30,9 +30,10 @@ void GENERAL_EXPORT Get_directory_listing (const char* Directory_name,
           strcmpi(ffblk.ff_name, "..") != 0 &&
           (ffblk.ff_attrib & Attribute) == Attribute)
          {
-         Path p (ffblk.ff_name);
+         Path p;
          if (Full_path)
             p.Set_directory (Directory_name);
+         p.Set_name(ffblk.ff_name);
          Dir_list.push_back (p.Get_path());
          }
       done = findnext(&ffblk);
@@ -90,14 +91,18 @@ string GENERAL_EXPORT Locate_file (list<string>& Search_directories,
 void GENERAL_EXPORT Get_recursive_directory_listing(const char* Directory,
                                                     const char* File_spec,
                                                     int Max_num_levels_to_descend,
+                                                    bool Include_specified_directory,
                                                     list<string>& Files)
    {
-   // get matching files in this directory.
-   Get_directory_listing (Directory,
-                          File_spec,
-                          Files,
-                          FA_NORMAL,
-                          true);
+   // get matching files in this directory if necessary
+   if (Include_specified_directory)
+      {
+      Get_directory_listing (Directory,
+                             File_spec,
+                             Files,
+                             FA_NORMAL,
+                             true);
+      }
 
    // get all sub directories.
    list<string> Sub_dirs;
@@ -119,8 +124,202 @@ void GENERAL_EXPORT Get_recursive_directory_listing(const char* Directory,
          string dir = Directory;
          dir += "\\";
          dir += *i;
-         Get_recursive_directory_listing (dir.c_str(), File_spec, Max_num_levels_to_descend, Files);
+         Get_recursive_directory_listing (dir.c_str(), File_spec, Max_num_levels_to_descend, true, Files);
          }
       }
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     copy or move the specified source files to the destination directory
+
+//  Notes:
+
+//  Changes:
+//    DPH 11/9/98
+
+// ------------------------------------------------------------------
+void GENERAL_EXPORT Copy_files (list<string>& Source_files,
+                                const char* Destination_directory,
+                                bool Do_move_files)
+   {
+   string source_st;
+   Build_string(Source_files, ";", source_st);
+   source_st += ";";
+
+   // convert source_st to double null terminated strings.
+   char* source_string = new char[source_st.length() + 1];
+   strcpy (source_string, source_st.c_str());
+   Replace_all_chars (source_string, ';', '\0');
+
+   // call Windows api routine
+   SHFILEOPSTRUCT op;
+   ZeroMemory(&op,sizeof(op));
+   op.hwnd=GetForegroundWindow();
+   if (Do_move_files)
+      op.wFunc = FO_MOVE;
+   else
+      op.wFunc=FO_COPY;
+   op.pFrom=source_string;
+   op.pTo=Destination_directory;
+   op.fFlags = FOF_NOCONFIRMMKDIR;
+   SHFileOperation(&op);
+
+   // cleanup
+   delete [] source_string;
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     copy or move the specified source directories and all directories below them
+//     to the destination directory.
+
+//  Notes:
+
+//  Changes:
+//    DPH 11/9/98
+
+// ------------------------------------------------------------------
+void GENERAL_EXPORT Copy_directories (list<string>& Source_directories,
+                                      const char* Destination_directory,
+                                      bool Do_move_files)
+   {
+   string source_st, destination_st;
+
+   // use the first directories parent as the base directory.  Assumes that
+   // all directories are located under this parent.
+   Path Home_directory;
+   if (Source_directories.size() > 0)
+      {
+      Home_directory.Set_path ( (*Source_directories.begin()).c_str() );
+      Home_directory.Back_up_directory();
+      }
+
+   // get a complete list of files we want to copy.
+   list<string> Files;
+   for (list<string>::iterator i = Source_directories.begin();
+                               i != Source_directories.end();
+                               i++)
+      {
+      string source_directory = *i;
+
+      // get a list of all filenames
+      list<string> Files;
+      Get_recursive_directory_listing( (*i).c_str(), "*.*", 10000, true, Files);
+
+      // create a semicolon delimited string to hold all file names.
+      string st;
+      Build_string(Files, ";", st);
+      st += ";";
+
+      // add filename string to source_st
+      source_st += st;
+
+      // replace all source directories with destination directories and add
+      // to destination_st
+      Replace_all (st, Home_directory.Get_directory().c_str(), Destination_directory);
+      destination_st += st;
+      }
+
+   // convert source_st and destination_st to double null terminated strings.
+   char* source_string = new char[source_st.length() + 1];
+   strcpy (source_string, source_st.c_str());
+   Replace_all_chars (source_string, ';', '\0');
+
+   char* destination_string = new char[destination_st.length() + 1];
+   strcpy (destination_string, destination_st.c_str());
+   Replace_all_chars (destination_string, ';', '\0');
+
+   // call Windows api routine
+   SHFILEOPSTRUCT op;
+   ZeroMemory(&op,sizeof(op));
+   op.hwnd=GetForegroundWindow();
+   if (Do_move_files)
+      op.wFunc = FO_MOVE;
+   else
+      op.wFunc=FO_COPY;
+   op.pFrom=source_string;
+   op.pTo=destination_string;
+   op.fFlags = FOF_MULTIDESTFILES + FOF_NOCONFIRMMKDIR;
+   SHFileOperation(&op);
+
+   // cleanup
+   delete [] source_string;
+   delete [] destination_string;
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     send the specified directory and all directories below it to the
+//     recycle bin.
+
+//  Notes:
+
+//  Changes:
+//    DPH 11/9/98
+
+// ------------------------------------------------------------------
+void GENERAL_EXPORT Delete_directories (list<string>& Directories)
+   {
+   // create a string to hold all filenames.
+   string st;
+   Build_string (Directories, ";", st);
+   st += ";";
+
+   // convert string to a double null terminated string.
+   char* source_string = new char[st.length() + 1];
+   strcpy (source_string, st.c_str());
+   Replace_all_chars (source_string, ';', '\0');
+
+
+   // call Windows api routine
+   SHFILEOPSTRUCT op;
+   ZeroMemory(&op,sizeof(op));
+   op.hwnd=GetForegroundWindow();
+   op.wFunc=FO_DELETE;
+   op.pFrom=source_string;
+   op.fFlags = FOF_NOCONFIRMATION + FOF_ALLOWUNDO;
+   SHFileOperation(&op);
+
+   // cleanup
+   delete [] source_string;
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     return the youngest file in a given directory that matches the
+//     specified filespec.
+
+//  Notes:
+
+//  Changes:
+//    DPH 11/9/98
+
+// ------------------------------------------------------------------
+string GENERAL_EXPORT Get_youngest_file (const char* Directory,
+                                         const char* Filespec)
+   {
+   unsigned short Maximum_date = 0;
+   unsigned short Maximum_time = 0;
+   Path Youngest_file;
+
+
+   struct ffblk ffblk;
+   int done;
+   Path p;
+   p.Set_path (Directory);
+   p.Set_name (Filespec);
+   done = findfirst(p.Get_path().c_str(),&ffblk, FA_NORMAL);
+   while (!done)
+      {
+      if (ffblk.ff_fdate > Maximum_date ||
+         (ffblk.ff_fdate == Maximum_date && ffblk.ff_ftime > Maximum_time))
+         {
+         Youngest_file.Set_directory (Directory);
+         Youngest_file.Set_name (ffblk.ff_name);
+         }
+      done = findnext(&ffblk);
+      }
+   return Youngest_file.Get_path();
    }
 
