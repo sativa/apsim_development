@@ -92,8 +92,10 @@ namespace CSGeneral
 			string ProtocolToVariablesXSLFileName = Settings.GetSetting("apsimui", "ProtocolToVariablesFile");
 
 			StreamReader In = new StreamReader(ProtocolToVariablesXSLFileName);
-			return CSUtility.ApplyStyleSheet(description.ToString(), In.ReadToEnd());
-			//return description.ToString();
+			string xml = CSUtility.ApplyStyleSheet(description.ToString(), In.ReadToEnd());
+			return "<?xml version=\"1.0\"?>\r\n"
+				       + "<?xml-stylesheet type=\"text/xsl\" href=\"../docs/shared/Variables.xsl\"?>\r\n"
+				       + xml;
 			}
 
 

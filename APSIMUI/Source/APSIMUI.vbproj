@@ -373,6 +373,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "NewDocumentForm.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NewDocumentForm.resx"
+                    DependentUpon = "NewDocumentForm.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "OptionsForm.vb"
                     SubType = "Form"
                     BuildAction = "Compile"

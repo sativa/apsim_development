@@ -3,22 +3,24 @@
 
 <xsl:output method="xml"/>
 <xsl:template match="describecomp">
-   <component name="{@name}">
-      <variables>
+   <components>
+      <component name="{@name}">
+         <variables>
    <xsl:apply-templates select="property"/>
-      </variables>
-      <events>
+         </variables>
+         <events>
    <xsl:apply-templates select="event"/>
-      </events>
-   </component>
+         </events>
+      </component>
+   </components>
 
 </xsl:template>
 
 <xsl:template match="property">
-   <variable name="{@name}" module="{../@name}" description="{@description}" array="{type/@array}" units="{type/@unit}"/>
+      <variable name="{@name}" description="{@description}" array="{type/@array}" units="{type/@unit}"/>
 </xsl:template>
 <xsl:template match="event">
-   <event name="{@name}" module="{../@name}" description="{@description}"/>
+      <event name="{@name}" description="{@description}"/>
 </xsl:template>
 
 </xsl:stylesheet>
