@@ -69,7 +69,7 @@
       <getVariableReg name="st" type="st"/>
       <getVariableReg name="dlt_no3" type="dlt_no3"/>
       <getVariableReg name="dlt_nh4" type="dlt_nh4"/>
-            
+
       <respondToGetReg name="dlt_no3_net" type="dlt_no3_net"/>
       <respondToGetReg name="no3_min" type="no3_min"/>
       <respondToGetReg name="dlt_nh4_net" type="dlt_nh4_net"/>
@@ -143,11 +143,11 @@
       <respondToGetSetReg name="dlt_nh4" type="dlt_nh4"/>
       <respondToGetSetReg name="dlt_nh4ppm" type="dlt_nh4ppm"/>
       <respondToGetSetReg name="urea" type="urea"/>
-      <respondToGetSetReg name="dlt_urea" type="dlt_urea"/>      
+      <respondToGetSetReg name="dlt_urea" type="dlt_urea"/>
       <respondToGetSetReg name="n_reduction" type="n_reduction"/>
       <respondToGetSetReg name="dlt_org_n" type="dlt_org_n"/>
       <respondToGetSetReg name="dlt_org_c_pool" type="dlt_org_c_pool"/>
-            
+
       <respondToSetReg name="org_n" type="org_n"/>
       <respondToSetReg name="dlt_org_c_pool1" type="dlt_org_c_pool1"/>
       <respondToSetReg name="dlt_org_c_pool2" type="dlt_org_c_pool2"/>
@@ -155,9 +155,9 @@
       <respondToSetReg name="org_c_pool1" type="org_c_pool1"/>
       <respondToSetReg name="org_c_pool2" type="org_c_pool2"/>
       <respondToSetReg name="org_c_pool3" type="org_c_pool3"/>
-      
+
       <respondToMethodCallReg name="reset" type="null"/>
-      <respondToMethodCallReg name="sum_report" type="null"/>
+      <respondToMethodCallReg name="SumReport" type="null"/>
 
       <eventReg name="SolutesChanged" type="SoluteProfile"/>
       <eventReg name="ActualResidueDecompositionCalculated" type="SurfaceOrganicMatter"/>
@@ -166,10 +166,9 @@
       <eventReg name="NitrogenBalanceCalculated" type="NitrogenBalance"/>
 
       <respondToEventReg name="Tick" type="time"/>
-      <respondToEventReg name="SumReport" type="null"/>
       <respondToEventReg name="Fertilised" type="FertiliserConstituents"/>
       <respondToEventReg name="SoluteFluxesCalculated" type="SoluteProfile"/>
-      <respondToEventReg name="SoilTemperatureChanged" type="null"/> 
+      <respondToEventReg name="SoilTemperatureChanged" type="null"/>
       <respondToEventReg name="CropNitrogenDemandCalculated" type="CropNitrogenDemand"/>
       <respondToEventReg name="DoSoilNitrogenBalance" type="null"/>
       <respondToEventReg name="SoilWaterChanged" type="SoilWaterLayer"/>
