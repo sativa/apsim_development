@@ -101,9 +101,9 @@ namespace YieldProphet
 					FunctionsClass.DisplayMessage(pgPageInfo,"Invalid file type");
 					}
 				}
-			catch(Exception)
+			catch(Exception E)
 				{
-				FunctionsClass.DisplayMessage(pgPageInfo, "Error Importing File");
+				FunctionsClass.DisplayMessage(pgPageInfo, E.Message);
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -121,21 +121,17 @@ namespace YieldProphet
 			string[] szMetStationParts;
 			int iNameOrdinal = 1;
 			int iNumberOrdinal = 0;
-			try
+
+			dtMetStations.Rows.Clear();
+			while((szMetStation = strImportedFile.ReadLine()) != null)
 				{
-				dtMetStations.Rows.Clear();
-				while((szMetStation = strImportedFile.ReadLine()) != null)
-					{
-					drMetStation = dtMetStations.NewRow();
-					szMetStationParts = szMetStation.Split(",".ToCharArray(), 2);
-					drMetStation["StationNumber"] = szMetStationParts[iNumberOrdinal];
-					drMetStation["Name"] = szMetStationParts[iNameOrdinal];
-					drMetStation["Region"] = szRegionType;
-					dtMetStations.Rows.Add(drMetStation);
-					}
+				drMetStation = dtMetStations.NewRow();
+				szMetStationParts = szMetStation.Split(",".ToCharArray(), 2);
+				drMetStation["StationNumber"] = szMetStationParts[iNumberOrdinal];
+				drMetStation["Name"] = szMetStationParts[iNameOrdinal];
+				drMetStation["Region"] = szRegionType;
+				dtMetStations.Rows.Add(drMetStation);
 				}
-			catch(Exception)
-				{}
 			return dtMetStations;
 			}
 		//-------------------------------------------------------------------------
@@ -165,9 +161,9 @@ namespace YieldProphet
 					FunctionsClass.DisplayMessage(pgPageInfo,"Invalid file type");
 					}
 				}
-			catch(Exception )
+			catch(Exception E)
 				{
-				FunctionsClass.DisplayMessage(pgPageInfo, "Error Importing File");
+				FunctionsClass.DisplayMessage(pgPageInfo, E.Message);
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -181,27 +177,23 @@ namespace YieldProphet
 			dtSoils.Columns.Add("Data");
 			dtSoils.Columns.Add("Region");
 			DataRow drSoil;
-			try
-				{
-				dtSoils.Rows.Clear();
-				
-				XmlDocument xmlDoc = new XmlDocument();
-				xmlDoc.Load(xtrSoilSample);
-				XmlNode xlnRoot = xmlDoc.DocumentElement;
-				XmlNode xlnCurrentNode = xlnRoot;
+			dtSoils.Rows.Clear();
+			
+			XmlDocument xmlDoc = new XmlDocument();
+			xmlDoc.Load(xtrSoilSample);
+			XmlNode xlnRoot = xmlDoc.DocumentElement;
+			XmlNode xlnCurrentNode = xlnRoot;
 
-				for(int iIndex = 0; iIndex < xlnRoot.ChildNodes.Count; iIndex++)
-					{
-					drSoil = dtSoils.NewRow();
-					xlnCurrentNode = xlnRoot.ChildNodes[iIndex];
-					drSoil["Name"] = xlnCurrentNode.Attributes[0].InnerText;
-					drSoil["Data"] = xlnCurrentNode.OuterXml;
-					drSoil["Region"] = szRegionType;
-					dtSoils.Rows.Add(drSoil);
-					}
+			for(int iIndex = 0; iIndex < xlnRoot.ChildNodes.Count; iIndex++)
+				{
+				drSoil = dtSoils.NewRow();
+				xlnCurrentNode = xlnRoot.ChildNodes[iIndex];
+				drSoil["Name"] = xlnCurrentNode.Attributes[0].InnerText;
+				drSoil["Data"] = xlnCurrentNode.OuterXml;
+				drSoil["Region"] = szRegionType;
+				dtSoils.Rows.Add(drSoil);
 				}
-			catch(Exception)
-				{}
+				
 			return dtSoils;
 			}
 		//-------------------------------------------------------------------------
@@ -229,9 +221,9 @@ namespace YieldProphet
 					FunctionsClass.DisplayMessage(pgPageInfo,"Invalid file type");
 					}
 				}
-			catch(Exception)
+			catch(Exception E)
 				{
-				FunctionsClass.DisplayMessage(pgPageInfo, "Error Importing File");
+				FunctionsClass.DisplayMessage(pgPageInfo, E.Message);
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -245,19 +237,16 @@ namespace YieldProphet
 			dtCultivars.Columns.Add("Type");
 			DataRow drCultivars;
 			string szCultivar;
-			try
+
+			dtCultivars.Rows.Clear();
+			while((szCultivar = strImportedFile.ReadLine()) != null)
 				{
-				dtCultivars.Rows.Clear();
-				while((szCultivar = strImportedFile.ReadLine()) != null)
-					{
-					drCultivars = dtCultivars.NewRow();
-					drCultivars["Type"] = dtCultivars;
-					drCultivars["CropType"] = szCropType;
-					dtCultivars.Rows.Add(drCultivars);
-					}
+				drCultivars = dtCultivars.NewRow();
+				drCultivars["Type"] = dtCultivars;
+				drCultivars["CropType"] = szCropType;
+				dtCultivars.Rows.Add(drCultivars);
 				}
-			catch(Exception)
-				{}
+
 			return dtCultivars;
 			}
 		//-------------------------------------------------------------------------
@@ -266,30 +255,29 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private static void UploadImportedReportTemplate(HttpPostedFile hpfImportedFile, Page pgPageInfo, 
 			string szReportType, string szTemplateType)
-		{
-			try
 			{
+			try
+				{
 				//Checks to make sure that the file is an xml file
 				string szContentType = hpfImportedFile.ContentType;
 				if(szContentType == "text/plain")
-				{
+					{
 					StreamReader strImportedFile = new StreamReader(hpfImportedFile.InputStream);
 					string szTemplateText = strImportedFile.ReadToEnd();
 					szTemplateText = SetUpTemplateTextForSaving(szTemplateText);
 					//Saves the template to the database
 					DataAccessClass.UpdateReportTypes(szTemplateText, szReportType, szTemplateType);		
-				}
+					}
 				else
-				{
+					{
 					FunctionsClass.DisplayMessage(pgPageInfo,"Invalid file type");
+					}
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(pgPageInfo, E.Message);
 				}
 			}
-			catch(Exception)
-			{
-				FunctionsClass.DisplayMessage(pgPageInfo, "Error Importing File");
-			}
-		}
-
 		//-------------------------------------------------------------------------
 		//Set up the string for saving to the database by replacing the quote and
 		//double quote characters with place holders

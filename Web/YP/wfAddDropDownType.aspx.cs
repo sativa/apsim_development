@@ -26,20 +26,6 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.TextBox edtTableName;
 		protected System.Web.UI.WebControls.Label lblTableName;
 
-		//-------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the users
-		//permissions are checked
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{	
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForAdministratorLevelPriviledges();
-				FunctionsClass.SetControlFocus("edtDropDownType", this);
-				}
-			}
-
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
 		{
@@ -65,6 +51,8 @@ namespace YieldProphet
 		}
 		#endregion
 
+
+		#region Form Functions
 		//-------------------------------------------------------------------------
 		//Saves a new dropDown type to the database and the user is then 
 		//sent back to the ViewDropDowns page
@@ -80,6 +68,24 @@ namespace YieldProphet
 			else
 				{
 				FunctionsClass.DisplayMessage(Page, "Please ensure that all fields are filled");
+				}
+			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
+		#region Form Events
+		//-------------------------------------------------------------------------
+		//If the page hasn't been viewed by the user then the users
+		//permissions are checked
+		//-------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if (!IsPostBack)
+				{	
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForAdministratorLevelPriviledges();
+				FunctionsClass.SetControlFocus("edtDropDownType", this);
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -112,6 +118,10 @@ namespace YieldProphet
 			{
 			Server.Transfer("wfViewDropDowns.aspx");
 			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
 		//-------------------------------------------------------------------------
 		}//END OF CLASS
 	}//END OF NAMEPACE

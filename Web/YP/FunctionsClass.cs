@@ -199,13 +199,13 @@ namespace YieldProphet
 			{
 			string szUserName = "";
 			if(HttpContext.Current.Session["SelectedUserName"].ToString() != "")
-				{
+			{
 				szUserName = HttpContext.Current.Session["SelectedUserName"].ToString();
-				}
+			}
 			else
-				{
+			{
 				szUserName = HttpContext.Current.Session["UserName"].ToString();
-				}
+			}
 			return szUserName;
 			}
 		//-------------------------------------------------------------------------

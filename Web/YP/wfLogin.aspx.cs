@@ -33,20 +33,7 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Button RegistrationButton;
 		protected System.Web.UI.WebControls.Image imgSide;
 
-		//---------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the page is 
-		//initialised
-		//---------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{
-				imgSide.Height = Unit.Percentage(100);
-				Session["UserName"] = "";
-				ClearFormInformation();
-				FunctionsClass.SetControlFocus("edtUserName", this);
-				}
-			}
+
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -71,31 +58,32 @@ namespace YieldProphet
 		}
 		#endregion
 
-		//---------------------------------------------------------------------
+
+
+		#region Form Functions
+		//-------------------------------------------------------------------------
 		//Checks the login details of the user and if a match is found then 
 		//the users details are stored in the session and the user is sent 
 		//to the frames page (YieldProphet.htm)
-		//---------------------------------------------------------------------
-		private void btnLogin_Click(object sender, System.EventArgs e)
+		//-------------------------------------------------------------------------
+		private void LogUserIn()
 			{
-
-				if(DataAccessClass.AuthenticateUser(InputValidationClass.ValidateString(edtUserName.Text),
-					InputValidationClass.ValidateString(edtPassword.Text)) == true)
+			if(DataAccessClass.AuthenticateUser(InputValidationClass.ValidateString(edtUserName.Text),
+				InputValidationClass.ValidateString(edtPassword.Text)) == true)
+				{
+				DataTable dtUserDetails = DataAccessClass.GetDetailsOfUser(InputValidationClass.ValidateString(edtUserName.Text));
+				Session["UserName"] = dtUserDetails.Rows[0]["UserName"];
+				if(ReportClass.DoesUsersReportDirectoryExisit(Session["UserName"].ToString(), DateTime.Today.Year) == false)
 					{
-					DataTable dtUserDetails = DataAccessClass.GetDetailsOfUser(InputValidationClass.ValidateString(edtUserName.Text));
-					Session["UserName"] = dtUserDetails.Rows[0]["UserName"];
-					if(ReportClass.DoesUsersReportDirectoryExisit(Session["UserName"].ToString(), DateTime.Today.Year) == false)
-						{
-						ReportClass.CreateUsersReportDirectory(Session["UserName"].ToString(), DateTime.Today.Year); 
-						}
-					Response.Redirect("YieldProphet.htm");	
+					ReportClass.CreateUsersReportDirectory(Session["UserName"].ToString(), DateTime.Today.Year); 
 					}
-				else
-					{
-					FunctionsClass.DisplayMessage(Page,"Incorrect Login Details.  All login details are case sensitive");
-					ClearFormInformation();
-					}	
-		
+				Response.Redirect("YieldProphet.htm");	
+				}
+			else
+				{
+				FunctionsClass.DisplayMessage(Page,"Incorrect Login Details.  All login details are case sensitive");
+				ClearFormInformation();
+				}	
 			}
 		//---------------------------------------------------------------------
 		//Clears the text from the two textboxes that contain the user's
@@ -106,7 +94,34 @@ namespace YieldProphet
 			edtPassword.Text = "";
 			edtUserName.Text = "";
 			}
+		//---------------------------------------------------------------------
+		#endregion
 
+
+
+		#region Form Events
+		//---------------------------------------------------------------------
+		//If the page hasn't been viewed by the user then the page is 
+		//initialised
+		//---------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if (!IsPostBack)
+				{
+				imgSide.Height = Unit.Percentage(100);
+				Session["UserName"] = "";
+				ClearFormInformation();
+				FunctionsClass.SetControlFocus("edtUserName", this);
+				}
+			}
+		//---------------------------------------------------------------------
+		//When the user presses the login button their login details are 
+		//sent to the server for authentication
+		//---------------------------------------------------------------------
+		private void btnLogin_Click(object sender, System.EventArgs e)
+			{
+			LogUserIn();
+			}
 		//---------------------------------------------------------------------
 		// User has clicked on registration info button.
 		//---------------------------------------------------------------------
@@ -114,7 +129,10 @@ namespace YieldProphet
 			{
 			Server.Transfer("wfRegForm1.aspx");
 			}
+		//---------------------------------------------------------------------
+		#endregion
 
 
+		//---------------------------------------------------------------------
 		}//END OF CLASS
 	}//END OF NAMESPACE

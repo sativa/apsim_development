@@ -25,20 +25,7 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.DropDownList cboDropDownTypes;
 		protected System.Web.UI.WebControls.TextBox edtDropDownValue;
 		protected System.Web.UI.WebControls.Label lblDropDownValue;
-		//-------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the user's
-		//permissions are checked and the page initialised
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{	
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForAdministratorLevelPriviledges();
-				FillDropDownTypesCombo();
-				FunctionsClass.SetControlFocus("edtDropDownValue", this);
-				}
-			}
+
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -65,6 +52,8 @@ namespace YieldProphet
 		}
 		#endregion
 		
+
+		#region Form Functions
 		//-------------------------------------------------------------------------
 		//Fills the cboDropDownTypes combo box with all the different types
 		//from the database
@@ -93,6 +82,25 @@ namespace YieldProphet
 			else
 				{
 				FunctionsClass.DisplayMessage(Page, "Please ensure all fields are entered");
+				}
+			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
+		#region Form Events
+		//-------------------------------------------------------------------------
+		//If the page hasn't been viewed by the user then the user's
+		//permissions are checked and the page initialised
+		//-------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if (!IsPostBack)
+				{	
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForAdministratorLevelPriviledges();
+				FillDropDownTypesCombo();
+				FunctionsClass.SetControlFocus("edtDropDownValue", this);
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -125,6 +133,10 @@ namespace YieldProphet
 			{
 			Server.Transfer("wfViewDropDowns.aspx");
 			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
 		//-------------------------------------------------------------------------
 	}//END OF CLASS
 }//END OF NAMESPACE

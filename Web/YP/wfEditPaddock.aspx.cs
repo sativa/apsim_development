@@ -20,7 +20,6 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Label lblCultivar;
 		protected System.Web.UI.WebControls.DropDownList cboCultivars;
 		protected System.Web.UI.WebControls.DropDownList cboCrops;
-		protected System.Web.UI.WebControls.Calendar cldSowDate;
 		protected System.Web.UI.WebControls.CheckBox chkSown;
 		protected System.Web.UI.WebControls.Label lblName;
 		protected System.Web.UI.WebControls.Label lblCropManagement;
@@ -44,21 +43,13 @@ namespace YieldProphet
 		protected System.Data.DataColumn dcApplicationDate;
 		protected System.Data.DataColumn dcRate;
 		protected System.Web.UI.WebControls.Button btnSave;
+		protected System.Data.DataSet dsSowDate;
+		protected System.Data.DataTable dtSowDate;
+		protected System.Data.DataColumn dcSowDate;
+		protected Janus.Web.GridEX.GridEX grdSowDate;
 		protected System.Web.UI.WebControls.HyperLink HyperLink1;
 
-		//-------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the user's
-		//permissions are checked and the page is initialised
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{	
-				FunctionsClass.CheckSession();
-				FillForm();
-				btnSave.Style.Add("cursor", "hand");
-				}
-			}
+
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -79,8 +70,13 @@ namespace YieldProphet
 			this.dcID = new System.Data.DataColumn();
 			this.dcApplicationDate = new System.Data.DataColumn();
 			this.dcRate = new System.Data.DataColumn();
+			this.dsSowDate = new System.Data.DataSet();
+			this.dtSowDate = new System.Data.DataTable();
+			this.dcSowDate = new System.Data.DataColumn();
 			((System.ComponentModel.ISupportInitialize)(this.dsNitrogen)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dtNitrogen)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dsSowDate)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dtSowDate)).BeginInit();
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			this.btnCancelImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnCancelImg_Click);
 			this.btnSaveImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnSaveImg_Click);
@@ -122,13 +118,36 @@ namespace YieldProphet
 			// dcRate
 			// 
 			this.dcRate.ColumnName = "Rate";
+			// 
+			// dsSowDate
+			// 
+			this.dsSowDate.DataSetName = "NewDataSet";
+			this.dsSowDate.Locale = new System.Globalization.CultureInfo("en-AU");
+			this.dsSowDate.Tables.AddRange(new System.Data.DataTable[] {
+																																	 this.dtSowDate});
+			// 
+			// dtSowDate
+			// 
+			this.dtSowDate.Columns.AddRange(new System.Data.DataColumn[] {
+																																		 this.dcSowDate});
+			this.dtSowDate.TableName = "SowDate";
+			// 
+			// dcSowDate
+			// 
+			this.dcSowDate.ColumnName = "SowDate";
+			this.dcSowDate.DataType = typeof(System.DateTime);
 			this.Load += new System.EventHandler(this.Page_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dsNitrogen)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dtNitrogen)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dsSowDate)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dtSowDate)).EndInit();
 
 		}
 		#endregion
 
+
+
+		#region Form Functions
 		//-------------------------------------------------------------------------
 		//Checks to see if a sow date has been entered for the selected paddock,
 		//if it has then the form is filled with data from the database.  If 
@@ -155,8 +174,8 @@ namespace YieldProphet
 					cboCrops.SelectedValue = dtPaddockDetails.Rows[0]["CropType"].ToString();
 					//Set the sow date on the calander
 					chkSown.Checked = true;
-					cldSowDate.SelectedDate = DateTime.ParseExact(szSowDate, "yyyy-MM-dd", null);
-					cldSowDate.VisibleDate = cldSowDate.SelectedDate;
+					SetSowDate(szSowDate);
+					cboCrops.SelectedValue = dtPaddockDetails.Rows[0]["CropType"].ToString();
 					//Fills the cultivar combo box
 					FillCultivarsCombo();
 					//Sets up and fills the nitrogen application grid
@@ -165,7 +184,6 @@ namespace YieldProphet
 					cboCrops.SelectedValue = dtPaddockDetails.Rows[0]["CropType"].ToString();
 					//Sets the selected cultivar to the cultivar returned from the database
 					cboCultivars.SelectedValue = dtPaddockDetails.Rows[0]["CultivarType"].ToString();
-
 					}
 				//If no sow date has been saved, then initialise the form.
 				else
@@ -174,8 +192,7 @@ namespace YieldProphet
 					FillNitrogenApplicationGrid();
 					FillCropsCombo();
 					FillCultivarsCombo();
-					cldSowDate.SelectedDate = DateTime.Today;
-					cldSowDate.VisibleDate = DateTime.Today;
+					SetSowDate(szSowDate);
 					}
 				if(FunctionsClass.IsAdministrator(FunctionsClass.GetActiveUserName()) == true)
 					{
@@ -197,6 +214,26 @@ namespace YieldProphet
 				{
 				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
+			}
+		//-------------------------------------------------------------------------
+		//Set the date shown in the sow date grid
+		//-------------------------------------------------------------------------
+		private void SetSowDate(string szSowDate)
+			{
+			DataRow drSowDate;
+			if(szSowDate != null && szSowDate != "")
+				{
+				drSowDate = dsSowDate.Tables["SowDate"].NewRow();
+				drSowDate["SowDate"] = DateTime.ParseExact(szSowDate, "yyyy-MM-dd", null);
+				dsSowDate.Tables["SowDate"].Rows.Add(drSowDate);
+				}
+			else
+				{
+				drSowDate = dsSowDate.Tables["SowDate"].NewRow();
+				drSowDate["SowDate"] = DateTime.Today;
+				dsSowDate.Tables["SowDate"].Rows.Add(drSowDate);
+				}
+			this.DataBind();
 			}
 		//-------------------------------------------------------------------------
 		//Gets the grower's name and the paddock's name and displays them on a label
@@ -283,7 +320,7 @@ namespace YieldProphet
 			{
 			cboCrops.Enabled = bEnableCropDetails;
 			cboCultivars.Enabled = bEnableCropDetails;
-			cldSowDate.Enabled = bEnableCropDetails;
+			grdSowDate.Enabled = bEnableCropDetails;
 			grdNitrogen.Enabled = bEnableCropDetails;
 			}	
 		//-------------------------------------------------------------------------
@@ -292,8 +329,9 @@ namespace YieldProphet
 		//with the details from the from.  If it hasn't been checked then the paddock
 		//is updated with blank details.
 		//-------------------------------------------------------------------------
-		private void SavePaddockDetails()
+		private bool SavePaddockDetails()
 			{
+			bool bPaddockSaved = false;
 			if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
 				{
 				try
@@ -303,18 +341,20 @@ namespace YieldProphet
 					if(chkSown.Checked == true)
 						{
 						//If a cultivar is selected, update the paddock
-						if( cboCultivars.SelectedItem.Text != "")
+						if( cboCultivars.SelectedItem.Text != "" && 
+							cboCultivars.SelectedItem.Text != "None" && 
+							grdSowDate.GetRow(0).Cells["SowDate"].Text != "")
 							{
-							DataAccessClass.UpdatePaddock(cldSowDate.SelectedDate.ToString("yyyy-MM-dd"), 
-								cboCultivars.SelectedItem.Text, "", "", "", "", Session["SelectedPaddockName"].ToString(), 
+							DataAccessClass.UpdatePaddock((DateTime.ParseExact(grdSowDate.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
+								cboCultivars.SelectedItem.Text, "", "", "", "", "", Session["SelectedPaddockName"].ToString(), 
 								FunctionsClass.GetActiveUserName());
 							SaveNitrogenApplications();
+							bPaddockSaved = true;
 							}
 							//If no cultivar is selected display an error to the user
 						else
 							{
 							FunctionsClass.DisplayMessage(Page,"Please ensure that all fields contain data");
-							return;
 							}
 						}
 					//If the sown check box hasn't been checked, the paddock is updated with default
@@ -324,6 +364,7 @@ namespace YieldProphet
 						DataAccessClass.DeletePaddocksFertiliserApplications("Nitrogen", 
 							Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
 						DataAccessClass.ResetPaddock(Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
+						bPaddockSaved = true;
 						}
 					}
 				catch(Exception E)
@@ -335,6 +376,7 @@ namespace YieldProphet
 				{
 				FunctionsClass.DisplayMessage(Page, "Functionality not available to visitors");
 				}
+			return bPaddockSaved;
 			}
 		//-------------------------------------------------------------------------
 		//Saves the values from the grid into the database
@@ -374,35 +416,52 @@ namespace YieldProphet
 				{
 				try
 					{
-					//Checks to make sure that the user has set the paddocks settings, by
-					//checking if they have set the region that the paddock is in.
-					DataTable dtPaddockDetails = DataAccessClass.GetDetailsOfPaddock(Session["SelectedPaddockName"].ToString(), 
-						FunctionsClass.GetActiveUserName());
-					if(dtPaddockDetails.Rows[0]["RegionType"].ToString() != "")
+					if(SavePaddockDetails() == true)
 						{
-						//Checks that the report type is selected
-						if(cboReport.SelectedItem.Text != "")
+						if(SoilSampleClass.IsSampleValid(Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName()))
 							{
-							//If the report is a nitrogen report send them to the nitrogen report
-							//generation page, other wise send them to the default report 
-							//generation page
-							if(cboReport.SelectedItem.Text == ReportClass.szNitrogenComparisonReport)
+							//Checks that the report type is selected
+							if(cboReport.SelectedItem.Text != "")
 								{
-								Server.Transfer("wfGenerateNitrogenComparisonReport.aspx");
+								if(ReportClass.DoesUsersReportDirectoryExisit(FunctionsClass.GetActiveUserName(), DateTime.Today.Year) == false)
+									{
+									ReportClass.CreateUsersReportDirectory(FunctionsClass.GetActiveUserName(), DateTime.Today.Year); 
+									}
+								//If the report is a nitrogen report send them to the nitrogen report
+								//generation page, other wise send them to the default report 
+								//generation page
+								if(cboReport.SelectedItem.Text == ReportClass.szNitrogenComparisonReport)
+									{
+									if(chkSown.Checked == true)
+										{
+										Server.Transfer("wfGenerateNitrogenComparisonReport.aspx");
+										}
+									else
+										{
+										FunctionsClass.DisplayMessage(Page, "This report requires a sowing date");
+										}
+									}
+								else
+									{
+									if(chkSown.Checked == true)
+										{
+										Server.Transfer("wfGenerateReport.aspx");
+										}
+									else
+										{
+										FunctionsClass.DisplayMessage(Page, "This report requires a sowing date");
+										}
+									}
 								}
 							else
 								{
-								Server.Transfer("wfGenerateReport.aspx");
+								FunctionsClass.DisplayMessage(Page, "Please select a report type");
 								}
 							}
 						else
 							{
-							FunctionsClass.DisplayMessage(Page, "Please select a report type");
+							FunctionsClass.DisplayMessage(Page, "Please visit the paddock setup page and set the initial water and nitrogen conditions.");
 							}
-						}
-					else
-						{
-						FunctionsClass.DisplayMessage(Page, "Please set the paddocks settings first");
 						}
 					}
 				catch(Exception E)
@@ -416,12 +475,24 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
-		//Returns the report type ID, can be called from other pages on the page load event
+		#endregion
+
+
+
+		#region Form Events
 		//-------------------------------------------------------------------------
-		public string ReturnReportTypeID()
+		//If the page hasn't been viewed by the user then the user's
+		//permissions are checked and the page is initialised
+		//-------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
 			{
-			return cboReport.SelectedValue;
-			} 
+			if (!IsPostBack)
+				{	
+				FunctionsClass.CheckSession();
+				FillForm();
+				btnSave.Style.Add("cursor", "hand");
+				}
+			}
 		//-------------------------------------------------------------------------
 		//Returns the report type, can be called from other pages on the page load event
 		//-------------------------------------------------------------------------
@@ -553,6 +624,10 @@ namespace YieldProphet
 					}
 				}
 			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
 		//-------------------------------------------------------------------------
 		}//END OF CLASS
 	}//END OF NAMESPACE

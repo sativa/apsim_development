@@ -28,20 +28,7 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.ImageButton btnCancelImg;
 		protected System.Web.UI.WebControls.Panel pnlTop;
 
-		//-------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the user's
-		//permissions are checked and the page is initialised
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{	
-				FunctionsClass.CheckSession();	
-				FunctionsClass.CheckForConsultantLevelPriviledges();
-				FunctionsClass.SetControlFocus("edtName", this);
-				FillForm();
-				}
-			}
+
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -68,6 +55,26 @@ namespace YieldProphet
 		}
 		#endregion
 
+
+
+		#region Form Functions
+		//-------------------------------------------------------------------------
+		//Gets all the details of the selected grower and fills the form with these
+		//details.
+		//-------------------------------------------------------------------------
+		private void FillForm()
+			{
+			try
+				{
+				DataTable dtUserDetails = DataAccessClass.GetDetailsOfUser(Session["SelectedUserName"].ToString());
+				edtName.Text = dtUserDetails.Rows[0]["Name"].ToString();
+				edtEmail.Text = dtUserDetails.Rows[0]["Email"].ToString();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
+			}
 		//-------------------------------------------------------------------------
 		//Updates the existing grower's details in the database.
 		//-------------------------------------------------------------------------
@@ -95,20 +102,23 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
-		//Gets all the details of the selected grower and fills the form with these
-		//details.
+		#endregion
+
+
+
+		#region Form Events
 		//-------------------------------------------------------------------------
-		private void FillForm()
+		//If the page hasn't been viewed by the user then the user's
+		//permissions are checked and the page is initialised
+		//-------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
 			{
-			try
-				{
-				DataTable dtUserDetails = DataAccessClass.GetDetailsOfUser(Session["SelectedUserName"].ToString());
-				edtName.Text = dtUserDetails.Rows[0]["Name"].ToString();
-				edtEmail.Text = dtUserDetails.Rows[0]["Email"].ToString();
-				}
-			catch(Exception E)
-				{
-				FunctionsClass.DisplayMessage(Page, E.Message);
+			if (!IsPostBack)
+				{	
+				FunctionsClass.CheckSession();	
+				FunctionsClass.CheckForConsultantLevelPriviledges();
+				FunctionsClass.SetControlFocus("edtName", this);
+				FillForm();
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -141,6 +151,10 @@ namespace YieldProphet
 			{
 			Server.Transfer("wfViewGrowers.aspx");
 			}	
+		//-------------------------------------------------------------------------
+		#endregion
+
+
 		//-------------------------------------------------------------------------	
 		}//END CLASS
 	}//END OF NAMESPACE

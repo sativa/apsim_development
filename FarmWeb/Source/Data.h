@@ -118,6 +118,16 @@ class Data
       // Return the user's consultant's email address(s)
       //---------------------------------------------------------------------------
       void getConsultantEmailAddresses(const std::string& userName, std::vector<std::string>& emailAddresses) const;
+
+      //---------------------------------------------------------------------------
+      // Return the user's details.
+      //---------------------------------------------------------------------------
+      void getUserDetails(const std::string& userName,
+                          std::string& name,
+                          std::string& email,
+                          std::string& password,
+                          std::string& userType) const;
+
       //---------------------------------------------------------------------------
       // Return the name of the user given a userID. Throws an runtime_error if user
       // not found.

@@ -36,19 +36,6 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Label lblDavidsDiscription;
 		protected System.Web.UI.WebControls.TextBox edtDavidsDescription;
 
-		//-------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the user's
-		//permissions are checked and the page is initialised
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{	
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForConsultantLevelPriviledges();
-				FillForm();
-				}
-			}
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -75,6 +62,9 @@ namespace YieldProphet
 		}
 		#endregion
 
+
+
+		#region Form Functions
 		//---------------------------------------------------------------------------
 		//Fills all the components on the form with data from the database
 		//---------------------------------------------------------------------------
@@ -103,7 +93,7 @@ namespace YieldProphet
 				}
 			}
 		//---------------------------------------------------------------------------
-		//
+		//Fills the SOI Phases Combo box
 		//---------------------------------------------------------------------------
 		private void FillSOIPhasesCombo()
 			{
@@ -148,6 +138,25 @@ namespace YieldProphet
 				FunctionsClass.DisplayMessage(Page, "One or more of the year fields contains an invalid year");
 				}
 			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
+
+		#region Form Events
+		//-------------------------------------------------------------------------
+		//If the page hasn't been viewed by the user then the user's
+		//permissions are checked and the page is initialised
+		//-------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if (!IsPostBack)
+				{	
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForConsultantLevelPriviledges();
+				FillForm();
+				}
+			}
 		//---------------------------------------------------------------------------
 		//When the user presses the save button the climate forecast is saved
 		//---------------------------------------------------------------------------
@@ -178,6 +187,10 @@ namespace YieldProphet
 			{
 			Server.Transfer("wfEditClimateForecast.aspx");
 			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
 		//-------------------------------------------------------------------------
 		}//END CLASS
 	}//END NAMESPACE

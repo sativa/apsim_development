@@ -25,20 +25,7 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Label lblReportType;
 		protected System.Web.UI.WebControls.TextBox edtReportType;
 		protected System.Web.UI.WebControls.Panel pnlTop;
-		//-------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the users
-		//permissions are checked and the page is initialised
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{	
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForAdministratorLevelPriviledges();
-				FillTemplateTypesCombo();
-				FunctionsClass.SetControlFocus("edtReportType", this);
-				}
-			}
+
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -65,6 +52,8 @@ namespace YieldProphet
 		}
 		#endregion
 
+
+		#region Form Functions
 		//-------------------------------------------------------------------------
 		//Fills the template types combo box with all the report template types
 		//from the database
@@ -102,6 +91,25 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
+		#endregion
+
+
+		#region Form Events
+		//-------------------------------------------------------------------------
+		//If the page hasn't been viewed by the user then the users
+		//permissions are checked and the page is initialised
+		//-------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if (!IsPostBack)
+				{	
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForAdministratorLevelPriviledges();
+				FillTemplateTypesCombo();
+				FunctionsClass.SetControlFocus("edtReportType", this);
+				}
+			}
+		//-------------------------------------------------------------------------
 		//When the user presses the save button the reporttype is saved
 		//-------------------------------------------------------------------------
 		private void btnSave_Click(object sender, System.EventArgs e)
@@ -129,6 +137,10 @@ namespace YieldProphet
 			{
 			Server.Transfer("wfEditReportTemplate.aspx");
 			}
+		//---------------------------------------------------------------------------
+		#endregion
+
+
 		//---------------------------------------------------------------------------
 		}//END OF CLASS
 	}//END OF NAMESPACE

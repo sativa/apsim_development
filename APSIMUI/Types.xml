@@ -358,8 +358,8 @@
          <drop name="folder"/>
      </drops>
       <variables>
-         <variable name="dm_feed_on_offer" module = "StockScienceConverter" description="Dry matter of feed on offer (kg/ha)"></variable>
-         <variable name="dm_feed_removed" module = "StockScienceConverter" description="Dry matter of feed removed (kg/ha)"></variable>
+         <variable name="dm_feed_on_offer" description="Dry matter of feed on offer (kg/ha)"/>
+         <variable name="dm_feed_removed" description="Dry matter of feed removed (kg/ha)"/>
       </variables>
    </StockScienceConverter>
    <cattle>
@@ -431,25 +431,25 @@
          <drop name="folder"/>
      </drops>
      <variables>
-         <variable name="istage" module = "vinelogic" description="Growth Stage Number"></variable>
-         <variable name="lai" module = "vinelogic" description="Leaf Area Index"></variable>
-			<variable name="nlayr" module = "vinelogic" description="Number of Soil Layers"></variable>
-			<variable name="sw" array="T" module = "vinelogic" description="Volumetric Soil Water"></variable>
-			<variable name="sw_dep" array="T" module = "vinelogic" description="Total Soil Water (mm)"></variable>
-			<variable name="ll15_dep" array="T" module = "vinelogic" description="15 bar Lower Limit (mm)"></variable>
-			<variable name="dul_dep" array="T" module = "vinelogic" description="Drained Upper Limit (mm)"></variable>
-			<variable name="sat_dep" array="T" module = "vinelogic" description="Saturation (mm)"></variable>
-			<variable name="runoff" module = "vinelogic" description="Runoff (mm)"></variable>
-			<variable name="drain" module = "vinelogic" description="Drainage (mm)"></variable>
-			<variable name="flowd" array="T" module = "vinelogic" description="downward flow (mm)"></variable>
-			<variable name="irrigation" module = "vinelogic" description="Irrigation (mm)"></variable>
-			<variable name="es" module = "vinelogic" description="Soil Water Evaporation (mm)"></variable>
-			<variable name="ep" module = "vinelogic" description="Plant Water Use (mm)"></variable>
-			<variable name="sw_demand" module = "vinelogic" description="Plant Soil Water Demand (mm)"></variable>
-			<variable name="swdef_photo" module = "vinelogic" description="Water Stress (photosynthesis)"></variable>
-			<variable name="swdef_expan" module = "vinelogic" description="Water Stress (cell expansion)"></variable>
-			<variable name="fruit_wt" module = "vinelogic" description="Fruit Weight (kg/ha)"></variable>
-			<variable name="fruit_fresh_wt" module = "vinelogic" description="Fruit Fresh Weight (kg/ha)"></variable>
+         <variable name="istage" description="Growth Stage Number"/>
+         <variable name="lai" description="Leaf Area Index"/>
+			<variable name="nlayr" description="Number of Soil Layers"/>
+			<variable name="sw" array="T" description="Volumetric Soil Water"/>
+			<variable name="sw_dep" array="T" description="Total Soil Water (mm)"/>
+			<variable name="ll15_dep" array="T" description="15 bar Lower Limit (mm)"/>
+			<variable name="dul_dep" array="T" description="Drained Upper Limit (mm)"/>
+			<variable name="sat_dep" array="T" description="Saturation (mm)"/>
+			<variable name="runoff" description="Runoff (mm)"/>
+			<variable name="drain" description="Drainage (mm)"/>
+			<variable name="flowd" array="T" description="downward flow (mm)"/>
+			<variable name="irrigation" description="Irrigation (mm)"/>
+			<variable name="es" description="Soil Water Evaporation (mm)"/>
+			<variable name="ep" description="Plant Water Use (mm)"/>
+			<variable name="sw_demand" description="Plant Soil Water Demand (mm)"/>
+			<variable name="swdef_photo" description="Water Stress (photosynthesis)"/>
+			<variable name="swdef_expan" description="Water Stress (cell expansion)"/>
+			<variable name="fruit_wt" description="Fruit Weight (kg/ha)"/>
+			<variable name="fruit_fresh_wt" description="Fruit Fresh Weight (kg/ha)"/>
       </variables>
    </vinelogic>
    <surfaceom>
@@ -466,39 +466,39 @@
          <drop name="folder"/>
      </drops>
       <variables>
-         <variable name="surfaceom_wt" module = "surfaceom" description="Total mass of all surface organic materials"></variable>
-         <variable name="surfaceom_c" module = "surfaceom" description="Total mass of all surface organic carbon"></variable>
-         <variable name="surfaceom_n" module = "surfaceom" description="Total mass of all surface organic nitrogen"></variable>
-         <variable name="surfaceom_p" module = "surfaceom" description="Total mass of all surface organic phosphor"></variable>
-         <variable name="surfaceom_no3" module = "surfaceom" description="Total mass of nitrate"></variable>
-         <variable name="surfaceom_nh4" module = "surfaceom" description="Total mass of ammonium"></variable>
-         <variable name="surfaceom_labile_p" module = "surfaceom" description="Total mass of labile phosphorus"></variable>
-         <variable name="surfaceom_cover" module = "surfaceom" description="Fraction of ground covered by all surface OM&quot;s"></variable>
-         <variable name="surfaceom_tf" module = "surfaceom" description="Temperature factor for decomposition"></variable>
-         <variable name="surfaceom_wf" module = "surfaceom" description="Water factor for decomposition"></variable>
-         <variable name="surfaceom_cf" module = "surfaceom" description="Contact factor for decomposition"></variable>
-         <variable name="surfaceom_wt_xxxx" module = "surfaceom" description="Mass of organic matter named &quot;xxxx&quot;"></variable>
-         <variable name="surfaceom_c_xxxx" module = "surfaceom"  description="Mass of organic carbon in &quot;xxxx&quot;"></variable>
-         <variable name="surfaceom_n_xxxx" module = "surfaceom"  description="Mass of organic nitrogen in &quot;xxxx&quot;"></variable>
-         <variable name="surfaceom_p_xxxx" module = "surfaceom"  description="Mass of organic phosphor in &quot;xxxx&quot;"></variable>
-         <variable name="surfaceom_no3_xxxx" module = "surfaceom" description="Mass of nitrate in &quot;xxxx&quot;"></variable>
-         <variable name="surfaceom_nh4_xxxx" module = "surfaceom" description="Mass of ammonium in &quot;xxxx&quot;"></variable>
-         <variable name="surfaceom_labile_p_xxxx" module = "surfaceom" description="Mass of labile phosphorus in &quot;xxxx&quot;"></variable>
-         <variable name="surfaceom_c1_xxxx" module = "surfaceom" description="Mass of organic carbon in &quot;xxxx&quot; in fpool1"></variable>
-         <variable name="surfaceom_c2_xxxx" module = "surfaceom" description="Mass of organic carbon in &quot;xxxx&quot; in fpool2"></variable>
-         <variable name="surfaceom_c3_xxxx" module = "surfaceom" description="Mass of organic carbon in &quot;xxxx&quot; in fpool3"></variable>
-         <variable name="surfaceom_n1_xxxx" module = "surfaceom" description="Mass of organic nitrogen in &quot;xxxx&quot; in fpool1"></variable>
-         <variable name="surfaceom_n2_xxxx" module = "surfaceom" description="Mass of organic nitrogen in &quot;xxxx&quot; in fpool2"></variable>
-         <variable name="surfaceom_n3_xxxx" module = "surfaceom" description="Mass of organic nitrogen in &quot;xxxx&quot; in fpool3"></variable>
-         <variable name="surfaceom_p1_xxxx" module = "surfaceom" description="Mass of organic phosphorous in &quot;xxxx&quot; in fpool1"></variable>
-         <variable name="surfaceom_p2_xxxx" module = "surfaceom" description="Mass of organic phosphorous in &quot;xxxx&quot; in fpool2"></variable>
-         <variable name="surfaceom_p3_xxxx" module = "surfaceom" description="Mass of organic phosphorous in &quot;xxxx&quot; in fpool3"></variable>
-         <variable name="pot_c_decomp_xxxx" module = "surfaceom" description="Potential organic C decomposition in &quot;xxxx&quot;"></variable>
-         <variable name="pot_n_decomp_xxxx" module = "surfaceom" description="Potential organic N decomposition in &quot;xxxx&quot;"></variable>
-         <variable name="pot_p_decomp_xxxx" module = "surfaceom" description="Potential organic P decomposition in &quot;xxxx&quot;"></variable>
-         <variable name="standing_fraction_xxxx" module = "surfaceom" description="Fraction of &quot;xxxx&quot; which is inert, ie not in contact with the ground"></variable>
-         <variable name="surfaceom_cover_xxxx" module = "surfaceom" description="Fraction of ground covered by &quot;xxxx&quot;"></variable>
-         <variable name="cnrf_xxxx" module = "surfaceom" description="C:N ratio factor for decomposition for &quot;xxxx&quot;"></variable>
+         <variable name="surfaceom_wt" description="Total mass of all surface organic materials"/>
+         <variable name="surfaceom_c" description="Total mass of all surface organic carbon"/>
+         <variable name="surfaceom_n" description="Total mass of all surface organic nitrogen"/>
+         <variable name="surfaceom_p" description="Total mass of all surface organic phosphor"/>
+         <variable name="surfaceom_no3" description="Total mass of nitrate"/>
+         <variable name="surfaceom_nh4" description="Total mass of ammonium"/>
+         <variable name="surfaceom_labile_p" description="Total mass of labile phosphorus"/>
+         <variable name="surfaceom_cover" description="Fraction of ground covered by all surface OM&quot;s"/>
+         <variable name="surfaceom_tf" description="Temperature factor for decomposition"/>
+         <variable name="surfaceom_wf" description="Water factor for decomposition"/>
+         <variable name="surfaceom_cf" description="Contact factor for decomposition"/>
+         <variable name="surfaceom_wt_xxxx" description="Mass of organic matter named &quot;xxxx&quot;"/>
+         <variable name="surfaceom_c_xxxx"  description="Mass of organic carbon in &quot;xxxx&quot;"/>
+         <variable name="surfaceom_n_xxxx"  description="Mass of organic nitrogen in &quot;xxxx&quot;"/>
+         <variable name="surfaceom_p_xxxx"  description="Mass of organic phosphor in &quot;xxxx&quot;"/>
+         <variable name="surfaceom_no3_xxxx" description="Mass of nitrate in &quot;xxxx&quot;"/>
+         <variable name="surfaceom_nh4_xxxx" description="Mass of ammonium in &quot;xxxx&quot;"/>
+         <variable name="surfaceom_labile_p_xxxx" description="Mass of labile phosphorus in &quot;xxxx&quot;"/>
+         <variable name="surfaceom_c1_xxxx" description="Mass of organic carbon in &quot;xxxx&quot; in fpool1"/>
+         <variable name="surfaceom_c2_xxxx" description="Mass of organic carbon in &quot;xxxx&quot; in fpool2"/>
+         <variable name="surfaceom_c3_xxxx" description="Mass of organic carbon in &quot;xxxx&quot; in fpool3"/>
+         <variable name="surfaceom_n1_xxxx" description="Mass of organic nitrogen in &quot;xxxx&quot; in fpool1"/>
+         <variable name="surfaceom_n2_xxxx" description="Mass of organic nitrogen in &quot;xxxx&quot; in fpool2"/>
+         <variable name="surfaceom_n3_xxxx" description="Mass of organic nitrogen in &quot;xxxx&quot; in fpool3"/>
+         <variable name="surfaceom_p1_xxxx" description="Mass of organic phosphorous in &quot;xxxx&quot; in fpool1"/>
+         <variable name="surfaceom_p2_xxxx" description="Mass of organic phosphorous in &quot;xxxx&quot; in fpool2"/>
+         <variable name="surfaceom_p3_xxxx" description="Mass of organic phosphorous in &quot;xxxx&quot; in fpool3"/>
+         <variable name="pot_c_decomp_xxxx" description="Potential organic C decomposition in &quot;xxxx&quot;"/>
+         <variable name="pot_n_decomp_xxxx" description="Potential organic N decomposition in &quot;xxxx&quot;"/>
+         <variable name="pot_p_decomp_xxxx" description="Potential organic P decomposition in &quot;xxxx&quot;"/>
+         <variable name="standing_fraction_xxxx" description="Fraction of &quot;xxxx&quot; which is inert, ie not in contact with the ground"/>
+         <variable name="surfaceom_cover_xxxx" description="Fraction of ground covered by &quot;xxxx&quot;"/>
+         <variable name="cnrf_xxxx" description="C:N ratio factor for decomposition for &quot;xxxx&quot;"/>
       </variables>
    </surfaceom>
    <folder>
@@ -914,9 +914,9 @@
          <drop name="area"/>
      </drops>
       <variables>
-         <variable name="lai" description="Slurp Green leaf area index"></variable>
-         <variable name="cover_green" description="Slurp Green Cover"></variable>
-         <variable name="ep" description="Slurp water use - (mm)"></variable>
+         <variable name="lai" description="Slurp Green leaf area index"/>
+         <variable name="cover_green" description="Slurp Green Cover"/>
+         <variable name="ep" description="Slurp water use - (mm)"/>
       </variables>
    </slurp>
    <sorghum>

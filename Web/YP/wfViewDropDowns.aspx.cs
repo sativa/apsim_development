@@ -29,23 +29,8 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.LinkButton btnAddType;
 		protected System.Web.UI.WebControls.ImageButton btnDeleteTypeImg;
 		protected System.Web.UI.WebControls.LinkButton btnDeleteType;
-		//-------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the user's
-		//permissions are checked and the page is initialised
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{	
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForAdministratorLevelPriviledges();
-				FillForm();
-				}
-			//Adds an attribute to the two delete buttons that causes a 
-			//confirmation warning to appear when the user presses the buttons
-			btnDeleteValue.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the selected value \");");
-			btnDeleteType.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the selected type \");");
-			}
+
+
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -77,6 +62,9 @@ namespace YieldProphet
 		}
 		#endregion
 
+
+
+		#region Form Functions
 		//-------------------------------------------------------------------------
 		//Fills the form with data from the database
 		//-------------------------------------------------------------------------
@@ -104,7 +92,7 @@ namespace YieldProphet
 			//If no drop down type is selected then display an error to the user
 			else
 				{
-					FunctionsClass.DisplayMessage(Page, "No drop down type selected");
+				FunctionsClass.DisplayMessage(Page, "No drop down type selected");
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -144,14 +132,44 @@ namespace YieldProphet
 			//If a drop down value is selected then remove it from the database
 			if(lstDropDownValues.SelectedValue != null && lstDropDownValues.SelectedValue != "")
 				{
-				DataAccessClass.DeleteRecordFromTable(lstDropDownValues.SelectedValue, cboDropDownTypes.SelectedValue);
-				Server.Transfer("wfViewDropDowns.aspx");
+				try
+					{
+					DataAccessClass.DeleteRecordFromTable(lstDropDownValues.SelectedValue, cboDropDownTypes.SelectedValue);
+					Server.Transfer("wfViewDropDowns.aspx");
+					}
+				catch(Exception E)
+					{
+					FunctionsClass.DisplayMessage(Page, E.Message);
+					}
 				}
 			//If no drop down value is selected then display and error to the user
 			else
 				{
 				FunctionsClass.DisplayMessage(Page, "No value selected");
 				}
+			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
+
+		#region Form Events
+		//-------------------------------------------------------------------------
+		//If the page hasn't been viewed by the user then the user's
+		//permissions are checked and the page is initialised
+		//-------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if (!IsPostBack)
+				{	
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForAdministratorLevelPriviledges();
+				FillForm();
+				}
+			//Adds an attribute to the two delete buttons that causes a 
+			//confirmation warning to appear when the user presses the buttons
+			btnDeleteValue.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the selected value \");");
+			btnDeleteType.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the selected type \");");
 			}
 		//-------------------------------------------------------------------------
 		//When the user selects a different drop down type the drop down values
@@ -225,6 +243,10 @@ namespace YieldProphet
 			{
 			DeleteValue();
 			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
 		//-------------------------------------------------------------------------
 		}//END OF CLASS
 	}//END OF NAMESPACE

@@ -24,20 +24,7 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.TextBox edtReportName;
 		protected System.Web.UI.WebControls.Panel pnlTop;
 
-		//-------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the user's
-		//permissions are checked
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{	
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForGrowerLevelPriviledges();
-				FunctionsClass.SetControlFocus("edtReportName", this);
-				FillForm();
-				}
-			}
+
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -65,13 +52,35 @@ namespace YieldProphet
 		#endregion
 
 
-		private void FillForm()
+
+		#region Form Functions
+		//-------------------------------------------------------------------------
+		//Stores the report name and report year selections from the previous page in view state
+		//variables.
+		//-------------------------------------------------------------------------
+		private void StoreReportDetails()
 		{
-			if(Session["SelectedReportName"].ToString() != "")
+			try
 			{
-				edtReportName.Text = Session["SelectedReportName"].ToString();
+				wfViewReports ViewReports = (wfViewReports) Context.Handler;
+				ViewState["ReportName"] = ViewReports.ReturnReportName();
+				ViewState["ReportYear"] = ViewReports.ReturnReportYear();
+			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
 			}
 		}
+		//-------------------------------------------------------------------------
+		//Displays the existing report name.
+		//-------------------------------------------------------------------------
+		private void FillForm()
+			{
+			if(ViewState["ReportName"].ToString() != "")
+				{
+				edtReportName.Text = ViewState["ReportName"].ToString();
+				}
+			}
 		//-------------------------------------------------------------------------
 		//The report is updated but firstly a check is made to ensure that
 		//the a report name has been entered, if it has then the the report
@@ -88,9 +97,9 @@ namespace YieldProphet
 				//that will stop a file from being created.
 				if(InputValidationClass.IsInputAValidFileLocationString(edtReportName.Text) == true)
 					{
-					if(ReportClass.RenameReport(Session["SelectedReportName"].ToString(), 
+					if(ReportClass.RenameReport(ViewState["ReportName"].ToString(), 
 						InputValidationClass.ValidateString(edtReportName.Text), FunctionsClass.GetActiveUserName(), 
-						Convert.ToInt32(Session["SelectedReportYear"].ToString())) == false)
+						Convert.ToInt32(ViewState["ReportYear"].ToString())) == false)
 						{
 						FunctionsClass.DisplayMessage(Page, "Report name already exists");
 						}
@@ -108,6 +117,27 @@ namespace YieldProphet
 			else
 				{	
 				FunctionsClass.DisplayMessage(Page, "Please enter a name for the report");
+				}
+			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
+	
+		#region Form Events
+		//-------------------------------------------------------------------------
+		//If the page hasn't been viewed by the user then the user's
+		//permissions are checked
+		//-------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if (!IsPostBack)
+				{	
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForGrowerLevelPriviledges();
+				FunctionsClass.SetControlFocus("edtReportName", this);
+				StoreReportDetails();
+				FillForm();
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -140,6 +170,11 @@ namespace YieldProphet
 			{
 			Server.Transfer("wfViewReports.aspx");
 			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
+
 		//-------------------------------------------------------------------------
 		}//END CLASS
 	}//END OF NAMESPACE

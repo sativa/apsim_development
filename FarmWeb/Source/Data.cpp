@@ -290,6 +290,25 @@ std::string Data::getUserEmail(const std::string& userName) const
    return email;
    }
 //---------------------------------------------------------------------------
+// Return the user's details.
+//---------------------------------------------------------------------------
+void Data::getUserDetails(const std::string& userName,
+                          std::string& name,
+                          std::string& email,
+                          std::string& password,
+                          std::string& userType) const
+   {
+   ostringstream sql;
+   sql << "SELECT * FROM Users WHERE userName = "
+       << singleQuoted(userName);
+   TDataSet* query = runQuery(connection, sql.str());
+   name = getDBValue(query, "name");
+   email = getDBValue(query, "email");
+   password = getDBValue(query, "password");
+   userType = getDBValue(query, "type");
+   delete query;
+   }
+//---------------------------------------------------------------------------
 // Set the user's email address.
 //---------------------------------------------------------------------------
 void Data::setUserEmail(const std::string& userName, const std::string& email)

@@ -21,19 +21,7 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Label Label1;
 		protected System.Web.UI.WebControls.Label Label2;
 		protected System.Web.UI.WebControls.Image imgReport;
-		//---------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the user's
-		//permissions are checked and the page is initialised
-		//---------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{	
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForVisitorLevelPriviledges();
-				DisplayImage();
-				}
-			}
+
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -56,29 +44,64 @@ namespace YieldProphet
 		}
 		#endregion
 
+
+
+		#region Form Functions
+		//-------------------------------------------------------------------------
+		//Stores the report name and report year selections from the previous page in view state
+		//variables.
+		//-------------------------------------------------------------------------
+		private void StoreReportDetails()
+			{
+			try
+				{
+				wfViewReports ViewReports = (wfViewReports) Context.Handler;
+				ViewState["ReportName"] = ViewReports.ReturnReportName();
+				ViewState["ReportYear"] = ViewReports.ReturnReportYear();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
+			}
 		//---------------------------------------------------------------------------
 		//Gets the selected report as an object from the database and then sends it to
 		//the web page as a GIF image.
 		//---------------------------------------------------------------------------
 		private void DisplayImage()
 			{	
-			/*if(Session["SelectedReportID"].ToString() != "0")
+			if(ViewState["ReportName"].ToString() != "0")
 				{
-				object obReport = DataAccessClass.GetReport(Session["SelectedReportID"].ToString());
-				if(obReport != null)
-					{
-					Response.ContentType =  "image/GIF";
-					Response.BinaryWrite( (byte[]) obReport );
-					}
-				}*/
-				if(Session["SelectedReportName"].ToString() != "0")
-				{
-					string szImageLocation = "Reports\\"+FunctionsClass.GetActiveUserName()+"\\"+
-						Session["SelectedReportYear"].ToString()+"\\"+
-						Session["SelectedReportName"].ToString()+".gif";
-					imgReport.ImageUrl = szImageLocation;
+				string szImageLocation = "Reports\\"+FunctionsClass.GetActiveUserName()+"\\"+
+					ViewState["ReportYear"].ToString()+"\\"+
+					ViewState["ReportName"].ToString()+".gif";
+				imgReport.ImageUrl = szImageLocation;
 				}
 			}
+		//----------------------------------------------------------------------------
+		#endregion
+
+
+
+		#region Form Events
+		//---------------------------------------------------------------------------
+		//If the page hasn't been viewed by the user then the user's
+		//permissions are checked and the page is initialised
+		//---------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if (!IsPostBack)
+				{	
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForVisitorLevelPriviledges();
+				StoreReportDetails();
+				DisplayImage();
+				}
+			}
+		//----------------------------------------------------------------------------
+		#endregion
+
+
 	//----------------------------------------------------------------------------
 	}//END OF CLASS
 }//END OF NAMESPACE

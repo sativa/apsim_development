@@ -392,7 +392,7 @@ namespace YieldProphet
 			{
 			DataTable dtResults;
 
-			string szSQL = "SELECT Paddocks.SowDate, MetStations.Name AS MetStationName, "+
+			string szSQL = "SELECT Paddocks.SowDate, Paddocks.StartOfGrowingSeasonDate, MetStations.Name AS MetStationName, "+
 				"MetStations.StationNumber, CultivarTypes.Type AS CultivarType, "+
 				"SubSoilConstraintTypes.Type AS SubSoilConstraintType, Soils.Name AS SoilName, "+
 				"Regions.Type AS RegionType, CropTypes.Type AS CropType, "+
@@ -449,7 +449,8 @@ namespace YieldProphet
 		//---------------------------------------------------------------------
 		static public void UpdatePaddock(string szSowDate, string szCultivarType,
 			string szMetStaionName, string szSoilName, string szSubSoilConstraintType, 
-			string szLinkedTemporalPaddockName, string szPaddockName, string szUserName)
+			string szLinkedTemporalPaddockName, string szStartOfGrowingSeason, 
+			string szPaddockName, string szUserName)
 			{
 			int iPaddockID = ReturnPaddockID(szPaddockName, szUserName);
 
@@ -484,6 +485,10 @@ namespace YieldProphet
 				{
 				sbSQL.Append("SowDate = '"+szSowDate+"', ");
 				}
+			if(szStartOfGrowingSeason != null && szStartOfGrowingSeason != "")
+			{
+				sbSQL.Append("StartOfGrowingSeasonDate = '"+szStartOfGrowingSeason+"', ");
+			}
 			sbSQL.Append("Name = '"+szPaddockName+"' ");
 			sbSQL.Append("WHERE ID = "+iPaddockID.ToString());
 			RunSQLStatement(sbSQL.ToString());
