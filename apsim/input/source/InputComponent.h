@@ -32,8 +32,14 @@ class InputComponent : public protocol::Component
       unsigned preNewmetID;
       unsigned tickID;
       unsigned daylengthID;
+      unsigned startDateID;
+      unsigned endDateID;
       boost::gregorian::date todaysDate;
       boost::gregorian::date fileDate;
+      boost::gregorian::date startDate;
+      boost::gregorian::date endDate;
+      
+      virtual void openInputFile(void);
 
       void addVariable(Value& value);
       void registerAllVariables(void);
@@ -44,5 +50,6 @@ class InputComponent : public protocol::Component
       void publishNewMetEvent(void);
       float calcDayLength(void);
       float dayLength(int dyoyr, float lat, float sun_angle);
+      void getStartEndDate(void);
    };
 #endif
