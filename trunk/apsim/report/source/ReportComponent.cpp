@@ -512,6 +512,7 @@ void ReportComponent::DoAction(const char* Action)
 
       if (OutputOnThisDay)
          WriteLineOfOutput();
+      OutputOnThisDay = false;
       }
    }
 
