@@ -245,33 +245,37 @@ int Month_string_2_integer (string& Month_string)
       // replace MMMMMM
       Pos = Our_string.find("MMMMMM");
       if (Pos != NPOS)
-         {
          Our_string.replace (Pos, 6, Month_str[Month - 1]);
-         }
-
-      // replace MMM
-      Pos = Our_string.find("MMM");
-      if (Pos != NPOS)
+      else
          {
-         strncpy(St, Month_str[Month - 1], 3);
-         St[3] = 0;
-         Our_string.replace (Pos, 3, St);
-         }
-
-      // replace MM
-      Pos = Our_string.find("MM");
-      if (Pos != NPOS)
-         {
-         sprintf (St, "%02i", Month);
-         Our_string.replace (Pos, 2, St);
-         }
-
-      // replace M
-      Pos = Our_string.find("M");
-      if (Pos != NPOS)
-         {
-         sprintf (St, "%i", Month);
-         Our_string.replace (Pos, 1, St);
+         // replace MMM
+         Pos = Our_string.find("MMM");
+         if (Pos != NPOS)
+            {
+            strncpy(St, Month_str[Month - 1], 3);
+            St[3] = 0;
+            Our_string.replace (Pos, 3, St);
+            }
+         else
+            {
+            // replace MM
+            Pos = Our_string.find("MM");
+            if (Pos != NPOS)
+               {
+               sprintf (St, "%02i", Month);
+               Our_string.replace (Pos, 2, St);
+               }
+            else
+               {
+               // replace M
+               Pos = Our_string.find("M");
+               if (Pos != NPOS)
+                  {
+                  sprintf (St, "%i", Month);
+                  Our_string.replace (Pos, 1, St);
+                  }
+               }
+            }
          }
 
       // replace YYYY
