@@ -1017,7 +1017,13 @@ bool PROTOCOLCoordinator::setSystemVariable(const FString& variableName)
    VariableRegistrationList::const_iterator varI
       = variableRegistrations.find(string(variableName.c_str()));
    if (varI != variableRegistrations.end() && (*varI).second->isPublicVariable())
-      return sendMessageToFirst(PROTOCOLMessage("set", variableName));
+      {
+      string realName = (*varI).second->getRealName();
+      RENAME_VARIABLE(variableName.f_str(), realName.c_str(),
+                      variableName.length(), realName.length());
+
+      return sendMessageToFirst(PROTOCOLMessage("set", realName.c_str()));
+      }
    else
       return false;
    }
