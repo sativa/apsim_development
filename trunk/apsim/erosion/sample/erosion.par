@@ -1,13 +1,11 @@
 [sample.report.parameters]
 outputfile  =erosion.out
 
-
-
-
 variable = clock.today.dd/mm/yyyy as date
 variable = soilwat2.dlayer()
 variable = erosion.soil_loss
 variable = erosion.erosion_cover
+
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
 start_date=15/11/1988     ! dd/mm/yyyy
@@ -27,3 +25,9 @@ minimum_depth =    100.0 (mm)
 
 k_factor =          0.4   ()
 p_factor =          1.0   ()
+
+[sample.summaryfile.parameters]
+summaryfile=erosion.sum
+
+[sample.screen.parameters]
+screen_output = on
