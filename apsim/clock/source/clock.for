@@ -1,9 +1,8 @@
 C     Last change:  E     5 Dec 2000    8:52 am
       module ClockModule
       use Registrations
-      
-!      ml_external alloc_dealloc_instance
 
+      integer, parameter :: MAX_NUM_EVENTS = 50
       type ClockData
          sequence
          ! Global variables
@@ -18,6 +17,12 @@ C     Last change:  E     5 Dec 2000    8:52 am
          double precision current_time ! current time of simulation (mins)
          logical pause_current_run     ! pause the current run.
          logical end_current_run       ! end the current run.
+         integer Percent_complete      ! percentage of simulation completed.
+         integer currentTimestepEvent  ! index into event list
+         integer, dimension(MAX_NUM_EVENTS) :: timestepEvents
+                                       ! list of all events this sequencer is going
+                                       ! to publish every timestep.
+         integer numTimestepEvents     ! number of timestep events.
       end type ClockData
 
       ! Constant values
@@ -32,7 +37,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
       save InstancePointers
       type (ClockData),pointer :: g
       type (IDsType), pointer :: ID
-      
+
       contains
 
       ! ====================================================================
@@ -40,9 +45,9 @@ C     Last change:  E     5 Dec 2000    8:52 am
       ! ====================================================================
       subroutine clock_init1 ()
       use infrastructure
-      
-      call doRegistrations(id) 
-      
+
+      call doRegistrations(id)
+
       end subroutine
 
 * ====================================================================
@@ -75,6 +80,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       ! read in all parameters for clock module.
 
+      call clock_read_timesteps ()
       call clock_read_params ()
 
       ! set the clock to start_day.
@@ -153,6 +159,54 @@ C     Last change:  E     5 Dec 2000    8:52 am
       return
       end subroutine
 
+* ====================================================================
+      subroutine clock_read_timesteps ()
+* ====================================================================
+      use DateModule
+      use Infrastructure
+      implicit none
+
+*+  Purpose
+*     read in all parameters
+
+*+  Changes
+*     sdb 28/03/01 - externalized from the read params section in clock.for for the purposes of demo module
+
+*+  Constant Values
+      character This_routine*(*)       ! name of this routine
+      parameter (This_routine='clcok_read_timesteps')
+
+*+  Local Variables
+      logical found
+      integer, parameter :: MAX_EVENT_NAME_SIZE = 50
+      character(len=MAX_EVENT_NAME_SIZE), dimension(MAX_NUM_EVENTS)
+     .     :: timestepEvents
+       integer i
+
+*- Implementation Section ----------------------------------
+
+      call push_routine(this_routine)
+
+      ! Read in all timestep events.
+      call read_char_array('constants',
+     .                     'timestep_events',
+     .                     MAX_NUM_EVENTS,
+     .                     '',
+     .                     timestepEvents,
+     .                     g%numTimestepEvents)
+
+      ! Register all timestep events.
+      call write_string('Sequencer phases:')
+      do i=1, g%numTimestepEvents
+         g%timestepEvents(i) = add_registration
+     .         (eventReg, timestepEvents(i), nullTypeDDML, ' ', ' ')
+         call write_string('   ' // timestepEvents(i))
+
+      enddo
+
+      call pop_routine (this_routine)
+      return
+      end subroutine
 
 
 * ====================================================================
@@ -181,6 +235,9 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       g%current_date = g%start_date
      :               + int(g%current_time/dble(mins_in_day))
+
+      ! set the event to publish next
+      g%currentTimestepEvent = 1
 
       ! check for end of run conditions.
 
@@ -251,7 +308,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
      .                                 '(year)',
      .                                 g%year)
       else if (variable_name .eq. 'timestep') then
-         call respond2get_integer_var (Variable_name,        
+         call respond2get_integer_var (Variable_name,
      .                                 '(min)',
      .                                 g%timestep)
       else if (variable_name .eq. 'day_of_month') then
@@ -475,7 +532,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
          write (str, '(2a)' )
      .      'The TODAY object doesnt have a method called :- ',
      .      variable_name
-         call Fatal_error (ERR_user, str)             
+         call Fatal_error (ERR_user, str)
 
       endif
 
@@ -512,18 +569,19 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
 !      g%current_date = g%current_date - 1
 
-      call Clock_timestep_loop ()
+      ! enter an infinate loop until end of run is signalled.
+      do while (.not. g%end_current_run)
+         call clock_next_phase()
+      end do
 
       call pop_routine (This_routine)
       return
       end subroutine
 
-
-
 * ====================================================================
-       subroutine Clock_timestep_loop ()
+       subroutine Clock_next_phase ()
 * ====================================================================
-      Use infrastructure
+      use Infrastructure
       implicit none
 
 *+  Purpose
@@ -534,73 +592,28 @@ C     Last change:  E     5 Dec 2000    8:52 am
 *      DPH 26/11/96
 *      NIH 25/08/99 - Added Tick Event
 
-*+  Calls
-
 *+  Constant Values
-       integer Num_instructions
-       parameter (Num_instructions=4)  ! Number of instructions to send
-
       character This_routine*(*)       ! name of this routine
-      parameter (This_routine='clock_timestep_loop')
+      parameter (This_routine='Clock_do_timestep')
 
-*+  Local Variables
-       character Instructions(Num_instructions)*8
-       integer Instruction_Index       ! index into instruction list
-
-*+  Initial Data Values
-       data Instructions(1) /ACTION_Prepare/
-       data Instructions(2) /ACTION_Process/
-       data Instructions(3) /ACTION_Post/
-       data Instructions(4) /ACTION_Report/
+*+  Local variables
 
 *- Implementation Section ----------------------------------
 
       call push_routine (This_routine)
 
-      if (g%End_current_run) then
-         goto 100
-      endif                                     
+      call publish_null(g%timestepEvents(g%currentTimestepEvent))
 
-      ! Main timestep loop
-
-10    continue
-      do 20 Instruction_index = 1, Num_instructions
-
-         ! Send message to all modules.
-         call new_postbox()
-         call event_send (Instructions(Instruction_Index))
-         call delete_postbox()
-
-         ! Check the end of simulation flag and exit if necessary
-
-         if (g%End_current_run) then
-            goto 100
-         endif                                     
-
-         ! Check the pause flag and enter a idle loop if necessary.
-
-         if (g%Pause_current_run) then
-            call clock_idle_loop ()
-         endif
-
-20    continue
-
-      ! loop back to next timestep if necessary.
-
-      call clock_advance_clock()
-      if (.not. g%End_current_run) then
-         goto 10
+      g%currentTimestepEvent = g%currentTimestepEvent + 1
+      if (g%currentTimestepEvent .gt. g%numTimestepEvents .and.
+     .    .not. g%end_current_run) then
+         call clock_advance_clock()
       endif
-
-      ! thats it - exit routine and simulation.
-100   continue
 
       call pop_routine (This_routine)
 
       return
       end subroutine
-
-
 
 * ====================================================================
        subroutine Clock_idle_loop ()
@@ -619,7 +632,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 *- Implementation Section ----------------------------------
 
 10    continue
-      if (g%Pause_current_run) then 
+      if (g%Pause_current_run) then
          call event_send(ACTION_Idle)
          goto 10
       endif
@@ -715,7 +728,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       return
       end subroutine
-              
+
 ! ====================================================================
        function Clock_get_time()
 ! ====================================================================
@@ -767,16 +780,16 @@ C     Last change:  E     5 Dec 2000    8:52 am
       end function
 
 
-              
-              
+
+
       end module ClockModule
-      
-      
+
+
 !     ===========================================================
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
       use ClockModule
-      implicit none  
+      implicit none
       ml_external alloc_dealloc_instance
 
 !+  Sub-Program Arguments
@@ -854,7 +867,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       return
       end
-      
+
 ! ====================================================================
 ! This routine is the event handler for all events
 ! ====================================================================
@@ -862,12 +875,12 @@ C     Last change:  E     5 Dec 2000    8:52 am
       Use infrastructure
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
-      
+
       return
       end subroutine respondToEvent
-                                   
+
                                    
