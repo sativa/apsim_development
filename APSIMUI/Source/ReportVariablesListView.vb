@@ -232,6 +232,21 @@ Public Class ReportVariablesListView
         CaptionLabel.Text = "Output variables"
 
         VariablesList.DataRows.Clear()
+
+        ' Subscribe to the necessary events to handle the copy/paste
+        ' and drag and drop operations. In this loop, we will also
+        ' set each cell's AllowDrop property to true.
+        Dim cell As Xceed.Grid.DataCell
+        For Each cell In VariablesList.DataRowTemplate.Cells
+            'cell.AllowDrop = True
+            AddHandler cell.MouseDown, AddressOf Me.Mouse_Down
+            AddHandler cell.MouseUp, AddressOf Me.Mouse_Up
+            AddHandler cell.MouseMove, AddressOf Me.Mouse_Move
+            AddHandler cell.EditLeft, AddressOf Me.CellLeavingEdit
+            AddHandler cell.EnteringEdit, AddressOf Me.CellEnteringEdit
+        Next cell
+
+
         Dim VariablesNode As APSIMData = MyData.Child("variables")
         Dim row As Xceed.Grid.DataRow
         For Each child As APSIMData In VariablesNode.Children("variable")
@@ -255,9 +270,8 @@ Public Class ReportVariablesListView
             AddHandler row.Cells(2).EnteringEdit, AddressOf Me.CellEnteringEdit
             AddHandler row.Cells(3).EnteringEdit, AddressOf Me.CellEnteringEdit
             AddHandler row.Cells(4).EnteringEdit, AddressOf Me.CellEnteringEdit
-
-
         Next
+
         AddBlankRow()
         row = VariablesList.DataRows.AddNew()   ' Not sure why this extra row is needed.
         InFill = False
@@ -347,6 +361,49 @@ Public Class ReportVariablesListView
     End Sub
 
 
+    ' -----------------------------------------------------
+    ' Manually trap the mouse down for drag and drop
+    ' ----------------------------------------------------
+    Private m_mouseLocation As Point = Point.Empty
+    Private Sub Mouse_Down(ByVal sender As Object, ByVal e As MouseEventArgs)
+        ' Get the location of the mouse when the mouse button is pressed.
+        m_mouseLocation = New Point(e.X, e.Y)
+    End Sub
+
+
+    ' -----------------------------------------------------
+    ' Manually trap the mouse up for drag and drop
+    ' ----------------------------------------------------
+    Private Sub Mouse_Up(ByVal sender As Object, ByVal e As MouseEventArgs)
+        ' Reset the location of the mouse when the mouse button is released.
+        m_mouseLocation = Point.Empty
+    End Sub
+
+
+    ' -----------------------------------------------------
+    ' Manually trap the mouse move for drag and drop
+    ' ----------------------------------------------------
+    Private Sub Mouse_Move(ByVal sender As Object, ByVal e As MouseEventArgs)
+        ' The mouse button is pressed
+        If Not m_mouseLocation.IsEmpty Then
+
+            ' The mouse has moved!
+            If (Math.Abs(m_mouseLocation.X - e.X) > 3 Or Math.Abs(m_mouseLocation.Y - e.Y) > 3) Then
+                Dim Row As Xceed.Grid.DataRow = VariablesList.CurrentCell.ParentRow
+                Dim RowNumber As Integer = Row.Index + 1
+
+                Dim VariablesNode As APSIMData = MyData.Child("variables")
+                Dim DataString As String = VariablesNode.Children()(RowNumber).XML
+
+                ' Initialize the drag and drop operation.
+                VariablesList.DoDragDrop(DataString, DragDropEffects.Copy)
+
+            End If
+        End If
+
+    End Sub
+
+
     ' -------------------------------------------------
     ' A drag operation has entered the variables list.
     ' -------------------------------------------------
@@ -371,12 +428,35 @@ Public Class ReportVariablesListView
     ' The user has dropped an item on us
     ' -------------------------------------------------
     Private Sub VariablesList_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles VariablesList.DragDrop
+        Dim DataCell As Xceed.Grid.DataCell = VariablesList.GetVisualGridElementAtPoint(VariablesList.PointToClient(New Point(e.X, e.Y)))
+        Dim DataRow As Xceed.Grid.DataRow = DataCell.ParentRow
+        Dim RowNumber As Integer = DataRow.Index + 1
+
         Dim NewDataString As String = e.Data.GetData(DataFormats.Text)
         Dim NewData As New APSIMData(NewDataString)
         If NewData.Type = "variable" Then
             NewData.SetAttribute("variablename", NewData.Attribute("name"))
             NewData.SetAttribute("arrayspec", "")
-            MyData.Child("Variables").Add(NewData)
+
+            Dim VariablesNode As APSIMData = MyData.Child("variables")
+            Dim InsertNode As APSIMData
+            If RowNumber < VariablesList.DataRows.Count - 1 Then
+                InsertNode = VariablesNode.Children()(RowNumber)
+            End If
+            If Not m_mouseLocation.IsEmpty() Then
+                Dim Row As Xceed.Grid.DataRow = VariablesList.CurrentCell.ParentRow
+                Dim SourceRowNumber As Integer = Row.Index + 1
+                Dim ChildToDelete As String = VariablesNode.Children()(SourceRowNumber).Name
+                VariablesNode.Delete(ChildToDelete)
+                m_mouseLocation = Point.Empty
+            End If
+
+            If RowNumber >= VariablesList.DataRows.Count - 1 Then
+                VariablesNode.Add(NewData)
+            Else
+                VariablesNode.AddBefore(NewData, InsertNode)
+            End If
+
             fill()
         Else
             MsgBox("You can only add variables to the output variables list.", MsgBoxStyle.Critical, "Error")
@@ -384,7 +464,4 @@ Public Class ReportVariablesListView
     End Sub
 
 
-    Private Sub VariablesList_AddingDataRow(ByVal sender As System.Object, ByVal e As Xceed.Grid.AddingDataRowEventArgs) Handles VariablesList.AddingDataRow
-
-    End Sub
 End Class

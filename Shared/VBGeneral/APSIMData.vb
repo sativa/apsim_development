@@ -188,7 +188,17 @@ Public Class APSIMData
             Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
             Node.AppendChild(newnode)
         End If
-
+    End Sub
+    Public Sub AddBefore(ByVal Data As APSIMData, ByVal ReferenceNode As APSIMData)
+        If IsNothing(Data) Then
+            ' Do Nothing
+        ElseIf Me.Attribute("shortcut") <> "" Then
+            MsgBox("Cannot add data to a short cut.  You must add this data to the data source in the library.", MsgBoxStyle.Critical, "User Error")
+        Else
+            Data.Name = UniqueName(Data.Name, ChildList)
+            Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
+            Node.InsertBefore(newnode, ReferenceNode.Node)
+        End If
     End Sub
     Public Sub Delete(ByVal ChildName As String)
         If Me.Attribute("shortcut") <> "" Then
