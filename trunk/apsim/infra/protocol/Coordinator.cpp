@@ -572,6 +572,9 @@ void PROTOCOLCoordinator::changeComponentOrder(vector<string>& componentsToChang
          baseComponentI--;
          }
       }
+   // initialise the previous component - used in sendMessageToFirst.
+   previousComponent = components.begin();
+
 //   string out2;
 //   for (ComponentList::iterator i = components.begin(); i != components.end(); i++)
 //      out2 += (*i)->getName();
