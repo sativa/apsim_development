@@ -139,7 +139,7 @@ inline protocol::MessageData& operator<<(protocol::MessageData& messageData, con
    messageData << data.num_field.name;
    for (unsigned i = 0; i != data.num_field.name; i++)
       messageData << data.field.name[i];
-   #elseif (field.ctype = FString)
+   #elseif (field.ctype = std::string)
    messageData << FString(data.field.name, max_array_size, FORString);
    #else
    messageData << data.field.name;
@@ -154,7 +154,7 @@ inline protocol::MessageData& operator>>(protocol::MessageData& messageData, Fst
    messageData >> data.num_field.name;
    for (unsigned i = 0; i != data.num_field.name; i++)
       messageData >> data.field.name[i];
-   #elseif (field.ctype = FString)
+   #elseif (field.ctype = std::string)
    FString field.nameString(data.field.name, max_array_size, FORString);
    FString field.nameAlias;
    messageData >> field.nameAlias;
@@ -171,7 +171,7 @@ inline unsigned int memorySize(const Fstructure.nameType& data)
    #for_each structure.field
       #if (field.array = T)
       + 4 + data.num_field.name * protocol::memorySize(data.field.name[0])
-      #elseif (field.ctype = FString)
+      #elseif (field.ctype = std::string)
       + protocol::memorySize(FString(data.field.name, max_array_size, FORString))
       #else
       + protocol::memorySize(data.field.name)
