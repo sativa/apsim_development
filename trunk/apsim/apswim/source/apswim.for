@@ -8121,22 +8121,9 @@ c  400 continue
 c      demand =
 c     :       max(g%solute_demand (crop,solnum) - tpsuptake,0d0)
 
-      ! First - need to find the active crop
-      ! Let me say just how messy this lot is - we need to get this out of swim!
-      active_crop = 0
-      do 100 i=1,g%nveg
-         if (g%solute_demand (i,solnum).gt.0) then
-           active_crop = i
-           goto 999
-        endif
- 100  continue
-
- 999  continue
-
-      if ((g%demand_is_met(active_crop, solnum)
+      if (g%demand_is_met(crop, solnum)
      :         .and.
      : p%solute_exclusion_flag.eq.'on')
-     : .or. (active_crop.eq.0))
      :         then
          apswim_slupf = 0d0
       else
@@ -8173,28 +8160,6 @@ c     :       max(g%solute_demand (crop,solnum) - tpsuptake,0d0)
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
-
-      num_active_crops = 0
-      do 20 crop = 1, g%num_crops
-         demand = 0d0
-         do 10 solnum = 1, p%num_solutes
-            demand = demand + g%solute_demand(crop,solnum)
-   10    continue
-         if ((g%pep(crop).gt.0d0).or.(demand.gt.0d0)) then
-            ! crop has water or solute demand and so is active
-            num_active_crops = num_active_crops + 1
-         else
-         endif
-   20 continue
-
-       if (        num_active_crops.gt.1
-     :                .and.
-     :     p%solute_exclusion_flag.eq.'on')
-     :then
-         call fatal_error (Err_User,
-     :   'Solute exclusion can only be used in single crop simulations')
-      else
-      endif
 
       do 600 crop = 1, g%num_crops
       do 500 solnum = 1,p%num_solutes
