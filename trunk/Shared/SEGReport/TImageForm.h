@@ -21,11 +21,11 @@ __published:	// IDE-managed Components
    TCheckBox *AutoSizeCheckBox;
    TCheckBox *CentreCheckBox;
    TCheckBox *StretchCheckBox;
-   TLabel *Label3;
-   TLabel *Label4;
-   TLabel *Label5;
+   TLabel *AutosizeLabel;
+   TLabel *CenterLabel;
+   TLabel *StretchLabel;
    TOpenPictureDialog *OpenPictureDialog;
-   TLabel *Label6;
+   TLabel *FilenameLabel;
    void __fastcall AutoSizeCheckBoxClick(TObject *Sender);
    void __fastcall CentreCheckBoxClick(TObject *Sender);
    void __fastcall StretchCheckBoxClick(TObject *Sender);

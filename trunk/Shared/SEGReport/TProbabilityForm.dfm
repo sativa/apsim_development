@@ -1,49 +1,45 @@
 inherited ProbabilityForm: TProbabilityForm
-  Width = 233
   Caption = 'ProbabilityForm'
   OldCreateOrder = True
-  PixelsPerInch = 96
-  TextHeight = 13
+  PixelsPerInch = 120
+  TextHeight = 16
   object Label3: TLabel [2]
-    Left = 9
-    Top = 80
-    Width = 54
-    Height = 13
+    Left = 11
+    Top = 131
+    Width = 70
+    Height = 16
     Caption = 'Field name:'
   end
   object Label4: TLabel [4]
-    Left = 18
-    Top = 104
-    Width = 45
-    Height = 13
+    Left = 22
+    Top = 160
+    Width = 56
+    Height = 16
     Caption = 'Exceed?:'
   end
   inherited SourceCombo: TComboBox
-    Width = 141
+    Width = 174
   end
   inherited NameEdit: TEdit
-    Width = 141
-  end
-  inherited ToolbarCheckBox: TCheckBox
-    TabOrder = 4
+    Width = 174
   end
   object FieldNameCombo: TComboBox
-    Left = 72
-    Top = 80
-    Width = 142
-    Height = 21
+    Left = 89
+    Top = 130
+    Width = 174
+    Height = 24
     BevelKind = bkSoft
     Anchors = [akLeft, akTop, akRight]
-    ItemHeight = 13
-    TabOrder = 2
+    ItemHeight = 16
+    TabOrder = 4
     OnChange = FieldNameComboChange
   end
   object ExceedenceCheckBox: TCheckBox
-    Left = 72
-    Top = 104
-    Width = 97
-    Height = 17
-    TabOrder = 3
+    Left = 89
+    Top = 160
+    Width = 119
+    Height = 21
+    TabOrder = 5
     OnClick = ExceedenceCheckBoxClick
   end
 end

@@ -1,14 +1,13 @@
 inherited ChartForm: TChartForm
   Caption = 'ChartForm'
   OldCreateOrder = True
-  PixelsPerInch = 96
-  TextHeight = 13
+  PixelsPerInch = 120
+  TextHeight = 16
   object ChartPropertiesButton: TSpeedButton [2]
-    Left = 48
-    Top = 120
-    Width = 145
-    Height = 25
-    Anchors = [akLeft, akTop, akRight]
+    Left = 11
+    Top = 165
+    Width = 179
+    Height = 30
     Caption = 'Edit chart properties'
     Flat = True
     Glyph.Data = {
@@ -88,22 +87,26 @@ inherited ChartForm: TChartForm
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00}
     OnClick = ChartPropertiesButtonClick
   end
-  object Label1: TLabel [4]
-    Left = -1
-    Top = 80
-    Width = 64
-    Height = 13
-    Caption = 'Series to plot:'
+  inherited SortFieldsLabel: TLabel
+    Left = 19
+    Top = 101
+  end
+  object Label3: TLabel [5]
+    Left = 11
+    Top = 130
+    Width = 70
+    Height = 16
+    Caption = 'Series num:'
   end
   object SeriesNumberEdit: TEdit
-    Left = 72
-    Top = 80
-    Width = 144
-    Height = 21
+    Left = 89
+    Top = 127
+    Width = 177
+    Height = 26
     Anchors = [akLeft, akTop, akRight]
     BevelKind = bkSoft
     BorderStyle = bsNone
-    TabOrder = 3
+    TabOrder = 4
     OnChange = SeriesNumberEditChange
   end
 end

@@ -22,6 +22,7 @@ void TTextForm::setComponent(TComponent* component)
 
    TextEdit->Lines->Text = text->text;
    AlignmentCombo->Text = text->alignment;
+   AutosizeCheckBox->Checked = text->AutoSize;
    }
 //---------------------------------------------------------------------------
 void __fastcall TTextForm::TextEditExit(TObject *Sender)
@@ -39,6 +40,11 @@ void __fastcall TTextForm::FontButtonClick(TObject *Sender)
 void __fastcall TTextForm::AlignmentComboChange(TObject *Sender)
    {
    text->alignment = AlignmentCombo->Text;
+   }
+//---------------------------------------------------------------------------
+void __fastcall TTextForm::ToolbarCheckBoxClick(TObject *Sender)
+   {
+   text->AutoSize = AutosizeCheckBox->Checked;
    }
 //---------------------------------------------------------------------------
 

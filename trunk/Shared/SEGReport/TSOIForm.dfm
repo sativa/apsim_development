@@ -1,62 +1,59 @@
 inherited SOIForm: TSOIForm
   Caption = 'SOIForm'
   OldCreateOrder = True
-  PixelsPerInch = 96
-  TextHeight = 13
+  PixelsPerInch = 120
+  TextHeight = 16
   object Label3: TLabel [3]
-    Left = 17
-    Top = 104
-    Width = 46
-    Height = 13
+    Left = 21
+    Top = 160
+    Width = 58
+    Height = 16
     Caption = 'Negative:'
   end
   object Label4: TLabel [4]
-    Left = 23
-    Top = 128
-    Width = 40
-    Height = 13
+    Left = 28
+    Top = 190
+    Width = 51
+    Height = 16
     Caption = 'Positive:'
   end
   object Label5: TLabel [5]
-    Left = 30
-    Top = 152
-    Width = 33
-    Height = 13
+    Left = 37
+    Top = 219
+    Width = 43
+    Height = 16
     Caption = 'Falling:'
   end
   object Label6: TLabel [6]
-    Left = 31
-    Top = 176
-    Width = 32
-    Height = 13
+    Left = 38
+    Top = 249
+    Width = 41
+    Height = 16
     Caption = 'Rising:'
   end
   object Label7: TLabel [7]
-    Left = 38
-    Top = 200
-    Width = 25
-    Height = 13
+    Left = 47
+    Top = 278
+    Width = 31
+    Height = 16
     Caption = 'Zero:'
   end
   object Label8: TLabel [8]
-    Left = 30
-    Top = 80
-    Width = 33
-    Height = 13
+    Left = 37
+    Top = 131
+    Width = 39
+    Height = 16
     Caption = 'Month:'
   end
-  inherited ToolbarCheckBox: TCheckBox
-    TabOrder = 8
-  end
   object MonthCombo: TComboBox
-    Left = 72
-    Top = 80
-    Width = 145
-    Height = 21
+    Left = 89
+    Top = 130
+    Width = 178
+    Height = 24
     BevelKind = bkSoft
     Anchors = [akLeft, akTop, akRight]
-    ItemHeight = 13
-    TabOrder = 2
+    ItemHeight = 16
+    TabOrder = 4
     OnClick = MonthComboClick
     Items.Strings = (
       'January'
@@ -73,43 +70,43 @@ inherited SOIForm: TSOIForm
       'December')
   end
   object NegativeCheckBox: TCheckBox
-    Left = 72
-    Top = 104
-    Width = 97
-    Height = 17
-    TabOrder = 3
+    Left = 89
+    Top = 160
+    Width = 119
+    Height = 21
+    TabOrder = 5
     OnClick = NegativeCheckBoxClick
   end
   object PositiveCheckBox: TCheckBox
-    Left = 72
-    Top = 128
-    Width = 97
-    Height = 17
-    TabOrder = 4
+    Left = 89
+    Top = 190
+    Width = 119
+    Height = 20
+    TabOrder = 6
     OnClick = PositiveCheckBoxClick
   end
   object FallingCheckBox: TCheckBox
-    Left = 72
-    Top = 152
-    Width = 97
-    Height = 17
-    TabOrder = 5
+    Left = 89
+    Top = 219
+    Width = 119
+    Height = 21
+    TabOrder = 7
     OnClick = FallingCheckBoxClick
   end
   object RisingCheckBox: TCheckBox
-    Left = 72
-    Top = 176
-    Width = 97
-    Height = 17
-    TabOrder = 6
+    Left = 89
+    Top = 249
+    Width = 119
+    Height = 21
+    TabOrder = 8
     OnClick = RisingCheckBoxClick
   end
   object ZeroCheckBox: TCheckBox
-    Left = 72
-    Top = 200
-    Width = 97
-    Height = 17
-    TabOrder = 7
+    Left = 89
+    Top = 278
+    Width = 119
+    Height = 21
+    TabOrder = 9
     OnClick = ZeroCheckBoxClick
   end
 end
