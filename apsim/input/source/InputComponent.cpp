@@ -386,11 +386,12 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
    if (eventID == tickID)
       {
       protocol::timeType tick;
+      variant.unpack(tick);
       todaysDate = tick.startday;
       if (!advanceToTodaysData() && !allowSparseData)
          {
          GDate errorDate;
-         errorDate.Set((unsigned long) todaysDate);
+         errorDate.Set(todaysDate);
 
          string msg = "Cannot find data in INPUT file for day: ";
          msg += IntToStr(errorDate.Get_day_of_year()).c_str();
