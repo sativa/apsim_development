@@ -3,7 +3,7 @@ object ScreenForm: TScreenForm
   Top = 89
   BorderStyle = bsSingle
   Caption = 'APSIM'
-  ClientHeight = 448
+  ClientHeight = 454
   ClientWidth = 481
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -39,9 +39,10 @@ object ScreenForm: TScreenForm
   OldCreateOrder = False
   Position = poDefault
   Scaled = False
+  Visible = True
   OnClose = FormClose
-  PixelsPerInch = 96
-  TextHeight = 13
+  PixelsPerInch = 120
+  TextHeight = 16
   object CurrentDateLabel: TLabel
     Left = 16
     Top = 52
@@ -54,27 +55,27 @@ object ScreenForm: TScreenForm
     Left = 16
     Top = 51
     Width = 3
-    Height = 13
+    Height = 16
   end
   object EndDateLabel: TLabel
     Left = 470
     Top = 50
     Width = 3
-    Height = 13
+    Height = 16
     Alignment = taRightJustify
   end
   object TitleLabel: TLabel
     Left = 16
     Top = 8
-    Width = 94
-    Height = 13
+    Width = 122
+    Height = 16
     Caption = 'Simulation progress.'
   end
   object ErrorLabel: TLabel
-    Left = 396
+    Left = 379
     Top = 80
-    Width = 77
-    Height = 13
+    Width = 94
+    Height = 16
     Alignment = taRightJustify
     Caption = '(errors found)'
     Font.Charset = DEFAULT_CHARSET
@@ -88,8 +89,8 @@ object ScreenForm: TScreenForm
   object FinishedLabel: TLabel
     Left = 184
     Top = 80
-    Width = 111
-    Height = 13
+    Width = 134
+    Height = 16
     Caption = 'APSIM has finished'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlue
@@ -98,12 +99,6 @@ object ScreenForm: TScreenForm
     Font.Style = [fsBold]
     ParentFont = False
     Visible = False
-  end
-  object Bevel1: TBevel
-    Left = -2
-    Top = 416
-    Width = 492
-    Height = 1
   end
   object ProgressBar: TProgressBar
     Left = 16
@@ -114,7 +109,26 @@ object ScreenForm: TScreenForm
     Max = 30
     Smooth = True
     Step = 1
+    TabOrder = 2
+  end
+  object CancelButton: TButton
+    Left = 390
+    Top = 421
+    Width = 85
+    Height = 25
+    Caption = 'Cancel'
+    ModalResult = 1
     TabOrder = 0
+    OnClick = CancelButtonClick
+  end
+  object PauseButton: TButton
+    Left = 302
+    Top = 421
+    Width = 85
+    Height = 25
+    Caption = 'Pause'
+    TabOrder = 1
+    OnClick = PauseButtonClick
   end
   object Memo: TMemo
     Left = 16
@@ -125,25 +139,15 @@ object ScreenForm: TScreenForm
     BevelKind = bkFlat
     BorderStyle = bsNone
     ScrollBars = ssVertical
-    TabOrder = 1
-  end
-  object CancelButton: TButton
-    Left = 400
-    Top = 424
-    Width = 75
-    Height = 25
-    Caption = 'Cancel'
-    ModalResult = 1
-    TabOrder = 2
-    OnClick = CancelButtonClick
-  end
-  object PauseButton: TButton
-    Left = 320
-    Top = 424
-    Width = 75
-    Height = 25
-    Caption = 'Pause'
     TabOrder = 3
-    OnClick = PauseButtonClick
+  end
+  object PauseCheckBox: TCheckBox
+    Left = 16
+    Top = 424
+    Width = 273
+    Height = 17
+    Caption = 'Pause on simulation complete'
+    TabOrder = 4
+    OnClick = PauseCheckBoxClick
   end
 end
