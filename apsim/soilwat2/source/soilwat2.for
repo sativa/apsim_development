@@ -4586,6 +4586,7 @@ c         g%crop_module(:) = ' '               ! list of modules
 *                   added g%cover_tot and g%cover_green and g%crop_module
 *                   added g%num_crops
 *     011199 jngh removed residue_wt
+*     170101 dph  removed the loop that zeroed solute arrays - replaced with simple assignment
  
 *+  Constant Values
       character  my_name*(*)           ! module name
@@ -4623,17 +4624,12 @@ c         g%crop_module(:) = ' '               ! list of modules
  
       ! initialise all solute information
  
-      do 200 solnum = 1, max_solute
-         do 100 layer = 1, max_layer
-            g%solute (solnum, layer) = 0.0
-            g%solute_min (solnum, layer) = 0.0
-            g%solute_leach(solnum, layer) = 0.0
-            g%solute_up (solnum,layer) = 0.0
-            g%dlt_solute (solnum,layer) = 0.0
-  100    continue
-  200 continue
- 
- 
+      g%solute (:, :) = 0.0
+      g%solute_min (:, :) = 0.0
+      g%solute_leach(:, :) = 0.0
+      g%solute_up (:, :) = 0.0
+      g%dlt_solute (:, :) = 0.0
+  
       call pop_routine (my_name)
       return
       end
