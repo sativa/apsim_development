@@ -1,11 +1,9 @@
-//---------------------------------------------------------------------------
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
 #include "SummaryFileComponent.h"
-#include <aps\somservice.h>
-#include <aps\apsimproperty.h>
-#include <aps\APSIMOutputFile.h>
+#include <ApsimShared\ApsimServiceData.h>
 #include <general\date_class.h>
 #include <sstream>
 #include <iomanip>
@@ -59,9 +57,9 @@ void SummaryFileComponent::doInit1(const FString& sdml)
    prepareID = addRegistration(respondToEventReg, "prepare", "");
    externalErrorID = addRegistration(respondToEventReg, "error", "");
 
-   SOMService service(*componentData);
-   APSIMOutputFile outputFile = service.getProperty("property", "filename");
-   string filename = outputFile.getFilename();
+   string sdmlString(sdml.f_str(), sdml.length());
+   ApsimServiceData service(sdmlString);
+   string filename = service.getProperty("filename");
    out.open(filename.c_str());
    if (!out)
       {
@@ -164,7 +162,6 @@ void SummaryFileComponent::writeLine(const FString& componentName, const FString
          date.Set((unsigned long) currentDate);
          date.Write(out);
 
-         int dayOfYear = date.Get_day_of_year();
          out << ", " << componentName << ": " << endl;
          previousDate = currentDate;
          previousComponentName = componentName.asString();
@@ -173,7 +170,7 @@ void SummaryFileComponent::writeLine(const FString& componentName, const FString
       }
    // write out the lines.
    unsigned posStart = 0;
-   unsigned posCR = 0;
+   unsigned posCR;
    do
       {
       posCR = lines.find("\n", posStart);

@@ -1,15 +1,12 @@
-//---------------------------------------------------------------------------
-
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
-#include <aps\APSIMExternalTable.h>
-
 
 #include "InputComponent.h"
-#include <aps\somcomponent.h>
 #include <general\string_functions.h>
 #include <general\stl_functions.h>
 #include <general\date_class.h>
+#include <ApsimShared\ApsimDataFile.h>
 #include <list>
 
 using namespace std;
@@ -24,14 +21,7 @@ static const char* newmetType =
    "</type>";
 
 // ------------------------------------------------------------------
-//  Short description:
-//     createComponent
-
-//  Notes:
-
-//  Changes:
-//    DPH 29/7/99
-
+// createComponent
 // ------------------------------------------------------------------
 protocol::Component* createComponent(void)
    {
@@ -39,47 +29,26 @@ protocol::Component* createComponent(void)
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     constructor
-
-//  Notes:
-
-//  Changes:
-//    dph 27/6/2001
-
+// constructor
 // ------------------------------------------------------------------
 InputComponent::InputComponent(void)
    {
+   data = NULL;
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     initialise the REPORT component.
-
-//  Notes:
-
-//  Changes:
-//    dph 27/6/2001
-
+// initialise the REPORT component.
 // ------------------------------------------------------------------
 InputComponent::~InputComponent(void)
    {
-   delete externalTable;
+   delete data;
    for (InputVariables::iterator i = variables.begin();
                                  i != variables.end();
                                  i++)
       delete i->second;
    }
-
 // ------------------------------------------------------------------
-//  Short description:
-//     INIT1 method handler.
-
-//  Notes:
-
-//  Changes:
-//    dph 27/6/2001
-
+// INIT1 method handler.
 // ------------------------------------------------------------------
 void InputComponent::doInit1(const FString& sdml)
    {
@@ -87,17 +56,18 @@ void InputComponent::doInit1(const FString& sdml)
 
    iAmMet = (stricmp(name, "met") == 0);
 
-   // open input file.
-   if (iAmMet)
-      openTable("weather");
-   else
-      openTable("input");
-   if (externalTable == NULL)
-      error("The met/input section cannot be found.\n"
-            "Possibly the data/met file cannot be opened\n"
-            " or the section is missing.", true);
-   else if (readConstants() && readHeadings() && dateFieldsOk())
+   try
       {
+      string fileName = componentData->getProperty("filename");
+      if (fileName == "")
+         throw runtime_error("Cannot find a filename parameter for module: "
+                             + string(name));
+      data = new ApsimDataFile(fileName);
+
+      readConstants();
+      readHeadings();
+      dateFieldsOk();
+
       // read in a line from the file so that the fields know what data
       // type they're dealing with.
       readLineFromFile();
@@ -111,138 +81,64 @@ void InputComponent::doInit1(const FString& sdml)
          writeString("Sparse data is allowed");
       else
          writeString("Sparse data is not allowed");
-      string msg = "INPUT File name: " + externalTable->getFilename();
+      string msg = "INPUT File name: " + fileName;
       writeString(msg.c_str());
+      }
+   catch (const runtime_error& errormsg)
+      {
+      error(errormsg.what(), true);
       }
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     INIT 2 - temporary
-
-//  Notes:
-
-//  Changes:
-//    dph 27/6/2001
-
+// INIT 2 - temporary
 // ------------------------------------------------------------------
 void InputComponent::doInit2(void)
    {
    }
-
 // ------------------------------------------------------------------
-//  Short description:
-//     Get and open the table we're going to read from.
-
-//  Notes:
-
-//  Changes:
-//    dph 27/6/2001
-
+// read in all constants from file.
 // ------------------------------------------------------------------
-void InputComponent::openTable(const std::string& groupName)
+void InputComponent::readConstants(void)
    {
-   SOMPropertyGroup group = componentData->findGroupWithProperty
-                            (name, groupName, "table");
-   if (group.isValid())
-      {
-      externalTable = new APSIMExternalTable(group.getProperty("table", name));
-      externalTable->open();
-      }
-   else
-      externalTable = NULL;
+   vector<string> constantNames;
+   data->getConstantNames(constantNames);
+
+   // read in each constant
+   for (vector<string>::iterator constantI = constantNames.begin();
+                                 constantI != constantNames.end();
+                                 constantI++)
+      addVariable(*constantI, data->getConstant(*constantI), 1);
    }
 // ------------------------------------------------------------------
-//  Short description:
-//     read in all constants from file.
-
-//  Notes:
-
-//  Changes:
-//    dph 27/6/2001
-
+// read in all headings from file.
 // ------------------------------------------------------------------
-bool InputComponent::readConstants(void)
+void InputComponent::readHeadings(void)
    {
-   char* sectionName;
-   if (iAmMet)
-      sectionName = "weather";
-   else
-      sectionName = "data";
-
-   // get a complete list of property names.
-   list<string> propertyNames;
-   list<string> groupNames;
-   componentData->getGroupNames(groupNames);
-   for (list<string>::iterator groupNameI = groupNames.begin();
-                               groupNameI != groupNames.end();
-                               groupNameI++)
-      {
-      SOMPropertyGroup group = componentData->getGroup(*groupNameI);
-      group.getPropertyNames("property", propertyNames);
-      }
-
-   // read in each property.
-   for (list<string>::iterator propertyI = propertyNames.begin();
-                               propertyI != propertyNames.end();
-                               propertyI++)
-      {
-      char value[100];
-      readParameter(sectionName, (*propertyI).c_str(), FString(value, sizeof(value)), false);
-      value[99] = 0;
-      addVariable(*propertyI, value, 1);
-      }
-
-   return true;
-   }
-// ------------------------------------------------------------------
-//  Short description:
-//     read in all headings from file.
-
-//  Notes:
-
-//  Changes:
-//    dph 27/6/2001
-
-// ------------------------------------------------------------------
-bool InputComponent::readHeadings(void)
-   {
-   list<string> fieldNames = externalTable->getFieldNames();
-   list<string> fieldUnits = externalTable->getFieldUnits();
+   vector<string> fieldNames, fieldUnits;
+   data->getFieldNames(fieldNames);
+   data->getFieldUnits(fieldUnits);
 
    // Loop through all field names and look for an array specifier.
    // If one is found then strip it off, then add the variable to
    // our variables container.
-   bool ok = true;
-   list<string>::iterator fieldNameI = fieldNames.begin();
-   list<string>::iterator fieldUnitI = fieldUnits.begin();
-   unsigned int fieldValueI = 0;
-   while (fieldNameI != fieldNames.end() && ok)
+   for (unsigned int fieldI = 0; fieldI != fieldNames.size(); fieldI++)
       {
-      if (Str_i_Eq(*fieldNameI, "year") || Str_i_Eq(*fieldNameI, "day"))
-         *fieldNameI = string(name) + "_" + *fieldNameI;
+      if (Str_i_Eq(fieldNames[fieldI], "year") ||
+          Str_i_Eq(fieldNames[fieldI], "day"))
+         fieldNames[fieldI] = string(name) + "_" + fieldNames[fieldI];
       string fieldNameMinusSpec;
       unsigned int arraySpec;
-      ok = removeArraySpec(*fieldNameI, fieldNameMinusSpec, arraySpec);
-      if (ok)
-         {
-         string value;
-         externalTable->getValueByIndex(fieldValueI++, value);
-         addVariable(fieldNameMinusSpec, value.c_str(), arraySpec, true);
-         }
+      removeArraySpec(fieldNames[fieldI], fieldNameMinusSpec, arraySpec);
 
-      fieldNameI++;
-      fieldUnitI++;
+      addVariable(fieldNameMinusSpec,
+                  data->getFieldValue(fieldI),
+                  arraySpec, true);
       }
-   return ok;
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     Find a specific variable whose name matches the one passed in.
-
-//  Changes:
-//    dph 27/6/2001
+// Find a specific variable whose name matches the one passed in.
 // ------------------------------------------------------------------
 InputComponent::InputVariables::iterator InputComponent::findVariable(const string& name)
    {
@@ -255,20 +151,12 @@ InputComponent::InputVariables::iterator InputComponent::findVariable(const stri
       }
    return variables.end();
    }
-
 // ------------------------------------------------------------------
-//  Short description:
-//     Strip off the array specifier if found.  Return the variable
-//     name with the array specifier removed, and the array index.
-//     Returns true if all went ok.
-
-//  Notes:
-
-//  Changes:
-//    dph 27/6/2001
-
+// Strip off the array specifier if found.  Return the variable
+// name with the array specifier removed, and the array index.
+// Returns true if all went ok.
 // ------------------------------------------------------------------
-bool InputComponent::removeArraySpec(const string& fieldName,
+void InputComponent::removeArraySpec(const string& fieldName,
                                      string& fieldNameMinusSpec,
                                      unsigned int& arraySpec)
    {
@@ -286,8 +174,7 @@ bool InputComponent::removeArraySpec(const string& fieldName,
          {
          string msg = "Invalid array specification on INPUT field name: ";
          msg += fieldName;
-         error(msg.c_str(), true);
-         return false;
+         throw runtime_error(msg);
          }
       }
    else
@@ -295,18 +182,10 @@ bool InputComponent::removeArraySpec(const string& fieldName,
       fieldNameMinusSpec = fieldName;
       arraySpec = 1;
       }
-   return true;
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     Register all our variables.
-
-//  Notes:
-
-//  Changes:
-//    dph 27/6/2001
-
+// Register all our variables.
 // ------------------------------------------------------------------
 void InputComponent::addVariable(const std::string& name,
                                  const std::string& value,
@@ -334,14 +213,7 @@ void InputComponent::addVariable(const std::string& name,
    variables.insert(InputVariables::value_type(regID, stringVariant));
    }
 // ------------------------------------------------------------------
-//  Short description:
-//     Check to see if we need to handle sparse data or not.
-
-//  Notes:
-
-//  Changes:
-//    dph 27/6/2001
-
+// Check to see if we need to handle sparse data or not.
 // ------------------------------------------------------------------
 void InputComponent::checkForSparseData(void)
    {
@@ -352,14 +224,7 @@ void InputComponent::checkForSparseData(void)
       i->second->asLogical(allowSparseData);
    }
 // ------------------------------------------------------------------
-//  Short description:
-//     Advance the file to todays date.
-
-//  Notes:
-
-//  Changes:
-//    dph 27/6/2001
-
+// Advance the file to todays date.
 // ------------------------------------------------------------------
 bool InputComponent::advanceToTodaysData(void)
    {
@@ -370,26 +235,18 @@ bool InputComponent::advanceToTodaysData(void)
       readLineFromFile();
       fileDate = getFileDate();
       }
-   while (fileDate < todaysDate && externalTable->next());
+   while (fileDate < todaysDate && data->next());
 
    if (fileDate == todaysDate)
       {
-      externalTable->next();
+      data->next();
       return true;
       }
    else
       return false;
    }
-
 // ------------------------------------------------------------------
-//  Short description:
-//     Get a file date from the variables container.
-
-//  Notes:
-
-//  Changes:
-//    dph 27/6/2001
-
+// Get a file date from the variables container.
 // ------------------------------------------------------------------
 unsigned long InputComponent::getFileDate(void)
    {
@@ -415,18 +272,10 @@ unsigned long InputComponent::getFileDate(void)
       return date.Get_jday();
       }
    }
-
 // ------------------------------------------------------------------
-//  Short description:
-//     Returns true if the input file has the appropriate date fields.
-
-//  Notes:
-
-//  Changes:
-//    dph 27/6/2001
-
+// If dates are not ok then throw error.
 // ------------------------------------------------------------------
-bool InputComponent::dateFieldsOk(void)
+void InputComponent::dateFieldsOk(void)
    {
    InputVariables::iterator i = findVariable(string(name) + "_year");
    if (i != variables.end())
@@ -440,23 +289,19 @@ bool InputComponent::dateFieldsOk(void)
    i = findVariable("month");
    if (i != variables.end())
       monthI = i->second;
-   return (yearI != NULL &&
+   bool ok = (yearI != NULL &&
            (dayOfYearI != NULL ||
             (dayOfMonthI != NULL && monthI != NULL)));
+   if (!ok)
+      throw runtime_error("APSIM input files must have year and day OR day, "
+                          "month and year columns.");
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     Reads in a line of data from file and stores values in
-//     'variables'.  Return true if values read ok.
-
-//  Notes:
-
-//  Changes:
-//    dph 27/6/2001
-
+// Reads in a line of data from file and stores values in
+// 'variables'.  Return true if values read ok.
 // ------------------------------------------------------------------
-bool InputComponent::readLineFromFile()
+void InputComponent::readLineFromFile()
    {
    // loop through all temporal variables (ie. goto end of variables
    // container) and get a value from the line and store into the
@@ -464,35 +309,19 @@ bool InputComponent::readLineFromFile()
    // the line.
    TemporalVariables::iterator variableI = temporalVariables.begin();
    string value;
-   bool ok = true;
    unsigned fieldNumber = 0;
    while (variableI != temporalVariables.end())
       {
       for (unsigned valueI = 0; valueI != (*variableI)->numValues(); valueI++)
          {
-         if (externalTable->getValueByIndex(fieldNumber++, value))
-            (*variableI)->addValue(value, valueI);
-         else
-            {
-            string msg = "There are not enough values on the input line to match\n"
-                         "the number of headings.";
-            error(msg.c_str(), true);
-            ok = false;
-            }
+         value = data->getFieldValue(fieldNumber++);
+         (*variableI)->addValue(value, valueI);
          }
       variableI++;
       }
-   return ok;
    }
 // ------------------------------------------------------------------
-//  Short description:
-//     return a variable to caller.
-
-//  Notes:
-
-//  Changes:
-//    dph 27/6/2001
-
+// return a variable to caller.
 // ------------------------------------------------------------------
 void InputComponent::respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData)
    {
@@ -500,14 +329,7 @@ void InputComponent::respondToGet(unsigned int& fromID, protocol::QueryValueData
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     set the value of one of our variables.
-
-//  Notes:
-
-//  Changes:
-//    dph 27/6/2001
-
+// set the value of one of our variables.
 // ------------------------------------------------------------------
 bool InputComponent::respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData)
    {
@@ -516,14 +338,7 @@ bool InputComponent::respondToSet(unsigned int& fromID, protocol::QuerySetValueD
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//    Event handler.
-
-//  Notes:
-
-//  Changes:
-//    DPH 23/5/2001
-
+// Event handler.
 // ------------------------------------------------------------------
 void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant)
    {
@@ -549,12 +364,8 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
       }
    }
 // ------------------------------------------------------------------
-//  Short description:
-//    Find a value and return it's numerical value.  Returns true if
-//    variable is found and it has a value.
-
-//  Changes:
-//    DPH 23/5/2001
+// Find a value and return it's numerical value.  Returns true if
+// variable is found and it has a value.
 // ------------------------------------------------------------------
 bool InputComponent::getVariableValue(const string& name, float& value)
    {
@@ -565,14 +376,7 @@ bool InputComponent::getVariableValue(const string& name, float& value)
       return false;
    }
 // ------------------------------------------------------------------
-//  Short description:
-//    Publish a tick event.
-
-//  Notes:
-
-//  Changes:
-//    DPH 23/5/2001
-
+// Publish a tick event.
 // ------------------------------------------------------------------
 namespace protocol {
 struct NewMet

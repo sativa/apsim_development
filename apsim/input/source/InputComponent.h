@@ -1,18 +1,12 @@
 //---------------------------------------------------------------------------
 #ifndef InputComponentH
 #define InputComponentH
-#include <Component.h>
+#include <ComponentInterface\Component.h>
 #include "StringVariant.h"
 #include <map>
+class ApsimDataFile;
 // ------------------------------------------------------------------
-//  Short description:
-//     Encapsulates the APSIM INPUT module
-
-//  Notes:
-
-//  Changes:
-//    DPH 27/6/2001
-
+// Encapsulates the APSIM INPUT module
 // ------------------------------------------------------------------
 class InputComponent : public protocol::Component
    {
@@ -32,7 +26,7 @@ class InputComponent : public protocol::Component
       TemporalVariables temporalVariables;
       bool iAmMet;
       bool allowSparseData;
-      APSIMExternalTable* externalTable;
+      ApsimDataFile* data;
 
       unsigned newmetID;
       unsigned tickID;
@@ -42,19 +36,18 @@ class InputComponent : public protocol::Component
       StringVariant* dayOfMonthI;
       StringVariant* monthI;
 
-      void openTable(const std::string& groupName);
-      bool readConstants(void);
-      bool readHeadings(void);
+      void readConstants(void);
+      void readHeadings(void);
       InputVariables::iterator findVariable(const string& name);
-      bool removeArraySpec(const std::string& fieldName,
+      void removeArraySpec(const std::string& fieldName,
                            std::string& fieldNameMinusSpec,
                            unsigned int& arraySpec);
       void doRegistrations(void);
       void checkForSparseData(void);
       bool advanceToTodaysData(void);
       unsigned long getFileDate(void);
-      bool dateFieldsOk(void);
-      bool readLineFromFile();
+      void dateFieldsOk(void);
+      void readLineFromFile();
       bool getVariableValue(const std::string& name, float& value);
       void publishNewMetEvent(void);
       void addVariable(const std::string& name,

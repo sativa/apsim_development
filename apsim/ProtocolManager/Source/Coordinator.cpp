@@ -1,14 +1,15 @@
-//---------------------------------------------------------------------------
+#include <general\pch.h>
+#pragma hdrstop
+
 #include "Coordinator.h"
-#include "messages.h"
+#include <ComponentInterface\messages.h>
 #include <assert.h>
 #include <general\stl_functions.h>
+#include <ApsimShared\ApsimSimulationFile.h>
 #include <sstream>
 #include <list>
 #include <functional>
 #include <memory>
-#include <aps\SOMSystem.h>
-#include <general\XMLTreeData.h>
 #include "DebugHook.h"
 using namespace std;
 using namespace protocol;
@@ -84,34 +85,52 @@ void Coordinator::doInit1(const FString& sdml)
 
       Component::doInit1(sdml);
 
-      SOMSystem systemData(*componentData);
+      // cast the componentData to a systemData.
+      ApsimSimulationFile simulationData;
+      string sdmlString(sdml.f_str(), sdml.length());
+      simulationData.readXML(sdmlString);
 
       // loop through all services specified in SDML and create
       // and add a componentAlias object to our list of components.
-      list<string> serviceNames;
-      systemData.getServiceNames(serviceNames);
-      for (list<string>::iterator serviceI = serviceNames.begin();
-                                  serviceI != serviceNames.end();
-                                  serviceI++)
-         addComponent(systemData.getService(*serviceI));
+      std::vector<string> serviceNames;
+      simulationData.getServiceNames(serviceNames);
+      for (std::vector<string>::iterator serviceI = serviceNames.begin();
+                                         serviceI != serviceNames.end();
+                                         serviceI++)
+         {
+         ApsimServiceData service = simulationData.getService(*serviceI);
+         addComponent(service.getName(),
+                      service.getExecutableFileName(),
+                      service.getXML());
+         }
 
       // loop through all components specified in SDML and create
       // and add a componentAlias object to our list of components.
-      list<string> componentNames;
-      systemData.getComponentNames(componentNames);
-      for (list<string>::iterator componentI = componentNames.begin();
-                                  componentI != componentNames.end();
-                                  componentI++)
-         addComponent(systemData.getComponent(*componentI));
+      std::vector<string> componentNames;
+      simulationData.getComponentNames(componentNames);
+      for (std::vector<string>::iterator componentI = componentNames.begin();
+                                         componentI != componentNames.end();
+                                         componentI++)
+         {
+         ApsimServiceData component = simulationData.getService(*componentI);
+         addComponent(component.getName(),
+                      component.getExecutableFileName(),
+                      component.getXML());
+         }
 
       // loop through all systems specified in SDML and create
       // and add a componentAlias object to our list of components.
-      list<string> systemNames;
-      systemData.getSystemNames(systemNames);
-      for (list<string>::iterator systemI = systemNames.begin();
-                                  systemI != systemNames.end();
-                                  systemI++)
-         addComponent(systemData.getSystem(*systemI));
+      std::vector<string> systemNames;
+      simulationData.getSystemNames(systemNames);
+      for (std::vector<string>::iterator systemI = systemNames.begin();
+                                         systemI != systemNames.end();
+                                         systemI++)
+         {
+         ApsimServiceData system = simulationData.getService(*systemI);
+         addComponent(system.getName(),
+                      system.getExecutableFileName(),
+                      system.getXML());
+         }
 
       // Perform a debug interrupt so that the FORTRAN debugger can
       // stop.
@@ -183,35 +202,35 @@ void Coordinator::doCommence(void)
 //    dph 22/2/2000
 
 // ------------------------------------------------------------------
-void Coordinator::addComponent(SOMComponent componentData)
+void Coordinator::addComponent(const string& compName,
+                               const string& compExecutable,
+                               const string& compSdml)
    {
    // get a unique id for the component we're about to create.
-   unsigned int childID = getComponentID(componentData.getName());
+   unsigned int childID = getComponentID(compName);
 
    // dph hack - shouldn't hardwire clock as sequencer.
-   if (Str_i_Eq(componentData.getName(), "clock"))
+   if (Str_i_Eq(compName, "clock"))
       sequencerID = childID;
 
 
    ComponentAlias* componentAlias = new ComponentAlias
-         (componentData.getName(),
-          componentData.getExecutableFilename(),
+         (compName,
+          compExecutable,
           childID,
           parentID);
    components.insert(Components::value_type(childID, componentAlias));
 
    string fqn = name;
    fqn += ".";
-   fqn += componentData.getName();
+   fqn += compName;
 
    // send component an init1 message.
-   ostringstream componentSDML;
-   componentData.write(componentSDML);
    try
       {
       sendMessage(newInit1Message(componentID,
                                   childID,
-                                  componentSDML.str().c_str(),
+                                  compSdml.c_str(),
                                   fqn.c_str(),
                                   true));
       }

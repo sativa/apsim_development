@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 //---------------------------------------------------------------------------
@@ -21,10 +21,6 @@
 //   If your DLL uses the dynamic version of the RTL, you do not need to
 //   explicitly add MEMMGR.LIB as this will be done implicitly for you
 //---------------------------------------------------------------------------
-USEUNIT("ReportComponent.cpp");
-USELIB("aps32.lib");
-USELIB("general.lib");
-USELIB("..\..\infra\ComponentInterface\CompInterface.lib");
 //---------------------------------------------------------------------------
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*)
    {

@@ -1,10 +1,11 @@
-//---------------------------------------------------------------------------
+#include <general\pch.h>
+#include <vcl.h>
 #pragma hdrstop
 
 #include "LogComponent.h"
-#include <transport.h>
-#include <aps\somservice.h>
-#include <aps\apsimproperty.h>
+#include <ComponentInterface\transport.h>
+#include <ApsimShared\ApsimServiceData.h>
+#include <general\string_functions.h>
 #include <sstream>
 using namespace std;
 using namespace protocol;
@@ -37,15 +38,17 @@ void LogComponent::doInit1(const FString& sdml)
    {
    protocol::Component::doInit1(sdml);
 
-   SOMService service(*componentData);
-   string filename = APSIMProperty(service.getProperty("property", "filename")).getValue();
+   string sdmlString(sdml.f_str(), sdml.length());
+   ApsimServiceData service(sdmlString);
+
+   string filename = service.getProperty("filename");
    out.open(filename.c_str());
    if (!out)
       {
       string msg = "Cannot open log file: " + filename;
       ::MessageBox(NULL, msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
       }
-   bool doOutput = Str_i_Eq(APSIMProperty(service.getProperty("property", "debug_output")).getValue(), "on");
+   bool doOutput = Str_i_Eq(service.getProperty("debug_output"), "on");
    if (doOutput)
       setMessageHook(this);
    }

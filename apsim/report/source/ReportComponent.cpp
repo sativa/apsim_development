@@ -1,17 +1,13 @@
-//---------------------------------------------------------------------------
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
 #include "ReportComponent.h"
 #include <general\math_functions.h>
 #include <general\stl_functions.h>
-#include <general\treenode.h>
+#include <general\StringTokenizer.h>
 #include <sstream>
-#include <aps\apsimproperty.h>
-#include <aps\APSIMOutputVariable.h>
 #include <variant.h>
-#include <aps\somcomponent.h>
-#include <aps\sompropertygroup.h>
 #pragma package(smart_init)
 using namespace std;
 using namespace protocol;
@@ -29,17 +25,18 @@ static const char* stringArrayType = "<type kind=\"string\" array=\"T\">";
 
 // ------------------------------------------------------------------
 Field::Field (protocol::Component* p,
-              const string& modulename,
-              const string& variablename,
-              const string& variablealias,
+              const string& variable,
               bool csvformat)
    {
    parent = p;
-   ModuleName = modulename;
-   VariableName = variablename;
-   VariableAlias = variablealias;
    CSVFormat = csvformat;
    fieldWidth = 0;
+
+   StringTokenizer tokenizer(variable, ".()");
+   ModuleName = tokenizer.nextToken();
+   VariableName = tokenizer.nextToken();
+   if (tokenizer.hasMoreTokens())
+      VariableAlias = tokenizer.nextToken();
 
    // at this stage simply register an interest in the variable.
    variableID = parent->addRegistration(protocol::getVariableReg,
@@ -209,7 +206,6 @@ Component* createComponent(void)
 ReportComponent::ReportComponent(void)
    {
    OutputOnThisDay = false;
-   Out = NULL;
    }
 
 // ------------------------------------------------------------------
@@ -225,7 +221,6 @@ ReportComponent::ReportComponent(void)
 // ------------------------------------------------------------------
 ReportComponent::~ReportComponent(void)
    {
-   delete Out;
    }
 
 // ------------------------------------------------------------------
@@ -241,81 +236,54 @@ ReportComponent::~ReportComponent(void)
 // ------------------------------------------------------------------
 void ReportComponent::doInit1(const FString& sdml)
    {
-   Component::doInit1(sdml);
-
-   repEventID = addRegistration(respondToEventReg, "rep", "");
-   doOutputID = addRegistration(respondToMethodCallReg, "do_output", "");
-   doEndDayOutputID = addRegistration(respondToMethodCallReg, "do_end_day_output", "");
-   daysSinceLastReportVariableID = addRegistration(respondToGetReg,
-                                                   "days_since_last_report",
-                                                   daysSinceLastReportType);
-   tempID = addRegistration(setVariableReg, "maxt", DTstringString);
-
-   SOMComponent* compData = (SOMComponent*) componentData;
-   SOMPropertyGroup group = compData->findGroupWithProperty("outputfile",
-                                                                 "",
-                                                                 "outputfile");
-   bool ok = group.isValid();
-   if (ok)
+   try
       {
-      Out = new APSIMOutputFile(group.getProperty("outputfile", "outputfile"));
-      ok = Out->isValid();
+      Component::doInit1(sdml);
+
+      repEventID = addRegistration(respondToEventReg, "rep", "");
+      doOutputID = addRegistration(respondToMethodCallReg, "do_output", "");
+      doEndDayOutputID = addRegistration(respondToMethodCallReg, "do_end_day_output", "");
+      daysSinceLastReportVariableID = addRegistration(respondToGetReg,
+                                                      "days_since_last_report",
+                                                      daysSinceLastReportType);
+      string fileName = componentData->getProperty("filename");
+      if (fileName == "")
+         throw runtime_error("Cannot find name of output file in parameter file. ");
+
+      out.open(fileName.c_str());
+
+      // get format specifier.
+      CSVFormat = Str_i_Eq(componentData->getProperty("format"), "csv");
+
+      // enumerate through all output variables
+      // and create a field for each.
+      std::vector<string> variables;
+      componentData->getVariables(variables);
+      for (std::vector<string>::iterator variableI = variables.begin();
+                                         variableI != variables.end();
+                                         variableI++)
+         fields.push_back(Field(this, *variableI, CSVFormat));
+
+      DaysSinceLastReport = 1;
+
+      // write out all initial conditions.
+      string msg = "Output file = " + fileName;
+      writeString(msg.c_str());
+      msg = "Format = ";
+      if (CSVFormat)
+         msg += "csv";
+      else
+         msg += "normal";
+      writeString(msg.c_str());
+
+      // write all fields to summary file.
+      writeString("Output variables:");
+      for_each(fields.begin(), fields.end(), mem_fun_ref(&Field::writeToSummary));
       }
-   if (ok)
-      Out->open();
-
-   else
-      error("Cannot find name of output file in parameter file.\n"
-            "Cannot create output file.", true);
-
-   // get format specifier.
-   SOMPropertyGroup formatGroup = compData->findGroupWithProperty("format",
-                                                                       "",
-                                                                       "property");
-
-   APSIMProperty formatProperty(formatGroup.getProperty("property", "format"));
-   CSVFormat = (Str_i_Eq(formatProperty.getValue(), "csv"));
-
-   // enumerate through all output variables in all groups
-   // and create a field for each.
-   list<string> groupNames;
-   compData->getGroupNames(groupNames);
-   for (list<string>::iterator groupNameI = groupNames.begin();
-                               groupNameI != groupNames.end();
-                               groupNameI++)
+   catch (const runtime_error& err)
       {
-      SOMPropertyGroup group = compData->getGroup(*groupNameI);
-      list<string> propertyNames;
-      group.getPropertyNames("outputvariable", propertyNames);
-      for (list<string>::iterator propertyNameI = propertyNames.begin();
-                                  propertyNameI != propertyNames.end();
-                                  propertyNameI++)
-         {
-         APSIMOutputVariable variable(group.getProperty("outputvariable", *propertyNameI));
-         if (variable.isValid())
-            fields.push_back(Field(this,
-                                   variable.getOwnerModule(),
-                                   variable.getVariableName(),
-                                   variable.getAlias(),
-                                   CSVFormat));
-         }
+      error(err.what(), true);
       }
-
-   DaysSinceLastReport = 1;
-
-   // write out all initial conditions.
-   string msg = "Output file = " + Out->getFilename();
-   writeString(msg.c_str());
-   msg = "Format = ";
-   if (CSVFormat)
-      msg += "csv";
-   else
-      msg += "normal";
-   writeString(msg.c_str());
-
-   // write all fields to summary file.
-   writeString("Output variables:");
-   for_each(fields.begin(), fields.end(), mem_fun_ref(&Field::writeToSummary));
    }
 
 // ------------------------------------------------------------------
@@ -393,14 +361,12 @@ void ReportComponent::WriteLineOfOutput(void)
       writeHeadings();
       }
 
-   ostringstream line;
    for (Fields::iterator f = fields.begin();
                          f != fields.end();
                          f++)
-      (*f).writeValue(line);
+      (*f).writeValue(out);
 
-   line << std::ends;
-   Out->writeLine(line.str().c_str());
+   out << endl;
 
    DaysSinceLastReport = 0;
    }
@@ -427,10 +393,9 @@ void ReportComponent::writeHeadings(void)
 
    headingLine << ends;
    unitLine << ends;
-   Out->writeLine("");
-   Out->writeLine("");
-   Out->writeLine(headingLine.str().c_str());
-   Out->writeLine(unitLine.str().c_str());
+   out << endl << endl;
+   out << headingLine;
+   out << unitLine;
    }
 
 void ReportComponent::doInit2(void)

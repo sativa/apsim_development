@@ -2,8 +2,8 @@
 #ifndef LogComponentH
 #define LogComponentH
 #include <fstream>
-#include <interfaces.h>
-#include <component.h>
+#include <ComponentInterface\interfaces.h>
+#include <ComponentInterface\component.h>
 #include <map>
 // ------------------------------------------------------------------
 //  Short description:
