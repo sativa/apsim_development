@@ -114,6 +114,12 @@ class Component
       bool componentNameToID(const FString& name, unsigned int& compID);
       bool componentIDToName(unsigned int compID, FString& name);
 
+      // send a change order message.
+      void changeComponentOrder(const FStrings& names)
+         {
+         sendMessage(newApsimChangeOrderMessage(componentID, parentID, names));
+         }
+
    protected:
       unsigned int componentID;
       unsigned int parentID;
@@ -145,6 +151,7 @@ class Component
       virtual void onCompleteMessage(CompleteData& completeData);
       virtual void onApsimGetQuery(ApsimGetQueryData& apsimGetQueryData) { }
       virtual bool onApsimSetQuery(ApsimSetQueryData& apsimSetQueryData) {return false;}
+      virtual void onApsimChangeOrderData(ApsimChangeOrderData& apsimChangeOrderData) { }
 
       // Send a message
       void sendMessage(Message* message)

@@ -490,7 +490,7 @@ bool ApsimControlFile::createSIM(const string& configurationFile,
 
       vector<ParamFile> modules;
       parseControlSection(fileName, section, modules);
-      sort(modules.begin(), modules.end(), ComponentOrder());
+      stable_sort(modules.begin(), modules.end(), ComponentOrder());
       for (vector<ParamFile>::iterator m = modules.begin();
                                        m != modules.end();
                                        m++)

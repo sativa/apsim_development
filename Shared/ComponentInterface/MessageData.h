@@ -250,29 +250,24 @@ inline unsigned int memorySize(const FString& value)
 inline MessageData& operator>> (MessageData& messageData, FStrings& strings)
    {
    unsigned numElements;
+   unsigned elementLength;
+   FString st;
    messageData >> numElements;
-   for (unsigned int i = 0; i < numElements; i++)
-      {
-      FString rhs;
-      messageData >> rhs;
-      strings.addString(rhs);
-      }
+   messageData >> elementLength;
+   messageData >> st;
+   strings = FStrings((char*)st.f_str(), elementLength, numElements, numElements);
    return messageData;
    }
 inline MessageData& operator<< (MessageData& messageData, const FStrings& strings)
    {
    messageData << strings.getNumElements();
-   for (unsigned int i = 0; i < strings.getNumElements(); i++)
-      messageData << strings.getString(i);
-
+   messageData << strings.getElementLength();
+   messageData << strings.getSt();
    return messageData;
    }
 inline unsigned int memorySize(const FStrings& strings)
    {
-   unsigned size = 4;
-   for (unsigned int i = 0; i < strings.getNumElements(); i++)
-      size += memorySize(strings.getString(i));
-   return size;
+   return 8 + memorySize(strings.getSt());
    }
 
 // restore the warnings about "Functions containing for are not expanded inline.

@@ -107,6 +107,5 @@ class __declspec(dllexport) ApsimControlFile
                                          const std::string& line) const throw(std::runtime_error);
       void parseChangeModuleName(const std::string& line) const throw(std::runtime_error);
 
-
    };
 #endif
