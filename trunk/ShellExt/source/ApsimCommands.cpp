@@ -173,15 +173,11 @@ extern "C" _export void __stdcall apsimReportFiles(const char* csvFiles)
    vector<string> fileNames;
    Split_string(csvFiles, ",", fileNames);
 
-   // write response file.
-   string responseFile = Path::getTempFolder().Get_path() + "\\response.file";
-   ofstream out(responseFile.c_str());
-   for (unsigned i = 0; i != fileNames.size(); ++i)
-      out << fileNames[i] << endl;
-   out.close();
-
-   // pass response file to apsimoutlook.
-   string command = "\"" + getApsimDirectory() + "\\bin\\ApsimReport\" " + responseFile;
-   WinExec(command.c_str(), SW_SHOW);
+   for (unsigned f = 0; f != fileNames.size(); f++)
+      {
+      // pass response file to apsimoutlook.
+      string command = "\"" + getApsimDirectory() + "\\bin\\ApsimReport\" \"" + fileNames[f] + "\"";
+      WinExec(command.c_str(), SW_SHOW);
+      }
    }
 

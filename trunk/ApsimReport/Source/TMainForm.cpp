@@ -207,7 +207,7 @@ void __fastcall TMainForm::SaveAsActionExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void TMainForm::open(AnsiString file)
    {
-   filename = file;
+   filename = ExpandFileName(file);
    report.load(filename.c_str());
    setCaption();
    ZoomUpDown->Position = report.getZoom();
@@ -335,6 +335,7 @@ void TMainForm::processCommandLine(AnsiString commandLine)
    if (commandWords.size() >= 1)
       {
       string reportFileName = commandWords[0];
+      Strip(reportFileName, "\"");
       open(reportFileName.c_str());
       if (commandWords.size() >= 2)
          {
