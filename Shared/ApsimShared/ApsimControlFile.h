@@ -4,100 +4,96 @@
 
 #include <vector>
 #include <string>
+#include <general\StringTokenizer.h>
+#include "ApsimParameterFile.h"
+#include <ApsimShared\ApsimConfigurationFile.h>
 // ------------------------------------------------------------------
 // This class encapsulates an apsim control file.  It provides several
 // methods to extract information from the control file and associated
 // parameter files.
 // ------------------------------------------------------------------
-class ApsimControlFile
+class __declspec(dllexport) ApsimControlFile
    {
    public:
-      ApsimControlFile (void);
-      ApsimControlFile (const std::string& controlFilename);
+      ApsimControlFile (const std::string& controlFilename,
+                        const std::string& section) throw(std::runtime_error);
 
       string getFileName(void) const {return fileName;}
 
       // return a list of all section names in the control file.
-      void getAllSectionNames(std::vector<std::string>& sectionNames) const;
+      static void getAllSectionNames(const std::string& fileName,
+                                     std::vector<std::string>& sectionNames);
 
       // return a list of all filenames specified in the control file section.
       // NB: This list doesn't include output file names.
-      void getAllFiles(const std::string& section,
-                       std::vector<std::string>& fileNames) const throw(std::runtime_error);
+      void getAllFiles(std::vector<std::string>& fileNames) const throw(std::runtime_error);
 
       // get and set the control file section contents.
-      std::string getSectionContents(const std::string& section) const;
-      void setSectionContents(const std::string& section,
-                              const std::string& contents);
+      std::string getSectionContents(void) const;
+      void setSectionContents(const std::string& contents);
 
       // return a list of output/summary filenames
-      void getOutputFileNames(const std::string& section,
-                              std::vector<std::string>& fileNames) const;
-      void getSummaryFileNames(const std::string& section,
-                               std::vector<std::string>& fileNames) const;
+      void getOutputFileNames(std::vector<std::string>& fileNames) const;
+      void getSummaryFileNames(std::vector<std::string>& fileNames) const;
 
       // Run apsim using the specified configuration file.
       // If sections.size() > 0 then only those sections specified will be run
       // If sections.size() == 0 then all sections will be run.
-      void run(const std::vector<std::string>& sections,
-               const std::string& configurationFile,
-               bool quiet = false) const;
+      void run(const std::string& configurationFile,
+               bool quiet = false) const throw(std::runtime_error);
 
       // Create a SIM file for the specified section and return its filename.
-      std::string createSIM(const std::string& section,
-                            const std::string& configurationFile) const;
+      std::string createSIM(const std::string& configurationFile) const throw(std::runtime_error);
 
    private:
       string fileName;
+      string section;
 
-      // Return the values of the specified parameter for the specified
-      // module and section.
-      void getParamValues(const std::string& controlSection,
-                          const std::string& instanceName,
-                          const std::string& parameterName,
-                          std::vector<std::string>& values) const;
+      // Return all the parameter files for the specified section and instance.
+      void getParameterFiles(const std::string& moduleName,
+                             std::vector<ApsimParameterFile>& paramFiles,
+                             bool oneFilePerInstance = false,
+                             bool constants = false) const;
+
+      // Return a list of all parameter values for the specified module
+      // and parameter name.
+      void getParameterValues(const std::string& moduleName,
+                              const std::string& parameterName,
+                              std::vector<std::string>& values) const;
+
+      // Return a single parameter value for the specified module
+      // and parameter name.
+      std::string getParameterValue(const std::string& moduleName,
+                                    const std::string& parameterName) const throw(std::runtime_error);
+
+      // convert a module name to an instance name.
+      std::string moduleToInstance(const std::string& moduleName) const;
 
       // Return a list of instance names for the specified module name.
-      void getInstances(const std::string& section, const std::string& moduleName,
+      void getInstances(const std::string& moduleName,
                         std::vector<std::string>& instanceNames) const;
 
+      // Create default services in specified simulation
+      void createServices(ApsimSimulationFile& simulation,
+                          ApsimConfigurationFile& configuration) const;
 
-      // parameter file reading methods.
-/*
-      bool getParametersFromFile(const std::string& FileName,
-                                 const std::string& controlSection,
-                                 const std::string& parameterName,
-                                 std::list<std::string>& parameterValues);
-      bool parseSectionName (const std::string& controlSection,
-                             string& firstWord,
-                             string& secondWord,
-                             string& thirdWord);
-      bool findParameterSection (std::istream& in,
-                                 const std::string& moduleName,
-                                 const std::string& controlSection,
-                                 string& thirdWord);
-      void enumerateSection (const std::string& moduleName,
-                             const std::string& instName,
-                             const std::string& paramFile,
-                             const std::string& controlSection,
-                             CallbackFunction<Parameter&>& function);
-
-      void getParamFromModule (const std::string& controlSection,
-                               const std::string& moduleName,
-                               const std::string& parameterName,
-                               std::list<std::string>& parameterValues);
-
-      void getAllParamFiles   (const std::string& controlSection,
-                               std::list<std::string>& fileNames);
-      void getAllConstantFiles(const std::string& controlSection,
-                               std::list<std::string>& fileNames);
-
-
-      void getModuleNames     (const std::string& controlSection,
-                               std::list<string>& moduleNames);
-      void enumerateInstances (const std::string& controlSection,
-                               CallbackFunction<Instance&>& function);
-      void enumerateParameters (const std::string& controlSection,
-                                CallbackFunction<Parameter&>& function);
-*/   };
+      // Convert the control / parameter file.
+      bool convertControlFile(void) const throw(std::runtime_error);
+      void parseName(StringTokenizer& tokenizer,
+                     std::string& moduleName, std::string& parameterName) const;
+      std::string parseValue(const ApsimParameterFile& paramFile,
+                             StringTokenizer& tokenizer) const;
+      std::string parseDate(const ApsimParameterFile& paramFile,
+                            StringTokenizer& tokenizer) const;
+      void parseCreateParameter(const ApsimParameterFile& paramFile,
+                                StringTokenizer& tokenizer) const throw(std::runtime_error);
+      void parseDeleteParameter(const ApsimParameterFile& paramFile,
+                                StringTokenizer& tokenizer) const throw(std::runtime_error);
+      void parseMoveParameter(const ApsimParameterFile& paramFile,
+                              StringTokenizer& tokenizer) const throw(std::runtime_error);
+      void parseNewFormatReportVariables(const ApsimParameterFile& paramFile,
+                                         StringTokenizer& tokenizer) const throw(std::runtime_error);
+      void parseRemoveReportOutputSwitch(const ApsimParameterFile& paramFile,
+                                         StringTokenizer& tokenizer) const throw(std::runtime_error);
+   };
 #endif
