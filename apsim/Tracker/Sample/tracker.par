@@ -27,15 +27,15 @@ end_date=9/4/1988
 !variable = average of weekly_runoff between start_year and end_year on end_week
 !variable = sum of runoff since reported as sum_runoff on post
 
-variable = sum of rain last 3 as rain[3] on post
+variable = sum of rain last 3 as rain[3] on process
 
 
-[sample.manager.start_of_day]
+[sample.manager.end_of_day]
 ! tell report module to output when accumulated rainfall is
 ! greater than 20 mm.
 
 if (rain[3] >= 20) then
-   report do_output
+   report do_end_day_output
 endif
 
 [sample.summaryfile.parameters]
