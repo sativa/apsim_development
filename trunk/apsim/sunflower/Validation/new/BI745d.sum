@@ -348,9 +348,9 @@
      
      
 29 November 1974(Day of year=333), manager: 
-     Manager creating a new local real variable : frac_stored_water =     1.00299506926399
-     Manager creating a new local real variable : paw =     245.132019000000
-     Manager creating a new local real variable : atsw =     245.132019000000
+     Manager creating a new local real variable : frac_stored_water =    0.995646379314594
+     Manager creating a new local real variable : paw =     243.335999000000
+     Manager creating a new local real variable : atsw =     243.335999000000
      Manager creating a new local real variable : cum_et =     1.00000000000000
      Manager creating a new local real variable : supply_demand_ratio =     0.00000000000000
      Manager creating a new local real variable : dw1000gr =     0.00000000000000
@@ -360,39 +360,39 @@
 5 December 1974(Day of year=339), sunflower: 
       stage    3.0 emergence
                           biomass =           1.000000       lai =    0.2000000E-02
-                          stover N conc =    5.000000       extractable sw =    75.88889
+                          stover N conc =    5.000000       extractable sw =    74.48869
 16 December 1974(Day of year=350), sunflower: 
       stage    4.0 end_of_juvenile
                           biomass =           12.00487       lai =    0.8171032E-01
-                          stover N conc =    4.611877       extractable sw =    147.7372
+                          stover N conc =    4.615401       extractable sw =    145.5769
 5 January 1975(Day of year=5), sunflower: 
       stage    5.0 floral_initiation
-                          biomass =           162.2239       lai =     1.515535
-                          stover N conc =    4.072088       extractable sw =    216.9617
+                          biomass =           162.0628       lai =     1.512772
+                          stover N conc =    4.071121       extractable sw =    220.8678
 26 January 1975(Day of year=26), sunflower: 
       stage    6.0 flag_leaf
-                          biomass =           575.1951       lai =     3.047455
-                          stover N conc =    2.706850       extractable sw =    118.6013
+                          biomass =           575.6534       lai =     3.062760
+                          stover N conc =    2.705288       extractable sw =    113.8959
 27 January 1975(Day of year=27), sunflower: 
       stage    7.0 flowering
-                          biomass =           587.5433       lai =     3.025859
-                          stover N conc =    2.678595       extractable sw =    110.2772
+                          biomass =           588.0146       lai =     3.041055
+                          stover N conc =    2.676385       extractable sw =    105.5599
 30 January 1975(Day of year=30), sunflower: 
       stage    8.0 start_grain_fill
-                          biomass =           623.7106       lai =     2.946481
-                          stover N conc =    2.601490       extractable sw =    89.27415
+                          biomass =           624.1761       lai =     2.961278
+                          stover N conc =    2.597745       extractable sw =    84.54635
 22 February 1975(Day of year=53), sunflower: 
       stage    9.0 end_grain_fill
-                          biomass =           727.0590       lai =     1.174699
-                          stover N conc =    2.682234       extractable sw =    19.92065
+                          biomass =           726.3669       lai =     1.180598
+                          stover N conc =    2.682558       extractable sw =    15.72212
 23 February 1975(Day of year=54), sunflower: 
       stage   10.0 maturity
-                          biomass =           729.4491       lai =    0.9953010
-                          stover N conc =    2.714988       extractable sw =    18.92162
+                          biomass =           728.6550       lai =     1.000299
+                          stover N conc =    2.716072       extractable sw =    14.76250
 24 February 1975(Day of year=55), sunflower: 
       stage   11.0 harvest_ripe
-                          biomass =           729.4490       lai =     0.000000
-                          stover N conc =    2.998825       extractable sw =    17.98639
+                          biomass =           728.6551       lai =     0.000000
+                          stover N conc =    3.002252       extractable sw =    13.86673
 25 February 1975(Day of year=56), manager: 
      Manager sending message :- sunflower harvest
 25 February 1975(Day of year=56), sunflower: 
@@ -400,20 +400,20 @@
      
      
      flowering (DAS) =  59                  maturity (DAS)  =  87
-      flowering day  =   27                  stover (kg/ha) =    5874.2
-      maturity day        =   54             grain yield (kg/ha) =    1420.3
-      grain % water content   =    9.0       grain yield wet (kg/ha) =    1560.8
+      flowering day  =   27                  stover (kg/ha) =    5867.3
+      maturity day        =   54             grain yield (kg/ha) =    1419.3
+      grain % water content   =    9.0       grain yield wet (kg/ha) =    1559.6
       grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 3.146
-      total above ground biomass (kg/ha) =    7294.5
-      live above ground biomass (kg/ha) =    7294.5
-      green above ground biomass (kg/ha) =    4946.4
-      senesced above ground biomass (kg/ha) =    2348.0
+      grains/head =   0.0                    maximum lai = 3.162
+      total above ground biomass (kg/ha) =    7286.6
+      live above ground biomass (kg/ha) =    7286.6
+      green above ground biomass (kg/ha) =    4928.8
+      senesced above ground biomass (kg/ha) =    2357.7
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  32.2
-      grain N percent =      1.41            total N content (kg/ha) =    164.77
-      grain N uptake (kg/ha) =     19.98     senesced N content (kg/ha) =     16.44
-      green N content (kg/ha) =    128.35    dead N content (kg/ha) =      0.00
+      grain N percent =      1.40            total N content (kg/ha) =    164.48
+      grain N uptake (kg/ha) =     19.81     senesced N content (kg/ha) =     16.50
+      green N content (kg/ha) =    128.16    dead N content (kg/ha) =      0.00
      
      
      
@@ -425,35 +425,35 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0560633
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0575947
      
      
      
       stress indices for floral_initiation
-      water stress 1 =       0.0992786   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.4039959   nitrogen stress 2 =       0.0129568
+      water stress 1 =       0.0987834   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.3985134   nitrogen stress 2 =       0.0137481
      
      
      
       stress indices for flag_leaf
-      water stress 1 =       0.5201461   nitrogen stress 1 =       0.0000000
+      water stress 1 =       0.5197867   nitrogen stress 1 =       0.0000000
       water stress 2 =       0.9000000   nitrogen stress 2 =       0.0000000
      
      
      
       stress indices for flowering
-      water stress 1 =       0.5206169   nitrogen stress 1 =       0.0000000
+      water stress 1 =       0.5205725   nitrogen stress 1 =       0.0000000
       water stress 2 =       0.9000000   nitrogen stress 2 =       0.0000000
      
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.6875815   nitrogen stress 1 =       0.0000000
+      water stress 1 =       0.6913270   nitrogen stress 1 =       0.0000000
       water stress 2 =       0.8999999   nitrogen stress 2 =       0.0000000
 25 February 1975(Day of year=56), manager: 
      Manager sending message :- sunflower kill_crop
 25 February 1975(Day of year=56), sunflower: 
-         kill. Standing above-ground dm =  6093.8 (kg/ha)
+         kill. Standing above-ground dm =  6085.0 (kg/ha)
 25 February 1975(Day of year=56), manager: 
      Manager sending message :- sunflower end_crop
 25 February 1975(Day of year=56), sunflower: 
@@ -464,31 +464,31 @@
        Added Residue
                                              Residue Type         = sunflower
                                              Dry matter Type      = l
-                                             Amount Added (kg/ha) =  2348.04
+                                             Amount Added (kg/ha) =  2357.75
                                              Specific Area        =  0.00020
      
        Added Residue
                                              Residue Type         = sunflower
                                              Dry matter Type      = s
-                                             Amount Added (kg/ha) =  3395.96
+                                             Amount Added (kg/ha) =  3379.09
                                              Specific Area        =  0.00020
      
        Added Residue
                                              Residue Type         = sunflower
                                              Dry matter Type      = f
-                                             Amount Added (kg/ha) =   130.19
+                                             Amount Added (kg/ha) =   130.44
                                              Specific Area        =  0.00020
      
        Added Residue
                                              Residue Type         = sunflower
                                              Dry matter Type      = e
-                                             Amount Added (kg/ha) =   219.57
+                                             Amount Added (kg/ha) =   217.72
                                              Specific Area        =  0.00020
      
 25 February 1975(Day of year=56), sunflower: 
-                                               straw residue = 6093.8 kg/ha
-                                               straw N =  144.8 kg/ha
-                                               root residue = 2526.7 kg/ha
-                                               root N =   47.6 kg/ha
+                                               straw residue = 6085.0 kg/ha
+                                               straw N =  144.7 kg/ha
+                                               root residue = 2527.6 kg/ha
+                                               root N =   47.4 kg/ha
 30 June 1975(Day of year=181), clock: 
      Simulation is terminating due to end criteria being met.
