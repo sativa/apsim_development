@@ -7696,80 +7696,54 @@ cpsc  add above
 
 
 * ====================================================================
-       subroutine Maize_P_uptake (Option)
+      subroutine Maize_P_uptake (Option)
 * ====================================================================
- 
-*   Short description:
-*      None
- 
-*   Assumptions:
-*      None
- 
-*   Notes:
-*      None
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
-*     26-06-1997 - huth - Programmed and Specified
- 
-*   Calls:
-*     Pop_routine
-*     Push_routine
- 
-* ----------------------- Declaration section ------------------------
- 
-       implicit none
- 
-*   Subroutine arguments
-      integer Option
- 
-*   Global variables
+      implicit none
       include 'const.inc'
       include 'convert.inc'
       include 'maize.inc'
- 
       include 'data.pub'                          
       include 'error.pub'                         
-      include 'crp_comm.pub'                      
+      include 'intrface.pub'                      
+
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
  
-*   Internal variables
-      real layered_p_uptake(max_layer)
+*+ Purpose
+*      Get P uptake from P module and convert to require units
+*      for internal use.
  
-*   Constant values
+*+  Changes
+*     26-06-1997 - huth - Programmed and Specified
+ 
+*+  Constant Values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'Maize_P_uptake')
  
-*   Initial data values
-*      none
+*+  Local Variables
+      real layered_p_uptake(max_layer)
+      integer numvals
  
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (myname)
  
       if (Option.eq.1) then
-         if (p_p_awareness.eq.'on') then
-            call fill_real_array (layered_p_uptake,0.0,max_layer)
- 
-            call crop_get_ext_uptakes(
-     :                 'apsim'           ! uptake flag
-     :                ,c_crop_type       ! crop type
-     :                ,'p'               ! uptake name
-     :                ,kg2gm/ha2sm       ! unit conversion factor
-     :                ,0.0               ! uptake lbound
-     :                ,100.0             ! uptake ubound
-     :                ,layered_p_uptake  ! uptake array
-     :                ,max_layer         ! array dim
-     :                )
- 
+         call fill_real_array (layered_p_uptake,0.0,max_layer)
+
+         call get_real_array_Optional 
+     :                        (unknown_module
+     :                       ,'uptake_p_maize'
+     :                       ,max_layer
+     :                       ,'()'
+     :                       ,layered_p_uptake
+     :                       ,numvals
+     :                       ,0.0
+     :                       ,100.)
+         if (numvals.gt.0) then
             g_dlt_plant_p = sum_real_array (layered_p_uptake
-     :                                     ,max_layer)
+     :                                     ,numvals)
+     :                    * kg2gm/ha2sm
+
          else
             g_dlt_plant_p = g_p_demand
 
@@ -7795,18 +7769,14 @@ cpsc  add above
      .          P_conc_max,
      .          P_conc_min)
 *     ===========================================================
- 
-*+ Short description:
-*       Calculate the critical N concentration below which plant growth
-*       is affected.  Also minimum and maximum N concentrations below
-*       and above which it is not allowed to fall or rise.
- 
-*+  Changes:
-*     080994 jngh specified and programmed
- 
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
+      include   'maizcons.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
+      include 'crp_phen.pub'                      
+
+*+  Sub-Program Arguments
        real g_current_stage
        real c_p_stage_code(*)
        real c_stage_code_list(*)
@@ -7818,22 +7788,24 @@ cpsc  add above
                               ! (g N/g part)
       real       P_conc_min   ! (OUTPUT) minimum P conc
                               ! (g N/g part)
-*   Global variables
-      include   'maizcons.inc'
  
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
-      include 'crp_phen.pub'                      
+*+  Purpose
+*       Calculate the critical N concentration below which plant growth
+*       is affected.  Also minimum and maximum N concentrations below
+*       and above which it is not allowed to fall or rise.
  
-*   Internal variables
-      integer    numvals               ! number of values in stage code table
-      real       current_stage_code            ! interpolated current stage code
-*   Constant values
+*+  Changes
+*     080994 jngh specified and programmed
+ 
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_P_conc_limits')
+
+*+  Local Variables
+      integer    numvals               ! number of values in stage code table
+      real       current_stage_code            ! interpolated current stage code
  
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
  
       call push_routine (my_name)
  
@@ -7887,46 +7859,12 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :              , pfact
      :               )
 *     ===========================================================
- 
-*   Short description:
-*     The concentration of P in the entire plant is used to derive a
-*     series of Phosphorus stress indices.  The stress indices for
-*     today's growth are calculated from yesterday's
-*     relative nutritional status between a critical and minimum
-*     total plant Phosphorus concentration.
- 
-*   Assumptions:
-*       none
- 
-*   Notes:
-*       none
- 
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
- 
-*   Changes:
-*     270697 nih
- 
- 
-*   Calls:
-*     bound
-*     divide
-*     exp
-*     fatal_error
-*     pop_routine
-*     Push_routine
- 
-* ----------------------- Declaration section ------------------------
- 
       implicit none
- 
-*   Subroutine arguments
+      include   'const.inc'
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
       REAL       G_dm_green(*)    ! (INPUT)  live plant biomass (g/m2)
       REAL       G_dm_dead(*)     ! (INPUT)  dead plant biomass (g/m2)
       REAL       G_dm_senesced(*) ! (INPUT)  senesced plant biomass (g/m2)
@@ -7937,13 +7875,22 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       REAL       k_pfact          ! (INPUT)  k value for stress factor
       real      pfact             ! (OUTPUT) P stress factor
  
-*   Global variables
-      include   'const.inc'
+*+  Purpose
+*     The concentration of P in the entire plant is used to derive a
+*     series of Phosphorus stress indices.  The stress indices for
+*     today's growth are calculated from yesterday's
+*     relative nutritional status between a critical and minimum
+*     total plant Phosphorus concentration.
  
-      include 'data.pub'                          
-      include 'error.pub'                         
  
-*   Internal variables
+*+   Changes
+*     270697 nih
+ 
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'maize_pfact')
+ 
+*+  Local Variables
       real       biomass               ! total crop biomass
       real       P_conc                ! actual P concentration (g/g)
  
@@ -7951,14 +7898,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       real       P_conc_ratio          ! available P as fraction of P capacity
                                        ! (0-1)
  
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'maize_pfact')
- 
-*   Initial data values
-*       none
- 
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
  
       call push_routine (my_name)
  
@@ -7984,54 +7924,22 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *     ===========================================================
       subroutine maize_p_stress_photo (Option)
 *     ===========================================================
- 
-*   Short description:
-*         Get current P stress factors (0-1)
- 
-*   Assumptions:
-*       none
- 
-*   Notes:
-*       none
- 
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
- 
-*   Changes:
-*     270697 nih specified and programmed
- 
-*   Calls:
- 
-* ----------------------- Declaration section ------------------------
- 
       implicit none
- 
-*   Subroutine arguments
-      integer    Option                ! (INPUT) option number
- 
-*   Global variables
       include   'const.inc'
       include   'maize.inc'
- 
       include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      integer    Option                ! (INPUT) option number
  
-*   Internal variables
-*     none
+*+   Purpose
+*         Get current P stress factors (0-1)
  
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'maize_p_stress_photo')
  
-*   Initial data values
-*       none
- 
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
  
       call push_routine (my_name)
  
@@ -8060,54 +7968,22 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *     ===========================================================
       subroutine maize_p_stress_pheno (Option)
 *     ===========================================================
- 
-*   Short description:
-*         Get current P stress factors (0-1)
- 
-*   Assumptions:
-*       none
- 
-*   Notes:
-*       none
- 
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
- 
-*   Changes:
-*     270697 nih specified and programmed
- 
-*   Calls:
- 
-* ----------------------- Declaration section ------------------------
- 
       implicit none
- 
-*   Subroutine arguments
-      integer    Option                ! (INPUT) option number
- 
-*   Global variables
       include   'const.inc'
       include   'maize.inc'
- 
       include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      integer    Option                ! (INPUT) option number
  
-*   Internal variables
-*     none
+*+  Purpose
+*         Get current P stress factors (0-1)
  
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'maize_p_stress_pheno')
  
-*   Initial data values
-*       none
- 
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
  
       call push_routine (my_name)
  
@@ -8136,54 +8012,22 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *     ===========================================================
       subroutine maize_p_stress_expansion (Option)
 *     ===========================================================
- 
-*   Short description:
-*         Get current P stress factors (0-1)
- 
-*   Assumptions:
-*       none
- 
-*   Notes:
-*       none
- 
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
- 
-*   Changes:
-*     270697 nih specified and programmed
- 
-*   Calls:
- 
-* ----------------------- Declaration section ------------------------
- 
       implicit none
- 
-*   Subroutine arguments
-      integer    Option                ! (INPUT) option number
- 
-*   Global variables
       include   'const.inc'
       include   'maize.inc'
- 
       include 'error.pub'                         
  
-*   Internal variables
-*     none
+*+  Purpose
+*         Get current P stress factors (0-1)
  
-*   Constant values
+*+  Sub-Program Arguments
+      integer    Option                ! (INPUT) option number
+ 
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'maize_p_stress_expansion')
  
-*   Initial data values
-*       none
- 
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
  
       call push_routine (my_name)
  
@@ -8216,31 +8060,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *   Short description:
 *         Get current P stress factors (0-1)
  
-*   Assumptions:
-*       none
- 
-*   Notes:
-*       none
- 
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
- 
-*   Changes:
-*     270697 nih specified and programmed
- 
-*   Calls:
- 
-* ----------------------- Declaration section ------------------------
- 
       implicit none
  
-*   Subroutine arguments
+*+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
  
 *   Global variables
@@ -8249,17 +8071,14 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
  
       include 'error.pub'                         
  
-*   Internal variables
-*     none
- 
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'maize_p_stress_grain')
  
 *   Initial data values
 *       none
  
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
  
       call push_routine (my_name)
  
@@ -8289,56 +8108,22 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 * ====================================================================
        subroutine maize_P_demand_est (Option)
 * ====================================================================
- 
-*   Short description:
-*      None
- 
-*   Assumptions:
-*      None
- 
-*   Notes:
-*      None
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
-*     27-06-1997 - huth - Programmed and Specified
- 
-*   Calls:
-*     Pop_routine
-*     Push_routine
- 
-* ----------------------- Declaration section ------------------------
- 
-       implicit none
- 
-*   Subroutine arguments
-      integer Option
- 
-*   Global variables
+      implicit none
       include 'const.inc'
       include 'maize.inc'
- 
       include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      integer Option
  
-*   Internal variables
-*      none
+*+  Purpose
+*      None
  
-*   Constant values
+*+  Constant Values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'maize_P_demand_est')
  
-*   Initial data values
-*      none
- 
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (myname)
  
        if (Option.eq.1) then
@@ -8380,43 +8165,11 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      .          g_P_demand)
  
 *     ===========================================================
- 
-*   Short description:
- 
-*   Assumptions:
-*       none
- 
-*   Notes:
- 
- 
- 
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
- 
-*   Changes:
-*     060495 nih taken from template
- 
-*   Calls:
-*     bound
-*     bound_check_real_var
-*     divide
-*     l_bound
-*     pop_routine
-*     push_routine
-*     sugar_radn_int
-*     sum_real_array
- 
-* ----------------------- Declaration section ------------------------
- 
       implicit none
- 
-*   Subroutine arguments
+      include 'data.pub'                          
+      include 'error.pub'                         
+  
+*+  Sub-Program Arguments
  
       REAL       g_current_stage
       REAL       g_radn_int
@@ -8430,14 +8183,12 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       REAL       g_plant_P
       REAL       c_P_uptake_Factor
       REAL       g_P_demand
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'maize_p_demand')
  
-*   Global variables
- 
- 
-      include 'data.pub'                          
-      include 'error.pub'                         
- 
-*   Internal variables
+*+  Local Variables
       real       biomass               ! total plant biomass (g/m2)
       integer    current_phase         ! current growth phase
       real       dlt_dm_pot            ! potential dm increase (g/m2)
@@ -8447,14 +8198,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
                                        ! (g/m^2)
       real       deficit               ! deficit of total plant p (g/m2)
       real       p_demand_max          ! maximum P demand (g/m2)
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'maize_p_demand')
  
-*   Initial data values
-*       none
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
          ! calculate potential new shoot and root growth
@@ -8483,56 +8229,22 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 * ====================================================================
        subroutine maize_P_conc (Option)
 * ====================================================================
- 
-*   Short description:
-*      None
- 
-*   Assumptions:
-*      None
- 
-*   Notes:
-*      None
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
-*     27-06-1997 - huth - Programmed and Specified
- 
-*   Calls:
-*     Pop_routine
-*     Push_routine
- 
-* ----------------------- Declaration section ------------------------
- 
-       implicit none
- 
-*   Subroutine arguments
-      integer Option
- 
-*   Global variables
+      implicit none
       include 'const.inc'
       include 'maize.inc'
- 
       include 'error.pub'                         
  
-*   Internal variables
-*      none
+*+  Sub-Program Arguments
+      integer Option
+
+*+  Purpose
+*      calculate p concentration curves
  
-*   Constant values
+*+  Constant Values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'maize_P_conc')
  
-*   Initial data values
-*      none
- 
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (myname)
  
       if (Option.eq.1) then
@@ -8553,30 +8265,29 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       call pop_routine (myname)
       return
       end
+
 *     ===========================================================
       subroutine Maize_Phos_init (Option)
 *     ===========================================================
+      implicit none
+      include   'const.inc'
+      include   'Maize.inc'
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      integer    Option                ! (INPUT) option number
  
-*+  Short description:
+*+  Purpose
 *      Initialise plant Phosphorus
  
 *+  Changes:
 *     270697 nih specified and programmed
  
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer    Option                ! (INPUT) option number
-*   Global variables
-      include   'const.inc'
-      include   'Maize.inc'
-      include 'error.pub'                         
- 
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_p_init')
  
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       if (Option .eq. 1) then
@@ -8608,17 +8319,12 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      .          g_p_conc_max,
      .          g_plant_p)
 *     ===========================================================
- 
-*+  Short description:
-*     Set initial plant p
- 
-*+  Changes:
-*     270697 nih specified and programmed
- 
-*+  Declaration section -----------------------------------------------
       implicit none
- 
-*   Subroutine arguments
+      include 'data.pub'                          
+      include 'science.pub'                       
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
       integer init_stage
       real g_current_stage
       real g_days_tot(*)
@@ -8627,20 +8333,20 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       real       g_p_conc_max
       real       g_plant_p
  
-*   Global variables
+*+  Purpose
+*     Set initial plant p
  
-      include 'data.pub'                          
-      include 'science.pub'                       
-      include 'error.pub'                         
+*+  Changes:
+*     270697 nih specified and programmed
  
-*   Internal variables
-      real biomass
- 
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_P_init')
+
+*+  Local Variables
+      real biomass
  
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
  
       call push_routine (my_name)
  
