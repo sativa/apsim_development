@@ -5,13 +5,11 @@
 
 #include "db_functions.h"
 #include "string_functions.h"
+#include "math_functions.h"
 #include <adodb.hpp>
 
 #pragma package(smart_init)
 using namespace std;
-
-static const double MISSING_DOUBLE = 999999;
-static const double MISSING_INT = 999999;
 
 //---------------------------------------------------------------------------
 // Adds the specified fields to the specified dataset.
@@ -205,10 +203,14 @@ void appendDBRecord(TDataSet* dataset,
 //---------------------------------------------------------------------------
 string getDBValue(TDataSet* dataset, const std::string& fieldName)
    {
-   if (dataset->FieldValues[fieldName.c_str()].IsNull())
-      return "";
-   else
+   try
+      {
       return AnsiString(dataset->FieldValues[fieldName.c_str()]).c_str();
+      }
+   catch (const Exception& err)
+      {
+      return "";
+      }
    }
 
 //---------------------------------------------------------------------------
@@ -217,10 +219,14 @@ string getDBValue(TDataSet* dataset, const std::string& fieldName)
 //---------------------------------------------------------------------------
 double getDBDouble(TDataSet* dataset, const std::string& fieldName)
    {
-   if (dataset->FieldValues[fieldName.c_str()].IsNull())
-      return MISSING_DOUBLE;
-   else
+   try
+      {
       return dataset->FieldValues[fieldName.c_str()];
+      }
+   catch (const Exception& err)
+      {
+      return missingValue<double>();
+      }
    }
 //---------------------------------------------------------------------------
 // Return a DB value to caller - as a string. To test for a missing value
@@ -228,26 +234,15 @@ double getDBDouble(TDataSet* dataset, const std::string& fieldName)
 //---------------------------------------------------------------------------
 unsigned getDBUnsigned(TDataSet* dataset, const std::string& fieldName)
    {
-   if (dataset->FieldValues[fieldName.c_str()].IsNull())
-      return MISSING_INT;
-   else
+   try
+      {
       return dataset->FieldValues[fieldName.c_str()];
+      }
+   catch (const Exception& err)
+      {
+      return missingValue<unsigned>();
+      }
    }
-//---------------------------------------------------------------------------
-// Return true if value is missing.
-//---------------------------------------------------------------------------
-bool isMissing(double value)
-   {
-   return (value == MISSING_DOUBLE);
-   }
-//---------------------------------------------------------------------------
-// Return true if value is missing.
-//---------------------------------------------------------------------------
-bool isMissing(unsigned value)
-   {
-   return (value == MISSING_INT);
-   }
-
 // ------------------------------------------------------------------
 // Execute the specified query.
 // ------------------------------------------------------------------
