@@ -26,7 +26,7 @@
    <component name="clock" executable="c:\development\apsim\clock\lib\clock.dll">
       <initdata>
          <constants name="standard">
-            <property name="timestep_events">prepare DoMicromet process DoSurfaceWaterBalance DoSoilWaterBalance DoSoilTemperature DoPotentialResidueDecomposition DoCropgrowth DoSoilNitrogenBalance DoSoilPhosphorusBalance DoCropUpdate DoResidue DoErosion  post rep</property>
+            <property name="timestep_events">prepare process post rep</property>
          </constants>
          <parameters name="sample">
             <property name="start_date">14/6/1988</property>
