@@ -338,6 +338,19 @@ void ReportComponent::doInit2(void)
          error(msg.c_str(), true);
          }
 
+      // get output frequencies
+      std::vector<string> frequencies;
+      splitIntoValues(componentData->getProperty("parameters", "outputfrequency"),
+                      " ", frequencies);
+      if (frequencies.size() > 0)
+         writeString("Output frequency:");
+      for (unsigned f = 0; f != frequencies.size(); f++)
+         {
+         string name = "   " + frequencies[f];
+         writeString(name.c_str());
+         frequencyIds.push_back(addRegistration(respondToEventReg, frequencies[f].c_str(), ""));
+         }
+
       // get format specifier.
       CSVFormat = Str_i_Eq(componentData->getProperty("parameters", "format"), "csv");
 
@@ -413,6 +426,11 @@ void ReportComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID
       if (OutputOnThisDay)
          WriteLineOfOutput();
       OutputOnThisDay = false;
+      }
+   else
+      {
+      if (find(frequencyIds.begin(), frequencyIds.end(), eventID) != frequencyIds.end())
+         OutputOnThisDay = true;
       }
    }
 

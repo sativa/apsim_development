@@ -67,6 +67,7 @@ class ReportComponent : public protocol::Component
       int DaysSinceLastReport;
       bool CSVFormat;
       bool haveWrittenHeadings;
+      std::vector<unsigned> frequencyIds;
 
       unsigned titleID;
       unsigned summaryFileID;
