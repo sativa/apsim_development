@@ -1194,6 +1194,10 @@
       if (Module_name .eq. First_active_module) then
          ok = Loader_SendActionToFirstComp (ACTION_Get_variable, 
      .                                      Our_variable_name)
+      else if (Module_name .eq. All_active_modules) then
+        call Loader_SendActionToAllComps (ACTION_Get_variable, 
+     .                                    Our_variable_name)
+         
       else
          ok = Loader_SendAction (Module_name, 
      .                           ACTION_Get_variable, 
@@ -1247,6 +1251,9 @@
       if (Module_name .eq. First_active_module) then
          ok = Loader_SendActionToFirstComp (ACTION_Set_variable, 
      .                                      Variable_name)
+      else if (Module_name .eq. All_active_modules) then
+        call Loader_SendActionToAllComps (ACTION_Set_variable, 
+     .                                    Variable_name)
       else
          ok = Loader_SendAction (Module_name, 
      .                           ACTION_Set_variable, 
