@@ -24,6 +24,9 @@
 *       Initialise plant weights and plant weight minimums
 *       at required instances.
 
+*+  Mission Statement
+*     Initialise plant weights and plant weight minimums at required instances.
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -104,6 +107,9 @@
 
 *+  Purpose
 *     Calculate plant dry matter delta's due to retranslocation (g/m^2)
+
+*+  Mission statement
+*     Calculate plant dry matter change due to retranslocation
 
 *+  Changes
 *       010994 jngh specified and programmed
@@ -228,6 +234,9 @@
 *       is set at an approximated number at germination to allow
 *       other calculations to proceed until the correct number is known.
 
+*+ Mission statement
+*       Calculate total leaf number.
+
 *+  Changes
 *     010994 jngh specified and programmed
 *     070495 psc  changed from emerg to germ
@@ -341,6 +350,10 @@ cgd
 *       Note ! this does not take account of the other younger leaves
 *       that are currently expanding
 
+*+  Mission statement
+*       Calculate the fractional increase in emergence of the oldest
+*       expanding leaf.
+
 *+  Changes
 *       031194 jngh specified and programmed
 *       070495 psc  added 2nd leaf appearance rate
@@ -422,6 +435,9 @@ cgd
 *+  Purpose
 *       Simulate actual crop leaf area development - checks that leaf area
 *       development matches DM production.
+
+*+  Mission Statement
+*     Calculate actual crop leaf area development
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -510,6 +526,9 @@ cejvo
 *+  Purpose
 *       Set plant nitrogen
 
+*+  Mission Statement
+*     Set plant nitrogen
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -553,6 +572,9 @@ cejvo
 *+  Purpose
 *     Growing degree day (thermal time) is calculated.
 
+*+  Mission statement
+*     Calculate growing degree day
+*+
 *+  Notes
 *     Eight interpolations of the air temperature are
 *     calculated using a three-hour correction factor.
@@ -620,6 +642,9 @@ cejvo
 *+  Purpose
 *       Returns cumulative thermal time targets required for the
 *       individual growth stages.
+
+*+  Mission Statement
+*     Get the cumulative thermal time targets for growth phases
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -730,6 +755,8 @@ cjh
 *+  Purpose
 *     Determine the curent stage of development.
 
+*+  Mission statement
+*     Determine %2 
 *+  Changes
 *     010994 jngh specified and programmed
 *     070495 psc add l_bound to dlt-stage
@@ -788,6 +815,9 @@ cjh      dlt_stage = l_bound(new_stage - g%current_stage,0.0)
 
 *+  Purpose
 *     Determine the fraction of current phase elapsed ().
+
+*+  Mission statement
+*     Calculate tje fraction of current phase elapsed
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -955,6 +985,9 @@ cjh  changed 0.0 to 1.0
 *+  Purpose
 *       Return the fractional death of oldest green leaf.
 
+*+  Mission Statement
+*     Get the fractional death of oldest green leaf
+
 *+  Changes
 *     010994 jngh specified and programmed
 *     011100 jngh added check for leaf_no_final to be ne 0.
@@ -1083,6 +1116,9 @@ cccc
 *+  Purpose
 *       Derives seneseced plant nitrogen (g N/m^2)
 
+*+  Mission statement
+*        Get %1
+
 *+  Changes
 *       091294 jngh specified and programmed
 
@@ -1122,6 +1158,9 @@ cccc
 
 *+  Purpose
 *       Update states
+
+*+  Mission Statement
+*     Update states of variables
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -1436,6 +1475,9 @@ cjh
 *+  Purpose
 *         Check bounds of internal pools
 
+*+  Mission Statement
+*     Check bounds of internal pools
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -1643,6 +1685,9 @@ cjh
 *+  Purpose
 *         Collect totals of crop variables for output
 
+*+  Mission Statement
+*     Collect totals of crop variables for output
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -1775,6 +1820,9 @@ cpsc  add above
 *       Report occurence of event and the current status of specific
 *       variables.
 
+*+  Mission Statement
+*     Report occurence of event and the current status of specific variables
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -1880,6 +1928,9 @@ cpsc  add above
 *+  Purpose
 *       Distribute root material over profile
 
+*+  Mission statement
+*       Distribute root material over profile
+
 *+  Changes
 *       290994 jngh specified and programmed
 
@@ -1946,6 +1997,9 @@ cpsc  add above
       real       dlt_N_root            ! (INPUT) new root residue N (g/m^2)
 
 *+  Purpose
+*       Add root residue to root residue pool
+
+*+   Mission statement
 *       Add root residue to root residue pool
 
 *+  Changes
@@ -2043,7 +2097,10 @@ cjh     :                               , string)
       include 'error.pub'
 
 *+  Purpose
-*       Tiller routine
+*       Determine tillering 
+
+*+  Mission statement
+*       Call a tillering routine
 
 *+  Changes
 *       091095 jngh specified and programmed
@@ -2100,6 +2157,9 @@ cjh     :                               , string)
 *+  Purpose
 *       Uses thermal time to return the fractional increase in
 *       appearance of the next tiller to emerge.
+
+*+  Mission statement
+*      Calculate appearance of next tiller based on thermal time
 
 *+  Changes
 *       091095 jngh specified and programmed
@@ -2226,6 +2286,9 @@ cgol bounds added to tiller number determination
 *       Uses assimilate flux to determine the fractional increase in
 *       appearance of the next tiller to emerge.
 
+*+  Mission statement
+*       Calculate appearance of the next tiller based on assimilate flux
+
 *+  Changes
 *       091095 jngh specified and programmed
 
@@ -2283,6 +2346,9 @@ cgol bounds added to tiller number determination
 
 *+  Purpose
 *       Initiate millet tiller module
+
+*+  Mission statement
+*      Initiate millet tiller routines
 
 *+  Changes
 *       101095 jngh specified and programmed
@@ -2353,6 +2419,9 @@ cgol bounds added to tiller number determination
 
 *+  Purpose
 *       Initiate millet tiller module
+
+*+  Mission statement
+*       Initiate millet tiller routine
 
 *+  Changes
 *       101095 jngh specified and programmed
@@ -2525,6 +2594,10 @@ cgol bounds added to tiller number determination
 *       Return the potential increase in leaf area development (mm^2)
 *       calculated on an individual leaf basis.
 
+*+  Mission Statement
+*     Return the potential increase in leaf area development (%17) (mm^2)
+*     calculated on an individual leaf basis.
+
 *+  Changes
 *     210397 nih/mjr specified and programmed
 
@@ -2677,6 +2750,12 @@ cgol bounds added to tiller number determination
       include 'science.pub'
       include 'data.pub'
       include 'error.pub'
+
+*+  Purpose
+*     Partitions new dm (assimilate) between plant components (g/m^2)
+
+*+  Mission Statement
+*     Partitions new biomass between plant components
 
 *+  Sub-Program Arguments
        real g_current_stage
@@ -2915,7 +2994,10 @@ cgol bounds added to tiller number determination
        real     g_dm_senesced(*)
 
 *+  Purpose
-*       Partitions new dm (assimilate) between plant components (g/m^2)
+*     Partitions new dm (assimilate) between plant components (g/m^2)
+
+*+  Mission Statement
+*     Partitions new biomass between plant components
 
 *+  Changes
 *       010994 jngh specified and programmed
@@ -3116,6 +3198,9 @@ cgol bounds added to tiller number determination
 *+  Purpose
 *     Calculate heat stress on grain number for the current day.
 
+*+  Mission statement
+*     Calculate heat stress on grain number for the current day.
+
 *+  Changes
 *     250894 jngh specified and programmed
 *     970317 slw new template form
@@ -3185,6 +3270,9 @@ cgol bounds added to tiller number determination
 
 *+  Purpose
 *     Calculate the grains per m^2 and heads per m^2
+
+*+  Mission statement
+*      Calculate the %15 per m^2 and heads per m^2
 
 *+  Changes
 *     111094 jngh specified and programmed
@@ -3345,6 +3433,9 @@ cgol bounds added to tiller number determination
 *     get out of bounds values (-ve's) from sensible numbers.  If
 *     growth rate is small the fraction will be -ve and it is sensible
 *     to constrain this above 0.
+
+*+  Mission statement
+*      Calculate the %15 per m^2 and heads per m^2
 
 *+  Changes
 *     111094 jngh specified and programmed
@@ -3508,6 +3599,9 @@ c     :                           , 'grain_no_fract')
 
 *+  Purpose
 *     Find grain demand for carbohydrate (g/m^2)
+
+*+  Mission statement
+*     Calculate %22 for carbohydrate (g/m^2)
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -3730,6 +3824,9 @@ c     :                           , 'grain_no_fract')
 *     Calculate the nitrogen retranslocation from the various plant parts
 *     to the grain.
 
+*+  Mission Statement
+*     Calculate N retranslocation from various plant parts to grain
+
 *+  Changes
 *     080994 jngh specified and programmed
 
@@ -3866,6 +3963,9 @@ csc  true....
 *+  Purpose
 *     Return actual plant nitrogen uptake to each plant part and from
 *     each soil layer.
+
+*+  Mission Statement
+*     Calculate actual plant nitrogen uptake to each plant part
 
 *+  Changes
 *      080994 jngh specified and programmed
@@ -4009,6 +4109,9 @@ csc  true....
 *       These are analogous to the water concentrations
 *       of sat, dul and ll.
 
+*+  Mission statement
+*       Calculate the critical N concentration below which plant growth is affected.
+
 *+  Changes
 *     080994 jngh specified and programmed
 
@@ -4131,7 +4234,11 @@ csc  true....
       real g_cover_green
 
 *+  Purpose
-*     <insert here>
+*       'Cover' by leaves (0-1) . Fraction of radiation reaching the
+*       canopy, intercepted by the leaves of the canopy.
+
+*+  Mission statement
+*       Calculate crop cover
 
 *+  Changes
 *     15-08-1997 - huth - Programmed and Specified
@@ -4195,6 +4302,10 @@ csc  true....
 *       Calculate the critical N concentration below which plant growth
 *       is affected.  Also minimum and maximum N concentrations below
 *       and above which it is not allowed to fall or rise.
+
+*+  Mission Statement
+*       Calculate the critical p concentration below which plant growth 
+*       is affected.
 
 *+  Changes
 *     080994 jngh specified and programmed
@@ -4285,6 +4396,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *     relative nutritional status between a critical and minimum
 *     total plant Phosphorus concentration.
 
+*+  Mission Statement
+*      Calculate P stress indicies   
 
 *+   Changes
 *     270697 nih
@@ -4345,6 +4458,12 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       implicit none
       include 'data.pub'
       include 'error.pub'
+
+*+  Purpose
+*     Calculate the plant p demand
+
+*+  Mission Statement
+*     Calculate the plant p demand
 
 *+  Sub-Program Arguments
 
@@ -4431,6 +4550,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *+  Purpose
 *     Set initial plant p
 
+*+  Mission Statement
+*     Set initial plant p
+
 *+  Changes:
 *     270697 nih specified and programmed
 
@@ -4481,6 +4603,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *+  Purpose
 *      Determine plant death due to total leaf area senescence
+
+*+  Mission Statement
+*     Determine plant death from leaf area senescing
 
 *+  Changes
 *       290994 jngh specified and programmed
@@ -4539,6 +4664,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *+  Purpose
 *      Determine plant death due to water stress
+
+*+  Mission Statement
+*     Determine plant death from prolonged phenology delay
 
 *+  Changes
 *       290994 jngh specified and programmed
@@ -4608,7 +4736,10 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
        real dlt_plants_temp
 
 *+  Purpose
-*      Determine percentage plant failure due to high temperatures.
+*      Determine plant seedling death.
+
+*+  Mission Statement
+*     Determine plant seeding death
 
 *+  Changes
 *       290994 jngh specified and programmed
@@ -4696,6 +4827,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *+  Purpose
 *      Determine percentage plant failure due to water stress
 
+*+  Mission statement
+*       Determine plant death from drought
+
 *+  Changes
 *       290994 jngh specified and programmed
 
@@ -4774,6 +4908,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *+  Purpose
 *      Determine percent plant failure due to barreness
 
+*+   Mission statement
+*      Determine percent plant failure due to barreness
+
 *+  Changes
 *       290994 jngh specified and programmed
 
@@ -4846,7 +4983,10 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       real dlt_plants
 
 *+  Purpose
-*      Kill the entire crop if necessary.
+*      Determine actual plant death.
+
+*+  Mission Statement
+*     Determine actual plant death
 
 *+  Changes
 *       290994 jngh specified and programmed
@@ -4899,6 +5039,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *+  Purpose
 *        Calculate fraction of plants killed by high temperature during
 *        emergence (0-1).
+
+*+  Mission Statement
+*     Calculate fraction of plants killed by high temperature during emergence
 
 *+  Changes
 *     230695 jngh specified and programmed
@@ -4960,6 +5103,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *+  Purpose
 *        Calculate fraction of barren heads (0-1).
 *        Allows no more than 1 head per plant.
+
+*+ Mission statement
+*        Calculate fraction of barren heads (0-1)
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -5032,6 +5178,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *+  Purpose
 *        Check validity of grain no. parameters
 
+*+ Mission statement
+*        Check validity of grain number parameters
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -5090,6 +5239,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *+  Purpose
 *       Kill crop
+
+*+ Mission statement
+*       Kill the crop
 
 *+  Changes
 *       290994 jngh specified and programmed
@@ -5167,6 +5319,9 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 *+  Purpose
 *      Determine percent plant failure due to barreness
 
+*+   Mission statement
+*      Determine percent plant failure due to barreness
+
 *+  Changes
 *       290994 jngh specified and programmed
 
@@ -5241,6 +5396,9 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 *        Calculate fraction of barren heads (0-1).
 *        Allows no more than 1 head per plant.
 
+*+ Mission statement
+*        Calculate fraction of barren heads (0-1)
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -5305,6 +5463,9 @@ cjh special for erik - start
 *+  Purpose
 *       Set growth flag for this module.
 
+*+  Mission statement
+*       Set the growth variable for millet
+
 *+  Changes
 *     150199 jngh specified and programmed
 
@@ -5334,7 +5495,10 @@ cjh special for erik - end
       include 'error.pub'
 
 *+  Purpose
-*       clean
+*       cleanup after crop processes
+
+*+  Mission Statement
+*     Cleanup the variables after crop processes
 
 *+  Changes
 *      250894 jngh specified and programmed
