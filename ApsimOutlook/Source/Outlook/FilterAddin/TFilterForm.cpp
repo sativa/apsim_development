@@ -8,6 +8,7 @@
 #include <general\vcl_functions.h>
 #include <general\stl_functions.h>
 #include <general\path.h>
+#include <ApsimShared\ApsimDirectories.h>
 using namespace std;
 
 static const unsigned int MAX_NUM_MRU_FILTERS = 20;
@@ -22,9 +23,6 @@ TFilterForm *FilterForm;
 __fastcall TFilterForm::TFilterForm(TComponent* Owner)
    : TForm(Owner)
    {
-   Path iniPath(Application->ExeName.c_str());
-   iniPath.Set_extension(".ini");
-   ini.setFileName(iniPath.Get_path());
    inFormShow = false;
    }
 //---------------------------------------------------------------------------
@@ -33,7 +31,7 @@ void __fastcall TFilterForm::FormShow(TObject *Sender)
    inFormShow = true;
    // populate the comboboxes with most recent filter values.
    vector<string> mostRecentFilters;
-   ini.read("filters", "filter", mostRecentFilters);
+   settings.read("filters|filter", mostRecentFilters);
    Stl_2_tstrings(mostRecentFilters, FilterCombo1->Items);
    Stl_2_tstrings(mostRecentFilters, FilterCombo2->Items);
    Stl_2_tstrings(mostRecentFilters, FilterCombo3->Items);
@@ -106,7 +104,7 @@ void __fastcall TFilterForm::FormClose(TObject *Sender,
       // make up a most recent filter list that we're going to write back
       // to the .ini file.
       vector<string> strings;
-      ini.read("filters", "filter", strings);
+      settings.read("filters|filter", strings);
       list<string> mostRecentFilters;
       copy(strings.begin(), strings.end(), back_inserter(mostRecentFilters));
       for (vector<string>::iterator i = filters.begin();
@@ -126,7 +124,7 @@ void __fastcall TFilterForm::FormClose(TObject *Sender,
 
       strings.erase(strings.begin(), strings.end());
       copy(mostRecentFilters.begin(), mostRecentFilters.end(), back_inserter(strings));
-      ini.write("filters", "filter", strings);
+      settings.write("filters|filter", strings);
       }
    }
 //---------------------------------------------------------------------------

@@ -15,7 +15,7 @@
 #include "kbmMemTable.hpp"
 #include <DB.hpp>
 #include "flt_box.hpp"
-#include <general\inifile.h>
+#include <ApsimShared\ApsimSettings.h>
 #include <vector>
 class FiltAddIn;
 //---------------------------------------------------------------------------
@@ -58,7 +58,7 @@ __published:	// IDE-managed Components
    void __fastcall FilterCombo5Change(TObject *Sender);
    void __fastcall FilterBox5Change(TObject *Sender);
 private:	// User declarations
-   IniFile ini;
+   ApsimSettings settings;
    TComboBox* activeCombo;
    bool inFormShow;
    void addToVectorIfUnique(std::vector<std::string>& strings, const std::string& st);
