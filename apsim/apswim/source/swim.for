@@ -416,7 +416,7 @@ c        timestep??????? !!
       logical          xipdif
       character        string*300
       double precision gfhkp
-      double precision qdrain(0:M)
+      double precision qdrain(0:M),qdrainpsi(0:M),qssofp(0:M)
 
       double precision headdiff ! head difference between water table and
                                 ! potential at bottom of profile (cm)
@@ -578,12 +578,13 @@ cnh
 25    g%rex=g%rex+g%qex(i)
 
 ***   NIH  get subsurface fluxes
-      call apswim_drain(qdrain)
+      call apswim_drain(qdrain,qdrainpsi)
 
       g%rssf = 0.
       do 26 i=0,p%n
          g%qssif(i) = g%SubSurfaceInFlow(i)/10./24d0 ! assumes mm and daily timestep - need something better !!!!
          g%qssof(i) = qdrain(i) ! Add outflow calc here later
+         qssofp(i) = qdrainpsi(i) * psip(i)
          g%rssf = g%rssf + g%qssif(i) - g%qssof(i)
 26    continue
 
@@ -809,12 +810,13 @@ cnh         if(g%psi(p%n).ge.0.)then
             c_(k)=-qp2(j)
          end if
          rhs(k)=rhs(k)+g%qs(i)+g%qex(i)-g%qssif(i)+g%qssof(i)
-         b(k)=b(k)-qsp(i)
+         b(k)=b(k)-qsp(i)-qssofp(i)
 *        bypass flow?
          if(p%ibp.ne.0.and.i.eq.p%ibp)then
             rhs(k)=rhs(k)-g%qbp+qbps
             b(k)=b(k)+qbpp-qbpsp
          end if
+*        ggg
          if(iroots.eq.0)then
 *            a(k)=a(k)-qexp(1,i)
             b(k)=b(k)-qexp(2,i)
@@ -1907,7 +1909,7 @@ cnh added following declarations
       end subroutine
 
 * =====================================================================
-      subroutine apswim_drain(qdrain)
+      subroutine apswim_drain(qdrain,qdrainpsi)
 * =====================================================================
 *     Short Description:
 *     gets flow rate into drain
@@ -1918,17 +1920,21 @@ cnh added following declarations
 
 *     Subroutine Arguments
       double precision qdrain(0:M)
+      double precision qdrainpsi(0:M)
 
 *     Internal Variables
       integer drain_node
       real dlayer(1:M)
-      double precision q,d,wt_above_drain
+      double precision q,q2,d,wt_above_drain,wt_above_drain2
+      double precision qdrain2(0:M)
 
 *     Constant Values
-*     none
+      double precision dpsi
+      parameter (dpsi = 0.01)
 
 *
       qdrain(0:M) = 0d0
+      qdrainpsi(0:M) = 0d0
       dlayer(0:M) = g%dlayer(0:M)
 
       if (p%subsurface_drain.eq.'on') then
@@ -1951,6 +1957,24 @@ cnh added following declarations
      :                ,p%Klat)
 
          qdrain(drain_node) = q/10d0/24d0
+
+
+         if (g%psi(drain_node)+dpsi.gt.0) then
+            wt_above_drain2 = (g%psi(drain_node)+dpsi)*10d0
+         else
+            wt_above_drain2 = 0d0
+         endif
+
+         q2 = Hooghoudt(d
+     :                ,wt_above_drain2
+     :                ,p%drain_spacing
+     :                ,p%drain_radius
+     :                ,p%Klat)
+
+         qdrain2(drain_node) = q2/10d0/24d0
+
+         qdrainpsi(drain_node) =
+     :         (qdrain2(drain_node)-qdrain(drain_node))/dpsi
 
       endif
 
