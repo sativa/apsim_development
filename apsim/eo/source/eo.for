@@ -24,20 +24,13 @@
       character  myname*(*)            ! Name of this procedure
       parameter (myname = 'apsim_Eo')
 
-*+  Local Variables
-      character  module_name*8         ! name of this module
-
 *- Implementation Section ----------------------------------
       call push_routine (myname)
       
       !print*, ' action/data is: ', trim(action), ' : ',trim(data_string)
       
  
-      if (Action.eq.MES_Presence) then
-         call get_current_module (Module_name)
-         write(*, *) 'Module_name = ', Module_name
- 
-      elseif (Action.eq.MES_Init) then
+      if (Action.eq.MES_Init) then
          !open (200,'debug.out')
          call Eo_zero_variables ()
          call Eo_init ()
@@ -81,6 +74,7 @@
 
 *+  Changes
 *       210995 jngh programmed
+*       040699 jngh added missing common block variables
 
 *+  Constant Values
       character  myname*(*)            ! Name of this procedure
@@ -91,10 +85,18 @@
  
          !variables for penman-monteith
  
-!      p_e_method   = blank
-      g_vpd_source = blank
-      c_reference_height_base=blank
-      p_vpd_fac = 0.0
+!      p_e_method   = blank                 
+      g_vpd_source = blank                  
+      c_reference_height_base=blank 
+      c_rc_method = blank
+      p_eo_plant_method = blank
+      p_default_wind           = 0.0
+      p_default_pa             = 0.0
+      p_default_instrum_height = 0.0
+      p_extinct_coef           = 0.0
+      p_adjustment_factor      = 0.0
+      p_wind_multiplier        = 0.0
+      p_vpd_fac = 0.0                       
       g_day_of_year = 0
       g_year      = 0
       g_wind_ms_instrum   = 0.0
@@ -103,35 +105,70 @@
       g_wind_adj = 0.0
       g_wind = 0.0
       c_reference_height  = 0.0
-      p_disp_instrum      = 0.0
-      p_z0_instrum        = 0.0
-      g_maxt      = 0.0
-      g_mint      = 0.0
-      g_n_hrs     = 0.0
-      g_Eo_pm     = 0.0
-      g_pa        = 0.0
-      g_ra        = 0.0
-      g_radn      = 0.0
-      g_radn_net  = 0.0
-      g_rc        = 0.0
-      g_rh        = 0.0
-      p_albedo    = 0.0
-      p_z0soil    = 0.0
-      g_epsilon   = 0.0
-      g_vpd_mb    = 0.0
-      g_da        = 0.0
-      g_fr_intc_radn   = 0.0
-      g_fg             = 0.0
-      g_canopy_height  = 0.0
-      g_instrum_height = 0.0
-      g_lai            = 0.0
-      g_lai_tot        = 0.0
-      g_latitude       = 0.0
-      c_zc_conversion  = 0.0
-      c_rsmin_canopy   = 0.0
-      c_rc             = 0.0
-      c_pen_mon_ub     = 0.0
- 
+      p_disp_instrum      = 0.0                                             
+      p_z0_instrum        = 0.0                                             
+      g_maxt      = 0.0                                                     
+      g_mint      = 0.0                                                     
+      g_n_hrs     = 0.0                                 
+      g_Eo_pm     = 0.0                                 
+      g_pa        = 0.0                                 
+      g_ra        = 0.0                                 
+      g_radn      = 0.0                                 
+      g_radn_net  = 0.0                                 
+      g_rc        = 0.0                                 
+      g_rh        = 0.0                                 
+      p_albedo    = 0.0                                 
+      p_max_albedo = 0.0                                
+      p_z0soil    = 0.0                                 
+      g_epsilon   = 0.0                                     
+      g_vpd_mb    = 0.0                                        
+      g_da        = 0.0                                        
+      g_fr_intc_radn   = 0.0                              
+      g_fg             = 0.0                              
+      g_canopy_height  = 0.0                                              
+      g_instrum_height = 0.0                                           
+      g_lai            = 0.0                                           
+      g_lai_tot        = 0.0                                           
+      g_latitude       = 0.0                                           
+      g_cover_green    = 0.0                                                  
+      g_wind_hrs       = 0.0                             
+      g_wind           = 0.0                             
+      g_wind_adj       = 0.0
+      g_Eo_penman                    = 0.0
+      g_Eo_penman_x_cover            = 0.0
+      g_Eo_penman_doorenbos          = 0.0
+      g_Eo_penman_doorenbos_x_cover  = 0.0
+      g_Eo_pm_transp                 = 0.0
+      g_Eo_pm_plant                  = 0.0
+      g_Eo_pm_x_cover                = 0.0
+      g_Eo_pm_x_kfunction            = 0.0
+      g_Eo_radn_x_kfunction          = 0.0
+      g_Eo_priestly_taylor           = 0.0
+      g_Eo_ritchie                   = 0.0
+      g_radn_wm2                     = 0.0
+      g_rc_fixed                     = 0.0
+      g_rc_simple                    = 0.0
+      g_rc_simulat                   = 0.0
+      g_rc_kelliher                  = 0.0
+      g_rc_raupach                   = 0.0
+      c_zc_conversion                = 0.0              
+      c_rsmin_canopy                 = 0.0              
+      c_rc                           = 0.0  
+      c_pen_mon_ub                   = 0.0
+      c_multiplier_height            = 0.0
+      c_ra_ub                        = 0.0
+      p_wind_day_fraction            = 0.0
+      c_default_wind_day_fraction    = 0.0
+      c_alt_photo_radn               = 0.0
+      c_wind_hrs                     = 0.0
+      c_wind_min                     = 0.0
+      c_soil_heat_flux               = 0.0
+      c_penman_fU2_coef_a            = 0.0
+      c_penman_fU2_coef_b            = 0.0
+      c_vpd_crit                     = 0.0
+      c_radn_crit                    = 0.0
+      c_lai_crit                     = 0.0
+                                             
       call Eo_zero_daily_variables ()
  
       call pop_routine (myname)
@@ -186,17 +223,12 @@
       character  myname*(*)            ! Name of this procedure
       parameter (myname = 'Eo_init')
 
-*+  Local Variables
-      character  Event_string*40       ! String to output
-
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
          ! notify system that we have initialised
  
-      Event_string = 'Initialising:'
-      
-      call report_event (Event_string)
+      call report_event ('Initialising:')
  
          ! get all constants from constants file
  
@@ -235,6 +267,7 @@
 *       020398 jngh added in reading and reporting for reference height,
 *                   disp and Z0 at instrument site.
 *                   changed z0soil to mm
+*       040699 jngh added new parameter reporting
 
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
@@ -245,7 +278,7 @@
 
 *+  Local Variables
       integer    numvals               ! number of values read
-      character  line*80               ! output string
+      character  line*100               ! output string
 
 *- Implementation Section ----------------------------------
  
@@ -410,61 +443,67 @@
       call write_string (lu_scr_sum, line)
  
       line =
-     :  '     ---------------------------------------------------------'
+     :  '     ------------------------------------------'
+     ://'-------------------------'
       call write_string (lu_scr_sum, line)
  
       line =
-     :'      Albedo   Z0soil   Dflt_Wind  Dflt_Pa Dflt_instrum_ht'
-!     ://' E_method'
+     :  '   Vpd Factor  Albedo  Max albedo  Z0soil  Dflt_Wind'
+     ://'  Dflt_Pa Dflt_instrum_ht'
+
       call write_string (lu_scr_sum, line)
  
       line =
-     :'       (-)       (mm)   (km/day)   (hpa)      (mm)'
+     :  '       (-)       (-)       (-)       (mm)   (km/day)'
+     ://'   (hpa)      (mm)'
       call write_string (lu_scr_sum, line)
  
       line =
-     :  '     ---------------------------------------------------------'
+     :  '     ------------------------------------------'
+     ://'-------------------------'
       call write_string (lu_scr_sum, line)
  
-      write (line, '(f10.2, f10.3, 3f10.2, 8x, a)')
-     :              p_albedo
-     :            , p_z0soil
-     :            , p_default_wind
-     :            , p_default_pa
-     :            , p_default_instrum_height
-!     :            , p_e_method
+      write (line, '(3f10.2, f10.3, 3f10.2)')
+     :           p_vpd_fac
+     :          ,p_albedo
+     :          ,p_max_albedo
+     :          ,p_z0soil
+     :          ,p_default_wind
+     :          ,p_default_pa
+     :          ,p_default_instrum_height
+      call write_string (lu_scr_sum, line)
+
+      line =
+     :  ' instrum_disp instrum_z0  extn_cf  plant_method'
+     ://' wind_day_fr  adj_fact  wind_mlt'
+     
+      call write_string (lu_scr_sum, new_line//line)
+ 
+      line =
+     :  '      (mm)      (mm)       (-)                 '
+     ://'    (-)         (-)      (-)'
       call write_string (lu_scr_sum, line)
  
       line =
-     :  '     ---------------------------------------------------------'
+     :  '     ------------------------------------------'
+     ://'-------------------------------'
+      call write_string (lu_scr_sum, line)
+ 
+      write (line, '(3f10.2, 1x, a20, f6.2, 2f10.2)')
+     :           p_disp_instrum
+     :          ,p_z0_instrum
+     :          ,p_extinct_coef
+     :          ,p_eo_plant_method
+     :          ,p_wind_day_fraction
+     :          ,p_adjustment_factor
+     :          ,p_wind_multiplier
+      call write_string (lu_scr_sum, line)
+      line =
+     :  '     ------------------------------------------'
+     ://'-------------------------------'
       call write_string (lu_scr_sum, line)
       call write_string (lu_scr_sum, new_line//new_line)
  
-      line =
-     :  '     -------------------'
-      call write_string (lu_scr_sum, line)
- 
-      line =
-     :'    instrum_d instrum_z0'
-      call write_string (lu_scr_sum, line)
- 
-      line =
-     :'     (mm)      (mm)     '
-      call write_string (lu_scr_sum, line)
- 
-      line =
-     :'     -------------------'
-      call write_string (lu_scr_sum, line)
- 
-      write (line, '(4x, 2f10.2)')
-     :              p_disp_instrum
-     :            , p_z0_instrum
-      call write_string (lu_scr_sum, line)
- 
-      line =
-     :'     -------------------'
-      call write_string (lu_scr_sum, line)
-      call write_string (lu_scr_sum, new_line//new_line)
  
       call pop_routine (myname)
       return
@@ -617,16 +656,6 @@
      :          ,numvals
      :          ,0.0
      :          ,1.0)
- 
-         ! c_ra_ub
-      call read_real_var (
-     :           section_name
-     :          ,'ra_ub'
-     :          ,'(-)'
-     :          ,c_ra_ub
-     :          ,numvals
-     :          ,0.0
-     :          ,3000.0)
  
          ! c_ra_ub
       call read_real_var (
@@ -1156,6 +1185,7 @@ cjh   crop type.
          ! wind returned ok
       endif
 
+         ! convert wind from instrument height to multiplier height
       call eo_wind_conv (
      :        g_instrum_height, p_disp_instrum, p_z0_instrum
      :      , g_wind
@@ -1270,32 +1300,34 @@ cjh   crop type.
      :               , g_rc_fixed
      :               , g_rc_simple
      :               , g_rc_simulat
-     :               , g_rc_kelliher)
+     :               , g_rc_kelliher
+     :               , g_rc_raupach)
  
-         ! finally calculate the penman-monteith eo
+         ! calculate the penman-monteith eo
       call Eo_penman_monteith (g_Eo_pm)
  
-         ! finally calculate the penman eo
+         ! calculate the penman eo
       call Eo_penman (g_Eo_penman)
  
+         ! calculate the penman eo transpiration
       call Eo_penman_x_cover (g_Eo_penman_x_cover)
  
-         ! finally calculate the penman (doorenbos) eo
+         ! calculate the penman (doorenbos) eo
       call Eo_penman_doorenbos (g_Eo_penman_doorenbos)
  
-         ! calculate the penman eo transpiration
+         ! calculate the penman doorenbos eo transpiration
       call Eo_penman_doorenbos_x_cover (g_Eo_penman_doorenbos_x_cover)
  
          ! calculate the penman-monteith eo transpiration
       call Eo_penman_monteith_transp (g_Eo_pm_transp)
  
-         ! calculate the penman-monteith eo transpiration
+         ! calculate the penman-monteith eo transpiration using cover
       call Eo_pm_x_cover (g_Eo_pm_x_cover)
  
-         ! calculate the penman-monteith eo transpiration
+         ! calculate the penman-monteith eo transpiration using k function
       call Eo_pm_x_kfunction (g_Eo_pm_x_kfunction)
  
-         ! calculate the penman-monteith eo transpiration
+         ! calculate the penman-monteith eo transpiration using radiation by k function
       call Eo_radn_x_kfunction (g_Eo_radn_x_kfunction)
  
          ! calculate the priestly taylor eo
@@ -1304,7 +1336,7 @@ cjh   crop type.
          ! calculate the ritchie eo
       call Eo_ritchie (g_Eo_ritchie)
  
-         ! calculate the penman-monteith eo transpiration
+         ! allocate the eo transpiration
       call Eo_pm_plant (g_Eo_pm_plant)
  
       !print*, ' eo_plant calc as ', g_eo_pm_plant
@@ -1440,7 +1472,7 @@ cjh   crop type.
                                        ! (mb)
 
 *+  Purpose
-*     calculate the saturated vapour pressure
+*     calculate the saturated vapour pressure using average temperature
 
 *+  Changes
 *       210995 jngh programmed
@@ -1673,6 +1705,8 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
             reference_height = c_reference_height
          endif
  
+
+            ! convert wind from multiplier height to crop reference height
          call eo_wind_conv (
      :        C_multiplier_height, p_disp_instrum, p_z0_instrum
      :      , g_wind_ms_multiplier_height
@@ -1724,7 +1758,8 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
      :                     , rc_fixed
      :                     , rc_simple
      :                     , rc_simulat
-     :                     , rc_kelliher)
+     :                     , rc_kelliher
+     :                     , rc_raupach)
 *====================================================================
       implicit none
       include   'const.inc'            ! Global constant definitions
@@ -1739,6 +1774,7 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
       real       rc_simple             ! (OUTPUT) canopy resistance (s/m)
       real       rc_simulat            ! (OUTPUT) canopy resistance (s/m)
       real       rc_kelliher           ! (OUTPUT) canopy resistance (s/m)
+      real       rc_raupach            ! (OUTPUT) canopy resistance (s/m)
 
 *+  Purpose
 *     calculate the canopy resistance, which accounts for the biological
@@ -1779,17 +1815,16 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
       real       gj                    ! isothermal conductance proportional to the ratio of
                                        ! avail energy flux density and air saturation deficit
                                        ! (micromol/m2/s)
-      real       term1
-      real       term2
+      real       term1                 ! temporary variable
+      real       term2                 ! temporary variable
       real       ga                    ! bulk vegetation aerodynamic conductance (mm/s)
-      real       rc_raupach
-      real       R0
-      real       D0
-      real       L0
-      real       fr
-      real       fd
-      real       fl
-      real       rcmin
+      real       R0                    ! critical radiation for raupach method (w/m2)
+      real       D0                    ! critical specific humidity deficit for raupach method (kg/kg)
+      real       L0                    ! critical lai for raupach method (m2/m2)
+      real       fr                    ! value of radiation function (0-1)
+      real       fd                    ! value of specific humidity deficit function (0-1)
+      real       fl                    ! value of lai function (0-1)
+      real       rcmin                 ! minimum canopy resistance (s/m)
       
 !      real       par_fract
 
@@ -2169,7 +2204,7 @@ cjh!         conversion_height = c_zc_conversion + g_canopy_height
       real       pen_mon               ! (OUTPUT) evaporation rate ()
 
 *+  Purpose
-*     calculate the Penman evaporation rate
+*     calculate the Penman (Doorenbos & Pruit model) evaporation rate
 
 *+  Changes
 *       210995 jngh programmed
@@ -2190,38 +2225,40 @@ cjh!         conversion_height = c_zc_conversion + g_canopy_height
       real       conv                  ! conversion of fU2 to kg/m2/s
       real       U2                    ! wind speed at reference height (km/day)
       real       wind_min_km           ! minimum wind speed at reference height (km/day)
-      real       cvf(4,4,3)              ! adjustment factor - cvf(wind,radn,vpd)
-      real       radn_crit(4)
-      real       wind_crit(4)
-      real       wind_ms
-      real       rh_crit(3)
-      real       rh
-      real       rh_max
-      integer    radn_index
-      integer    wind_index
-      integer    rh_index
-      real       y_index(4)
-      real       esat
-      real       esat_m
-      real       esat_a
-      real       qsat
-      real       ave_t
-      real       ea_mb
-      real       da
-      real       q
-      real       nightT
-      real       rh_da
-      real       rh_gda
-      real       rh_avt
-      real       rh_maxt
-      real       rh_avea
-      real       rh_avead
-
+      real       cvf(4,4,3)            ! site adjustment factor - cvf(wind,radn,vpd)
+      real       radn_crit(4)          ! critical radiation levels (MJ/m2/day) for table
+      real       wind_crit(4)          ! critical wind speeds (m/s) for table
+      real       wind_ms               ! wind (m/s) for average day for calc wind index
+      real       rh_crit(3)            ! critical relative humidities (%) for table
+      real       rh                    ! relative humidity (%)
+      integer    radn_index            ! radiation index for table (-)
+      integer    wind_index            ! wind index for table (-)
+      integer    rh_index              ! relative humidity index for table (-)
+      real       y_index(4)            ! return index values from interpolation (-)
+      real       esat                  ! svp at average night temperature (mb) 
+      real       esat_m                ! svp at maxt (mb) 
+      real       esat_a                ! svp at average temperature (mb) 
+      real       qsat                  ! specific humidity at maxt (kg/kg) 
+      real       ave_t                 ! average temperature (oC) 
+      real       ea_mb                 ! svp at mint (mb)
+      real       da                    ! specific humidity deficit (kg/kg)
+      real       q                     ! specific humidity at mint (kg/kg)
+      real       nightT                ! acerage night temperature (oC)
+      real       rh_avt                ! rh, from sat vp at average temp (%)  
+      real       rh_avea               ! rh, from average vp  (%)              
+      real       rh_avead              ! rh, from average day vp (%)          
+      real       rh_maxt               ! rh, from maximum vp (%)               
+      real       rh_gda                ! rh, from day vpd & max vp (%)         
+      real       rh_da                 ! rh, from full vpd & max vp (%)        
+      real       rh_max                ! rh, from night vp (%)                 
 
 *- Implementation Section ----------------------------------
  
       call push_routine (myname)
+
+         ! set up Dooernbos and Pruit table for day:night wind = 2:1
  
+         ! wind, radn, rh
       cvf(1,1,1)= 0.86
       cvf(2,1,1)= 0.69
       cvf(3,1,1)= 0.53
@@ -2273,25 +2310,31 @@ cjh!         conversion_height = c_zc_conversion + g_canopy_height
       cvf(3,4,3)=1.12
       cvf(4,4,3)=1.06
 
+         ! set up radn values (MJ/m2/day)
+
       radn_crit(1)=7.5
       radn_crit(2)=15.0
       radn_crit(3)=22.5
       radn_crit(4)=30.0
 
+         ! set up wind values (m/s)
       wind_crit(1)=0.0
       wind_crit(2)=3.0
       wind_crit(3)=6.0
       wind_crit(4)=9.0
 
+         ! set up relative humidity (%)
       rh_crit(1)=0.3
       rh_crit(2)=0.6
       rh_crit(3)=0.9
 
+         ! set up index for lookup table
       y_index(1)=1.0
       y_index(2)=2.0
       y_index(3)=3.0
       y_index(4)=4.0
 
+         ! calc radiation index
       radn_index = int(0.5 +
      :             linear_interp_real (g_radn, radn_crit, y_index, 4))
       ave_t = (g_maxt + g_mint)*0.5
@@ -2306,42 +2349,51 @@ cjh!         conversion_height = c_zc_conversion + g_canopy_height
       q = molef*ea_mb/g_pa
       da = (qsat - q)
 !      da = g_da
-      rh_avt = ea_mb/esat_a
-      rh_avea = ea_mb/(0.5*esat_m+0.5*ea_mb)
-      rh_avead = ea_mb/(0.75*esat_m+0.25*ea_mb)
-      rh_maxt = ea_mb/esat_m
-      rh_gda = 1.0-g_da/(molef*esat_m/g_pa)
-      rh_da = 1.0-da/(molef*esat_m/g_pa)
-      rh_max = ea_mb/esat
+      rh_avt = ea_mb/esat_a                      ! rh, from sat vp at average temp
+      rh_avea = ea_mb/(0.5*esat_m+0.5*ea_mb)     ! rh, from average vp
+      rh_avead = ea_mb/(0.75*esat_m+0.25*ea_mb)  ! rh, from average day vp  
+      rh_maxt = ea_mb/esat_m                     ! rh, from maximum vp
+      rh_gda = 1.0-g_da/(molef*esat_m/g_pa)      ! rh, from day vpd & max vp
+      rh_da = 1.0-da/(molef*esat_m/g_pa)         ! rh, from full vpd & max vp
+      rh_max = ea_mb/esat                        ! rh, from night vp
     
+         ! calc relative humidity index
       rh_index = int(0.5 + 
      :           linear_interp_real (rh_avead, rh_crit, y_index, 3))
 
          ! g_wind is already converted for daylight hours proportion
          
+         ! convert wind run from instrument height to reference height
       call eo_wind_conv (
      :        g_instrum_height, p_disp_instrum, p_z0_instrum
      :      , g_wind * p_wind_multiplier
      :      , penman_reference_height, p_disp_instrum, p_z0_instrum
      :      , U2)
  
+         ! calc min wind speed in terms of daily wind run
       wind_min_km = c_wind_min * g_wind_hrs*hr2s/km2m
      :            / p_wind_day_fraction
       
+         ! calc wind (m/s) for average day for calc wind index
+         ! assumes 2/3 wind in day and 12 hour day length
       wind_ms = U2
      :          * 0.66 
      :          * km2m
      :          / (12.0*hr2s)
 !     :          / (24.0*hr2s)
       
+
+         ! calc wind index
       wind_index = int(0.5 +
      :            linear_interp_real (wind_ms, wind_crit, y_index, 4))
       
+         ! apply minimum wind speed 
       U2 = l_bound (U2, wind_min_km)
 
 !      U2 = g_wind_adj 
 !     :   * (penman_reference_height / c_multiplier_height)**(1.0/6.0)
 
+         ! Penman (Doorenbos and Pruit version)
       fU2 = 0.027*(1.0 + 0.01*U2)
       conv = (g_pa / molef) / (g_n_hrs * hr2s) * gm2kg/(scm2smm*smm2sm)
  
@@ -2513,6 +2565,7 @@ cjh      print*, 'g_da, fe = ', g_da, fe
 
 *+  Purpose
 *     calculate the adjusted Penman-Monteith evaporation rate for plant
+*     using a "k function" applied to the radiation
 
 *+  Changes
 *       220299 jngh programmed
@@ -2573,6 +2626,7 @@ cjh      print*, 'g_da, fe = ', g_da, fe
 
 *+  Purpose
 *     calculate the adjusted Penman-Monteith evaporation rate for plant
+*     applying a "k function" to the penman-monteith model.
 
 *+  Changes
 *       220299 jngh programmed
@@ -2611,6 +2665,7 @@ cjh      print*, 'g_da, fe = ', g_da, fe
 
 *+  Purpose
 *     calculate the adjusted Penman-Monteith evaporation rate for plant
+*     applying the green cover to the model.
 
 *+  Changes
 *       220299 jngh programmed
@@ -2643,7 +2698,8 @@ cjh      print*, 'g_da, fe = ', g_da, fe
       real       pen_mon               ! (OUTPUT) transpiration rate ()
 
 *+  Purpose
-*     calculate the adjusted Penman-Monteith evaporation rate for plant
+*     calculate the adjusted Penman evaporation rate for plant
+*     applying the green cover to the model.
 
 *+  Changes
 *       220299 jngh programmed
@@ -2678,7 +2734,8 @@ cjh      print*, 'g_da, fe = ', g_da, fe
       real       pen_mon               ! (OUTPUT) transpiration rate ()
 
 *+  Purpose
-*     calculate the adjusted Penman-Monteith evaporation rate for plant
+*     calculate the adjusted Penman doorenbos evaporation rate for plant
+*     applying the green cover to the model.
 
 *+  Changes
 *       220299 jngh programmed
@@ -2713,7 +2770,7 @@ cjh      print*, 'g_da, fe = ', g_da, fe
       real       pen_mon               ! (OUTPUT) transpiration rate ()
 
 *+  Purpose
-*     calculate the adjusted Penman-Monteith evaporation rate for plant
+*     Set the  evaporation rate for plant
 
 *+  Changes
 *       220299 jngh programmed
