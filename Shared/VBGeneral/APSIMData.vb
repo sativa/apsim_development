@@ -107,7 +107,12 @@ Public Class APSIMData
         End Set
     End Property
     Function Attribute(ByVal AttributeName As String) As String
-        Return Node.Attributes.GetNamedItem(AttributeName).InnerText
+        Dim A As XmlAttribute = Node.Attributes.GetNamedItem(AttributeName)
+        If Not IsNothing(A) Then
+            Return A.InnerText
+        Else
+            Return ""
+        End If
     End Function
     Sub SetAttribute(ByVal AttributeName As String, ByVal AttributeValue As String)
         Dim attr As XmlNode = Node.OwnerDocument.CreateNode(XmlNodeType.Attribute, AttributeName, "")
