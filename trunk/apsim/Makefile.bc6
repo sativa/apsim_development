@@ -1,7 +1,7 @@
 # (Borlandish) Makefile for apsim source modules
 MAKE=$(MAKEDIR)\make
 
-####Unused: SurfaceWater soilnitrogen soilwater 
+####Unused: SurfaceWater soilnitrogen soilwater tcllink
 
 SUBDIRS=infra croptemp cropmod \
 accum \
@@ -48,7 +48,6 @@ SummaryFile \
 surface \
 SurfaceOrganicMatter \
 tamet2 \
-tcllink \
 Tracker \
 tree \
 VenLink \
