@@ -1,4 +1,3 @@
-#include <windows.h>
 // ------------------------------------------------------------------
 //    executes a program and optionally waits until it has finished.
 //    Returns true if program was successfully executed.  NOTE:  This

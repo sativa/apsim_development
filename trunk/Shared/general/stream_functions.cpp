@@ -1,7 +1,4 @@
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-
+#include <stdlib.h>
 #include <general\stream_functions.h>
 #include <sstream>
 using namespace std;

@@ -1,15 +1,36 @@
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
+#include <windows.h>
 
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <io.h>
+#include <general/path.h>
+#include <general/stristr.h>
+#include <iostream>
 #include "io_functions.h"
-#include <general\path.h>
-#include <general\stristr.h>
-#include <dos.h>
-#include <dir.h>
-#include <shellapi.h>
-#include <FileCtrl.hpp>
+
+#include "boost/filesystem/path.hpp"
+#include "boost/filesystem/operations.hpp"
+namespace fs = boost::filesystem;
+
 using namespace std;
+
+// Drop-in replacements for vcl routines.
+std::string ExpandFileName(const char *s){
+   fs::path p(s);
+   fs::path q = system_complete(p);
+   return(q.native_file_string());
+}
+
+bool FileExists (const std::string &f) {
+   fs::path p(f);
+   return (fs::is_empty(p));
+}
+
+bool DirectoryExists (const std::string &d) {
+   fs::path p(d);
+   return (fs::is_directory(p));
+}
+
 // ------------------------------------------------------------------
 // Return a list of files/directories to caller.
 // ------------------------------------------------------------------
@@ -19,38 +40,33 @@ void getDirectoryListing(const std::string& directoryName,
                          unsigned int attribute,
                          bool fullPath)
    {
-   if (attribute == 0)
-      attribute = faAnyFile;
-
    Path p;
-
-   TSearchRec SearchRec;
+   struct ffblk ffblk;
    int done;
    p.Set_path (directoryName.c_str());
    p.Set_name (extension.c_str());
-   done = FindFirst(p.Get_path().c_str(), attribute, SearchRec);
+   done = findfirst(p.Get_path().c_str(), &ffblk, attribute);
    while (!done)
       {
-      bool NormalFile = ((SearchRec.Attr & faDirectory) == 0);
-      bool Keep = (SearchRec.Name != "." && SearchRec.Name != "..");
+      bool NormalFile = ((ffblk.ff_attrib & FA_DIREC) == 0);
+      bool Keep = (strcmp(ffblk.ff_name, ".")!=0 &&
+                   strcmp(ffblk.ff_name, "..") != 0);
 
-      if (attribute == faAnyFile)
+      if (attribute == 0)
          Keep = Keep && NormalFile;
-
       else
-         Keep = Keep && ((SearchRec.Attr & attribute) > 0);
+         Keep = Keep && ((ffblk.ff_attrib & attribute) > 0);
 
       if (Keep)
          {
          Path p;
          if (fullPath)
             p.Set_directory (directoryName.c_str());
-         p.Set_name(SearchRec.Name.c_str());
+         p.Set_name(ffblk.ff_name);
          dirList.push_back (p.Get_path());
          }
-      done = FindNext (SearchRec);
+      done = findnext (&ffblk);
       }
-   FindClose(SearchRec);
    }
 
 // ------------------------------------------------------------------
@@ -122,6 +138,7 @@ void getRecursiveDirectoryListing(const std::string& directory,
 // ------------------------------------------------------------------
 // Copy or move the specified source files to the destination directory
 // ------------------------------------------------------------------
+// XXX why use winapi when we could iterate over CopyFile?
 void copyFiles(std::vector<std::string>& sourceFiles,
                const std::string& destinationDirectory,
                bool doMoveFiles)
@@ -360,13 +377,14 @@ std::string getYoungestFile(const std::string& directory,
 // ------------------------------------------------------------------
 // Rename the specified file or folder if there is a name collision.
 // ------------------------------------------------------------------
-void renameOnCollision(AnsiString& name, bool isFile)
+void renameOnCollision(std::string& name, bool isFile)
    {
    int collisionIndex = 2;
-   AnsiString newName = name;
+   std::string newName = name;
    while ((isFile && FileExists(newName)) || (!isFile && DirectoryExists(newName)))
       {
-      newName = name + " (" + IntToStr(collisionIndex) + ")";
+      char buf[40];
+      newName = name + " (" + itoa(collisionIndex, buf, 10) + ")";
       collisionIndex++;
       }
    name = newName;

@@ -1,13 +1,11 @@
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-
+#include <stdlib.h>
 #include <general\exec.h>
 #include <general\string_functions.h>
 #include <vector>
 #include <process.h>
 #include <fstream>
-using namespace std;
+
+#include <windows.h>
 // ------------------------------------------------------------------
 //  Short description:
 //    executes a program and optionally waits until it has finished.
@@ -92,6 +90,4 @@ bool Exec(const char* Command_line,
       }
    return false;
    }
-
-
 

@@ -5,6 +5,11 @@
 #include <string>
 #include <vector>
 #include <dir.h>
+
+std::string ExpandFileName(const char *);
+bool FileExists (const std::string &);
+bool DirectoryExists (const std::string &d);
+
 // ------------------------------------------------------------------
 // Return a list of files/directories to caller.
 // ------------------------------------------------------------------
@@ -85,7 +90,7 @@ std::string getYoungestFile(const std::string& directory,
 // ------------------------------------------------------------------
 // Rename the specified file or folder if there is a name collision.
 // ------------------------------------------------------------------
-void renameOnCollision(AnsiString& name, bool isFile = true);
+void renameOnCollision(std::string& name, bool isFile = true);
 
 
 #endif

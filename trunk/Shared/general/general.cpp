@@ -1,7 +1,5 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
+#include <windows.h>
 //---------------------------------------------------------------------------
 //   Important note about DLL memory management when your DLL uses the
 //   static version of the RunTime Library:
@@ -27,4 +25,3 @@ int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*)
    return 1;
 }
 //---------------------------------------------------------------------------
- 

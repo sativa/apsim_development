@@ -300,8 +300,8 @@ container_type divide_value (const container_type& container1, value_type value)
 
 // ------------------------------------------------------------------
 double linear_interp_real (double x,
-                           const vector<double>& x_cord,
-                           const vector<double>& y_cord,
+                           const std::vector<double>& x_cord,
+                           const std::vector<double>& y_cord,
                            bool& Did_interpolate);
 
 // ------------------------------------------------------------------
@@ -315,9 +315,9 @@ double linear_interp_real (double x,
 //    DPH 16/1/95
 
 // ------------------------------------------------------------------
-void Calculate_prob_dist(vector<double>& X,
+void Calculate_prob_dist(std::vector<double>& X,
                          bool Prob_exceed,
-                         vector<double>& Prob_values);
+                         std::vector<double>& Prob_values);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -329,7 +329,7 @@ void Calculate_prob_dist(vector<double>& X,
 //    DPH 16/1/95
 
 // ------------------------------------------------------------------
-double Calculate_mean(vector<double>& X);
+double Calculate_mean(std::vector<double>& X);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -342,7 +342,7 @@ double Calculate_mean(vector<double>& X);
 //    DPH 16/1/95
 
 // ------------------------------------------------------------------
-double Calculate_percentile(vector<double>& X,
+double Calculate_percentile(std::vector<double>& X,
                             bool Prob_exceed,
                             int Percentile);
 
@@ -377,11 +377,11 @@ struct range : std::unary_function<T, bool>
 //    DPH 15/7/98
 
 // ------------------------------------------------------------------
-void Calculate_freq_dist(vector<double>& Values,
-                         vector<double>& Start_values,
-                         vector<double>& End_values,
-                         vector<string>& Frequency_labels,
-                         vector<double>& Frequency_numbers,
+void Calculate_freq_dist(std::vector<double>& Values,
+                         std::vector<double>& Start_values,
+                         std::vector<double>& End_values,
+                         std::vector<std::string>& Frequency_labels,
+                         std::vector<double>& Frequency_numbers,
                          int Label_precision);
 
 // ------------------------------------------------------------------
@@ -502,14 +502,14 @@ void IntegerContainerToStringContainer (const container1& IntegerContainer,
       }
    }
 
-typedef vector<double> OptimParams;
+typedef std::vector<double> OptimParams;
 typedef double __fastcall (__closure *TOptimEvent)(const OptimParams& params);
 // ------------------------------------------------------------------
 //  Short description:
 //    SIMPLEX method of optimisation.
 // ------------------------------------------------------------------
-void Minim (vector<double>& param,
-            vector<double>& STEP,
+void Minim (std::vector<double>& param,
+            std::vector<double>& STEP,
             double& FUNC,
             int MAX,
             double STOPCR,

@@ -1,12 +1,15 @@
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
+#include <stdlib.h>
+#include <dir.h>
+#include <windows.h>
+#include <general/string_functions.h>
+#include <general/stl_functions.h>
+#include <general/path.h>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <string>
 
-#include <general\IniFile.h>
-#include <general\string_functions.h>
-#include <general\stl_functions.h>
-#include <general\path.h>
-#include <fstream.h>
+#include "IniFile.h"
 
 using namespace std;
 typedef vector<pair<unsigned, unsigned> > Indexes;
@@ -40,7 +43,9 @@ void IniFile::setFileName(const string& file)
    fileName = file;
    if (fileName.find('\\') == string::npos)
       {
-      string fullPath = string(GetCurrentDir().c_str()) + "\\" + fileName;
+      char buf[MAX_PATH];
+      getcwd(buf, MAX_PATH);
+      string fullPath = string(buf) + "\\" + fileName;
       fileName = fullPath;
       }
    parse();

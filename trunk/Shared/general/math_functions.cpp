@@ -1,8 +1,5 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-
+#include <stdlib.h>
 #include "math_functions.h"
 #include <math.h>
 #include <assert.h>

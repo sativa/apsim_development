@@ -1,8 +1,6 @@
 #ifndef IniFileH
 #define IniFileH
 
-#include <vector>
-#include <string>
 // ------------------------------------------------------------------
 // Class handling the reading and writting to/from INI files.
 // ------------------------------------------------------------------
