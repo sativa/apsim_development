@@ -23,6 +23,21 @@ static const char* MES_Process = "process";
 #define VARTYPE_AUXILIARY 2
 #define VARTYPE_GAME 12
 #define VARTYPE_ALL 0
+// ------------------------------------------------------------------
+//  Short description:
+//     Return a blank string when requested to indicate that we
+//     don't need a wrapper DLL.
+
+//  Notes:
+
+//  Changes:
+//    DPH 7/6/2001
+
+// ------------------------------------------------------------------
+extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
+   {
+   strcpy(wrapperDll, "");
+   }
 
 // ------------------------------------------------------------------
 // Create an instance of the VENLINK module
