@@ -619,7 +619,10 @@ void Report::exportCurrentToFile(const std::string& fileName)
             ExportToJPEG(currentPage, fileName.c_str(), false, false);
             }
          else if (ExtractFileExt(fileName.c_str()) == ".html")
+            {
+            gtQRHTMLSettings->ExportImageFormat = ifGIF;
             ExportToHTML(currentPage, fileName.c_str(), false, false);
+            }
          else if (ExtractFileExt(fileName.c_str()) == ".pdf")
             ExportToPDF(currentPage, fileName.c_str(), false, false);
          else if (ExtractFileExt(fileName.c_str()) == ".gif")
