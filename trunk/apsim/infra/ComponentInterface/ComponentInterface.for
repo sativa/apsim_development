@@ -221,9 +221,7 @@
 
       MessageUsed = .true.
       call Main (anAction, DataString)
-      if (MessageUsed) then
-         call Loader_MessageUsed()
-      endif
+      call Loader_MessageUsed(MessageUsed)
 
       ! restore existing instance
       call RestoreInstance()
