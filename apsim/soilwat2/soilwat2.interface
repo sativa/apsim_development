@@ -100,7 +100,7 @@
       <setVariableReg name="dlt_nnnn" type="dlt_nnnn"/>
       <respondToEventReg name="tick" type="time"/>
       <respondToEventReg name="newmet" type="newmet"/>
-      <respondToMethodCallReg name="irrigated" type="irrigated"/>
+      <respondToEventReg name="irrigated" type="irrigated"/>
       <respondToEventReg name="new_solute" type="new_solute"/>
       <respondToEventReg name="process" type="process"/>
       <respondToEventReg name="post" type="post"/>
