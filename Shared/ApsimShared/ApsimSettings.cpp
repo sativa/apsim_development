@@ -30,10 +30,10 @@ ApsimSettings::ApsimSettings(void)
    string originalPath = getAppHomeDirectory() + "\\" + applicationName + ".ini";
 
    original = new IniFile(originalPath);
-   string workingPath = getSettingsFolder() + "\\"
-                      + ExtractFileName(Application->ExeName).c_str();
-   workingPath = ChangeFileExt(workingPath.c_str(), ".ini").c_str();
-   working = new IniFile(workingPath);
+//   string workingPath = getSettingsFolder() + "\\"
+//                      + ExtractFileName(Application->ExeName).c_str();
+//   workingPath = ChangeFileExt(workingPath.c_str(), ".ini").c_str();
+//   working = new IniFile(workingPath);
    }
 // ------------------------------------------------------------------
 //	destructor
@@ -41,13 +41,13 @@ ApsimSettings::ApsimSettings(void)
 ApsimSettings::~ApsimSettings(void)
    {
    delete original;
-   delete working;
+//   delete working;
    }
 
 // ------------------------------------------------------------------
 // return the section name from the specified key.
 // ------------------------------------------------------------------
-string ApsimSettings::getSection(const std::string& key)
+string ApsimSettings::getSection(const std::string& key) const
    {
    int posBar = key.find('|');
    if (posBar != string::npos)
@@ -58,7 +58,7 @@ string ApsimSettings::getSection(const std::string& key)
 // ------------------------------------------------------------------
 // return the key name from the specified key.
 // ------------------------------------------------------------------
-string ApsimSettings::getKey(const std::string& key)
+string ApsimSettings::getKey(const std::string& key) const
    {
    int posBar = key.find('|');
    if (posBar != string::npos)
@@ -70,17 +70,17 @@ string ApsimSettings::getKey(const std::string& key)
 // ------------------------------------------------------------------
 // read in a string value for the specified key.
 // ------------------------------------------------------------------
-void ApsimSettings::read(const std::string& key, std::string& value)
+void ApsimSettings::read(const std::string& key, std::string& value) const
    {
-   working->read(getSection(key), getKey(key), value);
-   if (value == "")
+//   working->read(getSection(key), getKey(key), value);
+//   if (value == "")
       original->read(getSection(key), getKey(key), value);
    }
 
 // ------------------------------------------------------------------
 // read in a string value for the specified key.
 // ------------------------------------------------------------------
-void ApsimSettings::read(const string& key, int& value) throw(bad_lexical_cast)
+void ApsimSettings::read(const string& key, int& value) const throw(bad_lexical_cast)
    {
    string stringValue;
    read(key, stringValue);
@@ -89,7 +89,7 @@ void ApsimSettings::read(const string& key, int& value) throw(bad_lexical_cast)
 // ------------------------------------------------------------------
 // read in a string value for the specified key.
 // ------------------------------------------------------------------
-void ApsimSettings::read(const string& key, double& value) throw(bad_lexical_cast)
+void ApsimSettings::read(const string& key, double& value) const throw(bad_lexical_cast)
    {
    string stringValue;
    read(key, stringValue);
@@ -98,19 +98,37 @@ void ApsimSettings::read(const string& key, double& value) throw(bad_lexical_cas
 // ------------------------------------------------------------------
 // Read in the contents of a given section.
 // ------------------------------------------------------------------
-void ApsimSettings::readSection(const std::string& sectionName, std::string& contents)
+void ApsimSettings::readSection(const std::string& sectionName, std::string& contents) const
    {
-   working->readSection(sectionName, contents);
-   if (contents == "")
+//   working->readSection(sectionName, contents);
+//   if (contents == "")
       original->readSection(sectionName, contents);
+   }
+// ------------------------------------------------------------------
+// Write out the contents of a given section.
+// ------------------------------------------------------------------
+void ApsimSettings::writeSection(const std::string& sectionName, std::string& contents) const
+   {
+//   working->readSection(sectionName, contents);
+//   if (contents == "")
+      original->writeSection(sectionName, contents);
+   }
+// ------------------------------------------------------------------
+// Write out the contents of a given section.
+// ------------------------------------------------------------------
+void ApsimSettings::deleteSection(const std::string& sectionName) const
+   {
+//   working->readSection(sectionName, contents);
+//   if (contents == "")
+      original->deleteSection(sectionName);
    }
 // ------------------------------------------------------------------
 // Read and return a list of values for the specified key.
 // ------------------------------------------------------------------
-void ApsimSettings::read(const string& key, vector<string>& values)
+void ApsimSettings::read(const string& key, vector<string>& values) const
    {
-   working->read(getSection(key), getKey(key), values);
-   if (values.size() == 0)
+//   working->read(getSection(key), getKey(key), values);
+//   if (values.size() == 0)
       original->read(getSection(key), getKey(key), values);
    }
 // ------------------------------------------------------------------
@@ -118,37 +136,44 @@ void ApsimSettings::read(const string& key, vector<string>& values)
 // ------------------------------------------------------------------
 void ApsimSettings::write(const string& key, const string& value)
    {
-   working->write(getSection(key), getKey(key), value);
+   original->write(getSection(key), getKey(key), value);
    }
 // ------------------------------------------------------------------
 //	Write a key to ini file
 // ------------------------------------------------------------------
 void ApsimSettings::write(const string& key, int value)
    {
-   working->write(getSection(key), getKey(key), lexical_cast<string>(value));
+   original->write(getSection(key), getKey(key), lexical_cast<string>(value));
    }
 // ------------------------------------------------------------------
 //	Write a key to ini file
 // ------------------------------------------------------------------
 void ApsimSettings::write(const string& key, double value)
    {
-   working->write(getSection(key), getKey(key), lexical_cast<string>(value));
+   original->write(getSection(key), getKey(key), lexical_cast<string>(value));
    }
 // ------------------------------------------------------------------
 //	Write a key to ini file
 // ------------------------------------------------------------------
 void ApsimSettings::write(const string& key, const vector<string>& values)
    {
-   working->write(getSection(key), getKey(key), values);
+   original->write(getSection(key), getKey(key), values);
    }
 // ------------------------------------------------------------------
 // Return a complete list of all keys under the specified key.
 // ------------------------------------------------------------------
 void ApsimSettings::getKeysUnder(const string& key, vector<string>& keys)
 	{
-   working->getKeysInSection(getSection(key), keys);
-   if (keys.size() == 0)
+//   working->getKeysInSection(getSection(key), keys);
+//   if (keys.size() == 0)
       original->getKeysInSection(getSection(key), keys);
+   }
+// ------------------------------------------------------------------
+// Return a complete list of all section names.
+// ------------------------------------------------------------------
+void ApsimSettings::getSectionNames(vector<string>& sections) const
+	{
+   original->readSectionNames(sections);
    }
 
 // ------------------------------------------------------------------
@@ -157,6 +182,6 @@ void ApsimSettings::getKeysUnder(const string& key, vector<string>& keys)
 // ------------------------------------------------------------------
 void ApsimSettings::erase(const std::string& key)
    {
-   working->deleteSection(getSection(key));
+   original->deleteSection(getSection(key));
    }
    
