@@ -196,6 +196,15 @@
          ------------------------------------------------
               2000.0     6.7     0.0  wheat
          ------------------------------------------------
+     
+     
+                      Residue Initial Parameters
+         ------------------------------------------------
+           Pot Decomp Rate  C:N     C:P  Phosphorous  Report
+           (fraction/day) (ratio) (ratio)  aware      additions
+         ------------------------------------------------
+                  0.100   120.0     0.0       F       no
+         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -295,13 +304,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          150.0     0.080          0.140       1.000
          150.0     0.080          0.140       1.000
          150.0     0.080          0.140       1.000
@@ -312,11 +321,9 @@
          150.0     0.080          0.230       1.000
          150.0     0.080          0.240       1.000
          150.0     0.080          0.240       1.000
-     ---------------------------------------------------
-        1500.0                    294.0(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to 100.0 times eo)
+         -----------------------------------------------
+         Extractable SW:   258mm in  1500mm total depth ( 17%).
+         Crop factor for bounding water use is set to 100.0 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -418,5 +425,6 @@
          straw N =           0.0 kg/ha
          root residue =   1101.2 kg/ha
          root N =           17.1 kg/ha
+         root P =            0.0 kg/ha
 30 June 1999(Day of year=181), clock: 
      Simulation is terminating due to end criteria being met.
