@@ -175,7 +175,7 @@ class IsNotOfType
       IsNotOfType(const char* t) : type(t) { }
 
       bool operator() (const ApsimRegistrationData& registration)
-        {return !Str_i_Eq(registration.getType(), type);}
+        {return !registration.isOfType(type);}
    };
 class IsOfType
    {
@@ -185,11 +185,11 @@ class IsOfType
       IsOfType(const char* t) : type(t) { }
 
       bool operator() (const ApsimRegistrationData& registration)
-        {return Str_i_Eq(registration.getType(), type);}
+        {return registration.isOfType(type);}
    };
 bool IsStructure(const ApsimRegistrationData& registration)
    {
-   if (!Str_i_Eq(registration.getType(), "read"))
+   if (!registration.isOfType("read"))
       {
       ApsimDataTypeData dataType = getDataType(registration);
       return dataType.isStructure();
@@ -198,7 +198,7 @@ bool IsStructure(const ApsimRegistrationData& registration)
    };
 bool IsGetButNotBuiltIn(const ApsimRegistrationData& registration)
    {
-   if (Str_i_Eq(registration.getType(), "get"))
+   if (registration.isOfType("getVariable"))
       {
       ApsimDataTypeData dataType = getDataType(registration);
       return !dataType.isBuiltIn();
@@ -207,15 +207,15 @@ bool IsGetButNotBuiltIn(const ApsimRegistrationData& registration)
    };
 bool NeedsSendRoutine(const ApsimRegistrationData& registration)
    {
-   return (Str_i_Eq(registration.getType(), "respondToGet") ||
-           Str_i_Eq(registration.getType(), "event") ||
-           Str_i_Eq(registration.getType(), "methodCall"));
+   return registration.isOfType("respondToGet") ||
+          registration.isOfType("event") ||
+          registration.isOfType("methodCall");
    };
 bool IsARespondTo(const ApsimRegistrationData& registration)
    {
-   return Str_i_Eq(registration.getType(), "respondToSet") ||
-          Str_i_Eq(registration.getType(), "respondToEvent") ||
-          Str_i_Eq(registration.getType(), "respondToMethodCall");
+   return registration.isOfType("respondToSet") ||
+          registration.isOfType("respondToEvent") ||
+          registration.isOfType("respondToMethodCall");
    };
 bool IsAutoRegister(const ApsimRegistrationData& registration)
    {
@@ -1105,11 +1105,11 @@ void CreateDataTypesF90::doConvert(const std::string& sourceFilename,
       for_each_if(component->regBegin(), component->regEnd(),
                   WriteSend(out), NeedsSendRoutine);
       for_each_if(component->regBegin(), component->regEnd(),
-                  WriteGet (out), IsOfType("get"));
+                  WriteGet (out), IsOfType("getVariable"));
       for_each_if(component->regBegin(), component->regEnd(),
                   WriteReturn(out), IsOfType("respondToGet"));
       for_each_if(component->regBegin(), component->regEnd(),
-                  WriteSet(out), IsOfType("set"));
+                  WriteSet(out), IsOfType("setVariable"));
       for_each_if(component->regBegin(), component->regEnd(),
                   WritePublish(out, "event"), IsOfType("event"));
       for_each_if(component->regBegin(), component->regEnd(),

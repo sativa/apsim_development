@@ -129,10 +129,7 @@ void __fastcall TMainForm::ThreadTerminated (TObject* Object)
          }
       }
    else
-      {
-      if (!Quiet)
-         displayCompilerOutput();
-      }
+      displayCompilerOutput();
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::CloseButtonClick(TObject *Sender)
@@ -192,7 +189,7 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
 //---------------------------------------------------------------------------
 void TMainForm::displayCompilerOutput(void)
    {
-   if (Thread != NULL)
+   if (Thread != NULL && !Quiet)
       {
       ApsimSettings settings;
       string st;
@@ -207,4 +204,5 @@ void TMainForm::displayCompilerOutput(void)
          Application->ProcessMessages();
       settings.write("ApsBuild|height", IntToStr(Height).c_str());
       }
+   Close();
    }
