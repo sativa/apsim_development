@@ -1,47 +1,35 @@
 [all.report.parameters]
-screen_output = on
 
-module_names=    clock clock
-variable_names=  day   year     
-variable_alias=  -     -      
 
-module_names=    weed      weed         weed
-variable_names=  lai       biomass      green_biomass
-variable_alias=  weed_lai  weed_biomass weed_grn_biomass     
-units=           -         -            -     
 
+variable = clock.day
+variable = clock.year
+variable = weed.lai as weed_lai
+variable = weed.biomass as weed_biomass
+variable = weed.green_biomass as weed_grn_biomass
 [sample_weed.report.parameters]
-title = Winter dicot fallow Simulation
-outputfile  = winterfallow.out /overwrite
-summaryfile = winterfallow.sum /overwrite
+outputfile  =winterfallow.out
 
 [wheat_weed.report.parameters]
-title = Wheat Winter-grass Simulation
-outputfile  = wheatgrass.out /overwrite
-summaryfile = wheatgrass.sum /overwrite
+outputfile  =wheatgrass.out
 
-module_names=    wheat    wheat    wheat
-variable_names=  lai      biomass  green_biomass
-variable_alias=  -        -        -     
-units=           -         -       -     
 
+variable = wheat.lai
+variable = wheat.biomass
+variable = wheat.green_biomass
 [sorghum_weed.report.parameters]
-title = Sorghum summer-grass Simulation
-outputfile  = Sorgrass.out /overwrite
-summaryfile = Sorgrass.sum /overwrite
-
-module_names =    sorghum sorghum  sorghum       sorghum 
-variable_names =  lai     biomass  green_biomass yield   
-variable_alias =  -       -        -             -
-units =           -       -        -             -
+outputfile  =Sorgrass.out
 
 
+
+variable = sorghum.lai
+variable = sorghum.biomass
+variable = sorghum.green_biomass
+variable = sorghum.yield
 [all.clock.parameters]
 ! Start and end date of run (day number of year and year)
-simulation_start_day =  100
-simulation_start_year = 1988
-simulation_end_day =  150
-simulation_end_year = 1989
+start_date=9/4/1988
+end_date=30/5/1989
 
 [all.manager.init]
 weed_in = 0
@@ -142,3 +130,11 @@ kl =       0.06 0.06 0.06 0.06 0.06 0.06 0.02    ! Water Extraction parameter (0
 ll =  0.1     0.1     0.1     0.1     0.1     0.1     0.1   ()!cm3 water/cm3 soil
 kl =  0.07    0.07    0.07    0.07    0.05    0.05    0.04  ()
 XF =  1.0     1.0     1.0     1.0     1.0     1.0     1.0   ()
+[sample_weed.SummaryFile.parameters]
+summaryfile=winterfallow.sum
+[all.Screen.parameters]
+screen_output=on
+[wheat_weed.SummaryFile.parameters]
+summaryfile=wheatgrass.sum
+[sorghum_weed.SummaryFile.parameters]
+summaryfile=Sorgrass.sum

@@ -1,15 +1,12 @@
-[APSIM.tree.control]
-
-
-
-
 version=2.2
+
+[APSIM.tree.control]
 title=test tree run. Full transpiration.
-summaryfile=model.sum
-screen_output=off
 module = clock    tree.man[tree]
 module = report   tree.man[tree]
 module = Input(Met)    ..\narayen.met[climate]
 module = manager  tree.man[tree]
 module = soilwat2 soilwat2.par[tree] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
 module = tree     tree.par[tree]    ..\..\tree.ini[standard]
+module = screen   tree.par[tree]
+module = summaryfile tree.par[tree]
