@@ -57,7 +57,7 @@ outputfile  =wagga1500.out
 
 [sensibility.report.parameters]
 
-variable = clock.today.dd/mm/yyyy as date
+variable = clock.dd/mm/yyyy as date
 variable = clock.day
 variable = clock.year
 variable = manager.in_crop_rain
@@ -70,11 +70,11 @@ variable = manager.nhi
 variable = tracker.sum_ep
 variable = wheat.n_conc_grain
 variable = wheat.grain_n
+variable = soiln2.no3()
+variable = soilwat2.esw
 !variable = wheat.grain_n_demand
 !variable = wheat.dlt_n_green(5)
 !variable = wheat.dlt_n_retrans(5)
-variable = soiln2.no3()
-variable = soilwat2.esw
 
 
 [sensibility.clock.parameters]
