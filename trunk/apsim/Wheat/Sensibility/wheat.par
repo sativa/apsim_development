@@ -36,6 +36,9 @@ outputfile  =Mingenew300Sand.out
 outputfile  =Mingenew300RedSCL.out
 [Latham200SandGravel.report.parameters]
 outputfile  =Latham200SandGravel.out
+[Merredin300.report.parameters]
+outputfile  =Merredin300.out
+
 
 [Warra600LowN.report.parameters]
 outputfile  =Warra600LowN.out
@@ -45,6 +48,12 @@ outputfile  =Warra1500LowN.out
 outputfile  =Warra600HighN.out
 [Warra1500HighN.report.parameters]
 outputfile  =Warra1500HighN.out
+
+[wagga600.report.parameters]
+outputfile  =wagga600.out
+[wagga1500.report.parameters]
+outputfile  =wagga1500.out
+
 
 [sensibility.report.parameters]
 
@@ -182,6 +191,8 @@ summaryfile=Mingenew300Sand.sum
 summaryfile=Mingenew300RedSCL.sum
 [Latham200SandGravel.SummaryFile.parameters]
 summaryfile=Latham200SandGravel.sum
+[Merredin300.SummaryFile.parameters]
+summaryfile=Merredin300.sum
 
 [Warra600LowN.SummaryFile.parameters]
 summaryfile=Warra600LowN.sum
@@ -191,6 +202,12 @@ summaryfile=Warra1500LowN.sum
 summaryfile=Warra600HighN.sum
 [Warra1500HighN.SummaryFile.parameters]
 summaryfile=Warra1500HighN.sum
+
+
+[wagga600.SummaryFile.parameters]
+summaryfile=wagga600.sum
+[wagga1500.SummaryFile.parameters]
+summaryfile=wagga1500.sum
 
 
 [sensibility.Screen.parameters]
