@@ -28,13 +28,10 @@ height="73"></p>
 <A NAME = "Module Description">  </A>
 <H2>Module Documentation</H2>
 <br>
-<A HREF = "croptemp_science.html"> Science document </A>
+<A HREF = "croptemp_int.pdf"> croptemp_int.pdf </A>
 <br>
-<A HREF = "croptemp_int.pdf"> Interface document </A>
+<A HREF = ".">  </A>
 <br>
-<A HREF = "crop template programming.html"> Crop template programming guide </A>
-<br>
-<A HREF = "april 1998 crop template statistics.xls"> April 1998 Crop template statistics </A>
 <br>
 <hr>
 <html>
@@ -48,7 +45,7 @@ height="73"></p>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "Structure Charts"> <H2>Module Structure Charts</H2> </A>
 <H2>The Crop Model Algorithm Library</H2>
 <ul><li><A HREF = "#crop_dm_pot_rue"> crop_dm_pot_rue </A>
@@ -81,13 +78,9 @@ height="73"></p>
 
 </ul><li><A HREF = "#crop_leaf_area_sen_water2"> crop_leaf_area_sen_water2 </A>
 
-<ul><li><A HREF = "#crop_running_ave"> crop_running_ave </A>
+<li><A HREF = "#crop_leaf_area_sen_light2"> crop_leaf_area_sen_light2 </A>
 
-</ul><li><A HREF = "#crop_leaf_area_sen_light2"> crop_leaf_area_sen_light2 </A>
-
-<ul><li><A HREF = "#crop_running_ave"> crop_running_ave </A>
-
-</ul><li><A HREF = "#cproc_leaf_area_sen1"> cproc_leaf_area_sen1 </A>
+<li><A HREF = "#cproc_leaf_area_sen1"> cproc_leaf_area_sen1 </A>
 
 <ul><li><A HREF = "#crop_leaf_area_sen_age1"> crop_leaf_area_sen_age1 </A>
 
@@ -185,6 +178,8 @@ height="73"></p>
 
 </ul><li><A HREF = "#cproc_n_demand2"> cproc_n_demand2 </A>
 
+<li><A HREF = "#cproc_n_uptake2"> cproc_n_uptake2 </A>
+
 <li><A HREF = "#crop_stage_code"> crop_stage_code </A>
 
 <li><A HREF = "#cproc_phenology1"> cproc_phenology1 </A>
@@ -223,23 +218,19 @@ height="73"></p>
 
 </ul><li><A HREF = "#crop_root_redistribute"> crop_root_redistribute </A>
 
-<li><A HREF = "#crop_temperature_stress_photo"> crop_temperature_stress_photo </A>
+<li><A HREF = "#cproc_root_depth2"> cproc_root_depth2 </A>
+
+<ul><li><A HREF = "#crop_root_sw_avail_factor"> crop_root_sw_avail_factor </A>
+
+<li><A HREF = "#crop_root_depth_increase2"> crop_root_depth_increase2 </A>
+
+</ul><li><A HREF = "#crop_temperature_stress_photo"> crop_temperature_stress_photo </A>
 
 <li><A HREF = "#crop_radn_int0"> crop_radn_int0 </A>
 
 <li><A HREF = "#crop_radn_int1"> crop_radn_int1 </A>
 
-<li><A HREF = "#search_read_real_var"> search_read_real_var </A>
-
-<li><A HREF = "#search_read_real_array"> search_read_real_array </A>
-
-<li><A HREF = "#search_read_char_array"> search_read_char_array </A>
-
-<li><A HREF = "#search_read_char_var"> search_read_char_var </A>
-
-<li><A HREF = "#search_read_integer_var"> search_read_integer_var </A>
-
-<li><A HREF = "#search_read_integer_array"> search_read_integer_array </A>
+<li><A HREF = "#crop_running_ave"> crop_running_ave </A>
 
 <li><A HREF = "#crop_sw_uptake0"> crop_sw_uptake0 </A>
 
@@ -274,6 +265,7 @@ height="73"></p>
 <li><A HREF = "#cproc_bio_water1"> cproc_bio_water1 </A>
 
 </ul>
+<hr>
 <html>
 <body>
 <p>
@@ -285,26 +277,27 @@ height="73"></p>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <CENTER><A NAME = "Module Pseudo Code"> <H2><BIG>Module Pseudo Code</BIG></H2> </A></CENTER>
 <hr>
 <H2><BIG><A NAME = "The Crop Model Algorithm Library"> The Crop Model Algorithm Library </A></BIG></H2>
 <A NAME = "crop_dm_pot_rue">  </A>
 <H2>Crop Dm Pot Rue</H2>
 <br>
-<H3><CENTER>Potential biomass (carbohydrate) production from photosynthesis (g/m^2)  </CENTER></H3>
+<H3><CENTER>Potential biomass (carbohydrate) production from photosynthesis (g/m^2) limited by temperature and nitrogen stresses  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 current_phase = int (current_stage)<br>
 
 usrue = rue<I><SUB> current_phase</SUB></I> * minimum of (temp_stress_photo, nfact_photo)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>dm_pot = usrue * radn_int<br>
+dlt_dm_pot = usrue * radn_int<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -316,41 +309,48 @@ usrue = rue<I><SUB> current_phase</SUB></I> * minimum of (temp_stress_photo, nfa
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_dm_senescence0">  </A>
 <H2>Crop Dm Senescence0</H2>
 <br>
-<H3><CENTER>Derives seneseced plant dry matter (g/m^2)  </CENTER></H3>
+<H3><CENTER>Derives seneseced plant dry matter (g/m^2) for the day  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-Fill <FONT FACE = "SYMBOL">D</FONT>dm_senesced with 0 . 0<br>
+Fill dlt_dm_senesced with 0 . 0<br>
 
-lai_today = lai + <FONT FACE = "SYMBOL">D</FONT>lai<br>
+Fill dlt_dm_sen_retrans with 0 . 0<br>
 
-if (<FONT FACE = "SYMBOL">D</FONT>slai.<.lai_today) then<br>
+lai_today = lai + dlt_lai<br>
 
-<dl>dm_green_leaf_today = dm_green<I><SUB> leaf</SUB></I> + <FONT FACE = "SYMBOL">D</FONT>dm_green<I><SUB> leaf</SUB></I> + <FONT FACE = "SYMBOL">D</FONT>dm_green_retrans<I><SUB> leaf</SUB></I><br>
+if (dlt_slai.&lt;.lai_today) then<br>
 
-sla_today = lai_today / dm_green_leaf_today<br>
+<blockquote>dm_green_leaf_today = dm_green<I><SUB> leaf</SUB></I> + dlt_dm_green<I><SUB> leaf</SUB></I> + dlt_dm_green_retrans<I><SUB> leaf</SUB></I><br>
 
-<FONT FACE = "SYMBOL">D</FONT>dm_senescing = <FONT FACE = "SYMBOL">D</FONT>slai / sla_today<br>
+sla_today = divide (lai_today, dm_green_leaf_today, 0 . 0)<br>
 
-</dl>else<br>
+dlt_dm_senescing = divide (dlt_slai, sla_today, 0 . 0)<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>dm_senescing = dm_green<I><SUB> leaf</SUB></I> + <FONT FACE = "SYMBOL">D</FONT>dm_green<I><SUB> leaf</SUB></I><br>
+</blockquote>else<br>
 
-</dl>endif<br>
+<blockquote>dlt_dm_senescing = dm_green<I><SUB> leaf</SUB></I> + dlt_dm_green<I><SUB> leaf</SUB></I><br>
 
-<FONT FACE = "SYMBOL">D</FONT>dm_senesced<I><SUB> leaf</SUB></I> = <FONT FACE = "SYMBOL">D</FONT>dm_senescing * dm_leaf_sen_frac<br>
+</blockquote>endif<br>
 
-<FONT FACE = "SYMBOL">D</FONT>dm_senesced<I><SUB> stem</SUB></I> = - (<FONT FACE = "SYMBOL">D</FONT>dm_senescing-<FONT FACE = "SYMBOL">D</FONT>dm_senesced<I><SUB> leaf</SUB></I>)<br>
+dlt_dm_senesced<I><SUB> leaf</SUB></I> = dlt_dm_senescing<br>
 
-<FONT FACE = "SYMBOL">D</FONT>dm_senesced<I><SUB> root</SUB></I> = dm_green<I><SUB> root</SUB></I> * dm_root_sen_frac<br>
+dlt_dm_senesced<I><SUB> stem</SUB></I> = 0 . 0<br>
+
+dlt_dm_senesced<I><SUB> root</SUB></I> = dm_green<I><SUB> root</SUB></I> * dm_root_sen_frac<br>
+
+dlt_dm_sen_retrans<I><SUB> leaf</SUB></I> = dlt_dm_senescing * (1.0-dm_leaf_sen_frac)<br>
+
+dlt_dm_green_retrans<I><SUB> stem</SUB></I> = dlt_dm_green_retrans<I><SUB> stem</SUB></I> + dlt_dm_sen_retrans<I><SUB> leaf</SUB></I><br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -362,21 +362,24 @@ sla_today = lai_today / dm_green_leaf_today<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_dm_dead_detachment">  </A>
 <H2>Crop Dm Dead Detachment</H2>
 <br>
 <H3><CENTER>Plant dry matter loss from dead plants  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-For each part from 1 to number ofpart<br>
+For each part from 1 to num_part<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>dm_dead_detached<I><SUB> part</SUB></I> = dm_dead<I><SUB> part</SUB></I> * dead_detach_frac<I><SUB> part</SUB></I><br>
+<blockquote>dlt_dm_dead_detached<I><SUB> part</SUB></I> = dm_dead<I><SUB> part</SUB></I> * dead_detach_frac<I><SUB> part</SUB></I><br>
+
+</blockquote>next<br>
 
 <br>
 
-</dl></dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -388,27 +391,28 @@ For each part from 1 to number ofpart<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_dm_senescence1">  </A>
 <H2>Cproc Dm Senescence1</H2>
 <br>
-<H3><CENTER>Derives seneseced plant dry matter (g/m^2)  </CENTER></H3>
+<H3><CENTER>Derives seneseced plant dry matter (g/m^2) for the day  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-For each part from 1 to number ofpart<br>
+For each part from 1 to num_part<br>
 
-<dl>fraction_senescing = A linearly interpolated value based upon independant_variable (where X = <A HREF = "#x_dm_sen_frac"> x_dm_sen_frac </A><I><SUB> 1, part</SUB></I>, Y = <A HREF = "#y_dm_sen_frac"> y_dm_sen_frac </A><I><SUB> 1, part</SUB></I>)..<br>
+<blockquote>fraction_senescing = linear_interp_real (independant_variable, <A HREF = "#x_dm_sen_frac"> c_x_dm_sen_frac </A><I><SUB> 1, part</SUB></I>, <A HREF = "#y_dm_sen_frac"> c_y_dm_sen_frac </A><I><SUB> 1, part</SUB></I>, <A HREF = "#num_dm_sen_frac"> c_num_dm_sen_frac </A><I><SUB> part</SUB></I>)<br>
 
-fraction_senescing = fraction_senescing constrained between 0 . 0 and 1 . 0<br>
+fraction_senescing = bound (fraction_senescing, 0 . 0, 1 . 0)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>dm_senesced<I><SUB> part</SUB></I> = (dm_green<I><SUB> part</SUB></I>+<FONT FACE = "SYMBOL">D</FONT>dm_green<I><SUB> part</SUB></I>+<FONT FACE = "SYMBOL">D</FONT>dm_green_retrans<I><SUB> part</SUB></I>) * fraction_senescing<br>
+dlt_dm_senesced<I><SUB> part</SUB></I> = (g_dm_green<I><SUB> part</SUB></I>+g_dlt_dm_green<I><SUB> part</SUB></I>+g_dlt_dm_green_retrans<I><SUB> part</SUB></I>) * fraction_senescing<br>
 
-</dl>next<br>
+</blockquote>next<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -420,59 +424,60 @@ fraction_senescing = fraction_senescing constrained between 0 . 0 and 1 . 0<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_dm_retranslocate1">  </A>
 <H2>Cproc Dm Retranslocate1</H2>
 <br>
 <H3><CENTER>Calculate plant dry matter delta's due to retranslocation to grain (g/m^2)  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 Fill dm_retranslocate with 0 . 0<br>
 
-if (start_grnfil is between end_grnfil and current_stage) then<br>
+if (stage_is_between (start_grnfil, end_grnfil, g_current_stage)) then<br>
 
-<dl>if (<FONT FACE = "SYMBOL">D</FONT>dm_grain_demand.>.<FONT FACE = "SYMBOL">D</FONT>dm_green<I><SUB> grain_part_no</SUB></I>) then<br>
+<blockquote>if (g_dlt_dm_grain_demand.&gt;.g_dlt_dm_green<I><SUB> grain_part_no</SUB></I>) then<br>
 
-<dl>dm_grain_differential = <FONT FACE = "SYMBOL">D</FONT>dm_grain_demand - <FONT FACE = "SYMBOL">D</FONT>dm_green<I><SUB> grain_part_no</SUB></I><br>
+<blockquote>dm_grain_differential = g_dlt_dm_grain_demand - g_dlt_dm_green<I><SUB> grain_part_no</SUB></I><br>
 
-For each counter from 1 to number ofsupply_pools<br>
+For each counter from 1 to num_supply_pools<br>
 
-<dl>dm_part_pot = dm_green<I><SUB> supply_pools<I><SUB> counter</SUB></I></SUB></I> + <FONT FACE = "SYMBOL">D</FONT>dm_green<I><SUB> supply_pools<I><SUB> counter</SUB></I></SUB></I><br>
+<blockquote>dm_part_pot = g_dm_green<I><SUB> supply_pools<I><SUB> counter</SUB></I></SUB></I> + g_dlt_dm_green<I><SUB> supply_pools<I><SUB> counter</SUB></I></SUB></I><br>
 
-dm_part_avail = dm_part_pot - dm_plant_min<I><SUB> supply_pools<I><SUB> counter</SUB></I></SUB></I> * plants<br>
+dm_part_avail = dm_part_pot - g_dm_plant_min<I><SUB> supply_pools<I><SUB> counter</SUB></I></SUB></I> * g_plants<br>
 
-dm_part_avail = dm_part_avail constrained above 0 . 0<br>
+dm_part_avail = l_bound (dm_part_avail, 0 . 0)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>dm_retrans_part = minimum of (dm_grain_differential, dm_part_avail)<br>
+dlt_dm_retrans_part = minimum of (dm_grain_differential, dm_part_avail)<br>
 
-dm_grain_differential = dm_grain_differential - <FONT FACE = "SYMBOL">D</FONT>dm_retrans_part<br>
+dm_grain_differential = dm_grain_differential - dlt_dm_retrans_part<br>
 
-dm_retranslocate<I><SUB> supply_pools<I><SUB> counter</SUB></I></SUB></I> = - <FONT FACE = "SYMBOL">D</FONT>dm_retrans_part<br>
+dm_retranslocate<I><SUB> supply_pools<I><SUB> counter</SUB></I></SUB></I> = - dlt_dm_retrans_part<br>
 
-</dl>next<br>
+</blockquote>next<br>
 
-dm_retranslocate<I><SUB> grain_part_no</SUB></I> = - <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>max_part</SUB> dm_retranslocate<br>
+dm_retranslocate<I><SUB> grain_part_no</SUB></I> = - sum_real_array (dm_retranslocate, max_part)<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>Fill dm_retranslocate with 0 . 0<br>
+<blockquote>Fill dm_retranslocate with 0 . 0<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>Fill dm_retranslocate with 0 . 0<br>
+<blockquote>Fill dm_retranslocate with 0 . 0<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
-mass_balance = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>max_part</SUB> dm_retranslocate<br>
+mass_balance = sum_real_array (dm_retranslocate, max_part)<br>
 
 Check that mass_balance lies between 0 . 0 and 0 . 0<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -484,21 +489,22 @@ Check that mass_balance lies between 0 . 0 and 0 . 0<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_dm_detachment1">  </A>
 <H2>Cproc Dm Detachment1</H2>
 <br>
 <H3><CENTER>Simulate plant detachment.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-<A HREF = "#crop_pool_fraction_delta"> Calculate change in dm_senesced based on fractional decay rates. </A><br>
+<A HREF = "#crop_pool_fraction_delta"> Calculate change in g_dm_senesced based on fractional decay rates. </A><br>
 
-<A HREF = "#crop_pool_fraction_delta"> Calculate change in dm_dead based on fractional decay rates. </A><br>
+<A HREF = "#crop_pool_fraction_delta"> Calculate change in g_dm_dead based on fractional decay rates. </A><br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -510,21 +516,24 @@ Check that mass_balance lies between 0 . 0 and 0 . 0<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_pool_fraction_delta">  </A>
 <H2>Crop Pool Fraction Delta</H2>
 <br>
 <H3><CENTER>Multiply plant pool array by a part fraction array.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-For each part from 1 to number ofpart<br>
+For each part from 1 to num_part<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>pool<I><SUB> part</SUB></I> = pool<I><SUB> part</SUB></I> * fraction<I><SUB> part</SUB></I><br>
+<blockquote>dlt_pool<I><SUB> part</SUB></I> = pool<I><SUB> part</SUB></I> * fraction<I><SUB> part</SUB></I><br>
+
+</blockquote>next<br>
 
 <br>
 
-</dl></dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -536,49 +545,50 @@ For each part from 1 to number ofpart<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_bio_yieldpart_demand1">  </A>
 <H2>Cproc Bio Yieldpart Demand1</H2>
 <br>
-<H3><CENTER>Find grain demand for carbohydrate using harvest index (g/m^2)  </CENTER></H3>
+<H3><CENTER>Find grain demand for carbohydrate using daily increase in harvest index (g/m^2)  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (start_grainfill_stage is between end_grainfill_stage and current_stage) then<br>
+if (stage_is_between (start_grainfill_stage, end_grainfill_stage, g_current_stage)) then<br>
 
-<dl>stress_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>start_stress_stage</SUP><SUB>start_grainfill_stage</SUB> dm_stress_max<br>
+<blockquote>stress_sum = sum_between (start_stress_stage, start_grainfill_stage, g_dm_stress_max)<br>
 
-days_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>start_stress_stage</SUP><SUB>start_grainfill_stage</SUB> days<SUB>(total)</SUB><br>
+days_sum = sum_between (start_stress_stage, start_grainfill_stage, g_days_tot)<br>
 
-ave_stress = stress_sum / days_sum<br>
+ave_stress = divide (stress_sum, days_sum, 1 . 0)<br>
 
-hi_max_pot = A linearly interpolated value based upon ave_stress (where X = <A HREF = "#x_hi_max_pot_stress"> x_hi_max_pot_stress </A>, Y = <A HREF = "#y_hi_max_pot"> y_hi_max_pot </A>)..<br>
+hi_max_pot = linear_interp_real (ave_stress, <A HREF = "#x_hi_max_pot_stress"> p_x_hi_max_pot_stress </A>, <A HREF = "#y_hi_max_pot"> p_y_hi_max_pot </A>, <A HREF = "#num_hi_max_pot"> p_num_hi_max_pot </A>)<br>
 
-dm_tops = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>max_part</SUB> dm_green - dm_green<I><SUB> root_part</SUB></I> + <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>max_part</SUB> dm_senesced - dm_senesced<I><SUB> root_part</SUB></I><br>
+dm_tops = sum_real_array (g_dm_green, max_part) - g_dm_green<I><SUB> root_part</SUB></I> + sum_real_array (g_dm_senesced, max_part) - g_dm_senesced<I><SUB> root_part</SUB></I><br>
 
-harvest_index = dm_green<I><SUB> yield_part</SUB></I> / dm_tops<br>
+harvest_index = divide (g_dm_green<I><SUB> yield_part</SUB></I>, dm_tops, 0 . 0)<br>
 
-dm_tops_new = dm_tops + <FONT FACE = "SYMBOL">D</FONT>dm<br>
+dm_tops_new = dm_tops + g_dlt_dm<br>
 
-harvest_index_new = harvest_index + <A HREF = "#hi_incr"> hi_incr </A> constrained above hi_max_pot<br>
+harvest_index_new = u_bound (harvest_index + <A HREF = "#hi_incr"> p_hi_incr </A>, hi_max_pot)<br>
 
 dm_grain_new = dm_tops_new * harvest_index_new<br>
 
-<FONT FACE = "SYMBOL">D</FONT>dm_yield = dm_grain_new - dm_green<I><SUB> yield_part</SUB></I><br>
+dlt_dm_yield = dm_grain_new - g_dm_green<I><SUB> yield_part</SUB></I><br>
 
-<FONT FACE = "SYMBOL">D</FONT>dm_yield = <FONT FACE = "SYMBOL">D</FONT>dm_yield constrained between 0 . 0 and dm_grain_new<br>
+dlt_dm_yield = bound (dlt_dm_yield, 0 . 0, dm_grain_new)<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>dm_yield = 0 . 0<br>
+<blockquote>dlt_dm_yield = 0 . 0<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
-<FONT FACE = "SYMBOL">D</FONT>dm_yieldpart_demand = <FONT FACE = "SYMBOL">D</FONT>dm_yield<br>
+dlt_dm_yieldpart_demand = dlt_dm_yield<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -590,21 +600,22 @@ dm_grain_new = dm_tops_new * harvest_index_new<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_yieldpart_demand_stress1">  </A>
 <H2>Cproc Yieldpart Demand Stress1</H2>
 <br>
 <H3><CENTER>Find maximum stress on daily dm production (0-1)  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-rue_reduction = minimum of (temp_stress_photo, nfact_photo)<br>
+rue_reduction = minimum of (g_temp_stress_photo, g_nfact_photo)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>dm_stress_max = swdef_photo * rue_reduction<br>
+dlt_dm_stress_max = g_swdef_photo * rue_reduction<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -616,29 +627,30 @@ rue_reduction = minimum of (temp_stress_photo, nfact_photo)<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_bio_init1">  </A>
 <H2>Cproc Bio Init1</H2>
 <br>
 <H3><CENTER>Initialise plant weights at a specified growth stage at required instances.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (on the first day of init_stage) then<br>
+if (on_day_of (init_stage, g_current_stage, g_days_tot)) then<br>
 
-<dl>For each part from 1 to max_part<br>
+<blockquote>For each part from 1 to max_part<br>
 
-<dl>dm_green<I><SUB> part</SUB></I> = <A HREF = "#dm_init"> dm_init </A><I><SUB> part</SUB></I> * plants<br>
+<blockquote>g_dm_green<I><SUB> part</SUB></I> = <A HREF = "#dm_init"> c_dm_init </A><I><SUB> part</SUB></I> * g_plants<br>
 
-</dl>next<br>
+</blockquote>next<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
 endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -650,21 +662,21 @@ endif<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_lai_equilib_water">  </A>
 <H2>Crop Lai Equilib Water</H2>
 <br>
 <H3><CENTER>Return the lai threshold for water induced senescence.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 stage_no = int (current_stage)<br>
 
-deepest_layer = layer number corresponding to root_depth<br>
+deepest_layer = find_layer_no (root_depth, dlayer, num_layer)<br>
 
-sw_supply_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_supply<br>
+sw_supply_sum = sum_real_array (sw_supply, deepest_layer)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>dm_transp = sw_supply_sum * transp_eff<br>
+dlt_dm_transp = sw_supply_sum * transp_eff<br>
 
 rue_reduction = minimum of (temp_stress_photo, nfact_photo)<br>
 
@@ -672,27 +684,28 @@ lrue = rue<I><SUB> stage_no</SUB></I> * rue_reduction<br>
 
 Check that lrue lies between 0 . 0 and rue<I><SUB> stage_no</SUB></I><br>
 
-radn_canopy = radn_int / cover_green<br>
+radn_canopy = divide (radn_int, cover_green, radn)<br>
 
-sen_radn_crit = <FONT FACE = "SYMBOL">D</FONT>dm_transp / lrue<br>
+sen_radn_crit = divide (dlt_dm_transp, lrue, radn_canopy)<br>
 
-intc_crit = sen_radn_crit / radn_canopy<br>
+intc_crit = divide (sen_radn_crit, radn_canopy, 1 . 0)<br>
 
-if (intc_crit.<.1.0) then<br>
+if (intc_crit.&lt;.1.0) then<br>
 
-<dl>lai_equilib_water_today = - <I>log</I><SUB>e</SUB>(1 . 0 - intc_crit) / extinction_coef<br>
+<blockquote>lai_equilib_water_today = - <I>log</I><SUB>e</SUB>(1 . 0 - intc_crit) / extinction_coef<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>lai_equilib_water_today = lai<br>
+<blockquote>lai_equilib_water_today = lai<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
 <A HREF = "#crop_store_value"> Store lai_equilib_water_today in a historical record </A><br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -704,27 +717,28 @@ if (intc_crit.<.1.0) then<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_store_value">  </A>
 <H2>Crop Store Value</H2>
 <br>
 <H3><CENTER>Stores a value in an annual circular array  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 array<I><SUB> day_of_year</SUB></I> = value<br>
 
-if (day_of_year.=.365.and.leap_year<I><SUB> year - 1</SUB></I>) then<br>
+if (day_of_year.=.365.and.leap_year (year - 1)) then<br>
 
-<dl>array<I><SUB> 366</SUB></I> = 0 . 0<br>
+<blockquote>array<I><SUB> 366</SUB></I> = 0 . 0<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
 endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -736,33 +750,34 @@ endif<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_lai_equilib_light">  </A>
 <H2>Crop Lai Equilib Light</H2>
 <br>
 <H3><CENTER>Return the lai threshold for light induced senescence.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-radn_canopy = radn_int / cover_green<br>
+radn_canopy = divide (radn_int, cover_green, 0 . 0)<br>
 
-trans_crit = sen_radn_crit / radn_canopy<br>
+trans_crit = divide (sen_radn_crit, radn_canopy, 0 . 0)<br>
 
-if (trans_crit.>.0.0) then<br>
+if (trans_crit.&gt;.0.0) then<br>
 
-<dl>lai_eqlb_light_today = - <I>log</I><SUB>e</SUB>(trans_crit) / extinction_coef<br>
+<blockquote>lai_eqlb_light_today = - <I>log</I><SUB>e</SUB>(trans_crit) / extinction_coef<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>lai_eqlb_light_today = lai<br>
+<blockquote>lai_eqlb_light_today = lai<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
 <A HREF = "#crop_store_value"> Store lai_eqlb_light_today in a historical record </A><br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -774,39 +789,40 @@ if (trans_crit.>.0.0) then<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_leaf_area_sen_water2">  </A>
 <H2>Crop Leaf Area Sen Water2</H2>
 <br>
 <H3><CENTER>Return the lai that would senesce on the current day from water stress  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-deepest_layer = layer number corresponding to root_depth<br>
+deepest_layer = find_layer_no (root_depth, dlayer, num_layer)<br>
 
-sw_supply_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_supply<br>
+sw_supply_sum = sum_real_array (sw_supply, deepest_layer)<br>
 
-sw_demand_ratio = sw_supply_sum / sw_demand<br>
+sw_demand_ratio = divide (sw_supply_sum, sw_demand, 1 . 0)<br>
 
-if (sw_demand_ratio.<.sen_threshold) then<br>
+if (sw_demand_ratio.&lt;.sen_threshold) then<br>
 
-<dl>ave_lai_equilib_water = <A HREF = "#crop_running_ave"> Calculate the average of lai_equilib_water over the previous 10 days. </A><br>
+<blockquote>ave_lai_equilib_water = crop_running_ave (day_of_year, year, lai_equilib_water, 10)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>slai_water = (lai-ave_lai_equilib_water) / sen_water_time_const<br>
+dlt_slai_water = (lai-ave_lai_equilib_water) / sen_water_time_const<br>
 
-<FONT FACE = "SYMBOL">D</FONT>slai_water = <FONT FACE = "SYMBOL">D</FONT>slai_water constrained above 0 . 0<br>
+dlt_slai_water = l_bound (dlt_slai_water, 0 . 0)<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>slai_water = 0 . 0<br>
+<blockquote>dlt_slai_water = 0 . 0<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
-<FONT FACE = "SYMBOL">D</FONT>slai_water = <FONT FACE = "SYMBOL">D</FONT>slai_water constrained between 0 . 0 and lai<br>
+dlt_slai_water = bound (dlt_slai_water, 0 . 0, lai)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -818,61 +834,36 @@ if (sw_demand_ratio.<.sen_threshold) then<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
-<A NAME = "crop_running_ave">  </A>
-<H2>Crop Running Ave</H2>
-<br>
-<H3><CENTER>return the running average of an array over the last specified number of days.  </CENTER></H3>
-<H4>Subprogram Logic</H4>
-<dl><br>
-
-start_day = year offset by - number_of_days days<br>
-
-crop_running_ave = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>start_day</SUP><SUB>day_of_year</SUB> array / real (abs (number_of_days))<br>
-
-<br>
-
-</dl></dl>
-<html>
-<body>
-<p>
-<MAP NAME="FrontPageMap0">
-<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
-<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
-<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
-</MAP>
-<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
-</p>
-</body>
-</html>
+</html> 
 <A NAME = "crop_leaf_area_sen_light2">  </A>
 <H2>Crop Leaf Area Sen Light2</H2>
 <br>
 <H3><CENTER>Return the lai that would senesce on the current day from low light  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 radn_transmitted = radn - radn_int<br>
 
-if (radn_transmitted.<.sen_radn_crit) then<br>
+if (radn_transmitted.&lt;.sen_radn_crit) then<br>
 
-<dl>ave_lai_equilib_light = <A HREF = "#crop_running_ave"> Calculate the average of lai_equilib_light over the previous 10 days. </A><br>
+<blockquote>ave_lai_equilib_light = crop_running_ave (day_of_year, year, lai_equilib_light, 10)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>slai_light = lai - ave_lai_equilib_light / sen_light_time_const<br>
+dlt_slai_light = divide (lai - ave_lai_equilib_light, sen_light_time_const, 0 . 0)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>slai_light = <FONT FACE = "SYMBOL">D</FONT>slai_light constrained above 0 . 0<br>
+dlt_slai_light = l_bound (dlt_slai_light, 0 . 0)<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>slai_light = 0 . 0<br>
+<blockquote>dlt_slai_light = 0 . 0<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
-<FONT FACE = "SYMBOL">D</FONT>slai_light = <FONT FACE = "SYMBOL">D</FONT>slai_light constrained between 0 . 0 and lai<br>
+dlt_slai_light = bound (dlt_slai_light, 0 . 0, lai)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -884,27 +875,28 @@ if (radn_transmitted.<.sen_radn_crit) then<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_leaf_area_sen1">  </A>
 <H2>Cproc Leaf Area Sen1</H2>
 <br>
-<H3><CENTER>Return the lai that would senesce on the current day.  </CENTER></H3>
+<H3><CENTER>Return the lai that would senesce on the current day, being the maximum of lai senescence due to ageing, shading, water stress or frost.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-<A HREF = "#crop_leaf_area_sen_age1"> Calculate today's leaf area senescence due to aging. </A><br>
+<A HREF = "#crop_leaf_area_sen_age1"> Calculate today's leaf area senescence due to ageing. </A><br>
 
-<A HREF = "#crop_leaf_area_sen_light1"> Calculate today's leaf area senescence due to light competition. </A><br>
+<A HREF = "#crop_leaf_area_sen_light1"> Calculate today's leaf area senescence due to shading. </A><br>
 
 <A HREF = "#crop_leaf_area_sen_water1"> Calculate today's leaf area senescence due to water stress. </A><br>
 
 <A HREF = "#crop_leaf_area_sen_frost1"> Calculate today's leaf area senescence due to frost </A><br>
 
-<FONT FACE = "SYMBOL">D</FONT>slai = maximum of (<FONT FACE = "SYMBOL">D</FONT>slai_age, <FONT FACE = "SYMBOL">D</FONT>slai_light, <FONT FACE = "SYMBOL">D</FONT>slai_water, <FONT FACE = "SYMBOL">D</FONT>slai_frost)<br>
+g_dlt_slai = maximum of (g_dlt_slai_age, g_dlt_slai_light, g_dlt_slai_water, g_dlt_slai_frost)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -916,33 +908,34 @@ if (radn_transmitted.<.sen_radn_crit) then<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_leaf_area_sen_age1">  </A>
 <H2>Crop Leaf Area Sen Age1</H2>
 <br>
 <H3><CENTER>Return the lai that would senesce on the current day due to ageing  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-leaf_no_dead = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>emergence</SUP><SUB>this_stage</SUB> leaf_no_dead + <FONT FACE = "SYMBOL">D</FONT>leaf_no_dead<br>
+leaf_no_dead = sum_between (emergence, this_stage, g_leaf_no_dead) + g_dlt_leaf_no_dead<br>
 
 dying_leaf = int (1 . 0 + leaf_no_dead)<br>
 
-area_sen_dying_leaf = mod (leaf_no_dead, 1 . 0) * leaf_area<I><SUB> dying_leaf</SUB></I><br>
+area_sen_dying_leaf = mod (leaf_no_dead, 1 . 0) * g_leaf_area<I><SUB> dying_leaf</SUB></I><br>
 
-slai_age = (<FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>dying_leaf - 1</SUB> leaf_area+area_sen_dying_leaf) * smm2sm * plants<br>
+slai_age = (sum_real_array (g_leaf_area, dying_leaf - 1)+area_sen_dying_leaf) * smm2sm * g_plants<br>
 
-min_lai = <A HREF = "#min_tpla"> min_tpla </A> * plants * smm2sm<br>
+min_lai = <A HREF = "#min_tpla"> c_min_tpla </A> * g_plants * smm2sm<br>
 
-max_sen = lai - min_lai constrained above 0 . 0<br>
+max_sen = l_bound (g_lai - min_lai, 0 . 0)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>slai_age = slai_age - slai constrained between 0 . 0 and max_sen<br>
+dlt_slai_age = bound (slai_age - g_slai, 0 . 0, max_sen)<br>
 
-if (<FONT FACE = "SYMBOL">D</FONT>leaf_no . > . 0 .) slai_age = <FONT FACE = "SYMBOL">D</FONT>lai_stressed / plants * 10000 . / <FONT FACE = "SYMBOL">D</FONT>leaf_no<br>
+if (g_dlt_leaf_no . &gt; . 0 .) slai_age = g_dlt_lai_stressed / g_plants * 10000 . / g_dlt_leaf_no<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -954,35 +947,36 @@ if (<FONT FACE = "SYMBOL">D</FONT>leaf_no . > . 0 .) slai_age = <FONT FACE = "SY
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_leaf_area_sen_light1">  </A>
 <H2>Crop Leaf Area Sen Light1</H2>
 <br>
-<H3><CENTER>Return the lai that would senesce on the current day due to light competition  </CENTER></H3>
+<H3><CENTER>Return the lai that would senesce on the current day due to shading  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (lai.>.lai_sen_light) then<br>
+if (lai.&gt;.lai_sen_light) then<br>
 
-<dl>slai_light_fac = sen_light_slope * (lai-lai_sen_light)<br>
+<blockquote>slai_light_fac = sen_light_slope * (lai-lai_sen_light)<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>slai_light_fac = 0 . 0<br>
+<blockquote>slai_light_fac = 0 . 0<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
-<FONT FACE = "SYMBOL">D</FONT>slai_light = lai * slai_light_fac<br>
+dlt_slai_light = lai * slai_light_fac<br>
 
 min_lai = min_tpla * plants * smm2sm<br>
 
-max_sen = lai - min_lai constrained above 0 . 0<br>
+max_sen = l_bound (lai - min_lai, 0 . 0)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>slai_light = <FONT FACE = "SYMBOL">D</FONT>slai_light constrained between 0 . 0 and max_sen<br>
+dlt_slai_light = bound (dlt_slai_light, 0 . 0, max_sen)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -994,27 +988,28 @@ max_sen = lai - min_lai constrained above 0 . 0<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_leaf_area_sen_water1">  </A>
 <H2>Crop Leaf Area Sen Water1</H2>
 <br>
 <H3><CENTER>Return the lai that would senesce on the current day due to water stress  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 slai_water_fac = sen_rate_water * (1.0-swdef_photo)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>slai_water = lai * slai_water_fac<br>
+dlt_slai_water = lai * slai_water_fac<br>
 
 min_lai = min_tpla * plants * smm2sm<br>
 
-max_sen = lai - min_lai constrained above 0 . 0<br>
+max_sen = l_bound (lai - min_lai, 0 . 0)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>slai_water = <FONT FACE = "SYMBOL">D</FONT>slai_water constrained between 0 . 0 and max_sen<br>
+dlt_slai_water = bound (dlt_slai_water, 0 . 0, max_sen)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1026,27 +1021,28 @@ max_sen = lai - min_lai constrained above 0 . 0<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_leaf_area_sen_frost1">  </A>
 <H2>Crop Leaf Area Sen Frost1</H2>
 <br>
 <H3><CENTER>Return the lai that would senesce on the current day from low temperatures  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-sen_fac_temp = A linearly interpolated value based upon mint (where X = frost_temp, Y = frost_fraction)..<br>
+sen_fac_temp = linear_interp_real (mint, frost_temp, frost_fraction, num_frost_temp)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>slai_low_temp = sen_fac_temp * lai<br>
+dlt_slai_low_temp = sen_fac_temp * lai<br>
 
 min_lai = min_tpla * plants * smm2sm<br>
 
-max_sen = lai - min_lai constrained above 0 . 0<br>
+max_sen = l_bound (lai - min_lai, 0 . 0)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>slai_frost = <FONT FACE = "SYMBOL">D</FONT>slai_low_temp constrained between 0 . 0 and max_sen<br>
+dlt_slai_frost = bound (dlt_slai_low_temp, 0 . 0, max_sen)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1058,25 +1054,26 @@ max_sen = lai - min_lai constrained above 0 . 0<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_leaf_area_init1">  </A>
 <H2>Cproc Leaf Area Init1</H2>
 <br>
 <H3><CENTER>Initialise leaf area.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (on the first day of init_stage) then<br>
+if (on_day_of (init_stage, g_current_stage, g_days_tot)) then<br>
 
-<dl>lai = <A HREF = "#initial_tpla"> initial_tpla </A> * smm2sm * plants<br>
+<blockquote>lai = <A HREF = "#initial_tpla"> c_initial_tpla </A> * smm2sm * g_plants<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
 endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1088,21 +1085,22 @@ endif<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_lai_detachment1">  </A>
 <H2>Cproc Lai Detachment1</H2>
 <br>
 <H3><CENTER>Simulate plant detachment.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-<A HREF = "#crop_part_fraction_delta"> Calculate change in slai for leaf based on fractional decay rates. </A><br>
+<A HREF = "#crop_part_fraction_delta"> Calculate change in g_slai for leaf based on fractional decay rates. </A><br>
 
-<A HREF = "#crop_part_fraction_delta"> Calculate change in tlai_dead for leaf based on fractional decay rates. </A><br>
+<A HREF = "#crop_part_fraction_delta"> Calculate change in g_tlai_dead for leaf based on fractional decay rates. </A><br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1114,19 +1112,20 @@ endif<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_part_fraction_delta">  </A>
 <H2>Crop Part Fraction Delta</H2>
 <br>
 <H3><CENTER>Calculate change in a particular plant pool  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-<FONT FACE = "SYMBOL">D</FONT>part = part * fraction<I><SUB> part_no</SUB></I><br>
+dlt_part = part * fraction<I><SUB> part_no</SUB></I><br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1138,25 +1137,26 @@ endif<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_canopy_height">  </A>
 <H2>Cproc Canopy Height</H2>
 <br>
-<H3><CENTER>Get change in plant canopy height  </CENTER></H3>
+<H3><CENTER>Get change in plant canopy height from stem dry matter per plant  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-dm_stem_plant = dm_green<I><SUB> stem</SUB></I> / plants<br>
+dm_stem_plant = divide (g_dm_green<I><SUB> stem</SUB></I>, g_plants, 0 . 0)<br>
 
-new_height = A linearly interpolated value based upon dm_stem_plant (where X = <A HREF = "#x_stem_wt"> x_stemweight </A>, Y = <A HREF = "#y_height"> y_height </A>)..<br>
+new_height = linear_interp_real (dm_stem_plant, <A HREF = "#x_stem_wt"> p_x_stem_wt </A>, <A HREF = "#y_height"> p_y_height </A>, <A HREF = "#num_stem_wt"> p_num_stem_wt </A>)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>canopy_height = new_height - canopy_height<br>
+dlt_canopy_height = new_height - g_canopy_height<br>
 
-<FONT FACE = "SYMBOL">D</FONT>canopy_height = <FONT FACE = "SYMBOL">D</FONT>canopy_height constrained above 0 . 0<br>
+dlt_canopy_height = l_bound (dlt_canopy_height, 0 . 0)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1168,27 +1168,28 @@ new_height = A linearly interpolated value based upon dm_stem_plant (where X = <
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_leaf_no_init1">  </A>
 <H2>Cproc Leaf No Init1</H2>
 <br>
-<H3><CENTER>Return the the initial number of leaves.  </CENTER></H3>
+<H3><CENTER>Return the the initial number of leaves at emergence.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (on the first day of emerg) then<br>
+if (on_day_of (emerg, g_current_stage, g_days_tot)) then<br>
 
-<dl>leaf_no<I><SUB> emerg</SUB></I> = <A HREF = "#leaf_no_at_emerg"> leaf_no_at_emerg </A><br>
+<blockquote>leaf_no<I><SUB> emerg</SUB></I> = <A HREF = "#leaf_no_at_emerg"> c_leaf_no_at_emerg </A><br>
 
-node_no<I><SUB> emerg</SUB></I> = <A HREF = "#leaf_no_at_emerg"> leaf_no_at_emerg </A><br>
+node_no<I><SUB> emerg</SUB></I> = <A HREF = "#leaf_no_at_emerg"> c_leaf_no_at_emerg </A><br>
 
-</dl>else<br>
+</blockquote>else<br>
 
 endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1200,47 +1201,48 @@ endif<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_leaf_no_pot1">  </A>
 <H2>Cproc Leaf No Pot1</H2>
 <br>
 <H3><CENTER>Return the fractional increase in emergence of the oldest expanding leaf and nodes.  Nodes can initiate from a user-defined starting stage and leaves from emergence.  The initiation of both leaves and nodes finishes at a user-defined end stage. Note ! this does not take account of the other younger leaves that are currently expanding  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-node_no_now = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>start_node_app</SUP><SUB>end_node_app</SUB> node_no<br>
+node_no_now = sum_between (start_node_app, end_node_app, g_node_no)<br>
 
-node_app_rate = A linearly interpolated value based upon node_no_now (where X = <A HREF = "#x_node_no_app"> x_node_no_app </A>, Y = <A HREF = "#y_node_app_rate"> y_node_app_rate </A>)..<br>
+node_app_rate = linear_interp_real (node_no_now, <A HREF = "#x_node_no_app"> c_x_node_no_app </A>, <A HREF = "#y_node_app_rate"> c_y_node_app_rate </A>, <A HREF = "#num_node_no_app"> c_num_node_no_app </A>)<br>
 
-leaves_per_node = A linearly interpolated value based upon node_no_now (where X = <A HREF = "#x_node_no_leaf"> x_node_no_leaf </A>, Y = <A HREF = "#y_leaves_per_node"> y_leaves_per_node </A>)..<br>
+leaves_per_node = linear_interp_real (node_no_now, <A HREF = "#x_node_no_leaf"> c_x_node_no_leaf </A>, <A HREF = "#y_leaves_per_node"> c_y_leaves_per_node </A>, <A HREF = "#num_node_no_leaf"> c_num_node_no_leaf </A>)<br>
 
-if (start_node_app is between end_node_app and current_stage) then<br>
+if (stage_is_between (start_node_app, end_node_app, g_current_stage)) then<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>node_no_pot = <FONT FACE = "SYMBOL">D</FONT>tt / node_app_rate<br>
+<blockquote>dlt_node_no_pot = divide (g_dlt_tt, node_app_rate, 0 . 0)<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>node_no_pot = 0 . 0<br>
+<blockquote>dlt_node_no_pot = 0 . 0<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
-if (on the first day of emerg) then<br>
+if (on_day_of (emerg, g_current_stage, g_days_tot)) then<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>leaf_no_pot = 0 . 0<br>
+<blockquote>dlt_leaf_no_pot = 0 . 0<br>
 
-</dl>elseif (emerg is between end_node_app and current_stage) then<br>
+</blockquote>elseif (stage_is_between (emerg, end_node_app, g_current_stage)) then<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>leaf_no_pot = <FONT FACE = "SYMBOL">D</FONT>node_no_pot * leaves_per_node<br>
+<blockquote>dlt_leaf_no_pot = dlt_node_no_pot * leaves_per_node<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>leaf_no_pot = 0 . 0<br>
+<blockquote>dlt_leaf_no_pot = 0 . 0<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1252,23 +1254,24 @@ if (on the first day of emerg) then<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_leaf_area_pot1">  </A>
 <H2>Cproc Leaf Area Pot1</H2>
 <br>
-<H3><CENTER>Return the potential increase in leaf area development (mm^2) calculated on an individual leaf basis, limited by temperature only.  </CENTER></H3>
+<H3><CENTER>Return the potential increase in leaf area development (mm^2) calculated on an individual leaf basis, limited by temperature only, with account taken of the area of currently expanding leaves (node_no_correction).  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-node_no_now = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>start_node_app</SUP><SUB>now</SUB> node_no + <A HREF = "#node_no_correction"> node_no_correction </A><br>
+node_no_now = sum_between (start_node_app, now, g_node_no) + <A HREF = "#node_no_correction"> c_node_no_correction </A><br>
 
-leaf_size = A linearly interpolated value based upon node_no_now (where X = <A HREF = "#x_node_no"> x_node_no </A>, Y = <A HREF = "#y_leaf_size"> y_leaf_size </A>)..<br>
+leaf_size = linear_interp_real (node_no_now, <A HREF = "#x_node_no"> c_x_node_no </A>, <A HREF = "#y_leaf_size"> c_y_leaf_size </A>, <A HREF = "#num_node_no"> c_num_node_no </A>)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>lai_pot = <FONT FACE = "SYMBOL">D</FONT>leaf_no_pot * leaf_size * smm2sm * plants<br>
+dlt_lai_pot = g_dlt_leaf_no_pot * leaf_size * smm2sm * g_plants<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1280,19 +1283,20 @@ leaf_size = A linearly interpolated value based upon node_no_now (where X = <A H
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_leaf_area_stressed1">  </A>
 <H2>Cproc Leaf Area Stressed1</H2>
 <br>
-<H3><CENTER>Calculate the biomass non-limiting leaf area development from the potential developmental rate and the stress factors for water and nitrogen.  </CENTER></H3>
+<H3><CENTER>Calculate the biomass non-limiting leaf area development from the potential daily increase in lai and the stress factors for water and nitrogen.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-<FONT FACE = "SYMBOL">D</FONT>lai_stressed = <FONT FACE = "SYMBOL">D</FONT>lai_pot * minimum of (swdef_expansion, nfact_expansion)<br>
+g_dlt_lai_stressed = g_dlt_lai_pot * minimum of (g_swdef_expansion, g_nfact_expansion)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1304,23 +1308,24 @@ leaf_size = A linearly interpolated value based upon node_no_now (where X = <A H
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_leaf_area_actual1">  </A>
 <H2>Cproc Leaf Area Actual1</H2>
 <br>
-<H3><CENTER>Simulate actual crop leaf area development - checks that leaf area development matches DM production. Maximum Specific Leaf area changes as a function of LAI.  </CENTER></H3>
+<H3><CENTER>Simulate actual crop leaf area development - checks that leaf area development matches DM production via a maximum specific leaf area for the daily increase in *       LAI. SLA_max changes as a function of LAI.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-sla_max = A linearly interpolated value based upon lai (where X = <A HREF = "#x_lai"> x_lai </A>, Y = <A HREF = "#y_sla_max"> y_sla_max </A>)..<br>
+sla_max = linear_interp_real (g_lai, <A HREF = "#x_lai"> c_x_lai </A>, <A HREF = "#y_sla_max"> c_y_sla_max </A>, <A HREF = "#num_lai"> c_num_lai </A>)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>lai_carbon = <FONT FACE = "SYMBOL">D</FONT>dm_leaf * sla_max * smm2sm<br>
+dlt_lai_carbon = dlt_dm_leaf * sla_max * smm2sm<br>
 
-<FONT FACE = "SYMBOL">D</FONT>lai = minimum of (<FONT FACE = "SYMBOL">D</FONT>lai_stressed, <FONT FACE = "SYMBOL">D</FONT>lai_carbon)<br>
+g_dlt_lai = minimum of (g_dlt_lai_stressed, dlt_lai_carbon)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1332,33 +1337,34 @@ sla_max = A linearly interpolated value based upon lai (where X = <A HREF = "#x_
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_leaf_no_actual1">  </A>
 <H2>Cproc Leaf No Actual1</H2>
 <br>
 <H3><CENTER>Simulate actual leaf number increase as limited by dry matter production.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-lai_ratio = <FONT FACE = "SYMBOL">D</FONT>lai / <FONT FACE = "SYMBOL">D</FONT>lai_stressed<br>
+lai_ratio = divide (g_dlt_lai, g_dlt_lai_stressed, 0 . 0)<br>
 
-leaf_no_frac = A linearly interpolated value based upon lai_ratio (where X = <A HREF = "#x_lai_ratio"> x_lai_ratio </A>, Y = <A HREF = "#y_leaf_no_frac"> y_leaf_no_frac </A>)..<br>
+leaf_no_frac = linear_interp_real (lai_ratio, <A HREF = "#x_lai_ratio"> c_x_lai_ratio </A>, <A HREF = "#y_leaf_no_frac"> c_y_leaf_no_frac </A>, <A HREF = "#num_lai_ratio"> c_num_lai_ratio </A>)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>leaf_no = <FONT FACE = "SYMBOL">D</FONT>leaf_no_pot * leaf_no_frac<br>
+g_dlt_leaf_no = g_dlt_leaf_no_pot * leaf_no_frac<br>
 
-if (<FONT FACE = "SYMBOL">D</FONT>leaf_no.<.<FONT FACE = "SYMBOL">D</FONT>node_no_pot) then<br>
+if (g_dlt_leaf_no.&lt;.g_dlt_node_no_pot) then<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>node_no = <FONT FACE = "SYMBOL">D</FONT>leaf_no<br>
+<blockquote>g_dlt_node_no = g_dlt_leaf_no<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>node_no = <FONT FACE = "SYMBOL">D</FONT>node_no_pot<br>
+<blockquote>g_dlt_node_no = g_dlt_node_no_pot<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1370,47 +1376,48 @@ if (<FONT FACE = "SYMBOL">D</FONT>leaf_no.<.<FONT FACE = "SYMBOL">D</FONT>node_n
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_leaf_no_pot2">  </A>
 <H2>Cproc Leaf No Pot2</H2>
 <br>
 <H3><CENTER>Return the fractional increase in emergence of the oldest expanding leaf and nodes.  Nodes can initiate from a user-defined starting stage and leaves from emergence.  The initiation of both leaves and nodes finishes at a user-defined end stage. Note ! this does not take account of the other younger leaves that are currently expanding  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-node_no_now = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>start_node_app</SUP><SUB>end_node_app</SUB> node_no<br>
+node_no_now = sum_between (start_node_app, end_node_app, g_node_no)<br>
 
-node_app_rate = A linearly interpolated value based upon node_no_now (where X = <A HREF = "#x_node_no_app"> x_node_no_app </A>, Y = <A HREF = "#y_node_app_rate"> y_node_app_rate </A>)..<br>
+node_app_rate = linear_interp_real (node_no_now, <A HREF = "#x_node_no_app"> c_x_node_no_app </A>, <A HREF = "#y_node_app_rate"> c_y_node_app_rate </A>, <A HREF = "#num_node_no_app"> c_num_node_no_app </A>)<br>
 
-leaves_per_node = A linearly interpolated value based upon node_no_now (where X = <A HREF = "#x_node_no_app"> x_node_no_app </A>, Y = <A HREF = "#y_leaves_per_node"> y_leaves_per_node </A>)..<br>
+leaves_per_node = linear_interp_real (node_no_now, <A HREF = "#x_node_no_app"> c_x_node_no_app </A>, <A HREF = "#y_leaves_per_node"> c_y_leaves_per_node </A>, <A HREF = "#num_node_no_app"> c_num_node_no_app </A>)<br>
 
-if (start_node_app is between end_node_app and current_stage) then<br>
+if (stage_is_between (start_node_app, end_node_app, g_current_stage)) then<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>node_no_pot = <FONT FACE = "SYMBOL">D</FONT>tt / node_app_rate<br>
+<blockquote>dlt_node_no_pot = divide (g_dlt_tt, node_app_rate, 0 . 0)<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>node_no_pot = 0 . 0<br>
+<blockquote>dlt_node_no_pot = 0 . 0<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
-if (on the first day of emerg) then<br>
+if (on_day_of (emerg, g_current_stage, g_days_tot)) then<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>leaf_no_pot = 0 . 0<br>
+<blockquote>dlt_leaf_no_pot = 0 . 0<br>
 
-</dl>elseif (emerg is between end_node_app and current_stage) then<br>
+</blockquote>elseif (stage_is_between (emerg, end_node_app, g_current_stage)) then<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>leaf_no_pot = <FONT FACE = "SYMBOL">D</FONT>node_no_pot * leaves_per_node<br>
+<blockquote>dlt_leaf_no_pot = dlt_node_no_pot * leaves_per_node<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>leaf_no_pot = 0 . 0<br>
+<blockquote>dlt_leaf_no_pot = 0 . 0<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1422,53 +1429,54 @@ if (on the first day of emerg) then<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_root_incorp">  </A>
 <H2>Crop Root Incorp</H2>
 <br>
 <H3><CENTER>Calculate and provide root matter incorporation information to the APSIM messaging system.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (maximum number of layers.>.crop_maximum number of layers) then<br>
+if (max_layer.&gt;.crop_maximum number of layers) then<br>
 
-<dl>Report a fatal error<br>
+<blockquote>Report a fatal error<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>if (<FONT FACE = "SYMBOL">D</FONT>dm_root.>.0.0) then<br>
+<blockquote>if (dlt_dm_root.&gt;.0.0) then<br>
 
-<dl><A HREF = "#crop_root_dist"> Distribute <FONT FACE = "SYMBOL">D</FONT>dm_root * gm2kg / sm2ha over the profile according to root distribution </A><br>
+<blockquote><A HREF = "#crop_root_dist"> Distribute dlt_dm_root * gm2kg / sm2ha over the profile according to root distribution </A><br>
 
-Check that all <FONT FACE = "SYMBOL">D</FONT>dm_incorp lies between 0 . 0 and <FONT FACE = "SYMBOL">D</FONT>dm_root * gm2kg / sm2ha<br>
+Check that all dlt_dm_incorp lies between 0 . 0 and dlt_dm_root * gm2kg / sm2ha<br>
 
-<A HREF = "#crop_root_dist"> Distribute <FONT FACE = "SYMBOL">D</FONT>n_root * gm2kg / sm2ha over the profile according to root distribution </A><br>
+<A HREF = "#crop_root_dist"> Distribute dlt_n_root * gm2kg / sm2ha over the profile according to root distribution </A><br>
 
-Check that all <FONT FACE = "SYMBOL">D</FONT>n_incorp lies between 0 . 0 and <FONT FACE = "SYMBOL">D</FONT>n_root * gm2kg / sm2ha<br>
+Check that all dlt_n_incorp lies between 0 . 0 and dlt_n_root * gm2kg / sm2ha<br>
 
-deepest_layer = layer number corresponding to root_depth<br>
-
-<br>
-
-Supply <A HREF = "#crop_type"> crop_type </A> to the messaging system using the name 'dlt_fom_type='<br>
-
-Supply <FONT FACE = "SYMBOL">D</FONT>dm_incorp to the messaging system using the name 'dlt_fom_wt'<br>
-
-Supply <FONT FACE = "SYMBOL">D</FONT>n_incorp to the messaging system using the name 'dlt_fom_n'<br>
-
-message_send_immediate<I><SUB> all_active_modules, 'incorp_fom', blank</SUB></I><br>
+deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)<br>
 
 <br>
 
-</dl>else<br>
+Supply <A HREF = "#crop_type"> c_crop_type </A> to the messaging system using the name 'dlt_fom_type='<br>
+
+Supply dlt_dm_incorp to the messaging system using the name 'dlt_fom_wt'<br>
+
+Supply dlt_n_incorp to the messaging system using the name 'dlt_fom_n'<br>
+
+ei_broadcastaction<I><SUB> event_interface, action_incorp_fom, blank</SUB></I><br>
+
+<br>
+
+</blockquote>else<br>
 
 endif<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1480,27 +1488,30 @@ endif<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_root_dist">  </A>
 <H2>Crop Root Dist</H2>
 <br>
 <H3><CENTER>Distribute root material over profile based upon root length distribution.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 Fill root_array with 0 . 0<br>
 
-deepest_layer = layer number corresponding to root_depth<br>
+deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)<br>
 
-root_length_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> root_length<br>
+root_length_sum = sum_real_array (g_root_length, deepest_layer)<br>
 
 For each layer from 1 to deepest_layer<br>
 
-<dl>root_array<I><SUB> layer</SUB></I> = root_sum * root_length<I><SUB> layer</SUB></I> / root_length_sum<br>
+<blockquote>root_array<I><SUB> layer</SUB></I> = root_sum * divide (g_root_length<I><SUB> layer</SUB></I>, root_length_sum, 0 . 0)<br>
+
+</blockquote>next<br>
 
 <br>
 
-</dl></dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1512,35 +1523,36 @@ For each layer from 1 to deepest_layer<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_top_residue">  </A>
 <H2>Crop Top Residue</H2>
 <br>
 <H3><CENTER>Add residue to residue pool  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (<FONT FACE = "SYMBOL">D</FONT>residue_weight.>.0.0) then<br>
+if (dlt_residue_weight.&gt;.0.0) then<br>
 
-<dl><br>
+<blockquote><br>
 
-Supply <A HREF = "#crop_type"> crop_type </A> to the messaging system using the name 'dlt_residue_type'<br>
+Supply <A HREF = "#crop_type"> c_crop_type </A> to the messaging system using the name 'dlt_residue_type'<br>
 
-Supply <FONT FACE = "SYMBOL">D</FONT>residue_weight * gm2kg / sm2ha to the messaging system using the name 'dlt_residue_wt'<br>
+Supply dlt_residue_weight * gm2kg / sm2ha to the messaging system using the name 'dlt_residue_wt'<br>
 
-Supply <FONT FACE = "SYMBOL">D</FONT>residue_n * gm2kg / sm2ha to the messaging system using the name 'dlt_residue_n'<br>
+Supply dlt_residue_n * gm2kg / sm2ha to the messaging system using the name 'dlt_residue_n'<br>
 
-message_send_immediate<I><SUB> unknown_module, 'add_residue', blank</SUB></I><br>
+ei_broadcastaction<I><SUB> event_interface, action_add_residue, blank</SUB></I><br>
 
 <br>
 
-</dl>else<br>
+</blockquote>else<br>
 
 endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1552,29 +1564,30 @@ endif<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_my_type">  </A>
 <H2>Crop My Type</H2>
 <br>
 <H3><CENTER>Returns true if 'type' is equal to the crop type or is absent.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 Get crop_type from the message <I>(OPTIONAL)</I><br>
 
-if (crop_type.=.<A HREF = "#crop_type"> crop_type </A>.or.number of values returned.=.0) then<br>
+if (crop_type.=.<A HREF = "#crop_type"> c_crop_type </A>.or.numvals.=.0) then<br>
 
-<dl>crop_my_type = . true .<br>
+<blockquote>crop_my_type = . true .<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>crop_my_type = . false .<br>
+<blockquote>crop_my_type = . false .<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1586,17 +1599,17 @@ if (crop_type.=.<A HREF = "#crop_type"> crop_type </A>.or.number of values retur
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_get_ext_uptakes">  </A>
 <H2>Crop Get Ext Uptakes</H2>
 <br>
 <H3><CENTER>Ask swim for uptakes of water or solute  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 if ((uptake_source.=.'apsim').and.(crop_type.=/=.' ')) then<br>
 
-<dl>uptake_name = 'uptake_' + uptake_type<br>
+<blockquote>uptake_name = 'uptake_' + uptake_type<br>
 
 uptake_name = uptake_name + '_'<br>
 
@@ -1604,19 +1617,20 @@ uptake_name = uptake_name + crop_type<br>
 
 Get uptake_array from the system (Lower Bound = uptake_lbound, Upper Bound = uptake_ubound)<br>
 
-For each layer from 1 to number ofuptakes<br>
+For each layer from 1 to num_uptakes<br>
 
-<dl>uptake_array<I><SUB> layer</SUB></I> = uptake_array<I><SUB> layer</SUB></I> * unit_conversion_factor<br>
+<blockquote>uptake_array<I><SUB> layer</SUB></I> = uptake_array<I><SUB> layer</SUB></I> * unit_conversion_factor<br>
 
-</dl>next<br>
+</blockquote>next<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
 endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1628,31 +1642,32 @@ endif<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_failure_germination">  </A>
 <H2>Crop Failure Germination</H2>
 <br>
-<H3><CENTER>Crop failure from lack of germination.  </CENTER></H3>
+<H3><CENTER>Crop failure from lack of germination within a specific maximum number of days.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (sowing is between germ and current_stage.and.<FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>sowing</SUP><SUB>now</SUB> days<SUB>(total)</SUB>.>=.days_germ_limit) then<br>
+if (stage_is_between (sowing, germ, current_stage).and.sum_between (sowing, now, days_tot).&gt;=.days_germ_limit) then<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>plants = - plants<br>
+<blockquote>dlt_plants = - plants<br>
 
 write (to string)  ' crop failure because of lack of' , new_line , '         germination within' , days_germ_limit , ' days of sowing'<br>
 
-Write a string to a file<br>
+summary_writeline<I><SUB> string</SUB></I><br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>plants = 0 . 0<br>
+<blockquote>dlt_plants = 0 . 0<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1664,31 +1679,32 @@ Write a string to a file<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_failure_emergence">  </A>
 <H2>Crop Failure Emergence</H2>
 <br>
-<H3><CENTER>Crop failure from lack of emergence.  </CENTER></H3>
+<H3><CENTER>Crop failure from lack of emergence within a specific maximum thermal time sum from germination.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (germ is between emerg and current_stage.and.<FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>germ</SUP><SUB>now</SUB> tt<SUB>(total)</SUB>.>.tt_emerg_limit) then<br>
+if (stage_is_between (germ, emerg, current_stage).and.sum_between (germ, now, tt_tot).&gt;.tt_emerg_limit) then<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>plants = - plants<br>
+<blockquote>dlt_plants = - plants<br>
 
 write (to string)  ' failed emergence due to deep planting'<br>
 
-Write a string to a file<br>
+summary_writeline<I><SUB> string</SUB></I><br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>plants = 0 . 0<br>
+<blockquote>dlt_plants = 0 . 0<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1700,23 +1716,24 @@ Write a string to a file<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_nfact_photo">  </A>
 <H2>Crop Nfact Photo</H2>
 <br>
-<H3><CENTER>The concentration of Nitrogen in leaves is used to derive a series of Nitrogen stress indices.  The stress indices for photosynthesis and cell expansion are calculated from today's relative nutritional status between a critical and minimum leaf Nitrogen concentration.  </CENTER></H3>
+<H3><CENTER>The concentration of Nitrogen in leaves and stem is used to derive a Nitrogen stress index for photosynthesis.  The stress index for photosynthesis is calculated from today's relative nutritional status between a critical and minimum leaf Nitrogen concentration.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 <A HREF = "#crop_n_conc_ratio"> Calculate N concentration ratio for leaf and stem </A><br>
 
 n_def = n_fact_photo * n_conc_ratio<br>
 
-nfact = n_def constrained between 0 . 0 and 1 . 0<br>
+nfact = bound (n_def, 0 . 0, 1 . 0)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1728,19 +1745,19 @@ nfact = n_def constrained between 0 . 0 and 1 . 0<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_n_conc_ratio">  </A>
 <H2>Crop N Conc Ratio</H2>
 <br>
 <H3><CENTER>Calculate the fractional position of leaf and stem nitrogen concentration between the minimum and critical concentrations.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 dm_stover = dm_green<I><SUB> leaf</SUB></I> + dm_green<I><SUB> stem</SUB></I><br>
 
 n_stover = n_green<I><SUB> leaf</SUB></I> + n_green<I><SUB> stem</SUB></I><br>
 
-n_conc_stover = n_stover / dm_stover<br>
+n_conc_stover = divide (n_stover, dm_stover, 0 . 0)<br>
 
 n_leaf_crit = n_conc_crit<I><SUB> leaf</SUB></I> * dm_green<I><SUB> leaf</SUB></I><br>
 
@@ -1748,7 +1765,7 @@ n_stem_crit = n_conc_crit<I><SUB> stem</SUB></I> * dm_green<I><SUB> stem</SUB></
 
 n_stover_crit = n_leaf_crit + n_stem_crit<br>
 
-n_conc_stover_crit = n_stover_crit / dm_stover<br>
+n_conc_stover_crit = divide (n_stover_crit, dm_stover, 0 . 0)<br>
 
 n_leaf_min = n_conc_min<I><SUB> leaf</SUB></I> * dm_green<I><SUB> leaf</SUB></I><br>
 
@@ -1756,13 +1773,14 @@ n_stem_min = n_conc_min<I><SUB> stem</SUB></I> * dm_green<I><SUB> stem</SUB></I>
 
 n_stover_min = n_leaf_min + n_stem_min<br>
 
-n_conc_stover_min = n_stover_min / dm_stover<br>
+n_conc_stover_min = divide (n_stover_min, dm_stover, 0 . 0)<br>
 
-n_conc_ratio = (n_conc_stover-n_conc_stover_min) / (n_conc_stover_crit-n_conc_stover_min)<br>
+n_conc_ratio = divide ((n_conc_stover-n_conc_stover_min), (n_conc_stover_crit-n_conc_stover_min), 0 . 0)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1774,23 +1792,24 @@ n_conc_ratio = (n_conc_stover-n_conc_stover_min) / (n_conc_stover_crit-n_conc_st
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_nfact_pheno">  </A>
 <H2>Crop Nfact Pheno</H2>
 <br>
-<H3><CENTER>The concentration of Nitrogen in leaves is used to derive a series of Nitrogen stress indices.  The stress indices for photosynthesis and cell expansion are calculated from today's relative nutritional status between a critical and minimum leaf Nitrogen concentration.  </CENTER></H3>
+<H3><CENTER>The concentration of Nitrogen in leaves and stem is used to derive a Nitrogen stress index for phenological development. The stress index for phenology is calculated from today's relative nutritional status between a critical and minimum leaf Nitrogen concentration.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 <A HREF = "#crop_n_conc_ratio"> Calculate N concentration ratio for leaf and stem </A><br>
 
 n_def = n_fact_pheno * n_conc_ratio<br>
 
-nfact = n_def constrained between 0 . 0 and 1 . 0<br>
+nfact = bound (n_def, 0 . 0, 1 . 0)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1802,21 +1821,22 @@ nfact = n_def constrained between 0 . 0 and 1 . 0<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_nfact_grain_conc">  </A>
 <H2>Crop Nfact Grain Conc</H2>
 <br>
-<H3><CENTER>The concentration of Nitrogen in leaves is used to derive a series of Nitrogen stress indices.  The stress indices for photosynthesis and cell expansion are calculated from today's relative nutritional status between a critical and minimum leaf Nitrogen concentration.  </CENTER></H3>
+<H3><CENTER>The concentration of Nitrogen in leaves and stem is used to derive a Nitrogen stress index for grain N accumulation. The stress index for grain N accumulation is calculated from today's relative nutritional status between a critical and minimum leaf Nitrogen concentration.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 <A HREF = "#crop_n_conc_ratio"> Calculate N concentration ratio for leaf and stem </A><br>
 
-nfact = n_conc_ratio constrained between 0 . 0 and 1 . 0<br>
+nfact = bound (n_conc_ratio, 0 . 0, 1 . 0)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1828,33 +1848,34 @@ nfact = n_conc_ratio constrained between 0 . 0 and 1 . 0<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_nfact_expansion">  </A>
 <H2>Crop Nfact Expansion</H2>
 <br>
-<H3><CENTER>Calculate Nitrogen stress factor for photosynthesis  </CENTER></H3>
+<H3><CENTER>The concentration of Nitrogen in leaves is used to derive a Nitrogen stress index for leaf expansion. The stress index for leaf expansion is calculated from today's relative nutitional status between a critical and minimum leaf Nitrogen concentration.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-n_conc_leaf = n_green<I><SUB> leaf</SUB></I> / dm_green<I><SUB> leaf</SUB></I><br>
+n_conc_leaf = divide (n_green<I><SUB> leaf</SUB></I>, dm_green<I><SUB> leaf</SUB></I>, 0 . 0)<br>
 
 n_leaf_crit = n_conc_crit<I><SUB> leaf</SUB></I> * dm_green<I><SUB> leaf</SUB></I><br>
 
-n_conc_leaf_crit = n_leaf_crit / dm_green<I><SUB> leaf</SUB></I><br>
+n_conc_leaf_crit = divide (n_leaf_crit, dm_green<I><SUB> leaf</SUB></I>, 0 . 0)<br>
 
 n_leaf_min = n_conc_min<I><SUB> leaf</SUB></I> * dm_green<I><SUB> leaf</SUB></I><br>
 
-n_conc_leaf_min = n_leaf_min / dm_green<I><SUB> leaf</SUB></I><br>
+n_conc_leaf_min = divide (n_leaf_min, dm_green<I><SUB> leaf</SUB></I>, 0 . 0)<br>
 
-n_conc_ratio_leaf = (n_conc_leaf-n_conc_leaf_min) / (n_conc_leaf_crit-n_conc_leaf_min)<br>
+n_conc_ratio_leaf = divide ((n_conc_leaf-n_conc_leaf_min), (n_conc_leaf_crit-n_conc_leaf_min), 0 . 0)<br>
 
 n_def = n_fact_expansion * n_conc_ratio_leaf<br>
 
-nfact = n_def constrained between 0 . 0 and 1 . 0<br>
+nfact = bound (n_def, 0 . 0, 1 . 0)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1866,23 +1887,24 @@ nfact = n_def constrained between 0 . 0 and 1 . 0<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_n_detachment">  </A>
 <H2>Crop N Detachment</H2>
 <br>
 <H3><CENTER>Calculate today's Nitrogen lost from senesced pools due to detachment  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-Fill <FONT FACE = "SYMBOL">D</FONT>n_detached with 0 . 0<br>
+Fill dlt_n_detached with 0 . 0<br>
 
-<FONT FACE = "SYMBOL">D</FONT>n_detached<I><SUB> leaf</SUB></I> = <FONT FACE = "SYMBOL">D</FONT>n_senesced<I><SUB> leaf</SUB></I> * dm_leaf_detach_frac<br>
+dlt_n_detached<I><SUB> leaf</SUB></I> = dlt_n_senesced<I><SUB> leaf</SUB></I> * dm_leaf_detach_frac<br>
 
-<FONT FACE = "SYMBOL">D</FONT>n_detached<I><SUB> root</SUB></I> = <FONT FACE = "SYMBOL">D</FONT>n_senesced<I><SUB> root</SUB></I><br>
+dlt_n_detached<I><SUB> root</SUB></I> = dlt_n_senesced<I><SUB> root</SUB></I><br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1894,21 +1916,24 @@ Fill <FONT FACE = "SYMBOL">D</FONT>n_detached with 0 . 0<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_n_dead_detachment">  </A>
 <H2>Crop N Dead Detachment</H2>
 <br>
 <H3><CENTER>Plant Nitrogen loss from dead plants  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-For each part from 1 to number ofpart<br>
+For each part from 1 to num_part<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>n_dead_detached<I><SUB> part</SUB></I> = n_dead<I><SUB> part</SUB></I> * dead_detach_frac<I><SUB> part</SUB></I><br>
+<blockquote>dlt_n_dead_detached<I><SUB> part</SUB></I> = n_dead<I><SUB> part</SUB></I> * dead_detach_frac<I><SUB> part</SUB></I><br>
+
+</blockquote>next<br>
 
 <br>
 
-</dl></dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1920,13 +1945,13 @@ For each part from 1 to number ofpart<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_n_dlt_grain_conc">  </A>
 <H2>Crop N Dlt Grain Conc</H2>
 <br>
-<H3><CENTER>Calculate the nitrogen concentration required to meet the increase from daily grain growth (0-1)  </CENTER></H3>
+<H3><CENTER>Calculate the nitrogen concentration required to meet the increase from daily grain growth (0-1) as affected by temperature and water stress.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 ave_temp = (maxt+mint) / 2 . 0<br>
 
@@ -1936,11 +1961,12 @@ n_grain_sw_fac = sw_fac_max - sfac_slope * swdef_expansion<br>
 
 n_conc_pot = n_conc_min<I><SUB> grain</SUB></I> + (n_conc_crit<I><SUB> grain</SUB></I>-n_conc_min<I><SUB> grain</SUB></I>) * nfact_grain_conc<br>
 
-crop_n_dlt_grain_conc = n_conc_pot * maximum of (n_grain_temp_fac, n_grain_sw_fac)<br>
+crop_n<FONT FACE = "SYMBOL">D</FONT>grain_conc = n_conc_pot * maximum of (n_grain_temp_fac, n_grain_sw_fac)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1952,19 +1978,21 @@ crop_n_dlt_grain_conc = n_conc_pot * maximum of (n_grain_temp_fac, n_grain_sw_fa
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_n_retrans_avail">  </A>
 <H2>Crop N Retrans Avail</H2>
 <br>
 <H3><CENTER>Calculate N available for transfer to grain (g/m^2) from each plant part.  By definition, available grain N is set to 0.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-For each part from 1 to number ofpart<br>
+For each part from 1 to num_part<br>
 
-<dl>n_min = n_conc_min<I><SUB> part</SUB></I> * dm_green<I><SUB> part</SUB></I><br>
+<blockquote>n_min = g_n_conc_min<I><SUB> part</SUB></I> * g_dm_green<I><SUB> part</SUB></I><br>
 
-n_avail<I><SUB> part</SUB></I> = n_green<I><SUB> part</SUB></I> - n_min constrained above 0 . 0<br>
+n_avail<I><SUB> part</SUB></I> = l_bound (g_n_green<I><SUB> part</SUB></I> - n_min, 0 . 0)<br>
+
+</blockquote>next<br>
 
 n_avail<I><SUB> grain</SUB></I> = 0 . 0<br>
 
@@ -1972,7 +2000,8 @@ n_avail<I><SUB> root</SUB></I> = 0 . 0<br>
 
 <br>
 
-</dl></dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -1984,29 +2013,30 @@ n_avail<I><SUB> root</SUB></I> = 0 . 0<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_n_senescence1">  </A>
 <H2>Cproc N Senescence1</H2>
 <br>
 <H3><CENTER>Derives seneseced plant nitrogen (g N/m^2)  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-For each part from 1 to number ofpart<br>
+For each part from 1 to num_part<br>
 
-<dl>green_n_conc = n_green<I><SUB> part</SUB></I> / dm_green<I><SUB> part</SUB></I><br>
+<blockquote>green_n_conc = divide (g_n_green<I><SUB> part</SUB></I>, g_dm_green<I><SUB> part</SUB></I>, 0 . 0)<br>
 
-sen_n_conc = minimum of (<A HREF = "#n_sen_conc"> n_sen_conc </A><I><SUB> part</SUB></I>, green_n_conc)<br>
+sen_n_conc = minimum of (<A HREF = "#n_sen_conc"> c_n_sen_conc </A><I><SUB> part</SUB></I>, green_n_conc)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>n_senesced<I><SUB> part</SUB></I> = <FONT FACE = "SYMBOL">D</FONT>dm_senesced<I><SUB> part</SUB></I> * sen_n_conc<br>
+dlt_n_senesced<I><SUB> part</SUB></I> = g_dlt_dm_senesced<I><SUB> part</SUB></I> * sen_n_conc<br>
 
-<FONT FACE = "SYMBOL">D</FONT>n_senesced<I><SUB> part</SUB></I> = <FONT FACE = "SYMBOL">D</FONT>n_senesced<I><SUB> part</SUB></I> constrained above n_green<I><SUB> part</SUB></I><br>
+dlt_n_senesced<I><SUB> part</SUB></I> = u_bound (dlt_n_senesced<I><SUB> part</SUB></I>, g_n_green<I><SUB> part</SUB></I>)<br>
 
-</dl>next<br>
+</blockquote>next<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2018,75 +2048,80 @@ sen_n_conc = minimum of (<A HREF = "#n_sen_conc"> n_sen_conc </A><I><SUB> part</
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_n_uptake1">  </A>
 <H2>Cproc N Uptake1</H2>
 <br>
-<H3><CENTER>Return actual plant nitrogen uptake from each soil layer.  </CENTER></H3>
+<H3><CENTER>Return actual plant nitrogen uptake from each soil layer. N uptake is from nitrate only and comes via mass flow and active (diffusion) uptake.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-deepest_layer = layer number corresponding to root_depth<br>
+deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)<br>
 
 For each layer from 1 to deepest_layer<br>
 
-<dl>no3gsm_diffn_avail<I><SUB> layer</SUB></I> = no3gsm_diffn_pot<I><SUB> layer</SUB></I> - no3gsm_mflow_avail<I><SUB> layer</SUB></I><br>
+<blockquote>no3gsm_diffn_avail<I><SUB> layer</SUB></I> = g_no3gsm_diffn_pot<I><SUB> layer</SUB></I> - g_no3gsm_mflow_avail<I><SUB> layer</SUB></I><br>
 
-no3gsm_diffn_avail<I><SUB> layer</SUB></I> = no3gsm_diffn_avail<I><SUB> layer</SUB></I> constrained above 0 . 0<br>
+no3gsm_diffn_avail<I><SUB> layer</SUB></I> = l_bound (no3gsm_diffn_avail<I><SUB> layer</SUB></I>, 0 . 0)<br>
 
-no3gsm_mflow_supply = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> no3gsm_mflow_avail<br>
+</blockquote>next<br>
 
-no3gsm_diffn_supply = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> no3gsm_diffn_avail<br>
+no3gsm_mflow_supply = sum_real_array (g_no3gsm_mflow_avail, deepest_layer)<br>
 
-n_demand = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>max_part</SUB> n_demand<br>
+no3gsm_diffn_supply = sum_real_array (no3gsm_diffn_avail, deepest_layer)<br>
 
-n_max = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>max_part</SUB> n_max<br>
+n_demand = sum_real_array (g_n_demand, max_part)<br>
 
-if (no3gsm_mflow_supply.>=.n_demand) then<br>
+n_max = sum_real_array (g_n_max, max_part)<br>
 
-<dl>no3gsm_mflow = no3gsm_mflow_supply<br>
+if (no3gsm_mflow_supply.&gt;=.n_demand) then<br>
 
-no3gsm_mflow = no3gsm_mflow constrained above n_max<br>
+<blockquote>no3gsm_mflow = no3gsm_mflow_supply<br>
+
+no3gsm_mflow = u_bound (no3gsm_mflow, n_max)<br>
 
 no3gsm_diffn = 0 . 0<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>no3gsm_mflow = no3gsm_mflow_supply<br>
+<blockquote>no3gsm_mflow = no3gsm_mflow_supply<br>
 
-if (<A HREF = "#n_supply_preference"> n_supply_preference </A>.=.'active') then<br>
+if (<A HREF = "#n_supply_preference"> c_n_supply_preference </A>.=.'active') then<br>
 
-<dl>no3gsm_diffn = n_demand - no3gsm_mflow constrained between 0 . 0 and no3gsm_diffn_supply<br>
+<blockquote>no3gsm_diffn = bound (n_demand - no3gsm_mflow, 0 . 0, no3gsm_diffn_supply)<br>
 
-</dl>elseif (<A HREF = "#n_supply_preference"> n_supply_preference </A>.=.'fixation') then<br>
+</blockquote>elseif (<A HREF = "#n_supply_preference"> c_n_supply_preference </A>.=.'fixation') then<br>
 
-<dl>no3gsm_diffn = n_demand - no3gsm_mflow - n_fix_pot constrained between 0 . 0 and no3gsm_diffn_supply<br>
+<blockquote>no3gsm_diffn = bound (n_demand - no3gsm_mflow - g_n_fix_pot, 0 . 0, no3gsm_diffn_supply)<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>Report a fatal error<br>
+<blockquote>Report a fatal error<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
-no3gsm_diffn = no3gsm_diffn / <A HREF = "#no3_diffn_const"> no3_diffn_const </A><br>
+no3gsm_diffn = divide (no3gsm_diffn, <A HREF = "#no3_diffn_const"> c_no3_diffn_const </A>, 0 . 0)<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
-Fill <FONT FACE = "SYMBOL">D</FONT>no3gsm with 0 . 0<br>
+Fill dlt_no3gsm with 0 . 0<br>
 
 For each layer from 1 to deepest_layer<br>
 
-<dl>mflow_fract = no3gsm_mflow_avail<I><SUB> layer</SUB></I> / no3gsm_mflow_supply<br>
+<blockquote>mflow_fract = divide (g_no3gsm_mflow_avail<I><SUB> layer</SUB></I>, no3gsm_mflow_supply, 0 . 0)<br>
 
-diffn_fract = no3gsm_diffn_avail<I><SUB> layer</SUB></I> / no3gsm_diffn_supply<br>
+diffn_fract = divide (no3gsm_diffn_avail<I><SUB> layer</SUB></I>, no3gsm_diffn_supply, 0 . 0)<br>
 
 no3gsm_uptake = no3gsm_mflow * mflow_fract + no3gsm_diffn * diffn_fract<br>
 
-<FONT FACE = "SYMBOL">D</FONT>no3gsm<I><SUB> layer</SUB></I> = - no3gsm_uptake<br>
+dlt_no3gsm<I><SUB> layer</SUB></I> = - no3gsm_uptake<br>
+
+</blockquote>next<br>
 
 <br>
 
-</dl></dl></dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2098,23 +2133,24 @@ no3gsm_uptake = no3gsm_mflow * mflow_fract + no3gsm_diffn * diffn_fract<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_n_supply1">  </A>
 <H2>Cproc N Supply1</H2>
 <br>
-<H3><CENTER>Calculate nitrogen supplys from soil and fixation  </CENTER></H3>
+<H3><CENTER>Calculate nitrogen supplies from soil and fixation  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-<A HREF = "#crop_n_mass_flow1"> Calculate crop nitrogen supply from mass flow, no3gsm_mflow_avail. </A><br>
+<A HREF = "#crop_n_mass_flow1"> Calculate crop nitrogen supply from mass flow, g_no3gsm_mflow_avail. </A><br>
 
-<A HREF = "#crop_n_diffusion1"> Calculate crop nitrogen supply from active uptake, no3gsm_diffn_pot. </A><br>
+<A HREF = "#crop_n_diffusion1"> Calculate crop nitrogen supply from active uptake, g_no3gsm_diffn_pot. </A><br>
 
-<A HREF = "#crop_n_fixation_pot1"> Calculate crop nitrogen supply from fixation, %8. </A><br>
+<A HREF = "#crop_n_fixation_pot1"> Calculate crop nitrogen supply from fixation, g_n_fix_pot. </A><br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2126,29 +2162,34 @@ no3gsm_uptake = no3gsm_mflow * mflow_fract + no3gsm_diffn * diffn_fract<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_n_mass_flow1">  </A>
 <H2>Crop N Mass Flow1</H2>
 <br>
 <H3><CENTER>Return potential nitrogen uptake (supply) by mass flow (water uptake) (g/m^2)  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 Fill no3gsm_mflow_pot with 0 . 0<br>
 
-deepest_layer = layer number corresponding to root_depth<br>
+deepest_layer = find_layer_no (root_depth, dlayer, num_layer)<br>
 
 For each layer from 1 to deepest_layer<br>
 
-<dl>no3_conc = no3gsm<I><SUB> layer</SUB></I> / sw<SUB>(in mm)</SUB><I><SUB> layer</SUB></I><br>
+<blockquote>no3_conc = divide (no3gsm<I><SUB> layer</SUB></I>, sw_dep<I><SUB> layer</SUB></I>, 0 . 0)<br>
 
-no3gsm_mflow = no3_conc * (-<FONT FACE = "SYMBOL">D</FONT>sw<SUB>(in mm)</SUB><I><SUB> layer</SUB></I>)<br>
+no3gsm_mflow = no3_conc * (-dlt_sw_dep<I><SUB> layer</SUB></I>)<br>
 
-no3gsm_mflow_pot<I><SUB> layer</SUB></I> = no3gsm_mflow constrained above no3gsm<I><SUB> layer</SUB></I> - no3gsm_min<I><SUB> layer</SUB></I><br>
+no3gsm_mflow_pot<I><SUB> layer</SUB></I> = u_bound (no3gsm_mflow, no3gsm<I><SUB> layer</SUB></I> - no3gsm_min<I><SUB> layer</SUB></I>)<br>
+
+</blockquote>next<br>
+
+format (1x, 5f10 . 6)<br>
 
 <br>
 
-</dl></dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2160,31 +2201,34 @@ no3gsm_mflow_pot<I><SUB> layer</SUB></I> = no3gsm_mflow constrained above no3gsm
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_n_diffusion1">  </A>
 <H2>Crop N Diffusion1</H2>
 <br>
 <H3><CENTER>Return potential nitrogen uptake (supply) by diffusion for a plant (g/m^2)  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 Fill no3gsm_diffn_pot with 0 . 0<br>
 
-deepest_layer = layer number corresponding to root_depth<br>
+deepest_layer = find_layer_no (root_depth, dlayer, num_layer)<br>
 
 For each layer from 1 to deepest_layer<br>
 
-<dl>sw_avail_fract = sw_avail<I><SUB> layer</SUB></I> / sw_avail_pot<I><SUB> layer</SUB></I><br>
+<blockquote>sw_avail_fract = divide (sw_avail<I><SUB> layer</SUB></I>, sw_avail_pot<I><SUB> layer</SUB></I>, 0 . 0)<br>
 
-sw_avail_fract = sw_avail_fract constrained between 0 . 0 and 1 . 0<br>
+sw_avail_fract = bound (sw_avail_fract, 0 . 0, 1 . 0)<br>
 
 no3gsm_diffn = sw_avail_fract * no3gsm<I><SUB> layer</SUB></I><br>
 
-no3gsm_diffn_pot<I><SUB> layer</SUB></I> = no3gsm_diffn constrained above no3gsm<I><SUB> layer</SUB></I> - no3gsm_min<I><SUB> layer</SUB></I><br>
+no3gsm_diffn_pot<I><SUB> layer</SUB></I> = u_bound (no3gsm_diffn, no3gsm<I><SUB> layer</SUB></I> - no3gsm_min<I><SUB> layer</SUB></I>)<br>
+
+</blockquote>next<br>
 
 <br>
 
-</dl></dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2196,21 +2240,22 @@ no3gsm_diffn_pot<I><SUB> layer</SUB></I> = no3gsm_diffn constrained above no3gsm
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_n_fixation_pot1">  </A>
 <H2>Crop N Fixation Pot1</H2>
 <br>
-<H3><CENTER>calculate the quantity of atmospheric nitrogen fixed per unit carbohydrate per day (mgN_fixed/g plant)  </CENTER></H3>
+<H3><CENTER>Calculate the quantity of atmospheric nitrogen fixed per unit standing crop biomass (fixation_determinant) and limited by the soil water deficit factor for fixation.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-current_phase = int (current_stage)<br>
+current_phase = int (g_current_stage)<br>
 
-n_fix_pot = <A HREF = "#n_fix_rate"> n_fix_rate </A><I><SUB> current_phase</SUB></I> * fixation_determinant * swdef_fixation<br>
+n_fix_pot = <A HREF = "#n_fix_rate"> c_n_fix_rate </A><I><SUB> current_phase</SUB></I> * fixation_determinant * g_swdef_fixation<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2222,61 +2267,64 @@ n_fix_pot = <A HREF = "#n_fix_rate"> n_fix_rate </A><I><SUB> current_phase</SUB>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_n_demand1">  </A>
 <H2>Cproc N Demand1</H2>
 <br>
 <H3><CENTER>Return plant nitrogen demand for each plant component  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 Fill n_demand with 0 . 0<br>
 
 Fill n_max with 0 . 0<br>
 
-For each counter from 1 to number ofdemand_parts<br>
+For each counter from 1 to num_demand_parts<br>
 
-<dl>part = demand_parts<I><SUB> counter</SUB></I><br>
+<blockquote>part = demand_parts<I><SUB> counter</SUB></I><br>
 
-part_fract = <FONT FACE = "SYMBOL">D</FONT>dm_green<I><SUB> part</SUB></I> / <FONT FACE = "SYMBOL">D</FONT>dm<br>
+part_fract = divide (g_dlt_dm_green<I><SUB> part</SUB></I>, g_dlt_dm, 0 . 0)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>dm_pot = <FONT FACE = "SYMBOL">D</FONT>dm_pot_rue * part_fract<br>
+dlt_dm_pot = g_dlt_dm_pot_rue * part_fract<br>
 
-<FONT FACE = "SYMBOL">D</FONT>dm_pot = <FONT FACE = "SYMBOL">D</FONT>dm_pot constrained between 0 . 0 and <FONT FACE = "SYMBOL">D</FONT>dm_pot_rue<br>
+dlt_dm_pot = bound (dlt_dm_pot, 0 . 0, g_dlt_dm_pot_rue)<br>
 
-if (dm_green<I><SUB> part</SUB></I>.>.0.0) then<br>
+if (g_dm_green<I><SUB> part</SUB></I>.&gt;.0.0) then<br>
 
-<dl>n_crit = dm_green<I><SUB> part</SUB></I> * n_conc_crit<I><SUB> part</SUB></I><br>
+<blockquote>n_crit = g_dm_green<I><SUB> part</SUB></I> * g_n_conc_crit<I><SUB> part</SUB></I><br>
 
-n_potential = dm_green<I><SUB> part</SUB></I> * n_conc_max<I><SUB> part</SUB></I><br>
+n_potential = g_dm_green<I><SUB> part</SUB></I> * g_n_conc_max<I><SUB> part</SUB></I><br>
 
-n_demand_old = n_crit - (n_green<I><SUB> part</SUB></I>+<FONT FACE = "SYMBOL">D</FONT>n_retrans<I><SUB> part</SUB></I>)<br>
+n_demand_old = n_crit - (g_n_green<I><SUB> part</SUB></I>+g_dlt_n_retrans<I><SUB> part</SUB></I>)<br>
 
-n_max_old = n_potential - (n_green<I><SUB> part</SUB></I>+<FONT FACE = "SYMBOL">D</FONT>n_retrans<I><SUB> part</SUB></I>)<br>
+n_max_old = n_potential - (g_n_green<I><SUB> part</SUB></I>+g_dlt_n_retrans<I><SUB> part</SUB></I>)<br>
 
-n_demand_new = <FONT FACE = "SYMBOL">D</FONT>dm_pot * n_conc_crit<I><SUB> part</SUB></I><br>
+n_demand_new = dlt_dm_pot * g_n_conc_crit<I><SUB> part</SUB></I><br>
 
-n_max_new = <FONT FACE = "SYMBOL">D</FONT>dm_pot * n_conc_max<I><SUB> part</SUB></I><br>
+n_max_new = dlt_dm_pot * g_n_conc_max<I><SUB> part</SUB></I><br>
 
 n_demand<I><SUB> part</SUB></I> = n_demand_old + n_demand_new<br>
 
 n_max<I><SUB> part</SUB></I> = n_max_old + n_max_new<br>
 
-n_demand<I><SUB> part</SUB></I> = n_demand<I><SUB> part</SUB></I> constrained above 0 . 0<br>
+n_demand<I><SUB> part</SUB></I> = l_bound (n_demand<I><SUB> part</SUB></I>, 0 . 0)<br>
 
-n_max<I><SUB> part</SUB></I> = n_max<I><SUB> part</SUB></I> constrained above 0 . 0<br>
+n_max<I><SUB> part</SUB></I> = l_bound (n_max<I><SUB> part</SUB></I>, 0 . 0)<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>n_demand<I><SUB> part</SUB></I> = 0 . 0<br>
+<blockquote>n_demand<I><SUB> part</SUB></I> = 0 . 0<br>
 
 n_max<I><SUB> part</SUB></I> = 0 . 0<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
+
+</blockquote>next<br>
 
 <br>
 
-</dl></dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2288,29 +2336,30 @@ n_max<I><SUB> part</SUB></I> = 0 . 0<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_n_init1">  </A>
 <H2>Cproc N Init1</H2>
 <br>
 <H3><CENTER>Initialise plant Nitrogen pools  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (on the first day of init_stage) then<br>
+if (on_day_of (init_stage, g_current_stage, g_days_tot)) then<br>
 
-<dl>For each part from 1 to max_part<br>
+<blockquote>For each part from 1 to max_part<br>
 
-<dl>n_green<I><SUB> part</SUB></I> = <A HREF = "#n_init_conc"> n_init_conc </A><I><SUB> part</SUB></I> * dm_green<I><SUB> part</SUB></I><br>
+<blockquote>n_green<I><SUB> part</SUB></I> = <A HREF = "#n_init_conc"> c_n_init_conc </A><I><SUB> part</SUB></I> * g_dm_green<I><SUB> part</SUB></I><br>
 
-</dl>next<br>
+</blockquote>next<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
 endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2322,21 +2371,22 @@ endif<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_n_detachment1">  </A>
 <H2>Cproc N Detachment1</H2>
 <br>
 <H3><CENTER>Simulate plant Nitrogen detachment.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-<A HREF = "#crop_pool_fraction_delta"> Calculate change in n_senesced based on fractional decay rates. </A><br>
+<A HREF = "#crop_pool_fraction_delta"> Calculate change in g_n_senesced based on fractional decay rates. </A><br>
 
-<A HREF = "#crop_pool_fraction_delta"> Calculate change in n_dead based on fractional decay rates. </A><br>
+<A HREF = "#crop_pool_fraction_delta"> Calculate change in g_n_dead based on fractional decay rates. </A><br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2348,23 +2398,24 @@ endif<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_n_supply2">  </A>
 <H2>Cproc N Supply2</H2>
 <br>
 <H3><CENTER>Calculate nitrogen supplys from soil and fixation  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-<A HREF = "#crop_n_mass_flow1"> Calculate crop nitrogen supply from mass flow, no3gsm_mflow_avail. </A><br>
+<A HREF = "#crop_n_mass_flow1"> Calculate crop nitrogen supply from mass flow, g_no3gsm_mflow_avail. </A><br>
 
-<A HREF = "#crop_n_diffusion1"> Calculate crop nitrogen supply from active uptake, no3gsm_diffn_pot. </A><br>
+<A HREF = "#crop_n_diffusion1"> Calculate crop nitrogen supply from active uptake, g_no3gsm_diffn_pot. </A><br>
 
-<A HREF = "#crop_n_fixation_pot1"> Calculate crop nitrogen supply from fixation, %8. </A><br>
+<A HREF = "#crop_n_fixation_pot1"> Calculate crop nitrogen supply from fixation, g_n_fix_pot. </A><br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2376,55 +2427,58 @@ endif<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_n_demand2">  </A>
 <H2>Cproc N Demand2</H2>
 <br>
 <H3><CENTER>Return plant nitrogen demand for each plant component  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 Fill n_demand with 0 . 0<br>
 
 Fill n_max with 0 . 0<br>
 
-For each counter from 1 to number ofdemand_parts<br>
+For each counter from 1 to num_demand_parts<br>
 
-<dl>part = demand_parts<I><SUB> counter</SUB></I><br>
+<blockquote>part = demand_parts<I><SUB> counter</SUB></I><br>
 
-if (dm_green<I><SUB> part</SUB></I>.>.0.0) then<br>
+if (g_dm_green<I><SUB> part</SUB></I>.&gt;.0.0) then<br>
 
-<dl>n_crit = dm_green<I><SUB> part</SUB></I> * n_conc_crit<I><SUB> part</SUB></I><br>
+<blockquote>n_crit = g_dm_green<I><SUB> part</SUB></I> * g_n_conc_crit<I><SUB> part</SUB></I><br>
 
-n_potential = dm_green<I><SUB> part</SUB></I> * n_conc_max<I><SUB> part</SUB></I><br>
+n_potential = g_dm_green<I><SUB> part</SUB></I> * g_n_conc_max<I><SUB> part</SUB></I><br>
 
-n_demand_old = n_crit - (n_green<I><SUB> part</SUB></I>+<FONT FACE = "SYMBOL">D</FONT>n_retrans<I><SUB> part</SUB></I>)<br>
+n_demand_old = n_crit - (g_n_green<I><SUB> part</SUB></I>+g_dlt_n_retrans<I><SUB> part</SUB></I>)<br>
 
-n_max_old = n_potential - (n_green<I><SUB> part</SUB></I>+<FONT FACE = "SYMBOL">D</FONT>n_retrans<I><SUB> part</SUB></I>)<br>
+n_max_old = n_potential - (g_n_green<I><SUB> part</SUB></I>+g_dlt_n_retrans<I><SUB> part</SUB></I>)<br>
 
-n_demand_new = <FONT FACE = "SYMBOL">D</FONT>dm_green<I><SUB> part</SUB></I> * n_conc_crit<I><SUB> part</SUB></I><br>
+n_demand_new = g_dlt_dm_green<I><SUB> part</SUB></I> * g_n_conc_crit<I><SUB> part</SUB></I><br>
 
-n_max_new = <FONT FACE = "SYMBOL">D</FONT>dm_green<I><SUB> part</SUB></I> * n_conc_max<I><SUB> part</SUB></I><br>
+n_max_new = g_dlt_dm_green<I><SUB> part</SUB></I> * g_n_conc_max<I><SUB> part</SUB></I><br>
 
 n_demand<I><SUB> part</SUB></I> = n_demand_old + n_demand_new<br>
 
 n_max<I><SUB> part</SUB></I> = n_max_old + n_max_new<br>
 
-n_demand<I><SUB> part</SUB></I> = n_demand<I><SUB> part</SUB></I> constrained above 0 . 0<br>
+n_demand<I><SUB> part</SUB></I> = l_bound (n_demand<I><SUB> part</SUB></I>, 0 . 0)<br>
 
-n_max<I><SUB> part</SUB></I> = n_max<I><SUB> part</SUB></I> constrained above 0 . 0<br>
+n_max<I><SUB> part</SUB></I> = l_bound (n_max<I><SUB> part</SUB></I>, 0 . 0)<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>n_demand<I><SUB> part</SUB></I> = 0 . 0<br>
+<blockquote>n_demand<I><SUB> part</SUB></I> = 0 . 0<br>
 
 n_max<I><SUB> part</SUB></I> = 0 . 0<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
+
+</blockquote>next<br>
 
 <br>
 
-</dl></dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2436,57 +2490,151 @@ n_max<I><SUB> part</SUB></I> = 0 . 0<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
+<A NAME = "cproc_n_uptake2">  </A>
+<H2>Cproc N Uptake2</H2>
+<br>
+<H3><CENTER>Return actual plant nitrogen uptake from each soil layer.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)<br>
+
+For each layer from 1 to deepest_layer<br>
+
+<blockquote>no3gsm_diffn_avail<I><SUB> layer</SUB></I> = g_no3gsm_diffn_pot<I><SUB> layer</SUB></I> - g_no3gsm_mflow_avail<I><SUB> layer</SUB></I><br>
+
+no3gsm_diffn_avail<I><SUB> layer</SUB></I> = l_bound (no3gsm_diffn_avail<I><SUB> layer</SUB></I>, 0 . 0)<br>
+
+</blockquote>next<br>
+
+no3gsm_mflow_supply = sum_real_array (g_no3gsm_mflow_avail, deepest_layer)<br>
+
+no3gsm_diffn_supply = sum_real_array (no3gsm_diffn_avail, deepest_layer)<br>
+
+n_demand = sum_real_array (g_n_demand, max_part)<br>
+
+n_max = sum_real_array (g_n_max, max_part)<br>
+
+if (no3gsm_mflow_supply.&gt;=.n_demand) then<br>
+
+<blockquote>no3gsm_mflow = no3gsm_mflow_supply<br>
+
+no3gsm_mflow = u_bound (no3gsm_mflow, n_max)<br>
+
+no3gsm_diffn = 0 . 0<br>
+
+</blockquote>else<br>
+
+<blockquote>no3gsm_mflow = no3gsm_mflow_supply<br>
+
+if (<A HREF = "#n_supply_preference"> c_n_supply_preference </A>.=.'active') then<br>
+
+<blockquote>no3gsm_diffn = bound (n_demand - no3gsm_mflow, 0 . 0, no3gsm_diffn_supply)<br>
+
+</blockquote>elseif (<A HREF = "#n_supply_preference"> c_n_supply_preference </A>.=.'fixation') then<br>
+
+<blockquote>no3gsm_diffn = bound (n_demand - no3gsm_mflow - g_n_fix_pot, 0 . 0, no3gsm_diffn_supply)<br>
+
+</blockquote>else<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>endif<br>
+
+no3gsm_diffn = divide (no3gsm_diffn, <A HREF = "#no3_diffn_const"> c_no3_diffn_const </A>, 0 . 0)<br>
+
+</blockquote>endif<br>
+
+Fill dlt_no3gsm with 0 . 0<br>
+
+For each layer from 1 to deepest_layer<br>
+
+<blockquote>mflow_fract = divide (g_no3gsm_mflow_avail<I><SUB> layer</SUB></I>, no3gsm_mflow_supply, 0 . 0)<br>
+
+diffn_fract = divide (no3gsm_diffn_avail<I><SUB> layer</SUB></I>, no3gsm_diffn_supply, 0 . 0)<br>
+
+no3gsm_uptake = no3gsm_mflow * mflow_fract + no3gsm_diffn * diffn_fract<br>
+
+dlt_no3gsm<I><SUB> layer</SUB></I> = - no3gsm_uptake<br>
+
+dlt_no3gsm_massflow<I><SUB> layer</SUB></I> = - no3gsm_mflow * mflow_fract<br>
+
+dlt_no3gsm_diffusion<I><SUB> layer</SUB></I> = - no3gsm_diffn * diffn_fract<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
 <A NAME = "crop_stage_code">  </A>
 <H2>Crop Stage Code</H2>
 <br>
 <H3><CENTER>Return an interpolated stage code from a table of stage_codes and a nominated stage number. Returns 0 if the stage number is not found. Interpolation is done on thermal time.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (number of values returned.>=.2) then<br>
+if (numvals.&gt;=.2) then<br>
 
-<dl>this_stage = stage number of stage_table<I><SUB> 1</SUB></I><br>
+<blockquote>this_stage = stage_no_of (stage_table<I><SUB> 1</SUB></I>, <A HREF = "#stage_code_list"> c_stage_code_list </A>, max_stage)<br>
 
-For each i from 2 to number of values returned<br>
+For each i from 2 to numvals<br>
 
-<dl>next_stage = stage number of stage_table<I><SUB> i</SUB></I><br>
+<blockquote>next_stage = stage_no_of (stage_table<I><SUB> i</SUB></I>, <A HREF = "#stage_code_list"> c_stage_code_list </A>, max_stage)<br>
 
-if (this_stage is between next_stage and stage_no) then<br>
+if (stage_is_between (this_stage, next_stage, stage_no)) then<br>
 
-<dl>tt<SUB>(total)</SUB> = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>this_stage</SUP><SUB>next_stage</SUB> tt<SUB>(total)</SUB><br>
+<blockquote>tt_tot = sum_between (this_stage, next_stage, g_tt_tot)<br>
 
-phase_tt = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>this_stage</SUP><SUB>next_stage</SUB> phase_tt<br>
+phase_tt = sum_between (this_stage, next_stage, g_phase_tt)<br>
 
-fraction_of = tt<SUB>(total)</SUB> / phase_tt<br>
+fraction_of = divide (tt_tot, phase_tt, 0 . 0)<br>
 
 x_stage_code = stage_table<I><SUB> i - 1</SUB></I> + (stage_table<I><SUB> i</SUB></I>-stage_table<I><SUB> i - 1</SUB></I>) * fraction_of<br>
 
 goto 2000<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>x_stage_code = 0 . 0<br>
+<blockquote>x_stage_code = 0 . 0<br>
 
 this_stage = next_stage<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
-</dl>else<br>
+</blockquote>next<br>
 
-<dl>x_stage_code = 0 . 0<br>
+</blockquote>next<br>
 
-write (to error_message)  'invalid lookup table - number of values =' , number of values returned<br>
+</blockquote>else<br>
+
+<blockquote>x_stage_code = 0 . 0<br>
+
+write (to error_message)  'invalid lookup table - number of values =' , numvals<br>
 
 Print a warning error<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
 crop_stage_code = x_stage_code<br>
 
 <br>
 
-</dl></dl></dl>
+</blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2498,29 +2646,30 @@ crop_stage_code = x_stage_code<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_phenology1">  </A>
 <H2>Cproc Phenology1</H2>
 <br>
 <H3><CENTER>Use temperature, photoperiod and genetic characteristics to determine when the crop begins a new growth phase. The initial daily thermal time and height are also set.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-previous_stage = current_stage<br>
+g_previous_stage = g_current_stage<br>
 
-<A HREF = "#crop_thermal_time"> Calculate today's thermal time, <A HREF = "#num_temp"> number oftemp </A>1. </A><br>
+<A HREF = "#crop_thermal_time"> Calculate today's thermal time, g_dlt_tt. </A><br>
 
 <A HREF = "#crop_phase_devel"> Determine the progress through the current growth stage. </A><br>
 
 <A HREF = "#crop_devel"> Determine the current stage of crop development. </A><br>
 
-Accumulate <FONT FACE = "SYMBOL">D</FONT>tt (in array tt<SUB>(total)</SUB>)<br>
+Accumulate g_dlt_tt (in array g_tt_tot)<br>
 
-Accumulate 1 . 0 (in array days<SUB>(total)</SUB>)<br>
+Accumulate 1 . 0 (in array g_days_tot)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2532,29 +2681,30 @@ Accumulate 1 . 0 (in array days<SUB>(total)</SUB>)<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_thermal_time">  </A>
 <H2>Crop Thermal Time</H2>
 <br>
-<H3><CENTER>Growing degree day (thermal time) is calculated.  </CENTER></H3>
+<H3><CENTER>Growing degree day (thermal time) is calculated. Daily thermal time is reduced if water or nitrogen stresses occur.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-dly_therm_time = temperature factor (based on 3hourly estimates)<br>
+dly_therm_time = linint_3hrly_temp (g_maxt, g_mint, <A HREF = "#x_temp"> c_x_temp </A>, <A HREF = "#y_tt"> c_y_tt </A>, <A HREF = "#num_temp"> c_num_temp </A>)<br>
 
-if (start_stress_stage is between end_stress_stage and current_stage) then<br>
+if (stage_is_between (start_stress_stage, end_stress_stage, g_current_stage)) then<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>tt = dly_therm_time * minimum of (swdef_pheno, nfact_pheno)<br>
+<blockquote>g_dlt_tt = dly_therm_time * minimum of (g_swdef_pheno, g_nfact_pheno)<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>tt = dly_therm_time<br>
+<blockquote>g_dlt_tt = dly_therm_time<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2566,33 +2716,34 @@ if (start_stress_stage is between end_stress_stage and current_stage) then<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_phase_devel">  </A>
 <H2>Crop Phase Devel</H2>
 <br>
 <H3><CENTER>Determine the fraction of current phase elapsed ().  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (sowing_stage is between germ_stage and current_stage) then<br>
+if (stage_is_between (sowing_stage, germ_stage, g_current_stage)) then<br>
 
-<dl>phase_devel = <A HREF = "#crop_germination"> Determine germination based upon soil moisture status. </A><br>
+<blockquote>phase_devel = <A HREF = "#crop_germination"> Determine germination based upon soil moisture status. </A><br>
 
-</dl>elseif (germ_stage is between end_development_stage and current_stage) then<br>
+</blockquote>elseif (stage_is_between (germ_stage, end_development_stage, g_current_stage)) then<br>
 
-<dl><A HREF = "#crop_germ_dlt_tt"> Calculate emergence adjusted thermal time (based on moisture status) </A><br>
+<blockquote><A HREF = "#crop_germ_dlt_tt"> Calculate emergence adjusted thermal time (based on moisture status) </A><br>
 
-phase_devel = <A HREF = "#crop_phase_tt"> the fractional progress through growth stage current_stage </A><br>
+phase_devel = <A HREF = "#crop_phase_tt"> the fractional progress through growth stage g_current_stage </A><br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>phase_devel = mod (current_stage, 1 . 0)<br>
+<blockquote>phase_devel = mod (g_current_stage, 1 . 0)<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2604,39 +2755,40 @@ phase_devel = <A HREF = "#crop_phase_tt"> the fractional progress through growth
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_germination">  </A>
 <H2>Crop Germination</H2>
 <br>
 <H3><CENTER>Determine germination based on soil water availability  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (sowing_stage is between germ_stage and current_stage) then<br>
+if (stage_is_between (sowing_stage, germ_stage, current_stage)) then<br>
 
-<dl>layer_no_seed = layer number corresponding to sowing_depth<br>
+<blockquote>layer_no_seed = find_layer_no (g_sowing_depth, g_dlayer, max_layer)<br>
 
-pesw_seed = sw<SUB>(in mm)</SUB><I><SUB> layer_no_seed</SUB></I> - <A HREF = "#ll_dep"> ll<SUB>(in mm)</SUB> </A><I><SUB> layer_no_seed</SUB></I> / dlayer<I><SUB> layer_no_seed</SUB></I><br>
+pesw_seed = divide (g_sw_dep<I><SUB> layer_no_seed</SUB></I> - <A HREF = "#ll_dep"> p_ll_dep </A><I><SUB> layer_no_seed</SUB></I>, g_dlayer<I><SUB> layer_no_seed</SUB></I>, 0 . 0)<br>
 
-if (pesw_seed.>.<A HREF = "#pesw_germ"> pesw_germ </A>.and..not.on the first day of sowing_stage) then<br>
+if (pesw_seed.&gt;.<A HREF = "#pesw_germ"> c_pesw_germ </A>.and..not.on_day_of (sowing_stage, g_current_stage, g_days_tot)) then<br>
 
-<dl>crop_germination = 1 . 0 + mod (current_stage, 1 . 0)<br>
+<blockquote>crop_germination = 1 . 0 + mod (g_current_stage, 1 . 0)<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>crop_germination = 0 . 999<br>
+<blockquote>crop_germination = 0 . 999<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>crop_germination = 0 . 0<br>
+<blockquote>crop_germination = 0 . 0<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2648,21 +2800,22 @@ if (pesw_seed.>.<A HREF = "#pesw_germ"> pesw_germ </A>.and..not.on the first day
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_phase_tt">  </A>
 <H2>Crop Phase Tt</H2>
 <br>
 <H3><CENTER>Return fraction of thermal time we are through the current phenological phase (0-1)  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 phase = int (stage_no)<br>
 
-crop_phase_tt = tt<SUB>(total)</SUB><I><SUB> phase</SUB></I> + <FONT FACE = "SYMBOL">D</FONT>tt / phase_tt<I><SUB> phase</SUB></I><br>
+crop_phase_tt = divide (g_tt_tot<I><SUB> phase</SUB></I> + g_dlt_tt, g_phase_tt<I><SUB> phase</SUB></I>, 1 . 0)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2674,37 +2827,38 @@ crop_phase_tt = tt<SUB>(total)</SUB><I><SUB> phase</SUB></I> + <FONT FACE = "SYM
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_germ_dlt_tt">  </A>
 <H2>Crop Germ Dlt Tt</H2>
 <br>
-<H3><CENTER>Calculate change in phase thermal time as influenced by stress  </CENTER></H3>
+<H3><CENTER>Calculate daily thermal time for germination to emergence limited by soil water availability in the seed layer.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-current_phase = int (current_stage)<br>
+current_phase = int (g_current_stage)<br>
 
 if (current_phase.=.germ_phase) then<br>
 
-<dl>layer_no_seed = layer number corresponding to sowing_depth<br>
+<blockquote>layer_no_seed = find_layer_no (g_sowing_depth, g_dlayer, max_layer)<br>
 
-fasw_seed = sw<SUB>(in mm)</SUB><I><SUB> layer_no_seed</SUB></I> - <A HREF = "#ll_dep"> ll<SUB>(in mm)</SUB> </A><I><SUB> layer_no_seed</SUB></I> / dul<SUB>(in mm)</SUB><I><SUB> layer_no_seed</SUB></I> - <A HREF = "#ll_dep"> ll<SUB>(in mm)</SUB> </A><I><SUB> layer_no_seed</SUB></I><br>
+fasw_seed = divide (g_sw_dep<I><SUB> layer_no_seed</SUB></I> - <A HREF = "#ll_dep"> p_ll_dep </A><I><SUB> layer_no_seed</SUB></I>, g_dul_dep<I><SUB> layer_no_seed</SUB></I> - <A HREF = "#ll_dep"> p_ll_dep </A><I><SUB> layer_no_seed</SUB></I>, 0 . 0)<br>
 
-fasw_seed = fasw_seed constrained between 0 . 0 and 1 . 0<br>
+fasw_seed = bound (fasw_seed, 0 . 0, 1 . 0)<br>
 
-rel_emerg_rate = A linearly interpolated value based upon fasw_seed (where X = <A HREF = "#fasw_emerg"> fasw_emerg </A>, Y = <A HREF = "#rel_emerg_rate"> rel_emerg_rate </A>)..<br>
+rel_emerg_rate = linear_interp_real (fasw_seed, <A HREF = "#fasw_emerg"> c_fasw_emerg </A>, <A HREF = "#rel_emerg_rate"> c_rel_emerg_rate </A>, <A HREF = "#num_fasw_emerg"> c_num_fasw_emerg </A>)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>tt = <FONT FACE = "SYMBOL">D</FONT>tt * rel_emerg_rate<br>
+g_dlt_tt = g_dlt_tt * rel_emerg_rate<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>tt = <FONT FACE = "SYMBOL">D</FONT>tt<br>
+<blockquote>g_dlt_tt = g_dlt_tt<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2716,39 +2870,40 @@ rel_emerg_rate = A linearly interpolated value based upon fasw_seed (where X = <
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_devel">  </A>
 <H2>Crop Devel</H2>
 <br>
 <H3><CENTER>Determine the curent stage of development.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-new_stage = aint (current_stage) + phase_devel<br>
+new_stage = aint (g_current_stage) + g_phase_devel<br>
 
-<FONT FACE = "SYMBOL">D</FONT>stage = new_stage - current_stage<br>
+dlt_stage = new_stage - g_current_stage<br>
 
-if (phase_devel.>=.1.0) then<br>
+if (g_phase_devel.&gt;=.1.0) then<br>
 
-<dl>current_stage = aint (current_stage + 1 . 0)<br>
+<blockquote>current_stage = aint (current_stage + 1 . 0)<br>
 
 if (int (current_stage).=.max_stage) then<br>
 
-<dl>current_stage = 1 . 0<br>
+<blockquote>current_stage = 1 . 0<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
 endif<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>current_stage = new_stage<br>
+<blockquote>current_stage = new_stage<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2760,37 +2915,38 @@ endif<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_root_length_init">  </A>
 <H2>Crop Root Length Init</H2>
 <br>
-<H3><CENTER>Initialise crop root length to expected values at emergence  </CENTER></H3>
+<H3><CENTER>Initialise crop root length at emergence based on root weight at emergence and specific root length.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (on the first day of stage_to_init) then<br>
+if (on_day_of (stage_to_init, g_current_stage, g_days_tot)) then<br>
 
-<dl>initial_root_length = rootweight / sm2smm * <A HREF = "#specific_root_length"> specific_root_length </A><br>
+<blockquote>initial_root_length = root_wt / sm2smm * <A HREF = "#specific_root_length"> c_specific_root_length </A><br>
 
-rld = initial_root_length / root_depth<br>
+rld = divide (initial_root_length, g_root_depth, 0 . 0)<br>
 
-number ofroot_layers = layer number corresponding to root_depth<br>
+num_root_layers = find_layer_no (g_root_depth, g_dlayer, max_layer)<br>
 
-Fill root_length with 0 . 0<br>
+Fill g_root_length with 0 . 0<br>
 
-For each layer from 1 to number ofroot_layers<br>
+For each layer from 1 to num_root_layers<br>
 
-<dl>root_length<I><SUB> layer</SUB></I> = rld * dlayer<I><SUB> layer</SUB></I> * proportion of layer number ofroot_layers explored by roots<br>
+<blockquote>g_root_length<I><SUB> layer</SUB></I> = rld * g_dlayer<I><SUB> layer</SUB></I> * root_proportion (layer, g_dlayer, g_root_depth)<br>
 
-</dl>next<br>
+</blockquote>next<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
 endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2802,23 +2958,24 @@ endif<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_root_length_senescence1">  </A>
 <H2>Cproc Root Length Senescence1</H2>
 <br>
 <H3><CENTER>Calculate root length senescence based upon changes in senesced root biomass and the specific root length.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-Fill <FONT FACE = "SYMBOL">D</FONT>root_length_senesced with 0 . 0<br>
+Fill g_dlt_root_length_senesced with 0 . 0<br>
 
-senesced_length = <FONT FACE = "SYMBOL">D</FONT>root_dm_senesced / sm2smm * <A HREF = "#specific_root_length"> specific_root_length </A><br>
+senesced_length = g_dlt_root_dm_senesced / sm2smm * <A HREF = "#specific_root_length"> c_specific_root_length </A><br>
 
 <A HREF = "#crop_root_dist"> Distribute senesced_length over the profile according to root distribution </A><br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2830,15 +2987,15 @@ senesced_length = <FONT FACE = "SYMBOL">D</FONT>root_dm_senesced / sm2smm * <A H
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_root_depth1">  </A>
 <H2>Cproc Root Depth1</H2>
 <br>
-<H3><CENTER>Calculate plant rooting depth through time  </CENTER></H3>
+<H3><CENTER>Calculate daily increase in rooting depth through a layer as limited by soil water availability in that layer.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-deepest_layer = layer number corresponding to root_depth<br>
+deepest_layer = find_layer_no (g_root_depth, g_dlayer, crop_maximum number of layers)<br>
 
 sw_avail_fac_deepest_layer = <A HREF = "#crop_sw_avail_fac"> Determine root hospitality factor for moisture (for layer deepest_layer) </A><br>
 
@@ -2846,7 +3003,8 @@ sw_avail_fac_deepest_layer = <A HREF = "#crop_sw_avail_fac"> Determine root hosp
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2858,25 +3016,26 @@ sw_avail_fac_deepest_layer = <A HREF = "#crop_sw_avail_fac"> Determine root hosp
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_sw_avail_fac">  </A>
 <H2>Crop Sw Avail Fac</H2>
 <br>
 <H3><CENTER>Get the soil water availability factor in a layer.  For a layer, it is 1.0 unless the plant-extractable soil water declines below a fraction of plant-extractable soil water capacity for that layer.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-pesw = sw<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> - ll<SUB>(in mm)</SUB><I><SUB> layer</SUB></I><br>
+pesw = sw_dep<I><SUB> layer</SUB></I> - ll_dep<I><SUB> layer</SUB></I><br>
 
-pesw_capacity = dul<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> - ll<SUB>(in mm)</SUB><I><SUB> layer</SUB></I><br>
+pesw_capacity = dul_dep<I><SUB> layer</SUB></I> - ll_dep<I><SUB> layer</SUB></I><br>
 
-sw_avail_ratio = pesw / pesw_capacity<br>
+sw_avail_ratio = divide (pesw, pesw_capacity, 10 . 0)<br>
 
-crop_sw_avail_fac = A linearly interpolated value based upon sw_avail_ratio (where X = x_sw_ratio, Y = y_sw_fac_root)..<br>
+crop_sw_avail_fac = linear_interp_real (sw_avail_ratio, x_sw_ratio, y_sw_fac_root, num_sw_ratio)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2888,29 +3047,30 @@ crop_sw_avail_fac = A linearly interpolated value based upon sw_avail_ratio (whe
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_root_depth_increase">  </A>
 <H2>Crop Root Depth Increase</H2>
 <br>
 <H3><CENTER>Return the increase in root depth (mm)  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-current_layer = layer number corresponding to root_depth<br>
+current_layer = find_layer_no (g_root_depth, g_dlayer, crop_maximum number of layers)<br>
 
-current_phase = int (current_stage)<br>
+current_phase = int (g_current_stage)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>root_depth = <A HREF = "#root_depth_rate"> root_depth_rate </A><I><SUB> current_phase</SUB></I> * sw_avail_fac_deepest_layer * <A HREF = "#xf"> xf </A><I><SUB> current_layer</SUB></I><br>
+dlt_root_depth = <A HREF = "#root_depth_rate"> c_root_depth_rate </A><I><SUB> current_phase</SUB></I> * g_sw_avail_fac_deepest_layer * <A HREF = "#xf"> p_xf </A><I><SUB> current_layer</SUB></I><br>
 
-deepest_layer = number of elements in <A HREF = "#xf"> xf </A><br>
+deepest_layer = count_of_real_vals (<A HREF = "#xf"> p_xf </A>, crop_maximum number of layers)<br>
 
-root_depth_max = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> dlayer<br>
+root_depth_max = sum_real_array (g_dlayer, deepest_layer)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>root_depth = <FONT FACE = "SYMBOL">D</FONT>root_depth constrained above root_depth_max - root_depth<br>
+dlt_root_depth = u_bound (dlt_root_depth, root_depth_max - g_root_depth)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2922,25 +3082,26 @@ root_depth_max = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</S
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_root_depth_init1">  </A>
 <H2>Cproc Root Depth Init1</H2>
 <br>
 <H3><CENTER>Return the initial root depth (mm)  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (on the first day of initialisation_stage) then<br>
+if (on_day_of (initialisation_stage, current_stage, days_tot)) then<br>
 
-<dl>root_depth = initial_root_depth<br>
+<blockquote>root_depth = initial_root_depth<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
 endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2952,37 +3113,38 @@ endif<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_root_length_init1">  </A>
 <H2>Cproc Root Length Init1</H2>
 <br>
-<H3><CENTER>Initialise crop root length to expected values at emergence  </CENTER></H3>
+<H3><CENTER>Initialise crop root length at emergence based on root weight at emergence and specific root length.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (on the first day of stage_to_init) then<br>
+if (on_day_of (stage_to_init, g_current_stage, g_days_tot)) then<br>
 
-<dl>initial_root_length = rootweight / sm2smm * <A HREF = "#specific_root_length"> specific_root_length </A><br>
+<blockquote>initial_root_length = root_wt / sm2smm * <A HREF = "#specific_root_length"> c_specific_root_length </A><br>
 
-rld = initial_root_length / root_depth<br>
+rld = divide (initial_root_length, g_root_depth, 0 . 0)<br>
 
-number ofroot_layers = layer number corresponding to root_depth<br>
+num_root_layers = find_layer_no (g_root_depth, g_dlayer, max_layer)<br>
 
-Fill root_length with 0 . 0<br>
+Fill g_root_length with 0 . 0<br>
 
-For each layer from 1 to number ofroot_layers<br>
+For each layer from 1 to num_root_layers<br>
 
-<dl>root_length<I><SUB> layer</SUB></I> = rld * dlayer<I><SUB> layer</SUB></I> * proportion of layer number ofroot_layers explored by roots<br>
+<blockquote>g_root_length<I><SUB> layer</SUB></I> = rld * g_dlayer<I><SUB> layer</SUB></I> * root_proportion (layer, g_dlayer, g_root_depth)<br>
 
-</dl>next<br>
+</blockquote>next<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
 endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -2994,55 +3156,56 @@ endif<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_root_length_growth1">  </A>
 <H2>Cproc Root Length Growth1</H2>
 <br>
 <H3><CENTER>Calculate the increase in root length density in each rooted layer based upon soil hospitality, moisture and fraction of layer explored by roots.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (maximum number of layers.>.crop_maximum number of layers) then<br>
+if (max_layer.&gt;.crop_maximum number of layers) then<br>
 
-<dl>Report a fatal error<br>
+<blockquote>Report a fatal error<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>Fill <FONT FACE = "SYMBOL">D</FONT>root_length with 0 . 0<br>
+<blockquote>Fill g_dlt_root_length with 0 . 0<br>
 
-deepest_layer = layer number corresponding to root_depth + <FONT FACE = "SYMBOL">D</FONT>root_depth<br>
+deepest_layer = find_layer_no (g_root_depth + g_dlt_root_depth, g_dlayer, max_layer)<br>
 
-rlv_factor<SUB>(total)</SUB> = 0 . 0<br>
-
-For each layer from 1 to deepest_layer<br>
-
-<dl>rld = root_length<I><SUB> layer</SUB></I> / dlayer<I><SUB> layer</SUB></I><br>
-
-plant_rld = rld / plants<br>
-
-branching_factor = A linearly interpolated value based upon plant_rld (where X = <A HREF = "#x_plant_rld"> x_plant_rld </A>, Y = <A HREF = "#y_rel_root_rate"> y_rel_root_rate </A>)..<br>
-
-rlv_factor<I><SUB> layer</SUB></I> = <A HREF = "#crop_sw_avail_fac"> Determine root hospitality factor for moisture (for layer layer) </A> * branching_factor * <A HREF = "#xf"> xf </A><I><SUB> layer</SUB></I> * dlayer<I><SUB> layer</SUB></I> / root_depth<br>
-
-rlv_factor<I><SUB> layer</SUB></I> = rlv_factor<I><SUB> layer</SUB></I> constrained above 1e - 6<br>
-
-rlv_factor<SUB>(total)</SUB> = rlv_factor<SUB>(total)</SUB> + rlv_factor<I><SUB> layer</SUB></I><br>
-
-</dl>next<br>
-
-<FONT FACE = "SYMBOL">D</FONT>length<SUB>(total)</SUB> = <FONT FACE = "SYMBOL">D</FONT>rootweight / sm2smm * <A HREF = "#specific_root_length"> specific_root_length </A><br>
+rlv_factor_tot = 0 . 0<br>
 
 For each layer from 1 to deepest_layer<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>root_length<I><SUB> layer</SUB></I> = <FONT FACE = "SYMBOL">D</FONT>length<SUB>(total)</SUB> * rlv_factor<I><SUB> layer</SUB></I> / rlv_factor<SUB>(total)</SUB><br>
+<blockquote>rld = divide (g_root_length<I><SUB> layer</SUB></I>, g_dlayer<I><SUB> layer</SUB></I>, 0 . 0)<br>
 
-</dl>next<br>
+plant_rld = divide (rld, g_plants, 0 . 0)<br>
 
-</dl>endif<br>
+branching_factor = linear_interp_real (plant_rld, <A HREF = "#x_plant_rld"> c_x_plant_rld </A>, <A HREF = "#y_rel_root_rate"> c_y_rel_root_rate </A>, <A HREF = "#num_plant_rld"> c_num_plant_rld </A>)<br>
+
+rlv_factor<I><SUB> layer</SUB></I> = <A HREF = "#crop_sw_avail_fac"> Determine root hospitality factor for moisture (for layer layer) </A> * branching_factor * <A HREF = "#xf"> p_xf </A><I><SUB> layer</SUB></I> * divide (g_dlayer<I><SUB> layer</SUB></I>, g_root_depth, 0 . 0)<br>
+
+rlv_factor<I><SUB> layer</SUB></I> = l_bound (rlv_factor<I><SUB> layer</SUB></I>, 1e - 6)<br>
+
+rlv_factor_tot = rlv_factor_tot + rlv_factor<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+dlt_length_tot = g_dlt_root_wt / sm2smm * <A HREF = "#specific_root_length"> c_specific_root_length </A><br>
+
+For each layer from 1 to deepest_layer<br>
+
+<blockquote>g_dlt_root_length<I><SUB> layer</SUB></I> = dlt_length_tot * divide (rlv_factor<I><SUB> layer</SUB></I>, rlv_factor_tot, 0 . 0)<br>
+
+</blockquote>next<br>
+
+</blockquote>endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3054,59 +3217,60 @@ For each layer from 1 to deepest_layer<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_root_redistribute">  </A>
 <H2>Crop Root Redistribute</H2>
 <br>
 <H3><CENTER>Map root length density distribution into a new layer structure after reduction is profile depth due to erosion.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-nlayr_rt_old = layer number corresponding to root_depth_old<br>
+nlayr_rt_old = find_layer_no (root_depth_old, dlayer_old, nlayr_old)<br>
 
-nlayr_rt_new = layer number corresponding to root_depth_new<br>
+nlayr_rt_new = find_layer_no (root_depth_new, dlayer_new, nlayr_new)<br>
 
-pro_red_fr = root_depth_new / root_depth_old<br>
+pro_red_fr = divide (root_depth_new, root_depth_old, 0 . 0)<br>
 
-cumulativeroot_depth<I><SUB> 1</SUB></I> = 0 . 0<br>
+cum_root_depth<I><SUB> 1</SUB></I> = 0 . 0<br>
 
-cumulativeroot_length<I><SUB> 1</SUB></I> = 0 . 0<br>
+cum_root_length<I><SUB> 1</SUB></I> = 0 . 0<br>
 
 For each layer from 1 to nlayr_rt_old<br>
 
-<dl>if (layer.=.nlayr_rt_old) then<br>
+<blockquote>if (layer.=.nlayr_rt_old) then<br>
 
-<dl>cumulativeroot_depth<I><SUB> layer + 1</SUB></I> = root_depth_old * pro_red_fr<br>
+<blockquote>cum_root_depth<I><SUB> layer + 1</SUB></I> = root_depth_old * pro_red_fr<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>cumulativeroot_depth<I><SUB> layer + 1</SUB></I> = cumulativeroot_depth<I><SUB> layer</SUB></I> + dlayer_old<I><SUB> layer</SUB></I> * pro_red_fr<br>
+<blockquote>cum_root_depth<I><SUB> layer + 1</SUB></I> = cum_root_depth<I><SUB> layer</SUB></I> + dlayer_old<I><SUB> layer</SUB></I> * pro_red_fr<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
-cumulativeroot_length<I><SUB> layer + 1</SUB></I> = cumulativeroot_length<I><SUB> layer</SUB></I> + root_length<I><SUB> layer</SUB></I><br>
+cum_root_length<I><SUB> layer + 1</SUB></I> = cum_root_length<I><SUB> layer</SUB></I> + root_length<I><SUB> layer</SUB></I><br>
 
-</dl>next<br>
+</blockquote>next<br>
 
 Fill root_length with 0 . 0<br>
 
 For each layer from 1 to nlayr_rt_new<br>
 
-<dl>layer_bottom = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>layer</SUB> dlayer_new<br>
+<blockquote>layer_bottom = sum_real_array (dlayer_new, layer)<br>
 
 layer_top = layer_bottom - dlayer_new<I><SUB> layer</SUB></I><br>
 
-cumulativeroot_top = A linearly interpolated value based upon layer_top (where X = cumulativeroot_depth, Y = cumulativeroot_length)..<br>
+cum_root_top = linear_interp_real (layer_top, cum_root_depth, cum_root_length, nlayr_rt_old + 1)<br>
 
-cumulativeroot_bottom = A linearly interpolated value based upon layer_bottom (where X = cumulativeroot_depth, Y = cumulativeroot_length)..<br>
+cum_root_bottom = linear_interp_real (layer_bottom, cum_root_depth, cum_root_length, nlayr_rt_old + 1)<br>
 
-root_length<I><SUB> layer</SUB></I> = cumulativeroot_bottom - cumulativeroot_top<br>
+root_length<I><SUB> layer</SUB></I> = cum_root_bottom - cum_root_top<br>
 
-</dl>next<br>
+</blockquote>next<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3118,23 +3282,141 @@ root_length<I><SUB> layer</SUB></I> = cumulativeroot_bottom - cumulativeroot_top
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
+<A NAME = "cproc_root_depth2">  </A>
+<H2>Cproc Root Depth2</H2>
+<br>
+<H3><CENTER>Calculate plant rooting depth through time  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+temp = 0 . 5 * (g_maxt+g_mint)<br>
+
+temp_factor = linear_interp_real (temp, <A HREF = "#x_temp_root"> c_x_temp_root </A>, <A HREF = "#y_temp_root_fac"> c_y_temp_root_fac </A>, <A HREF = "#num_temp_root"> c_num_temp_root </A>)<br>
+
+ws_factor = linear_interp_real (g_swdef_photo, <A HREF = "#x_ws_root"> c_x_ws_root </A>, <A HREF = "#y_ws_root_fac"> c_y_ws_root_fac </A>, <A HREF = "#num_ws_root"> c_num_ws_root </A>)<br>
+
+<A HREF = "#crop_root_sw_avail_factor"> Determine root hospitality factor for moisture (for layer <A HREF = "#ll_dep"> p_ll_dep </A>) </A><br>
+
+<A HREF = "#crop_root_depth_increase2"> Calculate the increase in rooting depth. </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "crop_root_sw_avail_factor">  </A>
+<H2>Crop Root Sw Avail Factor</H2>
+<br>
+<H3><CENTER>Get the soil water availability factor for root depth growth. A weighted factor is used. it is 1.0 unless the plant-extractable soil water declines below a fraction of plant-extractable soil water capacity for the two adjacent layers  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+deepest_layer = count_of_real_vals (dlayer, crop_maximum number of layers)<br>
+
+layer = find_layer_no (root_depth, dlayer, crop_maximum number of layers)<br>
+
+cum_depth = sum_real_array (dlayer, layer)<br>
+
+rootdepth_in_layer = dlayer<I><SUB> layer</SUB></I> - (cum_depth-root_depth)<br>
+
+rootdepth_in_layer = bound (rootdepth_in_layer, 0 . 0, dlayer<I><SUB> layer</SUB></I>)<br>
+
+weighting_factor = divide (rootdepth_in_layer, dlayer<I><SUB> layer</SUB></I>, 0 . 0)<br>
+
+next_layer = minimum of (layer + 1, deepest_layer)<br>
+
+fasw1 = divide (sw_dep<I><SUB> layer</SUB></I> - ll_dep<I><SUB> layer</SUB></I>, dul_dep<I><SUB> layer</SUB></I> - ll_dep<I><SUB> layer</SUB></I>, 0 . 0)<br>
+
+fasw2 = divide (sw_dep<I><SUB> next_layer</SUB></I> - ll_dep<I><SUB> next_layer</SUB></I>, dul_dep<I><SUB> next_layer</SUB></I> - ll_dep<I><SUB> next_layer</SUB></I>, 0 . 0)<br>
+
+fasw1 = minimum of (1 . 0, maximum of (0 . 0, fasw1))<br>
+
+fasw2 = minimum of (1 . 0, maximum of (0 . 0, fasw2))<br>
+
+fasw = weighting_factor * fasw2 + (1.-weighting_factor) * fasw1<br>
+
+sw_avail_factor = linear_interp_real (fasw, x_sw_ratio, y_sw_fac_root, num_sw_ratio)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "crop_root_depth_increase2">  </A>
+<H2>Crop Root Depth Increase2</H2>
+<br>
+<H3><CENTER>Return the increase in root depth (mm)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+current_layer = find_layer_no (root_depth, dlayer, crop_maximum number of layers)<br>
+
+current_phase = int (current_stage)<br>
+
+dlt_root_depth = <A HREF = "#root_depth_rate"> c_root_depth_rate </A><I><SUB> current_phase</SUB></I> * temp_factor * minimum of (ws_factor, sw_avail_factor) * <A HREF = "#xf"> p_xf </A><I><SUB> current_layer</SUB></I><br>
+
+deepest_layer = count_of_real_vals (<A HREF = "#xf"> p_xf </A>, crop_maximum number of layers)<br>
+
+root_depth_max = sum_real_array (dlayer, deepest_layer)<br>
+
+dlt_root_depth = u_bound (dlt_root_depth, root_depth_max - root_depth)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
 <A NAME = "crop_temperature_stress_photo">  </A>
 <H2>Crop Temperature Stress Photo</H2>
 <br>
 <H3><CENTER>photosynthetic reduction factor for temperature stress (0-1)  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 ave_temp = (maxt+mint) / 2 . 0<br>
 
-temp_stress_photo = A linearly interpolated value based upon ave_temp (where X = x_ave_temp, Y = y_stress_photo)..<br>
+temp_stress_photo = linear_interp_real (ave_temp, x_ave_temp, y_stress_photo, num_ave_temp)<br>
 
-temp_stress_photo = temp_stress_photo constrained between 0 . 0 and 1 . 0<br>
+temp_stress_photo = bound (temp_stress_photo, 0 . 0, 1 . 0)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3146,27 +3428,28 @@ temp_stress_photo = temp_stress_photo constrained between 0 . 0 and 1 . 0<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_radn_int0">  </A>
 <H2>Crop Radn Int0</H2>
 <br>
 <H3><CENTER>Radiation intercepted by leaves (mj/m^2)  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (fr_intc_radn = 0 . 0) then<br>
+if (reals_are_equal (fr_intc_radn, 0 . 0)) then<br>
 
-<dl>radn_int = cover_green * radn<br>
+<blockquote>radn_int = cover_green * radn<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>radn_int = fr_intc_radn * radn<br>
+<blockquote>radn_int = fr_intc_radn * radn<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3178,29 +3461,30 @@ if (fr_intc_radn = 0 . 0) then<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_radn_int1">  </A>
 <H2>Crop Radn Int1</H2>
 <br>
 <H3><CENTER>This routine returns the radiation intercepted by leaves (mj/m^2)  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-if (fr_intc_radn = 0 . 0) then<br>
+if (reals_are_equal (fr_intc_radn, 0 . 0)) then<br>
 
-<dl>cover = 1 . 0 - <I><BIG>e</BIG></I><SUP>- extinction_coef * lai</SUP><br>
+<blockquote>cover = 1 . 0 - <I><BIG>e</BIG></I><SUP>- extinction_coef * lai</SUP><br>
 
 radn_int = cover * radn<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>radn_int = fr_intc_radn * radn<br>
+<blockquote>radn_int = fr_intc_radn * radn<br>
 
-</dl>endif<br>
+</blockquote>endif<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3212,35 +3496,22 @@ radn_int = cover * radn<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
-<A NAME = "search_read_real_var">  </A>
-<H2>Search Read Real Var</H2>
+</html> 
+<A NAME = "crop_running_ave">  </A>
+<H2>Crop Running Ave</H2>
 <br>
-<H3><CENTER>Read a real value from input files using a list of possible sections for the search.  </CENTER></H3>
+<H3><CENTER>return the running average of an array over the last specified number of days.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-For each counter from 1 to number_of_sections<br>
+start_day = offset_day_of_year (year, day_of_year, - number_of_days)<br>
 
-<dl>Read variable from file (Lower Bound = lower, Upper Bound = upper) <I>(OPTIONAL)</I><br>
-
-if (number of values returned.>.0) then<br>
-
-<dl>goto 200<br>
-
-</dl>else<br>
-
-endif<br>
-
-</dl>next<br>
-
-Report a fatal error<br>
-
-</dl>next<br>
+crop_running_ave = divide (sum_part_of_real (array, start_day, day_of_year, 366), real (abs (number_of_days)), 0 . 0)<br>
 
 <br>
 
-</dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3252,245 +3523,50 @@ Report a fatal error<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
-<A NAME = "search_read_real_array">  </A>
-<H2>Search Read Real Array</H2>
-<br>
-<H3><CENTER>Read an array from input files using a list of possible sections for the search.  </CENTER></H3>
-<H4>Subprogram Logic</H4>
-<dl><br>
-
-For each counter from 1 to number_of_sections<br>
-
-<dl>Read array from file (Lower Bound = number of values returned, Upper Bound = lower) <I>(OPTIONAL)</I><br>
-
-if (number of values returned.>.0) then<br>
-
-<dl>goto 200<br>
-
-</dl>else<br>
-
-endif<br>
-
-</dl>next<br>
-
-Report a fatal error<br>
-
-</dl>next<br>
-
-<br>
-
-</dl>
-<html>
-<body>
-<p>
-<MAP NAME="FrontPageMap0">
-<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
-<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
-<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
-</MAP>
-<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
-</p>
-</body>
-</html>
-<A NAME = "search_read_char_array">  </A>
-<H2>Search Read Char Array</H2>
-<br>
-<H3><CENTER>Read an array from input files using a list of possible sections for the search.  </CENTER></H3>
-<H4>Subprogram Logic</H4>
-<dl><br>
-
-For each counter from 1 to number_of_sections<br>
-
-<dl>Read array from file <I>(OPTIONAL)</I><br>
-
-if (number of values returned.>.0) then<br>
-
-<dl>goto 200<br>
-
-</dl>else<br>
-
-endif<br>
-
-</dl>next<br>
-
-Report a fatal error<br>
-
-</dl>next<br>
-
-<br>
-
-</dl>
-<html>
-<body>
-<p>
-<MAP NAME="FrontPageMap0">
-<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
-<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
-<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
-</MAP>
-<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
-</p>
-</body>
-</html>
-<A NAME = "search_read_char_var">  </A>
-<H2>Search Read Char Var</H2>
-<br>
-<H3><CENTER>Read a char value from input files using a list of possible sections for the search.  </CENTER></H3>
-<H4>Subprogram Logic</H4>
-<dl><br>
-
-For each counter from 1 to number_of_sections<br>
-
-<dl>Read variable from file <I>(OPTIONAL)</I><br>
-
-if (number of values returned.>.0) then<br>
-
-<dl>goto 200<br>
-
-</dl>else<br>
-
-endif<br>
-
-</dl>next<br>
-
-Report a fatal error<br>
-
-</dl>next<br>
-
-<br>
-
-</dl>
-<html>
-<body>
-<p>
-<MAP NAME="FrontPageMap0">
-<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
-<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
-<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
-</MAP>
-<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
-</p>
-</body>
-</html>
-<A NAME = "search_read_integer_var">  </A>
-<H2>Search Read Integer Var</H2>
-<br>
-<H3><CENTER>Read a real value from input files using a list of possible sections for the search.  </CENTER></H3>
-<H4>Subprogram Logic</H4>
-<dl><br>
-
-For each counter from 1 to number_of_sections<br>
-
-<dl>Read variable from file (Lower Bound = lower, Upper Bound = upper) <I>(OPTIONAL)</I><br>
-
-if (number of values returned.>.0) then<br>
-
-<dl>goto 200<br>
-
-</dl>else<br>
-
-endif<br>
-
-</dl>next<br>
-
-Report a fatal error<br>
-
-</dl>next<br>
-
-<br>
-
-</dl>
-<html>
-<body>
-<p>
-<MAP NAME="FrontPageMap0">
-<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
-<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
-<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
-</MAP>
-<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
-</p>
-</body>
-</html>
-<A NAME = "search_read_integer_array">  </A>
-<H2>Search Read Integer Array</H2>
-<br>
-<H3><CENTER>Read an array from input files using a list of possible sections for the search.  </CENTER></H3>
-<H4>Subprogram Logic</H4>
-<dl><br>
-
-For each counter from 1 to number_of_sections<br>
-
-<dl>Read array from file (Lower Bound = number of values returned, Upper Bound = lower) <I>(OPTIONAL)</I><br>
-
-if (number of values returned.>.0) then<br>
-
-<dl>goto 200<br>
-
-</dl>else<br>
-
-endif<br>
-
-</dl>next<br>
-
-Report a fatal error<br>
-
-</dl>next<br>
-
-<br>
-
-</dl>
-<html>
-<body>
-<p>
-<MAP NAME="FrontPageMap0">
-<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
-<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
-<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
-</MAP>
-<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
-</p>
-</body>
-</html>
+</html> 
 <A NAME = "crop_sw_uptake0">  </A>
 <H2>Crop Sw Uptake0</H2>
 <br>
 <H3><CENTER>Returns actual water uptake from each layer of the soil profile by the crop (mm).  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-deepest_layer = layer number corresponding to root_depth<br>
+deepest_layer = find_layer_no (root_depth, dlayer, num_layer)<br>
 
-sw_supply_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_supply<br>
+sw_supply_sum = sum_real_array (sw_supply, deepest_layer)<br>
 
-if (sw_supply_sum.<=.0.0.or.sw_demand.<=.0.0) then<br>
+if (sw_supply_sum.&lt;=.0.0.or.sw_demand.&lt;=.0.0) then<br>
 
-<dl>Fill <FONT FACE = "SYMBOL">D</FONT>sw<SUB>(in mm)</SUB> with 0 . 0<br>
+<blockquote>Fill dlt_sw_dep with 0 . 0<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>Fill <FONT FACE = "SYMBOL">D</FONT>sw<SUB>(in mm)</SUB> with 0 . 0<br>
+<blockquote>Fill dlt_sw_dep with 0 . 0<br>
 
-if (sw_demand.<.sw_supply_sum) then<br>
+if (sw_demand.&lt;.sw_supply_sum) then<br>
 
-<dl>For each layer from 1 to deepest_layer<br>
+<blockquote>For each layer from 1 to deepest_layer<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>sw<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> = - sw_supply<I><SUB> layer</SUB></I> / sw_supply_sum * sw_demand<br>
+<blockquote>dlt_sw_dep<I><SUB> layer</SUB></I> = - divide (sw_supply<I><SUB> layer</SUB></I>, sw_supply_sum, 0 . 0) * sw_demand<br>
 
-</dl>else<br>
+</blockquote>next<br>
 
-<dl>For each layer from 1 to deepest_layer<br>
+</blockquote>else<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>sw<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> = - sw_supply<I><SUB> layer</SUB></I><br>
+<blockquote>For each layer from 1 to deepest_layer<br>
 
-</dl>endif<br>
+<blockquote>dlt_sw_dep<I><SUB> layer</SUB></I> = - sw_supply<I><SUB> layer</SUB></I><br>
 
-</dl>endif<br>
+</blockquote>next<br>
+
+</blockquote>endif<br>
+
+</blockquote>endif<br>
 
 <br>
 
-</dl></dl></dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3502,25 +3578,26 @@ if (sw_demand.<.sw_supply_sum) then<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_swdef_expansion">  </A>
 <H2>Crop Swdef Expansion</H2>
 <br>
-<H3><CENTER>Get the soil water availability factor (0-1), commonly called soil water deficit factor. 1 is no stress, 0 is full stress.  </CENTER></H3>
+<H3><CENTER>Get the soil water to demand ratio and calculate the 0-1 stress factor for leaf expansion. 1 is no stress, 0 is full stress.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-deepest_layer = layer number corresponding to root_depth<br>
+deepest_layer = find_layer_no (root_depth, dlayer, num_layer)<br>
 
-sw_supply_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_supply<br>
+sw_supply_sum = sum_real_array (sw_supply, deepest_layer)<br>
 
-sw_demand_ratio = sw_supply_sum / sw_demand<br>
+sw_demand_ratio = divide (sw_supply_sum, sw_demand, 10 . 0)<br>
 
-swdef = A linearly interpolated value based upon sw_demand_ratio (where X = x_sw_demand_ratio, Y = y_swdef_leaf)..<br>
+swdef = linear_interp_real (sw_demand_ratio, x_sw_demand_ratio, y_swdef_leaf, num_sw_demand_ratio)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3532,25 +3609,26 @@ swdef = A linearly interpolated value based upon sw_demand_ratio (where X = x_sw
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_swdef_photo">  </A>
 <H2>Crop Swdef Photo</H2>
 <br>
-<H3><CENTER>Get the soil water availability factor (0-1), commonly called soil water deficit factor. 1 is no stress, 0 is full stress.  </CENTER></H3>
+<H3><CENTER>Calculate the soil water supply to demand ratio and therefore the 0-1 stress factor for photosysnthesis. 1 is no stress, 0 is full stress.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-deepest_layer = layer number corresponding to root_depth<br>
+deepest_layer = find_layer_no (root_depth, dlayer, num_layer)<br>
 
-sw_supply_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_supply<br>
+sw_supply_sum = sum_real_array (sw_supply, deepest_layer)<br>
 
-sw_demand_ratio = sw_supply_sum / sw_demand<br>
+sw_demand_ratio = divide (sw_supply_sum, sw_demand, 1 . 0)<br>
 
-swdef = sw_demand_ratio constrained between 0 . 0 and 1 . 0<br>
+swdef = bound (sw_demand_ratio, 0 . 0, 1 . 0)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3562,29 +3640,30 @@ swdef = sw_demand_ratio constrained between 0 . 0 and 1 . 0<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_swdef_pheno">  </A>
 <H2>Crop Swdef Pheno</H2>
 <br>
-<H3><CENTER>Get the soil water availability factor (0-1), commonly called soil water deficit factor. 1 is no stress, 0 is full stress.  </CENTER></H3>
+<H3><CENTER>Get the soil water availability ratio in the root zone and calculate the 0 - 1 stress factor for phenology. 1 is no stress, 0 is full stress.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-deepest_layer = layer number corresponding to root_depth<br>
+deepest_layer = find_layer_no (root_depth, dlayer, num_layer)<br>
 
-sw_avail_pot_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_avail_pot<br>
+sw_avail_pot_sum = sum_real_array (sw_avail_pot, deepest_layer)<br>
 
-sw_avail_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_avail<br>
+sw_avail_sum = sum_real_array (sw_avail, deepest_layer)<br>
 
-sw_avail_ratio = sw_avail_sum / sw_avail_pot_sum<br>
+sw_avail_ratio = divide (sw_avail_sum, sw_avail_pot_sum, 1 . 0)<br>
 
-sw_avail_ratio = sw_avail_ratio constrained between 0 . 0 and 1 . 0<br>
+sw_avail_ratio = bound (sw_avail_ratio, 0 . 0, 1 . 0)<br>
 
-swdef = A linearly interpolated value based upon sw_avail_ratio (where X = x_sw_avail_ratio, Y = y_swdef_pheno)..<br>
+swdef = linear_interp_real (sw_avail_ratio, x_sw_avail_ratio, y_swdef_pheno, num_sw_avail_ratio)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3596,29 +3675,30 @@ swdef = A linearly interpolated value based upon sw_avail_ratio (where X = x_sw_
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_swdef_fixation">  </A>
 <H2>Crop Swdef Fixation</H2>
 <br>
-<H3><CENTER>Get the soil water availability factor (0-1), commonly called soil water deficit factor. 1 is no stress, 0 is full stress.  </CENTER></H3>
+<H3><CENTER>Get the soil water availability ratio in the root zone and calculate the 0 - 1 stress factor for fixation. 1 is no stress, 0 is full stress.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-deepest_layer = layer number corresponding to root_depth<br>
+deepest_layer = find_layer_no (root_depth, dlayer, num_layer)<br>
 
-sw_avail_pot_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_avail_pot<br>
+sw_avail_pot_sum = sum_real_array (sw_avail_pot, deepest_layer)<br>
 
-sw_avail_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_avail<br>
+sw_avail_sum = sum_real_array (sw_avail, deepest_layer)<br>
 
-sw_avail_ratio = sw_avail_sum / sw_avail_pot_sum<br>
+sw_avail_ratio = divide (sw_avail_sum, sw_avail_pot_sum, 1 . 0)<br>
 
-sw_avail_ratio = sw_avail_ratio constrained between 0 . 0 and 1 . 0<br>
+sw_avail_ratio = bound (sw_avail_ratio, 0 . 0, 1 . 0)<br>
 
-swdef = A linearly interpolated value based upon sw_avail_ratio (where X = x_sw_avail_fix, Y = y_swdef_fix)..<br>
+swdef = linear_interp_real (sw_avail_ratio, x_sw_avail_fix, y_swdef_fix, num_sw_avail_fix)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3630,37 +3710,38 @@ swdef = A linearly interpolated value based upon sw_avail_ratio (where X = x_sw_
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_oxdef_photo1">  </A>
 <H2>Crop Oxdef Photo1</H2>
 <br>
 <H3><CENTER>Calculate 0-1 factor for water logging effect on growth  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 tot_root_fr = 1 . 0<br>
 
 <A HREF = "#crop_root_dist"> Distribute tot_root_fr over the profile according to root distribution </A><br>
 
-number ofroot_layers = number of elements in root_fr<br>
+num_root_layers = count_of_real_vals (root_fr, max_layer)<br>
 
 wet_root_fr = 0 . 0<br>
 
-For each layer from 1 to number ofroot_layers<br>
+For each layer from 1 to num_root_layers<br>
 
-<dl>wfps = sw<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> - ll15<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> / sat<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> - ll15<SUB>(in mm)</SUB><I><SUB> layer</SUB></I><br>
+<blockquote>wfps = divide (g_sw_dep<I><SUB> layer</SUB></I> - g_ll15_dep<I><SUB> layer</SUB></I>, g_sat_dep<I><SUB> layer</SUB></I> - g_ll15_dep<I><SUB> layer</SUB></I>, 0 . 0)<br>
 
-wfps = wfps constrained between 0 . 0 and 1 . 0<br>
+wfps = bound (wfps, 0 . 0, 1 . 0)<br>
 
 wet_root_fr = wet_root_fr + wfps * root_fr<I><SUB> layer</SUB></I><br>
 
-</dl>next<br>
+</blockquote>next<br>
 
-oxdef_photo = A linearly interpolated value based upon wet_root_fr (where X = <A HREF = "#oxdef_photo_rtfr"> oxdef_photo_rtfr </A>, Y = <A HREF = "#oxdef_photo"> oxdef_photo </A>)..<br>
+oxdef_photo = linear_interp_real (wet_root_fr, <A HREF = "#oxdef_photo_rtfr"> c_oxdef_photo_rtfr </A>, <A HREF = "#oxdef_photo"> c_oxdef_photo </A>, <A HREF = "#num_oxdef_photo"> c_num_oxdef_photo </A>)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3672,13 +3753,13 @@ oxdef_photo = A linearly interpolated value based upon wet_root_fr (where X = <A
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_sw_supply1">  </A>
 <H2>Cproc Sw Supply1</H2>
 <br>
 <H3><CENTER>Calculate the crop water supply based on the KL approach.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 <A HREF = "#crop_check_sw"> Check validity of soil water parameters for all soil profile layers. </A><br>
 
@@ -3690,7 +3771,8 @@ oxdef_photo = A linearly interpolated value based upon wet_root_fr (where X = <A
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3702,57 +3784,60 @@ oxdef_photo = A linearly interpolated value based upon wet_root_fr (where X = <A
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_check_sw">  </A>
 <H2>Crop Check Sw</H2>
 <br>
 <H3><CENTER>Check validity of soil water parameters for all soil profile layers.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-number of layers = number of elements in dlayer<br>
+num_layers = count_of_real_vals (dlayer, max_layer)<br>
 
-For each layer from 1 to number of layers<br>
+For each layer from 1 to num_layers<br>
 
-<dl>sw = sw<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> / dlayer<I><SUB> layer</SUB></I><br>
+<blockquote>sw = divide (sw_dep<I><SUB> layer</SUB></I>, dlayer<I><SUB> layer</SUB></I>, 0 . 0)<br>
 
-dul = dul<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> / dlayer<I><SUB> layer</SUB></I><br>
+dul = divide (dul_dep<I><SUB> layer</SUB></I>, dlayer<I><SUB> layer</SUB></I>, 0 . 0)<br>
 
-ll = ll<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> / dlayer<I><SUB> layer</SUB></I><br>
+ll = divide (ll_dep<I><SUB> layer</SUB></I>, dlayer<I><SUB> layer</SUB></I>, 0 . 0)<br>
 
-if (ll.<.minsw) then<br>
+if (ll.&lt;.minsw) then<br>
 
-<dl>write (to err_messg)  ' lower limit of ' , ll , ' in layer ' , layer , new_line , '         is below acceptable value of ' , minsw<br>
-
-Print a warning error<br>
-
-</dl>else<br>
-
-endif<br>
-
-if (dul.<=.ll) then<br>
-
-<dl>write (to err_messg)  ' drained upper limit of ' , dul , ' in layer ' , layer , new_line , '         is at or below lower limit of ' , ll<br>
+<blockquote>write (to err_messg)  ' lower limit of ' , ll , ' in layer ' , layer , new_line , '         is below acceptable value of ' , minsw<br>
 
 Print a warning error<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
 endif<br>
 
-if (sw.<.minsw) then<br>
+if (dul.&lt;=.ll) then<br>
 
-<dl>write (to err_messg)  ' soil water of ' , sw , ' in layer ' , layer , new_line , '         is below acceptable value of ' , minsw<br>
+<blockquote>write (to err_messg)  ' drained upper limit of ' , dul , ' in layer ' , layer , new_line , '         is at or below lower limit of ' , ll<br>
 
 Print a warning error<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
 endif<br>
+
+if (sw.&lt;.minsw) then<br>
+
+<blockquote>write (to err_messg)  ' soil water of ' , sw , ' in layer ' , layer , new_line , '         is below acceptable value of ' , minsw<br>
+
+Print a warning error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>next<br>
 
 <br>
 
-</dl></dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3764,27 +3849,30 @@ endif<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_sw_avail_pot">  </A>
 <H2>Crop Sw Avail Pot</H2>
 <br>
-<H3><CENTER>Return potential water uptake from each layer in the soil profile by the crop (mm water) from a fully wet profile  </CENTER></H3>
+<H3><CENTER>Return potential available soil water from each layer in the root zone.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 Fill sw_avail_pot with 0 . 0<br>
 
-deepest_layer = layer number corresponding to root_depth<br>
+deepest_layer = find_layer_no (root_depth, dlayer, num_layer)<br>
 
 For each layer from 1 to deepest_layer<br>
 
-<dl>sw_avail_pot<I><SUB> layer</SUB></I> = dul<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> - ll<SUB>(in mm)</SUB><I><SUB> layer</SUB></I><br>
+<blockquote>sw_avail_pot<I><SUB> layer</SUB></I> = dul_dep<I><SUB> layer</SUB></I> - ll_dep<I><SUB> layer</SUB></I><br>
 
-sw_avail_pot<I><SUB> deepest_layer</SUB></I> = sw_avail_pot<I><SUB> deepest_layer</SUB></I> * proportion of layer deepest_layer explored by roots<br>
+</blockquote>next<br>
+
+sw_avail_pot<I><SUB> deepest_layer</SUB></I> = sw_avail_pot<I><SUB> deepest_layer</SUB></I> * root_proportion (deepest_layer, dlayer, root_depth)<br>
 
 <br>
 
-</dl></dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3796,29 +3884,32 @@ sw_avail_pot<I><SUB> deepest_layer</SUB></I> = sw_avail_pot<I><SUB> deepest_laye
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_sw_avail">  </A>
 <H2>Crop Sw Avail</H2>
 <br>
 <H3><CENTER>Return actual water available for extraction from each layer in the soil profile by the crop (mm water)  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 Fill sw_avail with 0 . 0<br>
 
-deepest_layer = layer number corresponding to root_depth<br>
+deepest_layer = find_layer_no (root_depth, dlayer, num_layer)<br>
 
 For each layer from 1 to deepest_layer<br>
 
-<dl>sw_avail<I><SUB> layer</SUB></I> = sw<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> - ll<SUB>(in mm)</SUB><I><SUB> layer</SUB></I><br>
+<blockquote>sw_avail<I><SUB> layer</SUB></I> = sw_dep<I><SUB> layer</SUB></I> - ll_dep<I><SUB> layer</SUB></I><br>
 
-sw_avail<I><SUB> layer</SUB></I> = sw_avail<I><SUB> layer</SUB></I> constrained above 0 . 0<br>
+sw_avail<I><SUB> layer</SUB></I> = l_bound (sw_avail<I><SUB> layer</SUB></I>, 0 . 0)<br>
 
-sw_avail<I><SUB> deepest_layer</SUB></I> = sw_avail<I><SUB> deepest_layer</SUB></I> * proportion of layer deepest_layer explored by roots<br>
+</blockquote>next<br>
+
+sw_avail<I><SUB> deepest_layer</SUB></I> = sw_avail<I><SUB> deepest_layer</SUB></I> * root_proportion (deepest_layer, dlayer, root_depth)<br>
 
 <br>
 
-</dl></dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3830,31 +3921,34 @@ sw_avail<I><SUB> deepest_layer</SUB></I> = sw_avail<I><SUB> deepest_layer</SUB><
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "crop_sw_supply">  </A>
 <H2>Crop Sw Supply</H2>
 <br>
 <H3><CENTER>Return potential water uptake from each layer of the soil profile by the crop (mm water). This represents the maximum amount in each layer regardless of lateral root distribution but takes account of root depth in bottom layer.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 Fill sw_supply with 0 . 0<br>
 
-deepest_layer = layer number corresponding to root_depth<br>
+deepest_layer = find_layer_no (root_depth, dlayer, num_layer)<br>
 
 For each layer from 1 to deepest_layer<br>
 
-<dl>sw_avail = (sw<SUB>(in mm)</SUB><I><SUB> layer</SUB></I>-ll<SUB>(in mm)</SUB><I><SUB> layer</SUB></I>)<br>
+<blockquote>sw_avail = (sw_dep<I><SUB> layer</SUB></I>-ll_dep<I><SUB> layer</SUB></I>)<br>
 
 sw_supply<I><SUB> layer</SUB></I> = sw_avail * kl<I><SUB> layer</SUB></I><br>
 
-sw_supply<I><SUB> layer</SUB></I> = sw_supply<I><SUB> layer</SUB></I> constrained above 0 . 0<br>
+sw_supply<I><SUB> layer</SUB></I> = l_bound (sw_supply<I><SUB> layer</SUB></I>, 0 . 0)<br>
 
-sw_supply<I><SUB> deepest_layer</SUB></I> = sw_supply<I><SUB> deepest_layer</SUB></I> * proportion of layer deepest_layer explored by roots<br>
+</blockquote>next<br>
+
+sw_supply<I><SUB> deepest_layer</SUB></I> = sw_supply<I><SUB> deepest_layer</SUB></I> * root_proportion (deepest_layer, dlayer, root_depth)<br>
 
 <br>
 
-</dl></dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3866,45 +3960,50 @@ sw_supply<I><SUB> deepest_layer</SUB></I> = sw_supply<I><SUB> deepest_layer</SUB
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_sw_uptake1">  </A>
 <H2>Cproc Sw Uptake1</H2>
 <br>
 <H3><CENTER>Returns actual water uptake from each layer of the soil profile by the crop (mm).  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-deepest_layer = layer number corresponding to root_depth<br>
+deepest_layer = find_layer_no (root_depth, dlayer, num_layer)<br>
 
-sw_supply_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_supply<br>
+sw_supply_sum = sum_real_array (sw_supply, deepest_layer)<br>
 
-if (sw_supply_sum.<=.0.0.or.sw_demand.<=.0.0) then<br>
+if (sw_supply_sum.&lt;=.0.0.or.sw_demand.&lt;=.0.0) then<br>
 
-<dl>Fill <FONT FACE = "SYMBOL">D</FONT>sw<SUB>(in mm)</SUB> with 0 . 0<br>
+<blockquote>Fill dlt_sw_dep with 0 . 0<br>
 
-</dl>else<br>
+</blockquote>else<br>
 
-<dl>Fill <FONT FACE = "SYMBOL">D</FONT>sw<SUB>(in mm)</SUB> with 0 . 0<br>
+<blockquote>Fill dlt_sw_dep with 0 . 0<br>
 
-if (sw_demand.<.sw_supply_sum) then<br>
+if (sw_demand.&lt;.sw_supply_sum) then<br>
 
-<dl>For each layer from 1 to deepest_layer<br>
+<blockquote>For each layer from 1 to deepest_layer<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>sw<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> = - sw_supply<I><SUB> layer</SUB></I> / sw_supply_sum * sw_demand<br>
+<blockquote>dlt_sw_dep<I><SUB> layer</SUB></I> = - divide (sw_supply<I><SUB> layer</SUB></I>, sw_supply_sum, 0 . 0) * sw_demand<br>
 
-</dl>else<br>
+</blockquote>next<br>
 
-<dl>For each layer from 1 to deepest_layer<br>
+</blockquote>else<br>
 
-<dl><FONT FACE = "SYMBOL">D</FONT>sw<SUB>(in mm)</SUB><I><SUB> layer</SUB></I> = - sw_supply<I><SUB> layer</SUB></I><br>
+<blockquote>For each layer from 1 to deepest_layer<br>
 
-</dl>endif<br>
+<blockquote>dlt_sw_dep<I><SUB> layer</SUB></I> = - sw_supply<I><SUB> layer</SUB></I><br>
 
-</dl>endif<br>
+</blockquote>next<br>
+
+</blockquote>endif<br>
+
+</blockquote>endif<br>
 
 <br>
 
-</dl></dl></dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3916,19 +4015,20 @@ if (sw_demand.<.sw_supply_sum) then<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_sw_demand1">  </A>
 <H2>Cproc Sw Demand1</H2>
 <br>
-<H3><CENTER>Return crop water demand from soil by the crop (mm)  </CENTER></H3>
+<H3><CENTER>Return crop water demand by the crop (mm) calculated from potential dry matter production and transpiration efficiency.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-sw_demand = <FONT FACE = "SYMBOL">D</FONT>dm_pot_rue / transp_eff<br>
+sw_demand = divide (dlt_dm_pot_rue, transp_eff, 0 . 0)<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3940,23 +4040,26 @@ sw_demand = <FONT FACE = "SYMBOL">D</FONT>dm_pot_rue / transp_eff<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_transp_eff1">  </A>
 <H2>Cproc Transp Eff1</H2>
 <br>
-<H3><CENTER>Calculate today's transpiration efficiency from min and max temperatures and converting mm water to g dry matter (g dm/m^2/mm water)  </CENTER></H3>
+<H3><CENTER>Calculate today's transpiration efficiency from the transpiration efficiency coefficient and vapour pressure deficit, which is calculated from min and max temperatures.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
 current_phase = int (current_stage)<br>
 
 vpd = svp_fract * (svp<I><SUB> maxt</SUB></I>-svp<I><SUB> mint</SUB></I>)<br>
 
-transp_eff = transp_eff_cf<I><SUB> current_phase</SUB></I> / vpd / g2mm<br>
+vpd = l_bound (vpd, 0 . 01)<br>
+
+transp_eff = divide (transp_eff_cf<I><SUB> current_phase</SUB></I>, vpd, 0 . 0) / g2mm<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3968,23 +4071,24 @@ transp_eff = transp_eff_cf<I><SUB> current_phase</SUB></I> / vpd / g2mm<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "cproc_bio_water1">  </A>
 <H2>Cproc Bio Water1</H2>
 <br>
 <H3><CENTER>Calculate the potential biomass production based upon today's water supply.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
-<dl><br>
+<blockquote><br>
 
-deepest_layer = layer number corresponding to root_depth<br>
+deepest_layer = find_layer_no (root_depth, dlayer, num_layer)<br>
 
-sw_supply_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_supply<br>
+sw_supply_sum = sum_real_array (sw_supply, deepest_layer)<br>
 
-<FONT FACE = "SYMBOL">D</FONT>dm_pot_te = sw_supply_sum * transp_eff<br>
+dlt_dm_pot_te = sw_supply_sum * transp_eff<br>
 
 <br>
 
-</dl></dl>
+</blockquote></blockquote>
+<hr>
 <html>
 <body>
 <p>
@@ -3996,13 +4100,12 @@ sw_supply_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SU
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <A NAME = "Contact Information"> <H2>Contact Information</H2> </A>
 For Further Information Please Contact:
 <p>
 <A HREF = "mailto:meinkeh@dpi.qld.gov.au"> Holger Meinke - Module Developer </A><br>
-<A HREF = "mailto:APSIM-help@tag.csiro.au"> APSIM Help Desk </A><br>
-<A HREF = "http:\\apsim-help.tag.csiro.au"> APSIM Help WEB Page </A><br>
+<hr>
 <html>
 <body>
 <p>
@@ -4014,7 +4117,7 @@ For Further Information Please Contact:
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
 <html>
 
 <head>
@@ -4030,7 +4133,8 @@ content="text/html; charset=iso-8859-1">
 height="73"></p>
 </body>
 </html>
-Date: 3/12/98  APseudo Version:  1. 0 Rev.  0<br>
+Date: 29/11/2000  APseudo Version:  1. 0 Rev.  1<br>
+<hr>
 <html>
 <body>
 <p>
@@ -4042,4 +4146,4 @@ Date: 3/12/98  APseudo Version:  1. 0 Rev.  0<br>
 <img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
 </p>
 </body>
-</html>
+</html> 
