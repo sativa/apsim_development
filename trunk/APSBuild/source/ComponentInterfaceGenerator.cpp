@@ -100,18 +100,7 @@ void GenerateComponentInterface(const string& interfaceFileName)
    MacroSubstFile* AMF = new MacroSubstFile ();
    try
       {
-      AMF->filename = macrofile;
-
-      // get all macros that we're going to add values to.
-      Macro* moduleMacro = AMF->getMacro("module");
-      Macro* subevent = AMF->getMacro("subevent");
-      Macro* pubevent = AMF->getMacro("pubevent");
-      Macro* submethod = AMF->getMacro("submethod");
-      Macro* pubmethod = AMF->getMacro("pubmethod");
-
-      // set the module name as an attribute of the module macro.
-      string moduleName = Path(interfaceFileName).Get_name_without_ext();
-      moduleMacro->setAttribute("moduleName", moduleName);
+      AMF->read(macrofile);
 
       // Loop through all registrations and create a macro value for each.
       for (ApsimComponentData::RegIterator reg = component->regBegin();
@@ -133,23 +122,25 @@ void GenerateComponentInterface(const string& interfaceFileName)
             type = "null";
             }
 
-         MacroValue macroValue;
-         macroValue.addAttribute("name", name);
-         macroValue.addAttribute("kind", type);
-
+         MacroSubstFile::ValueAttributes attributes;
+         attributes.push_back(make_pair("name", name));
+         attributes.push_back(make_pair("kind", type));
+         string macroName;
          if (reg->isOfType("event"))
-            pubevent->addValue(macroValue);
+            macroName = "pubevent";
          else if (reg->isOfType("respondToEvent"))
-            subevent->addValue(macroValue);
+            macroName = "subEvent";
          else if (reg->isOfType("methodCall"))
-            pubmethod->addValue(macroValue);
+            macroName = "pubmethod";
          else if (reg->isOfType("respondToMethodCall"))
-            submethod->addValue(macroValue);
+            macroName = "submethod";
+         if (macroName != "")
+            AMF->addValue(macroName, attributes);
          }
 
       //  All done - so now write out the output files
       vector<string> filesWriten;
-      AMF->write(filesWriten);
+      AMF->generateFiles(filesWriten);
       }
    catch (...)
       {
