@@ -125,6 +125,7 @@ cih
 *+  Changes
 *     dph 25/11/96
 *     nih 28/04/99 - added timestep parameter
+*     nih 17/05/99 - changing name of start/end to simulation_start_??? etc - C191
 
 *+  Constant Values
       character This_routine*(*)       ! name of this routine
@@ -140,38 +141,103 @@ cih
  
       call push_routine (this_routine)
  
-      call read_integer_var ('parameters',
+      call read_integer_var_optional ('parameters',
+     .                       'simulation_start_day',
+     .                       '(day)',
+     .                       day_of_year,
+     .                       numvals,
+     .                       1,
+     .                       366)
+      if (numvals.eq.0) then
+         call warning_error (ERR_User
+     .                      ,'Please change input for starting day to '
+     .                      //'simulation_start_day = ... as later '
+     .                      //'versions of APSIM will not support the '
+     .                      //'old syntax.')
+         call read_integer_var ('parameters',
      .                       'start_day',
      .                       '(day)',
      .                       day_of_year,
      .                       numvals,
      .                       1,
      .                       366)
-      call read_integer_var ('parameters',
+
+      endif
+
+      call read_integer_var_optional ('parameters',
+     .                       'simulation_start_year',
+     .                       '(year)',
+     .                       year,
+     .                       numvals,
+     .                       1700,
+     .                       2100)
+      if (numvals.eq.0) then
+         call warning_error (ERR_User
+     .                      ,'Please change input for starting year to '
+     .                      //'simulation_start_year = ... as later '
+     .                      //'versions of APSIM will not support the '
+     .                      //'old syntax.')
+         call read_integer_var ('parameters',
      .                       'start_year',
      .                       '(year)',
      .                       year,
      .                       numvals,
      .                       1700,
      .                       2100)
+
+      endif
+
       call day_of_year_to_date (day_of_year, year, thisdate)
       g_Start_date = Date_to_jday 
      .    (thisdate(1), thisdate(2), thisdate(3))
  
-      call read_integer_var ('parameters',
+      call read_integer_var_optional ('parameters',
+     .                       'simulation_end_day',
+     .                       '(day)',
+     .                       day_of_year,
+     .                       numvals,
+     .                       1,
+     .                       366)
+      if (numvals.eq.0) then
+         call warning_error (ERR_User
+     .                      ,'Please change input for ending day to '
+     .                      //'simulation_end_day = ... as later '
+     .                      //'versions of APSIM will not support the '
+     .                      //'old syntax.')
+         call read_integer_var ('parameters',
      .                       'end_day',
      .                       '(day)',
      .                       day_of_year,
      .                       numvals,
      .                       1,
      .                       366)
-      call read_integer_var ('parameters',
+
+      endif
+
+      call read_integer_var_optional ('parameters',
+     .                       'simulation_end_year',
+     .                       '(year)',
+     .                       year,
+     .                       numvals,
+     .                       1700,
+     .                       2100)
+      if (numvals.eq.0) then
+         call warning_error (ERR_User
+     .                      ,'Please change input for ending year to '
+     .                      //'simulation_end_year = ... as later '
+     .                      //'versions of APSIM will not support the '
+     .                      //'old syntax.')
+         call read_integer_var ('parameters',
      .                       'end_year',
      .                       '(year)',
      .                       year,
      .                       numvals,
      .                       1700,
      .                       2100)
+
+      endif
+
+
       call day_of_year_to_date (day_of_year, year, thisdate)
       g_end_date = Date_to_jday (thisdate(1), thisdate(2), thisdate(3))
 
@@ -276,6 +342,7 @@ cih
 *+  Changes
 *     dph 25/11/96
 *     nih 28/04/99 - added timestep output
+*     nih 17/05/99 - added start/end time outputs - C191
 
 *+  Constant Values
       character This_routine*(*)       ! name of this routine
@@ -285,6 +352,8 @@ cih
       integer thisdate(3)              ! day, month, year
       logical logical_to_return        ! logical value to return to calling module
       character time*(5)               ! time in 24 hour format
+      integer   doy                    ! day of year
+      integer   year                   ! year
 
 *- Implementation Section ----------------------------------
  
@@ -348,6 +417,38 @@ cih
          call respond2get_char_var (Variable_name,
      .                                 '()',
      .                                 time)
+
+      else if (variable_name .eq. 'simulation_start_day') then
+         call jday_to_day_of_year (g_Start_date
+     .                            ,doy
+     .                            ,year)
+         call respond2get_integer_var (Variable_name,
+     .                                 '()',
+     .                                 doy)
+
+      else if (variable_name .eq. 'simulation_start_year') then
+         call jday_to_day_of_year (g_Start_date
+     .                            ,doy
+     .                            ,year)
+         call respond2get_integer_var (Variable_name,
+     .                                 '()',
+     .                                 year)
+
+      else if (variable_name .eq. 'simulation_end_day') then
+         call jday_to_day_of_year (g_End_date
+     .                            ,doy
+     .                            ,year)
+         call respond2get_integer_var (Variable_name,
+     .                                 '()',
+     .                                 doy)
+
+      else if (variable_name .eq. 'simulation_end_year') then
+         call jday_to_day_of_year (g_End_date
+     .                            ,doy
+     .                            ,year)
+         call respond2get_integer_var (Variable_name,
+     .                                 '()',
+     .                                 year)
 
       else
          ! Not our variable
