@@ -495,27 +495,14 @@ void Component::terminateSimulation(void)
 bool Component::getVariables(unsigned int registrationID, Variants*& values)
    {
    RegistrationItem* regItem = (RegistrationItem*) registrationID;
-   if (beforeInit2)
-      {
-      char st[500];
-      strcpy(st, "Cannot do GET's before the INIT2.\n");
-      strcat(st, "Variable name: ");
-      strncat(st, regItem->getName().f_str(),
-                  regItem->getName().length());
-      error(st, true);
-      return false;
-      }
-   else
-      {
 
-      // clean up old values if necessary.
-      regItem->empty();
+   // clean up old values if necessary.
+   regItem->empty();
 
-      // send a GetValue message
-      sendMessage(newGetValueMessage(componentID, parentID, registrationID));
-      values = &regItem->getVariants();
-      return (values->size() > 0);
-      }
+   // send a GetValue message
+   sendMessage(newGetValueMessage(componentID, parentID, registrationID));
+   values = &regItem->getVariants();
+   return (values->size() > 0);
    }
 
 // ------------------------------------------------------------------
