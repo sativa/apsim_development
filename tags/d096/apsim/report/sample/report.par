@@ -1,0 +1,26 @@
+[sample.report.parameters]
+title = Report Sample Simulation
+screen_output = on
+outputfile  = report.out /overwrite
+summaryfile = report.sum /overwrite
+
+module_names=    input input  input    input    input
+variable_names=  day   year   sum@rain avg@maxt avg@mint
+variable_alias=  -     -      RainSum  MaxtAvg  MintAvg  
+units         =  -     -      -        -        -
+
+[sample.input.parameters]
+! Start and end date of run (day number of year and year)
+start_day =  1
+start_year = 1988
+end_day =  30
+end_year = 1988
+
+[sample.manager.end_of_day]
+if days_since_last_report = 5 then
+   report do_output
+endif
+
+
+
+

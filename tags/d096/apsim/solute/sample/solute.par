@@ -1,0 +1,35 @@
+[sample.report.parameters]
+title = Solute Sample Simulation
+screen_output = on
+outputfile  = Solute.out /overwrite
+summaryfile = Solute.sum /overwrite
+
+module_names=    input input  
+variable_names=  day year     
+variable_alias=  -     -      
+
+module_names=    solute  solute
+variable_names=  br      cl
+variable_alias=  -       -
+units=           -       -    
+
+[sample.input.parameters]
+! Start and end date of run (day number of year and year)
+start_day =  1
+start_year = 1988
+end_day =  30
+end_year = 1988
+
+[sample.manager.start_of_day]
+if day = 5 then
+   ! Add chloride to the soil surface layer
+   solute set dlt_cl = 100 0 0 0 0 0 0 0 (kg/ha)
+endif
+
+[sample.manager.end_of_day]
+report do_output
+
+[sample.solute.parameters]
+solute_names = br cl
+br = 100 0 0 0 0 0 0 0 (kg/ha) ! Initial Br profile
+cl =   0 0 0 0 0 0 0 0 (kg/ha) ! Initial Cl profile
