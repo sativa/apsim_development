@@ -13,18 +13,17 @@
 #include "TImage.h"
 #include <Dialogs.hpp>
 #include <ExtDlgs.hpp>
+#include "AdvPanel.hpp"
+#include <ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 class TImageForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
+   TOpenPictureDialog *OpenPictureDialog;
    TAdvEditBtn *ImageFileEdit;
    TCheckBox *AutoSizeCheckBox;
    TCheckBox *CentreCheckBox;
    TCheckBox *StretchCheckBox;
-   TLabel *AutosizeLabel;
-   TLabel *CenterLabel;
-   TLabel *StretchLabel;
-   TOpenPictureDialog *OpenPictureDialog;
    TLabel *FilenameLabel;
    void __fastcall AutoSizeCheckBoxClick(TObject *Sender);
    void __fastcall CentreCheckBoxClick(TObject *Sender);

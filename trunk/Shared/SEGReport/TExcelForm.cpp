@@ -14,6 +14,7 @@
 #pragma link "AdvEdit"
 #pragma link "AdvFileNameEdit"
 #pragma link "DBAdvGrd"
+#pragma link "AdvPanel"
 #pragma resource "*.dfm"
 TExcelForm *ExcelForm;
 //---------------------------------------------------------------------------

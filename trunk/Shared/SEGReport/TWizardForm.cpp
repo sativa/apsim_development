@@ -35,6 +35,11 @@ void TWizardForm::showForm()
       componentForms[currentForm]->Align = alClient;
       componentForms[currentForm]->Show();
       }
+   BackButton->Enabled = (currentForm > 0);
+   if (currentForm == componentForms.size()-1)
+      NextButton->Caption = "Finish";
+   else
+      NextButton->Caption = "Next >";
    }
 //---------------------------------------------------------------------------
 void __fastcall TWizardForm::BackButtonClick(TObject *Sender)
@@ -45,14 +50,19 @@ void __fastcall TWizardForm::BackButtonClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TWizardForm::NextButtonClick(TObject *Sender)
    {
-   currentForm = min(currentForm+1, componentForms.size()-1);
-   showForm();
+   if (currentForm == componentForms.size()-1)
+      ModalResult = mrOk;
+   else
+      {
+      currentForm = min(currentForm+1, componentForms.size()-1);
+      showForm();
+      }
    }
 //---------------------------------------------------------------------------
 void __fastcall TWizardForm::FormClose(TObject *Sender,
       TCloseAction &Action)
    {
-   for (unsigned componentI = 0; componentForms.size(); componentI++)
-      delete componentForms[componentI];
+   for (unsigned f = 0; f != componentForms.size(); f++)
+      delete componentForms[f];
    }
 //---------------------------------------------------------------------------

@@ -10,15 +10,16 @@
 #include "TShape.h"
 #include "TPropertyForm.h"
 #include <ExtCtrls.hpp>
+#include "AdvPanel.hpp"
 //---------------------------------------------------------------------------
 class TShapeForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
-   TLabel *Label3;
-   TLabel *Label4;
    TColorBox *BrushColourCombo;
    TColorBox *PenColourCombo;
    TComboBox *ShapeCombo;
+   TLabel *Label3;
+   TLabel *Label4;
    TLabel *Label5;
    void __fastcall ShapeComboChange(TObject *Sender);
    void __fastcall PenColourComboChange(TObject *Sender);

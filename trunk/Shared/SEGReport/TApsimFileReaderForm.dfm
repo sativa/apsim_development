@@ -1,92 +1,85 @@
 inherited ApsimFileReaderForm: TApsimFileReaderForm
-  Height = 459
   Caption = 'ApsimFileReaderForm'
   OldCreateOrder = True
   PixelsPerInch = 120
   TextHeight = 16
-  object Label3: TLabel [0]
-    Left = 10
-    Top = 69
-    Width = 66
-    Height = 16
-    Caption = 'Filenames:'
-  end
-  object BrowseButton: TSpeedButton [1]
-    Left = 12
-    Top = 194
-    Width = 99
-    Height = 24
-    Caption = '&Filenames'
-    Flat = True
-    Glyph.Data = {
-      EE030000424DEE030000000000003600000028000000110000000E0000000100
-      200000000000B803000000000000000000000000000000000000F3F8F950B09C
-      80D9845725FB743C00FF743C00FF743C00FF743C00FF743C00FF743C00FF743C
-      00FF743C00FF743C00FF743C00FF743C00FF7E4D16FDA78E6EEAF5FAFAB4A489
-      68E393714AFFB4AEA3FFC5D0D6FFC5D0D6FFC5D0D6FFC5D0D6FFC5D0D6FFC5D0
-      D6FFC5D0D6FFC5D0D6FFC5D0D6FFC4D0D5FFC3CFD5FFB6B7B1FF906E48FFA68D
-      6CE87E4D16FDCAC7BFFFDCDDBF00000000000000000000000000000000000000
-      0000000000000000000000000000DCDDBF00DCDDBF00DCDDBF00CDD7DBFFBDBD
-      B6FF7E4D16FD743C00FFEBF0F0FF000000000000000080808000808080008080
-      80008080800080808000808080008080800000000000DCDDBF00DCDDBF00E1E8
-      EAFFD9E2E4FF743C00FF743C00FFECF1F1FF00000000FFFFFF00000000008080
-      800080808000808080008080800080808000808080008080800000000000DCDD
-      BF00E3EAEBFFDBE2E5FF743C00FF743C00FFEDF2F2FF00000000FFFFFF00FFFF
-      FF00000000008080800080808000808080008080800080808000808080008080
-      800000000000E4EBECFFDCE3E6FF743C00FF743C00FFEEF2F2FF00000000FFFF
-      FF00FFFFFF00FFFFFF0000000000000000000000000000000000000000000000
-      00000000000000000000E5EBECFFDDE3E6FF743C00FF743C00FFF3F6F6FF0000
-      0000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF000000
-      0000DCDDBF00DCDDBF00DCDDBF00EAF0F1FFE1E8EBFF743C00FF743C00FFF4F6
-      F6FF00000000FFFFFF00FFFFFF00FFFFFF000000000000000000000000000000
-      000000000000DCDDBF00DCDDBF00DCDDBF00EBF0F1FFE2E8EBFF743C00FF743C
-      00FFF7F8F8FFDCDDBF00000000000000000000000000DCDDBF00DCDDBF00DCDD
-      BF00DCDDBF00DCDDBF00000000000000000000000000EEF1F3FFE6EAEDFF743C
-      00FF743C00FFFAFAFAFFDCDDBF00DCDDBF00DCDDBF00DCDDBF00DCDDBF00DCDD
-      BF00DCDDBF00DCDDBF00DCDDBF00DCDDBF000000000000000000F2F4F5FFEAEE
-      F0FF743C00FF845725FBDCCEBFFFDCDDBF00DCDDBF00DCDDBF00DCDDBF00DCDD
-      BF0000000000DCDDBF00DCDDBF00DCDDBF0000000000DCDDBF0000000000FDFE
-      FEFFDBCEBFFF845725FBAE997DD6A27D55FFDCDDBF00DCDDBF00DCDDBF00DCDD
-      BF00DCDDBF00DCDDBF00000000000000000000000000DCDDBF00DCDDBF00DCDD
-      BF00E8DFD5FFA27D55FFAF997ED5E8EFF261AE997DD6845725FB743C00FF743C
-      00FF743C00FF743C00FF743C00FF743C00FF743C00FF743C00FF743C00FF743C
-      00FF743C00FF7E4D16FDA48A69E3EBF2F45C}
-    OnClick = BrowseButtonClick
-  end
-  inherited GroupByEdit: TEdit
-    TabOrder = 6
-  end
-  object FilesList: TListView
-    Left = 8
-    Top = 224
-    Width = 255
-    Height = 185
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    BevelInner = bvLowered
-    BevelOuter = bvRaised
-    BevelKind = bkSoft
-    BorderStyle = bsNone
-    Columns = <>
-    TabOrder = 4
-    ViewStyle = vsList
-  end
-  object InterpretCheckBox: TCheckBox
-    Left = 8
-    Top = 165
-    Width = 104
-    Height = 21
-    Alignment = taLeftJustify
-    Caption = 'Interpret titles?'
-    Ctl3D = True
-    ParentCtl3D = False
-    TabOrder = 5
-    OnClick = InterpretCheckBoxClick
+  inherited AdvPanelGroup1: TAdvPanelGroup
+    FullHeight = 0
+    inherited AdvancedPanel: TAdvPanel
+      FullHeight = 293
+      inherited NameEdit: TEdit
+        Width = 194
+      end
+      inherited SourceCombo: TComboBox
+        Width = 194
+      end
+      inherited SortFieldsEdit: TEdit
+        Width = 194
+      end
+      inherited GroupByEdit: TEdit
+        Width = 195
+      end
+    end
+    inherited PropertyPanel: TAdvPanel
+      FullHeight = 325
+      object Label3: TLabel
+        Left = 10
+        Top = 29
+        Width = 70
+        Height = 16
+        Caption = 'Filenames:'
+      end
+      object Label1: TLabel
+        Left = 10
+        Top = 189
+        Width = 47
+        Height = 16
+        Cursor = crHandPoint
+        Caption = 'Browse'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlue
+        Font.Height = -13
+        Font.Name = 'Verdana'
+        Font.Style = [fsUnderline]
+        ParentFont = False
+        OnClick = Label1Click
+      end
+      object FilesList: TListView
+        Left = 8
+        Top = 64
+        Width = 238
+        Height = 121
+        Anchors = [akLeft, akTop, akRight]
+        BevelInner = bvLowered
+        BevelOuter = bvRaised
+        BevelKind = bkSoft
+        BorderStyle = bsNone
+        Columns = <
+          item
+            AutoSize = True
+          end>
+        TabOrder = 0
+        ViewStyle = vsList
+      end
+      object InterpretCheckBox: TCheckBox
+        Left = 8
+        Top = 229
+        Width = 177
+        Height = 21
+        Alignment = taLeftJustify
+        Caption = 'Whopper style titles?'
+        Ctl3D = True
+        ParentCtl3D = False
+        TabOrder = 1
+        OnClick = InterpretCheckBoxClick
+      end
+    end
   end
   object OpenDialog: TOpenDialog
     DefaultExt = 'out'
     Filter = 'Output files (*.out)|*.out|All files (*.*)|*.*'
     Options = [ofHideReadOnly, ofAllowMultiSelect, ofEnableSizing]
-    Left = 220
-    Top = 184
+    Left = 116
+    Top = 136
   end
 end

@@ -16,14 +16,15 @@
 #include <Grids.hpp>
 #include "TProbability.h"
 #include <DB.hpp>
+#include "AdvPanel.hpp"
+#include <ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 class TProbabilityForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
-   TLabel *Label3;
    TComboBox *FieldNameCombo;
    TCheckBox *ExceedenceCheckBox;
-   TLabel *Label4;
+   TLabel *Label3;
    void __fastcall FieldNameComboChange(TObject *Sender);
    void __fastcall ExceedenceCheckBoxClick(TObject *Sender);
 private:	// User declarations

@@ -19,17 +19,19 @@
 #include "TApsimFileReader.h"
 #include <DB.hpp>
 #include "DBAdvGrd.hpp"
+#include "AdvPanel.hpp"
+#include <ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 class TApsimFileReaderForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
    TOpenDialog *OpenDialog;
    TLabel *Label3;
-   TSpeedButton *BrowseButton;
    TListView *FilesList;
    TCheckBox *InterpretCheckBox;
-   void __fastcall BrowseButtonClick(TObject *Sender);
+   TLabel *Label1;
    void __fastcall InterpretCheckBoxClick(TObject *Sender);
+   void __fastcall Label1Click(TObject *Sender);
 private:	// User declarations
    TApsimFileReader* apsimFileReader;
 public:		// User declarations

@@ -11,6 +11,7 @@
 #pragma link "dbadvgrd"
 #pragma link "TPropertyForm"
 #pragma link "DBAdvGrd"
+#pragma link "AdvPanel"
 #pragma resource "*.dfm"
 TApsimFileReaderForm *ApsimFileReaderForm;
 //---------------------------------------------------------------------------
@@ -33,17 +34,8 @@ void TApsimFileReaderForm::setComponent(TComponent* comp)
       newItem->Caption = apsimFileReader->filenames->Strings[f];
       }
    InterpretCheckBox->Checked = apsimFileReader->interpretTitles;
-   }
-//---------------------------------------------------------------------------
-// User has clicked the edit button.
-//---------------------------------------------------------------------------
-void __fastcall TApsimFileReaderForm::BrowseButtonClick(TObject *Sender)
-   {
-   if (OpenDialog->Execute())
-      {
-      apsimFileReader->filenames = OpenDialog->Files;
-      setComponent(apsimFileReader);
-      }
+   FilesList->ViewStyle = vsReport;
+   FilesList->ViewStyle = vsList;
    }
 //---------------------------------------------------------------------------
 // User has changed the interpret title checkbox.
@@ -52,6 +44,17 @@ void __fastcall TApsimFileReaderForm::InterpretCheckBoxClick(
       TObject *Sender)
    {
    apsimFileReader->interpretTitles = InterpretCheckBox->Checked;
+   }
+//---------------------------------------------------------------------------
+// User has clicked the edit button.
+//---------------------------------------------------------------------------
+void __fastcall TApsimFileReaderForm::Label1Click(TObject *Sender)
+   {
+   if (OpenDialog->Execute())
+      {
+      apsimFileReader->filenames = OpenDialog->Files;
+      setComponent(apsimFileReader);
+      }
    }
 //---------------------------------------------------------------------------
 

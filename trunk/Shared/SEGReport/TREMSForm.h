@@ -19,18 +19,20 @@
 #include "AdvEdit.hpp"
 #include "AdvFileNameEdit.hpp"
 #include <DB.hpp>
+#include "AdvPanel.hpp"
+#include <ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 class TREMSForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
-   TLabel *Label3;
-   TAdvFileNameEdit *FilenameEdit;
-   TLabel *Label4;
-   TComboBox *ExperimentCombo;
-   TLabel *Label5;
-   TComboBox *TreatmentCombo;
-   TLabel *Label6;
    TComboBox *DataSourceCombo;
+   TComboBox *TreatmentCombo;
+   TComboBox *ExperimentCombo;
+   TAdvFileNameEdit *FilenameEdit;
+   TLabel *Label3;
+   TLabel *Label4;
+   TLabel *Label5;
+   TLabel *Label6;
    void __fastcall FilenameEditChange(TObject *Sender);
    void __fastcall ExperimentComboChange(TObject *Sender);
    void __fastcall TreatmentComboChange(TObject *Sender);

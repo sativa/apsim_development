@@ -10,16 +10,25 @@
 #include "TGraph.h"
 #include "TPropertyForm.h"
 #include <Buttons.hpp>
+#include "AdvPanel.hpp"
+#include <ExtCtrls.hpp>
+#include "AdvCGrid.hpp"
+#include "AdvGrid.hpp"
+#include "AsgLinks.hpp"
+#include "BaseGrid.hpp"
+#include <Grids.hpp>
+#include <ImgList.hpp>
 //---------------------------------------------------------------------------
 class TChartForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
-   TSpeedButton *ChartPropertiesButton;
-   TEdit *SeriesNumberEdit;
+   TLabel *ChartPropertyLabel;
+   TImageList *ImageList1;
    TLabel *Label3;
-   TLabel *Label1;
-   void __fastcall ChartPropertiesButtonClick(TObject *Sender);
+   TEdit *SeriesNumberEdit;
    void __fastcall SeriesNumberEditChange(TObject *Sender);
+   void __fastcall ChartPropertyLabelClick(TObject *Sender);
+   void __fastcall FormShow(TObject *Sender);
 private:	// User declarations
    TGraph* graph;
 public:		// User declarations

@@ -7,6 +7,7 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "TPropertyForm"
+#pragma link "AdvPanel"
 #pragma resource "*.dfm"
 TTextForm *TextForm;
 //---------------------------------------------------------------------------
@@ -30,13 +31,6 @@ void __fastcall TTextForm::TextEditExit(TObject *Sender)
    text->text = TextEdit->Lines->Text;
    }
 //---------------------------------------------------------------------------
-void __fastcall TTextForm::FontButtonClick(TObject *Sender)
-   {
-   FontDialog->Font = text->Font;
-   if (FontDialog->Execute())
-      text->Font->Assign(FontDialog->Font);
-   }
-//---------------------------------------------------------------------------
 void __fastcall TTextForm::AlignmentComboChange(TObject *Sender)
    {
    text->alignment = AlignmentCombo->Text;
@@ -45,6 +39,13 @@ void __fastcall TTextForm::AlignmentComboChange(TObject *Sender)
 void __fastcall TTextForm::ToolbarCheckBoxClick(TObject *Sender)
    {
    text->AutoSize = AutosizeCheckBox->Checked;
+   }
+//---------------------------------------------------------------------------
+void __fastcall TTextForm::FontLabelClick(TObject *Sender)
+   {
+   FontDialog->Font = text->Font;
+   if (FontDialog->Execute())
+      text->Font->Assign(FontDialog->Font);
    }
 //---------------------------------------------------------------------------
 

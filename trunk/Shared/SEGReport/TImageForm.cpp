@@ -9,6 +9,7 @@
 #pragma link "AdvEdBtn"
 #pragma link "AdvEdit"
 #pragma link "TPropertyForm"
+#pragma link "AdvPanel"
 #pragma resource "*.dfm"
 TImageForm *ImageForm;
 //---------------------------------------------------------------------------

@@ -7,6 +7,7 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "TPropertyForm"
+#pragma link "AdvPanel"
 #pragma resource "*.dfm"
 TShapeForm *ShapeForm;
 
