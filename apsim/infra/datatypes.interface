@@ -71,10 +71,14 @@
 
    !!!!! APSWIM types !!!!!
 
-   <type name="dlayer" kind="double" array="T" unit="mm" description="soil layer depth"/>
+   <type name="dlayer" kind="single" array="T" unit="mm" description="soil layer depth"/>
    <type name="bd" kind="double" array="T" unit="g/cc" description="soil layer bulk density"/>
    <type name="sw" kind="double" array="T" unit="cc/cc" description="soil layer moisture"/>
+   <type name="dlt_sw" kind="single" array="T" unit="cc/cc" description="delta soil layer moisture"/>   
    <type name="sw_dep" kind="double" array="T" unit="mm" description="soil layer moisture"/>
+   <type name="dlt_sw_dep" kind="single" array="T" unit="mm" description="soil layer moisture"/>
+   <type name="air_dry" kind="single" array="T" unit="cc/cc" description="air dry water content"/>   
+   <type name="air_dry_dep" kind="single" array="T" unit="cc/cc" description="air dry water content"/>
    <type name="ll15" kind="double" array="T" unit="cc/cc" description="lower limit 15 bar"/>
    <type name="ll15_dep" kind="double" array="T" unit="mm" description="lower limit 15 bar"/>
    <type name="dul" kind="double" array="T" unit="cc/cc" description="drained upper limit"/>
@@ -95,6 +99,8 @@
    <type name="drain" kind="double" unit="mm" description="drainage"/>
    <type name="obs_eo" kind="double" unit="mm" description="Observed Potential Evaporation rate"/>
    <type name="flow" kind="double" array="T" unit="mm" description="Flow of water out of bottom of each layer"/>
+   <type name="flux" kind="single" array="T" unit="mm" description="Flow of water out of bottom of each layer above DUL"/>
+   <type name="flow_water" kind="single" array="T" unit="mm" description="Flow of water out of bottom of each layer"/>
    <type name="salb" kind="single" unit="??" description="soil albedo"/>
    <type name="hmin" kind="double" unit="mm" description="Soil surface water storage capacity"/>
    <type name="h" kind="double" unit="mm" description="Suface water storage"/>
@@ -118,6 +124,7 @@
    <type name="obs_eo" kind="double" unit="" description=""/>
    <type name="solute_n" kind="double" array="T" unit="kg/ha" description="solute concentration in layers"/>
    <type name="solute_n_flow" kind="double" array="T" unit="" description=""/>
+   <type name="solute_n_up" kind="double" array="T" unit="" description=""/>
    <type name="solute_n_leach" kind="double" unit="" description=""/>
    <type name="solute_n_conc_water" kind="double" array="T" unit="" description=""/>
    <type name="solute_n_conc_absorb" kind="double" array="T" unit="" description=""/>
