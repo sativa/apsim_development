@@ -10,5 +10,4 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = cropmod(wheat)  wheat.par [sample] %apsuite\apsim\wheat\wheat.ini [standard]
 module = Screen          wheat.par[sample]
-module = tracker         wheat.par[sample]
 module = SummaryFile     wheat.par[sample]
