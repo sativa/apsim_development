@@ -112,10 +112,13 @@ void Field::writeHeadings(ostream& headingOut, ostream& unitOut)
       }
    else
       {
-      
+      string baseName = VariableName;
+      unsigned posArraySpec = baseName.find('(');
+      if (posArraySpec != string::npos)
+         baseName.erase(posArraySpec);
       for (unsigned int v = 0; v < values.size(); v++)
          {
-         string arrayVariableName = VariableName + "(";
+         string arrayVariableName = baseName + "(";
          arrayVariableName += IntToStr(arrayIndex++).c_str();
          arrayVariableName += ")";
          writeTo(headingOut, arrayVariableName);

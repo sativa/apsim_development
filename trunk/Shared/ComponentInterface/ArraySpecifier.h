@@ -85,7 +85,7 @@ class ArraySpecifier
             for (unsigned i = start; i < end; ++i)
                values[index++] = values[i];
 
-            while (values.size() > end-start+1)
+            while (values.size() > end-start)
                values.erase(values.size()-1);
             }
 
