@@ -40,7 +40,7 @@ void callCallback(const unsigned int* callbackArg,
 // Abstract class to send variables to the rest of the system
 // via sendVariable()
 // ------------------------------------------------------------------
-class baseInfo {
+class __declspec(dllexport) baseInfo {
   protected:
    bool                   myIsArray;
    int                    myLength;
@@ -63,7 +63,7 @@ class baseInfo {
 // to memory region of scalar or array object, and knows how to send this
 // to the system via sendVariable when asked.
 // ------------------------------------------------------------------
-class varInfo : public baseInfo {
+class __declspec(dllexport) varInfo : public baseInfo {
   private:
    void *myPtr;
   public:
@@ -79,7 +79,7 @@ class varInfo : public baseInfo {
    ~varInfo() {};
    void sendVariable(Component *, QueryValueData&);
 };
-class stringInfo : public baseInfo {
+class __declspec(dllexport) stringInfo : public baseInfo {
   private:
    string *myPtr;
   public:
@@ -97,7 +97,7 @@ class stringInfo : public baseInfo {
 };
 
 // Same as above, but stores pointers to function calls, not memory regions.
-class fnInfo : public baseInfo {
+class __declspec(dllexport) fnInfo : public baseInfo {
   private:
     boost::function2<void, Component *, QueryValueData &> myFn;
   public:
