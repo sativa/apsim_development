@@ -1,8 +1,0 @@
-[apsim.test]  
-  Module = clock    sample.par [sample]      
-  Module = report   sample.par [sample]      
-  Module = met      SAMPLE.MET [sample]      
-  Module = manager  sample.par [sample]      
-  Module = apswim   sample.par [sample]     apswim.ini [standard]      
-  Module = slurp    sample.par [sample]      
-  Module = surface  sample.par [sample]      
