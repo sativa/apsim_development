@@ -184,7 +184,7 @@ namespace test
 		[Test]
 		public void TestGlobalMacro()
 			{
-			const string Template = "Sorghum ll = [simulation.soil1.sorghum.1.ll] (mm/mm)"; 
+			const string Template = "Sorghum ll = [s.soil1.sorghum.1.ll] (mm/mm)"; 
 
 			Macro macro = new Macro();
 			string Result = macro.Go(new APSIMData(Values), Template);
