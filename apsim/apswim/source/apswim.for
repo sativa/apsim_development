@@ -8319,6 +8319,7 @@ c      pause
       include 'error.pub'
       include 'data.pub'
       include 'intrface.pub'
+      include 'write.pub'
  
 *+  Purpose
 *     Find the owner of any run_solutes
