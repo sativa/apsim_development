@@ -1,8 +1,10 @@
 [sample.report.parameters]
 outputfile =tracker.out
+outputfile_increment=true
 variable = clock.day
 variable = clock.year
 variable = tracker.rain[3]
+
 
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
