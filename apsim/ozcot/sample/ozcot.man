@@ -42,7 +42,7 @@ Summaryfile =    s_971_1.sum    /overwrite
   
   if (day = 280) then
          ! cultivar, sowing_depth, row_spacing, plants_pm
-      ozcot sow cultivar = siok, sowing_depth = 5 (mm), row_spacing = 2.0 (m), plants_pm = 12.0 ()
+      ozcot sow cultivar = siok, sowing_depth = 50 (mm), row_spacing = 2000 (mm), plants_pm = 12.0 ()
 !      ozcot sow 4 5 2.0 12.0
   endif
 
@@ -75,7 +75,8 @@ End_year =     1996
   endif
   
   if (day = 279) then
-      ozcot sow 4 5 2.0 12.0
+      ozcot sow cultivar = siok, sowing_depth = 50 (mm), row_spacing = 2000 (mm), plants_pm = 12.0 ()
+!      ozcot sow 4 5 2.0 12.0
   endif
  
   
@@ -98,7 +99,8 @@ Summaryfile =    s_971_3.sum    /overwrite
   endif
   
   if (day = 283) then
-      ozcot sow 4 5 2.0 14.0
+      ozcot sow cultivar = siok, sowing_depth = 50 (mm), row_spacing = 2000 (mm), plants_pm = 14.0 ()
+!      ozcot sow 4 5 2.0 14.0
   endif
 
 
