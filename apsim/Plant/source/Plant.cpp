@@ -2883,16 +2883,50 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
     {
 //+  Constant Values
     const int  num_demand_parts = 4 ;
+
+    const int  num_demand_parts_fruit = 1 ;
+    const int  num_demand_parts_veg = 3 ;
+
     const char*  my_name = "plant_nit_demand" ;
 
 //+  Local Variables
     int   demand_parts[num_demand_parts] = {root,leaf,stem,pod};
+    int   demand_parts_veg[num_demand_parts_veg] = {root, stem, leaf};
+    int   demand_parts_fruit[num_demand_parts_fruit] = {pod};
 
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
     if (option == 1)
         {
+//         fruit->n_demand(max_part
+//                        , demand_parts_fruit              //FIXME - to continue on this next time
+//                        , num_demand_parts_fruit
+//                        , g.dlt_dm
+//                        , g.dlt_dm_green
+//                        , g.dltDmPotRueFruit
+//                        , g.dlt_n_retrans
+//                        , g.dm_green
+//                        , g.n_conc_crit
+//                        , g.n_conc_max
+//                        , g.n_green
+//                        , g.n_demand
+//                        , g.n_max);
+//
+//        cproc_n_demand1(max_part
+//                        , demand_parts_veg
+//                        , num_demand_parts_veg
+//                        , g.dlt_dm
+//                        , g.dlt_dm_green
+//                        , g.dlt_dm_pot_rue
+//                        , g.dlt_n_retrans
+//                        , g.dm_green
+//                        , g.n_conc_crit
+//                        , g.n_conc_max
+//                        , g.n_green
+//                        , g.n_demand
+//                        , g.n_max);
+
         cproc_n_demand1(max_part
                         , demand_parts
                         , num_demand_parts
