@@ -1405,6 +1405,7 @@
 *      DPH - 12/08/93 Removed leading spaces from return string.
 *     JNGH 3/8/94 used assign_substring s/r to  set function.
 *                 made character strings same matching lengths
+*        dph 1/12/98 changed from function_string_len to max_line_size C158
  
 *+ Calls
       dll_import lower_case
@@ -1420,7 +1421,7 @@
        character key*30                ! Key pulled apart from key_name_lower
        character key_name_lower*30     ! Lower case version of key name
        character parameters
-     .    *(function_string_len)       ! Parameters to right of '=' sign
+     .    *(max_line_size)       ! Parameters to right of '=' sign
  
 *- Implementation Section ----------------------------------
  
@@ -1599,10 +1600,11 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *      DPH - 8/7/94  Added code to remove all types of comments
 *                    include inline comments from line.
 *      dph - 7/3/97  added code to check and remove tab characters.
+*        dph 1/12/98 changed from function_string_len to max_line_size C158
  
 *+ Calls
       dll_import lower_case
-       character lower_case*(function_string_len)
+       character lower_case*(max_line_size)
  
 *+ Constant Values
        character comment*(*)           ! Comment specifier
@@ -1917,6 +1919,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *     jngh 24/10/96 Added test for current_unit_num being 0, so new file
 *                   is opened.
 *     sb 15/7/98  Added line to set current_unit_num to -1 when closed.
+*        dph 1/12/98 changed from function_string_len to max_line_size C158
  
 *+ Calls
       dll_import push_routine
@@ -1927,7 +1930,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import find_next_matching_section
       dll_import append_string
       dll_import pop_routine
-      character read_key_from_section*(function_string_len)
+      character read_key_from_section*(max_line_size)
                                        ! function
       character lower_case*(function_string_len)
                                        ! function
@@ -1943,9 +1946,9 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
                                        ! sections
       logical found_key                ! Have we found the key?
       logical found_section            ! Have we found the section?
-      character return_string*(function_string_len)
+      character return_string*(max_line_size)
                                        ! String to return to caller.
-      character new_string*(function_string_len)
+      character new_string*(max_line_size)
                                        ! String to return to caller.
       logical same_module_calling      ! Is the same module calling
                                        ! as previous call?
@@ -2094,13 +2097,14 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *+ Changes
 *     DPH 8/11/94
 *     jngh 21/2/95 changed write to string to replacement statement.
+*        dph 1/12/98 changed from function_string_len to max_line_size C158
  
 *+ Calls
       dll_import push_routine
       dll_import read_param_optional
       dll_import fatal_error
       dll_import pop_routine
-      character read_param_optional*(function_string_len)
+      character read_param_optional*(max_line_size)
                                        ! function
  
 *+ Constant Values
@@ -2682,6 +2686,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *      NIH -16/06/94 Adapted from get_file_string
 *   080994 jngh cleaned up
 *     DPH - 8/11/94 Re-wrote to use lower level routines.
+*        dph 1/12/98 changed from function_string_len to max_line_size C158
  
 *+ Calls
       dll_import push_routine
@@ -2689,7 +2694,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import read_key_from_section
       dll_import assign_string
       dll_import pop_routine
-       character  read_key_from_section*(function_string_len)
+       character  read_key_from_section*(max_line_size)
                                        ! function
        logical find_section_name       ! function
  
@@ -2703,7 +2708,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *+ Local Variables
        logical    found                ! Found the key name ?
        integer record_num              ! Record number in file
-       character  return_string*(function_string_len)
+       character  return_string*(max_line_size)
                                        ! Parameter string read from file
  
 *- Implementation Section ----------------------------------
@@ -2874,6 +2879,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *     DPH 21/04/95 Replaced "Line = Blank // Line" with
 *                  "e_message = Blank // Line"
 *     JNGH 22/06/96 changed function string_concat to call append_string
+*        dph 1/12/98 changed from function_string_len to max_line_size C158
  
 *+ Calls
       dll_import push_routine
@@ -2884,7 +2890,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import assign_string
       dll_import find_section_name
       dll_import pop_routine
-      character get_data_string*(function_string_len)
+      character get_data_string*(max_line_size)
                                        ! function
       character get_section_name*(function_string_len)
                                        ! function
@@ -2900,7 +2906,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *+ Local Variables
       logical end_section              ! Have we reached end of section?
       logical found                    ! Have we found the key ?
-      character line*(function_string_len)
+      character line*(max_line_size)
                                        ! Line read from file
       integer read_status              ! Status from read_line
  
@@ -3016,10 +3022,11 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
 *+ Changes
 *     DPH 10/11/94
+*        dph 1/12/98 changed from function_string_len to max_line_size C158
  
 *+ Calls
       dll_import read_key_low_level
-      character read_key_low_level*(function_string_len)
+      character read_key_low_level*(max_line_size)
                                        ! function
  
 *+ Constant Values
