@@ -3,17 +3,19 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.05.03"/>
-    <PROJECT value="general.dll"/>
+    <PROJECT value="&quot;c:\program files\borland\cbuilder5\Projects\Bpl\general.dll&quot;"/>
     <OBJFILES value="general.obj vcl_functions.obj exec.obj ini_file.obj io_functions.obj 
       macros.obj math_functions.obj path.obj stream_functions.obj 
-      stream_processor.obj string_functions.obj stristr.obj date_class.obj"/>
+      stream_processor.obj string_functions.obj stristr.obj date_class.obj 
+      StringTokenizer.obj XMLTreeNode.obj TreeNode.obj VirtualTreeNode.obj 
+      XMLTreeData.obj TreeData.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder5\Lib\memmgr.lib&quot;"/>
-    <LIBRARIES value=""/>
-    <SPARELIBS value="vcl50.lib"/>
+    <LIBFILES value=""/>
+    <LIBRARIES value="OpenXML.lib"/>
+    <SPARELIBS value="vcl50.lib OpenXML.lib"/>
     <PACKAGES value="vcl50.bpi vcldb50.bpi vclbde50.bpi ibsmp50.bpi vclx50.bpi bcbsmp50.bpi 
       vcldbx50.bpi dclocx50.bpi qrpt50.bpi nmfast50.bpi"/>
     <PATHCPP value=".;"/>
@@ -26,19 +28,20 @@
     <USERDEFINES value="BUILDING_GENERAL"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="general.cpp"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;.."/>
-    <LIBPATH value="$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;k:\;&quot;j:\openxml\&quot;"/>
+    <LIBPATH value="$(BCB)\Projects\Lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par -w-8027 -w-8026"/>
     <WARNOPTSTR value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=c:\PROGRA~1\borland\CBUILD~2\lib\vcl50.csm -Hc -Vx -Ve 
+    <CFLAG1 value="-WD -Od -H=&quot;c:\program files\borland\cbuilder5\lib\vcl50.csm&quot; -Hc -Vx -Ve 
       -Tkh30000 -X- -r- -a8 -b- -k -y -v -vi- -c -tWM"/>
     <PFLAGS value="-$YD -$W -$O- -v -M -JPHNE"/>
     <RFLAGS value="= /i$(BCB)\include /i$(BCB)\include\vcl /i..\ /d_RTLDLL /dBUILDING_GENERAL 
       /dUSEPACKAGES /mx /w2 /zd"/>
     <AFLAGS value="/mx /w2 /zd"/>
-    <LFLAGS value="-D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
+    <LFLAGS value="-l&quot;c:\program files\borland\cbuilder5\Projects\Lib\&quot; -D&quot;&quot; -aa -Tpd -x -Gn 
+      -Gi -v"/>
   </OPTIONS>
   <LINKER>
     <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
@@ -74,11 +77,21 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=4
-Item0=$(BCB)\include;$(BCB)\include\vcl;..
-Item1=$(BCB)\include;$(BCB)\include\vcl;..Item1=$(BCB)\include;$(BCB)\include\vcl;..Item1=$(BCB)\include;$(BCB)\include\vcl;..[HistoryLists\hlLibraryPath]
-Item2=
-Item3=
+Count=8
+Item0=$(BCB)\include;$(BCB)\include\vcl;k:\;j:\openxml\
+Item1=$(BCB)\include;$(BCB)\include\vcl;j:\openxml\
+Item2=$(BCB)\include;$(BCB)\include\vcl;j:\openxml
+Item3=C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl;..
+Item4=$(BCB)\include;$(BCB)\include\vcl;..
+Item5=$(BCB)\include;$(BCB)\include\vcl;..Item1=$(BCB)\include;$(BCB)\include\vcl;..Item1=$(BCB)\include;$(BCB)\include\vcl;..[HistoryLists\hlLibraryPath]
+Item6=
+Item7=
+
+[HistoryLists\hlLibraryPath]
+Count=3
+Item0=$(BCB)\Projects\Lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item1=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item2=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -89,6 +102,16 @@ Count=3
 Item0=BUILDING_GENERAL
 Item1=_RTLDLL;BUILDING_GENERAL;USEPACKAGES
 Item2=_RTLDLL;USEPACKAGES;BUILDING_GENERAL
+
+[HistoryLists\hlFinalOutputDir]
+Count=2
+Item0=c:\program files\borland\cbuilder5\Projects\Bpl\
+Item1=$(BCB)\Projects\Bpl
+
+[HistoryLists\hIBPIOutputDir]
+Count=2
+Item0=c:\program files\borland\cbuilder5\Projects\Lib\
+Item1=c:\program files\borland\cbuilder5\Projects\Lib
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl

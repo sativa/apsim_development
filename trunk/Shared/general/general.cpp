@@ -33,7 +33,12 @@ USEUNIT("stream_processor.cpp");
 USEUNIT("string_functions.cpp");
 USEUNIT("stristr.cpp");
 USEUNIT("date_class.cpp");
-USELIB("C:\Program Files\Borland\CBuilder5\Lib\memmgr.lib");
+USEUNIT("StringTokenizer.cpp");
+USEUNIT("XMLTreeNode.cpp");
+USEUNIT("TreeNode.cpp");
+USEUNIT("VirtualTreeNode.cpp");
+USEUNIT("XMLTreeData.cpp");
+USEUNIT("TreeData.cpp");
 //---------------------------------------------------------------------------
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*)
 {
