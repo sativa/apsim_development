@@ -73,7 +73,13 @@ void Field::init(void)
    APSIMVariant Variable;
    Variable.NewPostbox();
 
-   if (eventInterface->getVariable(ModuleName.c_str(), VariableName.c_str()))
+   bool ok;
+   if (ModuleName == "-")
+      ok = eventInterface->getVariable(VariableName.c_str());
+   else
+      ok = eventInterface->getVariable(ModuleName.c_str(), VariableName.c_str());
+
+   if (ok)
       {
       Variable.GetFromPostbox(VariableName.c_str());
 
@@ -284,7 +290,14 @@ void Field::accumulateValue(void)
       NumTimesAccumulated++;
       APSIMVariant Variable;
       Variable.NewPostbox();
-      if (eventInterface->getVariable(ModuleName.c_str(), VariableName.c_str()))
+
+      bool ok;
+      if (ModuleName == "-")
+         ok = eventInterface->getVariable(VariableName.c_str());
+      else
+         ok = eventInterface->getVariable(ModuleName.c_str(), VariableName.c_str());
+
+      if (ok)
          {
          Variable.GetFromPostbox(VariableName.c_str());
 
@@ -322,7 +335,14 @@ bool Field::retrieveValue(void)
       {
       APSIMVariant Variable;
       Variable.NewPostbox();
-      if (eventInterface->getVariable(ModuleName.c_str(), VariableName.c_str()))
+
+      bool ok;
+      if (ModuleName == "-")
+         ok = eventInterface->getVariable(VariableName.c_str());
+      else
+         ok = eventInterface->getVariable(ModuleName.c_str(), VariableName.c_str());
+
+      if (ok)
          {
          Variable.GetFromPostbox(VariableName.c_str());
          vector<double> DoubleValues;
