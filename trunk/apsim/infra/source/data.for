@@ -99,7 +99,10 @@
 *     Multipy each of the %2 elements of %1 by %3
  
 *+  Purpose
-*     Multiplies each of the 'n' elements of 'vec' by 'mul'.
+*     Multiply array by a value.
+
+*+  Definition
+*     Multiplies each of the "n" elements of "vec" by "mul".
  
 *+  Changes
 *     040998 sb created
