@@ -10,8 +10,8 @@
 
 *   Notes:
 *   $Log$
-*   Revision 1.1  1997/01/02 03:28:03  SidWright
-*   Initial revision
+*   Revision 1.2  1997/01/06 23:24:52  SidWright
+*   Patch 5
 *r  $
 *      
 *         Rev 1.5   12 Oct 1995 17:08:26   PVCSUSER
@@ -82,7 +82,7 @@
 * jpd V1.1 includes selected changes from PhilV1.0 30/9/94
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V2.0 13/08/96')
+      parameter (version_number = 'V2.1 200896')
 
 *   Initial data values
 *       none
@@ -549,6 +549,8 @@ cjh           need to be able run irrigation off at a different curve no.
 *                    changed result of 100/cn when cn=0 to be large number.
 *        200896 jngh corrected lower limit of cn2_new.
 *        200896 jngh changed cn2 to cn2_bare
+*        210896 jngh removed the bound check on the sum of WF.
+*                    removed redundant l_bound of cn2_new
 
 *   Calls:
 *      bound
@@ -574,8 +576,10 @@ cjh           need to be able run irrigation off at a different curve no.
       real       bound                 ! function
       integer    count_of_real_vals    ! function
       real       divide                ! function
+      integer    find_layer_no         ! function
       real       l_bound               ! function
       real       sum_real_array        ! function
+      real       u_bound               ! function
 
 *   Internal variables
       real       cn                    ! scs curve number
@@ -593,12 +597,17 @@ cjh           need to be able run irrigation off at a different curve no.
       real       cum_depth             ! cumulative depth (mm)
       real       hydrol_effective_depth ! hydrologically effective depth for
                                         ! runoff (mm)
+      integer    hydrol_effective_layer ! layer number that the effective 
+                                        ! depth occurs in ()
       integer    layer                 ! layer counter
       integer    num_layers            ! number of layers
       real       s                     ! potential max retention
                                        !    (surface ponding + infiltration)
+      real       scale_fact            ! scaling factor for wf function to
+                                       ! sum to 1
       real       wf                    ! depth weighting factor for current
                                        !    layer
+      real       wf_tot                ! total of wf ()
       real       wx                    ! depth weighting factor for current
                                        !    total depth.
                                        !    intermediate variable for
@@ -639,23 +648,33 @@ cjh           need to be able run irrigation off at a different curve no.
       hydrol_effective_depth = min (c_hydrol_effective_depth
      :                            , profile_depth)
 
-      do 100 layer = 1, num_layers
+      wf_tot = 0.0
+      scale_fact = 1.0/(1.0 - exp(-4.16))
+      hydrol_effective_layer = find_layer_no (hydrol_effective_depth
+     :                                       , p_dlayer
+     :                                       , num_layers)
+      do 100 layer = 1, hydrol_effective_layer
          cum_depth = cum_depth + p_dlayer(layer)
-
+         cum_depth = u_bound (cum_depth, hydrol_effective_depth)
+         
             ! assume water content to c_hydrol_effective_depth affects runoff
             ! sum of wf should = 1 - may need to be bounded? <dms 7-7-95>
 
-         wx = 1.016* (1.0 - exp( - 4.16* divide (cum_depth
+         wx = scale_fact * (1.0 - exp( - 4.16* divide (cum_depth
      :                                         , hydrol_effective_depth
      :                                         , 0.0)))
          wf = wx - xx
          xx = wx
+         
+         wf_tot = wf_tot + wf
 
          cnpd = cnpd
      :        + divide (g_sw_dep(layer) - g_ll15_dep(layer)
      :                 , g_dul_dep(layer) - g_ll15_dep(layer)
      :                 , 0.0) *wf
   100 continue
+
+      call bound_check_real_var (wf_tot, 0.9999, 1.0001, 'wf_tot')
 
       cnpd = bound (cnpd, 0.0, 1.0)
       
@@ -671,7 +690,9 @@ cjh           need to be able run irrigation off at a different curve no.
           ! cut off response to cover at high covers if p_cn_red < 100.
           ! <dms7/95> - this bit was missing altogether ??
 
-      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)    
+cjh         this is redundant because the previous bound of cover_frac and the
+cjh         calculation of cn2_new make it impossible to go lower.
+cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)    
       g_cn2_new = bound (g_cn2_new, 0.0, 100.0)
 
       cn1 = divide (g_cn2_new, (2.334 - 0.01334*g_cn2_new), 0.0)
@@ -698,7 +719,7 @@ cjh           need to be able run irrigation off at a different curve no.
 *       calculate the effective runoff cover
 
 *   Assumptions:
-*       none
+*       Assumes that if canopy height is negative it is missing.
 
 *   Notes:
 *       none
@@ -713,7 +734,7 @@ cjh           need to be able run irrigation off at a different curve no.
 *                       implicit none
 
 *   Changes:
-*        130896 jngh specified and programmed
+*        200896 jngh specified and programmed
 
 *   Calls:
 
@@ -728,21 +749,17 @@ cjh           need to be able run irrigation off at a different curve no.
       include   'soilwat2.inc'
 
       real       add_cover             ! function
-      integer    position_in_char_array! function
-      real       subtract_cover        ! function
-      real       sum_cover_array       ! function
+      real       linear_interp_real    ! function
 
 *   Internal variables
-      real       cover_tot             ! total cover less residue (0-1)
-      real       crop_canopy_cover     ! total crop canopy cover (0-1)
+      real       canopy_fact           ! canopy factor (0-1)
+      integer    crop                  ! crop number
       real       effective_crop_cover  ! effective crop cover (0-1)
       real       effective_cover_tot   ! efective total cover (0-1)
-      integer    grasp_no              ! array element that 'grasp' occupies
-      real       grasp_cover           ! cover by 'grasp' module
       
 *   Constant values
       character  my_name*(*)           ! name of subroutine
-      parameter (my_name = 'soilwat2_pot_evapotranspiration')
+      parameter (my_name = 'soilwat2_runoff_cover')
 
 *   Initial data values
 *       none
@@ -753,39 +770,29 @@ cjh           need to be able run irrigation off at a different curve no.
 
           ! cover cn response from perfect   - ML  & dms 7-7-95 
           ! nb. perfect assumed crop canopy was 1/2 effect of mulch
-          ! --- split crop vs grass canopy v residue cover -------
           ! This allows the taller canopies to have less effect on runoff
           ! and the cover close to ground to have full effect (jngh)
 
-      cover_tot = sum_cover_array (g_cover_tot, g_num_crops)
-
-          ! a) take grasp canopy cover back out of total canopy cover
-      grasp_no = position_in_char_array ('grasp'
-     :                                , g_crop_module
-     :                                , g_num_crops)
-     
-      if (grasp_no.gt.0) then
-         grasp_cover = g_cover_tot(grasp_no)
-      else
-         ! no grasp module active
-         grasp_cover = 0.0
-      endif
-
-      crop_canopy_cover = subtract_cover (cover_tot
-     :                                   , grasp_cover)
-
-          ! b) weight effectiveness of crop canopy
+          ! weight effectiveness of crop canopies
           !    0 (no effect) to 1 (full effect)
 
-      effective_crop_cover = crop_canopy_cover * p_cn_canopy_fact
-
-          ! c) re-combine grass & crop canopy
-
-      effective_cover_tot = add_cover (effective_crop_cover
-     :                                , grasp_cover)
-
-          ! d) add cover known to affect runoff
-          !    ie residue & grass & canopy, with canopy shading residue
+      effective_cover_tot = 0.0
+      do 1000 crop = 1, g_num_crops
+         if (g_canopy_height(crop).ge.0.0) then
+            canopy_fact = linear_interp_real (g_canopy_height(crop)
+     :                                       , c_canopy_fact_height
+     :                                       , c_canopy_fact
+     :                                       , g_num_canopy_fact)
+         else
+            canopy_fact = c_canopy_fact_default
+         endif
+               
+         effective_crop_cover = g_cover_tot(crop) * canopy_fact
+         effective_cover_tot = add_cover (effective_cover_tot
+     :                                   , effective_crop_cover)
+1000  continue
+          ! add cover known to affect runoff
+          !    ie residue with canopy shading residue
 
       runoff_cover = add_cover (effective_cover_tot
      :                         , g_residue_cover)
@@ -1077,7 +1084,7 @@ cjh           need to be able run irrigation off at a different curve no.
          !  the "% shade" (ie cover) of the crop canopy - this should include the
          !  green & dead canopy ie. the total canopy cover (but NOT near/on-ground
          !  residues).  From fig. 5 & eqn 2.                       <dms June 95>
-         !  Default value for c_canopy_eos_coef = 0.17
+         !  Default value for c_canopy_eos_coef = 1.7
          !              ...minimum reduction (at cover =0.0) is 1.0
          !              ...maximum reduction (at cover =1.0) is 0.183.
 
@@ -2040,6 +2047,7 @@ cjh
 *     190595 jngh added specific bulk density
 *     040995 nih  added mobile and immobile solutes
 *     200896 jngh changed N_flow/flux to Solute_Flow/flux
+*     210896 jngh changed upper bound of c_canopy_eos_coef from 1 to 10
 
 *   Calls:
 *     pop_routine
@@ -2100,7 +2108,7 @@ cjh
       call read_real_var (section_name
      :                   , 'canopy_eos_coef', '()'
      :                   , c_canopy_eos_coef, numvals
-     :                   , 0.0, 1.0)
+     :                   , 0.0, 10.0)
 
       call read_real_var (section_name
      :                   , 'sw_top_crit', '()'
@@ -2156,6 +2164,28 @@ cjh
      :                   , c_immobile_solutes
      :                   , numvals)
 
+      call read_real_array (section_name
+     :                   , 'canopy_fact', max_coeffs, '()'
+     :                   , c_canopy_fact, g_num_canopy_fact
+     :                   , 0.0, 1.0)
+
+      call read_real_array (section_name
+     :                   , 'canopy_fact_height', max_coeffs, '(mm)'
+     :                   , c_canopy_fact_height, numvals
+     :                   , 0.0, 100000.0)
+      if (numvals.ne. g_num_canopy_fact) then
+         call fatal_error (err_user
+     :                    , 'No. of canopy_fact coeffs do not match '
+     :                    //'no. of canopy_fact_height coeffs.')            
+      else
+         ! matching number of coeffs
+      endif
+
+      call read_real_var (section_name
+     :                   , 'canopy_fact_default', '()'
+     :                   , c_canopy_fact_default, numvals
+     :                   , 0.0, 1.0)
+
       call pop_routine (my_name)
       return
       end
@@ -2210,6 +2240,7 @@ cjh
 *                   when getting other total cover from modules
 *       210395 jngh changed from soilwat2_section to a parameters section
 *       200896 jngh changed cn2 to cn2_bare
+*                   changed reading of runoff filename to be optional
 
 *   Calls:
 *       pop_routine
@@ -2259,10 +2290,17 @@ cjh
 
           ! get runoff filename
 
-      call read_char_var (section_name
+      call read_char_var_optional (section_name
      :                   ,'runoff_filename', '()'
      :                   , g_runoff_filename
      :                   , numvals)
+     
+      if (numvals.eq.0) then
+            ! nothing read
+         g_runoff_filename = 'blank' 
+      else
+         ! read something
+      endif
 
       if (g_runoff_filename.ne.'blank') then
 
@@ -2334,11 +2372,6 @@ cjh
       call read_real_var (section_name
      :                   , 'cn_cov', '()'
      :                   , p_cn_cov, numvals
-     :                   , 0.0, 1.0)
-
-      call read_real_var (section_name
-     :                   , 'cn_canopy_fact', '()'
-     :                   , p_cn_canopy_fact, numvals
      :                   , 0.0, 1.0)
 
       call read_real_var (section_name
@@ -2836,19 +2869,19 @@ cjh
       call write_string (lu_scr_sum, line)
 
       line =
-     : '         Cn2  Cn_Red  Cn_Cov Cn_canopy H_Eff_Depth '
+     : '         Cn2  Cn_Red  Cn_Cov   H_Eff_Depth '
       call write_string (lu_scr_sum, line)
 
       line =
-     : '                                            mm     '
+     : '                                    mm     '
       call write_string (lu_scr_sum, line)
 
       line =
      :  '     ---------------------------------------------------------'
       call write_string (lu_scr_sum, line)
 
-      write (line, '(6x, 5f8.2)')
-     :       p_cn2_bare, p_cn_red, p_cn_cov, p_cn_canopy_fact,
+      write (line, '(6x, 4f8.2)')
+     :       p_cn2_bare, p_cn_red, p_cn_cov, 
      :       c_hydrol_effective_depth
       call write_string (lu_scr_sum, line)
 
@@ -2896,6 +2929,9 @@ cjh
 *     070696 nih  changed get other for optimal speed
 *     130896 jngh removed getting cover from canopy module.
 *                 stored covers (green and total) in arrays
+*     200896 jngh added capture of crop heights.
+*     210896 jngh removed check of crops owning heights not being the same
+*                 as crops owning green_cover.
 
 *   Calls:
 
@@ -2915,12 +2951,15 @@ cjh
       include   'const.inc'            ! mes_get_variable, global_active
       include   'soilwat2.inc'
 
+      integer    position_in_char_array ! function
       character string_concat*32       ! function
 
 *   Internal variables
+      real       canopy_height         ! height of canopy (mm)
       real       cover                 ! temporary cover variable (0-1)
       integer    counter               ! counter variable
       integer    crop                  ! loop index
+      integer    crop_index            ! array index
       integer    layer                 ! soil layer number counter
       character  min_name*32           ! name of solute minimum variable
       integer    numvals               ! number of values put into array
@@ -3036,6 +3075,43 @@ cjh
      :              // 'number of modules with green cover.')
          else
          endif
+
+            ! Get height of each crop
+
+      crop = 0
+      call fill_real_array (g_canopy_height, -1.0, g_num_crops)
+2500  continue
+         call get_real_vars (crop+1, 'height', '(mm)'
+     :                              , canopy_height, numvals
+     :                              , 0.0, 100000.0)
+         if (numvals.ne.0) then
+            if (crop+1.le.max_crops) then
+               crop = crop + 1
+               call get_posting_Module (Owner_module)
+               crop_index = position_in_char_array
+     :                (Owner_module, g_crop_module, g_num_crops)
+               if (crop_index.ne.0) then
+               g_canopy_height(crop_index) = canopy_height
+                  goto 2500
+               else
+                  call fatal_error (err_user
+     :              , 'Modules with height do not match '
+     :             // 'modules with green cover')
+               endif
+            else
+               call fatal_error (err_user
+     :            , 'Too many modules with height. Last module ='
+     :            // owner_module)
+            endif
+         else
+         endif
+
+cjh         if (crop.ne.g_num_crops) then
+cjh            call warning_error (err_internal
+cjh     :              , 'Number of modules with height is different to '
+cjh     :              // 'number of modules with green cover.')
+cjh         else
+cjh         endif
 
       ! --------------- GET SOLUTE INFORMATION --------------
 
@@ -3828,6 +3904,11 @@ cjh
       call fill_integer_array (g_run_year , 0  , 200)
       call fill_integer_array (g_run_day  , 0  , 200)
       call fill_real_array (g_obs_runoff  , 0.0, 200)
+      call fill_real_array (c_canopy_fact , 0.0, max_coeffs)
+      call fill_real_array (c_canopy_fact_height , 0.0, max_coeffs)
+      
+      c_canopy_fact_default = 0.0
+      g_num_canopy_fact    = 0
       g_sumes1             = 0.0
       g_sumes2             = 0.0
       g_t                  = 0.0
@@ -3905,6 +3986,7 @@ cjh
       call fill_real_array (g_cover_tot, 0.0, max_crops)
       call fill_real_array (g_cover_green, 0.0, max_crops)
       call fill_char_array (g_crop_module, ' ', max_crops)
+      call fill_real_array (g_canopy_height, 0.0, max_crops)
 
       g_rain               = 0.0
       g_radn               = 0.0
@@ -4136,7 +4218,7 @@ cjh
       real       in_solute                  ! solute moving into layer from
                                        !    above (kg/ha)
       integer    layer                 ! layer counter
-      real       n_down (max_layer)    ! solute moving downwards out of
+      real       solute_down (max_layer) ! solute moving downwards out of
                                        !    each layer (kg/ha)
       integer    num_layers            ! number of layers
       real       out_solute            ! solute moving out of layer (kg/ha)
@@ -4230,7 +4312,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 
            ! -ve flow - downward movement
 
-      call fill_real_array (n_down, 0.0, max_layer)
+      call fill_real_array (solute_down, 0.0, max_layer)
       in_solute = 0.0
       top_w = 0.0
 
@@ -4266,13 +4348,13 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
      :                         , solute_kg_layer - solute_min(layer))
 
          endif
-         n_down(layer) = out_solute
+         solute_down(layer) = out_solute
          in_solute = out_solute
          top_w = out_w
 1100  continue
 
       do 1200 layer = 1, num_layers
-         solute_up(layer) =  solute_up(layer) - n_down(layer)
+         solute_up(layer) =  solute_up(layer) - solute_down(layer)
 1200  continue
 
       call pop_routine (my_name)
@@ -4361,250 +4443,6 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 
 
       call pop_routine (myname)
-      return
-      end
-*     ===========================================================
-      real function sum_cover_array (cover, num_covers)
-*     ===========================================================
-
-*   Short description:
-*       Sums an array of covers
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-*       130896 jngh specified and programmed
-
-*   Calls:
-*       pop_routine
-*       push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      real       cover(*)              ! (INPUT) cover array (0-1)
-      integer    num_covers            ! (INPUT number of covers in array
-
-*   Global variables
-      real       add_cover             ! function      
-      
-*   Internal variables
-      integer    index                 ! loop index
-      real       sum_cover             ! sum of covers (0-1)
-
-*   Constant values
-*       none
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      sum_cover = 0.0
-      do 1000 index = 1, num_covers
-         sum_cover = add_cover (sum_cover, cover(index))
-1000  continue
-      sum_cover_array = sum_cover
-            
-      return
-      end
-*     ===========================================================
-      real function add_cover (cover1, cover2)
-*     ===========================================================
-
-*   Short description:
-*       Combines two covers
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-*       130896 jngh specified and programmed
-
-*   Calls:
-*       pop_routine
-*       push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      real       cover1                ! (INPUT) first cover to combine (0-1)
-      real       cover2                ! (INPUT) second cover to combine (0-1)
-
-*   Global variables
-*       none
-
-*   Internal variables
-      real       bare                  ! bare proportion (0-1)
-
-*   Constant values
-*       none
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      bare = (1.0 - cover1)*(1.0 - cover2)
-      add_cover = 1.0 - bare
-      
-      return
-      end
-*     ===========================================================
-      real function subtract_cover (cover1, cover2)
-*     ===========================================================
-
-*   Short description:
-*       subtracts one cover (cover2) from the other cover (cover2)
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-*       130896 jngh specified and programmed
-
-*   Calls:
-*       pop_routine
-*       push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      real       cover1                ! (INPUT)cover to subtract from (0-1)
-      real       cover2                ! (INPUT cover to subtract (0-1)
-
-*   Global variables
-      real       divide                ! function
-      
-*   Internal variables
-      real       bare                  ! bare proportion (0-1)
-
-*   Constant values
-*       none
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      bare = divide(1.0 - cover1, 1.0 - cover2, 0.0)
-      subtract_cover = 1.0 - bare
-      
-      return
-      end
-*     ===========================================================
-      integer function position_in_char_array
-     :                (String, Array, Array_size)
-*     ===========================================================
-
-*   Short description:
-*       returns the index number of the first occurrence of specified value
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-*       040995 nih created from position_in_iteger_array
-
-*   Calls:
-*       pop_routine
-*       push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      character Array(*)*(*)      ! (INPUT) Array to search
-      integer   Array_size        ! (INPUT) Number of elements in array
-      character String*(*)        ! (INPUT) string to search for
-
-*   Global variables
-*       none
-
-*   Internal variables
-      integer   Array_index            ! Index into array
-      integer   position               ! position of number in array
-
-*   Constant values
-*       none
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      position = 0
-
-      do 1000 Array_index = 1, Array_size
-         if (Array(Array_index).eq.String) then
-            position = array_index
-            goto 2000
-
-         else
-            ! Not found
-         endif
-
-1000  continue
-2000  continue
-
-      position_in_char_array = position
-
       return
       end
 * ====================================================================
