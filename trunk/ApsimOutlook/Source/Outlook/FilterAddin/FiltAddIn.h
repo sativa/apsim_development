@@ -10,6 +10,10 @@
 
 //  Changes:
 //    DPH 18/6/98
+//    DAH 30/7/01    changed filterbutton and glyph to be a member variables so we
+//                   can delete them in destructor. Also now keep a reference to
+//                   ChildWin's toolbar so that we can access it to clean it up
+//                   in the destructor
 
 // ------------------------------------------------------------------
 class FiltAddIn : public ToolBarAddInBase
@@ -44,6 +48,10 @@ class FiltAddIn : public ToolBarAddInBase
    private:
       std::vector<std::string> filters;
       FieldValues fieldValues;
+      TToolButton* filterButton;
+      Graphics::TBitmap* glyph;
+      TToolBar* Toolbar;
+
       bool needsUpdating;
 
       void __fastcall buttonClick(TObject* Sender);
