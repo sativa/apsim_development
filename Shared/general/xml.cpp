@@ -74,8 +74,8 @@ string asString(Variant st)
 // ------------------------------------------------------------------
 void formatXML(std::string& xml)
    {
-   Replace_all(xml, ">\r\n", ">");
-   Replace_all(xml, "\t", "");
+//   Replace_all(xml, ">\r\n", ">");
+//   Replace_all(xml, "\t", "");
    int level = 0;
    unsigned pos = xml.find("><");
    while (pos != string::npos)
@@ -198,7 +198,8 @@ void XMLDocument::write(const std::string& fileName) const
 //---------------------------------------------------------------------------
 void XMLDocument::writeXML(std::string& xml) const
    {
-   xml = AnsiString(docImpl->xmlDoc->xml).c_str();
+//   docImpl->xmlDoc->save();
+   xml = asString(docImpl->xmlDoc->xml);
    formatXML(xml);
    }
 //---------------------------------------------------------------------------
@@ -210,6 +211,14 @@ string XMLDocument::transformUsingStyleSheet(const std::string& stylesheetFileNa
    WideString st = docImpl->xmlDoc->documentElement->transformNode(styleDocImpl->xmlDoc);
    delete styleDocImpl;
    return AnsiString(st).c_str();
+   }
+//---------------------------------------------------------------------------
+// Copy all nodes from the source node to this node.  Deep copy.
+//---------------------------------------------------------------------------
+void XMLNode::copyFrom(const XMLNode& rhs)
+   {
+   Msxml2_tlb::IXMLDOMNode* newNode = rhs.node->cloneNode(-1);
+   node->appendChild(newNode);
    }
 //---------------------------------------------------------------------------
 // return the name of the node.
