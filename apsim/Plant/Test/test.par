@@ -44,6 +44,10 @@ if day = 130 and year  = 1988 then
    chickpea kill_stem
 endif
 
+[test5.SummaryFile.parameters]
+summaryfile=test5.sum
+[test5out.report.parameters]
+outputfile  =test5.out
 
 [all.report.parameters]
 variable = clock.day
@@ -51,6 +55,20 @@ variable = clock.year
 variable = chickpea.lai
 variable = chickpea.biomass
 variable = chickpea.green_biomass
+
+[test5.report.parameters]
+variable = clock.day
+variable = clock.year
+variable = lablab.lai
+variable = lablab.biomass
+variable = lablab.leaf_area()
+!variable = lablab.leaf_area(500)
+variable = lablab.leaf_area
+
+[test5.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=9/5/1988
+end_date=26/10/1989
 
 [all.clock.parameters]
 ! Start and end date of run (day number of year and year)
@@ -66,8 +84,22 @@ if day = 130 and year  = 1988 then
    chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
 endif
 
+[test5.manager.start_of_day]
+
+if day = 270 and year  = 1988 then
+  lablab sow cultivar = highworth, plants = 10 (/m2), sowing_depth = 40 (mm)
+endif
+report do_end_day_output
+
 [all.manager.end_of_day]
 report do_end_day_output
+
+[test5.lablab.parameters]
+! for a heavy Gatton Soil
+ll   = .20  .28  .320 .300 .270 .240 .310  ! lower limit mm water/mm soil
+xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
+kl   = 0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)
+
 
 
 [all.chickpea.parameters]

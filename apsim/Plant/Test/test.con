@@ -51,3 +51,16 @@ module = plant(chickpea)   test.par[all] %apsuite\apsim\chickpea\chickpea.ini[st
 module = SummaryFile  test.par[test4]
 module = Screen  test.par[all]
 
+[APSIM.test5_long array]
+title=Test long array reporting
+module = clock      test.par[test5] %apsuite\apsim\clock\clock.ini[standard]
+module = report     test.par[test5] test.par[test5out]
+module = input(met)        %apsuite\apsim\met\sample\dalby.met[weather]
+module = manager    test.par[test5]
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]  %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(lablab)   test.par[test5] %apsuite\apsim\lablab\lablab.ini[standard]
+module = SummaryFile  test.par[test5]
+module = Screen  test.par[all]
+
