@@ -45,7 +45,7 @@
       parameter (my_name = 'canopy_version')
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.02 080696')
+      parameter (version_number = 'V1.11 150896')
 
 *   Initial data values
 *       none
@@ -117,7 +117,7 @@
       integer    lastnb                ! function
 
 *   Internal variables
-      character  module_name*8         ! name of current module
+      character  module_name*max_module_name_size ! name of current module
 
 *   Constant values
       character  my_name*(*)
@@ -143,9 +143,12 @@
       else if (Action.eq.MES_Init) then
          call canopy_zero_variables ()
          call canopy_init ()
+         call canopy_find_crops ()
+         call canopy_get_other_variables ()
 
       else if (Action .eq. MES_Prepare) then
          call canopy_zero_variables ()
+         call canopy_find_crops ()
          call canopy_get_other_variables ()
          call canopy_prepare ()
 
@@ -265,6 +268,92 @@
       call pop_routine (my_name)
       return
       end
+* ====================================================================
+      subroutine canopy_find_crops ()
+* ====================================================================
+
+*   Short description:
+*      Find what crops are in system
+
+*   Assumptions:
+*      None
+
+*   Notes:
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+*     090896 jngh - Programmed and Specified
+
+*   Calls:
+*   Popsr
+*   Pushsr
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+*      none
+
+*   Global variables
+      include 'const.inc'
+      include 'canopy.inc'
+
+*   Internal variables
+      integer    crop                  ! index for crops
+      character  crop_type*20          ! type of crop
+      integer    numvals               ! number of values in string
+      character  owner_module*max_module_name_size ! owner module of variable
+
+*   Constant values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'canopy_find_crops')
+
+*   Initial data values
+*     none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (myname)
+
+
+      crop = 0
+1000  continue
+
+         call get_char_vars(
+     :             crop + 1
+     :           , 'crop_type'
+     :           , '()'
+     :           , crop_type
+     :           , numvals)
+
+         if (numvals.ne.0) then
+            if (crop+1.le.max_crops) then
+               crop = crop + 1
+               call get_posting_Module (Owner_module)
+               g_crop_module(crop) = owner_module
+               g_crop_types(crop) = crop_type
+               goto 1000
+            else
+               call fatal_error (err_user
+     :            , 'Too many modules with crop type. Last module ='
+     :            // owner_module)
+            endif
+         else
+         endif
+
+      g_num_crops = crop
+
+      call pop_routine (myname)
+      return
+      end
 *     ===========================================================
       subroutine canopy_zero_variables ()
 *     ===========================================================
@@ -380,7 +469,7 @@
       integer    crop                  ! index for crops
       real       temp                  !
       integer    numvals               ! number of values in string
-      character  owner_module*8        ! owner module of variable
+      character  owner_module*max_module_name_size ! owner module of variable
 
 *   Constant values
       real       c_max_height            ! maximum crop canopy height (mm)
@@ -414,12 +503,18 @@
                goto 1000
             else
                call fatal_error (err_user
-     :                  , 'Too many modules with green cover')
+     :            , 'Too many modules with green cover. Last module ='
+     :            // owner_module)
             endif
          else
          endif
 
-      g_num_crops = crop
+         if (crop.ne.g_num_crops) then
+            call fatal_error (err_user
+     :              , 'Number of modules with green cover different to '
+     :              // 'number of modules with crop type.')
+         else
+         endif
 
             ! Get total cover of each crop
 
@@ -540,43 +635,50 @@
       include   'canopy.inc'
 
       real       sum_real_array        ! function
+      integer    canopy_crop_number    ! function
 
 *   Internal variables
       real       cover                 ! temporary cover variable
-      integer    crop                  ! crop counter
-      character  owner_module*8        ! owner module of request
-
+      integer    module                ! module counter
+      character  module_name*max_module_name_size ! module name
+      
 *   Constant values
       character  my_name*(*)           ! procedure name
       parameter (my_name='canopy_send_my_variable')
+      
+      character  fr_intc_radn_name*(*) ! name of fr_intc_radn variable
+      parameter (fr_intc_radn_name = 'fr_intc_radn_')
+      
+      integer    fr_intc_radn_name_length ! length of name
+      parameter (fr_intc_radn_name_length = 13)
 
+*   Internal variables - second round
+      character  temp_variable_name*(fr_intc_radn_name_length) 
+                                       ! temporary storage of first part of
+                                       !  variable name
 *   Initial data values
 *      none
 
 * --------------------- Executable code section ----------------------
 
       call push_routine (my_name)
+   
+      temp_variable_name = variable_name
 
-      if (variable_name .eq. 'fr_intc_radn') then
-         call get_posting_Module (Owner_module)
-         do 1000 crop = 1, g_num_crops
-            if (owner_module.eq.g_crop_module(crop)) then
-               call respond2get_real_var (variable_name, '()'
-     :                                   , g_intc_light(crop))
-               goto 1100
-            else
-            endif
-
-1000     continue
-         if (g_num_crops.gt.0.0) then
-            call fatal_error (err_user
-     :                  , owner_module
-     :                 // ' module requested fr_intc_radn and does not '
-     :                 // 'have a canopy')
-
+      if (temp_variable_name .eq. fr_intc_radn_name) then
+         module_name = Variable_name(fr_intc_radn_name_length+1:)
+         module = canopy_crop_number (module_name)
+         if (module.gt.0) then
+            call respond2get_real_var (variable_name, '()'
+     :                                , g_intc_light(module))
+         print *, module_name, module, g_intc_light(module)
          else
+               call fatal_error (err_user
+     :              , module_name
+     :              // ' requested fr_intc_radn and does not '
+     :              // 'have a canopy')
+
          endif
-1100     continue
 
       else if (variable_name.eq.'cover_tot_sum') then
          cover = 1.0 
@@ -594,6 +696,75 @@
       endif
 
       call pop_routine (my_name)
+      return
+      end
+* ====================================================================
+       integer function canopy_crop_number (module_name)
+* ====================================================================
+
+*   Short description:
+*     Return the position of the module_name in module_names array
+
+*   Assumptions:
+*      None
+
+*   Notes:
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+*        090896 jngh - Programmed and Specified
+
+*   Calls:
+*     Pop_routine
+*     Push_routine
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      character  module_name*(*)         ! (INPUT) name of crop to locate
+
+*   Global variables
+      include    'canopy.inc'
+
+*   Internal variables
+      integer    crop                  ! crop counter
+      integer    crop_num              ! position of crop in array
+
+*   Constant values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'canopy_crop_number')
+
+*   Initial data values
+*      none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (myname)
+
+      do 1000 crop = 1, g_num_crops
+         if (module_name.eq.g_crop_module(crop)) then
+            crop_num = crop
+            goto 1100
+         else
+         endif
+
+1000  continue
+      crop_num = 0
+
+1100  continue
+
+      canopy_crop_number = crop_num
+
+      call pop_routine (myname)
       return
       end
 *     ===========================================================
