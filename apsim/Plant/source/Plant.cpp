@@ -855,26 +855,28 @@ void Plant::doPrepare(unsigned &, protocol::Variant &)
     plant_zero_daily_variables ();
     phosphorous->zero_daily_variables();
 
-    if (g.plant_status == alive)
+    if (g.plant_status == out)
      {
-     plant_get_other_variables ();     // request and receive variables from owner-modules
-     plant_prepare ();                 // do crop preparation
+     plant_zero_variables ();          /// XXX UGLY HACK
      }
     else
      {
-     plant_zero_variables ();          /// XXX UGLY HACK
+     plant_get_other_variables ();     // request and receive variables from owner-modules
+     plant_prepare ();                 // do crop preparation
      }
   }
 
 // Field a Process message
 void Plant::doProcess(unsigned &, protocol::Variant &)
   {
-    if (g.plant_status == alive)
+    if (g.plant_status != out)
      {
      plant_get_other_variables ();   // request and receive variables from owner-modules
      plant_process ();               // do crop processes
      plant_set_other_variables ();   // send changes to owner-modules
      }
+     else
+     {} // plant is out
   }
 
 // Field a Sow event
@@ -4069,6 +4071,7 @@ void Plant::plant_cleanup ()
                 , g.swdef_pheno
                 , g.swdef_photo
                 , &g.tlai_dead
+                , g.dlt_root_length_dead
                 , g.root_length_dead
                 , g.root_length
                 , g.dlt_root_length
@@ -4331,6 +4334,7 @@ void Plant::plant_update
     ,float g_swdef_pheno                                        // (INPUT)
     ,float g_swdef_photo                                        // (INPUT)
     ,float *g_tlai_dead                                          // (INPUT)  total lai of dead plants
+    ,float *g_dlt_root_length_dead                                  // (INPUT)  Change in Root length of dead population in each layer
     ,float *g_root_length_dead                                  // (INPUT)  Root length of dead population in each layer
     ,float *g_root_length                                       // (INPUT)  Root length in each layer
     ,float *g_dlt_root_length                                   // (INPUT)  Root growth in each layer
@@ -4647,9 +4651,9 @@ void Plant::plant_update
 // root is assumed to have the same distribution as live roots.
     for (layer = 0; layer < max_layer; layer++)
         {
-        dlt_root_length_dead = g_root_length[layer] * dying_fract_plants;
-        g_root_length[layer] = g_root_length[layer] - dlt_root_length_dead;
-        g_root_length_dead[layer] = g_root_length_dead[layer] + dlt_root_length_dead;
+        g_dlt_root_length_dead[layer] = g_root_length[layer] * dying_fract_plants;
+        g_root_length[layer] = g_root_length[layer] - g_dlt_root_length_dead[layer];
+        g_root_length_dead[layer] = g_root_length_dead[layer] + g_dlt_root_length_dead[layer];
         }
 
     *g_pai = *g_pai + g_dlt_pai;
@@ -9692,6 +9696,7 @@ void Plant::plant_zero_all_globals (void)
       g.maturity_das=0;
       fill_real_array (g.root_length, 0, max_layer);
       fill_real_array (g.root_length_dead, 0, max_layer);
+      fill_real_array (g.dlt_root_length_dead, 0, max_layer);
       fill_real_array (g.dlt_root_length, 0, max_layer);
       fill_real_array (g.dlt_root_length_senesced, 0, max_layer);
       g.ext_n_demand=0;
@@ -10147,6 +10152,7 @@ void Plant::plant_zero_variables (void)
     fill_real_array (p.xf , 0.0, max_layer);
     fill_real_array (g.root_length , 0.0, max_layer);
     fill_real_array (g.root_length_dead, 0.0, max_layer);
+    fill_real_array (g.dlt_root_length_dead, 0.0, max_layer);
 
     g.grain_no = 0.0;
     g.cumvd = 0.0;
@@ -11764,6 +11770,9 @@ void Plant::plant_update_other_variables (void)
     float P_tops;                // Phosphorus added to residue (g/m^2)
     float P_root;                // Phosphorus added to soil (g/m^2)
     int   part;
+    int   layer;
+    float root_length[max_layer];
+
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
@@ -11819,9 +11828,16 @@ void Plant::plant_update_other_variables (void)
     }
 
     // put live population roots into root residue
+
+    // correct root length for change in root length in update
+    for (layer = 0; layer < max_layer; layer++)
+        {
+        root_length[layer] = g.root_length[layer] + g.dlt_root_length_dead[layer];
+        }
+
     plant_root_incorp (g.dlt_dm_detached[root]
                        , g.dlt_n_detached[root]
-                       , g.root_length);
+                       , root_length);
 
     for (part =0; part < max_part; part++)
     {
@@ -11831,7 +11847,7 @@ void Plant::plant_update_other_variables (void)
 
     phosphorous->incorp_fom_detached(incorp_fr
                                     , g.dlayer
-                                    , g.root_length
+                                    , root_length
                                     , g.root_depth
                                     , &P_root);    //  should be detached root P
 
@@ -11886,9 +11902,16 @@ void Plant::plant_update_other_variables (void)
     }
 
     // put dead population roots into root residue
+
+    // correct root length for change in root length in update
+    for (layer = 0; layer < max_layer; layer++)
+        {
+        root_length[layer] = g.root_length_dead[layer] - g.dlt_root_length_dead[layer];
+        }
+
     plant_root_incorp (g.dlt_dm_dead_detached[root]
                        , g.dlt_n_dead_detached[root]
-                       , g.root_length_dead);
+                       , root_length);
 
     for (part =0; part < max_part; part++)
     {
@@ -11898,7 +11921,7 @@ void Plant::plant_update_other_variables (void)
 
     phosphorous->incorp_fom_dead_detached( incorp_fr
                                           , g.dlayer
-                                          , g.root_length
+                                          , root_length
                                           , g.root_depth
                                           , &P_root);      //  should be dead detached root P
 
