@@ -2305,7 +2305,7 @@ c+!!!!!!!! what to do if no waterbalance variables found
  
       if (g%num_layers.eq.0) then
             ! we assume dlayer hasn't been initialised yet.
-         call add_real_array (dlayer, g%dlayer, numvals)
+         call copy_real_array(g%dlayer, dlayer, numvals)
          g%num_layers = numvals
  
       else
