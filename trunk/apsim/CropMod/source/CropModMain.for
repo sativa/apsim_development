@@ -1,4 +1,4 @@
-C     Last change:  E    22 Jan 2001    5:10 pm
+C     Last change:  E    23 Jan 2001    9:26 am
 
       INCLUDE 'CropMod.inc'
 
@@ -2160,7 +2160,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
          c%leaf_app_rate1 = c%leaf_app_rate
          c%leaf_app_rate2 = c%leaf_app_rate
-         c%leaf_init_rate = c%leaf_app_rate *70.0/95.0
 
       else if (variable_name .eq. 'leaf_init_rate') then
          call collect_real_var (variable_name, '()'
