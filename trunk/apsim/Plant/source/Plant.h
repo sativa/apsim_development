@@ -332,7 +332,7 @@ class Plant : public plantInterface {
     ,float  g_root_depth
     ,float *g_sw_dep
     ,float *p_ll_dep);
-    
+
   void plant_root_incorp (
      float  dlt_dm_root
     ,float  dlt_n_root
@@ -609,7 +609,7 @@ void plant_grain_n_demand1(float C_sfac_slope            //   (INPUT)  soil wate
   void plant_grain_number (float *dm_green
                           ,float p_grains_per_gram_stem
                           ,float *g_grain_no);
-  
+
    void plant_root_incorp (float dlt_dm_root,
       float dlt_n_root, float *g_dlayer, float *g_root_length, float g_root_depth,
       const char *c_crop_type, const int max_layer);
@@ -1846,6 +1846,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float      x_co2_nconc_modifier[max_table], y_co2_nconc_modifier[max_table];
       int        num_co2_nconc_modifier;
       photosynthetic_pathway_t photosynthetic_pathway;
+      string     remove_biomass_report;
       }  c;   // Constants
 };  // Plant
 
