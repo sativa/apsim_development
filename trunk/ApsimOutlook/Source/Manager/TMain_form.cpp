@@ -68,7 +68,8 @@ void __fastcall TMain_form::Import_files (TStringList* files)
    Index_table->Close();
 
    files->Sort();
-   Simulation_database->Import_APSIM_files (files);
+   Simulation_database->CheckIfExists = Checkforduplicatesimulations->Checked;
+   Simulation_database->Import_APSIM_files (files, ShowProgress);
 
    Index_table->Open();
    Show_hide_controls();
@@ -130,4 +131,30 @@ void __fastcall TMain_form::Batchimportusingfilespec1Click(TObject *Sender)
       Screen->Cursor = crArrow;
       }
    }
+//---------------------------------------------------------------------------
+void __fastcall TMain_form::ShowProgress
+   (TObject *Sender, AnsiString& CurrentFileName, int CurrentFileNumber,
+    int TotalFileNumber)
+   {
+   ProgressBar->Position = CurrentFileNumber * 1.0 / TotalFileNumber * 100;
+   StatusBar->SimpleText = CurrentFileName;
+   }
+//---------------------------------------------------------------------------
+void __fastcall TMain_form::FormShow(TObject *Sender)
+   {
+   ProgressBar = new TProgressBar(StatusBar);
+   ProgressBar->Parent = StatusBar;
+   ProgressBar->Left = 302;
+   ProgressBar->Top = 3;
+   ProgressBar->Width = 146;
+   ProgressBar->Height = 21;
+   }
+//---------------------------------------------------------------------------
+
+void __fastcall TMain_form::CheckforduplicatesimulationsClick(
+      TObject *Sender)
+   {
+   Checkforduplicatesimulations->Checked = !Checkforduplicatesimulations->Checked;
+   }
+//---------------------------------------------------------------------------
 
