@@ -149,7 +149,8 @@
 
       g%oplun = 57
       open (unit=g%oplun, file='operatns.tmp', form='formatted',
-     :     access='direct', recl= record_length, iostat=iostatus)
+     :     access='direct', recl= record_length, iostat=iostatus
+     :     , status = 'SCRATCH')
 
       if (iostatus.eq.0) then
          call operatns_read_section ('start_of_day',prepare_phase)
@@ -162,6 +163,40 @@
       else
          call fatal_error (Err_User, 'Cannot open scratch file.')
       endif
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+
+
+*     ===========================================================
+      subroutine operatns_EndRun ()
+*     ===========================================================
+      Use infrastructure
+      implicit none
+
+*+  Purpose
+*      Close operatns module
+
+*+  Changes
+*     dph 10/5/99 removed version and presence reports c186
+*     dph 15/12/00 added properties back in.
+*     dph 18/1/01  changed properties to parameters - mistake
+
+*+  Calls
+
+*+  Constant Values
+      character*(*) my_name            ! name of current procedure
+      parameter (my_name = 'operatns_EndRun')
+
+*+  Local Variables
+      integer    iostatus             ! flag for success of opening file
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      close (unit=g%oplun, status = 'DELETE')
 
       call pop_routine (my_name)
       return
@@ -885,6 +920,9 @@
 
       else if (Action.eq.ACTION_Post) then
          call operatns_schedule (Post_Phase)
+
+      else if (Action.eq.ACTION_End_Run) then
+         call operatns_endRun ()
 
       else
             ! Don't use message
