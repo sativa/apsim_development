@@ -11,6 +11,7 @@ Imports System.IO.Path
 Public Class MainUI
     Inherits System.Windows.Forms.Form
     Private MainUImanager As New UIManager
+    Private APSIMFile As New APSIMFile
 
     'Private Toolbox As New OutlookBar
     
@@ -27,7 +28,7 @@ Public Class MainUI
         HelpBrowser.Navigate("c:\development\docs\documentation.xml")
 
         ' Tell the UI manager where everything is
-        MainUImanager.UITabControl = MainTabControl
+        MainUImanager.UIPanel = UIPanel
         MainUImanager.SimulationExplorer = SimulationExplorer
         MainUImanager.MainForm = Me
 
@@ -66,9 +67,6 @@ Public Class MainUI
     Friend WithEvents TabMenuClose As System.Windows.Forms.MenuItem
     Friend WithEvents FileMenuSave As System.Windows.Forms.MenuItem
     Friend WithEvents OpenFileDialog As System.Windows.Forms.OpenFileDialog
-    Friend WithEvents TabContextMenu As System.Windows.Forms.ContextMenu
-    Friend WithEvents TabContextMenuHelp As System.Windows.Forms.MenuItem
-    Friend WithEvents TabContextMenuClose As System.Windows.Forms.MenuItem
     Friend WithEvents FileMenu As System.Windows.Forms.MenuItem
     Friend WithEvents FileMenuNew As System.Windows.Forms.MenuItem
     Friend WithEvents FileMenuOpen As System.Windows.Forms.MenuItem
@@ -91,7 +89,6 @@ Public Class MainUI
     Friend WithEvents PasteButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents ToolBoxButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents SimulationExplorer As System.Windows.Forms.TreeView
-    Friend WithEvents MainTabControl As System.Windows.Forms.TabControl
     Friend WithEvents ViewMenuHelp As System.Windows.Forms.MenuItem
     Friend WithEvents VerticalSplitter As System.Windows.Forms.Splitter
     Friend WithEvents HorizontalSplitter As System.Windows.Forms.Splitter
@@ -107,6 +104,7 @@ Public Class MainUI
     Friend WithEvents MenuItem5 As System.Windows.Forms.MenuItem
     Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
     Friend WithEvents SaveFileDialog As System.Windows.Forms.SaveFileDialog
+    Friend WithEvents UIPanel As System.Windows.Forms.Panel
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MainUI))
@@ -115,6 +113,7 @@ Public Class MainUI
         Me.FileMenuNew = New System.Windows.Forms.MenuItem
         Me.FileMenuOpen = New System.Windows.Forms.MenuItem
         Me.FileMenuSave = New System.Windows.Forms.MenuItem
+        Me.MenuItem5 = New System.Windows.Forms.MenuItem
         Me.MenuItem4 = New System.Windows.Forms.MenuItem
         Me.FileMenuExit = New System.Windows.Forms.MenuItem
         Me.EditMenu = New System.Windows.Forms.MenuItem
@@ -151,10 +150,6 @@ Public Class MainUI
         Me.PageSetupDialog1 = New System.Windows.Forms.PageSetupDialog
         Me.ContextMenu1 = New System.Windows.Forms.ContextMenu
         Me.TabMenuClose = New System.Windows.Forms.MenuItem
-        Me.MainTabControl = New System.Windows.Forms.TabControl
-        Me.TabContextMenu = New System.Windows.Forms.ContextMenu
-        Me.TabContextMenuHelp = New System.Windows.Forms.MenuItem
-        Me.TabContextMenuClose = New System.Windows.Forms.MenuItem
         Me.SimulationExplorer = New System.Windows.Forms.TreeView
         Me.ComponentImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.VerticalSplitter = New System.Windows.Forms.Splitter
@@ -165,9 +160,9 @@ Public Class MainUI
         Me.ForwardButton = New System.Windows.Forms.ToolBarButton
         Me.SmallButtonImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.HelpBrowser = New AxSHDocVw.AxWebBrowser
-        Me.MenuItem5 = New System.Windows.Forms.MenuItem
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.SaveFileDialog = New System.Windows.Forms.SaveFileDialog
+        Me.UIPanel = New System.Windows.Forms.Panel
         Me.HelpBrowserPanel.SuspendLayout()
         CType(Me.HelpBrowser, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -197,6 +192,11 @@ Public Class MainUI
         '
         Me.FileMenuSave.Index = 2
         Me.FileMenuSave.Text = "&Save"
+        '
+        'MenuItem5
+        '
+        Me.MenuItem5.Index = 3
+        Me.MenuItem5.Text = "Save &As ..."
         '
         'MenuItem4
         '
@@ -397,36 +397,10 @@ Public Class MainUI
         Me.TabMenuClose.Index = 0
         Me.TabMenuClose.Text = "&Close"
         '
-        'MainTabControl
-        '
-        Me.MainTabControl.CausesValidation = False
-        Me.MainTabControl.ContextMenu = Me.TabContextMenu
-        Me.MainTabControl.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.MainTabControl.Location = New System.Drawing.Point(197, 36)
-        Me.MainTabControl.Multiline = True
-        Me.MainTabControl.Name = "MainTabControl"
-        Me.MainTabControl.SelectedIndex = 0
-        Me.MainTabControl.ShowToolTips = True
-        Me.MainTabControl.Size = New System.Drawing.Size(763, 226)
-        Me.MainTabControl.TabIndex = 6
-        '
-        'TabContextMenu
-        '
-        Me.TabContextMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.TabContextMenuHelp, Me.TabContextMenuClose})
-        '
-        'TabContextMenuHelp
-        '
-        Me.TabContextMenuHelp.Index = 0
-        Me.TabContextMenuHelp.Text = "&Help"
-        '
-        'TabContextMenuClose
-        '
-        Me.TabContextMenuClose.Index = 1
-        Me.TabContextMenuClose.Text = "&Close"
-        '
         'SimulationExplorer
         '
         Me.SimulationExplorer.AllowDrop = True
+        Me.SimulationExplorer.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.SimulationExplorer.Dock = System.Windows.Forms.DockStyle.Left
         Me.SimulationExplorer.HideSelection = False
         Me.SimulationExplorer.ImageList = Me.ComponentImageList
@@ -462,7 +436,6 @@ Public Class MainUI
         '
         'HelpBrowserPanel
         '
-        Me.HelpBrowserPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.HelpBrowserPanel.Controls.Add(Me.HelpBrowsertoolBar)
         Me.HelpBrowserPanel.Controls.Add(Me.HelpBrowser)
         Me.HelpBrowserPanel.Dock = System.Windows.Forms.DockStyle.Bottom
@@ -482,7 +455,7 @@ Public Class MainUI
         Me.HelpBrowsertoolBar.Location = New System.Drawing.Point(0, 0)
         Me.HelpBrowsertoolBar.Name = "HelpBrowsertoolBar"
         Me.HelpBrowsertoolBar.ShowToolTips = True
-        Me.HelpBrowsertoolBar.Size = New System.Drawing.Size(759, 20)
+        Me.HelpBrowsertoolBar.Size = New System.Drawing.Size(763, 20)
         Me.HelpBrowsertoolBar.TabIndex = 9
         Me.HelpBrowsertoolBar.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right
         '
@@ -511,23 +484,27 @@ Public Class MainUI
         Me.HelpBrowser.Enabled = True
         Me.HelpBrowser.Location = New System.Drawing.Point(0, 24)
         Me.HelpBrowser.OcxState = CType(resources.GetObject("HelpBrowser.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.HelpBrowser.Size = New System.Drawing.Size(763, 176)
+        Me.HelpBrowser.Size = New System.Drawing.Size(767, 180)
         Me.HelpBrowser.TabIndex = 8
-        '
-        'MenuItem5
-        '
-        Me.MenuItem5.Index = 3
-        Me.MenuItem5.Text = "Save &As ..."
         '
         'SaveFileDialog
         '
         Me.SaveFileDialog.Filter = "XML Files|*.xml|All Files|*.*"
         '
+        'UIPanel
+        '
+        Me.UIPanel.BackColor = System.Drawing.SystemColors.Control
+        Me.UIPanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UIPanel.Location = New System.Drawing.Point(197, 36)
+        Me.UIPanel.Name = "UIPanel"
+        Me.UIPanel.Size = New System.Drawing.Size(763, 226)
+        Me.UIPanel.TabIndex = 12
+        '
         'MainUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(960, 489)
-        Me.Controls.Add(Me.MainTabControl)
+        Me.Controls.Add(Me.UIPanel)
         Me.Controls.Add(Me.HorizontalSplitter)
         Me.Controls.Add(Me.HelpBrowserPanel)
         Me.Controls.Add(Me.VerticalSplitter)
@@ -548,10 +525,10 @@ Public Class MainUI
 #End Region
     Sub OpenAPSimFile(ByVal Filename As String)
         Try
-            If File.Exists(Filename) Then
-                MainUImanager.DataSource = Filename
+            If Not APSIMFile.Open(Filename) Then
+                MsgBox("Cannot open :" + Filename, MsgBoxStyle.Critical, "Error")
             Else
-                MsgBox("Cannot open :" + Filename, MsgBoxStyle.Critical, "File does not exist")
+                UpdateMainForm()
             End If
 
         Catch e As Exception
@@ -579,10 +556,23 @@ Public Class MainUI
             Dim text As String
             Dim sr As StreamReader = New StreamReader(newfile)
             text = sr.ReadToEnd
-            MainUImanager.DataSource = text
+            sr.Close()
+            APSIMFile.Filename = "Untitled.xml"
+            APSIMFile.contents = text
+
+            UpdateMainForm()
+
         Catch e As Exception
             MsgBox(e.Message, MsgBoxStyle.Critical, "Error openinig document template")
         End Try
+    End Sub
+    Private Sub UpdateMainForm()
+
+        Me.Text = APSIMFile.Filename
+        MainUImanager.FillSimulationExplorer(APSIMFile.Data)
+        SimulationExplorer.SelectedNode = SimulationExplorer.Nodes(0)
+        SimulationExplorer.SelectedNode.Expand()
+
     End Sub
     Private Sub FileMenuExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuExit.Click
         End
@@ -597,7 +587,8 @@ Public Class MainUI
         ElseIf e.Button Is FileOpenButton Then
             GetAndOpenAPSimFile()
         ElseIf e.Button Is FileSaveButton Then
-            MainUImanager.SaveDocument()
+            MainUImanager.SaveDocument(APSIMFile)
+            APSIMFile.save()
         ElseIf e.Button Is UIHelpButton Then
             UpdateHelpBrowser()
         End If
@@ -607,29 +598,23 @@ Public Class MainUI
     Private Sub SimulationExplorer_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationExplorer.DoubleClick
 
         Dim path As String = SimulationExplorer.SelectedNode.FullPath
-        If InStr(path, "/") > 0 Then
-            path = Mid$(path, InStr(path, "/"))
-            MainUImanager.ShowUI(path)
-        End If
+        '        If InStr(path, "/") > 0 Then
+        '       path = Mid$(path, InStr(path, "/"))
+        '      End If
+        Dim Data As New APSIMData
+        Data = APSIMFile.Data(path)
+        MainUImanager.ShowUI(Data)
+
+
     End Sub
 
     Private Sub FileMenuSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuSave.Click
 
-        If File.Exists(MainUImanager.APSIMFileName) Then
-            MainUImanager.SaveDocument()
-        Else
-            If SaveFileDialog.ShowDialog() = DialogResult.OK Then
-                MainUImanager.SaveDocumentAs(SaveFileDialog.FileName)
-            Else
-                ' User cancelled file open operation
-            End If
-        End If
-    End Sub
-
-    Private Sub TabContextMenuClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabContextMenuClose.Click
-        MainUImanager.CloseUI()
+        MainUImanager.SaveDocument(APSIMFile)
+        APSIMFile.save()
 
     End Sub
+
 
     Private Sub MainUI_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ' Declare variables.
@@ -651,18 +636,6 @@ Public Class MainUI
     End Sub
 
 
-    Private Sub TabControl2_MouseUp(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles MainTabControl.MouseUp
-        If e.Button = MouseButtons.Right Then
-            Dim point As System.drawing.Point
-            point.X = e.X
-            point.Y = e.Y
-            Dim cont As Control = MainTabControl.GetChildAtPoint(point)
-            If TypeOf (cont) Is TabPage Then
-                cont.Select()
-            End If
-        End If
-    End Sub
-
     Private Sub HelpMenuAbout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpMenuAbout.Click
         MsgBox("Version 0.0 alpha - where angels fear to tread.", MsgBoxStyle.OKOnly, "APSIM")
     End Sub
@@ -680,11 +653,11 @@ Public Class MainUI
         Try
             Dim mf As New MacroFile
             Dim inifile As New APSIMSettings
-            If File.Exists(MainUImanager.APSIMFileName) Then
-                Dim DirectoryName As String = Path.GetDirectoryName(MainUImanager.APSIMFileName)
+            If File.Exists(APSIMFile.Filename) Then
+                Dim DirectoryName As String = Path.GetDirectoryName(APSIMFile.Filename)
                 Dim FileName As String = inifile.GetSetting("apsimui", "macrofile")
                 If File.Exists(FileName) Then
-                    mf.DoTransform(MainUImanager.APSIMFileName, FileName, DirectoryName)
+                    mf.DoTransform(APSIMFile.Filename, FileName, DirectoryName)
                 Else
                     MsgBox("Cannot find the simulation creation macro file", MsgBoxStyle.Critical, "Error")
                 End If
@@ -704,18 +677,23 @@ Public Class MainUI
     End Sub
 
     Private Sub ToolBoxes_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        '        MsgBox(sender.text)
-        Dim NewToolBox As New ToolBox
-        NewToolBox.mainform = Me
-        Dim filename As String
-        If sender.text = "standard" Then
-            Dim inifile As New APSIMSettings
-            filename = inifile.GetSetting("Toolboxes", "standard")
-        Else
-            filename = sender.text
-        End If
-        NewToolBox.ToolFileName = filename
-        NewToolBox.Show()
+
+        'Dim NewToolBox As New ToolBox
+        'NewToolBox.mainform = Me
+        'Dim filename As String
+        'If sender.text = "standard" Then
+        '    Dim inifile As New APSIMSettings
+        '    filename = inifile.GetSetting("Toolboxes", "standard")
+        'Else
+        '    filename = sender.text
+        'End If
+        'NewToolBox.ToolFileName = filename
+        'NewToolBox.Show()
+        Dim filename As String = sender.text
+        Dim apsimfile As New APSIMFile
+        apsimfile.Open(filename)
+        MainUImanager.ShowUI(apsimfile.Data)
+
     End Sub
 
 
@@ -768,14 +746,6 @@ Public Class MainUI
 
     End Sub
 
-    Private Sub MainTabControl_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MainTabControl.SelectedIndexChanged
-        If MainTabControl.TabCount > 0 Then
-            Dim path As String = MainTabControl.TabPages(MainTabControl.SelectedIndex).Tag
-
-            FindTreeNode(path)
-
-        End If
-    End Sub
     Private Sub FindTreeNode(ByVal path As String)
         Try
             Dim name As String = ""
@@ -830,7 +800,7 @@ Public Class MainUI
         MsgBox(target.Text)
     End Sub
 
-    Private Sub TabContextMenu_Popup(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabContextMenu.Popup
+    Private Sub TabContextMenu_Popup(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
 
@@ -842,7 +812,9 @@ Public Class MainUI
 
     Private Sub MenuItem5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem5.Click
         If SaveFileDialog.ShowDialog() = DialogResult.OK Then
-            MainUImanager.SaveDocumentAs(SaveFileDialog.FileName)
+            APSIMFile.Filename = SaveFileDialog.FileName
+            MainUImanager.SaveDocument(APSIMFile)
+            APSIMFile.save()
         Else
             ' User cancelled file open operation
         End If
@@ -859,14 +831,17 @@ Public Class MainUI
         Dim newname As String = e.Label
         'MsgBox(oldname, MsgBoxStyle.Critical, newname)
         Dim path As String = SimulationExplorer.SelectedNode.FullPath
-        If InStr(Path, "/") > 0 Then
-            Path = Mid$(Path, InStr(Path, "/"))
+        If InStr(path, "/") > 0 Then
+            path = Mid$(path, InStr(path, "/"))
         End If
 
-        If newname Is Nothing Or Len(newname) = 0 Or Not e.CancelEdit Then
+        If newname Is Nothing Or Len(newname) = 0 Or e.CancelEdit Then
             e.CancelEdit = True
         Else
-            MainUImanager.RenameComponent(path, newname)
+            'APSIMFile.RenameComponent(datapath, newname)
+            If MainUImanager.RenameComponent(path, newname) = False Then
+                e.CancelEdit = True
+            End If
         End If
     End Sub
 End Class

@@ -35,6 +35,7 @@ Public Class TrackerUI
     Friend WithEvents RemoveButton As System.Windows.Forms.Button
     Friend WithEvents AddButton As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(TrackerUI))
         Me.TrackerListBox = New System.Windows.Forms.ListBox
         Me.TrackerTextBox = New System.Windows.Forms.TextBox
         Me.ReplaceButton = New System.Windows.Forms.Button
@@ -52,49 +53,61 @@ Public Class TrackerUI
         " accumulated_wheat_ep", "variable = maximum of wheat.lai on end_of_day from wheat.sowing to wheat.harvesti" & _
         "ng as max_lai", "variable = average of wheat.swdef_photo on last 7 end_of_day from wheat.sowing to" & _
         " wheat.harvesting as wheat_weekly_stress"})
-        Me.TrackerListBox.Location = New System.Drawing.Point(16, 88)
+        Me.TrackerListBox.Location = New System.Drawing.Point(0, 32)
         Me.TrackerListBox.Name = "TrackerListBox"
-        Me.TrackerListBox.Size = New System.Drawing.Size(624, 355)
+        Me.TrackerListBox.Size = New System.Drawing.Size(1064, 680)
         Me.TrackerListBox.TabIndex = 0
         '
         'TrackerTextBox
         '
         Me.TrackerTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TrackerTextBox.Location = New System.Drawing.Point(16, 16)
+        Me.TrackerTextBox.Location = New System.Drawing.Point(280, 3)
         Me.TrackerTextBox.Name = "TrackerTextBox"
-        Me.TrackerTextBox.Size = New System.Drawing.Size(624, 20)
+        Me.TrackerTextBox.Size = New System.Drawing.Size(784, 20)
         Me.TrackerTextBox.TabIndex = 1
         Me.TrackerTextBox.Text = ""
         '
         'ReplaceButton
         '
-        Me.ReplaceButton.Location = New System.Drawing.Point(272, 48)
+        Me.ReplaceButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ReplaceButton.Image = CType(resources.GetObject("ReplaceButton.Image"), System.Drawing.Image)
+        Me.ReplaceButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.ReplaceButton.Location = New System.Drawing.Point(160, 0)
         Me.ReplaceButton.Name = "ReplaceButton"
         Me.ReplaceButton.Size = New System.Drawing.Size(88, 24)
         Me.ReplaceButton.TabIndex = 2
         Me.ReplaceButton.Text = "Replace"
+        Me.ReplaceButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'RemoveButton
         '
-        Me.RemoveButton.Location = New System.Drawing.Point(432, 48)
+        Me.RemoveButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.RemoveButton.Image = CType(resources.GetObject("RemoveButton.Image"), System.Drawing.Image)
+        Me.RemoveButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.RemoveButton.Location = New System.Drawing.Point(80, 0)
         Me.RemoveButton.Name = "RemoveButton"
-        Me.RemoveButton.Size = New System.Drawing.Size(104, 24)
+        Me.RemoveButton.Size = New System.Drawing.Size(80, 24)
         Me.RemoveButton.TabIndex = 3
         Me.RemoveButton.Text = "Remove"
+        Me.RemoveButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'AddButton
         '
-        Me.AddButton.Location = New System.Drawing.Point(96, 48)
+        Me.AddButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.AddButton.Image = CType(resources.GetObject("AddButton.Image"), System.Drawing.Image)
+        Me.AddButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.AddButton.Location = New System.Drawing.Point(0, 0)
         Me.AddButton.Name = "AddButton"
         Me.AddButton.Size = New System.Drawing.Size(80, 24)
         Me.AddButton.TabIndex = 4
-        Me.AddButton.Text = "Add"
+        Me.AddButton.Text = "Add..."
+        Me.AddButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'TrackerUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(656, 488)
+        Me.ClientSize = New System.Drawing.Size(1072, 708)
         Me.Controls.Add(Me.AddButton)
         Me.Controls.Add(Me.RemoveButton)
         Me.Controls.Add(Me.ReplaceButton)
