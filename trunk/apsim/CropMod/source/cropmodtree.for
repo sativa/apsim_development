@@ -1,4 +1,4 @@
-C     Last change:  E    13 Sep 2001    6:21 pm
+C     Last change:  E    14 Sep 2001    1:43 pm
 
 *     ===========================================================
       subroutine Crop_Read_Constants ()
@@ -226,18 +226,6 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
       call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
       call leaf_area_actual          (GetSwitchCode(c%can_switch,3))
       call crop_height               (GetSwitchCode(c%can_switch,4))
-
-c         if (g%current_stage .gt. 3.0) then
-c
-c            PRINT *, '=================================='
-c            PRINT *, 'co2_Lev   = ', g%co2level
-c            PRINT *, 'dlt_dm_l  = ', g%dlt_dm_light
-c            PRINT *, 'dlt_dm_w  = ', g%dlt_dm_water
-c            PRINT *, 'dlt_dm    = ', g%dlt_dm
-c            PRINT *, 'dlt_lai_pot    = ', g%dlt_lai_pot
-c            PRINT *, 'dlt_lai_str    = ', g%dlt_lai_stressed
-c            PRINT *, 'dlt_lai_act    = ', g%dlt_lai
-c         endif
 
 
       !SECTION 6: ROOT SYSTEM FORMATION - UNDER GROUND PART
@@ -5359,22 +5347,47 @@ c       DATA b/0.,0.,0./
  
       elseif (Option.eq.1) then
 
-         call cproc_n_uptake2
+c         call cproc_n_uptake2
+c     :               (
+c     :                g%no3_diffn_const     !c%no3_diffn_const
+c     :              , g%dlayer
+c     :              , max_layer
+c     :              , g%no3gsm_diffn_pot
+c     :              , g%no3gsm_mflow_avail
+c     :              , g%N_fix_pot
+c     :              , c%n_supply_preference
+c     :              , g%n_demand
+c     :              , g%n_max
+c     :              , max_part
+c     :              , g%root_depth
+c     :              , g%dlt_NO3gsm
+c     :              , g%dlt_NO3gsm_massflow
+c     :              , g%dlt_NO3gsm_diffusion
+c     :               )
+
+
+        call cproc_n_uptake_massflow_diffusion_fixation
      :               (
-     :                g%no3_diffn_const     !c%no3_diffn_const
-     :              , g%dlayer
-     :              , max_layer
-     :              , g%no3gsm_diffn_pot
-     :              , g%no3gsm_mflow_avail
-     :              , g%N_fix_pot
-     :              , c%n_supply_preference
+     :                max_part
      :              , g%n_demand
      :              , g%n_max
-     :              , max_part
      :              , g%root_depth
+     :              , max_layer
+     :              , g%dlayer
+     :              , g%no3_diffn_const !c_n_diffn_const
+     :              , g%no3gsm_diffn_pot
+     :              , g%no3gsm_mflow_avail
      :              , g%dlt_NO3gsm
      :              , g%dlt_NO3gsm_massflow
      :              , g%dlt_NO3gsm_diffusion
+     :              , g%nh4gsm_diffn_pot
+     :              , g%nh4gsm_mflow_avail
+     :              , g%dlt_NH4gsm
+     :              , g%dlt_NH4gsm_massflow
+     :              , g%dlt_NH4gsm_diffusion
+     :              , c%n_supply_preference
+     :              , c%nh4_uptake_preference
+     :              , g%n_fix_pot
      :               )
 
 
@@ -5420,7 +5433,7 @@ c       DATA b/0.,0.,0./
      :              , g%dlt_NH4gsm_massflow
      :              , g%dlt_NH4gsm_diffusion
      :              , c%n_supply_preference
-     :              , c%n_uptake_preference
+     :              , c%nh4_uptake_preference
      :              , g%n_fix_pot
      :               )
 
