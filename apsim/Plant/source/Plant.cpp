@@ -8950,12 +8950,12 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
                 dm_init = u_bound(c.dm_init [part] * g.plants, g.dm_green[part]);
                 n_init = u_bound(dm_init * c.n_init_conc[part],g.n_green[part]);
 
-                retain_fr = divide(n_init, g.n_green[part], 0.0);
+                retain_fr = divide(dm_init, g.dm_green[part], 0.0);
                 chop_fr = 1.0 - retain_fr;
                 fraction_to_residue[part] = (1.0 - remove_fr);
 
-                dlt_n_harvest = (g.n_dead[part] + (g.n_green[part] - n_init) + g.n_senesced[part]) * chop_fr;
-                dlt_dm_harvest = (g.dm_dead[part] + (g.dm_green[part] - dm_init) + g.dm_senesced[part]) * chop_fr;
+                dlt_n_harvest  = g.n_dead[part]  + g.n_green[part]  + g.n_senesced[part] - n_init;
+                dlt_dm_harvest = (g.dm_dead[part] + g.dm_green[part] + g.dm_senesced[part]) * chop_fr;
 
                 dlt_dm_crop[part] = dlt_dm_harvest * gm2kg/sm2ha;
                 dlt_dm_n[part] = dlt_n_harvest * gm2kg/sm2ha;
@@ -8973,7 +8973,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
                 g.n_dead[part] = retain_fr * g.n_dead[part];
                 g.n_senesced[part] = retain_fr * g.n_senesced[part];
-                g.n_green[part] = retain_fr * g.n_green[part];
+                g.n_green[part] = n_init;
 
                 }
             }
