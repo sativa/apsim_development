@@ -4136,7 +4136,7 @@
       dll_import push_routine
       dll_import new_postbox
       dll_import post_char_var
-      dll_import Deliver_set_message
+      dll_import deliver_set_message
       dll_import delete_postbox
       dll_import pop_routine
  
@@ -4190,7 +4190,7 @@
       dll_import push_routine
       dll_import new_postbox
       dll_import post_double_array
-      dll_import Deliver_set_message
+      dll_import deliver_set_message
       dll_import delete_postbox
       dll_import pop_routine
  
@@ -4243,7 +4243,7 @@
       dll_import push_routine
       dll_import new_postbox
       dll_import post_double_var
-      dll_import Deliver_set_message
+      dll_import deliver_set_message
       dll_import delete_postbox
       dll_import pop_routine
  
@@ -4297,7 +4297,7 @@
       dll_import push_routine
       dll_import new_postbox
       dll_import post_integer_array
-      dll_import Deliver_set_message
+      dll_import deliver_set_message
       dll_import delete_postbox
       dll_import pop_routine
  
@@ -4350,7 +4350,7 @@
       dll_import push_routine
       dll_import new_postbox
       dll_import post_integer_var
-      dll_import Deliver_set_message
+      dll_import deliver_set_message
       dll_import delete_postbox
       dll_import pop_routine
  
@@ -4404,7 +4404,7 @@
       dll_import push_routine
       dll_import new_postbox
       dll_import post_logical_array
-      dll_import Deliver_set_message
+      dll_import deliver_set_message
       dll_import delete_postbox
       dll_import pop_routine
  
@@ -4457,7 +4457,7 @@
       dll_import push_routine
       dll_import new_postbox
       dll_import post_logical_var
-      dll_import Deliver_set_message
+      dll_import deliver_set_message
       dll_import delete_postbox
       dll_import pop_routine
  
@@ -4511,7 +4511,7 @@
       dll_import push_routine
       dll_import new_postbox
       dll_import post_real_array
-      dll_import Deliver_set_message
+      dll_import deliver_set_message
       dll_import delete_postbox
       dll_import pop_routine
  
@@ -4564,7 +4564,7 @@
       dll_import push_routine
       dll_import new_postbox
       dll_import post_real_var
-      dll_import Deliver_set_message
+      dll_import deliver_set_message
       dll_import delete_postbox
       dll_import pop_routine
  
