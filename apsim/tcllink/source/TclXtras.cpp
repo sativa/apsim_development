@@ -1,15 +1,12 @@
 // Ugliness mostly due to inability to include tk.h into apsim framework..
 
 #include <windows.h>
-
 #include <tcl.h>
 #include <tk.h>
 
 extern "C" void TclWinInit(HINSTANCE);
 extern "C" void TkWinXCleanup(HINSTANCE);
 extern "C" void TkWinXInit(HINSTANCE);
-
-#pragma package(smart_init)
 
 extern int apsimGetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 extern int apsimSetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
@@ -82,4 +79,3 @@ void StopTcl(Tcl_Interp *interp)
    //Tcl_Finalize();
    //TkWinXCleanup(hinst);
    }
-

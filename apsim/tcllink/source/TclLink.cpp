@@ -4,7 +4,6 @@
 //extern "C" void TkWinXCleanup(HINSTANCE);
 //extern "C" void TkWinXInit(HINSTANCE);
 //extern "C" void TclWinInit(HINSTANCE);
-#pragma package(smart_init)
 
 //---------------------------------------------------------------------------
 int WINAPI DllEntryPoint(HINSTANCE /*hinst*/, unsigned long reason, void*) {
