@@ -33,6 +33,7 @@ public:		// User declarations
    bool Build;
    bool Debug;
    bool Quiet;
+   bool Stdout;
    string CompileType;
 };
 //---------------------------------------------------------------------------

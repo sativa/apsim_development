@@ -22,6 +22,7 @@ class CompileThread : public TThread
 
       bool Build;
       bool Debug;
+      bool Stdout;
       string CompileType;
       virtual void __fastcall Execute (void);
 
