@@ -15,11 +15,12 @@
 
 # Main target
 source: ..\lib\sorghum.dll
-..\lib\sorghum.dll: Registrations.obj sorghum.obj sorghum.imp $(STATICLINKEDOBJECTS) 
+..\lib\sorghum.dll: Registrations.obj sorghum.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90CROPLIBS) >> linker.tmp
-	$(LF95) sorghum.obj Registrations.obj -exe ..\lib\sorghum.dll sorghum.imp @linker.tmp
+	$(LF95) sorghum.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\sorghum.dll @linker.tmp
 	$(RM) linker.tmp
    
 sorghum.obj: sorghum.for
@@ -29,8 +30,6 @@ sorghum.obj: sorghum.for
 	$(LF95) -c sorghum.for -o sorghum.obj @compiler.tmp
 	$(RM) compiler.tmp
 
-sorghum.imp:
-	$(ECHO) -implib ApsimShared.dll > sorghum.imp
 Registrations.obj: Registrations.f90
 Registrations.f90: ..\sorghum.interface 
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\sorghum.interface

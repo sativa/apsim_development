@@ -15,16 +15,15 @@
 
 # Main target
 source: ..\lib\eo.dll
-..\lib\eo.dll: Registrations.obj eo.obj eo.imp $(STATICLINKEDOBJECTS) 
+..\lib\eo.dll: Registrations.obj eo.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) eo.obj Registrations.obj -exe ..\lib\eo.dll eo.imp @linker.tmp
+	$(LF95) eo.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\eo.dll @linker.tmp
 	$(RM) linker.tmp
    
 eo.obj: eo.for
-eo.imp:
-	$(ECHO) -implib ApsimShared.dll > eo.imp
 Registrations.obj: Registrations.f90
 Registrations.f90: ..\eo.interface 
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\eo.interface

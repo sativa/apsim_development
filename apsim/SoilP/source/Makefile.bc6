@@ -16,16 +16,14 @@
 # Main target
 source: ..\lib\SoilP.dll
 
-..\lib\SoilP.dll: Registrations.obj SoilP.obj SoilP.imp $(STATICLINKEDOBJECTS) 
+..\lib\SoilP.dll: Registrations.obj SoilP.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) SoilP.obj Registrations.obj -exe ..\lib\SoilP.dll SoilP.imp @linker.tmp
+	$(LF95) SoilP.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\SoilP.dll @linker.tmp
 	$(RM) linker.tmp
    
-SoilP.imp:
-	$(ECHO) -implib ApsimShared.dll > SoilP.imp
-
 SoilP.obj: SoilP.f90
 Registrations.obj: Registrations.f90
 

@@ -16,11 +16,12 @@
 # Main target
 source: ..\lib\cropmod.dll
 
-..\lib\cropmod.dll: Registrations.obj cropmoddata.obj cropmod.obj cropmodmain.obj cropmod.imp $(STATICLINKEDOBJECTS) $(APSROOT)\apsim\croptemp\lib\croptemp.lib
+..\lib\cropmod.dll: Registrations.obj cropmoddata.obj cropmod.obj cropmodmain.obj $(STATICLINKEDOBJECTS) $(APSROOT)\apsim\croptemp\lib\croptemp.lib
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90CROPLIBS) $(APSROOT)\apsim\croptemp\lib\croptemp.lib >> linker.tmp
-	$(LF95) cropmoddata.obj cropmodmain.obj cropmod.obj Registrations.obj -exe ..\lib\cropmod.dll cropmod.imp @linker.tmp
+	$(LF95) cropmoddata.obj cropmodmain.obj cropmod.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\cropmod.dll @linker.tmp
 	$(RM) linker.tmp
 
 # Compile with Crop Libraries

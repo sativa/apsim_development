@@ -20,7 +20,8 @@ source: ..\lib\growth.dll
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90CROPLIBS) >> linker.tmp
-	$(LF95) growth.obj Registrations.obj -exe ..\lib\growth.dll growth.imp @linker.tmp
+	$(LF95) growth.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\growth.dll growth.imp @linker.tmp
 	$(RM) linker.tmp
 
 .for.obj:

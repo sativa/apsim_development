@@ -15,17 +15,15 @@
 
 # Main target
 source: ..\lib\canopy.dll
-..\lib\canopy.dll: Registrations.obj canopy.obj canopy.imp $(STATICLINKEDOBJECTS) 
+..\lib\canopy.dll: Registrations.obj canopy.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) canopy.obj Registrations.obj -exe ..\lib\canopy.dll canopy.imp @linker.tmp
+	$(LF95) canopy.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\canopy.dll @linker.tmp
 	$(RM) linker.tmp
    
 canopy.obj: canopy.for
-canopy.imp:
-	$(ECHO) -implib ApsimShared.dll > canopy.imp
-
 Registrations.obj: Registrations.f90
 Registrations.f90: ..\canopy.interface 
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\canopy.interface

@@ -15,16 +15,15 @@
 
 # Main target
 source: ..\lib\soilt.dll
-..\lib\soilt.dll: Registrations.obj soilt.obj soilt.imp $(STATICLINKEDOBJECTS) 
+..\lib\soilt.dll: Registrations.obj soilt.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) soilt.obj Registrations.obj -exe ..\lib\soilt.dll soilt.imp @linker.tmp
+	$(LF95) soilt.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\soilt.dll @linker.tmp
 	$(RM) linker.tmp
    
 soilt.obj: soilt.for
-soilt.imp:
-	$(ECHO) -implib ApsimShared.dll > soilt.imp
 Registrations.obj: Registrations.f90
 Registrations.f90: ..\soilt.interface 
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\soilt.interface

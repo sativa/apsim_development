@@ -15,16 +15,15 @@
 
 # Main target
 source: ..\lib\operatns.dll
-..\lib\operatns.dll: Registrations.obj operatns.obj operatns.imp $(STATICLINKEDOBJECTS)
+..\lib\operatns.dll: Registrations.obj operatns.obj $(STATICLINKEDOBJECTS)
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) operatns.obj Registrations.obj -exe ..\lib\operatns.dll operatns.imp @linker.tmp
+	$(LF95) operatns.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\operatns.dll @linker.tmp
 	$(RM) linker.tmp
 
 operatns.obj: operatns.for
-operatns.imp:
-	$(ECHO) -implib ApsimShared.dll > operatns.imp
 Registrations.obj: Registrations.f90
 Registrations.f90: ..\operatns.interface $(APSROOT)\apsim\infra\Source\datatypes.mod
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\operatns.interface

@@ -15,18 +15,15 @@
 
 # Main target
 source: ..\lib\surface.dll
-..\lib\surface.dll: Registrations.obj surface.obj surface.imp $(STATICLINKEDOBJECTS) 
+..\lib\surface.dll: Registrations.obj surface.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) surface.obj Registrations.obj -exe ..\lib\surface.dll surface.imp @linker.tmp
+	$(LF95) surface.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\surface.dll @linker.tmp
 	$(RM) linker.tmp
    
 surface.obj: surface.for
-
-surface.imp:
-	$(ECHO) -implib ApsimShared.dll > surface.imp
-
 Registrations.obj: Registrations.f90
 
 Registrations.f90: ..\surface.interface 

@@ -15,17 +15,16 @@
 
 # Main target
 source: ..\lib\clock.dll
-..\lib\clock.dll: Registrations.obj clock.obj clock_read_params.obj clock.imp $(STATICLINKEDOBJECTS) 
+..\lib\clock.dll: Registrations.obj clock.obj clock_read_params.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) clock.obj clock_read_params.obj Registrations.obj -exe ..\lib\clock.dll clock.imp @linker.tmp
+	$(LF95) clock.obj clock_read_params.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\clock.dll @linker.tmp
 	$(RM) linker.tmp
    
 clock_read_params.obj: clock_read_params.for
 clock.obj: clock.for
-clock.imp:
-	$(ECHO) -implib ApsimShared.dll > clock.imp
 Registrations.obj: Registrations.f90
 Registrations.f90: ..\clock.interface 
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\clock.interface

@@ -15,16 +15,15 @@
 
 # Main target
 source: ..\lib\irrigate.dll
-..\lib\irrigate.dll: Registrations.obj irrigate.obj irrigate.imp $(STATICLINKEDOBJECTS) 
+..\lib\irrigate.dll: Registrations.obj irrigate.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) irrigate.obj Registrations.obj -exe ..\lib\irrigate.dll irrigate.imp @linker.tmp
+	$(LF95) irrigate.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\irrigate.dll @linker.tmp
 	$(RM) linker.tmp
    
 irrigate.obj: irrigate.for
-irrigate.imp:
-	$(ECHO) -implib ApsimShared.dll > irrigate.imp
 Registrations.obj: Registrations.f90
 Registrations.f90: ..\irrigate.interface 
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\irrigate.interface

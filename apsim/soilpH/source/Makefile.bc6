@@ -15,16 +15,15 @@
 
 # Main target
 source: ..\lib\soilpH.dll
-..\lib\soilpH.dll: Registrations.obj soilpH.obj soilpH.imp $(STATICLINKEDOBJECTS) 
+..\lib\soilpH.dll: Registrations.obj soilpH.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) soilpH.obj Registrations.obj -exe ..\lib\soilpH.dll soilpH.imp @linker.tmp
+	$(LF95) soilpH.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\soilpH.dll @linker.tmp
 	$(RM) linker.tmp
    
 soilpH.obj: soilpH.for
-soilpH.imp:
-	$(ECHO) -implib ApsimShared.dll > soilpH.imp
 Registrations.obj: Registrations.f90
 Registrations.f90: ..\soilpH.interface
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\soilpH.interface

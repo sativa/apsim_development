@@ -15,16 +15,15 @@
 
 # Main target
 source: ..\lib\micromet.dll
-..\lib\micromet.dll: Registrations.obj micromet.obj micromet.imp $(STATICLINKEDOBJECTS) 
+..\lib\micromet.dll: Registrations.obj micromet.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) micromet.obj Registrations.obj -exe ..\lib\micromet.dll micromet.imp @linker.tmp
+	$(LF95) micromet.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\micromet.dll @linker.tmp
 	$(RM) linker.tmp
    
 micromet.obj: micromet.for
-micromet.imp:
-	$(ECHO) -implib ApsimShared.dll > micromet.imp
 Registrations.obj: Registrations.f90
 Registrations.f90: ..\micromet.interface 
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\micromet.interface

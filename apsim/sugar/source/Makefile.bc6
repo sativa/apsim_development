@@ -16,11 +16,12 @@
 # Main target
 source: ..\lib\sugar.dll
 
-..\lib\sugar.dll: Registrations.obj sgr_main.obj sugar.imp $(STATICLINKEDOBJECTS) 
+..\lib\sugar.dll: Registrations.obj sgr_main.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90CROPLIBS) >> linker.tmp
-	$(LF95) sgr_main.obj Registrations.obj -exe ..\lib\sugar.dll sugar.imp @linker.tmp
+	$(LF95) sgr_main.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\sugar.dll @linker.tmp
 	$(RM) linker.tmp
    
 sgr_main.obj: sgr_main.for
@@ -29,9 +30,6 @@ sgr_main.obj: sgr_main.for
 	$(ECHO) $(F90CROPMODS) >> compiler.tmp
 	$(LF95) -c sgr_main.for @compiler.tmp
 	$(RM) compiler.tmp
-
-sugar.imp:
-	$(ECHO) -implib ApsimShared.dll > sugar.imp
 
 Registrations.obj: Registrations.f90
 

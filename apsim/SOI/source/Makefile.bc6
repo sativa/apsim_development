@@ -15,16 +15,14 @@
 
 # Main target
 source: ../lib/SOI.dll
-../lib/SOI.dll: Registrations.obj SOI.obj SOI.imp $(STATICLINKEDOBJECTS) 
+../lib/SOI.dll: Registrations.obj SOI.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) SOI.obj Registrations.obj -exe ../lib/SOI.dll SOI.imp @linker.tmp
+	$(LF95) SOI.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ../lib/SOI.dll @linker.tmp
 	$(RM) linker.tmp
    
-SOI.imp:
-	$(ECHO) -implib ApsimShared.dll > SOI.imp
-
 SOI.obj: SOI.for
 
 Registrations.obj: Registrations.f90
