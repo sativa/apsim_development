@@ -1,6 +1,6 @@
 !      include 'apswim.inc'
 
-C     Last change:  NH    1 Oct 1999    8:57 am
+C     Last change:  DSG  15 Jun 2000   12:21 pm
 * =====================================================================
       subroutine apswim_gsurf(deqrain,surfcon)
 * =====================================================================
@@ -69,6 +69,7 @@ C     Last change:  NH    1 Oct 1999    8:57 am
 *
       use APSwimModule
       implicit none
+      include 'data.pub'
 
 *     Global Variables
       double precision apswim_wpf    ! function
@@ -157,7 +158,7 @@ cnh     :            'swim will reduce timestep to solve water movement')
             do 40 i=i0,i2
                g%p(j)=g%p(j)+dp(i)
                if(j.gt.0.and.j.lt.p%n-1)then
-                  if(p%x(j).eq.p%x(j+1))then
+                  if(doubles_are_equal(p%x(j),p%x(j+1)))then
                      j=j+1
                      g%p(j)=g%p(j-1)
                   end if
@@ -365,6 +366,7 @@ c        timestep??????? !!
 
       use APSwimModule
       implicit none
+      include 'data.pub'
 
 *     Global Variables
 cnh      double precision grad
@@ -503,7 +505,7 @@ cnh         g%psi(p%n)=0.
 ***   get fluxes between nodes
       absgf=abs(g%gf)
       do 10 i=1,p%n
-         if(p%x(i-1).ne.p%x(i))then
+         if(.not.Doubles_are_equal(p%x(i-1),p%x(i)))then
             deltax=p%x(i)-p%x(i-1)
             deltap=g%p(i)-g%p(i-1)
             hkd1=g%hk(i-1)*psip(i-1)
@@ -761,7 +763,7 @@ cnh         if(g%psi(p%n).ge.0.)then
             j=i+1
 *           j is next different node, k is equation
             if(i.gt.0.and.i.lt.p%n-1)then
-               if(p%x(i).eq.p%x(i+1))then
+               if(Doubles_are_equal(p%x(i).eq.p%x(i+1)))then
                   xipdif=.FALSE.
                   j=i+2
                   g%q(i+1)=((p%x(j)-p%x(i))*g%q(i)+(p%x(i)-p%x(i-1))*
@@ -830,6 +832,7 @@ cnh         if(g%psi(p%n).ge.0.)then
 
       use APSwimModule
       implicit none
+      include 'data.pub'
 
 *     Global Variables
       double precision apswim_slupf
@@ -981,7 +984,7 @@ cnh     1        p%slupf(solnum)*g%qex(i)
 *        use central diffs in space, but for convection may need some
 *        upstream weighting to avoid instability
       do 50 i=1,p%n
-         if(p%x(i-1).ne.p%x(i))then
+         if(.not.Doubles_are_equal(p%x(i-1),p%x(i)))then
             thav=0.5*(g%th(i-1)+g%th(i))
             aq=abs(g%q(i))
             g%dc(solnum,i)=p%dcon(solnum)
@@ -1068,7 +1071,7 @@ cnh
 *     allow for two nodes at same depth
       j=0
       do 60 i=1,p%n
-         if(p%x(i-1).ne.p%x(i))then
+         if(.not.Doubles_are_equal(p%x(i-1).ne.p%x(i)))then
             j=j+1
             a(j)=a(i)
             b(j)=b(i)
@@ -1107,7 +1110,7 @@ cnh end
          j=j-1
       end if
       do 65 i=p%n-1,1,-1
-         if(p%x(i).ne.p%x(i+1))then
+         if(.not.Doubles_are_equal(p%x(i),p%x(i+1)))then
             g%csl(solnum,i)=g%csl(solnum,j)
             j=j-1
          else
@@ -1132,10 +1135,13 @@ cnh end
 *                    =p%fip*c^(p%fip-1)*cn+(1-p%fip)*c^fip
             j=0
             do 67 i=0,p%n
-               if(i.gt.0.and.p%x(i-1).ne.p%x(i))j=j+1
+               if(.not.Doubles_are_equal(p%x(i-1),p%x(i))) then
+                  if (i.gt.0) then
+                     j=j+1
+                  end if
 cnh               kk=indxsl(solnum,i)
                kk = i
-               if(p%fip(solnum,kk).ne.1.)then
+               if(.not.Doubles_are_equal(p%fip(solnum,kk),1.0))then
                   cp=0.
                   if(g%csl(solnum,i).gt.0.)then
                      cp=g%csl(solnum,i)**(p%fip(solnum,kk)-1.)
@@ -1192,7 +1198,7 @@ cnh               kk=indxsl(solnum,i)
       g%rsloff(solnum)=rslovr-g%qslbp(solnum)
 *     get solute fluxes
       do 70 i=1,p%n
-         if(p%x(i-1).ne.p%x(i))then
+         if(.not.Doubles_are_equal(p%x(i-1),p%x(i)))then
             dfac=0.5*(g%th(i-1)+g%th(i))*g%dc(solnum,i)
      :                                  /(p%x(i)-p%x(i-1))
             aq=abs(g%q(i))
@@ -1213,7 +1219,7 @@ cnh               kk=indxsl(solnum,i)
 
 70    continue
       do 75 i=2,p%n-1
-         if(p%x(i-1).eq.p%x(i))then
+         if(Doubles_are_equal(p%x(i-1),p%x(i)))then
             g%qsl(solnum,i)=
      :               (p%dx(i)*g%qsl(solnum,i-1)
      :                  +p%dx(i-1)*g%qsl(solnum,i+1))
@@ -1227,7 +1233,7 @@ cnh               kk=indxsl(solnum,i)
 cnh         j=indxsl(solnum,i)
          j = i
          cp=1.
-         if(p%fip(solnum,j).ne.1.)then
+         if(.not.Doubles_are_equal(p%fip(solnum,j),1.0))then
             cp=0.
             if(g%csl(solnum,i).gt.0.)
      :            cp=g%csl(solnum,i)**(p%fip(solnum,j)-1.)
