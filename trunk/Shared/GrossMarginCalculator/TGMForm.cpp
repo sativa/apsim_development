@@ -56,7 +56,10 @@ void __fastcall TGMForm::FormShow(TObject *Sender)
 void __fastcall TGMForm::FormClose(TObject *Sender, TCloseAction &Action)
    {
    if (ModalResult == mrOk)
+      {
       saveDataIfNecessary();
+      data->close();
+      }
    else
       {
       data->close();
@@ -72,6 +75,8 @@ void TGMForm::openDatabase(const std::string& fileName)
    saveDataIfNecessary();
 
    // make a backup of database file so that we can cancel later if necessary.
+   SetFileAttributes(fileName.c_str(), FILE_ATTRIBUTE_NORMAL);
+   SetFileAttributes(tempFilename.c_str(), FILE_ATTRIBUTE_NORMAL);
    CopyFile(fileName.c_str(), tempFilename.c_str(), false);
    mdbFileName = fileName;
    data->open(mdbFileName);
@@ -96,7 +101,8 @@ void TGMForm::populateTree(void)
       for (unsigned c = 0; c != cropNames.size(); c++)
          ScenarioTree->Items->AddChild(scenarioNode, cropNames[c].c_str());
       }
-   ScenarioTree->Items->Item[0]->Selected = true;
+   if (ScenarioTree->Items->Count > 0)
+      ScenarioTree->Items->Item[0]->Selected = true;
    }
 //---------------------------------------------------------------------------
 // when a node is selected set the proper page, popup menu and caption
@@ -228,7 +234,7 @@ void __fastcall TGMForm::deleteSelected(TObject* sender)
    if(node->Level == 1)
       {
       // delete crop
-      AnsiString message = "This will delete the crop: " + ScenarioTree->Selected->Text
+      AnsiString message = "This will delete the crop " + ScenarioTree->Selected->Text
                             + " and all economic data associated with it!  Do you wish to proceed?";
       if(Application->MessageBox(message.c_str(), "WARNING - Deleting Crop.",
                                                          MB_YESNO) == IDYES)
@@ -240,7 +246,7 @@ void __fastcall TGMForm::deleteSelected(TObject* sender)
    else
       {
       // delete scenario
-      AnsiString message = "This will delete the scenario: " + ScenarioTree->Selected->Text
+      AnsiString message = "This will delete the scenario " + ScenarioTree->Selected->Text
                            + ", all crops in this Scenario and all economic data "
                            " associated with the crops!  Do you wish to proceed?";
       if(Application->MessageBox(message.c_str(), "WARNING - Deleting Scenario.",
@@ -475,16 +481,20 @@ void TGMForm::populateCostPage(void)
          {
          CostGrid->Cells[0][c+1] = costs[c].operationName.c_str();
          CostGrid->Cells[1][c+1] = FloatToStrF(costs[c].operationCost, ffFixed, 8, 2);
-         CostGrid->Cells[2][c+1] = FloatToStrF(costs[c].productCost, ffFixed, 8, 2)
-                                 + "/" + costs[c].productUnits.c_str();
-         if (costs[c].costType == GMCalculator::fixedCost)
-            CostGrid->Cells[3][c+1] = FloatToStrF(costs[c].productRate, ffFixed, 8, 0);
-         else if (costs[c].costType == GMCalculator::sowingCost)
-            CostGrid->Cells[3][c+1] = "density from sim.";
-         else if (costs[c].costType == GMCalculator::nitrogenCost)
-            CostGrid->Cells[3][c+1] = "nit. from sim.";
-         else if (costs[c].costType == GMCalculator::yieldCost)
-            CostGrid->Cells[3][c+1] = "yield from sim.";
+         if (costs[c].productCost > 0
+             && (costs[c].costType != GMCalculator::fixedCost || costs[c].productRate > 0))
+            {
+            CostGrid->Cells[2][c+1] = FloatToStrF(costs[c].productCost, ffFixed, 8, 2)
+                                    + "/" + costs[c].productUnits.c_str();
+            if (costs[c].costType == GMCalculator::fixedCost)
+               CostGrid->Cells[3][c+1] = FloatToStrF(costs[c].productRate, ffFixed, 8, 0);
+            else if (costs[c].costType == GMCalculator::sowingCost)
+               CostGrid->Cells[3][c+1] = "density from sim.";
+            else if (costs[c].costType == GMCalculator::nitrogenCost)
+               CostGrid->Cells[3][c+1] = "nit. from sim.";
+            else if (costs[c].costType == GMCalculator::yieldCost)
+               CostGrid->Cells[3][c+1] = "yield from sim.";
+            }
          }
       dataNeedsSaving = false;
       }
@@ -504,9 +514,15 @@ void TGMForm::saveCostPage(void)
          if (cost.operationName != "")
             {
             cost.operationCost = StrToFloat(CostGrid->Cells[1][row]);
-            char* endPos;
-            cost.productCost = strtod(CostGrid->Cells[2][row].c_str(), &endPos);
-            cost.productUnits = endPos + 1;
+            if (CostGrid->Cells[2][row] != "")
+               {
+               char* endPos;
+               cost.productCost = strtod(CostGrid->Cells[2][row].c_str(), &endPos);
+               cost.productUnits = endPos + 1;
+               }
+            else
+               cost.productCost = 0;
+
             cost.productRate = 0;
             if (CostGrid->Cells[3][row] == "density from sim.")
                cost.costType = GMCalculator::sowingCost;
@@ -517,7 +533,7 @@ void TGMForm::saveCostPage(void)
             else
                {
                cost.costType = GMCalculator::fixedCost;
-               cost.productRate = StrToFloat(CostGrid->Cells[3][row]);
+               cost.productRate = StrToFloatDef(CostGrid->Cells[3][row], 0.0);
                }
             costs.push_back(cost);
             }
@@ -606,7 +622,10 @@ void __fastcall TGMForm::GMInfoChanging(TObject *Sender, bool &AllowChange)
 void __fastcall TGMForm::OpenButtonClick(TObject *Sender)
    {
    if (OpenDialog->Execute())
+      {
       openDatabase(OpenDialog->FileName.c_str());
+      populateTree();
+      }
    }
 //---------------------------------------------------------------------------
 // User has clicked the new button - create a new economics database.
@@ -618,6 +637,7 @@ void __fastcall TGMForm::NewButtonClick(TObject *Sender)
       string emptyMDB = getApsimDirectory() + "\\Economics\\newEconomics.mdb";
       CopyFile(emptyMDB.c_str(), SaveDialog->FileName.c_str(), false);
       openDatabase(SaveDialog->FileName.c_str());
+      populateTree();
       }
    }
 //---------------------------------------------------------------------------
