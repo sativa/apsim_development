@@ -51,6 +51,7 @@
 *+  Changes
 *      201093 jngh specified and programmed
 *      011195 jngh  added call to message_unused
+*      090299 jngh removed find crops and get other variables from init
 
 *+  Calls
       character  canopy_version*20     ! function
@@ -79,8 +80,8 @@
       else if (Action.eq.MES_Init) then
          call canopy_zero_variables ()
          call canopy_init ()
-         call canopy_find_crops ()
-         call canopy_get_other_variables ()
+!         call canopy_find_crops ()
+!         call canopy_get_other_variables ()
  
       else if (Action .eq. MES_Prepare) then
          call canopy_zero_variables ()
@@ -244,6 +245,48 @@
       end
 
 
+
+*     ===========================================================
+      subroutine canopy_zero_all_variables ()
+*     ===========================================================
+      implicit none
+      include 'canopy.inc'
+      include   'const.inc' 
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Purpose
+*     Set all variables in this module to zero.
+
+*+  Changes
+*      201093 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! procedure name
+      parameter (my_name  = 'canopy_zero_all_variables')
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      g_canopy_index = 0
+      g_k_lai_total  = 0.0
+      g_k_lai_green  = 0.0
+      g_height       = 0.0
+      g_intc_light   = 0.0
+      g_num_canopies = 0
+      g_num_crops    = 0
+      g_top_layer_light = 0.0
+
+      g_intercrop_list = blank
+      g_crop_module    = blank
+      g_crop_types     = blank
+
+ 
+
+      call pop_routine (my_name)
+      return
+      end
 
 *     ===========================================================
       subroutine canopy_zero_variables ()
