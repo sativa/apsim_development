@@ -78,7 +78,7 @@ void Grid_clear (TStringGrid* grid)
    {
    for (int row = 0; row < grid->RowCount; row++)
       for (int col = 0; col < grid->ColCount; col++)
-         grid->Cells[col][row] = " ";
+         grid->Cells[col][row] = "";
    }
 
 
