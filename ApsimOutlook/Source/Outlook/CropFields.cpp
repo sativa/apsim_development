@@ -147,12 +147,23 @@ bool CropFields::cropWasSown(const TAPSRecord& recordI, const string& fieldName)
    if (posUnderscore != string::npos)
       {
       string cropAcronym = fieldName.substr(0, posUnderscore);
-      string failedFieldName = cropAcronym + "_fail";
-      string failedValue = recordI.getFieldValue(failedFieldName);
-      return (Str_i_Eq(failedValue, "yes") || cropHasNonZeroValue(recordI, cropAcronym));
+      return cropWasSownByAcronym(recordI, cropAcronym);
       }
    else
       return false;
+   }
+
+// ------------------------------------------------------------------
+// Return true if the crop for the specified acronym was actually sown
+// for the current record.  A crop is sown if:
+//    there is a least 1 non zero value in the fields for this crop OR
+//    the crop_fail field (if it exists) has a 'yes' in it.
+// ------------------------------------------------------------------
+bool CropFields::cropWasSownByAcronym(const TAPSRecord& recordI, const string& cropAcronym) const
+   {
+   string failedFieldName = cropAcronym + "_fail";
+   string failedValue = recordI.getFieldValue(failedFieldName);
+   return (Str_i_Eq(failedValue, "yes") || cropHasNonZeroValue(recordI, cropAcronym));
    }
 
 // ------------------------------------------------------------------
