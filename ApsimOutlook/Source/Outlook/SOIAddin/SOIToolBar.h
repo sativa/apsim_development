@@ -45,6 +45,7 @@ class SOIToolBar : public ToolBarAddInBase
       AnsiString FSOI_data_file;
       AnsiString FYear_field_name;
       int FFontHeight;
+      std::vector< std::string > FPhase_names;
 
       class soi
       {
