@@ -4,30 +4,17 @@
 #pragma hdrstop
 
 #include "TestSimCreator.h"
+#include <boost/test/unit_test.hpp>
+using namespace boost::unit_test_framework;
 
-#include <test\framework\testsuite.h>
-#include <test\framework\testcaller.h>
 #include <fstream>
 #include <general\string_functions.h>
 #include <ApsimShared\SimCreator.h>
 
-#pragma package(smart_init)
-
-//---------------------------------------------------------------------------
-// Perform all tests.
-//---------------------------------------------------------------------------
-Test* TestSimCreator::suite(void)
-   {
-   TestSuite *testSuite = new TestSuite ("SimCreator");
-   testSuite->addTest(new TestCaller <TestSimCreator>
-      ("testCreateSim", &TestSimCreator::testCreateSim));
-
-   return testSuite;
-   }
 //---------------------------------------------------------------------------
 // Setup the test environment
 //---------------------------------------------------------------------------
-void TestSimCreator::setUp(void)
+void setUp(void)
    {
    // write a control file.
    static const char* conSt = "Version = 3.0\n"
@@ -105,7 +92,7 @@ void TestSimCreator::setUp(void)
 //---------------------------------------------------------------------------
 // Tear down the test environment
 //---------------------------------------------------------------------------
-void TestSimCreator::tearDown(void)
+void tearDown(void)
    {
    DeleteFile("accum.con");
    DeleteFile("accum.par");
@@ -116,18 +103,13 @@ void TestSimCreator::tearDown(void)
 //---------------------------------------------------------------------------
 // test createSim method
 //---------------------------------------------------------------------------
-void TestSimCreator::testCreateSim(void)
+void testCreateSim(void)
    {
-   try
-      {
-      SimCreator simCreate;
-      simCreate.createSims("accum.con");
-      test(FileExists("accum1.sim"));
-      test(FileExists("accum2.sim"));
-      }
-   catch (const runtime_error& error)
-      {
-      test(false);
-      }
+   setUp();
+   SimCreator simCreate("accum.con");
+   simCreate.createSims("", (TSimCreatorEvent)NULL);
+   BOOST_CHECK(FileExists("accum1.sim"));
+   BOOST_CHECK(FileExists("accum2.sim"));
+   tearDown();
    }
 
