@@ -90,27 +90,31 @@ void GenerateComponentInterface(const string& interfaceFile)
 
    // Set up macrosubst file object using the derived file name
    MacroSubstFile* AMF = new MacroSubstFile ();
-   AMF->filename = macrofile;
+   try
+      {
+      AMF->filename = macrofile;
+      // Now to set macrovalues to be used in the
+      // macrosubstitution file
 
-   // Now to set macrovalues to be used in the
-   // macrosubstitution file
+      // Step One. - Set up temp data holder
+      list<string> temp;
 
-   // Step One. - Set up temp data holder
-   list<string> temp;
+      // Step Two. - Set Subscribed Event Macro Values
+      GetSubscribedEvents(interfaceFile,temp);
+      AMF->SetMacroValues("Subscribed Event",temp);
 
-   // Step Two. - Set Subscribed Event Macro Values
-   GetSubscribedEvents(interfaceFile,temp);
-   AMF->SetMacroValues("Subscribed Event",temp);
-
-   // Step Three. - Set Published Event Macro Values
-   temp.clear();
-   GetPublishedEvents(interfaceFile,temp);
-   AMF->SetMacroValues("Published Event",temp);
+      // Step Three. - Set Published Event Macro Values
+      temp.clear();
+      GetPublishedEvents(interfaceFile,temp);
+      AMF->SetMacroValues("Published Event",temp);
 
 
-   //  All done - so now write out the output files
-   AMF->write();
-
+      //  All done - so now write out the output files
+      AMF->write();
+      }
+   catch (...)
+      {
+      }
    delete AMF;
    }
 //---------------------------------------------------------------------------
