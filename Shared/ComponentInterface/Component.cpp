@@ -7,6 +7,7 @@
 #include "RegistrationItem.h"
 #include "Registrations.h"
 #include <ApsimShared\FApsimComponentData.h>
+#include <ApsimShared\FStringExt.h>
 #include <limits.h>
 #define FARPROC void*
 using namespace protocol;
@@ -526,18 +527,35 @@ bool Component::getVariable(unsigned int registrationID,
    {
    Variants* variants = NULL;
    getVariables(registrationID, variants);
-   if (variants->size() > 1 ||
-       (!optional && variants->size() == 0))
+   if (variants->size() > 1)
       {
       RegistrationItem* regItem = (RegistrationItem*) registrationID;
-      char st[500];
-      strcpy(st, "Expected a SINGLE response to a getVariable request, but \n");
-      strcat(st, "got ");
-      itoa(variants->size(), &st[strlen(st)], 10);
-      strcat(st, " responses instead.\n");
-      strcat(st, "Variable name: ");
-      strcat(st, regItem->getName());
-      error(st, true);
+      string st;
+      st = "The module " + string(name) + " has asked for the value of the variable ";
+      st += regItem->getName();
+      st += ".\nIt received multiple responses when only 1 was expected.\nIt received values from the following modules:\n";
+      for (unsigned v = 0; v != variants->size(); v++)
+         {
+         unsigned fromID = variants->getVariant(v)->getFromId();
+         FString fromName;
+         if (componentIDToName(fromID, fromName))
+            st += "   " + asString(fromName);
+         else
+            st += "   unknown module!!";
+         st += "\n";
+         }
+
+      error(st.c_str(), true);
+      return false;
+      }
+   else if (!optional && variants->size() == 0)
+      {
+      RegistrationItem* regItem = (RegistrationItem*) registrationID;
+      string st;
+      st = "The module " + string(name) + " has asked for the value of the variable ";
+      st += regItem->getName();
+      st += ".\nIt received no responses.";
+      error(st.c_str(), true);
       return false;
       }
    else if (variants->size() == 0)
