@@ -2,9 +2,9 @@
 Dependency = %licensed_source(soilp)
 
 [Contents]
-ComponentInterface.for = ComponentInterface.for
+ComponentInterface.f90 = ComponentInterface.f90
 soilp.for = soilp.for
 
 [APSBuild]
 binary = ..\lib\soilp.dll
-moduletype=module
+compilerfile=release.compile
