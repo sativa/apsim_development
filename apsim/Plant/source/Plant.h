@@ -1352,6 +1352,8 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
   void get_n_dead(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_n_green(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_n_retrans(protocol::Component *, protocol::QueryValueData &);
+  void get_dlt_n_senesced_trans(protocol::Component *, protocol::QueryValueData &);
+  void get_dlt_n_senesced_retrans(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_n_detached(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_n_dead_detached(protocol::Component *, protocol::QueryValueData &);
   void get_temp_stress_photo(protocol::Component *, protocol::QueryValueData &);
