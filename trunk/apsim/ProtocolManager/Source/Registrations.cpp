@@ -47,11 +47,13 @@ typedef std::vector<RegistrationInternal> Regs;
 // are matched. name can be blank so that all registrations are matched.
 //---------------------------------------------------------------------------
 bool isAMatch(const RegistrationInternal& regInternal,
-              unsigned componentId, const string& name)
+              unsigned componentIdToMatch, const string& name, unsigned ourComponentId)
    {
    bool doesMatch = true;
-   if (componentId > 0)
-      doesMatch = (componentId == regInternal.details.componentId);
+   if (componentIdToMatch > 0)
+      doesMatch = (componentIdToMatch == regInternal.details.componentId);
+   if (doesMatch && regInternal.destinationId > 0)
+      doesMatch = (regInternal.destinationId == ourComponentId);
    if (doesMatch && name.length() > 0)
       doesMatch = Str_i_Eq(name, regInternal.details.name);
    return doesMatch;
@@ -133,10 +135,11 @@ class RegistrationsInternal
             Regs& activeRegistrations = getRegsForType(reg.type.opposite());
             for_each_if(activeRegistrations.begin(), activeRegistrations.end(),
                         bind(&RegistrationsInternal::resolve, this, _1),
-                        bind(&isAMatch, _1, regInternal.destinationId, reg.name));
+                        bind(&isAMatch, _1, regInternal.destinationId, reg.name, regInternal.details.componentId));
             }
          else
-            findMatching(regInternal.destinationId, reg.name, reg.type.opposite(), regInternal.subscriptions);
+            findMatching(regInternal.destinationId, reg.name, reg.type.opposite(), regInternal.subscriptions,
+                         regInternal.details.componentId);
          regInternal.resolved = true;
          }
 
@@ -183,7 +186,7 @@ class RegistrationsInternal
          Regs& registrations = getRegsForType(type);
          Regs::iterator reg = find_if(registrations.begin(),
                                       registrations.end(),
-                                      bind(&isAMatch, _1, componentId, regName));
+                                      bind(&isAMatch, _1, componentId, regName, 0));
          if (reg == registrations.end())
             throw runtime_error("Cannot get registration " + lexical_cast<string>(regName));
 
@@ -232,12 +235,12 @@ class RegistrationsInternal
       // are matched. name can be blank so that all registrations are matched.
       //---------------------------------------------------------------------------
       void findMatching(unsigned componentId, const std::string& name, RegistrationType type,
-                        std::vector<Registration>& matches)
+                        std::vector<Registration>& matches, unsigned ourComponentId)
          {
          Regs& registrations = getRegsForType(type);
          for_each_if(registrations.begin(), registrations.end(),
                      bind(&addRegistration, &matches, _1),
-                     bind(&isAMatch, _1, componentId, name));
+                     bind(&isAMatch, _1, componentId, name, ourComponentId));
          }
       //---------------------------------------------------------------------------
       // Return true if registration has been resolved.
@@ -354,7 +357,7 @@ void Registrations::getSubscriptions(unsigned componentId, unsigned regId,
 void Registrations::findMatching(unsigned componentId, const std::string& name, RegistrationType type,
                                  std::vector<Registration>& matches)
    {
-   registrations->findMatching(componentId, name, type, matches);
+   registrations->findMatching(componentId, name, type, matches, 0);
    }
 //---------------------------------------------------------------------------
 // Return true if registration has been resolved.
