@@ -175,10 +175,12 @@ void Field::writeHeading (ostream& out)
    {
    string FieldName = VariableAlias;
    if (FieldName == "")
+      {
       FieldName = VariableName;
 
-   if (FunctionName != "")
-      FieldName = FunctionName + "@" + FieldName;
+      if (FunctionName != "")
+         FieldName = FunctionName + "@" + FieldName;
+      }
 
    if (NumElements <= 1)
       WriteString(out, FieldName);
@@ -295,7 +297,8 @@ void Field::accumulateValue(void)
                FunctionValues = add (FunctionValues, DoubleValues);
             else
                ApsimSystem().Error.Fatal("The number of array elements for variable: " + VariableName + "\n"
-                                         "has changed.  A REPORT function (eg avg) cannot be applied to this variable");
+                                         "has changed.  A REPORT function (eg avg) cannot be applied to this variable",
+                                         "infrastructure");
             }
          }
       }
@@ -562,7 +565,8 @@ void ReportComponent::init(void)
 
    else
       ApsimSystem().Error.Fatal ("Cannot find name of output file in parameter file.\n"
-                                 "Cannot create output file.");
+                                 "Cannot create output file.",
+                                 "infrastructure");
 
    // get format specifier.
    APSIMProperty* formatProperty =
