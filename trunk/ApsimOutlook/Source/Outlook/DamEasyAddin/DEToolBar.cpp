@@ -156,6 +156,7 @@ void DEToolBar::getConfigs()
    vector<string> words;
    Split_string(st, ",", words);
 
+   Econ_configs.clear();
    // loop through econ configs present in ini file
    for (vector<string>::iterator e = words.begin(); e!=words.end(); e++)
    {
@@ -347,7 +348,7 @@ void DEToolBar::doCalculations(TAPSTable& data)
                else
                   Salvage = 0;
 
-               double Cane_income = ((Cane_fresh_weight * ((config->Sugar_price*0.009*(config->CCS-4)+0.6455))
+               double Cane_income = ((Cane_fresh_weight * ((config->Sugar_price*0.009*(config->CCS-4)+config->Payment_constant))
                                     * Irrig_area) + Salvage )
                                     * pow((1.0 + config->Inflation_cane_rate / 100.0), time);
 
@@ -599,6 +600,10 @@ void DEToolBar::doCalculations(TAPSTable& data)
                {
                   irr = 0;
                }
+               catch (Exception& e)
+               {
+                  irr = -1;
+               }
 
                cfBIT.insert(cfBIT.begin(), -upfront[0]);
                try
@@ -610,7 +615,10 @@ void DEToolBar::doCalculations(TAPSTable& data)
                {
                   irrBIT = 0;
                }
-
+               catch (Exception& e)
+               {
+                  irrBIT = -1;
+               }
             }
             vYear.push_back(year);
             vNPV.push_back(npv);
@@ -635,10 +643,10 @@ void DEToolBar::doCalculations(TAPSTable& data)
          }
 
          NPVtable->storeStringArray("Year", vYear);
-         NPVtable->storeNumericArray("NPV ($)", vNPV);
-         NPVtable->storeNumericArray("IRR (%)", vIRR);
-         NPVtable->storeNumericArray("NPV BIT ($)", vNPV_BIT);
-         NPVtable->storeNumericArray("IRR BIT (%)", vIRR_BIT);
+         NPVtable->storeNumericArray("NPV with Tax ($)", vNPV);
+         NPVtable->storeNumericArray("IRR with Tax (%)", vIRR);
+         NPVtable->storeNumericArray("NPV without Tax ($)", vNPV_BIT);
+         NPVtable->storeNumericArray("IRR without Tax (%)", vIRR_BIT);
 
          //NPVtable->markFieldAsAPivot("Simulation");
          NPVtable->addSortField("Year");
