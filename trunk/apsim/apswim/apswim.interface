@@ -4,22 +4,6 @@
 <component name="apswim">
    <registrations>
 
-      <type name="createType" kind="????" unit="" description="System message to create"/>
-      <type name="sysinitType" kind="????" unit="" description="System initialise"/>
-      <type name="resetType" kind="????" unit="" description="System reset stage"/>
-      <type name="sum_reportType" kind="????" unit="" description="Report SoilWat module summary details"/>
-      <type name="tillageType" kind="????" unit="" description="Set up for CN reduction after tillage operation"/>
-      <type name="end_runType" kind="????" unit="" description="Message that run is to end"/>
-      <type name="swim_timestep_preparationType" kind="????" unit="" description="Message from APSWIM to SURFACE"/>
-      <type name="pre_swim_timestepType" kind="????" unit="" description="Message from APSWIM to SURFACE"/>
-      <type name="post_swim_timestepType" kind="????" unit="" description="Message from APSWIM to SURFACE"/>
-      <type name="tickType" kind="????" unit="" description="Change in the simulation system time and the duration of the new time step"/>
-      <type name="new_soluteType" kind="????" unit="" description="To notify all interested modules in the ownership of solutes by an individual module"/>
-      <type name="irrigatedType" kind="????" unit="" description="To notify all interested modules in an irrigation application which may/maynot include solutes"/>
-      <type name="prepareType" kind="????" unit="" description="Message to prepare for process"/>
-      <type name="processType" kind="????" unit="" description="Message to process"/>
-      <type name="postType" kind="????" unit="" description="Message sent after main process"/>
-
       <respondToGetReg name="dlayer" type="dlayer"/>
       <respondToGetReg name="bd" type="bd"/>
       <respondToGetSetReg name="sw" type="sw"/>
