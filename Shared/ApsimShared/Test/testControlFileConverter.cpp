@@ -139,6 +139,7 @@ void setUpControlFileConverter2(void)
                             "! greater than 20 mm.\n"
 
                             "if (rain[3] >= 20) then\n"
+                            "   manure add_manure   type=manure, pcnt_c=21.0(), pcnt_n=0.76(), no3ppm=10.0()\n"
                             "   report do_output\n"
                             "endif\n";
    out.open("accum.par");
@@ -410,6 +411,245 @@ void testReworkTrackerVariables(void)
    DeleteFile("conversion.script");
    }
 //---------------------------------------------------------------------------
+// test the RenameModule functionality
+//---------------------------------------------------------------------------
+void testRenameModule(void)
+   {
+   // write a con/par file and conversion script.
+   ofstream out("accum.con");
+   out << "[apsim.sample_accum]\n"
+       << "Module = tracker    accum.par[sample]\n"
+       << "Module = residue2   accum.par[sample]    residue2.ini[sample]\n";
+   out.close();
+   ofstream par("accum.par");
+   par << "[sample.tracker.parameters]\n"
+       << "variable = sum of chickpea.ep on process from reported to now as sum_ep\n"
+       << "variable = sum of chickpea.ep since reported as sum_ep on process\n"
+       << "variable = sum of soilwat2.runoff on prepare since report.reported as sum@soilwat2_runoff\n"
+       << "[sample.residue2.parameters]\n"
+       << "dd = dd\n";
+   par.close();
+   ofstream par2("residue2.ini");
+   par2 << "[sample2.residue2.parameters]\n"
+        << "ddd = dddd\n";
+   par2.close();
+   ofstream conversion("conversion.script");
+   conversion << "[testRenameModule]\n";
+   conversion << "command=RenameModule(residue2, surfaceOM)\n";
+   conversion.close();
+
+   ControlFileConverter converter;
+   converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
+
+
+   ifstream parIn("accum.par");
+   ostringstream parContents;
+   parContents << parIn.rdbuf();
+
+   BOOST_CHECK(parContents.str() ==
+      "[sample.tracker.parameters]\n"
+      "variable = sum of chickpea.ep on process from reported to now as sum_ep\n"
+      "variable = sum of chickpea.ep since reported as sum_ep on process\n"
+      "variable = sum of soilwat2.runoff on prepare since report.reported as sum@soilwat2_runoff\n"
+      "[sample.surfaceOM.parameters]\n"
+      "dd = dd\n");
+
+   ifstream conIn("accum.con");
+   ostringstream conContents;
+   conContents << conIn.rdbuf();
+
+   BOOST_CHECK(conContents.str() ==
+          "[apsim.sample_accum]\n"
+          "module = tracker    accum.par[sample]\n"
+          "module = surfaceOM   accum.par [sample] surfaceOM.ini [sample]\n");
+
+   DeleteFile("accum.con");
+   DeleteFile("accum.par");
+   DeleteFile("conversion.script");
+   DeleteFile("residue2.ini");
+   }
+//---------------------------------------------------------------------------
+// test the RenameModule functionality
+//---------------------------------------------------------------------------
+void testSearchReplace(void)
+   {
+   setUpControlFileConverter2();
+   ofstream out("conversion.script");
+   out << "[TestSearchReplace]\n";
+   out << "command=SearchReplace(manager, \"report do_output\", \"report do_end_day_output\")";
+   out.close();
+
+   ControlFileConverter converter;
+   converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
+
+   ifstream parIn("accum.par");
+   ostringstream parContents;
+   parContents << parIn.rdbuf();
+
+   BOOST_CHECK(parContents.str() ==
+                            "[sample.report.parameters]\n"
+                            "title = Accum Sample Simulation\n"
+                            "screen_output =  on\n"
+                            "outputfile =  accum.out /overwrite\n"
+                            "summaryfile =  accum.sum\n"
+
+                            "module_names =   clock clock\n"
+                            "variable_names =  day year\n"
+                            "variable_alias =  -    -\n"
+                            "Units =          -     -\n"
+
+                            "Module_names =   accum\n"
+                            "Variable_names =  rain[3]\n"
+                            "Variable_alias =   rainfall_over_3_days\n"
+                            "Units =            -\n"
+
+                            "[test.test.parameters]\n"
+                            "test = on\n"
+
+                            "[sample.accum.parameters]\n"
+                            "! Accumulate rainfall for 5 days.\n"
+                            "! We can then use this variable in manager\n"
+                            "accum_variables =  rain[3]\n"
+
+
+                            "[sample.manager.start_of_day]\n"
+                            "! tell report module to output when accumulated rainfall is\n"
+                            "! greater than 20 mm.\n"
+
+                            "if (rain[3] >= 20) then\n"
+                            "   manure add_manure   type=manure, pcnt_c=21.0(), pcnt_n=0.76(), no3ppm=10.0()\n"
+                            "   report do_end_day_output\n"
+                            "endif\n");
+
+   tearDownControlFileConverter();
+   }
+//---------------------------------------------------------------------------
+// test the CreateDerivedParameter functionality
+//---------------------------------------------------------------------------
+void testCreateDerivedParameter(void)
+   {
+   setUpControlFileConverter1();
+
+   ofstream out("conversion.script");
+   out << "[TestCreateDerivedParameter]\n";
+   out << "command=SetParameterValue(clock.simulation_end_day, clock.simulation_start_day + 10)";
+   out.close();
+
+   ControlFileConverter converter;
+   converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
+
+   ApsimControlFile con("accum.con");
+   BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "clock", "simulation_end_day") == "11.00");
+
+   tearDownControlFileConverter();
+   }
+//---------------------------------------------------------------------------
+// Setup the test environment 3
+//---------------------------------------------------------------------------
+void setUpControlFileConverter3(void)
+   {
+   // write a control file.
+   static const char* con = "[apsim.sample_accum]\n"
+                            "Module = test     accum.par [test]\n"
+                            "Module = clock    [sample1] [sample2]\n"
+                            "Module = report   accum.par [sample]\n"
+                            "Module = met      %apsuite\\apsim\\met\\SAMPLE\\DALBY.MET [weather]\n"
+                            "Module = accum    accum.par [sample]\n"
+                            "Module = manager  accum.par [sample] accum.par [sample2]\n"
+                            "Module = fertiliser\n\n";
+
+   ofstream out("accum.con");
+   out << con;
+   out.close();
+
+   // write a par file.
+   static const char* par = "[sample.report.parameters]\n"
+                            "title = Accum Sample Simulation\n"
+                            "[sample.manager.start_of_day]\n"
+                            "if (rain[3] >= 20) then\n"
+                            "   manure add_manure   type=manure, pcnt_c=21.0(), pcnt_n=0.76(), no3ppm=10.0()\n"
+                            "   manure add_manure   type=manure, pcnt_c=21.0(), pcnt_n=0.76(), no3ppm=10.0()\n"
+                            "endif\n"
+                            "[sample2.manager.start_of_day]\n"
+                            "if (rain[3] >= 20) then\n"
+                            "   manure add_manure   type=manure, pcnt_c=21.0(), pcnt_n=0.76(), no3ppm=10.0()\n"
+                            "endif\n";
+   out.open("accum.par");
+   out << par;
+   out.close();
+   }
+
+
+//---------------------------------------------------------------------------
+// test the SetManagerActionParameter functionality
+//---------------------------------------------------------------------------
+void testSetManagerActionParameter(void)
+   {
+   setUpControlFileConverter3();
+
+   ofstream out("conversion.script");
+   out << "[TestSetManagerActionParameter]\n";
+   out << "command=SetManagerActionParameter(manure add_manure, cnr, pcnt_c / pcnt_n)";
+   out.close();
+
+   ControlFileConverter converter;
+   converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
+
+   ifstream parIn("accum.par");
+   ostringstream parContents;
+   parContents << parIn.rdbuf();
+
+   BOOST_CHECK(parContents.str() ==
+                            "[sample.report.parameters]\n"
+                            "title = Accum Sample Simulation\n"
+                            "[sample.manager.start_of_day]\n"
+                            "if (rain[3] >= 20) then\n"
+                            "   manure add_manure type=manure, pcnt_c=21.0, pcnt_n=0.76, no3ppm=10.0, cnr=27.63\n"
+                            "   manure add_manure type=manure, pcnt_c=21.0, pcnt_n=0.76, no3ppm=10.0, cnr=27.63\n"
+                            "endif\n"
+                            "[sample2.manager.start_of_day]\n"
+                            "if (rain[3] >= 20) then\n"
+                            "   manure add_manure type=manure, pcnt_c=21.0, pcnt_n=0.76, no3ppm=10.0, cnr=27.63\n"
+                            "endif\n");
+
+   tearDownControlFileConverter();
+   }
+//---------------------------------------------------------------------------
+// test the DeleteManagerActionParameter functionality
+//---------------------------------------------------------------------------
+void testDeleteManagerActionParameter(void)
+   {
+   setUpControlFileConverter3();
+
+   ofstream out("conversion.script");
+   out << "[TestSetManagerActionParameter]\n";
+   out << "command=DeleteManagerActionParameter(manure add_manure, pcnt_c)\n";
+   out << "command=DeleteManagerActionParameter(manure add_manure, pcnt_n)";
+   out.close();
+
+   ControlFileConverter converter;
+   converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
+
+   ifstream parIn("accum.par");
+   ostringstream parContents;
+   parContents << parIn.rdbuf();
+
+   BOOST_CHECK(parContents.str() ==
+                            "[sample.report.parameters]\n"
+                            "title = Accum Sample Simulation\n"
+                            "[sample.manager.start_of_day]\n"
+                            "if (rain[3] >= 20) then\n"
+                            "   manure add_manure type=manure, no3ppm=10.0\n"
+                            "   manure add_manure type=manure, no3ppm=10.0\n"
+                            "endif\n"
+                            "[sample2.manager.start_of_day]\n"
+                            "if (rain[3] >= 20) then\n"
+                            "   manure add_manure type=manure, no3ppm=10.0\n"
+                            "endif\n");
+
+   tearDownControlFileConverter();
+   }
+//---------------------------------------------------------------------------
 // Perform all tests.
 //---------------------------------------------------------------------------
 test_suite* testControlFileConverter(void)
@@ -425,6 +665,12 @@ test_suite* testControlFileConverter(void)
    test->add(BOOST_TEST_CASE(&testMoveParamsFromConToPar));
    test->add(BOOST_TEST_CASE(&testRemoveSumAvgToTracker));
    test->add(BOOST_TEST_CASE(&testReworkTrackerVariables));
+   test->add(BOOST_TEST_CASE(&testRenameModule));
+   test->add(BOOST_TEST_CASE(&testSearchReplace));
+   test->add(BOOST_TEST_CASE(&testCreateDerivedParameter));
+   test->add(BOOST_TEST_CASE(&testSetManagerActionParameter));
+   test->add(BOOST_TEST_CASE(&testDeleteManagerActionParameter));
    return test;
    }
+
 

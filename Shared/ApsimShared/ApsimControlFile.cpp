@@ -14,8 +14,10 @@
 #include <general\date_class.h>
 #include <general\StringTokenizer.h>
 #include <fstream>
+#include <boost\regex.hpp>
 
 using namespace std;
+using namespace boost;
 #pragma package(smart_init)
 
 struct ParamFile
@@ -665,7 +667,7 @@ void ApsimControlFile::setVersionNumber(const std::string& fileName,
 // ------------------------------------------------------------------
 // return an opened parameter file ready to read.
 // ------------------------------------------------------------------
-IniFile* ApsimControlFile::getParFile(const std::string& parFileName) const
+IniFile* ApsimControlFile::getParFile(const std::string& parFileName, bool checkNonExistant) const
    {
    Path(ini->getFileName()).Change_directory();
    string filePath = ExpandFileName(parFileName.c_str()).c_str();
@@ -674,7 +676,7 @@ IniFile* ApsimControlFile::getParFile(const std::string& parFileName) const
       if (Str_i_Eq(openedParFiles[i]->getFileName(), filePath))
          return openedParFiles[i];
       }
-   if (!Path(filePath).Exists())
+   if (checkNonExistant && !Path(filePath).Exists())
       throw runtime_error("The control file has referenced a non-existant file.\n"
                           "File = " + filePath);
 
@@ -996,7 +998,8 @@ bool ApsimControlFile::moveParametersOutOfCon(const std::string& section,
 
    // if parFileToUse is blank then ask user for a file to put all
    // parameters into.
-   IniFile* par = getParFile(parFileForConParams);
+
+   IniFile* par = getParFile(parFileForConParams, false);
    if (par != NULL)
       {
       bool selfReferencesFound = false;
@@ -1098,5 +1101,243 @@ bool ApsimControlFile::addParameterFileReference(const std::string& section,
    for (unsigned i = 0; i != instanceNames.size(); i++)
       someFound = (addModuleLine(section, moduleName, instanceNames[i], parameterFileName, parameterSectionName) || someFound);
    return (someFound);
+   }
+// ------------------------------------------------------------------
+// Set the module= line in the control for the specified module.
+// ------------------------------------------------------------------
+void setModuleLine(IniFile* ini,
+                   const std::string& section,
+                   const std::string& moduleName,
+                   vector<ParamFile>& newParamFiles)
+   {
+   bool moduleLineFound = false;
+   vector<string> moduleLines;
+   ini->read(section, "module", moduleLines);
+   for (unsigned i = 0; i != moduleLines.size(); i++)
+      {
+      vector<ParamFile> oldParamFiles;
+      parseModuleLine(ini->getFileName(), moduleLines[i], oldParamFiles, false);
+      if (oldParamFiles[0].moduleName == moduleName)
+         {
+         for (unsigned p = 0; p != newParamFiles.size(); p++)
+            {
+            newParamFiles[p].moduleName = oldParamFiles[0].moduleName;
+            newParamFiles[p].instanceName = oldParamFiles[0].instanceName;
+            }
+         moduleLines[i] = createModuleLine(newParamFiles);
+         moduleLineFound = true;
+         }
+      }
+   if (!moduleLineFound)
+      moduleLines.push_back(createModuleLine(newParamFiles));
+   ini->write(section, "module", moduleLines);
+   }
+// ------------------------------------------------------------------
+// Rename the specified module
+// ------------------------------------------------------------------
+bool ApsimControlFile::renameModule(const std::string& section,
+                                    const std::string& oldModuleName,
+                                    const std::string &newModuleName)
+   {
+   bool modsMade = false;
+
+   // Get a complete list of all par/ini files for specified module.
+   vector<ParamFile> paramFiles;
+   getParameterFilesForModule(ini, section, oldModuleName, paramFiles, true);
+   set<string> parFileNames;
+   for (unsigned p = 0; p != paramFiles.size(); p++)
+      parFileNames.insert(paramFiles[p].fileName);
+
+   // rename all relevant sections.
+   for (set<string>::iterator paramFile = parFileNames.begin();
+                              paramFile != parFileNames.end();
+                              paramFile++)
+      {
+      IniFile* par = getParFile(*paramFile);
+      vector<string> sectionNames;
+      par->readSectionNames(sectionNames);
+      for (unsigned s = 0; s != sectionNames.size(); s++)
+         {
+         StringTokenizer tokenizer(sectionNames[s], ".");
+         string firstBit = tokenizer.nextToken();
+         string secondBit = tokenizer.nextToken();
+         string thirdBit = tokenizer.nextToken();
+         if (Str_i_Eq(secondBit, oldModuleName))
+            {
+            par->renameSection(sectionNames[s],
+                               firstBit + "." + newModuleName + "." + thirdBit);
+            modsMade = true;
+            }
+         }
+      }
+
+   // change the module equals line in control file.
+   modsMade = (changeModuleName(section, oldModuleName, newModuleName) || modsMade);
+
+   // rename the .ini filename and change the control file to reflect the change.
+   string oldIniFileName = oldModuleName + ".ini";
+   string newIniFileName = newModuleName + ".ini";
+   for (unsigned p = 0; p != paramFiles.size(); p++)
+      {
+      unsigned posIni = findSubString(paramFiles[p].fileName, oldIniFileName);
+      if (posIni != string::npos)
+         {
+         string oldIniPath = paramFiles[p].fileName;
+         string iniPath = ExtractFileDir(oldIniPath.c_str()).c_str();
+         string newIniPath;
+         if (iniPath != "")
+            newIniPath += "\\";
+         newIniPath += newIniFileName;
+
+         RenameFile(oldIniPath.c_str(), newIniPath.c_str());
+         replaceAll(newIniPath, getApsimDirectory(), "%apsuite");
+         paramFiles[p].fileName = newIniPath;
+
+         modsMade = true;
+         }
+      }
+   if (modsMade)
+      setModuleLine(ini, section, newModuleName, paramFiles);
+   return modsMade;
+   }
+// ------------------------------------------------------------------
+// Perform a Search and Replace on the sections of the specified module.
+// ------------------------------------------------------------------
+bool ApsimControlFile::searchReplace(const std::string& section,
+                                     const std::string& moduleName,
+                                     const std::string& stringToFind,
+                                     const std::string& replacementString)
+   {
+   bool replacementMade = false;
+   vector<ParamFile> paramFiles;
+   getParameterFilesForModule(ini, section, moduleName, paramFiles, false);
+   for (unsigned p = 0; p != paramFiles.size(); p++)
+      {
+      IniFile* par = getParFile(paramFiles[p].fileName);
+      vector<string> paramFileSections;
+      getParFileSectionsMatching(par, paramFiles[p], paramFileSections);
+
+      for (unsigned s = 0; s != paramFileSections.size(); s++)
+         {
+         string contents;
+         par->readSection(paramFileSections[s], contents);
+
+         ostringstream out;
+         ostream_iterator<char, char> outI(out);
+         boost::regex e(stringToFind);
+         regex_merge(outI, contents.begin(), contents.end(), e, replacementString);
+         if (out.str() != contents)
+            {
+            par->writeSection(paramFileSections[s], out.str());
+            replacementMade = true;
+            }
+         }
+      }
+   return replacementMade;
+   }
+// ------------------------------------------------------------------
+// Enumerate all matching manager action lines and call a callback
+// for each one. The callee can then change the parameters if
+// they so wish. Return's true if parameters were modified.
+// ------------------------------------------------------------------
+bool ApsimControlFile::enumerateManagerActionLines
+                                (const std::string& section,
+                                 const std::string& managerAction,
+                                 ManagerActionCallback callback)
+   {
+   bool someWereModified = false;
+
+   vector<string> actionValues;
+   splitIntoValues(managerAction, " ", actionValues);
+   if (actionValues.size() != 2)
+      throw runtime_error("Bad manager action: " + managerAction);
+
+   vector<ParamFile> paramFiles;
+   getParameterFilesForModule(ini, section, "manager", paramFiles, false);
+   for (unsigned p = 0; p != paramFiles.size(); p++)
+      {
+      IniFile* par = getParFile(paramFiles[p].fileName);
+      vector<string> paramFileSections;
+      getParFileSectionsMatching(par, paramFiles[p], paramFileSections);
+      for (unsigned s = 0; s != paramFileSections.size(); s++)
+         {
+         bool paramSectionModified = false;
+         string contents;
+         par->readSection(paramFileSections[s], contents);
+
+         // we want everything to be case-insensitive so drop everything to
+         // lowercase.
+         string lowerContents = contents;
+         To_lower(lowerContents);
+         To_lower(actionValues[0]);
+         To_lower(actionValues[1]);
+
+         // go find all occurrances of action lines and call callback for each.
+         boost::regex e(actionValues[0] + "[[:space:]]+" + actionValues[1]);
+         boost::match_results<std::string::const_iterator> what;
+         unsigned int flags = boost::match_default;
+         string::const_iterator startPos = lowerContents.begin();
+         string::const_iterator endPos = lowerContents.end();
+         while(regex_search(startPos, endPos, what, e, flags))
+            {
+            unsigned start = what[0].second - lowerContents.begin();
+            unsigned i = start;
+            while (contents[i] != '\n' && contents[i] != '\0')
+               i++;
+            unsigned end = i;
+            string line = contents.substr(start, end-start);
+
+            // parse manager line.
+            ManagerActionParameters parameters;
+
+            vector<string> parameterStrings;
+            splitIntoValues(line, ",", parameterStrings);
+            for (unsigned p = 0; p != parameterStrings.size(); p++)
+               {
+               StringTokenizer tokenizer(parameterStrings[p], "=");
+               ManagerActionParameter parameter;
+               parameter.name = tokenizer.nextToken();
+               parameter.value = tokenizer.nextToken();
+               stripLeadingTrailing(parameter.name, " ");
+               stripLeadingTrailing(parameter.value, " ");
+               if (parameter.name == "" || parameter.value == "")
+                  throw runtime_error("Bad format for manager action line: " + line);
+               parameter.units = splitOffBracketedValue(parameter.value, '(', ')');
+               parameters.push_back(parameter);
+               }
+
+            // call callback to allow callee to modify parameters.
+            bool didModify = false;
+            callback(parameters, didModify);
+            if (didModify)
+               {
+               line = " ";
+               for (unsigned p = 0; p != parameters.size(); p++)
+                  {
+                  if (p != 0)
+                     line += ", ";
+                  line += parameters[p].name + "=" + parameters[p].value
+                        + parameters[p].units;
+                  }
+
+               contents.replace(start, end-start, line);
+               lowerContents.replace(start, end-start, line);
+               paramSectionModified = true;
+               }
+            // Reset the start and end position for next iteration.
+            // Remember that lowercontents has changed so iterators are
+            // invalidated.
+            startPos = lowerContents.begin() + start;
+            endPos = lowerContents.end();
+            }
+         if (paramSectionModified)
+            {
+            par->writeSection(paramFileSections[s], contents);
+            someWereModified = true;
+            }
+         }
+      }
+
+   return someWereModified;
    }
 

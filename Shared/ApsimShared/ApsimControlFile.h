@@ -199,6 +199,36 @@ class __declspec(dllexport) ApsimControlFile
                                      const std::string& parameterFileName,
                                      const std::string& parameterSectionName);
 
+      // ------------------------------------------------------------------
+      // Rename the specified module
+      // ------------------------------------------------------------------
+      bool renameModule(const std::string& section,
+                        const std::string& oldModuleName,
+                        const std::string &newModuleName);
+
+      // ------------------------------------------------------------------
+      // Perform a Search and Replace on the sections of the specified module.
+      // ------------------------------------------------------------------
+      bool searchReplace(const std::string& section,
+                         const std::string& moduleName,
+                         const std::string& stringToFind,
+                         const std::string& replacementString);
+
+      // ------------------------------------------------------------------
+      // Enumerate all matching manager action lines and call a callback
+      // for each one. The callee can then change the parameters if
+      // they so wish. Return's true if parameters were modified.
+      // ------------------------------------------------------------------
+      struct ManagerActionParameter
+         {
+         std::string name, value, units;
+         };
+      typedef std::vector<ManagerActionParameter> ManagerActionParameters;
+
+      typedef void (__closure *ManagerActionCallback)(ManagerActionParameters& parameters, bool& modified);
+      bool enumerateManagerActionLines(const std::string& section,
+                                       const std::string& managerAction,
+                                       ManagerActionCallback callback);
 
    private:
       IniFile* ini;
@@ -214,7 +244,7 @@ class __declspec(dllexport) ApsimControlFile
       // ------------------------------------------------------------------
       // return an opened parameter file ready to read.
       // ------------------------------------------------------------------
-      IniFile* getParFile(const std::string& fileName) const;
+      IniFile* getParFile(const std::string& fileName, bool checkNonExistant=true) const;
 
       // ------------------------------------------------------------------
       // Find a parameter in parameter file.  Return true and the par and
@@ -240,6 +270,7 @@ class __declspec(dllexport) ApsimControlFile
       // ------------------------------------------------------------------
       std::string moduleToInstance(const std::string& section,
                                    const std::string& moduleName) const;
+
    };
 
 #endif

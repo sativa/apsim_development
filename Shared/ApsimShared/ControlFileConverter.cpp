@@ -4,15 +4,17 @@
 #pragma hdrstop
 
 #include "ControlFileConverter.h"
-#include "ApsimControlFile.h"
 #include "ApsimVersion.h"
 #include "ApsimDirectories.h"
 #include "TMoveParametersForm.h"
 #include <general\stringTokenizer.h>
+#include <general\string_functions.h>
 #include <general\path.h>
 #include <general\date_class.h>
 #include <general\inifile.h>
+#include <boost\lexical_cast.hpp>
 using namespace std;
+using namespace boost;
 
 //---------------------------------------------------------------------------
 // Return a list of script files to use to convert the specified control file.
@@ -33,6 +35,30 @@ void getScriptFilesToUse(const string& fileName, vector<string>& scriptFileNames
          }
       if (scriptFileNames.size() == 0)
          ApsimControlFile::setVersionNumber(fileName, apsimVersion);
+      }
+   }
+// ------------------------------------------------------------------
+// evaluate an expression and return result.
+// ------------------------------------------------------------------
+string evaluateExpression(const string& value1, const string& value2, const string& oper)
+   {
+   if (value2 == "" || oper == "")
+      return value1;
+   else
+      {
+      double value;
+      double number1 = lexical_cast<double>(value1);
+      double number2 = lexical_cast<double>(value2);
+
+      if (oper == "+")
+         value = number1 + number2;
+      else if (oper == "-")
+         value = number1 - number2;
+      else if (oper == "*")
+         value = number1 * number2;
+      else if (oper == "/")
+         value = number1 / number2;
+      return ftoa(value, 2);
       }
    }
 // ------------------------------------------------------------------
@@ -180,6 +206,14 @@ bool ControlFileConverter::convertSection(const string& sectionName) throw(runti
          ok = removePeriodsInReportAndTracker(arguments) || ok;
       else if (routineName == "ReworkTrackerVariables")
          ok = ReworkTrackerVariables(arguments) || ok;
+      else if (routineName == "RenameModule")
+         ok = executeRenameModule(arguments) || ok;
+      else if (routineName == "SearchReplace")
+         ok = executeSearchReplace(arguments) || ok;
+      else if (routineName == "SetManagerActionParameter")
+         ok = executeSetManagerActionParameter(arguments) || ok;
+      else if (routineName == "DeleteManagerActionParameter")
+         ok = executeDeleteManagerActionParameter(arguments) || ok;
 
       if (!ok)
          return false;
@@ -216,23 +250,38 @@ bool ControlFileConverter::evaluate(const string& expression, string& value) con
       }
    else
       {
-      // check for a module.name
-      unsigned posPeriod = value.find('.');
-      if (posPeriod != string::npos)
+      StringTokenizer tokenizer(value, " ");
+      string value1 = tokenizer.nextToken();
+      string oper = tokenizer.nextToken();
+      string value2 = tokenizer.nextToken();
+      resolveVariableRef(value1);
+      value = evaluateExpression(value1, value2, oper);
+      }
+   return true;
+   }
+// ------------------------------------------------------------------
+// resolve a module.variable to a value if necessary.
+// ------------------------------------------------------------------
+void ControlFileConverter::resolveVariableRef(string& value) const
+   {
+   // check for a module.name
+   unsigned posPeriod = value.find('.');
+   if (posPeriod != string::npos)
+      {
+      string moduleName = value.substr(0, posPeriod);
+      string parameterName = value.substr(posPeriod+1);
+      vector<string> instances;
+      con->getInstances(conSection, moduleName, instances);
+      for (unsigned i = 0; i != instances.size(); i++)
          {
-         string moduleName = value.substr(0, posPeriod);
-         string parameterName = value.substr(posPeriod+1);
-         vector<string> instances;
-         con->getInstances(conSection, moduleName, instances);
-         for (unsigned i = 0; i != instances.size(); i++)
+         string st = con->getParameterValue(conSection, instances[i], parameterName);
+         if (st != "")
             {
-            value = con->getParameterValue(conSection, instances[i], parameterName);
-            if (value != "")
-               return true;
+            value = st;
+            return;
             }
          }
       }
-   return true;
    }
 // ------------------------------------------------------------------
 // evaluate the date arguments passed in and return a date.
@@ -780,3 +829,113 @@ bool ControlFileConverter::ReworkTrackerVariables(const string& arguments) throw
 
    return (instanceNames.size() > 0);
    }
+//---------------------------------------------------------------------------
+// Rename a module in the control file.
+//---------------------------------------------------------------------------
+bool ControlFileConverter::executeRenameModule(const string& arguments) throw(runtime_error)
+   {
+   unsigned posComma = arguments.find(',');
+   if (posComma == string::npos)
+      throw runtime_error("Bad arguments in call to RenameModule: " + arguments);
+
+   string arg1 = arguments.substr(0, posComma);
+   string arg2 = arguments.substr(posComma+1, arguments.length()-posComma-1);
+   stripLeadingTrailing(arg1, " ");
+   stripLeadingTrailing(arg2, " ");
+
+   return con->renameModule(conSection, arg1, arg2);
+   }
+//---------------------------------------------------------------------------
+// Perform a search and replace on a param file section
+//---------------------------------------------------------------------------
+bool ControlFileConverter::executeSearchReplace(const string& arguments) throw(runtime_error)
+   {
+   vector<string> args;
+   SplitStringHonouringQuotes(arguments, ",", args);
+   if (args.size() != 3)
+      throw runtime_error("Bad arguments in call to SearchReplace: " + arguments);
+
+   stripLeadingTrailing(args[0], "\" ");
+   stripLeadingTrailing(args[1], "\" ");
+   stripLeadingTrailing(args[2], "\" ");
+   return con->searchReplace(conSection, args[0], args[1], args[2]);
+   }
+//---------------------------------------------------------------------------
+// Set a manager action parameter.
+//---------------------------------------------------------------------------
+bool ControlFileConverter::executeSetManagerActionParameter(const string& arguments) throw(runtime_error)
+   {
+   vector<string> args;
+   SplitStringHonouringQuotes(arguments, ",", args);
+   if (args.size() != 3)
+      throw runtime_error("Bad arguments in call to SetManagerActionParameter: " + arguments);
+
+   stripLeadingTrailing(args[0], "\" ");
+   stripLeadingTrailing(args[1], "\" ");
+   stripLeadingTrailing(args[2], "\" ");
+
+   managerActionNewParameter = args[1];
+   StringTokenizer tokenizer(args[2], " ");
+   managerActionValue1 = tokenizer.nextToken();
+   managerActionOper = tokenizer.nextToken();
+   managerActionValue2 = tokenizer.nextToken();
+
+   return con->enumerateManagerActionLines(conSection, args[0], SetManagerActionCallback);
+   }
+//---------------------------------------------------------------------------
+// Callback for SetmanagerActionParameter.
+//---------------------------------------------------------------------------
+void ControlFileConverter::SetManagerActionCallback(std::vector<ApsimControlFile::ManagerActionParameter>& parameters,
+                                                    bool& modified)
+   {
+   // go resolve all manager parameters.
+   for (unsigned p = 0; p != parameters.size(); p++)
+      {
+      if (Str_i_Eq(managerActionValue1, parameters[p].name))
+         managerActionValue1 = parameters[p].value;
+      if (Str_i_Eq(managerActionValue2, parameters[p].name))
+         managerActionValue2 = parameters[p].value;
+      }
+   ApsimControlFile::ManagerActionParameter newParam;
+   newParam.name = managerActionNewParameter;
+   newParam.value = evaluateExpression(managerActionValue1, managerActionValue2,
+                                       managerActionOper);
+   parameters.push_back(newParam);
+   modified = true;
+   }
+//---------------------------------------------------------------------------
+// Delete a manager action parameter.
+//---------------------------------------------------------------------------
+bool ControlFileConverter::executeDeleteManagerActionParameter(const string& arguments) throw(runtime_error)
+   {
+   vector<string> args;
+   SplitStringHonouringQuotes(arguments, ",", args);
+   if (args.size() != 2)
+      throw runtime_error("Bad arguments in call to DeleteManagerActionParameter: " + arguments);
+
+   stripLeadingTrailing(args[0], "\" ");
+   stripLeadingTrailing(args[1], "\" ");
+
+   managerActionValue1 = args[1];
+
+   return con->enumerateManagerActionLines(conSection, args[0], DeleteManagerActionCallback);
+   }
+//---------------------------------------------------------------------------
+// Callback for DeleteManagerActionParameter.
+//---------------------------------------------------------------------------
+void ControlFileConverter::DeleteManagerActionCallback(std::vector<ApsimControlFile::ManagerActionParameter>& parameters,
+                                                       bool& modified)
+   {
+   // go resolve all manager parameters.
+   for (unsigned p = 0; p != parameters.size(); p++)
+      {
+      if (Str_i_Eq(managerActionValue1, parameters[p].name))
+         {
+         parameters.erase(parameters.begin()+p);
+         modified = true;
+         return;
+         }
+      }
+   modified = false;
+   }
+
