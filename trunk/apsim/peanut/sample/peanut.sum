@@ -155,7 +155,7 @@
      
                       Residue Initial Parameters
          ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorous  Report
+           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
            (fraction/day) (ratio) (ratio)  aware      additions
          ------------------------------------------------
                   0.100    30.0     0.0       F       no
@@ -318,49 +318,36 @@
       senesced above ground biomass (kg/ha) =     2634.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =  345.7
+      DM Root:Shoot ratio    =    0.130                       Harvest Index          =      0.380
+      Stover C:N ratio       =   26.570                       Root C:N ratio         =     19.468
       grain N percent        =       5.00                     total N content (kg/ha)=     294.76
       grain N uptake (kg/ha) =     197.66                     senesced N content (kg/ha)=   26.35
       green N content (kg/ha)=      70.75                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.476
-         water stress 2 =  0.000     nitrogen stress 2 =  0.476
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.000     nitrogen stress 1 =  0.289
-         water stress 2 =  0.000     nitrogen stress 2 =  0.311
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.000     nitrogen stress 1 =  0.025
-         water stress 2 =  0.000     nitrogen stress 2 =  0.067
-     
-      stress indices for flowering
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.002     nitrogen stress 2 =  0.002
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.252     nitrogen stress 1 =  0.000
-         water stress 2 =  0.302     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.476        0.476
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.289        0.311
+         floral_initiation    to flowering               0.000        0.000        0.025        0.067
+         flowering            to start_grain_fill        0.000        0.002        0.000        0.002
+         start_grain_fill     to end_grain_fill          0.252        0.302        0.000        0.000
      
      Crop harvested.
-         tops residue =  6449.85 kg/ha
-         tops N       =  97.10 kg/ha
-         root residue =  0.00 kg/ha
-         root N       =  0.00 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               6449.85                    0.00
+                          N  (kg/ha) =                 97.10                    0.00
      
-         tops removed =  3953.13 kg/ha
-         tops N removed= 197.66 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               3953.13                    0.00
+                          N  (kg/ha) =                197.66                    0.00
      
 12 April 1989(Day of year=102), manager: 
      Manager sending message :- peanut end_crop
 12 April 1989(Day of year=102), peanut: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.0 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1351.7 kg/ha
-         root N =           27.8 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                 1351.74
+                          N  (kg/ha) =                  0.00                   27.77
+                          P  (kg/ha) =                                          0.00
+     
 20 April 1989(Day of year=110), clock: 
      Simulation is terminating due to end criteria being met.
