@@ -463,7 +463,7 @@ cih
       New_percent_complete = (g%current_date - g%start_date) 
      .                   / (g%end_date - g%start_date) * 100.0
       if (New_percent_complete - g%Percent_complete .ge. 5 .or.
-     .    g%Percent_complete .eq. 0) then
+     .    g%Percent_complete .eq. -1) then
          call Screen_WritePercentComplete (New_percent_complete)
          g%Percent_complete = New_percent_complete
       endif
@@ -508,7 +508,6 @@ cih
 *- Implementation Section ----------------------------------
  
       call push_routine(This_routine)
- 
       if (variable_name .eq. 'day') then
          call respond2get_integer_var (Variable_name,
      .                                 '(day)',
