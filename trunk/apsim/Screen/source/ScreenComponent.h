@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------------
 #ifndef ScreenComponentH
 #define ScreenComponentH
-#include <ComponentInterface\Component.h>
 #include <string>
 #include <vector>
+#include <ComponentInterface\Component.h>
 // ------------------------------------------------------------------
 // Screen APSIM component.
 // ------------------------------------------------------------------
@@ -19,6 +19,7 @@ class ScreenComponent : public protocol::Component
       unsigned screenOutput;
       unsigned tickID;
       unsigned prepareID;
+      unsigned externalErrorID;
       unsigned titleID;
       unsigned summaryFileWriteID;
       unsigned startDateID;

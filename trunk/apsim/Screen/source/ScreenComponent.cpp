@@ -65,6 +65,7 @@ void ScreenComponent::doInit1(const FString& sdml)
    tickID = addRegistration(respondToEventReg, "tick", "");
    prepareID = addRegistration(respondToEventReg, "prepare", "");
    titleID = addRegistration(getVariableReg, "title", stringDDML);
+   externalErrorID = addRegistration(respondToEventReg, "error", "");
    startDateID = addRegistration(getVariableReg, "simulation_start_date", doubleDDML);
    endDateID = addRegistration(getVariableReg, "simulation_end_date", doubleDDML);
 
@@ -144,6 +145,23 @@ void ScreenComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID
       {
       inDiaryState = true;
       ScreenForm->addLine("------- Start of simulation  --------------------------------------------------");
+      }
+   else if (eventID == externalErrorID)
+      {
+      bool isFatal;
+      FString errorMessage;
+      variant.unpack(isFatal);
+      variant.unpack(errorMessage);
+      string componentName = asString(errorMessage);
+      unsigned int posComponentName = componentName.find("Component name: ");
+      if (posComponentName != string::npos)
+         {
+         componentName = componentName.substr(posComponentName + strlen("Component name: "));
+         componentName = componentName.erase(componentName.find("\n"));
+         }
+      else
+         componentName = "";
+      writeLine(componentName.c_str(), errorMessage);
       }
    }
 
