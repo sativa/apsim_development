@@ -774,7 +774,8 @@
       call push_routine (my_name)
 
       if (Option .eq. 101) then
-
+      if (g%current_stage <= emerg) then
+      endif
 
 !cjh         call Millet_leaf_number_final (g%leaf_no_final)
 cjh special for erik - start
