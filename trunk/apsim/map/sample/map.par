@@ -1,24 +1,17 @@
 [sample.report.parameters]  
-title =  Map Sample Simulation   
-screen_output =  on   
-outputfile =  Map.out /overwrite   
-summaryfile =  Map.sum /overwrite   
+outputfile =Map.out   
 
-module_names =   clock clock   
-variable_names =  day year   
-variable_alias =  -    -   
 
-module_names =   map     map     map
-variable_names = ave_sw  conc_cl concsw_br
-variable_alias =  -      -       -
-units =          -       -       -
 
+variable = clock.day
+variable = clock.year
+variable = map.ave_sw
+variable = map.conc_cl
+variable = map.concsw_br
 [sample.clock.parameters]  
 ! Start and end date of run (day number of year and year)
-simulation_start_day =  1   
-simulation_start_year =  1988   
-simulation_end_day =  30   
-simulation_end_year =  1988   
+start_date=1/1/1988     ! dd/mm/yyyy
+end_date=30/1/1988     ! dd/mm/yyyy
 
 [sample.manager.start_of_day]  
 if day = 5 then

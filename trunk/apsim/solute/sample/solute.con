@@ -1,8 +1,12 @@
-[apsim.sample_solute]  
-  Module = clock    solute.par [sample]      
-  Module = report   solute.par [sample]      
-  Module = met      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]      
-  Module = manager  solute.par [sample]      
-  Module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini [standard]      
-  Module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]      
-  Module = solute   solute.par [sample]     %apsuite\apsim\solute\solute.ini [standard]      
+[apsim.sample_solute]
+version=2.2
+title=Solute Sample Simulation
+summaryfile=Solute.sum
+screen_output=on
+module = clock    solute.par [sample]
+module = report   solute.par [sample]
+module = Input(Met)      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
+module = manager  solute.par [sample]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2old.ini [standard]
+module = solute   solute.par [sample]     %apsuite\apsim\solute\solute.ini [standard]
