@@ -885,6 +885,7 @@ c      endif
 
 *     Global Variables
       include 'surface.inc'
+      logical doubles_are_equal
 
 *     Subroutine Arguments
       double precision duration
@@ -908,28 +909,36 @@ c      endif
       ! applied to reach the current conductance.
 
       decay_Fraction = (g_scon-g_scon_min)/(g_scon_max-g_scon_min)
-      Es = -p_precip_const * log(decay_Fraction)
 
-
-      ! now add rainfall energy for this timestep
-
-      if (rainfall .gt. 0.d0) then
-
-         avinten = rainfall/duration
-
-         Eo = (1d0+p_effpar*log(avinten/(25d0/60d0)))
-         dEs = Eo*rainfall
+      if (doubles_are_equal (decay_fraction, 0d0)) then
+         ! Surface seal has reached maximum decay
+         Scon = g_Scon_min
 
       else
-         dEs = 0.d0
+
+         Es = -p_precip_const * log(decay_Fraction)
+
+
+         ! now add rainfall energy for this timestep
+
+         if (rainfall .gt. 0.d0) then
+
+            avinten = rainfall/duration
+
+            Eo = (1d0+p_effpar*log(avinten/(25d0/60d0)))
+            dEs = Eo*rainfall
+
+         else
+            dEs = 0.d0
+         endif
+
+         Es = Es + dEs
+
+         ! now calculate new surface storage from new energy
+         Scon = g_Scon_min
+     :          + (g_Scon_max-g_Scon_min)*exp(-Es/p_precip_const)
+
       endif
-
-      Es = Es + dEs
-
-      ! now calculate new surface storage from new energy
-      Scon = g_Scon_min
-     :       + (g_Scon_max-g_Scon_min)*exp(-Es/p_precip_const)
-
 
       return
       end
@@ -990,6 +999,7 @@ c      endif
 
 *     Global Variables
       include 'surface.inc'
+      logical doubles_are_equal
 
 *     Subroutine Arguments
       double precision duration  !(INPUT) Duration of timestep
@@ -1013,39 +1023,48 @@ c      endif
       ! applied to reach the current conductance.
 
       decay_Fraction = (g_scon-g_scon_min)/(g_scon_max-g_scon_min)
-      Es = -1.0/p_seal_decay_rate * log(decay_Fraction)
 
-      !  Calculate the random roughness that would exist after
-      !  this amount of rainfall energy.
-      g_RR = p_RR_min
-     :       + (p_RR_max-p_RR_min)*exp(-p_RR_decay_rate*Es)
+      if (doubles_are_equal (decay_fraction, 0d0)) then
+         ! Surface seal has reached maximum decay
+         Scon = g_Scon_min
+
+      else
+
+         Es = -1.0/p_seal_decay_rate * log(decay_Fraction)
+
+         !  Calculate the random roughness that would exist after
+         !  this amount of rainfall energy.
+         g_RR = p_RR_min
+     :          + (p_RR_max-p_RR_min)*exp(-p_RR_decay_rate*Es)
 
 
-      ! Now calculate the rainfal energy for this SWIM timestep.
+         ! Now calculate the rainfal energy for this SWIM timestep.
 
-      if (rainfall .gt. 0.d0) then
+         if (rainfall .gt. 0.d0) then
 
-         avinten = rainfall/(duration/60d0)
+            avinten = rainfall/(duration/60d0)
 
 cnh note that the following equation from Rosewell is nonsensical for
 cnh low rainfall intensities.  A better option may be to use the
 cnh approach used internally in swim.  Tests show that a precipitation
 cnh constant of 0.27 gives the same response for most rainfall intensities
 cnh but is more sensible at low rainfall intensities.
-         Eo  = 26.35 * (1.0 - 0.669*exp(-0.0349*avinten))
+            Eo  = 26.35 * (1.0 - 0.669*exp(-0.0349*avinten))
 
-         dEs = (1.0 - g_cover)*(1.0-g_RR/4.0)*Eo*rainfall
+            dEs = (1.0 - g_cover)*(1.0-g_RR/4.0)*Eo*rainfall
 
-      else
-         dEs = 0.d0
+         else
+            dEs = 0.d0
+         endif
+
+         ! now add rainfall energy for this timestep
+         Es = Es + dEs
+
+         ! now calculate new surface storage from new energy
+         Scon = g_Scon_min
+     :          + (g_Scon_max-g_Scon_min)*exp(-p_seal_decay_rate*Es)
+
       endif
-
-      ! now add rainfall energy for this timestep
-      Es = Es + dEs
-
-      ! now calculate new surface storage from new energy
-      Scon = g_Scon_min
-     :       + (g_Scon_max-g_Scon_min)*exp(-p_seal_decay_rate*Es)
 
       return
       end
