@@ -36,6 +36,7 @@ class DEEconConfig {
       double Investment_rate;
       double Inflation_input_rate;
       double Inflation_cane_rate;
+      double Payment_constant;
       int Repayment_time;
       int Num_partners;
       bool   Upfront;
