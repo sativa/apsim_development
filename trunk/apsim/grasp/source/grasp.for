@@ -1,9 +1,395 @@
+      module GraspModule
+
+!      ====================================================================
+!      grasp_array_sizes
+!      ====================================================================
+
+!   Short description:
+!      array size settings
+
+!   Notes:
+!      none
+
+!   Attributes:
+!      Version:         Any hardware/Fortran77
+!      Extensions:      Long names <= 20 chars.
+!                       Lowercase
+!                       Underscore
+!                       Inline comments
+
+!   Changes:
+!      290393 jngh
+
+! ----------------------- Declaration section ------------------------
+
+!   Constant values
+
+      integer    max_leaf       ! maximum number of plant leaves
+      parameter (max_leaf = 30)
+
+      integer    max_layer      ! Maximum number of layers in soil
+      parameter (max_layer = 11)
+
+      integer    max_table      ! Maximum size of tables
+      parameter (max_table = 10)
+
+
+!      grasp1_crop status
+
+         ! crop status
+
+      integer    crop_alive
+      parameter (crop_alive = 1)
+
+      integer    crop_dead
+      parameter (crop_dead = 2)
+
+      integer    crop_out
+      parameter (crop_out = 3)
+
+
+!      grasp1_ plant parts
+
+      integer    root           ! root
+      parameter (root = 1)
+
+      integer    leaf           ! leaf
+      parameter (leaf = 2)
+
+      integer    stem           ! stem
+      parameter (stem = 3)
+
+      integer    max_part       ! number of plant parts
+      parameter (max_part = 3)
+
+!      Define grasp phenological stage and phase names
+
+
+            ! administration
+
+      integer    max_stage      ! number of growth stages
+      parameter (max_stage = 4)
+
+      integer    now            ! at this point in time ()
+      parameter (now = max_stage+1)
+
+      integer    crop_end       ! crop_end stage
+      parameter (crop_end = 5)
+      integer    fallow         ! fallow phase
+      parameter (fallow = crop_end)
+
+      integer    sowing         ! Sowing stage
+      parameter (sowing = 1)
+      integer    sowing_to_germ !
+      parameter (sowing_to_germ = sowing)
+
+      integer    germ           ! Germination stage
+      parameter (germ = 2)
+      integer    germ_to_emerg
+      parameter (germ_to_emerg = germ)
+
+      integer    emerg          ! Emergence stage
+      parameter (emerg = 3)
+      integer    emerg_to_estab
+      parameter (emerg_to_estab = emerg)
+
+      integer    establishment  ! grass always at this stage
+      parameter (establishment = 4)
+      integer    estab_to_end
+      parameter (estab_to_end = establishment)
+
+!      ====================================================================
+
+      type GraspGlobals
+         ! /grasp1_general/
+         integer    year         ! year
+         integer    day_of_year  ! day of year
+         integer    crop_status  ! status of crop
+
+         ! /grasp1_climate/
+
+         real       fr_intc_radn ! fraction of radiation intercepted by
+                                   ! canopy
+         real       radn         ! solar radiation (Mj/m^2/day)
+         real       mint         ! minimum air temperature (oC)
+         real       maxt         ! maximum air temperature (oC)
+         real       pan          ! pan evaporation (mm)
+         real       vpd          ! Vapour pressure deficit (hPa)
+
+         ! /grasp1_phenology_globals/
+         real       dlt_stage      ! change in stage number
+         real       current_stage  ! current phenological stage
+         real       previous_stage ! previous phenological stage
+
+         ! /grasp1_sward/
+
+         real       dlt_dm       ! sward total biomass production (kg/ha)
+         real       dlt_dm_plant(max_part)   ! sward biomass growth (kg/ha)
+         real       dm_green(max_part)       ! live dry weight (kg/ha)
+         real       dm_dead(max_part)        ! dead dry weight  (kg/ha)
+         real       dlt_root_depth           ! increase in root depth (mm)
+         real       root_depth               ! depth of roots (mm)
+         real       dlt_canopy_height        ! change in canopy height (mm)
+         real       canopy_height            ! canopy height (mm)
+
+         ! /grasp1_plant_N/
+
+         real       dlt_no3(max_layer)       ! actual NO3 uptake
+                                             ! from soil (kg/ha)
+         real       no3 (max_layer)          ! nitrate nitrogen in
+                                             ! layer L (kg n/ha)
+         real       no3_min(max_layer)       ! minimum allowable
+                                             ! No3 in soil (ppm)
+         real       N_uptake                 ! Cumulative N used in season (kg)
+
+         ! /grasp1_root_profile/
+
+         real       dlayer (max_layer)       ! thickness of soil layer I (mm)
+         real       dlt_sw_dep(max_layer)    ! water uptake in each
+                                             ! layer (mm water)
+         real       dul_dep (max_layer)      ! drained upper limit soil water
+                                             ! content for soil layer L (mm water)
+         real       ll_dep(max_layer)        ! lower limit of plant-extractable
+                                             ! soil water for soil layer L (mm)
+         real       sw_dep (max_layer)       ! soil water content of layer (mm)
+         real       swi (max_layer)          ! soil water index for each layer ()
+         real       rlv(max_layer)           ! root length volume (per layer)
+         real       layer_fract(max_layer)   ! todays profile change ()
+         real       bd(max_layer)            ! Bulk densities        (g/cc)
+
+         ! /grasp1_root_block/
+
+         integer    num_layers   ! number of layers in profile ()
+         real       swi_total    ! total swi (0-1)
+         real       rawswi_total ! total swi (0-...)
+
+         ! /grasp1_output_totals/
+
+         real out_radn_cover     ! cover for radiation interception
+         real out_transp_cover   ! cover for transpiration
+         real out_total_cover    ! total cover (green + dead)
+         real out_clothesline    ! clothesline effect
+         real out_sw_pot         ! potential water uptake from the sward
+         real out_sw_demand      ! actual sw uptake
+         real out_death_frost(max_part)
+         real out_death_pheno(max_part)
+         real out_death_water(max_part)
+         real out_growth_transp  ! potential growth by transpiration
+         real out_growth_regrow  ! potential growth by BA
+         real out_growth_photo   ! potential growth by photosynthesis
+         real out_rfact          ! radiation index
+         real out_tfact          ! temperature index
+         real out_nfact          ! nitrogen index
+          ! /grasp1_prm_1/
+         real acc_trans_for_N    ! Accumulated transpiration, used
+                                 ! for N uptake (mm)
+         real acc_growth_for_N   ! Accumulated growth, used for
+                                 ! N uptake (kg/ha)
+         real acc_growth         ! Accumulated growth (kg/ha)
+         real basal_area         ! Basal area (%)
+         real dlt_basal_area     ! change in BA
+         real acc_et_summer      ! cuml evapotrans for this season
+         real acc_growth_last_summer ! last years dm production (kg/ha)
+         real tree_sw_demand     ! water taken up by trees today (mm)
+         real es                 ! today's soil evaporation (mm)
+         real dlt_dm_sen(max_part) ! plant death (kg/ha)
+         real detach(max_part)   ! detached dm for residue (kg/ha)
+         real litter             ! sum of dm for residue (kg/ha)
+         real litter_pool        ! residue pool (kg/ha)
+         real biomass_yesterday  ! balance check (kg/ha)
+         real soil_loss          ! soil loss from erosion (t/ha)
+
+      end type GraspGlobals
+!      ====================================================================
+
+
+      type GraspParameters
+         ! /grasp1_name/
+
+         character    stage_names*500 ! full names of stages for reporting
+                                   ! size ?? acsFIXME
+         character    crop_type*50 ! crop type
+         character    uptake_source*50 ! who does water uptake calculation
+
+         ! /grasp1_initial_pools/
+         real   basal_area_init    ! initial basal area (?)
+         real   root_depth_init    ! initial depth of roots (mm)
+         real   dm_green_leaf_init ! initial pool green leaf (kg/ha)
+         real   dm_green_root_init ! initial pool green root (kg/ha)
+         real   dm_green_stem_init ! initial pool green stem (kg/ha)
+         real   dm_dead_stem_init  ! initial pool dead stems (kg/ha)
+         real   dm_dead_leaf_init  ! initial pool dead leaf (kg/ha)
+         real   dm_dead_root_init  ! initial pool dead root (kg/ha)
+         real   acc_trans_for_N_init ! Initial accumulated transpiration,
+                                   ! used for N uptake (mm)
+         real   acc_growth_for_N_init ! Initial accumulated growth,
+                                   ! used for N uptake (kg/ha)
+
+         ! /grasp1_phenology_globals/
+         real         stage_code_list(max_stage) ! list of stage numbers
+
+         ! /grasp1_plant_property/
+         real         rue(max_stage) ! radiation use efficiency (??)
+         real         yld_fpc50    ! tsdm yield at which cover for
+                                   ! radiation is 50% (kg/ha)
+         real         yld_cov50    ! Yield transpiring at 50% of pan
+                                   ! evap. (kg/ha)
+         real         yld_cover_slope ! Shape of exponential curve
+                                   ! relating yield and cover ()
+         real         te_std       ! Transpiration efficiency at
+                                   ! vpd = 20mb (kg/ha/mm)
+         real         max_N_avail(max_layer) ! limit to total N (kg/ha/layer)
+         real         swi_fullgreen  ! minimum soil water for 100% green
+                                     ! cover (0-1)
+         real         swi_nogrow   ! minimum soil water for growth (0-1)
+         real         pot_regrow   ! Max rate regrowth from tussocks
+                                   ! (kg/ha/unit grass basal area)
+         real         rad_factor   ! radiation index coefficient
+         real         kl(max_layer) ! root distribution per layer ()
+         real         kl2rlv       ! convert kl to rlv ()
+         real         enr_a_coeff,   enr_b_coeff ! coefficient in enrichment ratio
+
+      end type GraspParameters
+
+!      ====================================================================
+      type GraspConstants
+
+         ! /grasp1_deficits/
+         real         x_sw_ratio (max_table)
+         real         y_sw_fac_root (max_table)
+         integer      num_sw_ratio
+         real         x_sw_demand_ratio (max_table)
+         real         y_swdef_leaf (max_table)
+         integer      num_sw_demand_ratio
+         real         x_sw_avail_ratio (max_table)
+         real         y_swdef_pheno (max_table)
+         integer      num_sw_avail_ratio
+
+         ! /grasp1_plant_N/
+
+         real         litter_n     ! N content of litter to
+                                   ! residue module (0-1)
+         ! /grasp1_plant_property/
+         real         stem_thresh  ! Threshold above which partitioning of
+                                   ! dm into stem + leaf occurs. (kg/ha)
+
+
+         real         svp_fract    ! fraction of distance between svp at
+                                   ! min temp and svp at max temp where
+                                   ! average svp during transpiration
+                                   ! lies. (0-1)
+
+         real         minsw        ! lowest acceptable value for ll
+
+         integer    num_ave_temp   ! size of critical temperature table
+         real       x_ave_temp(max_table) ! critical temperatures for
+                                   ! photosynthesis (oC)
+         real       y_stress_photo(max_table) ! Factors for
+                                   ! critical temperatures
+         integer    num_factors    ! size of table
+
+
+         real         ll_ub        ! upper limit of lower limit (mm/mm)
+         real         sw_dep_ub    ! upper limit of soilwater depth (mm)
+         real         sw_dep_lb    ! lower limit of soilwater depth (mm)
+         real         no3_ub       ! upper limit of soil No3 (kg/ha)
+         real         no3_lb       ! lower limit of soil No3 (kg/ha)
+         real         no3_min_ub   ! upper limit of minimum soil No3(kg/ha)
+         real         no3_min_lb   ! lower limit of minimum soil No3(kg/ha)
+
+         real      latitude_ub     ! upper limit of latitude (oL)
+         real      latitude_lb     ! lower limit of latitude (oL)
+         real      maxt_ub         ! upper limit of max temperature (oC)
+         real      maxt_lb         ! lower limit of max temperature (oC)
+         real      mint_ub         ! upper limit of min temperature (oC)
+         real      mint_lb         ! lower limit of min temperature (oC)
+         real      radn_ub         ! upper limit of solar rad (Mj/m^2)
+         real      radn_lb         ! lower limit of solar rad (Mj/M^2)
+         real      dlayer_ub       ! upper limit of layer depth (mm)
+         real      dlayer_lb       ! lower limit of layer depth (mm)
+         real      dul_dep_ub      ! upper limit of dul (mm)
+         real      dul_dep_lb      ! lower limit of dul (mm)
+         real      tree_sw_ub      ! upper limit of tree sw demand (mm)
+         real      tree_sw_lb      ! lower limit of tree sw demand (mm)
+
+         real   hgt_vpd_screen     ! Height at which surface effects on
+                                   ! vpd are 0 (mm)
+         real   ba_ll,   ba_ul     ! Upper, lower limits of basal area
+         real   vpd_grnd_mult      ! Multiplier to give ground (height = 0)
+                                   ! vpd from screen vpd
+         real   et_use_efficiency  ! Evapotranspiration use efficiency
+                                   ! (used in BA calc) (kg/ha/mm)
+         real   frac_leaf2total    ! fraction of total dm produced that
+                                   ! goes into leaf pool (0->1)
+         real   std_vpd            ! Standard Vapour Pressure deficit(20mb)
+         real   height_1000kg      ! Height of grass when TSDM = 1000kg/ha
+                                   ! (NB units?)
+
+         integer   day_start_summer  ! julian day of start of summer
+         integer   day_end_summer  ! julian day of end of summer
+         integer   day_start_wet  ! julian day of start of wet season
+         integer   day_start_dry  ! julian day of start of dry season
+
+         integer   acc_et_reset    ! reset day for acc et
+         integer   acc_growth_reset ! reset day for acc_growth
+         integer   trans_for_n_reset ! "
+         integer   growth_for_n_reset ! "
+
+         real    residual_plant_N  ! Always this much N in plant (kg/ha)
+         real    frost_start       ! Highest temp at which frost
+                                   !   begins (oC)
+         real    frost_kill        ! Highest temp at which frost kills
+                                   !  all green (oC)
+         real    death_slope       ! Rate of green death per soil water
+         real    death_intercept   ! Background death rate (senescence)
+         real    leaf_death_ratio  ! proportion of leaf death to
+                                   ! total death
+         real    stem_death_ratio  ! proportion of stem death to
+                                   ! total death
+         real    N_uptk_per100     ! Nitrogen uptaken per 100mm
+                                   ! water (kg/ha)
+         real    N_conc_dm_crit    ! level of soil N at which no N stress
+                                   ! occurs for growth (NB. units?)
+         real    N_conc_dm_min     ! level of soil N too low for growth
+                                   ! (NB. units?)
+         real    N_conc_dm_max     ! level of soil N too high for growth
+                                   ! (NB. units?)
+
+         real   pan_lb,   pan_ub   ! lb, ub of pan evap
+         real   es_lb,   es_ub     ! es (soil evaporation) bounds
+         real   vpd_lb,   vpd_ub   ! vpd bounds
+         real   detach_dryseason(max_part) ! background detachment dry
+         real   detach_wetseason(max_part) ! background detachment wet
+         real   dead_cover_slope   ! cover per kilo of dead pool (ie. linear)
+
+      end type GraspConstants
+!      ====================================================================
+      ! instance variables.
+      type (GraspGlobals), pointer :: g
+      type (GraspParameters), pointer :: p
+      type (GraspConstants), pointer :: c
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+      type GraspDataPtr
+         type (GraspGlobals), pointer ::    gptr
+         type (GraspParameters), pointer :: pptr
+         type (GraspConstants), pointer ::  cptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type GraspDataPtr
+      type (GraspDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+
+      contains
+
+
+
+
 C     Last change:  P     9 Nov 2000   10:15 am
 
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -22,12 +408,11 @@ C     Last change:  P     9 Nov 2000   10:15 am
       Instances(InstanceNo)%Name = InstanceName
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -44,12 +429,11 @@ C     Last change:  P     9 Nov 2000   10:15 am
       deallocate (Instances(anInstanceNo)%cptr)
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -66,12 +450,11 @@ C     Last change:  P     9 Nov 2000   10:15 am
       c => Instances(anInstanceNo)%cptr
 
       return
-      end
+      end subroutine
 
 *     ================================================================
       subroutine Main (action, data_string)
 *     ================================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -159,14 +542,13 @@ C     Last change:  P     9 Nov 2000   10:15 am
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_process ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -210,14 +592,13 @@ c     do N at start of day to calculate N indexes for growth.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_prepare ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -228,8 +609,6 @@ c     do N at start of day to calculate N indexes for growth.
 *      250894 jngh specified and programmed
 
 *+  Calls
-      real      grasp_sw_pot
-      real      grasp_total_cover
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -248,14 +627,13 @@ c     do N at start of day to calculate N indexes for growth.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_phenology ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -286,14 +664,13 @@ c     do N at start of day to calculate N indexes for growth.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_devel (dlt_stage, current_stage)
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -364,14 +741,13 @@ c     do N at start of day to calculate N indexes for growth.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_canopy_height (dlt_canopy_height)
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -406,14 +782,13 @@ c     do N at start of day to calculate N indexes for growth.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_transpiration ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -477,14 +852,13 @@ c     do N at start of day to calculate N indexes for growth.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_calculate_swi ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -495,7 +869,7 @@ c     do N at start of day to calculate N indexes for growth.
 *      250894 jngh specified and programmed
 
 *+  Calls
-      real      grasp_swi
+
 
 *+  Constant Values
       character  my_name*(*)    ! name of procedure
@@ -528,14 +902,13 @@ c     throughout grasp; rawswi_total, swi_total, swi(layer).
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_root_depth (dlt_root_depth)
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -560,14 +933,13 @@ c     throughout grasp; rawswi_total, swi_total, swi(layer).
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       real function  grasp_sw_pot ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -581,8 +953,6 @@ c     throughout grasp; rawswi_total, swi_total, swi(layer).
 *       010994 jngh specified and programmed
 
 *+  Calls
-      real      grasp_transp_cover
-      real      grasp_clothesline
 
 *+  Constant Values
       character  my_name*(*)    ! name of procedure
@@ -612,14 +982,13 @@ c     be removed. FIXME!
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       subroutine grasp_sw_uptake (dlt_sw_dep)
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -636,7 +1005,7 @@ c     be removed. FIXME!
 *       010994 jngh specified and programmed
 
 *+  Calls
-      real      grasp_sw_pot
+
 
 *+  Constant Values
       character  my_name*(*)    ! name of procedure
@@ -671,14 +1040,13 @@ c         write (*,*) 'g%sw(',layer,') =', g%sw_dep(layer)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       real function grasp_swi (layer)
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -706,7 +1074,7 @@ c         write (*,*) 'g%sw(',layer,') =', g%sw_dep(layer)
 *       010994 jngh specified and programmed
 
 *+  Calls
-      real       grasp_sw_supply ! functions
+
 
 *+  Constant Values
       character  my_name*(*)    ! name of procedure
@@ -748,14 +1116,13 @@ c         write (*,*) 'g%sw(',layer,') =', g%sw_dep(layer)
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       real function grasp_sw_supply (layer)
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -804,14 +1171,13 @@ c$$$      endif
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       real function grasp_clothesline ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -825,8 +1191,7 @@ c$$$      endif
 *       090994 jngh specified and programmed
 
 *+  Calls
-      real      grasp_vpd_hgt_ndx
-      real      grasp_swi
+
 
 *+  Constant Values
       character  my_name*(*)    ! name of procedure
@@ -849,14 +1214,13 @@ c cover...  FIXME!
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       real function grasp_vpd_hgt_ndx (sward_mm)
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -896,14 +1260,13 @@ c cover...  FIXME!
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       real function grasp_dm_photo ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -916,8 +1279,6 @@ c cover...  FIXME!
 *       220797 pdev changed nix*tix to min(tix,nix) on advice of mckeon.
 
 *+  Calls
-      real       grasp_nfact
-      real       grasp_tfact
 
 *+  Constant Values
       character  my_name*(*)    ! name of procedure
@@ -949,14 +1310,13 @@ c     radiation under stressed conditions.
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       real function grasp_tfact ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -991,14 +1351,13 @@ c     photosynthesis (0-1)
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       subroutine grasp_radn_int (radn_int)
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -1013,7 +1372,7 @@ c     photosynthesis (0-1)
 *     010994 jngh specified and programmed
 
 *+  Calls
-      real       grasp_radn_cover
+
 
 *+  Constant Values
       character  my_name*(*)    ! name of procedure
@@ -1039,14 +1398,13 @@ c     photosynthesis (0-1)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       real function grasp_transp_eff ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -1062,7 +1420,7 @@ c     photosynthesis (0-1)
 *       240894 jngh specified and programmed
 
 *+  Calls
-      real       grasp_vpd_hgt_ndx ! function
+
 
 *+  Constant Values
       character  my_name*(*)    ! name of procedure
@@ -1090,14 +1448,13 @@ c     effect on TE.
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       real function grasp_vpd ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -1147,14 +1504,13 @@ c     Get vapour pressure deficit when net radiation is positive.
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       subroutine grasp_biomass ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -1194,14 +1550,13 @@ c     Get vapour pressure deficit when net radiation is positive.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_basal_area_init (basal_area)
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -1238,7 +1593,7 @@ c     Get vapour pressure deficit when net radiation is positive.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1246,7 +1601,6 @@ c     Get vapour pressure deficit when net radiation is positive.
       subroutine grasp_dm_sen (dlt_dm_sen, dlt_dm_frost,
      :     dlt_dm_pheno, dlt_dm_water)
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -1307,14 +1661,13 @@ c     Get vapour pressure deficit when net radiation is positive.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_sen_frost(sen_fac)
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -1362,14 +1715,13 @@ c     Get vapour pressure deficit when net radiation is positive.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_sen_pheno(sen_fac)
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -1411,14 +1763,13 @@ c     Get vapour pressure deficit when net radiation is positive.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_sen_water (sen_fac)
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -1492,7 +1843,7 @@ C     Limit cover to potential maximum
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1500,7 +1851,6 @@ C     Limit cover to potential maximum
       subroutine grasp_dm_production (dlt_dm, dlt_dm_transp,
      :     dlt_dm_photo, dlt_dm_regrow)
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -1518,10 +1868,7 @@ C     Limit cover to potential maximum
 *       090994 jngh specified and programmed
 
 *+  Calls
-      real       grasp_transp_eff
-      real       grasp_sw_pot
-      real       grasp_dm_photo
-      real       grasp_dm_regrowth
+
 
 *+  Constant Values
       character  my_name*(*)    ! name of procedure
@@ -1570,14 +1917,13 @@ C     Limit cover to potential maximum
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_dm_partition (dlt_dm_plant)
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -1634,14 +1980,13 @@ C     Limit cover to potential maximum
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       real function grasp_dm_regrowth ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -1652,9 +1997,7 @@ C     Limit cover to potential maximum
 *       010994 jngh specified and programmed
 
 *+  Calls
-      real      grasp_nfact
-      real      grasp_tfact
-      real      grasp_rfact
+
 
 *+  Constant Values
       character  my_name*(*)    ! name of procedure
@@ -1675,14 +2018,13 @@ C     Limit cover to potential maximum
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       real function grasp_rfact ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -1709,14 +2051,13 @@ c     NB. straight from grasp - may be another method:
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       subroutine grasp_nitrogen ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -1738,14 +2079,13 @@ c     NB. straight from grasp - may be another method:
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_N_uptake ( N_uptake, dlt_No3 )
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -1830,14 +2170,13 @@ c     PdeV 7/96.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       real function grasp_nfact ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -1901,14 +2240,13 @@ c      need to be changed. FIXME!
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       subroutine grasp_update ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -1977,14 +2315,13 @@ c      write (*,*) 'trans_n:      ', g%acc_trans_for_n
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_plant_death ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -2006,14 +2343,13 @@ c      write (*,*) 'trans_n:      ', g%acc_trans_for_n
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_detachment (detach)
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -2070,14 +2406,13 @@ C     Proportions are different for wet season or dry season.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_store_report_vars ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -2092,14 +2427,7 @@ C     Proportions are different for wet season or dry season.
 *     010994 jngh specified and programmed
 
 *+  Calls
-      real       grasp_sw_pot
-      real       grasp_radn_cover
-      real       grasp_transp_cover
-      real       grasp_total_cover
-      real       grasp_clothesline
-      real       grasp_rfact
-      real       grasp_tfact
-      real       grasp_nfact
+
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2123,14 +2451,13 @@ C     Proportions are different for wet season or dry season.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       real function grasp_total_cover ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -2183,14 +2510,13 @@ c     Bound to reasonable values:
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       subroutine grasp_event ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -2246,14 +2572,13 @@ c     Bound to reasonable values:
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_check_sw ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -2327,14 +2652,13 @@ c     Bound to reasonable values:
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_zero_variables ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -2555,7 +2879,7 @@ c     Bound to reasonable values:
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -2563,7 +2887,6 @@ c     Bound to reasonable values:
 *     ===========================================================
       subroutine grasp_zero_daily_variables ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -2599,14 +2922,13 @@ c     Bound to reasonable values:
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_init ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -2670,14 +2992,13 @@ c     Bound to reasonable values:
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_add_residue (dlt_residue_weight, dlt_residue_N)
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -2725,14 +3046,13 @@ c         write (*,*) ' n = ', dlt_residue_N
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_save_yesterday ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -2759,14 +3079,13 @@ c     write (*,*) 'biomass = ', g%biomass_yesterday
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_balance_check ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -2940,14 +3259,13 @@ cplp         call fatal_error(err_internal, 'Negative Pool Error')
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ================================================================
       real function grasp_radn_cover ()
 *     ================================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -2981,14 +3299,13 @@ cpdev  bound required..
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ================================================================
       real function grasp_transp_cover ()
 *     ================================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -3021,14 +3338,13 @@ cpdev  bound required?..
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ================================================================
       subroutine grasp_get_other_variables ()
 *     ================================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -3045,7 +3361,7 @@ cpdev  bound required?..
 *     091100 dph  added call to ei_existscomponent to test for 'tree'
 
 *+  Calls
-      real       grasp_vpd
+
 
 *+  Constant Values
       character  my_name*(*)    ! name of procedure
@@ -3190,14 +3506,13 @@ cpdev  bound required?..
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ================================================================
       subroutine grasp_set_other_variables ()
 *     ================================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -3247,14 +3562,13 @@ cpdev  bound required?..
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===============================================================
       subroutine grasp_set_my_variable (Variable_name)
 *     ===============================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -3432,14 +3746,13 @@ cpdev  bound required?..
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ================================================================
       subroutine grasp_send_my_variable (variable_name)
 *     ================================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -3456,9 +3769,7 @@ cpdev  bound required?..
 *      string_concat
 
 *+  Calls
-      real       grasp_transp_eff
-      real       grasp_vpd_hgt_ndx
-      real       grasp_total_cover
+
 
 *+  Constant Values
       character  my_name*(*)    ! name of procedure
@@ -3797,14 +4108,13 @@ cpdev. One of these is right. I don't know which...
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_read_constants ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -4071,14 +4381,13 @@ c     :                    , 0.0, 365.0)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_read_parameters ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -4412,14 +4721,13 @@ c     :                    , 0.0, 10000.0)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_write_summary ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -4580,14 +4888,13 @@ c     :                    , 0.0, 10000.0)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine grasp_soil_loss ()
 *     ===========================================================
-      use GraspModule
       Use infrastructure
       implicit none
 
@@ -4657,7 +4964,8 @@ c     :                    , 0.0, 10000.0)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
+      end module GraspModule
