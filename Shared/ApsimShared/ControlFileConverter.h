@@ -118,6 +118,11 @@ class __declspec(dllexport) ControlFileConverter
       //---------------------------------------------------------------------------
       bool executeRemoveTrackerDefault(const std::string& arguments) throw(runtime_error);
 
+      //---------------------------------------------------------------------------
+      // To a search and replace on all report variables
+      //---------------------------------------------------------------------------
+      bool executeSearchReplaceReportVariables(const std::string& arguments) throw(runtime_error);
+
    };
 
 // ------------------------------------------------------------------
