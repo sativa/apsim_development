@@ -165,6 +165,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 *+  Changes
 *     dph 25/11/96
 *     nih 28/04/99 - added simple sub-daily timestep function
+*     dph 19/12/00 - removed the advance_clock
 
 *+  Calls
 
@@ -177,27 +178,30 @@ C     Last change:  E     5 Dec 2000    8:52 am
       integer day, month, year
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (this_routine)
- 
+
       ! read in all parameters for clock module.
 
       call clock_read_params ()
 
       ! set the clock to start_day.
-cih
+
       g%end_current_run = .false.
       g%pause_current_run = .false.
       g%percent_complete = -1
- 
-      g%current_date = g%start_date - 1.
-      g%current_time = -g%timestep
 
-      call clock_advance_clock ()
+      g%current_date = g%start_date
+      g%current_time = -g%timestep
+      call jday_to_day_of_year (g%current_date,
+     .                          g%day,
+     .                          g%year)
+
+      call clock_advance_clock()
 
       ! write parameters to summary file.
       call jday_to_date (day, month, year, g%start_date)
-      write (msg, '(a, i2,a,i2,a,i4)') 
+      write (msg, '(a, i2,a,i2,a,i4)')
      .      'Simulation start date = ',
      .      day, '/', month, '/', year
       if (msg(28:28) .eq. Blank) then
@@ -206,17 +210,19 @@ cih
       call Write_string (msg)
 
       call jday_to_date (day, month, year, g%end_date)
-      write (msg, '(a, i2,a,i2,a,i4)') 
+      write (msg, '(a, i2,a,i2,a,i4)')
      .      'Simulation end date   = ',
      .      day, '/', month, '/', year
       if (msg(28:28) .eq. Blank) then
          msg(28:28) = '0'
       endif
       call Write_string (msg)
- 
-      write (msg, '(a, i4, a)') 
+
+      write (msg, '(a, i4, a)')
      .   'Time step =           = ', g%timestep, ' (mins)'
       call Write_string (msg)
+
+!      call Clock_DoTick()
 
       call pop_routine (this_routine)
       return
@@ -702,6 +708,7 @@ cih
 
 *+  Changes
 *        DPH - 26/11/96
+*        dph - 19/12/00 removed call to send init messages to all modules.
 
 *+  Constant Values
       character This_routine*(*)       ! name of this routine
@@ -713,14 +720,13 @@ cih
 
       call push_routine (This_routine)
 
-      ! send initialisation message to all modules.
-      call Action_send_to_all_comps (ACTION_Init)
-
       ! tell summary service to enter the diary state ie. not the
       ! initialisation state.
       call Summary_enter_diary_state ()
       
       ! do all timesteps for simulation
+
+!      g%current_date = g%current_date - 1
  
       call Clock_timestep_loop ()
 
