@@ -43,8 +43,8 @@
          call irrigate_zero_variables ()
          call irrigate_Init ()
  
-      else if (Action.eq.MES_Inter_Timestep) then
-         call irrigate_Inter_Timestep()
+      else if (Action.eq.EVENT_tick) then
+         call irrigate_ONtick()
  
       else if (Action.eq.MES_Process) then
          call irrigate_get_other_variables ()
@@ -654,25 +654,6 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      call Get_integer_var (
-     :      unknown_module  ! Module that responds (Not Used)
-     :    , 'year'          ! Variable Name
-     :    , '()'            ! Units                (Not Used)
-     :    , g_year          ! Variable
-     :    , numvals         ! Number of values returned
-     :    , min_year            ! Lower Limit for bound checking
-     :    , max_year)           ! Upper Limit for bound checking
- 
-      call Get_integer_var (
-     :      unknown_module  ! Module that responds (Not Used)
-     :    , 'day'           ! Variable Name
-     :    , '()'            ! Units                (Not Used)
-     :    , g_day           ! Variable
-     :    , numvals         ! Number of values returned
-     :    , 0               ! Lower Limit for bound checking
-     :    , 366)            ! Upper Limit for bound checking
- 
- 
       call Get_real_array (
      :      unknown_module  ! Module that responds (Not Used)
      :    , 'sw_dep'        ! Variable Name
@@ -1209,27 +1190,37 @@
  
  
 *     ===========================================================
-      subroutine irrigate_inter_timestep ()
+      subroutine irrigate_ONtick ()
 *     ===========================================================
       implicit none
       include   'irrigate.inc'
+      include 'event.pub'
       include 'error.pub'
  
 *+  Purpose
-*     <insert here>
+*     Update internal time record and reset daily state variables.
  
 *+  Mission Statement
-*     Reset total irrigation applied
+*     Update internal time record and reset daily state variables.
  
 *+  Changes
-*     <insert here>
+*     NIH 250899
+
+*+  Local Variables
+      character temp1*5
+      integer   temp2
  
 *+  Constant Values
       character*(*) my_name            ! name of current procedure
-      parameter (my_name = 'irrigate_inter_timestep')
+      parameter (my_name = 'irrigate_ONtick')
  
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+
+      ! Note that time and timestep information is not required
+      ! and so dummy variables are used in their place.
+
+      call handler_ONtick(g_day, g_year, temp1, temp2)
  
       g_irrigation_applied = 0.0
       g_carry_over = 0.0
