@@ -262,6 +262,8 @@ void Path::Set_extension (const char* New_extension)
 //    DPH 17/11/94
 //    DPH 13/5/1997 - reworked to use standard template library.
 //    dph 27/3/98 changed string::npos to string::npos in line with standard.
+//    dph 5/12/00 enhanced code to look for file extension after
+//                directory path D394.
 
 // ------------------------------------------------------------------
 void Path::Set_path (const char* New_path)
@@ -279,22 +281,20 @@ void Path::Set_path (const char* New_path)
          New_path_string.replace (0, 2, "");
          }
 
-      // remove file name part of path.
+      // NO - If pos. of last '.' is AFTER pos. of last '\' then
+      // assume last part is a filename.  Otherwise whole path
+      // is assumed to be a directory.
+      // e.g. d:\apswork1.61\filename.ext = directory + filename
+      // e.g. d:\apswork1.61\filename     = directory + no filename
       size_t Pos_directory = New_path_string.find_last_of("\\");
       size_t Pos_name = New_path_string.find_last_of(".");
-      if (Pos_name != string::npos)
+      if (Pos_directory != string::npos &&
+          Pos_name != string::npos &&
+          Pos_name > Pos_directory)
          {
-         if (Pos_directory == string::npos)
-            {
-            Name = New_path_string;
-            New_path_string = "";
-            }
-         else
-            {
-            Pos_name = Pos_directory + 1;
-            Name = New_path_string.substr (Pos_name);
-            New_path_string.replace (Pos_name-1, string::npos, "");
-            }
+         Pos_name = Pos_directory + 1;
+         Name = New_path_string.substr (Pos_name);
+         New_path_string.replace (Pos_name-1, string::npos, "");
          }
 
       // remove last backslash if necessary.
