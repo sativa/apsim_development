@@ -1,0 +1,43 @@
+include base.interface
+
+; -----------------------------------------------------------
+; Cropmod's public interface which other components may
+; use.  Contains:
+;    Properties which other components may get or set
+;    Methods which other components may call
+;    Events which other components may trap (or subscribe to)
+; -----------------------------------------------------------
+class APSIMCropmodPublic
+
+   sysinit                 : APSIMMethod                = System initialise
+   sow                     : APSIMSowMethod             = Message from manager to module
+   harvest                 : APSIMHarvestMethod         = Message from manager to module
+   end_crop                : APSIMEndCropMethod         = Message for a crop to terminate
+   kill_crop               : APSIMKillCropMethod        = Message for a crop to be killed
+
+end
+
+; -----------------------------------------------------------
+; Cropmod's external interface which documents things in other 
+; components that this component uses.
+; Contains:
+;    Properties used in other components
+;    Methods called in other components
+;    Events from other components that this component uses.
+; -----------------------------------------------------------
+
+class APSIMCropmodExternal
+
+   add_residue             : APSIMAddResidueMethod      = Message to report a residue decomposition
+   incorp_fom              : APSIMIncorporateFOMMethod  = Message to report a residue decomposition
+
+   prepare                 : APSIMEvent                 = Message to prepare for process
+   process                 : APSIMEvent                 = Message to process
+
+end
+
+class APSIMCropmod
+   dll       : string
+   public    : APSIMCropmodPublic
+   External  : APSIMCropmodExternal
+end
