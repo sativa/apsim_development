@@ -866,14 +866,14 @@
       elseif (Variable_name .eq. 'allocation') then
          call respond2get_real_var (
      :                variable_name           ! variable name
-     :              , '(mm)'                  ! units
-     :              , g%allocation)           ! array
+     :              , '(Ml)'                  ! units
+     :              , (g%allocation/100))           ! array
 
       elseif (Variable_name .eq. 'carry_over') then
          call respond2get_real_var (
      :                variable_name           ! variable name
-     :              , '(mm)'                  ! units
-     :              , g%carry_over)           ! array
+     :              , '(Ml)'                  ! units
+     :              , (g%carry_over/100))           ! array
  
       else
          call Message_unused ()
