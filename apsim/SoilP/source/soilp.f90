@@ -1844,6 +1844,76 @@ subroutine soilp_min_residues ()
    return
 end subroutine
 
+!     ===========================================================
+subroutine soilp_ONFreshOrganicMatterIncorporated(variant)
+!     ===========================================================
+   Use Infrastructure
+   implicit none
+
+!+  Purpose
+!       Add roots into fom pools
+
+!+  Mission Statement
+!     Add roots into fom pools
+
+!+  Sub-Program Arguments
+   integer, intent(in out) :: variant
+
+!+  Constant Values
+   character  my_name*(*)           ! name of subroutine
+   parameter (my_name = 'soilp_ONFreshOrganicMatterIncorporated')
+
+!+  Local Variables
+   character*200   message          !
+   integer    layer                 ! layer number in loop ()
+   integer    numvals               ! number of values read from file
+   real fom_c_pool1(max_layer)!   C in fom pool 1
+   real fom_c_pool2(max_layer)!   C in fom pool 2
+   real fom_c_pool3(max_layer)!   C in fom pool 3
+
+   type (FPoolProfileLayerType), dimension(max_layer)::FPoolProfileLayer
+
+
+!- Implementation Section ----------------------------------
+
+   call push_routine (my_name)
+
+   !dsg need to get g%fom_c_pools from soiln2 to calculate cp ratios
+   call Get_real_array (unknown_module,'fom_c_pool1',max_layer,'()',fom_c_pool1,numvals,0.0,5000.)
+   call Get_real_array (unknown_module,'fom_c_pool2',max_layer,'()',fom_c_pool2,numvals,0.0,5000.)
+   call Get_real_array (unknown_module,'fom_c_pool3',max_layer,'()',fom_c_pool3,numvals,0.0,5000.)
+
+
+   call unpack_FPoolProfileLayer(variant,FPoolProfileLayer,numvals)
+
+
+   !NOW INCREMENT THE POOLS with the unpacked deltas
+
+
+   do layer = 1, numvals
+      ! now update fom P information
+      g%fom_p_pool(1,layer) = g%fom_p_pool(1,layer) +FPoolProfileLayer(layer)%fpool(1)%P
+      g%fom_p_pool(2,layer) = g%fom_p_pool(2,layer) +FPoolProfileLayer(layer)%fpool(2)%P
+      g%fom_p_pool(3,layer) = g%fom_p_pool(3,layer) +FPoolProfileLayer(layer)%fpool(3)%P
+
+      g%fom_p (layer) = g%fom_p_pool(1,layer) + g%fom_p_pool(2,layer)+ g%fom_p_pool(3,layer)
+
+      g%fom_cp_pool(1,layer) =  divide(fom_c_pool1(layer),g%fom_p_pool(1,layer),0.0)
+      g%fom_cp_pool(2,layer) =  divide(fom_c_pool2(layer),g%fom_p_pool(2,layer),0.0)
+      g%fom_cp_pool(3,layer) =  divide(fom_c_pool3(layer),g%fom_p_pool(3,layer),0.0)
+
+      g%fom_cp(layer) = divide((fom_c_pool1(layer)+fom_c_pool2(layer) +fom_c_pool3(layer)),(g%fom_p_pool(1,layer)+g%fom_p_pool(2,layer) + g%fom_p_pool(3,layer)),0.0)
+
+      g%labile_p(layer) = g%labile_p(layer) + FPoolProfileLayer(layer)%po4
+
+   end do
+
+
+
+  call pop_routine (my_name)
+  return
+end subroutine
+
 
 
 ! ====================================================================
@@ -2282,5 +2352,10 @@ subroutine respondToEvent(fromID, eventID, variant)
    integer, intent(in) :: eventID
    integer, intent(in) :: variant
 
+   if (eventID .eq.id%FreshOrganicMatterIncorporated) then
+      call soilP_ONFreshOrganicMatterIncorporated(variant)
+
+   endif
+ 
    return
 end subroutine respondToEvent
