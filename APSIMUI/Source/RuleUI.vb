@@ -100,7 +100,7 @@ Public Class RuleUI
         LogicText = Replace(LogicText, "[cr]", vbCrLf)
         LogicTextBox.Text = LogicText
 
-        RuleNameLabel.Text = "Rule Name: " + GetAttribute("", "name")
+        RuleNameLabel.Text = "Rule Name: " + GetAttribute("name")
         Dim eventname As String = GetValue("event")
         Dim i As Integer = EventComboBox.FindStringExact(eventname)
         If i >= 0 Then
@@ -112,9 +112,8 @@ Public Class RuleUI
         Try
             MsgBox("leave")
             If LogicTextBox.Visible = True Then
-                Dim path As String = DataPath + "/" + "logic"
                 Dim logic As String = Replace(LogicTextBox.Text, vbCrLf, "[cr]")
-                APSIMFile.SetValue(path, logic)
+                APSIMData.Value("logic") = logic
                 Me.Refresh()
             End If
         Catch ex As Exception
@@ -129,8 +128,7 @@ Public Class RuleUI
     Private Sub EventComboBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles EventComboBox.Leave
         Try
             If EventComboBox.Visible = True Then
-                Dim path As String = DataPath + "/" + "event"
-                APSIMFile.SetValue(path, EventComboBox.Text)
+                APSIMData.Value("event") = EventComboBox.Text
                 Me.Refresh()
             End If
         Catch ex As Exception

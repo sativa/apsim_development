@@ -162,6 +162,11 @@
         <Files>
             <Include>
                 <File
+                    RelPath = "APSIMData.vb"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "APSIMFile.vb"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -214,6 +219,16 @@
                 <File
                     RelPath = "EnhancedListView.resx"
                     DependentUpon = "EnhancedListView.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "ExplorerUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ExplorerUI.resx"
+                    DependentUpon = "ExplorerUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

@@ -100,7 +100,8 @@ Public Class areaui
         '        Next
 
         Dim ChildList As New StringCollection
-        APSIMFile.GetChildList(DataPath, ChildList)
+        ChildList = APSIMData.ChildList
+
         Dim ChildName As String
         For Each ChildName In ChildList
             Dim item As New ListViewItem(ChildName, 0)
@@ -115,7 +116,8 @@ Public Class areaui
         Try
             Dim item As ListViewItem
             For Each item In ListView.SelectedItems
-                UIManager.ShowUI(DataPath + "/" + item.Text)
+                
+                'UIManager.ShowUI(APSIMData.Child(item.Text))
             Next
         Catch ex As Exception
             MsgBox("Error loading user interface", MsgBoxStyle.Critical, "Error")
@@ -124,13 +126,13 @@ Public Class areaui
 
 
     Private Sub ListView_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles ListView.DragDrop
-        Dim datastring As String = e.Data.GetData(DataFormats.Text)
-        Dim data As New APSIMFile
-        data.Data = datastring
-        Dim caption As String = data.RootPath
-        Dim item As New ListViewItem(caption, 0)
-        ListView.Items.Add(item)
-        UIManager.AddComponent(DataPath, datastring)
+        '        Dim datastring As String = e.Data.GetData(DataFormats.Text)
+        '        Dim APSIMdata As New APSIMData
+        '        APSIMdata.Data = datastring
+        '        Dim caption As String = data.RootPath
+        '        Dim item As New ListViewItem(caption, 0)
+        '        ListView.Items.Add(item)
+        '        UIManager.AddComponent(DataPath, datastring)
     End Sub
 
     Private Sub ListView_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles ListView.DragEnter

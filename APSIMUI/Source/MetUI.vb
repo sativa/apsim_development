@@ -43,10 +43,10 @@ Public Class MetUI
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MetUI))
         Me.MetFileTextBox = New System.Windows.Forms.TextBox
         Me.BrowseButton = New System.Windows.Forms.Button
+        Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.Label1 = New System.Windows.Forms.Label
         Me.RichTextBox = New System.Windows.Forms.RichTextBox
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
-        Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.ImageList2 = New System.Windows.Forms.ImageList(Me.components)
         Me.SuspendLayout()
         '
@@ -55,9 +55,11 @@ Public Class MetUI
         Me.MetFileTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.MetFileTextBox.AutoSize = False
-        Me.MetFileTextBox.Location = New System.Drawing.Point(100, 48)
+        Me.MetFileTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.MetFileTextBox.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.MetFileTextBox.Location = New System.Drawing.Point(80, 8)
         Me.MetFileTextBox.Name = "MetFileTextBox"
-        Me.MetFileTextBox.Size = New System.Drawing.Size(859, 24)
+        Me.MetFileTextBox.Size = New System.Drawing.Size(896, 24)
         Me.MetFileTextBox.TabIndex = 0
         Me.MetFileTextBox.Text = ""
         '
@@ -67,18 +69,24 @@ Public Class MetUI
         Me.BrowseButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.BrowseButton.ImageIndex = 0
         Me.BrowseButton.ImageList = Me.ImageList
-        Me.BrowseButton.Location = New System.Drawing.Point(960, 48)
+        Me.BrowseButton.Location = New System.Drawing.Point(984, 8)
         Me.BrowseButton.Name = "BrowseButton"
         Me.BrowseButton.Size = New System.Drawing.Size(80, 24)
         Me.BrowseButton.TabIndex = 1
         Me.BrowseButton.Text = "Browse"
         Me.BrowseButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
+        'ImageList
+        '
+        Me.ImageList.ImageSize = New System.Drawing.Size(16, 16)
+        Me.ImageList.ImageStream = CType(resources.GetObject("ImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.ImageList.TransparentColor = System.Drawing.Color.Transparent
+        '
         'Label1
         '
-        Me.Label1.Location = New System.Drawing.Point(8, 48)
+        Me.Label1.Location = New System.Drawing.Point(8, 11)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(88, 24)
+        Me.Label1.Size = New System.Drawing.Size(72, 16)
         Me.Label1.TabIndex = 2
         Me.Label1.Text = "Weather File:"
         '
@@ -88,18 +96,12 @@ Public Class MetUI
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RichTextBox.Font = New System.Drawing.Font("Courier New", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RichTextBox.Location = New System.Drawing.Point(56, 112)
+        Me.RichTextBox.Location = New System.Drawing.Point(0, 40)
         Me.RichTextBox.Name = "RichTextBox"
         Me.RichTextBox.ReadOnly = True
-        Me.RichTextBox.Size = New System.Drawing.Size(991, 427)
+        Me.RichTextBox.Size = New System.Drawing.Size(1072, 544)
         Me.RichTextBox.TabIndex = 3
         Me.RichTextBox.Text = ""
-        '
-        'ImageList
-        '
-        Me.ImageList.ImageSize = New System.Drawing.Size(16, 16)
-        Me.ImageList.ImageStream = CType(resources.GetObject("ImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.ImageList.TransparentColor = System.Drawing.Color.Transparent
         '
         'ImageList2
         '
@@ -109,7 +111,7 @@ Public Class MetUI
         'MetUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(1095, 585)
+        Me.ClientSize = New System.Drawing.Size(1072, 585)
         Me.Controls.Add(Me.RichTextBox)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.BrowseButton)
@@ -125,9 +127,6 @@ Public Class MetUI
         Try
             MyBase.Refresh()
             Dim filename As String = GetValue("filename")
-            If Path.GetDirectoryName(filename) = "" Then
-                filename = APSIMFile.XMLFilePath + "\" + filename
-            End If
             MetFileTextBox.Text = filename
             OpenFileDialog.InitialDirectory = Path.GetDirectoryName(filename)
 
@@ -150,8 +149,7 @@ Public Class MetUI
         Try
             If OpenFileDialog.ShowDialog() = DialogResult.OK Then
                 MetFileTextBox.Text = OpenFileDialog.FileName
-                Dim path As String = DataPath + "/" + "filename"
-                APSIMFile.SetValue(path, MetFileTextBox.Text)
+                APSIMData.Value("filename") = MetFileTextBox.Text
                 Me.Refresh()
             Else
             End If
@@ -163,8 +161,7 @@ Public Class MetUI
     Private Sub MetFileTextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles MetFileTextBox.Leave
         Try
             If MetFileTextBox.Visible = True Then
-                Dim path As String = DataPath + "/" + "filename"
-                APSIMFile.SetValue(path, MetFileTextBox.Text)
+                APSIMData.Value("filename") = MetFileTextBox.Text
                 Me.Refresh()
             End If
         Catch ex As Exception
