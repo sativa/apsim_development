@@ -25,6 +25,7 @@ using namespace boost::gregorian;
 #pragma link "IWCompRectangle"
 #pragma link "IWExtCtrls"
 #pragma link "IWHTMLControls"
+#pragma link "IWTMSEdit"
 #pragma resource "*.dfm"
 
 using namespace boost::gregorian;
@@ -34,16 +35,22 @@ using namespace boost::gregorian;
 __fastcall TTemporalDataForm::TTemporalDataForm(TComponent* Owner)
         : TIWAppForm(Owner), firstAllowableDate(pos_infin), startDate(pos_infin)
    {
+   startDate = date(day_clock::local_day().year(), 1, 1);
+
+   for (int year = 2003; year <= 2010; year++)
+      YearCombo->Items->Add(IntToStr(year));
+      
+   YearCombo->ItemIndex = startDate.year()-2003;
    }
 //---------------------------------------------------------------------------
 // setup this form.
 //---------------------------------------------------------------------------
 void TTemporalDataForm::setup(TWebSession* session, Data* d,
-                          const std::string& userN,
-                          const std::string& paddockN,
-                          const std::string& desc,
-                          const std::string& dataN,
-                          bool fromGrowerMan)
+                              const std::string& userN,
+                              const std::string& paddockN,
+                              const std::string& desc,
+                              const std::string& dataN,
+                              bool fromGrowerMan)
    {
    webSession = session;
    data = d;
@@ -53,17 +60,12 @@ void TTemporalDataForm::setup(TWebSession* session, Data* d,
    description = desc;
    fromGrowerManagement = fromGrowerMan;
 
-   string resetDateString = data->getProperty(userName, paddockName, "resetdate");
-   string sowDateString = data->getProperty(userName, paddockName, "sowdate");
-   if (resetDateString != "")
-      firstAllowableDate = date(from_string(resetDateString));
-   else if (sowDateString != "")
-      firstAllowableDate = date(from_string(sowDateString));
+   ostringstream prompt;
+   prompt << "Please enter " << description << " into the chart below for "
+          << " Grower: " << userName << " and Paddock " << paddockName;
+   PromptLabel->Caption = prompt.str().c_str();
+   SaveButton->Enabled = (webSession->isSaveAllowed());
 
-   NextButton->Visible = (firstAllowableDate.month() > 7 || firstAllowableDate.month() < 4);
-   PreviousButton->Visible = NextButton->Visible;
-
-   startDate = date(firstAllowableDate.year(), 1, 1);
    fillGrid();
    }
 //---------------------------------------------------------------------------
@@ -73,11 +75,6 @@ void TTemporalDataForm::fillGrid(void)
    {
    try
       {
-      ostringstream prompt;
-      prompt << "Please enter " << description << " into the chart below for "
-             << startDate.year() << " (Grower: " << userName << ", Paddock: " << paddockName << ")";
-      PromptLabel->Caption = prompt.str().c_str();
-
       grid->ClearCells();
       for (int day = 1; day <= 31; day++)
          grid->Cells[0][day-1] = IntToStr(day);
@@ -105,33 +102,36 @@ void TTemporalDataForm::fillGrid(void)
 //---------------------------------------------------------------------------
 void TTemporalDataForm::saveGrid(void)
    {
-   TCursor savedCursor = Screen->Cursor;
-   Screen->Cursor = crHourGlass;
-
-   try
+   if (webSession->isSaveAllowed())
       {
-      Data::TemporalValues values;
-      for (int col = 1; col <= 12; col++)
+      TCursor savedCursor = Screen->Cursor;
+      Screen->Cursor = crHourGlass;
+
+      try
          {
-         for (int row = 0; row < 31; row++)
+         Data::TemporalValues values;
+         for (int col = 1; col <= 12; col++)
             {
-            if (grid->Cells[col][row] != "")
+            for (int row = 0; row < 31; row++)
                {
-               int day = row+1;
-               int month = col;
-               values.push_back(Data::TemporalData(date(startDate.year(), month, day),
-                                                   grid->Cells[col][row].c_str()));
+               if (grid->Cells[col][row] != "")
+                  {
+                  int day = row+1;
+                  int month = col;
+                  values.push_back(Data::TemporalData(date(startDate.year(), month, day),
+                                                      grid->Cells[col][row].c_str()));
+                  }
                }
             }
+         data->addTemporalData(userName, paddockName, dataName,
+                               startDate, date(startDate.year(), 12, 31), values);
          }
-      data->addTemporalData(userName, paddockName, dataName,
-                            startDate, date(startDate.year(), 12, 31), values);
+      catch (const exception& err)
+         {
+         webSession->showMessage(err.what());
+         }
+      Screen->Cursor = savedCursor;
       }
-   catch (const exception& err)
-      {
-      webSession->showMessage(err.what());
-      }
-   Screen->Cursor = savedCursor;
    }
 //---------------------------------------------------------------------------
 // User has clicked save - save grid.
@@ -152,45 +152,26 @@ void __fastcall TTemporalDataForm::gridGetCellProp(TObject *Sender,
    else
       {
       int day = row+1;
-      int lastDayOfMonth = gregorian_calendar::end_of_month_day(startDate.year(), col);
+      int month = col;
+      int lastDayOfMonth = gregorian_calendar::end_of_month_day(startDate.year(), month);
       if (day > lastDayOfMonth)
          colour = clWebLIGHTBLUE;
       }
-
-/*   if (startDate.year() < firstAllowableDate.year())
-      colour = clWebLIGHTBLUE;
-   else if (startDate.year() == firstAllowableDate.year())
-      {
-      int sowCol = firstAllowableDate.month()-1;
-      int sowRow = firstAllowableDate.day()-1;
-      if (col < sowCol ||
-          (col == sowCol && row < sowRow))
-         colour = clWebLIGHTBLUE;
-      }
-*/   }
-//---------------------------------------------------------------------------
-// User has clicked next
-//---------------------------------------------------------------------------
-void __fastcall TTemporalDataForm::NextButtonClick(TObject *Sender)
-   {
-   saveGrid();
-   startDate = date(startDate.year()+1, 1, 1);
-   fillGrid();
    }
 //---------------------------------------------------------------------------
-// User has clicked previous
-//---------------------------------------------------------------------------
-void __fastcall TTemporalDataForm::PreviousButtonClick(TObject *Sender)
-   {
-   saveGrid();
-   startDate = date(startDate.year()-1, 1, 1);
-   fillGrid();
-   }
+// User has clicked back
 //---------------------------------------------------------------------------
 void __fastcall TTemporalDataForm::BackButtonClick(TObject *Sender)
    {
    saveGrid();
    webSession->showPaddockForm(userName, paddockName, true, fromGrowerManagement);
+   }
+//---------------------------------------------------------------------------
+void __fastcall TTemporalDataForm::YearComboChange(TObject *Sender)
+   {
+   saveGrid();
+   startDate = date(StrToInt(YearCombo->Text), 1, 1);
+   fillGrid();
    }
 //---------------------------------------------------------------------------
 

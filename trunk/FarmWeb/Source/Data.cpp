@@ -1140,6 +1140,7 @@ void Data::deleteSoil(const std::string& regionName, const std::string& name)
 bool Data::generateSoilFile(const std::string& userName,
                             const std::string& paddockName,
                             const std::string& outputDirectory,
+                            bool withSW,
                             std::string& soilFileName)
    {
    string regionName = getProperty(userName, paddockName, "region");
@@ -1152,11 +1153,11 @@ bool Data::generateSoilFile(const std::string& userName,
       {
       SoilSample sample(soilSampleString);
       sample.mapSampleToSoil(soil);
-      if (sample.hasData("sw"))
+      if (sample.hasData("Water", "sw"))
          soil.setSw(sample.sw());
-      if (sample.hasData("no3"))
+      if (sample.hasData("Nitrogen", "no3"))
          soil.setNo3(sample.no3());
-      if (sample.hasData("nh4"))
+      if (sample.hasData("Nitrogen", "nh4"))
          soil.setNh4(sample.nh4());
       }
    soilSampleString = getProperty(userName, paddockName, "soilsample2");
@@ -1164,20 +1165,69 @@ bool Data::generateSoilFile(const std::string& userName,
       {
       SoilSample sample(soilSampleString);
       sample.mapSampleToSoil(soil);
-      if (sample.hasData("oc"))
+      if (sample.hasData("Nitrogen", "oc"))
          soil.setOc(sample.oc());
-      if (sample.hasData("ec"))
+      if (sample.hasData("Other", "ec"))
          soil.setEc(sample.ec());
-      if (sample.hasData("ph"))
+      if (sample.hasData("Nitrogen", "ph"))
          soil.setPh(sample.ph());
-      if (sample.hasData("esp"))
+      if (sample.hasData("Other", "esp"))
          soil.setEsp(sample.esp());
       }
    bool profileNeededChanging = soil.autoCorrect();
 
+   static const char* MACRO_TEMPLATE =
+      "[soil.soilwat2.parameters]\n"
+      "   #for_each water\n"
+      "   diffus_const = water.diffusconst   ! coeffs for unsaturated water flow\n"
+      "   diffus_slope = water.diffusslope\n"
+      "   cn2_bare     = water.cn2bare    ! bare soil runoff curve number\n"
+      "   cn_red       = water.cnred    ! potetial reduction in curve number due to residue\n"
+      "   cn_cov       = water.cncov   ! cover for maximum reduction in curve number\n"
+      "   salb         = water.salb  ! bare soil albedo\n"
+      "   cona         = water.cona     ! stage 2 evap coef.\n"
+      "   u            = water.u     ! stage 1 soil evaporation coefficient (mm)\n"
+      "   #endfor\n"
+      "\n"
+      "   dlayer  = .thickness   ! layer thickness mm soil\n"
+      "   air_dry = .airdry   ! air dry mm water/ mm soil\n"
+      "   ll15    = .ll15   ! lower limit mm water/mm soil\n"
+      "   dul     = .dul   ! drained upper limit mm water/mm soil\n"
+      "   sat     = .sat   ! saturation mm water/mm soil\n"
+      "   swcon   = .swcon   ! drainage coefficient\n"
+      "   bd      = .bd   ! bulk density gm dry soil/cc moist soil\n"
+      "\n"
+      "[soil.soiln2.parameters]\n"
+      "   #for_each nitrogen\n"
+      "   root_cn      = nitrogen.rootcn     ! C:N ratio of initial root residues\n"
+      "   root_wt      = nitrogen.rootwt   ! root residues as biomass (kg/ha)\n"
+      "   soil_cn      = nitrogen.soilcn   ! C:N ratio of soil\n"
+      "   enr_a_coeff  = nitrogen.enracoeff\n"
+      "   enr_b_coeff  = nitrogen.enrbcoeff\n"
+      "   profile_reduction =  off\n"
+      "   #endfor\n"
+      "\n"
+      "   oc      = .oc   ! Soil Organic Carbon\n"
+      "   ph      = .ph   ! pH of soil\n"
+      "   fbiom   = .fbiom   ! Organic C Biomass Fraction\n"
+      "   finert  = .finert   ! Inert Organic C Fraction\n"
+      "   no3ppm  = .no3ppm   ! Nitrate Concentration\n"
+      "   nh4ppm  = .nh4ppm   ! Ammonium Concentration\n"
+      "\n"
+      "#for_each crop\n"
+      "[soil.crop.name.parameters]\n"
+      "   ll      = crop.ll\n"
+      "   kl      = crop.kl\n"
+      "   xf      = crop.xf\n"
+      "#endfor";
+
    soilFileName = outputDirectory + "\\" + userName + ".soil";
    ofstream out(soilFileName.c_str());
-   soil.writeApsimPar(out, true);
+
+   if (withSW)
+      soil.writeApsimPar(out, true);
+   else
+      soil.exportSoil(out, MACRO_TEMPLATE, true);
    return profileNeededChanging;
    }
 //---------------------------------------------------------------------------
@@ -1338,5 +1388,17 @@ string Data::getApsimRunEmailAddress() const
       return emailAddresses[0];
    else
       throw runtime_error("Cannot find an email address for APSIM run machine!.");
+   }
+//---------------------------------------------------------------------------
+// Return the help url.
+//---------------------------------------------------------------------------
+string Data::getHelpUrl() const    
+   {
+   vector<string> helpUrls;
+   getLookupValues("HelpUrl", helpUrls);
+   if (helpUrls.size() > 0)
+      return helpUrls[0];
+   else
+      throw runtime_error("Cannot find the help url");
    }
 

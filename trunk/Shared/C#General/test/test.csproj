@@ -91,8 +91,8 @@
                 />
                 <Reference
                     Name = "VBGeneral"
-                    Project = "{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}"
-                    Package = "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}"
+                    AssemblyName = "VBGeneral"
+                    HintPath = "..\..\..\Bin\VBGeneral.dll"
                 />
             </References>
         </Build>
@@ -100,6 +100,11 @@
             <Include>
                 <File
                     RelPath = "AssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestApsimInputFile.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

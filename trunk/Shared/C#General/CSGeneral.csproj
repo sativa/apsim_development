@@ -85,10 +85,25 @@
                     HintPath = "..\..\Bin\VBGeneral.dll"
                     Private = "False"
                 />
+                <Reference
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
+                />
+                <Reference
+                    Name = "System.Windows.Forms"
+                    AssemblyName = "System.Windows.Forms"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
+                />
             </References>
         </Build>
         <Files>
             <Include>
+                <File
+                    RelPath = "APSIMInputFile.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
                 <File
                     RelPath = "AssemblyInfo.cs"
                     SubType = "Code"
@@ -96,6 +111,11 @@
                 />
                 <File
                     RelPath = "Macro.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MathUtility.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

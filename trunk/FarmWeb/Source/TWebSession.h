@@ -11,7 +11,7 @@
 #include <Controls.hpp>
 #include <ImgList.hpp>
 #include <IWAppForm.hpp>
-class Data;
+#include "Data.h"
 class TTemporalDataForm;
 class TTemporalDataMinMaxForm;
 class TUserDetailsForm;
@@ -22,12 +22,18 @@ class TReportManagementForm;
 class TReportsForm;
 class TDropDownManagementForm;
 class TClimateForecastForm;
+class TSoilsForm;
+class TMetStationForm;
+
 typedef void __fastcall (__closure *TQuestionEvent)(bool userClickedYes);
 typedef void __fastcall (__closure *TInfoEvent)(bool OkClicked,
                                                 AnsiString text1,
                                                 AnsiString text2,
                                                 AnsiString text3,
                                                 AnsiString text4);
+typedef void __fastcall (__closure *TReportCallback)(bool OkClicked,
+                                                     AnsiString reportDescription,
+                                                     const Data::Properties& properties);
 //---------------------------------------------------------------------------
 // This class looks after all information about a user session.
 //---------------------------------------------------------------------------
@@ -51,6 +57,11 @@ class TWebSession : public TIWUserSessionBase
       //---------------------------------------------------------------------------
       bool loginOk(const std::string& userName,
                    const std::string& password);
+
+      //---------------------------------------------------------------------------
+      // Return currently logged in user.
+      //---------------------------------------------------------------------------
+      std::string getCurrentLoggedInUser(void) {return userName;}
 
       //---------------------------------------------------------------------------
       // Return a full URL for this web site.
@@ -130,6 +141,7 @@ class TWebSession : public TIWUserSessionBase
                         const std::string& prompt3,
                         const std::string& prompt4,
                         TInfoEvent callback);
+
       //---------------------------------------------------------------------------
       // Display a new window given the specified URL and title.
       //---------------------------------------------------------------------------
@@ -161,6 +173,26 @@ class TWebSession : public TIWUserSessionBase
       //---------------------------------------------------------------------------
       void show(TIWAppForm* form);
 
+      //--------------------------------------------------------
+      // User has clicked on Generate report.
+      //----------------------------------------------------------
+      void onGenerateReportClick(AnsiString userName,
+                                 AnsiString PaddockName,
+                                 AnsiString ReportName,
+                                 AnsiString ReportDescription,
+                                 const Data::Properties& properties,
+                                 bool emailFiles);
+
+      //---------------------------------------------------------------------------
+      // Allow the user to do a save? Return true if a save is allowed
+      //---------------------------------------------------------------------------
+      bool isSaveAllowed(void);
+
+      //---------------------------------------------------------------------------
+      // Return a URL to the help page.
+      //---------------------------------------------------------------------------
+      void showHelp(void);
+
    protected:
       Data* data;
       std::string userName;
@@ -180,7 +212,8 @@ class TWebSession : public TIWUserSessionBase
       // user has clicked on something.
       //---------------------------------------------------------------------------
       void __fastcall onMenuItemClick(TObject* sender);
-      
+
+
    private:
       TUserDetailsForm* userDetailsForm;
       TTemporalDataForm* temporalDataForm;
@@ -192,6 +225,14 @@ class TWebSession : public TIWUserSessionBase
       TReportsForm* reportsForm;
       TDropDownManagementForm* dropDownManagementForm;
       TClimateForecastForm* climateForecastForm;
+      TSoilsForm* soilsForm;
+      TMetStationForm* metStationForm;
+
+      // these next 3 variables are only used during a report generation.
+      AnsiString currentReportName;
+      AnsiString currentReportDescription;
+      AnsiString currentPaddockName;
+      AnsiString currentUserName;
 
 
       //---------------------------------------------------------------------------
@@ -232,7 +273,34 @@ class TWebSession : public TIWUserSessionBase
                                   AnsiString text2,
                                   AnsiString text3,
                                   AnsiString text4);
+
+      //---------------------------------------------------------------------------
+      // Show the soils form.
+      //---------------------------------------------------------------------------
+      void showSoilsForm();
+
+      //---------------------------------------------------------------------------
+      // Show the met stations form.
+      //---------------------------------------------------------------------------
+      void showMetStationsForm();
+
+      //---------------------------------------------------------------------------
+      // User has finished entering an description and optionally an email address - send files.
+      //---------------------------------------------------------------------------
+      void __fastcall TWebSession::createReportCallback(bool okClicked,
+                                                        AnsiString text1,
+                                                        AnsiString text2,
+                                                        AnsiString text3,
+                                                        AnsiString text4);
+
+      //---------------------------------------------------------------------------
+      // generate report files and send to the specified email address.
+      //---------------------------------------------------------------------------
+      void generateReportFilesAndEmail(AnsiString emailAddress,
+                                       const Data::Properties& properties);
+
    };
+
 
 extern ::TWebSession* WebSession();
 

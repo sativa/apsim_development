@@ -13,7 +13,7 @@ void RegisterComponents(void);
 //---------------------------------------------------------------------------
 // Create a form and return a pointer to it for the specified component.
 //---------------------------------------------------------------------------
-TForm* createComponentUI(TComponent* component, TWinControl* parent);
+TForm* createComponentUI(TComponent* component, TWinControl* parent, bool showAdvanced);
 
 
 #endif

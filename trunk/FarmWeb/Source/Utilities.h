@@ -74,7 +74,6 @@ bool generateReport(std::string toEmailAddress,
                     const string& reportName,
                     const Data::Properties& properties,
                     bool generateTempFiles,
-                    bool generateSoilFile,
                     const string& descriptiveNameForReport);
 
 //---------------------------------------------------------------------------
@@ -87,5 +86,24 @@ void drawMenuHeader(TIWAppForm* form, int lineNumber, const std::string& text);
 //---------------------------------------------------------------------------
 void drawMenuItem(TIWAppForm* form, int lineNumber, const string& text,
                   const std::string& gif, TNotifyEvent event);
+
+//---------------------------------------------------------------------------
+// populate the station number combo
+//---------------------------------------------------------------------------
+void populateStationNumberCombo(Data* data,
+                                const std::string& userName,
+                                const std::string& paddockName,
+                                const std::string& region,
+                                TIWComboBox* WeatherStationCombo);
+
+//---------------------------------------------------------------------------
+// populate the soil type combo
+//---------------------------------------------------------------------------
+void populateSoilTypeCombo(Data* data,
+                           const std::string& userName,
+                           const std::string& paddockName,
+                           const std::string& region,
+                           TIWComboBox* SoilTypeCombo);
+
 
 #endif

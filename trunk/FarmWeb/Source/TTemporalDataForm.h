@@ -23,6 +23,7 @@
 #include "IWCompRectangle.hpp"
 #include "IWExtCtrls.hpp"
 #include "IWHTMLControls.hpp"
+#include "IWTMSEdit.hpp"
 #include <boost\date_time\gregorian\gregorian.hpp>
 class Data;
 class TWebSession;
@@ -34,20 +35,19 @@ class TTemporalDataForm: public TIWAppForm
    __published:	// IDE-managed Components
       TTIWAdvWebGrid *grid;
       TIWLabel *PromptLabel;
-      TIWButton *NextButton;
-      TIWButton *PreviousButton;
       TIWRectangle *IWRectangle1;
    TIWLink *SaveButton;
    TIWImageFile *IWImageFile1;
    TIWImageFile *IWImageFile2;
    TIWLink *BackButton;
+   TIWLabel *IWLabel1;
+   TIWComboBox *YearCombo;
       void __fastcall SaveButtonClick(TObject *Sender);
       void __fastcall gridGetCellProp(TObject *Sender, int RowIndex,
           int ColumnIndex, AnsiString AValue, TIWColor &AColor,
           TAlignment &AAlignment, TIWFont *Font);
-      void __fastcall NextButtonClick(TObject *Sender);
-      void __fastcall PreviousButtonClick(TObject *Sender);
       void __fastcall BackButtonClick(TObject *Sender);
+   void __fastcall YearComboChange(TObject *Sender);
    private:
       TWebSession* webSession;
       Data* data;

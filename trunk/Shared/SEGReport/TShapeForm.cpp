@@ -25,7 +25,8 @@ void TShapeForm::setComponent(TComponent* component)
    {
    TPropertyForm::setComponent(component);
    shape = dynamic_cast< ::TShape*>(component);
-   
+   shape->Frame->Style = psClear;
+
    ShapeCombo->ItemIndex = shape->Shape;
    for (int i = 0; i != sizeof(colours); i++)
       {
@@ -36,7 +37,7 @@ void TShapeForm::setComponent(TComponent* component)
 //---------------------------------------------------------------------------
 void __fastcall TShapeForm::ShapeComboChange(TObject *Sender)
    {
-   shape->Shape = (int)ShapeCombo->ItemIndex;
+   shape->Shape = (TQRShapeType)ShapeCombo->ItemIndex;
    }
 //---------------------------------------------------------------------------
 void __fastcall TShapeForm::PenColourComboChange(TObject *Sender)

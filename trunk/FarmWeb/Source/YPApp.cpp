@@ -2,14 +2,13 @@
 //#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
+#include "TMainForm.h"
+
 USEFORM("TYPServerController.cpp", ServerController); /* TIWServerControllerBase: File Type */
 USEFORM("TYPWebSession.cpp", YPWebSession); /* TIWUserSessionBase: File Type */
 USEFORM("TYPSetupForm.cpp", YPSetupForm); /* TIWAppForm: File Type */
 USEFORM("TYPPaddockForm.cpp", YPPaddockForm); /* TIWAppForm: File Type */
-USEFORM("TMetStationForm.cpp", MetStationForm); /* TIWAppForm: File Type */
 USEFORM("TYPNitrogenReportForm.cpp", YPNitrogenReportForm); /* TIWAppForm: File Type */
-USEFORM("TSoilsForm.cpp", SoilsForm); /* TIWAppForm: File Type */
-USEFORM("TMainForm.cpp", MainForm); /* TIWAppForm: File Type */
 //---------------------------------------------------------------------------
 #include <IWMain.hpp>
 //---------------------------------------------------------------------------
@@ -27,5 +26,11 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
    return 0;
    }
 //---------------------------------------------------------------------------
+// required by web server?
+//---------------------------------------------------------------------------
+void setAsMainForm()
+   {
+   TMainForm::SetAsMainForm(__classid(TMainForm));
+   }
 
 #pragma link "IWIndy_70_60.lib"

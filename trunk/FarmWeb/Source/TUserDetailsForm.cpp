@@ -42,22 +42,25 @@ void TUserDetailsForm::setup(TWebSession* session,
 
    NameEdit->Text = data->getNameOfUser(userName).c_str();
    EmailEdit->Text = data->getUserEmail(userName).c_str();
-   HelpButton->Visible = (webSession->getApplicationName() == "YieldProphet");
-   HelpImage->Visible = (webSession->getApplicationName() == "YieldProphet");
+   SaveButton->Enabled = (webSession->isSaveAllowed());
+   PasswordButton->Enabled = (webSession->isSaveAllowed());
    }
 //---------------------------------------------------------------------------
 // Save the user name and email.
 //---------------------------------------------------------------------------
 void __fastcall TUserDetailsForm::SaveButtonClick(TObject *Sender)
    {
-   try
+   if (webSession->isSaveAllowed())
       {
-      data->setNameOfUser(userName, NameEdit->Text.c_str());
-      data->setUserEmail(userName, EmailEdit->Text.c_str());
-      }
-   catch (const exception& err)
-      {
-      webSession->showMessage(err.what());
+      try
+         {
+         data->setNameOfUser(userName, NameEdit->Text.c_str());
+         data->setUserEmail(userName, EmailEdit->Text.c_str());
+         }
+      catch (const exception& err)
+         {
+         webSession->showMessage(err.what());
+         }
       }
    }
 //---------------------------------------------------------------------------
@@ -91,8 +94,7 @@ void __fastcall TUserDetailsForm::changePasswordCallback(bool okClicked,
    }
 void __fastcall TUserDetailsForm::HelpButtonClick(TObject *Sender)
    {
-   string helpScriptURL = "http://www.yieldprophet.com.au/yieldprophet/help/help.htm";
-   webSession->newWindow(helpScriptURL.c_str(), "Help", true);
+   webSession->showHelp();
    }
 //---------------------------------------------------------------------------
 

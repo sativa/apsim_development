@@ -13,6 +13,9 @@ USEFORM("TReportManagementForm.cpp", ReportManagementForm); /* TIWAppForm: File 
 USEFORM("TInfoForm.cpp", InfoForm); /* TIWAppForm: File Type */
 USEFORM("TClimateForecastForm.cpp", ClimateForecastForm); /* TIWAppForm: File Type */
 USEFORM("TUserDetailsForm.cpp", UserDetailsForm); /* TIWAppForm: File Type */
+USEFORM("TMainForm.cpp", MainForm); /* TIWAppForm: File Type */
+USEFORM("TSoilsForm.cpp", SoilsForm); /* TIWAppForm: File Type */
+USEFORM("TMetStationForm.cpp", MetStationForm); /* TIWAppForm: File Type */
 //---------------------------------------------------------------------------
 #define Library
 

@@ -4,28 +4,29 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\Bin\SEGReport.dll"/>
-    <OBJFILES value="SEGReport.obj Report.obj TPropertyForm.obj TTextForm.obj ReportMacros.obj
-      TApsimFileReader.obj TApsimFileReaderForm.obj TChartForm.obj
-      TDecileFunction.obj TExcel.obj TExcelForm.obj TFilter.obj TFilterForm.obj
-      TGraph.obj TImage.obj TImageForm.obj TProbability.obj TProbabilityForm.obj
-      TREMS.obj TREMSForm.obj TRotationAddIn.obj TSEGTable.obj TShape.obj
-      TShapeForm.obj TSoi.obj TSOIForm.obj TStats.obj TStatsForm.obj TText.obj
-      ComponentRegistration.obj ..\general\excel.obj TWizardForm.obj"/>
+    <OBJFILES value="SEGReport.obj Report.obj TPropertyForm.obj TTextForm.obj ReportMacros.obj 
+      TApsimFileReader.obj TApsimFileReaderForm.obj TChartForm.obj 
+      TDecileFunction.obj TExcel.obj TExcelForm.obj TFilter.obj TFilterForm.obj 
+      TGraph.obj TImage.obj TImageForm.obj TProbability.obj TProbabilityForm.obj 
+      TREMS.obj TREMSForm.obj TRotationAddIn.obj TSEGTable.obj TShape.obj 
+      TShapeForm.obj TSoi.obj TSOIForm.obj TStats.obj TStatsForm.obj TText.obj 
+      ComponentRegistration.obj ..\general\excel.obj TWizardForm.obj 
+      TXYGraphSeries.obj TXYGraph.obj TXYForm.obj TCumulative.obj"/>
     <RESFILES value="SEGReport.res"/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) TPropertyForm.dfm TTextForm.dfm TApsimFileReaderForm.dfm
-      TChartForm.dfm TExcelForm.dfm TFilterForm.dfm TImageForm.dfm
-      TProbabilityForm.dfm TREMSForm.dfm TShapeForm.dfm TSOIForm.dfm
-      TStatsForm.dfm TWizardForm.dfm"/>
-    <LIBFILES value="..\general\general.lib ..\ApsimShared\ApsimShared.lib
-      &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib&quot;
+    <RESDEPEN value="$(RESFILES) TPropertyForm.dfm TTextForm.dfm TApsimFileReaderForm.dfm 
+      TChartForm.dfm TExcelForm.dfm TFilterForm.dfm TImageForm.dfm 
+      TProbabilityForm.dfm TREMSForm.dfm TShapeForm.dfm TSOIForm.dfm 
+      TStatsForm.dfm TWizardForm.dfm TXYForm.dfm"/>
+    <LIBFILES value="..\general\general.lib ..\ApsimShared\ApsimShared.lib 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib&quot; 
       ..\general\general_vcl.lib &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib&quot;"/>
     <LIBRARIES value="gtCompressionC60.lib bcb2kaxserver.lib kbmMemC6Run.lib VclSmp.lib 
       TMSC6.lib dcctc6.lib gtQRC60Pro.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib vclx.lib dbrtl.lib bdertl.lib gtQRC60Pro.lib vcldb.lib 
       dcctc6.lib TMSC6.lib VclSmp.lib kbmMemC6Run.lib bcb2kaxserver.lib 
       Tee7C6.lib TeeDB7C6.lib TeeUI7C6.lib TeePro7C6.lib gtCompressionC60.lib 
-      TeeQR7C6.lib TeeImage7C6.lib"/>
+      TeeQR7C6.lib TeeImage7C6.lib qrpt60.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
       bdertl.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi ibxpress.bpi 
       visualclx.bpi visualdbclx.bpi vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi 
@@ -49,7 +50,7 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi-
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
       -tWD -tWM -c"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
@@ -104,6 +105,10 @@
       <FILE FILENAME="..\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib" FORMNAME="" UNITNAME="filesystem.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TXYGraphSeries.cpp" FORMNAME="" UNITNAME="TXYGraphSeries" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TXYGraph.cpp" FORMNAME="" UNITNAME="TXYGraph" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TXYForm.cpp" FORMNAME="XYForm" UNITNAME="TXYForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TCumulative.cpp" FORMNAME="" UNITNAME="TCumulative" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

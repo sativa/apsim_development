@@ -160,6 +160,7 @@ void __fastcall TSoilsForm::ImportButtonClick(TObject *Sender)
             {
             string soilContents = soil->write();
             string soilName = soil->getAttribute("name");
+            data->deleteSoil(RegionCombo->Text.c_str(), soilName);
             data->setSoil(RegionCombo->Text.c_str(), soilName, soilContents);
             }
          catch (const exception& err)

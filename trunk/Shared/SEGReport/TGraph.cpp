@@ -102,6 +102,8 @@ void __fastcall TGraph::DefineProperties(TFiler *Filer)
    TgtQRChart::DefineProperties(Filer);
    stRef = &title;
    Filer->DefineProperty("title", LoadStringProperty, StoreStringProperty, true);
+   stRef = &subTitle;
+   Filer->DefineProperty("subTitle", LoadStringProperty, StoreStringProperty, true);
    stRef = &leftAxisTitle;
    Filer->DefineProperty("leftAxisTitle", LoadStringProperty, StoreStringProperty, true);
    stRef = &topAxisTitle;
@@ -192,7 +194,7 @@ void TGraph::refresh(void)
    if (!ComponentState.Contains(csLoading))
       {
       removeTemplatedChartSeries();
-      createTemplatedChartSeries();
+      createChartSeries();
       Chart->Refresh();
       for (int s = 0; s != Chart->SeriesCount(); s++)
          Chart->Series[s]->CheckDataSource();
@@ -204,7 +206,7 @@ void TGraph::refresh(void)
 // using the 1st chart series as a template, create a new chart series for
 // each data series.
 //---------------------------------------------------------------------------
-void TGraph::createTemplatedChartSeries(void)
+void TGraph::createChartSeries(void)
    {
    if (dataSeriesNumbers != "" && Chart->SeriesCount() == 1)
       {
@@ -282,21 +284,29 @@ bool __fastcall TGraph::onBeforeAdd(TChartSeries* series)
 //---------------------------------------------------------------------------
 void TGraph::replaceChartMacros(void)
    {
-   Chart->Title->Text->Text = macros.doReplacement(Owner, title);
-   Chart->LeftAxis->Title->Caption = macros.doReplacement(Owner, leftAxisTitle);
-   Chart->TopAxis->Title->Caption = macros.doReplacement(Owner, topAxisTitle);
-   Chart->RightAxis->Title->Caption = macros.doReplacement(Owner, rightAxisTitle);
-   Chart->BottomAxis->Title->Caption = macros.doReplacement(Owner, bottomAxisTitle);
-   Chart->Foot->Text->Text = macros.doReplacement(Owner, footTitle);
-   if (Chart->SeriesCount() >= 1)
+   if (title != "")
+      Chart->Title->Text->Text = macros.doReplacement(Owner, title);
+   if (subTitle != "")
+      Chart->SubTitle->Text->Text = macros.doReplacement(Owner, subTitle);
+   if (leftAxisTitle != "")
+      Chart->LeftAxis->Title->Caption = macros.doReplacement(Owner, leftAxisTitle);
+   if (topAxisTitle != "")
+      Chart->TopAxis->Title->Caption = macros.doReplacement(Owner, topAxisTitle);
+   if (rightAxisTitle != "")
+      Chart->RightAxis->Title->Caption = macros.doReplacement(Owner, rightAxisTitle);
+   if (bottomAxisTitle != "")
+      Chart->BottomAxis->Title->Caption = macros.doReplacement(Owner, bottomAxisTitle);
+   if (footTitle != "")
+      Chart->Foot->Text->Text = macros.doReplacement(Owner, footTitle);
+   if (Chart->SeriesCount() >= 1 && seriesTitle1 != "")
       Chart->Series[0]->Title = macros.doReplacement(Owner, seriesTitle1);
-   if (Chart->SeriesCount() >= 2)
+   if (Chart->SeriesCount() >= 2 && seriesTitle2 != "")
       Chart->Series[1]->Title = macros.doReplacement(Owner, seriesTitle2);
-   if (Chart->SeriesCount() >= 3)
+   if (Chart->SeriesCount() >= 3 && seriesTitle3 != "")
       Chart->Series[2]->Title = macros.doReplacement(Owner, seriesTitle3);
-   if (Chart->SeriesCount() >= 4)
+   if (Chart->SeriesCount() >= 4 && seriesTitle4 != "")
       Chart->Series[3]->Title = macros.doReplacement(Owner, seriesTitle4);
-   if (Chart->SeriesCount() >= 5)
+   if (Chart->SeriesCount() >= 5 && seriesTitle5 != "")
       Chart->Series[4]->Title = macros.doReplacement(Owner, seriesTitle5);
 
    }
@@ -306,6 +316,7 @@ void TGraph::replaceChartMacros(void)
 void TGraph::userEdit(void)
    {
    Chart->Title->Text->Text = title;
+   Chart->SubTitle->Text->Text = subTitle;
    Chart->LeftAxis->Title->Caption = leftAxisTitle;
    Chart->TopAxis->Title->Caption = topAxisTitle;
    Chart->RightAxis->Title->Caption = rightAxisTitle;
@@ -330,6 +341,7 @@ void TGraph::userEdit(void)
    delete dummy;
 
    title = Chart->Title->Text->Text;
+   subTitle = Chart->SubTitle->Text->Text;
    leftAxisTitle = Chart->LeftAxis->Title->Caption;
    topAxisTitle = Chart->TopAxis->Title->Caption;
    rightAxisTitle = Chart->RightAxis->Title->Caption;

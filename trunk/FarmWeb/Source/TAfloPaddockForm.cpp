@@ -25,6 +25,9 @@ using namespace boost::gregorian;
 #pragma link "IWTMSCtrls"
 #pragma link "IWBaseHTMLControl"
 #pragma link "IWCompRectangle"
+#pragma link "IWCompCheckbox"
+#pragma link "IWExtCtrls"
+#pragma link "IWHTMLControls"
 #pragma resource "*.dfm"
 
 //---------------------------------------------------------------------------
@@ -53,23 +56,14 @@ void TAfloPaddockForm::setup(TWebSession* session,
    UserLabel->Text = StringReplace(UserLabel->Text, "yyy",  paddockName.c_str(), TReplaceFlags());
 
    populateReportCombo();
-   populateCombo(WeatherStationCombo, data, userName, paddockName, "metstation");
-   populateCombo(SoilTypeCombo, data, userName, paddockName, "soiltype");
-   populateCombo(SoilDepthCombo, data, userName, paddockName, "soildepth");
+   populateStationNumberCombo(data, userName, paddockName, "All", WeatherStationCombo);
+   populateSoilTypeCombo(data, userName, paddockName, "All", SoilTypeCombo);
    populateDatePicker(PlantingDate, data, userName, paddockName, "sowdate");
    populateCombo(CultivarCombo, data, userName, paddockName, "cultivar");
    populateCombo(StartingSWCombo, data, userName, paddockName, "startsw");
-
-   // make the controls read-only if necessary.
-   WeatherStationCombo->Editable = !readOnly;
-   SoilTypeCombo->Editable = !readOnly;
-   SoilDepthCombo->Editable = !readOnly;
-   PlantingDate->Enabled = !readOnly;
-   CultivarCombo->Editable = !readOnly;
-   StartingSWCombo->Editable = !readOnly;
-   SaveButton->Visible = !readOnly;
-   EmailFilesButton->Visible = !readOnly;
-   EmailFilesEdit->Visible = !readOnly;
+   EmailFilesCheckBox->Visible = data->userIsOfType(webSession->getCurrentLoggedInUser(),
+                                                    Data::administrator);
+   SaveButton->Enabled = (webSession->isSaveAllowed());
    }
 //---------------------------------------------------------------------------
 // Populate the report combo.
@@ -86,18 +80,21 @@ void TAfloPaddockForm::populateReportCombo()
 //---------------------------------------------------------------------------
 void __fastcall TAfloPaddockForm::SaveButtonClick(TObject *Sender)
    {
-   try
+   if (webSession->isSaveAllowed())
       {
-      saveCombo(WeatherStationCombo, data, userName, paddockName, "metstation");
-      saveCombo(SoilTypeCombo, data, userName, paddockName, "soiltype");
-      saveCombo(SoilDepthCombo, data, userName, paddockName, "soildepth");
-      saveDatePicker(PlantingDate, data, userName, paddockName, "sowdate");
-      saveCombo(CultivarCombo, data, userName, paddockName, "cultivar");
-      saveCombo(StartingSWCombo, data, userName, paddockName, "startsw");
-      }
-   catch (const exception& err)
-      {
-      WebApplication->ShowMessage(err.what());
+      try
+         {
+         data->setProperty(userName, paddockName, "region", "all");
+         saveCombo(WeatherStationCombo, data, userName, paddockName, "metstation");
+         saveCombo(SoilTypeCombo, data, userName, paddockName, "soiltype");
+         saveDatePicker(PlantingDate, data, userName, paddockName, "sowdate");
+         saveCombo(CultivarCombo, data, userName, paddockName, "cultivar");
+         saveCombo(StartingSWCombo, data, userName, paddockName, "startsw");
+         }
+      catch (const exception& err)
+         {
+         WebApplication->ShowMessage(err.what());
+         }
       }
    }
 //---------------------------------------------------------------------------
@@ -105,63 +102,43 @@ void __fastcall TAfloPaddockForm::SaveButtonClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TAfloPaddockForm::RainfallEntryButtonClick(TObject *Sender)
    {
-   try
-      {
-      string sowDate = data->getProperty(userName, paddockName, "sowdate");
-      webSession->showRainfallForm(userName, paddockName);
-      }
-   catch (const exception& err)
-      {
-      WebApplication->ShowMessage("You must enter a sowing date before entering rainfall");
-      }
+   webSession->showRainfallForm(userName, paddockName, false);
    }
 //---------------------------------------------------------------------------
 // User has clicked on soil temperature.
 //---------------------------------------------------------------------------
 void __fastcall TAfloPaddockForm::SoilTempButtonClick(TObject *Sender)
    {
-   try
-      {
-      webSession->showSoilTempForm(userName, paddockName);
-      }
-   catch (const exception& err)
-      {
-      WebApplication->ShowMessage("You must enter a sowing date before entering soil temperature data");
-      }
+   webSession->showSoilTempForm(userName, paddockName, false);
    }
 //---------------------------------------------------------------------------
 // User has clicked on air temperature.
 //---------------------------------------------------------------------------
 void __fastcall TAfloPaddockForm::AirTempButtonClick(TObject *Sender)
    {
-   try
-      {
-      webSession->showAirTempForm(userName, paddockName);
-      }
-   catch (const exception& err)
-      {
-      WebApplication->ShowMessage("You must enter a sowing date before entering air temperature data");
-      }
+   webSession->showAirTempForm(userName, paddockName, false);
    }
 //---------------------------------------------------------------------------
 // User has requested a report.
 //---------------------------------------------------------------------------
-void __fastcall TAfloPaddockForm::RequestButtonClick(TObject *Sender)
+void __fastcall TAfloPaddockForm::CreateReportButtonClick(TObject *Sender)
    {
+   SaveButtonClick(NULL);
+
    Data::Properties properties;
-   generateReport("apsimweb@dpi.qld.gov.au", webSession, data, userName, paddockName,
-                  ReportCombo->Text.c_str(), properties, true, false);
+   webSession->onGenerateReportClick(userName.c_str(),
+                                     paddockName.c_str(),
+                                     ReportCombo->Text,
+                                     "",
+                                     properties,
+                                     EmailFilesCheckBox->Checked);
    }
 //---------------------------------------------------------------------------
-// Send all report files for debugging purposes.
+// User has clicked help.
 //---------------------------------------------------------------------------
-void __fastcall TAfloPaddockForm::EmailFilesButtonClick(TObject *Sender)
+void __fastcall TAfloPaddockForm::HelpButtonClick(TObject *Sender)
    {
-   if (EmailFilesEdit->Text != "")
-      {
-      Data::Properties properties;
-      generateReport(EmailFilesEdit->Text.c_str(), webSession, data, userName, paddockName,
-                     ReportCombo->Text.c_str(), properties, true, false);
-      }
+   webSession->showHelp();
    }
+//---------------------------------------------------------------------------
 

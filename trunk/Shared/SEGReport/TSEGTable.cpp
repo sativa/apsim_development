@@ -92,8 +92,6 @@ void TSEGTable::forceRefresh(bool displayError)
             Active = true;
             storeRecords();
             }
-         else
-            Active = true;
 
          // Sort records.
          if (sortFieldNames != "")
@@ -124,11 +122,6 @@ void TSEGTable::forceRefresh(bool displayError)
       EnableControls();
 
       Screen->Cursor = savedCursor;
-      if (displayError && errorMessage != "")
-         {
-//         ::MessageBox(NULL, errorMessage.c_str(), "Errors were encountered", MB_ICONSTOP | MB_OK);
-         errorMessage = "";
-         }
       inForceRefresh = false;
       }
    }
@@ -158,7 +151,7 @@ void __fastcall TSEGTable::setSourceDataset(TSEGTable* source)
          sourceDataset->removeDataChangeSubscription(Name.c_str());
       sourceDataset = source;
       sourceDataset->addDataChangeSubscription(Name + ".onSourceDataChanged");
-      refresh();
+      forceRefresh(false);
       }
    }
 // ------------------------------------------------------------------

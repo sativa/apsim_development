@@ -5,6 +5,7 @@
 
 #include "TPropertyForm.h"
 #include <general\vcl_functions.h>
+#include "TXYGraph.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "AdvGrid"
@@ -24,23 +25,36 @@ __fastcall TPropertyForm::~TPropertyForm()
    {
    }
 //---------------------------------------------------------------------------
-void TPropertyForm::setComponent(TComponent* comp)
+void __fastcall TPropertyForm::FormShow(TObject *Sender)
    {
-   component = comp;
+   AdvancedPanel->Visible = showAdvanced;
+
+
    NameEdit->Text = component->Name;
 
    TSEGTable* segTable = dynamic_cast<TSEGTable*>(component);
+   TXYGraph* xyGraph = dynamic_cast<TXYGraph*>(component);
    if (segTable != NULL)
       {
-      ToolbarCheckBox->Checked = segTable->addToToolBar;
-
       getComponentNames<TSEGTable>(segTable->Owner, SourceCombo->Items);
       if (segTable->source != NULL)
          SourceCombo->Text = segTable->source->Name;
+      }
+   else if (xyGraph != NULL)
+      {
+      TForm* data = getComponent<TForm>(xyGraph->Owner, "data");
+      getComponentNames<TSEGTable>(data, SourceCombo->Items);
+      if (xyGraph->source != NULL)
+         SourceCombo->Text = xyGraph->source->Name;
+      }
+   if (segTable != NULL)
+      {
+      ToolbarCheckBox->Checked = segTable->addToToolBar;
+      WizardCheckBox->Checked = segTable->addToWizard;
       SortFieldsEdit->Text = segTable->sortFields;
       GroupByEdit->Text = segTable->groupByFields;
       }
-   else
+   if (segTable != NULL || xyGraph != NULL)
       {
       ToolbarCheckBox->Visible = false;
       SourceLabel->Visible = false;
@@ -49,6 +63,8 @@ void TPropertyForm::setComponent(TComponent* comp)
       SortFieldsEdit->Visible = false;
       GroupByEdit->Visible = false;
       }
+
+   setComponent(component);
    }
 //---------------------------------------------------------------------------
 void __fastcall TPropertyForm::NameEditExit(TObject *Sender)
@@ -59,7 +75,17 @@ void __fastcall TPropertyForm::NameEditExit(TObject *Sender)
 void __fastcall TPropertyForm::SourceComboChange(TObject *Sender)
    {
    TSEGTable* segTable = dynamic_cast<TSEGTable*>(component);
-   segTable->source = getComponent<TSEGTable>(segTable->Owner, SourceCombo->Text);
+   if (segTable != NULL)
+      segTable->source = getComponent<TSEGTable>(segTable->Owner, SourceCombo->Text);
+   else
+      {
+      TXYGraph* xyGraph = dynamic_cast<TXYGraph*>(component);
+      if (xyGraph != NULL)
+         {
+         TForm* data = getComponent<TForm>(xyGraph->Owner, "data");
+         xyGraph->source = getComponent<TSEGTable>(data, SourceCombo->Text);
+         }
+      }
    sourceHasChanged(segTable);
    }
 //---------------------------------------------------------------------------
@@ -81,4 +107,9 @@ void __fastcall TPropertyForm::GroupByEditExit(TObject *Sender)
    segTable->groupByFields = GroupByEdit->Text;
    }
 //---------------------------------------------------------------------------
+void __fastcall TPropertyForm::WizardCheckBoxClick(TObject *Sender)
+   {
+   TSEGTable* segTable = dynamic_cast<TSEGTable*>(component);
+   segTable->addToWizard = WizardCheckBox->Checked;
+   }
 

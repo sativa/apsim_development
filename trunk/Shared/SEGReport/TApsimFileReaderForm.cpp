@@ -57,4 +57,10 @@ void __fastcall TApsimFileReaderForm::Label1Click(TObject *Sender)
       }
    }
 //---------------------------------------------------------------------------
+void __fastcall TApsimFileReaderForm::Label4Click(TObject *Sender)
+   {
+   apsimFileReader->filenames->Clear();
+   FilesList->Clear();
+   }
+//---------------------------------------------------------------------------
 

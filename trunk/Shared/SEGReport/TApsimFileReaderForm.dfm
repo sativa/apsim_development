@@ -1,26 +1,30 @@
 inherited ApsimFileReaderForm: TApsimFileReaderForm
+  Width = 289
   Caption = 'ApsimFileReaderForm'
   OldCreateOrder = True
   PixelsPerInch = 120
   TextHeight = 16
   inherited AdvPanelGroup1: TAdvPanelGroup
+    Width = 281
     FullHeight = 0
     inherited AdvancedPanel: TAdvPanel
+      Width = 265
       FullHeight = 293
       inherited NameEdit: TEdit
-        Width = 194
+        Width = 195
       end
       inherited SourceCombo: TComboBox
-        Width = 194
+        Width = 195
       end
       inherited SortFieldsEdit: TEdit
-        Width = 194
+        Width = 195
       end
       inherited GroupByEdit: TEdit
-        Width = 195
+        Width = 196
       end
     end
     inherited PropertyPanel: TAdvPanel
+      Width = 265
       FullHeight = 325
       object Label3: TLabel
         Left = 10
@@ -44,10 +48,27 @@ inherited ApsimFileReaderForm: TApsimFileReaderForm
         ParentFont = False
         OnClick = Label1Click
       end
+      object Label4: TLabel
+        Left = 211
+        Top = 189
+        Width = 33
+        Height = 16
+        Cursor = crHandPoint
+        Alignment = taRightJustify
+        Anchors = [akTop, akRight]
+        Caption = 'Clear'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlue
+        Font.Height = -13
+        Font.Name = 'Verdana'
+        Font.Style = [fsUnderline]
+        ParentFont = False
+        OnClick = Label4Click
+      end
       object FilesList: TListView
         Left = 8
         Top = 64
-        Width = 238
+        Width = 239
         Height = 121
         Anchors = [akLeft, akTop, akRight]
         BevelInner = bvLowered

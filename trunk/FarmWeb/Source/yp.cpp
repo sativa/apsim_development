@@ -7,15 +7,13 @@
 #include <IWInitISAPI.hpp>
 
 #pragma hdrstop
+#include "TMainForm.h"
 
 USEFORM("TYPServerController.cpp", ServerController); /* TIWServerControllerBase: File Type */
 USEFORM("TYPWebSession.cpp", YPWebSession); /* TIWUserSessionBase: File Type */
-USEFORM("TMainForm.cpp", YPMainForm); /* TIWAppForm: File Type */
 USEFORM("TYPSetupForm.cpp", YPSetupForm); /* TIWAppForm: File Type */
 USEFORM("TYPPaddockForm.cpp", YPPaddockForm); /* TIWAppForm: File Type */
 USEFORM("TYPNitrogenReportForm.cpp", YPNitrogenReportForm); /* TIWAppForm: File Type */
-USEFORM("TMetStationForm.cpp", MetStationForm); /* TIWAppForm: File Type */
-USEFORM("TSoilsForm.cpp", SoilsForm); /* TIWAppForm: File Type */
 //---------------------------------------------------------------------------
 #define Application Webbroker::Application
 
@@ -57,6 +55,14 @@ extern "C"
     return Isapiapp::TerminateExtension(dwFlags);
   }
 }
+//---------------------------------------------------------------------------
+// required by web server?
+//---------------------------------------------------------------------------
+void setAsMainForm()
+   {
+   TMainForm::SetAsMainForm(__classid(TMainForm));
+   }
+
 //---------------------------------------------------------------------------
 #undef Application
 //---------------------------------------------------------------------------

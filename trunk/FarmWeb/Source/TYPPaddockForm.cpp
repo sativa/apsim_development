@@ -51,7 +51,6 @@ void TYPPaddockForm::setup(TYPWebSession* session,
                            Data* d,
                            const string& userN,
                            const string& paddockN,
-                           bool readOnly,
                            bool fromGrowerMan)
    {
    webSession = session;
@@ -81,10 +80,11 @@ void TYPPaddockForm::setup(TYPWebSession* session,
    populateFertGrid();
 
    // make the controls read-only if necessary.
-   EmailFilesButton->Visible = !readOnly;
-   EmailFilesImage->Visible = !readOnly;
+   EmailFilesCheckBox->Visible = data->userIsOfType(userName, Data::administrator);
    BackButton->Visible = fromGrowerManagement;
    BackImage->Visible = fromGrowerManagement;
+   SaveButton->Enabled = (webSession->isSaveAllowed());
+
    }
 //---------------------------------------------------------------------------
 // Populate the report combo.
@@ -164,23 +164,26 @@ void TYPPaddockForm::saveFertGrid()
 //---------------------------------------------------------------------------
 void __fastcall TYPPaddockForm::SaveButtonClick(TObject *Sender)
    {
-   try
+   if (webSession->isSaveAllowed())
       {
-      if (PlantingDateCheck->Checked)
+      try
          {
-         saveDatePicker(PlantingDate, data, userName, paddockName, "sowdate");
-         saveCombo(CultivarCombo, data, userName, paddockName, "cultivar");
+         if (PlantingDateCheck->Checked)
+            {
+            saveDatePicker(PlantingDate, data, userName, paddockName, "sowdate");
+            saveCombo(CultivarCombo, data, userName, paddockName, "cultivar");
+            }
+         else
+            {
+            data->deleteProperty(userName, paddockName, "sowdate");
+            data->deleteProperty(userName, paddockName, "cultivar");
+            }
+         saveFertGrid();
          }
-      else
+      catch (const exception& err)
          {
-         data->deleteProperty(userName, paddockName, "sowdate");
-         data->deleteProperty(userName, paddockName, "cultivar");
+         webSession->showMessage(err.what());
          }
-      saveFertGrid();
-      }
-   catch (const exception& err)
-      {
-      webSession->showMessage(err.what());
       }
    }
 //---------------------------------------------------------------------------
@@ -200,21 +203,6 @@ void __fastcall TYPPaddockForm::RainfallEntryButtonClick(TObject *Sender)
       }
    }
 //---------------------------------------------------------------------------
-// Send all report files to an email address for debugging purposes.
-//---------------------------------------------------------------------------
-void __fastcall TYPPaddockForm::EmailFilesButtonClick(TObject *Sender)
-   {
-   SaveButtonClick(NULL);
-   if (checkForMissingData())
-      {
-      if (ReportCombo->Text == "Nitrogen comparison report")
-         webSession->showInfoForm("Enter your email address:", "", "", "", emailFilesCallback);
-      else
-         webSession->showInfoForm("Enter a descriptive name for the report:",
-                                  "Enter your email address:", "", "", createReportCallback);
-      }
-   }
-//---------------------------------------------------------------------------
 // User has requested a report.
 //---------------------------------------------------------------------------
 void __fastcall TYPPaddockForm::CreateReportButtonClick(TObject *Sender)
@@ -223,46 +211,34 @@ void __fastcall TYPPaddockForm::CreateReportButtonClick(TObject *Sender)
    if (checkForMissingData())
       {
       if (ReportCombo->Text == "Nitrogen comparison report")
-         generateReportFilesAndEmail("", "");
+         webSession->showNitrogenReportForm(userName, paddockName, NitrogenReportCallback);
       else
-         webSession->showInfoForm("Enter a descriptive name for the report:", "", "", "", createReportCallback);
+         {
+         Data::Properties properties;
+         webSession->onGenerateReportClick(userName.c_str(),
+                                           paddockName.c_str(),
+                                           ReportCombo->Text,
+                                           "",
+                                           properties,
+                                           EmailFilesCheckBox->Checked);
+         }
       }
    }
 //---------------------------------------------------------------------------
-// User has finished entering an email address - send files.
+// Nitrogen report callback.
 //---------------------------------------------------------------------------
-void __fastcall TYPPaddockForm::createReportCallback(bool okClicked,
-                                                        AnsiString text1,
-                                                        AnsiString text2,
-                                                        AnsiString text3,
-                                                        AnsiString text4)
+void __fastcall TYPPaddockForm::NitrogenReportCallback(bool okClicked,
+                                                       AnsiString reportDescription,
+                                                       const Data::Properties& properties)
    {
-   if (okClicked && text1 != "")
-      {
-      webSession->show(this);
-      string emailAddress = text2.c_str();
-      generateReportFilesAndEmail(text1.c_str(), emailAddress);
-      }
-   else
-      webSession->show(this);
-   }
-//---------------------------------------------------------------------------
-// User has finished entering an email address - send files.
-//---------------------------------------------------------------------------
-void __fastcall TYPPaddockForm::emailFilesCallback(bool okClicked,
-                                                   AnsiString text1,
-                                                   AnsiString text2,
-                                                   AnsiString text3,
-                                                   AnsiString text4)
-   {
-   if (okClicked && text1 != "")
-      {
-      webSession->show(this);
-      string emailAddress = text1.c_str();
-      generateReportFilesAndEmail("", emailAddress);
-      }
-   else
-      webSession->show(this);
+   Show();
+   if (okClicked)
+      webSession->onGenerateReportClick(userName.c_str(),
+                                        paddockName.c_str(),
+                                        ReportCombo->Text,
+                                        reportDescription,
+                                        properties,
+                                        EmailFilesCheckBox->Checked);
    }
 //---------------------------------------------------------------------------
 // User has clicked the planting date checkbox.
@@ -283,22 +259,8 @@ void __fastcall TYPPaddockForm::SetupButtonClick(TObject *Sender)
    webSession->showSetupForm(userName, paddockName, false, fromGrowerManagement);
    }
 //---------------------------------------------------------------------------
-// generate report files and send to the specified email address.
+// User has clicked the back button.
 //---------------------------------------------------------------------------
-void TYPPaddockForm::generateReportFilesAndEmail(const std::string& reportName,
-                                                 const std::string& emailAddress)
-   {
-   if (ReportCombo->Text == "Nitrogen comparison report")
-      webSession->showNitrogenReportForm(userName, paddockName, emailAddress);
-   else if (ReportCombo->Text != "")
-      {
-      Data::Properties properties;
-      generateReport(emailAddress, webSession, data, userName, paddockName,
-                     ReportCombo->Items->Strings[ReportCombo->ItemIndex].c_str(),
-                     properties, false, true, reportName);
-      }
-   }
-
 void __fastcall TYPPaddockForm::BackButtonClick(TObject *Sender)
    {
    SaveButtonClick(NULL);
@@ -346,6 +308,7 @@ bool TYPPaddockForm::checkForMissingData()
       ok = false;
       webSession->showMessage("You need to enter a cultivar before creating a report.");
       }
+   Show();
    return ok;
    }
 //---------------------------------------------------------------------------
@@ -355,6 +318,13 @@ void __fastcall TYPPaddockForm::HelpFileLinkClick(TObject *Sender)
    {
    string helpScriptURL = "http://www.yieldprophet.com.au/yieldprophet/help/nitrogen fertiliser report.htm";
    webSession->newWindow(helpScriptURL.c_str(), "Help", true);
+   }
+//---------------------------------------------------------------------------
+// User has clicked on help.
+//---------------------------------------------------------------------------
+void __fastcall TYPPaddockForm::HelpButtonClick(TObject *Sender)
+   {
+   webSession->showHelp();
    }
 //---------------------------------------------------------------------------
 

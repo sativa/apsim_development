@@ -49,9 +49,6 @@ void __fastcall TApsimFileReader::setFileNames(TStrings* apsimFiles)
    {
    files->Assign(apsimFiles);
    absoluteToRelativeFiles();
-   string yearField = getYearFieldName();
-   if (yearField != "")
-      sortFields = yearField.c_str();
    if (files->Count > 0)
       forceRefresh();
    }
@@ -114,7 +111,7 @@ bool TApsimFileReader::createFields(void) throw(runtime_error)
          throw runtime_error(msg);
          }
       }
-   return true;
+   return (files->Count > 0);
    }
 //---------------------------------------------------------------------------
 // Called by our base class to allow us to add records to the table.
@@ -148,8 +145,9 @@ void TApsimFileReader::storeRecords(void) throw(runtime_error)
          throw runtime_error(msg);
          }
       }
-   }
 
+   sortFields = getYearFieldName().c_str();
+   }
 //---------------------------------------------------------------------------
 // read in the contents of the specified file into this TSEGTable.
 //---------------------------------------------------------------------------

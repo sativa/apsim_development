@@ -5,18 +5,19 @@
     <VERSION value="BCB.06.00"/>
     <PROJECT value="FarmWebLib.lib"/>
     <OBJFILES value="Data.obj ..\..\Shared\ApsimShared\ApsimDataFileWriter.obj Utilities.obj 
-      ..\..\shared\soil\soil.obj TWebSession.obj TQuestionForm.obj 
+      ..\..\shared\soil\soil.obj ..\..\Shared\Soil\SoilBase.obj 
+      ..\..\Shared\Soil\SoilSample.obj TWebSession.obj TQuestionForm.obj 
       TDropDownManagementForm.obj TReportsForm.obj TTemporalDataForm.obj 
       TTemporalDataMinMaxForm.obj TUserManagementForm.obj 
-      TReportManagementForm.obj TInfoForm.obj ..\..\Shared\Soil\SoilBase.obj 
-      ..\..\Shared\Soil\SoilSample.obj TClimateForecastForm.obj 
-      TUserDetailsForm.obj"/>
+      TReportManagementForm.obj TInfoForm.obj TClimateForecastForm.obj 
+      TUserDetailsForm.obj TMainForm.obj TSoilsForm.obj TMetStationForm.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TWebSession.dfm TQuestionForm.dfm TDropDownManagementForm.dfm 
       TReportsForm.dfm TTemporalDataForm.dfm TTemporalDataMinMaxForm.dfm 
       TUserManagementForm.dfm TReportManagementForm.dfm TInfoForm.dfm 
-      TClimateForecastForm.dfm TUserDetailsForm.dfm"/>
+      TClimateForecastForm.dfm TUserDetailsForm.dfm TMainForm.dfm TSoilsForm.dfm 
+      TMetStationForm.dfm"/>
     <LIBFILES value=""/>
     <LIBRARIES value=""/>
     <PACKAGES value=""/>
@@ -53,6 +54,8 @@
       <FILE FILENAME="..\..\Shared\ApsimShared\ApsimDataFileWriter.cpp" FORMNAME="" UNITNAME="ApsimDataFileWriter" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Utilities.cpp" FORMNAME="" UNITNAME="Utilities" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\shared\soil\soil.cpp" FORMNAME="" UNITNAME="soil" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\Shared\Soil\SoilBase.cpp" FORMNAME="" UNITNAME="SoilBase.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\Shared\Soil\SoilSample.cpp" FORMNAME="" UNITNAME="SoilSample.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TWebSession.cpp" FORMNAME="WebSession" UNITNAME="TWebSession" CONTAINERID="CCompiler" DESIGNCLASS="TIWUserSessionBase" LOCALCOMMAND=""/>
       <FILE FILENAME="TQuestionForm.cpp" FORMNAME="QuestionForm" UNITNAME="TQuestionForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
       <FILE FILENAME="TDropDownManagementForm.cpp" FORMNAME="DropDownManagementForm" UNITNAME="TDropDownManagementForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
@@ -62,10 +65,11 @@
       <FILE FILENAME="TUserManagementForm.cpp" FORMNAME="UserManagementForm" UNITNAME="TUserManagementForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
       <FILE FILENAME="TReportManagementForm.cpp" FORMNAME="ReportManagementForm" UNITNAME="TReportManagementForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
       <FILE FILENAME="TInfoForm.cpp" FORMNAME="InfoForm" UNITNAME="TInfoForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\..\Shared\Soil\SoilBase.cpp" FORMNAME="" UNITNAME="SoilBase.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\..\Shared\Soil\SoilSample.cpp" FORMNAME="" UNITNAME="SoilSample.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TClimateForecastForm.cpp" FORMNAME="ClimateForecastForm" UNITNAME="TClimateForecastForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
       <FILE FILENAME="TUserDetailsForm.cpp" FORMNAME="UserDetailsForm" UNITNAME="TUserDetailsForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
+      <FILE FILENAME="TMainForm.cpp" FORMNAME="MainForm" UNITNAME="TMainForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
+      <FILE FILENAME="TSoilsForm.cpp" FORMNAME="SoilsForm" UNITNAME="TSoilsForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
+      <FILE FILENAME="TMetStationForm.cpp" FORMNAME="MetStationForm" UNITNAME="TMetStationForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

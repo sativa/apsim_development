@@ -40,16 +40,28 @@ void TWizardForm::showForm()
       NextButton->Caption = "Finish";
    else
       NextButton->Caption = "Next >";
+
+   // force a resize so that child UI forms are sized properly.
+   Width = Width + 1;
+   Width = Width - 1;
+   }
+//---------------------------------------------------------------------------
+void TWizardForm::hideForm(void)
+   {
+   if (currentForm <= componentForms.size())
+      componentForms[currentForm]->Visible = false;
    }
 //---------------------------------------------------------------------------
 void __fastcall TWizardForm::BackButtonClick(TObject *Sender)
    {
+   hideForm();
    currentForm = max(currentForm-1, 0);
    showForm();
    }
 //---------------------------------------------------------------------------
 void __fastcall TWizardForm::NextButtonClick(TObject *Sender)
    {
+   hideForm();
    if (currentForm == componentForms.size()-1)
       ModalResult = mrOk;
    else

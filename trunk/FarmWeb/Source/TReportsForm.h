@@ -31,15 +31,15 @@ class TReportsForm: public TIWAppForm
       TIWLink *DeleteButton;
       TIWImageFile *IWImageFile2;
       TIWLink *BackButton;
+      TIWListbox *ReportList;
+      TIWImageFile *IWImageFile3;
+      TIWLink *ShowButton;
    TIWImageFile *HelpImage;
-      TIWLink *HelpButton;
-   TIWListbox *ReportList;
-   TIWImageFile *IWImageFile3;
-   TIWLink *ShowButton;
+   TIWLink *HelpButton;
       void __fastcall DeleteButtonClick(TObject *Sender);
       void __fastcall PaddockButtonClick(TObject *Sender);
       void __fastcall HelpButtonClick(TObject *Sender);
-   void __fastcall ShowButtonClick(TObject *Sender);
+      void __fastcall ShowButtonClick(TObject *Sender);
    private:	// User declarations
       TWebSession* webSession;
       Data* data;
@@ -61,7 +61,6 @@ class TReportsForm: public TIWAppForm
       void setup(TWebSession* webSession,
                  Data* d,
                  const std::string& userN,
-                 bool readOnly,
                  bool fromGrowerManagement);
 
    };

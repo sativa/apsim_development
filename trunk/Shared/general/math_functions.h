@@ -514,6 +514,18 @@ bool isMissingValue(const T& value)
    return (boost::lexical_cast<T>(value) == missingValue<T>());
    }
 
+// ------------------------------------------------------------------
+//  Short description:
+//    SIMPLEX method of optimisation.
+// ------------------------------------------------------------------
+void Minim (std::vector<double>& param,
+            std::vector<double>& step,
+            double& FUNC,
+            int MAX,
+            double STOPCR,
+            int NLOOP,
+            int& IFAULT,
+            TOptimEvent f);
 
 #endif
 

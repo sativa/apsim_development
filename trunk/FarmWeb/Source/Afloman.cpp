@@ -7,10 +7,10 @@
 #include <IWInitISAPI.hpp>
 
 #pragma hdrstop
+#include "TMainForm.h"
 
 USEFORM("TAfloServerController.cpp", ServerController); /* TIWServerControllerBase: File Type */
 USEFORM("TAfloWebSession.cpp", AfloWebSession); /* TIWUserSessionBase: File Type */
-USEFORM("TAfloMainForm.cpp", MainForm); /* TIWAppForm: File Type */
 USEFORM("TAfloPaddockForm.cpp", PaddockForm); /* TIWAppForm: File Type */
 //---------------------------------------------------------------------------
 #define Application Webbroker::Application
@@ -56,5 +56,14 @@ extern "C"
 //---------------------------------------------------------------------------
 #undef Application
 //---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+// required by web server?
+//---------------------------------------------------------------------------
+void setAsMainForm()
+   {
+   TMainForm::SetAsMainForm(__classid(TMainForm));
+   }
+
 
 #pragma link "IWIndy_70_60.lib"

@@ -30,8 +30,10 @@ __published:	// IDE-managed Components
    TListView *FilesList;
    TCheckBox *InterpretCheckBox;
    TLabel *Label1;
+   TLabel *Label4;
    void __fastcall InterpretCheckBoxClick(TObject *Sender);
    void __fastcall Label1Click(TObject *Sender);
+   void __fastcall Label4Click(TObject *Sender);
 private:	// User declarations
    TApsimFileReader* apsimFileReader;
 public:		// User declarations

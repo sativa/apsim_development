@@ -6,6 +6,7 @@
 #include "TTemporalDataMinMaxForm.h"
 #include "Data.h"
 #include "TWebSession.h"
+#include <general\string_functions.h>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "IWBaseControl"
@@ -20,6 +21,9 @@
 #pragma link "IWAdvWebGrid"
 #pragma link "IWWebGrid"
 #pragma link "IWBaseHTMLControl"
+#pragma link "IWCompRectangle"
+#pragma link "IWExtCtrls"
+#pragma link "IWHTMLControls"
 #pragma resource "*.dfm"
 
 using namespace boost::gregorian;
@@ -29,6 +33,14 @@ using namespace boost::gregorian;
 __fastcall TTemporalDataMinMaxForm::TTemporalDataMinMaxForm(TComponent* Owner)
         : TIWAppForm(Owner), sowDate(pos_infin), startDate(pos_infin)
    {
+   startDate = date(day_clock::local_day().year(), 1, 1);
+
+   for (int year = 2003; year <= 2010; year++)
+      {
+      YearCombo->Items->Add(IntToStr(year) + " (Jan-June)");
+      YearCombo->Items->Add(IntToStr(year) + " (July-December)");
+      }
+   YearCombo->ItemIndex = (startDate.year()-2003) * 2;
    }
 //---------------------------------------------------------------------------
 // setup this form.
@@ -49,12 +61,13 @@ void TTemporalDataMinMaxForm::setup(TWebSession* session, Data* d,
    dataNameMin = dataNMin;
    dataNameMax = dataNMax;
    fromGrowerManagement = fromGrowerMan;
-   sowDate = from_string(data->getProperty(userName, paddockName, "sowdate"));
 
-   if (sowDate.month() <= 6)
-      startDate = date(sowDate.year(), 1, 1);
-   else
-      startDate = date(sowDate.year(), 7, 1);
+   ostringstream prompt;
+   prompt << "Please enter " << description << " into the chart below for "
+          << " Grower: " << userName << " and Paddock " << paddockName;
+   PromptLabel->Caption = prompt.str().c_str();
+
+   SaveButton->Enabled = (webSession->isSaveAllowed());
 
    fillGrid();
    }
@@ -65,11 +78,6 @@ void TTemporalDataMinMaxForm::fillGrid(void)
    {
    try
       {
-      ostringstream prompt;
-      prompt << "Please enter " << description << " into the chart below for "
-             << startDate.year() << " (Grower: " << userName << ", Paddock: " << paddockName << ")";
-      PromptLabel->Caption = prompt.str().c_str();
-
       grid->ClearCells();
       date endDate(pos_infin);
       if (startDate.month() == 1)
@@ -77,10 +85,14 @@ void TTemporalDataMinMaxForm::fillGrid(void)
       else
          endDate = date(startDate.year(), 12, 31);
 
+      // add in a row heading.
+      for (int day = 1; day <= 31; day++)
+         grid->Cells[0][day-1] = IntToStr(day);
+
       // put month labels on every 2nd column title
-      for (int col = 0; col < 12; col += 2)
+      for (int col = 1; col <= 12; col += 2)
          {
-         int month = startDate.month() + col/2;
+         int month = startDate.month() + (col-1) / 2;
          grid->Columns->Items[col]->Title = greg_month(month).as_short_string();
          }
 
@@ -93,7 +105,7 @@ void TTemporalDataMinMaxForm::fillGrid(void)
                                           value != minValues.end();
                                           value++)
          {
-         int col = (value->date.month()-1)*2;
+         int col = value->date.month()*2 - 1;
          if (col > 11)
             col = col - 12;
          int row = value->date.day()-1;
@@ -109,7 +121,7 @@ void TTemporalDataMinMaxForm::fillGrid(void)
                                           value != maxValues.end();
                                           value++)
          {
-         int col = (value->date.month()-1)*2+1;
+         int col = value->date.month()*2;
          if (col > 11)
             col = col - 12;
          int row = value->date.day()-1;
@@ -126,61 +138,64 @@ void TTemporalDataMinMaxForm::fillGrid(void)
 //---------------------------------------------------------------------------
 void TTemporalDataMinMaxForm::saveGrid(void)
    {
-   TCursor savedCursor = Screen->Cursor;
-   Screen->Cursor = crHourGlass;
-
-   try
+   if (webSession->isSaveAllowed())
       {
-      date endDate(pos_infin);
-      if (startDate.month() == 1)
-         endDate = date(startDate.year(), 6, 30);
-      else
-         endDate = date(startDate.year(), 12, 31);
+      TCursor savedCursor = Screen->Cursor;
+      Screen->Cursor = crHourGlass;
 
-      // save minimum values.
-      Data::TemporalValues minValues;
-      for (int col = 0; col < 12; col += 2)
+      try
          {
-         for (int row = 0; row < 31; row++)
+         date endDate(pos_infin);
+         if (startDate.month() == 1)
+            endDate = date(startDate.year(), 6, 30);
+         else
+            endDate = date(startDate.year(), 12, 31);
+
+         // save minimum values.
+         Data::TemporalValues minValues;
+         for (int col = 1; col <= 12; col += 2)
             {
-            if (grid->Cells[col][row] != "")
+            for (int row = 0; row < 31; row++)
                {
-               int day = row+1;
-               int month = startDate.month() + col/2;
-               date cellDate(startDate.year(), month, day);
-               minValues.push_back(Data::TemporalData(cellDate,
-                                                      grid->Cells[col][row].c_str()));
+               if (grid->Cells[col][row] != "")
+                  {
+                  int day = row+1;
+                  int month = startDate.month() + (col-1)/2;
+                  date cellDate(startDate.year(), month, day);
+                  minValues.push_back(Data::TemporalData(cellDate,
+                                                         grid->Cells[col][row].c_str()));
+                  }
                }
             }
-         }
-      data->addTemporalData(userName, paddockName, dataNameMin,
-                            startDate, endDate, minValues);
+         data->addTemporalData(userName, paddockName, dataNameMin,
+                               startDate, endDate, minValues);
 
-      // save maximum values.
-      Data::TemporalValues maxValues;
-      for (int col = 1; col < 12; col += 2)
-         {
-         for (int row = 0; row < 31; row++)
+         // save maximum values.
+         Data::TemporalValues maxValues;
+         for (int col = 2; col <= 12; col += 2)
             {
-            if (grid->Cells[col][row] != "")
+            for (int row = 0; row < 31; row++)
                {
-               int day = row+1;
-               int month = startDate.month() + col/2;
-               date cellDate(startDate.year(), month, day);
-               maxValues.push_back(Data::TemporalData(cellDate,
-                                                      grid->Cells[col][row].c_str()));
+               if (grid->Cells[col][row] != "")
+                  {
+                  int day = row+1;
+                  int month = startDate.month() + (col-1)/2;
+                  date cellDate(startDate.year(), month, day);
+                  maxValues.push_back(Data::TemporalData(cellDate,
+                                                         grid->Cells[col][row].c_str()));
+                  }
                }
             }
-         }
-      data->addTemporalData(userName, paddockName, dataNameMax,
-                            startDate, endDate, maxValues);
+         data->addTemporalData(userName, paddockName, dataNameMax,
+                               startDate, endDate, maxValues);
 
+         }
+      catch (const exception& err)
+         {
+         webSession->showMessage(err.what());
+         }
+      Screen->Cursor = savedCursor;
       }
-   catch (const exception& err)
-      {
-      webSession->showMessage(err.what());
-      }
-   Screen->Cursor = savedCursor;
    }
 //---------------------------------------------------------------------------
 // User has clicked save - save grid.
@@ -196,48 +211,37 @@ void __fastcall TTemporalDataMinMaxForm::gridGetCellProp(TObject *Sender,
       int row, int col, AnsiString AValue, TIWColor &colour,
       TAlignment &AAlignment, TIWFont *Font)
    {
-   if (startDate.year() < sowDate.year())
+   if (col == 0)
       colour = clWebLIGHTBLUE;
-   else if (startDate.year() == sowDate.year())
+   else
       {
-      int sowCol = (sowDate.month()-1)*2;
-      int sowRow = sowDate.day()-1;
-      if (startDate.year() > 6)
-         sowCol = sowCol - 12;
-      if (col < sowCol ||
-          ( (col == sowCol || col == sowCol+1) && row < sowRow))
+      int day = row+1;
+      int month = startDate.month() + (col-1) / 2;
+      int lastDayOfMonth = gregorian_calendar::end_of_month_day(startDate.year(), month);
+      if (day > lastDayOfMonth)
          colour = clWebLIGHTBLUE;
       }
    }
 //---------------------------------------------------------------------------
 // User has clicked on next button.
 //---------------------------------------------------------------------------
-void __fastcall TTemporalDataMinMaxForm::NextButtonClick(TObject *Sender)
+void __fastcall TTemporalDataMinMaxForm::YearComboChange(TObject *Sender)
    {
    saveGrid();
-   if (startDate.month() <= 6)
-      startDate = date(startDate.year(), 7, 1);
+   string comboText = YearCombo->Text.c_str();
+   string MonthRangeText = splitOffBracketedValue(comboText, '(', ')');
+   stripLeadingTrailing(comboText, " ");
+   int year = StrToInt(comboText.c_str());
+   if (MonthRangeText == "Jan-June")
+      startDate = date(year, 1, 1);
    else
-      startDate = date(startDate.year()+1, 1, 1);
+      startDate = date(year, 7, 1);
    fillGrid();
    }
 //---------------------------------------------------------------------------
-// User has clicked on previous button.
+// User has clicked on back button.
 //---------------------------------------------------------------------------
-void __fastcall TTemporalDataMinMaxForm::PreviousButtonClick(
-      TObject *Sender)
-   {
-   saveGrid();
-   if (startDate.month() <= 6)
-      startDate = date(startDate.year()-1, 7, 1);
-   else
-      startDate = date(startDate.year(), 1, 1);
-   fillGrid();
-   }
-//---------------------------------------------------------------------------
-
-void __fastcall TTemporalDataMinMaxForm::PaddockButtonClick(
-      TObject *Sender)
+void __fastcall TTemporalDataMinMaxForm::BackButtonClick(TObject *Sender)
    {
    saveGrid();
    webSession->showPaddockForm(userName, paddockName, true, fromGrowerManagement);
