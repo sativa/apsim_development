@@ -140,7 +140,7 @@ void ApsimDataFile::getConstantNames(std::vector<std::string>& names) const
    for (Constants::const_iterator i = constants.begin();
                                   i != constants.end();
                                   i++)
-      names.push_back(i->second);
+      names.push_back(i->first);
    }
 //---------------------------------------------------------------------------
 // return the value of the specified constant.  Returns a blank
