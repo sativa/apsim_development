@@ -36,7 +36,7 @@ class vector
       vector(T* ptr1, T* ptr2) : weOwnArray(false)
          {
          array = ptr1;
-         count = maxCount = sizeof(T)*((unsigned) ptr2 - ptr1);
+         count = maxCount = sizeof(T)*((unsigned) (ptr2 - ptr1));
          if (count <= 0) {tooManyError(count);}
          }
       virtual ~vector(void)
