@@ -113,8 +113,8 @@ void __fastcall TMainForm::ThreadTerminated (TObject* Object)
          Thread->Resume();
          }
       }
-//   else
-//      Close();
+   else
+      Close();
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormShow(TObject *Sender)
