@@ -203,7 +203,7 @@ void Macro::writeStringToFiles(string contents,
       posFile += strlen("#file");
       unsigned posEol = contents.find("\n", posFile);
       string filename=contents.substr(posFile, posEol-posFile);
-      Strip(filename, " ");
+      stripLeadingTrailing(filename, " ");
       replaceAll(filename, "%apsuite", getApsimDirectory());
 
       unsigned posStartFileBody = posEol + 1;
@@ -339,8 +339,8 @@ bool Macro::evaluateIf(const string& conditionLine) const
    string lhs = words[0];
    string op = words[1];
    string rhs = words[2];
-   Strip(lhs, " ");
-   Strip(rhs, " ");
+   stripLeadingTrailing(lhs, " ");
+   stripLeadingTrailing(rhs, " ");
    if (op == "=")
       return Str_i_Eq(lhs, rhs);
    else if (op == "<>")

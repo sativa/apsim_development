@@ -213,21 +213,6 @@ class Get_filename_and_store_function
    };
 
 template <class CT, class T>
-class GetNameAndStoreFunction
-   {
-   private:
-      CT& Container;
-   public:
-      GetNameAndStoreFunction(CT& container)
-         : Container (container)
-         { }
-
-      void operator () (T arg)
-         {
-         Container.push_back (arg.GetName());
-         };
-   };
-template <class CT, class T>
 class PGetNameFunction
    {
    private:
@@ -243,19 +228,19 @@ class PGetNameFunction
          };
    };
 
-template <class CT, class T>
-class GetNameFunction
+template <class T, class CT=std::vector<std::string> >
+class GetName
    {
    private:
       CT& Container;
    public:
-      GetNameFunction(CT& container)
+      GetName(vector<std::string>& container)
          : Container (container)
          { }
 
-      void operator () (T arg)
+      void operator () (const T& arg)
          {
-         Container.push_back (arg.getName());
+         Container.push_back(arg.getName());
          };
    };
 
@@ -579,6 +564,62 @@ class RemoveSubStringAndStore : public std::unary_function<std::string, void>
             }
          }
    };
+//---------------------------------------------------------------------------
+// This class can be used by a class to define an iterator to a map of values.
+// Normally a map iterator returns a pair when deferenced. This iterator
+// returns the value in pair.second.  See ApsimDataFile.cpp for an example
+// of its use.
+//---------------------------------------------------------------------------
+template <class _Value, class _MapIterator>
+struct MapSecondIterator
+   {
+   typedef _Value  value_type;
+   typedef _Value& reference;
+   typedef _Value* pointer;
+   typedef MapSecondIterator<_Value, _MapIterator> _Self;
+
+   MapSecondIterator(_MapIterator i) : iter(i) { }
+   reference operator*() const
+      {
+      return iter->second;
+      }
+
+//   _STLP_DEFINE_ARROW_OPERATOR;
+
+   _Self& operator++()
+      {
+      iter++;
+      return *this;
+      }
+   _Self operator++(int)
+      {
+      _Self __tmp = *this;
+      iter++;
+      return __tmp;
+      }
+
+   _Self& operator--()
+      {
+      iter--;
+      return *this;
+      }
+   _Self operator--(int)
+      {
+      _Self __tmp = *this;
+      iter--;
+      return __tmp;
+      }
+
+   bool operator !=(const _Self& rhs)
+      {
+      return (iter != rhs.iter);
+      }
+
+   private:
+      _MapIterator iter;
+
+   };
+
 
 // restore the warnings about "Functions containing for are not expanded inline.
 #pragma warn .inl
