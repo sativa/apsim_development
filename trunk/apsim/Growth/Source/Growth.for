@@ -306,6 +306,7 @@
 
       ! Notify system that we have initialised
       call Write_string ('Establishing')
+      call Publish_null (id%establishing)
 
       call collect_char_var('init_section', '()'
      :                                , section_name, numvals)
@@ -317,6 +318,8 @@
      :            ,numvals              ! number of elements returned
      :            ,0.0                  ! lower limit for bound check
      :            ,10000000.0)                 ! upper limit for bound check
+
+
 
       call Growth_read_init_param (section_name)
       call Growth_read_param ()
@@ -390,6 +393,8 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+
+      call Publish_null (id%killing)
 
       ! Notify system that we have stopped
       call Write_string ('Killing')
@@ -4433,6 +4438,8 @@ cnh     :              - LRT/365.25
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
+      call Publish_null (id%cutting)
+
       call collect_real_var (
      :                'foliage_remove_fr'! variable name
      :               ,'(0-1)'            ! units
@@ -5016,6 +5023,8 @@ c         NO3_diffn = divide (NO3_diffn, c%NO3_diffn_const, 0.0)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+
+      call Publish_null (id%thinning)
 
       call collect_real_var (
      :                'plants_fr'     ! variable name
