@@ -81,7 +81,8 @@ PlantComponent::~PlantComponent(void)
 void PlantComponent::doInit1(const FString& sdml)
    {
    protocol::Component::doInit1(sdml);
-   plant->doRegistrations();
+   plant->doInit1(this);
+   plant->doRegistrations(this);
    }
 
 // ------------------------------------------------------------------

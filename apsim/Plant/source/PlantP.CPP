@@ -97,7 +97,7 @@ void PlantP::doIDs(PlantComponent *systemInterface)
 }
 
 // Register Gets & Sets
-void PlantP::doRegistrations(PlantComponent *systemInterface)
+void PlantP::doRegistrations(protocol::Component *systemInterface)
    {
 #define setupGetVar systemInterface->addGettableVar
 #define setupGetFunction(name,type,length,address,units,desc) {\

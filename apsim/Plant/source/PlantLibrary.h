@@ -1,12 +1,15 @@
 #ifndef PlantLibaryH
 #define PlantLibaryH
 
-#include "PlantInterface.h"
+#include <list>
+
+using namespace std;
+
+class commsInterface;
+class PlantComponent;
 
 #define min(A,B) ((A)<(B)?(A):(B))
 #define max(A,B) ((A)>(B)?(A):(B))
-
-typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;
 
 extern const char *Blank;
 
@@ -34,33 +37,6 @@ const int max_year = 2200;
 extern const char *All_active_modules;
 const int Unknown_module = 0;
 extern const char *First_active_module;
-
-// Smallest number considered to be zero
-const float close_enough_to_zero = 1.0e-15;
-
-// maximum character size
-const int max_line_size = 2000;
-
-// maximum allowed size for filenames
-const int Max_file_name_size = 100;
-
-// maximum allowed size for module names
-const int Max_module_name_size = 30;
-
-// maximum allowed size for module names
-const int Max_inst_name_size = Max_module_name_size + 3;
-
-// Maximum allowed size for section names
-const int Max_section_name_size = 50;
-
-// maximum size of a variable name.
-const int Max_variable_name_size = 35;
-
-// maximum size for title
-const int Max_title_size = 100;
-
-// maximum soil layers
-const int crop_max_layer = 100;
 
 /*   ================================================================
  *    Conversion constants
@@ -118,6 +94,129 @@ const int crop_max_layer = 100;
       const float day2hr  = 24.0;               // days to hours
       const float hr2s    = 60.0*60.0;          // hours to seconds
       const float s2hr    = 1.0/hr2s;           // seconds to hours
+
+// An "external" function. 
+class externalFunction {
+ protected:
+     std::string xName, yName, xUnits, yUnits;
+ public:
+   externalFunction() {};
+   ~externalFunction() {};
+
+   void read(PlantComponent *P, const string &section, 
+                     const char *xname, const char * xunits, float x0, float x1, 
+                     const char *yname, const char * yunits, float y0, float y1)
+      {
+      vector<string> t;
+      t.push_back(section);
+      search(P, t, xname, xunits, x0, x1, yname, yunits, y0, y1);
+      };               
+   virtual void search(PlantComponent *P, vector<string> &sections, 
+                       const char *xname, const char * xunits, float x0, float x1, 
+                       const char *yname, const char * yunits, float y0, float y1)
+      {
+      xName = string(xname); yName = string(yname); 
+      xUnits = string(xunits); yUnits = string(yunits);
+      };
+   virtual std::string description(void);
+
+   virtual float value(float v) = 0;
+   float operator [] (float arg) {return value(arg);};
+};
+
+
+// Implement stick (linear interpolation) functions
+class interpolationFunction : public externalFunction
+{ 
+ private:
+   vector<float> x;
+   vector<float> y;
+ public:	
+   void search(PlantComponent *P, vector<string> &sections, 
+             const char *xName, const char * xunits, float x0, float x1, 
+             const char *yName, const char * yunits, float y0, float y1);
+   float value(float v);
+   vector<float> xVal() const {
+   	return(x);
+   };
+   vector<float> yVal() const {
+   	return(y);
+   };
+   std::string description(void);
+};
+
+// Implement table lookup functions
+class lookupFunction : public externalFunction
+{ 
+ private:
+   vector<float> x;
+   vector<float> y;
+ public:	
+   void search(PlantComponent *P, vector<string> &sections, 
+             const char *xName, const char * xunits, float x0, float x1, 
+             const char *yName, const char * yunits, float y0, float y1);
+   float value(float v);
+   vector<float> xVal() const {
+   	return(x);
+   };
+   vector<float> yVal() const {
+   	return(y);
+   };
+   std::string description(void);
+};
+
+
+// A class that observes things. Mostly report-related.
+class observer {
+	protected:
+     int n;
+	  float *myLocation, mySum;
+   public:
+     observer() {};
+     virtual ~observer() {};
+     void setup(float *loc) {
+     	  myLocation = loc; 
+     	  mySum = 0.0; n= 0;
+     }; 
+     virtual void update(void) = 0;
+     void reset(void) {mySum = 0.0; n = 0;};
+     float getSum(void) {return mySum;};
+     float getN(void) {return n;};
+};
+
+// Keep track of state variable
+class stateObserver : public observer {
+	public:
+     void update(void) {mySum += *myLocation; n++;};
+};
+
+// Factors are "1 - state" style variables
+class factorObserver : public observer {
+	public:
+     void update(void) {mySum += (1.0 - *myLocation); n++;};
+};
+
+// A subject (observer manager)
+class stageSubject {
+	private:
+	  std::list<observer *> observers;
+	public:
+	  stageSubject() {};
+	  void addObserver(observer *s) {observers.push_back(s);};
+     void update() {
+     	  for (std::list<observer*>::iterator o = observers.begin();
+     	       o !=  observers.end();
+     	       o++)
+     	      (*o)->update(); 
+     };
+     void reset(){
+     	  for (std::list<observer*>::iterator o = observers.begin();
+     	       o !=  observers.end();
+     	       o++)
+     	      (*o)->reset(); 
+     };
+};
+
 
 float legnew_vernal_days(float  g_maxt
                                ,float  g_mint
@@ -246,16 +345,8 @@ void crop_dm_pot_rue_co2 (float current_stage,
                           float co2_modifier,
                           float *dlt_dm_pot);     //(OUTPUT) potential dry matter  (carbohydrate) production (g/m^2
 
-void cproc_rue_co2_modifier(photosynthetic_pathway_t,  //!please use 'C3' or 'C4' for crop_type
-                            float co2,                 //!CO2 level (ppm)
-                            float maxt,                //!daily max temp (C)
-                            float mint,                //!daily min temp (C)
-                            float *modifier);           //!modifier (-)
   void legnew_bio_yieldpart_demand2(
-     float g_current_stage
-    ,int   start_grain_fill
-    ,int   end_grain_fill
-    ,float g_grain_no
+    float g_grain_no
     ,float p_potential_grain_filling_rate
     ,float g_maxt
     ,float g_mint
@@ -266,11 +357,8 @@ void cproc_rue_co2_modifier(photosynthetic_pathway_t,  //!please use 'C3' or 'C4
     ) ;
 
 //---------------------------------------------------------------------------
-  void legopt_leaf_area_sen_age1
-    (
-     int    emergence
-    ,int    this_stage
-    ,float  *g_leaf_no
+  float legopt_leaf_area_sen_age1
+    (float  *g_leaf_no
     ,float  *g_leaf_no_dead
     ,float  g_dlt_leaf_no_dead
     ,int    max_node
@@ -278,15 +366,11 @@ void cproc_rue_co2_modifier(photosynthetic_pathway_t,  //!please use 'C3' or 'C4
     ,float  g_slai
     ,float  c_min_tpla
     ,float  *g_leaf_area
-    ,float  g_plants
-    ,float  *dlt_slai_age
-    );
+    ,float  g_plants);
+
   void legopt_leaf_no_init1
     (
      float  c_leaf_no_at_emerg
-    ,float  g_current_stage
-    ,int    emerg
-    ,float  *g_days_tot
     ,float  *leaf_no
     ,float  *node_no
     ) ;
@@ -294,18 +378,12 @@ void cproc_rue_co2_modifier(photosynthetic_pathway_t,  //!please use 'C3' or 'C4
     (
      float  c_initial_tpla
     ,float  c_leaf_no_at_emerg
-    ,int    init_stage
-    ,float  g_current_stage
-    ,float  *g_days_tot
     ,float  g_plants
     ,float  *lai
     ,float  *leaf_area
     ) ;
   void legopt_leaf_area_sen1
-    (
-     int    emergence
-    ,int    this_stage
-    ,float  g_dlt_lai_stressed
+    (float  g_dlt_lai_stressed
     ,float  g_dlt_leaf_no
     ,float  g_dlt_leaf_no_dead
     ,float  g_lai
@@ -330,25 +408,22 @@ void cproc_rue_co2_modifier(photosynthetic_pathway_t,  //!please use 'C3' or 'C4
     ,float  *g_dlt_slai_frost
     ,float  *g_dlt_slai
     ) ;
-  void cproc_leaf_no_pot3
-    (
-     float  *c_x_node_no_app
-    ,float  *c_y_node_app_rate
-    ,int    c_num_node_no_app
-    ,float  *c_x_node_no_leaf
-    ,float  *c_y_leaves_per_node
-    ,int    c_num_node_no_leaf
-    ,float  g_current_stage
-    ,int    start_node_app
-    ,int    end_node_app
-    ,int    emerg
-    ,float  g_dlt_tt
-    ,float  *g_node_no
+void cproc_leaf_no_pot3(
+     float  *c_x_node_no_app                  //(INPUT)
+    ,float  *c_y_node_app_rate                //(INPUT)
+    ,int    c_num_node_no_app                 // (INPUT)
+    ,float  *c_x_node_no_leaf                 // (INPUT)
+    ,float  *c_y_leaves_per_node              // (INPUT)
+    ,int    c_num_node_no_leaf                // (INPUT)
+    ,bool   inNodeFormationPhase
+    ,bool   inEmergenceDay
+    ,float  node_no_now                       // (INPUT) current number of nodes
+    ,float  g_dlt_tt                          // (INPUT)  daily thermal time (growing de
     ,float  g_nfact_expansion
     ,float  g_swdef_expansion
-    ,float  *g_leaves_per_node
-    ,float  *dlt_leaf_no_pot
-    ,float  *dlt_node_no_pot
+    ,float  *g_leaves_per_node                 // OUTPUT
+    ,float  *dlt_leaf_no_pot                   // (OUTPUT) new fraction of oldest expanding leaf
+    ,float  *dlt_node_no_pot                   // (OUTPUT) new fraction of oldest expanding node on main stem
     ) ;
   void plant_canopy_width
     (
@@ -518,23 +593,18 @@ void cproc_leaf_no_pot1 (float *c_x_node_no_app,            // (INPUT)
                          float *c_x_node_no_leaf,           //  (INPUT)
                          float *c_y_leaves_per_node,        //  (INPUT)
                          int    c_num_node_no_leaf,           // (INPUT)
-                         float  g_current_stage,            // (INPUT)  current phenological stage
-                         int    start_node_app,             // (INPUT)  stage of start of leaf appeara
-                         int    end_node_app,               // (INPUT)  stage of end of leaf appearanc
-                         int    emerg,                      // (INPUT)  emergence stage
-                         float *g_days_tot,                 // (INPUT)  duration of each phase (days)
-                         float  g_dlt_tt,                   // (INPUT)  daily thermal time (growing de
-                         float *g_node_no,                  // (INPUT)  number of fully expanded nodes
+                         bool   inNodeFormationPhase,
+                         bool   inEmergenceDay,
+                         float  node_no_now,                // (INPUT) current number of nodes
+                         float  g_dlt_tt,                   // (input) 
                          float *dlt_leaf_no_pot,            // (OUTPUT) new fraction of oldest expanding leaf
                          float *dlt_node_no_pot);            // (OUTPUT) new fraction of oldest expanding node on main stem
 
 void cproc_leaf_area_pot1 (float *c_x_node_no,                  //(INPUT)  node number for lookup
                            float *c_y_leaf_size,                //(INPUT)  leaf size for lookup
                            int    c_num_node_no,                //(INPUT)  lookup table size
-                           float *g_node_no,                    //(INPUT)  node number
+                           float g_node_no,                    //(INPUT)  node number
                            float c_node_no_correction,         //(INPUT)  corrects for other growing lea
-                           int    start_node_app,               //(INPUT)  stage of start of leaf init
-                           int    now,                          //(INPUT)  current stage
                            float  g_dlt_leaf_no_pot,            //(INPUT)  potential fraction of oldest l
                            float  g_plants,                     //(INPUT)  Plant density (plants/m^2)
                            float *dlt_lai_pot);                  //(OUTPUT) change in leaf area
@@ -670,22 +740,6 @@ void legnew_cover_leaf_pod (
     ,float *extinct_coef
     ) ;
 
-  void legnew_dm_pot_rue (
-     float  current_stage
-    , int max_stage
-    ,float  *g_tt_tot
-    ,float  *c_x_stage_rue
-    ,float  *g_phase_tt
-    ,float  *c_y_rue
-    ,float  rue_pod
-    ,float  cover_green
-    ,float  cover_pod
-    ,double  radn_int
-    ,double  stress_factor
-    ,float g_co2, float g_maxt, float g_mint
-    ,photosynthetic_pathway_t photosynthetic_pathway
-    ,float  *dlt_dm_pot
-    ) ;
   float legnew_node_no_from_area
     (
      float *g_leaf_area
@@ -703,33 +757,24 @@ void legnew_cover_leaf_pod (
 //---------------------------------------------------------------------------
 
 
-void crop_failure_germination(commsInterface *,
-                              int   sowing,
-                              int   germ,
-                              int   now,
-                              float days_germ_limit,   // (INPUT)  maximum days allowed after sowing for germination to take place (days)
-                              float current_stage,     // (INPUT)  current phenological stage
-                              float *days_tot,          // (INPUT)  duration of each phase (days)
-                              float plants,            // (INPUT)  Plant density (plants/m^2)
-                              float *dlt_plants);        // (OUTPUT) change in plant number
+float crop_failure_germination(commsInterface *, 
+                              int days_germ_limit,   // (INPUT)  maximum days allowed after sowing for germination to take place (days)
+                              int daysInStage,        // (Input) days we have spent in current stage 
+                              float plants);         // (INPUT)  Plant density (plants/m^2)
 
-void crop_failure_emergence(commsInterface *,
-                            int    germ,
-                            int    emerg,
-                            int    now,
+float crop_failure_emergence(commsInterface *, 
                             float tt_emerg_limit,    // (INPUT)  maximum degree days allowed for emergence to take place (deg day)
-                            float current_stage,     // (INPUT)  current phenological stage
-                            float plants,            // (INPUT)  Plant density (plants/m^2)
-                            float *tt_tot,            // (INPUT)  the sum of growing degree days for a phenological stage (oC d)
-                            float *dlt_plants);        // (OUTPUT) change in plant number
+                             float ttInStage,         // (INPUT)  the sum of growing degree days for a phenological stage (oC d)
+                             float plants);           // (INPUT)  Plant density (plants/m^2)
 
-void crop_failure_leaf_senescence (commsInterface *,
-                                   int  start_stage,           // (INPUT) start check stage for crop failure due to LAI senescence
-                                   int  end_stage,             // (INPUT) end check stage for crop failure due to LAI senescence
-                                   float g_lai,               // (INPUT) current LAI
-                                   float g_current_stage,     // (INPUT) current stage
-                                   float g_plants,            // (INPUT) current plant density (plants/m2)
-                                   float *dlt_plants);          // (OUTPUT) daily plant death (plants/m2)
+float crop_failure_leaf_sen (commsInterface *
+                            ,float g_lai              // (INPUT)  live plant green lai
+                            ,float g_plants);           // (INPUT)  Plant density (plants/m^2)
+
+float crop_failure_phen_delay (commsInterface *
+                              ,float c_swdf_pheno_limit          // (INPUT)  critical cumulative phenology water stress above which the crop fails (unitless)
+                              ,float cswd_pheno                 // (INPUT)  cumulative water stress type 3
+                              ,float g_plants);                    // (INPUT)  Plant density (plants/m^2)
 
 void crop_death_drought (commsInterface *,
                          int  emerg,                // (INPUT) emergence stage
@@ -1003,9 +1048,6 @@ void cproc_n_demand1(const int max_part,          // (INPUT)
 
 void cproc_n_init1(float *C_n_init_conc,  // (INPUT)  initial N concentration (
                    int    max_part,
-                   int    init_stage,
-                   float G_current_stage, // (INPUT)  current phenological stage
-                   float *G_days_tot,     // (INPUT)  duration of each phase (days)
                    float *G_dm_green,     // (INPUT)  live plant dry weight (biomass
                    float *N_green);        // plant nitrogen (g/m^2)
 
@@ -1119,8 +1161,7 @@ float crop_phase_tt(float G_dlt_tt,          //(INPUT)  daily thermal time (grow
                     float *G_tt_tot,         //(INPUT)  the sum of growing degree days
                     float stage_no);         //(INPUT) stage number
 
-void crop_devel(int   max_stage,            //(INPUT)
-                float G_phase_devel,        //(INPUT)  development of current phase (
+void crop_devel(float G_phase_devel,        //(INPUT)  development of current phase (
                 float *g_dlt_stage,           //(OUTPUT) change in growth stage
                 float *g_current_stage);      //(INPUT/OUTPUT) new stage no.
 
@@ -1244,36 +1285,6 @@ float crop_sw_avail_fac(int   num_sw_ratio,             //(INPUT)
                         float *sw_dep,                  //(INPUT) soil water content of layer L (mm)
                         float *ll_dep,                  //(INPUT) lower limit of plant-extractable soil
                         int   layer);                    //(INPUT) soil profile layer number
-void wheat_photoperiod_effect(
-     float current_stage
-    ,int   start_stage
-    ,int   end_stage
-    ,float photoperiod
-    ,float p_photop_sen
-    ,float *photop_eff
-    ) ;
-  void wheat_vernaliz_days_nwheat
-   ( float g_current_stage
-    ,int   start_stage
-    ,int   end_stage
-    ,float g_maxt
-    ,float g_mint
-    ,float g_snow
-    ,float *g_dlt_cumvd
-    ,float g_cumvd
-   )                           ;
-  void wheat_vernaliz_effect_nwheat
-   (
-     float current_stage
-    ,int   start_stage
-    ,int   end_stage
-    ,float p_vern_sens
-    ,float cumvd
-    ,float dlt_cumvd
-    ,float reqvd
-    ,float *vern_effect
-    ) ;
-
 void cproc_root_length_growth_new (
      float  c_specific_root_length                 // (INPUT) length of root per unit wt (mm
     ,float  p_root_distribution_pattern            // (INPUT) patter with depth
@@ -1305,16 +1316,7 @@ void cproc_root_length_senescence1(float  C_specific_root_length,    //(INPUT)  
                                    float *G_dlt_root_length_senesced,//(OUTPUT) root length lost from each layer (mm/mm^2)
                                     int   max_layer);                 // (INPUT)  maximum layer number
 
-void  cproc_root_depth_init1(float initial_root_depth,         // (INPUT)  initial depth of roots (mm)
-                             float current_stage,              // (INPUT)  current phenological stage
-                             int   initialisation_stage,       // (INPUT)  stage at which to initialise
-                             float *days_tot,                   // (INPUT)  duration of each phase (days)
-                             float *root_depth);                 // (OUTPUT) initial root depth (mm)
-
-void cproc_root_length_init1 (int    stage_to_init,
-                              float g_current_stage,
-                              float *g_days_tot,
-                              float root_wt,
+void cproc_root_length_init1 (float root_wt,
                               float c_specific_root_length,
                               float g_root_depth,
                               float *g_dlayer,
@@ -1669,12 +1671,6 @@ float root_proportion (int    layer,              // (INPUT) layer to look at
                        float *dlayr,              // (INPUT) array of layer depths
                        float  root_depth);         // (INPUT) depth of roots
 
-float linint_3hrly_temp (float tmax,          //(INPUT) maximum temperature (oC)
-                         float tmin,          //(INPUT) maximum temperature (oC)
-                         float *temps,        //(INPUT) temperature array (oC)
-                         float *y,            //(INPUT) y axis array ()
-                         int num);             //(INPUT) number of values in arrays ()
-
 float stage_no_of (float stage_code,           //(INPUT) stage code to look up
                    float *stage_code_list,     //(INPUT) list of stage codes
                    int   list_size);            //(INPUT) size_of of stage code list
@@ -1701,7 +1697,10 @@ inline bool leap_year(int year)
    {return leap_year(&year);}
 
 inline bool reals_are_equal(float A, float B, float C) {return(fabs(A-B)<C);}
+inline bool isEqual(float A, float B, float C) {return(fabs(A-B)<C);}
+
 inline bool reals_are_equal(float A, float B) {return(fabs(A-B)<1.0E-6);}
+inline bool isEqual(float A, float B) {return(fabs(A-B)<1.0E-6);}
 
 
 std::string ftoa(double Float, char *fmtwidth=".2");

@@ -3,18 +3,15 @@
 #include <vector>
 #include <string>
 #include "Plantlibrary.h"
+#include "PlantInterface.h"
 
 //---------------------------------------------------------------------------
 //===========================================================================
-void crop_failure_germination(commsInterface *iface,
-                              int   sowing,
-                              int   germ, 
-                              int   now, 
-                              float days_germ_limit,   // (INPUT)  maximum days allowed after sowing for germination to take place (days) 
-                              float current_stage,     // (INPUT)  current phenological stage                                             
-                              float *days_tot,          // (INPUT)  duration of each phase (days)                                          
-                              float plants,            // (INPUT)  Plant density (plants/m^2)                                             
-                              float *dlt_plants)        // (OUTPUT) change in plant number                                                 
+float crop_failure_germination(commsInterface *iface,
+                              int days_germ_limit,    // (INPUT)  maximum days allowed after sowing for germination to take place (days) 
+                              int daysInStage,        // (INPUT) number of days we have spent in this stage
+                              float plants)           // (INPUT)  Plant density (plants/m^2)
+
 //===========================================================================
 /*  Purpose
 *      Crop failure from lack of germination within a specific maximum number of days.
@@ -23,46 +20,27 @@ void crop_failure_germination(commsInterface *iface,
 *   Determine crop failure due to failed germination
 *
 *  Changes
-*       21/5/2003 ad converted to BC++
-*       290994 jngh specified and programmed
-*       970317 slw extracted from Mungbean
-*       010710 jngh changed call to Summary_WriteLine to write_string
-*       010711 dph  changed call to write_string back to summary_writeline and added an
-*                   extra parameter [D469]
 */
    {
-   //  Local Variables
-
-   // Implementation Section ----------------------------------
-   if ((stage_is_between (sowing, germ, current_stage)) &&
-          (sum_between (sowing-1, now-1, days_tot) >= days_germ_limit))
+   if (daysInStage >= days_germ_limit)
       {
-      *dlt_plants = -1 * plants;
-
       char  output[1024];
       sprintf(output, 
-              " crop failure because of lack of\n         germination within %.4f days of sowing",
+              " crop failure because of lack of\n         germination within %d days of sowing",
               days_germ_limit);
-      /* TODO : followed this back to ei_getname and write_summary, don't appear to be in infra */
       iface->writeString (output);
+      return -1.0 * plants;
       }
-   else
-      {
-      *dlt_plants = 0.0;
-      }
+   return 0.0;
    }
 
 
 //=============================================================================
-void crop_failure_emergence(commsInterface *iface, 
-                            int    germ,
-                            int    emerg,
-                            int    now, 
+float crop_failure_emergence(commsInterface *iface, 
                             float tt_emerg_limit,    // (INPUT)  maximum degree days allowed for emergence to take place (deg day) 
-                            float current_stage,     // (INPUT)  current phenological stage                                        
-                            float plants,            // (INPUT)  Plant density (plants/m^2)                                        
-                            float *tt_tot,            // (INPUT)  the sum of growing degree days for a phenological stage (oC d)    
-                            float *dlt_plants)        // (OUTPUT) change in plant number                                            
+                            float ttInStage,         // (INPUT)  the sum of growing degree days for this phenological stage (oC d)
+                            float plants)            // (INPUT)  Plant density (plants/m^2)                                        
+
 //=============================================================================
 
 /*  Purpose
@@ -72,71 +50,57 @@ void crop_failure_emergence(commsInterface *iface,
 *  Mission Statement
 *   Determine crop failure due to failed emergence
 *
-*  Changes
-*       21/5/2003 ad converted to BC++
-*       290994 jngh specified and programmed
-*       970317 slw extracted from Mungbean
-*       010710 jngh changed call to Summary_WriteLine to write_string
-*       010711 dph  changed call to write_string back to summary_writeline and added an
-*                   extra parameter [D469]
 */
    {
    //  Local Variables
-   if ((stage_is_between (germ, emerg, current_stage)) &&
-       sum_between (germ-1, now-1, tt_tot) > tt_emerg_limit)
+   if (ttInStage > tt_emerg_limit)
       {
-      *dlt_plants = -1 * plants;
       iface->writeString (" failed emergence due to deep planting");
+      return -1.0 * plants;
       }
-   else
-      {
-      *dlt_plants = 0.0;
-      }
-   return;
+   return 0.0;
    }
 
-//=========================================================================
-void crop_failure_leaf_senescence (commsInterface *iface, 
-                                   int  start_stage,           // (INPUT) start check stage for crop failure due to LAI senescence 
-                                   int  end_stage,             // (INPUT) end check stage for crop failure due to LAI senescence   
-                                   float g_lai,               // (INPUT) current LAI                                              
-                                   float g_current_stage,     // (INPUT) current stage                                            
-                                   float g_plants,            // (INPUT) current plant density (plants/m2)                        
-                                   float *dlt_plants)          // (OUTPUT) daily plant death (plants/m2)                           
-//=========================================================================
-
-/*  Purpose
-*      Determine plant death due to total leaf area senescence
-*
-*  Mission Statement
-*     Determine plant death from leaf area senescing
-*
-*  Changes
-*       21/5/2003 ad converted to BC++
-*       290994 jngh specified and programmed
-*       240801 ew   generalised and put in the library
-*
-*  Sub-Program Arguments
-*      int *start_stage          !
-*      int *end_stage            !
-*      float *g_lai              !
-*      float *g_current_stage    !
-*      float *g_plants           !
-*      float *dlt_plants         !
-*
-*/
+//+  Mission Statement
+//     Determine plant population death from leaf area senescing
+float crop_failure_leaf_sen (commsInterface *iface
+                             ,float g_lai              // (INPUT)  live plant green lai
+                             ,float g_plants)           // (INPUT)  Plant density (plants/m^2)
    {
-   //  Local Variables
+   float leaf_area = divide (g_lai, g_plants, 0.0); // leaf area per plant
 
-   // Implementation Section ----------------------------------
-
-   if (fabs(g_lai) <= 1.0E-6 &&
-       stage_is_between (start_stage, end_stage, g_current_stage))
-      {
-      *dlt_plants = -1 * g_plants;
-      iface->writeString (" crop failure because of total leaf senescence.");
-      }
+   if (reals_are_equal (leaf_area, 0.0, 1.0e-6))
+        {
+        iface->writeString ("Crop failure because of total leaf senescence.");
+        return -1.0 * g_plants;
+        }
+   return 0.0;
    }
+
+//+  Purpose
+//      Determine plant death from prolonged phenology delay.
+
+//+  Mission Statement
+//     Determine plant death from prolonged phenology delay
+
+//+  Changes
+//       290994 jngh specified and programmed
+//       110695 psc  added plant death from high soil temp
+//       100795 jngh moved plant_kill crop to end of routine
+float crop_failure_phen_delay (commsInterface *iface
+                              ,float c_swdf_pheno_limit          // (INPUT)  critical cumulative phenology water stress above which the crop fails (unitless)
+                              ,float cswd_pheno                 // (INPUT)  cumulative water stress type 3
+                              ,float g_plants)                    // (INPUT)  Plant density (plants/m^2)
+  {
+  if (cswd_pheno >= c_swdf_pheno_limit)
+        {
+        iface->writeString ("Crop failure because of prolonged");
+        iface->writeString ("phenology delay through water stress.");
+        return -1.0 * g_plants;
+        }
+  return 0.0;
+  }
+
 
 //===========================================================================
 void crop_death_drought (commsInterface *iface, 

@@ -5,9 +5,128 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
-#include "Plantlibrary.h"
-
+#include <sstream>
+#include <iomanip>
+#include "PlantComponent.h"
+#include "PlantLibrary.h"
 using namespace std;
+
+void lookupFunction::search(PlantComponent *P, vector<string> &sections, 
+                            const char *xname, const char *xunits, float x0, float x1,
+                            const char *yname, const char *yunits, float y0, float y1)
+   {
+   externalFunction::search(P, sections, xname, xunits, x0, x1, yname, yunits, y0, y1);
+   x.clear();   y.clear();
+   
+   P->searchParameter(sections,xname, x, x0, x1);
+   P->searchParameter(sections,yname, y, y0, y1);
+
+   if (x.size() != y.size()) 
+   	throw std::runtime_error(string("Mismatched vector size in ") + xname + " and " + yname);
+
+   if (x.size() <= 0)
+   	throw std::runtime_error(string("Zero length vectors in") + xname + " and " + yname);
+   }
+// Linear Interpolation function setup
+void interpolationFunction::search(PlantComponent *P, vector<string> &sections,
+                                   const char *xname, const char *xunits, float x0, float x1,
+                                   const char *yname, const char *yunits, float y0, float y1)
+   {
+   externalFunction::search(P, sections, xname, xunits, x0, x1, yname, yunits, y0, y1);
+   x.clear();   y.clear();
+
+   P->searchParameter(sections,xname, x, x0, x1);
+   P->searchParameter(sections,yname, y, y0, y1);
+
+   if (x.size() != y.size())
+   	throw std::runtime_error(string("Mismatched vector size in ") + xname + " and " + yname);
+
+   if (x.size() <= 0)
+   	throw std::runtime_error(string("Zero length vectors in") + xname + " and " + yname);
+   }
+
+std::string externalFunction::description(void)
+   {
+   return string("");
+   }
+
+std::string lookupFunction::description(void) 
+   {
+   int pad;
+   ostringstream text;
+   pad = max(0, 27 - (int)xName.size());
+   text << "   " << xName << setw(pad) << " " << setw(-1) << "=";
+   for (unsigned int i = 0; i != x.size(); i++) {
+   	text << " " << setw(7) << x[i] << setw(-1);
+   }
+   text << " (" << xUnits << ")\n";
+
+   pad = max(0, 27 - (int)yName.size());
+   text << "   " << yName << setw(pad) << " " << setw(-1) << "=";
+   for (unsigned int i = 0; i != y.size(); i++) {
+   	text << " " << setw(7) << y[i] << setw(-1);
+   }
+   text << " (" << yUnits << ")\n";
+   return text.str();
+   }
+
+std::string interpolationFunction::description(void) 
+   {
+   int pad;
+   ostringstream text;
+   pad = max(0, 27 - (int)xName.size());
+   text << "   " << xName << setw(pad) << " " << setw(-1) << "=";
+   for (unsigned int i = 0; i != x.size(); i++) {
+   	text << " " << setw(7) << x[i] << setw(-1);
+   }
+   text << " (" << xUnits << ")\n";
+
+   pad = max(0, 27 - (int)yName.size());
+   text << "   " << yName << setw(pad) << " " << setw(-1) << "=";
+   for (unsigned int i = 0; i != y.size(); i++) {
+   	text << " " << setw(7) << y[i] << setw(-1);
+   }
+   text << " (" << yUnits << ")\n";
+
+   return text.str();
+   }
+
+// Return a y value from a linear interpolation function
+float interpolationFunction::value(float v)
+   {
+   if (x.size() == 0 || y.size() == 0)
+       throw std::runtime_error("Uninitialised call to interpolationFunction");
+
+   // find which sector of the function that v falls in
+   unsigned sector;
+   for(sector = 0;sector < x.size();sector++)
+      if(v < x[sector] || isEqual(v,x[sector]))break;
+
+   if(sector == 0) return y[0];
+   if(sector == x.size())return y[y.size()-1];
+   if(isEqual(v,x[sector]))return y[sector]; // prevent roundoff errors
+   // y = mx + c
+   float slope =  divide(y[sector]-y[sector-1],
+                         x[sector]-x[sector-1],
+                         y[sector]);
+
+   return y[sector-1] + slope * (v - x[sector - 1]);
+   }
+
+// Return a y value via table lookup
+float lookupFunction::value(float v)
+   {
+   if (x.size() == 0 || y.size() == 0)
+      throw std::runtime_error("Uninitialised call to lookupFunction");
+
+   // find which sector of the table that v falls in
+   unsigned sector;
+   for(sector = 0; sector < x.size() && v > x[sector]; sector++) /*nothing*/ ; 
+   
+   if(sector == 0) return y[0];
+   return y[sector-1];
+   }
+
 
 // XX needs to be renamed to "index_of_real..."
 int count_of_real_vals (float *array,  // (INPUT) array to be searched

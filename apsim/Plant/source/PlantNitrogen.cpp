@@ -552,7 +552,7 @@ void cproc_n_uptake1(float C_no3_diffn_const,   //(INPUT)  time constant for upt
                                        // plant (g/m^2) by diffusion
    float NO3gsm_mflow;                 // actual N available (supply) for
                                        // plant (g/m^2) by mass flow
-   float *NO3gsm_diffn_avail = new float[crop_max_layer];   // potential NO3 (supply)
+   float *NO3gsm_diffn_avail = new float[max_layer];   // potential NO3 (supply)
                                        // from soil (g/m^2), by diffusion
    float NO3gsm_diffn_supply;          // total potential N uptake (supply)
                                        // for plant (g/m^2) by diffusion
@@ -877,7 +877,6 @@ void cproc_n_demand1(const int max_part,          // (INPUT)
       part_fract = divide (G_dlt_dm_green[part], G_dlt_dm, 0.0);
       dlt_dm_pot = G_dlt_dm_pot_rue * part_fract;
       dlt_dm_pot = bound (dlt_dm_pot, 0.0, G_dlt_dm_pot_rue);
-
       if (G_dm_green[part] > 0.0)
          {
          // get N demands due to difference between actual N concentrations
@@ -915,9 +914,6 @@ void cproc_n_demand1(const int max_part,          // (INPUT)
 //==========================================================================
 void cproc_n_init1(float *C_n_init_conc,  // (INPUT)  initial N concentration (
                    int    max_part,
-                   int    init_stage,
-                   float G_current_stage, // (INPUT)  current phenological stage
-                   float *G_days_tot,     // (INPUT)  duration of each phase (days)
                    float *G_dm_green,     // (INPUT)  live plant dry weight (biomass
                    float *N_green)        // plant nitrogen (g/m^2)
 //===========================================================================
@@ -933,18 +929,11 @@ void cproc_n_init1(float *C_n_init_conc,  // (INPUT)  initial N concentration (
 *
 */
    {
-   //  Local Variables
-   int part;
-
-   //- Implementation Section ----------------------------------
-   if (on_day_of (init_stage, G_current_stage))
-      {
-      for(part = 0; part < max_part; part++)
+   for(int part = 0; part < max_part; part++)
          {
          N_green[part] = C_n_init_conc[part] * G_dm_green[part];
          }
       }
-   }
 
 
 //==========================================================================
