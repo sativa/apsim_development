@@ -1039,7 +1039,8 @@
          call Get_integer_var
      .       (Unknown_module, 'day', '()', Day, numvals, 1, 366)
          call Get_integer_var
-     .      (Unknown_module, 'year', '()', year, numvals, 1700, 2100)
+     .      (Unknown_module, 'year', '()', year, numvals,
+     .               min_year, max_year)
  
          write (Data_string, '(a,i3,a,i4,2a)' )
      .      ' Day= ', Day, ' Year =  ', Year,
