@@ -1,34 +1,4 @@
 *     ===========================================================
-      character*(*) function operatns_version ()
-*     ===========================================================
-      implicit none
-      include   'error.pub'
-
-*+  Purpose
-*       return version number of operatns module
-
-*+  Changes
-*     <insert here>
-
-*+  Constant Values
-      character*(*) my_name            ! name of current procedure
-      parameter (my_name = 'operatns_version')
-*
-      character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.3  070397')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-      operatns_version = version_number
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
       subroutine APSIM_operatns (Action, Data_String)
 *     ===========================================================
       implicit none
@@ -48,10 +18,9 @@
 *      operatns module.
 
 *+  Changes
-*     <insert here>
+*     dph 10/5/99 removed version and presence reports c186
 
 *+  Calls
-      character*50 operatns_version    ! function
 
 *+  Constant Values
       character*(*) my_name            ! name of current procedure
@@ -66,14 +35,7 @@
          ! initialise error flags
       call set_warning_off ()
  
-      if (Action.eq.MES_Presence) then
-         call get_current_module (module_name)
-         write(*, *) 'module_name = '
-     :              , trim(module_name)
-     :              // blank
-     :              // operatns_version ()
- 
-      else if (Action.eq.MES_Init) then
+      if (Action.eq.MES_Init) then
          call operatns_Get_Other_Variables ()
          call operatns_zero_variables ()
          call operatns_Init ()
@@ -114,10 +76,9 @@
 *      Initialise operatns module
 
 *+  Changes
-*     <insert here>
+*     dph 10/5/99 removed version and presence reports c186
 
 *+  Calls
-      character  operatns_version*15   ! function
 
 *+  Constant Values
       character*(*) my_name            ! name of current procedure
@@ -131,8 +92,7 @@
  
          ! Notify system that we have initialised
  
-      call report_event (' Initialising, Version : '
-     :                  // operatns_version ())
+      call report_event (' Initialising')
  
       g_oplun = Get_Logical_Unit ()
       open (unit=g_oplun, file='operatns.tmp', form='formatted',
@@ -663,6 +623,3 @@
       call pop_routine (my_name)
       return
       end
-
-
-
