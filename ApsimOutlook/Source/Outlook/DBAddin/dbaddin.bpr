@@ -3,7 +3,7 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.05.03"/>
-    <PROJECT value="DBAddIn.dll"/>
+    <PROJECT value="..\..\..\DBAddIn\DBAddIn.dll"/>
     <OBJFILES value="DBAddIn.obj DataBaseAddIn.obj DBSimulation.obj ..\Scenario.obj 
       TDirectory_select_form.obj"/>
     <RESFILES value=""/>
@@ -107,6 +107,10 @@ Item0=$(BCB)\source\vcl
 [HistoryLists\hlConditionals]
 Count=1
 Item0=_DEBUG
+
+[HistoryLists\hlFinalOutputDir]
+Count=1
+Item0=..\..\..\DBAddIn
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
