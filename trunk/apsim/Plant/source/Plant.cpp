@@ -11167,14 +11167,26 @@ void Plant::plant_init (void)
     g.plant_status = out;
     g.module_name = parent->getName();
 
-    float ll[max_layer]; int num_layers;
-    parent->readParameter ("parameters"
-                         , "ll"/*, "()"*/
-                         , ll, num_layers
-                         , 0.0, 1.0);
-    fill_real_array (p.ll_dep, 0.0, max_layer);
-    for (int layer = 0; layer < num_layers; layer++)
-       p.ll_dep[layer] = ll[layer]*g.dlayer[layer];
+    vector<float> ll; int num_layers;
+    if (parent->readParameter ("parameters"
+                              , "ll"//, "()"
+                              , ll, 0.0, c.sw_ub, true)) 
+       {
+       for (int layer = 0; layer != ll.size(); layer++)
+          p.ll_dep[layer] = ll[layer]*g.dlayer[layer];
+       }
+    else
+       {
+       unsigned int id = parent->addRegistration(RegistrationType::get,
+                                                 "ll15", floatArrayType,
+                                                 "", "");
+       parent->getVariable(id, ll, 0.0, c.sw_ub, true);
+       if (ll.size() == 0) 
+          throw std::runtime_error("No Crop Lower Limit found");
+       
+       for (unsigned int i=0; i< ll.size(); i++) p.ll_dep[i] = ll[i]*g.dlayer[i];
+       parent->writeString ("   Using externally supplied Lower Limit (ll15)");
+       }
 
     phosphorus->doInit(parent, c.crop_type, c.part_names);
 
@@ -11952,7 +11964,7 @@ void Plant::plant_read_root_params ()
 
 //+  Local Variables
     int   layer;                                  // layer number
-    float ll [max_layer];                         // lower limit of plant-extractable
+    vector<float> ll ;                           // lower limit of plant-extractable
                                                   // soil water for soil layer l
                                                   // (mm water/mm soil)
     float dep_tot, esw_tot;                         // total depth of soil & ll
@@ -11971,34 +11983,36 @@ void Plant::plant_read_root_params ()
                 , "eo_crop_factor"//, "()"
                 , p.eo_crop_factor
                 , 0.0, 100., true) == false)
-
         {
         p.eo_crop_factor = c.eo_crop_factor_default;
-        }
-    else
-        {
         }
 
 //       plant_sw_supply
     p.uptake_source = parent->readParameter (section_name, "uptake_source");
     if (p.uptake_source == "")
-
         {
         p.uptake_source = "calc";
         }
+
+    if (parent->readParameter (section_name
+                              , "ll"//, "()"
+                              , ll, 0.0, c.sw_ub, true)) 
+       {
+       for (int layer = 0; layer != ll.size(); layer++)
+          p.ll_dep[layer] = ll[layer]*g.dlayer[layer];
+       }
     else
-        {
-        }
-
-    parent->readParameter (section_name
-              , "ll"//, "()"
-              , ll, num_layers
-              , 0.0, c.sw_ub);
-
-    fill_real_array (p.ll_dep, 0.0, max_layer);
-    for (int layer = 0; layer < num_layers; layer++)
-       p.ll_dep[layer] = ll[layer]*g.dlayer[layer];
-
+       {
+       unsigned int id = parent->addRegistration(RegistrationType::get,
+                                                 "ll15", floatArrayType,
+                                                 "", "");
+       parent->getVariable(id, ll, 0.0, c.sw_ub, true);
+       if (ll.size() == 0) 
+          throw std::runtime_error("No Crop Lower Limit found");
+       
+       for (unsigned int i=0; i< ll.size(); i++) p.ll_dep[i] = ll[i]*g.dlayer[i];
+       parent->writeString ("   Using externally supplied Lower Limit (ll15)");
+       }
     parent->readParameter (section_name
                , "kl"//, "()"
                , p.kl, num_layers
