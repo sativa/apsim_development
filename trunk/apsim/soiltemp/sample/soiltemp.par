@@ -6,7 +6,7 @@ outputfile =soiltemp.out
 start_date=1/1/1988     ! dd/mm/yyyy
 end_date=30/4/1990     ! dd/mm/yyyy
 
-[sample.manager.end_of_day]
+[sample.manager.post]
 if (end_week = 1) then
    report do_output
 endif
@@ -14,7 +14,7 @@ endif
 
 [variables.report.parameters]
 
-variable = clock.today.dd/mm/yyyy(Date)
+variable = clock.today.dd/mm/yyyy as Date
 variable = soiltemp.ave_soil_temp
 variable = soiltemp.ave_soil_temp_surface
 variable = soiltemp.maxt_soil_surface
@@ -23,7 +23,7 @@ variable = met.maxt
 variable = met.mint
 [sample.soiltemp.parameters]
 bound_layer_cond = 20.0  (J/s/m2/K)
-clay =  0.1  0.1  0.1  0.1  0.1  0.2  0.3  () ! proportion of clay (0-1)
+clay =  0.1  0.1  0.1  0.1  0.1  0.2  0.3  () ! proportion of clay (0-1)    
 
 
 
