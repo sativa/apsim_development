@@ -9,20 +9,20 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.5
+     Version                = 3.6
      Title                  = fieldpea sample
-     Component DLL          = c:\program files\apsim35\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\program files\apsim35\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\program files\apsim35\apsim\clock\lib\clock.dll
-     Component DLL          = c:\program files\apsim35\apsim\report\lib\report.dll
-     Component DLL          = c:\program files\apsim35\apsim\input\lib\input.dll
-     Component DLL          = c:\program files\apsim35\apsim\operatns\lib\operatns.dll
-     Component DLL          = c:\program files\apsim35\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\program files\apsim35\apsim\manager\lib\manager.dll
-     Component DLL          = c:\program files\apsim35\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\program files\apsim35\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\program files\apsim35\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\program files\apsim35\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\operatns\lib\operatns.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -72,7 +72,7 @@
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\program files\apsim35\apsim\met\sample\roseworthy.met
+     INPUT File name: c:\development\apsim\met\sample\roseworthy.met
 
 ------- operatns Initialisation -----------------------------------------------
      Operations Schedule
@@ -205,7 +205,7 @@
      
                       Residue Initial Parameters
          ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorous  Report
+           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
            (fraction/day) (ratio) (ratio)  aware      additions
          ------------------------------------------------
                   0.100    10.0     0.0       F       no
@@ -299,7 +299,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -318,7 +318,7 @@
          200.0     0.000          0.200       0.000
          -----------------------------------------------
          Extractable SW:   187mm in  1800mm total depth ( 10%).
-     Crop factor for bounding water use is set to 100.0 times eo.
+         Crop factor for bounding water use is set to 100.0 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -377,40 +377,27 @@
       senesced above ground biomass (kg/ha) =     1455.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   57.5
+      DM Root:Shoot ratio    =    0.354                       Harvest Index          =      0.351
+      Stover C:N ratio       =   24.576                       Root C:N ratio         =     24.625
       grain N percent        =       3.60                     total N content (kg/ha)=     122.26
       grain N uptake (kg/ha) =      66.58                     senesced N content (kg/ha)=   21.83
       green N content (kg/ha)=      33.85                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.018
-         water stress 2 =  0.000     nitrogen stress 2 =  0.031
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
-     
-      stress indices for flowering
-         water stress 1 =  0.206     nitrogen stress 1 =  0.000
-         water stress 2 =  0.248     nitrogen stress 2 =  0.000
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.582     nitrogen stress 1 =  0.000
-         water stress 2 =  0.668     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.018        0.031
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
+         floral_initiation    to flowering               0.000        0.000        0.000        0.000
+         flowering            to start_grain_fill        0.206        0.248        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.582        0.668        0.000        0.000
      
      Crop harvested.
-         tops residue =  3420.99 kg/ha
-         tops N       =  55.68 kg/ha
-         root residue =  185.89 kg/ha
-         root N       =  1.49 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               3420.99                    0.00
+                          N  (kg/ha) =                 55.68                    0.00
      
-         tops removed =  1849.48 kg/ha
-         tops N removed= 66.58 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1849.48                    0.00
+                          N  (kg/ha) =                 66.58                    0.00
      
 3 November 2002(Day of year=307), manager: 
      Manager sending message :- fieldpea kill_crop
@@ -420,11 +407,11 @@
      Manager sending message :- fieldpea end_crop
 3 November 2002(Day of year=307), fieldpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.0 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   1868.2 kg/ha
-         root N =           30.3 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                 1868.21
+                          N  (kg/ha) =                  0.00                   30.35
+                          P  (kg/ha) =                                          0.00
+     
 25 June 2003(Day of year=176), operatns: 
       Sending sow message to fieldpea
 25 June 2003(Day of year=176), fieldpea: 
@@ -455,7 +442,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -474,7 +461,7 @@
          200.0     0.000          0.200       0.000
          -----------------------------------------------
          Extractable SW:   187mm in  1800mm total depth ( 10%).
-     Crop factor for bounding water use is set to 100.0 times eo.
+         Crop factor for bounding water use is set to 100.0 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -533,40 +520,27 @@
       senesced above ground biomass (kg/ha) =     2463.4
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   57.8
+      DM Root:Shoot ratio    =    0.466                       Harvest Index          =      0.226
+      Stover C:N ratio       =   23.910                       Root C:N ratio         =     24.471
       grain N percent        =       3.60                     total N content (kg/ha)=     152.97
       grain N uptake (kg/ha) =      59.05                     senesced N content (kg/ha)=   36.95
       green N content (kg/ha)=      56.97                     dead N content (kg/ha) =       0.00
      
-      stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.012
-         water stress 2 =  0.000     nitrogen stress 2 =  0.040
-     
-      stress indices for end_of_juvenile
-         water stress 1 =  0.000     nitrogen stress 1 =  0.129
-         water stress 2 =  0.001     nitrogen stress 2 =  0.276
-     
-      stress indices for floral_initiation
-         water stress 1 =  0.000     nitrogen stress 1 =  0.065
-         water stress 2 =  0.000     nitrogen stress 2 =  0.251
-     
-      stress indices for flowering
-         water stress 1 =  0.388     nitrogen stress 1 =  0.000
-         water stress 2 =  0.461     nitrogen stress 2 =  0.019
-     
-      stress indices for start_grain_fill
-         water stress 1 =  0.750     nitrogen stress 1 =  0.000
-         water stress 2 =  0.839     nitrogen stress 2 =  0.000
+      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.012        0.040
+         end_of_juvenile      to floral_initiation       0.000        0.001        0.129        0.276
+         floral_initiation    to flowering               0.000        0.000        0.065        0.251
+         flowering            to start_grain_fill        0.388        0.461        0.000        0.019
+         start_grain_fill     to end_grain_fill          0.750        0.839        0.000        0.000
      
      Crop harvested.
-         tops residue =  5613.94 kg/ha
-         tops N       =  93.92 kg/ha
-         root residue =  336.04 kg/ha
-         root N       =  2.69 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               5613.94                    0.00
+                          N  (kg/ha) =                 93.92                    0.00
      
-         tops removed =  1640.16 kg/ha
-         tops N removed= 59.05 kg/ha
-         root removed =  0.00 kg/ha
-         root N removed= 0.00 kg/ha
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1640.16                    0.00
+                          N  (kg/ha) =                 59.05                    0.00
      
 6 December 2003(Day of year=340), manager: 
      Manager sending message :- fieldpea kill_crop
@@ -576,10 +550,10 @@
      Manager sending message :- fieldpea end_crop
 6 December 2003(Day of year=340), fieldpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.0 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =   3377.3 kg/ha
-         root N =           55.2 kg/ha
-         root P =            0.0 kg/ha
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                 3377.27
+                          N  (kg/ha) =                  0.00                   55.21
+                          P  (kg/ha) =                                          0.00
+     
 31 December 2003(Day of year=365), clock: 
      Simulation is terminating due to end criteria being met.
