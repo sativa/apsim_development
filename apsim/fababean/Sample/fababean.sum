@@ -14,7 +14,7 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 2.0
+     Version                = 2.1
      Simulation filename    = c:\regr\apsim\fababean\sample\fababean.sim
      Title                  = fababean Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
@@ -62,6 +62,7 @@
         - Reading Soil Property Parameters
      
         - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
      
      
      
@@ -204,32 +205,32 @@
       
          - Reading Cultivar Parameters
           ------------------------------------------------
-          Cultivar                 = fiord
-          est_days_emerg_to_init  =      70
-          cum_vernal_days  =    0.00 100.00
-          tt_emerg_to_endjuv  =  438.00 438.00
-          x_pp_endjuv_to_init      =    9.60  14.30
-          y_tt_endjuv_to_init      =  381.00   0.00
-          x_pp_init_to_flower      =    9.60  14.30
-          y_tt_init_to_flower      =   16.00  16.00
-          x_pp_flower_to_start_grain      =   12.50  14.00
-          y_tt_flower_to_start_grain      =  500.00 100.00
-          x_pp_start_to_end_grain      =   12.50  14.00
-          y_tt_start_to_end_grain      = 1300.00 100.00
-          tt_end_grain_to_maturity      =    60.0
-          tt_maturity_to_ripe      =     1.0
-          hi_incr                  =     0.0
-          x_hi_max_pot_stress =    0.50   1.00
-          y_hi_max_pot        =    0.47   0.47
-          x_stem_wt      =    0.00  10.00
-          y_height      =    0.001500.00
+          Cultivar                   = fiord
+          est_days_emerg_to_init     =       70
+          cum_vernal_days            =     0.00  100.00
+          tt_emerg_to_endjuv         =   438.00  438.00
+          x_pp_endjuv_to_init        =     9.60   14.30
+          y_tt_endjuv_to_init        =   381.00    0.00
+          x_pp_init_to_flower        =     9.60   14.30
+          y_tt_init_to_flower        =    16.00   16.00
+          x_pp_flower_to_start_grain =    12.50   14.00
+          y_tt_flower_to_start_grain =   500.00  100.00
+          x_pp_start_to_end_grain    =    12.50   14.00
+          y_tt_start_to_end_grain    =  1300.00  100.00
+          tt_end_grain_to_maturity   =     60.0
+          tt_maturity_to_ripe        =      1.0
+          x_pp_hi_incr               =     1.00   24.00
+          y_hi_incr                  =  0.01000 0.01000
+          x_hi_max_pot_stress        =     0.50    1.00
+          y_hi_max_pot               =     0.47    0.47
+          x_stem_wt                  =     0.00   10.00
+          y_height                   =     0.00 1500.00
           ------------------------------------------------
       
       
       
       
          - Reading root profile parameters
-      
       
       
                           Root Profile
@@ -250,8 +251,6 @@
       
       
       
-      
-      
                        Crop Sowing Data
           ------------------------------------------------
           Sowing  Depth Plants Spacing Cultivar
@@ -259,6 +258,8 @@
           ------------------------------------------------
              130   40.0   25.0  350.0 fiord
           ------------------------------------------------
+      
+      
 10 May 1988 (Day of year=131):
    FABABEAN:
        stage    2.0 germination
@@ -296,7 +297,7 @@
    FABABEAN:
        stage    9.0 maturity
                            biomass =           1489.811       lai =     2.672770    
-                           stover N conc =    1.550847       extractable sw =    53.95872
+                           stover N conc =    1.550847       extractable sw =    53.95871
 10 October 1988 (Day of year=284):
    FABABEAN:
        stage   10.0 harvest_ripe
@@ -353,10 +354,22 @@
        stress indices for start_grain_fill
        water stress 1 =       0.0267658   nitrogen stress 1 =       0.0000000
        water stress 2 =       0.4800364   nitrogen stress 2 =       0.0000000
+         
+       Crop harvested.
+                                                tops residue = 7901.0 kg/ha
+                                                tops N =  121.4 kg/ha
+                                                root residue =  443.3 kg/ha
+                                                root N =    4.4 kg/ha
+      
+      
+                                                tops removed = 6974.0 kg/ha
+                                                tops N removed =  313.8 kg/ha
+                                                root removed =    0.0 kg/ha
+                                                root N removed =    0.0 kg/ha
    MANAGER:
            Manager sending message :- fababean end_crop
    FABABEAN:
-          ended. Yield (dw) =     0.0
+          Crop ended. Yield (dw) =     0.0
                                                 straw residue =    0.0 kg/ha
                                                 straw N =    0.0 kg/ha
                                                 root residue = 4455.1 kg/ha
