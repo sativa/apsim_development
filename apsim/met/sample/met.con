@@ -1,5 +1,9 @@
 [apsim.sample_input]  
-Module=clock met.par [sample]  
-Module=report met.par [sample]  
-Module=met DALBY.MET [weather]  
-Module=manager met.par [sample]  
+version=2.2
+title=Met Sample Simulation
+summaryfile=met.sum
+screen_output=on
+module = clock met.par [sample]
+module = report met.par [sample]
+module = Input(Met) DALBY.MET [weather]
+module = manager met.par [sample]
