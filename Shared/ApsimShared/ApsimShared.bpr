@@ -34,7 +34,7 @@
     <USERDEFINES value=""/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="ApsimShared.bpf"/>
-    <INCLUDEPATH value="..\..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(SHARED)"/>
+    <INCLUDEPATH value="..\..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)"/>
     <LIBPATH value="..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
@@ -111,12 +111,17 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
+[Excluded Packages]
+c:\program files\borland\cbuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
+C:\MyData\development\Bin\APSData.bpl=APSuite data components
+
 [HistoryLists\hlIncludePath]
-Count=4
-Item0=..\..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(SHARED)
-Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(SHARED)
-Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms
-Item3=Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl
+Count=5
+Item0=..\..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item1=..\..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(SHARED)
+Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(SHARED)
+Item3=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms
+Item4=Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=4
