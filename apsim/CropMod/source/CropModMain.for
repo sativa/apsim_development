@@ -4562,6 +4562,7 @@ cdsg081001            regname = 'fr_intc_radn_'//module_name
       subroutine Start_Crop (variant)
 *     ===========================================================
       use CropModModule
+      use StringModule
       use ComponentInterfaceModule
       implicit none
 
