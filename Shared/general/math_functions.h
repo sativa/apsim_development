@@ -3,6 +3,7 @@
 
 #include <general\myvector.h>
 #include <algorith>
+#include <functional>
 // ------------------------------------------------------------------
 //  Short description:
 //    cycle through a number series from 1 to Max_number.
@@ -303,6 +304,71 @@ double linear_interp_real (double x,
 void Calculate_prob_dist(vector<double>& X,
                          bool Prob_exceed,
                          vector<double>& Prob_values);
+
+// ------------------------------------------------------------------
+//  Short description:
+//       Calculates an average
+
+//  Notes:
+
+//  Changes:
+//    DPH 16/1/95
+
+// ------------------------------------------------------------------
+double Calculate_mean(vector<double>& X);
+
+// ------------------------------------------------------------------
+//  Short description:
+//       Calculates a percentile from a given set
+//       of XValues.
+
+//  Notes:
+
+//  Changes:
+//    DPH 16/1/95
+
+// ------------------------------------------------------------------
+double Calculate_percentile(vector<double>& X,
+                            bool Prob_exceed,
+                            int Percentile);
+
+
+// ------------------------------------------------------------------
+//  Short description:
+//     STL predicate to return true if value is in a specified range.
+
+//  Notes:
+
+//  Changes:
+//    DPH 15/7/98
+
+// ------------------------------------------------------------------
+template <class T>
+struct range : std::unary_function<T, bool>
+   {
+   double start, end;
+   range (double Start, double End) {start = Start; end = End;}
+   bool operator() (const T& x) const
+     { return (x >= start && x < end); }
+   };
+
+// ------------------------------------------------------------------
+//  Short description:
+//      calculate a frequency distribution from the specified values.
+//      Return the frequency labels and numebrs.
+
+//  Notes:
+
+//  Changes:
+//    DPH 15/7/98
+
+// ------------------------------------------------------------------
+void Calculate_freq_dist(vector<double>& Values,
+                         double Starting_frequency,
+                         double Ending_frequency,
+                         double Interval_size,
+                         vector<string>& Frequency_labels,
+                         vector<double>& Frequency_numbers);
 
 #endif
 

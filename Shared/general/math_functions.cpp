@@ -1,7 +1,9 @@
 #include <general\math_functions.h>
 #include <math.h>
 #include <assert.h>
-
+#include <numeric>
+#include <values.h>
+#include <strstream>
 // ------------------------------------------------------------------
 //  Short description:
 //    cycle through a number series from 1 to Max_number.
@@ -154,13 +156,13 @@ double linear_interp_real (double x,
    {
    // find where x lies in the x cord
 
-   for (int indx = 0; indx < x_cord.size(); indx++)
+   for (unsigned int indx = 0; indx < x_cord.size(); indx++)
       {
       if (x <= x_cord[indx])
          {
          // found position
 
-         if (indx == 1)
+         if (indx == 0)
             {
             Did_interpolate = true;
             return y_cord[indx];
@@ -227,10 +229,106 @@ void Calculate_prob_dist(vector<double>& X,
    std::sort(X.begin(), X.end());
 
    // create another vector for interpolation.
-   for (int x = 1; x <= X.size(); x++)
+   for (unsigned int x = 1; x <= X.size(); x++)
       Prob_values.push_back( (x-0.5)/X.size()*100 );
 
    if (Prob_exceed)
       std::reverse(Prob_values.begin(), Prob_values.end());
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//       Calculates an average
+
+//  Notes:
+
+//  Changes:
+//    DPH 16/1/95
+
+// ------------------------------------------------------------------
+double Calculate_mean(vector<double>& X)
+   {
+   if (X.size() > 0)
+      return std::accumulate (X.begin(), X.end(), 0.0) / X.size();
+   else
+      return 0.0;
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//       Calculates a percentile from a given set
+//       of XValues.
+
+//  Notes:
+
+//  Changes:
+//    DPH 16/1/95
+
+// ------------------------------------------------------------------
+double Calculate_percentile(vector<double>& X,
+                            bool Prob_exceed,
+                            int Percentile)
+   {
+   Percentile = min(Percentile, 100);
+   Percentile = max(Percentile, 0);
+
+   // if user wants a prob exceedence then we need to flip the percentile around.
+   if (Prob_exceed)
+      Percentile = 50 - (Percentile - 50); 
+
+   vector<double> Prob_values;
+   Calculate_prob_dist(X, false, Prob_values);
+
+   bool Did_interpolate;
+   return linear_interp_real (Percentile, Prob_values, X, Did_interpolate);
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//      calculate a frequency distribution from the specified values.
+//      Return the frequency labels and numebrs.
+
+//  Notes:
+
+//  Changes:
+//    DPH 15/7/98
+
+// ------------------------------------------------------------------
+void Calculate_freq_dist(vector<double>& Values,
+                         double Starting_frequency,
+                         double Ending_frequency,
+                         double Interval_size,
+                         vector<string>& Frequency_labels,
+                         vector<double>& Frequency_numbers)
+   {
+   Frequency_labels.erase (Frequency_labels.begin(), Frequency_labels.end());
+   Frequency_numbers.erase (Frequency_numbers.begin(), Frequency_numbers.end());
+
+   // loop through all frequency intervals.
+   double Start_of_interval = Starting_frequency;
+   while (Start_of_interval <= Ending_frequency)
+      {
+      double End_of_interval;
+      if (Start_of_interval == Ending_frequency)
+         End_of_interval = MAXFLOAT;
+      else
+         End_of_interval = Start_of_interval+Interval_size;
+
+      range<double> Range(Start_of_interval, End_of_interval);
+      int count = 0;
+      std::count_if (Values.begin(), Values.end(), Range, count);
+      Frequency_numbers.push_back (count);
+
+      // create a label for this interval.
+      ostrstream out;
+      if (Start_of_interval == Ending_frequency)
+         out << ">=" << Start_of_interval << ends;
+      else
+         out << Start_of_interval << '-' << End_of_interval << ends;
+      Frequency_labels.push_back (out.str());
+      delete out.str();
+
+      Start_of_interval += Interval_size;
+      }
    }
 
