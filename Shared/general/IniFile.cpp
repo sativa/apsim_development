@@ -315,9 +315,14 @@ void IniFile::writeSection(const string& section, const string& newContents)
 // ------------------------------------------------------------------
 void IniFile::write(const string& section, const string& key, const string& value)
 	{
-   vector<string> values;
-   values.push_back(value);
-   write(section, key, values);
+   if (value == "")
+      deleteKey(section, key);
+   else
+      {
+      vector<string> values;
+      values.push_back(value);
+      write(section, key, values);
+      }
    }
 // ------------------------------------------------------------------
 // Write a string list to ini file.
