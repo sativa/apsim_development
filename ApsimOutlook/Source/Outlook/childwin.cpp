@@ -270,10 +270,19 @@ void TMDIChild::Force_refresh()
    {
       (*t)->setWorkingData(scenarios, working);
       (*t)->doCalculations(*working);
-   }                                     
+   }
 
    if (Analysis_panel != NULL)
    {
+      // Moved from Hook_panel_to_this_form so that the colour background
+      // property is always set - D411
+      Path p(Application->ExeName.c_str());
+      p.Set_extension(".ini");
+      string Option;
+      static const char* COLOUR_KEY = "Options|colour_background";
+      settings.read(COLOUR_KEY, Option);
+      Analysis_panel->Colour_background = !Str_i_Eq(Option, "off");
+
       Analysis_panel->Refresh();
       APSTable_2_TDataSet->APSTable =  Analysis_panel->Destination_data;
    }
@@ -304,14 +313,6 @@ void TMDIChild::Hook_panel_to_this_form (void)
       Analysis_panel->Parent = this;
       Analysis_panel->Align = alClient;
       Analysis_panel->Large_fonts = Large_fonts;
-
-      Path p(Application->ExeName.c_str());
-      p.Set_extension(".ini");
-      string Option;
-
-      static const char* COLOUR_KEY = "Options|colour_background";
-      settings.read(COLOUR_KEY, Option);
-      Analysis_panel->Colour_background = !Str_i_Eq(Option, "off");
       }
    }
 
@@ -446,6 +447,7 @@ void __fastcall TMDIChild::EditCopyWithout(TObject *Sender)
 void __fastcall TMDIChild::OptionsPreferences(TObject *Sender)
    {
    Preferences_form->ShowModal();
+   Force_refresh();
    }
 //---------------------------------------------------------------------------
 void TMDIChild::Set_toolbar (TToolBar* toolbar)
