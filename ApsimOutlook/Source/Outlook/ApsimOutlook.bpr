@@ -23,7 +23,7 @@
       bdertl.bpi ibsmp.bpi vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi 
       inet.bpi nmfast.bpi dclocx.bpi bcb97axserver.bpi adortl.bpi TeeUI.bpi 
       Tee.bpi TeeDB.bpi TeeGL.bpi TeeQR.bpi TeePro.bpi TeeLanguage.bpi 
-      TeeImage.bpi designide.bpi"/>
+      designide.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -35,7 +35,7 @@
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="ApsimOutlook.cpp"/>
     <INCLUDEPATH value="..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data"/>
-    <LIBPATH value="..;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty;$(BCB)\components\tms"/>
+    <LIBPATH value="..;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\lib\debug;$(BCB)\components\thirdparty;$(BCB)\components\tms"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -127,26 +127,27 @@ Item13=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\
 Item14=C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=19
-Item0=..;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty;$(BCB)\components\tms
-Item1=..;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty
-Item2=..\;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty;$(SHARED)\components\general
-Item3=..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty;$(SHARED)\components\general
-Item4=..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty
-Item5=..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty
-Item6=..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\Components\General;$(BCB)\components\thirdparty
-Item7=..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\Components\General;$(BCB)\components\thirdparty
-Item8=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\Components\General;$(BCB)\components\thirdparty
-Item9=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\Components\General
-Item10=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
-Item11=C:\PROGRAM FILES\BORLAND\CBUILDER5\PROJECTS\CPPBUILDERJOURNAL-MAY2001\POPUPCONTROLS\;..\..\..\3rdparty\tms;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
-Item12=C:\PROGRAM FILES\BORLAND\CBUILDER5\PROJECTS\CPPBUILDERJOURNAL-MAY2001\POPUPCONTROLS;..\..\..\3rdparty\tms;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
-Item13=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
-Item14=c:\program files\borland\components\thirdparty;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
-Item15=..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
-Item16=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\components\general\;k:\components\data\;k:\general\;j:\rx\units\
-Item17=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\lib\obj;$(BCB)\lib
-Item18=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\lib\obj;$(BCB)\lib
+Count=20
+Item0=..;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\lib\debug;$(BCB)\components\thirdparty;$(BCB)\components\tms
+Item1=..;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty;$(BCB)\components\tms
+Item2=..;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty
+Item3=..\;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty;$(SHARED)\components\general
+Item4=..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty;$(SHARED)\components\general
+Item5=..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty
+Item6=..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty
+Item7=..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\Components\General;$(BCB)\components\thirdparty
+Item8=..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\Components\General;$(BCB)\components\thirdparty
+Item9=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\Components\General;$(BCB)\components\thirdparty
+Item10=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\Components\General
+Item11=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item12=C:\PROGRAM FILES\BORLAND\CBUILDER5\PROJECTS\CPPBUILDERJOURNAL-MAY2001\POPUPCONTROLS\;..\..\..\3rdparty\tms;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
+Item13=C:\PROGRAM FILES\BORLAND\CBUILDER5\PROJECTS\CPPBUILDERJOURNAL-MAY2001\POPUPCONTROLS;..\..\..\3rdparty\tms;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
+Item14=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
+Item15=c:\program files\borland\components\thirdparty;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
+Item16=..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
+Item17=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\components\general\;k:\components\data\;k:\general\;j:\rx\units\
+Item18=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\lib\obj;$(BCB)\lib
+Item19=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=4
