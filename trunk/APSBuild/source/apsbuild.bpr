@@ -14,17 +14,15 @@ BCB = $(MAKEDIR)\..
 VERSION = BCB.03
 # ---------------------------------------------------------------------------
 PROJECT = APSBuild.exe
-OBJFILES = APSBuild.obj TPlease_wait_form.obj
-RESFILES =
+OBJFILES = APSBuild.obj TMainForm.obj CompileThread.obj
+RESFILES = APSBuild.res
 DEFFILE =
-RESDEPEN = $(RESFILES) TPlease_wait_form.dfm
-LIBFILES = ..\..\shared\aps\aps32.lib ..\..\shared\general\general.lib "..\..\..\..\Program Files\Borland\CBuilder3\Lib\memmgr.lib"
-LIBRARIES = THIRDPARTY.lib APSUI.lib APSGeneral.lib
-SPARELIBS = VCL35.lib APSGeneral.lib VCLDB35.lib Rxctl.lib VCLX35.lib APSUI.lib TEE4C.lib \
-  TREE1C3.lib THIRDPARTY.lib
-PACKAGES = vclx35.bpi VCL35.bpi vcldb35.bpi vcldbx35.bpi bcbsmp35.bpi dclocx35.bpi \
-  Qrpt35.bpi ibsmp35.bpi NMFast35.bpi inetdb35.bpi inet35.bpi TEE4C.bpi \
-  TEEUI4C.bpi TEEDB4C.bpi TEEPRO4C.bpi Tree1C3.bpi RXCTL.bpi RXDB.bpi
+RESDEPEN = $(RESFILES) TMainForm.dfm
+LIBFILES = ..\..\shared\general\general.lib ..\..\shared\aps\aps32.lib
+LIBRARIES =
+SPARELIBS = VCL35.lib
+PACKAGES = bcbsmp35.bpi VCL35.bpi vclx35.bpi dclocx35.bpi Qrpt35.bpi vcldb35.bpi \
+  ibsmp35.bpi NMFast35.bpi inetdb35.bpi inet35.bpi vcldbx35.bpi jpegpkg.bpi
 # ---------------------------------------------------------------------------
 PATHCPP = .;
 PATHASM = .;
@@ -37,14 +35,12 @@ CFLAG1 = -Od -Hc -w -Ve -r- -k -y -v -vi- -c -b- -w-par -w-inl -Vx -tW
 CFLAG2 = -D_RTLDLL;USEPACKAGES -I$(BCB)\include;$(BCB)\include\vcl;..\..\shared \
   -H=$(BCB)\lib\vcl35.csm
 CFLAG3 = -Tkh30000
-PFLAGS = -U..\..\..\..\rx\units;..\..\shared\components\thirdparty;..\..\shared\components\ui;..\..\shared\components\general;c:\rx\units;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
-  -D_RTLDLL;USEPACKAGES -I$(BCB)\include;$(BCB)\include\vcl;..\..\shared -$Y -$W \
-  -$O- -v -JPHN -M
+PFLAGS = -D_RTLDLL;USEPACKAGES -U$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
+  -I$(BCB)\include;$(BCB)\include\vcl;..\..\shared -$Y -$W -$O- -v -JPHN -M
 RFLAGS = -D_RTLDLL;USEPACKAGES -i$(BCB)\include;$(BCB)\include\vcl;..\..\shared
 AFLAGS = /i$(BCB)\include /i$(BCB)\include\vcl /i..\..\shared /d_RTLDLL /dUSEPACKAGES \
   /mx /w2 /zd
-LFLAGS = -L..\..\..\..\rx\units;..\..\shared\components\thirdparty;..\..\shared\components\ui;..\..\shared\components\general;c:\rx\units;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
-  -aa -Tpe -x -Gn -v
+LFLAGS = -L$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) -aa -Tpe -x -Gn -v
 IFLAGS =
 # ---------------------------------------------------------------------------
 ALLOBJ = c0w32.obj $(PACKAGES) sysinit.obj $(OBJFILES)
@@ -65,7 +61,7 @@ PreRelease=0
 Special=0
 Private=0
 DLL=0
-Locale=1033
+Locale=3081
 CodePage=1252
 
 [Version Info Keys]
@@ -80,17 +76,25 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
+[Excluded Packages]
+C:\Program Files\Borland\CBuilder3\Bin\DclTee4C.bpl=TeeChart 4.0 Components
+C:\Program Files\Borland\CBuilder3\Bin\DclTeP4C.bpl=TeeChart Pro 4.0 Components
+C:\THyperGrid\HyperGrid.bpl=THyperGrid component
+D:\apsuite\shared\components\ThirdParty\thirdparty.bpl=APSuite third party components
+D:\apsuite\shared\components\general\APSGeneral.bpl=APSuite general components
+D:\apsuite\shared\components\data\APSData.bpl=APSuite data mining/analysis components.
+C:\RX\Units\Dclrxctl.bpl=RX Library Controls and Tools
+C:\RX\Units\Dclrxdb.bpl=RX Library Database Components
+D:\apsuite\shared\components\UI\APSUI.bpl=APSuite user interface components and forms
+
 [HistoryLists\hlIncludePath]
 Count=2
 Item0=$(BCB)\include;$(BCB)\include\vcl;..\..\shared
-Item1=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
+Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\shared\general
 
 [HistoryLists\hlLibraryPath]
-Count=4
-Item0=..\..\shared\components\thirdparty;..\..\shared\components\ui;..\..\shared\components\general;c:\rx\units;$(BCB)\lib\obj;$(BCB)\lib
-Item1=..\..\shared\components\thirdparty;..\..\shared\components\ui;c:\program files\borland\cbuilder3\lib;..\..\shared\components\data;..\..\shared\components\general;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib
-Item2=..\..\shared\components\ui;c:\program files\borland\cbuilder3\lib;..\..\shared\components\data;..\..\shared\components\general;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib
-Item3=c:\program files\borland\cbuilder3\lib;..\..\shared\components\data;..\..\shared\components\general;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib
+Count=1
+Item0=$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -101,16 +105,22 @@ Count=1
 Item0=_RTLDLL;USEPACKAGES
 
 [HistoryLists\hlRunParameters]
-Count=3
-Item0=-build c:\apsuite\apsim\clock\clock.apf
-Item1=-run c:\apswork\apsbuild.rsp tempcon.con
-Item2=c:\apswork\apsbuild.rsp tempcon.con
+Count=9
+Item0=-run c:\apswork\accum\sample\tempcon.tmp
+Item1=-run c:\apswork\apsbuild.rsp c:\apswork\accum\sample\tempcon.tmp
+Item2=-run c:\apswork\apsbuild.rsp c:\apswork\accum\sample\accum.con
+Item3=-run "c:\apswork\apsbuild.rsp c:\apswork\accum\sample\accum.con
+Item4=-make "c:\apsuite\apsim\accum\accum.apf
+Item5=-make "f:\build\apsuite\apsim\all modules.apf"
+Item6=-build "f:\build\apsuite\apsim\all modules.apf"
+Item7=-build "f:\build\apsuite\apsim\canola\canola.apf"
+Item8=-make f:\build\apsuite\apsim\all modules.apf
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=-build c:\apsuite\apsim\clock\clock.apf
+RunParams=-run c:\apswork\accum\sample\tempcon.tmp
 HostApplication=
 
 !endif
