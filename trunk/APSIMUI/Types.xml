@@ -4,7 +4,7 @@
    <area>
       <UItype>area</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\layout_center32.png</LargeIcon>
       <SmallIcon>Images\layout_center16.png</SmallIcon>
@@ -35,7 +35,7 @@
    <simulation>
       <UItype>area</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\layout_center32.png</LargeIcon>
       <SmallIcon>Images\layout_center16.png</SmallIcon>
@@ -47,7 +47,7 @@
    <clock>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation>../apsim/clock/docs/clock_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\clock32.png</LargeIcon>
@@ -75,7 +75,7 @@
    <summaryfile>
       <UItype>file</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\document_edit32.png</LargeIcon>
       <SmallIcon>Images\document_edit16.png</SmallIcon>
@@ -88,7 +88,7 @@
    <outputfile>
       <UItype>file</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation>../apsim/report/docs/report_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\table_selection_column32.png</LargeIcon>
@@ -103,7 +103,7 @@
    <metfile>
       <UItype>met</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation>../apsim/met/docs/met_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\thermometer32.png</LargeIcon>
@@ -124,7 +124,7 @@
    <logic>
       <UItype>logic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation>../apsim/manager/docs/manager_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\lightbulb_on32.png</LargeIcon>
@@ -139,7 +139,7 @@
    <irrigation>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation>../apsim/irrigate/docs/irrigate_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\drink_blue32.png</LargeIcon>
@@ -163,11 +163,11 @@
    <fertiliser>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation>../apsim/fertiliz/docs/fertiliz_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
-      <LargeIcon>images\debug32.png</LargeIcon>
-      <SmallIcon>images\debug16.png</SmallIcon>
+      <LargeIcon>images\fertiliser32.png</LargeIcon>
+      <SmallIcon>images\fertiliser16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -181,7 +181,7 @@
    <soil>
       <UItype>soil</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Water">../apsim/soilwat2/docs/soilwat2_science.htm</Documentation>
       <Documentation2 name="Nitrogen">../apsim/soiln2/docs/soiln2_science.htm</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -246,7 +246,7 @@
    <soilp>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation>../apsim/soilp/docs/soilp_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\cubes32.png</LargeIcon>
@@ -268,7 +268,7 @@
    <swimsoil>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation>../apsim/apswim/docs/apswim_science.htm</Documentation>
       <Documentation2 name="Technical specification">../apsim/apswim/docs/SWIMv21UserManual.pdf</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -284,7 +284,7 @@
    <log>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation>../apsim/log/docs/log.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\debug32.png</LargeIcon>
@@ -299,7 +299,7 @@
    <micromet>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation>../apsim/micromet/docs/micromet_science.pdf</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\thermometer32.png</LargeIcon>
@@ -314,7 +314,7 @@
    <stock>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Component description">../apsim/stock/docs/Stock Component Description.htm</Documentation>
       <Documentation2 name="Component drivers">../apsim/stock/docs/Stock Component Drivers.htm</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
@@ -331,7 +331,7 @@
    <StockScienceConverter>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\stock32.bmp</LargeIcon>
       <SmallIcon>Images\stock16.bmp</SmallIcon>
@@ -349,7 +349,7 @@
    <cattle>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\cow32.bmp</LargeIcon>
       <SmallIcon>Images\cow16.bmp</SmallIcon>
@@ -360,7 +360,7 @@
    <sheep>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\sheep32.bmp</LargeIcon>
       <SmallIcon>Images\sheep16.bmp</SmallIcon>
@@ -371,7 +371,7 @@
    <outputfiledescription>
       <UItype>outputfiledescription</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\cubes32.png</LargeIcon>
       <SmallIcon>Images\cubes16.png</SmallIcon>
@@ -382,7 +382,7 @@
    <manager>
       <UItype>area</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation>../apsim/manager/docs/manager_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\manager32.png</LargeIcon>
@@ -397,7 +397,7 @@
    <rule>
       <UItype>rule</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\question_and_answer32.png</LargeIcon>
       <SmallIcon>Images\question_and_answer16.png</SmallIcon>
@@ -409,7 +409,7 @@
    <vinelogic>
       <UItype>vinelogic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\grape32.jpg</LargeIcon>
       <SmallIcon>Images\grape16.jpg</SmallIcon>
@@ -423,11 +423,11 @@
    <surfaceom>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\graphics\som.jpg</Image>
       <Documentation>../apsim/surfaceom/docs/surfaceom_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
-      <LargeIcon>Images\cubes32.png</LargeIcon>
-      <SmallIcon>Images\cubes32.png</SmallIcon>
+      <LargeIcon>Images\som32.png</LargeIcon>
+      <SmallIcon>Images\som16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -438,7 +438,7 @@
    <folder>
       <UItype>area</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\folder_closed32.png</LargeIcon>
       <SmallIcon>Images\folder_closed16.png</SmallIcon>
@@ -449,7 +449,7 @@
    <erosion>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation>../apsim/erosion/docs/erosion_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\cubes32.png</LargeIcon>
@@ -468,7 +468,7 @@
    <grasp>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\cubes32.png</LargeIcon>
       <SmallIcon>Images\cubes16.png</SmallIcon>
@@ -835,7 +835,7 @@
    <slurp>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Slurp">../apsim/slurp/docs/slurp_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\cubes32.png</LargeIcon>
@@ -901,7 +901,7 @@
    <sugar>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>Images\wheat.jpg</Image>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Sugar">../apsim/sugar/docs/sugar_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\cubes32.png</LargeIcon>
