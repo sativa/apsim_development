@@ -1,60 +1,74 @@
-[sample.report.parameters]
-outputfile =Canopy.out   
+[sample.report.parameters]  
+title =  Canopy Sample Simulation   
+screen_output =  on   
+outputfile  =  canopy.out /overwrite   
+summaryfile =  canopy.sum /overwrite   
 
-variable = clock.day
-variable = clock.year
-variable = grass.sw_demand(grass_swd)
-variable = grass.ep(grass_ep)
-variable = tree.sw_demand(tree_swd)
-variable = tree.ep(tree_ep)
-variable = canopy.eo
+!  ********************************************************************************************
+! For the purpose of this sample simulation, and to demonstrate the capacity of the CANOPY module
+! for intercropping, Maize and Cowpea have been selected.  If you are not licensed to use these 
+! crops, please substitute other crops as appropriate.
+!  ********************************************************************************************
+
+
+module_names =    clock clock   
+variable_names =  day   year   
+variable_alias =  -     -   
+
+module_names =     soilwat2     maize       maize         cowpea        cowpea      
+variable_names =   sw_dep()      lai       biomass          lai         biomass     
+variable_alias =      -       lai_maize   biom_maize     lai_cowpea    biom_cowpea    
+units =               -          -            -              -              -      
 
 [sample.clock.parameters]  
 ! Start and end date of run (day number of year and year)
-start_date=1/1/1988
-end_date=30/1/1988
+simulation_start_day  =  1   
+simulation_start_year =  1988   
+simulation_end_day    =  365  
+simulation_end_year   =  1988   
+
+[sample.manager.start_of_day]  
+
+! MAIZE SOWING AND HARVEST ************
+ if day = 10 and year = 1988 then
+      maize sow cultivar = dekalb_xl82, plants = 10, sowing_depth = 30 (mm)
+   endif
+   if (maize.stage = 11) then
+      maize harvest
+      maize end_crop
+   endif
+
+! COWPEA SOWING AND HARVEST**********
+if day = 10 and year  = 1988 then
+   cowpea sow cultivar = banjo, plants = 25 (/m2), sowing_depth = 40 (mm)
+endif
+
+if cowpea.stage_name = 'harvest_ripe' or cowpea.plant_status = 'dead' then
+   cowpea harvest
+   cowpea end_crop   
+
+endif
+
 
 [sample.manager.end_of_day]  
-if day = 1 then
-   Canopy lai_table
-   Canopy rs_table
-   Canopy cover_table
-endif
 report do_output
 
-[sample.grass.parameters]  
-crop_type     = grass
-uptake_source = calc
-eo_fraction   = 0.9 (0-1)
-lai           = 3.0
-Frgr          = 1.0
-height        = 200. (mm)
-rlv           = 0.05 0.03 0.02 0.01 0.01 0.01 0.01 (mm/mm3)
-solute_names  = no3 nh4
-no3_demand    = 1 (kg/ha)
-nh4_demand    = 0.3 (kg/ha)
 
-[sample.tree.parameters]  
-crop_type     = tree
-uptake_source = calc
-eo_fraction   = 0.9 (0-1)
-lai           = 3.0
-Frgr          = 1.0
-height        = 5000. (mm)
-rlv           = 0.05 0.03 0.02 0.01 0.01 0.01 0.01 (mm/mm3)
-solute_names  = no3 nh4
-no3_demand    = 1 (kg/ha)
-nh4_demand    = 0.3 (kg/ha)
+[sample.maize.parameters]  
 
-[sample.Canopy.parameters]
-soil_albedo = 0.13
-layer_ga = 0.01666
+uptake_source =    calc   ! calculate own uptakes.
+   !layer    1    2    3    4    5    6    7   
+ll =      .230 .240 .240 .250 .260 .270 .280   ! lower limit mm water/mm soil
+xf =      1.00 1.00 1.00 1.00 1.00 1.00 1.00   ! Root Exploration factor (0-1)
+kl =      0.12 0.12 0.12 0.12 0.10 0.08 0.04   ! Water Extraction parameter (0-1)
 
-!      Interception = A_interception * (rain ^ B_interception)
-!                   + C_interception * Total_LAI
-!                   + D_interception
-! Standard LAI approach
-a_interception = 0.0
-b_interception = 0.0
-c_interception = 0.0
-d_interception = 0.0
+
+[sample.cowpea.parameters]  
+
+  ll =    .230 .240 .240 .250 .260 .270 .280  ! lower limit mm water/mm soil
+  xf =    1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
+  kl =    0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)
+
+[sample.canopy.parameters]  
+
+intercrop = maize cowpea
