@@ -371,6 +371,7 @@ string getSectionName(const std::string& line)
       if (posClose != string::npos)
          section = line.substr(posOpen+1, posClose-posOpen-1);
       }
+   Strip(section, " ");
    return section;
    }
 // ------------------------------------------------------------------
