@@ -14,18 +14,20 @@ USEUNIT("TSkin.cpp");
 USEFORM("TSplashForm.cpp", SplashForm);
 USEFORM("TTabRenameForm.cpp", TabRenameForm);
 USEFORM("TValueSelectionForm.cpp", ValueSelectionForm);
-USELIB("general.lib");
 USELIB("aps32.lib");
 USEUNIT("Scenarios.cpp");
 USEUNIT("factor.cpp");
 USEUNIT("Scenario.cpp");
 USEUNIT("AddIn.cpp");
+USE("ApsimOutlook.todo", ToDo);
+USEUNIT("ToolBarAddIn.cpp");
+USELIB("C:\Program Files\Borland\CBuilder5\Projects\Lib\general.lib");
 //---------------------------------------------------------------------------
 AnsiString CommandLine;
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
    {
    CommandLine = cmdline;
-
+                                             
    Skin = new TSkin;
    Skin->DisplaySplashScreen();
 
