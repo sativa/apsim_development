@@ -218,7 +218,7 @@ Public Class APSIMData
             End If
         End Get
         Set(ByVal Value As String)
-            Node.Attributes.GetNamedItem("name").Value = Value
+            SetAttribute("name", Value)
         End Set
     End Property
     ReadOnly Property Children(Optional ByVal Type As String = Nothing) As Collection

@@ -85,14 +85,14 @@
                     HintPath = "..\..\..\..\..\Program Files\NUnit V2.1\bin\nunit.framework.dll"
                 />
                 <Reference
-                    Name = "CSGeneral"
-                    Project = "{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "VBGeneral"
                     AssemblyName = "VBGeneral"
                     HintPath = "..\..\..\Bin\VBGeneral.dll"
+                />
+                <Reference
+                    Name = "CSGeneral"
+                    AssemblyName = "CSGeneral"
+                    HintPath = "..\..\..\Bin\CSGeneral.dll"
                 />
             </References>
         </Build>
