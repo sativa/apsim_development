@@ -751,6 +751,7 @@ cih
       call push_routine (This_routine)
 
       ! send initialisation message to all modules.
+      call Action_send_to_all_comps (ACTION_Init)
 
       ! do all timesteps for simulation
  
