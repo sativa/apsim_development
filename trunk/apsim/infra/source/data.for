@@ -17,7 +17,7 @@
 *+  Definition
 *     This subroutine adds each of the "dimen" elements of "amount" to its
 *     corresponding element of "store".  
-
+ 
 *+  Mission Statement
 *     Add array %1 to %2
  
@@ -60,7 +60,7 @@
 *+  Definition
 *     Copies each of the "n" elements of 'src' to its
 *     corresponding element in 'dest'.  
-
+ 
 *+  Changes
 *     030998 sb created
  
@@ -100,7 +100,7 @@
  
 *+  Purpose
 *     Multiply array by a value.
-
+ 
 *+  Definition
 *     Multiplies each of the "n" elements of "vec" by "mul".
  
@@ -149,6 +149,10 @@
  
 *+  Changes
 *     040998 sb created
+ 
+*+  Calls
+      dll_import push_routine
+      dll_import pop_routine
  
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
