@@ -140,7 +140,7 @@
       call SOI_zero_variables()
 
       ! create an external table object and open it
-      g%LU_SOI = component_gettable(componentData, 'soi')
+      g%LU_SOI = component_gettable(componentData, 'soi', ' ')
 
       if (g%LU_SOI .ne. 0) then
          ! Read in all parameters from parameter file
