@@ -4,7 +4,6 @@
 #pragma hdrstop
 
 #include "ControlFileConverter.h"
-#include "ApsimParameterFile.h"
 #include "ApsimControlFile.h"
 #include "ApsimVersion.h"
 #include "ApsimDirectories.h"
@@ -15,24 +14,10 @@
 #include <general\inifile.h>
 using namespace std;
 
-// ------------------------------------------------------------------
-// Returns true if the specified control file needs converting
-// ------------------------------------------------------------------
-bool ControlFileConverter::needsConversion(const std::string& fileName)
-   {
-   int fileVersion = ApsimControlFile::getVersionNumber(fileName);
-   int apsimVersion = StrToFloat(getApsimVersion().c_str())*10;
-   return (fileVersion != apsimVersion);
-   }
 //---------------------------------------------------------------------------
-// convert the specified control file using the version number of
-// APSIM and the version number in the control file.
-// Throws an exception if a problem was encountered.
-// If callback is not null, then it will be called for every section
-// in con file being converter.
+// Return a list of script files to use to convert the specified control file.
 //---------------------------------------------------------------------------
-void ControlFileConverter::convert(const string& fileName,
-                                   TControlFileConverterEvent callback) throw(runtime_error)
+void getScriptFilesToUse(const string& fileName, vector<string>& scriptFileNames)
    {
    int fileVersion = ApsimControlFile::getVersionNumber(fileName);
    int apsimVersion = StrToFloat(getApsimVersion().c_str())*10;
@@ -44,10 +29,39 @@ void ControlFileConverter::convert(const string& fileName,
          ostringstream conversionFile;
          conversionFile << homeDir << "conversions." << version;
          if (FileExists(conversionFile.str().c_str()))
-            convert(fileName, conversionFile.str(), callback);
+            scriptFileNames.push_back(conversionFile.str());
          }
-      ApsimControlFile::setVersionNumber(fileName, apsimVersion);
+      if (scriptFileNames.size() == 0)
+         ApsimControlFile::setVersionNumber(fileName, apsimVersion);
       }
+   }
+// ------------------------------------------------------------------
+// Returns true if the specified control file needs converting
+// ------------------------------------------------------------------
+bool ControlFileConverter::needsConversion(const std::string& fileName)
+   {
+   vector<string> scriptFileNames;
+   getScriptFilesToUse(fileName, scriptFileNames);
+   return (scriptFileNames.size() > 0);
+   }
+//---------------------------------------------------------------------------
+// convert the specified control file using the version number of
+// APSIM and the version number in the control file.
+// Throws an exception if a problem was encountered.
+// If callback is not null, then it will be called for every section
+// in con file being converter.
+//---------------------------------------------------------------------------
+void ControlFileConverter::convert(const string& fileName,
+                                   TControlFileConverterEvent callback) throw(runtime_error)
+   {
+   vector<string> scriptFileNames;
+   getScriptFilesToUse(fileName, scriptFileNames);
+
+   int apsimVersion = StrToFloat(getApsimVersion().c_str())*10;
+   ApsimControlFile::setVersionNumber(fileName, apsimVersion);
+
+   for (unsigned f = 0; f != scriptFileNames.size(); f++)
+      convert(fileName, scriptFileNames[f], callback);
    }
 //---------------------------------------------------------------------------
 // convert the specified control file using the commands in the specified
@@ -59,6 +73,8 @@ void ControlFileConverter::convert(const string& fileName,
                                    const string& scriptFileName,
                                    TControlFileConverterEvent callback) throw(runtime_error)
    {
+   con = new ApsimControlFile(fileName);
+
    // Make the working directory the same directory as the where the
    // control file resides.
    Path p(fileName);
@@ -70,43 +86,40 @@ void ControlFileConverter::convert(const string& fileName,
    ofstream log(logPath.Get_path().c_str());
 
    vector<string> controlFileSections;
-   ApsimControlFile::getAllSectionNames(fileName, controlFileSections);
+   con->getAllSectionNames(controlFileSections);
    for (unsigned section = 0; section != controlFileSections.size(); section++)
       {
+      conSection = controlFileSections[section];
       bool ok;
       // only convert this section if it has a module= line in it.
       if (ApsimControlFile::getVersionNumber(fileName) == 21)
-         {
-         string moduleLine;
-         IniFile conAsIni(fileName);
-         conAsIni.read(controlFileSections[section], "module", moduleLine);
-         ok = (moduleLine != "");
-         }
+         ok = con->isValid(conSection);
+         
       else
          ok = true;
 
       if (ok)
          {
          if (callback != NULL)
-            callback(controlFileSections[section]);
+            callback(conSection);
          log << "-------------------------------------------------------" << endl;
-         log << "Converting section: " << controlFileSections[section] << endl;
+         log << "Converting section: " << conSection << endl;
          log << "-------------------------------------------------------" << endl;
-
-         controlFile = ApsimControlFile(fileName, controlFileSections[section]);
 
          // Loop through all lines in script and perform required actions
-         script.setFileName(scriptFileName.c_str());
+         script = new IniFile(scriptFileName);
          vector<string> conversions;
-         script.readSectionNames(conversions);
+         script->readSectionNames(conversions);
          for (unsigned i = 0; i != conversions.size(); ++i)
             {
             bool ok = convertSection(conversions[i]);
             if (ok)
                log << conversions[i] << endl;
             }
+         delete script;
          }
       }
+   delete con;
    }
 //---------------------------------------------------------------------------
 // convert the control file using the commands in the specified section
@@ -117,7 +130,7 @@ bool ControlFileConverter::convertSection(const string& sectionName) throw(runti
    {
    bool ok = false;
    vector<string> commands;
-   script.read(sectionName, "command", commands);
+   script->read(sectionName, "command", commands);
    for (unsigned c = 0; c != commands.size(); ++c)
       {
       // yield control to windows.
@@ -162,53 +175,18 @@ bool ControlFileConverter::convertSection(const string& sectionName) throw(runti
    return ok;
    }
 //---------------------------------------------------------------------------
-// Find the specified parameter in the parameter file somewhere.  Name
-// should be a fully qualified name (module.name).  On success the routine
-// returns true, along with a list of parameter files containing the value.
-//---------------------------------------------------------------------------
-bool ControlFileConverter::findParameters
-  (const string& fqn, string& parameterName,
-   std::vector<ApsimParameterFile>& parameterFiles) const throw(runtime_error)
-   {
-   // extract the module name from the name.
-   unsigned posPeriod = fqn.find('.');
-   if (posPeriod == string::npos)
-      throw runtime_error("Invalid parameter name: " + fqn);
-   string moduleName = fqn.substr(0, posPeriod);
-   parameterName = fqn.substr(posPeriod+1);
-
-   vector<string> instanceNames;
-   controlFile.getInstances(moduleName, instanceNames);
-
-   for (unsigned i = 0; i != instanceNames.size(); ++i)
-      {
-      vector<ApsimParameterFile> paramFiles;
-      controlFile.getParameterFiles(instanceNames[i], paramFiles);
-      for (vector<ApsimParameterFile>::const_iterator
-               paramFile = paramFiles.begin();
-               paramFile != paramFiles.end();
-               paramFile++)
-         {
-         if (paramFile->getParamValue(parameterName) != "")
-            parameterFiles.push_back(*paramFile);
-         }
-      }
-
-   return parameterFiles.size();
-   }
-//---------------------------------------------------------------------------
 // Evalulate the specified expression and return a value.  Returns true on
 // success.
 //---------------------------------------------------------------------------
 bool ControlFileConverter::evaluate(const string& expression, string& value) const throw(runtime_error)
    {
    value = expression;
-   
+
    // look for a macro.
    if (value.find("%controlfilenamebase%") != string::npos)
       {
       Replace_all(value, "%controlfilenamebase%",
-                  Path(controlFile.getFileName()).Get_name_without_ext().c_str());
+                  Path(con->getFileName()).Get_name_without_ext().c_str());
       return true;
       }
 
@@ -230,14 +208,16 @@ bool ControlFileConverter::evaluate(const string& expression, string& value) con
       unsigned posPeriod = value.find('.');
       if (posPeriod != string::npos)
          {
-         string parameterName;
-         vector<ApsimParameterFile> parameterFiles;
-         if (findParameters(value, parameterName, parameterFiles)
-             && parameterFiles.size() == 1)
-            value = parameterFiles[0].getParamValue(parameterName);
-
-         else
-            return false;
+         string moduleName = value.substr(0, posPeriod);
+         string parameterName = value.substr(posPeriod+1);
+         vector<string> instances;
+         con->getInstances(conSection, moduleName, instances);
+         for (unsigned i = 0; i != instances.size(); i++)
+            {
+            value = con->getParameterValue(conSection, instances[i], parameterName);
+            if (value != "")
+               return true;
+            }
          }
       }
    return true;
@@ -285,19 +265,13 @@ bool ControlFileConverter::executeSetParameterValue(const string& arguments) thr
    Strip(arg1, " ");
    Strip(arg2, " ");
 
-   ApsimParameterFile parFile;
    string value;
    if (evaluate(arg2, value))
       {
-      string moduleName;
-      string parameterName = arg1;
       unsigned posPeriod = arg1.find('.');
-      if (posPeriod != string::npos)
-         {
-         moduleName = parameterName.substr(0, posPeriod);
-         parameterName.erase(0, posPeriod+1);
-         }
-      controlFile.setParameterValue(moduleName, "", parameterName, value);
+      string moduleName = arg1.substr(0, posPeriod);
+      string parameterName = arg1.substr(posPeriod+1);
+      con->setParameterValue(conSection, moduleName, parameterName, value);
       return true;
       }
    return false;
@@ -315,30 +289,20 @@ bool ControlFileConverter::executeRenameParameter(const string& arguments) throw
    string arg2 = arguments.substr(posComma+1, arguments.length()-posComma-1);
    Strip(arg1, " ");
    Strip(arg2, " ");
-   vector<ApsimParameterFile> parFiles;
-   string parameterName, value;
-   findParameters(arg1, parameterName, parFiles);
-   for (unsigned i = 0; i != parFiles.size(); ++i)
-      {
-      string value = parFiles[i].getParamValue(parameterName);
-      parFiles[i].deleteParam(parameterName);
-      parFiles[i].setParamValue(arg2, value);
-      return true;
-      }
-   return false;
+   unsigned posPeriod = arg1.find('.');
+   string moduleName = arg1.substr(0, posPeriod);
+   string parameterName = arg1.substr(posPeriod+1);
+   return con->renameParameter(conSection, moduleName, parameterName, arg2);
    }
 //---------------------------------------------------------------------------
 // Execute the DeleteParameter command.  Returns true on success.
 //---------------------------------------------------------------------------
 bool ControlFileConverter::executeDeleteParameter(const string& arguments) throw(runtime_error)
    {
-   vector<ApsimParameterFile> parFiles;
-   string parameterName, value;
-   findParameters(arguments, parameterName, parFiles);
-   for (unsigned i = 0; i != parFiles.size(); ++i)
-      parFiles[i].deleteParam(parameterName);
-
-   return (parFiles.size() > 0);
+   unsigned posPeriod = arguments.find('.');
+   string moduleName = arguments.substr(0, posPeriod);
+   string parameterName = arguments.substr(posPeriod+1);
+   return con->deleteParameter(conSection, moduleName, parameterName);
    }
 //---------------------------------------------------------------------------
 // Execute the ChangeInstantiation command.  Returns true on success.
@@ -354,30 +318,42 @@ bool ControlFileConverter::executeChangeInstantiation(const string& arguments) t
    Strip(arg1, " ");
    Strip(arg2, " ");
 
-   return controlFile.changeModuleName(arg1, arg2);
+   return con->changeModuleName(conSection, arg1, arg2);
    }
 // ------------------------------------------------------------------
 // Execute the newFormatReportVariables function call
 // ------------------------------------------------------------------
+class RemoveReportSwitch
+   {
+   public:
+      RemoveReportSwitch(const string& pName, bool& m)
+         : paramName(pName), modified(m) { }
+
+      void callback(IniFile* par, const string& section)
+         {
+         string value;
+         par->read(section, paramName, value);
+         unsigned posOverwrite = value.find("/overwrite");
+         if (posOverwrite != string::npos)
+            {
+            value.erase(posOverwrite);
+            Strip(value, " ");
+            par->write(section, paramName, value);
+            modified = true;
+            }
+         }
+
+   private:
+      const string& paramName;
+      bool& modified;
+   };
+
 bool ControlFileConverter::executeRemoveReportOutputSwitch(const string& arguments) throw(runtime_error)
    {
-   bool somethingDone = false;
-   vector<ApsimParameterFile> parFiles;
-   string parameterName;
-   findParameters("report." + arguments, parameterName, parFiles);
-   for (unsigned i = 0; i != parFiles.size(); ++i)
-      {
-      string value = parFiles[i].getParamValue(parameterName);
-      unsigned posOverwrite = value.find("/overwrite");
-      if (posOverwrite != string::npos)
-         {
-         value.erase(posOverwrite);
-         Strip(value, " ");
-         parFiles[i].setParamValue(parameterName, value);
-         somethingDone = true;
-         }
-      }
-   return somethingDone;
+   bool modified = false;
+   RemoveReportSwitch removeSwitch(arguments, modified);
+   con->enumerateParameters(conSection, "report", false, removeSwitch.callback);
+   return modified;
    }
 //---------------------------------------------------------------------------
 // Execute the MoveParameter command.  Returns true on success.
@@ -392,248 +368,230 @@ bool ControlFileConverter::executeMoveParameter(const string& arguments) throw(r
    string arg2 = arguments.substr(posComma+1, arguments.length()-posComma-1);
    Strip(arg1, " ");
    Strip(arg2, " ");
-   vector<ApsimParameterFile> parFiles;
-   string parameterName;
-   findParameters(arg1, parameterName, parFiles);
-   for (unsigned i = 0; i != parFiles.size(); ++i)
+   unsigned posPeriod = arg1.find('.');
+   string moduleName = arg1.substr(0, posPeriod);
+   string parameterName = arg1.substr(posPeriod+1);
+   if (arg2 == "" && Str_i_Eq(parameterName, "title"))
       {
-      StringTokenizer fullSection(parFiles[i].getSection(), ".");
-
-      string value = parFiles[i].getParamValue(parameterName);
-      parFiles[i].deleteParam(parameterName);
-      controlFile.setParameterValue(arg2, fullSection.nextToken(), parameterName,
-                                    value, parFiles[i].getFileName());
+      string title;
+      evaluate("report.title", title);
+      con->deleteParameter(conSection, moduleName, parameterName);
+      con->setTitle(conSection, title);
       return true;
       }
-   return false;
+   else
+      return con->moveParameter(conSection, moduleName, parameterName, arg2);
    }
 
 // ------------------------------------------------------------------
 // Execute the NewFormatReportVariables command. Returns true on success
 // ------------------------------------------------------------------
-bool ControlFileConverter::executeNewFormatReportVariables(const std::string& arguments) throw(runtime_error)
+class FormatReportVariables
    {
-   bool doneSomething = false;
-   // Return all the parameter files for the specified section and instance.
-   vector<ApsimParameterFile> paramFiles;
-   controlFile.getParameterFiles("report", paramFiles);
-   string name;
-   findParameters("report.module_names", name, paramFiles);
-   for (unsigned par = 0; par != paramFiles.size(); ++par)
-      {
-      // Get the module_names, variable_names and variable_alias lines for all
-      // instances of REPORT.  Keep in mind that there may be multiple variable 'blocks'
-      // for each section.
+   public:
+      FormatReportVariables(bool& m)
+         : modified(m) { }
 
-      vector<string> moduleLines, variableLines, aliasLines;
-      paramFiles[par].getParamValues("module_names", moduleLines);
-      paramFiles[par].getParamValues("variable_names", variableLines);
-      paramFiles[par].getParamValues("variable_alias", aliasLines);
-
-      if (moduleLines.size() != variableLines.size()
-          || moduleLines.size() != aliasLines.size())
-         throw runtime_error("Control file converter error: Invalid report variables section in "
-                             "parameter file.  The number of values in the module_names, "
-                             "variable_names and variable_alias lines must be the same. ");
-
-      // For each variable on each variable line, create a new variable.
-      vector<string> newVariables;
-      for (unsigned variableLineI = 0;
-                    variableLineI != variableLines.size();
-                    variableLineI++)
+      void callback(IniFile* par, const string& section)
          {
-         vector<string> modules, variables, aliases;
-         Split_string(moduleLines[variableLineI], " ", modules);
-         Split_string(variableLines[variableLineI], " ", variables);
-         Split_string(aliasLines[variableLineI], " ", aliases);
-         if (modules.size() != variables.size() || modules.size() != aliases.size())
+         // Get the module_names, variable_names and variable_alias lines for all
+         // instances of REPORT.  Keep in mind that there may be multiple variable 'blocks'
+         // for each section.
+
+         vector<string> moduleLines, variableLines, aliasLines;
+         par->read(section, "module_names", moduleLines);
+         par->read(section, "variable_names", variableLines);
+         par->read(section, "variable_alias", aliasLines);
+
+         if (moduleLines.size() != variableLines.size()
+             || moduleLines.size() != aliasLines.size())
             throw runtime_error("Control file converter error: Invalid report variables section in "
                                 "parameter file.  The number of values in the module_names, "
-                                "variable_names and variable_alias lines must be the same. "
-                                "Variable_names: " + variableLines[variableLineI]);
-         for (unsigned int variable = 0; variable < variables.size(); variable++)
+                                "variable_names and variable_alias lines must be the same. ");
+
+         // For each variable on each variable line, create a new variable.
+         vector<string> newVariables;
+         for (unsigned variableLineI = 0;
+                       variableLineI != variableLines.size();
+                       variableLineI++)
             {
-            string variableName = modules[variable] + "." + variables[variable];
-            if (aliases[variable] != "-")
-               variableName += " as " + aliases[variable];
-            newVariables.push_back(variableName);
+            vector<string> modules, variables, aliases;
+            Split_string(moduleLines[variableLineI], " ", modules);
+            Split_string(variableLines[variableLineI], " ", variables);
+            Split_string(aliasLines[variableLineI], " ", aliases);
+            if (modules.size() != variables.size() || modules.size() != aliases.size())
+               throw runtime_error("Control file converter error: Invalid report variables section in "
+                                   "parameter file.  The number of values in the module_names, "
+                                   "variable_names and variable_alias lines must be the same. "
+                                   "Variable_names: " + variableLines[variableLineI]);
+            for (unsigned int variable = 0; variable < variables.size(); variable++)
+               {
+               string variableName = modules[variable] + "." + variables[variable];
+               if (aliases[variable] != "-")
+                  variableName += " as " + aliases[variable];
+               newVariables.push_back(variableName);
+               }
+            }
+
+         // write all new variables.
+         if (newVariables.size() > 0)
+            {
+            par->write(section, "variable", newVariables);
+            modified = true;
             }
          }
 
-      // write all new variables.
-      if (newVariables.size() > 0)
-         {
-         paramFiles[par].setParamValues("variable", newVariables);
-         doneSomething = true;
-         }
-      }
-   return doneSomething;
+   private:
+      bool& modified;
+   };
+
+bool ControlFileConverter::executeNewFormatReportVariables(const std::string& arguments) throw(runtime_error)
+   {
+   bool modified = false;
+   FormatReportVariables formatReportVariables(modified);
+   con->enumerateParameters(conSection, "report", false, formatReportVariables.callback);
+   return modified;
    }
 //---------------------------------------------------------------------------
 // move all parameters out of the control file and into a parameter file.
 //---------------------------------------------------------------------------
 bool ControlFileConverter::executeMoveParametersOutOfCon(const std::string arguments) throw(runtime_error)
    {
-   if (arguments != "")
-      parFileToUse = arguments;
-
-   vector<ApsimParameterFile> paramFiles;
-   controlFile.getParameterFiles("", paramFiles);
-   bool selfReferencesFound = false;
-   for (unsigned i = 0; i != paramFiles.size(); ++i)
+   if (con->hasParametersInCon(conSection))
       {
-      string file = paramFiles[i].getFileName();
-      if (paramFiles[i].getFileName() == controlFile.getFileName())
+      string parFileToUse = arguments;
+      if (parFileToUse == "")
          {
-         selfReferencesFound = true;
-
-         // if parFileToUse is blank then ask user for a file to put all
-         // parameters into.
-         if (parFileToUse == "")
+         string defaultSection;
+         con->getDefaultParFileAndSection(conSection, parFileToUse, defaultSection);
+         MoveParametersForm = new TMoveParametersForm(Application);
+         MoveParametersForm->FileEdit->Text = parFileToUse.c_str();
+         if (!MoveParametersForm->ShowModal())
             {
-            string defaultFile, defaultSection;
-            controlFile.getDefaultParFileAndSection(defaultFile, defaultSection);
-
-            MoveParametersForm = new TMoveParametersForm(Application);
-            MoveParametersForm->FileEdit->Text = defaultFile.c_str();
-            if (!MoveParametersForm->ShowModal())
-               {
-               delete MoveParametersForm;
-               return false;
-               }
-            parFileToUse = MoveParametersForm->FileEdit->Text.c_str();
             delete MoveParametersForm;
+            return false;
             }
-
-         ApsimParameterFile newParamFile (parFileToUse,
-                                          paramFiles[i].getModuleName(),
-                                          paramFiles[i].getInstanceName(),
-                                          paramFiles[i].getSection() );
-         string contents = paramFiles[i].getSectionContents();
-         newParamFile.setSectionContents(contents);
-
-         // delete entire section.
-         paramFiles[i].deleteSectionContents();
+         parFileToUse = MoveParametersForm->FileEdit->Text.c_str();
+         delete MoveParametersForm;
          }
+      return con->moveParametersOutOfCon(conSection, parFileToUse);
       }
-   // tell control file to remove the self reference for this instance.
-   if (selfReferencesFound)
-      controlFile.removeSelfReferences(parFileToUse);
-   return selfReferencesFound;
+   return false;
    }
 // ------------------------------------------------------------------
 // Execute the RemoveSumAvgToTracker command. Returns true on success
 // ------------------------------------------------------------------
-bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& arguments) throw(runtime_error)
+class RemoveSumAvg
    {
-   bool sumAvgFound = false;
-   string name;
+   public:
+      RemoveSumAvg(ApsimControlFile* c, const string& section, bool& m)
+         : con(c), conSection(section), modified(m), trackerNum(1) { }
 
-   vector<string> instanceNames;
-   controlFile.getInstances("report", instanceNames);
-   for (unsigned i = 0; i != instanceNames.size(); ++i)
-      {
-      bool sumAvgFoundThisInstance = false;
-      bool alreadyConverted = false;
-
-      vector<string> trackerVariables;
-      string trackerInstanceName = string("tracker") + IntToStr(i+1).c_str();
-      vector<ApsimParameterFile> paramFiles;
-      controlFile.getParameterFiles(instanceNames[i], paramFiles);
-      for (vector<ApsimParameterFile>::const_iterator
-               paramFile = paramFiles.begin();
-               paramFile != paramFiles.end();
-               paramFile++)
+      void callback(IniFile* par, const string& section)
          {
-         if (paramFile->getParamValue("variable") != "")
+         unsigned posFirstPeriod = section.find('.');
+         unsigned posSecondPeriod = section.find('.', posFirstPeriod+1);
+         string instanceName = section.substr(posFirstPeriod+1, posSecondPeriod-posFirstPeriod-1);
+
+         string trackerInstanceName = string("tracker") + IntToStr(trackerNum).c_str();
+
+         vector<string> trackerVariables;
+         vector<string> variables;
+         par->read(section, "variable", variables);
+
+         vector<string> newVariables;
+         bool found = false;
+         for (unsigned v = 0; v != variables.size(); v++)
             {
-            for (unsigned par = 0; par != paramFiles.size(); ++par)
+            if ((variables[v].find("sum@") != string::npos ||
+                 variables[v].find("avg@") != string::npos)
+                 && variables[v].find("tracker") == string::npos)
                {
-               vector<string> variables;
-               paramFiles[par].getParamValues("variable", variables);
+               found = true;
+               modified = true;
+               StringTokenizer tokenizer(variables[v], ".@");
+               string moduleName = tokenizer.nextToken();
+               string functionName = tokenizer.nextToken();
+               string realVariableName = tokenizer.nextToken();
 
-               // For each variable on each variable line, create a new variable.
-               vector<string> newVariables;
-               for (unsigned variableI = 0;
-                             variableI != variables.size();
-                             variableI++)
+               string alias;
+               unsigned posAlias = realVariableName.find(" as ");
+               if (posAlias != string::npos)
                   {
-                  if (variables[variableI].find("sum@") != string::npos ||
-                      variables[variableI].find("avg@") != string::npos)
-                     {
-                     sumAvgFoundThisInstance = true;
-                     sumAvgFound = true;
-                     if (variables[variableI].find("tracker") == string::npos)
-                        {
-                        StringTokenizer tokenizer(variables[variableI], ".@");
-                        string moduleName = tokenizer.nextToken();
-                        string functionName = tokenizer.nextToken();
-                        string realVariableName = tokenizer.nextToken();
-
-                        string alias;
-                        unsigned posAlias = realVariableName.find(" as ");
-                        if (posAlias != string::npos)
-                           {
-                           alias = realVariableName.substr(posAlias+4);
-                           realVariableName.erase(posAlias);
-                           }
-
-                        string variableName = realVariableName;
-                        Replace_all(variableName, "(", "[");
-                        Replace_all(variableName, ")", "]");
-
-                        string trackerFunctionName = functionName;
-                        if (Str_i_Eq(trackerFunctionName, "avg"))
-                           trackerFunctionName = "average";
-
-                        // Change the report variable.
-                        string reportVariable = trackerInstanceName + "."
-                                              + functionName +  "@"
-                                              + moduleName + "." + variableName;
-                        if (alias != "")
-                           reportVariable += " as " + alias;
-                        newVariables.push_back(reportVariable);
-
-                        // set the tracker variable.
-                        string trackerVariable = trackerFunctionName + " of " + moduleName + "."
-                               + realVariableName + " since " + paramFiles[par].getInstanceName()
-                               + ".reported as ";
-                        trackerVariable += functionName + "@" + moduleName + "." + variableName;
-                        trackerVariables.push_back(trackerVariable);
-                        }
-                     else
-                        newVariables.push_back(variables[variableI]);
-                     }
-                  else
-                     newVariables.push_back(variables[variableI]);
+                  alias = realVariableName.substr(posAlias+4);
+                  realVariableName.erase(posAlias);
                   }
 
-               // write all new variables.
-               if (newVariables.size() > 0)
-                  paramFiles[par].setParamValues("variable", newVariables);
-               }
-            if (trackerVariables.size() > 0)
-               {
-               controlFile.setParameterValues(trackerInstanceName, "", "variable", trackerVariables);
-               controlFile.changeModuleName
-                  (trackerInstanceName, "tracker(" + trackerInstanceName + ")");
+               string variableName = realVariableName;
+               Replace_all(variableName, "(", "[");
+               Replace_all(variableName, ")", "]");
+               string reportVariable = trackerInstanceName + "."
+                                     + functionName +  "@"
+                                     + moduleName + "." + variableName;
+               if (alias != "")
+                  reportVariable += " as " + alias;
+               variables[v] = reportVariable;
+
+               string trackerFunctionName = functionName;
+               if (Str_i_Eq(trackerFunctionName, "avg"))
+                  trackerFunctionName = "average";
+
+               // set the tracker variable.
+               string trackerVariable = trackerFunctionName + " of " + moduleName + "."
+                      + realVariableName + " since " + instanceName
+                      + ".reported as ";
+               trackerVariable += functionName + "@" + moduleName + "." + variableName;
+               trackerVariables.push_back(trackerVariable);
                }
             }
-         }
 
-      if (sumAvgFoundThisInstance)
-         {
-         vector<string> instanceNames;
-         controlFile.getInstances("tracker", instanceNames);
-         if (find(instanceNames.begin(), instanceNames.end(),
-             trackerInstanceName) == instanceNames.end())
+         // write all new variables.
+         if (found)
             {
-            string defaultFile, defaultSection;
-            controlFile.getDefaultParFileAndSection(defaultFile, defaultSection);
-            controlFile.addModuleLine("tracker", trackerInstanceName, defaultFile, defaultSection);
+            par->write(section, "variable", variables);
+
+            con->setParameterValues(conSection, trackerInstanceName, "variable", trackerVariables);
+            con->changeModuleName(conSection, trackerInstanceName, "tracker(" + trackerInstanceName + ")");
+
+            trackerNum++;
             }
          }
-      }
-   return sumAvgFound;
-   }
 
+   private:
+      ApsimControlFile* con;
+      const string& conSection;
+      bool& modified;
+      int trackerNum;
+   };
+bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& arguments) throw(runtime_error)
+   {
+   bool modified = false;
+   RemoveSumAvg removeSumAvg(con, conSection, modified);
+   con->enumerateParameters(conSection, "report", false, removeSumAvg.callback);
+   return modified;
+   }
+//---------------------------------------------------------------------------
+// Backup all parameter files.
+//---------------------------------------------------------------------------
+void ControlFileConverter::backupFileAllFiles(void) const
+   {
+   vector<string> fileNames;
+   con->getAllFiles(conSection, fileNames);
+   for (unsigned f = 0; f != fileNames.size(); f++)
+      {
+      AnsiString fileName = fileNames[f].c_str();
+      int attributes = FileGetAttr(fileName);
+      if (FileExists(fileName) && attributes & faReadOnly)
+         {
+         AnsiString msg = "File: " + fileName + " is read-only.  Convert to read/write?";
+         if (Application->MessageBoxA(msg.c_str(), "Question", MB_ICONQUESTION | MB_YESNO) == IDYES)
+            FileSetAttr(fileName, attributes & !faReadOnly);
+         }
+
+      AnsiString fileExtension = ExtractFileExt(fileName);
+      fileExtension.Insert("old", 2);
+      AnsiString backupFile = ChangeFileExt(fileName, fileExtension);
+      if (FileExists(fileName))
+         CopyFile(fileName.c_str(), backupFile.c_str(), false);
+      }
+   }
