@@ -127,7 +127,6 @@
 *      071097 PdeV added tillage message
 *      090298 jngh changed init phase to only get met variables
 *      170599 nih  Added new solute handler
-*      150600 jngh added evap_init action 
 
 *+  Constant Values
       character  my_name*(*)           ! name of this module
@@ -3282,12 +3281,13 @@ c     he should have. Any ideas? Perhaps
  
       call push_routine (my_name)
  
-      call get_real_var_optional (unknown_module
-     :                           , 'cover_surface_extra'
-     :                           , '()'
-     :                           , g%cover_surface_extra
-     :                           , numvals
-     :                           , 0.0, 1.0)
+cnh It seems that this is never used - and usually it is never provided anyway!! 
+c      call get_real_var_optional (unknown_module
+c     :                           , 'cover_surface_extra'
+c     :                           , '()'
+c     :                           , g%cover_surface_extra
+c     :                           , numvals
+c     :                           , 0.0, 1.0)
   
              ! Get green cover of each crop
              ! g%cover_green is all canopys green
@@ -3716,6 +3716,8 @@ c     he should have. Any ideas? Perhaps
  
 5100     continue
  
+         call soilwat2_New_Profile_Event()
+
       elseif (variable_name .eq. 'dlt_dlayer') then
          call collect_real_array (variable_name, max_layer, '(mm)'
      :                               , temp, numvals
@@ -3744,6 +3746,7 @@ c     he should have. Any ideas? Perhaps
             p%dlayer(layer) = 0.0
  6100     continue
  
+         call soilwat2_New_Profile_Event()
 * end code for erosion
  
       elseif (variable_name .eq. 'cn2_bare') then
@@ -5153,6 +5156,8 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
       call soilwat2_evap_init ()
  
+      call soilwat2_New_Profile_Event()
+
       call pop_routine (my_name)
       return
       end
@@ -5847,3 +5852,78 @@ cnh      call handler_ONnewmet(g%radn, g%maxt, g%mint, g%rain, temp1)
       return
       end
  
+*     ===========================================================
+      subroutine soilwat2_New_Profile_Event ()
+*     ===========================================================
+      use Soilwat2Module
+      implicit none
+      include 'event.inc'
+      include 'error.pub'
+      include 'postbox.pub'
+      include 'data.pub' 
+*+  Purpose
+*     Advise other modules of new profile specification
+ 
+*+  Mission Statement
+*     Advise other modules of new profile specification
+ 
+*+  Changes
+*        150600 nih 
+
+*+  Local Variables
+      integer num_layers
+ 
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'soilwat2_New_Profile_Event')
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+ 
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
+
+      call new_postbox ()
+ 
+      call post_real_array   (DATA_dlayer
+     :                        ,'(mm)'
+     :                        , p%dlayer
+     :                        , num_layers)
+
+      call post_real_array   (DATA_air_dry_dep
+     :                        ,'(mm)'
+     :                        , g%air_dry_dep
+     :                        , num_layers)
+
+      call post_real_array   (DATA_ll15_Dep
+     :                        ,'(mm)'
+     :                        , g%ll15_dep
+     :                        , num_layers)
+
+      call post_real_array   (DATA_dul_dep
+     :                        ,'(mm)'
+     :                        , g%dul_dep
+     :                        , num_layers)
+
+      call post_real_array   (DATA_sat_dep
+     :                        ,'(mm)'
+     :                        , g%sat_dep
+     :                        , num_layers)
+
+      call post_real_array   (DATA_sw_dep
+     :                        ,'(mm)'
+     :                        , g%sw_dep
+     :                        , num_layers)
+
+      call post_real_array   (DATA_bd
+     :                        ,'(g/cc)'
+     :                        , g%bd
+     :                        , num_layers)
+ 
+      call event_send (EVENT_new_profile)
+ 
+      call delete_postbox ()
+
+
+      call pop_routine (myname)
+      return
+      end
