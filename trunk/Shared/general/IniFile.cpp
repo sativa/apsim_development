@@ -218,7 +218,7 @@ void IniFile::write(const string& section, const string& key,
    while (!found && getline(in, line, '\n'))
       {
       found = (getSectionName(line) != "");
-      if (getKeyValue(line, key) == "" && !found && line != "")
+      if (getKeyValue(line, key) == "" && !found)
          out << line << endl;
       }
 
@@ -252,6 +252,61 @@ void IniFile::deleteKey(const string& section, const string& key)
       								NULL,
                               fileName.c_str());
    }
+// ------------------------------------------------------------------
+// Delete all keys that match key from the specified section.  This
+// method handles the situation where keys may exist multiple times
+// in a section.
+// ------------------------------------------------------------------
+void IniFile::deleteKeys(const string& section, const string& key)
+	{
+   flush();
+   string line;
+   ifstream in(fileName.c_str());
+
+   // We going to create a temporary file to write which we'll
+   // rename later.
+   string tempFileName = ChangeFileExt(fileName.c_str(), ".tmp").c_str();
+   ofstream out(tempFileName.c_str());
+
+   // Go find the section in the .ini file.  Echo all lines up to and including
+   // the section to the output stream.
+   bool found = false;
+   while (!found && getline(in, line, '\n'))
+      {
+      found = Str_i_Eq(getSectionName(line), section);
+      out << line << endl;
+      }
+   if (!found)
+      {
+      in.close();
+      out.close();
+      unlink(tempFileName.c_str());
+      }
+   else
+      {
+      // Copy all lines in the section EXCEPT those that match our key.
+      while (getline(in, line, '\n') && getSectionName(line) == "")
+         {
+         if (getKeyValue(line, key) == "")
+            out << line << endl;
+         }
+      }
+
+   // Simply copy all remaining lines to output stream.
+   while (in)
+      {
+      out << line << endl;
+      getline(in, line, '\n');
+      }
+
+   // Close all files, delete current .ini file an rename our .ini file
+   // to the new name.
+   in.close();
+   out.close();
+   unlink(fileName.c_str());
+   rename(tempFileName.c_str(), fileName.c_str());
+   }
+
 // ------------------------------------------------------------------
 // Delete the section from the .ini file.  Return true if section was
 // deleted.
