@@ -10,7 +10,8 @@
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TFilterForm.dfm"/>
     <LIBFILES value="..\..\..\..\Shared\general\general.lib 
-      ..\..\..\..\Shared\ApsimShared\ApsimShared.lib"/>
+      ..\..\..\..\Shared\ApsimShared\ApsimShared.lib 
+      ..\..\..\..\Shared\general\general_vcl.lib"/>
     <LIBRARIES value="ThirdParty.lib kbmMemC6Run.lib TMSC6.lib APSGENERAL.lib APSData.lib"/>
     <SPARELIBS value="rtl.lib vcl.lib adortl.lib dbrtl.lib vcldb.lib APSData.lib bdertl.lib 
       APSGENERAL.lib vclx.lib TMSC6.lib kbmMemC6Run.lib ThirdParty.lib bcbsmp.lib"/>
@@ -58,6 +59,7 @@
       <FILE FILENAME="TFilterForm.cpp" FORMNAME="FilterForm" UNITNAME="TFilterForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

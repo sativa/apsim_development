@@ -17,7 +17,8 @@
       TChartForm.dfm TExcelForm.dfm TFilterForm.dfm TImageForm.dfm 
       TProbabilityForm.dfm TREMSForm.dfm TShapeForm.dfm TSOIForm.dfm 
       TStatsForm.dfm"/>
-    <LIBFILES value="..\general\general.lib ..\ApsimShared\ApsimShared.lib"/>
+    <LIBFILES value="..\general\general.lib ..\ApsimShared\ApsimShared.lib 
+      ..\general\general_vcl.lib"/>
     <LIBRARIES value="bcb2kaxserver.lib kbmMemC6Run.lib VclSmp.lib TMSC6.lib dcctc6.lib 
       gtQRC60Pro.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib qrpt60.lib vclx.lib dbrtl.lib bdertl.lib gtQRC60Pro.lib 
@@ -96,6 +97,7 @@
       <FILE FILENAME="ComponentRegistration.cpp" FORMNAME="" UNITNAME="ComponentRegistration" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\general\excel.cpp" FORMNAME="" UNITNAME="excel" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

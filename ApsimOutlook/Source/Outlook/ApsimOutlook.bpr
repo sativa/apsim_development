@@ -14,12 +14,13 @@
       TDrill_down_form.dfm TPreferences_form.dfm POPUPFORMUNIT.dfm 
       TValueSelectPopup.dfm TOutlookSplashForm.dfm TScenarioSelectForm.dfm"/>
     <LIBFILES value="..\..\..\Shared\general\general.lib 
-      ..\..\..\Shared\ApsimShared\ApsimShared.lib"/>
-    <LIBRARIES value="VclSmp.lib APSGeneral.lib kbmMemC6Run.lib 
-      TMSC6.lib thirdparty.lib APSData.lib"/>
+      ..\..\..\Shared\ApsimShared\ApsimShared.lib 
+      ..\..\..\Shared\general\general_vcl.lib"/>
+    <LIBRARIES value="VclSmp.lib APSGeneral.lib kbmMemC6Run.lib TMSC6.lib thirdparty.lib 
+      APSData.lib"/>
     <SPARELIBS value="rtl.lib vcl.lib vclx.lib bdertl.lib dbrtl.lib vcldb.lib APSData.lib 
-      thirdparty.lib adortl.lib TMSC6.lib 
-      kbmMemC6Run.lib bcbsmp.lib APSGeneral.lib Tee6C6.lib VclSmp.lib TeeUI6C6.lib"/>
+      thirdparty.lib adortl.lib TMSC6.lib kbmMemC6Run.lib bcbsmp.lib 
+      APSGeneral.lib Tee6C6.lib VclSmp.lib TeeUI6C6.lib"/>
     <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi qrpt.bpi dbrtl.bpi vcldb.bpi 
       bdertl.bpi ibsmp.bpi vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi 
       inet.bpi nmfast.bpi dclocx.bpi bcb97axserver.bpi adortl.bpi TeeDB6C6.bpi 
@@ -76,6 +77,7 @@
       <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TOutlookSplashForm.cpp" FORMNAME="OutlookSplashForm" UNITNAME="TOutlookSplashForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TScenarioSelectForm.cpp" FORMNAME="ScenarioSelectForm" UNITNAME="TScenarioSelectForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
