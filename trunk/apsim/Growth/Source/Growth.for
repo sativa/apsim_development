@@ -420,8 +420,8 @@
       foliage_part_names(1) = 'foliage'
       dlt_dm(:) = 0.0
       dlt_n(:) = 0.0
-      dlt_dm(1) = g%dlt_foliage_mass_detached
-      dlt_n(1) = g%dlt_foliage_n_detached
+      dlt_dm(1) = g%foliage_mass+g%foliage_mass_sen
+      dlt_n(1) = g%foliage_n+g%foliage_n_sen
 
       call Growth_Send_Crop_Chopped_Event (c%crop_type
      :                                    , foliage_part_names
@@ -433,10 +433,18 @@
 
       ! Publish an event stating biomass flows to other parts of the system
       fraction_to_Residue(1:c%num_above_gnd_parts) = 1.0
+      dlt_dm(1:c%num_above_gnd_parts)
+     :               = g%adm_green(1:c%num_above_gnd_parts)
+     :               + g%adm_sen(1:c%num_above_gnd_parts)
+     :               + g%adm_dead(1:c%num_above_gnd_parts)
+      dlt_n(1:c%num_above_gnd_parts)
+     :               = g%an_green(1:c%num_above_gnd_parts)
+     :               + g%an_sen(1:c%num_above_gnd_parts)
+     :               + g%an_dead(1:c%num_above_gnd_parts)
       call Growth_Send_Crop_Chopped_Event (c%crop_type
      :                                    ,c%above_gnd_parts
-     :                                    , g%dlt_adm_detached
-     :                                    , g%dlt_an_detached
+     :                                    , dlt_dm
+     :                                    , dlt_n
      :                                    , fraction_to_Residue
      :                                    , c%num_above_gnd_parts)
 
