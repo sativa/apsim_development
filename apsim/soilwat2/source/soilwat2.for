@@ -296,6 +296,11 @@
             ! go into the top layer.
  
       g%sw_dep(1) = g%sw_dep(1) + g%infiltration
+
+      if (p%irrigation_layer.gt.0) then
+        g%sw_dep(p%irrigation_layer) = g%sw_dep(p%irrigation_layer) +
+     +                                 g%irrigation
+      endif
  
             ! save solutes from irrigation
       call soilwat2_irrig_solute ()
@@ -2784,6 +2789,11 @@ cjh
      :          new_line//'   - Reading Soil Profile Parameters')
  
                  ! get sw properties
+
+      call read_integer_var_optional (section_name
+     :                     , 'irrigation_layer','()'
+     :                     , p%irrigation_layer, numvals
+     :                     , 0, 100)
  
       call read_real_array (section_name
      :                     , 'dlayer', max_layer, '(mm)'
@@ -4754,6 +4764,7 @@ c         g%crop_module(:) = ' '               ! list of modules
 
 * ====================================================================
 * Parameters
+         p%irrigation_layer = 0                  ! trickle irrigation input layer
          p%dlayer (:) = 0.0                   ! thickness of soil layer i (mm)
          p%swcon (:) = 0.0                    ! soil water conductivity constant (1/d)
                                               ! ie day**-1 for each soil layer
@@ -5785,14 +5796,22 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
 *+  Local Variables
       integer    solnum                ! solute number counter variable
+      integer    layer                 ! soil layer
  
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
+      if(p%irrigation_layer.eq.0) then
+         !addition at surface
+        layer = 1
+      else 
+        layer = p%irrigation_layer
+      endif
+
       do 1000 solnum = 1, g%num_solutes
-         g%solute(solnum,1)     = g%solute(solnum,1)
+         g%solute(solnum,layer)     = g%solute(solnum,layer)
      :                          + g%irrigation_solute(solnum)
-         g%dlt_solute(solnum,1) = g%dlt_solute(solnum,1)
+         g%dlt_solute(solnum,layer) = g%dlt_solute(solnum,layer)
      :                          + g%irrigation_solute(solnum)
  
  1000 continue
@@ -6001,7 +6020,12 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
     ! considered as consisting of two components - that from the (rain + 
     ! irrigation) and that from ponding.
 
-      infiltration_1 = (g%irrigation + g%rain) -  g%runoff_pot
+      infiltration_1 = g%rain -  g%runoff_pot
+
+      if (p%irrigation_layer.eq.0) then
+        infiltration_1 = infiltration_1 + g%irrigation 
+      endif
+        
       infiltration_2 = g%pond
       g%infiltration =  infiltration_1 + infiltration_2
 
