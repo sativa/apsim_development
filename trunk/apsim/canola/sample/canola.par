@@ -15,10 +15,10 @@ units=           -         -       -
 
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
-start_day =  130
-start_year = 1988
-end_day =  300
-end_year = 1988
+simulation_start_day =  130
+simulation_start_year = 1988
+simulation_end_day =  300
+simulation_end_year = 1988
 
 [sample.manager.start_of_day]
 
