@@ -35,7 +35,6 @@ C     Last change:  E    29 Aug 2001    9:15 pm
      .          g_phase_tt)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -184,7 +183,7 @@ c     :              - g_phase_tt(endjuv_to_init)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
       !NEED TO GENERALISE TEMPLATE VERSION TO DO THIS
@@ -344,7 +343,7 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -443,7 +442,7 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
       endif
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -463,7 +462,6 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
      .          g_dlt_leaf_no)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -557,7 +555,7 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -566,8 +564,7 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
 *     ===========================================================
       subroutine sunf_leaf_area_sen ()
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -707,7 +704,7 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -729,7 +726,6 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
      .          g_dlt_slai_age)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -847,7 +843,7 @@ c What if you harvest the crop and leave it to rattoon?
 1000  format(6f10.3)
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -912,7 +908,7 @@ c What if you harvest the crop and leave it to rattoon?
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -962,7 +958,7 @@ c What if you harvest the crop and leave it to rattoon?
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -1011,7 +1007,7 @@ c What if you harvest the crop and leave it to rattoon?
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1033,7 +1029,6 @@ c What if you harvest the crop and leave it to rattoon?
      .           g_dlt_plants_water)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -1094,7 +1089,7 @@ c What if you harvest the crop and leave it to rattoon?
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     Routines from CropLib and CropProc ========================
 *     CropProc Routines =========================================
@@ -1120,7 +1115,6 @@ c What if you harvest the crop and leave it to rattoon?
      .          g_dlt_dm_green)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -1252,7 +1246,7 @@ c What if you harvest the crop and leave it to rattoon?
          g_dlt_dm_green(stem) = g_dlt_dm - g_dlt_dm_green(flower)
 
 
-!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Enli End
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Enli end subroutine
 
        elseif (stage_is_between (start_grain_fill, maturity
      :                        , g_current_stage)) then
@@ -1312,7 +1306,7 @@ c What if you harvest the crop and leave it to rattoon?
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1329,7 +1323,6 @@ c What if you harvest the crop and leave it to rattoon?
      .                     )
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -1419,7 +1412,7 @@ c What if you harvest the crop and leave it to rattoon?
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1445,7 +1438,6 @@ c What if you harvest the crop and leave it to rattoon?
 
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -1525,7 +1517,7 @@ c What if you harvest the crop and leave it to rattoon?
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1559,7 +1551,7 @@ c What if you harvest the crop and leave it to rattoon?
       real       density_factor
 
 *  calls
-      real      sunflower_dens_fact
+
 
 *- Implementation Section ----------------------------------
 
@@ -1582,7 +1574,7 @@ c What if you harvest the crop and leave it to rattoon?
       ! 02/03/1999 Scott gave me the power equation for sunflower as y = 16.005*x^1.8117
       !                                                              r2= 0.9334
 
-      !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Enli End
+      !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Enli end subroutine
 
       !  scc introduced new function for tpla_max  on 25/09/98
       !  This works out tpla_max as function of final leaf number
@@ -1596,7 +1588,7 @@ c What if you harvest the crop and leave it to rattoon?
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1662,14 +1654,13 @@ c What if you harvest the crop and leave it to rattoon?
 
       call Pop_routine (myname)
       return
-      end
+      end function
 
 
 *     ===========================================================
       subroutine Read_Constants_Sunf ()
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Purpose
@@ -2146,14 +2137,13 @@ cew - added this section
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine Read_Cultivar_Params_Sunf (cultivar)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -2503,6 +2493,6 @@ c      call write_string (string)
       call pop_routine (my_name)
 
       return
-      end
+      end subroutine
 
 

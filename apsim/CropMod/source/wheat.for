@@ -3,8 +3,7 @@ C     Last change:  E    29 Aug 2001    9:19 pm
 *     ===========================================================
       subroutine Read_Constants_Wheat ()
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Purpose
@@ -133,7 +132,7 @@ C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -141,8 +140,7 @@ C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 *     ===========================================================
       subroutine Read_Cultivar_Params_Wheat (cultivar)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -367,7 +365,7 @@ c      call write_string (string)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -426,7 +424,7 @@ C      dll_export crop_dm_pot_rue
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine leaf_senescence_age_wheat(
@@ -445,7 +443,6 @@ C      dll_export crop_dm_pot_rue
      :                   g_dlt_slai_age)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+ Sub-program arguments
@@ -570,7 +567,7 @@ c----------------------------------------------------------------------
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -653,7 +650,7 @@ c----------------------------------------------------------------------
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -669,7 +666,6 @@ c----------------------------------------------------------------------
      :                g_dlt_slai )
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 
@@ -751,7 +747,7 @@ c     REAL       excess_sla
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -774,7 +770,6 @@ c     REAL       excess_sla
      :                   g_dlt_slai_age)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+ Sub-program arguments
@@ -911,7 +906,7 @@ c     REAL       excess_sla
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -1057,7 +1052,7 @@ c      end if
       call pop_routine (myname)
 
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -1121,7 +1116,7 @@ c      end if
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1158,7 +1153,6 @@ c      end if
      : 				g_dlt_dm_green)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -1178,7 +1172,7 @@ c      end if
 
       REAL c_tiller_curve(*)
       real c_tiller_tt_infl(*)
-      real g_tiller_tt_tot(*)
+      real g_tiller_tt_tot
       real g_tiller_area_pot(*)
       real c_ratio_root_shoot(*)
       real g_tiller_area_max(*)
@@ -1355,7 +1349,7 @@ c      end if
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1385,7 +1379,6 @@ c      end if
 
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -1618,7 +1611,7 @@ c     :        - g_dlt_dm_green(root)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1859,7 +1852,7 @@ c     real       harvest_index         ! last harvest index (g grain/g biomass)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1880,7 +1873,6 @@ c     real       harvest_index         ! last harvest index (g grain/g biomass)
      .          g_lai)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -1976,7 +1968,7 @@ c for nwheat min stem weight at beginning of grain filling stage, no carbon mobi
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -1998,7 +1990,6 @@ c for nwheat min stem weight at beginning of grain filling stage, no carbon mobi
      .          g_grain_no)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -2096,7 +2087,7 @@ c        dm_green(grain)   = min(0.0035*grain_num, dm_plant_min(stem))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -2132,7 +2123,6 @@ c        dm_green(grain)   = min(0.0035*grain_num, dm_plant_min(stem))
 *    Enli programmed based on the old i-wheat routine
 
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Constant Values
@@ -2197,7 +2187,7 @@ c        dm_green(grain)   = min(0.0035*grain_num, dm_plant_min(stem))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -2229,7 +2219,6 @@ c        dm_green(grain)   = min(0.0035*grain_num, dm_plant_min(stem))
 *    EW modified from the old i-wheat routine
 
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Function arguments
@@ -2363,7 +2352,7 @@ c      elseif (stage_is_between(emerg,flowering,g_current_stage)) then !original
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -2384,7 +2373,6 @@ c      elseif (stage_is_between(emerg,flowering,g_current_stage)) then !original
 *    EW modified from the old i-wheat routine
 
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Function arguments
@@ -2461,7 +2449,7 @@ c      elseif (stage_is_between(emerg,flowering,g_current_stage)) then !original
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -2573,7 +2561,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       endif
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -2607,7 +2595,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 *+  Include section
 
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Constant Values
@@ -2732,7 +2719,7 @@ c        end do
       call pop_routine (myname)
 
       return
-      end
+      end subroutine
 
 
 
@@ -2762,7 +2749,6 @@ c        end do
 
 *+ Include section
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -2776,8 +2762,7 @@ c        end do
       real g_dlt_tiller_sen_area_light(*) ! senesced tiller area due to
                                           ! physio. senescence (cm^2/tiller)
 *+  Calls
-      real iw_kvalue                    ! function
-c     real iw_rad_accum_10d             ! function
+
 
 *+  Constant Values
       character*(*) myname              ! name of this procedure
@@ -2823,7 +2808,7 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
       call pop_routine (myname)
 
       return
-      end
+      end subroutine
 
 
 
@@ -2844,7 +2829,6 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
 
 *+  Include section
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Constant Values
@@ -2909,7 +2893,7 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
       call pop_routine (myname)
 
       return
-      end
+      end subroutine
 
 
 * ====================================================================
@@ -2925,7 +2909,6 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
 
 *+  Include section
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Subprogram arguments
@@ -2963,7 +2946,7 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
@@ -2995,7 +2978,6 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
 
 *+ Include section
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -3115,7 +3097,7 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
       call pop_routine (myname)
 
       return
-      end
+      end subroutine
 
 
 
@@ -3158,7 +3140,7 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
       real  dlt_leaf_sen_water  !leaf senescence rate due to water stress
 
 *+  Calls
-      real iw_kvalue          ! k value for light interception
+
 
 *+  Local Variables
       real rint_act           ! actual intercepted rad (mj m-2 d-1)
@@ -3191,7 +3173,7 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
       call pop_routine(myname)
 
       return
-      end
+      end subroutine
 
 
 
@@ -3217,7 +3199,6 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
 
 *+  Include section
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Constant Values
@@ -3337,7 +3318,7 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 * ====================================================================
@@ -3355,7 +3336,6 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
 
 *+  Include section
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Constant Values
@@ -3388,7 +3368,7 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -3405,7 +3385,6 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
 
 * ====================================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Purpose
@@ -3474,7 +3453,7 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -3487,7 +3466,6 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
      .                        sla_est)
 * ====================================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Purpose
@@ -3574,7 +3552,7 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -3623,7 +3601,6 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
      .          o_dlt_N_retrans)
 *========= ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -3685,7 +3662,7 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
      :                        , N_potential - g_N_green(grain))
 
 
-      call crop_N_retrans_avail (max_part, grain,
+      call crop_N_retrans_avail (max_part, root,grain,
      .          g_N_conc_min,
      .          g_dm_green,
      .          g_N_green,N_avail)  ! grain N potential (supply)
@@ -3758,7 +3735,7 @@ c""""""""""""""""""""""""""""""""""""""""""""""""""
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3778,7 +3755,6 @@ c""""""""""""""""""""""""""""""""""""""""""""""""""
      .                         grain_n_demand)
 *========= ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -3857,7 +3833,7 @@ c""""""""""""""""""""""""""""""""""""""""""""""""""
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3889,7 +3865,6 @@ c""""""""""""""""""""""""""""""""""""""""""""""""""
      .                     )
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -3989,7 +3964,7 @@ c""""""""""""""""""""""""""""""""""""""""""""""""""
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4021,7 +3996,6 @@ c""""""""""""""""""""""""""""""""""""""""""""""""""
      :               )
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -4160,7 +4134,7 @@ c      endif
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4214,7 +4188,7 @@ c      endif
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -4311,7 +4285,7 @@ c      endif
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -4373,7 +4347,7 @@ c      endif
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4428,7 +4402,7 @@ c      endif
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4441,7 +4415,6 @@ c      endif
      :                              , g_dlt_N_sen_supply)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -4496,7 +4469,7 @@ c      endif
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4611,7 +4584,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -4706,7 +4679,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4835,7 +4808,7 @@ c    .          g_sw_avail_pot,
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -4931,7 +4904,7 @@ c    .          g_sw_avail_pot,
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5010,7 +4983,7 @@ c         end if
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -5198,7 +5171,7 @@ c         NO3gsm_diffn = divide (NO3gsm_diffn, c_NO3_diffn_const, 0.0)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5212,7 +5185,6 @@ c         NO3gsm_diffn = divide (NO3gsm_diffn, c_NO3_diffn_const, 0.0)
      .          dlt_N_green)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -5303,7 +5275,7 @@ c         NO3gsm_diffn = divide (NO3gsm_diffn, c_NO3_diffn_const, 0.0)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -5435,7 +5407,7 @@ c     real       part_fract            ! plant part fraction of dm  (0-1)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 ccc==================NITROGEN PART OF I_WHEAT ================================
@@ -5500,7 +5472,7 @@ c    :                        * sen_n_conc
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5532,7 +5504,6 @@ c    :                        * sen_n_conc
      .          dlt_N_sen_retrans)
 *========= ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -6064,7 +6035,7 @@ C------------------------------------------------------------------------
       call pop_routine (my_name)
 
       return
-      end
+      end subroutine
 
 
 
@@ -6249,7 +6220,7 @@ C     Last change:  E    21 Jan 2000    5:18 pm
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -6402,7 +6373,7 @@ c     REAL       leaf_no
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -6481,7 +6452,7 @@ c      endif
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -6567,7 +6538,7 @@ c      endif
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -6618,7 +6589,7 @@ c      endif
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -6668,7 +6639,7 @@ c      endif
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
@@ -6677,7 +6648,6 @@ c      endif
       real function nwheat_min_root_fraction (g_current_stage)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Purpose
@@ -6730,7 +6700,7 @@ cnh now put at least 1/4 of C into roots
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 *     ===========================================================
@@ -6847,7 +6817,7 @@ cnh now put at least 1/4 of C into roots
       call pop_routine (myname)
 
       return
-      end
+      end subroutine
 
 
 
@@ -6876,7 +6846,6 @@ cnh now put at least 1/4 of C into roots
      :               )
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 *      dll_export cproc_bio_yieldpart_demand1
 
@@ -7044,7 +7013,7 @@ c      PRINT *, 'dlt_dm_yield     =', dlt_dm_yield
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -7074,7 +7043,6 @@ c      PRINT *, 'dlt_dm_yield     =', dlt_dm_yield
 
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -7089,7 +7057,7 @@ c      PRINT *, 'dlt_dm_yield     =', dlt_dm_yield
       real c_sla                   !(INPUT) specific leaf area (mm2/g)
       real c_ratio_root_shoot(*)   !(INPUT) root shoot ratio ()
       real g_leaf_no(*)            !(INPUT) leaf num developed in each stage
-      real g_tiller_no(*)          !(INPUT) tiller num developed in each stage
+      real g_tiller_no             !(INPUT) tiller num developed in each stage
       real g_swdef_expansion       !(INPUT) water stress factor for leaf expansion
       real g_nfact_expansion       !(INPUT) N stress factor for leaf expansion
       real g_dlt_dm_grain_demand   !(INPUT) grain carbon demand (g/m2)
@@ -7113,7 +7081,7 @@ c      PRINT *, 'dlt_dm_yield     =', dlt_dm_yield
       parameter (my_name  = 'cproc_bio_partition_nw')
 
 *+  Calls
-      real nwheat_min_root_fraction
+
 
 *+  Local Variables
       integer    current_phase         ! current phase no.
@@ -7342,7 +7310,7 @@ c         g_dlt_dm_green(stem) = max(0.0, g_dlt_dm_green(stem))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -7371,7 +7339,6 @@ c         g_dlt_dm_green(stem) = max(0.0, g_dlt_dm_green(stem))
 
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -7386,7 +7353,7 @@ c         g_dlt_dm_green(stem) = max(0.0, g_dlt_dm_green(stem))
       real c_sla                   !(INPUT) specific leaf area (mm2/g)
       real c_ratio_root_shoot(*)   !(INPUT) root shoot ratio ()
       real g_leaf_no(*)            !(INPUT) leaf num developed in each stage
-      real g_tiller_no(*)          !(INPUT) tiller num developed in each stage
+      real g_tiller_no             !(INPUT) tiller num developed in each stage
       real g_swdef_expansion       !(INPUT) water stress factor for leaf expansion
       real g_nfact_expansion       !(INPUT) N stress factor for leaf expansion
       real g_dlt_dm_grain_demand   !(INPUT) grain carbon demand (g/m2)
@@ -7643,7 +7610,7 @@ c         g_dlt_dm_green(stem) = max(0.0, g_dlt_dm_green(stem))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -7833,7 +7800,7 @@ c           nfactor = 1.0 !l_bound (nfactor, 0.0)
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -7937,7 +7904,7 @@ c     endif
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -7957,7 +7924,6 @@ c     endif
      :                  dlt_leaf_area)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -8029,7 +7995,7 @@ c      istage = int(g_current_stage)
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -8080,7 +8046,7 @@ c      istage = int(g_current_stage)
       call pop_routine (myname)
       return
 
-      end
+      end subroutine
 
 
 
@@ -8091,7 +8057,6 @@ c      istage = int(g_current_stage)
      :                             g_xstage)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Purpose
@@ -8198,7 +8163,7 @@ c      istage = int(g_current_stage)
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -8364,7 +8329,7 @@ c        g_NH4gsm_min(layer)= 0.5* NH4gsm_min
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -8464,7 +8429,7 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -8482,7 +8447,6 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
      .          o_dlt_N_retrans)
 *========= ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -8588,7 +8552,7 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -8609,7 +8573,6 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
      .           n_demand_grain)
 *====================================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -8683,7 +8646,7 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -8696,7 +8659,6 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
      :                  grain_n_demand)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -8789,7 +8751,7 @@ c      pause
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -8881,7 +8843,7 @@ c      pause
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -8903,7 +8865,6 @@ c      pause
      :                   g_dlt_slai_age)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 
@@ -9028,7 +8989,7 @@ c      pause
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -9052,7 +9013,6 @@ c      pause
      :                   g_dlt_slai_age)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+ Sub-program arguments
@@ -9199,7 +9159,7 @@ c     :             * g_lai_stage
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -9218,7 +9178,6 @@ c     :             * g_lai_stage
      :                g_dlt_slai )
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 
@@ -9302,7 +9261,7 @@ c         g_dlt_slai_age = 5* (1 - stress_fact) * g_dlt_slai_age
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine leaf_senescence_stressed_nw(
@@ -9317,7 +9276,6 @@ c         g_dlt_slai_age = 5* (1 - stress_fact) * g_dlt_slai_age
      :                g_dlt_slai )
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+ Arguments
@@ -9432,7 +9390,7 @@ c         slfn = bound (slfn, 1.0, 10.0)
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -9524,9 +9482,7 @@ c         slfn = bound (slfn, 1.0, 10.0)
 *     240599 ew reprogrammed to take out the stress in thermal time
 
 *+  Calls
-      dll_import crop_thermal_time
-      dll_import crop_phase_devel
-      dll_import crop_devel
+
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -9638,7 +9594,7 @@ c==============================================================================
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -9745,7 +9701,7 @@ c==============================================================================
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -9822,7 +9778,7 @@ c      transp_eff = l_bound (transp_eff, 0.0)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -9984,7 +9940,7 @@ c     dll_export dm_retranslocate_nw
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -10010,7 +9966,6 @@ c     dll_export dm_retranslocate_nw
 
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -10025,7 +9980,7 @@ c     dll_export dm_retranslocate_nw
       real c_sla                   !(INPUT) specific leaf area (mm2/g)
       real c_ratio_root_shoot(*)   !(INPUT) root shoot ratio ()
       real g_leaf_no(*)            !(INPUT) leaf num developed in each stage
-      real g_tiller_no(*)          !(INPUT) tiller num developed in each stage
+      real g_tiller_no             !(INPUT) tiller num developed in each stage
       real g_swdef_expansion       !(INPUT) water stress factor for leaf expansion
       real g_nfact_expansion       !(INPUT) N stress factor for leaf expansion
       real g_dlt_dm_grain_demand   !(INPUT) grain carbon demand (g/m2)
@@ -10047,7 +10002,7 @@ c     dll_export dm_retranslocate_nw
       parameter (my_name  = 'cproc_bio_partition_nw')
 
 *+  Calls
-      real nwheat_min_root_fraction
+
 
 *+  Local Variables
       integer    current_phase         ! current phase no.
@@ -10234,7 +10189,7 @@ c        g_dlt_dm_green(stem) = g_dlt_dm
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -10262,7 +10217,6 @@ c        g_dlt_dm_green(stem) = g_dlt_dm
 
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -10277,7 +10231,7 @@ c        g_dlt_dm_green(stem) = g_dlt_dm
       real c_sla                   !(INPUT) specific leaf area (mm2/g)
       real c_ratio_root_shoot(*)   !(INPUT) root shoot ratio ()
       real g_leaf_no(*)            !(INPUT) leaf num developed in each stage
-      real g_tiller_no(*)          !(INPUT) tiller num developed in each stage
+      real g_tiller_no             !(INPUT) tiller num developed in each stage
       real g_swdef_expansion       !(INPUT) water stress factor for leaf expansion
       real g_nfact_expansion       !(INPUT) N stress factor for leaf expansion
       real g_dlt_dm_grain_demand   !(INPUT) grain carbon demand (g/m2)
@@ -10301,7 +10255,7 @@ c        g_dlt_dm_green(stem) = g_dlt_dm
       parameter (my_name  = 'cproc_bio_partition_nw_2')
 
 *+  Calls
-      real nwheat_min_root_fraction
+
 
 *+  Local Variables
       integer    current_phase         ! current phase no.
@@ -10496,7 +10450,7 @@ c        g_dlt_dm_green(stem) = g_dlt_dm
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -10521,7 +10475,6 @@ C     Last change:  E    18 Aug 2000    3:51 pm
 *    Enli programmed based on the old i-wheat routine
 
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Constant Values
@@ -10635,7 +10588,7 @@ c      PRINT *, 'leaf_size     =', leaf_size(1:14)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -10667,7 +10620,6 @@ c      PRINT *, 'leaf_size     =', leaf_size(1:14)
 *    Enli programmed based on the old i-wheat routine
 
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Constant Values
@@ -10737,7 +10689,7 @@ c      PRINT *, 'leaf_size     =', leaf_size(1:14)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -10771,7 +10723,6 @@ c      PRINT *, 'leaf_size     =', leaf_size(1:14)
 *    EW modified from the old i-wheat routine
 
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Function arguments
@@ -10912,7 +10863,7 @@ c       if (stage_is_between(floral_init,flag_leaf,g_current_stage)) then !origi
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -11002,7 +10953,7 @@ c             tt_til = tt_tot - (1.5+n-1) * phint
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -11104,7 +11055,7 @@ c             tt_til = tt_tot - (1.5+n-1) * phint
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -11251,7 +11202,7 @@ c             tt_til = tt_tot - (1.5+n-1) * phint
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 * ====================================================================
@@ -11410,7 +11361,7 @@ c      g_dlt_tiller_no = dlt_tiller_no_stressed
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -11444,7 +11395,6 @@ c      g_dlt_tiller_no = dlt_tiller_no_stressed
 *    Enli programmed based on the old i-wheat routine
 
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Constant Values
@@ -11605,7 +11555,7 @@ c       if (stage_is_between(floral_init,flag_leaf,g_current_stage)) then !origi
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 

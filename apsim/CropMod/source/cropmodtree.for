@@ -3,8 +3,7 @@ C     Last change:  E    14 Sep 2001    1:43 pm
 *     ===========================================================
       subroutine Crop_Read_Constants ()
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Purpose
@@ -59,14 +58,13 @@ C     Last change:  E    14 Sep 2001    1:43 pm
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine Crop_Read_Cultivar_Params (cultivar)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -124,7 +122,7 @@ C     Last change:  E    14 Sep 2001    1:43 pm
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *================================================================
@@ -140,14 +138,12 @@ C     Last change:  E    14 Sep 2001    1:43 pm
 
 *+  Include section
 
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 
 
 
-      INTEGER GetSwitchCode
 
 
 *+  Constant Values
@@ -276,7 +272,7 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
       call pop_routine (my_name)
 
       return
-      end
+      end subroutine
 
 
 
@@ -284,8 +280,7 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
 *     ===========================================================
       subroutine water_supply (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -368,14 +363,13 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine water_demand (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -391,7 +385,6 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'water_demand')
 
-      INTEGER GetSwitchCode
 
 *+  Local variables
 
@@ -487,15 +480,14 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine water_uptake (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -557,15 +549,14 @@ c     integer    deepest_layer
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine water_stress(Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 
@@ -695,15 +686,14 @@ c      REAL    deepest_layer
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine vernalization (option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -797,14 +787,13 @@ c      REAL    deepest_layer
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine photoperiodism (option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -860,13 +849,12 @@ c      REAL    deepest_layer
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine phenology_initalisation (option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -1153,7 +1141,7 @@ c      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN 
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1161,8 +1149,7 @@ c      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN 
 * ====================================================================
        subroutine phenology (Option)
 * ====================================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -1323,7 +1310,7 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -1332,8 +1319,7 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 *     ===========================================================
       subroutine biomass_rue (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 
@@ -1347,8 +1333,6 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 *+  Changes
 *     990506  ew - programmed
 
-      REAL iw_kvalue
-      REAL nwheat_kvalue
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1564,14 +1548,13 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine biomass_te (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -1681,14 +1664,13 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine biomass_actual (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -1749,7 +1731,7 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1758,8 +1740,7 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 *     ===========================================================
       subroutine biomass_initialisation (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -1881,14 +1862,13 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine biomass_yieldpart_demand (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -1989,6 +1969,8 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
      :              , g%N_conc_min
      :              , g%N_green
      :              , g%grain_no
+     :              , c%min_grain_nc_ratio
+     :              , c%max_kernel_weight
      :              , g%dlt_dm_grain_demand
      :               )
 
@@ -2131,14 +2113,13 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine biomass_grain_demand_stress (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -2189,14 +2170,13 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 * ====================================================================
        subroutine biomass_partition (Option)
 * ====================================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -2212,7 +2192,6 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
       character*(*) myname               ! name of current procedure
       parameter (myname = 'biomass_partition')
 
-      INTEGER GetSwitchCode
 
       REAL interp_sla_min
 
@@ -2450,14 +2429,13 @@ c          nw_sla = 22500.0  ! mm2/g - nwheat value
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine biomass_retranslocation (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -2566,7 +2544,7 @@ c      REAL grain_now
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -2575,8 +2553,7 @@ c      REAL grain_now
 *     ===========================================================
       subroutine leaf_number_initialisation (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -2632,14 +2609,13 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 * ====================================================================
        subroutine leaf_number_final (Option)
 * ====================================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -2760,14 +2736,13 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 * ====================================================================
        subroutine leaf_initiation (Option)
 * ====================================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -2813,14 +2788,13 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 * ====================================================================
        subroutine leaf_appearance (Option)
 * ====================================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -2893,14 +2867,13 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine tillering_initialisation (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -2943,15 +2916,14 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine tillering (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -3065,14 +3037,13 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 * ====================================================================
        subroutine leaf_area_initialisation (Option)
 * ====================================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 
@@ -3120,7 +3091,7 @@ c          endif
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -3128,8 +3099,7 @@ c          endif
 * ====================================================================
        subroutine leaf_area_potential (Option)
 * ====================================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -3147,7 +3117,6 @@ c          endif
       REAL tiller_stop_stage
       REAL tt_emerg_to_flag
 
-      INTEGER GetSwitchCode
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -3344,15 +3313,14 @@ c          endif
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine leaf_area_actual (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -3484,14 +3452,13 @@ c      endif
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine crop_height (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -3531,15 +3498,14 @@ c      endif
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine root_depth_initialisation (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -3578,14 +3544,13 @@ c      endif
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine root_depth (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -3655,14 +3620,13 @@ c      endif
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine root_length_initialisation (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -3703,15 +3667,14 @@ c      endif
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine root_length (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -3778,7 +3741,7 @@ c      endif
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3786,8 +3749,7 @@ c      endif
 *     ===========================================================
       subroutine senescence_leaf_area (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -4113,7 +4075,7 @@ c     :                g%dlt_slai )
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 * ====================================================================
@@ -4126,8 +4088,7 @@ c     :                g%dlt_slai )
 *     EW reprogrammed Jan. 1999
 
 *+  Include section
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Constant Values
@@ -4199,7 +4160,7 @@ c     :                g%dlt_slai )
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 * ====================================================================
@@ -4212,8 +4173,7 @@ c     :                g%dlt_slai )
 *     EW reprogrammed Jan. 1999
 
 *+  Include section
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Constant Values
@@ -4272,14 +4232,13 @@ c       end do
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine senescence_biomass (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -4366,15 +4325,14 @@ c       end do
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine senescence_root_length (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -4415,15 +4373,14 @@ c       end do
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine senescence_nitrogen (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -4708,7 +4665,7 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4716,8 +4673,7 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 *     ===========================================================
       subroutine nitrogen_initialisation (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -4762,9 +4718,6 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
      :               (
      :                C%n_init_conc
      :              , max_part
-     :              , emerg
-     :              , G%current_stage
-     :              , G%days_tot
      :              , G%dm_green
      :              , g%lai
      :              , g%plants
@@ -4820,14 +4773,13 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine nitrogen_supply (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -4992,15 +4944,14 @@ c     :          )
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine nitrogen_demand (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -5139,14 +5090,13 @@ c      call fill_real_array (g%dlt_N_retrans, 0.0, max_part)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine nitrogen_uptake (Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -5379,14 +5329,13 @@ c     :               )
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 * ====================================================================
        subroutine Nitrogen_partition (Option)
 * ====================================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -5451,13 +5400,12 @@ c     :               )
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine nitrogen_yieldpart_demand (Option)
 * ====================================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -5565,15 +5513,14 @@ c     :               )
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine nitrogen_retranslocation (Option)
 * ====================================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -5700,15 +5647,14 @@ c     :               )
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine nitrogen_stress(Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -5885,7 +5831,7 @@ c         g%nfact_tiller = g%nfact_expansion
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5893,8 +5839,7 @@ c         g%nfact_tiller = g%nfact_expansion
 *     ===========================================================
       subroutine Phosphorus_initialisation(Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -5940,14 +5885,13 @@ c         g%nfact_tiller = g%nfact_expansion
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine Phosphorus_demand(Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -6009,15 +5953,14 @@ c         g%nfact_tiller = g%nfact_expansion
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Phosphorus_uptake(Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -6077,15 +6020,14 @@ c         g%nfact_tiller = g%nfact_expansion
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine Phosphorus_stress(Option)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -6189,7 +6131,7 @@ c         g%nfact_tiller = g%nfact_expansion
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -6199,8 +6141,7 @@ c         g%nfact_tiller = g%nfact_expansion
 * ====================================================================
        subroutine Crop_death (Option)
 * ====================================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -6369,15 +6310,14 @@ c         g%nfact_tiller = g%nfact_expansion
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine Simulation_Prepare ()
 * ====================================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 
@@ -6392,7 +6332,6 @@ c         g%nfact_tiller = g%nfact_expansion
       character*(*) myname               ! name of current procedure
       parameter (myname = 'Simulation_Prepare')
 
-      INTEGER GetSwitchCode
 
 
 *- Implementation Section ----------------------------------
@@ -6434,14 +6373,13 @@ c         g%nfact_tiller = g%nfact_expansion
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 * ====================================================================
        subroutine biomass_rue_partition ()
 * ====================================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 
@@ -6455,7 +6393,6 @@ c         g%nfact_tiller = g%nfact_expansion
       character*(*) myname               ! name of current procedure
       parameter (myname = 'biomass_rue_partition')
 
-      INTEGER GetSwitchCode
 
 
 *- Implementation Section ----------------------------------
@@ -6483,5 +6420,5 @@ c         g%nfact_tiller = g%nfact_expansion
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 

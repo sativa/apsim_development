@@ -89,7 +89,7 @@ C     Last change:  E    14 Sep 2001    1:00 pm
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -147,7 +147,6 @@ C     Last change:  E    14 Sep 2001    1:00 pm
      :               )
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 
@@ -360,7 +359,7 @@ c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Crop_phenology_init_leaf_no
@@ -414,7 +413,6 @@ c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
      :               )
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 
@@ -556,7 +554,7 @@ c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -589,7 +587,6 @@ c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
      .          g_dm_green_retrans_pool )
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -732,7 +729,7 @@ c    :               + c_dm_stem_init * g_plants
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -819,7 +816,7 @@ c    :               + c_dm_stem_init * g_plants
       endif
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -911,7 +908,7 @@ c     :                            , 'leaf_no_final')
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *======================================================================
@@ -927,7 +924,6 @@ c     :                            , 'leaf_no_final')
      .          g_dlt_leaf_no)
 *======================================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -1012,7 +1008,7 @@ c     :  leaf_no_now
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1151,7 +1147,7 @@ c     :  leaf_no_now
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1270,7 +1266,7 @@ c        endif
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1295,7 +1291,7 @@ c        endif
 *     ===========================================================
       Use infrastructure
       implicit none
-      dll_export cproc_n_uptake2
+
 
 *+  Sub-Program Arguments
       REAL       C_no3_diffn_const     ! (INPUT)  time constant for uptake by di
@@ -1451,7 +1447,7 @@ c        endif
       call pop_routine (my_name)
       return
 
-      end
+      end subroutine
 
 
 
@@ -1523,9 +1519,7 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
 *     21-04-1998 - neilh - Programmed and Specified
 
 *+  Calls
-      dll_import crop_n_potential_massflow
-      dll_import crop_n_potential_diffusion
-      dll_import crop_n_potential_fixation
+
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -1576,7 +1570,7 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -1597,7 +1591,6 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
 
       Use infrastructure
       implicit none
-      dll_export crop_n_potential_massflow
 
 *+  Sub-Program Arguments
       REAL      root_depth         ! (INPUT)  depth of roots (mm)
@@ -1683,7 +1676,7 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -1703,7 +1696,6 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
 
       Use infrastructure
       implicit none
-      dll_export crop_n_potential_diffusion
 
 *+  Sub-Program Arguments
       REAL    root_depth          ! (INPUT)  depth of roots (mm)
@@ -1776,7 +1768,7 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -1789,7 +1781,6 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
 *     ===========================================================
       Use infrastructure
       implicit none
-      dll_export crop_n_potential_fixation
 
 *+  Sub-Program Arguments
       REAL       current_stage       ! (INPUT) Current stage
@@ -1828,7 +1819,7 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -2085,7 +2076,7 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -2141,8 +2132,7 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
       parameter (my_name = 'Cproc_Bio_Yieldpart_Demand_Temp_Driven')
 
 *+  Calls
-      dll_import Temperature_Response_Curvilinear
-      REAL       Temperature_Response_Curvilinear
+
 
 *+  Local Variables
 
@@ -2187,7 +2177,7 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Cproc_N_Yieldpart_Demand_Temp_Driven
@@ -2307,7 +2297,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Cproc_Bio_Yieldpart_Demand_Temp_Driven1
@@ -2360,8 +2350,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
       parameter (my_name = 'Cproc_Bio_Yieldpart_Demand_Temp_Driven1')
 
 *+  Calls
-      dll_import Temperature_Response_Curvilinear
-      REAL       Temperature_Response_Curvilinear
+
 
 *+  Local Variables
 
@@ -2407,7 +2396,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -2466,8 +2455,6 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
       parameter (my_name = 'Cproc_N_Yieldpart_Demand_Temp_Driven1')
 
 *+  Calls
-      dll_import Temperature_Response_Curvilinear
-      REAL       Temperature_Response_Curvilinear
 
 *+  Local Variables
 
@@ -2513,7 +2500,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -2528,7 +2515,6 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
 *     ===========================================================
       Use infrastructure
       implicit none
-      dll_export Temperature_Response_Curvilinear
 
 *+  Sub-Program Arguments
       REAL       temperature             ! (INPUT) daily maximum temp. (C)
@@ -2587,7 +2573,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 *     ===========================================================
@@ -2601,7 +2587,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
 *     ===========================================================
       Use infrastructure
       implicit none
-      dll_export Temperature_Response_Linear
+
 
 *+  Sub-Program Arguments
       REAL       temperature             ! (INPUT) daily maximum temp. (C)
@@ -2661,7 +2647,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -2704,7 +2690,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
 
       Photoperiod = 12.0 * (1.0 + 2.0 * Asin(ratio) / PI)
 
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -2789,7 +2775,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
      : 	*(1.0 - (tan(RAD*latitude))**2 * (tan(DEC))**2)/1000000.0
 
 
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -2830,7 +2816,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
       !RUE = 0.9*(2*Qratio+1.85)*Tfac*(0.3*(E->M->CO2-350.)/350. + 1.);
       !RUE = 0.9*(2.0*df + 1.85)
 
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine RUE_Diffuse_Radiation_Modifier
@@ -2853,7 +2839,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
 
       rue_modifier = 0.864*diff_radn_frac + 0.136
 
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -2914,7 +2900,7 @@ c      dll_export crop_dm_pot_rue_wang
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3020,7 +3006,7 @@ c      dll_export crop_dm_pot_rue_wang
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *======================================================================
       subroutine Photoperiodism_New (
@@ -3099,7 +3085,7 @@ c      PRINT *, 'leaf_no_final = ', leaf_no_final
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -3129,7 +3115,6 @@ c      PRINT *, 'leaf_no_final = ', leaf_no_final
 
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -3168,7 +3153,7 @@ c      PRINT *, 'leaf_no_final = ', leaf_no_final
       parameter (my_name  = 'cproc_bio_partition_wheat')
 
 *+  Calls
-!      real nwheat_min_root_fraction
+
 
 *+  Local Variables
       real       leaf_fraction
@@ -3381,7 +3366,7 @@ c     :        - g_dlt_dm_green(root)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3400,7 +3385,6 @@ c     :        - g_dlt_dm_green(root)
      :        , dlt_leaf_no)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -3499,7 +3483,7 @@ cSCC normal leaf app rate
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -3544,7 +3528,7 @@ cSCC normal leaf app rate
 *+  Changes
 
 *+  Calls
-      real       cproc_N_dlt_grain_conc ! function
+
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -3579,7 +3563,7 @@ cSCC normal leaf app rate
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -3672,7 +3656,7 @@ c+!!!!!!!!!! return to orig cm
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 *     ===========================================================
@@ -3684,7 +3668,6 @@ c+!!!!!!!!!! return to orig cm
      .            o_dlt_N_retrans)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -3777,7 +3760,7 @@ csc  true....
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 

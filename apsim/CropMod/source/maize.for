@@ -30,7 +30,6 @@ C     Last change:  E     1 Oct 2001   11:38 am
      :        , phase_tt)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -187,7 +186,7 @@ cjh
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -205,7 +204,6 @@ cjh
 
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -288,7 +286,7 @@ cjh
       endif
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -304,7 +302,6 @@ cjh
      :        , dm_green, dm_plant_min)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -376,7 +373,7 @@ cjh
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -424,7 +421,7 @@ cjh
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -447,7 +444,6 @@ cjh
      :        , grain_num)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -575,7 +571,7 @@ c     :                           , 'grain_no_fract')
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -604,7 +600,6 @@ c     :                           , 'grain_no_fract')
      :        , dlt_dm_grain_demand)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -642,7 +637,7 @@ c     :                           , 'grain_no_fract')
 *     970317 slw new template form
 
 *+  Calls
-      real       Maize_dm_grain_max    ! function
+
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -720,7 +715,7 @@ c     :                           , 'grain_no_fract')
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -739,8 +734,7 @@ c     :                           , 'grain_no_fract')
      :        , g_nfact_grain_conc)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
-      Use CropLibrary
+            Use CropLibrary
       implicit none
 
 *+  Sub-Program Arguments
@@ -806,7 +800,7 @@ c     :                           , 'grain_no_fract')
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 *     ===========================================================
       subroutine Maize_dm_partition (
@@ -822,7 +816,6 @@ c     :                           , 'grain_no_fract')
      :        , dlt_dm_green)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -974,7 +967,7 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Maize_leaf_death0 (
@@ -988,7 +981,6 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      :        , dlt_leaf_no_dead)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -1050,7 +1042,7 @@ cpsc need to develop leaf senescence functions for crop
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -1062,7 +1054,6 @@ cpsc need to develop leaf senescence functions for crop
      :                    , dlt_plants)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -1110,7 +1101,7 @@ cpsc need to develop leaf senescence functions for crop
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -1125,7 +1116,6 @@ cpsc need to develop leaf senescence functions for crop
      :                    , dlt_plants)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -1190,7 +1180,7 @@ cpsc need to develop leaf senescence functions for crop
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine maize_plants_barren0 (
@@ -1267,7 +1257,7 @@ cpsc need to develop leaf senescence functions for crop
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -1322,7 +1312,7 @@ cpsc need to develop leaf senescence functions for crop
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1376,7 +1366,7 @@ cpsc need to develop leaf senescence functions for crop
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1460,7 +1450,7 @@ cpsc need to develop leaf senescence functions for crop
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Maize_P_conc_limits (
@@ -1475,8 +1465,7 @@ cpsc need to develop leaf senescence functions for crop
      :        , P_conc_min)
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
-      Use CropLibrary
+            Use CropLibrary
       implicit none
 
 *+  Sub-Program Arguments
@@ -1551,7 +1540,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine maize_pfact
@@ -1628,14 +1617,13 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 * ====================================================================
        subroutine maize_nit_demand_est (Option)
 * ====================================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -1715,13 +1703,12 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Read_Constants_Maize ()
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Purpose
@@ -2782,14 +2769,13 @@ c     :                    , 0.0, 100.0)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine Read_Cultivar_Params_Maize (cultivar)
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -2986,7 +2972,7 @@ c     :                    , 0.0, 100.0)
       call pop_routine (my_name)
 
       return
-      end
+      end subroutine
 
 
 
@@ -2994,8 +2980,7 @@ c     :                    , 0.0, 100.0)
 *     ===========================================================
       subroutine Maize_bio_retrans ()
 *     ===========================================================
-      use CropModModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -3046,7 +3031,7 @@ c     :                    , 0.0, 100.0)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
