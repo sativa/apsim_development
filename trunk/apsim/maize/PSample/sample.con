@@ -14,4 +14,4 @@ module = soilp               soil.par   [sample]     %apsuite\apsim\soilp\soilp.
 module = maize               soil.par   [sample]     %apsuite\apsim\maize\maize.ini [standard]
 module = SummaryFile         sample.man [maize]
 module = Screen              sample.man [all]
-
+module = sysbal
