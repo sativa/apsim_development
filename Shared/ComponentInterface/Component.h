@@ -10,6 +10,7 @@
 
 #include "Messages.h"
 #include "ProtocolVector.h"
+#include "RegistrationType.h"
 #include <ApsimShared/ApsimComponentData.h>
 
 // turn of the warnings about "Functions containing for are not expanded inline.
@@ -540,9 +541,9 @@ class __declspec(dllexport) Component
          {
          std::vector<T> vv;
          bool result = readParameter(sect, name, vv, lower, upper, isoptional);
-         for (unsigned int i = 0; i < vv.size(); i++) 
+         for (unsigned int i = 0; i < vv.size(); i++)
              valarray[i] = vv[i];
-         numvals = vv.size();    
+         numvals = vv.size();
          return result;
          };
 
