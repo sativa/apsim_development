@@ -5,12 +5,15 @@
 #include "ReportComponent.h"
 #include <general\math_functions.h>
 #include <general\stl_functions.h>
-#include <strstream>
-#include <apsimproperty.h>
-using std::ostrstream;
+#include <general\treenode.h>
+#include <sstream>
+#include <aps\apsimproperty.h>
+#include <aps\APSIMOutputVariable.h>
+#include <eventinterface.h>
 #pragma package(smart_init)
+using namespace std;
 
-static const char* MES_Prepare = "prepare";               
+static const char* MES_Prepare = "prepare";
 static const char* MES_Report = "rep";
 
 // ------------------------------------------------------------------
@@ -23,10 +26,12 @@ static const char* MES_Report = "rep";
 //    DPH 29/7/99
 
 // ------------------------------------------------------------------
-Field::Field (const string& modulename,
+Field::Field (EventInterface* eInterface,
+              const string& modulename,
               const string& variablename,
               const string& variablealias,
               bool csvformat)
+   : eventInterface(eInterface)
    {
    ModuleName = modulename;
    VariableName = variablename;
@@ -47,11 +52,30 @@ Field::Field (const string& modulename,
       else
          FunctionName = "";
       }
+   }
 
+// ------------------------------------------------------------------
+//  Short description:
+//     initialise field.
+
+//  Notes:
+
+//  Changes:
+//    DPH 29/7/99
+
+// ------------------------------------------------------------------
+void Field::init(void)
+   {
    // get the value of specified variable.
+
+   // DPH - Need to remove any array specifier from variable name.
    APSIMVariant Variable;
-   if (ApsimSystem().Loader.GetOtherVar(ModuleName, VariableName, Variable, true))
+   Variable.NewPostbox();
+
+   if (eventInterface->getVariable(ModuleName.c_str(), VariableName.c_str()))
       {
+      Variable.GetFromPostbox(VariableName.c_str());
+
       VariableUnits = Variable.getUnits();
       if (VariableUnits == "")
          VariableUnits = "()";
@@ -66,6 +90,7 @@ Field::Field (const string& modulename,
       NumElements = 0;
       VariableFound = false;
       }
+
    NumTimesAccumulated = 0;
    }
 
@@ -144,33 +169,24 @@ string Field::truncateSt (const string& st, unsigned int Width)
 
 //  Changes:
 //    DPH 29/7/99
-//    dph 13/4/2000 added check to remove array spec. from field name D343
 
 // ------------------------------------------------------------------
 void Field::writeHeading (ostream& out)
    {
    string FieldName = VariableAlias;
-   if (FieldName == "-")
+   if (FieldName == "")
       FieldName = VariableName;
+
+   if (FunctionName != "")
+      FieldName = FunctionName + "@" + FieldName;
 
    if (NumElements <= 1)
       WriteString(out, FieldName);
 
    else
       {
-      // remove any array specification from field name otherwise
-      // we end up with ES(2-5)(2), ES(2-5)(3) etc.  D343
-      unsigned posArray = FieldName.find("(");
-      int startElement = 1;
-      if (posArray != string::npos)
-         {
-         char* endptr;
-         startElement = strtol(FieldName.substr(posArray+1).c_str(), &endptr, 10);
-         FieldName.erase(posArray);
-         }
-
       string ThisFieldName;
-      for (unsigned int elem = startElement; elem < startElement+NumElements; elem++)
+      for (unsigned int elem = 1; elem <= NumElements; elem++)
          {
          ThisFieldName = FieldName + "(" + IntToStr(elem).c_str() + ")";
          WriteString(out, ThisFieldName);
@@ -227,6 +243,29 @@ void Field::writeValue(ostream& out)
 
 // ------------------------------------------------------------------
 //  Short description:
+//     write this field to summary file
+
+//  Notes:
+
+//  Changes:
+//    DPH 29/7/99
+
+// ------------------------------------------------------------------
+void Field::writeToSummary(void)
+   {
+   string line;
+   line = "   " + ModuleName + ".";
+   if (FunctionName != "")
+      line = line + FunctionName + "@";
+   line += VariableName;
+   if (VariableAlias != "")
+      line += " (alias: " + VariableAlias + ")";
+   ApsimSystem().Summary->writeSummaryLine(eventInterface->getComponentName().c_str(),
+                                           line.c_str());
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
 //     Go accumulate
 
 //  Notes:
@@ -241,13 +280,17 @@ void Field::accumulateValue(void)
       {
       NumTimesAccumulated++;
       APSIMVariant Variable;
-      if (ApsimSystem().Loader.GetOtherVar(ModuleName, VariableName, Variable, true))
+      Variable.NewPostbox();
+      if (eventInterface->getVariable(ModuleName.c_str(), VariableName.c_str()))
          {
+         Variable.GetFromPostbox(VariableName.c_str());
+
          if (FunctionValues.size() == 0)
-            FunctionValues = Variable.asRealArray();
+            Variable.asRealArray(FunctionValues);
          else
             {
-            vector<double> DoubleValues = Variable.asRealArray();
+            vector<double> DoubleValues;
+            Variable.asRealArray(DoubleValues);
             if (DoubleValues.size() == FunctionValues.size())
                FunctionValues = add (FunctionValues, DoubleValues);
             else
@@ -266,7 +309,6 @@ void Field::accumulateValue(void)
 
 //  Changes:
 //    DPH 29/7/99
-//    dph 12/4/2000 Added return statement to outer else D346
 
 // ------------------------------------------------------------------
 bool Field::retrieveValue(void)
@@ -275,8 +317,10 @@ bool Field::retrieveValue(void)
    if (FunctionName.length() == 0)
       {
       APSIMVariant Variable;
-      if (ApsimSystem().Loader.GetOtherVar(ModuleName, VariableName, Variable, true))
+      Variable.NewPostbox();
+      if (eventInterface->getVariable(ModuleName.c_str(), VariableName.c_str()))
          {
+         Variable.GetFromPostbox(VariableName.c_str());
          vector<double> DoubleValues;
          if (VariableType == APSIMVariant::unknownType)
             {
@@ -290,7 +334,7 @@ bool Field::retrieveValue(void)
          // get all values.
          if (VariableType == APSIMVariant::realType)
             {
-            DoubleValues = Variable.asRealArray();
+            Variable.asRealArray(DoubleValues);
             if (CSVFormat)
                Double2string (DoubleValues, Values, 6);
             else
@@ -298,12 +342,12 @@ bool Field::retrieveValue(void)
             }
          else if (VariableType == APSIMVariant::integerType)
             {
-            DoubleValues = Variable.asRealArray();
+            Variable.asRealArray(DoubleValues);
             Double2string (DoubleValues, Values, 0);
             }
          else
             {
-            Values = Variable.asStringArray();
+            Variable.asStringArray(Values);
             // see if this variable is really a string or not.
             for (vector<string>::iterator i = Values.begin();
                                           i != Values.end();
@@ -340,16 +384,15 @@ bool Field::retrieveValue(void)
 
       FunctionValues.erase(FunctionValues.begin(), FunctionValues.end());
       NumTimesAccumulated = 0;
-      return (Values.size() > 0);
       }
    return true;
    }
 
 // ------------------------------------------------------------------
 //  Short description:
-//     Callback function that is called for every APSIM Report Variable.
-//     This function will setup a list of field objects based on
-//     all variables.
+//     ForEach function that is called for every field.
+//     Its objective is to determine if we have any fields
+//     that are functions.
 
 //  Notes:
 
@@ -357,30 +400,24 @@ bool Field::retrieveValue(void)
 //    DPH 29/7/99
 
 // ------------------------------------------------------------------
-class SetupFieldsFunction : public CallbackFunction<APSIMReportVariable>
+class CheckForFunctions
    {
    public:
-      SetupFieldsFunction(list<Field>& fields, bool csvformat)
-         : Fields(fields), SomeAreFunctions(false), CSVFormat(csvformat)
+      CheckForFunctions(bool& somearefunctions)
+         : someAreFunctions(somearefunctions)
          {}
-      virtual void callback(APSIMReportVariable& Var)
+      void operator()(const Field& field)
          {
-         Field F(Var.ModuleName, Var.VariableName, Var.VariableAlias, CSVFormat);
-         SomeAreFunctions = (SomeAreFunctions || F.isFunction());
-         Fields.push_back (F);
+         someAreFunctions = (someAreFunctions || field.isFunction());
          }
 
-      bool SomeAreFunctions;
-
    private:
-      list<Field>& Fields;
-      bool CSVFormat;
-
+      bool& someAreFunctions;
    };
 
 // ------------------------------------------------------------------
 //  Short description:
-//     Callback function that is called for every Field.
+//     ForEach function that is called for every Field.
 //     This function will setup a headings line and a units line.
 
 //  Notes:
@@ -410,7 +447,7 @@ class FieldHeadingUnitFunction
 
 // ------------------------------------------------------------------
 //  Short description:
-//     Callback function that is called for every Field.
+//     ForEach function that is called for every Field.
 //     This function will write each field to an output stream.
 
 //  Notes:
@@ -438,7 +475,7 @@ class FieldValueFunction
 
 // ------------------------------------------------------------------
 //  Short description:
-//     Callback function that is called for every Field.
+//     ForEach function that is called for every Field.
 //     This function will tell each field to go accumulate itself.
 
 //  Notes:
@@ -469,10 +506,43 @@ class FieldAccumulateFunction
 //    DPH 29/7/99
 
 // ------------------------------------------------------------------
-APSIMComponent* CreateComponent(const string& Name)
+APSIMComponent* CreateInstance(const FString& name,
+                               IComputation& computation,
+                               const std::string& ssdl)
    {
-   return new ReportComponent(Name);
+   return new ReportComponent(name, computation, ssdl);
    }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     callback class for all APSIMOutputVariables
+
+//  Notes:
+
+//  Changes:
+//    DPH 19/10/2000
+
+// ------------------------------------------------------------------
+class CreateFields : CallbackFunction<APSIMOutputVariable*>
+   {
+   private:
+      list<Field>& fields;
+      bool csvFormat;
+      EventInterface* eventInterface;
+   public:
+      CreateFields(EventInterface* eInterface,
+                   list<Field>& f,
+                   bool csv)
+         : eventInterface(eInterface), fields(f), csvFormat(csv) { }
+      virtual void callback(APSIMOutputVariable* variable)
+         {
+         fields.push_back(Field(eventInterface,
+                                variable->getOwnerModule(),
+                                variable->getName(),
+                                variable->getAlias(),
+                                csvFormat));
+         }
+   };
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -484,35 +554,42 @@ APSIMComponent* CreateComponent(const string& Name)
 //    DPH 29/7/99
 
 // ------------------------------------------------------------------
-void ReportComponent::Init (void)
+void ReportComponent::init(void)
    {
-   if (!ApsimSystem().Data.Get (Name + ".Parameters.ReportVariables", Variables))
-      ApsimSystem().Error.Fatal ("Cannot find REPORT variable names in parameter file.\n"
-                                 "Cannot create output file.");
-
-   APSIMFilename File;
-   if (ApsimSystem().Data.Get (Name + ".Parameters.OutputFile", File))
-      Out.Open(File);
+   Out = componentData->properties()->get<APSIMOutputFile>("outputfile");
+   if (Out != NULL)
+      Out->open();
 
    else
       ApsimSystem().Error.Fatal ("Cannot find name of output file in parameter file.\n"
                                  "Cannot create output file.");
 
-   APSIMProperty FormatProperty;
-   ApsimSystem().Data.Get (Name + ".Parameters.Format", FormatProperty);
-   CSVFormat = Str_i_Eq(FormatProperty.GetValue(), "csv");
+   // get format specifier.
+   APSIMProperty* formatProperty =
+      componentData->properties()->get<APSIMProperty>("format");
+   CSVFormat = (formatProperty != NULL &&
+                Str_i_Eq(formatProperty->getValue(), "csv"));
+
+   // enumerate through all output variables and create a field for each.
+   CreateFields createFields(eventInterface, Fields, CSVFormat);
+   componentData->properties()->enumerate
+      <APSIMOutputVariable, CreateFields>(createFields);
+
    DaysSinceLastReport = 1;
 
    // write out all initial conditions.
-   string msg = "Output file = " + Out.getFilename();
-   ApsimSystem().Summary.WriteLine(msg.c_str());
+   string msg = "Output file = " + Out->getFilename();
+   ApsimSystem().Summary->writeSummaryLine(name.c_str(), msg.c_str());
    msg = "Format = ";
    if (CSVFormat)
       msg += "csv";
    else
       msg += "normal";
-   ApsimSystem().Summary.WriteLine(msg.c_str());
-   ApsimSystem().Summary.Write(Variables);
+   ApsimSystem().Summary->writeSummaryLine(name.c_str(), msg.c_str());
+
+   // write all fields to summary file.
+   ApsimSystem().Summary->writeSummaryLine(name.c_str(), "Output variables:");
+   for_each(Fields.begin(), Fields.end(), mem_fun_ref(&Field::writeToSummary));
    }
 
 // ------------------------------------------------------------------
@@ -525,23 +602,23 @@ void ReportComponent::Init (void)
 //    DPH 29/7/99
 
 // ------------------------------------------------------------------
-bool ReportComponent::DoAction(const char* Action)
+bool ReportComponent::doAction(const FString& Action)
    {
    ApsimSystem().CallStack.Push ("Report_DoAction");
 
    bool Used = true;
-   if (strcmpi(Action, MES_Prepare) == 0)
+   if (Action == MES_Prepare)
       HaveAccumulatedVarsToday = false;
 
-   else if (strcmpi(Action, "do_output") == 0)
+   else if (Action == "do_output")
       {
       WriteLineOfOutput();
       }
 
-   else if (stricmp(Action, "do_end_day_output") == 0)
+   else if (Action == "do_end_day_output")
       OutputOnThisDay = true;
 
-   else if (stricmp(Action, MES_Report) == 0)
+   else if (Action == MES_Report)
       {
       DaysSinceLastReport++;
 
@@ -568,9 +645,9 @@ bool ReportComponent::DoAction(const char* Action)
 //    DPH 29/7/99
 
 // ------------------------------------------------------------------
-bool ReportComponent::GetVariable (const char* VariableName)
+bool ReportComponent::getVariable (const FString& VariableName)
    {
-   if (stricmp(VariableName, "days_since_last_report") == 0)
+   if (VariableName == "days_since_last_report")
       {
       APSIMVariant Property(DaysSinceLastReport, "(days)");
       Property.PutInPostbox(VariableName);
@@ -595,12 +672,11 @@ void ReportComponent::WriteLineOfOutput(void)
    if (!HaveAccumulatedVarsToday)
       AccumulateVariables();
 
-   ostrstream Line;
+   ostringstream Line;
    FieldValueFunction FieldValues(Line);
    std::for_each (Fields.begin(), Fields.end(), FieldValues);
    Line << std::ends;
-   Out.WriteLine(Line.str());
-   delete Line.str();
+   Out->writeLine(Line.str().c_str());
 
    DaysSinceLastReport = 0;
    }
@@ -617,29 +693,31 @@ void ReportComponent::WriteLineOfOutput(void)
 // ------------------------------------------------------------------
 void ReportComponent::Setup(void)
    {
-   if (Fields.size() == 0)
+   if (!HaveWrittenHeadings)
       {
-      // setup our list of fields.
-      SetupFieldsFunction SetupFields(Fields, CSVFormat);
-      Variables.EnumerateVariables (SetupFields);
-      SomeFieldsAreFuntions = SetupFields.SomeAreFunctions;
+      HaveWrittenHeadings = true;
+
+      // initialise each field.
+      for_each(Fields.begin(), Fields.end(), mem_fun_ref(&Field::init));
+
+      // find out if any of our fields are functions
+      for_each(Fields.begin(), Fields.end(), CheckForFunctions(SomeFieldsAreFuntions));
 
       // write output file header.
-      string Line = "Summary_file = " + ApsimSystem().Summary.getFilename();
-      Out.WriteLine (Line.c_str());
+      string Line = "Summary_file = " + ApsimSystem().Summary->getFilename();
+      Out->writeLine (Line.c_str());
       Line = "Title = " + ApsimSystem().getTitle();
-      Out.WriteLine (Line.c_str());
+      Out->writeLine (Line.c_str());
 
-      ostrstream Headings, Units;
+      ostringstream Headings, Units;
       FieldHeadingUnitFunction HeadingsUnits(Headings, Units);
 
       std::for_each (Fields.begin(), Fields.end(), HeadingsUnits);
       Headings << std::ends;
       Units << std::ends;
-      Out.WriteLine (Headings.str());
-      Out.WriteLine (Units.str());
-      delete Headings.str();
-      delete Units.str();
+      Out->writeLine (Headings.str().c_str());
+      Out->writeLine (Units.str().c_str());
+      HaveWrittenHeadings = true;
       }
    }
 
