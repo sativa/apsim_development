@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.2
+     Version                = 3.3
      Title                  = peanut Sample Simulation
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -23,6 +23,11 @@
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+        report
      Simulation start date = 15/11/1988
      Simulation end date   = 20/04/1989
      Time step =           = 1440 (mins)
@@ -277,27 +282,27 @@
 4 December 1988(Day of year=339), peanut: 
       stage    5.0 floral_initiation
                           biomass =          0.6289618       lai =    0.9621032E-02
-                          stover N conc =    4.071109       extractable sw =    45.54660
+                          stover N conc =    4.071441       extractable sw =    45.54660
 29 December 1988(Day of year=364), peanut: 
       stage    6.0 flowering
                           biomass =           58.96921       lai =    0.9005039
-                          stover N conc =    2.552721       extractable sw =    215.1183
+                          stover N conc =    2.553245       extractable sw =    215.1183
 19 January 1989(Day of year=19), peanut: 
       stage    7.0 start_grain_fill
                           biomass =           371.4569       lai =     2.975473
-                          stover N conc =    2.499788       extractable sw =    213.4939
+                          stover N conc =    2.499976       extractable sw =    213.4939
 4 April 1989(Day of year=94), peanut: 
       stage    8.0 end_grain_fill
                           biomass =           1029.765       lai =     4.114149
-                          stover N conc =    1.195561       extractable sw =    101.6103
+                          stover N conc =    1.198684       extractable sw =    101.6103
 10 April 1989(Day of year=100), peanut: 
       stage    9.0 maturity
                           biomass =           1040.298       lai =     3.962894
-                          stover N conc =    1.160393       extractable sw =    80.69263
+                          stover N conc =    1.164169       extractable sw =    80.69263
 11 April 1989(Day of year=101), peanut: 
       stage   10.0 harvest_ripe
                           biomass =           1040.298       lai =    0.1192093E-05
-                          stover N conc =    1.199770       extractable sw =    76.19620
+                          stover N conc =    1.221631       extractable sw =    76.19620
 12 April 1989(Day of year=102), manager: 
      Manager sending message :- peanut harvest
 12 April 1989(Day of year=102), peanut: 
@@ -315,9 +320,9 @@
       senesced above ground biomass (kg/ha) =    2634.8
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 345.7
-      grain N percent =      5.00            total N content (kg/ha) =    297.02
-      grain N uptake (kg/ha) =    197.66     senesced N content (kg/ha) =     29.87
-      green N content (kg/ha) =     69.49    dead N content (kg/ha) =      0.00
+      grain N percent =      5.00            total N content (kg/ha) =    294.76
+      grain N uptake (kg/ha) =    197.66     senesced N content (kg/ha) =     26.35
+      green N content (kg/ha) =     70.75    dead N content (kg/ha) =      0.00
      
      
      
@@ -335,13 +340,13 @@
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0254017
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0927235
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0926722
      
      
      
       stress indices for flowering
       water stress 1 =       0.0002116   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0016266   nitrogen stress 2 =       0.0141668
+      water stress 2 =       0.0016266   nitrogen stress 2 =       0.0138478
      
      
      
@@ -351,7 +356,7 @@
      
       Crop harvested.
                                                tops residue = 6449.8 kg/ha
-                                               tops N =   99.4 kg/ha
+                                               tops N =   97.1 kg/ha
                                                root residue =  134.5 kg/ha
                                                root N =    1.1 kg/ha
      
@@ -367,6 +372,6 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 1351.7 kg/ha
-                                               root N =   27.5 kg/ha
+                                               root N =   27.8 kg/ha
 20 April 1989(Day of year=110), clock: 
      Simulation is terminating due to end criteria being met.

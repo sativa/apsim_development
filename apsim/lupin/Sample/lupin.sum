@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.2
+     Version                = 3.3
      Title                  = lupin Sample Simulation
      Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
      Component DLL          = c:\development\apsim\screen\lib\screen.dll
@@ -23,6 +23,11 @@
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+        report
      Simulation start date =  9/05/1988
      Simulation end date   = 26/10/1988
      Time step =           = 1440 (mins)
@@ -277,27 +282,27 @@
 20 June 1988(Day of year=172), lupin: 
       stage    5.0 floral_initiation
                           biomass =           8.856979       lai =    0.5794038E-01
-                          stover N conc =    4.209620       extractable sw =    196.8061
+                          stover N conc =    4.209621       extractable sw =    196.8061
 29 July 1988(Day of year=211), lupin: 
       stage    6.0 flowering
                           biomass =           137.9153       lai =     1.454550
-                          stover N conc =    2.987577       extractable sw =    301.0218
+                          stover N conc =    2.991654       extractable sw =    301.0218
 4 September 1988(Day of year=248), lupin: 
       stage    7.0 start_grain_fill
                           biomass =           505.5151       lai =     2.986684
-                          stover N conc =    1.828250       extractable sw =    253.0663
+                          stover N conc =    1.852067       extractable sw =    253.0663
 10 October 1988(Day of year=284), lupin: 
       stage    8.0 end_grain_fill
                           biomass =           872.1719       lai =    0.4803062
-                          stover N conc =    1.714887       extractable sw =    176.6056
+                          stover N conc =    1.721277       extractable sw =    176.6056
 14 October 1988(Day of year=288), lupin: 
       stage    9.0 maturity
                           biomass =           883.6929       lai =    0.2374688
-                          stover N conc =    1.709164       extractable sw =    169.0274
+                          stover N conc =    1.717426       extractable sw =    169.0274
 15 October 1988(Day of year=289), lupin: 
       stage   10.0 harvest_ripe
                           biomass =           883.6929       lai =    0.2533197E-06
-                          stover N conc =    1.722157       extractable sw =    167.6181
+                          stover N conc =    1.748679       extractable sw =    167.6181
 16 October 1988(Day of year=290), manager: 
      Manager sending message :- lupin harvest
 16 October 1988(Day of year=290), lupin: 
@@ -315,9 +320,9 @@
       senesced above ground biomass (kg/ha) =    2051.4
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 388.7
-      grain N percent =      5.50            total N content (kg/ha) =    227.83
-      grain N uptake (kg/ha) =    121.51     senesced N content (kg/ha) =     27.51
-      green N content (kg/ha) =     78.81    dead N content (kg/ha) =      0.00
+      grain N percent =      5.50            total N content (kg/ha) =    211.79
+      grain N uptake (kg/ha) =    121.51     senesced N content (kg/ha) =     10.26
+      green N content (kg/ha) =     80.02    dead N content (kg/ha) =      0.00
      
      
      
@@ -351,7 +356,7 @@
      
       Crop harvested.
                                                tops residue = 6627.7 kg/ha
-                                               tops N =  106.3 kg/ha
+                                               tops N =   90.3 kg/ha
                                                root residue =  199.2 kg/ha
                                                root N =    1.6 kg/ha
      
@@ -367,6 +372,6 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 2001.9 kg/ha
-                                               root N =   40.5 kg/ha
+                                               root N =   40.8 kg/ha
 26 October 1988(Day of year=300), clock: 
      Simulation is terminating due to end criteria being met.

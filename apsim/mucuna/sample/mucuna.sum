@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.2
+     Version                = 3.3
      Title                  = mucuna Sample Simulation
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -23,6 +23,11 @@
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+        report
      Simulation start date = 15/11/1988
      Simulation end date   = 20/05/1989
      Time step =           = 1440 (mins)
@@ -272,19 +277,19 @@
 7 January 1989(Day of year=7), mucuna: 
       stage    4.0 end_of_juvenile
                           biomass =           266.3932       lai =     2.244357
-                          stover N conc =    5.363716       extractable sw =    112.7470
+                          stover N conc =    5.365233       extractable sw =    112.7470
 23 February 1989(Day of year=54), mucuna: 
       stage    5.0 floral_initiation
                           biomass =           770.5703       lai =     4.647795
-                          stover N conc =    4.578474       extractable sw =    137.6074
+                          stover N conc =    5.408172       extractable sw =    137.6074
 24 February 1989(Day of year=55), mucuna: 
       stage    6.0 flowering
                           biomass =           786.2991       lai =     4.779424
-                          stover N conc =    4.520270       extractable sw =    130.5352
+                          stover N conc =    5.313256       extractable sw =    130.5352
 5 March 1989(Day of year=64), mucuna: 
       stage    7.0 start_grain_fill
                           biomass =           915.1603       lai =     5.437648
-                          stover N conc =    4.312820       extractable sw =    80.88548
+                          stover N conc =    5.050652       extractable sw =    80.88548
 30 April 1989(Day of year=120), manager: 
      Manager sending message :- mucuna harvest
 30 April 1989(Day of year=120), mucuna: 
@@ -302,21 +307,21 @@
       senesced above ground biomass (kg/ha) =    3031.7
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  48.3
-      grain N percent =      7.50            total N content (kg/ha) =    486.92
-      grain N uptake (kg/ha) =    164.83     senesced N content (kg/ha) =    141.48
-      green N content (kg/ha) =    180.61    dead N content (kg/ha) =      0.00
+      grain N percent =      7.50            total N content (kg/ha) =    422.96
+      grain N uptake (kg/ha) =    164.83     senesced N content (kg/ha) =     30.32
+      green N content (kg/ha) =    227.81    dead N content (kg/ha) =      0.00
      
      
      
       stress indices for emergence
       water stress 1 =       0.0118054   nitrogen stress 1 =       0.0181381
-      water stress 2 =       0.0176402   nitrogen stress 2 =       0.0206209
+      water stress 2 =       0.0176402   nitrogen stress 2 =       0.0205718
      
      
      
       stress indices for end_of_juvenile
       water stress 1 =       0.4258249   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.5060092   nitrogen stress 2 =       0.0003800
+      water stress 2 =       0.5060092   nitrogen stress 2 =       0.0002852
      
      
      
@@ -334,11 +339,11 @@
      
       stress indices for start_grain_fill
       water stress 1 =       0.1176247   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.1460174   nitrogen stress 2 =       0.0010531
+      water stress 2 =       0.1460174   nitrogen stress 2 =       0.0000000
      
       Crop harvested.
                                                tops residue = 8716.0 kg/ha
-                                               tops N =  317.2 kg/ha
+                                               tops N =  253.3 kg/ha
                                                root residue =  494.1 kg/ha
                                                root N =    2.5 kg/ha
      
@@ -357,6 +362,6 @@
                                                straw residue =   75.0 kg/ha
                                                straw N =    4.9 kg/ha
                                                root residue = 4965.8 kg/ha
-                                               root N =   79.4 kg/ha
+                                               root N =   88.0 kg/ha
 20 May 1989(Day of year=140), clock: 
      Simulation is terminating due to end criteria being met.
