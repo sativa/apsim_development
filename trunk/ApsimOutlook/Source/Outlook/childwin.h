@@ -33,7 +33,7 @@
 #include "ToolBarAddIn.h"
 
 class AddInEventMap;  // see bottom of page for class definition
-
+// a random comment of the day.
 //----------------------------------------------------------------------------
 class TMDIChild : public TForm
 {
