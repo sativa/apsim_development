@@ -11,16 +11,16 @@
 
      Version                = 4.0
      Title                  = Test kill_stem before sowing
-     Component DLL          = c:\temp\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\temp\development\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\temp\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\temp\development\apsim\report\lib\report.dll
-     Component DLL          = c:\temp\development\apsim\input\lib\input.dll
-     Component DLL          = c:\temp\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\temp\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\temp\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = c:\temp\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\temp\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -45,7 +45,7 @@
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\temp\development\apsim\met\sample\dalby.met
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
