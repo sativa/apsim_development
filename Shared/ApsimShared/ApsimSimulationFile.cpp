@@ -7,6 +7,7 @@
 #include <general\exec.h>
 #include <general\xml.h>
 #include <general\stl_functions.h>
+#include <general\string_functions.h>
 using namespace std;
 // ------------------------------------------------------------------
 // Constructor
@@ -209,5 +210,96 @@ bool ApsimSimulationFile::deleteComponent(const std::string& name)
 ApsimSystemData ApsimSimulationFile::asSystem(void)
    {
    return ApsimSystemData(xmlDoc->documentElement());
+   }
+// ------------------------------------------------------------------
+// return this simulation as a component
+// ------------------------------------------------------------------
+ApsimComponentData ApsimSimulationFile::asComponent(void)
+   {
+   return ApsimComponentData(xmlDoc->documentElement());
+   }
+// ------------------------------------------------------------------
+// ------------------------------------------------------------------
+// ------------------------------------------------------------------
+// ------------------------------------------------------------------
+extern "C" unsigned _export __stdcall newApsimSimulationFile
+   (const char* fileName)
+   {
+   return (unsigned) new ApsimSimulationFile(fileName);
+   }
+extern "C" void _export __stdcall deleteApsimComponentData
+   (ApsimSimulationFile* simulationFile)
+   {
+   delete simulationFile;
+   }
+extern "C" void _export __stdcall ApsimSimulationFile_getSystemNames
+   (ApsimSimulationFile* simulationFile,
+    const char* parentSystemName,
+    char* systemNames)
+   {
+   try
+      {
+      vector<string> names;
+      Split_string(parentSystemName, ".", names);
+
+      ApsimSystemData system = simulationFile->asSystem();
+      for (unsigned i = 0; i != names.size(); i++)
+         system = system.getSystem(names[i]);
+
+      vector<string> returnNames;
+      system.getSystemNames(returnNames);
+      string returnString;
+      Build_string(returnNames, ",", returnString);
+      strcpy(systemNames, returnString.c_str());
+      }
+   catch (const runtime_error& err)
+      {
+      ::MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
+      }
+   }
+extern "C" void _export __stdcall ApsimSimulationFile_getComponentNames
+   (ApsimSimulationFile* simulationFile,
+    const char* parentSystemName,
+    char* componentNames)
+   {
+   try
+      {
+      vector<string> names;
+      Split_string(parentSystemName, ".", names);
+
+      ApsimSystemData system = simulationFile->asSystem();
+      for (unsigned i = 0; i != names.size(); i++)
+         system = system.getSystem(names[i]);
+
+      vector<string> returnNames;
+      system.getComponentNames(returnNames);
+      string returnString;
+      Build_string(returnNames, ",", returnString);
+      strcpy(componentNames, returnString.c_str());
+      }
+   catch (const runtime_error& err)
+      {
+      ::MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
+      }
+   }
+extern "C" void _export __stdcall ApsimSimulationFile_getExecutableFileName
+   (ApsimSimulationFile* simulationFile,
+    const char* componentName,
+    char* executableFileName)
+   {
+   vector<string> names;
+   Split_string(componentName, ".", names);
+
+   ApsimSystemData system = simulationFile->asSystem();
+   for (unsigned i = 0; i < names.size()-1; i++)
+      system = system.getSystem(names[i]);
+
+   ApsimComponentData component;
+   if (names.size() > 0)
+      component = system.getComponent(names[names.size()-1]);
+   else
+      component = system.asComponent();
+   string dllFileName = component.getExecutableFileName();
+   strcpy(executableFileName, dllFileName.c_str());
    }
 
