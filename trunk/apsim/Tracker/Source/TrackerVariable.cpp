@@ -277,6 +277,8 @@ void TrackerVariable::getCurrentValues(vector<float>& currentValues)
                case countStat   : value++; break;
                }
             }
+         if (stat == averageStat && values.size() > 0)
+            value /= values.size();
          currentValues.push_back(value);
          }
       }
