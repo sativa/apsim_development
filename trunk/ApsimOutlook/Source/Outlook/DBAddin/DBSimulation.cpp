@@ -98,6 +98,8 @@ string DBSimulation::getOrderFieldName(vector<string>& fieldNames)
       {
       string fieldName (*i);
       To_lower(fieldName);
+      if (Str_i_Eq(fieldName, "date"))
+         return *i;
       if (fieldName.find("year") != string::npos)
          {
          if (fieldName.find("sow") != string::npos)
