@@ -45,12 +45,12 @@ class CompileThread : public TThread
       void   CreateLinkerResponseFile (APSIM_project& apf);
       void   CopyImportFiles (APSIM_project& apf);
       void   RunAutoMake (APSIM_project& apf, Path& BinaryFile);
-      void   Cleanup (void);
+      void   Cleanup (APSIM_project& apf);
       void   CopySwitchesToStream (APSIM_project& apf, ostream& out);
       void   GetSourceFileNames (APSIM_project& apf, list<string>& SourceFiles);
       string GetSourceDirectory (APSIM_project& apf);
       void   GetFilesForCompiler (APSIM_project& apf, const char* Key, list<string>& Files);
-      void   DeleteFiles (const char* Filespec);
+      void   DeleteFiles (APSIM_project& apf, const char* Filespec);
 
    };
 

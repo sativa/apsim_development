@@ -151,7 +151,7 @@ void CompileThread::CompileProject (APSIM_project& apf)
 
       // if this is a build then remove all .obj files.
       if (Build)
-         DeleteFiles ("*.obj");
+         DeleteFiles (apf, "*.obj");
 
       // run AUTOMAKE
       if (!Debug)
@@ -159,7 +159,7 @@ void CompileThread::CompileProject (APSIM_project& apf)
          RunAutoMake (apf, BinaryFile);
 
          // cleanup after ourselves.
-         Cleanup ();
+         Cleanup (apf);
          }
       }
    }
@@ -380,14 +380,12 @@ void CompileThread::RunAutoMake (APSIM_project& apf, Path& BinaryFile)
 //    DPH 18/3/99
 
 // ------------------------------------------------------------------
-void CompileThread::Cleanup (void)
+void CompileThread::Cleanup (APSIM_project& apf)
    {
    DeleteFile ("amtemp.bat");
-   DeleteFiles ("automake.*");
-//   DeleteFiles ("*.im$");
-//   DeleteFiles ("*.xp$");
-   DeleteFiles ("*.imp");
-   DeleteFiles ("*.rsp");
+   DeleteFiles (apf, "automake.*");
+   DeleteFiles (apf, "*.imp");
+   DeleteFiles (apf, "*.rsp");
    }
 
 // ------------------------------------------------------------------
@@ -507,10 +505,12 @@ void CompileThread::GetFilesForCompiler (APSIM_project& apf, const char* Key, li
 //    DPH 18/3/99
 
 // ------------------------------------------------------------------
-void CompileThread::DeleteFiles (const char* Filespec)
+void CompileThread::DeleteFiles (APSIM_project& apf, const char* Filespec)
    {
+   string FSpec = GetSourceDirectory(apf) + "\\" + Filespec;
+
    list<string> Files;
-   Get_directory_listing (".", Filespec, Files, FA_NORMAL, true);
+   Get_directory_listing (".", FSpec.c_str(), Files, FA_NORMAL, true);
    for (list<string>::iterator i = Files.begin();
                                i != Files.end();
                                i++)
