@@ -33,6 +33,7 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormShow(TObject *Sender)
    {
+   MainMenu1->Images = ImageList1;
    report.createPage();
    report.setObjectInspectorForm(ObjectInspectorForm, DataPreviewForm->DataSource);
    ZoomUpDown->Position = report.getZoom();
