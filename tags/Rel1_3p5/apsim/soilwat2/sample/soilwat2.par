@@ -1,0 +1,41 @@
+[m1s1n1.soilwat2.parameters]
+
+   insoil = 1.0 ()  ! indicator for initial soil water
+                    ! 0 to 1 is fraction of avail soil water (0=ll15, 1 = dul,
+                    !                                         >1 = input by user)
+   u = 8 (mm)       ! stage 1 soil evaporation coefficient (mm)
+
+   runoff_filename =blank ! runoff predicted using CN2_bare
+
+   cn2_bare    = 73 ()   ! runoff curve number for BARE soil at AMC2
+
+ ! CN2b CN_red CN_cov
+ !  73   20     0.8   - cultivated cracking clays & black earths (eg. greenmount & capella)
+ !                      & well structured grey clays (ackland)
+ !  82   20     0.8   - mod. hard setting clays/brigalow (eg. Brigalow Res. Stn) ?brown clay?
+ !  85   ??     0.8   - Maranoa (rainsim) ??? ?brown clay (eg. Wallumbilla)
+ !  90   ??     0.8   - Billa Billa (rainsim)
+ !  94   28     0.8   - hard setting red brown earths (eg ICRASAT & Tippera)
+ !  94   42     0.8   - hard set pasture solodics
+
+   cn_red = 20 ()   ! reduction in CN2_bare for "cn_cov" increase in cover 
+   cn_cov = 0.8 ()  ! frac. cover for "cn_red" reduction in cover 
+                    ! & max. cover for reduction 
+   cn_canopy_fact = 1.0 () !  1.0 = canopy cover is fully effective in reducing runoff
+                           !  0.0 = canopy cover has no effect in reducing runoff eg tall crops & trees
+   salb = 0.2  ()     ! bare soil albedo
+   cona = 3.5  ()     ! stage 2 evap coef.
+   diffus_const = 250. ()  !   coeffs for dbar
+   diffus_slope = 22.  ()  !     "
+
+   !layer      1       2       3       4       5       6       7       8       9
+   dlayer  = 150.000 150.000 150.000 150.000 150.000 150.000 300.000 300.000 300.000 (mm) ! layer depth mm soil
+   air_dry =  0.100   0.222   0.222   0.273   0.287   0.309   0.321   0.330   0.326 ()  ! air dry limit
+   ll15   =   0.216   0.222   0.222   0.273   0.287   0.309   0.321   0.330   0.326  () ! 15 bar lower limit mm water/mm soil
+   dul    =   0.368   0.369   0.357   0.368   0.378   0.384   0.377   0.366   0.353 () ! drained upper limit mm water/mm soil
+   sat    =   0.380   0.371   0.381   0.381   0.389   0.395   0.388   0.377   0.354 () ! saturation mm water/mm soil
+   sw     =   0.000   0.000   0.000   0.000   0.000   0.000   0.000   0.000   0.000 () ! initial water content mm water/mm soil
+   bd     =   1.560   1.520   1.460   1.460   1.420   1.420   1.460   1.500   1.530 () ! bulk density gm dry soil/cc moist soil
+   swcon  =   0.1     0.1     0.1     0.1     0.1     0.1     0.1     0.1     0.1   () ! soil conductivity
+
+
