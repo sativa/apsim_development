@@ -131,10 +131,20 @@
       elseif (action .eq. EVENT_Crop_Chopped) then
          call soilpH_ON_Crop_Chopped ()
 
+      else if ((action.eq.ACTION_reset)
+     :          .or.(action.eq.ACTION_user_init)) then
+         call SoilpH_zero_variables ()
+         call SoilpH_get_soil_layers ()
+         call SoilpH_init ()
+ 
+      else if (action.eq.ACTION_sum_report) then
+         call SoilpH_sum_report ()
+ 
       else if (action.eq.ACTION_init) then
          call SoilpH_zero_variables ()
          call SoilpH_get_soil_layers ()
          call SoilpH_init ()
+         call SoilpH_sum_report ()
 
       elseif (Action.eq.ACTION_Create) then
          call soilpH_zero_all_globals ()
@@ -207,9 +217,6 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
-
-         ! Notify system that we have initialised
-      call Write_string (' Initialising:')
 
          ! Get all coefficients from parameter file
       call SoilpH_read_constants ()
@@ -496,9 +503,6 @@
      :                     ,'()'
      :                     , p%pHBC_method
      :                     , numvals)
-      call write_string ('      Using pHBC Method: '
-     :                  // trim (p%pHBC_method))
-
       If (p%pHBC_method .eq. pHBC_method_parameters) then
 
             ! pHBC of each layer.
@@ -723,6 +727,241 @@
       end
 
 
+*     ===========================================================
+      subroutine SoilpH_sum_report ()
+*     ===========================================================
+      use SoilpHModule
+      implicit none
+      include   'const.inc'
+      include 'string.pub'
+      include 'data.pub'
+      include 'error.pub'
+ 
+*+  Purpose
+*     Report SoilpH Module Status
+ 
+*+  Mission Statement
+*     Report SoilpH Module Status      
+ 
+*+  Changes
+*       230500 Jngh - Programmed and Specified
+ 
+*+  Constant Values
+      character*(*) my_name            ! name of current procedure
+      parameter (my_name = 'SoilpH_sum_report')
+ 
+*+  Local Variables
+      integer    layer                 ! layer number
+      integer    num_layers            ! number of soil profile layers
+      real       depth_layer_top       ! depth to top of layer (mm)
+      real       depth_layer_bottom    ! depth to bottom of layer (mm)
+      character  line*80            ! output line
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      call write_string (new_line//new_line)
+ 
+      write (line, '(2a)') 'Report residue additions = '
+     :                     , trim(p%report_additions)
+      call write_string (line)
+
+      write (line, '(a, f4.1)') 'Rain  - pH               = '
+     :                     , p%pH_rain
+      call write_string (line)
+
+      write (line, '(a, f6.3)') '      - Ionic strength   = '
+     :                     , p%ionic_strength_rain
+      call write_string (line)
+
+      call write_string (       'Using pHBC Method:         '
+     :                         // trim (p%pHBC_method))
+
+      call write_string (new_line//new_line)
+ 
+      line = '                Soil Profile Inital values'
+      call write_string (line)
+ 
+      line = '     ------------------------------------------------'
+      call write_string (line)
+ 
+      line = 'Layer    Depth      Lime  Ionic   pHCa   pHBC   '
+     :             //'ECEC  CO2 pressure'
+      call write_string (line)
+ 
+      line = '         (mm)    (mol/ha) Strength ()  (KMol/Ha)'
+     :             //' ()    (atm)'
+      call write_string (line)
+ 
+      line = '-------------------------------------------------'
+     :             //'------------'
+      call write_string (line)
+ 
+      num_layers = count_of_real_vals(e%dlayer, max_layer)
+      depth_layer_top = 0.0
+
+      do 100 layer = 1,num_layers
+         depth_layer_bottom = depth_layer_top + e%dlayer(layer)
+         write (line
+     :     , '(i4, f6.0, a, f6.0, f7.1, f7.3, f7.1, f7.2, f7.1, f7.4)')
+     :           layer, depth_layer_top, '-', depth_layer_bottom
+     :           , p%lime_pool_init(layer)
+     :           , p%ionic_strength_initial(layer)
+     :           , p%pHCa_initial(layer)
+     :           , p%pHBC(layer)
+     :           , p%ecec_init(layer)
+     :           , p%CO2_pressure_soil(layer)
+
+         call write_string (line)
+         depth_layer_top = depth_layer_bottom
+  100 continue
+ 
+      line = '-------------------------------------------------'
+     :             //'------------'
+      call write_string (line)
+ 
+      call write_string (new_line//new_line)
+ 
+      line = '               Soil Profile Al Parameters'
+      call write_string (line)
+ 
+      line = '     ------------------------------------------------'
+      call write_string (line)
+ 
+      line = 'Layer    Depth   Al Conc   pAl-pHCa         sAls     '
+      call write_string (line)
+ 
+      line = '         (mm)   (cMol/Kg) Slope Intercept   ()    Use'
+      call write_string (line)
+ 
+      line = '-----------------------------------------------------'
+      call write_string (line)
+ 
+      depth_layer_top = 0.0
+
+      do 200 layer = 1,num_layers
+         depth_layer_bottom = depth_layer_top + e%dlayer(layer)
+         write (line
+     :     , '(i4, f6.0, a, f6.0, f7.2, f7.3, f8.4, f7.0, L7)')
+     :           layer, depth_layer_top, '-', depth_layer_bottom
+     :           , p%Al_conc_init(layer)
+     :           , p%pAl_pHca_slope(layer)
+     :           , p%pal_pHCa_intercept(layer)
+     :           , p%sAls_supplied(layer)
+     :           , p%sAls_supplied_use_flag(layer)
+         call write_string (line)
+         depth_layer_top = depth_layer_bottom
+  200 continue
+ 
+      line = '-----------------------------------------------------'
+      call write_string (line)
+      call write_string (new_line//new_line)
+ 
+      line = '           Soil Profile Humic Acid Coefficients'
+      call write_string (line)
+ 
+      line = '     ------------------------------------------------'
+      call write_string (line)
+ 
+      line = 'Layer    Depth     Slope Offset'
+      call write_string (line)
+ 
+      line = '         (mm)        ()     () '
+      call write_string (line)
+ 
+      line = '-------------------------------'
+      call write_string (line)
+ 
+      depth_layer_top = 0.0
+
+      do 300 layer = 1,num_layers
+         depth_layer_bottom = depth_layer_top + e%dlayer(layer)
+         write (line
+     :     , '(i4, f6.0, a, f6.0, f7.1, f7.1)')
+     :           layer, depth_layer_top, '-', depth_layer_bottom
+     :           , p%hum_acid_slope(layer)
+     :           , p%hum_acid_pHCa_offset(layer)
+         call write_string (line)
+         depth_layer_top = depth_layer_bottom
+  300 continue
+ 
+      line = '-------------------------------'
+      call write_string (line)
+      call write_string (new_line//new_line)
+ 
+      line = '          Soil Profile Availability of elements'
+      call write_string (line)
+ 
+      line = '     ------------------------------------------------'
+      call write_string (line)
+ 
+      line = 'Layer    Depth     Ca   Mg    K   Na    P    S   Cl'
+      call write_string (line)
+ 
+      line = '         (mm)'     
+      call write_string (line)
+ 
+      line = '----------------------------------------------------'
+      call write_string (line)
+ 
+      depth_layer_top = 0.0
+
+      do 400 layer = 1,num_layers
+         depth_layer_bottom = depth_layer_top + e%dlayer(layer)
+         write (line
+     :     , '(i4, f6.0, a, f6.0, 7f5.2)')
+     :           layer, depth_layer_top, '-', depth_layer_bottom
+     :           , p%Ca_avail(layer)
+     :           , p%Mg_avail(layer)
+     :           , p%K_avail(layer)
+     :           , p%Na_avail(layer)
+     :           , p%P_avail(layer)
+     :           , p%S_avail(layer)
+     :           , p%Cl_avail(layer)
+         call write_string (line)
+         depth_layer_top = depth_layer_bottom
+  400 continue
+ 
+      line = '----------------------------------------------------'
+      call write_string (line)
+      call write_string (new_line//new_line)
+ 
+      line = '          Uptakes of each element (% dry matter)'
+      call write_string (line)
+ 
+      line = '     ------------------------------------------------'
+      call write_string (line)
+ 
+      line = '    Ca     Mg      K     Na      P      S     Cl'
+      call write_string (line)
+ 
+      line = '    (%)    (%)    (%)    (%)    (%)    (%)    (%)'
+      call write_string (line)
+ 
+      line = '----------------------------------------------------'
+      call write_string (line)
+ 
+         write (line
+     :     , '(7f7.3)')
+     :             p%ca_dm_percent
+     :           , p%Mg_dm_percent
+     :           , p%K_dm_percent
+     :           , p%Na_dm_percent
+     :           , p%P_dm_percent
+     :           , p%S_dm_percent
+     :           , p%Cl_dm_percent
+         call write_string (line)
+ 
+      line = '----------------------------------------------------'
+      call write_string (line)
+ 
+      call write_string (new_line//new_line)
+ 
+      call pop_routine (my_name)
+      return
+      end
+ 
+ 
 
 *     ===========================================================
       subroutine soilpH_zero_all_globals ()
@@ -2733,7 +2972,7 @@
             ! We don't have this crop yet
          if (p%report_additions.eq.'yes') then
             call write_string (
-     :                new_line//'    - Reading crop ash alkalinity')
+     :                new_line//'   - Reading crop ash alkalinity')
          else
             ! The user has asked for no reports for crop chops
             ! in the summary file.
@@ -4343,6 +4582,9 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+
+      call write_string (
+     :             new_line//'   - Initialising residue ash alkalinity')
 
       call get_char_var (unknown_module
      :             , 'init_residue_type'
