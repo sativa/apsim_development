@@ -274,7 +274,7 @@
           Sensitivity to vernalisation =   1.50
           Sensitivity to photoperiod   =    3.00
           tt_startgrainfill_to_mat     =  580.00
-          grain_num_coeff              =   25.00
+          grain_num_coeff              =   33.00
           max_grain_fill_rate          =    2.30
           dm_tiller_max                =    1.22
           x_stem_wt                    =     0.0   80.0
@@ -360,60 +360,60 @@
 25 June 1988 (Day of year=177):
    WHEAT:
        stage    4.0 end_of_juvenile
-                           biomass =          0.8821398       lai =    0.7762126E-02
-                           stover N conc =    4.081975       extractable sw =    62.40951
+                           biomass =          0.7525535       lai =    0.7762126E-02
+                           stover N conc =    4.784873       extractable sw =    62.40951
    WEED:
        stage    3.0 emergence
                            biomass =          0.8999999       lai =    0.3750000E-02
-                           stover N conc =    6.000000       extractable sw =    26.41649
+                           stover N conc =    6.000000       extractable sw =    26.46435
 12 July 1988 (Day of year=194):
    MANAGER:
            Manager sending message :- weed kill_crop
    WEED:
-          Plant Death. Standing above-ground dm =    21.9 (kg/ha)
+          Plant Death. Standing above-ground dm =    23.9 (kg/ha)
    MANAGER:
            Manager sending message :- weed end_crop
    WEED:
           Crop ended. Yield (dw) =     0.0
-                                                straw residue =   21.9 kg/ha
+                                                straw residue =   23.9 kg/ha
                                                 straw N =    0.8 kg/ha
-                                                root residue =   14.6 kg/ha
+                                                root residue =   15.6 kg/ha
                                                 root N =    0.2 kg/ha
 16 August 1988 (Day of year=229):
    WHEAT:
        stage    5.0 floral_initiation
-                           biomass =           268.8080       lai =     2.987501    
-                           stover N conc =    2.163610       extractable sw =    158.7848
+                           biomass =           283.2183       lai =     3.581136    
+                           stover N conc =    2.185602       extractable sw =    150.1747
 3 September 1988 (Day of year=247):
    WHEAT:
        stage    6.0 flag_leaf
-                           biomass =           455.1416       lai =     2.614914    
-                           stover N conc =    1.524402       extractable sw =    163.3486
+                           biomass =           480.5687       lai =     3.179761    
+                           stover N conc =    1.526001       extractable sw =    150.8596
 19 September 1988 (Day of year=263):
    WHEAT:
        stage    7.0 flowering
-                           biomass =           675.6577       lai =     2.332612    
-                           stover N conc =    1.009642       extractable sw =    158.5316
+                           biomass =           724.9823       lai =     2.824411    
+                           stover N conc =   0.9908177       extractable sw =    135.2413
 26 September 1988 (Day of year=270):
    WHEAT:
        stage    8.0 start_grain_fill
-                           biomass =           793.7560       lai =     2.154870    
-                           stover N conc =   0.8574947       extractable sw =    196.8985
+                           biomass =           857.1739       lai =     2.606428    
+                           stover N conc =   0.8422905       extractable sw =    163.1181
 27 October 1988 (Day of year=301):
    WHEAT:
        stage    9.0 end_grain_fill
-                           biomass =           917.6998       lai =     0.000000    
-                           stover N conc =   0.9114378       extractable sw =    149.8763
+                           biomass =           994.6518       lai =     0.000000    
+                           stover N conc =   0.8689501       extractable sw =    105.2538
 29 October 1988 (Day of year=303):
    WHEAT:
        stage   10.0 maturity
-                           biomass =           917.6998       lai =     0.000000    
-                           stover N conc =   0.9124212       extractable sw =    149.7779
+                           biomass =           994.6518       lai =     0.000000    
+                           stover N conc =   0.8704504       extractable sw =    105.5332
 30 October 1988 (Day of year=304):
    WHEAT:
        stage   11.0 harvest_ripe
-                           biomass =           917.6998       lai =     0.000000    
-                           stover N conc =   0.9124213       extractable sw =    149.7301
+                           biomass =           994.6517       lai =     0.000000    
+                           stover N conc =   0.8704505       extractable sw =    105.6664
 31 October 1988 (Day of year=305):
    MANAGER:
            Manager sending message :- wheat harvest
@@ -422,20 +422,20 @@
       
       
       flowering (DAS) =  95                  maturity (DAS)  = 135
-       flowering day  =  263                  stover (kg/ha) =    5569.0
-       maturity day        =  303             grain yield (kg/ha) =    3608.0
-       grain % water content   =   13.0       grain yield wet (kg/ha) =    4147.1
-       grain wt (g) =     0.025               grains/m^2   = 14385.877
-       grains/head = 118.3                    maximum lai = 3.114
-       total above ground biomass (kg/ha) =    9177.0
-       live above ground biomass (kg/ha) =    9177.0
-       green above ground biomass (kg/ha) =    7135.5
-       senesced above ground biomass (kg/ha) =    2041.5
+       flowering day  =  263                  stover (kg/ha) =    6526.7
+       maturity day        =  303             grain yield (kg/ha) =    3419.8
+       grain % water content   =   13.0       grain yield wet (kg/ha) =    3930.8
+       grain wt (g) =     0.028               grains/m^2   = 12435.231
+       grains/head = 102.3                    maximum lai = 3.774
+       total above ground biomass (kg/ha) =    9946.5
+       live above ground biomass (kg/ha) =    9946.5
+       green above ground biomass (kg/ha) =    7693.4
+       senesced above ground biomass (kg/ha) =    2253.1
        dead above ground biomass (kg/ha) =       0.0
-       number of leaves =  13.4
-       grain N percent =      1.54            total N content (kg/ha) =     69.19
-       grain N uptake (kg/ha) =     55.46     senesced N content (kg/ha) =      4.08
-       green N content (kg/ha) =      9.65    dead N content (kg/ha) =      0.00
+       number of leaves =  17.4
+       grain N percent =      1.66            total N content (kg/ha) =     71.47
+       grain N uptake (kg/ha) =     56.71     senesced N content (kg/ha) =      4.51
+       green N content (kg/ha) =     10.25    dead N content (kg/ha) =      0.00
       
       
       
@@ -446,40 +446,40 @@
       
       
        stress indices for end_of_juvenile
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0839092
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2160241
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0656649
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1753282
       
       
       
        stress indices for floral_initiation
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2149231
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.4637963
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2544118
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.4953109
       
       
       
        stress indices for flag_leaf
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0705525
+       water stress 2 =       0.0084534   nitrogen stress 2 =       0.1093828
       
       
       
        stress indices for flowering
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+       water stress 1 =       0.0141359   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0626409   nitrogen stress 2 =       0.0030937
       
       
       
        stress indices for start_grain_fill
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.3764179
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.5734594
+       water stress 1 =       0.0250379   nitrogen stress 1 =       0.4753063
+       water stress 2 =       0.0577106   nitrogen stress 2 =       0.6425970
    MANAGER:
            Manager sending message :- wheat end_crop
    WHEAT:
           ended. Yield (dw) =     0.0
-                                                straw residue = 5569.0 kg/ha
-                                                straw N =   13.7 kg/ha
-                                                root residue = 5110.6 kg/ha
-                                                root N =   41.0 kg/ha
+                                                straw residue = 6526.7 kg/ha
+                                                straw N =   14.8 kg/ha
+                                                root residue = 4913.0 kg/ha
+                                                root N =   35.6 kg/ha
 30 May 1989 (Day of year=150):
    CLOCK:
       Simulation is terminating due to end criteria being met.

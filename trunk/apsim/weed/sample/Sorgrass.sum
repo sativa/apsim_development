@@ -387,7 +387,7 @@
    SORGHUM:
        stage    4.0 end_of_juvenile
                            biomass =           6.062224       lai =    0.7708421E-01
-                           stover N conc =    3.410557       extractable sw =    179.2707
+                           stover N conc =    3.410556       extractable sw =    179.2707
 20 November 1988 (Day of year=325):
    MANAGER:
            Manager sending message :- weed kill_crop
@@ -405,37 +405,37 @@
    SORGHUM:
        stage    5.0 floral_initiation
                            biomass =           49.26725       lai =    0.6567057    
-                           stover N conc =    2.542659       extractable sw =    266.8125
+                           stover N conc =    2.542612       extractable sw =    266.8125
 21 December 1988 (Day of year=356):
    SORGHUM:
        stage    6.0 flag_leaf
                            biomass =           362.7117       lai =     2.972994    
-                           stover N conc =    1.782804       extractable sw =    459.3912
+                           stover N conc =    1.782779       extractable sw =    459.3912
 28 December 1988 (Day of year=363):
    SORGHUM:
        stage    7.0 flowering
                            biomass =           506.3918       lai =     2.883025    
-                           stover N conc =    1.454582       extractable sw =    524.1834
+                           stover N conc =    1.454568       extractable sw =    524.1834
 30 December 1988 (Day of year=365):
    SORGHUM:
        stage    8.0 start_grain_fill
                            biomass =           547.2100       lai =     2.845911    
-                           stover N conc =    1.341293       extractable sw =    510.4853
+                           stover N conc =    1.341280       extractable sw =    510.4853
 1 February 1989 (Day of year=32):
    SORGHUM:
        stage    9.0 end_grain_fill
-                           biomass =           868.6048       lai =     1.255741    
-                           stover N conc =    1.909566       extractable sw =    474.6916
+                           biomass =           868.5778       lai =     1.255741    
+                           stover N conc =    1.909397       extractable sw =    474.6978
 2 February 1989 (Day of year=33):
    SORGHUM:
        stage   10.0 maturity
-                           biomass =           871.7094       lai =     1.191378    
-                           stover N conc =    1.907669       extractable sw =    473.3084
+                           biomass =           871.6825       lai =     1.191378    
+                           stover N conc =    1.907502       extractable sw =    473.3145
 3 February 1989 (Day of year=34):
    SORGHUM:
        stage   11.0 harvest_ripe
-                           biomass =           871.7093       lai =     0.000000    
-                           stover N conc =    2.022532       extractable sw =    472.5634
+                           biomass =           871.6826       lai =     0.000000    
+                           stover N conc =    2.022402       extractable sw =    472.5694
 4 February 1989 (Day of year=35):
    MANAGER:
            Manager sending message :- sorghum harvest
@@ -445,18 +445,18 @@
       
       flowering (DAS) =  58                  maturity (DAS)  =  95
        flowering day  =  363                  stover (kg/ha) =    4410.1
-       maturity day        =   33             grain yield (kg/ha) =    4307.0
-       grain % water content   =   13.0       grain yield wet (kg/ha) =    4950.6
+       maturity day        =   33             grain yield (kg/ha) =    4306.8
+       grain % water content   =   13.0       grain yield wet (kg/ha) =    4950.3
        grain wt (g) =     0.018               grains/m^2   = 24502.045
        grains/head =2450.2                    maximum lai = 2.983
-       total above ground biomass (kg/ha) =    8717.1
-       live above ground biomass (kg/ha) =    8717.1
-       green above ground biomass (kg/ha) =    7105.7
+       total above ground biomass (kg/ha) =    8716.8
+       live above ground biomass (kg/ha) =    8716.8
+       green above ground biomass (kg/ha) =    7105.4
        senesced above ground biomass (kg/ha) =    1611.4
        dead above ground biomass (kg/ha) =       0.0
        number of leaves =  15.6
-       grain N percent =      2.86            total N content (kg/ha) =    158.70
-       grain N uptake (kg/ha) =    123.19     senesced N content (kg/ha) =     14.98
+       grain N percent =      2.86            total N content (kg/ha) =    158.68
+       grain N uptake (kg/ha) =    123.17     senesced N content (kg/ha) =     14.98
        green N content (kg/ha) =     20.53    dead N content (kg/ha) =      0.00
       
       
@@ -492,7 +492,7 @@
       
       
        stress indices for start_grain_fill
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4259504
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4259920
        water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
    MANAGER:
            Manager sending message :- sorghum end_crop
