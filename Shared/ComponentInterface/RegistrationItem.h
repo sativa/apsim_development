@@ -36,7 +36,7 @@ class RegistrationItem
       bool isMatch(RegistrationType rhsKind, const FString& rhsName,
                    const FString& rhsComponentName)
          {
-         return (kind == rhsKind && rhsName == name
+         return (kind == rhsKind && rhsName == originalName
                  && rhsComponentName == componentName);
          }
 
