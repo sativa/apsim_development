@@ -192,6 +192,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          integer       start_token               ! Where to start filling token array
          integer       last_token                ! Position of last token stored.
          character     buffer*(Buffer_size)      ! extract word
+         character     buffer_last*(Buffer_size)      ! extract word
          character     line*(Buffer_size)        ! line read from file
          character     last_line*(Buffer_size)   ! last line read from file
          character     ch                        ! next character in g_line
@@ -1304,6 +1305,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 
+
 ! ====================================================================
        subroutine Parse_action (Action_string)
 ! ====================================================================
@@ -1374,23 +1376,23 @@ C     Last change:  P    25 Oct 2000    9:26 am
       call Replace_local_variables(Data_string)
 
       if (index(Action_string, 'do_output') .eq. 0 .and.
-     .    index(Action_string, 'do_end_day_output') .eq. 0) then
+     :    index(Action_string, 'do_end_day_output') .eq. 0) then
          write (msg, '(6a)' )
-     .      'Manager sending message :- ',
-     .      Trim(Module_name),
-     .      ' ',
-     .      Trim(Action),
-     .      ' ',
-     .      Trim(Data_string)
+     :      'Manager sending message :- ',
+     :      Trim(Module_name),
+     :      ' ',
+     :      Trim(Action),
+     :      ' ',
+     :      Trim(Data_string)
 
          call Write_string(msg)
 
          if (data_string <> ' ' .and.
      :      index(Data_string, '=') .eq. 0) then
             write (msg, '(50a)' )
-     .         'Your manager file has data in an action line that does',
-     .         new_line,
-     .         ' not have a equals sign in it.  Please correct problem.'
+     :         'Your manager file has data in an action line that does',
+     :         new_line,
+     :         ' not have a equals sign in it.  Please correct problem.'
      :         , new_line
      :         , 'Action line:- ', trim(action_string)
             call Fatal_error(ERR_user, msg)
@@ -1399,36 +1401,154 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       ! Add code to check for a keyword of QUEUE.
 
-      call New_postbox ()
-      Data_was_stored = Store_in_postbox (Data_string)
-      if (Action .eq. 'set') then
-         call Get_next_variable (Data_string,
-     .                           Variable_name,
-     .                           value)
-         ok = component_name_to_id(Module_name, modNameID)
-         call set_variable_in_other_module(modNameID, Variable_name
-     .                     , value)
+      Action = Lower_case(Action)
+      if (Action .eq. 'init') then
+          ! Init probably won't work via this method. Stop dead.
+          call Fatal_error(ERR_user,
+     :             'INIT messages do not work anymore. Use RESET')
+      else if (Action .eq. 'set') then
+         call Get_next_variable (Data_string
+     :                          , Variable_name
+     :                          , value)
+         if (component_name_to_id(Module_name, modNameID)) then
+            call set_variable_in_other_module
+     :                     (modNameID
+     :                     ,Variable_name
+     :                     ,Value)
+         else
+           write(msg, '(3a)' )
+     :               'Cannot set variable value in module ',
+     :               Module_name,
+     :               '.  Module does not exist.'
+            call fatal_error(err_user, msg)
+         endif
 
-      else if (Data_was_stored) then
-         Action = Lower_case(Action)
-         if (Action .eq. 'init') then
-             ! Init probably won't work via this method. Stop dead.
-             call Fatal_error(ERR_user,
-     .             'INIT messages do not work anymore. Use RESET')
+      else
+         ! some other action
+         call New_postbox ()
+         Data_was_stored = Store_message_data (Data_string)
+
+         if (Data_was_stored) then
+            if (Module_name .eq. All_active_modules) then
+               regID=Add_Registration (EventReg, Action, ' ', ' ', ' ')
+               call Event_Send (Action)
+            else
+               call Action_send (Module_name, Action)
+            endif
          else
+            ! data was not stored
          endif
-         if (Module_name.eq.All_active_modules)then
-            regID=Add_Registration(EventReg,Action,' ',' ',' ')
-            call Event_Send(Action)
-         else
-            call Action_send (Module_name, Action)
-         endif
+
+         call Delete_postbox ()
       endif
-
-      call Delete_postbox ()
-
       return
       end subroutine
+
+* ====================================================================
+       logical function Store_message_data (Data_string)
+* ====================================================================
+      use ConstantsModule
+      use ErrorModule
+      use StringModule
+      use DataStrModule
+      Use infrastructure
+
+      implicit none
+!      include 'postbox.inc'
+
+*+ Sub-Program Arguments
+      character Data_string*(*)        ! (INPUT & OUTPUT) Data string to store into postbox.
+
+*+ Purpose
+*     Store the data string, as a scalar or array if possible into the current postbox.
+*     Return TRUE if something was stored.
+
+*+ Notes
+*     A data string will only be stored if an equals sign exists in the
+*     data_string somewhere.
+
+*+  Mission Statement
+*
+
+*+ Changes
+*     DPH 19/10/95
+*     dph 26/7/99 commented out test for fatal_error_found.  No longer
+*                 any such routine
+
+*+ Calls
+!      logical Fatal_error_found        ! function
+
+*+ Constant Values
+      character This_routine*(*)
+      parameter (This_routine='Store_message_data')
+
+*+ Local Variables
+      logical Stored                   ! Was message stored in postbox properly?
+      character Our_string*1000        ! Copy of string passed in.
+      character Variable_name*(MAX_VARIABLE_NAME_SIZE)
+                                       ! Our variable name
+      character Units*100              ! Units
+      character Variable_values*1000   ! Our variable values
+
+      integer MAX_ARRAY_SIZE
+      parameter (MAX_ARRAY_SIZE = 200)
+
+      character array(MAX_ARRAY_SIZE)*1000
+      integer numvals
+
+*- Implementation Section ----------------------------------
+
+      call push_routine(This_routine)
+      ! Do a quick check for an equals sign.
+
+
+      ! Make copy of string passed in.
+
+      call assign_string(Our_string, Data_string)
+
+      ! Loop through each variable on data string and store in postbox.
+
+
+10    continue
+      call Get_next_variable (Our_string, Variable_name,
+     :                        Variable_values)
+
+      if (Variable_values .ne. Blank) then
+         ! Found a variable all right.  Extract units and store variable.
+
+         call Split_off_units(Variable_values, Units)
+
+         !test if array and store in array and post char array
+         ! otherwise store in variable and send as char var
+         call String_to_char_array(Variable_values
+     :                              , array
+     :                              , MAX_ARRAY_SIZE
+     :                              , numvals)
+         if (numvals > 1) then
+            call Post_char_array (Variable_name
+     :                              , units
+     :                              , array
+     :                              , Numvals)
+         else if (numvals == 1) then
+            call Post_char_var (Variable_name
+     :                           , Units
+     :                           , array(1))
+         else
+            ! no values found - should never occur
+         endif
+
+         goto 10
+
+      else
+         ! No more variables found - exit.
+
+         Stored = .true.
+      endif
+
+      Store_message_data = Stored
+      call pop_routine(This_routine)
+      return
+      end function
 
 c      subroutine check_registration(Action)
 c      character Action*(*)
@@ -1553,7 +1673,8 @@ c      end subroutine
 !     .   'Manager_file = ', File_name,
 !     .   New_line,
 !     .   'Line number  = ', Current_record_num
-      call Fatal_error(ERR_user, Error_message)
+      call Fatal_error(ERR_user, Error_message
+     :                //' at: '//trim(g%buffer_last)//']')
 
       g%all_ok = NO
 
@@ -1584,7 +1705,6 @@ c      end subroutine
        integer       Nested_ifs           ! Number of nested statements
 
 !- Implementation Section ----------------------------------
-
        Nested_ifs = 0
        g%end_of_file = NO
        g%next_token = g%start_token - 1
@@ -1624,7 +1744,6 @@ c      end subroutine
           call   Parse_error('Missing endif       ',
      .                              'Parse               ')
        endif
-
        return
        end subroutine
 
@@ -2130,6 +2249,7 @@ c      end subroutine
           g%expression_sub_array2(g%number_of_tokens+1) = C_end
 
           call assign_string (g%buffer, g%expression_sub_array(1))
+!          g%buffer_last = g%buffer
           g%token = g%expression_sub_array2(1)
           g%current_token = 1
 
@@ -2174,6 +2294,7 @@ c      end subroutine
           g%expression_sub_array2(g%number_of_tokens+1) = C_end
 
           call assign_string (g%buffer, g%expression_sub_array(1))
+!          g%buffer_last = g%buffer
           g%token = g%expression_sub_array2(1)
           g%current_token = 1
 
@@ -2798,6 +2919,7 @@ c      end subroutine
        call assign_string (g%buffer
      :                   , g%expression_sub_array(g%current_token))
        g%token = g%expression_sub_array2(g%current_token)
+!          g%buffer_last = g%buffer
 
 
        return
@@ -2824,9 +2946,11 @@ c      end subroutine
 
 !- Implementation Section ----------------------------------
 
+!       call assign_string (g%buffer_LAST, Token_array(g%next_token))
        g%next_token = g%next_token + 1
 
        call assign_string (g%buffer, Token_array(g%next_token))
+!          g%buffer_last = g%buffer
        g%token = Token_array2(g%next_token)
 
        if     (g%token .eq. C_EOF) then
@@ -3062,6 +3186,7 @@ c      end subroutine
                    do 20  count = 1, elseif_count
                       g%token = C_ENDIF
                       g%buffer = 'endif'
+!          g%buffer_last = g%buffer
                       ind = ind + 1
                       call assign_string(Token_array(ind),g%buffer)
                       Token_array2(ind) = g%token
@@ -3074,11 +3199,13 @@ c      end subroutine
                elseif_count  = elseif_count + 1
                g%token = C_ELSE
                g%buffer = 'else'
+!          g%buffer_last = g%buffer
                ind = ind + 1
                call assign_string (Token_array(ind), g%buffer)
                Token_array2(ind) = g%token
                g%token = C_IF
                g%buffer = 'if'
+!          g%buffer_last = g%buffer
           endif
 
           if   (g%token .eq. C_NUMBER .and. ind .ge. 2 .and.
@@ -3088,6 +3215,7 @@ c      end subroutine
 
                  call assign_string (g%buffer, '-'//g%buffer)
                  ind = ind -1
+!          g%buffer_last = g%buffer
         endif
 
           if   (ind .ge. 1 .and. g%token .eq. C_WORD .and.
@@ -3095,6 +3223,7 @@ c      end subroutine
 
                 g%buffer = string_concat (Token_Array(ind),
      :                                          ' '//g%buffer)
+!          g%buffer_last = g%buffer
                call Get_Action()
                g%token = C_ACTION
                ind = ind - 1
@@ -3102,6 +3231,7 @@ c      end subroutine
 
           ind = ind + 1
           call assign_string (Token_array(ind), g%buffer)
+!          g%buffer_last = g%buffer
           Token_array2(ind) = g%token
 
           if     (g%end_of_file .eq. 0) then
@@ -3219,6 +3349,7 @@ c      end subroutine
           Inside_quotes = .true.
        else
           g%buffer = g%ch
+!          g%buffer_last = g%buffer
           Inside_quotes = .false.
        endif
 
@@ -3259,6 +3390,7 @@ c      end subroutine
 
           goto 10
        endif
+!          g%buffer_last = g%buffer
 
 
 
@@ -3300,6 +3432,7 @@ c      end subroutine
               g%buffer = string_concat (g%buffer, g%ch)
               goto 10
        endif
+!          g%buffer_last = g%buffer
 
        call   Get_Char()
 
@@ -3339,6 +3472,7 @@ c      end subroutine
               g%buffer = string_concat (g%buffer, g%ch)
               goto 10
        end if
+!          g%buffer_last = g%buffer
 
 
        g%token = C_NUMBER
@@ -3369,6 +3503,7 @@ c      end subroutine
 !- Implementation Section ----------------------------------
 
        g%buffer = g%ch
+!          g%buffer_last = g%buffer
 
 
        if (g%ch .eq. '-') then
@@ -3482,6 +3617,7 @@ c      end subroutine
       else
           call assign_string (g%buffer, g%line)
        endif
+!          g%buffer_last = g%buffer
 
 
 10     continue
@@ -3605,7 +3741,6 @@ c      end subroutine
 
 !- Implementation Section ----------------------------------
       call push_routine (my_name)
-
       if (action .eq. ACTION_get_variable) then
          call manager_send_my_variable (Data_string)
 
