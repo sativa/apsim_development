@@ -29,6 +29,7 @@ public:		// User declarations
    list<string> ProjectFiles;
    bool Build;
    bool Debug;
+   bool Quiet;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TMainForm *MainForm;

@@ -24,6 +24,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
    static const char* MAKE_SWITCH = "-make";
    static const char* BUILD_SWITCH = "-build";
    static const char* RUN_SWITCH = "-run";
+   static const char* QUIET_SWITCH = "-quiet";
 
    if (_argc >= 2)
       {
@@ -31,6 +32,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
       bool Do_build = false;
       bool Do_run = false;
       bool Do_debug = false;
+      bool Is_quiet = false;
       list<string> Files;
 
       // loop through all command line switches.
@@ -48,6 +50,9 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
          else if (strcmpi(_argv[i], RUN_SWITCH) == 0)
             Do_run = true;
 
+         else if (strcmpi(_argv[i], QUIET_SWITCH) == 0)
+            Is_quiet = true;
+
          else if (_argv[i][0] == '@')
             Read_response_file (&_argv[i][1], Files);
 
@@ -59,9 +64,10 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
          {
    		Application->Initialize();
 	   	Application->CreateForm(__classid(TMainForm), &MainForm);
-         MainForm->ProjectFiles = Files;
+      MainForm->ProjectFiles = Files;
          MainForm->Build = Do_build;
          MainForm->Debug = Do_debug;
+         MainForm->Quiet = Is_quiet;
          Application->Run();
          }
 
@@ -70,13 +76,13 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
       else
          {
-         MessageBox(NULL, "Usage: APSBuild [-debug] [-make | -build] APF_filename", "Error", MB_ICONSTOP | MB_OK);
+         MessageBox(NULL, "Usage: APSBuild [-quiet] [-debug] [-make | -build] APF_filename", "Error", MB_ICONSTOP | MB_OK);
          return 1;
          }
       }
    else
       {
-      MessageBox(NULL, "Usage: APSBuild [-debug] [-make | -build] APF_filename", "Error", MB_ICONSTOP | MB_OK);
+      MessageBox(NULL, "Usage: APSBuild [-quiet] [-debug] [-make | -build] APF_filename", "Error", MB_ICONSTOP | MB_OK);
       return 1;
       }
    return 0;

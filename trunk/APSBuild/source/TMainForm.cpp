@@ -97,7 +97,7 @@ void __fastcall TMainForm::ThreadTerminated (TObject* Object)
       }
    else
       {
-      if (CompilerReportFile.Exists())
+      if (CompilerReportFile.Exists() && !Quiet)
          {
          string command (APSDirectories().Get_home());
          command += "\\viewcmplmsg\\viewcmplmsg ";
