@@ -33,6 +33,8 @@ c      p%crop_type = ' '       ! Characters
 
       g%phosphorus_aware    = .false.
 
+      call PlantP_zero_daily_variables ()
+
       g%growth_Stage = 0.0      ! Reals
       g%part_p_green(:) = 0.0
       g%dlt_part_p_green(:) = 0.0
@@ -1650,19 +1652,26 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      pfact = PlantP_Pfact(growth_stage,dm_green)
+      if (g%phosphorus_aware) then
+         pfact = PlantP_Pfact(growth_stage,dm_green)
 
-      g%plantPfact_photo = pfact * c%pfact_photo_slope
-      g%plantPfact_photo = bound(g%plantPfact_photo,0.0,1.0)
+         g%plantPfact_photo = pfact * c%pfact_photo_slope
+         g%plantPfact_photo = bound(g%plantPfact_photo,0.0,1.0)
 
-      g%plantPfact_expansion = pfact * c%pfact_expansion_slope
-      g%plantPfact_expansion = bound(g%plantPfact_expansion,0.0,1.0)
+         g%plantPfact_expansion = pfact * c%pfact_expansion_slope
+         g%plantPfact_expansion = bound(g%plantPfact_expansion,0.0,1.0)
 
-      g%plantPfact_pheno = pfact * c%pfact_pheno_slope
-      g%plantPfact_pheno = bound(g%plantPfact_pheno,0.0,1.0)
+         g%plantPfact_pheno = pfact * c%pfact_pheno_slope
+         g%plantPfact_pheno = bound(g%plantPfact_pheno,0.0,1.0)
 
-      g%plantPfact_grain = pfact * c%pfact_grain_slope
-      g%plantPfact_grain = bound(g%plantPfact_grain,0.0,1.0)
+         g%plantPfact_grain = pfact * c%pfact_grain_slope
+         g%plantPfact_grain = bound(g%plantPfact_grain,0.0,1.0)
+      else
+         g%plantPfact_photo = 1.0
+         g%plantPfact_expansion = 1.0
+         g%plantPfact_pheno = 1.0
+         g%plantPfact_grain = 1.0
+      endif
 
       call pop_routine (myname)
       return
