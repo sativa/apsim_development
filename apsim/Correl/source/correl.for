@@ -1,85 +1,155 @@
+      module CorrelModule
+
+!     ================================================================
+!      correl constants
+!     ================================================================
+
+!     variables used in correl module
+
+!   assumptions:
+!      none
+
+!   notes:
+!      none
+
+!   changes:
+!      180396  jngh programmed
+
+! ----------------------- declaration section ------------------------
+
+!   constant values
+
+      integer offset
+      parameter (offset = 30)
+
+      integer  max_numvars
+      parameter (max_numvars = 20)
+!     ================================================================
+
+      type CorrelGlobals
+         character   name_found(max_numvars)*8
+         integer     records
+         real        values(40000,max_numvars)
+         integer     numvars
+         logical     first_time
+      end type CorrelGlobals
+!     ================================================================
+
+      type CorrelParameters
+
+         character   names(max_numvars)*8
+         character   check_name(max_numvars)*8
+
+         integer     offset
+         integer     numvars
+         integer     check_vals(max_numvars,max_numvars)
+         integer     num_check
+
+      end type CorrelParameters
+!     ================================================================
+
+
+      type CorrelConstants
+         logical dummyConstant
+      end type CorrelConstants
+!     ================================================================
+
+      ! instance variables.
+      type (CorrelGlobals), pointer :: g
+      type (CorrelParameters), pointer :: p
+      type (CorrelConstants), pointer :: c
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+      type CorrelDataPtr
+         type (CorrelGlobals), pointer ::    gptr
+         type (CorrelParameters), pointer :: pptr
+         type (CorrelConstants), pointer ::  cptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type CorrelDataPtr
+      type (CorrelDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+
+
+      contains
 
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
-      use CorrelModule
       Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       character InstanceName*(*)       ! (INPUT) name of instance
       integer   InstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module instantiation routine.
- 
+
 !- Implementation Section ----------------------------------
-               
+
       allocate (Instances(InstanceNo)%gptr)
       allocate (Instances(InstanceNo)%pptr)
       allocate (Instances(InstanceNo)%cptr)
       Instances(InstanceNo)%Name = InstanceName
-      
+
       ! DPH - added this to open the output file.  For some reason
       ! unknown to me, if this is done later in say the Init routine
-      ! it fails with a run-time error stating that 
+      ! it fails with a run-time error stating that
       ! "File sharing is not loaded, requested ACTION not available."
       ! Something in the new C++ infrastructure must be causing this.
       open (unit=50, file='correl.out')
- 
+
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
-      use CorrelModule
       Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module de-instantiation routine.
- 
+
 !- Implementation Section ----------------------------------
-               
+
       deallocate (Instances(anInstanceNo)%gptr)
       deallocate (Instances(anInstanceNo)%pptr)
       deallocate (Instances(anInstanceNo)%cptr)
- 
+
       return
-      end
-     
+      end subroutine
+
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
-      use CorrelModule
       Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Swap an instance into the global 'g' pointer
- 
+
 !- Implementation Section ----------------------------------
-               
+
       g => Instances(anInstanceNo)%gptr
       p => Instances(anInstanceNo)%pptr
       c => Instances(anInstanceNo)%cptr
- 
+
       return
-      end
+      end subroutine
 
 
 
 *====================================================================
       subroutine Main (Action, Data_string)
 *====================================================================
-      use CorrelModule
       Use infrastructure
       implicit none
 
@@ -107,38 +177,37 @@
          call correl_zero_variables ()
          call correl_init ()
          call correl_get_other_variables_init ()
- 
+
       elseif (Action.eq.ACTION_Prepare) then
          call correl_prepare ()
- 
+
       elseif (Action.eq.ACTION_Get_variable) then
          call correl_send_my_variable (Data_string)
- 
+
       elseif (Action.eq.ACTION_Process) then
          call correl_zero_daily_variables ()
          call correl_get_other_variables ()
          call correl_process ()
- 
+
       elseif (Action.eq.ACTION_End_Run) then
          call correl_calculate (Data_string)
          close(50)
- 
+
       else
             ! don't use message
          call Message_unused ()
- 
+
       endif
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *====================================================================
       subroutine correl_zero_variables ()
 *====================================================================
-      use CorrelModule
       Use infrastructure
       implicit none
 
@@ -154,24 +223,23 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
          !variables
- 
+
       g%records = 0
- 
+
       call correl_zero_daily_variables ()
- 
+
       call pop_routine (myname)
- 
+
       return
-      end
+      end subroutine
 
 
 
 *====================================================================
       subroutine correl_zero_daily_variables ()
 *====================================================================
-      use CorrelModule
       Use infrastructure
       implicit none
 
@@ -187,19 +255,18 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
- 
+
+
       call pop_routine (myname)
- 
+
       return
-      end
+      end subroutine
 
 
 
 *====================================================================
       subroutine correl_init ()
 *====================================================================
-      use CorrelModule
       Use infrastructure
       implicit none
 
@@ -216,30 +283,29 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
          ! notify system that we have initialised
- 
+
       call Write_string ('Initialising:')
- 
+
          ! get all parameters from parameter file
- 
+
       call correl_read_param ()
- 
+
          ! get all constants from constants file
- 
+
       call correl_read_constants ()
- 
+
       call pop_routine (myname)
- 
+
       return
-      end
+      end subroutine
 
 
 
 *===========================================================
       subroutine correl_read_param ()
 *===========================================================
-      use CorrelModule
       Use infrastructure
       implicit none
 
@@ -268,15 +334,15 @@ c      character  line*80               ! output string
       integer    numcheck
       integer    i
       integer    k
-      
+
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
- 
+
       call write_string (
      :          new_line//'   - Reading correl Parameters')
- 
+
          ! offset days
       call read_integer_var (
      :           section_name
@@ -286,7 +352,7 @@ c      character  line*80               ! output string
      :          ,numvals
      :          ,0
      :          ,offset)
- 
+
          ! met parameter names
       call read_char_array (
      :           section_name
@@ -295,7 +361,7 @@ c      character  line*80               ! output string
      :          ,'(-)'
      :          ,p%names
      :          ,p%numvars)
- 
+
       call read_char_array (
      :           section_name
      :          ,'check'
@@ -303,7 +369,7 @@ c      character  line*80               ! output string
      :          ,'(-)'
      :          ,check
      :          ,numcheck)
- 
+
       k = 0
       do i = 1, numcheck
          call read_integer_array (
@@ -323,17 +389,16 @@ c      character  line*80               ! output string
          endif
       end do
       p%num_check = k
- 
+
       call pop_routine  (myname)
       return
-      end
+      end subroutine
 
 
 
 *===========================================================
       subroutine correl_read_constants ()
 *===========================================================
-      use CorrelModule
       Use infrastructure
       implicit none
 
@@ -354,19 +419,18 @@ c      character  line*80               ! output string
       integer    numvals               ! number of values read
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
- 
+
       call pop_routine  (myname)
       return
-      end
+      end subroutine
 
 
 
 *================================================================
       subroutine correl_prepare ()
 *================================================================
-      use CorrelModule
       Use infrastructure
       implicit none
 
@@ -381,19 +445,18 @@ c      character  line*80               ! output string
       parameter (myname = 'correl_prepare')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *====================================================================
       subroutine correl_get_other_variables_init ()
 *====================================================================
-      use CorrelModule
       Use infrastructure
       implicit none
 
@@ -415,11 +478,11 @@ c      character  line*80               ! output string
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       g%numvars = 0
       do i=1, p%numvars
       if (p%names(i).ne.blank) then
- 
+
       call get_real_var_optional (
      :      unknown_module
      :     ,p%names(i)
@@ -428,28 +491,27 @@ c      character  line*80               ! output string
      :     ,numvals
      :     ,-1000.0
      :     ,10000.0)
- 
+
          if (numvals.gt.0) then
             g%numvars = g%numvars + 1
             g%name_found(g%numvars) = p%names(i)
          else
          endif
- 
+
       else
       endif
- 
+
       end do
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *====================================================================
       subroutine correl_get_other_variables ()
 *====================================================================
-      use CorrelModule
       Use infrastructure
       implicit none
 
@@ -469,10 +531,10 @@ c      character  line*80               ! output string
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       g%records = g%records + 1
       do i=1, g%numvars
- 
+
          call get_real_var_optional (
      :      unknown_module
      :     ,g%name_found(i)
@@ -481,19 +543,18 @@ c      character  line*80               ! output string
      :     ,numvals
      :     ,-1000.0
      :     ,10000.0)
- 
+
       end do
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *====================================================================
       subroutine correl_send_my_variable (Variable_name)
 *====================================================================
-      use CorrelModule
       Use infrastructure
       implicit none
 
@@ -512,19 +573,18 @@ c      character  line*80               ! output string
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
          call Message_unused ()
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *================================================================
       subroutine correl_process ()
 *================================================================
-      use CorrelModule
       Use infrastructure
       implicit none
 
@@ -539,19 +599,18 @@ c      character  line*80               ! output string
       parameter (myname = 'correl_process')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *================================================================
       subroutine correl_calculate (variable_name)
 *================================================================
-      use CorrelModule
       Use infrastructure
       implicit none
 
@@ -587,29 +646,29 @@ c      character  line*80               ! output string
       real      temp(offset*2+1)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
- 
- 
+
+
       do n = 1, p%offset*2+1
          do i = 1, g%numvars
             sum = 0.0
             do nr = p%offset+1, g%records-p%offset
                sum = sum + g%values(nr,i)
             end do
- 
+
             mean(i) = sum/g%records
             sumsqx(i) = 0.0
             sumsqy(i) = 0.0
             do j=1,g%numvars
                sumprod(i,j) = 0.0
             end do
- 
- 
+
+
          end do
- 
+
             ! correlate on next day
- 
+
          do nr = p%offset+1, g%records-p%offset
             do i = 1, g%numvars
                diffx(i) = g%values(nr,i) - mean(i)
@@ -623,7 +682,7 @@ c      character  line*80               ! output string
                end do
             end do
          end do
- 
+
          do i=1,g%numvars
             if (sumsqx(i).ne.0.0) then
             do j=1,g%numvars
@@ -633,7 +692,7 @@ c      character  line*80               ! output string
                else
                   cor(i,j,n) = 0.0
                endif
- 
+
             end do
             else
                do j=1,g%numvars
@@ -642,7 +701,7 @@ c      character  line*80               ! output string
             endif
          end do
       end do
- 
+
       open (unit=50, file='correl.out', status='unknown')
       rewind(50)
 
@@ -661,7 +720,7 @@ c      character  line*80               ! output string
             write (50, *) trim(string)
          end do
       end do
- 
+
 !      write (string, '(10x, 100a7)') (g%name_found(i), i=1,g%numvars)
 !      call write_string (string)
 !      write (50, *) trim(string)
@@ -675,12 +734,13 @@ c      character  line*80               ! output string
 !            call write_string (string)
 !            write (50, *) trim(string)
 !      end do
- 
+
       close (50)
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
+      end module CorrelModule
