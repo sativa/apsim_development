@@ -94,12 +94,12 @@ report do_output
  
                  Residue Initial Data
     ------------------------------------------------
-       Dry matter  N     Type
-        (kg/ha)  (kg/ha)
+       Dry matter   N       P    Type
+        (kg/ha)  (kg/ha) (kg/ha)
     ------------------------------------------------
-         2000.0    26.7  mungbean
+         2000.0    26.7     0.0  mungbean
     ------------------------------------------------
- day= 320 date= 15 11 1988 soiln2   -  Initialising, V2.1  180697
+ day= 320 date= 15 11 1988 soiln2   -  Initialising, V3.0  261098
  
    - Reading Constants
  
@@ -205,20 +205,20 @@ report do_output
                      biomass =           363.3675       lai =     5.392724
                      stover N conc =    2.321732       extractable sw =    192.6267
  day=  39 date=  8  2 1989 soybean  -  stage    7.0 start_grain_fill
-                     biomass =           727.9853       lai =     6.330470
+                     biomass =           727.9853       lai =     6.330471
                      stover N conc =    2.921402       extractable sw =    122.6123
  day=  74 date= 15  3 1989 soybean  -  stage    8.0 end_grain_fill
-                     biomass =           998.0881       lai =     2.888771
+                     biomass =           998.0880       lai =     2.888774
                      stover N conc =   0.8326512       extractable sw =    78.66759
  day=  77 date= 18  3 1989 soybean  -  stage    9.0 maturity
-                     biomass =           1003.306       lai =     2.325419
+                     biomass =           1003.306       lai =     2.325421
                      stover N conc =   0.8321673       extractable sw =    89.60450
  day=  78 date= 19  3 1989 soybean  -  stage   10.0 harvest_ripe
-                     biomass =           1003.306       lai =    0.1236107
+                     biomass =           1003.306       lai =    0.1236134
                      stover N conc =   0.8024911       extractable sw =    88.42837
  day=  79 date= 20  3 1989 soybean  -  stage   10.0 harvest_ripe
-                     biomass =           1003.306       lai =    0.1236107
-                     stover N conc =   0.8024912       extractable sw =    87.46288
+                     biomass =           1003.306       lai =    0.1236134
+                     stover N conc =   0.8024918       extractable sw =    87.46288
  Day=  80 Year =  1989     Manager sending message :- soybean harvest
  
  flowering day  =   15                  stover (kg/ha) =    6052.4
@@ -245,12 +245,12 @@ report do_output
  water stress 2 =       0.0000000   nitrogen stress 2 =       0.2762291
  
  stress indices for floral_initiation
- water stress 1 =       0.0000000   nitrogen stress 1 =       0.3577878
- water stress 2 =       0.0000000   nitrogen stress 2 =       0.4862303
+ water stress 1 =       0.0000000   nitrogen stress 1 =       0.3577877
+ water stress 2 =       0.0000000   nitrogen stress 2 =       0.4862302
  
  stress indices for flowering
  water stress 1 =       0.0970325   nitrogen stress 1 =       0.0372615
- water stress 2 =       0.1327679   nitrogen stress 2 =       0.1228575
+ water stress 2 =       0.1327678   nitrogen stress 2 =       0.1228574
  
  stress indices for start_grain_fill
  water stress 1 =       0.1890704   nitrogen stress 1 =       0.2245126
