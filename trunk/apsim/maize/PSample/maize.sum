@@ -9,21 +9,21 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.5
+     Version                = 3.4
      Title                  =
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\soilp\lib\soilp.dll
-     Component DLL          = c:\development\apsim\maize\lib\maize.dll
+     Component DLL          = c:\program files\apsim34\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\program files\apsim34\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\program files\apsim34\apsim\clock\lib\clock.dll
+     Component DLL          = c:\program files\apsim34\apsim\report\lib\report.dll
+     Component DLL          = c:\program files\apsim34\apsim\input\lib\input.dll
+     Component DLL          = c:\program files\apsim34\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\program files\apsim34\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\program files\apsim34\apsim\manager\lib\manager.dll
+     Component DLL          = c:\program files\apsim34\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\program files\apsim34\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\program files\apsim34\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\program files\apsim34\apsim\soilp\lib\soilp.dll
+     Component DLL          = c:\program files\apsim34\apsim\maize\lib\maize.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -60,7 +60,32 @@
         maize.pfact_photo
         maize.p_green()
         maize.p_sen()
-        maize.p_green
+        maize.p_demand
+        maize.pfact_pheno
+        maize.pfact_expansion
+        maize.pfact_grain
+        maize.biomass_p
+        maize.green_biomass_p
+        maize.grain_p
+        maize.leaf_p
+        maize.stem_p
+        maize.root_p
+        maize.deadleaf_p
+        maize.flower_p
+        maize.head_p
+        maize.p_senesced()
+        maize.p_dead()
+        maize.dlt_p_green()
+        maize.dlt_p_retrans()
+        maize.dlt_p_detached()
+        maize.dlt_p_dead()
+        maize.dlt_p_sen()
+        maize.p_conc_stover
+        maize.p_conc_leaf
+        maize.p_conc_stem
+        maize.p_conc_grain
+        maize.p_uptake_stover
+        maize.grain_p_demand
         residue2.residue_p
         soilwat2.esw as esw
         soilwat2.sw()
