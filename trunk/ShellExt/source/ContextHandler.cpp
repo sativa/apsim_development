@@ -217,7 +217,7 @@ void CContextMenuHandler::createMenus(string& subMenuName,
                                       vector<MenuDescription>& menuDescriptions)
    {
    // get extension of file
-   unsigned posExtension = fileNames[0].find(".");
+   unsigned posExtension = fileNames[0].rfind(".");
    if (posExtension != string::npos)
       {
       string extension = fileNames[0].substr(posExtension,
