@@ -54,6 +54,7 @@ cmd /c %APSMAKE%  >> %APSROOT%\build.out
 
 rem --------- Compile DotNetComponentInterface
 cd %APSROOT%\Shared\DotNetComponentInterface
+call datatypes.bat
 echo ------Compiling  %APSROOT%\DotNetComponentInterface >> %APSROOT%\build.out
 "C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\devenv" DotNetComponentInterface.vcproj /rebuild debug >> %APSROOT%\build.out
 cd %APSROOT%
