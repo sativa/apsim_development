@@ -15,11 +15,12 @@
 
 # Main target
 source: ..\lib\millet.dll
-..\lib\millet.dll: Registrations.obj mil_main.obj millet.imp $(STATICLINKEDOBJECTS) 
+..\lib\millet.dll: Registrations.obj mil_main.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90CROPLIBS) >> linker.tmp
-	$(LF95) mil_main.obj Registrations.obj -exe ..\lib\millet.dll millet.imp @linker.tmp
+	$(LF95) mil_main.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\millet.dll @linker.tmp
 	$(RM) linker.tmp
    
 mil_main.obj: mil_main.for mill_opt.for millet.for
@@ -29,8 +30,6 @@ mil_main.obj: mil_main.for mill_opt.for millet.for
 	$(LF95) -c mil_main.for @compiler.tmp
 	$(RM) compiler.tmp
 
-millet.imp:
-	$(ECHO) -implib ApsimShared.dll > millet.imp
 Registrations.obj: Registrations.f90
 Registrations.f90: ..\millet.interface
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\millet.interface

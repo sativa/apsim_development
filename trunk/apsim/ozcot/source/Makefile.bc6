@@ -15,11 +15,12 @@
 
 # Main target
 source: ..\lib\ozcot.dll
-..\lib\ozcot.dll: Registrations.obj ozcot.obj ozcot.imp $(STATICLINKEDOBJECTS) 
+..\lib\ozcot.dll: Registrations.obj ozcot.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90CROPLIBS) >> linker.tmp
-	$(LF95) ozcot.obj Registrations.obj -exe ..\lib\ozcot.dll ozcot.imp @linker.tmp
+	$(LF95) ozcot.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\ozcot.dll @linker.tmp
 	$(RM) linker.tmp
    
 ozcot.obj: ozcot.for
@@ -28,9 +29,6 @@ ozcot.obj: ozcot.for
 	$(ECHO) $(F90CROPMODS) >> compiler.tmp
 	$(LF95) -c ozcot.for -o ozcot.obj @compiler.tmp
 	$(RM) compiler.tmp
-
-ozcot.imp:
-	$(ECHO) -implib ApsimShared.dll > ozcot.imp
 
 Registrations.obj: Registrations.f90
 Registrations.f90: ..\ozcot.interface 

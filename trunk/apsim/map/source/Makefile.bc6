@@ -15,16 +15,15 @@
 
 # Main target
 source: ../lib/map.dll
-../lib/map.dll: Registrations.obj map.obj map.imp $(STATICLINKEDOBJECTS) 
+../lib/map.dll: Registrations.obj map.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) map.obj Registrations.obj -exe ../lib/map.dll map.imp @linker.tmp
+	$(LF95) map.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ../lib/map.dll @linker.tmp
 	$(RM) linker.tmp
    
 map.obj: map.for
-map.imp:
-	$(ECHO) -implib ApsimShared.dll > map.imp
 Registrations.obj: Registrations.f90
 Registrations.f90: ../map.interface
 	$(APSROOT)/bin/CreateComponentInterfaceSource.exe ../map.interface

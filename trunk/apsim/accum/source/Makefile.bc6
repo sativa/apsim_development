@@ -15,16 +15,13 @@
 
 # Main target
 source: ..\lib\accum.dll
-..\lib\accum.dll: Registrations.obj accum.obj accum.imp $(STATICLINKEDOBJECTS) 
+..\lib\accum.dll: Registrations.obj accum.obj $(STATICLINKEDOBJECTS)
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) accum.obj Registrations.obj -exe ..\lib\accum.dll accum.imp @linker.tmp
-	$(RM) linker.tmp
-   
-
-accum.imp:
-	$(ECHO) -implib ApsimShared.dll > accum.imp
+	$(LF95) accum.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\accum.dll @linker.tmp
+	#$(RM) linker.tmp
 
 accum.obj: accum.for
 Registrations.obj: Registrations.f90

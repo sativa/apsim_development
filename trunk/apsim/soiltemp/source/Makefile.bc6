@@ -15,16 +15,15 @@
 
 # Main target
 source: ..\lib\soiltemp.dll
-..\lib\soiltemp.dll: Registrations.obj soiltemp.obj soiltemp.imp $(STATICLINKEDOBJECTS) 
+..\lib\soiltemp.dll: Registrations.obj soiltemp.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) soiltemp.obj Registrations.obj -exe ..\lib\soiltemp.dll soiltemp.imp @linker.tmp
+	$(LF95) soiltemp.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\soiltemp.dll @linker.tmp
 	$(RM) linker.tmp
    
 soiltemp.obj: soiltemp.for
-soiltemp.imp:
-	$(ECHO) -implib ApsimShared.dll > soiltemp.imp
 Registrations.obj: Registrations.f90
 Registrations.f90: ..\soiltemp.interface 
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\soiltemp.interface

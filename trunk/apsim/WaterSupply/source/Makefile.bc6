@@ -15,20 +15,16 @@
 
 # Main target
 source: ..\lib\WaterSupply.dll
-..\lib\WaterSupply.dll: Registrations.obj WaterSupply.obj WaterSupply.imp $(STATICLINKEDOBJECTS) 
+..\lib\WaterSupply.dll: Registrations.obj WaterSupply.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) WaterSupply.obj Registrations.obj -exe ..\lib\WaterSupply.dll WaterSupply.imp @linker.tmp
+	$(LF95) WaterSupply.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\WaterSupply.dll @linker.tmp
 	$(RM) linker.tmp
    
 WaterSupply.obj: WaterSupply.f90
-
-WaterSupply.imp:
-	$(ECHO) -implib ApsimShared.dll > WaterSupply.imp
-
 Registrations.obj: Registrations.f90
-
 Registrations.f90: ..\WaterSupply.interface 
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\WaterSupply.interface
 

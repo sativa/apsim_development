@@ -15,21 +15,17 @@
 
 # Main target
 source: ..\lib\tree.dll
-..\lib\tree.dll: Registrations.obj tree.obj tree.imp $(STATICLINKEDOBJECTS)
+..\lib\tree.dll: Registrations.obj tree.obj $(STATICLINKEDOBJECTS)
 	if not exist ..\lib mkdir ..\lib
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) tree.obj Registrations.obj -exe ..\lib\tree.dll tree.imp @linker.tmp
+	$(LF95) tree.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\tree.dll @linker.tmp
 	$(RM) linker.tmp
 
 tree.obj: tree.for
-
-tree.imp:
-	$(ECHO) -implib ApsimShared.dll > tree.imp
-
 Registrations.obj: Registrations.f90
-
 Registrations.f90: ..\tree.interface
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\tree.interface
 

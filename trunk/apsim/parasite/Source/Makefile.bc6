@@ -15,11 +15,12 @@
 
 # Main target
 source: ..\lib\parasite.dll
-..\lib\parasite.dll: Registrations.obj parasite.obj parasite.imp $(STATICLINKEDOBJECTS) 
+..\lib\parasite.dll: Registrations.obj parasite.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90CROPLIBS) >> linker.tmp
-	$(LF95) parasite.obj Registrations.obj -exe ..\lib\parasite.dll parasite.imp @linker.tmp
+	$(LF95) parasite.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\parasite.dll @linker.tmp
 	$(RM) linker.tmp
    
 parasite.obj: parasite.for
@@ -29,8 +30,6 @@ parasite.obj: parasite.for
 	$(LF95) -c parasite.for @compiler.tmp
 	$(RM) compiler.tmp
 
-parasite.imp:
-	$(ECHO) -implib ApsimShared.dll > parasite.imp
 Registrations.obj: Registrations.f90
 Registrations.f90: ..\parasite.interface
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\parasite.interface

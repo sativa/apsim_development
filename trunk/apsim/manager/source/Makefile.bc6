@@ -15,16 +15,15 @@
 
 # Main target
 source: ..\lib\manager.dll
-..\lib\manager.dll: Registrations.obj manager.obj manager.imp $(STATICLINKEDOBJECTS) 
+..\lib\manager.dll: Registrations.obj manager.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) manager.obj Registrations.obj -exe ..\lib\manager.dll manager.imp @linker.tmp
+	$(LF95) manager.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\manager.dll @linker.tmp
 	$(RM) linker.tmp
    
 manager.obj: manager.for
-manager.imp:
-	$(ECHO) -implib ApsimShared.dll > manager.imp
 Registrations.obj: Registrations.f90
 Registrations.f90: ..\manager.interface
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\manager.interface
