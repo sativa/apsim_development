@@ -348,6 +348,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "OutputUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "OutputUI.resx"
+                    DependentUpon = "OutputUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "ParameterUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
