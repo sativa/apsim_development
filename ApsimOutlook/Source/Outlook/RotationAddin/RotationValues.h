@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <set>
 #include <TAPSTable.h>
 #include <general\string_functions.h>
 #include <stdlib.h>
@@ -80,6 +81,7 @@ class RotationValues
       std::vector<std::string> fieldsDividedByNumFiles;
       std::vector<std::string> fieldNames;
       CropFields cropFields;
+      std::set<std::string> warnings;
 
       std::string getValue(const FileValues& fileValues, bool doAverage,
                            unsigned numDataBlocks) const;

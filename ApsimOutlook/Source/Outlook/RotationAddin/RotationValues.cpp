@@ -9,6 +9,7 @@
 #include <general\ini_file.h>
 #include <general\stl_functions.h>
 #include <assert.h>
+#include <sstream>
 
 #pragma package(smart_init)
 using namespace std;
@@ -87,9 +88,8 @@ bool RotationValues::isAveragedField(const string& fieldName) const
                        fieldsDividedByNumFiles.end(),
                        CaseInsensitiveStringComparison(fieldName));
       if (fieldI == fieldsDividedByNumFiles.end())
-         throw runtime_error("Cannot find field: " + fieldName + "\n"
-                             "in the rotation.ini [fields] section.  All field names\n"
-                             "must be listed in this file.");
+         throw runtime_error("Cannot find field: " + fieldName +
+                             " in the rotation.ini [fields] section.");
       return false;
       }
    }
@@ -128,46 +128,56 @@ void RotationValues::writeToDataset(const string& rotationName, TAPSTable& data,
                                     unsigned firstYear, unsigned lastYear,
                                     unsigned numDataBlocks) const
    {
-   try
+   // output a single data block containing all years and all averaged
+   // numerical field values.  Only consider years that are covered by
+   // all datablocks (remember, each data block is offset by a year).
+   for (int year = firstYear; year <= lastYear; year++)
       {
-      // output a single data block containing all years and all averaged
-      // numerical field values.  Only consider years that are covered by
-      // all datablocks (remember, each data block is offset by a year).
-      for (int year = firstYear; year <= lastYear; year++)
+      YearValues::const_iterator yearValueI = yearValues.find(year);
+      if (yearValueI == yearValues.end())
          {
-         YearValues::const_iterator yearValueI = yearValues.find(year);
-         if (yearValueI == yearValues.end())
+         TAPSRecord newRecord;
+         newRecord.setFieldValue("Simulation" ,rotationName);
+         data.storeRecord(newRecord);
+         }
+      else
+         {
+         const FieldValues& fieldValues = yearValueI->second;
+         TAPSRecord newRecord;
+         for (FieldValues::const_iterator fieldValueI = fieldValues.begin();
+                                          fieldValueI != fieldValues.end();
+                                          fieldValueI++)
             {
-            TAPSRecord newRecord;
-            newRecord.setFieldValue("Simulation" ,rotationName);
-            data.storeRecord(newRecord);
-            }
-         else
-            {
-            const FieldValues& fieldValues = yearValueI->second;
-            TAPSRecord newRecord;
-            for (FieldValues::const_iterator fieldValueI = fieldValues.begin();
-                                             fieldValueI != fieldValues.end();
-                                             fieldValueI++)
+            const FileValues& fileValues = fieldValueI->second;
+            string name = fieldNames[fieldValueI->first];
+            string value;
+            if (fieldValueI->first == 0)
+               value = rotationName;
+            else if (stristr((char*)name.c_str(), "year") != NULL)
+               value = IntToStr(year).c_str();
+            else
                {
-               const FileValues& fileValues = fieldValueI->second;
-               string name = fieldNames[fieldValueI->first];
-               string value;
-               if (fieldValueI->first == 0)
-                  value = rotationName;
-               else if (stristr((char*)name.c_str(), "year") != NULL)
-                  value = IntToStr(year).c_str();
-               else
+               try
+                  {
                   value = getValue(fileValues, isAveragedField(name), numDataBlocks);
-               newRecord.setFieldValue(addPerYearToFieldName(name), value);
+                  }
+               catch (const runtime_error& error)
+                  {
+                  warnings.insert(error.what());
+                  }
                }
-            data.storeRecord(newRecord);
+            newRecord.setFieldValue(addPerYearToFieldName(name), value);
             }
+         data.storeRecord(newRecord);
          }
       }
-   catch (const std::runtime_error& error)
+   if (warnings.size() > 0)
       {
-      ::MessageBox(NULL, error.what(), "Rotation Error", MB_ICONSTOP | MB_OK);
+      ostringstream messageStream;
+      ostream_iterator<string, char> out(messageStream, "\n");
+      copy(warnings.begin(), warnings.end(), out);
+      Application->MessageBox(messageStream.str().c_str(), "Gross margin warnings...",
+                              MB_ICONINFORMATION | MB_OK);
       }
    }
 
