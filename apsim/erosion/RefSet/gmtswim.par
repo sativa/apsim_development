@@ -344,12 +344,11 @@ profile_reduction =  off   ! (on|off) whether to remap N+C if ! soil loss occurs
 enr_a_coeff =    7.4  ()
 enr_b_coeff =    0.2  ()
 
-[gmtb0.residue2.parameters]
-residue_wt =  100. ()   ! surface residue (kg/ha) !stubble incorporated prior to sowing. guess @1000kg
-residue_cnr =  120. ()   ! cn ratio of surface residues
-residue_type =  wheat
-pot_decomp_rate =  0.1 ()   !default
-!pot_decomp_rate = 0.05 ()
+[gmtb0.SurfaceOM.parameters]
+mass = 100. ()   ! surface residue (kg/ha) !stubble incorporated prior to sowing. guess @1000kg
+cnr = 120. ()   ! cn ratio of surface residues
+type = wheat
+name = wheat
 
 !--------------------------------------------------------------------
 ! Gmt - general parameters
