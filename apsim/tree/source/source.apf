@@ -2,8 +2,9 @@
 Dependency = %licensed_source(tree)
 
 [Contents]
+componentinterface.for = componentinterface.for
 tree.for = tree.for
 
 [APSBuild]
 binary = ..\lib\tree.dll
-moduletype=module
+compilerfile = release.compile
