@@ -1,7 +1,7 @@
 version = 3.2
 [APSIM.Dalby 600mm]
 title=Dalby 600mm wet soil
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility]  %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Dalby600]
 module = input(met)        %apsuite\apsim\common files\dalby.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[mid_may]  Wheat.par[N100] Wheat.par [splitN000]
@@ -16,7 +16,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Dalby 1500mm]
 title=Dalby 1500mm wet soil
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Dalby1500]
 module = input(met)        %apsuite\apsim\common files\dalby.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[mid_may]  Wheat.par[N100] Wheat.par [splitN000]
@@ -31,7 +31,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Roma 600mm]
 title=Roma 600mm wet soil
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Roma600]
 module = input(met)        %apsuite\apsim\common files\Roma.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[mid_may]  Wheat.par[N100] Wheat.par [splitN000]
@@ -46,7 +46,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Roma 1500mm]
 title=Roma 1500mm wet soil
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Roma1500]
 module = input(met)        %apsuite\apsim\common files\Roma.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[mid_may]  Wheat.par[N100] Wheat.par [splitN000]
@@ -62,7 +62,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Emerald 600mm Early]
 title=Emerald 600mm wet soil Early sowing
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Emerald600early]
 module = input(met)        %apsuite\apsim\common files\Emerald.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[sunco] Wheat.par[start_may]  Wheat.par[N040] Wheat.par [splitN000]
@@ -77,7 +77,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Emerald 1500mm Early]
 title=Emerald 1500mm wet soil Early sowing
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Emerald1500early]
 module = input(met)        %apsuite\apsim\common files\Emerald.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[sunco] Wheat.par[start_may]  Wheat.par[N060] Wheat.par [splitN000]
@@ -92,7 +92,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Emerald 600mm Late]
 title=Emerald 600mm wet soil Late sowing
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Emerald600Late]
 module = input(met)        %apsuite\apsim\common files\Emerald.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[end_may]  Wheat.par[N040] Wheat.par [splitN000]
@@ -107,7 +107,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Emerald 1500mm Late]
 title=Emerald 1500mm wet soil Late sowing
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Emerald1500late]
 module = input(met)        %apsuite\apsim\common files\Emerald.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[end_may]  Wheat.par[N060] Wheat.par [splitN000]
@@ -122,7 +122,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Gunnedah 600mm]
 title=Gunnedah 600mm wet soil
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Gunnedah600]
 module = input(met)        %apsuite\apsim\common files\Gunnedah.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[mid_may]  Wheat.par[N150] Wheat.par[splitN000]
@@ -137,7 +137,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Gunnedah 1500mm]
 title=Gunnedah 1500mm wet soil
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Gunnedah1500]
 module = input(met)        %apsuite\apsim\common files\Gunnedah.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[mid_may]  Wheat.par[N150] Wheat.par[splitN000]
@@ -153,7 +153,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Walgett 600mm]
 title=Walgett 600mm wet soil
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Walgett600]
 module = input(met)        %apsuite\apsim\common files\Walgett.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[mid_may]  Wheat.par[N150] Wheat.par[splitN000]
@@ -168,7 +168,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Walgett 1500mm]
 title=Walgett 1500mm wet soil
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Walgett1500]
 module = input(met)        %apsuite\apsim\common files\Walgett.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[mid_may]  Wheat.par[N150] Wheat.par[splitN000]
@@ -184,7 +184,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Birchip 300mm]
 title=Birchip 300mm wet soil
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Birchip300]
 module = input(met)        %apsuite\apsim\common files\Birchip.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[mid_may]  Wheat.par[N030] Wheat.par[SplitN030]
@@ -199,7 +199,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Warra 600mm Low N]
 title=Warra 600mm wet soil Low N
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Warra600LowN]
 module = input(met)        %apsuite\apsim\common files\Warra.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[mid_may]  Wheat.par[N010] Wheat.par[splitN000]
@@ -214,7 +214,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Warra 1500mm Low N]
 title=Warra 1500mm wet soil Low N
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Warra1500LowN]
 module = input(met)        %apsuite\apsim\common files\Warra.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[mid_may]  Wheat.par[N010] Wheat.par[splitN000]
@@ -229,7 +229,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Warra 600mm High N]
 title=Warra 600mm wet soil High N
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Warra600HighN]
 module = input(met)        %apsuite\apsim\common files\Warra.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[mid_may]  Wheat.par[N075] Wheat.par[splitN000]
@@ -244,7 +244,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Warra 1500mm High N]
 title=Warra 1500mm wet soil High N
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Warra1500HighN]
 module = input(met)        %apsuite\apsim\common files\Warra.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[mid_may]  Wheat.par[N075] Wheat.par[splitN000]
@@ -259,7 +259,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Mingenew 300mm Sand]
 title=Mingenew 300mm wet soil Sand
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Mingenew300Sand]
 module = input(met)        %apsuite\apsim\common files\Mingenew.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[mid_may]  Wheat.par[N010] Wheat.par [splitN040]
@@ -274,7 +274,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Mingenew 300mm RedSCL]
 title=Mingenew 300mm wet soil RedSCL
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Mingenew300RedSCL]
 module = input(met)        %apsuite\apsim\common files\Mingenew.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[mid_may]  Wheat.par[N010] Wheat.par [splitN040]
@@ -289,7 +289,7 @@ module = Screen  Wheat.par[sensibility]
 
 [APSIM.Latham 200mm SandGravel]
 title=Latham 200mm wet soil SandGravel
-module = clock      Wheat.par[sensibility]
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Wheat.par[sensibility] Wheat.par[Latham200SandGravel]
 module = input(met)        %apsuite\apsim\common files\Latham.met[weather]
 module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[mid_may]  Wheat.par[N010] Wheat.par [splitN040]
