@@ -11,11 +11,11 @@
     <LIBFILES value="..\..\Shared\general\general.lib ..\..\Shared\ApsimShared\ApsimShared.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="rtl.lib"/>
-    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi bdertl.bpi 
-      vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi visualdbclx.bpi 
-      vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi 
-      bcbie.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi 
-      bcb2kaxserver.bpi qrpt.bpi ibxpress.bpi nmfast.bpi indy.bpi"/>
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi vcldbx.bpi 
+      dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi visualdbclx.bpi vclie.bpi 
+      inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi bcbie.bpi soaprtl.bpi 
+      dclocx.bpi dbexpress.bpi dbxcds.bpi qrpt.bpi ibxpress.bpi nmfast.bpi 
+      indy.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -85,7 +85,8 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-C:\MyData\development\Bin\APSData.bpl=APSuite data components
+C:\WINDOWS\System32\PsQRC60.bpl=Pragnaan QuickReport Export Filters
+C:\MyData\development\Bin\SEGReport.bpl=SEGReport
 
 [HistoryLists\hlIncludePath]
 Count=2
@@ -105,8 +106,9 @@ Count=1
 Item0=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
-Count=1
-Item0=..\..\Bin
+Count=2
+Item0=..\..\Bin\
+Item1=..\..\Bin
 
 [HistoryLists\hIBPIOutputDir]
 Count=1
