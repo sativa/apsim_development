@@ -49,9 +49,9 @@ Public Class OutputFileDescUI
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
         Me.DataTree = New APSIMUI.DataTree
         Me.RightHandPanel = New System.Windows.Forms.Panel
+        Me.VariablesListView = New APSIMUI.ReportVariablesListView
         Me.Splitter2 = New System.Windows.Forms.Splitter
         Me.EventsListView = New APSIMUI.EventsListView
-        Me.VariablesListView = New APSIMUI.ReportVariablesListView
         Me.Splitter1 = New System.Windows.Forms.Splitter
         Me.RightHandPanel.SuspendLayout()
         Me.SuspendLayout()
@@ -70,7 +70,7 @@ Public Class OutputFileDescUI
         Me.DataTree.LabelEdit = False
         Me.DataTree.Location = New System.Drawing.Point(0, 23)
         Me.DataTree.Name = "DataTree"
-        Me.DataTree.Size = New System.Drawing.Size(256, 550)
+        Me.DataTree.Size = New System.Drawing.Size(256, 595)
         Me.DataTree.Sorted = False
         Me.DataTree.TabIndex = 8
         Me.DataTree.UIManager = Nothing
@@ -83,27 +83,8 @@ Public Class OutputFileDescUI
         Me.RightHandPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RightHandPanel.Location = New System.Drawing.Point(256, 23)
         Me.RightHandPanel.Name = "RightHandPanel"
-        Me.RightHandPanel.Size = New System.Drawing.Size(681, 550)
+        Me.RightHandPanel.Size = New System.Drawing.Size(797, 595)
         Me.RightHandPanel.TabIndex = 11
-        '
-        'Splitter2
-        '
-        Me.Splitter2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Splitter2.Location = New System.Drawing.Point(0, 411)
-        Me.Splitter2.Name = "Splitter2"
-        Me.Splitter2.Size = New System.Drawing.Size(681, 3)
-        Me.Splitter2.TabIndex = 13
-        Me.Splitter2.TabStop = False
-        '
-        'EventsListView
-        '
-        Me.EventsListView.AllowDrop = True
-        Me.EventsListView.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.EventsListView.Location = New System.Drawing.Point(0, 414)
-        Me.EventsListView.Name = "EventsListView"
-        Me.EventsListView.Size = New System.Drawing.Size(681, 136)
-        Me.EventsListView.TabIndex = 12
-        Me.EventsListView.UIManager = Nothing
         '
         'VariablesListView
         '
@@ -111,22 +92,41 @@ Public Class OutputFileDescUI
         Me.VariablesListView.Dock = System.Windows.Forms.DockStyle.Fill
         Me.VariablesListView.Location = New System.Drawing.Point(0, 0)
         Me.VariablesListView.Name = "VariablesListView"
-        Me.VariablesListView.Size = New System.Drawing.Size(681, 411)
+        Me.VariablesListView.Size = New System.Drawing.Size(797, 456)
         Me.VariablesListView.TabIndex = 11
         Me.VariablesListView.UIManager = Nothing
+        '
+        'Splitter2
+        '
+        Me.Splitter2.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.Splitter2.Location = New System.Drawing.Point(0, 456)
+        Me.Splitter2.Name = "Splitter2"
+        Me.Splitter2.Size = New System.Drawing.Size(797, 3)
+        Me.Splitter2.TabIndex = 13
+        Me.Splitter2.TabStop = False
+        '
+        'EventsListView
+        '
+        Me.EventsListView.AllowDrop = True
+        Me.EventsListView.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.EventsListView.Location = New System.Drawing.Point(0, 459)
+        Me.EventsListView.Name = "EventsListView"
+        Me.EventsListView.Size = New System.Drawing.Size(797, 136)
+        Me.EventsListView.TabIndex = 12
+        Me.EventsListView.UIManager = Nothing
         '
         'Splitter1
         '
         Me.Splitter1.Location = New System.Drawing.Point(256, 23)
         Me.Splitter1.Name = "Splitter1"
-        Me.Splitter1.Size = New System.Drawing.Size(3, 550)
+        Me.Splitter1.Size = New System.Drawing.Size(3, 595)
         Me.Splitter1.TabIndex = 12
         Me.Splitter1.TabStop = False
         '
         'OutputFileDescUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
-        Me.ClientSize = New System.Drawing.Size(937, 613)
+        Me.ClientSize = New System.Drawing.Size(1053, 658)
         Me.Controls.Add(Me.Splitter1)
         Me.Controls.Add(Me.RightHandPanel)
         Me.Controls.Add(Me.DataTree)
