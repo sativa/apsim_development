@@ -11,7 +11,7 @@ BCB = $(MAKEDIR)\..
 
 PROJECT=..\lib\StockScienceConverter.dll
 
-OBJFILES=StockScienceConverter.obj ScienceConverterComponent.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
+OBJFILES=StockScienceConverter.obj ScienceConverterComponent.obj PlantPool.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
@@ -54,8 +54,9 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
 
 
 ####
-StockScienceConverter.obj: StockScienceConverter.cpp
+StockScienceConverter.obj: StockScienceConverter.cpp PlantPool.cpp
 ScienceConverterComponent.obj: ScienceConverterComponent.cpp ScienceConverterComponent.h
+PlantPool.obj: PlantPool.cpp PlantPool.h
 
 clean:
 	del /f $(PROJECT) $(OBJFILES)
