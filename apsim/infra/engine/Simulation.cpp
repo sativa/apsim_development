@@ -63,9 +63,12 @@ void Simulation::go(const string& simFilename)
       ifstream in(simFilename.c_str());
       if (in)
          {
-         chdir(Path(simFilename).Get_directory().c_str());
-         init(simFilename);
+         Path currentPath = Path::getCurrentFolder();
+         Path simPath(simFilename);
+         simPath.Change_directory();
+         init(simPath.Get_name());
          commence();
+         currentPath.Change_directory();
          }
       else
          throw runtime_error("Cannot find simulation file: " + simFilename);
