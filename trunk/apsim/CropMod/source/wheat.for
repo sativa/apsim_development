@@ -1,4 +1,4 @@
-C     Last change:  E    22 Jan 2001   12:11 pm
+C     Last change:  E    22 Jan 2001    5:05 pm
 
 *     ===========================================================
       subroutine crop_dm_potential (current_stage,
@@ -3691,7 +3691,16 @@ c""""""""""""""""""""""""""""""""""""""""""""""""""
      :              , p_phyllochron
      :              , g_vern_eff
      :              , g_photop_eff
-     :              , g_dlt_tt
+     :              , p_tt_germ_to_emerg
+     :              , p_tt_emerg_to_endjuv
+     :              , p_tt_endjuv_to_init
+     :              , p_tt_init_to_flag
+     :              , p_tt_flag_to_flower
+     :              , p_tt_flower_to_start_grain
+     :              , p_tt_start_to_end_grain
+     :              , p_tt_end_grain_to_maturity
+     :              , p_tt_maturity_to_ripe
+     :              , p_tt_ripe_to_harvest
      :               )
 *     ===========================================================
       implicit none
@@ -3712,8 +3721,16 @@ c""""""""""""""""""""""""""""""""""""""""""""""""""
       REAL       p_phyllochron
       REAL       g_vern_eff
       REAL       g_photop_eff
-      REAL       g_dlt_tt
-
+      REAL       p_tt_germ_to_emerg
+      REAL       p_tt_emerg_to_endjuv
+      REAL       p_tt_endjuv_to_init
+      REAL       p_tt_init_to_flag
+      REAL       p_tt_flag_to_flower
+      REAL       p_tt_flower_to_start_grain
+      REAL       p_tt_start_to_end_grain
+      REAL       p_tt_end_grain_to_maturity
+      REAL       p_tt_maturity_to_ripe
+      REAL       p_tt_ripe_to_harvest
 
 *+  Purpose
 *       Returns cumulative thermal time targets required for the
@@ -3736,30 +3753,73 @@ c     REAL vern_php_eff
 
 
 * On the germination day, calculate the tt for emergence
-      if (on_day_of (sowing, g_current_stage, g_days_tot).OR.
-     :    stage_is_between(sowing, emerg, g_current_stage)) then
+c      if (on_day_of (sowing, g_current_stage, g_days_tot).OR.
+c     :    stage_is_between(sowing, emerg, g_current_stage)) then
 
-         phase_tt(germ_to_emerg) = c_shoot_lag
+
+
+        if (p_tt_germ_to_emerg .gt. 1.0) then
+           phase_tt(germ_to_emerg) = p_tt_germ_to_emerg
+        else
+           phase_tt(germ_to_emerg) = c_shoot_lag
      :                           + g_sowing_depth*c_shoot_rate
+        end if
 
          !This is to avoid a varning in leaf number final
-         phase_tt(emerg_to_endjuv) = 1.0
-         phase_tt(endjuv_to_init)  = 400.0
-         phase_tt(init_to_flag)    = 3.0 * p_phyllochron
-         phase_tt(flag_to_flower)  = 2.0 * p_phyllochron + 80.0
-         phase_tt(flower_to_start_grain) = 200.0 - 80.0
+         phase_tt(emerg_to_endjuv) = MAX(1.0, p_tt_emerg_to_endjuv)
 
+       if (p_tt_endjuv_to_init .gt. 1.0) then
+         phase_tt(endjuv_to_init)  = p_tt_endjuv_to_init
+       else
+         phase_tt(endjuv_to_init)  = 400.0
+       end if
+
+       if (p_tt_init_to_flag .gt. 1.0) then
+         phase_tt(init_to_flag)    = p_tt_init_to_flag
+       else
+         phase_tt(init_to_flag)    = 3.0 * p_phyllochron
+       endif
+
+       if (p_tt_flag_to_flower .gt. 1.0) then
+         phase_tt(flag_to_flower)  = p_tt_flag_to_flower
+       else
+         phase_tt(flag_to_flower)  = 2.0 * p_phyllochron + 80.0
+       endif
+
+       if (p_tt_flower_to_start_grain .gt. 1.0) then
+         phase_tt(flower_to_start_grain) = p_tt_flower_to_start_grain
+       else
+         phase_tt(flower_to_start_grain) = 200.0 - 80.0
+       endif
+
+       if (p_tt_end_grain_to_maturity .gt. 1.0) then
+         phase_tt(end_grain_to_maturity) = p_tt_end_grain_to_maturity
+       else
          phase_tt(end_grain_to_maturity) =
      :                     0.05*(  phase_tt(flower_to_start_grain)
      :                           + p_startgf_to_mat)
+       endif
 
+       if (p_tt_start_to_end_grain .gt. 1.0) then
+         phase_tt(start_to_end_grain)    = p_tt_start_to_end_grain
+       else
          phase_tt(start_to_end_grain)    = p_startgf_to_mat
      :                   - phase_tt(end_grain_to_maturity)
+       endif
 
+       if (p_tt_maturity_to_ripe .gt. 1.0) then
+         phase_tt(maturity_to_ripe) = p_tt_maturity_to_ripe
+       else
          phase_tt(maturity_to_ripe) = 1.0
-         phase_tt(ripe_to_harvest)  = 1.0
+       endif
 
-      endif
+       if (p_tt_ripe_to_harvest .gt. 1.0) then
+         phase_tt(ripe_to_harvest)  = p_tt_ripe_to_harvest
+       else
+         phase_tt(ripe_to_harvest)  = 1.0
+       endif
+
+c      endif
 
 
 c      PRINT *, 'p_startgf_to_mat=', p_startgf_to_mat
@@ -10435,7 +10495,8 @@ c     :                        * g_tiller_no
 
           g_tiller_area_pot(1)   = 0.0
           g_tiller_area_max(1)   = c_max_tiller_area * 100.0/ g_plants  !2.0 / (g_plants/sm2smm*100.0) !cm2 per tiller  - this should be related to final leaf number
- 
+          g_tiller_area_max(1)   = MIN(200.0, g_tiller_area_max(1))
+
           c_tiller_curve  (1)    = c_tiller_area_tt_steepness
           c_tiller_tt_infl(1)    = c_tiller_area_tt_inflection
 
@@ -10443,6 +10504,7 @@ c     :                        * g_tiller_no
           do n = 2, max_leaf
             g_tiller_area_pot(n) = 0.0
             g_tiller_area_max(n) =  c_max_tiller_area * 100.0/ g_plants  !2.0/(g_plants/sm2smm*100.0)
+            g_tiller_area_max(n)   = MIN(200.0, g_tiller_area_max(n))
  
             c_tiller_curve(n)    = c_tiller_curve(1)   * 1.5
             c_tiller_tt_infl(n)  = c_tiller_tt_infl(1) / 1.5
