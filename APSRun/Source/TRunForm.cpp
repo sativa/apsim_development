@@ -112,7 +112,7 @@ void TRunForm::fillSimulationList()
       // create list box item.
       TListItem* simNameItem = SimulationList->Items->Add();
       simNameItem->ImageIndex = 1;
-      simNameItem->Caption = Path(fileNames[f]).Get_name_without_ext().c_str();
+      simNameItem->Caption = simNames[f].c_str();
 
       simNameItem->SubItems->Add(fileNames[f].c_str());
 
