@@ -100,12 +100,12 @@ void GenerateComponentInterface(const string& interfaceFile)
 
    // Step Two. - Set Subscribed Event Macro Values
    GetSubscribedEvents(interfaceFile,temp);
-   AMF->SetMacroValues("subevent",temp);
+   AMF->SetMacroValues("Subscribed Event",temp);
 
    // Step Three. - Set Published Event Macro Values
    temp.clear();
    GetPublishedEvents(interfaceFile,temp);
-   AMF->SetMacroValues("pubevent",temp);
+   AMF->SetMacroValues("Published Event",temp);
 
 
    //  All done - so now write out the output files
