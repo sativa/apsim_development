@@ -128,7 +128,6 @@
    <type name="solute_n_leach" kind="single" unit="" description=""/>
    <type name="solute_n_conc_water" kind="single" array="T" unit="" description=""/>
    <type name="solute_n_conc_absorb" kind="single" array="T" unit="" description=""/>
-   <type name="EosCalculated" kind="single" unit="mm" description="potential soil water evaporation"/>
    <type name="esw" kind="single" unit="mm" description="Extractable soil water"/>
    <type name="profile_esw_depth" kind="single" unit="mm" description="initial depth of extractable soil water distributed from the top down"/>
    <type name="insoil" kind="single" unit="" description="switch describing initial soil water"/>
@@ -460,7 +459,7 @@
    <type name="stover" kind="single" unit="kg/ha" description="Stover biomass"/>
    <type name="green_biomass" kind="single" unit="kg/ha" description="total above-ground live biomass"/>
    <type name="hi" kind="single" unit="" description="Harvest index"/>
-   <type name="dlt_dm" kind="single" unit="g/m^2" description="daily biomass production"/>
+   <type name="dlt_dm" kind="single" unit="g/m^2" description="daily biomass production"/>   
    <type name="dlt_dm_light" kind="single" unit="g/m^2" description="daily biomass production determined by light"/>
    <type name="dlt_dm_water" kind="single" unit="g/m^2" description="daily biomass production determined by water"/>
    <type name="dlt_dm_green" kind="single" array="T" unit="g/m^2" description="plant biomass growth on each part"/>
@@ -613,6 +612,19 @@
       <field name="transmission" kind = "single"/>
    </type>
 
+   <type name="CanopyWaterBalance">
+      <field name="Canopy" array="T">
+         <element>
+         <field name="name" kind="string"/>
+         <field name="CropType" kind="string"/>
+         <field name="PotentialEp" kind="single"/>
+         </element>
+      </field>
+      <field name="eo" kind = "single"/>
+      <field name="interception" kind = "single"/>
+   </type>   
+   
+   
    <type name="canopy" array="T">
       <element>
       <field name="name" kind="string"/>
@@ -672,6 +684,8 @@
       <field name="WaterInput" kind="single"/>
    </type>
 
+   <type name="SurfaceWaterDemand" kind="single" unit="mm" description="potential soil water evaporation"/>
+   
     !!!! FERTILISER Types !!!!!!
 
    <type name="fertiliser" kind="single" unit="kg/ha" description="Amount of fertiliser applied"/>
