@@ -53,17 +53,21 @@ ApsimComponentData::~ApsimComponentData()
    delete dataTypesFile;
    }
 // ------------------------------------------------------------------
-// Copy all nodes from destination component.
+// copy constructor.
 // ------------------------------------------------------------------
-void ApsimComponentData::copyAllFrom(ApsimComponentData& from)
+ApsimComponentData::ApsimComponentData(const ApsimComponentData& rhs)
+   : node(rhs.node), xmlDoc(NULL), dataTypesFile(NULL)
    {
-   eraseNodes(node, "initdata");
-   node.copyFrom(from.getInitData());
-   XMLNode::iterator initData = find_if(node.begin(),
-                                        node.end(),
-                                        EqualToName<XMLNode>("initdata"));
-   if (initData == node.end())
-      node.appendChild("initdata");
+   }
+// ------------------------------------------------------------------
+// Assignment operator.
+// ------------------------------------------------------------------
+ApsimComponentData& ApsimComponentData::operator=(const ApsimComponentData& rhs)
+   {
+   node = rhs.node;
+   delete xmlDoc;
+   xmlDoc = NULL;
+   dataTypesFile = NULL;
    }
 // ------------------------------------------------------------------
 // Return name of component to caller.
