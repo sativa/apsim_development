@@ -124,7 +124,7 @@ Item12=-make f:\build\apsuite\apsim\all modules.apf
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=-make c:\apswork\legume\legume.apf
+RunParams=-debug -build c:\apsuite\apsim\clock\source\source.apf
 HostApplication=
 RemoteHost=
 RemotePath=

@@ -92,6 +92,7 @@ void __fastcall TMainForm::ThreadTerminated (TObject* Object)
          Thread->Debug = Debug;
          Thread->DisplayMessage = DisplayMessage;
          Thread->OnTerminate = ThreadTerminated;
+         Thread->CompileType = CompileType;
          Thread->Resume();
          }
       }
