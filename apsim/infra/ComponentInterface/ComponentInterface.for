@@ -211,6 +211,7 @@
  
 !+ Local Variables
       character DataString*(150)       ! FORTRAN version of C data string
+      logical SavedMessageUsed
  
 !- Implementation Section ----------------------------------
 
@@ -219,9 +220,18 @@
       ! swap in the proper instance.
       call UseInstance (anInstanceNo) 
 
+      ! These routines are recursive.  We need to save the current
+      ! value of messageused.  This whole "MessageUsed" thing needs
+      ! a rethink.  I would prefer to have the Main routine return
+      ! true or false if a message is used or not.
+      SavedMessageUsed = MessageUsed
       MessageUsed = .true.
       call Main (anAction, DataString)
       call Loader_MessageUsed(MessageUsed)
+      
+      ! Restore the value of messageused to the same value at the start of
+      ! this routine.
+      MessageUsed = SavedMessageUsed
 
       ! restore existing instance
       call RestoreInstance()
