@@ -70,6 +70,10 @@ void TDrill_down_form::Refresh (void)
    {
    Create_tabs();
    RefreshScrollBox();
+   if (Tab_control->Tabs->Count == 1)
+      Delete1->Enabled = false;
+   else
+      Delete1->Enabled = true;
    }
 
 // ------------------------------------------------------------------
