@@ -947,6 +947,7 @@
       call push_routine (my_name)
 
           ! crop harvested. Report status
+      call Publish_null (id%harvesting)
 
       biomass_green = (sum_real_array (g%dm_green, max_part)
      :              - g%dm_green(root))
@@ -1791,7 +1792,7 @@ cnh     :                 ' Initialising')
       call sugar_get_soil_variables ()
 
       call write_string ( 'Sowing initiate')
-
+      call Publish_null (id%sowing)
 
          call collect_real_var ('plants', '()'
      :                        , g%plants, numvals, 0.0, 100.0)
@@ -2184,6 +2185,8 @@ cnh     :                 ' Initialising')
 
 c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       call push_routine (my_name)
+
+      call Publish_null (id%killing)
 
       if (g_crop_status.eq.crop_alive) then
          g_crop_status = crop_dead
