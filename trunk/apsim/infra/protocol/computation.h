@@ -24,12 +24,12 @@ class PROTOCOL_EXPORT PROTOCOLComputation : public IComputation
                           const std::string& ssdl);
       ~PROTOCOLComputation(void);
 
-      virtual void init(void) { };
+      virtual void init(void) {initialise();}
       virtual IComponent* getComponent(void) const {return component;}
 
       virtual void create(void) const;
-      virtual void init(void) const;
-      virtual void term(void) const;
+      virtual void initialise(void) const;
+      virtual void terminate(void) const;
       virtual void action(PROTOCOLMessage& Event) const;
       virtual void inEvent(PROTOCOLEvent& Event) const;
       virtual void outEvent(PROTOCOLEvent& Event) const { };
