@@ -1080,7 +1080,7 @@ c      read(ret_string, *, iostat = err_code) g%rain
      :            dummy(0),
      :            p%n+1)
 
-      else if (Variable_name .eq. 'LL15') then
+      else if (Variable_name .eq. 'll15') then
          call respond2Get_double_array (
      :            'LL15',
      :            '(cc/cc)',
@@ -1095,7 +1095,7 @@ c      read(ret_string, *, iostat = err_code) g%rain
      :            '(mm)',
      :            dummy(0),
      :            p%n+1)
-      else if (Variable_name .eq. 'DUL') then
+      else if (Variable_name .eq. 'dul') then
          call respond2Get_double_array (
      :            'DUL',
      :            '(cc/cc)',
@@ -1110,7 +1110,7 @@ c      read(ret_string, *, iostat = err_code) g%rain
      :            '(mm)',
      :            dummy(0),
      :            p%n+1)
-      else if (Variable_name .eq. 'SAT') then
+      else if (Variable_name .eq. 'sat') then
          call respond2Get_double_array (
      :            'SAT',
      :            '(cc/cc)',
