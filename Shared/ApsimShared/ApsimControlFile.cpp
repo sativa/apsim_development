@@ -457,6 +457,13 @@ void ApsimControlFile::createServices(ApsimSimulationFile& simulation,
    if (title != "")
       simulation.setTitle(title);
 
+   // create a screen service if necessary
+   ApsimServiceData screen = simulation.addService("screen");
+   screen.setExecutableFileName(configuration.getDllForComponent("screen"));
+   string screen_output = controlFile.getParamValue("screen_output");
+   if (screen_output != "")
+      screen.setProperty("screen_output", screen_output);
+   
    // create an setup a log service.
    ApsimServiceData log = simulation.addService("log");
    log.setExecutableFileName(configuration.getDllForComponent("log"));
