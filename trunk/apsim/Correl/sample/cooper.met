@@ -1,5 +1,8 @@
-[CPRL.met.WEATHER]  
-Latitude =  -27.31   
+[CPRL.met.WEATHER]
+Latitude =  -27.31
+   ! TAV and AMP inserted by "tav_amp" on 28/10/1999 at 13:25 for period from 116/1975 to 150/1997 (ddd/yyyy)
+ tav =  20.06 (oC)     ! annual average ambient temperature
+ amp =  12.63 (oC)     ! annual amplitude in mean monthly temperature
 site    year    day     radn    maxt    mint    rain    evap    wind
 ()      ()      ()      (MJ/m2) (oC)    (oC)    (mm)    (mm)    (km/d)
 CPRL        1975     116    11.4    28.2    14.3     1.2     2.6      85
