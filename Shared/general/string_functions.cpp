@@ -65,6 +65,7 @@ void GENERAL_EXPORT Strip (char* text, const char* separators)
 
 //  Changes:
 //    DPH 24/9/97
+//    dph 6/7/2001 added code to remove TAB chars d423
 
 // ------------------------------------------------------------------
 void GENERAL_EXPORT Get_keyname_and_value (const char* line, string& Key_name, string& Key_value)
@@ -76,8 +77,10 @@ void GENERAL_EXPORT Get_keyname_and_value (const char* line, string& Key_name, s
       {
       string Left_of_equals;
       Key_name = Str_line.substr (0, Pos_equals);
+      Replace_all(Key_name, "\t", "   ");
       Strip (Key_name, " ");
       Key_value = Str_line.substr (Pos_equals + 1);
+      Replace_all(Key_value, "\t", "   ");
       Strip (Key_value, " ");
       }
    else
@@ -98,6 +101,7 @@ void GENERAL_EXPORT Get_keyname_and_value (const char* line, string& Key_name, s
 //    DPH 29/4/1997
 //    dph 17/9/1997 changed "string& line" to "const char* line"
 //    dph 5/6/98 modified to use str_i_eq routine instead of to_lower.
+//    dph 6/7/2001 added code to remove TAB chars d423
 
 // ------------------------------------------------------------------
 string GENERAL_EXPORT Get_key_value (const char* line, const char* Key_name)
@@ -111,10 +115,12 @@ string GENERAL_EXPORT Get_key_value (const char* line, const char* Key_name)
       {
       string Left_of_equals;
       Left_of_equals = Str_line.substr (0, Pos_equals);
+      Replace_all(Left_of_equals, "\t", "   ");
       Strip (Left_of_equals, " ");
       if (Str_i_Eq(Left_of_equals, Key_name))
          {
          Key_value = Str_line.substr (Pos_equals + 1);
+         Replace_all(Key_value, "\t", "   ");
          Strip (Key_value, " ");
          }
       }
@@ -131,6 +137,7 @@ string GENERAL_EXPORT Get_key_value (const char* line, const char* Key_name)
 //  Changes:
 //    DPH 29/4/1997
 //    dph 17/9/1997 changed "string& line" to "const char* line"
+//    dph 6/7/2001 added code to remove TAB chars d423
 
 // ------------------------------------------------------------------
 string GENERAL_EXPORT Get_section_name (const char* line)
@@ -138,7 +145,7 @@ string GENERAL_EXPORT Get_section_name (const char* line)
    string Str_line = line;
    string Section_name;
 
-   unsigned int Pos_first_non_blank = Str_line.find_first_not_of (" ");
+   unsigned int Pos_first_non_blank = Str_line.find_first_not_of (" \t");
    if (Pos_first_non_blank != string::npos && Str_line[Pos_first_non_blank] == '[')
       {
       int Pos_open = Str_line.find("[");
