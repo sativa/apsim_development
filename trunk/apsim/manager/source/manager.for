@@ -341,6 +341,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
       msg = 'Manager rules:'
       call Write_string(msg)
 
+      call Manager_read_rules ()
+
       ! check for case when no manager lines were found anywhere.  Issue warning
 
       if (g%lines_been_read) then
@@ -496,11 +498,12 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .                                     g%num_rules)
       ! Go tokenize each rule.
       do rule = 1, g%num_rules
-         call write_string (new_line
-     :                     //'SECTION:- '//rule_names(rule))
-
          call Split_line (rule_names(rule), dummy, rule_type, '.')
          rule_type = Lower_case(rule_type)
+
+         call write_string (new_line
+     :                     //'SECTION:- '//rule_type)
+
          if (rule_type .eq. 'start_of_day') then
             rule_type = 'prepare'
          else if (rule_type .eq. 'end_of_day') then
@@ -3599,7 +3602,6 @@ c      end subroutine
       else if (Action.eq.ACTION_Create) then
          call doRegistrations(id)
          call Manager_zero_variables ()
-         call Manager_read_rules ()
 
       else
          ! Don't use message
