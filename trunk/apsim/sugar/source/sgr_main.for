@@ -177,7 +177,6 @@
  
       else if (Action.eq.ACTION_Create) then
          call sugar_zero_all_globals ()
-         call sugar_read_constants ()
  
       else
                ! don't use message
