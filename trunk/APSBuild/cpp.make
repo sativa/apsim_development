@@ -1,6 +1,6 @@
 # System wide defines for C++ compiler
 
-SYSINCLUDES = $(BCB)\include;$(BCB)\include\vcl
+SYSINCLUDES = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost
 SYSLIBPATH = $(BCB)\lib\obj;$(BCB)\lib
 SYSCFLAGS = -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -tWM -c
 #componentinterface = -O2 -vi -x- -RT- -TW
@@ -9,8 +9,16 @@ SYSCFLAGS = -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -tWM -c
 #protocol           = -O2 -vi -TWD
 #protocolmanager    = -O2 -vi -TWD
 #modules            = -O2 -vi -TWD
+SYSLDFLAGS = 
 
-SYSDEBUG =  -y -v 
+# Optimisation and debug symbols.
+!if "$(DEBUG)" == ""
+SYSCFLAGS = $(SYSCFLAGS) -O2
+SYSLDFLAGS = $(SYSLDFLAGS)
+!else
+SYSCFLAGS = $(SYSCFLAGS) -Od -v -y
+SYSLDFLAGS = $(SYSLDFLAGS) -v
+!endif
 
 # These are harvested from dean's individual bprs:
 #apsimshared
