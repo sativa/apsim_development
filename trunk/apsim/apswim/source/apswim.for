@@ -1142,7 +1142,8 @@ c      read(ret_string, *, iostat = err_code) g%rain
      :            '(??)',
      :            g%psi(0),
      :            p%n+1)
-      else if (Variable_name .eq. 'rain') then
+      else if ((Variable_name .eq. 'rain').and.
+     :         (p%rainfall_source .ne. 'apsim')) then
          start_of_day = apswim_time (g%year,g%day,
      :                               apswim_time_to_mins(g%apsim_time))
          end_of_day = apswim_time (g%year
@@ -1190,7 +1191,8 @@ cnh      print*,g%TD_pevap
      :            '(mm)',
      :            g%TD_drain)
 
-      else if (Variable_name .eq. 'eo') then
+      else if ((Variable_name .eq. 'eo').and.
+     :         (p%evap_source .ne. 'apsim')) then
          start_of_day = apswim_time (g%year,g%day,
      :                               apswim_time_to_mins(g%apsim_time))
          end_of_day = apswim_time (g%year
@@ -6816,6 +6818,9 @@ cnh      end if
      :           1000.d0)
 
       ! Check that apswim is not getting Eo from itself.
+      ! Not really necessary if trap in send_my_variable routine
+      ! is working correctly.
+
       call get_posting_module (owner_module)
       call Get_current_module (module_name)
       if (owner_module.eq.module_name) then
