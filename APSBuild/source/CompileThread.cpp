@@ -317,6 +317,7 @@ void CompileThread::createLinkerResponseFile (APSIM_project& apf)
    out << getCompilerSetting(apf, "import", '\n') << endl;
    out << getCompilerSetting(apf, "object", '\n') << endl;
    out << "-lib " << getCompilerSetting(apf, "library", ',') << endl;
+   out << "-libPath " << getCompilerSetting(apf, "libraryPath", ',') << endl;
    }
 
 // ------------------------------------------------------------------

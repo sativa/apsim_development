@@ -7,4 +7,5 @@ module ComponentInterfaceModule
    use StringModule
    use ComponentCInterfaceModule
    use ConvertModule
+   use ReadModule
 end module ComponentInterfaceModule

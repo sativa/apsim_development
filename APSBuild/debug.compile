@@ -1,12 +1,11 @@
 [Instructions]
 import   = %apsuite\apsim\infra\lib\apsimengine.imp
-import   = %apsuite\apsim\infra\lib\apsiminfra.imp
 include  = %apsuite\apsim\infra
 module   = .
 module   = %apsuite\apsim\infra\source
 module   = %apsuite\apsim\infra\componentinterface
-
 library  = %apsuite\apsim\infra\lib\apsinfra.lib
+libraryPath = %apsuite\apsbuild
 object   = %apsuite\apsim\infra\ComponentInterface\FORTRANComponent.obj
 object   = %apsuite\apsim\infra\ComponentInterface\Component.obj
 object   = %apsuite\apsim\infra\ComponentInterface\TypeConverter.obj
@@ -21,4 +20,4 @@ object   = %apsuite\apsim\infra\ComponentInterface\registers.obj
 ;library  = %apsuite\apsim\infra\ComponentInterface\FORTRANComponentInterface.lib
 
 compile=@lf95 -c "%fi" -winconsole -dll -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink -g @compiler.rsp
-link=@lf95 @%rf -exe %ex -winconsole -dll -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink -g @linker.rsp 
+link=@lf95 @%rf -exe %ex -winconsole -dll -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink -g @linker.rsp
