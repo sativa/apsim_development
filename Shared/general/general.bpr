@@ -4,11 +4,10 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="general.lib"/>
-    <OBJFILES value="date_class.obj db_functions.obj exec.obj general.obj ini_file.obj 
+    <OBJFILES value="date_class.obj db_functions.obj exec.obj general.obj IniFile.obj 
       io_functions.obj macro.obj macros.obj MacroSubstFile.obj MacroValue.obj 
       math_functions.obj path.obj stream_functions.obj stream_processor.obj 
-      string_functions.obj StringTokenizer.obj stristr.obj TExplorerMenu.obj 
-      TMenuItemCommand.obj vcl_functions.obj"/>
+      string_functions.obj StringTokenizer.obj stristr.obj vcl_functions.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -48,7 +47,7 @@
       <FILE FILENAME="db_functions.cpp" FORMNAME="" UNITNAME="db_functions.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="exec.cpp" FORMNAME="" UNITNAME="exec.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="general.cpp" FORMNAME="" UNITNAME="general.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="ini_file.cpp" FORMNAME="" UNITNAME="ini_file.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="IniFile.cpp" FORMNAME="" UNITNAME="IniFile" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="io_functions.cpp" FORMNAME="" UNITNAME="io_functions.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="macro.cpp" FORMNAME="" UNITNAME="macro.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="macros.cpp" FORMNAME="" UNITNAME="macros.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
@@ -61,8 +60,6 @@
       <FILE FILENAME="string_functions.cpp" FORMNAME="" UNITNAME="string_functions.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="StringTokenizer.cpp" FORMNAME="" UNITNAME="StringTokenizer.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="stristr.cpp" FORMNAME="" UNITNAME="stristr.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="TExplorerMenu.cpp" FORMNAME="" UNITNAME="TExplorerMenu.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="TMenuItemCommand.cpp" FORMNAME="" UNITNAME="TMenuItemCommand.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="vcl_functions.cpp" FORMNAME="" UNITNAME="vcl_functions.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
@@ -97,13 +94,15 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=2
+Count=3
 Item0=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item1=$(BCB)\include;$(BCB)\include\vcl
+Item1=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item2=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=1
+Count=2
 Item0=$(BCB)\lib\obj;$(BCB)\lib
+Item1=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
