@@ -1,4 +1,4 @@
-C     Last change:  E    28 Aug 2001    5:02 pm
+C     Last change:  E    13 Sep 2001    6:21 pm
 
 *     ===========================================================
       subroutine Crop_Read_Constants ()
@@ -48,8 +48,10 @@ C     Last change:  E    28 Aug 2001    5:02 pm
 
 
       elseif (c%crop_type.eq.'sorghum') then
-
          call Read_Constants_Sorghum ()
+
+      elseif (c%crop_type.eq.'maize') then
+         call Read_Constants_Maize ()
 
 
       else
@@ -114,6 +116,10 @@ C     Last change:  E    28 Aug 2001    5:02 pm
 
            call Read_Cultivar_Params_Sorghum (cultivar)
 
+        elseif (c%crop_type .eq. 'maize') then
+
+           call Read_Cultivar_Params_Maize (cultivar)
+
         else
 
 
@@ -144,65 +150,6 @@ C     Last change:  E    28 Aug 2001    5:02 pm
 
       include 'const.inc'
       include 'science.pub'                          
-      include 'data.pub'                          
-      include 'error.pub'                         
-
-
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Crop_Process')
-
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-      if (g%plant_status.eq.status_alive) then
-
-          call Dynamic_Processes ()
-
-
-         !------------------------------------------------
-         !CROP DEATH of PLANTS (cf. plant part pools)
-         call Crop_Death(1)
- 
-         !Check to see if plant death should terminate crop
-         if(reals_are_equal (g%dlt_plants_dead + g%plants, 0.0))then
-            call Kill_Crop (
-     .          g%plant_status,
-     .          g%dm_green,
-     .          g%dm_senesced,
-     .          g%dm_dead)
-         endif
-
-      else
-         ! plant_status not alive
-      endif
- 
-
-      !Detachment and Cleanup after dynamic process
-      !modify detachment so that it is generalised in cropother.for
-
-      call Crop_Detachment(1)
-      call Crop_Cleanup()        !CODE is almost same as maize
-
-
-      call pop_routine (my_name)
- 
-      return
-      end
-
-
-
-*================================================================
-      subroutine Dynamic_Processes ()
-*=================================================================
-
-      use CropModModule
-      implicit none
-
-      include 'const.inc'
-      include 'science.pub'                          
       include 'data.pub'
       include 'error.pub'
 
@@ -211,17 +158,19 @@ C     Last change:  E    28 Aug 2001    5:02 pm
       include 'crp_temp.pub'
 
 
-*+  Calls
+      INTEGER GetSwitchCode
+
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Dynamic_Processes')
+      parameter (my_name = 'Crop_Process')
 
-      INTEGER GetSwitchCode
 
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+
+      if (g%plant_status.eq.status_alive) then
 
 
 c      call leaf_area_initialisation  (GetSwitchCode(c%can_switch,1))
@@ -278,6 +227,19 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
       call leaf_area_actual          (GetSwitchCode(c%can_switch,3))
       call crop_height               (GetSwitchCode(c%can_switch,4))
 
+c         if (g%current_stage .gt. 3.0) then
+c
+c            PRINT *, '=================================='
+c            PRINT *, 'co2_Lev   = ', g%co2level
+c            PRINT *, 'dlt_dm_l  = ', g%dlt_dm_light
+c            PRINT *, 'dlt_dm_w  = ', g%dlt_dm_water
+c            PRINT *, 'dlt_dm    = ', g%dlt_dm
+c            PRINT *, 'dlt_lai_pot    = ', g%dlt_lai_pot
+c            PRINT *, 'dlt_lai_str    = ', g%dlt_lai_stressed
+c            PRINT *, 'dlt_lai_act    = ', g%dlt_lai
+c         endif
+
+
       !SECTION 6: ROOT SYSTEM FORMATION - UNDER GROUND PART
       call root_depth_initialisation (GetSwitchCode(c%root_switch,1))
       call root_depth                (GetSwitchCode(c%root_switch,2))
@@ -299,6 +261,39 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
       call nitrogen_partition        (GetSwitchCode(c%nit_switch,5))
       call nitrogen_yieldpart_demand (GetSwitchCode(c%nit_switch,6))
       call nitrogen_retranslocation  (GetSwitchCode(c%nit_switch,7))
+
+
+      !SECTION 9: PLANT P RELATIONS
+      call Phosphorus_initialisation  (GetSwitchCode(c%phos_switch,1))
+      call Phosphorus_demand          (GetSwitchCode(c%phos_switch,2))
+      call Phosphorus_uptake          (GetSwitchCode(c%phos_switch,3))
+      call Phosphorus_stress          (GetSwitchCode(c%phos_switch,4))
+
+
+      !SECTION 9: DEATH of PLANTS (cf. plant part pools)
+      call Crop_Death		      (GetSwitchCode(c%die_switch,1))
+
+
+
+         !Check to see if plant death should terminate crop
+         if(reals_are_equal (g%dlt_plants_dead + g%plants, 0.0))then
+            call Kill_Crop (
+     .          g%plant_status,
+     .          g%dm_green,
+     .          g%dm_senesced,
+     .          g%dm_dead)
+         endif
+
+      else
+         ! plant_status not alive
+      endif
+ 
+
+      !Detachment and Cleanup after dynamic process
+      !modify detachment so that it is generalised in cropother.for
+
+      call Crop_Detachment(1)
+      call Crop_Cleanup()        !CODE is almost same as maize
 
 
       call pop_routine (my_name)
@@ -567,12 +562,13 @@ c     integer    deepest_layer
  
       elseif ((Option.eq.1).OR.(Option.eq.2).OR.(Option.eq.3)) then
  
-         call crop_sw_uptake0(max_layer, 
+         call crop_sw_uptake0(max_layer,
      :                    g%dlayer,
      :                    g%root_depth,
      :                    g%sw_demand,
      :                    g%sw_supply,
      :                    g%dlt_sw_dep)
+
 
       else if (Option.eq.0) then
 
@@ -1155,6 +1151,33 @@ c      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN 
      .          g%phase_tt)
 
 
+      elseif (option.eq.6)  then
+
+       call maize_phen_init (
+     :          g%current_stage
+     :        , g%days_tot
+     :        , c%shoot_lag
+     :        , g%sowing_depth
+     :        , c%shoot_rate
+     :        , p%tt_emerg_to_endjuv
+     :        , p%tt_endjuv_to_init
+     :        , g%day_of_year
+     :        , g%latitude
+     :        , c%twilight
+     :        , p%photoperiod_crit1
+     :        , p%photoperiod_crit2
+     :        , p%photoperiod_slope
+     :        , g%leaf_no_final
+     :        , c%leaf_no_rate_change
+     :        , c%leaf_no_at_emerg
+     :        , c%leaf_app_rate1
+     :        , c%leaf_app_rate2
+     :        , g%tt_tot
+     :        , p%tt_flag_to_flower
+     :        , p%tt_flower_to_start_grain
+     :        , p%tt_flower_to_maturity
+     :        , p%tt_maturity_to_ripe
+     :        , g%phase_tt)
 
       elseif (Option.eq.0) then
 
@@ -1199,11 +1222,11 @@ c      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN 
  
 
       !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN THE FUTURE
-      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
+c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
       !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN THE FUTURE
 
 
-      if ((Option.eq.1).or.(Option .eq. 9)) then
+      if (Option.eq.1) then
          call cproc_phenology1 (
      :                             g%previous_stage
      :                            ,g%current_stage
@@ -1486,8 +1509,6 @@ c      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN 
      :                     g%mint,
      :                     co2_modifier)
 
-
-
         call crop_dm_pot_rue_wang (
      .                     g%current_stage,
      .                     rue_used,
@@ -1497,6 +1518,7 @@ c      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN 
      .                     co2_modifier,
      .                     g%dlt_dm_light)
 
+       g%rue = rue_used * co2_modifier
 
 
       elseif (Option .eq. 2) then
@@ -1891,7 +1913,17 @@ c      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN 
      .          g%dm_plant_min)
 
 
+      elseif (Option.eq.6) then
 
+         call Maize_dm_init (g%current_stage
+     :        , g%days_tot
+     :        , c%dm_root_init
+     :        , g%plants
+     :        , c%dm_stem_init
+     :        , c%dm_leaf_init
+     :        , c%stem_trans_frac
+     :        , c%leaf_trans_frac
+     :        , g%dm_green, g%dm_plant_min)
 
       else if (Option.eq.0) then
 
@@ -2077,6 +2109,53 @@ c      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN 
      .          g%dm_green_tot_fi)
  
 
+      else if (Option .eq. 6) then
+
+          call Maize_heat_stress (g%maxt
+     :                      , c%temp_grain_crit_stress
+     :                      , g%dlt_heat_stress_tt)     ! high temperature stres
+           call Maize_grain_no2(g%current_stage
+     :        , g%days_tot
+     :        , g%dm_plant_top_tot
+     :        , c%grno_grate
+     :        , c%grno_fract
+     :        , c%num_grno_grate
+     :        , p%head_grain_no_max
+     :        , g%heat_stress_tt
+     :        , c%htstress_coeff
+     :        , g%N_conc_min
+     :        , g%dm_green
+     :        , g%N_green
+     :        , g%plants
+     :        , c%seed_wt_min
+     :        , c%grain_N_conc_min
+     :        , g%grain_no)              ! set grain number
+
+           call Maize_dm_grain (
+     :          g%current_stage
+     :        , g%maxt
+     :        , g%mint
+     :        , c%x_temp_grain
+     :        , c%y_grain_rate
+     :        , c%num_temp_grain
+     :        , c%swdf_grain_min
+     :        , g%grain_no
+     :        , p%grain_gth_rate
+     :        , g%N_conc_min
+     :        , g%dm_green
+     :        , g%N_green
+     :        , c%temp_fac_min
+     :        , c%tfac_slope
+     :        , c%sw_fac_max
+     :        , c%sfac_slope
+     :        , g%N_conc_crit
+     :        , g%swdef_photo
+     :        , g%pfact_grain
+     :        , g%swdef_expansion
+     :        , g%nfact_grain_conc
+     :    , g%dlt_dm_grain_demand)
+ 
+
 
       else if (Option .eq. 9) then !use the grain # approach
 
@@ -2182,6 +2261,7 @@ c      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN 
       implicit none
       include 'const.inc'
       include 'convert.inc'
+      include 'science.pub'
       include 'error.pub'                         
       include 'crp_cnpy.pub'
 
@@ -2200,7 +2280,7 @@ c      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN 
       
       INTEGER GetSwitchCode
 
-c      REAL nw_sla
+      REAL interp_sla_min
 
 
 *- Implementation Section ----------------------------------
@@ -2372,6 +2452,36 @@ c          nw_sla = 22500.0  ! mm2/g - nwheat value
      .          g%dlt_dm_green)
 
 
+      elseif (Option.eq.6) then
+
+
+         call leaf_area_potential(GetSwitchCode(c%can_switch,2))
+
+         call cproc_leaf_area_stressed1 (
+     :                       g%dlt_lai_pot
+     :                      ,g%swdef_expansion
+     :                      ,g%nfact_expansion
+     :                      ,g%dlt_lai_stressed
+     :                      )
+
+         interp_sla_min = linear_interp_real(g%lai
+     :                                     , c%x_lai
+     :                                     , c%lai_sla_min
+     :                                     , c%num_x_lai)
+
+         call Maize_dm_partition (
+     :          g%current_stage
+     :        , c%ratio_root_shoot
+     :        , g%dlt_dm
+     :        , g%leaf_no
+     :        , c%partition_rate_leaf
+     :        , g%dlt_lai_stressed
+     :        , interp_sla_min
+     :        , c%frac_stem2flower
+     :        , g%dlt_dm_grain_demand
+     :        , g%dlt_dm_green)
+
+
       elseif (Option.eq.9) then
 
           call cproc_bio_partition_nw_ew (
@@ -2511,7 +2621,9 @@ c      REAL grain_now
      :               )
  
 
+      elseif (Option.eq.6) then
 
+             call Maize_bio_retrans ()
 
       else if (Option.eq.0) then
 
@@ -2693,6 +2805,23 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      .          g%leaf_no_final)
  
 
+      elseif (Option.eq.6) then
+
+
+         call maize_leaf_number_final (
+     :          g%current_stage
+     :        , g%days_tot
+     :        , g%phase_tt
+     :        , germ
+     :        , c%leaf_init_rate
+     :        , c%leaf_no_seed
+     :        , c%leaf_no_min
+     :        , c%leaf_no_max
+     :        , g%tt_tot
+     :        , g%leaf_no_final)
+ 
+
+
       elseif (Option.eq.9) then
  
 
@@ -2821,7 +2950,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       else if (Option.eq.5) then
 
-         call sorg_leaf_appearance1 (
+         call maize_leaf_appearance (
      .          g%leaf_no,
      .          g%leaf_no_final,
      .          c%leaf_no_rate_change,
@@ -2831,6 +2960,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      .          g%days_tot,
      .          g%dlt_tt,
      .          g%dlt_leaf_no) ! fraction of leaf emerged
+
 
       else if (Option.eq.0) then
 
@@ -3032,6 +3162,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       include 'convert.inc'
       include 'error.pub'                         
       include 'science.pub'
+      include 'crp_cnpy.pub'
+
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3052,9 +3184,19 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       if ((Option.eq.1).or.(Option .eq. 2).or.(Option .eq. 3)) then
 
 
-          if (on_day_of (emerg, g%current_stage, g%days_tot)) then
-             g%lai= c%initial_tpla *1.0E-6 * g%plants
-          endif
+         call cproc_leaf_area_init1 (
+     :                c%initial_tpla
+     :              , emerg
+     :              , g%current_stage
+     :              , g%days_tot
+     :              , g%plants
+     :              , g%lai
+     :              )
+
+
+c          if (on_day_of (emerg, g%current_stage, g%days_tot)) then
+c             g%lai= c%initial_tpla *1.0E-6 * g%plants
+c          endif
 
 
       elseif (Option .eq. 0) then
@@ -3211,6 +3353,30 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      .          g%plants,
      .          g%lai,
      .          g%dlt_lai_pot)
+
+      elseif (Option.eq.6) then
+
+        call cproc_leaf_area_pot_bellshapecurve (
+     :          sowing
+     :        , now
+     :        , g%leaf_no
+     :        , c%leaf_no_correction
+     :        , c%x0_const
+     :        , c%x0_slope
+     :        , g%leaf_no_final
+     :        , c%y0_const
+     :        , c%y0_slope
+     :        , c%a_const
+     :        , c%a_slope1
+     :        , c%a_slope2
+     :        , c%b_const
+     :        , c%b_slope1
+     :        , c%b_slope2
+     :        , g%dlt_leaf_no
+     :        , g%plants
+     :        , g%swdef_expansion
+     :        , g%dlt_lai_pot) ! individual leaf approach
+
 
 
        elseif (Option.eq.8) then
@@ -3382,6 +3548,28 @@ c      endif
      .          g%dlt_dm_green,
      .          c%sla_max
      .          )
+
+
+      elseif (Option .eq. 6) then
+
+         call cproc_leaf_area_stressed1 (
+     :                       g%dlt_lai_pot
+     :                      ,g%swdef_expansion
+     :                      ,g%nfact_expansion
+     :                      ,g%dlt_lai_stressed
+     :                      )
+
+
+         call cproc_leaf_area_actual1 (
+     :                c%x_lai
+     :              , c%y_lai_sla_max
+     :              , c%num_x_lai
+     :              , g%dlt_dm_green(leaf)
+     :              , g%dlt_lai
+     :              , g%dlt_lai_stressed
+     :              , g%lai
+     :               )
+
 
 
       elseif (Option .eq. 0) then
@@ -3713,6 +3901,7 @@ c      endif
       include 'science.pub'
       include 'data.pub'
       include 'error.pub'                         
+      include 'crp_cnpy.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) template option number
@@ -3896,6 +4085,52 @@ c     :                g%dlt_slai )
           call sorg_leaf_area_sen ()
 
       else if (Option.eq.6) then
+
+         call Maize_leaf_death0 (
+     :          g%leaf_no_dead
+     :        , g%current_stage
+     :        , c%leaf_no_dead_const
+     :        , c%leaf_no_dead_slope
+     :        , g%tt_tot
+     :        , g%leaf_no_final
+     :        , g%days_tot
+     :        , g%dlt_leaf_no_dead)
+ 
+         call cproc_leaf_area_sen1
+     :               (
+     :                emerg
+     :              , now
+     :              , g%dlt_lai_stressed
+     :              , g%dlt_leaf_no
+     :              , g%dlt_leaf_no_dead
+     :              , g%lai
+     :              , g%leaf_area
+     :              , g%leaf_no_dead
+     :              , g%plants
+     :              , g%slai
+     :              , c%tpla_min
+     :              , g%dlt_slai_age
+     :              , c%lai_sen_light
+     :              , c%sen_light_slope
+     :              , g%dlt_slai_light
+     :              , c%sen_rate_water
+     :              , g%swdef_photo
+     :              , g%dlt_slai_water
+     :              , c%x_temp_senescence
+     :              , c%y_senescence_fac
+     :              , c%num_temp_senescence
+     :              , g%mint
+     :              , g%dlt_slai_frost
+     :              , g%dlt_slai
+     :               )
+ 
+         g%dlt_slai = max (g%dlt_slai_age
+     :                 , g%dlt_slai_light
+     :                 , g%dlt_slai_water
+     :                 , g%dlt_slai_frost)
+ 
+
+      else if (Option.eq.8) then
 
        call leaf_senescence_age_nw_ew(
      :                   g%current_stage,
@@ -4350,7 +4585,7 @@ c       end do
       call push_routine (my_name)
 
  
-      if ((Option.eq.1).or.(Option.eq.3)) then
+      if (Option.eq.3) then
 
          call cproc_N_senescence1 (max_part
      :                              , c%n_sen_conc
@@ -4377,7 +4612,7 @@ c       end do
      :          + sum_real_array (dlt_n_sen_supply, max_part)
 
 
-      elseif (Option.eq.4) then
+      elseif (Option.eq.1) then
 
          call cproc_N_senescence1 (max_part
      :                              , c%n_sen_conc
@@ -4396,10 +4631,6 @@ c       end do
      :                              , g%dm_green
      :                              , g%swdef_expansion
      :                              , g%dlt_N_senesced)
- 
-
-
-
 
       elseif (Option.eq.2) then
 
@@ -4758,29 +4989,57 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
          ! call below as it is called on its own from process routine.
          ! -NIH
  
-      elseif (Option.eq.1) then
+c      elseif (Option.eq.1) then
  
-         fixation_determinant = sum_real_array(g%dm_green, max_part)
+c         fixation_determinant = sum_real_array(g%dm_green, max_part)
+c     :                        - g%dm_green(root)
+ 
+c       call cproc_n_supply2 (
+c     :            g%dlayer
+c     :          , max_layer
+c     :          , g%dlt_sw_dep
+c     :          , g%NO3gsm
+c     :          , g%NO3gsm_min
+c     :          , g%root_depth
+c     :          , g%sw_dep
+c     :          , g%NO3gsm_mflow_avail
+c     :          , g%sw_avail
+c     :          , g%sw_avail_pot
+c     :          , g%NO3gsm_diffn_pot
+c     :          , g%current_stage
+c     :          , c%n_fix_rate
+c     :          , fixation_determinant
+c     :          , g%swdef_fixation
+c     :          , g%N_fix_pot
+c     :          )
+
+      elseif (Option.eq.1) then
+
+       fixation_determinant = sum_real_array(g%dm_green, max_part)
      :                        - g%dm_green(root)
  
-       call cproc_n_supply2 (
-     :            g%dlayer
-     :          , max_layer
-     :          , g%dlt_sw_dep
-     :          , g%NO3gsm
-     :          , g%NO3gsm_min
+       call Cproc_N_Supply_Massflow_Diffusion_Fixation (
+     :            max_layer
+     :          , g%dlayer
      :          , g%root_depth
+     :          , g%dlt_sw_dep
      :          , g%sw_dep
-     :          , g%NO3gsm_mflow_avail
      :          , g%sw_avail
      :          , g%sw_avail_pot
+     :          , g%NO3gsm
+     :          , g%NO3gsm_min
+     :          , g%NO3gsm_mflow_avail
      :          , g%NO3gsm_diffn_pot
+     :          , g%NH4gsm
+     :          , g%NH4gsm_min
+     :          , g%NH4gsm_mflow_avail
+     :          , g%NH4gsm_diffn_pot
      :          , g%current_stage
      :          , c%n_fix_rate
      :          , fixation_determinant
      :          , g%swdef_fixation
-     :          , g%N_fix_pot
-     :          )
+     :          , g%N_fix_pot        )
+
 
       elseif (Option.eq. 2) then
  
@@ -4832,43 +5091,30 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
      :                  g%pot_extract_NO3gsm,
      :                  g%pot_extract_NH4gsm)
 
+      elseif (Option.eq.6) then
 
-      elseif (Option.eq.9) then
-
-
-      PRINT *,'we are here'
 
          fixation_determinant = sum_real_array(g%dm_green, max_part)
      :                        - g%dm_green(root)
  
-       call Cproc_N_Supply_Massflow_Diffusion_Fixation (
-     :            max_layer
-     :          , g%dlayer
-     :          , g%root_depth
+         call cproc_n_supply1 (
+     :            g%dlayer
+     :          , max_layer
      :          , g%dlt_sw_dep
-     :          , g%sw_dep
-     :          , g%sw_avail
-     :          , g%sw_avail_pot
      :          , g%NO3gsm
      :          , g%NO3gsm_min
+     :          , g%root_depth
+     :          , g%sw_dep
      :          , g%NO3gsm_mflow_avail
+     :          , g%sw_avail
      :          , g%NO3gsm_diffn_pot
-     :          , g%NH4gsm
-     :          , g%NH4gsm_min
-     :          , g%NH4gsm_mflow_avail
-     :          , g%NH4gsm_diffn_pot
      :          , g%current_stage
      :          , c%n_fix_rate
      :          , fixation_determinant
      :          , g%swdef_fixation
-     :          , g%N_fix_pot        )
-
-
-
-         call fill_real_array (g%NH4gsm_mflow_avail, 0.0, max_layer)
-         call fill_real_array (g%NH4gsm_diffn_pot,   0.0, max_layer)
-
-
+     :          , g%N_fix_pot
+     :          )
+ 
 
 
       else if (Option.eq.0) then
@@ -4915,6 +5161,9 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
       integer demand_parts(num_demand_parts)
       data demand_parts /root,leaf,stem,flower/
       save /demand_parts/
+
+      INTEGER current_phase
+      REAL    dlt_dm_pot_radn
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -4988,6 +5237,36 @@ c      call fill_real_array (g%dlt_N_retrans, 0.0, max_part)
      .                c%n_target_conc,
      :                g%N_demand
      :               )
+
+
+      elseif (Option .eq. 6) then
+ 
+
+        ! calculate potential new shoot and root growth
+         current_phase = int (g%current_stage)
+
+         ! need to calculate dm using potential rue not affected by N and temperature
+
+         !dlt_dm_pot_radn = c%rue(current_phase)*g%radn_int
+         dlt_dm_pot_radn = g%rue * g%radn_int
+ 
+         call cproc_N_demand1
+     :               (
+     :                max_part
+     :              , demand_parts
+     :              , num_demand_parts
+     :              , g%dlt_dm
+     :              , g%dlt_dm_green
+     :              , dlt_dm_pot_radn
+     :              , g%dlt_n_retrans
+     :              , g%dm_green
+     :              , g%n_conc_crit
+     :              , g%n_conc_max
+     :              , g%n_green
+     :              , g%N_demand, g%N_max
+     :               )
+ 
+
 
       else if (Option.eq.0) then
 
@@ -5098,6 +5377,7 @@ c       DATA b/0.,0.,0./
      :              , g%dlt_NO3gsm_diffusion
      :               )
 
+
       elseif (Option.eq.5) then
 
          call sorg_N_uptake2
@@ -5117,7 +5397,9 @@ c       DATA b/0.,0.,0./
  
 
       elseif (Option.eq.9) then
- 
+
+        PRINT *, 'uptake'
+
         call cproc_n_uptake_massflow_diffusion_fixation
      :               (
      :                max_part
@@ -5138,6 +5420,7 @@ c       DATA b/0.,0.,0./
      :              , g%dlt_NH4gsm_massflow
      :              , g%dlt_NH4gsm_diffusion
      :              , c%n_supply_preference
+     :              , c%n_uptake_preference
      :              , g%n_fix_pot
      :               )
 
@@ -5272,6 +5555,7 @@ c       DATA b/0.,0.,0./
      .          g%dlt_N_green)
 
 
+
       else if (Option.eq.5) then
 
       call sorg_N_partition1(
@@ -5356,7 +5640,7 @@ c       DATA b/0.,0.,0./
 
       else if (Option .eq. 4) then
 
-      call sproc_grain_N_demand (
+      call cproc_grain_N_demand (
      .           g%dm_green(grain),
      .           g%dlt_dm_green(grain),
      .           g%maxt,
@@ -5496,7 +5780,7 @@ c       DATA b/0.,0.,0./
       else if (Option .eq. 4) then
 
 
-      call sproc_N_retranslocate1 (
+      call cproc_N_retranslocate1 (
      .            g%N_demand(grain),
      .            g%N_conc_min,
      .            g%dm_green,
@@ -5624,6 +5908,8 @@ c       DATA b/0.,0.,0./
 
 c         g%nfact_tiller = g%nfact_expansion
 
+
+
       elseif (Option.eq.2) then
  
          call crop_nfact_pheno(leaf, stem, g%dm_green,
@@ -5734,6 +6020,318 @@ c         g%nfact_tiller = g%nfact_expansion
 
 
 
+*     ===========================================================
+      subroutine Phosphorus_initialisation(Option)
+*     ===========================================================
+      use CropModModule
+      implicit none
+      include 'const.inc'
+      include 'error.pub'
+
+*+  Sub-Program Arguments
+      integer    Option                ! (INPUT) option number
+
+*+  Purpose
+*     Get current Nitrogen stress factors (0-1)
+
+*+  Local variables
+       REAL rue_red_fac
+       REAL sla_est
+
+*+  Changes
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Phosphorus_initialisation')
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      if (Option.eq.1) then
+ 
+         call Maize_P_init (
+     :          emerg
+     :        , g%current_stage
+     :        , g%days_tot
+     :        , g%dm_green
+     :        , max_part
+     :        , g%p_conc_max
+     :        , g%plant_p
+     :               )
+
+      else if (Option.eq.0) then
+
+         !This module is excluded from the model
+
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+*     ===========================================================
+      subroutine Phosphorus_demand(Option)
+*     ===========================================================
+      use CropModModule
+      implicit none
+      include 'const.inc'
+      include 'error.pub'
+
+*+  Sub-Program Arguments
+      integer    Option                ! (INPUT) option number
+
+*+  Purpose
+*     Get current Nitrogen stress factors (0-1)
+
+*+  Local variables
+       REAL rue_red_fac
+       REAL sla_est
+
+*+  Changes
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Phosphorus_demand')
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      if (Option.eq.1) then
+
+         call Maize_P_conc_limits (
+     :          g%current_stage
+     :        , c%p_stage_code
+     :        , c%stage_code_list
+     :        , g%tt_tot
+     :        , g%phase_tt
+     :        , c%P_conc_max
+     :        , c%P_conc_min
+     :        , g%P_conc_max
+     :        , g%P_conc_min)
+ 
+          call Maize_P_demand (
+     :          g%current_stage
+     :        , g%radn_int
+     :        , g%rue
+     :        , c%ratio_root_shoot
+     :        , g%dm_green
+     :        , g%dm_senesced
+     :        , g%dm_dead
+     :        , max_part
+     :        , g%P_conc_max
+     :        , g%plant_P
+     :        , c%P_uptake_factor
+     :        , g%P_demand)
+ 
+
+      else if (Option.eq.0) then
+
+         !This module is excluded from the model
+
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+*     ===========================================================
+      subroutine Phosphorus_uptake(Option)
+*     ===========================================================
+      use CropModModule
+      implicit none
+      include 'const.inc'
+      include 'convert.inc'
+      include 'data.pub'                          
+      include 'error.pub'                         
+      include 'intrface.pub'                      
+
+*+  Sub-Program Arguments
+      integer    Option                   ! (INPUT) template option number
+ 
+*+ Purpose
+*      Get P uptake from P module and convert to require units
+*      for internal use.
+
+*+  Mission statement
+*         Calcualate plant P uptake
+ 
+*+  Changes
+*     26-06-1997 - huth - Programmed and Specified
+ 
+*+  Constant Values
+      character*(*) my_name               ! name of current procedure
+      parameter (my_name = 'Phosphorus_uptake')
+ 
+*+  Local Variables
+      real       layered_p_uptake(max_layer)
+      integer    numvals
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+ 
+      if (Option.eq.1) then
+
+         call fill_real_array (layered_p_uptake, 0.0, max_layer)
+
+         call get_real_array_Optional 
+     :                        (unknown_module
+     :                       , 'uptake_p_maize'
+     :                       , max_layer
+     :                       , '()'
+     :                       , layered_p_uptake
+     :                       , numvals
+     :                       , 0.0
+     :                       , 100.)
+         if (numvals.gt.0) then
+            g%dlt_plant_p = sum_real_array (layered_p_uptake
+     :                                    , numvals)
+     :                    * kg2gm/ha2sm
+         else
+            g%dlt_plant_p = g%p_demand
+
+         endif
+
+      else if (Option.eq.0) then
+
+         !This module is excluded from the model
+
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+*     ===========================================================
+      subroutine Phosphorus_stress(Option)
+*     ===========================================================
+      use CropModModule
+      implicit none
+      include 'const.inc'
+      include 'convert.inc'
+      include 'data.pub'                          
+      include 'error.pub'                         
+      include 'intrface.pub'                      
+
+*+  Sub-Program Arguments
+      integer    Option                   ! (INPUT) template option number
+ 
+*+ Purpose
+*      Get P uptake from P module and convert to require units
+*      for internal use.
+
+*+  Mission statement
+*         Calcualate plant P uptake
+ 
+*+  Changes
+*     26-06-1997 - huth - Programmed and Specified
+ 
+*+  Constant Values
+      character*(*) my_name               ! name of current procedure
+      parameter (my_name = 'Phosphorus_stress')
+ 
+*+  Local Variables
+      real       layered_p_uptake(max_layer)
+      integer    numvals
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+ 
+      if (Option.eq.1) then
+
+
+         call maize_pfact
+     :               (
+     :                g%dm_green
+     :              , g%dm_dead
+     :              , g%dm_senesced
+     :              , max_part
+     :              , g%P_conc_max
+     :              , g%P_conc_min
+     :              , g%plant_p
+     :              , c%k_pfact_photo
+     :              , g%pfact_photo
+     :               )
+
+         call maize_pfact
+     :               (
+     :                g%dm_green
+     :              , g%dm_dead
+     :              , g%dm_senesced
+     :              , max_part
+     :              , g%P_conc_max
+     :              , g%P_conc_min
+     :              , g%plant_p
+     :              , c%k_pfact_pheno
+     :              , g%pfact_pheno
+     :               )
+ 
+         call maize_pfact
+     :               (
+     :                g%dm_green
+     :              , g%dm_dead
+     :              , g%dm_senesced
+     :              , max_part
+     :              , g%P_conc_max
+     :              , g%P_conc_min
+     :              , g%plant_p
+     :              , c%k_pfact_expansion
+     :              , g%pfact_expansion
+     :               )
+
+
+
+         call maize_pfact
+     :               (
+     :                g%dm_green
+     :              , g%dm_dead
+     :              , g%dm_senesced
+     :              , max_part
+     :              , g%P_conc_max
+     :              , g%P_conc_min
+     :              , g%plant_p
+     :              , c%k_pfact_grain
+     :              , g%pfact_grain
+     :               )
+
+
+      !EW added the following
+      if (g%current_stage < 3.0 ) then
+          g%pfact_pheno = 1.0
+          g%pfact_photo = 1.0
+          g%pfact_expansion = 1.0
+          g%pfact_grain = 1.0
+      end if
+
+      else if (Option.eq.0) then
+
+         !This module is excluded from the model
+
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+
+
+      call pop_routine (my_name)
+      return
+      end
+
+
 
 
 
@@ -5831,6 +6429,83 @@ c         g%nfact_tiller = g%nfact_expansion
      :        , g%dlt_plants
      :            )
 
+      elseif (Option .eq. 6) then
+ 
+         call crop_failure_germination (sowing, germ, now
+     :        , c%days_germ_limit
+     :        , g%current_stage
+     :        , g%days_tot
+     :        , g%plants
+     :        , g%dlt_plants_failure_germ)
+
+         call crop_failure_emergence (germ, emerg, now
+     :        , c%tt_emerg_limit
+     :        , g%current_stage
+     :        , g%plants
+     :        , g%tt_tot
+     :        , g%dlt_plants_failure_emergence)
+
+         call crop_failure_leaf_senescence (
+     :          floral_init
+     :        , plant_end
+     :        , g%lai
+     :        , g%current_stage
+     :        , g%plants
+     :        , g%dlt_plants_failure_leaf_sen)
+
+
+         call crop_death_seedling_hightemp (
+     :          days_after_emerg
+     :        , g%year
+     :        , g%day_of_year
+     :        , g%soil_temp
+     :        , c%x_weighted_temp
+     :        , c%y_plant_death
+     :        , c%num_weighted_temp
+     :        , g%plants
+     :        , g%dlt_plants_death_seedling)
+
+         call crop_death_drought (
+     :          emerg
+     :        , flag_leaf
+     :        , plant_end
+     :        , g%cswd_photo
+     :        , g%leaf_no
+     :        , c%leaf_no_crit
+     :        , c%swdf_photo_limit
+     :        , g%swdef_photo
+     :        , c%swdf_photo_rate
+     :        , g%plants
+     :        , g%dlt_plants_death_drought)
+
+         call maize_failure_phen_delay (
+     :          g%cswd_pheno
+     :        , g%current_stage
+     :        , c%swdf_pheno_limit
+     :        , g%plants
+     :        , g%dlt_plants_failure_phen_delay)
+
+         call maize_death_barrenness0 (
+     :          g%current_stage
+     :        , g%days_tot
+     :        , c%head_grain_no_crit
+     :        , p%head_grain_no_max
+     :        , c%barren_crit
+     :        , g%grain_no
+     :        , g%plants
+     :        , g%dlt_plants_death_barrenness)
+
+         call crop_death_actual (
+     :          g%dlt_plants_failure_germ
+     :        , g%dlt_plants_failure_emergence
+     :        , g%dlt_plants_failure_leaf_sen
+     :        , g%dlt_plants_failure_phen_delay
+     :        , g%dlt_plants_death_seedling
+     :        , g%dlt_plants_death_drought
+     :        , g%dlt_plants_death_barrenness
+     :        , g%dlt_plants
+     :            )
+ 
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -5878,14 +6553,29 @@ c         g%nfact_tiller = g%nfact_expansion
      :                      g%rad_accum,g%accum_rad_10d)
 
 
+
+
+
         if (c%crop_type.ne.'sorghum') then
 
             call nitrogen_stress       (GetSwitchCode(c%nit_switch, 8))
             call water_demand          (GetSwitchCode(c%wat_switch, 2))
-            call biomass_rue_partition ()
-            call nitrogen_demand       (GetSwitchCode(c%nit_switch, 3))
+
+
+            if (c%crop_type.eq.'maize') then
+                 call maize_nit_demand_est (1)
+            else
+                call biomass_rue_partition ()
+                call nitrogen_demand   (GetSwitchCode(c%nit_switch, 3))
+            endif
 
         endif
+
+
+        call Phosphorus_initialisation  (GetSwitchCode(c%phos_switch,1))
+        call Phosphorus_demand          (GetSwitchCode(c%phos_switch,2))
+        call Phosphorus_stress          (GetSwitchCode(c%phos_switch,4))
+
 
       else
       endif
