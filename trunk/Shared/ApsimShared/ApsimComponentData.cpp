@@ -82,9 +82,15 @@ void ApsimComponentData::setExecutableFileName(const std::string& executable)
 // ------------------------------------------------------------------
 // Return the value of a specific property to caller.
 // ------------------------------------------------------------------
-std::string ApsimComponentData::getProperty(const std::string& propertyType,
+std::string ApsimComponentData::getProperty(const std::string& propType,
                                             const std::string& name) const
    {
+   string propertyType = propType;
+   char *endptr;
+   strtod(propertyType.c_str(), &endptr);
+   if (endptr != propertyType.c_str())
+      propertyType = "_" + propertyType;
+
    XMLNode initData = getInitData();
    for (XMLNode::iterator groupI = initData.begin();
                           groupI != initData.end();

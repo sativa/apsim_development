@@ -1,8 +1,8 @@
 object RunForm: TRunForm
   Left = 266
   Top = 162
-  AutoScroll = False
   BorderIcons = []
+  BorderStyle = bsDialog
   Caption = 'Running APSIM...'
   ClientHeight = 368
   ClientWidth = 568
@@ -699,6 +699,25 @@ object RunForm: TRunForm
         OnClick = checkOkButtonState
       end
     end
+    object Page4: TTabSheet
+      Caption = 'Page4'
+      ImageIndex = 3
+      TabVisible = False
+      object Label9: TLabel
+        Left = 24
+        Top = 80
+        Width = 219
+        Height = 13
+        Caption = 'APSIM is currently running multiple simulations.'
+      end
+      object Label10: TLabel
+        Left = 24
+        Top = 112
+        Width = 97
+        Height = 13
+        Caption = 'Click Cancel to stop.'
+      end
+    end
   end
   object ImageList1: TImageList
     Height = 14
@@ -813,5 +832,12 @@ object RunForm: TRunForm
       803FC1FF87C00000841FC1FFC3C00000C60F80FF60C00000FF87183E38C00000
       FF871C3E00C00000FFC7BE7F81C00000FFFFFEFFC3C00000FFFFFFFFFFC00000
       00000000000000000000000000000000000000000000}
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = Timer1Timer
+    Left = 304
+    Top = 176
   end
 end
