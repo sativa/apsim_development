@@ -1,7 +1,7 @@
 version = 3.2
 [APSIM.sample_lucerne]
 title=lucerne Sample Simulation
-module = clock      lucerne.par[sample]
+module = clock      lucerne.par[sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report     lucerne.par[sample]
 module = input(met)        %apsuite\apsim\met\sample\dalby.met[weather]
 module = manager    lucerne.par[sample]

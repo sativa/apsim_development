@@ -1,7 +1,7 @@
 version = 3.2
 [APSIM.sample_fababean]
 title=fababean Sample Simulation
-module = clock      fababean.par[sample]
+module = clock      fababean.par[sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report     fababean.par[sample]
 module = input(met)        %apsuite\apsim\met\sample\dalby.met[weather]
 module = manager    fababean.par[sample]

@@ -6,7 +6,7 @@ version = 3.2
 [apsim.gmtb0a.control]
 
 title=Greenmount B0_SOILWAT
-module = clock refdata.par[gmtb0]
+module = clock refdata.par[gmtb0] %apsuite\apsim\clock\clock.ini[standard]
 module = report refdata.par[gmtb0] refdata.par[gmtb0a]
 module = input(met) GMTAPSIM.DAT[weather]
 module = manager refdata.par[gmt]
@@ -19,7 +19,7 @@ module = Screen  refdata.par[gmtb0]
 [apsim.gmtb0b.control]
 
 title=Greenmount B0_SOILWAT
-module = clock refdata.par[gmtb0]
+module = clock refdata.par[gmtb0] %apsuite\apsim\clock\clock.ini[standard]
 module = report refdata.par[gmtb0] refdata.par[gmtb0b]
 module = input(met) GMTAPSIM.DAT[weather]
 module = operatns refdata.par[gmtb0]
@@ -33,7 +33,7 @@ module = Screen  refdata.par[gmtb0]
 [apsim.gmtb0c.control]
 
 title=Greenmount B0_SOILWAT
-module = clock refdata.par[gmtb0]
+module = clock refdata.par[gmtb0] %apsuite\apsim\clock\clock.ini[standard]
 module = report refdata.par[gmtb0] refdata.par[gmtb0c]
 module = input(met) GMTAPSIM.DAT[weather]
 module = operatns refdata.par[gmtb0]
@@ -47,7 +47,7 @@ module = Screen  refdata.par[gmtb0]
 [apsim.gmtb0d.control]
 
 title=Greenmount B0_SOILWAT
-module = clock refdata.par[gmtb0]
+module = clock refdata.par[gmtb0] %apsuite\apsim\clock\clock.ini[standard]
 module = report refdata.par[gmtb0] refdata.par[gmtb0d]
 module = input(met) GMTAPSIM.DAT[weather]
 module = operatns refdata.par[gmtb0]
@@ -64,7 +64,7 @@ module = Screen  refdata.par[gmtb0]
 !     There's a silly message from input at the end of the summary file. Is it a bug???
 [apsim.gmtb0e.control]
 title=Greenmount B0_SOILWAT
-module = clock refdata.par[gmtb0]
+module = clock refdata.par[gmtb0] %apsuite\apsim\clock\clock.ini[standard]
 module = report refdata.par[gmtb0] refdata.par[gmtb0e]
 module = input(met) GMTAPSIM.DAT[weather]
 module = operatns refdata.par[gmtb0]
@@ -78,7 +78,7 @@ module = Screen  refdata.par[gmtb0]
 [apsim.gmtb0s.control]
 
 title=Greenmount B0_SWIM
-module = clock    gmtswim.par [gmtb0]
+module = clock    gmtswim.par [gmtb0] %apsuite\apsim\clock\clock.ini[standard]
 module = report   gmtswim.par [gmtb0]
 module = input(met)      GMTAPSIM.DAT [weather]
 module = operatns

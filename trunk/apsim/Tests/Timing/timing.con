@@ -2,7 +2,7 @@ version = 3.2
 [APSIM.run1]
 
 title = Run1 - Long Timing Test
-module = clock      timing.par[long]
+module = clock      timing.par[long] %apsuite\apsim\clock\clock.ini[standard]
 module = report     timing.par[long] timing.par[run1]
 module = input(met)        dalby.met[weather]
 module = manager    timing.par[long]
@@ -18,7 +18,7 @@ module = Screen   timing.par[long]
 [APSIM.run2]
 
 title = Run2 - Long Timing Test
-module = clock      timing.par[long]
+module = clock      timing.par[long] %apsuite\apsim\clock\clock.ini[standard]
 module = report     timing.par[long] timing.par[run2]
 module = input(met)        dalby.met[weather]
 module = manager    timing.par[long]

@@ -1,7 +1,7 @@
 version = 3.2
 [apsim.sorghum_sample]
 title=sorghum Sample Simulation
-module = clock    sorghum.par [sample]
+module = clock    sorghum.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report   sorghum.par [sample]
 module = Input(Met)      %apsuite\apsim\met\sample\dalby.met [weather]
 module = manager  sorghum.par [sample]

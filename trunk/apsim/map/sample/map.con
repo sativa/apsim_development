@@ -3,7 +3,7 @@ version = 3.2
 [apsim.sample_map]
 
 title=Map Sample Simulation
-module = clock    map.par [sample]
+module = clock    map.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report   map.par [sample]
 module = Input(Met)      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = manager  map.par [sample]

@@ -1,7 +1,7 @@
 version = 3.2
 [apsim.sample_slurp]
 title = Slurp Sample Simulation
-module = clock    slurp.par [sample]
+module = clock    slurp.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report   slurp.par [sample]
 module = input(met)      %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]
 module = micromet     slurp.par[sample] %apsuite\apsim\micromet\micromet.ini[standard]
