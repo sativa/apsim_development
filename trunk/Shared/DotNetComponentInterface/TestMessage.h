@@ -61,11 +61,11 @@ __gc public class TestMessage
 
 			message.resetDataStream();
 			int integerReceived;
-			std::string stringReceived;
+			String* stringReceived;
 			unpack(message, integerReceived);
 			unpack(message, stringReceived);
 			NUnit::Framework::Assert::IsTrue(integerReceived == 200);
-			NUnit::Framework::Assert::IsTrue(stringReceived == "Hello");
+			NUnit::Framework::Assert::IsTrue(stringReceived->CompareTo("Hello") == 0);
 			NUnit::Framework::Assert::IsTrue(message.dataSize() == 13);
 			}				
 			

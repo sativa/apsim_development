@@ -6,9 +6,11 @@
 #include "Message.h"
 #include "MessageType.h"
 #include "MessageData.h"
+#include "Messages.h"
 #include "DataTypes.h"
 #include "ApsimEvents.h"
 #include "RegisteredEvents.h"
+#include "ManagedComponentInterface.h"
 #include <general\stristr.h>
 #include <string.h>
 #include <sstream>
@@ -202,7 +204,7 @@ void ComponentInterface::onInit1Message(IComponent* component, Message& message)
 	posCloseInitData += strlen("</initdata>");
 	string sdml;
 	sdml.assign(posOpenInitData, posCloseInitData-posOpenInitData);
-	CommsStub* comms = new CommsStub(this);
+	IComms* comms = new ManagedComponentInterface(this);	// will be deleted by garbage collector
 	component->init1(name.c_str(), sdml.c_str(), comms, new ApsimEvents(comms));
 	}
 	
@@ -220,18 +222,21 @@ void ComponentInterface::onInit2Message(IComponent* component, Message& message)
 // -----------------------------------
 void ComponentInterface::error(const string& errorMessage, bool isFatal)
 	{
-	Error error;
-	error.msg =  "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
+	string msg;
+	msg =  "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
 	if (isFatal)
-		error.msg += "                 APSIM  Fatal  Error               \n";
+		msg += "                 APSIM  Fatal  Error               \n";
 	else
-		error.msg += "                 APSIM Warning Error               \n";
-	error.msg += "                 -------------------               \n";
+		msg += "                 APSIM Warning Error               \n";
+	msg += "                 -------------------               \n";
 
-	error.msg += errorMessage + "\n";
-	error.msg += "Component name: " + name + "\n";
-	error.msg += "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n";
-	publish("error", error);
+	msg += errorMessage + "\n";
+	msg += "Component name: " + name + "\n";
+	msg += "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n";
+
+	Error* error = new Error;
+	error->msg = msg.c_str();
+	publish("error", *error);
 	if (isFatal)
 		{
 		terminateSimulation();
@@ -265,10 +270,10 @@ void ComponentInterface::sendMessage(Message& message, unsigned toID, bool ack)
 // ---------------------
 void ComponentInterface::writeToSummary(const string& line)
 	{
-	SummaryFileWrite summaryFileWrite;
-	summaryFileWrite.componentName = name;
-	summaryFileWrite.lines = line;
-	publish("summaryFileWrite", summaryFileWrite);
+	SummaryFileWrite* summaryFileWrite = new SummaryFileWrite;
+	summaryFileWrite->componentName = name.c_str();
+	summaryFileWrite->lines = line.c_str();
+	publish("summaryFileWrite", *summaryFileWrite);
 	}
 	
 // ---------------------
@@ -423,14 +428,14 @@ void ComponentInterface::onQuerySetValueMessage(IComponent* component, Message& 
 // ---------------------------------------------------------		
 // Register an event handler.
 // ---------------------------------------------------------		
-void ComponentInterface::registerEventHandler(const std::string& eventName, const std::string& ddml, IEvent* event)
+void ComponentInterface::registerEventHandler(const std::string& eventName, IEventData* event)
 	{
 	Register reg;
 	reg.kind = Registration::respondToEvent;
 	reg.id = RegisteredEventHandlers::add(event);
 	reg.destID = parentID;
 	reg.name = eventName;
-	reg.type = ddml;
+	reg.type = event->ddml();
 	Message message = messageFactory.create(MessageType::Register);
 	reg.pack(message);
 	sendMessage(message, parentID, false);
@@ -442,6 +447,7 @@ void ComponentInterface::onEventMessage(IComponent* component, Message& message)
 	{
 	Event event;
 	event.unpack(message);
-	IEvent* eventHandler = RegisteredEventHandlers::at(event.id);
+	IEventData* eventHandler = RegisteredEventHandlers::at(event.id);
+	eventHandler->unpack(message);
 	eventHandler->invokeEvent(message);
 	}

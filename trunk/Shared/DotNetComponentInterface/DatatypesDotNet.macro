@@ -9,13 +9,19 @@
 
 #for_each structure
 //-------------------- structure.name type
-class structure.name : public #if (structure.message = T) IMessage#else IData#endif
+public __gc class structure.name : public IEventData
 
    {
    public:
       #for_each structure.field
+      #if (field.ctype = std::string)
+      String* field.name;
+      #else
       field.ctype field.name;
+      #endif
       #endfor
+		__delegate void EventHandler(structure.name* handler);
+		EventHandler* handler;
       void pack(Message& message)
          {
          #for_each structure.field
@@ -33,33 +39,18 @@ class structure.name : public #if (structure.message = T) IMessage#else IData#en
          #endfor
          }
       #if (structure.message <> T)
-      std::string ddml()
+      const char* ddml()
          {
          return
 structure.dotnetddml;
          }
+	virtual void invokeEvent(Message& message)
+		{
+		handler(this);
+		}
+
       #endif
    };
-#if (structure.message <> T)
-public __gc class Apsimstructure.name : public IManagedData
-   {
-   public:
-      Apsimstructure.name() : dataPtr(new ::structure.name) { }
-      ~Apsimstructure.name() {delete dataPtr;}
-      virtual IData* data() {return dataPtr;}
-      #for_each structure.field
-      #if (field.ctype = std::string)
-      __property String* get_field.name() { return dataPtr->field.name.c_str(); }
-      __property void set_field.name(String* field.name) { dataPtr->field.name = stringToStdString(field.name); }
-      #else
-      __property field.ctype get_field.name() { return dataPtr->field.name; }
-      __property void set_field.name(field.ctype field.name) { dataPtr->field.name = field.name; }
-      #endif
-      #endfor
-   private:
-      ::structure.name __nogc* dataPtr;
-   };
-#endif
 #endfor
 
 #endfile
@@ -71,39 +62,22 @@ public __gc class Apsimstructure.name : public IManagedData
 #include "ComponentInterface.h"
 #include "utility.h"
 
-public __gc class ApsimEvents
+public  __gc class ApsimEvents
 	{
    private:
       IComms* comms;
 	public:
-      ApsimEvents(IComms* _comms)
-         : comms(_comms) { }
+      ApsimEvents(IComms* _comms) : comms(_comms) { }
 
 #for_each event
-   // -----------------
-   // event.name
-   // -----------------
-   public:
-		__delegate void Onevent.name(Apsimevent.type* tick);
-		void registerevent.nameHandler(String* eventName, Onevent.name* handler)
+      // -----------------
+      // event.name
+      // -----------------
+		void registerevent.nameHandler(String* eventName, event.type::EventHandler* handler)
 			{
-			comms->registerEventHandler(eventName,
-										"", //dataPtr->ddml(),
-										new event.name(handler));
-			};
-
-   private:
-		__gc class event.name : public IEvent
-			{
-			public:
-				event.name(Onevent.name* _handler) : handler(_handler) { }
-				Onevent.name* handler;
-				virtual void invokeEvent(Message& message)
-					{
-					Apsimevent.type* data = new Apsimevent.type;
-					data->data()->unpack(message);
-					handler(data);
-					}
+			event.type* event = new event.type;
+			event->handler = handler;
+			comms->registerEventHandler(eventName, event);
 			};
 #endfor
 

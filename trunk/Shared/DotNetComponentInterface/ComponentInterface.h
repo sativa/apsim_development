@@ -33,7 +33,7 @@ class ComponentInterface
 		// ------------------------------------------------------
 		// Event methods - Events include initialise and commence
 		// ------------------------------------------------------
-		void registerEventHandler(const std::string& eventName, const std::string& ddml, IEvent* event);
+		void registerEventHandler(const std::string& eventName, IEventData* event);
 		void publishEvent(const std::string& eventName, IData& data);
 
 		// -------------------
@@ -74,7 +74,7 @@ class ComponentInterface
 
 				std::string name;
 				Type type;
-				IData* data;
+				gcroot<IData*> data;
 			};
 			
 		typedef std::map<std::string, Registration*> Registrations;
@@ -115,88 +115,3 @@ class ComponentInterface
 		
 	};
 	
-public __gc class CommsStub : public IComms
-	{
-	private:
-		ComponentInterface* componentInterface;
-	
-	public:
-		CommsStub(ComponentInterface* ci) : componentInterface(ci) { }
-		// ------------------------------------------------------
-		// Event methods - Events include initialise and commence
-		// ------------------------------------------------------
-		virtual void registerEventHandler(String* eventName, const std::string& ddml, IEvent* event) 
-			{
-			componentInterface->registerEventHandler(stringToStdString(eventName), ddml, event);
-			};
-		virtual void publishEvent(String* eventName, IData& data) 
-			{ 
-			componentInterface->publishEvent(stringToStdString(eventName), data);
-			}
-		virtual void publishEvent(String* eventName, IManagedData* managedData) 
-			{ 
-			IData* data = managedData->data();
-			componentInterface->publishEvent(stringToStdString(eventName), *data);
-			}
-
-		// -------------------
-		// Property methods
-		// -------------------
-		virtual void registerProperty(String* propertyName, IComms::ReadWriteType readWrite, IData& data) 
-			{ 
-			componentInterface->registerProperty(stringToStdString(propertyName), readWrite, data);
-			}
-		virtual void registerProperty(String* propertyName, IComms::ReadWriteType readWrite, IManagedData* managedData) 
-			{ 
-			IData* data = managedData->data();
-			componentInterface->registerProperty(stringToStdString(propertyName), readWrite, *data);
-			}
-		virtual String* getProperty(String* propertyName, IData& data)
-			{
-			return componentInterface->getProperty(stringToStdString(propertyName), data).c_str();
-			}
-		virtual String* getProperty(String* propertyName, IManagedData* managedData)
-			{
-			IData* data = managedData->data();
-			std::string fromComponent = componentInterface->getProperty(stringToStdString(propertyName), *data);
-			return new String(fromComponent.c_str());
-			}
-			
-		virtual void getProperties(const std::string& propertyName, IData& data) { }
-
-		virtual bool setProperty(String* propertyName, IData& data)
-			{
-			return componentInterface->setProperty(stringToStdString(propertyName), data);
-			}
-		virtual bool setProperty(String* propertyName, IManagedData* managedData)
-			{
-			IData* data = managedData->data();
-			bool ok = componentInterface->setProperty(stringToStdString(propertyName), *data);
-			return ok;
-			}
-
-		// ---------------------------------------
-		// Notify system of a warning.
-		// Errors should be thrown.
-		// ---------------------------------------
-		virtual void warning(String* msg) 
-			{ 
-			componentInterface->warning(stringToStdString(msg));
-			}
-
-		// ---------------------
-		// Write to summary file
-		// ---------------------
-		virtual void writeToSummary(String* line) 
-			{ 
-			componentInterface->writeToSummary(stringToStdString(line));
-			}
-
-		// --------------------
-		// Terminate simulation
-		// --------------------
-		virtual void terminateSimulation(void) 
-			{ 
-			componentInterface->terminateSimulation();
-			}	
-	};	

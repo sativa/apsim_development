@@ -1,99 +1,6 @@
 <?xml version="1.0"?>
 <types>
 
-   <type name="GetValue" message="T">
-      <field name="id" kind="integer4"/>
-   </type>
-   <type name="QueryValue" message="T">
-      <field name="id" kind="integer4"/>
-      <field name="requestedBy" kind="integer4"/>
-   </type>
-   <type name="ReplyValue" message="T">
-      <field name="queryID" kind="integer4"/>
-      <field name="type" kind="string"/>
-      <field name="value" kind="char*"/>
-   </type>
-
-   <type name="ReturnValue" message="T">
-      <field name="compID" kind="integer4"/>
-      <field name="id" kind="integer4"/>
-      <field name="type" kind="string"/>
-      <field name="value" kind="char*"/>
-   </type>
-
-   <type name="Init1" message="T">
-      <field name="sdml" kind="string"/>
-      <field name="fqn" kind="string"/>
-      <field name="inStartup" kind="boolean"/>
-   </type>
-
-   <type name="Event" message="T">
-      <field name="id" kind="integer4"/>
-      <field name="publishedBy" kind="integer4"/>
-      <field name="type" kind="string"/>
-      <field name="params" kind="char*"/>
-   </type>
-
-   <type name="Register" message="T">
-      <field name="kind" kind="integer4"/>
-      <field name="id" kind="integer4"/>
-      <field name="destID" kind="integer4"/>
-      <field name="name" kind="string"/>
-      <field name="type" kind="string"/>
-   </type>
-
-   <type name="PublishEvent" message="T">
-      <field name="id" kind="integer4"/>
-      <field name="type" kind="string"/>
-      <field name="params" kind="char*"/>
-   </type>
-
-   <type name="QueryInfo" message="T">
-      <field name="name" kind="string"/>
-      <field name="kind" kind="integer4"/>
-   </type>
-
-   <type name="RequestSetValue" message="T">
-      <field name="id" kind="integer4"/>
-      <field name="type" kind="string"/>
-      <field name="value" kind="char*"/>
-   </type>
-
-   <type name="QuerySetValue" message="T">
-      <field name="id" kind="integer4"/>
-      <field name="replyToID" kind="integer4"/>
-      <field name="replyID" kind="integer4"/>
-      <field name="type" kind="string"/>
-      <field name="value" kind="char*"/>
-   </type>
-
-   <type name="NotifySetValueSuccess" message="T">
-      <field name="id" kind="integer4"/>
-      <field name="success" kind="boolean"/>
-   </type>
-
-   <type name="PublishEvent" message="T">
-      <field name="id" kind="integer4"/>
-      <field name="type" kind="string"/>
-      <field name="params" kind="char*"/>
-   </type>
-
-   <type name="Event" message="T">
-      <field name="id" kind="integer4"/>
-      <field name="publishedBy" kind="integer4"/>
-      <field name="type" kind="string"/>
-      <field name="params" kind="char*"/>
-   </type>
-
-   <type name="ReturnInfo" message="T">
-      <field name="queryID" kind="integer4"/>
-      <field name="compID" kind="integer4"/>
-      <field name="id" kind="integer4"/>
-      <field name="name" kind="string"/>
-      <field name="type" kind="string"/>
-      <field name="kind" kind="integer4"/>
-   </type>
-
    <type name="SummaryFileWrite">
       <field name="componentName" kind="string"/>
       <field name="lines" kind="string"/>
@@ -101,18 +8,6 @@
 
    <type name="Error">
       <field name="msg" kind="string"/>
-   </type>
-
-   <type name="Integer">
-      <field name="value" kind="integer4"/>
-   </type>
-
-   <type name="Real">
-      <field name="value" kind="single"/>
-   </type>
-
-   <type name="Double">
-      <field name="value" kind="double"/>
    </type>
 
    <type name="Time" description="Change in the simulation system time and the duration of the new time step">

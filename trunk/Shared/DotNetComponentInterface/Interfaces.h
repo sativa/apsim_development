@@ -1,43 +1,39 @@
 #pragma once
 #include <string>
 #include "Message.h"
+#include <vcclr.h>
+
 using namespace System;
 
 // ----------------------------------------
 // Data interface.
 // ----------------------------------------
-class IMessage
+public __gc __interface IPackable
 	{
 	public:
 		virtual void pack(Message& message) = 0;
 		virtual void unpack(Message& message) = 0;
 	};	
 
-class IData : public IMessage
+public __gc __interface IData : public IPackable
 	{
 	public:
-		virtual std::string ddml() = 0;
+		virtual const char* ddml() = 0;
 	};
-
-public __gc class IManagedData
-	{
-	public:
-	    virtual IData* data() = 0;
-	};	
-
-
-// ----------------------------------------
-// Handler type
-// ----------------------------------------
-
-public __gc class IEvent
+public __gc __interface IEventData : IData
 	{
 	public:
 		virtual void invokeEvent(Message& message) = 0;
-
-	
 	};
 	
+class IUnmanagedData
+	{
+	public:
+		virtual const char* ddml() = 0;
+		virtual void pack(Message& message) = 0;
+		virtual void unpack(Message& message) = 0;
+		
+	};
 	
 // ----------------------------------------
 // This interface describes how a component
@@ -54,21 +50,33 @@ public __gc class IComms
 		// ------------------------------------------------------
 		// Event methods - Events include initialise and commence
 		// ------------------------------------------------------
-		virtual void registerEventHandler(String* eventName, const std::string& ddml, IEvent* event) = 0;
+		virtual void registerEventHandler(String* eventName, IEventData* event) = 0;
 		virtual void publishEvent(String* eventName, IData& data) = 0;
-		virtual void publishEvent(String* eventName, IManagedData* data) = 0;
+		virtual void publishEvent(String* eventName, Int32& data) = 0;
+		virtual void publishEvent(String* eventName, Single& data) = 0;
+		virtual void publishEvent(String* eventName, Double& data) = 0;
+		virtual void publishEvent(String* eventName, String* data) = 0;
 
 		// -------------------
 		// Property methods
 		// -------------------
 		virtual void registerProperty(String* propertyName, ReadWriteType readwrite, IData& data) = 0;
-		virtual void registerProperty(String* propertyName, ReadWriteType readwrite, IManagedData* managedData) = 0;
+		virtual void registerProperty(String* propertyName, ReadWriteType readwrite, Int32& data) = 0;
+		virtual void registerProperty(String* propertyName, ReadWriteType readwrite, Single& data) = 0;
+		virtual void registerProperty(String* propertyName, ReadWriteType readwrite, Double& data) = 0;
+		virtual void registerProperty(String* propertyName, ReadWriteType readwrite, String* data) = 0;
 		virtual String* getProperty(String* propertyName, IData& data) = 0;
-		virtual String* getProperty(String* propertyName, IManagedData* data) = 0;
+		virtual String* getProperty(String* propertyName, Int32& data) = 0;
+		virtual String* getProperty(String* propertyName, Single& data) = 0;
+		virtual String* getProperty(String* propertyName, Double& data) = 0;
+		virtual String* getProperty(String* propertyName, String* data) = 0;
 		virtual void getProperties(const std::string& propertyName, IData& data) = 0;
 
 		virtual bool setProperty(String* propertyName, IData& data) = 0;
-		virtual bool setProperty(String* propertyName, IManagedData* data) = 0;
+		virtual bool setProperty(String* propertyName, Int32& data) = 0;
+		virtual bool setProperty(String* propertyName, Single& data) = 0;
+		virtual bool setProperty(String* propertyName, Double& data) = 0;
+		virtual bool setProperty(String* propertyName, String* data) = 0;
 
 		// ---------------------------------------
 		// Notify system of a warning.
