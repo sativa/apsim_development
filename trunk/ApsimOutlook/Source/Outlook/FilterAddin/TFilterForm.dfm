@@ -39,6 +39,7 @@ object FilterForm: TFilterForm
     Height = 193
     ActivePage = Scenario1Sheet
     Align = alTop
+    TabIndex = 0
     TabOrder = 2
     object Scenario1Sheet: TTabSheet
       Caption = 'Scenario1'
@@ -47,40 +48,13 @@ object FilterForm: TFilterForm
         Top = 32
         Width = 524
         Height = 129
-        PopupParams.ClientEdge = True
-        DefStoreMode = smText
-        KeyMapping = 'Default'
-        Options = [fboSortFields, fboSortConditions, fboCanAdd, fboCanDelete, fboCanIndent, fboCanOpen, fboCanSave, fboCanSaveToMem, fboCanLoadFromMem]
-        ForceSQLDateTime = False
-        ForceSQLBooleans = False
-        FilterDateTimeFormat.DateSeparator = #0
-        FilterDateTimeFormat.TimeSeparator = #0
-        FilterDateTimeFormat.AlwaysY2k = True
-        SQLDateTimeFormat.DateSeparator = '/'
-        SQLDateTimeFormat.TimeSeparator = ':'
-        SQLDateTimeFormat.AMSymbol = 'AM'
-        SQLDateTimeFormat.PMSymbol = 'PM'
-        SQLDateTimeFormat.DateFormat = 'MM/DD/YYYY'
-        SQLDateTimeFormat.TimeFormat = 'hh:mm:ss AM/PM'
         SQLDateTimeFormat.AlwaysY2k = False
-        DisplayDateTimeFormat.DateSeparator = #0
-        DisplayDateTimeFormat.TimeSeparator = #0
-        DisplayDateTimeFormat.AlwaysY2k = True
-        Items = <>
         OnChange = FilterBox1Change
         TabOrder = 0
-        UpdateInThread = uiYesOnLoad
-        UpdateOnLoaded = False
-        ForceFilterDT = False
-        WaitCursor = crSQLWait
         AdvancedFilter = False
         FilterOptions = []
-        AddTableNames = False
-        AllowedUsageIDs = '0'
-        EncloseInBrackets = True
         DefaultTemplates = False
-        Fields = <>
-        FieldParams = <>
+        DataSet = MemTable1
         Templates = <
           item
             Category = 'Memo'
@@ -393,8 +367,6 @@ object FilterForm: TFilterForm
             CaptionID = 'between'
             Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
           end>
-        Filtered = True
-        OrderByItems = <>
       end
       object FilterCombo1: TComboBox
         Left = 0
@@ -425,40 +397,13 @@ object FilterForm: TFilterForm
         Top = 32
         Width = 524
         Height = 129
-        PopupParams.ClientEdge = True
-        DefStoreMode = smText
-        KeyMapping = 'Default'
-        Options = [fboSortFields, fboSortConditions, fboCanAdd, fboCanDelete, fboCanIndent, fboCanOpen, fboCanSave, fboCanSaveToMem, fboCanLoadFromMem]
-        ForceSQLDateTime = False
-        ForceSQLBooleans = False
-        FilterDateTimeFormat.DateSeparator = #0
-        FilterDateTimeFormat.TimeSeparator = #0
-        FilterDateTimeFormat.AlwaysY2k = True
-        SQLDateTimeFormat.DateSeparator = '/'
-        SQLDateTimeFormat.TimeSeparator = ':'
-        SQLDateTimeFormat.AMSymbol = 'AM'
-        SQLDateTimeFormat.PMSymbol = 'PM'
-        SQLDateTimeFormat.DateFormat = 'MM/DD/YYYY'
-        SQLDateTimeFormat.TimeFormat = 'hh:mm:ss AM/PM'
         SQLDateTimeFormat.AlwaysY2k = False
-        DisplayDateTimeFormat.DateSeparator = #0
-        DisplayDateTimeFormat.TimeSeparator = #0
-        DisplayDateTimeFormat.AlwaysY2k = True
-        Items = <>
         OnChange = FilterBox2Change
         TabOrder = 1
-        UpdateInThread = uiYesOnLoad
-        UpdateOnLoaded = False
-        ForceFilterDT = False
-        WaitCursor = crSQLWait
         AdvancedFilter = False
         FilterOptions = []
-        AddTableNames = False
-        AllowedUsageIDs = '0'
-        EncloseInBrackets = True
         DefaultTemplates = False
-        Fields = <>
-        FieldParams = <>
+        DataSet = MemTable2
         Templates = <
           item
             Category = 'Memo'
@@ -771,8 +716,6 @@ object FilterForm: TFilterForm
             CaptionID = 'between'
             Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
           end>
-        Filtered = True
-        OrderByItems = <>
       end
     end
     object Scenario3Sheet: TTabSheet
@@ -793,40 +736,13 @@ object FilterForm: TFilterForm
         Top = 32
         Width = 524
         Height = 129
-        PopupParams.ClientEdge = True
-        DefStoreMode = smText
-        KeyMapping = 'Default'
-        Options = [fboSortFields, fboSortConditions, fboCanAdd, fboCanDelete, fboCanIndent, fboCanOpen, fboCanSave, fboCanSaveToMem, fboCanLoadFromMem]
-        ForceSQLDateTime = False
-        ForceSQLBooleans = False
-        FilterDateTimeFormat.DateSeparator = #0
-        FilterDateTimeFormat.TimeSeparator = #0
-        FilterDateTimeFormat.AlwaysY2k = True
-        SQLDateTimeFormat.DateSeparator = '/'
-        SQLDateTimeFormat.TimeSeparator = ':'
-        SQLDateTimeFormat.AMSymbol = 'AM'
-        SQLDateTimeFormat.PMSymbol = 'PM'
-        SQLDateTimeFormat.DateFormat = 'MM/DD/YYYY'
-        SQLDateTimeFormat.TimeFormat = 'hh:mm:ss AM/PM'
         SQLDateTimeFormat.AlwaysY2k = False
-        DisplayDateTimeFormat.DateSeparator = #0
-        DisplayDateTimeFormat.TimeSeparator = #0
-        DisplayDateTimeFormat.AlwaysY2k = True
-        Items = <>
         OnChange = FilterBox3Change
         TabOrder = 1
-        UpdateInThread = uiYesOnLoad
-        UpdateOnLoaded = False
-        ForceFilterDT = False
-        WaitCursor = crSQLWait
         AdvancedFilter = False
         FilterOptions = []
-        AddTableNames = False
-        AllowedUsageIDs = '0'
-        EncloseInBrackets = True
         DefaultTemplates = False
-        Fields = <>
-        FieldParams = <>
+        DataSet = MemTable3
         Templates = <
           item
             Category = 'Memo'
@@ -1139,8 +1055,6 @@ object FilterForm: TFilterForm
             CaptionID = 'between'
             Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
           end>
-        Filtered = True
-        OrderByItems = <>
       end
     end
     object Scenario4Sheet: TTabSheet
@@ -1161,40 +1075,13 @@ object FilterForm: TFilterForm
         Top = 32
         Width = 524
         Height = 129
-        PopupParams.ClientEdge = True
-        DefStoreMode = smText
-        KeyMapping = 'Default'
-        Options = [fboSortFields, fboSortConditions, fboCanAdd, fboCanDelete, fboCanIndent, fboCanOpen, fboCanSave, fboCanSaveToMem, fboCanLoadFromMem]
-        ForceSQLDateTime = False
-        ForceSQLBooleans = False
-        FilterDateTimeFormat.DateSeparator = #0
-        FilterDateTimeFormat.TimeSeparator = #0
-        FilterDateTimeFormat.AlwaysY2k = True
-        SQLDateTimeFormat.DateSeparator = '/'
-        SQLDateTimeFormat.TimeSeparator = ':'
-        SQLDateTimeFormat.AMSymbol = 'AM'
-        SQLDateTimeFormat.PMSymbol = 'PM'
-        SQLDateTimeFormat.DateFormat = 'MM/DD/YYYY'
-        SQLDateTimeFormat.TimeFormat = 'hh:mm:ss AM/PM'
         SQLDateTimeFormat.AlwaysY2k = False
-        DisplayDateTimeFormat.DateSeparator = #0
-        DisplayDateTimeFormat.TimeSeparator = #0
-        DisplayDateTimeFormat.AlwaysY2k = True
-        Items = <>
         OnChange = FilterBox4Change
         TabOrder = 1
-        UpdateInThread = uiYesOnLoad
-        UpdateOnLoaded = False
-        ForceFilterDT = False
-        WaitCursor = crSQLWait
         AdvancedFilter = False
         FilterOptions = []
-        AddTableNames = False
-        AllowedUsageIDs = '0'
-        EncloseInBrackets = True
         DefaultTemplates = False
-        Fields = <>
-        FieldParams = <>
+        DataSet = MemTable4
         Templates = <
           item
             Category = 'Memo'
@@ -1507,8 +1394,6 @@ object FilterForm: TFilterForm
             CaptionID = 'between'
             Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
           end>
-        Filtered = True
-        OrderByItems = <>
       end
     end
     object Scenario5Sheet: TTabSheet
@@ -1529,40 +1414,13 @@ object FilterForm: TFilterForm
         Top = 32
         Width = 524
         Height = 129
-        PopupParams.ClientEdge = True
-        DefStoreMode = smText
-        KeyMapping = 'Default'
-        Options = [fboSortFields, fboSortConditions, fboCanAdd, fboCanDelete, fboCanIndent, fboCanOpen, fboCanSave, fboCanSaveToMem, fboCanLoadFromMem]
-        ForceSQLDateTime = False
-        ForceSQLBooleans = False
-        FilterDateTimeFormat.DateSeparator = #0
-        FilterDateTimeFormat.TimeSeparator = #0
-        FilterDateTimeFormat.AlwaysY2k = True
-        SQLDateTimeFormat.DateSeparator = '/'
-        SQLDateTimeFormat.TimeSeparator = ':'
-        SQLDateTimeFormat.AMSymbol = 'AM'
-        SQLDateTimeFormat.PMSymbol = 'PM'
-        SQLDateTimeFormat.DateFormat = 'MM/DD/YYYY'
-        SQLDateTimeFormat.TimeFormat = 'hh:mm:ss AM/PM'
         SQLDateTimeFormat.AlwaysY2k = False
-        DisplayDateTimeFormat.DateSeparator = #0
-        DisplayDateTimeFormat.TimeSeparator = #0
-        DisplayDateTimeFormat.AlwaysY2k = True
-        Items = <>
         OnChange = FilterBox5Change
         TabOrder = 1
-        UpdateInThread = uiYesOnLoad
-        UpdateOnLoaded = False
-        ForceFilterDT = False
-        WaitCursor = crSQLWait
         AdvancedFilter = False
         FilterOptions = []
-        AddTableNames = False
-        AllowedUsageIDs = '0'
-        EncloseInBrackets = True
         DefaultTemplates = False
-        Fields = <>
-        FieldParams = <>
+        DataSet = MemTable5
         Templates = <
           item
             Category = 'Memo'
@@ -1875,9 +1733,137 @@ object FilterForm: TFilterForm
             CaptionID = 'between'
             Filter = '((:Field >= :Value1) and (:Field <= :Value2))'
           end>
-        Filtered = True
-        OrderByItems = <>
       end
     end
+  end
+  object MemTable1: TkbmMemTable
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    Left = 216
+    Top = 64
+  end
+  object MemTable2: TkbmMemTable
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    Left = 248
+    Top = 64
+  end
+  object MemTable3: TkbmMemTable
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    Left = 280
+    Top = 64
+  end
+  object MemTable4: TkbmMemTable
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    Left = 312
+    Top = 64
+  end
+  object MemTable5: TkbmMemTable
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    Left = 348
+    Top = 64
   end
 end

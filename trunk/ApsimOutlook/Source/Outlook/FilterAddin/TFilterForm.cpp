@@ -14,9 +14,7 @@ static const unsigned int MAX_NUM_MRU_FILTERS = 20;
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "PSCFltBox"
-#pragma link "psccontrols"
-#pragma link "PSCListBox"
+#pragma link "kbmMemTable"
 #pragma link "flt_box"
 #pragma resource "*.dfm"
 TFilterForm *FilterForm;
@@ -48,6 +46,11 @@ void __fastcall TFilterForm::FormShow(TObject *Sender)
    FilterCombo3->Text = "";
    FilterCombo4->Text = "";
    FilterCombo5->Text = "";
+   FilterCombo1->Tag = -1;
+   FilterCombo2->Tag = -1;
+   FilterCombo3->Tag = -1;
+   FilterCombo4->Tag = -1;
+   FilterCombo5->Tag = -1;
 
    // put the Filter AddIn's current filter values into the combo boxes.
    vector<string> filters = filterAddIn->getFilters();
@@ -135,7 +138,7 @@ void TFilterForm::addToVectorIfUnique(vector<string>& strings, const string& st)
 //---------------------------------------------------------------------------
 void TFilterForm::PutFilterInCombo(TComboBox* combo, AnsiString filter)
    {
-   if (!inFormShow)
+   if (!inFormShow && filter != "")
       {
       // We need to put the filter string (from the filter box) into
       // the combo box list so that it appears in the edit box of
@@ -170,7 +173,8 @@ void TFilterForm::PutFilterInCombo(TComboBox* combo, AnsiString filter)
 //---------------------------------------------------------------------------
 void __fastcall TFilterForm::FilterCombo1Change(TObject *Sender)
    {
-   FilterBox1->Items->Text = FilterCombo1->Text;
+   MemTable1->Filter = FilterCombo1->Text;
+//   FilterBox1->Items->Text = FilterCombo1->Text;
    }
 //---------------------------------------------------------------------------
 void __fastcall TFilterForm::FilterBox1Change(TObject *Sender)
@@ -180,7 +184,8 @@ void __fastcall TFilterForm::FilterBox1Change(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TFilterForm::FilterCombo2Change(TObject *Sender)
    {
-   FilterBox2->FilterStr = FilterCombo2->Text;
+   MemTable2->Filter = FilterCombo2->Text;
+//   FilterBox2->FilterStr = FilterCombo2->Text;
    }
 //---------------------------------------------------------------------------
 void __fastcall TFilterForm::FilterBox2Change(TObject *Sender)
@@ -190,7 +195,8 @@ void __fastcall TFilterForm::FilterBox2Change(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TFilterForm::FilterCombo3Change(TObject *Sender)
    {
-   FilterBox3->FilterStr = FilterCombo3->Text;
+   MemTable3->Filter = FilterCombo3->Text;
+//   FilterBox3->FilterStr = FilterCombo3->Text;
    }
 //---------------------------------------------------------------------------
 void __fastcall TFilterForm::FilterBox3Change(TObject *Sender)
@@ -200,7 +206,8 @@ void __fastcall TFilterForm::FilterBox3Change(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TFilterForm::FilterCombo4Change(TObject *Sender)
    {
-   FilterBox4->FilterStr = FilterCombo4->Text;
+   MemTable4->Filter = FilterCombo4->Text;
+//   FilterBox4->FilterStr = FilterCombo4->Text;
    }
 //---------------------------------------------------------------------------
 void __fastcall TFilterForm::FilterBox4Change(TObject *Sender)
@@ -210,7 +217,8 @@ void __fastcall TFilterForm::FilterBox4Change(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TFilterForm::FilterCombo5Change(TObject *Sender)
    {
-   FilterBox5->FilterStr = FilterCombo5->Text;
+   MemTable5->Filter = FilterCombo5->Text;
+//   FilterBox5->FilterStr = FilterCombo5->Text;
    }
 //---------------------------------------------------------------------------
 void __fastcall TFilterForm::FilterBox5Change(TObject *Sender)
