@@ -13,7 +13,7 @@
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-class Scatter_chart : public High_level_chart_base
+class CHART_EXPORT Scatter_chart : public High_level_chart_base
    {
    public:
       Scatter_chart(TForm* parent);
@@ -22,7 +22,7 @@ class Scatter_chart : public High_level_chart_base
                    const char* Y_field_name,
                    Field_type_enum X_type = numeric,
                    X_axis_link_enum X_axis_link = bottom,
-                   Y_axis_link_enum Y_axis_link = left,
+                   Y_axis_link_enum Y_axis_link = ::left,
                    Format_base* Format_ptr = NULL,
                    const char* Title = NULL,
                    bool Accumulate_x = false,

@@ -15,9 +15,9 @@
 //    dph 20/5/98  added new algorithm based on createprocess.
 
 // ------------------------------------------------------------------
-bool Exec(const char* Command_line,
-          unsigned int Show_flag,
-          bool Wait_for_finish)
+bool GENERAL_EXPORT Exec(const char* Command_line,
+                         unsigned int Show_flag,
+                         bool Wait_for_finish)
    {
    STARTUPINFO StartupInfo;
    PROCESS_INFORMATION ProcessInfo;
@@ -25,7 +25,7 @@ bool Exec(const char* Command_line,
    memset(&StartupInfo, '\0', sizeof(STARTUPINFO));
    StartupInfo.cb = sizeof(StartupInfo);
    StartupInfo.dwFlags = STARTF_USESHOWWINDOW;
-   StartupInfo.wShowWindow = Show_flag;
+   StartupInfo.wShowWindow = (WORD) Show_flag;
    if (!CreateProcess( NULL,
                        (char*) Command_line,   // pointer to command line string
                        NULL,                   // pointer to process security attributes

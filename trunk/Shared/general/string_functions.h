@@ -1,6 +1,7 @@
 #ifndef STRING_FUNCTIONS_H
 #define STRING_FUNCTIONS_H
 
+#include <general\general.h>
 #include <general\mystring.h>
 #include <general\mylist.h>
 #include <algorith>
@@ -72,7 +73,7 @@ void Build_string (container& words, const char* separators, string& text)
 //    dph 17/9/1997 changed "string& line" to "const char* line"
 
 // ------------------------------------------------------------------
-string Get_section_name (const char* line);
+string GENERAL_EXPORT Get_section_name (const char* line);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -86,7 +87,7 @@ string Get_section_name (const char* line);
 //    dph 17/9/1997 changed "string& line" to "const char* line"
 
 // ------------------------------------------------------------------
-string Get_key_value (const char* line, const char* Key_name);
+string GENERAL_EXPORT Get_key_value (const char* line, const char* Key_name);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -98,7 +99,7 @@ string Get_key_value (const char* line, const char* Key_name);
 //    DPH 24/9/97
 
 // ------------------------------------------------------------------
-void Get_keyname_and_value (const char* line, string& Key_name, string& Key_value);
+void GENERAL_EXPORT Get_keyname_and_value (const char* line, string& Key_name, string& Key_value);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -110,7 +111,7 @@ void Get_keyname_and_value (const char* line, string& Key_name, string& Key_valu
 //    DPH 17/4/1997
 
 // ------------------------------------------------------------------
-void Strip (char* text, const char* separators);
+void GENERAL_EXPORT Strip (char* text, const char* separators);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -122,7 +123,7 @@ void Strip (char* text, const char* separators);
 //    DPH 17/4/1997
 
 // ------------------------------------------------------------------
-void Strip (string& text, const char* separators);
+void GENERAL_EXPORT Strip (string& text, const char* separators);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -134,7 +135,7 @@ void Strip (string& text, const char* separators);
 //    DPH 29/4/1997
 
 // ------------------------------------------------------------------
-bool Is_numerical (const char* Text);
+bool GENERAL_EXPORT Is_numerical (const char* Text);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -146,7 +147,7 @@ bool Is_numerical (const char* Text);
 //    DPH 29/4/1997
 
 // ------------------------------------------------------------------
-void To_upper (string& St);
+void GENERAL_EXPORT To_upper (string& St);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -158,7 +159,7 @@ void To_upper (string& St);
 //    DPH 29/4/1997
 
 // ------------------------------------------------------------------
-void To_lower (string& St);
+void GENERAL_EXPORT To_lower (string& St);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -365,7 +366,7 @@ void Double_container_2_string (container_type& container,
 //    DPH 17/3/98
 
 // ------------------------------------------------------------------
-void Replace_all (string& St, const char* Sub_string, const char* Replacement_string);
+void GENERAL_EXPORT Replace_all (string& St, const char* Sub_string, const char* Replacement_string);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -378,7 +379,7 @@ void Replace_all (string& St, const char* Sub_string, const char* Replacement_st
 //    dph 27/3/98 changed NPOS to string::npos in line with standard.
 
 // ------------------------------------------------------------------
-string ftoa(double Float, int Num_decplaces);
+string GENERAL_EXPORT ftoa(double Float, int Num_decplaces);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -390,7 +391,7 @@ string ftoa(double Float, int Num_decplaces);
 //    SB ???
 
 // ------------------------------------------------------------------
-int Str_i_Cmp(const string &a, const string &b);
+int GENERAL_EXPORT Str_i_Cmp(const string &a, const string &b);
 #define Str_i_Eq(a,b)  (!Str_i_Cmp((a),(b)))
 
 #endif

@@ -14,7 +14,7 @@
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-class Format_base
+class CHART_EXPORT Format_base
    {
    public:
       Format_base(void);

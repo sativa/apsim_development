@@ -14,10 +14,10 @@
 //    DPH 17/4/1997 - moved to C++ builder.
 
 // ------------------------------------------------------------------
-char Read_token(istream& In_stream,
-                const char* Init_skip_chars,
-                const char* Delimiter_chars,
-                string& Token)
+char GENERAL_EXPORT Read_token(istream& In_stream,
+                               const char* Init_skip_chars,
+                               const char* Delimiter_chars,
+                               string& Token)
    {
    // Clear the strings contents
    Token = "";
@@ -72,7 +72,7 @@ char Read_token(istream& In_stream,
 //    DPH 8/10/97
 
 // ------------------------------------------------------------------
-void Read_stream(istream& In_stream, string& Contents)
+void GENERAL_EXPORT Read_stream(istream& In_stream, string& Contents)
    {
    getline (In_stream, Contents, '\0');
    }
@@ -90,7 +90,7 @@ void Read_stream(istream& In_stream, string& Contents)
 //    DPH 8/10/97
 
 // ------------------------------------------------------------------
-void Convert_2_CSV(istream& In_stream, ostream& Out_stream)
+void GENERAL_EXPORT Convert_2_CSV(istream& In_stream, ostream& Out_stream)
    {
    string Variable;
    string Line;

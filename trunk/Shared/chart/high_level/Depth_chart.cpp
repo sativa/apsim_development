@@ -53,7 +53,7 @@ void Depth_chart::Add_xy (const char* X_field_name,
                 numeric,
                 numeric,
                 top,
-                left,
+                ::left,
                 New_format,
                 New_title.c_str());
    }

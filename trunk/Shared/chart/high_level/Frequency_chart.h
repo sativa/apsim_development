@@ -13,7 +13,7 @@
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-class Frequency_chart : public Probability_chart
+class CHART_EXPORT Frequency_chart : public Probability_chart
    {
    public:
       Frequency_chart(TForm* parent);

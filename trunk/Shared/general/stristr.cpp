@@ -1,9 +1,11 @@
+#include "stristr.h"
+
 #include <stdio.h>
 #include <cstring.h>
 
-char *stristr(char *text_str, const char *srch_str)
-/*	If the string 'text_str' contains a substring equal to the 
- * string 'srch_str' (case insensitive), then this function will return 
+char * GENERAL_EXPORT stristr(char *text_str, const char *srch_str)
+/*	If the string 'text_str' contains a substring equal to the
+ * string 'srch_str' (case insensitive), then this function will return
  * a pointer to that substring.  Otherwise, NULL will be returned.
  */
 {	static char table[256];
@@ -15,7 +17,7 @@ char *stristr(char *text_str, const char *srch_str)
 /* Initialise if not done already. */
 	if (firstcall)
 	{	for (i=0; i<sizeof(table); i++)
-			table[i] = toupper(i);
+			table[i] = (char) toupper(i);
 		firstcall = false;
 	}
 
@@ -30,7 +32,7 @@ char *stristr(char *text_str, const char *srch_str)
 	srch = (char *)srch_str;
 	past = text + (txt_len - sr_len + 1);
 	sr1 = table[*srch++];
- 
+
 	do
 	{	if (table[*text++] == sr1)
 		{	txt = text;

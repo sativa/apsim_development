@@ -13,7 +13,7 @@
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-class Depth_chart : public High_level_chart_base
+class CHART_EXPORT Depth_chart : public High_level_chart_base
    {
    public:
       Depth_chart(TForm* parent);

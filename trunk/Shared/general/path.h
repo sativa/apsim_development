@@ -20,7 +20,7 @@
 //    DPH 13/5/1997 - reworked to use standard template library.
 
 // ------------------------------------------------------------------
-class Path
+class GENERAL_EXPORT Path
 	{
    private:
       string Drive;

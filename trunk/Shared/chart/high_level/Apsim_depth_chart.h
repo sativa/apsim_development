@@ -18,7 +18,7 @@
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-class APSIM_depth_chart : public Depth_chart
+class CHART_EXPORT APSIM_depth_chart : public Depth_chart
    {
    public:
       APSIM_depth_chart (TForm* parent);

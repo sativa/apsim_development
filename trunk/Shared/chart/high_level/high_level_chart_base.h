@@ -24,7 +24,7 @@ enum Field_type_enum {numeric, alpha, date};
 //    dph 10/3/98 added accumulate x and y options C-081
 
 // ------------------------------------------------------------------
-class High_level_chart_base
+class CHART_EXPORT High_level_chart_base
    {
    protected:
       class XY_pair

@@ -702,7 +702,7 @@ int Month_string_2_integer (string& Month_string)
 //    DPH 3/2/98
 
 // ------------------------------------------------------------------
-TDateTime Get_file_date_time (const char* File_name)
+TDateTime GENERAL_EXPORT Get_file_date_time (const char* File_name)
    {
    TDateTime Date_time;
    int Handle = FileOpen(File_name, fmOpenRead);

@@ -16,7 +16,7 @@
 //    dph 27/3/98 changed call to remove with call to replace in line with standard.
 
 // ------------------------------------------------------------------
-void Strip (string& text, const char* separators)
+void GENERAL_EXPORT Strip (string& text, const char* separators)
    {
    size_t Pos;
 
@@ -43,7 +43,7 @@ void Strip (string& text, const char* separators)
 //    DPH 17/4/1997
 
 // ------------------------------------------------------------------
-void Strip (char* text, const char* separators)
+void GENERAL_EXPORT Strip (char* text, const char* separators)
    {
    if (text[0] != 0)
       {
@@ -66,7 +66,7 @@ void Strip (char* text, const char* separators)
 //    DPH 24/9/97
 
 // ------------------------------------------------------------------
-void Get_keyname_and_value (const char* line, string& Key_name, string& Key_value)
+void GENERAL_EXPORT Get_keyname_and_value (const char* line, string& Key_name, string& Key_value)
    {
    string Str_line = line;
 
@@ -99,7 +99,7 @@ void Get_keyname_and_value (const char* line, string& Key_name, string& Key_valu
 //    dph 5/6/98 modified to use str_i_eq routine instead of to_lower.
 
 // ------------------------------------------------------------------
-string Get_key_value (const char* line, const char* Key_name)
+string GENERAL_EXPORT Get_key_value (const char* line, const char* Key_name)
    {
 
    string Str_line = line;
@@ -132,7 +132,7 @@ string Get_key_value (const char* line, const char* Key_name)
 //    dph 17/9/1997 changed "string& line" to "const char* line"
 
 // ------------------------------------------------------------------
-string Get_section_name (const char* line)
+string GENERAL_EXPORT Get_section_name (const char* line)
    {
    string Str_line = line;
    string Section_name;
@@ -155,7 +155,7 @@ string Get_section_name (const char* line)
 //    DPH 29/4/1997
 
 // ------------------------------------------------------------------
-bool Is_numerical (const char* Text)
+bool GENERAL_EXPORT Is_numerical (const char* Text)
    {
    char *endptr;
    strtod(Text, &endptr);
@@ -172,7 +172,7 @@ bool Is_numerical (const char* Text)
 //    DPH 29/4/1997
 
 // ------------------------------------------------------------------
-void To_lower (string& St)
+void GENERAL_EXPORT To_lower (string& St)
    {
    char* buffer = new char[St.length() + 1];
    strcpy(buffer, St.c_str());
@@ -191,7 +191,7 @@ void To_lower (string& St)
 //    DPH 29/4/1997
 
 // ------------------------------------------------------------------
-void To_upper (string& St)
+void GENERAL_EXPORT To_upper (string& St)
    {
    char* buffer = new char[St.length() + 1];
    strcpy(buffer, St.c_str());
@@ -212,7 +212,7 @@ void To_upper (string& St)
 //    dph 27/3/98 changed NPOS to string::npos in line with standard.
 
 // ------------------------------------------------------------------
-void Replace_all (string& St, const char* Sub_string, const char* Replacement_string)
+void GENERAL_EXPORT Replace_all (string& St, const char* Sub_string, const char* Replacement_string)
    {
    size_t Pos = St.find(Sub_string);
    while (Pos != NPOS)
@@ -233,7 +233,7 @@ void Replace_all (string& St, const char* Sub_string, const char* Replacement_st
 //    dph 27/3/98 changed NPOS to string::npos in line with standard.
 
 // ------------------------------------------------------------------
-string ftoa(double Float, int Num_decplaces)
+string GENERAL_EXPORT ftoa(double Float, int Num_decplaces)
    {
    ostrstream buf;
    buf.setf(ios::fixed, ios::floatfield);
@@ -251,7 +251,7 @@ string ftoa(double Float, int Num_decplaces)
 //    SB ????
 
 // ------------------------------------------------------------------
-int Str_i_Cmp(const string &a, const string &b)
+int GENERAL_EXPORT Str_i_Cmp(const string &a, const string &b)
 {	return stricmp(a.c_str(),b.c_str());
 }
 

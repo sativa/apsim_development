@@ -2,10 +2,11 @@
 #ifndef stream_processorH
 #define stream_processorH
 
+#include <general\general.h>
 #include <general\mystring.h>
 #include <general\mylist.h>
 
-class Stream_processor;
+class GENERAL_EXPORT Stream_processor;
 // ------------------------------------------------------------------
 //  Short description:
 //     Base class for line processor
@@ -16,7 +17,7 @@ class Stream_processor;
 //    DPH 8/10/97
 
 // ------------------------------------------------------------------
-class _export Line_processor
+class GENERAL_EXPORT Line_processor
    {
    protected:
       char Macro_char;
@@ -42,7 +43,7 @@ class _export Line_processor
 //    DPH 8/10/97
 
 // ------------------------------------------------------------------
-class Stream_processor
+class GENERAL_EXPORT Stream_processor
    {
    public:
       Stream_processor (void);

@@ -57,7 +57,7 @@ void Pred_obs_chart::Add_xy (const char* Pred_field_name,
                 numeric,
                 numeric,
                 bottom,
-                left,
+                ::left,
                 New_format,
                 New_title.c_str());
    }
