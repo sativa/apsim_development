@@ -108,7 +108,10 @@ void TDrill_down_form::refreshScenarioTree (void)
 
    // if there is only 1 root node in tree then expand it.
    if (ScenarioTree->Items->Item[0]->getNextSibling() == NULL)
+      {
       ScenarioTree->Items->Item[0]->Expanded = true;
+      weAreExpanding = false;
+      }
    }
 
 // ------------------------------------------------------------------
@@ -225,7 +228,12 @@ void __fastcall TDrill_down_form::ScenarioTreeMouseDown(TObject *Sender,
    int y = ScenarioTree->ClientOrigin.y + Y;
 
    TTreeNode* node = ScenarioTree->GetNodeAt(X, Y);
-   if (!weAreExpanding && node != NULL && Button == mbLeft)
+   if (Button == mbRight && node->Level == 0)
+      {
+      ScenarioTree->Selected = node;
+      ScenarioNamePopup->Popup(x,y);
+      }
+   else if (!weAreExpanding && node != NULL && Button == mbLeft)
       {
       ScenarioTree->Selected = node;
       ScenarioTree->Selected->Expanded = !ScenarioTree->Selected->Expanded;
@@ -320,5 +328,11 @@ void __fastcall TDrill_down_form::ScenarioTreeExpanding(TObject *Sender,
    {
    weAreExpanding = true;
    }
+//---------------------------------------------------------------------------
+
+void __fastcall TDrill_down_form::Rename1Click(TObject *Sender)
+{
+   ScenarioTree->Selected->EditText();
+}
 //---------------------------------------------------------------------------
 
