@@ -1,27 +1,3 @@
-*     ===========================================================
-      character*(*) function SOI_version ()
-*     ===========================================================
-      implicit none
-
-*+  Purpose
-*       return version number of SOI module
-
-*+  Changes
-*     <insert here>
-
-*+  Constant Values
-      character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.00 01/09/97')
-
-*- Implementation Section ----------------------------------
- 
-      SOI_version = version_number
- 
-      return
-      end
-
-
-
 * ====================================================================
       subroutine APSIM_SOI (action, data)
 * ====================================================================
@@ -38,10 +14,9 @@
 *     <insert here>
 
 *+  Changes
-*     <insert here>
+*     dph 7/5/99 removed version and presence report c186
 
 *+  Calls
-      character SOI_version*20        ! function
 
 *+  Constant Values
       character module_name*(*)        ! name of this module
@@ -49,11 +24,7 @@
 
 *- Implementation Section ----------------------------------
  
-      if (action .eq. mes_presence) then
-         write(*, *) 'Module_name = ', Module_name
-     :              // ', Version : ' // SOI_version()
- 
-      else if (action .eq. mes_init) then
+      if (action .eq. mes_init) then
  
          ! initialise variables for run (called once only)
  
@@ -90,10 +61,9 @@
 *       Initialise module - called once only at beginning of run
 
 *+  Changes
-*     <insert here>
+*     dph 7/5/99 removed presence report
 
 *+  Calls
-      character SOI_version*20         ! function
 
 *+  Constant Values
       character this_routine*(*)       ! name of this routine
@@ -106,7 +76,7 @@
  
       call push_routine (this_routine)
  
-      String = ' - Initialised ,Version : ' // SOI_version ()
+      String = 'Initialised'
       call report_event (String)
  
  

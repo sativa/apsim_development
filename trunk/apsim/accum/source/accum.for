@@ -1,28 +1,3 @@
-*     ===========================================================
-       character*(*) function Accum_version ()
-*     ===========================================================
-      implicit none
-
-*+  Purpose
-*       return version number of Accum module
-
-*+  Changes
-*     ????
-*     070696`jngh removed a_ from name
-
-*+  Constant Values
-      character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.21  06/06/96')
-
-*- Implementation Section ----------------------------------
- 
-      Accum_version = version_number
- 
-      return
-      end
-
-
-
 * ====================================================================
        subroutine APSIM_Accum (Action, Data)
 * ====================================================================
@@ -36,8 +11,6 @@
        character Action*(*)            ! Message action to perform
        character Data*(*)              ! Message data
 *
-      character  accum_version*15      ! function
-
 *+  Purpose
 *      This routine is the interface between the main system and the
 *      Accum module.
@@ -45,14 +18,11 @@
 *+  Changes
 *     DPH 26/10/95  Added call to message_unused
 *     jngh 09/06/96 added version to presence report
+*     dph 7/5/99 removed presence if test. c186
 
 *- Implementation Section ----------------------------------
  
-      if (Action.eq.MES_Presence) then
-         write(*, *) 'Module_name = ', Module_name
-     :              // ', Version : ' // accum_version()
- 
-      else if (Action.eq.MES_Init) then
+      if (Action.eq.MES_Init) then
          call Accum_zero_variables ()
          call Accum_Init ()
  
@@ -89,9 +59,9 @@
 *+  Changes
 *     ????
 *     jngh removed a_ from version function
+*     dph 7/5/99 removed version info. c186
 
 *+  Calls
-       character Accum_version*15     ! function
 
 *+  Constant Values
        character ID_Init*(*)          ! Message indicating initialisation
@@ -104,7 +74,7 @@
  
       ! Notify system that we have initialised
  
-      Event_string = ID_Init // ', Version : ' // Accum_version()
+      Event_string = ID_Init
       call Report_event (Event_string)
  
       ! Get all parameters from parameter file
