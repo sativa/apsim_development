@@ -4,6 +4,7 @@
 
 #include "ComponentAlias.h"
 #include <Protocol\computation.h>
+#include <general\stristr.h>
 
 using namespace std;
 using namespace protocol;
@@ -32,4 +33,10 @@ ComponentAlias::~ComponentAlias(void)
    {
    delete computation;
    }
-
+// ------------------------------------------------------------------
+// Return true if this component is a system.
+// ------------------------------------------------------------------
+bool ComponentAlias::isSystem(void)
+   {
+   return (stristr(getExecutable().c_str(), "protocolmanager.dll") != NULL);
+   }
