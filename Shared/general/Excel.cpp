@@ -30,6 +30,27 @@ void getXLSSheetNames(const string& xlsFileName, vector<string>& pageNames)
    delete ExcelApp;
    }
 //---------------------------------------------------------------------------
+// Locate the specified sheet.  Return true if found.
+//---------------------------------------------------------------------------
+bool getXLSSheet(const std::string& sheetName,
+                 TExcelApplication* excelApp,
+                 ExcelWorksheetPtr& sheet)
+   {
+   for(int sheetIndex = 1; sheetIndex <= excelApp->Sheets->Count; sheetIndex++)
+      {
+      ExcelWorksheetPtr worksheet;
+      worksheet = excelApp->Sheets->get_Item((Variant)sheetIndex);
+      if (strcmpi(sheetName.c_str(), AnsiString(worksheet->Name).c_str()) == 0)
+         {
+         sheet = worksheet;
+         return true;
+         }
+      worksheet->Release();
+      }
+   return false;
+   }
+
+//---------------------------------------------------------------------------
 // Return a row of values from the specified XLS sheet.  Returns true
 // if a row of values was read ok.  If row is outside the range of
 // rows in the sheet then false will be returned. Row is 1 index based.
@@ -49,9 +70,14 @@ bool getXLSRow(ExcelWorksheetPtr worksheet, int row, vector<string>& values)
    if (row >= 1 && row <= numRows)
       {
       // work out the start and end ref in excel notation e.g B45
-      char endColChar = numCols + 'A' - 1;
       AnsiString startref = "A" + IntToStr(row);
-      AnsiString endref = endColChar;
+
+      int endCol1 = numCols / 26;
+      int endCol2 = numCols-endCol1*26;
+      AnsiString endref;
+      if (endCol1 > 0)
+         endref = (char) (endCol1 + 'A' - 1);
+      endref += (char) (endCol2 + 'A' - 1);
       endref += IntToStr(row);
 
       // ask EXCEL for the entire row.
