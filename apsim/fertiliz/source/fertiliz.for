@@ -139,7 +139,7 @@
      :              // fertiliz_version ()
 
       else if (Action.eq.MES_Init) then
-         
+
          call fertiliz_zero_variables ()
          call fertiliz_Init ()
 
@@ -147,7 +147,7 @@
          call fertiliz_Inter_Timestep()
 
       else if (Action.eq.MES_Process) then
-         
+
          call fertiliz_get_other_variables ()
          call fertiliz_schedule ()
 
@@ -158,6 +158,9 @@
       else if (Action.eq.MES_Get_variable) then
          call fertiliz_Send_my_variable (Data_string)
 
+      else if (Action .eq. MES_Set_variable) then
+         call fertiliz_set_my_variable (Data_string)
+         
       else
             ! Don't use message
          call Message_unused ()
@@ -721,7 +724,7 @@
   100    continue
 
          g_fert_applied = g_fert_applied + amount
-         
+
          write (string, '(1x, f7.2, 6a, 41x, a, f7.2, a, i3, a)')
      :             amount,
      :             ' of ',
@@ -1022,7 +1025,6 @@
       call pop_routine (myname)
       return
       end
-
 *     ===========================================================
       subroutine fertiliz_inter_timestep ()
 *     ===========================================================
@@ -1077,5 +1079,77 @@
       g_fert_applied = 0.0
       
       call pop_routine (myname)
+      return
+      end
+* ====================================================================
+      subroutine fertiliz_set_my_variable (variable_name)
+* ====================================================================
+
+*   Short Description:
+*      set a variable in this module as requested by another.
+
+*   Assumptions:
+*      none
+
+*   Notes:
+*      none
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*      020498 nih
+
+*   Calls:
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      character variable_name*(*)         ! (input) variable name to search for
+
+*   Global variables
+      include   'fertiliz.inc'
+
+*   Internal variables
+      integer    numvals               ! number of values returned in array
+      real       amount                ! amount of fertilizer to apply
+      character  type*32               ! type of fertilizer to apply
+      
+*   Constant values
+
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'fertiliz_set_my_variable')
+
+*   Initial data values
+*      none
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+
+      if (index(variable_name,'fert_') .eq. 1) then
+         type = variable_name(len('fert_')+1:)
+         call collect_real_var (variable_name, '()'
+     :                             , amount, numvals
+     :                             , 0.0, 1000.)
+
+         ! apply this type of fertilizer to the top layer
+         ! This is a bit of a shortcut - needs improving.
+         call fertiliz_apply (amount, 1.0, type)
+
+      else
+         call Message_unused ()
+
+      endif
+
+      call pop_routine (my_name)
       return
       end
