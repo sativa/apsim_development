@@ -37,8 +37,8 @@ XMLDocument::XMLDocument(const std::string& xml, XmlContents xmlContents)
 XMLDocument::~XMLDocument(void)
    {
    xmlFreeDoc(doc);
-   xmlCleanupParser();
-   xmlCleanupGlobals();
+//   xmlCleanupParser();
+//   xmlCleanupGlobals();
    }
 //---------------------------------------------------------------------------
 // return the root document element
