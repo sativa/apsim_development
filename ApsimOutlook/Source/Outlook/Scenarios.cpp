@@ -181,7 +181,7 @@ void Scenarios::createScenariosFrom(const string& scenarioName,
 // create multiple scenarios, based on the given scenario, given
 // the factor name and 1 or more factor values.
 // ------------------------------------------------------------------
-void Scenarios::createScenariosFrom(Scenario& scenario,
+void Scenarios::createScenariosFrom(Scenario scenario,
                                     const string& factorName,
                                     const vector<string>& factorValues)
    {
@@ -192,6 +192,7 @@ void Scenarios::createScenariosFrom(Scenario& scenario,
          {
          Scenario newScenario(scenario);
          newScenario.setFactorValue(factorName, factorValues[factorI]);
+         newScenario.setName("");
          makeScenarioValid(newScenario, factorName);
          scenarios.push_back(newScenario);
          }
@@ -219,7 +220,13 @@ void Scenarios::createScenarioPermutation(const std::string& scenarioName,
       for (vector<string>::iterator name = scenarioNames.begin();
                                     name != scenarioNames.end();
                                     name++)
-         createScenariosFrom(*name, factorName, factorValues);
+         {
+         ScenarioContainer::iterator scenarioToCopy = find(scenarios.begin(),
+                                                           scenarios.end(),
+                                                           *name);
+         if (scenarioToCopy != scenarios.end())
+             createScenariosFrom(*scenarioToCopy, factorName, factorValues);
+         }
       makeScenarioNamesValid();
       }
    }
