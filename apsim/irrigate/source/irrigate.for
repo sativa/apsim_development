@@ -1793,6 +1793,8 @@ cnh note that results may be strange if swdep < ll15
       subroutine Main (Action, Data_String)
 *     ===========================================================
       Use infrastructure
+      Use IrrigateModule
+
       implicit none
       ml_external Main
 
