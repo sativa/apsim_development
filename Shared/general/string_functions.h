@@ -378,7 +378,7 @@ bool Replace_all (std::string& St, const char* Sub_string, const char* Replaceme
 // the substring with the replacement string after the given position.
 // Return true if a replacement was made.
 // ------------------------------------------------------------------
-bool replaceAll(string& St, unsigned pos, const string& subString, const string& replacementString);
+bool replaceAll(std::string& St, unsigned pos, const std::string& subString, const std::string& replacementString);
 
 // ------------------------------------------------------------------
 // function that takes a string and replaces all occurrances of
