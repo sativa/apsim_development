@@ -144,9 +144,6 @@ class APSIMOzcotPublic
 
     create                 : APSIMMethod         = System create
     sysinit                : APSIMMethod         = System initialise
-    prepare                : APSIMMethod         = System prepare stage
-    process                : APSIMMethod         = System process stage
-    post                   : APSIMMethod         = System post stage
     end_run                : APSIMMethod         = System end_run stage
     sow                    : APSIMSowMethod      = Perform sowing
     harvest                : APSIMHarvestMethod  = Perform harvest
@@ -179,6 +176,11 @@ class APSIMOzcotExternal
     no3                     : APSIMRealArray        = Nitrate nitrogen in each layer, (kg/ha), GET|SET, 0.0, 1000.0
 
    add_residue             : APSIMAddResidueMethod      = Message to report a residue decomposition
+
+    prepare                : APSIMEvent         = System prepare stage
+    process                : APSIMEvent         = System process stage
+    post                   : APSIMEvent         = System post stage
+
 
 end
 
