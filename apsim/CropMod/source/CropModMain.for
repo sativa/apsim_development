@@ -1,53 +1,52 @@
+C     Last change:  E    14 Sep 2001    2:18 pm
 
-      include 'CropMod.inc'
+      INCLUDE 'CropMod.inc'
 
-!     ===========================================================
-      subroutine alloc_dealloc_instance(doAllocate)
-!     ===========================================================
+
+*=====================================================================
+      subroutine Main (action, data_string)
+*=====================================================================
       use CropModModule
       implicit none
-      ml_external alloc_dealloc_instance
 
-!+  Sub-Program Arguments
-      logical, intent(in) :: doAllocate
+      include 'action.inc'
+      include 'const.inc'
+      include 'crp_comm.pub'
+      include 'string.pub'
+      include 'error.pub'
 
-!+  Purpose
-!      Module instantiation routine.
+*+  Sub-Program Arguments
+      character  action*(*)            ! (INPUT) Message action to perform
+      character  data_string*(*)       ! (INPUT) Message data
 
-!- Implementation Section ----------------------------------
+*+  Purpose
+*     This module performs crop growth simulation simulates crop phenological
+*     development, growth of root, leaf, head, stem and grain,
+*     Water and  nitrogen uptake, leaf and root senescense.
+
+*+  Changes
+*      271198 ew
+*      250894 sc    specified and programmed
+*      011195 jngh  added call to message_unused
+
+*+  Calls
+
+*+  Constant Values
+      character  my_name*(*)         ! name of this procedure
+      parameter (my_name='CropMod')
 
 
-      if (doAllocate) then
-         allocate(g)
-         allocate(p)
-         allocate(c)
+      LOGICAL TestTrue
+      REAL    daylength
+      REAL    radn_ext
+      REAL    rue_max
+      REAL    diff_radn_frac
+      REAL    rue_diff_radn_modifier
 
-      else
-         deallocate(g)
-         deallocate(p)
-         deallocate(c)
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
 
-      end if
-      return
-      end
-
-!     ===========================================================
-      subroutine do_init1(sdml)
-!     ===========================================================
-      use CropModModule
-      implicit none
-      ml_external do_init1
-
-!+  Purpose
-!      Perform all registrations and zeroing
-
-!+  Sub-Program Arguments
-      character (len=*), intent(in) :: sdml
-
-!- Implementation Section ----------------------------------
-
-      call do_registrations()
-
+      if (action.eq.ACTION_init) then
 
          !Zero pools inlcuding contants and parameters
          call Zero_Variables (.true.)
@@ -55,101 +54,131 @@
          !Read the crop specific contants from ini files
          call CropMod_Initialisation ()
 
+         !Request and receive variables from owner-modules
+         call Get_Other_Variables ()
 
 
-
-      return
-      end
-
-!     ===========================================================
-      subroutine do_commence()
-!     ===========================================================
-      implicit none
-      ml_external do_commence
-
-!+  Purpose
-!      Perform all registrations and zeroing
-
-!- Implementation Section ----------------------------------
+         !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+c         if (c%crop_type .eq. 'wheat') then
+c             TestTrue = .TRUE.
+c         else
+c             TestTrue = .FALSE.
+c         endif
+c
+c             TestTrue = .FALSE.
+c
+c         if (TestTrue) open (1, FILE='test.dat')
+         !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-      return
-      end
+      elseif (action.eq.ACTION_set_variable) then
 
-* ====================================================================
-      subroutine do_init2 ()
-* ====================================================================
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
-      ml_external do_init2
+         ! Respond to request to reset variable values of variables from other modules
+         call Set_My_Variable (data_string)
 
-*+  Purpose
-*     Initialise the CropMod module
+      elseif (action.eq.ACTION_get_variable) then
 
-*+  Changes
+         !Respond to request for variable values - from other modules
+         call Send_My_Variable (Data_string)
 
-*+  Calls
+      elseif (action.eq.ACTION_prepare) then !this happens each time step (daily)
 
-*+  Constant Values
-      character This_routine*(*)       ! name of this routine
-      parameter (This_routine='CropMod_init2')
-
-*+  Local Variables
-      logical found
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (this_routine)
-
-
-      !Request and receive variables from owner-modules
-      call Get_Other_Variables ()
-
-      call pop_routine (this_routine)
-      return
-      end subroutine
-
-
-!     ===========================================================
-      subroutine respondToEvent(fromID,eventID, variant)
-!     ===========================================================
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
-      ml_external respondToEvent
-
-!+  Purpose
-!      Event handler for all events coming into module.
-
-!+  Sub-Program Arguments
-      integer, intent(in) :: fromID
-      integer, intent(in) :: eventID
-      integer, intent(in) :: variant
-
-!- Implementation Section ----------------------------------
-
-      if (eventID.eq.Prepare_id) then
          if (g%plant_status.ne.status_out) then
+
             !Zero all daily rate variables
             call Zero_Daily_Variables ()
+
             !Request and receive variables from owner-modules
             call Get_Other_Variables ()
+
             !Do crop processes prepare
             call Simulation_Prepare ()
+
          else
             ! Crop not in the field, do nothing
             !call Zero_Variables (.false.)
          endif
-c ***********************************************************************
-      elseif (eventID.eq.Process_id) then
+
+      elseif (action.eq.ACTION_process) then
+
 
          if (g%plant_status.ne.status_out) then
 
             !request and receive variables from owner-modules
             call Get_Other_Variables ()
+
             !Crop processes - Dynamic prcess sub-modules
             call Crop_Process ()
+
+            !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+c           if (TestTrue) then
+
+c               call Photoperiod_Wang (
+c     :                 g%day_of_year
+c     :               , g%latitude
+c     :               , c%twilight
+c     :               , daylength )
+
+c               call ExtraTerrestrialRadiationDailyTotal (
+c     :                 g%day_of_year
+c     :               , g%latitude
+c     :               , radn_ext )
+c
+c               call  Diffuse_Radiation_fraction
+c     :                 (
+c     :                 g%radn,
+c     :                 radn_ext,
+c     :                 diff_radn_frac
+c     :                 )
+
+c              call RUE_Diffuse_Radiation_Modifier (
+c     :                 diff_radn_frac,
+c     :                 rue_diff_radn_modifier
+c     :                 )
+
+c     .          g%tiller_area_max,
+c     .          p%tiller_curve,
+c     .          p%tiller_tt_infl,
+c     .          g%tiller_area_pot,
+
+c               WRITE(1,FMT="(i6,2x,10f7.2,
+c     :                       10f7.2,
+c     :                       10f7.2,
+c     :                       10f7.2
+c     :                       )")
+c     :                       g%day_of_year
+c     :                      ,g%tiller_area_max(1:10)
+c     :                      ,p%tiller_curve(1:10)
+c     :                      ,p%tiller_tt_infl(1:10)
+c     :                      ,g%tiller_area_pot(1:10)
+c
+c               WRITE(1,FMT="(i6,  3x,
+c     :                       f6.2,3x,
+c     :                       f6.2,3x,
+c     :                       f6.2,3x,
+c     :                       f6.2,3x,
+c     :                       f6.2,3x,
+c     :                       )")
+c     :                  g%day_of_year
+c     :                 ,daylength
+c     :                 ,radn_ext
+c     :                 ,g%radn
+c     :                 ,c%RUE_Max*rue_diff_radn_modifier
+c     :                 ,1.34
+
+c               PRINT *, '-------------------------------------'
+c               PRINT *, 'DayOfYear =', g%day_of_year
+c               PRINT *, 'day_len   =', daylength
+c               PRINT *, 'radn_ext  =', radn_ext
+c               PRINT *, 'radn_act  =', g%radn
+c               PRINT *, 'RUE_max   =', RUE_Max*0.48
+c               PRINT *, 'RUE_act   =', 1.34
+
+c            endif
+
+            !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
             !Send changes of other variables to owner-modules
             call Set_Other_Variables ()
 
@@ -157,52 +186,26 @@ c ***********************************************************************
             !crop not in, do nothing
          endif
 
-c ************************************************************************
-      elseif (eventID.eq.PreWaterBalance_id) then
-            call cropmod_send_water_demand()
+      elseif (action.eq.ACTION_sow) then
 
-c ************************************************************************
-      else
-         call error('bad event ID',.true.)
-      endif
-      return
-      end
-
-!     ===========================================================
-      subroutine respondToMethod(fromID,methodID, variant)
-!     ===========================================================
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
-      ml_external respondToMethod
-
-!+  Purpose
-!      Method handler for all method calls coming into module.
-
-!+  Sub-Program Arguments
-      integer, intent(in) :: fromID
-      integer, intent(in) :: methodID
-      integer, intent(in) :: variant
-
-!+  Calls
-      logical  crop_my_type  !function
-
-!- Implementation Section ----------------------------------
-
-c ******************************************************************
-      if (methodID.eq.sow_id) then
+         if (crop_my_type (c%crop_type)) then
 
             !request and receive variables from owner-modules
             call Get_Other_Variables ()
 
             !start crop, read the sow information and do  more initialisations
-            call Start_Crop (variant)
+            call Start_Crop ()
 
+         else
 
-c ******************************************************************
-      else if (methodID.eq.harvest_id) then
+            ! not my type!
+            call Message_unused ()
 
+         endif
 
+      elseif (action.eq.ACTION_harvest) then
+
+         if (Crop_my_type (c%crop_type)) then
                ! harvest crop - report harvest information
                call Crop_Harvest (
      .          g%dm_green,
@@ -226,16 +229,18 @@ c ******************************************************************
      .          g%cnd_photo,
      .          g%cnd_grain_conc,
      .          c%stage_names)
+         else
+            ! not my type!
+            call Message_unused ()
+         endif
 
-c ******************************************************************
-      else if (methodID.eq.end_crop_id) then
-
+      elseif (action.eq.ACTION_end_crop) then
 
          !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 c        if (TestTrue)   close (1)
          !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+         if (crop_my_type (c%crop_type)) then
 
             !end crop - turn the stover into residue
             call End_Crop ()
@@ -249,59 +254,730 @@ c        if (TestTrue)   close (1)
                 g%current_stage = real (plant_end)
             end if
 
+         else
+            ! not my type!
+            call Message_unused ()
+         endif
 
 
-c ******************************************************************
-      else if (methodID.eq.kill_crop_id) then
-
-
+      elseif (action.eq.ACTION_kill_crop) then
+         if (crop_my_type (c%crop_type)) then
             ! kill crop - died, but biomass remain in field
             call Kill_Crop (
      .          g%plant_status,
      .          g%dm_green,
      .          g%dm_senesced,
      .          g%dm_dead)
-
-c ******************************************************************
-      else if (methodID.eq.cropwatersupply_id) then
-         call cropmod_crop_water_supply(variant)
-c ******************************************************************
-
-
+         else
+            ! not my type!
+            call Message_unused ()
+         endif
       else
-         call error('bad method ID',.true.)
+         ! don't use message
+         call Message_unused ()
       endif
 
+
+      call pop_routine (my_name)
       return
       end
 
+
+
+*================================================================
+      subroutine CropMod_Initialisation ()
+*================================================================
+*+  Purpose
+*       Crop initialisation
+
+*+  Changes
+*     010994 sc   specified and programmed
+*----------------------------------------------------------
+      use CropModModule
+      implicit none
+      include 'error.pub'
+
+*+  Calls
+      character  CropMod_Version*52    ! function
+
+*+  Constant Values
+      character  my_name*(*)       ! name of procedure
+      parameter (my_name  = 'CropMod_Initialisation')
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      !Report the initialisation process
+      call Write_string (' Initialising, '// CropMod_Version ())
+
+      !Read the crop type and sub-module switches
+      call Read_Module_Switches()
+
+      PRINT *,"crop type is ", c%crop_type
+      PRINT *
+
+
+      !Read the crop specific constants
+
+       call Crop_Read_Constants()
+
+
+      g%current_stage = real (plant_end)
+      g%plant_status = status_out
+
+      call pop_routine (my_name)
+      return
+      end
+
+*     ===========================================================
+      subroutine Start_Crop ()
+*     ===========================================================
+      use CropModModule
+      implicit none
+      include 'const.inc'            !  blank
+      include 'intrface.pub'
+      include 'error.pub'
+
+*+  Purpose
+*       Start crop using parameters specified in passed record
+
+*+  Changes
+*     010994 sc   specified and programmed
+*     090695 psc  add row spacing read
+*     220896 jngh changed extract to collect
+*                 removed data_record from argument
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'Start_Crop')
+
+*+  Local Variables
+      character  cultivar*20           ! name of cultivar
+      integer    numvals               ! number of values found in array
+      character  string*200            ! output string
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+
+      !-----------------------------------------------------------
+      !Read sowing information
+      !-----------------------------------------------------------
+      call Write_string ( 'Sowing initiate')
+
+cjh      if (data_record.ne.blank) then
+
+         call collect_char_var ('cultivar', '()'
+     :                        , cultivar, numvals)
+
+         call collect_real_var ('plants', '()'
+     :                        , g%plants, numvals, 0.0, 400.0)
+
+         call collect_real_var (
+     :                          'sowing_depth', '(mm)'
+     :                        , g%sowing_depth, numvals
+     :                        , 0.0, 100.0)
+
+         call collect_real_var_optional (
+     :                          'row_spacing', '(m)'
+     :                        , g%row_spacing, numvals
+     :                        , 0.0, 2.0)
+
+         if (numvals.eq.0) then
+            g%row_spacing = c%row_spacing_default
+         endif
+
+      call collect_real_var_optional (
+     :                         'skiprow', '()'
+     :                        , g%skip_row, numvals
+     :                        , 0.0, 2.0)
+      if (numvals.eq.0) then
+         g%skip_row = c%skip_row_default
+      else
+      endif
+
+      g%skip_row_fac = (2.0 + g%skip_row)/2.0
+
+         !scc added FTN 11/10/95
+         call collect_real_var_optional (
+     :                      'tiller_no_fertile', '()'
+     :                    , g%tiller_no_fertile, numvals
+     :                    , 0.0, 10.0)
+
+         if (numvals.eq.0) then
+            g%tiller_no_fertile = 0.0
+         else
+         endif
+
+      !-----------------------------------------------------------
+      !Report sowing information
+      !-----------------------------------------------------------
+         call write_string ( new_line//new_line)
+
+         string = '                 Crop Sowing Data'
+         call write_string (string)
+
+         string = '    ------------------------------------------------'
+         call write_string (string)
+         call write_string (
+     :           '    Sowing  Depth Plants Spacing Cultivar    FTN')
+         call write_string (
+     :           '    Day no   mm     m^2     m     Name       no')
+
+         string = '    ------------------------------------------------'
+         call write_string ( string)
+
+         write (string, '(3x, i7, 3f7.1, 1x, a10,1x,f7.2)')
+     :                   g%day_of_year, g%sowing_depth
+     :                 , g%plants, g%row_spacing, cultivar
+     :                 , g%tiller_no_fertile
+         call write_string (string)
+
+         string = '    ------------------------------------------------'
+         call write_string (string)
+
+
+      !-----------------------------------------------------------
+      !Read root profile parameters
+      !-----------------------------------------------------------
+         call Read_Root_Params ()
+
+         !Read root parameters: ll, kl, xf and uptake_source
+
+      !-----------------------------------------------------------
+      !Read Culitvar information
+      !-----------------------------------------------------------
+        ! get cultivar parameters
+
+        call Crop_Read_Cultivar_Params (cultivar)
+
+
+      !-----------------------------------------------------------
+      !Set the plant alive and stage equals sowing
+      !-----------------------------------------------------------
+
+         g%current_stage = real (sowing)
+         g%plant_status = status_alive
+
+cjh      else
+            ! report empty sowing record
+cjh         call fatal_error (err_user, 'No sowing criteria supplied')
+cjh      endif
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+*     ===========================================================
+      subroutine Read_Root_Params ()
+*     ===========================================================
+      use CropModModule
+      implicit none
+      include   'const.inc'            ! new_line,  blank,
+      include 'data.pub'
+      include 'read.pub'
+      include 'error.pub'
+
+*+  Purpose
+*       Get root profile parameters
+
+*+  Changes
+*       090994 sc   specified and programmed
+*     210395 jngh   changed from Maize_section to a parameters section
+*     000121   ew   generalised
+
+*+  Calls
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Read_Root_Params')
+*
+      character  section_name*(*)
+      parameter (section_name = 'parameters')
+
+*+  Local Variables
+      integer    layer                 ! layer number
+      real       ll (max_layer)        ! lower limit of plant-extractable
+                                       ! soil water for soil layer l
+                                       ! (mm water/mm soil)
+      integer    num_layers            ! number of layers in profile
+      integer    numvals
+      character  string*200            ! output string
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      call write_string (new_line
+     :                  //'   - Reading root profile parameters')
+
+
+      !-----------------------------------------------------------
+      !Read the root parameters from section Cultivar.Module.Parameters
+      !-----------------------------------------------------------
+
+       call read_char_var_optional (section_name
+     :                     , 'uptake_source', '()'
+     :                     , p%uptake_source, numvals)
+      if (numvals.eq.0) then
+         p%uptake_source = 'calc'
+      else
+      endif
+
+      call read_real_array (section_name
+     :                     , 'll', max_layer, '()'
+     :                     , ll, num_layers
+     :                     , 0.0, c%ll_ub)
+
+      call fill_real_array (p%ll_dep, 0.0, max_layer)
+      do layer = 1, num_layers
+         p%ll_dep(layer) = ll(layer)*g%dlayer(layer)
+      enddo
+
+      call read_real_array (section_name
+     :                     , 'kl', max_layer, '()'
+     :                     , p%kl, num_layers
+     :                     , 0.0, c%kl_ub)
+
+      call read_real_array (section_name
+     :                     , 'xf', max_layer, '()'
+     :                     , p%xf, num_layers
+     :                     , 0.0, 1.0)
+
+      !-----------------------------------------------------------
+      !Report the root parameters
+      !-----------------------------------------------------------
+
+      if (p%uptake_source.eq.'apsim') then
+         string = 'Uptake of NO3 and water calculated by'
+     :            //' another APSIM module'
+
+      elseif (p%uptake_source.eq.'calc') then
+         string = 'Uptake of NO3 and water calculated by '
+     :            //c%crop_type
+
+      else
+         string = blank
+
+      endif
+
+      call write_string (string)
+      call write_string ( blank)
+
+          ! report
+      call write_string ( new_line//new_line)
+
+      write (string,'(4x, a)') '                Root Profile'
+      call write_string ( string)
+
+      string = '    ------------------------------------------------'
+      call write_string (string)
+
+      string = '      Layer      Kl      Lower Exploration'
+      call write_string ( string)
+      string = '      Depth              limit   Factor'
+      call write_string (string)
+
+      string = '      (mm)       ()     (mm/mm)    ()'
+      call write_string ( string)
+
+      string = '    ------------------------------------------------'
+      call write_string ( string)
+
+      do  layer = 1, num_layers
+         write (string,'(3x, 4f9.3)')
+     :            g%dlayer(layer)
+     :          , p%kl(layer)
+     :          , ll(layer)
+     :          , p%xf(layer)
+         call write_string ( string)
+      enddo
+
+      string = '     ------------------------------------------------'
+      call write_string ( string)
+
+      call write_string ( new_line//new_line)
+
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+*     ===========================================================
+      subroutine Read_Module_Switches ()
+*     ===========================================================
+      use CropModModule
+      implicit none
+      include   'const.inc'
+      include 'read.pub'
+      include 'error.pub'
+      include 'datastr.pub'
+
+*+  Purpose
+*       CropMod initialisation - reads crop type and module switches
+
+*+  Changes
+*     000121  ew programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'Read_Module_Switches')
+*
+      character  section_name*(*)
+      parameter (section_name = 'constants')
+
+      integer   convertor
+      parameter (convertor = 111111111)
+
+
+*+  Local Variables
+      integer    numvals               !number of values returned
+      character  switch*10             !switch convertor
+
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+
+      !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      !REPORT READING, AND READ THE CROP TYPE
+      !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      call write_string (new_line//'    - Reading constants')
+
+      !Read the crop type
+      call read_char_var (section_name
+     :                     , 'crop_type', '()'
+     :                     , c%crop_type, numvals)
+
+          c%wat_switch    = '111111111'
+          c%phen_switch   = '111111111'
+          c%leafno_switch = '111111111'
+          c%carb_switch   = '111111111'
+          c%part_switch   = '111111111'
+          c%tiller_switch = '111111111'
+          c%can_switch    = '111111111'
+          c%root_switch   = '111111111'
+          c%sen_switch    = '111111111'
+          c%nit_switch    = '111111111'
+          c%phos_switch   = '000000000'
+          c%die_switch    = '111111111'
+
+      if (c%crop_type .eq. 'wheat') then
+          c%wat_switch    = '111111111'
+          c%phen_switch   = '111121111'
+          c%leafno_switch = '111111111'
+          c%carb_switch   = '111111111'
+          c%part_switch   = '111111111'
+          c%tiller_switch = '111111111'
+          c%can_switch    = '111111111'
+          c%root_switch   = '111111111'
+          c%sen_switch    = '111311111'
+          c%nit_switch    = '111111111'
+          c%phos_switch   = '000000000'
+          c%die_switch    = '111111111'
+      end if
+
+
+      if (c%crop_type .eq. 'sunflower') then
+          c%wat_switch    = '111111111'
+          c%phen_switch   = '411141111'
+          c%leafno_switch = '141411111'
+          c%carb_switch   = '111111111'
+          c%part_switch   = '444111111'
+          c%tiller_switch = '000000000'
+          c%can_switch    = '044111111'
+          c%root_switch   = '111111111'
+          c%sen_switch    = '411111111'
+          c%nit_switch    = '111114411'
+          c%phos_switch   = '000000000'
+          c%die_switch    = '111111111'
+      end if
+
+
+      if (c%crop_type .eq. 'sorghum') then
+          c%wat_switch    = '111111111'
+          c%phen_switch   = '511141111'
+          c%leafno_switch = '151511111'
+          c%carb_switch   = '111111111'
+          c%part_switch   = '455111111'
+          c%tiller_switch = '000000000'
+          c%can_switch    = '054111111'
+          c%root_switch   = '111111111'
+          c%sen_switch    = '511511111'
+          c%nit_switch    = '515550551'
+          c%phos_switch   = '000000000'
+          c%die_switch    = '111111111'
+      end if
+
+      if (c%crop_type .eq. 'maize') then
+          c%wat_switch    = '111111111'
+          c%phen_switch   = '611111111'
+          c%leafno_switch = '161511111'
+          c%carb_switch   = '111111111'
+          c%part_switch   = '666611111'
+          c%tiller_switch = '000000000'
+          c%can_switch    = '166111111'
+          c%root_switch   = '121111111'
+          c%sen_switch    = '611111111'
+          c%nit_switch    = '116114411'  !'166114411'
+          c%phos_switch   = '111100000'
+          c%die_switch    = '611111111'
+      end if
+
+      !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      ! READ MODULE SWITCHES
+      !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+      call read_integer_var_optional (section_name
+     :                    , 'module_switch', '()'
+     :                    , c%module_switch, numvals
+     :                    , 0, 3)
+
+      !If module_switch is not specified, use default 1
+      if (numvals.eq.0) then
+         c%module_switch = 0
+      endif
+
+
+      !If module_switch is not zero, use the module switch
+      !all the sub switches have no effect
+      if (c%module_switch .ne. 0) then
+
+         write(switch, '(G10)') c%module_switch*convertor
+
+         c%wat_switch     = switch(2:10)
+         c%phen_switch    = switch(2:10)
+         c%carb_switch    = switch(2:10)
+         c%part_switch    = switch(2:10)
+         c%leafno_switch  = switch(2:10)
+         c%tiller_switch  = switch(2:10)
+         c%can_switch     = switch(2:10)
+         c%root_switch    = switch(2:10)
+         c%sen_switch     = switch(2:10)
+         c%nit_switch     = switch(2:10)
+         c%phos_switch    = switch(2:10)
+         c%die_switch     = switch(2:10)
+
+      !If module_switch is zero, use the sub module switches
+      else
+
+          switch = c%wat_switch
+          call read_char_var_optional (section_name
+     :                     , 'wat_switch', '()'
+     :                     , c%wat_switch, numvals)
+          if (numvals.eq.0)  c%wat_switch = switch
+
+          switch = c%phen_switch
+          call read_char_var_optional (section_name
+     :                     , 'phen_switch', '()'
+     :                     , c%phen_switch, numvals)
+          if (numvals.eq.0)  c%phen_switch = switch
+
+          switch = c%carb_switch
+          call read_char_var_optional (section_name
+     :                     , 'carb_switch', '()'
+     :                     , c%carb_switch, numvals)
+          if (numvals.eq.0)  c%carb_switch = switch
+
+          switch = c%part_switch
+          call read_char_var_optional (section_name
+     :                     , 'part_switch', '()'
+     :                     , c%part_switch, numvals)
+          if (numvals.eq.0)  c%part_switch = switch
+
+          switch = c%leafno_switch
+          call read_char_var_optional (section_name
+     :                     , 'leafno_switch', '()'
+     :                     , c%leafno_switch, numvals)
+          if (numvals.eq.0)  c%leafno_switch = switch
+
+          switch = c%tiller_switch
+          call read_char_var_optional (section_name
+     :                     , 'tiller_switch', '()'
+     :                     , c%tiller_switch, numvals)
+          if (numvals.eq.0)  c%tiller_switch = switch
+
+          switch = c%can_switch
+          call read_char_var_optional (section_name
+     :                     , 'can_switch', '()'
+     :                     , c%can_switch, numvals)
+          if (numvals.eq.0)  c%can_switch = switch
+
+          switch = c%root_switch
+          call read_char_var_optional (section_name
+     :                     , 'root_switch', '()'
+     :                     , c%root_switch, numvals)
+          if (numvals.eq.0)  c%root_switch = switch
+
+          switch = c%sen_switch
+          call read_char_var_optional (section_name
+     :                     , 'sen_switch', '()'
+     :                     , c%sen_switch, numvals)
+          if (numvals.eq.0)  c%sen_switch = switch
+
+          switch = c%nit_switch
+          call read_char_var_optional (section_name
+     :                     , 'nit_switch', '()'
+     :                     , c%nit_switch, numvals)
+          if (numvals.eq.0)  c%nit_switch = switch
+
+
+          switch = c%phos_switch
+          call read_char_var_optional (section_name
+     :                     , 'phos_switch', '()'
+     :                     , c%phos_switch, numvals)
+          if (numvals.eq.0)  c%phos_switch = switch
+
+
+          switch = c%die_switch
+          call read_char_var_optional (section_name
+     :                     , 'die_switch', '()'
+     :                     , c%die_switch, numvals)
+          if (numvals.eq.0)  c%die_switch = switch
+
+
+      endif
+
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 !     ===========================================================
-      subroutine notify_termination()
+      subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use CropModModule
       implicit none
-      ml_external notify_termination
+
+!+  Sub-Program Arguments
+      character InstanceName*(*)       ! (INPUT) name of instance
+      integer   InstanceNo             ! (INPUT) instance number to allocate
 
 !+  Purpose
-!      Prepare for termination
+!      Module instantiation routine.
 
 !- Implementation Section ----------------------------------
 
+      allocate (Instances(InstanceNo)%gptr)
+      allocate (Instances(InstanceNo)%pptr)
+      allocate (Instances(InstanceNo)%cptr)
+      Instances(InstanceNo)%Name = InstanceName
 
       return
       end
 
-* ====================================================================
-       subroutine respondToGet (fromID,Variable_info)
-* ====================================================================
+!     ===========================================================
+      subroutine FreeInstance (anInstanceNo)
+!     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
-      ml_external respondToGet
+
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+
+!+  Purpose
+!      Module de-instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      deallocate (Instances(anInstanceNo)%gptr)
+      deallocate (Instances(anInstanceNo)%pptr)
+      deallocate (Instances(anInstanceNo)%cptr)
+
+      return
+      end
+
+!     ===========================================================
+      subroutine SwapInstance (anInstanceNo)
+!     ===========================================================
+      use CropModModule
+      implicit none
+
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+
+!+  Purpose
+!      Swap an instance into the global 'g' pointer
+
+!- Implementation Section ----------------------------------
+
+      g => Instances(anInstanceNo)%gptr
+      p => Instances(anInstanceNo)%pptr
+      c => Instances(anInstanceNo)%cptr
+
+      return
+      end
+
+*=====================================================================
+      character*(*) function CropMod_Version ()
+*=====================================================================
+*     Purpose
+*     Return version number of crop module
+
+*     Changes
+*     011092 jngh specified and programmed
+*     220896 jngh removed version control macro
+*     220499 ew used for wheat
+
+*-----Variable declaration---------------------------------
+
+      use CropModModule
+      implicit none
+      include 'error.pub'
+
+*     Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'CropMod_Version')
+
+      character  version_number*(*)    ! version number of module
+      parameter (version_number = 'V1.0 2000.01.21')
+*-----Implementation Section -------------------------------
+
+      call push_routine (my_name)
+
+      CropMod_Version =  version_number
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+
+
+*     ================================================================
+      subroutine Send_My_Variable (variable_name)
+*     ================================================================
+      use CropModModule
+      implicit none
+      include 'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc, sm2smm
+      include 'science.pub'
+      include 'data.pub'
+      include 'intrface.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
-      integer, intent(in) :: fromID
-      type(QueryData), intent(in) :: variable_info
+      character variable_name*(*)      ! (INPUT) variable name to search for
 
 *+  Purpose
 *      Return the value of a variable requested by other modules.
@@ -359,6 +1035,8 @@ c ******************************************************************
 
 *- Implementation Section ----------------------------------
 
+      call push_routine (my_name)
+
 
 
          biomass = sum_real_array (g%dm_green, max_part)
@@ -373,304 +1051,361 @@ c ******************************************************************
 
       !================================================================
       !crop type
-       if (variable_info%id .eq. crop_type_id) then
-         call return_crop_type (variable_info
+       if (variable_name .eq. 'crop_type') then
+         call respond2get_char_var (variable_name
+     :                             , '()'
      :                             , c%crop_type)
 
 
       !================================================================
 
-       elseif (variable_info%id .eq. extinct_coeff_id) then
-         call return_extinct_coeff (variable_info
+       elseif (variable_name .eq. 'extinct_coeff') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%extinction_coeff)
 
 
-       elseif (variable_info%id .eq. radn_int_id) then
-         call return_radn_int (variable_info
+       elseif (variable_name .eq. 'radn_int') then
+         call respond2get_real_var (variable_name
+     :                             , '(MJ/m^2/d)'
      :                             , g%radn_int)
 
 
-       elseif (variable_info%id .eq. rue_day_id) then
+       elseif (variable_name .eq. 'rue_day') then
          value = divide(g%dlt_dm, g%radn_int, 0.0)
-         call return_rue_day (variable_info
+         call respond2get_real_var (variable_name
+     :                             , 'g/MJ)'
      :                             , value)
 
 
       !================================================================
       !Days after sowing
-      elseif ((variable_info%id .eq. das_id) .or.
-     :        (variable_info%id .eq. das_int_id)) then
+      elseif ((variable_name .eq. 'das'    ) .or.
+     :        (variable_name .eq. 'das_int')) then
 
          das_real = sum_between (sowing, now, g%days_tot)
          das_int  = int(das_real+0.9999999)
 
-         call return_das (variable_info
+         call respond2get_integer_var (variable_name
+     :                             , '(days)'
      :                             , das_int)
 
       !================================================================
       !crop status, thermal time and development stages
 
-      elseif (variable_info%id .eq. plant_status_id) then
-         call return_plant_status (variable_info
+      elseif (variable_name .eq. 'plant_status') then
+         call respond2get_char_var (variable_name
+     :                             , '()'
      :                             , g%plant_status)
 
-      elseif (variable_info%id .eq. stage_name_id) then
+      elseif (variable_name .eq. 'stage_name') then
 
-         if (g%plant_status.ne.'status_out') then
+         if (g%plant_status.ne.status_out) then
             stage_no = int (g%current_stage)
-            call return_stage_name (variable_info
+            call respond2get_char_var (variable_name
+     :                             , '()'
      :                             , c%stage_names(stage_no))
          else
-            call return_stage_name (variable_info
+            call respond2get_char_var (variable_name
+     :                             , '()'
      :                             , status_out)
          endif
 
-      elseif (variable_info%id .eq. today_stage_code_id) then
-         if (g%plant_status.ne.'status_out') then
+      elseif (variable_name .eq. 'stage_code') then
+         if (g%plant_status.ne.status_out) then
             stage_no = int (g%current_stage)
-            call return_today_stage_code (variable_info
+            call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , c%stage_code_list(stage_no))
          else
-            call return_today_stage_code (variable_info
+            call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , 0.0)
          endif
 
-      elseif (variable_info%id .eq. stage_id) then
-         call return_stage (variable_info
+      elseif (variable_name .eq. 'stage') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%current_stage)
 
 
-      elseif ((variable_info%id .eq. today_zadok_stage_id) .or.
-     :        (variable_info%id .eq. dc_stage_id))    then
+      elseif ((variable_name .eq. 'zadok_stage') .or.
+     :        (variable_name .eq. 'dc_stage'))    then
          stage_no = INT(g%zadok_stage + 0.5)
-         call return_today_zadok_stage (variable_info
+         call respond2get_integer_var (variable_name
+     :                             , '()'
      :                             , stage_no)
 
 
-      elseif (variable_info%id .eq. dlt_stage_id) then
-         call return_dlt_stage (variable_info
+      elseif (variable_name .eq. 'dlt_stage') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%dlt_stage)
 
 
-      elseif (variable_info%id .eq. dlt_tt_id) then
-         call return_dlt_tt (variable_info
+      elseif (variable_name .eq. 'dlt_tt') then
+         call respond2get_real_var (variable_name
+     :                             , '(oCd)'
      :                             , g%dlt_tt)
 
-      elseif (variable_info%id .eq. tt_tot_id) then
-         call return_tt_tot (variable_info
+      elseif (variable_name .eq. 'tt_tot') then
+         call respond2get_real_array (variable_name
+     :                             , '(oC)'
      :                             , g%tt_tot
      :                             , max_stage)
 
-      elseif (variable_info%id .eq. tt_sum_id) then
-         call return_tt_sum (variable_info
+      elseif (variable_name .eq. 'tt_sum') then
+         call respond2get_real_var (variable_name
+     :                             , '(ddays)'
      :                             , g%tt_tot(INT(g%current_stage)))
 
-      elseif (variable_info%id .eq. days_tot_id) then
-         call return_days_tot (variable_info
+      elseif (variable_name .eq. 'days_tot') then
+         call respond2get_real_array (variable_name
+     :                             , '()'
      :                             , g%days_tot
      :                             , max_stage)
 
-      elseif (variable_info%id .eq. phase_tt_id) then
-         call return_phase_tt (variable_info
+      elseif (variable_name .eq. 'phase_tt') then
+         call respond2get_real_array (variable_name
+     :                             , '(oC)'
      :                             , g%phase_tt
      :                             , max_stage)
 
       !the following two not generalised
-      elseif (variable_info%id .eq. dlt_tt_fm_id) then
-         call return_dlt_tt_fm (variable_info
+      elseif (variable_name .eq. 'dlt_tt_fm') then
+         call respond2get_real_var (variable_name
+     :                             , '(oCd)'
      :                             , g%dlt_tt_fm)
 
-      elseif (variable_info%id .eq. tt_tot_fm_id) then
-         call return_tt_tot_fm (variable_info
+      elseif (variable_name .eq. 'tt_tot_fm') then
+         call respond2get_real_array (variable_name
+     :                             , '(oC)'
      :                             , g%tt_tot_fm
      :                             , max_stage)
 
       !================================================================
       !flowering and maturity dates
 
-      elseif (variable_info%id .eq. flowering_date_id) then
-         call return_flowering_date (variable_info
+      elseif (variable_name .eq. 'flowering_date') then
+         call respond2get_integer_var (variable_name
+     :                             , '(doy)'
      :                             , g%flowering_date)
 
-      elseif (variable_info%id .eq. maturity_date_id) then
-         call return_maturity_date (variable_info
+      elseif (variable_name .eq. 'maturity_date') then
+         call respond2get_integer_var (variable_name
+     :                             , '(doy)'
      :                             , g%maturity_date)
 
-      elseif (variable_info%id .eq. flowering_das_id) then
-         call return_flowering_das (variable_info
+      elseif (variable_name .eq. 'flowering_das') then
+         call respond2get_integer_var (variable_name
+     :                             , '(days)'
      :                             , g%flowering_das)
 
-      elseif (variable_info%id .eq. maturity_das_id) then
-         call return_maturity_das (variable_info
+      elseif (variable_name .eq. 'maturity_das') then
+         call respond2get_integer_var (variable_name
+     :                             , '(days)'
      :                             , g%maturity_das)
 
 
       !================================================================
       ! crop canopy - leaf no, tiller no, LAI and crop height
 
-      elseif (variable_info%id .eq. leaf_primodia_id) then
-         call return_leaf_primodia (variable_info
+      elseif (variable_name .eq. 'leaf_primodia') then
+         call respond2get_real_var (variable_name
+     :                             , 'lvs'
      :                             , g%leaf_primodia)
 
-      elseif (variable_info%id .eq. leaf_no_final_id) then
-         call return_leaf_no_final (variable_info
+      elseif (variable_name .eq. 'leaf_no_final') then
+         call respond2get_real_var (variable_name
+     :                             , 'lvs'
      :                             , g%leaf_no_final)
 
-      elseif (variable_info%id .eq. leaf_no_id) then
+      elseif (variable_name .eq. 'leaf_no') then
         leaf_no_now = sum_between (emerg, harvest_ripe, g%leaf_no)
-         call return_leaf_no (variable_info
+         call respond2get_real_var (variable_name
+     :                              , '()'
      :                              , leaf_no_now)
 
 
-      elseif (variable_info%id .eq. dlt_leaf_no_id) then
-         call return_dlt_leaf_no (variable_info
+      elseif (variable_name .eq. 'dlt_leaf_no') then
+         call respond2get_real_var (variable_name
+     :                              , '()'
      :                              , g%dlt_leaf_no
      :                              )
 
-      elseif (variable_info%id .eq. leaf_no_dead_id) then
-         call return_leaf_no_dead (variable_info
+      elseif (variable_name .eq. 'leaf_no_dead') then
+         call respond2get_real_array (variable_name
+     :                              , '()'
      :                              , g%leaf_no_dead
      :                              , max_stage)
 
-      elseif (variable_info%id .eq. leaf_area_id) then
-         call return_leaf_area (variable_info
+      elseif (variable_name .eq. 'leaf_area') then
+         call respond2get_real_array (variable_name
+     :                              , '()'
      :                              , g%leaf_area
      :                              , max_leaf)
 
 
-      elseif (variable_info%id .eq. cover_green_id) then
-         call return_cover_green (variable_info
+      elseif (variable_name .eq. 'cover_green') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%cover_green)
 
-      elseif (variable_info%id .eq. cover_tot_id) then
+      elseif (variable_name .eq. 'cover_tot') then
          cover_tot = 1.0
      :             - (1.0 - g%cover_green)
      :             * (1.0 - g%cover_sen)
      :             * (1.0 - g%cover_dead)
 
 
-         call return_cover_tot (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , cover_tot)
 
-      elseif (variable_info%id .eq. lai_id) then
-         call return_lai (variable_info
+      elseif (variable_name .eq. 'lai') then
+         call respond2get_real_var (variable_name
+     :                             , '(m^2/m^2)'
      :                             , g%lai)
 
-      elseif (variable_info%id .eq. lai_max_id) then
-         call return_lai_max (variable_info
+      elseif (variable_name .eq. 'lai_max') then
+         call respond2get_real_var (variable_name
+     :                             , '(m^2/m^2)'
      :                             , g%lai_max)
 
-      elseif (variable_info%id .eq. lai_sum_id) then
+      elseif (variable_name .eq. 'lai_sum') then
          lai_sum = g%lai + g%slai + g%tlai_dead
-         call return_lai_sum (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , lai_sum)
 
-      elseif (variable_info%id .eq. tlai_id) then
-         call return_tlai (variable_info
+      elseif (variable_name .eq. 'tlai') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%lai + g%slai)
 
-      elseif (variable_info%id .eq. slai_id) then
-         call return_slai (variable_info
+      elseif (variable_name .eq. 'slai') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%slai)
 
-      elseif (variable_info%id .eq. tlai_dead_id) then
-         call return_tlai_dead (variable_info
+      elseif (variable_name .eq. 'tlai_dead') then
+         call respond2get_real_var (variable_name
+     :                             , '(m^2/m^2)'
      :                             , g%tlai_dead)
 
-      elseif (variable_info%id .eq. sla_id) then
-         call return_sla (variable_info
+      elseif (variable_name .eq. 'sla') then
+         call respond2get_real_var (variable_name
+     :                             , '(mm2/g)'
      :                             , divide(g%lai*sm2smm
      :                             , g%dm_green(leaf), 0.0))
 
-      elseif (variable_info%id .eq. dlt_lai_id) then
-         call return_dlt_lai (variable_info
+      elseif (variable_name .eq. 'dlt_lai') then
+         call respond2get_real_var (variable_name
+     :                             , '(m^2/m^2)'
      :                             , g%dlt_lai)
 
-      elseif (variable_info%id .eq. dlt_lai_pot_id) then
-         call return_dlt_lai_pot (variable_info
+      elseif (variable_name .eq. 'dlt_lai_pot') then
+         call respond2get_real_var (variable_name
+     :                             , '(m^2/m^2)'
      :                             , g%dlt_lai_pot)
 
-      elseif (variable_info%id .eq. dlt_lai_stressed_id) then
-         call return_dlt_lai_stressed (variable_info
+      elseif (variable_name .eq. 'dlt_lai_stressed') then
+         call respond2get_real_var (variable_name
+     :                             , '(m^2/m^2)'
      :                             , g%dlt_lai_stressed)
 
-      elseif (variable_info%id .eq. tiller_tt_tot_id) then
-         call return_tiller_tt_tot (variable_info
+      elseif (variable_name .eq. 'tiller_tt_tot') then
+         call respond2get_real_var (variable_name
+     :                             , '(Cd)'
      :                             , g%tiller_tt_tot)
 
 
-      elseif (variable_info%id .eq. dlt_slai_id) then
-         call return_dlt_slai (variable_info
+      elseif (variable_name .eq. 'dlt_slai') then
+         call respond2get_real_var (variable_name
+     :                             , '(m^2/m^2)'
      :                             , g%dlt_slai)
 
 
       !...................................................
       ! These dlts are not made available yet
 
-      elseif (variable_info%id .eq. dlt_slai_age_id) then
-         call return_dlt_slai_age (variable_info
+      elseif (variable_name .eq. 'dlt_slai_age') then
+         call respond2get_real_var (variable_name
+     :                             , '(m^2/m^2)'
      :                             , g%dlt_slai_age)
 
-      elseif (variable_info%id .eq. dlt_slai_light_id) then
-         call return_dlt_slai_light (variable_info
+      elseif (variable_name .eq. 'dlt_slai_light') then
+         call respond2get_real_var (variable_name
+     :                             , '(m^2/m^2)'
      :                             , g%dlt_slai_light)
 
-      elseif (variable_info%id .eq. dlt_slai_water_id) then
-         call return_dlt_slai_water (variable_info
+      elseif (variable_name .eq. 'dlt_slai_water') then
+         call respond2get_real_var (variable_name
+     :                             , '(m^2/m^2)'
      :                             , g%dlt_slai_water)
 
-      elseif (variable_info%id .eq. dlt_slai_nitrogen_id) then
-         call return_dlt_slai_nitrogen (variable_info
+      elseif (variable_name .eq. 'dlt_slai_nitrogen') then
+         call respond2get_real_var (variable_name
+     :                             , '(m^2/m^2)'
      :                             , g%dlt_slai_nitrogen)
       !...................................................
 
-      elseif (variable_info%id .eq. plants_id) then
-         call return_plants (variable_info
+      elseif (variable_name .eq. 'plants') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%plants)
 
-      elseif (variable_info%id .eq. height_id) then
-         call return_height (variable_info
+      elseif (variable_name .eq. 'height') then
+         call respond2get_real_var (variable_name
+     :                             , '(mm)'
      :                             , g%canopy_height)
 
-      elseif (variable_info%id .eq. tiller_no_id) then
-         call return_tiller_no (variable_info
+      elseif (variable_name .eq. 'tiller_no') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%tiller_no_fertile)
 
-      elseif (variable_info%id .eq. tiller_no_fertile_id) then
-         call return_tiller_no_fertile (variable_info
+      elseif (variable_name .eq. 'tiller_no_fertile') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%tiller_no_fertile)
 
-      elseif (variable_info%id .eq. grain_no_id) then
-         call return_grain_no (variable_info
+      elseif (variable_name .eq. 'grain_no') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%grain_no)
 
-      elseif (variable_info%id .eq. grain_size_id) then
+      elseif (variable_name .eq. 'grain_size') then
          grain_size = divide (g%dm_green(grain) + g%dm_dead(grain)
      :                 , g%grain_no, 0.0)
-         call return_grain_size (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g)'
      :                             , grain_size)
 
       !================================================================
       ! Root depth and length
 
-      elseif (variable_info%id .eq. root_depth_id) then
-         call return_root_depth (variable_info
+      elseif (variable_name .eq. 'root_depth') then
+         call respond2get_real_var (variable_name
+     :                             , '(mm)'
      :                             , g%root_depth)
 
-      elseif (variable_info%id .eq. root_length_id) then
+      elseif (variable_name .eq. 'root_length') then
          num_layers = count_of_real_vals (g%dlayer, max_layer)
-         call return_root_length (variable_info
+         call respond2get_real_array (variable_name
+     :                               , '(mm/mm2)'
      :                               , g%root_length
      :                               , num_layers)
 
-      elseif (variable_info%id .eq. rlv_id) then
+      elseif (variable_name .eq. 'rlv') then
          num_layers = count_of_real_vals (g%dlayer, max_layer)
          do layer = 1, num_layers
             rlv(layer) = divide (g%root_length(layer)
      :                          ,g%dlayer(layer)
      :                          ,0.0)
          enddo
-         call return_rlv (variable_info
+         call respond2get_real_array (variable_name
+     :                               , '(mm/mm3)'
      :                               , rlv
      :                               , num_layers)
 
@@ -678,31 +1413,31 @@ c ******************************************************************
       !===============================================================
       !plant biomass partition
 
-      elseif (variable_info%id .eq. leaf_part_id) then
+      elseif (variable_name .eq. 'leaf_part') then
 
          value=divide(g%dm_green   (leaf) +
      :                g%dm_senesced(leaf) +
      :                g%dm_dead    (leaf) ,  biomass,0.0)
 
-         call return_leaf_part (variable_info, value)
+         call respond2get_real_var (variable_name, '()', value)
 
-      elseif (variable_info%id .eq. stem_part_id) then
+      elseif (variable_name .eq. 'stem_part') then
 
          value=divide(g%dm_green   (stem) +
      :                g%dm_senesced(stem) +
      :                g%dm_dead    (stem) ,  biomass,0.0)
 
-         call return_stem_part (variable_info, value)
+         call respond2get_real_var (variable_name, '()', value)
 
-      elseif (variable_info%id .eq. grain_part_id) then
+      elseif (variable_name .eq. 'grain_part') then
 
          value=divide(g%dm_green   (grain) +
      :                g%dm_senesced(grain) +
      :                g%dm_dead    (grain) ,  biomass,0.0)
 
-         call return_grain_part (variable_info, value)
+         call respond2get_real_var (variable_name, '()', value)
 
-      elseif (variable_info%id .eq. root_part_id) then
+      elseif (variable_name .eq. 'root_part') then
 
 
          value=       g%dm_green   (root) +
@@ -711,7 +1446,7 @@ c ******************************************************************
 
         value= divide(value,  biomass + value, 0.0)
 
-         call return_root_part (variable_info, value)
+         call respond2get_real_var (variable_name, '()', value)
 
       !===============================================================
       !plant biomass
@@ -719,53 +1454,63 @@ c ******************************************************************
       !----------------------------------------------------------------
       !Biomass in g/m2
 
-      elseif (variable_info%id .eq. leaf_wt_id) then
-         call return_leaf_wt (variable_info
+      elseif (variable_name .eq. 'leaf_wt') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dm_green(leaf))
 
-      elseif (variable_info%id .eq. dleaf_wt_id) then
-         call return_dleaf_wt (variable_info
+      elseif (variable_name .eq. 'dleaf_wt') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dm_senesced(leaf))
 
 
-      elseif (variable_info%id .eq. tleaf_wt_id) then
-         call return_tleaf_wt (variable_info
+      elseif (variable_name .eq. 'tleaf_wt') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dm_green(leaf)
      :                             + g%dm_senesced(leaf))
 
-      elseif (variable_info%id .eq. stem_wt_id) then
-         call return_stem_wt (variable_info
+      elseif (variable_name .eq. 'stem_wt') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dm_green(stem))
 
-      elseif (variable_info%id .eq. flower_wt_id) then
-         call return_flower_wt (variable_info
+      elseif (variable_name .eq. 'flower_wt') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dm_green(flower))
 
-      elseif (variable_info%id .eq. stem_flower_wt_id) then
-         call return_stem_flower_wt (variable_info
+      elseif (variable_name .eq. 'stem+flower_wt') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dm_green(stem)
      :                               +g%dm_green(flower))
 
-      elseif (variable_info%id .eq. grain_wt_id) then
-         call return_grain_wt (variable_info
+      elseif (variable_name .eq. 'grain_wt') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dm_green(grain))
 
 
-      elseif (variable_info%id .eq. root_wt_id) then
-         call return_root_wt (variable_info
+      elseif (variable_name .eq. 'root_wt') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dm_green(root))
 
 
-      elseif (variable_info%id .eq. droot_wt_id) then
-         call return_droot_wt (variable_info
+      elseif (variable_name .eq. 'droot_wt') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dm_senesced(root))
 
-      elseif (variable_info%id .eq. troot_wt_id) then
-         call return_troot_wt (variable_info
+      elseif (variable_name .eq. 'troot_wt') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dm_green(root)
      :                             + g%dm_senesced(root))
 
-      elseif (variable_info%id .eq. biomass_wt_id) then
+      elseif (variable_name .eq. 'biomass_wt') then
 
          biomass = sum_real_array (g%dm_green, max_part)
      :           - g%dm_green(root) - g%dm_green(energy)
@@ -774,18 +1519,20 @@ c ******************************************************************
      :           + sum_real_array (g%dm_dead, max_part)
      :           - g%dm_dead(root) - g%dm_dead(energy)
 
-         call return_biomass_wt (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m2)'
      :                             , biomass)
 
 
-      elseif (variable_info%id .eq. green_biomass_wt_id) then
+      elseif (variable_name .eq. 'green_biomass_wt') then
          biomass = sum_real_array (g%dm_green, max_part)
      :           - g%dm_green(root) - g%dm_green(energy)
 
-         call return_green_biomass_wt (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m2)'
      :                             , biomass)
 
-      elseif (variable_info%id .eq. stover_wt_id) then
+      elseif (variable_name .eq. 'stover_wt') then
 
          yield = (g%dm_green(grain) + g%dm_dead(grain))
 
@@ -798,37 +1545,42 @@ c ******************************************************************
 
          stover = biomass - yield
 
-         call return_stover_wt (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , stover)
 
       !----------------------------------------------------
       !Biomass arrays in g/m2
 
-            elseif (variable_info%id .eq. dm_green_id) then
-         call return_dm_green (variable_info
+            elseif (variable_name .eq. 'dm_green') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dm_green
      :                             , max_part)
 
-      elseif (variable_info%id .eq. dm_senesced_id) then
-         call return_dm_senesced (variable_info
+      elseif (variable_name .eq. 'dm_senesced') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dm_senesced
      :                             , max_part)
 
-      elseif (variable_info%id .eq. dm_dead_id) then
-         call return_dm_dead (variable_info
+      elseif (variable_name .eq. 'dm_dead') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dm_dead
      :                             , max_part)
 
       !-------------------------------------------------------------
       !Biomass output in  kg/ha
-      elseif (variable_info%id .eq. yield_id) then
+      elseif (variable_name .eq. 'yield') then
          yield = (g%dm_green(grain) + g%dm_dead(grain))
      :           * gm2kg / sm2ha
-         call return_yield (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(kg/ha)'
      :                             , yield)
 
 
-      elseif (variable_info%id .eq. biomass_id) then
+      elseif (variable_name .eq. 'biomass') then
          !The energy part should not be deleted from the following - ew
          biomass = (sum_real_array (g%dm_green, max_part)
      :           - g%dm_green(root) - g%dm_green(energy)
@@ -838,11 +1590,12 @@ c ******************************************************************
      :           - g%dm_dead(root) - g%dm_dead(energy))
      :           * gm2kg / sm2ha
 
-         call return_biomass (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(kg/ha)'
      :                             , biomass)
 
       !mjr 05/97 output stover (kg/ha)
-      elseif (variable_info%id .eq. stover_id) then
+      elseif (variable_name .eq. 'stover') then
 
          yield = (g%dm_green(grain) + g%dm_dead(grain))
      :           * gm2kg / sm2ha
@@ -858,20 +1611,22 @@ c ******************************************************************
 
          stover = biomass - yield
 
-         call return_stover (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(kg/ha)'
      :                             , stover)
 
-      elseif (variable_info%id .eq. green_biomass_id) then
+      elseif (variable_name .eq. 'green_biomass') then
          biomass = (sum_real_array (g%dm_green, max_part)
      :              - g%dm_green(root)- g%dm_green(energy))
      :             * gm2kg / sm2ha
 
-         call return_green_biomass (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(kg/ha)'
      :                             , biomass)
 
 
       !scc 10/95 output harvest index
-      elseif (variable_info%id .eq. hi_id) then
+      elseif (variable_name .eq. 'hi') then
 
          yield = (g%dm_green(grain) + g%dm_dead(grain))
      :           * gm2kg / sm2ha
@@ -887,47 +1642,56 @@ c ******************************************************************
 
          hi = divide(yield, biomass, 0.0)
 
-         call return_hi (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , hi)
 
       !---------------------------------------------------------
       !biomass deltas
 
-      elseif (variable_info%id .eq. dlt_dm_water_id) then
-         call return_dlt_dm_water (variable_info
+      elseif (variable_name .eq. 'dlt_dm_water') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dlt_dm_water)
 
-      elseif (variable_info%id .eq. dlt_dm_light_id) then
-         call return_dlt_dm_light (variable_info
+      elseif (variable_name .eq. 'dlt_dm_light') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dlt_dm_light)
 
 
-      elseif (variable_info%id .eq. dlt_dm_id) then
-         call return_dlt_dm (variable_info
+      elseif (variable_name .eq. 'dlt_dm') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dlt_dm)
 
-      elseif (variable_info%id .eq. dlt_dm_green_id) then
-         call return_dlt_dm_green (variable_info
+      elseif (variable_name .eq. 'dlt_dm_green') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dlt_dm_green
      :                             , max_part)
 
-      elseif (variable_info%id .eq. dlt_dm_green_retrans_id) then
-         call return_dlt_dm_green_retrans (variable_info
+      elseif (variable_name .eq. 'dlt_dm_green_retrans') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dlt_dm_green_retrans
      :                             , max_part)
 
-      elseif (variable_info%id .eq. dlt_dm_senesced_id) then
-         call return_dlt_dm_senesced (variable_info
+      elseif (variable_name .eq. 'dlt_dm_senesced') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dlt_dm_senesced
      :                             , max_part)
 
-      elseif (variable_info%id .eq. dlt_dm_detached_id) then
-         call return_dlt_dm_detached (variable_info
+      elseif (variable_name .eq. 'dlt_dm_detached') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dlt_dm_detached
      :                             , max_part)
 
-      elseif (variable_info%id .eq. dlt_dm_dead_detached_id) then
-         call return_dlt_dm_dead_detached (variable_info
+      elseif (variable_name .eq. 'dlt_dm_dead_detached') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dlt_dm_dead_detached
      :                             , max_part)
 
@@ -935,44 +1699,51 @@ c ******************************************************************
       !================================================================
       !Plant Water
 
-      elseif (variable_info%id .eq. swdef_pheno_id) then
-         call return_swdef_pheno (variable_info
+      elseif (variable_name .eq. 'swdef_pheno') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%swdef_pheno)
 
-      elseif (variable_info%id .eq. swdef_photo_id) then
-         call return_swdef_photo (variable_info
+      elseif (variable_name .eq. 'swdef_photo') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%swdef_photo)
 
-      elseif (variable_info%id .eq. swdef_expan_id) then
-         call return_swdef_expan (variable_info
+      elseif (variable_name .eq. 'swdef_expan') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%swdef_expansion)
 
-      elseif (variable_info%id .eq. swdef_tiller_id) then
-         call return_swdef_tiller (variable_info
+      elseif (variable_name .eq. 'swdef_tiller') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%swdef_tiller)
 
 
-      elseif ((variable_info%id .eq. sw_uptake_id).or.
-     :        (variable_info%id .eq. ep_id))        then
+      elseif ((variable_name .eq. 'sw_uptake').or.
+     :        (variable_name .eq. 'ep'))        then
          num_layers = count_of_real_vals (g%dlayer, max_layer)
-         call return_sw_uptake (variable_info
+         call respond2get_real_array (variable_name
+     :                               , '(mm)'
      :                               , g%dlt_sw_dep
      :                               , num_layers)
 
-      elseif (variable_info%id .eq. transpiration_id) then
+      elseif (variable_name .eq. 'transpiration') then
          deepest_layer = find_layer_no (g%root_depth, g%dlayer
      :                                , max_layer)
          sw_supply_sum = sum_real_array (g%dlt_sw_dep, deepest_layer)
-         call return_transpiration (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(mm)'
      :                             , -sw_supply_sum)
 
-      elseif ((variable_info%id .eq. transpiration_tot_id).or.
-     :        (variable_info%id .eq. cep_id))      then
-         call return_transpiration_tot (variable_info
+      elseif ((variable_name .eq. 'transpiration_tot').or.
+     :        (variable_name .eq. 'cep'))      then
+         call respond2get_real_var (variable_name
+     :                             , '(mm)'
      :                             ,  g%transpiration_tot)
 
 
-      elseif (variable_info%id .eq. esw_layer_id) then
+      elseif (variable_name .eq. 'esw_layer') then
 
          num_layers = count_of_real_vals (g%dlayer, max_layer)
 
@@ -981,11 +1752,12 @@ c ******************************************************************
             esw_layer(layer) = l_bound (esw_layer(layer), 0.0)
          enddo
 
-         call return_esw_layer (variable_info
+         call respond2get_real_array (variable_name
+     :                               , '(mm)'
      :                               , esw_layer
      :                               , num_layers)
 
-      elseif (variable_info%id .eq. esw_profile_id) then
+      elseif (variable_name .eq. 'esw_profile') then
 
          num_layers = count_of_real_vals (g%dlayer, max_layer)
          esw_sum = 0.0
@@ -995,12 +1767,13 @@ c ******************************************************************
             esw_sum = esw_sum + esw_layer(layer)
          enddo
 
-         call return_esw_profile  (variable_info
+         call respond2get_real_var  (variable_name
+     :                               , '(mm)'
      :                               , esw_sum)
 
 
       !cscc/glh soil water deficit below dul
-      elseif (variable_info%id .eq. sw_deficit_id) then
+      elseif (variable_name .eq. 'sw_deficit') then
          deepest_layer = find_layer_no (g%root_depth, g%dlayer
      :       , max_layer)
          num_layers = count_of_real_vals (g%dlayer, max_layer)
@@ -1008,39 +1781,46 @@ c ******************************************************************
             sw_deficit(i) = l_bound(g%dul_dep(i) - g%sw_dep(i),0.0)
          enddo
 
-         call return_sw_deficit (variable_info
+         call respond2get_real_array (variable_name
+     :                               , '(mm)'
      :                               , sw_deficit
      :                               , num_layers)
 
-      elseif (variable_info%id .eq. vpd_id) then
-         call return_vpd (variable_info
+      elseif (variable_name .eq. 'vpd') then
+         call respond2get_real_var (variable_name
+     :                             , '(kpa)'
      :                             , g%vpd)
 
-      elseif (variable_info%id .eq. transp_eff_id) then
-         call return_transp_eff (variable_info
+      elseif (variable_name .eq. 'transp_eff') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%transp_eff)
 
-      elseif (variable_info%id .eq. sw_demand_id) then
-         call return_sw_demand (variable_info
+      elseif (variable_name .eq. 'sw_demand') then
+         call respond2get_real_var (variable_name
+     :                             , '(mm)'
      :                             , g%sw_demand)
 
-      elseif (variable_info%id .eq. sw_supply_id) then
+      elseif (variable_name .eq. 'sw_supply') then
          deepest_layer = find_layer_no (g%root_depth, g%dlayer
      :                                , max_layer)
          sw_supply_sum = sum_real_array (g%sw_supply, deepest_layer)
-         call return_sw_supply (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(mm)'
      :                             , sw_supply_sum)
 
-      elseif (variable_info%id .eq. sw_supply_sum_id) then
-         call return_sw_supply_sum (variable_info
+      elseif (variable_name .eq. 'sw_supply_sum') then
+         call respond2get_real_var (variable_name
+     :                             , '(mm)'
      :                             , g%sw_supply_sum)
 
-      elseif (variable_info%id .eq. sw_supply_demand_ratio_id) then
-         call return_sw_supply_demand_ratio (variable_info
+      elseif (variable_name .eq. 'sw_supply_demand_ratio') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , divide(g%sw_supply_sum,
      :                                      g%sw_demand,0.0))
 
-      elseif (variable_info%id .eq. ll_id)  then
+      elseif (variable_name .eq. 'll')  then
 
          num_layers = count_of_real_vals (g%dlayer, max_layer)
 
@@ -1050,25 +1830,29 @@ c ******************************************************************
             ll(layer) = divide(p%ll_dep(layer), g%dlayer(layer), 0.0)
          end do
 
-         call return_ll (variable_info
+         call respond2get_real_array (variable_name
+     :                               , '(%)'
      :                               , ll
      :                               , num_layers)
 
-      elseif (variable_info%id .eq. ll_dep_id)  then
+      elseif (variable_name .eq. 'll_dep')  then
 
-         call return_ll_dep (variable_info
+         call respond2get_real_array (variable_name
+     :                               , '(mm)'
      :                               , p%ll_dep
      :                               , num_layers)
 
-      elseif (variable_info%id .eq. kl_id)  then
+      elseif (variable_name .eq. 'kl')  then
 
-         call return_kl (variable_info
+         call respond2get_real_array (variable_name
+     :                               , '()'
      :                               , p%kl
      :                               , num_layers)
 
-      elseif (variable_info%id .eq. xf_id)  then
+      elseif (variable_name .eq. 'xf')  then
 
-         call return_xf (variable_info
+         call respond2get_real_array (variable_name
+     :                               , '()'
      :                               , p%xf
      :                               , num_layers)
 
@@ -1077,128 +1861,146 @@ c ******************************************************************
 
       !nitrogen demand and supply
 
-      elseif (variable_info%id .eq. leaf_nd_id) then
-         call return_leaf_nd (variable_info
+      elseif (variable_name .eq. 'leaf_nd') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%n_demand(leaf))
 
-      elseif (variable_info%id .eq. stem_nd_id) then
-         call return_stem_nd (variable_info
+      elseif (variable_name .eq. 'stem_nd') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%n_demand(stem))
 
-      elseif (variable_info%id .eq. flower_nd_id) then
-         call return_flower_nd (variable_info
+      elseif (variable_name .eq. 'flower_nd') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%n_demand(flower))
 
-      elseif (variable_info%id .eq. grain_nd_id) then
-         call return_grain_nd (variable_info
+      elseif (variable_name .eq. 'grain_nd') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%n_demand(grain))
 
-      elseif (variable_info%id .eq. root_nd_id) then
-         call return_root_nd (variable_info
+      elseif (variable_name .eq. 'root_nd') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%n_demand(root))
 
-      elseif (variable_info%id .eq. n_demand_id) then
+      elseif (variable_name .eq. 'n_demand') then
          N_demand = sum_real_array (g%N_demand, max_part)
-         call return_n_demand (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , N_demand)
       !THIS IS SWIM STUFF
-      elseif (variable_info%id .eq. no3_demand_id) then
+      elseif (variable_name .eq. 'no3_demand') then
          N_demand = sum_real_array (g%N_demand, max_part)
      :            * gm2kg/sm2ha
-         call return_no3_demand (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(kg/ha)'
      :                             , N_demand)
 
-      elseif (variable_info%id .eq. n_supply_soil_id) then
+      elseif (variable_name .eq. 'n_supply_soil') then
          deepest_layer = find_layer_no (g%root_depth,g%dlayer,max_layer)
          N_uptake_sum = - sum_real_array (g%dlt_NO3gsm, deepest_layer)
      :                  - sum_real_array (g%dlt_NH4gsm, deepest_layer)
-         call return_n_supply_soil (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , N_uptake_sum)
 
       !nitrogen uptake
 
 
-      elseif (variable_info%id .eq. n_massflow_uptake_id) then
+      elseif (variable_name .eq. 'n_massflow_uptake') then
          deepest_layer = find_layer_no (g%root_depth,g%dlayer,max_layer)
          N_uptake_sum = - sum_real_array (g%dlt_NO3gsm_massflow,
      :                                   deepest_layer)
      :                  - sum_real_array (g%dlt_NH4gsm_massflow,
      :                                            deepest_layer)
-         call return_n_massflow_uptake (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , N_uptake_sum)
 
-      elseif (variable_info%id .eq. no3_massflow_uptake_id) then
+      elseif (variable_name .eq. 'no3_massflow_uptake') then
          deepest_layer = find_layer_no (g%root_depth,g%dlayer,max_layer)
          N_uptake_sum = - sum_real_array (g%dlt_NO3gsm_massflow,
      :                                            deepest_layer)
-         call return_no3_massflow_uptake (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , N_uptake_sum)
 
-      elseif (variable_info%id .eq. nh4_massflow_uptake_id) then
+      elseif (variable_name .eq. 'nh4_massflow_uptake') then
          deepest_layer = find_layer_no (g%root_depth,g%dlayer,max_layer)
          N_uptake_sum = - sum_real_array (g%dlt_NH4gsm_massflow,
      :                                            deepest_layer)
-         call return_nh4_massflow_uptake (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , N_uptake_sum)
 
 
-      elseif (variable_info%id .eq. n_diffusion_uptake_id) then
+      elseif (variable_name .eq. 'n_diffusion_uptake') then
          deepest_layer = find_layer_no (g%root_depth,g%dlayer,max_layer)
          N_uptake_sum = - sum_real_array (g%dlt_NO3gsm_diffusion,
      :                                   deepest_layer)
      :                  - sum_real_array (g%dlt_NH4gsm_diffusion,
      :                                                 deepest_layer)
-         call return_n_diffusion_uptake (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , N_uptake_sum)
 
-      elseif (variable_info%id .eq. no3_diffusion_uptake_id) then
+      elseif (variable_name .eq. 'no3_diffusion_uptake') then
          deepest_layer = find_layer_no (g%root_depth,g%dlayer,max_layer)
          N_uptake_sum = - sum_real_array (g%dlt_NO3gsm_diffusion,
      :                                   deepest_layer)
-         call return_no3_diffusion_uptake (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , N_uptake_sum)
 
-      elseif (variable_info%id .eq. nh4_diffusion_uptake_id) then
+      elseif (variable_name .eq. 'nh4_diffusion_uptake') then
          deepest_layer = find_layer_no (g%root_depth,g%dlayer,max_layer)
          N_uptake_sum = - sum_real_array (g%dlt_NH4gsm_diffusion,
      :                                   deepest_layer)
-         call return_nh4_diffusion_uptake (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , N_uptake_sum)
 
 
-      elseif (variable_info%id .eq. n_total_uptake_id) then
+      elseif (variable_name .eq. 'n_total_uptake') then
          deepest_layer = find_layer_no (g%root_depth,g%dlayer,max_layer)
          N_uptake_sum  = - sum_real_array (g%dlt_NO3gsm, deepest_layer)
      :                   - sum_real_array (g%dlt_NH4gsm, deepest_layer)
-         call return_n_total_uptake (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , N_uptake_sum)
 
-      elseif (variable_info%id .eq. no3_total_uptake_id) then
+      elseif (variable_name .eq. 'no3_total_uptake') then
          deepest_layer = find_layer_no (g%root_depth,g%dlayer,max_layer)
          N_uptake_sum  = - sum_real_array (g%dlt_NO3gsm, deepest_layer)
-         call return_no3_total_uptake (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , N_uptake_sum)
 
-      elseif (variable_info%id .eq. nh4_total_uptake_id) then
+      elseif (variable_name .eq. 'nh4_total_uptake') then
          deepest_layer = find_layer_no (g%root_depth,g%dlayer,max_layer)
          N_uptake_sum  = - sum_real_array (g%dlt_NH4gsm, deepest_layer)
-         call return_nh4_total_uptake (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , N_uptake_sum)
 
-      elseif (variable_info%id .eq. n_cum_uptake_id) then
+      elseif (variable_name .eq. 'n_cum_uptake') then
 
          biomass_n = (sum_real_array (g%n_green,    max_part)
      :             +  sum_real_array (g%n_senesced, max_part)
      :             +  sum_real_array (g%n_dead,     max_part))
 
-         call return_n_cum_uptake (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m2)'
      :                             , biomass_n)
 
 
       !--------------------------------------------------------
       !NEED THE FOLLOWING TO WORK WITH SOILPH
 
-      else if (variable_info%id .eq. no3_uptake_id) then
+      else if (Variable_name .eq. 'no3_uptake') then
 
          num_layers = count_of_real_vals (g%dlayer, max_layer)
 
@@ -1206,11 +2008,11 @@ c ******************************************************************
 
          no3_uptake(:) =  g%dlt_NO3gsm(:) * gm2kg/sm2ha
 
-         call return_no3_uptake (variable_info
+         call respond2get_real_array (variable_name, '(kg/ha)'
      :                               , no3_uptake, num_layers)
 
 
-      else if (variable_info%id .eq. nh4_uptake_id) then
+      else if (Variable_name .eq. 'nh4_uptake') then
 
          num_layers = count_of_real_vals (g%dlayer, max_layer)
 
@@ -1218,25 +2020,27 @@ c ******************************************************************
 
          nh4_uptake(:) =  g%dlt_Nh4gsm(:) * gm2kg/sm2ha
 
-         call return_nh4_uptake (variable_info
+         call respond2get_real_array (variable_name, '(kg/ha)'
      :                               , nh4_uptake, num_layers)
       !--------------------------------------------------------
 
       !soil N amount
 
-      elseif (variable_info%id .eq. no3_tot_id) then
+      elseif (variable_name .eq. 'no3_tot') then
          deepest_layer = find_layer_no (g%root_depth, g%dlayer
      :                                , max_layer)
          NO3gsm_tot = sum_real_array (g%NO3gsm, deepest_layer)
-         call return_no3_tot (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , NO3gsm_tot)
 
 
-      elseif (variable_info%id .eq. nh4_tot_id) then
+      elseif (variable_name .eq. 'nh4_tot') then
          deepest_layer = find_layer_no (g%root_depth, g%dlayer
      :                                , max_layer)
          apt_N_up = sum_real_array (g%NH4gsm, deepest_layer)
-         call return_nh4_tot (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , apt_N_up)
 
 
@@ -1244,7 +2048,7 @@ c ******************************************************************
       !----------------------------------------------------------
       !Nitrogen content
 
-      elseif (variable_info%id .eq. hi_n_id) then
+      elseif (variable_name .eq. 'hi_n') then
 
          biomass_n = (sum_real_array (g%n_green,    max_part)
      :             - g%n_green(root) - g%n_green(energy)
@@ -1255,11 +2059,12 @@ c ******************************************************************
 
          hi = divide(g%n_green(grain), biomass_n, 0.0)
 
-         call return_hi_n (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , hi)
 
 
-      elseif (variable_info%id .eq. biomass_n_id) then
+      elseif (variable_name .eq. 'biomass_n') then
 
          biomass_n = (sum_real_array (g%n_green, max_part)
      :             - g%n_green(root) - g%n_green(energy)
@@ -1268,63 +2073,75 @@ c ******************************************************************
      :             + sum_real_array (g%n_dead, max_part)
      :             - g%n_dead(root) - g%n_dead(energy))
 
-         call return_biomass_n (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m2)'
      :                             , biomass_n)
 
-      elseif (variable_info%id .eq. green_biomass_n_id) then
+      elseif (variable_name .eq. 'green_biomass_n') then
          biomass_n = (sum_real_array (g%n_green, max_part)
      :                - g%n_green(root) - g%n_green(energy))
 
-         call return_green_biomass_n (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m2)'
      :                             , biomass_n)
 
-      elseif (variable_info%id .eq. stover_n_id) then
+      elseif (variable_name .eq. 'stover_n') then
 
          apt_N_up = g%N_green(leaf)+g%n_green(stem)+g%n_green(flower)
      :       +g%N_senesced(leaf)+g%n_senesced(stem)+g%n_senesced(flower)
      :       +g%N_dead(leaf)+g%n_dead(stem)+g%n_dead(flower)
 
-         call return_stover_n (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m2)'
      :                             , apt_N_up)
 
-      elseif (variable_info%id .eq. grain_n_id) then
-         call return_grain_n (variable_info
+      elseif (variable_name .eq. 'grain_n') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%n_green(grain))
 
-      elseif (variable_info%id .eq. gleaf_n_id) then
-         call return_gleaf_n (variable_info
+      elseif (variable_name .eq. 'gleaf_n') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%n_green(leaf))
 
-      elseif (variable_info%id .eq. dleaf_n_id) then
-         call return_dleaf_n (variable_info
+      elseif (variable_name .eq. 'dleaf_n') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%n_senesced(leaf)
      :                             + g%n_dead(leaf))
 
-      elseif (variable_info%id .eq. tleaf_n_id) then
-         call return_tleaf_n (variable_info
+      elseif (variable_name .eq. 'tleaf_n') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%n_senesced(leaf)
      :                             + g%n_dead(leaf)
      :                             + g%n_green(leaf))
 
-       elseif (variable_info%id .eq. stem_n_id) then
-         call return_stem_n (variable_info
+       elseif (variable_name .eq. 'stem_n') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%n_green(stem))
 
-       elseif (variable_info%id .eq. flower_n_id) then
-         call return_flower_n (variable_info
+       elseif (variable_name .eq. 'flower_n') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%n_green(flower))
 
-      elseif (variable_info%id .eq. groot_n_id) then
-         call return_groot_n (variable_info
+      elseif (variable_name .eq. 'groot_n') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%n_green(root))
 
-      elseif (variable_info%id .eq. droot_n_id) then
-         call return_droot_n (variable_info
+      elseif (variable_name .eq. 'droot_n') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%n_senesced(root)
      :                             + g%n_dead(root))
 
-      elseif (variable_info%id .eq. troot_n_id) then
-         call return_troot_n (variable_info
+      elseif (variable_name .eq. 'troot_n') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
      :                             , g%n_senesced(root)
      :                             + g%n_dead(root)
      :                             + g%n_green(root))
@@ -1333,18 +2150,21 @@ c ******************************************************************
       !---------------------------------------------------------------
       !Nitrogen content arrays
 
-      elseif (variable_info%id .eq. n_green_id) then
-         call return_n_green (variable_info
+      elseif (variable_name .eq. 'n_green') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
      :                             , g%N_green
      :                             , max_part)
 
-      elseif (variable_info%id .eq. n_senesced_id) then
-         call return_n_senesced (variable_info
+      elseif (variable_name .eq. 'n_senesced') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
      :                             , g%N_senesced
      :                             , max_part)
 
-      elseif (variable_info%id .eq. n_dead_id) then
-         call return_n_dead (variable_info
+      elseif (variable_name .eq. 'n_dead') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
      :                             , g%N_dead
      :                             , max_part)
 
@@ -1352,23 +2172,27 @@ c ******************************************************************
       !-----------------------------------------------------------------
       !Nitrogne deltas
 
-      elseif (variable_info%id .eq. dlt_n_green_id) then
-         call return_dlt_n_green (variable_info
+      elseif (variable_name .eq. 'dlt_n_green') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dlt_N_green
      :                             , max_part)
 
-      elseif (variable_info%id .eq. dlt_n_retrans_id) then
-         call return_dlt_n_retrans (variable_info
+      elseif (variable_name .eq. 'dlt_n_retrans') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dlt_N_retrans
      :                             , max_part)
 
-      elseif (variable_info%id .eq. dlt_n_detached_id) then
-         call return_dlt_n_detached (variable_info
+      elseif (variable_name .eq. 'dlt_n_detached') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dlt_N_detached
      :                             , max_part)
 
-      elseif (variable_info%id .eq. dlt_n_dead_detached_id) then
-         call return_dlt_n_dead_detached (variable_info
+      elseif (variable_name .eq. 'dlt_n_dead_detached') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
      :                             , g%dlt_N_dead_detached
      :                             , max_part)
 
@@ -1376,12 +2200,13 @@ c ******************************************************************
       !-----------------------------------------------------------------
       !Nitrogen concentrations
 
-      elseif (variable_info%id .eq. sln_id) then
-         call return_sln (variable_info
+      elseif (variable_name .eq. 'sln') then
+         call respond2get_real_var (variable_name
+     :                             , '(gN/m2leaf)'
      :                             , divide(
      :                    g%N_green(leaf), g%lai, 0.0))
 
-      elseif (variable_info%id .eq. n_conc_stover_id) then
+      elseif (variable_name .eq. 'n_conc_stover') then
          N_conc = divide ((g%N_green(leaf)
      :                    + g%N_green(stem)
      :                    + g%N_green(flower))
@@ -1390,185 +2215,213 @@ c ******************************************************************
      :                    + g%dm_green(flower))
      :                  , 0.0) * 100.
 
-         call return_n_conc_stover (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_info%id .eq. n_conc_leaf_id) then
+      elseif (variable_name .eq. 'n_conc_leaf') then
          N_conc = divide (g%N_green(leaf)
      :                  , g%dm_green(leaf)
      :                  , 0.0) * 100.
 
-         call return_n_conc_leaf (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_info%id .eq. n_conc_stem_id) then
+      elseif (variable_name .eq. 'n_conc_stem') then
          N_conc = divide (g%N_green(stem)
      :                  , g%dm_green(stem)
      :                  , 0.0) * 100.
 
-         call return_n_conc_stem (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_info%id .eq. n_conc_root_id) then
+      elseif (variable_name .eq. 'n_conc_root') then
          N_conc = divide (g%N_green(root)
      :                  , g%dm_green(root)
      :                  , 0.0) * 100.
 
-         call return_n_conc_root(variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_info%id .eq. n_conc_grain_id) then
+      elseif (variable_name .eq. 'n_conc_grain') then
          N_conc = divide (g%N_green(grain)
      :                  , g%dm_green(grain)
      :                  , 0.0) * 100.
 
-         call return_n_conc_grain (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
 
-      elseif (variable_info%id .eq. n_conc_leaf_crit_id) then
+      elseif (variable_name .eq. 'n_conc_leaf_crit') then
          N_conc = g%N_conc_crit(leaf) * 100.
 
-         call return_n_conc_leaf_crit (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_info%id .eq. n_conc_stem_crit_id) then
+      elseif (variable_name .eq. 'n_conc_stem_crit') then
          N_conc = g%N_conc_crit(stem) * 100.
 
-         call return_n_conc_stem_crit (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_info%id .eq. n_conc_flower_crit_id) then
+      elseif (variable_name .eq. 'n_conc_flower_crit') then
          N_conc = g%N_conc_crit(flower) * 100.
 
-         call return_n_conc_flower_crit (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_info%id .eq. n_conc_root_crit_id) then
+      elseif (variable_name .eq. 'n_conc_root_crit') then
          N_conc = g%N_conc_crit(root) * 100.
 
-         call return_n_conc_root_crit (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_info%id .eq. n_conc_stover_crit_id) then
+      elseif (variable_name .eq. 'n_conc_stover_crit') then
          N_conc = divide ((g%N_conc_crit(leaf)*g%dm_green(leaf)
      :                    + g%N_conc_crit(stem)*g%dm_green(stem))
      :                  , (g%dm_green(leaf)
      :                    + g%dm_green(stem))
      :                  , 0.0) * 100.
 
-         call return_n_conc_stover_crit (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
 
-      elseif (variable_info%id .eq. n_conc_leaf_max_id) then
+      elseif (variable_name .eq. 'n_conc_leaf_max') then
          N_conc = g%N_conc_max(leaf) * 100.
 
-         call return_n_conc_leaf_max (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_info%id .eq. n_conc_stem_max_id) then
+      elseif (variable_name .eq. 'n_conc_stem_max') then
          N_conc = g%N_conc_max(stem) * 100.
 
-         call return_n_conc_stem_max (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_info%id .eq. n_conc_flower_max_id) then
+      elseif (variable_name .eq. 'n_conc_flower_max') then
          N_conc = g%N_conc_max(flower) * 100.
 
-         call return_n_conc_flower_max (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_info%id .eq. n_conc_root_max_id) then
+      elseif (variable_name .eq. 'n_conc_root_max') then
          N_conc = g%N_conc_max(root) * 100.
 
-         call return_n_conc_root_max (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_info%id .eq. n_conc_stover_max_id) then
+      elseif (variable_name .eq. 'n_conc_stover_max') then
          N_conc = divide ((g%N_conc_max(leaf)*g%dm_green(leaf)
      :                   + g%N_conc_max(stem)*g%dm_green(stem))
      :                  , (g%dm_green(leaf)
      :                   + g%dm_green(stem))
      :                  , 0.0) * 100.
 
-         call return_n_conc_stover_max (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_info%id .eq. n_conc_leaf_min_id) then
+      elseif (variable_name .eq. 'n_conc_leaf_min') then
          N_conc = g%N_conc_min(leaf) * 100.
 
-         call return_n_conc_leaf_min (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_info%id .eq. n_conc_stem_min_id) then
+      elseif (variable_name .eq. 'n_conc_stem_min') then
          N_conc = g%N_conc_min(stem) * 100.
 
-         call return_n_conc_stem_min (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_info%id .eq. n_conc_flower_min_id) then
+      elseif (variable_name .eq. 'n_conc_flower_min') then
          N_conc = g%N_conc_min(flower) * 100.
 
-         call return_n_conc_flower_min (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_info%id .eq. n_conc_root_min_id) then
+      elseif (variable_name .eq. 'n_conc_root_min') then
          N_conc = g%N_conc_min(root) * 100.
 
-         call return_n_conc_root_min (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_info%id .eq. n_conc_stover_min_id) then
+      elseif (variable_name .eq. 'n_conc_stover_min') then
          N_conc = divide ((g%N_conc_min(leaf)*g%dm_green(leaf)
      :                    + g%N_conc_min(stem)*g%dm_green(stem))
      :                  , (g%dm_green(leaf)
      :                    + g%dm_green(stem))
      :                  , 0.0) * 100.
 
-         call return_n_conc_stover_min (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_info%id .eq. n_grain_pcnt_id) then
+      elseif (variable_name .eq. 'n_grain_pcnt') then
          grain_N_pcnt = divide (g%N_green(grain)
      :                        , g%dm_green(grain), 0.0)
      :                        * fract2pcnt
-         call return_n_grain_pcnt (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , grain_N_pcnt)
 
-      elseif (variable_info%id .eq. grain_protein_id) then
+      elseif (variable_name .eq. 'grain_protein') then
          grain_N_pcnt = divide (g%N_green(grain)
      :                        , g%dm_green(grain), 0.0)
      :                        * 100.0 * 5.71
-         call return_grain_protein (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , grain_N_pcnt)
 
 
       !---------------------------------------------------
       !Nitrogen stress factors
 
-      elseif (variable_info%id .eq. nfact_photo_id) then
-         call return_nfact_photo (variable_info
+      elseif (variable_name .eq. 'nfact_photo') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%nfact_photo)
 
-      elseif (variable_info%id .eq. nfact_pheno_id) then
-         call return_nfact_pheno (variable_info
+      elseif (variable_name .eq. 'nfact_pheno') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%nfact_pheno)
 
-      elseif (variable_info%id .eq. nfact_expan_id) then
-         call return_nfact_expan (variable_info
+      elseif (variable_name .eq. 'nfact_expan') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%nfact_expansion)
 
-      elseif (variable_info%id .eq. nfact_tiller_id) then
-         call return_nfact_tiller (variable_info
+      elseif (variable_name .eq. 'nfact_tiller') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%nfact_tiller)
 
-      elseif (variable_info%id .eq. nfact_grain_id) then
-         call return_nfact_grain (variable_info
+      elseif (variable_name .eq. 'nfact_grain') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%nfact_grain_conc)
 
-      elseif (variable_info%id .eq. nfact_grain_tot_id) then
-         call return_nfact_grain_tot (variable_info
+      elseif (variable_name .eq. 'nfact_grain_tot') then
+         call respond2get_real_array (variable_name
+     :                             , '()'
      :                             , g%cnd_grain_conc
      :                             , max_stage)
 
@@ -1578,28 +2431,33 @@ c ******************************************************************
       !---------------------------------------------------
       ! Crop Phosphorus Variables
       ! -------------------------
-      elseif (variable_info%id .eq. pfact_photo_id) then
-         call return_pfact_photo (variable_info
+      elseif (variable_name .eq. 'pfact_photo') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%pfact_photo)
 
-      elseif (variable_info%id .eq. pfact_pheno_id) then
-         call return_pfact_pheno (variable_info
+      elseif (variable_name .eq. 'pfact_pheno') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%pfact_pheno)
 
-      elseif (variable_info%id .eq. pfact_expan_id) then
-         call return_pfact_expan (variable_info
+      elseif (variable_name .eq. 'pfact_expan') then
+         call respond2get_real_var (variable_name
+     :                             , '()'
      :                             , g%pfact_expansion)
 
-      elseif (variable_info%id .eq. p_demand_id) then
+      elseif (variable_name .eq. 'p%demand') then
          ! really ought to do this properly
-         call return_p_demand (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(kg/ha)'
      :                             , g%p_demand*10.)
 
-      elseif (variable_info%id .eq. plant_p_id) then
-         call return_plant_p (variable_info
+      elseif (variable_name .eq. 'plant_p') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m2)'
      :                             , g%plant_p)
 
-      elseif (variable_info%id .eq. biomass_p_id) then
+      elseif (variable_name .eq. 'biomass_p') then
         biomass = (sum_real_array (g%dm_green, max_part)
      :           - g%dm_green(root)
      :           + sum_real_array (g%dm_senesced, max_part)
@@ -1614,23 +2472,26 @@ c ******************************************************************
      :                                  ,biomass_tot
      :                                  ,0.0)
 
-         call return_biomass_p (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m2)'
      :                             , biomass_p)
 
-      elseif (variable_info%id .eq. plant_p_max_id) then
+      elseif (variable_name .eq. 'plant_p_max') then
          biomass     = sum_real_array (g%dm_green, max_part)
      :               + sum_real_array (g%dm_senesced, max_part)
      :               + sum_real_array (g%dm_dead, max_part)
          plant_p_max = biomass * g%P_conc_max
 
-         call return_plant_p_max (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(g/m2)'
      :                             , plant_p_max)
 
-      elseif (variable_info%id .eq. pconc_max_id) then
-         call return_pconc_max (variable_info
+      elseif (variable_name .eq. 'pconc_max') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m2)'
      :                             , g%P_conc_max)
 
-      elseif (variable_info%id .eq. pconc_id) then
+      elseif (variable_name .eq. 'pconc') then
          biomass     = sum_real_array (g%dm_green, max_part)
      :               + sum_real_array (g%dm_senesced, max_part)
      :               + sum_real_array (g%dm_dead, max_part)
@@ -1638,51 +2499,2798 @@ c ******************************************************************
      :                 ,biomass
      :                 ,0.0)
 
-         call return_pconc (variable_info
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
      :                             , pconc)
 
 
 
 
+
+
       else
-         ! No matching ID
+
+
+         ! not my variable
+         call Message_unused ()
+
+      endif
+
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+
+*     ===============================================================
+      subroutine Set_My_Variable (Variable_name)
+*     ===============================================================
+      use CropModModule
+      implicit none
+      include 'error.pub'
+      include 'intrface.pub'
+
+*+  Sub-Program Arguments
+      character  Variable_name*(*)     ! (INPUT) Variable name to search for
+
+*+  Purpose
+*      Set a variable in this module as requested by another.
+
+*+  Changes
+*      290393 sc
+*      220896 jngh  added call to message_unused
+*                   changed respond2set to collect
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Set_My_Variable')
+
+*+  Local Variables
+      integer numvals
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+
+
+      if (variable_name .eq. 'co2_switch') then
+         call collect_integer_var (variable_name, '()'
+     :                             , c%co2switch, numvals
+     :                             , 0, 1)
+
+      elseif (variable_name .eq. 'co2_level') then
+         call collect_real_var (variable_name, '()'
+     :                             , c%co2level, numvals
+     :                             , 0.0, 2000.0)
+
+c         g%co2level = c%co2level
+
+
+      elseif (variable_name .eq. 'vern_sens') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%vern_sen, numvals
+     :                             , 0.0, 2000.0)
+         p%vern_sen_internal   = p%vern_sen   * 0.0054545 + 0.0003
+
+
+      else if (variable_name .eq. 'photop_sens') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%photop_sen, numvals
+     :                             , 0.0, 2000.0)
+         p%photop_sen_internal = p%photop_sen * 0.002
+
+
+
+      else if (variable_name .eq. 'tt_germ_to_emerg') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_germ_to_emerg, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_emerg_to_endjuv') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_emerg_to_endjuv, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_endjuv_to_init') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_endjuv_to_init, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_init_to_flag') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_init_to_flag, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_flag_to_flower') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_flag_to_flower, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_flower_to_start_grain') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_flower_to_start_grain, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_start_to_end_grain') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_start_to_end_grain, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_end_grain_to_maturity') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_end_grain_to_maturity, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_maturity_to_ripe') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_maturity_to_ripe, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_ripe_to_harvest') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%tt_ripe_to_harvest, numvals
+     :                             , 0.0, 2000.0)
+
+      else if (variable_name .eq. 'tt_startgf_to_mat') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%startgf_to_mat, numvals
+     :                             , 0.0, 2000.0)
+
+      else if ((variable_name .eq. 'leaf_app_rate').or.
+     :         (variable_name .eq. 'phyllochron')  .or.
+     :         (variable_name .eq. 'phint'))    then
+         call collect_real_var (variable_name, '()'
+     :                             ,c%leaf_app_rate, numvals
+     :                             , 0.0, 2000.0)
+
+         c%leaf_app_rate1 = c%leaf_app_rate
+         c%leaf_app_rate2 = c%leaf_app_rate
+
+      else if (variable_name .eq. 'leaf_init_rate') then
+         call collect_real_var (variable_name, '()'
+     :                             ,c%leaf_init_rate, numvals
+     :                             , 0.0, 2000.0)
+
+      else
+         ! don't know this variable name
+         call Message_Unused()
       endif
 
 
 
+
+      call pop_routine (my_name)
       return
       end
 
-* ====================================================================
-      logical function respondToSet (fromID,VariableID, variant)
-* ====================================================================
+
+*     ================================================================
+      subroutine Get_Other_Variables ()
+*     ================================================================
       use CropModModule
-      use ComponentInterfaceModule
-
       implicit none
-      ml_external respondToSet
-
-!+  Sub-Program Arguments
-      integer, intent(in) :: fromID
-      integer, intent(in)     :: VariableID
-      integer, intent(in out) :: variant
+      include 'const.inc'
+      include 'convert.inc'
+      include 'data.pub'
+      include 'crp_root.pub'
+      include 'crp_util.pub'
+      include 'intrface.pub'
+      include 'error.pub'
 
 *+  Purpose
-*     Set one of our variables altered by some other module
+*      Get the values of variables/arrays from other modules.
+
+*+  Assumptions
+*      assumes variable has the following format
+*         <variable_name> = <variable_value/s> (<units>)
 
 *+  Changes
-*      21-06-96 NIH Changed respond2set calls to collect calls
+*     010994 sc   specified and programmed
+*     140896 jngh modified fr_intc_radn name to inclued a suffix of module name
+*     000121 ew   generalised for all crops
 
-*+  Calls
-      integer CropMod_solute_number
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Get_Other_Variables')
 
 *+  Local Variables
+      integer    layer                 ! layer number
+      integer    numvals               ! number of values put into array
+      real       dlayer(max_layer)     ! soil layer depths (mm)
+      real       NO3(max_layer)        ! soil NO3 content (kg/ha)
+      real       NO3_min(max_layer)    ! soil NO3 minimum (kg/ha)
+      real       NH4(max_layer)        ! soil NH4 content (kg/ha)     -EW ADDED
+      real       NH4_min(max_layer)    ! soil NH4 minimum (kg/ha)     -EW ADDED
+      character  module_name*(Max_module_name_size) ! module name
+      real       soil_temp             ! soil surface temperature (oC)
+      real       profile_depth         ! depth of soil profile (mm)
+      real       root_depth_new        ! new root depth (mm)
 
 *- Implementation Section ----------------------------------
 
-      respondToSet = .true.
+      call push_routine (my_name)
+
+      !-------------------------------------------------------------------
+      ! Co2 and climate change
+
+       if (c%co2switch .ne. 0) then
+
+          if (c%co2level.gt.0.0) then
+             g%co2level = c%co2level
+
+          else
+             CALL get_real_var_optional(unknown_module, 'co2', '(ppm)',
+     :                                            g%co2level, numvals,
+     :                                            0.0, 1000.0)
+
+             if (numvals .eq.0) c%co2switch = 0
+
+          endif
+
+       end if
+
+
+      !use the observed or calculated grain number from other module
+      call get_real_var_optional(unknown_module,'obs_grainno_psm', '()'
+     :                           , g%obs_grain_no_psm, numvals
+     :                           , 0.0, 1e6)
+
+
+      !-------------------------------------------------------------------
+      ! Year and date
+       call get_integer_var (unknown_module, 'day', '()',
+     :                      g%day_of_year, numvals, 1, 366)
+
+      call get_integer_var (unknown_module, 'year', '()'
+     :                                    , g%year, numvals
+     :                                    , min_year, max_year)
+c    :                                    , c%year_lb, c%year_ub)
+
+      !-------------------------------------------------------------------
+      ! climate
+      call get_real_var (unknown_module, 'latitude', '(oL)'
+     :                                  , g%latitude, numvals
+     :                                  , c%latitude_lb, c%latitude_ub)
+
+      call get_real_var (unknown_module, 'maxt', '(oC)'
+     :                                  , g%maxt, numvals
+     :                                  , c%maxt_lb, c%maxt_ub)
+
+      call get_real_var (unknown_module, 'mint', '(oC)'
+     :                                  , g%mint, numvals
+     :                                  , c%mint_lb, c%mint_ub)
+
+      call get_real_var (unknown_module, 'radn', '(Mj/m^2)'
+     :                                  , g%radn, numvals
+     :                                  , c%radn_lb, c%radn_ub)
+
+      !-------------------------------------------------------------------
+      ! canopy
+      call get_current_module (module_name)
+      call get_real_var_optional (unknown_module
+     :                           , 'fr_intc_radn_'//module_name
+     :                           , '()'
+     :                           , g%fr_intc_radn
+     :                           , numvals
+     :                           , 0.0
+     :                           , 1.0)
+
+      !-------------------------------------------------------------------
+      !Soil evap and temperature
+      !mjr eo read in to limit demand in crop routines
+
+      call get_real_var_optional (unknown_module, 'eo', '(mm)'
+     :                                  , g%eo, numvals
+     :                                  , 0.0, 20.0)
+
+      !Get soil temperature
+c      call get_real_var_optional (unknown_module, 'soil_temp', '(oC)'
+c     :                                  , soil_temp, numvals
+c     :                                  , 0.0, 80.0)
+
+
+      call get_real_var_optional (unknown_module
+     :                                  , 'maxt_soil_surface'
+     :                                  , '(oC)'
+     :                                  , soil_temp, numvals
+     :                                  , 0.0, 80.0)
+
+
+      if (numvals.eq.0) then
+         ! soil temp not supplied
+      else
+         call crop_store_value (g%day_of_year, g%year,
+     .                          g%soil_temp, soil_temp)
+      endif
+
+
+c+!!!!!!!! what to do if no waterbalance variables found
+
+      !-------------------------------------------------------------------
+      !soil profile
+      call get_real_array (unknown_module, 'dlayer', max_layer
+     :                                    , '(mm)'
+     :                                    , dlayer, numvals
+     :                                    , c%dlayer_lb, c%dlayer_ub)
+
+      if (g%num_layers.eq.0) then
+
+         ! we assume dlayer hasn't been initialised yet.
+         do layer = 1, numvals
+            g%dlayer(layer) = dlayer(layer)
+         enddo
+         g%num_layers = numvals
+
+      else
+
+         !dlayer may be changed from its last setting
+         profile_depth = sum_real_array (dlayer, numvals)
+
+         if (g%root_depth.gt.profile_depth) then
+
+           !Redistribute the root
+           root_depth_new = profile_depth
+           call Crop_root_redistribute
+     :                        ( g%root_length
+     :                        , g%root_depth
+     :                        , g%dlayer
+     :                        , g%num_layers
+     :                        , root_depth_new
+     :                        , dlayer
+     :                        , numvals)
+
+           g%root_depth = root_depth_new
+
+         else
+           ! roots are ok.
+         endif
+
+         do layer = 1, numvals
+            p%ll_dep(layer) = divide (p%ll_dep(layer)
+     :                              , g%dlayer(layer), 0.0)
+     :                      * dlayer(layer)
+
+            g%dlayer(layer) = dlayer(layer)
+         enddo
+
+         g%num_layers = numvals
+      endif
+
+
+      !-------------------------------------------------------------------
+      !soil water and nitrogen
+
+      !cew - added the sat_dep reading
+      call get_real_array (unknown_module, 'sat_dep', max_layer
+     :                                    , '(mm)'
+     :                                    , g%sat_dep, numvals
+     :                                    , 0.0, 1000.0)
+
+      call get_real_array (unknown_module, 'dul_dep', max_layer
+     :                                    , '(mm)'
+     :                                    , g%dul_dep, numvals
+     :                                    , c%dul_dep_lb, c%dul_dep_ub)
+
+      call get_real_array (unknown_module, 'sw_dep', max_layer
+     :                                    , '(mm)'
+     :                                    , g%sw_dep, numvals
+     :                                    , c%sw_dep_lb, c%sw_dep_ub)
+
+                                ! soil nitrogen pools
+      call get_real_array_optional (unknown_module, 'no3', max_layer
+     :                                  ,  '(kg/ha)'
+     :                                  , NO3, numvals
+     :                                  , c%NO3_lb, c%NO3_ub)
+      if (numvals.eq.0) then
+         ! we have no N supply - make non-limiting.
+         call fill_real_array (NO3, 10000.0, g%num_layers)
+      else
+      endif
+
+      do layer = 1, g%num_layers
+         g%NO3gsm(layer) = NO3(layer) * kg2gm /ha2sm
+      enddo
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+      g%NO3(:) = NO3(:)
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+      call get_real_array_optional (unknown_module, 'no3_min',max_layer
+     :                                  ,  '(kg/ha)'
+     :                                  , NO3_min, numvals
+     :                                  , c%NO3_min_lb, c%NO3_min_ub)
+      do layer = 1, g%num_layers
+         g%NO3gsm_min(layer) = NO3_min(layer) * kg2gm /ha2sm
+      enddo
+
+
+
+      !cew - added this nh4 pools
+       call get_real_array_optional (unknown_module, 'nh4', max_layer
+     :                                  ,  '(kg/ha)'
+     :                                  , NH4, numvals
+     :                                  , c%NH4_lb, c%NH4_ub)
+      if (numvals.eq.0) then
+            ! we have no N supply - make non-limiting.
+         call fill_real_array (NH4, 10000.0, g%num_layers)
+      else
+      endif
+      do layer = 1, g%num_layers
+         g%NH4gsm(layer) = NH4(layer) * kg2gm /ha2sm
+      end do
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+      g%NH4(:) = NH4(:)
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+
+
+      call get_real_array_optional (unknown_module, 'nh4_min',max_layer
+     :                                  ,  '(kg/ha)'
+     :                                  , NH4_min, numvals
+     :                                  , c%NH4_min_lb, c%NH4_min_ub)
+      do layer = 1, g%num_layers
+         g%NH4gsm_min(layer) = NH4_min(layer) * kg2gm /ha2sm
+      end do
+
+
+       call get_real_array_optional (unknown_module, 'no3ppm', max_layer
+     :                                  ,  'ppm'
+     :                                  , NO3, numvals
+     :                                  , 0.0, 10000.0)
+
+      do layer = 1, g%num_layers
+         g%NO3ppm(layer) = NO3(layer)
+      end do
+
+
+       call get_real_array_optional (unknown_module, 'nh4ppm', max_layer
+     :                                  ,  '(kg/ha)'
+     :                                  , NH4, numvals
+     :                                  , 0.0, 10000.0)
+
+
+      do layer = 1, g%num_layers
+         g%NH4ppm(layer) = NH4(layer)
+      end do
+
+
+
+      call pop_routine (my_name)
       return
       end
+
+
+
+*     ================================================================
+      subroutine Set_Other_Variables ()
+*     ================================================================
+      use CropModModule
+      implicit none
+      include 'action.inc'
+      include 'const.inc'
+      include 'convert.inc'
+      include 'data.pub'
+      include 'intrface.pub'
+      include 'error.pub'
+      include 'postbox.pub'
+
+*+  Purpose
+*      Set the value of a variable or array in other module/s.
+
+*+  Notes
+*      a flag is set if any of the totals is requested.  The totals are
+*      reset during the next process phase when this happens.
+
+*+  Changes
+*     010994 sc   specified and programmed
+*     220896 jngh changed set_ to post_ construct
+*     081100 dph  changed post_ constructs to set_
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Set_Other_Variables')
+
+*+  Local Variables
+      real       dlt_NO3(max_layer)    ! soil NO3 change (kg/ha)
+      real       dlt_NH4(max_layer)    ! soil NH4 change (kg/ha)
+      integer    layer                 ! soil layer no.
+      integer    num_layers            ! number of layers
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      call Update_Other_Variables()
+
+      if (p%uptake_source.eq.'calc') then
+c+!!!! perhaps we should get number of layers at init and keep it
+         num_layers = count_of_real_vals (g%dlayer, max_layer)
+
+
+
+         do layer = 1, num_layers
+            dlt_NO3(layer) = g%dlt_NO3gsm(layer) * gm2kg /sm2ha
+            dlt_Nh4(layer) = g%dlt_Nh4gsm(layer) * gm2kg /sm2ha
+         end do
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+         dlt_no3(:) = - MIN(g%NO3(:), - dlt_NO3(:))
+         dlt_nh4(:) = - MIN(g%NH4(:), - dlt_NH4(:))
+
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+c        if (g%no3(1)+ dlt_NO3(1).le.0.0) then
+c             PRINT *,'-----------get---000-----------'
+c             PRINT *, 'NO3kgh     = ', g%NO3(1:2)
+c             PRINT *, 'NO3gsm     = ', g%NO3gsm(1:2)
+c
+c             PRINT *,'-----------set-----------------'
+c             PRINT *, 'dlt_NO3gsm = ', g%dlt_NO3gsm(1:2)
+c             PRINT *, 'dlt_NO3kgh = ', dlt_NO3(1:2)
+c             PRINT *, 'NO3kgh New = ', g%no3(1)+ dlt_NO3(1)
+c             pause
+c        end if
+
+
+         call set_real_array (unknown_module, 'dlt_no3', '(kg/ha)'
+     :                       , dlt_NO3, num_layers)
+
+         call set_real_array (unknown_module, 'dlt_nh4', '(kg/ha)'
+     :                       , dlt_Nh4, num_layers)
+
+         call set_real_array (unknown_module, 'dlt_sw_dep', '(mm)'
+     :                       , g%dlt_sw_dep, num_layers)
+
+      else
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+*     ===========================================================
+      subroutine Update_Other_Variables()
+*     ===========================================================
+      use CropModModule
+      implicit none
+      include 'componentInterface.inc'
+      include 'convert.inc'
+      include 'data.pub'
+      include 'crp_comm.pub'
+      include 'error.pub'
+
+
+*+  Purpose
+*       Update other module states
+
+*+  Changes
+*      250894 jngh specified and programmed
+*      191099 jngh changed to legume_Send_Crop_Chopped_Event
+*      280801 ew   generalised
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Update_Other_Variables')
+
+
+*+  Local Variables
+      real       dm_residue(max_part)            ! dry matter added to residue (kg/ha)
+      real       N_residue(max_part)             ! nitrogen added to residue (kg/ha)
+      real       fraction_to_Residue(max_part)   ! fraction sent to residue (0-1)
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      ! dispose of detached material from senesced parts in
+      ! live population
+
+      fraction_to_Residue(:)    = 1.0
+      fraction_to_Residue(root) = 0.0
+
+      dm_residue(:) = g%dlt_dm_detached(:) * gm2kg/sm2ha
+      N_residue (:) = g%dlt_N_detached (:) * gm2kg/sm2ha
+
+      if (sum(dm_residue) .gt. 0.0) then
+            call Send_Crop_Chopped_Event
+     :                (c%crop_type
+     :               , part_name
+     :               , dm_residue
+     :               , N_residue
+     :               , fraction_to_Residue
+     :               , max_part)
+      else
+      ! no surface residue
+      endif
+
+      ! now dispose of dead population detachments
+
+      dm_residue(:) = g%dlt_dm_dead_detached(:) * gm2kg/sm2ha
+      N_residue (:) = g%dlt_N_dead_detached (:) * gm2kg/sm2ha
+
+      if (sum(dm_residue) .gt. 0.0) then
+            call Send_Crop_Chopped_Event
+     :                (c%crop_type
+     :               , part_name
+     :               , dm_residue
+     :               , N_residue
+     :               , fraction_to_Residue
+     :               , max_part)
+      else
+      ! no surface residue
+      endif
+
+
+      ! put roots into root residue
+
+      if (g%dlt_dm_detached(root).gt.0.0) then
+
+         call crop_root_incorp (
+     .          g%dlt_dm_detached(root)
+     :         ,g%dlt_N_detached(root)
+     :         ,g%dlayer
+     :         ,g%root_length
+     :         ,g%root_depth
+     :         ,c%crop_type
+     :         ,max_layer
+     :         ,EventInterface)
+
+      end if
+
+      if (g%dlt_dm_dead_detached(root).gt.0.0) then
+
+         call crop_root_incorp (
+     .          g%dlt_dm_dead_detached(root)
+     :         ,g%dlt_N_dead_detached(root)
+     :         ,g%dlayer
+     :         ,g%root_length
+     :         ,g%root_depth
+     :         ,c%crop_type
+     :         ,max_layer
+     :         ,EventInterface)
+
+      end if
+
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+*     ===========================================================
+      subroutine Crop_Harvest (
+     .          g_dm_green,
+     .          g_dm_dead,
+     .          c_grn_water_cont,
+     .          g_grain_no,
+     .          g_plants,
+     .          g_dm_senesced,
+     .          g_leaf_no,
+     .          g_N_green,
+     .          g_N_dead,
+     .          g_N_senesced,
+     .          g_flowering_date,
+     .          g_maturity_date,
+     .          g_flowering_das,
+     .          g_maturity_das,
+     .          g_lai_max,
+     .          g_cswd_photo,
+     .          g_days_tot,
+     .          g_cswd_expansion,
+     .          g_cnd_photo,
+     .          g_cnd_grain_conc,
+     .          c_stage_names)
+*     ===========================================================
+      implicit none
+      include   'const.inc'            ! new_line, lu_scr_sum, blank,
+      include   'convert.inc'          ! gm2kg, sm2ha, sm2smm
+      include   'CropDefCons.inc'
+      include 'data.pub'
+      include 'error.pub'
+
+*+  Sub-Program Arguments
+       real g_dm_green(*)
+       real g_dm_dead(*)
+       real c_grn_water_cont
+       real g_grain_no
+       real g_plants
+       real g_dm_senesced(*)
+       real g_leaf_no(*)
+       real g_N_green(*)
+       real g_N_dead(*)
+       real g_N_senesced(*)
+       integer g_flowering_date
+       integer g_maturity_date
+       integer g_flowering_das
+       integer g_maturity_das
+       real g_lai_max
+       real g_cswd_photo(*)
+       real g_days_tot(*)
+       real g_cswd_expansion(*)
+       real g_cnd_photo(*)
+       real g_cnd_grain_conc(*)
+       character c_stage_names(*)*(*)
+
+*+  Purpose
+*       Report occurence of harvest and the current status of specific
+*       variables.
+
+*+  Changes
+*     010994 sc   specified and programmed
+
+*+  Calls
+                                       ! lu_scr_sum
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Crop_Harvest')
+
+*+  Local Variables
+      real       biomass_dead          ! above ground dead plant wt (kg/ha)
+      real       biomass_green         ! above ground green plant wt (kg/ha)
+      real       biomass_senesced      ! above ground senesced plant wt (kg/ha)
+      real       dm                    ! above ground total dry matter (kg/ha)
+      real       grain_wt              ! grain dry weight (g/kernel)
+      real       head_grain_no         ! final grains /head
+      real       leaf_no               ! total leaf number
+      real       N_grain               ! total grain N uptake (kg/ha)
+      real       N_dead                ! above ground dead plant N (kg/ha)
+      real       N_green               ! above ground green plant N (kg/ha)
+      real       N_senesced            ! above ground senesced plant N (kg/ha)
+      real       N_stover              ! nitrogen content of stover (kg\ha)
+      real       N_total               ! total gross nitrogen content (kg/ha)
+      real       N_grain_conc_percent  ! grain nitrogen %
+      integer    phase                 ! phenological phase number
+      real       si1                   ! mean water stress type 1
+      real       si2                   ! mean water stress type 2
+      real       si4                   ! mean nitrogen stress type 1
+      real       si5                   ! mean nitrogen stress type 2
+      real       stover                ! above ground dry weight less grain
+                                       ! (kg/ha)
+      character  string*200            ! message
+      real       yield                 ! grain yield dry wt (kg/ha)
+      real       yield_wet             ! grain yield including moisture
+                                       ! (kg/ha)
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+          ! crop harvested. Report status
+
+      yield = (g_dm_green(grain) + g_dm_dead(grain))
+     :      * gm2kg / sm2ha
+
+          ! include the grain water content
+      yield_wet = yield / (1.0 - c_grn_water_cont)
+
+      grain_wt = divide (g_dm_green(grain) + g_dm_dead(grain)
+     :                 , g_grain_no, 0.0)
+!cpsc
+      head_grain_no = divide (g_grain_no, g_plants, 0.0)
+
+      biomass_green = (sum_real_array (g_dm_green, max_part)
+     :              - g_dm_green(root) - g_dm_green(energy))
+     :              * gm2kg / sm2ha
+
+      biomass_senesced = (sum_real_array (g_dm_senesced, max_part)
+     :                 - g_dm_senesced(root) - g_dm_senesced(energy))
+     :                 * gm2kg / sm2ha
+
+      biomass_dead = (sum_real_array (g_dm_dead, max_part)
+     :             - g_dm_dead(root)  - g_dm_dead(energy))
+     :             * gm2kg / sm2ha
+
+      dm = (biomass_green + biomass_senesced + biomass_dead)
+
+      stover = dm - yield
+
+      leaf_no = sum_between (emerg, harvest_ripe, g_leaf_no)
+      N_grain_conc_percent = divide (g_N_green(grain) + g_N_dead(grain)
+     :                            , g_dm_green(grain) + g_dm_dead(grain)
+     :                            , 0.0)
+     :                     * fract2pcnt
+
+      N_grain = (g_N_green(grain) + g_N_dead(grain))
+     :        * gm2kg/sm2ha
+
+      N_green = (sum_real_array (g_N_green, max_part)
+     :        - g_N_green(root) - g_N_green(grain))
+     :        * gm2kg / sm2ha
+
+      N_senesced = (sum_real_array (g_N_senesced, max_part)
+     :           - g_N_senesced(root) - g_N_senesced(grain))
+     :           * gm2kg / sm2ha
+
+      N_dead = (sum_real_array (g_N_dead, max_part)
+     :       - g_N_dead(root) - g_N_dead(grain))
+     :       * gm2kg / sm2ha
+
+      N_stover = N_green + N_senesced + N_dead
+      N_total = N_grain + N_stover
+
+
+      call write_string ( new_line//new_line)
+
+      write (string, '(a,i4,t40,a,i4)')
+     :            'flowering (DAS) =', g_flowering_das
+     :            ,'maturity (DAS)  =', g_maturity_das
+      call write_string ( string)
+
+      write (string, '(a,i4,t40,a,f10.1)')
+     :            ' flowering day  = ',g_flowering_date
+     :          , ' stover (kg/ha) =',stover
+      call write_string ( string)
+
+      write (string, '(a,i4,t40,a,f10.1)')
+     :            ' maturity day        = ', g_maturity_date
+     :          , ' grain yield (kg/ha) =', yield
+      call write_string ( string)
+
+      write (string, '(a,f6.1,t40,a,f10.1)')
+     :            ' grain % water content   = ', c_grn_water_cont
+     :                                         * fract2pcnt
+     :          , ' grain yield wet (kg/ha) =', yield_wet
+      call write_string ( string)
+
+      write (string, '(a,f10.3,t40,a,f10.3)')
+     :            ' grain wt (g) =', grain_wt
+     :          , ' grains/m^2   =', g_grain_no
+      call write_string ( string)
+
+      write (string, '(a,f6.1,t40,a,f6.3)')
+     :            ' grains/head =', head_grain_no
+     :          , ' maximum lai =', g_lai_max
+      call write_string ( string)
+
+      write (string, '(a,f10.1)')
+     :            ' total above ground biomass (kg/ha) =', dm
+      call write_string ( string)
+
+      write (string, '(a,f10.1)')
+     :         ' live above ground biomass (kg/ha) =', biomass_green
+     :                                               + biomass_senesced
+      call write_string ( string)
+
+      write (string, '(a,f10.1)')
+     :            ' green above ground biomass (kg/ha) =', biomass_green
+      call write_string ( string)
+
+      write (string, '(a,f10.1)')
+     :      ' senesced above ground biomass (kg/ha) =', biomass_senesced
+      call write_string ( string)
+
+      write (string, '(a,f10.1)')
+     :            ' dead above ground biomass (kg/ha) =', biomass_dead
+      call write_string ( string)
+
+      write (string, '(a,f6.1)')
+     :            ' number of leaves =', leaf_no
+      call write_string ( string)
+
+      write (string, '(a,f10.2,t40,a,f10.2)')
+     :            ' grain N percent =', N_grain_conc_percent
+     :          , ' total N content (kg/ha) =', N_total
+      call write_string ( string)
+
+      write (string, '(a,f10.2,t40,a,f10.2)')
+     :            ' grain N uptake (kg/ha) =', N_grain
+     :          , ' senesced N content (kg/ha) =', N_senesced
+
+      call write_string ( string)
+
+      write (string, '(a,f10.2,t40,a,f10.2)')
+     :            ' green N content (kg/ha) =', N_green
+     :          , ' dead N content (kg/ha) =', N_dead
+      call write_string ( string)
+
+      do 2000 phase = emerg_to_endjuv, start_to_end_grain
+         si1 = divide (g_cswd_photo(phase)
+     :               , g_days_tot(phase), 0.0)
+         si2 = divide (g_cswd_expansion(phase)
+     :               , g_days_tot(phase), 0.0)
+         si4 = divide (g_cnd_photo(phase)
+     :               , g_days_tot(phase), 0.0)
+         si5 = divide (g_cnd_grain_conc(phase)
+     :               , g_days_tot(phase), 0.0)
+
+         call write_string ( new_line//new_line)
+
+         write (string,'(2a)')
+     :         ' stress indices for ', c_stage_names(phase)
+         call write_string ( string)
+
+         write (string,'(2(a, f16.7))')
+     :         ' water stress 1 =', si1
+     :         , '   nitrogen stress 1 =', si4
+         call write_string ( string)
+
+         write (string,'(2(a, f16.7))')
+     :         ' water stress 2 =', si2
+     :         , '   nitrogen stress 2 =', si5
+         call write_string ( string)
+2000  continue
+
+      g_dm_green(grain) = 0.0
+      g_N_green(grain) = 0.0
+
+      g_dm_dead(grain) = 0.0
+      g_N_dead(grain) = 0.0
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+*     ===========================================================
+      subroutine End_Crop ()
+*     ===========================================================
+      use CropModModule
+      implicit none
+      include 'componentinterface.inc'
+      include 'const.inc'            ! new_line, lu_scr_sum
+      include 'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
+      include 'data.pub'
+      include 'crp_comm.pub'
+      include 'error.pub'
+
+*+  Purpose
+*       End crop
+
+*+  Changes
+*      191099 jngh changed to millet_Send_Crop_Chopped_Event
+*      280801 ew   generalised
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'End_Crop')
+
+*+  Local Variables
+      real       dm_residue            ! dry matter added to residue (g/m^2)
+      real       N_residue             ! nitrogen added to residue (g/m^2)
+      real       dm_root               ! dry matter added to soil (g/m^2)
+      real       N_root                ! nitrogen added to soil (g/m^2)
+      character  string*400            ! output string
+      real       yield                 ! grain wt (kg/ha)
+      real       fraction_to_Residue(max_part)   ! fraction sent to residue (0-1)
+      real       dlt_dm_crop(max_part) ! change in dry matter of crop (kg/ha)
+      real       dlt_dm_N(max_part)    ! N content of changeed dry matter (kg/ha)
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      if (g%plant_status.ne.status_out) then
+         g%plant_status = status_out
+         g%current_stage = real (plant_end)
+
+
+        !Report the crop yield
+         yield = (g%dm_green(grain) + g%dm_dead(grain)) *gm2kg /sm2ha
+         write (string, '(3x, a, f7.1)')
+     :                  ' ended. Yield (dw) = ', yield
+         call Write_string (string)
+
+
+       !Root residue incorporation
+
+         dm_root = g%dm_green(root)
+     :           + g%dm_dead(root)
+     :           + g%dm_senesced(root)
+
+         N_root  = g%N_green(root)
+     :           + g%N_dead(root)
+     :           + g%N_senesced(root)
+
+
+      if (dm_root.gt.0.0) then
+
+         call crop_root_incorp (
+     :          dm_root
+     :         ,N_root
+     :         ,g%dlayer
+     :         ,g%root_length
+     :         ,g%root_depth
+     :         ,c%crop_type
+     :         ,max_layer
+     :         ,EventInterface)
+
+      endif
+
+
+      !Top residue - put stover into surface residue
+         dm_residue = (sum_real_array (g%dm_green, max_part)
+     :              - g%dm_green(root))
+c    :              - g%dm_green(root) - g%dm_green(grain))
+
+     :              + (sum_real_array (g%dm_senesced, max_part)
+     :              - g%dm_senesced(root))
+C    :              - g%dm_senesced(root) - g%dm_senesced(grain))
+
+     :              + (sum_real_array (g%dm_dead, max_part)
+     :              - g%dm_dead(root))
+c    :              - g%dm_dead(root) - g%dm_dead(grain))
+
+         N_residue = (sum_real_array (g%N_green, max_part)
+     :             - g%N_green(root) )
+c    :             - g%N_green(root) - g%N_green(grain))
+
+     :             + (sum_real_array (g%N_senesced, max_part)
+     :             - g%N_senesced(root))
+c    :             - g%N_senesced(root) - g%N_senesced(grain))
+
+     :             + (sum_real_array (g%N_dead, max_part)
+     :             - g%N_dead(root))
+c    :             - g%N_dead(root) - g%N_dead(grain))
+
+         dlt_dm_crop(:) = (g%dm_green(:)
+     :                  + g%dm_senesced(:)
+     :                  + g%dm_dead(:))
+     :                  * gm2kg/sm2ha
+
+         dlt_dm_N   (:) = (g%N_green(:)
+     :                  + g%N_senesced(:)
+     :                  + g%N_dead(:))
+     :                  * gm2kg/sm2ha
+
+
+         fraction_to_residue(:)    = 1.0
+         fraction_to_Residue(root) = 0.0
+
+         if (sum(dlt_dm_crop) .gt. 0.0) then
+
+            call Send_Crop_Chopped_Event
+     :                (c%crop_type
+     :               , part_name
+     :               , dlt_dm_crop
+     :               , dlt_dm_N
+     :               , fraction_to_Residue
+     :               , max_part)
+
+         else
+            ! no surface residue
+         endif
+
+
+         write (string, '(40x, a, f7.1, a, 3(a, 40x, a, f6.1, a))')
+     :                  '  straw residue ='
+     :                  , dm_residue * gm2kg /sm2ha, ' kg/ha'
+     :                  , new_line
+     :                  , '  straw N = '
+     :                  , N_residue * gm2kg /sm2ha, ' kg/ha'
+
+     :                  , new_line
+     :                  , '  root residue = '
+     :                  , dm_root * gm2kg /sm2ha, ' kg/ha'
+     :                  , new_line
+     :                  , '  root N = '
+     :                  , N_root * gm2kg /sm2ha, ' kg/ha'
+
+         call write_string ( string)
+
+      else
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+
+* ====================================================================
+      Recursive
+     :subroutine Send_Crop_Chopped_Event (crop_type
+     :                                    , dm_type
+     :                                    , dlt_crop_dm
+     :                                    , dlt_dm_n
+     :                                    , fraction_to_Residue
+     :                                    , max_part)
+* ====================================================================
+      implicit none
+      include 'const.inc'
+      include 'event.inc'
+      include 'intrface.pub'
+      include 'error.pub'
+      include 'data.pub'
+      include 'postbox.pub'
+
+*+  Sub-Program Arguments
+      character  crop_type*(*)              ! (INPUT) crop type
+      character  dm_type(*)*(*)             ! (INPUT) residue type
+      real  dlt_crop_dm(*)                  ! (INPUT) residue weight (kg/ha)
+      real  dlt_dm_n(*)                     ! (INPUT) residue N weight (kg/ha)
+      real  fraction_to_Residue(*)          ! (INPUT) residue fraction to residue (0-1)
+      integer max_part                      ! (INPUT) number of residue types
+*+  Purpose
+*     Notify other modules of crop chopped.
+
+*+  Mission Statement
+*     Notify other modules of crop chopped.
+
+*+  Changes
+*   070999 jngh - Programmed and Specified
+*   110700 jngh - Changed dm_tyoe to array.
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'Send_Crop_Chopped_Event')
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      call new_postbox ()
+
+         ! send message regardless of fatal error - will stop anyway
+
+
+      call post_char_var   (DATA_crop_type
+     :                        ,'()'
+     :                        , crop_type)
+      call post_char_array (DATA_dm_type
+     :                        ,'()'
+     :                        , dm_type
+     :                        , max_part)
+      call post_real_array (DATA_dlt_crop_dm
+     :                        ,'(kg/ha)'
+     :                        , dlt_crop_dm
+     :                        , max_part)
+      call post_real_array (DATA_dlt_dm_n
+     :                        ,'(kg/ha)'
+     :                        , dlt_dm_n
+     :                        , max_part)
+      call post_real_array (DATA_fraction_to_Residue
+     :                        ,'()'
+     :                        , fraction_to_Residue
+     :                        , max_part)
+
+      call event_send (EVENT_Crop_Chopped)
+
+      call delete_postbox ()
+
+
+      call pop_routine (myname)
+      return
+      end
+
+
+
+*     ===========================================================
+      subroutine Kill_Crop (
+     .          g_plant_status,
+     .          g_dm_green,
+     .          g_dm_senesced,
+     .          g_dm_dead)
+*     ===========================================================
+      implicit none
+      include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
+      include   'CropDefCons.inc'
+      include 'data.pub'
+      include 'error.pub'
+
+*+  Sub-Program Arguments
+       character g_plant_status*(*)
+       real g_dm_green(*)
+       real g_dm_senesced(*)
+       real g_dm_dead(*)
+
+*+  Purpose
+*       Kill crop
+
+*+  Changes
+*       290994 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'Kill_Crop')
+
+*+  Local Variables
+      real       biomass               ! above ground dm (kg/ha)
+      character  string*200            ! output string
+
+*- Implementation Section ----------------------------------
+
+c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
+      call push_routine (my_name)
+
+      if (g_plant_status.eq.status_alive) then
+         g_plant_status  = status_dead
+
+         biomass = (sum_real_array (g_dm_green, max_part)
+     :           - g_dm_green(root)) * gm2kg /sm2ha
+
+     :           + (sum_real_array (g_dm_senesced, max_part)
+     :           - g_dm_senesced(root)) * gm2kg /sm2ha
+
+     :           + (sum_real_array (g_dm_dead, max_part)
+     :           - g_dm_dead(root)) * gm2kg /sm2ha
+
+
+                ! report
+
+         write (string, '(3x, a, f7.1, a)')
+     :                  ' kill. Standing above-ground dm = '
+     :                  , biomass, ' (kg/ha)'
+         call Write_string (string)
+
+      else
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*     ===========================================================
+      subroutine Crop_Cleanup ()
+*     ===========================================================
+      use CropModModule
+      implicit none
+      include 'error.pub'
+
+*+  Purpose
+*       clean
+
+*+  Changes
+*      250894 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Crop_Cleanup')
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      call Crop_Update ()
+
+      call Crop_Check_Bounds (
+     .          g%leaf_no,
+     .          g%leaf_no_dead,
+     .          g%root_depth,
+     .          g%dlayer,
+     .          g%grain_no,
+     .          p%head_grain_no_max,
+     .          g%plants,
+     .          g%current_stage,
+     .          g%phase_tt,
+     .          g%days_tot,
+     .          g%tt_tot,
+     .          g%canopy_height,
+     .          c%height_max,
+     .          g%lai,
+     .          g%slai,
+     .          g%tlai_dead,
+     .          g%cover_green,
+     .          g%cover_sen,
+     .          g%cover_dead,
+     .          g%leaf_area,
+     .          g%heat_stress_tt,
+     .          g%dm_stress_max,
+     .          g%N_conc_crit,
+     .          g%N_conc_min,
+     .          g%N_conc_max,
+     .          g%N_dead,
+     .          g%N_green,
+     .          g%N_senesced,
+     .          g%dm_dead,
+     .          g%dm_green,
+     .          g%dm_senesced)
+
+      call Crop_Totals (
+     .          g%N_green,
+     .          g%dm_green,
+     .          g%dlt_N_retrans,
+     .          g%N_conc_crit,
+     .          g%N_demand,
+     .          g%root_depth,
+     .          g%dlayer,
+     .          g%current_stage,
+     .          g%days_tot,
+     .          g%N_uptake_tot,
+     .          g%transpiration_tot,
+     .          g%dlt_sw_dep,
+     .          g%N_conc_act_stover_tot,
+     .          g%N_conc_crit_stover_tot,
+     .          g%N_demand_tot,
+     .          g%N_uptake_stover_tot,
+     .          g%N_uptake_grain_tot,
+     .          g%lai_max,
+     .          g%lai,
+     .          g%flowering_date,
+     .          g%maturity_date,
+     .          g%flowering_das,
+     .          g%maturity_das,
+     .          g%N_dead,
+     .          g%N_senesced,
+     .          g%day_of_year)
+
+      call Crop_Event (
+     .          g%current_stage,
+     .          g%days_tot,
+     .          c%stage_code_list,
+     .          c%stage_names,
+     .          g%dm_green,
+     .          g%dm_senesced,
+     .          g%dm_dead,
+     .          g%N_green,
+     .          g%root_depth,
+     .          g%dlayer,
+     .          g%sw_dep,
+     .          p%ll_dep,
+     .          g%lai)
+
+      call pop_routine (my_name)
+
+      return
+      end
+
+
+*     ===========================================================
+      subroutine Crop_Update ()
+*     ===========================================================
+      use CropModModule
+      implicit none
+      include   'convert.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
+
+*+  Purpose
+*       Update states
+*
+
+*+  Changes
+*      250894 jngh specified and programmed
+
+*+  Calls
+!      include   'CropMod.inc'
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Crop_Update')
+
+*+  Local Variables
+      real       dlt_dm_plant          ! dry matter increase (g/plant)
+      real       dlt_leaf_area         ! leaf area increase (mm^2/plant)
+      real       dlt_dm_green_dead     ! dry matter of green plant part dying
+                                       ! (g/m^2)
+      real       dlt_dm_senesced_dead  ! dry matter of senesced plant part
+                                       ! dying (g/m^2)
+      real       dlt_N_green_dead      ! N content of green plant part dying
+                                       ! (g/m^2)
+      real       dlt_N_senesced_dead   ! N content of senesced plant part
+                                       ! dying (g/m^2)
+      real       dlt_grain_no_lost     ! grain no lost from barrenness
+                                       ! (grains/m^2)
+      real       dlt_lai_dead          ! lai of green leaf of plants dying ()
+      real       dlt_slai_dead         ! lai of senesced leaf of plant dying ()
+      real       dying_fract           ! fraction op population dying (0-1)
+      real       leaf_no               ! currently expanding leaf no.
+      integer    part                  ! plant part index
+
+      REAL       co2_modifier
+
+c      INTEGER    istage
+
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+         ! Note.
+         ! Accumulate is used to add a value into a specified array element.
+         ! If a specified increment of the element indicates a new element
+         ! is started, the value is distributed proportionately between the
+         ! two elements of the array
+
+         ! Add is used to add the elements of one array into the corresponding
+         ! elements of another array.
+
+         ! now update with deltas
+
+         ! The following table describes the transfer of material that should
+         ! take place
+         !                        POOLS
+         !                 green senesced  dead
+         ! dlt_green         +                     (incoming only)
+         ! dlt_retrans       +-
+         ! dlt_senesced      -      +
+         ! dlt_dead          -      -       +
+         ! dlt_detached             -       -      (outgoing only)
+
+         ! transfer N
+
+      call subtract_real_array (g%dlt_N_dead_detached, g%N_dead
+     :                        , max_part)
+
+      call add_real_array     (g%dlt_N_green,       g%N_green, max_part)
+      call add_real_array     (g%dlt_N_retrans,     g%N_green, max_part)
+      call subtract_real_array(g%dlt_N_senesced,    g%N_green, max_part)
+
+      call add_real_array     (g%dlt_N_senesced,      g%N_senesced,
+     :                                                max_part)
+      call subtract_real_array(g%dlt_N_detached,      g%N_senesced,
+     :                                                max_part)
+
+
+
+      !&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+      !EW added parts ?????????????????????????????????/
+      call subtract_real_array (g%dlt_N_sen_retrans, g%N_senesced,
+     :                                                max_part)
+      !&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+
+      dying_fract = divide (-g%dlt_plants, g%plants, 0.0)
+      dying_fract = bound (dying_fract, 0.0, 1.0)
+
+      do 1000 part = 1, max_part
+         dlt_N_green_dead = g%N_green(part) * dying_fract
+         g%N_green(part) = g%N_green(part) - dlt_N_green_dead
+         g%N_dead(part) = g%N_dead(part) + dlt_N_green_dead
+
+         dlt_N_senesced_dead = g%N_senesced(part) * dying_fract
+         g%N_senesced(part) = g%N_senesced(part) - dlt_N_senesced_dead
+         g%N_dead(part) = g%N_dead(part) + dlt_N_senesced_dead
+1000  continue
+
+
+         ! Transfer plant dry matter
+
+      dlt_dm_plant = divide (g%dlt_dm, g%plants, 0.0)
+
+      call accumulate (dlt_dm_plant, g%dm_plant_top_tot
+     :               , g%previous_stage, g%dlt_stage)
+
+      call subtract_real_array (g%dlt_dm_dead_detached, g%dm_dead
+     :                        , max_part)
+
+
+
+      call add_real_array (g%dlt_dm_green, g%dm_green, max_part)
+      call add_real_array (g%dlt_dm_green_retrans, g%dm_green, max_part)
+      call subtract_real_array (g%dlt_dm_senesced, g%dm_green
+     :                        , max_part)
+
+      call add_real_array (g%dlt_dm_senesced, g%dm_senesced
+     :                   , max_part)
+      call subtract_real_array (g%dlt_dm_sen_retrans, g%dm_green
+     :                        , max_part)
+
+      call subtract_real_array (g%dlt_dm_detached, g%dm_senesced
+     :                        , max_part)
+
+
+
+
+      call add_real_array (g%dlt_dm_green_retrans_pool
+     :                   , g%dm_green_retrans_pool
+     :                   , max_part)
+
+      g%dm_green_grainno = g%dm_green_grainno + g%dlt_dm_green_grainno
+
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+c      do part = 1, max_part
+c         g%dm_green(part)=g%dm_green(part)+g%dlt_dm_green(part)
+c     :                                    +g%dlt_dm_green_retrans(part)
+c     :                                    -g%dlt_dm_senesced(part)
+
+c         g%dm_senesced(part)= g%dm_senesced(part)
+c     .                       +g%dlt_dm_senesced(part)
+c     .                       -g%dlt_dm_sen_retrans(part)
+c      enddo
+
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+
+
+
+      do 2000 part = 1, max_part
+         dlt_dm_green_dead = g%dm_green(part) * dying_fract
+         g%dm_green(part) = g%dm_green(part) - dlt_dm_green_dead
+         g%dm_dead(part) = g%dm_dead(part) + dlt_dm_green_dead
+
+         dlt_dm_senesced_dead = g%dm_senesced(part) * dying_fract
+         g%dm_senesced(part) = g%dm_senesced(part)
+     :                       - dlt_dm_senesced_dead
+         g%dm_dead(part) = g%dm_dead(part) + dlt_dm_senesced_dead
+2000  continue
+
+
+
+
+cjh
+         ! transfer plant grain no.
+      dlt_grain_no_lost  = g%grain_no * dying_fract
+      g%grain_no = g%grain_no - dlt_grain_no_lost
+cglh
+         ! update fertile no (pluses and minuses are the best I can do!)
+
+
+
+      g%tiller_no_fertile = g%tiller_no_fertile + g%dlt_tiller_no
+c     :                                         - g%dlt_stiller_no
+
+      !&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+      !EW added parts ?????????????????????????????????/
+      g%tiller_no_pot    = g%tiller_no_pot + g%dlt_tiller_no_pot
+      g%tiller_no        = g%tiller_no     + g%dlt_tiller_no
+      g%tiller_no_sen    = g%tiller_no_sen + g%dlt_stiller_no
+      !&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+      g%tt_tiller_emergence(1 + INT(g%tiller_no)) =
+     :                           sum_between(emerg, flag_leaf, g%tt_tot)
+
+
+      ! transfer plant leaf area
+      g%lai = g%lai + g%dlt_lai - g%dlt_slai
+      g%slai = g%slai + g%dlt_slai - g%dlt_slai_detached
+
+      dlt_lai_dead  = g%lai  * dying_fract
+      dlt_slai_dead = g%slai * dying_fract
+
+      g%lai = g%lai - dlt_lai_dead
+      g%slai = g%slai - dlt_slai_dead
+      g%tlai_dead = g%tlai_dead + dlt_lai_dead + dlt_slai_dead
+     :            - g%dlt_tlai_dead_detached
+
+
+      g%tpla_yesterday = g%tpla_today
+
+        ! now update new canopy covers for erosion etc?
+
+c=======================================================================
+
+      if ((c%crop_type .eq. 'wheat')    .OR.
+     :    (c%crop_type .eq. 'sunflower'))  then
+
+       call crop_cover (g%extinction_coeff, g%lai,       g%cover_green)
+       call crop_cover (g%extinction_coeff, g%slai,      g%cover_sen)
+       call crop_cover (g%extinction_coeff, g%tlai_dead, g%cover_dead)
+
+
+      elseif (c%crop_type .eq. 'maize') then
+
+      call Maize_cover1 (
+     .          g%row_spacing,
+     .          c%x_row_spacing,
+     .          c%y_extinct_coef,
+     .          c%num_row_spacing,
+     :          g%skip_row_fac ,
+     .          g%cover_green,g%lai)
+      call Maize_cover1 (
+     .          g%row_spacing,
+     .          c%x_row_spacing,
+     .          c%y_extinct_coef_dead,
+     .          c%num_row_spacing,
+     :          g%skip_row_fac ,
+     .          g%cover_sen,g%slai)
+      call Maize_cover1 (
+     .          g%row_spacing,
+     .          c%x_row_spacing,
+     .          c%y_extinct_coef_dead,
+     .          c%num_row_spacing,
+     :          g%skip_row_fac,
+     .          g%cover_dead,
+     :          g%tlai_dead)
+
+      elseif (c%crop_type .eq. 'sorghum') then
+
+        call crop_cover_sorghum
+     :               (g%row_spacing
+     :                ,c%x_row_spacing,c%y_extinct_coef
+     :                ,c%num_row_spacing
+     :                ,g%lai,g%cover_green)
+        call crop_cover_sorghum
+     :               (g%row_spacing
+     :                ,c%x_row_spacing,c%y_extinct_coef_dead
+     :                ,c%num_row_spacing
+     :                ,g%slai,g%cover_sen)
+        call crop_cover_sorghum
+     :               (g%row_spacing
+     :                ,c%x_row_spacing,c%y_extinct_coef_dead
+     :                ,c%num_row_spacing
+     :                ,g%tlai_dead,g%cover_dead)
+
+      else
+
+       call crop_cover (g%extinction_coeff, g%lai,       g%cover_green)
+       call crop_cover (g%extinction_coeff, g%slai,      g%cover_sen)
+       call crop_cover (g%extinction_coeff, g%tlai_dead, g%cover_dead)
+
+      endif
+c=======================================================================
+
+         ! plant leaf development
+         ! need to account for truncation of partially developed leaf (add 1)
+      leaf_no = 1.0 + sum_between (emerg, now, g%leaf_no)
+      dlt_leaf_area = divide (g%dlt_lai, g%plants, 0.0) * sm2smm
+
+      call accumulate (dlt_leaf_area, g%leaf_area
+     :               , leaf_no, g%dlt_leaf_no)
+
+      call accumulate (g%dlt_leaf_no, g%leaf_no
+     :               , g%previous_stage, g%dlt_stage)
+
+      call accumulate (g%dlt_leaf_no_dead, g%leaf_no_dead
+     :               , g%previous_stage, g%dlt_stage)
+
+         ! plant stress
+
+      call accumulate (g%dlt_heat_stress_tt, g%heat_stress_tt
+     :               , g%previous_stage, g%dlt_stage)
+
+      call accumulate (g%dlt_dm_stress_max, g%dm_stress_max
+     :               , g%current_stage, g%dlt_stage)
+
+      call accumulate (1.0 - g%swdef_photo
+     .               , g%cswd_photo
+     :               , g%previous_stage, g%dlt_stage)
+      call accumulate (1.0 - g%swdef_expansion
+     .               , g%cswd_expansion
+     :               , g%previous_stage, g%dlt_stage)
+      call accumulate (1.0 - g%swdef_pheno
+     .               , g%cswd_pheno
+     :               , g%previous_stage, g%dlt_stage)
+
+      call accumulate (1.0 - g%nfact_photo
+     .               , g%cnd_photo
+     :               , g%previous_stage, g%dlt_stage)
+      call accumulate (1.0 - g%nfact_grain_conc
+     .               , g%cnd_grain_conc
+     :               , g%previous_stage, g%dlt_stage)
+
+         ! other plant states
+
+      g%canopy_height = g%canopy_height + g%dlt_canopy_height
+      g%plants = g%plants + g%dlt_plants
+      g%root_depth = g%root_depth + g%dlt_root_depth
+
+      call add_real_array      (g%dlt_root_length
+     :                         ,g%root_length
+     :                         ,max_layer)
+      call subtract_real_array (g%dlt_root_length_senesced
+     :                         ,g%root_length
+     :                         ,max_layer)
+      ! Phosphorus
+      ! ----------
+      g%plant_p = g%plant_p + g%dlt_plant_p
+
+
+
+      !&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+      !EW added parts ?????????????????????????????????/
+      ! ew added this section for iwheat update
+       g%tiller_tt_tot = g%tiller_tt_tot + g%dlt_tt
+c     :  * MIN(g%nfact_tiller, g%swdef_tiller)
+c     : *MIN(g%nfact_expansion,g%swdef_expansion)
+
+          if (g%current_stage.lt.germ) then
+c         if (istage.lt.emerg) then
+                g%tiller_tt_tot = 0.0   ! in original i_wheat tt accumulated from germination - ew
+          endif
+
+
+
+       call add_real_array (g%dlt_tiller_area_pot,
+     :                      g%tiller_area_pot, max_leaf)
+
+
+       call add_real_array (g%dlt_tiller_area_act,
+     :                      g%tiller_area_act, max_leaf)
+
+       call subtract_real_array (g%dlt_tiller_sen_area,
+     :                      g%tiller_area_act, max_leaf)
+
+       call add_real_array (g%dlt_tiller_sen_area,
+     :                      g%tiller_area_sen, max_leaf)
+
+
+
+       g%cumvd         = g%cumvd         + g%dlt_cumvd
+       g%vernalisation = g%vernalisation + g%dlt_vernalisation
+       g%leaf_primodia = g%leaf_primodia + g%dlt_leaf_primodia
+      !&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+
+
+      call Crop_N_Conc_Limits (
+     .          g%current_stage,
+     .          c%N_conc_crit_grain,
+     .          c%N_conc_max_grain,
+     .          c%N_conc_min_grain,
+     .          c%x_stage_code,
+     .          c%stage_code_list,
+     .          g%tt_tot,
+     .          g%phase_tt,
+     .          c%y_N_conc_crit_stem,
+     .          c%y_N_conc_crit_leaf,
+     .          c%y_N_conc_crit_flower,
+     .          c%y_N_conc_min_stem,
+     .          c%y_N_conc_min_leaf,
+     .          c%y_N_conc_min_flower,
+     .          c%y_N_conc_max_stem,
+     .          c%y_N_conc_max_leaf,
+     .          c%y_N_conc_max_flower,
+
+     .          c%y_N_conc_crit_root,
+     .          c%y_N_conc_min_root,
+     .          c%y_N_conc_max_root,
+
+     .          g%N_conc_crit,
+     .          g%N_conc_max,
+     .          g%N_conc_min)  ! plant N concentr
+
+
+
+
+      if (c%co2switch .ne. 0) then
+
+
+         co2_modifier = linear_interp_real(g%co2level,
+     :                                  c%co2_level_nconc,
+     :                                  c%nconc_co2_modifier,
+     :                                  c%num_co2_level_nconc)
+
+
+c        PRINT *,'nconc_co2modifier '
+c        PRINT *,'c%co2_level_nconc    =', c%co2_level_nconc
+c        PRINT *,'c%nconc_co2_modifier =', c%nconc_co2_modifier
+c        PRINT *,'nconc_co2modifier    =', co2_modifier
+
+
+         g%N_conc_crit(leaf)= g%N_conc_crit(leaf)*co2_modifier
+
+c         do part = 1, max_part
+c            g%N_conc_crit(part)= g%N_conc_crit(part)*co2_modifier
+c         enddo
+
+      end if
+
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+
+*     ===========================================================
+      subroutine Crop_Check_Bounds (
+     .          g_leaf_no,
+     .          g_leaf_no_dead,
+     .          g_root_depth,
+     .          g_dlayer,
+     .          g_grain_no,
+     .          p_head_grain_no_max,
+     .          g_plants,
+     .          g_current_stage,
+     .          g_phase_tt,
+     .          g_days_tot,
+     .          g_tt_tot,
+     .          g_canopy_height,
+     .          c_height_max,
+     .          g_lai,
+     .          g_slai,
+     .          g_tlai_dead,
+     .          g_cover_green,
+     .          g_cover_sen,
+     .          g_cover_dead,
+     .          g_leaf_area,
+     .          g_heat_stress_tt,
+     .          g_dm_stress_max,
+     .          g_N_conc_crit,
+     .          g_N_conc_min,
+     .          g_N_conc_max,
+     .          g_N_dead,
+     .          g_N_green,
+     .          g_N_senesced,
+     .          g_dm_dead,
+     .          g_dm_green,
+     .          g_dm_senesced)
+*     ===========================================================
+      implicit none
+      include   'CropDefCons.inc'
+      include 'data.pub'
+      include 'error.pub'
+
+*+  Sub-Program Arguments
+       real g_leaf_no(*)
+       real g_leaf_no_dead(*)
+       real g_root_depth
+       real g_dlayer(*)
+       real g_grain_no
+       real p_head_grain_no_max
+       real g_plants
+       real g_current_stage
+       real g_phase_tt(*)
+       real g_days_tot(*)
+       real g_tt_tot(*)
+       real g_canopy_height
+       real c_height_max
+       real g_lai
+       real g_slai
+       real g_tlai_dead
+       real g_cover_green
+       real g_cover_sen
+       real g_cover_dead
+       real g_leaf_area(*)
+       real g_heat_stress_tt(*)
+       real g_dm_stress_max(*)
+       real g_N_conc_crit(*)
+       real g_N_conc_min(*)
+       real g_N_conc_max(*)
+       real g_N_dead(*)
+       real g_N_green(*)
+       real g_N_senesced(*)
+       real g_dm_dead(*)
+       real g_dm_green(*)
+       real g_dm_senesced(*)
+
+*+  Purpose
+*         Check bounds of internal pools
+*
+
+*+  Changes
+*     010994 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Crop_Check_Bounds')
+
+*+  Local Variables
+                                       ! top (g/m^2)
+
+*- Implementation Section ----------------------------------
+
+
+      call push_routine (my_name)
+
+      call bound_check_real_var
+     :           (sum_real_array (g_leaf_no, max_stage)
+     :          , 0.0
+     :          , real (max_leaf)
+     :          , 'leaf_no')
+
+      call bound_check_real_var
+     :           (sum_real_array (g_leaf_no_dead, max_stage)
+     :          , 0.0
+     :          , real (max_leaf)
+     :          , 'leaf_no_dead')
+
+      call bound_check_real_var
+     :           (g_root_depth
+     :          , 0.0
+     :          , sum_real_array (g_dlayer, max_layer)
+     :          , 'root_depth')
+
+      call bound_check_real_var
+     :           (g_grain_no
+     :          , 0.0
+     :          , 200000.0 !c_head_grain_no_max_ub   !p_head_grain_no_max * g_plants  -ew
+     :          , 'grain_no')
+
+      call bound_check_real_var
+     :           (g_current_stage
+     :          , 0.0
+     :          , real (max_stage)
+     :          , 'current_stage')
+
+      call bound_check_real_var
+     :           (sum_real_array (g_phase_tt, max_stage)
+     :          , 0.0
+     :          , 1000000.0
+     :          , 'phase_tt')
+
+      call bound_check_real_var
+     :           (sum_real_array (g_days_tot, max_stage)
+     :          , 0.0
+     :          , 40000.0
+     :          , 'days_tot')
+
+      call bound_check_real_var
+     :           (sum_real_array (g_tt_tot, max_stage)
+     :          , 0.0
+     :          , 40000.0
+     :          , 'tt_tot')
+
+      call bound_check_real_var
+     :           (g_plants
+     :          , 0.0
+     :          , 10000.0
+     :          , 'plants')
+
+      call bound_check_real_var
+     :           (g_canopy_height
+     :          , 0.0
+     :          , c_height_max
+     :          , 'canopy_height')
+
+
+
+      call bound_check_real_var
+     :           (g_lai
+     :          , 0.0
+     :          , 30.0 - g_slai - g_tlai_dead
+     :          , 'lai')
+
+      call bound_check_real_var
+     :           (g_slai
+     :          , 0.0
+     :          , 30.0 - g_lai - g_tlai_dead
+     :          , 'slai')
+
+      call bound_check_real_var
+     :           (g_tlai_dead
+     :          , 0.0
+     :          , 30.0 - g_slai - g_lai
+     :          , 'tlai_dead')
+
+      call bound_check_real_var
+     :           (g_cover_green
+     :          , 0.0
+     :          , 1.0
+     :          , 'cover_green')
+
+      call bound_check_real_var
+     :           (g_cover_sen
+     :          , 0.0
+     :          , 1.0
+     :          , 'cover_sen')
+
+      call bound_check_real_var
+     :           (g_cover_dead
+     :          , 0.0
+     :          , 1.0
+     :          , 'cover_dead')
+
+      call bound_check_real_var
+     :           (sum_real_array (g_leaf_area, max_leaf)
+     :          , 0.0
+     :          , 10000000.0
+     :          , 'leaf_area')
+
+      call bound_check_real_var
+     :           (sum_real_array (g_heat_stress_tt, max_stage)
+     :          , 0.0
+     :          , 1000000.0
+     :          , 'heat_stress_tt')
+      call bound_check_real_var
+     :           (sum_real_array (g_dm_stress_max, max_stage)
+     :          , 0.0
+     :          , 1000000.0
+     :          , 'dm_stress_max')
+
+      call bound_check_real_var
+     :           (sum_real_array (g_N_conc_crit, max_part)
+     :          , sum_real_array (g_N_conc_min, max_part)
+     :          , sum_real_array (g_N_conc_max, max_part)
+     :          , 'N_conc_crit')
+
+      call bound_check_real_var
+     :           (sum_real_array (g_N_conc_max, max_part)
+     :          , sum_real_array (g_N_conc_crit, max_part)
+     :          , 1.0
+     :          , 'N_conc_max')
+
+      call bound_check_real_var
+     :           (sum_real_array (g_N_conc_min, max_part)
+     :          , 0.0
+     :          , sum_real_array (g_N_conc_crit, max_part)
+     :          , 'N_conc_min')
+
+      call bound_check_real_var
+     :           (sum_real_array (g_N_dead, max_part)
+     :          , 0.0
+     :          , 10000.0 - sum_real_array (g_N_green, max_part)
+     :                    - sum_real_array (g_N_senesced, max_part)
+     :          , 'N_dead')
+
+      call bound_check_real_var
+     :           (sum_real_array (g_N_green, max_part)
+     :          , 0.0
+     :          , 10000.0 - sum_real_array (g_N_dead, max_part)
+     :                    - sum_real_array (g_N_senesced, max_part)
+     :          , 'N_green')
+
+      call bound_check_real_var
+     :           (sum_real_array (g_N_senesced, max_part)
+     :          , 0.0
+     :          , 10000.0 - sum_real_array (g_N_green, max_part)
+     :                    - sum_real_array (g_N_dead, max_part)
+     :          , 'N_senesced')
+
+      call bound_check_real_var
+     :           (sum_real_array (g_dm_dead, max_part)
+     :          , 0.0
+     :          , 10000.0 - sum_real_array (g_dm_green, max_part)
+     :                    - sum_real_array (g_dm_senesced, max_part)
+     :          , 'dm_dead')
+
+      call bound_check_real_var
+     :           (sum_real_array (g_dm_green, max_part)
+     :          , 0.0
+     :          , 10000.0 - sum_real_array (g_dm_dead, max_part)
+     :                    - sum_real_array (g_dm_senesced, max_part)
+     :          , 'dm_green')
+
+      call bound_check_real_var
+     :           (sum_real_array (g_dm_senesced, max_part)
+     :          , 0.0
+     :          , 10000.0 - sum_real_array (g_dm_green, max_part)
+     :                    - sum_real_array (g_dm_dead, max_part)
+     :          , 'dm_senesced')
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+*     ===========================================================
+      subroutine Crop_Totals (
+     .          g_N_green,
+     .          g_dm_green,
+     .          g_dlt_N_retrans,
+     .          g_N_conc_crit,
+     .          g_N_demand,
+     .          g_root_depth,
+     .          g_dlayer,
+     .          g_current_stage,
+     .          g_days_tot,
+     .          g_N_uptake_tot,
+     .          g_transpiration_tot,
+     .          g_dlt_sw_dep,
+     .          g_N_conc_act_stover_tot,
+     .          g_N_conc_crit_stover_tot,
+     .          g_N_demand_tot,
+     .          g_N_uptake_stover_tot,
+     .          g_N_uptake_grain_tot,
+     .          g_lai_max,
+     .          g_lai,
+     .          g_flowering_date,
+     .          g_maturity_date,
+     .          g_flowering_das,
+     .          g_maturity_das,
+     .          g_N_dead,
+     .          g_N_senesced,
+     .          g_day_of_year)
+*     ===========================================================
+      implicit none
+      include   'CropDefCons.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
+
+*+  Sub-Program Arguments
+       real g_N_green(*)
+       real g_dm_green(*)
+       real g_dlt_N_retrans(*)
+       real g_N_conc_crit(*)
+       real g_N_demand(*)
+       real g_root_depth
+       real g_dlayer(*)
+       real g_current_stage
+       real g_days_tot(*)
+       real g_N_uptake_tot
+       real g_transpiration_tot
+       real g_dlt_sw_dep(*)
+       real g_N_conc_act_stover_tot
+       real g_N_conc_crit_stover_tot
+       real g_N_demand_tot
+       real g_N_uptake_stover_tot
+       real g_N_uptake_grain_tot
+       real g_lai_max
+       real g_lai
+       integer g_flowering_date
+       integer g_maturity_date
+       integer g_flowering_das
+       integer g_maturity_das
+       real g_N_dead(*)
+       real g_N_senesced(*)
+       integer g_day_of_year
+
+*+  Purpose
+*         Collect totals of crop variables for output
+*
+*   Called by Crop_Cleanup in whtmain.for
+
+*+  Changes
+*     010994 jngh specified and programmed
+
+*+  Calls
+cpsc  add below
+cjh      include   'convert.inc'          ! gm2kg, sm2ha, sm2smm
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Crop_Totals')
+
+*+  Local Variables
+      real       N_conc_stover         ! tops actual N concentration
+                                       ! (g N/g part)
+      integer    deepest_layer         ! deepest layer in which the roots are
+                                       ! growing
+      real       N_conc_stover_crit    ! tops critical N concentration
+                                       ! (g N/g part)
+      real       N_green_demand        ! plant N demand (g/m^2)
+      real       N_uptake              ! nitrogen uptake from soil (g/m^2)
+      real       N_uptake_stover       ! nitrogen uptake from soil by veg.
+                                       ! top (g/m^2)
+cpsc add below
+      real       N_grain               ! total grain N uptake
+      real       N_dead                ! above ground dead plant N
+      real       N_green               ! above ground green plant N
+      real       N_senesced            ! above ground senesced plant N
+      real       N_stover              ! nitrogen content of stover
+
+*- Implementation Section ----------------------------------
+
+
+      call push_routine (my_name)
+
+             ! get totals
+      N_conc_stover = divide ((g_N_green(leaf)
+     :                       + g_N_green(stem)
+     :                       + g_N_green(flower))
+
+     :                      , (g_dm_green(leaf)
+     :                       + g_dm_green(stem)
+     :                       + g_dm_green(flower))
+     :                       , 0.0)
+
+      N_uptake = sum_real_array (g_dlt_N_retrans, max_part)
+      N_uptake_stover =  g_dlt_N_retrans(leaf) + g_dlt_N_retrans(stem)
+
+          ! note - g_N_conc_crit should be done before the stages change
+
+      N_conc_stover_crit = (g_N_conc_crit(leaf) + g_N_conc_crit(stem))
+     :                   * 0.5
+      N_green_demand = sum_real_array (g_N_demand, max_part)
+
+      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
+
+      if (on_day_of (sowing, g_current_stage, g_days_tot)) then
+         g_N_uptake_tot = N_uptake
+         g_transpiration_tot =
+     :           - sum_real_array (g_dlt_sw_dep, deepest_layer)
+         g_N_conc_act_stover_tot = N_conc_stover
+         g_N_conc_crit_stover_tot = N_conc_stover_crit
+         g_N_demand_tot = N_green_demand
+         g_N_uptake_stover_tot = N_uptake_stover
+         g_N_uptake_grain_tot = sum_real_array (g_dlt_N_retrans
+     :                                        , max_part)
+
+      else
+         g_N_uptake_tot = g_N_uptake_tot + N_uptake
+         g_transpiration_tot = g_transpiration_tot
+     :                       + (-sum_real_array (g_dlt_sw_dep
+     :                                         , deepest_layer))
+         g_N_conc_act_stover_tot = N_conc_stover
+         g_N_conc_crit_stover_tot = N_conc_stover_crit
+         g_N_demand_tot = g_N_demand_tot + N_green_demand
+         g_N_uptake_stover_tot = g_N_uptake_stover_tot
+     :                         + N_uptake_stover
+         g_N_uptake_grain_tot = g_N_uptake_grain_tot
+     :                        + sum_real_array (g_dlt_N_retrans
+     :                                        , max_part)
+
+      endif
+
+      g_lai_max = max (g_lai_max, g_lai)
+
+      if (on_day_of (flowering, g_current_stage, g_days_tot)) then
+         g_flowering_date = g_day_of_year
+         g_flowering_das  = sum_between (sowing, now, g_days_tot)
+      else if (on_day_of (maturity, g_current_stage, g_days_tot)) then
+         g_maturity_date = g_day_of_year
+         g_maturity_das  = sum_between (sowing, now, g_days_tot)
+      else
+      endif
+
+cpsc add below 07/04/95
+
+      N_grain = (g_N_green(grain) + g_N_dead(grain))
+
+      N_green = (sum_real_array (g_N_green, max_part)
+     :        - g_N_green(root) - g_N_green(grain))
+
+      N_senesced = (sum_real_array (g_N_senesced, max_part)
+     :           - g_N_senesced(root) - g_N_senesced(grain))
+
+      N_dead = (sum_real_array (g_N_dead, max_part)
+     :       - g_N_dead(root) - g_N_dead(grain))
+
+      N_stover = N_green + N_senesced + N_dead
+
+      g_N_uptake_grain_tot = N_grain
+      g_N_uptake_stover_tot = N_stover
+      g_N_uptake_tot = N_grain + N_stover
+
+cpsc  add above
+
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+
+*     ===========================================================
+      subroutine Crop_Event (
+     .          g_current_stage,
+     .          g_days_tot,
+     .          c_stage_code_list,
+     .          c_stage_names,
+     .          g_dm_green,
+     .          g_dm_senesced,
+     .          g_dm_dead,
+     .          g_N_green,
+     .          g_root_depth,
+     .          g_dlayer,
+     .          g_sw_dep,
+     .          p_ll_dep,
+     .          g_lai)
+
+*     ===========================================================
+      implicit none
+      include 'const.inc'            ! new_line,  blank,
+      include 'convert.inc'
+      include 'CropDefCons.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
+
+*+  Sub-Program Arguments
+       real g_current_stage
+       real g_days_tot(*)
+       real c_stage_code_list(*)
+       character c_stage_names(*)*(*)
+       real g_dm_green(*)
+       real g_dm_senesced(*)
+       real g_dm_dead(*)
+       real g_N_green(*)
+       real g_root_depth
+       real g_dlayer(*)
+       real g_sw_dep(*)
+       real p_ll_dep(*)
+       real g_lai
+
+*+  Purpose
+*       Report occurence of event and the current status of specific
+*       variables.
+*
+*   Called by Crop_cleanup in whtmain.for
+
+*+  Changes
+*     010994 jngh specified and programmed
+
+*+  Calls
+                                       ! lu_scr_sum
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Crop_Event')
+
+*+  Local Variables
+      real       biomass               ! total above ground plant wt (g/m^2)
+      integer    deepest_layer         ! deepest layer in which the roots are
+                                       ! growing
+      integer    layer                 ! profile layer number
+      real       pesw_tot              ! total plant extractable sw (mm)
+      real       pesw(max_layer)       ! plant extractable soil water (mm)
+      real       N_green               ! plant nitrogen of tops (g/m^2)
+                                       ! less flower
+      real       dm_green              ! plant wt of tops (g/m^2) less flower
+      integer    stage_no              ! stage number at beginning of phase
+      character  string*200            ! message
+      real       N_green_conc_percent  ! n% of tops less flower (incl grain)
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      stage_no = INT(g_current_stage)
+
+      if (on_day_of (stage_no, g_current_stage, g_days_tot)
+     .    .AND. (stage_no.ne.0)) then
+             ! new phase has begun.
+
+
+         write (string, '(a, f6.1, 1x, a)')
+     :                   ' stage '
+     :                  , c_stage_code_list(stage_no)
+     :                  , c_stage_names(stage_no)
+         call Write_string (string)
+
+
+         biomass = sum_real_array (g_dm_green, max_part)
+     :           - g_dm_green(root) - g_dm_green(energy)
+
+     :           + sum_real_array (g_dm_senesced, max_part)
+     :           - g_dm_senesced(root)- g_dm_senesced(energy)
+
+     :           + sum_real_array (g_dm_dead, max_part)
+     :           - g_dm_dead(root) - g_dm_dead(energy)
+
+         dm_green = sum_real_array (g_dm_green, max_part)
+     :            - g_dm_green(root) - g_dm_green(energy)
+
+         N_green = sum_real_array (g_N_green, max_part)
+     :           - g_N_green(root) - g_N_green(energy)
+
+         N_green_conc_percent = divide (N_green, dm_green, 0.0)
+     :                        * fract2pcnt
+
+         deepest_layer = find_layer_no (g_root_depth, g_dlayer
+     :                                , max_layer)
+         do 1000 layer = 1, deepest_layer
+            pesw(layer) = g_sw_dep(layer) - p_ll_dep(layer)
+            pesw(layer) = l_bound (pesw(layer), 0.0)
+1000     continue
+         pesw_tot = sum_real_array (pesw, deepest_layer)
+
+         if (stage_is_between (emerg, plant_end, g_current_stage)) then
+            write (string, '(2(a, g16.7e2), a, 2(a, g16.7e2))')
+     :              '                     biomass =       '
+     :            , biomass
+     :            , '   lai = '
+     :            , g_lai
+     :            , new_line
+     :            ,'                     stover N conc ='
+     :            , N_green_conc_percent
+     :            , '   extractable sw ='
+     :            , pesw_tot
+            call write_string ( string)
+
+
+         else
+         endif
+
+      else
+      endif
+
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+*     ===========================================================
+      subroutine Crop_N_Conc_Limits (
+     .          g_current_stage,
+     .          c_N_conc_crit_grain,
+     .          c_N_conc_max_grain,
+     .          c_N_conc_min_grain,
+     .          c_x_stage_code,
+     .          c_stage_code_list,
+     .          g_tt_tot,
+     .          g_phase_tt,
+     .          c_y_N_conc_crit_stem,
+     .          c_y_N_conc_crit_leaf,
+     .          c_y_N_conc_crit_flower,
+     .          c_y_N_conc_min_stem,
+     .          c_y_N_conc_min_leaf,
+     .          c_y_N_conc_min_flower,
+     .          c_y_N_conc_max_stem,
+     .          c_y_N_conc_max_leaf,
+     .          c_y_N_conc_max_flower,
+
+     .          c_y_N_conc_crit_root,
+     .          c_y_N_conc_min_root,
+     .          c_y_N_conc_max_root,
+
+
+     .          N_conc_crit,
+     .          N_conc_max,
+     .          N_conc_min)
+*     ===========================================================
+      implicit none
+      include   'CropDefCons.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
+      include 'crp_phen.pub'
+
+*+  Sub-Program Arguments
+       real g_current_stage
+       real c_N_conc_crit_grain
+       real c_N_conc_max_grain
+       real c_N_conc_min_grain
+       real c_x_stage_code(*)
+       real c_stage_code_list(*)
+       real g_tt_tot(*)
+       real g_phase_tt(*)
+       real c_y_n_conc_crit_stem(*)
+       real c_y_n_conc_crit_leaf(*)
+       real c_y_n_conc_crit_flower(*)
+       real c_y_n_conc_min_stem(*)
+       real c_y_n_conc_min_leaf(*)
+       real c_y_n_conc_min_flower(*)
+       real c_y_n_conc_max_stem(*)
+       real c_y_n_conc_max_leaf(*)
+       real c_y_n_conc_max_flower(*)
+
+       real c_y_N_conc_crit_root(*)
+       real c_y_N_conc_min_root(*)
+       real c_y_N_conc_max_root(*)
+
+
+      real       N_conc_crit(*)        ! (OUTPUT) critical N concentration
+                                       ! (g N/g part)
+      real       N_conc_max(*)         ! (OUTPUT) maximum N concentration
+                                       ! (g N/g part)
+      real       N_conc_min(*)         ! (OUTPUT) minimum N concentration
+                                       ! (g N/g part)
+
+*+  Purpose
+*       Calculate the critical N concentration below which plant growth
+*       is affected.  Also minimum and maximum N concentrations below
+*       and above which it is not allowed to fall or rise.
+*       These are analogous to the water concentrations
+*       of sat, dul and ll.
+
+*+  Changes
+*     080994 jngh specified and programmed
+
+*+  Calls
+*      real       Phenology_Stage_Code      ! function
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Crop_N_Conc_Limits')
+
+*+  Local Variables
+      integer    numvals               ! number of values in stage code table
+      real       current_stage_code            ! interpolated current stage code
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      call fill_real_array (N_conc_crit, 0.0, max_part)
+      call fill_real_array (N_conc_min, 0.0, max_part)
+
+      if (stage_is_between (emerg, maturity, g_current_stage)) then
+         N_conc_crit(grain) = c_N_conc_crit_grain
+         N_conc_max(grain) = c_N_conc_max_grain
+         N_conc_min(grain) = c_N_conc_min_grain
+
+
+             ! the tops critical N percentage concentration is the stover
+             ! (non-grain shoot) concentration below which N concentration
+             ! begins to affect plant growth.
+
+         numvals = count_of_real_vals (c_x_stage_code, max_stage)
+         current_stage_code = Crop_stage_code (
+     .          c_stage_code_list,
+     .          g_tt_tot,
+     .          g_phase_tt,
+     .          g_current_stage,
+     .          c_x_stage_code,
+     .          numvals,
+     .          max_stage)
+
+
+         N_conc_crit(stem) = linear_interp_real (current_stage_code
+     :                             , c_x_stage_code
+     :                             , c_y_N_conc_crit_stem
+     :                             , numvals)
+         N_conc_crit(leaf) = linear_interp_real (current_stage_code
+     :                             , c_x_stage_code
+     :                             , c_y_N_conc_crit_leaf
+     :                             , numvals)
+         N_conc_crit(flower) = linear_interp_real (current_stage_code
+     :                             , c_x_stage_code
+     :                             , c_y_N_conc_crit_flower
+     :                             , numvals)
+
+         N_conc_crit(root) = linear_interp_real (current_stage_code
+     :                             , c_x_stage_code
+     :                             , c_y_N_conc_crit_root
+     :                             , numvals)
+
+
+             ! the  minimum N concentration is the N concentration
+             ! below which N does not fall.
+
+         N_conc_min(stem) = linear_interp_real (current_stage_code
+     :                             , c_x_stage_code
+     :                             , c_y_N_conc_min_stem
+     :                             , numvals)
+
+         N_conc_min(leaf) = linear_interp_real (current_stage_code
+     :                             , c_x_stage_code
+     :                             , c_y_N_conc_min_leaf
+     :                             , numvals)
+
+         N_conc_min(flower) = linear_interp_real (current_stage_code
+     :                             , c_x_stage_code
+     :                             , c_y_N_conc_min_flower
+     :                             , numvals)
+
+         N_conc_min(root) = linear_interp_real (current_stage_code
+     :                             , c_x_stage_code
+     :                             , c_y_N_conc_min_root
+     :                             , numvals)
+
+             ! the  maximum N concentration is the N concentration
+             ! above which N does not rise.
+
+         N_conc_max(stem) = linear_interp_real (current_stage_code
+     :                             , c_x_stage_code
+     :                             , c_y_N_conc_max_stem
+     :                             , numvals)
+
+         N_conc_max(leaf) = linear_interp_real (current_stage_code
+     :                             , c_x_stage_code
+     :                             , c_y_N_conc_max_leaf
+     :                             , numvals)
+
+         N_conc_max(flower) = linear_interp_real (current_stage_code
+     :                             , c_x_stage_code
+     :                             , c_y_N_conc_max_flower
+     :                             , numvals)
+
+         N_conc_max(root) = linear_interp_real (current_stage_code
+     :                             , c_x_stage_code
+     :                             , c_y_N_conc_max_root
+     :                             , numvals)
+
+      else
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+
+
+*     ===========================================================
+      subroutine Crop_Detachment(option)
+*     ===========================================================
+      use CropModModule
+      implicit none
+      include 'const.inc'
+      include 'crp_cnpy.pub'
+      include 'crp_nitn.pub'
+      include 'crp_biom.pub'
+      include 'error.pub'
+
+*+  Sub-Program Arguments
+      integer option
+
+*+  Purpose
+*       Simulate plant detachment.
+cscc Detachment is also a function of the environment. We've
+c noticed large diff. in detachment between wet and dry environments
+c in maize
+
+*+  Changes
+*      091294 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Crop_Detachment')
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      if (Option .eq. 1) then
+
+         call cproc_dm_detachment1( max_part
+     :                              , c%sen_detach_frac
+     :                              , g%dm_senesced
+     :                              , g%dlt_dm_detached
+     :                              , c%dead_detach_frac
+     :                              , g%dm_dead
+     :                              , g%dlt_dm_dead_detached)
+
+         call cproc_n_detachment1( max_part
+     :                              , c%sen_detach_frac
+     :                              , g%n_senesced
+     :                              , g%dlt_n_detached
+     :                              , c%dead_detach_frac
+     :                              , g%n_dead
+     :                              , g%dlt_n_dead_detached)
+
+         call cproc_lai_detachment1 (leaf
+     :                             , c%sen_detach_frac
+     :                             , g%slai
+     :                             , g%dlt_slai_detached
+     :                             , c%dead_detach_frac
+     :                             , g%tlai_dead
+     :                             , g%dlt_tlai_dead_detached)
+
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*     ===========================================================
+      INTEGER FUNCTION GetSwitchDigit(
+     .                               switch, ! the switch code integer
+     .                               pos     ! position of the digital
+     .                               )
+*     ===========================================================
+      implicit none
+      include 'data.pub'
+      include 'error.pub'
+
+*+  Sub-Program Arguments
+      INTEGER switch
+      INTEGER pos
+
+*+  Purpose
+*     Get the digital code at position pos in the switch
+
+*+  Changes
+*     990405 ew - programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'GetSwitchDigit')
+
+*+  Local variables
+      REAL     X1
+      REAL     X2
+      REAL     X
+      INTEGER  Y1
+      INTEGER  Y2
+      INTEGER  N
+      INTEGER  code
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+          if (switch.gt.0) then
+
+              !Get the length of the switch N
+              X = LOG10(REAL(switch))
+              N = INT(X+1.0)
+
+              if (pos .le. N) then
+                X1   = REAL(switch)/(10.0**(N-pos))
+                Y1   = INT(X1)
+                X2   = REAL(switch)/(10.0**(N-pos+1))
+                Y2   = INT(X2)*10
+                code = Y1 - Y2
+              else
+                code = -1
+              end if
+
+          else
+
+            code = -1
+
+          end if
+
+         GetSwitchDigit = code
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+*     ===========================================================
+      INTEGER FUNCTION GetSwitchCode(
+     .                               switch, ! the switch code string
+     .                               pos     ! position of the digital
+     .                               )
+*     ===========================================================
+      implicit none
+      include 'data.pub'
+      include 'error.pub'
+*+  Sub-Program Arguments
+      character  switch*(*)
+      INTEGER    pos
+
+*+  Purpose
+*     Get the digital code at position pos in the switch
+
+*+  Changes
+*     990405 ew - programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'GetSwitchCode')
+
+*+  Local variables
+      character zcode*2
+      INTEGER   code
+      INTEGER   N
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+          N = LEN_TRIM(switch)
+
+          if (pos.le.N) then
+
+            zcode = switch(pos:pos)
+             code =-1
+
+c           string_to_integer_var(value_string, value, numvals)
+
+            if (zcode.eq."0") code =0
+            if (zcode.eq."1") code =1
+            if (zcode.eq."2") code =2
+            if (zcode.eq."3") code =3
+            if (zcode.eq."4") code =4
+            if (zcode.eq."5") code =5
+            if (zcode.eq."6") code =6
+            if (zcode.eq."7") code =7
+            if (zcode.eq."8") code =8
+            if (zcode.eq."9") code =9
+
+          else
+
+            code = -1
+
+          end if
+
+         GetSwitchCode = code
+
+      call pop_routine (my_name)
+      return
+      end
+
 
 *================================================================
       subroutine Zero_Variables (param_init)
@@ -1698,9 +5306,9 @@ c ******************************************************************
 
 *------------------------------------------------------------
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
-
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Constant Values
       character  my_name*(*) ! name of procedure
@@ -1744,6 +5352,7 @@ c ******************************************************************
       g%extinction_coeff    = 0.0
 
       g%row_spacing         = 0.0
+      g%skip_row            = 0.0
       g%sowing_depth        = 0.0
 c      g%year                = 0
 c      g%day_of_year         = 0
@@ -2209,6 +5818,7 @@ c      g%dlt_n_uptake_stover=0.0
       c%root_extinction        =0.0
 
       c%row_spacing_default    =0.0
+      c%skip_row_default    =0.0
 
       call fill_real_array(c%x_row_spacing,       0.0, max_Table)
       call fill_real_array(c%y_extinct_coef,      0.0, max_Table)
@@ -2602,9 +6212,9 @@ c      g%dlt_n_uptake_stover=0.0
 *     000121 ew   generalised for all crops
 *--------------------------------------------------------------
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
-
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Constant Values
       character  my_name*(*)  ! name of procedure
@@ -2746,395 +6356,16 @@ c      g%dlt_n_uptake_stover=0.0
       return
       end
 
-*================================================================
-      subroutine CropMod_Initialisation ()
-*================================================================
-*+  Purpose
-*       Crop initialisation
-
-*+  Changes
-*     010994 sc   specified and programmed
-*----------------------------------------------------------
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
-
-
-*+  Calls
-      character  CropMod_Version*52    ! function
-
-*+  Constant Values
-      character  my_name*(*)       ! name of procedure
-      parameter (my_name  = 'CropMod_Initialisation')
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      !Report the initialisation process
-      call Write_string (' Initialising, '// CropMod_Version ())
-
-      !Read the crop type and sub-module switches
-      call Read_Module_Switches()
-
-
-      !Read the crop specific constants
-
-       call Crop_Read_Constants()
-
-       call dynamic_var_registration()
-
-      g%current_stage = real (plant_end)
-      g%plant_status = status_out
-
-      call pop_routine (my_name)
-      return
-      end
-
-*=====================================================================
-      character*(*) function CropMod_Version ()
-*=====================================================================
-*     Purpose
-*     Return version number of crop module
-
-*     Changes
-*     011092 jngh specified and programmed
-*     220896 jngh removed version control macro
-*     220499 ew used for wheat
-
-*-----Variable declaration---------------------------------
-
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
-
-
-*     Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'CropMod_Version')
-
-      character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.0 2000.01.21')
-*-----Implementation Section -------------------------------
-
-      call push_routine (my_name)
-
-      CropMod_Version =  version_number
-
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine Read_Module_Switches ()
-*     ===========================================================
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       CropMod initialisation - reads crop type and module switches
-
-*+  Changes
-*     000121  ew programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'Read_Module_Switches')
-*
-      character  section_name*(*)
-      parameter (section_name = 'constants')
-
-      integer   convertor
-      parameter (convertor = 111111111)
-
-
-*+  Local Variables
-      integer    numvals               !number of values returned
-      character  switch*10             !switch convertor
-      logical    found
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-
-
-      !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      !REPORT READING, AND READ THE CROP TYPE
-      !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      call write_string (new_line//'    - Reading constants')
-
-      !Read the crop type
-      found = read_parameter (
-     :                       section_name,
-     :                      'crop_type',
-     :                      c%crop_type)
-
-
-          c%wat_switch    = '111111111'
-          c%phen_switch   = '111111111'
-          c%leafno_switch = '111111111'
-          c%carb_switch   = '111111111'
-          c%part_switch   = '111111111'
-          c%tiller_switch = '111111111'
-          c%can_switch    = '111111111'
-          c%root_switch   = '111111111'
-          c%sen_switch    = '111111111'
-          c%nit_switch    = '111111111'
-          c%phos_switch   = '000000000'
-          c%die_switch    = '111111111'
-
-      if (c%crop_type .eq. 'wheat') then
-          c%wat_switch    = '111111111'
-          c%phen_switch   = '111121111'
-          c%leafno_switch = '111111111'
-          c%carb_switch   = '111111111'
-          c%part_switch   = '111111111'
-          c%tiller_switch = '111111111'
-          c%can_switch    = '111111111'
-          c%root_switch   = '111111111'
-          c%sen_switch    = '111311111'
-          c%nit_switch    = '111111111'
-          c%phos_switch   = '000000000'
-          c%die_switch    = '111111111'
-      end if
-
-
-      if (c%crop_type .eq. 'sunflower') then
-          c%wat_switch    = '111111111'
-          c%phen_switch   = '411141111'
-          c%leafno_switch = '141411111'
-          c%carb_switch   = '111111111'
-          c%part_switch   = '444111111'
-          c%tiller_switch = '000000000'
-          c%can_switch    = '044111111'
-          c%root_switch   = '111111111'
-          c%sen_switch    = '411111111'
-          c%nit_switch    = '111114411'
-          c%phos_switch   = '000000000'
-          c%die_switch    = '111111111'
-      end if
-
-
-      if (c%crop_type .eq. 'sorghum') then
-          c%wat_switch    = '111111111'
-          c%phen_switch   = '511141111'
-          c%leafno_switch = '151511111'
-          c%carb_switch   = '111111111'
-          c%part_switch   = '455111111'
-          c%tiller_switch = '000000000'
-          c%can_switch    = '054111111'
-          c%root_switch   = '111111111'
-          c%sen_switch    = '511511111'
-          c%nit_switch    = '515550551'
-          c%phos_switch   = '000000000'
-          c%die_switch    = '111111111'
-      end if
-
-      if (c%crop_type .eq. 'maize') then
-          c%wat_switch    = '111111111'
-          c%phen_switch   = '611111111'
-          c%leafno_switch = '161511111'
-          c%carb_switch   = '111111111'
-          c%part_switch   = '666611111'
-          c%tiller_switch = '000000000'
-          c%can_switch    = '166111111'
-          c%root_switch   = '121111111'
-          c%sen_switch    = '611111111'
-          c%nit_switch    = '116114411'  !'166114411'
-          c%phos_switch   = '111100000'
-          c%die_switch    = '611111111'
-      end if
-
-      !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      ! READ MODULE SWITCHES
-      !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-      found = read_parameter (section_name
-     :                    , 'module_switch'
-     :                    , c%module_switch
-     :                    , 0, 3,.true.)
-
-      !If module_switch is not specified, use default 1
-      if (.not.found) then
-         c%module_switch = 0
-      endif
-
-
-      !If module_switch is not zero, use the module switch
-      !all the sub switches have no effect
-      if (c%module_switch .ne. 0) then
-
-         write(switch, '(G10)') c%module_switch*convertor
-
-         c%wat_switch     = switch(2:10)
-         c%phen_switch    = switch(2:10)
-         c%carb_switch    = switch(2:10)
-         c%part_switch    = switch(2:10)
-         c%leafno_switch  = switch(2:10)
-         c%tiller_switch  = switch(2:10)
-         c%can_switch     = switch(2:10)
-         c%root_switch    = switch(2:10)
-         c%sen_switch     = switch(2:10)
-         c%nit_switch     = switch(2:10)
-         c%phos_switch    = switch(2:10)
-         c%die_switch     = switch(2:10)
-
-      !If module_switch is zero, use the sub module switches
-      else
-
-          switch = c%wat_switch
-          found = read_parameter (section_name
-     :                     , 'wat_switch'
-     :                     , c%wat_switch,.true.)
-          if (.not.found)  c%wat_switch = switch
-
-          switch = c%phen_switch
-          found = read_parameter (section_name
-     :                     , 'phen_switch'
-     :                     , c%phen_switch, .true.)
-          if (.not.found)  c%phen_switch = switch
-
-          switch = c%carb_switch
-          found = read_parameter (section_name
-     :                     , 'carb_switch'
-     :                     , c%carb_switch,.true.)
-          if (.not.found)  c%carb_switch = switch
-
-          switch = c%part_switch
-          found = read_parameter (section_name
-     :                     , 'part_switch'
-     :                     , c%part_switch,.true.)
-          if (.not.found)  c%part_switch = switch
-
-          switch = c%leafno_switch
-          found = read_parameter (section_name
-     :                     , 'leafno_switch'
-     :                     , c%leafno_switch,.true.)
-          if (.not.found)  c%leafno_switch = switch
-
-          switch = c%tiller_switch
-          found = read_parameter (section_name
-     :                     , 'tiller_switch'
-     :                     , c%tiller_switch,.true.)
-          if (.not.found)  c%tiller_switch = switch
-
-          switch = c%can_switch
-          found = read_parameter (section_name
-     :                     , 'can_switch'
-     :                     , c%can_switch,.true.)
-          if (.not.found)  c%can_switch = switch
-
-          switch = c%root_switch
-          found = read_parameter (section_name
-     :                     , 'root_switch'
-     :                     , c%root_switch,.true.)
-          if (.not.found)  c%root_switch = switch
-
-          switch = c%sen_switch
-          found = read_parameter (section_name
-     :                     , 'sen_switch'
-     :                     , c%sen_switch,.true.)
-          if (.not.found)  c%sen_switch = switch
-
-          switch = c%nit_switch
-          found = read_parameter (section_name
-     :                     , 'nit_switch'
-     :                     , c%nit_switch,.true.)
-          if (.not.found)  c%nit_switch = switch
-
-
-          switch = c%phos_switch
-          found = read_parameter (section_name
-     :                     , 'phos_switch'
-     :                     , c%phos_switch,.true.)
-          if (.not.found) c%phos_switch = switch
-
-
-          switch = c%die_switch
-          found = read_parameter (section_name
-     :                     , 'die_switch'
-     :                     , c%die_switch,.true.)
-          if (.not.found)  c%die_switch = switch
-
-
-      endif
-
-
-      call pop_routine (my_name)
-      return
-      end
-
-*     ===========================================================
-      subroutine Crop_Read_Constants ()
-*     ===========================================================
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Crop initialisation - reads constants from constants file
-
-*+  Changes
-*     010994 sc   specified and programmed
-*     070495 psc added extra constants (leaf_app etc.)
-*     110695 psc added soil temp effects on plant establishment
-*     270995 scc added leaf area options
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'Crop_Read_Constants')
-*
-      character  section_name*(*)
-      parameter (section_name = 'constants')
-
-
-*+  Local Variables
-      integer    numvals               !number of values returned
-
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-
-      if (c%crop_type.eq.'wheat') then
-
-         call Read_Constants      ()
-         call Read_Constants_Wheat()
-
-c      elseif (c%crop_type.eq.'sunflower') then
-c
-c         call Read_Constants      ()
-c         call Read_Constants_Sunf ()
-
-
-c      elseif (c%crop_type.eq.'sorghum') then
-c         call Read_Constants_Sorghum ()
-
-c      elseif (c%crop_type.eq.'maize') then
-c         call Read_Constants_Maize ()
-
-
-      else
-
-         call Read_Constants_Wheat()
-
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
 
 *     ===========================================================
       subroutine Read_Constants ()
 *     ===========================================================
       use CropModModule
-      use ComponentInterfaceModule
       implicit none
+      include   'const.inc'
+      include 'read.pub'
+      include 'error.pub'
+      include 'datastr.pub'
 
 *+  Purpose
 *       Crop initialisation - reads constants from constants file
@@ -3155,98 +6386,96 @@ c         call Read_Constants_Maize ()
 
 *+  Local Variables
       integer    numvals               !number of values returned
-      logical    found
+
 
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
-
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 c       VARIABLES ADDED new
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-      found = read_parameter (section_name
-     :                    , 'grain_no_intercept'
-     :                    , c%grain_no_intercept
-     :                    , -100000.0, 100000.0,.true.)
+      call read_real_var_optional (section_name
+     :                    , 'grain_no_intercept', '()'
+     :                    , c%grain_no_intercept, numvals
+     :                    , -100000.0, 100000.0)
 
 
-         found = read_parameter (section_name
-     :                   , 'x_shoot_nc_trans'
+         call read_real_array_optional (section_name
+     :                   , 'x_shoot_nc_trans', max_table, '()'
      :                   , c%x_shoot_nc_trans, c%num_shoot_nc_trans
-     :                   , 0.0, 10.0,.true.)
+     :                   , 0.0, 10.0)
 
-         found = read_parameter (section_name
-     :                   , 'y_stem_trans_frac'
+         call read_real_array_optional (section_name
+     :                   , 'y_stem_trans_frac', max_table, '()'
      :                   , c%y_stem_trans_frac, c%num_shoot_nc_trans
-     :                   , 0.0, 1.0,.true.)
+     :                   , 0.0, 1.0)
 
 
 
-         found = read_parameter (section_name
-     :                   , 'x_temp_grain_dmf'
+         call read_real_array_optional (section_name
+     :                   , 'x_temp_grain_dmf', max_table, '()'
      :                   , c%x_temp_grain_dmf, c%num_temp_grain_dmf
-     :                   , 0.0, 50.0,.true.)
+     :                   , 0.0, 50.0)
 
-         found = read_parameter (section_name
-     :                   , 'y_temp_grain_dmf_fac'
+         call read_real_array_optional (section_name
+     :                   , 'y_temp_grain_dmf_fac', max_table, '()'
      :                   , c%y_temp_grain_dmf_fac, c%num_temp_grain_dmf
-     :                   , 0.0, 1.0,.true.)
+     :                   , 0.0, 1.0)
 
 
-      found = read_parameter (section_name
-     :                    , 'max_grainn_fill_rate'
-     :                    , c%max_grainn_fill_rate
-     :                    , 0.0, 100.0,.true.)
+      call read_real_var_optional (section_name
+     :                    , 'max_grainn_fill_rate', '(ug/grain/d)'
+     :                    , c%max_grainn_fill_rate, numvals
+     :                    , 0.0, 100.0)
 
-         found = read_parameter (section_name
-     :                   , 'x_temp_grain_nf'
+         call read_real_array_optional (section_name
+     :                   , 'x_temp_grain_nf', max_table, '()'
      :                   , c%x_temp_grain_nf, c%num_temp_grain_nf
-     :                   , 0.0, 50.0,.true.)
+     :                   , 0.0, 50.0)
 
-         found = read_parameter (section_name
-     :                   , 'y_temp_grain_nf_fac'
+         call read_real_array_optional (section_name
+     :                   , 'y_temp_grain_nf_fac', max_table, '()'
      :                   , c%y_temp_grain_nf_fac, c%num_temp_grain_nf
-     :                   , 0.0, 1.0,.true.)
+     :                   , 0.0, 1.0)
 
 
 
 
 
-         found = read_parameter (section_name
-     :                   , 'radn_diff_fr'
+      call read_real_var_optional (section_name
+     :                    , 'RUE_max', '(g/MJ)'
+     :                    , c%RUE_max, numvals
+     :                    , 0.0, 10.0)
+
+         call read_real_array_optional (section_name
+     :                   , 'radn_diff_fr', max_table, '()'
      :                   , c%radn_diff_fr, c%num_radn_diff_fr
-     :                   , 0.0, 1.0,.true.)
+     :                   , 0.0, 1.0)
 
-         found = read_parameter (section_name
-     :                   , 'rue_diff_modifier'
+         call read_real_array_optional (section_name
+     :                   , 'rue_diff_modifier', max_table, '()'
      :                   , c%rue_diff_modifier, c%num_radn_diff_fr
-     :                   , 0.0, 1.0,.true.)
-
-      found = read_parameter (section_name
-     :                    , 'RUE_max'
-     :                    , c%RUE_max
-     :                    , 0.0, 10.0,.true.)
+     :                   , 0.0, 1.0)
 
 
-
-      if ((.not.found).and. (c%num_radn_diff_fr.ne.0.0)) then
+      if ((numvals.gt.0.0).and. (c%num_radn_diff_fr.ne.0.0)) then
             c%RUE_max_exist = .TRUE.
       else
             c%RUE_max_exist = .false.
       endif
 
 
-      found = read_parameter (section_name
-     :                    , 'use_average_photoperiod'
-     :                    , c%use_average_photoperiod
-     :                    , -50, 50,.true.)
+      call read_integer_var_optional (section_name
+     :                    , 'use_average_photoperiod', '(C)'
+     :                    , c%use_average_photoperiod, numvals
+     :                    , -50, 50)
 
-      found = read_parameter (section_name
-     :                    , 'leaf_app_rate0'
-     :                    , c%leaf_app_rate0
-     :                    , 0.0, 200.0,.true.)
+      call read_real_var_optional (section_name
+     :                    , 'leaf_app_rate0', '(C)'
+     :                    , c%leaf_app_rate0, numvals
+     :                    , 0.0, 200.0)
 
 
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -3254,56 +6483,56 @@ c       VARIABLES ADDED FOR CLIMATE CHANGE
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-      found = read_parameter (section_name
-     :                    , 'co2level'
-     :                    , c%co2level
-     :                    , 0.0, 1000.0,.true.)
+      call read_real_var_optional (section_name
+     :                    , 'co2level', '(ppm)'
+     :                    , c%co2level, numvals
+     :                    , 0.0, 1000.0)
 
 
-      if (.not.found) then
+      if (numvals .eq. 0) then
          c%co2switch = 0
 
-         found = read_parameter (section_name
-     :                   , 'co2_level_te'
-     :                   , c%co2_level_te, c%num_co2_level_te
-     :                   , 0.0, 1000.0,.true.)
-
-         found = read_parameter (section_name
-     :                   , 'te_co2_modifier'
-     :                   , c%te_co2_modifier, c%num_co2_level_te
-     :                   , 0.0, 10.0,.true.)
-
-
-         found = read_parameter (section_name
-     :                   , 'co2_level_nconc'
-     :                   , c%co2_level_nconc, c%num_co2_level_nconc
-     :                   , 0.0, 1000.0,.true.)
-
-         found = read_parameter (section_name
-     :                   , 'nconc_co2_modifier'
-     :                   , c%nconc_co2_modifier, c%num_co2_level_nconc
-     :                   , 0.0, 10.0,.true.)
-      else
-          c%co2switch = 1
-
-         found = read_parameter (section_name
-     :                   , 'co2_level_te'
+         call read_real_array_optional (section_name
+     :                   , 'co2_level_te', max_table, '(ppm)'
      :                   , c%co2_level_te, c%num_co2_level_te
      :                   , 0.0, 1000.0)
 
-         found = read_parameter (section_name
-     :                   , 'te_co2_modifier'
+         call read_real_array_optional (section_name
+     :                   , 'te_co2_modifier', max_table, '()'
      :                   , c%te_co2_modifier, c%num_co2_level_te
      :                   , 0.0, 10.0)
 
 
-         found = read_parameter (section_name
-     :                   , 'co2_level_nconc'
+         call read_real_array_optional (section_name
+     :                   , 'co2_level_nconc', max_table, '(ppm)'
      :                   , c%co2_level_nconc, c%num_co2_level_nconc
      :                   , 0.0, 1000.0)
 
-         found = read_parameter (section_name
-     :                   , 'nconc_co2_modifier'
+         call read_real_array_optional (section_name
+     :                   , 'nconc_co2_modifier', max_table, '()'
+     :                   , c%nconc_co2_modifier, c%num_co2_level_nconc
+     :                   , 0.0, 10.0)
+      else
+          c%co2switch = 1
+
+         call read_real_array (section_name
+     :                   , 'co2_level_te', max_table, '(ppm)'
+     :                   , c%co2_level_te, c%num_co2_level_te
+     :                   , 0.0, 1000.0)
+
+         call read_real_array (section_name
+     :                   , 'te_co2_modifier', max_table, '()'
+     :                   , c%te_co2_modifier, c%num_co2_level_te
+     :                   , 0.0, 10.0)
+
+
+         call read_real_array (section_name
+     :                   , 'co2_level_nconc', max_table, '(ppm)'
+     :                   , c%co2_level_nconc, c%num_co2_level_nconc
+     :                   , 0.0, 1000.0)
+
+         call read_real_array (section_name
+     :                   , 'nconc_co2_modifier', max_table, '()'
      :                   , c%nconc_co2_modifier, c%num_co2_level_nconc
      :                   , 0.0, 10.0)
       end if
@@ -3313,46 +6542,46 @@ c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 c       CROP PHENOLOGY: DEVELOPMENT PARAMETERS
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-      found = read_parameter (section_name
-     :                     , 'stage_names'
+      call read_char_array (section_name
+     :                     , 'stage_names', max_stage, '()'
      :                     , c%stage_names, numvals)
 
-      found = read_parameter (section_name
-     :                     , 'stage_code'
+      call read_real_array (section_name
+     :                     , 'stage_code', max_stage, '()'
      :                     , c%stage_code_list, numvals
      :                     , 0.0, 1000.0)
 
-      found = read_parameter (section_name
-     :                     , 'zadok_stage'
+      call read_real_array_optional (section_name
+     :                     , 'zadok_stage', max_stage, '()'
      :                     , c%zadok_stage_code_list, numvals
-     :                     , 0.0, 1000.0,.true.)
+     :                     , 0.0, 1000.0)
 
       !Germination
-      found = read_parameter (section_name
-     :                    , 'pesw_germ'
-     :                    , c%pesw_germ
+      call read_real_var (section_name
+     :                    , 'pesw_germ', '(mm/mm)'
+     :                    , c%pesw_germ, numvals
      :                    , 0.0, 1.0)
 
       !Emergence
-      found = read_parameter (section_name
-     :                    , 'shoot_lag'
-     :                    , c%shoot_lag
+      call read_real_var (section_name
+     :                    , 'shoot_lag', '(oC)'
+     :                    , c%shoot_lag, numvals
      :                    , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                    , 'shoot_rate'
-     :                    , c%shoot_rate
+      call read_real_var (section_name
+     :                    , 'shoot_rate', '(oC/mm)'
+     :                    , c%shoot_rate, numvals
      :                    , 0.0, 100.0)
 
-       found = read_parameter (section_name
-     :                   , 'fasw_emerg'
+       call read_real_array_optional (section_name
+     :                   , 'fasw_emerg', max_table, '(oC)'
      :                   , c%fasw_emerg, c%num_fasw_emerg
-     :                   , 0.0, 1.0,.true.)
+     :                   , 0.0, 1.0)
 
-      found = read_parameter (section_name
-     :                   , 'rel_emerg_rate'
+      call read_real_array_optional (section_name
+     :                   , 'rel_emerg_rate', max_table, '()'
      :                   , c%rel_emerg_rate, c%num_fasw_emerg
-     :                   , 0.0, 1.0,.true.)
+     :                   , 0.0, 1.0)
 
            if (c%num_fasw_emerg.eq.0 ) then
                c%num_fasw_emerg    = 2
@@ -3363,84 +6592,84 @@ c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
            end if
 
       !PHOTOPERIOD
-      found = read_parameter (section_name
-     :                   , 'twilight'
-     :                   , c%twilight
+      call read_real_var (section_name
+     :                   , 'twilight', '(o)'
+     :                   , c%twilight, numvals
      :                   , -90.0, 90.0)
 
-      found = read_parameter (section_name
-     :                   , 'photoperiod_optimum'
-     :                   , c%photoperiod_optimum
-     :                   , 0.0, 24.0,.true.)
+      call read_real_var_optional (section_name
+     :                   , 'photoperiod_optimum', '(hr)'
+     :                   , c%photoperiod_optimum, numvals
+     :                   , 0.0, 24.0)
 
       !Vernalisation
-      found = read_parameter (section_name
-     :                     , 'x_vern_temp'
+      call read_real_array_optional (section_name
+     :                     , 'x_vern_temp', max_table, '(oC)'
      :                     , c%x_vern_temp, c%num_vern_temp
-     :                     , -10.0, 100.0,.true.)
+     :                     , -10.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_vern_fact'
+      call read_real_array_optional (section_name
+     :                     , 'y_vern_fact', max_table, '(oC)'
      :                     , c%y_vern_fact, c%num_vern_temp
-     :                     , -10.0, 100.0,.true.)
+     :                     , -10.0, 100.0)
 
 
       !Thermal time caluclation
-      found = read_parameter (section_name
-     :                     , 'x_temp'
+      call read_real_array (section_name
+     :                     , 'x_temp', max_table, '(oC)'
      :                     , c%x_temp, c%num_temp
      :                     , -10.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_tt'
+      call read_real_array (section_name
+     :                     , 'y_tt', max_table, '(oC)'
      :                     , c%y_tt, c%num_temp
      :                     , -10.0, 100.0)
 
       !Leaf development
-      found = read_parameter (section_name
-     :                    , 'leaf_no_at_emerg'
-     :                    , c%leaf_no_at_emerg
+      call read_real_var (section_name
+     :                    , 'leaf_no_at_emerg', '()'
+     :                    , c%leaf_no_at_emerg, numvals
      :                    , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                    , 'leaf_no_seed'
-     :                    , c%leaf_no_seed
+      call read_real_var (section_name
+     :                    , 'leaf_no_seed', '(leaves)'
+     :                    , c%leaf_no_seed, numvals
      :                    , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                    , 'leaf_init_rate'
-     :                    , c%leaf_init_rate
+      call read_real_var (section_name
+     :                    , 'leaf_init_rate', '(oC)'
+     :                    , c%leaf_init_rate, numvals
      :                    , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                    , 'leaf_app_rate'
-     :                    , c%leaf_app_rate
-     :                    , 0.0, 100.0,.true.)
+      call read_real_var_optional (section_name
+     :                    , 'leaf_app_rate', '(oC)'
+     :                    , c%leaf_app_rate, numvals
+     :                    , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                   , 'leaf_no_min'
-     :                   , c%leaf_no_min
+      call read_real_var (section_name
+     :                   , 'leaf_no_min', '()'
+     :                   , c%leaf_no_min, numvals
      :                   , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                   , 'leaf_no_max'
-     :                   , c%leaf_no_max
+      call read_real_var (section_name
+     :                   , 'leaf_no_max', '()'
+     :                   , c%leaf_no_max, numvals
      :                   , 0.0, 100.0)
 
 
-      found = read_parameter (section_name
-     :                    , 'leaf_app_rate1'
-     :                    , c%leaf_app_rate1
+      call read_real_var (section_name
+     :                    , 'leaf_app_rate1', '(oC)'
+     :                    , c%leaf_app_rate1, numvals
      :                    , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                    , 'leaf_app_rate2'
-     :                    , c%leaf_app_rate2
+      call read_real_var (section_name
+     :                    , 'leaf_app_rate2', '(oC)'
+     :                    , c%leaf_app_rate2, numvals
      :                    , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                    , 'leaf_no_rate_change'
-     :                    , c%leaf_no_rate_change
+      call read_real_var (section_name
+     :                    , 'leaf_no_rate_change', '()'
+     :                    , c%leaf_no_rate_change, numvals
      :                    , 0.0, 30.0)
 
 
@@ -3448,20 +6677,20 @@ c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 c       LEAF AREA GROWTH
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-      found = read_parameter (section_name
-     :                    , 'sla_min'
-     :                    , c%sla_min
+      call read_real_var (section_name
+     :                    , 'sla_min', '(mm^2/g)'
+     :                    , c%sla_min, numvals
      :                    , 0.0, 100000.0)
 
-      found = read_parameter (section_name
-     :                    , 'sla_max'
-     :                    , c%sla_max
+      call read_real_var (section_name
+     :                    , 'sla_max', '(mm^2/g)'
+     :                    , c%sla_max, numvals
      :                    , 0.0, 100000.0)
 
       !leaf_area_init
-      found = read_parameter (section_name
-     :                    , 'initial_tpla'
-     :                    , c%initial_tpla
+      call read_real_var (section_name
+     :                    , 'initial_tpla', '(mm^2)'
+     :                    , c%initial_tpla, numvals
      :                    , 0.0, 100000.0)
 
 
@@ -3470,20 +6699,20 @@ C      PHOTOSYNTHESIS AND RADIATION USE EFFICIENCY (RUE)
 C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
       !STAGE DEPENDENT RUE
-      found = read_parameter (section_name
-     :                     , 'rue'
+      call read_real_array (section_name
+     :                     , 'rue', max_stage, '(g dm/mj)'
      :                     , c%rue, numvals
      :                     , 0.0, 1000.0)
 
 
       !Temperature response of photosynthesis
-      found = read_parameter (section_name
-     :                     , 'x_ave_temp'
+      call read_real_array (section_name
+     :                     , 'x_ave_temp', max_table, '(oC)'
      :                     , c%x_ave_temp, c%num_ave_temp
      :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_stress_photo'
+      call read_real_array (section_name
+     :                     , 'y_stress_photo', max_table, '()'
      :                     , c%y_stress_photo, c%num_ave_temp
      :                     , 0.0, 1.0)
 
@@ -3493,91 +6722,91 @@ c       BIOMASS INITIATION, PARTITION AND TRANSLOCATION
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
       !DM initiation
-      found = read_parameter (section_name
-     :                    , 'dm_leaf_init'
-     :                    , c%dm_leaf_init
+      call read_real_var (section_name
+     :                    , 'dm_leaf_init', '(g/plant)'
+     :                    , c%dm_leaf_init, numvals
      :                    , 0.0, 1000.0)
 
-      found = read_parameter (section_name
-     :                    , 'dm_root_init'
-     :                    , c%dm_root_init
+      call read_real_var (section_name
+     :                    , 'dm_root_init', '(g/plant)'
+     :                    , c%dm_root_init, numvals
      :                    , 0.0, 1000.0)
 
-      found = read_parameter (section_name
-     :                    , 'dm_stem_init'
-     :                    , c%dm_stem_init
+      call read_real_var (section_name
+     :                    , 'dm_stem_init', '(g/plant)'
+     :                    , c%dm_stem_init, numvals
      :                    , 0.0, 1000.0)
 
 
-      found = read_parameter (section_name
-     :                    , 'start_grainno_dm_stage'
-     :                    , c%start_grainno_dm_stage
-     :                    , 3, 8,.true.)
+      call read_integer_var_optional (section_name
+     :                    , 'start_grainno_dm_stage', '()'
+     :                    , c%start_grainno_dm_stage, numvals
+     :                    , 3, 8)
 
-       if (.not.found)  c%start_grainno_dm_stage = 3
-
-
-      found = read_parameter (section_name
-     :                    , 'end_grainno_dm_stage'
-     :                    , c%end_grainno_dm_stage
-     :                    , 3, 8,.true.)
-
-       if (.not.found)  c%end_grainno_dm_stage = 8
+       if (numvals.eq.0)  c%start_grainno_dm_stage = 3
 
 
-      found = read_parameter (section_name
-     :                    , 'start_retrans_dm_stage'
-     :                    , c%start_retrans_dm_stage
-     :                    , 3, 8,.true.)
+      call read_integer_var_optional (section_name
+     :                    , 'end_grainno_dm_stage', '()'
+     :                    , c%end_grainno_dm_stage, numvals
+     :                    , 3, 8)
 
-       if (.not.found)  c%start_retrans_dm_stage = 3
+       if (numvals.eq.0)  c%end_grainno_dm_stage = 8
 
 
-      found = read_parameter (section_name
-     :                    , 'end_retrans_dm_stage'
-     :                    , c%end_retrans_dm_stage
-     :                    , 3, 8,.true.)
+      call read_integer_var_optional (section_name
+     :                    , 'start_retrans_dm_stage', '()'
+     :                    , c%start_retrans_dm_stage, numvals
+     :                    , 3, 8)
 
-       if (.not.found)  c%end_retrans_dm_stage = 8
+       if (numvals.eq.0)  c%start_retrans_dm_stage = 3
+
+
+      call read_integer_var_optional (section_name
+     :                    , 'end_retrans_dm_stage', '()'
+     :                    , c%end_retrans_dm_stage, numvals
+     :                    , 3, 8)
+
+       if (numvals.eq.0)  c%end_retrans_dm_stage = 8
 
 
       !DM retranslocation
-      found = read_parameter (section_name
-     :                    , 'stem_trans_frac'
-     :                    , c%stem_trans_frac
+      call read_real_var (section_name
+     :                    , 'stem_trans_frac', '()'
+     :                    , c%stem_trans_frac, numvals
      :                    , 0.0, 1.0)
 
-      found = read_parameter (section_name
-     :                    , 'leaf_trans_frac'
-     :                    , c%leaf_trans_frac
+      call read_real_var (section_name
+     :                    , 'leaf_trans_frac', '()'
+     :                    , c%leaf_trans_frac, numvals
      :                    , 0.0, 1.0)
 
 
       !Biomass partitioning
-      found = read_parameter (section_name
-     :                     , 'ratio_root_shoot'
+      call read_real_array (section_name
+     :                     , 'ratio_root_shoot', max_stage, '()'
      :                     , c%ratio_root_shoot, numvals
      :                     , 0.0, 1000.0)
 
 
 
 
-      found = read_parameter (section_name
-     :                     , 'x_stage_partitn'
+      call read_real_array_optional (section_name
+     :                     , 'x_stage_partitn', max_stage, '()'
      :                     , c%x_stage_partitn, c%num_stage_partitn
-     :                     , 0.0, 12.0,.true.)
+     :                     , 0.0, 12.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_leaf_fraction'
+      call read_real_array_optional (section_name
+     :                     , 'y_leaf_fraction', max_stage, '()'
      :                     , c%y_leaf_fraction, c%num_stage_partitn
-     :                     , 0.0, 1.0,.true.)
+     :                     , 0.0, 1.0)
 
 
 
 
-       found = read_parameter (section_name
-     :                    , 'grn_water_cont'
-     :                    , c%grn_water_cont
+       call read_real_var (section_name
+     :                    , 'grn_water_cont', '(g/g)'
+     :                    , c%grn_water_cont, numvals
      :                    , 0.0, 1.0)
 
 
@@ -3586,21 +6815,21 @@ c          ROOT DEPTH AND ROOT LENGTH GROWTH
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
       !root depth
-      found = read_parameter (section_name
-     :                     , 'root_depth_rate'
+      call read_real_array (section_name
+     :                     , 'root_depth_rate', max_stage, '(mm)'
      :                     , c%root_depth_rate, numvals
      :                     , 0.0, 1000.0)
 
 
-      found = read_parameter (section_name
-     :                     , 'x_temp_root'
+      call read_real_array_optional (section_name
+     :                     , 'x_temp_root', max_table, '()'
      :                     , c%x_temp_root, c%num_temp_root
-     :                     , 0.0, 50.0,.true.)
+     :                     , 0.0, 50.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_temp_root_fac'
+      call read_real_array_optional (section_name
+     :                     , 'y_temp_root_fac', max_table, '()'
      :                     , c%y_temp_root_fac, c%num_temp_root
-     :                     , 0.0, 1.0,.true.)
+     :                     , 0.0, 1.0)
 
            if (c%num_temp_root.eq.0 ) then
                c%num_temp_root      = 2
@@ -3610,15 +6839,15 @@ c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                c%y_temp_root_fac(2) = 1.0
            end if
 
-      found = read_parameter (section_name
-     :                     , 'x_ws_root'
+      call read_real_array_optional (section_name
+     :                     , 'x_ws_root', max_table, '()'
      :                     , c%x_ws_root, c%num_ws_root
-     :                     , 0.0, 1.0,.true.)
+     :                     , 0.0, 1.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_ws_root_fac'
+      call read_real_array_optional (section_name
+     :                     , 'y_ws_root_fac', max_table, '()'
      :                     , c%y_ws_root_fac, c%num_ws_root
-     :                     , 0.0, 1.0,.true.)
+     :                     , 0.0, 1.0)
 
            if (c%num_ws_root.eq.0 ) then
                c%num_ws_root      = 2
@@ -3628,29 +6857,29 @@ c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                c%y_ws_root_fac(2) = 1.0
            end if
 
-      found = read_parameter (section_name
-     :                     , 'x_sw_ratio'
+      call read_real_array (section_name
+     :                     , 'x_sw_ratio', max_table, '()'
      :                     , c%x_sw_ratio, c%num_sw_ratio
      :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_sw_fac_root'
+      call read_real_array (section_name
+     :                     , 'y_sw_fac_root', max_table, '()'
      :                     , c%y_sw_fac_root, c%num_sw_ratio
      :                     , 0.0, 100.0)
 
 
       !Root length calculation
-      found = read_parameter (section_name
-     :                    , 'specific_root_length'
-     :                    , c%specific_root_length
+      call read_real_var (section_name
+     :                    , 'specific_root_length', '(mm/g)'
+     :                    , c%specific_root_length, numvals
      :                    , 0.0, 1.e6)
 
-      found = read_parameter (section_name
-     :                     , 'x_plant_rld'
+      call read_real_array (section_name
+     :                     , 'x_plant_rld', max_table, '(mm)'
      :                     , c%x_plant_rld, c%num_plant_rld
      :                     , 0.0, 0.5)
-      found = read_parameter (section_name
-     :                     , 'y_rel_root_rate'
+      call read_real_array (section_name
+     :                     , 'y_rel_root_rate', max_table, '()'
      :                     , c%y_rel_root_rate, c%num_plant_rld
      :                     , 0.0, 1.0)
 
@@ -3661,49 +6890,49 @@ c        WATER RELATIONS AND WATER STRESS FACTORS
 c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-      found = read_parameter (section_name
-     :                     , 'transp_eff_cf'
+      call read_real_array (section_name
+     :                     , 'transp_eff_cf', max_stage, '(kpa)'
      :                     , c%transp_eff_cf, numvals
      :                     , 0.0, 1.0)
 
-      found = read_parameter (section_name
-     :                    , 'svp_fract'
-     :                    , c%svp_fract
+      call read_real_var (section_name
+     :                    , 'svp_fract', '()'
+     :                    , c%svp_fract, numvals
      :                    , 0.0, 1.0)
 
       !Water stress factors
-      found = read_parameter (section_name
-     :                     , 'x_sw_demand_ratio'
+      call read_real_array (section_name
+     :                     , 'x_sw_demand_ratio', max_table, '()'
      :                     , c%x_sw_demand_ratio, c%num_sw_demand_ratio
      :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_swdef_leaf'
+      call read_real_array (section_name
+     :                     , 'y_swdef_leaf', max_table, '()'
      :                     , c%y_swdef_leaf, c%num_sw_demand_ratio
      :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'x_sw_avail_ratio'
+      call read_real_array (section_name
+     :                     , 'x_sw_avail_ratio', max_table, '()'
      :                     , c%x_sw_avail_ratio, c%num_sw_avail_ratio
      :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_swdef_pheno'
+      call read_real_array (section_name
+     :                     , 'y_swdef_pheno', max_table, '()'
      :                     , c%y_swdef_pheno, c%num_sw_avail_ratio
      :                     , 0.0, 100.0)
 
 
-      found = read_parameter (section_name
-     :                     , 'x_sw_avail_ratio_tiller'
+      call read_real_array_optional (section_name
+     :                     , 'x_sw_avail_ratio_tiller', max_table, '()'
      :                     , c%x_sw_avail_ratio_tiller
      :                     , c%num_sw_avail_ratio_tiller
-     :                     , 0.0, 100.0,.true.)
+     :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_swdef_tiller'
+      call read_real_array_optional (section_name
+     :                     , 'y_swdef_tiller', max_table, '()'
      :                     , c%y_swdef_tiller
      :                     , c%num_sw_avail_ratio_tiller
-     :                     , 0.0, 100.0,.true.)
+     :                     , 0.0, 100.0)
 
            if (c%num_sw_avail_ratio_tiller .eq. 0) then
                c%num_sw_avail_ratio_tiller  = 2
@@ -3718,40 +6947,40 @@ C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 C         NITROGEN RELATIONS, UPTAKE AND STRESS FACTORS
 C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-      found = read_parameter (section_name
-     :                     , 'n_supply_preference'
-     :                     , c%n_supply_preference)
+      call read_char_var (section_name
+     :                     , 'n_supply_preference', '()'
+     :                     , c%n_supply_preference, numvals)
 
 
 
-      found = read_parameter (section_name
-     :                     , 'nh4_uptake_preference'
-     :                     , c%nh4_uptake_preference
-     :                     , 0.0, 1.0,.true. )
+      call read_real_var_optional (section_name
+     :                     , 'nh4_uptake_preference', '()'
+     :                     , c%nh4_uptake_preference, numvals
+     :                     , 0.0, 1.0 )
 
-       if (.not.found) then
+       if (numvals .eq. 0) then
            c%nh4_uptake_preference = 0.0
        end if
 
 
-      found = read_parameter (section_name
-     :                    , 'no3_diffn_const'
-     :                    , c%NO3_diffn_const
+      call read_real_var (section_name
+     :                    , 'no3_diffn_const', '(days)'
+     :                    , c%NO3_diffn_const, numvals
      :                    , 0.0, 100.0)
 
 
 
-      found = read_parameter (section_name
-     :                     , 'x_fract_avail_sw'
+      call read_real_array_optional (section_name
+     :                     , 'x_fract_avail_sw', max_table, '()'
      :                     , c%x_fract_avail_sw
      :                     , c%num_fract_avail_sw
-     :                     , 0.0, 1.0,.true.)
+     :                     , 0.0, 1.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_fact_diffn_const'
+      call read_real_array_optional (section_name
+     :                     , 'y_fact_diffn_const', max_table, '()'
      :                     , c%y_fact_diffn_const
      :                     , c%num_fract_avail_sw
-     :                     , 0.0, 1000.0,.true.)
+     :                     , 0.0, 1000.0)
 
            if (c%num_fract_avail_sw .eq. 0) then
                c%num_fract_avail_sw    = 2
@@ -3763,121 +6992,121 @@ C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
-      found = read_parameter (section_name
-     :                     , 'n_fix_rate'
+      call read_real_array (section_name
+     :                     , 'n_fix_rate', max_stage, '()'
      :                     , c%n_fix_rate, numvals
      :                     , 0.0, 1.0)
 
       !Nitrogen stress factors
-      found = read_parameter (section_name
-     :                   , 'N_fact_photo'
-     :                   , c%N_fact_photo
+      call read_real_var (section_name
+     :                   , 'N_fact_photo', '()'
+     :                   , c%N_fact_photo, numvals
      :                   , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                   , 'N_fact_pheno'
-     :                   , c%N_fact_pheno
+      call read_real_var (section_name
+     :                   , 'N_fact_pheno', '()'
+     :                   , c%N_fact_pheno, numvals
      :                   , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                   , 'N_fact_expansion'
-     :                   , c%N_fact_expansion
+      call read_real_var (section_name
+     :                   , 'N_fact_expansion', '()'
+     :                   , c%N_fact_expansion, numvals
      :                   , 0.0, 100.0)
 
 
 
       !Niotrogen concentration limits
-      found = read_parameter (section_name
-     :                     , 'x_stage_code'
+      call read_real_array (section_name
+     :                     , 'x_stage_code', max_stage, '()'
      :                     , c%x_stage_code, c%num_N_conc_stage
      :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_n_conc_min_leaf'
+      call read_real_array (section_name
+     :                     , 'y_n_conc_min_leaf', max_stage, '()'
      :                     , c%y_N_conc_min_leaf, c%num_N_conc_stage
      :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_n_conc_crit_leaf'
+      call read_real_array (section_name
+     :                     , 'y_n_conc_crit_leaf', max_stage, '()'
      :                     , c%y_N_conc_crit_leaf, c%num_N_conc_stage
      :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_n_conc_max_leaf'
+      call read_real_array (section_name
+     :                     , 'y_n_conc_max_leaf', max_stage, '()'
      :                     , c%y_N_conc_max_leaf, c%num_N_conc_stage
      :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_n_conc_min_stem'
+      call read_real_array (section_name
+     :                     , 'y_n_conc_min_stem', max_stage, '()'
      :                     , c%y_N_conc_min_stem, c%num_N_conc_stage
      :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_n_conc_crit_stem'
+      call read_real_array (section_name
+     :                     , 'y_n_conc_crit_stem', max_stage, '()'
      :                     , c%y_N_conc_crit_stem, c%num_N_conc_stage
      :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_n_conc_max_stem'
+      call read_real_array (section_name
+     :                     , 'y_n_conc_max_stem', max_stage, '()'
      :                     , c%y_N_conc_max_stem, c%num_N_conc_stage
      :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_n_conc_min_flower'
+      call read_real_array (section_name
+     :                     , 'y_n_conc_min_flower', max_stage, '()'
      :                     , c%y_N_conc_min_flower, c%num_N_conc_stage
      :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_n_conc_crit_flower'
+      call read_real_array (section_name
+     :                     , 'y_n_conc_crit_flower', max_stage, '()'
      :                     , c%y_N_conc_crit_flower, c%num_N_conc_stage
      :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_n_conc_max_flower'
+      call read_real_array (section_name
+     :                     , 'y_n_conc_max_flower', max_stage, '()'
      :                     , c%y_N_conc_max_flower, c%num_N_conc_stage
      :                     , 0.0, 100.0)
 
 
-      found = read_parameter (section_name
-     :                     , 'y_n_conc_min_root'
+      call read_real_array (section_name
+     :                     , 'y_n_conc_min_root', max_stage, '()'
      :                     , c%y_N_conc_min_root, c%num_N_conc_stage
      :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_n_conc_crit_root'
+      call read_real_array (section_name
+     :                     , 'y_n_conc_crit_root', max_stage, '()'
      :                     , c%y_N_conc_crit_root, c%num_N_conc_stage
      :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_n_conc_max_root'
+      call read_real_array (section_name
+     :                     , 'y_n_conc_max_root', max_stage, '()'
      :                     , c%y_N_conc_max_root, c%num_N_conc_stage
      :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                   , 'n_conc_min_grain'
-     :                   , c%N_conc_min_grain
+      call read_real_var (section_name
+     :                   , 'n_conc_min_grain', '()'
+     :                   , c%N_conc_min_grain, numvals
      :                   , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                   , 'n_conc_crit_grain'
-     :                   , c%N_conc_crit_grain
+      call read_real_var (section_name
+     :                   , 'n_conc_crit_grain', '()'
+     :                   , c%N_conc_crit_grain, numvals
      :                   , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                   , 'n_conc_max_grain'
-     :                   , c%N_conc_max_grain
+      call read_real_var (section_name
+     :                   , 'n_conc_max_grain', '()'
+     :                   , c%N_conc_max_grain, numvals
      :                   , 0.0, 100.0)
 
 
       !Initial concentration
-      found = read_parameter (section_name
-     :                     , 'n_init_conc'
+      call read_real_array (section_name
+     :                     , 'n_init_conc', max_part, '()'
      :                     , c%n_init_conc, numvals
      :                     , 0.0, 100.0)
 
       !N concentration in senesed parts
-      found = read_parameter (section_name
-     :                     , 'n_sen_conc'
+      call read_real_array (section_name
+     :                     , 'n_sen_conc', max_part, '()'
      :                     , c%n_sen_conc, numvals
      :                     , 0.0, 1.0)
 
@@ -3885,24 +7114,24 @@ C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 C        CROP SENESCENCE AND DETACHMENT
 C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-      found = read_parameter (section_name
-     :                    , 'dm_root_sen_frac'
-     :                    , c%dm_root_sen_frac
+      call read_real_var (section_name
+     :                    , 'dm_root_sen_frac', '()'
+     :                    , c%dm_root_sen_frac, numvals
      :                    , 0.0, 1.0)
 
-      found = read_parameter (section_name
-     :                    , 'dm_leaf_sen_frac'
-     :                    , c%dm_leaf_sen_frac
+      call read_real_var (section_name
+     :                    , 'dm_leaf_sen_frac', '()'
+     :                    , c%dm_leaf_sen_frac, numvals
      :                    , 0.0, 1.0)
 
-       found = read_parameter (section_name
-     :                    , 'dead_detach_frac'
+       call read_real_array (section_name
+     :                    , 'dead_detach_frac', max_part, '()'
      :                    , c%dead_detach_frac, numvals
      :                    , 0.0, 1.0)
 
-      found = read_parameter (section_name
-     :                    , 'dm_leaf_detach_frac'
-     :                    , c%dm_leaf_detach_frac
+      call read_real_var (section_name
+     :                    , 'dm_leaf_detach_frac', '()'
+     :                    , c%dm_leaf_detach_frac, numvals
      :                    , 0.0, 1.0)
 
 
@@ -3910,51 +7139,51 @@ C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 C        CROP FAILURE
 C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-      found = read_parameter (section_name
-     :                    , 'leaf_no_crit'
-     :                    , c%leaf_no_crit
+      call read_real_var (section_name
+     :                    , 'leaf_no_crit', '()'
+     :                    , c%leaf_no_crit, numvals
      :                    , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                    , 'tt_emerg_limit'
-     :                    , c%tt_emerg_limit
+      call read_real_var (section_name
+     :                    , 'tt_emerg_limit', '(oC)'
+     :                    , c%tt_emerg_limit, numvals
      :                    , 0.0, 365.0)
 
-      found = read_parameter (section_name
-     :                    , 'swdf_photo_limit'
-     :                    , c%swdf_photo_limit
+      call read_real_var (section_name
+     :                    , 'swdf_photo_limit', '()'
+     :                    , c%swdf_photo_limit, numvals
      :                    , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                    , 'swdf_photo_rate'
-     :                    , c%swdf_photo_rate
+      call read_real_var (section_name
+     :                    , 'swdf_photo_rate', '()'
+     :                    , c%swdf_photo_rate, numvals
      :                    , 0.0, 1.0)
 
 
-      found = read_parameter (section_name
-     :                    , 'days_germ_limit'
-     :                    , c%days_germ_limit
-     :                    , 0.0, 365.0,.true.)
-      if (.not.found) c%days_germ_limit = 1000 !basically no limit
+      call read_real_var_optional (section_name
+     :                    , 'days_germ_limit', '(days)'
+     :                    , c%days_germ_limit, numvals
+     :                    , 0.0, 365.0)
+      if (numvals .eq. 0) c%days_germ_limit = 1000 !basically no limit
 
 
-      found = read_parameter (section_name
-     :                    , 'swdf_pheno_limit'
-     :                    , c%swdf_pheno_limit
-     :                    , 0.0, 100.0,.true.)
-      if (.not.found) c%swdf_pheno_limit = 1000 !basically no limit
+      call read_real_var_optional (section_name
+     :                    , 'swdf_pheno_limit', '()'
+     :                    , c%swdf_pheno_limit, numvals
+     :                    , 0.0, 100.0)
+      if (numvals .eq. 0) c%swdf_pheno_limit = 1000 !basically no limit
 
 
 C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 C        CROP DEATH
 C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      found = read_parameter (section_name
-     :                     , 'x_weighted_temp'
+      call read_real_array (section_name
+     :                     , 'x_weighted_temp', max_table, '(oC)'
      :                     , c%x_weighted_temp, c%num_weighted_temp
      :                     , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                     , 'y_plant_death'
+      call read_real_array (section_name
+     :                     , 'y_plant_death', max_table, '(oC)'
      :                     , c%y_plant_death, c%num_weighted_temp
      :                     , 0.0, 100.0)
 
@@ -3963,155 +7192,155 @@ C          VALUE LIMITS - MAX AND MINS
 C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       !-----------------------------------------------------------------
       !Canopy height
-      found = read_parameter (section_name
-     :                    , 'canopy_height_max'
-     :                    , c%height_max
+      call read_real_var (section_name
+     :                    , 'canopy_height_max', '()'
+     :                    , c%height_max, numvals
      :                    , 0.0, 5000.0)
 
       !-----------------------------------------------------------------
       !ROOT PARAMETERS
-      found = read_parameter (section_name
-     :                    , 'll_ub'
-     :                    , c%ll_ub
+      call read_real_var (section_name
+     :                    , 'll_ub', '()'
+     :                    , c%ll_ub, numvals
      :                    , 0.0, 1000.0)
 
-      found = read_parameter (section_name
-     :                    , 'kl_ub'
-     :                    , c%kl_ub
+      call read_real_var (section_name
+     :                    , 'kl_ub', '()'
+     :                    , c%kl_ub, numvals
      :                    , 0.0, 1000.0)
 
       !-----------------------------------------------------------------
       !SOIL WATER
-      found = read_parameter (section_name
-     :                    , 'minsw'
-     :                    , c%minsw
+      call read_real_var (section_name
+     :                    , 'minsw', '()'
+     :                    , c%minsw, numvals
      :                    , 0.0, 1000.0)
 
 
       !-----------------------------------------------------------------
       !OTHER VARIABLES - limits set to check inputs
 
-      found = read_parameter (section_name
-     :                    , 'year_ub'
-     :                    , c%year_ub
+      call read_integer_var (section_name
+     :                    , 'year_ub', '()'
+     :                    , c%year_ub, numvals
      :                    , 1800, 2100)
 
-      found = read_parameter (section_name
-     :                    , 'year_lb'
-     :                    , c%year_lb
+      call read_integer_var (section_name
+     :                    , 'year_lb', '()'
+     :                    , c%year_lb, numvals
      :                    , 1800, 2100)
 
-      found = read_parameter (section_name
-     :                    , 'latitude_ub'
-     :                    , c%latitude_ub
+      call read_real_var (section_name
+     :                    , 'latitude_ub', '(oL)'
+     :                    , c%latitude_ub, numvals
      :                    , -90.0, 90.0)
 
-      found = read_parameter (section_name
-     :                    , 'latitude_lb'
-     :                    , c%latitude_lb
+      call read_real_var (section_name
+     :                    , 'latitude_lb', '(oL)'
+     :                    , c%latitude_lb, numvals
      :                    , -90.0, 90.0)
 
-      found = read_parameter (section_name
-     :                    , 'maxt_ub'
-     :                    , c%maxt_ub
+      call read_real_var (section_name
+     :                    , 'maxt_ub', '(oC)'
+     :                    , c%maxt_ub, numvals
      :                    , 0.0, 60.0)
 
-      found = read_parameter (section_name
-     :                    , 'maxt_lb'
-     :                    , c%maxt_lb
+      call read_real_var (section_name
+     :                    , 'maxt_lb', '(oC)'
+     :                    , c%maxt_lb, numvals
      :                    , -10.0, 60.0)
 
-      found = read_parameter (section_name
-     :                    , 'mint_ub'
-     :                    , c%mint_ub
+      call read_real_var (section_name
+     :                    , 'mint_ub', '(oC)'
+     :                    , c%mint_ub, numvals
      :                    , 0.0, 40.0)
 
-      found = read_parameter (section_name
-     :                    , 'mint_lb'
-     :                    , c%mint_lb
+      call read_real_var (section_name
+     :                    , 'mint_lb', '(oC)'
+     :                    , c%mint_lb, numvals
      :                    , -100.0, 100.0)
 
-      found = read_parameter (section_name
-     :                    , 'radn_ub'
-     :                    , c%radn_ub
+      call read_real_var (section_name
+     :                    , 'radn_ub', '(MJ/m^2)'
+     :                    , c%radn_ub, numvals
      :                    , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                    , 'radn_lb'
-     :                    , c%radn_lb
+      call read_real_var (section_name
+     :                    , 'radn_lb', '(MJ/m^2)'
+     :                    , c%radn_lb, numvals
      :                    , 0.0, 100.0)
 
-      found = read_parameter (section_name
-     :                    , 'dlayer_ub'
-     :                    , c%dlayer_ub
+      call read_real_var (section_name
+     :                    , 'dlayer_ub', '(mm)'
+     :                    , c%dlayer_ub, numvals
      :                    , 0.0, 10000.0)
 
-      found = read_parameter (section_name
-     :                    , 'dlayer_lb'
-     :                    , c%dlayer_lb
+      call read_real_var (section_name
+     :                    , 'dlayer_lb', '(mm)'
+     :                    , c%dlayer_lb, numvals
      :                    , 0.0, 10000.0)
 
-      found = read_parameter (section_name
-     :                    , 'dul_dep_ub'
-     :                    , c%dul_dep_ub
+      call read_real_var (section_name
+     :                    , 'dul_dep_ub', '(mm)'
+     :                    , c%dul_dep_ub, numvals
      :                    , 0.0, 10000.0)
 
-      found = read_parameter (section_name
-     :                    , 'dul_dep_lb'
-     :                    , c%dul_dep_lb
+      call read_real_var (section_name
+     :                    , 'dul_dep_lb', '(mm)'
+     :                    , c%dul_dep_lb, numvals
      :                    , 0.0, 10000.0)
 
                                 ! 8th block
-      found = read_parameter (section_name
-     :                    , 'sw_dep_ub'
-     :                    , c%sw_dep_ub
+      call read_real_var (section_name
+     :                    , 'sw_dep_ub', '(mm)'
+     :                    , c%sw_dep_ub, numvals
      :                    , 0.0, 10000.0)
 
-      found = read_parameter (section_name
-     :                    , 'sw_dep_lb'
-     :                    , c%sw_dep_lb
+      call read_real_var (section_name
+     :                    , 'sw_dep_lb', '(mm)'
+     :                    , c%sw_dep_lb, numvals
      :                    , 0.0, 10000.0)
 
-      found = read_parameter (section_name
-     :                    , 'no3_ub'
-     :                    , c%NO3_ub
+      call read_real_var (section_name
+     :                    , 'no3_ub', '(kg/ha)'
+     :                    , c%NO3_ub, numvals
      :                    , 0.0, 100000.0)
 
-      found = read_parameter (section_name
-     :                    , 'no3_lb'
-     :                    , c%NO3_lb
+      call read_real_var (section_name
+     :                    , 'no3_lb', '(kg/ha)'
+     :                    , c%NO3_lb, numvals
      :                    , 0.0, 100000.0)
 
-      found = read_parameter (section_name
-     :                    , 'no3_min_ub'
-     :                    , c%NO3_min_ub
+      call read_real_var (section_name
+     :                    , 'no3_min_ub', '(kg/ha)'
+     :                    , c%NO3_min_ub, numvals
      :                    , 0.0, 100000.0)
 
-      found = read_parameter (section_name
-     :                    , 'no3_min_lb'
-     :                    , c%NO3_min_lb
+      call read_real_var (section_name
+     :                    , 'no3_min_lb', '(kg/ha)'
+     :                    , c%NO3_min_lb, numvals
      :                    , 0.0, 100000.0)
 
 cew - added this section
 
-      found = read_parameter (section_name
-     :                    , 'nh4_ub'
-     :                    , c%NH4_ub
+      call read_real_var (section_name
+     :                    , 'nh4_ub', '(kg/ha)'
+     :                    , c%NH4_ub, numvals
      :                    , 0.0, 100000.0)
 
-      found = read_parameter (section_name
-     :                    , 'nh4_lb'
-     :                    , c%NH4_lb
+      call read_real_var (section_name
+     :                    , 'nh4_lb', '(kg/ha)'
+     :                    , c%NH4_lb, numvals
      :                    , 0.0, 100000.0)
 
-      found = read_parameter (section_name
-     :                    , 'nh4_min_ub'
-     :                    , c%NH4_min_ub
+      call read_real_var (section_name
+     :                    , 'nh4_min_ub', '(kg/ha)'
+     :                    , c%NH4_min_ub, numvals
      :                    , 0.0, 100000.0)
 
-      found = read_parameter (section_name
-     :                    , 'nh4_min_lb'
-     :                    , c%NH4_min_lb
+      call read_real_var (section_name
+     :                    , 'nh4_min_lb', '(kg/ha)'
+     :                    , c%NH4_min_lb, numvals
      :                    , 0.0, 100000.0)
 
 
@@ -4119,3112 +7348,6 @@ cew - added this section
       return
       end
 
-
-
-*     ===========================================================
-      subroutine Read_Constants_Wheat ()
-*     ===========================================================
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Crop initialisation - reads constants from constants file
-
-*+  Changes
-*     010994 sc   specified and programmed
-*     070495 psc added extra constants (leaf_app etc.)
-*     110695 psc added soil temp effects on plant establishment
-*     270995 scc added leaf area options
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'Read_Constants_Wheat')
-*
-      character  section_name*(*)
-      parameter (section_name = 'constants')
-
-
-*+  Local Variables
-      integer    numvals               !number of values returned
-      logical    found
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-
-
-c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-c       LEAF AREA GROWTH - TILLER BASED
-c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-      found = read_parameter (section_name
-     :                    , 'max_tiller_area'
-     :                    , c%max_tiller_area
-     :                    , 0.0, 500.0)
-
-
-      found = read_parameter (section_name
-     :                    , 'tiller_area_tt_steepness'
-     :                    , c%tiller_area_tt_steepness
-     :                    , 0.0, 0.05)
-
-
-      found = read_parameter (section_name
-     :                    , 'tiller_area_tt_inflection'
-     :                    , c%tiller_area_tt_inflection
-     :                    , 0.0, 600.0)
-
-
-
-C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-C      EXTINCTION COEFFICIENT
-C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-      !LAI determined extinction coefficient
-      found = read_parameter (section_name
-     :               , 'x_extinct_coeff_lai'
-     :               , c%x_extinct_coeff_lai, c%num_extinct_coeff_lai
-     :               , 0.0, 20.0)
-
-      found = read_parameter (section_name
-     :               , 'y_extinct_coeff_lai'
-     :               , c%y_extinct_coeff_lai, c%num_extinct_coeff_lai
-     :               , 0.0, 10.0)
-
-
-      found = read_parameter (section_name
-     :                    , 'extinct_coeff_post_anthesis'
-     :                    , c%extinct_coeff_post_anthesis
-     :                    , 0.0, 10.0)
-
-
-
-c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-c       BIOMASS INITIATION, PARTITION AND TRANSLOCATION
-c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-      found = read_parameter (section_name
-     :                    , 'dm_seed_reserve'
-     :                    , c%dm_seed_reserve
-     :                    , 0.0, 1000.0,.true.)
-
-      found = read_parameter (section_name
-     :                    , 'dm_grain_embryo'
-     :                    , c%dm_grain_embryo
-     :                    , 0.0, 1000.0,.true.)
-
-
-      found = read_parameter (section_name
-     :                    , 'max_kernel_weight'
-     :                    , c%max_kernel_weight
-     :                    , 0.0, 60.0,.true.)
-
-
-
-c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-c        WATER RELATIONS AND WATER STRESS FACTORS
-c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-C         NITROGEN RELATIONS, UPTAKE AND STRESS FACTORS
-C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-      found = read_parameter (section_name
-     :                   , 'min_grain_nc_ratio'
-     :                   , c%min_grain_nc_ratio
-     :                   , 0.0, 1.0)
-
-
-      found = read_parameter (section_name
-     :                   , 'max_grain_nc_ratio'
-     :                   , c%max_grain_nc_ratio
-     :                   , 0.0, 1.0)
-
-
-      found = read_parameter (section_name
-     :                   , 'grain_embryo_nconc'
-     :                   , c%grain_embryo_nc
-     :                   , 0.0, 0.50)
-
-
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ================================================================
-      subroutine Get_Other_Variables ()
-*     ================================================================
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*      Get the values of variables/arrays from other modules.
-
-*+  Assumptions
-*      assumes variable has the following format
-*         <variable_name> = <variable_value/s> (<units>)
-
-*+  Changes
-*     010994 sc   specified and programmed
-*     140896 jngh modified fr_intc_radn name to inclued a suffix of module name
-*     000121 ew   generalised for all crops
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Get_Other_Variables')
-
-*+  Local Variables
-      integer    layer                 ! layer number
-      integer    numvals               ! number of values put into array
-      real       dlayer(max_layer)     ! soil layer depths (mm)
-      real       NO3(max_layer)        ! soil NO3 content (kg/ha)
-      real       NO3_min(max_layer)    ! soil NO3 minimum (kg/ha)
-      real       NH4(max_layer)        ! soil NH4 content (kg/ha)     -EW ADDED
-      real       NH4_min(max_layer)    ! soil NH4 minimum (kg/ha)     -EW ADDED
-      character  module_name*(Max_module_name_size) ! module name
-      real       soil_temp             ! soil surface temperature (oC)
-      real       profile_depth         ! depth of soil profile (mm)
-      real       root_depth_new        ! new root depth (mm)
-      logical    found
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-
-      !-------------------------------------------------------------------
-      ! Co2 and climate change
-
-       if (c%co2switch .ne. 0) then
-
-          if (c%co2level.gt.0.0) then
-             g%co2level = c%co2level
-
-          else
-             found = get_co2( co2_id,
-     :                               g%co2level,.true.)
-
-             if (.not.found) c%co2switch = 0
-
-          endif
-
-       end if
-
-
-      !use the observed or calculated grain number from other module
-      found = get_obs_grainno_psm(obs_grainno_psm_id
-     :                           , g%obs_grain_no_psm
-     :                           ,.true.)
-
-
-      !-------------------------------------------------------------------
-      ! Year and date
-       found = get_day ( day_id,
-     :                      g%day_of_year)
-
-      found = get_year ( year_id
-     :                       , g%year)
-
-      !-------------------------------------------------------------------
-      ! climate
-      found = get_latitude ( latitude_id
-     :                     , g%latitude)
-
-      found = get_maxt ( maxt_id
-     :                     , g%maxt)
-
-      found = get_mint ( mint_id
-     :                     , g%mint)
-
-      found = get_radn ( radn_id
-     :                     , g%radn)
-
-      !-------------------------------------------------------------------
-      ! canopy
-
-!      found = get_radn_int (radn_int_id
-!     :                           , g%fr_intc_radn,.true.)
-
-      !-------------------------------------------------------------------
-      !Soil evap and temperature
-      !mjr eo read in to limit demand in crop routines
-
-      found = get_eo ( eo_id
-     :                     , g%eo,.true.)
-
-      !Get soil temperature
-c      found = get_variable ( 'soil_temp'
-c     :                     , soil_temp, numvals
-c     :                     , 0.0, 80.0,.true.)
-
-
-      found = get_maxt_soil_surface (maxt_soil_surface_id
-     :                     , soil_temp,.true.)
-
-
-      if (numvals.eq.0) then
-         ! soil temp not supplied
-      else
-        call crop_store_value (g%day_of_year, g%year,
-     .                          g%soil_temp, soil_temp)
-      endif
-
-
-c+!!!!!!!! what to do if no waterbalance variables found
-
-      !-------------------------------------------------------------------
-      !soil profile
-      found = get_dlayer ( dlayer_id
-     :                       , dlayer, numvals)
-
-      if (g%num_layers.eq.0) then
-
-         ! we assume dlayer hasn't been initialised yet.
-         do layer = 1, numvals
-            g%dlayer(layer) = dlayer(layer)
-         enddo
-         g%num_layers = numvals
-
-      else
-
-         !dlayer may be changed from its last setting
-         profile_depth = sum_real_array (dlayer, numvals)
-
-         if (g%root_depth.gt.profile_depth) then
-
-           !Redistribute the root
-           root_depth_new = profile_depth
-           call Crop_root_redistribute
-     :                        ( g%root_length
-     :                        , g%root_depth
-     :                        , g%dlayer
-     :                        , g%num_layers
-     :                        , root_depth_new
-     :                        , dlayer
-     :                        , numvals)
-
-           g%root_depth = root_depth_new
-
-         else
-           ! roots are ok.
-         endif
-
-         do layer = 1, numvals
-            p%ll_dep(layer) = divide (p%ll_dep(layer)
-     :                              , g%dlayer(layer), 0.0)
-     :                      * dlayer(layer)
-
-            g%dlayer(layer) = dlayer(layer)
-         enddo
-
-         g%num_layers = numvals
-      endif
-
-
-      !-------------------------------------------------------------------
-      !soil water and nitrogen
-
-      !cew - added the sat_dep reading
-      found = get_sat_dep ( sat_dep_id
-     :                       , g%sat_dep,numvals)
-
-      found = get_dul_dep ( dul_dep_id
-     :                       , g%dul_dep, numvals)
-
-      found = get_sw_dep ( sw_dep_id
-     :                       , g%sw_dep, numvals)
-
-                                ! soil nitrogen pools
-      found = get_no3 ( no3_id
-     :                     , NO3, numvals,.true.)
-      if (.not.found) then
-         ! we have no N supply - make non-limiting.
-         call fill_real_array (NO3, 10000.0, g%num_layers)
-      else
-      endif
-
-      do layer = 1, g%num_layers
-         g%NO3gsm(layer) = NO3(layer) * kg2gm /ha2sm
-      enddo
-
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-
-      g%NO3(:) = NO3(:)
-
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-
-      found = get_no3_min ( no3_min_id
-     :                     , NO3_min, numvals,.true.)
-      do layer = 1, g%num_layers
-         g%NO3gsm_min(layer) = NO3_min(layer) * kg2gm /ha2sm
-      enddo
-
-
-
-      !cew - added this nh4 pools
-       found = get_nh4 ( nh4_id
-     :                     , NH4, numvals,.true.)
-      if (.not.found) then
-            ! we have no N supply - make non-limiting.
-         call fill_real_array (NH4, 10000.0, g%num_layers)
-      else
-      endif
-      do layer = 1, g%num_layers
-         g%NH4gsm(layer) = NH4(layer) * kg2gm /ha2sm
-      end do
-
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-
-      g%NH4(:) = NH4(:)
-
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-
-
-
-      found = get_nh4_min (nh4_min_id
-     :                     , NH4_min, numvals,.true.)
-      do layer = 1, g%num_layers
-         g%NH4gsm_min(layer) = NH4_min(layer) * kg2gm /ha2sm
-      end do
-
-
-       found = get_no3ppm (no3ppm_id
-     :                     , NO3, numvals,.true.)
-
-      do layer = 1, g%num_layers
-         g%NO3ppm(layer) = NO3(layer)
-      end do
-
-
-       found = get_nh4ppm (nh4ppm_id
-     :                     , NH4, numvals,.true.)
-
-
-      do layer = 1, g%num_layers
-         g%NH4ppm(layer) = NH4(layer)
-      end do
-
-
-
-      call pop_routine (my_name)
-      return
-      end
-
-
-!     ===========================================================
-      subroutine dynamic_var_registration()
-!     ===========================================================
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
-
-
-!+  Purpose
-!      Perform all registrations and zeroing
-
-!+  Sub-Program Arguments
-
-*+  Local Variables
-
-      character real_type*(*)
-      parameter (real_type = '<type kind="single" array="F"/>')
-
-      character regname*100
-
-!- Implementation Section ----------------------------------
-
-cdsg081001      call get_current_module (module_name)
-
-cdsg081001            regname = 'fr_intc_radn_'//module_name
-            regname = 'fr_intc_radn_wheat'
-            g%fr_intc_radn_ID = add_registration
-     :          (GetVariableReg,
-     :           regname,
-     :           real_type)
-
-      return
-      end
-
-
-*     ===========================================================
-      subroutine Start_Crop (variant)
-*     ===========================================================
-      use CropModModule
-      use StringModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Start crop using parameters specified in passed record
-
-*+  Changes
-*     010994 sc   specified and programmed
-*     090695 psc  add row spacing read
-*     220896 jngh changed extract to collect
-*                 removed data_record from argument
-
-*+  Sub-Program Arguments
-
-      integer, intent(in out) :: variant
-
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'Start_Crop')
-
-*+  Local Variables
-      character  cultivar*20           ! name of cultivar
-      integer    numvals               ! number of values found in array
-      character  string*200            ! output string
-      character  sow_data*200          ! input sowing data from Manager
-      character  value*100
-      real       value2
-      real       value3
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-      call unpack_sow(variant, sow_data)
-      call get_char_variable(sow_data,'cultivar',value)
-      cultivar = trim(value)
-      call get_real_variable(sow_data,'plants',value2)
-      g%plants=value2
-      call get_real_variable(sow_data,'sowing_depth',value3)
-      g%sowing_depth = value3
-c            cultivar = 'hartog'
-c            g%plants = 100.
-c            g%sowing_depth = 50.
-            g%row_spacing = c%row_spacing_default
-            g%tiller_no_fertile = 0.0
-      !-----------------------------------------------------------
-      !Read sowing information
-      !-----------------------------------------------------------
-      call Write_string ( 'Sowing initiate')
-cjh      if (data_record.ne.blank) then
-
-c         call collect_char_var ('cultivar', '()'
-c     :                        , cultivar, numvals)
-c
-c         call collect_real_var ('plants', '()'
-c     :                        , g%plants, numvals, 0.0, 400.0)
-c
-c         call collect_real_var (
-c     :                          'sowing_depth', '(mm)'
-c     :                        , g%sowing_depth, numvals
-c     :                        , 0.0, 100.0)
-
-c         call collect_real_var_optional (
-c     :                          'row_spacing', '(m)'
-c     :                        , g%row_spacing, numvals
-c     :                        , 0.0, 2.0)
-c
-
-
-         !scc added FTN 11/10/95
-c         call collect_real_var_optional (
-c     :                      'tiller_no_fertile', '()'
-c     :                    , g%tiller_no_fertile, numvals
-c     :                    , 0.0, 10.0)
-
-      !-----------------------------------------------------------
-      !Report sowing information
-      !-----------------------------------------------------------
-         call write_string ( new_line//new_line)
-
-         string = '                 Crop Sowing Data'
-         call write_string (string)
-
-         string = '    ------------------------------------------------'
-         call write_string (string)
-         call write_string (
-     :           '    Sowing  Depth Plants Spacing Cultivar    FTN')
-         call write_string (
-     :           '    Day no   mm     m^2     m     Name       no')
-
-         string = '    ------------------------------------------------'
-         call write_string ( string)
-
-         write (string, '(3x, i7, 3f7.1, 1x, a10,1x,f7.2)')
-     :                   g%day_of_year, g%sowing_depth
-     :                 , g%plants, g%row_spacing, cultivar
-     :                 , g%tiller_no_fertile
-         call write_string (string)
-
-         string = '    ------------------------------------------------'
-         call write_string (string)
-
-
-      !-----------------------------------------------------------
-      !Read root profile parameters
-      !-----------------------------------------------------------
-         call Read_Root_Params ()
-
-         !Read root parameters: ll, kl, xf and uptake_source
-
-      !-----------------------------------------------------------
-      !Read Culitvar information
-      !-----------------------------------------------------------
-        ! get cultivar parameters
-        call Crop_Read_Cultivar_Params (cultivar)
-
-      !-----------------------------------------------------------
-      !Set the plant alive and stage equals sowing
-      !-----------------------------------------------------------
-         g%current_stage = real(sowing)
-         g%plant_status = status_alive
-
-cjh      else
-            ! report empty sowing record
-cjh         call fatal_error (err_user, 'No sowing criteria supplied')
-cjh      endif
-
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine Read_Root_Params ()
-*     ===========================================================
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Get root profile parameters
-
-*+  Changes
-*       090994 sc   specified and programmed
-*     210395 jngh   changed from Maize_section to a parameters section
-*     000121   ew   generalised
-
-*+  Calls
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Read_Root_Params')
-*
-      character  section_name*(*)
-      parameter (section_name = 'parameters')
-
-*+  Local Variables
-      integer    layer                 ! layer number
-      real       ll (max_layer)        ! lower limit of plant-extractable
-                                       ! soil water for soil layer l
-                                       ! (mm water/mm soil)
-      integer    num_layers            ! number of layers in profile
-      integer    numvals
-      character  string*200            ! output string
-      logical    found
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      call write_string (new_line
-     :                  //'   - Reading root profile parameters')
-
-
-      !-----------------------------------------------------------
-      !Read the root parameters from section Cultivar.Module.Parameters
-      !-----------------------------------------------------------
-
-       found = read_parameter (section_name
-     :                     , 'uptake_source'
-     :                     , p%uptake_source,.true.)
-      if (.not.found) then
-         p%uptake_source = 'calc'
-      else
-      endif
-
-      found = read_parameter (section_name
-     :                     , 'll'
-     :                     , ll, num_layers
-     :                     , 0.0, c%ll_ub)
-
-      call fill_real_array (p%ll_dep, 0.0, max_layer)
-      do layer = 1, num_layers
-         p%ll_dep(layer) = ll(layer)*g%dlayer(layer)
-      enddo
-
-      found = read_parameter (section_name
-     :                     , 'kl'
-     :                     , p%kl, num_layers
-     :                     , 0.0, c%kl_ub)
-
-      found = read_parameter (section_name
-     :                     , 'xf'
-     :                     , p%xf, num_layers
-     :                     , 0.0, 1.0)
-
-      !-----------------------------------------------------------
-      !Report the root parameters
-      !-----------------------------------------------------------
-
-      if (p%uptake_source.eq.'apsim') then
-         string = 'Uptake of NO3 and water calculated by'
-     :            //' another APSIM module'
-
-      elseif (p%uptake_source.eq.'calc') then
-         string = 'Uptake of NO3 and water calculated by '
-     :            //c%crop_type
-
-      else
-         string = blank
-
-      endif
-
-      call write_string (string)
-      call write_string ( blank)
-
-          ! report
-      call write_string ( new_line//new_line)
-
-      write (string,'(4x, a)') '                Root Profile'
-      call write_string ( string)
-
-      string = '    ------------------------------------------------'
-      call write_string (string)
-
-      string = '      Layer      Kl      Lower Exploration'
-      call write_string ( string)
-      string = '      Depth              limit   Factor'
-      call write_string (string)
-
-      string = '      (mm)       ()     (mm/mm)    ()'
-      call write_string ( string)
-
-      string = '    ------------------------------------------------'
-      call write_string ( string)
-
-      do  layer = 1, num_layers
-         write (string,'(3x, 4f9.3)')
-     :            g%dlayer(layer)
-     :          , p%kl(layer)
-     :          , ll(layer)
-     :          , p%xf(layer)
-         call write_string ( string)
-      enddo
-
-      string = '     ------------------------------------------------'
-      call write_string ( string)
-
-      call write_string ( new_line//new_line)
-
-
-      call pop_routine (my_name)
-      return
-      end
-
-
-*     ===============================================================
-      subroutine Set_My_Variable (Variable_name)
-*     ===============================================================
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Sub-Program Arguments
-      character  Variable_name*(*)     ! (INPUT) Variable name to search for
-
-*+  Purpose
-*      Set a variable in this module as requested by another.
-
-*+  Changes
-*      290393 sc
-*      220896 jngh  added call to message_unused
-*                   changed respond2set to collect
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Set_My_Variable')
-
-*+  Local Variables
-      integer numvals
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-
-
-      if (variable_name .eq. 'co2_switch') then
-c         call collect_integer_var (variable_name, '()'
-c     :                             , c%co2switch, numvals
-c     :                             , 0, 1)
-
-      elseif (variable_name .eq. 'co2_level') then
-c         call collect_real_var (variable_name, '()'
-c     :                             , c%co2level, numvals
-c     :                             , 0.0, 2000.0)
-
-c previously commented         g%co2level = c%co2level
-
-
-      elseif (variable_name .eq. 'vern_sens') then
-c         call collect_real_var (variable_name, '()'
-c     :                             , p%vern_sen, numvals
-c     :                             , 0.0, 2000.0)
-         p%vern_sen_internal   = p%vern_sen   * 0.0054545 + 0.0003
-
-
-      else if (variable_name .eq. 'photop_sens') then
-c        call collect_real_var (variable_name, '()'
-c     :                             , p%photop_sen, numvals
-c     :                             , 0.0, 2000.0)
-         p%photop_sen_internal = p%photop_sen * 0.002
-
-
-
-      else if (variable_name .eq. 'tt_germ_to_emerg') then
-c         call collect_real_var (variable_name, '()'
-c     :                             , p%tt_germ_to_emerg, numvals
-c     :                             , 0.0, 2000.0)
-
-      else if (variable_name .eq. 'tt_emerg_to_endjuv') then
-c         call collect_real_var (variable_name, '()'
-c     :                             , p%tt_emerg_to_endjuv, numvals
-c     :                             , 0.0, 2000.0)
-
-      else if (variable_name .eq. 'tt_endjuv_to_init') then
-c         call collect_real_var (variable_name, '()'
-c     :                             , p%tt_endjuv_to_init, numvals
-c     :                             , 0.0, 2000.0)
-
-      else if (variable_name .eq. 'tt_init_to_flag') then
-c         call collect_real_var (variable_name, '()'
-c     :                             , p%tt_init_to_flag, numvals
-c     :                             , 0.0, 2000.0)
-
-      else if (variable_name .eq. 'tt_flag_to_flower') then
-c         call collect_real_var (variable_name, '()'
-c     :                             , p%tt_flag_to_flower, numvals
-c     :                             , 0.0, 2000.0)
-
-      else if (variable_name .eq. 'tt_flower_to_start_grain') then
-c         call collect_real_var (variable_name, '()'
-c     :                             , p%tt_flower_to_start_grain, numvals
-c     :                             , 0.0, 2000.0)
-
-      else if (variable_name .eq. 'tt_start_to_end_grain') then
-c         call collect_real_var (variable_name, '()'
-c     :                             , p%tt_start_to_end_grain, numvals
-c     :                             , 0.0, 2000.0)
-
-      else if (variable_name .eq. 'tt_end_grain_to_maturity') then
-c         call collect_real_var (variable_name, '()'
-c     :                             , p%tt_end_grain_to_maturity, numvals
-c     :                             , 0.0, 2000.0)
-
-      else if (variable_name .eq. 'tt_maturity_to_ripe') then
-c         call collect_real_var (variable_name, '()'
-c     :                             , p%tt_maturity_to_ripe, numvals
-c     :                             , 0.0, 2000.0)
-
-      else if (variable_name .eq. 'tt_ripe_to_harvest') then
-c         call collect_real_var (variable_name, '()'
-c     :                             , p%tt_ripe_to_harvest, numvals
-c     :                             , 0.0, 2000.0)
-
-      else if (variable_name .eq. 'tt_startgf_to_mat') then
-c         call collect_real_var (variable_name, '()'
-c     :                             , p%startgf_to_mat, numvals
-c     :                             , 0.0, 2000.0)
-
-      else if ((variable_name .eq. 'leaf_app_rate').or.
-     :         (variable_name .eq. 'phyllochron')  .or.
-     :         (variable_name .eq. 'phint'))    then
-c         call collect_real_var (variable_name, '()'
-c     :                             ,c%leaf_app_rate, numvals
-c     :                             , 0.0, 2000.0)
-
-         c%leaf_app_rate1 = c%leaf_app_rate
-         c%leaf_app_rate2 = c%leaf_app_rate
-
-      else if (variable_name .eq. 'leaf_init_rate') then
-c         call collect_real_var (variable_name, '()'
-c     :                             ,c%leaf_init_rate, numvals
-c     :                             , 0.0, 2000.0)
-
-      else
-         ! don't know this variable name
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-
-*     ================================================================
-      subroutine Set_Other_Variables ()
-*     ================================================================
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*      Set the value of a variable or array in other module/s.
-
-*+  Notes
-*      a flag is set if any of the totals is requested.  The totals are
-*      reset during the next process phase when this happens.
-
-*+  Changes
-*     010994 sc   specified and programmed
-*     220896 jngh changed set_ to post_ construct
-*     081100 dph  changed post_ constructs to set_
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Set_Other_Variables')
-
-*+  Local Variables
-      real       dlt_NO3(max_layer)    ! soil NO3 change (kg/ha)
-      real       dlt_NH4(max_layer)    ! soil NH4 change (kg/ha)
-      integer    layer                 ! soil layer no.
-      integer    num_layers            ! number of layers
-      logical    ok
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      call Update_Other_Variables()
-
-c      if (p%uptake_source.eq.'calc') then
-c+!!!! perhaps we should get number of layers at init and keep it
-         num_layers = count_of_real_vals (g%dlayer, max_layer)
-
-
-
-         do layer = 1, num_layers
-            dlt_NO3(layer) = g%dlt_NO3gsm(layer) * gm2kg /sm2ha
-            dlt_Nh4(layer) = g%dlt_Nh4gsm(layer) * gm2kg /sm2ha
-         end do
-
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-
-         dlt_no3(:) = - MIN(g%NO3(:), - dlt_NO3(:))
-         dlt_nh4(:) = - MIN(g%NH4(:), - dlt_NH4(:))
-
-
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-
-c        if (g%no3(1)+ dlt_NO3(1).le.0.0) then
-c             PRINT *,'-----------get---000-----------'
-c             PRINT *, 'NO3kgh     = ', g%NO3(1:2)
-c             PRINT *, 'NO3gsm     = ', g%NO3gsm(1:2)
-c
-c             PRINT *,'-----------set-----------------'
-c             PRINT *, 'dlt_NO3gsm = ', g%dlt_NO3gsm(1:2)
-c             PRINT *, 'dlt_NO3kgh = ', dlt_NO3(1:2)
-c             PRINT *, 'NO3kgh New = ', g%no3(1)+ dlt_NO3(1)
-c             pause
-c        end if
-
-         ok = set_dlt_no3 (dlt_no3_id
-     :                       , dlt_NO3, num_layers)
-
-         ok = set_dlt_nh4 (dlt_nh4_id
-     :                       , dlt_Nh4, num_layers)
-
-c         ok = set_variable (dlt_sw_depID
-c     :                       , g%dlt_sw_dep, num_layers)
-
-c      else
-c      endif
-
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine Update_Other_Variables()
-*     ===========================================================
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
-
-
-*+  Purpose
-*       Update other module states
-
-*+  Changes
-*      250894 jngh specified and programmed
-*      191099 jngh changed to legume_Send_Crop_Chopped_Event
-*      280801 ew   generalised
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Update_Other_Variables')
-
-
-*+  Local Variables
-      real       dm_residue(max_part)            ! dry matter added to residue (kg/ha)
-      real       N_residue(max_part)             ! nitrogen added to residue (kg/ha)
-      real       fraction_to_Residue(max_part)   ! fraction sent to residue (0-1)
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-      ! dispose of detached material from senesced parts in
-      ! live population
-
-      fraction_to_Residue(:)    = 1.0
-      fraction_to_Residue(root) = 0.0
-
-      dm_residue(:) = g%dlt_dm_detached(:) * gm2kg/sm2ha
-      N_residue (:) = g%dlt_N_detached (:) * gm2kg/sm2ha
-
-      if (sum(dm_residue) .gt. 0.0) then
-            call Send_Crop_Chopped_Event
-     :                (c%crop_type
-     :               , part_name
-     :               , dm_residue
-     :               , N_residue
-     :               , fraction_to_Residue
-     :               , max_part)
-      else
-      ! no surface residue
-      endif
-
-      ! now dispose of dead population detachments
-
-      dm_residue(:) = g%dlt_dm_dead_detached(:) * gm2kg/sm2ha
-      N_residue (:) = g%dlt_N_dead_detached (:) * gm2kg/sm2ha
-
-      if (sum(dm_residue) .gt. 0.0) then
-            call Send_Crop_Chopped_Event
-     :                (c%crop_type
-     :               , part_name
-     :               , dm_residue
-     :               , N_residue
-     :               , fraction_to_Residue
-     :               , max_part)
-      else
-      ! no surface residue
-      endif
-
-
-      ! put roots into root residue
-
-      if (g%dlt_dm_detached(root).gt.0.0) then
-
-         call crop_root_incorp (
-     .          g%dlt_dm_detached(root)
-     :         ,g%dlt_N_detached(root)
-     :         ,g%dlayer
-     :         ,g%root_length
-     :         ,g%root_depth
-     :         ,c%crop_type
-     :         ,max_layer)
-
-      end if
-
-      if (g%dlt_dm_dead_detached(root).gt.0.0) then
-
-         call crop_root_incorp (
-     .          g%dlt_dm_dead_detached(root)
-     :         ,g%dlt_N_dead_detached(root)
-     :         ,g%dlayer
-     :         ,g%root_length
-     :         ,g%root_depth
-     :         ,c%crop_type
-     :         ,max_layer)
-
-
-      end if
-
-
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine Crop_Harvest (
-     .          g_dm_green,
-     .          g_dm_dead,
-     .          c_grn_water_cont,
-     .          g_grain_no,
-     .          g_plants,
-     .          g_dm_senesced,
-     .          g_leaf_no,
-     .          g_N_green,
-     .          g_N_dead,
-     .          g_N_senesced,
-     .          g_flowering_date,
-     .          g_maturity_date,
-     .          g_flowering_das,
-     .          g_maturity_das,
-     .          g_lai_max,
-     .          g_cswd_photo,
-     .          g_days_tot,
-     .          g_cswd_expansion,
-     .          g_cnd_photo,
-     .          g_cnd_grain_conc,
-     .          c_stage_names)
-*     ===========================================================
-      use ComponentInterfaceModule
-      implicit none
-      include   'CropDefCons.inc'
-
-*+  Sub-Program Arguments
-       real g_dm_green(*)
-       real g_dm_dead(*)
-       real c_grn_water_cont
-       real g_grain_no
-       real g_plants
-       real g_dm_senesced(*)
-       real g_leaf_no(*)
-       real g_N_green(*)
-       real g_N_dead(*)
-       real g_N_senesced(*)
-       integer g_flowering_date
-       integer g_maturity_date
-       integer g_flowering_das
-       integer g_maturity_das
-       real g_lai_max
-       real g_cswd_photo(*)
-       real g_days_tot(*)
-       real g_cswd_expansion(*)
-       real g_cnd_photo(*)
-       real g_cnd_grain_conc(*)
-       character c_stage_names(*)*(*)
-
-*+  Purpose
-*       Report occurence of harvest and the current status of specific
-*       variables.
-
-*+  Changes
-*     010994 sc   specified and programmed
-
-*+  Calls
-                                       ! lu_scr_sum
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Crop_Harvest')
-
-*+  Local Variables
-      real       biomass_dead          ! above ground dead plant wt (kg/ha)
-      real       biomass_green         ! above ground green plant wt (kg/ha)
-      real       biomass_senesced      ! above ground senesced plant wt (kg/ha)
-      real       dm                    ! above ground total dry matter (kg/ha)
-      real       grain_wt              ! grain dry weight (g/kernel)
-      real       head_grain_no         ! final grains /head
-      real       leaf_no               ! total leaf number
-      real       N_grain               ! total grain N uptake (kg/ha)
-      real       N_dead                ! above ground dead plant N (kg/ha)
-      real       N_green               ! above ground green plant N (kg/ha)
-      real       N_senesced            ! above ground senesced plant N (kg/ha)
-      real       N_stover              ! nitrogen content of stover (kg\ha)
-      real       N_total               ! total gross nitrogen content (kg/ha)
-      real       N_grain_conc_percent  ! grain nitrogen %
-      integer    phase                 ! phenological phase number
-      real       si1                   ! mean water stress type 1
-      real       si2                   ! mean water stress type 2
-      real       si4                   ! mean nitrogen stress type 1
-      real       si5                   ! mean nitrogen stress type 2
-      real       stover                ! above ground dry weight less grain
-                                       ! (kg/ha)
-      character  string*200            ! message
-      real       yield                 ! grain yield dry wt (kg/ha)
-      real       yield_wet             ! grain yield including moisture
-                                       ! (kg/ha)
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-          ! crop harvested. Report status
-
-      yield = (g_dm_green(grain) + g_dm_dead(grain))
-     :      * gm2kg / sm2ha
-
-          ! include the grain water content
-      yield_wet = yield / (1.0 - c_grn_water_cont)
-
-      grain_wt = divide (g_dm_green(grain) + g_dm_dead(grain)
-     :                 , g_grain_no, 0.0)
-!cpsc
-      head_grain_no = divide (g_grain_no, g_plants, 0.0)
-
-      biomass_green = (sum_real_array (g_dm_green, max_part)
-     :              - g_dm_green(root) - g_dm_green(energy))
-     :              * gm2kg / sm2ha
-
-      biomass_senesced = (sum_real_array (g_dm_senesced, max_part)
-     :                 - g_dm_senesced(root) - g_dm_senesced(energy))
-     :                 * gm2kg / sm2ha
-
-      biomass_dead = (sum_real_array (g_dm_dead, max_part)
-     :             - g_dm_dead(root)  - g_dm_dead(energy))
-     :             * gm2kg / sm2ha
-
-      dm = (biomass_green + biomass_senesced + biomass_dead)
-
-      stover = dm - yield
-
-      leaf_no = sum_between (emerg, harvest_ripe, g_leaf_no)
-      N_grain_conc_percent = divide (g_N_green(grain) + g_N_dead(grain)
-     :                            , g_dm_green(grain) + g_dm_dead(grain)
-     :                            , 0.0)
-     :                     * fract2pcnt
-
-      N_grain = (g_N_green(grain) + g_N_dead(grain))
-     :        * gm2kg/sm2ha
-
-      N_green = (sum_real_array (g_N_green, max_part)
-     :        - g_N_green(root) - g_N_green(grain))
-     :        * gm2kg / sm2ha
-
-      N_senesced = (sum_real_array (g_N_senesced, max_part)
-     :           - g_N_senesced(root) - g_N_senesced(grain))
-     :           * gm2kg / sm2ha
-
-      N_dead = (sum_real_array (g_N_dead, max_part)
-     :       - g_N_dead(root) - g_N_dead(grain))
-     :       * gm2kg / sm2ha
-
-      N_stover = N_green + N_senesced + N_dead
-      N_total = N_grain + N_stover
-
-
-      call write_string ( new_line//new_line)
-
-      write (string, '(a,i4,t40,a,i4)')
-     :            'flowering (DAS) =', g_flowering_das
-     :            ,'maturity (DAS)  =', g_maturity_das
-      call write_string ( string)
-
-      write (string, '(a,i4,t40,a,f10.1)')
-     :            ' flowering day  = ',g_flowering_date
-     :          , ' stover (kg/ha) =',stover
-      call write_string ( string)
-
-      write (string, '(a,i4,t40,a,f10.1)')
-     :            ' maturity day        = ', g_maturity_date
-     :          , ' grain yield (kg/ha) =', yield
-      call write_string ( string)
-
-      write (string, '(a,f6.1,t40,a,f10.1)')
-     :            ' grain % water content   = ', c_grn_water_cont
-     :                                         * fract2pcnt
-     :          , ' grain yield wet (kg/ha) =', yield_wet
-      call write_string ( string)
-
-      write (string, '(a,f10.3,t40,a,f10.3)')
-     :            ' grain wt (g) =', grain_wt
-     :          , ' grains/m^2   =', g_grain_no
-      call write_string ( string)
-
-      write (string, '(a,f6.1,t40,a,f6.3)')
-     :            ' grains/head =', head_grain_no
-     :          , ' maximum lai =', g_lai_max
-      call write_string ( string)
-
-      write (string, '(a,f10.1)')
-     :            ' total above ground biomass (kg/ha) =', dm
-      call write_string ( string)
-
-      write (string, '(a,f10.1)')
-     :         ' live above ground biomass (kg/ha) =', biomass_green
-     :                                               + biomass_senesced
-      call write_string ( string)
-
-      write (string, '(a,f10.1)')
-     :            ' green above ground biomass (kg/ha) =', biomass_green
-      call write_string ( string)
-
-      write (string, '(a,f10.1)')
-     :      ' senesced above ground biomass (kg/ha) =', biomass_senesced
-      call write_string ( string)
-
-      write (string, '(a,f10.1)')
-     :            ' dead above ground biomass (kg/ha) =', biomass_dead
-      call write_string ( string)
-
-      write (string, '(a,f6.1)')
-     :            ' number of leaves =', leaf_no
-      call write_string ( string)
-
-      write (string, '(a,f10.2,t40,a,f10.2)')
-     :            ' grain N percent =', N_grain_conc_percent
-     :          , ' total N content (kg/ha) =', N_total
-      call write_string ( string)
-
-      write (string, '(a,f10.2,t40,a,f10.2)')
-     :            ' grain N uptake (kg/ha) =', N_grain
-     :          , ' senesced N content (kg/ha) =', N_senesced
-
-      call write_string ( string)
-
-      write (string, '(a,f10.2,t40,a,f10.2)')
-     :            ' green N content (kg/ha) =', N_green
-     :          , ' dead N content (kg/ha) =', N_dead
-      call write_string ( string)
-
-      do 2000 phase = emerg_to_endjuv, start_to_end_grain
-         si1 = divide (g_cswd_photo(phase)
-     :               , g_days_tot(phase), 0.0)
-         si2 = divide (g_cswd_expansion(phase)
-     :               , g_days_tot(phase), 0.0)
-         si4 = divide (g_cnd_photo(phase)
-     :               , g_days_tot(phase), 0.0)
-         si5 = divide (g_cnd_grain_conc(phase)
-     :               , g_days_tot(phase), 0.0)
-
-         call write_string ( new_line//new_line)
-
-         write (string,'(2a)')
-     :         ' stress indices for ', c_stage_names(phase)
-         call write_string ( string)
-
-         write (string,'(2(a, f16.7))')
-     :         ' water stress 1 =', si1
-     :         , '   nitrogen stress 1 =', si4
-         call write_string ( string)
-
-         write (string,'(2(a, f16.7))')
-     :         ' water stress 2 =', si2
-     :         , '   nitrogen stress 2 =', si5
-         call write_string ( string)
-2000  continue
-
-      g_dm_green(grain) = 0.0
-      g_N_green(grain) = 0.0
-
-      g_dm_dead(grain) = 0.0
-      g_N_dead(grain) = 0.0
-
-      call pop_routine (my_name)
-      return
-      end
-
-
-*     ===========================================================
-      subroutine End_Crop ()
-*     ===========================================================
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       End crop
-
-*+  Changes
-*      191099 jngh changed to millet_Send_Crop_Chopped_Event
-*      280801 ew   generalised
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'End_Crop')
-
-*+  Local Variables
-      real       dm_residue            ! dry matter added to residue (g/m^2)
-      real       N_residue             ! nitrogen added to residue (g/m^2)
-      real       dm_root               ! dry matter added to soil (g/m^2)
-      real       N_root                ! nitrogen added to soil (g/m^2)
-      character  string*400            ! output string
-      real       yield                 ! grain wt (kg/ha)
-      real       fraction_to_Residue(max_part)   ! fraction sent to residue (0-1)
-      real       dlt_dm_crop(max_part) ! change in dry matter of crop (kg/ha)
-      real       dlt_dm_N(max_part)    ! N content of changeed dry matter (kg/ha)
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      if (g%plant_status.ne.status_out) then
-         g%plant_status = status_out
-         g%current_stage = real (plant_end)
-
-
-        !Report the crop yield
-         yield = (g%dm_green(grain) + g%dm_dead(grain)) *gm2kg /sm2ha
-         write (string, '(3x, a, f7.1)')
-     :                  ' ended. Yield (dw) = ', yield
-         call Write_string (string)
-
-
-       !Root residue incorporation
-
-         dm_root = g%dm_green(root)
-     :           + g%dm_dead(root)
-     :           + g%dm_senesced(root)
-
-         N_root  = g%N_green(root)
-     :           + g%N_dead(root)
-     :           + g%N_senesced(root)
-
-
-      if (dm_root.gt.0.0) then
-
-         call crop_root_incorp (
-     :          dm_root
-     :         ,N_root
-     :         ,g%dlayer
-     :         ,g%root_length
-     :         ,g%root_depth
-     :         ,c%crop_type
-     :         ,max_layer)
-
-
-      endif
-
-
-      !Top residue - put stover into surface residue
-         dm_residue = (sum_real_array (g%dm_green, max_part)
-     :              - g%dm_green(root))
-c    :              - g%dm_green(root) - g%dm_green(grain))
-
-     :              + (sum_real_array (g%dm_senesced, max_part)
-     :              - g%dm_senesced(root))
-C    :              - g%dm_senesced(root) - g%dm_senesced(grain))
-
-     :              + (sum_real_array (g%dm_dead, max_part)
-     :              - g%dm_dead(root))
-c    :              - g%dm_dead(root) - g%dm_dead(grain))
-
-         N_residue = (sum_real_array (g%N_green, max_part)
-     :             - g%N_green(root) )
-c    :             - g%N_green(root) - g%N_green(grain))
-
-     :             + (sum_real_array (g%N_senesced, max_part)
-     :             - g%N_senesced(root))
-c    :             - g%N_senesced(root) - g%N_senesced(grain))
-
-     :             + (sum_real_array (g%N_dead, max_part)
-     :             - g%N_dead(root))
-c    :             - g%N_dead(root) - g%N_dead(grain))
-
-         dlt_dm_crop(:) = (g%dm_green(:)
-     :                  + g%dm_senesced(:)
-     :                  + g%dm_dead(:))
-     :                  * gm2kg/sm2ha
-
-         dlt_dm_N   (:) = (g%N_green(:)
-     :                  + g%N_senesced(:)
-     :                  + g%N_dead(:))
-     :                  * gm2kg/sm2ha
-
-
-         fraction_to_residue(:)    = 1.0
-         fraction_to_Residue(root) = 0.0
-
-         if (sum(dlt_dm_crop) .gt. 0.0) then
-
-            call Send_Crop_Chopped_Event
-     :                (c%crop_type
-     :               , part_name
-     :               , dlt_dm_crop
-     :               , dlt_dm_N
-     :               , fraction_to_Residue
-     :               , max_part)
-
-         else
-            ! no surface residue
-         endif
-
-
-         write (string, '(40x, a, f7.1, a, 3(a, 40x, a, f6.1, a))')
-     :                  '  straw residue ='
-     :                  , dm_residue * gm2kg /sm2ha, ' kg/ha'
-     :                  , new_line
-     :                  , '  straw N = '
-     :                  , N_residue * gm2kg /sm2ha, ' kg/ha'
-
-     :                  , new_line
-     :                  , '  root residue = '
-     :                  , dm_root * gm2kg /sm2ha, ' kg/ha'
-     :                  , new_line
-     :                  , '  root N = '
-     :                  , N_root * gm2kg /sm2ha, ' kg/ha'
-
-         call write_string ( string)
-
-      else
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-
-* ====================================================================
-      subroutine Send_Crop_Chopped_Event (crop_type
-     :                                    , dm_type
-     :                                    , dlt_crop_dm
-     :                                    , dlt_crop_n
-     :                                    , fraction_to_Residue
-     :                                    , max_part)
-* ====================================================================
-      use ComponentInterfaceModule
-      use DataTypesModule
-      implicit none
-
-*+  Sub-Program Arguments
-      character  crop_type*(*)              ! (INPUT) crop type
-      character  dm_type(*)*(*)             ! (INPUT) residue type
-      real  dlt_crop_dm(*)                  ! (INPUT) residue weight (kg/ha)
-      real  dlt_crop_n(*)                     ! (INPUT) residue N weight (kg/ha)
-      real  fraction_to_Residue(*)          ! (INPUT) residue fraction to residue (0-1)
-      integer max_part                      ! (INPUT) number of residue types
-*+  Purpose
-*     Notify other modules of crop chopped.
-
-*+  Mission Statement
-*     Notify other modules of crop chopped.
-
-*+  Changes
-*   070999 jngh - Programmed and Specified
-*   110700 jngh - Changed dm_tyoe to array.
-
-*+  Local Variables
-
-      type(cropchoppedevent_type) :: EventData
-
-*+  Constant Values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'Send_Crop_Chopped_Event')
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-      EventData%crop_type = crop_type
-      EventData%num_dm_type = max_part
-      EventData%dm_type(1:max_part) = dm_type(1:max_part)
-      EventData%dlt_crop_dm(1:max_part) = dlt_crop_dm(1:max_part)
-      EventData%dlt_crop_n(1:max_part) = dlt_crop_n(1:max_part)
-      EventData%fraction_to_residue(1:max_part)
-     .       = fraction_to_residue(1:max_part)
-
-      call Publish_cropchoppedevent(crop_chopped_id,EventData,.false.)
-
-      call pop_routine (myname)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine Kill_Crop (
-     .          g_plant_status,
-     .          g_dm_green,
-     .          g_dm_senesced,
-     .          g_dm_dead)
-*     ===========================================================
-      use ComponentInterfaceModule
-      implicit none
-      include   'CropDefCons.inc'
-
-
-*+  Sub-Program Arguments
-       character g_plant_status*(*)
-       real g_dm_green(*)
-       real g_dm_senesced(*)
-       real g_dm_dead(*)
-
-*+  Purpose
-*       Kill crop
-
-*+  Changes
-*       290994 jngh specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'Kill_Crop')
-
-*+  Local Variables
-      real       biomass               ! above ground dm (kg/ha)
-      character  string*200            ! output string
-
-*- Implementation Section ----------------------------------
-
-c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
-      call push_routine (my_name)
-
-      if (g_plant_status.eq.status_alive) then
-         g_plant_status  = status_dead
-
-         biomass = (sum_real_array (g_dm_green, max_part)
-     :           - g_dm_green(root)) * gm2kg /sm2ha
-
-     :           + (sum_real_array (g_dm_senesced, max_part)
-     :           - g_dm_senesced(root)) * gm2kg /sm2ha
-
-     :           + (sum_real_array (g_dm_dead, max_part)
-     :           - g_dm_dead(root)) * gm2kg /sm2ha
-
-
-                ! report
-
-         write (string, '(3x, a, f7.1, a)')
-     :                  ' kill. Standing above-ground dm = '
-     :                  , biomass, ' (kg/ha)'
-         call Write_string (string)
-
-      else
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*     ===========================================================
-      subroutine Crop_Cleanup ()
-*     ===========================================================
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       clean
-
-*+  Changes
-*      250894 jngh specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Crop_Cleanup')
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      call Crop_Update ()
-
-      call Crop_Check_Bounds (
-     .          g%leaf_no,
-     .          g%leaf_no_dead,
-     .          g%root_depth,
-     .          g%dlayer,
-     .          g%grain_no,
-     .          p%head_grain_no_max,
-     .          g%plants,
-     .          g%current_stage,
-     .          g%phase_tt,
-     .          g%days_tot,
-     .          g%tt_tot,
-     .          g%canopy_height,
-     .          c%height_max,
-     .          g%lai,
-     .          g%slai,
-     .          g%tlai_dead,
-     .          g%cover_green,
-     .          g%cover_sen,
-     .          g%cover_dead,
-     .          g%leaf_area,
-     .          g%heat_stress_tt,
-     .          g%dm_stress_max,
-     .          g%N_conc_crit,
-     .          g%N_conc_min,
-     .          g%N_conc_max,
-     .          g%N_dead,
-     .          g%N_green,
-     .          g%N_senesced,
-     .          g%dm_dead,
-     .          g%dm_green,
-     .          g%dm_senesced)
-
-      call Crop_Totals (
-     .          g%N_green,
-     .          g%dm_green,
-     .          g%dlt_N_retrans,
-     .          g%N_conc_crit,
-     .          g%N_demand,
-     .          g%root_depth,
-     .          g%dlayer,
-     .          g%current_stage,
-     .          g%days_tot,
-     .          g%N_uptake_tot,
-     .          g%transpiration_tot,
-     .          g%dlt_sw_dep,
-     .          g%N_conc_act_stover_tot,
-     .          g%N_conc_crit_stover_tot,
-     .          g%N_demand_tot,
-     .          g%N_uptake_stover_tot,
-     .          g%N_uptake_grain_tot,
-     .          g%lai_max,
-     .          g%lai,
-     .          g%flowering_date,
-     .          g%maturity_date,
-     .          g%flowering_das,
-     .          g%maturity_das,
-     .          g%N_dead,
-     .          g%N_senesced,
-     .          g%day_of_year)
-
-      call Crop_Event (
-     .          g%current_stage,
-     .          g%days_tot,
-     .          c%stage_code_list,
-     .          c%stage_names,
-     .          g%dm_green,
-     .          g%dm_senesced,
-     .          g%dm_dead,
-     .          g%N_green,
-     .          g%root_depth,
-     .          g%dlayer,
-     .          g%sw_dep,
-     .          p%ll_dep,
-     .          g%lai)
-
-      call pop_routine (my_name)
-
-      return
-      end
-
-
-*     ===========================================================
-      subroutine Crop_Update ()
-*     ===========================================================
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Update states
-*
-
-*+  Changes
-*      250894 jngh specified and programmed
-
-*+  Calls
-!      include   'CropMod.inc'
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Crop_Update')
-
-*+  Local Variables
-      real       dlt_dm_plant          ! dry matter increase (g/plant)
-      real       dlt_leaf_area         ! leaf area increase (mm^2/plant)
-      real       dlt_dm_green_dead     ! dry matter of green plant part dying
-                                       ! (g/m^2)
-      real       dlt_dm_senesced_dead  ! dry matter of senesced plant part
-                                       ! dying (g/m^2)
-      real       dlt_N_green_dead      ! N content of green plant part dying
-                                       ! (g/m^2)
-      real       dlt_N_senesced_dead   ! N content of senesced plant part
-                                       ! dying (g/m^2)
-      real       dlt_grain_no_lost     ! grain no lost from barrenness
-                                       ! (grains/m^2)
-      real       dlt_lai_dead          ! lai of green leaf of plants dying ()
-      real       dlt_slai_dead         ! lai of senesced leaf of plant dying ()
-      real       dying_fract           ! fraction op population dying (0-1)
-      real       leaf_no               ! currently expanding leaf no.
-      integer    part                  ! plant part index
-
-      REAL       co2_modifier
-
-c      INTEGER    istage
-
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-         ! Note.
-         ! Accumulate is used to add a value into a specified array element.
-         ! If a specified increment of the element indicates a new element
-         ! is started, the value is distributed proportionately between the
-         ! two elements of the array
-
-         ! Add is used to add the elements of one array into the corresponding
-         ! elements of another array.
-
-         ! now update with deltas
-
-         ! The following table describes the transfer of material that should
-         ! take place
-         !                        POOLS
-         !                 green senesced  dead
-         ! dlt_green         +                     (incoming only)
-         ! dlt_retrans       +-
-         ! dlt_senesced      -      +
-         ! dlt_dead          -      -       +
-         ! dlt_detached             -       -      (outgoing only)
-
-         ! transfer N
-
-      call subtract_real_array (g%dlt_N_dead_detached, g%N_dead
-     :                        , max_part)
-
-      call add_real_array     (g%dlt_N_green,       g%N_green, max_part)
-      call add_real_array     (g%dlt_N_retrans,     g%N_green, max_part)
-      call subtract_real_array(g%dlt_N_senesced,    g%N_green, max_part)
-
-      call add_real_array     (g%dlt_N_senesced,      g%N_senesced,
-     :                                                max_part)
-      call subtract_real_array(g%dlt_N_detached,      g%N_senesced,
-     :                                                max_part)
-
-
-
-      !&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-      !EW added parts ?????????????????????????????????/
-      call subtract_real_array (g%dlt_N_sen_retrans, g%N_senesced,
-     :                                                max_part)
-      !&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
-
-
-      dying_fract = divide (-g%dlt_plants, g%plants, 0.0)
-      dying_fract = bound (dying_fract, 0.0, 1.0)
-
-      do 1000 part = 1, max_part
-         dlt_N_green_dead = g%N_green(part) * dying_fract
-         g%N_green(part) = g%N_green(part) - dlt_N_green_dead
-         g%N_dead(part) = g%N_dead(part) + dlt_N_green_dead
-
-         dlt_N_senesced_dead = g%N_senesced(part) * dying_fract
-         g%N_senesced(part) = g%N_senesced(part) - dlt_N_senesced_dead
-         g%N_dead(part) = g%N_dead(part) + dlt_N_senesced_dead
-1000  continue
-
-
-         ! Transfer plant dry matter
-
-      dlt_dm_plant = divide (g%dlt_dm, g%plants, 0.0)
-
-      call accumulate (dlt_dm_plant, g%dm_plant_top_tot
-     :               , g%previous_stage, g%dlt_stage)
-
-      call subtract_real_array (g%dlt_dm_dead_detached, g%dm_dead
-     :                        , max_part)
-
-
-
-      call add_real_array (g%dlt_dm_green, g%dm_green, max_part)
-      call add_real_array (g%dlt_dm_green_retrans, g%dm_green, max_part)
-      call subtract_real_array (g%dlt_dm_senesced, g%dm_green
-     :                        , max_part)
-
-      call add_real_array (g%dlt_dm_senesced, g%dm_senesced
-     :                   , max_part)
-      call subtract_real_array (g%dlt_dm_sen_retrans, g%dm_green
-     :                        , max_part)
-
-      call subtract_real_array (g%dlt_dm_detached, g%dm_senesced
-     :                        , max_part)
-
-
-
-
-      call add_real_array (g%dlt_dm_green_retrans_pool
-     :                   , g%dm_green_retrans_pool
-     :                   , max_part)
-
-      g%dm_green_grainno = g%dm_green_grainno + g%dlt_dm_green_grainno
-
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-
-c      do part = 1, max_part
-c         g%dm_green(part)=g%dm_green(part)+g%dlt_dm_green(part)
-c     :                                    +g%dlt_dm_green_retrans(part)
-c     :                                    -g%dlt_dm_senesced(part)
-
-c         g%dm_senesced(part)= g%dm_senesced(part)
-c     .                       +g%dlt_dm_senesced(part)
-c     .                       -g%dlt_dm_sen_retrans(part)
-c      enddo
-
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-
-
-
-
-      do 2000 part = 1, max_part
-         dlt_dm_green_dead = g%dm_green(part) * dying_fract
-         g%dm_green(part) = g%dm_green(part) - dlt_dm_green_dead
-         g%dm_dead(part) = g%dm_dead(part) + dlt_dm_green_dead
-
-         dlt_dm_senesced_dead = g%dm_senesced(part) * dying_fract
-         g%dm_senesced(part) = g%dm_senesced(part)
-     :                       - dlt_dm_senesced_dead
-         g%dm_dead(part) = g%dm_dead(part) + dlt_dm_senesced_dead
-2000  continue
-
-
-
-
-cjh
-         ! transfer plant grain no.
-      dlt_grain_no_lost  = g%grain_no * dying_fract
-      g%grain_no = g%grain_no - dlt_grain_no_lost
-cglh
-         ! update fertile no (pluses and minuses are the best I can do!)
-
-
-
-      g%tiller_no_fertile = g%tiller_no_fertile + g%dlt_tiller_no
-c     :                                         - g%dlt_stiller_no
-
-      !&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-      !EW added parts ?????????????????????????????????/
-      g%tiller_no_pot    = g%tiller_no_pot + g%dlt_tiller_no_pot
-      g%tiller_no        = g%tiller_no     + g%dlt_tiller_no
-      g%tiller_no_sen    = g%tiller_no_sen + g%dlt_stiller_no
-      !&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
-
-      g%tt_tiller_emergence(1 + INT(g%tiller_no)) =
-     :                           sum_between(emerg, flag_leaf, g%tt_tot)
-
-
-      ! transfer plant leaf area
-      g%lai = g%lai + g%dlt_lai - g%dlt_slai
-      g%slai = g%slai + g%dlt_slai - g%dlt_slai_detached
-
-      dlt_lai_dead  = g%lai  * dying_fract
-      dlt_slai_dead = g%slai * dying_fract
-
-      g%lai = g%lai - dlt_lai_dead
-      g%slai = g%slai - dlt_slai_dead
-      g%tlai_dead = g%tlai_dead + dlt_lai_dead + dlt_slai_dead
-     :            - g%dlt_tlai_dead_detached
-
-
-      g%tpla_yesterday = g%tpla_today
-
-        ! now update new canopy covers for erosion etc?
-
-c=======================================================================
-
-      if ((c%crop_type .eq. 'wheat')    .OR.
-     :    (c%crop_type .eq. 'sunflower'))  then
-
-       call crop_cover (g%extinction_coeff, g%lai,       g%cover_green)
-       call crop_cover (g%extinction_coeff, g%slai,      g%cover_sen)
-       call crop_cover (g%extinction_coeff, g%tlai_dead, g%cover_dead)
-
-
-      elseif (c%crop_type .eq. 'maize') then
-
-      call Maize_cover1 (
-     .          g%row_spacing,
-     .          c%x_row_spacing,
-     .          c%y_extinct_coef,
-     .          c%num_row_spacing,
-     .          g%cover_green,g%lai)
-      call Maize_cover1 (
-     .          g%row_spacing,
-     .          c%x_row_spacing,
-     .          c%y_extinct_coef_dead,
-     .          c%num_row_spacing,
-     .          g%cover_sen,g%slai)
-      call Maize_cover1 (
-     .          g%row_spacing,
-     .          c%x_row_spacing,
-     .          c%y_extinct_coef_dead,
-     .          c%num_row_spacing,
-     .          g%cover_dead,
-     :          g%tlai_dead)
-
-      elseif (c%crop_type .eq. 'sorghum') then
-
-        call crop_cover_sorghum
-     :               (g%row_spacing
-     :                ,c%x_row_spacing,c%y_extinct_coef
-     :                ,c%num_row_spacing
-     :                ,g%lai,g%cover_green)
-        call crop_cover_sorghum
-     :               (g%row_spacing
-     :                ,c%x_row_spacing,c%y_extinct_coef_dead
-     :                ,c%num_row_spacing
-     :                ,g%slai,g%cover_sen)
-        call crop_cover_sorghum
-     :               (g%row_spacing
-     :                ,c%x_row_spacing,c%y_extinct_coef_dead
-     :                ,c%num_row_spacing
-     :                ,g%tlai_dead,g%cover_dead)
-
-      else
-
-       call crop_cover (g%extinction_coeff, g%lai,       g%cover_green)
-       call crop_cover (g%extinction_coeff, g%slai,      g%cover_sen)
-       call crop_cover (g%extinction_coeff, g%tlai_dead, g%cover_dead)
-
-      endif
-c=======================================================================
-
-         ! plant leaf development
-         ! need to account for truncation of partially developed leaf (add 1)
-      leaf_no = 1.0 + sum_between (emerg, now, g%leaf_no)
-      dlt_leaf_area = divide (g%dlt_lai, g%plants, 0.0) * sm2smm
-
-      call accumulate (dlt_leaf_area, g%leaf_area
-     :               , leaf_no, g%dlt_leaf_no)
-
-      call accumulate (g%dlt_leaf_no, g%leaf_no
-     :               , g%previous_stage, g%dlt_stage)
-
-      call accumulate (g%dlt_leaf_no_dead, g%leaf_no_dead
-     :               , g%previous_stage, g%dlt_stage)
-
-         ! plant stress
-
-      call accumulate (g%dlt_heat_stress_tt, g%heat_stress_tt
-     :               , g%previous_stage, g%dlt_stage)
-
-      call accumulate (g%dlt_dm_stress_max, g%dm_stress_max
-     :               , g%current_stage, g%dlt_stage)
-
-      call accumulate (1.0 - g%swdef_photo
-     .               , g%cswd_photo
-     :               , g%previous_stage, g%dlt_stage)
-      call accumulate (1.0 - g%swdef_expansion
-     .               , g%cswd_expansion
-     :               , g%previous_stage, g%dlt_stage)
-      call accumulate (1.0 - g%swdef_pheno
-     .               , g%cswd_pheno
-     :               , g%previous_stage, g%dlt_stage)
-
-      call accumulate (1.0 - g%nfact_photo
-     .               , g%cnd_photo
-     :               , g%previous_stage, g%dlt_stage)
-      call accumulate (1.0 - g%nfact_grain_conc
-     .               , g%cnd_grain_conc
-     :               , g%previous_stage, g%dlt_stage)
-
-         ! other plant states
-
-      g%canopy_height = g%canopy_height + g%dlt_canopy_height
-      g%plants = g%plants + g%dlt_plants
-      g%root_depth = g%root_depth + g%dlt_root_depth
-
-      call add_real_array      (g%dlt_root_length
-     :                         ,g%root_length
-     :                         ,max_layer)
-      call subtract_real_array (g%dlt_root_length_senesced
-     :                         ,g%root_length
-     :                         ,max_layer)
-      ! Phosphorus
-      ! ----------
-      g%plant_p = g%plant_p + g%dlt_plant_p
-
-
-
-      !&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-      !EW added parts ?????????????????????????????????/
-      ! ew added this section for iwheat update
-       g%tiller_tt_tot = g%tiller_tt_tot + g%dlt_tt
-c     :  * MIN(g%nfact_tiller, g%swdef_tiller)
-c     : *MIN(g%nfact_expansion,g%swdef_expansion)
-
-          if (g%current_stage.lt.germ) then
-c         if (istage.lt.emerg) then
-                g%tiller_tt_tot = 0.0   ! in original i_wheat tt accumulated from germination - ew
-          endif
-
-
-
-       call add_real_array (g%dlt_tiller_area_pot,
-     :                      g%tiller_area_pot, max_leaf)
-
-
-       call add_real_array (g%dlt_tiller_area_act,
-     :                      g%tiller_area_act, max_leaf)
-
-       call subtract_real_array (g%dlt_tiller_sen_area,
-     :                      g%tiller_area_act, max_leaf)
-
-       call add_real_array (g%dlt_tiller_sen_area,
-     :                      g%tiller_area_sen, max_leaf)
-
-
-
-       g%cumvd         = g%cumvd         + g%dlt_cumvd
-       g%vernalisation = g%vernalisation + g%dlt_vernalisation
-       g%leaf_primodia = g%leaf_primodia + g%dlt_leaf_primodia
-      !&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
-
-
-
-      call Crop_N_Conc_Limits (
-     .          g%current_stage,
-     .          c%N_conc_crit_grain,
-     .          c%N_conc_max_grain,
-     .          c%N_conc_min_grain,
-     .          c%x_stage_code,
-     .          c%stage_code_list,
-     .          g%tt_tot,
-     .          g%phase_tt,
-     .          c%y_N_conc_crit_stem,
-     .          c%y_N_conc_crit_leaf,
-     .          c%y_N_conc_crit_flower,
-     .          c%y_N_conc_min_stem,
-     .          c%y_N_conc_min_leaf,
-     .          c%y_N_conc_min_flower,
-     .          c%y_N_conc_max_stem,
-     .          c%y_N_conc_max_leaf,
-     .          c%y_N_conc_max_flower,
-
-     .          c%y_N_conc_crit_root,
-     .          c%y_N_conc_min_root,
-     .          c%y_N_conc_max_root,
-
-     .          g%N_conc_crit,
-     .          g%N_conc_max,
-     .          g%N_conc_min)  ! plant N concentr
-
-
-
-
-      if (c%co2switch .ne. 0) then
-
-
-         co2_modifier = linear_interp_real(g%co2level,
-     :                                  c%co2_level_nconc,
-     :                                  c%nconc_co2_modifier,
-     :                                  c%num_co2_level_nconc)
-
-
-c        PRINT *,'nconc_co2modifier '
-c        PRINT *,'c%co2_level_nconc    =', c%co2_level_nconc
-c        PRINT *,'c%nconc_co2_modifier =', c%nconc_co2_modifier
-c        PRINT *,'nconc_co2modifier    =', co2_modifier
-
-
-         g%N_conc_crit(leaf)= g%N_conc_crit(leaf)*co2_modifier
-
-c         do part = 1, max_part
-c            g%N_conc_crit(part)= g%N_conc_crit(part)*co2_modifier
-c         enddo
-
-      end if
-
-
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-
-*     ===========================================================
-      subroutine Crop_Check_Bounds (
-     .          g_leaf_no,
-     .          g_leaf_no_dead,
-     .          g_root_depth,
-     .          g_dlayer,
-     .          g_grain_no,
-     .          p_head_grain_no_max,
-     .          g_plants,
-     .          g_current_stage,
-     .          g_phase_tt,
-     .          g_days_tot,
-     .          g_tt_tot,
-     .          g_canopy_height,
-     .          c_height_max,
-     .          g_lai,
-     .          g_slai,
-     .          g_tlai_dead,
-     .          g_cover_green,
-     .          g_cover_sen,
-     .          g_cover_dead,
-     .          g_leaf_area,
-     .          g_heat_stress_tt,
-     .          g_dm_stress_max,
-     .          g_N_conc_crit,
-     .          g_N_conc_min,
-     .          g_N_conc_max,
-     .          g_N_dead,
-     .          g_N_green,
-     .          g_N_senesced,
-     .          g_dm_dead,
-     .          g_dm_green,
-     .          g_dm_senesced)
-*     ===========================================================
-      use ComponentInterfaceModule
-      implicit none
-      include   'CropDefCons.inc'
-
-
-*+  Sub-Program Arguments
-       real g_leaf_no(*)
-       real g_leaf_no_dead(*)
-       real g_root_depth
-       real g_dlayer(*)
-       real g_grain_no
-       real p_head_grain_no_max
-       real g_plants
-       real g_current_stage
-       real g_phase_tt(*)
-       real g_days_tot(*)
-       real g_tt_tot(*)
-       real g_canopy_height
-       real c_height_max
-       real g_lai
-       real g_slai
-       real g_tlai_dead
-       real g_cover_green
-       real g_cover_sen
-       real g_cover_dead
-       real g_leaf_area(*)
-       real g_heat_stress_tt(*)
-       real g_dm_stress_max(*)
-       real g_N_conc_crit(*)
-       real g_N_conc_min(*)
-       real g_N_conc_max(*)
-       real g_N_dead(*)
-       real g_N_green(*)
-       real g_N_senesced(*)
-       real g_dm_dead(*)
-       real g_dm_green(*)
-       real g_dm_senesced(*)
-
-*+  Purpose
-*         Check bounds of internal pools
-*
-
-*+  Changes
-*     010994 jngh specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Crop_Check_Bounds')
-
-*+  Local Variables
-                                       ! top (g/m^2)
-
-*- Implementation Section ----------------------------------
-
-
-      call push_routine (my_name)
-
-      call bound_check_single
-     :           (sum_real_array (g_leaf_no, max_stage)
-     :          , 0.0
-     :          , real (max_leaf)
-     :          , 'leaf_no')
-
-      call bound_check_single
-     :           (sum_real_array (g_leaf_no_dead, max_stage)
-     :          , 0.0
-     :          , real (max_leaf)
-     :          , 'leaf_no_dead')
-
-      call bound_check_single
-     :           (g_root_depth
-     :          , 0.0
-     :          , sum_real_array (g_dlayer, max_layer)
-     :          , 'root_depth')
-
-      call bound_check_single
-     :           (g_grain_no
-     :          , 0.0
-     :          , 200000.0 !c_head_grain_no_max_ub   !p_head_grain_no_max * g_plants  -ew
-     :          , 'grain_no')
-
-      call bound_check_single
-     :           (g_current_stage
-     :          , 0.0
-     :          , real (max_stage)
-     :          , 'current_stage')
-
-      call bound_check_single
-     :           (sum_real_array (g_phase_tt, max_stage)
-     :          , 0.0
-     :          , 1000000.0
-     :          , 'phase_tt')
-
-      call bound_check_single
-     :           (sum_real_array (g_days_tot, max_stage)
-     :          , 0.0
-     :          , 40000.0
-     :          , 'days_tot')
-
-      call bound_check_single
-     :           (sum_real_array (g_tt_tot, max_stage)
-     :          , 0.0
-     :          , 40000.0
-     :          , 'tt_tot')
-
-      call bound_check_single
-     :           (g_plants
-     :          , 0.0
-     :          , 10000.0
-     :          , 'plants')
-
-      call bound_check_single
-     :           (g_canopy_height
-     :          , 0.0
-     :          , c_height_max
-     :          , 'canopy_height')
-
-
-
-      call bound_check_single
-     :           (g_lai
-     :          , 0.0
-     :          , 30.0 - g_slai - g_tlai_dead
-     :          , 'lai')
-
-      call bound_check_single
-     :           (g_slai
-     :          , 0.0
-     :          , 30.0 - g_lai - g_tlai_dead
-     :          , 'slai')
-
-      call bound_check_single
-     :           (g_tlai_dead
-     :          , 0.0
-     :          , 30.0 - g_slai - g_lai
-     :          , 'tlai_dead')
-
-      call bound_check_single
-     :           (g_cover_green
-     :          , 0.0
-     :          , 1.0
-     :          , 'cover_green')
-
-      call bound_check_single
-     :           (g_cover_sen
-     :          , 0.0
-     :          , 1.0
-     :          , 'cover_sen')
-
-      call bound_check_single
-     :           (g_cover_dead
-     :          , 0.0
-     :          , 1.0
-     :          , 'cover_dead')
-
-      call bound_check_single
-     :           (sum_real_array (g_leaf_area, max_leaf)
-     :          , 0.0
-     :          , 10000000.0
-     :          , 'leaf_area')
-
-      call bound_check_single
-     :           (sum_real_array (g_heat_stress_tt, max_stage)
-     :          , 0.0
-     :          , 1000000.0
-     :          , 'heat_stress_tt')
-      call bound_check_single
-     :           (sum_real_array (g_dm_stress_max, max_stage)
-     :          , 0.0
-     :          , 1000000.0
-     :          , 'dm_stress_max')
-
-      call bound_check_single
-     :           (sum_real_array (g_N_conc_crit, max_part)
-     :          , sum_real_array (g_N_conc_min, max_part)
-     :          , sum_real_array (g_N_conc_max, max_part)
-     :          , 'N_conc_crit')
-
-      call bound_check_single
-     :           (sum_real_array (g_N_conc_max, max_part)
-     :          , sum_real_array (g_N_conc_crit, max_part)
-     :          , 1.0
-     :          , 'N_conc_max')
-
-      call bound_check_single
-     :           (sum_real_array (g_N_conc_min, max_part)
-     :          , 0.0
-     :          , sum_real_array (g_N_conc_crit, max_part)
-     :          , 'N_conc_min')
-
-      call bound_check_single
-     :           (sum_real_array (g_N_dead, max_part)
-     :          , 0.0
-     :          , 10000.0 - sum_real_array (g_N_green, max_part)
-     :                    - sum_real_array (g_N_senesced, max_part)
-     :          , 'N_dead')
-
-      call bound_check_single
-     :           (sum_real_array (g_N_green, max_part)
-     :          , 0.0
-     :          , 10000.0 - sum_real_array (g_N_dead, max_part)
-     :                    - sum_real_array (g_N_senesced, max_part)
-     :          , 'N_green')
-
-      call bound_check_single
-     :           (sum_real_array (g_N_senesced, max_part)
-     :          , 0.0
-     :          , 10000.0 - sum_real_array (g_N_green, max_part)
-     :                    - sum_real_array (g_N_dead, max_part)
-     :          , 'N_senesced')
-
-      call bound_check_single
-     :           (sum_real_array (g_dm_dead, max_part)
-     :          , 0.0
-     :          , 10000.0 - sum_real_array (g_dm_green, max_part)
-     :                    - sum_real_array (g_dm_senesced, max_part)
-     :          , 'dm_dead')
-
-      call bound_check_single
-     :           (sum_real_array (g_dm_green, max_part)
-     :          , 0.0
-     :          , 10000.0 - sum_real_array (g_dm_dead, max_part)
-     :                    - sum_real_array (g_dm_senesced, max_part)
-     :          , 'dm_green')
-
-      call bound_check_single
-     :           (sum_real_array (g_dm_senesced, max_part)
-     :          , 0.0
-     :          , 10000.0 - sum_real_array (g_dm_green, max_part)
-     :                    - sum_real_array (g_dm_dead, max_part)
-     :          , 'dm_senesced')
-
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine Crop_Totals (
-     .          g_N_green,
-     .          g_dm_green,
-     .          g_dlt_N_retrans,
-     .          g_N_conc_crit,
-     .          g_N_demand,
-     .          g_root_depth,
-     .          g_dlayer,
-     .          g_current_stage,
-     .          g_days_tot,
-     .          g_N_uptake_tot,
-     .          g_transpiration_tot,
-     .          g_dlt_sw_dep,
-     .          g_N_conc_act_stover_tot,
-     .          g_N_conc_crit_stover_tot,
-     .          g_N_demand_tot,
-     .          g_N_uptake_stover_tot,
-     .          g_N_uptake_grain_tot,
-     .          g_lai_max,
-     .          g_lai,
-     .          g_flowering_date,
-     .          g_maturity_date,
-     .          g_flowering_das,
-     .          g_maturity_das,
-     .          g_N_dead,
-     .          g_N_senesced,
-     .          g_day_of_year)
-*     ===========================================================
-      use ComponentInterfaceModule
-      implicit none
-      include   'CropDefCons.inc'
-
-
-*+  Sub-Program Arguments
-       real g_N_green(*)
-       real g_dm_green(*)
-       real g_dlt_N_retrans(*)
-       real g_N_conc_crit(*)
-       real g_N_demand(*)
-       real g_root_depth
-       real g_dlayer(*)
-       real g_current_stage
-       real g_days_tot(*)
-       real g_N_uptake_tot
-       real g_transpiration_tot
-       real g_dlt_sw_dep(*)
-       real g_N_conc_act_stover_tot
-       real g_N_conc_crit_stover_tot
-       real g_N_demand_tot
-       real g_N_uptake_stover_tot
-       real g_N_uptake_grain_tot
-       real g_lai_max
-       real g_lai
-       integer g_flowering_date
-       integer g_maturity_date
-       integer g_flowering_das
-       integer g_maturity_das
-       real g_N_dead(*)
-       real g_N_senesced(*)
-       integer g_day_of_year
-
-*+  Purpose
-*         Collect totals of crop variables for output
-*
-*   Called by Crop_Cleanup in whtmain.for
-
-*+  Changes
-*     010994 jngh specified and programmed
-
-*+  Calls
-cpsc  add below
-cjh      include   'convert.inc'          ! gm2kg, sm2ha, sm2smm
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Crop_Totals')
-
-*+  Local Variables
-      real       N_conc_stover         ! tops actual N concentration
-                                       ! (g N/g part)
-      integer    deepest_layer         ! deepest layer in which the roots are
-                                       ! growing
-      real       N_conc_stover_crit    ! tops critical N concentration
-                                       ! (g N/g part)
-      real       N_green_demand        ! plant N demand (g/m^2)
-      real       N_uptake              ! nitrogen uptake from soil (g/m^2)
-      real       N_uptake_stover       ! nitrogen uptake from soil by veg.
-                                       ! top (g/m^2)
-cpsc add below
-      real       N_grain               ! total grain N uptake
-      real       N_dead                ! above ground dead plant N
-      real       N_green               ! above ground green plant N
-      real       N_senesced            ! above ground senesced plant N
-      real       N_stover              ! nitrogen content of stover
-
-*- Implementation Section ----------------------------------
-
-
-      call push_routine (my_name)
-
-             ! get totals
-      N_conc_stover = divide ((g_N_green(leaf)
-     :                       + g_N_green(stem)
-     :                       + g_N_green(flower))
-
-     :                      , (g_dm_green(leaf)
-     :                       + g_dm_green(stem)
-     :                       + g_dm_green(flower))
-     :                       , 0.0)
-
-      N_uptake = sum_real_array (g_dlt_N_retrans, max_part)
-      N_uptake_stover =  g_dlt_N_retrans(leaf) + g_dlt_N_retrans(stem)
-
-          ! note - g_N_conc_crit should be done before the stages change
-
-      N_conc_stover_crit = (g_N_conc_crit(leaf) + g_N_conc_crit(stem))
-     :                   * 0.5
-      N_green_demand = sum_real_array (g_N_demand, max_part)
-
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
-
-      if (on_day_of (sowing, g_current_stage, g_days_tot)) then
-         g_N_uptake_tot = N_uptake
-         g_transpiration_tot =
-     :           - sum_real_array (g_dlt_sw_dep, deepest_layer)
-         g_N_conc_act_stover_tot = N_conc_stover
-         g_N_conc_crit_stover_tot = N_conc_stover_crit
-         g_N_demand_tot = N_green_demand
-         g_N_uptake_stover_tot = N_uptake_stover
-         g_N_uptake_grain_tot = sum_real_array (g_dlt_N_retrans
-     :                                        , max_part)
-
-      else
-         g_N_uptake_tot = g_N_uptake_tot + N_uptake
-         g_transpiration_tot = g_transpiration_tot
-     :                       + (-sum_real_array (g_dlt_sw_dep
-     :                                         , deepest_layer))
-         g_N_conc_act_stover_tot = N_conc_stover
-         g_N_conc_crit_stover_tot = N_conc_stover_crit
-         g_N_demand_tot = g_N_demand_tot + N_green_demand
-         g_N_uptake_stover_tot = g_N_uptake_stover_tot
-     :                         + N_uptake_stover
-         g_N_uptake_grain_tot = g_N_uptake_grain_tot
-     :                        + sum_real_array (g_dlt_N_retrans
-     :                                        , max_part)
-
-      endif
-
-      g_lai_max = max (g_lai_max, g_lai)
-
-      if (on_day_of (flowering, g_current_stage, g_days_tot)) then
-         g_flowering_date = g_day_of_year
-         g_flowering_das  = sum_between (sowing, now, g_days_tot)
-      else if (on_day_of (maturity, g_current_stage, g_days_tot)) then
-         g_maturity_date = g_day_of_year
-         g_maturity_das  = sum_between (sowing, now, g_days_tot)
-      else
-      endif
-
-cpsc add below 07/04/95
-
-      N_grain = (g_N_green(grain) + g_N_dead(grain))
-
-      N_green = (sum_real_array (g_N_green, max_part)
-     :        - g_N_green(root) - g_N_green(grain))
-
-      N_senesced = (sum_real_array (g_N_senesced, max_part)
-     :           - g_N_senesced(root) - g_N_senesced(grain))
-
-      N_dead = (sum_real_array (g_N_dead, max_part)
-     :       - g_N_dead(root) - g_N_dead(grain))
-
-      N_stover = N_green + N_senesced + N_dead
-
-      g_N_uptake_grain_tot = N_grain
-      g_N_uptake_stover_tot = N_stover
-      g_N_uptake_tot = N_grain + N_stover
-
-cpsc  add above
-
-
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-
-*     ===========================================================
-      subroutine Crop_Event (
-     .          g_current_stage,
-     .          g_days_tot,
-     .          c_stage_code_list,
-     .          c_stage_names,
-     .          g_dm_green,
-     .          g_dm_senesced,
-     .          g_dm_dead,
-     .          g_N_green,
-     .          g_root_depth,
-     .          g_dlayer,
-     .          g_sw_dep,
-     .          p_ll_dep,
-     .          g_lai)
-
-*     ===========================================================
-      use ComponentInterfaceModule
-      implicit none
-      include   'CropDefCons.inc'
-
-
-*+  Sub-Program Arguments
-       real g_current_stage
-       real g_days_tot(*)
-       real c_stage_code_list(*)
-       character c_stage_names(*)*(*)
-       real g_dm_green(*)
-       real g_dm_senesced(*)
-       real g_dm_dead(*)
-       real g_N_green(*)
-       real g_root_depth
-       real g_dlayer(*)
-       real g_sw_dep(*)
-       real p_ll_dep(*)
-       real g_lai
-
-*+  Purpose
-*       Report occurence of event and the current status of specific
-*       variables.
-*
-*   Called by Crop_cleanup in whtmain.for
-
-*+  Changes
-*     010994 jngh specified and programmed
-
-*+  Calls
-                                       ! lu_scr_sum
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Crop_Event')
-
-*+  Local Variables
-      real       biomass               ! total above ground plant wt (g/m^2)
-      integer    deepest_layer         ! deepest layer in which the roots are
-                                       ! growing
-      integer    layer                 ! profile layer number
-      real       pesw_tot              ! total plant extractable sw (mm)
-      real       pesw(max_layer)       ! plant extractable soil water (mm)
-      real       N_green               ! plant nitrogen of tops (g/m^2)
-                                       ! less flower
-      real       dm_green              ! plant wt of tops (g/m^2) less flower
-      integer    stage_no              ! stage number at beginning of phase
-      character  string*200            ! message
-      real       N_green_conc_percent  ! n% of tops less flower (incl grain)
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      stage_no = INT(g_current_stage)
-
-      if (on_day_of (stage_no, g_current_stage, g_days_tot)
-     .    .AND. (stage_no.ne.0)) then
-             ! new phase has begun.
-
-
-         write (string, '(a, f6.1, 1x, a)')
-     :                   ' stage '
-     :                  , c_stage_code_list(stage_no)
-     :                  , c_stage_names(stage_no)
-         call Write_string (string)
-
-
-         biomass = sum_real_array (g_dm_green, max_part)
-     :           - g_dm_green(root) - g_dm_green(energy)
-
-     :           + sum_real_array (g_dm_senesced, max_part)
-     :           - g_dm_senesced(root)- g_dm_senesced(energy)
-
-     :           + sum_real_array (g_dm_dead, max_part)
-     :           - g_dm_dead(root) - g_dm_dead(energy)
-
-         dm_green = sum_real_array (g_dm_green, max_part)
-     :            - g_dm_green(root) - g_dm_green(energy)
-
-         N_green = sum_real_array (g_N_green, max_part)
-     :           - g_N_green(root) - g_N_green(energy)
-
-         N_green_conc_percent = divide (N_green, dm_green, 0.0)
-     :                        * fract2pcnt
-
-         deepest_layer = find_layer_no (g_root_depth, g_dlayer
-     :                                , max_layer)
-         do 1000 layer = 1, deepest_layer
-            pesw(layer) = g_sw_dep(layer) - p_ll_dep(layer)
-            pesw(layer) = l_bound (pesw(layer), 0.0)
-1000     continue
-         pesw_tot = sum_real_array (pesw, deepest_layer)
-
-         if (stage_is_between (emerg, plant_end, g_current_stage)) then
-            write (string, '(2(a, g16.7e2), a, 2(a, g16.7e2))')
-     :              '                     biomass =       '
-     :            , biomass
-     :            , '   lai = '
-     :            , g_lai
-     :            , new_line
-     :            ,'                     stover N conc ='
-     :            , N_green_conc_percent
-     :            , '   extractable sw ='
-     :            , pesw_tot
-            call write_string ( string)
-
-
-         else
-         endif
-
-      else
-      endif
-
-
-      call pop_routine (my_name)
-      return
-      end
-
-
-*     ===========================================================
-      subroutine Crop_N_Conc_Limits (
-     .          g_current_stage,
-     .          c_N_conc_crit_grain,
-     .          c_N_conc_max_grain,
-     .          c_N_conc_min_grain,
-     .          c_x_stage_code,
-     .          c_stage_code_list,
-     .          g_tt_tot,
-     .          g_phase_tt,
-     .          c_y_N_conc_crit_stem,
-     .          c_y_N_conc_crit_leaf,
-     .          c_y_N_conc_crit_flower,
-     .          c_y_N_conc_min_stem,
-     .          c_y_N_conc_min_leaf,
-     .          c_y_N_conc_min_flower,
-     .          c_y_N_conc_max_stem,
-     .          c_y_N_conc_max_leaf,
-     .          c_y_N_conc_max_flower,
-
-     .          c_y_N_conc_crit_root,
-     .          c_y_N_conc_min_root,
-     .          c_y_N_conc_max_root,
-
-
-     .          N_conc_crit,
-     .          N_conc_max,
-     .          N_conc_min)
-*     ===========================================================
-      use ComponentInterfaceModule
-      implicit none
-      include   'CropDefCons.inc'
-
-
-*+  Sub-Program Arguments
-       real g_current_stage
-       real c_N_conc_crit_grain
-       real c_N_conc_max_grain
-       real c_N_conc_min_grain
-       real c_x_stage_code(*)
-       real c_stage_code_list(*)
-       real g_tt_tot(*)
-       real g_phase_tt(*)
-       real c_y_n_conc_crit_stem(*)
-       real c_y_n_conc_crit_leaf(*)
-       real c_y_n_conc_crit_flower(*)
-       real c_y_n_conc_min_stem(*)
-       real c_y_n_conc_min_leaf(*)
-       real c_y_n_conc_min_flower(*)
-       real c_y_n_conc_max_stem(*)
-       real c_y_n_conc_max_leaf(*)
-       real c_y_n_conc_max_flower(*)
-
-       real c_y_N_conc_crit_root(*)
-       real c_y_N_conc_min_root(*)
-       real c_y_N_conc_max_root(*)
-
-
-      real       N_conc_crit(*)        ! (OUTPUT) critical N concentration
-                                       ! (g N/g part)
-      real       N_conc_max(*)         ! (OUTPUT) maximum N concentration
-                                       ! (g N/g part)
-      real       N_conc_min(*)         ! (OUTPUT) minimum N concentration
-                                       ! (g N/g part)
-
-*+  Purpose
-*       Calculate the critical N concentration below which plant growth
-*       is affected.  Also minimum and maximum N concentrations below
-*       and above which it is not allowed to fall or rise.
-*       These are analogous to the water concentrations
-*       of sat, dul and ll.
-
-*+  Changes
-*     080994 jngh specified and programmed
-
-*+  Calls
-*      real       Phenology_Stage_Code      ! function
-       real       Crop_stage_code           ! function
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Crop_N_Conc_Limits')
-
-*+  Local Variables
-      integer    numvals               ! number of values in stage code table
-      real       current_stage_code            ! interpolated current stage code
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      call fill_real_array (N_conc_crit, 0.0, max_part)
-      call fill_real_array (N_conc_min, 0.0, max_part)
-
-      if (stage_is_between (emerg, maturity, g_current_stage)) then
-         N_conc_crit(grain) = c_N_conc_crit_grain
-         N_conc_max(grain) = c_N_conc_max_grain
-         N_conc_min(grain) = c_N_conc_min_grain
-
-
-             ! the tops critical N percentage concentration is the stover
-             ! (non-grain shoot) concentration below which N concentration
-             ! begins to affect plant growth.
-
-         numvals = count_of_real_vals (c_x_stage_code, max_stage)
-         current_stage_code = Crop_stage_code (
-     .          c_stage_code_list,
-     .          g_tt_tot,
-     .          g_phase_tt,
-     .          g_current_stage,
-     .          c_x_stage_code,
-     .          numvals,
-     .          max_stage)
-
-
-         N_conc_crit(stem) = linear_interp_real (current_stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_crit_stem
-     :                             , numvals)
-         N_conc_crit(leaf) = linear_interp_real (current_stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_crit_leaf
-     :                             , numvals)
-         N_conc_crit(flower) = linear_interp_real (current_stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_crit_flower
-     :                             , numvals)
-
-         N_conc_crit(root) = linear_interp_real (current_stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_crit_root
-     :                             , numvals)
-
-
-             ! the  minimum N concentration is the N concentration
-             ! below which N does not fall.
-
-         N_conc_min(stem) = linear_interp_real (current_stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_min_stem
-     :                             , numvals)
-
-         N_conc_min(leaf) = linear_interp_real (current_stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_min_leaf
-     :                             , numvals)
-
-         N_conc_min(flower) = linear_interp_real (current_stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_min_flower
-     :                             , numvals)
-
-         N_conc_min(root) = linear_interp_real (current_stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_min_root
-     :                             , numvals)
-
-             ! the  maximum N concentration is the N concentration
-             ! above which N does not rise.
-
-         N_conc_max(stem) = linear_interp_real (current_stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_max_stem
-     :                             , numvals)
-
-         N_conc_max(leaf) = linear_interp_real (current_stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_max_leaf
-     :                             , numvals)
-
-         N_conc_max(flower) = linear_interp_real (current_stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_max_flower
-     :                             , numvals)
-
-         N_conc_max(root) = linear_interp_real (current_stage_code
-     :                             , c_x_stage_code
-     :                             , c_y_N_conc_max_root
-     :                             , numvals)
-
-      else
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-
-
-*     ===========================================================
-      subroutine Crop_Detachment(option)
-*     ===========================================================
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Sub-Program Arguments
-      integer option
-
-*+  Purpose
-*       Simulate plant detachment.
-cscc Detachment is also a function of the environment. We've
-c noticed large diff. in detachment between wet and dry environments
-c in maize
-
-*+  Changes
-*      091294 jngh specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Crop_Detachment')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-      if (Option .eq. 1) then
-
-         call cproc_dm_detachment1( max_part
-     :                              , c%sen_detach_frac
-     :                              , g%dm_senesced
-     :                              , g%dlt_dm_detached
-     :                              , c%dead_detach_frac
-     :                              , g%dm_dead
-     :                              , g%dlt_dm_dead_detached)
-
-         call cproc_n_detachment1( max_part
-     :                              , c%sen_detach_frac
-     :                              , g%n_senesced
-     :                              , g%dlt_n_detached
-     :                              , c%dead_detach_frac
-     :                              , g%n_dead
-     :                              , g%dlt_n_dead_detached)
-
-         call cproc_lai_detachment1 (leaf
-     :                             , c%sen_detach_frac
-     :                             , g%slai
-     :                             , g%dlt_slai_detached
-     :                             , c%dead_detach_frac
-     :                             , g%tlai_dead
-     :                             , g%dlt_tlai_dead_detached)
-
-      else
-         call error ('Invalid template option',.true.)
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*     ===========================================================
-      INTEGER FUNCTION GetSwitchDigit(
-     .                               switch, ! the switch code integer
-     .                               pos     ! position of the digital
-     .                               )
-*     ===========================================================
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Sub-Program Arguments
-      INTEGER switch
-      INTEGER pos
-
-*+  Purpose
-*     Get the digital code at position pos in the switch
-
-*+  Changes
-*     990405 ew - programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'GetSwitchDigit')
-
-*+  Local variables
-      REAL     X1
-      REAL     X2
-      REAL     X
-      INTEGER  Y1
-      INTEGER  Y2
-      INTEGER  N
-      INTEGER  code
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-          if (switch.gt.0) then
-
-              !Get the length of the switch N
-              X = LOG10(REAL(switch))
-              N = INT(X+1.0)
-
-              if (pos .le. N) then
-                X1   = REAL(switch)/(10.0**(N-pos))
-                Y1   = INT(X1)
-                X2   = REAL(switch)/(10.0**(N-pos+1))
-                Y2   = INT(X2)*10
-                code = Y1 - Y2
-              else
-                code = -1
-              end if
-
-          else
-
-            code = -1
-
-          end if
-
-         GetSwitchDigit = code
-
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      INTEGER FUNCTION GetSwitchCode(
-     .                               switch, ! the switch code string
-     .                               pos     ! position of the digital
-     .                               )
-*     ===========================================================
-      use ComponentInterfaceModule
-      implicit none
-*+  Sub-Program Arguments
-      character  switch*(*)
-      INTEGER    pos
-
-*+  Purpose
-*     Get the digital code at position pos in the switch
-
-*+  Changes
-*     990405 ew - programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'GetSwitchCode')
-
-*+  Local variables
-      character zcode*2
-      INTEGER   code
-      INTEGER   N
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-          N = LEN_TRIM(switch)
-
-          if (pos.le.N) then
-
-            zcode = switch(pos:pos)
-             code =-1
-
-c           string_to_integer_var(value_string, value, numvals)
-
-            if (zcode.eq."0") code =0
-            if (zcode.eq."1") code =1
-            if (zcode.eq."2") code =2
-            if (zcode.eq."3") code =3
-            if (zcode.eq."4") code =4
-            if (zcode.eq."5") code =5
-            if (zcode.eq."6") code =6
-            if (zcode.eq."7") code =7
-            if (zcode.eq."8") code =8
-            if (zcode.eq."9") code =9
-
-          else
-
-            code = -1
-
-          end if
-
-         GetSwitchCode = code
-
-      call pop_routine (my_name)
-      return
-      end
 
 
 
@@ -7235,11 +7358,13 @@ c           string_to_integer_var(value_string, value, numvals)
      .          c_x_row_spacing,
      .          c_y_extinct_coef,
      .          c_num_row_spacing,
+     :          g_skip_row_fac ,
      .          cover_leaf,
      .          lai)
 *     ===========================================================
-      use ComponentInterfaceModule
       implicit none
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_row_spacing
@@ -7250,6 +7375,7 @@ c           string_to_integer_var(value_string, value, numvals)
       real       c_x_row_spacing(*)    ! (INPUT) rowspace array for extinction_coef lookup
       real       c_y_extinct_coef(*)   ! (INPUT) extinction_coef lookup values
       integer    c_num_row_spacing     ! number of values in the lookup table
+      real       g_skip_row_fac          ! skip row factor
 
 *+  Purpose
 *       'Cover' by leaves (0-1) . Fraction of radiation reaching the
@@ -7269,6 +7395,8 @@ c           string_to_integer_var(value_string, value, numvals)
 
 *+  Local Variables
       real       extinct_coef                ! extinction coefficient
+      real       lai_row          ! lai transformed to solid rows
+      real       cover_green_leaf_row ! green leaf cover in row
 
 *- Implementation Section ----------------------------------
 
@@ -7279,8 +7407,12 @@ c           string_to_integer_var(value_string, value, numvals)
      :                                   ,c_y_extinct_coef
      :                                   ,c_num_row_spacing)
 
+      !-----light interception modified to give hedgerow effect with skip row
 
-      cover_leaf = 1.0 - exp (-extinct_coef * lai)
+      lai_row = lai * g_skip_row_fac         ! lai in hedgerow
+
+      cover_green_leaf_row = 1.0 - exp(-extinct_coef*lai_row) ! interception on row area basis
+      cover_leaf = cover_green_leaf_row / g_skip_row_fac             ! interception on ground area basis
 
       call pop_routine (my_name)
       return
@@ -7294,8 +7426,9 @@ c           string_to_integer_var(value_string, value, numvals)
      .          lai,
      .          cover)
 * ====================================================================
-      use ComponentInterfaceModule
       implicit none
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real extinct_coef
@@ -7337,14 +7470,15 @@ c           string_to_integer_var(value_string, value, numvals)
      .          g_lai,
      .          g_cover_green)
 * ====================================================================
-      use ComponentInterfaceModule
       implicit none
+      include 'science.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real g_row_spacing
       real c_x_row_spacing(*)
       real c_y_extinct_coef(*)
-      integer c_num_row_spacing
+      real c_num_row_spacing
       real g_lai
       real g_cover_green
 
@@ -7378,101 +7512,4 @@ c           string_to_integer_var(value_string, value, numvals)
       return
       end
 
-* ====================================================================
-       subroutine cropmod_crop_Water_supply(variant)
-* ====================================================================
-      use CropModModule
-      use ComponentInterfaceModule
-      implicit none
 
-
-!+  Sub-Program Arguments
-      integer, intent(in out) :: variant
-
-*+  Purpose
-*      Get crop water supply when provided
-
-*+  Mission Statement
-*     Initialise Slurp
-
-*+  Changes
-*
-
-*+  Constant Values
-      character*(*) myname                 ! Name of this procedure
-      parameter (myname = 'cropmod_crop_water_supply')
-
-*+  Local variables
-      type(cropwatersupply_type)::watersupply
-      integer num_layers
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-      call unpack_cropwatersupply(variant, watersupply)
-
-      num_layers = watersupply%supplies(1)%num_layers
-      g%dlt_sw_dep(1:num_layers)
-     :           = -watersupply%supplies(1)%supply(1:num_layers)
-
-      call pop_routine (myname)
-      return
-      end
-* ====================================================================
-       subroutine cropmod_send_water_demand ()
-* ====================================================================
-      use cropmodModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*     <insert here>
-
-*+  Mission Statement
-*     Tell water balance of the plant water requirements
-
-*+  Changes
-*   neilh - 21-09-2001
-
-*+  Local Variables
-      type (cropwaterdemand_type) :: waterdemand
-      integer num_layers
-      integer layer
-      real       rlv(max_layer)
-*+  Constant Values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'cropmod_send_water_demand')
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-
-      num_layers = count_of_real_vals(g%root_length,max_layer)
-      num_layers = max(1,num_layers)
-
-         do layer = 1, num_layers
-            rlv(layer) = divide (g%root_length(layer)
-     :                          ,g%dlayer(layer)
-     :                          ,0.0)
-         enddo
-
-
-
-      waterdemand%num_demands = 1
-      waterdemand%demands(1)%demand = g%sw_demand
-      waterdemand%demands(1)%crop_type = c%crop_type
-      waterdemand%demands(1)%crop_ident = c%crop_type
-      waterdemand%demands(1)%rlv_layer%rlv(1:num_layers)
-     :    = rlv(1:num_layers)
-      waterdemand%demands(1)%rlv_layer%num_layers = num_layers
-      waterdemand%demands(1)%rlv_layer%layers(1:num_layers)
-     :    = g%dlayer(1:num_layers)
-
-      call methodCall_cropwaterdemand(CropWaterDemand_id
-     :                               ,waterdemand, .false.)
-
-      call pop_routine (myname)
-      return
-      end
-
-* ====================================================================

@@ -1,3 +1,5 @@
+!      include 'apswim.inc'
+
 C     Last change:  DSG  15 Jun 2000    3:40 pm
 * =====================================================================
       subroutine apswim_gsurf(deqrain,surfcon)
@@ -6,13 +8,12 @@ C     Last change:  DSG  15 Jun 2000    3:40 pm
 *     gets soil surface conductance, surfcon
 *
       use APSwimModule
-      use ComponentInterfaceModule
-
       implicit none
 
 *     Global Variables
       double precision ddivide
 
+      include 'data.pub'                                                     _
 
 *     Subroutine Arguments
       double precision deqrain
@@ -67,9 +68,8 @@ C     Last change:  DSG  15 Jun 2000    3:40 pm
 *     solves for this time step
 *
       use APSwimModule
-      use ComponentInterfaceModule
-
       implicit none
+      include 'data.pub'
 
 *     Global Variables
       double precision apswim_wpf    ! function
@@ -274,7 +274,7 @@ c      parameter (rad=0.1d0)
          TD_Eo = apswim_cevap(end_of_day)-apswim_cevap(start_of_day)
 
          tot_pep = 0d0
-         do 10 iveg=1,g%num_crops
+         do 10 iveg=1,g%nveg
             trf(iveg) = apswim_transp_redn (iveg)
             tot_pep = tot_pep + ddivide(g%pep(iveg)*trf(iveg)
      :                                 ,TD_Eo
@@ -289,14 +289,14 @@ c      parameter (rad=0.1d0)
             scale = 1d0
          endif
 
-         do 50 j=1,g%num_crops
+         do 50 j=1,g%nveg
             g%rtp(j) = ddivide(g%pep(j)*trf(j),TD_Eo, 0d0)*rep*scale
 50       continue
 
          ! pot soil evap rate is not linked to apsim timestep
          tresp = sep/g%dt*scale
 
-         do 60 iveg=1,g%num_crops
+         do 60 iveg=1,g%nveg
             do 60 i=0,p%n
 cnh               g%rld(i,iveg)=g%rld(i,iveg)/p%dx(i)
                if(g%rld(i,iveg).lt.1d-20)g%rld(i,iveg)=1d-20
@@ -304,7 +304,6 @@ cnh               g%rld(i,iveg)=g%rld(i,iveg)/p%dx(i)
 cnh now use root_raidus as in initialisation file
 cnh               g%rc(i,iveg)=-log(pi*rad**2*rldi)/(4.*pi*rldi*p%dx(i))
 
-               !print*,g%root_radius(iveg),rldi
                g%rc(i,iveg)=-log(pi*g%root_radius(iveg)**2*rldi)
      :                        /(4.*pi*rldi*p%dx(i))
 
@@ -312,7 +311,7 @@ cnh               g%rc(i,iveg)=-log(pi*rad**2*rldi)/(4.*pi*rldi*p%dx(i))
 
       else if(istat.eq.1)then
 *        update cumulative transpiration
-         do 70 i=1,g%num_crops
+         do 70 i=1,g%nveg
             g%ctp(i)=g%ctp(i)+g%rtp(i)*g%dt
             g%ct(i)=g%ct(i)+g%rt(i)*g%dt
 cnh
@@ -325,7 +324,7 @@ cnh
       else if(istat.eq.2)then
 *        update cumulative solute uptake
 
-         do 90 i=1,g%num_crops
+         do 90 i=1,g%nveg
             do 80 j=0,p%n
                do 95 solnum=1,p%num_solutes
                   g%slup(i,solnum)=g%slup(i,solnum)
@@ -366,9 +365,10 @@ c        timestep??????? !!
 *     this include p%isol, g%csl, p%slos
 
       use APSwimModule
-      use ComponentInterfaceModule
-
       implicit none
+      include 'data.pub'
+      include 'error.pub'
+      include 'const.inc'
 
 *     Global Variables
 cnh      double precision grad
@@ -430,6 +430,8 @@ cnh      double precision potl
       double precision wt
       logical          xidif
       logical          xipdif
+      character        string*300
+      double precision gfhkp
 
       save ifirst,ilast,gr
 
@@ -526,21 +528,35 @@ cnh         g%psi(p%n)=0.
 *                 by setting p%swt < -1
                accept=max(1d0,-p%swt)
                wt=0.
-               if(absgf.ne.0..and.hkp(i).ne.0.)then
+c               if(absgf.ne.0..and.hkp(i).ne.0.)then
+               gfhkp = g%gf*hkp(i)
+               if(gfhkp.ne.0.)then
                   if(it.eq.1)then
-                     value=1.-accept*(skd+(g%p(i)-g%p(i-1))*hkdp2)/
-     1                   (absgf*deltax*hkp(i))
-                     g%swta(i)=sign(max(0d0,value),g%gf)
+c                     value=1.-accept*(skd+(g%p(i)-g%p(i-1))*hkdp2)/
+c     1                   (absgf*deltax*hkp(i))
+     
+                     value=1.-accept*(skd)/(abs(gfhkp)*deltax)
+c                     value=min(1d0,value)
+                     g%swta(i)=sign(max(0d0,value),gfhkp)
                   end if
                   wt=g%swta(i)
                end if
+
                w1=1.+wt
             end if
             w2=2.-w1
+
+            if ((w1.gt.2.0).or.(w1.lt.0.0)) then
+               call warning_error(Err_Internal
+     :                           ,'bad space weighting factor')
+            endif
+               
             g%q(i)=-0.5*(skd*deltap/deltax-g%gf*(w1*g%hk(i-1)
      :                   +w2*g%hk(i)))
             qp1(i)=-0.5*((hkdp1*deltap-skd)/deltax-g%gf*w1*hkp(i-1))
             qp2(i)=-0.5*((hkdp2*deltap+skd)/deltax-g%gf*w2*hkp(i))
+            
+            g%swf(i)= w1
          end if
 10    continue
 ***   get fluxes to storage
@@ -834,9 +850,8 @@ cnh         if(g%psi(p%n).ge.0.)then
 *
 
       use APSwimModule
-      use ComponentInterfaceModule
-
       implicit none
+      include 'data.pub'
 
 *     Global Variables
       double precision apswim_slupf
@@ -1506,12 +1521,12 @@ c      parameter (gr=1.4d-7)
          do 10 j=1,3
          tqexp(j,i)=0.
 cnh
-        do 5 k=1,g%num_crops
+        do 5 k=1,g%nveg
            g%qr(i,k) = 0d0
  5      continue
 cnh
 10    continue
-      do 100 iveg=1,g%num_crops
+      do 100 iveg=1,g%nveg
 *        find transpiration rates
          g%rt(iveg)=0.
          ttr=g%rtp(iveg)
@@ -1690,6 +1705,7 @@ c      end if
          hkv=vcon1*phi*exp(vcon2*tpsi)
          thk=thk+hkv
          hkp=hkp+hkv*(vcon2*psip-thp/phi)
+         
       end if
 
       end
