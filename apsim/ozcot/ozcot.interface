@@ -3,29 +3,18 @@ include base.interface
 ; Independant types that Ozcot uses  
 ; for some of its methods and events.
 ; -----------------------------------------------------------
-; class APSIMSolutes : APSIMProperty
-;    name   : string[]
-;    solute : real[]
-; end
-; 
-; class APSIMOzcotMethod : APSIMMethod
-;    amount   : APSIMReal    = Amount of irrigation, (mm)
-;    duration : APSIMReal    = Duration of irrigation, (min)
-;    time     : APSIMString  = Time, (hh:mm)
-;    solute   : APSIMSolutes = Solutes
-; end
-; 
-; class APSIMOzcotdEvent : APSIMEvent
-;    amount   : APSIMReal    = Amount of irrigation, (mm)
-;    duration : APSIMReal    = Duration of irrigation, (min)
-;    time     : APSIMString  = Time, (hh:mm)
-;    solute   : APSIMSolutes = Solutes
-; end
-; 
-; class APSIMNewSolutesEvent : APSIMEvent
-;    solute   : APSIMSolutes = Solutes
-;end
-
+ class APSIMOzcotSowMethod : APSIMMethod
+;    What to put here???
+;    reads from string passed in with sow action.
+ end
+ 
+ class APSIMOzcotHarvestMethod : APSIMMethod
+    dlt_residue_type  : APSIMString    = Type of Residue, ()
+    dlt_residue_wt    : APSIMReal      = Weight of residue added, (kg/ha)
+    dlt_residue_n     : APSIMReal      = amount of residue N added, (kg/ha)
+    add_residue       : APSIMAddResidueMethod = Add residue action
+ end
+ 
 ; -----------------------------------------------------------
 ; Ozcots public interface which other components may
 ; use.  Contains:
@@ -74,8 +63,8 @@ class APSIMOzcotPublic
     process                : APSIMMethod         = System process stage
     post                   : APSIMMethod         = System post stage
     end_run                : APSIMMethod         = System end_run stage
-    sow                    : APSIMOzcotMethod    = Perform sowing
-    harvest                : APSIMOzcotMethod    = Perform harvest
+    sow                    : APSIMOzcotSowMethod        = Perform sowing
+    harvest                : APSIMOzcotHarvestMethod    = Perform harvest
 end
 ; -----------------------------------------------------------
 ; Ozcots External interface which documents things in other 
@@ -102,7 +91,6 @@ class APSIMOzcotExternal
     sw_dep                  : APSIMRealArray        = Soil water content of each layer, (mm), GET|SET, 0.0, 1000.0
     no3_min                 : APSIMRealArray        = Minimum allowable NO3 in soil in each layer, (kg/ha), GET, 0.0, 1000.0
     no3                     : APSIMRealArray        = Nitrate nitrogen in each layer, (kg/ha), GET|SET, 0.0, 1000.0
-    add_residue             : APSIMAddResidueMethod = Add residue action
 end
 
 class APSIMOzcot
