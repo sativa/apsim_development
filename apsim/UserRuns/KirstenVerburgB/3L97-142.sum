@@ -45,11 +45,11 @@
         clock.day_of_month
         manager.event
         tracker1.sum@met.rain as rain
-        tracker1.sum@wheat.ep as W_ep
-        tracker1.sum@lucerne.ep as L_ep
-        tracker1.sum@canola.ep as C_ep
-        tracker1.sum@lupin.ep as P_ep
-        tracker1.sum@weed.ep as weed_ep
+        tracker1.sum@wheat.ep[] as W_ep
+        tracker1.sum@lucerne.ep[] as L_ep
+        tracker1.sum@canola.ep[] as C_ep
+        tracker1.sum@lupin.ep[] as P_ep
+        tracker1.sum@weed.ep[] as weed_ep
         soilwat2.sw_dep() as sw_dep
         tracker1.sum@soilwat2.es as es
         tracker1.sum@soilwat2.runoff as runoff
@@ -173,7 +173,7 @@
         tracker2.avg@wheat.nfact_photo as W_NitStrF
         wheat.lai as W_lai
         wheat.zadok_stage as W_stage
-        wheat.ep as W_ep
+        wheat.ep() as W_ep
         manager.cum_T
         manager.cum_ET
         soilwat2.runoff
@@ -324,7 +324,7 @@
      endif
      
      SECTION:- end_of_day
-     transp        = lucerne.ep + canola.ep + lupin.ep + weed.ep - wheat.ep
+     transp        = lucerne.ep() + canola.ep() + lupin.ep() + weed.ep() - wheat.ep()
      et            = soilwat2.es + transp
      cum_drain_120 = cum_drain_120 + flow_water(8)
      cum_drain_180 = cum_drain_180 + flow_water(11)

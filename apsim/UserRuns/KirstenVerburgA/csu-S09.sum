@@ -11,31 +11,31 @@
 
      Version                = 3.2
      Title                  = south plots
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\accum\lib\accum.dll
-     Component DLL          = c:\development\apsim\operatns\lib\operatns.dll
-     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\apswim\lib\apswim.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\solute\lib\solute.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\nwheat\lib\nwheat.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\program files\apsim32\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\program files\apsim32\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\program files\apsim32\apsim\clock\lib\clock.dll
+     Component DLL          = c:\program files\apsim32\apsim\report\lib\report.dll
+     Component DLL          = c:\program files\apsim32\apsim\report\lib\report.dll
+     Component DLL          = c:\program files\apsim32\apsim\report\lib\report.dll
+     Component DLL          = c:\program files\apsim32\apsim\report\lib\report.dll
+     Component DLL          = c:\program files\apsim32\apsim\report\lib\report.dll
+     Component DLL          = c:\program files\apsim32\apsim\report\lib\report.dll
+     Component DLL          = c:\program files\apsim32\apsim\input\lib\input.dll
+     Component DLL          = c:\program files\apsim32\apsim\accum\lib\accum.dll
+     Component DLL          = c:\program files\apsim32\apsim\operatns\lib\operatns.dll
+     Component DLL          = c:\program files\apsim32\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\program files\apsim32\apsim\manager\lib\manager.dll
+     Component DLL          = c:\program files\apsim32\apsim\apswim\lib\apswim.dll
+     Component DLL          = c:\program files\apsim32\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\program files\apsim32\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\program files\apsim32\apsim\solute\lib\solute.dll
+     Component DLL          = c:\program files\apsim32\apsim\plant\lib\plant.dll
+     Component DLL          = c:\program files\apsim32\apsim\plant\lib\plant.dll
+     Component DLL          = c:\program files\apsim32\apsim\nwheat\lib\nwheat.dll
+     Component DLL          = c:\program files\apsim32\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\program files\apsim32\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\program files\apsim32\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\program files\apsim32\apsim\tracker\lib\tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Simulation start date = 15/12/1992
@@ -67,8 +67,8 @@
         manager.sw_dep_3080
         tracker1.sum@met.rain as rain
         tracker1.sum@nwheat.ep as W_ep
-        tracker1.sum@lucerne.ep as L_ep
-        tracker1.sum@canola.ep as C_ep
+        tracker1.sum@lucerne.ep[] as L_ep
+        tracker1.sum@canola.ep[] as C_ep
         apswim.sw_dep() as swdep
         tracker1.sum@apswim.es as es
         tracker1.sum@apswim.runoff as runoff
@@ -218,8 +218,8 @@
         manager.period
         tracker3.sum@met.rain as rain
         tracker3.sum@nwheat.ep as W_ep
-        tracker3.sum@lucerne.ep as L_ep
-        tracker3.sum@canola.ep as C_ep
+        tracker3.sum@lucerne.ep[] as L_ep
+        tracker3.sum@canola.ep[] as C_ep
         tracker3.sum@apswim.es as es
         tracker3.sum@apswim.runoff as runoff
         tracker3.sum@apswim.drain as drain
@@ -559,11 +559,11 @@
      cum_leach_25 = cum_leach_25 + apswim.flow_no3(4)
      cum_leach_90 = cum_leach_90 + apswim.flow_no3(9)
      cum_rain     = cum_rain + met.rain
-     cum_et       = cum_et + apswim.es + nwheat.ep + lucerne.ep + canola.ep
+     cum_et       = cum_et + apswim.es + nwheat.ep + lucerne.ep() + canola.ep()
      cum_drain    = cum_drain + apswim.drain
      cum_drain180 = cum_drain180 + apswim.flow(13)
      cum_e        = cum_e + apswim.es
-     cum_t        = cum_t + nwheat.ep + lucerne.ep + canola.ep
+     cum_t        = cum_t + nwheat.ep + lucerne.ep() + canola.ep()
      no3_025      = no3(1) + no3(2) + no3(3) + no3(4)
      no3_2590     = no3(5) + no3(6) + no3(7) + no3(8) + (0.5 * no3(9))
      nh4_025      = nh4(1) + nh4(2) + nh4(3) + nh4(4)
@@ -901,8 +901,8 @@
      Tracker variables:
         sum of met.rain since report1.reported as sum@met.rain on post
         sum of nwheat.ep since report1.reported as sum@nwheat.ep on post
-        sum of lucerne.ep since report1.reported as sum@lucerne.ep on post
-        sum of canola.ep since report1.reported as sum@canola.ep on post
+        sum of lucerne.ep() since report1.reported as sum@lucerne.ep[] on post
+        sum of canola.ep() since report1.reported as sum@canola.ep[] on post
         sum of apswim.es since report1.reported as sum@apswim.es on post
         sum of apswim.runoff since report1.reported as sum@apswim.runoff on post
         sum of apswim.drain since report1.reported as sum@apswim.drain on post
@@ -922,8 +922,8 @@
      Tracker variables:
         sum of met.rain since report4.reported as sum@met.rain on post
         sum of nwheat.ep since report4.reported as sum@nwheat.ep on post
-        sum of lucerne.ep since report4.reported as sum@lucerne.ep on post
-        sum of canola.ep since report4.reported as sum@canola.ep on post
+        sum of lucerne.ep() since report4.reported as sum@lucerne.ep[] on post
+        sum of canola.ep() since report4.reported as sum@canola.ep[] on post
         sum of apswim.es since report4.reported as sum@apswim.es on post
         sum of apswim.runoff since report4.reported as sum@apswim.runoff on post
         sum of apswim.drain since report4.reported as sum@apswim.drain on post

@@ -177,11 +177,11 @@ cum_drain_90 = cum_drain_90 + apswim.flow(9)
 cum_leach_25 = cum_leach_25 + apswim.flow_no3(4)
 cum_leach_90 = cum_leach_90 + apswim.flow_no3(9)
 cum_rain     = cum_rain + met.rain
-cum_ET       = cum_ET + apswim.es + nwheat.ep + lucerne.ep + canola.ep
+cum_ET       = cum_ET + apswim.es + nwheat.ep + lucerne.ep() + canola.ep()
 cum_drain    = cum_drain + apswim.drain
 cum_drain180 = cum_drain180 + apswim.flow(13)
 cum_E        = cum_E + apswim.es
-cum_T        = cum_T + nwheat.ep + lucerne.ep + canola.ep
+cum_T        = cum_T + nwheat.ep + lucerne.ep() + canola.ep()
 
 !summary terms
 no3_025      = no3(1) + no3(2) + no3(3) + no3(4)
@@ -783,8 +783,8 @@ screen_output = off
 [all.tracker1.parameters]
 variable = sum of met.rain since report1.reported as sum@met.rain on post
 variable = sum of nwheat.ep since report1.reported as sum@nwheat.ep on post
-variable = sum of lucerne.ep since report1.reported as sum@lucerne.ep on post
-variable = sum of canola.ep since report1.reported as sum@canola.ep on post
+variable = sum of lucerne.ep() since report1.reported as sum@lucerne.ep[] on post
+variable = sum of canola.ep() since report1.reported as sum@canola.ep[] on post
 variable = sum of apswim.es since report1.reported as sum@apswim.es on post
 variable = sum of apswim.runoff since report1.reported as sum@apswim.runoff on post
 variable = sum of apswim.drain since report1.reported as sum@apswim.drain on post
@@ -802,8 +802,8 @@ variable = sum of canola.dlt_n_fixed since report2.reported as sum@canola.dlt_n_
 [all.tracker3.parameters]
 variable = sum of met.rain since report4.reported as sum@met.rain on post
 variable = sum of nwheat.ep since report4.reported as sum@nwheat.ep on post
-variable = sum of lucerne.ep since report4.reported as sum@lucerne.ep on post
-variable = sum of canola.ep since report4.reported as sum@canola.ep on post
+variable = sum of lucerne.ep() since report4.reported as sum@lucerne.ep[] on post
+variable = sum of canola.ep() since report4.reported as sum@canola.ep[] on post
 variable = sum of apswim.es since report4.reported as sum@apswim.es on post
 variable = sum of apswim.runoff since report4.reported as sum@apswim.runoff on post
 variable = sum of apswim.drain since report4.reported as sum@apswim.drain on post
