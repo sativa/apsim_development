@@ -17,6 +17,7 @@ Public Class APSIMData
         Node = data.DocumentElement
     End Sub
     Sub New(ByVal type As String, ByVal name As String)
+        name = name.Replace("&", "&amp;")
         Dim XMLString As String
         XMLString = "<" + type + " name = """ + name + """></" + type + ">"
         Dim data As New XmlDocument
