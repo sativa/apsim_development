@@ -66,6 +66,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
       if (Do_make || Do_build)
          {
    		Application->Initialize();
+         Application->CreateHandle();
 	   	Application->CreateForm(__classid(TMainForm), &MainForm);
        MainForm->ProjectFiles = Files;
          MainForm->Build = Do_build;
