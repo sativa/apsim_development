@@ -1,5 +1,5 @@
-#if !defined (MATH_FUNCTIONS_H)
-#define MATH_FUNCTIONS_H
+#ifndef Math_functionsH
+#define Math_functionsH
 
 #include <vector>
 #include <string>
@@ -491,6 +491,21 @@ void IntegerContainerToStringContainer (const container1& IntegerContainer,
       StringContainer.push_back(buffer);
       }
    }
+
+typedef vector<double> OptimParams;
+typedef double __fastcall (__closure *TOptimEvent)(const OptimParams& params);
+// ------------------------------------------------------------------
+//  Short description:
+//    SIMPLEX method of optimisation.
+// ------------------------------------------------------------------
+void Minim (vector<double>& param,
+            vector<double>& STEP,
+            double& FUNC,
+            int MAX,
+            double STOPCR,
+            int NLOOP,
+            int& IFAULT,
+            TOptimEvent f);
 
 #endif
 
