@@ -16,7 +16,7 @@ cd %APSROOT%
 rem --------- Compile VBMet
 cd %APSROOT%\Shared\VBMet
 echo ------Compiling  %APSROOT%\Shared\VBMet >> %APSROOT%\dotnet.out
-"C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\devenv" VBMet.csproj /rebuild debug >> %APSROOT%\dotnet.out
+"C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\devenv" VBMet.vbproj /rebuild debug >> %APSROOT%\dotnet.out
 cd %APSROOT%
 
 rem --------- Compile ApsimUI
