@@ -119,6 +119,7 @@ class Component
          {
          sendMessage(newApsimChangeOrderMessage(componentID, parentID, names));
          }
+      void setRegistrationType(unsigned int regID, const Type& type);
 
    protected:
       unsigned int componentID;

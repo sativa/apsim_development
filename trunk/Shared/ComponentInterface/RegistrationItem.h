@@ -56,6 +56,7 @@ class RegistrationItem
       // ------------------------------------------------------------------
       const char* getType(void) {return type;}
 
+      void setType(const Type& type);
 
       const FString getName(void) {return name;}
       RegistrationType getKind(void) {return kind;}
