@@ -182,7 +182,10 @@ container devide (container& container1, container& container2)
    while (iterator1 != container1.end() &&
           iterator2 != container2.end())
       {
-      return_container.push_back ( *iterator1 / *iterator2 );
+      if ( (*iterator2) != 0)
+         return_container.push_back ( *iterator1 / *iterator2 );
+      else
+         return_container.push_back (0);
       iterator1++;
       iterator2++;
       }
