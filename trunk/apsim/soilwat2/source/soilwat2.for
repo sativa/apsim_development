@@ -663,13 +663,14 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *        151292   jngh changed common blocks
 *        290393   jngh changed to use lai factor
 *        110195   jngh changed to use green cover instead of lai
+*        240399   jngh changed my_name to correct value
  
 *+  Calls
       real       soilwat2_eeq_fac       ! function
  
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
-      parameter (my_name = 'soilwat2_pot_evapotranspiration')
+      parameter (my_name = 'soilwat2_priestly_taylor')
  
 *+  Local Variables
       real       albedo                ! albedo taking into account plant
