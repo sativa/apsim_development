@@ -1,23 +1,23 @@
-     ###     ######     #####   #   #     #   
-    #   #    #     #   #        #   ##   ##   
-   #     #   #     #   #        #   ##   ##   
-   #######   ######     #####   #   # # # #   
-   #     #   #              #   #   #  #  #   
-   #     #   #         #####    #   #  #  #   
-                                              
-                                              
- The Agricultural Production Systems Simulator
-             Copyright(c) APSRU               
+     ###     ######     #####   #   #     #
+    #   #    #     #   #        #   ##   ##
+   #     #   #     #   #        #   ##   ##
+   #######   ######     #####   #   # # # #
+   #     #   #              #   #   #  #  #
+   #     #   #         #####    #   #  #  #
 
-     Version                = 3.6
+
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU
+
+     Version                = 4.0
      Title                  = Simple System Simulation
-     Component DLL          = c:\development\apsim\log\lib\log.dll
-     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\development\apsim\screen\lib\screen.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
+     Component DLL          = c:\mydata\development\apsim\log\lib\log.dll
+     Component DLL          = c:\mydata\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\mydata\development\apsim\screen\lib\screen.dll
+     Component DLL          = c:\mydata\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\mydata\development\apsim\report\lib\report.dll
+     Component DLL          = c:\mydata\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\mydata\development\apsim\protocolmanager\lib\protocolmanager.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -33,13 +33,13 @@
      Output variables:
         clock.dd/mm/yyyy as Date
         SubSystem.rain as rain
-     
+
      Output file = wheat.out
      Format = normal
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
-     
+
      SECTION:- end_of_day
                     if (day = 200) then
         subsystem.rain = 123
@@ -47,18 +47,18 @@
      report do_output
      subsystem do_output
      END of rules
-     
+
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\sample\dalby.met
+     INPUT File name: c:\mydata\development\apsim\met\sample\dalby.met
 
 ------- report2 Initialisation ------------------------------------------------
      Output variables:
         subsystem.day
-     
+
      Output file = wheat2.out
      Format = normal
 ------- Start of simulation  --------------------------------------------------
-17 November 1988(Day of year=322), clock: 
+17 November 1988(Day of year=322), clock:
      Simulation is terminating due to end criteria being met.

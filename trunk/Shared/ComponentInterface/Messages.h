@@ -545,7 +545,18 @@ inline Message* newReplyValueMessage(unsigned int from,
    messageData << data;
    return msg;
    }
-
+inline Message* newReplyValueMessage(unsigned int from,
+                                      unsigned int to,
+                                      unsigned int queryID,
+                                      Variant& data)
+   {
+   Message* msg = constructMessage(ReplyValue, from, to, false,
+                                   memorySize(queryID) + memorySize(data));
+   MessageData messageData(msg);
+   messageData << queryID;
+   messageData << data;
+   return msg;
+   }
 // ---------------- TerminateSimulation ----------------
 inline Message* newTerminateSimulationMessage(unsigned int from,
                                               unsigned int to)

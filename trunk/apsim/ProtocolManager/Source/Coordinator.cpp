@@ -327,7 +327,11 @@ void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerD
 
       if (posPeriod != string::npos)
          {
-         destID = componentNameToID(regName.substr(0, posPeriod));
+         string componentName = regName.substr(0, posPeriod);
+         if (Str_i_Eq(componentName.c_str(), name))
+            destID = componentID;
+         else
+            destID = componentNameToID(componentName);
          if (destID == INT_MAX)
             throw runtime_error("Cannot find component " + regName.substr(0, posPeriod));
          regName.erase(0, posPeriod+1);
@@ -493,11 +497,22 @@ void Coordinator::onReplyValueMessage(unsigned fromID, ReplyValueData replyValue
    {
    try
       {
-      sendMessage(newReturnValueMessage(componentID,
-                                        previousGetValueCompID.top(),
-                                        fromID,
-                                        previousGetValueRegID.top(),
-                                        replyValueData.variant));
+      unsigned toID = previousGetValueCompID.top();
+      if (toID == parentID)
+         {
+         sendMessage(newReplyValueMessage(componentID,
+                                          toID,
+                                          previousGetValueRegID.top(),
+                                          replyValueData.variant));
+         }
+      else
+         {
+         sendMessage(newReturnValueMessage(componentID,
+                                           toID,
+                                           fromID,
+                                           previousGetValueRegID.top(),
+                                           replyValueData.variant));
+         }
       }
    catch (const runtime_error& err)
       {
