@@ -13,6 +13,7 @@
 
 !     ========================================
       Type MapGlobals
+         sequence
          real sw(max_size)
          real bd(max_size)
          real dlayer(max_size)
@@ -27,6 +28,7 @@
       end type MapGlobals
 !     ========================================
       Type MapParameters
+         sequence
          character*30 arrays2sum_names(max_arrays)
          character*30 arrays2ave_names(max_arrays)
          character*30 arrays2conc_names(max_arrays)
@@ -48,141 +50,18 @@
 !
 !      end type MapConstants
 !     ========================================
+
       ! instance variables.
-      type (MapGlobals), pointer :: g
-      type (MapParameters), pointer :: p
-!      type (MapConstants), pointer :: c
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type MapDataPtr
-         type (MapGlobals), pointer ::    gptr
-         type (MapParameters), pointer :: pptr
-!         type (MapConstants), pointer ::  cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type MapDataPtr
-      type (MapDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (MapGlobals),pointer :: g
+      type (MapParameters),pointer :: p
 
       contains
 
 
 
 
-
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-c      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-c      deallocate (Instances(anInstanceNo)%cptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-c      c => Instances(anInstanceNo)%cptr
-
-      return
-      end subroutine
-
-* ====================================================================
-       subroutine Main (Action, Data_string)
-* ====================================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-       character Action*(*)            ! Message action to perform
-       character Data_string*(*)       ! Message data
-
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      map module.
-
-*+  Changes
-
-*+  Calls
-
-*+  Constant Values
-      character*(*) myname                 ! Name of this procedure
-      parameter (myname = 'apsim_map')
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-cnh      call set_warning_off ()
-
-      if (Action.eq.ACTION_Init) then
-         call map_Init ()
-
-      else if (Action.eq.ACTION_Get_variable) then
-         call map_Send_my_variable (Data_string)
-
-      else if (Action.eq.ACTION_Set_variable) then
-         call map_Set_my_variable (data_string)
-
-      else if (Action.eq.ACTION_Create) then
-         call map_zero_variables ()
-
-      else
-         ! Don't use message
-         call Message_unused ()
-
-      endif
-
-      call pop_routine (myname)
-      return
-      end subroutine
 
 
 
@@ -1750,3 +1629,81 @@ c      endif
 
 
       end module MapModule
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use MapModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+      else
+         deallocate(g)
+         deallocate(p)
+      end if
+      return
+      end subroutine
+
+
+
+* ====================================================================
+       subroutine Main (Action, Data_string)
+* ====================================================================
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+       character Action*(*)            ! Message action to perform
+       character Data_string*(*)       ! Message data
+
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      map module.
+
+*+  Changes
+
+*+  Calls
+
+*+  Constant Values
+      character*(*) myname                 ! Name of this procedure
+      parameter (myname = 'apsim_map')
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+cnh      call set_warning_off ()
+
+      if (Action.eq.ACTION_Init) then
+         call map_Init ()
+
+      else if (Action.eq.ACTION_Get_variable) then
+         call map_Send_my_variable (Data_string)
+
+      else if (Action.eq.ACTION_Set_variable) then
+         call map_Set_my_variable (data_string)
+
+      else if (Action.eq.ACTION_Create) then
+         call map_zero_variables ()
+
+      else
+         ! Don't use message
+         call Message_unused ()
+
+      endif
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
