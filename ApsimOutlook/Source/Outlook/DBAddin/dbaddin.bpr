@@ -3,7 +3,7 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.05.03"/>
-    <PROJECT value="L:\OutlookDevelopment\DBAddIn\DBAddIn.dll"/>
+    <PROJECT value="L:\APSIMOutlook\DBAddIn\DBAddIn.dll"/>
     <OBJFILES value="DBAddIn.obj DataBaseAddIn.obj DBSimulation.obj ..\Scenario.obj 
       TDirectory_select_form.obj"/>
     <RESFILES value=""/>
@@ -28,8 +28,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="DBAddIn.bpf"/>
-    <INCLUDEPATH value="..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;&quot;J:\RX\Units\&quot;"/>
-    <LIBPATH value="..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;&quot;k:\general\&quot;"/>
+    <INCLUDEPATH value="..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;&quot;J:\RX\Units\&quot;"/>
+    <LIBPATH value="..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;&quot;k:\general\&quot;"/>
     <WARNINGS value="-w-par"/>
   </MACROS>
   <OPTIONS>
@@ -104,11 +104,12 @@ Count=1
 Item0=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
-Count=4
-Item0=L:\OutlookDevelopment\DBAddIn\
-Item1=L:\DBAddIn\
-Item2=..\..\..\DBAddIn\
-Item3=..\..\..\DBAddIn
+Count=5
+Item0=L:\APSIMOutlook\DBAddIn\
+Item1=L:\OutlookDevelopment\DBAddIn\
+Item2=L:\DBAddIn\
+Item3=..\..\..\DBAddIn\
+Item4=..\..\..\DBAddIn
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl

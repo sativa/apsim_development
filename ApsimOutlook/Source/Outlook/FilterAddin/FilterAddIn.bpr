@@ -3,16 +3,17 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.05.03"/>
-    <PROJECT value="L:\OutlookDevelopment\FilterAddin\FilterAddIn.dll"/>
+    <PROJECT value="L:\APSIMOutlook\FilterAddin\FilterAddIn.dll"/>
     <OBJFILES value="FilterAddIn.obj FiltAddIn.obj ..\Scenario.obj FieldValues.obj 
       TFilterForm.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TFilterForm.dfm"/>
     <LIBFILES value="..\DBAddin\general.lib"/>
-    <LIBRARIES value="TMSC5.lib"/>
+    <LIBRARIES value="psc_c5.lib TMSC5.lib"/>
     <SPARELIBS value="Vcl50.lib VCLADO50.lib vcldb50.lib APSData.lib VCLBDE50.lib TEE4C5.lib 
-      TEEUI4C5.lib TEEDB4C5.lib APSGENERAL.lib TEEPRO4C5.lib VCLX50.lib TMSC5.lib"/>
+      TEEUI4C5.lib TEEDB4C5.lib APSGENERAL.lib TEEPRO4C5.lib VCLX50.lib 
+      TMSC5.lib psc_c5.lib"/>
     <PACKAGES value="Vcl50.bpi Vclx50.bpi bcbsmp50.bpi Qrpt50.bpi Vcldb50.bpi Vclbde50.bpi 
       ibsmp50.bpi vcldbx50.bpi VCLIB50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi 
       Inet50.bpi NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi TeeGL4C5.bpi 
@@ -128,11 +129,12 @@ Count=1
 Item0=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
-Count=4
-Item0=L:\OutlookDevelopment\FilterAddin\
-Item1=L:\FilterAddin\
-Item2=..\..\..\FilterAddin\
-Item3=..\..\..\FilterAddin
+Count=5
+Item0=L:\APSIMOutlook\FilterAddin\
+Item1=L:\OutlookDevelopment\FilterAddin\
+Item2=L:\FilterAddin\
+Item3=..\..\..\FilterAddin\
+Item4=..\..\..\FilterAddin
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
