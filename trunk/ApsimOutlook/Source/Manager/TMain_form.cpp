@@ -25,7 +25,7 @@ void __fastcall TMain_form::ShowHint(TObject *Sender)
 //---------------------------------------------------------------------
 void __fastcall TMain_form::Exit(TObject *Sender)
    {
-   delete Simulation_database;
+   Simulation_database->Connected = false;
 	Close();
    }
 //---------------------------------------------------------------------
