@@ -200,7 +200,6 @@ void FiltAddIn::doCalculations(TAPSTable& data)
       data.beginStoringData();
       data.storeData(*destData);
       data.markFieldAsAPivot("Filter");
-      data.addSortField(data.getYearFieldName());
       data.endStoringData();
 
       delete destData;
