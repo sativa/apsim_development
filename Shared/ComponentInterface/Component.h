@@ -232,7 +232,7 @@ class Component
       virtual void doInit2(void) { }
       virtual void doCommence(void) { }
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, Variant& variant);
-      virtual void respondToMethod(unsigned int& fromID, unsigned int& methodID, Variant& variant) { }
+      virtual void respondToMethod(unsigned int& fromID, unsigned int& methodID, Variant& variant);
       virtual void respondToGet(unsigned int& fromID, QueryValueData& queryData);
       virtual bool respondToSet(unsigned int& fromID, QuerySetValueData& setValueData) {return false;}
       virtual void notifyTermination(void) { }
@@ -546,7 +546,7 @@ class Component
                          double lower, double upper, bool isoptional = false)
          {
          std::vector<T> vv;
-         bool result = readParameter(sect, name, vv, lower, upper);
+         bool result = readParameter(sect, name, vv, lower, upper, isoptional);
          for (unsigned int i = 0; i < vv.size(); i++) 
              valarray[i] = vv[i];
          numvals = vv.size();    
@@ -616,11 +616,10 @@ class Component
            throw "vector addGettableVar not yet implemented";
            };
 
-
       // Add a procedure to be called when events occur
-      void addEvent(const char *systemName,
-                    protocol::RegistrationType type,
-                    boost::function3<void, unsigned &, unsigned &, protocol::Variant &> ptr);
+      unsigned int addEvent(const char *systemName,
+                            protocol::RegistrationType type,
+                            boost::function3<void, unsigned &, unsigned &, protocol::Variant &> ptr);
 
    }; // end class Component
 } // end namespace protocol
