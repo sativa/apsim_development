@@ -46,7 +46,7 @@ class ApsimRuns
       //---------------------------------------------------------------------------
       // Perform all Apsim runs.
       //---------------------------------------------------------------------------
-      void runApsim(void);
+      void runApsim(bool quiet);
                                
    private:
       std::vector<ApsimRun*> runs;

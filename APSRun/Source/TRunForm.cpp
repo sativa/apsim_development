@@ -156,7 +156,7 @@ void __fastcall TRunForm::NextButtonClick(TObject *Sender)
       CancelButton->Visible = false;
       PageControl1->Visible = false;
       saveSelections();
-      runs->runApsim();
+      runs->runApsim(false);
       Close();
       }
    }
