@@ -156,6 +156,13 @@
       <priority>0</priority>
     </sheep>
   </stock>
+  <surfaceom name="wheat residue">
+     <PoolName>wheat_stubble</PoolName>
+     <type>wheat</type>
+     <mass>1000.</mass>
+     <cnr>80.0</cnr>
+     <standing_fraction>0.0</standing_fraction>
+  </surfaceom>
   <vinelogic name="vinelogic">
     <data name="data"><![CDATA[*MODEL INPUT FILE            I     1    19     1     8
 *FILES
