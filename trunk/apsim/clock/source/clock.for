@@ -295,10 +295,14 @@ C     Last change:  E     5 Dec 2000    8:52 am
       character time*(5)               ! time in 24 hour format
       integer   doy                    ! day of year
       integer   year                   ! year
+      character str*100                ! string for date formatting
 
 *- Implementation Section ----------------------------------
 
       call push_routine(This_routine)
+
+      call day_of_year_to_date (g%day, g%year, thisdate)
+
       if (variable_name .eq. 'day') then
          call respond2get_integer_var (Variable_name,
      .                                 '(day)',
@@ -349,9 +353,6 @@ C     Last change:  E     5 Dec 2000    8:52 am
          call Respond2get_logical_var
      .       (variable_name, '(0-1)', Logical_to_return)
 
-      else if (index(variable_name, 'today') .eq. 1) then
-         call clock_today_object(variable_name(6:))
-
       else if (variable_name .eq. 'time') then
          time = clock_time_string()
          call respond2get_char_var (Variable_name,
@@ -396,76 +397,20 @@ C     Last change:  E     5 Dec 2000    8:52 am
       else if (variable_name .eq. 'simulation_end_date') then
          call respond2get_double_var(Variable_name, '()', g%end_date)
 
-      else
-         ! Not our variable
-
-         call Message_unused ()
-      endif
-
-      call pop_routine(This_routine)
-      return
-      end subroutine
-
-
-
-* ====================================================================
-       subroutine clock_today_object (Variable_name)
-* ====================================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      character Variable_name*(*)      ! (INPUT) name of variable
-
-*+  Purpose
-*     Get the value of a variable or constant.
-
-*+  Changes
-*        DPH - 11/4/96
-*        EW  - 05/12/00 - modified to change the date output from eg "1/04/1990" to "01/04/1990"
-
-*+  Calls
-
-*+  Constant Values
-      character This_routine*(*)       ! name of this routine
-      parameter (This_routine='clock_today_object')
-
-*+  Local Variables
-      integer thisdate(3)                  ! day, month, year of todays date
-      character str*100                ! string for date formatting
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (This_routine)
-
-      call day_of_year_to_date (g%day, g%year, thisdate)
-
-      if (variable_name .eq. Blank) then
+      else if (variable_name .eq. 'today') then
          call Respond2get_double_var
-     .        ('today', '()',
+     .        (variable_name, '()',
      .         Date_to_jday(thisdate(1), thisdate(2), thisdate(3)))
 
-      else if (variable_name .eq. '.day') then
+      else if (variable_name .eq. 'day_of_year') then
          call Respond2get_integer_var
-     .        ('today.day', '()', thisdate(1))
+     .        (variable_name, '()', g%day)
 
-      else if (variable_name .eq. '.month') then
-         call Respond2get_integer_var
-     .        ('today.month', '()', thisdate(2))
-
-      else if (variable_name .eq. '.year') then
-         call Respond2get_integer_var
-     .        ('today.year', '()', thisdate(3))
-
-      else if (variable_name .eq. '.day_of_year') then
-         call Respond2get_integer_var
-     .        ('today.day_of_year', '()', g%day)
-
-      else if (variable_name .eq. '.month_str') then
+      else if (variable_name .eq. 'month_str') then
          call Respond2get_char_var
-     .        ('today.month_str', '()', Get_month_string(thisdate(2)))
+     .        (variable_name, '()', Get_month_string(thisdate(2)))
 
-      else if (variable_name .eq. '.dd/mm') then
+      else if (variable_name .eq. 'dd/mm') then
          write (str, '(i2,a,i2)')
      .        thisdate(1), '/', thisdate(2)
 
@@ -477,9 +422,9 @@ C     Last change:  E     5 Dec 2000    8:52 am
             str(4:4) = '0'
          endif
          call Respond2get_char_var
-     .        ('today.dd/mm', '()', str)
+     .        (variable_name, '()', str)
 
-      else if (variable_name .eq. '.dd/mm/yyyy') then
+      else if (variable_name .eq. 'dd/mm/yyyy') then
          write (str, '(i2,a,i2,a,i4)')
      .        thisdate(1), '/', thisdate(2), '/', thisdate(3)
 
@@ -491,9 +436,9 @@ C     Last change:  E     5 Dec 2000    8:52 am
             str(4:4) = '0'
          endif
          call Respond2get_char_var
-     .        ('today.dd/mm/yyyy', '()', str)
+     .        (variable_name, '()', str)
 
-      else if (variable_name .eq. '.dd_mmm_yyyy') then
+      else if (variable_name .eq. 'dd_mmm_yyyy') then
          write (str, '(i2,a,a,a,i4)')
      .        thisdate(1), '_', Get_month_string(thisdate(2)),
      .        '_', thisdate(3)
@@ -503,9 +448,9 @@ C     Last change:  E     5 Dec 2000    8:52 am
          endif
 
          call Respond2get_char_var
-     .        ('today.dd_mmm_yyyy', '()', str)
+     .        (variable_name, '()', str)
 
-      else if (variable_name .eq. '.dd/mmm/yyyy') then
+      else if (variable_name .eq. 'dd/mmm/yyyy') then
          write (str, '(i2,a,a,a,i4)')
      .        thisdate(1), '/', Get_month_string(thisdate(2)),
      .        '/', thisdate(3)
@@ -515,9 +460,9 @@ C     Last change:  E     5 Dec 2000    8:52 am
          endif
 
          call Respond2get_char_var
-     .        ('today.dd/mmm/yyyy', '()', str)
+     .        (variable_name, '()', str)
 
-      else if (variable_name .eq. '.dd_mmm') then
+      else if (variable_name .eq. 'dd_mmm') then
          write (str, '(i2,a,a)')
      .        thisdate(1), '_', Get_month_string(thisdate(2))
 
@@ -526,13 +471,10 @@ C     Last change:  E     5 Dec 2000    8:52 am
          endif
 
          call Respond2get_char_var
-     .        ('today.dd_mmm', '()', str)
+     .        (variable_name, '()', str)
 
       else
-         write (str, '(2a)' )
-     .      'The TODAY object doesnt have a method called :- ',
-     .      variable_name
-         call Fatal_error (ERR_user, str)
+         call Message_unused ()
 
       endif
 
