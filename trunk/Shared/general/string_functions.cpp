@@ -143,6 +143,27 @@ bool Replace_all (string& St, const char* Sub_string, const char* Replacement_st
    }
 // ------------------------------------------------------------------
 // function that takes a string and replaces all occurrances of
+// the substring with the replacement string after the given position.
+// Return true if a replacement was made.
+// ------------------------------------------------------------------
+bool replaceAll(string& St, unsigned position, const string& subString, const string& replacementString)
+   {
+   bool replacementMade = false;
+   char* pos = (char*)St.c_str();
+   pos += position;
+   pos = stristr(pos, subString.c_str());
+   while (pos != NULL)
+      {
+      unsigned charPos = pos - St.c_str();
+      St.replace(charPos, subString.length(), replacementString);
+      replacementMade = true;
+      pos = stristr(pos, subString.c_str());
+      }
+   return replacementMade;
+   }
+
+// ------------------------------------------------------------------
+// function that takes a string and replaces all occurrances of
 // the substring with the replacement string.  Case insensitive.
 // Return true if a replacement was made.
 // ------------------------------------------------------------------
