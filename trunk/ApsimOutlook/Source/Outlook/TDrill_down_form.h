@@ -30,18 +30,16 @@ __published:	// IDE-managed Components
    TPopupMenu *ScenarioNamePopup;
    TMenuItem *Rename1;
    TMenuItem *Delete1;
-   TParamTreeview *ScenarioTree;
    TPanel *Panel2;
    TButton *ShowAllButton;
    TButton *HideAllButton;
    TBitBtn *ClearButton;
+   TTreeView *ScenarioTree;
    void __fastcall FormShow(TObject *Sender);
 //   void __fastcall Tab_controlChange(TObject *Sender);
    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 //   void __fastcall ButtonClick(TObject *Sender);
    void __fastcall ClearButtonClick(TObject *Sender);
-   void __fastcall ScenarioTreeParamClick(TObject *Sender,
-          TTreeNode *ANode, AnsiString href, AnsiString &value);
    void __fastcall ScenarioTreeMouseDown(TObject *Sender,
           TMouseButton Button, TShiftState Shift, int X, int Y);
    void __fastcall Rename1Click(TObject *Sender);
@@ -62,7 +60,6 @@ private:	// User declarations
    std::string Get_identifier_from_cell (int Col, int Row);
    std::string Get_value_from_cell (int Col, int Row);
    void __fastcall popupClose(System::TObject* Sender, TCloseAction &Action);
-   int mouseDownX, mouseDownY;
 
 
 public:		// User declarations
