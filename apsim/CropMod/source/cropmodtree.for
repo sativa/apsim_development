@@ -1,4 +1,4 @@
-C     Last change:  E    24 Aug 2001    4:46 pm
+C     Last change:  E    28 Aug 2001    5:02 pm
 
 *     ===========================================================
       subroutine Crop_Read_Constants ()
@@ -148,6 +148,7 @@ C     Last change:  E    24 Aug 2001    4:46 pm
       include 'error.pub'                         
 
 
+
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Crop_Process')
@@ -205,6 +206,11 @@ C     Last change:  E    24 Aug 2001    4:46 pm
       include 'data.pub'
       include 'error.pub'
 
+      include 'crp_biom.pub'
+      include 'crp_util.pub'
+      include 'crp_temp.pub'
+
+
 *+  Calls
 
 *+  Constant Values
@@ -217,16 +223,17 @@ C     Last change:  E    24 Aug 2001    4:46 pm
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-      !iwheat uses a accumulative radiation value
-      call iw_rad_accum_10d(g%radn,g%current_stage,g%days_tot,
-     :                      g%rad_accum,g%accum_rad_10d)
+
+c      call leaf_area_initialisation  (GetSwitchCode(c%can_switch,1))
+
+c      call biomass_rue               (GetSwitchCode(c%carb_switch,1))
+c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
+
+
 
 
       !SECTION 8 - nitrogen stress factor is used everywhere
       call nitrogen_stress           (GetSwitchCode(c%nit_switch,8))
-
-
-      call leaf_area_initialisation  (GetSwitchCode(c%can_switch,1))
 
 
       !SECTION 1:  PLANT WATER REALTION
@@ -234,7 +241,6 @@ C     Last change:  E    24 Aug 2001    4:46 pm
       call water_demand              (GetSwitchCode(c%wat_switch,2))
       call water_uptake              (GetSwitchCode(c%wat_switch,3))
       call water_stress              (GetSwitchCode(c%wat_switch,4))
-
 
       !SECTION 2:  PHENOLOGICAL DEVELOPMENT
 *     call thermal_time              (GetSwitchCode(c%phen_switch,2))   !thermal time will be separated from phenology subroutine
@@ -249,10 +255,6 @@ C     Last change:  E    24 Aug 2001    4:46 pm
       call leaf_number_final         (GetSwitchCode(c%leafno_switch,2))
       call leaf_initiation           (GetSwitchCode(c%leafno_switch,3))
       call leaf_appearance           (GetSwitchCode(c%leafno_switch,4))
-
-
-
-
 
 
       !SECTION 3: CARBOHYDRATE/BIOMASS PRODUCTION
@@ -446,7 +448,6 @@ C     Last change:  E    24 Aug 2001    4:46 pm
 
       if ((Option.eq.1).or.(Option.eq.2)) then
  
-
          call biomass_rue (GetSwitchCode(c%carb_switch,1))
 
          call cproc_transp_eff_co2(
@@ -819,13 +820,6 @@ c      REAL    deepest_layer
      :                         , g%dlt_vernalisation
      :                          )
 
-c       PRINT *, 'p%vern_requ           =', p%vernalisation_requirement
-c       PRINT *, 'g%vernalisation       =', g%vernalisation
-c       PRINT *, 'g%dlt_vernalisation   =', g%dlt_vernalisation
-c       PRINT *, 'g%leaf_no_min         =', g%leaf_no_min
-
-c       PRINT *, c%x_vern_temp
-c       PRINT *, c%y_vern_fact
 
       else if (Option.eq.0) then
 
@@ -891,15 +885,6 @@ c       PRINT *, c%y_vern_fact
      .          leaf_no_now,
      .          g%leaf_no_final )
 
-c       PRINT *, '===================================='
-c       PRINT *, 'photoperiod               ', photoperiod
-c       PRINT *, 'c%photoperiod_optimum     ', c%photoperiod_optimum
-c       PRINT *, 'p%photoperiod_sensitivity ', p%photoperiod_sensitivity
-c       PRINT *, 'c%leaf_no_min             ', c%leaf_no_min
-c       PRINT *, 'c%leaf_no_max             ', c%leaf_no_max
-c       PRINT *, 'leaf_no_now               ', leaf_no_now
-c       print *, 'g%leaf_no_final           ', g%leaf_no_final
-c       PAUSE
 
 
       else if (Option.eq.0) then
@@ -1404,6 +1389,8 @@ c      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN 
 
       real RUE_Diff_Radn_modifier         !
 
+      REAL cover_green
+
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -1436,7 +1423,6 @@ c      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN 
      :                 rue_diff_radn_modifier
      :                 )
 
-c      PRINT *,  rue_diff_radn_modifier
 
       rue_diff_radn_modifier = linear_interp_real (
      :                                diff_radn_frac
@@ -1444,15 +1430,6 @@ c      PRINT *,  rue_diff_radn_modifier
      :                               ,c%rue_diff_modifier
      :                               ,c%num_radn_diff_fr)
 
-c      PRINT *,  rue_diff_radn_modifier
-
-c       PRINT *, '-------------------------------------'
-c       PRINT *, 'DayOfYear =', g%day_of_year
-c       PRINT *, 'day_len   =', daylength
-c       PRINT *, 'radn_ext  =', radn_ext
-c       PRINT *, 'radn_act  =', g%radn
-c       PRINT *, 'RUE_max   =', RUE_Max*0.48
-c       PRINT *, 'RUE_act   =', 1.34
 
       current_phase = int (g%current_stage)
 
@@ -1483,17 +1460,13 @@ c       PRINT *, 'RUE_act   =', 1.34
 
      :           g%extinction_coeff)
 
-c              PRINT *,'row_space       =',  g%row_spacing
-c              PRINT *,'c%x_row_spacing =',  c%x_row_spacing
-c              PRINT *,'c%y_extinct_coef=',  c%y_extinct_coef
-c              PRINT *,'extinct_coef    =',  g%extinction_coeff
 
 
 
-         g%cover_green = 1.0 - exp (-g%extinction_coeff*g%lai)
+         cover_green = 1.0 - exp (-g%extinction_coeff*g%lai)
 
          call crop_radn_int0(
-     :                     g%cover_green,
+     :                     cover_green,
      :                     g%fr_intc_radn,   !just to make sure it is zero then cover_green is used -ew
      :                     g%radn, 
      :                     g%radn_int)
@@ -1514,8 +1487,6 @@ c              PRINT *,'extinct_coef    =',  g%extinction_coeff
      :                     co2_modifier)
 
 
-c        PRINT *,'biomass CO2 =', g%co2level
-c        PRINT *,'biomass CF  =', co2_modifier
 
         call crop_dm_pot_rue_wang (
      .                     g%current_stage,
@@ -1532,13 +1503,13 @@ c        PRINT *,'biomass CF  =', co2_modifier
          ! potential by photosynthesis
  
          extinct_coef  = iw_kvalue (g%lai, g%current_stage)
-         g%cover_green = 1.0 - exp (-extinct_coef*g%lai)
+         cover_green = 1.0 - exp (-extinct_coef*g%lai)
 
          g%extinction_coeff = extinct_coef
 
 
          call crop_radn_int0(
-     :                     g%cover_green,
+     :                     cover_green,
      :                     g%fr_intc_radn,  !just to make sure it is zero then cover_green is used -ew
      :                     g%radn, 
      :                     g%radn_int)
@@ -1567,12 +1538,12 @@ c        PRINT *,'biomass CF  =', co2_modifier
 
          extinct_coef = nwheat_kvalue (g%lai,g%current_stage,
      :                     start_grain_fill)
-         g%cover_green = 1.0 - exp (-extinct_coef*g%lai)
+         cover_green = 1.0 - exp (-extinct_coef*g%lai)
 
          g%extinction_coeff = extinct_coef
 
          call crop_radn_int0(
-     :                     g%cover_green,
+     :                     cover_green,
      :                     g%fr_intc_radn,  !just to make sure it is zero then cover_green is used -ew
      :                     g%radn, 
      :                     g%radn_int)
@@ -2127,7 +2098,6 @@ c        PRINT *,'biomass CF  =', co2_modifier
      :               )
 
 
-       print *, 'new Bio_Yieldpart_demand'
 
 
       else if (Option.eq.0) then
@@ -2259,7 +2229,6 @@ c      REAL nw_sla
 
          c%sla_max = c%sla_max * 100.0
          c%sla_min = c%sla_min * 100.0
-
 
 
          call cproc_bio_partition_Grass (
@@ -2730,7 +2699,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       else if (Option.eq.0) then
 
          !This module is excluded from the model
-c         PRINT *, 'option = ', option
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -5751,7 +5719,7 @@ c         g%nfact_tiller = g%nfact_expansion
       endif
 
 
-      if (INT(g%current_stage).lt.3) then
+      if (g%current_stage.LE.3.0) then
          g%nfact_photo     = 1.0
          g%nfact_expansion = 1.0
          g%nfact_pheno     = 1.0
@@ -5881,6 +5849,12 @@ c         g%nfact_tiller = g%nfact_expansion
       implicit none
       include 'error.pub'                         
 
+      include 'crp_biom.pub'
+      include 'crp_util.pub'
+      include 'crp_temp.pub'
+      include 'crp_cnpy.pub'
+
+
 *+  Purpose
 *     <insert here>
 
@@ -5891,9 +5865,83 @@ c         g%nfact_tiller = g%nfact_expansion
       character*(*) myname               ! name of current procedure
       parameter (myname = 'Simulation_Prepare')
 
+      INTEGER GetSwitchCode
+
+
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
+      if (g%plant_status.eq.status_alive) then
+ 
+        !iwheat uses a accumulative radiation value
+        call iw_rad_accum_10d(g%radn,g%current_stage,g%days_tot,
+     :                      g%rad_accum,g%accum_rad_10d)
+
+
+        if (c%crop_type.ne.'sorghum') then
+
+            call nitrogen_stress       (GetSwitchCode(c%nit_switch, 8))
+            call water_demand          (GetSwitchCode(c%wat_switch, 2))
+            call biomass_rue_partition ()
+            call nitrogen_demand       (GetSwitchCode(c%nit_switch, 3))
+
+        endif
+
+      else
+      endif
+
+      call pop_routine (myname)
+      return
+      end
+
+
+* ====================================================================
+       subroutine biomass_rue_partition ()
+* ====================================================================
+      use CropModModule
+      implicit none
+      include 'error.pub'                         
+
+      include 'crp_biom.pub'
+      include 'crp_util.pub'
+      include 'crp_temp.pub'
+      include 'crp_cnpy.pub'
+
+
+*+  Purpose
+*     <insert here>
+
+*+  Changes
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'biomass_rue_partition')
+
+      INTEGER GetSwitchCode
+
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+ 
+      if (g%plant_status.eq.status_alive) then
+ 
+
+         call biomass_rue               (GetSwitchCode(c%carb_switch,1))
+
+         !Set the biomass growth to potential growth (RUE determined)
+         g%dlt_dm = g%dlt_dm_light
+
+         !Get rid of water stress for a partitioning without water stress
+         g%swdef_pheno     = 1.0
+         g%swdef_photo     = 1.0
+         g%swdef_expansion = 1.0
+         g%swdef_tiller    = 1.0
+
+        call biomass_partition         (GetSwitchCode(c%part_switch,3))
+
+
+      else
+      endif
 
       call pop_routine (myname)
       return
