@@ -55,7 +55,9 @@ class CompileThread : public TThread
       string GetSourceDirectory (APSIM_project& apf);
       void   GetFilesForCompiler (APSIM_project& apf, const char* Key, list<string>& Files);
       void   DeleteFiles (APSIM_project& apf, const char* Filespec);
-      void CreateComponentInterface(APSIM_project& apf);
+      void   CreateComponentInterface(APSIM_project& apf);
+      void   DeleteDependentFiles(APSIM_project& apf);
+      void   CreateAutomakeRSP(APSIM_project& apf);
 
    };
 

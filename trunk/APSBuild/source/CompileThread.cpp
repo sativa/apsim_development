@@ -178,13 +178,7 @@ void CompileThread::CompileProject (APSIM_project& apf)
 
       // if this is a build then remove all .obj files.
       if (Build)
-         {
-         DeleteFiles (apf, "*.obj");
-         DeleteFiles (apf, "*.xp$");
-         DeleteFiles (apf, "*.im$");
-         DeleteFiles (apf, "*.mod");
-         DeleteFiles (apf, "*.lib");
-         }
+         DeleteDependentFiles(apf);
 
       // make sure the binary path exists.
       CreateDirectory (BinaryFile.Get_directory().c_str(), NULL);
@@ -287,10 +281,11 @@ void CompileThread::CreateAutoMakeFile (APSIM_project& apf, Path& BinaryFile)
                                i != SourceFiles.end();
                                i++)
       {
-      Path sourcePath( (*i).c_str() );
       if (i != SourceFiles.begin())
          out << "AND" << std::endl;
-      out << "FILES=" << sourcePath.Get_name() << std::endl;
+      out << "FILES=";
+      out << *i;
+      out << std::endl;
       }
    }
 
@@ -454,6 +449,8 @@ void CompileThread::RunAutoMake (APSIM_project& apf, Path& BinaryFile)
    CommandLineToExecute = string("automake fig=") + AUTOMAKE_FILENAME;
    Synchronize(RunCommandLine);
 
+   CreateAutomakeRSP(apf);
+      
    if (!Debug)
       {
       // run batch file that automake has created.
@@ -556,18 +553,13 @@ void CompileThread::GetSourceFileNames (APSIM_project& apf, list<string>& Source
 
 //  Changes:
 //    DPH 18/3/99
+//    DPH 1/5/2001 changed to assume apf location is the source location.
 
 // ------------------------------------------------------------------
 string CompileThread::GetSourceDirectory (APSIM_project& apf)
    {
-   list<string> SourceFiles;
-   GetSourceFileNames(apf, SourceFiles);
-   if (SourceFiles.size() > 0)
-      {
-      Path Source ((*SourceFiles.begin()).c_str());
-      return Source.Get_directory();
-      }
-   return "";
+   Path Source (apf.Get_filename().c_str());
+   return Source.Get_directory();
    }
 
 // ------------------------------------------------------------------
@@ -649,6 +641,63 @@ void CompileThread::CreateComponentInterface(APSIM_project& apf)
 
       // generate interface file.
       GenerateComponentInterface(interfaceFilePath.Get_path().c_str());
+      }
+   }
+// ------------------------------------------------------------------
+//  Short description:
+//     create a ComponentInterface.for file for this module.
+
+//  Notes:
+
+//  Changes:
+//    DPH 18/3/99
+
+// ------------------------------------------------------------------
+void CompileThread::DeleteDependentFiles(APSIM_project& apf)
+   {
+   DeleteFiles(apf, "*.obj");
+
+   list<string> sourceFilenames;
+   GetSourceFileNames(apf, sourceFilenames);
+   for (list<string>::iterator file = sourceFilenames.begin();
+                               file != sourceFilenames.end();
+                               file++)
+      {
+      Path sourcePath( (*file).c_str() );
+      sourcePath.Set_extension(".obj");
+      DeleteFile(sourcePath.Get_path().c_str());
+      sourcePath.Set_extension(".xp$");
+      DeleteFile(sourcePath.Get_path().c_str());
+      sourcePath.Set_extension(".im$");
+      DeleteFile(sourcePath.Get_path().c_str());
+      sourcePath.Set_extension(".mod");
+      DeleteFile(sourcePath.Get_path().c_str());
+      sourcePath.Set_extension(".lib");
+      DeleteFile(sourcePath.Get_path().c_str());
+      }
+   }
+// ------------------------------------------------------------------
+//  Short description:
+//     create a ComponentInterface.for file for this module.
+
+//  Notes:
+
+//  Changes:
+//    DPH 18/3/99
+
+// ------------------------------------------------------------------
+void CompileThread::CreateAutomakeRSP(APSIM_project& apf)
+   {
+   ofstream automakeRSP("automake.rsp");
+
+   list<string> sourceFilenames;
+   GetSourceFileNames(apf, sourceFilenames);
+   for (list<string>::iterator file = sourceFilenames.begin();
+                               file != sourceFilenames.end();
+                               file++)
+      {
+      Path sourcePath( (*file).c_str() );
+      automakeRSP << sourcePath.Get_name_without_ext() << ".obj" << std::endl;
       }
    }
 
