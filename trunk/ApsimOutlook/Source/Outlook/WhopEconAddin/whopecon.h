@@ -62,7 +62,6 @@ class WhopEcon : public AddInBase
       ApsimSettings settings;
       static int numObjects;
       std::set<std::string, std::less<std::string> > warnings;
-      void Read_inifile_settings (void);
       string Get_descriptor_value(string Descriptor, std::string Item);
       bool getFloatFromRecord(const TAPSRecord* record,
                               std::vector<std::string>& IDs,
