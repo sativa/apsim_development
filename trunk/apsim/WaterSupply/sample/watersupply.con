@@ -1,5 +1,5 @@
-version = 3.4
-[apsim.sample_watersupply]  
+version = 3.5
+[apsim.sample_watersupply]
 
 title=watersupply Sample Simulation
 module = clock    watersupply.par [sample] %apsuite\apsim\clock\clock.ini[standard]
@@ -11,7 +11,7 @@ module = soiln2   watersupply.par [black_earth]     %apsuite\apsim\soiln2\soiln2
 module = solute   watersupply.par [sample]     %apsuite\apsim\solute\solute.ini [standard]
 module = Screen  watersupply.par[sample]
 module = SummaryFile watersupply.par[sample]
-module = C:\temp3\development\apsim\watersupply\lib\watersupply.dll(dam) watersupply.par[sample] dam.ini [standard]
-module = C:\temp3\development\apsim\watersupply\lib\watersupply.dll(bore) watersupply.par[sample] bore.ini [standard]
-module = C:\temp3\development\apsim\watersupply\lib\watersupply.dll(sump) watersupply.par[sample] sump.ini [standard]
+module = watersupply(dam) watersupply.par[sample] dam.ini [standard]
+module = watersupply(bore) watersupply.par[sample] bore.ini [standard]
+module = watersupply(sump) watersupply.par[sample] sump.ini [standard]
 module = irrigate
