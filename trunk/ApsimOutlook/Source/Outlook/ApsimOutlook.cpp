@@ -21,7 +21,10 @@ USEUNIT("Scenario.cpp");
 USEUNIT("AddIn.cpp");
 USE("ApsimOutlook.todo", ToDo);
 USEUNIT("ToolBarAddIn.cpp");
-USELIB("C:\Program Files\Borland\CBuilder5\Projects\Lib\general.lib");
+USEUNIT("K:\general\string_functions.cpp");
+USEUNIT("K:\general\ini_file.cpp");
+USEUNIT("K:\general\path.cpp");
+USEUNIT("K:\general\stream_functions.cpp");
 //---------------------------------------------------------------------------
 AnsiString CommandLine;
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
