@@ -108,7 +108,7 @@ private:
    void Display_settings(void);
    void Enable_options (void);
    void Select_simulations(void);
-   void Create_chart (TAnalysis_panel*);
+   bool Create_chart (TAnalysis_panel*);
    void Hook_panel_to_this_form (void);
    void __fastcall On_settings_form_close(TObject* Sender, TCloseAction& Action);
 
