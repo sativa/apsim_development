@@ -31,6 +31,21 @@ int WINAPI DllEntryPoint(HINSTANCE /*hinst*/, unsigned long /*reason*/, void*)
    }
 
 // ------------------------------------------------------------------
+//  Short description:
+//     Return a blank string when requested to indicate that we
+//     don't need a wrapper DLL.
+
+//  Notes:
+
+//  Changes:
+//    DPH 7/6/2001
+
+// ------------------------------------------------------------------
+extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
+   {
+   strcpy(wrapperDll, "");
+   }
+// ------------------------------------------------------------------
 // Create an instance of the Plant module
 // ------------------------------------------------------------------
 protocol::Component* createComponent(void)
@@ -113,8 +128,8 @@ void PlantComponent::addGettableVar(const char *systemName,
                                     const char *units,
                                     const char *desc)
    {
-      unsigned int id = getReg(systemName, type, length>1, units); 
-      
+      unsigned int id = getReg(systemName, type, length>1, units);
+
       // Add to variable map
       fnInfo *v = new fnInfo(systemName, type, length, ptr, units, desc);
       vMap.insert(UInt2InfoMap::value_type(id,v));
@@ -127,8 +142,8 @@ void PlantComponent::addGettableVar(const char *systemName,
                                     const char *units,
                                     const char *desc)
    {
-      unsigned int id = getReg(systemName, type, length>1, units); 
-      
+      unsigned int id = getReg(systemName, type, length>1, units);
+
       // Add to variable map
       varInfo *v = new varInfo(systemName, type, length, ptr, units, desc);
       vMap.insert(UInt2InfoMap::value_type(id,v));
@@ -136,8 +151,8 @@ void PlantComponent::addGettableVar(const char *systemName,
 
 // Build the xml fragment that describes this variable and publish to system
 unsigned int PlantComponent::getReg(const char *systemName,
-                                    protocol::DataTypeCode type, 
-                                    bool isArray, 
+                                    protocol::DataTypeCode type,
+                                    bool isArray,
                                     const char *units)
    {
    char buffer[200];
@@ -153,7 +168,7 @@ unsigned int PlantComponent::getReg(const char *systemName,
    strcat(buffer, "\" array=\"");
    if  (isArray) {
        strcat(buffer, "T");
-   } else { 
+   } else {
        strcat(buffer, "F");
    }
    strcat(buffer, "\" units=\"(");
@@ -163,49 +178,49 @@ unsigned int PlantComponent::getReg(const char *systemName,
    }
 
 ////////////////////
-baseInfo::baseInfo() { 
-	myLength = 0; 
-	myType = protocol::DTunknown; 
+baseInfo::baseInfo() {
+	myLength = 0;
+	myType = protocol::DTunknown;
 }
 
-void varInfo::sendVariable(protocol::Component *systemInterface, protocol::QueryValueData& qd) 
+void varInfo::sendVariable(protocol::Component *systemInterface, protocol::QueryValueData& qd)
    {
    switch (myType)
       {
       case protocol::DTdouble:
-         if (myLength == 1) 
+         if (myLength == 1)
            systemInterface->sendVariable(qd, *(double *)myPtr);
-         else if (myLength > 1) 
-           systemInterface->sendVariable(qd,         
+         else if (myLength > 1)
+           systemInterface->sendVariable(qd,
              protocol::vector<double>((double *)myPtr, (double *)myPtr + myLength));
          else
-           throw "Length = 0 in varInfo::sendVariable";  
+           throw "Length = 0 in varInfo::sendVariable";
          break;
       case protocol::DTsingle:
-         if (myLength == 1) 
+         if (myLength == 1)
            systemInterface->sendVariable(qd, *(float *)myPtr);
-         else if (myLength > 1) 
-           systemInterface->sendVariable(qd,         
+         else if (myLength > 1)
+           systemInterface->sendVariable(qd,
              protocol::vector<float>((float *)myPtr, (float *)myPtr + myLength));
          else
-           throw "Length = 0 in varInfo::sendVariable";  
+           throw "Length = 0 in varInfo::sendVariable";
          break;
       case protocol::DTint4 :
-         if (myLength == 1) 
+         if (myLength == 1)
            systemInterface->sendVariable(qd, *(int *)myPtr);
-         else if (myLength > 1) 
-           systemInterface->sendVariable(qd,         
+         else if (myLength > 1)
+           systemInterface->sendVariable(qd,
              protocol::vector<int>((int *)myPtr, (int *)myPtr + myLength));
          else
-           throw "Length = 0 in varInfo::sendVariable";  
+           throw "Length = 0 in varInfo::sendVariable";
          break;
       case protocol::DTstring :
-         if (myLength == 1) 
+         if (myLength == 1)
            systemInterface->sendVariable(qd, FString(((string *)myPtr)->c_str()));
-         else if (myLength > 1) 
+         else if (myLength > 1)
            throw  "String Array not yet implemented";
          else
-           throw "Length = 0 in varInfo::sendVariable";  
+           throw "Length = 0 in varInfo::sendVariable";
          break;
 
       default:
