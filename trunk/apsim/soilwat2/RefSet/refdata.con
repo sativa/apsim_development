@@ -104,7 +104,7 @@ endif
 
 if day = 120 then
    ! [tillage.<MES_till>]
-   soilwat2 till type = blade
+   soilwat2 tillage type = disc
 endif
 
 [swat.manager.end_of_day]  
