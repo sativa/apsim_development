@@ -26,6 +26,8 @@ string ReportMacros::evaluateMacro(TComponent* owner, const string& macro, const
       if (arguments.size() == 1)
          {
          returnValue = resolveComponentPropertyMacro(owner, arguments[0].c_str()).c_str();
+         if (returnValue == "")
+            returnValue = "?";
 
          // get the referenced component name.
          unsigned posPeriod = arguments[0].find('.');
@@ -44,7 +46,7 @@ string ReportMacros::evaluateMacro(TComponent* owner, const string& macro, const
             }
          catch (Exception& err)
             {
-            returnValue = "";
+            returnValue = "?";
             }
          // get the referenced component name.
          unsigned posPeriod = arguments[0].find('.');
