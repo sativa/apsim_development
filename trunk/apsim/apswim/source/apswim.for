@@ -18,6 +18,7 @@
 
 *+  Changes
 *        18081998   igh   Changed to use MES_Till
+*        270899 nih added clock tick event
 
 *+  Constant Values
       character myname*(*)
@@ -32,6 +33,9 @@
       else if (Action.eq.MES_Init) then
          call apswim_Init ()
  
+      else if (action.eq.EVENT_tick) then
+         call apswim_ONtick ()
+
       else if (Action .eq. MES_Prepare) then
          call apswim_prepare ()
  
@@ -848,25 +852,6 @@ c     :              3)
 
 *- Implementation Section ----------------------------------
  
-      ! Input Module
-      ! ------------
-      call get_integer_var (
-     :           unknown_module,
-     :           'day',
-     :           '()',
-     :           day,
-     :           numvals,
-     :           0,
-     :           366)
-      call get_integer_var (
-     :           unknown_module,
-     :           'year',
-     :           '()',
-     :           year,
-     :           numvals,
-     :           min_year,
-     :           max_year)
-
       call get_real_var (
      :           unknown_module,
      :           'radn',
@@ -901,24 +886,6 @@ c      ! get rainfall for this timestep
 c
 c      ret_string = get_variable_value('rain')
 c      read(ret_string, *, iostat = err_code) rain
- 
-      call get_real_var (
-     :           unknown_module,
-     :           'timestep',
-     :           '(min)',
-     :           apsim_timestep,
-     :           numvals,
-     :           1.0,
-     :           44640.)              ! one month of minutes
- 
-         ! Get length of apsim timestep
- 
-      call get_char_var (
-     :           unknown_module,
-     :           'time',
-     :           '(hh:mm)',
-     :           apsim_time,
-     :           numvals)
  
       return
       end
@@ -1917,55 +1884,11 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 *+  Changes
 *     <insert here>
 
-*+  Calls
-       integer apswim_time_to_mins   ! function
-       double precision apswim_time  ! function
-
 *+  Local Variables
-      integer          counter
-      integer          solnum
-      double precision start_timestep
-      double precision TEMPSolTime(SWIMLogSize)
-      double precision TEMPSolAmt(SWIMLogSize)
-      integer          TEMPSolNumPairs
-      integer          time_mins
 
 *- Implementation Section ----------------------------------
  
       call apswim_get_other_variables ()
- 
-      time_mins = apswim_time_to_mins (apsim_time)
-      start_timestep = apswim_time (year,day,time_mins)
- 
-      call apswim_purge_log_info(start_timestep
-     :                          ,SWIMRainTime
-     :                          ,SWIMRainAmt
-     :                          ,SWIMRainNumPairs)
- 
-      call apswim_purge_log_info(start_timestep
-     :                          ,SWIMEvapTime
-     :                          ,SWIMEvapAmt
-     :                          ,SWIMEvapNumPairs)
- 
-      do 100 solnum = 1, num_solutes
-        TEMPSolNumPairs = SWIMSolNumPairs(solnum)
-        do 50 counter = 1, TEMPSolNumPairs
-           TEMPSolTime(counter) = SWIMSolTime(solnum,counter)
-           TEMPSolAmt(counter) = SWIMSolAmt(solnum,counter)
-   50   continue
- 
-         call apswim_purge_log_info(start_timestep
-     :                             ,TEMPSolTime
-     :                             ,TEMPSolAmt
-     :                             ,TEMPSolNumPairs)
- 
-        SWIMSolNumPairs(solnum) = TEMPSolNumPairs
-        do 60 counter = 1, TEMPSolNumPairs
-           SWIMSolTime(solnum,counter) = TEMPSolTime(counter)
-           SWIMSolAmt(solnum,counter) = TEMPSolAmt(counter)
-   60   continue
-  100 continue
- 
  
       if (rainfall_source .eq. 'apsim') then
          call apswim_get_rain_variables ()
@@ -8375,6 +8298,88 @@ c      pause
   100 continue
       
       call pop_routine (my_name)
+      return
+      end
+ 
+ 
+*     ===========================================================
+      subroutine apswim_ONtick ()
+*     ===========================================================
+      implicit none
+      include 'apswim.inc'
+      include 'error.pub'
+      include 'event.pub'
+ 
+*+  Purpose
+*     Update internal time record and reset daily state variables.
+ 
+*+  Mission Statement
+*     Update internal time record and reset daily state variables.
+ 
+*+  Changes
+*        270899 nih
+
+*+  Calls
+       integer apswim_time_to_mins   ! function
+       double precision apswim_time  ! function
+
+*+  Local Variables
+      integer intTimestep
+      integer          counter
+      integer          solnum
+      double precision start_timestep
+      double precision TEMPSolTime(SWIMLogSize)
+      double precision TEMPSolAmt(SWIMLogSize)
+      integer          TEMPSolNumPairs
+      integer          time_mins
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'apswim_ONtick')
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      call handler_ONtick(day, year, apsim_time ,intTimestep)
+      apsim_timestep = intTimestep
+
+      ! Started new timestep so purge all old timecourse information
+      ! ============================================================
+
+      time_mins = apswim_time_to_mins (apsim_time)
+      start_timestep = apswim_time (year,day,time_mins)
+ 
+      call apswim_purge_log_info(start_timestep
+     :                          ,SWIMRainTime
+     :                          ,SWIMRainAmt
+     :                          ,SWIMRainNumPairs)
+ 
+      call apswim_purge_log_info(start_timestep
+     :                          ,SWIMEvapTime
+     :                          ,SWIMEvapAmt
+     :                          ,SWIMEvapNumPairs)
+ 
+      do 100 solnum = 1, num_solutes
+        TEMPSolNumPairs = SWIMSolNumPairs(solnum)
+        do 50 counter = 1, TEMPSolNumPairs
+           TEMPSolTime(counter) = SWIMSolTime(solnum,counter)
+           TEMPSolAmt(counter) = SWIMSolAmt(solnum,counter)
+   50   continue
+ 
+         call apswim_purge_log_info(start_timestep
+     :                             ,TEMPSolTime
+     :                             ,TEMPSolAmt
+     :                             ,TEMPSolNumPairs)
+ 
+        SWIMSolNumPairs(solnum) = TEMPSolNumPairs
+        do 60 counter = 1, TEMPSolNumPairs
+           SWIMSolTime(solnum,counter) = TEMPSolTime(counter)
+           SWIMSolAmt(solnum,counter) = TEMPSolAmt(counter)
+   60   continue
+  100 continue
+ 
+
+      call pop_routine (myname)
       return
       end
  
