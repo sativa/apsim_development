@@ -9,31 +9,36 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.2
+     Version                = 3.3
      Title                  = Wagga Effluent Irrigated E. grandis
-     Component DLL          = c:\progra~1\apsim32\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\clock\lib\clock.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\report\lib\report.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\input\lib\input.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\micromet\lib\micromet.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\irrigate\lib\irrigate.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\manager\lib\manager.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\forest\lib\forest.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\micromet\lib\micromet.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\Growth\lib\Growth.dll
 
 ------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+        report
      Simulation start date =  1/07/1991
      Simulation end date   = 30/06/1996
      Time step =           = 1440 (mins)
 
 ------- report Initialisation -------------------------------------------------
      Output variables:
-        clock.today.dd/mm/yyyy as date
+        clock.dd/mm/yyyy as date
         clock.day
         clock.year
         Egrandis.age

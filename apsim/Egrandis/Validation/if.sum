@@ -9,25 +9,30 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.2
+     Version                = 3.3
      Title                  = Gympie Irrigated/Fertilized
-     Component DLL          = c:\progra~1\apsim32\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\clock\lib\clock.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\report\lib\report.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\input\lib\input.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\micromet\lib\micromet.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\operatns\lib\operatns.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\irrigate\lib\irrigate.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\manager\lib\manager.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\forest\lib\forest.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\micromet\lib\micromet.dll
+     Component DLL          = c:\development\apsim\operatns\lib\operatns.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\Growth\lib\Growth.dll
 
 ------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+        report
      Simulation start date =  4/02/1987
      Simulation end date   =  4/02/1997
      Time step =           = 1440 (mins)
@@ -36,45 +41,45 @@
      Output variables:
         clock.day
         clock.year
-        clock.today.dd/mm/yyyy as date
+        clock.dd/mm/yyyy as date
         Egrandis.age
         soilwat2.esw
-        tracker1.sum@soilwat2.runoff
-        tracker1.sum@soilwat2.drain
-        tracker1.sum@soilwat2.es
-        tracker1.sum@irrigate.irrigation
+        tracker1.sum@soilwat2_runoff
+        tracker1.sum@soilwat2_drain
+        tracker1.sum@soilwat2_es
+        tracker1.sum@irrigate_irrigation
         soiln2.no3()
         soiln2.nh4()
         soiln2.biom_n()
         soiln2.fom_n()
         soiln2.hum_n()
-        tracker1.sum@soiln2.dlt_n_min[]
+        tracker1.sum@soiln2_dlt_n_min[]
         residue2.residue_wt
         residue2.residue_n
         Egrandis.lai
-        tracker1.avg@Egrandis.Fn
-        tracker1.avg@Egrandis.Fw
-        tracker1.avg@Egrandis.Fvpd
-        tracker1.avg@Egrandis.ft
+        tracker1.avg@Egrandis_Fn
+        tracker1.avg@Egrandis_Fw
+        tracker1.avg@Egrandis_Fvpd
+        tracker1.avg@Egrandis_ft
         Egrandis.adm_green(1) as stem_wt
         Egrandis.adm_green(2) as branch_wt
         Egrandis.adm_green(3) as bark_wt
         Egrandis.foliage_mass as leaf_wt
         Egrandis.root_mass
         Egrandis.adm_sen()
-        tracker1.avg@Egrandis.sw_demand
+        tracker1.avg@Egrandis_sw_demand
         Egrandis.ep
         Egrandis.height
-        tracker1.sum@Egrandis.dlt_adm_green[1] as dlt_stem_wt
-        tracker1.sum@Egrandis.dlt_adm_green[2] as dlt_branch_wt
-        tracker1.sum@Egrandis.dlt_adm_green[3] as dlt_bark_wt
-        tracker1.sum@Egrandis.dlt_foliage_mass as dlt_leaf_wt
+        tracker1.sum@Egrandis_dlt_adm_green[1] as dlt_stem_wt
+        tracker1.sum@Egrandis_dlt_adm_green[2] as dlt_branch_wt
+        tracker1.sum@Egrandis_dlt_adm_green[3] as dlt_bark_wt
+        tracker1.sum@Egrandis_dlt_foliage_mass as dlt_leaf_wt
         Egrandis.foliage_n
         Egrandis.an_green(1) as stem_n
         Egrandis.an_green(2) as branch_n
         Egrandis.an_green(3) as bark_n
-        tracker1.sum@Egrandis.n_demand
-        tracker1.sum@Egrandis.dlt_no3[]
+        tracker1.sum@Egrandis_n_demand
+        tracker1.sum@Egrandis_dlt_no3[]
         Egrandis.plants
         soiln2.carbon_tot(1)
         soiln2.carbon_tot(2)
@@ -85,16 +90,16 @@
         manager.oc1
         manager.oc2
         manager.volume
-        tracker1.sum@soilwat2.flow_no3[5]
-        tracker1.sum@soilwat2.flow_no3[8]
+        tracker1.sum@soilwat2_flow_no3[5]
+        tracker1.sum@soilwat2_flow_no3[8]
         Egrandis.total_n
         soiln2.nit_tot()
-        tracker1.sum@Egrandis.dlt_no3
+        tracker1.sum@Egrandis_dlt_no3
         Egrandis.rlv
         soilwat2.dlayer
-        tracker1.sum@micromet.interception
-        tracker1.sum@met.rain
-        tracker1.sum@fertiliz.fertiliser
+        tracker1.sum@micromet_interception
+        tracker1.sum@met_rain
+        tracker1.sum@fertiliz_fertiliser
      
      Output file = if.out
      Format = normal
@@ -558,13 +563,6 @@
         egrandis establish plants = 1111, init_section = seedling
      endif
      
-     SECTION:- start_of_day
-     
-     SECTION:- start_of_day
-     if day = 1 and year = 1994 then
-        automatic_irrigation = 'off'
-     endif
-     
      SECTION:- end_of_day
      if day = 35 and year = 1987 then
         residue2 add_residue  dlt_residue_wt = 75000 (kg/ha), dlt_residue_cnr = 100 , dlt_residue_type = grandis
@@ -577,6 +575,13 @@
      volume = (adm_green(1) + adm_green(3) + foliage_mass)/1000. * 1000./500.
      if end_week = 1 then
         report do_output
+     endif
+     
+     SECTION:- start_of_day
+     
+     SECTION:- start_of_day
+     if day = 1 and year = 1994 then
+        automatic_irrigation = 'off'
      endif
      END of rules
      
@@ -727,28 +732,28 @@
 
 ------- tracker1 Initialisation -----------------------------------------------
      Tracker variables:
-        sum of soilwat2.runoff since report.reported as sum@soilwat2.runoff on process
-        sum of soilwat2.drain since report.reported as sum@soilwat2.drain on process
-        sum of soilwat2.es since report.reported as sum@soilwat2.es on process
-        sum of irrigate.irrigation since report.reported as sum@irrigate.irrigation on process
-        sum of soiln2.dlt_n_min() since report.reported as sum@soiln2.dlt_n_min[] on process
-        average of Egrandis.Fn since report.reported as avg@Egrandis.Fn on process
-        average of Egrandis.Fw since report.reported as avg@Egrandis.Fw on process
-        average of Egrandis.Fvpd since report.reported as avg@Egrandis.Fvpd on process
-        average of Egrandis.ft since report.reported as avg@Egrandis.ft on process
-        average of Egrandis.sw_demand since report.reported as avg@Egrandis.sw_demand on process
-        sum of Egrandis.dlt_adm_green(1) since report.reported as sum@Egrandis.dlt_adm_green[1] on process
-        sum of Egrandis.dlt_adm_green(2) since report.reported as sum@Egrandis.dlt_adm_green[2] on process
-        sum of Egrandis.dlt_adm_green(3) since report.reported as sum@Egrandis.dlt_adm_green[3] on process
-        sum of Egrandis.dlt_foliage_mass since report.reported as sum@Egrandis.dlt_foliage_mass on process
-        sum of Egrandis.n_demand since report.reported as sum@Egrandis.n_demand on process
-        sum of Egrandis.dlt_no3() since report.reported as sum@Egrandis.dlt_no3[] on process
-        sum of soilwat2.flow_no3(5) since report.reported as sum@soilwat2.flow_no3[5] on process
-        sum of soilwat2.flow_no3(8) since report.reported as sum@soilwat2.flow_no3[8] on process
-        sum of Egrandis.dlt_no3 since report.reported as sum@Egrandis.dlt_no3 on process
-        sum of micromet.interception since report.reported as sum@micromet.interception on process
-        sum of met.rain since report.reported as sum@met.rain on process
-        sum of fertiliz.fertilizer since report.reported as sum@fertiliz.fertiliser on process
+        sum of soilwat2.runoff since report.reported as sum@soilwat2_runoff on process
+        sum of soilwat2.drain since report.reported as sum@soilwat2_drain on process
+        sum of soilwat2.es since report.reported as sum@soilwat2_es on process
+        sum of irrigate.irrigation since report.reported as sum@irrigate_irrigation on process
+        sum of soiln2.dlt_n_min() since report.reported as sum@soiln2_dlt_n_min[] on process
+        average of Egrandis.Fn since report.reported as avg@Egrandis_Fn on process
+        average of Egrandis.Fw since report.reported as avg@Egrandis_Fw on process
+        average of Egrandis.Fvpd since report.reported as avg@Egrandis_Fvpd on process
+        average of Egrandis.ft since report.reported as avg@Egrandis_ft on process
+        average of Egrandis.sw_demand since report.reported as avg@Egrandis_sw_demand on process
+        sum of Egrandis.dlt_adm_green(1) since report.reported as sum@Egrandis_dlt_adm_green[1] on process
+        sum of Egrandis.dlt_adm_green(2) since report.reported as sum@Egrandis_dlt_adm_green[2] on process
+        sum of Egrandis.dlt_adm_green(3) since report.reported as sum@Egrandis_dlt_adm_green[3] on process
+        sum of Egrandis.dlt_foliage_mass since report.reported as sum@Egrandis_dlt_foliage_mass on process
+        sum of Egrandis.n_demand since report.reported as sum@Egrandis_n_demand on process
+        sum of Egrandis.dlt_no3() since report.reported as sum@Egrandis_dlt_no3[] on process
+        sum of soilwat2.flow_no3(5) since report.reported as sum@soilwat2_flow_no3[5] on process
+        sum of soilwat2.flow_no3(8) since report.reported as sum@soilwat2_flow_no3[8] on process
+        sum of Egrandis.dlt_no3 since report.reported as sum@Egrandis_dlt_no3 on process
+        sum of micromet.interception since report.reported as sum@micromet_interception on process
+        sum of met.rain since report.reported as sum@met_rain on process
+        sum of fertiliz.fertilizer since report.reported as sum@fertiliz_fertiliser on process
 ------- Start of simulation  --------------------------------------------------
 4 February 1987(Day of year=35), manager: 
      Manager sending message :- egrandis establish  plants = 1111, init_section = seedling
