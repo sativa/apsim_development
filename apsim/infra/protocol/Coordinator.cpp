@@ -81,10 +81,18 @@ PROTOCOLCoordinator::PROTOCOLCoordinator(const string& name,
 // ------------------------------------------------------------------
 PROTOCOLCoordinator::~PROTOCOLCoordinator(void)
    {
+   delete systemConfiguration;
    while (!components.empty())
       {
 		IComponent* Ptr = components.back();
       components.pop_back();
+		delete Ptr;
+		}
+   for (EventRegistrationList::iterator i = eventRegistrations.begin();
+                                        i != eventRegistrations.end();
+                                        i++)
+      {
+		EventRegistration* Ptr = (*i).second;
 		delete Ptr;
 		}
    }
@@ -116,7 +124,8 @@ void PROTOCOLCoordinator::init()
       // get all configuration data for this component and pass to new component.
       std::ostringstream ssdl;
       comp->write(ssdl);
-      addComponent(comp->getName(), comp->getDllFilename(), ssdl.str());
+      addComponent(comp->getComponentName(), comp->getDllFilename(), ssdl.str());
+      delete comp;
       }
    // loop through all systems specified in configuration and create
    // and add a component object to our list of components.
@@ -129,7 +138,8 @@ void PROTOCOLCoordinator::init()
       string dllFileName;
       ISystemConfiguration* sim = systemConfiguration->getISystem(name);
 
-      addCoordinator(sim->getName(), sim);
+      addCoordinator(sim->getSystemName(), sim);
+      delete sim;
       }
 
    // initialise the previous component - used in sendMessageToFirst.
