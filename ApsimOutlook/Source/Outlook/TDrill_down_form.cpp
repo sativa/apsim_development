@@ -42,6 +42,8 @@ __fastcall TDrill_down_form::TDrill_down_form(TComponent* Owner)
    : TForm(Owner)
    {
    weAreExpanding = false;
+   fullExpColl = false;
+   renamingNode = false;
    }
 
 // ------------------------------------------------------------------
@@ -271,16 +273,18 @@ void __fastcall TDrill_down_form::ScenarioTreeMouseDown(TObject *Sender,
          ValueSelectPopup->Show();
          }
       }
-   weAreExpanding = false;
+   weAreExpanding = fullExpColl = false;
    }
 //---------------------------------------------------------------------------
 void __fastcall TDrill_down_form::ShowAllButtonClick(TObject *Sender)
    {
+   fullExpColl = true;
    ScenarioTree->FullExpand();
    }
 //---------------------------------------------------------------------------
 void __fastcall TDrill_down_form::HideAllButtonClick(TObject *Sender)
    {
+   fullExpColl = true;
    ScenarioTree->FullCollapse();
    }
 //---------------------------------------------------------------------------
@@ -303,7 +307,8 @@ void __fastcall TDrill_down_form::Delete1Click(TObject *Sender)
 void __fastcall TDrill_down_form::ScenarioTreeEditing(TObject *Sender,
       TTreeNode *Node, bool &AllowEdit)
    {
-   AllowEdit = (Node->Level == 0);
+   AllowEdit = renamingNode && (Node->Level == 0);
+   renamingNode = false;
    }
 //---------------------------------------------------------------------------
 void __fastcall TDrill_down_form::ScenarioTreeEdited(TObject *Sender,
@@ -321,18 +326,19 @@ void __fastcall TDrill_down_form::AddInLabelClick(TObject *Sender)
 void __fastcall TDrill_down_form::ScenarioTreeCollapsing(TObject *Sender,
       TTreeNode *Node, bool &AllowCollapse)
    {
-   weAreExpanding = true;
+   if (!fullExpColl) weAreExpanding = true;
    }
 //---------------------------------------------------------------------------
 void __fastcall TDrill_down_form::ScenarioTreeExpanding(TObject *Sender,
       TTreeNode *Node, bool &AllowExpansion)
    {
-   weAreExpanding = true;
+   if (!fullExpColl) weAreExpanding = true;
    }
 //---------------------------------------------------------------------------
 
 void __fastcall TDrill_down_form::Rename1Click(TObject *Sender)
 {
+   renamingNode = true;
    ScenarioTree->Selected->EditText();
 }
 //---------------------------------------------------------------------------
