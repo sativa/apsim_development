@@ -1,32 +1,5 @@
 include base.interface
 ; -----------------------------------------------------------
-; Independant types that IRRIGATE uses  
-; for some of its methods and events.
-; -----------------------------------------------------------
-class APSIMSolutes : APSIMProperty
-   name   : string[]
-   solute : real[]
-end
-
-class APSIMIrrigateMethod : APSIMMethod
-   amount   : APSIMReal    = Amount of irrigation, (mm)
-   duration : APSIMReal    = Duration of irrigation, (min)
-   time     : APSIMString  = Time, (hh:mm)
-   solute   : APSIMSolutes = Solutes
-end
-
-class APSIMIrrigatedEvent : APSIMEvent
-   amount   : APSIMReal    = Amount of irrigation, (mm)
-   duration : APSIMReal    = Duration of irrigation, (min)
-   time     : APSIMString  = Time, (hh:mm)
-   solute   : APSIMSolutes = Solutes
-end
-
-class APSIMNewSolutesEvent : APSIMEvent
-   solute   : APSIMSolutes = Solutes
-end
-
-; -----------------------------------------------------------
 ; IRRIGATEs public interface which other components may
 ; use.  Contains:
 ;    Properties which other components may get or set
@@ -64,25 +37,25 @@ class APSIMIrrigatePublic
 
 end
 ; -----------------------------------------------------------
-; IRRIGATEs private interface which documents things in other 
+; IRRIGATEs external interface which documents things in other 
 ; components that this component uses.
 ; Contains:
 ;    Properties used in other components
 ;    Methods called in other components
 ;    Events from other components that this component uses.
 ; -----------------------------------------------------------
-class APSIMIrrigatePrivate
+class APSIMIrrigateExternal
    sw_dep                 : APSIMReal             = Layered soil water, (mm), GET
    ll15_dep               : APSIMReal             = Layered lower limit, (mm), GET
    dul_dep                : APSIMReal             = Drained upper limit, (mm), GET
    dlayer                 : APSIMReal             = Depth of each layer, (mm), GET
 
    tick                   : APSIMEvent            = Tick event
-   new_solute             : APSIMNewSolutesEvent  = New solute event
+   new_solute             : APSIMNewSoluteEvent   = New solute event
 end
 
 class APSIMIrrigate
-   dll     : string
-   public  : APSIMIrrigatePublic
-   private : APSIMIrrigatePrivate
+   dll      : string
+   public   : APSIMIrrigatePublic
+   external : APSIMIrrigateExternal
 end
