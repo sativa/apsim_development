@@ -1156,13 +1156,14 @@ C     Last change:  P    25 Oct 2000    9:26 am
       end
 
 ! ====================================================================
-       subroutine Add_apsim_method(name, methodIndex)
+       subroutine Add_apsim_method(name, componentName, methodIndex)
 ! ====================================================================
       use ManagerModule
       implicit none
 
 !+  Sub-Program Arguments
       character(len=*), intent(in) :: name           ! Name of method
+      character(len=*), intent(in) :: componentName  ! Name of component
       integer, intent(out)         :: methodIndex    ! Index of method
 
 !+  Purpose
@@ -1193,7 +1194,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .     g%ApsimMethods(g%numApsimMethods)%name, name)
          g%ApsimMethods(g%numApsimMethods)%regID
      .        = add_registration(methodCallReg, name,
-     .                           stringddml)
+     .                           stringddml, ' ', componentName)
          methodIndex = g%numApsimMethods
       endif
 
@@ -1578,11 +1579,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
       dataString = adjustl(dataString)
       call split_line (dataString, methodName, dataString, Blank)
       methodName = adjustl(methodName)
-      methodName = Trim(componentName) // '.' // Trim(methodName)
 
       ! perform the method call.
       if (.not. find_apsim_method(methodName, methodIndex)) then
-         call add_apsim_method(methodName, methodIndex)
+         call add_apsim_method(methodName, componentName, methodIndex)
       endif
       call call_apsim_method(methodIndex, dataString)
 
