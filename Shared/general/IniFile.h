@@ -4,31 +4,24 @@
 #include <vector>
 #include <string>
 // ------------------------------------------------------------------
-//  Short description:
-//    Class handling the reading and writting to/from INI files.
-
-//  Notes:
-
-//  Changes:
-//    DPH 17/11/94
-//    DPH 13/5/1997 - reworked to use standard template library.
-//    dph 30/3/1999 - added Write_section_contents
-//    dph 1/4/1999  - added Read_section_names
-
+// Class handling the reading and writting to/from INI files.
 // ------------------------------------------------------------------
 class IniFile
 	{
    public:
       IniFile(void);
       ~IniFile(void);
-      IniFile(const std::string& File_name);
+      IniFile(const std::string& fileName);
+
+      void refresh(void);
 
       void setFileName(const std::string& fileName);
+      std::string getFileName(void) const {return fileName;}
 
-      void read(const std::string& section,
+      bool read(const std::string& section,
                 const std::string& key,
                 std::string& value) const;
-      void read(const std::string& section,
+      bool read(const std::string& section,
                 const std::string& key,
                 std::vector<std::string>& values) const;
       void readSectionNames(std::vector<std::string>& sections) const;
@@ -42,17 +35,31 @@ class IniFile
                  const std::string& key,
                  const std::vector<std::string>& values);
 
+      bool renameKey(const std::string& section,
+                     const std::string& oldKey,
+                     const std::string& newKey);
       void deleteKey(const std::string& section, const std::string& key);
-      void deleteKeys(const std::string& section, const std::string& key);
       void deleteSection(const std::string& Section);
       void getKeysInSection(const std::string& section,
                             std::vector<std::string>& keys) const;
       void renameSection(const std::string& oldSection,
-                         const std::string& newSection) const;
+                         const std::string& newSection);
 
    private:
-      void flush(void) const;
       std::string fileName;
+      std::string contents;
+      std::vector<std::string> sectionNames;
+      std::vector<unsigned> sectionIndexes;
+
+      void parse(void);
+      bool findMatchingKeys(const std::string& sectionName,
+                            const std::string& key,
+                            std::vector<std::string>& values,
+                            bool allowMultiple) const;
+      bool getSectionPosition(const std::string& section,
+                              unsigned& posStartSection,
+                              unsigned& posEndSection) const;
+      void updateIndexesAfter(const std::string& section, unsigned numChars);
    };
 
 // ------------------------------------------------------------------
