@@ -188,14 +188,14 @@ void Chart_base::Design(void)
       y_axis_label = (*Iter)->Y_axis.Title.Text;
       switch ((*Iter)->X_axis.Axis_type)
          {
-         case Axis::Bottom : if (bottom_axis_title.find (x_axis_label) == NPOS)
+         case Axis::Bottom : if (bottom_axis_title.find (x_axis_label) == string::npos)
                                 {
                                 if (bottom_axis_title.length() > 0)
                                    bottom_axis_title += ", ";
                                 bottom_axis_title += x_axis_label;
                                 }
                              break;
-         case Axis::Top    : if (top_axis_title.find (x_axis_label) == NPOS)
+         case Axis::Top    : if (top_axis_title.find (x_axis_label) == string::npos)
                                 {
                                 if (top_axis_title.length() > 0)
                                    top_axis_title += ", ";
@@ -205,14 +205,14 @@ void Chart_base::Design(void)
          };
       switch ((*Iter)->Y_axis.Axis_type)
          {
-         case Axis::Left   : if (left_axis_title.find (y_axis_label) == NPOS)
+         case Axis::Left   : if (left_axis_title.find (y_axis_label) == string::npos)
                                 {
                                 if (left_axis_title.length() > 0)
                                    left_axis_title += ", ";
                                 left_axis_title += y_axis_label;
                                 }
                              break;
-         case Axis::Right  : if (right_axis_title.find (y_axis_label) == NPOS)
+         case Axis::Right  : if (right_axis_title.find (y_axis_label) == string::npos)
                                 {
                                 if (right_axis_title.length() > 0)
                                    right_axis_title += ", ";
