@@ -196,4 +196,11 @@ bool ApsimSimulationFile::deleteComponent(const std::string& name)
    {
    return ApsimSystemData(xmlDoc->documentElement()).deleteComponent(name);
    }
+// ------------------------------------------------------------------
+// return this simulation as a system.
+// ------------------------------------------------------------------
+ApsimSystemData ApsimSimulationFile::asSystem(void)
+   {
+   return ApsimSystemData(xmlDoc->documentElement());
+   }
 
