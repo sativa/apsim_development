@@ -18,6 +18,7 @@
       parameter (LU_FORM_FILE=69)
 
       type FrmrptGlobals
+         sequence
          real values(max_elems,max_vars)
 
          character*(varname_len_max) varnames(max_vars)
@@ -36,6 +37,7 @@
       end type FrmrptGlobals
 
       type FrmrptParameters
+         sequence
          character*(varname_len_max) handle(max_files)
          character*(file_name_max) out_file_name(max_files)
          character*(file_name_max) form_file_name(max_files)
@@ -47,132 +49,13 @@
       end type FrmrptParameters
 
       ! instance variables.
-      type (FrmrptGlobals), pointer :: g
-      type (FrmrptParameters), pointer :: p
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type FrmrptDataPtr
-         type (FrmrptGlobals), pointer ::    gptr
-         type (FrmrptParameters), pointer :: pptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type FrmrptDataPtr
-      type (FrmrptDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (FrmrptGlobals),pointer :: g
+      type (FrmrptParameters),pointer :: p
 
 
       contains
-
-
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-
-      return
-      end subroutine
-
-
-* ====================================================================
-       subroutine Main(Action, Data)
-* ====================================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-       character Action*(*)            ! Message action to perform
-       character Data*(*)              ! Message data
-
-*+  Purpose
-*      This module reads in FrmRpt data from input file.
-
-*+  Changes
-*     05/06/97  SB  Created
-*     07/5/99 removed version and presence c186
-
-*+  Calls
-
-*- Implementation Section ----------------------------------
-
-      if (Action.eq.ACTION_Init) then
-         call frmrpt_read_param()
-         call frmrpt_init()
-
-      else if (Action.eq.ACTION_Process) then
-         call frmrpt_update_sumvars()
-         call frmrpt_report_counts()
-
-      else if (Action.eq.'do_output') then
-         call frmrpt_do_output(data)
-
-      else if (Action.eq.'clear') then
-         call frmrpt_clear_vars(data)
-
-      else if (Action.eq.ACTION_End_run) then
-         call frmrpt_end_run()
-
-      else
-         call Message_unused()        ! Don't use message
-
-      endif
-
-      return
-      end subroutine
-
 
 
 *     ===========================================================
@@ -1251,3 +1134,78 @@
 
 
       end module FrmrptModule
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use FrmrptModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+      else
+         deallocate(g)
+         deallocate(p)
+      end if
+      return
+      end subroutine
+
+
+
+* ====================================================================
+       subroutine Main(Action, Data)
+* ====================================================================
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+       character Action*(*)            ! Message action to perform
+       character Data*(*)              ! Message data
+
+*+  Purpose
+*      This module reads in FrmRpt data from input file.
+
+*+  Changes
+*     05/06/97  SB  Created
+*     07/5/99 removed version and presence c186
+
+*+  Calls
+
+*- Implementation Section ----------------------------------
+
+      if (Action.eq.ACTION_Init) then
+         call frmrpt_read_param()
+         call frmrpt_init()
+
+      else if (Action.eq.ACTION_Process) then
+         call frmrpt_update_sumvars()
+         call frmrpt_report_counts()
+
+      else if (Action.eq.'do_output') then
+         call frmrpt_do_output(data)
+
+      else if (Action.eq.'clear') then
+         call frmrpt_clear_vars(data)
+
+      else if (Action.eq.ACTION_End_run) then
+         call frmrpt_end_run()
+
+      else
+         call Message_unused()        ! Don't use message
+
+      endif
+
+      return
+      end subroutine
+
