@@ -1593,6 +1593,9 @@ cnh                  g(i)=1./(g%rc(i,iveg)/thk(i)+1./(gr*g%rld(i,iveg)*p%dx(i)))
 40                continue
                if(change)go to 30
             end if
+            if (g%psix(iveg).gt.psix) then
+               g%psix(iveg) = psix
+            endif
             do 50 i=0,p%n
                if(g_(i).ne.0.)then
                   tq=g_(i)*(tpsi(i)-psix)
@@ -1623,6 +1626,7 @@ cnh                  g(i)=1./(g%rc(i,iveg)/thk(i)+1./(gr*g%rld(i,iveg)*p%dx(i)))
 50          continue
          end if
 100   continue
+
       end subroutine
 * =====================================================================
       subroutine apswim_watvar(ix,tp,tpsi,psip,psipp,tth,thp,thk,hkp)
@@ -2043,3 +2047,4 @@ cnh added following declarations
       call pop_routine (my_name)
       return
       end function
+
