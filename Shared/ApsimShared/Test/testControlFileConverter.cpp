@@ -4,48 +4,17 @@
 #pragma hdrstop
 
 #include "testControlFileConverter.h"
+using namespace boost::unit_test_framework;
 
 #include "..\ApsimControlFile.h"
 #include "..\ControlFileConverter.h"
-#include <test\framework\testsuite.h>
-#include <test\framework\testcaller.h>
-#include <fstream>
 #include <general\string_functions.h>
 #include <general\inifile.h>
 
-#pragma package(smart_init)
-
-//---------------------------------------------------------------------------
-// Perform all tests.
-//---------------------------------------------------------------------------
-Test* TestControlFileConverter::suite(void)
-   {
-   TestSuite *testSuite = new TestSuite ("ControlFileConverter");
-   testSuite->addTest(new TestCaller <TestControlFileConverter>
-      ("testSetParameterValue", &TestControlFileConverter::testSetParameterValue));
-   testSuite->addTest(new TestCaller <TestControlFileConverter>
-      ("testRenameParameter", &TestControlFileConverter::testRenameParameter));
-   testSuite->addTest(new TestCaller <TestControlFileConverter>
-      ("testDeleteParameter", &TestControlFileConverter::testDeleteParameter));
-   testSuite->addTest(new TestCaller <TestControlFileConverter>
-      ("testChangeInstantiation", &TestControlFileConverter::testChangeInstantiation));
-   testSuite->addTest(new TestCaller <TestControlFileConverter>
-      ("testRemoveReportOutputSwitch", &TestControlFileConverter::testRemoveReportOutputSwitch));
-   testSuite->addTest(new TestCaller <TestControlFileConverter>
-      ("testMoveParameter", &TestControlFileConverter::testMoveParameter));
-   testSuite->addTest(new TestCaller <TestControlFileConverter>
-      ("testNewFormatReportVariables", &TestControlFileConverter::testNewFormatReportVariables));
-   testSuite->addTest(new TestCaller <TestControlFileConverter>
-      ("testMoveParamsFromConToPar", &TestControlFileConverter::testMoveParamsFromConToPar));
-   testSuite->addTest(new TestCaller <TestControlFileConverter>
-      ("testRemoveSumAvgToTracker", &TestControlFileConverter::testRemoveSumAvgToTracker));
-
-   return testSuite;
-   }
 //---------------------------------------------------------------------------
 // Setup the test environment
 //---------------------------------------------------------------------------
-void TestControlFileConverter::setUp(void)
+void setUpControlFileConverter1(void)
    {
    // write a control file.
    static const char* con = "[apsim.sample_accum]\n"
@@ -115,7 +84,7 @@ void TestControlFileConverter::setUp(void)
 //---------------------------------------------------------------------------
 // Setup the test environment 2
 //---------------------------------------------------------------------------
-void TestControlFileConverter::setUp2(void)
+void setUpControlFileConverter2(void)
    {
    // write a control file.
    static const char* con = "[apsim.sample_accum]\n"
@@ -180,16 +149,18 @@ void TestControlFileConverter::setUp2(void)
 //---------------------------------------------------------------------------
 // Tear down the test environment
 //---------------------------------------------------------------------------
-void TestControlFileConverter::tearDown(void)
+void tearDownControlFileConverter(void)
    {
    DeleteFile("accum.con");
    DeleteFile("accum.par");
+   DeleteFile("conversion.script");
    }
 //---------------------------------------------------------------------------
 // test the set parameter value functionality
 //---------------------------------------------------------------------------
-void TestControlFileConverter::testSetParameterValue(void)
+void testSetParameterValue(void)
    {
+   setUpControlFileConverter1();
    ofstream out("conversion.script");
    out << "[TestSetParameterValue]\n";
    out << "command=SetParameterValue(clock.simulation_start_day, xxxx)\n";
@@ -198,284 +169,225 @@ void TestControlFileConverter::testSetParameterValue(void)
    out << "command=SetParameterValue(log.logfile, %controlfilenamebase%.log)\n";
    out.close();
 
-   try
-      {
-      ControlFileConverter converter;
-      converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
-      ApsimControlFile con("accum.con");
-      test(con.getParameterValue("apsim.sample_accum", "clock", "simulation_start_day") == "xxxx");
-      test(con.getParameterValue("apsim.sample_accum", "clock", "simulation_start_year") == "xxxx");
-      test(con.getParameterValue("apsim.sample_accum", "clock", "simulation_end_day") == "9/4/1988     ");
-      test(con.getParameterValue("apsim.sample_accum", "log", "logfile") == "accum.log");
-      }
-   catch (const runtime_error& error)
-      {
-      ::MessageBox(NULL, error.what(), "Error", MB_OK);
-      test(false);
-      }
-
-   DeleteFile("conversion.script");
+   ControlFileConverter converter;
+   converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
+   ApsimControlFile con("accum.con");
+   BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "clock", "simulation_start_day") == "xxxx");
+   BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "clock", "simulation_start_year") == "xxxx");
+   BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "clock", "simulation_end_day") == "9/4/1988");
+   BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "log", "logfile") == "accum.log");
+   tearDownControlFileConverter();
    }
 
 //---------------------------------------------------------------------------
 // test the rename parameter functionality
 //---------------------------------------------------------------------------
-void TestControlFileConverter::testRenameParameter(void)
+void testRenameParameter(void)
    {
+   setUpControlFileConverter1();
    ofstream out("conversion.script");
    out << "[TestRenameParameter]\n";
    out << "command=RenameParameter(clock.simulation_start_day, start_date)\n";
    out.close();
 
-   try
-      {
-      ControlFileConverter converter;
-      converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
-      ApsimControlFile con("accum.con");
-      test(con.getParameterValue("apsim.sample_accum", "clock", "start_date") == "1");
-      }
-   catch (const runtime_error& error)
-      {
-      ::MessageBox(NULL, error.what(), "Error", MB_OK);
-      test(false);
-      }
-
-   DeleteFile("conversion.script");
+   ControlFileConverter converter;
+   converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
+   ApsimControlFile con("accum.con");
+   BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "clock", "start_date") == "1");
+   tearDownControlFileConverter();
    }
 //---------------------------------------------------------------------------
 // test the delete parameter functionality
 //---------------------------------------------------------------------------
-void TestControlFileConverter::testDeleteParameter(void)
+void testDeleteParameter(void)
    {
+   setUpControlFileConverter1();
    ofstream out("conversion.script");
    out << "[TestDeleteParameter]\n";
    out << "command=DeleteParameter(clock.simulation_start_day)\n";
    out << "command=DeleteParameter(report.module_names)\n";
    out.close();
 
-   try
-      {
-      ControlFileConverter converter;
-      converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
-      ApsimControlFile con("accum.con");
-      test(con.getParameterValue("apsim.sample_accum", "clock", "simulation_start_day") == "");
-      test(con.getParameterValue("apsim.sample_accum", "report", "module_names") == "");
-      }
-   catch (const runtime_error& error)
-      {
-      ::MessageBox(NULL, error.what(), "Error", MB_OK);
-      test(false);
-      }
-
-   DeleteFile("conversion.script");
+   ControlFileConverter converter;
+   converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
+   ApsimControlFile con("accum.con");
+   BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "clock", "simulation_start_day") == "");
+   BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "report", "module_names") == "");
+   tearDownControlFileConverter();
    }
 //---------------------------------------------------------------------------
 // test the delete parameter functionality
 //---------------------------------------------------------------------------
-void TestControlFileConverter::testChangeInstantiation(void)
+void testChangeInstantiation(void)
    {
+   setUpControlFileConverter1();
    ofstream out("conversion.script");
    out << "[TestChangeInstantiation]\n";
    out << "command=ChangeInstantiation(clock, sequencer(clock))\n";
    out.close();
 
-   try
-      {
-      ControlFileConverter converter;
-      converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
-      ApsimControlFile con("accum.con");
-      test(con.getParameterValue("apsim.sample_accum", "clock", "simulation_start_day") == "1");
-      }
-   catch (const runtime_error& error)
-      {
-      ::MessageBox(NULL, error.what(), "Error", MB_OK);
-      test(false);
-      }
-
-   DeleteFile("conversion.script");
+   ControlFileConverter converter;
+   converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
+   ApsimControlFile con("accum.con");
+   BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "clock", "simulation_start_day") == "1");
+   tearDownControlFileConverter();
    }
 //---------------------------------------------------------------------------
 // test the RemoveReportOutputSwitch functionality
 //---------------------------------------------------------------------------
-void TestControlFileConverter::testRemoveReportOutputSwitch(void)
+void testRemoveReportOutputSwitch(void)
    {
+   setUpControlFileConverter1();
    ofstream out("conversion.script");
    out << "[TestRemoveReportOutputSwitch]\n";
    out << "command=RemoveReportOutputSwitch(outputfile)\n";
    out << "command=RemoveReportOutputSwitch(summaryfile)\n";
    out.close();
 
-   try
-      {
-      ControlFileConverter converter;
-      converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
-      ApsimControlFile con("accum.con");
-      test(con.getParameterValue("apsim.sample_accum", "report", "outputfile") == "accum.out");
-      test(con.getParameterValue("apsim.sample_accum", "report", "summaryfile") == "accum.sum");
-      }
-   catch (const runtime_error& error)
-      {
-      ::MessageBox(NULL, error.what(), "Error", MB_OK);
-      test(false);
-      }
-
-   DeleteFile("conversion.script");
+   ControlFileConverter converter;
+   converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
+   ApsimControlFile con("accum.con");
+   BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "report", "outputfile") == "accum.out");
+   BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "report", "summaryfile") == "accum.sum");
+   tearDownControlFileConverter();
    }
 //---------------------------------------------------------------------------
 // test the RemoveReportOutputSwitch functionality
 //---------------------------------------------------------------------------
-void TestControlFileConverter::testMoveParameter(void)
+void testMoveParameter(void)
    {
+   setUpControlFileConverter1();
    ofstream out("conversion.script");
    out << "[TestMoveParameter]\n";
    out << "command=MoveParameter(report.title,)\n";
    out << "command=MoveParameter(report.summaryfile, SummaryFile)\n";
    out.close();
 
-   try
-      {
-      ControlFileConverter converter;
-      converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
-      ApsimControlFile con("accum.con");
-      test(con.getTitle("apsim.sample_accum") == "Accum Sample Simulation");
-      test(con.getParameterValue("apsim.sample_accum", "SummaryFile", "summaryfile") == "accum.sum");
-      }
-   catch (const runtime_error& error)
-      {
-      ::MessageBox(NULL, error.what(), "Error", MB_OK);
-      test(false);
-      }
-
-   DeleteFile("conversion.script");
+   ControlFileConverter converter;
+   converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
+   ApsimControlFile con("accum.con");
+   BOOST_CHECK(con.getTitle("apsim.sample_accum") == "Accum Sample Simulation");
+   BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "SummaryFile", "summaryfile") == "accum.sum");
+   tearDownControlFileConverter();
    }
 //---------------------------------------------------------------------------
 // test the NewFormatReportVariables functionality
 //---------------------------------------------------------------------------
-void TestControlFileConverter::testNewFormatReportVariables(void)
+void testNewFormatReportVariables(void)
    {
+   setUpControlFileConverter1();
    ofstream out("conversion.script");
    out << "[testNewFormatReportVariables]\n";
    out << "command=NewFormatReportVariables()\n";
    out.close();
 
-   try
-      {
-      ControlFileConverter converter;
-      converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
-      ApsimControlFile con("accum.con");
-      vector<string> variables;
-      con.getParameterValues("apsim.sample_accum", "report", "variable", variables);
-      test(variables.size() == 3);
-      test(variables[0] == "clock.day");
-      test(variables[1] == "clock.year");
-      test(variables[2] == "soilwat2.sum@sw() as yyyy");
+   ControlFileConverter converter;
+   converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
+   ApsimControlFile con("accum.con");
+   vector<string> variables;
+   con.getParameterValues("apsim.sample_accum", "report", "variable", variables);
+   BOOST_CHECK(variables.size() == 3);
+   BOOST_CHECK(variables[0] == "clock.day");
+   BOOST_CHECK(variables[1] == "clock.year");
+   BOOST_CHECK(variables[2] == "soilwat2.sum@sw() as yyyy");
 
-      vector<string> variables2;
-      con.getParameterValues("apsim.sample_accum", "report2", "variable", variables2);
-      test(variables2.size() == 4);
-      test(variables2[0] == "clock.day");
-      test(variables2[1] == "clock.year");
-
-      }
-   catch (const runtime_error& error)
-      {
-      ::MessageBox(NULL, error.what(), "Error", MB_OK);
-      test(false);
-      }
-
-   DeleteFile("conversion.script");
+   vector<string> variables2;
+   con.getParameterValues("apsim.sample_accum", "report2", "variable", variables2);
+   BOOST_CHECK(variables2.size() == 4);
+   BOOST_CHECK(variables2[0] == "clock.day");
+   BOOST_CHECK(variables2[1] == "clock.year");
+   tearDownControlFileConverter();
    }
 //---------------------------------------------------------------------------
 // test moving parameters from the control file to a par file
 //---------------------------------------------------------------------------
-void TestControlFileConverter::testMoveParamsFromConToPar(void)
+void testMoveParamsFromConToPar(void)
    {
-   setUp2();
+   setUpControlFileConverter2();
 
    ofstream out("conversion.script");
    out << "[testMoveParametersOutOfCon]\n";
    out << "command=MoveParametersOutOfCon(accum.par)\n";
    out.close();
 
-   try
-      {
-      ControlFileConverter converter;
-      converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
+   ControlFileConverter converter;
+   converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
 
-      ApsimControlFile con("accum.con");
-      test(con.getParameterValue("apsim.sample_accum", "clock", "simulation_start_day") == "1");
-      test(con.getParameterValue("apsim.sample_accum", "clock", "simulation_end_day") == "100");
+   ApsimControlFile con("accum.con");
+   BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "clock", "simulation_start_day") == "1");
+   BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "clock", "simulation_end_day") == "100");
 
-      // make sure the conversion hasn't removed the %apsuite macros.
-      IniFile controlAsIni("accum.con");
-      vector<string> lines;
-      controlAsIni.read("apsim.sample_accum", "module", lines);
-      test(lines.size() == 7);
-      test(lines[3] == "met      %apsuite\\apsim\\met\\SAMPLE\\DALBY.MET [weather]");
+   // make sure the conversion hasn't removed the %apsuite macros.
+   IniFile controlAsIni("accum.con");
+   vector<string> lines;
+   controlAsIni.read("apsim.sample_accum", "module", lines);
+   BOOST_CHECK(lines.size() == 7);
+   BOOST_CHECK(lines[3] == "met      %apsuite\\apsim\\met\\SAMPLE\\DALBY.MET [weather]");
 
-      // make sure test = on is still there.
-      test(con.getParameterValue("apsim.sample_accum", "test", "test") == "on");
-
-      }
-   catch (const runtime_error& error)
-      {
-      ::MessageBox(NULL, error.what(), "Error", MB_OK);
-      test(false);
-      }
-
-   DeleteFile("conversion.script");
-
+   // make sure test = on is still there.
+   BOOST_CHECK(con.getParameterValue("apsim.sample_accum", "test", "test") == "on");
+   tearDownControlFileConverter();
    }
 //---------------------------------------------------------------------------
 // test the RemoveSumAvgToTracker functionality
 //---------------------------------------------------------------------------
-void TestControlFileConverter::testRemoveSumAvgToTracker(void)
+void testRemoveSumAvgToTracker(void)
    {
+   setUpControlFileConverter1();
    ofstream out("conversion.script");
    out << "[testNewFormatReportVariables]\n";
    out << "command=NewFormatReportVariables()\n";
    out << "command=RemoveSumAvgToTracker()\n";
    out.close();
 
-   try
-      {
-      ControlFileConverter converter;
-      converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
-      ApsimControlFile con("accum.con");
-      vector<string> variables;
+   ControlFileConverter converter;
+   converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
+   ApsimControlFile con("accum.con");
+   vector<string> variables;
 
-      vector<string> variables1;
-      con.getParameterValues("apsim.sample_accum", "report", "variable", variables1);
-      test(variables1.size() == 3);
-      test(variables1[0] == "clock.day");
-      test(variables1[1] == "clock.year");
-      test(variables1[2] == "tracker1.sum@soilwat2.sw[] as yyyy");
+   vector<string> variables1;
+   con.getParameterValues("apsim.sample_accum", "report", "variable", variables1);
+   BOOST_CHECK(variables1.size() == 3);
+   BOOST_CHECK(variables1[0] == "clock.day");
+   BOOST_CHECK(variables1[1] == "clock.year");
+   BOOST_CHECK(variables1[2] == "tracker1.sum@soilwat2.sw[] as yyyy");
 
-      vector<string> variables2;
-      con.getParameterValues("apsim.sample_accum", "report2", "variable", variables2);
-      test(variables2.size() == 4);
-      test(variables2[0] == "clock.day");
-      test(variables2[1] == "clock.year");
-      test(variables2[2] == "tracker2.sum@soilwat2.sw as xxxx");
-      test(variables2[3] == "tracker2.avg@soiln2.no3");
+   vector<string> variables2;
+   con.getParameterValues("apsim.sample_accum", "report2", "variable", variables2);
+   BOOST_CHECK(variables2.size() == 4);
+   BOOST_CHECK(variables2[0] == "clock.day");
+   BOOST_CHECK(variables2[1] == "clock.year");
+   BOOST_CHECK(variables2[2] == "tracker2.sum@soilwat2.sw as xxxx");
+   BOOST_CHECK(variables2[3] == "tracker2.avg@soiln2.no3");
 
-      vector<string> variables3;
-      con.getParameterValues("apsim.sample_accum", "tracker1", "variable", variables3);
-      test(variables3.size() == 1);
-      test(variables3[0] == "sum of soilwat2.sw() since report.reported as sum@soilwat2.sw[]");
+   vector<string> variables3;
+   con.getParameterValues("apsim.sample_accum", "tracker1", "variable", variables3);
+   BOOST_CHECK(variables3.size() == 1);
+   BOOST_CHECK(variables3[0] == "sum of soilwat2.sw() since report.reported as sum@soilwat2.sw[] on post");
 
-      vector<string> variables4;
-      con.getParameterValues("apsim.sample_accum", "tracker2", "variable", variables4);
-      test(variables4.size() == 2);
-      test(variables4[0] == "sum of soilwat2.sw since report2.reported as sum@soilwat2.sw");
-      test(variables4[1] == "average of soiln2.no3 since report2.reported as avg@soiln2.no3");
-      }
-   catch (const runtime_error& error)
-      {
-      ::MessageBox(NULL, error.what(), "Error", MB_OK);
-      test(false);
-      }
+   vector<string> variables4;
+   con.getParameterValues("apsim.sample_accum", "tracker2", "variable", variables4);
+   BOOST_CHECK(variables4.size() == 2);
+   BOOST_CHECK(variables4[0] == "sum of soilwat2.sw since report2.reported as sum@soilwat2.sw on post");
+   BOOST_CHECK(variables4[1] == "average of soiln2.no3 since report2.reported as avg@soiln2.no3 on post");
+   tearDownControlFileConverter();
+   }
 
-   DeleteFile("conversion.script");
+//---------------------------------------------------------------------------
+// Perform all tests.
+//---------------------------------------------------------------------------
+test_suite* testControlFileConverter(void)
+   {
+   test_suite* test= BOOST_TEST_SUITE("TestControlFileConverter");
+   test->add(BOOST_TEST_CASE(&testSetParameterValue));
+   test->add(BOOST_TEST_CASE(&testRenameParameter));
+   test->add(BOOST_TEST_CASE(&testDeleteParameter));
+   test->add(BOOST_TEST_CASE(&testChangeInstantiation));
+   test->add(BOOST_TEST_CASE(&testRemoveReportOutputSwitch));
+   test->add(BOOST_TEST_CASE(&testMoveParameter));
+   test->add(BOOST_TEST_CASE(&testNewFormatReportVariables));
+   test->add(BOOST_TEST_CASE(&testMoveParamsFromConToPar));
+   test->add(BOOST_TEST_CASE(&testRemoveSumAvgToTracker));
+   return test;
    }
 

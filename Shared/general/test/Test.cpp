@@ -3,18 +3,16 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include <cppunit\ui\text\TestRunner.h>
-#include "TestStringTokenizer.h"
-#include "TestIniFile.h"
-#include "TestMacro.h"
+#include <boost/test/unit_test.hpp>
+#include "testValues.h"
+using namespace boost::unit_test_framework;
 
-//#pragma argsused
-int main(int argc, char* argv[])
+test_suite*
+init_unit_test_suite( int argc, char* argv[] )
    {
-   CppUnit::TextUi::TestRunner runner;
-   runner.addTest(TestStringTokenizer::suite());
-   runner.addTest(TestIniFile::suite());
-   runner.addTest(TestMacro::suite());
-   return runner.run();
-   }
+   test_suite* test= BOOST_TEST_SUITE("TestGeneral");
+   test->add(testValues());
+
+   return test;
+   }     
 
