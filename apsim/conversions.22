@@ -2,22 +2,22 @@
 command=MoveParametersOutOfCon()
 
 [Converted CLOCK 'simulation_start_day' and 'simulation_start_year' to 'start_date']
-command=SetParameterValue(clock.simulation_start_day, date(clock.simulation_start_day, clock.simulation_start_year))
+command=SetParameterValue(clock.simulation_start_day, "date(clock.simulation_start_day, clock.simulation_start_year)")
 command=RenameParameter(clock.simulation_start_day, start_date)
 command=DeleteParameter(clock.simulation_start_year)
 
 [Converted CLOCK 'simulation_end_day' and 'simulation_end_year' to 'end_date']
-command=SetParameterValue(clock.simulation_end_day, date(clock.simulation_end_day, clock.simulation_end_year))
+command=SetParameterValue(clock.simulation_end_day, "date(clock.simulation_end_day, clock.simulation_end_year)")
 command=RenameParameter(clock.simulation_end_day, end_date)
 command=DeleteParameter(clock.simulation_end_year)
 
 [Converted CLOCK 'start_day' and 'start_year' to 'start_date']
-command=SetParameterValue(clock.start_day, date(clock.start_day, clock.start_year))
+command=SetParameterValue(clock.start_day, "date(clock.start_day, clock.start_year)")
 command=RenameParameter(clock.start_day, start_date)
 command=DeleteParameter(clock.start_year)
 
 [Converted CLOCK 'end_day' and 'end_year' to 'end_date']
-command=SetParameterValue(clock.end_day, date(clock.end_day, clock.end_year))
+command=SetParameterValue(clock.end_day, "date(clock.end_day, clock.end_year)")
 command=RenameParameter(clock.end_day, end_date)
 command=DeleteParameter(clock.end_year)
 
