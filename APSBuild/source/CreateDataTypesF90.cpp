@@ -1063,6 +1063,7 @@ void CreateDataTypesF90::doConvert(const std::string& sourceFilename,
    {
    dataTypes = NULL;
    component = NULL;
+   routinesDoneSoFar.erase(routinesDoneSoFar.begin(), routinesDoneSoFar.end());
    try
       {
       dataTypes = new ApsimDataTypesFile;
