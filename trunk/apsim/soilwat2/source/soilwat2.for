@@ -77,11 +77,12 @@
 
       else if (action.eq.EVENT_tick) then
          call soilwat2_ONtick()
+
+      else if (action.eq.EVENT_newmet) then
+         call soilwat2_ONnewmet()
   
       else if (action.eq.mes_init) then
          call soilwat2_zero_variables ()
-         call soilwat2_get_met_variables ()
-
          call soilwat2_init ()
          call soilwat2_sum_report ()
  
@@ -110,10 +111,14 @@
                ! send changes to owner-modules
          call soilwat2_set_other_variables ()
  
-      else if (action.eq.'add_water') then
+      else if (action.eq.EVENT_irrigated) then
                ! respond to addition of irrigation
-         call soilwat2_add_water ()
- 
+         call soilwat2_ONirrigated ()
+
+      else if (action.eq.'add_water') then
+         call fatal_error (ERR_USER,
+     :   '"ADD_WATER" message no longer available - use "irrigated"') 
+
       else if (action .eq. mes_till) then
          call soilwat2_tillage ()
 
@@ -3099,8 +3104,6 @@ c     he should have. Any ideas? Perhaps
  
       call push_routine (my_name)
  
-      call soilwat2_get_met_variables ()
-
       call soilwat2_get_residue_variables ()
  
       call soilwat2_get_crop_variables ()
@@ -3112,80 +3115,6 @@ c     he should have. Any ideas? Perhaps
       call pop_routine (my_name)
       return
       end
- 
- 
- 
-* ====================================================================
-      subroutine soilwat2_get_met_variables ()
-* ====================================================================
-      implicit none
-      include   'const.inc'            ! mes_get_variable, global_active
-      include   'soilwat2.inc'
-      include 'string.pub'
-      include 'data.pub'
-      include 'engine.pub'
-      include 'intrface.pub'
-      include 'error.pub'
- 
-*+  Purpose
-*      get the value/s of a variable/array.
- 
-*+  Assumptions
-*      assumes variable has the following format
-*         <variable_name> = <variable_value/s> (<units>)
- 
-*+  Mission Statement
-*     Get Other Variables
- 
-*+  Changes
-*     301192 jngh
-*     110393 jngh altered to new engine - immediate messages
-*     010994 jpd  Added request for 'crop_cover' from crop modules
-*     160994 jpd  add basal_cover request
-*     230994  pdev  added cover_extra
-*      191094 jngh changed interface routines
-*     300695 jngh changed upper limit of residue wt to 100000
-*     170895 nih  added read for solute information
-*                 (removed old code for no3 and nh4)
-*     070696 nih  changed get other for optimal speed
-*     130896 jngh removed getting cover from canopy module.
-*                 stored covers (green and total) in arrays
-*     200896 jngh added capture of crop heights.
-*     210896 jngh removed check of crops owning heights not being the same
-*                 as crops owning green_cover.
- 
-*+  Constant Values
-      character  my_name*(*)           ! name of subroutine
-      parameter (my_name = 'soilwat2_get_met_variables')
- 
-*+  Local Variables
-      integer    numvals               ! number of values put into array
- 
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      call get_real_var (unknown_module, 'maxt', '(oC)'
-     :                                  , g_maxt, numvals
-     :                                  , -100.0, 100.0)
- 
-      call get_real_var (unknown_module, 'mint', '(oC)'
-     :                                  , g_mint, numvals
-     :                                  , -100.0, 100.0)
- 
-      call get_real_var (unknown_module, 'radn', '(MJ/m^2)'
-     :                                  , g_radn, numvals
-     :                                  , 0.0, 1000.0)
- 
-      call get_real_var (unknown_module, 'rain', '(mm)'
-     :                                  , g_rain, numvals
-     :                                  , 0.0, 10000.0)
- 
-      call pop_routine (my_name)
-      return
-      end
- 
- 
  
 * ====================================================================
       subroutine soilwat2_get_residue_variables ()
@@ -3283,17 +3212,14 @@ c     he should have. Any ideas? Perhaps
       parameter (my_name = 'soilwat2_get_crop_variables')
  
 *+  Local Variables
-      real       canopy_height         ! height of canopy (mm)
       real       cover                 ! temporary cover variable (0-1)
       integer    crop                  ! loop index
-      integer    crop_index            ! array index
       integer    numvals               ! number of values put into array
       character  owner_module*(max_module_name_size) ! owner module of variable
  
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
- 
  
              ! Get green cover of each crop
              ! g_cover_green is all canopys green
@@ -3324,76 +3250,28 @@ c     he should have. Any ideas? Perhaps
  
             ! Get total cover of each crop
             ! g_cover_tot is all canopys green + dead
- 
-      crop = 0
-2000  continue
-         call get_real_vars (crop+1, 'cover_tot', '(mm)'
-     :                              , cover, numvals
-     :                              , 0.0, 1.0)
-         if (numvals.ne.0) then
-            if (crop+1.le.max_crops) then
-               crop = crop + 1
-               call get_posting_Module (Owner_module)
-               if (owner_module.eq.g_crop_module(crop)) then
-               g_cover_tot(crop) = cover
-                  goto 2000
-               else
-                  call fatal_error (err_user
-     :              , 'Modules with total cover do not match '
-     :             // 'modules with green cover')
-               endif
-            else
-               call fatal_error (err_user
-     :            , 'Too many modules with total cover. Last module ='
-     :            // owner_module)
-            endif
-         else
-         endif
- 
-         if (crop.ne.g_num_crops) then
-            call fatal_error (err_user
-     :              , 'Number of modules with total cover different to '
-     :              // 'number of modules with green cover.')
-         else
-         endif
- 
-            ! Get height of each crop
- 
-      crop = 0
-      call fill_real_array (g_canopy_height, -1.0, g_num_crops)
-2500  continue
-         call get_real_vars (crop+1, 'height', '(mm)'
-     :                              , canopy_height, numvals
-     :                              , 0.0, 100000.0)
-         if (numvals.ne.0) then
-            if (crop+1.le.max_crops) then
-               crop = crop + 1
-               call get_posting_Module (Owner_module)
-               crop_index = position_in_char_array
-     :                (Owner_module, g_crop_module, g_num_crops)
-               if (crop_index.ne.0) then
-               g_canopy_height(crop_index) = canopy_height
-                  goto 2500
-               else
-                  call fatal_error (err_user
-     :              , 'Modules with height do not match '
-     :             // 'modules with green cover')
-               endif
-            else
-               call fatal_error (err_user
-     :            , 'Too many modules with height. Last module ='
-     :            // owner_module)
-            endif
-         else
-         endif
- 
-cjh         if (crop.ne.g_num_crops) then
-cjh            call warning_error (err_internal
-cjh     :              , 'Number of modules with height is different to '
-cjh     :              // 'number of modules with green cover.')
-cjh         else
-cjh         endif
- 
+
+
+      do 2000 crop = 1, g_num_crops
+
+         call get_real_var  (g_crop_module(crop)
+     :                      ,'cover_tot'
+     :                      ,'()'
+     :                      ,g_cover_tot(crop)
+     :                      ,numvals
+     :                      ,0.0
+     :                      ,1.0)
+
+         call get_real_var  (g_crop_module(crop)
+     :                      ,'height'
+     :                      ,'(mm)'
+     :                      ,g_canopy_height(crop)
+     :                      ,numvals
+     :                      ,0.0
+     :                      ,100000.0)
+
+ 2000  continue
+
       call pop_routine (my_name)
       return
       end
@@ -4308,12 +4186,6 @@ cjh         endif
       call fill_char_array (g_crop_module, ' ', max_crops)
       call fill_real_array (g_canopy_height, 0.0, max_crops)
  
-      g_rain               = 0.0
-      g_radn               = 0.0
-      g_mint               = 0.0
-      g_maxt               = 0.0
-      g_year               = 0
-      g_day                = 0
       g_residue_wt         = 0.0
       g_residue_cover      = 0.0
       g_eo                 = 0.0
@@ -4635,10 +4507,11 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
  
 * ====================================================================
-       subroutine soilwat2_add_water ()
+       subroutine soilwat2_ONirrigated ()
 * ====================================================================
       implicit none
-       include 'soilwat2.inc'
+      include 'soilwat2.inc'
+      include 'event.inc'
       include 'error.pub'
       include 'intrface.pub'
  
@@ -4652,10 +4525,11 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *   neilh - 18-08-1995 - Programmed and Specified
 *   neilh - 07-06-1996 - removed data_String from argument list
 *                      - changed extract calls to collect calls
+*   neilh - 30-08-1999 - routine name changed to ONirrigated
  
 *+  Constant Values
       character*(*) myname               ! name of current procedure
-      parameter (myname = 'soilwat2_add_water')
+      parameter (myname = 'soilwat2_ONirrigated')
  
 *+  Local Variables
        real             amount           ! amount of irrigation (mm)
@@ -4666,7 +4540,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
-      call collect_real_var ('amount'
+      call collect_real_var (DATA_irrigate_amount
      :                      ,'(mm)'
      :                      ,amount
      :                      ,numvals
@@ -5669,6 +5543,74 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       ! and so dummy variables are used in their place.
 
       call handler_ONtick(g_day, g_year, temp1, temp2)
+
+      call pop_routine (myname)
+      return
+      end
+ 
+*     ===========================================================
+      subroutine soilwat2_ONnewmet ()
+*     ===========================================================
+      implicit none
+      include   'soilwat2.inc'
+      include 'event.inc'
+      include 'error.pub'
+      include 'event.pub'
+      include 'intrface.pub' 
+*+  Purpose
+*     Get new met data
+ 
+*+  Mission Statement
+*     Get new met data
+ 
+*+  Changes
+*        270899 nih 
+
+*+  Local Variables
+cnh      real   temp1
+      integer numvals
+ 
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'soilwat2_ONnewmet')
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+cnh      ! Note that vp is not needed
+cnh      ! and so a dummy variable is used in its place.
+cnh
+cnh      call handler_ONnewmet(g_radn, g_maxt, g_mint, g_rain, temp1)
+
+      ! only collect that which is needed to save execution time
+
+      call collect_real_var (DATA_radn
+     :                      ,'(MJ)'
+     :                      ,g_radn
+     :                      ,numvals
+     :                      ,0.0
+     :                      ,50.0)
+ 
+      call collect_real_var (DATA_maxt
+     :                      ,'(oC)'
+     :                      ,g_maxt
+     :                      ,numvals
+     :                      ,0.0
+     :                      ,50.0)
+
+      call collect_real_var (DATA_mint
+     :                      ,'(oC)'
+     :                      ,g_mint
+     :                      ,numvals
+     :                      ,-10.0
+     :                      ,g_maxt)
+
+      call collect_real_var (DATA_rain
+     :                      ,'(mm)'
+     :                      ,g_rain
+     :                      ,numvals
+     :                      ,0.0
+     :                      ,300.0)
 
       call pop_routine (myname)
       return
