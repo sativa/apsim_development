@@ -213,6 +213,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "IrrigationUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IrrigationUI.resx"
+                    DependentUpon = "IrrigationUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "LogicUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
