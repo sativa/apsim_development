@@ -153,8 +153,8 @@
       else if (eventID .eq. SurfaceWaterChangedID) then
          call soilwat2_OnSurfaceWaterChanged (variant)
 
-      else if (eventID .eq. EosCalculatedID) then
-         call soilwat2_OnEosCalculated (variant)
+      else if (eventID .eq. SurfaceWaterDemandCalculatedID) then
+         call soilwat2_OnSurfaceWaterDemandCalculated (variant)
 
       else
          call error('bad event ID',IsFatal)
@@ -386,7 +386,7 @@
 
 
 *     ===========================================================
-      subroutine soilwat2_OnEosCalculated (variant)
+      subroutine soilwat2_OnSurfaceWaterDemandCalculated (variant)
 *     ===========================================================
       use soilwat2Module
       use ComponentInterfaceModule
@@ -410,7 +410,7 @@
 
 *+  Constant Values
       character  my_name*(*)           ! this subroutine name
-      parameter (my_name = 'soilwat2_OnEosCalculated')
+      parameter (my_name = 'soilwat2_OnSurfaceWaterDemandCalculated')
 
 *+  Local Variables
       real Eos_calculated
@@ -419,7 +419,7 @@
 
       call push_routine (my_name)
 
-      call unpack_EosCalculated (variant, g%Eos)
+      call unpack_SurfaceWaterDemand (variant, g%Eos)
 
       call pop_routine (my_name)
       return
@@ -645,7 +645,7 @@
 *- Implementation Section ----------------------------------
 
       num_layers = count_of_real_vals (p%dlayer, max_layer)
-
+      
       SoilWaterProfileLayers(1:num_layers)
      :                        %thickness = p%dlayer(1:num_layers)
       SoilWaterProfileLayers(1:num_layers)
@@ -2749,7 +2749,7 @@ cjh
 c dsg - if there is no impermeable layer specified, then mwcon must
 c       be set to '1' in all layers by default
 
-      if (numvals.eq.0) then
+      if (.not.found) then
           p%mwcon(:) = 1.0
       endif
 
@@ -3713,7 +3713,7 @@ c     he should have. Any ideas? Perhaps
          call Unpack_u (Variant, p%u)
       else
 !         call Message_unused ()
-
+         call error('Unknown variable ID',IsFatal)
       endif
 
       respondToSet = .true.
@@ -3972,13 +3972,14 @@ c     he should have. Any ideas? Perhaps
          call return_sws (Variable_info           ! '(mm/mm)'
      :                   , g%sws, num_layers)
 
-      else if (soilwat2_solute_output(Variable_info%id)) then
+      else if (soilwat2_solute_output(Variable_info)) then
          ! this ID matches one of our solute output IDs
 
       else
          ! not my variable
 
-!         call Message_unused ()
+         call error('Unknown output variable ID',IsFatal)
+         
       endif
 
       call pop_routine (my_name)
@@ -5042,7 +5043,6 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 
       call push_routine (my_name)
             ! zero pools
-
           ! Get all coefficients from file
 
       call soilwat2_read_constants ()
