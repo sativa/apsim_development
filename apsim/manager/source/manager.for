@@ -311,6 +311,7 @@
       implicit none
       include 'const.inc'             ! Global constant definitions
       include 'error.pub'                         
+      include 'action.inc'
 
 !+  Sub-Program Arguments
        character Action*(*)            ! Message action to perform
@@ -341,24 +342,21 @@
 !- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      if (action .eq. mes_get_variable) then
+      if (action .eq. ACTION_get_variable) then
          call manager_send_my_variable (Data_string)
  
-      else if (Action.eq.MES_Init) then
+      else if (Action.eq.ACTION_Init) then
          call Manager_zero_variables ()
          call Manager_Init ()
  
-      else if (Action.eq.MES_Prepare) then
+      else if (Action.eq.ACTION_Prepare) then
          call Manager_Prepare ()
  
-      else if (Action.eq.MES_Process) then
+      else if (Action.eq.ACTION_Process) then
          call Manager_Process ()
  
-      else if (Action.eq.MES_Post) then
+      else if (Action.eq.ACTION_Post) then
          call Manager_Post ()
- 
-      else if (Action .eq. MES_Event) then
-         call Manager_Event (Data_string)
  
       else
          ! Don't use message
