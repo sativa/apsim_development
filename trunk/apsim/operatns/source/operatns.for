@@ -45,7 +45,7 @@
       parameter (my_name = 'operatns_version')
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.2  060696')
+      parameter (version_number = 'V1.3  070397')
 
 *   Initial data values
 *       none
