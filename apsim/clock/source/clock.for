@@ -311,6 +311,9 @@ cih
      .                             g_year)
  
          Clock_advance_clock = .true.
+
+         call Clock_DoTick()
+
       endif
  
       call pop_routine (This_routine)
@@ -642,8 +645,9 @@ cih
        subroutine Clock_timestep_loop ()
 * ====================================================================
       implicit none
-       include 'const.inc'             ! Constant definitions
-       include 'clock.inc'
+      include 'const.inc'             ! Constant definitions
+      include 'event.inc'
+      include 'clock.inc'
       include 'error.pub'                         
       include 'engine.pub'                        
 
@@ -653,6 +657,7 @@ cih
 
 *+  Changes
 *      DPH 26/11/96
+*      NIH 25/08/99 - Added Tick Event
 
 *+  Calls
                                        ! function
@@ -660,24 +665,24 @@ cih
 
 *+  Constant Values
        integer Num_instructions
-       parameter (Num_instructions=5)  ! Number of instructions to send
+       parameter (Num_instructions=4)  ! Number of instructions to send
 
 *+  Local Variables
        character Instructions(Num_instructions)*8
        integer Instruction_Index       ! index into instruction list
 
 *+  Initial Data Values
-       data Instructions(1) /MES_Inter_timestep/
-       data Instructions(2) /MES_Prepare/
-       data Instructions(3) /MES_Process/
-       data Instructions(4) /MES_Post/
-       data Instructions(5) /MES_Report/
+       data Instructions(1) /MES_Prepare/
+       data Instructions(2) /MES_Process/
+       data Instructions(3) /MES_Post/
+       data Instructions(4) /MES_Report/
 
 *- Implementation Section ----------------------------------
  
       ! Main timestep loop
  
 10    continue
+
       do 20 Instruction_index = 1, Num_instructions
  
          ! Send message to all modules.
@@ -808,3 +813,54 @@ cih
       end
 
 
+* ====================================================================
+       subroutine Clock_DoTick ()
+* ====================================================================
+      implicit none
+      include 'const.inc'             ! Constant definitions
+      include 'event.inc'
+      include 'clock.inc'
+      include 'engine.pub'                        
+      include 'intrface.pub'
+
+*+  Calls
+      character Clock_time_string*(5)      ! function
+
+*+  Purpose
+*     Notify all modules of a clock tick and the new timestep
+
+*+  Changes
+*      NIH 25/08/99
+
+*+  Local Variables
+      character time*(5)               ! time in 24 hour format
+
+*- Implementation Section ----------------------------------
+ 
+      call new_postbox()
+
+      call post_integer_var (DATA_day
+     :                     , '()'
+     :                     , g_day)
+
+      call post_integer_var (DATA_year
+     :                     , '()'
+     :                     , g_year)
+
+      time = clock_time_string()
+      call post_char_var (DATA_time
+     :                   , '(hh:mm)'
+     :                   , time)
+
+      call post_integer_var (DATA_timestep
+     :                     , '(min)'
+     :                     , g_timestep)
+
+      call event_send (EVENT_tick)
+
+      call delete_postbox() 
+
+
+ 
+      return
+      end
