@@ -30,8 +30,8 @@ class Factor {
       }
 
       // equality operator
-      bool operator!= (const std::string rhsName) const
-         { return !Str_i_Eq(name, rhsName); }
+      bool operator== (const std::string rhsName) const
+         { return Str_i_Eq(name, rhsName); }
 
       // getters:
       const Graphics::TBitmap* getImage(void) const { return image; }

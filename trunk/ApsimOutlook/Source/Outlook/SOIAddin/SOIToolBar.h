@@ -6,7 +6,7 @@
 #include <vector>
 #include <set>
 #include "ToolBarAddIn.h"
-
+#include <apsimShared\ApsimSettings.h>
 
 class SOIToolBar : public ToolBarAddInBase
 {
@@ -34,6 +34,7 @@ class SOIToolBar : public ToolBarAddInBase
       bool SOI_enabled;
 
    private:
+      ApsimSettings settings;
       bool needs_update;
       void __fastcall buttonClick(TObject* Sender);
 
@@ -81,7 +82,7 @@ class SOIToolBar : public ToolBarAddInBase
       soi_set soi_phases;
 
       void Read_all_soi_data (void);
-      void Get_phase (int Year, int Month, int& SOI_phase, std::string& SOI_phase_st);
+      void Get_phase (int Year, int Month, unsigned& SOI_phase, std::string& SOI_phase_st);
       void calcSowYearFieldName(const TAPSRecord& record) throw(std::runtime_error);
       unsigned getSowYear(const TAPSRecord& record) throw(std::runtime_error);
 

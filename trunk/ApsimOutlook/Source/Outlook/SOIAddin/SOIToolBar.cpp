@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
@@ -8,15 +8,18 @@
 #include <general\string_functions.h>
 #include <general\stl_functions.h>
 #include <general\path.h>
-#include <general\ini_file.h>
+#include <general\inifile.h>
 #include <general\math_functions.h>
 #include <Math.hpp>
+#include <ApsimShared\ApsimDirectories.h>
 
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
 
 #define SOI_SECTION "soi"
+#define TOOLBAR_BITMAP_KEY "soi|toolbitmap"
+#define SOI_FILE_KEY "soi|soi file"
 #define SOI_PHASE_FIELD_NAME "SOI Phase"
 #define SOI_PHASE_NUMBER_FIELD_NAME "SOI Phase number"
 #define PHASE_NAMES_KEY "PhaseNames"
@@ -45,26 +48,18 @@ extern "C" ToolBarAddInBase* _export __stdcall createToolBarAddIn(const string& 
 
 SOIToolBar::SOIToolBar(const string& parameters)
 {
-   Path p(Application->ExeName.c_str());
-   p.Set_extension(".ini");
-   Ini_file ini;
-   ini.Set_file_name (p.Get_path().c_str());
-
    string bitmap_name;
-   ini.Read (SOI_SECTION, "toolbitmap", bitmap_name);
+   settings.read (TOOLBAR_BITMAP_KEY, bitmap_name);
 
    // get stuff from ini file like image name
-   Path path(Application->ExeName.c_str());
-   path.Set_name (bitmap_name.c_str());
+   string bitmapPath = getAppHomeDirectory() + "\\" + bitmap_name;
    glyph = new Graphics::TBitmap;
-   glyph->LoadFromFile(path.Get_path().c_str());
+   glyph->LoadFromFile(bitmapPath.c_str());
 
    FPhase_month = 1;
    string data_file;
-   ini.Read (SOI_SECTION, "soi file", data_file);
-   FSOI_data_file = AnsiString(path.Get_directory().c_str()) + "\\"
-                                        +  AnsiString(data_file.c_str());
-
+   settings.read (SOI_FILE_KEY, data_file);
+   FSOI_data_file = string(getAppHomeDirectory() + "\\" + data_file).c_str();
 
    SOI_form = new TSOI_form(Application->MainForm);
    SOI_form->SOI_ptr = this;
@@ -177,7 +172,7 @@ void SOIToolBar::Read_all_soi_data (void)
    ifstream in (FSOI_data_file.c_str());
    string Line;
    getline(in, Line); // get first line, and check if it specs Phase names
-   string Phase_names_string = Get_key_value(Line.c_str(), PHASE_NAMES_KEY);
+   string Phase_names_string = getKeyValue(Line, PHASE_NAMES_KEY);
    if (Phase_names_string != "")
       {
       Split_string(Phase_names_string, "," , FPhase_names);
@@ -219,7 +214,7 @@ void SOIToolBar::Read_all_soi_data (void)
 //                assigned "unknown"
 
 // ------------------------------------------------------------------
-void SOIToolBar::Get_phase (int Year, int Month, int& SOI_phase, string& SOI_phase_st)
+void SOIToolBar::Get_phase (int Year, int Month, unsigned& SOI_phase, string& SOI_phase_st)
    {
    soi_set::iterator i = std::find(soi_phases.begin(),
                                    soi_phases.end(),
@@ -279,7 +274,7 @@ void SOIToolBar::doCalculations(TAPSTable& data)
          const unsigned allYearsFieldNum = FPhase_names.size();
 
          // loop through all datasets.
-         int SOI_phase;
+         unsigned SOI_phase;
          string SOI_phase_st;
 
          bool ok = data.first();

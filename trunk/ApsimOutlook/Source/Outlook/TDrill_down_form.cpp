@@ -1,5 +1,6 @@
 //---------------------------------------------------------------------------
-#include <vcl\vcl.h>
+#include <general\pch.h>
+#include <vcl.h>
 #pragma hdrstop
 
 #include "TDrill_down_form.h"
@@ -13,7 +14,6 @@
 #include <general\path.h>
 
 #include <components\general\tmultistringlist.h>
-#include <general\ini_file.h>
 #include <strstream>
 //---------------------------------------------------------------------------
 #pragma link "Grids"
@@ -120,7 +120,7 @@ void TDrill_down_form::refreshScenarioTree (void)
    ScenarioTree->Selected->Expanded = true;
 
    // expand any other nodes that were previously expanded
-   for (int j = 0; j < expandedNodes.size(); j++)
+   for (unsigned j = 0; j < expandedNodes.size(); j++)
       {
       TTreeNode* n = ScenarioTree->Items->Item[0];
       while (n != NULL)

@@ -9,6 +9,7 @@
 #include <general\string_functions.h>
 #include <stdlib.h>
 #include "CropFields.h"
+#include <ApsimShared\ApsimSettings.h>
 // ------------------------------------------------------------------
 // This class keeps track of value for a given year, field and file
 // ------------------------------------------------------------------
@@ -73,6 +74,8 @@ class RotationValue
 class RotationValues
    {
    private:
+      ApsimSettings settings;
+   
       typedef std::map<unsigned, RotationValue> FileValues;
       typedef std::map<unsigned, FileValues> FieldValues;
       typedef std::map<unsigned, FieldValues> YearValues;

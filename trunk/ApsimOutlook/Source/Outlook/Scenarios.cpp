@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
@@ -8,7 +8,8 @@
 #include "AddIn.h"
 #include <general\path.h>
 #include <general\stl_functions.h>
-#include <general\ini_file.h>
+#include <ApsimShared\ApsimSettings.h>
+#include <ApsimShared\ApsimDirectories.h>
 #include <list>
 using namespace std;
 
@@ -273,19 +274,15 @@ bool Scenarios::loadAllAddIns(void)
    addIns.clear();
 
    // get a list of add-in filenames from the .ini file.
-   Path iniPath(Application->ExeName.c_str());
-   iniPath.Set_extension(".ini");
-
-   Ini_file ini;
-   ini.Set_file_name(iniPath.Get_path().c_str());
-   list<string> addInFileNames;
-   ini.Read_list("Addins", "addin", addInFileNames);
+   ApsimSettings settings;
+   vector<string> addInFileNames;
+   settings.read("Addins|addin", addInFileNames);
 
    // Loop through all filenames, load the DLL, call the DLL to create an
    // instance of an AddInBase and store in our list of addins.
-   for (list<string>::iterator a = addInFileNames.begin();
-                               a != addInFileNames.end();
-                               a++)
+   for (vector<string>::iterator a = addInFileNames.begin();
+                                 a != addInFileNames.end();
+                                 a++)
       {
       // look for add in parameters after a space.
       unsigned int posSpace = (*a).find(" ");
@@ -295,7 +292,11 @@ bool Scenarios::loadAllAddIns(void)
          addInParameters = (*a).substr(posSpace+1);
          (*a).erase(posSpace);
          }
-      HINSTANCE dllHandle = LoadLibrary( (*a).c_str() );
+
+      Path addInPath(Application->ExeName.c_str());
+      addInPath.Append_path(a->c_str());
+
+      HINSTANCE dllHandle = LoadLibrary(addInPath.Get_path().c_str() );
       // give an intelligent error msg if this fails...
       if (dllHandle == NULL) {
          PVOID pMsgBuf;

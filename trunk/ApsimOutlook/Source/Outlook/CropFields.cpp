@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
@@ -15,15 +15,11 @@ using namespace std;
 // ------------------------------------------------------------------
 CropFields::CropFields(const TAPSRecord* record)
    {
-   Path iniPath(Application->ExeName.c_str());
-   iniPath.Set_extension(".ini");
-   ini.Set_file_name(iniPath.Get_path().c_str());
-
    // get a list of all recognised crop acronyms
    string st;
-   ini.Read("crops", "crop_acronyms", st);
+   settings.read("crops|crop_acronyms", st);
    Split_string(st, ",", recogCropAcronyms);
-   ini.Read("crops", "crop_names", st);
+   settings.read("crops|crop_names", st);
    Split_string(st, ",", recogCropNames);
 
    for (vector<string>::iterator i = recogCropAcronyms.begin();
@@ -279,7 +275,7 @@ std::string CropFields::getCropFieldName(const TAPSRecord& recordI,
    {
    // get a list of all recognised crop acronyms
    string st;
-   ini.Read("crops", fieldIdentifier.c_str(), st);
+   settings.read("crops|" + fieldIdentifier, st);
    vector<string> recognisedFieldNames;
    Split_string(st, ",", recognisedFieldNames);
 

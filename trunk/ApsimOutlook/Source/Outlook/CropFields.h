@@ -5,8 +5,8 @@
 #include <vector>
 #include <string>
 #include <TAPSRecord.h>
-#include <general\ini_file.h>
 #include <general\stl_functions.h>
+#include <ApsimShared\ApsimSettings.h>
 // ---------------------------------------------------------------------------
 // This class handles all the mess to do with crop fields
 // ie. it handles the crop acronyms on field names like wht_yield, can_yield etc.
@@ -68,7 +68,7 @@ class CropFields
       std::vector<std::string> fieldNames;
       std::vector<std::string> fieldNamesMinusUnits;
       std::vector<std::string> cropAcronyms;
-      Ini_file ini;
+      ApsimSettings settings;
       bool cropFieldExists;
 
       // Return true if there is any field for the specified crop, in the

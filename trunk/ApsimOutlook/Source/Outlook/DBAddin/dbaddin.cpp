@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
-
+#include <general\pch.h>
 #include <vcl.h>
-#include <windows.h>
+#pragma hdrstop
 #include "TDirectory_select_form.h"
 
 #pragma hdrstop

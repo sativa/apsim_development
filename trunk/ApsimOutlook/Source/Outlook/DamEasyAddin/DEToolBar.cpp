@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
@@ -7,12 +7,12 @@
 #include <general\string_functions.h>
 #include <general\stl_functions.h>
 #include <general\path.h>
-#include <general\ini_file.h>
 #include <general\math_functions.h>
 #include "AddCostsBenefits.h"
 #include "TDamEasy_form.h"
 #include "DamEasyEcon.h"
 #include <Math.hpp>
+#include <math.h>
 
 //---------------------------------------------------------------------------
 
@@ -20,9 +20,14 @@
 
 #define DAMEASY_SECTION     "DamEa$y Economics"
 #define DE_ECON_FACTOR_NAME "Econ Config"
-#define ECON_CONFIGS_KEY    "econconfigs"
+#define ECON_CONFIGS_KEY    "DamEa$y Economics|econconfigs"
 #define BITMAP_NAME_KEY     "bitmap"
 #define SIMULATION_FACTOR_NAME "Simulation"
+
+#define TOOLBITMAP_EDIT_KEY  "DamEa$y Economics|toolbitmap_edit"
+#define TOOLBITMAP_COSTS_KEY  "DamEa$y Economics|toolbitmap_costs"
+#define TAX_BRACKETS_KEY  "DamEa$y Economics|tax_brackets"
+#define TAX_RATES_KEY  "DamEa$y Economics|tax_rates"
 
 using namespace std;
 
@@ -66,14 +71,9 @@ DEToolBar::DEToolBar(const string& parameters)
    DamEasy_form->begin_year = Begin_year;
 
 
-   Path p(Application->ExeName.c_str());
-   p.Set_extension(".ini");
-   Ini_file ini;
-   ini.Set_file_name (p.Get_path().c_str());
-
    string edit_bmp_name, costs_bmp_name;
-   ini.Read (DAMEASY_SECTION, "toolbitmap_edit", edit_bmp_name);
-   ini.Read (DAMEASY_SECTION, "toolbitmap_costs", costs_bmp_name);
+   settings.read (TOOLBITMAP_EDIT_KEY, edit_bmp_name);
+   settings.read (TOOLBITMAP_COSTS_KEY, costs_bmp_name);
 
    // get stuff from ini file like image name
    if (numObjects == 0)
@@ -95,10 +95,10 @@ DEToolBar::DEToolBar(const string& parameters)
    // read tax table
    string st;
    vector<string> words;
-   ini.Read (DAMEASY_SECTION, "Tax_brackets", st);
+   settings.read (TAX_BRACKETS_KEY, st);
    Split_string(st, ",", words);
    String2double< vector<string>, vector<double> >(words, Tax_brackets);
-   ini.Read (DAMEASY_SECTION, "Tax_rates", st);
+   settings.read (TAX_RATES_KEY, st);
    Split_string(st, ",", words);
    String2double< vector<string>, vector<double> > (words, Tax_rates);
 
@@ -167,27 +167,23 @@ void __fastcall DEToolBar::editButtonClick(TObject* Sender)
 void DEToolBar::saveConfigs()
 {
    // update the ini file
-   Path p(Application->ExeName.c_str());
-   p.Set_extension(".ini");
-   Ini_file ini;
-   ini.Set_file_name (p.Get_path().c_str());
    vector<string> config_names;
    getAllFactorValues("", config_names);
    string config_names_comma_list;
    Build_string(config_names, ",", config_names_comma_list);
-   ini.Write(DAMEASY_SECTION, ECON_CONFIGS_KEY, config_names_comma_list.c_str());
+   settings.write(ECON_CONFIGS_KEY, config_names_comma_list.c_str());
 
    // remove old Econconfig sections, and put in only the ones remaining in Econ_configs
-   list<string> Section_names;
-   ini.Read_section_names(Section_names);
+   vector<string> Section_names;
+   settings.getSectionNames(Section_names);
    // find those section names that are EconConfig entries
-   list<string>::iterator sect_name = Section_names.begin();
+   vector<string>::iterator sect_name = Section_names.begin();
    while (sect_name != Section_names.end()) {
       string prefix = SECTION_PREFIX;
       string::iterator where =
            search((*sect_name).begin(),(*sect_name).end(),prefix.begin(),prefix.end());
       if (where == (*sect_name).begin())  // then this section needs deleting
-         ini.Delete_section((*sect_name).c_str());
+         settings.deleteSection((*sect_name).c_str());
       sect_name++;
    }
 
@@ -242,13 +238,8 @@ void DEToolBar::youNeedUpdating()
 
 void DEToolBar::getConfigs()
 {
-   Path p(Application->ExeName.c_str());
-   p.Set_extension(".ini");
-   Ini_file ini;
-   ini.Set_file_name (p.Get_path().c_str());
-
    string st;
-   ini.Read (DAMEASY_SECTION, ECON_CONFIGS_KEY, st);
+   settings.read(ECON_CONFIGS_KEY, st);
    vector<string> words;
    Split_string(st, ",", words);
 
@@ -808,7 +799,7 @@ void DEToolBar::doCalculations(TAPSTable& data)
          vector<double> vAdd_CIncome, vAdd_Costs, vAdd_Tax,
                         vAdd_Flow, vAdd_Flow_BIT, vAdd_Upfront;
          ok = scribble->first();
-         int base_counter = 0;
+         unsigned base_counter = 0;
          while (ok)
          {
             vector<double> temp;
@@ -862,7 +853,7 @@ void DEToolBar::doCalculations(TAPSTable& data)
          if (find_pos != pivot_names.end())
             pivot_names.erase(find_pos);
 
-         for (int p = 0; p < pivot_names.size(); p++)
+         for (unsigned p = 0; p < pivot_names.size(); p++)
          {
             vector<string> pivot_values;
             vPivot.push_back(pivot_values);
@@ -885,7 +876,7 @@ void DEToolBar::doCalculations(TAPSTable& data)
             string sim = scribble->getDataBlockName();
             string year = scribble->begin()->getFieldValue("Investment Start Year");
 
-            for (int p = 0; p < pivot_names.size(); p++)
+            for (unsigned p = 0; p < pivot_names.size(); p++)
             {
                string pivot_val = scribble->begin()->getFieldValue(pivot_names[p]);
                vPivot[p].push_back(pivot_val);
@@ -962,7 +953,7 @@ void DEToolBar::doCalculations(TAPSTable& data)
 
          NPVtable->first();
 
-         for (int p = 0; p < pivot_names.size(); p++)
+         for (unsigned p = 0; p < pivot_names.size(); p++)
          {
             NPVtable->markFieldAsAPivot(pivot_names[p]);
             NPVtable->storeStringArray(pivot_names[p], vPivot[p]);

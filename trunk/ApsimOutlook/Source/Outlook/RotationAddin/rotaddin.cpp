@@ -1,5 +1,6 @@
 //---------------------------------------------------------------------------
-#include <vcl\vcl.h>
+#include <general\pch.h>
+#include <vcl.h>
 #pragma hdrstop
 
 #include "RotAddIn.h"
@@ -46,11 +47,6 @@ RotationAddIn::RotationAddIn(const string& parameters)
    {
    needsUpdating = false;
    rotationAnalysisOn = false;
-
-   Path iniPath(Application->ExeName.c_str());
-   iniPath.Append_path("rotationaddin");
-   iniPath.Set_name("rotationaddin.ini");
-   ini.Set_file_name(iniPath.Get_path().c_str());
    }
 
 // ------------------------------------------------------------------

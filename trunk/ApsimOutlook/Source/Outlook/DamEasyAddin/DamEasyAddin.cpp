@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-
+#include <general\pch.h>
 #include <vcl.h>
-#include <windows.h>
 #pragma hdrstop
+
 #include "TDEValueSelectionForm.h"
 #include "TDamEasy_form.h"
 #include "AddCostsBenefits.h"

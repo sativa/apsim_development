@@ -5,6 +5,7 @@
 #include "AddIn.h"
 #include "DBSimulation.h"
 #include <map>
+#include <ApsimShared\ApsimSettings.h>
 // ------------------------------------------------------------------
 //  Short description:
 //    this class encapsulates a database addin
@@ -43,7 +44,7 @@ class DatabaseAddIn : public AddInBase
       typedef std::map<std::string, Graphics::TBitmap*> ImageMap;
       SimulationContainer simulations;
       ImageMap images;
-
+      ApsimSettings settings;
 
       void askUserForMDBs(bool& success);
       void askUserForDataSets(bool& success);

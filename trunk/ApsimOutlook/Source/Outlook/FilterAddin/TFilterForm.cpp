@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
@@ -17,6 +17,7 @@ static const unsigned int MAX_NUM_MRU_FILTERS = 20;
 #pragma link "PSCFltBox"
 #pragma link "psccontrols"
 #pragma link "PSCListBox"
+#pragma link "flt_box"
 #pragma resource "*.dfm"
 TFilterForm *FilterForm;
 //---------------------------------------------------------------------------
@@ -25,7 +26,7 @@ __fastcall TFilterForm::TFilterForm(TComponent* Owner)
    {
    Path iniPath(Application->ExeName.c_str());
    iniPath.Set_extension(".ini");
-   ini.Set_file_name(iniPath.Get_path().c_str());
+   ini.setFileName(iniPath.Get_path());
    inFormShow = false;
    }
 //---------------------------------------------------------------------------
@@ -33,8 +34,8 @@ void __fastcall TFilterForm::FormShow(TObject *Sender)
    {
    inFormShow = true;
    // populate the comboboxes with most recent filter values.
-   list<string> mostRecentFilters;
-   ini.Read_list("filters", "filter", mostRecentFilters);
+   vector<string> mostRecentFilters;
+   ini.read("filters", "filter", mostRecentFilters);
    Stl_2_tstrings(mostRecentFilters, FilterCombo1->Items);
    Stl_2_tstrings(mostRecentFilters, FilterCombo2->Items);
    Stl_2_tstrings(mostRecentFilters, FilterCombo3->Items);
@@ -101,8 +102,10 @@ void __fastcall TFilterForm::FormClose(TObject *Sender,
 
       // make up a most recent filter list that we're going to write back
       // to the .ini file.
+      vector<string> strings;
+      ini.read("filters", "filter", strings);
       list<string> mostRecentFilters;
-      ini.Read_list("filters", "filter", mostRecentFilters);
+      copy(strings.begin(), strings.end(), back_inserter(mostRecentFilters));
       for (vector<string>::iterator i = filters.begin();
                                     i != filters.end();
                                     i++)
@@ -118,7 +121,9 @@ void __fastcall TFilterForm::FormClose(TObject *Sender,
       while (mostRecentFilters.size() > MAX_NUM_MRU_FILTERS)
          mostRecentFilters.erase(--mostRecentFilters.end());
 
-      ini.Write_list("filters", "filter", mostRecentFilters);
+      strings.erase(strings.begin(), strings.end());
+      copy(mostRecentFilters.begin(), mostRecentFilters.end(), back_inserter(strings));
+      ini.write("filters", "filter", strings);
       }
    }
 //---------------------------------------------------------------------------
@@ -165,7 +170,7 @@ void TFilterForm::PutFilterInCombo(TComboBox* combo, AnsiString filter)
 //---------------------------------------------------------------------------
 void __fastcall TFilterForm::FilterCombo1Change(TObject *Sender)
    {
-   FilterBox1->FilterStr = FilterCombo1->Text;
+   FilterBox1->Items->Text = FilterCombo1->Text;
    }
 //---------------------------------------------------------------------------
 void __fastcall TFilterForm::FilterBox1Change(TObject *Sender)

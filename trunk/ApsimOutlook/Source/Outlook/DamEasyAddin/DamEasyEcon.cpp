@@ -1,4 +1,5 @@
 //---------------------------------------------------------------------------
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
@@ -8,13 +9,13 @@
 #include <general\stl_functions.h>
 #include <general\math_functions.h>
 #include <general\path.h>
-#include <general\ini_file.h>
 #include <functional>
 
 #define DE_ECON_FACTOR_NAME "Econ Config"
-#define DAMEASY_SECTION     "DamEa$y Economics"
-#define ECON_CONFIGS_KEY    "econconfigs"
-#define BITMAP_NAME_KEY     "bitmap"
+#define ECON_CONFIGS_KEY    "DamEa$y Economics|econconfigs"
+#define BITMAP_NAME_KEY     "DamEa$y Economics|bitmap"
+#define TAX_BRACKETS_KEY    "DamEa$y Economics|tax_brackets"
+#define TAX_RATES_KEY    "DamEa$y Economics|tax_rates"
 #define SIMULATION_FACTOR_NAME "Simulation"
 
 #pragma package(smart_init)
@@ -112,20 +113,14 @@ void DamEasyEcon::getAllFactorValues(const std::string& factorName,
 // ------------------------------------------------------------------
 void DamEasyEcon::Read_inifile_settings (void)
 {
-   Path p(Application->ExeName.c_str());
-   p.Set_extension(".ini");
-   Ini_file ini;
-   ini.Set_file_name (p.Get_path().c_str());
-
    // read all defaults.
    string st;
-   ini.Read (DAMEASY_SECTION, BITMAP_NAME_KEY, st);
+   settings.read(BITMAP_NAME_KEY, st);
    Econ_bitmap_name = st;
-   ini.Read (DAMEASY_SECTION, ECON_CONFIGS_KEY, st);
+   settings.read(ECON_CONFIGS_KEY, st);
    vector<string> words;
    Split_string(st, ",", words);
 
-   DEEconConfig::setIOFile(p.Get_path());
    Econ_configs.clear();
    // loop through econ configs present in ini file
    for (vector<string>::iterator e = words.begin(); e!=words.end(); e++)
@@ -136,10 +131,10 @@ void DamEasyEcon::Read_inifile_settings (void)
    }
 
    // read tax table
-   ini.Read (DAMEASY_SECTION, "Tax_brackets", st);
+   settings.read ("TAX_BRACKETS_KEY", st);
    Split_string(st, ",", words);
    String2double< vector<string>, vector<double> >(words, Tax_brackets);
-   ini.Read (DAMEASY_SECTION, "Tax_rates", st);
+   settings.read (TAX_RATES_KEY, st);
    Split_string(st, ",", words);
    String2double< vector<string>, vector<double> > (words, Tax_rates);
 

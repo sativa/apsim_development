@@ -1,5 +1,6 @@
 //---------------------------------------------------------------------------
-#include <vcl\vcl.h>
+#include <general\pch.h>
+#include <vcl.h>
 #pragma hdrstop
 
 #include "FiltAddIn.h"

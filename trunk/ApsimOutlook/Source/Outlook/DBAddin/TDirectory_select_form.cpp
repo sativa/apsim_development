@@ -1,16 +1,15 @@
 //---------------------------------------------------------------------------
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
 #include "TDirectory_select_form.h"
 #include <general\path.h>
-#include <general\ini_file.h>
 #include <general\vcl_functions.h>
 #include <general\io_functions.h>
 static const char* DATASETS_SECTION = "Datasets";
-static const char* DEFAULT_SECTION = "Default Datasets";
-static const char* DEFAULT_DATASET_KEY = "Dataset";
-static const char* DEFAULT_SUBSET_KEY = "Subset";
+static const char* DEFAULT_DATASET_KEY = "Default Datasets|Dataset";
+static const char* DEFAULT_SUBSET_KEY = "Default Datasets|Subset";
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -31,16 +30,12 @@ __fastcall TDirectory_select_form::~TDirectory_select_form()
 void __fastcall TDirectory_select_form::FormShow(TObject *Sender)
    {
    // read a list of dataset names from .ini file.
-   Path p(Application->ExeName.c_str());
-   p.Set_extension(".ini");
-   Ini_file Ini;
-   Ini.Set_file_name(p.Get_path().c_str());
-   list<string> DatasetLines, DatasetNames;
+   vector<string> DatasetLines, DatasetNames;
    string Contents;
-   Ini.Read_section_contents (DATASETS_SECTION, Contents);
+   settings.readSection(DATASETS_SECTION, Contents);
    Split_string (Contents, "\n", DatasetLines);
 
-   remove_substring_and_copy< list<string> > RemoveEquals("=", DatasetNames);
+   remove_substring_and_copy< vector<string> > RemoveEquals("=", DatasetNames);
    std::for_each (DatasetLines.begin(), DatasetLines.end(), RemoveEquals);
 
    // give dataset names to dataset combo.
@@ -48,7 +43,7 @@ void __fastcall TDirectory_select_form::FormShow(TObject *Sender)
 
    // select default dataset.
    string DefaultDataset;
-   Ini.Read (DEFAULT_SECTION, DEFAULT_DATASET_KEY, DefaultDataset);
+   settings.read(DEFAULT_DATASET_KEY, DefaultDataset);
    DatasetCombo->Text = DefaultDataset.c_str();
 
    // if there is no item currently selected then simply select first one.
@@ -59,9 +54,9 @@ void __fastcall TDirectory_select_form::FormShow(TObject *Sender)
    DatasetComboChange(NULL);
 
    // setup the initial subset selections to match the .ini file.
-   list<string> DefaultSubsets;
-   Ini.Read_list (DEFAULT_SECTION, DEFAULT_SUBSET_KEY, DefaultSubsets);
-   for (list<string>::iterator subset = DefaultSubsets.begin();
+   vector<string> DefaultSubsets;
+   settings.read(DEFAULT_SUBSET_KEY, DefaultSubsets);
+   for (vector<string>::iterator subset = DefaultSubsets.begin();
                                subset != DefaultSubsets.end();
                                subset++)
       {
@@ -78,15 +73,11 @@ void __fastcall TDirectory_select_form::FormClose(TObject *Sender,
    if (ModalResult == mrOk)
       {
       // write the currently selected dataset to .ini file.
-      Path p(Application->ExeName.c_str());
-      p.Set_extension(".ini");
-      Ini_file Ini;
-      Ini.Set_file_name(p.Get_path().c_str());
-      Ini.Write (DEFAULT_SECTION, DEFAULT_DATASET_KEY, DatasetCombo->Text.c_str());
+      settings.write(DEFAULT_DATASET_KEY, DatasetCombo->Text.c_str());
 
       // write the currently selected dataset subsets to .ini file and
       // store the full path to each MDB file in the return MDB list.
-      list<string> SelectedSubsets, MDBs;
+      vector<string> SelectedSubsets, MDBs;
       for (int i = 0; i < SubsetList->Items->Count; i++)
          {
          if (SubsetList->Selected[i])
@@ -101,10 +92,10 @@ void __fastcall TDirectory_select_form::FormClose(TObject *Sender,
 
             // go scan for mdb files.
 
-            Get_directory_listing (p.Get_path().c_str(), "*.mdb", MDBs, FA_NORMAL, true);
+            getDirectoryListing(p.Get_path(), "*.mdb", MDBs, FA_NORMAL, true);
             }
          }
-      Ini.Write_list (DEFAULT_SECTION, DEFAULT_SUBSET_KEY, SelectedSubsets);
+      settings.write(DEFAULT_SUBSET_KEY, SelectedSubsets);
       Stl_2_tstrings(MDBs, SelectedMDBs);
 
       }
@@ -136,13 +127,13 @@ void TDirectory_select_form::Cleanup_dir_list (void)
 //---------------------------------------------------------------------------
 void __fastcall TDirectory_select_form::DatasetComboChange(TObject *Sender)
    {
-   Path p(Application->ExeName.c_str());
-   p.Set_extension(".ini");
-   Ini_file Ini;
-   Ini.Set_file_name(p.Get_path().c_str());
-
    string Directory;
-   Ini.Read(DATASETS_SECTION, DatasetCombo->Text.c_str(), Directory);
+   string key = DATASETS_SECTION;
+   key += "|";
+   key += DatasetCombo->Text.c_str();
+   settings.read(key, Directory);
+
+   Path p = Path::getCurrentFolder();
    SubsetList->Directory = Directory.c_str();
    Cleanup_dir_list();
    // DAH: 24/8/00 - added following line to restore working directory since the

@@ -10,6 +10,7 @@
 #include <Buttons.hpp>
 #include <Mask.hpp>
 #include <list>
+#include <ApsimShared\ApsimSettings.h>
 using std::list;
 //---------------------------------------------------------------------------
 class TDirectory_select_form : public TForm
@@ -27,6 +28,7 @@ __published:	// IDE-managed Components
    void __fastcall DatasetComboChange(TObject *Sender);
    void __fastcall SubsetListChange(TObject *Sender);
 private:	// User declarations
+   ApsimSettings settings;
    void Cleanup_dir_list (void);
 
 public:		// User declarations

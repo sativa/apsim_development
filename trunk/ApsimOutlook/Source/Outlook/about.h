@@ -11,8 +11,6 @@
 #include <Classes.hpp>
 #include <Windows.hpp>
 #include <System.hpp>
-#include "verslab.hpp"
-#include "verslab.hpp"     
 //----------------------------------------------------------------------------
 class TAboutBox : public TForm
 {

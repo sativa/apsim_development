@@ -2,49 +2,69 @@
 <!-- C++Builder XML Project -->
 <PROJECT>
   <MACROS>
-    <VERSION value="BCB.05.03"/>
-    <PROJECT value="L:\ApsimOutlook\RotationAddIn\RotationAddIn.dll"/>
-    <OBJFILES value="RotationAddIn.obj TRotationForm.obj RotAddIn.obj ..\CropFields.obj
-      RotationValues.obj TRenameRotationForm.obj K:\general\stristr.obj
-      K:\general\ini_file.obj K:\general\path.obj K:\general\string_functions.obj"/>
-    <RESFILES value=""/>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="..\..\..\..\Bin\RotationAddIn.dll"/>
+    <OBJFILES value="RotationAddIn.obj RotAddIn.obj RotationValues.obj TRotationForm.obj 
+      TRenameRotationForm.obj ..\CropFields.obj"/>
+    <RESFILES value="RotationAddIn.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TRotationForm.dfm TRenameRotationForm.dfm"/>
-    <LIBFILES value=""/>
+    <LIBFILES value="..\..\..\..\Shared\general\general.lib 
+      ..\..\..\..\Shared\ApsimShared\ApsimShared.lib"/>
     <LIBRARIES value=""/>
-    <SPARELIBS value="Vcl50.lib VCLDB50.lib"/>
-    <PACKAGES value="Vcl50.bpi Vclx50.bpi bcbsmp50.bpi Qrpt50.bpi Vcldb50.bpi Vclbde50.bpi
-      ibsmp50.bpi vcldbx50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi Inet50.bpi
-      NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi TeeGL4C5.bpi TEE4C5.bpi
-      TeeQR4C5.bpi TEEDB4C5.bpi TEEUI4C5.bpi TEEPRO4C5.bpi OpenXML.bpi
-      dclusr50.bpi vclado50.bpi APSGENERAL.bpi tmsc5.bpi VCLIB50.bpi APSData.bpi"/>
+    <SPARELIBS value="rtl.lib vcl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib Tee.lib"/>
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
+      qrpt.bpi bdertl.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi ibxpress.bpi 
+      visualclx.bpi visualdbclx.bpi vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi 
+      inetdbxpress.bpi inetdb.bpi nmfast.bpi bcbie.bpi soaprtl.bpi dclocx.bpi 
+      dbexpress.bpi dbxcds.bpi indy.bpi bcb2kaxserver.bpi TeeDB.bpi Tee.bpi 
+      TeeUI.bpi TeeLanguage.bpi TeePro.bpi TeeGL.bpi TeeQR.bpi TMSC6.bpi 
+      apsdata.bpi"/>
     <PATHCPP value=".;.."/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
     <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
-    <LINKER value="tlink32"/>
+    <LINKER value="ilink32"/>
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="RotationAddIn.bpf"/>
-    <INCLUDEPATH value="..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\components\data\;k:\components\general\;j:\tms\;&quot;k:\&quot;"/>
-    <LIBPATH value="..\;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;j:\tms\;.."/>
+    <INCLUDEPATH value="..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components;$(SHARED);$(SHARED)\components\data"/>
+    <LIBPATH value="..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
+    <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl50.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi-
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
       -tWD -tWM -c"/>
-    <PFLAGS value="-$YD -$W -$O- -v -JPHNE -M"/>
+    <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zd"/>
-    <LFLAGS value="-D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
+    <LFLAGS value="-l. -D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
+    <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
     <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
     <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <OTHERFILES value=""/>
   </LINKER>
+  <FILELIST>
+      <FILE FILENAME="RotationAddIn.res" FORMNAME="" UNITNAME="RotationAddIn.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="RotationAddIn.bpf" FORMNAME="" UNITNAME="RotationAddIn" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="RotationAddIn.cpp" FORMNAME="" UNITNAME="RotationAddIn" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="RotAddIn.cpp" FORMNAME="" UNITNAME="RotAddIn.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="RotationValues.cpp" FORMNAME="" UNITNAME="RotationValues.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TRotationForm.cpp" FORMNAME="RotationForm" UNITNAME="TRotationForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TRenameRotationForm.cpp" FORMNAME="RenameRotationForm" UNITNAME="TRenameRotationForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\CropFields.cpp" FORMNAME="" UNITNAME="CropFields" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
   <IDEOPTIONS>
 [Version Info]
 IncludeVerInfo=0
@@ -73,31 +93,27 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
+[Excluded Packages]
+c:\program files\borland\cbuilder6\Projects\Bpl\SEGReport.bpl=SEGReport
+c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
+
 [HistoryLists\hlIncludePath]
-Count=9
-Item0=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\components\data\;k:\components\general\;j:\tms\;k:\
-Item1=..\;$(BCB)\include;$(BCB)\include\vcl;..;k:\components\data\;k:\components\general\;j:\tms;k:\
-Item2=$(BCB)\include;$(BCB)\include\vcl;..;k:\components\data\;k:\components\general\;k:\
-Item3=$(BCB)\include;$(BCB)\include\vcl;..;k:\components\data\;k:\components\general;k:\
-Item4=$(BCB)\include;$(BCB)\include\vcl;..;k:\components\data\;k:\
-Item5=$(BCB)\include;$(BCB)\include\vcl;..;k:\components\data;k:\
-Item6=$(BCB)\include;$(BCB)\include\vcl;..
-Item7=$(BCB)\include;$(BCB)\include\vcl;..\
-Item8=$(BCB)\include;$(BCB)\include\vcl
+Count=8
+Item0=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components;$(SHARED);$(SHARED)\components\data
+Item1=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item2=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item3=..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
+Item4=..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item5=..\;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item6=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item7=D:\Development\ApsimOutlook\Source\Outlook\RotationAddin;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=11
-Item0=$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;j:\tms\;..;..\
-Item1=..\;..;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;j:\tms\
-Item2=..\;..;$(BCB)\lib\obj;$(BCB)\lib;j:\tms\
-Item3=..\;$(BCB)\lib\obj;$(BCB)\lib;j:\tms\;..
-Item4=c:\program files\borland\cbuilder5\projects\lib;..\;$(BCB)\lib\obj;$(BCB)\lib;j:\tms\;..
-Item5=$(BCB)\lib\obj;$(BCB)\lib;j:\tms\;..;..\
-Item6=..\;$(BCB)\lib\obj;$(BCB)\lib;j:\tms
-Item7=..\;&quot;c:\program files\borland\cbuilder5\projects\lib&quot;$(BCB)\lib\obj;$(BCB)\lib;j:\tms
-Item8=$(BCB)\lib\obj;$(BCB)\lib
-Item9=c:\program files\borland\cbuilder5\projects\lib;$(BCB)\lib\obj;$(BCB)\lib
-Item10=c:\program files\borland\cbuilder5\projects\lib\;$(BCB)\lib\obj;$(BCB)\lib
+Count=4
+Item0=..\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item1=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item2=$(BCB)\lib\obj;$(BCB)\lib
+Item3=D:\Development\ApsimOutlook\Source\Outlook\RotationAddin;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -108,20 +124,27 @@ Count=1
 Item0=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
-Count=4
-Item0=L:\ApsimOutlook\RotationAddIn\
-Item1=L:\ApsimOutlook\RotationAddIn
-Item2=..\..\..\RotationAddIn\
-Item3=..\..\..\RotationAddIn
+Count=2
+Item0=..\..\..\..\Bin\
+Item1=..\..\..\..\Bin
+
+[HistoryLists\hIBPIOutputDir]
+Count=1
+Item0=.
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
 RunParams=
-HostApplication=D:\apsuite\ApsimOutlook\source\Outlook\apsimoutlook.exe
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
 RemoteHost=
 RemotePath=
+RemoteLauncher=
+RemoteCWD=
 RemoteDebug=0
 
 [Compiler]
@@ -129,9 +152,9 @@ ShowInfoMsgs=0
 LinkDebugVcl=0
 LinkCGLIB=0
 
-[Language]
-ActiveLang=
-ProjectLang=
-RootDir=
+[Linker]
+LibPrefix=
+LibSuffix=
+LibVersion=
   </IDEOPTIONS>
 </PROJECT>

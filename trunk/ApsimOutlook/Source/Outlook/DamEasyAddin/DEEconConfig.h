@@ -4,6 +4,7 @@
 #define DEEconConfigH
 
 #include <string>
+#include <ApsimShared\ApsimSettings.h>
 
 #define SECTION_PREFIX "EconConfig "
 
@@ -18,7 +19,7 @@ class DEEconConfig {
 
       static bool setIOFile(const std::string& file_name);
 
-      std::string& getName();
+      std::string getName() const;
 
       double OFWS_construction_cost;
       double OFWS_pump_cost;
@@ -52,6 +53,7 @@ class DEEconConfig {
 
    private:
       std::string Name;
+      ApsimSettings settings;
 };
 
 
