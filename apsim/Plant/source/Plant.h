@@ -1673,6 +1673,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       int   maturity_date;                              // maturity day number
       int   flowering_das;                              // days to flowering
       int   maturity_das;                               // days to maturity
+      int   das;                                        // days since sowing
       float dlt_root_length_dead[max_layer];                     // root length (mm/mm^2)
       float root_length[max_layer];                     // root length (mm/mm^2)
       float root_length_dead[max_layer];                // root length of dead population (mm/mm^2)
