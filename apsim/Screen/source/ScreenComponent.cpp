@@ -120,7 +120,7 @@ void ScreenComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID
 
       protocol::ApsimVariant apsimVariant(this, variant);
       double jday;
-      apsimVariant.get("jday", protocol::DTdouble, jday);
+      apsimVariant.get("jday", protocol::DTdouble, false, jday);
 //      unsigned jday;
 //      variant.unpack(jday);
       currentDate = jday;
