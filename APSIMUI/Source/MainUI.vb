@@ -639,11 +639,12 @@ Public Class MainUI
         If args.Length = 0 Then
             ' do nothing
         ElseIf args.Length = 1 Then
-            OpenAPSimFile(args(0))
+            If args(0).Length() > 0 Then
+                OpenAPSimFile(args(0))
+            End If
         Else
             MsgBox("cannot handle > 1 command line arguments", MsgBoxStyle.Critical, "Error")
         End If
-
 
         PopulateToolBoxContextMenu()
 
@@ -669,17 +670,30 @@ Public Class MainUI
 
     Private Sub ViewMenuOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ViewMenuOptions.Click
         Dim optfrm As New OptionsForm
-        optfrm.Show()
+        optfrm.ShowDialog(Me)
+        ' Repopulate tool boxes just in case options have been changed
+        PopulateToolBoxContextMenu()
     End Sub
 
-    Private Sub SimulationExplorer_AfterLabelEdit(ByVal sender As System.Object, ByVal e As System.Windows.Forms.NodeLabelEditEventArgs)
-        Dim oldname As String = SimulationExplorer.SelectedNode.Text
-        Dim newname As String = e.Label
-    End Sub
 
     Private Sub SimulationMenuMake_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationMenuMake.Click
-        Dim mf As New MacroFile
-        mf.Transform(MainUImanager.APSIMFileName, "C:\temp\macro.txt", "C:\temp")
+        Try
+            Dim mf As New MacroFile
+            Dim inifile As New APSIMSettings
+            If File.Exists(MainUImanager.APSIMFileName) Then
+                Dim DirectoryName As String = Path.GetDirectoryName(MainUImanager.APSIMFileName)
+                Dim FileName As String = inifile.GetSetting("apsimui", "macrofile")
+                If File.Exists(FileName) Then
+                    mf.DoTransform(MainUImanager.APSIMFileName, FileName, DirectoryName)
+                Else
+                    MsgBox("Cannot find the simulation creation macro file", MsgBoxStyle.Critical, "Error")
+                End If
+            Else
+                MsgBox("Cannot make simulation until apsim file has been saved to a target location.", MsgBoxStyle.Critical, "Error")
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
     End Sub
 
     Private Sub MenuItem6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -838,5 +852,21 @@ Public Class MainUI
 
     Private Sub OpenFileDialog_FileOk(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles OpenFileDialog.FileOk
 
+    End Sub
+
+    Private Sub SimulationExplorer_AfterLabelEdit(ByVal sender As Object, ByVal e As System.Windows.Forms.NodeLabelEditEventArgs) Handles SimulationExplorer.AfterLabelEdit
+        Dim oldname As String = SimulationExplorer.SelectedNode.Text
+        Dim newname As String = e.Label
+        'MsgBox(oldname, MsgBoxStyle.Critical, newname)
+        Dim path As String = SimulationExplorer.SelectedNode.FullPath
+        If InStr(Path, "/") > 0 Then
+            Path = Mid$(Path, InStr(Path, "/"))
+        End If
+
+        If newname Is Nothing Or Len(newname) = 0 Or Not e.CancelEdit Then
+            e.CancelEdit = True
+        Else
+            MainUImanager.RenameComponent(path, newname)
+        End If
     End Sub
 End Class

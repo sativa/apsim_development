@@ -141,4 +141,5 @@ Public Class areaui
             e.Effect = DragDropEffects.None
         End If
     End Sub
+
 End Class
