@@ -123,16 +123,16 @@
 
 !- Implementation Section ----------------------------------
 
-      if (eventID .eq. do_micromet_id) then
+      if (eventID .eq. DoMicrometId) then
          call on_do_micromet()
 
-      else if (eventID .eq. canopy_changed_id) then
+      else if (eventID .eq. CanopyChangedId) then
          call on_canopy_changed(variant)
 
-      else if (eventID .eq. tick_id) then
+      else if (eventID .eq. TickId) then
          call on_tick(variant)
 
-      else if (eventID .eq. newmet_id) then
+      else if (eventID .eq. newmetId) then
          call on_newmet(variant)
 
       else
@@ -158,25 +158,25 @@
 
 !- Implementation Section ----------------------------------
 
-      if (methodID.eq.lai_table_id) then
+      if (methodID.eq.lai_tableId) then
          call Micromet_table ('LAI',g%LAI)
-      else if (methodID.eq.f_table_id) then
+      else if (methodID.eq.f_tableId) then
          call Micromet_table ('F',g%F)
-      else if (methodID.eq.rs_table_id) then
+      else if (methodID.eq.rs_tableId) then
          call Micromet_table ('Rs',g%Rs)
-      else if (methodID.eq.rl_table_id) then
+      else if (methodID.eq.rl_tableId) then
          call Micromet_table ('Rl',g%Rl)
-      else if (methodID.eq.gc_table_id) then
+      else if (methodID.eq.gc_tableId) then
          call Micromet_table ('Gc',g%Gc)
-      else if (methodID.eq.ga_table_id) then
+      else if (methodID.eq.ga_tableId) then
          call Micromet_table ('Ga',g%Ga)
-      else if (methodID.eq.pet_table_id) then
+      else if (methodID.eq.pet_tableId) then
          call Micromet_table ('PET',g%PET)
-      else if (methodID.eq.petr_table_id) then
+      else if (methodID.eq.petr_tableId) then
          call Micromet_table ('PETr',g%PETr)
-      else if (methodID.eq.peta_table_id) then
+      else if (methodID.eq.peta_tableId) then
          call Micromet_table ('PETa',g%PETa)
-      else if (methodID.eq.omega_table_id) then
+      else if (methodID.eq.omega_tableId) then
          call Micromet_table ('Omega',g%Omega)
       else
          call error('bad method ID',.true.)
@@ -231,7 +231,7 @@
 
       call push_routine (myname)
 
-      if (Variable_info%id .eq. interception_id) then
+      if (Variable_info%id .eq. interceptionId) then
 
          Total_Interception = 0.0
 
@@ -550,14 +550,14 @@ c      g%ComponentFrgr(:) = 0.0
       integer    numvals               ! number of values read
       character  sender*32
       integer    ComponentNo
-      type (canopies_type), dimension(max_canopies) :: canopies
+      type (canopyType), dimension(max_canopies) :: canopies
       integer num_canopies
       integer counter
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
 
-      call unpack_canopies(variant, canopies, num_canopies)
+      call unpack_canopy(variant, canopies, num_canopies)
 
       do 100 counter = 1, num_canopies
       
@@ -746,13 +746,13 @@ c      g%ComponentFrgr(:) = 0.0
          do 50 layer = 1, max_layer
 
             if (position_in_real_array
-     :         (g%Canopies(ComponentNo)%Canopy_Layers(layer)%Cum_Height
+     :         (g%Canopies(ComponentNo)%Layer(layer)%CumHeight
      :         ,Nodes
      :         ,NumNodes)
      :       .eq.0) then
                NumNodes = NumNodes + 1
                Nodes(NumNodes) = g%Canopies(ComponentNo)
-     :                             %Canopy_Layers(layer)%Cum_Height
+     :                             %Layer(layer)%CumHeight
 
             else
                ! it is already there - ignore it
@@ -824,24 +824,24 @@ c      g%ComponentFrgr(:) = 0.0
 
             g%LAI(i,j) = linear_interp_Real
      :                        (top
-     :                        ,g%canopies(j)%canopy_layers(:)%cum_height
-     :                        ,g%canopies(j)%canopy_layers(:)%cum_lai
-     :                        ,g%canopies(j)%num_canopy_layers)
+     :                        ,g%canopies(j)%layer(:)%cumheight
+     :                        ,g%canopies(j)%layer(:)%cumlai
+     :                        ,g%canopies(j)%numlayers)
      :                 - linear_interp_Real
      :                        (bottom
-     :                        ,g%canopies(j)%canopy_layers(:)%cum_height
-     :                        ,g%canopies(j)%canopy_layers(:)%cum_lai
-     :                        ,g%canopies(j)%num_canopy_layers)
+     :                        ,g%canopies(j)%layer(:)%cumheight
+     :                        ,g%canopies(j)%layer(:)%cumlai
+     :                        ,g%canopies(j)%numlayers)
             g%Cover(i,j) = linear_interp_Real
      :                        (top
-     :                        ,g%canopies(j)%canopy_layers(:)%cum_height
-     :                        ,g%canopies(j)%canopy_layers(:)%cum_cover
-     :                        ,g%canopies(j)%num_canopy_layers)
+     :                        ,g%canopies(j)%layer(:)%cumheight
+     :                        ,g%canopies(j)%layer(:)%cumcover
+     :                        ,g%canopies(j)%numlayers)
      :                 - linear_interp_Real
      :                        (bottom
-     :                        ,g%canopies(j)%canopy_layers(:)%cum_height
-     :                        ,g%canopies(j)%canopy_layers(:)%cum_cover
-     :                        ,g%canopies(j)%num_canopy_layers)     
+     :                        ,g%canopies(j)%layer(:)%cumheight
+     :                        ,g%canopies(j)%layer(:)%cumcover
+     :                        ,g%canopies(j)%numlayers)     
      
   200    continue
 
@@ -1268,7 +1268,7 @@ c      g%ComponentFrgr(:) = 0.0
 *        140400 nih
 
 *+  Local Variables
-      type(time_type) :: time
+      type(timeType) :: time
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -1399,28 +1399,28 @@ c      g%ComponentFrgr(:) = 0.0
          ! (should be in dedicated routine)
 
          found = read_parameter (
-     :           g%canopies(Cno)%crop_type
+     :           g%canopies(Cno)%croptype
      :         , 'albedo'             ! Keyword
      :         , g%ComponentAlbedo(Cno)  ! Variable
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1.0)                 ! Upper Limit for bound checking
 
          found = read_parameter (
-     :           g%canopies(Cno)%crop_type
+     :           g%canopies(Cno)%croptype
      :         , 'emissivity'         ! Keyword
      :         , g%ComponentEmissivity(Cno)  ! Variable
      :         , 0.9                  ! Lower Limit for bound checking
      :         , 1.0)                 ! Upper Limit for bound checking
 
          found = read_parameter (
-     :           g%canopies(Cno)%crop_type
+     :           g%canopies(Cno)%croptype
      :         , 'gsmax'              ! Keyword
      :         , g%ComponentGsmax(Cno)  ! Variable
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1.0)                 ! Upper Limit for bound checking
 
          found = read_parameter (
-     :           g%canopies(Cno)%crop_type
+     :           g%canopies(Cno)%croptype
      :         , 'r50'                ! Keyword
      :         , g%ComponentR50(Cno)  ! Variable
      :         , 0.0                  ! Lower Limit for bound checking
@@ -2053,27 +2053,29 @@ c      g%ComponentFrgr(:) = 0.0
 *+  Local Variables
       integer j
       integer i
-      type (light_profiles_type)::profiles(max_components)
+      type (LightProfileType)::profile
       integer layer
             
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-
+      
       do 100 j=1,g%NumComponents
 
-         profiles(j)%name = g%canopies(j)%name
-         profiles(j)%crop_type = g%canopies(j)%crop_type
+         profile%interception(j)%name = g%canopies(j)%name
+         profile%interception(j)%CropType = g%canopies(j)%CropType
+         
          do 50 i = 1,g%NumLayers
-            profiles(j)%light_profile(i)%cum_height
-     :                       = sum(g%DeltaZ(1:i))
-            profiles(j)%light_profile(i)%cum_light
-     :                       = sum(g%Rs(1:i,j))     
+            profile%interception(j)%layer(i)%thickness
+     :                       = g%DeltaZ(i)
+            profile%interception(j)%layer(i)%amount
+     :                       = g%Rs(i,j)     
    50    continue
   100 continue
-
-      call publish_light_profiles(Light_Profile_Calculated_ID
-     :            ,profiles,g%NumComponents,.false.)
+      profile%transmission = g%met%radn - g%Rs(i,j)
+      
+      call publish_LightProfile(LightProfileCalculatedID
+     :            ,profile,.false.)
 
       call pop_routine (myname)
       return

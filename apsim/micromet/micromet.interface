@@ -14,10 +14,10 @@
 
       <respondToEventReg name="tick" type="time"/>
       <respondToEventReg name="newmet" type="newmet"/>
-      <respondToEventReg name="canopy_changed" type="canopies"/>
-      <respondToEventReg name="do_micromet" type="null"/>
+      <respondToEventReg name="canopychanged" type="canopy"/>
+      <respondToEventReg name="domicromet" type="null"/>
       <respondToGetReg name="interception" type="interception"/>
-      <eventReg name="light_profile_calculated" type="light_profiles"/>
+      <eventReg name="lightprofilecalculated" type="lightprofile"/>
 
    </registrations>
 </component>
