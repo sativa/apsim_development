@@ -82,8 +82,10 @@
     <td width="360" valign="top"><p class="Normal">Switch to enable or disable the irrigation allocation accounting. (See Irrigation Allocation section below) </p></td>
   </tr>
   <tr>
-    <td width="319" valign="top"><p class="Normal">Allocation = amount </p></td>
-    <td width="360" valign="top"><p class="Normal">Irrigation allocation amount (mm). Cannot be used in conjunction with manual irrigation schedule. </p></td>
+    <td width="319" valign="top"><p class="Normal">Allocation = amount (mm)<br>
+    allocation_ml (ml)<br>
+    application_area (ha)</p></td>
+    <td width="360" valign="top"><p class="Normal">Irrigation allocation amount (mm). Cannot be used in conjunction with manual irrigation schedule. If this is not provided, it is possible to supply the allocation in ML and application area in hectares.</p></td>
   </tr>
   <tr>
     <td width="319" valign="top"><p class="Normal">default_XXX_conc </p></td>
@@ -262,8 +264,16 @@
     <td width="486" valign="top"><p class="Normal">Current amount of irrigation allocation available for use (mm) </p></td>
   </tr>
   <tr>
+    <td width="193" valign="top"><p class="Normal">allocation_ml </p></td>
+    <td width="486" valign="top"><p class="Normal">Current amount of irrigation allocation available for use (ML) </p></td>
+  </tr>
+  <tr>
     <td width="193" valign="top"><p class="Normal">carry_over </p></td>
     <td width="486" valign="top"><p class="Normal">Amount of irrigation allocation unused as at reset of allocation (mm) (Value will be zero for days on which allocation is not reset) </p></td>
+  </tr>
+  <tr>
+    <td width="193" valign="top"><p class="Normal">carry_over_ml </p></td>
+    <td width="486" valign="top"><p class="Normal">Amount of irrigation allocation unused as at reset of allocation (ML) </p></td>
   </tr>
   <tr>
     <td width="193" valign="top"><p class="Normal">irr_fasw </p></td>
