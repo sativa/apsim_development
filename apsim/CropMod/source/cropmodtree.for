@@ -1,4 +1,4 @@
-C     Last change:  E    10 Apr 2000    3:29 pm
+C     Last change:  E    12 May 2000   10:23 am
 
       INCLUDE 'CropMod.inc'
 
@@ -306,7 +306,7 @@ C     Last change:  E    10 Apr 2000    3:29 pm
       if ((Option.eq.1).or.(Option.eq.2)) then
  
 
-         call biomass_potential (2)
+         call biomass_potential (Option)
 
          call cproc_transp_eff1(
      :                     c%svp_fract
@@ -925,9 +925,15 @@ c     integer    deepest_layer
      :                                   ,c%y_extinct_coeff_lai
      :                                   ,c%num_extinct_coeff_lai)
 
-         g%cover_green = 1.0 - exp (-extinct_coef*g%lai)
 
-         g%extinction_coeff = extinct_coef
+         if (g%current_stage.lt.7.0) then
+             g%extinction_coeff = extinct_coef
+         else
+             g%extinction_coeff = 0.42
+         end if
+
+
+         g%cover_green = 1.0 - exp (-g%extinction_coeff*g%lai)
 
 
          call crop_radn_int0(
@@ -943,6 +949,7 @@ c     integer    deepest_layer
      :                     g%maxt,
      :                     g%mint,
      :                     g%temp_stress_photo)
+
 
 c       call crop_dm_potential (
         call crop_dm_pot_rue (
@@ -1193,7 +1200,7 @@ c       call crop_dm_potential (
  
       if (Option.eq.1) then
 
-         call wht_dm_init_nw (g%current_stage,
+         call wheat_dm_init (g%current_stage,
      .          g%days_tot,
      .          c%dm_root_init,
      .          g%plants,
@@ -1202,6 +1209,8 @@ c       call crop_dm_potential (
      .          c%stem_trans_frac,
      .          c%leaf_trans_frac,
      .          c%initial_tpla,
+     .          c%sla_min,
+     .          c%sla_max,
      .          g%dm_green, 
      .          g%dm_plant_min,
      ,          p%head_grain_no_max,
@@ -1471,17 +1480,47 @@ c      REAL nw_sla
 
       if (Option.eq.1) then
 
+         call leaf_area_potential(option)
+
+         call cproc_leaf_area_stressed1 (
+     :                       g%dlt_lai_pot
+     :                      ,g%swdef_expansion
+     :                      ,g%nfact_expansion
+     :                      ,g%dlt_lai_stressed
+     :                      )
+
+
+
+
+      if(g%accum_rad_10d.lt.100.0) then
+         c%sla_max = g%accum_rad_10d * (- 1.5) + 400.0
+         c%sla_min = g%accum_rad_10d * (- 1.5) + 300.0
+        else
+         c%sla_max = 300.0
+         c%sla_min = 150.0
+      endif
+
+         c%sla_max = c%sla_max * 100.0
+         c%sla_min = c%sla_min * 100.0
+
+
 
          call cproc_bio_partition_wheat (
      :                  g%current_stage,
+     : 	 		c%ratio_root_shoot,
+     :                  c%sla_min,
+     :                  g%dlt_lai_stressed,
      :                  g%dlt_dm,
      :                  g%phase_tt,
      :                  g%tt_tot,
      :                  g%swdef_photo,
      :                  g%nfact_photo,
+     :                  g%swdef_expansion,
+     :                  g%nfact_expansion,
      :                  g%dlt_dm_grain_demand,
      :                  g%dlt_dm_green)
      
+
 
       elseif (Option.eq.2) then
 
@@ -1516,6 +1555,30 @@ c      REAL nw_sla
 c          nw_sla = 22500.0  ! mm2/g - nwheat value
 
           call cproc_bio_partition_nw (
+     :                  g%current_stage,
+     :                  g%maxt,
+     :                  g%mint,
+     :                  g%dlt_dm,
+     :                  g%dlt_tt,
+     :                  g%phase_tt,
+     :                  g%tt_tot,
+     :                  c%leaf_app_rate1, !p%phint,
+     :                  c%sla_min,
+     :                  c%ratio_root_shoot,
+     :                  g%leaf_no,
+     :                  g%tiller_no_fertile,
+     :                  g%swdef_expansion,
+     :                  g%nfact_expansion,
+     :                  g%dlt_dm_grain_demand,
+     :                  g%plants,
+     :                  g%dm_green,
+     :                  g%dm_plant_min,
+     :                  g%dlt_dm_green,
+     :                  g%dlt_dm_leaf_pot)
+
+      elseif (Option.eq.4) then
+
+          call cproc_bio_partition_nw_ew (
      :                  g%current_stage,
      :                  g%maxt,
      :                  g%mint,
@@ -2004,7 +2067,7 @@ c          nw_sla = 22500.0  ! mm2/g - nwheat value
      .          g%plants,
      .          g%current_stage,
      .          c%leaf_app_rate1,
-     .          g%dlt_tt,
+     .          g%dlt_tt, !*MIN(g%nfact_expansion,g%swdef_expansion),
      .          g%tiller_area_max,
      .          p%tiller_curve,
      .          p%tiller_tt_infl,
@@ -2032,8 +2095,19 @@ c          nw_sla = 22500.0  ! mm2/g - nwheat value
 
 
 
-      elseif (Option .eq. 3) then
-      elseif (Option .eq. 0) then
+      elseif (Option .eq. 4) then
+
+
+c        call wheat_leaf_area_potential (
+c     :                             15.0
+c     :                            ,g%current_stage
+c     :                            ,g%dlt_tt
+c     :                            ,G%phase_tt
+c     :                            ,g%tt_tot
+c     :                            ,g%dlt_lai_pot
+c     :                            )
+
+      elseif ((Option .eq. 0).or.(Option .eq. 3)) then
 
          !This module is excluded from the model
       else
@@ -2372,11 +2446,11 @@ c      endif
  
       if ((Option.eq.1).or.(Option.eq.2).or.(Option.eq.3)) then
  
-c        if (on_day_of (emerg, g%current_stage, g%days_tot)) then
-c            dlt_dm_root = 0.06*g%plants
-c        else
+!        if (on_day_of (emerg, g%current_stage, g%days_tot)) then
+!            dlt_dm_root = 0.06*g%plants
+!        else
             dlt_dm_root = g%dlt_dm_green(root)
-c        end if
+!        end if
 
 
          call cproc_root_length_growth1
@@ -2455,61 +2529,8 @@ c        end if
       call push_routine (my_name)
  
 
-      if (Option.eq.100) then
 
-      !NEIL, I CAN NOT UNDERSTAND THE NWHEAT LEAF SENESCENCE PROCESS SUBROUTINE. SO THE SUBROUTINES NOW USED (_nw_ew) ARE
-      !      MODIFIED VERSION WITHOUT AGING BEFORE FLAG LEAF.
-      !      YOU CAN USE THE OTHER TWO (ending with _nw). They are coded according the original ones
-
-       call leaf_senescence_age_wheat(
-     :                   g%current_stage,
-     :                   g%phase_tt,
-     :                   g%tt_tot,
-     :                   g%days_tot,
-     :                   g%dlt_tt,
-     :                   g%dlt_lai,
-     :                   g%lai,
-     :                   g%lai_stage,
-     :                   g%slai,
-     :                   g%leaf_no,
-     :                   c%leaf_app_rate1,
-     :                   g%plsc,
-     :                   dlt_slai_age)
-
-       call leaf_senescence_shade_wheat(
-     :                   g%current_stage,
-     :                   g%phase_tt,
-     :                   g%tt_tot,
-     :                   g%days_tot,
-     :                   g%dlt_tt,
-     :                   g%dlt_lai,
-     :                   g%lai,
-     :                   g%lai_stage,
-     :                   g%slai,
-     :                   g%leaf_no,
-     :                   c%leaf_app_rate1,
-     :                   g%plsc,
-     :                   dlt_slai_shade)
-
-
-         call leaf_senescence_stressed_wheat(
-     :                g%current_stage,
-     :                g%lai,
-     :                MAX(dlt_slai_age,dlt_slai_shade),
-     :                g%leaf_no,
-     :                g%maxt,
-     :                g%swdef_photo,
-     :                g%nfact_photo,
-     :                g%plsc,
-     :                g%dlt_slai )
-
-
-c         g%lai_stage = g%lai_stage -(g%dlt_slai-g%dlt_slai_age)
-          g%lai_stage = g%lai_stage -g%dlt_slai
-  
-
-
-      else if ((Option.eq.1).or.(Option.eq.2)) then
+      if (Option.eq.2) then
 
             call iw_tiller_area_sen_light(
      .                               g%plants,
@@ -2593,14 +2614,13 @@ c       g%sw_supply_sum = sum_real_array(g%sw_supply, deepest_layer)
 
 
 
-      else if ((Option.eq.3).or.(Option.eq.4)) then
+      else if (Option.eq.3) then
 
       !NEIL, I CAN NOT UNDERSTAND THE NWHEAT LEAF SENESCENCE PROCESS SUBROUTINE. SO THE SUBROUTINES NOW USED (_nw_ew) ARE
       !      MODIFIED VERSION WITHOUT AGING BEFORE FLAG LEAF.
       !      YOU CAN USE THE OTHER TWO (ending with _nw). They are coded according the original ones
 
         call leaf_senescence_age_nw(
-c       call leaf_senescence_age_nw_ew(
      :                   g%current_stage,
      :                   g%phase_tt,
      :                   g%tt_tot,
@@ -2616,7 +2636,6 @@ c       call leaf_senescence_age_nw_ew(
      :                   dlt_slai_age)
 
           call leaf_senescence_stressed_nw(
-c         call leaf_senescence_stressed_nw_ew(
      :                g%current_stage,
      :                g%lai,
      :                dlt_slai_age,
@@ -2626,7 +2645,94 @@ c         call leaf_senescence_stressed_nw_ew(
      :                g%nfact_tiller,
      :                g%plsc,
      :                g%dlt_slai )
-  
+
+      else if ((Option.eq.1).or.(Option.eq.4)) then
+
+c        call leaf_senescence_age_nw(
+       call leaf_senescence_age_nw_ew(
+     :                   g%current_stage,
+     :                   g%phase_tt,
+     :                   g%tt_tot,
+     :                   g%days_tot,
+     :                   g%dlt_tt,
+     :                   g%dlt_lai,
+     :                   g%lai,
+     :                   g%lai_stage,
+     :                   g%slai,
+     :                   g%leaf_no,
+     :                   c%leaf_app_rate1,
+     :                   g%plsc,
+     :                g%swdef_expansion,
+     :                g%nfact_expansion,
+     :                g%swdef_photo,
+     :                g%nfact_photo,
+     :                   dlt_slai_age)
+
+c          call leaf_senescence_stressed_nw(
+         call leaf_senescence_stressed_nw_ew(
+     :                g%current_stage,
+     :                g%lai,
+     :                dlt_slai_age,
+     :                g%leaf_no,
+     :                g%maxt,
+     :                g%swdef_expansion,
+     :                g%nfact_expansion,
+     :                g%swdef_photo,
+     :                g%nfact_photo,
+     :                g%plsc,
+     :                g%dlt_slai )
+
+
+        call  Kill_tillers()
+
+
+      elseif (Option.eq.5) then
+
+       call leaf_senescence_age_wheat(
+     :                   g%current_stage,
+     :                   g%phase_tt,
+     :                   g%tt_tot,
+     :                   g%days_tot,
+     :                   g%dlt_tt,
+     :                   g%dlt_lai,
+     :                   g%lai,
+     :                   g%lai_stage,
+     :                   g%slai,
+     :                   g%leaf_no,
+     :                   c%leaf_app_rate1,
+     :                   g%plsc,
+     :                   dlt_slai_age)
+
+       call leaf_senescence_shade_wheat(
+     :                   g%current_stage,
+     :                   g%phase_tt,
+     :                   g%tt_tot,
+     :                   g%days_tot,
+     :                   g%dlt_tt,
+     :                   g%dlt_lai,
+     :                   g%lai,
+     :                   g%lai_stage,
+     :                   g%slai,
+     :                   g%leaf_no,
+     :                   c%leaf_app_rate1,
+     :                   g%plsc,
+     :                   dlt_slai_shade)
+
+
+         call leaf_senescence_stressed_wheat(
+     :                g%current_stage,
+     :                g%lai,
+     :                MAX(dlt_slai_age,dlt_slai_shade),
+     :                g%leaf_no,
+     :                g%maxt,
+     :                g%swdef_photo,
+     :                g%nfact_photo,
+     :                g%plsc,
+     :                g%dlt_slai )
+
+
+
+
 
       else if (Option.eq.0) then
 
@@ -2664,7 +2770,6 @@ c         call leaf_senescence_stressed_nw_ew(
 
 *+  Local Values
       integer n
-      REAL   dlt_tiller_area_act(max_leaf)
 
       
 *- Implementation Section ----------------------------------
@@ -2689,28 +2794,13 @@ c         call leaf_senescence_stressed_nw_ew(
      .                             g%dlt_tiller_sen_area_nitrogen(n))
                                          
 
-c        dlt_tiller_area_act(n)= g%dlt_tiller_area_pot(n)
-c     .                        * MIN(g%swdef_expansion,g%nfact_expansion)
-
-
-        dlt_tiller_area_act(n)= g%dlt_tiller_area_pot(n)
+        g%dlt_tiller_area_act(n)= g%dlt_tiller_area_pot(n)
      .                        * divide(g%dlt_lai, g%dlt_lai_pot,0.0)
-
 
         if (g%tiller_area_max(n).eq.0.0) then
             g%dlt_tiller_sen_area(n) = g%tiller_area_act(n)
-     .                               + dlt_tiller_area_act(n)
+     .                               + g%dlt_tiller_area_act(n)
         endif
-
-        g%tiller_area_act(n) = g%tiller_area_act(n)
-     .                       + dlt_tiller_area_act(n)
-     .                       - g%dlt_tiller_sen_area(n)
-
-        g%tiller_area_act(n) = max(0.0,g%tiller_area_act(n))
-
-        g%tiller_area_sen(n) = g%tiller_area_sen(n)
-     .                         +g%dlt_tiller_sen_area(n)
-                                         
 
          !Leaf area senescence
          g%dlt_slai       =  g%dlt_slai 
@@ -2724,8 +2814,6 @@ c     .                        * MIN(g%swdef_expansion,g%nfact_expansion)
          g%dlt_slai_nitrogen =  g%dlt_slai_nitrogen 
      .                     + g%dlt_tiller_sen_area_nitrogen(n)
 
-        
-       
       end do
 
 
@@ -2742,32 +2830,14 @@ c     .                        * MIN(g%swdef_expansion,g%nfact_expansion)
         !ew added this line
          g%dlt_slai = min(g%dlt_slai, g%lai + g%dlt_lai)
                 
-        !print *, "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-        !print *, "g%dlt_slai           =",  g%dlt_slai
-        !print *, "g%dlt_slai_age       =",  g%dlt_slai_age
-        !print *, "g%dlt_slai_light     =",  g%dlt_slai_light
-        !print *, "g%dlt_slai_water     =",  g%dlt_slai_water
-        !print *, "g%dlt_slai_nitrogen  =",  g%dlt_slai_nitrogen
-        !print *, "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-        
-     
-      !if (stage_is_between (emerg, floral_init, g%current_stage)) then
-      !   g%dlt_slai         = 0.0
-      !   g%dlt_slai_age     = 0.0
-      !endif
-      
-        
-     
 
       call pop_routine (myname)
       return
       end
 
 
-
-
 * ====================================================================
-       subroutine leaf_area_from_tillers_old()
+       subroutine Kill_tillers()
 * ====================================================================
 *+  Purpose
 *     calculate the leaf area and tiller area growth rate (alive and senscenced) 
@@ -2785,101 +2855,64 @@ c     .                        * MIN(g%swdef_expansion,g%nfact_expansion)
 
 *+  Constant Values
       character*(*) myname             ! name of this procedure
-      parameter (myname = 'leaf_area_from_tillers')
+      parameter (myname = 'Kill_tillers')
 
 *+  Local Values
-      integer n
+      integer n,m
+      INTEGER NumOfTillers
+      REAL    dlt_lai_sen
+      REAL    tiller_area_act
+
+
       
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-
-       !g%dlt_lai           = 0.0
-       
-       g%dlt_slai          = 0.0
-       g%dlt_slai_age      = 0.0
-       g%dlt_slai_light    = 0.0
-       g%dlt_slai_water    = 0.0
-       g%dlt_slai_nitrogen = 0.0
-       
-       do n  = 1, max_leaf
-       
-         !Tiller area senescenc
-        g%dlt_tiller_sen_area(n) = max(
-     .                             g%dlt_tiller_sen_area_age(n),
-     .                             g%dlt_tiller_sen_area_light(n),
-     .                             g%dlt_tiller_sen_area_water(n),
-     .                             g%dlt_tiller_sen_area_nitrogen(n))
-                                         
-         g%tiller_area_sen(n) = g%tiller_area_sen(n)
-     .                         +g%dlt_tiller_sen_area(n)
-                                         
-         !Leaf area senescence
-         g%dlt_slai       =  g%dlt_slai 
-     .                     + g%dlt_tiller_sen_area(n)
-     
-         g%dlt_slai_age   =  g%dlt_slai_age 
-     .                     + g%dlt_tiller_sen_area_age(n)
-         g%dlt_slai_light =  g%dlt_slai_light 
-     .                     + g%dlt_tiller_sen_area_light(n)
-         g%dlt_slai_water =  g%dlt_slai_water 
-     .                     + g%dlt_tiller_sen_area_water(n)
-         g%dlt_slai_nitrogen =  g%dlt_slai_nitrogen 
-     .                     + g%dlt_tiller_sen_area_nitrogen(n)
-      
-      
-        !Tiller and leaf actual area calculation
-        if (g%tiller_area_max(n).eq.0.0) 
-     .      g%tiller_area_act(n) =  0.0
-      
-      !   g%dlt_lai = g%dlt_lai  + g%dlt_tiller_area_pot(n) 
-      !.                         * g%swdef_expansion
-      
-        g%tiller_area_act(n) = g%tiller_area_act(n) 
-     .                       + g%dlt_tiller_area_pot(n)
-     .                       * MIN(g%swdef_expansion,g%nfact_expansion)
-     .                       - g%dlt_tiller_sen_area(n)
-     
-        g%tiller_area_act(n) = max(0.0,g%tiller_area_act(n))
-        
+      NumOfTillers = 0
+      do n = 1, max_leaf
+         if (g%dlt_tiller_area_pot(n).gt.0.0) then
+             NumOfTillers = n
+         end if
       end do
 
+      NumOfTillers = MAX(2, NumOfTillers)
 
-         !Change the unit to m2/m2
+       !Change from m2/m2 to per tiller area
+       dlt_lai_sen = g%dlt_slai /(smm2sm*g%plants*100.0)
 
-         !g%dlt_lai         = g%dlt_lai          *smm2sm*g%plants*100
-         g%dlt_slai         = g%dlt_slai         *smm2sm*g%plants*100.0
-         g%dlt_slai_age     = g%dlt_slai_age     *smm2sm*g%plants*100.0
-         g%dlt_slai_light   = g%dlt_slai_light   *smm2sm*g%plants*100.0
-         g%dlt_slai_water   = g%dlt_slai_water   *smm2sm*g%plants*100.0
-         g%dlt_slai_nitrogen= g%dlt_slai_nitrogen*smm2sm*g%plants*100.0
+       m = max_leaf
+
+       do n  =  NumOfTillers, 2, -1
+
+        g%dlt_tiller_area_act(n)= g%dlt_tiller_area_pot(n)
+     .                        * divide(g%dlt_lai, g%dlt_lai_pot,0.0)
+
+        tiller_area_act = g%tiller_area_act(n)+g%dlt_tiller_area_act(n)
+
+        if (tiller_area_act .lt. dlt_lai_sen) then      !A tiller is killed in this case
+            dlt_lai_sen = dlt_lai_sen - tiller_area_act
+            g%dlt_tiller_sen_area(n) = tiller_area_act
+            g%tiller_area_max(n)     = 0.0
+
+c           PRINT *, "stress kill tiller", n
+            m=n
+        else
+            g%dlt_tiller_sen_area(n) = dlt_lai_sen
+            dlt_lai_sen = 0.0
+c           g%tiller_area_max(n) = g%tiller_area_max(n)-dlt_lai_sen
+
+        endif
+
+      enddo
 
 
-        !ew added this line
-         g%dlt_slai = min(g%dlt_slai, g%lai + g%dlt_lai)
-                
-        !print *, "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-        !print *, "g%dlt_slai           =",  g%dlt_slai
-        !print *, "g%dlt_slai_age       =",  g%dlt_slai_age
-        !print *, "g%dlt_slai_light     =",  g%dlt_slai_light
-        !print *, "g%dlt_slai_water     =",  g%dlt_slai_water
-        !print *, "g%dlt_slai_nitrogen  =",  g%dlt_slai_nitrogen
-        !print *, "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-        
-     
-      !if (stage_is_between (emerg, floral_init, g%current_stage)) then
-      !   g%dlt_slai         = 0.0
-      !   g%dlt_slai_age     = 0.0
-      !endif
-      
-        
-     
+c       do n = m, max_leaf
+c            g%tiller_area_max(n)=0.0
+c       end do
 
       call pop_routine (myname)
       return
       end
-
-
 
 
 *     ===========================================================
@@ -3356,7 +3389,7 @@ c     :          - sum_real_array (g%dlt_n_sen_supply, max_part)
 
 
 
-         IF ((Option.eq.3).AND.(Option.eq.1).and.on_day_of (
+         IF (((Option.eq.3).or.(Option.eq.1)).and.on_day_of (
      :            start_grain_fill, g%current_stage, g%days_tot)) then
 
           call crop_n_retrans_avail_nw(  max_part,
@@ -3583,7 +3616,7 @@ c     :          - sum_real_array (g%dlt_n_sen_supply, max_part)
 
       elseif ((Option.eq.1).or.(Option.eq.3)) then
 
-       call fill_real_array (g%dlt_N_retrans, 0.0, max_part)
+c      call fill_real_array (g%dlt_N_retrans, 0.0, max_part)
 
        call cproc_N_demand2   !nwheat uses potential biomass growth rate to determine N demand ????????????????
      :               (
@@ -3920,7 +3953,7 @@ c     :          - sum_real_array (g%dlt_n_sen_supply, max_part)
      .          g%N_senesced,
      .          g%N_dead,
      .          g%dlt_N_retrans)
-   
+
       elseif (Option.eq.200) then
 
           call  cproc_N_retranslocate2 (  !for i_wheat
@@ -3981,7 +4014,21 @@ c     :          - sum_real_array (g%dlt_n_sen_supply, max_part)
  
       if (Option.eq.1) then
  
-        call nitrogen_stress_wang (
+c        call nitrogen_stress_wang (
+c     :                          leaf,
+c     :                          stem,
+c     :                          emerg,
+c     :                          g%current_stage,
+c     :                          g%dm_green,
+c     :                          g%n_conc_crit,
+c     :                          g%n_conc_min,
+c     :                          g%n_green,
+c     :                          g%nfact_photo,
+c     :                          g%nfact_expansion,
+c     :                          g%nfact_pheno,
+c     :                          g%nfact_tiller)
+
+        call nitrogen_stress_nw (
      :                          leaf, 
      :                          stem, 
      :                          emerg,
@@ -3995,34 +4042,35 @@ c     :          - sum_real_array (g%dlt_n_sen_supply, max_part)
      :                          g%nfact_pheno,
      :                          g%nfact_tiller)
 
-c         call crop_nfact_pheno(leaf, stem, g%dm_green,
-c     .                         g%N_conc_crit,
-c     .                         g%N_conc_min,
-c     .                         g%N_green,
-c     .                         c%N_fact_pheno, g%nfact_pheno)
-c
-c         call crop_nfact_photo(leaf, stem,
-c     .                     g%dm_green,
-c     .                     g%N_conc_crit,
-c     .                     g%N_conc_min,
-c     .                     g%N_green,
-c     .                     c%N_fact_photo, g%nfact_photo)
-c
-c         call crop_nfact_grain_conc(leaf, stem,
-c     .                     g%dm_green,
-c     .                     g%N_conc_crit,
-c     .                     g%N_conc_min,
-c     .                     g%N_green, g%nfact_grain_conc)
-c
-c         call crop_nfact_expansion(leaf,
-c     .                     g%dm_green,
-c     .                     g%N_conc_crit,
-c     .                     g%N_conc_min,
-c     .                     g%N_green,
-c     .                     c%N_fact_expansion,
-c     .                     g%nfact_expansion)
 
+         call crop_nfact_pheno(leaf, stem, g%dm_green,
+     .                         g%N_conc_crit,
+     .                         g%N_conc_min,
+     .                         g%N_green,
+     .                         c%N_fact_pheno, g%nfact_pheno)
 
+         call crop_nfact_photo(leaf, stem,
+     .                     g%dm_green,
+     .                     g%N_conc_crit,
+     .                     g%N_conc_min,
+     .                     g%N_green,
+     .                     c%N_fact_photo, g%nfact_photo)
+
+         call crop_nfact_grain_conc(leaf, stem,
+     .                     g%dm_green,
+     .                     g%N_conc_crit,
+     .                     g%N_conc_min,
+     .                     g%N_green, g%nfact_grain_conc)
+
+         call crop_nfact_expansion(leaf,
+     .                     g%dm_green,
+     .                     g%N_conc_crit,
+     .                     g%N_conc_min,
+     .                     g%N_green,
+     .                     c%N_fact_expansion,
+     .                     g%nfact_expansion)
+
+c         g%nfact_tiller = g%nfact_expansion
 
       elseif (Option.eq.2) then
  
@@ -4102,7 +4150,17 @@ c     .                     g%nfact_expansion)
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
+
+      if (INT(g%current_stage).le.3) then
+
+         g%nfact_photo     = 1.0
+         g%nfact_expansion = 1.0
+         g%nfact_pheno     = 1.0
+         g%nfact_tiller    = 1.0
+      end if
+
+
       call pop_routine (my_name)
       return
       end
