@@ -27,8 +27,9 @@ __published:	// IDE-managed Components
    TLabel *Label3;
    TSpeedButton *BrowseButton;
    TListView *FilesList;
-   TLabel *Label4;
+   TCheckBox *InterpretCheckBox;
    void __fastcall BrowseButtonClick(TObject *Sender);
+   void __fastcall InterpretCheckBoxClick(TObject *Sender);
 private:	// User declarations
    TApsimFileReader* apsimFileReader;
 public:		// User declarations

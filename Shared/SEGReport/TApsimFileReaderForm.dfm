@@ -1,4 +1,5 @@
 inherited ApsimFileReaderForm: TApsimFileReaderForm
+  Height = 459
   Caption = 'ApsimFileReaderForm'
   OldCreateOrder = True
   PixelsPerInch = 120
@@ -11,11 +12,11 @@ inherited ApsimFileReaderForm: TApsimFileReaderForm
     Caption = 'Filenames:'
   end
   object BrowseButton: TSpeedButton [1]
-    Left = 164
-    Top = 154
+    Left = 4
+    Top = 178
     Width = 99
     Height = 24
-    Caption = '&Browse'
+    Caption = '&Filenames'
     Flat = True
     Glyph.Data = {
       EE030000424DEE030000000000003600000028000000110000000E0000000100
@@ -52,18 +53,11 @@ inherited ApsimFileReaderForm: TApsimFileReaderForm
       00FF743C00FF7E4D16FDA48A69E3EBF2F45C}
     OnClick = BrowseButtonClick
   end
-  object Label4: TLabel [5]
-    Left = 8
-    Top = 160
-    Width = 66
-    Height = 16
-    Caption = 'Filenames:'
-  end
   object FilesList: TListView
     Left = 8
-    Top = 176
+    Top = 208
     Width = 255
-    Height = 216
+    Height = 201
     Anchors = [akLeft, akTop, akRight, akBottom]
     BevelInner = bvLowered
     BevelOuter = bvRaised
@@ -72,6 +66,18 @@ inherited ApsimFileReaderForm: TApsimFileReaderForm
     Columns = <>
     TabOrder = 4
     ViewStyle = vsList
+  end
+  object InterpretCheckBox: TCheckBox
+    Left = 8
+    Top = 133
+    Width = 104
+    Height = 21
+    Alignment = taLeftJustify
+    Caption = 'Interpret titles?'
+    Ctl3D = True
+    ParentCtl3D = False
+    TabOrder = 5
+    OnClick = InterpretCheckBoxClick
   end
   object OpenDialog: TOpenDialog
     DefaultExt = 'out'

@@ -24,6 +24,7 @@ __fastcall TApsimFileReader::TApsimFileReader(TComponent* owner)
    : TSEGTable(owner)
    {
    files = new TStringList;
+   doInterpretTitles = false;
    }
 
 //---------------------------------------------------------------------------
@@ -95,6 +96,7 @@ void TApsimFileReader::setReportDirectory(AnsiString reportDir)
 //---------------------------------------------------------------------------
 bool TApsimFileReader::createFields(void) throw(runtime_error)
    {
+   FieldDefs->Clear();
    titles.erase(titles.begin(), titles.end());
    for (int fileIndex = 0; fileIndex < files->Count; fileIndex++)
       {
@@ -123,7 +125,13 @@ void TApsimFileReader::storeRecords(void) throw(runtime_error)
    for (int fileIndex = 0; fileIndex < files->Count; fileIndex++)
       {
       vector<string> factorNames, factorValues;
-      splitTitleIntoFactors(titles[fileIndex], factorNames, factorValues);
+      if (doInterpretTitles)
+         splitTitleIntoFactors(titles[fileIndex], factorNames, factorValues);
+      else
+         {
+         factorNames.push_back("title");
+         factorValues.push_back(titles[fileIndex]);
+         }
 
       try
          {
@@ -155,11 +163,15 @@ void TApsimFileReader::readAndStoreFields(const string& filename) throw(runtime_
       readApsimHeader(in, fieldNames, title);
       titles.push_back(title);
 
-      FieldDefs->Clear();
-
       // split up title into factors and store as fields.
       vector<string> factorNames, factorValues;
-      splitTitleIntoFactors(title, factorNames, factorValues);
+      if (doInterpretTitles)
+         splitTitleIntoFactors(title, factorNames, factorValues);
+      else
+         {
+         factorNames.push_back("title");
+         factorValues.push_back(title);
+         }
       if (factorNames.size() > 0 && factorNames[0] != "")
          addDBFields(this, factorNames, factorValues);
 
