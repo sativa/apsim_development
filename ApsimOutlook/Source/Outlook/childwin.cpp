@@ -184,7 +184,7 @@ void __fastcall TMDIChild::SelectSimulations(TObject *Sender)
       }
    }
 //---------------------------------------------------------------------------
-void TMDIChild::Create_chart(TAnalysis_panel* new_panel)
+bool TMDIChild::Create_chart(TAnalysis_panel* new_panel)
 {
    Settings_form->Parent = this;
    TAnalysis_panel* saved_panel;
@@ -193,7 +193,8 @@ void TMDIChild::Create_chart(TAnalysis_panel* new_panel)
    Analysis_panel->Init();
    Analysis_panel->Source_data = working;
 
-   if (Edit_panel())
+   bool ok = Edit_panel();
+   if (ok)
    {
       delete saved_panel;
       Hook_panel_to_this_form();
@@ -205,6 +206,7 @@ void TMDIChild::Create_chart(TAnalysis_panel* new_panel)
    }
    if (ChartsViewSettingsMenu->Checked)
       Settings_form->BringToFront();
+   return ok;
 }
 
 
@@ -287,9 +289,14 @@ void TMDIChild::Hook_panel_to_this_form (void)
 void __fastcall TMDIChild::SummaryTable(TObject *Sender)
    {
    TAnalysis_panel* new_panel = new TSummary_panel(this);
-   Create_chart(new_panel);
-   if (!ChartsViewDataMenu->Checked && dynamic_cast<TSummary_panel*>(new_panel)->ShowData())
-      ViewData(Sender);
+   if (Create_chart(new_panel))
+      {
+      TSummary_panel* summaryPanel = dynamic_cast<TSummary_panel*>(new_panel);
+      if (!ChartsViewDataMenu->Checked &&
+          summaryPanel != NULL &&
+          summaryPanel->ShowData())
+         ViewData(Sender);
+      }
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::TimeSeriesChart(TObject *Sender)
