@@ -28,6 +28,7 @@ class PROTOCOL_EXPORT PROTOCOLComponent : virtual public IComponent
       bool operator< (const PROTOCOLComponent& rhs) const
          {return name < rhs.name;}
       ~PROTOCOLComponent(void);
+      virtual void create(void);
       virtual void init(void);
       virtual void term(void);
       virtual string getName(void) const {return name;}

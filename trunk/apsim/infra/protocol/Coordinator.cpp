@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <general\stl_functions.h>
 #include <sstream>
-#include <set>
+#include <list>
 #include <functional>
 using namespace std;
 
@@ -25,9 +25,13 @@ class EventRegistration
    public:
       EventRegistration(void) { };
       void registerComponent(PROTOCOLComponent* component)
-         {registeredComponents.insert(component);}
+         {registeredComponents.push_back(component);}
       void deregisterComponent(PROTOCOLComponent* component)
-         {registeredComponents.erase(component);}
+         {
+         registeredComponents.erase(Pfind(registeredComponents.begin(),
+                                          registeredComponents.end(),
+                                          component));
+         }
       void publishEvent(PROTOCOLEvent& anEvent)
          {
          for (ComponentSet::iterator i = registeredComponents.begin();
@@ -39,7 +43,7 @@ class EventRegistration
          }
 
    private:
-      typedef set<PROTOCOLComponent*, Pless<PROTOCOLComponent> > ComponentSet;
+      typedef list<PROTOCOLComponent*> ComponentSet;
       ComponentSet registeredComponents;
    };
 
@@ -337,17 +341,17 @@ void PROTOCOLCoordinator::publishEvent(PROTOCOLEvent& event) const
    if (event.action == "tick" && TickCallback != NULL)
       TickCallback->callback(1);
 
-   broadcastMessage(event);
+//   broadcastMessage(event);
    // go locate the appropriate event registration object.
    // If found then call its publishevent method.
    // If not found then assume noone has registered an interest in it.
-//   EventRegistrationList::const_iterator eventRegI
-//      = eventRegistrations.find(event.action.c_str());
-//   if (eventRegI != eventRegistrations.end())
-//      {
-//      EventRegistration* ptr = (*eventRegI).second;
-//      ptr->publishEvent(event);
-//      }
+   EventRegistrationList::const_iterator eventRegI
+      = eventRegistrations.find(event.action.c_str());
+   if (eventRegI != eventRegistrations.end())
+      {
+      EventRegistration* ptr = (*eventRegI).second;
+      ptr->publishEvent(event);
+      }
    }
 
 // ------------------------------------------------------------------
@@ -390,6 +394,7 @@ PROTOCOLComponent* PROTOCOLCoordinator::addComponent(const string& name,
    {
    PROTOCOLComponent* component = new PROTOCOLComponent(name, this, dllFileName, ssdl);
    components.push_back(component);
+   component->create();
 
    return component;
    }

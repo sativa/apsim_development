@@ -22,6 +22,7 @@ PROTOCOLComponent::PROTOCOLComponent(const string& aName,
    IL = new PROTOCOLInterfaceLayer(this, coordinator);
    computation = new PROTOCOLComputation(this, dllFileName, ssdl);
    }
+
 // ------------------------------------------------------------------
 //  Short description:
 //     constructor
@@ -54,6 +55,20 @@ PROTOCOLComponent::~PROTOCOLComponent(void)
    {
    delete IL;
    delete computation;
+   }
+// ------------------------------------------------------------------
+//  Short description:
+//     create the component.
+
+//  Notes:
+
+//  Changes:
+//    dph 22/2/2000
+
+// ------------------------------------------------------------------
+void PROTOCOLComponent::create(void)
+   {
+   computation->create();
    }
 // ------------------------------------------------------------------
 //  Short description:
