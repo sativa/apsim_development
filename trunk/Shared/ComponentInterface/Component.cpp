@@ -882,6 +882,7 @@ unsigned int Component::getReg(const char *systemName,
    	case DTsingle: {strcat(buffer, "single"); break;}
    	case DTboolean:{strcat(buffer, "boolean"); break;}
    	case DTstring: {strcat(buffer, "string"); break;}
+    case DTdouble: {strcat(buffer, "double"); break;}
    	default: {throw "Undefined gettable var type";}
       }
    strcat(buffer, "\" array=\"");
@@ -916,9 +917,7 @@ std::string Component::getDescription()
    {
    try
       {
-      string moduleName = dllName;
-      moduleName.erase(0, moduleName.rfind('\\')+1);
-      string returnString = "<describecomp name=\"" + moduleName + "\">\n";
+      string returnString = "<describecomp name=\"" + asString(name) + "\">\n";
       for (UInt2InfoMap::iterator var = getVarMap.begin();
                                   var != getVarMap.end();
                                   var++)
