@@ -3,7 +3,7 @@
   Module = clock    [swat]      
   Module = report   [swat]     [standard]      
   Module = met      GMTR.MET [weather]      
-  Module = soilwat2 [swat]     ..\soilwat2.ini [standard]      
+  Module = soilwat2 [swat]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]      
   Module = manager  [swat]      
 
 ! Test calibrators options - External Eo, runoff. 
@@ -11,7 +11,7 @@
   Module = clock    [swat]      
   Module = report   [swat]     [calibrators]      
   Module = met      GMTR.MET [weather]      
-  Module = soilwat2 [swat]     [calibrators]     ..\soilwat2.ini [standard]      
+  Module = soilwat2 [swat]     [calibrators]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]      
   Module = manager  [swat]      
 
 [standard.report.parameters]  
