@@ -406,6 +406,8 @@
 
          integer          max_iterations
 
+         double precision min_total_root_length
+
       End Type APSwimConstants
 
       ! instance variables.
@@ -5258,7 +5260,7 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
       integer crop                     ! crop number
       integer   solnum                 ! solute number for array index
       character solute_demand_name*(strsize)  ! key name for solute demand
-
+      double precision length          ! total length of roots for a plant (mm/mm2)
 *- Implementation Section ----------------------------------
 
       do 100 vegnum = 1, g%num_crops
@@ -5278,10 +5280,16 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
      :           0d0,
      :           1d0)
          if (numvals.gt.0) then            !  convert mm/mm^3 to cm/cc
+            length = 0d0
             do 60 layer = 1,p%n+1            !       /
                g%rld(layer-1,vegnum) = rlv_l(layer)*100d0
+               length = length + rlv_l(layer) * g%dlayer(layer-1)
    60       continue
-
+            if (length.lt.c%min_total_root_length) then
+               call warning_error(Err_Internal,
+     :        'Possible error with low total RLV for '
+     :         //g%crop_names(vegnum))
+            endif
          else
             call fatal_error (Err_Internal,
      :        'no rlv returned from '//g%crop_names(vegnum))
@@ -6176,6 +6184,15 @@ cnh NOTE - intensity is not part of the official design !!!!?
      :              c%num_trf_asw,  ! get number of nodes from here
      :              0.0d0,
      :              1.0d0)
+
+      call Read_double_var (
+     :              section_name,
+     :              'min_total_root_length',
+     :              '(mm/mm2)',
+     :              c%min_total_root_length,
+     :              numvals,
+     :              0d0,
+     :              10d0)
 
       call Read_char_var (
      :              section_name,
