@@ -3111,7 +3111,7 @@ c      call sugar_nit_stress_expansion (1)
       g_N_uptake_stover_tot = 0.0
       g_N_uptake_tot = 0.0
       g_plants = 0.0
-      g_initial_plant_density = 0.0
+cnh      g_initial_plant_density = 0.0
       g_root_depth = 0.0
       g_sowing_depth = 0.0
       g_slai = 0.0
