@@ -1,5 +1,5 @@
 Public Class Utility
-    Public Const MaxStringLength = 5000
+    Public Const MaxStringLength = 50000
     Public Shared Function CStringToVBString(ByVal Cstring As String) As String
         ' This function converts a C string to a vb string by returning everything
         ' up to the null character
