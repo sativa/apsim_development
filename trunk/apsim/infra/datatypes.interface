@@ -343,6 +343,8 @@
    <type name="irr_deficit" kind="single" unit="mm" description="Deficit of soil water within the critical irrigation depth"/>
    <type name="carry_over" kind="single" unit="Ml" description="Amount of irrigation allocation unused as at reset of allocation"/>
    <type name="irr_sol_amount" kind="single" unit="mm" description="Amount of solute added to an irrigation"/>
+   <type name="irrigation" kind="single" unit="mm" description="Amount of irrigation applied"/>
+   <type name="area" kind="single" unit="ha" description="Area to which irrigation is applied"/>
 
    <type name="irrigstring" kind="string" unit="" description="Irrigation string: amount=xx (kg/ha), time=xx:xx (hh:mm), duration=xx (min), {solute_name}...."/>
    <type name="Irrigated" description="Sent when an irrigation occurs">
