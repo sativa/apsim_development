@@ -2,7 +2,7 @@ version = 3.2
 [Sample PatchInput]  
 
 title=Met Sample Simulation
-module = clock PatchInput.par [sample]
+module = clock PatchInput.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report PatchInput.par [sample]
 module = input(met) %apsuite\apsim\met\sample\dalby.met[weather]
 module = PatchInput(patch) patch.dat [test]

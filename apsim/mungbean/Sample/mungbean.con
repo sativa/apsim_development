@@ -1,7 +1,7 @@
 version = 3.2
 [APSIM.sample_mungbean]
 title=mungbean Sample Simulation
-module = clock      mungbean.par[sample]
+module = clock      mungbean.par[sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report     mungbean.par[sample]
 module = input(met)        %apsuite\apsim\met\sample\dalby.met[weather]
 module = manager    mungbean.par[sample]

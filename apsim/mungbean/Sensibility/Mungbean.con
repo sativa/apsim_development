@@ -1,7 +1,7 @@
 version = 3.2
 [APSIM.Dalby 300mm]
 title=Dalby 300mm wet soil
-module = clock      Mungbean.par[sensibility]
+module = clock      Mungbean.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Mungbean.par[sensibility] Mungbean.par[Dalby300]
 module = input(met)        %apsuite\apsim\common files\dalby.met[weather]
 module = manager    Mungbean.par[sensibility]
@@ -16,7 +16,7 @@ module = Screen  Mungbean.par[sensibility]
 
 [APSIM.Dalby 900mm]
 title=Dalby 900mm wet soil
-module = clock      Mungbean.par[sensibility]
+module = clock      Mungbean.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Mungbean.par[sensibility] Mungbean.par[Dalby900]
 module = input(met)        %apsuite\apsim\common files\dalby.met[weather]
 module = manager    Mungbean.par[sensibility]
@@ -31,7 +31,7 @@ module = Screen  Mungbean.par[sensibility]
 
 [APSIM.Roma 300mm]
 title=Roma 300mm wet soil
-module = clock      Mungbean.par[sensibility]
+module = clock      Mungbean.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Mungbean.par[sensibility] Mungbean.par[Roma300]
 module = input(met)        %apsuite\apsim\common files\Roma.met[weather]
 module = manager    Mungbean.par[sensibility]
@@ -46,7 +46,7 @@ module = Screen  Mungbean.par[sensibility]
 
 [APSIM.Roma 900mm]
 title=Roma 900mm wet soil
-module = clock      Mungbean.par[sensibility]
+module = clock      Mungbean.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Mungbean.par[sensibility] Mungbean.par[Roma900]
 module = input(met)        %apsuite\apsim\common files\Roma.met[weather]
 module = manager    Mungbean.par[sensibility]

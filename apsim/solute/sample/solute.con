@@ -2,7 +2,7 @@ version = 3.2
 [apsim.sample_solute]
 
 title=Solute Sample Simulation
-module = clock    solute.par [sample]
+module = clock    solute.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report   solute.par [sample]
 module = Input(Met)      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = manager  solute.par [sample]

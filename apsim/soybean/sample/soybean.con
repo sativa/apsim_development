@@ -1,7 +1,7 @@
 version = 3.2
 [APSIM.sample_soybean]
 title=soybean Sample Simulation
-module = clock      soybean.par[sample]
+module = clock      soybean.par[sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report     soybean.par[sample]
 module = input(met)        %apsuite\apsim\met\sample\dalby.met[weather]
 module = manager    soybean.par[sample]

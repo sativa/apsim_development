@@ -4,7 +4,7 @@ version = 3.2
          
 
 title=sample simulation
-module = clock      soiltemp.par[sample]
+module = clock      soiltemp.par[sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report     soiltemp.par[variables]       soiltemp.par[files]
 module = Input(Met)        %apsuite\apsim\met\sample\dalby.met[weather]
 module = manager    soiltemp.par[sample]

@@ -1,5 +1,5 @@
 [apsim.sample_sugar]
-  Module = clock    test.par [sample]
+  Module = clock    test.par [sample] %apsuite\apsim\clock\clock.ini[standard]
   Module = report   test.par [sample]
   Module = met      %apsuite\apsim\met\SAMPLE\INGHAM.MET [weather]
   Module = manager  test.par [sample]
@@ -12,7 +12,7 @@
 
 
 [apsim.sample2_sugar]  
-  Module = clock    test.par [sample]      
+  Module = clock    test.par [sample]       %apsuite\apsim\clock\clock.ini[standard]
   Module = report   test.par [sample2]      
   Module = met      %apsuite\apsim\met\SAMPLE\INGHAM.MET [weather]      
   Module = manager  test.par [sample2]      

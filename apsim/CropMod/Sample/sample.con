@@ -2,7 +2,7 @@ version = 3.2
 
 [apsim.wheat]
 title=WHEAT SAMPLE Simulation - N120
-module = clock               sample.par [all]
+module = clock               sample.par [all] %apsuite\apsim\clock\clock.ini[standard]
 module = report              report.par [wheat]      report.par  [all]
 module = Input(Met)          %apsuite\apsim\met\sample\dalby.met[weather]
 module = manager             sample.man [wheat]
@@ -18,7 +18,7 @@ module = SummaryFile sample.par[wheat]
 [apsim.sunflower]
 title=sunflower SAMPLE SIMULATION
 
-module = clock               sample.par [all]
+module = clock               sample.par [all] %apsuite\apsim\clock\clock.ini[standard]
 module = report              report.par [sunflower]       report.par  [all]
 module = Input(Met)          %apsuite\apsim\met\sample\dalby.met[weather]
 module = manager             sample.man [sunflower]
@@ -35,7 +35,7 @@ module = SummaryFile sample.par[sunflower]
 [apsim.intercropping]
 title=Canopy Sample Simulation
 
-module = clock    sample.par [all]
+module = clock    sample.par [all] %apsuite\apsim\clock\clock.ini[standard]
 module = report   report.par [intercropping]
 module = manager  sample.man [intercropping]
 module = Input(Met) %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]

@@ -4,7 +4,7 @@ version = 3.2
 
 
 title = sample run
-module = clock    soilph.par [sample]
+module = clock    soilph.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report   soilph.par [sample]
 module = report (report1)  soilph.par [rtexcr]
 module = input(met)      %apsuite\apsim\met\SAMPLE\dalby.MET [weather]

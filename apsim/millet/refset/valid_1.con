@@ -26,7 +26,7 @@ version = 3.2
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU RABI 1977 NOTTINGHAM GROUP IRRIGATED!!!
 
 title=val_1
-module = clock    valid_1.man [pat77]
+module = clock    valid_1.man [pat77] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat77_rf]     valid_1.man [daily]
 module = input(met)      PAT74-97.APS [standard]
 module = operatns valid_1.man [pat77_rf]
@@ -50,7 +50,7 @@ module = Screen  soils.par[icrisat_alf2]
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1978 NOTTINGHAM GROUP!!!!!!!!!!!
 
 title=val_2
-module = clock    valid_1.man [pat77]
+module = clock    valid_1.man [pat77] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat77_irr]     valid_1.man [daily]
 module = input(met)      PAT74-97.APS [standard]
 module = operatns valid_1.man [pat77_irr]
@@ -74,7 +74,7 @@ module = Screen  soils.par[icrisat_alf2]
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1982 PS CARBERRY DENSITY 1!!!!!!
 
 title=val_3
-module = clock    valid_1.man [pat78]
+module = clock    valid_1.man [pat78] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat78]     valid_1.man [daily]
 module = input(met)      PAT74-97.APS [standard]
 module = operatns valid_1.man [pat78]
@@ -99,7 +99,7 @@ module = Screen  soils.par[icrisat_alf1]
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1982 PS CARBERRY DENSITY 2!!!!!!
 
 title=pat82_d1
-module = clock    valid_1.man [pat82]
+module = clock    valid_1.man [pat82] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat82_d1]     valid_1.man [daily]
 module = input(met)      PAT74-97.APS [standard]
 module = operatns valid_1.man [pat82_d1]
@@ -123,7 +123,7 @@ module = Screen  soils.par[icrisat_alf1]
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1982 PS CARBERRY DENSITY 3!!!!!!
 
 title=pat82_d2
-module = clock    valid_1.man [pat82]
+module = clock    valid_1.man [pat82] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat82_d2]     valid_1.man [daily]
 module = input(met)      PAT74-97.APS [standard]
 module = operatns valid_1.man [pat82_d2]
@@ -147,7 +147,7 @@ module = Screen  soils.par[icrisat_alf1]
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1982 PS CARBERRY DENSITY 4!!!!!!
 
 title=pat82_d3
-module = clock    valid_1.man [pat82]
+module = clock    valid_1.man [pat82] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat82_d3]     valid_1.man [daily]
 module = input(met)      PAT74-97.APS [standard]
 module = operatns valid_1.man [pat82_d3]
@@ -171,7 +171,7 @@ module = Screen  soils.par[icrisat_alf1]
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1985 PQ CRAUFURD NORMAL DAYLENTH!!
 
 title=pat82_d4
-module = clock    valid_1.man [pat82]
+module = clock    valid_1.man [pat82] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat82_d4]     valid_1.man [daily]
 module = input(met)      PAT74-97.APS [standard]
 module = operatns valid_1.man [pat82_d4]
@@ -195,7 +195,7 @@ module = Screen  soils.par[icrisat_alf1]
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1985 PQ CRAUFURD 14.5 H DAYLENGTH!!!
 
 title=pat85_nd
-module = clock    valid_1.man [pat85]
+module = clock    valid_1.man [pat85] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat85_nd]     valid_1.man [daily]
 module = input(met)      PAT74-97.APS [standard]
 module = operatns valid_1.man [pat85]
@@ -219,7 +219,7 @@ module = Screen  soils.par[icrisat_alf1]
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1985 PQ CRAUFURD 15.5 H DAYLENGTH!!
 
 title=pat85_ed1
-module = clock    valid_1.man [pat85]
+module = clock    valid_1.man [pat85] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat85_ed1]     valid_1.man [daily]
 module = input(met)      PAT85ED1.APS [standard]
 module = operatns valid_1.man [pat85]
@@ -243,7 +243,7 @@ module = Screen  soils.par[icrisat_alf1]
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1986 PQ CRAUFURD normal day low density!!
 
 title=pat85_ed2
-module = clock    valid_1.man [pat85]
+module = clock    valid_1.man [pat85] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat85_ed2]     valid_1.man [daily]
 module = input(met)      PAT85ED2.APS [standard]
 module = operatns valid_1.man [pat85]
@@ -267,7 +267,7 @@ module = Screen  soils.par[icrisat_alf1]
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1986 PQ CRAUFURD normal day high density!!
 
 title=pat86_d1
-module = clock    valid_1.man [pat86]
+module = clock    valid_1.man [pat86] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat86_d1]     valid_1.man [daily]
 module = input(met)      PAT74-97.APS [standard]
 module = operatns valid_1.man [pat86_d1]
@@ -291,7 +291,7 @@ module = Screen  soils.par[icrisat_alf1]
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1986 PQ CRAUFURD extended day low density!!
 
 title=pat86_d2
-module = clock    valid_1.man [pat86]
+module = clock    valid_1.man [pat86] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat86_d2]     valid_1.man [daily]
 module = input(met)      PAT74-97.APS [standard]
 module = operatns valid_1.man [pat86_d2]
@@ -315,7 +315,7 @@ module = Screen  soils.par[icrisat_alf1]
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1986 PQ CRAUFURD extended day high density!!
 
 title=pat86_ed_d1
-module = clock    valid_1.man [pat86]
+module = clock    valid_1.man [pat86] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat86_ed_d1]     valid_1.man [daily]
 module = input(met)      PAT86ED.APS [standard]
 module = operatns valid_1.man [pat86_d1]
@@ -339,7 +339,7 @@ module = Screen  soils.par[icrisat_alf1]
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1995 EJ VAN OOSTEROM!!!!!!!!!!!!
 
 title=pat86_ed_d2
-module = clock    valid_1.man [pat86]
+module = clock    valid_1.man [pat86] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat86_ed_d2]     valid_1.man [daily]
 module = input(met)      PAT86ED.APS [standard]
 module = operatns valid_1.man [pat86_d2]
@@ -361,7 +361,7 @@ module = Screen  soils.par[icrisat_alf1]
 [apsim.pat95_wrajpop.control]    
 
 title=pat95_wrajpop
-module = clock    valid_1.man [pat95]
+module = clock    valid_1.man [pat95] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat95_wrajpop]     valid_1.man [daily]
 module = input(met)      PAT74-97.APS [standard]
 module = operatns valid_1.man [pat95_wrajpop]
@@ -386,7 +386,7 @@ module = Screen  soils.par[icrisat_alf1]
 !!!!!!!!!!!!!!!!!!!!!!!!!!JODHPUR KHARIF 1995 EJ VAN OOSTEROM:  0N!!!!!!!!!
    
 title=pat95_rcbic911
-module = clock    valid_1.man [pat95]
+module = clock    valid_1.man [pat95] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat95_rcbic911]     valid_1.man [daily]
 module = input(met)      PAT74-97.APS [standard]
 module = operatns valid_1.man [pat95_rcbic911]
@@ -410,7 +410,7 @@ module = Screen  soils.par[icrisat_alf1]
 !!!!!!!!!!!!!!!!!!!!!!!!!!JODHPUR KHARIF 1995 EJ VAN OOSTEROM: 20N!!!!!!!!!
 
 title=jod95_n0
-module = clock    valid_1.man [jod95]
+module = clock    valid_1.man [jod95] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [jod95_n0]     valid_1.man [daily]
 module = input(met)      JOD63-97.APS [standard]
 module = operatns valid_1.man [jod95]     valid_1.man [jod95_n0]
@@ -434,7 +434,7 @@ module = Screen  soils.par[jodhpur_aridisol]
 !!!!!!!!!!!!!!!!!!!!!!!!!!JODHPUR KHARIF 1995 EJ VAN OOSTEROM: 40N!!!!!!!!!
 
 title=jod95_n20
-module = clock    valid_1.man [jod95]
+module = clock    valid_1.man [jod95] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [jod95_n20]     valid_1.man [daily]
 module = input(met)      JOD63-97.APS [standard]
 module = operatns valid_1.man [jod95]     valid_1.man [jod95_n20]
@@ -458,7 +458,7 @@ module = Screen  soils.par[jodhpur_aridisol]
 !!!!!!!!!!!!!!!!!!!!!!!!!!JODHPUR KHARIF 1996 EJ VAN OOSTEROM:  0N!!!!!!!!!
    
 title=jod95_n40
-module = clock    valid_1.man [jod95]
+module = clock    valid_1.man [jod95] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [jod95_n40]     valid_1.man [daily]
 module = input(met)      JOD63-97.APS [standard]
 module = operatns valid_1.man [jod95]     valid_1.man [jod95_n40]
@@ -482,7 +482,7 @@ module = Screen  soils.par[jodhpur_aridisol]
 !!!!!!!!!!!!!!!!!!!!!!!!!!JODHPUR KHARIF 1996 EJ VAN OOSTEROM: 20N!!!!!!!!!
 
 title=jod96_n0
-module = clock    valid_1.man [jod96]
+module = clock    valid_1.man [jod96] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [jod96_n0]     valid_1.man [daily]
 module = input(met)      JOD63-97.APS [standard]
 module = operatns valid_1.man [jod96]     valid_1.man [jod96_n0]
@@ -506,7 +506,7 @@ module = Screen  soils.par[jodhpur_aridisol]
 !!!!!!!!!!!!!!!!!!!!!!!!!!JODHPUR KHARIF 1996 EJ VAN OOSTEROM: 40N!!!!!!!!!
 
 title=jod96_n20
-module = clock    valid_1.man [jod96]
+module = clock    valid_1.man [jod96] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [jod96_n20]     valid_1.man [daily]
 module = input(met)      JOD63-97.APS [standard]
 module = operatns valid_1.man [jod96]     valid_1.man [jod96_n20]
@@ -530,7 +530,7 @@ module = Screen  soils.par[jodhpur_aridisol]
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1997 EJ VAN OOSTEROM!!!!!!!!!!!!
 
 title=jod96_n40
-module = clock    valid_1.man [jod96]
+module = clock    valid_1.man [jod96] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [jod96_n40]     valid_1.man [daily]
 module = input(met)      JOD63-97.APS [standard]
 module = operatns valid_1.man [jod96]     valid_1.man [jod96_n40]
@@ -552,7 +552,7 @@ module = Screen  soils.par[jodhpur_aridisol]
 [apsim.pat97_bj104.control]    
 
 title=pat97_bj104
-module = clock    valid_1.man [pat97]
+module = clock    valid_1.man [pat97] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat97_bj104]     valid_1.man [daily]
 module = input(met)      PAT74-97.APS [standard]
 module = operatns valid_1.man [pat97_bj104]
@@ -574,7 +574,7 @@ module = Screen  soils.par[icrisat_alf2]
 [apsim.pat97_hhb67.control]    
 
 title=pat97_hhb67
-module = clock    valid_1.man [pat97]
+module = clock    valid_1.man [pat97] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat97_hhb67]     valid_1.man [daily]
 module = input(met)      PAT74-97.APS [standard]
 module = operatns valid_1.man [pat97_hhb67]
@@ -596,7 +596,7 @@ module = Screen  soils.par[icrisat_alf2]
 [apsim.pat97_rcbic911.control]    
 
 title=pat97_rcbic911
-module = clock    valid_1.man [pat97]
+module = clock    valid_1.man [pat97] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat97_rcbic911]     valid_1.man [daily]
 module = input(met)      PAT74-97.APS [standard]
 module = operatns valid_1.man [pat97_rcbic911]
@@ -620,7 +620,7 @@ module = Screen  soils.par[icrisat_alf2]
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1994 EJ VAN OOSTEROM!!!!!!!!!!!!
 
 title=pat97_wrajpop
-module = clock    valid_1.man [pat97]
+module = clock    valid_1.man [pat97] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat97_wrajpop]     valid_1.man [daily]
 module = input(met)      PAT74-97.APS [standard]
 module = operatns valid_1.man [pat97_wrajpop]
@@ -642,7 +642,7 @@ module = Screen  soils.par[icrisat_alf2]
 [apsim.pat94_wrajpop.control]    
 
 title=pat94_wrajpop
-module = clock    valid_1.man [pat94]
+module = clock    valid_1.man [pat94] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat94_wrajpop]     valid_1.man [daily]
 module = input(met)      PAT74-97.APS [standard]
 module = operatns valid_1.man [pat94_wrajpop]
@@ -665,7 +665,7 @@ module = Screen  soils.par[icrisat_alf1]
 
 
 title=pat94_rcbic911
-module = clock    valid_1.man [pat94]
+module = clock    valid_1.man [pat94] %apsuite\apsim\clock\clock.ini[standard]
 module = report   valid_1.man [pat94_rcbic911]     valid_1.man [daily]
 module = input(met)      PAT74-97.APS [standard]
 module = operatns valid_1.man [pat94_rcbic911]

@@ -1,7 +1,7 @@
 version = 3.2
 [APSIM.Dalby 600mm]
 title=Dalby 600mm wet soil
-module = clock      chickpea.par[sensibility]
+module = clock      chickpea.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     chickpea.par[sensibility] chickpea.par[Dalby600]
 module = input(met)        %apsuite\apsim\common files\dalby.met[weather]
 module = manager    chickpea.par[sensibility]
@@ -15,7 +15,7 @@ module = Screen  chickpea.par[sensibility]
 
 [APSIM.Dalby 1500mm]
 title=Dalby 1500mm wet soil
-module = clock      chickpea.par[sensibility]
+module = clock      chickpea.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     chickpea.par[sensibility] chickpea.par[Dalby1500]
 module = input(met)        %apsuite\apsim\common files\dalby.met[weather]
 module = manager    chickpea.par[sensibility]
@@ -29,7 +29,7 @@ module = Screen  chickpea.par[sensibility]
 
 [APSIM.Roma 600mm]
 title=Roma 600mm wet soil
-module = clock      chickpea.par[sensibility]
+module = clock      chickpea.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     chickpea.par[sensibility] chickpea.par[Roma600]
 module = input(met)        %apsuite\apsim\common files\Roma.met[weather]
 module = manager    chickpea.par[sensibility]
@@ -43,7 +43,7 @@ module = Screen  chickpea.par[sensibility]
 
 [APSIM.Roma 1500mm]
 title=Roma 1500mm wet soil
-module = clock      chickpea.par[sensibility]
+module = clock      chickpea.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     chickpea.par[sensibility] chickpea.par[Roma1500]
 module = input(met)        %apsuite\apsim\common files\Roma.met[weather]
 module = manager    chickpea.par[sensibility]

@@ -1,7 +1,7 @@
 version = 3.2
 [apsim.sample_maize]
 title=Maize Sample Simulation
-module = clock    maize.par [sample]
+module = clock    maize.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report   maize.par [sample]
 module = Input(Met)      %apsuite\apsim\met\sample\dalby.met [weather]
 module = manager  maize.par [sample]

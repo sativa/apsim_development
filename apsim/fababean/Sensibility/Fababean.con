@@ -1,7 +1,7 @@
 version = 3.2
 [APSIM.Dalby 600mm]
 title=Dalby 600mm wet soil
-module = clock      Fababean.par[sensibility]
+module = clock      Fababean.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Fababean.par[sensibility] Fababean.par[Dalby600]
 module = input(met)        %apsuite\apsim\common files\dalby.met[weather]
 module = manager    Fababean.par[sensibility]
@@ -15,7 +15,7 @@ module = Screen  Fababean.par[sensibility]
 
 [APSIM.Dalby 1500mm]
 title=Dalby 1500mm wet soil
-module = clock      Fababean.par[sensibility]
+module = clock      Fababean.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Fababean.par[sensibility] Fababean.par[Dalby1500]
 module = input(met)        %apsuite\apsim\common files\dalby.met[weather]
 module = manager    Fababean.par[sensibility]
@@ -29,7 +29,7 @@ module = Screen  Fababean.par[sensibility]
 
 [APSIM.Roma 600mm]
 title=Roma 600mm wet soil
-module = clock      Fababean.par[sensibility]
+module = clock      Fababean.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Fababean.par[sensibility] Fababean.par[Roma600]
 module = input(met)        %apsuite\apsim\common files\Roma.met[weather]
 module = manager    Fababean.par[sensibility]
@@ -43,7 +43,7 @@ module = Screen  Fababean.par[sensibility]
 
 [APSIM.Roma 1500mm]
 title=Roma 1500mm wet soil
-module = clock      Fababean.par[sensibility]
+module = clock      Fababean.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Fababean.par[sensibility] Fababean.par[Roma1500]
 module = input(met)        %apsuite\apsim\common files\Roma.met[weather]
 module = manager    Fababean.par[sensibility]

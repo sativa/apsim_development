@@ -7,7 +7,7 @@ version = 3.2
 !
 
 title=Report Instantiation Sample Simulation
-module = clock report.par [sample]
+module = clock report.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report (report1) report.par [sample]
 module = report (report2) report.par [sample]
 module = report (report3) report.par [sample]

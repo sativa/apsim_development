@@ -1,7 +1,7 @@
 version = 3.2
 [APSIM.sample_stylo]
 title=stylo Sample Simulation
-module = clock      stylo.par[sample]
+module = clock      stylo.par[sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report     stylo.par[sample]
 module = Input(Met)        %apsuite\apsim\met\sample\dalby.met[weather]
 module = manager    stylo.par[sample]

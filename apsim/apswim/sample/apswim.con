@@ -3,7 +3,7 @@ version = 3.2
 
 
 title=APSwim Sample Simulation
-module = clock    apswim.par [sample]
+module = clock    apswim.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report   apswim.par [sample]
 module = input(met)      SAMPLE.MET [sample]
 module = manager  apswim.par [sample]

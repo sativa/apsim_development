@@ -1,7 +1,7 @@
 version = 3.2
 [APSIM.sample_pigeonp]
 title=pigeonp Sample Simulation
-module = clock      pigeonp.par[sample]
+module = clock      pigeonp.par[sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report     pigeonp.par[sample]
 module = input(met)        %apsuite\apsim\met\sample\dalby.met[weather]
 module = manager    pigeonp.par[sample]

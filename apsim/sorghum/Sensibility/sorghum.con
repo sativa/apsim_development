@@ -1,7 +1,7 @@
 version = 3.2
 [APSIM.Dalby 600mm]
 title=Dalby 600mm wet soil
-module = clock      Sorghum.par[sensibility]
+module = clock      Sorghum.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Sorghum.par[sensibility] Sorghum.par[Dalby600]
 module = input(met)        %apsuite\apsim\common files\dalby.met[weather]
 module = manager    Sorghum.par[sensibility]
@@ -16,7 +16,7 @@ module = Screen  Sorghum.par[sensibility]
 
 [APSIM.Dalby 1500mm]
 title=Dalby 1500mm wet soil
-module = clock      Sorghum.par[sensibility]
+module = clock      Sorghum.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Sorghum.par[sensibility] Sorghum.par[Dalby1500]
 module = input(met)        %apsuite\apsim\common files\dalby.met[weather]
 module = manager    Sorghum.par[sensibility]
@@ -31,7 +31,7 @@ module = Screen  Sorghum.par[sensibility]
 
 [APSIM.Roma 600mm]
 title=Roma 600mm wet soil
-module = clock      Sorghum.par[sensibility]
+module = clock      Sorghum.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Sorghum.par[sensibility] Sorghum.par[Roma600]
 module = input(met)        %apsuite\apsim\common files\Roma.met[weather]
 module = manager    Sorghum.par[sensibility]
@@ -46,7 +46,7 @@ module = Screen  Sorghum.par[sensibility]
 
 [APSIM.Roma 1500mm]
 title=Roma 1500mm wet soil
-module = clock      Sorghum.par[sensibility]
+module = clock      Sorghum.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
 module = report     Sorghum.par[sensibility] Sorghum.par[Roma1500]
 module = input(met)        %apsuite\apsim\common files\Roma.met[weather]
 module = manager    Sorghum.par[sensibility]

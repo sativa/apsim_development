@@ -2,7 +2,7 @@ version = 3.2
 [apsim.sample_sugar]
 
 title=Sugar Sample Simulation
-module = clock    sugar.par [sample]
+module = clock    sugar.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report   sugar.par [sample]
 module = Input(Met)      %apsuite\apsim\met\SAMPLE\INGHAM.MET [weather]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini [standard]

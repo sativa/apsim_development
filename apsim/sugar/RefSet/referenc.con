@@ -2,7 +2,7 @@ version = 3.2
 [apsim.sugar_reference]  
 
 title = sugar reference run
-module = clock    referenc.par [reference]
+module = clock    referenc.par [reference] %apsuite\apsim\clock\clock.ini[standard]
 module = report   referenc.par [reference]
 module = input(met)      REFERENC.MET [reference]
 module = manager  referenc.par [reference]

@@ -2,7 +2,7 @@ version = 3.2
 [apsim.sample_irrigate]  
 
 title=Irrigate Sample Simulation
-module = clock    irrigate.par [sample]
+module = clock    irrigate.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report   irrigate.par [sample]
 module = input(met)      %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]
 module = manager  irrigate.par [sample]

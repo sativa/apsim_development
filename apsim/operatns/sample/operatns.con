@@ -1,7 +1,7 @@
 version = 3.2
 [apsim.sample_operatns]  
 title=Operatns Sample Simulation
-module = clock    operatns.par [sample]
+module = clock    operatns.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report   operatns.par [sample]
 module = input(met)      %apsuite\apsim\met\sample\dalby.met[weather]
 module = operatns operatns.par [sample]
