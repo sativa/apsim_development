@@ -80,6 +80,7 @@ __published:
    TToolButton *ToolButton5;
    TToolButton *Select_simulation_button;
    TImage *LogoImage;
+   TToolButton *NoChartButton;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Window_cascade(TObject *Sender);
 	void __fastcall UpdateMenuItems(TObject *Sender);
