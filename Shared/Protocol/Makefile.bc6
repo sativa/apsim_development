@@ -19,20 +19,20 @@ OBJECTS = Protocol.obj transport.obj Computation.obj
 RESFILES = Protocol.res
 LIBFILES = $(APSROOT)\Shared\general\general.lib $(APSROOT)\Shared\general\general_vcl.lib $(APSROOT)\Shared\ApsimShared\ApsimShared.lib
 
-USERDEFINES = 
+USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
 INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
 LIBPATH = $(SYSLIBPATH)
 
-ALLOBJ = c0d32.obj vcl.bpi $(OBJECTS)
-ALLLIB = $(LIBFILES) import32.lib cw32mti.lib
+ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJECTS)
+ALLLIB = $(LIBFILES) import32.lib cp32mti.lib
 
 # ---------------------------------------------------------------------------
 CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
 WARNINGS = -w-par
-LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
+LFLAGS = -l. -D"" -aa -Tpd -x -Gn -Gi
 
-$(TARGET): $(OBJECTS) 
+$(TARGET): $(OBJECTS)
 	$(LD) @&&!
 $(LFLAGS) -L$(LIBPATH) +
 $(ALLOBJ), +
