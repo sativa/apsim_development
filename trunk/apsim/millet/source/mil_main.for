@@ -107,6 +107,9 @@
 !+  Purpose
 !      Module instantiation routine.
 
+*+  Mission Statement
+*     Instantiate routine
+
 !- Implementation Section ----------------------------------
 
       allocate (Instances(InstanceNo)%gptr)
@@ -130,6 +133,9 @@
 !+  Purpose
 !      Module de-instantiation routine.
 
+*+  Mission Statement
+*     De-instantiate routine
+
 !- Implementation Section ----------------------------------
 
       deallocate (Instances(anInstanceNo)%gptr)
@@ -151,6 +157,9 @@
 
 !+  Purpose
 !      Swap an instance into the global 'g' pointer
+
+*+  Mission Statement
+*     Swap an instance into global pointer
 
 !- Implementation Section ----------------------------------
 
@@ -182,6 +191,9 @@
 *      This module performs crop crop growth
 *       simulates root, leaf, head, stem and grain development. Water and
 *       nitrogen uptake, photosynhesis, and leaf and root senescense.
+
+*+  Mission Statement
+*     Handles communications for Maize
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -361,7 +373,13 @@ cjh special for erik - end
       include 'error.pub'
 
 *+  Purpose
-*     <insert here>
+*     APSim allows modules to perform calculations in preparation for
+*     the standard APSim timestep.  This model uses this opportunity
+*     to calculate potential growth variables for the coming day
+*     and phenological development.
+
+*+  Mission Statement
+*     Perform preparatory calculations for the next timestep
 
 *+  Changes
 *     12-05-1997 - huth - Programmed and Specified
@@ -412,6 +430,9 @@ cjh special for erik - end
 *       Simulate crop processes.  These include biomass production,
 *       phenological stages, plant component development,
 *       water uptake and nitrogen uptake, and plant senescense.
+
+*+  Mission Statement
+*     Performs actions for the current day
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -512,6 +533,9 @@ c+!!!!!!!!! check order dependency of deltas
 *+  Purpose
 *       Set up states for dead crop
 
+*+  Mission statement
+*       Set the state for dead crop
+
 *+  Changes
 *      091095 jngh specified and programmed
 
@@ -544,6 +568,9 @@ c+!!!!!!!!! check order dependency of deltas
 *+  Purpose
 *       Report occurence of harvest and the current status of specific
 *       variables.
+
+*+  Mission Statement
+*     Carry out all the harvest routines
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -759,6 +786,9 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
 
 *+  Purpose
 *       Zero all global variables & arrays
+
+*+  Mission Statement
+*     Zero all the global variables and arrays
 
 *+  Changes
 *     060495 nih taken from template
@@ -1198,6 +1228,9 @@ cjh special for erik - end
 *+  Purpose
 *       Zero crop variables & arrays
 
+*+  Mission Statement
+*     Set the crop variables and arrays to zero
+
 *+  Changes
 *     010994 jngh specified and programmed
 *     090695 psc  add row spacing = 0
@@ -1355,6 +1388,9 @@ cjh special for erik - end
 *+  Purpose
 *       Zero crop daily variables & arrays
 
+*+  Mission Statement
+*     Set crop daily variables & arrays to zero
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -1434,6 +1470,9 @@ cjh special for erik - end
 *+  Purpose
 *       Crop initialisation
 
+*+   Mission statement
+*        Crop initialisation
+
 *+  Changes
 *     010994 jngh specified and programmed
 *     190599 jngh removed reference to version
@@ -1473,6 +1512,9 @@ cjh special for erik - end
 
 *+  Purpose
 *       Start crop using parameters specified in passed record
+
+*+  Mission Statement
+*     Start the crop using passed parameters
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -1583,6 +1625,9 @@ cjh      endif
 *+  Purpose
 *       Initiate crop, tillers or other axes using parameters
 *       specified in passed record.
+
+*+  Mission statement
+*       Initiate crop, tillers and other axes
 
 *+  Changes
 *     091095 jngh specified and programmed
@@ -1701,6 +1746,9 @@ cjh      endif
 
 *+  Purpose
 *       Get cultivar parameters for named cultivar, from crop parameter file.
+
+*+  Mission Statement
+*     Get cultivar parameters for named cultivar
 
 *+  Changes
 *       090994 jngh specified and programmed
@@ -1896,6 +1944,9 @@ cgd   Eriks modifications for Leaf Area
 *+  Purpose
 *       Get root profile parameters
 
+*+  Mission Statement
+*     Get root profile parameters
+
 *+  Changes
 *       090994 jngh specified and programmed
 *     210395 jngh changed from millet_section to a parameters section
@@ -2029,6 +2080,9 @@ cgd   Eriks modifications for Leaf Area
 *+  Purpose
 *      Get the values of parameters from other modules.
 
+*+   Mission statement
+*      Get the values of parameters from other modules
+
 *+  Assumptions
 *      assumes variable has the following format
 *         <variable_name> = <variable_value/s> (<units>)
@@ -2073,6 +2127,9 @@ cgd   Eriks modifications for Leaf Area
 
 *+  Purpose
 *       End crop
+
+*+ Mission statement
+*        End the crop
 
 *+  Changes
 *       290994 jngh specified and programmed
@@ -2209,6 +2266,9 @@ cgd   Eriks modifications for Leaf Area
 
 *+  Purpose
 *       Stores a value in an annual circular array
+
+*+  Mission statement
+*       Place a value in an annual array
 
 *+  Changes
 *     230695 jngh specified and programmed
@@ -2371,6 +2431,9 @@ cgd   Eriks modifications for Leaf Area
 *+  Purpose
 *      Get the values of variables/arrays from other modules.
 
+*+  Mission Statement
+*     Get the values of variables/arrays from other modules.
+
 *+  Assumptions
 *      assumes variable has the following format
 *         <variable_name> = <variable_value/s> (<units>)
@@ -2423,7 +2486,7 @@ cgd leaf_no_ref is the final leaf no for the main shoot needed by tillers
       endif
                                 ! climate
 !cpsc
-      call get_real_var_optional (unknown_module, 'soil_temp', '(oC)'
+      call get_real_var_optional (unknown_module, 'maxt_soil_surface', '(oC)'
      :                                  , soil_temp, numvals
      :                                  , 0.0, 80.0)
 
@@ -2519,6 +2582,9 @@ c+!!!!!!!! what to do if no waterbalance variables found
 *+  Purpose
 *      Set the value of a variable or array in other module/s.
 
+*+  Mission Statement
+*     Set the value of a variable or array in other modules
+
 *+  Notes
 *      a flag is set if any of the totals is requested.  The totals are
 *      reset during the next process phase when this happens.
@@ -2577,6 +2643,9 @@ c+!!!! perhaps we should get number of layers at init and keep it
 
 *+  Purpose
 *       Update other modules states
+
+*+  Mission Statement
+*     Update other modules states
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -2755,6 +2824,9 @@ c+!!!! perhaps we should get number of layers at init and keep it
 *+  Purpose
 *      Set a variable in this module as requested by another.
 
+*+  Mission Statement
+*     Set a variable in this module as requested by another.
+
 *+  Changes
 *      290393 jngh
 *      220696 jngh added message_unused to else
@@ -2831,6 +2903,9 @@ cjh special for erik - end
 
 *+  Purpose
 *      Return the value of a variable requested by other modules.
+
+*+  Mission Statement
+*     Return the value of a variable requested by other modules
 
 *+  Changes
 *      string_concat
@@ -3664,6 +3739,9 @@ cejvo
 
 *+  Purpose
 *       Crop initialisation - reads constants from constants file
+
+*+  Mission Statement
+*     Read in the constants for maize
 
 *+  Changes
 *     010994 jngh specified and programmed
