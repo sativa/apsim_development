@@ -119,30 +119,32 @@ void GenerateComponentInterface(const string& interfaceFileName)
                                            ++reg)
          {
          string name = reg->getName();
+         string type;
          To_lower(name);
          try
             {
             ApsimDataTypeData dataType = component->getDataType(reg->getDataTypeName());
-            string type = dataType.getName();
+            type = dataType.getName();
             if (!dataType.isStructure())
                type = "null";
-            MacroValue macroValue;
-            macroValue.addAttribute("name", name);
-            macroValue.addAttribute("kind", type);
-
-            if (reg->isOfType("event"))
-               pubevent->addValue(macroValue);
-            else if (reg->isOfType("respondToEvent"))
-               subevent->addValue(macroValue);
-            else if (reg->isOfType("methodCall"))
-               pubmethod->addValue(macroValue);
-            else if (reg->isOfType("respondToMethodCall"))
-               submethod->addValue(macroValue);
             }
          catch (...)
             {
-
+            type = "null";
             }
+
+         MacroValue macroValue;
+         macroValue.addAttribute("name", name);
+         macroValue.addAttribute("kind", type);
+
+         if (reg->isOfType("event"))
+            pubevent->addValue(macroValue);
+         else if (reg->isOfType("respondToEvent"))
+            subevent->addValue(macroValue);
+         else if (reg->isOfType("methodCall"))
+            pubmethod->addValue(macroValue);
+         else if (reg->isOfType("respondToMethodCall"))
+            submethod->addValue(macroValue);
          }
 
       //  All done - so now write out the output files
