@@ -1,6 +1,8 @@
 <toolbox name="Standard">
-  <area name="paddock" />
+  <area name="paddock">
+  </area>
   <folder name="folder">
+    <folder name="folder" />
   </folder>
   <clock name="clock">
     <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1988</start_date>
@@ -113,69 +115,28 @@
     <Frgr name="Frgr">1.0</Frgr>
   </slurp>
   <crops>
-    <type>standard_crops</type>
-    <plant name="canola">
-      <type name="type">canola</type>
-    </plant>
-    <plant name="chickpea">
-      <type name="type">chickpea</type>
-    </plant>
-    <plant name="cowpea">
-      <type name="type">cowpea</type>
-    </plant>
-    <plant name="fababean">
-      <type name="type">fababean</type>
-    </plant>
-    <plant name="fieldpea">
-      <type name="type">fieldpea</type>
-    </plant>
-    <plant name="lablab">
-      <type name="type">lablab</type>
-    </plant>
-    <plant name="lucerne">
-      <type name="type">lucerne</type>
-    </plant>
-    <plant name="lupin">
-      <type name="type">lupin</type>
-    </plant>
-    <plant name="maize">
-      <type name="type">maize</type>
-    </plant>
-    <plant name="mucuna">
-      <type name="type">mucuna</type>
-    </plant>
-    <plant name="mungbean">
-      <type name="type">mungbean</type>
-    </plant>
-    <plant name="navybean">
-      <type name="type">navybean</type>
-    </plant>
-    <plant name="peanut">
-      <type name="type">peanut</type>
-    </plant>
-    <plant name="pigeonp">
-      <type name="type">pigeonp</type>
-    </plant>
-    <plant name="sorghum">
-      <type name="type">sorghum</type>
-    </plant>
-    <plant name="soybean">
-      <type name="type">soybean</type>
-    </plant>
-    <plant name="stylo">
-      <type name="type">stylo</type>
-    </plant>
-    <plant name="sunflower">
-      <type name="type">sunflower</type>
-    </plant>
-    <plant name="weed">
-      <type name="type">weed</type>
-    </plant>
-    <plant name="wheat">
-      <type name="type">wheat</type>
-    </plant>
+    <canola />
+    <chickpea />
+    <cowpea />
+    <fababean />
+    <fieldpea />
+    <lablab />
+    <lucerne />
+    <lupin />
+    <maize />
+    <mucuna />
+    <mungbean />
+    <navybean />
+    <peanut />
+    <pigeonp />
+    <sorghum />
+    <soybean />
+    <stylo />
+    <sunflower />
+    <weed />
+    <wheat />
+    <ozcot name="cotton" />
   </crops>
-  <ozcot name="cotton" />
   <outputfiledescription name="My Variables">
     <variables>
       <variable alias="year" name="year" module="clock" description="Year" />
