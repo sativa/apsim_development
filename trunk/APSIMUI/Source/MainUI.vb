@@ -34,6 +34,7 @@ Public Class MainUI
         InitializeComponent()
 
         Xceed.Grid.Licenser.LicenseKey = "GRD22-KTL57-34ZF5-W4JA"
+        Xceed.Chart.Licenser.LicenseKey = "CHT30-YTL57-0UXLJ-145A"
 
         'Add any initialization after the InitializeComponent() call
         Application.EnableVisualStyles()
