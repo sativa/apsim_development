@@ -49,6 +49,14 @@ void __fastcall TSEGTable::setSubComponentNames(TStringList* compNames)
    subscriptionComponents->Assign(compNames);
    }
 // ------------------------------------------------------------------
+// Set the sort field names.
+// ------------------------------------------------------------------
+void __fastcall TSEGTable::setSortFieldNames(AnsiString sortFields)
+   {
+   sortFieldNames = sortFields;
+   forceRefresh();
+   }
+// ------------------------------------------------------------------
 // refresh the control only if it is active.
 // ------------------------------------------------------------------
 void TSEGTable::refresh (void)
@@ -98,11 +106,6 @@ void TSEGTable::forceRefresh(bool displayError)
                AddIndex("mainIndex", indexFields, TIndexOptions());
                IndexFieldNames = indexFields;
                }
-            if (SortFields != "")
-               {
-               SortFields = AnsiString(SERIES_FIELD_NAME) + ";" + SortFields;
-               Sort(TkbmMemTableCompareOptions());
-               }
             }
          else
             Active = true;
@@ -123,11 +126,8 @@ void TSEGTable::forceRefresh(bool displayError)
          {
          Active = false;
          }
-      for (unsigned i = 0; i != subscriptionEvents.size(); i++)
-         {
-         if (subscriptionEvents[i] != NULL)
-            subscriptionEvents[i](this);
-         }
+      refreshLinkedComponents();
+
       EnableControls();
 
       // force children to update themselves.  Without this the chart series
@@ -152,6 +152,22 @@ void TSEGTable::forceRefresh(bool displayError)
 //         ::MessageBox(NULL, errorMessage.c_str(), "Errors were encountered", MB_ICONSTOP | MB_OK);
          errorMessage = "";
          }
+      }
+   }
+// ------------------------------------------------------------------
+// Refresh all linked components.
+// ------------------------------------------------------------------
+void TSEGTable::refreshLinkedComponents()
+   {
+   if (sortFields != "")
+      {
+      SortFields = AnsiString(SERIES_FIELD_NAME) + ";" + sortFields;
+      Sort(TkbmMemTableCompareOptions());
+      }
+   for (unsigned i = 0; i != subscriptionEvents.size(); i++)
+      {
+      if (subscriptionEvents[i] != NULL)
+         subscriptionEvents[i](this);
       }
    }
 // ------------------------------------------------------------------
@@ -182,7 +198,7 @@ string TSEGTable::getYearFieldName(void) const throw(runtime_error)
       if (fieldName == "sow_year" || fieldName.Pos("year") > 0)
          return FieldDefs->Items[fieldI]->Name.c_str();
       }
-   throw runtime_error("Cannot find a year column in dataset.");
+   return "";
    }
 
 // ------------------------------------------------------------------
