@@ -1,4 +1,4 @@
-C     Last change:  E    10 Apr 2000   11:47 am
+C     Last change:  E    16 May 2000   10:30 am
 
       INCLUDE 'CropMod.inc'
 
@@ -1113,6 +1113,7 @@ C     Last change:  E    10 Apr 2000   11:47 am
       g%dlt_stiller_no   =0.0
 
       call fill_real_array(g%dlt_tiller_area_pot,         0.0, max_leaf)
+      call fill_real_array(g%dlt_tiller_area_act,         0.0, max_leaf)
       call fill_real_array(g%dlt_tiller_sen_area,         0.0, max_leaf)
       call fill_real_array(g%dlt_tiller_sen_area_age,     0.0, max_leaf)
       call fill_real_array(g%dlt_tiller_sen_area_light,   0.0, max_leaf)
@@ -1673,7 +1674,7 @@ c+!!!! perhaps we should get number of layers at init and keep it
 
          p%photop_sen_internal = p%photop_sen * 0.002
 
-      else if (variable_name .eq. 'startgf_to_mat') then
+      else if (variable_name .eq. 'tt_startgf_to_mat') then
          call collect_real_var (variable_name, '()'
      :                             , p%startgf_to_mat, numvals
      :                             , 0.0, 2000.0)
@@ -1686,6 +1687,8 @@ c+!!!! perhaps we should get number of layers at init and keep it
      :                             ,c%leaf_app_rate, numvals
      :                             , 0.0, 2000.0)
 
+         c%leaf_app_rate1 = c%leaf_app_rate
+         c%leaf_app_rate2 = c%leaf_app_rate
          c%leaf_init_rate = c%leaf_app_rate *70.0/95.0
 
       else
@@ -1816,7 +1819,7 @@ c+!!!! perhaps we should get number of layers at init and keep it
      :                             , 0.0)
          endif
 
-      elseif (variable_name .eq. 'stage_name') then
+      elseif (variable_name .eq. 'stage_names') then
          if (g%plant_status.ne.status_out) then
             stage_no = int (g%current_stage)
             call respond2get_char_var (variable_name
@@ -2568,7 +2571,20 @@ c+!!!! perhaps we should get number of layers at init and keep it
      :                             , g%N_green(grain))
  
       elseif (variable_name .eq. 'stover_n_uptake') then
-         apt_N_up = (g%N_green(leaf)+g%n_green(stem)+g%n_green(flower))
+
+         apt_N_up = g%N_green(leaf)+g%n_green(stem)+g%n_green(flower)
+     :       +g%N_senesced(leaf)+g%n_senesced(stem)+g%n_senesced(flower)
+     :       +g%N_dead(leaf)+g%n_dead(stem)+g%n_dead(flower)
+
+         call respond2get_real_var (variable_name
+     :                             , '(g/m2)'
+     :                             , apt_N_up)
+
+      elseif (variable_name .eq. 'root_n_uptake') then
+         apt_N_up =  g%N_green(root)
+     :             + g%n_senesced(root)
+     :             + g%n_dead(root)
+
          call respond2get_real_var (variable_name
      :                             , '(g/m2)'
      :                             , apt_N_up)
@@ -3085,12 +3101,22 @@ c      PRINT *,"***********************************************"
       ! ew added this section for iwheat update
 
        g%tiller_tt_tot = g%tiller_tt_tot + g%dlt_tt
+c     : *MIN(g%nfact_expansion,g%swdef_expansion)
 
        call add_real_array (g%dlt_tiller_area_pot,
      :                      g%tiller_area_pot, max_leaf)
 
 
 
+
+       call add_real_array (g%dlt_tiller_area_act,
+     :                      g%tiller_area_act, max_leaf)
+
+       call subtract_real_array (g%dlt_tiller_sen_area,
+     :                      g%tiller_area_act, max_leaf)
+
+       call add_real_array (g%dlt_tiller_sen_area,
+     :                      g%tiller_area_sen, max_leaf)
 
 
 

@@ -1,4 +1,4 @@
-C     Last change:  E    10 Apr 2000   12:52 pm
+C     Last change:  E    12 May 2000   11:51 am
 
 *     ===========================================================
       subroutine crop_dm_potential (current_stage,
@@ -988,11 +988,16 @@ c      end if
 *     ===========================================================
       subroutine cproc_bio_partition_wheat (
      :                  g_current_stage,
+     : 	        	c_ratio_root_shoot,
+     :                  c_sla_min,
+     :                  g_dlt_lai,
      :                  g_dlt_dm,
      :                  g_phase_tt,
      :                  g_tt_tot,
      :                  g_swdef_photo,
      :                  g_nfact_photo,
+     :                  g_swdef_expansion,
+     :                  g_nfact_expansion,
      :                  g_dlt_dm_grain_demand,
      :                  g_dlt_dm_green)
      
@@ -1006,11 +1011,16 @@ c      end if
 
 *+  Sub-Program Arguments
       real g_current_stage
-      real g_dlt_dm                !Total daily biomass production including roots
+      REAL c_ratio_root_shoot(*)
+      REAL c_sla_min
+      REAL g_dlt_lai
+      real g_dlt_dm              !Total daily biomass production including roots
       real g_phase_tt(*)
       real g_tt_tot(*)
       real g_swdef_photo
       real g_nfact_photo
+      real g_swdef_expansion
+      real g_nfact_expansion
       real g_dlt_dm_grain_demand
       real g_dlt_dm_green (*)     ! (OUTPUT) actual biomass partitioned to plant parts (g/m^2)
 
@@ -1023,7 +1033,7 @@ c      end if
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'cproc_bio_partition_nw_wheat')
+      parameter (my_name  = 'cproc_bio_partition_wheat')
 
 *+  Calls
 !      real nwheat_min_root_fraction
@@ -1031,43 +1041,92 @@ c      end if
 *+  Local Variables
       real       leaf_fraction
       real       stem_fraction
-c     real       tops_fraction
+      real       tops_fraction
       real       root_fraction
-      real       stress_fac
       real       dlt_dm
       REAL       sum_tt
       REAL       cum_tt
       REAL       x
+      INTEGER    current_stage
+      REAL       root_shoot_ratio
+      REAL       root_fr_min
+c     REAL       root_fr
+      REAL       dlt_dm_tot
+      REAL       dlt_dm_root_min
+      REAL       dlt_dm_leaf_max
 
-c      real       g_sla
-c      real       dlt_dm_reserve
-      !real       dlt_dm_leaf_pot
 
-      
 
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
  
+
+
+      current_stage = int (g_current_stage)
+
+      root_shoot_ratio  = c_ratio_root_shoot(current_stage)
+      root_fr_min       = root_shoot_ratio/(1.0+root_shoot_ratio)
+
  
+      dlt_dm_root_min   = g_dlt_dm * divide(root_fr_min,
+     :                               1.0-root_fr_min, 0.0)
+
+      dlt_dm_tot        = g_dlt_dm + dlt_dm_root_min
+ 
+
+      !------------------------------------------------------------------------------------
+      !the tops and root fraction
+
+      if (stage_is_between (emerg, floral_init, g_current_stage)) then
+        
+         root_fraction = root_fr_min
+         tops_fraction = 1.0 -root_fraction
+
+         tops_fraction = (1.0- root_fr_min)
+     :                  * min(g_swdef_expansion,g_nfact_expansion)
+         root_fraction = 1.0 - tops_fraction
+
+      elseif (stage_is_between (floral_init, start_grain_fill,
+     :                          g_current_stage)) then
+      
+         tops_fraction = (1.0- root_fr_min)
+     :                  * min(g_swdef_expansion,g_nfact_expansion)
+         root_fraction = 1.0 - tops_fraction
+
+      elseif (stage_is_between (start_grain_fill,end_grain_fill,
+     :                          g_current_stage)) then
+      
+         root_fraction = root_fr_min
+         tops_fraction = 1.0 -root_fraction
+
+      else
+
+         tops_fraction = 1.0
+         root_fraction = 0.0
+
+      endif
+
+         root_fraction = root_fr_min
+         tops_fraction = 1.0 - root_fraction
+
     
+      !------------------------------------------------------------------------------------
+      !Partitioning
+
       call fill_real_array (g_dlt_dm_green, 0.0, max_part)
       
-      ! now we get the root delta for all stages - partition scheme specified in coeff file
-      stress_fac    = 0.5 + g_swdef_photo   !min(g_swdef_photo,g_nfact_photo)  !min(g_swdef_expansion,g_nfact_expansion)
-      stress_fac    = min(1.0, stress_fac)
 
       !PARTITION FRACTION
       sum_tt = sum_between(emerg, flowering, g_tt_tot)
       cum_tt = sum_between(emerg, flowering, g_phase_tt)
       x      = sum_tt/cum_tt
 
+
       if (stage_is_between (emerg, flowering, g_current_stage)) then
-          root_fraction = -0.6545*x**3 + 1.469*x**2 - 1.3083*x + 0.4996
-          root_fraction = bound(root_fraction, 0.0, 0.5)
-
-          root_fraction = root_fraction/stress_fac
-
+c         root_fraction = -0.6545*x**3 + 1.469*x**2 - 1.3083*x + 0.4996
+c         root_fraction = bound(root_fraction, 0.0, 0.5)
+c         root_fraction =  root_fraction/stress_fac
 c         tops_fraction = 1.0 - root_fraction
 
           leaf_fraction = 10.452*x**6 - 29.044*x**5 + 24.818*x**4
@@ -1078,7 +1137,7 @@ c         tops_fraction = 1.0 - root_fraction
           stem_fraction = 1.0 - leaf_fraction
 
       else
-          root_fraction = 0.0
+c         root_fraction = 0.0
           leaf_fraction = 0.0
           stem_fraction = 0.0
 c         tops_fraction = 1.0 - root_fraction
@@ -1091,16 +1150,32 @@ c         tops_fraction = 1.0 - root_fraction
 
 
       !BIOMASS GROWTH RATES
-      g_dlt_dm_green(root) = g_dlt_dm *root_fraction/(1.0-root_fraction)
-      g_dlt_dm_green(leaf) = g_dlt_dm *leaf_fraction
-      g_dlt_dm_green(stem) = g_dlt_dm *stem_fraction
+      !g_dlt_dm_green(root) = g_dlt_dm *root_fraction/(1.0-root_fraction)
+
+      g_dlt_dm_green(root) = dlt_dm_tot * root_fraction
+
+      g_dlt_dm_green(leaf) = dlt_dm_tot * tops_fraction * leaf_fraction
+      g_dlt_dm_green(stem) = dlt_dm_tot * tops_fraction * stem_fraction
+
+
+      if (stage_is_between (emerg, flag_leaf, g_current_stage)) then
+
+          dlt_dm_leaf_max = MIN(g_dlt_dm_green(leaf),
+     :                           g_dlt_lai/(c_sla_min*1E-6))
+
+         g_dlt_dm_green(root) = g_dlt_dm_green(root) +
+     :          g_dlt_dm_green(leaf) - dlt_dm_leaf_max
+
+         g_dlt_dm_green(leaf) = dlt_dm_leaf_max
+
+      endif
 
 
       if (stage_is_between (start_grain_fill, end_grain_fill
      :                              , g_current_stage)) then
-         g_dlt_dm_green(grain)= min(g_dlt_dm,
-     :                              g_dlt_dm_grain_demand) 
-         g_dlt_dm_green(stem) = g_dlt_dm
+         g_dlt_dm_green(grain)= min(dlt_dm_tot*tops_fraction,
+     :                              g_dlt_dm_grain_demand)
+         g_dlt_dm_green(stem) = dlt_dm_tot
      :                        - g_dlt_dm_green(grain)
          g_dlt_dm_green(stem) = max(0.0, g_dlt_dm_green(stem))
       endif
@@ -1110,20 +1185,20 @@ c         tops_fraction = 1.0 - root_fraction
       if (stage_is_between (end_grain_fill, plant_end,
      :                          g_current_stage)) then
          ! put all into stem
-         g_dlt_dm_green(stem) = g_dlt_dm
+         g_dlt_dm_green(stem) = dlt_dm_tot * tops_fraction
        endif
- 
- 
+
+
       ! now check that we have mass balance
       dlt_dm = sum_real_array (g_dlt_dm_green, max_part)
-     :        - g_dlt_dm_green(root)
-      
- 
+c     :        - g_dlt_dm_green(root)
+
+
       ! the carbohydrate in the seed is available for uptake into the rest of the plant.
- 
-      call bound_check_real_var (dlt_dm, g_dlt_dm - 0.001,
-     :                                   g_dlt_dm + 0.001, 'tot_dm')
- 
+
+      call bound_check_real_var (dlt_dm, dlt_dm_tot - 0.001,
+     :                                   dlt_dm_tot + 0.001, 'tot_dm')
+
       call pop_routine (my_name)
       return
       end
@@ -1463,7 +1538,7 @@ c     real       harvest_index         ! last harvest index (g grain/g biomass)
         
          dm_plant_stem      = divide (dm_green(stem), g_plants, 0.0)
 c        dm_plant_min(stem) = dm_plant_stem * (1.0 - c_stem_trans_frac)
-         dm_plant_min(stem) = dm_plant_stem * (1.0 - 0.60)
+         dm_plant_min(stem) = dm_plant_stem * (1.0 - 0.70)
  
 
 c for nwheat min stem weight at beginning of grain filling stage, no carbon mobile from leaves
@@ -1599,7 +1674,10 @@ c for nwheat min stem weight at beginning of grain filling stage, no carbon mobi
 c        dm_green(grain)   = min(0.0035*grain_num, dm_plant_min(stem))
 
          dm_green(stem)    = dm_green(stem) - dm_green(grain)
-         dm_plant_min(stem)= dm_plant_min(stem) - dm_plant_min(grain)
+
+
+         !dm_plant_min(grain)= dm_green(grain)/ g_plants
+         !dm_plant_min(stem) = dm_plant_min(stem) - dm_plant_min(grain)
  
 
       else   ! no changes
@@ -1608,6 +1686,139 @@ c        dm_green(grain)   = min(0.0035*grain_num, dm_plant_min(stem))
       call pop_routine (my_name)
       return
       end
+
+
+
+*     ===========================================================
+      subroutine wheat_dm_init (
+     .          g_current_stage,
+     .          g_days_tot,
+     .          c_dm_root_init,
+     .          g_plants,
+     .          c_dm_stem_init,
+     .          c_dm_leaf_init,
+     .          c_stem_trans_frac,
+     .          c_leaf_trans_frac,
+     .          c_initial_tpla,
+     .          c_sla_min,
+     .          c_sla_max,
+     .          dm_green,
+     .          dm_plant_min,
+     .          p_grain_num_coeff,
+     .          g_dm_seed_reserve,
+     .          g_lai,
+     .          g_grain_no)
+*     ===========================================================
+      implicit none
+      include   'CropDefCons.inc'
+      include 'science.pub'
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+       real g_current_stage
+       real g_days_tot(*)
+       real c_dm_root_init
+       real g_plants
+       real c_dm_stem_init
+       real c_dm_leaf_init
+       real c_stem_trans_frac
+       real c_leaf_trans_frac
+       REAL c_initial_tpla
+       real c_sla_min
+       real c_sla_max
+       real dm_green(*)           ! (INPUT/OUTPUT) plant part weights (g/m^2)
+       real dm_plant_min(*)       ! (OUTPUT) minimum weight of each plant part (g/plant)
+       REAL p_grain_num_coeff
+       real g_dm_seed_reserve
+       real g_lai
+       REAL g_grain_no
+
+*+  Purpose
+*       Initialise plant weights and plant weight minimums
+*       at required instances.
+
+*+  Changes
+*     010994 jngh specified and programmed
+*     970317 slw new template form
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'wheat_dm_init')
+
+*+  Local Variables
+      real       dm_plant_leaf         ! dry matter in leaves (g/plant)
+      real       dm_plant_stem         ! dry matter in stems (g/plant)
+      !REAL       sla
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+         ! initialise plant weight
+         ! initialisations - set up dry matter for leaf, stem, flower, grain
+         ! and root
+ 
+
+      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
+             ! seedling has just emerged.
+ 
+             ! initialise root, stem and leaf.
+ 
+         dm_green(root)  = c_dm_root_init * g_plants
+         dm_green(stem)  = c_dm_stem_init * g_plants
+         dm_green(leaf)  = c_dm_leaf_init * g_plants
+         dm_green(grain) = 0.0
+         dm_green(flower)= 0.0
+         
+         g_dm_seed_reserve = 0.012 * g_plants                    ! (g/m2)   !  ew
+         g_lai             = c_initial_tpla *1.0E-6 * g_plants   !  ew
+
+         !sla    = 0.75*c_sla_max + 0.25*c_sla_min
+         g_lai  = dm_green(leaf)*20000.0*1.0E-6
+
+         g_grain_no = 0.0
+
+c for nwheat min stem weight at beginning of grain filling stage, no carbon mobile from leaves
+      elseif (on_day_of (start_grain_fill
+     :                 , g_current_stage, g_days_tot)) then
+ 
+         ! we are at first day of grainfill.
+         ! set the minimum weight of leaf; used for translocation to grain and stem
+ 
+         dm_plant_leaf      = divide (dm_green(leaf), g_plants, 0.0)
+         dm_plant_min(leaf) = dm_plant_leaf * (1.0 - c_leaf_trans_frac)
+        
+         dm_plant_stem      = divide (dm_green(stem), g_plants, 0.0)
+         dm_plant_min(stem) = dm_plant_stem * (1.0 - c_stem_trans_frac)
+
+            ! Initial grain weigth is taken from
+            ! this immobile stem as simplification to
+            ! having grain filling prior to grain filling.
+            ! In Nwheat stem did not include leaf sheath
+            ! and so a leaf sheath approximation is removed below.
+
+         g_grain_no = p_grain_num_coeff * dm_green(stem)
+
+         dm_green(grain)   = min(0.0035*g_grain_no
+     :                          ,dm_plant_min(stem)*g_plants)
+
+c        dm_green(grain)   = min(0.0035*grain_num, dm_plant_min(stem))
+
+         dm_green(stem)    = dm_green(stem) - dm_green(grain)
+
+
+         !dm_plant_min(grain)= dm_green(grain)/ g_plants
+         !dm_plant_min(stem) = dm_plant_min(stem) - dm_plant_min(grain)
+ 
+
+      else   ! no changes
+      endif
+ 
+      call pop_routine (my_name)
+      return
+      end
+
 
 
 
@@ -1932,6 +2143,7 @@ c      elseif (stage_is_between(emerg,flowering,g_current_stage)) then !original
            ! phyl_ind (tiller 2 - 5 start to grow simultanously).
            do n = 2, 5
              tt_til = tt_tot - 5.0 * phint
+             tt_til = tt_tot - (3+n-1) * phint
       !       n_till_start = MAX(0.0, REAL(n))    !ew changed the start tiller phyllochrons
       !       tt_til = tt_now - n_till_start * phint
 
@@ -1947,6 +2159,7 @@ c      elseif (stage_is_between(emerg,flowering,g_current_stage)) then !original
  
            do n = 6, max_leaf
              tt_til = tt_tot - real(n) * phint
+             tt_til = tt_tot - real(3+n-1) * phint
              if (tt_til.le.0.0) then
                 tiller_area_pot(n) = 0.0
              else
@@ -2224,7 +2437,7 @@ cglh uses sowing, not emerg to calc leaf no.
 *+  Local Variables
       integer n                          ! do loop counter
       integer istage                     !
-      real    sumdtt
+c     real    sumdtt
       real    tiller_sen_area_age_today(max_leaf)
       
     
@@ -2293,8 +2506,8 @@ c    .                                     0.00075 * sumdtt !g_dlt_tt
      
          elseif (stage_is_between(start_grain_fill, end_grain_fill,
      .                           g_current_stage)) then !in i_wheat is grnfill stage
-            sumdtt = sum_between(start_grain_fill,now,
-     .                           g_tt_tot)
+c            sumdtt = sum_between(start_grain_fill,now,
+c     .                           g_tt_tot)
      
 c           tiller_sen_area_age_today(n) = g_tiller_area_act_stage(n) *
 c    .                                     (sumdtt** 2)/
@@ -2304,13 +2517,9 @@ c            g_dlt_tiller_sen_area_age(n)=g_tiller_area_act_stage(n)
 c     .                                    * sumdtt*g_dlt_tt/
 c     .                          (g_phase_tt(start_grain_fill)**2)
 
-c            g_dlt_tiller_sen_area_age(n)=g_tiller_area_act_stage(n)
-c     .                                    * g_dlt_tt/
-c     .                          g_phase_tt(start_grain_fill)
-
-            g_dlt_tiller_sen_area_age(n)=g_tiller_area_act(n)
+            g_dlt_tiller_sen_area_age(n)=g_tiller_area_act_stage(n)
      .                                    * g_dlt_tt/
-     .                     (g_phase_tt(start_grain_fill)-sumdtt)
+     .                          g_phase_tt(start_grain_fill)
       
          else
       
@@ -3956,13 +4165,6 @@ c""""""""""""""""""""""""""""""""""""""""""""""""""
          !This is to avoid a varning in leaf number final
          phase_tt(emerg_to_endjuv) = 1.0
          phase_tt(endjuv_to_init)  = 400.0
-
-
-* On the day of emergence,make an estimate of phase duration for endjuv to floral init  
-      elseif (on_day_of (emerg, g_current_stage, g_days_tot)) then
-    
-         phase_tt(emerg_to_endjuv) = 1.0
-         phase_tt(endjuv_to_init)  = 400.0
          phase_tt(init_to_flag)    = 3.0 * p_phyllochron
          phase_tt(flag_to_flower)  = 2.0 * p_phyllochron + 80.0
          phase_tt(flower_to_start_grain) = 200.0 - 80.0
@@ -3975,7 +4177,11 @@ c""""""""""""""""""""""""""""""""""""""""""""""""""
      :                   - phase_tt(end_grain_to_maturity)
 
          phase_tt(maturity_to_ripe) = 1.0
- 
+
+* On the day of emergence,make an estimate of phase duration for endjuv to floral init  
+      elseif (on_day_of (emerg, g_current_stage, g_days_tot)) then
+    
+
 * Between endjuv and floral initiation, the target should be set every day based on 
 * photoperiod and vernalisation
 *      elseif (stage_is_between (endjuv, floral_init
@@ -6697,17 +6903,11 @@ cnh now put at least 1/4 of C into roots
       endif
 
 
-c      if (g_current_stage.le.4.0) then
-c         N_conc_ratio = 1.0
-c      end if
-
- 
-
       nfac = bound (N_conc_ratio, 0.0, 1.0)
  
       g_nfact_pheno = 1.0
 
-      if (istage.le.emerg) then
+      if (istage.le.emerg) then    !Emerg to endjuv only one day
         g_nfact_photo       = 1.0
         g_nfact_expansion   = 1.0
         g_nfact_tiller      = 1.0
@@ -6726,12 +6926,6 @@ c      end if
          !nfact(4) = bound (nfact(4), 0.0, 1.5)
       endif
 
-c ew added this section to avoid severe growth reduction in the early stage
-c      if (g_current_stage .lt. 4.5) then
-c        g_nfact_photo       = MAX(g_nfact_photo,     0.85)
-c        g_nfact_expansion   = MAX(g_nfact_expansion, 0.85/1.5)
-c        g_nfact_tiller      = MAX(g_nfact_tiller,    0.85*0.85)
-c      end if
 
  
       call pop_routine (myname)
@@ -6739,8 +6933,6 @@ c      end if
       return
       end
  
-
-
 
 
 *     ===========================================================
@@ -6914,8 +7106,6 @@ c ==============================================================================
 
 
 
-
-
 *     ===========================================================
       subroutine cproc_bio_partition_nw (
      :                  g_current_stage,
@@ -6987,6 +7177,7 @@ c ==============================================================================
       
 *+  Local Variables
       integer    current_phase         ! current phase no.
+      real       dlt_dm_tot            ! total of partitioned dm (g/m^2)
       real       dlt_dm                ! total of partitioned dm (g/m^2)
       real       dlt_dm_root_limit
       real       stem_fraction
@@ -6994,11 +7185,12 @@ c ==============================================================================
       real       dlt_leaf_area
       real       g_sla
       real       dlt_dm_leaf_pot       ! max increase in leaf dm (g/m^2)
-c     real       dlt_dm_lfshth_pot     ! max increase in leaf sheath dm (g/m^2)
       real       g_dlt_dm_leafshth     ! increase in leaf sheath dm (g/m^2)
       real       dlt_dm_grain_max
       REAL       root_fr
-      real       diverted_c            ! C diverted from roots to shoots
+      REAL       root_fr_min
+      real       root_dm_min
+      real       stress_fact
 
 
 *- Implementation Section ----------------------------------
@@ -7009,24 +7201,54 @@ c     real       dlt_dm_lfshth_pot     ! max increase in leaf sheath dm (g/m^2)
       call fill_real_array (g_dlt_dm_green, 0.0, max_part)
       g_dlt_dm_leafshth =0.0
       
-      ! now we get the root delta for all stages - partition scheme specified in coeff file
+      ! now we get the root delta for all stages -
+
       current_phase = int (g_current_stage)
+      root_fr_min   = nwheat_min_root_fraction(g_current_stage)
+ 
+      dlt_dm_root_limit = g_dlt_dm * divide(root_fr_min, 
+     :                               1.0-root_fr_min, 0.0)
 
-!     tops_fraction = 1.0- c_ratio_root_shoot(current_phase)
-      !This can be deleted, then use the tops_fraction = 1 - c_root_shoot_ratio
-!     tops_fraction=1.0-nwheat_min_root_fraction(g_current_stage)
+      dlt_dm_tot        = g_dlt_dm + dlt_dm_root_limit
+ 
+      stress_fact = min(g_swdef_expansion,g_nfact_expansion)
+
+      !------------------------------------------------------------------------------------
+      !the tops and root fraction
 
 
-      tops_fraction = 1.0
-      root_fr = nwheat_min_root_fraction(g_current_stage)
+      if (stage_is_between (emerg, floral_init, g_current_stage)) then
+        
+         root_fr       = root_fr_min
+         tops_fraction = 1.0 -root_fr
 
+      elseif (stage_is_between (floral_init, start_grain_fill,
+     :                          g_current_stage)) then
+      
+         tops_fraction = (1.0- root_fr_min)* stress_fact
+         root_fr = 1.0 - tops_fraction
 
-      dlt_dm_root_limit = g_dlt_dm * divide(root_fr, 1.0-root_fr, 0.0)
+      elseif (stage_is_between (start_grain_fill,end_grain_fill,
+     :                          g_current_stage)) then
+      
+         tops_fraction = 0.65 + 0.35 * divide (
+     :                   g_dm_plant_min(stem) * g_plants,
+     :                   g_dm_green(stem),0.0)
+         tops_fraction = bound(tops_fraction, 0.0, 1.0)    
+         root_fr       = 1.0 - tops_fraction
+
+      else
+
+         tops_fraction = 1.0
+         root_fr       = 0.0
+
+      endif
 
 
       !------------------------------------------------------------------------------------
       if (stage_is_between (emerg, floral_init, g_current_stage)) then
       ! we have leaf, leaf sheath and root growth
+
 
           call nwheat_leaf_area_emerg_fi (
      :                  g_current_stage,
@@ -7050,54 +7272,54 @@ c     real       dlt_dm_lfshth_pot     ! max increase in leaf sheath dm (g/m^2)
 
          dlt_dm_leaf_pot= divide(dlt_leaf_area*1000000.0,g_sla,0.0)
 
+         g_dlt_dm_leaf_pot= dlt_dm_leaf_pot
 
         !Leaves and leaf sheath grow equally
-         dlt_dm_leaf_pot  = dlt_dm_leaf_pot
-     :              * min(g_swdef_expansion,g_nfact_expansion)
-
+         dlt_dm_leaf_pot  = dlt_dm_leaf_pot * stress_fact
 
          ! assume leaf sheath is same size as leaf and that roots get
          ! any extra carbohydrate.
 
-         g_dlt_dm_green(leaf) = MIN(0.5*g_dlt_dm, dlt_dm_leaf_pot)
+         g_dlt_dm_green(root)=MAX(0.0,dlt_dm_tot-2.0*dlt_dm_leaf_pot)
+
+         root_dm_min =  dlt_dm_tot * root_fr
+         if (g_dlt_dm_green(root) .lt. root_dm_min) then
+             g_dlt_dm_green(root) = root_dm_min
+         endif
+
+         g_dlt_dm_green(leaf)= 0.5*(dlt_dm_tot
+     :                             - g_dlt_dm_green(root))
          g_dlt_dm_leafshth    = g_dlt_dm_green(leaf)
 
-         g_dlt_dm_green(root) = dlt_dm_root_limit +
-     :                     MAX(0.0, g_dlt_dm
-     :                              - g_dlt_dm_green(leaf)
-     :                              - g_dlt_dm_leafshth)
 
       !------------------------------------------------------------------------------------
       else if (stage_is_between (floral_init, flag_leaf
      :                        , g_current_stage)) then
          ! root and stem get what they demand
-         
+
+
          stem_fraction=(0.15 + 0.15*g_tt_tot(current_phase)/p_phint)
          stem_fraction=u_bound (stem_fraction, 0.85)  !<- This line is useless, because stem_fraction<=0.70 
-         
-         stem_fraction = tops_fraction * stem_fraction
+         stem_fraction=tops_fraction * stem_fraction
 
-         g_dlt_dm_green(stem) = g_dlt_dm*stem_fraction
-         g_dlt_dm_green(root) = dlt_dm_root_limit
+         g_dlt_dm_green(root) = dlt_dm_tot * root_fr
+         g_dlt_dm_green(stem) = dlt_dm_tot * stem_fraction
           
         ! leaf and leaf sheath share equally any carbo left
+         dlt_dm_leaf_pot  = 0.5*(dlt_dm_tot- g_dlt_dm_green(root)
+     :                                     - g_dlt_dm_green(stem))
 
-
-         dlt_dm_leaf_pot = 0.5*(g_dlt_dm - g_dlt_dm_green(stem))
- 
          dlt_dm_leaf_pot   = max(0.0, dlt_dm_leaf_pot)
          g_dlt_dm_leafshth = dlt_dm_leaf_pot
  
          !Adjust partitioning to leaves if water or n stress is present, redirect additional c to roots
-         g_dlt_dm_green(leaf) = dlt_dm_leaf_pot                                                    
-     :                 * min(g_swdef_expansion,g_nfact_expansion)
- 
+         g_dlt_dm_green(leaf) = dlt_dm_leaf_pot * stress_fact
+
          !cbak allocate reduction in leaf area growth to root growth
          !------------------------------------------------------------------------------
          !cbak  part_shift is some carbon that has been redirected from leaves under stres
          !cbak  consider using it to reflect on sla under stress (ie. lower sla, thicker l
          !-------------------------------------------------------------------------------
-         !part_shift = pot_growt_leaf - gro_wt(leaf)
          g_dlt_dm_green(root) = g_dlt_dm_green(root) + 
      :                 dlt_dm_leaf_pot - g_dlt_dm_green(leaf)
  
@@ -7106,41 +7328,46 @@ c     real       dlt_dm_lfshth_pot     ! max increase in leaf sheath dm (g/m^2)
       elseif (stage_is_between (flag_leaf, start_grain_fill
      :                        , g_current_stage)) then
 
-         g_dlt_dm_green(stem) = g_dlt_dm * tops_fraction
-         g_dlt_dm_green(root) = dlt_dm_root_limit
+         g_dlt_dm_green(root) = dlt_dm_tot * root_fr
+         g_dlt_dm_green(stem) = dlt_dm_tot * tops_fraction
 
          g_dlt_dm_green(leaf) = 0.0
          g_dlt_dm_leafshth    = 0.0
 
 
-
       elseif (stage_is_between (start_grain_fill, end_grain_fill
      :                        , g_current_stage)) then
 
-         ! Some root material can be diverted to tops as stem reserves
-         ! are diminished.  Note that the stem in this model includes
-         ! leaf sheath!
-
-         diverted_c = dlt_dm_root_limit 
-     :              * divide(g_dm_plant_min(stem)*g_plants
-     :                      ,g_dm_green(stem)
-     :                      ,0.0)
-c         print*,g_dm_plant_min(stem)*g_plants
-c     :                      ,g_dm_green(stem)
-c     :                       ,diverted_c
-
-         g_dlt_dm_green(root) = dlt_dm_root_limit - diverted_c
-      
-         dlt_dm_grain_max   = max(0.0, g_dlt_dm + diverted_c)
-
+         g_dlt_dm_green(root) = dlt_dm_tot * root_fr
+         dlt_dm_grain_max     = dlt_dm_tot * tops_fraction 
          g_dlt_dm_green(grain)= min(dlt_dm_grain_max, 
      :                              g_dlt_dm_grain_demand) 
-         
-         g_dlt_dm_green(stem) = g_dlt_dm
-     :                        + diverted_c
+         g_dlt_dm_green(stem) = dlt_dm_tot
+     :                        - g_dlt_dm_green(root)
      :                        - g_dlt_dm_green(grain)
-     
          g_dlt_dm_green(stem) = max(0.0, g_dlt_dm_green(stem))
+
+c         ! Some root material can be diverted to tops as stem reserves
+c         ! are diminished.  Note that the stem in this model includes
+c         ! leaf sheath!cc
+c
+c         diverted_c = dlt_dm_root_limit 
+c     :              * divide(g_dm_plant_min(stem)*g_plants
+c     :                      ,g_dm_green(stem)
+c     :                      ,0.0)
+c
+c         g_dlt_dm_green(root) = dlt_dm_root_limit - diverted_c
+c      
+c         dlt_dm_grain_max   = max(0.0, g_dlt_dm + diverted_c)
+c
+c         g_dlt_dm_green(grain)= min(dlt_dm_grain_max, 
+c     :                              g_dlt_dm_grain_demand) 
+c         
+c         g_dlt_dm_green(stem) = g_dlt_dm
+c     :                        + diverted_c
+c     :                        - g_dlt_dm_green(grain)
+c     
+c         g_dlt_dm_green(stem) = max(0.0, g_dlt_dm_green(stem))
 
 
       !EW added this part from sorghum, thinks it is reasonable
@@ -7169,8 +7396,8 @@ c     :                       ,diverted_c
       ! the carbohydrate in the seed is available for uptake into the rest of the plant.
  
       call bound_check_real_var (dlt_dm,
-     :                           g_dlt_dm+dlt_dm_root_limit - 0.001,
-     :                           g_dlt_dm+dlt_dm_root_limit + 0.001,
+     :                           dlt_dm_tot - 0.001,
+     :                           dlt_dm_tot + 0.001,
      :                           'tot_dm')
  
       call pop_routine (my_name)
@@ -7179,6 +7406,308 @@ c     :                       ,diverted_c
  
  
 
+*     ===========================================================
+      subroutine cproc_bio_partition_nw_ew (
+     :                  g_current_stage,
+     :                  g_maxt,
+     :                  g_mint,
+     :                  g_dlt_dm,
+     :                  g_dlt_tt,
+     :                  g_phase_tt,
+     :                  g_tt_tot,
+     :                  p_phint,
+     :                  c_sla,
+     :                  c_ratio_root_shoot,
+     :                  g_leaf_no,
+     :                  g_tiller_no,
+     :                  g_swdef_expansion,
+     :                  g_nfact_expansion,
+     :                  g_dlt_dm_grain_demand,
+     :                  g_plants,
+     :                  g_dm_green,
+     :                  g_dm_plant_min,
+     :                  g_dlt_dm_green,
+     :                  g_dlt_dm_leaf_pot)
+     
+*     ===========================================================
+      implicit none
+      include 'convert.inc'
+      include 'CropDefCons.inc'
+      include 'science.pub'
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      real g_current_stage         !(INPUT) current development stage
+      real g_maxt                  !(INPUT) daily max temp (C)
+      real g_mint                  !(INPUT) daily min temp (C)
+      real g_dlt_dm                !(INPUT) total daily biomass production excluding roots (g/m2)
+      real g_dlt_tt                !(INPUT) daily thermal time (Cd)
+      real g_phase_tt(*)           !(INPUT) thermal time needed for each phase (Cd)
+      real g_tt_tot(*)             !(INPUT) thermal time accumulated till now for each phase (Cd)
+      real p_phint                 !(INPUT) phyllochron interval (Cd)
+      real c_sla                   !(INPUT) specific leaf area (mm2/g)
+      real c_ratio_root_shoot(*)   !(INPUT) root shoot ratio ()
+      real g_leaf_no(*)            !(INPUT) leaf num developed in each stage
+      real g_tiller_no(*)          !(INPUT) tiller num developed in each stage
+      real g_swdef_expansion       !(INPUT) water stress factor for leaf expansion
+      real g_nfact_expansion       !(INPUT) N stress factor for leaf expansion
+      real g_dlt_dm_grain_demand   !(INPUT) grain carbon demand (g/m2)
+      real g_plants                !(INPUT) plant density (plants/m2)
+      REAL g_dm_green(*)
+      REAL g_dm_plant_min(*)
+      real g_dlt_dm_green (*)      !(OUTPUT) actual biomass partitioned to plant parts (g/m^2)
+      REAL g_dlt_dm_leaf_pot       !(OUTPUT) potential leaf biomass growth rate (g/m2)
+
+*+  Purpose
+*     Partitions new dm (assimilate) between plant components (g/m^2)
+
+
+*+  Changes
+*     990311 ew  reprogrammed based on nwheat routine
+*            ew  note that g_dlt_dm is the biomass growth rate without roots
+*            ew  leaf sheath biomass is put into stem biomass
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'cproc_bio_partition_nw_ew')
+
+*+  Calls
+
+
+*+  Local Variables
+      integer    current_phase         ! current phase no.
+      real       dlt_dm_tot            ! total of partitioned dm (g/m^2)
+      real       dlt_dm                ! total of partitioned dm (g/m^2)
+      real       dlt_dm_root_limit
+      real       stem_fraction
+      real       tops_fraction
+      real       dlt_leaf_area
+      real       g_sla
+      real       dlt_dm_leaf_pot       ! max increase in leaf dm (g/m^2)
+c     real       dlt_dm_lfshth_pot     ! max increase in leaf sheath dm (g/m^2)
+      real       g_dlt_dm_leafshth     ! increase in leaf sheath dm (g/m^2)
+      real       dlt_dm_grain_max
+      REAL       root_fr
+      REAL       root_fr_min
+      real       root_dm_min
+      REAL       root_shoot_ratio
+      real       stress_fact
+
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+ 
+      call fill_real_array (g_dlt_dm_green, 0.0, max_part)
+      g_dlt_dm_leafshth =0.0
+      
+      ! now we get the root delta for all stages -
+
+      current_phase     = int (g_current_stage)
+      root_shoot_ratio  = c_ratio_root_shoot(current_phase)
+
+      root_fr_min       = root_shoot_ratio/(1.0+root_shoot_ratio)
+
+      dlt_dm_root_limit = g_dlt_dm * divide(root_fr_min, 
+     :                               1.0-root_fr_min, 0.0)
+
+      dlt_dm_tot        = g_dlt_dm + dlt_dm_root_limit
+ 
+      stress_fact = min(g_swdef_expansion,g_nfact_expansion)
+      stress_fact = max(0.5,stress_fact)
+
+      !------------------------------------------------------------------------------------
+      !the tops and root fraction
+
+      if (stage_is_between (emerg, floral_init, g_current_stage)) then
+        
+         root_fr       = root_fr_min
+         tops_fraction = 1.0 -root_fr
+
+      elseif (stage_is_between (floral_init, start_grain_fill,
+     :                          g_current_stage)) then
+      
+         tops_fraction = (1.0- root_fr_min)*stress_fact
+         root_fr = 1.0 - tops_fraction
+
+      elseif (stage_is_between (start_grain_fill,end_grain_fill,
+     :                          g_current_stage)) then
+      
+         tops_fraction = 0.65 + 0.35 * divide (
+     :                   g_dm_plant_min(stem) * g_plants,
+     :                   g_dm_green(stem),0.0)
+         tops_fraction = bound(tops_fraction, 0.0, 1.0)    
+         root_fr       = 1.0 - tops_fraction
+
+      else
+
+         tops_fraction = 1.0
+         root_fr       = 0.0
+
+      endif
+
+
+      !------------------------------------------------------------------------------------
+      if (stage_is_between (emerg, floral_init, g_current_stage)) then
+      ! we have leaf, leaf sheath and root growth
+
+
+          call nwheat_leaf_area_emerg_fi (
+     :                  g_current_stage,
+     :                  g_maxt,
+     :                  g_mint,
+     :                  g_dlt_tt,
+     :                  p_phint,
+     :                  g_leaf_no,
+     :                  g_tiller_no,
+     :                  g_swdef_expansion,
+     :                  g_nfact_expansion,
+     :                  g_plants,
+     :                  dlt_leaf_area)
+        
+         call nwheat_specific_leaf_area(
+     :                  g_current_stage, 
+     :                  c_sla, 
+     :                  g_phase_tt,
+     :                  g_tt_tot,
+     :                  g_sla)
+
+         dlt_dm_leaf_pot= divide(dlt_leaf_area*1000000.0,g_sla,0.0)
+
+         g_dlt_dm_leaf_pot= dlt_dm_leaf_pot
+
+        !Leaves and leaf sheath grow equally
+         dlt_dm_leaf_pot  = dlt_dm_leaf_pot * stress_fact
+
+         ! assume leaf sheath is same size as leaf and that roots get
+         ! any extra carbohydrate.
+
+         g_dlt_dm_green(root)=MAX(0.0,dlt_dm_tot-2.0*dlt_dm_leaf_pot)
+
+         root_dm_min =  dlt_dm_tot * root_fr
+         if (g_dlt_dm_green(root) .lt. root_dm_min) then
+             g_dlt_dm_green(root) = root_dm_min
+         endif
+
+         g_dlt_dm_green(leaf)= 0.5*(dlt_dm_tot
+     :                             - g_dlt_dm_green(root))
+         g_dlt_dm_leafshth    = g_dlt_dm_green(leaf)
+
+
+      !------------------------------------------------------------------------------------
+      else if (stage_is_between (floral_init, flag_leaf
+     :                        , g_current_stage)) then
+         ! root and stem get what they demand
+
+
+         stem_fraction=(0.15 + 0.15*g_tt_tot(current_phase)/p_phint)
+         stem_fraction=u_bound (stem_fraction, 0.85)  !<- This line is useless, because stem_fraction<=0.70 
+         stem_fraction=tops_fraction * stem_fraction
+
+         g_dlt_dm_green(root) = dlt_dm_tot * root_fr
+         g_dlt_dm_green(stem) = dlt_dm_tot * stem_fraction
+          
+        ! leaf and leaf sheath share equally any carbo left
+         dlt_dm_leaf_pot  = 0.5*(dlt_dm_tot- g_dlt_dm_green(root)
+     :                                     - g_dlt_dm_green(stem))
+
+         dlt_dm_leaf_pot   = max(0.0, dlt_dm_leaf_pot)
+         g_dlt_dm_leafshth = dlt_dm_leaf_pot
+ 
+         !Adjust partitioning to leaves if water or n stress is present, redirect additional c to roots
+         g_dlt_dm_green(leaf) = dlt_dm_leaf_pot*stress_fact
+
+         !cbak allocate reduction in leaf area growth to root growth
+         !------------------------------------------------------------------------------
+         !cbak  part_shift is some carbon that has been redirected from leaves under stres
+         !cbak  consider using it to reflect on sla under stress (ie. lower sla, thicker l
+         !-------------------------------------------------------------------------------
+         g_dlt_dm_green(root) = g_dlt_dm_green(root) + 
+     :                 dlt_dm_leaf_pot - g_dlt_dm_green(leaf)
+ 
+
+      !------------------------------------------------------------------------------------
+      elseif (stage_is_between (flag_leaf, start_grain_fill
+     :                        , g_current_stage)) then
+
+         g_dlt_dm_green(root) = dlt_dm_tot * root_fr
+         g_dlt_dm_green(stem) = dlt_dm_tot * tops_fraction
+
+         g_dlt_dm_green(leaf) = 0.0
+         g_dlt_dm_leafshth    = 0.0
+
+
+      elseif (stage_is_between (start_grain_fill, end_grain_fill
+     :                        , g_current_stage)) then
+
+         g_dlt_dm_green(root) = dlt_dm_tot * root_fr
+         dlt_dm_grain_max     = dlt_dm_tot * tops_fraction 
+         g_dlt_dm_green(grain)= min(dlt_dm_grain_max, 
+     :                              g_dlt_dm_grain_demand) 
+         g_dlt_dm_green(stem) = dlt_dm_tot
+     :                        - g_dlt_dm_green(root)
+     :                        - g_dlt_dm_green(grain)
+         g_dlt_dm_green(stem) = max(0.0, g_dlt_dm_green(stem))
+
+c         ! Some root material can be diverted to tops as stem reserves
+c         ! are diminished.  Note that the stem in this model includes
+c         ! leaf sheath!cc
+c
+c         diverted_c = dlt_dm_root_limit 
+c     :              * divide(g_dm_plant_min(stem)*g_plants
+c     :                      ,g_dm_green(stem)
+c     :                      ,0.0)
+c
+c         g_dlt_dm_green(root) = dlt_dm_root_limit - diverted_c
+c      
+c         dlt_dm_grain_max   = max(0.0, g_dlt_dm + diverted_c)
+c
+c         g_dlt_dm_green(grain)= min(dlt_dm_grain_max, 
+c     :                              g_dlt_dm_grain_demand) 
+c         
+c         g_dlt_dm_green(stem) = g_dlt_dm
+c     :                        + diverted_c
+c     :                        - g_dlt_dm_green(grain)
+c     
+c         g_dlt_dm_green(stem) = max(0.0, g_dlt_dm_green(stem))
+
+
+      !EW added this part from sorghum, thinks it is reasonable
+      elseif (stage_is_between (end_grain_fill, plant_end,
+     :                          g_current_stage)) then
+ 
+         ! put all into stem
+         g_dlt_dm_green(stem) = g_dlt_dm
+ 
+      else
+         ! no partitioning
+      endif
+ 
+
+      !???????????????????????????????????????????????????????????????
+      !???????????????????????????????????????????????????????????????
+      g_dlt_dm_green(stem) = g_dlt_dm_green(stem) + g_dlt_dm_leafshth
+      !???????????????????????????????????????????????????????????????
+      !???????????????????????????????????????????????????????????????
+
+      ! now check that we have mass balance
+      dlt_dm = sum_real_array (g_dlt_dm_green, max_part)
+
+
+ 
+      ! the carbohydrate in the seed is available for uptake into the rest of the plant.
+ 
+      call bound_check_real_var (dlt_dm,
+     :                           dlt_dm_tot - 0.001,
+     :                           dlt_dm_tot + 0.001,
+     :                           'tot_dm')
+ 
+      call pop_routine (my_name)
+      return
+      end
+ 
 
 
 * ====================================================================
@@ -7332,6 +7861,7 @@ c           nfactor = 1.0 !l_bound (nfactor, 0.0)
 
          g_dlt_tiller_no = g_dlt_tt * 0.005 * (rtsw - 1.)
 
+c         PRINT *, tiller_no_sq, rtsw, g_dlt_tiller_no
 
       else if (istage .eq. flag_leaf) then     !80 degree days longer than the original period ?????????
 
@@ -7894,7 +8424,6 @@ c      istage = int(g_current_stage)
       !cbak  reduced potrate by factor of 2 ....... 5/6/94
       !parameter (potrate = .9e-6)        ! (g n/mm root/day)
       parameter (rate_max = .45e-6)        ! (g N/mm root/day)
-      !parameter (rate_max = .85e-6)        ! (g N/mm root/day)   !Enli Changed back
 
  
 *+  Local Variables
@@ -8247,7 +8776,10 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
      :                            , 0.0, N_avail(part)
      :                            , 'o_dlt_N_retrans(part)')
 1000  continue
- 
+
+
+
+
       call pop_routine (my_name)
       return
       end
@@ -8597,6 +9129,10 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
      :                   g_leaf_no,
      :                   p_phyllchron,
      :                   g_plsc,
+     :                g_swdef_expansion,
+     :                g_nfact_expansion,
+     :                g_swdef_photo,
+     :                g_nfact_photo,
      :                   g_dlt_slai_age)
 *     ===========================================================
       implicit none
@@ -8618,6 +9154,10 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
       REAL        g_leaf_no(*)      !(INPUT)leaf no developed in each stage
       REAL        p_phyllchron      !(INPUT)phyllochron interval (Cd)
       REAL        g_plsc(*)         !(INPUT/OUTPUT)leaf area for leaf no x
+      real    g_swdef_expansion  !(INPUT)water stress factor for photo
+      real    g_nfact_expansion    !(INPUT)N stress factor for tiller
+      real    g_swdef_photo    !(INPUT)water stress factor for photo
+      real    g_nfact_photo    !(INPUT)N stress factor for tiller
       real        g_dlt_slai_age    !(OUTPUT)LAI senescence rate (m2/m2/d)
 
 
@@ -8642,12 +9182,14 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
       real      tot_lai
       real      slan                  ! leaf area senesced for  normal development (0-1)
       REAL      leaf_no_now
-      REAL      leaf_no_new
+c     REAL      leaf_no_new
       REAL      dnleaf
       REAL      leaf_frac
       integer   greenlfno
-      INTEGER   istage
-
+c     INTEGER   istage
+      REAL      stress_fact
+      REAL      sum_tt
+      REAL      tot_tt
  
 *- Implementation Section ----------------------------------
  
@@ -8657,8 +9199,11 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
 
       if (stage_is_between(emerg, maturity, g_current_stage)) then
 
+         stress_fact = MIN(g_swdef_expansion,g_nfact_expansion)
+
           leaf_no_now = sum_between (emerg, now, g_leaf_no)
-          greenlfno   = 4
+          greenlfno   = 4 !5
+c         greenlfno   = INT(3 * (1 + stress_fact))
 
           !Attention: g_plsc unit is LA per square meter- different from plsc in nwheat (per plant)
           g_plsc(INT(leaf_no_now)+2) = g_plsc(INT(leaf_no_now)+2)
@@ -8677,29 +9222,22 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
 
           if (stage_is_between(emerg, flag_leaf, g_current_stage)) then
 
-             if (leaf_no_now .gt. greenlfno+1) then
+             leaf_frac = g_dlt_tt/p_phyllchron
+
+             if (leaf_no_now+leaf_frac .gt. greenlfno) then
+
                 tot_lai = g_slai + g_lai
 
                 if (g_slai/tot_lai .gt. 0.4 .and. g_lai .lt. 6.0) then
                    slan = 0.0
                 else
-                   leaf_frac = g_dlt_tt/p_phyllchron
-                   dnleaf    = MAX(0.0, leaf_no_now + leaf_frac - 3.0)
+                   dnleaf    = leaf_no_now +leaf_frac - greenlfno
                    dyingleaf = INT(dnleaf)+1
+                   slan      = leaf_frac * g_plsc(dyingleaf)
 
-                   !REMEMBER THAT g_plsc(0) = g_plsc(1) = 0
-                   leaf_no_new = leaf_no_now + leaf_frac
+c                   g_plsc(dyingleaf) = g_plsc(dyingleaf)-slan
 
-                   if ( INT(leaf_no_new) .GT. INT(leaf_no_now) ) then
 
-                      slan = (INT(leaf_no_new)-leaf_no_now)
-     :                                            *g_plsc(dyingleaf-1)
-     :                      +(leaf_no_new - INT(leaf_no_new))
-     :                                            *g_plsc(dyingleaf)
-
-                   else
-                      slan = leaf_frac * g_plsc(dyingleaf)
-                   end if
                 endif
 
              else
@@ -8708,23 +9246,31 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
              endif
 
 
-            !THIS SETS THE SENESCENCE RATE TO 0 BEFORE FLAG LEAF
-            slan = 0.0
-       
-          elseif (stage_is_between(flag_leaf, flowering,
-     :                         g_current_stage)) then
-             slan = 0.00037 * g_dlt_tt * g_lai_stage
+c          elseif (stage_is_between(flag_leaf, flowering,
+c     :                         g_current_stage)) then
+c             slan = 0.00037 * g_dlt_tt * g_lai_stage
+c
+c          elseif (stage_is_between(flowering, start_grain_fill,
+c     :                         g_current_stage)) then
+c             slan = 0.00075 * g_dlt_tt * g_lai_stage
+c
+c          elseif (stage_is_between(start_grain_fill, end_grain_fill,
+c     :                         g_current_stage)) then
+c           istage = INT(g_current_stage)
+c           slan = 2.*g_tt_tot(istage) * g_dlt_tt/(g_phase_tt(istage)**2)
+c     :             * g_lai_stage
  
-          elseif (stage_is_between(flowering, start_grain_fill,
+
+          elseif (stage_is_between(flag_leaf, end_grain_fill,
      :                         g_current_stage)) then
-             slan = 0.00075 * g_dlt_tt * g_lai_stage
- 
-          elseif (stage_is_between(start_grain_fill, end_grain_fill,
-     :                         g_current_stage)) then
-           istage = INT(g_current_stage)
-           slan = 2.*g_tt_tot(istage) * g_dlt_tt/(g_phase_tt(istage)**2)
-     :             * g_lai_stage
- 
+
+            sum_tt = sum_between(flag_leaf, end_grain_fill, g_tt_tot)
+            tot_tt = sum_between(flag_leaf, end_grain_fill, g_phase_tt)
+
+            slan = (g_dlt_tt/(tot_tt-sum_tt))**1.1
+            slan = slan * g_lai
+
+
           else
              slan = 0.0
  
@@ -8750,8 +9296,10 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
      :                g_dlt_slai_age,
      :                g_leaf_no,
      :                g_maxt,
+     :                g_swdef_expansion,
+     :                g_nfact_expansion,
      :                g_swdef_photo,
-     :                g_nfact_tiller,
+     :                g_nfact_photo,
      :                g_plsc,
      :                g_dlt_slai )
 *     ===========================================================
@@ -8768,8 +9316,10 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
       real    g_dlt_slai_age   !(INPUT)LAI senescence rate due to aging (m2/m2/d)
       REAL    g_leaf_no(*)     !(INPUT)num of leaves developed in each stage ()
       REAL    g_maxt           !(INPUT)daily max temp (C)
+      real    g_swdef_expansion  !(INPUT)water stress factor for photo
+      real    g_nfact_expansion    !(INPUT)N stress factor for tiller
       real    g_swdef_photo    !(INPUT)water stress factor for photo
-      real    g_nfact_tiller   !(INPUT)N stress factor for tiller
+      real    g_nfact_photo    !(INPUT)N stress factor for tiller
       real    g_plsc(*)        !(INPUT/OUTPUT)leaf area for leaf no x
       real    g_dlt_slai       !(OUTPUT) actual lai senescence rate (m2/m2/d)
 
@@ -8790,6 +9340,7 @@ c     N_max    = sum_real_array (g_N_max,    max_part)
       real       slfn
       real       slft                  ! low temperature factor (0-1)
       real       slfw                  ! drought stress factor (0-1)
+      REAL       stress_fact
 
 C     INTEGER    counter
 c     INTEGER    dyingleaf
@@ -8800,15 +9351,22 @@ c     REAL       excess_sla
 *- Implementation Section ----------------------------------
  
       call push_routine (myname)
+
+
+      if (stage_is_between(emerg, flag_leaf, g_current_stage) ) then
+          stress_fact = MIN(g_swdef_expansion,g_nfact_expansion)
+c         g_dlt_slai_age = 5* (1 - stress_fact) * g_dlt_slai_age
+          g_dlt_slai_age = 0!1* (1 - stress_fact) * g_dlt_slai_age
+      endif
  
       if (stage_is_between(emerg, maturity, g_current_stage) ) then
 
           !get senescense stresses factor.
 
-          slfw = 2.0 - g_swdef_photo/0.8
+          slfw = 2.0 - g_swdef_photo !/0.8
           slfw = bound (slfw, 1.0, 2.0)
 
-          slfn = 2.0 - g_nfact_tiller/0.8
+          slfn = 2.0 - g_nfact_photo !/0.8
           slfn = bound (slfn, 1.0, 2.0)
 
           ! high temperature factor
