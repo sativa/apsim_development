@@ -1022,8 +1022,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       if (variable_name(1:5) .eq. 'date(') then
          call Manager_get_params (variable_name, Params)
-         call Get_double_var (Unknown_module, 'today', '', Today, 
-     .                        numvals, 0d0, 10000000d0)
+         call Get_char_var (Unknown_module, 'today', '', str, 
+     .                        numvals)  
+         call String_to_double_var(str, today, numvals)
          call Double_var_to_string (Date(Params(1), Today),
      .                              Variable_value)
 
@@ -1032,8 +1033,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
          call Manager_get_params (variable_name, Params)
 
-         call Get_double_var (Unknown_module, 'today', '', Today, 
-     .                        numvals, 0d0, 10000000d0)
+         call Get_char_var (Unknown_module, 'today', '', str, 
+     .                        numvals)
+         call String_to_double_var(str, today, numvals)
 
          if (Date_within(Params(1), Params(2), Today)) then
             Variable_value = '1'
