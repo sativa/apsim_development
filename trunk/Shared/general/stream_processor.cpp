@@ -1,13 +1,25 @@
 //---------------------------------------------------------------------------
-#include <vcl\vcl.h>
-#pragma hdrstop
-
-#include "stream_processor.h"
+#include <general\stream_processor.h>
 #include <general\stream_functions.h>
 #include <strstrea.h>
 
 static const int MAX_DEFINE_NAME_SIZE = 50;
 static const int MAX_LINE_SIZE = 1000;
+
+// ------------------------------------------------------------------
+//  Short description:
+//     constructor
+
+//  Notes:
+
+//  Changes:
+//    DPH 8/10/97
+
+// ------------------------------------------------------------------
+Line_processor::Line_processor ()
+   {
+   Macro_char = '%';
+   }
 
 // ------------------------------------------------------------------
 //  Short description:

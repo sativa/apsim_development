@@ -30,9 +30,9 @@ class Path
 	public:
       Path(void) {};
       Path(const char* File_path) {Set_path(File_path);};
-      int operator== (const Path& From) {return (Directory == From.Directory &&
+      int operator== (const Path& From) const {return (Directory == From.Directory &&
                                                  Name == From.Name);};
-      int operator< (const Path& From) {return (Directory < From.Directory &&
+      int operator< (const Path& From) const {return (Directory < From.Directory &&
                                                  Name < From.Name);};
 
       string Get_drive(void);
@@ -55,6 +55,7 @@ class Path
       void Change_directory(void);
 
       void Append_directory (const char* Directory);
+      void Append_relative_path (const char* Relative_path);
       string Back_up_directory (void);
 	};
 

@@ -74,7 +74,7 @@ char Read_token(istream& In_stream,
 // ------------------------------------------------------------------
 void Read_stream(istream& In_stream, string& Contents)
    {
-   Contents.read_file (In_stream);
+   getline (In_stream, Contents, '\0');
    }
 
 
@@ -96,7 +96,7 @@ void Convert_2_CSV(istream& In_stream, ostream& Out_stream)
    string Line;
    while (In_stream)
       {
-      Line.read_line(In_stream);
+      getline(In_stream, Line);
 
       istrstream Line_stream((char*) Line.c_str());
       Line_stream >> Variable;

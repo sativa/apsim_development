@@ -61,13 +61,13 @@ string Path::Get_name(void)
 
 //  Changes:
 //    DPH 17/6/97
-//    dph 27/3/98 changed NPOS to string::npos in line with standard.
+//    dph 27/3/98 changed NPOS to NPOS in line with standard.
 
 // ------------------------------------------------------------------
 string Path::Get_name_without_ext(void)
 	{
    size_t Pos_ext = Name.find(".");
-   if (Pos_ext != string::npos)
+   if (Pos_ext != NPOS)
       return Name.substr(0, Pos_ext);
    else
       return Name;
@@ -83,13 +83,13 @@ string Path::Get_name_without_ext(void)
 //  Changes:
 //    DPH 17/11/94
 //    DPH 13/5/1997 - reworked to use standard template library.
-//    dph 27/3/98 changed NPOS to string::npos in line with standard.
+//    dph 27/3/98 changed NPOS to NPOS in line with standard.
 
 // ------------------------------------------------------------------
 string Path::Get_extension(void)
 	{
    size_t Start_pos = Name.find(".");
-   if (Start_pos != string::npos)
+   if (Start_pos != NPOS)
       return Name.substr(Start_pos);
    else
    	return "";
@@ -169,11 +169,15 @@ void Path::Set_to_cwd (void)
 	{
    char Buffer[_MAX_PATH];          // Current directory name.
 
-   getcwd(Buffer, sizeof(Buffer));
+   #ifdef __WIN32__
+      GetCurrentDirectory (sizeof Buffer, Buffer);
+   #else
+      getcwd (Buffer, sizeof Buffer);
+   #endif
    strlwr(Buffer);
    Drive += Buffer[0];
    Drive += Buffer[1];
-   Directory = Buffer[2];
+   Directory = &Buffer[2];
    }
 
 // ------------------------------------------------------------------
@@ -236,14 +240,14 @@ void Path::Set_name (const char* New_name)
 //  Changes:
 //    DPH 17/11/94
 //    DPH 13/5/1997 - reworked to use standard template library.
-//    dph 27/3/98 changed NPOS to string::npos in line with standard.
+//    dph 27/3/98 changed NPOS to NPOS in line with standard.
 
 // ------------------------------------------------------------------
 void Path::Set_extension (const char* New_extension)
 	{
    size_t Pos_extension = Name.find(".");
-   if (Pos_extension != string::npos)
-      Name.replace(Pos_extension, string::npos, "");
+   if (Pos_extension != NPOS)
+      Name.replace(Pos_extension, NPOS, "");
    Name += New_extension;
    To_lower(Name);
    }
@@ -257,7 +261,7 @@ void Path::Set_extension (const char* New_extension)
 //  Changes:
 //    DPH 17/11/94
 //    DPH 13/5/1997 - reworked to use standard template library.
-//    dph 27/3/98 changed NPOS to string::npos in line with standard.
+//    dph 27/3/98 changed NPOS to NPOS in line with standard.
 
 // ------------------------------------------------------------------
 void Path::Set_path (const char* New_path)
@@ -268,7 +272,7 @@ void Path::Set_path (const char* New_path)
 
       // remove drive part of path.
       size_t Pos_drive = New_path_string.find(":");
-      if (Pos_drive != string::npos)
+      if (Pos_drive != NPOS)
          {
          Drive = New_path_string.substr (0, 2);
          New_path_string.replace (0, 2, "");
@@ -277,20 +281,28 @@ void Path::Set_path (const char* New_path)
       // remove file name part of path.
       size_t Pos_directory = New_path_string.find_last_of("\\");
       size_t Pos_name = New_path_string.find(".");
-      if (Pos_name != string::npos)
+      if (Pos_name != NPOS)
          {
-         if (Pos_directory == string::npos)
-            Pos_name = 0;
+         if (Pos_directory == NPOS)
+            {
+            Name = New_path_string;
+            New_path_string = "";
+            }
          else
+            {
             Pos_name = Pos_directory + 1;
-         Name = New_path_string.substr (Pos_name);
-         New_path_string.replace (Pos_name - 1, string::npos, "");
+            Name = New_path_string.substr (Pos_name);
+            New_path_string.replace (Pos_name-1, NPOS, "");
+            }
          }
 
       // remove last backslash if necessary.
-      char Last_char = New_path_string[New_path_string.length()-1];
-      if (Last_char == '\\')
-         New_path_string.replace(New_path_string.length()-1, string::npos, "");
+      if (New_path_string != "")
+         {
+         char Last_char = New_path_string[New_path_string.length()-1];
+         if (Last_char == '\\')
+            New_path_string.replace(New_path_string.length()-1, NPOS, "");
+         }
 
       // whats left must be the directory
       Directory = New_path_string;
@@ -356,8 +368,12 @@ bool Path::Exists(void)
 // ------------------------------------------------------------------
 void Path::Change_directory(void)
    {
+#ifdef __WIN32__
    if (Directory.length() > 0)
-      chdir(Directory.c_str());
+      SetCurrentDirectory (Get_directory().c_str());
+#else
+   if (Directory.length() > 0)
+      chdir (Directory.c_str());
 
    // Change the drive as well.
 
@@ -366,6 +382,7 @@ void Path::Change_directory(void)
       int Drive_letter = Drive[0] - 'a' + 1;
       _chdrive(Drive_letter);
       }
+#endif
    }
 
 // ------------------------------------------------------------------
@@ -394,6 +411,24 @@ void Path::Append_directory (const char* Additional_directory)
 
 // ------------------------------------------------------------------
 //  Short description:
+//    append the specified path (which could contain a file name) to
+//    our directory and file name.
+
+//  Notes:
+
+//  Changes:
+//    DPH 25/5/98
+
+// ------------------------------------------------------------------
+void Path::Append_relative_path (const char* relative_path)
+   {
+   Path Relative_path (relative_path);
+   Append_directory (Relative_path.Get_directory().c_str());
+   Name = Relative_path.Get_name();
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
 //    remove a directory
 
 //  Notes:
@@ -401,7 +436,7 @@ void Path::Append_directory (const char* Additional_directory)
 //  Changes:
 //    DPH 17/11/94
 //    DPH 13/5/1997 - reworked to use standard template library.
-//    dph 27/3/98 changed NPOS to string::npos in line with standard.
+//    dph 27/3/98 changed NPOS to NPOS in line with standard.
 
 // ------------------------------------------------------------------
 string Path::Back_up_directory (void)
@@ -410,12 +445,12 @@ string Path::Back_up_directory (void)
    if (Directory.length() > 1)
       {
       size_t Pos_directory = Directory.find_last_of("\\");
-      if (Pos_directory == string::npos && Directory[0] == '\\')
+      if (Pos_directory == NPOS && Directory[0] == '\\')
          Pos_directory = 0;
-      if (Pos_directory != string::npos)
+      if (Pos_directory != NPOS)
          {
          Return_string = Directory.substr(Pos_directory+1);
-         Directory.replace(Pos_directory, string::npos, "");
+         Directory.replace(Pos_directory, NPOS, "");
          }
       else
          Return_string = Directory;

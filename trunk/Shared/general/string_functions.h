@@ -43,6 +43,7 @@ void Split_string (string& text, const char* separators, container& words)
 
 //  Changes:
 //    DPH 17/4/1997
+//    dph 15/5/98 fixed bug to remove last occurrence of separator.
 
 // ------------------------------------------------------------------
 template <class container>
@@ -53,13 +54,10 @@ void Build_string (container& words, const char* separators, string& text)
                                Iter != words.end();
                                Iter++)
       {
+      if (Iter != words.begin())
+         text += separators;
       text += *Iter;
-      text += separators;
       }
-
-   // remove last separator.
-   int last = text.find_last_of(separators);
-   text.remove(last);
    }
 
 // ------------------------------------------------------------------
@@ -137,6 +135,18 @@ void Strip (string& text, const char* separators);
 
 // ------------------------------------------------------------------
 bool Is_numerical (const char* Text);
+
+// ------------------------------------------------------------------
+//  Short description:
+//    converts a string to uppercase
+
+//  Notes:
+
+//  Changes:
+//    DPH 29/4/1997
+
+// ------------------------------------------------------------------
+void To_upper (string& St);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -260,7 +270,7 @@ class prepend_substring : private std::unary_function < Arg, void >
       string Substring;
    public:
       prepend_substring( const char* sub ) : Substring ( sub ) { }
-      void operator(  ) ( Arg & x ) { x.prepend(Substring)); }
+      void operator(  ) ( Arg & x ) { x = Substring + x; }
     };
 #endif
 

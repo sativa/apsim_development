@@ -16,13 +16,14 @@ class Stream_processor;
 //    DPH 8/10/97
 
 // ------------------------------------------------------------------
-class Line_processor
+class _export Line_processor
    {
    protected:
       char Macro_char;
       virtual bool Get_macro_value (const char* Macro_name, string& Macro_value) {return true;};
 
    public:
+      Line_processor(void);
       virtual bool Replace_macros (string& Line);
 
    friend Stream_processor;

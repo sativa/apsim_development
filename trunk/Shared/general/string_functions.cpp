@@ -29,7 +29,7 @@ void Strip (string& text, const char* separators)
    text = "`" + text;
    Pos = text.find_last_not_of(separators);
    if (Pos < text.length())
-      text.replace (Pos+1, string::npos, "");
+      text.replace (Pos+1, NPOS, "");
    text.replace (0, 1, "");
    }
 
@@ -184,6 +184,25 @@ void To_lower (string& St)
 
 // ------------------------------------------------------------------
 //  Short description:
+//    converts a string to lowercase
+
+//  Notes:
+
+//  Changes:
+//    DPH 29/4/1997
+
+// ------------------------------------------------------------------
+void To_upper (string& St)
+   {
+   char* buffer = new char[St.length() + 1];
+   strcpy(buffer, St.c_str());
+   strupr(buffer);
+   St = buffer;
+   delete buffer;
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
 //     function that takes a string and replaces all occurrances of
 //     the substring with the replacement string.
 
@@ -197,7 +216,7 @@ void To_lower (string& St)
 void Replace_all (string& St, const char* Sub_string, const char* Replacement_string)
    {
    size_t Pos = St.find(Sub_string);
-   while (Pos != string::npos)
+   while (Pos != NPOS)
       {
       St.replace(Pos, strlen(Sub_string), Replacement_string);
       Pos = St.find(Sub_string);
