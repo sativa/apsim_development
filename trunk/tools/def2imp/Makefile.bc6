@@ -8,7 +8,7 @@ BCB = $(MAKEDIR)\..
 
 OBJECTS=def2imp.obj
 
-LIBFILES = $(APSROOT)\Shared\general\general.lib
+LIBFILES = $(APSROOT)\Shared\general\general.lib 
 
 USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT;_NO_VCL
@@ -19,11 +19,11 @@ LIBPATH = $(SYSLIBPATH)
 # 'Wizard' generated:
 #CFLAG1 = -Od -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC -tWM- -c
 
-CFLAG1 = $(SYSCFLAGS) -O2 -r- -vi- -tWM
+CFLAG1 = $(SYSCFLAGS) -O2 -vi- -tWC 
 WARNINGS = -w-par
 LFLAGS =  -ap -Tpe -x -Gn -v
 
-STDOBJ = c0x32.obj Memmgr.Lib sysinit.obj
+ALLOBJ = c0x32.obj $(OBJECTS)
 ALLRES = $(RESFILES)
 ALLLIB = $(LIBFILES) import32.lib cw32mti.lib
 
@@ -36,7 +36,7 @@ all: $(APSROOT)\Bin\def2imp.exe
 $(APSROOT)\Bin\def2imp.exe: $(OBJECTS)
 	$(LD) @&&!
 	$(LFLAGS) -L$(LIBPATH) +
-	$(STDOBJ) $(OBJECTS), $<, , $(ALLLIB), $(DEFFILE), $(ALLRES)
+	$(ALLOBJ), $(APSROOT)\Bin\def2imp.exe, , $(ALLLIB), $(DEFFILE), $(ALLRES)
 !
 
 .cpp.obj:
@@ -46,6 +46,4 @@ $(APSROOT)\Bin\def2imp.exe: $(OBJECTS)
 def2imp.obj: def2imp.cpp
 
 clean:
-	$(RM) $(OBJECTS) \
-$(APSROOT)\Bin\def2imp.exe \
-$(APSROOT)\Bin\CreateComponentInterfaceSource.exe 
+	$(RM) $(OBJECTS) $(APSROOT)\Bin\def2imp.exe 
