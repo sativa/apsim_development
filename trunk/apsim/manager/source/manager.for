@@ -728,7 +728,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .   (Variable_name, g%local_variable_names, g%num_local_variables)
 
       if (Variable_index .gt. 0) then
-            call respond2get_char_var (Variable_name, '()',
+            call respond2get_char_var (Variable_name, '(man)',
      .                        g%local_variable_values(Variable_index))
       else
          ! not our variable

@@ -34,6 +34,7 @@ Field::Field (protocol::Component* p,
    parent = p;
    CSVFormat = csvformat;
    fieldWidth = 0;
+   managerVariable = false;
 
    unsigned posPeriod = variable.find('.');
    if (posPeriod != string::npos)
@@ -78,6 +79,8 @@ bool Field::getValues(void)
    if (ok)
       {
       bool ok = variant->unpack(values);
+      if (managerVariable)
+         formatAsFloats();
       unit = asString(variant->getType().getUnits());
       arrayIndex = variant->getLowerBound();
       if (unit[0] != '(')
@@ -97,6 +100,19 @@ bool Field::getValues(void)
    return ok;
    }
 // ------------------------------------------------------------------
+// Try and format the values as floats ie 3 decimal places.
+// ------------------------------------------------------------------
+void Field::formatAsFloats(void)
+   {
+   for (unsigned i = 0; i != values.size(); i++)
+      {
+      char* endptr;
+      double value = strtod(values[i].c_str(), &endptr);
+      if (*endptr == '\0')
+         values[i] = ftoa(value, 3);
+      }
+   }
+// ------------------------------------------------------------------
 //  Short description:
 //     write this field's heading to the specified output stream.
 
@@ -109,6 +125,11 @@ bool Field::getValues(void)
 void Field::writeHeadings(ostream& headingOut, ostream& unitOut)
    {
    getValues();
+   if (unit == "(man)")
+      {
+      unit = "()";
+      managerVariable = true;
+      }
    if (values.size() == 0)
       unit = "(?)";
    if (values.size() <= 1)
