@@ -60,12 +60,12 @@ void SplitStringHonouringQuotes(const std::string& text,
 
    std::string separatorsAndQuote = separators + std::string("\"");
    std::string separatorsAndSpace = separators + std::string(" ");
-	int n = text.length();
-   int start, stop;
+	unsigned int n = text.length();
+   unsigned int start, stop;
 
    start = text.find_first_not_of(separatorsAndSpace);
 
-   while ((start >= 0) && (start < n))
+   while (start < n)
       {
       if (text[start] == '\"')
          {
@@ -76,7 +76,7 @@ void SplitStringHonouringQuotes(const std::string& text,
          }
       else
          stop = text.find_first_of(separatorsAndQuote, start);
-		if ((stop < 0) || (stop > n)) stop = n;
+		if (stop > n) stop = n;
 		words.push_back(text.substr(start, stop - start));
 		start = text.find_first_not_of(separatorsAndSpace, stop+1);
 		}
