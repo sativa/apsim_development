@@ -62,12 +62,20 @@ class DamEasyEcon : public AddInBase
       // in the returned TAPSTable.
       virtual void doCalculations(TAPSTable& data, const Scenario& selectedScenarios);
 
+      // if your add-in wants to display a properties form then implement
+      // the following 2 methods.
+      virtual std::string getUIButtonCaption(void) const {return "Edit economic config.";}
+      virtual void showUI(void);
+
    private:
       ApsimSettings settings;
       void Read_inifile_settings (void);
       string Get_descriptor_value(string Descriptor, string Item);
 		void getAllFactorValues(const std::string& factorName,
                                      std::vector<std::string>& factorValues) const;
+      void getConfigs(void);
+      void saveConfigs(void);
+      
       vector<Factor> factors;
       std::string Econ_bitmap_name;
 
