@@ -81,8 +81,11 @@ class APSIMSoilwat2Public
    sysinit                 : APSIMMethod                = System initialise
    reset                   : APSIMMethod                = System reset stage
    process                 : APSIMMethod                = System process stage
-   sum_report              : APSIMMethod                = Report SoilWat module summary details
+   sum_report              : APSIMSumReportMethod       = Report SoilWat module summary details
    post                    : APSIMMethod                = System post stage
+   evap_init               : APSIMEvapInitMethod        = Method of evaporation calculation
+
+   new_profile             : APSIMNewProfileEvent       = New Profile
 end
 
 ; -----------------------------------------------------------
