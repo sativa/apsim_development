@@ -384,7 +384,8 @@ void testReworkTrackerVariables(void)
    out.close();
    ofstream par("accum.par");
    par << "[sample.tracker.parameters]\n"
-       << "variable = sum of soilwat2.runoff since report.reported as sum@soilwat2_runoff on process\n"
+       << "variable = sum of chickpea.ep on process from reported to now as sum_ep\n"
+       << "variable = sum of chickpea.ep since reported as sum_ep on process\n"
        << "variable = sum of soilwat2.runoff on prepare since report.reported as sum@soilwat2_runoff";
    par.close();
    ofstream conversion("conversion.script");
@@ -398,9 +399,10 @@ void testReworkTrackerVariables(void)
    ostringstream parContents;
    parContents << parIn.rdbuf();
 
-   BOOST_CHECK(parContents.str() == 
+   BOOST_CHECK(parContents.str() ==
       "[sample.tracker.parameters]\n"
-      "variable = sum of soilwat2.runoff on process from report.reported to now as sum@soilwat2_runoff\n"
+      "variable = sum of chickpea.ep on process from reported to now as sum_ep\n"
+      "variable = sum of chickpea.ep on process from reported to now as sum_ep\n"
       "variable = sum of soilwat2.runoff on start_of_day from report.reported to now as sum@soilwat2_runoff\n");
 
    DeleteFile("accum.con");
