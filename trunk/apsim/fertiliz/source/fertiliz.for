@@ -98,6 +98,7 @@ c     include   'fertiliz.inc'         ! fertiliz common block
 *      060696 nih   removed data_string from call to fertiliz_fertiliz
 *      150696 nih   changed routine call from fertiliz_prepare to
 *                   fertiliz_inter_timestep.
+*     dph 18/10/99  added call to get_other_variables before set_my_variable
  
 *+  Constant Values
       character  my_name*(*)
@@ -130,6 +131,7 @@ C      call set_warning_off ()
          call fertiliz_fertilize ()
  
       else if (Action .eq. ACTION_Set_variable) then
+         call fertiliz_get_other_variables ()
          call fertiliz_set_my_variable (Data_string)
  
       else
@@ -240,6 +242,7 @@ c     include   'fertiliz.inc'         ! fertiliz model common
  
 *+  Changes
 *     <insert here>
+*     dph 18/10/99 removed call to get_other_variables
  
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -250,8 +253,6 @@ c     include   'fertiliz.inc'         ! fertiliz model common
  
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
-      call fertiliz_get_other_variables ()
  
          ! Notify system that we have initialised
  
