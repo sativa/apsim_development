@@ -126,7 +126,8 @@
 *      190897 nih  added MES_reset and MES_Sum_Report
 *      071097 PdeV added tillage message
 *      090298 jngh changed init phase to only get met variables
-*      170599 nih  Added new solute handler 
+*      170599 nih  Added new solute handler
+*      150600 jngh added evap_init action 
 
 *+  Constant Values
       character  my_name*(*)           ! name of this module
@@ -187,8 +188,11 @@
  
       else if (action.eq.ACTION_sum_report) then
          call soilwat2_sum_report ()
- 
+
       else if (action.eq.ACTION_post) then
+ 
+      else if (action.eq.'evap_init') then
+         call soilwat2_evap_init ()
  
       else
              ! don't use message
@@ -3536,6 +3540,7 @@ c     he should have. Any ideas? Perhaps
 *      070696 nih changed respond2set calls to collect calls
 *      200896 jngh changed cn2 to cn2_bare
 *      241199 jngh zero unused part of profile arrays when received.
+*      150600 jngh added U and cona
  
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
@@ -3756,6 +3761,15 @@ c     he should have. Any ideas? Perhaps
      :                             , p%cn_red, numvals
      :                             , 0.0, p%cn2_bare - 0.00009)
  
+      elseif (variable_name .eq. 'u') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%cona, numvals
+     :                             , 0.0001, 10.0)
+ 
+      elseif (variable_name .eq. 'cona') then
+         call collect_real_var (variable_name, '()'
+     :                             , p%u, numvals
+     :                             , 0.0001, 40.0)
       else
          call Message_unused ()
  
