@@ -11,7 +11,6 @@
 #include "TSeedWeightForm.h"
 #include <general\vcl_functions.h>
 #include <general\path.h>
-#include <ApsimShared\ApsimDirectories.h>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "AdvGrid"
@@ -28,7 +27,6 @@ __fastcall TGMForm::TGMForm(TComponent* Owner)
    {
    dataNeedsSaving = false;
    data = new GMCalculator;
-   tempFilename = Path::getTempFolder().Get_directory() + "\\Economics.tmp";
    }
 //---------------------------------------------------------------------------
 // destructor.
@@ -42,7 +40,7 @@ __fastcall TGMForm::~TGMForm()
 //---------------------------------------------------------------------------
 void __fastcall TGMForm::FormShow(TObject *Sender)
    {
-   openDatabase(mdbFileName);
+   openDatabase(fileName);
 
     // initialise
    GMInfo->ActivePage = ScenarioPage;
@@ -58,29 +56,19 @@ void __fastcall TGMForm::FormClose(TObject *Sender, TCloseAction &Action)
    if (ModalResult == mrOk)
       {
       saveDataIfNecessary();
-      data->close();
+      data->save();
       }
-   else
-      {
-      data->close();
-      CopyFile(tempFilename.c_str(), mdbFileName.c_str(), false);
-      }
-   DeleteFile(tempFilename.c_str());
+   data->close();
    }
 //---------------------------------------------------------------------------
 // Open the specified database.
 //---------------------------------------------------------------------------
-void TGMForm::openDatabase(const std::string& fileName)
+void TGMForm::openDatabase(const std::string& filename)
    {
    saveDataIfNecessary();
-
-   // make a backup of database file so that we can cancel later if necessary.
-   SetFileAttributes(fileName.c_str(), FILE_ATTRIBUTE_NORMAL);
-   SetFileAttributes(tempFilename.c_str(), FILE_ATTRIBUTE_NORMAL);
-   CopyFile(fileName.c_str(), tempFilename.c_str(), false);
-   mdbFileName = fileName;
-   data->open(mdbFileName);
-   Caption = mdbFileName.c_str();
+   fileName = filename;
+   data->open(fileName);
+   Caption = fileName.c_str();
    }
 //---------------------------------------------------------------------------
 // populate the scenario tree.
@@ -634,8 +622,9 @@ void __fastcall TGMForm::NewButtonClick(TObject *Sender)
    {
    if (SaveDialog->Execute())
       {
-      string emptyMDB = getApsimDirectory() + "\\Economics\\newEconomics.mdb";
-      CopyFile(emptyMDB.c_str(), SaveDialog->FileName.c_str(), false);
+      ofstream out(SaveDialog->FileName.c_str());
+      out << " ";
+      out.close();
       openDatabase(SaveDialog->FileName.c_str());
       populateTree();
       }

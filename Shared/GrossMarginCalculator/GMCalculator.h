@@ -2,12 +2,11 @@
 #ifndef GMCalculatorH
 #define GMCalculatorH
 #include <string>
+#include <general\xml.h>
+
 class TGMForm;
-namespace Adodb
-   {
-   class TADOConnection;
-   class TADOTable;
-   };
+class TMainForm;
+class GMCalculatorMDB;
 //---------------------------------------------------------------------------
 // This class completely encapsulates a gross margin calculator
 //---------------------------------------------------------------------------
@@ -28,7 +27,12 @@ class __declspec(dllexport) GMCalculator
       //---------------------------------------------------------------------------
       // Close the database file.
       //---------------------------------------------------------------------------
-      void close(void);
+      void close();
+
+      //---------------------------------------------------------------------------
+      // Save the database file.
+      //---------------------------------------------------------------------------
+      void save();
 
       //---------------------------------------------------------------------------
       // Return a list of all scenarios.
@@ -66,19 +70,19 @@ class __declspec(dllexport) GMCalculator
                           float nitrogenRate, float plantingRate,
                           float yield) const;
 
+      //---------------------------------------------------------------------------
+      // Return a descriptive bit of text for the specified scenario and crop.
+      //---------------------------------------------------------------------------
+      std::string econDescription(const std::string& scenarioName, const std::string& cropName);
+
    private:
       std::string fileName;
-      Adodb::TADOConnection* db;
-      Adodb::TADOTable* scenarioTable;
-      Adodb::TADOTable* cropTable;
-      Adodb::TADOTable* unitCostsTable;
-      Adodb::TADOTable* cropListTable;
-      Adodb::TADOTable* wheatMatrixTable;
+      XMLDocument* doc;
 
       //---------------------------------------------------------------------------
       // Return a complete list of available crops to caller.
       //---------------------------------------------------------------------------
-      void getPossibleCrops(std::vector<string>& cropNames);
+      void getPossibleCrops(std::vector<string>& cropNames) const;
 
       //---------------------------------------------------------------------------
       // Return a complete list of operation names that have been used before.
@@ -140,26 +144,6 @@ class __declspec(dllexport) GMCalculator
                     const Price& price);
 
       //---------------------------------------------------------------------------
-      // check to see if we need to convert database to new format.
-      //---------------------------------------------------------------------------
-      void checkDatabaseConversion(void);
-
-      //---------------------------------------------------------------------------
-      // convert database to new format.
-      //---------------------------------------------------------------------------
-      void convertDatabase(void);
-
-      //---------------------------------------------------------------------------
-      // Locate a scenario.  Return true if found.
-      //---------------------------------------------------------------------------
-      bool locateScenario(const std::string& scenarioName) const;
-
-      //---------------------------------------------------------------------------
-      // Locate a crop for a specified scenario.  Return true if found.
-      //---------------------------------------------------------------------------
-      bool locateCrop(const std::string& scenarioName, const std::string& cropName) const;
-
-      //---------------------------------------------------------------------------
       // Return the protein increments to caller.
       //---------------------------------------------------------------------------
       void getProteinIncrements(std::vector<double>& proteinValues,
@@ -176,12 +160,31 @@ class __declspec(dllexport) GMCalculator
       void setSeedWeights(const vector<std::string>& cropNames,
                           const vector<double> seedWeights);
 
+      //---------------------------------------------------------------------------
+      // Return an iterator to a scenario or doc->documentElement().end()
+      // if not found.
+      //---------------------------------------------------------------------------
+      XMLNode::iterator getScenario(const std::string& scenarioName) const;
+
+      //---------------------------------------------------------------------------
+      // Locate a crop for a specified scenario.  Return true if found.
+      //---------------------------------------------------------------------------
+      XMLNode::iterator getCropInScenario(XMLNode::iterator scenario, const std::string& cropName) const;
+
+
       friend TGMForm;
+      friend TMainForm; // for ConvertEconomics
+      friend GMCalculatorMDB;
    };
 
 //---------------------------------------------------------------------------
 // Let user edit economic scenarios.
 //---------------------------------------------------------------------------
-void __declspec(dllexport) showEconomicScenariosUI(std::string& mdbFileName);
+void __declspec(dllexport) showEconomicScenariosUI(std::string& fileName);
+
+//---------------------------------------------------------------------------
+// Convert an MDB to an XML file and return the new file name.
+//---------------------------------------------------------------------------
+string __declspec(dllexport) convertMDBToXML(const std::string& mdbFileName);
 
 #endif

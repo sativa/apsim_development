@@ -120,7 +120,6 @@ class TGMForm : public TForm
    private:	// User declarations
       GMCalculator* data;
       bool dataNeedsSaving;
-      std::string tempFilename;
       std::string copiedScenarioName;
 
       struct CropData
@@ -146,7 +145,8 @@ class TGMForm : public TForm
       __fastcall TGMForm(TComponent* Owner);
       __fastcall ~TGMForm();
 
-      std::string mdbFileName;
+      std::string fileName;
+      
    };
 //---------------------------------------------------------------------------
 extern PACKAGE TGMForm *GMForm;

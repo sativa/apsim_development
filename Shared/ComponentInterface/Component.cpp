@@ -16,7 +16,6 @@ using namespace protocol;
 
 static const unsigned int MAX_NESTED_COMPLETES = 10;
 static const char* ERROR_TYPE = "<type name=\"error\">"
-                                   "<field name=\"isFatal\" kind=\"boolean\"/>"
                                    "<field name=\"message\" kind=\"string\"/>"
                                 "</type>";
 
@@ -467,7 +466,7 @@ void Component::error(const FString& msg, bool isFatal)
                                                   parentID,
                                                   errorID,
                                                   Type(ERROR_TYPE),
-                                                  ErrorData(isFatal, cMessage));
+                                                  ErrorData(cMessage));
    errorMessage->toAcknowledge = true;
    sendMessage(errorMessage);
    if (isFatal)

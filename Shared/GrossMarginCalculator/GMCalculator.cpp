@@ -4,69 +4,30 @@
 #pragma hdrstop
 
 #include "GMCalculator.h"
-#include <ADODB.hpp>
-#include <Db.hpp>
 #include <general\string_functions.h>
 #include <general\db_functions.h>
 #include <general\math_functions.h>
+#include <general\stl_functions.h>
+#include <general\exec.h>
+#include <general\path.h>
+#include <ApsimShared\ApsimDirectories.h>
 #include "TGMForm.h"
 
 #pragma package(smart_init)
-typedef enum ADCPROP_UPDATERESYNC_ENUM
-{
-  adResyncNone = 0,
-  adResyncAutoIncrement = 1,
-  adResyncConflicts = 2,
-  adResyncUpdates = 4,
-  adResyncInserts = 8,
-  adResyncAll = 15
-} ADCPROP_UPDATERESYNC_ENUM;
 
 //---------------------------------------------------------------------------
 // constructor.
 //---------------------------------------------------------------------------
 GMCalculator::GMCalculator(void)
    {
-   db = new TADOConnection(NULL);
-   db->LoginPrompt = false;
-
-   scenarioTable = new TADOTable(NULL);
-   cropTable = new TADOTable(NULL);
-   unitCostsTable = new TADOTable(NULL);
-   cropListTable = new TADOTable(NULL);
-   wheatMatrixTable = new TADOTable(NULL);
-
-   scenarioTable->Connection = db;
-   scenarioTable->CursorLocation == clUseServer;
-   scenarioTable->TableName = "Scenario";
-
-   cropTable->Connection = db;
-   cropTable->CursorLocation == clUseServer;
-   cropTable->TableName = "Crop";
-
-   unitCostsTable->Connection = db;
-   unitCostsTable->CursorLocation == clUseServer;
-   unitCostsTable->TableName = "UnitCosts";
-
-   cropListTable->Connection = db;
-   cropListTable->CursorLocation == clUseServer;
-   cropListTable->TableName = "CropList";
-
-   wheatMatrixTable->Connection = db;
-   wheatMatrixTable->CursorLocation == clUseServer;
-   wheatMatrixTable->TableName = "WheatMatrix";
+   doc = NULL;
    }
 //---------------------------------------------------------------------------
 // destructor.
 //---------------------------------------------------------------------------
 GMCalculator::~GMCalculator(void)
    {
-   delete db;
-   delete scenarioTable;
-   delete cropTable;
-   delete unitCostsTable;
-   delete cropListTable;
-   delete wheatMatrixTable;
+   close();
    }
 //---------------------------------------------------------------------------
 // Open the specified database file.
@@ -76,181 +37,32 @@ void GMCalculator::open(const string& filename)
    fileName = filename;
 
    // Open all tables.
-   string connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;"
-                             "Data Source=?;"
-                             "Persist Security Info=False";
-   Replace_all(connectionString, "?", fileName.c_str());
-   db->Connected = false;
-   db->ConnectionString = connectionString.c_str();
-   db->Connected = true;
-
-   scenarioTable->Active = true;
-   cropTable->Active = true;
-   unitCostsTable->Active = true;
-   cropListTable->Active = true;
-   wheatMatrixTable->Active = true;
-
-   scenarioTable->Recordset->Properties->Item[WideString("Update Resync")]->Value = adResyncAutoIncrement + adResyncInserts;
-   cropTable->Recordset->Properties->Item[WideString("Update Resync")]->Value = adResyncAutoIncrement + adResyncInserts;
-   unitCostsTable->Recordset->Properties->Item[WideString("Update Resync")]->Value = adResyncAutoIncrement + adResyncInserts;
-   cropListTable->Recordset->Properties->Item[WideString("Update Resync")]->Value = adResyncAutoIncrement + adResyncInserts;
-   wheatMatrixTable->Recordset->Properties->Item[WideString("Update Resync")]->Value = adResyncAutoIncrement + adResyncInserts;
-
-   checkDatabaseConversion();
+   doc = new XMLDocument(filename);
    }
 //---------------------------------------------------------------------------
 // Close the database file.
 //---------------------------------------------------------------------------
-void GMCalculator::close(void)
+void GMCalculator::close()
    {
-   db->Connected = false;
+   delete doc;
+   doc = NULL;
    }
 //---------------------------------------------------------------------------
-// check to see if we need to convert database to new format.
+// Save the database file.
 //---------------------------------------------------------------------------
-void GMCalculator::checkDatabaseConversion(void)
+void GMCalculator::save()
    {
-   bool doConversion = true;
-
-   // see if the areaCosts table exists.
-   TADOTable* areaCostsTable = new TADOTable(NULL);
-   areaCostsTable->Connection = db;
-   areaCostsTable->TableName = "AreaCosts";
-   try
-      {
-      areaCostsTable->Active = true;
-      }
-   catch (const Exception& err)
-      {
-      doConversion = false;
-      }
-
-   delete areaCostsTable;
-   if (doConversion)
-      convertDatabase();
-   }
-//---------------------------------------------------------------------------
-// convert database to new format.
-//---------------------------------------------------------------------------
-void GMCalculator::convertDatabase(void)
-   {
-   // go through the areacosts table and move data to unitcosts table.
-   TADOTable* areaCostsTable = new TADOTable(NULL);
-   areaCostsTable->Connection = db;
-   areaCostsTable->TableName = "AreaCosts";
-   areaCostsTable->Active = true;
-   while (!areaCostsTable->Eof)
-      {
-      unitCostsTable->Append();
-      unitCostsTable->FieldValues["CropIndex"] = areaCostsTable->FieldValues["CropIndex"];
-      unitCostsTable->FieldValues["Operation"] = areaCostsTable->FieldValues["Operation"];
-      unitCostsTable->FieldValues["OperationCost"] = areaCostsTable->FieldValues["OperationCost"];
-      unitCostsTable->FieldValues["ProductCost"] = areaCostsTable->FieldValues["ProductCost"];
-      unitCostsTable->FieldValues["ProductUnits"] = "kg";
-      unitCostsTable->FieldValues["ProductRate"] = 1.0;
-      unitCostsTable->Post();
-      areaCostsTable->Next();
-      }
-
-   // go through the cropcosts table and move data to unitcosts table.
-   TADOTable* cropCostsTable = new TADOTable(NULL);
-   cropCostsTable->Connection = db;
-   cropCostsTable->TableName = "CropCosts";
-   cropCostsTable->Active = true;
-   while (!cropCostsTable->Eof)
-      {
-      unitCostsTable->Append();
-      unitCostsTable->FieldValues["CropIndex"] = cropCostsTable->FieldValues["CropIndex"];
-      unitCostsTable->FieldValues["Operation"] = cropCostsTable->FieldValues["Operation"];
-      unitCostsTable->FieldValues["OperationCost"] = cropCostsTable->FieldValues["OperationCost"];
-      unitCostsTable->FieldValues["ProductCost"] = 0.0;
-      unitCostsTable->FieldValues["ProductUnits"] = "kg";
-      unitCostsTable->FieldValues["ProductRate"] = 0.0;
-      unitCostsTable->Post();
-      cropCostsTable->Next();
-      }
-
-   // go through the crop table and move levy and freight to the unit costs table.
-   cropTable->First();
-   while (!cropTable->Eof)
-      {
-      static const char* fieldNamesToMove[2]= {"Levy", "Freight"};
-      for (unsigned i = 0; i != 2; i++)
-         {
-         double value = getDBDouble(cropTable, fieldNamesToMove[i]);
-         if (value > 0)
-            {
-            unitCostsTable->Append();
-            unitCostsTable->FieldValues["CropIndex"] = cropTable->FieldValues["CropIndex"];
-            unitCostsTable->FieldValues["Operation"] = fieldNamesToMove[i];
-            unitCostsTable->FieldValues["OperationCost"] = 0;
-            unitCostsTable->FieldValues["ProductCost"] = value;
-            unitCostsTable->FieldValues["ProductUnits"] = "tonne";
-            unitCostsTable->FieldValues["ProductRate"] = 0;
-            unitCostsTable->Post();
-            }
-         }
-      cropTable->Next();
-      }
-
-   delete areaCostsTable;
-   delete cropCostsTable;
-
-   TADOQuery* query = new TADOQuery(NULL);
-   query->Connection = db;
-   query->SQL->Text = "DROP TABLE AreaCosts";
-   query->ExecSQL();
-   query->SQL->Text = "DROP TABLE CropCosts";
-   query->ExecSQL();
-   query->SQL->Text = "ALTER TABLE UnitCosts Add COLUMN CostType integer";
-   query->ExecSQL();
-   query->SQL->Text = "ALTER TABLE Crop Drop COLUMN Levy";
-   query->ExecSQL();
-   query->SQL->Text = "ALTER TABLE Crop Drop COLUMN Freight";
-   query->ExecSQL();
-
-   // Go through the UnitCosts table and look for 'Sowing *' and
-   // 'Nitrogen Application *' in operation field.  When found
-   // get rid of the * and set the RateInterp field appropriately.
-   unitCostsTable->Active = false;
-   unitCostsTable->Active = true;
-   cropTable->Active = false;
-   cropTable->Active = true;
-   unitCostsTable->First();
-   while (!unitCostsTable->Eof)
-      {
-      unitCostsTable->Edit();
-      AnsiString operationName = unitCostsTable->FieldValues["operation"];
-      if (operationName.AnsiCompareIC("Sowing *") == 0)
-         {
-         unitCostsTable->FieldValues["operation"] = "Sowing";
-         unitCostsTable->FieldValues["CostType"] = 2;
-         }
-      else if (operationName.AnsiCompareIC("Nitrogen Application *") == 0)
-         {
-         unitCostsTable->FieldValues["operation"] = "Nitrogen Application";
-         unitCostsTable->FieldValues["CostType"] = 3;
-         }
-      else if (operationName.AnsiCompareIC("Levy") == 0)
-         unitCostsTable->FieldValues["CostType"] = 4;
-      else if (operationName.AnsiCompareIC("Freight") == 0)
-         unitCostsTable->FieldValues["CostType"] = 4;
-      else
-         unitCostsTable->FieldValues["CostType"] = 1;
-
-      if (unitCostsTable->FieldValues["ProductUnits"] == AnsiString("l"))
-         unitCostsTable->FieldValues["ProductUnits"] = "litre";
-
-      unitCostsTable->Post();
-      unitCostsTable->Next();
-      }
+   doc->write(fileName);
    }
 //---------------------------------------------------------------------------
 // Return a complete list of available crops to caller.
 //---------------------------------------------------------------------------
-void GMCalculator::getPossibleCrops(std::vector<string>& cropNames)
+void GMCalculator::getPossibleCrops(std::vector<string>& cropNames) const
    {
-   getDBFieldValues(cropListTable, "CropName", cropNames);
+   for_each_if(doc->documentElement().begin(),
+               doc->documentElement().end(),
+               GetNameAttributeFunction<XMLNode>(cropNames),
+               EqualToName<XMLNode>("crop"));
    sort(cropNames.begin(), cropNames.end());
    }
 //---------------------------------------------------------------------------
@@ -258,36 +70,59 @@ void GMCalculator::getPossibleCrops(std::vector<string>& cropNames)
 //---------------------------------------------------------------------------
 void GMCalculator::getPreviousOperations(std::vector<string>& operationNames)
    {
-   getDBFieldValues(unitCostsTable, "Operation", operationNames);
+   for (XMLNode::iterator scenarioNode = doc->documentElement().begin();
+                          scenarioNode != doc->documentElement().end();
+                          scenarioNode++)
+      {
+      if (scenarioNode->getName() == "scenario")
+         {
+         for (XMLNode::iterator cropNode = scenarioNode->begin();
+                                cropNode != scenarioNode->end();
+                                cropNode++)
+            {
+            if (cropNode->getName() == "crop")
+               for_each_if(cropNode->begin(),
+                           cropNode->end(),
+                           GetNameAttributeFunction<XMLNode>(operationNames),
+                           EqualToName<XMLNode>("operation"));
+            }
+         }
+      }
+
    sort(operationNames.begin(), operationNames.end());
    operationNames.erase(unique(operationNames.begin(), operationNames.end()),
                         operationNames.end());
    }
 //---------------------------------------------------------------------------
-// Locate a scenario.  Return true if found.
+// Return an iterator to a scenario or doc->documentElement().end()
+// if not found.
 //---------------------------------------------------------------------------
-bool GMCalculator::locateScenario(const string& scenarioName) const
+XMLNode::iterator GMCalculator::getScenario(const string& scenarioName) const
    {
-   Variant nameVariant = Variant(scenarioName.c_str());
-   return scenarioTable->Locate("ScenarioName", nameVariant, TLocateOptions());
+   return find_if(doc->documentElement().begin(),
+                  doc->documentElement().end(),
+                  NodeEquals<XMLNode>("scenario", scenarioName));
    }
 //---------------------------------------------------------------------------
 // Return a list of all scenarios.
 //---------------------------------------------------------------------------
 void GMCalculator::getScenarioNames(std::vector<string>& scenarioNames) const
    {
-   getDBFieldValues(scenarioTable, "ScenarioName", scenarioNames);
+   for_each_if(doc->documentElement().begin(),
+               doc->documentElement().end(),
+               GetNameAttributeFunction<XMLNode>(scenarioNames),
+               EqualToName<XMLNode>("scenario"));
    }
 //---------------------------------------------------------------------------
 // Add a scenario.  Returns true if added.
 //---------------------------------------------------------------------------
 bool GMCalculator::addScenario(const std::string& scenarioName)
    {
-   if (!locateScenario(scenarioName))
+   XMLNode::iterator scenario = getScenario(scenarioName);
+   if (scenario == doc->documentElement().end())
       {
-      scenarioTable->Append();
-      scenarioTable->FieldValues["ScenarioName"] = scenarioName.c_str();
-      scenarioTable->Post();
+      XMLNode newNode = doc->documentElement().appendChild("scenario", true);
+      newNode.setAttribute("name", scenarioName);
       return true;
       }
    return false;
@@ -297,9 +132,10 @@ bool GMCalculator::addScenario(const std::string& scenarioName)
 //---------------------------------------------------------------------------
 bool GMCalculator::deleteScenario(const std::string& scenarioName)
    {
-   if (locateScenario(scenarioName))
+   XMLNode::iterator scenario = getScenario(scenarioName);
+   if (scenario != doc->documentElement().end())
       {
-      scenarioTable->Delete();
+      doc->documentElement().erase(scenario);
       return true;
       }
    return false;
@@ -310,11 +146,10 @@ bool GMCalculator::deleteScenario(const std::string& scenarioName)
 bool GMCalculator::renameScenario(const std::string& oldName,
                                   const std::string& newName)
    {
-   if (locateScenario(oldName))
+   XMLNode::iterator scenario = getScenario(oldName);
+   if (scenario != doc->documentElement().end())
       {
-      scenarioTable->Edit();
-      scenarioTable->FieldValues["ScenarioName"] = newName.c_str();
-      scenarioTable->Post();
+      scenario->setAttribute("name", newName);
       return true;
       }
    return false;
@@ -325,41 +160,33 @@ bool GMCalculator::renameScenario(const std::string& oldName,
 void GMCalculator::getCropsInScenario(const string& scenarioName,
                                       std::vector<std::string>& cropNames)
    {
-   if (locateScenario(scenarioName))
-      {
-      cropTable->Filter = "ScenarioIndex = " + scenarioTable->FieldValues["scenarioindex"];
-      cropTable->Filtered = true;
-      getDBFieldValues(cropTable, "CropName", cropNames);
-      cropTable->Filtered = false;
-      }
+   XMLNode::iterator scenario = getScenario(scenarioName);
+   if (scenario != doc->documentElement().end())
+      for_each_if(scenario->begin(), scenario->end(),
+                  GetNameAttributeFunction<XMLNode>(cropNames),
+                  EqualToName<XMLNode>("crop"));
    }
 //---------------------------------------------------------------------------
 // Locate a crop for a specified scenario.  Return true if found.
 //---------------------------------------------------------------------------
-bool GMCalculator::locateCrop(const string& scenarioName, const string& cropName) const
+XMLNode::iterator GMCalculator::getCropInScenario(XMLNode::iterator scenario, const string& cropName) const
    {
-   if (locateScenario(scenarioName))
-      {
-      Variant locvalues[2] = {scenarioTable->FieldValues["scenarioIndex"],
-                              Variant(cropName.c_str())};
-      return cropTable->Locate("ScenarioIndex;CropName", VarArrayOf(locvalues, 1),
-                               TLocateOptions());
-      }
-   return false;
+   return find_if(scenario->begin(), scenario->end(),
+                  NodeEquals<XMLNode>("crop", cropName));
    }
 //---------------------------------------------------------------------------
 // Add a crop to scenario.  Return true if found.
 //---------------------------------------------------------------------------
 bool GMCalculator::addCrop(const std::string& scenarioName, const std::string& cropName)
    {
-   if (locateScenario(scenarioName))
+   XMLNode::iterator scenario = getScenario(scenarioName);
+   if (scenario != doc->documentElement().end())
       {
-      if (!locateCrop(scenarioName, cropName))
+      XMLNode::iterator crop = getCropInScenario(scenario, cropName);
+      if (crop == scenario->end())
          {
-         cropTable->Append();
-         cropTable->FieldValues["ScenarioIndex"] = scenarioTable->FieldValues["scenarioIndex"];
-         cropTable->FieldValues["CropName"] = cropName.c_str();
-         cropTable->Post();
+         XMLNode newCrop = scenario->appendChild("crop", true);
+         newCrop.setAttribute("name", cropName);
          return true;
          }
       }
@@ -370,10 +197,15 @@ bool GMCalculator::addCrop(const std::string& scenarioName, const std::string& c
 //---------------------------------------------------------------------------
 bool GMCalculator::deleteCrop(const std::string& scenarioName, const std::string& cropName)
    {
-   if (locateCrop(scenarioName, cropName))
+   XMLNode::iterator scenario = getScenario(scenarioName);
+   if (scenario != doc->documentElement().end())
       {
-      cropTable->Delete();
-      return true;
+      XMLNode::iterator crop = getCropInScenario(scenario, cropName);
+      if (crop != scenario->end())
+         {
+         scenario->erase(crop);
+         return true;
+         }
       }
    return false;
    }
@@ -384,30 +216,35 @@ void GMCalculator::getCosts(const string& scenarioName,
                             const string& cropName,
                             vector<Costs>& costs) const
    {
-   if (locateCrop(scenarioName, cropName))
+   XMLNode::iterator scenario = getScenario(scenarioName);
+   if (scenario != doc->documentElement().end())
       {
-      unitCostsTable->Filter = "CropIndex = " + cropTable->FieldValues["cropIndex"];
-      unitCostsTable->Filtered = true;
-
-      unitCostsTable->First();
-      while (!unitCostsTable->Eof)
+      XMLNode::iterator crop = getCropInScenario(scenario, cropName);
+      if (crop != scenario->end())
          {
-         Costs cost;
-         cost.operationName = AnsiString(unitCostsTable->FieldValues["operation"]).c_str();
-         cost.operationCost = unitCostsTable->FieldValues["operationCost"];
-         cost.productCost   = unitCostsTable->FieldValues["productCost"];
-         cost.productUnits  = AnsiString(unitCostsTable->FieldValues["productUnits"]).c_str();
-         cost.productRate   = unitCostsTable->FieldValues["productRate"];
-         cost.costType      = (CostType) (int) unitCostsTable->FieldValues["costType"];
-         costs.push_back(cost);
-
-         unitCostsTable->Next();
+         for (XMLNode::iterator operation = crop->begin();
+                                operation != crop->end();
+                                operation++)
+            {
+            if (operation->getName() == "operation")
+               {
+               XMLNode product = findNode(*operation, "product");
+               Costs cost;
+               cost.operationName = operation->getAttribute("name");
+               cost.operationCost = atof(findNode(*operation, "cost").getValue().c_str());
+               cost.productCost   = atof(findNode(product, "cost").getValue().c_str());
+               cost.productUnits  = findNode(product, "units").getValue();
+               cost.productRate   = atof(findNode(product, "rate").getValue().c_str());
+               cost.costType      = (CostType) atoi(findNode(product, "type").getValue().c_str());
+               costs.push_back(cost);
+               }
+            }
          }
-      unitCostsTable->Filtered = false;
+      else
+         throw runtime_error("Cannot find crop: " + cropName + ". Cannot get costs.");
       }
    else
-      throw runtime_error("Cannot find cost information for scenario: "
-            + scenarioName + " and crop: " + cropName);
+      throw runtime_error("Cannot find scenario: " + scenarioName);
    }
 //---------------------------------------------------------------------------
 // Set all costs for specified crop.
@@ -416,39 +253,32 @@ void GMCalculator::setCosts(const string& scenarioName,
                             const string& cropName,
                             const vector<Costs>& costs)
    {
-   if (locateCrop(scenarioName, cropName))
+   XMLNode::iterator scenario = getScenario(scenarioName);
+   if (scenario != doc->documentElement().end())
       {
-      unitCostsTable->Filter = "CropIndex = " + cropTable->FieldValues["cropIndex"];
-      unitCostsTable->Filtered = true;
-
-      unitCostsTable->First();
-      for (unsigned costsIndex = 0; costsIndex != costs.size(); costsIndex++)
+      XMLNode::iterator crop = getCropInScenario(scenario, cropName);
+      if (crop != scenario->end())
          {
-         if (unitCostsTable->Eof)
-            unitCostsTable->Append();
-         else
-            unitCostsTable->Edit();
-         unitCostsTable->FieldValues["CropIndex"] = cropTable->FieldValues["cropIndex"];
-         unitCostsTable->FieldValues["Operation"] = costs[costsIndex].operationName.c_str();
-         unitCostsTable->FieldValues["OperationCost"] = costs[costsIndex].operationCost;
-         unitCostsTable->FieldValues["ProductCost"] = costs[costsIndex].productCost;
-         unitCostsTable->FieldValues["ProductUnits"] = costs[costsIndex].productUnits.c_str();
-         unitCostsTable->FieldValues["ProductRate"] = costs[costsIndex].productRate;
-         unitCostsTable->FieldValues["CostType"] = costs[costsIndex].costType;
-         unitCostsTable->Post();
-         unitCostsTable->Next();
-         }
-      // Delete unwanted records.
-      int numUnwantedRecords = unitCostsTable->RecordCount - costs.size();
-      unitCostsTable->Last();
-      for (int rec = 0; rec != numUnwantedRecords; rec++)
-         unitCostsTable->Delete();
+         eraseNodes(*crop, "operation");
+         for (unsigned costsIndex = 0; costsIndex != costs.size(); costsIndex++)
+            {
+            XMLNode operation = crop->appendChild("operation", true);
+            operation.setAttribute("name", costs[costsIndex].operationName);
+            operation.appendChild("cost", true).setValue(ftoa(costs[costsIndex].operationCost, 2));
 
-      unitCostsTable->Filtered = false;
+            XMLNode product = operation.appendChild("product", true);
+            product.appendChild("cost", true).setValue(ftoa(costs[costsIndex].productCost, 2));
+            product.appendChild("units", true).setValue(costs[costsIndex].productUnits);
+
+            product.appendChild("rate", true).setValue(ftoa(costs[costsIndex].productRate, 2));
+            product.appendChild("type", true).setValue(itoa(costs[costsIndex].costType));
+            }
+         }
+      else
+         throw runtime_error("Cannot find crop: " + cropName + ". Cannot set costs.");
       }
    else
-      throw runtime_error("Cannot find cost information for scenario: "
-            + scenarioName + " and crop: " + cropName + ". Cannot set costs.");
+      throw runtime_error("Cannot find scenario: " + scenarioName);
    }
 //---------------------------------------------------------------------------
 // Return price structure for specified crop.
@@ -457,17 +287,23 @@ void GMCalculator::getPrice(const std::string& scenarioName,
                             const std::string& cropName,
                             Price& price) const
    {
-   if (locateCrop(scenarioName, cropName))
+   XMLNode::iterator scenario = getScenario(scenarioName);
+   if (scenario != doc->documentElement().end())
       {
-      price.price = getDBDouble(cropTable, "Price");
-      price.harvestLoss = getDBDouble(cropTable, "HarvestLoss");
-      price.downgradePercent = getDBDouble(cropTable, "Downgrade%");
-      price.downgradeReturn = getDBDouble(cropTable, "DowngradeReturn");
-      price.moistureContent = getDBDouble(cropTable, "MoistureContent");
+      XMLNode::iterator crop = getCropInScenario(scenario, cropName);
+      if (crop != scenario->end())
+         {
+         price.price = atof(findNode(*crop, "price").getValue().c_str());
+         price.harvestLoss = atof(findNode(*crop, "harvestloss").getValue().c_str());
+         price.downgradePercent = atof(findNode(*crop, "downgrade").getValue().c_str());
+         price.downgradeReturn = atof(findNode(*crop, "downgradeReturn").getValue().c_str());
+         price.moistureContent = atof(findNode(*crop, "moistureContent").getValue().c_str());
+         }
+      else
+         throw runtime_error("Cannot find crop: " + cropName + ". Cannot get price info.");
       }
    else
-      throw runtime_error("Cannot find price information for scenario: "
-            + scenarioName + " and crop: " + cropName);
+      throw runtime_error("Cannot find scenario: " + scenarioName);
    }
 //---------------------------------------------------------------------------
 // Set price structure for specified crop.
@@ -476,16 +312,23 @@ void GMCalculator::setPrice(const std::string& scenarioName,
                             const std::string& cropName,
                             const Price& price)
    {
-   if (locateCrop(scenarioName, cropName))
+   XMLNode::iterator scenario = getScenario(scenarioName);
+   if (scenario != doc->documentElement().end())
       {
-      cropTable->Edit();
-      cropTable->FieldValues["Price"] = price.price;
-      cropTable->FieldValues["HarvestLoss"] = price.harvestLoss;
-      cropTable->FieldValues["Downgrade%"] = price.downgradePercent;
-      cropTable->FieldValues["DowngradeReturn"] = price.downgradeReturn;
-      cropTable->FieldValues["MoistureContent"] = price.moistureContent;
-      cropTable->Post();
+      XMLNode::iterator crop = getCropInScenario(scenario, cropName);
+      if (crop != scenario->end())
+         {
+         crop->appendChild("price", false).setValue(ftoa(price.price, 2));
+         crop->appendChild("harvestloss", false).setValue(ftoa(price.harvestLoss, 2));
+         crop->appendChild("downgrade", false).setValue(ftoa(price.downgradePercent, 2));
+         crop->appendChild("downgradeReturn", false).setValue(ftoa(price.downgradeReturn, 2));
+         crop->appendChild("moistureContent", false).setValue(ftoa(price.moistureContent, 2));
+         }
+      else
+         throw runtime_error("Cannot find crop: " + cropName + ". Cannot set price.");
       }
+   else
+      throw runtime_error("Cannot find scenario: " + scenarioName);
    }
 //---------------------------------------------------------------------------
 // Adjust a dry yield for harvest loss.
@@ -615,12 +458,15 @@ float GMCalculator::calculateCost(const std::string& scenarioName,
 void GMCalculator::getProteinIncrements(std::vector<double>& proteinValues,
                                         std::vector<double>& proteinIncrements) const
    {
-   wheatMatrixTable->First();
-   while (!wheatMatrixTable->Eof)
+   for (XMLNode::iterator protein = doc->documentElement().begin();
+                          protein != doc->documentElement().end();
+                          protein++)
       {
-      proteinValues.push_back(wheatMatrixTable->FieldValues["protein%"]);
-      proteinIncrements.push_back(wheatMatrixTable->FieldValues["increment"]);
-      wheatMatrixTable->Next();
+      if (protein->getName() == "protein")
+         {
+         proteinValues.push_back(atof(findNode(*protein, "percent").getValue().c_str()));
+         proteinIncrements.push_back(atof(findNode(*protein, "increment").getValue().c_str()));
+         }
       }
    }
 //---------------------------------------------------------------------------
@@ -629,33 +475,24 @@ void GMCalculator::getProteinIncrements(std::vector<double>& proteinValues,
 void GMCalculator::setProteinIncrements(const std::vector<double>& proteinValues,
                                         const std::vector<double>& proteinIncrements)
    {
-   wheatMatrixTable->First();
+   eraseNodes(doc->documentElement(), "protein");
    for (unsigned i = 0; i != proteinValues.size(); i++)
       {
-      if (wheatMatrixTable->Eof)
-         wheatMatrixTable->Append();
-      else
-         wheatMatrixTable->Edit();
-      wheatMatrixTable->FieldValues["protein%"]  = proteinValues[i];
-      wheatMatrixTable->FieldValues["increment"] = proteinIncrements[i];
-      wheatMatrixTable->Post();
-      wheatMatrixTable->Next();
+      XMLNode protein = doc->documentElement().appendChild("protein", true);
+      protein.appendChild("percent", true).setValue(ftoa(proteinValues[i], 2));
+      protein.appendChild("increment", true).setValue(ftoa(proteinIncrements[i], 2));
       }
-
-   // Delete unwanted records.
-   int numUnwantedRecords = wheatMatrixTable->RecordCount - proteinValues.size();
-   wheatMatrixTable->Last();
-   for (int rec = 0; rec != numUnwantedRecords; rec++)
-      wheatMatrixTable->Delete();
    }
 //---------------------------------------------------------------------------
 // get the seed weight for specified crop.
 //---------------------------------------------------------------------------
 double GMCalculator::getSeedWeight(const std::string& cropName) const
    {
-   Variant nameVariant = Variant(cropName.c_str());
-   if (cropListTable->Locate("CropName", nameVariant, TLocateOptions()))
-      return cropListTable->FieldValues["seedwt"];
+   XMLNode::iterator crop = find_if(doc->documentElement().begin(),
+                                    doc->documentElement().end(),
+                                    NodeEquals<XMLNode>("crop", cropName));
+   if (crop != doc->documentElement().end())
+      return atof(findNode(*crop, "seedwt").getValue().c_str());
    throw runtime_error("Cannot find a seed weight for crop: " + cropName);
    }
 //---------------------------------------------------------------------------
@@ -664,8 +501,9 @@ double GMCalculator::getSeedWeight(const std::string& cropName) const
 void GMCalculator::getSeedWeights(vector<std::string>& cropNames,
                                   vector<double>& seedWeights) const
    {
-   getDBFieldValues(cropListTable, "CropName", cropNames);
-   getDBFieldValues(cropListTable, "SeedWt", seedWeights);
+   getPossibleCrops(cropNames);
+   for (unsigned i = 0; i != cropNames.size(); i++)
+      seedWeights.push_back(getSeedWeight(cropNames[i]));
    }
 //---------------------------------------------------------------------------
 // get the seed weights for all crops.
@@ -673,34 +511,80 @@ void GMCalculator::getSeedWeights(vector<std::string>& cropNames,
 void GMCalculator::setSeedWeights(const vector<std::string>& cropNames,
                                   const vector<double> seedWeights)
    {
-   cropListTable->First();
+   eraseNodes(doc->documentElement(), "crop");
    for (unsigned c = 0; c != cropNames.size(); c++)
       {
-      if (cropListTable->Eof)
-         cropListTable->Append();
-      else
-         cropListTable->Edit();
-      cropListTable->FieldValues["CropName"] = cropNames[c].c_str();
-      cropListTable->FieldValues["SeedWt"]   = seedWeights[c];
-      cropListTable->Post();
-      cropListTable->Next();
+      XMLNode crop = doc->documentElement().appendChild("crop", true);
+      crop.setAttribute("name", cropNames[c]);
+      crop.appendChild("seedwt", true).setValue(ftoa(seedWeights[c], 4));
       }
-   // Delete unwanted records.
-   int numUnwantedRecords = cropListTable->RecordCount - cropNames.size();
-   cropListTable->Last();
-   for (int rec = 0; rec != numUnwantedRecords; rec++)
-      cropListTable->Delete();
    }
 //---------------------------------------------------------------------------
 // Let user edit economic scenarios.
 //---------------------------------------------------------------------------
-void __declspec(dllexport) showEconomicScenariosUI(std::string& mdbFileName)
+void __declspec(dllexport) showEconomicScenariosUI(std::string& fileName)
    {
    TGMForm* form = new TGMForm(Application);
-   form->mdbFileName = mdbFileName;
+   form->fileName = fileName;
    form->ShowModal();
-   mdbFileName = form->mdbFileName;
+   fileName = form->fileName;
    delete form;
    }
 
+//---------------------------------------------------------------------------
+// Convert an MDB to an XML file and return the new file name.
+//---------------------------------------------------------------------------
+string __declspec(dllexport) convertMDBToXML(const std::string& mdbFileName)
+   {
+   string cmdLine = getApsimDirectory();
+   if (DirectoryExists(AnsiString(getApsimDirectory().c_str()) + "\\bin"))
+      cmdLine += "\\bin";
+   cmdLine += "\\ConvertEconomics.exe " + doubleQuoted(mdbFileName);
+   Exec(cmdLine.c_str(), SW_SHOW, true);
+   string newFileName = mdbFileName;
+   To_lower(newFileName);
+   replaceAll(newFileName, ".mdb", ".xml");
+   return newFileName;
+   }
+
+//---------------------------------------------------------------------------
+// Return a descriptive bit of text for the specified scenario and crop.
+//---------------------------------------------------------------------------
+string GMCalculator::econDescription(const std::string& scenarioName, const std::string& cropName)
+   {
+   ostringstream out;
+   out << "\r\n";
+
+   try
+      {
+      Price price;
+      getPrice(scenarioName, cropName, price);
+      out << "   Price=$" << price.price;
+      if (price.harvestLoss > 0)
+         out << " (downgrade " << price.downgradePercent << "% @ $" << price.downgradeReturn << ")\r\n";
+      if (price.harvestLoss > 0)
+         out << "      harvest loss=$" << price.harvestLoss << "\r\n";
+      out << "      moisture content=" << price.moistureContent << "%";
+
+      vector<Costs> costs;
+      getCosts(scenarioName, cropName, costs);
+      for (unsigned c = 0; c != costs.size(); c++)
+         {
+         out << "\r\n   " << costs[c].operationName<< " Costs=$" << costs[c].operationCost;
+         if (costs[c].productCost > 0)
+            {
+            out << " (+ ";
+            if (costs[c].costType == fixedCost)
+               out << costs[c].productRate << costs[c].productUnits << " @ ";
+            out << "$" << costs[c].productCost << "/" << costs[c].productUnits << ")";
+            }
+         }
+      }
+   catch (const exception& err)
+      {
+      }
+
+
+   return out.str();
+   }
 

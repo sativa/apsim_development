@@ -25,6 +25,7 @@ class __declspec(dllexport) Computation : public IComputation
    public:
       Computation(const std::string& name,
                   const std::string& fileName,
+                  const std::string& componentInterfaceExecutable,
                   unsigned int componentId,
                   unsigned int parentId) throw (std::runtime_error);
       ~Computation(void);
@@ -49,7 +50,7 @@ class __declspec(dllexport) Computation : public IComputation
                           unsigned int componentId,
                           unsigned int parentId);
       virtual void deleteInstance(void) const;
-      std::string getWrapperFilename(const std::string& filename) throw(std::runtime_error);
+      std::string getComponentInterfaceExecutable(const std::string& filename) throw(std::runtime_error);
 
       void _stdcall (*createInstanceProc)(const char* dllFileName,
                                           const unsigned int* componentID,
@@ -62,7 +63,8 @@ class __declspec(dllexport) Computation : public IComputation
       void _stdcall (*messageToLogicProc)(const int* anInstanceNo,
                                           const Message* messageHeader,
                                           bool* bProcessed);
-      bool loadComponent(const std::string& filename) throw (std::runtime_error);
+      bool loadComponent(const std::string& filename,
+                         std::string componentInterfaceExecutable) throw (std::runtime_error);
       void unloadComponent(void);
 
    };

@@ -42,25 +42,24 @@ inline unsigned int memorySize(const NoData& data)
 // --------------- ERROR DATA structure ------------
 struct ErrorData
    {
-   ErrorData(bool fatal, const FString& msg)
-      : isFatal(fatal), errorMessage(msg)
+   ErrorData(const FString& msg)
+      : errorMessage(msg)
       { }
-   bool isFatal;
    FString errorMessage;
    };
 inline MessageData& operator<< (MessageData& messageData, const ErrorData& data)
    {
-   messageData << data.isFatal << data.errorMessage;
+   messageData << data.errorMessage;
    return messageData;
    }
 inline MessageData& operator>> (MessageData& messageData, ErrorData& data)
    {
-   messageData >> data.isFatal >> data.errorMessage;
+   messageData >> data.errorMessage;
    return messageData;
    }
 inline unsigned int memorySize(const ErrorData& data)
    {
-   return memorySize(data.isFatal) + memorySize(data.errorMessage);
+   return memorySize(data.errorMessage);
    }
 
 
