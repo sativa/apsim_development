@@ -1,0 +1,16 @@
+-implib  "ApsimShared.dll"
+-import    newApsimComponentData
+-import    deleteApsimComponentData
+-import    ApsimComponentData_getProperty
+-import    ApsimComponentData_getRuleNames
+-import    ApsimComponentData_loadRule
+-import    ApsimComponentData_getNumRuleLines
+-import    ApsimComponentData_getRuleLine
+-import    ApsimComponentData_getRuleCondition
+-import    newApsimDataFile
+-import    deleteApsimDataFile
+-import    ApsimDataFile_getFieldValue
+-import    ApsimDataFile_next
+-import    getApsuiteDirectory
+-implib  "test.dll"
+-import    test                      

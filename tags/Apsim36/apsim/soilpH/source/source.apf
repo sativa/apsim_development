@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(soilph)
+
+[Contents]
+Registrations.f90 = Registrations.f90
+soilph.for = soilph.for
+
+[APSBuild]
+binary = ..\lib\soilph.dll
+compilerfile=release.compile

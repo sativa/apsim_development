@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(WaterSupply)
+
+[Contents]
+Registrations.f90 = Registrations.f90
+WaterSupply.f90 = WaterSupply.f90
+
+[APSBuild]
+binary = ..\lib\WaterSupply.dll
+compilerfile = release.compile

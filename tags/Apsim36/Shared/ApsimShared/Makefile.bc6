@@ -1,0 +1,64 @@
+# (Borlandish) Makefile for apsim shared routines
+
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+CC=$(BCB)\Bin\bcc32.exe
+LINKER=$(BCB)\Bin\ilink32.exe
+
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:/progra~1/apsim33
+#APSROOT=c:\development
+
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+TARGET = $(APSROOT)\Bin\ApsimShared.dll
+OBJECTS = ApsimShared.obj ApsimComponentData.obj ApsimControlFile.obj \
+ApsimDirectories.obj ApsimLicence.obj ApsimProject.obj ApsimRunFile.obj \
+ApsimServiceData.obj ApsimSettings.obj ApsimSimulationFile.obj \
+ApsimSystemData.obj ApsimVersion.obj TAboutForm.obj TSplashForm.obj \
+ApsimForms.obj ApsimDataFile.obj ApsimDataTypesFile.obj \
+ApsimDataTypeData.obj ApsimRegistrationData.obj ControlFileConverter.obj \
+TMoveParametersForm.obj SimCreator.obj StarUtils.obj ApsimMacroFile.obj
+
+RESFILES = ApsimShared.res
+USERDEFINES = 
+SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
+INCLUDEPATH = $(SYSINCLUDES);$(BCB)\Components;$(BCB)\Components\tms;$(BCB)\components\boost;$(APSROOT)\Shared
+LIBPATH =  $(SYSLIBPATH);$(BCB)\Components\tms
+RESDEPEN = $(RESFILES) TAboutForm.dfm TSplashForm.dfm TMoveParametersForm.dfm
+LIBFILES = $(APSROOT)\Shared\general\general.lib \
+    $(BCB)\Components\Boost\libs\filesystem\filesystem.lib \
+    $(BCB)\Components\Boost\libs\date_time\date_time.lib
+
+LIBRARIES = xmlrtl.lib TMSC6.lib
+PACKAGES = vcl.bpi rtl.bpi
+
+# ---------------------------------------------------------------------------
+CFLAG1 = $(SYSCFLAGS) -tWM
+WARNINGS = -w-par
+LFLAGS = -l. -D"" -aa -Tpd -x -Gn -Gi
+
+ALLOBJ = c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJECTS)
+ALLRES = $(RESFILES)
+ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
+
+$(TARGET): $(OBJECTS) $(RESDEPEN) $(DEFFILE)
+	$(LINKER) @&&!
+$(LFLAGS) -L$(LIBPATH) +
+$(ALLOBJ), +
+$(TARGET),, +
+$(ALLLIB), +
+$(DEFFILE), +
+$(ALLRES)
+!
+
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+clean:
+	$(RM) $(OBJECTS) $(TARGET)
+	

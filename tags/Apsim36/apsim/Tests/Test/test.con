@@ -1,0 +1,12 @@
+[test1]  
+
+   title=test1
+   summaryfile=test1.sum
+   screen_output=on
+   debug_output=on
+   version=apsim3
+
+   module = clock    test.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+   module = Input(Met)      %apsuite\apsim\met\sample\dalby.met[weather]
+   module = test1    test.par [sample]
+   

@@ -1,0 +1,104 @@
+[fp.report.parameters]
+outputfile =oryza-fp.out
+[wl.report.parameters]
+outputfile =oryza-wl.out
+[wnl.report.parameters]
+outputfile =oryza-wnl.out
+
+[fp.SummaryFile.parameters]
+summaryfile =oryza-fp.sum
+[wl.SummaryFile.parameters]
+summaryfile =oryza-wl.sum
+[wnl.SummaryFile.parameters]
+summaryfile =oryza-wnl.sum
+
+[sample.report.parameters]
+variable = clock.year
+variable = clock.day
+
+variable = oryza.plant_status    ! out, alive, or dead
+variable = oryza.crop_type       ! usually rice
+variable = oryza.cropsta         ! Crop stage   (0-4)
+variable = oryza.dae             ! Days after emergence  (days)
+variable = oryza.dvs             ! Development stage of crop   (0-2)
+variable = oryza.dvr             ! Development rate of crop   (°Cd-1) 
+variable = oryza.hu              ! Daily heat units effective for phenological development  !°Cd d-1 
+
+variable = oryza.lrstrs          ! Drought stress factor causing leaf rolling  !- 
+variable = oryza.ldstrs          ! Drought stress factor accelerating leaf death   !-
+variable = oryza.lestrs          ! Drought stress factor reducing leaf expansion  !-
+variable = oryza.pcew            ! Effect of drought stress on daily total gross CO2 assimilation of crop; reduction in potential transpiration rate  !-
+
+variable = oryza.tnsoil          ! Daily amount of N available for uptake from soil  !kg N ha-1 d-1 
+variable = oryza.nflv            ! Nitrogen fraction in leaves on leaf area basis  !g N m-2 leaf
+variable = oryza.fnlv            ! Fraction of N in leaves on weight basis  !kg N kg-1 DM
+variable = oryza.nacr            ! Actual nitrogen uptake rate by crop  !kg N ha-1 d-1 
+variable = oryza.ancr            ! Amount of N in crop (live and dead material)  !kg N ha-1 
+variable = oryza.anso            ! Amount of N in storage organs  !kg N ha-1 
+variable = oryza.anlv            ! Amount of N in leaves  !kg N ha-1 
+variable = oryza.rnstrs          ! Reduction factor on relative leaf growth rate caused by N stress  !-
+
+variable = oryza.wagt            ! Total aboveground dry matter  !kg DM ha-1 
+variable = oryza.wso             ! Dry weight of storage organs  !kg ha-1   
+variable = oryza.wst             ! Dry weight of stems  !kg ha-1 
+variable = oryza.wlvg            ! Dry weight of green leaves  !kg ha-1 
+variable = oryza.wlvd            ! Dry weight of dead leaves  !kg ha-1 
+variable = oryza.dtga            ! Daily total gross CO2 assimilation of crop  !kg CO2 ha-1 d-1 
+variable = oryza.gcr             ! Gross growth rate of crop  !kg DM ha-1 d-1 
+
+variable = oryza.rlai            ! Rice leaf area index 
+variable = oryza.ssga            ! Specific green stem area  !ha stem kg-1 stem
+variable = oryza.zrt             ! Root length or rooting depth  !m
+
+variable = oryza.eff             ! Initial light-use efficiency (kg CO2 ha-1 leaf h-1)(W m-2 leaf )-1 
+variable = oryza.etd             ! Reference evapotranspiration (mm d-1)                
+variable = oryza.etrd            ! Radiation-driven part of reference evapotranspiration rate  !mm d-1 
+variable = oryza.etae            ! Dryness-driven part of reference evapotranspiration rate  !mm d-1 
+variable = oryza.trc             ! Potential transpiration rate of crop with given LAI  !mm d-1
+
+[sample.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1992
+end_date=31/12/1992
+
+[sample.manager.start_of_day]
+if (day = 4) then
+  oryza sow cultivar = IR72, establishment_section = transplanted
+endif
+
+if (day = 165) then
+  oryza sow cultivar = IR72, establishment_section = transplanted
+endif
+
+[sample.manager.end_of_day]
+if (oryza.plant_status = 'dead') then
+  oryza end_crop
+endif
+
+report do_output
+
+
+[sample.oryza.transplanted]
+estab = transplant  ! direct-seed !rice establishment method
+sbdur = 12          ! duration of seed on bed (day)
+NPLH   = 5.         ! Number of plants per hill 
+NH     = 25.        ! Number of hills
+nplsb  = 1000.      ! Number of plants in seed-bed 
+nplds  = 200.       ! Number of plants/m2 direct-seeded
+
+
+[sample.Screen.parameters]
+screen_output = on
+
+[sample.micromet.parameters]
+soil_albedo = 0.23
+a_interception = 0.0
+b_interception = 0.0
+c_interception = 0.0
+d_interception = 0.0
+
+[standard.micromet.constants]
+rice    = crop base_class
+[log.log.parameters]
+debug_output = on
+logfile=oryza.log

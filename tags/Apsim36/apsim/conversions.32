@@ -1,0 +1,54 @@
+[Removed the default 'on process' from all tracker variables]
+command=RemoveTrackerDefault()
+
+[Converted 'module=legume(canola)' to 'module=plant(canola)']
+command=ChangeInstantiation(legume(canola),plant(canola))
+
+[Converted 'module=legume(chickpea)' to 'module=plant(chickpea)']
+command=ChangeInstantiation(legume(chickpea),plant(chickpea))
+
+[Converted 'module=legume(cowpea)' to 'module=plant(cowpea)']
+command=ChangeInstantiation(legume(cowpea),plant(cowpea))
+
+[Converted 'module=legume(fababean)' to 'module=plant(fababean)']
+command=ChangeInstantiation(legume(fababean),plant(fababean))
+
+[Converted 'module=legume(lucerne)' to 'module=plant(lucerne)']
+command=ChangeInstantiation(legume(lucerne),plant(lucerne))
+
+[Converted 'module=legume(lupin)' to 'module=plant(lupin)']
+command=ChangeInstantiation(legume(lupin),plant(lupin))
+
+[Converted 'module=legume(mucuna)' to 'module=plant(mucuna)']
+command=ChangeInstantiation(legume(mucuna),plant(mucuna))
+
+[Converted 'module=legume(mungbean)' to 'module=plant(mungbean)']
+command=ChangeInstantiation(legume(mungbean),plant(mungbean))
+
+[Converted 'module=legume(navybean)' to 'module=plant(navybean)']
+command=ChangeInstantiation(legume(navybean),plant(navybean))
+
+[Converted 'module=legume(peanut)' to 'module=plant(peanut)']
+command=ChangeInstantiation(legume(peanut),plant(peanut))
+
+[Converted 'module=legume(pigeonp)' to 'module=plant(pigeonp)']
+command=ChangeInstantiation(legume(pigeonp),plant(pigeonp))
+
+[Converted 'module=legume(soybean)' to 'module=plant(soybean)']
+command=ChangeInstantiation(legume(soybean),plant(soybean))
+
+[Converted 'module=legume(stylo)' to 'module=plant(stylo)']
+command=ChangeInstantiation(legume(stylo),plant(stylo))
+
+[Converted 'module=legume(weed)' to 'module=plant(weed)']
+command=ChangeInstantiation(legume(weed), plant(weed))
+
+[Converted 'module=legume(weed1)' to 'module=plant(weed1)']
+command=ChangeInstantiation(legume(weed1), plant(weed1))
+                                                        
+[Converted 'module=legume(weed2)' to 'module=plant(weed2)']
+command=ChangeInstantiation(legume(weed2), plant(weed2))
+                                                      
+[Converted 'module=legume(weed3)' to 'module=plant(weed3)']
+command=ChangeInstantiation(legume(weed3), plant(weed3))
+                                                        

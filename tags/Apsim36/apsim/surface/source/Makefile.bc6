@@ -1,0 +1,37 @@
+# (Borlandish) Makefile for apsim surface module
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+# Platform specific defns
+!include $(APSROOT)\APSBuild\platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)\APSBuild\fortran.make
+
+# The statically linked components of the engine interface
+!include $(APSROOT)\APSBuild\ApsimComponentInterface.make
+
+# Main target
+source: ..\lib\surface.dll
+..\lib\surface.dll: Registrations.obj surface.obj surface.imp $(STATICLINKEDOBJECTS) 
+	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
+	$(ECHO) $(F90FLAGS) >> linker.tmp
+	$(ECHO) $(F90LIBS) >> linker.tmp
+	$(LF95) surface.obj Registrations.obj -exe ..\lib\surface.dll surface.imp @linker.tmp
+	$(RM) linker.tmp
+   
+surface.obj: surface.for
+
+surface.imp:
+	$(ECHO) -implib ApsimShared.dll > surface.imp
+
+Registrations.obj: Registrations.f90
+
+Registrations.f90: ..\surface.interface 
+	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\surface.interface
+
+clean:
+	$(RM) ..\lib\surface.dll Registrations.obj Registrations.f90 surface.obj surface.imp
+

@@ -1,0 +1,20 @@
+[Dependencies]
+Dependency = %licensed(millet)
+
+[Contents]
+Executable = lib\lib.apf
+Source = source\source.apf
+Sample = sample\sample.apf
+Documentation = docs\docs.apf
+
+[contacts]
+contact = Peter Carberry - Module Developer; mailto:Peter.Carberry@tag.csiro.au
+
+[apseudo]
+title=The APSIM Millet Model
+parfile=
+parshowall=yes
+inifile=millet.ini
+inishowall=yes
+rddfile=
+heading = The APSIM Millet Model; main
