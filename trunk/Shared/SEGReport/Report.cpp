@@ -121,6 +121,13 @@ void Report::load(const string& fileName)
 
       else
          {
+         if (getKeyValue(versionLine, "version") == "2.0")
+            {
+            in.close();
+            convertVersion2To3(fileName);
+            in.open(fileName.c_str());
+            getline(in, versionLine);
+            }
          string numPagesLine;
          getline(in, numPagesLine);
          unsigned numPages = StrToInt(getKeyValue(numPagesLine, "NumPages").c_str());
@@ -155,7 +162,7 @@ void Report::save(const std::string& fileName)
       ofstream out(fileName.c_str(), ios::binary);
       if (out.is_open())
          {
-         out << "Version = 2.0\r\n";
+         out << "Version = 3.0\r\n";
          out << "NumPages = " << pages.size() << "\r\n";
          saveComponent(out, dataForm);
          for (unsigned p = 0; p != pages.size(); p++)
@@ -608,7 +615,7 @@ void Report::exportCurrentToFile(const std::string& fileName)
          else if (ExtractFileExt(fileName.c_str()) == ".jpg")
             {
             gtQRJPEGSettings->PixelFormat = pf8bit;
-            ExportToJPEG(currentPage, fileName.c_str(), false, true);
+            ExportToJPEG(currentPage, fileName.c_str(), false, false);
             }
          else if (ExtractFileExt(fileName.c_str()) == ".html")
             ExportToHTML(currentPage, fileName.c_str(), false, false);
@@ -818,6 +825,21 @@ void Report::readOldVersion(int versionNumber, std::istream& in)
          }
       }
    delete formReadIn;
+   }
+//---------------------------------------------------------------------------
+// Version 2 to 3
+//---------------------------------------------------------------------------
+void Report::convertVersion2To3(const std::string& fileName)
+   {
+   ifstream in(fileName.c_str());
+   ostringstream contentsStream;
+   contentsStream << in.rdbuf();
+   string contents = contentsStream.str();
+   replaceAll(contents, "SeriesTitle = ", "SeriesTitle1 = ");
+   in.close();
+
+   ofstream out(fileName.c_str());
+   out << contents;
    }
 //---------------------------------------------------------------------------
 // Move the specified component to the specified owner.  Uses recursion.
