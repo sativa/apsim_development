@@ -23,9 +23,10 @@ simulation_end_year = 1989
 [sample.manager.start_of_day]
 
 if day = 320 and year  = 1988 then
-   stylo sow cultivar = verano, plants = 5 (/m2), sowing_depth = 40 (mm)
+   stylo sow cultivar = verano, plants = 50 (/m2), sowing_depth = 40 (mm)
+endif
 
-elseif day = 90 and year = 1989 then
+if stylo.stage_name = 'harvest_ripe' or stylo.plant_status = 'dead' then
    stylo harvest
    stylo end_crop   
 
