@@ -5,7 +5,6 @@
 
 #include "TRunForm.h"
 #include <ApsimShared\ControlFileConverter.h>
-#include <ApsimShared\ApsimSettings.h>
 #include <general\path.h>
 #include <general\io_functions.h>
 #include <general\vcl_functions.h>
@@ -133,7 +132,7 @@ void TRunForm::fillSimulationList(void)
          TTreeNode* node = parentNode->getFirstChild();
          while (node != NULL)
             {
-            node->Selected = true;
+            simulationList->Select(node, TShiftState() << ssCtrl);
             node = node->getNextSibling();
             }
          }

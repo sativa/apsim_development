@@ -32,7 +32,7 @@ void Scenarios::loadAllAddIns(void)
    // get a list of add-in filenames from the .ini file.
    ApsimSettings settings;
    vector<string> fileNames;
-   settings.read("Addins|addin", fileNames);
+   settings.read("Outlook Addins|addin", fileNames);
 
    // Loop through all filenames, add strip off any parameters.
    vector<string> parameters;
@@ -338,7 +338,7 @@ void Scenarios::save(const string& name)
                                           scenario != scenarios.end();
                                           scenario++)
       scenarioStates.push_back(scenario->getState());
-   settings.write(name + "|scenario", scenarioStates);
+   settings.write("Outlook Scenario " + name + "|scenario", scenarioStates);
    }
 //---------------------------------------------------------------------------
 // restore the previously saved state from the .ini file.
@@ -346,7 +346,7 @@ void Scenarios::save(const string& name)
 void Scenarios::restore(const string& name)
    {
    vector<string> scenarioStates;
-   settings.read(name + "|scenario", scenarioStates);
+   settings.read("Outlook Scenario " + name + "|scenario", scenarioStates);
    if (scenarioStates.size() > 0)
       scenarios.erase(scenarios.begin(), scenarios.end());
 

@@ -12,6 +12,7 @@
 #include <general\db_functions.h>
 #include <general\path.h>
 #include <general\inifile.h>
+#include <ApsimShared\ApsimSettings.h>
 
 using namespace std;
 #pragma package(smart_init)
@@ -29,7 +30,10 @@ __fastcall TSOI::TSOI(TComponent* owner)
    : TSEGTable(owner)
    {
    soiMonth = 1;
-   soiFilename = "soi.dat";
+   ApsimSettings settings;
+   string fileName;
+   settings.read("soi|soi file", fileName, true);
+   soiFilename = fileName.c_str();
    }
 
 //---------------------------------------------------------------------------

@@ -31,7 +31,7 @@ void __fastcall TOutlookSplashForm::FormShow(TObject *Sender)
    {
    ApsimSettings settings;
    string st;
-   settings.read("Skin|SplashScreenOk", st);
+   settings.read("Outlook Skin|SplashScreenOk", st);
    showOkPanel = Str_i_Eq(st, "yes");
    if (showOkPanel)
       {
@@ -39,8 +39,8 @@ void __fastcall TOutlookSplashForm::FormShow(TObject *Sender)
       Width = Image1->Width;
       Height = Image1->Height + Panel1->Height;
       vector<string> logos;
-      settings.read("Skin|SplashLogo", logos);
-      settings.read("Skin|LogoGap", logoGap);
+      settings.read("Outlook Skin|SplashLogo", logos);
+      settings.read("Outlook Skin|LogoGap", logoGap);
       int leftPosn = logoGap;
       int maxHght = Panel1->Height - 2*logoGap;
       for (vector<string>::iterator logo = logos.begin(); logo != logos.end(); logo++)

@@ -201,7 +201,7 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
    // display logo if necessary.
    ApsimSettings settings;
    string fileName;
-   settings.read("Skin|logo", fileName);
+   settings.read("Outlook Skin|logo", fileName);
    if (fileName != "")
       {
       fileName = getAppHomeDirectory() + "\\" + fileName;
@@ -275,7 +275,7 @@ void __fastcall TMainForm::CreateDefaultDatabase(TStrings* files)
    // go give the default database name to the add-in via the .ini file.
    ApsimSettings settings;
    string originalContents;
-   settings.readSection("addins", originalContents);
+   settings.readSection("Outlook Addins", originalContents);
    string contents = originalContents;
    To_lower(contents);
 
@@ -286,11 +286,11 @@ void __fastcall TMainForm::CreateDefaultDatabase(TStrings* files)
       // add the destination MDB to the .ini file so that the DBaddin
       // can pick it up.
       contents.insert(posAddIn+11, " " + destinationMDB);
-      settings.writeSection("addins", contents);
+      settings.writeSection("Outlook addins", contents);
       CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
 
       // now remove our modification to the .ini file.
-      settings.writeSection("addins", originalContents);
+      settings.writeSection("Outlook addins", originalContents);
       }
    else
       ShowMessage("Cannot find line in ini file.  Line: DBAddin.dll");

@@ -58,12 +58,12 @@ TSkin::~TSkin(void)
 void TSkin::DisplaySplashScreen(void)
    {
    // read splash screen
-   settings.read("skin|splashscreen", BitmapName);
+   settings.read("Outlook skin|splashscreen", BitmapName);
    BitmapName = getAppHomeDirectory() + "\\" + BitmapName;
    if (BitmapName != "" && FileExists(BitmapName.c_str()))
       {
       string backdrop;
-      settings.read("skin|Backdrop", backdrop);
+      settings.read("Outlook skin|Backdrop", backdrop);
       if (backdrop == "on")
          {
          showBackdrop = true;
@@ -96,7 +96,7 @@ void TSkin::InitApplication(void)
       MainForm->MDIWallpaper1->Picture->LoadFromFile(BitmapName.c_str());
 
    // read title
-   settings.read("skin|title", St);
+   settings.read("Outlook skin|title", St);
    if (St != "")
       {
       Application->Title = St.c_str();
@@ -104,7 +104,7 @@ void TSkin::InitApplication(void)
       }
 
    // read icon
-   settings.read("skin|icon", St);
+   settings.read("Outlook skin|icon", St);
    string fileName = getAppHomeDirectory() + "\\" + St;
    if (St != "" && FileExists(fileName.c_str()))
       {
@@ -114,13 +114,13 @@ void TSkin::InitApplication(void)
       }
 
    // read help about
-   settings.read("skin|helpabout", St);
+   settings.read("Outlook skin|helpabout", St);
    fileName = getAppHomeDirectory() + "\\" + St;
    if (St != "" && FileExists(fileName.c_str()))
       AboutBox->Image1->Picture->LoadFromFile(fileName.c_str());
 
    // read evaluation
-   settings.read("skin|evaluation", evaluation);
+   settings.read("Outlook skin|evaluation", evaluation);
    if (evaluation == "")
       {
       delete MainForm->Evaluate1;
@@ -128,10 +128,10 @@ void TSkin::InitApplication(void)
       }
 
    // read help file
-   settings.read("skin|helpfile", helpFile);
+   settings.read("Outlook skin|helpfile", helpFile);
 
    // read version
-   settings.read("skin|version", St);
+   settings.read("Outlook skin|version", St);
    if (St != "")
       AboutBox->VersionLabel->Caption = St.c_str();
 

@@ -21,7 +21,7 @@
 #pragma package(smart_init)
 
 #define SOI_SECTION "soi"
-#define TOOLBAR_BITMAP_KEY "soi|toolbitmap"
+#define TOOLBAR_BITMAP_KEY "Outlook Bitmaps|soi"
 #define SOI_FILE_KEY "soi|soi file"
 #define SOI_PHASE_FIELD_NAME "SOI Phase"
 #define SOI_PHASE_NUMBER_FIELD_NAME "SOI Phase number"
@@ -52,7 +52,7 @@ extern "C" ToolBarAddInBase* _export __stdcall createToolBarAddIn(const string& 
 SOIToolBar::SOIToolBar(const string& parameters)
 {
    string bitmap_name;
-   settings.read (TOOLBAR_BITMAP_KEY, bitmap_name);
+   settings.read(TOOLBAR_BITMAP_KEY, bitmap_name);
 
    // get stuff from ini file like image name
    string bitmapPath = getAppHomeDirectory() + "\\" + bitmap_name;
@@ -61,8 +61,8 @@ SOIToolBar::SOIToolBar(const string& parameters)
 
    FPhase_month = 1;
    string data_file;
-   settings.read (SOI_FILE_KEY, data_file);
-   FSOI_data_file = string(getAppHomeDirectory() + "\\" + data_file).c_str();
+   settings.read(SOI_FILE_KEY, data_file, true);
+   FSOI_data_file = data_file.c_str();
 
    SOI_form = new TSOI_form(Application->MainForm);
    SOI_form->SOI_ptr = this;
