@@ -129,6 +129,31 @@ void PlantP::doRegistrations(PlantComponent *systemInterface)
                                    &g.pfact_grain,
                                    "", "P factor in grain");
 
+   myFn = boost::bind(&PlantP::get_pstress_photo, this, _1, _2);
+   systemInterface->addGettableVar("pstress_photo", protocol::DTsingle, 1,
+                                   myFn,
+                                   "", "P stress in photosynthesis");
+
+   myFn = boost::bind(&PlantP::get_pstress_pheno, this, _1, _2);
+   systemInterface->addGettableVar("pstress_pheno", protocol::DTsingle, 1,
+                                   myFn,
+                                   "", "P stress in phenology");
+
+   myFn = boost::bind(&PlantP::get_pstress_expansion, this, _1, _2);
+   systemInterface->addGettableVar("pstress_expansion", protocol::DTsingle, 1,
+                                   myFn,
+                                   "", "P stress in leaf expansion");
+
+   myFn = boost::bind(&PlantP::get_pstress_expansion, this, _1, _2);
+   systemInterface->addGettableVar("pstress_expan", protocol::DTsingle, 1,
+                                   myFn,
+                                   "", "P stress in leaf expansion");
+
+   myFn = boost::bind(&PlantP::get_pstress_grain, this, _1, _2);
+   systemInterface->addGettableVar("pstress_grain", protocol::DTsingle, 1,
+                                   myFn,
+                                   "", "P stress in grain");
+
    myFn = boost::bind(&PlantP::get_biomass_p, this, _1, _2);
    systemInterface->addGettableVar("biomass_p", protocol::DTsingle, 1,
                                    myFn,
@@ -320,6 +345,46 @@ void PlantP::get_p_demand(protocol::Component *systemInterface, protocol::QueryV
 void PlantP::get_pfact_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
     systemInterface->sendVariable(qd, g.pfact_grain);  //()
+}
+
+void PlantP::get_pstress_photo(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float pstress_photo;
+    if (g.pfact_photo > 0.0)
+       pstress_photo = 1.0 - g.pfact_photo;
+    else
+       pstress_photo = 0.0;
+    systemInterface->sendVariable(qd, pstress_photo);  //()
+}
+
+void PlantP::get_pstress_pheno(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float pstress_pheno;
+    if (g.pfact_pheno > 0.0)
+       pstress_pheno = 1.0 - g.pfact_pheno;
+    else
+       pstress_pheno = 0.0;
+    systemInterface->sendVariable(qd, pstress_pheno);  //()
+}
+
+void PlantP::get_pstress_expansion(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float pstress_expansion;
+    if (g.pfact_expansion > 0.0)
+       pstress_expansion = 1.0 - g.pfact_expansion;
+    else
+       pstress_expansion = 0.0;
+    systemInterface->sendVariable(qd, pstress_expansion);  //()
+}
+
+void PlantP::get_pstress_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float pstress_grain;
+    if (g.pfact_grain > 0.0)
+       pstress_grain = 1.0 - g.pfact_grain;
+    else
+       pstress_grain = 0.0;
+    systemInterface->sendVariable(qd, pstress_grain);  //()
 }
 
 void PlantP::get_biomass_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)

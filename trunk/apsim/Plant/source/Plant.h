@@ -1359,6 +1359,10 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
   void get_swdef_photo(protocol::Component *, protocol::QueryValueData &);
   void get_swdef_expan(protocol::Component *, protocol::QueryValueData &);
   void get_swdef_fixation(protocol::Component *, protocol::QueryValueData &);
+  void get_swstress_pheno(protocol::Component *, protocol::QueryValueData &);
+  void get_swstress_photo(protocol::Component *, protocol::QueryValueData &);
+  void get_swstress_expan(protocol::Component *, protocol::QueryValueData &);
+  void get_swstress_fixation(protocol::Component *, protocol::QueryValueData &);
   void get_oxdef_photo(protocol::Component *, protocol::QueryValueData &);
   void get_transp_eff(protocol::Component *, protocol::QueryValueData &);
   void get_ep(protocol::Component *, protocol::QueryValueData &);
@@ -1392,6 +1396,10 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
   void get_nfact_expan(protocol::Component *, protocol::QueryValueData &);
   void get_nfact_grain(protocol::Component *, protocol::QueryValueData &);
   void get_nfact_grain_tot(protocol::Component *, protocol::QueryValueData &);
+  void get_nstress_photo(protocol::Component *, protocol::QueryValueData &);
+  void get_nstress_pheno(protocol::Component *, protocol::QueryValueData &);
+  void get_nstress_expan(protocol::Component *, protocol::QueryValueData &);
+  void get_nstress_grain(protocol::Component *, protocol::QueryValueData &);
   void get_rlv(protocol::Component *, protocol::QueryValueData &);
   void get_no3_demand(protocol::Component *, protocol::QueryValueData &);
   void get_sw_demand(protocol::Component *, protocol::QueryValueData &);
