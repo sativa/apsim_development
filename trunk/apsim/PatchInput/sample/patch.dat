@@ -1,10 +1,10 @@
-[test.patch.data]  
+[test.patch.data]
 allow_sparse_data = true
+patch_all_years = false
 
-day    patch_rain
- ()       (mm)
- 10        55    
- 15        66
- 20        77
- 25        88
- 
+date     patch_rain
+  ()           (mm)
+1988/1/10        55
+1988/1/15        66
+1988/1/20        77
+1988/1/25        88
