@@ -1,0 +1,21 @@
+[Dependencies]
+Dependency = %licensed_source(infra)
+
+[Contents]
+profile.f90 = profile.f90
+error.for = error.for
+datastr.for = datastr.for
+data.for = data.for
+date.for = date.for
+string.for = string.for
+engine.for = engine.for
+event.for = event.for
+license.for = license.for
+intrface.for = intrface.for
+read.for = read.for
+science.for = science.for
+write.for = write.for
+
+[APSBuild]
+binary = ..\lib\apsinfra.dll
+lf90file = %apsuite\apsbuild\infra.lf90
