@@ -16,12 +16,11 @@
 
 using namespace std;
 
-#include "../../croplib/CropLibrary.h"
+#include "PlantLibrary.h"
 #include "PlantComponent.h"
 #include "Plant.h"
 
-void push_routine (const char *) {};
-void pop_routine (const char *) {};
+Plant *currentInstance = NULL;
 
 static const char* nullType =         "<type\>";
 static const char* integerType =      "<type kind=\"integer4\"/>";
@@ -33,24 +32,95 @@ static const char* doubleArrayType =  "<type kind=\"double\" array=\"T\"/>";
 static const char* stringType =       "<type kind=\"string\"/>";
 static const char* stringArrayType =  "<type kind=\"string\" array=\"T\"/>";
 static const char* logicalType =      "<type kind=\"boolean\"/>";
-
-static const char*  status_alive = "alive" ;
-static const char*  status_dead = "dead" ;
-static const char*  status_out = "out" ;
-static const char*  crop_inactive = "inactive" ;
-
 vector<string> part_name;
 
-void Plant::doInit(void) 
+
+/////////////Thes might be redundancies??//////////
+void push_routine (const char *) {};
+void pop_routine (const char *) {};
+
+// Called from fortran world
+extern "C" int fatal_error(const int */*code*/, char *str, int str_length) {
+    str[str_length] = '\0';
+    if (currentInstance) {currentInstance->error(str,1);}
+    return 0;
+}
+
+extern "C" int warning_error(const int */*code*/, char *str, int str_length) {
+    str[str_length] = '\0';
+    if (currentInstance) {currentInstance->error(str, 0);}
+    return 0;
+}
+
+void Write_string (char *line) {
+    if (currentInstance) {currentInstance->write_string(line);}
+}
+/////////////////////////
+
+// Floating point to ascii (string). 
+string Ftoa(double Float, int Num_decplaces, int Width)
+   {
+   char fbuf[80], buf[80];
+   sprintf(fbuf, "%%%d.%df", Width, Num_decplaces);
+   sprintf(buf, fbuf, Float);
+   return(string(buf));
+   }
+std::string Ftoa(double Float, int Num_decplaces)
   {
-  plant_read_constants (); // Zero pools
-  plant_zero_variables ();
-  plant_init ();           // Get constants
-  plant_get_other_variables (); // request and receive variables from owner-modules
+  return(Ftoa(Float, Num_decplaces, 12));
+  }
+
+//////////////////////
+void Plant::doInit(void)
+  {
+  currentInstance = this;
+  doIDs();                 // Gather IDs for getVariable requests
+  plant_read_constants (); // Read constants
+  plant_zero_variables (); // Zero global states
+  plant_init ();           // Site specific init
+  plant_get_other_variables (); // sw etc..
+  }
+void Plant::doIDs(void)
+   {
+       // gets
+       id.eo = parent->addRegistration(protocol::getVariableReg,
+                                       "eo", floatType,
+                                       "", "");
+       id.fr_intc_radn = parent->addRegistration(protocol::getVariableReg,
+                                       "fr_intc_radn", floatType,
+                                       "", "");
+       id.sw_dep= parent->addRegistration(protocol::getVariableReg,
+                                       "sw_dep", floatArrayType,
+                                       "", "");
+       id.no3 = parent->addRegistration(protocol::getVariableReg,
+                                       "no3", floatArrayType,
+                                       "", "");
+       id.no3_min= parent->addRegistration(protocol::getVariableReg,
+                                       "no3_min", floatArrayType,
+                                       "", "");
+       id.latitude = parent->addRegistration(protocol::getVariableReg,
+                                       "latitude", floatType,
+                                       "", "");
+
+       // sets
+       id.dlt_no3 = parent->addRegistration(protocol::setVariableReg,
+                                       "dlt_no3", floatArrayType,
+                                       "", "");
+       id.dlt_sw_dep = parent->addRegistration(protocol::setVariableReg,
+                                       "dlt_sw_dep", floatArrayType,
+                                       "", "");
+
+       // events.
+       id.crop_chopped = parent->addRegistration(protocol::eventReg,
+                                       "crop_chopped", "",
+                                       "", "");
+       id.incorp_fom = parent->addRegistration(protocol::eventReg,
+                                       "incorp_fom", "",
+                                       "", "");
   }
 
 // Register Methods, Events,
-void Plant::doRegistrations(void) 
+void Plant::doRegistrations(void)
    {
    unsigned id;
 
@@ -75,25 +145,59 @@ void Plant::doRegistrations(void)
    id = parent->addRegistration(protocol::respondToEventReg, "new_profile", "");
    IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doNewProfile));
 
+   id = parent->addRegistration(protocol::respondToEventReg, "sow", "");
+   IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doSow));
    id = parent->addRegistration(protocol::respondToMethodCallReg, "sow", "");
    IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doSow));
 
+   id = parent->addRegistration(protocol::respondToEventReg, "harvest", "");
+   IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doHarvest));
    id = parent->addRegistration(protocol::respondToMethodCallReg, "harvest", "");
    IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doHarvest));
 
+   id = parent->addRegistration(protocol::respondToEventReg, "end_crop", "");
+   IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doEndCrop));
    id = parent->addRegistration(protocol::respondToMethodCallReg, "end_crop", "");
    IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doEndCrop));
 
-   id = parent->addRegistration(protocol::respondToMethodCallReg, "kill_crop", "");
-   IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doKillCrop));
+   id = parent->addRegistration(protocol::respondToEventReg, "end_crop", "");
+   IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doEndCrop));
+   id = parent->addRegistration(protocol::respondToMethodCallReg, "end_crop", "");
+   IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doEndCrop));
 
+   id = parent->addRegistration(protocol::respondToEventReg, "end_run", "");
+   IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doEndRun));
    id = parent->addRegistration(protocol::respondToMethodCallReg, "end_run", "");
    IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doEndRun));
 
+   id = parent->addRegistration(protocol::respondToEventReg, "kill_stem", "");
+   IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doKillStem));
    id = parent->addRegistration(protocol::respondToMethodCallReg, "kill_stem", "");
    IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doKillStem));
-   
+
+#if 0
+//replaced - this is done when reading ini file
+   id = parent->addRegistration(protocol::respondToEventReg, "reduce", "");
+   IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doAutoClassChange));
+   id = parent->addRegistration(protocol::respondToMethodCallReg, "reduce", "");
+   IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doAutoClassChange));
+
+   id = parent->addRegistration(protocol::respondToMethodCallReg, "spray", "");
+   IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doAutoClassChange));
+
+   id = parent->addRegistration(protocol::respondToMethodCallReg, "delay", "");
+   IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doAutoClassChange));
+
+   id = parent->addRegistration(protocol::respondToMethodCallReg, "spring", "");
+   IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doAutoClassChange));
+
+   id = parent->addRegistration(protocol::respondToMethodCallReg, "dormancy", "");
+   IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doAutoClassChange));
+#endif
+
    // Send My Variable
+   id = parent->addRegistration(protocol::respondToGetReg, "plant_status", stringType);
+   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_plant_status));
    id = parent->addRegistration(protocol::respondToGetReg, "dlt_stage", floatType);
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_dlt_stage));
    id = parent->addRegistration(protocol::respondToGetReg, "stage"    , floatType);
@@ -126,9 +230,9 @@ void Plant::doRegistrations(void)
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_flowering_das));
    id = parent->addRegistration(protocol::respondToGetReg, "maturity_das",    integerType);
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_maturity_das));
-   id = parent->addRegistration(protocol::respondToGetReg, "leaf_no",         floatArrayType);
+   id = parent->addRegistration(protocol::respondToGetReg, "leaf_no",         floatType);
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_leaf_no));
-   id = parent->addRegistration(protocol::respondToGetReg, "node_no",         floatArrayType);
+   id = parent->addRegistration(protocol::respondToGetReg, "node_no",         floatType);
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_node_no));
    id = parent->addRegistration(protocol::respondToGetReg, "dlt_leaf_no",     floatType);
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_dlt_leaf_no));
@@ -162,6 +266,15 @@ void Plant::doRegistrations(void)
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_lai_canopy_green));
    id = parent->addRegistration(protocol::respondToGetReg, "tlai_dead",        floatType);
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_tlai_dead));
+   id = parent->addRegistration(protocol::respondToGetReg, "dlt_slai_age",     floatType);
+   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_dlt_slai_age));
+   id = parent->addRegistration(protocol::respondToGetReg, "dlt_slai_light",        floatType);
+   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_dlt_slai_light));
+   id = parent->addRegistration(protocol::respondToGetReg, "dlt_slai_water",        floatType);
+   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_dlt_slai_water));
+   id = parent->addRegistration(protocol::respondToGetReg, "dlt_slai_frost",        floatType);
+   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_dlt_slai_frost));
+
    id = parent->addRegistration(protocol::respondToGetReg, "pai",              floatType);
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_pai));
    id = parent->addRegistration(protocol::respondToGetReg, "grain_no",         floatType);
@@ -204,13 +317,13 @@ void Plant::doRegistrations(void)
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_dlt_dm_pot_te));
    id = parent->addRegistration(protocol::respondToGetReg, "dlt_dm_grain_demand", floatType);
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_dlt_dm_grain_demand));
-   id = parent->addRegistration(protocol::respondToGetReg, "dlt_dm_green",     floatType);
+   id = parent->addRegistration(protocol::respondToGetReg, "dlt_dm_green",     floatArrayType);
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_dlt_dm_green));
-   id = parent->addRegistration(protocol::respondToGetReg, "dlt_dm_green_retrans", floatType);
+   id = parent->addRegistration(protocol::respondToGetReg, "dlt_dm_green_retrans", floatArrayType);
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_dlt_dm_green_retrans));
    id = parent->addRegistration(protocol::respondToGetReg, "dlt_dm_detached",      floatType);
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_dlt_dm_detached));
-   id = parent->addRegistration(protocol::respondToGetReg, "dlt_dm_senesced",      floatType);
+   id = parent->addRegistration(protocol::respondToGetReg, "dlt_dm_senesced",      floatArrayType);
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_dlt_dm_senesced));
    id = parent->addRegistration(protocol::respondToGetReg, "dlt_dm_dead_detached", floatType);
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_dlt_dm_dead_detached));
@@ -262,7 +375,7 @@ void Plant::doRegistrations(void)
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_oxdef_photo));
    id = parent->addRegistration(protocol::respondToGetReg, "transp_eff",           floatType);
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_transp_eff));
-   id = parent->addRegistration(protocol::respondToGetReg, "ep",                   floatArrayType);
+   id = parent->addRegistration(protocol::respondToGetReg, "ep",                   floatType);
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_ep));
    id = parent->addRegistration(protocol::respondToGetReg, "cep",                  floatType);
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_cep));
@@ -300,6 +413,8 @@ void Plant::doRegistrations(void)
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_n_fixed_tops));
    id = parent->addRegistration(protocol::respondToGetReg, "nfact_photo",          floatType);
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_nfact_photo));
+   id = parent->addRegistration(protocol::respondToGetReg, "nfact_pheno",          floatType);
+   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_nfact_pheno));
    id = parent->addRegistration(protocol::respondToGetReg, "nfact_expan",          floatType);
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_nfact_expan));
    id = parent->addRegistration(protocol::respondToGetReg, "nfact_grain",          floatType);
@@ -336,20 +451,23 @@ void Plant::doRegistrations(void)
 
 void Plant::doEvent(unsigned int &id, protocol::Variant &v)
   {
+  currentInstance = this;
   ptr2EventFn pf = IDtoEventFn[id];
   if (pf) {(this->*pf)(id,v);}
   }
 
-// Return a variable to the system. 
-void Plant::getVariable(unsigned id, protocol::QueryValueData& qd) 
+// Return a variable to the system.
+void Plant::getVariable(unsigned id, protocol::QueryValueData& qd)
   {
+    currentInstance = this;
     ptr2getFn pf = IDtoGetFn[id];
     if (pf) {(this->*pf)(qd);}
   }
 
-// Set a variable from the system. 
-bool Plant::setVariable(unsigned id, protocol::QuerySetValueData& qd) 
+// Set a variable from the system.
+bool Plant::setVariable(unsigned id, protocol::QuerySetValueData& qd)
   {
+    currentInstance = this;
     ptr2setFn pf = IDtoSetFn[id];
     if (pf) {return((this->*pf)(qd));}
     return false;
@@ -357,9 +475,9 @@ bool Plant::setVariable(unsigned id, protocol::QuerySetValueData& qd)
 /////////////////////////These routines are portions of the fortran "main" routine.
 
 // Field a Prepare message
-void Plant::doPrepare(unsigned &, protocol::Variant &) 
+void Plant::doPrepare(unsigned &, protocol::Variant &)
   {
-  if (g.plant_status != status_out)
+    if (g.plant_status == alive)
      {
      plant_zero_daily_variables ();
      plant_get_other_variables ();     // request and receive variables from owner-modules
@@ -368,17 +486,17 @@ void Plant::doPrepare(unsigned &, protocol::Variant &)
   else
      {
      plant_zero_variables ();          // Is this really necessary?
-     //nh plant_get_other_variables (); 
+     //nh plant_get_other_variables ();
      }
   }
 
 // Field a Process message
-void Plant::doProcess(unsigned &, protocol::Variant &) 
+void Plant::doProcess(unsigned &, protocol::Variant &)
   {
-  if (g.plant_status!=status_out) 
+    if (g.plant_status == alive)
      {
      plant_get_other_variables ();   // request and receive variables from owner-modules
-     plant_process ();               // do crop processes 
+     plant_process ();               // do crop processes
      plant_set_other_variables ();   // send changes to owner-modules
      }
   else
@@ -388,89 +506,73 @@ void Plant::doProcess(unsigned &, protocol::Variant &)
   }
 
 // Field a Sow event
-void Plant::doSow(unsigned &, protocol::Variant &v) 
+void Plant::doSow(unsigned &, protocol::Variant &v)
   {
-  if (plant_my_type(v)) 
-     {
-     plant_get_other_variables (); // request and receive variables from owner-modules
-     plant_start_crop (v);          // start crop and do  more initialisations 
-     }
+  plant_get_other_variables (); // request and receive variables from owner-modules
+  plant_start_crop (v);          // start crop and do  more initialisations 
   }
 
 // Field a Harvest event
-void Plant::doHarvest(unsigned &, protocol::Variant &v) 
+void Plant::doHarvest(unsigned &, protocol::Variant &v)
   {
-  if (plant_my_type(v)) 
-     plant_harvest (v);             // harvest crop - turn into residue
+  plant_harvest (v);             // harvest crop - turn into residue
   }
 
 // Field a End crop event
-void Plant::doEndCrop(unsigned &, protocol::Variant &v) 
+void Plant::doEndCrop(unsigned &, protocol::Variant &v)
   {
-  if (plant_my_type(v)) 
-     plant_end_crop ();            //end crop - turn into residue
+  plant_end_crop ();            //end crop - turn into residue
   }
 
 // Field a Kill crop event
 void Plant::doKillCrop(unsigned &, protocol::Variant &v) 
    {
-   if (plant_my_type(v)) 
-       plant_kill_crop_action (v);  //kill crop - turn into residue
+   plant_kill_crop_action (v);  //kill crop - turn into residue
    }
 
 // Field a Kill Stem event
 void Plant::doKillStem(unsigned &, protocol::Variant &v) 
-  {
-  if (plant_my_type(v)) 
-     plant_kill_stem (v);            //die
-  }
+   {
+   plant_kill_stem (v);            //die
+   }
 
 // Field a end run event
-void Plant::doEndRun(unsigned &, protocol::Variant &v) 
+void Plant::doEndRun(unsigned &, protocol::Variant &/*v*/)
   {
   plant_zero_variables ();
   }
 
 // Field a class change event
-void Plant::doAutoClassChange(unsigned &, protocol::Variant &v) 
+void Plant::doAutoClassChange(unsigned &id, protocol::Variant &v)
   {
-  char action[80];
-/// XXX
-//  if (v.get("action", protocol::DTstring, false, action) != false)  //XX 'action' may be wrong
-//     {
-//     plant_auto_class_change(action);
-//     }
-  } 
+  string ps = IDtoAction[id];
+  plant_auto_class_change(ps.c_str());
+  }
 
 // Field a Tick event
-void Plant::doTick(unsigned &id, protocol::Variant &v) 
+void Plant::doTick(unsigned &, protocol::Variant &v)
   {
   struct protocol::timeType tick;
-
   v.unpack(tick);
-  jday_to_day_of_year((double)tick.startday, g.day_of_year, g.year);
+  double sd = (double)tick.startday;
+  jday_to_day_of_year(&sd, &g.day_of_year, &g.year);
   }
 
 // Field a NewMet event
-void Plant::doNewMet(unsigned &, protocol::Variant &v) 
+void Plant::doNewMet(unsigned &, protocol::Variant &v)
   {
-  struct protocol::newmetType newmet;
-                   
-  v.unpack(newmet);
-  g.radn = newmet.radn;
-  g.maxt = newmet.maxt;
-  g.mint = newmet.mint;
+  if (g.hasreadconstants)
+     {
+     struct protocol::newmetType newmet;
+     v.unpack(newmet);
+     g.radn = newmet.radn;
+     g.maxt = newmet.maxt;
+     g.mint = newmet.mint;
+     }
   }
 
-// Field a New profile event
-void Plant::doNewProfile(unsigned &, protocol::Variant &v) 
-  {
-  plant_onnew_profile (v);
-  } 
 
-  
 //////////////////////////////Translated code starts here///////////////////
-
 //+  Purpose
 //       Takes the minimum of biomass production limited by radiation and
 //       biomass production limited by water.
@@ -483,23 +585,17 @@ void Plant::doNewProfile(unsigned &, protocol::Variant &v)
 //      250894 jngh specified and programmed
 void Plant::plant_bio_actual (int option /* (INPUT) option number*/)
     {
-
-//+  Constant Values
     const char*  my_name = "plant_bio_actual" ;
-
-//- Implementation Section ----------------------------------
     push_routine (my_name);
 
     if (option == 1)
         {
-
-// use whichever is limiting
+        // use whichever is limiting
         g.dlt_dm = min (g.dlt_dm_pot_rue, g.dlt_dm_pot_te);
-
         }
     else
         {
-        fatal_error (&err_internal, "invalid template option");
+        fatal_error (&err_internal, "invalid template option",-1);
         }
 
     pop_routine (my_name);
@@ -517,13 +613,8 @@ void Plant::plant_bio_actual (int option /* (INPUT) option number*/)
 //      250894 jngh specified and programmed
 void Plant::plant_bio_grain_demand (int option /* (INPUT) option number */)
     {
-
-//+  Constant Values
     const char*  my_name = "plant_bio_grain_demand" ;
-
     const int  num_yield_parts = 2 ;
-
-//   Local variables
     int   yield_parts[num_yield_parts] = {meal, oil};
 
 //- Implementation Section ----------------------------------
@@ -555,7 +646,7 @@ void Plant::plant_bio_grain_demand (int option /* (INPUT) option number */)
             , p.y_hi_max_pot
             , p.num_hi_max_pot
             , g.grain_energy
-            , g.dlt_dm_grain_demand
+            , &g.dlt_dm_grain_demand
             );                                    // Start Stress_stage
         }
     else if (option == 2)
@@ -577,7 +668,7 @@ void Plant::plant_bio_grain_demand (int option /* (INPUT) option number */)
         }
     else
         {
-        fatal_error (&err_internal, "invalid template option");
+        fatal_error (&err_internal, "invalid template option",-1);
         }
 
     pop_routine (my_name);
@@ -595,11 +686,7 @@ void Plant::plant_bio_grain_demand (int option /* (INPUT) option number */)
 //      141100 jngh specified and programmed
 void Plant::plant_bio_grain_oil (int option /* (INPUT) option number */)
     {
-
-//+  Constant Values
     const char*  my_name = "plant_bio_grain_oil" ;
-
-//- Implementation Section ----------------------------------
     push_routine (my_name);
 
     if (option == 1)
@@ -607,12 +694,11 @@ void Plant::plant_bio_grain_oil (int option /* (INPUT) option number */)
         legnew_bio_grain_oil (
             c.grain_oil_conc
             , c.carbo_oil_conv_ratio
-            , g.grain_energy
-            );
+            , &g.grain_energy);
         }
     else
         {
-        fatal_error (&err_internal, "invalid template option");
+        fatal_error (&err_internal, "invalid template option",-1);
         }
 
     pop_routine (my_name);
@@ -630,10 +716,7 @@ void Plant::plant_bio_grain_oil (int option /* (INPUT) option number */)
 //      250894 jngh specified and programmed
 void Plant::plant_bio_partition (int option /* (INPUT) option number */)
     {
-//+  Constant Values
     const char*  my_name = "plant_bio_partition" ;
-
-//- Implementation Section ----------------------------------
     push_routine (my_name);
 
     if (option == 1)
@@ -641,16 +724,16 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
 
         legnew_dm_partition1
             (
-            c.frac_leaf[(int)g.current_stage]
-            , c.frac_pod[(int)g.current_stage]
+            c.frac_leaf[(int)g.current_stage-1]
+            , c.frac_pod[(int)g.current_stage-1]
             , g.grain_energy
             , c.grain_oil_conc
-            , c.ratio_root_shoot[(int)g.current_stage]
+            , c.ratio_root_shoot[(int)g.current_stage-1]
             , c.sla_min
             , g.dlt_dm
             , g.dlt_dm_grain_demand
             , g.dlt_lai_stressed
-            , g.dlt_dm_oil_conv
+            , &g.dlt_dm_oil_conv
             , g.dlt_dm_green
             );
 
@@ -672,13 +755,13 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
             , g.dlt_dm
             , g.dlt_dm_grain_demand
             , g.dlt_lai_stressed
-            , g.dlt_dm_oil_conv
+            , &g.dlt_dm_oil_conv
             , g.dlt_dm_green
             );
         }
     else
         {
-        fatal_error (&err_internal, "invalid template option");
+        fatal_error (&err_internal, "invalid template option",-1);
         }
 
     pop_routine (my_name);
@@ -696,24 +779,17 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
 //      250894 jngh specified and programmed
 void Plant::plant_bio_retrans (int option /* (INPUT) option number */)
     {
-
-//+  Constant Values
     const char*  my_name = "plant_bio_retrans" ;
-//
     const int  num_supply_pools = 3 ;
-//
-//   Local variables
     int   supply_pools[num_supply_pools] = {stem, leaf, pod};
 
-//- Implementation Section ----------------------------------
     push_routine (my_name);
-
     if (option == 1)
         {
 
         legnew_dm_retranslocate1
             (
-            c.frac_pod[(int) g.current_stage]
+            c.frac_pod[(int) g.current_stage-1]
             , g.grain_energy
             , c.grain_oil_conc
             , pod
@@ -728,7 +804,7 @@ void Plant::plant_bio_retrans (int option /* (INPUT) option number */)
             , g.dm_green
             , g.dm_plant_min
             , g.plants
-            , g.dlt_dm_oil_conv_retranslocate
+            , &g.dlt_dm_oil_conv_retranslocate
             , g.dlt_dm_green_retrans
             );
 
@@ -756,19 +832,20 @@ void Plant::plant_bio_retrans (int option /* (INPUT) option number */)
             , g.dm_green
             , g.dm_plant_min
             , g.plants
-            , g.dlt_dm_oil_conv_retranslocate
+            , &g.dlt_dm_oil_conv_retranslocate
             , g.dlt_dm_green_retrans
             );
 
         }
     else
         {
-        fatal_error (&err_internal, "invalid template option");
+        fatal_error (&err_internal, "invalid template option",-1);
         }
 
     pop_routine (my_name);
     return;
     }
+
 
 
 //+  Purpose
@@ -810,34 +887,33 @@ void Plant::plant_water_stress (int option /* (INPUT) option number */)
                                  ,100.0
                                  ,ext_sw_supply
                                  ,max_layer); 
-            crop_swdef_photo(&max_layer, g.dlayer, &g.root_depth,
-                &g.sw_demand, ext_sw_supply, &g.swdef_photo);
+            crop_swdef_photo(max_layer, g.dlayer, g.root_depth,
+                             g.sw_demand, ext_sw_supply, &g.swdef_photo);
             }
         else
             {
-            crop_swdef_photo(&max_layer, g.dlayer, &g.root_depth,
-                &g.sw_demand, g.sw_supply, &g.swdef_photo);
+            crop_swdef_photo(max_layer, g.dlayer, g.root_depth,
+                             g.sw_demand, g.sw_supply, &g.swdef_photo);
             }
 
-        crop_swdef_pheno(&c.num_sw_avail_ratio,
-            c.x_sw_avail_ratio, c.y_swdef_pheno, &max_layer, g.dlayer,
-            &g.root_depth, g.sw_avail, g.sw_avail_pot, &g.swdef_pheno);
-        crop_swdef_expansion(&c.num_sw_demand_ratio,
-            c.x_sw_demand_ratio, c.y_swdef_leaf, &max_layer, g.dlayer,
-            &g.root_depth, &g.sw_demand, g.sw_supply, &g.swdef_expansion);
-        crop_swdef_fixation(&c.num_sw_avail_fix,
-            c.x_sw_avail_fix, c.y_swdef_fix, &max_layer, g.dlayer,
-            &g.root_depth, g.sw_avail, g.sw_avail_pot,
-            &g.swdef_fixation);
+        crop_swdef_pheno(c.num_sw_avail_ratio,
+                         c.x_sw_avail_ratio, c.y_swdef_pheno, max_layer, g.dlayer,
+                         g.root_depth, g.sw_avail, g.sw_avail_pot, &g.swdef_pheno);
+        crop_swdef_expansion(c.num_sw_demand_ratio,
+                             c.x_sw_demand_ratio, c.y_swdef_leaf, max_layer, g.dlayer,
+                             g.root_depth, g.sw_demand, g.sw_supply, &g.swdef_expansion);
+        crop_swdef_fixation(c.num_sw_avail_fix,
+                            c.x_sw_avail_fix, c.y_swdef_fix, max_layer, g.dlayer,
+                            g.root_depth, g.sw_avail, g.sw_avail_pot,
+                            &g.swdef_fixation);
 
         }
     else
         {
-        fatal_error (&err_internal, "invalid template option");
+        fatal_error (&err_internal, "invalid template option",-1);
         }
 
     pop_routine (my_name);
-    return;
     }
 
 
@@ -851,25 +927,19 @@ void Plant::plant_water_stress (int option /* (INPUT) option number */)
 //     010994 jngh specified and programmed
 void Plant::plant_temp_stress (int option/* (INPUT) option number*/)
     {
-
-//+  Constant Values
     const char*  my_name = "plant_temp_stress" ;
-
-//- Implementation Section ----------------------------------
 
     push_routine (my_name);
 
     if (option == 1)
         {
-
-        crop_temperature_stress_photo(&c.num_ave_temp,
-            c.x_ave_temp, c.y_stress_photo,
-            &g.maxt, &g.mint, &g.temp_stress_photo);
-
+        crop_temperature_stress_photo(c.num_ave_temp,
+                                      c.x_ave_temp, c.y_stress_photo,
+                                      g.maxt, g.mint, &g.temp_stress_photo);
         }
     else
         {
-        fatal_error (&err_internal, "invalid template option");
+        fatal_error (&err_internal, "invalid template option",-1);
         }
 
     pop_routine (my_name);
@@ -894,8 +964,7 @@ void Plant::plant_dm_init (
         ,float  c_stem_trans_frac                         // (INPUT)  fraction of stem used in trans
         ,float  c_pod_trans_frac                          // (INPUT)  fraction of pod used in trans 
         ,float  g_current_stage                           // (INPUT)  current phenological stage    
-        ,float  *g_days_tot                               // (INPUT)  duration of each phase (days) 
-        ,float  g_plants                                  // (INPUT)  Plant density (plants/m^2)    
+        ,float  g_plants                                  // (INPUT)  Plant density (plants/m^2)
         ,float  *dm_green                                  // (INPUT/OUTPUT) plant part weights  (g/m^2)     
         ,float  *dm_plant_min                              // (OUTPUT) minimum weight of each plant part (g/plant)
         ) {
@@ -915,7 +984,7 @@ void Plant::plant_dm_init (
 // initialisations - set up dry matter for leaf, stem, pod, grain
 // and root
 
-    if (on_day_of (emerg, g_current_stage, g_days_tot))
+    if (on_day_of (emerg, g_current_stage))
         {
 // seedling has just emerged.
 
@@ -936,7 +1005,7 @@ void Plant::plant_dm_init (
 //mungb!         dm_plant_min[stem] = dm_plant_stem * (1.0 - c_stem_trans_frac)
 
         }  
-    else if (on_day_of (start_grain_fill, g_current_stage, g_days_tot)) 
+    else if (on_day_of (start_grain_fill, g_current_stage))
         {
 
 // we are at first day of grainfill.
@@ -984,8 +1053,7 @@ void Plant::plant_oxdef_stress (int option /* (INPUT) option number */)
 
     if (option == 1)
         {
-
-        crop_oxdef_photo1(&c.num_oxdef_photo
+        crop_oxdef_photo1(  c.num_oxdef_photo
                           , c.oxdef_photo
                           , c.oxdef_photo_rtfr
                           , g.ll15_dep
@@ -993,14 +1061,13 @@ void Plant::plant_oxdef_stress (int option /* (INPUT) option number */)
                           , g.sw_dep
                           , g.dlayer
                           , g.root_length
-                          , &g.root_depth
-                          , &max_layer
+                          , g.root_depth
+                          , max_layer
                           , &g.oxdef_photo);
-
         }
     else
         {
-        fatal_error (&err_internal, "invalid template option");
+        fatal_error (&err_internal, "invalid template option",-1);
         }
 
     pop_routine (my_name);
@@ -1018,24 +1085,18 @@ void Plant::plant_oxdef_stress (int option /* (INPUT) option number */)
 //      5/9/96 dph
 void Plant::plant_bio_water (int option /* (INPUT) option number */)
     {
-//+  Constant Values
     const char*  my_name = "plant_bio_water" ;
-
-//- Implementation Section ----------------------------------
     push_routine (my_name);
 
     if (option == 1)
         {
-
-        cproc_bio_water1 (&max_layer, g.dlayer, &g.root_depth,
-            g.sw_supply, &g.transp_eff, &g.dlt_dm_pot_te);
-
+        cproc_bio_water1 (max_layer, g.dlayer, g.root_depth,
+                          g.sw_supply, g.transp_eff, &g.dlt_dm_pot_te);
         }
     else
         {
         fatal_error (&err_internal, "invalid template option");
         }
-
     pop_routine (my_name);
     return;
     }
@@ -1052,8 +1113,6 @@ void Plant::plant_bio_water (int option /* (INPUT) option number */)
 void Plant::plant_bio_init (int option)
     {
     const char*  myname = "plant_bio_init" ;
-
-//- Implementation Section ----------------------------------
     push_routine (myname);
 
     if (option==1)
@@ -1065,7 +1124,6 @@ void Plant::plant_bio_init (int option)
                        , c.stem_trans_frac
                        , c.pod_trans_frac
                        , g.current_stage
-                       , g.days_tot
                        , g.plants
                        , g.dm_green
                        , g.dm_plant_min);
@@ -1091,18 +1149,14 @@ void Plant::plant_bio_init (int option)
 void Plant::plant_bio_grain_demand_stress (int option /* (INPUT) option number */)
     {
     const char*  my_name = "plant_bio_grain_demand_stress" ;
-
-//- Implementation Section ----------------------------------
     push_routine (my_name);
 
     if (option == 1)
         {
-
-        cproc_yieldpart_demand_stress1 (&g.nfact_photo
-                                        , &g.swdef_photo
-                                        , &g.temp_stress_photo
-                                        , &g.dlt_dm_stress_max);
-
+        cproc_yieldpart_demand_stress1 (g.nfact_photo
+                                        ,g.swdef_photo
+                                        ,g.temp_stress_photo
+                                        ,&g.dlt_dm_stress_max);
         }
     else
         {
@@ -1138,7 +1192,6 @@ void Plant::plant_retrans_init (int option)
             , c.stem_trans_frac
             , c.pod_trans_frac
             , g.current_stage
-            , g.days_tot
             , g.plants
             , g.dm_green, g.dm_plant_min
             );
@@ -1170,20 +1223,19 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
 
     if (option == 1)
         {
-
-        cproc_lai_detachment1 (&leaf
+        cproc_lai_detachment1 (leaf
                                , c.sen_detach_frac
-                               , &g.slai
+                               , g.slai
                                , &g.dlt_slai_detached
                                , c.dead_detach_frac
-                               , &g.tlai_dead
+                               , g.tlai_dead
                                , &g.dlt_tlai_dead_detached);
 
         plant_leaf_detachment (g.leaf_area
                                , g.dlt_slai_detached
                                , g.plants);
 
-        cproc_dm_detachment1 ( &max_part
+        cproc_dm_detachment1 ( max_part
                               , c.sen_detach_frac
                               , g.dm_senesced
                               , g.dlt_dm_detached
@@ -1191,14 +1243,13 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
                               , g.dm_dead
                               , g.dlt_dm_dead_detached);
 
-        cproc_n_detachment1 ( &max_part
+        cproc_n_detachment1 ( max_part
                              , c.sen_detach_frac
                              , g.n_senesced
                              , g.dlt_n_detached
                              , c.dead_detach_frac
                              , g.n_dead
                              , g.dlt_n_dead_detached);
-
         }
     else
         {
@@ -1218,9 +1269,9 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
 
 //+  Changes
 //       050199 nih specified and programmed
-void Plant::plant_leaf_detachment (float *leaf_area
-    ,float dlt_slai_detached
-    ,float plants)
+void Plant::plant_leaf_detachment (float *leaf_area           // OUT
+                                   ,float dlt_slai_detached   // IN
+                                   ,float plants)             // IN
     {
 //+  Local Variables
     float area_detached;                          // (mm2/plant)
@@ -1235,7 +1286,7 @@ void Plant::plant_leaf_detachment (float *leaf_area
 
     area_detached = dlt_slai_detached / plants * sm2smm;
 
-    for (node = 1; node <= max_node; node++) 
+    for (node = 0; node < max_node; node++) 
       {
       if(area_detached>leaf_area[node])
         {
@@ -1273,20 +1324,19 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
 
     if (option == 1)
         {
+        crop_failure_germination (sowing, germ, now,
+                                  c.days_germ_limit,
+                                  g.current_stage,
+                                  g.days_tot,
+                                  g.plants,
+                                  &g.dlt_plants_failure_germ);
 
-        crop_failure_germination (&sowing, &germ, &now,
-            &c.days_germ_limit,
-            &g.current_stage,
-            g.days_tot,
-            &g.plants,
-            &g.dlt_plants_failure_germ);
-
-        crop_failure_emergence (&germ, &emerg, &now,
-            &c.tt_emerg_limit,
-            &g.current_stage,
-            &g.plants,
-            g.tt_tot,
-&            g.dlt_plants_failure_emergence);
+        crop_failure_emergence (germ, emerg, now,
+                                c.tt_emerg_limit,
+                                g.current_stage,
+                                g.plants,
+                                g.tt_tot,
+                                &g.dlt_plants_failure_emergence);
 
 //         print*, germ, emerg, now,
 //     .          c%tt_emerg_limit,
@@ -1295,16 +1345,12 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
 //     .          g%tt_tot,
 //     :          g%dlt_plants_failure_emergence
 
-        plant_failure_leaf_sen
-            (
-            g.current_stage
-            , g.lai
-            , g.plants
-            , &g.dlt_plants_failure_leaf_sen
-            );
-        plant_failure_phen_delay
-            (
-            c.swdf_pheno_limit
+        plant_failure_leaf_sen(g.current_stage,
+                               g.lai,
+                               g.plants,
+                               &g.dlt_plants_failure_leaf_sen);
+                               
+        plant_failure_phen_delay(c.swdf_pheno_limit
             , g.cswd_pheno
             , g.current_stage
             , g.plants
@@ -1348,7 +1394,7 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
             plant_kill_crop(g.dm_dead
                             , g.dm_green
                             , g.dm_senesced
-                            , g.plant_status);
+                            , &g.plant_status);
             }
         else
             {
@@ -1375,12 +1421,11 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
 //       290994 jngh specified and programmed
 //       110695 psc  added plant death from high soil temp
 //       100795 jngh moved plant_kill crop to end of routine
-void Plant::plant_failure_leaf_sen (
-     float g_current_stage                              // (INPUT)  current phenological stage  
-    ,float g_lai                                        // (INPUT)  live plant green lai        
-    ,float g_plants                                     // (INPUT)  Plant density (plants/m^2)  
-    ,float *dlt_plants                                   // (OUTPUT) change in plant number      
-    ) {
+void Plant::plant_failure_leaf_sen (float g_current_stage    // (INPUT)  current phenological stage  
+                                   ,float g_lai              // (INPUT)  live plant green lai        
+                                   ,float g_plants           // (INPUT)  Plant density (plants/m^2)  
+                                   ,float *dlt_plants        // (OUTPUT) change in plant number      
+                                   ) {
 //+  Constant Values
     const char*  my_name = "plant_failure_leaf_sen" ;
 
@@ -1394,20 +1439,15 @@ void Plant::plant_failure_leaf_sen (
     leaf_area = divide (g_lai, g_plants, 0.0);
 
     if (reals_are_equal (leaf_area, 0.0, 1.0e-6)
-        && stage_is_between (floral_init, plant_end, g_current_stage)) 
+        && stage_is_between (floral_init, plant_end, g_current_stage))
         {
-
         *dlt_plants = - g_plants;
-
         parent->writeString (" crop failure because of total leaf senescence.");
         }
-
-
     else
         {
         *dlt_plants = 0.0;
         }
-
 
     pop_routine (my_name);
     return;
@@ -1442,7 +1482,7 @@ void Plant::plant_failure_phen_delay (
 
     push_routine (my_name);
 
-    cswd_pheno = sum_between (emerg, flowering, g_cswd_pheno);
+    cswd_pheno = sum_between (emerg-1, flowering-1, g_cswd_pheno);
 
     if (stage_is_between (emerg, flowering, g_current_stage)
         && cswd_pheno>=c_swdf_pheno_limit) 
@@ -1481,22 +1521,19 @@ void Plant::plant_death_seedling
     ,int    g_year                   // (INPUT)  year                             
     ,float  *g_days_tot               // (INPUT)  duration of each phase (days)    
     ,float  g_plants                 // (INPUT)  Plant density (plants/m^2)       
-    ,float  *dlt_plants               // (OUTPUT) change in plant number           
+    ,float  *dlt_plants               // (OUTPUT) change in plant number
     ) {
-//+  Constant Values
     const char*  my_name = "plant_death_seedling" ;
 
-//+  Local Variables
     int   days_after_emerg;                       // days after emergence (days)
     float killfr;                                 // fraction of crop population to kill
 
-//- Implementation Section ----------------------------------
 
     push_routine (my_name);
 
 //cpsc  add code to kill plants for high soil surface temperatures
 
-    days_after_emerg = (int) (sum_between (emerg, now, g_days_tot)) - 1;
+    days_after_emerg = (int) (sum_between (emerg-1, now-1, g_days_tot)) - 1;
     if (days_after_emerg == 1)
         {
         plant_plants_temp(c_num_weighted_temp
@@ -1510,10 +1547,10 @@ void Plant::plant_death_seedling
 
         if (killfr > 0.0)
             {
-            char msg[100];
-            sprintf(msg, "plant_kill. %f%% failure because of high soil surface temperatures."
-                        , (int) (killfr*100.0));
-            parent->writeString (msg);
+            string msg= "plant_kill. ";
+              msg = msg + Ftoa(killfr*100.0, 0).c_str();
+              msg = msg + "% failure because of high soil surface temperatures.";
+            parent->writeString (msg.c_str());
             }
         else
             {
@@ -1543,14 +1580,14 @@ void Plant::plant_death_seedling
 //       100795 jngh moved plant_kill crop to end of routine
 void Plant::plant_death_drought
     (
-     float  c_leaf_no_crit              // (INPUT)  critical number of leaves belo  
-    ,float  c_swdf_photo_limit          // (INPUT)  critical cumulative photosynth  
-    ,float  c_swdf_photo_rate           // (INPUT)  rate of plant reduction with p  
-    ,float  *g_cswd_photo               // (INPUT)  cumulative water stress type 1  
-    ,float  *g_leaf_no                  // (INPUT)  number of fully expanded leave  
-    ,float  g_plants                    // (INPUT)  Plant density (plants/m^2)      
-    ,float  g_swdef_photo               // (INPUT)                                  
-    ,float  *dlt_plants                  // (OUTPUT) change in plant number          
+     float  c_leaf_no_crit              // (INPUT)  critical number of leaves belo
+    ,float  c_swdf_photo_limit          // (INPUT)  critical cumulative photosynth
+    ,float  c_swdf_photo_rate           // (INPUT)  rate of plant reduction with p
+    ,float  *g_cswd_photo               // (INPUT)  cumulative water stress type 1
+    ,float  *g_leaf_no                  // (INPUT)  number of fully expanded leave
+    ,float  g_plants                    // (INPUT)  Plant density (plants/m^2)
+    ,float  g_swdef_photo               // (INPUT)
+    ,float  *dlt_plants                  // (OUTPUT) change in plant number
     ) {
 //+  Constant Values
     const char*  my_name = "plant_death_drought" ;
@@ -1564,25 +1601,25 @@ void Plant::plant_death_drought
 
     push_routine (my_name);
 
-    cswd_photo = sum_between (emerg, flowering, g_cswd_photo);
+    cswd_photo = sum_between (emerg-1, flowering-1, g_cswd_photo);
     leaf_no = sum_real_array (g_leaf_no, max_node);
 
     if (leaf_no<c_leaf_no_crit
         && cswd_photo>c_swdf_photo_limit
-        && g_swdef_photo<1.0) 
+        && g_swdef_photo<1.0)
         {
 
-        killfr = c_swdf_photo_rate* (cswd_photo - c_swdf_photo_limit);
+        killfr = c_swdf_photo_rate * (cswd_photo - c_swdf_photo_limit); //XX This is wrong??
         killfr = bound (killfr, 0.0, 1.0);
         *dlt_plants = - g_plants*killfr;
-    
-        char msg[100];
-        sprintf(msg, "plant_kill. %f%% failure because of water stress."
-               , (int) (killfr*100.0));    
-        parent->writeString (msg);
+
+        string msg= "plant_kill. ";
+          msg = msg + Ftoa(killfr*100.0, 0).c_str();
+          msg = msg + "% failure because of water stress.";
+        parent->writeString (msg.c_str());
         }
-    
-    
+
+
     else
         {
         *dlt_plants = 0.0;
@@ -1600,30 +1637,26 @@ void Plant::plant_death_drought
 
 //+  Changes
 //       290902 jngh specified and programmed
-void Plant::plant_death_external_action(protocol::Variant &v         // (INPUT) message variant 
-                                        ,float g_plants              // (INPUT) Plant density (plants/m^2)  
-                                        ,float *dlt_plants           // (OUTPUT) change in plant number      
+void Plant::plant_death_external_action(protocol::Variant &v         // (INPUT) message variant
+                                        ,float g_plants              // (INPUT) Plant density (plants/m^2)
+                                        ,float *dlt_plants           // (OUTPUT) change in plant number
                                         ) {
-//+  Constant Values
     const char*  my_name = "plant_death_external_action" ;
 
-//+  Local Variables
-    int   days_after_emerg;                       // days after emergence (days)
     float killfr;                                 // fraction of crop population to kill
 
-//- Implementation Section ----------------------------------
     push_routine (my_name);
 
     protocol::ApsimVariant incomingApsimVariant(parent);
     incomingApsimVariant.aliasTo(v.getMessageData());
 
     // Determine kill fraction
-    if (incomingApsimVariant.get("plants_kill_fraction", protocol::DTsingle, false, killfr) == false) 
+    if (incomingApsimVariant.get("plants_kill_fraction", protocol::DTsingle, false, killfr) == false)
        {
        killfr = 1.0;
        *dlt_plants = - g_plants   ;               // default to whole crop
        }
-    else 
+    else
        {
        bound_check_real_var(killfr, 0.0, 1.0, "killfr");
        *dlt_plants = *dlt_plants - g_plants*killfr;
@@ -1631,10 +1664,10 @@ void Plant::plant_death_external_action(protocol::Variant &v         // (INPUT) 
 
     if (killfr > 0.0)
         {
-        char msg[100];
-        sprintf(msg, "plant_kill. %f%% crop killed because of external action."
-               , (int) (killfr*100.0));    
-        parent->writeString (msg);
+        string msg= "plant_kill. ";
+          msg = msg + Ftoa(killfr*100.0, 0).c_str();
+          msg = msg + "% crop killed because of external action.";
+        parent->writeString (msg.c_str());
         }
     else
         {
@@ -1658,21 +1691,15 @@ void Plant::plant_death_external_action(protocol::Variant &v         // (INPUT) 
 //       100795 jngh moved plant_kill crop to end of routine
 void Plant::plant_death_crop_killed
     (
-      float g_plants                           // (INPUT)  Plant density (plants/m^2)        
-    , char *g_plant_status                     // (INPUT)
-    , float *dlt_plants                        // (OUTPUT) change in plant number            
+      float    g_plants                           // (INPUT)  Plant density (plants/m^2)
+    , status_t g_plant_status                     // (INPUT)
+    , float    *dlt_plants                        // (OUTPUT) change in plant number
     ) {
-
-//+  Constant Values
     const char*  my_name = "plant_death_crop_killed" ;
-
-//+  Local Variables
-
-//- Implementation Section ----------------------------------
 
     push_routine (my_name);
 
-    if (g_plant_status == status_dead)
+    if (g_plant_status == dead)
         {
         *dlt_plants = - g_plants;
         parent->writeString (" crop killed because of external action.");
@@ -1699,21 +1726,17 @@ void Plant::plant_death_crop_killed
 //       100795 jngh moved plant_kill crop to end of routine
 void Plant::plant_death_actual
     (
-     float g_dlt_plants_death_drought                 // (INPUT)                         
-    ,float *g_dlt_plants_death_external              // (INPUT)                         
-    ,float g_dlt_plants_death_seedling              // (INPUT)                         
-    ,float g_dlt_plants_failure_emergence           // (INPUT)                         
-    ,float g_dlt_plants_failure_germ                // (INPUT)                         
-    ,float g_dlt_plants_failure_leaf_sen            // (INPUT)                         
-    ,float g_dlt_plants_failure_phen_delay          // (INPUT)                         
-    ,float *dlt_plants                               // (OUTPUT) change in plant number 
+     float g_dlt_plants_death_drought                 // (INPUT)
+    ,float *g_dlt_plants_death_external              // (INPUT)
+    ,float g_dlt_plants_death_seedling              // (INPUT)
+    ,float g_dlt_plants_failure_emergence           // (INPUT)
+    ,float g_dlt_plants_failure_germ                // (INPUT)
+    ,float g_dlt_plants_failure_leaf_sen            // (INPUT)
+    ,float g_dlt_plants_failure_phen_delay          // (INPUT)
+    ,float *dlt_plants                               // (OUTPUT) change in plant number
     ) {
-
-//+  Constant Values
     const char*  my_name = "plant_death_actual" ;
-    
-    
-//- Implementation Section ----------------------------------
+
 
     push_routine (my_name);
 
@@ -1745,13 +1768,13 @@ void Plant::plant_death_actual
 //     230695 jngh specified and programmed
 void Plant::plant_plants_temp
     (
-     int    c_num_weighted_temp                          // (INPUT)  size of table                  
-    ,float  *c_x_weighted_temp                            // (INPUT)  temperature table for poor est 
-    ,float  *c_y_plant_death                              // (INPUT)  index of plant death           
-    ,int    g_day_of_year                                // (INPUT)  day of year                    
-    ,float  *g_soil_temp                                  // (INPUT)  soil surface temperature (oC)  
-    ,int    g_year                                       // (INPUT)  year                           
-    ,float  *killfr                                       // (OUTPUT) fraction of plants killed  (plants/m^2)
+     int    c_num_weighted_temp                          // (INPUT)  size of table
+    ,float  *c_x_weighted_temp                           // (INPUT)  temperature table for poor est
+    ,float  *c_y_plant_death                             // (INPUT)  index of plant death
+    ,int    g_day_of_year                                // (INPUT)  day of year
+    ,float  *g_soil_temp                                 // (INPUT)  soil surface temperature (oC)
+    ,int    g_year                                       // (INPUT)  year
+    ,float  *killfr                                      // (OUTPUT) fraction of plants killed  (plants/m^2)
     ) {
 
 //+  Constant Values
@@ -1770,13 +1793,13 @@ void Plant::plant_plants_temp
     day_before = offset_day_of_year (g_year, g_day_of_year, - 2);
 
     weighted_temp = 0.25 * g_soil_temp[day_before]
-    + 0.50 * g_soil_temp[yesterday]
-    + 0.25 * g_soil_temp[g_day_of_year];
+      + 0.50 * g_soil_temp[yesterday]
+      + 0.25 * g_soil_temp[g_day_of_year];
 
-    *killfr = linear_interp_real (&weighted_temp
-    , c_x_weighted_temp
-    , c_y_plant_death
-    , &c_num_weighted_temp);
+    *killfr = linear_interp_real (weighted_temp
+          , c_x_weighted_temp
+          , c_y_plant_death
+          , c_num_weighted_temp);
 
     pop_routine (my_name);
     return;
@@ -1796,7 +1819,7 @@ void Plant::plant_kill_crop
      float  *g_dm_dead                                  // (INPUT)  dry wt of dead plants (g/m^2)          
     ,float  *g_dm_green                                 // (INPUT)  live plant dry weight (biomass) (g/m^2)
     ,float  *g_dm_senesced                              // (INPUT)  senesced plant dry wt (g/m^2)          
-    ,string &g_plant_status                             // (INPUT)
+    ,status_t *g_plant_status                            // (OUTPUT)
     ) {
 //+  Constant Values
     const char*  my_name = "plant_kill_crop" ;
@@ -1809,22 +1832,21 @@ void Plant::plant_kill_crop
 //!!!!! fix problem with deltas in update when change from alive to dead ?zero deltas
     push_routine (my_name);
 
-    if (g_plant_status == status_alive)
+    if (*g_plant_status == alive)
         {
-        g_plant_status = status_dead;
+        *g_plant_status = dead;
 
         biomass = (sum_real_array (g_dm_green, max_part)
-        - g_dm_green[root]) * gm2kg /sm2ha
-        + (sum_real_array (g_dm_senesced, max_part)
-        - g_dm_senesced[root]) * gm2kg /sm2ha
-        + (sum_real_array (g_dm_dead, max_part)
-        - g_dm_dead[root]) * gm2kg /sm2ha;
+                             - g_dm_green[root]) * gm2kg /sm2ha
+                             + (sum_real_array (g_dm_senesced, max_part)
+                             - g_dm_senesced[root]) * gm2kg /sm2ha
+                             + (sum_real_array (g_dm_dead, max_part)
+                             - g_dm_dead[root]) * gm2kg /sm2ha;
 
         // report
         char msg[80];
         sprintf(msg, " plant death. standing above-ground dm = %f (kg/ha)", biomass);
         parent->writeString (msg);
-
         }
     else
         {
@@ -1857,13 +1879,13 @@ void Plant::plant_leaf_area_potential (int option /* (INPUT) option number */)
         {
         cproc_leaf_area_pot1 (c.x_node_no
                               , c.y_leaf_size
-                              , &c.num_node_no
+                              , c.num_node_no
                               , g.node_no
-                              , &c.node_no_correction
-                              , &emerg
-                              , &now
-                              , &g.dlt_leaf_no_pot
-                              , &g.plants
+                              , c.node_no_correction
+                              , emerg
+                              , now
+                              , g.dlt_leaf_no_pot
+                              , g.plants
                               , &g.dlt_lai_pot);
         }
     else
@@ -1898,9 +1920,9 @@ void Plant::plant_leaf_area_stressed (int option /* (INPUT) option number*/)
 // Plant leaf development
     if (option == 1)
         {
-        cproc_leaf_area_stressed1 (&g.dlt_lai_pot
-                                   ,&g.swdef_expansion
-                                   ,&g.nfact_expansion
+        cproc_leaf_area_stressed1 (g.dlt_lai_pot
+                                   ,g.swdef_expansion
+                                   ,g.nfact_expansion
                                    ,&g.dlt_lai_stressed);
         }
     else
@@ -1941,9 +1963,7 @@ void Plant::plant_leaf_area_init (int option)
             , g.days_tot
             , g.plants
             , &g.lai
-            , g.leaf_area
-            );
-    
+            , g.leaf_area);
         }
     else
         {
@@ -1971,21 +1991,17 @@ void Plant::plant_leaf_no_init (int option)
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
-// Plant leaf development
-
+    // Plant leaf development
     if (option == 1)
         {
-
-// initialise total leaf number
-
+        // initialise total leaf number
         legopt_leaf_no_init1  (
             c.leaf_no_at_emerg
             , g.current_stage
             , emerg
             , g.days_tot
             , g.leaf_no
-            , g.node_no
-            );
+            , g.node_no);
         }
     else
         {
@@ -2016,15 +2032,14 @@ void Plant::plant_leaf_area_actual (int option /* (INPUT) option number*/)
 
     if (option == 1)
         {
-
-// limit the delta leaf area by carbon supply
+        // limit the delta leaf area by carbon supply
         cproc_leaf_area_actual1 (c.x_lai
                                  , c.y_sla_max
-                                 , &c.num_lai
-                                 , &g.dlt_dm_green[leaf]
+                                 , c.num_lai
+                                 , g.dlt_dm_green[leaf]
                                  , &g.dlt_lai
-                                 , &g.dlt_lai_stressed
-                                 , &g.lai);
+                                 , g.dlt_lai_stressed
+                                 , g.lai);
         }
     else
         {
@@ -2055,10 +2070,7 @@ void Plant::plant_pod_area (int option /* (INPUT) option number*/)
 
     if (option == 1)
         {
-
-        g.dlt_pai = g.dlt_dm_green[pod]
-        * c.spec_pod_area
-        * smm2sm;
+        g.dlt_pai = g.dlt_dm_green[pod] * c.spec_pod_area * smm2sm;
         }
     else
         {
@@ -2089,19 +2101,16 @@ void Plant::plant_leaf_no_actual (int option /* (INPUT) option number*/)
 
     if (option == 1)
         {
-
-// limit the delta leaf area by carbon supply
-
-        cproc_leaf_no_actual1(&c.num_lai_ratio
+        // limit the delta leaf area by carbon supply
+        cproc_leaf_no_actual1(c.num_lai_ratio
                              , c.x_lai_ratio
                              , c.y_leaf_no_frac
-                             , &g.dlt_lai
-                             , &g.dlt_lai_stressed
+                             , g.dlt_lai
+                             , g.dlt_lai_stressed
                              , &g.dlt_leaf_no
-                             , &g.dlt_leaf_no_pot
+                             , g.dlt_leaf_no_pot
                              , &g.dlt_node_no
-                             , &g.dlt_node_no_pot);
-
+                             , g.dlt_node_no_pot);
         }
     else
         {
@@ -2129,50 +2138,44 @@ void Plant::plant_leaf_no_pot (int option /* (INPUT) option number*/)
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
-// Plant leaf development
-
+    // Plant leaf development
     if (option == 1)
         {
         cproc_leaf_no_pot1(c.x_node_no_app
                            , c.y_node_app_rate
-                           , &c.num_node_no_app
+                           , c.num_node_no_app
                            , c.x_node_no_leaf
                            , c.y_leaves_per_node
-                           , &c.num_node_no_leaf
-                           , &g.current_stage
-                           , &emerg
-                           , &maturity
-                           , &emerg
+                           ,  c.num_node_no_leaf
+                           ,  g.current_stage
+                           ,  emerg
+                           ,  maturity
+                           ,  emerg
                            , g.days_tot
-                           , &g.dlt_tt
+                           , g.dlt_tt
                            , g.node_no
                            , &g.dlt_leaf_no_pot
                            , &g.dlt_node_no_pot);
         }
     else if (option == 2)
         {
-
-        cproc_leaf_no_pot3
-        (
-        c.x_node_no_app
-        , c.y_node_app_rate
-        , c.num_node_no_app
-        , c.x_node_no_leaf
-        , c.y_leaves_per_node
-        , c.num_node_no_leaf
-        , g.current_stage
-        , emerg
-        , maturity
-        , emerg
-        , g.days_tot
-        , g.dlt_tt
-        , g.node_no
-        , g.nfact_expansion
-        , g.swdef_expansion
-        , &g.leaves_per_node
-        , &g.dlt_leaf_no_pot
-        , &g.dlt_node_no_pot
-        );                                        // stage to start node app// stage to end node app// emergence stage
+        cproc_leaf_no_pot3  (c.x_node_no_app
+                             , c.y_node_app_rate
+                             , c.num_node_no_app
+                             , c.x_node_no_leaf
+                             , c.y_leaves_per_node
+                             , c.num_node_no_leaf
+                             , g.current_stage
+                             , emerg
+                             , maturity
+                             , emerg
+                             , g.dlt_tt
+                             , g.node_no
+                             , g.nfact_expansion
+                             , g.swdef_expansion
+                             , &g.leaves_per_node
+                             , &g.dlt_leaf_no_pot
+                             , &g.dlt_node_no_pot);
         }
     else
         {
@@ -2212,10 +2215,10 @@ void Plant::plant_nit_init (int option /* (INPUT) option number*/)
                                   , g.n_conc_crit
                                   , g.n_conc_max
                                   , g.n_conc_min);
-        cproc_N_init1(c.n_init_conc
-                     , &max_part
-                     , &emerg
-                     , &g.current_stage
+        cproc_n_init1(c.n_init_conc
+                     , max_part
+                     , emerg
+                     , g.current_stage
                      , g.days_tot
                      , g.dm_green
                      , g.n_green);
@@ -2254,52 +2257,47 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)
 // find potential N uptake (supply, available N)
     if (option == 1)
         {
-        biomass = (sum_real_array (g.dm_green, max_part)- g.dm_green[root])+ g.dlt_dm;
+        biomass = (sum_real_array (g.dm_green, max_part)- g.dm_green[root]) + g.dlt_dm;
 
         cproc_n_supply1 (g.dlayer
-                         , &max_layer
+                         , max_layer
                          , g.dlt_sw_dep
                          , g.no3gsm
                          , g.no3gsm_min
-                         , &g.root_depth
+                         , g.root_depth
                          , g.sw_dep
                          , g.no3gsm_mflow_avail
                          , g.sw_avail
                          , g.no3gsm_diffn_pot
-                         , &g.current_stage
+                         , g.current_stage
                          , c.n_fix_rate
-                         , &biomass
-                         , &g.swdef_fixation
+                         , biomass
+                         , g.swdef_fixation
                          , &g.n_fix_pot);
 
         }
     else if (option == 2)
         {
+        biomass = (sum_real_array (g.dm_green, max_part) - g.dm_green[root]) + g.dlt_dm;
 
-        biomass = (sum_real_array (g.dm_green, max_part)
-        - g.dm_green[root])
-        + g.dlt_dm;
-
-        cproc_n_supply3 (
-        g.dlayer
-        , max_layer
-        , g.no3gsm
-        , g.no3gsm_min
-        , g.no3gsm_uptake_pot
-        , g.root_depth
-        , g.root_length
-        , g.bd
-        , c.no3_uptake_max
-        , c.no3_conc_half_max
-        , g.sw_avail_pot
-        , g.sw_avail
-        , g.current_stage
-        , c.n_fix_rate
-        , biomass
-        , g.swdef_fixation
-        , g.n_fix_pot
-        );
-
+        cproc_n_supply3 (g.dlayer
+                         , max_layer
+                         , g.no3gsm
+                         , g.no3gsm_min
+                         , g.no3gsm_uptake_pot
+                         , g.root_depth
+                         , g.root_length
+                         , g.bd
+                         , c.no3_uptake_max
+                         , c.no3_conc_half_max
+                         , g.sw_avail_pot
+                         , g.sw_avail
+                         , g.current_stage
+                         , c.n_fix_rate
+                         , biomass
+                         , g.swdef_fixation
+                         , g.n_fix_pot
+                         );
         }
     else
         {
@@ -2383,12 +2381,12 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
 
     if (option == 1)
         {
-        cproc_N_demand1(&max_part
+        cproc_n_demand1(max_part
                         , demand_parts
-                        , &num_demand_parts
-                        , &g.dlt_dm
+                        , num_demand_parts
+                        , g.dlt_dm
                         , g.dlt_dm_green
-                        , &g.dlt_dm_pot_rue
+                        , g.dlt_dm_pot_rue
                         , g.dlt_n_retrans
                         , g.dm_green
                         , g.n_conc_crit
@@ -2434,27 +2432,26 @@ void Plant::plant_nit_uptake (int option/* (INPUT) option number*/)
                              ,0.0
                              ,100.0
                              ,g.dlt_no3gsm
-                             ,max_layer);                                        // uptake flag// crop type// uptake name// unit conversion factor// uptake lbound// uptake ubound// uptake array// array dim
+                             ,max_layer);   // uptake flag// crop type// uptake name// unit conversion factor// uptake lbound// uptake ubound// uptake array// array dim
 
         }
     else if (option == 1)
         {
-        cproc_N_uptake1(&c.no3_diffn_const
+        cproc_n_uptake1(c.no3_diffn_const
                        , g.dlayer
-                       , &max_layer
+                       , max_layer
                        , g.no3gsm_diffn_pot
                        , g.no3gsm_mflow_avail
-                       , &g.n_fix_pot
+                       , g.n_fix_pot
                        , c.n_supply_preference.c_str()
                        , g.n_demand
                        , g.n_max
-                       , &max_part
-                       , &g.root_depth
+                       , max_part
+                       , g.root_depth
                        , g.dlt_no3gsm);
         }
     else if (option == 2)
         {
-
         cproc_n_uptake3(g.dlayer
                         , max_layer
                         , g.no3gsm_uptake_pot
@@ -2465,7 +2462,6 @@ void Plant::plant_nit_uptake (int option/* (INPUT) option number*/)
                         , max_part
                         , g.root_depth
                         , g.dlt_no3gsm);
-
         }
     else
         {
@@ -2495,7 +2491,6 @@ void Plant::plant_nit_partition (int option /* (INPUT) option number*/)
 
     if (option == 1)
         {
-
         legnew_n_partition(g.dlayer
                            , g.dlt_no3gsm
                            , g.n_demand
@@ -2532,36 +2527,35 @@ void Plant::plant_nit_stress (int option /* (INPUT) option number*/)
     const char*  my_name = "plant_nit_stress" ;
 
 //- Implementation Section ----------------------------------
-
     push_routine (my_name);
 
     if (option == 1)
         {
 
-        crop_nfact_pheno(&leaf, 
-                         &stem, 
+        crop_nfact_pheno(leaf,
+                         stem, 
                          g.dm_green,
                          g.n_conc_crit,
                          g.n_conc_min,
                          g.n_green,
-                         &c.n_fact_pheno, 
+                         c.n_fact_pheno,
                          &g.nfact_pheno);
         
-        crop_nfact_photo(&leaf, &stem,
+        crop_nfact_photo(leaf, stem,
                          g.dm_green,
                          g.n_conc_crit,
                          g.n_conc_min,
                          g.n_green,
-                         &c.n_fact_photo, &g.nfact_photo);
+                         c.n_fact_photo, &g.nfact_photo);
                  
-        crop_nfact_expansion(&leaf, g.dm_green,
+        crop_nfact_expansion(leaf, g.dm_green,
                              g.n_conc_crit,
                              g.n_conc_min,
                              g.n_green,
-                             &c.n_fact_expansion,
+                             c.n_fact_expansion,
                              &g.nfact_expansion);
 
-        crop_nfact_grain_conc(&leaf, &stem,
+        crop_nfact_grain_conc(leaf, stem,
                               g.dm_green,
                               g.n_conc_crit,
                               g.n_conc_min,
@@ -2591,14 +2585,14 @@ void Plant::plant_nit_stress (int option /* (INPUT) option number*/)
 //       080994 jngh specified and programmed
 void Plant::plant_n_conc_limits
     (
-     float  *c_stage_code_list                  // (INPUT)  list of stage numbers            
-    ,float  *g_phase_tt                         // (INPUT)  Cumulative growing degree days   
+     float  *c_stage_code_list                  // (INPUT)  list of stage numbers
+    ,float  *g_phase_tt                         // (INPUT)  Cumulative growing degree days
     ,float  *g_tt_tot                           // (INPUT)  the sum of growing degree days   
     ,float  c_n_conc_crit_meal                 // (INPUT)  critical N concentration of gr   
     ,float  c_n_conc_crit_root                 // (INPUT)  critical N concentration of ro   
     ,float  c_n_conc_max_meal                  // (INPUT)  maximum N concentration of gra   
     ,float  c_n_conc_max_root                  // (INPUT)  maximum N concentration of roo   
-    ,float  c_n_conc_min_meal                  // (INPUT)  minimum N concentration of gra   
+    ,float  c_n_conc_min_meal                  // (INPUT)  minimum N concentration of gra
     ,float  c_n_conc_min_root                  // (INPUT)  minimum N concentration of roo   
     ,float  *c_x_stage_code                     // (INPUT)  stage table for N concentratio   
     ,float  *c_y_n_conc_crit_leaf               // (INPUT)  critical N concentration of      
@@ -2633,9 +2627,9 @@ void Plant::plant_n_conc_limits
     if (stage_is_between (emerg, maturity, g_current_stage))
         {
 
-//jh set elsewhere   N_conc_crit[meal] = c_N_conc_crit_meal
-//jh set elsewhere   N_conc_max[meal] = c_N_conc_max_meal
-//jh set elsewhere   N_conc_min[meal] = c_N_conc_min_meal
+//jh set elsewhere   N_conc_crit[meal] = c_n_conc_crit_meal
+//jh set elsewhere   N_conc_max[meal] = c_n_conc_max_meal
+//jh set elsewhere   N_conc_min[meal] = c_n_conc_min_meal
 
         n_conc_crit[oil] = 0.0;
         n_conc_max[oil] = 0.0;
@@ -2649,13 +2643,19 @@ void Plant::plant_n_conc_limits
 // (non-grain shoot) concentration below which N concentration
 // begins to affect plant growth.
 
-        numvals = count_of_real_vals (c_x_stage_code, max_stage);
-        stage_code = plant_stage_code(c_stage_code_list   
-                                      , g_phase_tt        
-                                      , g_tt_tot         
-                                      , g_current_stage   
-                                      , c_x_stage_code    
-                                      , numvals);         
+        numvals = 1+count_of_real_vals (c_x_stage_code, max_stage); //not an index
+      stage_code = plant_stage_code(c_stage_code_list
+                                    , g_phase_tt
+                                    , g_tt_tot
+                                    , g_current_stage
+                                    , c_x_stage_code
+                                    , numvals);
+//       stage_code = crop_stage_code(c_stage_code_list
+//                                    , g_tt_tot
+//                                    , g_phase_tt
+//                                    , g_current_stage
+//                                    , c_x_stage_code
+//                                    , numvals, max_stage);
         n_conc_crit[stem] = linear_interp_real (stage_code
                                                 , c_x_stage_code
                                                 , c_y_n_conc_crit_stem
@@ -2756,15 +2756,14 @@ void Plant::plant_n_conc_grain_limits
 
     push_routine (my_name);
 
-    if (stage_is_between (start_grain_fill, maturity
-        , g_current_stage)) 
+    if (stage_is_between (start_grain_fill, maturity, g_current_stage)) 
         {
         dm_oil = g_dm_green[oil]
-        + g_dlt_dm_green[oil]
-        + g_dlt_dm_green_retrans[oil];
+                     + g_dlt_dm_green[oil]
+                     + g_dlt_dm_green_retrans[oil];
         dm_meal = g_dm_green[meal]
-        + g_dlt_dm_green[meal]
-        + g_dlt_dm_green_retrans[meal];
+                     + g_dlt_dm_green[meal]
+                     + g_dlt_dm_green_retrans[meal];
         dm_grain = dm_oil + dm_meal;
     
         n_crit_grain = c_n_conc_crit_grain * dm_grain;
@@ -2774,13 +2773,12 @@ void Plant::plant_n_conc_grain_limits
         n_conc_crit[meal] = divide (n_crit_grain, dm_meal, 0.0);
         n_conc_max[meal] = divide (n_max_grain, dm_meal, 0.0);
         n_conc_min[meal] = divide (n_min_grain, dm_meal, 0.0);
-    
         }
     else
         {
         }
-    
-    
+
+
     pop_routine (my_name);
     return;
     }
@@ -2799,10 +2797,9 @@ void Plant::plant_n_init
      float  c_n_leaf_init_conc                  // (INPUT)  initial leaf N concentration ( 
     ,float  c_n_root_init_conc                  // (INPUT)  initial root N concentration ( 
     ,float  c_n_stem_init_conc                  // (INPUT)  initial stem N concentration ( 
-    ,float  g_current_stage                     // (INPUT)  current phenological stage     
-    ,float  *g_days_tot                         // (INPUT)  duration of each phase (days)  
-    ,float  *g_dm_green                         // (INPUT)  live plant dry weight (biomass 
-    ,float  *n_green                            // plant nitrogen (g/m^2)                  
+    ,float  g_current_stage                     // (INPUT)  current phenological stage
+    ,float  *g_dm_green                         // (INPUT)  live plant dry weight (biomass
+    ,float  *n_green                            // (OUTPUT) plant nitrogen (g/m^2)                  
     ) {
 //+  Constant Values
     const char*  my_name = "plant_n_init" ;
@@ -2811,7 +2808,7 @@ void Plant::plant_n_init
 
     push_routine (my_name);
 
-    if (on_day_of (emerg, g_current_stage, g_days_tot))
+    if (on_day_of (emerg, g_current_stage))
         {
         n_green[root] = c_n_root_init_conc*g_dm_green[root];
         n_green[stem] = c_n_stem_init_conc*g_dm_green[stem];
@@ -2873,17 +2870,17 @@ void Plant::plant_nit_demand_est (int option)
         for (part = 1; part <= max_part; part++) 
            {
            dlt_dm_green_pot[part] = g.dlt_dm_pot_rue
-             * divide (g.dm_green[part], dm_green_tot, 0.0);
+                                        * divide (g.dm_green[part], dm_green_tot, 0.0);
            dlt_n_retrans[part] = 0.0;
            }
 
         ///nh note g.dlt_dm_pot_rue becomes two of the subroutine arguments.;
-        cproc_N_demand1 (&max_part
+        cproc_n_demand1 (max_part
                         , demand_parts
-                        , &num_demand_parts
-                        , &g.dlt_dm_pot_rue
+                        , num_demand_parts
+                        , g.dlt_dm_pot_rue
                         , dlt_dm_green_pot
-                        , &g.dlt_dm_pot_rue
+                        , g.dlt_dm_pot_rue
                         , dlt_n_retrans
                         , g.dm_green
                         , g.n_conc_crit
@@ -2895,20 +2892,19 @@ void Plant::plant_nit_demand_est (int option)
         g.ext_n_demand = sum_real_array (n_demand,max_part);
         //nh  use zero growth value here so that estimated n fix is always <= actual;
         biomass = (sum_real_array (g.dm_green, max_part) - g.dm_green[root]);
-        crop_N_fixation_pot1(&g.current_stage
+        crop_n_fixation_pot1(g.current_stage
                              , c.n_fix_rate
-                             , &biomass
-                             , &g.swdef_fixation
+                             , biomass
+                             , g.swdef_fixation
                              , &n_fix_pot);
 
         if (Str_i_Eq(c.n_supply_preference,"active"))
             {
-// Nothing extra to do here
-
+            // Nothing extra to do here
             }
         else if (Str_i_Eq(c.n_supply_preference,"fixation"))
             {
-// Remove potential fixation from demand term
+            // Remove potential fixation from demand term
             g.ext_n_demand = g.ext_n_demand - n_fix_pot;
             g.ext_n_demand = l_bound(g.ext_n_demand, 0.0);
             }
@@ -2946,12 +2942,12 @@ void Plant::plant_height (int   option/*(INPUT) option number*/)
 
     if (option == 1)
         {
-        cproc_canopy_height(&g.canopy_height
+        cproc_canopy_height(g.canopy_height
                             , p.x_stem_wt
                             , p.y_height
                             , p.num_stem_wt
                             , g.dm_green
-                            , &g.plants
+                            , g.plants
                             , stem
                             , &g.dlt_canopy_height);
         }
@@ -3015,11 +3011,10 @@ void Plant::plant_width (int   option/*(INPUT) option number*/)
 //     240498 nih specified and programmed
 void Plant::plant_phenology_init (int   option/*(INPUT) option number*/)
     {
-
-//+  Constant Values
+    //+  Constant Values
     const char*  my_name = "plant_phenology_init" ;
 
-//- Implementation Section ----------------------------------
+    //- Implementation Section ----------------------------------
 
     push_routine (my_name);
 
@@ -3033,7 +3028,7 @@ void Plant::plant_phenology_init (int   option/*(INPUT) option number*/)
                               , c.x_vernal_temp
                               , c.y_vernal_days
                               , c.num_vernal_temp
-                              , g.cum_vernal_days
+                              , &g.cum_vernal_days
                               , p.cum_vernal_days
                               , p.tt_emerg_to_endjuv
                               , p.num_cum_vernal_days
@@ -3118,17 +3113,17 @@ void Plant::plant_phenology (int   option/*(INPUT) option number*/)
                           ,c.num_temp
                           ,c.x_temp
                           ,c.y_tt
-                          ,&g.maxt
-                          ,&g.mint
-                          ,&g.nfact_pheno
-                          ,&g.swdef_pheno
-                          ,&c.pesw_germ
+                          ,g.maxt
+                          ,g.mint
+                          ,g.nfact_pheno
+                          ,g.swdef_pheno
+                          ,c.pesw_germ
                           ,c.fasw_emerg
                           ,c.rel_emerg_rate
                           ,c.num_fasw_emerg
                           ,g.dlayer
                           ,max_layer
-                          ,&g.sowing_depth
+                          ,g.sowing_depth
                           ,g.sw_dep
                           ,g.dul_dep
                           ,p.ll_dep
@@ -3138,6 +3133,7 @@ void Plant::plant_phenology (int   option/*(INPUT) option number*/)
                           ,&g.dlt_stage
                           ,g.tt_tot
                           ,g.days_tot);
+        //fprintf(stdout, "%d, %f, %f, %f\n", g.day_of_year, g.maxt, g.mint, g.dlt_tt);
         }
     else if (option == 2)
         {
@@ -3240,15 +3236,15 @@ void Plant::plant_sen_bio (int   option/*(INPUT) option number*/)
 
         cproc_dm_senescence1 (max_part
                               , max_table
-                              , &canopy_sen_fr
-                              , (float**)c.x_dm_sen_frac      //XX Check index order (table,part)
-                              , (float**)c.y_dm_sen_frac
+                              , canopy_sen_fr
+                              , c.x_dm_sen_frac
+                              , c.y_dm_sen_frac
                               , c.num_dm_sen_frac
                               , g.dm_green
                               , g.dlt_dm_green
                               , g.dlt_dm_green_retrans
                               , g.dlt_dm_senesced);
-                      
+         //fprintf(stdout,"%d,%f,%f\n", g.day_of_year, canopy_sen_fr, g.dlt_dm_senesced[1]);
         }
     else
         {
@@ -3280,15 +3276,13 @@ void Plant::plant_sen_nit (int   option/*(INPUT) option number*/)
 
     if (option == 1)
         {
-
         legnew_n_senescence1 (max_part
-        , c.n_sen_conc
-        , g.dlt_dm_senesced
-        , g.n_green
-        , g.dm_green
-        , g.dlt_n_senesced_trans
-        , g.dlt_n_senesced);
-
+          , c.n_sen_conc
+          , g.dlt_dm_senesced
+          , g.n_green
+          , g.dm_green
+          , g.dlt_n_senesced_trans
+          , g.dlt_n_senesced);
         }
     else
         {
@@ -3364,37 +3358,32 @@ void Plant::plant_leaf_area_sen (int   option/*(INPUT) option number*/)
 
     if (option == 1)
         {
-
-        legopt_leaf_area_sen1
-        (
-        emerg
-        , now
-        , g.dlt_lai_stressed
-        , g.dlt_leaf_no
-        , g.dlt_leaf_no_dead
-        , g.lai
-        , g.leaf_area
-        , g.leaf_no
-        , g.leaf_no_dead
-        , max_node
-        , g.plants
-        , g.slai
-        , c.min_tpla
-        , &g.dlt_slai_age
-        , c.lai_sen_light
-        , c.sen_light_slope
-        , &g.dlt_slai_light
-        , c.sen_rate_water
-        , g.swdef_photo
-        , &g.dlt_slai_water
-        , c.x_temp_senescence
-        , c.y_senescence_fac
-        , c.num_temp_senescence
-        , g.mint
-        , &g.dlt_slai_frost
-        , &g.dlt_slai
-        );
-
+        legopt_leaf_area_sen1  ( emerg
+                                , now
+                                , g.dlt_lai_stressed
+                                , g.dlt_leaf_no
+                                , g.dlt_leaf_no_dead
+                                , g.lai
+                                , g.leaf_area
+                                , g.leaf_no
+                                , g.leaf_no_dead
+                                , max_node
+                                , g.plants
+                                , g.slai
+                                , c.min_tpla
+                                , &g.dlt_slai_age
+                                , c.lai_sen_light
+                                , c.sen_light_slope
+                                , &g.dlt_slai_light
+                                , c.sen_rate_water
+                                , g.swdef_photo
+                                , &g.dlt_slai_water
+                                , c.x_temp_senescence
+                                , c.y_senescence_fac
+                                , c.num_temp_senescence
+                                , g.mint
+                                , &g.dlt_slai_frost
+                                , &g.dlt_slai );
         }
     else
         {
@@ -3416,14 +3405,9 @@ void Plant::plant_leaf_area_sen (int   option/*(INPUT) option number*/)
 //      250894 jngh specified and programmed
 void Plant::plant_cleanup ()
     {
-
-
-//+  Constant Values
     const char*  my_name = "plant_cleanup" ;
 
-//- Implementation Section ----------------------------------
     push_routine (my_name);
-
     plant_update(c.stage_code_list
                 , g.phase_tt
                 , g.tt_tot
@@ -3450,13 +3434,13 @@ void Plant::plant_cleanup ()
                 , c.y_extinct_coef
                 , c.y_extinct_coef_dead
                 , c.num_row_spacing
-                , g.canopy_height
-                , g.canopy_width
+                , &g.canopy_height
+                , &g.canopy_width
                 , g.cnd_grain_conc
                 , g.cnd_photo
-                , g.cover_dead
-                , g.cover_green
-                , g.cover_sen
+                , &g.cover_dead
+                , &g.cover_green
+                , &g.cover_sen
                 , g.cswd_expansion
                 , g.cswd_pheno
                 , g.cswd_photo
@@ -3492,10 +3476,10 @@ void Plant::plant_cleanup ()
                 , g.dm_plant_top_tot
                 , g.dm_senesced
                 , g.dm_stress_max
-                , g.grain_no
+                , &g.grain_no
                 , g.heat_stress_tt
-                , g.lai
-                , g.lai_canopy_green
+                , &g.lai
+                , &g.lai_canopy_green
                 , g.leaf_area
                 , g.leaf_no
                 , g.node_no
@@ -3510,20 +3494,20 @@ void Plant::plant_cleanup ()
                 , g.n_senesced
                 , &g.plants
                 , g.previous_stage
-                , g.root_depth
-                , g.slai
+                , &g.root_depth
+                , &g.slai
                 , g.swdef_expansion
                 , g.swdef_pheno
                 , g.swdef_photo
-                , g.tlai_dead
+                , &g.tlai_dead
                 , g.root_length_dead
                 , g.root_length
                 , g.dlt_root_length
                 , g.dlt_root_length_senesced
-                , g.pai
+                , &g.pai
                 , g.dlt_pai
                 , c.extinct_coef_pod
-                , g.cover_pod
+                , &g.cover_pod
                 , p.num_canopy_widths);
 
     plant_check_bounds(g.canopy_height
@@ -3586,11 +3570,9 @@ void Plant::plant_cleanup ()
                 , &g.n_fixed_tops
                 , &g.root_depth
                 , &g.transpiration_tot );
-
-    if (Str_i_Eq(g.plant_status, status_alive) 
-        && g.current_stage != g.previous_stage) {
+    if (g.plant_status == alive &&
+        g.current_stage != g.previous_stage) {
         plant_event(g.current_stage
-                    , g.days_tot
                     , g.dlayer
                     , g.dm_dead
                     , g.dm_green
@@ -3601,13 +3583,9 @@ void Plant::plant_cleanup ()
                     , g.sw_dep
                     , p.ll_dep);
         }
-    
-    
     else
         {
         }
-    
-    
     plant_check_leaf_record();
     
     pop_routine (my_name);
@@ -3625,19 +3603,15 @@ void Plant::plant_cleanup ()
 //      050199 nih specified and programmed
 void Plant::plant_check_leaf_record ()
     {
-
-//+  Local Variables
     float leaf_area_tot;
     int   node;
 
-//+  Constant Values
     const char*  my_name = "plant_check_leaf_record" ;
 
-//- Implementation Section ----------------------------------
     push_routine (my_name);
 
     leaf_area_tot = sum_real_array (g.leaf_area, max_node)
-    * g.plants * smm2sm;
+                       * g.plants * smm2sm;
 //      print*, 'leaf_area_tot, g%lai, g%slai,g%lai+g%slai'
 //      print*, leaf_area_tot, g%lai, g%slai,g%lai+g%slai
 //      if (leaf_area_tot .ne.(g%lai+g%slai)) then
@@ -3645,19 +3619,13 @@ void Plant::plant_check_leaf_record ()
 //      print*, leaf_area_tot-(g%lai+g%slai)
 //      else
 //      endif
-    if (! reals_are_equal (leaf_area_tot
-        , g.lai + g.slai
-        , tolerance_lai)) 
+    if (! reals_are_equal (leaf_area_tot, g.lai + g.slai, tolerance_lai))
       {
       fatal_error (&err_internal, "bad record for total leaf area");
       }
-    else
-      {
-      }
-
 
     leaf_area_tot = 0.0;
-    for (node = 1; node <= max_node; node++) 
+    for (node = 0; node < max_node; node++) 
       {
       leaf_area_tot = leaf_area_tot + 
                   divide (g.leaf_no_dead[node],g.leaf_no[node],0.0)
@@ -3676,12 +3644,9 @@ void Plant::plant_check_leaf_record ()
     //c      endif;
     
     if (sum_real_array(g.leaf_no_dead, max_node) >
-        sum_real_array(g.leaf_no, max_node)) 
+        sum_real_array(g.leaf_no, max_node))
         {
         fatal_error (&err_internal,"bad record for dead leaf number");
-        }
-    else
-        {
         }
 
 
@@ -3715,91 +3680,91 @@ void Plant::plant_update
     ,float *c_y_n_conc_crit_stem                   // (INPUT)  critical N concentration of    
     ,float *c_y_n_conc_max_leaf                    // (INPUT)  maximum N concentration of le  
     ,float *c_y_n_conc_max_pod                     // (INPUT)  maximum N concentration of pod 
-    ,float *c_y_n_conc_max_stem                    // (INPUT)  maximum N concentration of st  
-    ,float *c_y_n_conc_min_leaf                    // (INPUT)  minimum N concentration of le  
-    ,float *c_y_n_conc_min_pod                     // (INPUT)  minimum N concentration of pod 
-    ,float *c_y_n_conc_min_stem                    // (INPUT)  minimum N concentration of st  
-    ,float  g_row_spacing                          // (INPUT)  row spacing (m) [optional]   
-    ,float  g_skip_row_fac                         // skip row factor                       
-    ,float  g_skip_plant_fac                       // skip plant factor                     
+    ,float *c_y_n_conc_max_stem                    // (INPUT)  maximum N concentration of st
+    ,float *c_y_n_conc_min_leaf                    // (INPUT)  minimum N concentration of le
+    ,float *c_y_n_conc_min_pod                     // (INPUT)  minimum N concentration of pod
+    ,float *c_y_n_conc_min_stem                    // (INPUT)  minimum N concentration of st
+    ,float  g_row_spacing                          // (INPUT)  row spacing (m) [optional]
+    ,float  g_skip_row_fac                         // skip row factor
+    ,float  g_skip_plant_fac                       // skip plant factor
     ,float *c_x_row_spacing
     ,float *c_y_extinct_coef
     ,float *c_y_extinct_coef_dead
     ,int    c_num_row_spacing
-    ,float  g_canopy_height                              // (INPUT)  canopy height (mm)            
-    ,float  g_canopy_width                               // (INPUT)  canopy width (mm)             
+    ,float  *g_canopy_height                              // (out/INPUT)  canopy height (mm)
+    ,float  *g_canopy_width                               // (INPUT)  canopy width (mm)
     ,float *g_cnd_grain_conc                             // (INPUT)  cumulative nitrogen stress typ
     ,float *g_cnd_photo                                  // (INPUT)  cumulative nitrogen stress typ
-    ,float  g_cover_dead                                 // (INPUT)  fraction of radiation reaching
-    ,float  g_cover_green                                // (INPUT)  fraction of radiation reaching
-    ,float  g_cover_sen                                  // (INPUT)  fraction of radiation reaching
+    ,float  *g_cover_dead                                 // (out/INPUT)  fraction of radiation reaching
+    ,float  *g_cover_green                                // (out/INPUT)  fraction of radiation reaching
+    ,float  *g_cover_sen                                  // (out/INPUT)  fraction of radiation reaching
     ,float *g_cswd_expansion                             // (INPUT)  cumulative water stress type 2
     ,float *g_cswd_pheno                                 // (INPUT)  cumulative water stress type 3
     ,float *g_cswd_photo                                 // (INPUT)  cumulative water stress type 1
-    ,float  g_current_stage                              // (INPUT)  current phenological stage    
-    ,float  g_dlt_canopy_height                                // (INPUT)  change in canopy height (mm)    
-    ,float  g_dlt_canopy_width                                 // (INPUT)  change in canopy width (mm)     
-    ,float  g_dlt_dm                                           // (INPUT)  the daily biomass production (  
-    ,float *g_dlt_dm_dead_detached                             // (INPUT)  plant biomass detached fro      
-    ,float *g_dlt_dm_detached                                  // (INPUT)  plant biomass detached (g/m^2)  
-    ,float *g_dlt_dm_green                                     // (INPUT)  plant biomass growth (g/m^2)    
-    ,float *g_dlt_dm_green_retrans                             // (INPUT)  plant biomass retranslocat      
-    ,float *g_dlt_dm_senesced                                  // (INPUT)  plant biomass senescence (g/m^  
-    ,float  g_dlt_dm_stress_max                                // (INPUT)  maximum daily stress on dm pro  
-    ,float  g_dlt_heat_stress_tt                               // (INPUT)  change in heat stress accumula  
-    ,float  g_dlt_lai                                          // (INPUT)  actual change in live plant la  
-    ,float  g_dlt_leaf_no                                      // (INPUT)  actual fraction of oldest leaf  
-    ,float  g_dlt_node_no                                      // (INPUT)  actual fraction of oldest node  
-    ,float  g_dlt_leaf_no_dead                                 // (INPUT)  fraction of oldest green leaf   
-    ,float *g_dlt_n_dead_detached                              // (INPUT)  actual N loss with detached     
-    ,float *g_dlt_n_detached                                   // (INPUT)  actual N loss with detached pl  
-    ,float *g_dlt_n_green                                      // (INPUT)  actual N uptake into plant (g/  
-    ,float *g_dlt_n_retrans                                    // (INPUT)  nitrogen retranslocated out fr  
-    ,float *g_dlt_n_senesced_trans                             // (INPUT)  actual N loss with senesced pl  
+    ,float  g_current_stage                              // (INPUT)  current phenological stage
+    ,float  g_dlt_canopy_height                                // (INPUT)  change in canopy height (mm)
+    ,float  g_dlt_canopy_width                                 // (INPUT)  change in canopy width (mm)
+    ,float  g_dlt_dm                                           // (INPUT)  the daily biomass production (
+    ,float *g_dlt_dm_dead_detached                             // (INPUT)  plant biomass detached fro
+    ,float *g_dlt_dm_detached                                  // (INPUT)  plant biomass detached (g/m^2)
+    ,float *g_dlt_dm_green                                     // (INPUT)  plant biomass growth (g/m^2)
+    ,float *g_dlt_dm_green_retrans                             // (INPUT)  plant biomass retranslocat
+    ,float *g_dlt_dm_senesced                                  // (INPUT)  plant biomass senescence (g/m^
+    ,float  g_dlt_dm_stress_max                                // (INPUT)  maximum daily stress on dm pro
+    ,float  g_dlt_heat_stress_tt                               // (INPUT)  change in heat stress accumula
+    ,float  g_dlt_lai                                          // (INPUT)  actual change in live plant la
+    ,float  g_dlt_leaf_no                                      // (INPUT)  actual fraction of oldest leaf
+    ,float  g_dlt_node_no                                      // (INPUT)  actual fraction of oldest node
+    ,float  g_dlt_leaf_no_dead                                 // (INPUT)  fraction of oldest green leaf
+    ,float *g_dlt_n_dead_detached                              // (INPUT)  actual N loss with detached
+    ,float *g_dlt_n_detached                                   // (INPUT)  actual N loss with detached pl
+    ,float *g_dlt_n_green                                      // (INPUT)  actual N uptake into plant (g/
+    ,float *g_dlt_n_retrans                                    // (INPUT)  nitrogen retranslocated out fr
+    ,float *g_dlt_n_senesced_trans                             // (INPUT)  actual N loss with senesced pl
     ,float *g_dlt_n_senesced                                   //  ??
     ,float  g_dlt_plants                                       // (INPUT)  change in Plant density (plant
-    ,float  g_dlt_root_depth                                   // (INPUT)  increase in root depth (mm)   
+    ,float  g_dlt_root_depth                                   // (INPUT)  increase in root depth (mm)
     ,float  g_dlt_slai                                         // (INPUT)  area of leaf that senesces fro
-    ,float  g_dlt_slai_detached                                // (INPUT)  plant senesced lai detached   
-    ,float  g_dlt_stage                                        // (INPUT)  change in stage number        
-    ,float  g_dlt_tlai_dead_detached                           // (INPUT)  plant lai detached from dea   
-    ,float *g_dm_dead                                          // (INPUT)  dry wt of dead plants (g/m^2) 
+    ,float  g_dlt_slai_detached                                // (INPUT)  plant senesced lai detached
+    ,float  g_dlt_stage                                        // (INPUT)  change in stage number
+    ,float  g_dlt_tlai_dead_detached                           // (INPUT)  plant lai detached from dea
+    ,float *g_dm_dead                                          // (INPUT)  dry wt of dead plants (g/m^2)
     ,float *g_dm_green                                         // (INPUT)  live plant dry weight (biomass
-    ,float *g_dm_plant_top_tot                                 // (INPUT)  total carbohydrate production 
-    ,float *g_dm_senesced                                      // (INPUT)  senesced plant dry wt (g/m^2) 
+    ,float *g_dm_plant_top_tot                                 // (INPUT)  total carbohydrate production
+    ,float *g_dm_senesced                                      // (INPUT)  senesced plant dry wt (g/m^2)
     ,float *g_dm_stress_max                                    // (INPUT)  sum of maximum daily stress on
-    ,float  g_grain_no                                         // (INPUT)  grain number (grains/plant)   
+    ,float  *g_grain_no                                         // (out/INPUT)  grain number (grains/plant)
     ,float *g_heat_stress_tt                                   // (INPUT)  heat stress cumulation in each
-    ,float  g_lai                                              // (INPUT)  live plant green lai          
-    ,float  g_lai_canopy_green                                 // (INPUT)  live plant green lai in canopy
-    ,float *g_leaf_area                                        // (INPUT)  leaf area of each leaf (mm^2) 
+    ,float  *g_lai                                              // (out/INPUT)  live plant green lai
+    ,float *g_lai_canopy_green                                 // (out/INPUT)  live plant green lai in canopy
+    ,float *g_leaf_area                                        // (INPUT)  leaf area of each leaf (mm^2)
     ,float *g_leaf_no                                          // (INPUT)  number of fully expanded leave
     ,float *g_node_no                                          // (INPUT)  number of fully expanded nodes
-    ,float *g_leaf_no_dead                                     // (INPUT)  no of dead leaves ()          
-    ,float  g_nfact_grain_conc                                 // (INPUT)                                
-    ,float  g_nfact_photo                                      // (INPUT)                                
-    ,float *g_n_conc_crit                                      // (INPUT)  critical N concentration (g N/
-    ,float *g_n_conc_max                                       // (INPUT)  maximum N concentration (g N/g               
-    ,float *g_n_conc_min                                       // (INPUT)  minimum N concentration (g N/g               
-    ,float *g_n_dead                                           // (INPUT)  plant N content of dead plants               
-    ,float *g_n_green                                          // (INPUT)  plant nitrogen content (g N/m^               
-    ,float *g_n_senesced                                       // (INPUT)  plant N content of senesced pl               
-    ,float *g_plants                                           // (out/INPUT)  Plant density (plants/m^2)                   
-    ,float g_previous_stage                                     // (INPUT)  previous phenological stage                  
-    ,float g_root_depth                                         // (INPUT)  depth of roots (mm)                          
-    ,float g_slai                                               // (INPUT)  area of leaf that senesces fro               
-    ,float g_swdef_expansion                                    // (INPUT)                                               
-    ,float g_swdef_pheno                                        // (INPUT)                                               
-    ,float g_swdef_photo                                        // (INPUT)                                               
-    ,float g_tlai_dead                                          // (INPUT)  total lai of dead plants                     
-    ,float *g_root_length_dead                                  // (INPUT)  Root length of dead population in each layer 
-    ,float *g_root_length                                       // (INPUT)  Root length in each layer                    
-    ,float *g_dlt_root_length                                   // (INPUT)  Root growth in each layer                    
+    ,float *g_leaf_no_dead                                     // (INPUT)  no of dead leaves ()
+    ,float  g_nfact_grain_conc                                 // (INPUT)
+    ,float  g_nfact_photo                                      // (INPUT)
+    ,float *g_n_conc_crit                                      // (out/INPUT)  critical N concentration (g N/
+    ,float *g_n_conc_max                                       // (out/INPUT)  maximum N concentration (g N/g
+    ,float *g_n_conc_min                                       // (out/INPUT)  minimum N concentration (g N/g
+    ,float *g_n_dead                                           // (INPUT)  plant N content of dead plants
+    ,float *g_n_green                                          // (INPUT)  plant nitrogen content (g N/m^
+    ,float *g_n_senesced                                       // (INPUT)  plant N content of senesced pl
+    ,float *g_plants                                           // (out/INPUT)  Plant density (plants/m^2)
+    ,float g_previous_stage                                     // (INPUT)  previous phenological stage
+    ,float *g_root_depth                                         // (out/INPUT)  depth of roots (mm)
+    ,float *g_slai                                               // (INPUT)  area of leaf that senesces fro
+    ,float g_swdef_expansion                                    // (INPUT)
+    ,float g_swdef_pheno                                        // (INPUT)
+    ,float g_swdef_photo                                        // (INPUT)
+    ,float *g_tlai_dead                                          // (INPUT)  total lai of dead plants
+    ,float *g_root_length_dead                                  // (INPUT)  Root length of dead population in each layer
+    ,float *g_root_length                                       // (INPUT)  Root length in each layer
+    ,float *g_dlt_root_length                                   // (INPUT)  Root growth in each layer
     ,float *g_dlt_root_length_senesced
-    ,float g_pai
+    ,float *g_pai
     ,float g_dlt_pai
     ,float c_extinct_coef_pod
-    ,float g_cover_pod
+    ,float *g_cover_pod
     ,int   p_num_canopy_widths
     ) {
 
@@ -3807,29 +3772,28 @@ void Plant::plant_update
     const char*  my_name = "plant_update" ;
 
 //+  Local Variables
-    float dlt_dm_plant;                           // dry matter increase (g/plant)
+    double dlt_dm_plant;                           // dry matter increase (g/plant)
     float dlt_leaf_area;                          // leaf area increase (mm^2/plant)
     float dlt_leaf_dm;                            // leaf dm increase (g/plant)
-    float dlt_dm_green_dead;                      // dry matter of green plant part dying
-// (g/m^2)
-    float dlt_dm_senesced_dead;                   // dry matter of senesced plant part
-// dying (g/m^2)
-    float dlt_n_green_dead;                       // N content of green plant part dying
-// (g/m^2)
-    float dlt_n_senesced_dead;                    // N content of senesced plant part
-// dying (g/m^2)
+    double dlt_dm_green_dead;                      // dry matter of green plant part dying
+                                                   // (g/m^2)
+    double dlt_dm_senesced_dead;                   // dry matter of senesced plant part
+                                                   // dying (g/m^2)
+    double dlt_n_green_dead;                       // N content of green plant part dying
+                                                   // (g/m^2)
+    double dlt_n_senesced_dead;                    // N content of senesced plant part
+                                                   // dying (g/m^2)
     float dlt_grain_no_lost;                      // grain no lost from barrenness
-// (grains/m^2)
+                                                  // (grains/m^2)
     float dlt_lai_dead;                           // lai of green leaf of plants dying ()
     float dlt_slai_dead;                          // lai of senesced leaf of plant dying ()
     float dlt_root_length_dead;                   // root length of plant dying ()
-    float dying_fract_plants;                     // fraction op population dying (0-1)
+    double dying_fract_plants;                    // fraction op population dying (0-1)
     float node_no;                                // currently expanding node no.
     int   part;                                   // plant part index
     int   layer;                                  // layer index number
     int   leaf_rec;                               // leaf record number
     int   num_leaves;
-    int   i;
     int   node;
     float leaf_no_dead_tot;
     float canopy_fac;
@@ -3858,8 +3822,7 @@ void Plant::plant_update
 // dlt_dead          -      -       +
 // dlt_detached             -       -      (outgoing only)
 
-// transfer N
-
+    // transfer N
     subtract_real_array (g_dlt_n_dead_detached, g_n_dead, max_part);
 
     add_real_array (g_dlt_n_green, g_n_green, max_part);
@@ -3876,22 +3839,21 @@ void Plant::plant_update
     dying_fract_plants = divide (-g_dlt_plants, *g_plants, 0.0);
     dying_fract_plants = bound (dying_fract_plants, 0.0, 1.0);
 
-    for (part = 1; part <= max_part; part++) 
+    for (part = 0; part < max_part; part++)
        {
        dlt_n_green_dead = g_n_green[part] * dying_fract_plants;
        g_n_green[part] = g_n_green[part] - dlt_n_green_dead;
        g_n_dead[part] = g_n_dead[part] + dlt_n_green_dead;
-   
+
        dlt_n_senesced_dead = g_n_senesced[part] * dying_fract_plants;
        g_n_senesced[part] = g_n_senesced[part] - dlt_n_senesced_dead;
        g_n_dead[part] = g_n_dead[part] + dlt_n_senesced_dead;
        }
 
-// Transfer plant dry matter
-
+    // Transfer plant dry matter
     dlt_dm_plant = divide (g_dlt_dm, *g_plants, 0.0);
 
-    accumulate (dlt_dm_plant, g_dm_plant_top_tot, g_previous_stage, g_dlt_stage);
+    accumulate (dlt_dm_plant, g_dm_plant_top_tot, g_previous_stage-1, g_dlt_stage);
 
     subtract_real_array (g_dlt_dm_dead_detached, g_dm_dead, max_part);
 
@@ -3902,32 +3864,34 @@ void Plant::plant_update
     add_real_array (g_dlt_dm_senesced, g_dm_senesced, max_part);
     subtract_real_array (g_dlt_dm_detached, g_dm_senesced, max_part);
 
-    for (part = 1; part <= max_part; part++) 
+    for (part = 0; part < max_part; part++)
          {
          dlt_dm_green_dead = g_dm_green[part] * dying_fract_plants;
          g_dm_green[part] = g_dm_green[part] - dlt_dm_green_dead;
          g_dm_dead[part] = g_dm_dead[part] + dlt_dm_green_dead;
-     
+
          dlt_dm_senesced_dead = g_dm_senesced[part] * dying_fract_plants;
          g_dm_senesced[part] = g_dm_senesced[part] - dlt_dm_senesced_dead;
          g_dm_dead[part] = g_dm_dead[part] + dlt_dm_senesced_dead;
          }
+//    fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n", g.day_of_year,
+//            g_dm_green[root] + g_dm_green[leaf] + g_dm_green[stem],
+//            g_dm_green[root], g_dm_green[leaf],g_dm_green[stem]);
+    // transfer plant grain no.
+    dlt_grain_no_lost  = *g_grain_no * dying_fract_plants;
+    *g_grain_no = *g_grain_no - dlt_grain_no_lost;
 
-// transfer plant grain no.
-    dlt_grain_no_lost  = g_grain_no * dying_fract_plants;
-    g_grain_no = g_grain_no - dlt_grain_no_lost;
+    // transfer plant leaf area
+    *g_lai = *g_lai + g_dlt_lai - g_dlt_slai;
+    *g_slai = *g_slai + g_dlt_slai - g_dlt_slai_detached;
+    dlt_lai_dead  = *g_lai  * dying_fract_plants;
+    dlt_slai_dead = *g_slai * dying_fract_plants;
 
-// transfer plant leaf area
-    g_lai = g_lai + g_dlt_lai - g_dlt_slai;
-    g_slai = g_slai + g_dlt_slai - g_dlt_slai_detached;
-    dlt_lai_dead  = g_lai  * dying_fract_plants;
-    dlt_slai_dead = g_slai * dying_fract_plants;
+    *g_lai = *g_lai - dlt_lai_dead;
+    *g_slai = *g_slai - dlt_slai_dead;
+    *g_tlai_dead = *g_tlai_dead + dlt_lai_dead + dlt_slai_dead - g_dlt_tlai_dead_detached;
 
-    g_lai = g_lai - dlt_lai_dead;
-    g_slai = g_slai - dlt_slai_dead;
-    g_tlai_dead = g_tlai_dead + dlt_lai_dead + dlt_slai_dead - g_dlt_tlai_dead_detached;
-
-    g_canopy_width = g_canopy_width + g_dlt_canopy_width;
+    *g_canopy_width = *g_canopy_width + g_dlt_canopy_width;
 
     if (p_num_canopy_widths > 0)
         {
@@ -3935,7 +3899,7 @@ void Plant::plant_update
                            , *g_plants
                            , g_skip_row_fac
                            , g_skip_plant_fac
-                           , g_canopy_width
+                           , *g_canopy_width
                            , &canopy_fac);
         }
     else
@@ -3951,41 +3915,41 @@ void Plant::plant_update
                           ,c_num_row_spacing
                           ,c_extinct_coef_pod
                           , canopy_fac
-                          ,g_lai
-                          ,g_pai
+                          ,*g_lai
+                          ,*g_pai
                           ,g_lai_canopy_green
-                          ,&g_cover_green
-                          ,&g_cover_pod);
+                          ,g_cover_green
+                          ,g_cover_pod);
     legnew_cover(g_row_spacing
                 ,c_x_row_spacing
                 ,c_y_extinct_coef_dead
                 ,c_num_row_spacing
                 , canopy_fac
-                ,g_slai
-                ,&g_cover_sen);
+                ,*g_slai
+                ,g_cover_sen);
     legnew_cover(g_row_spacing
                  ,c_x_row_spacing
                  ,c_y_extinct_coef_dead
                  ,c_num_row_spacing
                  , canopy_fac
-                 ,g_tlai_dead
-                 ,&g_cover_dead);
+                 ,*g_tlai_dead
+                 ,g_cover_dead);
 
 // plant leaf development
 // need to account for truncation of partially developed leaf (add 1)
-    node_no = 1.0 + sum_between (emerg, now, g_node_no);
+    node_no = 1.0 + sum_between (emerg-1, now-1, g_node_no);
     //c      print*,"node_no=",node_no;
     //c      print*,"g_leaf_area=",(g_leaf_area(i), i=1,10);
     //c      print*,"g_leaf_no=",(g_leaf_no(i), i=1,10);
     //c      print*,"g_leaf_no_dead=",(g_leaf_no_dead(i), i=1,10);
 
     dlt_leaf_area = divide (g_dlt_lai, *g_plants, 0.0) * sm2smm;
-    accumulate (dlt_leaf_area, g_leaf_area, node_no, g_dlt_node_no);
+    accumulate (dlt_leaf_area, g_leaf_area, node_no-1.0, g_dlt_node_no);
 // Area senescence is calculated apart from plant number death
 // so any decrease in plant number will mean an increase in average
 // plant size as far as the leaf size record is concerned.
 
-    if ((*g_plants) + g_dlt_plants>0)
+    if ((*g_plants + g_dlt_plants)>0)
         {
 // Not total failure
 //         do 5 node = 1, max_node
@@ -4043,12 +4007,22 @@ void Plant::plant_update
 //      endif
 
 // cnh =====================================================
+//    fprintf(stdout, "A%d, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f\n",
+//             g.day_of_year, g_dlt_leaf_no,
+//             g_leaf_no[0], g_leaf_no[1], g_leaf_no[2],
+//             node_no, g_dlt_node_no);
+    accumulate (g_dlt_leaf_no, g_leaf_no, node_no-1.0, g_dlt_node_no);
+//    fprintf(stdout, "B%d, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f\n",
+//             g.day_of_year, g_dlt_leaf_no,
+//             g_leaf_no[0], g_leaf_no[1], g_leaf_no[2],
+//             node_no, g_dlt_node_no);
+//    fprintf(stdout, "X%d,%.6f,%.6f\n",
+//             g.day_of_year,g_dlt_leaf_no, g_dlt_node_no);
 
-    accumulate (g_dlt_leaf_no, g_leaf_no, node_no, g_dlt_node_no);
 
     leaf_no_dead_tot = sum_real_array(g_leaf_no_dead,max_node) + g_dlt_leaf_no_dead;
 
-    for (node = 1; node <=max_node; node++) 
+    for (node = 0; node < max_node; node++)
         {
         if (leaf_no_dead_tot>g_leaf_no[node])
             {
@@ -4062,32 +4036,27 @@ void Plant::plant_update
             }
         }
 
-    accumulate (g_dlt_node_no, g_node_no, g_previous_stage, g_dlt_stage);
-
-    //c      print*,"g_leaf_area=",(g_leaf_area(i), i=1,10);
-    //c      print*,"g_leaf_no=",(g_leaf_no(i), i=1,10);
-    //c      print*,"g_leaf_no_dead=",(g_leaf_no_dead(i), i=1,10);
-    //pause
+    accumulate (g_dlt_node_no, g_node_no, g_previous_stage-1, g_dlt_stage);                       //ok
 
 // plant stress
 
-    accumulate (g_dlt_heat_stress_tt, g_heat_stress_tt, g_previous_stage, g_dlt_stage);
-    accumulate (g_dlt_heat_stress_tt, g_heat_stress_tt, g_previous_stage, g_dlt_stage);
+    accumulate (g_dlt_heat_stress_tt, g_heat_stress_tt, g_previous_stage-1, g_dlt_stage);         //ok
+    accumulate (g_dlt_heat_stress_tt, g_heat_stress_tt, g_previous_stage-1, g_dlt_stage);         //ok
 
-    accumulate (g_dlt_dm_stress_max, g_dm_stress_max, g_current_stage, g_dlt_stage);
+    accumulate (g_dlt_dm_stress_max, g_dm_stress_max, g_current_stage-1, g_dlt_stage);            //ok
 
-    accumulate (1.0 - g_swdef_photo, g_cswd_photo, g_previous_stage, g_dlt_stage);
-    accumulate (1.0 - g_swdef_expansion, g_cswd_expansion, g_previous_stage, g_dlt_stage);
-    accumulate (1.0 - g_swdef_pheno, g_cswd_pheno, g_previous_stage, g_dlt_stage);
+    accumulate (1.0 - g_swdef_photo, g_cswd_photo, g_previous_stage-1, g_dlt_stage);              //ok
+    accumulate (1.0 - g_swdef_expansion, g_cswd_expansion, g_previous_stage-1, g_dlt_stage);      //ok
+    accumulate (1.0 - g_swdef_pheno, g_cswd_pheno, g_previous_stage-1, g_dlt_stage);              //ok
 
-    accumulate (1.0 - g_nfact_photo, g_cnd_photo, g_previous_stage, g_dlt_stage);
-    accumulate (1.0 - g_nfact_grain_conc, g_cnd_grain_conc, g_previous_stage, g_dlt_stage);
+    accumulate (1.0 - g_nfact_photo, g_cnd_photo, g_previous_stage-1, g_dlt_stage);               //ok
+    accumulate (1.0 - g_nfact_grain_conc, g_cnd_grain_conc, g_previous_stage-1, g_dlt_stage);     //ok
 
 // other plant states
 
-    g_canopy_height = g_canopy_height + g_dlt_canopy_height;
-    *g_plants = (*g_plants) + g_dlt_plants;
-    g_root_depth = g_root_depth + g_dlt_root_depth;
+    *g_canopy_height = *g_canopy_height + g_dlt_canopy_height;
+    *g_plants = *g_plants + g_dlt_plants;
+    *g_root_depth = *g_root_depth + g_dlt_root_depth;
     add_real_array (g_dlt_root_length, g_root_length, max_layer);
     subtract_real_array (g_dlt_root_length_senesced, g_root_length, max_layer);
 
@@ -4096,14 +4065,14 @@ void Plant::plant_update
 // Note that this is not entirely accurate.  It links live root
 // weight with root length and so thereafter dead(and detaching)
 // root is assumed to have the same distribution as live roots.
-    for (layer = 1; layer <= max_layer; layer++) 
+    for (layer = 0; layer < max_layer; layer++)
         {
         dlt_root_length_dead = g_root_length[layer] * dying_fract_plants;
         g_root_length[layer] = g_root_length[layer] - dlt_root_length_dead;
         g_root_length_dead[layer] = g_root_length_dead[layer] + dlt_root_length_dead;
         }
 
-    g_pai = g_pai + g_dlt_pai;
+    *g_pai = *g_pai + g_dlt_pai;
 
     plant_n_conc_limits( c_stage_code_list
                         , g_phase_tt
@@ -4151,7 +4120,7 @@ void Plant::plant_check_bounds
     ,float  g_current_stage                     // (INPUT)  current phenological stage        
     ,float *g_days_tot                          // (INPUT)  duration of each phase (days)     
     ,float *g_dlayer                            // (INPUT)  thickness of soil layer I (mm)    
-    ,float *g_dm_dead                           // (INPUT)  dry wt of dead plants (g/m^2)     
+    ,float *g_dm_dead                           // (INPUT)  dry wt of dead plants (g/m^2)
     ,float *g_dm_green                          // (INPUT)  live plant dry weight (biomass    
     ,float *g_dm_senesced                       // (INPUT)  senesced plant dry wt (g/m^2)     
     ,float *g_dm_stress_max                     // (INPUT)  sum of maximum daily stress on    
@@ -4161,14 +4130,14 @@ void Plant::plant_check_bounds
     ,float *g_leaf_area                         // (INPUT)  leaf area of each leaf (mm^2)     
     ,float *g_leaf_no                           // (INPUT)  number of fully expanded leave    
     ,float *g_node_no                           // (INPUT)  number of fully expanded nodes    
-    ,float *g_leaf_no_dead                      // (INPUT)  no of dead leaves ()              
+    ,float *g_leaf_no_dead                      // (INPUT)  no of dead leaves ()
     ,float *g_n_conc_crit                       // (INPUT)  critical N concentration (g N/    
     ,float *g_n_conc_max                        // (INPUT)  maximum N concentration (g N/g    
     ,float *g_n_conc_min                        // (INPUT)  minimum N concentration (g N/g    
     ,float *g_n_dead                            // (INPUT)  plant N content of dead plants    
     ,float *g_n_green                           // (INPUT)  plant nitrogen content (g N/m^    
     ,float *g_n_senesced                        // (INPUT)  plant N content of senesced pl    
-    ,float *g_phase_tt                          // (INPUT)  Cumulative growing degree days    
+    ,float *g_phase_tt                          // (INPUT)  Cumulative growing degree days
     ,float  g_plants                            // (INPUT)  Plant density (plants/m^2)        
     ,float  g_root_depth                        // (INPUT)  depth of roots (mm)               
     ,float  g_slai                              // (INPUT)  area of leaf that senesces fro    
@@ -4191,8 +4160,8 @@ void Plant::plant_check_bounds
                          , "root_depth");
 
     bound_check_real_var(g_current_stage
-                         , 0.0
-                         , (float) max_stage
+                         , 1.0
+                         , max_stage
                          , "current_stage");
 
     bound_check_real_var(g_plants
@@ -4247,7 +4216,7 @@ void Plant::plant_totals
     ,float *g_dlt_sw_dep                 // (INPUT)  water uptake in each layer (mm water)                  
     ,float *g_dm_green                   // (INPUT)  live plant dry weight (biomass) (g/m^2)                
     ,int   *g_flowering_date             // (INPUT)  flowering day number                                   
-    ,int   *g_flowering_das              // (INPUT)  flowering day number                                   
+    ,int   *g_flowering_das              // (INPUT)  flowering day number
     ,float *g_lai                        // (INPUT)  live plant green lai                                   
     ,float *g_lai_max                    // (INPUT)  maximum lai - occurs at flowering                      
     ,int   *g_maturity_date              // (INPUT)  maturity day number
@@ -4300,7 +4269,7 @@ void Plant::plant_totals
     n_uptake = sum_real_array (g_dlt_n_retrans, max_part);
     n_uptake_stover =  g_dlt_n_retrans[leaf] + g_dlt_n_retrans[stem];
 
-// note - g_N_conc_crit should be done before the stages change
+// note - g_n_conc_crit should be done before the stages change
 
     n_conc_stover_crit = (g_n_conc_crit[leaf] + g_n_conc_crit[stem])
     * 0.5;
@@ -4308,10 +4277,10 @@ void Plant::plant_totals
 
     deepest_layer = find_layer_no (*g_root_depth, g_dlayer, max_layer);
 
-    if (on_day_of (sowing, g_current_stage, g_days_tot))
+    if (on_day_of (sowing, g_current_stage))
         {
         *g_n_uptake_tot = n_uptake;
-        *g_transpiration_tot = - sum_real_array (g_dlt_sw_dep, deepest_layer);
+        *g_transpiration_tot = - sum_real_array (g_dlt_sw_dep, deepest_layer+1);
         *g_n_conc_act_stover_tot = n_conc_stover;
         *g_n_conc_crit_stover_tot = n_conc_stover_crit;
         *g_n_demand_tot = n_green_demand;
@@ -4329,7 +4298,7 @@ void Plant::plant_totals
     else
         {
         *g_n_uptake_tot = (*g_n_uptake_tot) + n_uptake;
-        *g_transpiration_tot = (*g_transpiration_tot) + (-sum_real_array (g_dlt_sw_dep, deepest_layer));
+        *g_transpiration_tot = (*g_transpiration_tot) + (-sum_real_array (g_dlt_sw_dep, deepest_layer+1));
         *g_n_conc_act_stover_tot = n_conc_stover;
         *g_n_conc_crit_stover_tot = n_conc_stover_crit;
         *g_n_demand_tot = (*g_n_demand_tot) + n_green_demand;
@@ -4343,13 +4312,13 @@ void Plant::plant_totals
         }
 
     *g_lai_max = max (*g_lai_max, *g_lai);
-    if (on_day_of (flowering, g_current_stage, g_days_tot))
+    if (on_day_of (flowering, g_current_stage))
         {
         *g_flowering_date = g_day_of_year;
         *g_flowering_das = sum_real_array (g_days_tot, flowering);
 
         }
-    else if (on_day_of (maturity, g_current_stage, g_days_tot)) 
+    else if (on_day_of (maturity, g_current_stage))
         {
         *g_maturity_date = g_day_of_year;
         *g_maturity_das = sum_real_array (g_days_tot, maturity);
@@ -4395,13 +4364,12 @@ void Plant::plant_totals
 //+  Changes
 //     010994 jngh specified and programmed
 void Plant::plant_event
-    (float  g_current_stage               // (INPUT)  current phenological stage       
-    ,float *g_days_tot                    // (INPUT)  duration of each phase (days)    
-    ,float *g_dlayer                      // (INPUT)  thickness of soil layer I (mm)   
-    ,float *g_dm_dead                     // (INPUT)  dry wt of dead plants (g/m^2)    
-    ,float *g_dm_green                    // (INPUT)  live plant dry weight (biomass   
-    ,float *g_dm_senesced                 // (INPUT)  senesced plant dry wt (g/m^2)    
-    ,float  g_lai                         // live plant green lai                      
+    (float  g_current_stage               // (INPUT)  current phenological stage
+    ,float *g_dlayer                      // (INPUT)  thickness of soil layer I (mm)
+    ,float *g_dm_dead                     // (INPUT)  dry wt of dead plants (g/m^2)
+    ,float *g_dm_green                    // (INPUT)  live plant dry weight (biomass
+    ,float *g_dm_senesced                 // (INPUT)  senesced plant dry wt (g/m^2)
+    ,float  g_lai                         // live plant green lai
     ,float *g_n_green                     // (INPUT)  plant nitrogen content (g N/m^   
     ,float  g_root_depth                  // (INPUT)  depth of roots (mm)              
     ,float *g_sw_dep                      // (INPUT)  soil water content of layer L    
@@ -4428,13 +4396,13 @@ void Plant::plant_event
 
     stage_no = (int) g_current_stage;
 
-    if (on_day_of (stage_no, g_current_stage, g_days_tot))
+    if (on_day_of (stage_no, g_current_stage))
         {
 // new phase has begun.
         char msg[80];
-        sprintf(msg, " stage %s %s"
-                      , c.stage_code_list[stage_no]
-                      , c.stage_names[stage_no]);        
+        sprintf(msg, " stage %.1f %s"
+                      , c.stage_code_list[stage_no-1]
+                      , c.stage_names[stage_no-1].c_str());
         parent->writeString(msg);
 
         biomass = sum_real_array (g_dm_green, max_part)
@@ -4456,19 +4424,19 @@ void Plant::plant_event
         n_green_conc_percent = divide (n_green, dm_green, 0.0) * fract2pcnt;
 
         deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer);
-        for (layer = 1; layer <= deepest_layer; layer++)
+        for (layer = 0; layer <= deepest_layer; layer++)
            {
            pesw[layer] = g_sw_dep[layer] - p_ll_dep[layer];
            pesw[layer] = l_bound (pesw[layer], 0.0);
            }
-        pesw_tot = sum_real_array (pesw, deepest_layer);
+        pesw_tot = sum_real_array (pesw, deepest_layer+1);
 
         if (stage_is_between (emerg, plant_end, g_current_stage))
             {
             char msg[256];
             sprintf(msg,
-"                     biomass =       %.1f   lai = %.1f\n\
-                     stover n conc = %.1f   extractable sw = %.1f"
+"                     biomass =       %.6f   lai            = %.6f\n\
+                     stover n conc = %.6f   extractable sw = %.6f"
                 ,biomass
                 ,g_lai
                 ,n_green_conc_percent
@@ -4501,9 +4469,9 @@ void Plant::plant_event
 //       220696 jngh changed to post_ construct
 //       081100 dph  added eventInterface parameter to call to crop_root_incorp
 void Plant::plant_root_incorp (
-     float  dlt_dm_root                  // (INPUT) new root residue dm (g/m^2)           
-    ,float  dlt_n_root                   // (INPUT) new root residue N (g/m^2)            
-    ,float  *root_length) {              // (INPUT) root length of root residue (mm/mm^2) 
+     float  dlt_dm_root                  // (INPUT) new root residue dm (g/m^2)
+    ,float  dlt_n_root                   // (INPUT) new root residue N (g/m^2)
+    ,float  *root_length) {              // (INPUT) root length of root residue (mm/mm^2)
 
 //+  Constant Values
     const char*  my_name = "plant_root_incorp" ;
@@ -4516,11 +4484,11 @@ void Plant::plant_root_incorp (
 
     if (dlt_dm_root>0.0)
         {
-        crop_root_incorp (&dlt_dm_root
-                          ,&dlt_n_root
+        plant_root_incorp (dlt_dm_root
+                          ,dlt_n_root
                           ,g.dlayer
                           ,root_length
-                          ,&g.root_depth
+                          ,g.root_depth
                           ,c.crop_type.c_str()
                           ,max_layer);
 
@@ -4545,16 +4513,16 @@ void Plant::plant_root_incorp (
 
 //+  Changes
 //       080994 jngh specified and programmed
-float Plant::plant_stage_code (float  *c_stage_code_list  // (INPUT)  list of stage numbers                                              
-                              ,float  *g_phase_tt         // (INPUT)  Cumulative growing degree days required for each stage (deg days)  
-                              ,float  *g_tt_tot           // (INPUT)  the sum of growing degree days for a phenological stage (oC d)     
-                              ,float  stage_no            // (INPUT) stage number to convert                                             
-                              ,float  *stage_table        // (INPUT) table of stage codes                                                
-                              ,int    numvals) {          // (INPUT) size_of of table                                                    
-                                                                                                                                                             
+float Plant::plant_stage_code (float  *c_stage_code_list  // (INPUT)  list of stage numbers
+                              ,float  *g_phase_tt         // (INPUT)  Cumulative growing degree days required for each stage (deg days)
+                              ,float  *g_tt_tot           // (INPUT)  the sum of growing degree days for a phenological stage (oC d)
+                              ,float  stage_no            // (INPUT) stage number to convert
+                              ,float  *stage_table        // (INPUT) table of stage codes
+                              ,int    numvals) {          // (INPUT) size_of of table
+
      //+  Constant Values
      const char*  my_name = "plant_stage_code" ;
-     
+
      //+  Local Variables
      float phase_tt;                                   // required thermal time between stages (oC)
      float fraction_of;                                //
@@ -4563,25 +4531,26 @@ float Plant::plant_stage_code (float  *c_stage_code_list  // (INPUT)  list of st
      float tt_tot;                                     // elapsed thermal time between stages (oC)
      int   this_stage;                                 // this stage to use
      float x_stage_code = 0.0;                         // interpolated stage code
-     
+
      //- Implementation Section ----------------------------------
-     
+
      push_routine (my_name);
-     
+
      if (numvals>=2)
          {
          // we have a valid table
-         this_stage = stage_no_of (stage_table[1] , c_stage_code_list, max_stage);
-     
-         for (i = 2; i <= numvals; i++) 
+         this_stage = stage_no_of (stage_table[0] , c_stage_code_list, max_stage);
+
+         for (i = 1; i < numvals; i++)
            {
            next_stage = stage_no_of (stage_table[i], c_stage_code_list, max_stage);
-           if (stage_is_between (this_stage, next_stage, stage_no)) 
+           if (stage_is_between (this_stage, next_stage, stage_no))
               {
               // we have found its place
-              tt_tot = sum_between (this_stage, next_stage, g_tt_tot);
-              phase_tt = sum_between (this_stage, next_stage, g_phase_tt);
+              tt_tot = sum_between (this_stage-1, next_stage-1, g_tt_tot);
+              phase_tt = sum_between (this_stage-1, next_stage-1, g_phase_tt);
               fraction_of = divide (tt_tot, phase_tt, 0.0);
+              fraction_of = bound(fraction_of, 0.0, 0.999);
               x_stage_code = stage_table[i-1] + (stage_table[i] - stage_table[i-1])
                                   * fraction_of;
               break;
@@ -4597,9 +4566,9 @@ float Plant::plant_stage_code (float  *c_stage_code_list  // (INPUT)  list of st
         {
         // we have no valid table
         x_stage_code = 0.0;
-     
+
         char msg[80];
-        sprintf(msg, "invalid lookup table - number of values = %d", numvals);
+        sprintf(msg, "invalid stage code lookup table - number of values = %d", numvals);
         warning_error (&err_user, msg);
         }
     pop_routine (my_name);
@@ -4627,7 +4596,6 @@ void Plant::plant_root_depth (int option /* (INPUT) option number*/)
 
     if (option == 1)
         {
-
         legopt_root_depth1 (
         g.dlayer
         ,c.num_sw_ratio
@@ -4644,26 +4612,25 @@ void Plant::plant_root_depth (int option /* (INPUT) option number*/)
         ,c.y_rel_root_advance
         ,c.num_temp_root_advance
         ,p.xf
-        ,g.dlt_root_depth
         ,g.root_depth
-        );
+        ,&g.dlt_root_depth);
 
         }
     else if (option==2)
         {
 
-        cproc_root_depth2 (&g.current_stage
-                           ,&g.maxt
-                           ,&g.mint
-                           ,&g.swdef_photo
-                           ,&g.root_depth
-                           ,&c.num_temp_root_advance
+        cproc_root_depth2 ( g.current_stage
+                           ,g.maxt
+                           ,g.mint
+                           ,g.swdef_photo
+                           ,g.root_depth
+                           ,c.num_temp_root_advance
                            ,c.x_temp_root_advance
                            ,c.y_rel_root_advance
-                           ,&c.num_ws_root
+                           ,c.num_ws_root
                            ,c.x_ws_root
                            ,c.y_ws_root_fac
-                           ,&c.num_sw_ratio
+                           ,c.num_sw_ratio
                            ,c.x_sw_ratio
                            ,c.y_sw_fac_root
                            ,g.dlayer
@@ -4695,23 +4662,19 @@ void Plant::plant_root_depth (int option /* (INPUT) option number*/)
 //      250894 jngh specified and programmed
 void Plant::plant_water_supply (int option /* (INPUT) option number*/)
     {
-
-//+  Constant Values
     const char*  my_name = "plant_water_supply" ;
 
-//- Implementation Section ----------------------------------
-    //!!!!!!!! check order dependency of deltas
     push_routine (my_name);
 
     if (option == 1)
         {
-        cproc_sw_supply1 (&c.sw_lb
+        cproc_sw_supply1 ( c.sw_lb
                           ,g.dlayer
                           ,p.ll_dep
                           ,g.dul_dep
                           ,g.sw_dep
-                          ,&max_layer
-                          ,&g.root_depth
+                          ,max_layer
+                          ,g.root_depth
                           ,p.kl
                           ,g.sw_avail
                           ,g.sw_avail_pot
@@ -4748,14 +4711,14 @@ void Plant::plant_water_demand (int option /* (INPUT) option number*/)
     if (option == 1)
         {
 
-        cproc_sw_demand1 (&g.dlt_dm_pot_rue,
-                          &g.transp_eff,
+        cproc_sw_demand1 (g.dlt_dm_pot_rue,
+                          g.transp_eff,
                           &g.sw_demand_te);
 
-        cproc_sw_demand_bound(&g.sw_demand_te
-                              ,&p.eo_crop_factor
-                              ,&g.eo
-                              ,&g.cover_green
+        cproc_sw_demand_bound(g.sw_demand_te
+                              ,p.eo_crop_factor
+                              ,g.eo
+                              ,g.cover_green
                               ,&g.sw_demand);
 
         }
@@ -4780,15 +4743,10 @@ void Plant::plant_water_demand (int option /* (INPUT) option number*/)
 
 void Plant::plant_water_uptake (int option /*(INPUT) option number*/)
     {
-//+   Local variables
     int   layer;                                  // layer number of profile ()
     float ext_sw_supply[max_layer];
-
-//+  Constant Values
     const char*  my_name = "plant_water_uptake" ;
 
-//- Implementation Section ----------------------------------
-    //!!!!!!!! check order dependency of deltas
     push_routine (my_name);
 
     if (Str_i_Eq(p.uptake_source,"apsim"))
@@ -4802,14 +4760,14 @@ void Plant::plant_water_uptake (int option /*(INPUT) option number*/)
                              ,ext_sw_supply
                              ,max_layer);    // uptake flag// crop type// uptake name// unit conversion factor// uptake lbound// uptake ubound// uptake array// array dim
 
-        for (layer = 1; layer <= g.num_layers; layer++) 
+        for (layer = 0; layer < g.num_layers; layer++) 
            {
            g.dlt_sw_dep[layer] = -ext_sw_supply[layer];
            }
         }
     else if (option == 1)
         {
-        cproc_sw_uptake1(&max_layer, g.dlayer, &g.root_depth, &g.sw_demand, g.sw_supply, g.dlt_sw_dep);
+        cproc_sw_uptake1(max_layer, g.dlayer, g.root_depth, g.sw_demand, g.sw_supply, g.dlt_sw_dep);
         }
     else
         {
@@ -4840,7 +4798,7 @@ void Plant::plant_light_supply (int option /*(INPUT) option number*/)
 
     if (option == 1)
         {
-        crop_radn_int0(&g.cover_green, &g.fr_intc_radn, &g.radn, &g.radn_int);
+        crop_radn_int0(g.cover_green, g.fr_intc_radn, g.radn, &g.radn_int);
         }
     else
         {
@@ -4848,7 +4806,6 @@ void Plant::plant_light_supply (int option /*(INPUT) option number*/)
         }
 
     pop_routine (my_name);
-    return;
     }
 
 
@@ -4862,19 +4819,15 @@ void Plant::plant_light_supply (int option /*(INPUT) option number*/)
 //      5/9/96 dph
 void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
     {
-
-//+  Constant Values
     const char*  my_name = "plant_bio_rue" ;
 
-//- Implementation Section ----------------------------------
     push_routine (my_name);
 
     if (option == 1)
         {
         legnew_dm_pot_rue(g.current_stage
                          , g.tt_tot
-                         , c.stage_code_list
-                         , c.x_stage_code_list_rue
+                         , c.x_stage_rue
                          , g.phase_tt
                          , c.y_rue
                          , c.rue_pod
@@ -4915,7 +4868,11 @@ void Plant::plant_transpiration_eff (int option /*(INPUT) option number*/)
 
     if (option == 1)
         {
-        cproc_transp_eff1(&c.svp_fract, c.transp_eff_cf, &g.current_stage, &g.maxt, &g.mint, &g.transp_eff);
+        int current_phase = int(g.current_stage);
+
+        cproc_transp_eff1(c.svp_fract, c.transp_eff_cf[current_phase-1],
+                          g.maxt, g.mint,
+                          &g.transp_eff);
         }
     else
         {
@@ -4945,13 +4902,13 @@ void Plant::plant_sen_root_length (int option /*(INPUT) option number*/)
 
     if (option == 1)
         {
-        cproc_root_length_senescence1(&c.specific_root_length
+        cproc_root_length_senescence1(  c.specific_root_length
                                       , g.dlayer
-                                      , &g.dlt_dm_senesced[root]
+                                      , g.dlt_dm_senesced[root]
                                       , g.root_length
-                                      , &g.root_depth
+                                      , g.root_depth
                                       , g.dlt_root_length_senesced
-                                      , &max_layer);
+                                      , max_layer);
         }
     else
         {
@@ -4982,9 +4939,9 @@ void Plant::plant_root_depth_init (int option /*(INPUT) option number*/)
 
     if (option == 1)
         {
-        cproc_root_depth_init1(&c.initial_root_depth
-                               , &g.current_stage
-                               , &germ
+        cproc_root_depth_init1(c.initial_root_depth
+                               , g.current_stage
+                               , germ
                                , g.days_tot
                                , &g.root_depth);
         }
@@ -5018,25 +4975,25 @@ void Plant::plant_root_length_growth (int option /*(INPUT) option number*/)
 
     if (option == 1)
         {
-        cproc_root_length_growth1(&c.specific_root_length
+        cproc_root_length_growth1(  c.specific_root_length
                                   , g.dlayer
-                                  , &g.dlt_dm_green[root]
+                                  , g.dlt_dm_green[root]
                                   , g.dlt_root_length
-                                  , &g.dlt_root_depth
-                                  , &g.root_depth
+                                  , g.dlt_root_depth
+                                  , g.root_depth
                                   , g.root_length
-                                  , &g.plants
+                                  , g.plants
                                   , p.xf
-                                  , &c.num_sw_ratio
+                                  , c.num_sw_ratio
                                   , c.x_sw_ratio
                                   , c.y_sw_fac_root
                                   , c.x_plant_rld
                                   , c.y_rel_root_rate
-                                  , &c.num_plant_rld
+                                  , c.num_plant_rld
                                   , g.dul_dep
                                   , g.sw_dep
                                   , p.ll_dep
-                                  , &max_layer);
+                                  , max_layer);
         }
     else
         {
@@ -5068,15 +5025,15 @@ void Plant::plant_root_length_init (int option /*(INPUT) option number*/)
 
     if (option == 1)
         {
-        cproc_root_length_init1(&emerg
-                                ,&g.current_stage
+        cproc_root_length_init1( emerg
+                                ,g.current_stage
                                 ,g.days_tot
-                                ,&g.dm_green[root]
-                                ,&c.specific_root_length
-                                ,&g.root_depth
+                                ,g.dm_green[root]
+                                ,c.specific_root_length
+                                ,g.root_depth
                                 ,g.dlayer
                                 ,g.root_length
-                                ,&max_layer);
+                                ,max_layer);
         }
     else
         {
@@ -5195,17 +5152,18 @@ void Plant::legnew_cover_leaf_pod (
     ,float  canopy_fac
     ,float g_lai
     ,float g_pai
-    ,float lai_canopy                             // lai transformed to solid rows
-    ,float *g_cover_green  //OUTPUT
-    ,float *g_cover_pod    //OUTPUT
+    ,float *g_lai_canopy     // OUTPUT lai transformed to solid rows
+    ,float *g_cover_green  // OUTPUT
+    ,float *g_cover_pod    // OUTPUT
     ) {
 
 //+  Constant Values
     const char*  myname = "legnew_cover_leaf_pod" ;
 
 //+  Local Variables
-    float extinct_coef;
-    float pai_canopy;                             // pai transformed to solid rows
+    double extinct_coef;
+    double lai_canopy;                             // lai transformed to solid rows
+    double pai_canopy;                             // pai transformed to solid rows
     float cover_green_canopy;                     // green cover in row
     float cover_green_pod_canopy;                 // green pod cover in row
 
@@ -5216,21 +5174,16 @@ void Plant::legnew_cover_leaf_pod (
                                        ,c_y_extinct_coef
                                        ,c_num_row_spacing);
 
-//-----light interception modified to give hedgerow effect with skip row
-
-    lai_canopy = g_lai * canopy_fac         ;     // lai in hedgerow
-    pai_canopy = g_pai * canopy_fac         ;     // lai in hedgerow
+    //-----light interception modified to give hedgerow effect with skip row
+    lai_canopy = g_lai * canopy_fac;     // lai in hedgerow
+    pai_canopy = g_pai * canopy_fac;
 
     if (g_lai > 0.0 || g_pai > 0.0)
         {
-
         cover_green_canopy = 1.0 - exp(-(c_extinct_coef_pod*pai_canopy
-        + extinct_coef*lai_canopy));
+                                         + extinct_coef*lai_canopy));
                                                   // interception on ground area basis
         *g_cover_green = divide (cover_green_canopy, canopy_fac, 0.0);
-
-//         print*, 'canopy_fac, lai_canopy, g_cover_green'
-//         print*, canopy_fac, lai_canopy, g_cover_green
         }
     else
         {
@@ -5249,9 +5202,9 @@ void Plant::legnew_cover_leaf_pod (
         {
         *g_cover_pod = 0.0;
         }
+    *g_lai_canopy = lai_canopy;
 
     pop_routine (myname);
-    return;
     }
 
 
@@ -5299,7 +5252,7 @@ void Plant::legnew_n_partition
 // distributed to to each plant part and distribute it.
 
     deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer);
-    n_uptake_sum = - sum_real_array (g_dlt_no3gsm, deepest_layer);
+    n_uptake_sum = - sum_real_array (g_dlt_no3gsm, deepest_layer+1);
     n_demand = sum_real_array (g_n_demand, max_part);
 
     n_excess = n_uptake_sum - n_demand;
@@ -5307,7 +5260,7 @@ void Plant::legnew_n_partition
 
     if (n_excess>0.0)
         {
-        for (part = 1; part <= max_part; part++) 
+        for (part = 0; part < max_part; part++)
           {
           n_capacity[part] = g_n_max[part] - g_n_demand[part];
           }
@@ -5321,7 +5274,7 @@ void Plant::legnew_n_partition
 
     n_capacity_sum = sum_real_array (n_capacity, max_part);
 
-    for (part = 1; part <= max_part; part++)
+    for (part = 0; part < max_part; part++)
         {
         if (n_excess>0.0)
             {
@@ -5337,15 +5290,20 @@ void Plant::legnew_n_partition
     dlt_n_green[meal] = 0.0;
     dlt_n_green[oil] = 0.0;
 
-    bound_check_real_var (sum_real_array (dlt_n_green, max_part)
-                          , n_uptake_sum, n_uptake_sum
-                          , "dlt_n_green mass balance");
+    if (!reals_are_equal(sum_real_array (dlt_n_green, max_part) - n_uptake_sum, 0.0))
+        {
+        string msg ="dlt_n_green mass balance is off: "
+              + Ftoa(sum_real_array (dlt_n_green, max_part), 4)
+              + " vs "
+              + Ftoa(n_uptake_sum, 4);
+        error(msg.c_str(), false);
+        }
 
     n_fix_demand_tot = l_bound (n_demand - n_uptake_sum, 0.0);
 
     *n_fix_uptake = bound (g_n_fix_pot, 0.0, n_fix_demand_tot);
 
-    for (part = 1; part <= max_part; part++ ) 
+    for (part = 0; part < max_part; part++ ) 
          {
          fix_demand = l_bound (g_n_demand[part] - dlt_n_green[part], 0.0);
          fix_part_fract = divide (fix_demand, n_fix_demand_tot, 0.0);
@@ -5368,7 +5326,7 @@ void Plant::legnew_n_partition
 void Plant::legnew_bio_grain_oil (
      float  c_grain_oil_conc          // (INPUT) fractional oil content of grain (0-1)     
     ,float  c_carbo_oil_conv_ratio    // (INPUT) Carbohydrate:oil conversion ratio (>= 1.0)
-    ,float  grain_energy              // (OUTPUT) multiplier of grain weight to account    
+    ,float  *grain_energy              // (OUTPUT) multiplier of grain weight to account
     ) {                               // for seed energy content (>= 1.0)
 
 //+  Constant Values
@@ -5377,9 +5335,9 @@ void Plant::legnew_bio_grain_oil (
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
-    grain_energy = 1.0 + c_grain_oil_conc * (c_carbo_oil_conv_ratio - 1.0);
+    *grain_energy = 1.0 + c_grain_oil_conc * (c_carbo_oil_conv_ratio - 1.0);
 
-    bound_check_real_var (grain_energy
+    bound_check_real_var (*grain_energy
                           , 1.0
                           , 2.0
                           , "grain_energy");
@@ -5421,7 +5379,7 @@ void Plant::legnew_bio_yieldpart_demand1
     ,float *p_y_hi_max_pot                     // (INPUT) Potential Max HI              
     ,int   p_num_hi_max_pot                    // (INPUT) Number of lookup pairs        
     ,float g_grain_energy                      // (INPUT)
-    ,float dlt_dm_yieldpart_demand             // (OUTPUT) grain dry matter potential (g/m^2)
+    ,float *dlt_dm_yieldpart_demand             // (OUTPUT) grain dry matter potential (g/m^2)
     ) {
 
 //+  Constant Values
@@ -5452,56 +5410,56 @@ void Plant::legnew_bio_yieldpart_demand1
 
     if (stage_is_between (start_grainfill_stage
                           , end_grainfill_stage
-                          , g_current_stage)) 
+                          , g_current_stage))
         {
-        stress_sum = sum_between (start_stress_stage
-                                  ,start_grainfill_stage
+        stress_sum = sum_between (start_stress_stage-1
+                                  ,start_grainfill_stage-1
                                   ,g_dm_stress_max);
-        days_sum = sum_between (start_stress_stage
-                                ,start_grainfill_stage
+        days_sum = sum_between (start_stress_stage-1
+                                ,start_grainfill_stage-1
                                 ,g_days_tot);
         ave_stress = divide (stress_sum, days_sum, 1.0);
         hi_max_pot = linear_interp_real(ave_stress
                                         ,p_x_hi_max_pot_stress
                                         ,p_y_hi_max_pot
                                         ,p_num_hi_max_pot);
-    
+
         photoperiod = day_length (g_day_of_year, g_latitude, c_twilight);
-    
+
         hi_incr = linear_interp_real(photoperiod
                                     ,p_x_pp_hi_incr
                                     ,p_y_hi_incr
                                     ,p_num_pp_hi_incr);
-    
+
     // effective grain filling period
-    
+
         dm_tops = sum_real_array (g_dm_green, max_part)
                          - g_dm_green[root_part]
                          + sum_real_array (g_dm_senesced, max_part)
                          - g_dm_senesced[root_part];
         dm_green_yield_parts = 0.0;
-    
-        for (indx = 1; indx <= num_yield_parts; indx++) 
+
+        for (indx = 0; indx < num_yield_parts; indx++)
             {
             dm_green_yield_parts = dm_green_yield_parts
                          + g_dm_green[yield_parts[indx]];
             }
         harvest_index = divide (dm_green_yield_parts, dm_tops, 0.0);
         dm_tops_new = dm_tops + g_dlt_dm;
-    
+
         harvest_index_new = u_bound (harvest_index + hi_incr, hi_max_pot);
-    
+
         dm_grain_new = dm_tops_new * harvest_index_new;
         dlt_dm_yield_unadj = dm_grain_new - dm_green_yield_parts;
-    
+
     // adjust for grain energy
-    
+
         dlt_dm_yield_unadj = bound (dlt_dm_yield_unadj, 0.0, dm_grain_new);
-    
+
         energy_adjust = divide (g_grain_energy
                                 , 1.0 + harvest_index_new*(g_grain_energy - 1.0)
                                 , 0.0);
-    
+
         dlt_dm_yield = dlt_dm_yield_unadj * energy_adjust;
     //jh         dlt_dm_yield = dlt_dm_yield_unadj
         }
@@ -5510,10 +5468,10 @@ void Plant::legnew_bio_yieldpart_demand1
         // we are out of grain fill period
         dlt_dm_yield = 0.0;
         }
-    
-    
-    dlt_dm_yieldpart_demand = dlt_dm_yield;
-    
+
+
+    *dlt_dm_yieldpart_demand = dlt_dm_yield;
+
     pop_routine (my_name);
     return;
     }
@@ -5533,16 +5491,16 @@ void Plant::legnew_bio_yieldpart_demand1
 //                     and partitioning to energy pool
 void Plant::legnew_dm_partition1
     (
-     float  c_frac_leaf                   // (INPUT)  fraction of remaining dm allocated to leaf       
-    ,float  c_frac_pod                    // (INPUT)  fraction of remaining dm allocated to pod        
-    ,float  g_grain_energy                // multiplier of grain weight to account f                   
-    ,float  c_grain_oil_conc              // multiplier of grain weight to account f                   
-    ,float  c_ratio_root_shoot            // (INPUT)  root:shoot ratio of new dm ()                    
-    ,float  c_sla_min                     // (INPUT)  minimum specific leaf area for                   
-    ,float  g_dlt_dm                      // (INPUT)  the daily biomass production (                   
-    ,float  g_dlt_dm_grain_demand         // (INPUT)  grain dm demand (g/m^2)                          
-    ,float  g_dlt_lai_stressed            // (INPUT)  potential change in live                         
-    ,float  dlt_dm_oil_conv               // (OUTPUT) actual biomass used in conversion to oil (g/m2)  
+     float  c_frac_leaf                   // (INPUT)  fraction of remaining dm allocated to leaf
+    ,float  c_frac_pod                    // (INPUT)  fraction of remaining dm allocated to pod
+    ,float  g_grain_energy                // multiplier of grain weight to account f
+    ,float  c_grain_oil_conc              // multiplier of grain weight to account f
+    ,float  c_ratio_root_shoot            // (INPUT)  root:shoot ratio of new dm ()
+    ,float  c_sla_min                     // (INPUT)  minimum specific leaf area for
+    ,double g_dlt_dm                      // (INPUT)  the daily biomass production (
+    ,float  g_dlt_dm_grain_demand         // (INPUT)  grain dm demand (g/m^2)
+    ,float  g_dlt_lai_stressed            // (INPUT)  potential change in live
+    ,float  *dlt_dm_oil_conv               // (OUTPUT) actual biomass used in conversion to oil (g/m2)
     ,float  *dlt_dm_green                  // (OUTPUT) actual biomass partitioned to plant parts (g/m^2)
     ) {
 
@@ -5550,17 +5508,17 @@ void Plant::legnew_dm_partition1
     const char*  my_name = "legnew_dm_partition1" ;
 
 //+  Local Variables
-    float dlt_dm_green_tot;                       // total of partitioned dm (g/m^2)
-    float dlt_dm_leaf_max;                        // max increase in leaf dm (g/m^2)
+    double dlt_dm_green_tot;                       // total of partitioned dm (g/m^2)
+    double dlt_dm_leaf_max;                        // max increase in leaf dm (g/m^2)
 //jh redundant      real       partition_grain       ! fraction of dm partitioned to grain
 //jh redundant                                       ! versus pod
-    float dm_remaining;                           // interim dm pool for partitioning
-    float yield_demand;                           // sum of grain, energy & pod
-    float dm_grain_demand;                        // assimilate demand for grain (g/m^2)
-    float dm_meal_demand;                         // assimilate demand for meal (g/m^2)
-    float dm_oil_demand;                          // assimilate demand for oil (g/m^2)
-    float dm_oil_conv_demand;                     // assimilate demand for conversion to oil (g/m^2)
-    float dm_pod_demand;                          // assimilate demand for pod (g/m^2)
+    double dm_remaining;                           // interim dm pool for partitioning
+    double yield_demand;                           // sum of grain, energy & pod
+    double dm_grain_demand;                        // assimilate demand for grain (g/m^2)
+    double dm_meal_demand;                         // assimilate demand for meal (g/m^2)
+    double dm_oil_demand;                          // assimilate demand for oil (g/m^2)
+    double dm_oil_conv_demand;                     // assimilate demand for conversion to oil (g/m^2)
+    double dm_pod_demand;                          // assimilate demand for pod (g/m^2)
 
 //- Implementation Section ----------------------------------
     push_routine (my_name);
@@ -5570,97 +5528,93 @@ void Plant::legnew_dm_partition1
 // that enough extra was produced to meet demand. Thus the root
 // growth is not removed from the carbo produced by the model.
 
-// first we zero all plant component deltas
-
+    // first we zero all plant component deltas
     fill_real_array (dlt_dm_green, 0.0, max_part);
 
-// now we get the root delta for all stages - partition scheme
-// specified in coeff file
+    // now we get the root delta for all stages - partition scheme
+    // specified in coeff file
+    dlt_dm_green[root] = c_ratio_root_shoot * g_dlt_dm;
 
-    dlt_dm_green[root] = c_ratio_root_shoot *g_dlt_dm;
-
-// calculate demands of reproductive parts
-
-    dm_grain_demand = divide (g_dlt_dm_grain_demand
-    , g_grain_energy, 0.0);
+    // calculate demands of reproductive parts
+    dm_grain_demand = divide (g_dlt_dm_grain_demand, g_grain_energy, 0.0);
 
     dm_meal_demand = dm_grain_demand * (1.0 - c_grain_oil_conc);
-    dm_oil_demand = dm_grain_demand
-    - dm_meal_demand;
-    dm_oil_conv_demand = g_dlt_dm_grain_demand
-    - dm_grain_demand;
+    dm_oil_demand = dm_grain_demand - dm_meal_demand;
+    dm_oil_conv_demand = g_dlt_dm_grain_demand - dm_grain_demand;
+
     if (dm_grain_demand > 0.0)
         {
         dm_pod_demand = dm_grain_demand * c_frac_pod;
         }
     else
         {
-        dm_pod_demand = g_dlt_dm
-        * c_frac_pod;
+        dm_pod_demand = g_dlt_dm * c_frac_pod;
         }
     yield_demand = dm_pod_demand
-    + dm_meal_demand
-    + dm_oil_demand
-    + dm_oil_conv_demand;
+      + dm_meal_demand
+      + dm_oil_demand
+      + dm_oil_conv_demand;
 
-// now distribute the assimilate to plant parts
-
+    // now distribute the assimilate to plant parts
     if (yield_demand >= g_dlt_dm)
         {
-// reproductive demand exceeds supply - distribute assimilate to those parts only
+        // reproductive demand exceeds supply - distribute assimilate to those parts only
         dlt_dm_green[meal] = g_dlt_dm
-        * divide (dm_meal_demand
-        , yield_demand, 0.0);
+             * divide (dm_meal_demand, yield_demand, 0.0);
         dlt_dm_green[oil] = g_dlt_dm
-        * divide (dm_oil_demand
-        , yield_demand, 0.0);
-        dlt_dm_oil_conv = g_dlt_dm
-        * divide (dm_oil_conv_demand
-        , yield_demand, 0.0);
+             * divide (dm_oil_demand, yield_demand, 0.0);
+        *dlt_dm_oil_conv = g_dlt_dm
+             * divide (dm_oil_conv_demand, yield_demand, 0.0);
         dlt_dm_green[pod] = g_dlt_dm
-        - dlt_dm_green[meal]
-        - dlt_dm_green[oil]
-        - dlt_dm_oil_conv;
+          - dlt_dm_green[meal]
+          - dlt_dm_green[oil]
+          - (*dlt_dm_oil_conv);
         dlt_dm_green[stem] = 0.0;
         dlt_dm_green[leaf] = 0.0;
         }
     else
         {
-// more assimilate than needed for reproductive parts
-// distribute to all parts
+        // more assimilate than needed for reproductive parts
+        // distribute to all parts
 
-// satisfy reproductive demands
-
+        // satisfy reproductive demands
         dlt_dm_green[meal]   = dm_meal_demand;
         dlt_dm_green[oil]    = dm_oil_demand;
-        dlt_dm_oil_conv      = dm_oil_conv_demand;
+        *dlt_dm_oil_conv      = dm_oil_conv_demand;
         dlt_dm_green[pod]    = dm_pod_demand;
 
-// distribute remainder to vegetative parts
-
+        // distribute remainder to vegetative parts
         dm_remaining = g_dlt_dm - yield_demand;
-
         dlt_dm_green[leaf] = c_frac_leaf * dm_remaining;
 
-// limit the delta leaf area to maximum
-        dlt_dm_leaf_max = divide (g_dlt_lai_stressed
-        , c_sla_min * smm2sm, 0.0);
-        dlt_dm_green[leaf] = u_bound (dlt_dm_green[leaf]
-        , dlt_dm_leaf_max);
+        // limit the delta leaf area to maximum
+        dlt_dm_leaf_max = divide (g_dlt_lai_stressed, c_sla_min * smm2sm, 0.0);
+        dlt_dm_green[leaf] = u_bound (dlt_dm_green[leaf], dlt_dm_leaf_max);
 
         dm_remaining = dm_remaining - dlt_dm_green[leaf];
         dlt_dm_green[stem] = dm_remaining;
         }
 
-// do mass balance check - roots are not included
+    // do mass balance check - roots are not included
     dlt_dm_green_tot = sum_real_array (dlt_dm_green, max_part)
-    - dlt_dm_green[root] + dlt_dm_oil_conv;
+                          - dlt_dm_green[root]
+                          + *dlt_dm_oil_conv;
 
-    bound_check_real_var (dlt_dm_green_tot, g_dlt_dm, g_dlt_dm, "dlt_dm_green_tot mass balance");
+    if (!reals_are_equal(dlt_dm_green_tot, g_dlt_dm, 1.0E-4))  // XX this is probably too much slop - try doubles XX
+      {
+      string msg = "dlt_dm_green_tot mass balance is off: "
+          + Ftoa(dlt_dm_green_tot, 6)
+          + " vs "
+          + Ftoa(g_dlt_dm, 6);
+      error(msg.c_str(), 0);
+      }
 
-// check that deltas are in legal range
-
+    // check that deltas are in legal range
     bound_check_real_array (dlt_dm_green, max_part, 0.0, g_dlt_dm, "dlt_dm_green");
+
+//    fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n", g.day_of_year,
+//            g.dm_green[root] + g.dm_green[leaf] + g.dm_green[stem],
+//            g.dm_green[root], g.dm_green[leaf],g.dm_green[stem]);
 
     pop_routine (my_name);
     return;
@@ -5685,14 +5639,14 @@ void Plant::legnew_dm_partition2
     ,float  *c_y_frac_leaf
     ,float  *c_y_frac_pod
     ,int    c_num_stage_no_partition
-    ,float  g_grain_energy                      // multiplier of grain weight to account f 
-    ,float  c_grain_oil_conc                    // multiplier of grain weight to account f 
-    ,float  *c_y_ratio_root_shoot               // (INPUT)  root:shoot ratio of new dm ()                    
-    ,float  c_sla_min                           // (INPUT)  minimum specific leaf area for                   
-    ,float  g_dlt_dm                            // (INPUT)  the daily biomass production (                   
-    ,float  g_dlt_dm_grain_demand               // (INPUT)  grain dm demand (g/m^2)                          
-    ,float  g_dlt_lai_stressed                  // (INPUT)  potential change in live                         
-    ,float  dlt_dm_oil_conv                     // (OUTPUT) actual biomass used in conversion to oil (g/m2)  
+    ,float  g_grain_energy                      // multiplier of grain weight to account f
+    ,float  c_grain_oil_conc                    // multiplier of grain weight to account f
+    ,float  *c_y_ratio_root_shoot               // (INPUT)  root:shoot ratio of new dm ()
+    ,float  c_sla_min                           // (INPUT)  minimum specific leaf area for
+    ,double  g_dlt_dm                            // (INPUT)  the daily biomass production (
+    ,float  g_dlt_dm_grain_demand               // (INPUT)  grain dm demand (g/m^2)
+    ,float  g_dlt_lai_stressed                  // (INPUT)  potential change in live
+    ,float  *dlt_dm_oil_conv                     // (OUTPUT) actual biomass used in conversion to oil (g/m2)
     ,float  *dlt_dm_green                       // (OUTPUT) actual biomass partitioned to plant parts (g/m^2)
     ) {
 //XX//    float c_frac_leaf;                            // (INPUT)  fraction of remaining dm allocated to leaf
@@ -5736,7 +5690,7 @@ void Plant::legnew_dm_partition2
    // carbohydrate produced - that is for tops only.  Here we assume
    // that enough extra was produced to meet demand. Thus the root
    // growth is not removed from the carbo produced by the model.
-   
+
    // first we zero all plant component deltas
 
     fill_real_array (dlt_dm_green, 0.0, max_part);
@@ -5770,8 +5724,8 @@ void Plant::legnew_dm_partition2
         // reproductive demand exceeds supply - distribute assimilate to those parts only
         dlt_dm_green[meal] = g_dlt_dm * divide (dm_meal_demand, yield_demand, 0.0);
         dlt_dm_green[oil] = g_dlt_dm * divide (dm_oil_demand, yield_demand, 0.0);
-        dlt_dm_oil_conv = g_dlt_dm * divide (dm_oil_conv_demand, yield_demand, 0.0);
-        dlt_dm_green[pod] = g_dlt_dm - dlt_dm_green[meal] - dlt_dm_green[oil] - dlt_dm_oil_conv;
+        *dlt_dm_oil_conv = g_dlt_dm * divide (dm_oil_conv_demand, yield_demand, 0.0);
+        dlt_dm_green[pod] = g_dlt_dm - dlt_dm_green[meal] - dlt_dm_green[oil] - (*dlt_dm_oil_conv);
         dlt_dm_green[stem] = 0.0;
         dlt_dm_green[leaf] = 0.0;
         }
@@ -5784,7 +5738,7 @@ void Plant::legnew_dm_partition2
 
         dlt_dm_green[meal]   = dm_meal_demand;
         dlt_dm_green[oil]    = dm_oil_demand;
-        dlt_dm_oil_conv      = dm_oil_conv_demand;
+        *dlt_dm_oil_conv      = dm_oil_conv_demand;
         dlt_dm_green[pod]    = dm_pod_demand;
 
         // distribute remainder to vegetative parts
@@ -5802,9 +5756,16 @@ void Plant::legnew_dm_partition2
         }
 
     // do mass balance check - roots are not included
-    dlt_dm_green_tot = sum_real_array (dlt_dm_green, max_part) - dlt_dm_green[root] + dlt_dm_oil_conv;
+    dlt_dm_green_tot = sum_real_array (dlt_dm_green, max_part) - dlt_dm_green[root] + *dlt_dm_oil_conv;
 
-    bound_check_real_var (dlt_dm_green_tot, g_dlt_dm, g_dlt_dm, "dlt_dm_green_tot mass balance");
+    if (!reals_are_equal(dlt_dm_green_tot, g_dlt_dm))
+      {
+      string msg = "dlt_dm_green_tot mass balance is off: "
+          + Ftoa(dlt_dm_green_tot, 6)
+          + " vs "
+          + Ftoa(g_dlt_dm, 6);
+      error(msg.c_str(), 0);
+      }
 
     // check that deltas are in legal range
     bound_check_real_array (dlt_dm_green, max_part, 0.0, g_dlt_dm, "dlt_dm_green");
@@ -5825,22 +5786,22 @@ void Plant::legnew_dm_partition2
 //       150900 jngh specified and programmed
 void Plant::legnew_dm_retranslocate1
     (
-     float  c_frac_pod                    // (INPUT) fraction of remaining dm allocated to pod                                 
-    ,float  g_grain_energy                // (INPUT) multiplier of grain weight to account for energy used in oil conversion.  
-    ,float  c_grain_oil_conc              // (INPUT) fraction of grain that is oil                                             
-    ,int    pod                           // (INPUT)                                                                           
-    ,int    meal                          // (INPUT)                                                                           
-    ,int    oil                           // (INPUT)                                                                           
+     float  c_frac_pod                    // (INPUT) fraction of remaining dm allocated to pod
+    ,float  g_grain_energy                // (INPUT) multiplier of grain weight to account for energy used in oil conversion.
+    ,float  c_grain_oil_conc              // (INPUT) fraction of grain that is oil
+    ,int    pod                           // (INPUT)
+    ,int    meal                          // (INPUT)
+    ,int    oil                           // (INPUT)
     ,int    max_part                      // (INPUT)                                                                           
     ,int    *supply_pools                 // (INPUT)                                                                           
-    ,int    num_supply_pools              // (INPUT)                                                                           
+    ,int    num_supply_pools              // (INPUT)
     ,float  g_dlt_dm_grain_demand         // (INPUT)  grain dm demand (g/m^2)                                                  
     ,float  g_dlt_dm_oil_conv             // (INPUT)  dm used in oil conversion (g/m^2)                                        
     ,float  *g_dlt_dm_green               // (INPUT)  plant biomass growth (g/m^2)                                             
     ,float  *g_dm_green                   // (INPUT)  live plant dry weight (biomass                                           
     ,float  *g_dm_plant_min               // (INPUT)  minimum weight of each plant p                                           
     ,float  g_plants                      // (INPUT)  Plant density (plants/m^2)                                               
-    ,float  dm_oil_conv_retranslocate     // (OUTPUT) assimilate used for oil conversion - energy (g/m^2)                      
+    ,float  *dm_oil_conv_retranslocate    // (OUTPUT) assimilate used for oil conversion - energy (g/m^2)                      
     ,float  *dm_retranslocate             // (OUTPUT) actual change in plant part weights due to translocation (g/m^2)         
     ) {
 
@@ -5856,7 +5817,6 @@ void Plant::legnew_dm_retranslocate1
     int   counter;
     float dm_part_avail;                          // carbohydrate avail from part(g/m^2)
     float dm_part_pot;                            // potential part weight (g/m^2)
-    float mass_balance;                           // sum of translocated carbo (g/m^2)
     float dm_demand_differential;                 // assimilate demand by grain - meal + oil + energy (g/m^2)
     float dm_grain_demand_differential;           // assimilate demand for grain - meal + oil (g/m^2)
     float dm_oil_demand_differential;             // assimilate demand for oil (g/m^2)
@@ -5909,7 +5869,7 @@ void Plant::legnew_dm_retranslocate1
         demand_differential = yield_demand_differential;
 
 // get available carbohydrate from supply pools
-        for (counter = 1; counter <= num_supply_pools; counter++ ) 
+        for (counter = 0; counter < num_supply_pools; counter++ ) 
            {
            part = supply_pools[counter];
            dm_part_pot = g_dm_green[part]
@@ -5925,8 +5885,7 @@ void Plant::legnew_dm_retranslocate1
            demand_differential = demand_differential - dlt_dm_retrans_part;
            }
 
-        dlt_dm_retrans_total = - (sum_real_array (dm_retranslocate
-        , max_part));
+        dlt_dm_retrans_total = - (sum_real_array (dm_retranslocate, max_part));
 
 // now distribute retranslocate to demand sinks.
 
@@ -5940,10 +5899,10 @@ void Plant::legnew_dm_retranslocate1
             * divide (dm_oil_demand_differential
             , yield_demand_differential
             , 0.0);
-            dm_oil_conv_retranslocate = dlt_dm_retrans_total
-            * divide (dm_oil_conv_demand_differential
-            , yield_demand_differential
-            , 0.0);
+            *dm_oil_conv_retranslocate = dlt_dm_retrans_total
+              * divide (dm_oil_conv_demand_differential
+              , yield_demand_differential
+              , 0.0);
             dm_retranslocate[pod] = dlt_dm_retrans_total
             * divide (dm_pod_demand_differential
             , yield_demand_differential
@@ -5955,7 +5914,7 @@ void Plant::legnew_dm_retranslocate1
 
             dm_retranslocate[meal] = dm_meal_demand_differential;
             dm_retranslocate[oil] = dm_oil_demand_differential;
-            dm_oil_conv_retranslocate = dm_oil_conv_demand_differential;
+            *dm_oil_conv_retranslocate = dm_oil_conv_demand_differential;
             dm_retranslocate[pod] = dm_pod_demand_differential
             + dm_retranslocate[pod];
             }
@@ -5966,17 +5925,23 @@ void Plant::legnew_dm_retranslocate1
         {
 // we have no retranslocation
         fill_real_array (dm_retranslocate, 0.0, max_part);
-        dm_oil_conv_retranslocate = 0.0;
+        *dm_oil_conv_retranslocate = 0.0;
         }
 
-// now check that we have mass balance
-
-    mass_balance = sum_real_array (dm_retranslocate, max_part)
-    + dm_oil_conv_retranslocate;
-    bound_check_real_var (mass_balance, -1.0e-5, 1.0e-5
-    , "dm_retranslocate mass balance");
-
+    // now check that we have mass balance
+    if (!reals_are_equal(-1.0*sum_real_array (dm_retranslocate, max_part),
+                         *dm_oil_conv_retranslocate))
+      {
+      string msg = "dm_retranslocate mass balance is off: "
+          + Ftoa(sum_real_array (dm_retranslocate, max_part), 6)
+          + " vs "
+          + Ftoa(*dm_oil_conv_retranslocate, 6);
+      error(msg.c_str(), 0);
+      }
     pop_routine (my_name);
+//    fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n", g.day_of_year,
+//            g.dm_green[root] + g.dm_green[leaf] + g.dm_green[stem],
+//            g.dm_green[root], g.dm_green[leaf],g.dm_green[stem]);
     return;
     }
 
@@ -6010,7 +5975,7 @@ void Plant::legnew_dm_retranslocate2
     ,float  *g_dm_green                  // (INPUT)  live plant dry weight (biomass                                          
     ,float  *g_dm_plant_min              // (INPUT)  minimum weight of each plant p                                          
     ,float  g_plants                     // (INPUT)  Plant density (plants/m^2)                                              
-    ,float  dm_oil_conv_retranslocate    // (OUTPUT) assimilate used for oil conversion - energy (g/m^2)                     
+    ,float  *dm_oil_conv_retranslocate    // (OUTPUT) assimilate used for oil conversion - energy (g/m^2)                     
     ,float  *dm_retranslocate            // (OUTPUT) actual change in plant part weights due to translocation (g/m^2)        
     ) {
 
@@ -6085,7 +6050,7 @@ void Plant::legnew_dm_retranslocate2
         demand_differential = yield_demand_differential;
 
 // get available carbohydrate from supply pools
-        for (counter = 1; counter <= num_supply_pools; counter++) 
+        for (counter = 0; counter < num_supply_pools; counter++) 
             {
             part = supply_pools[counter];
             dm_part_pot = g_dm_green[part]
@@ -6104,8 +6069,7 @@ void Plant::legnew_dm_retranslocate2
     
             }
 
-        dlt_dm_retrans_total = - (sum_real_array (dm_retranslocate
-        , max_part));
+        dlt_dm_retrans_total = - (sum_real_array (dm_retranslocate, max_part));
 
 // now distribute retranslocate to demand sinks.
 
@@ -6119,10 +6083,10 @@ void Plant::legnew_dm_retranslocate2
             * divide (dm_oil_demand_differential
             , yield_demand_differential
             , 0.0);
-            dm_oil_conv_retranslocate = dlt_dm_retrans_total
-            * divide (dm_oil_conv_demand_differential
-            , yield_demand_differential
-            , 0.0);
+            *dm_oil_conv_retranslocate = dlt_dm_retrans_total
+               * divide (dm_oil_conv_demand_differential
+               , yield_demand_differential
+               , 0.0);
             dm_retranslocate[pod] = dlt_dm_retrans_total
             * divide (dm_pod_demand_differential
             , yield_demand_differential
@@ -6134,7 +6098,7 @@ void Plant::legnew_dm_retranslocate2
 
             dm_retranslocate[meal] = dm_meal_demand_differential;
             dm_retranslocate[oil] = dm_oil_demand_differential;
-            dm_oil_conv_retranslocate = dm_oil_conv_demand_differential;
+            *dm_oil_conv_retranslocate = dm_oil_conv_demand_differential;
             dm_retranslocate[pod] = dm_pod_demand_differential
             + dm_retranslocate[pod];
             }
@@ -6145,13 +6109,13 @@ void Plant::legnew_dm_retranslocate2
         {
 // we have no retranslocation
         fill_real_array (dm_retranslocate, 0.0, max_part);
-        dm_oil_conv_retranslocate = 0.0;
+        *dm_oil_conv_retranslocate = 0.0;
         }
 
 // now check that we have mass balance
 
     mass_balance = sum_real_array (dm_retranslocate, max_part)
-    + dm_oil_conv_retranslocate;
+    + *dm_oil_conv_retranslocate;
     bound_check_real_var (mass_balance, -1.0e-5, 1.0e-5
     , "dm_retranslocate mass balance");
 
@@ -6177,24 +6141,24 @@ void Plant::legnew_phenology_init(
     ,float  *c_x_vernal_temp
     ,float  *c_y_vernal_days
     ,int    c_num_vernal_temp
-    ,float  g_cum_vernal_days
+    ,float  *g_cum_vernal_days             // in/out
     ,float  *p_cum_vernal_days
     ,float  *p_tt_emerg_to_endjuv               
-    ,int    p_num_cum_vernal_days               
-    ,float  c_twilight                     // (INPUT)  twilight in angular distance b       
-    ,float  g_current_stage                // (INPUT)  current phenological stage           
-    ,float  *g_days_tot                    // (INPUT)  duration of each phase (days)        
-    ,int    g_day_of_year                  // (INPUT)  day of year                          
-    ,int    g_year                         // (INPUT)  year                                 
-    ,float  g_latitude                     // (INPUT)  latitude (degrees, negative fo       
-    ,float  g_sowing_depth                 // (INPUT)  sowing depth (mm)                    
-    ,float  *p_x_pp_endjuv_to_init         // (INPUT)                                       
-    ,float  *p_y_tt_endjuv_to_init         // (INPUT)                                       
-    ,int    p_num_pp_endjuv_to_init        // (INPUT)                                       
-    ,float  *p_x_pp_init_to_flower         // (INPUT)                                       
-    ,float  *p_y_tt_init_to_flower         // (INPUT)                                       
-    ,int    p_num_pp_init_to_flower        // (INPUT)                                       
-    ,float  *p_x_pp_flower_to_start_grain  // (INPUT)                                       
+    ,int    p_num_cum_vernal_days
+    ,float  c_twilight                     // (INPUT)  twilight in angular distance b
+    ,float  g_current_stage                // (INPUT)  current phenological stage
+    ,float  *g_days_tot                    // (INPUT)  duration of each phase (days)
+    ,int    g_day_of_year                  // (INPUT)  day of year
+    ,int    g_year                         // (INPUT)  year
+    ,float  g_latitude                     // (INPUT)  latitude (degrees, negative fo
+    ,float  g_sowing_depth                 // (INPUT)  sowing depth (mm)
+    ,float  *p_x_pp_endjuv_to_init         // (INPUT)
+    ,float  *p_y_tt_endjuv_to_init         // (INPUT)
+    ,int    p_num_pp_endjuv_to_init        // (INPUT)
+    ,float  *p_x_pp_init_to_flower         // (INPUT)
+    ,float  *p_y_tt_init_to_flower         // (INPUT)
+    ,int    p_num_pp_init_to_flower        // (INPUT)
+    ,float  *p_x_pp_flower_to_start_grain  // (INPUT)
     ,float  *p_y_tt_flower_to_start_grain  // (INPUT)                                       
     ,int    p_num_pp_flower_to_start_grain // (INPUT)                                       
     ,float  *p_x_pp_start_to_end_grain     // (INPUT)                                       
@@ -6221,23 +6185,23 @@ void Plant::legnew_phenology_init(
                               , g_latitude
                               , c_twilight);
 
-    if (stage_is_between (germ, endjuv, g_current_stage)) 
+    if (stage_is_between (germ, endjuv, g_current_stage))
         {
-        phase_tt[germ_to_emerg] = c_shoot_lag + g_sowing_depth*c_shoot_rate;
-    
-        g_cum_vernal_days = g_cum_vernal_days 
+        phase_tt[germ_to_emerg-1] = c_shoot_lag + g_sowing_depth*c_shoot_rate;
+
+        *g_cum_vernal_days = *g_cum_vernal_days
            + legnew_vernal_days (g_maxt
                                  ,g_mint
                                  ,c_x_vernal_temp
                                  ,c_y_vernal_days
                                  ,c_num_vernal_temp);
-    
-        phase_tt[emerg_to_endjuv] = linear_interp_real(g_cum_vernal_days
+
+        phase_tt[emerg_to_endjuv-1] = linear_interp_real(*g_cum_vernal_days
                                      ,p_cum_vernal_days
                                      ,p_tt_emerg_to_endjuv
                                      ,p_num_cum_vernal_days);
-    
-        if (on_day_of(emerg,g_current_stage,g_days_tot))
+
+        if (on_day_of(emerg,g_current_stage))
             {
     // This If Test added to reproduce old results. - NIH
     // Only minor differences really - should consider
@@ -6245,107 +6209,97 @@ void Plant::legnew_phenology_init(
             est_day_of_floral_init = offset_day_of_year (g_year
                                          , g_day_of_year
                                          , p_est_days_emerg_to_init);
-    
+
             photoperiod = day_length (est_day_of_floral_init, g_latitude, c_twilight);
-    
-            phase_tt[endjuv_to_init] = linear_interp_real (photoperiod
+
+            phase_tt[endjuv_to_init-1] = linear_interp_real (photoperiod
                                          ,p_x_pp_endjuv_to_init
                                          ,p_y_tt_endjuv_to_init
                                          ,p_num_pp_endjuv_to_init);
-    
+//            fprintf(stdout,"%d,%f,%f\n",est_day_of_floral_init,photoperiod,phase_tt[endjuv_to_init-1]);
             }
-    
-        phase_tt[init_to_flower] = linear_interp_real
+
+        phase_tt[init_to_flower-1] = linear_interp_real
                                          (photoperiod
                                          ,p_x_pp_init_to_flower
                                          ,p_y_tt_init_to_flower
                                          ,p_num_pp_init_to_flower);
-        phase_tt[flower_to_start_grain] = linear_interp_real
+        phase_tt[flower_to_start_grain-1] = linear_interp_real
                                          (photoperiod
                                          ,p_x_pp_flower_to_start_grain
                                          ,p_y_tt_flower_to_start_grain
                                          ,p_num_pp_flower_to_start_grain);
-        phase_tt[start_to_end_grain] = linear_interp_real
+        phase_tt[start_to_end_grain-1] = linear_interp_real
                                          (photoperiod
                                          ,p_x_pp_start_to_end_grain
                                          ,p_y_tt_start_to_end_grain
                                          ,p_num_pp_start_to_end_grain);
-    
-        phase_tt[end_grain_to_maturity] = p_tt_end_grain_to_maturity;
-        phase_tt[maturity_to_ripe] = p_tt_maturity_to_ripe;
-    
-        }  
-    else if (stage_is_between (endjuv, floral_init, g_current_stage)) 
+
+        phase_tt[end_grain_to_maturity-1] = p_tt_end_grain_to_maturity;
+        phase_tt[maturity_to_ripe-1] = p_tt_maturity_to_ripe;
+//        fprintf(stdout,"%d,%f,%f\n",g_day_of_year,photoperiod,phase_tt[2]);
+        }
+    else if (stage_is_between (endjuv, floral_init, g_current_stage))
         {
-        phase_tt[endjuv_to_init] = linear_interp_real
-        (photoperiod
-        ,p_x_pp_endjuv_to_init
-        ,p_y_tt_endjuv_to_init
-        ,p_num_pp_endjuv_to_init);
-        phase_tt[init_to_flower] = linear_interp_real
-        (photoperiod
-        ,p_x_pp_init_to_flower
-        ,p_y_tt_init_to_flower
-        ,p_num_pp_init_to_flower);
-        phase_tt[flower_to_start_grain] = linear_interp_real
-        (photoperiod
-        ,p_x_pp_flower_to_start_grain
-        ,p_y_tt_flower_to_start_grain
-        ,p_num_pp_flower_to_start_grain);
-        phase_tt[start_to_end_grain] = linear_interp_real
-        (photoperiod
-        ,p_x_pp_start_to_end_grain
-        ,p_y_tt_start_to_end_grain
-        ,p_num_pp_start_to_end_grain);
-        
-        }       
+        phase_tt[endjuv_to_init-1] = linear_interp_real(photoperiod
+                                           ,p_x_pp_endjuv_to_init
+                                           ,p_y_tt_endjuv_to_init
+                                           ,p_num_pp_endjuv_to_init);
+        phase_tt[init_to_flower-1] = linear_interp_real(photoperiod
+                                           ,p_x_pp_init_to_flower
+                                           ,p_y_tt_init_to_flower
+                                           ,p_num_pp_init_to_flower);
+        phase_tt[flower_to_start_grain-1] = linear_interp_real(photoperiod
+                                           ,p_x_pp_flower_to_start_grain
+                                           ,p_y_tt_flower_to_start_grain
+                                           ,p_num_pp_flower_to_start_grain);
+        phase_tt[start_to_end_grain-1] = linear_interp_real (photoperiod
+                                           ,p_x_pp_start_to_end_grain
+                                           ,p_y_tt_start_to_end_grain
+                                           ,p_num_pp_start_to_end_grain);
+
+        }
     else if (stage_is_between (floral_init,flowering, g_current_stage))
         {
-        phase_tt[init_to_flower] = linear_interp_real
-        (photoperiod
-        ,p_x_pp_init_to_flower
-        ,p_y_tt_init_to_flower
-        ,p_num_pp_init_to_flower);
-        phase_tt[flower_to_start_grain] = linear_interp_real
-        (photoperiod
-        ,p_x_pp_flower_to_start_grain
-        ,p_y_tt_flower_to_start_grain
-        ,p_num_pp_flower_to_start_grain);
-        phase_tt[start_to_end_grain] = linear_interp_real
-        (photoperiod
-        ,p_x_pp_start_to_end_grain
-        ,p_y_tt_start_to_end_grain
-        ,p_num_pp_start_to_end_grain);
-    
+        phase_tt[init_to_flower-1] = linear_interp_real(photoperiod
+                                           ,p_x_pp_init_to_flower
+                                           ,p_y_tt_init_to_flower
+                                           ,p_num_pp_init_to_flower);
+        phase_tt[flower_to_start_grain-1] = linear_interp_real  (photoperiod
+                                                ,p_x_pp_flower_to_start_grain
+                                                ,p_y_tt_flower_to_start_grain
+                                                ,p_num_pp_flower_to_start_grain);
+        phase_tt[start_to_end_grain-1] = linear_interp_real(photoperiod
+                                                ,p_x_pp_start_to_end_grain
+                                                ,p_y_tt_start_to_end_grain
+                                                ,p_num_pp_start_to_end_grain);
+
         }
-    else if (stage_is_between (flowering, start_grain_fill, g_current_stage)) 
+    else if (stage_is_between (flowering, start_grain_fill, g_current_stage))
         {
-        phase_tt[flower_to_start_grain] = linear_interp_real
-        (photoperiod
-        ,p_x_pp_flower_to_start_grain
-        ,p_y_tt_flower_to_start_grain
-        ,p_num_pp_flower_to_start_grain);
-        phase_tt[start_to_end_grain] = linear_interp_real
-        (photoperiod
-        ,p_x_pp_start_to_end_grain
-        ,p_y_tt_start_to_end_grain
-        ,p_num_pp_start_to_end_grain);
-        
+        phase_tt[flower_to_start_grain-1] = linear_interp_real (photoperiod
+                                                ,p_x_pp_flower_to_start_grain
+                                                ,p_y_tt_flower_to_start_grain
+                                                ,p_num_pp_flower_to_start_grain);
+        phase_tt[start_to_end_grain-1] = linear_interp_real(photoperiod
+                                                ,p_x_pp_start_to_end_grain
+                                                ,p_y_tt_start_to_end_grain
+                                                ,p_num_pp_start_to_end_grain);
+
          }
-    else if (stage_is_between (start_grain_fill, end_grain_fill, g_current_stage)) 
+    else if (stage_is_between (start_grain_fill, end_grain_fill, g_current_stage))
         {
-        phase_tt[start_to_end_grain] = linear_interp_real
-        (photoperiod
-        ,p_x_pp_start_to_end_grain
-        ,p_y_tt_start_to_end_grain
-        ,p_num_pp_start_to_end_grain);
-        
+        phase_tt[start_to_end_grain-1] = linear_interp_real (photoperiod
+                                                ,p_x_pp_start_to_end_grain
+                                                ,p_y_tt_start_to_end_grain
+                                                ,p_num_pp_start_to_end_grain);
+
         }
     else
         {
         }
-    
-    
+
+
     pop_routine (my_name);
     return;
     }
@@ -6397,17 +6351,17 @@ void Plant::legnew_n_retranslocate
     push_routine (my_name);
 
     grain_n_demand = (g_dlt_dm_green[meal] + g_dlt_dm_green_retrans[meal])
-                     * crop_N_dlt_grain_conc (&meal
-                                              , &c_sfac_slope
-                                              , &c_sw_fac_max
-                                              , &c_temp_fac_min
-                                              , &c_tfac_slope
-                                              , &g_maxt
-                                              , &g_mint
-                                              , &g_nfact_grain_conc
+                     * crop_n_dlt_grain_conc (meal
+                                              , c_sfac_slope
+                                              , c_sw_fac_max
+                                              , c_temp_fac_min
+                                              , c_tfac_slope
+                                              , g_maxt
+                                              , g_mint
+                                              , g_nfact_grain_conc
                                               , g_n_conc_crit
                                               , g_n_conc_min
-                                              , &g_swdef_expansion );
+                                              , g_swdef_expansion );
 
     n_potential  = (g_dm_green[meal]
                      + g_dlt_dm_green[meal]
@@ -6416,13 +6370,13 @@ void Plant::legnew_n_retranslocate
 
     grain_n_demand = u_bound (grain_n_demand, n_potential - g_n_green[meal]);
 
-    crop_N_retrans_avail (&max_part
-                          , &root
-                          , &meal
+    crop_n_retrans_avail (max_part
+                          , root
+                          , meal
                           , g_n_conc_min
                           , g_dm_green
                           , g_n_green
-                          , n_avail)  ;                                 // grain N potential (supply)
+                          , n_avail)  ;   // grain N potential (supply)
 
 // available N does not include roots or grain
 // this should not presume roots and grain are 0.
@@ -6471,11 +6425,11 @@ void Plant::legnew_n_retranslocate
 
 // just check that we got the maths right.
 
-    for (part = root; part <=pod; part++) 
+    for (part = root; part < pod; part++) 
       {
       bound_check_real_var (abs (dlt_n_retrans[part])
-      , 0.0, n_avail[part] + tolerence
-      , "dlt_n_retrans[part]");
+                            , 0.0, n_avail[part] + tolerence
+                            , "dlt_n_retrans[part]");
       }
 
     pop_routine (my_name);
@@ -6533,8 +6487,7 @@ void Plant::legnew_leaf_death_leg
     node_sen_rate = c_node_sen_rate;
     ///c     :       * (1.0 + (1.0 - g_nfact_expansion));
 
-    leaf_death_rate = divide (node_sen_rate
-    , leaf_per_node, 0.0);
+    leaf_death_rate = divide (node_sen_rate, leaf_per_node, 0.0);
 
     if (reals_are_equal(g_current_stage, (float)harvest_ripe))
         {
@@ -6559,7 +6512,9 @@ void Plant::legnew_leaf_death_leg
         // Constrain leaf death to remaining leaves
         leaf_no_dead_now = sum_real_array (g_leaf_no_dead, max_node);
         *dlt_leaf_no_dead = u_bound (*dlt_leaf_no_dead, max_sleaf_no_now - leaf_no_dead_now);
-        }
+//     fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n",
+//                g.day_of_year, *dlt_leaf_no_dead, max_sleaf_no_now, leaf_no_dead_now, g_dlt_tt);
+       }
     else
         {
         *dlt_leaf_no_dead = 0.0;
@@ -6584,15 +6539,14 @@ void Plant::legnew_leaf_death_leg
 void Plant::legnew_dm_pot_rue (
      float  current_stage
     ,float  *g_tt_tot
-    ,float  *c_stage_code_list
-    ,float  *c_x_stage_code_list_rue
+    ,float  *c_x_stage_rue
     ,float  *g_phase_tt
     ,float  *c_y_rue
     ,float  rue_pod
     ,float  cover_green
     ,float  cover_pod
-    ,float  radn_int
-    ,float  stress_factor
+    ,double  radn_int
+    ,double  stress_factor
     ,float  *dlt_dm_pot                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
     ) {
 
@@ -6600,9 +6554,8 @@ void Plant::legnew_dm_pot_rue (
     const char*  my_name = "legnew_dm_pot_rue" ;
 
 //+  Local Variables
-    float podfr;                                  // fraction of intercepted light intercepted by pods
-    float rue_leaf;
-    float stage_code;
+    double podfr;                                  // fraction of intercepted light intercepted by pods
+    double rue_leaf;
     int   numvals;
 
 //- Implementation Section ----------------------------------
@@ -6610,7 +6563,7 @@ void Plant::legnew_dm_pot_rue (
     push_routine (my_name);
 
     // Assume pods are above the rest of the canopy
-    podfr = divide(cover_pod,cover_green,0.0);
+    podfr = bound(divide(cover_pod,cover_green,0.0), 0.0, 1.0);
 
     if (cover_green<cover_pod)
         {
@@ -6619,21 +6572,16 @@ void Plant::legnew_dm_pot_rue (
         }
     else
         {
-        numvals = count_of_real_vals (c_x_stage_code_list_rue, max_stage);
-        stage_code = plant_stage_code (c_stage_code_list
-                                       , g_phase_tt
-                                       , g_tt_tot
-                                       , current_stage
-                                       , c_x_stage_code_list_rue
-                                       , numvals);
-        rue_leaf = linear_interp_real (stage_code
-                                       , c_x_stage_code_list_rue
+        numvals = 1+count_of_real_vals (c_x_stage_rue, max_stage);
+        rue_leaf = linear_interp_real (current_stage
+                                       , c_x_stage_rue
                                        , c_y_rue
                                        , numvals);
-        *dlt_dm_pot = (radn_int * podfr * rue_pod
-                       + radn_int*(1.-podfr) * rue_leaf)
-                       * stress_factor;
-
+        *dlt_dm_pot = (radn_int * podfr * rue_pod +
+                       radn_int * (1.0 - podfr) * rue_leaf) * stress_factor;
+        // c0
+        //fprintf(stdout, "%d,%.9f,%d,%.9f,%.9f,%.9f,%.9f\n",
+        //        g.day_of_year, rue_leaf, numvals, c_y_rue[0], c_y_rue[1], c_y_rue[2], c_y_rue[3]);
         }
     pop_routine (my_name);
     return;
@@ -6668,9 +6616,9 @@ float Plant::legnew_node_no_from_area
     
     push_routine (my_name);
     
-    node_no = get_cumulative_index_real (&pla, g_leaf_area, &num_nodes);
+    node_no = get_cumulative_index_real (pla, g_leaf_area, num_nodes);
     
-    node_area_whole = sum_real_array (g_leaf_area, node_no - 1);
+    node_area_whole = sum_real_array (g_leaf_area, node_no);
     node_area_part = pla - node_area_whole;
     node_fract = divide (node_area_part, g_leaf_area[node_no], 0.0);
     
@@ -6689,15 +6637,15 @@ float Plant::legnew_node_no_from_area
 //+  Changes
 //       110298 nih specified and programmed
 float Plant::legnew_leaf_no_from_area (
-     float  *g_leaf_area                // (INPUT)  leaf area of each leaf (mm^2)   
-    ,float  *g_leaf_no                                                              
-    ,int    num_nodes                   // (INPUT)  number of nodes                 
-    ,float  pla                         // (INPUT)  plant leaf area                 
+     float  *g_leaf_area                // (INPUT)  leaf area of each leaf (mm^2)
+    ,float  *g_leaf_no
+    ,int    num_nodes                   // (INPUT)  number of nodes
+    ,float  pla                         // (INPUT)  plant leaf area
     ) {
 
     //+  Constant Values
     const char*  my_name = "legnew_leaf_no_from_area" ;
-    
+
     //+  Local Variables
     int   node_no;                                    // number of nodes containing
     // leaf area (0-max_node)
@@ -6705,19 +6653,24 @@ float Plant::legnew_leaf_no_from_area (
     float node_area_part;                             // area from last node (mm^2)
     float node_fract;                                 // fraction of last node (0-1)
     float result;
-        
+
     //- Implementation Section ----------------------------------
-    
+
     push_routine (my_name);
-    
-    node_no = get_cumulative_index_real (&pla, g_leaf_area, &num_nodes);
-    
-    node_area_whole = sum_real_array (g_leaf_area, node_no - 1);
+
+    node_no = 1+get_cumulative_index_real (pla, g_leaf_area, num_nodes);
+
+    node_area_whole = sum_real_array (g_leaf_area, node_no-1);
     node_area_part = pla - node_area_whole;
-    node_fract = divide (node_area_part, g_leaf_area[node_no], 0.0);
-    
-    result = sum_real_array (g_leaf_no,node_no - 1) + node_fract * g_leaf_no[node_no];
-    
+    node_fract = divide (node_area_part, g_leaf_area[node_no-1], 0.0);
+
+    result = sum_real_array (g_leaf_no,node_no) + node_fract * g_leaf_no[node_no-1];
+//     fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f,%.9f\n",
+//             g.day_of_year, (float)node_no,
+//             node_area_whole, node_fract, sum_real_array (g_leaf_no,node_no), result);
+//     fprintf(stdout, "%d,%.9f,%.9f,%.9f\n",
+//             g.day_of_year,g_leaf_no[0], g_leaf_no[1], g_leaf_no[2]);
+
     pop_routine (my_name);
     return result;
     }
@@ -6737,16 +6690,11 @@ void Plant::legnew_retrans_init
      float c_leaf_trans_frac                      // (INPUT)  fraction of leaf used in trans  
     ,float c_stem_trans_frac                      // (INPUT)  fraction of stem used in trans  
     ,float  c_pod_trans_frac                      // (INPUT)  fraction of pod used in trans   
-    ,float  g_current_stage                       // (INPUT)  current phenological stage                 
-    ,float *g_days_tot                            // (INPUT)  duration of each phase (days)              
-    ,float  g_plants                              // (INPUT)  Plant density (plants/m^2)                 
-    ,float *dm_green                              // (INPUT/OUTPUT) plant part weights (g/m^2)           
+    ,float  g_current_stage                       // (INPUT)  current phenological stage
+    ,float  g_plants                              // (INPUT)  Plant density (plants/m^2)
+    ,float *dm_green                              // (INPUT/OUTPUT) plant part weights (g/m^2)
     ,float *dm_plant_min                          // (OUTPUT) minimum weight of each plant part (g/plant)
     ) {
-//XX    float c_dm_leaf_init;                         // (INPUT)  leaf growth before emergence (
-//XX    float c_dm_root_init;                         // (INPUT)  root growth before emergence (
-//XX    float c_dm_stem_init;                         // (INPUT)  stem growth before emergence (
-
 //+  Constant Values
     const char*  my_name = "legnew_retrans_init" ;
 
@@ -6763,7 +6711,7 @@ void Plant::legnew_retrans_init
     // initialisations - set up dry matter for leaf, stem, pod, grain
     // and root
 
-    if (on_day_of (start_grain_fill, g_current_stage, g_days_tot)) {
+    if (on_day_of (start_grain_fill, g_current_stage)) {
 
         // we are at first day of grainfill.
         // set the minimum weight of stem; used for retranslocation to grain
@@ -6858,7 +6806,7 @@ void Plant::legnew_n_senescence1
 
 // first we zero all plant component deltas
 
-    for (part = 1; part <= num_part; part++) 
+    for (part = 0; part < num_part; part++) 
        {
        green_n_conc = divide (g_n_green[part]
        ,g_dm_green[part]
@@ -6960,24 +6908,18 @@ void Plant::legnew_canopy_fac (
 //       230498 nih specified and programmed
 void Plant::plant_canopy_width
     (
-     float  g_canopy_width                   // (INPUT)  canopy height (mm)              
-    ,float  *p_x_stem_wt                                                                 
-    ,float  *p_y_width                                                                   
-    ,int    p_num_stem_wt                                                                
-    ,float  *g_dm_green                      // (INPUT)  live plant dry weight (biomass  
-    ,float  g_plants                         // (INPUT)  Plant density (plants/m^2)      
-    ,int    stem                             // (INPUT)  plant part no for stem          
-    ,float  *dlt_canopy_width                 // (OUTPUT) canopy width change (mm)         
+     float  g_canopy_width                   // (INPUT)  canopy height (mm)
+    ,float  *p_x_stem_wt
+    ,float  *p_y_width
+    ,int    p_num_stem_wt
+    ,float  *g_dm_green                      // (INPUT)  live plant dry weight (biomass
+    ,float  g_plants                         // (INPUT)  Plant density (plants/m^2)
+    ,int    stem                             // (INPUT)  plant part no for stem
+    ,float  *dlt_canopy_width                 // (OUTPUT) canopy width change (mm)
     ) {
-
-//+  Constant Values
     const char*  my_name = "plant_canopy_width" ;
-
-//+  Local Variables
     float dm_stem_plant;                          // dry matter of stem (g/plant)
     float new_width;                              // new plant width (mm)
-
-//- Implementation Section ----------------------------------
 
     push_routine (my_name);
 
@@ -7014,15 +6956,14 @@ void Plant::cproc_leaf_no_pot3
     ,float  *c_y_node_app_rate                //(INPUT)                                                     
     ,int    c_num_node_no_app                 // (INPUT)                                                    
     ,float  *c_x_node_no_leaf                 // (INPUT)                                                    
-    ,float  *c_y_leaves_per_node              // (INPUT)                                                    
-    ,int    c_num_node_no_leaf                // (INPUT)                                                    
-    ,float  g_current_stage                   // (INPUT)  current phenological stage                        
-    ,int    start_node_app                    // (INPUT)  stage of start of leaf appeara                    
-    ,int    end_node_app                      // (INPUT)  stage of end of leaf appearanc                    
-    ,int    emerg                             // (INPUT)  emergence stage                                   
-    ,float  *g_days_tot                       // (INPUT)  duration of each phase (days)                     
-    ,float  g_dlt_tt                          // (INPUT)  daily thermal time (growing de                    
-    ,float  *g_node_no                        // (INPUT)  number of fully expanded nodes                    
+    ,float  *c_y_leaves_per_node              // (INPUT)
+    ,int    c_num_node_no_leaf                // (INPUT)
+    ,float  g_current_stage                   // (INPUT)  current phenological stage
+    ,int    start_node_app                    // (INPUT)  stage of start of leaf appeara
+    ,int    end_node_app                      // (INPUT)  stage of end of leaf appearanc
+    ,int    emerg                             // (INPUT)  emergence stage
+    ,float  g_dlt_tt                          // (INPUT)  daily thermal time (growing de
+    ,float  *g_node_no                        // (INPUT)  number of fully expanded nodes
     ,float  g_nfact_expansion                                                                               
     ,float  g_swdef_expansion                                                                               
     ,float  *g_leaves_per_node                 // OUTPUT                                                               
@@ -7043,8 +6984,8 @@ void Plant::cproc_leaf_no_pot3
 
     push_routine (my_name);
 
-    node_no_now = sum_between (start_node_app
-                              ,end_node_app
+    node_no_now = sum_between (start_node_app-1
+                              ,end_node_app-1
                               ,g_node_no);
                           
     node_app_rate = linear_interp_real(node_no_now
@@ -7060,8 +7001,8 @@ void Plant::cproc_leaf_no_pot3
         {
         *dlt_node_no_pot = 0.0;
         }
-    
-    if (on_day_of (emerg, g_current_stage, g_days_tot))
+
+    if (on_day_of (emerg, g_current_stage))
         {
         // no leaf growth on first day because initialised elsewhere ???
         *dlt_leaf_no_pot = 0.0;
@@ -7149,7 +7090,6 @@ void Plant::legopt_leaf_area_sen1
 
 //- Implementation Section ----------------------------------
     push_routine (my_name);
-
     legopt_leaf_area_sen_age1(emergence
                               , this_stage
                               , g_leaf_no
@@ -7161,30 +7101,32 @@ void Plant::legopt_leaf_area_sen1
                               , c_min_tpla
                               , g_leaf_area
                               , g_plants
-                              , g_dlt_slai_age ); //XX
+                              , g_dlt_slai_age );
 
-    crop_leaf_area_sen_light1(&c_lai_sen_light
-                              , &c_sen_light_slope
-                              , &g_lai
-                              , &g_plants
-                              , &c_min_tpla
+    crop_leaf_area_sen_light1(c_lai_sen_light
+                              , c_sen_light_slope
+                              , g_lai
+                              , g_plants
+                              , c_min_tpla
                               , g_dlt_slai_light);
 
-    crop_leaf_area_sen_water1 (&c_sen_rate_water,
-                               &g_lai,
-                               &g_swdef_photo,
-                               &g_plants,
-                               &c_min_tpla,
+    crop_leaf_area_sen_water1 (c_sen_rate_water,
+                               g_lai,
+                               g_swdef_photo,
+                               g_plants,
+                               c_min_tpla,
                                g_dlt_slai_water);
 
     crop_leaf_area_sen_frost1(c_x_temp_senescence,
                               c_y_senescence_fac,
-                              &c_num_temp_senescence,
-                              &g_lai,
-                              &g_mint,
-                              &g_plants,
-                              &c_min_tpla,
+                              c_num_temp_senescence,
+                              g_lai,
+                              g_mint,
+                              g_plants,
+                              c_min_tpla,
                               g_dlt_slai_frost);
+//    fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n",
+//                g.day_of_year,*g_dlt_slai_age, *g_dlt_slai_light, *g_dlt_slai_water, *g_dlt_slai_frost);
 
     *g_dlt_slai = max(max(max(*g_dlt_slai_age, *g_dlt_slai_light), *g_dlt_slai_water), *g_dlt_slai_frost);
 
@@ -7207,8 +7149,8 @@ void Plant::legopt_leaf_area_init1
     ,float  c_leaf_no_at_emerg          //                                             
     ,int    init_stage                  // (INPUT)  initialisation stage               
     ,float  g_current_stage             // (INPUT)  current phenological stage         
-    ,float  *g_days_tot                 // (INPUT)  duration of each phase (days)      
-    ,float  g_plants                    // (INPUT)  Plant density (plants/m^2)         
+    ,float  *g_days_tot                 // (INPUT)  duration of each phase (days)
+    ,float  g_plants                    // (INPUT)  Plant density (plants/m^2)
     ,float  *lai                        // (OUTPUT) total plant leaf area              
     ,float  *leaf_area                  // (OUTPUT)                                    
     ) {
@@ -7220,14 +7162,16 @@ void Plant::legopt_leaf_area_init1
 
     push_routine (my_name);
 
-    if (on_day_of (init_stage, g_current_stage, g_days_tot))
+    if (on_day_of (init_stage, g_current_stage))
         {
         *lai = c_initial_tpla * smm2sm * g_plants;
 
-        fill_real_array (leaf_area, c_initial_tpla/c_leaf_no_at_emerg ,(int)c_leaf_no_at_emerg);
-        leaf_area[(int)c_leaf_no_at_emerg + 1] = fmod(c_leaf_no_at_emerg, 1.0)
-                                                     * c_initial_tpla
-                                                     / c_leaf_no_at_emerg;
+        fill_real_array (leaf_area,
+                         divide(c_initial_tpla,c_leaf_no_at_emerg,0.0),
+                         (int)c_leaf_no_at_emerg);
+        leaf_area[(int)c_leaf_no_at_emerg] =                      //ok
+        divide(fmod(c_leaf_no_at_emerg, 1.0) * c_initial_tpla
+               ,c_leaf_no_at_emerg, 0.0);
         }
     else
         {
@@ -7267,12 +7211,12 @@ void Plant::legopt_leaf_no_init1
 
     push_routine (my_name);
 
-    if (on_day_of (emerg, g_current_stage, g_days_tot))
+    if (on_day_of (emerg, g_current_stage))
         {
         // initialise first leaves
-        node_no[emerg] = c_leaf_no_at_emerg;
+        node_no[emerg-1] = c_leaf_no_at_emerg;
         fill_real_array (leaf_no, 1.0, int(c_leaf_no_at_emerg));
-        leaf_no[(int)c_leaf_no_at_emerg+1]= fmod(c_leaf_no_at_emerg,1.0);
+        leaf_no[(int)c_leaf_no_at_emerg]= fmod(c_leaf_no_at_emerg,1.0);
         }
     else
         {
@@ -7313,7 +7257,6 @@ void Plant::legopt_leaf_area_sen_age1
     float slai_age;                               // lai senesced by natural ageing
     float min_lai;                                // min allowable LAI
     float max_sen;
-    int   i;
 
 // now calculate the leaf senescence
 // due to normal phenological (phasic) development
@@ -7321,19 +7264,19 @@ void Plant::legopt_leaf_area_sen_age1
 // get highest leaf no. senescing today
 
     leaf_no_dead = sum_real_array (g_leaf_no_dead, max_node) + g_dlt_leaf_no_dead;
-    dying_node = get_cumulative_index_real (&leaf_no_dead, g_leaf_no, &max_node);
+    dying_node = get_cumulative_index_real (leaf_no_dead, g_leaf_no, max_node);
 
 // get area senesced from highest leaf no.
-    if (dying_node!=0)
+    if (dying_node >= 0)
         {
-        area_sen_dying_node = divide ( leaf_no_dead - sum_real_array(g_leaf_no, dying_node - 1)
+        area_sen_dying_node = divide ( leaf_no_dead - sum_real_array(g_leaf_no, dying_node)
                                       , g_leaf_no[dying_node]
                                       , 0.0) * g_leaf_area[dying_node];
 
-        slai_age = (sum_real_array (g_leaf_area, dying_node - 1)
+        slai_age = (sum_real_array (g_leaf_area, dying_node)
                       + area_sen_dying_node)
                       * smm2sm * g_plants;
-              
+
         min_lai = c_min_tpla * g_plants * smm2sm;
         max_sen = l_bound (g_lai - min_lai, 0.0);
         *dlt_slai_age = bound (slai_age - g_slai, 0.0, max_sen);
@@ -7342,6 +7285,8 @@ void Plant::legopt_leaf_area_sen_age1
         {
         *dlt_slai_age = 0.0;
         }
+//    fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n",
+//                g.day_of_year, slai_age, area_sen_dying_node, (float) dying_node, leaf_no_dead);
 
     pop_routine (my_name);
     return;
@@ -7356,25 +7301,25 @@ void Plant::legopt_leaf_area_sen_age1
 
 //+  Changes
 //     170498 nih specified and programmed
-void Plant::legopt_root_depth1 
+void Plant::legopt_root_depth1
     (
-     float *g_dlayer                     // (INPUT)  layer thicknesses (mm)             
-    ,int   c_num_sw_ratio                // (INPUT) number of sw lookup pairs           
-    ,float *c_x_sw_ratio                 // (INPUT) sw factor lookup x                  
-    ,float *c_y_sw_fac_root              // (INPUT) sw factor lookup y                  
-    ,float *g_dul_dep                    // (INPUT) DUL (mm)                            
-    ,float *g_sw_dep                     // (INPUT) SW (mm)                             
-    ,float *p_ll_dep                     // (INPUT) LL (mm)                             
-    ,float *c_root_depth_rate            // (INPUT) root front velocity (mm)            
-    ,float g_current_stage               // (INPUT) current growth stage                
-    ,float g_mint                                                                       
-    ,float g_maxt                                                                       
-    ,float *c_x_temp_root_advance                                                       
-    ,float *c_y_rel_root_advance                                                        
-    ,int   c_num_temp_root_advance                                                      
-    ,float *p_xf                         // (INPUT) exploration factor                  
-    ,float g_dlt_root_depth              // (OUTPUT) increase in rooting depth (mm)     
-    ,float g_root_depth                  // (OUTPUT) root depth (mm)                    
+     float *g_dlayer                     // (INPUT)  layer thicknesses (mm)
+    ,int   c_num_sw_ratio                // (INPUT) number of sw lookup pairs
+    ,float *c_x_sw_ratio                 // (INPUT) sw factor lookup x
+    ,float *c_y_sw_fac_root              // (INPUT) sw factor lookup y
+    ,float *g_dul_dep                    // (INPUT) DUL (mm)
+    ,float *g_sw_dep                     // (INPUT) SW (mm)
+    ,float *p_ll_dep                     // (INPUT) LL (mm)
+    ,float *c_root_depth_rate            // (INPUT) root front velocity (mm)
+    ,float g_current_stage               // (INPUT) current growth stage
+    ,float g_mint
+    ,float g_maxt
+    ,float *c_x_temp_root_advance
+    ,float *c_y_rel_root_advance
+    ,int   c_num_temp_root_advance
+    ,float *p_xf                         // (INPUT) exploration factor
+    ,float g_root_depth                  // (input) root depth (mm)
+    ,float *g_dlt_root_depth              // (OUTPUT) increase in rooting depth (mm)
     ) {
 
 //+  Constant Values
@@ -7389,16 +7334,15 @@ void Plant::legopt_root_depth1
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
-    deepest_layer = find_layer_no (&g_root_depth, g_dlayer
-    , &crop_max_layer);
+    deepest_layer = find_layer_no (g_root_depth, g_dlayer, crop_max_layer);
 
-    sw_avail_fac_deepest_layer = crop_sw_avail_fac (&c_num_sw_ratio
-                                                    , c_x_sw_ratio
-                                                    , c_y_sw_fac_root
-                                                    , g_dul_dep
-                                                    , g_sw_dep
-                                                    , p_ll_dep
-                                                    ,  &deepest_layer );                 // slw
+    sw_avail_fac_deepest_layer = crop_sw_avail_fac ( c_num_sw_ratio
+                                                   ,c_x_sw_ratio
+                                                   ,c_y_sw_fac_root
+                                                   ,g_dul_dep
+                                                   ,g_sw_dep
+                                                   ,p_ll_dep
+                                                   ,deepest_layer );
 
     av_temp = (g_mint + g_maxt)/2.0;
 
@@ -7414,7 +7358,7 @@ void Plant::legopt_root_depth1
                                , sw_avail_fac_deepest_layer
                                , p_xf
                                , temp_factor
-                               , &g_dlt_root_depth);                    //slw
+                               , g_dlt_root_depth);
 
     pop_routine (my_name);
     return;
@@ -7458,14 +7402,14 @@ void Plant::legopt_root_depth_increase
 
     push_routine (my_name);
 
-    current_layer = find_layer_no(&g_root_depth,g_dlayer,&crop_max_layer);
+    current_layer = find_layer_no(g_root_depth, g_dlayer, crop_max_layer);
     current_phase = (int) g_current_stage;
 
 // this equation allows soil water in the deepest
 // layer in which roots are growing
 // to affect the daily increase in rooting depth.
 
-    *dlt_root_depth  = c_root_depth_rate[current_phase]
+    *dlt_root_depth  = c_root_depth_rate[current_phase-1]
                               * g_sw_avail_fac_deepest_layer
                               * p_xf[current_layer]
                               * temp_factor;
@@ -7474,7 +7418,7 @@ void Plant::legopt_root_depth_increase
 // depth that roots are allowed to grow.
 
     deepest_layer = count_of_real_vals (p_xf, crop_max_layer);
-    root_depth_max = sum_real_array (g_dlayer, deepest_layer);
+    root_depth_max = sum_real_array (g_dlayer, deepest_layer+1);
     *dlt_root_depth = u_bound (*dlt_root_depth, root_depth_max - g_root_depth);
 
     pop_routine (my_name);
@@ -7495,7 +7439,7 @@ void Plant::cproc_n_uptake3
     ,int    max_layer                            // (INPUT)  max number of soil layers                           
     ,float  *g_no3gsm_uptake_pot                 // (INPUT)  potential NO3 (supply)                              
     ,float  g_n_fix_pot                          // (INPUT) potential N fixation (g/m2)                          
-    ,const char   *c_n_supply_preference               // (INPUT)//XXcharacter  c_n_supply_preference*(*)
+    ,const char   *c_n_supply_preference         // (INPUT)c_n_supply_preference*(*)
     ,float  *g_n_demand                          // (INPUT)  critical plant nitrogen demand
     ,float  *g_n_max                             // (INPUT)  maximum plant nitrogen demand
     ,int    max_part                             // (INPUT)  number of plant parts
@@ -7519,11 +7463,9 @@ void Plant::cproc_n_uptake3
 
     push_routine (my_name);
 
-    deepest_layer = find_layer_no (&g_root_depth
-    ,g_dlayer
-    ,&max_layer);
+    deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer);
 
-    no3gsm_supply = sum_real_array (g_no3gsm_uptake_pot, deepest_layer);
+    no3gsm_supply = sum_real_array (g_no3gsm_uptake_pot, deepest_layer+1);
 
     n_demand = sum_real_array (g_n_demand, max_part);
 
@@ -7551,7 +7493,7 @@ void Plant::cproc_n_uptake3
                          ,0.0);
         }
 
-    for (layer = 1; layer <=deepest_layer; layer++) 
+    for (layer = 0; layer <= deepest_layer; layer++) 
         {
          // allocate nitrate
         no3gsm_uptake = g_no3gsm_uptake_pot[layer] * scalef;
@@ -7601,11 +7543,9 @@ void Plant::cproc_n_supply3 (
 //- Implementation Section ----------------------------------
     push_routine (myname);
 
-    deepest_layer = find_layer_no (&g_root_depth
-    ,g_dlayer
-    ,&max_layer);
+    deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer);
 
-    for (layer = 1; layer<= deepest_layer; layer++)
+    for (layer = 0; layer<= deepest_layer; layer++)
         {
         no3ppm = (g_no3gsm[layer] - g_no3gsm_min[layer])
            * divide (1000.0, g_bd[layer]*g_dlayer[layer], 0.0);
@@ -7628,18 +7568,14 @@ void Plant::cproc_n_supply3 (
     
         }
 
-// determine N from fixation
-
-    crop_N_fixation_pot1 (
-    &g_current_stage
-    , c_n_fix_rate
-    , &fixation_determinant
-    , &g_swdef_fixation
-    , &g_n_fix_pot
-    );
+    // determine N from fixation
+    crop_n_fixation_pot1 (g_current_stage
+                         , c_n_fix_rate
+                         , fixation_determinant
+                         , g_swdef_fixation
+                         , &g_n_fix_pot);
 
     pop_routine (myname);
-    return;
     }
 
 
@@ -7653,17 +7589,14 @@ void Plant::cproc_n_supply3 (
 
 void Plant::plant_grain_number (int option /*(INPUT) option number*/)
     {
-//+  Constant Values
     const char*  my_name = "plant_grain_number" ;
 
-//- Implementation Section ----------------------------------
     push_routine (my_name);
 
     if (option == 1)
         {
         // do not use grain number
         g.grain_no = 0;
-
         }
     else if (option == 2)
         {
@@ -7710,12 +7643,12 @@ void Plant::crop_grain_number (
 
     push_routine (my_name);
 
-    if (on_day_of (emerg, g_current_stage, g_days_tot))
+    if (on_day_of (emerg, g_current_stage))
         {
         // seedling has just emerged.
         *g_grain_no = 0.0;
         }
-    else if (on_day_of (start_grain_fill, g_current_stage, g_days_tot)) 
+    else if (on_day_of (start_grain_fill, g_current_stage))
         {
         // we are at first day of grainfill.
         *g_grain_no = p_grains_per_gram_stem * dm_green[stem];
@@ -7899,42 +7832,40 @@ void Plant::cproc_phenology_nw (
 
 
     g_dlt_tt        = g_dlt_tt ;                      //*fstress Enli deleted the stress
-    
+
     g_dlt_tt_phenol = g_dlt_tt*fstress*min(g_vern_eff,g_photop_eff);
-    
-    crop_phase_devel (&sowing_stage
-                     , &germ_stage
-                     , &end_development_stage
-                     , &c_pesw_germ
+
+    crop_phase_devel (sowing_stage
+                     , germ_stage
+                     , end_development_stage
+                     , c_pesw_germ
                      , c_fasw_emerg
                      , c_rel_emerg_rate
-                     , &c_num_fasw_emerg
-                     , &g_current_stage
+                     , c_num_fasw_emerg
+                     , g_current_stage
                      , g_days_tot
                      , g_dlayer
-                     , &max_layer
-                     , &g_sowing_depth
+                     , max_layer
+                     , g_sowing_depth
                      , g_sw_dep
                      , g_dul_dep
                      , p_ll_dep
-                     , &g_dlt_tt_phenol
+                     , g_dlt_tt_phenol
                      , g_phase_tt
                      , g_tt_tot
-                     , &g_phase_devel
-                     );
+                     , &g_phase_devel);
 
-    crop_devel(&g_current_stage
-               , &max_stage
-               , &g_phase_devel
-               , &g_dlt_stage, &g_current_stage
-               );
-    
+    crop_devel(max_stage
+               , g_phase_devel
+               , &g_dlt_stage
+               , &g_current_stage);
+
     // update thermal time states and day count
-    
-    accumulate (&g_dlt_tt_phenol, g_tt_tot, &g_previous_stage, &g_dlt_stage);
-    
-    accumulate (1.0, g_days_tot, g_previous_stage, g_dlt_stage);
-    
+
+    accumulate (g_dlt_tt_phenol, g_tt_tot,g_previous_stage-1, g_dlt_stage);
+
+    accumulate (1.0, g_days_tot, g_previous_stage-1, g_dlt_stage);
+
     pop_routine (my_name);
     return;
     }
@@ -8150,16 +8081,16 @@ void Plant::wheat_phenology_init_nwheat
     //        if (p_tt_germ_to_emerg > 1.0) then;
     //           phase_tt(germ_to_emerg) = p_tt_germ_to_emerg;
     //        else;
-    phase_tt[germ_to_emerg] = c_shoot_lag + g_sowing_depth*c_shoot_rate;
+    phase_tt[germ_to_emerg-1] = c_shoot_lag + g_sowing_depth*c_shoot_rate;
     //        end if;
 
 //This is to avoid a varning in leaf number final
     //         phase_tt(emerg_to_endjuv) = max(1.0, p_tt_emerg_to_endjuv);
-    phase_tt[emerg_to_endjuv] = 1.0;
+    phase_tt[emerg_to_endjuv-1] = 1.0;
     //       if (p_tt_endjuv_to_init > 1.0) then;
     //         phase_tt(endjuv_to_init)  = p_tt_endjuv_to_init;
     //       else;
-    phase_tt[endjuv_to_init]  = 400.0;
+    phase_tt[endjuv_to_init-1]  = 400.0;
     //c       end if;
 
     //       if (p_tt_init_to_flag > 1.0) then;
@@ -8174,36 +8105,36 @@ void Plant::wheat_phenology_init_nwheat
     //c         phase_tt(flag_to_flower)  = 2.0 * p_phyllochron + 80.0;
     //c       endif;
 
-    phase_tt[init_to_flower] = 5.0 * p_phyllochron + 80.0;
+    phase_tt[init_to_flower-1] = 5.0 * p_phyllochron + 80.0;
 
     //c       if (p_tt_flower_to_start_grain > 1.0) then;
     //c         phase_tt(flower_to_start_grain) = p_tt_flower_to_start_grain;
     //c       else;
-    phase_tt[flower_to_start_grain] = 200.0 - 80.0;
+    phase_tt[flower_to_start_grain-1] = 200.0 - 80.0;
     //c       endif;
 
     //c       if (p_tt_end_grain_to_maturity > 1.0) then;
     //c         phase_tt(end_grain_to_maturity) = p_tt_end_grain_to_maturity;
     //c       else;
-    phase_tt[end_grain_to_maturity] = 0.05*(  phase_tt[flower_to_start_grain]  + p_startgf_to_mat);
+    phase_tt[end_grain_to_maturity-1] = 0.05*(  phase_tt[flower_to_start_grain]  + p_startgf_to_mat);
     //c       endif;
 
     //c       if (p_tt_start_to_end_grain > 1.0) then;
     //c         phase_tt(start_to_end_grain)    = p_tt_start_to_end_grain;
     //c       else;
-    phase_tt[start_to_end_grain]    = p_startgf_to_mat - phase_tt[end_grain_to_maturity];
+    phase_tt[start_to_end_grain-1]    = p_startgf_to_mat - phase_tt[end_grain_to_maturity];
     //c       endif;
 
     //c       if (p_tt_maturity_to_ripe > 1.0) then;
     //c         phase_tt(maturity_to_ripe) = p_tt_maturity_to_ripe;
     //c       else;
-    phase_tt[maturity_to_ripe] = 1.0;
+    phase_tt[maturity_to_ripe-1] = 1.0;
     //c       endif;
 
     //c       if (p_tt_ripe_to_harvest > 1.0) then;
     //c         phase_tt(ripe_to_harvest)  = p_tt_ripe_to_harvest;
     //c       else;
-    phase_tt[ripe_to_harvest]  = 1000.0 ;         // keep it from dying????
+    phase_tt[ripe_to_harvest-1]  = 1000.0 ;         // keep it from dying????
     //c       endif;
     //c      endif;
     //c      print *, "p_startgf_to_mat=", p_startgf_to_mat;
@@ -8296,7 +8227,7 @@ void Plant::plant_process ( void )
     plant_root_depth_init(1);
     plant_water_supply (1);
 
-    if (g.plant_status==status_alive)
+    if (g.plant_status == alive)
         {
         //c         call plant_nit_stress (1);
         //c         call plant_temp_stress (1);
@@ -8328,21 +8259,28 @@ void Plant::plant_process ( void )
 
         plant_bio_water (1);
         plant_bio_rue (1);
+        //fprintf(stdout, "%d,%.9f,%.9f,%.9f\n", g.day_of_year,g.dlt_dm, g.dlt_dm_pot_rue, g.dlt_dm_pot_te);
         plant_bio_init(1);
         plant_bio_actual (1);
+        // c1
+        //fprintf(stdout, "%d,%.9f,%.9f,%.9f\n", g.day_of_year,g.dlt_dm, g.dlt_dm_pot_rue, g.dlt_dm_pot_te);
 
         plant_bio_grain_demand_stress(1);
-//cjh         call plant_bio_grain_demand (1)
+
         plant_bio_grain_demand (c.grain_fill_option);
         plant_bio_grain_oil (1);
-//cjh         call plant_bio_partition (1) ! 1 = partitioning to leaf during
-        plant_bio_partition (c.partition_option); // 1 = partitioning to leaf during
-// grainfill + energy component
+
+        plant_bio_partition (c.partition_option);
+
         plant_retrans_init(1);
-//cjh         call plant_bio_retrans (1)
+
         plant_bio_retrans (c.partition_option);
+        // c2
+        //fprintf(stdout, "%d,%.9f,%.9f,%.9f\n", g.day_of_year,
+        //        g.dlt_dm_green[root],g.dlt_dm_green[leaf],g.dlt_dm_green[stem]);
         plant_leaf_area_actual (1);               // plant node/leaf approach with
-// sla_max = f(lai)
+                                                  // sla_max = f(lai)
+
         plant_pod_area (1);
 
         plant_leaf_no_actual(1);
@@ -8351,10 +8289,18 @@ void Plant::plant_process ( void )
 
         plant_leaf_death (1);                     // 1 = fract leaf death rate
         plant_leaf_area_sen (1);
+        //c2
+//            fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n", g.day_of_year,
+//            g.dm_green[root] + g.dm_green[leaf] + g.dm_green[stem],
+//            g.dm_green[root], g.dm_green[leaf],g.dm_green[stem]);
 
         plant_sen_bio (1);
         plant_sen_root_length(1);                 // added NIH
         plant_sen_nit (1);
+        //c3
+//            fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n", g.day_of_year,
+//            g.dm_green[root] + g.dm_green[leaf] + g.dm_green[stem],
+//            g.dm_green[root], g.dm_green[leaf],g.dm_green[stem]);
 
         plant_nit_supply (c.n_uptake_option);
         plant_nit_init (1);
@@ -8364,23 +8310,21 @@ void Plant::plant_process ( void )
         plant_nit_partition (1);                  // allows output of n fixed
 
         plant_plant_death (1);
-
         }
     else
         {
-// crop is dead
+        // crop is dead
         }
 
-    if (Str_i_Eq(g.plant_status, status_dead))
+    if (g.plant_status == dead)
         {
-// crop is dead
-//cjngh         call plant_zero_variables ()
+        // crop is dead
+        //cjngh         call plant_zero_variables ()
         plant_dead ();
-
         }
     else
         {
-// crop is alive
+        // crop is alive
         }
 
     plant_detachment (1);
@@ -8404,10 +8348,8 @@ void Plant::plant_process ( void )
 //      091095 jngh specified and programmed
 void Plant::plant_dead (void)
     {
-//+  Constant Values
     const char*  my_name = "plant_dead" ;
 
-//- Implementation Section ----------------------------------
     push_routine (my_name);
 
     g.current_stage   = (float) plant_end;
@@ -8429,32 +8371,25 @@ void Plant::plant_dead (void)
 
 void Plant::plant_harvest (protocol::Variant &v/*(INPUT) message variant*/)
     {
-//+  Constant Values
     const char*  my_name = "plant_harvest" ;
-
-//+  Local Variables
-    string report_flag;
-    //bool  class_changed;
-
-//- Implementation Section ----------------------------------
-
+    FString  report_flag;
     push_routine (my_name);
 
     protocol::ApsimVariant incomingApsimVariant(parent);
     incomingApsimVariant.aliasTo(v.getMessageData());
 
-    if (g.plant_status != status_out)
+    if (g.plant_status != out)
         {
         // crop harvested. Report status
         if (incomingApsimVariant.get("report", protocol::DTstring, false, report_flag) == false ||
-            Str_i_Eq(report_flag.c_str(), "yes"))
+            report_flag == "yes")
             {
             plant_harvest_report();
             }
         else
             {
             }
-        /*class_changed =*/ plant_auto_class_change("harvest");
+        plant_auto_class_change("harvest");
         plant_harvest_update(v);
         }
     else
@@ -8510,8 +8445,8 @@ void Plant::plant_dormancy (protocol::Variant &v/*(INPUT) incoming message varia
     const char*  my_name = "plant_dormancy" ;
 
 //+  Local Variables
-    string  dormancy_flag;
-    string  previous_class;
+    FString  dormancy_flag;
+    FString  previous_class;
 
 //- Implementation Section ----------------------------------
 
@@ -8526,20 +8461,20 @@ void Plant::plant_dormancy (protocol::Variant &v/*(INPUT) incoming message varia
          fatal_error(&err_user, "dormancy state must be specified");
          }
 
-    if (Str_i_Eq(dormancy_flag.c_str(), "on"))
+    if (dormancy_flag == "on")
         {
-        previous_class = g.crop_class;
+        previous_class = g.crop_class.c_str();
         plant_auto_class_change("dormancy");
-        if (previous_class != g.crop_class)
+        if (previous_class.f_str() != g.crop_class)
             {
-            g.pre_dormancy_crop_class = previous_class;
+            g.pre_dormancy_crop_class = previous_class.f_str();
             }
         else
             {
             // still dormant
             }
         }
-    else if (Str_i_Eq(dormancy_flag.c_str(), "off"))
+    else if (dormancy_flag == "off")
         {
         g.crop_class = g.pre_dormancy_crop_class;
         plant_read_species_const();
@@ -8607,7 +8542,6 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     float dlt_dm_die;                             // dry matter in dieback of roots (g/m^2)
     float dlt_n_die;                              // N content of drymatter in dieback (g/m^2)
     float avg_leaf_area;
-    char  str[400];                             // output string//XXcharacter  string*400
 
 //- Implementation Section ----------------------------------
     push_routine (my_name);
@@ -8625,7 +8559,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     g.previous_stage = g.current_stage;
 
     stage_no_current = int (g.current_stage);
-    g.current_stage = c.stage_stem_reduction_harvest[stage_no_current];
+    g.current_stage = c.stage_stem_reduction_harvest[stage_no_current-1];
 
     // determine the new stem density
     // ==============================
@@ -8641,7 +8575,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
         }
     bound_check_real_var(remove_fr, 0.0, 1.0, "remove");
 
-    for (part=1; part <= max_part; part++) 
+    for (part=0; part < max_part; part++) 
         {
         fraction_to_residue[part] = 0.0;
         dlt_dm_crop[part] = 0.0;
@@ -8655,29 +8589,21 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     // ===============================================================
     // affected differently.
     // =====================
-    for (part=1; part<=max_part;part++) 
+    for (part=0; part<max_part;part++) 
         {
         if (part==root)
             {
             // Calculate Root Die Back
             dlt_dm_die = g.dm_green[part] * c.root_die_back_fr;
-            g.dm_senesced[part] = g.dm_senesced[part]
-            + dlt_dm_die;
-            dlt_n_die =  g.dm_green[part]
-            * c.root_die_back_fr
-            * c.n_sen_conc[part];
-            g.n_senesced[part] = g.n_senesced[part]
-            + dlt_n_die;
-            g.n_green[part]= g.n_green[part]
-            - dlt_n_die;
-    
-            g.dm_green[part] = g.dm_green[part]
-            * (1.0 - c.root_die_back_fr);
-    
-            dlt_dm_crop[part] = dlt_dm_die
-            * gm2kg/sm2ha;
-            dlt_dm_n[part] = dlt_n_die
-            * gm2kg/sm2ha;
+            g.dm_senesced[part] = g.dm_senesced[part] + dlt_dm_die;
+            dlt_n_die =  g.dm_green[part] * c.root_die_back_fr * c.n_sen_conc[part];
+            g.n_senesced[part] = g.n_senesced[part] + dlt_n_die;
+            g.n_green[part]= g.n_green[part] - dlt_n_die;
+
+            g.dm_green[part] = g.dm_green[part] * (1.0 - c.root_die_back_fr);
+
+            dlt_dm_crop[part] = dlt_dm_die * gm2kg/sm2ha;
+            dlt_dm_n[part] = dlt_n_die * gm2kg/sm2ha;
             fraction_to_residue[part] = 0.0;
             }
         else
@@ -8687,93 +8613,71 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
             if (part==meal || part==oil)
                 {
                 // biomass is removed
-    
-                dlt_dm_n[part] = (g.n_dead[part]
-                + g.n_green[part]
-                + g.n_senesced[part])
-                * gm2kg/sm2ha;
-    
-                dlt_dm_crop[part] = (g.dm_dead[part]
-                + g.dm_green[part]
-                + g.dm_senesced[part])
-                * gm2kg/sm2ha;
+                dlt_dm_n[part] = (g.n_dead[part] + g.n_green[part] + g.n_senesced[part])
+                                     * gm2kg/sm2ha;
+
+                dlt_dm_crop[part] = (g.dm_dead[part] + g.dm_green[part] + g.dm_senesced[part])
+                                       * gm2kg/sm2ha;
 
                 fraction_to_residue[part] = 0.0;
-    
+
                 g.dm_dead[part] = 0.0;
                 g.dm_senesced[part] = 0.0;
                 g.dm_green[part] = 0.0;
-    
+
                 g.n_dead[part] = 0.0;
                 g.n_senesced[part] = 0.0;
                 g.n_green[part] = 0.0;
-    
                 }
             else if (part==stem)
                 {
                 // Some biomass is removed according to harvest height
                 fr_height = divide (height,g.canopy_height, 0.0);
                 retain_fr = linear_interp_real (fr_height
-                ,c.fr_height_cut
-                ,c.fr_stem_remain
-                ,c.num_fr_height_cut);
-                dlt_n_harvest = (g.n_dead[part]
-                + g.n_green[part]
-                + g.n_senesced[part])
-                * (1.-retain_fr);
-    
-                dlt_dm_harvest = (g.dm_dead[part]
-                + g.dm_green[part]
-                + g.dm_senesced[part])
-                * (1.-retain_fr);
-    
-                dlt_dm_crop[part] = dlt_dm_harvest
-                * gm2kg/sm2ha;
+                   ,c.fr_height_cut
+                   ,c.fr_stem_remain
+                   ,c.num_fr_height_cut);
+                dlt_n_harvest = (g.n_dead[part] + g.n_green[part] + g.n_senesced[part])
+                                 * (1.0-retain_fr);
 
-                dlt_dm_n[part] = dlt_n_harvest
-                * gm2kg/sm2ha;
+                dlt_dm_harvest = (g.dm_dead[part] + g.dm_green[part] + g.dm_senesced[part])
+                                  * (1.0-retain_fr);
+
+                dlt_dm_crop[part] = dlt_dm_harvest * gm2kg/sm2ha;
+
+                dlt_dm_n[part] = dlt_n_harvest * gm2kg/sm2ha;
                 fraction_to_residue[part] = (1.0 - remove_fr);
-    
+
                 g.dm_dead[part] = retain_fr * g.dm_dead[part];
                 g.dm_senesced[part] = retain_fr * g.dm_senesced[part];
                 g.dm_green[part] = retain_fr * g.dm_green[part];
-    
+
                 g.n_dead[part] = retain_fr * g.n_dead[part];
                 g.n_senesced[part] = retain_fr * g.n_senesced[part];
                 g.n_green[part] = retain_fr * g.n_green[part];
-    
                 }
             else
                 {
                 // this includes leaf, pod
-                dm_init = u_bound(c.dm_init [part] * g.plants
-                ,g.dm_green[part]);
-                n_init = u_bound(dm_init * c.n_init_conc[part]
-                ,g.n_green[part]);
-    
-                dlt_n_harvest = g.n_dead[part]
-                + (g.n_green[part] - n_init)
-                + g.n_senesced[part];
-    
-                dlt_dm_harvest = g.dm_dead[part]
-                + (g.dm_green[part] - dm_init)
-                + g.dm_senesced[part];
-    
-                dlt_dm_crop[part] = dlt_dm_harvest
-                * gm2kg/sm2ha;
-    
-                dlt_dm_n[part] = dlt_n_harvest
-                * gm2kg/sm2ha;
+                dm_init = u_bound(c.dm_init [part] * g.plants, g.dm_green[part]);
+                n_init = u_bound(dm_init * c.n_init_conc[part],g.n_green[part]);
+
+                dlt_n_harvest = g.n_dead[part] + (g.n_green[part] - n_init) + g.n_senesced[part];
+                dlt_dm_harvest = g.dm_dead[part] + (g.dm_green[part] - dm_init) + g.dm_senesced[part];
+
+                dlt_dm_crop[part] = dlt_dm_harvest * gm2kg/sm2ha;
+
+                dlt_dm_n[part] = dlt_n_harvest * gm2kg/sm2ha;
                 fraction_to_residue[part] = (1.0 - remove_fr);
-    
+
                 g.dm_dead[part] = 0.0;
                 g.dm_senesced[part] = 0.0;
                 g.dm_green[part] = dm_init;
-    
+
                 g.n_dead[part] = 0.0;
                 g.n_senesced[part] = 0.0;
                 g.n_green[part] = n_init;
-    
+
                 }
             }
         }
@@ -8794,39 +8698,39 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
         // no surface residue
         }
     dm_residue = 0.0;
-    for (part=1; part <= max_part; part++) 
+    for (part=0; part < max_part; part++)
       dm_residue = dm_residue + (dlt_dm_crop[part] * fraction_to_residue[part]);
 
     n_residue = 0.0;
-    for (part=1; part <= max_part; part++) 
+    for (part=0; part < max_part; part++) 
       n_residue = n_residue + (dlt_dm_n[part] * fraction_to_residue[part]);
 
     dm_root = dlt_dm_crop[root];
     n_root = dlt_dm_n[root];
 
     parent->writeString (" crop harvested.");
-    parent->writeString (string("  tops residue =" + ftoa(dm_residue, 2) + " kg/ha").c_str());
-    parent->writeString (string("  tops n       =" + ftoa(n_residue, 2) + " kg/ha").c_str());
-    parent->writeString (string("  root residue =" + ftoa(dm_root, 2) + " kg/ha").c_str());
-    parent->writeString (string("  root n       =" + ftoa(n_root, 2) + " kg/ha").c_str());
+    parent->writeString (string("  tops residue =  " + Ftoa(dm_residue, 2) + " kg/ha").c_str());
+    parent->writeString (string("  tops n       =  " + Ftoa(n_residue, 2) + " kg/ha").c_str());
+    parent->writeString (string("  root residue =  " + Ftoa(dm_root, 2) + " kg/ha").c_str());
+    parent->writeString (string("  root n       =  " + Ftoa(n_root, 2) + " kg/ha").c_str());
 
     dm_removed = 0.0;
-    for (part=1; part <= max_part; part++) 
+    for (part=0; part < max_part; part++)
       dm_removed = dm_removed + dlt_dm_crop[part];
     dm_removed = dm_removed - dm_residue - dm_root;
 
     n_removed = 0.0;
-    for (part=1; part <= max_part; part++) 
+    for (part=0; part < max_part; part++)
       n_removed = n_removed + dlt_dm_n[part];
     n_removed = n_removed - n_residue - n_root;
 
     dm_root = 0.0;
     n_root  = 0.0;
 
-    parent->writeString (string("  tops removed ="+ ftoa(dm_removed, 2) + " kg/ha").c_str());
-    parent->writeString (string("  tops n removed="+ ftoa(n_removed, 2) + " kg/ha").c_str());
-    parent->writeString (string("  root removed ="+ ftoa(dm_root, 2) + " kg/ha").c_str());
-    parent->writeString (string("  root n removed="+ ftoa(n_root, 2) + " kg/ha").c_str());
+    parent->writeString (string("  tops removed =  "+ Ftoa(dm_removed, 2) + " kg/ha").c_str());
+    parent->writeString (string("  tops n removed= "+ Ftoa(n_removed, 2) + " kg/ha").c_str());
+    parent->writeString (string("  root removed =  "+ Ftoa(dm_root, 2) + " kg/ha").c_str());
+    parent->writeString (string("  root n removed= "+ Ftoa(n_root, 2) + " kg/ha").c_str());
 
     // put roots into root residue
 
@@ -8863,7 +8767,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
                           , canopy_fac
                           ,g.lai
                           ,g.pai
-                          ,g.lai_canopy_green
+                          ,&g.lai_canopy_green
                           ,&g.cover_green
                           ,&g.cover_pod);
 
@@ -8889,15 +8793,15 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
     stage_no_current = (int) g.current_stage;
 
-    g.node_no[stage_no_current] = c.leaf_no_at_emerg;
+    g.node_no[stage_no_current-1] = c.leaf_no_at_emerg;
 
     fill_real_array (g.leaf_no, 1.0, (int)c.leaf_no_at_emerg);
-    g.leaf_no[(int)c.leaf_no_at_emerg+1]=fmod(c.leaf_no_at_emerg,1.);
+    g.leaf_no[(int)c.leaf_no_at_emerg] = fmod(c.leaf_no_at_emerg,1.0);
 
     avg_leaf_area = divide(c.initial_tpla,c.leaf_no_at_emerg,0.0);
 
     fill_real_array (g.leaf_area,avg_leaf_area,(int)c.leaf_no_at_emerg);
-    g.leaf_area[(int)c.leaf_no_at_emerg+1]=fmod(c.leaf_no_at_emerg,1.0)*avg_leaf_area;
+    g.leaf_area[(int)c.leaf_no_at_emerg] = fmod(c.leaf_no_at_emerg,1.0) * avg_leaf_area;
 
     //cnh the following has not been changed though may not be necessary;
     //cnh start;
@@ -8913,35 +8817,32 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     else
         {
         fract = part_current;
-        for (stage_no = stage_no_current+1; stage_no<=stage_no_previous;stage_no++) 
+        for (stage_no = stage_no_current+1; stage_no<=stage_no_previous;stage_no++)
             {
-            g.days_tot[stage_no]       = 0.0;
-            g.tt_tot[stage_no]         = 0.0;
-            g.heat_stress_tt[stage_no] = 0.0;
-            g.dm_stress_max[stage_no]  = 0.0;
-            g.cswd_photo[stage_no]     = 0.0;
-            g.cswd_expansion[stage_no] = 0.0;
-            g.cnd_photo[stage_no]      = 0.0;
-            g.cnd_grain_conc[stage_no] = 0.0;
+            g.days_tot[stage_no-1]       = 0.0;
+            g.tt_tot[stage_no-1]         = 0.0;
+            g.heat_stress_tt[stage_no-1] = 0.0;
+            g.dm_stress_max[stage_no-1]  = 0.0;
+            g.cswd_photo[stage_no-1]     = 0.0;
+            g.cswd_expansion[stage_no-1] = 0.0;
+            g.cnd_photo[stage_no-1]      = 0.0;
+            g.cnd_grain_conc[stage_no-1] = 0.0;
             }
         }
-    g.days_tot[stage_no_current]       =
-    fract * g.days_tot[stage_no_current];
-    g.tt_tot[stage_no_current]         =
-    fract * g.tt_tot[stage_no_current];
-    g.heat_stress_tt[stage_no_current] = 0.0;
-    g.dm_stress_max[stage_no_current]  = 0.0;
-    g.cswd_photo[stage_no_current]     = 0.0;
-    g.cswd_expansion[stage_no_current] = 0.0;
-    g.cnd_photo[stage_no_current]      = 0.0;
-    g.cnd_grain_conc[stage_no_current] = 0.0;
+    g.days_tot[stage_no_current-1]       = fract * g.days_tot[stage_no_current-1];
+    g.tt_tot[stage_no_current-1]         = fract * g.tt_tot[stage_no_current-1];
+    g.heat_stress_tt[stage_no_current-1] = 0.0;
+    g.dm_stress_max[stage_no_current-1]  = 0.0;
+    g.cswd_photo[stage_no_current-1]     = 0.0;
+    g.cswd_expansion[stage_no_current-1] = 0.0;
+    g.cnd_photo[stage_no_current-1]      = 0.0;
+    g.cnd_grain_conc[stage_no_current-1] = 0.0;
 
 // other plant states
 
     g.canopy_height = 1.0;
 
-    plant_n_conc_limits (
-    c.stage_code_list
+    plant_n_conc_limits (c.stage_code_list
     , g.phase_tt
     , g.tt_tot
     , c.n_conc_crit_grain
@@ -8966,12 +8867,11 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     , g.n_conc_min
     )  ;                                          // plant N concentr
 
-    if (Str_i_Eq(g.plant_status, status_alive)
-        && g.current_stage < g.previous_stage)
+    if (g.plant_status == alive &&
+        g.current_stage < g.previous_stage)
         {
         plant_event (
           g.current_stage
-        , g.days_tot
         , g.dlayer
         , g.dm_dead
         , g.dm_green
@@ -8985,7 +8885,6 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     else
         {
         }
-
 
     pop_routine (my_name);
     return;
@@ -9040,8 +8939,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     g.previous_stage = g.current_stage;
 
     stage_no_current = (int) g.current_stage;
-    g.current_stage =
-    c.stage_stem_reduction_kill_stem[stage_no_current];
+    g.current_stage =  c.stage_stem_reduction_kill_stem[stage_no_current-1];
 
     // determine the new stem density
     // ==============================
@@ -9054,7 +8952,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     // if annual, then modify root and leaf so all goes to dead.
     // Update biomass and N pools.
 
-    for (part = 1; part <=max_part; part++) 
+    for (part = 0; part <max_part; part++) 
        {
        if (part == root)
            {
@@ -9091,7 +8989,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
        }
 
 // Transfer plant dry matter
-    for (part = 1; part <=max_part;part++) 
+    for (part = 0; part <max_part;part++) 
         {
         if (part == root)
             {
@@ -9156,7 +9054,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
                            ,canopy_fac
                            ,g.lai
                            ,g.pai
-                           ,g.lai_canopy_green
+                           ,&g.lai_canopy_green
                            ,&g.cover_green
                            ,&g.cover_pod);
 
@@ -9174,35 +9072,36 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
                   ,canopy_fac
                   ,g.tlai_dead
                   ,&g.cover_dead);
-    for (int node = 1; node <= max_node; node++) 
+    for (int node =0; node < max_node; node++) 
         {
         g.leaf_no[node] = 0.0;
         g.leaf_no_dead[node] = 0.0;
         g.leaf_area[node] = 0.0;
         }
-    for (int node = 1; node <= max_stage; node++) 
+    for (int node = 0; node < max_stage; node++) 
         {        
         g.node_no[node] = 0.0;
         }
-    stage_no_current = (int) g.current_stage;
 
-    g.node_no[stage_no_current] = c.leaf_no_at_emerg;
+    stage_no_current = (int) g.current_stage;
+    g.node_no[stage_no_current-1] = c.leaf_no_at_emerg;
+
     leaf_no_emerged = (int) c.leaf_no_at_emerg;
     leaf_emerging_fract = fmod(c.leaf_no_at_emerg, 1.0);
 
-    for (int leaf = 1; leaf <= leaf_no_emerged; leaf++) 
-        {        
+    for (int leaf = 0; leaf < leaf_no_emerged; leaf++)
+        {
         g.leaf_no[leaf] = 1.0;
         }
-    g.leaf_no[leaf_no_emerged+1] = leaf_emerging_fract;
+    g.leaf_no[leaf_no_emerged] = leaf_emerging_fract;
 
     avg_leaf_area = divide (c.initial_tpla, c.leaf_no_at_emerg, 0.0);
 
-    for (int leaf = 1; leaf <= leaf_no_emerged; leaf++) 
-        {        
+    for (int leaf = 0; leaf < leaf_no_emerged; leaf++)
+        {
         g.leaf_area[leaf] = avg_leaf_area;
         }
-    g.leaf_area[leaf] = leaf_emerging_fract * avg_leaf_area;
+    g.leaf_area[leaf_no_emerged] = leaf_emerging_fract * avg_leaf_area;
 
     //cnh the following has not been changed though may not be necessary;
     //cnh start;
@@ -9218,28 +9117,28 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     else
         {
         stage_fract = stage_part_current;
-        for (stage_no = stage_no_current+1; stage_no<= stage_no_previous; stage_no++) 
+        for (stage_no = stage_no_current; stage_no< stage_no_previous; stage_no++)
             {
-            g.days_tot[stage_no]       = 0.0;
-            g.tt_tot[stage_no]         = 0.0;
-            g.heat_stress_tt[stage_no] = 0.0;
-            g.dm_stress_max[stage_no]  = 0.0;
-            g.cswd_photo[stage_no]     = 0.0;
-            g.cswd_expansion[stage_no] = 0.0;
-            g.cnd_photo[stage_no]      = 0.0;
-            g.cnd_grain_conc[stage_no] = 0.0;
+            g.days_tot[stage_no-1]       = 0.0;
+            g.tt_tot[stage_no-1]         = 0.0;
+            g.heat_stress_tt[stage_no-1] = 0.0;
+            g.dm_stress_max[stage_no-1]  = 0.0;
+            g.cswd_photo[stage_no-1]     = 0.0;
+            g.cswd_expansion[stage_no-1] = 0.0;
+            g.cnd_photo[stage_no-1]      = 0.0;
+            g.cnd_grain_conc[stage_no-1] = 0.0;
             }
         }
-    g.days_tot[stage_no_current] =
-       stage_fract * g.days_tot[stage_no_current];
-    g.tt_tot[stage_no_current]         =
-       stage_fract * g.tt_tot[stage_no_current];
-    g.heat_stress_tt[stage_no_current] = 0.0;
-    g.dm_stress_max[stage_no_current]  = 0.0;
-    g.cswd_photo[stage_no_current]     = 0.0;
-    g.cswd_expansion[stage_no_current] = 0.0;
-    g.cnd_photo[stage_no_current]      = 0.0;
-    g.cnd_grain_conc[stage_no_current] = 0.0;
+    g.days_tot[stage_no_current-1] =
+       stage_fract * g.days_tot[stage_no_current-1];
+    g.tt_tot[stage_no_current-1]         =
+       stage_fract * g.tt_tot[stage_no_current-1];
+    g.heat_stress_tt[stage_no_current-1] = 0.0;
+    g.dm_stress_max[stage_no_current-1]  = 0.0;
+    g.cswd_photo[stage_no_current-1]     = 0.0;
+    g.cswd_expansion[stage_no_current-1] = 0.0;
+    g.cnd_photo[stage_no_current-1]      = 0.0;
+    g.cnd_grain_conc[stage_no_current-1] = 0.0;
     //cnh end subroutine;
     // other plant states
 
@@ -9270,11 +9169,10 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
          , g.n_conc_max
          , g.n_conc_min )  ;                                          // plant N concentr
 
-    if (g.plant_status == status_alive
-        && g.current_stage < g.previous_stage) 
+    if (g.plant_status == alive &&
+        g.current_stage < g.previous_stage) 
         {
         plant_event (g.current_stage
-            , g.days_tot
             , g.dlayer
             , g.dm_dead
             , g.dm_green
@@ -9313,472 +9211,458 @@ void Plant::plant_zero_all_globals (void)
 
     push_routine (my_name);
 
-   memset (&c, 0, sizeof(c));
-   memset (&p, 0, sizeof(p));  // A lot simpler; but floats may be NaNs?..
-   memset (&g, 0, sizeof(g));
+#if 0
+  memset (&g, 0xdeadbeef, sizeof(g));
+  memset (&p, 0xdeadbeef, sizeof(p));
+  memset (&c, 0xdeadbeef, sizeof(c)); //not for <x>_dm_sen_frac
+#endif
+      g.hasreadconstants = false;
+      g.module_name="";
+      g.crop_class="";
+      g.plant_status=out;                           
+      g.cultivar="";                               
+      g.pre_dormancy_crop_class="";
+      g.swdef_expansion=0;
+      g.swdef_photo=0;
+      g.swdef_pheno=0;
+      g.swdef_fixation=0;
+      g.sw_avail_fac_deepest_layer=0;
+      g.nfact_expansion=0;
+      g.nfact_photo=0;
+      g.nfact_grain_conc=0;
+      g.nfact_pheno=0;
+      g.temp_stress_photo=0;
+      g.oxdef_photo=0;
+      g.row_spacing=0;                              
+      g.skip_row=0;                                 
+      g.skip_plant=0;                               
+      g.skip_row_fac=0;                             
+      g.skip_plant_fac=0;                           
+      g.sowing_depth=0;                             
+      g.year=0;                                  
+      g.day_of_year=0;                           
+      g.fr_intc_radn=0;                          
+      g.latitude=0;                              
+      g.radn=0;                                  
+      g.mint=0;                                  
+      g.maxt=0;                                  
+      fill_real_array (g.soil_temp, 0, 366+1);                          
+      g.eo=0;                                    
+      fill_real_array (g.cnd_photo , 0, max_stage);                 
+      fill_real_array (g.cnd_grain_conc , 0, max_stage);
+      fill_real_array (g.cswd_photo , 0, max_stage);                
+      fill_real_array (g.cswd_expansion , 0, max_stage);            
+      fill_real_array (g.cswd_pheno , 0, max_stage);                
+      g.cum_vernal_days=0;                         
+      g.dlt_tt=0;                                
+      fill_real_array (g.tt_tot, 0, max_stage);                    
+      fill_real_array (g.phase_tt, 0, max_stage);                  
+      g.dlt_tt_curv=0;                          
+      fill_real_array (g.tt_curv_tot, 0, max_stage);               
+      fill_real_array (g.phase_tt_curv, 0, max_stage);            
+      g.dlt_tt_other=0;                        
+      fill_real_array (g.tt_other_tot, 0, max_stage);             
+      fill_real_array (g.phase_tt_other, 0, max_stage);           
+      fill_real_array (g.heat_stress_tt, 0, max_stage);           
+      g.dlt_heat_stress_tt=0;                  
+      g.dlt_stage=0;                            
+      g.current_stage=0;                        
+      g.previous_stage=0;                       
+      fill_real_array (g.days_tot , 0, max_stage);               
+      g.dlt_canopy_height=0;                    
+      g.canopy_height=0;                        
+      g.dlt_canopy_width=0;                     
+      g.canopy_width=0;                         
+      g.phase_devel=0;                          
+      g.plants=0;                               
+      g.dlt_plants=0;                           
+      g.grain_no=0;                             
+      g.dlt_root_depth=0;                       
+      g.root_depth=0;                           
+      g.cover_green=0;                          
+      g.cover_sen=0;                             
+      g.cover_dead=0;
+      g.dlt_plants_death_seedling=0;
+      g.dlt_plants_death_drought=0;
+      g.dlt_plants_failure_phen_delay=0;
+      g.dlt_plants_failure_leaf_sen=0;
+      g.dlt_plants_failure_emergence=0;
+      g.dlt_plants_failure_germ=0;
+      g.dlt_plants_death_external=0;
+      g.dlt_dm=0;                          
+      g.dlt_dm_pot_rue=0;                  
+      g.dlt_dm_pot_te=0;                   
+      g.dlt_dm_oil_conv=0;                 
+      fill_real_array (g.dlt_dm_green, 0, max_part);          
+      fill_real_array (g.dlt_dm_senesced, 0, max_part);       
+      fill_real_array (g.dlt_dm_detached, 0, max_part);       
+      fill_real_array (g.dlt_dm_dead, 0, max_part);           
+      fill_real_array (g.dlt_dm_dead_detached, 0, max_part);  
+      g.dlt_dm_oil_conv_retranslocate=0;     
+      fill_real_array (g.dlt_dm_green_retrans, 0, max_part);  
+      fill_real_array (g.dm_stress_max, 0, max_stage);        
+      g.dlt_dm_stress_max=0.0;                 
+      g.dlt_dm_grain_demand=0.0;                      
+      fill_real_array (g.dm_green_demand, 0, max_part);              
+      fill_real_array (g.dm_dead, 0, max_part);                 
+      fill_real_array (g.dm_green, 0, max_part);                
+      fill_real_array (g.dm_senesced, 0, max_part);             
+      fill_real_array (g.dm_plant_top_tot, 0, max_stage);       
+      g.radn_int=0;                          
+      g.transp_eff=0;                        
+      g.slai=0;                              
+      g.dlt_slai=0;                               
+      g.dlt_lai=0;                                
+      g.dlt_lai_pot=0;
+      g.dlt_lai_stressed=0;                       
+      g.lai=0;                                    
+      g.lai_canopy_green=0;                       
+      g.tlai_dead=0;                              
+      g.dlt_slai_detached=0;                      
+      g.dlt_tlai_dead=0;                          
+      g.dlt_tlai_dead_detached=0;                 
+      g.dlt_slai_age=0;                           
+      g.dlt_slai_light=0;                         
+      g.dlt_slai_water=0;                         
+      g.dlt_slai_frost=0;                         
+      g.pai=0;
+      g.dlt_pai=0;
+      fill_real_array (g.leaf_no, 0, max_node);                      
+      fill_real_array (g.node_no, 0, max_stage);                     
+      fill_real_array (g.leaf_no_dead, 0, max_node);                 
+      g.dlt_leaf_no=0;                            
+      g.dlt_node_no=0;                            
+      g.dlt_leaf_no_pot=0;                        
+      g.dlt_node_no_pot=0;                        
+      g.dlt_leaf_no_dead=0;                       
+      g.leaf_no_final=0;                          
+      fill_real_array (g.leaf_area, 0, max_node);                    
+      fill_real_array (g.lai_equilib_light, 0, 366+1);                 
+      fill_real_array (g.lai_equilib_water, 0, 366+1);                 
+      fill_real_array (g.n_demand , 0, max_part);                    
+      fill_real_array (g.n_max , 0, max_part);                       
+      fill_real_array (g.dlt_n_green, 0, max_part);                  
+      fill_real_array (g.dlt_n_senesced, 0, max_part);               
+      fill_real_array (g.dlt_n_senesced_trans, 0, max_part);
+      fill_real_array (g.dlt_n_detached, 0, max_part);               
+      fill_real_array (g.dlt_n_dead, 0, max_part);
+      fill_real_array (g.dlt_n_dead_detached, 0, max_part);          
+      fill_real_array (g.n_dead, 0, max_part);                  
+      fill_real_array (g.n_green, 0, max_part);                 
+      fill_real_array (g.n_senesced, 0, max_part);              
+      fill_real_array (g.dlt_n_retrans, 0, max_part);           
+      fill_real_array (g.dlt_no3gsm, 0, max_layer);             
+      fill_real_array (g.no3gsm , 0, max_layer);                
+      fill_real_array (g.no3gsm_min, 0, max_layer);             
+      fill_real_array (g.no3gsm_diffn_pot, 0, max_layer);       
+      fill_real_array (g.no3gsm_mflow_avail, 0, max_layer);     
+      g.n_fix_pot=0;                         
+      fill_real_array (g.no3gsm_uptake_pot, 0, max_layer);
+      g.n_fix_uptake=0;                      
+      g.n_fixed_tops=0;                           
+      fill_real_array (g.n_conc_crit, 0, max_part);                  
+      fill_real_array (g.n_conc_max, 0, max_part);                   
+      fill_real_array (g.n_conc_min, 0, max_part);                   
+      fill_real_array (g.dm_plant_min, 0, max_part);                 
+      g.cover_pod=0;
+      fill_real_array (g.dlayer , 0, max_layer);                 
+      fill_real_array (g.dlt_sw_dep, 0, max_layer);              
+      fill_real_array (g.ll15_dep, 0, max_layer);
+      fill_real_array (g.dul_dep , 0, max_layer);                
+      fill_real_array (g.sat_dep, 0, max_layer);
+      fill_real_array (g.bd, 0, max_layer);
+      fill_real_array (g.sw_dep , 0, max_layer);                 
+      g.sw_demand=0;                          
+      g.sw_demand_te=0;                       
+      fill_real_array (g.sw_avail_pot, 0, max_layer);            
+      fill_real_array (g.sw_avail, 0, max_layer);                
+      fill_real_array (g.sw_supply , 0, max_layer);              
 
-// plant Globals
-//    g.module_name     = "";
-//    g.crop_class      = "";
-//    g.pre_dormancy_crop_class = "";
-//    g.plant_status    = "";
-//    g.cultivar        = "";
-    g.hasreadconstants = false;
-    g.swdef_expansion             = 0.0;
-    g.swdef_photo                 = 0.0;
-    g.swdef_pheno                 = 0.0;
-    g.swdef_fixation              = 0.0;
-    g.sw_avail_fac_deepest_layer  = 0.0;
-    g.nfact_expansion             = 0.0;
-    g.nfact_photo                 = 0.0;
-    g.nfact_grain_conc            = 0.0;
-    g.nfact_pheno                 = 0.0;
-    g.temp_stress_photo           = 0.0;
-    g.oxdef_photo                 = 0.0;
-    g.row_spacing                 = 0.0;
-    g.skip_row                    = 0.0;
-    g.skip_row_fac                = 0.0;
-    g.skip_plant                    = 0.0;
-    g.skip_plant_fac                = 0.0;
-    g.sowing_depth                = 0.0;
-    g.year                = 0;
-    g.day_of_year         = 0;
-    g.fr_intc_radn                = 0.0;
-    g.latitude                    = 0.0;
-    g.radn                        = 0.0;
-    g.mint                        = 0.0;
-    g.maxt                        = 0.0;
+      g.num_layers=0;                             
+      g.transpiration_tot=0;                      
+      g.n_uptake_tot=0;                           
+      g.n_demand_tot=0;                           
+      g.n_conc_act_stover_tot=0;                 
+      g.n_conc_crit_stover_tot=0;                
+      g.n_uptake_grain_tot=0;                    
+      g.n_uptake_stover_tot=0;                   
+      g.lai_max=0;                               
+      g.flowering_date=0;                        
+      g.maturity_date=0;                         
+      g.flowering_das=0;                          
+      g.maturity_das=0;                           
+      fill_real_array (g.root_length, 0, max_layer);                 
+      fill_real_array (g.root_length_dead, 0, max_layer);            
+      fill_real_array (g.dlt_root_length, 0, max_layer);             
+      fill_real_array (g.dlt_root_length_senesced, 0, max_layer);    
+      g.ext_n_demand=0;
+      g.ext_sw_demand=0;                          
+      g.grain_energy=0;                           
+      g.dlt_cumvd=0;
+      g.cumvd=0;
+      g.vern_eff=0;
+      g.photop_eff=0;
+      g.leaves_per_node=0;
 
-    for (int i = 1; i <= 366; i++)
-       {
-       g.soil_temp[i] = 0.0;
-       g.lai_equilib_light[i]          = 0.0;
-       g.lai_equilib_water[i]          = 0.0;
-       }
-    g.eo                          = 0.0;
-    g.cum_vernal_days             = 0.0;
-    g.dlt_tt                      = 0.0;
-    for (int i = 1; i <= max_stage; i++)
-        {
-        g.cnd_photo [i]               = 0.0;
-        g.cnd_grain_conc [i]          = 0.0;
-        g.cswd_photo [i]              = 0.0;
-        g.cswd_expansion [i]          = 0.0;
-        g.cswd_pheno [i]              = 0.0;
-        g.tt_tot[i]                   = 0.0;
-        g.phase_tt[i]                 = 0.0;
-        g.dlt_tt_curv                 = 0.0;
-        g.tt_curv_tot[i]              = 0.0;
-        g.phase_tt_curv[i]            = 0.0;
-        g.dlt_tt_other                = 0.0;
-        g.tt_other_tot[i]             = 0.0;
-        g.phase_tt_other[i]           = 0.0;
-        g.heat_stress_tt[i]           = 0.0;
-        g.days_tot[i]                 = 0.0;
-        }
-    g.dlt_heat_stress_tt          = 0.0;
-    g.dlt_stage                   = 0.0;
-    g.current_stage               = 0.0;
-    g.previous_stage              = 0.0;
-    g.dlt_canopy_height           = 0.0;
-    g.dlt_canopy_width           = 0.0;
-    g.canopy_height               = 0.0;
-    g.canopy_width               = 0.0;
-    g.phase_devel                 = 0.0;
-    g.plants                      = 0.0;
-    g.dlt_plants                  = 0.0;
-    g.grain_no                    = 0.0;
-    g.dlt_root_depth              = 0.0;
-    g.root_depth                  = 0.0;
-    g.cover_green                 = 0.0;
-    g.cover_sen                   = 0.0;
-    g.cover_dead                  = 0.0;
-    g.dlt_plants_death_seedling   = 0.0;
-    g.dlt_plants_death_drought      = 0.0;
-    g.dlt_plants_failure_phen_delay = 0.0;
-    g.dlt_plants_failure_leaf_sen   = 0.0;
-    g.dlt_plants_failure_emergence  = 0.0;
-    g.dlt_plants_failure_germ       = 0.0;
-    g.dlt_plants_death_external     = 0.0;
-    g.dlt_dm                        = 0.0;
-    g.dlt_dm_pot_rue                = 0.0;
-    g.dlt_dm_pot_te                 = 0.0;
-    g.dlt_dm_oil_conv               = 0.0;
-    for (int i = 1; i <= max_part; i++)
-        {
-        g.dlt_dm_green[i]               = 0.0;
-        g.dlt_dm_senesced[i]            = 0.0;
-        g.dlt_dm_detached[i]            = 0.0;
-        g.dlt_dm_dead[i]                = 0.0;
-        g.dlt_dm_dead_detached[i]       = 0.0;
-        g.dlt_dm_green_retrans[i]       = 0.0;
-        g.dm_stress_max[i]              = 0.0;
-        g.dm_green_demand[i]            = 0.0;
-        g.dm_dead[i]                    = 0.0;
-        g.dm_green[i]                   = 0.0;
-        g.dm_senesced[i]                = 0.0;
-        g.dm_plant_top_tot[i]           = 0.0;
-      }
-    g.dlt_dm_oil_conv_retranslocate = 0.0;
-    g.dlt_dm_stress_max             = 0.0;
-    g.dlt_dm_grain_demand           = 0.0;
-    g.radn_int                      = 0.0;
-    g.transp_eff                    = 0.0;
-    g.slai                          = 0.0;
-    g.dlt_slai                      = 0.0;
-    g.dlt_lai                       = 0.0;
-    g.dlt_lai_pot                   = 0.0;
-    g.dlt_lai_stressed              = 0.0;
-    g.lai                           = 0.0;
-    g.tlai_dead                     = 0.0;
-    g.dlt_slai_detached             = 0.0;
-    g.dlt_tlai_dead                 = 0.0;
-    g.dlt_tlai_dead_detached        = 0.0;
-    g.dlt_slai_age                  = 0.0;
-    g.dlt_slai_light                = 0.0;
-    g.dlt_slai_water                = 0.0;
-    g.dlt_slai_frost                = 0.0;
-    g.pai                           = 0.0;
-    g.dlt_pai                       = 0.0;
+      p.grains_per_gram_stem=0;
+      p.potential_grain_filling_rate=0;
+      p.tt_maturity_to_ripe=0;                       
+      p.tt_end_grain_to_maturity=0;
+      fill_real_array (p.cum_vernal_days, 0, max_table);
+      fill_real_array (p.tt_emerg_to_endjuv, 0, max_table);
+      p.num_cum_vernal_days=0;
+      p.tt_flower_to_maturity=0;                      
+      fill_real_array (p.x_pp_endjuv_to_init, 0, max_table);
+      fill_real_array (p.y_tt_endjuv_to_init, 0, max_table);
+      fill_real_array (p.x_pp_init_to_flower, 0, max_table);
+      fill_real_array (p.y_tt_init_to_flower, 0, max_table);
+      fill_real_array (p.x_pp_flower_to_start_grain, 0, max_table);
+      fill_real_array (p.y_tt_flower_to_start_grain, 0, max_table);
+      fill_real_array (p.x_pp_start_to_end_grain, 0, max_table);
+      fill_real_array (p.y_tt_start_to_end_grain, 0, max_table);
+      
+      p.num_pp_endjuv_to_init=0;
+      p.num_pp_init_to_flower=0;
+      p.num_pp_flower_to_start_grain=0;
+      p.num_pp_start_to_end_grain=0;
+      
+      p.est_days_emerg_to_init=0;                 
+      fill_real_array (p.x_pp_hi_incr, 0, max_table);
+      fill_real_array (p.y_hi_incr, 0, max_table);                 
+      p.num_pp_hi_incr=0;
+      p.num_hi_max_pot=0;
+      fill_real_array (p.x_hi_max_pot_stress, 0, max_table);       
+      fill_real_array (p.y_hi_max_pot, 0, max_table);              
+      fill_real_array (p.kl, 0, max_layer);                      
+      fill_real_array (p.ll_dep, 0, max_layer);                  
+                                                
+      fill_real_array (p.x_stem_wt, 0, max_table);
+      fill_real_array (p.y_height , 0, max_table);
+      fill_real_array (p.y_width , 0, max_table);
+      p.num_stem_wt=0;
+      p.num_canopy_widths=0;
+      fill_real_array (p.xf, 0, max_layer);
+      p.uptake_source = "";                       
+      p.eo_crop_factor=0;                         
+      p.startgf_to_mat=0;
+      p.phyllochron=0;
+      p.vern_sens=0;
+      p.photop_sens=0;
 
-    for (int i = 1; i <= max_node; i++)
-        {
-        g.leaf_no[i]                    = 0.0;
-        g.node_no[i]                    = 0.0;
-        g.leaf_no_dead[i]               = 0.0;
-        g.leaf_area[i]                  = 0.0;
-        }
-    g.dlt_leaf_no                   = 0.0;
-    g.dlt_node_no                   = 0.0;
-    g.dlt_leaf_no_pot               = 0.0;
-    g.dlt_node_no_pot               = 0.0;
-    g.dlt_leaf_no_dead              = 0.0;
-    g.leaf_no_final                 = 0.0;
-    for (int i = 1; i <= max_part; i++) 
-        {
-        g.n_demand [i]                  = 0.0;
-        g.n_max [i]                     = 0.0;
-        g.dlt_n_green[i]                = 0.0;
-        g.dlt_n_senesced[i]             = 0.0;
-        g.dlt_n_senesced[i]             = 0.0;
-        g.dlt_n_senesced_trans[i]       = 0.0;
-        g.dlt_n_dead[i]                 = 0.0;
-        g.dlt_n_dead_detached[i]        = 0.0;
-        g.n_dead[i]                     = 0.0;
-        g.n_green[i]                    = 0.0;
-        g.n_senesced[i]                 = 0.0;
-        g.dlt_n_retrans[i]              = 0.0;
-        g.dlt_no3gsm[i]                 = 0.0;
-        g.no3gsm [i]                    = 0.0;
-        g.no3gsm_min[i]                 = 0.0;
-        g.no3gsm_diffn_pot[i]           = 0.0;
-        g.no3gsm_mflow_avail[i]         = 0.0;
-        g.n_conc_crit[i]                = 0.0;
-        g.n_conc_max[i]                 = 0.0;
-        g.n_conc_min[i]                 = 0.0;
-        g.dm_plant_min[i]               = 0.0;
-        }
-    g.n_fix_pot                     = 0.0;
-    g.n_fix_uptake                  = 0.0;
-    g.n_fixed_tops                  = 0.0;
-    g.cover_pod                     = 0.0;
-    for (int i = 1; i <= max_layer; i++) 
-        {
-        g.dlayer [i]                    = 0.0;
-        g.dlt_sw_dep[i]                 = 0.0;
-        g.ll15_dep[i]                   = 0.0;
-        g.dul_dep [i]                   = 0.0;
-        g.sat_dep[i]                    = 0.0;
-        g.sw_dep [i]                    = 0.0;
-        g.sw_avail_pot[i]               = 0.0;
-        g.sw_avail[i]                   = 0.0;
-        g.sw_supply [i]                 = 0.0;
-        g.root_length_dead[i]           = 0.0;
-        g.root_length[i]                = 0.0;
-        g.dlt_root_length[i]            = 0.0;
-        g.dlt_root_length_senesced[i]   = 0.0;
-        }
-    g.sw_demand                     = 0.0;
-    g.sw_demand_te                  = 0.0;
-    g.num_layers            = 0;
-    g.transpiration_tot             = 0.0;
-    g.n_uptake_tot                  = 0.0;
-    g.n_demand_tot                  = 0.0;
-    g.n_conc_act_stover_tot         = 0.0;
-    g.n_conc_crit_stover_tot        = 0.0;
-    g.n_uptake_grain_tot            = 0.0;
-    g.n_uptake_stover_tot           = 0.0;
-    g.lai_max                       = 0.0;
-    g.flowering_date        = 0;
-    g.maturity_date         = 0;
-    g.flowering_das         = 0;
-    g.maturity_das          = 0;
-    g.ext_n_demand                  = 0.0;
-    g.ext_sw_demand                 = 0.0;
-    g.grain_energy                  = 0.0;
-
-// plant Parameters
-    p.tt_maturity_to_ripe           = 0.0;
-    for (int i = 1; i <= max_table; i++) 
-        {
-        p.cum_vernal_days[i] = 0.0;
-        p.tt_emerg_to_endjuv[i] = 0.0;
-        p.x_pp_endjuv_to_init[i] = 0.0;
-        p.y_tt_endjuv_to_init[i] = 0.0;
-        p.x_pp_init_to_flower[i] = 0.0;
-        p.y_tt_init_to_flower[i] = 0.0;
-        p.x_pp_flower_to_start_grain[i] = 0.0;
-        p.y_tt_flower_to_start_grain[i] = 0.0;
-        p.x_pp_start_to_end_grain[i] = 0.0;
-        p.y_tt_start_to_end_grain[i] = 0.0;
-        p.x_pp_hi_incr[i]               = 0.0;
-        p.y_hi_incr[i]                  = 0.0;
-        p.x_hi_max_pot_stress[i]        = 0.0;
-        p.y_hi_max_pot[i]               = 0.0;
-
-        }
-    p.num_cum_vernal_days = 0;
-    p.num_pp_endjuv_to_init = 0;
-    p.num_pp_init_to_flower = 0;
-    p.num_pp_flower_to_start_grain = 0;
-    p.num_pp_start_to_end_grain = 0;
-    p.tt_end_grain_to_maturity = 0.0;
-    p.est_days_emerg_to_init  = 0;
-    p.num_hi_max_pot          = 0;
-
-    for (int i = 1; i <= max_layer; i++) 
-        {
-        p.kl[i]                         = 0.0;
-        p.ll_dep[i]                     = 0.0;
-        p.x_stem_wt[i]                  = 0.0;
-        p.y_height [i]                  = 0.0;
-        p.xf[i]                         = 0.0;
-        }
-    p.num_stem_wt                   = 0;
-//    p.uptake_source                 = "";
-
-    // plant Constants
-//    c.crop_type           = "";
-//    c.default_crop_class  = "";
-    for (int i = 1; i <= max_stage; i++) 
-        {
-//        c.stage_names[i]      = "";
-        c.stage_code_list[i]            = 0.0;
-        c.x_stage_code[i]               = 0.0;
-        c.stage_stem_reduction_harvest[i]   = 0.0;
-        c.stage_stem_reduction_kill_stem[i] = 0.0;
-        c.x_stage_code_list_rue[i]      = 0.0;
-        }
-    for (int i = 1; i <= max_part; i++)
-        {
-//        c.part_names[i]       = "";
-        }
-//    c.n_supply_preference = "";
-
-    for (int i = 1; i <= max_table; i++)
-        {
-        c.x_sw_ratio [i]               = 0.0;
-        c.y_sw_fac_root [i]             = 0.0;
-        c.x_ws_root [i]                 = 0.0;
-        c.y_ws_root_fac [i]             = 0.0;
-        c.x_sw_demand_ratio [i]         = 0.0;
-        c.y_swdef_leaf [i]              = 0.0;
-        c.x_sw_avail_ratio [i]          = 0.0;
-        c.y_swdef_pheno [i]            = 0.0;
-        c.x_sw_avail_fix [i]           = 0.0;
-        c.y_swdef_fix [i]               = 0.0;
-        c.oxdef_photo [i]               = 0.0;
-        c.oxdef_photo_rtfr[i]           = 0.0;
-        c.x_lai_ratio[i]                = 0.0;
-        c.y_leaf_no_frac[i]             = 0.0;
-        c.y_n_conc_crit_leaf[i]         = 0.0;
-        c.y_n_conc_max_leaf[i]          = 0.0;
-        c.y_n_conc_min_leaf[i]          = 0.0;
-        c.y_n_conc_crit_stem[i]         = 0.0;
-        c.y_n_conc_max_stem[i]          = 0.0;
-        c.y_n_conc_min_stem[i]          = 0.0;
-        c.y_n_conc_crit_pod[i]          = 0.0;
-        c.y_n_conc_max_pod[i]           = 0.0;
-        c.y_n_conc_min_pod[i]           = 0.0;
-        c.n_init_conc[i]                = 0.0;
-        c.n_sen_conc[i]                 = 0.0;
-        c.x_row_spacing[i]              = 0.0;
-        c.y_extinct_coef[i]             = 0.0;
-        c.y_extinct_coef_dead[i]        = 0.0;
-        c.y_rue[i]                      = 0.0;
-        c.root_depth_rate[i]            = 0.0;
-        c.y_ratio_root_shoot[i]           = 0.0;
-        c.ratio_root_shoot[i]           = 0.0;
-        c.x_lai [i]                     = 0.0;
-        c.y_sla_max[i]                  = 0.0;
-        c.transp_eff_cf[i]              = 0.0;
-        c.fasw_emerg[i]                 = 0.0;
-        c.rel_emerg_rate[i]             = 0.0;
-        }
-    c.n_fact_photo                  = 0.0;
-    c.n_fact_pheno                  = 0.0;
-    c.n_fact_expansion              = 0.0;
-    c.num_n_conc_stage              = 0;
-    c.num_oxdef_photo         = 0;
-    c.num_sw_ratio            = 0;
-    c.num_ws_root             = 0;
-    c.num_sw_demand_ratio     = 0;
-    c.num_sw_avail_ratio      = 0;
-    c.num_sw_avail_fix        = 0;
-    c.twilight                      = 0.0;
-
-    c.num_lai_ratio           = 0;
-    c.n_conc_crit_grain             = 0.0;
-    c.n_conc_max_grain              = 0.0;
-    c.n_conc_min_grain              = 0.0;
-    c.n_conc_crit_root              = 0.0;
-    c.n_conc_max_root               = 0.0;
-    c.n_conc_min_root               = 0.0;
-
-
-    c.extinct_coef_pod              = 0.0;
-    c.spec_pod_area                 = 0.0;
-    c.rue_pod                       = 0.0;
-    c.num_row_spacing               = 0;
-    c.leaf_no_crit                  = 0.0;
-    c.tt_emerg_limit                = 0.0;
-    c.days_germ_limit               = 0.0;
-    c.swdf_pheno_limit              = 0.0;
-    c.swdf_photo_limit              = 0.0;
-    c.swdf_photo_rate               = 0.0;
-    c.initial_root_depth            = 0.0;
-
-    c.sla_min                       = 0.0;
-    c.initial_tpla                  = 0.0;
-    c.min_tpla                      = 0.0;
-    c.svp_fract                     = 0.0;
-    c.num_lai                 = 0;
-    c.pesw_germ                     = 0.0;
-    c.grain_n_conc_min              = 0.0;
-    c.seed_wt_min                   = 0.0;
-    c.leaf_no_at_emerg              = 0.0;
-    c.num_fasw_emerg          = 0;
-    c.no3_diffn_const               = 0.0;
-
-    c.shoot_lag                     = 0.0;
-    c.shoot_rate                    = 0.0;
-
-    for (int i = 1; i <= max_stage; i++)
-        {
-    c.n_fix_rate[i]                 = 0.0;
-    c.x_node_no_app[i]              = 0.0;
-    c.y_node_app_rate[i]            = 0.0;
-    c.x_node_no_leaf[i]             = 0.0;
-    c.y_leaves_per_node[i]          = 0.0;
-    c.dm_init [i]                   = 0.0;
-    c.frac_leaf[i]                  = 0.0;
-    c.frac_pod[i]                   = 0.0;
-      }
-    c.leaf_init_rate                = 0.0;
-    c.leaf_no_seed                  = 0.0;
-    for (int i = 1; i != max_table; i++)
-       {
-       for (int j = 1; j != max_part; j++)
-          {
-          c.x_dm_sen_frac[i][j]     = 0.0;
-          c.y_dm_sen_frac[i][j]     = 0.0;
-          }
-       c.x_temp_senescence[i]          = 0.0;
-       c.y_senescence_fac[i]           = 0.0;
-       c.x_stage_no_partition[i] = 0.0;
-       c.y_frac_leaf[i]                  = 0.0;
-       c.y_frac_pod[i]                   = 0.0;
-       c.x_node_no[i]                  = 0.0;
-       c.y_leaf_size[i]                = 0.0;
-       c.x_ave_temp[i]                 = 0.0;
-       c.y_stress_photo[i]             = 0.0;
-       c.x_temp[i]                     = 0.0;
-       c.y_tt[i]                       = 0.0;
-       c.x_weighted_temp[i]            = 0.0;
-       c.y_plant_death[i]              = 0.0;
-       c.fr_height_cut[i]              = 0.0;
-       c.fr_stem_remain[i]             = 0.0;
-       c.x_plant_rld[i]                = 0.0;
-       c.y_rel_root_rate[i]            = 0.0;
-//     c.class_action[i]       = "";
-//     c.class_change[i]       = "";
-       c.x_vernal_temp[i] = 0.0;
-       c.y_vernal_days[i] = 0.0;
-       c.x_temp_root_advance[i] = 0.0;
-       c.y_rel_root_advance[i] = 0.0;
-       }
-    for (int j = 1; j != max_part; j++)
-       {
-       c.dead_detach_frac[j]           = 0.0;
-       c.sen_detach_frac[j]            = 0.0;
-       c.num_dm_sen_frac [j]     = 0;
-       }
-    c.num_node_no_app         = 0;
-    c.num_node_no_leaf        = 0;
-    c.swdf_grain_min                = 0.0;
-    c.hi_min                        = 0.0;
-    c.sfac_slope                    = 0.0;
-    c.tfac_slope                    = 0.0;
-    c.lai_sen_light                 = 0.0;
-    c.sw_fac_max                    = 0.0;
-    c.temp_fac_min                  = 0.0;
-    c.spla_slope                    = 0.0;
-    c.sen_threshold                 = 0.0;
-    c.sen_rate_water                = 0.0;
-    c.sen_light_slope               = 0.0;
-    c.num_temp_senescence     = 0;
-    c.grn_water_cont                = 0.0;
-    c.partition_rate_leaf           = 0.0;
-    c.num_stage_no_partition = 0;
-    c.stem_trans_frac               = 0.0;
-    c.leaf_trans_frac               = 0.0;
-    c.pod_trans_frac               = 0.0;
-    c.htstress_coeff                = 0.0;
-    c.temp_grain_crit_stress        = 0.0;
-    c.node_sen_rate                 = 0.0;
-    c.fr_lf_sen_rate                = 0.0;
-    c.carbo_oil_conv_ratio          = 0.0;
-    c.grain_oil_conc                = 0.0;
-    c.node_no_correction            = 0.0;
-    c.num_node_no             = 0;
-    c.num_temp                = 0;
-    c.num_ave_temp            = 0;
-    c.num_temp_grain          = 0;
-    c.num_factors             = 0;
-    c.num_temp_other          = 0;
-    c.num_weighted_temp       = 0;
-    c.tt_emerg_to_endjuv_ub         = 0.0;
-    c.tt_maturity_to_ripe_ub        = 0.0;
-    c.kl_ub                         = 0.0;
-    c.sw_dep_ub                     = 0.0;
-    c.sw_dep_lb                     = 0.0;
-    c.sw_ub                         = 0.0;
-    c.sw_lb                         = 0.0;
-    c.no3_ub                        = 0.0;
-    c.no3_lb                        = 0.0;
-    c.no3_min_ub                    = 0.0;
-    c.no3_min_lb                    = 0.0;
-    c.leaf_no_min                   = 0.0;
-    c.leaf_no_max                   = 0.0;
-    c.latitude_ub                   = 0.0;
-    c.latitude_lb                   = 0.0;
-    c.maxt_ub                       = 0.0;
-    c.maxt_lb                       = 0.0;
-    c.mint_ub                       = 0.0;
-    c.mint_lb                       = 0.0;
-    c.radn_ub                       = 0.0;
-    c.radn_lb                       = 0.0;
-    c.dlayer_ub                     = 0.0;
-    c.dlayer_lb                     = 0.0;
-    c.row_spacing_default           = 0.0;
-    c.skip_row_default              = 0.0;
-    c.skip_plant_default            = 0.0;
-    c.num_fr_height_cut       = 0;
-    c.specific_root_length          = 0.0;
-    c.root_die_back_fr              = 0.0;
-    c.num_plant_rld           = 0;
-    c.num_vernal_temp  = 0;
-    c.num_temp_root_advance = 0;
+      //       plant Constants
+	   c.grain_fill_option=0;
+      c.n_uptake_option=0;
+      c.phenology_option=0;
+      c.leaf_no_pot_option=0;
+      c.partition_option=0;
+      c.grain_no_option=0;
+      
+      c.sen_start_stage=0;
+      fill_real_array (c.x_temp_grainfill, 0, max_table);
+      fill_real_array (c.y_rel_grainfill, 0, max_table);
+      c.num_temp_grainfill=0;
+      
+      c.no3_uptake_max=0;
+      c.no3_conc_half_max=0;
+      
+      c.crop_type="";                          
+      c.default_crop_class="";                 
+      c.stage_names.clear();
+      ///////////c.part_names.empty(); in constructor!
+      c.n_supply_preference="";
+      fill_real_array (c.x_sw_ratio , 0, max_table);
+      fill_real_array (c.y_sw_fac_root , 0, max_table);
+      fill_real_array (c.x_ws_root , 0, max_table);
+      fill_real_array (c.y_ws_root_fac , 0, max_table);
+      fill_real_array (c.x_sw_demand_ratio , 0, max_table);
+      fill_real_array (c.y_swdef_leaf , 0, max_table);
+      fill_real_array (c.x_sw_avail_ratio , 0, max_table);
+      fill_real_array (c.y_swdef_pheno , 0, max_table);
+      fill_real_array (c.x_sw_avail_fix , 0, max_table);
+      fill_real_array (c.y_swdef_fix , 0, max_table);
+      fill_real_array (c.oxdef_photo , 0, max_table);
+      fill_real_array (c.oxdef_photo_rtfr, 0, max_table);
+      c.num_oxdef_photo=0;
+      c.num_sw_ratio=0;
+      c.num_ws_root=0;
+      c.num_sw_demand_ratio=0;
+      c.num_sw_avail_ratio=0;
+      c.num_sw_avail_fix=0;
+      fill_real_array (c.stage_code_list, 0, max_stage);               
+      c.twilight=0;                                   
+                                                      
+                                                      
+      fill_real_array (c.x_lai_ratio, 0, max_table);   
+                                                       
+      fill_real_array (c.y_leaf_no_frac, 0, max_table);
+      c.num_lai_ratio=0;                             
+      c.n_conc_crit_grain=0;                         
+      c.n_conc_max_grain=0;                          
+      c.n_conc_min_grain=0;                          
+      c.n_conc_crit_root=0;                          
+      c.n_conc_max_root=0;                           
+      c.n_conc_min_root=0;                           
+      fill_real_array (c.x_stage_code, 0, max_stage);
+      fill_real_array (c.y_n_conc_crit_leaf, 0, max_stage);           
+      fill_real_array (c.y_n_conc_max_leaf, 0, max_stage);            
+      fill_real_array (c.y_n_conc_min_leaf, 0, max_stage);
+      fill_real_array (c.y_n_conc_crit_stem, 0, max_stage);           
+      fill_real_array (c.y_n_conc_max_stem, 0, max_stage);            
+      fill_real_array (c.y_n_conc_min_stem, 0, max_stage);            
+      fill_real_array (c.y_n_conc_crit_pod, 0, max_stage);            
+      fill_real_array (c.y_n_conc_max_pod, 0, max_stage);             
+      fill_real_array (c.y_n_conc_min_pod, 0, max_stage);              
+      c.n_fact_photo=0;                               
+      c.n_fact_pheno=0;                               
+      c.n_fact_expansion=0;
+      fill_real_array (c.n_init_conc, 0, max_part);                    
+      fill_real_array (c.n_sen_conc, 0, max_part);                     
+      c.num_n_conc_stage=0;                           
+      fill_real_array (c.x_row_spacing, 0, max_table);
+      fill_real_array (c.y_extinct_coef, 0, max_table);
+      fill_real_array (c.y_extinct_coef_dead, 0, max_table);
+      fill_real_array (c.x_stage_rue, 0, max_stage);
+      fill_real_array (c.y_rue, 0, max_stage);                         
+      fill_real_array (c.stage_stem_reduction_harvest, 0, max_stage);  
+      fill_real_array (c.stage_stem_reduction_kill_stem, 0, max_stage); 
+      fill_real_array (c.root_depth_rate, 0, max_stage);               
+      c.extinct_coef_pod=0;
+      c.spec_pod_area=0;
+      c.rue_pod=0;
+      c.num_row_spacing=0;
+      c.leaf_no_crit=0;                              
+      c.tt_emerg_limit=0;                        
+      c.days_germ_limit=0;                       
+      c.swdf_pheno_limit=0;                      
+      c.swdf_photo_limit=0;
+      c.swdf_photo_rate=0;                           
+      c.initial_root_depth=0;                        
+      fill_real_array (c.x_lai , 0, max_table);                      
+      fill_real_array (c.y_sla_max, 0, max_table);                   
+      c.sla_min=0;                                  
+      c.initial_tpla=0;                             
+      c.min_tpla=0;                                 
+      c.svp_fract=0;                                
+      fill_real_array (c.transp_eff_cf, 0, max_stage);               
+      c.num_lai=0;
+      c.pesw_germ=0;                                
+      c.grain_n_conc_min=0;                         
+      c.seed_wt_min=0;                            
+      c.leaf_no_at_emerg=0;                       
+      fill_real_array (c.fasw_emerg, 0, max_table);
+      fill_real_array (c.rel_emerg_rate, 0, max_table);
+      c.num_fasw_emerg=0;
+      c.no3_diffn_const=0;                        
+      fill_real_array (c.n_fix_rate, 0,max_stage);                  
+      c.shoot_lag=0;                              
+      c.shoot_rate=0;                             
+      fill_real_array (c.x_node_no_app, 0, max_table);
+      fill_real_array (c.y_node_app_rate, 0, max_table);
+      fill_real_array (c.x_node_no_leaf, 0, max_table);
+      fill_real_array (c.y_leaves_per_node, 0, max_table);
+      fill_real_array (c.dm_init, 0, max_part);                      
+      c.leaf_init_rate=0;                          
+      c.leaf_no_seed=0;                            
+      ////c.x_dm_sen_frac=NULL; done in constructor
+      ////c.y_dm_sen_frac=NULL;
+      ////c.num_dm_sen_frac=NULL;
+      fill_real_array (c.dead_detach_frac,0,max_part);
+      fill_real_array (c.sen_detach_frac,0,max_part);               
+      c.num_node_no_app=0;
+      c.num_node_no_leaf=0;
+      c.swdf_grain_min=0;                          
+      c.hi_min=0;                                  
+      c.sfac_slope=0;                              
+      c.tfac_slope=0;                              
+      c.lai_sen_light=0;                           
+      c.sw_fac_max=0;                              
+      fill_real_array (c.x_temp_senescence, 0, max_table);          
+      fill_real_array (c.y_senescence_fac, 0, max_table);           
+      c.temp_fac_min=0;                            
+      c.spla_slope=0;                              
+      c.sen_threshold=0;                           
+      c.sen_rate_water=0;                          
+      c.sen_light_slope=0;                         
+      c.num_temp_senescence=0;                     
+      c.grn_water_cont=0;                          
+      c.partition_rate_leaf=0;                     
+      fill_real_array (c.frac_leaf,0,max_stage);                      
+      fill_real_array (c.frac_pod,0,max_stage);                       
+      fill_real_array (c.ratio_root_shoot, 0, max_table);             
+      fill_real_array (c.x_stage_no_partition, 0, max_table);
+      fill_real_array (c.y_frac_leaf, 0, max_table);                  
+      fill_real_array (c.y_frac_pod, 0, max_table);                   
+      fill_real_array (c.y_ratio_root_shoot, 0, max_table);           
+      c.num_stage_no_partition=0;
+      c.stem_trans_frac=0;                           
+      c.leaf_trans_frac=0;                           
+      c.pod_trans_frac=0;                            
+      c.htstress_coeff=0;                            
+      c.temp_grain_crit_stress=0;                    
+      c.node_sen_rate=0;
+      c.fr_lf_sen_rate=0;
+      c.carbo_oil_conv_ratio=0;                       
+      c.grain_oil_conc=0;                             
+      c.node_no_correction=0;
+      fill_real_array (c.x_node_no, 0, max_table);                     
+      fill_real_array (c.y_leaf_size, 0, max_table);                    
+      c.num_node_no=0;
+      fill_real_array (c.x_ave_temp, 0, max_table);                     
+      fill_real_array (c.y_stress_photo, 0, max_table);                 
+      fill_real_array (c.x_temp, 0, max_table);                         
+      fill_real_array (c.y_tt, 0, max_table);                           
+      fill_real_array (c.x_weighted_temp, 0, max_table);                
+      fill_real_array (c.y_plant_death, 0, max_table);                  
+      fill_real_array (c.y_grain_rate, 0, max_table);              
+      c.num_temp=0;                               
+      c.num_ave_temp=0;                           
+      c.num_temp_grain=0;                         
+      c.num_factors=0;                            
+      c.num_temp_other=0;                         
+      c.num_weighted_temp=0;                      
+      c.tt_emerg_to_endjuv_ub=0;                  
+      c.tt_maturity_to_ripe_ub=0;                 
+      c.kl_ub=0;                                  
+      c.sw_dep_ub=0;                              
+      c.sw_dep_lb=0;                              
+      c.sw_ub=0;                                  
+      c.sw_lb=0;                                  
+      c.no3_ub=0;                                 
+      c.no3_lb=0;                                 
+      c.no3_min_ub=0;                             
+      c.no3_min_lb=0;                             
+      c.leaf_no_min=0;                            
+      c.leaf_no_max=0;                            
+      c.latitude_ub=0;                            
+      c.latitude_lb=0;                            
+      c.maxt_ub=0;                                
+      c.maxt_lb=0;                                
+      c.mint_ub=0;                                
+      c.mint_lb=0;                                
+      c.radn_ub=0;                                
+      c.radn_lb=0;                                
+      c.dlayer_ub=0;                              
+      c.dlayer_lb=0;                              
+      c.row_spacing_default=0;
+      c.skip_row_default=0;                       
+      c.skip_plant_default=0;                     
+      fill_real_array (c.fr_height_cut , 0, max_table);
+      fill_real_array (c.fr_stem_remain, 0, max_table);
+      c.num_fr_height_cut=0;
+      c.specific_root_length=0;                   
+      c.root_die_back_fr=0;                       
+      fill_real_array (c.x_plant_rld , 0, max_table);
+      fill_real_array (c.y_rel_root_rate , 0, max_table);
+      c.num_plant_rld=0;
+      c.class_action.clear();
+      c.class_change.clear();
+      fill_real_array (c.x_vernal_temp, 0, max_table);
+      fill_real_array (c.y_vernal_days, 0, max_table);
+      c.num_vernal_temp=0;
+      fill_real_array (c.x_temp_root_advance, 0, max_table);
+      fill_real_array (c.y_rel_root_advance, 0, max_table);
+      c.num_temp_root_advance=0;
+      c.eo_crop_factor_default=0;                     
 
     pop_routine (my_name);
     return;
@@ -10037,12 +9921,11 @@ void Plant::plant_init (void)
 
     parent->writeString (" initialising");
 
-// initialize crop variables
-
+    // initialize crop variables
     plant_get_site_characteristics();
 
     g.current_stage = (float)plant_end;
-    g.plant_status = status_out;
+    g.plant_status = out;
     g.module_name = parent->getName();
 
     pop_routine (my_name);
@@ -10069,47 +9952,47 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
 //+  Local Variables
     int   numvals;                                // number of values found in array
     char  msg[200];                             // output string
-    string  dummy;                               // dummy variable
+    FString  dummy;                               // dummy variable
 
 //- Implementation Section ----------------------------------
 
     push_routine (my_name);
 
-    if (g.plant_status==status_out)
+    if (g.plant_status == out)
         {
         protocol::ApsimVariant incomingApsimVariant(parent);
         incomingApsimVariant.aliasTo(v.getMessageData());
         parent->writeString ( "sow");
 
-        // get species parameters
-        if (incomingApsimVariant.get("crop_type", protocol::DTstring, false, dummy) == false)
-            {
-            // all ok - no crop type specified for individual plant models
-            }
-        else
+        // Check anachronisms
+        if (incomingApsimVariant.get("crop_type", protocol::DTstring, false, dummy) != false)
             {
             warning_error (&err_user, "crop type no longer used in sowing command");
             }
 
-
-        if (incomingApsimVariant.get("crop_class", protocol::DTstring, false, g.crop_class) == false)
+        // get species parameters
+        if (incomingApsimVariant.get("crop_class", protocol::DTstring, false, dummy) == false)
             {
             // crop class was not specified
             g.crop_class = c.default_crop_class;
             }
         else
             {
+            g.crop_class = dummy.f_str();
+            g.crop_class = g.crop_class.substr(0,dummy.length());
             }
-
         plant_read_species_const ();
 
         // get cultivar parameters
-
-        if (incomingApsimVariant.get("cultivar", protocol::DTstring, false, g.cultivar) == false)
+        if (incomingApsimVariant.get("cultivar", protocol::DTstring, false, dummy) == false)
             {
             fatal_error(&err_user, "Cultivar not specified");
             }
-
+        else
+            {
+            g.cultivar = dummy.substr(0,dummy.length()).f_str();
+            g.cultivar = g.cultivar.substr(0,dummy.length());
+            }
         plant_read_cultivar_params ();
 
         // get root profile parameters
@@ -10126,7 +10009,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
             {
             fatal_error(&err_user, "sowing_depth not specified");
             }
-        bound_check_real_var(g.plants, 0.0, 100.0, "sowing_depth");
+        bound_check_real_var(g.sowing_depth, 0.0, 100.0, "sowing_depth");
 
         if (incomingApsimVariant.get("row_spacing", protocol::DTsingle, false, g.row_spacing) == false)
             {
@@ -10139,20 +10022,19 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
             {
             g.skip_plant = c.skip_plant_default;
             }
-        bound_check_real_var(g.row_spacing, 0.0, 2.0, "skipplant");
-
+        bound_check_real_var(g.skip_plant, 0.0, 2.0, "skipplant");
         g.skip_plant_fac = (2.0 + g.skip_plant)/2.0;
 
         if (incomingApsimVariant.get("skiprow", protocol::DTsingle, false, g.skip_row) == false)
             {
             g.skip_row = c.skip_row_default;
             }
-        bound_check_real_var(g.row_spacing, 0.0, 2.0, "skiprow");
-
+        bound_check_real_var(g.skip_row, 0.0, 2.0, "skiprow");
         g.skip_row_fac = (2.0 + g.skip_row)/2.0;
 
+        // Bang.
         g.current_stage = (float) sowing;
-        g.plant_status = status_alive;
+        g.plant_status = alive;
 
         parent->writeString ("");
         parent->writeString ("                 crop sowing data");
@@ -10164,7 +10046,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
         sprintf(msg, "   %7d%7.1f%7.1f%7.1f%6.1f%6.1f%20s"
                , g.day_of_year, g.sowing_depth
                , g.plants, g.row_spacing
-               , g.skip_row, g.skip_plant, g.cultivar);
+               , g.skip_row, g.skip_plant, g.cultivar.c_str());
         parent->writeString (msg);
 
         parent->writeString ("    ------------------------------------------------\n");
@@ -10179,7 +10061,8 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
     pop_routine (my_name);
     return;
     }
-
+////////////////////////////////
+/// All these read_xxx need replacement: use templates
 void read_real_array(protocol::Component* parent,
                      const string& sectionName,
                      const string& variableName,
@@ -10191,7 +10074,9 @@ void read_real_array(protocol::Component* parent,
                      float upper,
                      bool optional = false)
    {
-   FString valueString;
+   char buf[200];
+   FString valueString(buf, 200, CString);
+   numValues = 0;
    if (parent->readParameter(sectionName.c_str(),
                              variableName.c_str(),
                              valueString,
@@ -10199,79 +10084,231 @@ void read_real_array(protocol::Component* parent,
       {
       vector<string> vals;
       Split_string(asString(valueString), " ", vals);
-      numValues = min(vals.size(), arraySize);
-      for (int v = 0; v != numValues; v++)
+      numValues = min(vals.size(), (unsigned)arraySize);
+      for (int v = 0; v < numValues; v++)
          values[v] = atof(vals[v].c_str());
 
       bound_check_real_array(values, numValues, lower, upper, variableName.c_str());
       }
-   else
-      numValues = 0;
    }
-void read_real_var(protocol::Component* parent,
-                     const string& sectionName,
+void Plant::read_real_array(const vector<string>& search_order,
                      const string& variableName,
+                     int arraySize,
                      const string& units,
-                     float& value,
+                     float values[],
+                     int& numValues,
+                     float lower,
+                     float upper)
+{
+   for (vector<string>::const_iterator i = search_order.begin();
+        i != search_order.end();
+        i++)
+     {
+     numValues = 0;
+     ::read_real_array(this->parent, *i,
+                       variableName, arraySize,
+                       units, values, numValues,
+                       lower, upper, true);
+     if (numValues > 0)  return;
+     }
+}
+void Plant::read_real_array(const string& sectionName,
+                     const string& variableName,
+                     int arraySize,
+                     const string& units,
+                     float values[],
                      int& numValues,
                      float lower,
                      float upper,
-                     bool optional = false)
+                     bool optional)
+{
+   ::read_real_array(this->parent, sectionName,
+                     variableName, arraySize,
+                     units, values, numValues,
+                     lower, upper, optional);
+}
+/////////////
+bool read_real_var(protocol::Component* parent,
+                     const string &sectionName,
+                     const string &variableName,
+                     const string &units,
+                     float& value,
+                     float lower,
+                     float upper,
+                     bool optional=false)
    {
-   FString valueString;
+   char buf[200];
+   FString valueString(buf, 200, CString);
    if (parent->readParameter(sectionName.c_str(),
                              variableName.c_str(),
                              valueString,
                              optional))
       {
-      value = atof(asString(valueString).c_str());
+      if (sscanf(valueString.f_str(),"%f", &value) != 1)
+         {
+         char msg[200];
+         strcpy(msg, "Cannot read a real value from string\n"
+                  "Parameter name = ");
+         strcat(msg, variableName.c_str());
+         strcat(msg, "\n");
+         strcat(msg, "value = '");
+         strncat(msg, valueString.f_str(),20);
+         strcat(msg, "'");
+         fatal_error(&err_user, msg, strlen(msg));
+         return false;
+         }
       bound_check_real_var(value, lower, upper, variableName.c_str());
+      return true;
       }
+   return false;
    }
-void read_integer_var(protocol::Component* parent,
+bool Plant::read_real_var(const vector<string>& search_order,
+                     const string& variableName,
+                     const string& units,
+                     float& value, float lower, float upper)
+{
+   for (vector<string>::const_iterator i = search_order.begin();
+        i != search_order.end();
+        i++)
+     {
+     if (::read_real_var(this->parent, *i,
+                         variableName, units, value, lower, upper, true) == true)
+         {
+         return true;
+         }
+     }
+   return false;
+}
+bool Plant::read_real_var(const string& sectionName,
+                     const string& variableName,
+                     const string& units,
+                     float& value, float lower, float upper,
+                     bool optional)
+{
+   return (::read_real_var(this->parent, sectionName,
+                         variableName, units, value, lower, upper, optional));
+}
+
+////////
+bool read_integer_var(protocol::Component* parent,
                      const string& sectionName,
                      const string& variableName,
                      const string& units,
                      int& value,
-                     int& numValues,
                      int lower,
-                     int upper)
+                     int upper, bool optional = false)
    {
-   FString valueString;
+   char buf[200];
+   FString valueString(buf, 200, CString);
    if (parent->readParameter(sectionName.c_str(),
                              variableName.c_str(),
                              valueString,
-                             false))
+                             optional))
       {
-      value = atoi(asString(valueString).c_str());
-      bound_check_integer_var(&value, &lower, &upper, (char*)variableName.c_str());
+      if (sscanf(valueString.f_str(),"%d", &value) != 1)
+         {
+         char msg[200];
+         strcpy(msg, "Cannot read a real value from string\n"
+                  "Parameter name = ");
+         strcat(msg, variableName.c_str());
+         strcat(msg, "\n");
+         strcat(msg, "value = '");
+         strncat(msg, valueString.f_str(),20);
+         strcat(msg, "'");
+         fatal_error(&err_user, msg, strlen(msg));
+         return false;
+         }
+      bound_check_integer_var(value, lower, upper, (char*)variableName.c_str());
+      return true;
       }
+   return false;
    }
-void read_char_var(protocol::Component* parent,
+bool Plant::read_integer_var(const vector<string>& search_order,
+                     const string& variableName,
+                     const string& units,
+                     int& value, int lower, int upper)
+{
+   for (vector<string>::const_iterator i = search_order.begin();
+        i != search_order.end();
+        i++)
+     {
+     if (::read_integer_var(this->parent, *i,
+                           variableName, units, value, lower, upper, true) == true)
+         {
+         return true;
+         }
+     }
+   return false;
+}
+bool Plant::read_integer_var(const string& sectionName,
+                     const string& variableName,
+                     const string& units,
+                     int& value, int lower, int upper,
+                     bool optional)
+{
+   return (::read_integer_var(this->parent, sectionName,
+                              variableName, units, value, lower, upper, optional));
+}
+
+/////////////// basic version
+bool read_char_var(protocol::Component* parent,
                      const string& sectionName,
                      const string& variableName,
                      const string& units,
                      string& value,
-                     int& numValues,
-                     bool optional = false)
+                     bool optional)
    {
-   FString valueString;
+   char buf[200];
+   FString valueString(buf, 200, CString);
    if (parent->readParameter(sectionName.c_str(),
                              variableName.c_str(),
                              valueString,
                              optional))
       {
       value = asString(valueString);
+      return true;
       }
+   return false;
    }
-void read_char_array(protocol::Component* parent,
+bool Plant::read_char_var(const vector<string>& search_order,
+                     const string& variableName,
+                     const string& units,
+                     string& value)
+{
+   for (vector<string>::const_iterator i = search_order.begin();
+        i != search_order.end();
+        i++)
+     {
+     if (::read_char_var(this->parent, *i,
+                           variableName, units, value, true) == true)
+         {
+         	return true;
+         }
+     }
+   return false;
+}
+bool Plant::read_char_var(const string& sectionName,
+                     const string& variableName,
+                     const string& units,
+                     string& value,
+                     bool optional)
+{
+   return (::read_char_var(this->parent, sectionName,
+                           variableName, units, value, optional));
+}
+/////////////
+
+// basic version..
+bool read_char_array(protocol::Component* parent,
                      const string& sectionName,
                      const string& variableName,
                      const string& units,
                      vector<string>& values,
-                     bool optional = false)
+                     bool optional)
    {
-   FString valueString;
+   char buf[200];
+   FString valueString(buf, 200, CString);
+   values.clear();
    if (parent->readParameter(sectionName.c_str(),
                              variableName.c_str(),
                              valueString,
@@ -10279,9 +10316,37 @@ void read_char_array(protocol::Component* parent,
       {
       string value = asString(valueString);
       Split_string(value, " ", values);
+      return true;
       }
+   return false;
    }
 
+void Plant::read_char_array(const vector<string>& search_order,
+                     const string& variableName,
+                     const string& units,
+                     vector<string>& values)
+{
+   for (vector<string>::const_iterator i = search_order.begin();
+        i != search_order.end();
+        i++)
+     {
+     if (::read_char_array(this->parent, *i,
+                           variableName, units, values, true) == true)
+         {
+         	return;
+         }
+     }
+}
+void Plant::read_char_array(const string& sectionName,
+                     const string& variableName,
+                     const string& units,
+                     vector<string>& values,
+                     bool optional)
+{
+   ::read_char_array(this->parent, sectionName,
+                     variableName, units, values, optional);
+}
+/////////////////////////////////////////////////////////////////
 //+  Purpose
 //       Get cultivar parameters for named cultivar, from crop parameter file.
 
@@ -10300,7 +10365,6 @@ void Plant::plant_read_cultivar_params ()
     string s;
     char  msg[200];                             // output string
     int   numvals;                                // number of values read
-    int   i;                                      // simple counter
 
 //- Implementation Section ----------------------------------
 
@@ -10311,40 +10375,40 @@ void Plant::plant_read_cultivar_params ()
 // TEMPLATE OPTION
 //       plant_dm_grain_hi
 
-    read_real_array (parent, g.cultivar
+    read_real_array (g.cultivar
     , "x_pp_hi_incr", max_table, "(h)"
     , p.x_pp_hi_incr
     , p.num_pp_hi_incr
     , 0.0, 24.0);
 
-    read_real_array (parent, g.cultivar
+    read_real_array (g.cultivar
     , "y_hi_incr", max_table, "()"
     , p.y_hi_incr
     , p.num_pp_hi_incr
     , 0.0, 1.0);
 
-    read_real_array (parent, g.cultivar
+    read_real_array (g.cultivar
     , "x_hi_max_pot_stress", max_table, "(0-1)"
     , p.x_hi_max_pot_stress, p.num_hi_max_pot
     , 0.0, 1.0);
 
-    read_real_array (parent, g.cultivar
+    read_real_array (g.cultivar
     , "y_hi_max_pot", max_table, "(0-1)"
     , p.y_hi_max_pot, p.num_hi_max_pot
     , 0.0, 1.0);
 
     if (c.grain_no_option==2)
         {
-        read_real_var (parent, g.cultivar
+        read_real_var (g.cultivar
         , "grains_per_gram_stem", "(/g)"
-        , p.grains_per_gram_stem, numvals
+        , p.grains_per_gram_stem
         , 0.0, 10000.0);
         }
     if (c.grain_fill_option==2)
         {
-        read_real_var (parent, g.cultivar
+        read_real_var (g.cultivar
         , "potential_grain_filling_rate", "(g/grain/day)"
-        , p.potential_grain_filling_rate, numvals
+        , p.potential_grain_filling_rate
         , 0.0, 1.0);
         }
 
@@ -10353,81 +10417,81 @@ void Plant::plant_read_cultivar_params ()
     if (c.phenology_option==1)
         {
 
-        read_real_array (parent, g.cultivar
+        read_real_array (g.cultivar
         , "cum_vernal_days", max_table, "(vd)"
         , p.cum_vernal_days, p.num_cum_vernal_days
         , 0.0, 100.0);
 
-        read_real_array (parent, g.cultivar
+        read_real_array (g.cultivar
         , "tt_emerg_to_endjuv", max_table, "(degday)"
         , p.tt_emerg_to_endjuv, p.num_cum_vernal_days
         , 0.0, c.tt_emerg_to_endjuv_ub);
 
-        read_integer_var (parent, g.cultivar
+        read_integer_var (g.cultivar
         , "est_days_emerg_to_init", "()"
-        , p.est_days_emerg_to_init, numvals
+        , p.est_days_emerg_to_init
         , 0, 100);
 
-        read_real_array (parent, g.cultivar
+        read_real_array (g.cultivar
         , "x_pp_endjuv_to_init", max_table, "(h)"
         , p.x_pp_endjuv_to_init
         , p.num_pp_endjuv_to_init
         , 0.0, 24.0);
 
-        read_real_array (parent, g.cultivar
+        read_real_array (g.cultivar
         , "y_tt_endjuv_to_init", max_table, "(degday)"
         , p.y_tt_endjuv_to_init
         , p.num_pp_endjuv_to_init
         , 0.0, 1e6);
 
-        read_real_array (parent, g.cultivar
+        read_real_array (g.cultivar
         , "x_pp_init_to_flower", max_table, "(h)"
         , p.x_pp_init_to_flower
         , p.num_pp_init_to_flower
         , 0.0, 24.0);
 
-        read_real_array (parent, g.cultivar
+        read_real_array (g.cultivar
         , "y_tt_init_to_flower", max_table, "(degday)"
         , p.y_tt_init_to_flower
         , p.num_pp_init_to_flower
         , 0.0, 1e6);
 
-        read_real_array (parent, g.cultivar
+        read_real_array (g.cultivar
         , "x_pp_flower_to_start_grain"
         , max_table, "(h)"
         , p.x_pp_flower_to_start_grain
         , p.num_pp_flower_to_start_grain
         , 0.0, 24.0);
 
-        read_real_array (parent, g.cultivar
+        read_real_array (g.cultivar
         , "y_tt_flower_to_start_grain"
         , max_table, "(degday)"
         , p.y_tt_flower_to_start_grain
         , p.num_pp_flower_to_start_grain
         , 0.0, 1e6);
 
-        read_real_array (parent, g.cultivar
+        read_real_array (g.cultivar
         , "x_pp_start_to_end_grain"
         , max_table, "(h)"
         , p.x_pp_start_to_end_grain
         , p.num_pp_start_to_end_grain
         , 0.0, 24.0);
 
-        read_real_array (parent, g.cultivar
+        read_real_array (g.cultivar
         , "y_tt_start_to_end_grain"
         , max_table, "(degday)"
         , p.y_tt_start_to_end_grain
         , p.num_pp_start_to_end_grain
         , 0.0, 1e6);
 
-        read_real_var (parent, g.cultivar
+        read_real_var (g.cultivar
         , "tt_end_grain_to_maturity", "()"
-        , p.tt_end_grain_to_maturity, numvals
+        , p.tt_end_grain_to_maturity
         , 0.0, 1e6);
 
-        read_real_var (parent, g.cultivar
+        read_real_var (g.cultivar
         , "tt_maturity_to_ripe", "()"
-        , p.tt_maturity_to_ripe, numvals
+        , p.tt_maturity_to_ripe
         , 0.0, c.tt_maturity_to_ripe_ub);
 
 // Nwheat Phenology
@@ -10435,40 +10499,40 @@ void Plant::plant_read_cultivar_params ()
         }
     else if (c.phenology_option==2)
         {
-        read_real_var (parent, g.cultivar
+        read_real_var (g.cultivar
         , "phyllochron", "()"
-        , p.phyllochron, numvals
+        , p.phyllochron
         , 0.0, 300.);
 
-        read_real_var (parent, g.cultivar
+        read_real_var (g.cultivar
         , "startgf_to_mat", "()"
-        , p.startgf_to_mat, numvals
+        , p.startgf_to_mat
         , 0.0, 3000.);
 
-        read_real_var (parent, g.cultivar
+        read_real_var (g.cultivar
         , "vern_sens", "()"
-        , p.vern_sens, numvals
+        , p.vern_sens
         , 0.0, 10.0);
 
-        read_real_var (parent, g.cultivar
+        read_real_var (g.cultivar
         , "photop_sens", "()"
-        , p.photop_sens, numvals
+        , p.photop_sens
         , 0.0, 10.0);
         }
 
 //=========================
 
-    read_real_array (parent, g.cultivar
+    read_real_array (g.cultivar
     , "x_stem_wt", max_table, "(g/plant)"
     , p.x_stem_wt, p.num_stem_wt
     , 0.0, 1000.0);
 
-    read_real_array (parent, g.cultivar
+    read_real_array (g.cultivar
     , "y_height", max_table, "(mm)"
     , p.y_height, p.num_stem_wt
     , 0.0, 5000.0);
 
-    read_real_array (parent, g.cultivar
+    read_real_array (g.cultivar
     , "y_width", max_table, "(mm)"
     , p.y_width, p.num_canopy_widths
     , 0.0, 5000.0, true);
@@ -10484,127 +10548,143 @@ void Plant::plant_read_cultivar_params ()
 
     parent->writeString ("    ------------------------------------------------");
 
-    sprintf (msg, "   %s%s", "cultivar                   = ", g.cultivar);
+    sprintf (msg, "   %s%s",  "cultivar                   = ", g.cultivar.c_str());
     parent->writeString (msg);
 
-    sprintf (msg, "(    %s%8d)", "est_days_emerg_to_init     = " , p.est_days_emerg_to_init);
+    sprintf (msg, "   %s%8d", "est_days_emerg_to_init     = " , p.est_days_emerg_to_init);
     parent->writeString (msg);
 
-    s = string("cum_vernal_days            = ");
-    for (int i = 1; i <= p.num_cum_vernal_days; i++)
+    s = string("   cum_vernal_days            = ");
+    for (int i = 0; i < p.num_cum_vernal_days; i++)
       {
-      s = s + ftoa(p.cum_vernal_days[i], 2) + " ";
+      s = s + Ftoa(p.cum_vernal_days[i], 2,10) + " ";
       }
     parent->writeString (s.c_str());
-#if 0
-    sprintf (msg, "(4x, a, 10f8.2)")
-    "tt_emerg_to_endjuv         = "
-    , (p.tt_emerg_to_endjuv(i)
-    , i=1, p.num_cum_vernal_days);
-    parent->write_string (string);
 
-    sprintf (msg, "(4x, a, 10f8.2)")
-    "x_pp_endjuv_to_init        = "
-    ,(p.x_pp_endjuv_to_init(i)
-    ,i=1, p.num_pp_endjuv_to_init);
-    parent->write_string (string);
+    s = string("   tt_emerg_to_endjuv         = ");
+    for (int i = 0; i < p.num_cum_vernal_days; i++)
+      {
+      s = s + Ftoa(p.tt_emerg_to_endjuv[i], 2,10) + " ";
+      }
+    parent->writeString (s.c_str());
 
-    sprintf (msg, "(4x, a, 10f8.2)")
-    "y_tt_endjuv_to_init        = "
-    ,(p.y_tt_endjuv_to_init(i)
-    ,i=1, p.num_pp_endjuv_to_init);
-    parent->write_string (string);
+    s = string("   x_pp_endjuv_to_init        = ");
+    for (int i = 0; i < p.num_pp_endjuv_to_init; i++)
+      {
+      s = s + Ftoa(p.x_pp_endjuv_to_init[i], 2,10) + " ";
+      }
+    parent->writeString (s.c_str());
 
-    sprintf (msg, "(4x, a, 10f8.2)")
-    "x_pp_init_to_flower        = "
-    ,(p.x_pp_init_to_flower(i)
-    ,i=1, p.num_pp_init_to_flower);
-    parent->write_string (string);
+    s = string("   y_tt_endjuv_to_init        = ");
+    for (int i = 0; i < p.num_pp_endjuv_to_init; i++)
+      {
+      s = s + Ftoa(p.y_tt_endjuv_to_init[i], 2,10) + " ";
+      }
+    parent->writeString (s.c_str());
 
-    sprintf (msg, "(4x, a, 10f8.2)")
-    "y_tt_init_to_flower        = "
-    ,(p.y_tt_init_to_flower(i)
-    ,i=1, p.num_pp_init_to_flower);
-    parent->write_string (string);
+    s = string("   x_pp_init_to_flower        = ");
+    for (int i = 0; i < p.num_pp_init_to_flower; i++)
+      {
+      s = s + Ftoa(p.x_pp_init_to_flower[i], 2,10) + " ";
+      }
+    parent->writeString (s.c_str());
 
-    sprintf (msg, "(4x, a, 10f8.2)")
-    "x_pp_flower_to_start_grain = "
-    ,(p.x_pp_flower_to_start_grain(i)
-    ,i=1, p.num_pp_flower_to_start_grain);
-    parent->write_string (string);
+    s = string("   y_tt_init_to_flower        = ");
+    for (int i = 0; i < p.num_pp_init_to_flower; i++)
+      {
+      s = s + Ftoa(p.y_tt_init_to_flower[i], 2,10) + " ";
+      }
+    parent->writeString (s.c_str());
 
-    sprintf (msg, "(4x, a, 10f8.2)")
-    "y_tt_flower_to_start_grain = "
-    ,(p.y_tt_flower_to_start_grain(i)
-    ,i=1, p.num_pp_flower_to_start_grain);
-    parent->write_string (string);
+    s = string("   x_pp_flower_to_start_grain = ");
+    for (int i = 0; i < p.num_pp_flower_to_start_grain; i++)
+      {
+      s = s + Ftoa(p.x_pp_flower_to_start_grain[i], 2,10) + " ";
+      }
+    parent->writeString (s.c_str());
 
-    sprintf (msg, "(4x, a, 10f8.2)")
-    "x_pp_start_to_end_grain    = "
-    ,(p.x_pp_start_to_end_grain(i)
-    ,i=1, p.num_pp_start_to_end_grain);
-    parent->write_string (string);
+    s = string("   y_tt_flower_to_start_grain = ");
+    for (int i = 0; i < p.num_pp_flower_to_start_grain; i++)
+      {
+      s = s + Ftoa(p.y_tt_flower_to_start_grain[i], 2,10) + " ";
+      }
+    parent->writeString (s.c_str());
 
-    sprintf (msg, "(4x, a, 10f8.2)")
-    "y_tt_start_to_end_grain    = "
-    ,(p.y_tt_start_to_end_grain(i)
-    ,i=1, p.num_pp_start_to_end_grain);
-    parent->write_string (string);
+    s = string("   x_pp_start_to_end_grain    = ");
+    for (int i = 0; i < p.num_pp_start_to_end_grain; i++)
+      {
+      s = s + Ftoa(p.x_pp_start_to_end_grain[i], 2,10) + " ";
+      }
+    parent->writeString (s.c_str());
 
-    sprintf (msg, "(4x, a, f8.1)")
-    "tt_end_grain_to_maturity   = "
-    , p.tt_end_grain_to_maturity;
-    parent->write_string (string);
+    s = string("   y_tt_start_to_end_grain    = ");
+    for (int i = 0; i < p.num_pp_start_to_end_grain; i++)
+      {
+      s = s + Ftoa(p.y_tt_start_to_end_grain[i], 2,10) + " ";
+      }
+    parent->writeString (s.c_str());
 
-    sprintf (msg, "(4x, a, f8.1)")
-    "tt_maturity_to_ripe        = "
-    , p.tt_maturity_to_ripe;
-    parent->write_string (string);
+    s = string("   tt_end_grain_to_maturity   = ");
+    s = s + Ftoa(p.tt_end_grain_to_maturity, 2,10);
+    parent->writeString (s.c_str());
 
-// TEMPLATE OPTION
-    sprintf (msg, "(4x, a, 10f8.2)")
-    "x_pp_hi_incr               = "
-    , (p.x_pp_hi_incr(i), i=1,p.num_pp_hi_incr);
-    parent->write_string (string);
-
-    sprintf (msg, "(4x, a, 10f8.5)")
-    "y_hi_incr                  = "
-    , (p.y_hi_incr(i), i=1,p.num_pp_hi_incr);
-    parent->write_string (string);
+    s = string("   tt_maturity_to_ripe        = ");
+    s = s + Ftoa(p.tt_maturity_to_ripe, 2,10);
+    parent->writeString (s.c_str());
 
 // TEMPLATE OPTION
+    s = string("   x_pp_hi_incr               = ");
+    for (int i = 0; i < p.num_pp_hi_incr; i++)
+      {
+      s = s + Ftoa(p.x_pp_hi_incr[i], 2,10) + " ";
+      }
+    parent->writeString (s.c_str());
 
-    sprintf (msg, "(4x, a, 10f8.2)")
-    "x_hi_max_pot_stress        = "
-    , (p.x_hi_max_pot_stress(i), i=1,p.num_hi_max_pot);
-    parent->write_string (string);
+    s = string("   y_hi_incr                  = ");
+    for (int i = 0; i < p.num_pp_hi_incr; i++)
+      {
+      s = s + Ftoa(p.y_hi_incr[i], 4,10) + " ";
+      }
+    parent->writeString (s.c_str());
 
-    sprintf (msg, "(4x, a, 10f8.2)")
-    "y_hi_max_pot               = "
-    , (p.y_hi_max_pot(i), i=1,p.num_hi_max_pot);
-    parent->write_string (string);
+// TEMPLATE OPTION
+    s = string("   x_hi_max_pot_stress        = ");
+    for (int i = 0; i < p.num_hi_max_pot; i++)
+      {
+      s = s + Ftoa(p.x_hi_max_pot_stress[i], 2,10) + " ";
+      }
+    parent->writeString (s.c_str());
 
-    sprintf (msg, "(4x, a, 10f8.2)")
-    "x_stem_wt                  = "
-    , (p.x_stem_wt(i), i=1,p.num_stem_wt);
-    parent->write_string (string);
+    s = string("   y_hi_max_pot               = ");
+    for (int i = 0; i < p.num_hi_max_pot; i++)
+      {
+      s = s + Ftoa(p.y_hi_max_pot[i], 2,10) + " ";
+      }
+    parent->writeString (s.c_str());
 
-    sprintf (msg, "(4x, a, 10f8.2)")
-    "y_height                   = "
-    , (p.y_height(i), i=1,p.num_stem_wt);
-    parent->write_string (string);
+    s = string("   x_stem_wt                  = ");
+    for (int i = 0; i < p.num_stem_wt; i++)
+      {
+      s = s + Ftoa(p.x_stem_wt[i], 2,10) + " ";
+      }
+    parent->writeString (s.c_str());
+
+    s = string("   y_height                   = ");
+    for (int i = 0; i < p.num_stem_wt; i++)
+      {
+      s = s + Ftoa(p.y_height[i], 2,10) + " ";
+      }
+    parent->writeString (s.c_str());
 
     if (p.num_canopy_widths >0)
         {
-        sprintf (msg, "(4x, a, 10f8.2)")
-        "y_width                   = "
-        , (p.y_width(i), i=1,p.num_canopy_widths);
-        parent->write_string (string);
+        s = string("   y_width                   = ");
+        for (int i = 0; i < p.num_canopy_widths; i++)
+           {
+           s = s + Ftoa(p.y_width[i], 2,10) + " ";
+           }
+        parent->writeString (s.c_str());
         }
-    else
-        {
-        }
-#endif
 
     parent->writeString ("    ------------------------------------------------\n\n");
 
@@ -10635,8 +10715,7 @@ void Plant::plant_read_root_params ()
 // soil water for soil layer l
 // (mm water/mm soil)
     int   num_layers;                             // number of layers in profile
-    char  msg[200];                             // output string//XXcharacter  string*200
-    int   numvals;
+    char  msg[200];
 
 //- Implementation Section ----------------------------------
 
@@ -10646,11 +10725,11 @@ void Plant::plant_read_root_params ()
 
 //       cproc_sw_demand_bound
 
-    read_real_var (parent, section_name
-    , "eo_crop_factor", "()"
-    , p.eo_crop_factor, numvals
-    , 0.0, 100., true);
-    if (numvals<=0)
+    if (read_real_var (section_name
+                       , "eo_crop_factor", "()"
+                       , p.eo_crop_factor
+                       , 0.0, 100., true) == false)
+
         {
         p.eo_crop_factor = c.eo_crop_factor_default;
         }
@@ -10660,10 +10739,10 @@ void Plant::plant_read_root_params ()
 
 //       plant_sw_supply
 
-    read_char_var (parent, section_name
-    , "uptake_source", "()"
-    , p.uptake_source, numvals, true);
-    if (numvals<=0)
+    if (read_char_var (section_name
+                       , "uptake_source", "()"
+                       , p.uptake_source, true) == false)
+
         {
         p.uptake_source = "calc";
         }
@@ -10671,21 +10750,21 @@ void Plant::plant_read_root_params ()
         {
         }
 
-    read_real_array (parent, section_name
+    read_real_array (section_name
     , "ll", max_layer, "()"
     , ll, num_layers
     , 0.0, c.sw_ub);
 
     fill_real_array (p.ll_dep, 0.0, max_layer);
-    for (int layer = 1; layer != num_layers; layer++)
+    for (int layer = 0; layer < num_layers; layer++)
        p.ll_dep[layer] = ll[layer]*g.dlayer[layer];
 
-    read_real_array (parent, section_name
+    read_real_array (section_name
     , "kl", max_layer, "()"
     , p.kl, num_layers
     , 0.0, c.kl_ub);
 
-    read_real_array (parent, section_name
+    read_real_array (section_name
     , "xf", max_layer, "()"
     , p.xf, num_layers
     , 0.0, 1.0);
@@ -10699,7 +10778,7 @@ void Plant::plant_read_root_params ()
     parent->writeString ("     (mm)         ()        (mm/mm)       (0-1)");
     parent->writeString ("---------------------------------------------------");
 
-    for (layer = 1; layer <= num_layers; layer++)
+    for (layer = 0; layer < num_layers; layer++)
        {
        sprintf (msg, "%9.1f%10.3f%15.3f%12.3f"
           , g.dlayer[layer]
@@ -10710,7 +10789,7 @@ void Plant::plant_read_root_params ()
        }
     parent->writeString ("---------------------------------------------------\n");
 
-    sprintf (msg, "(%s,%5.1f,%s)"
+    sprintf (msg, "(%s%5.1f%s)"
         ,"crop factor for bounding water use is set to "
         , p.eo_crop_factor
         , " times eo");
@@ -10732,90 +10811,71 @@ void Plant::plant_read_root_params ()
 //      191099 jngh changed to plant_Send_Crop_Chopped_Event
 void Plant::plant_end_crop ()
     {
-
-//+  Constant Values
     const char*  my_name = "plant_end_crop" ;
 
-//+  Local Variables
     float dm_residue;                             // dry matter added to residue (g/m^2)
     float n_residue;                              // nitrogen added to residue (g/m^2)
     float dm_root;                                // dry matter added to soil (g/m^2)
     float n_root;                                 // nitrogen added to soil (g/m^2)
-    char  msg[400];                             // output string//XXcharacter  string*400
+    char  msg[400];
     float yield;                                  // grain wt (kg/ha)
     float fraction_to_residue[max_part];          // fraction sent to residue (0-1)
     float dlt_dm_crop[max_part];                  // change in dry matter of crop (kg/ha)
     float dlt_dm_n[max_part];                     // N content of changeed dry matter (kg/ha)
     int part;                                     // part
-    
-//- Implementation Section ----------------------------------
 
     push_routine (my_name);
 
-    if (g.plant_status!=status_out)
+    if (g.plant_status != out)
         {
-        g.plant_status = status_out;
+        g.plant_status = out;
         g.current_stage = (float) plant_end;
 
-// report
-
+        // report
         yield = (g.dm_green[meal] + g.dm_dead[meal]
-        + g.dm_green[oil] + g.dm_dead[oil] )
-        * gm2kg /sm2ha;
-        sprintf (msg, "%s%7.1f)"
-           " crop ended. yield (dw) = ", yield);
+          + g.dm_green[oil] + g.dm_dead[oil] )
+          * gm2kg /sm2ha;
+        sprintf (msg, "   crop ended. yield (dw) = %7.1f  (kg/ha)", yield);
         parent->writeString (msg);
 
-// now do post harvest processes
+        // now do post harvest processes
+        dm_root = g.dm_green[root] + g.dm_senesced[root];
 
-        dm_root = g.dm_green[root]
-        + g.dm_senesced[root];
-
-        n_root  = g.n_green[root]
-        + g.n_senesced[root];
+        n_root  = g.n_green[root] + g.n_senesced[root];
 
         plant_root_incorp (dm_root, n_root, g.root_length);
 
-        plant_root_incorp (g.dm_dead[root], g.n_dead[root]
-        , g.root_length_dead);
+        plant_root_incorp (g.dm_dead[root], g.n_dead[root], g.root_length_dead);
 
-// put stover and any remaining grain into surface residue
+        // put stover and any remaining grain into surface residue
+        dm_residue =
+             sum_real_array (g.dm_green, max_part) - g.dm_green[root]
+           + sum_real_array (g.dm_senesced, max_part) - g.dm_senesced[root]
+           + sum_real_array (g.dm_dead, max_part) - g.dm_dead[root];
 
-        dm_residue = sum_real_array (g.dm_green, max_part)
-        - g.dm_green[root];
-
-        + sum_real_array (g.dm_senesced, max_part)
-        - g.dm_senesced[root];
-
-        + sum_real_array (g.dm_dead, max_part)
-        - g.dm_dead[root];
-
-        for ( part = 1; part <= max_part; part++) 
+        for ( part = 0; part < max_part; part++)
            {
            dlt_dm_crop[part] = (g.dm_green[part]
                + g.dm_senesced[part]
                + g.dm_dead[part])
                * gm2kg/sm2ha;
            }
-        n_residue = sum_real_array (g.n_green, max_part)
-        - g.n_green[root];
+        n_residue =
+             sum_real_array (g.n_green, max_part) - g.n_green[root]
+           + sum_real_array (g.n_senesced, max_part) - g.n_senesced[root]
+           + sum_real_array (g.n_dead, max_part) - g.n_dead[root];
 
-        + sum_real_array (g.n_senesced, max_part)
-        - g.n_senesced[root];
-
-        + sum_real_array (g.n_dead, max_part)
-        - g.n_dead[root];
-
-        for ( part = 1; part <= max_part; part++) 
+        for ( part = 0; part < max_part; part++)
            {
            dlt_dm_n[part] = (g.n_green[part]
               + g.n_senesced[part]
               + g.n_dead[part])
               * gm2kg/sm2ha;
            }
-//         call crop_top_residue (c%crop_type, dm_residue, N_residue)
 
-        for ( part = 1; part <= max_part; part++) { fraction_to_residue[part] = 1.0; }
+        // call crop_top_residue (c%crop_type, dm_residue, N_residue)
+
+        for ( part = 0; part < max_part; part++) { fraction_to_residue[part] = 1.0; }
         fraction_to_residue[root] = 0.0;
 
         if (sum_real_array(dlt_dm_crop, max_part) > 0.0)
@@ -10829,34 +10889,29 @@ void Plant::plant_end_crop ()
             }
         else
             {
-// no surface residue
+            // no surface residue
             }
 
-        dm_root = g.dm_green[root]
-        + g.dm_dead[root]
-        + g.dm_senesced[root];
-
-        n_root  = g.n_green[root]
-        + g.n_dead[root]
-        + g.n_senesced[root];
+        dm_root = g.dm_green[root] + g.dm_dead[root] + g.dm_senesced[root];
+        n_root  = g.n_green[root] + g.n_dead[root] + g.n_senesced[root];
 
         sprintf (msg, "%s%7.1f%s"
-        , "  straw residue ="
+        , "  straw residue = "
         , dm_residue * gm2kg /sm2ha, " kg/ha");
         parent->writeString (msg);
 
         sprintf (msg, "%s%7.1f%s"
-        , "  straw n = "
+        , "  straw n =       "
         , n_residue * gm2kg /sm2ha, " kg/ha");
         parent->writeString (msg);
 
         sprintf (msg, "%s%7.1f%s"
-        , "  root residue = "
+        , "  root residue =  "
         , dm_root * gm2kg /sm2ha, " kg/ha");
         parent->writeString (msg);
 
         sprintf (msg, "%s%7.1f%s"
-        , "  root n = "
+        , "  root n =        "
         , n_root * gm2kg /sm2ha, " kg/ha");
         parent->writeString (msg);
 
@@ -10864,7 +10919,7 @@ void Plant::plant_end_crop ()
     else
         {
         sprintf(msg, "%s%s%s"
-         ,g.module_name
+         ,g.module_name.c_str()
          , " is not in the ground -"
          , " unable to end crop.");
 
@@ -10896,13 +10951,13 @@ void Plant::plant_kill_crop_action (protocol::Variant &mVar)
 
     push_routine (my_name);
 
-    if (g.plant_status!=status_out)
+    if (g.plant_status != out)
         {
         // kill crop - die
         plant_death_external_action (mVar
                                      , g.plants
                                      , &g.dlt_plants_death_external );
-    
+
 //         if (reals_are_equal (g%dlt_plants_death_external
 //     :                       + g%plants, 0.0)) then
 //            call plant_kill_crop
@@ -10920,7 +10975,7 @@ void Plant::plant_kill_crop_action (protocol::Variant &mVar)
         {
         char msg[500];
         sprintf(msg, "%s%s%s"
-         ,g.module_name
+         ,g.module_name.c_str()
          , " is not in the ground -"
          , " unable to kill crop.");
         warning_error (&err_user, msg);
@@ -10985,24 +11040,17 @@ void Plant::plant_store_value (
 //     191200 jngh changed soil_temp to maxt_soil_surface
 void Plant::plant_get_other_variables ()
     {
-
-//+  Constant Values
     const char*  my_name = "plant_get_other_variables" ;
+    protocol::vector<float> values;               // Scratch area
 
-//+  Local Variables
-    int   layer;                                  // layer number
     int   numvals;                                // number of values put into array
-    vector<float> no3;                                // soil NO3 content (kg/ha)
-    vector<float> no3_min;                          // soil NO3 minimum (kg/ha)
-    string  module_name;
     float soil_temp;                              // soil surface temperature (oC)
 
 //- Implementation Section ----------------------------------
 
     push_routine (my_name);
-
+    //XXX this is fucked up here - soil_temp is always 0.0 => frozen seeds can't emerge?????
     //cnh disable this until a proper implementation exists.;
-                                                  //
     //cnh this sort of approach uses up too much processing time;
     //cnh      call get_real_var_optional (unknown_module;
     //cnh     :                                  , "maxt_soil_surface";
@@ -11026,50 +11074,36 @@ void Plant::plant_get_other_variables ()
              , soil_temp);
         }
 
-// Soilwat2
-
-    parent->getVariable(id.eo, g.eo, 0.0, 20.0);
-
-// canopy
-    module_name = parent->getName();
-
-    // XXXX need to register fr_intc_radn + module_name below.
+    // Canopy
     parent->getVariable(id.fr_intc_radn, g.fr_intc_radn, 0.0, 1.0, true);
 
-    //c      call get_real_var_optional (unknown_module;
-    //c     :                           , "cover_tot";
-    //c     :                           , "()";
-    //c     :                           , g.cover_tot;
-    //c     :                           , numvals;
-    //c     :                           , 0.0;
-    //c     :                           , 1.0);
-
+    // Soilwat2
     parent->getVariable(id.eo, g.eo, 0.0, 20.0);
 
-    vector<double> values;
+    values.empty();
     parent->getVariable(id.sw_dep, values, c.sw_dep_lb, c.sw_dep_ub);
-    copy(values.begin(), values.end(), g.sw_dep);
+    for (unsigned int i=0; i< values.size(); i++) {
+    	g.sw_dep[i] = values[i];
+    }
+    //assert (values.size() == g.num_layers);
 
-    // soil nitrogen pools
-    for (layer = 1; layer <= max_layer; layer++)  { no3[layer] = 0.0; }
-
-    if (!parent->getVariable(id.no3, no3, c.no3_lb, c.no3_ub, true))
+    values.empty();
+    if (!parent->getVariable(id.no3, values, c.no3_lb, c.no3_ub, true))
         {
         // we have no N supply - make non-limiting.
-        for (int layer = 0; layer != g.num_layers; layer++)
-           no3.push_back(10000.0);
+        for (int i = 0; i < g.num_layers; i++)
+           values.push_back(10000.0);
         }
-    for (layer = 1; layer <= g.num_layers; layer++)
+    for (int i = 0; i < g.num_layers; i++)
        {
-       g.no3gsm[layer] = no3[layer-1] * kg2gm /ha2sm;
+       g.no3gsm[i] = values[i] * kg2gm /ha2sm;
        }
 
-    for (layer = 1; layer <= max_layer; layer++)  { no3_min[layer] = 0.0; }
-
-    parent->getVariable(id.no3_min, no3_min, c.no3_min_lb, c.no3_min_ub, true);
-    for (layer = 1; layer <= g.num_layers; layer++)
+    values.empty();
+    parent->getVariable(id.no3_min, values, c.no3_min_lb, c.no3_min_ub, true);
+    for (int i = 0; i < g.num_layers; i++)
        {
-       g.no3gsm_min[layer] = no3_min[layer-1] * kg2gm /ha2sm;
+       g.no3gsm_min[i] = values[i] * kg2gm /ha2sm;
        }
 
     pop_routine (my_name);
@@ -11097,7 +11131,7 @@ void Plant::plant_set_other_variables ()
     const char*  my_name = "plant_set_other_variables" ;
 
 //+  Local Variables
-    float dlt_no3[max_layer];                     // soil NO3 change (kg/ha)
+    float scratch[max_layer];                     // soil NO3 change (kg/ha)
     int   layer;                                  // soil layer no.
     int   num_layers;                             // number of layers
 
@@ -11110,17 +11144,15 @@ void Plant::plant_set_other_variables ()
     if (Str_i_Eq(p.uptake_source, "calc"))
         {
         //!!! perhaps we should get number of layers at init and keep it
-        num_layers = count_of_real_vals (g.dlayer, max_layer);
+        num_layers = 1+count_of_real_vals (g.dlayer, max_layer);
 
-        for (layer = 1; layer<= num_layers;layer++) {dlt_no3[layer] = g.dlt_no3gsm[layer] * gm2kg /sm2ha;}
-
-        vector<float> dlt_no3_values(dlt_no3, dlt_no3+num_layers);
+        for (layer = 0; layer< num_layers;layer++) {scratch[layer] = g.dlt_no3gsm[layer] * gm2kg /sm2ha;}
+        protocol::vector<float> dlt_no3_values(scratch, scratch+num_layers);
         parent->setVariable(id.dlt_no3, dlt_no3_values);
 
-
-        vector<float> dlt_sw_dep_values(g.dlt_sw_dep, g.dlt_sw_dep+num_layers);
+        for (layer = 0; layer< num_layers;layer++) {scratch[layer] = g.dlt_sw_dep[layer];}
+        protocol::vector<float> dlt_sw_dep_values(scratch, scratch+num_layers);
         parent->setVariable(id.dlt_sw_dep, dlt_sw_dep_values);
-
         }
     else
         {
@@ -11148,16 +11180,16 @@ void Plant::plant_update_other_variables (void)
     const char*  my_name = "plant_update_other_variables" ;
 
 //+  Local Variables
-    float dm_residue[max_part];                   // dry matter added to residue (kg/ha)
-    float n_residue[max_part];                    // nitrogen added to residue (kg/ha)
-    float fraction_to_residue[max_part];          // fraction sent to residue (0-1)
+    float dm_residue[max_part+1];                   // dry matter added to residue (kg/ha)
+    float n_residue[max_part+1];                    // nitrogen added to residue (kg/ha)
+    float fraction_to_residue[max_part+1];          // fraction sent to residue (0-1)
     int   part;
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
     // dispose of detached material from senesced parts in
     // live population
-    for (part =1; part <= max_part; part++) 
+    for (part =0; part < max_part; part++) 
        {
        dm_residue[part] = g.dlt_dm_detached[part] * gm2kg/sm2ha;
        n_residue[part] = g.dlt_n_detached[part] * gm2kg/sm2ha;
@@ -11182,14 +11214,12 @@ void Plant::plant_update_other_variables (void)
         }
 
     // put live population roots into root residue
-
     plant_root_incorp (g.dlt_dm_detached[root]
                        , g.dlt_n_detached[root]
                        , g.root_length);
 
-// now dispose of dead population detachments
-
-    for (part =1; part <= max_part; part++) 
+    // now dispose of dead population detachments
+    for (part =0; part < max_part; part++)
        {
        dm_residue[part] = g.dlt_dm_dead_detached[part] * gm2kg/sm2ha;
        n_residue[part] = g.dlt_n_dead_detached[part] * gm2kg/sm2ha;
@@ -11197,16 +11227,15 @@ void Plant::plant_update_other_variables (void)
        }
     fraction_to_residue[root] = 0.0;
 
-//      call crop_top_residue (c%crop_type, dm_residue, N_residue)
+    //      call crop_top_residue (c%crop_type, dm_residue, N_residue)
     if (sum_real_array(dm_residue, max_part) > 0.0)
         {
-        plant_send_crop_chopped_event
-        (c.crop_type
-        , part_name
-        , dm_residue
-        , n_residue
-        , fraction_to_residue
-        , max_part);
+        plant_send_crop_chopped_event(c.crop_type
+          , part_name
+          , dm_residue
+          , n_residue
+          , fraction_to_residue
+          , max_part);
         }
     else
         {
@@ -11223,48 +11252,6 @@ void Plant::plant_update_other_variables (void)
     }
 
 
-
-//+  Purpose
-//       Returns true if 'type' is equal to the crop type or is absent.
-
-//+  Mission Statement
-//     Crop type variable is set
-
-//+  Assumptions
-//       If type is not specified, it is assumed the message was addressed
-//        directly to the module.
-
-//+  Changes
-//      211294 jngh specified and programmed
-//     220696 jngh changed extract to collect
-bool  Plant::plant_my_type (protocol::Variant &v /* (INPUT) incoming message variant*/) 
-   {
-   //+  Constant Values
-   const char*  my_name = "plant_my_type" ;
-   
-   //+  Local Variables
-   string  crop_type;                               // crop type in data string
-   int   numvals;                                    // number of values returned
-      
-   //- Implementation Section ----------------------------------
-   push_routine (my_name);
-
-    protocol::ApsimVariant incomingApsimVariant(parent);
-    incomingApsimVariant.aliasTo(v.getMessageData());
-
-   if (incomingApsimVariant.get("type", protocol::DTstring, false, crop_type) == false ||
-       Str_i_Eq(crop_type,c.crop_type)) 
-       {
-       pop_routine (my_name);
-       return true;
-       }	
-   else
-       {
-       pop_routine (my_name);
-       return false;
-       }
-   /* notreached*/
-   }
 
 
 //+  Purpose
@@ -11295,112 +11282,111 @@ void Plant::plant_read_constants ( void )
 
     // call write_string (new_line            //"    - reading constants");
 
-    read_char_var (parent, section_name
+    read_char_var (section_name
     , "crop_type", "()"
-    , c.crop_type, numvals);
+    , c.crop_type);
 
-    read_char_var (parent, section_name
+    read_char_var (section_name
     , "default_crop_class"
     , "()"
-    , c.default_crop_class
-    , numvals);
+    , c.default_crop_class);
 
-    read_char_array (parent, section_name
+    read_char_array (section_name
     , "part_names", "()"
     , c.part_names);
 
-    read_real_var (parent, section_name
+    read_real_var (section_name
     , "sw_ub", "(mm/mm)"
-    , c.sw_ub, numvals
+    , c.sw_ub
     , 0.0, 1.0);
 
-    read_real_var (parent, section_name
+    read_real_var (section_name
     , "sw_lb", "(mm/mm)"
-    , c.sw_lb, numvals
+    , c.sw_lb
     , 0.0, 1.0);
 
 //    plant_get_other_variables
 
 // checking the bounds of the bounds..
-    read_real_var (parent, section_name
+    read_real_var (section_name
     , "latitude_ub", "(ol)"
-    , c.latitude_ub, numvals
+    , c.latitude_ub
     , -90.0, 90.0);
 
-    read_real_var (parent, section_name
+    read_real_var (section_name
     , "latitude_lb", "(ol)"
-    , c.latitude_lb, numvals
+    , c.latitude_lb
     , -90.0, 90.0);
 
-    read_real_var (parent, section_name
+    read_real_var (section_name
     , "maxt_ub", "(oc)"
-    , c.maxt_ub, numvals
+    , c.maxt_ub
     , 0.0, 60.0);
 
-    read_real_var (parent, section_name
+    read_real_var (section_name
     , "maxt_lb", "(oc)"
-    , c.maxt_lb, numvals
+    , c.maxt_lb
     , 0.0, 60.0);
 
-    read_real_var (parent, section_name
+    read_real_var (section_name
     , "mint_ub", "(oc)"
-    , c.mint_ub, numvals
+    , c.mint_ub
     , 0.0, 40.0);
 
-    read_real_var (parent, section_name
+    read_real_var (section_name
     , "mint_lb", "(oc)"
-    , c.mint_lb, numvals
+    , c.mint_lb
     , -100.0, 100.0);
 
-    read_real_var (parent, section_name
+    read_real_var (section_name
     , "radn_ub", "(mj/m^2)"
-    , c.radn_ub, numvals
+    , c.radn_ub
     , 0.0, 100.0);
 
-    read_real_var (parent, section_name
+    read_real_var (section_name
     , "radn_lb", "(mj/m^2)"
-    , c.radn_lb, numvals
+    , c.radn_lb
     , 0.0, 100.0);
 
-    read_real_var (parent, section_name
+    read_real_var (section_name
     , "dlayer_ub", "(mm)"
-    , c.dlayer_ub, numvals
+    , c.dlayer_ub
     , 0.0, 10000.0);
 
-    read_real_var (parent, section_name
+    read_real_var (section_name
     , "dlayer_lb", "(mm)"
-    , c.dlayer_lb, numvals
+    , c.dlayer_lb
     , 0.0, 10000.0);
 
 // 8th block
-    read_real_var (parent, section_name
+    read_real_var (section_name
     , "sw_dep_ub", "(mm)"
-    , c.sw_dep_ub, numvals
+    , c.sw_dep_ub
     , 0.0, 10000.0);
 
-    read_real_var (parent, section_name
+    read_real_var (section_name
     , "sw_dep_lb", "(mm)"
-    , c.sw_dep_lb, numvals
+    , c.sw_dep_lb
     , 0.0, 10000.0);
 
-    read_real_var (parent, section_name
+    read_real_var (section_name
     , "no3_ub", "(kg/ha)"
-    , c.no3_ub, numvals
+    , c.no3_ub
     , 0.0, 100000.0);
 
-    read_real_var (parent, section_name
+    read_real_var (section_name
     , "no3_lb", "(kg/ha)"
-    , c.no3_lb, numvals
+    , c.no3_lb
     , 0.0, 100000.0);
 
-    read_real_var (parent, section_name
+    read_real_var (section_name
     , "no3_min_ub", "(kg/ha)"
-    , c.no3_min_ub, numvals
+    , c.no3_min_ub
     , 0.0, 100000.0);
 
-    read_real_var (parent, section_name
+    read_real_var (section_name
     , "no3_min_lb", "(kg/ha)"
-    , c.no3_min_lb, numvals
+    , c.no3_min_lb
     , 0.0, 100000.0);
 
     g.hasreadconstants = true;
@@ -11428,13 +11414,14 @@ void Plant::plant_prepare (void)
 //- Implementation Section ----------------------------------
     push_routine (myname);
 
-    if (Str_i_Eq(g.plant_status,status_alive))
+    if (g.plant_status == alive)
         {
-
         plant_nit_stress (1);
         plant_temp_stress (1);
-
         plant_light_supply (1);
+//        fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n",
+//                g.day_of_year, g.radn_int, g.radn, g.cover_green, g.lai);
+
         plant_bio_rue (1);
         plant_transpiration_eff (1);
         plant_water_demand (1);
@@ -11448,6 +11435,35 @@ void Plant::plant_prepare (void)
     return;
     }
 
+void Plant::registerClassActions(void)
+   {
+   // Remove old registrations from the system
+   for (UInt2StringMap::const_iterator i = IDtoAction.begin();
+        i != IDtoAction.end();
+        i++)
+        {
+        parent->deleteRegistration(protocol::respondToMethodCallReg,i->first);
+        parent->deleteRegistration(protocol::respondToEventReg,i->first);
+        }
+   IDtoAction.clear();
+
+   // Add the new class actions we're interested in
+   for (vector<string>::const_iterator i = c.class_action.begin();
+        i != c.class_action.end();
+        i++)
+      {
+      // Methods & events haven't been sorted out yet?
+      unsigned int id = parent->addRegistration(protocol::respondToMethodCallReg,
+                                                  i->c_str(), "");
+      IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doAutoClassChange));
+
+      id = parent->addRegistration(protocol::respondToEventReg,
+                                                  i->c_str(), "");
+      IDtoEventFn.insert(UInt2EventFnMap::value_type(id,&Plant::doAutoClassChange)); //XX to be sure, to be sure.....
+
+      IDtoAction.insert(UInt2StringMap::value_type(id,i->c_str()));
+      }
+   }
 
 //+  Purpose
 //       Species initialisation - reads constants from constants file
@@ -11473,32 +11489,33 @@ void Plant::plant_read_species_const ()
 
     push_routine (my_name);
 
-    parent->writeString (string(" - reading constants for " + g.crop_class).c_str());
+    read_char_array (c.crop_type, g.crop_class, "()", search_order);
 
-    read_char_array (parent, g.crop_class, "class_action", "()"
-    , c.class_action);
+    parent->writeString (string(" - reading constants for " +
+                                g.crop_class + "(" + c.crop_type +")").c_str());
 
-    read_char_array (parent, g.crop_class, "class_change", "()"
-    , c.class_change);
+    read_char_array (search_order, "class_action", "()", c.class_action);
+    registerClassActions();
 
-    read_integer_var (parent, g.crop_class, "phenology_option", "()"
-    , c.phenology_option, numvals
+    read_char_array (search_order, "class_change", "()", c.class_change);
+
+    read_integer_var (search_order, "phenology_option", "()"
+    , c.phenology_option
     , 1, 2);
 
-    read_char_array (parent, g.crop_class, "stage_names", "()"
-    , c.stage_names);
+    read_char_array (search_order, "stage_names", "()", c.stage_names);
 
-    read_real_array (parent, g.crop_class, "stage_code", max_stage, "()"
+    read_real_array (search_order, "stage_code", max_stage, "()"
     , c.stage_code_list, numvals
     , 0.0, 1000.0);
 
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "stage_stem_reduction_harvest"
     , max_stage, "()"
     , c.stage_stem_reduction_harvest, numvals
     , 1.0, 11.0);
 
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "stage_stem_reduction_kill_stem"
     , max_stage, "()"
     , c.stage_stem_reduction_kill_stem, numvals
@@ -11509,48 +11526,48 @@ void Plant::plant_read_species_const ()
 //     :                     , c%rue, numvals
 //     :                     , 0.0, 1000.0)
 
-    read_real_array (parent, g.crop_class,
-     "x_stage_code_rue", max_stage, "()"
-    , c.x_stage_code_list_rue, numvals
+    read_real_array (search_order,
+     "x_stage_rue", max_table, "()"
+    , c.x_stage_rue, numvals
     , 0.0, 1000.0);
 
-    read_real_array (parent, g.crop_class,
-     "y_rue", max_stage, "(g dm/mj)"
+    read_real_array (search_order,
+     "y_rue", max_table, "(g dm/mj)"
     , c.y_rue, numvals
     , 0.0, 1000.0);
 
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "root_depth_rate", max_stage, "(mm)"
     , c.root_depth_rate, numvals
     , 0.0, 1000.0);
 
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "n_fix_rate", max_stage, "()"
     , c.n_fix_rate, numvals
     , 0.0, 1.0);
 
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "transp_eff_cf", max_stage, "(kpa)"
     , c.transp_eff_cf, numvals
     , 0.0, 1.0);
 
-    read_integer_var (parent, g.crop_class,
+    read_integer_var (search_order,
      "partition_option", "()"
-    , c.partition_option, numvals
+    , c.partition_option
     , 1, 2);
 
     if (c.partition_option==1)
         {
-        read_real_array (parent, g.crop_class,
+        read_real_array (search_order,
          "frac_leaf", max_stage, "()"
         , c.frac_leaf, numvals
         , 0.0, 1.0);
 
-        read_real_array (parent, g.crop_class,
+        read_real_array (search_order,
          "frac_pod", max_stage, "()"
         , c.frac_pod, numvals
         , 0.0, 2.0);
-        read_real_array (parent, g.crop_class,
+        read_real_array (search_order,
          "ratio_root_shoot", max_stage, "()"
         , c.ratio_root_shoot, numvals
         , 0.0, 1000.0);
@@ -11558,329 +11575,328 @@ void Plant::plant_read_species_const ()
         }
     else if (c.partition_option==2)
         {
-        read_real_array (parent, g.crop_class,
+        read_real_array (search_order,
          "x_stage_no_partition", max_stage, "()"
         , c.x_stage_no_partition
         , c.num_stage_no_partition
         , 0.0, 20.0);
 
-        read_real_array (parent, g.crop_class,
+        read_real_array (search_order,
          "y_frac_leaf", max_stage, "()"
         , c.y_frac_leaf, numvals
         , 0.0, 1.0);
 
-        read_real_array (parent, g.crop_class,
+        read_real_array (search_order,
          "y_frac_pod", max_stage, "()"
         , c.y_frac_pod, numvals
         , 0.0, 2.0);
 
-        read_real_array (parent, g.crop_class,
+        read_real_array (search_order,
          "y_ratio_root_shoot", max_stage, "()"
         , c.y_ratio_root_shoot, numvals
         , 0.0, 1000.0);
 
         }
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "row_spacing_default", "(mm)"
-    , c.row_spacing_default, numvals
+    , c.row_spacing_default
     , 0.0, 2000.);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "skiprow_default", "()"
-    , c.skip_row_default, numvals
+    , c.skip_row_default
     , 0.0, 2.0);
 
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "x_row_spacing", max_table, "(mm)"
     , c.x_row_spacing, c.num_row_spacing
     , 0.0, 2000.);
 
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "y_extinct_coef", max_table, "()"
     , c.y_extinct_coef, c.num_row_spacing
     , 0.0, 1.0);
 
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "y_extinct_coef_dead", max_table, "()"
     , c.y_extinct_coef_dead, c.num_row_spacing
     , 0.0, 1.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "extinct_coef_pod", "()"
-    , c.extinct_coef_pod, numvals
+    , c.extinct_coef_pod
     , 0.0, 1.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "spec_pod_area", "()"
-    , c.spec_pod_area, numvals
+    , c.spec_pod_area
     , 0.0, 100000.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "rue_pod", "()"
-    , c.rue_pod, numvals
+    , c.rue_pod
     , 0.0, 3.0);
 
 // crop failure
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "leaf_no_crit", "()"
-    , c.leaf_no_crit, numvals
+    , c.leaf_no_crit
     , 0.0, 100.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "tt_emerg_limit", "(oc)"
-    , c.tt_emerg_limit, numvals
+    , c.tt_emerg_limit
     , 0.0, 1000.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "days_germ_limit", "(days)"
-    , c.days_germ_limit, numvals
+    , c.days_germ_limit
     , 0.0, 365.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "swdf_pheno_limit", "()"
-    , c.swdf_pheno_limit, numvals
+    , c.swdf_pheno_limit
     , 0.0, 1000.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "swdf_photo_limit", "()"
-    , c.swdf_photo_limit, numvals
+    , c.swdf_photo_limit
     , 0.0, 1000.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "swdf_photo_rate", "()"
-    , c.swdf_photo_rate, numvals
+    , c.swdf_photo_rate
     , 0.0, 1.0);
 
 //    plant_root_depth
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "initial_root_depth", "(mm)"
-    , c.initial_root_depth, numvals
+    , c.initial_root_depth
     , 0.0, 1000.0);
 
 //    plant_root_length
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "specific_root_length", "(mm/g)"
-    , c.specific_root_length, numvals
+    , c.specific_root_length
     , 0.0, 1.0e6);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "root_die_back_fr", "(0-1)"
-    , c.root_die_back_fr, numvals
+    , c.root_die_back_fr
     , 0.0, 0.99);
 
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "x_plant_rld", max_table, "()"
     , c.x_plant_rld, c.num_plant_rld
     , 0.0, 0.1);
 
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "y_rel_root_rate", max_table, "()"
     , c.y_rel_root_rate, c.num_plant_rld
     , 0.001, 1.0);
 
 //    plant_leaf_area_init
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "initial_tpla", "(mm^2)"
-    , c.initial_tpla, numvals
+    , c.initial_tpla
     , 0.0, 100000.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "min_tpla", "(mm^2)"
-    , c.min_tpla, numvals
+    , c.min_tpla
     , 0.0, 100000.0);
 
 // TEMPLATE OPTION
 //    plant_leaf_area
 
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "x_lai", max_table, "(mm2/mm2)"
     , c.x_lai, c.num_lai
     , 0.0, 15.0);
 
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "y_sla_max", max_table, "(mm2/g)"
     , c.y_sla_max, c.num_lai
     , 0.0, 2.e5);
 
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "x_lai_ratio", max_table, "()"
     , c.x_lai_ratio, c.num_lai_ratio
     , 0.0, 1.0);
 
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "y_leaf_no_frac", max_table, "()"
     , c.y_leaf_no_frac, c.num_lai_ratio
     , 0.0, 1.0);
 
 //    plant_get_cultivar_params
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "tt_emerg_to_endjuv_ub", "()"
-    , c.tt_emerg_to_endjuv_ub, numvals
+    , c.tt_emerg_to_endjuv_ub
     , 0.0, 1.e6);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "tt_maturity_to_ripe_ub", "()"
-    , c.tt_maturity_to_ripe_ub, numvals
+    , c.tt_maturity_to_ripe_ub
     , 0.0, 1.e6);
 
 //    plant_transp_eff
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "svp_fract", "()"
-    , c.svp_fract, numvals
+    , c.svp_fract
     , 0.0, 1.0);
 
 //    cproc_sw_demand_bound
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "eo_crop_factor_default", "()"
-    , c.eo_crop_factor_default, numvals
+    , c.eo_crop_factor_default
     , 0.0, 100.);
 
 //    plant_germination
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "pesw_germ", "(mm/mm)"
-    , c.pesw_germ, numvals
+    , c.pesw_germ
     , 0.0, 1.0);
 
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "fasw_emerg", max_table, "()"
     , c.fasw_emerg, c.num_fasw_emerg
     , 0.0, 1.0);
 
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "rel_emerg_rate", max_table, "()"
     , c.rel_emerg_rate, c.num_fasw_emerg
     , 0.0, 1.0);
 
 //    plant_leaf_appearance
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "leaf_no_at_emerg", "()"
-    , c.leaf_no_at_emerg, numvals
+    , c.leaf_no_at_emerg
     , 0.0, 100.0);
 
-//    plant_N_uptake
+//    plant_n_uptake
 
-    read_integer_var (parent, g.crop_class,
+    read_integer_var (search_order,
      "n_uptake_option", "()"
-    , c.n_uptake_option, numvals
+    , c.n_uptake_option
     , 1, 2);
 
     if (c.n_uptake_option==1)
         {
-        read_real_var (parent, g.crop_class,
+        read_real_var (search_order,
          "no3_diffn_const", "(days)"
-        , c.no3_diffn_const, numvals
+        , c.no3_diffn_const
         , 0.0, 100.0);
         }
     else if (c.n_uptake_option==2)
         {
-        read_real_var (parent, g.crop_class,
+        read_real_var (search_order,
          "no3_uptake_max", "(g/mm)"
-        , c.no3_uptake_max, numvals
+        , c.no3_uptake_max
         , 0.0, 1.0);
 
-        read_real_var (parent, g.crop_class,
+        read_real_var (search_order,
          "no3_conc_half_max", "(ppm)"
-        , c.no3_conc_half_max, numvals
+        , c.no3_conc_half_max
         , 0.0, 100.0);
-
         }
 
-    read_char_var (parent, g.crop_class,
+    read_char_var (search_order,
      "n_supply_preference", "()"
-    , c.n_supply_preference, numvals);
+    , c.n_supply_preference);
 
 //    plant_phenology_init
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "shoot_lag", "(oc)"
-    , c.shoot_lag, numvals
+    , c.shoot_lag
     , 0.0, 100.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "shoot_rate", "(oc/mm)"
-    , c.shoot_rate, numvals
+    , c.shoot_rate
     , 0.0, 100.0);
 
-    read_integer_var (parent, g.crop_class,
+    read_integer_var (search_order,
      "leaf_no_pot_option", "()"
-    , c.leaf_no_pot_option, numvals
+    , c.leaf_no_pot_option
     , 1, 2);
 
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "x_node_no_app", max_table, "()"
     , c.x_node_no_app, c.num_node_no_app
     , 0.0, 200.);
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "y_node_app_rate", max_table, "()"
     , c.y_node_app_rate, c.num_node_no_app
     , 0.0, 400.);
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "x_node_no_leaf", max_table, "()"
     , c.x_node_no_leaf, c.num_node_no_leaf
     , 0.0, 200.);
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "y_leaves_per_node", max_table, "()"
     , c.y_leaves_per_node, c.num_node_no_leaf
     , 0.0, 50.);
 
 //    plant_dm_init
 
-    read_real_array (parent, g.crop_class,
+    read_real_array (search_order,
      "dm_init", max_table, "(g/plant)"
     , c.dm_init, numvals
     , 0.0, 1.0);
 
 //    plant_get_root_params
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "kl_ub", "()"
-    , c.kl_ub, numvals
-    , 0.0, 1000.0);
+    , c.kl_ub
+    , 0.0, 1000.0);    ///XX oh yeah??
 
 //    plant_retranslocate
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "stem_trans_frac", "()"
-    , c.stem_trans_frac, numvals
+    , c.stem_trans_frac
     , 0.0, 1.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "pod_trans_frac", "()"
-    , c.pod_trans_frac, numvals
+    , c.pod_trans_frac
     , 0.0, 1.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "leaf_trans_frac", "()"
-    , c.leaf_trans_frac, numvals
+    , c.leaf_trans_frac
     , 0.0, 1.0);
 
 //    grain number
 
-    read_integer_var (parent, g.crop_class,
+    read_integer_var (search_order,
      "grain_no_option", "()"
-    , c.grain_no_option, numvals
+    , c.grain_no_option
     , 1, 2);
 
 //    legume grain filling
 
-    read_integer_var (parent, g.crop_class,
+    read_integer_var (search_order,
      "grain_fill_option", "()"
-    , c.grain_fill_option, numvals
+    , c.grain_fill_option
     , 1, 2);
 
     if (c.grain_fill_option==2)
         {
-        read_real_array (parent, g.crop_class,
+        read_real_array (search_order,
          "x_temp_grainfill"
         , max_table, "(oc)"
         , c.x_temp_grainfill
@@ -11888,7 +11904,7 @@ void Plant::plant_read_species_const ()
         , 0.0
         , 40.0);
 
-        read_real_array (parent, g.crop_class,
+        read_real_array (search_order,
          "y_rel_grainfill"
         , max_table, "(-)"
         , c.y_rel_grainfill
@@ -11897,85 +11913,85 @@ void Plant::plant_read_species_const ()
         , 1.0);
         }
 
-//    plant_N_dlt_grain_conc
+//    plant_n_dlt_grain_conc
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "sw_fac_max", "()"
-    , c.sw_fac_max, numvals
+    , c.sw_fac_max
     , 0.0, 100.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "temp_fac_min", "()"
-    , c.temp_fac_min, numvals
+    , c.temp_fac_min
     , 0.0, 100.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "sfac_slope", "()"
-    , c.sfac_slope, numvals
+    , c.sfac_slope
     , -10.0, 0.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "tfac_slope", "()"
-    , c.tfac_slope, numvals
+    , c.tfac_slope
     , 0.0, 100.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "sen_start_stage", "()"
-    , c.sen_start_stage, numvals
+    , c.sen_start_stage
     , 0.0, max_stage);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "fr_lf_sen_rate", "(/degday)"
-    , c.fr_lf_sen_rate, numvals
+    , c.fr_lf_sen_rate
     , 0.0, 1.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "node_sen_rate", "(degday)"
-    , c.node_sen_rate, numvals
+    , c.node_sen_rate
     , 0.0, 1000.0);
 
 //    plant_event
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "grn_water_cont", "(g/g)"
-    , c.grn_water_cont, numvals
+    , c.grn_water_cont
     , 0.0, 1.0);
 
 //    plant_dm_partition
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "sla_min", "(mm^2/g)"
-    , c.sla_min, numvals
+    , c.sla_min
     , 0.0, 100000.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "carbo_oil_conv_ratio", "()"
-    , c.carbo_oil_conv_ratio, numvals
+    , c.carbo_oil_conv_ratio
     , 0.0, 20.0);
 
-    read_real_var (parent, g.crop_class,
+    read_real_var (search_order,
      "grain_oil_conc", "()"
-    , c.grain_oil_conc, numvals
+    , c.grain_oil_conc
     , 0.0, 1.0);
 
 //    plant_dm_senescence
 
-    for (part=1; part<=max_part;part++)
+    for (part=0; part<max_part;part++)
        {
-       sprintf(name, "x_dm_sen_frac_%s", c.part_names[part]);
-       read_real_array (parent, g.crop_class
+       sprintf(name, "x_dm_sen_frac_%s", c.part_names[part].c_str());
+       read_real_array (search_order
           , name
           , max_part, "()"
-          , c.x_dm_sen_frac[1]
+          , c.x_dm_sen_frac[part]
           , c.num_dm_sen_frac[part]
           , 0.0
           , 100.0);
 
-       sprintf(name, "y_dm_sen_frac_%s", c.part_names[part]);
-       read_real_array (parent, g.crop_class
+       sprintf(name, "y_dm_sen_frac_%s", c.part_names[part].c_str());
+       read_real_array (search_order
           , name
           , max_part, "()"
-          , c.y_dm_sen_frac[1]
+          , c.y_dm_sen_frac[part]
           , c.num_dm_sen_frac[part]
           , 0.0
           , 1.0);
@@ -11984,54 +12000,54 @@ void Plant::plant_read_species_const ()
 
 //    plant_dm_dead_detachment
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "dead_detach_frac", max_part, "()"
     , c.dead_detach_frac, numvals
     , 0.0, 1.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "sen_detach_frac", max_part, "()"
     , c.sen_detach_frac, numvals
     , 0.0, 1.0);
 
 //    plant_leaf_area_devel
 
-    read_real_var (parent, g.crop_class
+    read_real_var (search_order
     , "node_no_correction", "()"
-    , c.node_no_correction, numvals
+    , c.node_no_correction
     , 0.0, 10.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "x_node_no", max_table, "()"
     , c.x_node_no, c.num_node_no
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_leaf_size", max_table, "(mm2)"
     , c.y_leaf_size, c.num_node_no
     , 0.0, 60000.0);
 
 //    plant_leaf_area_sen_light
 
-    read_real_var (parent, g.crop_class
+    read_real_var (search_order
     , "lai_sen_light", "(m^2/m^2)"
-    , c.lai_sen_light, numvals
+    , c.lai_sen_light
     , 3.0, 20.0);
 
-    read_real_var (parent, g.crop_class
+    read_real_var (search_order
     , "sen_light_slope", "()"
-    , c.sen_light_slope, numvals
+    , c.sen_light_slope
     , 0.0, 100.0);
 
 // TEMPLATE OPTION
 //    plant_leaf_area_sen_frost
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "x_temp_senescence", max_table, "(oc)"
     , c.x_temp_senescence, c.num_temp_senescence
     , -20.0, 20.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_senescence_fac", max_table, "()"
     , c.y_senescence_fac, c.num_temp_senescence
     , 0.0, 1.0);
@@ -12039,255 +12055,255 @@ void Plant::plant_read_species_const ()
 // TEMPLATE OPTION
 //    plant_leaf_area_sen_water
 
-    read_real_var (parent, g.crop_class
+    read_real_var (search_order
     , "sen_rate_water", "()"
-    , c.sen_rate_water, numvals
+    , c.sen_rate_water
     , 0.0, 100.0);
 
 //    plant_phenology_init
 
-    read_real_var (parent, g.crop_class
+    read_real_var (search_order
     , "twilight", "(o)"
-    , c.twilight, numvals
+    , c.twilight
     , -90.0, 90.0);
 
-//    plant_N_conc_limits
+//    plant_n_conc_limits
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "x_stage_code", max_stage, "()"
     , c.x_stage_code, c.num_n_conc_stage
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_n_conc_crit_leaf", max_stage, "()"
     , c.y_n_conc_crit_leaf, c.num_n_conc_stage
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_n_conc_max_leaf", max_stage, "()"
     , c.y_n_conc_max_leaf, c.num_n_conc_stage
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_n_conc_min_leaf", max_stage, "()"
     , c.y_n_conc_min_leaf, c.num_n_conc_stage
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_n_conc_crit_stem", max_stage, "()"
     , c.y_n_conc_crit_stem, c.num_n_conc_stage
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_n_conc_max_stem", max_stage, "()"
     , c.y_n_conc_max_stem, c.num_n_conc_stage
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_n_conc_min_stem", max_stage, "()"
     , c.y_n_conc_min_stem, c.num_n_conc_stage
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_n_conc_crit_pod", max_stage, "()"
     , c.y_n_conc_crit_pod, c.num_n_conc_stage
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_n_conc_max_pod", max_stage, "()"
     , c.y_n_conc_max_pod, c.num_n_conc_stage
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_n_conc_min_pod", max_stage, "()"
     , c.y_n_conc_min_pod, c.num_n_conc_stage
     , 0.0, 100.0);
 
-    read_real_var (parent, g.crop_class
+    read_real_var (search_order
     , "n_conc_crit_grain", "()"
-    , c.n_conc_crit_grain, numvals
+    , c.n_conc_crit_grain
     , 0.0, 100.0);
 
-    read_real_var (parent, g.crop_class
+    read_real_var (search_order
     , "n_conc_max_grain", "()"
-    , c.n_conc_max_grain, numvals
+    , c.n_conc_max_grain
     , 0.0, 100.0);
 
-    read_real_var (parent, g.crop_class
+    read_real_var (search_order
     , "n_conc_min_grain", "()"
-    , c.n_conc_min_grain, numvals
+    , c.n_conc_min_grain
     , 0.0, 100.0);
 
-    read_real_var (parent, g.crop_class
+    read_real_var (search_order
     , "n_conc_crit_root", "()"
-    , c.n_conc_crit_root, numvals
+    , c.n_conc_crit_root
     , 0.0, 100.0);
 
-    read_real_var (parent, g.crop_class
+    read_real_var (search_order
     , "n_conc_max_root", "()"
-    , c.n_conc_max_root, numvals
+    , c.n_conc_max_root
     , 0.0, 100.0);
 
-    read_real_var (parent, g.crop_class
+    read_real_var (search_order
     , "n_conc_min_root", "()"
-    , c.n_conc_min_root, numvals
+    , c.n_conc_min_root
     , 0.0, 100.0);
 
-//    plant_N_init
+//    plant_n_init
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "n_init_conc", max_stage, "(g/g)"
     , c.n_init_conc, numvals
     , 0.0, 1.0);
 
-//    plant_N_senescence
+//    plant_n_senescence
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "n_sen_conc", max_part, "()"
     , c.n_sen_conc, numvals
     , 0.0, 1.0);
 
 //    plant_nfact
 
-    read_real_var (parent, g.crop_class
+    read_real_var (search_order
     , "n_fact_photo", "()"
-    , c.n_fact_photo, numvals
+    , c.n_fact_photo
     , 0.0, 100.0);
 
-    read_real_var (parent, g.crop_class
+    read_real_var (search_order
     , "n_fact_pheno", "()"
-    , c.n_fact_pheno, numvals
+    , c.n_fact_pheno
     , 0.0, 100.0);
 
-    read_real_var (parent, g.crop_class
+    read_real_var (search_order
     , "n_fact_expansion", "()"
-    , c.n_fact_expansion, numvals
+    , c.n_fact_expansion
     , 0.0, 100.0);
 
 //    plant_rue_reduction
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "x_ave_temp", max_table, "(oc)"
     , c.x_ave_temp, c.num_ave_temp
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_stress_photo", max_table, "()"
     , c.y_stress_photo, c.num_factors
     , 0.0, 1.0);
 
 //    plant_thermal_time
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "x_temp", max_table, "(oc)"
     , c.x_temp, c.num_temp
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_tt", max_table, "(oc days)"
     , c.y_tt, c.num_temp
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "x_vernal_temp", max_table, "(oc)"
     , c.x_vernal_temp, c.num_vernal_temp
     , -10., 60.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_vernal_days", max_table, "(days)"
     , c.y_vernal_days, c.num_vernal_temp
     , 0.0, 1.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "x_temp_root_advance", max_table, "(oc)"
     , c.x_temp_root_advance
     , c.num_temp_root_advance
     , -10., 60.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_rel_root_advance", max_table, "(0-1)"
     , c.y_rel_root_advance
     , c.num_temp_root_advance
     , 0.0, 1.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "x_weighted_temp", max_table, "(oc)"
     , c.x_weighted_temp, c.num_weighted_temp
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_plant_death", max_table, "(oc)"
     , c.y_plant_death, c.num_weighted_temp
     , 0.0, 100.0);
 
 //    plant_swdef
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "x_sw_demand_ratio", max_table, "()"
     , c.x_sw_demand_ratio, c.num_sw_demand_ratio
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_swdef_leaf", max_table, "()"
     , c.y_swdef_leaf, c.num_sw_demand_ratio
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "x_sw_avail_ratio", max_table, "()"
     , c.x_sw_avail_ratio, c.num_sw_avail_ratio
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_swdef_pheno", max_table, "()"
     , c.y_swdef_pheno, c.num_sw_avail_ratio
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "x_sw_ratio", max_table, "()"
     , c.x_sw_ratio, c.num_sw_ratio
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_sw_fac_root", max_table, "()"
     , c.y_sw_fac_root, c.num_sw_ratio
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "x_ws_root", max_table, "()"
     , c.x_ws_root, c.num_ws_root
     , 0.0, 1.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_ws_root_fac", max_table, "()"
     , c.y_ws_root_fac, c.num_ws_root
     , 0.0, 1.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "x_sw_avail_fix", max_table, "()"
     , c.x_sw_avail_fix, c.num_sw_avail_fix
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "y_swdef_fix", max_table, "()"
     , c.y_swdef_fix, c.num_sw_avail_fix
     , 0.0, 100.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "oxdef_photo_rtfr", max_table, "()"
     , c.oxdef_photo_rtfr, c.num_oxdef_photo
     , 0.0, 1.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "oxdef_photo", max_table, "()"
     , c.oxdef_photo, c.num_oxdef_photo
     , 0.0, 1.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "fr_height_cut", max_table, "(0-1)"
     , c.fr_height_cut, c.num_fr_height_cut
     , 0.0, 1.0);
 
-    read_real_array (parent, g.crop_class
+    read_real_array (search_order
     , "fr_stem_remain", max_table, "()"
     , c.fr_stem_remain, c.num_fr_height_cut
     , 0.0, 1.0);
@@ -12350,22 +12366,18 @@ void Plant::plant_harvest_report ()
     yield_wet = yield / (1.0 - c.grn_water_cont);
 
     grain_wt = divide (g.dm_green[meal] + g.dm_dead[meal]
-    + g.dm_green[oil] + g.dm_dead[oil]
-    , g.grain_no, 0.0);
+       + g.dm_green[oil] + g.dm_dead[oil], g.grain_no, 0.0);
 
     head_grain_no = divide (g.grain_no, g.plants, 0.0);
 
     biomass_green = (sum_real_array (g.dm_green, max_part)
-    - g.dm_green[root])
-    * gm2kg / sm2ha;
+      - g.dm_green[root]) * gm2kg / sm2ha;
 
     biomass_senesced = (sum_real_array (g.dm_senesced, max_part)
-    - g.dm_senesced[root])
-    * gm2kg / sm2ha;
+      - g.dm_senesced[root]) * gm2kg / sm2ha;
 
     biomass_dead = (sum_real_array (g.dm_dead, max_part)
-    - g.dm_dead[root])
-    * gm2kg / sm2ha;
+      - g.dm_dead[root]) * gm2kg / sm2ha;
 
     dm = (biomass_green + biomass_senesced + biomass_dead);
 
@@ -12373,124 +12385,117 @@ void Plant::plant_harvest_report ()
 
     leaf_no = sum_real_array (g.leaf_no, max_node);
 
-    n_grain_conc_percent = divide (g.n_green[meal] + g.n_dead[meal]
-    + g.n_green[oil] + g.n_dead[oil]
-    , g.dm_green[meal] + g.dm_dead[meal]
-    + g.dm_green[oil] + g.dm_dead[oil]
-    , 0.0)
-    * fract2pcnt;
+    n_grain_conc_percent = divide (
+        g.n_green[meal] + g.n_dead[meal] + g.n_green[oil] + g.n_dead[oil]
+      , g.dm_green[meal] + g.dm_dead[meal] + g.dm_green[oil] + g.dm_dead[oil]
+      , 0.0) * fract2pcnt;
 
     n_grain = (g.n_green[meal] + g.n_dead[meal]
-    + g.n_green[oil] + g.n_dead[oil])
-    * gm2kg/sm2ha;
+        + g.n_green[oil] + g.n_dead[oil]) * gm2kg/sm2ha;
 
     n_green = (sum_real_array (g.n_green, max_part)
-    - g.n_green[root] - g.n_green[meal] - g.n_green[oil])
-    * gm2kg / sm2ha;
+        - g.n_green[root] - g.n_green[meal] - g.n_green[oil]) * gm2kg / sm2ha;
 
     n_senesced = (sum_real_array (g.n_senesced, max_part)
-    - g.n_senesced[root]
-    - g.n_senesced[meal]- g.n_senesced[oil])
-    * gm2kg / sm2ha;
+        - g.n_senesced[root] - g.n_senesced[meal]- g.n_senesced[oil]) * gm2kg / sm2ha;
 
     n_dead = (sum_real_array (g.n_dead, max_part)
-    - g.n_dead[root] - g.n_dead[meal] - g.n_dead[oil])
-    * gm2kg / sm2ha;
+        - g.n_dead[root] - g.n_dead[meal] - g.n_dead[oil]) * gm2kg / sm2ha;
 
     n_stover = n_green + n_senesced + n_dead;
     n_total = n_grain + n_stover;
 
-    parent->writeString ("\n\n");
+    parent->writeString ("");
 
-    sprintf (msg, "%20s%4d%40s%20s%10.1f"
-             , " flowering day  = ",g.flowering_date, " "
-             , " stover (kg/ha) =",stover);
+    sprintf (msg, "%s%4d%20s%s%10.1f"
+             , " flowering day          = ",g.flowering_date, " "
+             , " stover (kg/ha)         = ",stover);
     parent->writeString (msg);
 
-    sprintf (msg, "%20s%4d%40s%20s%10.1f"
-             , " maturity day        = ", g.maturity_date, " "
-             , " grain yield (kg/ha) =", yield);
+    sprintf (msg, "%s%4d%20s%s%10.1f"
+             , " maturity day           = ", g.maturity_date, " "
+             , " grain yield (kg/ha)    = ", yield);
     parent->writeString (msg);
 
-    sprintf (msg, "%18s%6.1f%40s%20s%10.1f"
-             ," grain . water content   = ", c.grn_water_cont * fract2pcnt, " "
-             , " grain yield wet (kg/ha) =", yield_wet);
+    sprintf (msg, "%s%6.1f%18s%s%10.1f"
+             , " grain % water content  = ", c.grn_water_cont * fract2pcnt, " "
+             , " grain yield wet (kg/ha)= ", yield_wet);
     parent->writeString (msg);
 
-    sprintf (msg, "%14s%10.3f%40s%20s%10.3f"
-             , " grain wt (g) =", grain_wt, " "
-             , " grains/m^2   =", g.grain_no);
+    sprintf (msg, "%s%8.3f%16s%s%10.3f"
+             , " grain wt (g)           = ", grain_wt, " "
+             , " grains/m^2             = ", g.grain_no);
     parent->writeString (msg);
 
-    sprintf (msg, "%18s%6.1f%40s%20s%6.3f"
-             , " grains/head =", head_grain_no, " "
-             , " maximum lai =", g.lai_max);
-    parent->writeString (msg);
-
-    sprintf (msg, "%s%10.1f)"
-             , " total above ground biomass (kg/ha) =", dm);
+    sprintf (msg, "%s%6.1f%18s%s%10.3f"
+             , " grains/head            = ", head_grain_no, " "
+             , " maximum lai            = ", g.lai_max);
     parent->writeString (msg);
 
     sprintf (msg, "%s%10.1f"
-             " live above ground biomass (kg/ha) ="
+             , " total above ground biomass (kg/ha)    = ", dm);
+    parent->writeString (msg);
+
+    sprintf (msg, "%s%10.1f",
+               " live above ground biomass (kg/ha)     = "
               , biomass_green + biomass_senesced);
     parent->writeString (msg);
 
     sprintf (msg, "%s%10.1f"
-             , " green above ground biomass (kg/ha) =", biomass_green);
+             , " green above ground biomass (kg/ha)    = ", biomass_green);
     parent->writeString (msg);
 
     sprintf (msg, "%s%10.1f"
-             , " senesced above ground biomass (kg/ha) =", biomass_senesced);
+             , " senesced above ground biomass (kg/ha) = ", biomass_senesced);
     parent->writeString (msg);
 
     sprintf (msg, "%s%10.1f"
-             , " dead above ground biomass (kg/ha) =", biomass_dead);
+             , " dead above ground biomass (kg/ha)     = ", biomass_dead);
     parent->writeString (msg);
 
     sprintf (msg, "%s%6.1f"
-             , " number of leaves =", leaf_no);
+             , " number of leaves       = ", leaf_no);
     parent->writeString (msg);
 
-    sprintf (msg, "%14s%10.2f%40s%20s%10.2f"
-             , " grain n percent =", n_grain_conc_percent, " "
-             , " total n content (kg/ha) =", n_total);
+    sprintf (msg, "%s%10.2f%14s%s%10.2f"
+             , " grain n percent        = ", n_grain_conc_percent, " "
+             , " total n content (kg/ha)= ", n_total);
     parent->writeString (msg);
 
-    sprintf (msg, "%14s%10.2f%40s%20s%10.2f"
-             , " grain n uptake (kg/ha) =", n_grain, " "
+    sprintf (msg, "%s%10.2f%14s%s%8.2f"
+             , " grain n uptake (kg/ha) = ", n_grain, " "
              , " senesced n content (kg/ha) =", n_senesced);
     parent->writeString (msg);
 
-    sprintf (msg, "%14s%10.2f%40s%20s%10.2f"
-             , " green n content (kg/ha) =", n_green, " "
-             , " dead n content (kg/ha) =", n_dead);
+    sprintf (msg, "%s%10.2f%14s%s%10.2f"
+             , " green n content (kg/ha)= ", n_green, " "
+             , " dead n content (kg/ha) = ", n_dead);
     parent->writeString (msg);
 
-    for (phase = emerg_to_endjuv; phase <= start_to_end_grain; phase++) 
+    for (phase = emerg_to_endjuv; phase <= start_to_end_grain; phase++)
          {
-         si1 = divide (g.cswd_photo[phase], g.days_tot[phase], 0.0);
-         si2 = divide (g.cswd_expansion[phase], g.days_tot[phase], 0.0);
-         si4 = divide (g.cnd_photo[phase], g.days_tot[phase], 0.0);
-         si5 = divide (g.cnd_grain_conc[phase], g.days_tot[phase], 0.0);
+         si1 = divide (g.cswd_photo[phase-1], g.days_tot[phase-1], 0.0); 
+         si2 = divide (g.cswd_expansion[phase-1], g.days_tot[phase-1], 0.0);
+         si4 = divide (g.cnd_photo[phase-1], g.days_tot[phase-1], 0.0);
+         si5 = divide (g.cnd_grain_conc[phase-1], g.days_tot[phase-1], 0.0);
 
-         parent->writeString ("\n\n");
+         parent->writeString ("");
 
          sprintf (msg,"%s%s"
-                  , " stress indices for ", c.stage_names[phase]);
+                  , " stress indices for ", c.stage_names[phase-1].c_str());
          parent->writeString (msg);
-     
-         sprintf (msg,"%s%16.7f"
+
+         sprintf (msg,"%s%16.7f%s%16.7f"
                   , " water stress 1 =", si1
                   , "   nitrogen stress 1 =", si4);
          parent->writeString (msg);
-     
-         sprintf (msg,"%s%16.7f"
+
+         sprintf (msg,"%s%16.7f%s%16.7f"
                   , " water stress 2 =", si2
                   , "   nitrogen stress 2 =", si5);
          parent->writeString (msg);
          }
-     
+
     pop_routine (my_name);
     return;
     }
@@ -12504,14 +12509,9 @@ void Plant::plant_harvest_report ()
 
 //+  Changes
 //     10-02-1998 - unknown - Programmed and Specified
-bool  Plant::plant_auto_class_change (char *action)
+bool  Plant::plant_auto_class_change (const char *action)
    {
-
-    //+  Constant Values
     const char*  myname = "plant_auto_class_change" ;
-
-    //+  Local Variables
-    int   array_index;
 
     //- Implementation Section ----------------------------------
     push_routine (myname);
@@ -12554,33 +12554,46 @@ void Plant::plant_send_crop_chopped_event (
 
 //+  Constant Values
     const char*  myname = "plant_send_crop_chopped_event" ;
-
 //- Implementation Section ----------------------------------
     push_routine (myname);
 
-// send message regardless of fatal error - will stop anyway
-
-//cjh      write(*,*) 'plant: '//EVENT_Crop_Chopped
-//cjh      write(*,*) 'plant: '//DATA_crop_type
-//cjh     :               , ' '//crop_type
-//cjh      write(*,*) 'plant: '//DATA_dm_type
-//cjh     :               , ' '//dm_type
-//cjh      write(*,*) 'plant: '//DATA_dlt_crop_dm
-//cjh     :               , dlt_crop_dm
-//cjh      write(*,*) 'plant: '//DATA_dlt_dm_n
-//cjh     :               , dlt_dm_n
-//cjh      write(*,*) 'plant: '//DATA_fraction_to_Residue
-//cjh     :               , fraction_to_Residue
-
+#ifdef PROTOCOL_WORKS_PROPERLY
     protocol::crop_choppedType chopped;
-    chopped.crop_type = crop_type;
-    chopped.dm_type = dm_type;
-    chopped.dlt_crop_dm = vector<float>(dlt_crop_dm, dlt_crop_dm+max_part);
-    chopped.dlt_dm_n = vector<float>(dlt_dm_n, dlt_dm_n+max_part);
-    chopped.fraction_to_residue = vector<float>(fraction_to_residue, fraction_to_residue+max_part);
-
+    chopped.crop_type = crop_type.c_str();
+    for (int i = 0; i < max_part; i++)
+       {
+       chopped.dm_type.push_back(dm_type[i].c_str());
+       chopped.dlt_crop_dm.push_back(dlt_crop_dm[i]);
+       chopped.dlt_dm_n.push_back(dlt_dm_n[i]);
+       chopped.fraction_to_residue.push_back(fraction_to_residue[i]);
+       }
     parent->publish (id.crop_chopped, chopped);
+#else
+    protocol::ApsimVariant outgoingApsimVariant(parent);
+    outgoingApsimVariant.store("crop_type", protocol::DTstring, false, FString(crop_type.c_str()));
+    unsigned int maxlen = 0;
+    for (unsigned int i=0; i <  dm_type.size();i++)
+        {
+        maxlen = max(maxlen, dm_type[i].size());
+        }
+    char *buf = new char [maxlen*dm_type.size()];
+    memset(buf, 0,maxlen*dm_type.size());
+    for (unsigned int i=0; i <  dm_type.size();i++)
+        {
+        strcpy(buf+i*maxlen, dm_type[i].c_str());
+        }
+    outgoingApsimVariant.store("dm_type", protocol::DTstring, true,
+              FStrings(buf, maxlen, dm_type.size(), dm_type.size()));
+    delete [] buf;
 
+    outgoingApsimVariant.store("dlt_crop_dm", protocol::DTsingle, true,
+             protocol::vector<float>(dlt_crop_dm, dlt_crop_dm+max_part));
+    outgoingApsimVariant.store("dlt_dm_n", protocol::DTsingle, true,
+             protocol::vector<float>(dlt_dm_n, dlt_dm_n+max_part));
+    outgoingApsimVariant.store("fraction_to_residue", protocol::DTsingle, true,
+             protocol::vector<float>(fraction_to_residue, fraction_to_residue+max_part));
+    parent->publish (id.crop_chopped, outgoingApsimVariant);
+#endif
     pop_routine (myname);
     return;
     }
@@ -12594,7 +12607,7 @@ void Plant::plant_send_crop_chopped_event (
 
 //+  Changes
 //        150600 nih
-void Plant::plant_onnew_profile ( protocol::Variant &v /* (INPUT) message arguments*/)
+void Plant::doNewProfile(unsigned &, protocol::Variant &v /* (INPUT) message arguments*/)
     {
 
 //+  Local Variables
@@ -12610,17 +12623,38 @@ void Plant::plant_onnew_profile ( protocol::Variant &v /* (INPUT) message argume
 //- Implementation Section ----------------------------------
     push_routine (myname);
 
+#ifdef PROTOCOL_WORKS_PROPERLY
     protocol::new_profileType profile;
     v.unpack(profile);
     for (unsigned layer = 0; layer != profile.dlayer.size(); layer++)
        {
-       dlayer[layer+1] = profile.dlayer[layer];
-       g.ll15_dep[layer+1] = profile.ll15_dep[layer];
-       g.dul_dep[layer+1] = profile.dul_dep[layer];
-       g.sat_dep[layer+1] = profile.sat_dep[layer];
-       g.sw_dep[layer+1] = profile.sw_dep[layer];
-       g.bd[layer+1] = profile.bd[layer];
+       dlayer[layer] = profile.dlayer[layer];
+       g.ll15_dep[layer] = profile.ll15_dep[layer];
+       g.dul_dep[layer] = profile.dul_dep[layer];
+       g.sat_dep[layer] = profile.sat_dep[layer];
+       g.sw_dep[layer] = profile.sw_dep[layer];
+       g.bd[layer] = profile.bd[layer];
        }
+#else
+    protocol::ApsimVariant av(parent);
+    av.aliasTo(v.getMessageData());
+    protocol::vector<float> scratch;
+    av.get("dlayer", protocol::DTsingle, true, scratch);
+    for (unsigned layer = 0; layer != scratch.size(); layer++) { dlayer[layer] = scratch[layer]; }
+    numvals = scratch.size();
+
+    av.get("ll15_dep", protocol::DTsingle, true, scratch);
+    for (unsigned layer = 0; layer != scratch.size(); layer++) { g.ll15_dep[layer] = scratch[layer]; }
+    av.get("dul_dep", protocol::DTsingle, true, scratch);
+    for (unsigned layer = 0; layer != scratch.size(); layer++) { g.dul_dep[layer] = scratch[layer]; }
+    av.get("sat_dep", protocol::DTsingle, true, scratch);
+    for (unsigned layer = 0; layer != scratch.size(); layer++) { g.sat_dep[layer] = scratch[layer]; }
+    av.get("sw_dep", protocol::DTsingle, true, scratch);
+    for (unsigned layer = 0; layer != scratch.size(); layer++) { g.sw_dep[layer] = scratch[layer]; }
+    av.get("bd", protocol::DTsingle, true, scratch);
+    for (unsigned layer = 0; layer != scratch.size(); layer++) { g.bd[layer] = scratch[layer]; }
+
+#endif
 // dlayer may be changed from its last setting
 // due to erosion
 
@@ -12630,12 +12664,12 @@ void Plant::plant_onnew_profile ( protocol::Variant &v /* (INPUT) message argume
         {
         root_depth_new = profile_depth;
         crop_root_redistribute(g.root_length
-                               , &g.root_depth
-                               , g.dlayer
-                               , &g.num_layers
-                               , &root_depth_new
-                               , dlayer
-                               , &numvals);
+                             , g.root_depth
+                             , g.dlayer
+                             , g.num_layers
+                             , root_depth_new
+                             , dlayer
+                             , numvals);
 
         g.root_depth = root_depth_new;
         }
@@ -12645,7 +12679,7 @@ void Plant::plant_onnew_profile ( protocol::Variant &v /* (INPUT) message argume
         }
 
     // NIH - don't like changing parameter value here.
-    for (layer = 1; layer <= numvals; layer++) 
+    for (layer = 0; layer < numvals; layer++) 
        {
        p.ll_dep[layer] = divide (p.ll_dep[layer], g.dlayer[layer], 0.0)
                               * dlayer[layer];
@@ -12691,7 +12725,9 @@ void Plant::plant_get_site_characteristics ()
 /////////////////////////////Get&Set Interface code
 bool Plant::set_plant_crop_class(protocol::QuerySetValueData&v)
     {
-    v.variant.unpack(g.crop_class);
+    FString crop_class;
+    v.variant.unpack(crop_class);
+    g.crop_class = crop_class.f_str();
     plant_read_species_const ();
     return true;
     }
@@ -12705,31 +12741,32 @@ bool Plant::set_plant_grain_oil_conc(protocol::QuerySetValueData&v)
 
 void Plant::get_plant_status(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, g.plant_status);
-
+    switch (g.plant_status) {
+    	case out: parent->sendVariable(qd, FString("out")); break;
+    	case dead: parent->sendVariable(qd, FString("dead")); break;
+    	case alive: parent->sendVariable(qd, FString("alive")); break;
+    }
 }
 
 
 void Plant::get_dlt_stage(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.dlt_stage);
-
 }
 
 
 void Plant::get_stage(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.current_stage);
-
 }
 
 
 void Plant::get_stage_code(protocol::QueryValueData &qd)
 {
-    if (g.plant_status!=status_out)
+    if (g.plant_status != out)
     {
         int stage_no = (int) g.current_stage;
-        parent->sendVariable(qd, c.stage_code_list[stage_no]);
+        parent->sendVariable(qd, c.stage_code_list[stage_no-1]);
     }
     else
     {
@@ -12740,100 +12777,89 @@ void Plant::get_stage_code(protocol::QueryValueData &qd)
 
 void Plant::get_stage_name(protocol::QueryValueData &qd)
 {
-    if (g.plant_status!=status_out)
+    if (g.plant_status != out)
     {
-        int stage_no = (int) g.current_stage;
-        parent->sendVariable(qd, c.stage_names[stage_no]);
+        unsigned int stage_no = (unsigned int) g.current_stage;
+        if (stage_no > 0 && stage_no <= c.stage_names.size())
+           {
+           parent->sendVariable(qd,FString(c.stage_names[stage_no-1].c_str()));
+           return;
+           }
     }
-    else
-    {
-        parent->sendVariable(qd, status_out);
-    }
+    parent->sendVariable(qd,FString("out"));
 }
 
 
 void Plant::get_crop_type(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, c.crop_type);
-
+    parent->sendVariable(qd, FString(c.crop_type.c_str()));
 }
 
 
 void Plant::get_crop_class(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, g.crop_class);
-
+    parent->sendVariable(qd, FString(g.crop_class.c_str()));
 }
 
 
 void Plant::get_dlt_tt(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.dlt_tt);
-
 }
 
 
 void Plant::get_phase_tt(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.phase_tt, g.phase_tt+max_stage));
-
+    parent->sendVariable(qd, protocol::vector<float>(g.phase_tt, g.phase_tt+max_stage));
 }
 
 
 void Plant::get_tt_tot(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.tt_tot, g.tt_tot+max_stage));
-
+    parent->sendVariable(qd, protocol::vector<float>(g.tt_tot, g.tt_tot+max_stage));
 }
 
 
 void Plant::get_days_tot(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.days_tot, g.days_tot+max_stage));
-
+    parent->sendVariable(qd, protocol::vector<float>(g.days_tot, g.days_tot+max_stage));
 }
 
 
 void Plant::get_das(protocol::QueryValueData &qd)
 {
-    int das = (int) sum_real_array(g.days_tot, max_stage);
+    int das = floor(sum_real_array(g.days_tot, max_stage)+0.5);  // Nearest int
     parent->sendVariable(qd, das);
-
 }
 
 
 void Plant::get_cum_vernal_days(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.cum_vernal_days);
-
 }
 
 
 void Plant::get_flowering_date(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.flowering_date);
-
 }
 
 
 void Plant::get_maturity_date(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.maturity_date);
-
 }
 
 
 void Plant::get_flowering_das(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.flowering_das);
-
 }
 
 
 void Plant::get_maturity_das(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.maturity_das);
-
 }
 
 
@@ -12841,81 +12867,68 @@ void Plant::get_leaf_no(protocol::QueryValueData &qd)
 {
     float temp = sum_real_array(g.leaf_no, max_node);
     parent->sendVariable(qd, temp);
-
 }
 
 
 void Plant::get_node_no(protocol::QueryValueData &qd)
 {
     float temp = sum_real_array(g.node_no, max_stage);
-
     parent->sendVariable(qd, temp);
-
 }
 
 
 void Plant::get_dlt_leaf_no(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.dlt_leaf_no);
-
 }
 
 
 void Plant::get_dlt_node_no(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.dlt_node_no);
-
 }
 
 
 void Plant::get_leaf_no_dead(protocol::QueryValueData &qd)
 {
     float temp = sum_real_array(g.leaf_no_dead, max_node);
-
     parent->sendVariable(qd, temp);
-
 }
 
 
 void Plant::get_leaf_area(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.leaf_area, g.leaf_area+max_node));
-
+    parent->sendVariable(qd, protocol::vector<float>(g.leaf_area, g.leaf_area+max_node));
 }
 
 
 void Plant::get_height(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.canopy_height);
-
 }
 
 
 void Plant::get_width(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.canopy_width);
-
 }
 
 
 void Plant::get_root_depth(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.root_depth);
-
 }
 
 
 void Plant::get_plants(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.plants);
-
 }
 
 
 void Plant::get_cover_green(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.cover_green);
-
 }
 
 
@@ -12927,7 +12940,6 @@ void Plant::get_cover_tot(protocol::QueryValueData &qd)
         * (1.0 - g.cover_dead);
 
     parent->sendVariable(qd, cover_tot);
-
 }
 
 
@@ -12935,128 +12947,109 @@ void Plant::get_lai_sum(protocol::QueryValueData &qd)
 {
     float lai_sum = g.lai + g.slai + g.tlai_dead;
     parent->sendVariable(qd, lai_sum);
-
 }
 
 
 void Plant::get_tlai(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.lai + g.slai);
-
 }
 
 
 void Plant::get_slai(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.slai);
-
 }
 
 
 void Plant::get_lai(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.lai);
-
 }
 
 
 void Plant::get_lai_canopy_green(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.lai_canopy_green);
-
 }
 
 
 void Plant::get_tlai_dead(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.tlai_dead);
-
 }
 
 
 void Plant::get_pai(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.pai);
-
 // plant biomass
-
 }
 
 
 void Plant::get_grain_no(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.grain_no);
-
 }
 
 
 void Plant::get_root_wt(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.dm_green[root]);
-
 }
 
 
 void Plant::get_leaf_wt(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.dm_green[leaf]);
-
 }
 
 
 void Plant::get_stem_wt(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.dm_green[stem]);
-
 }
 
 
 void Plant::get_pod_wt(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.dm_green[pod]);
-
 }
 
 
 void Plant::get_grain_wt(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.dm_green[meal] + g.dm_green[oil]);
-
 }
 
 
 void Plant::get_meal_wt(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.dm_green[meal]);
-
 }
 
 
 void Plant::get_oil_wt(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.dm_green[oil]);
-
 }
 
 
 void Plant::get_dm_green(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.dm_green, g.dm_green+max_part));
-
+    parent->sendVariable(qd, protocol::vector<float>(g.dm_green, g.dm_green+max_part));
 }
 
 
 void Plant::get_dm_senesced(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.dm_senesced, g.dm_senesced+max_part));
-
+    parent->sendVariable(qd, protocol::vector<float>(g.dm_senesced, g.dm_senesced+max_part));
 }
 
 
 void Plant::get_dm_dead(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.dm_dead, g.dm_dead+max_part));
-
+    parent->sendVariable(qd, protocol::vector<float>(g.dm_dead, g.dm_dead+max_part));
 }
 
 
@@ -13066,7 +13059,6 @@ void Plant::get_yield(protocol::QueryValueData &qd)
         + g.dm_green[oil] + g.dm_dead[oil])
         * gm2kg / sm2ha;
     parent->sendVariable(qd, yield);
-
 }
 
 
@@ -13081,7 +13073,6 @@ void Plant::get_biomass(protocol::QueryValueData &qd)
         * gm2kg / sm2ha;
 
     parent->sendVariable(qd, biomass);
-
 }
 
 
@@ -13092,7 +13083,6 @@ void Plant::get_green_biomass(protocol::QueryValueData &qd)
         * gm2kg / sm2ha;
 
     parent->sendVariable(qd, biomass);
-
 }
 
 
@@ -13106,7 +13096,6 @@ void Plant::get_biomass_wt(protocol::QueryValueData &qd)
         - g.dm_dead[root]);
 
     parent->sendVariable(qd, biomass);
-
 }
 
 
@@ -13116,91 +13105,78 @@ void Plant::get_green_biomass_wt(protocol::QueryValueData &qd)
         - g.dm_green[root];
 
     parent->sendVariable(qd, biomass);
-
 }
 
 
 void Plant::get_dlt_dm(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.dlt_dm);
-
 }
 
 
 void Plant::get_dlt_dm_pot_rue(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.dlt_dm_pot_rue);
-
 }
 
 
 void Plant::get_dlt_dm_pot_te(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.dlt_dm_pot_te);
-
 }
 
 
 void Plant::get_dlt_dm_grain_demand(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.dlt_dm_grain_demand);
-
 }
 
 
 void Plant::get_dlt_dm_green(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.dlt_dm_green,g.dlt_dm_green+max_part));
-
+    parent->sendVariable(qd, protocol::vector<float>(g.dlt_dm_green,g.dlt_dm_green+max_part));
 }
 
 
 void Plant::get_dlt_dm_green_retrans(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.dlt_dm_green_retrans,g.dlt_dm_green_retrans+max_part));
-
+    parent->sendVariable(qd, protocol::vector<float>(g.dlt_dm_green_retrans,g.dlt_dm_green_retrans+max_part));
 }
 
 
 void Plant::get_dlt_dm_detached(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.dlt_dm_detached, g.dlt_dm_detached+max_part));
-
+    parent->sendVariable(qd, protocol::vector<float>(g.dlt_dm_detached, g.dlt_dm_detached+max_part));
 }
 
 
 void Plant::get_dlt_dm_senesced(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.dlt_dm_senesced, g.dlt_dm_senesced+max_part));
-
+    parent->sendVariable(qd, protocol::vector<float>(g.dlt_dm_senesced, g.dlt_dm_senesced+max_part));
 }
 
 
 void Plant::get_dlt_dm_dead_detached(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.dlt_dm_dead_detached, g.dlt_dm_dead_detached+max_part));
-
+    parent->sendVariable(qd, protocol::vector<float>(g.dlt_dm_dead_detached, g.dlt_dm_dead_detached+max_part));
 }
 
 
 void Plant::get_grain_oil_conc(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, c.grain_oil_conc);
-
 }
 
 
 void Plant::get_dlt_dm_oil_conv(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.dlt_dm_oil_conv);
-
 }
 
 
 void Plant::get_dlt_dm_oil_conv_retrans(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.dlt_dm_oil_conv_retranslocate);
-
 }
 
 
@@ -13229,7 +13205,6 @@ void Plant::get_n_uptake(protocol::QueryValueData &qd)
     //cih     :             * gm2kg / sm2ha;
 
     parent->sendVariable(qd, biomass_n);
-
 }
 
 
@@ -13240,176 +13215,162 @@ void Plant::get_green_biomass_n(protocol::QueryValueData &qd)
     //cih     :             * gm2kg / sm2ha;
 
     parent->sendVariable(qd, biomass_n);
-
 }
 
 
 void Plant::get_grain_n(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.n_green[meal] + g.n_green[oil]);
-
 }
 
 
 void Plant::get_leaf_n(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.n_green[leaf]);
-
 }
 
 
 void Plant::get_stem_n(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.n_green[stem]);
-
 }
 
 
 void Plant::get_root_n(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.n_green[root]);
-
 }
 
 
 void Plant::get_pod_n(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.n_green[pod]);
-
 }
 
 
 void Plant::get_n_senesced(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.n_senesced,g.n_senesced+max_part));
-
+    parent->sendVariable(qd, protocol::vector<float>(g.n_senesced,g.n_senesced+max_part));
 }
 
 
 void Plant::get_n_dead(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.n_dead,g.n_dead+max_part));
-
+    parent->sendVariable(qd, protocol::vector<float>(g.n_dead,g.n_dead+max_part));
 }
 
 
 void Plant::get_dlt_n_green(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.dlt_n_green, g.dlt_n_green+max_part));
-
+    parent->sendVariable(qd, protocol::vector<float>(g.dlt_n_green, g.dlt_n_green+max_part));
 }
 
 
 void Plant::get_dlt_n_retrans(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.dlt_n_retrans, g.dlt_n_retrans+max_part));
-
+    parent->sendVariable(qd, protocol::vector<float>(g.dlt_n_retrans, g.dlt_n_retrans+max_part));
 }
 
 
 void Plant::get_dlt_n_detached(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.dlt_n_detached, g.dlt_n_detached+max_part));
-
+    parent->sendVariable(qd, protocol::vector<float>(g.dlt_n_detached, g.dlt_n_detached+max_part));
 }
 
 
 void Plant::get_dlt_n_dead_detached(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.dlt_n_dead_detached, g.dlt_n_dead_detached+max_part));
-
+    parent->sendVariable(qd, protocol::vector<float>(g.dlt_n_dead_detached, g.dlt_n_dead_detached+max_part));
 }
 
 
 void Plant::get_temp_stress_photo(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.temp_stress_photo);
-
 }
 
 
 void Plant::get_swdef_pheno(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.swdef_pheno);
-
 }
 
 
 void Plant::get_swdef_photo(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.swdef_photo);
-
 }
 
 
 void Plant::get_swdef_expan(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.swdef_expansion);
-
 }
 
 
 void Plant::get_swdef_fixation(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.swdef_fixation);
-
 }
 
 
 void Plant::get_oxdef_photo(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.oxdef_photo);
-
 }
 
 
 void Plant::get_transp_eff(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.transp_eff);
-
 }
 
 
 void Plant::get_ep(protocol::QueryValueData &qd)
 {
+#if 0
     float rwu[max_layer];
-    int num_layers = count_of_real_vals (g.dlayer, max_layer);
-    for (int layer = 1; layer <= num_layers; layer++)
+    int num_layers = 1+count_of_real_vals (g.dlayer, max_layer);
+    for (int layer = 0; layer < num_layers; layer++)
         {
         rwu[layer] = - g.dlt_sw_dep[layer];
         }
-    parent->sendVariable(qd, vector<float>(rwu, rwu+num_layers));
-
+    parent->sendVariable(qd, protocol::vector<float>(rwu, rwu+num_layers));
+#else
+    float sum = 0.0;
+    int num_layers = 1+count_of_real_vals (g.dlayer, max_layer);
+    for (int layer = 0; layer < num_layers; layer++)
+        {
+        sum = sum + fabs(-1.0 * g.dlt_sw_dep[layer]);
+        }
+    parent->sendVariable(qd, sum);
+#endif    
 }
 
 
 void Plant::get_cep(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, - g.transpiration_tot);
-
 }
 
 
 void Plant::get_sw_supply(protocol::QueryValueData &qd)
 {
-    int deepest_layer = find_layer_no (&g.root_depth, g.dlayer, &max_layer);
-    float sw_supply_sum = sum_real_array (g.sw_supply, deepest_layer);
+    int deepest_layer = find_layer_no (g.root_depth, g.dlayer, max_layer);
+    float sw_supply_sum = sum_real_array (g.sw_supply, deepest_layer+1);
     parent->sendVariable(qd, sw_supply_sum);
-
 }
 
 
 void Plant::get_esw_layr(protocol::QueryValueData &qd)
 {
     float esw_layr[max_layer];
-    int num_layers = count_of_real_vals (g.dlayer, max_layer);
-    for (int layer = 1; layer <= num_layers; layer++)
+    int num_layers = 1+count_of_real_vals (g.dlayer, max_layer);
+    for (int layer = 0; layer < num_layers; layer++)
        {
        esw_layr[layer] = l_bound (g.sw_dep[layer] - p.ll_dep[layer], 0.0);
        }
-    parent->sendVariable(qd, vector<float>(esw_layr,esw_layr+num_layers));
-
-
+    parent->sendVariable(qd, protocol::vector<float>(esw_layr,esw_layr+num_layers));
 }
 
 // plant nitrogen
@@ -13424,7 +13385,6 @@ void Plant::get_n_conc_stover(protocol::QueryValueData &qd)
         , 0.0) * 100.0;
 
     parent->sendVariable(qd, n_conc);
-
 }
 
 
@@ -13435,7 +13395,6 @@ void Plant::get_n_conc_leaf(protocol::QueryValueData &qd)
         , 0.0) * 100.0;
 
     parent->sendVariable(qd, n_conc);
-
 }
 
 
@@ -13446,7 +13405,6 @@ void Plant::get_n_conc_stem(protocol::QueryValueData &qd)
         , 0.0) * 100.0;
 
     parent->sendVariable(qd, n_conc);
-
 }
 
 
@@ -13457,7 +13415,6 @@ void Plant::get_n_conc_grain(protocol::QueryValueData &qd)
         , 0.0) * 100.0;
 
     parent->sendVariable(qd, n_conc);
-
 }
 
 
@@ -13468,7 +13425,6 @@ void Plant::get_n_conc_meal(protocol::QueryValueData &qd)
         , 0.0) * 100.0;
 
     parent->sendVariable(qd, n_conc);
-
 }
 
 
@@ -13480,7 +13436,6 @@ void Plant::get_n_conc_crit(protocol::QueryValueData &qd)
         , 0.0) * 100.0;
 
     parent->sendVariable(qd, n_conc);
-
 }
 
 
@@ -13493,7 +13448,6 @@ void Plant::get_n_conc_min(protocol::QueryValueData &qd)
         , 0.0) * 100.0;
 
     parent->sendVariable(qd, n_conc);
-
 }
 
 
@@ -13502,16 +13456,14 @@ void Plant::get_n_uptake_stover(protocol::QueryValueData &qd)
     float apt_n_up = (g.n_green[leaf]+g.n_green[stem]+g.n_green[pod]);
     //cih     :            *gm2kg /sm2ha;
     parent->sendVariable(qd, apt_n_up);
-
 }
 
 
 void Plant::get_no3_tot(protocol::QueryValueData &qd)
 {
-    int deepest_layer = find_layer_no (&g.root_depth, g.dlayer, &max_layer);
-    float no3gsm_tot = sum_real_array (g.no3gsm, deepest_layer);
+    int deepest_layer = find_layer_no (g.root_depth, g.dlayer, max_layer);
+    float no3gsm_tot = sum_real_array (g.no3gsm, deepest_layer+1);
     parent->sendVariable(qd, no3gsm_tot);
-
 }
 
 
@@ -13519,85 +13471,80 @@ void Plant::get_n_demand(protocol::QueryValueData &qd)
 {
     float n_demand = sum_real_array (g.n_demand, max_part);
     parent->sendVariable(qd, n_demand);
-
 }
 
 
 void Plant::get_n_supply_soil(protocol::QueryValueData &qd)
 {
-    int deepest_layer = find_layer_no (&g.root_depth,g.dlayer,&max_layer);
-    float n_uptake_sum = - sum_real_array (g.dlt_no3gsm, deepest_layer);
+    int deepest_layer = find_layer_no (g.root_depth, g.dlayer, max_layer);
+    float n_uptake_sum = - sum_real_array (g.dlt_no3gsm, deepest_layer+1);
     parent->sendVariable(qd, n_uptake_sum);
-
 }
 
 
 void Plant::get_dlt_n_fixed_pot(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.n_fix_pot);
-
 }
 
 
 void Plant::get_dlt_n_fixed(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.n_fix_uptake);
-
 }
 
 
 void Plant::get_n_fixed_tops(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.n_fixed_tops);
-
 }
 
 
 void Plant::get_nfact_photo(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.nfact_photo);
-
 }
 
 
 void Plant::get_nfact_expan(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.nfact_expansion);
-
 }
 
 
 void Plant::get_nfact_grain(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.nfact_grain_conc);
+}
 
+void Plant::get_nfact_pheno(protocol::QueryValueData &qd)
+{
+    parent->sendVariable(qd, g.nfact_pheno);
 }
 
 
 void Plant::get_nfact_grain_tot(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, vector<float>(g.cnd_grain_conc,g.cnd_grain_conc+max_stage));
+    parent->sendVariable(qd, protocol::vector<float>(g.cnd_grain_conc,g.cnd_grain_conc+max_stage));
 }
 
 
 void Plant::get_rlv(protocol::QueryValueData &qd)
 {
 	 float rlv[max_layer];
-    int num_layers = count_of_real_vals (g.dlayer, max_layer);
-    for (int layer = 1; layer <= num_layers; layer++)
+    int num_layers = 1+count_of_real_vals (g.dlayer, max_layer);
+    for (int layer = 0; layer < num_layers; layer++)
        {
        rlv[layer] = divide (g.root_length[layer]
           ,g.dlayer[layer], 0.0);
        }
-    parent->sendVariable(qd, vector<float>(rlv,rlv+num_layers));
-
+    parent->sendVariable(qd, protocol::vector<float>(rlv,rlv+num_layers));
 }
 
 
 void Plant::get_no3_demand(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.ext_n_demand*gm2kg/sm2ha);
-
 }
 
 
@@ -13610,51 +13557,192 @@ void Plant::get_sw_demand(protocol::QueryValueData &qd)
 void Plant::get_sw_demand_te(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.sw_demand_te);
-
 }
 
 
 void Plant::get_root_length(protocol::QueryValueData &qd)
 {
-    int num_layers = count_of_real_vals (g.dlayer, max_layer);
-    parent->sendVariable(qd, vector<float>(g.root_length,g.root_length+num_layers));
-
+    int num_layers = 1+count_of_real_vals (g.dlayer, max_layer);
+    parent->sendVariable(qd, protocol::vector<float>(g.root_length,g.root_length+num_layers));
 }
 
 
 void Plant::get_root_length_dead(protocol::QueryValueData &qd)
 {
-    int num_layers = count_of_real_vals (g.dlayer, max_layer);
-    parent->sendVariable(qd, vector<float>(g.root_length_dead, g.root_length_dead+num_layers));
-
+    int num_layers = 1+count_of_real_vals (g.dlayer, max_layer);
+    parent->sendVariable(qd, protocol::vector<float>(g.root_length_dead, g.root_length_dead+num_layers));
 }
 
 
 void Plant::get_no3gsm_uptake_pot(protocol::QueryValueData &qd)
 {
-    int num_layers = count_of_real_vals (g.dlayer, max_layer);
-    parent->sendVariable(qd, vector<float>(g.no3gsm_uptake_pot, g.no3gsm_uptake_pot+num_layers));
-
+    int num_layers = 1+count_of_real_vals (g.dlayer, max_layer);
+    parent->sendVariable(qd, protocol::vector<float>(g.no3gsm_uptake_pot, g.no3gsm_uptake_pot+num_layers));
 }
 
 
 void Plant::get_no3_swfac(protocol::QueryValueData &qd)
 {
     float swfac[100];
-    int num_layers = count_of_real_vals (g.dlayer, max_layer);
-    for (int layer=1; layer <= num_layers; layer++)
+    int num_layers = 1+count_of_real_vals (g.dlayer, max_layer);
+    for (int layer=0; layer < num_layers; layer++)
         {
         swfac[layer] = pow(divide(g.sw_avail[layer],g.sw_avail_pot[layer],0.0), 2);
         swfac[layer] = bound(swfac[layer],0.0,1.0);
         }
 
-    parent->sendVariable(qd, vector<float>(swfac, swfac+num_layers));
+    parent->sendVariable(qd, protocol::vector<float>(swfac, swfac+num_layers));
 }
 
 
 void Plant::get_leaves_per_node(protocol::QueryValueData &qd)
 {
     parent->sendVariable(qd, g.leaves_per_node);
-
 }
+
+void Plant::get_dlt_slai_age(protocol::QueryValueData &qd)
+{
+    parent->sendVariable(qd, g.dlt_slai_age);
+}
+void Plant::get_dlt_slai_light(protocol::QueryValueData &qd)
+{
+    parent->sendVariable(qd, g.dlt_slai_light);
+}
+void Plant::get_dlt_slai_water(protocol::QueryValueData &qd)
+{
+    parent->sendVariable(qd, g.dlt_slai_water);
+}
+void Plant::get_dlt_slai_frost(protocol::QueryValueData &qd)
+{
+    parent->sendVariable(qd, g.dlt_slai_frost);
+}
+
+
 ///////////////
+/*  Purpose
+*       Calculate and provide root matter incorporation information
+*       to the APSIM messaging system.
+*
+*  Mission Statement
+*   Pass root material to the soil modules (based on root length distribution)
+*/
+void Plant::plant_root_incorp (float dlt_dm_root,        //(INPUT) new root residue dm (g/m^2)
+                               float dlt_N_root,         //(INPUT) new root residue N (g/m^2)
+                               float *g_dlayer,           //(INPUT) layer thicknesses (mm)
+                               float *g_root_length,      //(INPUT) layered root length (mm)
+                               float g_root_depth,       //(INPUT) root depth (mm)
+                               const char *c_crop_type,   //(INPUT) crop type
+                               const int max_layer)      //(INPUT) maximum no of soil layers
+   {
+   int deepest_layer;         // deepest layer in which the roots are growing
+   float *dlt_dm_incorp = new float[max_layer]; // root residue (kg/ha)
+   float *dlt_N_incorp = new float[max_layer];  // root residue N (kg/ha)
+   if (dlt_dm_root > 0.0)
+         {
+         crop_root_dist(g_dlayer, g_root_length, g_root_depth, dlt_dm_incorp,
+                        dlt_dm_root * gm2kg /sm2ha, max_layer);
+
+         bound_check_real_array(dlt_dm_incorp, max_layer, 0.0, dlt_dm_root * gm2kg / sm2ha,
+                                "dlt_dm_incorp");
+
+         crop_root_dist(g_dlayer, g_root_length, g_root_depth, dlt_N_incorp,
+                        dlt_N_root * gm2kg /sm2ha, max_layer);
+
+         bound_check_real_array(dlt_N_incorp,  max_layer, 0.0, dlt_N_root * gm2kg / sm2ha,
+                                "dlt_N_incorp");
+
+         deepest_layer = find_layer_no(g_root_depth, g_dlayer, max_layer);
+#ifdef PROTOCOL_WORKS_PROPERLY
+         struct incorp_fom_type;
+         ...
+#else
+         protocol::ApsimVariant outgoingApsimVariant(parent);
+         outgoingApsimVariant.store("dlt_fom_type", protocol::DTstring, false,
+                                    FString(c_crop_type));
+         outgoingApsimVariant.store("dlt_fom_wt", protocol::DTsingle, true,
+                                    protocol::vector<float>(dlt_dm_incorp, dlt_dm_incorp+deepest_layer+1));
+         outgoingApsimVariant.store("dlt_fom_n", protocol::DTsingle, true,
+                                    protocol::vector<float>(dlt_N_incorp, dlt_N_incorp+deepest_layer+1));
+         parent->publish (id.incorp_fom, outgoingApsimVariant);
+#endif
+         }
+    delete []  dlt_dm_incorp;
+    delete []  dlt_N_incorp;
+}
+
+float Plant::legume_stage_code(
+                     float *c_stage_code_list //(INPUT)  list of stage numbers
+                   , float *g_phase_tt        //(INPUT)  Cumulative growing degree days required for each stage (deg days)
+                   , float *g_tt_tot          //(INPUT)  Cumulative growing degree days required for each stage (deg days)
+                   , float stage_no           //(INPUT) stage number to convert
+                   , float *stage_table       //(INPUT) table of stage codes
+                   , int numvals)             //(INPUT) size_of of table
+  {
+//*+  Purpose
+//*       Return an interpolated stage code from a table of stage_codes
+//*       and a nominated stage number. Returns 0 if the stage number is not
+//*       found. Interpolation is done on thermal time.
+
+//*+  Mission Statement
+//*     Get the stage code from a table of stage codes
+
+   float   phase_tt;              // required thermal time between stages
+                                 //      ! (oC)
+   float   fraction_of;           //!
+   int     next_stage;            //! next stage number to use
+   float   tt_tot;                //! elapsed thermal time between stages
+                                 ///      ! (oC)
+   int     this_stage;            //! this stage to use
+   float   x_stage_code;          //! interpolated stage code
+
+
+      if (numvals >= 2)
+         {
+         // we have a valid table
+         this_stage = stage_no_of (stage_table[0]
+                                      , c_stage_code_list
+                                      , max_stage);
+
+         for (int i = 1; i < numvals; i++)
+            {
+            next_stage = stage_no_of (stage_table[i]
+                                         , c_stage_code_list
+                                         , max_stage);
+
+            if (stage_is_between (this_stage, next_stage, stage_no))
+               {
+               // we have found its place
+               tt_tot = sum_between (this_stage-1, next_stage-1, g_tt_tot);
+               phase_tt = sum_between (this_stage-1, next_stage-1, g_phase_tt);
+               fraction_of = divide (tt_tot, phase_tt, 0.0);
+               fraction_of = bound(fraction_of, 0.0, 0.999);
+               x_stage_code = stage_table[i-1]
+                           + (stage_table[i] - stage_table[i-1])
+                           * fraction_of;
+//Cx
+//fprintf(stdout, "%d,%d,%.9f,%.9f,%.9f,%.9f\n", g.day_of_year,
+//this_stage, tt_tot,phase_tt,fraction_of,x_stage_code);
+               break;
+               }
+            else
+               {
+               x_stage_code = 0.0;
+               this_stage = next_stage;
+               }
+            }
+         }
+      else
+         {
+         // we have no valid table
+         x_stage_code = 0.0;
+
+//         write (error_message,'(a, i10)')
+//     :               'Invalid lookup table - number of values ='
+//     :              , numvals
+         warning_error (&err_user, "Bad stage lookup table");
+         }
+
+   return x_stage_code;
+   }
+
+

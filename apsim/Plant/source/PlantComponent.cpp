@@ -10,12 +10,22 @@
 #include <ApsimShared/FStringExt.h>
 #include <general/string_functions.h>
 #include <general/stristr.h>
+#include <math>
 #include <map>
 
+#include "PlantLibrary.h"
 #include "PlantComponent.h"
-#include "plant.h"
+#include "Plant.h"
 
 using namespace std;
+
+// ------------------------------------------------------------------
+// DLL entry point
+// ------------------------------------------------------------------
+int WINAPI DllEntryPoint(HINSTANCE /*hinst*/, unsigned long /*reason*/, void*)
+   {
+   return 1;
+   }
 
 // ------------------------------------------------------------------
 // Create an instance of the Plant module
@@ -29,7 +39,7 @@ protocol::Component* createComponent(void)
 // ------------------------------------------------------------------
 PlantComponent::PlantComponent()
    {
-   plant = new Plant(this);	
+   plant = new Plant(this);
    }
 // ------------------------------------------------------------------
 // Destructor
@@ -79,4 +89,5 @@ bool PlantComponent::respondToSet(unsigned int& /*fromID*/, protocol::QuerySetVa
    {
    return (plant->setVariable(setValueData.ID, setValueData));
    }
+
 
