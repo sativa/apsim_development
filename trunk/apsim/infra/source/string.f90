@@ -1,8 +1,8 @@
 module StringModule
-      
+
    dll_import strings_equal
    interface
-   
+
       function Strings_equal(st1, st2)
       character (len=*), intent(in) :: st1
       character (len=*), intent(in) :: st2
@@ -10,7 +10,7 @@ module StringModule
       end function Strings_equal
 
    end interface
-      
+
    contains
 
    ! ====================================================================
@@ -317,6 +317,112 @@ module StringModule
       return
       end subroutine
 
+   ! ====================================================================
+       subroutine Split_line_with_quotes (Line, Left_string, Right_string, Delimiter)
+   ! ====================================================================
+      implicit none
+
+   !+ Sub-Program Arguments
+       character Delimiter*(*)         ! (INPUT) Delimiter to look for
+       character Left_string*(*)       ! (OUTPUT) Extracted left string
+       character Line*(*)              ! (INPUT) Line to break apart
+       character Right_string*(*)      ! (OUTPUT) Extracted right string
+
+   !+ Purpose
+   !      Split up a character string into the string to the left of a
+   !      delimiter (Left_string) and the string to the right of
+   !      a delimiter (Right_string) taking single quotes into account.
+   !      ie. It wont split inside of quotes.
+
+   !+  Definition
+   !     If "line" does not contain any substring equal to "delimiter",
+   !     "line" is assigned to "left_string" and blank is assigned to
+   !     "right_string".  Otherwise let us say that "line" is
+   !     equivalent to lstr // "delimiter" // rstr.  lstr will be
+   !     assigned to "left_string" and rstr will be assigned to
+   !     "right_string".  Warning message are flagged if non blank
+   !     characters are truncated during the assignment to
+   !     "left_string" or the assignment to "right_string".
+
+   !+ Assumptions
+   !      Assumes that Left_string and Right_string are big enough
+
+   !+  Mission Statement
+   !      Split %1 into %2 and %3 using delimiter %4
+
+   !+ Changes
+   !      DPH 11/6/92
+   !      DPH 9/02/93 Changed Key_name and Param_string names to Left_string &
+   !                  Right_string.  Also removed common block dependancy.
+   !                  Re-worked entire routine to handle delimiter's > 1 in size
+   !     jngh 4/8/94 used assign_string s/r to detect truncations
+   !                 allowed for case of delimiter being first character
+
+   !+ Calls
+
+   !+ Constant Values
+      character Blank                  ! Blank
+      parameter (Blank = ' ')
+   !
+      integer Not_found                ! Pos when index doesn't find string
+      parameter (Not_Found = 0)
+
+   !+ Local Variables
+       integer Delimiter_Pos           ! Position of delimiter on line
+       logical InsideQuote
+       integer i
+       integer string_end
+       integer Char_index
+       character*1 Charact
+
+   !- Implementation Section ----------------------------------
+
+      Delimiter_pos = Not_found
+      i = 1
+      InsideQuote = .false.
+      do while (i .le. len(Line) .and. Delimiter_pos .eq. Not_found)
+         if (Line(i:i) .eq. '''') then
+            InsideQuote = .not. InsideQuote
+         endif
+         if (Line(i:i) .eq. Delimiter .and. .not. InsideQuote) then
+            Delimiter_pos = i
+         endif
+         i = i + 1
+      enddo
+
+      if (Delimiter_Pos .eq. Not_found) then
+         call assign_string (Left_string, Line)
+         Right_string = Blank
+
+      else
+         if (delimiter_pos.eq.1) then
+            Left_string = blank
+         else
+            call assign_string (Left_string, Line(1:Delimiter_pos - 1))
+         endif
+         Delimiter_pos = Delimiter_pos + len(Delimiter)
+         if (Delimiter_pos .gt. len(Line)) then
+            Right_string = Blank
+
+         else
+            call assign_string (Right_string, Line(Delimiter_pos:))
+         endif
+      endif
+
+      ! Strip off leading and trailing quotes.
+      string_end = len_trim(Left_string)
+      if (string_end .ge. 2) then
+         if (Left_string(1:1) .eq. '''') then
+            Left_string = Left_string(2:)
+         endif
+         string_end = len_trim(Left_string)
+         if (Left_string(string_end:string_end) .eq. '''') then
+            Left_string = Left_string(1:string_end-1)
+         endif
+      endif
+
+      return
+      end subroutine
 
 
    ! ====================================================================
@@ -642,7 +748,7 @@ module StringModule
    !     ===========================================================
       subroutine check_string_bounds (string, position)
    !     ===========================================================
-      use ErrorModule 
+      use ErrorModule
       use ConstantsModule
       implicit none
 
