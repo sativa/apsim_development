@@ -1,38 +1,3 @@
-*     ===========================================================
-      character*(*) function frmrpt_version ()
-*     ===========================================================
-      implicit none
-      include 'data.pub'
-      include 'datastr.pub'
-      include 'date.pub'
-      include 'engine.pub'
-      include 'error.pub'
-      include 'intrface.pub'
-      include 'license.pub'
-      include 'read.pub'
-      include 'science.pub'
-      include 'string.pub'
-      include 'write.pub'
-
-*+  Purpose
-*       return version number of FrmRpt module
-
-*+  Changes
-*     05/06/97  SB  Created
-
-*+  Constant Values
-      character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V0.00  07/05/97')
-
-*- Implementation Section ----------------------------------
- 
-      call assign_string(frmrpt_version, version_number)
- 
-      return
-      end
-
-
-
 * ====================================================================
        subroutine APSIM_frmrpt(Action, Data)
 * ====================================================================
@@ -61,18 +26,13 @@
 
 *+  Changes
 *     05/06/97  SB  Created
+*     07/5/99 removed version and presence c186
 
 *+  Calls
-      external frmrpt_version
-      character*(52) frmrpt_version
 
 *- Implementation Section ----------------------------------
  
-      if (Action.eq.MES_Presence) then
-         call Write_string(LU_Scr_sum,
-     .       'Module = frmrpt ' // frmrpt_version())
- 
-      else if (Action.eq.MES_Init) then
+      if (Action.eq.MES_Init) then
          call frmrpt_read_param()
          call frmrpt_init()
  
@@ -164,6 +124,7 @@
 
 *+  Changes
 *     05/06/97  SB  Created
+*     07/5/99 removed version report c186
 
 *+  Constant Values
       character This_routine*(*)       ! Name of this routine

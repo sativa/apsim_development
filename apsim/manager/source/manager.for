@@ -1,27 +1,3 @@
-*     ===========================================================
-      character*(*) function Manager_version ()
-*     ===========================================================
-      implicit none
-
-*+  Purpose
-*       return version number of Manager module
-
-*+  Changes
-*       DPH - 8/10/92
-
-*+  Constant Values
-      character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.40  23/04/98')
-
-*- Implementation Section ----------------------------------
- 
-      Manager_version = version_number
- 
-      return
-      end
-
-
-
 * ====================================================================
        subroutine APSIM_Manager (Action, Data_string)
 * ====================================================================
@@ -51,9 +27,9 @@
 *     DPH 27/10/95 Added call to message_unused
 *     jngh - 08/06/96 removed a_ from front of version function
 *     jngh - 23/04/98 added call to zero variables at initialisation
+*     dph - 7/5/99 removed version and presence report c186
 
 *+  Calls
-       character Manager_version*15    ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of this procedure
@@ -62,11 +38,7 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      if (Action.eq.MES_Presence) then
-         call Write_string (LU_Scr_sum,
-     .       'Module = manager ' // Manager_version())
- 
-      else if (action .eq. mes_get_variable) then
+      if (action .eq. mes_get_variable) then
          call manager_send_my_variable (Data_string)
  
       else if (Action.eq.MES_Init) then
@@ -116,9 +88,9 @@
 *                     Added code to output a 'manager rules' line to summary file
 *      DPH - 19/7/95  Added call to manager_init_rules to allow the parsing routine
 *                     to parse any user initialisation rules.
+*      dph - 7/5/99   Removed version report c186
 
 *+  Calls
-       character Manager_version*15    ! function
 
 *+  Constant Values
        character ID_Init*(*)           ! Message indicating initialisation
@@ -137,8 +109,7 @@
       g_num_local_variables = 0
       g_lines_been_read = .false.
  
-      call Report_event
-     .    (ID_Init // ', Version : ' // Manager_version())
+      call Report_event (ID_Init)
  
       msg = New_line // 'Manager rules' // New_line // '------- -----'
       call Write_string(LU_Summary_file, msg)
