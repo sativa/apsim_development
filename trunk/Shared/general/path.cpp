@@ -61,12 +61,13 @@ string Path::Get_name(void)
 
 //  Changes:
 //    DPH 17/6/97
+//    dph 27/3/98 changed NPOS to string::npos in line with standard.
 
 // ------------------------------------------------------------------
 string Path::Get_name_without_ext(void)
 	{
    size_t Pos_ext = Name.find(".");
-   if (Pos_ext != NPOS)
+   if (Pos_ext != string::npos)
       return Name.substr(0, Pos_ext);
    else
       return Name;
@@ -82,12 +83,13 @@ string Path::Get_name_without_ext(void)
 //  Changes:
 //    DPH 17/11/94
 //    DPH 13/5/1997 - reworked to use standard template library.
+//    dph 27/3/98 changed NPOS to string::npos in line with standard.
 
 // ------------------------------------------------------------------
 string Path::Get_extension(void)
 	{
    size_t Start_pos = Name.find(".");
-   if (Start_pos != NPOS)
+   if (Start_pos != string::npos)
       return Name.substr(Start_pos);
    else
    	return "";
@@ -234,13 +236,14 @@ void Path::Set_name (const char* New_name)
 //  Changes:
 //    DPH 17/11/94
 //    DPH 13/5/1997 - reworked to use standard template library.
+//    dph 27/3/98 changed NPOS to string::npos in line with standard.
 
 // ------------------------------------------------------------------
 void Path::Set_extension (const char* New_extension)
 	{
    size_t Pos_extension = Name.find(".");
-   if (Pos_extension != NPOS)
-      Name.remove(Pos_extension);
+   if (Pos_extension != string::npos)
+      Name.replace(Pos_extension, string::npos, "");
    Name += New_extension;
    To_lower(Name);
    }
@@ -254,6 +257,7 @@ void Path::Set_extension (const char* New_extension)
 //  Changes:
 //    DPH 17/11/94
 //    DPH 13/5/1997 - reworked to use standard template library.
+//    dph 27/3/98 changed NPOS to string::npos in line with standard.
 
 // ------------------------------------------------------------------
 void Path::Set_path (const char* New_path)
@@ -264,29 +268,29 @@ void Path::Set_path (const char* New_path)
 
       // remove drive part of path.
       size_t Pos_drive = New_path_string.find(":");
-      if (Pos_drive != NPOS)
+      if (Pos_drive != string::npos)
          {
          Drive = New_path_string.substr (0, 2);
-         New_path_string.remove (0, 2);
+         New_path_string.replace (0, 2, "");
          }
 
       // remove file name part of path.
       size_t Pos_directory = New_path_string.find_last_of("\\");
       size_t Pos_name = New_path_string.find(".");
-      if (Pos_name != NPOS)
+      if (Pos_name != string::npos)
          {
-         if (Pos_directory == NPOS)
+         if (Pos_directory == string::npos)
             Pos_name = 0;
          else
             Pos_name = Pos_directory + 1;
          Name = New_path_string.substr (Pos_name);
-         New_path_string.remove (Pos_name - 1, NPOS);
+         New_path_string.replace (Pos_name - 1, string::npos, "");
          }
 
       // remove last backslash if necessary.
       char Last_char = New_path_string[New_path_string.length()-1];
       if (Last_char == '\\')
-         New_path_string.remove(New_path_string.length()-1);
+         New_path_string.replace(New_path_string.length()-1, string::npos, "");
 
       // whats left must be the directory
       Directory = New_path_string;
@@ -397,6 +401,7 @@ void Path::Append_directory (const char* Additional_directory)
 //  Changes:
 //    DPH 17/11/94
 //    DPH 13/5/1997 - reworked to use standard template library.
+//    dph 27/3/98 changed NPOS to string::npos in line with standard.
 
 // ------------------------------------------------------------------
 string Path::Back_up_directory (void)
@@ -405,12 +410,12 @@ string Path::Back_up_directory (void)
    if (Directory.length() > 1)
       {
       size_t Pos_directory = Directory.find_last_of("\\");
-      if (Pos_directory == NPOS && Directory[0] == '\\')
+      if (Pos_directory == string::npos && Directory[0] == '\\')
          Pos_directory = 0;
-      if (Pos_directory != NPOS)
+      if (Pos_directory != string::npos)
          {
          Return_string = Directory.substr(Pos_directory+1);
-         Directory.remove(Pos_directory);
+         Directory.replace(Pos_directory, string::npos, "");
          }
       else
          Return_string = Directory;
