@@ -122,7 +122,7 @@ struct Fstructure.nameType
    field.ctype field.name[max_array_size];
    #elseif (field.isStructure = T)
    Ffield.ctypeType field.name;
-   #elseif (field.ctype = FString)
+   #elseif (field.ctype = std::string)
    char field.name[max_array_size];
    #else
    field.ctype field.name;
