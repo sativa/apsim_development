@@ -10,7 +10,7 @@ DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
 PROJECTS = ApsimOutlook.exe DBAddIn.dll FilterAddIn.dll SOIAddin.dll \
-  WhopEconAddin.dll RotationAddIn.dll WhopEcon.exe DamEasyAddin.dll APSData.bpl
+  WhopEconAddin.dll RotationAddIn.dll APSData.bpl WhopEcon.exe DamEasyAddin.dll
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
