@@ -123,6 +123,7 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
 *      180895 nih  added "add_water" message stuff
 *      261095 DPH  added call to message_unused
 *      070696 nih  removed data_string from add_water arguments
+*      190897 nih  added MES_reset and MES_Sum_Report
 
 *   Calls:
 *      get_current_module
@@ -176,12 +177,14 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
      :               // soilwat2_version ()
 
       else if (action.eq.mes_init) then
-            ! zero pools
-         call soilwat2_zero_variables ()
-               ! request and receive variables from owner-modules
-         call soilwat2_get_other_variables ()
-               ! initialize soil water variables
-         call soilwat2_init ()
+         call soilwat2_reset ()
+         call soilwat2_sum_report ()
+         
+      else if (action.eq.mes_reset) then
+         call soilwat2_reset ()
+
+      else if (action.eq.mes_sum_report) then
+         call soilwat2_sum_report ()
 
       else if (action.eq.mes_post) then
 
@@ -1032,7 +1035,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 
 *   Subroutine arguments
       real       eos                   ! (output) potential soil evap after
-                                       ! modification for crop cover & residue_wt
+                                       ! modification for crop cover & residue_w
       real       esoil                 ! (output) actual soil evaporation (mm)
 
 *   Global variables
@@ -1046,7 +1049,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *   Internal variables
       real       asw1                  ! available soil water in top layer for
                                        ! actual soil evaporation (mm)
-      real       cover_tot_sum         !                                       
+      real       cover_tot_sum         !
       real       es                    ! soil evaporation (mm)
       real       eos_canopy_fract      ! fraction of potential soil evaporation
                                        ! limited by crop canopy (mm)
@@ -1073,11 +1076,11 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
          !---------------------------------------+
          ! reduce Eo to that under plant CANOPY                    <DMS June 95>
          !---------------------------------------+
-         
-         !  Based on Adams, Arkin & Ritchie (1976) Soil Sci. Soc. Am. J. 40:436-442.
-         !  Reduction in potential soil evaporation under a canopy is determined by
-         !  the "% shade" (ie cover) of the crop canopy - this should include the
-         !  green & dead canopy ie. the total canopy cover (but NOT near/on-ground
+
+         !  Based on Adams, Arkin & Ritchie (1976) Soil Sci. Soc. Am. J. 40:436-
+         !  Reduction in potential soil evaporation under a canopy is determined
+         !  the "% shade" (ie cover) of the crop canopy - this should include th
+         !  green & dead canopy ie. the total canopy cover (but NOT near/on-grou
          !  residues).  From fig. 5 & eqn 2.                       <dms June 95>
          !  Default value for c_canopy_eos_coef = 1.7
          !              ...minimum reduction (at cover =0.0) is 1.0
@@ -1098,7 +1101,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 
          ! Calculate coefficient of residue_wt effect on reducing first
          ! stage soil evaporation rate from residue specific area "A"
-         
+
          ! a) back-calculate specific_area from residue_cover & residue_wt
 
       resid_specific_area = -divide (log (1.0 - g_residue_cover)
@@ -1113,7 +1116,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 
       eos_resid_coef = resid_specific_area * c_A_to_evap_fact
       eos_residue_fract = exp(-eos_resid_coef * g_residue_wt)
-      
+
          ! Reduce potential soil evap under canopy to that under residue (mulch)
 
       eos  = g_eo * eos_canopy_fract * eos_residue_fract
@@ -1922,108 +1925,6 @@ cjh
 
       return
       end
-*     ===========================================================
-      subroutine soilwat2_init ()
-*     ===========================================================
-
-*   Short Description:
-*       input initial values from soil water parameter files.
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure Attributes:
-*      version:         any hardware/fortran77
-*      extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*        210191   specified and programmed jngh (j hargreaves
-*        290591   jngh corrected external call list - cr91
-*                      removed sprpty.blk & winit.blk - cr92
-*        290892   jngh changed soil water to depth of water
-*        051093   jngh added fatal error call.
-*                      changed l to layer.
-*        190194   jpd  add air_dry_tot for output
-*        25/7/96  dph  added code to report to summary file when p_insoil < 1
-
-*   Calls:
-*       pop_routine
-*       push_routine
-*       report_event
-*       soilwat2_soil_property_param
-*       soilwat2_soil_profile_param
-*       soilwat2_set_default
-*       soilwat2_evap_init
-*       soilwat2_init_report
-*       soilwat2_read_constants
-*       soilwat2_version
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-*      none
-
-*   Global variables
-      include   'const.inc'
-      include   'soilwat2.inc'
-
-      character  soilwat2_version*52    ! function
-
-*   Internal variables
-      character msg*200                ! message to summary file
-
-*   Constant values
-      character  my_name*(*)           ! name of subroutine
-      parameter (my_name  = 'soilwat2_init')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-      call report_event (' Initialising, '
-     :                // soilwat2_version ())
-
-          ! Get all coefficients from file
-
-      call soilwat2_read_constants ()
-
-      call soilwat2_soil_property_param ()
-      call soilwat2_soil_profile_param ()
-
-          ! get sw parameters
-
-      if (p_insoil.ge.0.0 .and. p_insoil.le.1.0) then
-      
-         msg = 'Soil water in parameter file is being overridden by' //
-     .         new_line //
-     .         'the insoil parameter which is between 0 and 1'
-         call write_string (lu_scr_sum
-     :                     ,new_line // msg)
-         call soilwat2_set_default ()
-      else
-      endif
-
-      call soilwat2_evap_init ()
-      call soilwat2_solute_init()
-      
-      call soilwat2_init_report ()
-
-      call pop_routine (my_name)
-      return
-      end
 * ====================================================================
       subroutine soilwat2_read_constants ()
 * ====================================================================
@@ -2421,6 +2322,7 @@ cjh
 *       190194 jpd   added air_dry_dep as an array for each soil layer
 *       210395 jngh changed from soilwat2_section to a parameters section
 *       190595 jngh added bulk density
+*       190897 nih  moved insoil sw set from higher level for reuse reasons
 
 *   Calls:
 *       count_of_real_vals
@@ -2455,7 +2357,7 @@ cjh
       real       sat (max_layer)       ! saturated water content for layer l
                                        ! (mm water/mm soil)
       real       sw(max_layer)         ! soil water content (mm water/mm soil)
-
+      character msg*200                ! message to summary file
 *   Constant values
 
       character  my_name*(*)         ! name of this module
@@ -2527,6 +2429,20 @@ cjh
 
          call soilwat2_check_profile (layer)
 1010  continue
+
+          ! get sw parameters
+
+      if (p_insoil.ge.0.0 .and. p_insoil.le.1.0) then
+
+         msg = 'Soil water in parameter file is being overridden by' //
+     .         new_line //
+     .         'the insoil parameter which is between 0 and 1'
+         call write_string (lu_scr_sum
+     :                     ,new_line // msg)
+         call soilwat2_set_default ()
+      else
+      endif
+
 
       call pop_routine (my_name)
       return
@@ -2708,191 +2624,6 @@ cjh
          g_sumes1 = c_sumes1_max - c_sumes1_max *swr_top
          g_t = 0.0
       endif
-
-      call pop_routine (my_name)
-      return
-      end
-* ====================================================================
-      subroutine soilwat2_init_report ()
-* ====================================================================
-
-*   Short Description:
-
-*   Assumptions:
-*      None
-
-*   Notes:
-*      None
-
-*   Procedure Attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-*   NeilH - 19-10-1994 - Programmed and Specified
-*       190595 jngh added bulk density
-*       300695 jngh changed format for insoil from i8 to f8.2
-
-*   Calls:
-*   divide
-*   pop_routine
-*   push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-*     none
-
-*   Global variables
-      include   'const.inc'
-      include   'soilwat2.inc'
-
-      integer    count_of_real_vals    ! function
-      real       divide                ! function
-      real       sum_real_array        ! function
-
-*   Internal variables
-      real       depth_layer_top       ! depth to top of layer (mm)
-      real       depth_layer_bottom    ! depth to bottom of layer (mm)
-      integer    layer                 ! layer number
-      integer    num_layers            ! number of soil profile layers
-      character  line*100              ! temp output record
-
-
-*   Constant values
-      character  my_name*(*)           ! name of current procedure
-      parameter (my_name = 'soilwat2_init_report')
-
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (my_name)
-
-      call write_string (lu_scr_sum, new_line//new_line)
-
-      line = '                 Soil Profile Properties'
-      call write_string (lu_scr_sum, line)
-
-      line =
-     :'     ------------------------------------------------------'
-      call write_string (lu_scr_sum, line)
-
-      line =
-     :'         Depth   Air_Dry   LL15    Dul    Sat     Sw    BD'
-      call write_string (lu_scr_sum, line)
-
-      line =
-     :'            mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc'
-      call write_string (lu_scr_sum, line)
-
-      line =
-     :'     ------------------------------------------------------'
-      call write_string (lu_scr_sum, line)
-
-      num_layers = count_of_real_vals (p_dlayer, max_layer)
-      depth_layer_top = 0.0
-
-      do 1000 layer = 1,num_layers
-         depth_layer_bottom = depth_layer_top + p_dlayer(layer)
-
-         write (line,'(3x, f7.0, a, f6.0, f6.3, f7.3, 1x, 5f7.3)')
-     :            depth_layer_top, '-', depth_layer_bottom
-     :          , divide (g_air_dry_dep(layer)
-     :                  , p_dlayer(layer), 0.0)
-     :          , divide (g_ll15_dep(layer)
-     :                  , p_dlayer(layer), 0.0)
-     :          , divide (g_dul_dep(layer), p_dlayer(layer), 0.0)
-     :          , divide (g_sat_dep(layer), p_dlayer(layer), 0.0)
-     :          , divide (g_sw_dep(layer), p_dlayer(layer), 0.0)
-     :          , g_bd(layer)
-
-         call write_string (lu_scr_sum, line)
-         depth_layer_top = depth_layer_bottom
-1000  continue
-
-      line =
-     :'     ------------------------------------------------------'
-      call write_string (lu_scr_sum, line)
-
-      write (line,'(6x,''Totals'', 2f9.1, 1x, 3f7.1)')
-     :               sum_real_array (g_air_dry_dep, num_layers)
-     :             , sum_real_array (g_ll15_dep,    num_layers)
-     :             , sum_real_array (g_dul_dep,     num_layers)
-     :             , sum_real_array (g_sat_dep,     num_layers)
-     :             , sum_real_array (g_sw_dep,      num_layers)
-
-      call write_string (lu_scr_sum, line)
-
-      line =
-     :'     ------------------------------------------------------'
-      call write_string (lu_scr_sum, line)
-
-             ! echo sw parameters
-
-      call write_string (lu_scr_sum, new_line//new_line)
-      call write_string (lu_scr_sum, new_line//new_line)
-
-      line = '             Initial Soil Parameters'
-      call write_string (lu_scr_sum, line)
-
-      line =
-     :  '     ---------------------------------------------------------'
-      call write_string (lu_scr_sum, line)
-
-      line =
-     : '      Insoil    Cona       U      Salb Dif_Con Dif_Slope'
-      call write_string (lu_scr_sum, line)
-
-      line =
-     : '                          mm                            '
-      call write_string (lu_scr_sum, line)
-
-      line =
-     :  '     ---------------------------------------------------------'
-      call write_string (lu_scr_sum, line)
-
-      write (line, '(6x, 6f8.2)')
-     :               p_insoil
-     :             , p_cona
-     :             , p_u
-     :             , p_salb
-     :             , p_diffus_const
-     :             , p_diffus_slope
-      call write_string (lu_scr_sum, line)
-
-      line =
-     :  '     ---------------------------------------------------------'
-      call write_string (lu_scr_sum, line)
-
-      line =
-     : '         Cn2  Cn_Red  Cn_Cov   H_Eff_Depth '
-      call write_string (lu_scr_sum, line)
-
-      line =
-     : '                                    mm     '
-      call write_string (lu_scr_sum, line)
-
-      line =
-     :  '     ---------------------------------------------------------'
-      call write_string (lu_scr_sum, line)
-
-      write (line, '(6x, 4f8.2)')
-     :       p_cn2_bare, p_cn_red, p_cn_cov, 
-     :       c_hydrol_effective_depth
-      call write_string (lu_scr_sum, line)
-
-      line =
-     :  '     ---------------------------------------------------------'
-      call write_string (lu_scr_sum, line)
-
 
       call pop_routine (my_name)
       return
@@ -3652,7 +3383,7 @@ cjh         endif
 
       else if (variable_name .eq. 'total_cover') then
          crop_cover = sum_cover_array (g_cover_tot, g_num_crops)
-         total_cover = add_cover (crop_cover, g_residue_cover)           
+         total_cover = add_cover (crop_cover, g_residue_cover)
          call respond2get_real_var (variable_name, '()'
      :                             , total_cover)
 
@@ -3832,7 +3563,7 @@ cjh         endif
          endif
       else
          ! not my variable
-         
+
          call Message_unused ()
       endif
 
@@ -3910,7 +3641,7 @@ cjh         endif
       call fill_real_array (g_obs_runoff  , 0.0, 200)
       call fill_real_array (c_canopy_fact , 0.0, max_coeffs)
       call fill_real_array (c_canopy_fact_height , 0.0, max_coeffs)
-      
+
       c_canopy_fact_default = 0.0
       g_num_canopy_fact    = 0
       g_sumes1             = 0.0
@@ -4537,5 +4268,285 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       g_num_irrigation_solutes = solnum
 
       call pop_routine (myname)
+      return
+      end
+* ====================================================================
+      subroutine soilwat2_sum_report ()
+* ====================================================================
+
+*   Short Description:
+
+*   Assumptions:
+*      None
+
+*   Notes:
+*      None
+
+*   Procedure Attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+*   NeilH - 19-10-1994 - Programmed and Specified
+*       190595 jngh added bulk density
+*       300695 jngh changed format for insoil from i8 to f8.2
+*       190897 nih  renamed from soilwat2_init_report
+
+*   Calls:
+*   divide
+*   pop_routine
+*   push_routine
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+*     none
+
+*   Global variables
+      include   'const.inc'
+      include   'soilwat2.inc'
+
+      integer    count_of_real_vals    ! function
+      real       divide                ! function
+      real       sum_real_array        ! function
+
+*   Internal variables
+      real       depth_layer_top       ! depth to top of layer (mm)
+      real       depth_layer_bottom    ! depth to bottom of layer (mm)
+      integer    layer                 ! layer number
+      integer    num_layers            ! number of soil profile layers
+      character  line*100              ! temp output record
+
+
+*   Constant values
+      character  my_name*(*)           ! name of current procedure
+      parameter (my_name = 'soilwat2_sum_report')
+
+*   Initial data values
+*      none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (my_name)
+
+      call write_string (lu_scr_sum, new_line//new_line)
+
+      line = '                 Soil Profile Properties'
+      call write_string (lu_scr_sum, line)
+
+      line =
+     :'     ------------------------------------------------------'
+      call write_string (lu_scr_sum, line)
+
+      line =
+     :'         Depth   Air_Dry   LL15    Dul    Sat     Sw    BD'
+      call write_string (lu_scr_sum, line)
+
+      line =
+     :'            mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc'
+      call write_string (lu_scr_sum, line)
+
+      line =
+     :'     ------------------------------------------------------'
+      call write_string (lu_scr_sum, line)
+
+      num_layers = count_of_real_vals (p_dlayer, max_layer)
+      depth_layer_top = 0.0
+
+      do 1000 layer = 1,num_layers
+         depth_layer_bottom = depth_layer_top + p_dlayer(layer)
+
+         write (line,'(3x, f7.0, a, f6.0, f6.3, f7.3, 1x, 5f7.3)')
+     :            depth_layer_top, '-', depth_layer_bottom
+     :          , divide (g_air_dry_dep(layer)
+     :                  , p_dlayer(layer), 0.0)
+     :          , divide (g_ll15_dep(layer)
+     :                  , p_dlayer(layer), 0.0)
+     :          , divide (g_dul_dep(layer), p_dlayer(layer), 0.0)
+     :          , divide (g_sat_dep(layer), p_dlayer(layer), 0.0)
+     :          , divide (g_sw_dep(layer), p_dlayer(layer), 0.0)
+     :          , g_bd(layer)
+
+         call write_string (lu_scr_sum, line)
+         depth_layer_top = depth_layer_bottom
+1000  continue
+
+      line =
+     :'     ------------------------------------------------------'
+      call write_string (lu_scr_sum, line)
+
+      write (line,'(6x,''Totals'', 2f9.1, 1x, 3f7.1)')
+     :               sum_real_array (g_air_dry_dep, num_layers)
+     :             , sum_real_array (g_ll15_dep,    num_layers)
+     :             , sum_real_array (g_dul_dep,     num_layers)
+     :             , sum_real_array (g_sat_dep,     num_layers)
+     :             , sum_real_array (g_sw_dep,      num_layers)
+
+      call write_string (lu_scr_sum, line)
+
+      line =
+     :'     ------------------------------------------------------'
+      call write_string (lu_scr_sum, line)
+
+             ! echo sw parameters
+
+      call write_string (lu_scr_sum, new_line//new_line)
+      call write_string (lu_scr_sum, new_line//new_line)
+
+      line = '             Initial Soil Parameters'
+      call write_string (lu_scr_sum, line)
+
+      line =
+     :  '     ---------------------------------------------------------'
+      call write_string (lu_scr_sum, line)
+
+      line =
+     : '      Insoil    Cona       U      Salb Dif_Con Dif_Slope'
+      call write_string (lu_scr_sum, line)
+
+      line =
+     : '                          mm                            '
+      call write_string (lu_scr_sum, line)
+
+      line =
+     :  '     ---------------------------------------------------------'
+      call write_string (lu_scr_sum, line)
+
+      write (line, '(6x, 6f8.2)')
+     :               p_insoil
+     :             , p_cona
+     :             , p_u
+     :             , p_salb
+     :             , p_diffus_const
+     :             , p_diffus_slope
+      call write_string (lu_scr_sum, line)
+
+      line =
+     :  '     ---------------------------------------------------------'
+      call write_string (lu_scr_sum, line)
+
+      line =
+     : '         Cn2  Cn_Red  Cn_Cov   H_Eff_Depth '
+      call write_string (lu_scr_sum, line)
+
+      line =
+     : '                                    mm     '
+      call write_string (lu_scr_sum, line)
+
+      line =
+     :  '     ---------------------------------------------------------'
+      call write_string (lu_scr_sum, line)
+
+      write (line, '(6x, 4f8.2)')
+     :       p_cn2_bare, p_cn_red, p_cn_cov,
+     :       c_hydrol_effective_depth
+      call write_string (lu_scr_sum, line)
+
+      line =
+     :  '     ---------------------------------------------------------'
+      call write_string (lu_scr_sum, line)
+
+
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine soilwat2_reset ()
+*     ===========================================================
+
+*   Short Description:
+*       input initial values from soil water parameter files.
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       none
+
+*   Procedure Attributes:
+*      version:         any hardware/fortran77
+*      extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*        210191   specified and programmed jngh (j hargreaves
+*        290591   jngh corrected external call list - cr91
+*                      removed sprpty.blk & winit.blk - cr92
+*        290892   jngh changed soil water to depth of water
+*        051093   jngh added fatal error call.
+*                      changed l to layer.
+*        190194   jpd  add air_dry_tot for output
+*        25/7/96  dph  added code to report to summary file when p_insoil < 1
+*        190897   nih  renamed from soilwat2_init and 
+*                      adapted as part of MES_reset development
+
+*   Calls:
+*       pop_routine
+*       push_routine
+*       report_event
+*       soilwat2_soil_property_param
+*       soilwat2_soil_profile_param
+*       soilwat2_set_default
+*       soilwat2_evap_init
+*       soilwat2_init_report
+*       soilwat2_read_constants
+*       soilwat2_version
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+*      none
+
+*   Global variables
+      include   'const.inc'
+      include   'soilwat2.inc'
+
+      character  soilwat2_version*52    ! function
+
+*   Internal variables
+*     none
+
+*   Constant values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name  = 'soilwat2_reset')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+            ! zero pools
+      call soilwat2_zero_variables ()
+               ! request and receive variables from owner-modules
+      call soilwat2_get_other_variables ()
+
+      call report_event (' Initialising, '
+     :                // soilwat2_version ())
+
+          ! Get all coefficients from file
+
+      call soilwat2_read_constants ()
+
+      call soilwat2_soil_property_param ()
+      call soilwat2_soil_profile_param ()
+
+      call soilwat2_evap_init ()
+
+      call soilwat2_solute_init()
+
+      call pop_routine (my_name)
       return
       end
