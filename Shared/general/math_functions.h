@@ -365,9 +365,8 @@ struct range : std::unary_function<T, bool>
 
 // ------------------------------------------------------------------
 void Calculate_freq_dist(vector<double>& Values,
-                         double Starting_frequency,
-                         double Ending_frequency,
-                         double Interval_size,
+                         vector<double>& Start_values,
+                         vector<double>& End_values,
                          vector<string>& Frequency_labels,
                          vector<double>& Frequency_numbers);
 

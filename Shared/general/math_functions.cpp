@@ -4,6 +4,7 @@
 #include <numeric>
 #include <values.h>
 #include <strstream>
+#include <iomanip>
 // ------------------------------------------------------------------
 //  Short description:
 //    cycle through a number series from 1 to Max_number.
@@ -201,7 +202,7 @@ double linear_interp_real (double x,
                }
             }
          }
-      else if (indx == x_cord.size())
+      else if (indx == x_cord.size()-1)
          {
          Did_interpolate = true;
          return y_cord[indx];
@@ -295,9 +296,8 @@ double Calculate_percentile(vector<double>& X,
 
 // ------------------------------------------------------------------
 void Calculate_freq_dist(vector<double>& Values,
-                         double Starting_frequency,
-                         double Ending_frequency,
-                         double Interval_size,
+                         vector<double>& Start_values,
+                         vector<double>& End_values,
                          vector<string>& Frequency_labels,
                          vector<double>& Frequency_numbers)
    {
@@ -305,14 +305,10 @@ void Calculate_freq_dist(vector<double>& Values,
    Frequency_numbers.erase (Frequency_numbers.begin(), Frequency_numbers.end());
 
    // loop through all frequency intervals.
-   double Start_of_interval = Starting_frequency;
-   while (Start_of_interval <= Ending_frequency)
+   for (int interval = 0; interval < Start_values.size(); interval++)
       {
-      double End_of_interval;
-      if (Start_of_interval == Ending_frequency)
-         End_of_interval = MAXFLOAT;
-      else
-         End_of_interval = Start_of_interval+Interval_size;
+      double Start_of_interval = Start_values[interval];
+      double End_of_interval = End_values[interval]; 
 
       range<double> Range(Start_of_interval, End_of_interval);
       int count = 0;
@@ -321,14 +317,10 @@ void Calculate_freq_dist(vector<double>& Values,
 
       // create a label for this interval.
       ostrstream out;
-      if (Start_of_interval == Ending_frequency)
-         out << ">=" << Start_of_interval << ends;
-      else
-         out << Start_of_interval << '-' << End_of_interval << ends;
+      out.setf(ios::fixed, ios::floatfield);
+      out << setprecision(1) << Start_of_interval << '-' << setprecision(1) << End_of_interval << ends;
       Frequency_labels.push_back (out.str());
       delete out.str();
-
-      Start_of_interval += Interval_size;
       }
    }
 
