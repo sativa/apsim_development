@@ -100,47 +100,50 @@ void __fastcall TSEGTable::beforeOpen(TDataSet* dataset)
 // ------------------------------------------------------------------
 void __fastcall TSEGTable::afterOpen(TDataSet* dataset)
    {
-   DisableControls();
-   TCursor savedCursor = Screen->Cursor;
-   Screen->Cursor = crHourGlass;
-   try
+   if (!ComponentState.Contains(csLoading))
       {
-      // Go load all records.
-      storeRecords();
-
-      // Create an index so that the range methods work.
-      if (IndexDefs->Count == 0)
+      DisableControls();
+      TCursor savedCursor = Screen->Cursor;
+      Screen->Cursor = crHourGlass;
+      try
          {
-         AnsiString indexFields = AnsiString(SERIES_FIELD_NAME);
-         AddIndex("mainIndex", indexFields, TIndexOptions());
-         IndexFieldNames = indexFields;
+         // Go load all records.
+         storeRecords();
+
+         // Create an index so that the range methods work.
+         if (IndexDefs->Count == 0)
+            {
+            AnsiString indexFields = AnsiString(SERIES_FIELD_NAME);
+            AddIndex("mainIndex", indexFields, TIndexOptions());
+            IndexFieldNames = indexFields;
+            }
+         Sort(TkbmMemTableCompareOptions());
+
+         for (unsigned i = 0; i != subscriptionEvents.size(); i++)
+            {
+            if (subscriptionEvents[i] != NULL)
+               subscriptionEvents[i](this);
+            }
+         EnableControls();
+
+         // force children to update themselves.
+         First();
+         Edit();
+         Post();
          }
-      Sort(TkbmMemTableCompareOptions());
-
-      for (unsigned i = 0; i != subscriptionEvents.size(); i++)
+      catch (const exception& error)  // one of our error messages.
          {
-         if (subscriptionEvents[i] != NULL)
-            subscriptionEvents[i](this);
+         errors().insert(error.what());
+         Active = false;
+         }
+      catch (const Exception& error)  // VCL error
+         {
+         errors().insert(error.Message.c_str());
+         Active = false;
          }
       EnableControls();
-
-      // force children to update themselves.
-      First();
-      Edit();
-      Post();
+      Screen->Cursor = savedCursor;
       }
-   catch (const exception& error)  // one of our error messages.
-      {
-      errors().insert(error.what());
-      Active = false;
-      }
-   catch (const Exception& error)  // VCL error
-      {
-      errors().insert(error.Message.c_str());
-      Active = false;
-      }
-   EnableControls();
-   Screen->Cursor = savedCursor;
    }
 // ------------------------------------------------------------------
 // refresh the control only if it is active.

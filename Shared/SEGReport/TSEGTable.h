@@ -93,6 +93,8 @@ class PACKAGE TSEGTable : public TkbmMemTable
       void addDataChangeSubscription(AnsiString name);
       void removeDataChangeSubscription(AnsiString name);
 
+      virtual void setProperty(const std::string& propertyName,
+                               const std::string& propertyValue) { };
 
    __published:
       __property TSEGTable* source = {read=sourceDataset, write=setSourceDataset};
