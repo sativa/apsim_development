@@ -1,5 +1,5 @@
 !********** CLOCK MODULE **********
-[all.clock.parameters]  
+[all.clock.parameters]
 start_date=15/12/1992
 end_date=11/7/2002
 
@@ -11,8 +11,8 @@ end_date=11/7/2002
 accum_variables = rain[2]
 
 !********** REPORT MODULE **********
-[fieldS.report1.parameters]  
-outputfile  =fieldS113.out   
+[fieldS.report1.parameters]
+outputfile  =fieldS113.out
 
 [dfieldS.report2.parameters]
 outputfile  =dfldS113.out
@@ -35,8 +35,8 @@ outputfile  =profS113.out
 [bromideS.report8.parameters]
 outputfile  =bromS113.out
 
-[fieldN.report1.parameters]  
-outputfile  =fieldN113.out   
+[fieldN.report1.parameters]
+outputfile  =fieldN113.out
 
 [dfieldN.report2.parameters]
 outputfile  =dfldN113.out
@@ -56,8 +56,8 @@ outputfile  =neutN113.out
 [profileN.report7.parameters]
 outputfile  =profN113.out
 
-[lysS.report1.parameters]  
-outputfile  =lysS113.out   
+[lysS.report1.parameters]
+outputfile  =lysS113.out
 
 [dlysS.report2.parameters]
 outputfile  =dlysS113.out
@@ -71,8 +71,8 @@ outputfile  =lysrtS113.out
 [lysweedS.report5.parameters]
 outputfile  =lyswdS113.out
 
-[lysN.report1.parameters]  
-outputfile  =lysN113.out   
+[lysN.report1.parameters]
+outputfile  =lysN113.out
 
 [dlysN.report2.parameters]
 outputfile  =dlysN113.out
@@ -141,11 +141,11 @@ biom_n_010   = 0
 hum_n_010    = 0
 
 print_flag   = 0
-zero_flag    = 0 
+zero_flag    = 0
 crop_in      = 0
 cult         = 0
 
-[all.manager.start_of_day]  
+[all.manager.start_of_day]
 !winter activity adjustments
 if (lucerne.crop_class = 'plant') then
    reduce_status = 0
@@ -154,7 +154,7 @@ endif
 if (lucerne.crop_class = 'regrowth' and day = 90 and reduce_status = 0) then
    lucerne reduce
    reduce_status = 1
-endif  
+endif
 
 if (day = 182 and lucerne.crop_class = 'reduced') then
    lucerne spring
@@ -163,7 +163,7 @@ endif
 
 !Test only - reset to measured field soil water on 030393 (surface 1m only?)
 !if (day = 62 and year = 1993) then
-!   apswim set sw = 0.081     0.1    0.13    0.19    0.22    0.25    0.26    0.28     0.3    0.323   0.314   0.335   0.335   0.335   0.335   0.335 
+!   apswim set sw = 0.081     0.1    0.13    0.19    0.22    0.25    0.26    0.28     0.3    0.323   0.314   0.335   0.335   0.335   0.335   0.335
 !endif
 
 !resetting of cumulative water balance terms and stages
@@ -230,7 +230,7 @@ if ((year = 1993 and day = 121) or
 endif
 
 
-[p14-S.manager.start_of_day]  
+[p14-S.manager.start_of_day]
 ! bromide additions
 if (year = 1993 and day = 174) then
    solute set brA = 0 0 0 319 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -267,7 +267,7 @@ if (year = 2000 and day = 179) then
    solute set brA = 0 0 0 128 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 endif
 
-[field.manager.end_of_day]         
+[field.manager.end_of_day]
 drain180     = apswim.flow(15)
 leach180     = apswim.flow_no3(15)
 cum_drain180 = cum_drain180 + apswim.flow(15)
@@ -275,7 +275,7 @@ cum_leach180 = cum_leach180 + apswim.flow_no3(15)
 sw_dep_90180 = (0.5 * sw_dep(11)) + sw_dep(12) + sw_dep(13) + sw_dep(14) + sw_dep(15)
 
 !net drainage past 120 cm - counting water uptake from below as negative drainage
-T            = weed1.ep + lucerne.ep + canola.ep + lupin.ep - wheat.ep + weed2.ep + weed3.ep
+T            = weed1.ep() + lucerne.ep() + canola.ep() + lupin.ep() - wheat.ep() + weed2.ep() + weed3.ep()
 ET           = apswim.es + T
 sw_dep_120    = sw_dep(1) + sw_dep(2) + sw_dep(3) + sw_dep(4)+ sw_dep(5) + sw_dep(6) + sw_dep(7) + sw_dep(8) + sw_dep(9) + sw_dep(10) + sw_dep(11) + sw_dep(12)
 netdrain120    = met.rain - ET - (sw_dep_120 - oldsw_dep_120)
@@ -285,7 +285,7 @@ cumnetdrain120 = cumnetdrain120 + netdrain120
 !cumulative water balance terms
 cum_rain     = cum_rain + met.rain
 
-[lys.manager.end_of_day]  
+[lys.manager.end_of_day]
 drain180     = apswim.flow(18)
 leach180     = apswim.flow_no3(18)
 cum_drain180 = cum_drain180 + apswim.flow(18)
@@ -293,7 +293,7 @@ cum_leach180 = cum_leach180 + apswim.flow_no3(18)
 sw_dep_90180 = (0.5 * sw_dep(11)) + sw_dep(12) + sw_dep(13) + sw_dep(14) + sw_dep(15) + sw_dep(16) + sw_dep(17) + sw_dep(18)
 
 !net drainage past 120 cm - counting water uptake from below as negative drainage
-T            = weed1.ep + lucerne.ep + canola.ep + lupin.ep - wheat.ep + weed2.ep + weed3.ep
+T            = weed1.ep() + lucerne.ep() + canola.ep() + lupin.ep() - wheat.ep() + weed2.ep() + weed3.ep()
 ET           = apswim.es + T
 sw_dep_120    = sw_dep(1) + sw_dep(2) + sw_dep(3) + sw_dep(4)+ sw_dep(5) + sw_dep(6) + sw_dep(7) + sw_dep(8) + sw_dep(9) + sw_dep(10) + sw_dep(11) + sw_dep(12)
 netdrain120    = (met.rain + irrigate.irrigation) - ET - (sw_dep_120 - oldsw_dep_120)
@@ -303,9 +303,9 @@ cumnetdrain120 = cumnetdrain120 + netdrain120
 !cumulative water balance terms
 cum_rain     = cum_rain + met.rain + irrigate.irrigation
 
-[all.manager.end_of_day]  
+[all.manager.end_of_day]
 !water balance terms
-T            = weed1.ep + lucerne.ep + canola.ep + lupin.ep - wheat.ep + weed2.ep + weed3.ep
+T            = weed1.ep() + lucerne.ep() + canola.ep() + lupin.ep() - wheat.ep() + weed2.ep() + weed3.ep()
 ET           = apswim.es + T
 drain_25     = apswim.flow(6)
 drain_90     = 0.5* apswim.flow(10)+ 0.5* apswim.flow(11)
@@ -467,7 +467,7 @@ endif
 !   if ((crop_in = 0) and (lucerne.plant_status = 'out')) then
 !      if (date_within('1-dec, 30-apr') = 1) then
 !         ! weeds allowed to germinate
-!         if ((date_within('1-dec,28-feb') and (rain[2] >= 25)) or 
+!         if ((date_within('1-dec,28-feb') and (rain[2] >= 25)) or
 !             (date_within('1-mar,30-apr') and (rain[2] >= 20))) then
 !            nwheat sow plants = 40, depth = 40, cultivar = weed
 !            cult = 2
@@ -491,12 +491,12 @@ endif
 !    1989 wheat, Quarrion and Matong sown with ~20 kg/ha/N and todressed with 44kg/ha N on July 28.
 !    1990 wheat same cultivars but reversed between 5ha blocks- same sowing rate but no supplement
 !    1991 Attempted canola sowing but aborted and sown to peas
-!    1992 sown to Vulcan(?) wheat possibly at 20kg/ha N but characterised by late harvest in Jan 
+!    1992 sown to Vulcan(?) wheat possibly at 20kg/ha N but characterised by late harvest in Jan
 !field book:
 !    1988 lupins
 !    1989 wheat (S Quarrion, N Matong)
 !    1990 wheat (S Matong, N Quarrion)
-!    1991 canola, aborted and replaced by peas    
+!    1991 canola, aborted and replaced by peas
 !  details:
 !    Jan 91: 2.5 t/ha lime applied on short stubble (previously stubble was cut and baled) (field book)
 !    (most probably) cultivated to fine tlth soon after 21/5/1991 (day 141) (field book)
@@ -534,7 +534,7 @@ endif
 !Notes in lysimeter book suggest correct date for (field) sowing was 7/6/93 (day 158)
 !Date confirmed by field book
 !Poss et al. 1995, Smith et al., 1998, 2000: Triticium aestivum L. cv. Janz, 78 kg seed/ha
-!Lysimeters had plants transplanted from the field on 29/6/93 (day 180, lysimeter book) 
+!Lysimeters had plants transplanted from the field on 29/6/93 (day 180, lysimeter book)
 !   with 210 plants/m2 on south lysimeter and 215 plants/m2 on north lysimeter
 !For modelling purposes assume that wheat was sown on 7/6/93 (day 158) on lysimeters as well as in field
 !   error: any transpiration by plants prior to 29/6/93 minus difference in evaporation
@@ -557,12 +557,12 @@ endif
 !Notes in field book say north paddock was fertilised with 90 kg N/ha (200 kg/ha urea) (overwritten original notes)
 !   and refers to north paddock as "supplemental N - 90 kg" in notes of 19/8/93
 !No mention of fertilising north lysimeter
-!Literature suggests both north field and lysimeter fertilised at rate of 120 kg N/ha 
+!Literature suggests both north field and lysimeter fertilised at rate of 120 kg N/ha
 !   (= 140 - volatilisation loss estimate of Smith et al 2000 of 10-25 kg N/ha)
 !Lysimeter book says south lysimeter was fertilised with urea (9 g/m2) on 9/9/93 (day 252) (= 41.4 kg N/ha)
 !HARVEST
 !Dunin et al. 2001: wheat harvest 8/12/93
-!Poss et al. 1995, Smith et al. 2000: wheat harvest on 9/12/93 
+!Poss et al. 1995, Smith et al. 2000: wheat harvest on 9/12/93
 !Smith et al. 1998: wheat harvest on 15/12/93
 !Harvest on lysimeters (9/12/93, lysimeter book), crop sampling plots (9/12/93, spreadsheet)
 !Assume harvest on lysimeter and field both happened on 9/12/93 (day 343)
@@ -596,14 +596,14 @@ endif
 !
 !-------1994-95 fallow/lucerne-------
 !LUCERNE REMOVAL
-!Dunin et al. 2001: lucerne ploughed out Feb 
+!Dunin et al. 2001: lucerne ploughed out Feb
 !ET data suggest N and S deviate significantly from about 23/1/95
 !last visit to the site was 12/1/95
 !try partial spray out 12/1/95 (day 12)
 !North reduce plants to 25
 !South reduce plants to 5
 !lysimeter book: 1/6/95 North and South Clipped and weeded (North)
-!change in the lysimeter masses suggest there was about 0.5 kg removed from the South, and 3.4 kg removed from the North 
+!change in the lysimeter masses suggest there was about 0.5 kg removed from the South, and 3.4 kg removed from the North
 !
 !-------1995-97 lucerne-------
 !LUCERNE SOWING
@@ -615,7 +615,7 @@ endif
 !120 kg/ha P fertiliser (field book and lysimeter book)
 !
 !REPLANTING LYSIMETERS
-!23/8/95 (day 235) north (60 plants, no replant) and south (sowed with 53 plants) lysimeters 
+!23/8/95 (day 235) north (60 plants, no replant) and south (sowed with 53 plants) lysimeters
 !13/5/96 (day 134) south lysimeter has 40 plants = 25.6 plants/m2) (no replanting it seems - observation only)
 !30/7/96 (day 212) north lysimeter planted with 50 plants grown in flass house (following weed removal)
 !
@@ -625,7 +625,7 @@ endif
 !Field grazing represented by cuts, graze actions, and N return
 !Modify plant densities according to Dunin et al. 2001
 !Model cuts 1 day later - as it happens before output of crop stuff/calculation ET
-!(26/10/95; OASIS, field only) 
+!(26/10/95; OASIS, field only)
 !XXXX piece of paper with data suggests also collected 11/10/1995 XXXXXX
 !(22/1/96; south lys, no record north lys; no notes for either)
 !(19/6/96; field only)
@@ -651,7 +651,7 @@ endif
 !
 !-------1997-98 fallow-------
 !LUCERNE REMOVAL
-!Dunin et al. 2001: Sep spraying, followed by crash grazing; 
+!Dunin et al. 2001: Sep spraying, followed by crash grazing;
 !                   over summer period diminished lucerne checked with additional spray and persistent grazing
 !Field book: 9/10/97 spray lysimeters
 !Gordon's diary: spot sprayed field areas that had been missed by Jim - i.e. field sprayed sometime between 16/9/97 and 30/9/97
@@ -745,7 +745,7 @@ endif
 
 !---------2001-02 fallow--------
 !Sheep in wheat stubble 12/2/02-19/2/02
-!Weed counts on 
+!Weed counts on
 !  12/2/02:North Lysimeter: 39 grain shooting
 !          South Lysimeter: 119 grain shooting & 205 weeds (tiny)
 !   6/3/02:North Lysimeter: 140 wheat plants, 15 weeds, 10-20% groundcover (probably closer to 10%)
@@ -759,12 +759,12 @@ endif
 !27/5/02 (day 147) burnoff stubble
 
 !-------2002 triticale--------
-!Paddock sown 31/5/02 (day 151) with 82 kg/ha seed Muir Triticale and 125 MAP 
+!Paddock sown 31/5/02 (day 151) with 82 kg/ha seed Muir Triticale and 125 MAP
 !                                                               (=12.5 kg N/ha at 10%N) (farmer record)
-!Lysimeters sown 3/6/02 (day 154) 
+!Lysimeters sown 3/6/02 (day 154)
 !   N lys 42.0 gm triticale seed (=260 kg/ha), 13.2 gm MAP fertiliser (=81.8 kg/ha = 8.18 kg N/ha)
 !   S lys 40.0 gm triticale seed (=256 kg/ha), 12.7 gm MAP fertiliser (=81.4 kg/ha = 8.14 kg N/ha)
-!NUMBERS SEEM STRANGE, MIXED UP?? 
+!NUMBERS SEEM STRANGE, MIXED UP??
 !  following weed removal (155.6 gm south, 131.8 gm north) and cultivation
 !20/6/02 establishment counts: field avg 131/m2, N lys 243 plants(=151/m2), S lys 307 plants(=197/m2)
 !2/7/02 crop on lysimeter thinned to N lys 227 plants (=141/m2) and S lys 222 plants(=142/m2)
@@ -902,7 +902,7 @@ endif
 154 2001 fertiliz apply amount = 25 (kg/ha), type = nh4_n, depth = 10 (mm)
 
 
-[lys-N.operatns.parameters]  
+[lys-N.operatns.parameters]
 !-------1992 wheat------
 
 !-------1992/93 fallow-------
@@ -1046,13 +1046,13 @@ endif
 154 2001 fertiliz apply amount = 25 (kg/ha), type = nh4_n, depth = 10 (mm)
 
 !FIELD OPERATIONS
-[field.operatns.parameters]  
+[field.operatns.parameters]
 !-------1992 wheat------
 
 !-------1992/93 fallow-------
 !350 1992 soiln2 incorp_fom dlt_fom_wt = 500 2500 1500 1000 500 300 200 150 50 10 0 0 0 0 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 ()
 350 1992 soiln2 incorp_fom dlt_fom_wt =  10 50 200 350 500 700 500 400 450 400 250 100 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 ()
-90  1993 residue2 tillage type = burn_95 () 
+90  1993 residue2 tillage type = burn_95 ()
 105 1993 residue2 tillage type = chisel ()
 
 !------1993 wheat-------
@@ -1088,7 +1088,7 @@ endif
 
 !-------1997-8 fallow-------
 289 1997 lucerne harvest height = 50 (mm), remove = 0.95, plants = 100
-55  1998 lucerne harvest height = 50 (mm)  
+55  1998 lucerne harvest height = 50 (mm)
 55  1998 lucerne end_crop
 119 1998 residue2 tillage type = graze ()
 !N addition?
@@ -1246,7 +1246,7 @@ endif
  80 2002 report6 do_end_day_output    ! 21-Mar-02
 120 2002 report6 do_end_day_output    ! 30-Apr-02
 
-[field-N.operatns.parameters]  
+[field-N.operatns.parameters]
 !-------1993 wheat-------
 218 1993 fertiliz apply amount = 90 (kg/ha), type = urea_n (), depth = 10 (mm)
 
@@ -1280,8 +1280,8 @@ endif
  37 2002 weed1 sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
 
 
-[field-S.operatns.parameters]  
-!bromide additions 
+[field-S.operatns.parameters]
+!bromide additions
 !currently commented out as applied through manager
 !174 1993 solute set brA = 0 319.574 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 !202 1993 solute set brB = 0 319.574 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -1349,16 +1349,16 @@ endif
 327 2000 report4 do_end_day_output    ! 22-Nov-00
 
 !Weeds
-102 1994 report4 do_end_day_output    ! 
-135 1999 report4 do_end_day_output    ! 
-112 2000 report4 do_end_day_output    ! 
+102 1994 report4 do_end_day_output    !
+135 1999 report4 do_end_day_output    !
+112 2000 report4 do_end_day_output    !
 
 
 !******************** Apswim module ********************
 !PARAMETERS APPLICABLE TO FIELD AND LYSIMETERS
-[all.apswim.init]  
-slmin =  -3.0   
-slmax =  7.0   
+[all.apswim.init]
+slmin =  -3.0
+slmax =  7.0
 
 bypass_flow =  off            ! Bypass Flow  - On/Off
                               !
@@ -1371,27 +1371,27 @@ vapour_conductivity =  on     ! Vapour Conductivity flag (on/off)
 
 run_solutes =  no3 nh4 urea brA brB brC brD   ! solutes to be moved by SWIM during simulation
 
-extra_solute_supply =  on   
-solute_exclusion =  off  
+extra_solute_supply =  on
+solute_exclusion =  off
 
-[all.apswim.solute]  
+[all.apswim.solute]
                ! Note - Urea is just the same as no3 for now
                ! ----------------------------------------------------
-solute_name =                    no3   nh4  urea  brA  brB  brC  brD   
+solute_name =                    no3   nh4  urea  brA  brB  brC  brD
                ! ----------------------------------------------------
-slupf =                          1.0   0    0     0    0    0    0   
-slos =                           0.4   1.4  0.0   0.4  0.4  0.4  0.4   
-d0 =                           .0684 .07056 .0684 .072 .072 .072 .072   
-a =                              1.0   1.0  1.0   1.0  1.0  1.0  1.0   
-dthc =                            0    0    0     0    0    0    0   
-dthp =                            1    1    1     1    1    1    1   
-disp =                            1    1    1     1    1    1    1   
-ground_water_conc =               0    0    0     0    0    0    0   
+slupf =                          1.0   0    0     0    0    0    0
+slos =                           0.4   1.4  0.0   0.4  0.4  0.4  0.4
+d0 =                           .0684 .07056 .0684 .072 .072 .072 .072
+a =                              1.0   1.0  1.0   1.0  1.0  1.0  1.0
+dthc =                            0    0    0     0    0    0    0
+dthp =                            1    1    1     1    1    1    1
+disp =                            1    1    1     1    1    1    1
+ground_water_conc =               0    0    0     0    0    0    0
                ! ----------------------------------------------------
 
 
 ! ------------------ swim calculation parameters ---------------------
-[all.apswim.calc]  
+[all.apswim.calc]
 dtmin =  0.0   ! min timestep (min)
 dtmax =  60.   ! max timestep (min)
 !dtmax_sol = 60.                       ! max solute uptake timestep (min)
@@ -1406,17 +1406,17 @@ swt =  0.0   ! Space Weighting Factor (gravity flow)
                               ! 0.5 -> 1.0 (central to fully upstream)
                               ! < -1 (central diffs by factor of -1*SWF)
                               ! 0.0 (central until instable, then upstream)
-slcerr =  0.000001   
-slswt =  0.0   
+slcerr =  0.000001
+slswt =  0.0
 
 ! ------------------------ climatic inputs ---------------------------
-[all.apswim.climate]  
-rainfall_source =  apsim   
-evap_source =  sum_demands   
+[all.apswim.climate]
+rainfall_source =  apsim
+evap_source =  sum_demands
 salb =  0.15
 
 ! ------------------------ runoff functions --------------------------
-[all.apswim.runoff]  
+[all.apswim.runoff]
 maximum_surface_storage =  5.2   ! (mm)
 minimum_surface_storage =  5.0   ! (mm)
 initial_surface_storage =  5.1   ! (mm)
@@ -1427,7 +1427,7 @@ runoff_rate_power =        2   ! =P ______/
 
 ! --------------------- top boundary conditions ---------------------
 ! not used due to infinite conductance
-[all.apswim.top_boundary]  
+[all.apswim.top_boundary]
 maximum_conductance =  1.   ! (/h) initial soil surface conductance
 minimum_conductance =  .1   ! (/h) minimum soil surface conductance
 initial_conductance =  1.   ! (/h) initial soil surface conductance
@@ -1435,176 +1435,176 @@ precipitation_constant =  50.   ! (mm)
 
 ! -------------------------- bypass flow ---------------------------
 ! not used
-[all.apswim.bypass_flow]  
+[all.apswim.bypass_flow]
 depth =       4   ! (node number)
 conductance =  .10   ! (??)
 storage =     .10   ! (cm water/cm of +ve Psi)
 
 ! --------------------crop apswim parameters ----------------------
-[all.apswim.crop]  
+[all.apswim.crop]
    ! --------------------------------------------------------------------------
-crop_name =                wheat   lucerne canola  lupin   weed1   weed2  weed3 
+crop_name =                wheat   lucerne canola  lupin   weed1   weed2  weed3
    ! --------------------------------------------------------------------------
-min_xylem_potential =      -15000. -15000. -15000. -15000. -15000. -15000. -15000. (mbar)   
-root_radius =              0.24    0.24    0.24    0.24    0.24    0.24    0.24    (mm)   
+min_xylem_potential =      -15000. -15000. -15000. -15000. -15000. -15000. -15000. (mbar)
+root_radius =              0.24    0.24    0.24    0.24    0.24    0.24    0.24    (mm)
 root_conductance =         1.4d-7  1.4d-7  1.4d-7  1.4d-7  1.4d-7  1.4d-7  1.4d-7
    ! --------------------------------------------------------------------------
 
 ! --------------------- soil type information -------------------------
-[all.apswim.soil1]                                                                                                                     
-bulk_density =                      1.48   
+[all.apswim.soil1]
+bulk_density =                      1.48
                   ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD   
+solute_name =                       no3 nh4  urea brA brB brC brD
                   ! ---------------------------------------------
-exco =                              0   0.5  0    0   0   0   0   
-fip =                               1   1    1    1   1   1   1   
-dis =                               2   2    2    2   2   2   2   
-alpha =                             0   0    0    0   0   0   0   
-beta =                              0   0    0    0   0   0   0   
-                  ! ---------------------------------------------
-
-[all.apswim.soil2]                                                                                                                     
-bulk_density =                      1.5   
-                  ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD   
-                  ! ---------------------------------------------
-exco =                              0   0.5  0    0   0   0   0   
-fip =                               1   1    1    1   1   1   1   
-dis =                               2   2    2    2   2   2   2   
-alpha =                             0   0    0    0   0   0   0   
-beta =                              0   0    0    0   0   0   0   
+exco =                              0   0.5  0    0   0   0   0
+fip =                               1   1    1    1   1   1   1
+dis =                               2   2    2    2   2   2   2
+alpha =                             0   0    0    0   0   0   0
+beta =                              0   0    0    0   0   0   0
                   ! ---------------------------------------------
 
-[all.apswim.soil2a]                                                                                                                     
-bulk_density =                      1.42   
+[all.apswim.soil2]
+bulk_density =                      1.5
                   ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD   
+solute_name =                       no3 nh4  urea brA brB brC brD
                   ! ---------------------------------------------
-exco =                              0   0.5  0    0   0   0   0   
-fip =                               1   1    1    1   1   1   1   
-dis =                               2   2    2    2   2   2   2   
-alpha =                             0   0    0    0   0   0   0   
-beta =                              0   0    0    0   0   0   0   
+exco =                              0   0.5  0    0   0   0   0
+fip =                               1   1    1    1   1   1   1
+dis =                               2   2    2    2   2   2   2
+alpha =                             0   0    0    0   0   0   0
+beta =                              0   0    0    0   0   0   0
                   ! ---------------------------------------------
 
-[all.apswim.soil3]                                                                                                                     
+[all.apswim.soil2a]
+bulk_density =                      1.42
+                  ! ---------------------------------------------
+solute_name =                       no3 nh4  urea brA brB brC brD
+                  ! ---------------------------------------------
+exco =                              0   0.5  0    0   0   0   0
+fip =                               1   1    1    1   1   1   1
+dis =                               2   2    2    2   2   2   2
+alpha =                             0   0    0    0   0   0   0
+beta =                              0   0    0    0   0   0   0
+                  ! ---------------------------------------------
+
+[all.apswim.soil3]
 bulk_density =                     1.37
                   ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD   
+solute_name =                       no3 nh4  urea brA brB brC brD
                   ! ---------------------------------------------
-exco =                              0   0.5  0    0   0   0   0   
-fip =                               1   1    1    1   1   1   1   
-dis =                               2   2    2    2   2   2   2   
-alpha =                             0   0    0    0   0   0   0   
-beta =                              0   0    0    0   0   0   0   
+exco =                              0   0.5  0    0   0   0   0
+fip =                               1   1    1    1   1   1   1
+dis =                               2   2    2    2   2   2   2
+alpha =                             0   0    0    0   0   0   0
+beta =                              0   0    0    0   0   0   0
                   ! ---------------------------------------------
-                  
-[all.apswim.soil4]                                                                                                                     
-bulk_density =                      1.53   
+
+[all.apswim.soil4]
+bulk_density =                      1.53
                   ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD   
+solute_name =                       no3 nh4  urea brA brB brC brD
                   ! ---------------------------------------------
-exco =                              0   0.5  0    0   0   0   0   
-fip =                               1   1    1    1   1   1   1   
-dis =                               2   2    2    2   2   2   2   
-alpha =                             0   0    0    0   0   0   0   
-beta =                              0   0    0    0   0   0   0   
+exco =                              0   0.5  0    0   0   0   0
+fip =                               1   1    1    1   1   1   1
+dis =                               2   2    2    2   2   2   2
+alpha =                             0   0    0    0   0   0   0
+beta =                              0   0    0    0   0   0   0
                   ! ---------------------------------------------
-                  
-[all.apswim.soil5]                                                                                                                     
+
+[all.apswim.soil5]
 bulk_density =                      1.63
                   ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD   
+solute_name =                       no3 nh4  urea brA brB brC brD
                   ! ---------------------------------------------
-exco =                              0   0.5  0    0   0   0   0   
-fip =                               1   1    1    1   1   1   1   
-dis =                               2   2    2    2   2   2   2   
-alpha =                             0   0    0    0   0   0   0   
-beta =                              0   0    0    0   0   0   0   
-                  ! ---------------------------------------------
-
-[all.apswim.soil6]                                                                                                                     
-bulk_density =                      1.67  
-                  ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD   
-                  ! ---------------------------------------------
-exco =                              0   0.5  0    0   0   0   0   
-fip =                               1   1    1    1   1   1   1   
-dis =                               2   2    2    2   2   2   2   
-alpha =                             0   0    0    0   0   0   0   
-beta =                              0   0    0    0   0   0   0   
+exco =                              0   0.5  0    0   0   0   0
+fip =                               1   1    1    1   1   1   1
+dis =                               2   2    2    2   2   2   2
+alpha =                             0   0    0    0   0   0   0
+beta =                              0   0    0    0   0   0   0
                   ! ---------------------------------------------
 
-[all.apswim.soil7]                                                                                                                     
-bulk_density =                      1.62   
+[all.apswim.soil6]
+bulk_density =                      1.67
                   ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD   
+solute_name =                       no3 nh4  urea brA brB brC brD
                   ! ---------------------------------------------
-exco =                              0   0.5  0    0   0   0   0   
-fip =                               1   1    1    1   1   1   1   
-dis =                               2   2    2    2   2   2   2   
-alpha =                             0   0    0    0   0   0   0   
-beta =                              0   0    0    0   0   0   0   
-                  ! ---------------------------------------------
-
-[all.apswim.soil8]                                                                                                                     
-bulk_density =                      1.63   
-                  ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD   
-                  ! ---------------------------------------------
-exco =                              0   0.5  0    0   0   0   0   
-fip =                               1   1    1    1   1   1   1   
-dis =                               2   2    2    2   2   2   2   
-alpha =                             0   0    0    0   0   0   0   
-beta =                              0   0    0    0   0   0   0   
+exco =                              0   0.5  0    0   0   0   0
+fip =                               1   1    1    1   1   1   1
+dis =                               2   2    2    2   2   2   2
+alpha =                             0   0    0    0   0   0   0
+beta =                              0   0    0    0   0   0   0
                   ! ---------------------------------------------
 
-[all.apswim.soil9]                                                                                                                     
-bulk_density =                      1.68  
+[all.apswim.soil7]
+bulk_density =                      1.62
                   ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD   
+solute_name =                       no3 nh4  urea brA brB brC brD
                   ! ---------------------------------------------
-exco =                              0   0.5  0    0   0   0   0   
-fip =                               1   1    1    1   1   1   1   
-dis =                               2   2    2    2   2   2   2   
-alpha =                             0   0    0    0   0   0   0   
-beta =                              0   0    0    0   0   0   0   
-                  ! ---------------------------------------------
-
-[all.apswim.soil10]                                                                                                                     
-bulk_density =                      1.64   
-                  ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD   
-                  ! ---------------------------------------------
-exco =                              0   0.5  0    0   0   0   0   
-fip =                               1   1    1    1   1   1   1   
-dis =                               2   2    2    2   2   2   2   
-alpha =                             0   0    0    0   0   0   0   
-beta =                              0   0    0    0   0   0   0   
+exco =                              0   0.5  0    0   0   0   0
+fip =                               1   1    1    1   1   1   1
+dis =                               2   2    2    2   2   2   2
+alpha =                             0   0    0    0   0   0   0
+beta =                              0   0    0    0   0   0   0
                   ! ---------------------------------------------
 
-[all.apswim.soil11]                                                                                                                     
-bulk_density =                      1.64   
+[all.apswim.soil8]
+bulk_density =                      1.63
                   ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD   
+solute_name =                       no3 nh4  urea brA brB brC brD
                   ! ---------------------------------------------
-exco =                              0   0.5  0    0   0   0   0   
-fip =                               1   1    1    1   1   1   1   
-dis =                               2   2    2    2   2   2   2   
-alpha =                             0   0    0    0   0   0   0   
-beta =                              0   0    0    0   0   0   0   
+exco =                              0   0.5  0    0   0   0   0
+fip =                               1   1    1    1   1   1   1
+dis =                               2   2    2    2   2   2   2
+alpha =                             0   0    0    0   0   0   0
+beta =                              0   0    0    0   0   0   0
                   ! ---------------------------------------------
 
-[all.apswim.soil12]                                                                                                                     
-bulk_density =                      1.64   
+[all.apswim.soil9]
+bulk_density =                      1.68
                   ! ---------------------------------------------
-solute_name =                       no3 nh4  urea brA brB brC brD   
+solute_name =                       no3 nh4  urea brA brB brC brD
                   ! ---------------------------------------------
-exco =                              0   0.5  0    0   0   0   0   
-fip =                               1   1    1    1   1   1   1   
-dis =                               2   2    2    2   2   2   2   
-alpha =                             0   0    0    0   0   0   0   
-beta =                              0   0    0    0   0   0   0   
+exco =                              0   0.5  0    0   0   0   0
+fip =                               1   1    1    1   1   1   1
+dis =                               2   2    2    2   2   2   2
+alpha =                             0   0    0    0   0   0   0
+beta =                              0   0    0    0   0   0   0
+                  ! ---------------------------------------------
+
+[all.apswim.soil10]
+bulk_density =                      1.64
+                  ! ---------------------------------------------
+solute_name =                       no3 nh4  urea brA brB brC brD
+                  ! ---------------------------------------------
+exco =                              0   0.5  0    0   0   0   0
+fip =                               1   1    1    1   1   1   1
+dis =                               2   2    2    2   2   2   2
+alpha =                             0   0    0    0   0   0   0
+beta =                              0   0    0    0   0   0   0
+                  ! ---------------------------------------------
+
+[all.apswim.soil11]
+bulk_density =                      1.64
+                  ! ---------------------------------------------
+solute_name =                       no3 nh4  urea brA brB brC brD
+                  ! ---------------------------------------------
+exco =                              0   0.5  0    0   0   0   0
+fip =                               1   1    1    1   1   1   1
+dis =                               2   2    2    2   2   2   2
+alpha =                             0   0    0    0   0   0   0
+beta =                              0   0    0    0   0   0   0
+                  ! ---------------------------------------------
+
+[all.apswim.soil12]
+bulk_density =                      1.64
+                  ! ---------------------------------------------
+solute_name =                       no3 nh4  urea brA brB brC brD
+                  ! ---------------------------------------------
+exco =                              0   0.5  0    0   0   0   0
+fip =                               1   1    1    1   1   1   1
+dis =                               2   2    2    2   2   2   2
+alpha =                             0   0    0    0   0   0   0
+beta =                              0   0    0    0   0   0   0
                   ! ---------------------------------------------
 
 
@@ -1614,18 +1614,18 @@ beta =                              0   0    0    0   0   0   0
 !                   1       2       3       4       5       6       7       8       9      10      11      12      13      14      15      16      17      18      19      20      21      22      23      24      25      26       27      28
 !x         =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1700    1900    2100    2300     2500    2700    2900    3000    3500    4000    4500    5000    5500    6000
 !soil_type =    soil1       -       -   soil1       -   soil2   soil2a  soil3       -   soil4   soil5   soil6   soil7   soil8   soil8   soil8   soil8   soil7        -   soil9   soil9       -  soil10  soil11  soil12  soil12  soil12  soil12
-!DUL from 110  
-!theta     =     0.12     0.13    0.14   0.15   0.19    0.20    0.21    0.24    0.26    0.28    0.29   0.323   0.323   0.335   0.335   0.335   0.335   0.323   0.313   0.304   0.304   0.300   0.292   0.303   0.308   0.308   0.308   0.308  
-theta      =     0.12     0.13    0.14   0.15   0.19    0.20    0.21    0.24    0.26    0.28    0.29   0.315   0.325   0.334   0.334   0.334   0.334   0.325   0.313   0.304   0.304   0.300   0.292   0.303   0.308   0.308   0.308   0.308  
+!DUL from 110
+!theta     =     0.12     0.13    0.14   0.15   0.19    0.20    0.21    0.24    0.26    0.28    0.29   0.323   0.323   0.335   0.335   0.335   0.335   0.323   0.313   0.304   0.304   0.300   0.292   0.303   0.308   0.308   0.308   0.308
+theta      =     0.12     0.13    0.14   0.15   0.19    0.20    0.21    0.24    0.26    0.28    0.29   0.315   0.325   0.334   0.334   0.334   0.334   0.325   0.313   0.304   0.304   0.300   0.292   0.303   0.308   0.308   0.308   0.308
 
 [field-S.apswim.init]
 ! -------------------- initial layer information ----------------------
 !                   1       2       3       4       5       6       7       8       9      10      11      12      13      14      15      16      17      18      19      20      21      22      23      24      25      26       27      28
 !x         =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1700    1900    2100    2300     2500    2700    2900    3000    3500    4000    4500    5000    5500    6000
 !soil_type =    soil1       -       -   soil1       -   soil2   soil2a  soil3       -   soil4   soil5   soil6   soil7   soil8   soil8   soil8   soil8   soil7        -   soil9   soil9       -  soil10  soil11  soil12  soil12  soil12  soil12
-!DUL from 110  
-!theta     =     0.12     0.13    0.14   0.15   0.19    0.20    0.21    0.24    0.26    0.28    0.29   0.323   0.323   0.335   0.335   0.335   0.335   0.323   0.313   0.304   0.304   0.300   0.292   0.303   0.308   0.308   0.308   0.308  
-theta      =     0.12     0.13    0.14   0.15   0.19    0.20    0.21    0.24    0.26    0.28    0.29   0.315   0.325   0.334   0.334   0.334   0.334   0.325   0.313   0.304   0.304   0.300   0.292   0.303   0.308   0.308   0.308   0.308  
+!DUL from 110
+!theta     =     0.12     0.13    0.14   0.15   0.19    0.20    0.21    0.24    0.26    0.28    0.29   0.323   0.323   0.335   0.335   0.335   0.335   0.323   0.313   0.304   0.304   0.300   0.292   0.303   0.308   0.308   0.308   0.308
+theta      =     0.12     0.13    0.14   0.15   0.19    0.20    0.21    0.24    0.26    0.28    0.29   0.315   0.325   0.334   0.334   0.334   0.334   0.325   0.313   0.304   0.304   0.300   0.292   0.303   0.308   0.308   0.308   0.308
 
 [field.apswim.init]
 ! -------------------- initial layer information ----------------------
@@ -1633,7 +1633,7 @@ theta      =     0.12     0.13    0.14   0.15   0.19    0.20    0.21    0.24    
 x         =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1700    1900    2100    2300     2500    2700    2900    3000    3500    4000    4500    5000    5500    6000
 soil_type =    soil1       -       -   soil1       -   soil2   soil2a  soil3       -   soil4   soil5   soil6   soil7   soil8   soil8   soil8   soil8   soil7        -   soil9   soil9       -  soil10  soil11  soil12  soil12  soil12  soil12
 
-bottom_boundary_condition = 0 ! Bottom Flag  - 0) constant gradient 
+bottom_boundary_condition = 0 ! Bottom Flag  - 0) constant gradient
                               ! -----------    1) water table
                               !                2) zero flux
                               !                3) seepage
@@ -1642,8 +1642,8 @@ runoff                    = 2 ! Runoff Flag  - 0) No ponding (all runoff)
                               !                2) Use runoff functions
                               !
 ! ------------------- bottom boundary conditions --------------------
-[field.apswim.bottom_boundary]  
-constant_gradient =    0   
+[field.apswim.bottom_boundary]
+constant_gradient =    0
 
 !PARAMETERS APPLICABLE TO LYSIMETERS
 [lys-N.apswim.init]
@@ -1652,8 +1652,8 @@ constant_gradient =    0
 !x         =       0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1600    1700    1750    1800
 !soil_type =   soil1       -       -   soil1       -   soil2   soil2a  soil3       -   soil4   soil5   soil6   soil7   soil8   soil8   soil8   soil8   soil8
 !initial soil water, DUL from 110
-!theta     =   0.12     0.13    0.14    0.15   0.19    0.20    0.21    0.24    0.26    0.28    0.29   0.323   0.314   0.335   0.335   0.335   0.335   0.335   
-theta      =   0.12     0.13    0.14    0.15   0.19    0.20    0.21    0.24    0.26    0.28    0.29   0.315   0.325   0.334   0.334   0.334   0.334   0.334   
+!theta     =   0.12     0.13    0.14    0.15   0.19    0.20    0.21    0.24    0.26    0.28    0.29   0.323   0.314   0.335   0.335   0.335   0.335   0.335
+theta      =   0.12     0.13    0.14    0.15   0.19    0.20    0.21    0.24    0.26    0.28    0.29   0.315   0.325   0.334   0.334   0.334   0.334   0.334
 
 [lys-S.apswim.init]
 ! -------------------- initial layer information ----------------------
@@ -1661,9 +1661,9 @@ theta      =   0.12     0.13    0.14    0.15   0.19    0.20    0.21    0.24    0
 !x         =       0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1600    1700    1750    1800
 !soil_type =   soil1       -       -   soil1       -   soil2   soil2a  soil3       -   soil4   soil5   soil6   soil7   soil8   soil8   soil8   soil8   soil8
 !initial soil water, DUL from 110
-!theta     =   0.12     0.13    0.14    0.15   0.19    0.20    0.24    0.27    0.28    0.29    0.31   0.323   0.314   0.335   0.335   0.335   0.335   0.335 
-!theta     =   0.12     0.13    0.14    0.15   0.19    0.20    0.21    0.24    0.26    0.28    0.29   0.323   0.314   0.335   0.335   0.335   0.335   0.335   
-theta      =   0.12     0.13    0.14    0.15   0.19    0.20    0.21    0.24    0.26    0.28    0.29   0.315   0.325   0.334   0.334   0.334   0.334   0.334   
+!theta     =   0.12     0.13    0.14    0.15   0.19    0.20    0.24    0.27    0.28    0.29    0.31   0.323   0.314   0.335   0.335   0.335   0.335   0.335
+!theta     =   0.12     0.13    0.14    0.15   0.19    0.20    0.21    0.24    0.26    0.28    0.29   0.323   0.314   0.335   0.335   0.335   0.335   0.335
+theta      =   0.12     0.13    0.14    0.15   0.19    0.20    0.21    0.24    0.26    0.28    0.29   0.315   0.325   0.334   0.334   0.334   0.334   0.334
 
 [lys.apswim.init]
 ! -------------------- initial layer information ----------------------
@@ -1671,7 +1671,7 @@ theta      =   0.12     0.13    0.14    0.15   0.19    0.20    0.21    0.24    0
 x         =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1600    1700    1750    1800
 soil_type =    soil1       -       -   soil1       -   soil2   soil2a  soil3       -   soil4   soil5   soil6   soil7   soil8   soil8   soil8   soil8   soil8
 
-bottom_boundary_condition = 3 ! Bottom Flag  - 0) constant gradient 
+bottom_boundary_condition = 3 ! Bottom Flag  - 0) constant gradient
                               ! -----------    1) water table
                               !                2) zero flux
                               !                3) seepage
@@ -1681,12 +1681,12 @@ runoff                    = 1 ! Runoff Flag  - 0) No ponding (all runoff)
                               !
 
 ! ------------------- bottom boundary conditions --------------------
-[lys.apswim.bottom_boundary]  
-constant_potential =    0   
+[lys.apswim.bottom_boundary]
+constant_potential =    0
 
 !******************** wheat module ********************
-[field.wheat.parameters]  
-uptake_source =  apsim 
+[field.wheat.parameters]
+uptake_source =  apsim
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13      14      15      16      17      18      19      20     21      22      23      24      25      26     27      28
 !x        =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1700    1900    2100    2300    2500    2700    2900    3000    3500    4000    4500    5000    5500    6000
 kl        =     0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08
@@ -1695,7 +1695,7 @@ xf        =        1       1       1       1       1       1       1       1    
 !eo_crop_factor = 1.1
 
 [lys.wheat.parameters]
-uptake_source =  apsim   
+uptake_source =  apsim
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13     14     15      16      17      18
 x         =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1600    1700    1750    1800
 kl        =     0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08
@@ -1704,8 +1704,8 @@ xf        =        1       1       1       1       1       1       1       1    
 !eo_crop_factor = 1.1
 
 !********************** Canola module ********************
-[field.canola.parameters]    
-uptake_source =  apsim   
+[field.canola.parameters]
+uptake_source =  apsim
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13      14      15      16      17      18      19      20     21      22      23      24      25      26     27      28
 !x        =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1700    1900    2100    2300    2500    2700    2900    3000    3500    4000    4500    5000    5500    6000
 kl        =     0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08
@@ -1714,7 +1714,7 @@ xf        =        1       1       1       1       1       1       1       1    
 !eo_crop_factor = 1.1
 
 [lys.canola.parameters]
-uptake_source =  apsim   
+uptake_source =  apsim
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13     14     15      16      17      18
 x         =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1600    1700    1750    1800
 kl        =     0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08
@@ -1723,8 +1723,8 @@ xf        =        1       1       1       1       1       1       1       1    
 !eo_crop_factor = 1.1
 
 !********************** Lupin module ********************
-[field.lupin.parameters]    
-uptake_source =  apsim   
+[field.lupin.parameters]
+uptake_source =  apsim
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13      14      15      16      17      18      19      20     21      22      23      24      25      26     27      28
 !x        =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1700    1900    2100    2300    2500    2700    2900    3000    3500    4000    4500    5000    5500    6000
 kl        =     0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08
@@ -1732,8 +1732,8 @@ ll        =    0.112   0.112   0.112   0.112   0.124   0.148   0.148   0.167   0
 xf        =        1       1       1       1       1       1       1       1       1       1       1       1     0.7       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
 !eo_crop_factor = 1.1
 
-[lys.lupin.parameters]    
-uptake_source =  apsim   
+[lys.lupin.parameters]
+uptake_source =  apsim
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13     14     15      16      17      18
 x         =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1600    1700    1750    1800
 kl        =     0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08
@@ -1743,17 +1743,17 @@ xf        =        1       1       1       1       1       1       1       1    
 
 
 !******************** Lucerne module *******************
-[field.lucerne.parameters]  
-uptake_source =  apsim   
+[field.lucerne.parameters]
+uptake_source =  apsim
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13      14      15      16      17      18      19      20     21      22      23      24      25      26     27      28
 !x        =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1700    1900    2100    2300    2500    2700    2900    3000    3500    4000    4500    5000    5500    6000
 kl        =     0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08
 ll        =    0.112   0.112   0.112   0.112   0.124   0.148   0.148   0.167   0.183   0.214   0.241   0.260   0.267   0.282   0.282   0.282   0.282   0.267   0.259   0.251   0.251   0.252   0.257   0.271   0.283   0.283   0.283   0.283
-xf        =        1       1       1       1       1       1       1       1       1       1       1     0.7     0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5    
+xf        =        1       1       1       1       1       1       1       1       1       1       1     0.7     0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5
 !eo_crop_factor = 1.1
 
-[lys.lucerne.parameters]  
-uptake_source =  apsim   
+[lys.lucerne.parameters]
+uptake_source =  apsim
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13     14     15      16      17      18
 x         =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1600    1700    1750    1800
 kl        =     0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08
@@ -1764,7 +1764,7 @@ xf        =        1       1       1       1       1       1       1       1    
 
 !********************* Weed1 module ************************
 [field.weed1.parameters]
-uptake_source =  apsim 
+uptake_source =  apsim
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13      14      15      16      17      18      19      20     21      22      23      24      25      26     27      28
 !x        =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1700    1900    2100    2300    2500    2700    2900    3000    3500    4000    4500    5000    5500    6000
 kl        =     0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08
@@ -1773,7 +1773,7 @@ xf        =        1       1       1       1       1       1       1       1    
 !eo_crop_factor = 1.1
 
 [lys.weed1.parameters]
-uptake_source =  apsim   
+uptake_source =  apsim
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13     14     15      16      17      18
 x         =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1600    1700    1750    1800
 kl        =     0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08
@@ -1783,7 +1783,7 @@ xf        =        1       1       1       1       1       1       1       1    
 
 !********************* Weed2 module ************************
 [field.weed2.parameters]
-uptake_source =  apsim 
+uptake_source =  apsim
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13      14      15      16      17      18      19      20     21      22      23      24      25      26     27      28
 !x        =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1700    1900    2100    2300    2500    2700    2900    3000    3500    4000    4500    5000    5500    6000
 kl        =     0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08
@@ -1792,7 +1792,7 @@ xf        =        1       1       1       1       1       1       1       1    
 !eo_crop_factor = 1.1
 
 [lys.weed2.parameters]
-uptake_source =  apsim   
+uptake_source =  apsim
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13     14     15      16      17      18
 x         =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1600    1700    1750    1800
 kl        =     0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08
@@ -1802,7 +1802,7 @@ xf        =        1       1       1       1       1       1       1       1    
 
 !********************* Weed3 module ************************
 [field.weed3.parameters]
-uptake_source =  apsim 
+uptake_source =  apsim
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13      14      15      16      17      18      19      20     21      22      23      24      25      26     27      28
 !x        =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1700    1900    2100    2300    2500    2700    2900    3000    3500    4000    4500    5000    5500    6000
 kl        =     0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08
@@ -1811,7 +1811,7 @@ xf        =        1       1       1       1       1       1       1       1    
 !eo_crop_factor = 1.1
 
 [lys.weed3.parameters]
-uptake_source =  apsim   
+uptake_source =  apsim
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13     14     15      16      17      18
 x         =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1600    1700    1750    1800
 kl        =     0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08    0.08
@@ -1821,24 +1821,24 @@ xf        =        1       1       1       1       1       1       1       1    
 
 
 !******************** Residue2 module ********************
-[field.residue2.parameters]  
-residue_wt =  10800.   
-residue_cnr =  70.    
-residue_type =  wheat   
-pot_decomp_rate =  0.02  
+[field.residue2.parameters]
+residue_wt =  10800.
+residue_cnr =  70.
+residue_type =  wheat
+pot_decomp_rate =  0.02
 
-[lys.residue2.parameters]  
+[lys.residue2.parameters]
 residue_wt =  540. !1080.   !0.
-residue_cnr =  70.    
-residue_type =  wheat   
-pot_decomp_rate =  0.02 
+residue_cnr =  70.
+residue_type =  wheat
+pot_decomp_rate =  0.02
 
 !******************** Soiln2 module ********************
-[all.soiln2.parameters]  
+[all.soiln2.parameters]
 
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13      14      15      16      17      18      19      20     21      22      23      24      25      26
 !x        =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1700    1900    2100    2300    2500    2700    2900    3000   3500    4000    4500    5000    5500    6000
-ph        =      5.8     5.7     5.6     5.4     4.8     5.1     5.2     5.4     5.6     5.8     5.8     5.8     5.8     5.8     5.8     5.8     5.8     5.8     5.8     5.8     5.8     5.8    5.8     5.8     5.8     5.8     5.8     5.8 
+ph        =      5.8     5.7     5.6     5.4     4.8     5.1     5.2     5.4     5.6     5.8     5.8     5.8     5.8     5.8     5.8     5.8     5.8     5.8     5.8     5.8     5.8     5.8    5.8     5.8     5.8     5.8     5.8     5.8
 !no3ppm   =     11.9       8    3.35       1     0.9     0.9    0.55    0.55    0.45    0.75    0.45    0.45    0.45    0.45    0.45    0.45    0.45    0.45    0.45    0.45   0.45    0.45    0.45    0.45    0.45    0.45
 !assume init no3ppm = 1.0 near surface (case in 1993) down to 0.5 at 1m and below - sampling 3/3/93 and 1/4/93
 no3ppm    =      1.0     1.0     1.0     1.0     1.0     1.0     1.0     0.9     0.8     0.7     0.6     0.5     0.5    0.5      0.5     0.5     0.5     0.5     0.5     0.5     0.5     0.5    0.5     0.5     0.5     0.5     0.5     0.5
@@ -1853,20 +1853,20 @@ finert    =     0.04     0.06   0.08     0.1     0.2     0.7     0.7     0.7    
 root_cn =               50       (C)   !initial root C:N (rough avg from mimic runs)
 root_wt =               0 !9500     (kg/ha)   !initial root weight
 soil_cn =               14        (kgC/kgN)   !soil initial C:N ratio
-amp =                   15.9     (C)   !air temperature amplitude 
+amp =                   15.9     (C)   !air temperature amplitude
 tav =                   15.4     (C)   !average annual temperature
 enr_a_coeff =           7.4      ()   !only used in erosion simultion
 enr_b_coeff =           0.2      ()   !only used in erosion simultion
 profile_reduction =     off      ()   !only used in erosion simultion
- 
+
 dmod =  1.0 ()   ! weighting factor to adjust the rate of humus mineralization
                ! for soils in which organic matter is chemically or physically
                ! protected.
 
 
 !******************** Solute module ********************
-[all.solute.parameters]  
-solute_names =  brA brB brC brD   
+[all.solute.parameters]
+solute_names =  brA brB brC brD
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13      14      15      16      17      18      19      20     21      22      23      24      25      26      27      28
 !x        =        0      10      20      50     100     200     300     400     500     700     900    1100    1300    1500    1700    1900    2100    2300    2500    2700    2900    3000   3500    4000    4500    5000    5500    6000
 brA       =        0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      0       0       0       0       0       0       0       0
@@ -1875,7 +1875,7 @@ brC       =        0       0       0       0       0       0       0       0    
 brD       =        0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      0       0       0       0       0       0       0       0
 
 !******************** canopy module ********************
-[all.canopy.parameters]  
+[all.canopy.parameters]
 
 intercrop = weed1 weed2 weed3 lucerne wheat
 
@@ -1901,14 +1901,14 @@ variable = sum of lucerne.dlt_n_fixed since report1.reported as sum@lucerne.dlt_
 variable = sum of lupin.dlt_n_fixed since report1.reported as sum@lupin.dlt_n_fixed on process
 [all.tracker2.parameters]
 variable = sum of met.rain since report2.reported as sum@met.rain on process
-variable = sum of wheat.ep since report2.reported as sum@wheat.ep[] on process
-variable = sum of lucerne.ep since report2.reported as sum@lucerne.ep[] on process
-variable = sum of canola.ep since report2.reported as sum@canola.ep[] on process
-variable = sum of lupin.ep since report2.reported as sum@lupin.ep[] on process
+variable = sum of wheat.ep() since report2.reported as sum@wheat.ep[] on process
+variable = sum of lucerne.ep() since report2.reported as sum@lucerne.ep[] on process
+variable = sum of canola.ep() since report2.reported as sum@canola.ep[] on process
+variable = sum of lupin.ep() since report2.reported as sum@lupin.ep[] on process
 variable = sum of manager.T since report2.reported as sum@manager.T on process
 variable = sum of manager.ET since report2.reported as sum@manager.ET on process
-variable = sum of weed1.ep since report2.reported as sum@weed1.ep[] on process
-variable = sum of weed2.ep since report2.reported as sum@weed2.ep[] on process
+variable = sum of weed1.ep() since report2.reported as sum@weed1.ep[] on process
+variable = sum of weed2.ep() since report2.reported as sum@weed2.ep[] on process
 variable = sum of apswim.es since report2.reported as sum@apswim.es on process
 variable = sum of apswim.runoff since report2.reported as sum@apswim.runoff on process
 variable = sum of apswim.drain since report2.reported as sum@apswim.drain on process
