@@ -30,6 +30,22 @@ static const char* hasDataTodayTypeDDML =
    "<type name=\"hasDataToday\" kind=\"boolean\"/>";
 
 // ------------------------------------------------------------------
+//  Short description:
+//     Return a blank string when requested to indicate that we
+//     don't need a wrapper DLL.
+
+//  Notes:
+
+//  Changes:
+//    DPH 7/6/2001
+
+// ------------------------------------------------------------------
+extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
+   {
+   strcpy(wrapperDll, "");
+   }
+
+// ------------------------------------------------------------------
 // createComponent
 // ------------------------------------------------------------------
 protocol::Component* createComponent(void)

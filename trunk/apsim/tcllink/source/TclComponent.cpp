@@ -40,6 +40,21 @@ int apsimRegisterGetSetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST [])
 int apsimSendEventProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 
 // ------------------------------------------------------------------
+//  Short description:
+//     Return a blank string when requested to indicate that we
+//     don't need a wrapper DLL.
+
+//  Notes:
+
+//  Changes:
+//    DPH 7/6/2001
+
+// ------------------------------------------------------------------
+extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
+   {
+   strcpy(wrapperDll, "");
+   }
+// ------------------------------------------------------------------
 // Create an instance of the TclLink module
 // ------------------------------------------------------------------
 protocol::Component* createComponent(void)
@@ -151,7 +166,7 @@ void TclComponent::respondToGet(unsigned int& /*fromID*/, protocol::QueryValueDa
          {
          sendVariable(queryData, result);
          }
-      }   
+      }
    }
 // ------------------------------------------------------------------
 // Set the value of a variable for the specified
@@ -196,7 +211,7 @@ int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname)
       ModuleName = varname.substr(0, posPeriod);
       VariableName = varname.substr(posPeriod+1);
       }
-   else 
+   else
       {
       ModuleName = string("");
       VariableName = varname;
@@ -222,13 +237,13 @@ int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname)
                 variant->unpack(scratch);
                 Tcl_Obj *result = Tcl_GetObjResult(interp);
                 Tcl_SetListObj(result, 0, NULL);
-                for (std::vector<string>::iterator p = scratch.begin(); p != scratch.end(); p++) 
+                for (std::vector<string>::iterator p = scratch.begin(); p != scratch.end(); p++)
                    {
                    Tcl_ListObjAppendElement(interp, result, Tcl_NewStringObj((char *)(*p).c_str(), -1));
                    }
                 return TCL_OK;
-                } 
-             else 
+                }
+             else
                 {
                 string scratch;
                 variant->unpack(scratch);
@@ -237,7 +252,7 @@ int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname)
                 return TCL_OK;
                 }
              /* notreached */
-            }  
+            }
 
       	case DTint4:                          /* 4 byte integer */
       	   {
@@ -248,13 +263,13 @@ int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname)
                 variant->unpack(scratch);
                 Tcl_Obj *result = Tcl_GetObjResult(interp);
                 Tcl_SetListObj(result, 0, NULL);
-                for (std::vector<int>::iterator p = scratch.begin(); p != scratch.end(); p++) 
+                for (std::vector<int>::iterator p = scratch.begin(); p != scratch.end(); p++)
                    {
                    Tcl_ListObjAppendElement(interp, result, Tcl_NewIntObj((int)*p));
                    }
                 return TCL_OK;
-                } 
-             else 
+                }
+             else
                 {
                 int scratch = 0;
                 variant->unpack(scratch);
@@ -263,7 +278,7 @@ int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname)
                 return TCL_OK;
                 }
              /* notreached */
-            }  
+            }
          case DTsingle:                       /* floats */
       	   {
             variant->setTypeConverter( NULL ); /* undo the typeconverter created above */
@@ -273,13 +288,13 @@ int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname)
                 variant->unpack(scratch);
                 Tcl_Obj *result = Tcl_GetObjResult(interp);
                 Tcl_SetListObj(result, 0, NULL);
-                for (std::vector<float>::iterator p = scratch.begin(); p != scratch.end(); p++) 
+                for (std::vector<float>::iterator p = scratch.begin(); p != scratch.end(); p++)
                    {
                    Tcl_ListObjAppendElement(interp, result, Tcl_NewDoubleObj((double)*p));
                    }
                 return TCL_OK;
-                } 
-             else 
+                }
+             else
                 {
                 float scratch = 0.0;
                 variant->unpack(scratch);
@@ -288,7 +303,7 @@ int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname)
                 return TCL_OK;
                 }
              /* notreached */
-             }  
+             }
          case DTdouble:                       /* floats */
       	   {
             variant->setTypeConverter( NULL ); /* undo the typeconverter created above */
@@ -298,13 +313,13 @@ int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname)
                 variant->unpack(scratch);
                 Tcl_Obj *result = Tcl_GetObjResult(interp);
                 Tcl_SetListObj(result, 0, NULL);
-                for (std::vector<double>::iterator p = scratch.begin(); p != scratch.end(); p++) 
+                for (std::vector<double>::iterator p = scratch.begin(); p != scratch.end(); p++)
                    {
                    Tcl_ListObjAppendElement(interp, result, Tcl_NewDoubleObj(*p));
                    }
                 return TCL_OK;
-                } 
-             else 
+                }
+             else
                 {
                 double scratch = 0.0;
                 variant->unpack(scratch);
@@ -313,13 +328,13 @@ int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname)
                 return TCL_OK;
                 }
              /* notreached */
-             }  
+             }
 
         default:
              {
              Tcl_Obj *result = Tcl_GetObjResult(interp);
              char buf[80];
-             sprintf(buf, "Undefined GET type %d (from %s)", 
+             sprintf(buf, "Undefined GET type %d (from %s)",
                      variant->getType().getCode(), varname.c_str());
              Tcl_SetStringObj(result, buf, -1);
              return TCL_ERROR;
@@ -361,7 +376,7 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
       ModuleName = varname.substr(0, posPeriod);
       VariableName = varname.substr(posPeriod+1);
       }
-   else 
+   else
       {
       ModuleName = string("");
       VariableName = varname;
@@ -369,14 +384,14 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
 
    Tcl_ObjType *listType = Tcl_GetObjType("list");
    Tcl_ObjType *intType = Tcl_GetObjType("int");
-   Tcl_ObjType *dblType = Tcl_GetObjType("double");   
+   Tcl_ObjType *dblType = Tcl_GetObjType("double");
    Tcl_ObjType *stringType = Tcl_GetObjType("string");
 
    Tcl_ObjType *outGoingType = value->typePtr;
    if (outGoingType == NULL) { outGoingType = stringType; } // Default type is strings
 
    //MessageBox(NULL, "Type 1", outGoingType->name, MB_ICONSTOP);
-   // Is it an array? 
+   // Is it an array?
    // NB. we can't really tell if it's a string that should be turned into a list  FIXME  XX
    bool isArray = false;
    if (outGoingType==listType)
@@ -402,13 +417,13 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
       {
       unsigned variableID = protocol::Component::addRegistration(protocol::setVariableReg,
                           VariableName.c_str(), isArray?intStringArray:intString, "", ModuleName.c_str());
-      if (isArray) 
+      if (isArray)
           {
           std::vector<int> outValue;
           Tcl_Obj *listElement;
           int      listLength;
           Tcl_ListObjLength(interp, value, &listLength);
-          for (int idx = 0; idx < listLength; idx++) 
+          for (int idx = 0; idx < listLength; idx++)
               {
               int scratch;
               Tcl_ListObjIndex(interp, value, idx, &listElement);
@@ -417,7 +432,7 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
               }
           return (setVariable(variableID, outValue));
           }
-      else     
+      else
           {
           int outValue;
           Tcl_GetIntFromObj(interp, value, &outValue);
@@ -429,13 +444,13 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
       {
       unsigned variableID = protocol::Component::addRegistration(protocol::setVariableReg,
                           VariableName.c_str(), isArray?fltStringArray:fltString, "", ModuleName.c_str());
-      if (isArray) 
+      if (isArray)
           {
           std::vector<float> outValue;
           Tcl_Obj *listElement;
           int      listLength;
           Tcl_ListObjLength(interp, value, &listLength);
-          for (int idx = 0; idx < listLength; idx++) 
+          for (int idx = 0; idx < listLength; idx++)
               {
               double scratch;
               Tcl_ListObjIndex(interp, value, idx, &listElement);
@@ -444,7 +459,7 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
               }
           return (setVariable(variableID, outValue));
           }
-      else     
+      else
           {
           double outValue;
           Tcl_GetDoubleFromObj(interp, value, &outValue);
@@ -456,13 +471,13 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
       {
       unsigned variableID = protocol::Component::addRegistration(protocol::setVariableReg,
                           VariableName.c_str(), isArray?strStringArray:strString, "", ModuleName.c_str());
-      if (isArray) 
+      if (isArray)
           {
           std::vector<string> outValue;
           Tcl_Obj *listElement;
           int      listLength;
           Tcl_ListObjLength(interp, value, &listLength);
-          for (int idx = 0; idx < listLength; idx++) 
+          for (int idx = 0; idx < listLength; idx++)
               {
               Tcl_ListObjIndex(interp, value, idx, &listElement);
               string scratch = string(Tcl_GetStringFromObj(listElement, NULL));
@@ -470,7 +485,7 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
               }
           return (setVariable(variableID, outValue));
           }
-      else     
+      else
           {
           string outValue = string(Tcl_GetStringFromObj(value, NULL));
           return (setVariable(variableID, outValue));
@@ -478,21 +493,21 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
       /* notreached*/
       }
 
-   // Failure 
-   Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), "Unknown SET type '", 
+   // Failure
+   Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), "Unknown SET type '",
                           outGoingType->name, "' (to ", varname.c_str(), ")",
                           -1);
    return false;
    }
 
-void TclComponent::addRegistration(const string &name) 
+void TclComponent::addRegistration(const string &name)
    {
    unsigned id = protocol::Component::addRegistration(protocol::respondToGetSetReg,
                         	      name.c_str(),
                            	   strString);
    variables.insert(UInt2StringMap::value_type(id, name));
    }
-   
+
 // Called from TCL script. Tell protoman of something we own
 int apsimRegisterGetSetProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[])
    {
@@ -503,17 +518,17 @@ int apsimRegisterGetSetProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj
       component->addRegistration(name);
       return TCL_OK;
       }
-   Tcl_SetResult(interp, "Couldn't register variable", NULL);   
-   return TCL_ERROR;   
+   Tcl_SetResult(interp, "Couldn't register variable", NULL);
+   return TCL_ERROR;
    }
 
 // Called from TCL script. Send a message to the system, eg:
-// apsimSendMessage wheat sow {plants 100} {depth 20} 
+// apsimSendMessage wheat sow {plants 100} {depth 20}
 int apsimSendMessageProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[])
    {
       TclComponent *component = (TclComponent *) cd;
 
-      if (objc < 3) 
+      if (objc < 3)
          {
          Tcl_SetResult(interp,"Wrong num args: apsimSendEvent <moduleName> <message> {<name> <value>} ...]", NULL);
          return TCL_ERROR;
@@ -525,7 +540,7 @@ int apsimSendMessageProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * 
 
       // 2. build variant
       protocol::ApsimVariant outgoingApsimVariant(component);
-      for (int i = 3; i < objc; i++) 
+      for (int i = 3; i < objc; i++)
          {
          Tcl_Obj *firstListElement, *secondListElement;
          if (Tcl_ListObjIndex(interp, objv[i], 0, &firstListElement) != TCL_OK &&
@@ -548,16 +563,16 @@ int apsimSendMessageProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * 
 
       // Send it
       component->sendMessage(moduleName, actionName, outgoingApsimVariant);
-      return TCL_OK;   
+      return TCL_OK;
    }
 
 void TclComponent::sendMessage(const string &moduleName, const string &actionName,
-                               protocol::ApsimVariant &outgoingApsimVariant) 
+                               protocol::ApsimVariant &outgoingApsimVariant)
    {
-   unsigned actionID = protocol::Component::addRegistration(protocol::methodCallReg, 
-                                                            actionName.c_str(), 
+   unsigned actionID = protocol::Component::addRegistration(protocol::methodCallReg,
+                                                            actionName.c_str(),
                                                             "<type\>",
-                                                            "", 
+                                                            "",
                                                             moduleName.c_str());
-   publish(actionID, outgoingApsimVariant);   
+   publish(actionID, outgoingApsimVariant);
    }

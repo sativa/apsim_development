@@ -774,7 +774,7 @@ void Component::waitForComplete(void)
       char buffer[200];
       strcpy(buffer, "Timeout while waiting for a COMPLETE message");
       error(buffer, true);
-      } 
+      }
    }
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------
@@ -837,21 +837,6 @@ extern "C" _export void __stdcall messageToLogic (unsigned* instanceNumber,
    *processed = true; // ???? not sure why we need this.
    }
 }
-// ------------------------------------------------------------------
-//  Short description:
-//     Return a blank string when requested to indicate that we
-//     don't need a wrapper DLL.
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
-   {
-   strcpy(wrapperDll, "");
-   }
 
 void fatalError(const FString& st)
    {
@@ -863,47 +848,47 @@ void fatalError(const FString& st)
 //  Short description:
 //    Send a variable to the system
 //  Notes:
-//    Using a pointer to a memory region of scalar or array object, calls 
+//    Using a pointer to a memory region of scalar or array object, calls
 //    Component::sendVariable() with the correct typecast w
 // ------------------------------------------------------------------
-void varInfo::sendVariable(Component *systemInterface, QueryValueData& qd) 
+void varInfo::sendVariable(Component *systemInterface, QueryValueData& qd)
    {
    switch (myType)
       {
       case DTdouble:
-         if (myLength == 1) 
+         if (myLength == 1)
            systemInterface->sendVariable(qd, *(double *)myPtr);
-         else if (myLength > 1) 
-           systemInterface->sendVariable(qd,         
+         else if (myLength > 1)
+           systemInterface->sendVariable(qd,
              protocol::vector<double>((double *)myPtr, (double *)myPtr + myLength));
          else
-           throw "Length = 0 in varInfo::sendVariable";  
+           throw "Length = 0 in varInfo::sendVariable";
          break;
       case DTsingle:
-         if (myLength == 1) 
+         if (myLength == 1)
            systemInterface->sendVariable(qd, *(float *)myPtr);
-         else if (myLength > 1) 
-           systemInterface->sendVariable(qd,         
+         else if (myLength > 1)
+           systemInterface->sendVariable(qd,
              protocol::vector<float>((float *)myPtr, (float *)myPtr + myLength));
          else
-           throw "Length = 0 in varInfo::sendVariable";  
+           throw "Length = 0 in varInfo::sendVariable";
          break;
       case DTint4 :
-         if (myLength == 1) 
+         if (myLength == 1)
            systemInterface->sendVariable(qd, *(int *)myPtr);
-         else if (myLength > 1) 
-           systemInterface->sendVariable(qd,         
+         else if (myLength > 1)
+           systemInterface->sendVariable(qd,
              protocol::vector<int>((int *)myPtr, (int *)myPtr + myLength));
          else
-           throw "Length = 0 in varInfo::sendVariable";  
+           throw "Length = 0 in varInfo::sendVariable";
          break;
       case DTstring :
-         if (myLength == 1) 
+         if (myLength == 1)
            systemInterface->sendVariable(qd, FString((char *)myPtr));
-         else if (myLength > 1) 
+         else if (myLength > 1)
            throw  "String Array not yet implemented";
          else
-           throw "Length = 0 in varInfo::sendVariable";  
+           throw "Length = 0 in varInfo::sendVariable";
          break;
 
       default:
@@ -918,8 +903,8 @@ void Component::addGettableVar(const char *systemName,
                                const char *units,
                                const char *desc)
    {
-   unsigned int id = getReg(systemName, type, length>1, units); 
-   
+   unsigned int id = getReg(systemName, type, length>1, units);
+
    // Add to variable map
    fnInfo *v = new fnInfo(systemName, type, length, ptr, units, desc);
    getVarMap.insert(UInt2InfoMap::value_type(id,v));
@@ -931,8 +916,8 @@ void Component::addGettableVar(const char *systemName,
                                const char *units,
                                const char *desc)
    {
-   unsigned int id = getReg(systemName, DTsingle, length>1, units); 
-   
+   unsigned int id = getReg(systemName, DTsingle, length>1, units);
+
    // Add to variable map
    varInfo *v = new varInfo(systemName, DTsingle, length, ptr, units, desc);
    getVarMap.insert(UInt2InfoMap::value_type(id,v));
@@ -944,8 +929,8 @@ void Component::addGettableVar(const char *systemName,
                                const char *units,
                                const char *desc)
    {
-   unsigned int id = getReg(systemName, DTint4, length>1, units); 
-   
+   unsigned int id = getReg(systemName, DTint4, length>1, units);
+
    // Add to variable map
    varInfo *v = new varInfo(systemName, DTint4, length, ptr, units, desc);
    getVarMap.insert(UInt2InfoMap::value_type(id,v));
@@ -956,8 +941,8 @@ void Component::addGettableVar(const char *systemName,
                                const char *units,
                                const char *desc)
    {
-   unsigned int id = getReg(systemName, DTstring, length>1, units); 
-   
+   unsigned int id = getReg(systemName, DTstring, length>1, units);
+
    // Add to variable map
    varInfo *v = new varInfo(systemName, DTstring, length, ptr, units, desc);
    getVarMap.insert(UInt2InfoMap::value_type(id,v));
@@ -966,8 +951,8 @@ void Component::addGettableVar(const char *systemName,
 
 // Build the xml fragment that describes this variable and publish to system
 unsigned int Component::getReg(const char *systemName,
-                                DataTypeCode type, 
-                                bool isArray, 
+                                DataTypeCode type,
+                                bool isArray,
                                 const char *units)
    {
    char buffer[200];
@@ -983,7 +968,7 @@ unsigned int Component::getReg(const char *systemName,
    strcat(buffer, "\" array=\"");
    if  (isArray) {
        strcat(buffer, "T");
-   } else { 
+   } else {
        strcat(buffer, "F");
    }
    strcat(buffer, "\" units=\"(");

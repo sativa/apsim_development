@@ -16,6 +16,21 @@ using namespace std;
 using namespace protocol;
 // ------------------------------------------------------------------
 //  Short description:
+//     Return a blank string when requested to indicate that we
+//     don't need a wrapper DLL.
+
+//  Notes:
+
+//  Changes:
+//    DPH 7/6/2001
+
+// ------------------------------------------------------------------
+extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
+   {
+   strcpy(wrapperDll, "");
+   }
+// ------------------------------------------------------------------
+//  Short description:
 //     createComponent
 
 //  Notes:
@@ -59,7 +74,7 @@ void SummaryFileComponent::doInit1(const FString& sdml)
 
    // do registrations.
    static const char* stringDDML = "<type kind=\"string\"\\>";
-   static const char* stringArrayDDML = "<type kind=\"string\" array=\"T\"\\>";   
+   static const char* stringArrayDDML = "<type kind=\"string\" array=\"T\"\\>";
    summaryFileWriteID = addRegistration(respondToEventReg, "summaryFileWrite", "");
    tickID = addRegistration(respondToEventReg, "tick", timeTypeDDML);
    prepareID = addRegistration(respondToEventReg, "prepare", "");
