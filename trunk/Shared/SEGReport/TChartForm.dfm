@@ -4,8 +4,8 @@ inherited ChartForm: TChartForm
   PixelsPerInch = 96
   TextHeight = 13
   object ChartPropertiesButton: TSpeedButton [2]
-    Left = 72
-    Top = 80
+    Left = 48
+    Top = 120
     Width = 145
     Height = 25
     Anchors = [akLeft, akTop, akRight]
@@ -87,5 +87,23 @@ inherited ChartForm: TChartForm
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00}
     OnClick = ChartPropertiesButtonClick
+  end
+  object Label1: TLabel [4]
+    Left = -1
+    Top = 80
+    Width = 64
+    Height = 13
+    Caption = 'Series to plot:'
+  end
+  object SeriesNumberEdit: TEdit
+    Left = 72
+    Top = 80
+    Width = 144
+    Height = 21
+    Anchors = [akLeft, akTop, akRight]
+    BevelKind = bkSoft
+    BorderStyle = bsNone
+    TabOrder = 3
+    OnChange = SeriesNumberEditChange
   end
 end

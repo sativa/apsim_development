@@ -30,24 +30,20 @@ class PACKAGE TGraph : public TgtQRChart
       AnsiString* stRef;
       bool ourScaling;
       ReportMacros macros;
+      int dataSeriesNumber;
 
       vector<std::string> sourceNames;
-      vector<string> seriesNames;
 
       virtual void __fastcall DefineProperties(TFiler *Filer);
       void __fastcall LoadStringProperty(TReader *Reader);
       void __fastcall StoreStringProperty(TWriter *Writer);
-      bool __fastcall getDuplicateChartSeries(void);
-      void __fastcall setDuplicateChartSeries(bool duplicateChartSeries);
       void __fastcall setScientificScaling(bool scaling);
-
-      void reinstateChartSeries(void);
+      void __fastcall setSeriesNumber(int seriesNumber);
 
       void refresh(void);
       bool __fastcall onBeforeAdd(TChartSeries* series);
       void __fastcall afterDataRefresh(TDataSet* dataset);
       virtual void __fastcall Loaded(void);
-      void __fastcall Notification(TComponent* comp, TOperation operation);
       void replaceChartMacros(void);
       void removeNonTemplateChartSeries(void);
       void scaleAxis(void);
@@ -60,7 +56,7 @@ class PACKAGE TGraph : public TgtQRChart
       void userEdit(void);
 
    __published:
-      __property bool duplicateChartSeries = {read=getDuplicateChartSeries, write=setDuplicateChartSeries};
+      __property int seriesNumber = {read=dataSeriesNumber, write=setSeriesNumber};
       __property bool scientificScaling = {read=ourScaling, write=setScientificScaling};
    };
 //---------------------------------------------------------------------------

@@ -15,7 +15,10 @@ class TChartForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
    TSpeedButton *ChartPropertiesButton;
+   TEdit *SeriesNumberEdit;
+   TLabel *Label1;
    void __fastcall ChartPropertiesButtonClick(TObject *Sender);
+   void __fastcall SeriesNumberEditChange(TObject *Sender);
 private:	// User declarations
    TGraph* graph;
 public:		// User declarations
