@@ -1,8 +1,4 @@
 include base.interface
-include event.interface
-include property.interface
-include method.interface
-
 
 ; -----------------------------------------------------------
 ; OPERATIONSs public interface which other components may
@@ -10,10 +6,10 @@ include method.interface
 ; -----------------------------------------------------------
 class APSIMOperationsPublic
 
-init                   : APSIMMethod         = Initialise
-prepare                : APSIMMethod         = Prepare
-process                : APSIMMethod         = Process
-post                   : APSIMMethod         = Post
+init                   : APSIMMethod         = System Initialise
+prepare                : APSIMMethod         = System Prepare
+process                : APSIMMethod         = System Process
+post                   : APSIMMethod         = System Post
 
 end
 
@@ -29,7 +25,7 @@ class APSIMOperationsExternal
   set                  : APSIMMethod         =  Set
 end
 
-class APSIMOperations
+class APSIMOperatns
    dll      : string
    public   : APSIMOperationsPublic
    external : APSIMOperationsExternal
