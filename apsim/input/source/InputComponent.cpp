@@ -65,18 +65,25 @@ void InputComponent::doInit1(const FString& sdml)
 
    fileName = componentData->getProperty("parameters", "filename");
    if (fileName == "")
-      throw runtime_error("Cannot find a filename parameter for module: "
-                          + string(name));
-   data = new ApsimDataFile(fileName);
+      {
+      string msg = "Cannot find a filename parameter for module: " + string(name);
+      error(msg.c_str(), true);
+      }
+   else
+      {
+      data = new ApsimDataFile(fileName);
 
-   readConstants();
-   readHeadings();
-   dateFieldsOk();
+      readConstants();
+      if (readHeadings())
+         {
+         dateFieldsOk();
 
-   // read in a line from the file so that the fields know what data
-   // type they're dealing with.
-   readLineFromFile();
-   checkForSparseData();
+         // read in a line from the file so that the fields know what data
+         // type they're dealing with.
+         readLineFromFile();
+         checkForSparseData();
+         }
+      }
    }
 // ------------------------------------------------------------------
 // INIT 2 - temporary
@@ -121,28 +128,35 @@ void InputComponent::readConstants(void)
 // ------------------------------------------------------------------
 // read in all headings from file.
 // ------------------------------------------------------------------
-void InputComponent::readHeadings(void)
+bool InputComponent::readHeadings(void)
    {
    vector<string> fieldNames, fieldUnits;
    data->getFieldNames(fieldNames);
    data->getFieldUnits(fieldUnits);
-
-   // Loop through all field names and look for an array specifier.
-   // If one is found then strip it off, then add the variable to
-   // our variables container.
-   for (unsigned int fieldI = 0; fieldI != fieldNames.size(); fieldI++)
+   if (fieldNames.size() == 0 || fieldUnits.size() == 0)
       {
-      if (Str_i_Eq(fieldNames[fieldI], "year") ||
-          Str_i_Eq(fieldNames[fieldI], "day"))
-         fieldNames[fieldI] = string(name) + "_" + fieldNames[fieldI];
-      string fieldNameMinusSpec;
-      unsigned int arraySpec;
-      bool isArray = removeArraySpec(fieldNames[fieldI], fieldNameMinusSpec, arraySpec);
+      string msg = "Cannot find field names or units in input file: " + fileName;
+      error(msg.c_str(), true);
+      }
+   else
+      {
+      // Loop through all field names and look for an array specifier.
+      // If one is found then strip it off, then add the variable to
+      // our variables container.
+      for (unsigned int fieldI = 0; fieldI != fieldNames.size(); fieldI++)
+         {
+         if (Str_i_Eq(fieldNames[fieldI], "year") ||
+             Str_i_Eq(fieldNames[fieldI], "day"))
+            fieldNames[fieldI] = string(name) + "_" + fieldNames[fieldI];
+         string fieldNameMinusSpec;
+         unsigned int arraySpec;
+         bool isArray = removeArraySpec(fieldNames[fieldI], fieldNameMinusSpec, arraySpec);
 
-      addVariable(fieldNameMinusSpec,
-                  fieldUnits[fieldI],
-                  data->getFieldValue(fieldI),
-                  arraySpec, true, isArray);
+         addVariable(fieldNameMinusSpec,
+                     fieldUnits[fieldI],
+                     data->getFieldValue(fieldI),
+                     arraySpec, true, isArray);
+         }
       }
    }
 
@@ -249,32 +263,38 @@ void InputComponent::checkForSparseData(void)
 // ------------------------------------------------------------------
 bool InputComponent::advanceToTodaysData(void)
    {
-   double fileDate;
-
-   do
+   vector<string> fieldNames, fieldUnits;
+   data->getFieldNames(fieldNames);
+   data->getFieldUnits(fieldUnits);
+   if (fieldNames.size() > 0 && fieldUnits.size() > 0)
       {
-      readLineFromFile();
-      fileDate = getFileDate();
-      }
-   while (fileDate < todaysDate && data->next());
+      double fileDate;
 
-   if (fileDate == todaysDate)
-      {
-      data->next();
-      for (InputVariables::iterator i = variables.begin();
-                                    i != variables.end();
-                                    ++i)
-         i->second->useConstantValues(false);
+      do
+         {
+         readLineFromFile();
+         fileDate = getFileDate();
+         }
+      while (fileDate < todaysDate && data->next());
 
-      return true;
-      }
-   else
-      {
-      for (InputVariables::iterator i = variables.begin();
-                                    i != variables.end();
-                                    ++i)
-         i->second->useConstantValues(true);
-      return false;
+      if (fileDate == todaysDate)
+         {
+         data->next();
+         for (InputVariables::iterator i = variables.begin();
+                                       i != variables.end();
+                                       ++i)
+            i->second->useConstantValues(false);
+
+         return true;
+         }
+      else
+         {
+         for (InputVariables::iterator i = variables.begin();
+                                       i != variables.end();
+                                       ++i)
+            i->second->useConstantValues(true);
+         return false;
+         }
       }
    }
 // ------------------------------------------------------------------

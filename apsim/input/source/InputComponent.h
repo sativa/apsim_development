@@ -40,7 +40,7 @@ class InputComponent : public protocol::Component
       StringVariant* monthI;
 
       void readConstants(void);
-      void readHeadings(void);
+      bool readHeadings(void);
       InputVariables::iterator findVariable(const string& name);
       bool removeArraySpec(const std::string& fieldName,
                            std::string& fieldNameMinusSpec,
