@@ -341,7 +341,7 @@
           ---------------------------------------------------------
 
 ------- Wheat Initialisation --------------------------------------------------
-      initialising
+     phenology model: Wheat
 ------- Start of simulation  --------------------------------------------------
 15 December 1996(Day of year=350), operatns: 
       Sending apply message to fertiliz
@@ -358,19 +358,11 @@
       - reading cultivar parameters
          ------------------------------------------------
         cultivar                   = yecora
-        est_days_emerg_to_init     =        0
-        cum_vernal_days            =
-        tt_emerg_to_endjuv         =
-        x_pp_endjuv_to_init        =
-        y_tt_endjuv_to_init        =
-        x_pp_init_to_flower        =
-        y_tt_init_to_flower        =
-        x_pp_flower_to_start_grain =
-        y_tt_flower_to_start_grain =
-        x_pp_start_to_end_grain    =
-        y_tt_start_to_end_grain    =
-        tt_end_grain_to_maturity   =       0.00
-        tt_maturity_to_ripe        =       0.00
+        pesw germination           =       0.00 (0-1)
+        vernalisation sensitivity  =       2.50 ()
+        photoperiod sensitivity    =       3.50 ()
+        phyllochron                =         95 ()
+        tt start gf to maturity    =        580 (dd)
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -427,11 +419,11 @@
 5 January 1997(Day of year=5), Wheat: 
       stage 3.0 emergence
                      biomass =           0.86 (g/m^2)   lai          =   0.037 (m^2/m^2)
-                     stover N conc =     5.85 (%)     extractable sw =   14.67 (mm)
+                     stover N conc =     5.85 (%)    extractable sw =   14.67 (mm)
 6 January 1997(Day of year=6), Wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.90 (g/m^2)   lai          =   0.038 (m^2/m^2)
-                     stover N conc =     5.84 (%)     extractable sw =   14.42 (mm)
+                     stover N conc =     5.84 (%)    extractable sw =   14.42 (mm)
 30 January 1997(Day of year=30), operatns: 
       Sending apply message to fertiliz
 30 January 1997(Day of year=30), fertiliz: 
@@ -463,7 +455,7 @@
 12 March 1997(Day of year=71), Wheat: 
       stage 5.0 floral_initiation
                      biomass =         178.59 (g/m^2)   lai          =   2.401 (m^2/m^2)
-                     stover N conc =     2.00 (%)     extractable sw =   92.81 (mm)
+                     stover N conc =     2.00 (%)    extractable sw =   92.81 (mm)
 13 March 1997(Day of year=72), operatns: 
       Sending apply message to irrigate
 17 March 1997(Day of year=76), operatns: 
@@ -507,7 +499,7 @@
 13 April 1997(Day of year=103), Wheat: 
       stage 6.0 flowering
                      biomass =         560.89 (g/m^2)   lai          =   1.124 (m^2/m^2)
-                     stover N conc =     0.75 (%)     extractable sw =  190.37 (mm)
+                     stover N conc =     0.75 (%)    extractable sw =  190.37 (mm)
 16 April 1997(Day of year=106), operatns: 
       Sending apply message to fertiliz
 16 April 1997(Day of year=106), fertiliz: 
@@ -520,7 +512,7 @@
 19 April 1997(Day of year=109), Wheat: 
       stage 7.0 start_grain_fill
                      biomass =         640.96 (g/m^2)   lai          =   0.934 (m^2/m^2)
-                     stover N conc =     0.53 (%)     extractable sw =  199.65 (mm)
+                     stover N conc =     0.53 (%)    extractable sw =  199.65 (mm)
 21 April 1997(Day of year=111), operatns: 
       Sending apply message to fertiliz
 21 April 1997(Day of year=111), fertiliz: 
@@ -562,15 +554,7 @@
       Sending apply message to irrigate
 15 May 1997(Day of year=135), Wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         735.11 (g/m^2)   lai          =   0.214 (m^2/m^2)
-                     stover N conc =     0.32 (%)     extractable sw =  218.89 (mm)
-19 May 1997(Day of year=139), Wheat: 
-      stage 9.0 maturity
-                     biomass =         737.04 (g/m^2)   lai          =   0.186 (m^2/m^2)
-                     stover N conc =     0.32 (%)     extractable sw =  204.16 (mm)
-20 May 1997(Day of year=140), Wheat: 
-      stage 10.0 harvest_ripe
-                     biomass =         737.04 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     0.32 (%)     extractable sw =  213.62 (mm)
+                     biomass =         730.33 (g/m^2)   lai          =   0.214 (m^2/m^2)
+                     stover N conc =     0.30 (%)    extractable sw =  219.91 (mm)
 30 May 1997(Day of year=150), clock: 
      Simulation is terminating due to end criteria being met.
