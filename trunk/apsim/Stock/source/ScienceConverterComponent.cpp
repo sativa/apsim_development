@@ -104,9 +104,9 @@ void ScienceConverterComponent::doInit1(const FString& sdml)
 void ScienceConverterComponent::doInit2(void)
    {
       plant2StockSent = false;
-      read_constants (); // Read constants
+      readParameters (); // Read constants
+      readHerbageModuleParameters ();
       doRunTimeReg ();
-
 //     zero_variables (); // Zero global states
 //     init ();           // Site specific init
 //     get_other_variables (); // sw etc..
@@ -140,7 +140,8 @@ void ScienceConverterComponent::respondToEvent(unsigned int& fromID, unsigned in
    if (eventID == removeHerbageID && plant2StockSent == true)
    {
       variant.unpack(grazed);
-
+      if (c.debug == "on")
+      {
          ostrstream msg1;
          msg1 << endl << "Remove herbage dmd pools:-" << endl;
          float dmTotal1 = 0.0;
@@ -154,6 +155,7 @@ void ScienceConverterComponent::respondToEvent(unsigned int& fromID, unsigned in
          msg1 << endl << "   dm total = " << dmTotal1 << " (kg/ha)" << endl << ends;
 
          writeString (msg1.str());
+      }
 
       for (unsigned int dmdPool = 0; dmdPool < grazed.herbage.size(); dmdPool++)
       {
@@ -218,22 +220,32 @@ void ScienceConverterComponent::respondToEvent(unsigned int& fromID, unsigned in
       dm.dlt.erase(dm.dlt.begin(), dm.dlt.end());
       dm.part.erase(dm.part.begin(), dm.part.end());
 
+      float dmTotal = 0.0;
+      for (unsigned int pool=0; pool < crop.dm.size(); pool++)
+      {
+         for (unsigned int part = 0; part < crop.dm[pool].part.size(); part++)
+         {
+            dmTotal +=  crop.dm[pool].dlt[part];
+         }
+      }
+
+      if (c.debug == "on")
+      {
          ostrstream msg;
          msg << endl << "Remove herbage plant parts:-" << endl;
-         float dmTotal = 0.0;
 
          for (unsigned int pool=0; pool < crop.dm.size(); pool++)
          {
             for (unsigned int part = 0; part < crop.dm[pool].part.size(); part++)
             {
                msg << "   dm " << crop.dm[pool].pool << " " << crop.dm[pool].part[part] << " = " << crop.dm[pool].dlt[part] << " (g/m2)" << endl;
-               dmTotal +=  crop.dm[pool].dlt[part];
             }
          }
 
          msg << endl << "   dm total = " << dmTotal << " (g/m2)" << endl << ends;
 
          writeString (msg.str());
+      }
 
       if (dmTotal > 1.0e-6)
       {
@@ -246,8 +258,7 @@ void ScienceConverterComponent::respondToEvent(unsigned int& fromID, unsigned in
       stockBuy(variant);
    }
    else
-
-      {   // Don't respond to any other events.
+   {   // Don't respond to any other events.
    }
 }
 // ------------------------------------------------------------------
@@ -868,11 +879,14 @@ void ScienceConverterComponent::sendPlant2Stock(protocol::QueryValueData& queryD
 
       for (int pool = 0; pool < c.numDmdPools; pool++)
       {
+         if (c.debug == "on")
+         {
 
-         ostrstream msgFraction;
-         msgFraction << endl << "Herbage dmd distribution, pool " << pool+1 << ":-" << endl;
-         msgFraction << dmdFraction[pool] << ends;
-         writeString (msgFraction.str());
+            ostrstream msgFraction;
+            msgFraction << endl << "Herbage dmd distribution, pool " << pool+1 << ":-" << endl;
+            msgFraction << dmdFraction[pool] << ends;
+            writeString (msgFraction.str());
+         }
 
          poolDm = dm * dmdFraction[pool];
          dmTot = poolDm.total();
@@ -915,20 +929,23 @@ void ScienceConverterComponent::sendPlant2Stock(protocol::QueryValueData& queryD
 
          if (herbage.dm > 0.0)
          {
-            ostrstream msg;
-            msg << endl << "Herbage on offer, pool " << pool+1 << ":-" << endl
-                << "   dm           = " <<              herbage.dm <<      " (kg/ha)" << endl
-                << "   dmd          = " <<              herbage.dmd <<     " (-)" <<     endl
-                << "   cp_conc      = " <<              herbage.cp_conc << " (kg/kg)" << endl
-                << "   p_conc       = " <<              herbage.p_conc <<  " (kg/kg)" << endl
-                << "   s_conc       = " <<              herbage.s_conc <<  " (kg/kg)" << endl
-                << "   ash_alk      = " <<              herbage.ash_alk << " (mol/kg)" << endl
-                << "   prot_dg      = " <<              herbage.prot_dg << " (kg/kg)" << endl
-                << "   bd           = " <<              bd << " (g/m^3)" << endl
-                << "   dm total     = " <<              dm.total() *kg2g/ha2sm << " (g/m2)" << endl
-                << "   height       = " <<              height*mm2m << " (m)" << endl
-                << "   height_ratio = " <<              herbage.height_ratio << " (-)" << ends;
-            writeString (msg.str());
+            if (c.debug == "on")
+            {
+               ostrstream msg;
+               msg << endl << "Herbage on offer, pool " << pool+1 << ":-" << endl
+                   << "   dm           = " <<              herbage.dm <<      " (kg/ha)" << endl
+                   << "   dmd          = " <<              herbage.dmd <<     " (-)" <<     endl
+                   << "   cp_conc      = " <<              herbage.cp_conc << " (kg/kg)" << endl
+                   << "   p_conc       = " <<              herbage.p_conc <<  " (kg/kg)" << endl
+                   << "   s_conc       = " <<              herbage.s_conc <<  " (kg/kg)" << endl
+                   << "   ash_alk      = " <<              herbage.ash_alk << " (mol/kg)" << endl
+                   << "   prot_dg      = " <<              herbage.prot_dg << " (kg/kg)" << endl
+                   << "   bd           = " <<              bd << " (g/m^3)" << endl
+                   << "   dm total     = " <<              dm.total() *kg2g/ha2sm << " (g/m2)" << endl
+                   << "   height       = " <<              height*mm2m << " (m)" << endl
+                   << "   height_ratio = " <<              herbage.height_ratio << " (-)" << ends;
+               writeString (msg.str());
+            }
          }
 
       }
@@ -1150,63 +1167,83 @@ float ScienceConverterComponent::divide (float dividend, float divisor, float de
    return quotient;
    }
 
-void ScienceConverterComponent::read_constants ( void )
+void ScienceConverterComponent::readParameters ( void )
 {
 
 //+  Constant Values
-    const char*  my_name = "read_constants" ;
-    const char*  section_name = "constants" ;
+    const char*  my_name = "readParameters" ;
+    const char*  section_name = "parameters" ;
 
 //+  Local Variables
     int   numvals;                                // number of values returned
 
 //- Implementation Section ----------------------------------
 
-    writeString (" - reading constants\n");
+    writeString (" - reading parameters");
 
-//    c.crop_type = parent->readParameter (section_name, "crop_type");
-//
-    c.herbageModuleName = readParameter (section_name, "herbageModuleName");
+    c.herbageModuleName = readParameter (section_name, "herbage_module_name");
+    c.debug = readParameter (section_name, "debug");
 
-    readParameter (section_name, "dmdValue", c.dmdValue, c.numDmdPools, 0.0, 1.0);
+      ostrstream msg;
+      msg << "Herbage module name = " << c.herbageModuleName << endl
+          << "Debug = " << c.debug << ends;
+      writeString (msg.str());
+}
 
-    readParameter (section_name, "p_conc_green_stem_default", c.pConcGreenStemDefault, 0.0, 1.0);
-    readParameter (section_name, "p_conc_green_leaf_default", c.pConcGreenLeafDefault, 0.0, 1.0);
-    readParameter (section_name, "p_conc_senesced_stem_default", c.pConcSenescedStemDefault, 0.0, 1.0);
-    readParameter (section_name, "p_conc_senesced_leaf_default", c.pConcSenescedLeafDefault, 0.0, 1.0);
-    readParameter (section_name, "p_conc_dead_stem_default", c.pConcDeadStemDefault, 0.0, 1.0);
-    readParameter (section_name, "p_conc_dead_leaf_default", c.pConcDeadLeafDefault, 0.0, 1.0);
+void ScienceConverterComponent::readHerbageModuleParameters ( void )
+{
 
-    readParameter (section_name, "ash_alk_green_stem_default", c.AshAlkGreenStemDefault, 0.0, 500.0);
-    readParameter (section_name, "ash_alk_green_leaf_default", c.AshAlkGreenLeafDefault, 0.0, 500.0);
-    readParameter (section_name, "ash_alk_senesced_stem_default", c.AshAlkSenescedStemDefault, 0.0, 500.0);
-    readParameter (section_name, "ash_alk_senesced_leaf_default", c.AshAlkSenescedLeafDefault, 0.0, 500.0);
-    readParameter (section_name, "ash_alk_dead_stem_default", c.AshAlkDeadStemDefault, 0.0, 500.0);
-    readParameter (section_name, "ash_alk_dead_leaf_default", c.AshAlkDeadLeafDefault, 0.0, 500.0);
+//+  Constant Values
+    const char*  my_name = "readHerbageModuleParameters" ;
+    const char*  section_name = "parameters" ;
 
-    readParameter (section_name, "ns_ratio_green_stem_default", c.NSRatioGreenStemDefault, 0.0, 30.0);
-    readParameter (section_name, "ns_ratio_green_leaf_default", c.NSRatioGreenLeafDefault, 0.0, 30.0);
-    readParameter (section_name, "ns_ratio_senesced_stem_default", c.NSRatioSenescedStemDefault, 0.0, 30.0);
-    readParameter (section_name, "ns_ratio_senesced_leaf_default", c.NSRatioSenescedLeafDefault, 0.0, 30.0);
-    readParameter (section_name, "ns_ratio_dead_stem_default", c.NSRatioDeadStemDefault, 0.0, 30.0);
-    readParameter (section_name, "ns_ratio_dead_leaf_default", c.NSRatioDeadLeafDefault, 0.0, 30.0);
+//+  Local Variables
+    int   numvals;                                // number of values returned
 
-    readParameter (section_name, "np_ratio_green_stem_default", c.NPRatioGreenStemDefault, 0.0, 10.0);
-    readParameter (section_name, "np_ratio_green_leaf_default", c.NPRatioGreenLeafDefault, 0.0, 10.0);
-    readParameter (section_name, "np_ratio_senesced_stem_default", c.NPRatioSenescedStemDefault, 0.0, 10.0);
-    readParameter (section_name, "np_ratio_senesced_leaf_default", c.NPRatioSenescedLeafDefault, 0.0, 10.0);
-    readParameter (section_name, "np_ratio_dead_stem_default", c.NPRatioDeadStemDefault, 0.0, 10.0);
-    readParameter (section_name, "np_ratio_dead_leaf_default", c.NPRatioDeadLeafDefault, 0.0, 10.0);
+//- Implementation Section ----------------------------------
+      ostrstream msg;
+      msg << " - reading  herbage parameters for module '" << c.herbageModuleName.c_str() << "'" << endl << ends;
+      writeString (msg.str());
+
+    readParameter (c.herbageModuleName.c_str(), "dmdValue", c.dmdValue, c.numDmdPools, 0.0, 1.0);
+
+    readParameter (c.herbageModuleName.c_str(), "p_conc_green_stem_default", c.pConcGreenStemDefault, 0.0, 1.0);
+    readParameter (c.herbageModuleName.c_str(), "p_conc_green_leaf_default", c.pConcGreenLeafDefault, 0.0, 1.0);
+    readParameter (c.herbageModuleName.c_str(), "p_conc_senesced_stem_default", c.pConcSenescedStemDefault, 0.0, 1.0);
+    readParameter (c.herbageModuleName.c_str(), "p_conc_senesced_leaf_default", c.pConcSenescedLeafDefault, 0.0, 1.0);
+    readParameter (c.herbageModuleName.c_str(), "p_conc_dead_stem_default", c.pConcDeadStemDefault, 0.0, 1.0);
+    readParameter (c.herbageModuleName.c_str(), "p_conc_dead_leaf_default", c.pConcDeadLeafDefault, 0.0, 1.0);
+
+    readParameter (c.herbageModuleName.c_str(), "ash_alk_green_stem_default", c.AshAlkGreenStemDefault, 0.0, 500.0);
+    readParameter (c.herbageModuleName.c_str(), "ash_alk_green_leaf_default", c.AshAlkGreenLeafDefault, 0.0, 500.0);
+    readParameter (c.herbageModuleName.c_str(), "ash_alk_senesced_stem_default", c.AshAlkSenescedStemDefault, 0.0, 500.0);
+    readParameter (c.herbageModuleName.c_str(), "ash_alk_senesced_leaf_default", c.AshAlkSenescedLeafDefault, 0.0, 500.0);
+    readParameter (c.herbageModuleName.c_str(), "ash_alk_dead_stem_default", c.AshAlkDeadStemDefault, 0.0, 500.0);
+    readParameter (c.herbageModuleName.c_str(), "ash_alk_dead_leaf_default", c.AshAlkDeadLeafDefault, 0.0, 500.0);
+
+    readParameter (c.herbageModuleName.c_str(), "ns_ratio_green_stem_default", c.NSRatioGreenStemDefault, 0.0, 30.0);
+    readParameter (c.herbageModuleName.c_str(), "ns_ratio_green_leaf_default", c.NSRatioGreenLeafDefault, 0.0, 30.0);
+    readParameter (c.herbageModuleName.c_str(), "ns_ratio_senesced_stem_default", c.NSRatioSenescedStemDefault, 0.0, 30.0);
+    readParameter (c.herbageModuleName.c_str(), "ns_ratio_senesced_leaf_default", c.NSRatioSenescedLeafDefault, 0.0, 30.0);
+    readParameter (c.herbageModuleName.c_str(), "ns_ratio_dead_stem_default", c.NSRatioDeadStemDefault, 0.0, 30.0);
+    readParameter (c.herbageModuleName.c_str(), "ns_ratio_dead_leaf_default", c.NSRatioDeadLeafDefault, 0.0, 30.0);
+
+    readParameter (c.herbageModuleName.c_str(), "np_ratio_green_stem_default", c.NPRatioGreenStemDefault, 0.0, 10.0);
+    readParameter (c.herbageModuleName.c_str(), "np_ratio_green_leaf_default", c.NPRatioGreenLeafDefault, 0.0, 10.0);
+    readParameter (c.herbageModuleName.c_str(), "np_ratio_senesced_stem_default", c.NPRatioSenescedStemDefault, 0.0, 10.0);
+    readParameter (c.herbageModuleName.c_str(), "np_ratio_senesced_leaf_default", c.NPRatioSenescedLeafDefault, 0.0, 10.0);
+    readParameter (c.herbageModuleName.c_str(), "np_ratio_dead_stem_default", c.NPRatioDeadStemDefault, 0.0, 10.0);
+    readParameter (c.herbageModuleName.c_str(), "np_ratio_dead_leaf_default", c.NPRatioDeadLeafDefault, 0.0, 10.0);
 
     int numClasses = 3;
-    readParameter (section_name, "dmd_green_leaf", c.dmdGreenLeaf, numClasses, 0.0, 1.0);
-    readParameter (section_name, "dmd_green_stem", c.dmdGreenStem, numClasses, 0.0, 1.0);
-    readParameter (section_name, "dmd_senesced_leaf", c.dmdSenescedLeaf, numClasses, 0.0, 1.0);
-    readParameter (section_name, "dmd_senesced_stem", c.dmdSenescedStem, numClasses, 0.0, 1.0);
-    readParameter (section_name, "dmd_dead_leaf", c.dmdDeadLeaf, numClasses, 0.0, 1.0);
-    readParameter (section_name, "dmd_dead_stem", c.dmdDeadStem, numClasses, 0.0, 1.0);
+    readParameter (c.herbageModuleName.c_str(), "dmd_green_leaf", c.dmdGreenLeaf, numClasses, 0.0, 1.0);
+    readParameter (c.herbageModuleName.c_str(), "dmd_green_stem", c.dmdGreenStem, numClasses, 0.0, 1.0);
+    readParameter (c.herbageModuleName.c_str(), "dmd_senesced_leaf", c.dmdSenescedLeaf, numClasses, 0.0, 1.0);
+    readParameter (c.herbageModuleName.c_str(), "dmd_senesced_stem", c.dmdSenescedStem, numClasses, 0.0, 1.0);
+    readParameter (c.herbageModuleName.c_str(), "dmd_dead_leaf", c.dmdDeadLeaf, numClasses, 0.0, 1.0);
+    readParameter (c.herbageModuleName.c_str(), "dmd_dead_stem", c.dmdDeadStem, numClasses, 0.0, 1.0);
 
-    readParameter (section_name, "cp_n_ratio", c.cpNRatio, 0.0, 10.0);
+    readParameter (c.herbageModuleName.c_str(), "cp_n_ratio", c.cpNRatio, 0.0, 10.0);
 
 //      PlantPool partAshAlk(254.0, 96.0, 254.0, 96.0, 254.0, 96.0);
 //      PlantPool NSRatio(19.0, 11.0, 19.0, 11.0, 19.0, 11.0);

@@ -49,7 +49,8 @@ class ScienceConverterComponent : public protocol::Component
       void getPDead(PlantPool &P, vector<float>  &pDead, PlantPool &dm, vector<float>  &dmDead);
       void getHeight(float &height);
       void getVariables(PlantPool &dm, PlantPool &N, PlantPool &P, float &height);
-      void read_constants ( void );
+      void readParameters ( void );
+      void readHerbageModuleParameters ( void );
       void calcDmdDistribution(PlantPool dmdFraction[]);
       void proportion (float dmdAvg, float dmdMax, float dmdMin, float dmdFraction[]);
       float divide (float dividend, float divisor, float default_value);
@@ -97,6 +98,7 @@ class ScienceConverterComponent : public protocol::Component
       struct
       {
          string herbageModuleName;
+         string debug;
 
          float dmdValue[maxDmdPools];
          int   numDmdPools;
