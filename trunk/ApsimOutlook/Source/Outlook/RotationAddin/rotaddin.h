@@ -3,6 +3,7 @@
 #define RotationAddInH
 
 #include "ToolBarAddIn.h"
+#include <general\ini_file.h>
 // ------------------------------------------------------------------
 //  Short description:
 //    this class encapsulates a crop rotation addin
@@ -41,6 +42,7 @@ class RotationAddIn : public ToolBarAddInBase
       TToolButton* rotationButton;
       Graphics::TBitmap* glyph;
       TToolBar* Toolbar;
+      Ini_file ini;
 
       void __fastcall buttonClick(TObject* Sender);
       const Graphics::TBitmap* getImageForFactor(const std::string& factorName) const {return NULL;}
@@ -50,6 +52,7 @@ class RotationAddIn : public ToolBarAddInBase
       bool isCropVariable(const string& fieldName) const;
       bool cropWasSown(const TAPSRecord& recordI, const std::string& fieldName) const;
       bool CropHasNonZeroValue(const TAPSRecord& recordI, const std::string& crop_acronym) const;
+      bool doTotalVariable(const std::string& fieldName);
    };
 
 #endif
