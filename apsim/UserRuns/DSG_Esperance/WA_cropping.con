@@ -1,0 +1,1040 @@
+!!!!!!!!!! Impact of summer cropping on productivity and deep drainage !!!!!
+
+!! rotations simulated
+!!   - continuous wheat
+!!   - sorghum opportunity crop between wheat crops
+!!   - sorghum Sept plant after pasture and into wheat (2 offset runs)
+!!   - no sorghum after pasture and then into wheat (2 offset runs)
+!!   - continuous wheat with full profile at start of fallow
+!!   - wheat-sorghum with full profile at start of sorghum
+
+!! Locations
+!    - salmon_gums
+!    - scaddan
+!    - Myrup
+!    - Kendenup
+
+!*************************************************************************************************
+!***** Salmon_Gums ***********************
+!*************************************************************************************************
+
+!!!! Continuous wheat !!!!
+
+version = 3.5
+[apsim.sal_cw]
+Title = Salmon Gums continuous wheat
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard] 
+Module = report   report.par[all] report.par[sal_cw]
+Module = Input(met)      met\salmon_gums.met  [weather]
+Module = manager  runs.par [cont_wht]   runs.par[all] runs.par[salmon_gums]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [salmon_gums]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [salmon_gums]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [salmon_gums] wheat.ini [standard]
+Module = sorghum     soil.par [salmon_gums] %apsuite\apsim\sorghum\sorghum.ini [standard]
+Module = Summaryfile report.par[sal_cw]
+Module = Screen      report.par[all]
+Module = tracker   report.par[all]
+ 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with rainfall-based sowing rule
+
+[apsim.sal_sw]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sal_sw]
+Module = Input(met)      met\salmon_gums.met  [weather]
+Module = manager  runs.par [sorghum_wht]   runs.par[all] runs.par[salmon_gums]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [salmon_gums]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [salmon_gums]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [salmon_gums] wheat.ini [standard]
+Module = sorghum     soil.par [salmon_gums] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sal_sw]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with rainfall-based sowing rule + esw>10
+
+[apsim.sal_sw_esw10]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sal_sw_esw10]
+Module = Input(met)      met\salmon_gums.met  [weather]
+Module = manager  runs.par [sorghum_wht_esw10]   runs.par[all] runs.par[salmon_gums]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [salmon_gums]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [salmon_gums]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [salmon_gums] wheat.ini [standard]
+Module = sorghum     soil.par [salmon_gums] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sal_sw_esw10]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with rainfall-based sowing rule + esw>50
+
+[apsim.sal_sw_esw50]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sal_sw_esw50]
+Module = Input(met)      met\salmon_gums.met  [weather]
+Module = manager  runs.par [sorghum_wht_esw50]   runs.par[all] runs.par[salmon_gums]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [salmon_gums]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [salmon_gums]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [salmon_gums] wheat.ini [standard]
+Module = sorghum     soil.par [salmon_gums] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sal_sw_esw50]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with rainfall-based sowing rule + esw>100
+
+[apsim.sal_sw_esw100]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sal_sw_esw100]
+Module = Input(met)      met\salmon_gums.met  [weather]
+Module = manager  runs.par [sorghum_wht_esw100]   runs.par[all] runs.par[salmon_gums]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [salmon_gums]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [salmon_gums]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [salmon_gums] wheat.ini [standard]
+Module = sorghum     soil.par [salmon_gums] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sal_sw_esw100]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! pasture sorghum wheat with pre-set planting date (mid-september)
+
+[apsim.sal_psw]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sal_psw]
+Module = Input(met)      met\salmon_gums.met  [weather]
+Module = manager  runs.par [psw]   runs.par[all] runs.par[salmon_gums]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [salmon_gums]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [salmon_gums]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [salmon_gums] wheat.ini [standard]
+Module = sorghum     soil.par [salmon_gums] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sal_psw]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! pasture sorghum wheat with rainfall-based sowing rule 
+
+[apsim.sal_psw_r]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sal_psw_r]
+Module = Input(met)      met\salmon_gums.met  [weather]
+Module = manager  runs.par [psw_r]   runs.par[all] runs.par[salmon_gums]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [salmon_gums]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [salmon_gums]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [salmon_gums] wheat.ini [standard]
+Module = sorghum     soil.par [salmon_gums] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sal_psw_r]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! pasture sorghum wheat with rainfall-based sowing rule + esw>10
+
+[apsim.sal_psw_r_esw10]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sal_psw_r_esw10]
+Module = Input(met)      met\salmon_gums.met  [weather]
+Module = manager  runs.par [psw_r_esw10]   runs.par[all] runs.par[salmon_gums]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [salmon_gums]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [salmon_gums]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [salmon_gums] wheat.ini [standard]
+Module = sorghum     soil.par [salmon_gums] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sal_psw_r_esw10]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! pasture sorghum wheat with rainfall-based sowing rule + esw>50
+
+[apsim.sal_psw_r_esw50]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sal_psw_r_esw50]
+Module = Input(met)      met\salmon_gums.met  [weather]
+Module = manager  runs.par [psw_r_esw50]   runs.par[all] runs.par[salmon_gums]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [salmon_gums]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [salmon_gums]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [salmon_gums] wheat.ini [standard]
+Module = sorghum     soil.par [salmon_gums] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sal_psw_r_esw50]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! pasture sorghum wheat with rainfall-based sowing rule + esw>100
+
+[apsim.sal_psw_r_esw100]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sal_psw_r_esw100]
+Module = Input(met)      met\salmon_gums.met  [weather]
+Module = manager  runs.par [psw_r_esw100]   runs.par[all] runs.par[salmon_gums]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [salmon_gums]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [salmon_gums]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [salmon_gums] wheat.ini [standard]
+Module = sorghum     soil.par [salmon_gums] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sal_psw_r_esw100]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! fallow (no sorghum) after pasture followed by wheat 
+
+[apsim.sal_pfw]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sal_pfw]
+Module = Input(met)      met\salmon_gums.met  [weather]
+Module = manager  runs.par [no_sorghum_sept_wht]   runs.par[all] runs.par[salmon_gums]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [salmon_gums]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [salmon_gums]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [salmon_gums] wheat.ini [standard]
+Module = sorghum     soil.par [salmon_gums] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sal_pfw]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! Continuous wheat with full profile at fallow!!!!
+
+[apsim.sal_cw_fp]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sal_cw_fp]
+Module = Input(met)      met\salmon_gums.met  [weather]
+Module = manager  runs.par [cont_wht_fp]   runs.par[all] runs.par[salmon_gums]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [salmon_gums]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [salmon_gums]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [salmon_gums] wheat.ini [standard]
+Module = sorghum     soil.par [salmon_gums] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sal_cw_fp]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with full profile at sorghum
+
+[apsim.sal_sw_fp]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sal_sw_fp]
+Module = Input(met)      met\salmon_gums.met  [weather]
+Module = manager  runs.par [sorghum_wht_fp]   runs.par[all] runs.par[salmon_gums]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [salmon_gums]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [salmon_gums]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [salmon_gums] wheat.ini [standard]
+Module = sorghum     soil.par [salmon_gums] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sal_sw_fp]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+!*************************************************************************************************
+!***** Scaddan ***********************
+!*************************************************************************************************
+
+!!!! Continuous wheat !!!!
+
+[apsim.sca_cw]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sca_cw]
+Module = Input(met)      met\scaddan.met  [weather]
+Module = manager  runs.par [cont_wht]   runs.par[all] runs.par[scaddan]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [scaddan]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [scaddan]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [scaddan] wheat.ini [standard]
+Module = sorghum     soil.par [scaddan] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sca_cw]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with rainfall-based sowing rule
+
+[apsim.sca_sw]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sca_sw]
+Module = Input(met)      met\scaddan.met  [weather]
+Module = manager  runs.par [sorghum_wht]   runs.par[all] runs.par[scaddan]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [scaddan]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [scaddan]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [scaddan] wheat.ini [standard]
+Module = sorghum     soil.par [scaddan] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sca_sw]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with rainfall-based sowing rule + esw>10
+
+[apsim.sca_sw_esw10]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sca_sw_esw10]
+Module = Input(met)      met\scaddan.met  [weather]
+Module = manager  runs.par [sorghum_wht_esw10]   runs.par[all] runs.par[scaddan]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [scaddan]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [scaddan]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [scaddan] wheat.ini [standard]
+Module = sorghum     soil.par [scaddan] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sca_sw_esw10]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with rainfall-based sowing rule + esw>50
+
+[apsim.sca_sw_esw50]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sca_sw_esw50]
+Module = Input(met)      met\scaddan.met  [weather]
+Module = manager  runs.par [sorghum_wht_esw50]   runs.par[all] runs.par[scaddan]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [scaddan]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [scaddan]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [scaddan] wheat.ini [standard]
+Module = sorghum     soil.par [scaddan] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sca_sw_esw50]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with rainfall-based sowing rule + esw>100
+
+[apsim.sca_sw_esw100]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sca_sw_esw100]
+Module = Input(met)      met\scaddan.met  [weather]
+Module = manager  runs.par [sorghum_wht_esw100]   runs.par[all] runs.par[scaddan]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [scaddan]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [scaddan]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [scaddan] wheat.ini [standard]
+Module = sorghum     soil.par [scaddan] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sca_sw_esw100]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! pasture sorghum wheat with pre-set planting date (mid-september)
+
+[apsim.sca_psw]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sca_psw]
+Module = Input(met)      met\scaddan.met  [weather]
+Module = manager  runs.par [psw]   runs.par[all] runs.par[scaddan]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [scaddan]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [scaddan]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [scaddan] wheat.ini [standard]
+Module = sorghum     soil.par [scaddan] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sca_psw]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! pasture sorghum wheat with rainfall-based sowing rule 
+
+[apsim.sca_psw_r]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sca_psw_r]
+Module = Input(met)      met\scaddan.met  [weather]
+Module = manager  runs.par [psw_r]   runs.par[all] runs.par[scaddan]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [scaddan]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [scaddan]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [scaddan] wheat.ini [standard]
+Module = sorghum     soil.par [scaddan] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sca_psw_r]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! pasture sorghum wheat with rainfall-based sowing rule + esw>10
+
+[apsim.sca_psw_r_esw10]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sca_psw_r_esw10]
+Module = Input(met)      met\scaddan.met  [weather]
+Module = manager  runs.par [psw_r_esw10]   runs.par[all] runs.par[scaddan]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [scaddan]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [scaddan]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [scaddan] wheat.ini [standard]
+Module = sorghum     soil.par [scaddan] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sca_psw_r_esw10]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! pasture sorghum wheat with rainfall-based sowing rule + esw>50
+
+[apsim.sca_psw_r_esw50]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sca_psw_r_esw50]
+Module = Input(met)      met\scaddan.met  [weather]
+Module = manager  runs.par [psw_r_esw50]   runs.par[all] runs.par[scaddan]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [scaddan]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [scaddan]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [scaddan] wheat.ini [standard]
+Module = sorghum     soil.par [scaddan] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sca_psw_r_esw50]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! pasture sorghum wheat with rainfall-based sowing rule + esw>100
+
+[apsim.sca_psw_r_esw100]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sca_psw_r_esw100]
+Module = Input(met)      met\scaddan.met  [weather]
+Module = manager  runs.par [psw_r_esw100]   runs.par[all] runs.par[scaddan]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [scaddan]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [scaddan]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [scaddan] wheat.ini [standard]
+Module = sorghum     soil.par [scaddan] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sca_psw_r_esw100]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! fallow (no sorghum) after pasture followed by wheat 
+
+[apsim.sca_pfw]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sca_pfw]
+Module = Input(met)      met\scaddan.met  [weather]
+Module = manager  runs.par [no_sorghum_sept_wht]   runs.par[all] runs.par[scaddan]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [scaddan]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [scaddan]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [scaddan] wheat.ini [standard]
+Module = sorghum     soil.par [scaddan] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sca_pfw]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! Continuous wheat with full profile at fallow!!!!
+
+[apsim.sca_cw_fp]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sca_cw_fp]
+Module = Input(met)      met\scaddan.met  [weather]
+Module = manager  runs.par [cont_wht_fp]   runs.par[all] runs.par[scaddan]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [scaddan]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [scaddan]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [scaddan] wheat.ini [standard]
+Module = sorghum     soil.par [scaddan] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sca_cw_fp]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with full profile at sorghum
+
+[apsim.sca_sw_fp]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[sca_sw_fp]
+Module = Input(met)      met\scaddan.met  [weather]
+Module = manager  runs.par [sorghum_wht_fp]   runs.par[all] runs.par[scaddan]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [scaddan]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [scaddan]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [scaddan] wheat.ini [standard]
+Module = sorghum     soil.par [scaddan] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[sca_sw_fp]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+
+
+
+!*************************************************************************************************
+!***** Myrup ***********************
+!*************************************************************************************************
+
+!!!! Continuous wheat !!!!
+
+[apsim.myr_cw]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[myr_cw]
+Module = Input(met)      met\myrup.met  [weather]
+Module = manager  runs.par [cont_wht]   runs.par[all] runs.par[myrup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [myrup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [myrup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [myrup] wheat.ini [standard]
+Module = sorghum     soil.par [myrup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[myr_cw]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with rainfall-based sowing rule
+
+[apsim.myr_sw]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[myr_sw]
+Module = Input(met)      met\myrup.met  [weather]
+Module = manager  runs.par [sorghum_wht]   runs.par[all] runs.par[myrup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [myrup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [myrup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [myrup] wheat.ini [standard]
+Module = sorghum     soil.par [myrup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[myr_sw]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with rainfall-based sowing rule + esw>10
+
+[apsim.myr_sw_esw10]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[myr_sw_esw10]
+Module = Input(met)      met\myrup.met  [weather]
+Module = manager  runs.par [sorghum_wht_esw10]   runs.par[all] runs.par[myrup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [myrup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [myrup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [myrup] wheat.ini [standard]
+Module = sorghum     soil.par [myrup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[myr_sw_esw10]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with rainfall-based sowing rule + esw>50
+
+[apsim.myr_sw_esw50]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[myr_sw_esw50]
+Module = Input(met)      met\myrup.met  [weather]
+Module = manager  runs.par [sorghum_wht_esw50]   runs.par[all] runs.par[myrup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [myrup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [myrup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [myrup] wheat.ini [standard]
+Module = sorghum     soil.par [myrup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[myr_sw_esw50]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with rainfall-based sowing rule + esw>100
+
+[apsim.myr_sw_esw100]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[myr_sw_esw100]
+Module = Input(met)      met\myrup.met  [weather]
+Module = manager  runs.par [sorghum_wht_esw100]   runs.par[all] runs.par[myrup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [myrup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [myrup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [myrup] wheat.ini [standard]
+Module = sorghum     soil.par [myrup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[myr_sw_esw100]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! pasture sorghum wheat with pre-set planting date (mid-september)
+
+[apsim.myr_psw]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[myr_psw]
+Module = Input(met)      met\myrup.met  [weather]
+Module = manager  runs.par [psw]   runs.par[all] runs.par[myrup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [myrup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [myrup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [myrup] wheat.ini [standard]
+Module = sorghum     soil.par [myrup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[myr_psw]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! pasture sorghum wheat with rainfall-based sowing rule 
+
+[apsim.myr_psw_r]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[myr_psw_r]
+Module = Input(met)      met\myrup.met  [weather]
+Module = manager  runs.par [psw_r]   runs.par[all] runs.par[myrup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [myrup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [myrup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [myrup] wheat.ini [standard]
+Module = sorghum     soil.par [myrup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[myr_psw_r]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! pasture sorghum wheat with rainfall-based sowing rule + esw>10
+
+[apsim.myr_psw_r_esw10]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[myr_psw_r_esw10]
+Module = Input(met)      met\myrup.met  [weather]
+Module = manager  runs.par [psw_r_esw10]   runs.par[all] runs.par[myrup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [myrup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [myrup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [myrup] wheat.ini [standard]
+Module = sorghum     soil.par [myrup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[myr_psw_r_esw10]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! pasture sorghum wheat with rainfall-based sowing rule + esw>50
+
+[apsim.myr_psw_r_esw50]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[myr_psw_r_esw50]
+Module = Input(met)      met\myrup.met  [weather]
+Module = manager  runs.par [psw_r_esw50]   runs.par[all] runs.par[myrup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [myrup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [myrup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [myrup] wheat.ini [standard]
+Module = sorghum     soil.par [myrup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[myr_psw_r_esw50]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! pasture sorghum wheat with rainfall-based sowing rule + esw>100
+
+[apsim.myr_psw_r_esw100]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[myr_psw_r_esw100]
+Module = Input(met)      met\myrup.met  [weather]
+Module = manager  runs.par [psw_r_esw100]   runs.par[all] runs.par[myrup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [myrup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [myrup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [myrup] wheat.ini [standard]
+Module = sorghum     soil.par [myrup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[myr_psw_r_esw100]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! fallow (no sorghum) after pasture followed by wheat 
+
+[apsim.myr_pfw]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[myr_pfw]
+Module = Input(met)      met\myrup.met  [weather]
+Module = manager  runs.par [no_sorghum_sept_wht]   runs.par[all] runs.par[myrup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [myrup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [myrup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [myrup] wheat.ini [standard]
+Module = sorghum     soil.par [myrup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[myr_pfw]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! Continuous wheat with full profile at fallow!!!!
+
+[apsim.myr_cw_fp]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[myr_cw_fp]
+Module = Input(met)      met\myrup.met  [weather]
+Module = manager  runs.par [cont_wht_fp]   runs.par[all] runs.par[myrup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [myrup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [myrup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [myrup] wheat.ini [standard]
+Module = sorghum     soil.par [myrup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[myr_cw_fp]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with full profile at sorghum
+
+[apsim.myr_sw_fp]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[myr_sw_fp]
+Module = Input(met)      met\myrup.met  [weather]
+Module = manager  runs.par [sorghum_wht_fp]   runs.par[all] runs.par[myrup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [myrup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [myrup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [myrup] wheat.ini [standard]
+Module = sorghum     soil.par [myrup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[myr_sw_fp]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+
+
+
+!*************************************************************************************************
+!***** Kendenup ***********************
+!*************************************************************************************************
+
+!!!! Continuous wheat !!!!
+
+[apsim.kend_cw]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[kend_cw]
+Module = Input(met)      met\kendenup.met  [weather]
+Module = manager  runs.par [cont_wht]   runs.par[all] runs.par[kendenup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [kendenup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [kendenup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [kendenup] wheat.ini [standard]
+Module = sorghum     soil.par [kendenup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[kend_cw]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with rainfall-based sowing rule
+
+[apsim.kend_sw]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[kend_sw]
+Module = Input(met)      met\kendenup.met  [weather]
+Module = manager  runs.par [sorghum_wht]   runs.par[all] runs.par[kendenup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [kendenup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [kendenup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [kendenup] wheat.ini [standard]
+Module = sorghum     soil.par [kendenup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[kend_sw]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with rainfall-based sowing rule + esw>10
+
+[apsim.kend_sw_esw10]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[kend_sw_esw10]
+Module = Input(met)      met\kendenup.met  [weather]
+Module = manager  runs.par [sorghum_wht_esw10]   runs.par[all] runs.par[kendenup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [kendenup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [kendenup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [kendenup] wheat.ini [standard]
+Module = sorghum     soil.par [kendenup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[kend_sw_esw10]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with rainfall-based sowing rule + esw>50
+
+[apsim.kend_sw_esw50]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[kend_sw_esw50]
+Module = Input(met)      met\kendenup.met  [weather]
+Module = manager  runs.par [sorghum_wht_esw50]   runs.par[all] runs.par[kendenup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [kendenup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [kendenup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [kendenup] wheat.ini [standard]
+Module = sorghum     soil.par [kendenup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[kend_sw_esw50]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with rainfall-based sowing rule + esw>100
+
+[apsim.kend_sw_esw100]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[kend_sw_esw100]
+Module = Input(met)      met\kendenup.met  [weather]
+Module = manager  runs.par [sorghum_wht_esw100]   runs.par[all] runs.par[kendenup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [kendenup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [kendenup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [kendenup] wheat.ini [standard]
+Module = sorghum     soil.par [kendenup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[kend_sw_esw100]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! pasture sorghum wheat with pre-set planting date (mid-september)
+
+[apsim.kend_psw]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[kend_psw]
+Module = Input(met)      met\kendenup.met  [weather]
+Module = manager  runs.par [psw]   runs.par[all] runs.par[kendenup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [kendenup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [kendenup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [kendenup] wheat.ini [standard]
+Module = sorghum     soil.par [kendenup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[kend_psw]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! pasture sorghum wheat with rainfall-based sowing rule 
+
+[apsim.kend_psw_r]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[kend_psw_r]
+Module = Input(met)      met\kendenup.met  [weather]
+Module = manager  runs.par [psw_r]   runs.par[all] runs.par[kendenup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [kendenup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [kendenup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [kendenup] wheat.ini [standard]
+Module = sorghum     soil.par [kendenup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[kend_psw_r]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! pasture sorghum wheat with rainfall-based sowing rule + esw>10
+
+[apsim.kend_psw_r_esw10]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[kend_psw_r_esw10]
+Module = Input(met)      met\kendenup.met  [weather]
+Module = manager  runs.par [psw_r_esw10]   runs.par[all] runs.par[kendenup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [kendenup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [kendenup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [kendenup] wheat.ini [standard]
+Module = sorghum     soil.par [kendenup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[kend_psw_r_esw10]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! pasture sorghum wheat with rainfall-based sowing rule + esw>50
+
+[apsim.kend_psw_r_esw50]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[kend_psw_r_esw50]
+Module = Input(met)      met\kendenup.met  [weather]
+Module = manager  runs.par [psw_r_esw50]   runs.par[all] runs.par[kendenup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [kendenup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [kendenup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [kendenup] wheat.ini [standard]
+Module = sorghum     soil.par [kendenup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[kend_psw_r_esw50]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! pasture sorghum wheat with rainfall-based sowing rule + esw>100
+
+[apsim.kend_psw_r_esw100]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[kend_psw_r_esw100]
+Module = Input(met)      met\kendenup.met  [weather]
+Module = manager  runs.par [psw_r_esw100]   runs.par[all] runs.par[kendenup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [kendenup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [kendenup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [kendenup] wheat.ini [standard]
+Module = sorghum     soil.par [kendenup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[kend_psw_r_esw100]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! fallow (no sorghum) after pasture followed by wheat 
+
+[apsim.kend_pfw]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[kend_pfw]
+Module = Input(met)      met\kendenup.met  [weather]
+Module = manager  runs.par [no_sorghum_sept_wht]   runs.par[all] runs.par[kendenup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [kendenup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [kendenup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [kendenup] wheat.ini [standard]
+Module = sorghum     soil.par [kendenup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[kend_pfw]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+!!!! Continuous wheat with full profile at fallow!!!!
+
+[apsim.kend_cw_fp]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]
+Module = report   report.par[all] report.par[kend_cw_fp]
+Module = Input(met)      met\kendenup.met  [weather]
+Module = manager  runs.par [cont_wht_fp]   runs.par[all] runs.par[kendenup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [kendenup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [kendenup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [kendenup] wheat.ini [standard]
+Module = sorghum     soil.par [kendenup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[kend_cw_fp]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!! sorghum wheat with full profile at sorghum
+
+[apsim.kend_sw_fp]
+Module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]  
+Module = report   report.par[all] report.par[kend_sw_fp]
+Module = Input(met)      met\kendenup.met  [weather]
+Module = manager  runs.par [sorghum_wht_fp]   runs.par[all] runs.par[kendenup]
+Module = residue2 runs.par [all]           %apsuite\apsim\residue2\residue2.ini [standard]  
+Module = soilwat2 soil.par [kendenup]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]  
+Module = soiln2   soil.par [kendenup]   %apsuite\apsim\soiln2\soiln2.ini [standard]  
+Module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+Module = accum    runs.par [all]
+Module = plant(wheat)   soil.par [kendenup] wheat.ini [standard]
+Module = sorghum     soil.par [kendenup] %apsuite\apsim\sorghum\sorghum.ini [standard] 
+Module = Summaryfile report.par[kend_sw_fp]
+module = Screen      report.par[all]
+Module = tracker   report.par[all]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
