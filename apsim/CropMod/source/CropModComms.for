@@ -310,8 +310,8 @@ cjh      endif
              p%ll_dep(layer) = ll(layer)*g%dlayer(layer)
           enddo
       else
-          call get_real_array_optional (unknown_module 
-     :                                  , 'll15' 
+          call get_real_array_optional (unknown_module
+     :                                  , 'll15'
      :                                  , max_layer, '()'
      :                                  , ll, num_layers
      :                                  , 0.0, c%ll_ub)
@@ -322,11 +322,11 @@ cjh      endif
              call Write_String(
      :            'Using externally supplied Lower Limit (ll15)')
           else
-              call Fatal_error (ERR_internal, 
+              call Fatal_error (ERR_internal,
      :                         'No Crop Lower Limit found')
           endif
       endif
-      
+
       call read_real_array (section_name
      :                     , 'kl', max_layer, '()'
      :                     , p%kl, num_layers
@@ -741,6 +741,7 @@ cjh      endif
       REAL       nh4_uptake(max_layer)
       REAL       RWU(max_layer)
       REAL       EP
+      REAL       stress
 
 *- Implementation Section ----------------------------------
 
@@ -1428,6 +1429,46 @@ cjh      endif
          call respond2get_real_var (variable_name
      :                             , '()'
      :                             , g%swdef_tiller)
+
+      elseif (variable_name .eq. 'sw_stress_photo') then
+         if (g%swdef_photo .gt. 0.0) then
+            stress = 1.0 - g%swdef_photo
+         else
+            stress = 0.0
+         endif
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , stress)
+
+      elseif (variable_name .eq. 'sw_stress_pheno') then
+         if (g%swdef_pheno .gt. 0.0) then
+            stress = 1.0 - g%swdef_pheno
+         else
+            stress = 0.0
+         endif
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , stress)
+
+      elseif (variable_name .eq. 'sw_stress_expan') then
+         if (g%swdef_expansion .gt. 0.0) then
+            stress = 1.0 - g%swdef_expansion
+         else
+            stress = 0.0
+         endif
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , stress)
+
+      elseif (variable_name .eq. 'sw_stress_tiller') then
+         if (g%swdef_tiller .gt. 0.0) then
+            stress = 1.0 - g%swdef_tiller
+         else
+            stress = 0.0
+         endif
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , stress)
 
       elseif (variable_name .eq. 'ep') then
          num_layers = count_of_real_vals (g%dlayer, max_layer)
@@ -2148,6 +2189,56 @@ cjh      endif
      :                             , '()'
      :                             , g%cnd_grain_conc
      :                             , max_stage)
+
+      elseif (variable_name .eq. 'n_stress_photo') then
+         if (g%nfact_photo .gt. 0.0) then
+            stress = 1.0 - g%nfact_photo
+         else
+            stress = 0.0
+         endif
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , stress)
+
+      elseif (variable_name .eq. 'n_stress_pheno') then
+         if (g%nfact_pheno .gt. 0.0) then
+            stress = 1.0 - g%nfact_pheno
+         else
+            stress = 0.0
+         endif
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , stress)
+
+      elseif (variable_name .eq. 'n_stress_expan') then
+         if (g%nfact_expansion .gt. 0.0) then
+            stress = 1.0 - g%nfact_expansion
+         else
+            stress = 0.0
+         endif
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , stress)
+
+      elseif (variable_name .eq. 'n_stress_tiller') then
+         if (g%nfact_tiller .gt. 0.0) then
+            stress = 1.0 - g%nfact_tiller
+         else
+            stress = 0.0
+         endif
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , stress)
+
+      elseif (variable_name .eq. 'n_stress_grain') then
+         if (g%nfact_grain_conc .gt. 0.0) then
+            stress = 1.0 - g%nfact_grain_conc
+         else
+            stress = 0.0
+         endif
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , stress)
 
 
       !---------------------------------------------------
@@ -5118,6 +5209,7 @@ c           string_to_integer_var(value_string, value, numvals)
 
 *=====GLOBAL VARIABLES =============================
 
+
        g%NO3(:) = 0.0
        g%NH4(:) = 0.0
 
@@ -6015,6 +6107,12 @@ c      g%dlt_n_uptake_stover=0.0
       call print_routine (my_name)
 
       !phenology
+
+      if (g%phosphorus_aware) then
+         call PlantP_zero_daily_variables()
+      else
+           ! Phonphorus not plugged in
+      endif
 
 
       g%dlt_vernalisation =0.0
