@@ -1153,7 +1153,6 @@ c      read(ret_string, *, iostat = err_code) rain
      :            'rain',
      :            '(mm)',
      :            daily_rain)
- 
       else if (Variable_name .eq. 'runoff') then
          call respond2Get_double_var (
      :            'runoff',
@@ -4369,7 +4368,6 @@ c                     beta(solnum,node) = table_beta(solnum2)
       integer node                     ! node number specifier
       double precision solute_n(0:M)
                                        ! solute concn in layers(kg/ha)
-
 *- Implementation Section ----------------------------------
  
       do 100 solnum = 1, num_solutes
@@ -5211,6 +5209,7 @@ cnh
 
 *+  Changes
 *    26/5/95 NIH - programmed and specified
+*    24/6/98 NIH - added check for swim getting rainfall from itself
 
 *+  Calls
        double precision apswim_time    ! function
@@ -5225,9 +5224,11 @@ cnh
       double precision intensity       ! intensity of rainfall (mm/h)
       integer time_of_day              ! time of day (min)
       double precision time_mins       ! time of rainfall (min)
+      character owner_module*20        ! name of module providing info.
+      character module_name*20         ! name of this module
 
 *- Implementation Section ----------------------------------
- 
+
       call get_double_var (
      :           unknown_module,
      :           'rain',
@@ -5236,7 +5237,17 @@ cnh
      :           numvals,
      :           0.d0,
      :           1000.d0)
- 
+
+      ! Check that apswim is not getting rainfall from itself. 
+      call get_posting_module (owner_module)
+      call Get_current_module (module_name)
+      if (owner_module.eq.module_name) then
+         call fatal_error (ERR_User, 
+     :      'No module provided rainfall values for APSwim')
+         amount = 0.d0
+      else
+      endif
+
       call get_char_var (
      :           unknown_module,
      :           'rain_time',
@@ -6660,6 +6671,7 @@ cnh      end if
 
 *+  Changes
 *    26/5/95 NIH - programmed and specified
+*    24/6/98 NIH - added check for swim getting Eo from itself
 
 *+  Calls
        double precision apswim_time    ! function
@@ -6672,6 +6684,8 @@ cnh      end if
       double precision duration        ! duration of evaporation (min)
       integer time_of_day              ! time of day (min)
       double precision time_mins       ! time of evaporation (min)
+      character owner_module*20        ! name of module providing info.
+      character module_name*20         ! name of this module
 
 *- Implementation Section ----------------------------------
  
@@ -6684,6 +6698,16 @@ cnh      end if
      :           0.d0,
      :           1000.d0)
  
+      ! Check that apswim is not getting Eo from itself. 
+      call get_posting_module (owner_module)
+      call Get_current_module (module_name)
+      if (owner_module.eq.module_name) then
+         call fatal_error (ERR_User, 
+     :      'No module provided Eo value for APSwim')
+         amount = 0.d0
+      else
+      endif
+
       call get_char_var (
      :           unknown_module,
      :           'eo_time',
@@ -7713,7 +7737,6 @@ c      pause
       double precision solute_n(0:M) ! solute at each node
       integer          solnum
       integer          numvals
-
 *+  Initial Data Values
       call fill_double_array(conc_water_solute(0),0d0,n+1)
 
