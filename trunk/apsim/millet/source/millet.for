@@ -966,7 +966,6 @@
       subroutine millet_process ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
  
 *+  Purpose
@@ -1027,7 +1026,6 @@ c+!!!!!!!!! check order dependency of deltas
       subroutine millet_dead ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Purpose
@@ -1056,7 +1054,6 @@ c+!!!!!!!!! check order dependency of deltas
 *     ===========================================================
       implicit none
       include   'convert.inc'          ! gm2kg, sm2ha, sm2smm
-      include   'millet.inc'
       include 'data.pub'                          
       include 'write.pub'                         
       include 'error.pub'                         
@@ -1273,7 +1270,6 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
       subroutine millet_zero_variables ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -1380,7 +1376,6 @@ cjh
       subroutine millet_zero_daily_variables ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -1454,7 +1449,6 @@ cjh
       subroutine millet_init ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'write.pub'                         
       include 'error.pub'                         
 
@@ -1494,7 +1488,6 @@ cjh
       subroutine millet_start_crop ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'intrface.pub'                      
       include 'write.pub'                         
       include 'error.pub'                         
@@ -1601,7 +1594,6 @@ cjh      endif
       subroutine millet_initiate ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'intrface.pub'                      
       include 'write.pub'                         
@@ -1719,7 +1711,6 @@ cjh      endif
       subroutine millet_read_cultivar_params ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'read.pub'                          
       include 'write.pub'                         
       include 'error.pub'                         
@@ -1966,7 +1957,6 @@ cgd   Eriks modifications for Leaf Area
       subroutine millet_read_root_params ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'            ! dlayer(max_layer)
       include 'data.pub'                          
       include 'read.pub'                          
       include 'write.pub'                         
@@ -2066,7 +2056,6 @@ cgd   Eriks modifications for Leaf Area
 *     ===========================================================
       implicit none
       include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
-      include   'millet.inc'
       include 'data.pub'                          
       include 'write.pub'                         
       include 'error.pub'                         
@@ -2167,7 +2156,6 @@ cgd   Eriks modifications for Leaf Area
       subroutine millet_store_value (array, value)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'date.pub'                          
       include 'error.pub'                         
 
@@ -2208,7 +2196,6 @@ cgd   Eriks modifications for Leaf Area
 *     ================================================================
       implicit none
       include   'convert.inc'
-      include   'millet.inc'
       include 'data.pub'                          
       include 'engine.pub'                        
       include 'intrface.pub'                      
@@ -2378,7 +2365,6 @@ c+!!!!!!!! what to do if no waterbalance variables found
 *     ================================================================
       implicit none
       include   'convert.inc'
-      include   'millet.inc'
       include 'data.pub'                          
       include 'engine.pub'                        
       include 'intrface.pub'                      
@@ -2440,7 +2426,6 @@ c+!!!! perhaps we should get number of layers at init and keep it
       subroutine millet_set_my_variable (Variable_name)
 *     ===============================================================
       implicit none
-      include   'millet.inc'            !
       include 'engine.pub'                        
       include 'intrface.pub'                      
       include 'error.pub'                         
@@ -2504,7 +2489,6 @@ cused for validation of leaf area model only
 *     ================================================================
       implicit none
       include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'engine.pub'                        
@@ -3084,7 +3068,6 @@ cejvo
       logical function millet_my_type ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'intrface.pub'                      
       include 'error.pub'                         
 
@@ -3129,7 +3112,6 @@ cejvo
       subroutine millet_read_constants ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'read.pub'                          
       include 'write.pub'                         
       include 'error.pub'                         
@@ -4290,7 +4272,6 @@ cpsc
       real function millet_swdef (type)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -4387,7 +4368,6 @@ cpsc
       subroutine millet_biomass ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Purpose
@@ -4438,7 +4418,6 @@ cpsc
       subroutine millet_dm_init (dm_green, dm_plant_min)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -4513,7 +4492,6 @@ cpsc
       subroutine millet_grain_no (grain_no)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -4631,7 +4609,6 @@ cpsc
       subroutine millet_heat_stress (dlt_tt_heat_stress)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -4669,7 +4646,6 @@ cpsc
       subroutine millet_dm_production (dlt_dm)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'science.pub'                       
       include 'error.pub'                         
@@ -4727,7 +4703,6 @@ cpsc
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -4911,7 +4886,6 @@ cpsc
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -5042,7 +5016,6 @@ cpsc
 *     ===========================================================
       implicit none
       include   'convert.inc'          ! mg2gm
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -5128,7 +5101,6 @@ cpsc
       subroutine millet_dm_grain_hi (dlt_dm_grain_demand)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -5207,7 +5179,6 @@ cpsc
       subroutine millet_dm_stress_max (dlt_dm_stress_max)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -5247,7 +5218,6 @@ cpsc
       real function millet_dm_grain_max ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -5290,7 +5260,6 @@ cpsc
       subroutine millet_dm_retranslocate (dm_retranslocate)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -5403,7 +5372,6 @@ cpsc
       subroutine millet_detachment ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Purpose
@@ -5437,7 +5405,6 @@ cpsc
       subroutine millet_dm_detachment (dlt_dm_detached)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -5477,7 +5444,6 @@ cpsc
       subroutine millet_slai_detachment (dlt_slai_detached)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -5510,7 +5476,6 @@ cpsc
       subroutine millet_N_detachment (dlt_N_detached)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -5550,7 +5515,6 @@ cpsc
       subroutine millet_plant_death ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Purpose
@@ -5579,7 +5543,6 @@ cpsc
       subroutine millet_plants (dlt_plants)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'write.pub'                         
@@ -5768,7 +5731,6 @@ cjh
       subroutine millet_plants_temp (killfr)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -5818,7 +5780,6 @@ cjh
       subroutine millet_plants_barren (killfr)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -5882,7 +5843,6 @@ cjh
       subroutine millet_check_grain_no ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Purpose
@@ -5928,7 +5888,6 @@ cjh
       subroutine millet_dm_dead_detachment (dlt_dm_dead_detached)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -5967,7 +5926,6 @@ cjh
       subroutine millet_tlai_dead_detachment (dlt_tlai_dead_detached)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -6000,7 +5958,6 @@ cjh
       subroutine millet_N_dead_detachment (dlt_N_dead_detached)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -6040,7 +5997,6 @@ cjh
 *     ===========================================================
       implicit none
       include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
-      include   'millet.inc'
       include 'data.pub'                          
       include 'write.pub'                         
       include 'error.pub'                         
@@ -6097,7 +6053,6 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero 
       subroutine millet_leaf_area_potential ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Purpose
@@ -6138,7 +6093,6 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero 
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'millet.inc'
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -6174,7 +6128,6 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero 
       subroutine millet_leaf_no_final (leaf_no_final)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -6285,7 +6238,6 @@ cgd
       subroutine millet_leaf_appearance (dlt_leaf_no_pot)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -6366,7 +6318,6 @@ cgd
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -6419,7 +6370,6 @@ cgd
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'millet.inc'
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -6471,7 +6421,6 @@ cgd
       real function millet_leaf_size (leaf_no)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -6536,7 +6485,6 @@ cgd
       subroutine millet_leaf_area_devel_plant (dlt_lai_pot)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include   'convert.inc'
       include 'science.pub'                       
       include 'data.pub'                          
@@ -6602,7 +6550,6 @@ cgd
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -6686,7 +6633,6 @@ cejvo
       subroutine millet_leaf_no_init (leaf_no)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -6727,7 +6673,6 @@ cejvo
       subroutine millet_nitrogen ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Purpose
@@ -6758,7 +6703,6 @@ cejvo
       subroutine millet_N_retranslocate (dlt_N_retrans)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -6867,7 +6811,6 @@ cgol correct N retranslocation rounding error
       subroutine millet_N_retrans_avail (N_avail)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -6922,7 +6865,6 @@ cgol correct N retranslocation rounding error
       real function millet_N_dlt_grain_conc ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Purpose
@@ -6995,7 +6937,6 @@ cjh   the crit and thus the N conc of the grain can exceed N critical.
       subroutine millet_N_demand (N_demand, N_max)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -7139,7 +7080,6 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
       subroutine millet_N_uptake (dlt_NO3gsm, dlt_N_green)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -7343,7 +7283,6 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
       subroutine millet_N_mass_flow (NO3gsm_mflow_pot)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -7407,7 +7346,6 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
       subroutine millet_N_diffusion (NO3gsm_diffn_pot)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -7472,7 +7410,6 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
       real function millet_N_fixation ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -7515,7 +7452,6 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
      :                              , N_conc_min)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -7633,7 +7569,6 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
       real function millet_nfact (type)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -7749,7 +7684,6 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
       subroutine millet_N_init (N_green)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -7790,7 +7724,6 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
       subroutine millet_phenology ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -7858,7 +7791,6 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
       subroutine millet_tt (dlt_tt)
 *     ===========================================================
       implicit none
-      include    'millet.inc'
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -7917,7 +7849,6 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
       subroutine millet_tt_curv (dlt_tt_curv)
 *     ===========================================================
       implicit none
-      include    'millet.inc'
       include 'data.pub'                          
       include 'science.pub'                       
       include 'error.pub'                         
@@ -7980,7 +7911,6 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
       subroutine millet_tt_other (dlt_tt_other)
 *     ===========================================================
       implicit none
-      include    'millet.inc'
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -8023,7 +7953,6 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
       subroutine millet_phenology_init (phase_tt)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -8135,7 +8064,6 @@ cjh
       subroutine millet_devel (dlt_stage, current_stage)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -8192,7 +8120,6 @@ cjh      dlt_stage = l_bound(new_stage - g%current_stage,0.0)
       subroutine millet_phase_devel (phase_devel)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -8240,7 +8167,6 @@ cjh         phase_devel = 0.0
       real function millet_germination (current_stage)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'science.pub'                       
       include 'error.pub'                         
@@ -8308,7 +8234,6 @@ cjh         phase_devel = 0.0
       real function millet_phase_tt (stage_no)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -8347,7 +8272,6 @@ cjh  changed 0.0 to 1.0
       real function millet_phase_tt_curv (stage_no)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -8387,7 +8311,6 @@ cjh  changed 0.0 to 1.0
       real function millet_phase_tt_other (stage_no)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -8427,7 +8350,6 @@ cjh  changed 0.0 to 1.0
       subroutine millet_canopy_height (dlt_canopy_height)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -8476,7 +8398,6 @@ cjh  changed 0.0 to 1.0
       subroutine millet_senescence ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Purpose
@@ -8516,7 +8437,6 @@ cjh  changed 0.0 to 1.0
       subroutine millet_leaf_death (dlt_leaf_no_dead)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -8653,7 +8573,6 @@ cccc
       subroutine millet_leaf_death_leg (dlt_leaf_no_dead)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -8712,7 +8631,6 @@ cccc
       subroutine millet_lai_equilib_water (lai_equilib_water)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -8793,7 +8711,6 @@ cccc
       subroutine millet_lai_equilib_light (lai_equilib_light)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -8848,7 +8765,6 @@ cccc
       subroutine millet_leaf_area_sen (dlt_slai)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -8917,7 +8833,6 @@ cccc
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -8980,7 +8895,6 @@ cccc
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -9041,7 +8955,6 @@ cccc
       subroutine millet_leaf_area_sen_age1 (dlt_slai_age)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -9105,7 +9018,6 @@ cccc
       subroutine millet_leaf_area_sen_water (dlt_slai_water)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -9154,7 +9066,6 @@ cccc
       subroutine millet_leaf_area_sen_water1 (dlt_slai_water)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -9222,7 +9133,6 @@ cccc
       subroutine millet_leaf_area_sen_light (dlt_slai_light)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -9273,7 +9183,6 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
       subroutine millet_leaf_area_sen_light1 (dlt_slai_light)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -9341,7 +9250,6 @@ c+!!!!!!!!
       subroutine millet_leaf_area_sen_frost (dlt_slai_frost)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -9389,7 +9297,6 @@ c+!!!!!!!!
       subroutine millet_leaf_area_sen_frost1 (dlt_slai_frost)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -9432,7 +9339,6 @@ c+!!!!!!!!
       real function millet_running_ave (array, number_of_days)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -9479,7 +9385,6 @@ c+!!!!!!!!
       subroutine millet_dm_senescence (dlt_dm_senesced)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -9545,7 +9450,6 @@ c+!!!!!!!!
       subroutine millet_N_senescence (dlt_N_senesced)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -9587,7 +9491,6 @@ c+!!!!!!!!
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -9848,7 +9751,6 @@ cjh
       subroutine millet_check_bounds ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -10053,7 +9955,6 @@ cjh
       subroutine millet_totals ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -10182,7 +10083,6 @@ cpsc  add above
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'write.pub'                         
@@ -10282,7 +10182,6 @@ cpsc  add above
       subroutine millet_cover (cover, extinction_coef, lai)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -10332,7 +10231,6 @@ cpsc  add above
       subroutine millet_root_distrib (root_array, root_sum)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -10396,7 +10294,6 @@ cpsc  add above
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'millet.inc'
       include 'engine.pub'                        
       include 'intrface.pub'                      
       include 'error.pub'                         
@@ -10474,7 +10371,6 @@ cjh     :                               , string)
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'millet.inc'
       include 'science.pub'                       
       include 'engine.pub'                        
       include 'intrface.pub'                      
@@ -10575,7 +10471,6 @@ cjh     :                               , string)
       real function millet_stage_code (stage_no, stage_table, numvals)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -10665,7 +10560,6 @@ cjh     :                               , string)
       subroutine millet_tillering ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Purpose
@@ -10713,7 +10607,6 @@ cjh     :                               , string)
       subroutine millet_tiller_appearance_tt (dlt_tiller_no)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -10738,7 +10631,6 @@ cjh     :                               , string)
 
 *+  Local Variables
 c gol added 'g%daylength_at_emerg (h)' and 'c%photo_tiller_crit (h)' to constants
-c (millet.inc). 'c%photo_tiller_crit' is the critical photoperiod above which
 c the thermal time for first tiller initiation (global constant 'c%y_tiller_tt')
 c is increased in a one-step process
 *
@@ -10838,7 +10730,6 @@ cgol bounds added to tiller number determination
       subroutine millet_tiller_appearance_dm (dlt_tiller_no)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -10895,7 +10786,6 @@ cgol bounds added to tiller number determination
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -10959,7 +10849,6 @@ cgol bounds added to tiller number determination
      :                                , N_tiller_independence)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'string.pub'                        
       include 'data.pub'                          
       include 'intrface.pub'                      
@@ -11081,7 +10970,6 @@ cjh     :                                  , string)
       subroutine millet_transpiration ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Purpose
@@ -11119,7 +11007,6 @@ c+!!!!!!!!! check order dependency of deltas
       subroutine millet_root_depth (dlt_root_depth)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -11204,7 +11091,6 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
       real function millet_sw_avail_fac (layer)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -11253,7 +11139,6 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
       subroutine millet_sw_avail_pot (sw_avail_pot)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -11311,7 +11196,6 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
       subroutine millet_sw_avail (sw_avail)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -11368,7 +11252,6 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
       subroutine millet_sw_demand (sw_demand)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -11413,7 +11296,6 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
       subroutine millet_dm_potential (dlt_dm_pot)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -11464,7 +11346,6 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
       real function millet_rue_reduction ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -11514,7 +11395,6 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
       subroutine millet_radn_int (radn_int)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -11558,7 +11438,6 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
 *     ===========================================================
       implicit none
       include   'convert.inc'          ! g2mm, mb2kpa
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -11619,7 +11498,6 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
       subroutine millet_sw_supply (sw_supply)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -11681,7 +11559,6 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
       subroutine millet_sw_uptake (dlt_sw_dep)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -11761,7 +11638,6 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
       subroutine millet_check_sw ()
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -11843,7 +11719,6 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
       subroutine millet_root_depth_init (root_depth)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -11885,7 +11760,6 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
       subroutine millet_set_my_class (module_name)
 *     ===========================================================
       implicit none
-      include   'millet.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
