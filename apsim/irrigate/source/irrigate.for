@@ -94,6 +94,7 @@
          character  automatic_irrigation*3
          character  manual_irrigation*3
          character  irrigation_allocation*3
+         real       application_area
          real       irrigation_efficiency
          real    default_conc_solute(max_solutes)
       end type IrrigateParameters
@@ -699,7 +700,8 @@
 
 *+  Local Variables
       integer    numvals               ! number of values read from file
-
+      real       allocation_ml         ! annual irrigation allocation in ML
+      real       application_area      ! area to which the above allocation is to be applied (ha)
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
@@ -857,15 +859,6 @@
 
       if (p%irrigation_allocation .eq. 'on') then
 
-         call read_real_var (
-     :           section_name         ! Section header
-     :         , 'allocation'         ! Keyword
-     :         , '(mm)'               ! Units
-     :         , g%allocation         ! Variable
-     :         , numvals              ! Number of values returned
-     :         , 0.0                  ! Lower Limit for bound checking
-     :         , 10000.)              ! Upper Limit for bound checking
-
          if (p%manual_irrigation.eq.'on') then
             call fatal_error (Err_user,
      :         ' Cannot have irrigation allocation enabled '//
@@ -873,6 +866,50 @@
          else
          endif
 
+! dsg 221004  Give the user the option in input an allocation in mm, or a supply an
+!             allocation in ML with corresponding area
+         call read_real_var_optional(
+     :           section_name         ! Section header
+     :         , 'allocation'         ! Keyword
+     :         , '(mm)'               ! Units
+     :         , g%allocation         ! Variable
+     :         , numvals              ! Number of values returned
+     :         , 0.0                  ! Lower Limit for bound checking
+     :         , 10000.)              ! Upper Limit for bound checking
+ 
+         if(numvals.eq.0) then
+                call read_real_var(
+     :                section_name         ! Section header
+     :              , 'allocation_ML'      ! Keyword
+     :              , '(ML)'               ! Units
+     :              , allocation_ml        ! Variable
+     :              , numvals              ! Number of values returned
+     :              , 0.0                  ! Lower Limit for bound checking
+     :              , 10000.)              ! Upper Limit for bound checking
+ 
+               if (numvals.eq.0) then
+                   call fatal_error (Err_user,
+     :                 'If irrigation_allocation is on'//
+     :                 ' allocation information must be supplied.')
+               endif
+                      
+               call read_real_var(
+     :                section_name         ! Section header
+     :              , 'application_area'   ! Keyword
+     :              , '(ha)'               ! Units
+     :              , p%application_area     ! Variable
+     :              , numvals              ! Number of values returned
+     :              , 0.0                  ! Lower Limit for bound checking
+     :              , 10000.)              ! Upper Limit for bound checking
+
+               g%allocation = divide((allocation_ml*100.0)
+     :                        ,p%application_area,0.0)
+
+         else
+         endif        
+         
+         
+         
       else
          g%allocation = 0.0
 
@@ -949,7 +986,8 @@
       p%default_duration = 0.0
       g%irr_pointer = 1
       g%num_solutes = 0
-
+      p%application_area = 0.0
+      
       call pop_routine (my_name)
       return
       end subroutine
@@ -1167,14 +1205,38 @@
       elseif (Variable_name .eq. 'allocation') then
          call respond2get_real_var (
      :                variable_name           ! variable name
-     :              , '(Ml)'                  ! units
-     :              , (g%allocation/100))           ! array
+     :              , '(mm)'                  ! units
+     :              , g%allocation )          ! array
 
       elseif (Variable_name .eq. 'carry_over') then
          call respond2get_real_var (
      :                variable_name           ! variable name
-     :              , '(Ml)'                  ! units
-     :              , (g%carry_over/100))           ! array
+     :              , '(mm)'                  ! units
+     :              , g%carry_over )          ! array
+
+      elseif (Variable_name .eq. 'allocation_ml') then
+         if (p%application_area.gt.0.0) then
+         call respond2get_real_var (
+     :                variable_name           ! variable name
+     :              , '(ML)'                  ! units
+     :              , (g%allocation*p%application_area/100))           ! array
+         else
+               call fatal_error (Err_user,
+     :         'Output variable allocation_ml not available'//
+     :         ' due to lack of supplied information on area.')
+         endif
+                  
+      elseif (Variable_name .eq. 'carry_over_ml') then
+         if (p%application_area.gt.0.0) then
+         call respond2get_real_var (
+     :                variable_name           ! variable name
+     :              , '(ML)'                  ! units
+     :              , (g%carry_over*p%application_area/100))           ! array
+         else
+               call fatal_error (Err_user,
+     :         'Output variable carry_over_ml not available'//
+     :         ' due to lack of supplied information on area.')
+         endif
 
       else if (index(Variable_name,'irrigation_').eq.1) then
 
