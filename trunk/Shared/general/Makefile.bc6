@@ -20,14 +20,14 @@ OBJECTS = date_class.obj db_functions.obj exec.obj general.obj IniFile.obj \
 LIBFILES = 
 
 USERDEFINES = 
-SYSDEFINES = _RTLDLL;NO_STRICT;
+SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
 INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared
 LIBPATH = $(BCB)\lib\obj;$(BCB)\lib
 
 # ---------------------------------------------------------------------------
 CFLAG1 = -Od -H- -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tW -tWM
 WARNINGS = -w-par
-LFLAGS = 
+LFLAGS = /P128
 
 .cpp.obj:
 	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
