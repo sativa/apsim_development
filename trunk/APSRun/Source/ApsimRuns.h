@@ -20,7 +20,7 @@ class ApsimRuns
       //---------------------------------------------------------------------------
       // Perform all APSIM runs.
       //---------------------------------------------------------------------------
-      void runAll(bool withConsole, bool quiet);
+      void runAll(bool withConsole, bool quiet, bool run);
 
       //---------------------------------------------------------------------------
       // Create SIM files for all runs.

@@ -3,9 +3,9 @@ object ScreenForm: TScreenForm
   Top = 89
   BorderStyle = bsSingle
   Caption = 'APSIM'
-  ClientHeight = 454
+  ClientHeight = 563
   ClientWidth = 481
-  Color = clBtnFace
+  Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -113,7 +113,7 @@ object ScreenForm: TScreenForm
   end
   object CancelButton: TButton
     Left = 390
-    Top = 421
+    Top = 533
     Width = 85
     Height = 25
     Caption = 'Cancel'
@@ -123,7 +123,7 @@ object ScreenForm: TScreenForm
   end
   object PauseButton: TButton
     Left = 302
-    Top = 421
+    Top = 533
     Width = 85
     Height = 25
     Caption = 'Pause'
@@ -134,7 +134,7 @@ object ScreenForm: TScreenForm
     Left = 16
     Top = 96
     Width = 457
-    Height = 313
+    Height = 425
     BevelInner = bvNone
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -143,7 +143,7 @@ object ScreenForm: TScreenForm
   end
   object PauseCheckBox: TCheckBox
     Left = 16
-    Top = 424
+    Top = 536
     Width = 273
     Height = 17
     Caption = 'Pause on simulation complete'
