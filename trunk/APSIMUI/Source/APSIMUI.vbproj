@@ -457,6 +457,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "SplashScreen.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SplashScreen.resx"
+                    DependentUpon = "SplashScreen.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "SwimSoilUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
