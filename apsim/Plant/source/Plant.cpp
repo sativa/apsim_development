@@ -45,7 +45,6 @@ static const char* stringType =       "<type kind=\"string\"/>";
 static const char* stringArrayType =  "<type kind=\"string\" array=\"T\"/>";
 static const char* logicalType =      "<type kind=\"boolean\"/>";
 
-vector<string> part_name;
 
 
 /////////////These might be redundancies??//////////
@@ -72,13 +71,6 @@ void Write_string (char *line) {
 /////////////////////////
 Plant::Plant(PlantComponent *P)
     {
-      part_name.push_back("root");
-      part_name.push_back("leaf");
-      part_name.push_back("stem");
-      part_name.push_back("pod");
-      part_name.push_back("meal");
-      part_name.push_back("oil");
-
       c.x_dm_sen_frac = new float* [max_part];
       c.y_dm_sen_frac = new float* [max_part];
       c.num_dm_sen_frac = new int [max_part];
@@ -8807,6 +8799,14 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
     if (sum_real_array(dlt_dm_crop, max_part) > 0.0)
         {
+        vector<string> part_name;
+        part_name.push_back("root");
+        part_name.push_back("leaf");
+        part_name.push_back("stem");
+        part_name.push_back("pod");
+        part_name.push_back("meal");
+        part_name.push_back("oil");
+
         plant_send_crop_chopped_event (c.crop_type
                                        , part_name
                                        , dlt_dm_crop
@@ -11149,6 +11149,13 @@ void Plant::plant_end_crop ()
 
         if (sum_real_array(dlt_dm_crop, max_part) > 0.0)
             {
+            vector<string> part_name;
+            part_name.push_back("root");
+            part_name.push_back("leaf");
+            part_name.push_back("stem");
+            part_name.push_back("pod");
+            part_name.push_back("meal");
+            part_name.push_back("oil");
             plant_send_crop_chopped_event ( c.crop_type
                   , part_name
                   , dlt_dm_crop
@@ -11522,13 +11529,19 @@ void Plant::plant_update_other_variables (void)
     //  call crop_top_residue (g%crop_type, dm_residue, N_residue)
     if (sum_real_array(dm_residue, max_part) > 0.0)
         {
-        plant_send_crop_chopped_event
-        (c.crop_type
-        , part_name
-        , dm_residue
-        , n_residue
-        , fraction_to_residue
-        , max_part);
+        vector<string> part_name;
+        part_name.push_back("root");
+        part_name.push_back("leaf");
+        part_name.push_back("stem");
+        part_name.push_back("pod");
+        part_name.push_back("meal");
+        part_name.push_back("oil");
+        plant_send_crop_chopped_event (c.crop_type
+         , part_name
+         , dm_residue
+         , n_residue
+         , fraction_to_residue
+         , max_part);
         }
     else
         {
@@ -11552,6 +11565,14 @@ void Plant::plant_update_other_variables (void)
     //      call crop_top_residue (c%crop_type, dm_residue, N_residue)
     if (sum_real_array(dm_residue, max_part) > 0.0)
         {
+        vector<string> part_name;
+        part_name.push_back("root");
+        part_name.push_back("leaf");
+        part_name.push_back("stem");
+        part_name.push_back("pod");
+        part_name.push_back("meal");
+        part_name.push_back("oil");
+
         plant_send_crop_chopped_event(c.crop_type
           , part_name
           , dm_residue
@@ -13091,6 +13112,7 @@ void Plant::plant_send_crop_chopped_event (
     protocol::ApsimVariant outgoingApsimVariant(parent);
     outgoingApsimVariant.store("crop_type", protocol::DTstring, false, FString(crop_type.c_str()));
 #if 1
+    // Other end of this assumes all strings have equal length
     unsigned int maxlen = 0;
     for (unsigned int i=0; i <  dm_type.size();i++)
         {
@@ -13109,7 +13131,8 @@ void Plant::plant_send_crop_chopped_event (
     protocol::vector<FString> dmtypes;
     for (unsigned int i=0; i <  dm_type.size();i++)
         {
-        dmtypes.push_back(dm_type[i].c_str());
+        FString dm = dm_type[i].c_str();
+        dmtypes.push_back(dm);
         }
     outgoingApsimVariant.store("dm_type", protocol::DTstring, true, dmtypes);
 #endif
