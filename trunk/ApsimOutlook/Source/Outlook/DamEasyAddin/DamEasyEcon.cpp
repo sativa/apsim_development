@@ -92,8 +92,11 @@ void DamEasyEcon::getFactorValues(const Scenario& scenario,
                                    const std::string& factorName,
                                    std::vector<std::string>& factorValues) const
 {
-   Read_inifile_settings();  //slow but necessary
-   getAllFactorValues(factorName, factorValues);
+   if (factorName == DE_ECON_FACTOR_NAME)
+   {
+      Read_inifile_settings();  //slow but necessary
+      getAllFactorValues(factorName, factorValues);
+   }
 }
 
 
