@@ -291,10 +291,10 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      .                        variable, .false.)
  
       if (found) then
-         numvals = 0
+         numvals = 1
  
       else
-         numvals = 1
+         numvals = 0
       endif
  
       return
