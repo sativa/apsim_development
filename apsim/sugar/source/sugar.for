@@ -2509,6 +2509,12 @@ cnh         call report_event (string)
      :                               ,cane_dmf
      :                               ,0.0)
      :                      * (1.0 - sucrose_fraction)
+
+      ! Approach above is unstable - assume DMF is fixed
+      cane_dmf = 0.3
+      g_dlt_plant_wc(sstem) = (g_dlt_dm_green(sstem) 
+     :                         + g_dlt_dm_green(sucrose))
+     :                      * (1.0 - cane_dmf)/cane_dmf
  
       call pop_routine (myname)
       return
