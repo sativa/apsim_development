@@ -229,6 +229,7 @@
 !     Sugar Globals
 !     ================================================================
       Type SugarGlobals
+      Sequence
       character  crop_status*5       ! status of crop
       character  crop_cultivar*20    ! cultivar name
       real       sowing_depth        ! sowing depth (mm)
@@ -451,10 +452,10 @@
 !     Sugar Parameters
 !     ================================================================
       Type SugarParameters
-      real
-     :         tt_emerg_to_begcane
-     :        ,tt_begcane_to_flowering
-     :        ,tt_flowering_to_crop_end
+      Sequence
+      real      tt_emerg_to_begcane
+      real      tt_begcane_to_flowering
+      real      tt_flowering_to_crop_end
 
 !      real       hi_incr             ! harvest index increment per day ()
 !      real       hi_max_pot          ! maximum harvest index (g grain/
@@ -482,6 +483,7 @@
 !     Sugar Constants
 !     ================================================================
       Type SugarConstants
+      Sequence
       character  stage_names(max_stage)*32 ! full names of stages for
                                              ! reporting
       character  crop_type*50        ! crop type
@@ -774,221 +776,15 @@
       End Type SugarConstants
 
       ! instance variables.
-      type (sugarGlobals), pointer :: g
-      type (sugarParameters), pointer :: p
-      type (sugarConstants), pointer :: c
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type sugarDataPtr
-         type (sugarGlobals), pointer ::    gptr
-         type (sugarParameters), pointer :: pptr
-         type (sugarConstants), pointer ::  cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type sugarDataPtr
-      type (sugarDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (SugarGlobals),pointer :: g
+      type (SugarParameters),pointer :: p
+      type (SugarConstants),pointer :: c
 
       contains
 
       include 'sugar.for'
-
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-*+  Mission Statement
-*     Instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-*+  Mission Statement
-*     Deinstantiate routine
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-      deallocate (Instances(anInstanceNo)%cptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-*+  Mission Statement
-*     Swap an instance into global pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-      c => Instances(anInstanceNo)%cptr
-
-      return
-      end subroutine
-
-*     ================================================================
-      subroutine Main (action, data_string)
-*     ================================================================
-
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      character  action*(*)            ! (INPUT) Message action to perform
-      character  data_string*(*)       ! (INPUT) Message data
-
-*+  Purpose
-*     This is the highest level routine for the APSIM sugar module.
-*     This routines handles all the input and output communications to
-*     other modules in APSIM and calls model process routines for each
-*     timestep when required.
-
-*+  Mission Statement
-*     Handle all communications with Sugar
-
-*+  Changes
-*      250894 jngh specified and programmed
-*      050996 nih  added graze action
-*      060599 sdb  removed version reference and presence action
-
-*+  Constant Values
-      character  my_name*(*)           ! name of this procedure
-      parameter (my_name='sugar main')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-      if (action.eq.ACTION_get_variable) then
-            ! respond to request for variable values - from modules
-         call sugar_send_my_variable (Data_string)
-
-      elseif (action.eq.ACTION_set_variable) then
-            ! respond to request to reset variable values - from modules
-         call sugar_set_my_variable (data_string)
-
-      elseif (action.eq.EVENT_tick) then
-         call sugar_ONtick()
-
-      elseif (action.eq.ACTION_prepare) then
-         call sugar_prepare ()
-
-      elseif (action.eq.ACTION_process) then
-         if (g%crop_status.ne.crop_out) then
-               ! do crop processes
-            call sugar_process ()
-         else
-            ! crop not in
-            call sugar_zero_variables ()
-         endif
-      elseif (action.eq.ACTION_sow) then
-         if (crop_my_type (c%crop_type)) then
-               ! start crop and do  more initialisations
-            call sugar_start_crop ()
-         else
-            ! not my type!
-            call message_unused ()
-         endif
-       elseif (action.eq.ACTION_harvest) then
-         if (crop_my_type (c%crop_type)) then
-               ! harvest crop - turn into residue
-            call sugar_harvest ()
-         else
-            ! not my type!
-            call message_unused ()
-         endif
-
-      elseif (action.eq.ACTION_end_crop) then
-         if (crop_my_type (c%crop_type)) then
-               ! end crop - turn into residue
-            call sugar_end_crop ()
-         else
-            ! not my type!
-            call message_unused ()
-         endif
-
-      elseif (action.eq.ACTION_kill_crop) then
-         if (crop_my_type (c%crop_type)) then
-               ! kill crop - die
-            call sugar_kill_crop
-     :               (
-     :                g%crop_status
-     :              , g%day_of_year
-     :              , g%dm_dead
-     :              , g%dm_green
-     :              , g%dm_senesced
-     :              , g%year
-     :               )
-         else
-            ! not my type!
-            call message_unused ()
-         endif
-
-      elseif (action.eq.'graze') then
-         call sugar_graze ()
-      elseif (action.eq.'hill_up') then
-         call sugar_hill_up ()
-      elseif (action.eq.'lodge') then
-         call sugar_lodge ()
-
-      elseif (action.eq.ACTION_init) then
-            ! Get constants
-         call sugar_init ()
-
-      else if (Action.eq.ACTION_Create) then
-         call sugar_zero_all_globals ()
-
-      else
-               ! don't use message
-         call message_unused ()
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
 
 
 
@@ -4963,4 +4759,154 @@ cnh      c%crop_type = ' '
 
       end module sugarModule
 
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use sugarModule
+      implicit none
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+         allocate(c)
+      else
+         deallocate(g)
+         deallocate(p)
+         deallocate(c)
+      end if
+      return
+      end subroutine
+
+
+
+*     ================================================================
+      subroutine Main (action, data_string)
+*     ================================================================
+
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+      character  action*(*)            ! (INPUT) Message action to perform
+      character  data_string*(*)       ! (INPUT) Message data
+
+*+  Purpose
+*     This is the highest level routine for the APSIM sugar module.
+*     This routines handles all the input and output communications to
+*     other modules in APSIM and calls model process routines for each
+*     timestep when required.
+
+*+  Mission Statement
+*     Handle all communications with Sugar
+
+*+  Changes
+*      250894 jngh specified and programmed
+*      050996 nih  added graze action
+*      060599 sdb  removed version reference and presence action
+
+*+  Constant Values
+      character  my_name*(*)           ! name of this procedure
+      parameter (my_name='sugar main')
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      if (action.eq.ACTION_get_variable) then
+            ! respond to request for variable values - from modules
+         call sugar_send_my_variable (Data_string)
+
+      elseif (action.eq.ACTION_set_variable) then
+            ! respond to request to reset variable values - from modules
+         call sugar_set_my_variable (data_string)
+
+      elseif (action.eq.EVENT_tick) then
+         call sugar_ONtick()
+
+      elseif (action.eq.ACTION_prepare) then
+         call sugar_prepare ()
+
+      elseif (action.eq.ACTION_process) then
+         if (g%crop_status.ne.crop_out) then
+               ! do crop processes
+            call sugar_process ()
+         else
+            ! crop not in
+            call sugar_zero_variables ()
+         endif
+      elseif (action.eq.ACTION_sow) then
+         if (crop_my_type (c%crop_type)) then
+               ! start crop and do  more initialisations
+            call sugar_start_crop ()
+         else
+            ! not my type!
+            call message_unused ()
+         endif
+       elseif (action.eq.ACTION_harvest) then
+         if (crop_my_type (c%crop_type)) then
+               ! harvest crop - turn into residue
+            call sugar_harvest ()
+         else
+            ! not my type!
+            call message_unused ()
+         endif
+
+      elseif (action.eq.ACTION_end_crop) then
+         if (crop_my_type (c%crop_type)) then
+               ! end crop - turn into residue
+            call sugar_end_crop ()
+         else
+            ! not my type!
+            call message_unused ()
+         endif
+
+      elseif (action.eq.ACTION_kill_crop) then
+         if (crop_my_type (c%crop_type)) then
+               ! kill crop - die
+            call sugar_kill_crop
+     :               (
+     :                g%crop_status
+     :              , g%day_of_year
+     :              , g%dm_dead
+     :              , g%dm_green
+     :              , g%dm_senesced
+     :              , g%year
+     :               )
+         else
+            ! not my type!
+            call message_unused ()
+         endif
+
+      elseif (action.eq.'graze') then
+         call sugar_graze ()
+      elseif (action.eq.'hill_up') then
+         call sugar_hill_up ()
+      elseif (action.eq.'lodge') then
+         call sugar_lodge ()
+
+      elseif (action.eq.ACTION_init) then
+            ! Get constants
+         call sugar_init ()
+
+      else if (Action.eq.ACTION_Create) then
+         call sugar_zero_all_globals ()
+
+      else
+               ! don't use message
+         call message_unused ()
+      endif
+
+      call pop_routine (my_name)
+      return
+      end subroutine
 
