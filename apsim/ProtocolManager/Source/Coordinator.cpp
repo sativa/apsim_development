@@ -598,6 +598,7 @@ void Coordinator::sendQuerySetValueMessage(unsigned ourComponentID,
          unsigned destID = registrations.getDestId(ourComponentID, ourRegID, RegistrationType::set);
          pollComponentsForSetVariable(regName, destID, ourComponentID, ourRegID, variant);
          registrations.getSubscriptions(ourComponentID, ourRegID, RegistrationType::set, subs);
+         return;
          }
 
       if (subs.size() == 0)
@@ -613,7 +614,7 @@ void Coordinator::sendQuerySetValueMessage(unsigned ourComponentID,
                                              foreignComponentID,
                                              foreignRegID,
                                              variant));
-      else
+      else if (subs.size() > 1)
          {
          string regName = registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
          throw runtime_error("Too many modules allow a set of the variable " + regName);
