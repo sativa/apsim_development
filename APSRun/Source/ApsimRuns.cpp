@@ -96,10 +96,10 @@ void ApsimRuns::addFile(const std::string& fileName, bool allSimulations)
 //---------------------------------------------------------------------------
 // Perform all APSIM runs.
 //---------------------------------------------------------------------------
-void ApsimRuns::runAll(bool withConsole, bool quiet)
+void ApsimRuns::runAll(bool withConsole, bool quiet, bool run)
    {
    console = withConsole;
-   if (!quiet)
+   if (!quiet && !run)
       {
       RunForm = new TRunForm(NULL);
       RunForm->runs = this;
@@ -107,6 +107,10 @@ void ApsimRuns::runAll(bool withConsole, bool quiet)
       }
    else
       {
+      RunForm = new TRunForm(NULL);
+      RunForm->runs = this;
+      RunForm->Show();
+      RunForm->MainPanel->Visible = false;
       convertFiles();
       runApsim(quiet);
       }
@@ -239,6 +243,12 @@ bool ApsimRuns::performRun(const std::string& simFileName, bool moreToGo)
       if (console)
          commandLine += "/console ";
       commandLine += "\"" + simFileName + "\"";
+
+      string caption = "Running ";
+      caption += simFileName;
+      caption.erase(caption.find(".sim"));
+      RunForm->FileNameLabel->Caption = caption.c_str();
+
       Exec(commandLine.c_str(), SW_SHOW, true);
       settings.refresh();
       string nextWasClicked;

@@ -23,7 +23,7 @@ class __declspec(dllexport) TRunForm : public TForm
       TImage *Image1;
       TButton *NextButton;
       TButton *CancelButton;
-      TPageControl *PageControl1;
+   TPageControl *MainPanel;
       TTabSheet *Page2;
       TPanel *Panel1;
       THTMListBox *StatusList;
@@ -40,6 +40,7 @@ class __declspec(dllexport) TRunForm : public TForm
       TLabel *ControlFileLabel;
       TTreeView *simulationList;
       TImageList *ImageList1;
+   TLabel *FileNameLabel;
       void __fastcall NextButtonClick(TObject *Sender);
       void __fastcall CancelButtonClick(TObject *Sender);
       void __fastcall FormShow(TObject *Sender);

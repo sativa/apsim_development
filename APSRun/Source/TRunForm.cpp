@@ -34,12 +34,12 @@ void __fastcall TRunForm::FormShow(TObject *Sender)
 
    if (filesNeedingConversion.size() > 0)
       {
-      PageControl1->ActivePage = Page1;
+      MainPanel->ActivePage = Page1;
       populatePage1();
       }
    else
       {
-      PageControl1->ActivePage = Page3;
+      MainPanel->ActivePage = Page3;
       populatePage3();
       }
    }
@@ -151,16 +151,16 @@ void TRunForm::fillSimulationList(void)
 //---------------------------------------------------------------------------
 void __fastcall TRunForm::NextButtonClick(TObject *Sender)
    {
-   PageControl1->ActivePageIndex = PageControl1->ActivePageIndex + 1;
-   if (PageControl1->ActivePage == Page2)
+   MainPanel->ActivePageIndex = MainPanel->ActivePageIndex + 1;
+   if (MainPanel->ActivePage == Page2)
       populatePage2();
-   else if (PageControl1->ActivePage == Page3)
+   else if (MainPanel->ActivePage == Page3)
       populatePage3();
-   else if (PageControl1->ActivePage == Page4)
+   else if (MainPanel->ActivePage == Page4)
       {
       NextButton->Visible = false;
       CancelButton->Visible = false;
-      PageControl1->Visible = false;
+      MainPanel->Visible = false;
       saveSelections();
       runs->runApsim(false);
       Close();

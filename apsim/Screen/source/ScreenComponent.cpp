@@ -66,7 +66,7 @@ ScreenComponent::ScreenComponent(void)
 
    ScreenForm->setup();
    ScreenForm->Left = 168;
-   ScreenForm->Top = 1;
+   ScreenForm->Top = 24;
    Application->ProcessMessages();
    }
 // ------------------------------------------------------------------

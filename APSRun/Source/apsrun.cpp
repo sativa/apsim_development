@@ -15,6 +15,7 @@ void processCmdLine(void)
    bool console = false;
    bool createSIM = false;
    bool allRuns = false;
+   bool run = false;
    for (int argIndex = 1; argIndex < _argc; argIndex++)
       {
       if (stricmp(_argv[argIndex], "/CreateSIM") == 0)
@@ -30,6 +31,8 @@ void processCmdLine(void)
          console = true;
       else if (stricmp(_argv[argIndex], "/all") == 0)
          allRuns = true;
+      else if (stricmp(_argv[argIndex], "/run") == 0)
+         run =  true;
       else
          runs.addFile(_argv[argIndex], allRuns);
       }
@@ -37,7 +40,7 @@ void processCmdLine(void)
    if (createSIM)
       runs.createSIMs();
    else
-      runs.runAll(console, quietRun);
+      runs.runAll(console, quietRun, run);
    }
 // ------------------------------------------------------------------
 // Main program entry point.
