@@ -907,7 +907,7 @@ Public Class MainUI
     Private Sub RunSimulations()
         Dim SimFiles As StringCollection = MakeSimFiles()
         For Each simfile As String In SimFiles
-            Dim CommandLine As String = Path.GetDirectoryName(Application.ExecutablePath) + "\apsrun.exe """ + simfile + """"
+            Dim CommandLine As String = Path.GetDirectoryName(Application.ExecutablePath) + "\apsrun.exe /run """ + simfile + """"
             Dim ID As Integer = Shell(CommandLine, AppWinStyle.NormalFocus)
         Next
     End Sub
