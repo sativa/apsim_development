@@ -2,18 +2,18 @@
 <!-- C++Builder XML Project -->
 <PROJECT>
   <MACROS>
-    <VERSION value="BCB.05.03"/>
-    <PROJECT value="icons.dll"/>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="..\..\Bin\icons.dll"/>
     <OBJFILES value="icons.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
     <LIBFILES value=""/>
-    <LIBRARIES value="vcl50.lib"/>
-    <SPARELIBS value="vcl50.lib"/>
-    <PACKAGES value="bcbsmp50.bpi vcl50.bpi vclx50.bpi dclocx50.bpi qrpt50.bpi vcldb50.bpi 
-      vclbde50.bpi ibsmp50.bpi nmfast50.bpi inetdb50.bpi inet50.bpi vcldbx50.bpi 
+    <LIBRARIES value="vcl.lib rtl.lib"/>
+    <SPARELIBS value="rtl.lib vcl.lib"/>
+    <PACKAGES value="bcbsmp.bpi rtl.bpi vcl.bpi vclx.bpi dclocx.bpi qrpt.bpi dbrtl.bpi 
+      vcldb.bpi bdertl.bpi ibsmp.bpi nmfast.bpi inetdb.bpi inet.bpi vcldbx.bpi 
       jpegpkg.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
@@ -29,20 +29,29 @@
     <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par -w-8027 -w-8026"/>
     <WARNOPTSTR value=""/>
+    <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=c:\PROGRA~1\borland\CBUILD~2\lib\vcl50.csm -Hc -Vx -Ve 
+    <CFLAG1 value="-WD -Od -H=c:\PROGRA~1\borland\CBUILD~2\lib\vcl60.csm -Hc -Vx -Ve 
       -Tkh30000 -X- -r- -a8 -b- -k -y -v -vi- -c -tWM"/>
-    <PFLAGS value="-$YD -$W -$O- -v -M -JPHNE"/>
+    <PFLAGS value="-$YD -$W -$O- -$A8 -v -M -JPHNE"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zd"/>
-    <LFLAGS value="-D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
+    <LFLAGS value="-l. -D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
+    <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
     <ALLOBJ value="c0d32.obj Memmgr.Lib sysinit.obj $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
     <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <OTHERFILES value=""/>
   </LINKER>
+  <FILELIST>
+      <FILE FILENAME="icons.cpp" FORMNAME="" UNITNAME="icons" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
   <IDEOPTIONS>
 [Version Info]
 IncludeVerInfo=0
@@ -88,14 +97,27 @@ Item0=$(BCB)\source\vcl
 Count=1
 Item0=_RTLDLL
 
+[HistoryLists\hlFinalOutputDir]
+Count=1
+Item0=..\..\Bin
+
+[HistoryLists\hIBPIOutputDir]
+Count=1
+Item0=.
+
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
 RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
 HostApplication=
 RemoteHost=
 RemotePath=
+RemoteLauncher=
+RemoteCWD=
 RemoteDebug=0
 
 [Compiler]
@@ -107,5 +129,10 @@ LinkCGLIB=0
 ActiveLang=
 ProjectLang=
 RootDir=
+
+[Linker]
+LibPrefix=
+LibSuffix=
+LibVersion=
   </IDEOPTIONS>
 </PROJECT>
