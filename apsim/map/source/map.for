@@ -731,7 +731,8 @@ c      endif
          g%coeffs(out,in) = abs(core_up-sim_low)/abs(sim_low-sim_up)
 !point sample within or at node
       elseif (core_up .eq. core_low) then
-         write(*,*) 'Point Sample case - should not be here!!!!!!!!!!'
+         call write_string
+     :       ('Point Sample case - should not be here!!!!!!!!!!')
          call fatal_error (err_internal,
      :                'Coefficients and point samples')
       else
@@ -1634,7 +1635,7 @@ c      endif
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
       use MapModule
-      implicit none  
+      implicit none
       ml_external alloc_dealloc_instance
 
 !+  Sub-Program Arguments
