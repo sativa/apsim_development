@@ -30,6 +30,7 @@
 
 
       type CanopyGlobals
+         sequence
          integer    canopy_index(max_crops) ! index to sorted canopy height ()
          real       K_lai_green(max_crops)  ! k*green_lai of each crop ()
          real       K_lai_total(max_crops)  ! k*total_lai of each crop ()
@@ -49,142 +50,11 @@
       end type CanopyGlobals
 ! ====================================================================
       ! instance variables.
-      type (CanopyGlobals), pointer :: g
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type CanopyDataPtr
-         type (CanopyGlobals), pointer ::    gptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type CanopyDataPtr
-      type (CanopyDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
-
-
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (CanopyGlobals),pointer :: g
 
       contains
-
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      return
-      end subroutine
-
-*     ===========================================================
-      subroutine Main (Action, Data_string)
-*     ===========================================================
-
-      Use Infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      character  Action*(*)            ! (INPUT) Message action to perform
-      character  Data_string*(*)       ! (INPUT) Message data
-
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      canopy module.
-
-*+  Changes
-*      201093 jngh specified and programmed
-*      011195 jngh  added call to message_unused
-*      090299 jngh removed find crops and get other variables from init
-*      100299 jngh added find crops back in
-*      280999 sdb removed version reference
-
-*+  Constant Values
-      character  my_name*(*)
-      parameter (my_name = 'canopy_main')
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      if (Action.eq.ACTION_Get_variable) then
-            ! respond to requests from other modules
-         call canopy_send_my_variable (Data_string)
-
-      elseif (Action .eq. ACTION_Prepare) then
-         call canopy_zero_variables ()
-         call canopy_find_crops ()
-         call canopy_get_other_variables ()
-         call canopy_prepare ()
-
-      else if (Action .eq. ACTION_Post) then
-         call canopy_post ()
-
-      else if (Action.eq.ACTION_Init) then
-         call canopy_zero_all_variables ()
-         call canopy_init ()
-         call canopy_find_crops ()
-!         call canopy_get_other_variables ()
-
-      else
-            ! Don't use message
-
-         call Message_unused ()
-
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-
 
 
 *     ===========================================================
@@ -1154,4 +1024,95 @@ c      real       canopy_width          ! function
 
 
 
-      end module CanopyModule      
+      end module CanopyModule     
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use CanopyModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+      else
+         deallocate(g)
+      end if
+      return
+      end subroutine
+
+
+
+
+*     ===========================================================
+      subroutine Main (Action, Data_string)
+*     ===========================================================
+
+      Use Infrastructure
+      use CanopyModule
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+      character  Action*(*)            ! (INPUT) Message action to perform
+      character  Data_string*(*)       ! (INPUT) Message data
+
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      canopy module.
+
+*+  Changes
+*      201093 jngh specified and programmed
+*      011195 jngh  added call to message_unused
+*      090299 jngh removed find crops and get other variables from init
+*      100299 jngh added find crops back in
+*      280999 sdb removed version reference
+
+*+  Constant Values
+      character  my_name*(*)
+      parameter (my_name = 'canopy_main')
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      if (Action.eq.ACTION_Get_variable) then
+            ! respond to requests from other modules
+         call canopy_send_my_variable (Data_string)
+
+      elseif (Action .eq. ACTION_Prepare) then
+         call canopy_zero_variables ()
+         call canopy_find_crops ()
+         call canopy_get_other_variables ()
+         call canopy_prepare ()
+
+      else if (Action .eq. ACTION_Post) then
+         call canopy_post ()
+
+      else if (Action.eq.ACTION_Init) then
+         call canopy_zero_all_variables ()
+         call canopy_init ()
+         call canopy_find_crops ()
+!         call canopy_get_other_variables ()
+
+      else
+            ! Don't use message
+
+         call Message_unused ()
+
+      endif
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+
+ 
