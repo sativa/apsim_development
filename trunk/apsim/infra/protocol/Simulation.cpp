@@ -77,16 +77,28 @@ void Simulation::go(const string& simFilename)
       {
       // At this point there is no log file to report the error so
       // create and write to a log file and also write to screen.
-      Path logPath(simFilename.c_str());
-      logPath.Set_extension(".log");
-      ofstream log(logPath.Get_path().c_str());
-      log << "APSIM Infrastructure Error" << endl;
-      log << "--------------------------" << endl;
-      log << error.what() << endl;
-      cout << "APSIM Infrastructure Error" << endl;
-      cout << "--------------------------" << endl;
-      cout << error.what() << endl;
+      logError(simFilename.c_str(), error.what());
       }
+   catch (const char* msg)
+      {
+      logError(simFilename.c_str(), msg);
+      }
+   }
+
+// ------------------------------------------------------------------
+// Write the specified error to a log file and screen.
+// ------------------------------------------------------------------
+void Simulation::logError(const char* simFilename, const char* msg)
+   {
+   Path logPath(simFilename);
+   logPath.Set_extension(".log");
+   ofstream log(logPath.Get_path().c_str());
+   log << "APSIM Infrastructure Error" << endl;
+   log << "--------------------------" << endl;
+   log << msg << endl;
+   cout << "APSIM Infrastructure Error" << endl;
+   cout << "--------------------------" << endl;
+   cout << msg << endl;
    }
 
 // ------------------------------------------------------------------

@@ -6,6 +6,7 @@
 #include <sstream>
 #include <list>
 #include <functional>
+#include <memory>
 #include <aps\SOMSystem.h>
 #include <general\XMLTreeData.h>
 #include "DebugHook.h"
@@ -75,44 +76,54 @@ void Coordinator::doInit1(const FString& sdml)
    // If this is the GOD PM then add a ComponentAlias for ourselves.
    // This is because we sometimes send messages (e.g error)to our 'parent' PM
    // which is ourself.
-   if (componentID == parentID)
-      components.insert(Components::value_type(componentID,
-            new ComponentAlias("MasterPM", componentID)));
+   try
+      {
+      if (componentID == parentID)
+         components.insert(Components::value_type(componentID,
+               new ComponentAlias("MasterPM", componentID)));
 
-   Component::doInit1(sdml);
+      Component::doInit1(sdml);
 
-   SOMSystem systemData(*componentData);
+      SOMSystem systemData(*componentData);
 
-   // loop through all services specified in SDML and create
-   // and add a componentAlias object to our list of components.
-   list<string> serviceNames;
-   systemData.getServiceNames(serviceNames);
-   for (list<string>::iterator serviceI = serviceNames.begin();
-                               serviceI != serviceNames.end();
-                               serviceI++)
-      addComponent(systemData.getService(*serviceI));
+      // loop through all services specified in SDML and create
+      // and add a componentAlias object to our list of components.
+      list<string> serviceNames;
+      systemData.getServiceNames(serviceNames);
+      for (list<string>::iterator serviceI = serviceNames.begin();
+                                  serviceI != serviceNames.end();
+                                  serviceI++)
+         addComponent(systemData.getService(*serviceI));
 
-   // loop through all components specified in SDML and create
-   // and add a componentAlias object to our list of components.
-   list<string> componentNames;
-   systemData.getComponentNames(componentNames);
-   for (list<string>::iterator componentI = componentNames.begin();
-                               componentI != componentNames.end();
-                               componentI++)
-      addComponent(systemData.getComponent(*componentI));
+      // loop through all components specified in SDML and create
+      // and add a componentAlias object to our list of components.
+      list<string> componentNames;
+      systemData.getComponentNames(componentNames);
+      for (list<string>::iterator componentI = componentNames.begin();
+                                  componentI != componentNames.end();
+                                  componentI++)
+         addComponent(systemData.getComponent(*componentI));
 
-   // loop through all systems specified in SDML and create
-   // and add a componentAlias object to our list of components.
-   list<string> systemNames;
-   systemData.getSystemNames(systemNames);
-   for (list<string>::iterator systemI = systemNames.begin();
-                               systemI != systemNames.end();
-                               systemI++)
-      addComponent(systemData.getSystem(*systemI));
+      // loop through all systems specified in SDML and create
+      // and add a componentAlias object to our list of components.
+      list<string> systemNames;
+      systemData.getSystemNames(systemNames);
+      for (list<string>::iterator systemI = systemNames.begin();
+                                  systemI != systemNames.end();
+                                  systemI++)
+         addComponent(systemData.getSystem(*systemI));
 
-   // Perform a debug interrupt so that the FORTRAN debugger can
-   // stop.
-   DebugException();
+      // Perform a debug interrupt so that the FORTRAN debugger can
+      // stop.
+      DebugException();
+      }
+   catch (const runtime_error& error)
+      {
+      // Can't seem to throw runtime_error's across DLL boundaries.
+      // Seems to work with debug info turned on but not in 'release' mode.
+      // So throw a const char* instead.
+      throw error.what();
+      }
    }
 
 // ------------------------------------------------------------------
@@ -181,35 +192,26 @@ void Coordinator::addComponent(SOMComponent componentData)
    if (Str_i_Eq(componentData.getName(), "clock"))
       sequencerID = childID;
 
-   ComponentAlias* componentAlias = NULL;
-   try
-      {
-      componentAlias = new ComponentAlias
-         (componentData.getName(),
-          componentData.getExecutableFilename(),
-          childID,
-          parentID);
+   auto_ptr<ComponentAlias> componentAlias(new ComponentAlias
+      (componentData.getName(),
+       componentData.getExecutableFilename(),
+       childID,
+       parentID));
 
-      components.insert(Components::value_type(childID, componentAlias));
+   components.insert(Components::value_type(childID, componentAlias.get()));
 
-      string fqn = name;
-      fqn += ".";
-      fqn += componentData.getName();
+   string fqn = name;
+   fqn += ".";
+   fqn += componentData.getName();
 
-      // send component an init1 message.
-      ostringstream componentSDML;
-      componentData.write(componentSDML);
-      sendMessage(newInit1Message(componentID,
-                                  childID,
-                                  componentSDML.str().c_str(),
-                                  fqn.c_str(),
-                                  true));
-      }
-   catch (const runtime_error& except)
-      {
-      delete componentAlias;
-      throw;       // cannot call error during Init1.
-      }
+   // send component an init1 message.
+   ostringstream componentSDML;
+   componentData.write(componentSDML);
+   sendMessage(newInit1Message(componentID,
+                               childID,
+                               componentSDML.str().c_str(),
+                               fqn.c_str(),
+                               true));
    }
 
 // ------------------------------------------------------------------
