@@ -916,7 +916,9 @@ std::string Component::getDescription()
    {
    try
       {
-      string returnString = "<describecomp name=\"" + asString(name) + "\">\n";
+      string moduleName = dllName;
+      moduleName.erase(0, moduleName.rfind('\\')+1);
+      string returnString = "<describecomp name=\"" + moduleName + "\">\n";
       for (UInt2InfoMap::iterator var = getVarMap.begin();
                                   var != getVarMap.end();
                                   var++)
