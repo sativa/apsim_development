@@ -11,7 +11,7 @@
     <RESDEPEN value="$(RESFILES) TMainForm.dfm TPageSetupForm.dfm TLibraryForm.dfm 
       TObjectInspectorForm.dfm TDataPreviewForm.dfm"/>
     <LIBFILES value="..\..\Shared\general\general.lib ..\..\Shared\ApsimShared\ApsimShared.lib 
-      ..\..\Shared\SEGReport\SEGReport.lib"/>
+      ..\..\Shared\SEGReport\SEGReport.lib ..\..\Shared\general\general_vcl.lib"/>
     <LIBRARIES value="ThirdParty.lib VclSmp.lib TMSC6.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib qrpt60.lib vclx.lib dbrtl.lib bdertl.lib vcldb.lib 
       TMSC6.lib VclSmp.lib ThirdParty.lib vcldbx.lib"/>
@@ -61,6 +61,7 @@
       <FILE FILENAME="TLibraryForm.cpp" FORMNAME="LibraryForm" UNITNAME="TLibraryForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TObjectInspectorForm.cpp" FORMNAME="ObjectInspectorForm" UNITNAME="TObjectInspectorForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TDataPreviewForm.cpp" FORMNAME="DataPreviewForm" UNITNAME="TDataPreviewForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

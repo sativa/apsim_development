@@ -10,7 +10,8 @@
     <RESDEPEN value="$(RESFILES)"/>
     <LIBFILES value="..\..\..\..\Shared\general\general.lib 
       ..\..\..\..\Shared\ApsimShared\ApsimShared.lib 
-      ..\..\..\..\Shared\GrossMarginCalculator\GrossMarginCalculator.lib"/>
+      ..\..\..\..\Shared\GrossMarginCalculator\GrossMarginCalculator.lib 
+      ..\..\..\..\Shared\general\general_vcl.lib"/>
     <LIBRARIES value="VclSmp.lib kbmMemC6Run.lib TMSC6.lib APSGENERAL.lib APSData.lib"/>
     <SPARELIBS value="rtl.lib vcl.lib dbrtl.lib vcldb.lib vclx.lib bdertl.lib vcldbx.lib 
       adortl.lib APSData.lib APSGENERAL.lib TMSC6.lib kbmMemC6Run.lib VclSmp.lib 
@@ -59,6 +60,7 @@
       <FILE FILENAME="..\..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\..\Shared\GrossMarginCalculator\GrossMarginCalculator.lib" FORMNAME="" UNITNAME="GrossMarginCalculator.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

@@ -8,7 +8,8 @@
     <RESFILES value="apsrun.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TRunForm.dfm"/>
-    <LIBFILES value="..\..\Shared\ApsimShared\ApsimShared.lib ..\..\Shared\general\general.lib"/>
+    <LIBFILES value="..\..\Shared\ApsimShared\ApsimShared.lib ..\..\Shared\general\general.lib 
+      ..\..\Shared\general\general_vcl.lib"/>
     <LIBRARIES value="Tee6C6.lib VclSmp.lib Tee.lib TMSC6.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib Tee.lib VclSmp.lib 
       Tee6C6.lib"/>
@@ -55,6 +56,7 @@
       <FILE FILENAME="..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ApsimRuns.cpp" FORMNAME="" UNITNAME="ApsimRuns" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

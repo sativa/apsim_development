@@ -9,13 +9,14 @@
     <IDLFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TMain_form.dfm TFilespec_form.dfm TBatch_import_form.dfm"/>
-    <LIBFILES value="..\..\..\Shared\general\general.lib
-      ..\..\..\Shared\ApsimShared\ApsimShared.lib"/>
+    <LIBFILES value="..\..\..\Shared\general\general.lib 
+      ..\..\..\Shared\ApsimShared\ApsimShared.lib 
+      ..\..\..\Shared\general\general_vcl.lib"/>
     <LIBRARIES value="kbmMemC6Run.lib TMSC6.lib APSGENERAL.lib APSData.lib bdertl.lib"/>
-    <SPARELIBS value="rtl.lib vcl.lib dbrtl.lib vcldb.lib bdertl.lib APSData.lib APSGENERAL.lib
+    <SPARELIBS value="rtl.lib vcl.lib dbrtl.lib vcldb.lib bdertl.lib APSData.lib APSGENERAL.lib 
       vclx.lib bcbsmp.lib adortl.lib TMSC6.lib kbmMemC6Run.lib"/>
-    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi qrpt.bpi dbrtl.bpi vcldb.bpi ibsmp.bpi
-      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi
+    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi qrpt.bpi dbrtl.bpi vcldb.bpi ibsmp.bpi 
+      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi 
       dclocx.bpi bcb97axserver.bpi adortl.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
@@ -34,7 +35,7 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -Tkh30000 -X- -r- -a8 -b- -k -y -v
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -Tkh30000 -X- -r- -a8 -b- -k -y -v 
       -vi- -c -tW -tWM"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -M -JPHNE"/>
     <RFLAGS value=""/>
@@ -55,6 +56,7 @@
       <FILE FILENAME="TBatch_import_form.cpp" FORMNAME="Batch_import_form" UNITNAME="TBatch_import_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

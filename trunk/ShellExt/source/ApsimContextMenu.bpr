@@ -8,7 +8,7 @@
     <RESFILES value="ApsimContextMenu.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value="..\..\Shared\general\general.lib"/>
+    <LIBFILES value="..\..\Shared\general\general.lib ..\..\Shared\general\general_vcl.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="rtl.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi vcldbx.bpi 
@@ -53,6 +53,7 @@
       <FILE FILENAME="ClsFact.cpp" FORMNAME="" UNITNAME="ClsFact.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ApsimCommands.cpp" FORMNAME="" UNITNAME="ApsimCommands" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

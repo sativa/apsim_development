@@ -3,14 +3,15 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.06.00"/>
-    <PROJECT value="..\..\..\..\Bin\DBAddIn.dll"/>
+    <PROJECT value="..\..\..\..\Bin\dbaddin.dll"/>
     <OBJFILES value="dbaddin.obj DataBaseAddIn.obj DBSimulation.obj ..\scenario.obj 
       TDirectory_select_form.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TDirectory_select_form.dfm"/>
     <LIBFILES value="..\..\..\..\Shared\ApsimShared\ApsimShared.lib 
-      ..\..\..\..\Shared\general\general.lib"/>
+      ..\..\..\..\Shared\general\general.lib 
+      ..\..\..\..\Shared\general\general_vcl.lib"/>
     <LIBRARIES value="kbmMemC6Run.lib TMSC6.lib APSGENERAL.lib APSData.lib"/>
     <SPARELIBS value="rtl.lib vcl.lib adortl.lib dbrtl.lib vcldb.lib APSData.lib bdertl.lib 
       APSGENERAL.lib vclx.lib TMSC6.lib kbmMemC6Run.lib"/>
@@ -57,6 +58,7 @@
       <FILE FILENAME="TDirectory_select_form.cpp" FORMNAME="Directory_select_form" UNITNAME="TDirectory_select_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

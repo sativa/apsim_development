@@ -3,13 +3,14 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.06.00"/>
-    <PROJECT value="..\..\..\..\Bin\SOIAddin.dll"/>
+    <PROJECT value="..\..\..\..\Bin\soiaddin.dll"/>
     <OBJFILES value="soiaddin.obj TSOI_form.obj SOIToolBar.obj"/>
     <RESFILES value="soiaddin.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TSOI_form.dfm"/>
     <LIBFILES value="..\..\..\..\Shared\general\general.lib 
-      ..\..\..\..\Shared\ApsimShared\ApsimShared.lib"/>
+      ..\..\..\..\Shared\ApsimShared\ApsimShared.lib 
+      ..\..\..\..\Shared\general\general_vcl.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="vcl.lib rtl.lib"/>
     <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi vcldb.bpi ibsmp.bpi 
@@ -55,6 +56,7 @@
       <FILE FILENAME="SOIToolBar.cpp" FORMNAME="" UNITNAME="SOIToolBar.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
