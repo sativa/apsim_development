@@ -9,3 +9,16 @@
   Module = residue2 %apsuite\apsim\residue2\sample\residue2.par [sugar_residue]     %apsuite\apsim\residue2\residue2.ini [standard]
   Module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
   Module = sugar    test.par [sample]      %apsuite\apsim\sugar\sugar.ini [standard]
+
+
+[apsim.sample2_sugar]  
+  Module = clock    test.par [sample]      
+  Module = report   test.par [sample2]      
+  Module = met      %apsuite\apsim\met\SAMPLE\INGHAM.MET [weather]      
+  Module = manager  test.par [sample2]      
+  Module = irrigate test.par [sample]      
+  Module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini [standard]      
+  Module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]      
+  Module = residue2 %apsuite\apsim\residue2\sample\residue2.par [sugar_residue]     %apsuite\apsim\residue2\residue2.ini [standard]      
+  Module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]      
+  Module = sugar    test.par [sample]      %apsuite\apsim\sugar\sugar.ini [standard]      
