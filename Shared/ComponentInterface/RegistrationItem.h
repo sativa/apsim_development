@@ -36,7 +36,7 @@ class RegistrationItem
       bool isMatch(RegistrationType rhsKind, const FString& rhsName,
                    const FString& rhsComponentName)
          {
-         return (kind == rhsKind && rhsName == originalName
+         return (kind == rhsKind && rhsName == name
                  && rhsComponentName == componentName);
          }
 
@@ -82,6 +82,7 @@ class RegistrationItem
       bool haveCreatedTypeConverter;
       bool isError;
       ArraySpecifier* arraySpecifier;
+
 
    };
 
