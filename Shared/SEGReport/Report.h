@@ -202,5 +202,10 @@ class __declspec(dllexport) Report
       //---------------------------------------------------------------------------
       bool doShowComponentInWizard(TComponent* component);
 
+      //---------------------------------------------------------------------------
+      // Version 2 to 3
+      //---------------------------------------------------------------------------
+      void convertVersion2To3(const std::string& fileName);
+
    };
 #endif
