@@ -1,0 +1,1057 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><img src="..\..\..\docs\shared\apsimdocumentationbanner.jpg" width="640"
+height="73"></p>
+</body>
+</html>
+<TITLE>The APSIM Soiltemp Model</TITLE>
+<FONT SIZE = 7><B><CENTER>The APSIM Soiltemp Model</CENTER></B></FONT>
+<H1>TABLE OF CONTENTS</H1>
+<H2><A HREF = "#Contact Information"> Contact Information </A></H2>
+<H2><A HREF = "#Module Description"> Module Description </A></H2>
+<H2>User Input Files</H2>
+<ul><li>The Constants File
+
+<ul><li><A HREF = "#standard.soiltemp.constants"> standard constants </A>
+
+</ul></ul>
+<H2>Module Logic</H2>
+<ul><li><A HREF = "#APSIM Soiltemp Module"> APSIM Soiltemp Module </A>
+
+<li><A HREF = "#Structure Charts"> Structure Charts </A>
+
+</ul>
+<hr>
+<A NAME = "Module Description">  </A>
+<H2>Module Documentation</H2>
+<br>
+<A HREF = "soiltemp_int.pdf"> soiltemp_int.pdf </A>
+<br>
+<A HREF = "soiltemp_science.pdf"> soiltemp_science.pdf </A>
+<br>
+<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "Structure Charts"> <H2>Module Structure Charts</H2> </A>
+<H2>APSIM Soiltemp Module</H2>
+<ul><li><A HREF = "#main"> main </A>
+
+<ul><li><A HREF = "#soiltemp_zero_variables"> soiltemp_zero_variables </A>
+
+<li><A HREF = "#soiltemp_init"> soiltemp_init </A>
+
+<ul><li><A HREF = "#soiltemp_get_ini_variables"> soiltemp_get_ini_variables </A>
+
+<li><A HREF = "#soiltemp_read_constants"> soiltemp_read_constants </A>
+
+<li><A HREF = "#soiltemp_read_param"> soiltemp_read_param </A>
+
+</ul><li><A HREF = "#soiltemp_prepare"> soiltemp_prepare </A>
+
+<ul><li><A HREF = "#soiltemp_zero_daily_variables"> soiltemp_zero_daily_variables </A>
+
+</ul><li><A HREF = "#soiltemp_process"> soiltemp_process </A>
+
+<ul><li><A HREF = "#soiltemp_get_other_variables"> soiltemp_get_other_variables </A>
+
+<li><A HREF = "#soiltemp_heat"> soiltemp_heat </A>
+
+<li><A HREF = "#soiltemp_therm"> soiltemp_therm </A>
+
+<li><A HREF = "#soiltemp_thomas"> soiltemp_thomas </A>
+
+<li><A HREF = "#soiltemp_update"> soiltemp_update </A>
+
+</ul><li><A HREF = "#soiltemp_send_my_variable"> soiltemp_send_my_variable </A>
+
+<li><A HREF = "#soiltemp_zero_all_globals"> soiltemp_zero_all_globals </A>
+
+</ul></ul>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<CENTER><A NAME = "Module Pseudo Code"> <H2><BIG>Module Pseudo Code</BIG></H2> </A></CENTER>
+<hr>
+<H2><BIG><A NAME = "APSIM Soiltemp Module"> APSIM Soiltemp Module </A></BIG></H2>
+<A NAME = "main">  </A>
+<H2>Main</H2>
+<br>
+<H3><CENTER>This routine is the interface between the main system and the soiltemp module.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (action.=.action_init) then<br>
+
+<blockquote><A HREF = "#soiltemp_zero_variables"> Initialise variables to zero </A><br>
+
+<A HREF = "#soiltemp_init"> Initialise soiltemp </A><br>
+
+</blockquote>elseif (action.=.action_prepare) then<br>
+
+<blockquote><A HREF = "#soiltemp_prepare"> Perform preparatory calculations for the next timestep </A><br>
+
+</blockquote>else if (action.=.action_process) then<br>
+
+<blockquote><A HREF = "#soiltemp_process"> Performs actions for the current day </A><br>
+
+</blockquote>else if (action.=.action_get_variable) then<br>
+
+<blockquote><A HREF = "#soiltemp_send_my_variable"> Return the value of a variable requested by other modules </A><br>
+
+</blockquote>elseif (action.=.action_create) then<br>
+
+<blockquote><A HREF = "#soiltemp_zero_all_globals"> Zero all the global variables and arrays </A><br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiltemp_zero_variables">  </A>
+<H2>Soiltemp Zero Variables</H2>
+<br>
+<H3><CENTER>Set all variables in this module to zero.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiltemp_init">  </A>
+<H2>Soiltemp Init</H2>
+<br>
+<H3><CENTER>Initialise soiltemp module  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+event_string = 'initialising : '<br>
+
+Write a string to a file<br>
+
+<A HREF = "#soiltemp_get_ini_variables"> Get all the values from other modules </A><br>
+
+<A HREF = "#soiltemp_read_constants"> Get the constants for soiltemp </A><br>
+
+<A HREF = "#soiltemp_read_param"> Read all module parameters </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiltemp_get_ini_variables">  </A>
+<H2>Soiltemp Get Ini Variables</H2>
+<br>
+<H3><CENTER>Get the values of variables from other modules  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get e%t_ave from the system (Lower Bound = - 30 . 0, Upper Bound = 40 . 0)<br>
+
+Get e%timestep from the system (Lower Bound = 0 . 0, Upper Bound = 1440 . 0)<br>
+
+e%timestep = e%timestep * 60 . 0<br>
+
+Get e%dlayer from the system (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+number of layer = numvals<br>
+
+nz = number of layer + 1<br>
+
+z (0) = 0 . 0<br>
+
+z (1) = 0 . 0<br>
+
+z (2) = 0 . 5 * e%dlayer (1) / 1000 . 0<br>
+
+For each = from , to<br>
+
+<blockquote>z (i + 1) = (sum (e%dlayer (1 : i - 1))+0.5*e%dlayer (i)) / 1000 . 0<br>
+
+enddo<br>
+
+z (nz + 1) = z (nz) + 10 . 0<br>
+
+e%dlayer (number of layer + 1) = 10 . 0 - 0 . 5 * e%dlayer (number of layer)<br>
+
+Get e%rhob from the system (Lower Bound = 0 . 0, Upper Bound = 2 . 65)<br>
+
+if (numvals.=/=.number of layer)  Report a fatal error<br>
+
+<blockquote>e%rhob (nz) = e%rhob (numvals)<br>
+
+<br>
+
+</blockquote></blockquote></blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiltemp_read_constants">  </A>
+<H2>Soiltemp Read Constants</H2>
+<br>
+<H3><CENTER>Read all module constants.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Read nu from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read vol_spec_heat_om from file (Lower Bound = 1e6, Upper Bound = 1e7)<br>
+
+Read vol_spec_heat_water from file (Lower Bound = 1e6, Upper Bound = 1e7)<br>
+
+Read vol_spec_heat_clay from file (Lower Bound = 1e6, Upper Bound = 1e7)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiltemp_read_param">  </A>
+<H2>Soiltemp Read Param</H2>
+<br>
+<H3><CENTER>Read all module parameters.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Read clay from file (Lower Bound = numvals, Upper Bound = 1e - 6)<br>
+
+nz = numvals + 1<br>
+
+clay (nz) = clay (numvals)<br>
+
+For each = from , to<br>
+
+<blockquote>c1 (i) = 0 . 65 - 0 . 78 * e%rhob (i) + 0 . 6 * e%rhob (i) * * 2<br>
+
+c2 (i) = 1 . 06 * e%rhob (i) * e%sw (i)<br>
+
+c3 (i) = 1 . 0 + 2 . 6 * 1 / (sqrt (clay (i)))<br>
+
+c4 (i) = 0 . 03 + 0 . 1 * e%rhob (i) * * 2<br>
+
+enddo<br>
+
+Read temp_array from file (Lower Bound = numvals, Upper Bound = - 30 . 0) <I>(OPTIONAL)</I><br>
+
+if (numvals.=.0) then<br>
+
+<blockquote>For each = from , to +<br>
+
+<blockquote>t (i) = e%t_ave<br>
+
+tn (i) = e%t_ave<br>
+
+enddo<br>
+
+</blockquote>elseif (numvals.=/=.nz) then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else<br>
+
+<blockquote>For each = from , to<br>
+
+<blockquote>t (i) = temp_array<I><SUB> i</SUB></I><br>
+
+tn (i) = temp_array<I><SUB> i</SUB></I><br>
+
+enddo<br>
+
+t (nz + 1) = e%t_ave<br>
+
+tn (nz + 1) = e%t_ave<br>
+
+t (0) = e%t_ave<br>
+
+tn (0) = e%t_ave<br>
+
+</blockquote>endif<br>
+
+Read temp from file (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<br>
+
+therm_cond (0) = temp<br>
+
+<br>
+
+</blockquote></blockquote></blockquote></blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiltemp_prepare">  </A>
+<H2>Soiltemp Prepare</H2>
+<br>
+<H3><CENTER>perform calculations before the current timestep.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<A HREF = "#soiltemp_zero_daily_variables"> Set soiltemp daily variables & arrays to zero </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiltemp_zero_daily_variables">  </A>
+<H2>Soiltemp Zero Daily Variables</H2>
+<br>
+<H3><CENTER>Set all variables in this module to zero.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiltemp_process">  </A>
+<H2>Soiltemp Process</H2>
+<br>
+<H3><CENTER>perform actions for current day.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+mint_yesterday = e%mint<br>
+
+maxt_yesterday = e%maxt<br>
+
+<A HREF = "#soiltemp_get_other_variables"> Gets the values of variables/arrays from other modules </A><br>
+
+For each = from , to<br>
+
+<blockquote>mint_soil (i) = 0 . 0<br>
+
+maxt_soil (i) = 0 . 0<br>
+
+soil_temp (i) = 0 . 0<br>
+
+enddo<br>
+
+dt = e%timestep / 48 . 0<br>
+
+For each = from , to ,<br>
+
+<blockquote>time = time<br>
+
+if (e%timestep.&lt;.1440.0*60.0) then<br>
+
+<blockquote>airt = 0 . 5 * (e%maxt+e%mint)<br>
+
+</blockquote>else<br>
+
+<blockquote>airt = soiltemp_interptemp<I><SUB> time / 3600 . 0, e%maxt_time, e%mint, e%maxt, mint_yesterday, maxt_yesterday</SUB></I><br>
+
+</blockquote>endif<br>
+
+tn (0) = airt<br>
+
+<A HREF = "#soiltemp_heat"> Calculate the storage of heat energy in the soil </A><br>
+
+<A HREF = "#soiltemp_therm"> Calculate the thermal conductivity of the soil </A><br>
+
+<A HREF = "#soiltemp_thomas"> Numerical solution of the differential equations. </A><br>
+
+<A HREF = "#soiltemp_update"> Determine min, max, and average soil temperature from the half-hourly iterations </A><br>
+
+enddo<br>
+
+<br>
+
+</blockquote></blockquote></blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiltemp_get_other_variables">  </A>
+<H2>Soiltemp Get Other Variables</H2>
+<br>
+<H3><CENTER>Get the values of variables from other modules  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get e%t_ave from the system (Lower Bound = - 30 . 0, Upper Bound = 40 . 0)<br>
+
+Get e%timestep from the system (Lower Bound = 0 . 0, Upper Bound = 1440 . 0)<br>
+
+e%timestep = e%timestep * 60 . 0<br>
+
+Get e%dlayer from the system (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+number of layer = numvals<br>
+
+nz = number of layer + 1<br>
+
+z (0) = 0 . 0<br>
+
+z (1) = 0 . 0<br>
+
+z (2) = 0 . 5 * e%dlayer (1) / 1000 . 0<br>
+
+For each = from , to<br>
+
+<blockquote>z (i + 1) = (sum (e%dlayer (1 : i - 1))+0.5*e%dlayer (i)) / 1000 . 0<br>
+
+enddo<br>
+
+z (nz + 1) = z (nz) + 10 . 0<br>
+
+e%dlayer (number of layer + 1) = 10 . 0 - 0 . 5 * e%dlayer (number of layer)<br>
+
+Get e%sw from the system (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+if (numvals.=/=.number of layer)  Report a fatal error<br>
+
+<blockquote>e%sw (nz) = e%sw (numvals)<br>
+
+Get e%rhob from the system (Lower Bound = 0 . 0, Upper Bound = 2 . 65)<br>
+
+if (numvals.=/=.number of layer)  Report a fatal error<br>
+
+<blockquote>e%rhob (nz) = e%rhob (numvals)<br>
+
+Get e%maxt_time from the system (Lower Bound = 0 . 0, Upper Bound = 24 . 0)<I>(OPTIONAL)</I><br>
+
+Get e%mint from the system (Lower Bound = - 100 . 0, Upper Bound = 100 . 0)<br>
+
+Get e%maxt from the system (Lower Bound = - 100 . 0, Upper Bound = 100 . 0)<br>
+
+Get e%eos from the system (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<I>(OPTIONAL)</I><br>
+
+if (numvals.=.0) e%eos = 0 . 0<br>
+
+<blockquote>Get e%es from the system (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<I>(OPTIONAL)</I><br>
+
+if (numvals.=.0) e%es = 0 . 0<br>
+
+<blockquote><br>
+
+</blockquote></blockquote></blockquote></blockquote></blockquote></blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiltemp_heat">  </A>
+<H2>Soiltemp Heat</H2>
+<br>
+<H3><CENTER>Calculate the storage of heat energy in the soil layer following to Campbell, G.S. (1985) "Soil physics with BASIC: Transport models for soil-plant systems" (Amsterdam, Elsevier)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+For each = from , to<br>
+
+<blockquote>porosity = e%rhob (i) / 2 . 65<br>
+
+l_heat_store<I><SUB> i</SUB></I> = (vol_spec_heat_clay*(1-porosity)+vol_spec_heat_water*e%sw (i))<br>
+
+enddo<br>
+
+<br>
+
+</blockquote></blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiltemp_therm">  </A>
+<H2>Soiltemp Therm</H2>
+<br>
+<H3><CENTER>Calculate the thermal conductivity of the soil layer following to Campbell, G.S. (1985) "Soil physics with BASIC: Transport models for soil-plant systems" (Amsterdam, Elsevier)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+For each = from , to<br>
+
+<blockquote>temp = (c3 (i)*e%sw (i)) * * 4 . 0<br>
+
+temp = temp * (-1)<br>
+
+l_therm_cond<I><SUB> i</SUB></I> = (c1 (i)+c2 (i)*e%sw (i)-(c1 (i)-c4 (i))*<I><BIG>e</BIG></I><SUP>temp</SUP>)<br>
+
+enddo<br>
+
+For each = from , to -<br>
+
+<blockquote>d = sum (e%dlayer (1 : i - 1))<br>
+
+d1 = d - z (i) * 1000 . 0<br>
+
+d2 = z (i + 1) * 1000 . 0 - d<br>
+
+d_sum = d1 + d2<br>
+
+l_therm_cond<I><SUB> i</SUB></I> = l_therm_cond<I><SUB> i</SUB></I> * d1 / (d_sum) + l_therm_cond<I><SUB> i + 1</SUB></I> * d2 / (d_sum)<br>
+
+enddo<br>
+
+<br>
+
+</blockquote></blockquote></blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiltemp_thomas">  </A>
+<H2>Soiltemp Thomas</H2>
+<br>
+<H3><CENTER>Numerical solution of the differential equations. Solves the tri_diagonal matrix using the Thomas algorithm, Thomas, L.H. (1946) "Elliptic problems in linear difference equations over a network" Watson Sci Comput. Lab. Report., (Columbia University, New York)"  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+therm<I><SUB> 0</SUB></I> = therm_cond (0)<br>
+
+For each = from , to<br>
+
+<blockquote>heat<I><SUB> i</SUB></I> = heat_store (i) * 0 . 5 * (z (i + 1)-z (i - 1)) / dt<br>
+
+therm<I><SUB> i</SUB></I> = therm_cond (i) / (z (i + 1)-z (i))<br>
+
+enddo<br>
+
+a<I><SUB> 1</SUB></I> = 0 . 0<br>
+
+b<I><SUB> 1</SUB></I> = nu * therm<I><SUB> 1</SUB></I> + nu * therm<I><SUB> 0</SUB></I> + heat<I><SUB> 1</SUB></I><br>
+
+cc<I><SUB> 1</SUB></I> = - nu * therm<I><SUB> 1</SUB></I><br>
+
+d<I><SUB> 1</SUB></I> = t (0) * (1-nu) * therm<I><SUB> 0</SUB></I> - t (1) * (1-nu) * therm<I><SUB> 1</SUB></I> - t (1) * (1-nu) * therm<I><SUB> 0</SUB></I> + t (1) * heat<I><SUB> 1</SUB></I> + t (2) * (1-nu) * therm<I><SUB> 1</SUB></I> + therm<I><SUB> 0</SUB></I> * tn (0) * nu<br>
+
+if ((e%eos-e%es).&gt;.0.2) then<br>
+
+<blockquote>d<I><SUB> 1</SUB></I> = d<I><SUB> 1</SUB></I> - (e%eos-e%es) * lambda / e%timestep<br>
+
+</blockquote>endif<br>
+
+For each = from , to -<br>
+
+<blockquote>a<I><SUB> i</SUB></I> = - nu * therm<I><SUB> i - 1</SUB></I><br>
+
+b<I><SUB> i</SUB></I> = nu * therm<I><SUB> i</SUB></I> + nu * therm<I><SUB> i - 1</SUB></I> + heat<I><SUB> i</SUB></I><br>
+
+cc<I><SUB> i</SUB></I> = - nu * therm<I><SUB> i</SUB></I><br>
+
+d<I><SUB> i</SUB></I> = t (i - 1) * (1-nu) * therm<I><SUB> i - 1</SUB></I> - t (i) * (1-nu) * therm<I><SUB> i</SUB></I> - t (i) * (1-nu) * therm<I><SUB> i - 1</SUB></I> + t (i) * heat<I><SUB> i</SUB></I> + t (i + 1) * (1-nu) * therm<I><SUB> i</SUB></I><br>
+
+enddo<br>
+
+a<I><SUB> nz</SUB></I> = - nu * therm<I><SUB> nz - 1</SUB></I><br>
+
+b<I><SUB> nz</SUB></I> = nu * therm<I><SUB> nz</SUB></I> + nu * therm<I><SUB> nz - 1</SUB></I> + heat<I><SUB> nz</SUB></I><br>
+
+cc<I><SUB> nz</SUB></I> = 0 . 0<br>
+
+d<I><SUB> nz</SUB></I> = t (nz - 1) * (1-nu) * therm<I><SUB> nz - 1</SUB></I> - t (nz) * (1-nu) * therm<I><SUB> nz</SUB></I> - t (nz) * (1-nu) * therm<I><SUB> nz - 1</SUB></I> + t (nz) * heat<I><SUB> nz</SUB></I> + t (nz + 1) * (1-nu) * therm<I><SUB> nz</SUB></I> + therm<I><SUB> nz</SUB></I> * nu * tn (nz + 1)<br>
+
+For each = from , to -<br>
+
+<blockquote>cc<I><SUB> i</SUB></I> = cc<I><SUB> i</SUB></I> / b<I><SUB> i</SUB></I><br>
+
+d<I><SUB> i</SUB></I> = d<I><SUB> i</SUB></I> / b<I><SUB> i</SUB></I><br>
+
+b<I><SUB> i + 1</SUB></I> = b<I><SUB> i + 1</SUB></I> - a<I><SUB> i + 1</SUB></I> * cc<I><SUB> i</SUB></I><br>
+
+d<I><SUB> i + 1</SUB></I> = d<I><SUB> i + 1</SUB></I> - a<I><SUB> i + 1</SUB></I> * d<I><SUB> i</SUB></I><br>
+
+enddo<br>
+
+tn (nz) = d<I><SUB> nz</SUB></I> / b<I><SUB> nz</SUB></I><br>
+
+For each = from - to , stepping by ,-1<br>
+
+<blockquote>tn (i) = d<I><SUB> i</SUB></I> - cc<I><SUB> i</SUB></I> * tn (i + 1)<br>
+
+enddo<br>
+
+<br>
+
+</blockquote></blockquote></blockquote></blockquote></blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiltemp_update">  </A>
+<H2>Soiltemp Update</H2>
+<br>
+<H3><CENTER>Determine min, max, and average soil temperature from the half-hourly iterations.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+For each = from , to +<br>
+
+<blockquote>t (i) = tn (i)<br>
+
+enddo<br>
+
+if (int (time).&lt;.dt*1.2) then<br>
+
+<blockquote>For each = from , to<br>
+
+<blockquote>mint_soil (i) = t (i)<br>
+
+maxt_soil (i) = t (i)<br>
+
+enddo<br>
+
+</blockquote>endif<br>
+
+For each = from , to<br>
+
+<blockquote>if (t (i).&lt;.mint_soil (i)) mint_soil (i) = t (i)<br>
+
+<blockquote>if (t (i).&gt;.maxt_soil (i)) maxt_soil (i) = t (i)<br>
+
+<blockquote>soil_temp (i) = soil_temp (i) + t (i) / 48 . 0<br>
+
+enddo<br>
+
+<br>
+
+</blockquote></blockquote></blockquote></blockquote></blockquote></blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiltemp_send_my_variable">  </A>
+<H2>Soiltemp Send My Variable</H2>
+<br>
+<H3><CENTER>Return the value of one of our variables to caller  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (variable_name.=.'final_soil_temp') then<br>
+
+<blockquote>For each = from , to<br>
+
+<blockquote>temp_array<I><SUB> i</SUB></I> = t (i + 1)<br>
+
+enddo<br>
+
+Supply temp_array to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'final_soil_temp_surface') then<br>
+
+<blockquote>Supply t (1) to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'ave_soil_temp') then<br>
+
+<blockquote>For each = from , to<br>
+
+<blockquote>temp_array<I><SUB> i</SUB></I> = soil_temp (i + 1)<br>
+
+enddo<br>
+
+Supply temp_array to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'ave_soil_temp_surface') then<br>
+
+<blockquote>Supply soil_temp (1) to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'mint_soil') then<br>
+
+<blockquote>For each = from , to<br>
+
+<blockquote>temp_array<I><SUB> i</SUB></I> = mint_soil (i + 1)<br>
+
+enddo<br>
+
+Supply temp_array to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'mint_soil_surface') then<br>
+
+<blockquote>Supply mint_soil (1) to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'maxt_soil') then<br>
+
+<blockquote>For each = from , to<br>
+
+<blockquote>temp_array<I><SUB> i</SUB></I> = maxt_soil (i + 1)<br>
+
+enddo<br>
+
+Supply temp_array to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'maxt_soil_surface') then<br>
+
+<blockquote>Supply maxt_soil (1) to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'therm_cond') then<br>
+
+<blockquote>For each = from , to<br>
+
+<blockquote>temp_array<I><SUB> i</SUB></I> = therm_cond (i)<br>
+
+enddo<br>
+
+Supply temp_array to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'heat_store') then<br>
+
+<blockquote>For each = from , to<br>
+
+<blockquote>temp_array<I><SUB> i</SUB></I> = heat_store (i)<br>
+
+enddo<br>
+
+Supply temp_array to the requesting module<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote></blockquote></blockquote></blockquote></blockquote></blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soiltemp_zero_all_globals">  </A>
+<H2>Soiltemp Zero All Globals</H2>
+<br>
+<H3><CENTER>Set all variables in this module to zero.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+time = 0<br>
+
+nz = 0<br>
+
+number of layer = 0<br>
+
+dt_max = 0 . 0<br>
+
+dt = 0 . 0<br>
+
+c1 (:) = 0 . 0<br>
+
+c2 (:) = 0 . 0<br>
+
+c3 (:) = 0 . 0<br>
+
+c4 (:) = 0 . 0<br>
+
+heat_store (:) = 0 . 0<br>
+
+t (:) = 0 . 0<br>
+
+therm_cond (:) = 0 . 0<br>
+
+tn (:) = 0 . 0<br>
+
+z (:) = 0 . 0<br>
+
+airt = 0 . 0<br>
+
+maxt_yesterday = 0 . 0<br>
+
+mint_yesterday = 0 . 0<br>
+
+soil_temp (:) = 0 . 0<br>
+
+mint_soil (:) = 0 . 0<br>
+
+maxt_soil (:) = 0 . 0<br>
+
+e%t_ave = 0 . 0<br>
+
+e%timestep = 0 . 0<br>
+
+e%dlayer (:) = 0 . 0<br>
+
+e%sw (:) = 0 . 0<br>
+
+e%rhob (:) = 0 . 0<br>
+
+e%maxt_time = 0 . 0<br>
+
+e%mint = 0 . 0<br>
+
+e%maxt = 0 . 0<br>
+
+e%eos = 0 . 0<br>
+
+e%es = 0 . 0<br>
+
+clay (:) = 0 . 0<br>
+
+nu = 0 . 0<br>
+
+vol_spec_heat_clay = 0 . 0<br>
+
+vol_spec_heat_om = 0 . 0<br>
+
+vol_spec_heat_water = 0 . 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.soiltemp.constants"> Standard Constants </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "nu"> nu </A></TD><TD>(-) control forward/backward differencing</TD><TD> 0.6  ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "vol_spec_heat_om"> vol_spec_heat_om </A></TD><TD>(Joules*m-3*K-1)</TD><TD> 5.00e6  ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "vol_spec_heat_water"> vol_spec_heat_water </A></TD><TD>(Joules*m-3*K-1)</TD><TD> 4.18e6  ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "vol_spec_heat_clay"> vol_spec_heat_clay </A></TD><TD>(Joules*m-3*K-1)</TD><TD> 2.39e6  ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<br>
+<A NAME = "Contact Information"> <H2>Contact Information</H2> </A>
+For Further Information Please Contact:
+<p>
+<A HREF = "mailto:Val.Snow@cbr.clw.csiro.au"> Dr Val Snow - Module Developer </A><br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><img src="..\..\..\docs\shared\apsimdocumentationbanner.jpg" width="640"
+height="73"></p>
+</body>
+</html>
+Date: 4/09/2001  APseudo Version:  1. 0 Rev.  1<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
