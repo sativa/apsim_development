@@ -120,8 +120,8 @@
       call push_routine (my_name)
       
       if (Action.eq.MES_Presence) then
-         write(*, *) 'Module_name = ', Module_name 
-     :              // ', Version : ' // Manager_version()
+         call Write_string (LU_Scr_sum,
+     .       'Module = manager ' // Manager_version())
 
       else if (Action.eq.MES_Init) then
          call Manager_Init ()
@@ -276,6 +276,8 @@
 *   Changes:
 *     DPH 5/12/94
 *     DPH 19/7/95 Added code to look for init, prepare, process and post sections
+*     DPH 10/7/96 Re-ordered code so that manager will look for init section
+*                 first, then start_of_day, prepare in chronological order.
 
 *   Calls:
 *     Lower_case
@@ -325,22 +327,15 @@
       call Tokenize (g_token_array, g_token_array2, max_tokens)
 
       g_start_token = g_last_token + 2
-      g_start_day_index2 = g_start_token
-      g_current_section = 'start_of_day'
-      call Tokenize (g_token_array, g_token_array2, max_tokens)
-      
-      g_start_token = g_last_token + 2
-      g_end_day_index = g_start_token
-      g_current_section = 'end_of_day'
-      call Tokenize (g_token_array, g_token_array2, max_tokens)
-
-      ! Look for init, prepare, process and post sections
-
-      g_start_token = g_last_token + 2
       g_init_index = g_start_token
       g_current_section = 'init'
       call Tokenize (g_token_array, g_token_array2, max_tokens)
 
+      g_start_token = g_last_token + 2
+      g_start_day_index2 = g_start_token
+      g_current_section = 'start_of_day'
+      call Tokenize (g_token_array, g_token_array2, max_tokens)
+      
       g_start_token = g_last_token + 2
       g_prepare_index = g_start_token
       g_current_section = 'prepare'
@@ -349,6 +344,11 @@
       g_start_token = g_last_token + 2
       g_process_index = g_start_token
       g_current_section = 'process'
+      call Tokenize (g_token_array, g_token_array2, max_tokens)
+
+      g_start_token = g_last_token + 2
+      g_end_day_index = g_start_token
+      g_current_section = 'end_of_day'
       call Tokenize (g_token_array, g_token_array2, max_tokens)
 
       g_start_token = g_last_token + 2
@@ -1057,6 +1057,7 @@
 *     DPH 15/12/94
 *      jngh 24/2/95 put in calls to assign string
 *      jngh 07/06/96 changed set_ to post_
+*     dph 12/7/96  added code to display line in summary file when setting apsim variable
 
 *   Calls:
 *      assign_string
@@ -1075,6 +1076,7 @@
       character Lower_case*(Function_string_len)
                                        ! function
       integer Find_string_in_array     ! function
+      integer Lastnb                   ! function
 
 *   Internal variables
       logical Is_apsim_variable        ! Is the requested variable APSIM's?
@@ -1101,7 +1103,7 @@
       if (Is_apsim_variable) then
          call Split_line(Variable_name, Mod_name, Var_name, '.')
          call post_char_var
-     .        (Mod_name, Var_name, '()',
+     .        (Mod_name, Var_name,
      .         Variable_value)
 
       else
@@ -1126,7 +1128,8 @@
 
             else
                call post_char_var(Unknown_module, Variable_name,
-     .            '()', Variable_value)
+     .            Variable_value)
+               Is_apsim_variable = .true.
             endif
          else
             call assign_string (
@@ -1134,6 +1137,16 @@
      :         , Variable_value)
 
          endif
+      endif
+      
+      if (Is_apsim_variable) then
+         write (str, '(4a)' )
+     .      'Manager setting apsim variable : ',
+     .      Variable_name(1:Lastnb(Variable_name)),
+     .      ' = ',
+     .      Variable_value(1:lastnb(Variable_value))
+      
+         call Report_event (str)
       endif
 
       return
@@ -1168,6 +1181,7 @@
 *     DPH 19/7/95  Added code to check for a queue keyword
 *     DPH 27/5/96  Added code to check for a set action and to pass the
 *                  variable name as data string.
+*     dph 12/7/96  Added call to no_leading_spaces (Action) - fixes bug in manager
 
 *   Calls:
 *     None
@@ -1182,6 +1196,8 @@
 *   Global variables
       include 'const.inc'              ! constant definitions
       logical Store_in_postbox         ! function
+      character No_leading_spaces*(MES_Action_size)
+                                       ! function
 
 *   Internal variables
       integer Day                      ! Day number of year
@@ -1220,7 +1236,9 @@
       endif
       
       call split_line (Action_string, Module_name, Data_string, Blank)
+      Data_string = No_leading_spaces(Data_string)
       call split_line (Data_string, Action, Data_string, Blank)
+      Action = No_leading_spaces(Action)
       
       ! Test for case where user has forgotten to put in equals sign in set command.
       
@@ -1685,7 +1703,7 @@
      .                                                  Token_array2)
 
        else
-              call   Parse_error('Wrong token         ',
+              call   Parse_error('Syntax error        ',
      .                           'Assignment_Statement')
 
        endif
