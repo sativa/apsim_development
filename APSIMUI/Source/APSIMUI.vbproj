@@ -3,7 +3,7 @@
         ProjectType = "Local"
         ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
-        ProjectGuid = "{ED5275B2-576B-440D-A469-7502BD2D146D}"
+        ProjectGuid = "{1955D0F0-3C58-4D2C-B5F1-0A3131E41ECC}"
     >
         <Build>
             <Settings
@@ -33,7 +33,7 @@
                     DebugSymbols = "true"
                     IncrementalBuild = "true"
                     Optimize = "false"
-                    OutputPath = "..\..\Bin\"
+                    OutputPath = "..\..\bin\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
                     TreatWarningsAsErrors = "false"
@@ -78,75 +78,20 @@
                     AssemblyName = "System.Xml"
                 />
                 <Reference
-                    Name = "stdole"
-                    Guid = "{00020430-0000-0000-C000-000000000046}"
-                    VersionMajor = "2"
-                    VersionMinor = "0"
-                    Lcid = "0"
-                    WrapperTool = "primary"
+                    Name = "AxInterop.SHDocVw"
+                    AssemblyName = "AxInterop.SHDocVw"
+                    HintPath = "AxInterop.SHDocVw.dll"
+                    Private = "False"
                 />
                 <Reference
-                    Name = "MSDATASRC"
-                    Guid = "{7C0FFAB0-CD84-11D0-949A-00A0C91110ED}"
-                    VersionMajor = "1"
-                    VersionMinor = "0"
-                    Lcid = "0"
-                    WrapperTool = "primary"
+                    Name = "VBGeneral"
+                    Project = "{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}"
+                    Package = "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}"
                 />
                 <Reference
-                    Name = "MSChart20Lib"
-                    Guid = "{65E121D4-0C60-11D2-A9FC-0000F8754DA1}"
-                    VersionMajor = "2"
-                    VersionMinor = "0"
-                    Lcid = "0"
-                    WrapperTool = "tlbimp"
-                />
-                <Reference
-                    Name = "MSFlexGridLib"
-                    Guid = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}"
-                    VersionMajor = "1"
-                    VersionMinor = "0"
-                    Lcid = "0"
-                    WrapperTool = "tlbimp"
-                />
-                <Reference
-                    Name = "OLXLib"
-                    Guid = "{0006F062-0000-0000-C000-000000000046}"
-                    VersionMajor = "1"
-                    VersionMinor = "0"
-                    Lcid = "0"
-                    WrapperTool = "tlbimp"
-                />
-                <Reference
-                    Name = "acclListBar"
-                    AssemblyName = "acclListBar"
-                    HintPath = "acclListBar.dll"
-                />
-                <Reference
-                    Name = "scpl"
-                    AssemblyName = "scpl"
-                    HintPath = "scpl.dll"
-                />
-                <Reference
-                    Name = "SHDocVw"
-                    Guid = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}"
-                    VersionMajor = "1"
-                    VersionMinor = "1"
-                    Lcid = "0"
-                    WrapperTool = "tlbimp"
-                />
-                <Reference
-                    Name = "AxSHDocVw"
-                    Guid = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}"
-                    VersionMajor = "1"
-                    VersionMinor = "1"
-                    Lcid = "0"
-                    WrapperTool = "aximp"
-                />
-                <Reference
-                    Name = "sharedcontrols"
-                    AssemblyName = "SharedControls"
-                    HintPath = "..\..\..\documents and settings\hut104\my documents\visual studio projects\sharedcontrols\bin\sharedcontrols.dll"
+                    Name = "Interop.SHDocVw"
+                    AssemblyName = "Interop.SHDocVw"
+                    HintPath = "..\..\Bin\Interop.SHDocVw.dll"
                 />
             </References>
             <Imports>
@@ -162,34 +107,29 @@
         <Files>
             <Include>
                 <File
-                    RelPath = "APSIMData.vb"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "APSIMFile.vb"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "APSIMSettings.vb"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "areaui.vb"
+                    RelPath = "AreaUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "areaui.resx"
-                    DependentUpon = "areaui.vb"
+                    RelPath = "AreaUI.resx"
+                    DependentUpon = "AreaUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "AssemblyInfo.vb"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "BaseDataControl.vb"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "BaseDataControl.resx"
+                    DependentUpon = "BaseDataControl.vb"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "BaseUI.vb"
@@ -199,6 +139,26 @@
                 <File
                     RelPath = "BaseUI.resx"
                     DependentUpon = "BaseUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "CropUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CropUI.resx"
+                    DependentUpon = "CropUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "DataTree.vb"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DataTree.resx"
+                    DependentUpon = "DataTree.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -232,9 +192,24 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "MacroFile.vb"
-                    SubType = "Code"
+                    RelPath = "Form1.vb"
+                    SubType = "Form"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Form1.resx"
+                    DependentUpon = "Form1.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "LogicUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "LogicUI.resx"
+                    DependentUpon = "LogicUI.vb"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "MainUI.vb"
@@ -254,6 +229,16 @@
                 <File
                     RelPath = "MetUI.resx"
                     DependentUpon = "MetUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "OldOutputFileUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "OldOutputFileUI.resx"
+                    DependentUpon = "OldOutputFileUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -287,19 +272,34 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "RuleUI.vb"
+                    RelPath = "ReportingControl.vb"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ReportingControl.resx"
+                    DependentUpon = "ReportingControl.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "ReportVariablesListView.vb"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ReportVariablesListView.resx"
+                    DependentUpon = "ReportVariablesListView.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Sheep.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "RuleUI.resx"
-                    DependentUpon = "RuleUI.vb"
+                    RelPath = "Sheep.resx"
+                    DependentUpon = "Sheep.vb"
                     BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "SimFile.vb"
-                    SubType = "Code"
-                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "SimulationUI.vb"
@@ -322,13 +322,23 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "ToolBox.vb"
+                    RelPath = "Stock.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ToolBox.resx"
-                    DependentUpon = "ToolBox.vb"
+                    RelPath = "Stock.resx"
+                    DependentUpon = "Stock.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SummaryFileUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SummaryFileUI.resx"
+                    DependentUpon = "SummaryFileUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

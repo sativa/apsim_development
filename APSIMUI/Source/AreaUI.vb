@@ -100,7 +100,7 @@ Public Class areaui
         '        Next
 
         Dim ChildList As New StringCollection
-        ChildList = APSIMData.ChildList
+        ChildList = MyData.ChildList
 
         Dim ChildName As String
         For Each ChildName In ChildList

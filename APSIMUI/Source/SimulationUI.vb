@@ -36,13 +36,9 @@ Public Class SimulationUI
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
     Friend WithEvents TitleTextBox As System.Windows.Forms.TextBox
-    Friend WithEvents SummaryFileTextBox As System.Windows.Forms.TextBox
-    Friend WithEvents BrowseButton As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents OpenFileDialog As System.Windows.Forms.OpenFileDialog
     Friend WithEvents StartDatePicker As System.Windows.Forms.DateTimePicker
     Friend WithEvents EndDatePicker As System.Windows.Forms.DateTimePicker
     Friend WithEvents SmallImageList As System.Windows.Forms.ImageList
@@ -53,14 +49,10 @@ Public Class SimulationUI
         Me.StartDatePicker = New System.Windows.Forms.DateTimePicker
         Me.EndDatePicker = New System.Windows.Forms.DateTimePicker
         Me.TitleTextBox = New System.Windows.Forms.TextBox
-        Me.SummaryFileTextBox = New System.Windows.Forms.TextBox
-        Me.BrowseButton = New System.Windows.Forms.Button
         Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.Label1 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
         Me.Label3 = New System.Windows.Forms.Label
         Me.Label4 = New System.Windows.Forms.Label
-        Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
         Me.SmallImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.SuspendLayout()
         '
@@ -77,7 +69,7 @@ Public Class SimulationUI
         '
         Me.EndDatePicker.CustomFormat = "d MMMM yyyy"
         Me.EndDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.EndDatePicker.Location = New System.Drawing.Point(80, 32)
+        Me.EndDatePicker.Location = New System.Drawing.Point(286, 2)
         Me.EndDatePicker.Name = "EndDatePicker"
         Me.EndDatePicker.Size = New System.Drawing.Size(136, 20)
         Me.EndDatePicker.TabIndex = 1
@@ -87,34 +79,11 @@ Public Class SimulationUI
         Me.TitleTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TitleTextBox.AutoSize = False
-        Me.TitleTextBox.Location = New System.Drawing.Point(304, 3)
+        Me.TitleTextBox.Location = New System.Drawing.Point(464, 3)
         Me.TitleTextBox.Name = "TitleTextBox"
-        Me.TitleTextBox.Size = New System.Drawing.Size(760, 20)
+        Me.TitleTextBox.Size = New System.Drawing.Size(384, 20)
         Me.TitleTextBox.TabIndex = 2
         Me.TitleTextBox.Text = ""
-        '
-        'SummaryFileTextBox
-        '
-        Me.SummaryFileTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.SummaryFileTextBox.AutoSize = False
-        Me.SummaryFileTextBox.Location = New System.Drawing.Point(304, 32)
-        Me.SummaryFileTextBox.Name = "SummaryFileTextBox"
-        Me.SummaryFileTextBox.Size = New System.Drawing.Size(664, 20)
-        Me.SummaryFileTextBox.TabIndex = 3
-        Me.SummaryFileTextBox.Text = ""
-        '
-        'BrowseButton
-        '
-        Me.BrowseButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BrowseButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BrowseButton.ImageIndex = 0
-        Me.BrowseButton.ImageList = Me.ImageList
-        Me.BrowseButton.Location = New System.Drawing.Point(968, 32)
-        Me.BrowseButton.Name = "BrowseButton"
-        Me.BrowseButton.Size = New System.Drawing.Size(96, 24)
-        Me.BrowseButton.TabIndex = 4
-        Me.BrowseButton.Text = "Browse..."
         '
         'ImageList
         '
@@ -124,19 +93,11 @@ Public Class SimulationUI
         '
         'Label1
         '
-        Me.Label1.Location = New System.Drawing.Point(224, 7)
+        Me.Label1.Location = New System.Drawing.Point(431, 7)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(40, 24)
         Me.Label1.TabIndex = 5
         Me.Label1.Text = "Title:"
-        '
-        'Label2
-        '
-        Me.Label2.Location = New System.Drawing.Point(224, 35)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(80, 24)
-        Me.Label2.TabIndex = 6
-        Me.Label2.Text = "Summary File:"
         '
         'Label3
         '
@@ -148,17 +109,11 @@ Public Class SimulationUI
         '
         'Label4
         '
-        Me.Label4.Location = New System.Drawing.Point(0, 38)
+        Me.Label4.Location = New System.Drawing.Point(216, 7)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(96, 20)
         Me.Label4.TabIndex = 8
         Me.Label4.Text = "Ending Date:"
-        '
-        'OpenFileDialog
-        '
-        Me.OpenFileDialog.CheckFileExists = False
-        Me.OpenFileDialog.DefaultExt = "sum"
-        Me.OpenFileDialog.Filter = "APSIM Summary Files (*.sum)|*.sum|All Files (*.*)|*.*"
         '
         'SmallImageList
         '
@@ -169,16 +124,13 @@ Public Class SimulationUI
         'SimulationUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(1072, 625)
-        Me.Controls.Add(Me.SummaryFileTextBox)
+        Me.ClientSize = New System.Drawing.Size(860, 624)
         Me.Controls.Add(Me.TitleTextBox)
         Me.Controls.Add(Me.EndDatePicker)
         Me.Controls.Add(Me.StartDatePicker)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.BrowseButton)
         Me.Name = "SimulationUI"
         Me.ResumeLayout(False)
 
@@ -187,13 +139,12 @@ Public Class SimulationUI
 #End Region
     Overrides Sub refresh()
         MyBase.Refresh()
-        Dim filename As String = GetValue("summaryfile")
+        'Dim filename As String = GetValue("summaryfile")
         ' This may not be what we really want here
         'If Path.GetDirectoryName(filename) = "" Then
         'filename = APSIMFile.XMLFilePath + "\" + filename
         'End If
-        SummaryFileTextBox.Text = filename
-        OpenFileDialog.InitialDirectory = Path.GetDirectoryName(filename)
+
         StartDatePicker.Value = GetValue("start_date")
         EndDatePicker.Value = GetValue("end_date")
         TitleTextBox.Text = GetValue("title")
@@ -201,28 +152,10 @@ Public Class SimulationUI
 
 
     End Sub
-    Private Sub BrowseButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BrowseButton.Click
-
-        Try
-            If OpenFileDialog.ShowDialog() = DialogResult.OK Then
-                ' Do something here
-                SummaryFileTextBox.Text = OpenFileDialog.FileName
-
-                APSIMData.Value("summaryfile") = SummaryFileTextBox.Text
-                Me.Refresh()
-            Else
-                ' User cancelled the action so do nothing
-            End If
-
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in summary file information")
-        End Try
-
-    End Sub
 
     Private Sub StartDatePicker_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles StartDatePicker.Leave
         Try
-            APSIMData.Value("start_date") = StartDatePicker.Value.Date
+            MyData.Child("start_date").Value = StartDatePicker.Value.Date
             Me.Refresh()
 
         Catch ex As Exception
@@ -232,7 +165,7 @@ Public Class SimulationUI
 
     Private Sub EndDatePicker_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles EndDatePicker.Leave
         Try
-            APSIMData.Value("end_date") = EndDatePicker.Value.Date
+            MyData.Child("end_date").Value = EndDatePicker.Value.Date
             Me.Refresh()
 
         Catch ex As Exception
@@ -242,7 +175,7 @@ Public Class SimulationUI
 
     Private Sub TitleTextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles TitleTextBox.Leave
         Try
-            APSIMData.Value("title") = TitleTextBox.Text
+            MyData.Child("title").Value = TitleTextBox.Text
             Me.Refresh()
 
         Catch ex As Exception
@@ -250,15 +183,6 @@ Public Class SimulationUI
         End Try
     End Sub
 
-    Private Sub SummaryFileTextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles SummaryFileTextBox.Leave
-        Try
-            APSIMData.Value("summaryfile") = SummaryFileTextBox.Text
-            Me.Refresh()
-
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in summary file information")
-        End Try
-    End Sub
 
 
     Private Sub SimulationUI_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -266,11 +190,11 @@ Public Class SimulationUI
 
         With listview
             .Left = 1
-            .Top = 60
+            .Top = 30
             .Width = Me.Width - 2
             .Height = Me.Height - 60
             .Anchor = AnchorStyles.Bottom Or AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-            .Data = APSIMData ' this must be done before you can set the path
+            .Data = MyData ' this must be done before you can set the path
             .UIManager = Me.UIManager
             .TopLevel = False
             .Parent = Me
