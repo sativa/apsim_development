@@ -1,3 +1,4 @@
+! #Issue Flags for  further work
 !     ===========================================================
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
@@ -332,6 +333,7 @@ c      g%ComponentFrgr(:) = 0.0
 
       g%LAI(:,:) = 0.0
       g%Cover(:,:) = 0.0
+      g%CoverTotal(:,:) = 0.0
       g%F(:,:) = 0.0
       g%Rs(:,:) = 0.0
       g%Rl(:,:) = 0.0
@@ -589,6 +591,16 @@ c      g%ComponentFrgr(:) = 0.0
 
       call unpack_canopy(variant, canopies, num_canopies)
 
+      call Write_string ('got it')
+!      print*,canopies(1)%cropType 
+!      print*,canopies(1)%NumLayers
+!      print*,canopies(1)%layer(1)%thickness  
+!      print*,canopies(1)%layer(1)%Lai  
+!      print*,canopies(1)%layer(1)%CoverGreen 
+!      print*,canopies(1)%layer(1)%CoverTotal 
+!      print*,canopies(1)%frgr     
+!      pause
+      
       do 100 counter = 1, num_canopies
 
          ComponentNo = Micromet_Component_Number
@@ -777,6 +789,10 @@ c      g%ComponentFrgr(:) = 0.0
       nodes(:) = 0.0
       NumNodes = 0
 
+      ! Bottom layer will start at ground surface
+      NumNodes = 1
+      Nodes(1) = 0.0
+
       do 100 ComponentNo = 1, g%NumComponents
       
          CumHeight = 0.0
@@ -839,7 +855,9 @@ c      g%ComponentFrgr(:) = 0.0
       integer j
       real    KLAI(max_layer)
       real    KLAInew(max_layer)
-            
+      real    KLAItot(max_layer)
+      real    KLAItotnew(max_layer)
+                  
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
@@ -852,10 +870,12 @@ c      g%ComponentFrgr(:) = 0.0
       do 200 j = 1, g%NumComponents
 
          do 100 i=1,g%Canopies(j)%NumLayers
-            if(g%Canopies(j)%Layer(i)%LAI.gt.0) then
-               KLAI(i) = - log(1.0-g%Canopies(j)%Layer(1)%LAI)
+            if(g%Canopies(j)%Layer(i)%CoverGreen.gt.0) then
+               KLAI(i) = - log(1.0-g%Canopies(j)%Layer(i)%CoverGreen)
+               KLAItot(i) = - log(1.0-g%Canopies(j)%Layer(i)%CoverTotal)
             else
                KLAI(i) = 0.0
+               KLAItot(i) = 0.0
             endif            
   100    continue
 
@@ -872,10 +892,17 @@ c      g%ComponentFrgr(:) = 0.0
      :           ,g%NumLayers
      :           ,g%DeltaZ
      :           ,KLAInew)
-                 
+
+         call map(g%Canopies(j)%NumLayers
+     :           ,g%Canopies(j)%Layer(:)%thickness
+     :           ,KLAItot
+     :           ,g%NumLayers
+     :           ,g%DeltaZ
+     :           ,KLAItotnew)                 
 
          do 150 i=1,g%Canopies(j)%NumLayers
             g%Cover(i,j) = 1.0-exp(-KLAInew(i))
+            g%CoverTotal(i,j) = 1.0-exp(-KLAItotnew(i))
   150    continue
 
   200 continue
@@ -959,7 +986,7 @@ c      g%ComponentFrgr(:) = 0.0
             bottom = top - g%DeltaZ(i)
          endif
 
-         write(string,'(x,f7.3,'' - '',f7.3,5x,11f10.3)')
+         write(string,'(x,f7.1,'' - '',f7.1,5x,11f10.3)')
      :              bottom
      :           ,  top
      :           , (array(i,j),j=1,g%NumComponents)
@@ -1122,6 +1149,9 @@ c      g%ComponentFrgr(:) = 0.0
          Rint = Rin
      :        * (1. - exp(-g%LayerK(i)
      :                    *sum(g%LAI(i,1:g%NumComponents))))
+
+         !  #Issue NIH 20/08/02
+         !  Need to Take into account interception by dead leaves
 
          do 100 j = 1, g%NumComponents
             g%Rs(i,j) = Rint
