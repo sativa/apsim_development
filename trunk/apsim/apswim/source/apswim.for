@@ -1144,6 +1144,8 @@ c      read(ret_string, *, iostat = err_code) g%rain
      :            p%n+1)
       else if ((Variable_name .eq. 'rain').and.
      :         (p%rainfall_source .ne. 'apsim')) then
+!      else if (Variable_name .eq. 'rain') then
+
          start_of_day = apswim_time (g%year,g%day,
      :                               apswim_time_to_mins(g%apsim_time))
          end_of_day = apswim_time (g%year
@@ -8485,13 +8487,18 @@ c      pause
 
 *+  Calls
       double precision ddivide
+       integer apswim_time_to_mins   ! function
+       double precision apswim_time  ! function
 
 *+  Local Variables
       integer numvals                  ! number of values returned
       integer counter
+      integer start                ! record for start of interception
       double precision intercep
       double precision tot_rain
       double precision fraction
+      double precision start_timestep
+      integer          time_mins
 
 *- Implementation Section ----------------------------------
 
@@ -8512,21 +8519,38 @@ c      pause
 
       if (intercep.gt.0d0) then
 
+         ! Firstly, find the record for start of rainfall for the 
+         ! current day - ie assume interception cannot come from 
+         ! rainfall that started before the current day.
+
+         time_mins = apswim_time_to_mins (g%apsim_time)
+         start_timestep = apswim_time (g%year,g%day,time_mins)
+
+         do 100 counter = 1, g%SwimRainNumPairs
+            if (g%SwimRainTime(counter).ge.start_timestep) then
+               ! we have found the first record for the current timestep
+               start = counter
+               goto 101
+            else
+            endif
+ 100     continue
+ 101     continue    
+
          ! Assume that interception is taken over all rainfall
          ! information given thus far - can do nothing better than this
 
          tot_rain = g%SWIMRainAmt(g%SWIMRainNumPairs)
-     :            - g%SWIMRainAmt(1)
+     :            - g%SWIMRainAmt(start)
 
          fraction = ddivide(intercep,tot_rain,1d6)
          if (fraction.gt.1d0) then
             call fatal_error(ERR_Internal,'Interception > Rainfall')
          else
-            do 100 counter = 2, g%SWIMRainNumPairs
-               g%SWIMRainAmt(counter) = g%SWIMRainAmt(1)
-     :            + (g%SWIMRainAmt(counter)-g%SWIMRainAmt(1))
+            do 200 counter = start+1, g%SWIMRainNumPairs
+               g%SWIMRainAmt(counter) = g%SWIMRainAmt(start)
+     :            + (g%SWIMRainAmt(counter)-g%SWIMRainAmt(start))
      :                 * (1d0 - fraction)             
-  100       continue
+  200       continue
          endif
 
       else
