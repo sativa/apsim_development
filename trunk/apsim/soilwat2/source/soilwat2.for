@@ -84,7 +84,7 @@
       parameter (rwc_method = 6)
 
       type Soilwat2Globals
-
+         sequence
          real    rain                                 ! precipitation (mm/d)
          real    runon                                ! external run-on of H2O (mm/d)
          real    radn                                 ! solar radiation (mj/m^2/day)
@@ -197,6 +197,7 @@
       end type Soilwat2Globals
 ! ====================================================================
       type Soilwat2Parameters
+         sequence
          integer irrigation_layer                     ! number of soil layer to which irrigation water is applied
          real    dlayer (max_layer)                   ! thickness of soil layer i (mm)
          real    swcon (max_layer)                    ! soil water conductivity constant (1/d)
@@ -223,6 +224,7 @@
       end type Soilwat2Parameters
 ! ====================================================================
       type Soilwat2Constants
+         sequence
          real   hydrol_effective_depth                ! hydrologically effective depth for
                                                       ! runoff (mm)
          character  mobile_solutes(max_solute)*32     ! names of all possible
@@ -251,250 +253,15 @@
 
       end type Soilwat2Constants
 ! ====================================================================
-
       ! instance variables.
-      type (Soilwat2Globals), pointer :: g
-      type (Soilwat2Parameters), pointer :: p
-      type (Soilwat2Constants), pointer :: c
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=50)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type Soilwat2DataPtr
-         type (Soilwat2Globals), pointer ::    gptr
-         type (Soilwat2Parameters), pointer :: pptr
-         type (Soilwat2Constants), pointer ::  cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type Soilwat2DataPtr
-      type (Soilwat2DataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (Soilwat2Globals),pointer :: g
+      type (Soilwat2Parameters),pointer :: p
+      type (Soilwat2Constants),pointer :: c
+
 
       contains
-
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      use LateralModule
-      use EvapModule
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-*+  Mission Statement
-*     Instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-      call LateralAllocInstance (InstanceName, InstanceNo)
-      call EvapAllocInstance (InstanceName, InstanceNo)
-
-      return
-      end subroutine
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      use LateralModule
-      use EvapModule
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-*+  Mission Statement
-*     De-Instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-      deallocate (Instances(anInstanceNo)%cptr)
-      call  LateralFreeInstance (anInstanceNo)
-      call EvapFreeInstance (anInstanceNo)
-      return
-      end subroutine
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      use LateralModule
-      use EvapModule
-
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-*+  Mission Statement
-*     Swap an instance into global pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-      c => Instances(anInstanceNo)%cptr
-      call LateralSwapInstance (anInstanceNo)
-      call EvapSwapInstance (anInstanceNo)
-
-      return
-      end subroutine
-* ====================================================================
-      subroutine Main (action, data_string)
-* ====================================================================
-      Use Infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      character action*(*)             ! (input) action to perform
-      character data_string*(*)        ! (input) data for action
-
-*+  Purpose
-*      this module performs ceres_maize water balance
-*       simulates runoff, infiltration, flux (drainage), unsaturated flow,
-*       evaporation, solute movement (nitrate, urea), total transpiration.
-
-*+  Mission Statement
-*     Handles communications for SoilWat2
-
-*+  Changes
-* =====================================================
-*     Notes transferred from version routine record
-*     011092 jngh  specified and programmed
-*     161292 jngh  changed to new engine
-*     170393 jngh  changed to next new engine
-*     131093 markl residue effects for sevap & curve number added from perfect
-*                  p_cona (2nd stage evap coeff) added as input.
-*                  p_swcon made into an array for layers.
-*     190194 jpd   air_dry(layer) added as an input array
-*                  changed 'soilwat2_soil_evaporation' to perfect sequencing.
-*                             ie.1st stage re-starts with any rainfall.
-*     290194 jpd   made compatible with residue module
-*                  added eos, residue_wt,residue_cover to apswtrsd.blk
-*     120294 jpd   added p_diffus_const,p_diffus_slope as inputs
-*                  new variables added to apswtspr.blk
-*     150294 mep   modified soilwat2_unsat_flow routine
-*
-*     130994 jpd   residue_cover is passed as fraction.
-*                  crop_cover is passed as fraction also.
-*                  (crop_cover - from crop module, calc using intercepted
-*                  radn)
-*                  (residue at harvest is passed from CM_SAT.for)
-*     160994 jpd   add basal_cover request
-*     180895 nih   added multi-solute movement capability
-*     021296 pdev  incorporate different evaporation models
-*     270897 pdev  better handling of observed runoff
-*     270897 pdev  Eo from system if required
-*     270897 pdev  cn_red, cn_cov changeable from manager
-* =====================================================
-
-*      260692 jngh specified and programmed
-*      090992 jngh removed include of global.cmn
-*      161292 jngh changed to new engine
-*      180895 nih  added "add_water" message stuff
-*      261095 DPH  added call to message_unused
-*      070696 nih  removed data_string from add_water arguments
-*      190897 nih  added MES_reset and MES_Sum_Report
-*      071097 PdeV added tillage message
-*      090298 jngh changed init phase to only get met variables
-*      170599 nih  Added new solute handler
-*      150600 jngh added evap_init action
-*      240800 jngh added zero_event_data
-
-*+  Constant Values
-      character  my_name*(*)           ! name of this module
-      parameter (my_name = 'soilwat2')
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-      if (action.eq.ACTION_set_variable) then
-               ! respond to request to reset variable values - from modules
-         call soilwat2_set_my_variable (data_string)
-
-      else if (action.eq.ACTION_get_variable) then
-               ! respond to request for variable values - from modules
-         call soilwat2_send_my_variable (Data_string)
-
-      else if (action.eq.EVENT_tick) then
-         call soilwat2_ONtick()
-
-      else if (action.eq.EVENT_newmet) then
-         call soilwat2_ONnewmet()
-
-      else if (action.eq.ACTION_process) then
-         call soilwat2_zero_daily_variables ()
-               ! request and receive variables from owner-modules
-         call soilwat2_get_other_variables ()
-               ! do soil water balance
-         call soilwat2_process ()
-
-               ! send changes to owner-modules
-         call soilwat2_set_other_variables ()
-
-      else if (action.eq.EVENT_irrigated) then
-               ! respond to addition of irrigation
-         call soilwat2_ONirrigated ()
-
-      else if (action.eq.'add_water') then
-         call fatal_error (ERR_USER,
-     :   '"ADD_WATER" message no longer available - use "irrigated"')
-
-      else if (action .eq. ACTION_till) then
-         call soilwat2_tillage ()
-
-      else if (action .eq. EVENT_new_solute) then
-         call soilwat2_on_new_solute ()
-
-      else if (action.eq.ACTION_init) then
-
-
-         call soilwat2_zero_variables ()
-         call soilwat2_zero_data_links ()
-         call soilwat2_zero_event_data ()
-         call soilwat2_init ()
-         call soilwat2_sum_report ()
-
-      else if ((action.eq.ACTION_reset)
-     :        .or.(action.eq.ACTION_user_init)) then
-         call soilwat2_zero_variables ()
-         call soilwat2_get_other_variables ()
-         call soilwat2_init ()
-
-      else if (action.eq.ACTION_sum_report) then
-         call soilwat2_sum_report ()
-
-      else if (action.eq.ACTION_post) then
-
-      else if (action.eq.ACTION_create) then
-         call soilwat2_create()
-
-      else if (action.eq.'evap_init') then
-         call soilwat2_evap_init ()
-
-      else
-             ! don't use message
-
-         call Message_unused ()
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
 
 
 *     ===========================================================
@@ -6759,4 +6526,181 @@ c dsg 150302  saturated layer = layer, layer above not over dul
       return
       end subroutine
       end module Soilwat2Module
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use Soilwat2Module
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+         allocate(c)
+      else
+         deallocate(g)
+         deallocate(p)
+         deallocate(c)
+      end if
+
+      call Lateral_alloc_dealloc_instance(doAllocate)
+      call Evap_alloc_dealloc_instance(doAllocate)
+      return
+      end subroutine
+
+
+
+* ====================================================================
+      subroutine Main (action, data_string)
+* ====================================================================
+      Use Infrastructure
+      use Soilwat2Module
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+      character action*(*)             ! (input) action to perform
+      character data_string*(*)        ! (input) data for action
+
+*+  Purpose
+*      this module performs ceres_maize water balance
+*       simulates runoff, infiltration, flux (drainage), unsaturated flow,
+*       evaporation, solute movement (nitrate, urea), total transpiration.
+
+*+  Mission Statement
+*     Handles communications for SoilWat2
+
+*+  Changes
+* =====================================================
+*     Notes transferred from version routine record
+*     011092 jngh  specified and programmed
+*     161292 jngh  changed to new engine
+*     170393 jngh  changed to next new engine
+*     131093 markl residue effects for sevap & curve number added from perfect
+*                  p_cona (2nd stage evap coeff) added as input.
+*                  p_swcon made into an array for layers.
+*     190194 jpd   air_dry(layer) added as an input array
+*                  changed 'soilwat2_soil_evaporation' to perfect sequencing.
+*                             ie.1st stage re-starts with any rainfall.
+*     290194 jpd   made compatible with residue module
+*                  added eos, residue_wt,residue_cover to apswtrsd.blk
+*     120294 jpd   added p_diffus_const,p_diffus_slope as inputs
+*                  new variables added to apswtspr.blk
+*     150294 mep   modified soilwat2_unsat_flow routine
+*
+*     130994 jpd   residue_cover is passed as fraction.
+*                  crop_cover is passed as fraction also.
+*                  (crop_cover - from crop module, calc using intercepted
+*                  radn)
+*                  (residue at harvest is passed from CM_SAT.for)
+*     160994 jpd   add basal_cover request
+*     180895 nih   added multi-solute movement capability
+*     021296 pdev  incorporate different evaporation models
+*     270897 pdev  better handling of observed runoff
+*     270897 pdev  Eo from system if required
+*     270897 pdev  cn_red, cn_cov changeable from manager
+* =====================================================
+
+*      260692 jngh specified and programmed
+*      090992 jngh removed include of global.cmn
+*      161292 jngh changed to new engine
+*      180895 nih  added "add_water" message stuff
+*      261095 DPH  added call to message_unused
+*      070696 nih  removed data_string from add_water arguments
+*      190897 nih  added MES_reset and MES_Sum_Report
+*      071097 PdeV added tillage message
+*      090298 jngh changed init phase to only get met variables
+*      170599 nih  Added new solute handler
+*      150600 jngh added evap_init action
+*      240800 jngh added zero_event_data
+
+*+  Constant Values
+      character  my_name*(*)           ! name of this module
+      parameter (my_name = 'soilwat2')
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+      if (action.eq.ACTION_set_variable) then
+               ! respond to request to reset variable values - from modules
+         call soilwat2_set_my_variable (data_string)
+
+      else if (action.eq.ACTION_get_variable) then
+               ! respond to request for variable values - from modules
+         call soilwat2_send_my_variable (Data_string)
+
+      else if (action.eq.EVENT_tick) then
+         call soilwat2_ONtick()
+
+      else if (action.eq.EVENT_newmet) then
+         call soilwat2_ONnewmet()
+
+      else if (action.eq.ACTION_process) then
+         call soilwat2_zero_daily_variables ()
+               ! request and receive variables from owner-modules
+         call soilwat2_get_other_variables ()
+               ! do soil water balance
+         call soilwat2_process ()
+
+               ! send changes to owner-modules
+         call soilwat2_set_other_variables ()
+
+      else if (action.eq.EVENT_irrigated) then
+               ! respond to addition of irrigation
+         call soilwat2_ONirrigated ()
+
+      else if (action.eq.'add_water') then
+         call fatal_error (ERR_USER,
+     :   '"ADD_WATER" message no longer available - use "irrigated"')
+
+      else if (action .eq. ACTION_till) then
+         call soilwat2_tillage ()
+
+      else if (action .eq. EVENT_new_solute) then
+         call soilwat2_on_new_solute ()
+
+      else if (action.eq.ACTION_init) then
+
+
+         call soilwat2_zero_variables ()
+         call soilwat2_zero_data_links ()
+         call soilwat2_zero_event_data ()
+         call soilwat2_init ()
+         call soilwat2_sum_report ()
+
+      else if ((action.eq.ACTION_reset)
+     :        .or.(action.eq.ACTION_user_init)) then
+         call soilwat2_zero_variables ()
+         call soilwat2_get_other_variables ()
+         call soilwat2_init ()
+
+      else if (action.eq.ACTION_sum_report) then
+         call soilwat2_sum_report ()
+
+      else if (action.eq.ACTION_post) then
+
+      else if (action.eq.ACTION_create) then
+         call soilwat2_create()
+
+      else if (action.eq.'evap_init') then
+         call soilwat2_evap_init ()
+
+      else
+             ! don't use message
+
+         call Message_unused ()
+      endif
+
+      call pop_routine (my_name)
+      return
+      end subroutine
 

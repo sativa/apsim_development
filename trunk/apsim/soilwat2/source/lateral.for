@@ -17,12 +17,14 @@
 ! ===========================================================================
       type LateralGlobals
 ! ===========================================================================
+         sequence
          real    outflow_lat(max_layer)
          integer num_layers
       end type LateralGlobals
 ! ===========================================================================
       type LateralParameters
 ! ===========================================================================
+         sequence
          real slope
          real discharge_width     ! basal width of discharge area (m)
          real catchment_area      ! area over which lateral flow is occuring (m2)
@@ -32,6 +34,7 @@
 ! ===========================================================================
       type LateralConstants
 ! ===========================================================================
+         sequence
          real dummy
       end type LateralConstants
 ! ===========================================================================
@@ -39,21 +42,11 @@
 ! ===========================================================================
 
       ! instance variables.
-      type (LateralGlobals), pointer :: g
-      type (LateralParameters), pointer :: p
-      type (LateralConstants), pointer :: c
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=50)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type LateralDataPtr
-         private
-         type (LateralGlobals), pointer ::    gptr
-         type (LateralParameters), pointer :: pptr
-         type (LateralConstants), pointer ::  cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type LateralDataPtr
-      type (LateralDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (LateralGlobals),pointer :: g
+      type (LateralParameters),pointer :: p
+      type (LateralConstants),pointer :: c
 
 
 ! ===========================================================================
@@ -62,81 +55,13 @@
 
 ! Public Interface to Module
 ! ==========================
-      public LateralAllocInstance
-      public LateralSwapInstance
-      public LateralFreeInstance
+      public Lateral_alloc_dealloc_instance
       public Lateral_Init
       public Lateral_Prepare
       public Lateral_Process
       public Lateral_Send_My_Variable
 
       contains
-
-
-!     ===========================================================
-      subroutine LateralAllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine LateralFreeInstance (anInstanceNo)
-!     ===========================================================
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-      deallocate (Instances(anInstanceNo)%cptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine LateralSwapInstance (anInstanceNo)
-!     ===========================================================
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-      c => Instances(anInstanceNo)%cptr
-
-      return
-      end subroutine
 
 
 
@@ -619,4 +544,31 @@ c     :              1.0)                   ! Upper Limit for bound checking
       end function
 
       end module LateralModule
+
+!     ===========================================================
+      subroutine Lateral_alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use LateralModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+         allocate(c)
+      else
+         deallocate(g)
+         deallocate(p)
+         deallocate(c)
+      end if
+      return
+      end subroutine
 

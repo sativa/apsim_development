@@ -17,6 +17,7 @@
 ! ===========================================================================
       type EvapGlobals
 ! ===========================================================================
+         sequence
          integer num_layers
          real    dlayer (max_layer)
          real    air_dry_dep(max_layer)
@@ -27,6 +28,7 @@
 ! ===========================================================================
       type EvapParameters
 ! ===========================================================================
+         sequence
          real max_evap_depth
          real max_evap
          real first_stage_evap
@@ -36,6 +38,7 @@
 ! ===========================================================================
       type EvapConstants
 ! ===========================================================================
+         sequence
          real evap_swf_curvature
          real relative_evap(max_table)
          real relative_swc(max_table)
@@ -46,21 +49,11 @@
 ! ===========================================================================
 
       ! instance variables.
-      type (EvapGlobals), pointer :: g
-      type (EvapParameters), pointer :: p
-      type (EvapConstants), pointer :: c
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=50)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type EvapDataPtr
-         private
-         type (EvapGlobals), pointer ::    gptr
-         type (EvapParameters), pointer :: pptr
-         type (EvapConstants), pointer ::  cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type EvapDataPtr
-      type (EvapDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (EvapGlobals),pointer :: g
+      type (EvapParameters),pointer :: p
+      type (EvapConstants),pointer :: c
 
 
 ! ===========================================================================
@@ -69,9 +62,7 @@
 
 ! Public Interface to Module
 ! ==========================
-      public EvapAllocInstance
-      public EvapSwapInstance
-      public EvapFreeInstance
+      public Evap_alloc_dealloc_instance
       public Evap_Create
       public Evap_Init
       public Evap_Read
@@ -79,72 +70,6 @@
       public Evap_Process
 
       contains
-
-!     ===========================================================
-      subroutine EvapAllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine EvapFreeInstance (anInstanceNo)
-!     ===========================================================
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-      deallocate (Instances(anInstanceNo)%cptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine EvapSwapInstance (anInstanceNo)
-!     ===========================================================
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-      c => Instances(anInstanceNo)%cptr
-
-      return
-      end subroutine
-
 
 
 * ====================================================================
@@ -803,4 +728,31 @@ c     :              1.0)                   ! Upper Limit for bound checking
 
 
       end module EvapModule
+
+!     ===========================================================
+      subroutine Evap_alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use EvapModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+         allocate(c)
+      else
+         deallocate(g)
+         deallocate(p)
+         deallocate(c)
+      end if
+      return
+      end subroutine
 
