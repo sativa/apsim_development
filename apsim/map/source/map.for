@@ -1,76 +1,143 @@
+*     ========================================
+      module MapModule
+!     ========================================
+      integer    max_size              !the greatest size_of the arrays can be
+      parameter (max_size = 50)
+
+      integer    max_arrays              !the greatest size_of the arrays can be
+      parameter (max_arrays = 10)
+
+      character  module_name*(*)       ! name of this module
+      parameter (module_name='map')
+
+
+!     ========================================
+      Type MapGlobals
+         real sw(max_size)
+         real bd(max_size)
+         real dlayer(max_size)
+         integer nz
+         real coeffs(max_size,max_size)
+         real row_sum(max_size)
+         logical update
+         real map_dlayer(max_size)
+         real sim_start(max_size)
+         real sim_end(max_size)
+         real satpaste_wc(max_size)
+      end type MapGlobals
+!     ========================================
+      Type MapParameters
+         character*30 arrays2sum_names(max_arrays)
+         character*30 arrays2ave_names(max_arrays)
+         character*30 arrays2conc_names(max_arrays)
+         character*30 arrays2concsw_names(max_arrays)
+         character*30 arrays2satpaste_names(max_arrays)
+         integer num2sum
+         integer num2ave
+         integer num2conc
+         integer num2concsw
+         integer num2satpaste
+
+         real core_start(max_size)
+         real core_end(max_size)
+         integer num_output_layers
+
+      end type MapParameters
+!     ========================================
+!      Type MapConstants
+!
+!      end type MapConstants
+!     ========================================
+      ! instance variables.
+      type (MapGlobals), pointer :: g
+      type (MapParameters), pointer :: p
+!      type (MapConstants), pointer :: c
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+      type MapDataPtr
+         type (MapGlobals), pointer ::    gptr
+         type (MapParameters), pointer :: pptr
+!         type (MapConstants), pointer ::  cptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type MapDataPtr
+      type (MapDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+
+      contains
+
+
+
+
 
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
-      use MapModule
       Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       character InstanceName*(*)       ! (INPUT) name of instance
       integer   InstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module instantiation routine.
- 
+
 !- Implementation Section ----------------------------------
-               
+
       allocate (Instances(InstanceNo)%gptr)
       allocate (Instances(InstanceNo)%pptr)
 c      allocate (Instances(InstanceNo)%cptr)
       Instances(InstanceNo)%Name = InstanceName
- 
+
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
-      use MapModule
       Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module de-instantiation routine.
- 
+
 !- Implementation Section ----------------------------------
-               
+
       deallocate (Instances(anInstanceNo)%gptr)
       deallocate (Instances(anInstanceNo)%pptr)
 c      deallocate (Instances(anInstanceNo)%cptr)
- 
+
       return
-      end
-     
+      end subroutine
+
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
-      use MapModule
       Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Swap an instance into the global 'g' pointer
- 
+
 !- Implementation Section ----------------------------------
-               
+
       g => Instances(anInstanceNo)%gptr
       p => Instances(anInstanceNo)%pptr
 c      c => Instances(anInstanceNo)%cptr
- 
+
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine Main (Action, Data_string)
 * ====================================================================
-      use MapModule
       Use infrastructure
       implicit none
 
@@ -92,37 +159,36 @@ c      c => Instances(anInstanceNo)%cptr
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
 cnh      call set_warning_off ()
 
       if (Action.eq.ACTION_Init) then
          call map_Init ()
- 
+
       else if (Action.eq.ACTION_Get_variable) then
          call map_Send_my_variable (Data_string)
- 
+
       else if (Action.eq.ACTION_Set_variable) then
          call map_Set_my_variable (data_string)
- 
+
       else if (Action.eq.ACTION_Create) then
          call map_zero_variables ()
 
       else
          ! Don't use message
          call Message_unused ()
- 
+
       endif
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine map_Init ()
 * ====================================================================
-      use MapModule
       Use infrastructure
       implicit none
 
@@ -143,32 +209,31 @@ cnh      call set_warning_off ()
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
- 
+
+
       ! Notify system that we have initialised
- 
+
       Event_string = 'Initialising'
       call Write_string (Event_string)
- 
+
       call map_zero_variables ()
- 
+
       call map_get_sim_dlayer ()
- 
+
       call map_read_param ()
- 
+
       Event_string = 'Soil Mapping initialised'
       call Write_string (Event_string)
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine map_zero_variables ()
 * ====================================================================
-      use MapModule
       Use infrastructure
       implicit none
 
@@ -200,7 +265,7 @@ cnh      call set_warning_off ()
       call fill_real_array(g%sw,0.0,max_size)
       call fill_real_array(g%bd,0.0,max_size)
       call fill_real_array(g%satpaste_wc,0.0,max_size)
- 
+
       call fill_char_array(p%arrays2sum_names,' ',max_arrays)
       call fill_char_array(p%arrays2ave_names,' ',max_arrays)
       call fill_char_array(p%arrays2conc_names,' ',max_arrays)
@@ -211,7 +276,7 @@ cnh      call set_warning_off ()
             g%coeffs(out,in) = 0.0
          enddo
       enddo
- 
+
 !integers
       p%num_output_layers = 0
       g%nz = 0
@@ -221,21 +286,20 @@ cnh      call set_warning_off ()
       p%num2concsw = 0
       p%num2satpaste = 0
 
- 
+
 !logical
       g%update = .true.
- 
+
       call pop_routine (myname)
- 
+
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        recursive subroutine map_Send_my_variable (Variable_name)
 * ====================================================================
-      use MapModule
       Use infrastructure
       implicit none
 
@@ -256,66 +320,65 @@ cnh      call set_warning_off ()
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       do arr_num=1,max(p%num2sum,p%num2ave,p%num2conc
      :                ,p%num2concsw,p%num2satpaste)
          if (Variable_name .eq. 'map_dlayer') then
             call map_send_new_dlayer ()
             goto 300 !because array has been sent - don't try further
- 
+
          elseif
      :      (Variable_name .eq. 'sum_mineral_n') then
             call map_send_summed_var (arr_num)
             goto 300 !because array has been sent - don't try further
- 
+
          elseif
-     :      (Variable_name .eq. 'sum_'//p%arrays2sum_names(arr_num)) 
+     :      (Variable_name .eq. 'sum_'//p%arrays2sum_names(arr_num))
      :      then
             call map_send_summed_var (arr_num)
             goto 300 !because array has been sent - don't try further
- 
+
          elseif(Variable_name.eq.'ave_'//p%arrays2ave_names(arr_num))
      :      then
             call map_send_averaged_var (arr_num)
             goto 300 !because array has been sent - don't try further
- 
+
          elseif
      :      (Variable_name.eq.'conc_'//p%arrays2conc_names(arr_num))
      :      then
             call map_send_concentration (arr_num)
             goto 300 !because array has been sent - don't try further
- 
+
          elseif
      :      (Variable_name.eq.
      :       'concsw_'//p%arrays2concsw_names(arr_num)) then
             call map_send_concentration_sw (arr_num)
             goto 300 !because array has been sent - don't try further
- 
+
          elseif
      :    (Variable_name.eq.
      :      'satpaste_'//p%arrays2satpaste_names(arr_num)) then
             call map_send_satpaste (arr_num)
             goto 300 !because array has been sent - don't try further
- 
+
          else
             !do nothing
          endif
       enddo
- 
+
 ! We have checked all arrays and we did not respond to anything
             call Message_Unused ()
 300   continue  !any arrays have been sent - do nothing
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine map_read_param ()
 *     ===========================================================
-      use MapModule
       Use infrastructure
       implicit none
 
@@ -345,12 +408,12 @@ cnh      call set_warning_off ()
       character*3 out_txt
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
- 
+
       write(line,'(20a,3a,20a)')'Simulation array','-->', 'Output array'
       call write_string (line)
- 
+
 !arrays2sum_names = nh4n sw_dep
       call read_char_array_optional (
      :           section_name,        ! Section header
@@ -366,7 +429,7 @@ cnh      call set_warning_off ()
             call write_string (line)
          enddo
       endif
- 
+
 !arrays2ave_names = sw soil_temp
          call read_char_array_optional (
      :           section_name,        ! Section header
@@ -382,7 +445,7 @@ cnh      call set_warning_off ()
             call write_string (line)
          enddo
       endif
- 
+
 !arrays2conc_names = no3n  br
          call read_char_array_optional (
      :           section_name,        ! Section header
@@ -398,7 +461,7 @@ cnh      call set_warning_off ()
             call write_string (line)
          enddo
       endif
- 
+
 !arrays2concsw_names = no3n  br
          call read_char_array_optional (
      :           section_name,        ! Section header
@@ -414,9 +477,9 @@ cnh      call set_warning_off ()
             call write_string (line)
          enddo
       endif
- 
+
 !arrays2satpaste_names = salt
-         call read_char_array_optional (  
+         call read_char_array_optional (
      :           section_name,        ! Section header
      :           'arrays2satpaste_names',      ! Keyword
      :           max_arrays,         ! array size
@@ -426,17 +489,17 @@ cnh      call set_warning_off ()
       if (p%num2satpaste .gt. 0) then
          do i=1,p%num2satpaste
             write (line,'(20a,3a,50a)')  p%arrays2satpaste_names(i),
-     :              '-->', 'satpaste_'//p%arrays2satpaste_names(i) 
-     :              
+     :              '-->', 'satpaste_'//p%arrays2satpaste_names(i)
+     :
             call write_string (line)
          enddo
       endif
- 
+
 !must be at least one array to play with
       if (p%num2sum+p%num2ave+p%num2conc + p%num2concsw + p%num2satpaste
      :  .eq. 0) call fatal_error (err_user, 'Must supply at least '//
      :'one array name')
- 
+
 !core_start = 0.0 100.0 ....
          call read_real_array_optional (
      :           section_name         ! section header
@@ -453,7 +516,7 @@ cnh      call set_warning_off ()
       else
          p%num_output_layers = numvals
       endif
- 
+
 !core_end = 100.0 200.0 ....
          call read_real_array_optional (
      :           section_name         ! section header
@@ -494,7 +557,7 @@ cnh      call set_warning_off ()
             call write_string (line)
          enddo
       endif
- 
+
       if (p%num_output_layers .eq. 0) then
          g%update = .false.  !don't look for new dlayer etc
 !layer_??
@@ -548,17 +611,16 @@ cnh      call set_warning_off ()
             call write_string (line)
          enddo
       endif
- 
+
       call pop_routine  (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine map_set_my_variable (Variable_name)
 * ====================================================================
-      use MapModule
       Use infrastructure
       implicit none
 
@@ -577,24 +639,23 @@ cnh      call set_warning_off ()
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
 c      if (Variable_name .eq. 'anything') then
 c! do nothing
 c      else
          call Message_Unused ()
 c      endif
- 
+
       call pop_routine (myname)
- 
+
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine map_calc_row_sum ()
 *     ===========================================================
-      use MapModule
       Use infrastructure
       implicit none
 
@@ -614,9 +675,9 @@ c      endif
       integer out
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
- 
+
 !calculate row sums for averaging
       do out=1,p%num_output_layers
          g%row_sum(out) = 0.0
@@ -627,17 +688,16 @@ c      endif
      :'Sum of coefficients for each output layer must be greater than'//
      :' zero')
       enddo
- 
+
       call pop_routine  (myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine map_calc_new_dlayer ()
 *     ===========================================================
-      use MapModule
       Use infrastructure
       implicit none
 
@@ -659,9 +719,9 @@ c      endif
       integer out
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
- 
+
 !calculate map_dlayer
       do out=1,p%num_output_layers
          g%map_dlayer(out) = 0.0
@@ -670,17 +730,16 @@ c      endif
      :                         g%dlayer(in)*g%coeffs(out,in)
          enddo
       enddo
- 
+
       call pop_routine  (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine map_get_sim_dlayer ()
 * ====================================================================
-      use MapModule
       Use infrastructure
       implicit none
 
@@ -700,7 +759,7 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
 !dlayer
       call get_real_array (
      :      unknown_module ! module that responds (not used)
@@ -717,7 +776,7 @@ c      endif
       else
          g%nz = numvals
       endif
- 
+
 !calculate sim_start() and sim_end()
       g%sim_start(1) = 0.0
       do i=1,g%nz-1
@@ -725,17 +784,16 @@ c      endif
          g%sim_start(i+1) = g%sim_end(i)
       enddo
       g%sim_end(g%nz) = g%sim_start(g%nz) + g%dlayer(g%nz)
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine map_calc_coefficients ()
 * ====================================================================
-      use MapModule
       Use infrastructure
       implicit none
 
@@ -761,14 +819,14 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       do out=1,p%num_output_layers
          do in = 1,g%nz
             sim_up = -1*g%sim_start(in)
             sim_low = -1*g%sim_end(in)
             core_up = -1*p%core_start(out)
             core_low = -1*p%core_end(out)
- 
+
 !sim layer below data layer
       if (sim_up .lt. core_low) then
          g%coeffs(out,in) = 0.0
@@ -804,20 +862,19 @@ c      endif
 !         write(*,*) line
          call fatal_error (err_internal,line)
       endif
- 
+
          enddo !in = 1,g%nz
       enddo !out=1,p%num_output_layers
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine map_Send_new_dlayer ()
 * ====================================================================
-      use MapModule
       Use infrastructure
       implicit none
 
@@ -826,7 +883,7 @@ c      endif
 
 *+  Changes
 *    ????
-*    070896 jngh added message_unused call at end
+*    070896 jngh added message_unused call at end subroutine
 *                changed all literals of first argument in Respond2Get
 *                to variable_name
 
@@ -836,30 +893,29 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       if (g%update) then
          call map_get_sim_dlayer ()
          call map_calc_coefficients ()
          call map_calc_new_dlayer ()
          call map_calc_row_sum ()
       endif
- 
+
       call respond2get_real_array (
      :               'map_dlayer',
      :               '(mm)',
      :               g%map_dlayer,
      :               p%num_output_layers)
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine map_Send_summed_var (arr_num)
 * ====================================================================
-      use MapModule
       Use infrastructure
       implicit none
 
@@ -869,7 +925,7 @@ c      endif
 
 *+  Changes
 *    ????
-*    070896 jngh added message_unused call at end
+*    070896 jngh added message_unused call at end subroutine
 *                changed all literals of first argument in Respond2Get
 *                to variable_name
 
@@ -888,14 +944,14 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       if (g%update) then
          call map_get_sim_dlayer ()
          call map_calc_coefficients ()
          call map_calc_new_dlayer ()
          call map_calc_row_sum ()
       endif
- 
+
       if (p%arrays2sum_names(arr_num) .eq. 'mineral_n') then
         call Get_real_array (
      :         unknown_module, ! Module that responds (Not Used)
@@ -985,30 +1041,29 @@ c      endif
      :'number of elements as dlayer')
       endif
 
- 
+
       do out=1,p%num_output_layers
          mapped(out) = 0.0
          do in=1,g%nz
             mapped(out) = mapped(out)+raw_array(in)*g%coeffs(out,in)
          enddo
       enddo
- 
+
       call respond2get_real_array (
      :               'sum_'//p%arrays2sum_names(arr_num),
      :               '(????)',
      :               mapped,
      :               p%num_output_layers)
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine map_Send_averaged_var (arr_num)
 * ====================================================================
-      use MapModule
       Use infrastructure
       implicit none
 
@@ -1019,7 +1074,7 @@ c      endif
 
 *+  Changes
 *    ????
-*    070896 jngh added message_unused call at end
+*    070896 jngh added message_unused call at end subroutine
 *                changed all literals of first argument in Respond2Get
 *                to variable_name
 
@@ -1038,14 +1093,14 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       if (g%update) then
          call map_get_sim_dlayer ()
          call map_calc_coefficients ()
          call map_calc_new_dlayer ()
          call map_calc_row_sum ()
       endif
- 
+
       if (p%arrays2ave_names(arr_num) .eq. 'mineral_n') then
         call Get_real_array (
      :         unknown_module, ! Module that responds (Not Used)
@@ -1135,7 +1190,7 @@ c      endif
      :'number of elements as dlayer')
       endif
 
- 
+
       do out=1,p%num_output_layers
          mapped(out) = 0.0
          do in=1,g%nz
@@ -1144,24 +1199,23 @@ c      endif
 !Divide by zero trapped in calc_row_sum
          enddo
       enddo
- 
+
       call respond2get_real_array (
      :               'ave_'//p%arrays2ave_names(arr_num),
      :               '(????)',
      :               mapped,
      :               p%num_output_layers)
- 
- 
+
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine map_Send_concentration (arr_num)
 * ====================================================================
-      use MapModule
       Use infrastructure
       implicit none
 
@@ -1171,7 +1225,7 @@ c      endif
 
 *+  Changes
 *    ????
-*    070896 jngh added message_unused call at end
+*    070896 jngh added message_unused call at end subroutine
 *                changed all literals of first argument in Respond2Get
 *                to variable_name
 
@@ -1190,14 +1244,14 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       if (g%update) then
          call map_get_sim_dlayer ()
          call map_calc_coefficients ()
          call map_calc_new_dlayer ()
          call map_calc_row_sum ()
       endif
- 
+
       if (p%arrays2conc_names(arr_num) .eq. 'mineral_n') then
         call Get_real_array (
      :         unknown_module, ! Module that responds (Not Used)
@@ -1287,7 +1341,7 @@ c      endif
      : //' must have same '//
      :'number of elements as dlayer')
       endif
- 
+
 !sum into output layers
       do out=1,p%num_output_layers
          mapped(out) = 0.0
@@ -1295,28 +1349,27 @@ c      endif
             mapped(out) = mapped(out)+raw_array(in)*g%coeffs(out,in)
          enddo
       enddo
- 
+
 !convert into concentrations in soil volume
       do out=1,p%num_output_layers
          mapped(out) = mapped(out) / g%map_dlayer(out) * 100.0
       enddo
- 
+
       call respond2get_real_array (
      :               'conc_'//p%arrays2conc_names(arr_num),
      :               '(g/m3_soil)',
      :               mapped,
      :               p%num_output_layers)
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine map_Send_concentration_sw (arr_num)
 * ====================================================================
-      use MapModule
       Use infrastructure
       implicit none
 
@@ -1326,7 +1379,7 @@ c      endif
 
 *+  Changes
 *    ????
-*    070896 jngh added message_unused call at end
+*    070896 jngh added message_unused call at end subroutine
 *                changed all literals of first argument in Respond2Get
 *                to variable_name
 
@@ -1346,14 +1399,14 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       if (g%update) then
          call map_get_sim_dlayer ()
          call map_calc_coefficients ()
          call map_calc_new_dlayer ()
          call map_calc_row_sum ()
       endif
- 
+
       if (p%arrays2concsw_names(arr_num) .eq. 'mineral_n') then
         call Get_real_array (
      :         unknown_module, ! Module that responds (Not Used)
@@ -1443,7 +1496,7 @@ c      endif
      :'Array to sum '//p%arrays2concsw_names(arr_num)//' must have same'//
      :' number of elements as dlayer')
       endif
- 
+
 !sum into output layers
       do out=1,p%num_output_layers
          mapped(out) = 0.0
@@ -1451,7 +1504,7 @@ c      endif
             mapped(out) = mapped(out)+raw_array(in)*g%coeffs(out,in)
          enddo
       enddo
- 
+
 !get array of soil water concents
       call Get_real_array (
      :         unknown_module, ! Module that responds (Not Used)
@@ -1462,10 +1515,10 @@ c      endif
      :         numvals,        ! Number of values returned
      :         1e-6,            ! Lower Limit for bound checking
      :         1.0)          ! Upper Limit for bound checking
- 
+
       if (numvals .ne. g%nz) call fatal_error (err_user,
      :'sw must have same number of elements as dlayer')
- 
+
 !average sw into output layers
       do out=1,p%num_output_layers
          mapped_sw(out) = 0.0
@@ -1475,7 +1528,7 @@ c      endif
 !Divide by zero trapped in calc_row_sum
          enddo
       enddo
- 
+
 !convert into concentrations in soil water
       do out=1,p%num_output_layers
 !         mapped(out) = mapped(out) * mapped_sw(out)
@@ -1487,23 +1540,22 @@ c      endif
      :                 * 1000.0                      !gN/kgN
      :                 / mapped_sw(out)              !m3soil/m3water
       enddo
- 
+
       call respond2get_real_array (
      :               'concsw_'//p%arrays2concsw_names(arr_num),
      :               '(g/m3_water)',
      :               mapped,
      :               p%num_output_layers)
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine map_Send_satpaste (arr_num)
 * ====================================================================
-      use MapModule
       Use infrastructure
       implicit none
 
@@ -1513,7 +1565,7 @@ c      endif
 
 *+  Changes
 *    ????
-*    070896 jngh added message_unused call at end
+*    070896 jngh added message_unused call at end subroutine
 *                changed all literals of first argument in Respond2Get
 *                to variable_name
 
@@ -1540,14 +1592,14 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       if (g%update) then
          call map_get_sim_dlayer ()
          call map_calc_coefficients ()
          call map_calc_new_dlayer ()
          call map_calc_row_sum ()
       endif
- 
+
 !get array of concentration adsorbed on soil
       var2get = "conc_adsorb_"//p%arrays2satpaste_names(arr_num)
       call Get_real_array (
@@ -1570,7 +1622,7 @@ c      endif
      :                  raw_array(in)*g%coeffs(out,in)/g%row_sum(out)
          enddo
       enddo
- 
+
 !get array of concentration in soil solution
       var2get = "conc_water_"//p%arrays2satpaste_names(arr_num)
       call Get_real_array (
@@ -1593,7 +1645,7 @@ c      endif
      :                 raw_array(in)*g%coeffs(out,in)/g%row_sum(out)
          enddo
       enddo
- 
+
 !get array of bulk density
       call Get_real_array (
      :         unknown_module, ! Module that responds (Not Used)
@@ -1615,7 +1667,7 @@ c      endif
 !Divide by zero trapped in calc_row_sum
          enddo
       enddo
- 
+
 !get array of volumetric soil water content
       call Get_real_array (
      :         unknown_module, ! Module that responds (Not Used)
@@ -1637,7 +1689,7 @@ c      endif
 !Divide by zero trapped in calc_row_sum
          enddo
       enddo
- 
+
 !get array of saturation paste water contents (grav) and convert to volumetric
       call Get_real_array (
      :         unknown_module, ! Module that responds (Not Used)
@@ -1659,41 +1711,42 @@ c      endif
 !Divide by zero trapped in calc_row_sum
          enddo
       enddo
- 
+
 !calculate concentration of solute in soil volume
       do out = 1, p%num_output_layers
          mapped_conc(out) = mapped_conc_water(out) * mapped_sw(out) +
      :                      mapped_conc_adsorb(out) * mapped_bd(out)
       end do
- 
+
 !calculate exco - if zero concentration, -99 and ECe = 0
       do out = 1, p%num_output_layers
          mapped_exco(out) = divide(mapped_conc_adsorb(out),
      :      mapped_conc_water(out), -99.0)
       end do
- 
+
 !calculate denominator - note cannot be zero because mapped_satpaste_wc > 0
       do out = 1, p%num_output_layers !implict divide satpaste_wc by density water -> vol wc
          denom(out) = (mapped_exco(out) + mapped_satpaste_wc(out)) *
      :                 mapped_bd(out)
       end do
- 
+
 !convert into ECe
       do out=1,p%num_output_layers
          mapped_ECe(out) = mapped_conc(out)              !g/m3 soil volume
      :                     / denom(out)                  !m3/Mg
      :                     / 640.0                       !/(m*mg/L/dS)
       enddo
- 
+
       call respond2get_real_array (
      :               'satpaste_'//p%arrays2satpaste_names(arr_num),
      :               '(dS/m)',
      :               mapped_ECe,
      :               p%num_output_layers)
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
+      end module MapModule
