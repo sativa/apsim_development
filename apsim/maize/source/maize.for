@@ -1,32 +1,34 @@
 *     ===========================================================
       subroutine Maize_water_stress(Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include 'Maize.inc'
+      include 'crp_watr.pub'                      
+      include 'crp_comm.pub'                      
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer    Option       ! (INPUT) option number
+
+*+  Purpose
 *     Get current water stress factors (0-1)
 
-*+  Changes:
+*+  Changes
 *     010994 jngh specified and programmed
 *     970312 slw - templated
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer    Option       ! (INPUT) option number
-*   Global variables
-      include 'const.inc'
-      include 'Maize.inc'
-*   Internal variables
-      real ext_sw_supply (max_layer) ! external sw supply (mm)
-
-*   Constant values
+*+  Constant Values
       character  my_name*(*) ! name of procedure
       parameter (my_name = 'crop_water_stress')
 
-*-  Executable code section -------------------------------------------
+*+  Local Variables
+      real ext_sw_supply (max_layer) ! external sw supply (mm)
 
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
          if (p_uptake_source .eq. 'apsim') then
             ! this would have been avoided if we have
@@ -34,7 +36,7 @@
             ! photo requires (really) actually water uptake
             ! but expansion requires pot water uptake.
             ! we only have one supply variable.
-
+ 
             call crop_get_ext_uptakes(
      :                 p_uptake_source   ! uptake flag
      :                ,c_crop_type       ! crop type
@@ -51,7 +53,7 @@
             call crop_swdef_photo(max_layer, G_dlayer, G_root_depth,
      :           G_sw_demand, G_sw_supply, g_swdef_photo)
          endif
-
+ 
          call crop_swdef_expansion(C_num_sw_demand_ratio,
      :        C_x_sw_demand_ratio, C_y_swdef_leaf, max_layer, G_dlayer,
      :        G_root_depth,G_sw_demand, G_sw_supply, g_swdef_expansion)
@@ -61,38 +63,41 @@
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_bio_actual (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include   'Maize.inc'
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
 *     bio actual
 
-*+  Changes:
+*+  Changes
 *     5/9/96 dph
 *     970317 slw new template form
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
-      include 'const.inc'
-      include   'Maize.inc'
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_bio_actual')
 
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
          ! use whichever is limiting
-
+ 
          !scc need to feed this back to N/leaf area interaction
          !Note that dlt_dm_pot is w. RUE as limited by temperature and Nfac
          call Maize_dm_init (g_current_stage,
@@ -105,14 +110,17 @@
      .          c_leaf_trans_frac,
      .          g_dm_green, g_dm_plant_min)
          g_dlt_dm = min (g_dlt_dm_light, g_dlt_dm_water)
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_dm_init (
      .          g_current_stage,
@@ -125,18 +133,13 @@
      .          c_leaf_trans_frac,
      .                    dm_green, dm_plant_min)
 *     ===========================================================
-
-*+  Short description:
-*       Initialise plant weights and plant weight minimums
-*       at required instances.
-
-*+  Changes:
-*     010994 jngh specified and programmed
-*     970317 slw new template form
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
+      include   'maizcons.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
        real g_current_stage
        real g_days_tot(*)
        real c_dm_root_init
@@ -149,84 +152,93 @@
                                        ! (g/m^2)
       real       dm_plant_min(*)       ! (OUTPUT) minimum weight of each
                                        ! plant part (g/plant)
-*   Global variables
-      include   'maizcons.inc'
-      real       divide                ! function
-      logical    on_day_of             ! function
-*   Internal variables
-      real       dm_plant_leaf         ! dry matter in leaves (g/plant)
-      real       dm_plant_stem         ! dry matter in stems (g/plant)
-*   Constant values
+
+*+  Purpose
+*       Initialise plant weights and plant weight minimums
+*       at required instances.
+
+*+  Changes
+*     010994 jngh specified and programmed
+*     970317 slw new template form
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_dm_init')
 
-*-  Executable code section -------------------------------------------
+*+  Local Variables
+      real       dm_plant_leaf         ! dry matter in leaves (g/plant)
+      real       dm_plant_stem         ! dry matter in stems (g/plant)
 
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
          ! initialise plant weight
          ! initialisations - set up dry matter for leaf, stem, flower, grain
          ! and root
-
+ 
       if (on_day_of (emerg, g_current_stage, g_days_tot)) then
              ! seedling has just emerged.
-
+ 
              ! initialise root, stem and leaf.
-
+ 
          dm_green(root) = c_dm_root_init * g_plants
          dm_green(stem) = c_dm_stem_init * g_plants
          dm_green(leaf) = c_dm_leaf_init * g_plants
          dm_green(grain) = 0.0
          dm_green(flower) = 0.0
-
+ 
       elseif (on_day_of (start_grain_fill
      :                 , g_current_stage, g_days_tot)) then
-
+ 
              ! we are at first day of grainfill.
              ! set the minimum weight of leaf; used for translocation to grain
              ! and stem!
-
+ 
          dm_plant_leaf = divide (dm_green(leaf), g_plants, 0.0)
          dm_plant_min(leaf) = dm_plant_leaf * (1.0 - c_leaf_trans_frac)
          dm_plant_stem = divide (dm_green(stem), g_plants, 0.0)
          dm_plant_min(stem) = dm_plant_stem * (1.0 - c_stem_trans_frac)
-
+ 
       else   ! no changes
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_bio_grain_demand (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include   'Maize.inc'
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
 *       contains grain, partition and retrans grain routines
 *       bio grain
 
-*+  Changes:
+*+  Changes
 *     5/9/96 dph
 *     970317 slw new template form
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
-      include 'const.inc'
-      include   'Maize.inc'
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_bio_grain_demand')
 
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
          ! note: The dm partition and retranslocate subroutines
          ! implicitly account for both grain no and harvest index
          ! approaches in calculating delta grain.
-
+ 
       if (Option .eq. 1) then
          ! Standard routines (4) simulate grain no approach (Ceres)
            call Maize_heat_stress (g_maxt,
@@ -269,7 +281,7 @@
      .          g_swdef_expansion,
      .          g_nfact_grain_conc,
      .      g_dlt_dm_grain_demand)
-
+ 
       else if (Option .eq. 2) then
          ! Alternative routines (3) simulate harvest index approach (GLH)
            call Maize_dm_stress_max (
@@ -373,14 +385,17 @@
      .          g_swdef_expansion,
      .          g_nfact_grain_conc,
      .      g_dlt_dm_grain_demand)
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_grain_no (
      .          g_current_stage,
@@ -399,18 +414,14 @@
      .          c_grain_N_conc_min,
      .          grain_num)
 *     ===========================================================
-
-*+  Short description:
-*     Calculate the grains per m^2 and heads per m^2
-
-*+  Changes:
-*     111094 jngh specified and programmed
-*     250495 psc added head no to output
-*     970317 slw new template form
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
+      include    'maizcons.inc'
+      include 'science.pub'                       
+      include 'crp_nitn.pub'                      
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
        real g_current_stage
        real g_days_tot(*)
        real g_dm_plant_top_tot(*)
@@ -426,15 +437,20 @@
        real c_seed_wt_min
        real c_grain_N_conc_min
        real grain_num
-*   Global variables
-      include    'maizcons.inc'
-       real       bound                 ! function
-      real       divide                ! function
-      logical    on_day_of             ! function
-      real       sum_between           ! function
-      real       sum_real_array        ! function
-      real       u_bound               ! function
-*   Internal variables
+
+*+  Purpose
+*     Calculate the grains per m^2 and heads per m^2
+
+*+  Changes
+*     111094 jngh specified and programmed
+*     250495 psc added head no to output
+*     970317 slw new template form
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'Maize_grain_no')
+
+*+  Local Variables
       real       dm_plant              ! dm per plant (g/plant)
       real       head_grain_no         ! grains per plant
       real       head_grain_no_max     ! maximum grains per plant
@@ -450,62 +466,58 @@
                                        ! photosynthesis during flowering
                                        ! (g/plant).
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'Maize_grain_no')
-
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
          ! ------------- find actual grain uptake ---------------
-
+ 
       if (on_day_of (start_grain_fill
      :             , g_current_stage, g_days_tot)) then
-
+ 
             ! calculate number of grains/plant
             ! Grains/plant is calculated from a genotype-specific
             ! coefficient for potential kernel number and the average
             ! rate of photosynthesis during this stage.  The function
             ! used to predict grains/plant is derived from Edmeades and
             ! Daynard (1979).
-
+ 
          dm_plant = sum_between (flag_leaf, now, g_dm_plant_top_tot)
          growth_rate = divide (
      :                   dm_plant
      :                 , sum_between (flag_leaf, now, g_days_tot)
      :                 , 0.0)
-
+ 
             ! note - this function will never reach 1. Thus head_grain_no_max
             ! will never be achieved.
-
+ 
          grain_no_fract = divide ((growth_rate - c_growth_rate_min)
      :                          , (c_growth_rate_crit
      :                             + (growth_rate - c_growth_rate_min))
      :                          , 0.0)
-
+ 
          head_grain_no_optimum = p_head_grain_no_max * grain_no_fract
-
+ 
          call bound_check_real_var (grain_no_fract, 0.0, 1.0
      :                           , 'grain_no_fract')
-
+ 
             ! grain numbers are reduced by heat stress during flowering.
-
+ 
          temp_fac = 1.0
      :            - sum_between (flag_leaf, now, g_heat_stress_tt)
      :            * c_htstress_coeff
-
+ 
          temp_fac = bound (temp_fac, 0.0, 1.0)
-
+ 
             ! Grain numbers are sensitive to N deficiency occurring
             ! after flowering.  These may be reduced by post-flowering N
             ! deficiency. Calculate the maximum number of grains that can
             ! be produced from the plant's currently available nitrogen
             ! pool - assuming minimum grain weights and grain nitrogen
             ! concentrations to be achieved.
-
+ 
             ! In Maize_N_conc_limits, the min grain N conc is 0.007
-
+ 
          call crop_N_retrans_avail (max_part, root, grain,
      .          g_N_conc_min,
      .          g_dm_green,
@@ -514,89 +526,97 @@
      :                              , g_plants, 0.0)
          head_grain_no_max = divide (N_avail_plant_sum
      :                      , (c_seed_wt_min * c_grain_N_conc_min), 0.0)
-
+ 
          head_grain_no = head_grain_no_optimum * temp_fac
-
+ 
          grain_num  =  u_bound (head_grain_no
      :                       , head_grain_no_max)
      :             * g_plants
-
+ 
       else
             ! do nothing
-
+ 
       endif
-
+ 
       call pop_routine (my_name)
       return
-      end   
+      end
+
+
+
 *     ===========================================================
       subroutine Maize_heat_stress (g_maxt,
      .                        c_temp_grain_crit_stress,
      .                        dlt_tt_heat_stress)
 *     ===========================================================
-
-*+  Short description:
-*     Calculate heat stress on grain number for the current day.
-
-*+  Changes:
-*     250894 jngh specified and programmed
-*     970317 slw new template form
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
+      include 'error.pub'
+
+*+  Sub-Program Arguments
       real       g_maxt                ! (INPUT) maximum temperature (oC)
       real       c_temp_grain_crit_stress
                                        ! (INPUT) temperature above which
                                        ! heat stress occurs
       real       dlt_tt_heat_stress    ! (OUTPUT) heat stress (oC)
-*   Constant values
+
+*+  Purpose
+*     Calculate heat stress on grain number for the current day.
+
+*+  Changes
+*     250894 jngh specified and programmed
+*     970317 slw new template form
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_heat_stress')
 
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
             ! high temperature stress reduces grain no via 'htsf'
-
+ 
       if (g_maxt.gt.c_temp_grain_crit_stress) then
          dlt_tt_heat_stress = g_maxt - c_temp_grain_crit_stress
       else
          dlt_tt_heat_stress = 0.0
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_bio_TE (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include   'Maize.inc'
+      include 'crp_watr.pub'                      
+      include 'error.pub'                         
 
-*+   Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
 *      bio water
 
-*+  Changes:
+*+  Changes
 *     5/9/96 dph
 *     970317 slw new template form
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
-      include 'const.inc'
-      include   'Maize.inc'
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_bio_TE')
 
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call cproc_bio_water1(
      .           max_layer
      .         , g_dlayer
@@ -605,47 +625,50 @@
      .         , g_transp_eff
      .         , g_dlt_dm_water
      .         )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_bio_partition (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include   'Maize.inc'
+      include 'data.pub'                          
+      include 'science.pub'                       
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
 *     bio partition
 
-*+  Changes:
+*+  Changes
 *     5/9/96 dph
 *     970317 slw new template form
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
-      include 'const.inc'
-      include   'Maize.inc'
-      real     linear_interp_real
-      real     sum_between
-
+*+  Calls
 *   Local variables
       real interp_sla_min
       real leaf_no_now
 
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_bio_partition')
 
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
          call Maize_dm_partition (
      .          g_current_stage,
@@ -675,7 +698,7 @@
      .          c_frac_stem2flower,
      .          g_dlt_dm_grain_demand,
      .          g_dlt_dm_green)
-
+ 
       elseif (Option .eq. 3) then
          interp_sla_min = linear_interp_real(g_lai
      .                                      ,c_x_lai
@@ -692,14 +715,17 @@
      .          c_frac_stem2flower,
      .          g_dlt_dm_grain_demand,
      .          g_dlt_dm_green)
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_dm_partition (
      .          g_current_stage,
@@ -713,18 +739,14 @@
      .          g_dlt_dm_grain_demand,
      .          dlt_dm_green)
 *     ===========================================================
-
-*+  Short description:
-*     Partitions new dm (assimilate) between plant components (g/m^2)
-
-*+  Changes:
-*     010994 jngh specified and programmed
-*     250495 psc  modified dlt_dm_green(grain) to account for barren heads
-*     970317 slw new template form
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
+      include   'convert.inc'
+      include   'maizcons.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
        real g_current_stage
        real c_ratio_root_shoot(*)
        real g_dlt_dm
@@ -736,16 +758,20 @@
        real g_dlt_dm_grain_demand
       real       dlt_dm_green (*)      ! (OUTPUT) actual biomass partitioned
                                        ! to plant parts (g/m^2)
-*   Global variables
-      include   'convert.inc'
-      include   'maizcons.inc'
-      real       bound                 ! function
-      real       divide                ! function
-      logical    stage_is_between      ! function
-      real       sum_between           ! function
-      real       sum_real_array        ! function
-      real       u_bound               ! function
-*   Internal variables
+
+*+  Purpose
+*     Partitions new dm (assimilate) between plant components (g/m^2)
+
+*+  Changes
+*     010994 jngh specified and programmed
+*     250495 psc  modified dlt_dm_green(grain) to account for barren heads
+*     970317 slw new template form
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'Maize_dm_partition')
+
+*+  Local Variables
       integer    current_phase         ! current phase no.
       real       dlt_dm_green_tot      ! total of partitioned dm (g/m^2)
       real       dlt_dm_leaf_max       ! max increase in leaf dm (g/m^2)
@@ -753,57 +779,54 @@
                                        ! since emergence)
       real       partition_coef_leaf   ! partitioning coefficient of dm to
                                        ! leaf (0-1)
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'Maize_dm_partition')
 
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
          ! Root must be satisfied. The roots don't take any of the
          ! carbohydrate produced - that is for tops only.  Here we assume
          ! that enough extra was produced to meet demand. Thus the root
          ! growth is not removed from the carbo produced by the model.
-
+ 
          ! first we zero all plant component deltas
-
+ 
       call fill_real_array (dlt_dm_green, 0.0, max_part)
-
+ 
          ! now we get the root delta for all stages - partition scheme
          ! specified in coeff file
-
+ 
       current_phase = int (g_current_stage)
       dlt_dm_green(root) = c_ratio_root_shoot(current_phase)*g_dlt_dm
-
+ 
       if (stage_is_between (emerg, floral_init, g_current_stage)) then
             ! we have leaf development only
 c Changed by SCC/GLH. Gatton data indicates stem growth also
 c occurs before FI!
-
+ 
          dlt_dm_green(leaf) = g_dlt_dm
-
+ 
          internode_no = sum_between (emerg, now, g_leaf_no)
          partition_coef_leaf = 1.0
      :            /(1.0 + c_partition_rate_leaf * internode_no**2)
-
+ 
          dlt_dm_green(leaf) = partition_coef_leaf * g_dlt_dm
              ! limit the delta leaf area to maximum
          dlt_dm_leaf_max = divide (g_dlt_lai_stressed
      :                           , c_sla_min * smm2sm, 0.0)
          dlt_dm_green(leaf) = u_bound (dlt_dm_green(leaf)
      :                               , dlt_dm_leaf_max)
-
+ 
          dlt_dm_green(stem) = g_dlt_dm
      :                    - dlt_dm_green(leaf)
-
+ 
       elseif (stage_is_between (floral_init, flag_leaf
      :                        , g_current_stage)) then
-
+ 
             ! stem elongation and flower development start
             ! Each new leaf demands an increasing proportion of dry matter
             ! partitioned to stem and flower
-
+ 
 c scc Does plant really do this, or does the head have priority
 c over leaf as well as stem ?
 c The following function is VERY sensitive to the c_partition_rate_leaf
@@ -811,64 +834,67 @@ c and has great effects on total bio also.
          internode_no = sum_between (emerg, now, g_leaf_no)
          partition_coef_leaf = 1.0
      :            /(1.0 + c_partition_rate_leaf * internode_no**2)
-
+ 
          dlt_dm_green(leaf) = partition_coef_leaf * g_dlt_dm
-
+ 
 c limit the delta leaf area to maximum
 c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
          dlt_dm_leaf_max = divide (g_dlt_lai_stressed
      :                           , c_sla_min * smm2sm, 0.0)
-
+ 
          dlt_dm_green(leaf) = u_bound (dlt_dm_green(leaf)
      :                               , dlt_dm_leaf_max)
-
+ 
          dlt_dm_green(flower) = (g_dlt_dm - dlt_dm_green(leaf))
      :                        * c_frac_stem2flower
-
+ 
          dlt_dm_green(stem) = g_dlt_dm
      :                    - (dlt_dm_green(flower) + dlt_dm_green(leaf))
-
-
+ 
+ 
       elseif (stage_is_between (flag_leaf, start_grain_fill
      :                        , g_current_stage)) then
-
+ 
             ! we only have flower and stem growth here
          dlt_dm_green(flower) = g_dlt_dm*c_frac_stem2flower
          dlt_dm_green(stem) = g_dlt_dm - dlt_dm_green(flower)
-
+ 
       elseif (stage_is_between (start_grain_fill, maturity
      :                        , g_current_stage)) then
-
+ 
             ! grain filling starts - stem continues when it can
-
+ 
          dlt_dm_green(grain) = bound (g_dlt_dm_grain_demand
      :                              , 0.0, g_dlt_dm)
          dlt_dm_green(stem) = g_dlt_dm - dlt_dm_green(grain)
-
+ 
       elseif (stage_is_between (maturity, plant_end
      :                        , g_current_stage)) then
-
+ 
             ! put into stem
          dlt_dm_green(stem) = g_dlt_dm
-
+ 
       else
             ! no partitioning
       endif
-
+ 
          ! do mass balance check - roots are not included
       dlt_dm_green_tot = sum_real_array (dlt_dm_green, max_part)
      :                 - dlt_dm_green(root)
       call bound_check_real_var (dlt_dm_green_tot, g_dlt_dm, g_dlt_dm
      :                        , 'dlt_dm_green_tot mass balance')
-
+ 
          ! check that deltas are in legal range
-
+ 
       call bound_check_real_array (dlt_dm_green, 0.0, g_dlt_dm
      :                          , 'dlt_dm_green', max_part)
-
+ 
       call pop_routine (my_name)
       return
-      end  
+      end
+
+
+
 *     ===========================================================
       subroutine Maize_dm_grain (
      .          g_current_stage,
@@ -893,17 +919,14 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      .          g_nfact_grain_conc,
      .          dlt_dm_grain_demand)
 *     ===========================================================
-
-*+  Short description:
-*     Find grain demand for carbohydrate (g/m^2)
-
-*+   Changes:
-*     010994 jngh specified and programmed
-*     970317 slw new template form
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
+      include   'convert.inc'          ! mg2gm
+      include   'maizcons.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
        real g_current_stage
        real g_maxt
        real g_mint
@@ -925,14 +948,22 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
        real g_swdef_expansion
        real g_nfact_grain_conc
        real dlt_dm_grain_demand
-*   Global variables
-      include   'convert.inc'          ! mg2gm
-      include   'maizcons.inc'
-      real       bound                 ! function
-      real       linint_3hrly_temp     ! function
+
+*+  Purpose
+*     Find grain demand for carbohydrate (g/m^2)
+
+*+  Changes
+*     010994 jngh specified and programmed
+*     970317 slw new template form
+
+*+  Calls
       real       Maize_dm_grain_max    ! function
-      logical    stage_is_between      ! function
-*   Internal variables
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Maize_dm_grain')
+
+*+  Local Variables
       real       dlt_dm_grain          ! grain demand for carbohydrate
                                        ! (g/m^2)
       real       fract_of_optimum      ! fraction of optimum conditions (0-1)
@@ -941,44 +972,41 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
                                        ! day (0-1) due to temperature
                                        ! response (average of periods)
       real       sw_def_fac            ! water stress factor (0-1)
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Maize_dm_grain')
 
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       if (stage_is_between (start_grain_fill, end_grain_fill
      :                    , g_current_stage)) then
-
+ 
             ! effective grain filling period
-
+ 
             ! calculate the relative rate of grain fill (0-1) eight times
             ! for the day, using interpolated 3 hourly mean temperatures.
             ! this is a temperature stress factor.
-
-
+ 
+ 
             ! The old cm function had the optimum temperature at 26
             ! with the range being 6-46 and was a quadratic.
             ! This was changed with the optimum at 30 with the range
             ! being 17.57-42.43, still a quadratic.
             ! It now has a range 3.68 - 56.32 and is stepwise linear
-
+ 
          rgfill = linint_3hrly_temp (g_maxt, g_mint
      :                             , c_x_temp_grain, c_y_grain_rate
      :                             , c_num_temp_grain)
-
-
+ 
+ 
             ! get water stress factor
-
+ 
          sw_def_fac = (c_swdf_grain_min
      .              + (1.0 - c_swdf_grain_min) * g_swdef_photo)
-
+ 
          fract_of_optimum = rgfill * sw_def_fac
-
+ 
             ! now calculate the grain growth demand for the day in g/m^2
-
+ 
          dlt_dm_grain_optm = g_grain_no * (p_grain_gth_rate * mg2gm)
          dlt_dm_grain = bound (dlt_dm_grain_optm * fract_of_optimum
      :                       , 0.0,
@@ -995,19 +1023,22 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      .          g_N_conc_crit,
      .          g_swdef_expansion,
      .          g_nfact_grain_conc))
-
-
+ 
+ 
       else
             ! we are out of grain fill period
-
+ 
          dlt_dm_grain = 0.0
       endif
-
+ 
       dlt_dm_grain_demand = dlt_dm_grain
-
+ 
       call pop_routine (my_name)
       return
-      end     
+      end
+
+
+
 *     ===========================================================
       subroutine Maize_dm_grain_hi (
      .          g_current_stage,
@@ -1021,17 +1052,13 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      .          p_hi_incr,
      .          dlt_dm_grain_demand)
 *     ===========================================================
-
-*+  Short description:
-*     Find grain demand for carbohydrate using harvest index (g/m^2)
-
-*+  Changes:
-*     010994 jngh specified and programmed
-*     970317 slw new template form
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
+      include   'maizcons.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
        real g_current_stage
        real g_dm_stress_max(*)
        real g_days_tot(*)
@@ -1043,16 +1070,19 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
        real p_hi_incr
       real       dlt_dm_grain_demand   ! (OUTPUT) grain dry matter potential
                                        ! (g/m^2)
-*   Global variables
-      include   'maizcons.inc'
 
-      real       bound                 ! function
-      real       divide                ! function
-      logical    stage_is_between      ! function
-      real       sum_between           ! function
-      real       sum_real_array        ! function
-      real       u_bound               ! function
-*   Internal variables
+*+  Purpose
+*     Find grain demand for carbohydrate using harvest index (g/m^2)
+
+*+  Changes
+*     010994 jngh specified and programmed
+*     970317 slw new template form
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Maize_dm_grain_hi')
+
+*+  Local Variables
       real       dlt_dm_grain          ! grain demand for carbohydrate
                                        ! (g/m^2)
       real       dm_tops               ! drymatter of tops (g/m^2)
@@ -1064,28 +1094,25 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
       real       ave_stress            !
       real       days_sum              !
       real       hi_max                !
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Maize_dm_grain_hi')
 
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       if (stage_is_between (start_grain_fill, maturity
      :                    , g_current_stage)) then
-
+ 
             ! effective grain filling period
-
+ 
 c scc This bit seems to work fine
          stress_sum = sum_between (flag_leaf, start_grain_fill
      :                            , g_dm_stress_max)
          days_sum = sum_between (flag_leaf, start_grain_fill
      :                         , g_days_tot)
          ave_stress = divide (stress_sum, days_sum, 1.0)
-
+ 
          hi_max = c_hi_min + (p_hi_max_pot - c_hi_min) * ave_stress
-
+ 
 c scc But this start point jumps all over the place
          dm_tops = sum_real_array (g_dm_green, max_part)
      :           - g_dm_green(root)
@@ -1093,26 +1120,29 @@ c scc But this start point jumps all over the place
      :           - g_dm_senesced(root)
          harvest_index = divide (g_dm_green(grain), dm_tops, 0.0)
          dm_tops_new = dm_tops + g_dlt_dm
-
+ 
 cscc No stress effects on hi_incr, only on hi_max
-
+ 
          harvest_index_new = u_bound (harvest_index + p_hi_incr, hi_max)
-
+ 
          dm_grain_new = dm_tops_new * harvest_index_new
          dlt_dm_grain = dm_grain_new - g_dm_green(grain)
          dlt_dm_grain = bound (dlt_dm_grain, 0.0, dm_grain_new)
-
+ 
       else
             ! we are out of grain fill period
-
+ 
          dlt_dm_grain = 0.0
       endif
-
+ 
       dlt_dm_grain_demand = dlt_dm_grain
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_dm_stress_max (
      .          g_swdef_photo,
@@ -1120,42 +1150,45 @@ cscc No stress effects on hi_incr, only on hi_max
      .          g_temp_stress_photo,
      .          dlt_dm_stress_max)
 *     ===========================================================
-
-*+  Short description:
-*       Find maximum stress on daily dm production (0-1)
-
-*+  Assumptions:
-*       Here we assume that the soil water stress factor has included stress
-*       factors that reduce RUE. The stress returned from here is the
-*       maximum stress experienced relative to all factors non limiting.
-
-*+  Changes:
-*     010994 jngh specified and programmed
-*     970317 slw new template form
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
+      include   'maizcons.inc'
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
        real g_swdef_photo
        real g_nfact_photo
        real g_temp_stress_photo
       real       dlt_dm_stress_max     ! (OUTPUT) max daily stress (0-1)
-*   Global variables
-      include   'maizcons.inc'
-*   Constant values
+
+*+  Purpose
+*       Find maximum stress on daily dm production (0-1)
+
+*+  Assumptions
+*       Here we assume that the soil water stress factor has included stress
+*       factors that reduce RUE. The stress returned from here is the
+*       maximum stress experienced relative to all factors non limiting.
+
+*+  Changes
+*     010994 jngh specified and programmed
+*     970317 slw new template form
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_dm_stress_max')
 
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       dlt_dm_stress_max = g_swdef_photo *
      .              min(g_temp_stress_photo, g_nfact_photo)
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       real function Maize_dm_grain_max (
      .          g_N_conc_min,
@@ -1171,17 +1204,13 @@ cscc No stress effects on hi_incr, only on hi_max
      .          g_swdef_expansion,
      .          g_nfact_grain_conc)
 *     ===========================================================
-
-*+  Short description:
-*     Maximum grain growth for available nitrogen (g/m^2)
-
-*+  Changes:
-*     141093 jngh specified and programmed
-*     970317 slw new template form
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
+      include    'maizcons.inc'
+      include 'data.pub'                          
+      include 'crp_nitn.pub'                      
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
        real g_N_conc_min(*)
        real g_dm_green(*)
        real g_N_green(*)
@@ -1194,31 +1223,37 @@ cscc No stress effects on hi_incr, only on hi_max
        real g_N_conc_crit(*)
        real g_swdef_expansion
        real g_nfact_grain_conc
-*   Global variables
-      include    'maizcons.inc'
-      real       crop_N_dlt_grain_conc ! function
-      real       divide                ! function
-      real       sum_real_array        ! function
-*   Internal variables
-      real       N_avail(max_part)     ! nitrogen available for grain uptake
-                                       ! from each part (g/m^2)
 
-      real       N_avail_sum           ! total nitrogen available for grain
-                                       ! uptake (g/m^2)
-*   Constant values
+*+  Purpose
+*     Maximum grain growth for available nitrogen (g/m^2)
+
+*+  Changes
+*     141093 jngh specified and programmed
+*     970317 slw new template form
+
+*+  Calls
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_dm_grain_max')
 
-*-  Executable code section -------------------------------------------
+*+  Local Variables
+      real       N_avail(max_part)     ! nitrogen available for grain uptake
+                                       ! from each part (g/m^2)
+*
+      real       N_avail_sum           ! total nitrogen available for grain
+                                       ! uptake (g/m^2)
 
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       call crop_N_retrans_avail (max_part, root, grain,
      .          g_N_conc_min,
      .          g_dm_green,
      .          g_N_green, N_avail)
       N_avail_sum = sum_real_array (N_avail, max_part)
-
+ 
       Maize_dm_grain_max = divide (N_avail_sum
      :                     , crop_N_dlt_grain_conc(grain,
      .          c_sfac_slope,
@@ -1232,47 +1267,49 @@ cscc No stress effects on hi_incr, only on hi_max
      .          g_N_conc_min,
      .          g_swdef_expansion)
      .                     , 0.0)
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_bio_retrans (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include   'Maize.inc'
+      include 'crp_biom.pub'                      
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
 *     bio retrans
 
-*+  Changes:
+*+  Changes
 *     5/9/96 dph
 *     970317 slw new template form
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
-      include 'const.inc'
-      include   'Maize.inc'
-*   Constant values
-
+*+  Constant Values
       integer num_supply_pools
       parameter (num_supply_pools = 2)
-
+*
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_bio_retrans')
 
-*   Internal variables
+*+  Local Variables
       integer supply_pools(num_supply_pools)
       data supply_pools /stem,leaf/
       save /supply_pools/
 
-
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call cproc_dm_retranslocate1
      :               (
      :                G_current_stage
@@ -1289,52 +1326,49 @@ cscc No stress effects on hi_incr, only on hi_max
      :              , G_plants
      :              , g_dlt_dm_green_retrans
      :               )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_detachment(option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include 'Maize.inc'
+      include 'crp_cnpy.pub'                      
+      include 'crp_nitn.pub'                      
+      include 'crp_biom.pub'                      
+      include 'error.pub'                         
 
-*   Short description:
+*+  Sub-Program Arguments
+      integer option
+
+*+  Purpose
 *       Simulate plant detachment.
 cscc Detachment is also a function of the environment. We've
 c noticed large diff. in detachment between wet and dry environments
 c in maize
-*   Changes:
+
+*+  Changes
 *      091294 jngh specified and programmed
 
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      integer option
-
-*   Global variables
-      include 'const.inc'
-      include 'Maize.inc'
-
-*   Internal variables
-*       none
-
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_detachment')
 
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call cproc_dm_detachment1( max_part
      :                              , c_sen_detach_frac
      :                              , g_dm_senesced
@@ -1342,7 +1376,7 @@ c in maize
      :                              , c_dead_detach_frac
      :                              , g_dm_dead
      :                              , g_dlt_dm_dead_detached)
-
+ 
          call cproc_n_detachment1( max_part
      :                              , c_sen_detach_frac
      :                              , g_n_senesced
@@ -1350,7 +1384,7 @@ c in maize
      :                              , c_dead_detach_frac
      :                              , g_n_dead
      :                              , g_dlt_n_dead_detached)
-
+ 
          call cproc_lai_detachment1 (leaf
      :                             , c_sen_detach_frac
      :                             , g_slai
@@ -1358,50 +1392,48 @@ c in maize
      :                             , c_dead_detach_frac
      :                             , g_tlai_dead
      :                             , g_dlt_tlai_dead_detached)
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_plant_death (Option)
 *     ===========================================================
-
-*   Short description:
-*       crop death
-
-*   Changes:
-*      5/9/96 dph
-
-* ----------------------- Declaration section ------------------------
       implicit none
-
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-
-*   Global variables
       include 'const.inc'
       include   'Maize.inc'
+      include 'crp_fail.pub'                      
+      include 'error.pub'                         
+      include 'data.pub'                         
 
-*   Calls:
-      logical reals_are_equal
-      external reals_are_equal
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
 
-*   Internal variables
-cnh      real dlt_plants
+*+  Purpose
+*       crop death
 
-*   Constant values
+*+  Changes
+*      5/9/96 dph
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_plant_death')
 
-* --------------------- Executable code section ----------------------
+*+  Local Variables
+cnh      real dlt_plants
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          g_dlt_plants_all = 0.0
          call crop_failure_germination (sowing, germ, now,
      .          c_days_germ_limit,
@@ -1462,7 +1494,7 @@ cnh      real dlt_plants
 cnh     .          dlt_plants
      .          g_dlt_plants
      .            )
-
+ 
          if (reals_are_equal (g_dlt_plants + g_plants, 0.0)) then
             call Maize_kill_crop (
      .          g_plant_status,
@@ -1470,9 +1502,9 @@ cnh     .          dlt_plants
      .          g_dm_senesced,
      .          g_dm_dead)
          endif
-
+ 
       elseif (Option .eq. 2) then
-
+ 
          g_dlt_plants_all = 0.0
          call crop_failure_germination (sowing, germ, now,
      .          c_days_germ_limit,
@@ -1533,7 +1565,7 @@ cnh     .          dlt_plants
 cnh     .          dlt_plants
      .          g_dlt_plants
      .            )
-
+ 
          if (reals_are_equal (g_dlt_plants + g_plants, 0.0)) then
             call Maize_kill_crop (
      .          g_plant_status,
@@ -1541,14 +1573,17 @@ cnh     .          dlt_plants
      .          g_dm_senesced,
      .          g_dm_dead)
          endif
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine failure_leaf_sen (
      .  g_lai,
@@ -1556,58 +1591,55 @@ cnh     .          dlt_plants
      .  g_plants,
      .  dlt_plants_all)
 *     ===========================================================
-
-*   Short description:
-*      Determine plant death due to total leaf area senescence
-
-*   Changes:
-*       290994 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'const.inc'
+      include   'maizcons.inc'
+      include 'data.pub'                          
+      include 'science.pub'                       
+      include 'write.pub'                         
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_lai
        real g_current_stage
        real g_plants
-
+*
        real dlt_plants_all
 
-*   Global variables
-      include   'const.inc'
-      include   'maizcons.inc'
-      logical   Stage_is_between
-      logical   Reals_are_equal
+*+  Purpose
+*      Determine plant death due to total leaf area senescence
 
-*   Internal variables
-      character  string*200            ! output string
+*+  Changes
+*       290994 jngh specified and programmed
 
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'failure_leaf_sen')
 
-*   Initial data values
-*       none
+*+  Local Variables
+      character  string*200            ! output string
 
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       if (reals_are_equal (g_lai, 0.0)
      :       .and. stage_is_between (floral_init, plant_end
      :                             , g_current_stage)) then
-
+ 
          dlt_plants_all = - g_plants
-
+ 
          write (string, '(3a)')
      :                ' crop failure because of total leaf senescence.'
          call write_string (lu_scr_sum, string)
-
+ 
       endif
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine failure_phen_delay (
      .  g_cswd_pheno,
@@ -1616,68 +1648,65 @@ cnh     .          dlt_plants
      .  g_plants,
      .  dlt_plants_all)
 *     ===========================================================
-
-*   Short description:
-*      Determine plant death due to water stress
-
-*   Changes:
-*       290994 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'const.inc'
+      include   'maizcons.inc'
+      include 'data.pub'                          
+      include 'science.pub'                       
+      include 'write.pub'                         
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_cswd_pheno(*)
        real g_current_stage
        real c_swdf_pheno_limit
        real g_plants
-       
+*
        real dlt_plants_all
 
-*   Global variables
-      include   'const.inc'
-      include   'maizcons.inc'
-      logical   Stage_is_between
-      real      Sum_between
+*+  Purpose
+*      Determine plant death due to water stress
 
-*   Internal variables
-      real cswd_pheno
-      character  string*200            ! output string
+*+  Changes
+*       290994 jngh specified and programmed
 
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'failure_phen_delay')
 
-*   Initial data values
-*       none
+*+  Local Variables
+      real cswd_pheno
+      character  string*200            ! output string
 
-* --------------------- Executable code section ----------------------
-      
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       cswd_pheno = sum_between (emerg, flag_leaf, g_cswd_pheno)
-      
+ 
       if (stage_is_between (emerg, flag_leaf, g_current_stage)
      :       .and. cswd_pheno.ge.c_swdf_pheno_limit) then
-
+ 
          dlt_plants_all = - g_plants
-
+ 
          write (string, '(3a)')
      :                 '         crop failure because of prolonged'
      :                ,new_line
      :                ,'         phenology delay through water stress.'
          call write_string (lu_scr_sum, string)
-
+ 
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine death_seedling (
      .  g_days_tot,
-     .  g_year,    
+     .  g_year,
      .  g_day_of_year,
      .  g_soil_temp,
      .  c_x_weighted_temp,
@@ -1686,18 +1715,14 @@ cnh     .          dlt_plants
      .  g_plants,
      .  dlt_plants_temp)
 *     ===========================================================
-
-*   Short description:
-*      Determine percentage plant failure due to high temperatures.
-
-*   Changes:
-*       290994 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'const.inc'
+      include   'maizcons.inc'
+      include 'data.pub'                          
+      include 'write.pub'                         
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_days_tot(*)
        integer g_year
        integer g_day_of_year
@@ -1706,35 +1731,33 @@ cnh     .          dlt_plants
        real c_y_plant_death(*)
        integer c_num_weighted_temp
        real g_plants
-       
+*
        real dlt_plants_temp
 
-*   Global variables
-      include   'const.inc'
-      include   'maizcons.inc'
-      real      sum_between
+*+  Purpose
+*      Determine percentage plant failure due to high temperatures.
 
-*   Internal variables
+*+  Changes
+*       290994 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'death_seedling')
+
+*+  Local Variables
       integer days_after_emerg
       real       killfr                ! fraction of crop population to kill
       character  string*200            ! output string
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'death_seedling')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-      
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-                  
+ 
 !cpsc  add code to kill plants for high soil surface temperatures
-
+ 
       days_after_emerg = int (sum_between (emerg, now, g_days_tot)) - 1
       if (days_after_emerg .eq. 1) then
-
+ 
          call plants_temp (
      .          g_year,
      .          g_day_of_year,
@@ -1744,27 +1767,30 @@ cnh     .          dlt_plants
      .          c_num_weighted_temp,
      .          killfr)
          dlt_plants_temp = - g_plants*killfr
-
+ 
          if (killfr .gt. 0.0) then
          write (string, '(a, i4, a)')
      :        'plant_kill.'
      :        , nint (killfr*100.0)
      :        , '% failure because of high soil surface temperatures.'
-
+ 
          call report_event (string)
-
+ 
          else
                   ! do nothing
          endif
-
+ 
       else
          dlt_plants_temp = 0.0
-
+ 
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine death_drought (
      .  g_cswd_photo,
@@ -1776,18 +1802,14 @@ cnh     .          dlt_plants
      .  g_plants,
      .  dlt_plants_water)
 *     ===========================================================
-
-*   Short description:
-*      Determine percentage plant failure due to water stress
-
-*   Changes:
-*       290994 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'const.inc'
+      include   'maizcons.inc'
+      include 'data.pub'                          
+      include 'write.pub'                         
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_cswd_photo(*)
        real g_leaf_no(*)
        real c_leaf_no_crit
@@ -1795,58 +1817,58 @@ cnh     .          dlt_plants
        real g_swdef_photo
        real c_swdf_photo_rate
        real g_plants
-       
+*
        real dlt_plants_water
 
-*   Global variables
-      include   'const.inc'
-      include   'maizcons.inc'
-      real      sum_between
-      real      bound
+*+  Purpose
+*      Determine percentage plant failure due to water stress
 
-*   Internal variables
+*+  Changes
+*       290994 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'death_drought')
+
+*+  Local Variables
       real       cswd_photo            ! cumulative water stress for photoperiod
       real       leaf_no               ! number of leaves
       real       killfr                ! fraction of crop population to kill
       character  string*200            ! output string
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'death_drought')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       cswd_photo = sum_between (emerg, flag_leaf, g_cswd_photo)
       leaf_no = sum_between (emerg, now, g_leaf_no)
-      
+ 
       if (leaf_no.lt.c_leaf_no_crit
      :       .and. cswd_photo.gt.c_swdf_photo_limit
      :       .and. g_swdef_photo .lt.1.0) then
-
+ 
          killfr = c_swdf_photo_rate* (cswd_photo - c_swdf_photo_limit)
          killfr = bound (killfr, 0.0, 1.0)
          dlt_plants_water = - g_plants*killfr
-
+ 
          write (string, '(a, i4, a)')
      :          'plant_kill.'
      :         , nint (killfr*100.0)
      :         , '% failure because of water stress.'
-
+ 
          call report_event (string)
-
+ 
       else
          dlt_plants_water = 0.0
-
+ 
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine death_barrenness (
      .  g_current_stage,
@@ -1858,18 +1880,14 @@ cnh     .          dlt_plants
      .  g_plants,
      .  dlt_plants_barren)
 *     ===========================================================
-
-*   Short description:
-*      Determine percent plant failure due to barreness
-
-*   Changes:
-*       290994 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'const.inc'
+      include   'maizcons.inc'
+      include 'science.pub'                       
+      include 'write.pub'                         
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_current_stage
        real g_days_tot(*)
        real c_head_grain_no_crit
@@ -1877,29 +1895,27 @@ cnh     .          dlt_plants
        real c_barren_crit
        real g_grain_no
        real g_plants
-       
+*
        real dlt_plants_barren
 
-*   Global variables
-      include   'const.inc'
-      include   'maizcons.inc'
-      logical   on_day_of
+*+  Purpose
+*      Determine percent plant failure due to barreness
 
-*   Internal variables
-      real       killfr                ! fraction of crop population to kill
-      character  string*200            ! output string
+*+  Changes
+*       290994 jngh specified and programmed
 
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'death_barrenness')
 
-*   Initial data values
-*       none
+*+  Local Variables
+      real       killfr                ! fraction of crop population to kill
+      character  string*200            ! output string
 
-* --------------------- Executable code section ----------------------
-      
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-      
+ 
       if (on_day_of (start_grain_fill
      :             , g_current_stage, g_days_tot)) then
          call plants_barren (
@@ -1910,27 +1926,30 @@ cnh     .          dlt_plants
      .          g_plants,
      .          killfr)
          dlt_plants_barren = - g_plants*killfr
-
+ 
          if (killfr .gt. 0.0) then
             write (string, '(a, i4, a)')
      :             'plant_kill.'
      :            , nint (killfr*100.0)
      :            , '% failure because of barreness.'
-
+ 
          call report_event (string)
-
+ 
          else
                   ! do nothing
          endif
-
+ 
       else
          dlt_plants_barren = 0.0
-
+ 
       endif
-      
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_death_actual (
      .  g_dlt_plants_all,
@@ -1940,50 +1959,43 @@ cnh     .          dlt_plants
      .  dlt_plants
      .            )
 *     ===========================================================
-
-*   Short description:
-*      Kill the entire crop if necessary.
-
-*   Changes:
-*       290994 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'const.inc'
+      include   'maizcons.inc'
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
       real g_dlt_plants_all
       real g_dlt_plants_temp
       real g_dlt_plants_water
       real g_dlt_plants_barren
       real dlt_plants
 
-*   Global variables
-      include   'const.inc'
-      include   'maizcons.inc'
+*+  Purpose
+*      Kill the entire crop if necessary.
 
-*   Internal variables
-*     none
+*+  Changes
+*       290994 jngh specified and programmed
 
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_death_actual')
 
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       dlt_plants = min (g_dlt_plants_all
      :                , g_dlt_plants_temp
      :                , g_dlt_plants_water
      :                , g_dlt_plants_barren)
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine plants_temp (
      .          g_year,
@@ -1994,19 +2006,12 @@ cnh     .          dlt_plants
      .          c_num_weighted_temp,
      .          killfr)
 *     ===========================================================
-
-*   Short description:
-*        Calculate fraction of plants killed by high temperature during
-*        emergence (0-1).
-
-*   Changes:
-*     230695 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'maizcons.inc'
+      include 'science.pub'                       
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        integer g_year
        integer g_day_of_year
        real g_soil_temp(*)
@@ -2016,43 +2021,44 @@ cnh     .          dlt_plants
       real       killfr                ! (OUTPUT) fraction of plants killed
                                        ! (plants/m^2)
 
-*   Global variables
-      include   'maizcons.inc'
+*+  Purpose
+*        Calculate fraction of plants killed by high temperature during
+*        emergence (0-1).
 
-      real       linear_interp_real    ! function
-      integer    offset_day_of_year    ! function
+*+  Changes
+*     230695 jngh specified and programmed
 
-*   Internal variables
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'plants_temp')
+
+*+  Local Variables
       integer    day_before            ! day of year number of day before
                                        ! yesterday ()
       real       weighted_temp         ! 3 day weighted soil temperature (oC)
       integer    yesterday             ! day of year number of yesterday
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'plants_temp')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       yesterday = offset_day_of_year (g_year, g_day_of_year, - 1)
       day_before = offset_day_of_year (g_year, g_day_of_year, - 2)
-
+ 
       weighted_temp = 0.25 * g_soil_temp(day_before)
      :              + 0.50 * g_soil_temp(yesterday)
      :              + 0.25 * g_soil_temp(g_day_of_year)
-
+ 
       killfr = linear_interp_real (weighted_temp
      :                           , c_x_weighted_temp
      :                           , c_y_plant_death
      :                           , c_num_weighted_temp)
-
+ 
       call pop_routine (my_name)
       return
-      end  
+      end
+
+
+
 *     ===========================================================
       subroutine plants_barren (
      .          c_head_grain_no_crit,
@@ -2062,19 +2068,11 @@ cnh     .          dlt_plants
      .          g_plants,
      .          killfr)
 *     ===========================================================
-
-*   Short description:
-*        Calculate fraction of barren heads (0-1).
-*        Allows no more than 1 head per plant.
-
-*   Changes:
-*     010994 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include 'data.pub'                          
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real c_head_grain_no_crit
        real p_head_grain_no_max
        real c_barren_crit
@@ -2083,41 +2081,40 @@ cnh     .          dlt_plants
       real       killfr                ! (OUTPUT) fraction of plants killed
                                        ! (plants/m^2)
 
-*   Global variables
+*+  Purpose
+*        Calculate fraction of barren heads (0-1).
+*        Allows no more than 1 head per plant.
 
-      real       bound                 ! function
-      real       divide                ! function
+*+  Changes
+*     010994 jngh specified and programmed
 
-*   Internal variables
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'plants_barren')
+
+*+  Local Variables
       real       fract_of_optimum      ! fraction of optimum no. of heads due
                                        ! to barrenness below which some
                                        ! heads become barren. (0-1)
       real       head_grain_no         ! (grains/head)
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'plants_barren')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       call check_grain_no (
      .          c_head_grain_no_crit,
      .          p_head_grain_no_max,
      .          c_barren_crit)
-
+ 
          ! determine barrenness
-
+ 
       head_grain_no = divide (g_grain_no, g_plants, 0.0)
-
+ 
 cSCC/JNGH changed le to lt
       if (head_grain_no.lt.c_head_grain_no_crit) then
             ! all heads barren
          fract_of_optimum = 0.0
-
+ 
       elseif (head_grain_no.lt.p_head_grain_no_max * c_barren_crit) then
             ! we have some barren heads
          fract_of_optimum =
@@ -2125,56 +2122,52 @@ cSCC/JNGH changed le to lt
      :                     , p_head_grain_no_max - c_head_grain_no_crit
      :                     , 0.0))
      :              **0.33
-
+ 
       else
             ! we have no barren heads
          fract_of_optimum = 1.0
       endif
-
+ 
       fract_of_optimum = bound (fract_of_optimum, 0.0, 1.0)
       killfr = 1.0 - fract_of_optimum
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine check_grain_no (
      .          c_head_grain_no_crit,
      .          p_head_grain_no_max,
      .          c_barren_crit)
 *     ===========================================================
-
-*   Short description:
-*        Check validity of grain no. parameters
-
-*   Changes:
-*     010994 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'const.inc'            ! err_user
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real c_head_grain_no_crit
        real p_head_grain_no_max
        real c_barren_crit
 
-*   Global variables
-      include   'const.inc'            ! err_user
+*+  Purpose
+*        Check validity of grain no. parameters
 
-*   Internal variables
-      character  err_messg*200         ! error message
+*+  Changes
+*     010994 jngh specified and programmed
 
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'check_grain_no')
 
-*   Initial data values
-*       none
+*+  Local Variables
+      character  err_messg*200         ! error message
 
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (c_head_grain_no_crit.gt.p_head_grain_no_max*c_barren_crit
      :   .and. p_head_grain_no_max.gt.0.0) then
          write (err_messg,'(a, g16.7e2, a, g16.7e2, 3a, g16.7e2, a)')
@@ -2188,13 +2181,16 @@ cSCC/JNGH changed le to lt
      :              , c_barren_crit
      :              ,' of potential.'
          call warning_error (err_user, err_messg)
-
+ 
       else
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_kill_crop (
      .          g_plant_status,
@@ -2202,72 +2198,67 @@ cSCC/JNGH changed le to lt
      .          g_dm_senesced,
      .          g_dm_dead)
 *     ===========================================================
-
-*   Short description:
-*       Kill crop
-
-*   Changes:
-*       290994 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
+      include   'maizcons.inc'
+      include 'data.pub'                          
+      include 'write.pub'                         
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        character g_plant_status*(*)
        real g_dm_green(*)
        real g_dm_senesced(*)
        real g_dm_dead(*)
 
-*   Global variables
-      include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
-      include   'maizcons.inc'
+*+  Purpose
+*       Kill crop
 
-      real       sum_real_array        ! function
+*+  Changes
+*       290994 jngh specified and programmed
 
-*   Internal variables
-      real       biomass               ! above ground dm (kg/ha)
-      character  string*200            ! output string
-
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name  = 'Maize_kill_crop')
 
+*+  Local Variables
+      real       biomass               ! above ground dm (kg/ha)
+      character  string*200            ! output string
 
-*   Initial data values
-*     none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
 c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       call push_routine (my_name)
-
+ 
       if (g_plant_status.eq.status_alive) then
          g_plant_status = status_dead
-
+ 
          biomass = (sum_real_array (g_dm_green, max_part)
      :           - g_dm_green(root)) * gm2kg /sm2ha
-
+ 
      :           + (sum_real_array (g_dm_senesced, max_part)
      :           - g_dm_senesced(root)) * gm2kg /sm2ha
-
+ 
      :           + (sum_real_array (g_dm_dead, max_part)
      :           - g_dm_dead(root)) * gm2kg /sm2ha
-
-
+ 
+ 
                 ! report
-
+ 
          write (string, '(3x, a, f7.1, a)')
      :                  ' kill. Standing above-ground dm = '
      :                  , biomass, ' (kg/ha)'
          call report_event (string)
-
+ 
       else
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine maize_leaf_area1 (
      .          g_current_stage,
@@ -2276,68 +2267,60 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      .          g_dlt_dm_green,
      .          c_sla_max)
 *     ===========================================================
-
-*   Short description:
-*       Simulate actual crop leaf area development - checks that leaf area
-*       development matches DM production.
-
-*   Changes:
-*      210397 nih/mjr specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'convert.inc'
+      include   'maizcons.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_current_stage
        real g_dlt_lai
        real g_dlt_lai_stressed
        real g_dlt_dm_green(*)
        real c_sla_max
 
-*   Global variables
-      include   'convert.inc'
-      include   'maizcons.inc'
+*+  Purpose
+*       Simulate actual crop leaf area development - checks that leaf area
+*       development matches DM production.
 
-      real       u_bound               ! function
-      logical    stage_is_between      ! function
+*+  Changes
+*      210397 nih/mjr specified and programmed
 
-*   Internal variables
-*     none
-
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'maize_leaf_area1')
 
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       ! limit the delta leaf area by carbon supply except when the
       ! crop is small.
-
+ 
       if (stage_is_between (emerg, endjuv
      :                        , g_current_stage))  then
-
+ 
            g_dlt_lai = g_dlt_lai_stressed
-
+ 
       elseif (stage_is_between (endjuv, maturity
      :      , g_current_stage))  then
-
+ 
             g_dlt_lai = u_bound (g_dlt_lai_stressed
      :                   , g_dlt_dm_green(leaf)*c_sla_max * smm2sm)
-
+ 
       else
-
+ 
            g_dlt_lai = g_dlt_lai_stressed
-
+ 
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       real function maize_leaf_size1 (
      .          c_x0_const,
@@ -2353,18 +2336,11 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      .          c_b_slope2,
      .          leaf_no)
 *     ===========================================================
-
-*   Short description:
-*       Return the leaf area (mm^2) of a specified leaf no.
-
-*   Changes:
-*       210397 nih/mjr specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include 'data.pub'                          
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real c_x0_const
        real c_x0_slope
        real g_leaf_no_final
@@ -2378,10 +2354,17 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
        real c_b_slope2
        real       leaf_no               ! (INPUT) nominated leaf number
 
-*   Global variables
-       real divide                      ! function
+*+  Purpose
+*       Return the leaf area (mm^2) of a specified leaf no.
 
-*   Internal variables
+*+  Changes
+*       210397 nih/mjr specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'maize_leaf_size1')
+
+*+  Local Variables
       real       area                  ! potential area of nominated leaf
                                        ! no (mm^2)
       real       area_max              ! potential area of largest leaf (mm^2)
@@ -2389,41 +2372,37 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       real       largest_leaf          ! leaf no of largeat leaf
       real       skewness              ! skewness coef of leaf
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'maize_leaf_size1')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
            ! Once leaf no is calculated leaf area of largest expanding leaf
            ! is determined with quadratic relationship. Coefficients for this
            ! curve are functions of total leaf no.
-
+ 
       largest_leaf = c_x0_const + (c_x0_slope * g_leaf_no_final)
       area_max     = c_y0_const + (c_y0_slope * g_leaf_no_final)
-
+ 
       breadth  = c_a_const
      :         + divide (c_a_slope1
      :                , 1.0 + c_a_slope2 * g_leaf_no_final
      :                , 0.0)
       skewness = c_b_const
-     :         + divide (c_b_slope1 
+     :         + divide (c_b_slope1
      :                , 1.0 + c_b_slope2 * g_leaf_no_final
      :                , 0.0)
-
+ 
       area = area_max * exp (breadth * (leaf_no - largest_leaf)**2
      :                      + skewness * (leaf_no - largest_leaf)**3)
-
+ 
       maize_leaf_size1 = area
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine leaf_area_devel1 (
      .          g_leaf_no,
@@ -2444,19 +2423,13 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      .          g_swdef_expansion,
      .          dlt_lai_pot)
 *     ===========================================================
-
-*   Short description:
-*       Return the potential increase in leaf area development (mm^2)
-*       calculated on an individual leaf basis.
-
-*   Changes:
-*     210397 nih/mjr specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'convert.inc'
+      include   'maizcons.inc'
+      include 'data.pub'                          
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_leaf_no(*)
        real c_leaf_no_correction
        real c_x0_const
@@ -2475,14 +2448,21 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       real g_swdef_expansion
       real       dlt_lai_pot           ! (OUTPUT) change in leaf area
 
-*   Global variables
-      include   'convert.inc'
-      include   'maizcons.inc'
+*+  Purpose
+*       Return the potential increase in leaf area development (mm^2)
+*       calculated on an individual leaf basis.
 
+*+  Changes
+*     210397 nih/mjr specified and programmed
+
+*+  Calls
       real       maize_leaf_size1       ! function
-      real       sum_between           ! function
 
-*   Internal variables
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'leaf_area_devel1')
+
+*+  Local Variables
       real       area                  ! potential maximum area of oldest
                                        ! expanding leaf (mm^2) in today's
                                        ! conditions
@@ -2490,20 +2470,13 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
                                        ! younger leaves that have emerged
                                        ! after the current one
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'leaf_area_devel1')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
            ! once leaf no is calculated leaf area of largest expanding leaf
            ! is determined
-
+ 
 !glh This should also be from sowing, as above? (changed from emerg (scc))
       leaf_no_effective = sum_between (sowing, now, g_leaf_no)
      :                  + c_leaf_no_correction
@@ -2520,12 +2493,15 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      .          c_b_slope1,
      .          c_b_slope2,
      .          leaf_no_effective)
-
+ 
       dlt_lai_pot = g_dlt_leaf_no * area * smm2sm * g_plants
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_grain_no1 (
      .          g_current_stage,
@@ -2544,23 +2520,14 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      .          c_grain_N_conc_min,
      .          grain_num)
 *     ===========================================================
-
-*+  Short description:
-*     Calculate the grains per m^2 and heads per m^2
-*     Same as maize_grain_no but with bound of grain_no_fract
-*     It seems strange to bound check the value when it is possible to
-*     get out of bounds values (-ve's) from sensible numbers.  If
-*     growth rate is small the fraction will be -ve and it is sensible
-*     to constrain this above 0.
-
-*+  Changes:
-*     111094 jngh specified and programmed
-*     250495 psc added head no to output
-*     970317 slw new template form
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
+      include    'maizcons.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'crp_nitn.pub'                      
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
        real g_current_stage
        real g_days_tot(*)
        real g_dm_plant_top_tot(*)
@@ -2576,16 +2543,25 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
        real c_seed_wt_min
        real c_grain_N_conc_min
        real grain_num
-*   Global variables
-      include    'maizcons.inc'
-       real       bound                 ! function
-      real       divide                ! function
-      logical    on_day_of             ! function
-      real       sum_between           ! function
-      real       sum_real_array        ! function
-      real       u_bound               ! function
 
-*   Internal variables
+*+  Purpose
+*     Calculate the grains per m^2 and heads per m^2
+*     Same as maize_grain_no but with bound of grain_no_fract
+*     It seems strange to bound check the value when it is possible to
+*     get out of bounds values (-ve's) from sensible numbers.  If
+*     growth rate is small the fraction will be -ve and it is sensible
+*     to constrain this above 0.
+
+*+  Changes
+*     111094 jngh specified and programmed
+*     250495 psc added head no to output
+*     970317 slw new template form
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'Maize_grain_no1')
+
+*+  Local Variables
       real       dm_plant              ! dm per plant (g/plant)
       real       head_grain_no         ! grains per plant
       real       head_grain_no_max     ! maximum grains per plant
@@ -2601,63 +2577,59 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
                                        ! photosynthesis during flowering
                                        ! (g/plant).
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'Maize_grain_no1')
-
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
          ! ------------- find actual grain uptake ---------------
-
+ 
       if (on_day_of (start_grain_fill
      :             , g_current_stage, g_days_tot)) then
-
+ 
             ! calculate number of grains/plant
             ! Grains/plant is calculated from a genotype-specific
             ! coefficient for potential kernel number and the average
             ! rate of photosynthesis during this stage.  The function
             ! used to predict grains/plant is derived from Edmeades and
             ! Daynard (1979).
-
+ 
          dm_plant = sum_between (flag_leaf, now, g_dm_plant_top_tot)
          growth_rate = divide (
      :                   dm_plant
      :                 , sum_between (flag_leaf, now, g_days_tot)
      :                 , 0.0)
-
+ 
             ! note - this function will never reach 1. Thus head_grain_no_max
             ! will never be achieved.
-
+ 
          grain_no_fract = divide ((growth_rate - c_growth_rate_min)
      :                          , (c_growth_rate_crit
      :                             + (growth_rate - c_growth_rate_min))
      :                          , 0.0)
          grain_no_fract = bound (grain_no_fract, 0.0, 1.0)
-
+ 
          head_grain_no_optimum = p_head_grain_no_max * grain_no_fract
-
+ 
 c         call bound_check_real_var (grain_no_fract, 0.0, 1.0
 c     :                           , 'grain_no_fract')
-
+ 
             ! grain numbers are reduced by heat stress during flowering.
-
+ 
          temp_fac = 1.0
      :            - sum_between (flag_leaf, now, g_heat_stress_tt)
      :            * c_htstress_coeff
-
+ 
          temp_fac = bound (temp_fac, 0.0, 1.0)
-
+ 
             ! Grain numbers are sensitive to N deficiency occurring
             ! after flowering.  These may be reduced by post-flowering N
             ! deficiency. Calculate the maximum number of grains that can
             ! be produced from the plant's currently available nitrogen
             ! pool - assuming minimum grain weights and grain nitrogen
             ! concentrations to be achieved.
-
+ 
             ! In Maize_N_conc_limits, the min grain N conc is 0.007
-
+ 
          call crop_N_retrans_avail (max_part, root, grain,
      .          g_N_conc_min,
      .          g_dm_green,
@@ -2666,21 +2638,24 @@ c     :                           , 'grain_no_fract')
      :                              , g_plants, 0.0)
          head_grain_no_max = divide (N_avail_plant_sum
      :                      , (c_seed_wt_min * c_grain_N_conc_min), 0.0)
-
+ 
          head_grain_no = head_grain_no_optimum * temp_fac
-
+ 
          grain_num  =  u_bound (head_grain_no
      :                       , head_grain_no_max)
      :             * g_plants
-
+ 
       else
             ! do nothing
-
+ 
       endif
-
+ 
       call pop_routine (my_name)
       return
-      end   
+      end
+
+
+
 *     ===========================================================
       subroutine Maize_grain_no2 (
      .          g_current_stage,
@@ -2700,23 +2675,14 @@ c     :                           , 'grain_no_fract')
      .          c_grain_N_conc_min,
      .          grain_num)
 *     ===========================================================
-
-*+  Short description:
-*     Calculate the grains per m^2 and heads per m^2
-*     Same as maize_grain_no but with bound of grain_no_fract
-*     It seems strange to bound check the value when it is possible to
-*     get out of bounds values (-ve's) from sensible numbers.  If
-*     growth rate is small the fraction will be -ve and it is sensible
-*     to constrain this above 0.
-
-*+  Changes:
-*     111094 jngh specified and programmed
-*     250495 psc added head no to output
-*     970317 slw new template form
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
+      include    'maizcons.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'crp_nitn.pub'                      
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
        real g_current_stage
        real g_days_tot(*)
        real g_dm_plant_top_tot(*)
@@ -2734,17 +2700,24 @@ c     :                           , 'grain_no_fract')
        real c_grain_N_conc_min
        real grain_num
 
-*   Global variables
-      include    'maizcons.inc'
-       real       bound                 ! function
-      real       divide                ! function
-      logical    on_day_of             ! function
-      real       sum_between           ! function
-      real       sum_real_array        ! function
-      real       u_bound               ! function
-      real       linear_interp_real    ! function
+*+  Purpose
+*     Calculate the grains per m^2 and heads per m^2
+*     Same as maize_grain_no but with bound of grain_no_fract
+*     It seems strange to bound check the value when it is possible to
+*     get out of bounds values (-ve's) from sensible numbers.  If
+*     growth rate is small the fraction will be -ve and it is sensible
+*     to constrain this above 0.
 
-*   Internal variables
+*+  Changes
+*     111094 jngh specified and programmed
+*     250495 psc added head no to output
+*     970317 slw new template form
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'Maize_grain_no2')
+
+*+  Local Variables
       real       dm_plant              ! dm per plant (g/plant)
       real       head_grain_no         ! grains per plant
       real       head_grain_no_max     ! maximum grains per plant
@@ -2760,63 +2733,59 @@ c     :                           , 'grain_no_fract')
                                        ! photosynthesis during flowering
                                        ! (g/plant).
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'Maize_grain_no2')
-
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
          ! ------------- find actual grain uptake ---------------
-
+ 
       if (on_day_of (start_grain_fill
      :             , g_current_stage, g_days_tot)) then
-
+ 
             ! calculate number of grains/plant
             ! Grains/plant is calculated from a genotype-specific
             ! coefficient for potential kernel number and the average
             ! rate of photosynthesis during this stage.  The function
             ! used to predict grains/plant is derived from Edmeades and
             ! Daynard (1979).
-
+ 
          dm_plant = sum_between (flag_leaf, now, g_dm_plant_top_tot)
          growth_rate = divide (
      :                   dm_plant
      :                 , sum_between (flag_leaf, now, g_days_tot)
      :                 , 0.0)
-
+ 
             ! note - this function will never reach 1. Thus head_grain_no_max
             ! will never be achieved.
-
+ 
          grain_no_fract = linear_interp_real(growth_rate
      :                                      ,c_grno_grate
      :                                      ,c_grno_fract
      :                                      ,c_num_grno_grate)
          grain_no_fract = bound (grain_no_fract, 0.0, 1.0)
-
+ 
          head_grain_no_optimum = p_head_grain_no_max * grain_no_fract
-
+ 
 c         call bound_check_real_var (grain_no_fract, 0.0, 1.0
 c     :                           , 'grain_no_fract')
-
+ 
             ! grain numbers are reduced by heat stress during flowering.
-
+ 
          temp_fac = 1.0
      :            - sum_between (flag_leaf, now, g_heat_stress_tt)
      :            * c_htstress_coeff
-
+ 
          temp_fac = bound (temp_fac, 0.0, 1.0)
-
+ 
             ! Grain numbers are sensitive to N deficiency occurring
             ! after flowering.  These may be reduced by post-flowering N
             ! deficiency. Calculate the maximum number of grains that can
             ! be produced from the plant's currently available nitrogen
             ! pool - assuming minimum grain weights and grain nitrogen
             ! concentrations to be achieved.
-
+ 
             ! In Maize_N_conc_limits, the min grain N conc is 0.007
-
+ 
          call crop_N_retrans_avail (max_part, root, grain,
      .          g_N_conc_min,
      .          g_dm_green,
@@ -2825,21 +2794,24 @@ c     :                           , 'grain_no_fract')
      :                              , g_plants, 0.0)
          head_grain_no_max = divide (N_avail_plant_sum
      :                      , (c_seed_wt_min * c_grain_N_conc_min), 0.0)
-
+ 
          head_grain_no = head_grain_no_optimum * temp_fac
-
+ 
          grain_num  =  u_bound (head_grain_no
      :                       , head_grain_no_max)
      :             * g_plants
-
+ 
       else
             ! do nothing
-
+ 
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_cover1 (
      .          g_row_spacing,
@@ -2850,21 +2822,14 @@ c     :                           , 'grain_no_fract')
      .          extinction_coef,
      .          lai)
 *     ===========================================================
-
-*   Short description:
-*       'Cover' by leaves (0-1) . Fraction of radiation reaching the
-*       canopy, intercepted by the leaves of the canopy.
-
-*   Changes:
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include 'science.pub'                       
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_row_spacing
        real extinction_coef
-
+*
       real       cover_leaf            ! (OUTPUT) fraction of radn that is
                                        !  intercepted by leaves (0-1)
       real       lai                   ! (INPUT) leaf area index ()
@@ -2872,117 +2837,94 @@ c     :                           , 'grain_no_fract')
       real       c_kvalue_adjustment(*)! (INPUT) k lookup values
       integer    c_num_kvalue_rowspace
 
-*   Global variables
-      real linear_interp_real
+*+  Purpose
+*       'Cover' by leaves (0-1) . Fraction of radiation reaching the
+*       canopy, intercepted by the leaves of the canopy.
 
-*   Internal variables
+*+  Changes
+*     <insert here>
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Maize_cover1')
+
+*+  Local Variables
       real       adjustment            ! extinction coefficient adjustment
                                        ! due to rowspacing.
       real       k_coef                ! extinction coefficient
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Maize_cover1')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
          ! this equation implies that leaf interception of
          ! solar radiation obeys Beer's law
-
+ 
       if (g_row_spacing .gt. 0.0) then
          adjustment = linear_interp_real (g_row_spacing
      :                                   ,c_kvalue_rowspace
      :                                   ,c_kvalue_adjustment
      :                                   ,c_num_kvalue_rowspace)
-
+ 
          k_coef = extinction_coef * adjustment
       else
          k_coef = extinction_coef
       endif
-
+ 
       cover_leaf = 1.0 - exp (-k_coef * lai)
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 * ====================================================================
        subroutine maize_nit_demand_est (Option)
 * ====================================================================
-
-*   Short description:
-*      None
-
-*   Assumptions:
-*      None
-
-*   Notes:
-*      None
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-*     14-05-1997 - huth - Programmed and Specified
-
-*   Calls:
-*     Pop_routine
-*     Push_routine
-
-* ----------------------- Declaration section ------------------------
-
-       implicit none
-
-*   Subroutine arguments
-      integer Option
-
-*   Global variables
+      implicit none
       include 'const.inc'
       include 'maize.inc'
-      real    divide                  ! function
-      real    sum_real_array          ! function
+      include 'data.pub'                          
+      include 'crp_nitn.pub'                      
+      include 'error.pub'                         
 
-*   Constant values
+*+  Sub-Program Arguments
+      integer Option
 
+*+  Purpose
+*     <insert here>
+
+*+  Changes
+*     14-05-1997 - huth - Programmed and Specified
+
+*+  Constant Values
       integer num_demand_parts
       parameter (num_demand_parts = 4)
-
+*
       character*(*) myname               ! name of current procedure
       parameter (myname = 'maize_nit_demand_est')
 
-*   Internal variables
+*+  Local Variables
       integer current_phase
       real    dlt_dm_green_pot (max_part) ! potential (est) dlt dm green
       real    dlt_dm_pot_radn         ! pot dm production given radn
       real    dlt_N_retrans(max_part) ! retranslocated N
       real    dm_green_tot            ! total dm green
       integer part                    ! simple plant part counter
-
+*
       integer demand_parts(num_demand_parts)
       data demand_parts /root,leaf,stem,flower/
       save /demand_parts/
 
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (myname)
-
+ 
       if (Option .eq. 1) then
             ! Option 1 is to assume that the distribution of plant
             ! C will be similar after today and so N demand is that
             ! required to raise all plant parts to critical N conc.
-
+ 
          ! calculate potential new shoot and root growth
       current_phase = int (g_current_stage)
          ! need to calculate dm using potential rue not affected by
@@ -2996,7 +2938,7 @@ c     :                           , 'grain_no_fract')
      :                                   ,0.0)
          dlt_N_retrans(part) = 0.0
   100 continue
-
+ 
          call cproc_N_demand1
      :               (
      :                max_part
@@ -3012,14 +2954,17 @@ c     :                           , 'grain_no_fract')
      :              , G_n_green
      :              , g_N_demand, g_N_max
      :               )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (myname)
       return
       end
+
+
+
 *     ===========================================================
       subroutine maize_plants_barren0 (
      .          c_head_grain_no_crit,
@@ -3029,19 +2974,11 @@ c     :                           , 'grain_no_fract')
      .          g_plants,
      .          killfr)
 *     ===========================================================
-
-*   Short description:
-*        Calculate fraction of barren heads (0-1).
-*        Allows no more than 1 head per plant.
-
-*   Changes:
-*     010994 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include 'data.pub'                          
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real c_head_grain_no_crit
        real p_head_grain_no_max
        real c_barren_crit
@@ -3050,40 +2987,39 @@ c     :                           , 'grain_no_fract')
       real       killfr                ! (OUTPUT) fraction of plants killed
                                        ! (plants/m^2)
 
-*   Global variables
+*+  Purpose
+*        Calculate fraction of barren heads (0-1).
+*        Allows no more than 1 head per plant.
 
-      real       bound                 ! function
-      real       divide                ! function
+*+  Changes
+*     010994 jngh specified and programmed
 
-*   Internal variables
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'maize_plants_barren0')
+
+*+  Local Variables
       real       fract_of_optimum      ! fraction of optimum no. of heads due
                                        ! to barrenness below which some
                                        ! heads become barren. (0-1)
       real       head_grain_no         ! (grains/head)
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'maize_plants_barren0')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       call check_grain_no (
      .          c_head_grain_no_crit,
      .          p_head_grain_no_max,
      .          c_barren_crit)
-
+ 
          ! determine barrenness
-
+ 
       head_grain_no = divide (g_grain_no, g_plants, 0.0)
-
+ 
       if (head_grain_no.lt.c_head_grain_no_crit) then
             ! all heads barren
          fract_of_optimum = 0.0
-
+ 
       elseif (head_grain_no.lt.p_head_grain_no_max * c_barren_crit) then
             ! we have some barren heads
          fract_of_optimum =
@@ -3091,18 +3027,21 @@ c     :                           , 'grain_no_fract')
      :                     , p_head_grain_no_max * c_barren_crit
      :                       - c_head_grain_no_crit
      :                     , 0.0))
-
+ 
       else
             ! we have no barren heads
          fract_of_optimum = 1.0
       endif
-
+ 
       fract_of_optimum = bound (fract_of_optimum, 0.0, 1.0)
       killfr = 1.0 - fract_of_optimum
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine maize_death_barrenness0 (
      .  g_current_stage,
@@ -3114,18 +3053,14 @@ c     :                           , 'grain_no_fract')
      .  g_plants,
      .  dlt_plants_barren)
 *     ===========================================================
-
-*   Short description:
-*      Determine percent plant failure due to barreness
-
-*   Changes:
-*       290994 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'const.inc'
+      include   'maizcons.inc'
+      include 'science.pub'                       
+      include 'write.pub'                         
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_current_stage
        real g_days_tot(*)
        real c_head_grain_no_crit
@@ -3133,29 +3068,27 @@ c     :                           , 'grain_no_fract')
        real c_barren_crit
        real g_grain_no
        real g_plants
-       
+*
        real dlt_plants_barren
 
-*   Global variables
-      include   'const.inc'
-      include   'maizcons.inc'
-      logical   on_day_of
+*+  Purpose
+*      Determine percent plant failure due to barreness
 
-*   Internal variables
-      real       killfr                ! fraction of crop population to kill
-      character  string*200            ! output string
+*+  Changes
+*       290994 jngh specified and programmed
 
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'death_barrenness')
 
-*   Initial data values
-*       none
+*+  Local Variables
+      real       killfr                ! fraction of crop population to kill
+      character  string*200            ! output string
 
-* --------------------- Executable code section ----------------------
-      
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-      
+ 
       if (on_day_of (start_grain_fill
      :             , g_current_stage, g_days_tot)) then
          call maize_plants_barren0 (
@@ -3166,76 +3099,64 @@ c     :                           , 'grain_no_fract')
      .          g_plants,
      .          killfr)
          dlt_plants_barren = - g_plants*killfr
-
+ 
          if (killfr .gt. 0.0) then
             write (string, '(a, i4, a)')
      :             'plant_kill.'
      :            , nint (killfr*100.0)
      :            , '% failure because of barreness.'
-
+ 
          call report_event (string)
-
+ 
          else
                   ! do nothing
          endif
-
+ 
       else
          dlt_plants_barren = 0.0
-
+ 
       endif
-      
+ 
       call pop_routine (my_name)
       return
       end
-!scc 5/96
-!Main changes from GLH
-!Change in calc. of tt_floral_init,
-! leaf_no_now
-! tpla to flowering, not flag
-!
-!16/6/96
-! implemented most of GLHs changes, but am avoiding tillering at present
-! (programmmed, but not running)
+
+
+
 *     ===========================================================
       subroutine Maize_leaf_actual(Option)
 *     ===========================================================
-
-*   Short description:
-*       biomass light
-
-*   Changes:
-*      5/9/96 dph
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
-
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-
-*   Global variables
       include 'const.inc'
       include   'Maize.inc'
-      real    linear_interp_real
-      real    sum_between
+      include 'data.pub'                          
+      include 'science.pub'                       
+      include 'crp_cnpy.pub'                      
+      include 'error.pub'                         
 
-*   Internal variables
-      real leaf_no_now
-      real interp_sla_max
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
 
-*   Constant values
+*+  Purpose
+*       biomass light
+
+*+  Changes
+*      5/9/96 dph
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_leaf_actual')
 
-*   Initial data values
-*       none
+*+  Local Variables
+      real leaf_no_now
+      real interp_sla_max
 
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
          ! potential by photosynthesis
-
+ 
          call maize_leaf_area0 (
      .          g_current_stage,
      .          g_dlt_lai,
@@ -3246,32 +3167,32 @@ c     :                           , 'grain_no_fract')
      .          g_dm_green,
      .          g_dlt_dm_green_retrans,
      .          g_leaf_no)
-
+ 
       elseif (Option .eq. 2) then
-
+ 
          call maize_leaf_area1 (
      .          g_current_stage,
      .          g_dlt_lai,
      .          g_dlt_lai_stressed,
      .          g_dlt_dm_green,
      .          c_sla_max)
-
+ 
       elseif (Option .eq. 3) then
          leaf_no_now = sum_between(sowing, now, g_leaf_no)
          interp_sla_max = linear_interp_real(leaf_no_now
      .                                      ,c_x_leaf_no
      .                                      ,c_leaf_no_sla_max
      .                                      ,c_num_x_leaf_no)
-
+ 
          call maize_leaf_area1 (
      .          g_current_stage,
      .          g_dlt_lai,
      .          g_dlt_lai_stressed,
      .          g_dlt_dm_green,
      .          interp_sla_max)
-
+ 
       elseif (Option .eq. 4) then
-
+ 
          call cproc_leaf_area_actual1 (
      :                C_x_lai
      :              , C_y_lai_sla_max
@@ -3281,69 +3202,63 @@ c     :                           , 'grain_no_fract')
      :              , g_dlt_lai_stressed
      :              , G_lai
      :               )
-
+ 
 c         interp_sla_max = linear_interp_real(g_lai
 c     .                                      ,c_x_lai
 c     .                                      ,c_lai_sla_max
 c     .                                      ,c_num_x_lai)
-
+ 
 c         call maize_leaf_area1 (
 c     .          g_current_stage,
 c     .          g_dlt_lai,
 c     .          g_dlt_lai_stressed,
 c     .          g_dlt_dm_green,
 c     .          interp_sla_max)
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_leaf_area_potential (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include   'Maize.inc'
+      include 'error.pub'                         
 
-*   Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) option number
+
+*+  Purpose
 *       Simulate potential crop leaf area development - may be limited by
 *       DM production in subsequent routine
 
-*   Changes:
+*+  Changes
 *      250894 jngh specified and programmed
 *      270995 scc added leaf area routine option
 *      5/9/96 dph added option argument
 
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      integer Option                   ! (INPUT) option number
-
-*   Global variables
-      include 'const.inc'
-      include   'Maize.inc'
-
-*   Internal variables
-
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_leaf_area_potential')
 
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
             ! Plant leaf development
             ! initialise total leaf number
          ! TEMPLATE OPTION
          ! Two alternative leaf area routines
-
+ 
       if (Option .eq. 1) then
-
+ 
          call maize_leaf_area_devel0 (
      .          g_leaf_no,
      .          c_leaf_no_correction,
@@ -3360,9 +3275,9 @@ c     .          interp_sla_max)
      .          g_plants,
      .          g_swdef_expansion,
      .          g_dlt_lai_pot) ! individual leaf approach
-
+ 
       elseif (Option .eq .2) then
-
+ 
          call maize_leaf_area_devel_plant0 (
      .          g_current_stage,
      .          g_leaf_no_final,
@@ -3386,9 +3301,9 @@ c     .          interp_sla_max)
      .          g_swdef_expansion,
      .          g_nfact_expansion,
      .          g_dlt_lai_pot) ! whole plant approa
-
+ 
       elseif (Option .eq. 3) then
-
+ 
          call leaf_area_devel1 (
      .          g_leaf_no,
      .          c_leaf_no_correction,
@@ -3407,81 +3322,62 @@ c     .          interp_sla_max)
      .          g_plants,
      .          g_swdef_expansion,
      .          g_dlt_lai_pot) ! individual leaf approach
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_leaf_area_stressed (Option)
 *     ===========================================================
-
-*   Short description:
-*     Calculate the stressed dlt_lai from the potential dlt_lai.
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*     26/2/96  sb made it up.
-
-*   Calls:
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
-
-*   Subroutine arguments
-      integer Option                   ! (INPUT) option number
-
-*   Global variables
       include 'const.inc'
       include   'Maize.inc'
+      include 'crp_cnpy.pub'                      
+      include 'error.pub'                         
 
-*   Internal variables
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) option number
 
-*   Constant values
+*+  Purpose
+*     Calculate the stressed dlt_lai from the potential dlt_lai.
+
+*+  Changes
+*     26/2/96  sb made it up.
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_leaf_area_stressed')
 
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call cproc_leaf_area_stressed1 (
      :                       g_dlt_lai_pot
      :                      ,g_swdef_expansion
      :                      ,g_nfact_expansion
      :                      ,g_dlt_lai_stressed
      :                      )
-
+ 
       else
-
+ 
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine maize_leaf_number_final (
      .          g_current_stage,
@@ -3494,26 +3390,15 @@ c     .          interp_sla_max)
      .          c_leaf_no_max,
      .          g_tt_tot,
      .          leaf_no_final)
-
+ 
 *     ===========================================================
-
-*   Short description:
-*       Calculate total leaf number.  This is set at floral_initialising and
-*       is set at an approximated number at germination to allow
-*       other calculations to proceed until the correct number is known.
-*       THIS IS THE SAME AS SORG LEAF NUMBER FINAL BUT WE ACTUALLY
-*       DO AS THE SHORT DESCRIPTION SAYS AND GROW LEAVES FROM GERMINATION.
-
-*   Changes:
-*     010994 jngh specified and programmed
-*     070495 psc  changed from emerg to germ
-*     0596   glh  fixed it up
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'maizcons.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_current_stage
        real g_days_tot(*)
        real g_phase_tt(*)
@@ -3525,109 +3410,104 @@ c     .          interp_sla_max)
        real g_tt_tot(*)
       real       leaf_no_final    ! (OUTPUT) maximum total leaf number
 
-*   Global variables
-      include   'maizcons.inc'
+*+  Purpose
+*       Calculate total leaf number.  This is set at floral_initialising and
+*       is set at an approximated number at germination to allow
+*       other calculations to proceed until the correct number is known.
+*       THIS IS THE SAME AS SORG LEAF NUMBER FINAL BUT WE ACTUALLY
+*       DO AS THE SHORT DESCRIPTION SAYS AND GROW LEAVES FROM GERMINATION.
 
-      real       divide                ! function
-      logical    on_day_of             ! function
-      logical    stage_is_between      ! function
-      real       sum_between           ! function
+*+  Changes
+*     010994 jngh specified and programmed
+*     070495 psc  changed from emerg to germ
+*     0596   glh  fixed it up
 
-*   Internal variables
-      real       tt_floral_init        ! cumulative dtt from sowing
-                                       ! to true floral initiation (deg day)
-
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'maize_leaf_number_final')
 
-*   Initial data values
-*       none
+*+  Local Variables
+      real       tt_floral_init        ! cumulative dtt from sowing
+                                       ! to true floral initiation (deg day)
 
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
           ! set total leaf number
-
+ 
       if (stage_is_between (start_of_leaf_init
      :                     , floral_init, g_current_stage)) then
-
+ 
                ! estimate the final leaf no from an approximated thermal
                ! time for the period from emergence to floral initiation.
-
+ 
         tt_floral_init = sum_between (start_of_leaf_init
      :                              , floral_init, g_phase_tt)
-
+ 
         leaf_no_final = divide (tt_floral_init
      :                         , c_leaf_init_rate, 0.0)
      :                 + c_leaf_no_seed
-
+ 
          call bound_check_real_var (leaf_no_final
      :                            , c_leaf_no_min, c_leaf_no_max
      :                            , 'leaf_no_final')
-
+ 
       elseif (on_day_of (floral_init, g_current_stage, g_days_tot)) then
-
+ 
                ! now we know the thermal time, get the actual final leaf no.
-
+ 
          tt_floral_init = sum_between (start_of_leaf_init
      :                               , floral_init, g_tt_tot)
-
-
+ 
+ 
          leaf_no_final = divide (tt_floral_init
      :                         , c_leaf_init_rate, 0.0)
      :                 + c_leaf_no_seed
          call bound_check_real_var (leaf_no_final
      :                            , c_leaf_no_min, c_leaf_no_max
      :                            , 'leaf_no_final')
-
+ 
       elseif (on_day_of (plant_end, g_current_stage, g_days_tot)) then
-
+ 
          leaf_no_final = 0.0
-
+ 
       else
-
+ 
       endif
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_leaf_no_init (Option)
 *     ===========================================================
-
-*   Short description:
-*       
-
-*   Changes:
-*      28/4/98 igh
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
-
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-
-*   Global variables
       include 'const.inc'
       include   'Maize.inc'
+      include 'crp_cnpy.pub'                      
+      include 'error.pub'                         
 
-*   Internal variables
-*       none
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
 
-*   Constant values
+*+  Purpose
+*
+
+*+  Changes
+*      28/4/98 igh
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_leaf_no_init')
 
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call cproc_leaf_no_init1
      :               (
      :                C_leaf_no_at_emerg
@@ -3637,50 +3517,44 @@ c     .          interp_sla_max)
      :              , g_leaf_no
      :              , g_node_no
      :               )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_leaf_area_init (Option)
 *     ===========================================================
-
-*   Short description:
-*
-
-*   Changes:
-*      28/4/98 igh
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
-
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-
-*   Global variables
       include 'const.inc'
       include   'Maize.inc'
+      include 'crp_cnpy.pub'                      
+      include 'error.pub'                         
 
-*   Internal variables
-*       none
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
 
-*   Constant values
+*+  Purpose
+*
+
+*+  Changes
+*      28/4/98 igh
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_leaf_area_init')
 
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call cproc_leaf_area_init1 (
      :                C_initial_tpla
      :              , emerg
@@ -3689,50 +3563,43 @@ c     .          interp_sla_max)
      :              , G_plants
      :              , g_lai
      :              )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_leaf_no_pot (Option)
 *     ===========================================================
-
-*   Short description:
-*       Phenology leaf
-
-*   Changes:
-*      28/4/98 igh
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
-
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-
-*   Global variables
       include 'const.inc'
       include   'Maize.inc'
+      include 'error.pub'                         
 
-*   Internal variables
-*       none
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
 
-*   Constant values
+*+  Purpose
+*       Phenology leaf
+
+*+  Changes
+*      28/4/98 igh
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_leaf_no_pot')
 
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call maize_leaf_number_final (
      .          g_current_stage,
      .          g_days_tot,
@@ -3744,7 +3611,7 @@ c     .          interp_sla_max)
      .          c_leaf_no_max,
      .          g_tt_tot,
      .          g_leaf_no_final)
-
+ 
 c         call cproc_leaf_no_pot1
 c     :               (
 c     :                C_x_node_no_app
@@ -3761,7 +3628,7 @@ c     :              , g_leaf_no       !G_node_no ! needs to be changed when nod
 c     :              , g_dlt_leaf_no   !_pot   !this will need to changed when
 c     :              , g_dlt_node_no_pot       !actual leaf no routine is used
 c     :               )
-
+ 
          call maize_leaf_appearance0 (
      .          g_leaf_no,
      .          g_leaf_no_final,
@@ -3772,10 +3639,10 @@ c     :               )
      .          g_days_tot,
      .          g_dlt_tt,
      .          g_dlt_leaf_no) ! fraction of leaf emerged
-
-
+ 
+ 
       elseif (Option .eq. 2) then
-
+ 
          call maize_leaf_number_final (
      .          g_current_stage,
      .          g_days_tot,
@@ -3787,7 +3654,7 @@ c     :               )
      .          c_leaf_no_max,
      .          g_tt_tot,
      .          g_leaf_no_final)
-
+ 
 c         call cproc_leaf_no_pot1
 c     :               (
 c     :                C_x_node_no_app
@@ -3804,7 +3671,7 @@ c     :              , G_node_no
 c     :              , g_dlt_leaf_no_pot
 c     :              , g_dlt_node_no_pot
 c     :               )
-
+ 
          call maize_leaf_appearance0 (
      .          g_leaf_no,
      .          g_leaf_no_final,
@@ -3815,14 +3682,17 @@ c     :               )
      .          g_days_tot,
      .          g_dlt_tt,
      .          g_dlt_leaf_no) ! fraction of leaf emerged
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine maize_leaf_area0 (
      .          g_current_stage,
@@ -3835,20 +3705,14 @@ c     :               )
      .          g_dlt_dm_green_retrans,
      .          g_leaf_no)
 *     ===========================================================
-
-*   Short description:
-*       Simulate actual crop leaf area development - checks that leaf area
-*       development matches DM production and calculates tiller production.
-
-*   Changes:
-*      250894 jngh specified and programmed
-*      240596 glh  added tillering
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'convert.inc'
+      include   'maizcons.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_current_stage
        real g_dlt_lai
        real g_dlt_lai_stressed
@@ -3859,17 +3723,19 @@ c     :               )
        real g_dlt_dm_green_retrans(*)
        real g_leaf_no(*)
 
-*   Global variables
-      include   'convert.inc'
-      include   'maizcons.inc'
+*+  Purpose
+*       Simulate actual crop leaf area development - checks that leaf area
+*       development matches DM production and calculates tiller production.
 
-      real       u_bound               ! function
-      logical    stage_is_between      ! function
-      real       divide                ! function
-      real       sum_between           ! function
+*+  Changes
+*      250894 jngh specified and programmed
+*      240596 glh  added tillering
 
-*   Internal variables
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'leaf_area')
 
+*+  Local Variables
       real       dm_green_leaf_today   ! today's green leaf dry matter (g/m^2)
       real       lai_today             ! today's green lai
       real       sla_today             ! today's specific leaf area (cm^2/g)
@@ -3879,73 +3745,66 @@ c     :               )
       real       sla_min               ! minimum specific leaf area (ratio)
       real       leaf_no_now           ! number of fully expanded leaves
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'leaf_area')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
          ! limit the delta leaf area by carbon supply
 !glh/scc but don't do when crop small - results in many errors
-
+ 
       if (stage_is_between (emerg, endjuv
      :                        , g_current_stage))  then
-
+ 
            g_dlt_lai = g_dlt_lai_stressed
-
+ 
       elseif (stage_is_between (endjuv, maturity
      :      , g_current_stage))  then
-
+ 
             g_dlt_lai = u_bound (g_dlt_lai_stressed
      :                   , g_dlt_dm_green(leaf)*c_sla_max * smm2sm)
-
+ 
       else
-
+ 
            g_dlt_lai = g_dlt_lai_stressed
-
+ 
       endif
-
+ 
 ! calculate current sla of whole plant green leaf
-
+ 
       lai_today = g_lai + g_dlt_lai
-
+ 
       dm_green_leaf_today = g_dm_green(leaf)
      :      + g_dlt_dm_green(leaf)
      :      + g_dlt_dm_green_retrans(leaf) ! -ve outflow
-
+ 
       sla_today = divide (lai_today*10000, dm_green_leaf_today, 0.0)
-
+ 
 ! calculate 'normal' whole plant sla
 ! sla function based on vanderlip data plus cutoffs at 400 and 150 cm2/g
       leaf_no_now = sum_between (sowing, now, g_leaf_no)
-
+ 
       sla = u_bound(400.0, 429.72 - 18.16*leaf_no_now)
       if (sla.lt.150.0) sla = 150.0
-
+ 
 ! delta lai is constrained if whole plant sla goes out of range
-
+ 
       sla_ratio = divide (sla_today, sla, 1.0)
       sla_max = 1.4
       sla_min = 0.6
 !      sla_max = 1.1
 !      sla_min = 0.1
-
+ 
       if (stage_is_between (emerg, endjuv
      :                        , g_current_stage))  then
-
+ 
 c glh   ! do not constrain before endjuv - too many errors at very low
 c glh   ! lai and biomass levels
 c scc, maybe you should try a little earlier than this?
-
+ 
            g_dlt_lai = g_dlt_lai_stressed
-
+ 
       elseif (stage_is_between (endjuv, flag_leaf
      :      , g_current_stage))  then
-
+ 
            if (sla_ratio. gt. sla_max) then
                  lai_today = sla_max*sla*dm_green_leaf_today/10000.
                  g_dlt_lai = lai_today - g_lai
@@ -3957,24 +3816,27 @@ c glh  ! plus need to reduce carbon to leaf  ----   add later  *****
            else
                   g_dlt_lai = g_dlt_lai_stressed
            endif
-
+ 
       elseif (stage_is_between (flag_leaf, flowering
      :      , g_current_stage))  then
-
+ 
 c glh  need this to get lai increase after flag leaf - until fix tpla
 c      function to stop at flag leaf
-
+ 
            g_dlt_lai = g_dlt_lai_stressed
-
+ 
       else
-
+ 
            g_dlt_lai = g_dlt_lai_stressed
-
+ 
       endif
-
+ 
 2002  call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine maize_leaf_area_devel_plant0 (
      .          g_current_stage,
@@ -4000,20 +3862,14 @@ c      function to stop at flag leaf
      .          g_nfact_expansion,
      .          dlt_lai_pot)
 *     ===========================================================
-
-*   Short description:
-*       Return the potential increase in leaf area development (mm^2)
-*       calculated on a whole plant basis.
-
-*   Changes:
-*     010994 jngh specified and programmed
-*     26/2/97  sb moved stressing out to another routine.
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'maizcons.inc'
+      include   'convert.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_current_stage
        real g_leaf_no_final
        real c_leaf_no_rate_change
@@ -4035,18 +3891,22 @@ c      function to stop at flag leaf
        real g_lai_max_possible
        real g_swdef_expansion
        real g_nfact_expansion
-
+*
       real       dlt_lai_pot           ! (OUTPUT) change in leaf area
 
-*   Global variables
-      include   'maizcons.inc'
-      include   'convert.inc'
+*+  Purpose
+*       Return the potential increase in leaf area development (mm^2)
+*       calculated on a whole plant basis.
 
-      real       divide                ! function
-      logical    stage_is_between      ! function
-      real       sum_between           ! function
+*+  Changes
+*     010994 jngh specified and programmed
+*     26/2/97  sb moved stressing out to another routine.
 
-*   Internal variables
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'leaf_area_devel_plant')
+
+*+  Local Variables
       real       tpla_max              ! maximum total plant leaf area (mm^2)
       real       tlai_today            ! total lai today
       real       tt_since_emerg        ! deg days since emergence (oC)
@@ -4054,83 +3914,77 @@ c      function to stop at flag leaf
       real       leaf_no               ! leaf no.
       real   tt_emerg_to_flag_leaf  ! thermal time for emerg to flag_leaf
 
-
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'leaf_area_devel_plant')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
            ! once leaf no is calculated maximum plant leaf area
            ! is determined
-
+ 
       if (stage_is_between (emerg, flag_leaf, g_current_stage)) then
-
+ 
          leaf_no = max (g_leaf_no_final - c_leaf_no_rate_change,
      :                 c_leaf_no_at_emerg)
-
+ 
          leaf_no = min (leaf_no, g_leaf_no_final)
-
+ 
          tt_emerg_to_flag_leaf = (leaf_no - c_leaf_no_at_emerg)
      :                         * c_leaf_app_rate1
      :                         + (g_leaf_no_final - leaf_no)
      :                         * c_leaf_app_rate2
-
-
+ 
+ 
          tpla_max = (((g_tiller_no_fertile + 1.0) ** c_tiller_coef)
      :            * g_leaf_no_final ** p_main_stem_coef) * scm2smm
-
+ 
          tt_since_emerg = sum_between (emerg, now, g_tt_tot)
-
+ 
          tpla_inflection = tt_emerg_to_flag_leaf
      :                       * c_tpla_inflection_ratio
-
+ 
           g_tpla_today = divide (Tpla_max
      :              , (1.0 + exp(-p_tpla_prod_coef
      :                        * (tt_since_Emerg - tpla_inflection)))
      :              , 0.0)
-
+ 
          tlai_today = g_Tpla_today * smm2sm * g_plants
-
+ 
          dlt_lai_pot = (tlai_today - (g_lai + g_slai))
-
+ 
       else
-
+ 
          dlt_lai_pot = 0.0
-
+ 
       endif
-
+ 
       if (stage_is_between (floral_init, harvest_ripe
      :                     , g_current_stage)) then
-
+ 
          g_swdef_lai_loss = g_swdef_lai_loss
      :      + dlt_lai_pot - dlt_lai_pot * g_swdef_expansion
-
+ 
          g_lai_max_possible = Tpla_max * smm2sm * g_plants
-
+ 
          if (stage_is_between (flag_leaf, harvest_ripe
      :                     , g_current_stage)) then
             g_lai_max_possible = g_lai + g_slai
          else
             ! do nothing
          endif
-
+ 
       else
          ! Before floral initiation
-
+ 
          g_lai_max_possible = 0.0
-
+ 
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine maize_leaf_area_devel0 (
      .          g_leaf_no,
@@ -4149,20 +4003,13 @@ c      function to stop at flag leaf
      .          g_swdef_expansion,
      .          dlt_lai_pot)
 *     ===========================================================
-
-*   Short description:
-*       Return the potential increase in leaf area development (mm^2)
-*       calculated on an individual leaf basis.
-
-*   Changes:
-*     010994 jngh specified and programmed
-*     26/2/97 sb moved stressing out to Maize_leaf_area_stressed().
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'convert.inc'
+      include   'maizcons.inc'
+      include 'data.pub'                          
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_leaf_no(*)
        real c_leaf_no_correction
        real c_x0_const
@@ -4179,14 +4026,22 @@ c      function to stop at flag leaf
       real g_swdef_expansion
       real       dlt_lai_pot           ! (OUTPUT) change in leaf area
 
-*   Global variables
-      include   'convert.inc'
-      include   'maizcons.inc'
+*+  Purpose
+*       Return the potential increase in leaf area development (mm^2)
+*       calculated on an individual leaf basis.
 
+*+  Changes
+*     010994 jngh specified and programmed
+*     26/2/97 sb moved stressing out to Maize_leaf_area_stressed().
+
+*+  Calls
       real       maize_leaf_size0      ! function
-      real       sum_between           ! function
 
-*   Internal variables
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'leaf_area_devel')
+
+*+  Local Variables
       real       area                  ! potential maximum area of oldest
                                        ! expanding leaf (mm^2) in today's
                                        ! conditions
@@ -4194,20 +4049,13 @@ c      function to stop at flag leaf
                                        ! younger leaves that have emerged
                                        ! after the current one
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'leaf_area_devel')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
            ! once leaf no is calculated leaf area of largest expanding leaf
            ! is determined
-
+ 
 !glh This should also be from sowing, as above? (changed from emerg (scc))
       leaf_no_effective = sum_between (sowing, now, g_leaf_no)
      :                  + c_leaf_no_correction
@@ -4222,15 +4070,18 @@ c      function to stop at flag leaf
      .          c_b_const,
      .          c_b_slope1,
      .          leaf_no_effective)
-
+ 
       dlt_lai_pot = g_dlt_leaf_no * area * smm2sm * g_plants
-
+ 
 !  Moved out to Maize_leaf_area_stressed() by sb.
 !       :            * g_swdef_expansion
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       real function maize_leaf_size0 (
      .          c_x0_const,
@@ -4244,18 +4095,10 @@ c      function to stop at flag leaf
      .          c_b_slope1,
      .          leaf_no)
 *     ===========================================================
-
-*   Short description:
-*       Return the leaf area (mm^2) of a specified leaf no.
-
-*   Changes:
-*       290894 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real c_x0_const
        real c_x0_slope
        real g_leaf_no_final
@@ -4267,9 +4110,17 @@ c      function to stop at flag leaf
        real c_b_slope1
       real       leaf_no               ! (INPUT) nominated leaf number
 
-*   Global variables
+*+  Purpose
+*       Return the leaf area (mm^2) of a specified leaf no.
 
-*   Internal variables
+*+  Changes
+*       290894 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'leaf_size')
+
+*+  Local Variables
       real       area                  ! potential area of nominated leaf
                                        ! no (mm^2)
       real       area_max              ! potential area of largest leaf (mm^2)
@@ -4277,32 +4128,25 @@ c      function to stop at flag leaf
       real       largest_leaf          ! leaf no of largeat leaf
       real       skewness              ! skewness coef of leaf
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'leaf_size')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
            ! Once leaf no is calculated leaf area of largest expanding leaf
            ! is determined with quadratic relationship. Coefficients for this
            ! curve are functions of total leaf no.
-
+ 
 !      largest_leaf = c_x0_const + (c_x0_slope * g_leaf_no_final)
       largest_leaf = 0.67 * g_leaf_no_final
       area_max     = c_y0_const + (c_y0_slope * g_leaf_no_final)
-
+ 
 !scc changes below reflect difference between maize model and Carberry paper
-
+ 
       breadth  = c_a_const
      :         + (c_a_slope1 * g_leaf_no_final)
-
+ 
 !     breadth = -0.007 - (exp (-0.2 * g_leaf_no_final))
-
+ 
 !     :         + divide (c_a_slope1
 !     :                , 1.0 + c_a_slope2 * g_leaf_no_final
 !     :                , 0.0)
@@ -4310,14 +4154,17 @@ c      function to stop at flag leaf
      :         + (c_b_slope1 * g_leaf_no_final)
 !     :                , 1.0 + c_b_slope2 * g_leaf_no_final
 !     :                , 0.0)
-
+ 
       area = area_max * exp (breadth * (leaf_no - largest_leaf)**2
      :                      + skewness * (leaf_no - largest_leaf)**3)
       maize_leaf_size0 = area
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine maize_leaf_appearance0 (
      .          g_leaf_no,
@@ -4330,23 +4177,13 @@ c      function to stop at flag leaf
      .          g_dlt_tt,
      .          dlt_leaf_no)
 *     ===========================================================
-
-*   Short description:
-*       Return the fractional increase in emergence of the oldest
-*       expanding leaf.
-*       Note ! this does not take account of the other younger leaves
-*       that are currently expanding
-
-*   Changes:
-*       031194 jngh specified and programmed
-*       070495 psc  added 2nd leaf appearance rate
-*       260596 glh  corrected error in leaf no calcn
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'maizcons.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_leaf_no(*)
        real g_leaf_no_final
        real c_leaf_no_rate_change
@@ -4358,113 +4195,116 @@ c      function to stop at flag leaf
       real       dlt_leaf_no           ! (OUTPUT) new fraction of oldest
                                        ! expanding leaf
 
-*   Global variables
-      include   'maizcons.inc'
+*+  Purpose
+*       Return the fractional increase in emergence of the oldest
+*       expanding leaf.
+*       Note ! this does not take account of the other younger leaves
+*       that are currently expanding
 
-      real       bound                 ! function
-      real       divide                ! function
-      logical    on_day_of             ! function
-      real       sum_between           ! function
+*+  Changes
+*       031194 jngh specified and programmed
+*       070495 psc  added 2nd leaf appearance rate
+*       260596 glh  corrected error in leaf no calcn
 
-*   Internal variables
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'leaf_appearance')
+
+*+  Local Variables
       real       leaf_no_remaining     ! number of leaves to go before all
                                        ! are fully expanded
       real       leaf_no_now           ! number of fully expanded leaves
       real       leaf_app_rate         ! rate of leaf appearance (oCd/leaf)
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'leaf_appearance')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
 cscc Need to work this out. If you use sowing, not emerg. then the
 c leaf no. appears to be underestimated. Maybe it double counts leaf no.
 c between sowing and emergence. Note use of c_leaf_no_at_emerg.
 c ie. this routine really works out leaf no., when above ground.
-
+ 
 cglh uses sowing, not emerg to calc leaf no.
-
+ 
       leaf_no_now = sum_between (sowing, now, g_leaf_no)
       leaf_no_remaining = g_leaf_no_final - leaf_no_now
-
+ 
 c      write(*,*) g_leaf_no
-
+ 
 cSCC normal leaf app rate
-
+ 
 !      leaf_app_rate = c_leaf_app_rate
-
+ 
 !scc Peter's 2 stage version used here, modified to apply
 ! to last few leaves before flag
-
+ 
       if (leaf_no_remaining .le. c_leaf_no_rate_change) then
-
+ 
          leaf_app_rate = c_leaf_app_rate2
-
+ 
       else
-
+ 
          leaf_app_rate = c_leaf_app_rate1
-
+ 
       endif
-
-
+ 
+ 
       if (on_day_of (emerg, g_current_stage, g_days_tot)) then
-
+ 
              ! initialisation done elsewhere.
-
+ 
       elseif (leaf_no_remaining.gt.0.0) then
-
+ 
 !sscc This should halt on day flag leaf is fully expanded ....
              ! we  haven't reached full number of leaves yet
-
+ 
              ! if leaves are still growing, the cumulative number of
              ! phyllochrons or fully expanded leaves is calculated from
              ! daily thermal time for the day.
-
+ 
          dlt_leaf_no = divide (g_dlt_tt, leaf_app_rate, 0.0)
          dlt_leaf_no = bound (dlt_leaf_no, 0.0, leaf_no_remaining)
-
+ 
       else
              ! we have full number of leaves.
-
+ 
          dlt_leaf_no = 0.0
-
+ 
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_nit_retrans (Option)
 *     ===========================================================
-
-*+  Short description:
-*     nitrogen retranslocation
-
-*+  Changes:
-*     5/9/96 dph
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
       include 'const.inc'
       include   'Maize.inc'
-*   Constant values
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
+*     nitrogen retranslocation
+
+*+  Changes
+*     5/9/96 dph
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_nit_retrans')
 
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
            call Maize_N_retranslocate (
      .          g_dlt_dm_green,
      .          g_maxt,
@@ -4482,14 +4322,17 @@ cSCC normal leaf app rate
      .          g_nfact_grain_conc,
      .          g_dlt_N_retrans
      .                    )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_N_retranslocate (
      .          g_dlt_dm_green,
@@ -4508,17 +4351,13 @@ cSCC normal leaf app rate
      .          g_nfact_grain_conc,
      .          dlt_N_retrans)
 *     ===========================================================
-
-*+  Short description:
-*     Calculate the nitrogen retranslocation from the various plant parts
-*     to the grain.
-
-*+  Changes:
-*     080994 jngh specified and programmed
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
+      include   'maizcons.inc'
+      include 'data.pub'                          
+      include 'crp_nitn.pub'                      
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
        real g_dlt_dm_green(*)
        real g_maxt
        real g_mint
@@ -4535,14 +4374,21 @@ cSCC normal leaf app rate
        real g_nfact_grain_conc
       real       dlt_N_retrans (*)     ! (OUTPUT) plant N taken out from
                                        ! plant parts (g N/m^2)
-*   Global variables
-      include   'maizcons.inc'
 
-      real       divide                !function
-      real       crop_N_dlt_grain_conc ! function
-      real       sum_real_array        ! function
-      real       u_bound               ! function
-*   Internal variables
+*+  Purpose
+*     Calculate the nitrogen retranslocation from the various plant parts
+*     to the grain.
+
+*+  Changes
+*     080994 jngh specified and programmed
+
+*+  Calls
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Maize_N_retranslocate')
+
+*+  Local Variables
       real       grain_N_demand        ! grain N demand (g/m^2)
       real       N_avail(max_part)     ! N available for transfer to grain
                                        ! (g/m^2)
@@ -4550,14 +4396,11 @@ cSCC normal leaf app rate
                                        ! (g/m^2)
       real       N_potential           ! maximum grain N demand (g/m^2)
       integer    part                  ! plant part number
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Maize_N_retranslocate')
 
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       grain_N_demand = g_dlt_dm_green(grain) * crop_N_dlt_grain_conc(
      :          grain,
      .          c_sfac_slope,
@@ -4570,114 +4413,117 @@ cSCC normal leaf app rate
      .          g_N_conc_crit,
      .          g_N_conc_min,
      .          g_swdef_expansion)
-
+ 
       N_potential  = (g_dm_green(grain) + g_dlt_dm_green(grain))
      :             * g_N_conc_max(grain)
-
+ 
       grain_N_demand = u_bound (grain_N_demand
      :                        , N_potential - g_N_green(grain))
-
+ 
       call crop_N_retrans_avail (max_part, root, grain,
      .          g_N_conc_min,
      .          g_dm_green,
      .          g_N_green,N_avail)  ! grain N potential (supply)
-
+ 
             ! available N does not include roots or grain
 cjh  this should not presume roots and grain are 0.
 csc  true....
-
+ 
       N_avail_stover  =  sum_real_array (N_avail, max_part)
-
+ 
           ! get actual grain N uptake
-
+ 
           ! limit retranslocation to total available N
-
+ 
       call fill_real_array (dlt_N_retrans, 0.0, max_part)
-
+ 
       if (grain_N_demand.ge.N_avail_stover) then
-
+ 
              ! demand greater than or equal to supply
              ! retranslocate all available N
-
+ 
          dlt_N_retrans(leaf) = - N_avail(leaf)
          dlt_N_retrans(stem) = - N_avail(stem)
          dlt_N_retrans(flower) = - N_avail(flower)
          dlt_N_retrans(grain) = N_avail_stover
-
+ 
       else
-
+ 
              ! supply greater than demand.
              ! Retranslocate what is needed
-
+ 
          dlt_N_retrans(leaf) = - grain_N_demand
      :                         * divide (N_avail(leaf)
      :                                 , N_avail_stover, 0.0)
-
+ 
          dlt_N_retrans(flower) = - grain_N_demand
      :                         * divide (N_avail(flower)
      :                                 , N_avail_stover, 0.0)
-
+ 
          dlt_N_retrans(stem) = - grain_N_demand
      :                         - dlt_N_retrans(leaf)   ! note - these are
      :                         - dlt_N_retrans(flower) ! -ve values.
-
+ 
          dlt_N_retrans(grain) = grain_N_demand
-
+ 
       endif
-
+ 
              ! just check that we got the maths right.
-
+ 
       do 1000 part = root, flower
          call bound_check_real_var (abs (dlt_N_retrans(part))
      :                            , 0.0, N_avail(part)
      :                            , 'dlt_N_retrans(part)')
 1000  continue
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_nit_demand (Option)
 *     ===========================================================
-
-*+  Short description:
-*     n demand
-
-*+  Changes:
-*     5/9/96 dph
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
       include 'const.inc'
       include   'Maize.inc'
-*   Constant values
+      include 'crp_nitn.pub'                      
+      include 'error.pub'                         
 
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
+*     n demand
+
+*+  Changes
+*     5/9/96 dph
+
+*+  Constant Values
       integer num_demand_parts
       parameter (num_demand_parts = 4)
-
+*
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_nit_demand')
 
-*   Internal variables
+*+  Local Variables
       real    dlt_dm_pot_radn         ! pot dm production given radn
       integer current_phase
       integer demand_parts(num_demand_parts)
       data demand_parts /root,leaf,stem,flower/
       save /demand_parts/
 
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
          ! calculate potential new shoot and root growth
          current_phase = int (g_current_stage)
          ! need to calculate dm using potential rue not affected by
          ! N and temperature
          dlt_dm_pot_radn = c_rue(current_phase)*g_radn_int
-
+ 
          call cproc_N_demand1
      :               (
      :                max_part
@@ -4693,39 +4539,44 @@ csc  true....
      :              , G_n_green
      :              , g_N_demand, g_N_max
      :               )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_nit_uptake (Option)
 *     ===========================================================
-
-*+  Short description:
-*     n uptake
-
-*+  Changes:
-*     5/9/96 dph
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
       include 'const.inc'
       include 'convert.inc'
       include   'Maize.inc'
-*   Constant values
+      include 'crp_nitn.pub'                      
+      include 'crp_comm.pub'                      
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
+*     n uptake
+
+*+  Changes
+*     5/9/96 dph
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_nit_uptake')
 
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (p_uptake_source .eq. 'apsim') then
          ! NIH - note that I use a -ve conversion
          ! factor FOR NOW to make it a delta.
@@ -4739,9 +4590,9 @@ csc  true....
      :                ,g_dlt_no3gsm      ! uptake array
      :                ,max_layer         ! array dim
      :                )
-
+ 
       elseif (Option .eq. 1) then
-
+ 
          call cproc_N_uptake1
      :               (
      :                C_no3_diffn_const
@@ -4757,14 +4608,17 @@ csc  true....
      :              , G_root_depth
      :              , g_dlt_NO3gsm
      :               )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_N_conc_limits (
      .          g_current_stage,
@@ -4791,20 +4645,14 @@ csc  true....
      .          N_conc_max,
      .          N_conc_min)
 *     ===========================================================
-
-*+ Short description:
-*       Calculate the critical N concentration below which plant growth
-*       is affected.  Also minimum and maximum N concentrations below
-*       and above which it is not allowed to fall or rise.
-*       These are analogous to the water concentrations
-*       of sat, dul and ll.
-
-*+  Changes:
-*     080994 jngh specified and programmed
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
+      include   'maizcons.inc'
+      include 'crp_phen.pub'                      
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
        real g_current_stage
        real c_N_conc_crit_grain
        real c_N_conc_max_grain
@@ -4831,40 +4679,47 @@ csc  true....
                                        ! (g N/g part)
       real       N_conc_min(*)         ! (OUTPUT) minimum N concentration
                                        ! (g N/g part)
-*   Global variables
-      include   'maizcons.inc'
 
-      integer    count_of_real_vals    ! function
-      real       linear_interp_real    ! function
-      real       Crop_stage_code      ! function
-      logical    stage_is_between      ! function
-*   Internal variables
-      integer    numvals               ! number of values in stage code table
-      real       current_stage_code            ! interpolated current stage code
-*   Constant values
+*+  Purpose
+*       Calculate the critical N concentration below which plant growth
+*       is affected.  Also minimum and maximum N concentrations below
+*       and above which it is not allowed to fall or rise.
+*       These are analogous to the water concentrations
+*       of sat, dul and ll.
+
+*+  Changes
+*     080994 jngh specified and programmed
+
+*+  Calls
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_N_conc_limits')
 
-*-  Executable code section -------------------------------------------
+*+  Local Variables
+      integer    numvals               ! number of values in stage code table
+      real       current_stage_code            ! interpolated current stage code
 
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       call fill_real_array (N_conc_crit, 0.0, max_part)
       call fill_real_array (N_conc_min, 0.0, max_part)
-
+ 
       if (stage_is_between (emerg, maturity, g_current_stage)) then
          N_conc_crit(grain) = c_N_conc_crit_grain
          N_conc_max(grain) = c_N_conc_max_grain
          N_conc_min(grain) = c_N_conc_min_grain
-
+ 
          N_conc_crit(root) = c_N_conc_crit_root
          N_conc_max(root) = c_N_conc_max_root
          N_conc_min(root) = c_N_conc_min_root
-
+ 
              ! the tops critical N percentage concentration is the stover
              ! (non-grain shoot) concentration below which N concentration
              ! begins to affect plant growth.
-
+ 
          numvals = count_of_real_vals (c_x_stage_code, max_stage)
          current_stage_code = Crop_stage_code (
      .          c_stage_code_list,
@@ -4886,77 +4741,81 @@ csc  true....
      :                             , c_x_stage_code
      :                             , c_y_N_conc_crit_flower
      :                             , numvals)
-
+ 
              ! the  minimum N concentration is the N concentration
              ! below which N does not fall.
-
+ 
          N_conc_min(stem) = linear_interp_real (current_stage_code
      :                             , c_x_stage_code
      :                             , c_y_N_conc_min_stem
      :                             , numvals)
-
+ 
          N_conc_min(leaf) = linear_interp_real (current_stage_code
      :                             , c_x_stage_code
      :                             , c_y_N_conc_min_leaf
      :                             , numvals)
-
+ 
          N_conc_min(flower) = linear_interp_real (current_stage_code
      :                             , c_x_stage_code
      :                             , c_y_N_conc_min_flower
      :                             , numvals)
-
+ 
              ! the  maximum N concentration is the N concentration
              ! above which N does not rise.
-
+ 
          N_conc_max(stem) = linear_interp_real (current_stage_code
      :                             , c_x_stage_code
      :                             , c_y_N_conc_max_stem
      :                             , numvals)
-
+ 
          N_conc_max(leaf) = linear_interp_real (current_stage_code
      :                             , c_x_stage_code
      :                             , c_y_N_conc_max_leaf
      :                             , numvals)
-
+ 
          N_conc_max(flower) = linear_interp_real (current_stage_code
      :                             , c_x_stage_code
      :                             , c_y_N_conc_max_flower
      :                             , numvals)
-
+ 
       else
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_nit_stress(Option)
 *     ===========================================================
+      implicit none
+      include   'const.inc'
+      include   'Maize.inc'
+      include 'crp_nitn.pub'                      
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer    Option                ! (INPUT) option number
+
+*+  Purpose
 *     Get current Nitrogen stress factors (0-1)
 
-*+  Changes:
+*+  Changes
 *     010994 jngh specified and programmed
 *     970225 slw modified to split stress factors
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer    Option                ! (INPUT) option number
-*   Global variables
-      include   'const.inc'
-      include   'Maize.inc'
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_nit_stress')
 
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call crop_nfact_pheno(leaf, stem, g_dm_green,
      .                         g_N_conc_crit,
      .                         g_N_conc_min,
@@ -4980,40 +4839,44 @@ csc  true....
      .                     g_N_green,
      .                     c_N_fact_expansion,
      .                     g_nfact_expansion)
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_nit_init (Option)
 *     ===========================================================
-
-*+  Short description:
-*      Initialise plant nitrogen.
-
-*+  Changes:
-*     250894 jngh specified and programmed
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
-      integer    Option                ! (INPUT) option number
-*   Global variables
       include   'const.inc'
       include   'Maize.inc'
-*   Constant values
+      include 'crp_nitn.pub'                      
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      integer    Option                ! (INPUT) option number
+
+*+  Purpose
+*      Initialise plant nitrogen.
+
+*+  Changes
+*     250894 jngh specified and programmed
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_nit_init')
 
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call cproc_N_init1
      :               (
      :                C_n_init_conc
@@ -5024,55 +4887,58 @@ csc  true....
      :              , G_dm_green
      :              , g_N_green
      :               )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_nit_supply (Option)
 *     ===========================================================
-
-*+   Short description:
-*      n supply
-
-*+  Changes:
-*     5/9/96 dph
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
       include 'const.inc'
       include 'convert.inc'
       include   'Maize.inc'
+      include 'data.pub'                          
+      include 'crp_nitn.pub'                      
+      include 'error.pub'                         
 
-      real    sum_real_array           !function
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
 
-*   Constant values
+*+  Purpose
+*      n supply
+
+*+  Changes
+*     5/9/96 dph
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_nit_supply')
-*   Internal variables
+
+*+  Local Variables
       real    fixation_determinant
 
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (p_uptake_source .eq. 'apsim') then
          ! do nothing here for now
          ! I assume that the retrans routine does not need the
          ! call below as it is called on its own from process routine.
          ! -NIH
-
+ 
       elseif (Option .eq. 1) then
-
+ 
          fixation_determinant = sum_real_array(g_dm_green, max_part)
      :                        - g_dm_green(root)
-
+ 
          call cproc_n_supply1 (
      :            g_dlayer
      :          , max_layer
@@ -5090,84 +4956,79 @@ csc  true....
      :          , G_swdef_fixation
      :          , g_N_fix_pot
      :          )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_nit_partition (Option)
 *     ===========================================================
-
-*+  Short description:
-*     nitrogen partition
-
-*+  Changes:
-*     5/9/96 dph
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
       include 'const.inc'
       include   'Maize.inc'
-*   Constant values
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
+*     nitrogen partition
+
+*+  Changes
+*     5/9/96 dph
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_nit_partition')
 
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call Maize_N_partition (
      .          g_root_depth,
      .          g_dlayer,
      .          g_N_demand,
      .          g_N_max,
-     .          g_dlt_NO3gsm, 
+     .          g_dlt_NO3gsm,
      .          g_dlt_N_green
      .                  )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_N_partition(
      .          g_root_depth,
      .          g_dlayer,
      .          g_N_demand,
      .          g_N_max,
-     .          dlt_NO3gsm, 
+     .          dlt_NO3gsm,
      .          dlt_N_green
      .                     )
 *     ===========================================================
- 
-*+  Short description:
-*     Return actual plant nitrogen uptake to each plant part and from
-*     each soil layer.
- 
-*+  Changes:
-*      080994 jngh specified and programmed
- 
-*+  Declaration section -----------------------------------------------
-      implicit none 
-*   Global variables
+      implicit none
       include   'maizcons.inc'
-*   Calls:
-      integer find_layer_no
-      external find_layer_no
-      real divide, l_bound, sum_real_array
-      external divide, l_bound, sum_real_array
-*   Subroutine arguments
+      include 'data.pub'                          
+      include 'error.pub'                         
+      include 'science.pub'                         
+
+*+  Sub-Program Arguments
        real g_root_depth
        real g_dlayer(*)
        real g_N_demand(*)
@@ -5176,7 +5037,19 @@ csc  true....
                                        ! into each plant part (g/m^2)
       real       dlt_NO3gsm(max_layer) ! (OUTPUT) actual plant N uptake
                                        ! from NO3 in each layer (g/m^2)
-*   Internal variables
+
+*+  Purpose
+*     Return actual plant nitrogen uptake to each plant part and from
+*     each soil layer.
+
+*+  Changes
+*      080994 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Maize_N_partition')
+
+*+  Local Variables
       real       plant_part_fract      ! fraction of nitrogen to use (0-1)
                                        ! for plant part
       real       N_uptake_sum          ! total plant N uptake (g/m^2)
@@ -5188,11 +5061,8 @@ csc  true....
       integer    part                  ! plant part number
       integer    deepest_layer         ! deepest layer in which the roots are
                                        ! growing
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Maize_N_partition')
- 
-*-  Executable code section -------------------------------------------
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
                ! find proportion of uptake to be
@@ -5242,16 +5112,27 @@ csc  true....
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_phenology (option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include 'Maize.inc'
+      include 'crp_phen.pub'                      
+      include 'error.pub'                         
 
-*   Short description:
+*+  Sub-Program Arguments
+      integer option
+
+*+  Purpose
 *     Use temperature, photoperiod and genetic characteristics
 *     to determine when the crop begins a new growth phase.
 *     The initial daily thermal time and height are also set.
 
-*   Changes:
+*+  Changes
 *     010994 jngh specified and programmed
 cscc Needs to incorporate water stress and low N effects on phenology
 c usually by slowing down leaf appearance in vegetative phase
@@ -5262,31 +5143,18 @@ c somehow ...
 c But if slow down leaf appearance etc. need to relate that to the leaf area mod
 c (how do we do this w. TPLA approach?)
 
-* ----------------------- Declaration section ------------------------
-      implicit none
-
-*   Subroutine arguments
-      integer option
-
-*   Global variables
-      include 'const.inc'
-      include 'Maize.inc'
-
-*   Internal variables
-      real       phase_dvl           ! fraction of current phase elapsed ()
-
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_phenology')
 
-*   Initial data values
-*       none
+*+  Local Variables
+      real       phase_dvl           ! fraction of current phase elapsed ()
 
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (option .eq. 1)  then
-
+ 
          call cproc_phenology1 (
      :                             g_previous_stage
      :                            ,g_current_stage
@@ -5320,47 +5188,44 @@ c (how do we do this w. TPLA approach?)
      :                            ,g_tt_tot
      :                            ,g_days_tot
      :                            )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_height (Option)
 *     ===========================================================
-
-*   Short description:
-*       canopy height
-
-*   Changes:
-*      5/9/96 dph
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
-
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-
-*   Global variables
       include 'const.inc'
       include   'Maize.inc'
+      include 'crp_cnpy.pub'                      
+      include 'error.pub'                         
 
-*   Constant values
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
+*       canopy height
+
+*+  Changes
+*      5/9/96 dph
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_height')
 
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call cproc_canopy_height
      :               (
      :                G_canopy_height
@@ -5372,47 +5237,43 @@ c (how do we do this w. TPLA approach?)
      :              , stem
      :              , g_dlt_canopy_height
      :               )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_phenology_init (option)
 *     ===========================================================
-
-*   Short description:
-*     Initialise crop growth stage targets
-*   Changes:
-*     240498 igh specified and programmed
-
-* ----------------------- Declaration section ------------------------
       implicit none
-
-*   Subroutine arguments
-      integer option
-
-*   Global variables
       include 'const.inc'
       include 'Maize.inc'
+      include 'error.pub'                         
 
-*   Internal variables
+*+  Sub-Program Arguments
+      integer option
 
-*   Constant values
+*+  Purpose
+*     Initialise crop growth stage targets
+
+*+  Changes
+*     240498 igh specified and programmed
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_phenology_init')
 
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (option .eq. 1)  then
-
+ 
          call maize_phen_init (
      .          g_current_stage,
      .          g_days_tot,
@@ -5441,10 +5302,13 @@ c (how do we do this w. TPLA approach?)
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine maize_phen_init (
      .          g_current_stage,
@@ -5472,22 +5336,13 @@ c (how do we do this w. TPLA approach?)
      .          p_tt_maturity_to_ripe,
      .          phase_tt)
 *     ===========================================================
-
-*   Short description:
-*       Returns cumulative thermal time targets required for the
-*       individual developmental stages.
-
-*   Changes:
-*     010994 jngh specified and programmed
-*     070495 psc added 2nd leaf appearance rate
-*     090695 psc l_bound added (otherwise won't progress if phase_tt=0)
-*     120995 glh restructured routine
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'maizcons.inc'
+      include 'data.pub'                          
+      include 'science.pub'                       
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_current_stage
        real g_days_tot(*)
        real c_shoot_lag
@@ -5515,44 +5370,43 @@ c (how do we do this w. TPLA approach?)
                                        ! degree days required for
                                        ! each stage (deg days)
 
-*   Global variables
-      include   'maizcons.inc'
+*+  Purpose
+*       Returns cumulative thermal time targets required for the
+*       individual developmental stages.
 
-      real       day_length            ! function
-      logical    on_day_of             ! function
-      logical    stage_is_between      ! function
-      real       sum_between           ! function
+*+  Changes
+*     010994 jngh specified and programmed
+*     070495 psc added 2nd leaf appearance rate
+*     090695 psc l_bound added (otherwise won't progress if phase_tt=0)
+*     120995 glh restructured routine
 
-*   Internal variables
-      real       tt_emerg_to_flag_leaf ! thermal time to develop
-                                       ! and fully expand all leaves (oC)
-      real       photoperiod           ! daylength (hours)
-
-      real       leaf_no               ! leaf no. above which app. rate changes
-
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'maize_phen_init')
 
-*   Initial data values
-*       none
+*+  Local Variables
+      real       tt_emerg_to_flag_leaf ! thermal time to develop
+                                       ! and fully expand all leaves (oC)
+      real       photoperiod           ! daylength (hours)
+*
+      real       leaf_no               ! leaf no. above which app. rate changes
 
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
 ! set estimates of phase thermal time targets at germination
-
+ 
       if (on_day_of (germ, g_current_stage, g_days_tot)) then
          phase_tt(germ_to_emerg) = c_shoot_lag
      :                           + g_sowing_depth*c_shoot_rate
          phase_tt(emerg_to_endjuv) = p_tt_emerg_to_endjuv
          phase_tt(endjuv_to_init) = p_tt_endjuv_to_init
-
+ 
 ! revise thermal time target for floral initialisation at emergence
-
+ 
       elseif (on_day_of (emerg, g_current_stage, g_days_tot)) then
-
+ 
          photoperiod = day_length (g_day_of_year, g_latitude,
      :                                                  c_twilight)
          if (photoperiod.le.p_photoperiod_crit1) then
@@ -5566,11 +5420,11 @@ c (how do we do this w. TPLA approach?)
      :                              - p_photoperiod_crit1)
          else
          endif
-
+ 
 ! revise thermal time target for floral initialisation up to initialisation
 ! glh revise thermal time target for floral initialisation up to endjuv
 !     pp at start of period more influential than pp at end of period
-
+ 
 ! glh      elseif (stage_is_between (emerg, floral_init
       elseif (stage_is_between (emerg, endjuv
      :                        , g_current_stage)) then
@@ -5587,12 +5441,12 @@ c (how do we do this w. TPLA approach?)
      :                                 - p_photoperiod_crit1)
          else
          endif
-
+ 
 ! set estimates of phase thermal time targets at initiation
-
+ 
       elseif (on_day_of (floral_init, g_current_stage
      :                 , g_days_tot)) then
-
+ 
 c scc/glh changed this to speed up last few leaves before
 c flag leaf (as opposed to psc 'slow down the first leaves' approach)
 cpsc
@@ -5604,100 +5458,105 @@ cjh
      :                         * c_leaf_app_rate1
      :                         + (g_leaf_no_final - leaf_no)
      :                         * c_leaf_app_rate2
-
+ 
 !         tt_emerg_to_flag_leaf = (g_leaf_no_final - c_leaf_no_at_emerg)
 !     :                         * c_leaf_app_rate
-
+ 
          phase_tt(init_to_flag) = tt_emerg_to_flag_leaf
      :              - sum_between (emerg, floral_init, g_tt_tot)
-
+ 
          phase_tt(flag_to_flower) = p_tt_flag_to_flower
-
+ 
          phase_tt(flower_to_start_grain) = p_tt_flower_to_start_grain
-
+ 
 !         phase_tt(end_grain_to_maturity) = 0.05*p_tt_flower_to_maturity
           phase_tt(end_grain_to_maturity) = 0.01*p_tt_flower_to_maturity
-
+ 
          phase_tt(start_to_end_grain) = p_tt_flower_to_maturity
      :                                - phase_tt(flower_to_start_grain)
      :                                - phase_tt(end_grain_to_maturity)
          phase_tt(maturity_to_ripe) = p_tt_maturity_to_ripe
-
+ 
       else
           ! do nothing
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_leaf_area_sen_actual (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include 'Maize.inc'
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
 *     calculate dlt_slai
 
-
-*+  Changes:
+*+  Changes
 *     5/9/96 dph
 *     970318 slw new template version
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
-      include 'const.inc'
-      include 'Maize.inc'
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_leaf_area_sen_actual')
 
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          ! now take largest of deltas
          g_dlt_slai = max (g_dlt_slai_age
      :                 , g_dlt_slai_light
      :                 , g_dlt_slai_water
      :                 , g_dlt_slai_frost)
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_leaf_death (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include   'Maize.inc'
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
 *     leaf death.
 
-*+  Changes:
+*+  Changes
 *     5/9/96 dph
 *     970318 slw new template version
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
-      include 'const.inc'
-      include   'Maize.inc'
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_leaf_death')
 
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
          call Maize_leaf_death0 (
      .          g_leaf_no_dead,
@@ -5708,14 +5567,17 @@ cjh
      .          g_leaf_no_final,
      .          g_days_tot,
      .          g_dlt_leaf_no_dead)
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_leaf_death0 (
      .          g_leaf_no_dead,
@@ -5727,17 +5589,13 @@ cjh
      .          g_days_tot,
      .          dlt_leaf_no_dead)
 *     ===========================================================
-
-*+  Short description:
-*     Return the fractional death of oldest green leaf.
-
-*+  Changes:
-*     010994 jngh specified and programmed
-*     970318 slw new template version
-
-*+  Declaration section -----------------------------------------------
       implicit none
-*   Subroutine arguments
+      include   'maizcons.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
        real g_leaf_no_dead(*)
        real g_current_stage
        real c_leaf_no_dead_const
@@ -5747,76 +5605,83 @@ cjh
        real g_days_tot(*)
       real       dlt_leaf_no_dead      ! (OUTPUT) new fraction of oldest
                                        ! green leaf
-*   Global variables
-      include   'maizcons.inc'
-      real       bound                 ! function
-      logical    on_day_of             ! function
-      logical    stage_is_between      ! function
-      real       sum_between           ! function
-*   Internal variables
-      real       leaf_no_dead_today    ! total number of dead leaves today
-      real       leaf_no_dead_yesterday ! total number of dead leaves
-                                        ! yesterday
-*   Constant values
+
+*+  Purpose
+*     Return the fractional death of oldest green leaf.
+
+*+  Changes
+*     010994 jngh specified and programmed
+*     970318 slw new template version
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_leaf_death0')
 
-*-  Executable code section -------------------------------------------
+*+  Local Variables
+      real       leaf_no_dead_today    ! total number of dead leaves today
+      real       leaf_no_dead_yesterday ! total number of dead leaves
+                                        ! yesterday
 
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
 cpsc need to develop leaf senescence functions for crop
-
+ 
       leaf_no_dead_yesterday = sum_between (emerg, now, g_leaf_no_dead)
-
+ 
       if (stage_is_between (emerg, harvest_ripe, g_current_stage)) then
          leaf_no_dead_today = (c_leaf_no_dead_const
      :                        + c_leaf_no_dead_slope
      :                        * sum_between (emerg, now, g_tt_tot))
      :                        * g_leaf_no_final
-
+ 
       elseif (on_day_of (harvest_ripe
      :                 , g_current_stage, g_days_tot)) then
          leaf_no_dead_today = g_leaf_no_final
-
+ 
       else
          leaf_no_dead_today = 0.0
       endif
-
+ 
       leaf_no_dead_today = bound (leaf_no_dead_today
      :                           , leaf_no_dead_yesterday
      :                           , g_leaf_no_final)
       dlt_leaf_no_dead = leaf_no_dead_today - leaf_no_dead_yesterday
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_sen_bio (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include   'Maize.inc'
+      include 'crp_biom.pub'                      
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
 *     biomass senescence
 
-*+  Changes:
+*+  Changes
 *      5/9/96 dph
 *     970318 slw new template version
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
-      include 'const.inc'
-      include   'Maize.inc'
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_sen_bio')
 
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
          call crop_dm_senescence0(max_part, root, leaf, stem,
      .          c_dm_leaf_sen_frac,
@@ -5828,87 +5693,95 @@ cpsc need to develop leaf senescence functions for crop
      .          g_dm_green,
      .          g_lai,
      .          g_dlt_dm_senesced)
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_sen_nit (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include   'Maize.inc'
+      include 'crp_nitn.pub'                      
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
 *     biomass senescence
 
-*+  Changes:
+*+  Changes
 *     5/9/96 dph
 *     970318 slw new template version
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
-      include 'const.inc'
-      include   'Maize.inc'
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_sen_nit')
 
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call cproc_N_senescence1 (max_part
      :                              , c_n_sen_conc
      :                              , g_dlt_dm_senesced
      :                              , g_n_green
      :                              , g_dm_green
      :                              , g_dlt_N_senesced)
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_leaf_area_sen (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include   'Maize.inc'
+      include 'crp_cnpy.pub'                      
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
 *     leaf area senesence - age
 
-*+  Changes:
+*+  Changes
 *     5/9/96 dph
 *     970318 slw new template version
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
-      include 'const.inc'
-      include   'Maize.inc'
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_leaf_area_sen')
 
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
          ! Standard routine derived from Ceres - simpler ?
          !TEMPLATE OPTION alternative routine (1) developed by GLH - mechanistic
-
+ 
       if (Option .eq. 1) then
-
+ 
          call cproc_leaf_area_sen1
      :               (
      :                emerg
@@ -5936,14 +5809,17 @@ cpsc need to develop leaf senescence functions for crop
      :              , g_dlt_slai_frost
      :              , g_dlt_slai
      :               )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_update (
      .          g_dlt_N_dead_detached,
@@ -6039,17 +5915,14 @@ cpsc need to develop leaf senescence functions for crop
      .          g_dlt_root_length,
      .          g_dlt_root_length_senesced)
 *     ===========================================================
-
-*   Short description:
-*       Update states
-
-*   Changes:
-*      250894 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
       implicit none
+      include   'convert.inc'
+      include   'maizcons.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_dlt_N_dead_detached(*)
        real g_N_dead(*)
        real g_dlt_N_green(*)
@@ -6143,19 +6016,17 @@ cpsc need to develop leaf senescence functions for crop
        real g_dlt_root_length(*)
        real g_dlt_root_length_senesced(*)
 
-*   Global variables
-      include   'convert.inc'
-      include   'maizcons.inc'
+*+  Purpose
+*       Update states
 
-*   Calls:
-      real       bound
-      real       divide
-      real       sum_between
-      external       bound
-      external       divide
-      external       sum_between
+*+  Changes
+*      250894 jngh specified and programmed
 
-*   Internal variables
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Maize_update')
+
+*+  Local Variables
       real       dlt_dm_plant          ! dry matter increase (g/plant)
       real       dlt_leaf_area         ! leaf area increase (mm^2/plant)
       real       dlt_dm_green_dead     ! dry matter of green plant part dying
@@ -6174,27 +6045,20 @@ cpsc need to develop leaf senescence functions for crop
       real       leaf_no               ! currently expanding leaf no.
       integer    part                  ! plant part index
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Maize_update')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
          ! Note.
          ! Accumulate is used to add a value into a specified array element.
          ! If a specified increment of the element indicates a new element
          ! is started, the value is distributed proportionately between the
          ! two elements of the array
-
+ 
          ! Add is used to add the elements of one array into the corresponding
          ! elements of another array.
-
+ 
          ! now update with deltas
-
+ 
          ! The following table describes the transfer of material that should
          ! take place
          !                        POOLS
@@ -6204,96 +6068,96 @@ cpsc need to develop leaf senescence functions for crop
          ! dlt_senesced      -      +
          ! dlt_dead          -      -       +
          ! dlt_detached             -       -      (outgoing only)
-
+ 
          ! transfer N
-
+ 
       call subtract_real_array (g_dlt_N_dead_detached, g_N_dead
      :                        , max_part)
-
+ 
       call add_real_array (g_dlt_N_green, g_N_green, max_part)
       call add_real_array (g_dlt_N_retrans, g_N_green, max_part)
       call subtract_real_array (g_dlt_N_senesced, g_N_green
      :                        , max_part)
-
+ 
       call add_real_array (g_dlt_N_senesced, g_N_senesced
      :                   , max_part)
       call subtract_real_array (g_dlt_N_detached, g_N_senesced
      :                        , max_part)
-
+ 
       dying_fract = divide (-g_dlt_plants, g_plants, 0.0)
       dying_fract = bound (dying_fract, 0.0, 1.0)
-
+ 
       do 1000 part = 1, max_part
          dlt_N_green_dead = g_N_green(part) * dying_fract
          g_N_green(part) = g_N_green(part) - dlt_N_green_dead
          g_N_dead(part) = g_N_dead(part) + dlt_N_green_dead
-
+ 
          dlt_N_senesced_dead = g_N_senesced(part) * dying_fract
          g_N_senesced(part) = g_N_senesced(part) - dlt_N_senesced_dead
          g_N_dead(part) = g_N_dead(part) + dlt_N_senesced_dead
 1000  continue
-
-
+ 
+ 
          ! Transfer plant dry matter
-
+ 
       dlt_dm_plant = divide (g_dlt_dm, g_plants, 0.0)
-
+ 
       call accumulate (dlt_dm_plant, g_dm_plant_top_tot
      :               , g_previous_stage, g_dlt_stage)
-
+ 
       call subtract_real_array (g_dlt_dm_dead_detached, g_dm_dead
      :                        , max_part)
-
+ 
       call add_real_array (g_dlt_dm_green, g_dm_green, max_part)
       call add_real_array (g_dlt_dm_green_retrans, g_dm_green, max_part)
       call subtract_real_array (g_dlt_dm_senesced, g_dm_green
      :                        , max_part)
-
+ 
       call add_real_array (g_dlt_dm_senesced, g_dm_senesced
      :                   , max_part)
       call subtract_real_array (g_dlt_dm_detached, g_dm_senesced
      :                        , max_part)
-
+ 
       do 2000 part = 1, max_part
          dlt_dm_green_dead = g_dm_green(part) * dying_fract
          g_dm_green(part) = g_dm_green(part) - dlt_dm_green_dead
          g_dm_dead(part) = g_dm_dead(part) + dlt_dm_green_dead
-
+ 
          dlt_dm_senesced_dead = g_dm_senesced(part) * dying_fract
          g_dm_senesced(part) = g_dm_senesced(part)
      :                       - dlt_dm_senesced_dead
          g_dm_dead(part) = g_dm_dead(part) + dlt_dm_senesced_dead
 2000  continue
-
+ 
 cjh
          ! transfer plant grain no.
       dlt_grain_no_lost  = g_grain_no * dying_fract
       g_grain_no = g_grain_no - dlt_grain_no_lost
 cglh
          ! update fertile no (pluses and minuses are the best I can do!)
-
+ 
       g_tiller_no_fertile = g_tiller_no_fertile + g_dlt_tiller_no
      :                                         - g_dlt_stiller_no
-
+ 
          ! transfer plant leaf area
-
+ 
       g_lai = g_lai + g_dlt_lai - g_dlt_slai
       g_slai = g_slai + g_dlt_slai - g_dlt_slai_detached
-
+ 
       dlt_lai_dead  = g_lai  * dying_fract
       dlt_slai_dead = g_slai * dying_fract
-
+ 
       g_lai = g_lai - dlt_lai_dead
       g_slai = g_slai - dlt_slai_dead
       g_tlai_dead = g_tlai_dead + dlt_lai_dead + dlt_slai_dead
      :            - g_dlt_tlai_dead_detached
-
+ 
          ! now update new canopy covers
       ! NIH really this should be available as an option but I did not
       ! want to copy the entire update routine as a new option as other
       ! changes may be required.  I would then have to make every
       ! permutation of changes to allow user flexibility!
-
+ 
       call Maize_cover1 (
      .          g_row_spacing,
      .          c_kvalue_rowspace,
@@ -6313,28 +6177,28 @@ cglh
      .          c_num_kvalue_rowspace,
      .          g_cover_dead, c_extinction_coef_dead
      :          , g_tlai_dead)
-
+ 
          ! plant leaf development
          ! need to account for truncation of partially developed leaf (add 1)
       leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
       dlt_leaf_area = divide (g_dlt_lai, g_plants, 0.0) * sm2smm
       call accumulate (dlt_leaf_area, g_leaf_area
      :               , leaf_no, g_dlt_leaf_no)
-
+ 
       call accumulate (g_dlt_leaf_no, g_leaf_no
      :               , g_previous_stage, g_dlt_stage)
-
+ 
       call accumulate (g_dlt_leaf_no_dead, g_leaf_no_dead
      :               , g_previous_stage, g_dlt_stage)
-
+ 
          ! plant stress
-
+ 
       call accumulate (g_dlt_heat_stress_tt, g_heat_stress_tt
      :               , g_previous_stage, g_dlt_stage)
-
+ 
       call accumulate (g_dlt_dm_stress_max, g_dm_stress_max
      :               , g_current_stage, g_dlt_stage)
-
+ 
       call accumulate (1.0 - g_swdef_photo
      .               , g_cswd_photo
      :               , g_previous_stage, g_dlt_stage)
@@ -6344,16 +6208,16 @@ cglh
       call accumulate (1.0 - g_swdef_pheno
      .               , g_cswd_pheno
      :               , g_previous_stage, g_dlt_stage)
-
+ 
       call accumulate (1.0 - g_nfact_photo
      .               , g_cnd_photo
      :               , g_previous_stage, g_dlt_stage)
       call accumulate (1.0 - g_nfact_grain_conc
      .               , g_cnd_grain_conc
      :               , g_previous_stage, g_dlt_stage)
-
+ 
          ! other plant states
-
+ 
       g_canopy_height = g_canopy_height + g_dlt_canopy_height
       g_plants = g_plants + g_dlt_plants
       g_root_depth = g_root_depth + g_dlt_root_depth
@@ -6363,8 +6227,8 @@ cglh
       call subtract_real_array (g_dlt_root_length_senesced
      :                         ,g_root_length
      :                         ,max_layer)
-
-
+ 
+ 
       call Maize_N_conc_limits (
      .          g_current_stage,
      .          c_N_conc_crit_grain,
@@ -6389,10 +6253,13 @@ cglh
      .          g_N_conc_crit,
      .          g_N_conc_max,
      .          g_N_conc_min)  ! plant N concentr
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_check_bounds (
      .          g_leaf_no,
@@ -6425,18 +6292,12 @@ cglh
      .          g_dm_green,
      .          g_dm_senesced)
 *     ===========================================================
-
-*   Short description:
-*         Check bounds of internal pools
-
-*   Changes:
-*     010994 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'maizcons.inc'
+      include 'data.pub'                          
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_leaf_no(*)
        real g_leaf_no_dead(*)
        real g_root_depth
@@ -6467,123 +6328,120 @@ cglh
        real g_dm_green(*)
        real g_dm_senesced(*)
 
-*   Global variables
-      include   'maizcons.inc'
+*+  Purpose
+*         Check bounds of internal pools
 
-      real       sum_real_array        ! function
+*+  Changes
+*     010994 jngh specified and programmed
 
-*   Internal variables
-                                       ! top (g/m^2)
-
-
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_check_bounds')
 
-*   Initial data values
-*     none
+*+  Local Variables
+                                       ! top (g/m^2)
 
-* --------------------- Executable code section ----------------------
-
-
+*- Implementation Section ----------------------------------
+ 
+ 
       call push_routine (my_name)
-
+ 
       call bound_check_real_var
      :           (sum_real_array (g_leaf_no, max_stage)
      :          , 0.0
      :          , real (max_leaf)
      :          , 'leaf_no')
-
+ 
       call bound_check_real_var
      :           (sum_real_array (g_leaf_no_dead, max_stage)
      :          , 0.0
      :          , real (max_leaf)
      :          , 'leaf_no_dead')
-
+ 
       call bound_check_real_var
      :           (g_root_depth
      :          , 0.0
      :          , sum_real_array (g_dlayer, max_layer)
      :          , 'root_depth')
-
+ 
       call bound_check_real_var
      :           (g_grain_no
      :          , 0.0
      :          , p_head_grain_no_max * g_plants
      :          , 'grain_no')
-
+ 
       call bound_check_real_var
      :           (g_current_stage
      :          , 0.0
      :          , real (max_stage)
      :          , 'current_stage')
-
+ 
       call bound_check_real_var
      :           (sum_real_array (g_phase_tt, max_stage)
      :          , 0.0
      :          , 1000000.0
      :          , 'phase_tt')
-
+ 
       call bound_check_real_var
      :           (sum_real_array (g_days_tot, max_stage)
      :          , 0.0
      :          , 40000.0
      :          , 'days_tot')
-
+ 
       call bound_check_real_var
      :           (sum_real_array (g_tt_tot, max_stage)
      :          , 0.0
      :          , 40000.0
      :          , 'tt_tot')
-
+ 
       call bound_check_real_var
      :           (g_plants
      :          , 0.0
      :          , 10000.0
      :          , 'plants')
-
+ 
       call bound_check_real_var
      :           (g_lai
      :          , 0.0
      :          , 30.0 - g_slai - g_tlai_dead
      :          , 'lai')
-
+ 
       call bound_check_real_var
      :           (g_slai
      :          , 0.0
      :          , 30.0 - g_lai - g_tlai_dead
      :          , 'slai')
-
+ 
       call bound_check_real_var
      :           (g_tlai_dead
      :          , 0.0
      :          , 30.0 - g_slai - g_lai
      :          , 'tlai_dead')
-
+ 
       call bound_check_real_var
      :           (g_cover_green
      :          , 0.0
      :          , 1.0
      :          , 'cover_green')
-
+ 
       call bound_check_real_var
      :           (g_cover_sen
      :          , 0.0
      :          , 1.0
      :          , 'cover_sen')
-
+ 
       call bound_check_real_var
      :           (g_cover_dead
      :          , 0.0
      :          , 1.0
      :          , 'cover_dead')
-
+ 
       call bound_check_real_var
      :           (sum_real_array (g_leaf_area, max_leaf)
      :          , 0.0
      :          , 10000000.0
      :          , 'leaf_area')
-
+ 
       call bound_check_real_var
      :           (sum_real_array (g_heat_stress_tt, max_stage)
      :          , 0.0
@@ -6594,70 +6452,73 @@ cglh
      :          , 0.0
      :          , 1000000.0
      :          , 'dm_stress_max')
-
+ 
       call bound_check_real_var
      :           (sum_real_array (g_N_conc_crit, max_part)
      :          , sum_real_array (g_N_conc_min, max_part)
      :          , sum_real_array (g_N_conc_max, max_part)
      :          , 'N_conc_crit')
-
+ 
       call bound_check_real_var
      :           (sum_real_array (g_N_conc_max, max_part)
      :          , sum_real_array (g_N_conc_crit, max_part)
      :          , 1.0
      :          , 'N_conc_max')
-
+ 
       call bound_check_real_var
      :           (sum_real_array (g_N_conc_min, max_part)
      :          , 0.0
      :          , sum_real_array (g_N_conc_crit, max_part)
      :          , 'N_conc_min')
-
+ 
       call bound_check_real_var
      :           (sum_real_array (g_N_dead, max_part)
      :          , 0.0
      :          , 10000.0 - sum_real_array (g_N_green, max_part)
      :                    - sum_real_array (g_N_senesced, max_part)
      :          , 'N_dead')
-
+ 
       call bound_check_real_var
      :           (sum_real_array (g_N_green, max_part)
      :          , 0.0
      :          , 10000.0 - sum_real_array (g_N_dead, max_part)
      :                    - sum_real_array (g_N_senesced, max_part)
      :          , 'N_green')
-
+ 
       call bound_check_real_var
      :           (sum_real_array (g_N_senesced, max_part)
      :          , 0.0
      :          , 10000.0 - sum_real_array (g_N_green, max_part)
      :                    - sum_real_array (g_N_dead, max_part)
      :          , 'N_senesced')
-
+ 
       call bound_check_real_var
      :           (sum_real_array (g_dm_dead, max_part)
      :          , 0.0
      :          , 10000.0 - sum_real_array (g_dm_green, max_part)
      :                    - sum_real_array (g_dm_senesced, max_part)
      :          , 'dm_dead')
-
+ 
       call bound_check_real_var
      :           (sum_real_array (g_dm_green, max_part)
      :          , 0.0
      :          , 10000.0 - sum_real_array (g_dm_dead, max_part)
      :                    - sum_real_array (g_dm_senesced, max_part)
      :          , 'dm_green')
-
+ 
       call bound_check_real_var
      :           (sum_real_array (g_dm_senesced, max_part)
      :          , 0.0
      :          , 10000.0 - sum_real_array (g_dm_green, max_part)
      :                    - sum_real_array (g_dm_dead, max_part)
      :          , 'dm_senesced')
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_totals (
      .          g_N_green,
@@ -6687,18 +6548,13 @@ cglh
      .          g_N_senesced,
      .          g_day_of_year)
 *     ===========================================================
-
-*   Short description:
-*         Collect totals of crop variables for output
-
-*   Changes:
-*     010994 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'maizcons.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_N_green(*)
        real g_dm_green(*)
        real g_dlt_N_retrans(*)
@@ -6726,18 +6582,21 @@ cglh
        real g_N_senesced(*)
        integer g_day_of_year
 
-*   Global variables
-      include   'maizcons.inc'
+*+  Purpose
+*         Collect totals of crop variables for output
+
+*+  Changes
+*     010994 jngh specified and programmed
+
+*+  Calls
 cpsc  add below
 cjh      include   'convert.inc'          ! gm2kg, sm2ha, sm2smm
 
-      real       divide                ! function
-      integer    find_layer_no         ! function
-      logical    on_day_of             ! function
-      real       sum_between           ! function
-      real       sum_real_array        ! function
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Maize_totals')
 
-*   Internal variables
+*+  Local Variables
       real       N_conc_stover         ! tops actual N concentration
                                        ! (g N/g part)
       integer    deepest_layer         ! deepest layer in which the roots are
@@ -6755,40 +6614,32 @@ cpsc add below
       real       N_senesced            ! above ground senesced plant N
       real       N_stover              ! nitrogen content of stover
 
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Maize_totals')
-
-*   Initial data values
-*     none
-
-* --------------------- Executable code section ----------------------
-
-
+*- Implementation Section ----------------------------------
+ 
+ 
       call push_routine (my_name)
-
+ 
              ! get totals
       N_conc_stover = divide ((g_N_green(leaf)
      :                       + g_N_green(stem)
      :                       + g_N_green(flower))
-
+ 
      :                      , (g_dm_green(leaf)
      :                       + g_dm_green(stem)
      :                       + g_dm_green(flower))
      :                       , 0.0)
-
+ 
       N_uptake = sum_real_array (g_dlt_N_retrans, max_part)
       N_uptake_stover =  g_dlt_N_retrans(leaf) + g_dlt_N_retrans(stem)
-
+ 
           ! note - g_N_conc_crit should be done before the stages change
-
+ 
       N_conc_stover_crit = (g_N_conc_crit(leaf) + g_N_conc_crit(stem))
      :                   * 0.5
       N_green_demand = sum_real_array (g_N_demand, max_part)
-
+ 
       deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
-
+ 
       if (on_day_of (sowing, g_current_stage, g_days_tot)) then
          g_N_uptake_tot = N_uptake
          g_transpiration_tot =
@@ -6799,7 +6650,7 @@ cpsc add below
          g_N_uptake_stover_tot = N_uptake_stover
          g_N_uptake_grain_tot = sum_real_array (g_dlt_N_retrans
      :                                        , max_part)
-
+ 
       else
          g_N_uptake_tot = g_N_uptake_tot + N_uptake
          g_transpiration_tot = g_transpiration_tot
@@ -6813,9 +6664,9 @@ cpsc add below
          g_N_uptake_grain_tot = g_N_uptake_grain_tot
      :                        + sum_real_array (g_dlt_N_retrans
      :                                        , max_part)
-
+ 
       endif
-
+ 
       g_lai_max = max (g_lai_max, g_lai)
       if (on_day_of (flowering, g_current_stage, g_days_tot)) then
          g_flowering_date = g_day_of_year
@@ -6825,32 +6676,35 @@ cpsc add below
          g_maturity_das  = sum_between (sowing, now, g_days_tot)
       else
       endif
-
+ 
 cpsc add below 07/04/95
-
+ 
       N_grain = (g_N_green(grain) + g_N_dead(grain))
-
+ 
       N_green = (sum_real_array (g_N_green, max_part)
      :        - g_N_green(root) - g_N_green(grain))
-
+ 
       N_senesced = (sum_real_array (g_N_senesced, max_part)
      :           - g_N_senesced(root) - g_N_senesced(grain))
-
+ 
       N_dead = (sum_real_array (g_N_dead, max_part)
      :       - g_N_dead(root) - g_N_dead(grain))
-
+ 
       N_stover = N_green + N_senesced + N_dead
-
+ 
       g_N_uptake_grain_tot = N_grain
       g_N_uptake_stover_tot = N_stover
       g_N_uptake_tot = N_grain + N_stover
-
+ 
 cpsc  add above
-
-
+ 
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_event (
      .          g_current_stage,
@@ -6866,21 +6720,18 @@ cpsc  add above
      .          g_sw_dep,
      .          p_ll_dep,
      .          g_lai)
-
+ 
 *     ===========================================================
-
-*   Short description:
-*       Report occurence of event and the current status of specific
-*       variables.
-
-*   Changes:
-*     010994 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'const.inc'            ! new_line, lu_scr_sum, blank,
+      include   'convert.inc'
+      include   'maizcons.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'write.pub'                         
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_current_stage
        real g_days_tot(*)
        real c_stage_code_list(*)
@@ -6895,20 +6746,21 @@ cpsc  add above
        real p_ll_dep(*)
        real g_lai
 
-*   Global variables
-      include   'const.inc'            ! new_line, lu_scr_sum, blank,
+*+  Purpose
+*       Report occurence of event and the current status of specific
+*       variables.
+
+*+  Changes
+*     010994 jngh specified and programmed
+
+*+  Calls
                                        ! lu_scr_sum
-      include   'convert.inc'
-      include   'maizcons.inc'
 
-      real       divide                ! function
-      integer    find_layer_no         ! function
-      real       l_bound               ! function
-      logical    on_day_of             ! function
-      logical    stage_is_between      ! function
-      real       sum_real_array        ! function
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Maize_event')
 
-*   Internal variables
+*+  Local Variables
       real       biomass               ! total above ground plant wt (g/m^2)
       integer    deepest_layer         ! deepest layer in which the roots are
                                        ! growing
@@ -6922,18 +6774,12 @@ cpsc  add above
       character  string*200            ! message
       real       N_green_conc_percent  ! n% of tops less flower (incl grain)
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Maize_event')
-
-*   Initial data values
-*       none
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       stage_no = int (g_current_stage)
-
+ 
       if (on_day_of (stage_no, g_current_stage, g_days_tot)) then
              ! new phase has begun.
          write (string, '(a, f6.1, 1x, a)')
@@ -6941,24 +6787,24 @@ cpsc  add above
      :                  , c_stage_code_list(stage_no)
      :                  , c_stage_names(stage_no)
          call report_event (string)
-
+ 
          biomass = sum_real_array (g_dm_green, max_part)
      :           - g_dm_green(root)
-
+ 
      :           + sum_real_array (g_dm_senesced, max_part)
      :           - g_dm_senesced(root)
-
+ 
      :           + sum_real_array (g_dm_dead, max_part)
      :           - g_dm_dead(root)
-
+ 
          dm_green = sum_real_array (g_dm_green, max_part)
      :            - g_dm_green(root)
          N_green = sum_real_array (g_N_green, max_part)
      :           - g_N_green(root)
-
+ 
          N_green_conc_percent = divide (N_green, dm_green, 0.0)
      :                        * fract2pcnt
-
+ 
          deepest_layer = find_layer_no (g_root_depth, g_dlayer
      :                                , max_layer)
          do 1000 layer = 1, deepest_layer
@@ -6966,7 +6812,7 @@ cpsc  add above
             pesw(layer) = l_bound (pesw(layer), 0.0)
 1000     continue
          pesw_tot = sum_real_array (pesw, deepest_layer)
-
+ 
          if (stage_is_between (emerg, plant_end, g_current_stage)) then
             write (string, '(2(a, g16.7e2), a, 2(a, g16.7e2))')
      :              '                     biomass =       '
@@ -6981,13 +6827,16 @@ cpsc  add above
             call write_string (lu_scr_sum, string)
          else
          endif
-
+ 
       else
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_cover (
      .          g_row_spacing,
@@ -6996,46 +6845,39 @@ cpsc  add above
      .          extinction_coef,
      .          lai)
 *     ===========================================================
-
-*   Short description:
-*       'Cover' by leaves (0-1) . Fraction of radiation reaching the
-*       canopy, intercepted by the leaves of the canopy.
-
-*   Changes:
-*     040895 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_row_spacing
        real c_extinction_coef_change
-
+*
       real       cover_leaf            ! (OUTPUT) fraction of radn that is
                                        !  intercepted by leaves (0-1)
       real       extinction_coef       ! (INPUT) extinction coefficient ()
       real       lai                   ! (INPUT) leaf area index ()
 
-*   Global variables
+*+  Purpose
+*       'Cover' by leaves (0-1) . Fraction of radiation reaching the
+*       canopy, intercepted by the leaves of the canopy.
 
-*   Internal variables
-      real       k_coef                ! extinction coefficient
+*+  Changes
+*     040895 jngh specified and programmed
 
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_cover')
 
-*   Initial data values
-*       none
+*+  Local Variables
+      real       k_coef                ! extinction coefficient
 
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
          ! this equation implies that leaf interception of
          ! solar radiation obeys Beer's law
-
+ 
       if (g_row_spacing .gt. 0.0) then
          k_coef = exp (-c_extinction_coef_change
      :                * extinction_coef
@@ -7043,45 +6885,45 @@ cpsc  add above
       else
          k_coef = extinction_coef
       endif
-
+ 
       cover_leaf = 1.0 - exp (-k_coef * lai)
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_root_distrib (
      .          g_root_depth,
      .          g_dlayer,
      .          root_array, root_sum)
 *     ===========================================================
-
-*   Short description:
-*       Distribute root material over profile
-
-*   Changes:
-*       290994 jngh specified and programmed
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'maizcons.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_root_depth
        real g_dlayer(*)
       real       root_array(*)         ! (OUTPUT) array to contain
                                        ! distributed material
       real       root_sum              ! (INPUT) Material to be distributed
 
-*   Global variables
-      include   'maizcons.inc'
+*+  Purpose
+*       Distribute root material over profile
 
-      real       divide                ! function
-      integer    find_layer_no         ! function
-      real       sum_real_array        ! function
-      real       u_bound               ! function
+*+  Changes
+*       290994 jngh specified and programmed
 
-*   Internal variables
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'Maize_root_distrib')
+
+*+  Local Variables
       real       cum_depth             ! cumulative depth (mm)
       integer    layer                 ! layer number ()
       integer    deepest_layer         ! deepest layer in which the roots are
@@ -7089,21 +6931,14 @@ cpsc  add above
       real       root_distrb(max_layer) ! root distribution ()
       real       root_distrb_sum       ! sum of root distribution array
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'Maize_root_distrib')
-
-*   Initial data values
-*     none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
              ! distribute roots over profile to root_depth
-
+ 
       call fill_real_array (root_array, 0.0, max_layer)
       call fill_real_array (root_distrb, 0.0, max_layer)
-
+ 
       deepest_layer = find_layer_no (g_root_depth, g_dlayer
      :                                , max_layer)
       cum_depth = 0.0
@@ -7113,17 +6948,20 @@ cpsc  add above
          root_distrb(layer) = exp (-3.0 * divide (cum_depth
      :                                          , g_root_depth, 0.0))
 1000  continue
-
+ 
       root_distrb_sum = sum_real_array (root_distrb, deepest_layer)
       do 2000 layer = 1, deepest_layer
          root_array(layer) = root_sum * divide (root_distrb(layer)
      :                                        , root_distrb_sum, 0.0)
-
+ 
 2000  continue
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_root_incorp (
      .          g_root_depth,
@@ -7131,55 +6969,48 @@ cpsc  add above
      .          c_crop_type,
      .          dlt_dm_root, dlt_N_root)
 *     ===========================================================
-
-*   Short description:
-*       Add root residue to root residue pool
-
-*   Changes:
-*       220794 jngh specified and programmed
-*       170895 jngh changed message send to message pass to module
-*       220896 jngh changed to post_ construct
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
+      include   'const.inc'            ! all_active_modules
+      include   'convert.inc'
+      include   'maizcons.inc'
+      include 'science.pub'                       
+      include 'engine.pub'                        
+      include 'intrface.pub'                      
+      include 'error.pub'                         
 
-*   Subroutine arguments
+*+  Sub-Program Arguments
        real g_root_depth
        real g_dlayer(*)
        character c_crop_type*(*)
       real       dlt_dm_root           ! (INPUT) new root residue dm (g/m^2)
       real       dlt_N_root            ! (INPUT) new root residue N (g/m^2)
 
-*   Global variables
-      include   'const.inc'            ! all_active_modules
-      include   'convert.inc'
-      include   'maizcons.inc'
+*+  Purpose
+*       Add root residue to root residue pool
 
-      integer    find_layer_no         ! function
+*+  Changes
+*       220794 jngh specified and programmed
+*       170895 jngh changed message send to message pass to module
+*       220896 jngh changed to post_ construct
 
-*   Internal variables
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'Maize_root_incorp')
+
+*+  Local Variables
       integer    deepest_layer         ! deepest layer in which the roots are
                                        ! growing
       real       dlt_dm_incorp(max_layer) ! root residue (kg/ha)
       real       dlt_N_incorp(max_layer)  ! root residue N (kg/ha)
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'Maize_root_incorp')
-
-
-*   Initial data values
-*     none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       if (dlt_dm_root.gt.0.0) then
-
+ 
             ! send out root residue
-
+ 
          call Maize_root_distrib (
      .          g_root_depth,
      .          g_dlayer,
@@ -7190,68 +7021,68 @@ cpsc  add above
      .          g_dlayer,
      .          dlt_N_incorp
      :        , dlt_N_root * gm2kg /sm2ha)
-
+ 
          deepest_layer = find_layer_no (g_root_depth, g_dlayer
      :                                , max_layer)
-
+ 
          call New_postbox ()
-
+ 
          call post_char_var('dlt_fom_type=','()',c_crop_type)
-
+ 
          call post_real_array ('dlt_fom_wt'
      :                        ,'(kg/ha)'
      :                        ,dlt_dm_incorp
      :                        ,deepest_layer)
-
+ 
          call post_real_array ('dlt_fom_n'
      :                        ,'(kg/ha)'
      :                        ,dlt_n_incorp
      :                        ,deepest_layer)
-
+ 
          call message_send_immediate (
      :                              unknown_module
      :                            , 'incorp_fom'
      :                            , Blank
      :                            )
-
+ 
          call Delete_postbox ()
-
+ 
       else
          ! no roots to incorporate
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_root_depth (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include   'Maize.inc'
+      include 'crp_root.pub'                      
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
 *     root distribution
 
-*+  Changes:
+*+  Changes
 *     5/9/96 dph
 *     970312 slw - templated
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Calls:
-
-*   Global variables
-      include 'const.inc'
-      include   'Maize.inc'
-*   Internal variables
-
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_root_depth')
 
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
          call cproc_root_depth1 (
      :                              g_dlayer
@@ -7267,42 +7098,46 @@ cpsc  add above
      :                             ,g_dlt_root_depth
      :                             ,g_root_depth
      :                             )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_water_supply (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include 'Maize.inc'
+      include 'crp_watr.pub'                      
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
 *     Soil water supply
 
-*+  Changes:
+*+  Changes
 *     5/9/96 dph
 *     970312 slw - templated
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
-      include 'const.inc'
-      include 'Maize.inc'
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_water_supply')
 
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call cproc_sw_supply1 (
      :                 C_minsw
      :                ,G_dlayer
@@ -7316,89 +7151,95 @@ cpsc  add above
      :                ,g_sw_avail_pot
      :                ,g_sw_supply
      :                )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_water_demand (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include   'Maize.inc'
+      include 'crp_watr.pub'                      
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
 *     Soil water demand
 
-*+  Changes:
+*+  Changes
 *     5/9/96 dph
 *     970312 slw - templated
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
-      include 'const.inc'
-      include   'Maize.inc'
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_water_demand')
 
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call cproc_sw_demand1(
      :           g_dlt_dm_light
      :         , g_transp_eff
      :         , g_sw_demand
      :         )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_water_uptake (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include   'Maize.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'crp_watr.pub'                      
+      include 'crp_comm.pub'                      
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
 *     Soil water uptake
 
-*+  Changes:
+*+  Changes
 *     5/9/96 dph
 *     970312 slw - templated
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
-      include 'const.inc'
-      include   'Maize.inc'
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Maize_water_uptake')
 
-      real    sum_real_array           !function
-      real    divide                   !function
-      integer find_layer_no            !function
-
-*   Internal variables
+*+  Local Variables
       integer    deepest_layer
       integer    layer                 ! layer number of profile ()
       real       ext_sw_supply(max_layer)
 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Maize_water_uptake')
-
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (p_uptake_source .eq. 'apsim') then
          call crop_get_ext_uptakes(
      :                 p_uptake_source   ! uptake flag
@@ -7410,24 +7251,24 @@ cpsc  add above
      :                ,ext_sw_supply     ! uptake array
      :                ,max_layer         ! array dim
      :                )
-
+ 
          do 100 layer = 1, g_num_layers
             g_dlt_sw_dep(layer) = -ext_sw_supply(layer)
   100    continue
-
-
+ 
+ 
       elseif (Option .eq. 1) then
          call crop_sw_uptake0(max_layer, g_dlayer, g_root_depth,
      :              g_sw_demand, g_sw_supply, g_dlt_sw_dep)
       elseif (Option .eq. 2) then
-
+ 
          deepest_layer = find_layer_no
      :                   (g_root_depth, g_dlayer, max_layer)
          g_sw_supply_sum = sum_real_array (g_sw_supply, deepest_layer)
          g_sw_supply_demand_ratio = divide(g_sw_supply_sum
-     :                                           , g_sw_demand,0)
-
-
+     :                                           , g_sw_demand,0.0)
+ 
+ 
          call cproc_sw_uptake1(
      :            max_layer,
      :            g_dlayer,
@@ -7435,79 +7276,87 @@ cpsc  add above
      :            g_sw_demand,
      :            g_sw_supply,
      :            g_dlt_sw_dep)
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_light_supply (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include   'Maize.inc'
+      include 'crp_util.pub'                      
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
 *     light supply
 
-*+  Changes:
+*+  Changes
 *     5/9/96 dph
 *     970312 slw - templated
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
-      include 'const.inc'
-      include   'Maize.inc'
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_light_supply')
 
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
        call crop_radn_int0(g_cover_green,
      :                     g_fr_intc_radn, g_radn, g_radn_int)
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_transpiration_eff (Option)
 *     ===========================================================
+      implicit none
+      include     'const.inc'
+      include     'Maize.inc'
+      include 'crp_watr.pub'                      
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer    Option                ! (INPUT) option number
+
+*+  Purpose
 *     Calculate today's transpiration efficiency from min and max
 *     temperatures and converting mm water to g dry matter
 *     (g dm/m^2/mm water)
 
-*+  Changes:
+*+  Changes
 *     5/9/96 dph
 *     970312 slw - templated
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer    Option                ! (INPUT) option number
-*   Global variables
-      include     'const.inc'
-      include     'Maize.inc'
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_transpiration_eff')
 
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call cproc_transp_eff1(
      :               C_svp_fract
      :             , C_transp_eff_cf
@@ -7516,42 +7365,46 @@ cpsc  add above
      :             , G_mint
      :             , g_transp_eff
      :             )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_bio_RUE (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include   'Maize.inc'
+      include 'crp_biom.pub'                      
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
 *     biomass light
 
-*+  Changes:
+*+  Changes
 *     5/9/96 dph
 *     970312 slw - templated
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Global variables
-      include 'const.inc'
-      include   'Maize.inc'
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_bio_RUE')
 
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
          ! potential by photosynthesis
-
+ 
          call crop_dm_pot_rue(
      .          g_current_stage,
      .          c_rue,
@@ -7559,106 +7412,85 @@ cpsc  add above
      .          g_temp_stress_photo,
      .          g_nfact_photo,
      .          g_dlt_dm_light)
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_temp_stress(Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include 'Maize.inc'
+      include 'crp_temp.pub'                      
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer Option         ! (INPUT) option number
+
+*+  Purpose
 *     Get current temperature stress factors (0-1)
 
-*+  Changes:
+*+  Changes
 *     010994 jngh specified and programmed
 *     970312 slw - templated
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option         ! (INPUT) option number
-*   Global variables
-      include 'const.inc'
-      include 'Maize.inc'
-*   Constant values
+*+  Constant Values
       character  my_name*(*) ! name of procedure
-      parameter (my_name = 'crop_temp_stress')
+      parameter (my_name = 'Maize_temp_stress')
 
-*-  Executable code section -------------------------------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-          call crop_temperature_stress_photo 
+          call crop_temperature_stress_photo
      :               (C_num_ave_temp, C_x_ave_temp, C_y_stress_photo,
      :                G_maxt, G_mint, g_temp_stress_photo)
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine maize_sen_root_length (Option)
 *     ===========================================================
-
-*   Short description:
-*       Simulate plant nitrogen senescence.
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*      091294 jngh specified and programmed
-
-*   Calls:
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
-
-*   Subroutine arguments
-      integer    Option                ! (INPUT) option number
-
-*   Global variables
       include   'const.inc'
       include   'maize.inc'
+      include 'crp_root.pub'                      
+      include 'error.pub'                         
 
-*   Internal variables
-*       none
+*+  Sub-Program Arguments
+      integer    Option                ! (INPUT) option number
 
-*   Constant values
+*+  Purpose
+*       Simulate plant nitrogen senescence.
+
+*+  Changes
+*      091294 jngh specified and programmed
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'maize_sen_root_length')
 
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call cproc_root_length_senescence1
      :               (
      :               C_specific_root_length
@@ -7669,70 +7501,45 @@ cpsc  add above
      :              , G_dlt_root_length_senesced
      :              , max_layer
      :               )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine maize_root_dist (Option)
 *     ===========================================================
-
-*   Short description:
-*       Plant root distribution calculations
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*      250894 jngh specified and programmed
-
-*   Calls:
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
       implicit none
-
-*   Subroutine arguments
-      integer    Option                ! (INPUT) option number
-
-*   Global variables
       include   'const.inc'
       include   'maize.inc'
+      include 'crp_root.pub'                      
+      include 'error.pub'                         
 
-*   Internal variables
-*     none
+*+  Sub-Program Arguments
+      integer    Option                ! (INPUT) option number
 
-*   Constant values
+*+  Purpose
+*       Plant root distribution calculations
+
+*+  Changes
+*      250894 jngh specified and programmed
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'maize_root_dist')
 
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
+*- Implementation Section ----------------------------------
+ 
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call cproc_root_length_growth1
      :               (
      :                C_specific_root_length
@@ -7755,45 +7562,45 @@ cpsc  add above
      :              , P_ll_dep
      :              , max_layer
      :               )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_root_depth_init (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include   'Maize.inc'
+      include 'crp_root.pub'                      
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
 *     root distribution
 
-*+  Changes:
+*+  Changes
 *     5/9/96 dph
 *     970312 slw - templated
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Calls:
-
-*   Global variables
-      include 'const.inc'
-      include   'Maize.inc'
-*   Internal variables
-
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_root_depth_init')
 
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call cproc_root_depth_init1
      :               (
      :                c_initial_root_depth
@@ -7802,9 +7609,9 @@ cpsc  add above
      :              , g_days_tot
      :              , g_dlt_root_depth
      :               )
-
+ 
       elseif (Option .eq. 2) then
-
+ 
          call cproc_root_depth_init1
      :               (
      :                g_sowing_depth
@@ -7813,45 +7620,45 @@ cpsc  add above
      :              , g_days_tot
      :              , g_dlt_root_depth
      :               )
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine Maize_root_length_init (Option)
 *     ===========================================================
+      implicit none
+      include 'const.inc'
+      include   'Maize.inc'
+      include 'crp_root.pub'                      
+      include 'error.pub'                         
 
-*+  Short description:
+*+  Sub-Program Arguments
+      integer Option                   ! (INPUT) template option number
+
+*+  Purpose
 *     root length initialisation
 
-*+  Changes:
+*+  Changes
 *     5/9/96 dph
 *     970312 slw - templated
 
-*+  Declaration section -----------------------------------------------
-      implicit none
-*   Subroutine arguments
-      integer Option                   ! (INPUT) template option number
-*   Calls:
-
-*   Global variables
-      include 'const.inc'
-      include   'Maize.inc'
-*   Internal variables
-
-*   Constant values
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Maize_root_length_init')
 
-*-  Executable code section -------------------------------------------
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-
+ 
       if (Option .eq. 1) then
-
+ 
          call cproc_root_length_init1 (
      :                emerg
      :               ,g_current_stage
@@ -7862,11 +7669,14 @@ cpsc  add above
      :               ,g_dlayer
      :               ,g_root_length
      :               ,max_layer)
-
+ 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
+ 
       call pop_routine (my_name)
       return
       end
+
+
+

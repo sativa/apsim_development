@@ -1,26 +1,20 @@
-
-
-
-
 *     ===========================================================
       character*(*) function frmrpt_version ()
 *     ===========================================================
       implicit none
- 
-*   Subroutine arguments
-*       none
- 
-*   Short description:
+      include 'infra.pub'
+
+*+  Purpose
 *       return version number of FrmRpt module
- 
-*   Calls:
-*        assign_string
- 
-*   Constant values
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
       character  version_number*(*)    ! version number of module
       parameter (version_number = 'V0.00  07/05/97')
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
  
       call assign_string(frmrpt_version, version_number)
  
@@ -29,29 +23,30 @@
 
 
 
-
 * ====================================================================
        subroutine APSIM_frmrpt(Action, Data)
 * ====================================================================
-       implicit none
- 
-*   Subroutine arguments
+      implicit none
+      dll_export apsim_frmrpt
+      include 'const.inc'             ! Global common block
+      include 'frmrpt.inc'               ! input common
+      include 'infra.pub'
+
+*+  Sub-Program Arguments
        character Action*(*)            ! Message action to perform
        character Data*(*)              ! Message data
- 
-*   Short description:
+
+*+  Purpose
 *      This module reads in FrmRpt data from input file.
- 
-*   Global variables
-       include 'const.inc'             ! Global common block
-       include 'frmrpt.inc'               ! input common
- 
-*  Calls
-       character frmrpt_version*15
-       external frmrpt_version
- 
-* --------------------- Executable code section ----------------------
-!        print *, 'APSIM_frmrpt()'//'called'
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Calls
+      external frmrpt_version
+      character*(52) frmrpt_version
+
+*- Implementation Section ----------------------------------
  
       if (Action.eq.MES_Presence) then
          call Write_string(LU_Scr_sum,
@@ -84,26 +79,27 @@
 
 
 
-
 *     ===========================================================
       subroutine frmrpt_end_run()
 *     ===========================================================
       implicit none
- 
-*  Short description:
-*     Frees resources at end of run.
- 
-*  Global variables
       include 'frmrpt.inc'
- 
-*  Internal variables
-      integer i_frm
- 
-*  Constant values
+      include 'infra.pub'
+
+*+  Purpose
+*     Frees resources at end of run.
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
       character  my_name*(*)           ! name of subroutine
       parameter (my_name = 'frmrpt_end_run')
- 
-* --------------------- Executable code section ----------------------
+
+*+  Local Variables
+      integer i_frm
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       do 110, i_frm=1, p_nforms
@@ -116,43 +112,31 @@
 
 
 
-
-
 * ====================================================================
        subroutine frmrpt_Init ()
 * ====================================================================
-       implicit none
- 
-*   Subroutine arguments
-*      none
- 
-*   Short description:
-*      Initialise FrmRpt module.
- 
-*   Global variables
+      implicit none
        include 'frmrpt.inc'             ! input common block
- 
-*  Calls
-      integer get_logical_unit, lastnb
-      external get_logical_unit, lastnb
- 
-*  Internal variables
+      include 'infra.pub'
+
+*+  Purpose
+*      Initialise FrmRpt module.
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
+      character This_routine*(*)       ! Name of this routine
+      parameter (This_routine='frmrpt_init')
+
+*+  Local Variables
       integer i_var  ! Loop counters.
       integer i_frm  ! Loop counters.
       integer err_ret  ! To check status of opening files.
       integer frm_file_unt
- 
-*   Constant values
-      character This_routine*(*)       ! Name of this routine
-      parameter (This_routine='frmrpt_init')
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine(This_routine)
-!        print *, 'frmrpt_init()'//'called'
- 
-!  *  Report our initialisation.
-!        call report_event (' Initialising, Version: '
-!       :                  // frmrpt_version())
  
 *  Initialise summation storage.
       g_nvars = 0
@@ -195,18 +179,9 @@
  
 150   continue
  
-!        do 200 i_frm=1, g_nvars
-!           print *, 
-!       :               g_varnames(i_frm)(1:lastnb(g_varnames(i_frm))),
-!       :               g_mdlnames(i_frm)(1:lastnb(g_mdlnames(i_frm))),
-!       :               g_frm_ndx(i_frm)
-!  200   continue
-   
       call pop_routine(This_routine)
       return
       end
-
-
 
 
 
@@ -214,28 +189,29 @@
       subroutine frmrpt_read_param()
 *     ===========================================================
       implicit none
- 
-*   Short description:
-*      Read in all parameters from parameter file.
- 
-*   Global variables
       include   'const.inc'
       include   'convert.inc'
       include   'frmrpt.inc'            ! soilph model common block
- 
-*  Internal variables
-      integer numvals
- 
-*   Constant values
+      include 'infra.pub'
+
+*+  Purpose
+*      Read in all parameters from parameter file.
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
       character*(*) section
       parameter (section = 'parameters')
- 
+*
       character*(*) my_name
       parameter (my_name='frmrpt_read_param')
- 
-* --------------------- Executable code section ----------------------
+
+*+  Local Variables
+      integer numvals
+
+*- Implementation Section ----------------------------------
       call push_routine(my_name)
-!        print *, 'frmrpt_read_param()'//'called'
  
       call write_string(lu_scr_sum
      :                 ,new_line//'   - Reading Parameters')
@@ -292,32 +268,29 @@
 
 
 
-
 *     ===========================================================
       subroutine frmrpt_report_counts()
 *     ===========================================================
       implicit none
- 
-*  Short description:
-*     Look at days past for given forms and report if it is time.
- 
-*  Global variables
       include 'frmrpt.inc'
- 
-*  Internal variables
+      include 'infra.pub'
+
+*+  Purpose
+*     Look at days past for given forms and report if it is time.
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'frmrpt_report_counts')
+
+*+  Local Variables
       integer err_ret
       integer i_frm    ! Loop counter.
       integer frm_file_unt
- 
-*  Calls
-      integer get_logical_unit
-      external get_logical_unit
- 
-*  Constant values
-      character  my_name*(*)           ! name of subroutine
-      parameter (my_name = 'frmrpt_report_counts')
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       do 110 i_frm=1, p_nforms
@@ -353,38 +326,32 @@
 
 
 
-
-
 *     ===========================================================
       subroutine frmrpt_do_output(handle)
 *     ===========================================================
       implicit none
- 
-*  Subroutine arguments
-      character*(*) handle
- 
-*  Short description:
-*     Handles a do_output message.
- 
-*  Global variables
       include 'frmrpt.inc'
- 
-*  Internal variables
+      include 'infra.pub'
+
+*+  Sub-Program Arguments
+      character*(*) handle
+
+*+  Purpose
+*     Handles a do_output message.
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'frmrpt_do_output')
+
+*+  Local Variables
       integer err_ret
       integer hndl_ndx
       integer frm_file_unt
- 
-*  Calls
-      integer get_logical_unit
-      external get_logical_unit
-      integer find_string_in_array
-      external find_string_in_array
- 
-*  Constant values
-      character  my_name*(*)           ! name of subroutine
-      parameter (my_name = 'frmrpt_do_output')
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       hndl_ndx = find_string_in_array(handle, p_handle, p_nforms)
@@ -420,32 +387,31 @@
 
 
 
-
-
 *     ===========================================================
       subroutine frmrpt_update_sumvars()
 *     ===========================================================
       implicit none
- 
-*  Short description:
-*     Get the values of variables to be summed from other modules.
- 
-*  Global variables
       include   'const.inc'
       include   'frmrpt.inc'            ! soilph common block
- 
-*  Internal variables
+      include 'infra.pub'
+
+*+  Purpose
+*     Get the values of variables to be summed from other modules.
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
+      character  my_name*(*)
+      parameter (my_name='frmrpt_update_sumvars')
+
+*+  Local Variables
       integer num_vals    ! number of values returned.
       integer i_var
       real vals(max_elems)
- 
-*  Constant values
-      character  my_name*(*)
-      parameter (my_name='frmrpt_update_sumvars')
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine(my_name)
-!        print *, 'frmrpt_update_sumvars()'//'called'
  
       do 110, i_var=1, g_nvars
          call frmrpt_get_var(g_mdlnames(i_var), g_varnames(i_var),
@@ -465,49 +431,46 @@
 
 
 
-
 *     ===============================================================
       subroutine frmrpt_prcss_frm(is_show,
      :                     frm_file_unt, out_file_unt,
      :                     escape_char, frm_ndx)
 *     ===============================================================
       implicit none
- 
-*  Subroutine arguments
+      include 'frmrpt.inc'
+      include 'const.inc'
+      include 'infra.pub'
+
+*+  Sub-Program Arguments
       integer frm_file_unt  ! The current form file.
       integer out_file_unt  ! The unit for output.
       character*(1) escape_char   ! What delimits for substution.
       integer frm_ndx      ! Internal handle for which file.
       logical is_show  ! If 'is_show' then do output , else we
                        ! are just initialising.
- 
-*  Short description
+
+*+  Purpose
 *     Process the form file.  If 'is_show' then do the output, else we are
 *     initialising and we must create any summation variables.
- 
-*  Global variables
-      include 'frmrpt.inc'
-      include 'const.inc'
- 
-*  Calls
-      integer lastnb
-      external lastnb
+
+*+  Calls
       character*(max_line_len) lower_case
-      external lower_case
- 
-*  Internal variables
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'frmrpt_prcss_frm')
+
+*+  Local Variables
       character*(max_line_len)  in_line
       character*(1) ch
       integer ch_pos, ch_end, end_wd_pos
       integer err_ret
- 
-*  Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'frmrpt_prcss_frm')
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-!        print *, 'frmrpt_prcss_frm()'//'called'
       
 110   continue   ! WHILE a line can be got.
       read(frm_file_unt, '(A)', iostat=err_ret) in_line
@@ -566,41 +529,40 @@
 
 
 
-
-
 *     ===========================================================
       subroutine frmrpt_prcss_frm_wd(word, is_show, out_file_unt,
      :                              frm_ndx)
 *     ===========================================================
       implicit none
- 
-*  Subroutine arguments
+      include 'frmrpt.inc'
+      include 'const.inc'
+      include 'infra.pub'
+
+*+  Sub-Program Arguments
       integer out_file_unt  ! The unit for output for the current form file.
       character*(*) word
       integer frm_ndx      ! Internal handle for which file.
       logical is_show
- 
-*  Short description
+
+*+  Purpose
 *     Pocess escaped word 'word'.  If we have an @ function, deal with it.
- 
-*  Global variables
-      include 'frmrpt.inc'
-      include 'const.inc'
- 
-*  Internal variables
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'frmrpt_prcss_frm_wd')
+
+*+  Local Variables
       character*(varname_len_max) varname
       character*(varname_len_max) var
       character*(varname_len_max) mdl
       character*(varname_len_max) func
       integer ndx_at
- 
-*  Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'frmrpt_prcss_frm_wd')
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-!        print *, 'frmrpt_prcss_frm_wd()'//'called'
  
    ! Get function name.
       ndx_at = index(word, '@')
@@ -633,37 +595,37 @@
 
 
 
-
 *     ===========================================================
       subroutine frmrpt_do_var(func, mdl, var, out_file_unt,
      :                        frm_ndx)
 *     ===========================================================
       implicit none
- 
-*  Subroutine arguments
+      include 'frmrpt.inc'
+      include 'infra.pub'
+
+*+  Sub-Program Arguments
       integer out_file_unt  ! The unit for output for the current form file.
       character*(*) func
       character*(*) mdl
       character*(*) var
       integer frm_ndx      ! Internal handle for which file.
- 
-*  Short description
+
+*+  Purpose
 *     Outputs the value for substitution.
- 
-*  Global variables
-      include 'frmrpt.inc'
- 
-*  Internal variables
-      integer num_vals
-      real vals(max_elems)
- 
-*  Constant values
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'frmrpt_prcss_do_var')
- 
-* --------------------- Executable code section ----------------------
+
+*+  Local Variables
+      integer num_vals
+      real vals(max_elems)
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-!        print *, 'frmrpt_prcss_frm_wd()'//'called'
  
       if (func .ne. ' ') then   ! We have an @ function.
          call frmrpt_get_sumvar(func, mdl, var, frm_ndx,
@@ -680,43 +642,39 @@
 
 
 
-
-
 *     ===========================================================
       subroutine frmrpt_get_var(mdl, var, vals, max_vals, num_vals)
 *     ===========================================================
       implicit none
- 
-*  Subroutine arguments
+      include 'const.inc'
+      include 'infra.pub'
+
+*+  Sub-Program Arguments
       character*(*) var
       character*(*) mdl
       integer max_vals
       integer num_vals
       real vals(max_vals)
- 
-*  Short description
-*     Get the value for a variriable from APSIM.
- 
-*  Global variables
-      include 'const.inc'
 
-*  Constant values
+*+  Purpose
+*     Get the value for a variriable from APSIM.
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'frmrpt_show_var')
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-!        print *, 'frmrpt_get_var()'//'called'
  
       call get_real_array(mdl, var, max_vals,
      :                     '()', vals, num_vals, -1e9, 1e9)
 
-!        print *, 'var_name,num_vals=', var, num_vals
       call pop_routine (my_name)
       return
       end
-
-
 
 
 
@@ -724,29 +682,30 @@
       subroutine frmrpt_show_var(vals, num_vals, out_file_unt)
 *     ===========================================================
       implicit none
- 
-*  Subroutine arguments
+      include 'frmrpt.inc'
+      include 'infra.pub'
+
+*+  Sub-Program Arguments
       integer out_file_unt  ! The unit for output for the current form file.
       integer num_vals
       real vals(num_vals)
- 
-*  Short description
+
+*+  Purpose
 *     Outputs values.
- 
-*  Definition.
+
+*+  Definition
 *     Outputs the 'num_vals' elements of 'vals' to the opened output 
 *     unit 'out_file_unit'.
- 
-*  Global variables
-      include 'frmrpt.inc'
- 
-*  Constant values
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'frmrpt_show_var')
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-!        print *, 'frmrpt_show_var()'//'called'
  
       if (num_vals .gt. 1)  then
          call frmrpt_prtrv(out_file_unt, vals, num_vals)
@@ -760,36 +719,35 @@
 
 
 
-
-
 *     ===========================================================
       subroutine frmrpt_create_sumvar(mdl, var, frm_ndx)
 *     ===========================================================
       implicit none
- 
-*  Subroutine arguments
+      include 'frmrpt.inc'
+      include 'const.inc'
+      include 'infra.pub'
+
+*+  Sub-Program Arguments
       character*(*) mdl
       character*(*) var
       integer frm_ndx
- 
-*  Short description
+
+*+  Purpose
 *     Makes a summation variable in the varoables table.
- 
-*  Global variables
-      include 'frmrpt.inc'
-      include 'const.inc'
- 
-*  Internal variables
-      integer var_ndx
-      integer i_var
- 
-*  Constant values
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'frmrpt_create_sumvar')
- 
-* --------------------- Executable code section ----------------------
+
+*+  Local Variables
+      integer var_ndx
+      integer i_var
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-!        print *, 'frmrpt_create_sumvar()'//'called'
  
       var_ndx = 0
       do 110, i_var=1, g_nvars
@@ -820,15 +778,16 @@
 
 
 
-
-
 *     ===========================================================
       subroutine frmrpt_get_sumvar(func, mdl, var, frm_ndx,
      :                              vals, max_vals, num_vals)
 *     ===========================================================
       implicit none
- 
-*  Subroutine arguments
+      include 'frmrpt.inc'
+      include 'const.inc'
+      include 'infra.pub'
+
+*+  Sub-Program Arguments
       character*(*) func
       character*(*) mdl
       character*(*) var
@@ -836,26 +795,24 @@
       integer max_vals
       integer num_vals
       real vals(max_vals)
- 
-*  Short description
+
+*+  Purpose
 *     Get the value of a summation variable form the summation variables
 *     table.
- 
-*  Global variables
-      include 'frmrpt.inc'
-      include 'const.inc'
- 
-*  Internal variables
-      integer var_ndx
-      integer i_var
- 
-*  Constant values
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'frmrpt_get_sumvar')
- 
-* --------------------- Executable code section ----------------------
+
+*+  Local Variables
+      integer var_ndx
+      integer i_var
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
-!        print *, 'frmrpt_show_func()'//'called'
  
       var_ndx = 0
       do 110, i_var=1, g_nvars
@@ -890,19 +847,21 @@
 
 
 
-
 *     ===========================================================
       subroutine frmrpt_clear_vars(data)
 *     ===========================================================
       implicit none
- 
-*   Subroutine arguments
+      include 'frmrpt.inc'
+      include 'const.inc'
+      include 'infra.pub'
+
+*+  Sub-Program Arguments
       character*(*) data
- 
-*   Short description
+
+*+  Purpose
 *     Clears variables.
- 
-*   Definition
+
+*+  Definition
 *    If "data" is a single identifier, then it will be assumed to be an
 *    output file handle and all variables associated with this output file
 *    will be cleared.  Otherwise, "data" must be a handle followed by a colon
@@ -910,25 +869,20 @@
 *    variable in that output file will be cleared.  Clearing a variable means
 *    that all values of the variable are set to zero and the day count
 *    associated with the variable is set to zero.  
- 
-*   Global variables
-      include 'frmrpt.inc'
-      include 'const.inc'
- 
-*  Calls
-      integer find_string_in_array
-      external find_string_in_array
- 
-*   Internal variables
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'frmrpt_clear_vars')
+
+*+  Local Variables
       character*(varname_len_max)  handle, module, varname
       integer i_var        ! loop counter.
       integer hndl_ndx
- 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'frmrpt_clear_vars')
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       call frmrpt_clr_var_prse(handle, module, varname, data)
@@ -962,27 +916,27 @@
 
 
 
-
-
 *     ===========================================================
       subroutine frmrpt_clear_var(var_ndx)
 *     ===========================================================
       implicit none
- 
-*  Subroutine arguments
-      integer var_ndx
- 
-*  Short description
-*     Clears the variable at index "var_ndx".
- 
-*  Global variables
       include 'frmrpt.inc'
- 
-*  Constant values
+      include 'infra.pub'
+
+*+  Sub-Program Arguments
+      integer var_ndx
+
+*+  Purpose
+*     Clears the variable at index "var_ndx".
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'frmrpt_clear_var')
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       call fill_real_array(g_values(1,var_ndx), 0.0, max_elems)
@@ -995,23 +949,24 @@
 
 
 
-
-
 *     ===========================================================
       subroutine frmrpt_clr_var_prse(handle, module, varname, in_str)
 *     ===========================================================
       implicit none
- 
-*  Subroutine arguments
+      include 'frmrpt.inc'
+      include 'const.inc'
+      include 'infra.pub'
+
+*+  Sub-Program Arguments
       character*(*) handle    ! (OUT) output file handle.
       character*(*) module    ! (OUT) module name.
       character*(*) varname   ! (OUT) variable name.
       character*(*) in_str    ! (IN) input string.
- 
-*  Short Description.
+
+*+  Purpose
 *     Splits string into handle, module and variable name.
- 
-*  Definition
+
+*+  Definition
 *    "in_str" may be an input file handle OR an input file handle
 *    followed by a colon followed by a variable name OR a input file
 *    handle followed by a colon followed by a module name followed by a
@@ -1023,19 +978,18 @@
 *    assigns the module name to "module" if there is one (else it assigns
 *    UNKNOWN_MODULE to "module") and assigns the variable name to "varname" if
 *    there is one (else it assigns BLANK to "varname").  
- 
-*  Global variables
-      include 'frmrpt.inc'
-      include 'const.inc'
- 
-*  Internal variables
-      character*(varname_len_max*2+1) rhs
- 
-*  Constant values
-      character  my_name*(*)           ! name of procedure
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
+      character*(*) my_name           ! name of procedure
       parameter (my_name = 'frmrpt_clr_var_prse')
- 
-* --------------------- Executable code section ----------------------
+
+*+  Local Variables
+      character*(varname_len_max*2+1) rhs
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       call split_line(in_str, handle, rhs, ':')
@@ -1058,19 +1012,36 @@
 
 
 
-
+*     ===========================================================
       subroutine frmrpt_prtrv(unt, vec, nvars)
+*     ===========================================================
+      implicit none
+      include 'infra.pub'
+
+*+  Sub-Program Arguments
       integer unt, nvars
       real vec(nvars)
-*************************************************************
-**    Prints out array 'vec' to logical unit no 'unt'.
-** 'vec' has 'nvars' elements.
-*************************************************************
-      implicit none
+
+*+  Purpose
+*    Prints out array 'vec' to logical unit no 'unt'.
+* 'vec' has 'nvars' elements.
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
       integer llen
       parameter (llen=5)
- 
-      integer i, j, nlines, lcnt
+      character*(*) my_name           ! name of procedure
+      parameter (my_name = 'frmrpt_prtrv')
+
+*+  Local Variables
+      integer i, j      ! Loop counters.
+      integer nlines    ! how many filled up lines to print.
+      integer lcnt      ! how many variables have we printed so far.
+
+*- Implementation Section ----------------------------------
+      call push_routine(my_name)
  
       nlines = nvars/llen
       lcnt = 0
@@ -1086,10 +1057,10 @@
       do 20, j=lcnt+1, nvars
          write(unt, '(1h+,1X,G13.5,$)')  vec(j)
 20    continue
+ 
+      call pop_routine(my_name)
       return
       end
-
-
 
 
 
@@ -1097,24 +1068,25 @@
       subroutine frmrpt_assert(IsOK, WhatChkd)
 *     ===========================================================
       implicit none
- 
-*   Subroutine arguments
+      include 'const.inc'              ! ERR_internal
+      include 'infra.pub'
+
+*+  Sub-Program Arguments
       character  WhatChkd*(*)     ! What test did pass or fail.
       logical IsOK         ! Did the test pass ?
- 
-*   Global variables
-      include 'const.inc'              ! ERR_internal
- 
-*   Short description:
+
+*+  Purpose
 *     Gives error message on failure of test "IsOK".
- 
-*   Constant values
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
       character  my_name*(*)
       parameter (my_name='frmrpt_assert')
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine(my_name)
-!        print *, 'frmrpt_assert()'//'called'
  
       if (.not. IsOK) then
          call fatal_error(ERR_USER, 'ASSERT FAIL: '//WhatChkd)
@@ -1124,8 +1096,6 @@
       call pop_routine(my_name)
       return
       end
-      
-
 
 
 
@@ -1133,23 +1103,27 @@
       subroutine frmrpt_copy_real_arr(dest, src, n)
 *     ===========================================================
       implicit none
- 
-*   Subroutine arguments
+      include 'infra.pub'
+
+*+  Sub-Program Arguments
       integer n      ! (IN) Size of 'dest' and 'src'.
       real dest(n)   ! (OUT) Destination array.
       real src(n)   ! (IN) Source array.
- 
-*   Short description:
+
+*+  Purpose
 *     Copies each element of 'src' to its corresponding element in 'dest'.
- 
-*   Internal variables
-      integer i     ! Loop counter.
- 
-*   Constant values
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'frmrpt_copy_real_arr')
- 
-* --------------------- Executable code section ----------------------
+
+*+  Local Variables
+      integer i     ! Loop counter.
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       do 10, i=1, n
@@ -1162,29 +1136,31 @@
 
 
 
-
-
 *     ===========================================================
       subroutine frmrpt_vec_scalar_mul(vec, n, mul)
 *     ===========================================================
       implicit none
- 
-*   Subroutine arguments
+      include 'infra.pub'
+
+*+  Sub-Program Arguments
       integer n      ! (IN) Size of 'vec'.
       real vec(n)    ! (IN/OUT) Vector to be multipied by 'mul'.
       real mul       ! (IN) Value that 'vec' gets mutiplied by.
- 
-*   Short description:
+
+*+  Purpose
 *     Multiplies each element of 'vec' by 'mul'.
- 
-*   Internal variables
-      integer i
- 
-*   Constant values
+
+*+  Changes
+*     05/06/97  SB  Created
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'frmrpt_vec_scalar_mul')
- 
-* --------------------- Executable code section ----------------------
+
+*+  Local Variables
+      integer i
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       do 10, i=1, n
@@ -1194,3 +1170,6 @@
       call pop_routine (my_name)
       return
       end
+
+
+
