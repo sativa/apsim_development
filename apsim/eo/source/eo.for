@@ -1,11 +1,77 @@
-*====================================================================
-      subroutine apsim_Eo (Action, Data_string)
-*====================================================================
+      include 'Eo.inc'
+
+!     ===========================================================
+      subroutine AllocInstance (InstanceName, InstanceNo)
+!     ===========================================================
+      use EoModule
       implicit none
-      dll_export apsim_eo
+ 
+!+  Sub-Program Arguments
+      character InstanceName*(*)       ! (INPUT) name of instance
+      integer   InstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      allocate (Instances(InstanceNo)%gptr)
+      allocate (Instances(InstanceNo)%pptr)
+      allocate (Instances(InstanceNo)%cptr)
+      Instances(InstanceNo)%Name = InstanceName
+ 
+      return
+      end
+
+!     ===========================================================
+      subroutine FreeInstance (anInstanceNo)
+!     ===========================================================
+      use EoModule
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module de-instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      deallocate (Instances(anInstanceNo)%gptr)
+      deallocate (Instances(anInstanceNo)%pptr)
+      deallocate (Instances(anInstanceNo)%cptr)
+ 
+      return
+      end
+     
+!     ===========================================================
+      subroutine SwapInstance (anInstanceNo)
+!     ===========================================================
+      use EoModule
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Swap an instance into the global 'g' pointer
+ 
+!- Implementation Section ----------------------------------
+               
+      g => Instances(anInstanceNo)%gptr
+      p => Instances(anInstanceNo)%pptr
+      c => Instances(anInstanceNo)%cptr
+ 
+      return
+      end
+
+*====================================================================
+      subroutine Main (Action, Data_string)
+*====================================================================
+      use EoModule
+      implicit none
+      include 'action.inc'
       include   'const.inc'            ! Global constant definitions
-      include   'Eo.inc'               ! Eo common block
-      include 'engine.pub'                        
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -22,7 +88,7 @@
 
 *+  Constant Values
       character  myname*(*)            ! Name of this procedure
-      parameter (myname = 'apsim_Eo')
+      parameter (myname = 'Eo_main')
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -30,23 +96,23 @@
       !print*, ' action/data is: ', trim(action), ' : ',trim(data_string)
       
  
-      if (Action.eq.MES_Init) then
+      if (Action.eq.ACTION_Init) then
          !open (200,'debug.out')
          call Eo_zero_variables ()
          call Eo_init ()
  
-      elseif (Action.eq.MES_Prepare) then
+      elseif (Action.eq.ACTION_Prepare) then
          call Eo_zero_daily_variables ()
          call Eo_get_other_variables ()
          call Eo_prepare ()
  
-      elseif (Action.eq.MES_Get_variable) then
+      elseif (Action.eq.ACTION_Get_variable) then
          call Eo_send_my_variable (Data_string)
  
-      elseif (Action.eq.MES_Process) then
+      elseif (Action.eq.ACTION_Process) then
          call Eo_process ()
  
-      else if (Action .eq. MES_Set_variable) then
+      else if (Action .eq. ACTION_Set_variable) then
          call Eo_set_my_variable (Data_String)
  
       else
@@ -64,9 +130,9 @@
 *====================================================================
       subroutine Eo_zero_variables ()
 *====================================================================
+      use EoModule
       implicit none
       include   'const.inc'            ! Global constant definitions
-      include   'Eo.inc'               ! Eo common block
       include 'error.pub'                         
 
 *+  Purpose
@@ -85,89 +151,89 @@
  
          !variables for penman-monteith
  
-!      p_e_method   = blank                 
-      g_vpd_source = blank                  
-      c_reference_height_base=blank 
-      c_rc_method = blank
-      p_eo_plant_method = blank
-      p_default_wind           = 0.0
-      p_default_pa             = 0.0
-      p_default_instrum_height = 0.0
-      p_extinct_coef           = 0.0
-      p_adjustment_factor      = 0.0
-      p_wind_multiplier        = 0.0
-      p_vpd_fac = 0.0                       
-      g_day_of_year = 0
-      g_year      = 0
-      g_wind_ms_instrum   = 0.0
-      g_wind_ms_multiplier_height   = 0.0
-      g_wind_ms_reference = 0.0
-      g_wind_adj = 0.0
-      g_wind = 0.0
-      c_reference_height  = 0.0
-      p_disp_instrum      = 0.0                                             
-      p_z0_instrum        = 0.0                                             
-      g_maxt      = 0.0                                                     
-      g_mint      = 0.0                                                     
-      g_n_hrs     = 0.0                                 
-      g_Eo_pm     = 0.0                                 
-      g_pa        = 0.0                                 
-      g_ra        = 0.0                                 
-      g_radn      = 0.0                                 
-      g_radn_net  = 0.0                                 
-      g_rc        = 0.0                                 
-      g_rh        = 0.0                                 
-      p_albedo    = 0.0                                 
-      p_max_albedo = 0.0                                
-      p_z0soil    = 0.0                                 
-      g_epsilon   = 0.0                                     
-      g_vpd_mb    = 0.0                                        
-      g_da        = 0.0                                        
-      g_fr_intc_radn   = 0.0                              
-      g_fg             = 0.0                              
-      g_canopy_height  = 0.0                                              
-      g_instrum_height = 0.0                                           
-      g_lai            = 0.0                                           
-      g_lai_tot        = 0.0                                           
-      g_latitude       = 0.0                                           
-      g_cover_green    = 0.0                                                  
-      g_wind_hrs       = 0.0                             
-      g_wind           = 0.0                             
-      g_wind_adj       = 0.0
-      g_Eo_penman                    = 0.0
-      g_Eo_penman_x_cover            = 0.0
-      g_Eo_penman_doorenbos          = 0.0
-      g_Eo_penman_doorenbos_x_cover  = 0.0
-      g_Eo_pm_transp                 = 0.0
-      g_Eo_pm_plant                  = 0.0
-      g_Eo_pm_x_cover                = 0.0
-      g_Eo_pm_x_kfunction            = 0.0
-      g_Eo_radn_x_kfunction          = 0.0
-      g_Eo_priestly_taylor           = 0.0
-      g_Eo_ritchie                   = 0.0
-      g_radn_wm2                     = 0.0
-      g_rc_fixed                     = 0.0
-      g_rc_simple                    = 0.0
-      g_rc_simulat                   = 0.0
-      g_rc_kelliher                  = 0.0
-      g_rc_raupach                   = 0.0
-      c_zc_conversion                = 0.0              
-      c_rsmin_canopy                 = 0.0              
-      c_rc                           = 0.0  
-      c_pen_mon_ub                   = 0.0
-      c_multiplier_height            = 0.0
-      c_ra_ub                        = 0.0
-      p_wind_day_fraction            = 0.0
-      c_default_wind_day_fraction    = 0.0
-      c_alt_photo_radn               = 0.0
-      c_wind_hrs                     = 0.0
-      c_wind_min                     = 0.0
-      c_soil_heat_flux               = 0.0
-      c_penman_fU2_coef_a            = 0.0
-      c_penman_fU2_coef_b            = 0.0
-      c_vpd_crit                     = 0.0
-      c_radn_crit                    = 0.0
-      c_lai_crit                     = 0.0
+!      p%e_method   = blank                 
+      g%vpd_source = blank                  
+      c%reference_height_base=blank 
+      c%rc_method = blank
+      p%eo_plant_method = blank
+      p%default_wind           = 0.0
+      p%default_pa             = 0.0
+      p%default_instrum_height = 0.0
+      p%extinct_coef           = 0.0
+      p%adjustment_factor      = 0.0
+      p%wind_multiplier        = 0.0
+      p%vpd_fac = 0.0                       
+      g%day_of_year = 0
+      g%year      = 0
+      g%wind_ms_instrum   = 0.0
+      g%wind_ms_multiplier_height   = 0.0
+      g%wind_ms_reference = 0.0
+      g%wind_adj = 0.0
+      g%wind = 0.0
+      c%reference_height  = 0.0
+      p%disp_instrum      = 0.0                                             
+      p%z0_instrum        = 0.0                                             
+      g%maxt      = 0.0                                                     
+      g%mint      = 0.0                                                     
+      g%n_hrs     = 0.0                                 
+      g%Eo_pm     = 0.0                                 
+      g%pa        = 0.0                                 
+      g%ra        = 0.0                                 
+      g%radn      = 0.0                                 
+      g%radn_net  = 0.0                                 
+      g%rc        = 0.0                                 
+      g%rh        = 0.0                                 
+      p%albedo    = 0.0                                 
+      p%max_albedo = 0.0                                
+      p%z0soil    = 0.0                                 
+      g%epsilon   = 0.0                                     
+      g%vpd_mb    = 0.0                                        
+      g%da        = 0.0                                        
+      g%fr_intc_radn   = 0.0                              
+      g%fg             = 0.0                              
+      g%canopy_height  = 0.0                                              
+      g%instrum_height = 0.0                                           
+      g%lai            = 0.0                                           
+      g%lai_tot        = 0.0                                           
+      g%latitude       = 0.0                                           
+      g%cover_green    = 0.0                                                  
+      g%wind_hrs       = 0.0                             
+      g%wind           = 0.0                             
+      g%wind_adj       = 0.0
+      g%Eo_penman                    = 0.0
+      g%Eo_penman_x_cover            = 0.0
+      g%Eo_penman_doorenbos          = 0.0
+      g%Eo_penman_doorenbos_x_cover  = 0.0
+      g%Eo_pm_transp                 = 0.0
+      g%Eo_pm_plant                  = 0.0
+      g%Eo_pm_x_cover                = 0.0
+      g%Eo_pm_x_kfunction            = 0.0
+      g%Eo_radn_x_kfunction          = 0.0
+      g%Eo_priestly_taylor           = 0.0
+      g%Eo_ritchie                   = 0.0
+      g%radn_wm2                     = 0.0
+      g%rc_fixed                     = 0.0
+      g%rc_simple                    = 0.0
+      g%rc_simulat                   = 0.0
+      g%rc_kelliher                  = 0.0
+      g%rc_raupach                   = 0.0
+      c%zc_conversion                = 0.0              
+      c%rsmin_canopy                 = 0.0              
+      c%rc                           = 0.0  
+      c%pen_mon_ub                   = 0.0
+      c%multiplier_height            = 0.0
+      c%ra_ub                        = 0.0
+      p%wind_day_fraction            = 0.0
+      c%default_wind_day_fraction    = 0.0
+      c%alt_photo_radn               = 0.0
+      c%wind_hrs                     = 0.0
+      c%wind_min                     = 0.0
+      c%soil_heat_flux               = 0.0
+      c%penman_fU2_coef_a            = 0.0
+      c%penman_fU2_coef_b            = 0.0
+      c%vpd_crit                     = 0.0
+      c%radn_crit                    = 0.0
+      c%lai_crit                     = 0.0
                                              
       call Eo_zero_daily_variables ()
  
@@ -181,8 +247,8 @@
 *====================================================================
       subroutine Eo_zero_daily_variables ()
 *====================================================================
+      use EoModule
       implicit none
-      include    'Eo.inc'              ! Eo common block
       include 'error.pub'                         
 
 *+  Purpose
@@ -209,8 +275,8 @@
 *====================================================================
       subroutine Eo_init ()
 *====================================================================
+      use EoModule
       implicit none
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Purpose
@@ -228,7 +294,7 @@
  
          ! notify system that we have initialised
  
-      call report_event ('Initialising:')
+      call Write_string ('Initialising:')
  
          ! get all constants from constants file
  
@@ -252,11 +318,10 @@
 *===========================================================
       subroutine Eo_read_param ()
 *===========================================================
+      use EoModule
       implicit none
       include   'const.inc'            ! Global constant definitions
-      include   'Eo.inc'               ! Eo common block
       include 'read.pub'                          
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Purpose
@@ -284,15 +349,14 @@
  
       call push_routine (myname)
  
-      call write_string (lu_scr_sum
-     :          ,new_line//'   - Reading Eo Parameters')
+      call write_string (new_line//'   - Reading Eo Parameters')
  
          ! vpd_fac
       call read_real_var (
      :           section_name
      :          ,'vpd_fac'
      :          ,'(-)'
-     :          ,p_vpd_fac
+     :          ,p%vpd_fac
      :          ,numvals
      :          ,0.0
      :          ,1.0)
@@ -302,7 +366,7 @@
 !     :           section_name
 !     :          ,'e_method'
 !     :          ,'()'
-!     :          ,p_e_method
+!     :          ,p%e_method
 !     :          ,numvals)
  
          ! albedo
@@ -310,14 +374,14 @@
      :           section_name
      :          ,'albedo'
      :          ,'(-)'
-     :          ,p_albedo
+     :          ,p%albedo
      :          ,numvals
      :          ,0.0
      :          ,1.0)
  
       call read_real_var (section_name
      :                   , 'max_albedo', '()'
-     :                   , p_max_albedo, numvals
+     :                   , p%max_albedo, numvals
      :                   , 0.0, 1.0)
  
          ! Z0soil
@@ -325,7 +389,7 @@
      :           section_name
      :          ,'z0soil'
      :          ,'(mm)'
-     :          ,p_z0soil
+     :          ,p%z0soil
      :          ,numvals
      :          ,0.0
      :          ,1000.0)
@@ -335,7 +399,7 @@
      :           section_name
      :          ,'default_wind'
      :          ,'(km/day)'
-     :          ,p_default_wind
+     :          ,p%default_wind
      :          ,numvals
      :          ,0.0
      :          ,1000.0)
@@ -345,7 +409,7 @@
      :           section_name
      :          ,'default_pa'
      :          ,'(hpa)'
-     :          ,p_default_pa
+     :          ,p%default_pa
      :          ,numvals
      :          ,800.0
      :          ,1200.0)
@@ -355,7 +419,7 @@
      :           section_name
      :          ,'default_instrum_height'
      :          ,'(mm)'
-     :          ,p_default_instrum_height
+     :          ,p%default_instrum_height
      :          ,numvals
      :          ,0.0
      :          ,50000.0)
@@ -365,7 +429,7 @@
      :           section_name
      :          ,'disp_instrum'
      :          ,'(mm)'
-     :          ,p_disp_instrum
+     :          ,p%disp_instrum
      :          ,numvals
      :          ,0.0
      :          ,50000.0)
@@ -375,7 +439,7 @@
      :           section_name
      :          ,'z0_instrum'
      :          ,'(mm)'
-     :          ,p_z0_instrum
+     :          ,p%z0_instrum
      :          ,numvals
      :          ,0.0
      :          ,50000.0)
@@ -384,7 +448,7 @@
      :           section_name
      :         , 'extinct_coef'
      :         , '()'
-     :         , p_extinct_coef
+     :         , p%extinct_coef
      :         , numvals
      :         , 0.0
      :         , 1.0)
@@ -395,40 +459,40 @@
      :           section_name
      :          ,'eo_plant_method'
      :          ,'()'
-     :          ,p_eo_plant_method
+     :          ,p%eo_plant_method
      :          ,numvals)
  
-         ! p_wind_day_fraction
+         ! p%wind_day_fraction
       call read_real_var_optional (
      :           section_name
      :          ,'wind_day_fraction'
      :          ,'(-)'
-     :          ,p_wind_day_fraction
+     :          ,p%wind_day_fraction
      :          ,numvals
      :          ,0.0
      :          ,1.0)
      
       if (numvals.eq.0) then
-         p_wind_day_fraction = c_default_wind_day_fraction
+         p%wind_day_fraction = c%default_wind_day_fraction
       else
       endif
 
-         ! p_adjustment_factor
+         ! p%adjustment_factor
       call read_real_var_optional (
      :           section_name
      :          ,'adjustment_factor'
      :          ,'(-)'
-     :          ,p_adjustment_factor
+     :          ,p%adjustment_factor
      :          ,numvals
      :          ,0.0
      :          ,2.0)
      
-         ! p_adjustment_factor
+         ! p%adjustment_factor
       call read_real_var_optional (
      :           section_name
      :          ,'wind_multiplier'
      :          ,'(-)'
-     :          ,p_wind_multiplier
+     :          ,p%wind_multiplier
      :          ,numvals
      :          ,0.0
      :          ,2.0)
@@ -437,72 +501,72 @@
 
          ! now report out what we have read in
  
-      call write_string (lu_scr_sum, new_line//new_line)
+      call write_string (new_line//new_line)
  
       line = '                 Eo Parameters'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       line =
      :  '     ------------------------------------------'
      ://'-------------------------'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       line =
      :  '   Vpd Factor  Albedo  Max albedo  Z0soil  Dflt_Wind'
      ://'  Dflt_Pa Dflt_instrum_ht'
 
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       line =
      :  '       (-)       (-)       (-)       (mm)   (km/day)'
      ://'   (hpa)      (mm)'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       line =
      :  '     ------------------------------------------'
      ://'-------------------------'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       write (line, '(3f10.2, f10.3, 3f10.2)')
-     :           p_vpd_fac
-     :          ,p_albedo
-     :          ,p_max_albedo
-     :          ,p_z0soil
-     :          ,p_default_wind
-     :          ,p_default_pa
-     :          ,p_default_instrum_height
-      call write_string (lu_scr_sum, line)
+     :           p%vpd_fac
+     :          ,p%albedo
+     :          ,p%max_albedo
+     :          ,p%z0soil
+     :          ,p%default_wind
+     :          ,p%default_pa
+     :          ,p%default_instrum_height
+      call write_string (line)
 
       line =
      :  ' instrum_disp instrum_z0  extn_cf  plant_method'
      ://' wind_day_fr  adj_fact  wind_mlt'
      
-      call write_string (lu_scr_sum, new_line//line)
+      call write_string (new_line//line)
  
       line =
      :  '      (mm)      (mm)       (-)                 '
      ://'    (-)         (-)      (-)'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       line =
      :  '     ------------------------------------------'
      ://'-------------------------------'
-      call write_string (lu_scr_sum, line)
+      call write_string (line)
  
       write (line, '(3f10.2, 1x, a20, f6.2, 2f10.2)')
-     :           p_disp_instrum
-     :          ,p_z0_instrum
-     :          ,p_extinct_coef
-     :          ,p_eo_plant_method
-     :          ,p_wind_day_fraction
-     :          ,p_adjustment_factor
-     :          ,p_wind_multiplier
-      call write_string (lu_scr_sum, line)
+     :           p%disp_instrum
+     :          ,p%z0_instrum
+     :          ,p%extinct_coef
+     :          ,p%eo_plant_method
+     :          ,p%wind_day_fraction
+     :          ,p%adjustment_factor
+     :          ,p%wind_multiplier
+      call write_string (line)
       line =
      :  '     ------------------------------------------'
      ://'-------------------------------'
-      call write_string (lu_scr_sum, line)
-      call write_string (lu_scr_sum, new_line//new_line)
+      call write_string (line)
+      call write_string (new_line//new_line)
  
  
       call pop_routine (myname)
@@ -514,9 +578,9 @@
 *===========================================================
       subroutine Eo_read_constants ()
 *===========================================================
+      use EoModule
       implicit none
       include   'const.inc'            ! Global constant definitions
-      include   'Eo.inc'               ! Eo common block
       include 'read.pub'                          
       include 'error.pub'                         
 
@@ -546,7 +610,7 @@
      :           section_name
      :          ,'reference_height'
      :          ,'(mm)'
-     :          ,c_reference_height
+     :          ,c%reference_height
      :          ,numvals
      :          ,0.0
      :          ,50000.0)
@@ -556,7 +620,7 @@
      :           section_name
      :          ,'reference_height_base'
      :          ,'()'
-     :          ,c_reference_height_base
+     :          ,c%reference_height_base
      :          ,numvals)
  
          ! conversion_height
@@ -564,7 +628,7 @@
      :           section_name
      :          ,'zc_conversion'
      :          ,'(mm)'
-     :          ,c_zc_conversion
+     :          ,c%zc_conversion
      :          ,numvals
      :          ,0.0
      :          ,50000.0)
@@ -574,7 +638,7 @@
      :           section_name
      :          ,'multiplier_height'
      :          ,'(mm)'
-     :          ,c_multiplier_height
+     :          ,c%multiplier_height
      :          ,numvals
      :          ,0.0
      :          ,50000.0)
@@ -584,7 +648,7 @@
      :           section_name
      :          ,'rsmin_canopy'
      :          ,'(s/m)'
-     :          ,c_rsmin_canopy
+     :          ,c%rsmin_canopy
      :          ,numvals
      :          ,0.0
      :          ,200.0)
@@ -594,7 +658,7 @@
      :           section_name
      :          ,'radn_crit'
      :          ,'(w/m2)'
-     :          ,c_radn_crit
+     :          ,c%radn_crit
      :          ,numvals
      :          ,0.0
      :          ,1000.0)
@@ -604,7 +668,7 @@
      :           section_name
      :          ,'vpd_crit'
      :          ,'(kg/kg)'
-     :          ,c_vpd_crit
+     :          ,c%vpd_crit
      :          ,numvals
      :          ,0.0
      :          ,10.0)
@@ -614,7 +678,7 @@
      :           section_name
      :          ,'lai_crit'
      :          ,'(kg/kg)'
-     :          ,c_lai_crit
+     :          ,c%lai_crit
      :          ,numvals
      :          ,0.0
      :          ,10.0)
@@ -624,7 +688,7 @@
      :           section_name
      :          ,'rc_method'
      :          ,'()'
-     :          ,c_rc_method
+     :          ,c%rc_method
      :          ,numvals)
  
          ! rc for fixed
@@ -632,97 +696,97 @@
      :           section_name
      :          ,'rc'
      :          ,'(s/m)'
-     :          ,c_rc
+     :          ,c%rc
      :          ,numvals
      :          ,0.0
      :          ,200.0)
  
-         ! c_pen_mon_ub
+         ! c%pen_mon_ub
       call read_real_var (
      :           section_name
      :          ,'pen_mon_ub'
      :          ,'(mm)'
-     :          ,c_pen_mon_ub
+     :          ,c%pen_mon_ub
      :          ,numvals
      :          ,0.0
      :          ,100.0)
  
-         ! c_default_wind_day_fraction
+         ! c%default_wind_day_fraction
       call read_real_var (
      :           section_name
      :          ,'default_wind_day_fraction'
      :          ,'(-)'
-     :          ,c_default_wind_day_fraction
+     :          ,c%default_wind_day_fraction
      :          ,numvals
      :          ,0.0
      :          ,1.0)
  
-         ! c_ra_ub
+         ! c%ra_ub
       call read_real_var (
      :           section_name
      :          ,'ra_ub'
      :          ,'(-)'
-     :          ,c_ra_ub
+     :          ,c%ra_ub
      :          ,numvals
      :          ,0.0
      :          ,3000.0)
  
-         ! c_alt_photo_radn
+         ! c%alt_photo_radn
       call read_real_var (
      :           section_name
      :          ,'alt_photo_radn'
      :          ,'(-)'
-     :          ,c_alt_photo_radn
+     :          ,c%alt_photo_radn
      :          ,numvals
      :          ,-90.0
      :          ,90.0)
  
-         ! c_wind_hrs
+         ! c%wind_hrs
       call read_real_var (
      :           section_name
      :          ,'wind_hrs'
      :          ,'(hrs)'
-     :          ,c_wind_hrs
+     :          ,c%wind_hrs
      :          ,numvals
      :          ,-1.0
      :          ,24.0)
  
-         ! c_wind_min
+         ! c%wind_min
       call read_real_var (
      :           section_name
      :          ,'wind_min'
      :          ,'(m/s)'
-     :          ,c_wind_min
+     :          ,c%wind_min
      :          ,numvals
      :          ,0.0
      :          ,10.0)
  
-         ! c_soil_heat_flux
+         ! c%soil_heat_flux
       call read_real_var (
      :           section_name
      :          ,'soil_heat_flux'
      :          ,'(-)'
-     :          ,c_soil_heat_flux
+     :          ,c%soil_heat_flux
      :          ,numvals
      :          ,0.0
      :          ,1.0)
  
-         ! c_penman_fU2_coef_a
+         ! c%penman_fU2_coef_a
       call read_real_var (
      :           section_name
      :          ,'penman_fU2_coef_a'
      :          ,'(-)'
-     :          ,c_penman_fU2_coef_a
+     :          ,c%penman_fU2_coef_a
      :          ,numvals
      :          ,0.0
      :          ,1.0)
  
-         ! c_penman_fU2_coef_b
+         ! c%penman_fU2_coef_b
       call read_real_var (
      :           section_name
      :          ,'penman_fU2_coef_b'
      :          ,'(-)'
-     :          ,c_penman_fU2_coef_b
+     :          ,c%penman_fU2_coef_b
      :          ,numvals
      :          ,0.0
      :          ,1.0)
@@ -737,10 +801,9 @@
 *====================================================================
       subroutine Eo_get_other_var_ini ()
 *====================================================================
+      use EoModule
       implicit none
       include   'const.inc'            ! Global constant definitions
-      include   'Eo.inc'               ! Eo common block
-      include 'write.pub'                         
       include 'intrface.pub'                      
       include 'error.pub'                         
 
@@ -768,7 +831,7 @@
      :           unknown_module
      :          ,'latitude'
      :          ,'(deg)'
-     :          ,g_latitude
+     :          ,g%latitude
      :          ,numvals
      :          ,-90.0
      :          ,90.0)
@@ -778,19 +841,19 @@
      :           unknown_module
      :          ,'instrum_height'
      :          ,'(mm)'
-     :          ,g_instrum_height
+     :          ,g%instrum_height
      :          ,numvals
      :          ,0.0
      :          ,50000.0)
  
       if (numvals.eq.0) then
-         g_instrum_height = p_default_instrum_height
+         g%instrum_height = p%default_instrum_height
  
          write (string, '(a, f10.0, a)')
      :                        '     Default instrument height used = '
-     :                        , p_default_instrum_height, ' (mm)'
+     :                        , p%default_instrum_height, ' (mm)'
  
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
       else
          ! instrum_height returned ok
@@ -798,55 +861,55 @@
  
          !vpd
  
-      g_vpd_source = blank
+      g%vpd_source = blank
       call get_real_var_optional (
      :      unknown_module
      :     ,'vpd'
      :     ,'(mb)'
-     :     ,g_vpd_mb
+     :     ,g%vpd_mb
      :     ,numvals
      :     ,0.0
      :     ,200.0)
  
       if (numvals.gt.0) then
          ! vpd returned ok
-         g_vpd_source = source_vpd
+         g%vpd_source = source_vpd
       else
          call get_real_var_optional (
      :         unknown_module
      :         ,'rh'
      :         ,'(%)'
-     :         ,g_rh
+     :         ,g%rh
      :         ,numvals
      :         ,0.0
      :         ,100.0)
  
          if (numvals.gt.0) then
             ! rhd returned ok
-            g_vpd_source = source_rh
+            g%vpd_source = source_rh
          else
             call get_real_var (
      :            unknown_module
      :            ,'mint'
      :            ,'(oC)'
-     :            ,g_mint
+     :            ,g%mint
      :            ,numvals
      :            ,-30.0
      :            ,50.0)
  
             if (numvals.gt.0) then
                ! vpd returned ok
-               g_vpd_source = source_mint
+               g%vpd_source = source_mint
             else
-               g_vpd_source = source_none
+               g%vpd_source = source_none
                call warning_error (err_user, ' No data to derive VPD' )
             endif    ! mint
          endif    ! rh
  
       endif    ! vpd
  
-      string = '     Source of VPD is '//g_vpd_source
-      call write_string (lu_scr_sum, string)
+      string = '     Source of VPD is '//g%vpd_source
+      call write_string (string)
  
          !pa
       call get_real_var_optional (
@@ -861,8 +924,8 @@
       if (numvals.eq.0) then
          write (string, '(a, f8.1, a)')
      :         '     Default atmospheric pressure used = '
-     :         , p_default_pa, ' (mb)'
-         call write_string (lu_scr_sum, string)
+     :         , p%default_pa, ' (mb)'
+         call write_string (string)
  
       else
          ! pa returned ok
@@ -881,8 +944,8 @@
       if (numvals.eq.0) then
          write (string, '(a, f8.1, a)')
      :         '     Default wind used = '
-     :         , p_default_wind, ' (km/day)'
-         call write_string (lu_scr_sum, string)
+     :         , p%default_wind, ' (km/day)'
+         call write_string (string)
       else
          ! wind returned ok
       endif
@@ -892,13 +955,13 @@
      :      1
      :     ,'lai'
      :     ,'(-)'
-     :     ,g_lai
+     :     ,g%lai
      :     ,numvals
      :     ,0.0
      :     ,20.0)
  
       if (numvals.eq.0) then
-         g_lai = 0.0
+         g%lai = 0.0
       else
             ! lai returned ok
             ! check that there is only one crop in the system
@@ -906,13 +969,13 @@
      :         2
      :        ,'lai'
      :        ,'(-)'
-     :        ,g_lai
+     :        ,g%lai
      :        ,numvals
      :        ,0.0
      :        ,20.0)
  
          if (numvals.eq.0) then
-            g_lai = 0.0
+            g%lai = 0.0
          else
                ! lai returned ok
             call fatal_error (err_user
@@ -929,6 +992,7 @@
 *================================================================
       subroutine Eo_prepare ()
 *================================================================
+      use EoModule
       implicit none
       include 'error.pub'                         
 
@@ -957,10 +1021,10 @@
 *====================================================================
       subroutine Eo_get_other_variables ()
 *====================================================================
+      use EoModule
       implicit none
       include   'const.inc'            ! Constant definitions
       include   'convert.inc'          ! conversion constants
-      include   'Eo.inc'               ! Eo common block
       include 'intrface.pub'                      
       include 'error.pub'                         
       include 'science.pub'                       
@@ -1002,15 +1066,15 @@ cjh   crop type.
      :      unknown_module
      :     ,'fr_intc_radn'
      :     ,'(-)'
-     :     ,g_fr_intc_radn
+     :     ,g%fr_intc_radn
      :     ,numvals
      :     ,0.0
      :     ,1.0)
  
       if (numvals.eq.0) then
-         g_fr_intc_radn = 1.0
+         g%fr_intc_radn = 1.0
  
-      elseif (g_fr_intc_radn.lt.1.0) then
+      elseif (g%fr_intc_radn.lt.1.0) then
          call fatal_error (err_user
      :                    , 'Can''t handle more than one canopy')
  
@@ -1024,7 +1088,7 @@ cjh   crop type.
      :      unknown_module
      :     ,'day'
      :     ,'(-)'
-     :     ,g_day_of_year
+     :     ,g%day_of_year
      :     ,numvals
      :     ,1
      :     ,366)
@@ -1034,19 +1098,19 @@ cjh   crop type.
      :      unknown_module
      :     ,'year'
      :     ,'(-)'
-     :     ,g_year
+     :     ,g%year
      :     ,numvals
      :     ,min_year
      :     ,max_year)
 
          !num_hrs calcuates the maximum number of hours of bright sunlight
          ! recordable
-      g_n_hrs = day_length (g_day_of_year, g_latitude
-     :                     , c_alt_photo_radn)
-      if (c_wind_hrs .ge .0.0) then
-         g_wind_hrs = c_wind_hrs
+      g%n_hrs = day_length (g%day_of_year, g%latitude
+     :                     , c%alt_photo_radn)
+      if (c%wind_hrs .ge .0.0) then
+         g%wind_hrs = c%wind_hrs
       else
-         g_wind_hrs = g_n_hrs
+         g%wind_hrs = g%n_hrs
       endif
  
  
@@ -1055,7 +1119,7 @@ cjh   crop type.
      :      unknown_module
      :     ,'maxt'
      :     ,'(degC)'
-     :     ,g_maxt
+     :     ,g%maxt
      :     ,numvals
      :     ,-30.0
      :     ,50.0)
@@ -1065,7 +1129,7 @@ cjh   crop type.
      :      unknown_module
      :     ,'mint'
      :     ,'(degC)'
-     :     ,g_mint
+     :     ,g%mint
      :     ,numvals
      :     ,-30.0
      :     ,50.0)
@@ -1075,13 +1139,13 @@ cjh   crop type.
      :      unknown_module
      :     ,'pa'
      :     ,'(hPa)'
-     :     ,g_pa
+     :     ,g%pa
      :     ,numvals
      :     ,800.0
      :     ,1200.0)
  
       if (numvals.eq.0) then
-         g_pa = p_default_pa
+         g%pa = p%default_pa
       else
          ! pa returned ok
       endif
@@ -1091,24 +1155,24 @@ cjh   crop type.
      :      unknown_module
      :     ,'radn'
      :     ,'(MJ/m2)'
-     :     ,g_radn
+     :     ,g%radn
      :     ,numvals
      :     ,0.0
      :     ,100.0)
  
          ! convert to W/m2
-!      g_radn_wm2 = g_radn*g_fr_intc_radn * divide(1e6
-!     :                                  , g_n_hrs*hr2s, -10.0)
+!      g%radn_wm2 = g%radn*g%fr_intc_radn * divide(1e6
+!     :                                  , g%n_hrs*hr2s, -10.0)
  
-      g_radn_wm2 = g_radn* divide(1e6
-     :                         , g_n_hrs*hr2s, -10.0)
+      g%radn_wm2 = g%radn* divide(1e6
+     :                         , g%n_hrs*hr2s, -10.0)
  
          !t_sh
 !      call get_real_var (
 !     :      unknown_module
 !     :     ,'t_sh'
 !     :     ,'(hrs)'
-!     :     ,g_t_sh
+!     :     ,g%t_sh
 !     :     ,numvals
 !     :     ,0.0
 !     :     ,100.0)
@@ -1118,22 +1182,22 @@ cjh   crop type.
      :      unknown_module
      :     ,'lai'
      :     ,'(-)'
-     :     ,g_lai
+     :     ,g%lai
      :     ,numvals
      :     ,0.0
      :     ,20.0)
  
       if (numvals.eq.0) then
-         g_lai = 0.0
-         g_lai_tot = 0.0
+         g%lai = 0.0
+         g%lai_tot = 0.0
       else
             ! lai returned ok
       endif
-      if (g_lai .gt. 0.0) then
+      if (g%lai .gt. 0.0) then
          ! ok
-         g_lai_tot = max (g_lai, g_lai_tot)
+         g%lai_tot = max (g%lai, g%lai_tot)
       else
-         g_lai_tot = 0.0
+         g%lai_tot = 0.0
       endif
  
          ! canopy height
@@ -1147,10 +1211,10 @@ cjh   crop type.
      :     ,20000.0)
  
       if (numvals.eq.0) then
-         g_canopy_height = 0.0
+         g%canopy_height = 0.0
       else
             ! canopy height returned ok
-         g_canopy_height =  canopy_height
+         g%canopy_height =  canopy_height
       endif
  
             ! green cover
@@ -1158,13 +1222,13 @@ cjh   crop type.
      :      unknown_module
      :     ,'cover_green'
      :     ,'()'
-     :     ,g_cover_green
+     :     ,g%cover_green
      :     ,numvals
      :     ,0.0
      :     ,1.0)
  
       if (numvals.eq.0) then
-         g_cover_green = 0.0
+         g%cover_green = 0.0
       else
             ! cover_green returned ok
       endif
@@ -1174,67 +1238,67 @@ cjh   crop type.
      :      unknown_module
      :     ,'wind'
      :     ,'(km/day)'
-     :     ,g_wind
+     :     ,g%wind
      :     ,numvals
      :     ,0.0
      :     ,1000.0)
  
       if (numvals.eq.0) then
-         g_wind = p_default_wind
+         g%wind = p%default_wind
       else
          ! wind returned ok
       endif
 
          ! convert wind from instrument height to multiplier height
       call eo_wind_conv (
-     :        g_instrum_height, p_disp_instrum, p_z0_instrum
-     :      , g_wind
-     :      , c_multiplier_height, p_disp_instrum, p_z0_instrum
+     :        g%instrum_height, p%disp_instrum, p%z0_instrum
+     :      , g%wind
+     :      , c%multiplier_height, p%disp_instrum, p%z0_instrum
      :      , wind_multiplier_height)
  
          ! multiply wind by factor
       wind_multiplier_height = wind_multiplier_height 
-     :                       * p_wind_multiplier
+     :                       * p%wind_multiplier
          ! convert to m/s for daylight hours
-      g_wind_ms_multiplier_height = wind_multiplier_height
-     :                            * p_wind_day_fraction 
+      g%wind_ms_multiplier_height = wind_multiplier_height
+     :                            * p%wind_day_fraction 
      :                            * km2m
-     :                            / (g_wind_hrs*hr2s)
+     :                            / (g%wind_hrs*hr2s)
       
-      g_wind_ms_multiplier_height = l_bound 
-     :                  (g_wind_ms_multiplier_height, c_wind_min)
+      g%wind_ms_multiplier_height = l_bound 
+     :                  (g%wind_ms_multiplier_height, c%wind_min)
  
          ! convert back to km/day for penman calculation
-      g_wind_adj = g_wind_ms_multiplier_height * 24.0*hr2s/km2m
+      g%wind_adj = g%wind_ms_multiplier_height * 24.0*hr2s/km2m
  
  
-      if (g_vpd_source .eq. source_vpd) then
+      if (g%vpd_source .eq. source_vpd) then
             !vpd
          call get_real_var (
      :         unknown_module
      :         ,'vpd'
      :         ,'(mb)'
-     :         ,g_vpd_mb
+     :         ,g%vpd_mb
      :         ,numvals
      :         ,0.0
      :         ,200.0)
  
-      elseif (g_vpd_source .eq. source_rh) then
+      elseif (g%vpd_source .eq. source_rh) then
          call get_real_var (
      :         unknown_module
      :         ,'rh'
      :         ,'(%)'
-     :         ,g_rh
+     :         ,g%rh
      :         ,numvals
      :         ,0.0
      :         ,100.0)
  
-      elseif (g_vpd_source .eq. source_mint) then
+      elseif (g%vpd_source .eq. source_mint) then
          call get_real_var (
      :         unknown_module
      :         ,'mint'
      :         ,'(oC)'
-     :         ,g_mint
+     :         ,g%mint
      :         ,numvals
      :         ,-30.0
      :         ,50.0)
@@ -1254,8 +1318,8 @@ cjh   crop type.
 *====================================================================
       subroutine Eo_pen_mon ()
 *====================================================================
+      use EoModule
       implicit none
-      include   'Eo.inc'               ! Eo common block
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -1276,70 +1340,70 @@ cjh   crop type.
  
          !  calculate net radiation
  
-      call Eo_radiation (g_radn_net)
+      call Eo_radiation (g%radn_net)
  
          ! assume that soil and vegetation heat flux is 0.1 of the net radiation
  
-      g_fg = c_soil_heat_flux * g_radn_net
-!      g_fg = 0.0
+      g%fg = c%soil_heat_flux * g%radn_net
+!      g%fg = 0.0
  
          ! get specific humidity deficit
  
-      call Eo_da (g_da)
+      call Eo_da (g%da)
  
          ! calculate aeordynamic resistance
  
-      call Eo_aerodynamic (g_ra)
+      call Eo_aerodynamic (g%ra)
  
          ! calculate epsilon
-      call Eo_epsilon (g_epsilon)
+      call Eo_epsilon (g%epsilon)
  
          ! calculate canopy resistance
  
-      call Eo_canopy (g_rc
-     :               , g_rc_fixed
-     :               , g_rc_simple
-     :               , g_rc_simulat
-     :               , g_rc_kelliher
-     :               , g_rc_raupach)
+      call Eo_canopy (g%rc
+     :               , g%rc_fixed
+     :               , g%rc_simple
+     :               , g%rc_simulat
+     :               , g%rc_kelliher
+     :               , g%rc_raupach)
  
          ! calculate the penman-monteith eo
-      call Eo_penman_monteith (g_Eo_pm)
+      call Eo_penman_monteith (g%Eo_pm)
  
          ! calculate the penman eo
-      call Eo_penman (g_Eo_penman)
+      call Eo_penman (g%Eo_penman)
  
          ! calculate the penman eo transpiration
-      call Eo_penman_x_cover (g_Eo_penman_x_cover)
+      call Eo_penman_x_cover (g%Eo_penman_x_cover)
  
          ! calculate the penman (doorenbos) eo
-      call Eo_penman_doorenbos (g_Eo_penman_doorenbos)
+      call Eo_penman_doorenbos (g%Eo_penman_doorenbos)
  
          ! calculate the penman doorenbos eo transpiration
-      call Eo_penman_doorenbos_x_cover (g_Eo_penman_doorenbos_x_cover)
+      call Eo_penman_doorenbos_x_cover (g%Eo_penman_doorenbos_x_cover)
  
          ! calculate the penman-monteith eo transpiration
-      call Eo_penman_monteith_transp (g_Eo_pm_transp)
+      call Eo_penman_monteith_transp (g%Eo_pm_transp)
  
          ! calculate the penman-monteith eo transpiration using cover
-      call Eo_pm_x_cover (g_Eo_pm_x_cover)
+      call Eo_pm_x_cover (g%Eo_pm_x_cover)
  
          ! calculate the penman-monteith eo transpiration using k function
-      call Eo_pm_x_kfunction (g_Eo_pm_x_kfunction)
+      call Eo_pm_x_kfunction (g%Eo_pm_x_kfunction)
  
          ! calculate the penman-monteith eo transpiration using radiation by k function
-      call Eo_radn_x_kfunction (g_Eo_radn_x_kfunction)
+      call Eo_radn_x_kfunction (g%Eo_radn_x_kfunction)
  
          ! calculate the priestly taylor eo
-      call Eo_priestly_taylor (g_Eo_priestly_taylor)
+      call Eo_priestly_taylor (g%Eo_priestly_taylor)
  
          ! calculate the ritchie eo
-      call Eo_ritchie (g_Eo_ritchie)
+      call Eo_ritchie (g%Eo_ritchie)
  
          ! allocate the eo transpiration
-      call Eo_pm_plant (g_Eo_pm_plant)
+      call Eo_pm_plant (g%Eo_pm_plant)
  
-      !print*, ' eo_plant calc as ', g_eo_pm_plant
+      !print*, ' eo_plant calc as ', g%eo_pm_plant
  
       call pop_routine (myname)
       return
@@ -1350,10 +1414,10 @@ cjh   crop type.
 *====================================================================
       subroutine Eo_radiation (radn_net)
 *====================================================================
+      use EoModule
       implicit none
       include   'const.inc'            ! Global constant definitions
       include   'convert.inc'          ! conversion constants
-      include   'Eo.inc'               ! Eo common block
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -1371,8 +1435,8 @@ cjh   crop type.
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'Eo_radiation')
 *
-!      real       c_cloud
-!      parameter (c_cloud = 0.1)
+!      real       c%cloud
+!      parameter (c%cloud = 0.1)
 *
 !      real       emmis_canopy
 !      parameter (emmis_canopy = 0.96)
@@ -1391,33 +1455,33 @@ cjh   crop type.
  
       call push_routine (myname)
  
-      if (g_radn_wm2.lt.0)then
+      if (g%radn_wm2.lt.0)then
          call fatal_error(err_user, '-ve radiation cos daylength = 0')
       else
       endif
  
-      call Eo_vp (ea_mb, g_mint)
+      call Eo_vp (ea_mb, g%mint)
  
-      ave_temp = (g_maxt + g_mint) * 0.5
+      ave_temp = (g%maxt + g%mint) * 0.5
  
 !      emmis_sky = 9.37e-6*(ave_temp + abs_temp)**2
       emiss_sky = 0.70 + 5.95e-5 * ea_mb
      :          * (2.718282**(1500.0/(ave_temp + abs_temp)))
  
-!      long_wave_in = (c_cloud + (1.0 - c_cloud)*g_t_sh/g_n_hrs)*
+!      long_wave_in = (c%cloud + (1.0 - c%cloud)*g%t_sh/g%n_hrs)*
 !     :               (emmis_canopy - emmis_sky)*stef_boltz*
 !     :               (ave_temp + abs_temp)**4
  
       long_wave_in = (emiss_sky - 1.0) * stef_boltz
      :             * (ave_temp + abs_temp)**4
  
-      albedo = p_max_albedo
-     :       - (p_max_albedo - p_albedo) * (1.0 - g_cover_green)
+      albedo = p%max_albedo
+     :       - (p%max_albedo - p%albedo) * (1.0 - g%cover_green)
  
-      radn_net = (1.0 - albedo) * g_radn_wm2 + long_wave_in
+      radn_net = (1.0 - albedo) * g%radn_wm2 + long_wave_in
  
 !      print*, 'fln, fsd, (1-albedo)*fsd,fn,emissa, ea, ta, sboltz'
-!      print*, long_wave_in, g_radn_wm2, (1-albedo)*g_radn_wm2,radn_net
+!      print*, long_wave_in, g%radn_wm2, (1-albedo)*g%radn_wm2,radn_net
 !     :      ,emiss_sky, ea_mb, ave_temp, stef_boltz
  
       call pop_routine (myname)
@@ -1429,8 +1493,8 @@ cjh   crop type.
 *====================================================================
       subroutine Eo_vp (vapour_pressure, temperature)
 *====================================================================
+      use EoModule
       implicit none
-      include   'Eo.inc'               ! Eo common block
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -1452,7 +1516,7 @@ cjh   crop type.
       call push_routine (myname)
  
          ! vapour pressure in millibars
-      vapour_pressure = A*exp (B*temperature/(temperature + C))
+      vapour_pressure = TC_A*exp (TC_B*temperature/(temperature + TC_C))
  
       call pop_routine (myname)
       return
@@ -1463,8 +1527,8 @@ cjh   crop type.
 *====================================================================
       subroutine Eo_esat (esat)
 *====================================================================
+      use EoModule
       implicit none
-      include   'Eo.inc'               ! Eo common block
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -1490,12 +1554,12 @@ cjh   crop type.
  
       call push_routine (myname)
  
-      ave_temp = (g_maxt + g_mint) * 0.5
+      ave_temp = (g%maxt + g%mint) * 0.5
  
          ! saturated vapour in millibars
       call Eo_vp (esat, ave_temp)
-!      call Eo_vp (esat_maxt, g_maxt)
-!      call Eo_vp (esat_mint, g_mint)
+!      call Eo_vp (esat_maxt, g%maxt)
+!      call Eo_vp (esat_mint, g%mint)
 !      esat = (esat_maxt + esat_mint)*0.5
  
       call pop_routine (myname)
@@ -1507,9 +1571,9 @@ cjh   crop type.
 *====================================================================
       subroutine Eo_da (da)
 *====================================================================
+      use EoModule
       implicit none
       include   'const.inc'            ! Global constant definitions
-      include   'Eo.inc'               ! Eo common block
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -1536,10 +1600,10 @@ cjh   crop type.
  
       call push_routine (myname)
  
-      if (g_vpd_source .eq. source_vpd) then
-         da = g_vpd_mb*molef/g_pa
+      if (g%vpd_source .eq. source_vpd) then
+         da = g%vpd_mb*molef/g%pa
  
-      elseif (g_vpd_source .eq. source_rh) then
+      elseif (g%vpd_source .eq. source_rh) then
  
             !the vpd stuff - see raupach
  
@@ -1547,25 +1611,25 @@ cjh   crop type.
          call Eo_esat (esat)
  
             !and in kg/kg
-         qsat = molef*esat/g_pa
+         qsat = molef*esat/g%pa
             ! and in kg/kg
-         q = qsat*g_rh/100.0        ! molef*e/(pa)
+         q = qsat*g%rh/100.0        ! molef*e/(pa)
  
          da = qsat - q
  
-      elseif (g_vpd_source .eq. source_mint) then
+      elseif (g%vpd_source .eq. source_mint) then
  
             !saturated vapour in millibars
 !         call Eo_esat (esat)
-         call Eo_vp (esat, g_maxt)
+         call Eo_vp (esat, g%maxt)
  
             !and in kg/kg
-         qsat = molef*esat/g_pa
+         qsat = molef*esat/g%pa
  
             ! vapour pressure in millibars
-         call Eo_vp (ea_mb, g_mint)
-         q = molef*ea_mb/g_pa
-         da = p_vpd_fac*(qsat - q)
+         call Eo_vp (ea_mb, g%mint)
+         q = molef*ea_mb/g%pa
+         da = p%vpd_fac*(qsat - q)
  
       else
  
@@ -1573,7 +1637,7 @@ cjh   crop type.
      :        ' Insufficient data to derive specific humidity deficit')
  
       endif
-cjh      print*, 'da, source = ', da,'  ', trim(g_vpd_source)
+cjh      print*, 'da, source = ', da,'  ', trim(g%vpd_source)
  
       call pop_routine (myname)
       return
@@ -1584,9 +1648,9 @@ cjh      print*, 'da, source = ', da,'  ', trim(g_vpd_source)
 *====================================================================
       subroutine Eo_aerodynamic (ra)
 *====================================================================
+      use EoModule
       implicit none
       include   'const.inc'            ! Global constant definitions
-      include   'Eo.inc'               ! Eo common block
       include   'convert.inc'
       include 'data.pub'                          
       include 'error.pub'                         
@@ -1659,61 +1723,61 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
          !z0, and roughness for heat, z0he.  use these to calculate
          !aerodynamic resistance, ra.  all from raupach.
  
-      if (g_wind_ms_multiplier_height.gt.0.0) then
+      if (g%wind_ms_multiplier_height.gt.0.0) then
  
-         if (g_canopy_height.gt.0.0 .and. g_lai_tot .gt. 0.0) then
+         if (g%canopy_height.gt.0.0 .and. g%lai_tot .gt. 0.0) then
                ! we have some vegetative cover
  
                ! NOTE: this doesn't seem to behave well for low lai
  
                ! find uh/us
-            usuhl = sqrt (cs + cr*g_lai_tot)
+            usuhl = sqrt (cs + cr*g%lai_tot)
             usuh  = u_bound (usuhl, usuhm)
-!            usuh  = u_bound (usuhl, c_usuh_ub)
+!            usuh  = u_bound (usuhl, c%usuh_ub)
  
                ! find d/h and d
                ! when lai < 0.5076, dh becomes -ve
-            xx = sqrt (ccd * max(g_lai_tot, 0.001))
+            xx = sqrt (ccd * max(g%lai_tot, 0.001))
             dh = 1.0 - divide (1.0 - exp (-xx), xx, 0.0)
-            disp  = dh * g_canopy_height
+            disp  = dh * g%canopy_height
  
                ! find z0h and z0:
                ! Note: when usuh < usuhm, z0h curve becomes quite different.
             psih = log (ccw) - 1.0 + 1.0/ccw
             z0h = (1.0 - dh) * exp (psih - divide (von_k, usuh, 1.0e20))
             
-            z0 = z0h * g_canopy_height
-            z0 = l_bound (z0, p_z0soil)
+            z0 = z0h * g%canopy_height
+            z0 = l_bound (z0, p%z0soil)
             
-!         print*, 'z0, z0h, psih, disp, dh, xx, usuh, usuhl, g_lai_tot'
-!     :      //', g_canopy_height'
+!         print*, 'z0, z0h, psih, disp, dh, xx, usuh, usuhl, g%lai_tot'
+!     :      //', g%canopy_height'
  
-!         print*, z0, z0h, psih, disp, dh, xx, usuh, usuhl, g_lai_tot
-!     :         , g_canopy_height
+!         print*, z0, z0h, psih, disp, dh, xx, usuh, usuhl, g%lai_tot
+!     :         , g%canopy_height
  
          else
                ! soil is bare
             disp = 0.0
-            z0 = p_z0soil
+            z0 = p%z0soil
  
          endif
          z0he = z0/5.0
  
-         if (c_reference_height_base .eq. 'canopy') then
-            reference_height = g_canopy_height + c_reference_height
+         if (c%reference_height_base .eq. 'canopy') then
+            reference_height = g%canopy_height + c%reference_height
          else
-            reference_height = c_reference_height
+            reference_height = c%reference_height
          endif
  
 
             ! convert wind from multiplier height to crop reference height
          call eo_wind_conv (
-     :        C_multiplier_height, p_disp_instrum, p_z0_instrum
-     :      , g_wind_ms_multiplier_height
-     :      , reference_height, disp, z0, g_wind_ms_reference)
+     :        c%multiplier_height, p%disp_instrum, p%z0_instrum
+     :      , g%wind_ms_multiplier_height
+     :      , reference_height, disp, z0, g%wind_ms_reference)
  
  
-         if (g_canopy_height .le. reference_height) then
+         if (g%canopy_height .le. reference_height) then
             ! reference height sufficient
          else
  
@@ -1726,26 +1790,26 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
          ! this stage
  
 !            ra  = log ((d_za - disp) /z0)*log ((za - disp) /z0he) / ((von_k**2)*ua)
-!         ra  = log ((g_instrum_height - disp) /z0)**2
-!     :       / ((von_k**2)*g_wind_ms)
+!         ra  = log ((g%instrum_height - disp) /z0)**2
+!     :       / ((von_k**2)*g%wind_ms)
  
          ra  = log ((reference_height - disp) /z0)
      :       * log ((reference_height - disp) /z0he)
-     :       / ((von_k**2)*g_wind_ms_reference)
+     :       / ((von_k**2)*g%wind_ms_reference)
  
 !      print*,'ra, reference_height, dh, disp, reference_height-disp, z0'
-!     :        //', z0h, z0he, g_wind_ms_reference, g_lai_tot'
+!     :        //', z0h, z0he, g%wind_ms_reference, g%lai_tot'
 !      print*, ra, reference_height, dh, disp, reference_height-disp, z0
-!     :        ,z0h, z0he, g_wind_ms_reference, g_lai_tot
+!     :        ,z0h, z0he, g%wind_ms_reference, g%lai_tot
  
 !         ra = ra*.3
  
       else
          ra = ra_open_pan
-         g_wind_ms_reference = 0.0
+         g%wind_ms_reference = 0.0
 !         ra = 1.0e20
       endif
-      ra = u_bound (ra, c_ra_ub)
+      ra = u_bound (ra, c%ra_ub)
  
       call pop_routine (myname)
       return
@@ -1761,9 +1825,9 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
      :                     , rc_kelliher
      :                     , rc_raupach)
 *====================================================================
+      use EoModule
       implicit none
       include   'const.inc'            ! Global constant definitions
-      include   'Eo.inc'               ! Eo common block
       include   'convert.inc'
       include 'data.pub'                          
       include 'error.pub'                         
@@ -1841,9 +1905,9 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
  
             ! SIMULAT method
          rsmin_soil = 1.0
-         rsmin_canopy = c_rsmin_canopy
+         rsmin_canopy = c%rsmin_canopy
  
-         soil_part = 1.0 - g_cover_green
+         soil_part = 1.0 - g%cover_green
          canopy_part = 1.0 - soil_part
  
          gsmax_canopy = canopy_part / rsmin_canopy
@@ -1853,89 +1917,89 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
          rc_simulat = divide (1.0, gc, 0.0)
  
             ! simple
-         rc_simple = divide (c_rsmin_canopy, g_lai, 0.0)
+         rc_simple = divide (c%rsmin_canopy, g%lai, 0.0)
  
             ! raupach
-         R0 = c_radn_crit
-         D0 = c_vpd_crit
-         L0 = c_lai_crit
-         rcmin = c_rsmin_canopy
-         fl = min (g_lai/L0, 1.0)
+         R0 = c%radn_crit
+         D0 = c%vpd_crit
+         L0 = c%lai_crit
+         rcmin = c%rsmin_canopy
+         fl = min (g%lai/L0, 1.0)
 !         fl = 1.0
 !         rcmin = rc_simple
          
-         fr = min (g_radn_wm2/R0,1.0)
-         fd = max (1.0 - g_da/D0, 0.0)
-!         fd = max (g_da/D0, 0.0)
+         fr = min (g%radn_wm2/R0,1.0)
+         fd = max (1.0 - g%da/D0, 0.0)
+!         fd = max (g%da/D0, 0.0)
 !       fd = 1.0
        rc_raupach = divide (rcmin, fr*fd*fl, 0.0)
  
  
             ! kelliher
-         gsmax_canopy = divide (g_cover_green, c_rsmin_canopy, 0.0)
-         gc = g_lai * gsmax_canopy
+         gsmax_canopy = divide (g%cover_green, c%rsmin_canopy, 0.0)
+         gc = g%lai * gsmax_canopy
  
             ! Kelliher et al. method
    !      rsmin = 87.0
    !      qa50_fract = 0.75
    !      par_fract = 1.0
  
-   !      par = g_radn_net * par_fract
+   !      par = g%radn_net * par_fract
  
-   !      if (g_lai .ne. 0.0) then
+   !      if (g%lai .ne. 0.0) then
    !         par_fract = 1.0
-   !         cq = -divide(log(1.0-g_cover_green * par_fract), g_lai, k)
+   !         cq = -divide(log(1.0-g%cover_green * par_fract), g%lai, k)
  
    !         gsmax = (1.0/rsmin) / 1000.0
  
    !         qh = par
-   !         q = par * g_cover_green
+   !         q = par * g%cover_green
    !         qa50 = q * qa50_fract
    !         q50 = qa50/cq
  
    !         gc = gsmax/cq
-   !     :      * log((qh + qa50)/(qh * (1.0-g_cover_green) + q50))
+   !     :      * log((qh + qa50)/(qh * (1.0-g%cover_green) + q50))
    !      else
    !         gc = 0.0
    !      endif
  
-         ga = divide (1.0, g_ra, 0.0)
+         ga = divide (1.0, g%ra, 0.0)
  
-         ave_temp = (g_maxt + g_mint) * 0.5
-         density_air = mwair*g_pa*100.0 / ((ave_temp + abs_temp)* r_gas)
+         ave_temp = (g%maxt + g%mint) * 0.5
+         density_air = mwair*g%pa*100.0 / ((ave_temp + abs_temp)* r_gas)
  
-         gj = (g_radn_net - g_fg)/(density_air * Eo_lambda () * g_da)
-         term1 = ga/(g_epsilon*gj)
-         term2 = ga/(g_epsilon+1.0)
+         gj = (g%radn_net - g%fg)/(density_air * Eo_lambda () * g%da)
+         term1 = ga/(g%epsilon*gj)
+         term2 = ga/(g%epsilon+1.0)
  
-         gs = divide ((gc + gc*term1 + (1.0-g_cover_green)*term2)
-     :      , (g_cover_green + term1), 0.0)
+         gs = divide ((gc + gc*term1 + (1.0-g%cover_green)*term2)
+     :      , (g%cover_green + term1), 0.0)
          rc_kelliher = divide (1.0, gs, 0.0)
  
             ! fixed
-         rc_fixed = c_rc
+         rc_fixed = c%rc
  
-      if (c_rc_method .eq. 'simulat') then
+      if (c%rc_method .eq. 'simulat') then
  
          rc = rc_simulat
  
-      else if (c_rc_method .eq. 'simple') then
+      else if (c%rc_method .eq. 'simple') then
          rc = rc_simple
  
-      else if (c_rc_method .eq. 'kelliher') then
+      else if (c%rc_method .eq. 'kelliher') then
  
          rc = rc_kelliher
  
-      else if (c_rc_method .eq. 'fixed') then
+      else if (c%rc_method .eq. 'fixed') then
  
          rc = rc_fixed
  
-      else if (c_rc_method .eq. 'raupach') then
+      else if (c%rc_method .eq. 'raupach') then
  
          rc = rc_raupach
       else
          call fatal_error (err_user,
-     :        c_rc_method//' rc method is not recognised')
+     :        c%rc_method//' rc method is not recognised')
  
  
       endif
@@ -1950,9 +2014,9 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
       subroutine Eo_wind_conv (z1, d1, zruff1, windz1
      :                        , z2, d2, zruff2, windz2)
 *====================================================================
+      use EoModule
       implicit none
       include   'const.inc'            ! Global constant definitions
-      include   'Eo.inc'               ! Eo common block
       include   'convert.inc'
       include 'data.pub'                          
       include 'error.pub'                         
@@ -1991,14 +2055,14 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
  
       call push_routine (myname)
  
-      if (c_reference_height_base .eq. 'canopy') then
-cjh!         conversion_height = c_zc_conversion + g_canopy_height
-         conversion_height = c_zc_conversion
+      if (c%reference_height_base .eq. 'canopy') then
+cjh!         conversion_height = c%zc_conversion + g%canopy_height
+         conversion_height = c%zc_conversion
       else
-         conversion_height = c_zc_conversion
+         conversion_height = c%zc_conversion
       endif
  
-      if (g_canopy_height .le. 0.5*conversion_height) then
+      if (g%canopy_height .le. 0.5*conversion_height) then
          ! conversion height sufficient
       else
  
@@ -2032,8 +2096,8 @@ cjh!         conversion_height = c_zc_conversion + g_canopy_height
 *====================================================================
       real function Eo_lambda ()
 *====================================================================
+      use EoModule
       implicit none
-      include   'Eo.inc'               ! Eo common block
       include 'error.pub'                         
 
 *+  Purpose
@@ -2056,7 +2120,7 @@ cjh!         conversion_height = c_zc_conversion + g_canopy_height
  
          ! temperature functions.  lambda is the slope
  
-      ave_temp = (g_maxt + g_mint) * 0.5
+      ave_temp = (g%maxt + g%mint) * 0.5
       Eo_lambda = (2501.0 - 2.38*ave_temp)*1000.0      ! J/kg
  
       call pop_routine (myname)
@@ -2068,8 +2132,8 @@ cjh!         conversion_height = c_zc_conversion + g_canopy_height
 *====================================================================
       subroutine Eo_epsilon (epsilon)
 *====================================================================
+      use EoModule
       implicit none
-      include   'Eo.inc'               ! Eo common block
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -2106,11 +2170,11 @@ cjh!         conversion_height = c_zc_conversion + g_canopy_height
          !temperature functions.  epsilon is the slope       if e_sat with
          !temperature, data_non is the non-dimenional form according to raupach
  
-      ave_temp = (g_maxt + g_mint) * 0.5
+      ave_temp = (g%maxt + g%mint) * 0.5
       call Eo_esat (esat)
  
-      desdt = esat*B*C/ (C + ave_temp)**2   ! d(sat VP)/dT: (mb/K)
-      dqsdt = (mwh2o/mwair) *desdt/g_pa     ! d(sat spec hum)/dT: (kg/kg)/K
+      desdt = esat*TC_B*TC_C/ (TC_C + ave_temp)**2   ! d(sat VP)/dT: (mb/K)
+      dqsdt = (mwh2o/mwair) *desdt/g%pa     ! d(sat spec hum)/dT: (kg/kg)/K
       epsilon = (Eo_lambda ()/capp) *dqsdt  ! dimensionless
  
       call pop_routine (myname)
@@ -2122,9 +2186,9 @@ cjh!         conversion_height = c_zc_conversion + g_canopy_height
 *====================================================================
       subroutine Eo_penman (pen_mon)
 *====================================================================
+      use EoModule
       implicit none
       include   'convert.inc'          ! conversion constants
-      include   'Eo.inc'               ! Eo common block
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -2157,33 +2221,33 @@ cjh!         conversion_height = c_zc_conversion + g_canopy_height
  
       call push_routine (myname)
  
-!      wind_min_km = c_wind_min * g_wind_hrs*hr2s/km2m
-!     :            / p_wind_day_fraction
+!      wind_min_km = c%wind_min * g%wind_hrs*hr2s/km2m
+!     :            / p%wind_day_fraction
 
-         ! g_wind is already converted for daylight hours proportion
+         ! g%wind is already converted for daylight hours proportion
          
 !      call eo_wind_conv (
-!     :        g_instrum_height, p_disp_instrum, p_z0_instrum
-!     :      , g_wind
-!     :      , reference_height, p_disp_instrum, p_z0_instrum
+!     :        g%instrum_height, p%disp_instrum, p%z0_instrum
+!     :      , g%wind
+!     :      , reference_height, p%disp_instrum, p%z0_instrum
 !     :      , U2)
  
-!      U2 = U2 * p_wind_multiplier
-      U2 = g_wind_adj 
-     :   * (penman_reference_height / c_multiplier_height)**(1.0/6.0)
-      fU2 = c_penman_fU2_coef_a*(1.0 + c_penman_fU2_coef_b*U2)
-      conv = (g_pa / molef) / (g_n_hrs * hr2s) * gm2kg/(scm2smm*smm2sm)
+!      U2 = U2 * p%wind_multiplier
+      U2 = g%wind_adj 
+     :   * (penman_reference_height / c%multiplier_height)**(1.0/6.0)
+      fU2 = c%penman_fU2_coef_a*(1.0 + c%penman_fU2_coef_b*U2)
+      conv = (g%pa / molef) / (g%n_hrs * hr2s) * gm2kg/(scm2smm*smm2sm)
  
          !and now  penman
  
-      fe = (g_epsilon * (g_radn_net)
-     :    + (Eo_lambda () * fU2 * g_da * conv))
-     :    / (g_epsilon + 1.0)
+      fe = (g%epsilon * (g%radn_net)
+     :    + (Eo_lambda () * fU2 * g%da * conv))
+     :    / (g%epsilon + 1.0)
  
-      pen_mon = fe/Eo_lambda ()*g_n_hrs*hr2s   ! to convert back to a daily basis
-     :        * p_adjustment_factor
+      pen_mon = fe/Eo_lambda ()*g%n_hrs*hr2s   ! to convert back to a daily basis
+     :        * p%adjustment_factor
  
-      call Bound_check_real_var (pen_mon, 0.0, c_pen_mon_ub, 'pen')
+      call Bound_check_real_var (pen_mon, 0.0, c%pen_mon_ub, 'pen')
       pen_mon = l_bound (pen_mon, 0.0)
  
       call pop_routine (myname)
@@ -2193,9 +2257,9 @@ cjh!         conversion_height = c_zc_conversion + g_canopy_height
 *====================================================================
       subroutine Eo_penman_doorenbos (pen_mon)
 *====================================================================
+      use EoModule
       implicit none
       include   'convert.inc'          ! conversion constants
-      include   'Eo.inc'               ! Eo common block
       include 'data.pub'                          
       include 'error.pub' 
       include 'science.pub'                  
@@ -2336,43 +2400,43 @@ cjh!         conversion_height = c_zc_conversion + g_canopy_height
 
          ! calc radiation index
       radn_index = int(0.5 +
-     :             linear_interp_real (g_radn, radn_crit, y_index, 4))
-      ave_t = (g_maxt + g_mint)*0.5
-      nightT = 0.29*g_maxT + 0.71*g_minT 
-      call Eo_vp (esat_m, g_maxt)
+     :             linear_interp_real (g%radn, radn_crit, y_index, 4))
+      ave_t = (g%maxt + g%mint)*0.5
+      nightT = 0.29*g%maxT + 0.71*g%minT 
+      call Eo_vp (esat_m, g%maxt)
       call Eo_vp (esat_a, ave_t)
       call Eo_vp (esat, nightT)
-      qsat = molef*esat_m/g_pa
+      qsat = molef*esat_m/g%pa
  
             ! vapour pressure in millibars
-      call Eo_vp (ea_mb, g_mint)
-      q = molef*ea_mb/g_pa
+      call Eo_vp (ea_mb, g%mint)
+      q = molef*ea_mb/g%pa
       da = (qsat - q)
-!      da = g_da
+!      da = g%da
       rh_avt = ea_mb/esat_a                      ! rh, from sat vp at average temp
       rh_avea = ea_mb/(0.5*esat_m+0.5*ea_mb)     ! rh, from average vp
       rh_avead = ea_mb/(0.75*esat_m+0.25*ea_mb)  ! rh, from average day vp  
       rh_maxt = ea_mb/esat_m                     ! rh, from maximum vp
-      rh_gda = 1.0-g_da/(molef*esat_m/g_pa)      ! rh, from day vpd & max vp
-      rh_da = 1.0-da/(molef*esat_m/g_pa)         ! rh, from full vpd & max vp
+      rh_gda = 1.0-g%da/(molef*esat_m/g%pa)      ! rh, from day vpd & max vp
+      rh_da = 1.0-da/(molef*esat_m/g%pa)         ! rh, from full vpd & max vp
       rh_max = ea_mb/esat                        ! rh, from night vp
     
          ! calc relative humidity index
       rh_index = int(0.5 + 
      :           linear_interp_real (rh_avead, rh_crit, y_index, 3))
 
-         ! g_wind is already converted for daylight hours proportion
+         ! g%wind is already converted for daylight hours proportion
          
          ! convert wind run from instrument height to reference height
       call eo_wind_conv (
-     :        g_instrum_height, p_disp_instrum, p_z0_instrum
-     :      , g_wind * p_wind_multiplier
-     :      , penman_reference_height, p_disp_instrum, p_z0_instrum
+     :        g%instrum_height, p%disp_instrum, p%z0_instrum
+     :      , g%wind * p%wind_multiplier
+     :      , penman_reference_height, p%disp_instrum, p%z0_instrum
      :      , U2)
  
          ! calc min wind speed in terms of daily wind run
-      wind_min_km = c_wind_min * g_wind_hrs*hr2s/km2m
-     :            / p_wind_day_fraction
+      wind_min_km = c%wind_min * g%wind_hrs*hr2s/km2m
+     :            / p%wind_day_fraction
       
          ! calc wind (m/s) for average day for calc wind index
          ! assumes 2/3 wind in day and 12 hour day length
@@ -2390,21 +2454,21 @@ cjh!         conversion_height = c_zc_conversion + g_canopy_height
          ! apply minimum wind speed 
       U2 = l_bound (U2, wind_min_km)
 
-!      U2 = g_wind_adj 
-!     :   * (penman_reference_height / c_multiplier_height)**(1.0/6.0)
+!      U2 = g%wind_adj 
+!     :   * (penman_reference_height / c%multiplier_height)**(1.0/6.0)
 
          ! Penman (Doorenbos and Pruit version)
       fU2 = 0.027*(1.0 + 0.01*U2)
-      conv = (g_pa / molef) / (g_n_hrs * hr2s) * gm2kg/(scm2smm*smm2sm)
+      conv = (g%pa / molef) / (g%n_hrs * hr2s) * gm2kg/(scm2smm*smm2sm)
  
          !and now  penman
  
-      fe = (g_epsilon * (g_radn_net)
-     :    + (Eo_lambda () * fU2 * g_da * conv))
-     :    / (g_epsilon + 1.0)
+      fe = (g%epsilon * (g%radn_net)
+     :    + (Eo_lambda () * fU2 * g%da * conv))
+     :    / (g%epsilon + 1.0)
  
-      pen_mon = fe/Eo_lambda ()*g_n_hrs*hr2s   ! to convert back to a daily basis
-     :        * p_adjustment_factor
+      pen_mon = fe/Eo_lambda ()*g%n_hrs*hr2s   ! to convert back to a daily basis
+     :        * p%adjustment_factor
      :        * cvf(wind_index,radn_index,rh_index)
 
       
@@ -2421,14 +2485,14 @@ cjh!         conversion_height = c_zc_conversion + g_canopy_height
 !     :           linear_interp_real (rh_da, rh_crit, y_index, 3)))
 !     :            , cvf(wind_index,radn_index,int(0.5 + 
 !     :           linear_interp_real (rh_gda, rh_crit, y_index, 3)))
-      !write(200,*) wind_ms, g_radn, rh_max
+      !write(200,*) wind_ms, g%radn, rh_max
       !write(200,*) linear_interp_real (wind_ms, wind_crit, y_index, 4)
       !write(200,*) wind_crit
       !write(200,*) y_index
       !write(200,*)  wind_index,radn_index,rh_index
       !write(200,*)  cvf(wind_index,radn_index,rh_index)
  
-      call Bound_check_real_var (pen_mon, 0.0, c_pen_mon_ub, 'pen')
+      call Bound_check_real_var (pen_mon, 0.0, c%pen_mon_ub, 'pen')
       pen_mon = l_bound (pen_mon, 0.0)
  
       call pop_routine (myname)
@@ -2438,9 +2502,9 @@ cjh!         conversion_height = c_zc_conversion + g_canopy_height
 *====================================================================
       subroutine Eo_penman_monteith (pen_mon)
 *====================================================================
+      use EoModule
       implicit none
       include   'convert.inc'          ! conversion constants
-      include   'Eo.inc'               ! Eo common block
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -2469,23 +2533,23 @@ cjh!         conversion_height = c_zc_conversion + g_canopy_height
  
       call push_routine (myname)
  
-      ave_temp = (g_maxt + g_mint) * 0.5
-      density_air = mwair*g_pa*100.0 / ((ave_temp + abs_temp)* r_gas)
+      ave_temp = (g%maxt + g%mint) * 0.5
+      density_air = mwair*g%pa*100.0 / ((ave_temp + abs_temp)* r_gas)
  
          !and now raupach's version of penman-monteith
  
-      fe = (g_epsilon * (g_radn_net - g_fg)
-     :    + divide (density_air * Eo_lambda () * g_da, g_ra, 1.0e20))
-     :    / (g_epsilon + divide (g_rc, g_ra, 1.0e20) + 1.0)
+      fe = (g%epsilon * (g%radn_net - g%fg)
+     :    + divide (density_air * Eo_lambda () * g%da, g%ra, 1.0e20))
+     :    / (g%epsilon + divide (g%rc, g%ra, 1.0e20) + 1.0)
  
       !print*, 'fe, epsi, fn, fg, rho, rlam,da,ratot,rsv'
-      !print*, fe, g_epsilon, g_radn_net, g_fg, density_air
-      !:      , Eo_lambda (),g_da,g_ra,g_rc
+      !print*, fe, g%epsilon, g%radn_net, g%fg, density_air
+      !:      , Eo_lambda (),g%da,g%ra,g%rc
  
-      pen_mon = fe/Eo_lambda ()*g_n_hrs*hr2s   ! to convert back to a daily basis
-     :        * p_adjustment_factor
+      pen_mon = fe/Eo_lambda ()*g%n_hrs*hr2s   ! to convert back to a daily basis
+     :        * p%adjustment_factor
  
-      call Bound_check_real_var (pen_mon, 0.0, c_pen_mon_ub, 'pen_mon')
+      call Bound_check_real_var (pen_mon, 0.0, c%pen_mon_ub, 'pen_mon')
       pen_mon = l_bound (pen_mon, 0.0)
  
       call pop_routine (myname)
@@ -2497,9 +2561,9 @@ cjh!         conversion_height = c_zc_conversion + g_canopy_height
 *====================================================================
       subroutine Eo_penman_monteith_transp (pen_mon)
 *====================================================================
+      use EoModule
       implicit none
       include   'convert.inc'          ! conversion constants
-      include   'Eo.inc'               ! Eo common block
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -2529,23 +2593,23 @@ cjh!         conversion_height = c_zc_conversion + g_canopy_height
  
       call push_routine (myname)
  
-      ave_temp = (g_maxt + g_mint) * 0.5
-      density_air = mwair*g_pa*100.0 / ((ave_temp + abs_temp)* r_gas)
+      ave_temp = (g%maxt + g%mint) * 0.5
+      density_air = mwair*g%pa*100.0 / ((ave_temp + abs_temp)* r_gas)
  
          !and now raupach's version of penman-monteith
-      if (g_cover_green .gt. 0.0) then
+      if (g%cover_green .gt. 0.0) then
  
-         fe = (g_epsilon * g_radn_net * g_cover_green
-     :      + divide (density_air * Eo_lambda () * g_da, g_ra, 1.0e20))
-     :      / (g_epsilon + divide (g_rc, g_ra, 1.0e20) + 1.0)
+         fe = (g%epsilon * g%radn_net * g%cover_green
+     :      + divide (density_air * Eo_lambda () * g%da, g%ra, 1.0e20))
+     :      / (g%epsilon + divide (g%rc, g%ra, 1.0e20) + 1.0)
  
       else
          fe = 0.0
       endif
  
-      pen_mon = fe/Eo_lambda ()*g_n_hrs*hr2s   ! to convert back to a daily basis
-     :        * p_adjustment_factor
-cjh      print*, 'g_da, fe = ', g_da, fe 
+      pen_mon = fe/Eo_lambda ()*g%n_hrs*hr2s   ! to convert back to a daily basis
+     :        * p%adjustment_factor
+cjh      print*, 'g%da, fe = ', g%da, fe 
       call pop_routine (myname)
       return
       end
@@ -2554,9 +2618,9 @@ cjh      print*, 'g_da, fe = ', g_da, fe
 *====================================================================
       subroutine Eo_radn_x_Kfunction (pen_mon)
 *====================================================================
+      use EoModule
       implicit none
       include   'convert.inc'          ! conversion constants
-      include   'Eo.inc'               ! Eo common block
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -2588,24 +2652,24 @@ cjh      print*, 'g_da, fe = ', g_da, fe
  
       call push_routine (myname)
  
-      ave_temp = (g_maxt + g_mint) * 0.5
-      density_air = mwair*g_pa*100.0 / ((ave_temp + abs_temp)* r_gas)
+      ave_temp = (g%maxt + g%mint) * 0.5
+      density_air = mwair*g%pa*100.0 / ((ave_temp + abs_temp)* r_gas)
  
          !and now raupach's version of penman-monteith
-      if (g_lai .gt. 0.0) then
+      if (g%lai .gt. 0.0) then
  
-         kfunction = (1.0 - exp (-p_extinct_coef*g_lai))
+         kfunction = (1.0 - exp (-p%extinct_coef*g%lai))
          
-         fe = (g_epsilon * (g_radn_net - g_fg) * kfunction
-     :      + divide (density_air * Eo_lambda () * g_da, g_ra, 1.0e20))
-     :      / (g_epsilon + divide (g_rc, g_ra, 1.0e20) + 1.0)
+         fe = (g%epsilon * (g%radn_net - g%fg) * kfunction
+     :      + divide (density_air * Eo_lambda () * g%da, g%ra, 1.0e20))
+     :      / (g%epsilon + divide (g%rc, g%ra, 1.0e20) + 1.0)
  
       else
          fe = 0.0
       endif
  
-      pen_mon = fe/Eo_lambda ()*g_n_hrs*hr2s   ! to convert back to a daily basis
-     :        * p_adjustment_factor
+      pen_mon = fe/Eo_lambda ()*g%n_hrs*hr2s   ! to convert back to a daily basis
+     :        * p%adjustment_factor
  
       call pop_routine (myname)
       return
@@ -2615,9 +2679,9 @@ cjh      print*, 'g_da, fe = ', g_da, fe
 *====================================================================
       subroutine Eo_pm_x_kfunction (pen_mon)
 *====================================================================
+      use EoModule
       implicit none
       include   'convert.inc'          ! conversion constants
-      include   'Eo.inc'               ! Eo common block
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -2640,8 +2704,8 @@ cjh      print*, 'g_da, fe = ', g_da, fe
  
       call push_routine (myname)
       
-      if (g_lai.gt.0.0) then
-         pen_mon = g_Eo_pm * (1.0 - exp (-p_extinct_coef*g_lai))       
+      if (g%lai.gt.0.0) then
+         pen_mon = g%Eo_pm * (1.0 - exp (-p%extinct_coef*g%lai))       
       else
          pen_mon = 0.0      
       endif
@@ -2654,9 +2718,9 @@ cjh      print*, 'g_da, fe = ', g_da, fe
 *====================================================================
       subroutine Eo_pm_x_cover (pen_mon)
 *====================================================================
+      use EoModule
       implicit none
       include   'convert.inc'          ! conversion constants
-      include   'Eo.inc'               ! Eo common block
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -2679,7 +2743,7 @@ cjh      print*, 'g_da, fe = ', g_da, fe
  
       call push_routine (myname)
       
-      pen_mon = g_Eo_pm * g_cover_green
+      pen_mon = g%Eo_pm * g%cover_green
 
       call pop_routine (myname)
       return
@@ -2688,9 +2752,9 @@ cjh      print*, 'g_da, fe = ', g_da, fe
 *====================================================================
       subroutine Eo_penman_x_cover (pen_mon)
 *====================================================================
+      use EoModule
       implicit none
       include   'convert.inc'          ! conversion constants
-      include   'Eo.inc'               ! Eo common block
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -2713,7 +2777,7 @@ cjh      print*, 'g_da, fe = ', g_da, fe
  
       call push_routine (myname)
       
-      pen_mon = g_Eo_penman * g_cover_green
+      pen_mon = g%Eo_penman * g%cover_green
 
       call pop_routine (myname)
       return
@@ -2724,9 +2788,9 @@ cjh      print*, 'g_da, fe = ', g_da, fe
 *====================================================================
       subroutine Eo_penman_doorenbos_x_cover (pen_mon)
 *====================================================================
+      use EoModule
       implicit none
       include   'convert.inc'          ! conversion constants
-      include   'Eo.inc'               ! Eo common block
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -2749,7 +2813,7 @@ cjh      print*, 'g_da, fe = ', g_da, fe
  
       call push_routine (myname)
       
-      pen_mon = g_Eo_penman_doorenbos * g_cover_green
+      pen_mon = g%Eo_penman_doorenbos * g%cover_green
 
       call pop_routine (myname)
       return
@@ -2759,10 +2823,10 @@ cjh      print*, 'g_da, fe = ', g_da, fe
 *====================================================================
       subroutine Eo_pm_plant (pen_mon)
 *====================================================================
+      use EoModule
       implicit none
       include   'const.inc'
       include   'convert.inc'          ! conversion constants
-      include   'Eo.inc'               ! Eo common block
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -2784,35 +2848,35 @@ cjh      print*, 'g_da, fe = ', g_da, fe
  
       call push_routine (myname)
       
-      if (p_eo_plant_method.eq.'eo_transpiration') then
-         pen_mon = g_eo_pm_transp
-      elseif (p_eo_plant_method.eq.'eo_pm') then
-         pen_mon = g_eo_pm
-      elseif (p_eo_plant_method.eq.'eo_penman') then
-         pen_mon = g_eo_penman
-      elseif (p_eo_plant_method.eq.'eo_penman_x_cover') then
-         pen_mon = g_eo_penman_x_cover
-      elseif (p_eo_plant_method.eq.'eo_penman_d_x_cover') then
-         pen_mon = g_eo_penman_doorenbos_x_cover
-      elseif (p_eo_plant_method.eq.'eo_pm_x_cover') then
-         pen_mon = g_eo_pm_x_cover
-      elseif (p_eo_plant_method.eq.'eo_pm_x_kfunction') then
-         pen_mon = g_eo_pm_x_Kfunction
-      elseif (p_eo_plant_method.eq.'eo_radn_x_kfunction') then
-         pen_mon = g_eo_radn_x_Kfunction
-      elseif (p_eo_plant_method.eq.'eo_priestly_taylor') then
-         pen_mon = g_eo_priestly_taylor
-      elseif (p_eo_plant_method.eq.'eo_ritchie') then
-         pen_mon = g_eo_ritchie
-      elseif (p_eo_plant_method.eq.'null') then
+      if (p%eo_plant_method.eq.'eo_transpiration') then
+         pen_mon = g%eo_pm_transp
+      elseif (p%eo_plant_method.eq.'eo_pm') then
+         pen_mon = g%eo_pm
+      elseif (p%eo_plant_method.eq.'eo_penman') then
+         pen_mon = g%eo_penman
+      elseif (p%eo_plant_method.eq.'eo_penman_x_cover') then
+         pen_mon = g%eo_penman_x_cover
+      elseif (p%eo_plant_method.eq.'eo_penman_d_x_cover') then
+         pen_mon = g%eo_penman_doorenbos_x_cover
+      elseif (p%eo_plant_method.eq.'eo_pm_x_cover') then
+         pen_mon = g%eo_pm_x_cover
+      elseif (p%eo_plant_method.eq.'eo_pm_x_kfunction') then
+         pen_mon = g%eo_pm_x_Kfunction
+      elseif (p%eo_plant_method.eq.'eo_radn_x_kfunction') then
+         pen_mon = g%eo_radn_x_Kfunction
+      elseif (p%eo_plant_method.eq.'eo_priestly_taylor') then
+         pen_mon = g%eo_priestly_taylor
+      elseif (p%eo_plant_method.eq.'eo_ritchie') then
+         pen_mon = g%eo_ritchie
+      elseif (p%eo_plant_method.eq.'null') then
          pen_mon = 0.0
       else
          pen_mon = 0.0
          call fatal_error (err_user,
-     :        ' Unknown eo_plant method selected '//p_eo_plant_method)
+     :        ' Unknown eo_plant method selected '//p%eo_plant_method)
       endif
       
-      if (g_lai.gt.0.0) then
+      if (g%lai.gt.0.0) then
          
       else
          pen_mon = 0
@@ -2829,9 +2893,9 @@ cjh      print*, 'g_da, fe = ', g_da, fe
 *====================================================================
       subroutine Eo_priestly_taylor (priestly_taylor)
 *====================================================================
+      use EoModule
       implicit none
       include   'convert.inc'          ! conversion constants
-      include   'Eo.inc'               ! Eo common block
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -2863,12 +2927,12 @@ cjh      print*, 'g_da, fe = ', g_da, fe
  
       call push_routine (myname)
  
-      W = g_epsilon/(g_epsilon + 1.0)
-      Qstar =  g_radn_net - g_fg
+      W = g%epsilon/(g%epsilon + 1.0)
+      Qstar =  g%radn_net - g%fg
       alpha = 1.26
       fe = alpha * W * Qstar
  
-      priestly_taylor = fe/Eo_lambda ()*g_n_hrs*hr2s   ! to convert back to a daily basis
+      priestly_taylor = fe/Eo_lambda ()*g%n_hrs*hr2s   ! to convert back to a daily basis
  
       call pop_routine (myname)
       return
@@ -2878,10 +2942,9 @@ cjh      print*, 'g_da, fe = ', g_da, fe
 *====================================================================
       subroutine Eo_send_my_variable (Variable_name)
 *====================================================================
+      use EoModule
       implicit none
-      include   'Eo.inc'               ! Eo common block
       include 'convert.inc'
-      include 'engine.pub'                        
       include 'intrface.pub'                      
       include 'error.pub'                         
 
@@ -2909,166 +2972,166 @@ cjh      print*, 'g_da, fe = ', g_da, fe
          call respond2get_real_var (
      :               variable_name
      :              ,'(mm)'
-     :              ,g_Eo_pm)
+     :              ,g%Eo_pm)
  
          !  penman potential evaporation
       else if (variable_name .eq. 'eo_penman') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(mm)'
-     :              ,g_Eo_penman)
+     :              ,g%Eo_penman)
  
          !  penman doorenbos potential evaporation
       else if (variable_name .eq. 'eo_penman_d') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(mm)'
-     :              ,g_Eo_penman_doorenbos)
+     :              ,g%Eo_penman_doorenbos)
  
          !  penman-monteith plant transpiration
       else if (variable_name .eq. 'eo_transp') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(mm)'
-     :              ,g_Eo_pm_transp)
+     :              ,g%Eo_pm_transp)
  
          ! adjusted  penman-monteith by cover
       else if (variable_name .eq. 'eo_pm_x_cover') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(mm)'
-     :              ,g_Eo_pm_x_cover)
+     :              ,g%Eo_pm_x_cover)
  
          ! adjusted  penman by cover
       else if (variable_name .eq. 'eo_penman_x_cover') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(mm)'
-     :              ,g_Eo_penman_x_cover)
+     :              ,g%Eo_penman_x_cover)
  
          ! adjusted  penman doorenbos by cover
       else if (variable_name .eq. 'eo_penman_d_x_cover') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(mm)'
-     :              ,g_Eo_penman_doorenbos_x_cover)
+     :              ,g%Eo_penman_doorenbos_x_cover)
  
          ! adjusted  penman-monteith by k function
       else if (variable_name .eq. 'eo_pm_x_kfunction') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(mm)'
-     :              ,g_Eo_pm_x_kfunction)
+     :              ,g%Eo_pm_x_kfunction)
  
          ! adjusted  penman-monteith by k function
       else if (variable_name .eq. 'eo_radn_x_kfunction') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(mm)'
-     :              ,g_Eo_radn_x_kfunction)
+     :              ,g%Eo_radn_x_kfunction)
  
          ! adjusted  penman-monteith plant transpiration
       else if (variable_name .eq. 'eo_plant'
-     :     .and. p_eo_plant_method .ne. 'null') then
+     :     .and. p%eo_plant_method .ne. 'null') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(mm)'
-     :              ,g_Eo_pm_plant)
-      !print*, ' eo_plant sent as ', g_eo_pm_plant
+     :              ,g%Eo_pm_plant)
+      !print*, ' eo_plant sent as ', g%eo_pm_plant
  
          !  priestly taylor soil evaporation
       else if (variable_name .eq. 'eo_soil') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(mm)'
-     :              ,g_eo_priestly_taylor*(1-g_cover_green))
+     :              ,g%eo_priestly_taylor*(1-g%cover_green))
  
          !  priestly taylor PET
       else if (variable_name .eq. 'eo_priestly_taylor') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(mm)'
-     :              ,g_eo_priestly_taylor)
+     :              ,g%eo_priestly_taylor)
  
          !  ritchie PET
       else if (variable_name .eq. 'eo_ritchie') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(mm)'
-     :              ,g_eo_ritchie)
+     :              ,g%eo_ritchie)
  
       else if (variable_name .eq. 'eo_vpd') then
-         vpd = g_da/molef*g_pa*mb2kpa
+         vpd = g%da/molef*g%pa*mb2kpa
          call respond2get_real_var (
      :               variable_name
      :              ,'(kpa)'
      :              , vpd)
  
-      else if (variable_name .eq. 'g_canopy_height') then
+      else if (variable_name .eq. 'g%canopy_height') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(mm)'
-     :              ,g_canopy_height)
+     :              ,g%canopy_height)
  
       else if (variable_name .eq. 'wind_ms_multiplier_height') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(m/s)'
-     :              ,g_wind_ms_multiplier_height)
+     :              ,g%wind_ms_multiplier_height)
  
       else if (variable_name .eq. 'wind_ms_reference') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(m/s)'
-     :              ,g_wind_ms_reference)
+     :              ,g%wind_ms_reference)
  
       else if (variable_name .eq. 'wind_adj') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(km/day)'
-     :              ,g_wind_adj)
+     :              ,g%wind_adj)
  
       else if (variable_name .eq. 'n_hrs') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(hour)'
-     :              ,g_n_hrs)
+     :              ,g%n_hrs)
  
       else if (variable_name .eq. 'radn_net') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(W/m2)'
-     :              ,g_radn_net)
+     :              ,g%radn_net)
  
       else if (variable_name .eq. 'da') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(kg/kg)'
-     :              , g_da)
+     :              , g%da)
  
       else if (variable_name .eq. 'ra') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(s/m)'
-     :              ,g_ra)
+     :              ,g%ra)
  
       else if (variable_name .eq. 'rc') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(s/m)'
-     :              ,g_rc)
+     :              ,g%rc)
  
       else if (variable_name .eq. 'epsilon') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(kg/kg/K)'
-     :              ,g_epsilon)
+     :              ,g%epsilon)
  
       else if (variable_name .eq. 'eo_daylength') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(hrs)'
-     :              ,g_n_hrs)
+     :              ,g%n_hrs)
  
       else
          call Message_unused ()
@@ -3084,6 +3147,7 @@ cjh      print*, 'g_da, fe = ', g_da, fe
 *================================================================
       subroutine Eo_process ()
 *================================================================
+      use EoModule
       implicit none
       include 'error.pub'                         
 
@@ -3108,9 +3172,8 @@ cjh      print*, 'g_da, fe = ', g_da, fe
 *     ================================================================
       subroutine Eo_set_my_variable (Variable_name)
 *     ================================================================
+      use EoModule
       implicit none
-      include   'Eo.inc'           ! Eo common block
-      include 'engine.pub'                        
       include 'intrface.pub'                      
       include 'error.pub'                         
 
@@ -3135,16 +3198,16 @@ cjh      print*, 'g_da, fe = ', g_da, fe
       call push_routine (my_name)
  
       if (Variable_name .eq. 'eo_plant'
-     :     .and. p_eo_plant_method .ne. 'null') then
+     :     .and. p%eo_plant_method .ne. 'null') then
          !                        ---
          call collect_real_var (
      :                variable_name    ! array name
      :             ,  '(mm)'           ! units
-     :             ,  g_eo_pm_plant            ! array
+     :             ,  g%eo_pm_plant            ! array
      :             ,  numvals          ! number of elements returned
      :             ,  0.0              ! lower limit for bounds checking
      :             ,  100.0)            ! upper limit for bounds checking
-      !print*, ' eo_plant set to ', g_eo_pm_plant
+      !print*, ' eo_plant set to ', g%eo_pm_plant
  
       else
             ! Don't know this variable name
@@ -3158,8 +3221,8 @@ cjh      print*, 'g_da, fe = ', g_da, fe
 *     ===========================================================
       subroutine eo_ritchie (eo)
 *     ===========================================================
+      use EoModule
       implicit none
-      include   'eo.inc'
       include 'science.pub'
       include 'error.pub'
  
@@ -3203,14 +3266,14 @@ cjh      print*, 'g_da, fe = ', g_da, fe
                 ! find equilibrium evap rate as a
                 ! function of radiation, albedo, and temp.
  
-      albedo = p_max_albedo
-     :       - (p_max_albedo - p_albedo) * (1.0 - g_cover_green)
+      albedo = p%max_albedo
+     :       - (p%max_albedo - p%albedo) * (1.0 - g%cover_green)
  
                 ! wt_ave_temp is mean temp, weighted towards max.
  
-      wt_ave_temp = 0.60*g_maxt + 0.40*g_mint
+      wt_ave_temp = 0.60*g%maxt + 0.40*g%mint
  
-      eeq = g_radn*23.8846* (0.000204 - 0.000183*albedo)
+      eeq = g%radn*23.8846* (0.000204 - 0.000183*albedo)
      :    * (wt_ave_temp + 29.0)
  
                 ! find potential evapotranspiration (eo)
@@ -3227,8 +3290,8 @@ cjh      print*, 'g_da, fe = ', g_da, fe
 *     ===========================================================
       real function eo_eeq_fac ()
 *     ===========================================================
+      use EoModule
       implicit none
-      include   'eo.inc'
       include 'error.pub'
  
 *+  Purpose
@@ -3249,13 +3312,13 @@ cjh      print*, 'g_da, fe = ', g_da, fe
  
       call push_routine (my_name)
  
-      if (g_maxt.gt.35.0) then
+      if (g%maxt.gt.35.0) then
  
                 ! at very high max temps eo/eeq increases
                 ! beyond its normal value of 1.1
  
-         eo_eeq_fac =  ((g_maxt - 35.0) *0.05 + 1.1)
-      else if (g_maxt.lt.5.0) then
+         eo_eeq_fac =  ((g%maxt - 35.0) *0.05 + 1.1)
+      else if (g%maxt.lt.5.0) then
  
                 ! at very low max temperatures eo/eeq
                 ! decreases below its normal value of 1.1
@@ -3263,7 +3326,7 @@ cjh      print*, 'g_da, fe = ', g_da, fe
                 ! it would be better at tmax = 6.1, or change the
                 ! .18 to .188 or change the 20 to 21.1
  
-         eo_eeq_fac = 0.01*exp (0.18* (g_maxt + 20.0))
+         eo_eeq_fac = 0.01*exp (0.18* (g%maxt + 20.0))
       else
  
                 ! temperature is in the normal range, eo/eeq = 1.1
