@@ -7,9 +7,9 @@ ComponentInterface.for = ComponentInterface.for
 ;CropMod.inc     = ..\..\cropmod\source\CropMod.inc
 ;cropmodmain.for = ..\..\cropmod\source\cropmodmain.for
 sorgmain.for = sorgmain.for
-;sorgopt.for  = sorgopt.for
-;sorgtree.for = sorgtree.for
-;sorgn.for    = sorgn.for
+sorgopt.for  = sorgopt.for
+sorgtree.for = sorgtree.for
+sorgn.for    = sorgn.for
 
 [APSBuild]
 binary = ..\lib\sorghum.dll

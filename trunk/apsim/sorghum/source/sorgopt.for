@@ -11,6 +11,7 @@
      .                    dm_green, dm_plant_min)
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -44,41 +45,41 @@
       real       dm_plant_stem         ! dry matter in stems (g/plant)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! initialise plant weight
          ! initialisations - set up dry matter for leaf, stem, flower, grain
          ! and root
- 
+
       if (on_day_of (emerg, g_current_stage, g_days_tot)) then
              ! seedling has just emerged.
- 
+
              ! initialise root, stem and leaf.
- 
+
          dm_green(root) = c_dm_root_init * g_plants
          dm_green(stem) = c_dm_stem_init * g_plants
          dm_green(leaf) = c_dm_leaf_init * g_plants
          dm_green(grain) = 0.0
          dm_green(flower) = 0.0
- 
+
 !changed from start_grain_fill
- 
+
       elseif (on_day_of (flowering
      :                 , g_current_stage, g_days_tot)) then
- 
+
              ! we are at first day of grainfill.
              ! set the minimum weight of leaf; used for translocation to grain
              ! and stem!
- 
+
          dm_plant_leaf = divide (dm_green(leaf), g_plants, 0.0)
          dm_plant_min(leaf) = dm_plant_leaf * (1.0 - c_leaf_trans_frac)
          dm_plant_stem = divide (dm_green(stem), g_plants, 0.0)
          dm_plant_min(stem) = dm_plant_stem * (1.0 - c_stem_trans_frac)
- 
+
       else   ! no changes
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -97,7 +98,7 @@
      .          g_slai,
      .          g_dlt_lai_pot,
      .          g_dlt_lai_stressed)
- 
+
 *     ===========================================================
       Use infrastructure
       implicit none
@@ -135,42 +136,42 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
 cscc/glh Need a proper target for SPLA. Although I think that we should
 c not have a target at all, but rather a 'longevity' approach. This makes
 c it easier to implement N stress also
- 
+
 c (Trying to..) calculate LAI that is (irretreivably) lost due to stress
- 
+
       if (stage_is_between (start_stage_SPLA, end_stage_SPLA
      :                     , g_current_stage)) then
- 
+
 !replace following g_dlt_lai_stressed w. g_dlt_lai_actual
          g_swdef_lai_loss = g_swdef_lai_loss
      :      + g_dlt_lai_pot - g_dlt_lai_stressed
- 
+
 c Calculate max. LAI possible, accounting for losses due to stress
 c Unfortunately, this sometimes goes negative! Need to have another
 c look at its calculation. Not used at present.
- 
+
          g_lai_max_possible = g_lai + g_slai - g_swdef_lai_loss
- 
+
 !scc after flag leaf, tplamax for senescence is set to the tpla reached
- 
+
          if (stage_is_between (end_stage_TPLA, end_stage_SPLA
      :                     , g_current_stage)) then
             g_lai_max_possible = g_lai + g_slai
          else
             ! do nothing
          endif
- 
+
       else
       ! Before floral initiation
- 
+
          g_lai_max_possible = 0.0
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -193,7 +194,7 @@ c look at its calculation. Not used at present.
       real g_row_spacing
       real c_x_row_spacing(*)
       real c_y_extinct_coef(*)
-      real c_num_row_spacing
+      integer c_num_row_spacing
       real g_lai
       real g_cover_green
 
@@ -215,14 +216,14 @@ c look at its calculation. Not used at present.
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       extinct_coef = linear_interp_real (g_row_spacing
      :                                  ,c_x_row_spacing
      :                                  ,c_y_extinct_coef
      :                                  ,c_num_row_spacing)
- 
+
       g_cover_green = (1.0 -exp (-extinct_coef*g_lai))
- 
+
       call pop_routine (myname)
       return
       end
@@ -235,7 +236,7 @@ c look at its calculation. Not used at present.
      .          end_stage_TPLA_plateau,
      .          now,
      .          g_phase_tt,
- 
+
      .          g_days_tot,
      .          g_current_stage,
      .          g_leaf_no_final,
@@ -300,29 +301,29 @@ c look at its calculation. Not used at present.
       real       tt_begin_to_end_TPLA  ! thermal time for TPLA period
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
            ! once leaf no is calculated maximum plant leaf area
            ! is determined
- 
+
       if (on_day_of (begin_stage, g_current_stage, g_days_tot)) then
          g_lai = c_initial_tpla * smm2sm * g_plants
       endif
- 
- 
+
+
       if (stage_is_between (begin_stage, end_stage_TPLA_plateau,
      .           g_current_stage) .and.
      .        g_phase_tt(end_stage_TPLA_plateau) .gt.0.0) then
- 
+
          tt_begin_to_end_TPLA = sum_between(begin_stage,
      :                          end_stage_TPLA_plateau,g_phase_tt)
- 
+
          tpla_max = (((g_tiller_no_fertile + 1.0) ** c_tiller_coef)
      :            * g_leaf_no_final ** p_main_stem_coef) * scm2smm
- 
+
          tt_since_begin = sum_between (begin_stage, now, g_tt_tot)
- 
+
 cscc 10/95 fixing the beta inflection coefficient as halfway to thermal
 c time of flag_leaf expanded. Code needs work as the halfway point jumps
 c around a bit as we progress (espec. when final_leaf_no is reset at floral in
@@ -330,35 +331,35 @@ c Note that tpla_inflection needs to be removed as a 'read-in' parameter
 c maybe the number is more like .66 of the distance?
 c can work out from the shape of a leaf area distribution - where is the biggest
 c leaf appearing...
- 
+
 c  scc - generalise tpla_inflection  - needs more work
- 
+
          tpla_inflection = tt_begin_to_end_TPLA *
      :           c_tpla_inflection_ratio
- 
+
 c scc end of changes for tpla (more below)
- 
+
          g_tpla_today = divide (Tpla_max
      :              , (1.0 + exp(-p_tpla_prod_coef
      :                        * (tt_since_begin - tpla_inflection)))
      :              , 0.0)
- 
+
          if (g_tpla_today .lt. g_tpla_yesterday)then
             g_tpla_today = g_tpla_yesterday
          endif
- 
+
          g_dlt_lai_pot = (g_tpla_today - g_tpla_yesterday)
      .                  *smm2sm * g_plants
- 
+
          g_tpla_yesterday = g_tpla_today
- 
+
       else
 !Beyond TPLA growth stage
          g_dlt_lai_pot = 0.0
- 
+
       endif
- 
- 
+
+
       call pop_routine (my_name)
       return
       end
@@ -370,7 +371,7 @@ c scc end of changes for tpla (more below)
      .          g_current_stage,
      .          g_days_tot,
      .          g_phase_tt,
- 
+
      .          c_leaf_init_rate,
      .          c_leaf_no_seed,
      .          c_leaf_no_min,
@@ -385,6 +386,7 @@ c scc end of changes for tpla (more below)
      .          g_node_no)
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -425,12 +427,12 @@ c scc end of changes for tpla (more below)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
          call sorg_leaf_number_final1 (
      .          emerg,
      .          floral_init,
      .          plant_end,
- 
+
      .          g_current_stage,
      .          g_days_tot,
      .          g_phase_tt,
@@ -439,7 +441,7 @@ c scc end of changes for tpla (more below)
      .          c_leaf_no_min,
      .          c_leaf_no_max,
      .          g_leaf_no_final)
- 
+
          call sorg_leaf_appearance1 (
      .          g_leaf_no,
      .          g_leaf_no_final,
@@ -450,7 +452,7 @@ c scc end of changes for tpla (more below)
      .          g_days_tot,
      .          g_dlt_tt,
      .          g_dlt_leaf_no) ! fraction of leaf emerged
- 
+
       call pop_routine (my_name)
       return
       end
@@ -462,7 +464,7 @@ c scc end of changes for tpla (more below)
      .          start_leaf_init,
      .          end_leaf_init,
      .          reset_stage,
- 
+
      .          g_current_stage,
      .          g_days_tot,
      .          g_phase_tt,
@@ -510,35 +512,35 @@ c scc end of changes for tpla (more below)
                                        ! to true floral initiation (deg day)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! set total leaf number
- 
+
       if (stage_is_between(start_leaf_init, end_leaf_init
      .     , g_current_stage)
      .      .or.
      .      on_day_of (end_leaf_init, g_current_stage, g_days_tot))
      .      then
- 
+
           ! estimate the final leaf no from an approximated thermal
           ! time for the period from emergence to floral initiation.
- 
+
         tt_floral_init = sum_between(start_leaf_init, end_leaf_init
      .     ,g_phase_tt)
- 
+
         g_leaf_no_final = divide (tt_floral_init
      :                         , c_leaf_init_rate, 0.0)
      :                 + c_leaf_no_seed
- 
+
          call bound_check_real_var (g_leaf_no_final
      :                            , c_leaf_no_min, c_leaf_no_max
      :                            , 'g_leaf_no_final')
- 
+
       elseif (on_day_of (reset_stage, g_current_stage, g_days_tot))
      . then
          g_leaf_no_final = 0.0
- 
+
       endif
       call pop_routine (my_name)
       return
@@ -559,6 +561,7 @@ c scc end of changes for tpla (more below)
      .          g_dlt_leaf_no)
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -597,50 +600,50 @@ c scc end of changes for tpla (more below)
       real       leaf_app_rate         ! rate of leaf appearance (oCd/leaf)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
 cglh uses sowing, not emerg to calc leaf no.
- 
+
       leaf_no_now = sum_between (emerg, now, g_leaf_no)
       leaf_no_remaining = g_leaf_no_final - leaf_no_now
- 
+
 !scc Peter's 2 stage version used here, modified to apply
 ! to last few leaves before flag
 !i.e. c_leaf_no_rate_change is leaf number from the top down (e.g. 4)
- 
+
       if (leaf_no_remaining .le. c_leaf_no_rate_change) then
- 
+
          leaf_app_rate = c_leaf_app_rate2
- 
+
       else
- 
+
          leaf_app_rate = c_leaf_app_rate1
- 
+
       endif
- 
- 
+
+
       if (on_day_of (emerg, g_current_stage, g_days_tot)) then
- 
+
              ! initialisation done elsewhere.
          g_dlt_leaf_no = 0.0
- 
+
       elseif (leaf_no_remaining.gt.0.0) then
- 
+
              ! if leaves are still growing, the cumulative number of
              ! phyllochrons or fully expanded leaves is calculated from
              ! daily thermal time for the day.
- 
+
          g_dlt_leaf_no = divide (g_dlt_tt, leaf_app_rate, 0.0)
          g_dlt_leaf_no = bound (g_dlt_leaf_no, 0.0, leaf_no_remaining)
- 
+
       else
              ! we have full number of leaves.
- 
+
          g_dlt_leaf_no = 0.0
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -651,39 +654,40 @@ cglh uses sowing, not emerg to calc leaf no.
       subroutine sorg_phenology2 (
      .       g_previous_stage,
      .       g_current_stage,
- 
+
      .       g_maxt, g_mint,
      .       c_x_temp, c_y_tt,
      .       c_num_temp, g_dlt_tt,
- 
+
      :       C_num_sw_avail_ratio,
      :       C_x_sw_avail_ratio, C_y_swdef_pheno, G_dlayer,
      :       g_root_depth, g_sw_avail, g_sw_avail_pot, g_swdef_pheno,
- 
+
      .       g_dm_green,
      .       g_N_conc_crit, g_N_conc_min, g_N_green,
      .       c_N_fact_pheno, g_nfact_pheno,
- 
+
      .          g_days_tot,
      .          g_sowing_depth,
      .          g_tt_tot,
      .          g_phase_tt,
- 
+
      .          g_sw_dep,
      .          p_ll_dep,
      .          c_pesw_germ,
- 
+
      .          g_dlt_stage,
- 
+
      .          c_tt_base,
      .          c_tt_opt,
      .          g_tt_tot_fm,
      .          g_dlt_tt_fm,
      .          g_sw_supply_demand_ratio)
- 
- 
+
+
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 !      include 'stress.inc' !to set value of photo - not sure if correct way
 
@@ -777,7 +781,7 @@ c (how do we do this w. TPLA approach?)
 *
       real       c_tt_base      !variables used in thermal time for GF
       real       c_tt_opt       !variables used in thermal time for GF
-      real       g_tt_tot_fm    !variables used in thermal time for GF
+      real       g_tt_tot_fm(*)    !variables used in thermal time for GF
       real       g_dlt_tt_fm    !variables used in thermal time for GF
       real       g_sw_supply_demand_ratio
 
@@ -787,49 +791,49 @@ c (how do we do this w. TPLA approach?)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
 !alternative option for thermal time during grain_fill
 !has 2 extra variables -
 !     .          g_tt_tot_fm,
 !     .          g_dlt_tt_fm,
- 
+
          g_previous_stage = g_current_stage
- 
+
          call srop_thermal_time1 (
      .          g_maxt, g_mint,
      .          c_x_temp, c_y_tt,
      .          c_num_temp, g_dlt_tt)
- 
+
          call srop_thermal_time2 (
      .          g_maxt, g_mint,
      .          c_tt_base, c_tt_opt,
      .          g_dlt_tt_fm)
- 
+
             !Modify g_dlt_tt by stress factors
- 
+
        if (stage_is_between(sowing, flowering, g_current_stage)) then
- 
+
 !       g_swdef_pheno left alone
- 
+
          if (stage_is_between(sowing, endjuv, g_current_stage))
      :          g_nfact_pheno = 1.0
          if (g_nfact_pheno .lt. 0.5) g_nfact_pheno = 0.5
- 
+
           g_dlt_tt = g_dlt_tt *
      :             min (g_swdef_pheno, g_nfact_pheno)
- 
+
          else
- 
+
             g_dlt_tt = g_dlt_tt
- 
+
          endif
- 
+
          ! initialise phenology phase targets
- 
+
 !Determine fraction of phase that has elapsed
 !    If stage is between flowering and maturity, use this function to calc
 !       daily thermal time for phenology decisions only
- 
+
          if (stage_is_between(flowering, maturity,
      .                g_current_stage)) then
             call srop_phase_devel1(
@@ -858,24 +862,24 @@ c (how do we do this w. TPLA approach?)
      .          g_phase_tt,
      .          g_phase_dvl)
         endif
- 
+
 ! calculate new delta and the new stage
- 
+
          call srop_devel1 (
      .          g_dlt_stage,
      .          g_current_stage,
      .          g_phase_dvl,
      .          max_stage)
- 
+
          call accumulate (g_dlt_tt, g_tt_tot
      :               , g_previous_stage, g_dlt_stage)
- 
+
          call accumulate (1.0, g_days_tot
      :               , g_previous_stage, g_dlt_stage)
- 
+
          call accumulate (g_dlt_tt_fm, g_tt_tot_fm
      :               , g_previous_stage, g_dlt_stage)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -888,7 +892,7 @@ c (how do we do this w. TPLA approach?)
 !     .          emerg_stage,
 !     .          begin_PP_sensitive_stage, !end_juv
 !     .          germ_stage,
- 
+
      .          g_current_stage,
      .          g_days_tot,
      .          c_shoot_lag,
@@ -914,6 +918,7 @@ c (how do we do this w. TPLA approach?)
      .          g_phase_tt)
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -967,23 +972,23 @@ c (how do we do this w. TPLA approach?)
       real       leaf_no               ! leaf no. above which app. rate changes
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! set estimates of phase thermal time targets at germination
- 
+
       if (on_day_of (germ, g_current_stage, g_days_tot)) then
          g_phase_tt(germ_to_emerg) = c_shoot_lag
      :                             + g_sowing_depth*c_shoot_rate
          g_phase_tt(emerg_to_endjuv) = p_tt_emerg_to_endjuv
          g_phase_tt(endjuv_to_init) = p_tt_endjuv_to_init
- 
+
          ! revise thermal time target for floral initialisation at emergence
- 
+
       elseif (on_day_of (emerg, g_current_stage, g_days_tot) .or.
      :        stage_is_between (emerg, endjuv, g_current_stage) .or.
      :        on_day_of (endjuv, g_current_stage, g_days_tot)) then
- 
+
          photoperiod = day_length (g_day_of_year, g_latitude,c_twilight)
          if (photoperiod.le.p_photoperiod_crit1) then
             g_phase_tt(endjuv_to_init) = p_tt_endjuv_to_init
@@ -996,7 +1001,7 @@ c (how do we do this w. TPLA approach?)
      :                              - p_photoperiod_crit1)
          else
          endif
- 
+
          leaf_no = max (g_leaf_no_final - c_leaf_no_rate_change,
      :                 c_leaf_no_at_emerg)
          leaf_no = min (leaf_no, g_leaf_no_final)
@@ -1004,19 +1009,19 @@ c (how do we do this w. TPLA approach?)
      :                         * c_leaf_app_rate1
      :                         + (g_leaf_no_final - leaf_no)
      :                         * c_leaf_app_rate2
- 
+
          g_phase_tt(init_to_flag) = tt_emerg_to_flag_leaf
      :              - g_phase_tt(emerg_to_endjuv)
      :              - g_phase_tt(endjuv_to_init)
- 
+
          g_phase_tt(flag_to_flower) = p_tt_flag_to_flower
- 
+
          g_phase_tt(flower_to_start_grain) =
      :                    p_tt_flower_to_start_grain
- 
+
          g_phase_tt(end_grain_to_maturity) =
      :                  0.05*p_tt_flower_to_maturity
- 
+
          g_phase_tt(start_to_end_grain) = p_tt_flower_to_maturity
      :                  - g_phase_tt(flower_to_start_grain)
      :                  - g_phase_tt(end_grain_to_maturity)
@@ -1024,7 +1029,7 @@ c (how do we do this w. TPLA approach?)
       else
           ! do nothing
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1035,19 +1040,19 @@ c (how do we do this w. TPLA approach?)
       subroutine sorg_phenology3 (
      .       g_previous_stage,
      .       g_current_stage,
- 
+
      .       g_maxt, g_mint,
      .       c_x_temp, c_y_tt,
      .       c_num_temp, g_dlt_tt,
- 
+
      :       C_num_sw_avail_ratio,
      :       C_x_sw_avail_ratio, C_y_swdef_pheno, G_dlayer,
      :       g_root_depth, g_sw_avail, g_sw_avail_pot, g_swdef_pheno,
- 
+
      .       g_dm_green,
      .       g_N_conc_crit, g_N_conc_min, g_N_green,
      .       c_N_fact_pheno, g_nfact_pheno,
- 
+
      .          g_days_tot,
      .          c_shoot_lag,
      .          g_sowing_depth,
@@ -1071,23 +1076,24 @@ c (how do we do this w. TPLA approach?)
      .          p_tt_flower_to_maturity,
      .          p_tt_maturity_to_ripe,
      .          g_phase_tt,
- 
+
      .          g_sw_dep,
      .          p_ll_dep,
      .          c_pesw_germ,
- 
+
      .          g_dlt_stage,
- 
+
      .          c_tt_base,
      .          c_tt_opt,
      .          g_tt_tot_fm,
      .          g_dlt_tt_fm,
      .          g_sw_supply_demand_ratio)
- 
- 
- 
+
+
+
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 !      include 'stress.inc' !to set value of photo - not sure if correct way
 
@@ -1181,7 +1187,7 @@ c (how do we do this w. TPLA approach?)
 *
       real       c_tt_base      !variables used in thermal time for GF
       real       c_tt_opt       !variables used in thermal time for GF
-      real       g_tt_tot_fm    !variables used in thermal time for GF
+      real       g_tt_tot_fm(*)    !variables used in thermal time for GF
       real       g_dlt_tt_fm    !variables used in thermal time for GF
       real       g_sw_supply_demand_ratio
 
@@ -1191,14 +1197,14 @@ c (how do we do this w. TPLA approach?)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
 !alternative option for thermal time during grain_fill
 !has 2 extra variables -
 !     .          g_tt_tot_fm,
 !     .          g_dlt_tt_fm,
- 
+
          g_previous_stage = g_current_stage
- 
+
          call crop_thermal_time
      :               (
      :                C_num_temp
@@ -1213,34 +1219,34 @@ c (how do we do this w. TPLA approach?)
      :              , G_swdef_pheno
      :              , g_dlt_tt
      :               )
- 
+
 !         call srop_thermal_time1 (
 !     .          g_maxt, g_mint,
 !     .          c_x_temp, c_y_tt,
 !     .          c_num_temp, g_dlt_tt)
- 
+
 !should generalise this....
          call srop_thermal_time2 (
      .          g_maxt, g_mint,
      .          c_tt_base, c_tt_opt,
      .          g_dlt_tt_fm)
- 
+
          if (stage_is_between(emerg, flowering, g_current_stage))then
- 
+
             !Modify g_dlt_tt by stress factors
- 
+
           if(stage_is_between(emerg,floral_init,g_current_stage))then
- 
+
              call srop_pheno_swdef_fact1(C_num_sw_avail_ratio,
      :        C_x_sw_avail_ratio, C_y_swdef_pheno, max_layer,G_dlayer,
      :        G_root_depth, G_sw_avail, G_sw_avail_pot, g_swdef_pheno)
- 
+
           else
- 
+
              call srop_pheno_swdef_fact2 (
      .        g_sw_supply_demand_ratio,
      .        g_swdef_pheno)
- 
+
           endif
 !         prevent N stress on phenology before end juvenile  GMC
           if (stage_is_between(sowing, endjuv, g_current_stage))then
@@ -1250,24 +1256,24 @@ c (how do we do this w. TPLA approach?)
      .      g_N_conc_crit, g_N_conc_min, g_N_green,
      .      c_N_fact_pheno, g_nfact_pheno)
           endif
- 
+
 !         g_nfact_pheno = 1.0 !Needed for SLN model at present...
- 
+
           g_dlt_tt = g_dlt_tt *
      :             min (g_swdef_pheno, g_nfact_pheno)
- 
+
          else
- 
+
             g_dlt_tt = g_dlt_tt
- 
+
          endif
- 
+
          ! initialise phenology phase targets
- 
+
 !Determine fraction of phase that has elapsed
 !    If stage is between flowering and maturity, use this function to calc
 !       daily thermal time for phenology decisions only
- 
+
          if (stage_is_between(flowering, maturity,
      .                g_current_stage)) then
             call srop_phase_devel1(
@@ -1296,15 +1302,15 @@ c (how do we do this w. TPLA approach?)
      .          g_phase_tt,
      .          g_phase_dvl)
         endif
- 
+
 ! calculate new delta and the new stage
- 
+
 !         call srop_devel1 (
 !     .          g_dlt_stage,
 !     .          g_current_stage,
 !     .          g_phase_dvl,
 !     .          max_stage)
- 
+
          call crop_devel
      :               (
      :                G_current_stage
@@ -1312,16 +1318,16 @@ c (how do we do this w. TPLA approach?)
      :              , G_phase_dvl
      :              , g_dlt_stage, g_current_stage
      :               )
- 
+
          call accumulate (g_dlt_tt, g_tt_tot
      :               , g_previous_stage, g_dlt_stage)
- 
+
          call accumulate (1.0, g_days_tot
      :               , g_previous_stage, g_dlt_stage)
- 
+
          call accumulate (g_dlt_tt_fm, g_tt_tot_fm
      :               , g_previous_stage, g_dlt_stage)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1345,6 +1351,7 @@ c (how do we do this w. TPLA approach?)
      .          phase_dvl)
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -1378,9 +1385,9 @@ c (how do we do this w. TPLA approach?)
       parameter (my_name = 'srop_phase_devel1')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (stage_is_between (sowing, germ, g_current_stage)) then
          phase_dvl = srop_germination (
      .          g_sowing_depth,
@@ -1390,21 +1397,21 @@ c (how do we do this w. TPLA approach?)
      .          c_pesw_germ,
      .          g_current_stage,
      .          g_days_tot)
- 
+
       elseif (stage_is_between (germ, harvest_ripe
      :                        , g_current_stage)) then
- 
+
          phase_dvl =  srop_phase_tt (
      .          g_current_stage,
      .          g_tt_tot,
      .          g_dlt_tt,
      .          g_phase_tt)
- 
+
       else
          phase_dvl = mod(g_current_stage, 1.0)
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1457,16 +1464,16 @@ c (how do we do this w. TPLA approach?)
       real       N_def                 ! N factor (0-1)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       call srop_N_conc_ratio(leaf, stem, g_dm_green,
      :                       g_n_conc_crit, g_n_conc_min,
      :                       g_n_green, N_conc_ratio)
- 
+
       N_def = c_n_fact_pheno * N_conc_ratio
       g_nfact = bound (N_def, 0.0, 1.0)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1520,9 +1527,9 @@ c (how do we do this w. TPLA approach?)
       real    sw_avail_sum        ! actual extractable soil water (mm)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       deepest_layer = find_layer_no (g_root_depth, g_dlayer, num_layer)
       sw_avail_pot_sum = sum_real_array (g_sw_avail_pot, deepest_layer)
       sw_avail_sum = sum_real_array (g_sw_avail, deepest_layer)
@@ -1530,7 +1537,7 @@ c (how do we do this w. TPLA approach?)
       sw_avail_ratio = bound (sw_avail_ratio , 0.0, 1.0)
       g_swdef = linear_interp_real(sw_avail_ratio, c_x_sw_avail_ratio,
      :                           c_y_swdef_pheno, c_num_sw_avail_ratio)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1541,7 +1548,7 @@ c (how do we do this w. TPLA approach?)
        subroutine srop_pheno_swdef_fact2 (
      .    g_sw_supply_demand_ratio,
      .    g_swdef_pheno)
- 
+
 * ====================================================================
       Use infrastructure
       implicit none
@@ -1566,24 +1573,24 @@ c (how do we do this w. TPLA approach?)
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
 !cscc 8/11/95 Change in stress approach to one that effectively
 ! extends targets...
 !rlv 9/10/97 changed to affect dlt_tt not extend target
 !
 ! Donatelli et al. Crop Sci. 1992. trans. ratio effect on phenology
 !3/11/97 SCC - GMC to change this to a table function
- 
+
         c_critical_sd_ratio= 0.55
         c_sd_slope= 0.61
- 
+
         if(g_sw_supply_demand_ratio.ge.c_critical_sd_ratio) then
             g_swdef_pheno = 1.0
         else
             g_swdef_pheno = 1.0/(1.0 + c_sd_slope
      :      * (c_critical_sd_ratio - g_sw_supply_demand_ratio))
         endif
- 
+
       call pop_routine (myname)
       return
       end
@@ -1657,37 +1664,37 @@ c (how do we do this w. TPLA approach?)
       real       N_stover_min          ! minimum top nitrogen (g/m^2)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! calculate actual N concentrations
- 
+
       dm_stover = g_dm_green(leaf) + g_dm_green(stem)
       N_stover = g_n_green(leaf) + g_n_green(stem)
- 
+
       N_conc_stover = divide (N_stover, dm_stover, 0.0)
- 
+
          ! calculate critical N concentrations
- 
+
       N_leaf_crit = g_n_conc_crit(leaf) * g_dm_green(leaf)
       N_stem_crit = g_n_conc_crit(stem) * g_dm_green(stem)
       N_stover_crit = N_leaf_crit + N_stem_crit
- 
+
       N_conc_stover_crit = divide (N_stover_crit, dm_stover, 0.0)
- 
+
          ! calculate minimum N concentrations
- 
+
       N_leaf_min = g_n_conc_min(leaf) * g_dm_green(leaf)
       N_stem_min = g_n_conc_min(stem) * g_dm_green(stem)
       N_stover_min = N_leaf_min + N_stem_min
- 
+
       N_conc_stover_min = divide (N_stover_min, dm_stover, 0.0)
- 
+
          ! calculate shortfall in N concentrations
- 
+
       g_N_conc_ratio = divide ((N_conc_stover - N_conc_stover_min)
      :              , (N_conc_stover_crit - N_conc_stover_min), 0.0)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1731,15 +1738,15 @@ c (how do we do this w. TPLA approach?)
       integer    phase                 ! phase number containing stage
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       phase = int (g_current_stage)
 cjh  changed 0.0 to 1.0
       srop_phase_tt = divide (g_tt_tot(phase) + g_dlt_tt
      :                       , g_phase_tt(phase), 1.0)
 !      srop_phase_tt = bound (srop_phase_tt, 0.0, 1.999999)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1757,6 +1764,7 @@ cjh  changed 0.0 to 1.0
      .          g_days_tot)
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -1790,22 +1798,22 @@ cjh  changed 0.0 to 1.0
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
          ! determine if soil water content is sufficient to allow germination.
          ! Soil water content of the seeded layer must be > the
          ! lower limit to be adequate for germination.
- 
+
       if (stage_is_between (sowing, germ, g_current_stage)) then
- 
+
          layer_no_seed = find_layer_no (g_sowing_depth, g_dlayer
      :                                             , max_layer)
          pesw_seed = divide (g_sw_dep(layer_no_seed)
      :                     - p_ll_dep(layer_no_seed)
      :                     , g_dlayer(layer_no_seed), 0.0)
- 
+
             ! can't germinate on same day as sowing, because miss out on
             ! day of sowing else_where
- 
+
          if (pesw_seed.gt.c_pesw_germ
      :   .and.
      :   .not. on_day_of (sowing, g_current_stage, g_days_tot)) then
@@ -1821,7 +1829,7 @@ cjh  changed 0.0 to 1.0
              ! no sowing yet
          srop_germination = 0.0
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1875,13 +1883,13 @@ cjh  changed 0.0 to 1.0
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       dly_therm_time = linint_3hrly_temp (g_maxt, g_mint
      :                 , c_x_temp, c_y_tt
      :                 , c_num_temp)
- 
+
       g_dlt_tt = dly_therm_time
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1934,9 +1942,9 @@ cjh  changed 0.0 to 1.0
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       av_temp = (g_maxt + g_mint) / 2.0
- 
+
       if(av_temp .le. c_tt_base) then
          dly_therm_time = 0.0
       else if(av_temp .le. c_tt_opt) then
@@ -1944,9 +1952,9 @@ cjh  changed 0.0 to 1.0
       else
          dly_therm_time = c_tt_opt - c_tt_base
       endif
- 
+
       g_dlt_tt_fm = dly_therm_time
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1987,15 +1995,15 @@ cjh  changed 0.0 to 1.0
       integer    max_stage              !New code
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       ! calculate the new delta and the new stage
- 
+
       new_stage = aint (g_current_stage) + phase_devel
       g_dlt_stage = new_stage - g_current_stage
- 
- 
+
+
       if (phase_devel.ge.1.0) then
          g_current_stage = aint (g_current_stage + 1.0)
          if (int(g_current_stage).eq.max_stage) then
@@ -2003,9 +2011,9 @@ cjh  changed 0.0 to 1.0
          endif
       else
          g_current_stage = new_stage
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2051,16 +2059,16 @@ cjh  changed 0.0 to 1.0
       real sen_fac_temp         ! low temperature factor (0-1)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
           ! low temperature factor
       sen_fac_temp = linear_interp_real(g_mint,c_frost_temp,
      :                      c_frost_fraction,c_num_frost_temp)
- 
+
       dlt_slai_low_temp = sen_fac_temp * g_lai
       g_dlt_slai_frost = bound (dlt_slai_low_temp, 0.0, g_lai)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2098,9 +2106,9 @@ cjh  changed 0.0 to 1.0
       parameter (my_name = 'srop_leaf_area_sen_frost2')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
           ! calculate senecence due to frost
       if (g_mint.le.c_frost_kill) then
          g_dlt_slai_frost = g_lai
@@ -2108,7 +2116,7 @@ cjh  changed 0.0 to 1.0
          g_dlt_slai_frost = 0.0
       endif
       g_dlt_slai_frost = bound (g_dlt_slai_frost, 0.0, g_lai)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2131,6 +2139,7 @@ cjh  changed 0.0 to 1.0
      .          g_dlt_slai_age)
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -2173,22 +2182,22 @@ c applied at flowering also)
       real       tt_since_emerg        ! thermal time since emergence (oC)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
          ! calculate senescence due to ageing
       if (stage_is_between (floral_init, harvest_ripe
      :                     , g_current_stage)) then
- 
+
 cscc This aging should really be linked better to phenology. The spla_inflection
 c could be a function of pred. time from floral_init and to harvest_ripe or at
 c least be top-limited by the actual tplamax cf. intitial pred. of tplamax. This
 c would be similar to the change made to TPLA prediction. Obviously though there
 c still need to feedback to actual production etc.
- 
+
          tt_since_emerg = sum_between (emerg, now, g_tt_tot)
          spla_inflection = p_spla_intercept
      :                   + c_spla_slope * g_leaf_no_final
- 
+
 cscc The Senescence paper on sorghum says that the numerator below is supposed
 c to be tplamax. I guess that after flag leaf, the below will be tplamax, but be
 c the slai_today equation is not really doing what it should be, and is prob.
@@ -2197,37 +2206,37 @@ c Up to flag leaf, need to adjust the numerator daily, depending on stresses.
 c The g_lai_max_possible is calculated in leaf (leaf_Area_Devel_plant)
 !scc May 96. This not doing anything at present as g_lai_max_possible has been s
 !to lai+g+g_slai. Need to fix code in leaf_Area_Devel_plant.
- 
+
 !         slai_today = divide ((g_lai + g_slai)
           slai_today = divide ((g_lai_max_possible)
      :              , (1.0 + exp(-p_spla_prod_coef
      :                        * (tt_since_emerg - spla_inflection)))
      :              , 0.0)
- 
+
          g_dlt_slai_age = l_bound (slai_today - g_slai, 0.0)
- 
+
          ! all leaves senesce at harvest ripe
- 
+
 cscc Does this make sense? I know we are supposed to harvest at PM, but leaves
 c of sorghum don't instantly senescence when you harvest.
 c What if you harvest the crop and leave it to rattoon?
- 
+
       elseif (on_day_of (harvest_ripe
      :                 , g_current_stage, g_days_tot)) then
           g_dlt_slai_age = g_lai + g_dlt_lai
- 
+
       else
          g_dlt_slai_age = 0.0
       endif
- 
+
       g_dlt_slai_age = bound (g_dlt_slai_age, 0.0, g_lai)
- 
+
 c      write(*,900)
 c900   format(" tt_since_emerg, g_lai, g_slai, slai_today"
 c     :   , " g_lai_max_possible, g_dlt_slai_age")
 c      write(*,1000)tt_since_emerg, g_lai, g_slai, slai_today
 c     :   , g_lai_max_possible, g_dlt_slai_age
- 
+
 1000  format(6f10.3)
       call pop_routine (my_name)
       return
@@ -2283,28 +2292,28 @@ c     :   , g_lai_max_possible, g_dlt_slai_age
       real       slai_age              ! lai senesced by natural ageing
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! now calculate the leaf senescence
          ! due to normal phenological (phasic) development
- 
+
          ! get highest leaf no. senescing today
       leaf_no_dead_today = sum_between (first_stage, last_stage,
      :                                  g_leaf_no_dead)
      :             + g_dlt_leaf_no_dead
       dying_leaf = int (1.0 + leaf_no_dead_today)
          ! get area senesced from highest leaf no.
- 
+
       area_sen_dying_leaf = mod (leaf_no_dead_today, 1.0)
      :                    * g_leaf_area(dying_leaf)
- 
+
       slai_age = (sum_real_array (g_leaf_area, dying_leaf - 1)
      :         + area_sen_dying_leaf)
      :         * smm2sm * g_plants
- 
+
       g_dlt_slai_age = bound (slai_age - g_slai, 0.0, g_lai)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2345,25 +2354,25 @@ c     :   , g_lai_max_possible, g_dlt_slai_age
       real       slai_light_fac        ! light competition factor (0-1)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! calculate 0-1 factor for leaf senescence due to
          ! competition for light.
- 
+
 c+!!!!!!!! this doesnt account for other growing crops
 c+!!!!!!!! should be based on reduction of intercepted light and k*lai
          ! competition for light factor
- 
+
       if (g_lai.gt.c_lai_sen_light) then
          slai_light_fac = c_sen_light_slope * (g_lai - c_lai_sen_light)
       else
          slai_light_fac = 0.0
       endif
- 
+
       g_dlt_slai_light = g_lai * slai_light_fac
       g_dlt_slai_light = bound (g_dlt_slai_light, 0.0, g_lai)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2404,13 +2413,13 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
       real       slai_water_fac ! drought stress factor (0-1)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
         ! drought stress factor
       slai_water_fac = c_sen_rate_water* (1.0 - g_swdef_photo)
       g_dlt_slai_water = g_lai * slai_water_fac
       g_dlt_slai_water = bound (g_dlt_slai_water, 0.0, g_lai)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2474,30 +2483,30 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
       real    sw_supply_sum            ! total supply over profile (mm)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
          ! calculate senescense from water stress
          ! NOTE needs rework for multiple crops
- 
+
       deepest_layer = find_layer_no (g_root_depth, g_dlayer, num_layer)
       sw_supply_sum = sum_real_array (g_sw_supply, deepest_layer)
       sw_demand_ratio = divide (sw_supply_sum, g_sw_demand, 1.0)
- 
+
       if (sw_demand_ratio.lt.c_sen_threshold) then
          ave_lai_equilib_water = srop_running_ave(g_day_of_year,
      :                            g_year, g_lai_equilib_water, 10)
- 
+
          g_dlt_slai_water = (g_lai - ave_lai_equilib_water)
      :                  / c_sen_water_time_const
- 
+
          g_dlt_slai_water = l_bound (g_dlt_slai_water, 0.0)
- 
+
       else
          g_dlt_slai_water = 0.0
- 
+
       endif
       g_dlt_slai_water = bound (g_dlt_slai_water, 0.0, g_lai)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2555,22 +2564,22 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
                                        ! (mj/m^2)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! calculate senescense from water stress
- 
+
 c+!!!!!!!! this doesnt account for other growing crops
 c+!!!!!!!! should be based on reduction of intercepted light and k*lai
 c+!!!!!!!!
              ! calculate senescence due to low light
 cglh - This works out se. based on when light drops below ps compensation point
 c the leaf can't sustain itself.
- 
+
       radn_transmitted = g_radn - g_radn_int
- 
+
       if (radn_transmitted.lt.c_sen_radn_crit) then
- 
+
          ave_lai_equilib_light = srop_running_ave
      .         (g_day_of_year, g_year, g_lai_equilib_light, 10)
          g_dlt_slai_light = divide (g_lai - ave_lai_equilib_light
@@ -2579,9 +2588,9 @@ c the leaf can't sustain itself.
       else
          g_dlt_slai_light = 0.0
       endif
- 
+
       g_dlt_slai_light = bound (g_dlt_slai_light, 0.0, g_lai)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2625,15 +2634,15 @@ c the leaf can't sustain itself.
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (stage_is_between (sowing, germ, g_current_stage)
      :   .and. sum_between (sowing, now, g_days_tot)
      :         .ge.c_days_germ_limit) then
- 
+
          g_dlt_plants = - g_plants
- 
+
          write (string, '(3a, i4, a)')
      :                 ' crop failure because of lack of'
      :                  ,new_line
@@ -2641,12 +2650,12 @@ c the leaf can't sustain itself.
      :                  , c_days_germ_limit
      :                  , ' days of sowing'
          call write_string (string)
- 
+
       else
          g_dlt_plants = 0.0
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2692,24 +2701,24 @@ c the leaf can't sustain itself.
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (stage_is_between (germ, emerg, g_current_stage)
      :       .and. sum_between (germ, now, g_tt_tot)
      :       .gt. c_tt_emerg_limit) then
- 
+
          g_dlt_plants = - g_plants
- 
+
          write (string, '(a)')
      :                 ' failed emergence due to deep planting'
          call write_string (string)
- 
+
       else
          g_dlt_plants = 0.0
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2750,16 +2759,16 @@ c the leaf can't sustain itself.
       integer start_day          ! day of year to start running
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       start_day = offset_day_of_year(g_year,
      :                              g_day_of_year, - number_of_days)
- 
+
       srop_running_ave = divide(sum_part_of_real(array, start_day,
      :                                           g_day_of_year, 366)
      :                          , real (abs (number_of_days)), 0.0)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2830,35 +2839,35 @@ c the leaf can't sustain itself.
       real       sen_radn_crit     ! critical radiation (mj/m^2)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       c_extinction_coef = 0.4
- 
+
       stage_no = int (g_current_stage)
- 
+
       dlt_dm_transp = g_sw_supply_sum * g_transp_eff
       rue_reduction = min (g_temp_stress_photo, g_nfact_photo)
       lrue = c_rue(stage_no) * rue_reduction
- 
+
       call bound_check_real_var (lrue, 0.0, c_rue(stage_no), 'c_rue')
- 
+
       radn_canopy = divide (g_radn_int, g_cover_green, g_radn)
       sen_radn_crit = divide (dlt_dm_transp, lrue, radn_canopy)
       intc_crit = divide (sen_radn_crit, radn_canopy, 1.0)
- 
+
       if (intc_crit.lt.1.0) then
             ! needs rework for row spacing
          lai_equilib_water_today = -log (1.0 - intc_crit)
      :                           / c_extinction_coef
- 
+
       else
          lai_equilib_water_today =  g_lai
       endif
- 
+
       call srop_store_value(g_day_of_year, g_year,
      :          g_lai_equilib_water, lai_equilib_water_today)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2895,17 +2904,17 @@ c the leaf can't sustain itself.
       parameter (my_name = 'srop_store_value')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       array(g_day_of_year) = value
- 
+
       if (g_day_of_year.eq.365
      :   .and. leap_year (g_year - 1)) then
          array(366) = 0.0
       else
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2957,27 +2966,27 @@ c the leaf can't sustain itself.
       real       trans_crit            ! critical transmission (0-1)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       radn_canopy = divide (g_radn_int, g_cover_green, 0.0)
       trans_crit = divide (c_sen_radn_crit, radn_canopy, 0.0)
- 
+
       c_extinction_coef = 0.4
- 
+
       if (trans_crit.gt.0.0) then
             ! needs rework for row spacing
          lai_eqlb_light_today = -log (trans_crit)/c_extinction_coef
       else
          lai_eqlb_light_today = g_lai
       endif
- 
+
       call srop_store_value (
      .          g_day_of_year,
      .          g_year,
      .          g_lai_eqlb_light,
      .          lai_eqlb_light_today)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3012,6 +3021,7 @@ c the leaf can't sustain itself.
      .          g_phase_tt)
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -3066,21 +3076,21 @@ c the leaf can't sustain itself.
       real       leaf_no               ! leaf no. above which app. rate changes
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! set estimates of phase thermal time targets at germination
- 
+
       if (on_day_of (germ, g_current_stage, g_days_tot)) then
          g_phase_tt(germ_to_emerg) = c_shoot_lag
      :                             + g_sowing_depth*c_shoot_rate
          g_phase_tt(emerg_to_endjuv) = p_tt_emerg_to_endjuv
          g_phase_tt(endjuv_to_init) = p_tt_endjuv_to_init
- 
+
          ! revise thermal time target for floral initialisation at emergence
- 
+
       elseif (on_day_of (emerg, g_current_stage, g_days_tot)) then
- 
+
          photoperiod = day_length (g_day_of_year, g_latitude,c_twilight)
          if (photoperiod.le.p_photoperiod_crit1) then
             g_phase_tt(endjuv_to_init) = p_tt_endjuv_to_init
@@ -3093,14 +3103,14 @@ c the leaf can't sustain itself.
      :                              - p_photoperiod_crit1)
          else
          endif
- 
+
 ! revise thermal time target for floral initialisation up to initialisation
 ! glh revise thermal time target for floral initialisation up to endjuv
 !     pp at start of period more influential than pp at end of period
- 
+
       elseif (stage_is_between (emerg, floral_init
      :                        , g_current_stage)) then
- 
+
          if (stage_is_between (emerg, endjuv
      :                        , g_current_stage)) then
          photoperiod = day_length (g_day_of_year, g_latitude
@@ -3117,22 +3127,22 @@ c the leaf can't sustain itself.
           else
           endif
          endif
- 
+
 ! set estimates of phase thermal time targets at initiation
- 
+
 cscc/glh should this be endjuv too
 c      elseif (on_day_of (end_juv, g_current_stage
 c     :                 , g_days_tot)) then
- 
- 
+
+
 !      elseif (on_day_of (floral_init, g_current_stage
 !     :                 , g_days_tot)) then
- 
- 
+
+
 c scc/glh changed this to speed up last few leaves before
 c flag leaf (as opposed to psc 'slow down the first leaves' approach)
 cpsc
- 
+
          leaf_no = max (g_leaf_no_final - c_leaf_no_rate_change,
      :                 c_leaf_no_at_emerg)
          leaf_no = min (leaf_no, g_leaf_no_final)
@@ -3140,30 +3150,30 @@ cpsc
      :                         * c_leaf_app_rate1
      :                         + (g_leaf_no_final - leaf_no)
      :                         * c_leaf_app_rate2
- 
+
 !         tt_emerg_to_flag_leaf = (g_leaf_no_final - c_leaf_no_at_emerg)
 !     :                         * c_leaf_app_rate
- 
+
          g_phase_tt(init_to_flag) = tt_emerg_to_flag_leaf
      :              - sum_between (emerg, floral_init, g_tt_tot)
- 
+
          g_phase_tt(flag_to_flower) = p_tt_flag_to_flower
- 
+
          g_phase_tt(flower_to_start_grain) =
      :                    p_tt_flower_to_start_grain
- 
+
          g_phase_tt(end_grain_to_maturity) =
      :                  0.05*p_tt_flower_to_maturity
- 
+
          g_phase_tt(start_to_end_grain) = p_tt_flower_to_maturity
      :                  - g_phase_tt(flower_to_start_grain)
      :                  - g_phase_tt(end_grain_to_maturity)
          g_phase_tt(maturity_to_ripe) = p_tt_maturity_to_ripe
- 
+
       else
           ! do nothing
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3236,30 +3246,30 @@ cpsc
       real       ave_temp              ! mean temperature (oC)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       ave_temp = (g_maxt + g_mint) /2.0
- 
+
 c+!!!!!!!!!! return to orig cm
       N_grain_temp_fac = c_temp_fac_min + c_tfac_slope* ave_temp
       N_grain_sw_fac = c_sw_fac_max - c_sfac_slope * g_swdef_expansion
- 
+
             ! N stress reduces grain N concentration below critical
- 
+
       N_conc_pot = g_n_conc_min(grain)
      :           + (g_n_conc_crit(grain) - g_n_conc_min(grain))
      :           * g_nfact_grain_conc
- 
+
             ! Temperature and water stresses can decrease/increase grain
             ! N concentration
- 
+
             ! when there is no N stress, the following can be a higher N conc th
             ! the crit and thus the N conc of the grain can exceed N critical.
- 
+
       srop_N_dlt_grain_conc = N_conc_pot
      :                       * max (N_grain_temp_fac, N_grain_sw_fac)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3313,25 +3323,25 @@ c+!!!!!!!!!! return to orig cm
       integer    part                  ! plant part number
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! get grain N potential (supply) -----------
          ! now find the available N of each part.
- 
+
 !scc Propose a change to this section to stop all N being
 !available in 1 day and limited it to a 5 day process
- 
+
       do 1000 part = 1, num_part
          N_min = g_N_conc_min(part) * g_dm_green(part)
          N_avail(part) = l_bound (g_N_green(part) - N_min, 0.0)
 !scc
 !         N_avail(part) = N_avail(part) * 0.2
 1000  continue
- 
+
       N_avail(grain) = 0.0
       N_avail(root) = 0.0
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3350,6 +3360,7 @@ c+!!!!!!!!!! return to orig cm
      .           g_dlt_plants_water)
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -3382,32 +3393,32 @@ c+!!!!!!!!!! return to orig cm
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       cswd_photo = sum_between (emerg, flag_leaf, g_cswd_photo)
       leaf_no = sum_between (emerg, now, g_leaf_no)
- 
+
       if (leaf_no.lt.c_leaf_no_crit
      :       .and. cswd_photo.gt.c_swdf_photo_limit
      :       .and. g_swdef_photo .lt.1.0) then
- 
+
          killfr = c_swdf_photo_rate* (cswd_photo - c_swdf_photo_limit)
          killfr = bound (killfr, 0.0, 1.0)
          g_dlt_plants_water = - g_plants*killfr
- 
+
          write (string, '(a, i4, a)')
      :          'plant_kill.'
      :         , nint (killfr*100.0)
      :         , '% failure because of water stress.'
- 
+
          call Write_string (string)
- 
+
       else
          g_dlt_plants_water = 0.0
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3418,19 +3429,19 @@ c+!!!!!!!!!! return to orig cm
       subroutine sproc_phenology1 (
      .       g_previous_stage,
      .       g_current_stage,
- 
+
      .       g_maxt, g_mint,
      .       c_x_temp, c_y_tt,
      .       c_num_temp, g_dlt_tt,
- 
+
      :       C_num_sw_avail_ratio,
      :       C_x_sw_avail_ratio, C_y_swdef_pheno, G_dlayer,
      :       g_root_depth, g_sw_avail, g_sw_avail_pot, g_swdef_pheno,
- 
+
      .       g_dm_green,
      .       g_N_conc_crit, g_N_conc_min, g_N_green,
      .       c_N_fact_pheno, g_nfact_pheno,
- 
+
      .          g_days_tot,
      .          c_shoot_lag,
      .          g_sowing_depth,
@@ -3454,15 +3465,16 @@ c+!!!!!!!!!! return to orig cm
      .          p_tt_flower_to_maturity,
      .          p_tt_maturity_to_ripe,
      .          g_phase_tt,
- 
+
      .          g_sw_dep,
      .          p_ll_dep,
      .          c_pesw_germ,
- 
+
      .          g_dlt_stage)
- 
+
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 !      include 'stress.inc' !to set value of photo - not sure if correct way
 
@@ -3559,40 +3571,40 @@ c (how do we do this w. TPLA approach?)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
          g_previous_stage = g_current_stage
- 
+
          call srop_thermal_time1 (
      .          g_maxt, g_mint,
      .          c_x_temp, c_y_tt,
      .          c_num_temp, g_dlt_tt)
- 
+
          if (stage_is_between(emerg, flag_leaf, g_current_stage))then
- 
+
             !Modify g_dlt_tt by stress factors
- 
+
             call srop_pheno_swdef_fact1(C_num_sw_avail_ratio,
      :       C_x_sw_avail_ratio, C_y_swdef_pheno, max_layer,G_dlayer,
      :       G_root_depth, G_sw_avail, G_sw_avail_pot, g_swdef_pheno)
- 
+
             call srop_pheno_N_fact1(leaf, stem, g_dm_green,
      .        g_N_conc_crit, g_N_conc_min, g_N_green,
      .        c_N_fact_pheno, g_nfact_pheno)
- 
+
               g_dlt_tt = g_dlt_tt *
      :             min (g_swdef_pheno, g_nfact_pheno)
- 
+
          else
- 
+
             g_dlt_tt = g_dlt_tt
- 
+
          endif
- 
+
          ! initialise phenology phase targets
- 
+
 *Check against cropsid.for
 *Could split this into inits for different stages
- 
+
          call srop_phenology_init1 (
      .          g_current_stage,
      .          g_days_tot,
@@ -3618,9 +3630,9 @@ c (how do we do this w. TPLA approach?)
      .          p_tt_flower_to_maturity,
      .          p_tt_maturity_to_ripe,
      .          g_phase_tt)
- 
+
 !Determine fraction of phase that has elapsed
- 
+
          call srop_phase_devel1(
      .          g_current_stage,
      .          g_sowing_depth,
@@ -3633,21 +3645,21 @@ c (how do we do this w. TPLA approach?)
      .          g_dlt_tt,
      .          g_phase_tt,
      .          g_phase_dvl)
- 
+
 ! calculate new delta and the new stage
- 
+
          call srop_devel1 (
      .          g_dlt_stage,
      .          g_current_stage,
      .          g_phase_dvl,
      .          max_stage)
- 
+
          call accumulate (g_dlt_tt, g_tt_tot
      :               , g_previous_stage, g_dlt_stage)
- 
+
          call accumulate (1.0, g_days_tot
      :               , g_previous_stage, g_dlt_stage)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3678,6 +3690,7 @@ c (how do we do this w. TPLA approach?)
      .          g_dlt_lai_pot)
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -3732,22 +3745,22 @@ c (how do we do this w. TPLA approach?)
  !     real       emerg_to_flower       ! thermal time for emerg to flower
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
            ! once leaf no is calculated maximum plant leaf area
            ! is determined
- 
+
 cscc Changed the ending stage from flowering to flag_leaf
 cglh still wants to use flowering
- 
+
          if (on_day_of (emerg, g_current_stage, g_days_tot)) then
             g_lai = c_initial_tpla * smm2sm * g_plants
          endif
- 
+
       if (stage_is_between (emerg, flag_leaf, g_current_stage)) then
 c      if (stage_is_between (emerg, flowering, g_current_stage)) then
- 
+
 c Below code is from PHEN. Needed for thermal time to flag or flower for TPLA
 c calculations. Have to do this here, as these stages are only calcualted
 c in PHEN after floral initiation, but TPLA starts before then.
@@ -3760,14 +3773,14 @@ c in PHEN after floral initiation, but TPLA starts before then.
      :                         * c_leaf_app_rate2
 !         emerg_to_flower = emerg_to_flag_leaf +
 !     :                         p_tt_flag_to_flower
- 
+
 c end of PHEN code
- 
+
          tpla_max = (((g_tiller_no_fertile + 1.0) ** c_tiller_coef)
      :            * g_leaf_no_final ** p_main_stem_coef) * scm2smm
- 
+
          tt_since_emerg = sum_between (emerg, now, g_tt_tot)
- 
+
 cscc 10/95 fixing the beta inflection coefficient as halfway to thermal
 c time of flag_leaf expanded. Code needs work as the halfway point jumps
 c around a bit as we progress (espec. when final_leaf_no is reset at floral in
@@ -3775,45 +3788,45 @@ c Note that tpla_inflection needs to be removed as a 'read-in' parameter
 c maybe the number is more like .66 of the distance?
 c can work out from the shape of a leaf area distribution - where is the biggest
 c leaf appearing...
- 
+
 c  scc - generalise tpla_inflection  - needs more work
- 
+
       tpla_inflection = emerg_to_flag_leaf * c_tpla_inflection_ratio
- 
+
 !      tpla_inflection = emerg_to_flower * c_tpla_inflection_ratio
- 
+
 c          tpla_inflection = tpla_inflection +
 c     :                         10.0*(g_leaf_no_final - 16.0)
- 
+
 c scc end of changes for tpla (more below)
- 
+
           g_tpla_today = divide (Tpla_max
      :              , (1.0 + exp(-p_tpla_prod_coef
      :                        * (tt_since_Emerg - tpla_inflection)))
      :              , 0.0)
- 
- 
+
+
 c gmc replace tpla_yesterday difference to calculate dlt_lai_pot
- 
+
          g_dlt_lai_pot = (g_tpla_today - g_tpla_yesterday)
      .                  *smm2sm * g_plants
- 
+
          g_tpla_yesterday = g_tpla_today
- 
+
 !should limit tpla_max somehow - to remove the LAI already foregone
 c gmc following 2 lines commented out and replaced by 2 above
- 
+
 !         tlai_today = g_tpla_today * smm2sm * g_plants
- 
+
 !         g_dlt_lai_pot = (tlai_today - (g_lai + g_slai))
- 
+
       else
- 
+
          g_dlt_lai_pot = 0.0
- 
+
       endif
- 
- 
+
+
       call pop_routine (my_name)
       return
       end
@@ -3834,6 +3847,7 @@ c gmc following 2 lines commented out and replaced by 2 above
      .          g_dlt_dm_green)
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -3871,52 +3885,52 @@ c gmc following 2 lines commented out and replaced by 2 above
                                        ! leaf (0-1)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! Root must be satisfied. The roots don't take any of the
          ! carbohydrate produced - that is for tops only.  Here we assume
          ! that enough extra was produced to meet demand. Thus the root
          ! growth is not removed from the carbo produced by the model.
- 
+
          ! first we zero all plant component deltas
- 
+
       call fill_real_array (g_dlt_dm_green, 0.0, max_part)
- 
+
          ! now we get the root delta for all stages - partition scheme
          ! specified in coeff file
- 
+
       current_phase = int (g_current_stage)
       g_dlt_dm_green(root) =c_ratio_root_shoot(current_phase)*g_dlt_dm
- 
+
       if (stage_is_between (emerg, floral_init, g_current_stage)) then
             ! we have leaf development only
 c Changed by SCC/GLH. Gatton data indicates stem growth also
 c occurs before FI!
- 
+
          g_dlt_dm_green(leaf) = g_dlt_dm
- 
+
          internode_no = sum_between (emerg, now, g_leaf_no)
          partition_coef_leaf = 1.0
      :            /(1.0 + c_partition_rate_leaf * internode_no**2)
- 
+
          g_dlt_dm_green(leaf) = partition_coef_leaf * g_dlt_dm
              ! limit the delta leaf area to maximum
          dlt_dm_leaf_max = divide (g_dlt_lai_stressed
      :                           , c_sla_min * smm2sm, 0.0)
          g_dlt_dm_green(leaf) = u_bound (g_dlt_dm_green(leaf)
      :                               , dlt_dm_leaf_max)
- 
+
          g_dlt_dm_green(stem) = g_dlt_dm
      :                    - g_dlt_dm_green(leaf)
- 
+
       elseif (stage_is_between (floral_init, flag_leaf
      :                        , g_current_stage)) then
- 
+
             ! stem elongation and flower development start
             ! Each new leaf demands an increasing proportion of dry matter
             ! partitioned to stem and flower
- 
+
 c scc Does plant really do this, or does the head have priority
 c over leaf as well as stem ?
 c The following function is VERY sensitive to the c_partition_rate_leaf
@@ -3924,61 +3938,61 @@ c and has great effects on total bio also.
          internode_no = sum_between (emerg, now, g_leaf_no)
          partition_coef_leaf = 1.0
      :            /(1.0 + c_partition_rate_leaf * internode_no**2)
- 
+
          g_dlt_dm_green(leaf) = partition_coef_leaf * g_dlt_dm
- 
+
 c limit the delta leaf area to maximum
 c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
          dlt_dm_leaf_max = divide (g_dlt_lai_stressed
      :                           , c_sla_min * smm2sm, 0.0)
- 
+
          g_dlt_dm_green(leaf) = u_bound (g_dlt_dm_green(leaf)
      :                               , dlt_dm_leaf_max)
- 
+
          g_dlt_dm_green(flower) = (g_dlt_dm - g_dlt_dm_green(leaf))
      :                        * c_frac_stem2flower
- 
+
          g_dlt_dm_green(stem) = g_dlt_dm
      :             - (g_dlt_dm_green(flower) + g_dlt_dm_green(leaf))
- 
- 
+
+
       elseif (stage_is_between (flag_leaf, flowering
      :                        , g_current_stage)) then
- 
+
             ! we only have flower and stem growth here
          g_dlt_dm_green(flower) = g_dlt_dm*c_frac_stem2flower
          g_dlt_dm_green(stem) = g_dlt_dm - g_dlt_dm_green(flower)
- 
+
       elseif (stage_is_between (flowering, maturity
      :                        , g_current_stage)) then
- 
+
             ! grain filling starts - stem continues when it can
- 
+
          g_dlt_dm_green(grain) = bound (g_dlt_dm_grain_demand
      :                              , 0.0, g_dlt_dm)
          g_dlt_dm_green(stem) = g_dlt_dm - g_dlt_dm_green(grain)
- 
+
       elseif (stage_is_between (maturity, plant_end
      :                        , g_current_stage)) then
- 
+
             ! put into stem
          g_dlt_dm_green(stem) = g_dlt_dm
- 
+
       else
             ! no partitioning
       endif
- 
+
          ! do mass balance check - roots are not included
       dlt_dm_green_tot = sum_real_array (g_dlt_dm_green, max_part)
      :                 - g_dlt_dm_green(root)
       call bound_check_real_var (dlt_dm_green_tot, g_dlt_dm, g_dlt_dm
      :                        , 'dlt_dm_green_tot mass balance')
- 
+
          ! check that deltas are in legal range
- 
+
       call bound_check_real_array (g_dlt_dm_green, 0.0, g_dlt_dm
      :                          , 'dlt_dm_green', max_part)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4004,6 +4018,7 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      .          o_dlt_N_retrans)
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -4051,9 +4066,9 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
       integer    part                  ! plant part number
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       grain_N_demand = g_dlt_dm_green(grain) * srop_N_dlt_grain_conc(
      :          grain,
      .          c_sfac_slope,
@@ -4066,67 +4081,67 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      .          g_N_conc_crit,
      .          g_N_conc_min,
      .          g_swdef_expansion)
- 
+
       N_potential  = (g_dm_green(grain) + g_dlt_dm_green(grain))
      :             * g_N_conc_max(grain)
- 
+
       grain_N_demand = u_bound (grain_N_demand
      :                        , N_potential - g_N_green(grain))
- 
+
       call srop_N_retrans_avail (max_part, root, grain,
      .          g_N_conc_min,
      .          g_dm_green,
      .          g_N_green,N_avail)  ! grain N potential (supply)
- 
+
             ! available N does not include roots or grain
 cjh  this should not presume roots and grain are 0.
 csc  true....
- 
+
       N_avail_stover  =  sum_real_array (N_avail, max_part)
- 
+
           ! get actual grain N uptake
- 
+
           ! limit retranslocation to total available N
- 
+
       call fill_real_array (o_dlt_N_retrans, 0.0, max_part)
- 
+
       if (grain_N_demand.ge.N_avail_stover) then
- 
+
              ! demand greater than or equal to supply
              ! retranslocate all available N
- 
+
          o_dlt_N_retrans(leaf) = - N_avail(leaf)
          o_dlt_N_retrans(stem) = - N_avail(stem)
          o_dlt_N_retrans(flower) = - N_avail(flower)
          o_dlt_N_retrans(grain) = N_avail_stover
- 
+
       else
              ! supply greater than demand.
              ! Retranslocate what is needed
- 
+
          o_dlt_N_retrans(leaf) = - grain_N_demand
      :                         * divide (N_avail(leaf)
      :                                 , N_avail_stover, 0.0)
- 
+
          o_dlt_N_retrans(flower) = - grain_N_demand
      :                         * divide (N_avail(flower)
      :                                 , N_avail_stover, 0.0)
- 
+
          o_dlt_N_retrans(stem) = - grain_N_demand
      :                         - o_dlt_N_retrans(leaf)   ! note - these are
      :                         - o_dlt_N_retrans(flower) ! -ve values.
- 
+
          o_dlt_N_retrans(grain) = grain_N_demand
- 
+
       endif
              ! just check that we got the maths right.
- 
+
       do 1000 part = root, flower
          call bound_check_real_var (abs (o_dlt_N_retrans(part))
      :                            , 0.0, N_avail(part)
      :                            , 'o_dlt_N_retrans(part)')
 1000  continue
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4144,6 +4159,7 @@ csc  true....
      .                     )
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -4182,17 +4198,17 @@ csc  true....
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
                ! find proportion of uptake to be
                ! distributed to to each plant part and distribute it.
- 
+
       deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
       N_uptake_sum = - sum_real_array (dlt_NO3gsm, deepest_layer)
       N_demand = sum_real_array (g_N_demand, max_part)
- 
+
       N_excess = N_uptake_sum - N_demand
       N_excess = l_bound (N_excess, 0.0)
- 
+
       if (N_excess.gt.0.0) then
          do 1200 part = 1, max_part
             N_capacity(part) = g_N_max(part) - g_N_demand(part)
@@ -4201,16 +4217,16 @@ csc  true....
       else
          call fill_real_array (N_capacity, 0.0, max_part)
       endif
- 
+
       N_capacity_sum = sum_real_array (N_capacity, max_part)
- 
+
 !scc RCM found that this partitioning was biased toward leaf...
 !60:40 vs stem. Can achieve same effect via concentration I guess.
- 
+
 !scc Should this happen - could probably put excess into preferentially
 !stem, leaf, flower, root (reverse order of usage)
- 
- 
+
+
       do 1300 part = 1, max_part
          if (N_excess.gt.0.0) then
             plant_part_fract = divide (N_capacity(part)
@@ -4223,14 +4239,14 @@ csc  true....
             dlt_N_green(part) = N_uptake_sum * plant_part_fract
           endif
 1300  continue
- 
+
       dlt_N_green(grain) = 0.0
- 
+
       call bound_check_real_var (
      :             sum_real_array (dlt_N_green, max_part)
      :           , N_uptake_sum, N_uptake_sum
      :           , 'dlt_N_green mass balance')
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4244,10 +4260,10 @@ csc  true....
      .          g_plants,
      .          g_tt_tot,
      .          g_dlt_plants_all,
- 
+
      .          g_lai,
      .          g_dlt_slai,
- 
+
      .          g_cswd_photo,
      .          g_leaf_no,
      .          c_leaf_no_crit,
@@ -4256,9 +4272,10 @@ csc  true....
      .          c_swdf_photo_rate,
      .          g_dlt_plants_water,
      .          g_dlt_plants_dead)
- 
+
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -4297,7 +4314,7 @@ csc  true....
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
          call srop_failure_emergence1 (sowing, emerg, now,
      .          c_tt_emerg_limit,
      .          g_current_stage,
@@ -4313,18 +4330,18 @@ csc  true....
      .          c_swdf_photo_rate,
      .          g_plants,
      .          g_dlt_plants_water)
- 
+
 !scc Don't really need a call to calculate a minimum!!!!
- 
+
         g_dlt_plants_dead = min (g_dlt_plants_all
      :          ,g_dlt_plants_water)
- 
+
 !         call srop_death_actual1 (
 !     .          g_dlt_plants_all,
 !     .          g_dlt_plants_water,
 !     .          dlt_plants
 !     .            )
- 
+
 !        if leaves are killed from frost, g_dlt_slai is set to g_lai
 !        need to kill plant if lai = 0
 !        gmc & rlv
@@ -4338,7 +4355,7 @@ csc  true....
                g_dlt_plants_dead = -g_plants
             endif
          endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4355,6 +4372,7 @@ csc  true....
      .          )
 *     ===========================================================
       Use infrastructure
+      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -4380,27 +4398,27 @@ csc  true....
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
          ! limit the delta leaf area by carbon supply
 !glh/scc but don't do when crop small - results in many errors
- 
+
       if (stage_is_between (emerg, endjuv
      :                        , g_current_stage))  then
- 
+
            g_dlt_lai = g_dlt_lai_stressed
- 
+
       elseif (stage_is_between (endjuv, maturity
      :      , g_current_stage))  then
- 
+
             g_dlt_lai = u_bound (g_dlt_lai_stressed
      :                   , g_dlt_dm_green(leaf)*c_sla_max * smm2sm)
- 
+
       else
- 
+
            g_dlt_lai = g_dlt_lai_stressed
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4448,6 +4466,7 @@ c################################################################
 
 *+  Declaration section -----------------------------------------------
       Use infrastructure
+      Use CropDefCons
       implicit none
 *   Subroutine arguments
       real       stem_trans_frac
@@ -4482,7 +4501,7 @@ c################################################################
       real       add_grain_wt
       real       grain_wt
       real       lag
-      
+
       save       add_grain_wt
 
 *   Constant values
@@ -4499,17 +4518,17 @@ c################################################################
          g_dm_green_tot_fi = sum_real_array (dm_green, max_part)
 
       endif
-        
+
 !ramp this up between flowering and start grain fill
         if(on_day_of(start_grain_fill, current_stage,days_tot)) then
 
-     
+
 !  Reset limits on translocation from stem and leaf!!!!!!
 !  Part of the reason for this approach is that limits should not be needed!!!
 
         stem_trans_frac = 0.5
-        
-        leaf_trans_frac = 0.3 
+
+        leaf_trans_frac = 0.3
 
 ! Calculate grain number per plant
         dm_plant = sum_real_array (dm_green, max_part)-
@@ -4519,34 +4538,34 @@ c################################################################
      :        days_tot(flag_leaf) + days_tot(flowering))
 
         grain_no = growth_rate / p_dm_per_seed
-        
+
       endif
 
 
       if (stage_is_between (start_grain_fill, maturity
      :                         , current_stage)) then
-     
+
 !proportion of period of current_stage completed
 
          frac_gf = current_stage - start_grain_fill
 
          lag = (140-tt_flower_to_start_grain)/
      :         (tt_flower_to_maturity - tt_flower_to_start_grain)
-        
+
          if (frac_gf .le. lag) then
             dlt_dm_grain = dlt_dm * 0.25
-            
+
          elseif (frac_gf < 0.78) then
-         
+
 ! fraction 0.78 used because end_grain_fill is 95% of total flowering to maturity
-! Ronnie started levelling off at 515 GDD which is 0.78 of 95% of 695         
+! Ronnie started levelling off at 515 GDD which is 0.78 of 95% of 695
 
 
             tot_dm_caryopsis = dlt_dm/grain_no/dlt_tt_fm
             dlt_dm_grain = (0.0000319 + 0.4026 *
      :          tot_dm_caryopsis) * dlt_tt_fm * grain_no
             add_grain_wt = -1.0
-            
+
          else
             if (add_grain_wt < 0.0) then
                grain_wt = (dm_green(grain)+dm_dead(grain))
@@ -4557,9 +4576,9 @@ c################################################################
 
               add_grain_wt = (grain_wt_max - grain_wt) /
      :         (tt_flower_to_maturity - tt_flower_to_maturity*frac_gf)
-     
+
               endif
-       
+
             dlt_dm_grain = add_grain_wt * grain_no *
      :                 dlt_tt_fm
 
