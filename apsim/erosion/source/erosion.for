@@ -1325,6 +1325,7 @@ c      write (*,*) 'xxx',g%dlt_dlayer, dlt_bed_depth
 *+  Changes
 *     DMS 25/02/94 (new template)
 *     PdeV. 28/08/94
+*     JNGH 24/11/99 Changed test of too much erosion to top and bottom layer.
 
 *+  Constant Values
       character  my_name*(*)
@@ -1337,8 +1338,8 @@ c      write (*,*) 'xxx',g%dlt_dlayer, dlt_bed_depth
       real       top                   ! temporary
       integer    num_layers
       integer    i
-      real       dlt_depth_mm(max_layer) ! bd based change in depth
-      character  string*80               ! message string
+      real       dlt_depth_mm ! bd based change in depth
+      character  string*200               ! message string
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -1350,28 +1351,43 @@ c      write (*,*) 'xxx',g%dlt_dlayer, dlt_bed_depth
  
          ! find density based change in each layer
  
-      do 1000 i = 1, num_layers
-         top = (g%soil_loss_bed + g%soil_loss_susp) * t2g/ha2scm
-         dlt_depth_mm(i) =  divide (top
-     :                            , g%bd(i), 0.0) * cm2mm
+
+      top = (g%soil_loss_bed + g%soil_loss_susp) * t2g/ha2scm
+      dlt_depth_mm =  divide (top, g%bd(1), 0.0) * cm2mm
+
  
 c     What happens when layer completely eroded?
-         if (dlt_depth_mm(i) .gt. g%dlayer(i) ) then
-            write (string, '(a, i4, a, i5)')
-     :            'warning - trying to erode all of layer', i
-     :          , ' on day', g%day_of_year
+      if (dlt_depth_mm .gt. g%dlayer(1) ) then
+         write (string, '(a)')
+     :            'Eroding more than top layer depth.'
+     :          // ' This may affect SoilN loss.'
+         call warning_error (err_user, string)
+      else
+         ! nothing
+      endif
+         
+      dlt_depth_mm =  divide (top, g%bd(num_layers), 0.0) * cm2mm
  
-            call warning_error (err_user, string)
-         else
-            ! nothing
-         endif
- 1000 continue
+c     What happens when layer completely eroded?
+       if (dlt_depth_mm .gt. g%dlayer(num_layers) ) then
+          write (string, '(a, i3, a)')
+     :            'Eroding more than bottom layer depth. (layer '
+     :          , num_layers
+     :          , ').' // New_line
+     :          // 'PAWC calculations may be incorrect if BD '
+     :         // 'is different to layer above.'
+ 
+         call warning_error (err_user, string)
+      else
+         ! nothing
+      endif
+
  
  
          ! Check whether we've moved bedrock
          ! into the profile. If so, we have to change dlayer.
       tot_depth = sum_real_array(g%dlayer, num_layers)
-     :          + dlt_depth_mm(num_layers)
+     :          + dlt_depth_mm
  
       if (tot_depth .gt. g%bed_depth ) then
          overrun = tot_depth - g%bed_depth
