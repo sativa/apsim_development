@@ -14,7 +14,7 @@
 
 !- Implementation Section ----------------------------------
 
-      if (doAllocate) then    
+      if (doAllocate) then
          allocate(g)
          allocate(p)
          allocate(c)
@@ -93,6 +93,7 @@
       call apswim_zero_module_links()
       call apswim_reset ()
       call apswim_sum_report ()
+      call apswim_Publish_soil_water_profile ()
 
       call pop_routine (this_routine)
       return
@@ -119,22 +120,38 @@
 
       if (eventID.eq.Tick_id) then
          call apswim_OnTick(variant)
-      elseif (eventID.eq.Prepare_id) then
+
+      elseif (eventID .eq. Prepare_id) then
          call apswim_prepare()
-      elseif (eventID.eq.Process_id) then
+
+      elseif (eventID .eq. Process_id) then
          call apswim_process()
-      elseif (eventID.eq.Post_id) then
+
+      elseif (eventID .eq. Post_id) then
          call apswim_post()
-      elseif (eventID.eq.Irrigated_id) then
+
+      elseif (eventID .eq. Irrigated_id) then
          call apswim_ONirrigated (variant)
-      elseif (eventID.eq.New_Solute_id) then
-         call apswim_on_new_solute(variant)
+
+      elseif (eventID .eq. SolutesChanged_id) then
+         call apswim_OnSolutesChanged (variant)
+
+      else if (eventID .eq. CropWaterDemandCalculated_id) then
+         call apswim_OnCropWaterDemandCalculated (fromID,variant)
+
+      else if (eventID .eq. SurfaceWaterChanged_id) then
+         call apswim_OnSurfaceWaterChanged (variant)
+
+      else if (eventID .eq. EosCalculated_id) then
+         call apswim_OnEosCalculated (variant)
 
       else
          call error('bad event ID',.true.)
       endif
+
       return
       end
+
 !     ===========================================================
       subroutine respondToMethod(fromID,methodID, variant)
 !     ===========================================================
@@ -161,9 +178,6 @@
 
       else if (methodID.eq.tillage_id) then
          call apswim_tillage ()
-
-      else if (methodID.eq.cropwaterdemand_id) then
-         call apswim_add_crop_water_demand(fromID,variant)
 
       else
          call error('bad method ID',.true.)
@@ -1219,7 +1233,7 @@
 
 
 * ====================================================================
-       subroutine apswim_set_other_variables ()
+       subroutine apswim_Publish_other_variables ()
 * ====================================================================
       use APSwimModule
       use ComponentInterfaceModule
@@ -1233,8 +1247,10 @@
 
 *- Implementation Section ----------------------------------
 
-      call apswim_set_solute_variables()
-      call apswim_set_crop_variables()
+      call apswim_Publish_solute_variables()
+      call apswim_Publish_crop_variables()
+      call apswim_Publish_soil_water()
+      call apswim_Publish_soil_water_balance()
 
       return
       end
@@ -1605,7 +1621,7 @@ c       double precision g%slup(MV)
 
       g%crop_names(:) = ' '
       g%crop_id(:) = 0
-      g%cropwatersupplyID(:) = 0
+!      g%CropWaterSupplyID(:) = 0
       g%num_crops = 0
       do 41 vegnum = 1, MV
 
@@ -1704,7 +1720,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 
       g%num_crop_modules = 0
       g%crop_module_ids(:) = 0
-      g%cropwatersupplyID(:) = 0
+!      g%CropWaterSupplyID(:) = 0
 
       return
       end
@@ -2705,7 +2721,7 @@ cnh
       call apswim_send_prewaterbalance_event()
 
       call apswim_get_other_variables ()
-      call apswim_get_solute_variables ()
+!jh      call apswim_get_solute_variables ()
       !call apswim_find_crops()
       call apswim_assign_crop_params ()
       call apswim_get_crop_variables ()
@@ -2723,7 +2739,7 @@ cnh
          call apswim_report_status()
       else
 
-         call apswim_set_other_variables ()
+         call apswim_Publish_other_variables ()
 
       endif
 
@@ -3886,48 +3902,9 @@ cnh       double precision table_slscr(nsol)
 
 
 
-* ====================================================================
-       subroutine apswim_get_solute_variables ()
-* ====================================================================
-      use APSwimModule
-      use ComponentInterfaceModule
-
-      implicit none
-
-*+  Purpose
-*      Get the values of solute variables from other modules
-
-*+  Changes
-*     <insert here>
-
-*+  Constant Values
-      character myname*(*)
-      parameter (myname = 'apswim_get_solute_variables')
-
-*+  Local Variables
-      integer solnum                   ! solute array index counter
-      integer node                     ! layer number specifier
-      double precision solute_n(0:M)
-                                       ! solute concn in layers(kg/ha)
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-      do 100 solnum = 1, p%num_solutes
-         call apswim_conc_water_solute (p%solute_names (solnum)
-     :                                 ,solute_n)
-        do 50 node = 0, p%n
-           g%csl(solnum,node) = solute_n(node)
-   50   continue
-
-  100 continue
-
-      call pop_routine (myname)
-      return
-      end
 
 * ====================================================================
-       subroutine apswim_set_solute_variables ()
+       subroutine apswim_Publish_solute_variables ()
 * ====================================================================
       use APSwimModule
       use ComponentInterfaceModule
@@ -3941,13 +3918,14 @@ cnh       double precision table_slscr(nsol)
 *   21-6-96 NIH - Changed set_double_array to post construct
 
 *+  Local Variables
+
+      type (Solute_Profiles_type), dimension(nsol) :: SoluteProfiles
       double precision Ctot
       double precision dCtot
       integer solnum                   ! solute array index counter
       integer node                     ! node number specifier
-      double precision solute_n(0:M)   ! solute concn in layers(kg/ha)
       character string*100
-      logical   OK
+      integer layer
 
 *- Implementation Section ----------------------------------
 
@@ -4007,17 +3985,19 @@ cnh       double precision table_slscr(nsol)
                ! Ctot is positive
             endif
 
-            ! finished testing - assign value to array element
-            solute_n(node) = Ctot
-
+            layer = node + 1
+            SoluteProfiles(solnum)%solute_layers(layer)
+     :                            %thickness = g%dlayer(layer)
+            SoluteProfiles(solnum)%solute_layers(layer)%amount = Ctot
    50    continue
-
-         ok = set_solute_n (
-     :           g%soluteIDs(solnum)%set,
-     :           solute_n,
-     :           p%n+1)
+         SoluteProfiles(solnum)%solute_name = p%solute_names(solnum)
 
   100 continue
+
+      call publish_Solute_Profiles (SoluteFluxesCalculated_ID
+     :                                    , SoluteProfiles
+     :                                    , p%num_solutes
+     :                                    , .false.)
 
       return
       end
@@ -4246,6 +4226,10 @@ cnh    character string_concat*(strsize)      ! function
          call Write_string ('APSwim adding irrigation to log')
       else
       endif
+
+      call error(
+     :         'Irrigation event handler not implemented',
+     :         .true.)
 
 
 c      call collect_char_var (
@@ -6618,7 +6602,8 @@ c      pause
 
 
 * ====================================================================
-       subroutine apswim_conc_water_solute (solname,conc_water_solute)
+       subroutine apswim_conc_water_solute
+     :            (solnum, solname, solute_n_kgpha, conc_water_solute)
 * ====================================================================
       use APSwimModule
       use ComponentInterfaceModule
@@ -6626,8 +6611,11 @@ c      pause
       implicit none
 
 *+  Sub-Program Arguments
-      character solname*(*)
+      integer solnum
       double precision conc_water_solute(0:p%n)
+      type (Solute_Layers_type), dimension(0:M) :: solute_n_kgpha   ! solute at each node
+      Character (len=*) :: solname   ! solute name at each node
+
 
 *+  Purpose
 *      Calculate the concentration of solute in water (ug/l).  Note that
@@ -6644,7 +6632,6 @@ c      pause
 
 *+  Calls
       double precision apswim_solve_freundlich
-      integer          apswim_solute_number
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -6653,55 +6640,32 @@ c      pause
 *+  Local Variables
       integer          node
       double precision solute_n(0:M) ! solute at each node
-      integer          solnum
-      integer          numvals
-      logical          ok
+
 *+  Initial Data Values
-      call fill_double_array(conc_water_solute(0),0d0,p%n+1)
+      conc_water_solute(0:p%n) = 0d0
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      solnum = apswim_solute_number (solname)
-
       if (solnum .gt. 0) then
          ! only continue if solute exists.
-         if (g%soluteIDs(solnum)%get.ne.0) then
-            ok = get_solute_n(g%soluteIDs(solnum)%get,
-     .                        solute_n,
-     .                        numvals)
-         else
-               call error (
-     :            'No module has registered ownership for solute: '
-     :            //solname, .true.)
 
-         endif
+         do 50 node=0, p%n
+            ! convert solute from kg/ha to ug/cc soil
+            ! ug Sol    kg Sol    ug   ha(node)
+            ! ------- = ------- * -- * -------
+            ! cc soil   ha(node)  kg   cc soil
 
-         if (numvals.gt.0) then
-
-            do 50 node=0, p%n
-               ! convert solute from kg/ha to ug/cc soil
-               ! ug Sol    kg Sol    ug   ha(node)
-               ! ------- = ------- * -- * -------
-               ! cc soil   ha(node)  kg   cc soil
-
-               solute_n(node) = solute_n(node)
+            solute_n(node) = solute_n_kgpha(node)%amount
      :                        * 1d9             ! ug/kg
      :                        / (p%dx(node)*1d8) ! cc soil/ha
 
-               conc_water_solute(node) = apswim_solve_freundlich
+            conc_water_solute(node) = apswim_solve_freundlich
      :                                             (node
      :                                             ,solnum
      :                                             ,solute_n(node))
 
-   50       continue
-
-         else
-            call error (
-     :         'You have asked apswim to use a '
-     :         //' solute that is not in the system :-'
-     :         //solname, .true.)
-         endif
+   50    continue
 
       else
                call error (
@@ -7069,8 +7033,9 @@ c      pause
       end
 
 
+
 *     ===========================================================
-      subroutine apswim_on_new_solute (variant)
+      subroutine apswim_OnSolutesChanged (variant)
 *     ===========================================================
       use APSwimModule
       use ComponentInterfaceModule
@@ -7078,7 +7043,7 @@ c      pause
       implicit none
 
 *+  Purpose
-*     Find the owner of any run_solutes
+*     Capture changes to surface water conditions
 
 !+  Sub-Program Arguments
       integer, intent(in out) :: variant
@@ -7094,78 +7059,120 @@ c      pause
 
 *+  Constant Values
       character  my_name*(*)           ! this subroutine name
-      parameter (my_name = 'apswim_on_new_solute')
-
-      character solute_type*(*)
-      parameter (solute_type = '<type kind="double" array="T"/>')
+      parameter (my_name = 'apswim_OnSolutesChanged')
 
 *+  Local Variables
+      type (Solute_Profiles_type), dimension(nsol)
+     :                           :: SoluteProfilesChanged
+      integer NumSolutesChanged
+      integer solnum                   ! solute array index counter
       integer counter
-      integer solnum
-      type(new_solute_type) :: new_solute
-      character regname*100
+      integer node                     ! node number specifier
+      integer layer
 
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
-      call unpack_new_solute(variant, new_solute)
-
-      do 100 counter = 1, new_solute%num_solute_names
-
-         solnum = apswim_solute_number
-     .            (new_solute%solute_names(counter))
-
-         if (solnum.ne.0) then
-
-! NIH need to do something about the type strings here
-! this is WAY too messy
-
-            g%soluteIDs(solnum)%get = add_registration
-     .          (getVariableReg,
-     .           new_solute%solute_names(counter),
-     .           solute_type)
-            g%soluteIDs(solnum)%set = add_registration
-     .          (SetVariableReg,
-     .           new_solute%solute_names(counter),
-     .           solute_type)
-
-            regname = 'flow_'//trim(p%solute_names(solnum))
-            g%soluteIDs(solnum)%flow = add_registration
-     .          (RespondToGetReg,
-     .           regname,
-     .           solute_type)
+      call unpack_Solute_Profiles (variant, SoluteProfilesChanged
+     :                                    , NumSolutesChanged)
 
 
-            regname = 'leach_'//trim(p%solute_names(solnum))
-            g%soluteIDs(solnum)%leach = add_registration
-     .          (RespondToGetReg,
-     .           regname,
-     .           '<type kind="double" array="F"/>')
 
+      do 100 counter = 1, NumSolutesChanged
+         solnum = apswim_solute_number (SoluteProfilesChanged(counter)
+     :                                 %solute_name)
+         call apswim_conc_water_solute
+     :            (solnum
+     :            , SoluteProfilesChanged(counter)%Solute_name
+     :            , SoluteProfilesChanged(counter)%Solute_Layers
+     :            , g%csl(solnum,0:M))
 
-            regname = 'conc_water_'//trim(p%solute_names(solnum))
-            g%soluteIDs(solnum)%conc_water = add_registration
-     .          (RespondToGetReg,
-     .           regname,
-     .           solute_type)
-
-
-            regname = 'conc_adsorb_'//trim(p%solute_names(solnum))
-            g%soluteIDs(solnum)%conc_adsorb = add_registration
-     .          (RespondToGetReg,
-     .           regname,
-     .           solute_type)
-
-         else
-             ! not a run_solute
-            call Write_string (
-     :          'Note - APSwim will not redistribute '
-     :           //new_solute%solute_names(counter))
-         endif
 
   100 continue
 
+      call pop_routine (my_name)
+      return
+      end
+
+*     ===========================================================
+      subroutine apswim_OnSurfaceWaterChanged (variant)
+*     ===========================================================
+      use APSwimModule
+      use ComponentInterfaceModule
+
+      implicit none
+
+*+  Purpose
+*     Capture changes to surface water conditions
+
+!+  Sub-Program Arguments
+      integer, intent(in out) :: variant
+
+*+  Mission Statement
+*      Find the owner of individual solutes
+
+*+  Changes
+*       170599 nih - specified
+
+*+  Constant Values
+      character  my_name*(*)           ! this subroutine name
+      parameter (my_name = 'apswim_OnSurfaceWaterChanged')
+
+*+  Local Variables
+      type (Surface_Water_type) :: Surface_Water
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      call unpack_Surface_Water (variant, Surface_Water)
+
+      call error('Surface water changed event handler not implemented'
+     :           , .true.)
+      call pop_routine (my_name)
+      return
+      end
+
+
+*     ===========================================================
+      subroutine apswim_OnEosCalculated (variant)
+*     ===========================================================
+      use APSwimModule
+      use ComponentInterfaceModule
+
+      implicit none
+
+*+  Purpose
+*     Capture changes to surface water conditions
+
+!+  Sub-Program Arguments
+      integer, intent(in out) :: variant
+
+*+  Mission Statement
+*      Find the owner of individual solutes
+
+*+  Changes
+*       170599 nih - specified
+
+*+  Calls
+      integer apswim_solute_number
+
+*+  Constant Values
+      character  my_name*(*)           ! this subroutine name
+      parameter (my_name = 'apswim_OnEosCalculated')
+
+*+  Local Variables
+      real Eos_calculated
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      call unpack_Eos_calculated (variant, Eos_calculated)
+
+      call error('Eos Calculated event handler not implemented'
+     :           , .true.)
       call pop_routine (my_name)
       return
       end
@@ -7491,7 +7498,7 @@ c      g%cropIDs(:) = emptyID
       end
 
 * ====================================================================
-       subroutine apswim_add_crop_water_demand (fromID,variant)
+       subroutine apswim_OnCropWaterDemandCalculated (fromID,variant)
 * ====================================================================
       use APSwimModule
       use ComponentInterfaceModule
@@ -7509,51 +7516,42 @@ c      g%cropIDs(:) = emptyID
 *     <insert here>
 
 *+  Local Variables
-      type(cropwaterdemand_type) :: CropWaterDemand
+      type(crop_water_demands_type), dimension(max_array_size)
+     :                             :: CropWaterDemands
       character full_name*50
       integer cohort_no
       integer num_layers
       integer crop_module_no
+      integer NumCropWaterDemands
 
 *- Implementation Section ----------------------------------
 
-      call unpack_cropwaterdemand(variant, CropWaterDemand)
+      call unpack_crop_water_demands(variant, CropWaterDemands
+     :                                      , NumCropWaterDemands)
 
       crop_module_no = position_in_integer_array(fromID
      :                                    ,g%crop_module_ids
      :                                    ,g%num_crop_modules)
 
-      if (crop_module_no.eq.0) then
-            g%num_crop_modules = g%num_crop_modules + 1
-            g%crop_module_ids(g%num_crop_modules) = fromID
-            write(full_name, '(i,a)') fromID, '.cropwatersupply'
-            g%cropwatersupplyID(g%num_crop_modules)
-     .          = add_registration (MethodCallReg
-     .                             ,full_name
-     .                             ,cropwatersupply_ddml)
-
-      else
-         ! already registered the comms to this crop module
-      endif
-
-      do 100 cohort_no = 1, CropWaterDemand%Num_demands
+      do 100 cohort_no = 1, NumCropWaterDemands
 
          if (g%num_crops.lt.MV) then
             g%num_crops = g%num_crops + 1
             g%crop_id(g%num_crops) = fromID
-            g%crop_names(g%num_crops)
-     :         = CropWaterDemand%demands(cohort_no)%crop_type
-            g%cohort_names(g%num_crops)
-     :         = CropWaterDemand%demands(cohort_no)%crop_ident
-            num_layers
-     :         = CropWaterDemand%demands(cohort_no)%rlv_layer%num_layers
-            g%rld(0:num_layers-1,g%num_crops)
-     :         = CropWaterDemand%demands(cohort_no)
-     :           %rlv_layer%rlv(1:num_layers)
-     :         *100d0  ! to convert mm/mm3 to cm/cm3
-            g%pep(g%num_crops)
-     :         = CropWaterDemand%demands(cohort_no)%demand
-     :         /10d0 ! convert mm to cm
+            g%crop_names(g%num_crops) = CropWaterDemands(cohort_no)
+     :                                  %crop_type
+            g%cohort_names(g%num_crops) = CropWaterDemands(cohort_no)
+     :                                    %name
+            num_layers = CropWaterDemands(cohort_no)
+     :                   %num_root_layers
+            g%rld(0:num_layers-1,g%num_crops) =
+     :                           CropWaterDemands(cohort_no)
+     :                           %root_layers(1:num_layers)
+     :                           %root_length_density
+     :                           *100d0  ! to convert mm/mm3 to cm/cm3
+            g%pep(g%num_crops) = CropWaterDemands(cohort_no)
+     :                           %demand
+     :                           /10d0 ! convert mm to cm
          else
             call error ('too many crops',.true.)
          endif
@@ -7566,7 +7564,7 @@ c      g%cropIDs(:) = emptyID
 
 
 * ====================================================================
-       subroutine apswim_set_crop_variables ()
+       subroutine apswim_Publish_crop_variables ()
 * ====================================================================
       use APSwimModule
       use ComponentInterfaceModule
@@ -7580,56 +7578,149 @@ c      g%cropIDs(:) = emptyID
 *     <insert here>
 
 *+  Local variables
-      type(cropwatersupply_type)::supply
-      type(supplies_type)::cohort
-      integer i
+      type(Crop_Water_Supplies_type), dimension(max_array_size)
+     :                              :: CropWaterSupplies
       integer cohort_no
       integer crop_module_no
+      integer num_layers
 
 *- Implementation Section ----------------------------------
 
-      ! It would be MUCH MUCH better to use structures to clean this all up.
+      num_layers = p%n + 1
+      do cohort_no = 1, g%num_crops
+         CropWaterSupplies(cohort_no)%name = g%cohort_names(cohort_no)
+         CropWaterSupplies(cohort_no)%num_supply_layers = num_layers
+         CropWaterSupplies(cohort_no)%supply_layers(1:num_layers)
+     :                      %thickness = g%dlayer(0:num_layers-1)
+         CropWaterSupplies(cohort_no)%supply_layers(1:num_layers)
+     :                   %supply = g%pwuptake(cohort_no,0:num_layers-1)
+      enddo
 
-      ! start at the beginning and go through to end
-      i = 0
-      cohort_no = 0
-  100 continue
-         i=i+1
-         cohort_no = cohort_no + 1
-         if (i.gt.g%num_crops) goto 999
-
-         cohort%crop_ident = g%cohort_names(i)
-         cohort%num_layers = p%n + 1
-         cohort%layers(1:p%n + 1) = g%dlayer(0:p%n)
-         cohort%supply(1:p%n + 1) = g%pwuptake(i,0:p%n)
-
-         supply%num_supplies = cohort_no
-         supply%supplies(cohort_no) = cohort
-
-         if ((i.lt.g%num_crops)
-     :       .and.(g%crop_id(i).eq.g%crop_id(i+1))) then
-            ! the next record is from the same crop module
-            ! add it to the water supply structure before calling method
-
-         else
-            ! this is the last cohort for this crop
-            ! send off the message
-            crop_module_no = position_in_integer_array
-     :                          (g%crop_id(i)
-     :                          ,g%crop_module_ids
-     :                          ,g%num_crop_modules)
-            call methodcall_cropwatersupply(
-     :           g%cropwatersupplyID(crop_module_no)
-     :           ,supply
-     :           ,.false.)
-            cohort_no = 0
-         endif
-
-         goto 100
-  999 continue
+      call publish_Crop_Water_Supplies (
+     :                                CropWaterSupplyCalculated_ID
+     :                              , CropWaterSupplies
+     :                              , g%num_crops
+     :                              , .false.)
 
       return
       end
+
+* ====================================================================
+       subroutine apswim_Publish_soil_water ()
+* ====================================================================
+      use APSwimModule
+      use ComponentInterfaceModule
+
+      implicit none
+
+*+  Purpose
+*     Update variables owned by crop modules.
+
+*+  Changes
+*     <insert here>
+
+*+  Local variables
+      type(Soil_Water_Layers_type), dimension(max_array_size)
+     :                              :: SoilWaterLayers
+      integer num_layers
+
+*- Implementation Section ----------------------------------
+
+      num_layers = p%n + 1
+      SoilWaterLayers(1:num_layers)
+     :               %thickness = g%dlayer(0:p%n)
+      SoilWaterLayers(1:num_layers)
+     :               %soil_water = g%th(0:p%n)*g%dlayer(0:p%n)
+
+      call publish_Soil_Water_Layers (SoilWaterChanged_ID
+     :                              , SoilWaterLayers
+     :                              , num_layers
+     :                              , .false.)
+
+      return
+      end
+
+* ====================================================================
+       subroutine apswim_Publish_soil_water_balance ()
+* ====================================================================
+      use APSwimModule
+      use ComponentInterfaceModule
+
+      implicit none
+
+*+  Purpose
+*     Update variables owned by crop modules.
+
+*+  Changes
+*     <insert here>
+
+*+  Local variables
+      type(Soil_Water_Balance_type) :: SoilWaterBalance
+      integer num_layers
+
+*- Implementation Section ----------------------------------
+
+      num_layers = p%n + 1
+      SoilWaterBalance%infiltration = max(0d0
+     :                                   , g%TD_wflow(0) + g%TD_evap)
+      SoilWaterBalance%drainage = g%TD_drain
+      SoilWaterBalance%evaporation = g%TD_evap
+      SoilWaterBalance%lateral_flow_layers(1:num_layers)
+     :                %thickness = g%dlayer(0:num_layers-1)
+      SoilWaterBalance%lateral_flow_layers(:)%flow = 0.0
+
+      call publish_Soil_Water_Balance (
+     :                               SoilWaterBalanceCalculated_ID
+     :                              , SoilWaterBalance
+     :                              , .false.)
+
+      return
+      end
+
+* ====================================================================
+       subroutine apswim_Publish_soil_water_profile ()
+* ====================================================================
+      use APSwimModule
+      use ComponentInterfaceModule
+
+      implicit none
+
+*+  Purpose
+*     Update variables owned by crop modules.
+
+*+  Changes
+*     <insert here>
+
+*+  Local variables
+      type(Soil_Water_Profile_Layers_type), dimension(max_array_size)
+     :                                    :: SoilWaterProfileLayers
+      integer num_layers
+
+*- Implementation Section ----------------------------------
+
+      num_layers = p%n + 1
+      SoilWaterProfileLayers(1:num_layers)%thickness = g%dlayer(0:p%n)
+      SoilWaterProfileLayers(1:num_layers)%bulk_density = p%rhob(0:p%n)
+      SoilWaterProfileLayers(1:num_layers)
+     :                        %sat_dep = g%SAT(0:p%n)*g%dlayer(0:p%n)
+      SoilWaterProfileLayers(1:num_layers)
+     :                        %dul_dep = g%DUL(0:p%n)*g%dlayer(0:p%n)
+      SoilWaterProfileLayers(1:num_layers)
+     :                        %ll15_dep = g%LL15(0:p%n)*g%dlayer(0:p%n)
+      SoilWaterProfileLayers(1:num_layers)
+     :                        %airdry_dep = 0.0
+      SoilWaterProfileLayers(1:num_layers)
+     :                        %sw_dep = g%th(0:p%n)*g%dlayer(0:p%n)
+
+      call publish_Soil_Water_Profile_Layers
+     :                              (SoilWaterProfileChanged_ID
+     :                              , SoilWaterProfileLayers
+     :                              , num_layers
+     :                              , .false.)
+
+      return
+      end
+
 !     ===========================================================
       logical function apswim_solute_output(Variable_info)
 !     ===========================================================

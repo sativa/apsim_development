@@ -1,6 +1,7 @@
 <component name="apswim">
    <types>
-      <type name="swim_rain" kind="double" units="mm/d"/>
+      <type name="rain_double" kind="double" units="mm/d"/>
+      <type name="interception_double" kind="double" unit="" description=""/>
    </types>
    <registrations>
       <respondToGetReg name="dlayer" type="dlayer"/>
@@ -143,7 +144,7 @@
       <getVariableReg name="maxt" type="maxt"/>
       <getVariableReg name="mint" type="mint"/>
       <getVariableReg name="cover_tot_sum" type="cover_tot_sum"/>
-      <getVariableReg name="rain" type="swim_rain"/>
+      <getVariableReg name="rain" type="rain_double"/>
       <getVariableReg name="rain_time" type="rain_time"/>
       <getVariableReg name="rain_durn" type="rain_durn"/>
       <getVariableReg name="rain_int" type="rain_int"/>
@@ -153,7 +154,7 @@
       <getVariableReg name="eo_durn" type="eo_durn"/>
       <getVariableReg name="obs_eo" type="obs_eo"/>
       <getVariableReg name="residue_cover" type="residue_cover"/>
-      <getVariableReg name="interception" type="interception"/>
+      <getVariableReg name="interception" type="interception_double"/>
       <getVariableReg name="day" type="day"/>
       <getVariableReg name="year" type="year"/>
       <methodCallReg name="swim_timestep_preparation" type="swim_timestep_preparation"/>
@@ -163,12 +164,21 @@
 
       <respondToEventReg name="tick" type="time"/>
       <respondToEventReg name="new_solute" type="new_solute"/>
+      <respondToEventReg name="SolutesChanged" type="solute_profiles"/>
+      <respondToEventReg name="CropWaterDemandCalculated" type="crop_water_demands"/>
+      <respondToEventReg name="SurfaceWaterChanged" type="Surface_Water"/>
+      <respondToEventReg name="EosCalculated" type="Eos_calculated"/>
       <respondToEventReg name="irrigated" type="irrigated"/>
       <respondToEventReg name="prepare" type="null"/>
       <respondToEventReg name="process" type="null"/>
       <respondToEventReg name="post" type="null"/>
       <eventReg name="prewaterbalance" type="prewaterbalance"/>
-      
+      <eventReg name="SoluteFluxesCalculated" type="solute_profiles"/>
+      <eventReg name="CropWaterSupplyCalculated" type="Crop_Water_Supplies"/>
+      <eventReg name="SoilWaterBalanceCalculated" type="Soil_Water_Balance"/>
+      <eventReg name="SoilWaterProfileChanged" type="Soil_Water_Profile_Layers"/>
+      <eventReg name="SoilWaterChanged" type="Soil_Water_Layers"/>
+
       <setVariableReg name="solute_n" type="solute_n" autoregister="F"/>
       <getVariableReg name="solute_n" type="solute_n" autoregister="F"/>
       <respondToGetReg name="solute_n_flow" type="solute_n_flow" autoregister="F"/>
