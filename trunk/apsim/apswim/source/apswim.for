@@ -887,14 +887,14 @@ c     :              1.0d0)
      :               10d6)
 
       elseif (p%ibbc.eq.1) then
-c         call Read_integer_var (
-c     :              bottom_boundary_section,
-c     :              'constant_potential',
-c     :              '(??)',
-c     :              p%constant_potential,
-c     :              numvals,
-c     :              0,
-c     :              3)
+         call Read_double_var (
+     :              bottom_boundary_section,
+     :              'constant_potential',
+     :              '(cm)',
+     :              p%constant_potential,
+     :              numvals,
+     :             -1d7,
+     :              1d7)
 
       elseif (p%ibbc.eq.2) then
       elseif (p%ibbc.eq.3) then
@@ -1647,8 +1647,8 @@ cnh
       g%res = 0d0
       g%resp = 0d0
       g%rex = 0d0
-      call dset2 (g%qs,0,M,0,M,0d0)
-      call dset2 (g%qex,0,M,0,M,0d0)
+      g%qs(:) = 0d0
+      g%qex(:) = 0d0
 
 * =====================================================================
 cnh*      common/bypass/p%ibp,p%gbp,p%sbp,g%hbp,g%hbp0,g%hbpold,g%qbp,g%qbpd,slbp0,g%qslbp
@@ -2347,12 +2347,6 @@ c   47       continue
    30    continue
    40 continue
 
-      if (p%ibbc .eq. 1) then
-         ! water table so bottom later stays saturated
-         p%constant_potential = 0d0
-      else
-      endif
-
       call pop_routine (myname)
       return
       end
@@ -2726,7 +2720,7 @@ cnh
 
 
 *        calculate next step size_of g%dt
-c         write(LU_Summary_File,*) 'time = ',g%t
+c         print*,g%t
 
          ! Start with first guess as largest size_of possible
          g%dt = p%dtmax
@@ -2888,18 +2882,7 @@ cnh
 *           integrate for step g%dt
             call apswim_solve(itlim,fail)
 
-cnh            print*,g%t-g%dt,g%dt,fail
-c              write(LU_Summary_file,*) '----------------------------'
-c              write(LU_Summary_file,*) g%day,g%year,
-c    :                 mod(g%t-g%dt,24d0),fail
-c              write(LU_Summary_file,*) '   g%psi(0)=',real(g%psi(0))
-c              write(LU_Summary_file,*) '   g%h =',real(g%h)
-c              write(LU_Summary_file,*) 'psiold(0)=',real(psiold(0))
-c              write(LU_Summary_file,*) ' g%hold=',real(g%hold)
-c              write(LU_Summary_file,*) '  dr=',real(dr)
-c              write(LU_Summary_file,*) '  g%dt=',real(g%dt)
             if(fail)then
-c               call apswim_report_status()
                 call apswim_diagnostics(pold)
 
                g%t = old_time
@@ -2914,17 +2897,7 @@ c               call apswim_report_status()
                if(g%dt.ge.dtiny)go to 40
             else
 *
-c               write(LU_Summary_file,*) '     timestep_remaining =',
-c     :              timestep_remaining
-c               write(LU_Summary_file,*) '     g%dt =',real(g%dt)
-c               write(LU_Summary_file,*) '     dr =',real(dr)
-c               write(LU_Summary_file,*) '   g%roff =',real(g%roff)
-c               write(LU_Summary_file,*) '   g%psi(0)=',real(g%psi(0))
-c               write(LU_Summary_file,*) '   g%h =',real(g%h)
-
 *              update variables
-cnh
-cnh               print*, g%t,g%resp*g%dt*10d0
                g%TD_runoff = g%TD_runoff + g%roff*g%dt*10d0
                g%TD_evap   = g%TD_evap   + g%res*g%dt*10d0
                g%TD_drain  = g%TD_drain  + g%q(p%n+1)*g%dt*10d0
@@ -2974,6 +2947,7 @@ cnh
      :                              +g%qsl(solnum,0)*g%dt
                      g%sldrn(solnum)=g%sldrn(solnum)
      :                              +g%qsl(solnum,p%n+1)*g%dt
+
                      g%sldec(solnum)=g%sldec(solnum)
      :                              +g%rsldec(solnum)*g%dt
                      g%slprd(solnum)=g%slprd(solnum)
@@ -3434,13 +3408,10 @@ cnh     :       p%x(layer), p%soil_type(layer), g%th(layer),g%psi(layer)*1000.,
       g%TD_evap    = 0.0
       g%TD_pevap   = 0.0
       g%TD_drain   = 0.0
-      call fill_double_array (g%TD_soldrain, 0.0d0, nsol)
-      call fill_double_array (g%TD_wflow(0), 0.0d0, M+1)
-      do 50 solnum=1,nsol
-         do 51 node=0,M
-            g%TD_sflow(solnum,node) = 0d0
-   51    continue
-   50 continue
+
+      g%TD_soldrain(:) = 0d0
+      g%TD_wflow(:) = 0d0
+      g%TD_sflow(:,:) = 0d0
 
          do 61 vegnum=1,MV
             do 62 node=0,M
@@ -4432,16 +4403,6 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
 
   100 continue
 
-cnh now replaced by parameter value
-c      if (cslgw_is_set) then
-c         ! do nothing
-c      else
-c         do 101 solnum = 1, p%num_solutes
-c            p%cslgw(solnum) = g%csl(solnum,p%n)
-c  101    continue
-c         cslgw_is_set = .true.
-c      endif
-
       call pop_routine (myname)
       return
       end
@@ -4539,6 +4500,7 @@ c      endif
      :           '(kg/ha)',
      :           solute_n(0),
      :           p%n+1)
+         
          call Action_send(g%solute_owners(solnum)
      :                              ,ACTION_set_variable
      :                              ,p%solute_names(solnum))
@@ -7980,6 +7942,7 @@ c      pause
      :              numvals,
      :              c%lb_solute,
      :              c%ub_solute)
+
          else
                call fatal_error (Err_User,
      :            'No module has registered ownership for solute: '
