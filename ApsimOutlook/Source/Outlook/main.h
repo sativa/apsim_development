@@ -23,6 +23,7 @@
 #include "TSimulations_from_mdbs.h"
 #include <ToolWin.hpp>
 #include <ImgList.hpp>
+#include "StrHlder.hpp"
 //----------------------------------------------------------------------------
 class TMainForm : public TForm
 {
@@ -43,7 +44,6 @@ __published:
    TMenuItem *N2;
    TPrinterSetupDialog *PrinterSetupDialog;
    TMenuItem *N3;
-   TSimulations_from_mdbs *All_simulations;
    TMenuItem *FileOpenMenu;
    TMenuItem *FileOpenDatasetMenu;
    TOpenDialog *OpenDialog;
@@ -80,6 +80,8 @@ __published:
         TToolButton *ToolButton5;
         TToolButton *Select_simulation_button;
         TToolButton *SOI_button;
+   TStrHolder *StrHolder1;
+   TToolButton *GM_button;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Window_cascade(TObject *Sender);
 	void __fastcall UpdateMenuItems(TObject *Sender);

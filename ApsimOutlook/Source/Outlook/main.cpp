@@ -11,9 +11,11 @@
 #include <general\path.h>
 #include <dos.h>
 #include <shellapi.h>
+#include "TSkin.h"
 //---------------------------------------------------------------------
 #pragma link "TSimulations"
 #pragma link "TSimulations_from_mdbs"
+#pragma link "StrHlder"
 #pragma resource "*.dfm"
 TMainForm *MainForm;
 extern AnsiString CommandLine;
@@ -44,7 +46,7 @@ void __fastcall TMainForm::CreateMDIChild(String Name)
    Child->Show();
    Child->Set_toolbar (ToolBar2);
    Child->Caption = Name;
-   Child->Set_all_simulations(All_simulations);
+   Child->Set_all_simulations(Directory_select_form->SelectedMDBs);
    Child->SetPresentationFonts(FilePresentationFontsMenu->Checked);
    }
 //---------------------------------------------------------------------
@@ -155,9 +157,9 @@ void __fastcall TMainForm::FileOpenMenuClick(TObject *Sender)
    {
    if (OpenDialog->Execute())
       {
+      Directory_select_form->SelectedMDBs->Clear();
       Directory_select_form->SelectedMDBs->AddStrings(OpenDialog->Files);
-      All_simulations->Database_file_names = Directory_select_form->SelectedMDBs;
-      if (All_simulations->Count() > 0)
+      if (Directory_select_form->SelectedMDBs->Count > 0)
          CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
       else
          {
@@ -171,8 +173,7 @@ void __fastcall TMainForm::FileOpenDatasetMenuClick(TObject *Sender)
    {
    if (Directory_select_form->ShowModal() == mrOk)
       {
-      All_simulations->Database_file_names = Directory_select_form->SelectedMDBs;
-      if (All_simulations->Count() > 0)
+      if (Directory_select_form->SelectedMDBs->Count > 0)
          CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
       else
          {
@@ -184,19 +185,8 @@ void __fastcall TMainForm::FileOpenDatasetMenuClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::HelpContentsMenuClick(TObject *Sender)
    {
-   Path p (Application->ExeName.c_str());
-   if (Str_i_Eq(p.Get_name_without_ext(), "whoppercropper"))
-      {
-      string manual = p.Get_directory() + "\\manual\\default.htm";
-      ShellExecute (this->Handle, "open", manual.c_str(), NULL, "", SW_SHOW);
-      }
-   else
-      {
-      p.Set_extension(".hlp");
-
-      string CommandLine = "winhlp32.exe " + p.Get_directory() + "\\docs\\" + p.Get_name();
-      WinExec (CommandLine.c_str(), SW_SHOW);
-      }
+   ShellExecute (this->Handle, "open",
+                 StrHolder1->Strings->Strings[1].c_str(), NULL, "", SW_SHOW);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FilePresentationFontsMenuClick(TObject *Sender)
@@ -216,6 +206,8 @@ void __fastcall TMainForm::FilePresentationFontsMenuClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormShow(TObject *Sender)
    {
+   Skin->InitApplication();
+
    // change caption.
    Path p(Application->ExeName.c_str());
    if (Str_i_Eq(p.Get_name_without_ext(), "whoppercropper"))
@@ -227,8 +219,8 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
       // user has specified a file on the command line.
       TStringList* Names = new TStringList;
       Names->Add (CommandLine);
-      All_simulations->Database_file_names = Names;
-      if (All_simulations->Count() > 0)
+      Directory_select_form->SelectedMDBs->Assign(Names);
+      if (Directory_select_form->SelectedMDBs->Count > 0)
          CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
       else
          {
@@ -243,9 +235,10 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
 void __fastcall TMainForm::Evaluate(TObject *Sender)
    {
    ShellExecute (this->Handle, "open",
-                 "http://www.apsru.gov.au/whopper/survey.htm", NULL, "", SW_SHOW);
+                 StrHolder1->Strings->Strings[0].c_str(), NULL, "", SW_SHOW);
    }
 //---------------------------------------------------------------------------
+
 
 
 

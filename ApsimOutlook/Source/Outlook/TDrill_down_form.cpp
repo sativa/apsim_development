@@ -4,6 +4,7 @@
 
 #include "TDrill_down_form.h"
 #include "TValueSelectionForm.h"
+#include "TTabRenameForm.h"
 #include <general\vcl_functions.h>
 #include <general\math_functions.h>
 #include <general\string_functions.h>
@@ -33,16 +34,6 @@ static const char* BITMAPS_SECTION = "bitmaps";
 __fastcall TDrill_down_form::TDrill_down_form(TComponent* Owner)
    : TForm(Owner)
    {
-   // locate and open our ini file.
-   Path Ini_path (Application->ExeName.c_str());
-   Ini_path.Set_extension (".ini");
-   Ini_file Ini;
-   Ini.Set_file_name (Ini_path.Get_path().c_str());
-
-   // read in all bitmaps.
-   string Bitmap_section_contents;
-   Ini.Read_section_contents (BITMAPS_SECTION, Bitmap_section_contents);
-   Load_all_bitmaps (Bitmap_section_contents);
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -56,6 +47,8 @@ __fastcall TDrill_down_form::TDrill_down_form(TComponent* Owner)
 // ------------------------------------------------------------------
 void TDrill_down_form::Load_all_bitmaps(string& Bitmap_section_contents)
    {
+   ImageList->Clear();
+   
    Path p(Application->ExeName.c_str());
 
    // loop through all lines in section.
@@ -157,6 +150,8 @@ void TDrill_down_form::Refresh (void)
 // ------------------------------------------------------------------
 void TDrill_down_form::RefreshScrollBox (void)
    {
+   Graphics::TBitmap* EmptyBitmap = new Graphics::TBitmap;
+
    vector<string> Identifiers, Values;
 
    string CurrentSimulationName = Tab_control->Tabs->Strings[Tab_control->TabIndex].c_str();
@@ -175,12 +170,17 @@ void TDrill_down_form::RefreshScrollBox (void)
 
       // give button a bitmap.
       int BitmapIndex = Get_bitmap_index_for_identifier (Identifiers[i].c_str());
-      ImageList->GetBitmap(BitmapIndex, Button->Glyph);
+      if (BitmapIndex != -1)
+         ImageList->GetBitmap(BitmapIndex, Button->Glyph);
+      else
+         Button->Glyph->Assign(EmptyBitmap);
 
       Button->Visible = true;
       }
    for (int i = Identifiers.size(); i < ScrollBox->ControlCount; i++)
       ScrollBox->Controls[i]->Visible = false;
+
+   delete EmptyBitmap;
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -217,6 +217,17 @@ void __fastcall TDrill_down_form::FormResize(TObject *Sender)
 // ------------------------------------------------------------------
 void __fastcall TDrill_down_form::FormShow(TObject *Sender)
    {
+   // locate and open our ini file.
+   Path Ini_path (Application->ExeName.c_str());
+   Ini_path.Set_extension (".ini");
+   Ini_file Ini;
+   Ini.Set_file_name (Ini_path.Get_path().c_str());
+
+   // read in all bitmaps.
+   string Bitmap_section_contents;
+   Ini.Read_section_contents (BITMAPS_SECTION, Bitmap_section_contents);
+   Load_all_bitmaps (Bitmap_section_contents);
+
    Save_simulations();
    if (Simulations->Selected_simulations->Count() == 0)
       Simulations->Select_default_simulation();
@@ -273,6 +284,9 @@ void __fastcall TDrill_down_form::ButtonClick(TObject *Sender)
                                                  ValueSelectionForm->SelectedItems);
    ValueSelectionForm->CurrentValue = Value;
 
+   // put identifier into listview.
+   ValueSelectionForm->ListView->Columns->Items[0]->Caption = Identifier.c_str();
+
    // display form.
    if (ValueSelectionForm->ShowModal() == mrOk)
       {
@@ -296,14 +310,15 @@ void __fastcall TDrill_down_form::ButtonClick(TObject *Sender)
 void TDrill_down_form::Select_multiple_simluations_permutation (const char* Selected_identifier,
                                                                 vector<string>& Multiple_values)
    {
-   if (ValueSelectionForm->RemoveExistingCheckBox->Checked)
+   if (ValueSelectionForm->RemoveExistingRadio->Checked)
       {
       Simulations->Selected_simulations->Clear();
       Current_simulation.Set_name ("default");
       Select_multiple_simulations (Current_simulation, Selected_identifier, Multiple_values);
       }
-   else if (Multiple_values.size() == 1)
+   else if (ValueSelectionForm->ChangeCurrentRadio->Checked)
       {
+      Simulations->Unselect_simulation(Current_simulation);
       Select_multiple_simulations (Current_simulation, Selected_identifier, Multiple_values);
       }
    else
@@ -339,6 +354,7 @@ void TDrill_down_form::Select_multiple_simluations_permutation (const char* Sele
 
 //  Changes:
 //    DPH 29/6/98
+//    dph 8/12/99 added identifier to simulation name - c227,d308
 
 // ------------------------------------------------------------------
 void TDrill_down_form::Select_multiple_simulations (TSimulation& Simulation,
@@ -360,7 +376,7 @@ void TDrill_down_form::Select_multiple_simulations (TSimulation& Simulation,
             NewName = "";
          else
             NewName = NewName + ";";
-         NewName += *i;
+         NewName += string(Selected_identifier) + "=" + *i;
          New_simulation.Set_name (NewName.c_str());
          }
       Simulations->Select_simulation (New_simulation);
@@ -394,6 +410,8 @@ void __fastcall TDrill_down_form::Tab_controlChange(TObject *Sender)
 // ------------------------------------------------------------------
 void TDrill_down_form::Save_simulations (void)
    {
+   Saved_simulations.erase(Saved_simulations.begin(), Saved_simulations.end());
+
    // save the simulations just in case the user presses cancel.
    list<string> Simulation_names;
    Simulations->Get_selected_simulation_names (Simulation_names);
@@ -453,8 +471,40 @@ void TDrill_down_form::SetPresentationFonts(bool LargeFonts)
 void __fastcall TDrill_down_form::ClearButtonClick(TObject *Sender)
    {
    Simulations->Selected_simulations->Clear();
+   Current_simulation.Set_name ("default");
    Simulations->Select_simulation(Current_simulation);
    Refresh();
+   }
+//---------------------------------------------------------------------------
+void __fastcall TDrill_down_form::Rename1Click(TObject *Sender)
+   {
+   // rename the current simulation and tab name.
+   TabRenameForm->EditBox->Text = Current_simulation.Get_name().c_str();
+   if (TabRenameForm->ShowModal() == mrOk)
+      {
+      Simulations->Unselect_simulation(Current_simulation);
+      Current_simulation.Set_name(TabRenameForm->EditBox->Text.c_str());
+      Simulations->Select_simulation(Current_simulation);
+
+      Tab_control->Tabs->Strings[Tab_control->TabIndex] = Current_simulation.Get_name().c_str();
+      }
+   }
+//---------------------------------------------------------------------------
+void __fastcall TDrill_down_form::Delete1Click(TObject *Sender)
+   {
+   // delete the current simulation and tab name.
+   Simulations->Unselect_simulation(Current_simulation);
+   Tab_control->Tabs->Delete(Tab_control->TabIndex);
+   }
+//---------------------------------------------------------------------------
+void __fastcall TDrill_down_form::Tab_controlMouseDown(TObject *Sender,
+      TMouseButton Button, TShiftState Shift, int X, int Y)
+   {
+   // select the clicked tab.
+   if (Button == mbRight)
+      Tab_control->Perform(WM_LBUTTONDOWN,
+                           MK_LBUTTON,
+                           MAKELPARAM(X, Y));
    }
 //---------------------------------------------------------------------------
 

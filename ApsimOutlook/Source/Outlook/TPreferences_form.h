@@ -17,9 +17,11 @@ __published:	// IDE-managed Components
    TFilenameEdit *File_name_edit;
    TBitBtn *BitBtn1;
    TBitBtn *BitBtn2;
+   TCheckBox *ColourBackgroundCheckbox;
    void __fastcall FormShow(TObject *Sender);
    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 private:	// User declarations
+
 public:		// User declarations
    __fastcall TPreferences_form(TComponent* Owner);
 };

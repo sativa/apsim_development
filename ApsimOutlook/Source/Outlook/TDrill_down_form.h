@@ -15,6 +15,7 @@
 #include <vcl\Buttons.hpp>
 #include <ExtCtrls.hpp>
 #include <ImgList.hpp>
+#include <Menus.hpp>
 #include <map>
 //---------------------------------------------------------------------------
 class TDrill_down_form : public TForm
@@ -47,12 +48,20 @@ __published:	// IDE-managed Components
    TSpeedButton *SpeedButton19;
    TSpeedButton *SpeedButton20;
    TBitBtn *ClearButton;
+   TPopupMenu *TabPopup;
+   TMenuItem *Rename1;
+   TMenuItem *Delete1;
+   TPopupMenu *EmptyPopup;
    void __fastcall FormShow(TObject *Sender);
    void __fastcall Tab_controlChange(TObject *Sender);
    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall ButtonClick(TObject *Sender);
    void __fastcall FormResize(TObject *Sender);
    void __fastcall ClearButtonClick(TObject *Sender);
+   void __fastcall Rename1Click(TObject *Sender);
+   void __fastcall Delete1Click(TObject *Sender);
+   void __fastcall Tab_controlMouseDown(TObject *Sender,
+          TMouseButton Button, TShiftState Shift, int X, int Y);
 private:	// User declarations
    TSimulation Current_simulation;
    list<TSimulation> Saved_simulations;

@@ -33,7 +33,9 @@
 #include "TSimulations_from_mdbs.h"
 #include "MemTable.hpp"
 #include "TGM_analysis.h"
+#include "TDamEasy.h"
 #include "TChartSettingsForm.h"
+#include "TGM_analysis.h"
 //----------------------------------------------------------------------------
 class TMDIChild : public TForm
 {
@@ -51,7 +53,6 @@ __published:
    TMenuItem *OptionsMenu;
    TMenuItem *OptionsSOIMenu;
    TMenuItem *ChartsPropertiesMenu;
-   TMenuItem *ChartsNoChartMenu;
    TMenuItem *ChartsBoxMenu;
    TMenuItem *ChartsXYMenu;
    TMenuItem *ChartsSummaryTableMenu;
@@ -74,10 +75,11 @@ __published:
     TSelected_simulations *Raw_data;
     TSimulations *Selected_simulations;
    TGM_analysis *GM;
-   TMenuItem *N7;
    TMenuItem *OptionsEconomicMenu;
    TMenuItem *ChartsViewSettingsMenu;
    TMenuItem *View1;
+   TMenuItem *ChartsNoChartMenu;
+   TSimulations_from_mdbs *Simulations_from_mdbs;
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall SelectSimulations(TObject *Sender);
    void __fastcall TimeSeriesChart(TObject *Sender);
@@ -88,7 +90,6 @@ __published:
    void __fastcall SendDataToEXCEL(TObject *Sender);
    void __fastcall SOIToggle(TObject *Sender);
    void __fastcall Properties(TObject *Sender);
-   void __fastcall RawData(TObject *Sender);
    void __fastcall BoxChart(TObject *Sender);
    void __fastcall XYChart(TObject *Sender);
 
@@ -103,6 +104,8 @@ __published:
    void __fastcall ChartsViewSettingsMenuClick(TObject *Sender);
    
    void __fastcall FormResize(TObject *Sender);
+   void __fastcall ChartsNoChartMenuClick(TObject *Sender);
+   void __fastcall FormActivate(TObject *Sender);
 private:
    bool SOI_on;
    bool GM_on;
@@ -110,6 +113,7 @@ private:
    bool FirstTime;
    TToolBar* Toolbar;
    TChartSettingsForm* Settings_form;
+   TDamEasy* DamEasy;
 
    TAnalysis_panel* Analysis_panel;
    void Display_settings(void);
@@ -117,16 +121,18 @@ private:
    void Enable_options (void);
    void Select_simulations(void);
    void Create_chart (AnsiString Analysis_name);
+   void Hook_panel_to_this_form (void);
    void Hook_components_together (void);
    void Refresh_components(void);
-   void Edit_analysis_and_refresh(void);
+   bool Edit_analysis_and_refresh(void);
+   void __fastcall On_settings_form_close(TObject* Sender, TCloseAction& Action);
 
    TToolButton* Get_button (const char* Button_name);
 
 public:
 	virtual __fastcall TMDIChild(TComponent *Owner);
    virtual __fastcall ~TMDIChild();
-   void Set_all_simulations (TSimulations* All_simulations);
+   void Set_all_simulations (TStringList* MDBFilenames);
    void Set_toolbar (TToolBar* Toolbar);
    void SetPresentationFonts(bool Large_fonts);
 };

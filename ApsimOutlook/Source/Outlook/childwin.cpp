@@ -34,19 +34,22 @@
 #pragma link "TSelected_simulations"
 #pragma link "MemTable"
 #pragma link "TGM_analysis"
+#pragma link "TGM_analysis"
 #pragma resource "*.dfm"
 
 static const char* SOI_SECTION = "soi";
 static const char* SOI_FILE_KEY_WORD = "soi file";
+static const char* OPTIONS_SECTION = "options";
+static const char* ECONOMICS_KEY_WORD = "economics";
 //---------------------------------------------------------------------
 __fastcall TMDIChild::TMDIChild(TComponent *Owner)
 	: TForm(Owner)
    {
-   Drill_down_form->Simulations = Raw_data;
    Analysis_panel = NULL;
    SOI_on = false;
    GM_on = false;
    FirstTime = true;
+//   DamEasy = new TDamEasy(this);
    }
 //---------------------------------------------------------------------
 __fastcall TMDIChild::~TMDIChild()
@@ -60,6 +63,16 @@ void __fastcall TMDIChild::FormShow(TObject *Sender)
    Settings_form = new TChartSettingsForm(this);
    Settings_form->Parent = this;
    Settings_form->Show();
+   Settings_form->OnClose = On_settings_form_close;
+
+   // disable the economics menu & button if necessary.
+   Path p(Application->ExeName.c_str());
+   p.Set_extension(".ini");
+   Ini_file Ini;
+   Ini.Set_file_name(p.Get_path().c_str());
+   string Option;
+   Ini.Read (OPTIONS_SECTION, ECONOMICS_KEY_WORD, Option);
+   OptionsEconomicMenu->Enabled = Str_i_Eq(Option, "on");
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::FormResize(TObject *Sender)
@@ -74,27 +87,14 @@ void __fastcall TMDIChild::FormResize(TObject *Sender)
       }
    }
 //---------------------------------------------------------------------------
-void TMDIChild::Set_all_simulations (TSimulations* All_simulations)
+void TMDIChild::Set_all_simulations (TStringList* MDBFilenames)
    {
-   Raw_data->All_possible_simulations = All_simulations;
+   Simulations_from_mdbs->Database_file_names = MDBFilenames;
+   Raw_data->All_possible_simulations = Simulations_from_mdbs;
 
    Read_soi_file_name();
-   Enable_options();
-   ShowCursor(true);
    SelectSimulations(NULL);
-
-   // setup button bar event handlers.
-   Get_button ("Time_series_button")->OnClick = TimeSeriesChart;
-   Get_button ("Difference_button")->OnClick = DifferenceChart;
-   Get_button ("Pie_button")->OnClick = PieChart;
-   Get_button ("Box_button")->OnClick = BoxChart;
-   Get_button ("Frequency_button")->OnClick = FrequencyChart;
-   Get_button ("Probability_button")->OnClick = ProbabilityChart;
-   Get_button ("Summary_button")->OnClick = SummaryTable;
-   Get_button ("XY_button")->OnClick = XYChart;
-   Get_button ("Select_simulation_button")->OnClick = SelectSimulations;
-   Get_button ("Properties_button")->OnClick = Properties;
-   Get_button ("SOI_button")->OnClick = SOIToggle;
+   FormActivate(this);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::FormClose(TObject *Sender, TCloseAction &Action)
@@ -131,25 +131,26 @@ void TMDIChild::Enable_options(void)
    ChartsNoChartMenu->Checked = (Grid->Visible && Analysis_panel == NULL);
 
    // buttons on button bar.
-   Get_button ("Time_series_button")->Enabled = (Selected_simulations->Count() > 0);
-   Get_button ("Difference_button")->Enabled = (Selected_simulations->Count() > 0);
-   Get_button ("Pie_button")->Enabled = (Selected_simulations->Count() > 0);
-   Get_button ("Box_button")->Enabled = (Selected_simulations->Count() > 0);
-   Get_button ("Frequency_button")->Enabled = (Selected_simulations->Count() > 0);
-   Get_button ("Probability_button")->Enabled = (Selected_simulations->Count() > 0);
-   Get_button ("Summary_button")->Enabled = (Selected_simulations->Count() > 0);
-   Get_button ("XY_button")->Enabled = (Selected_simulations->Count() > 0);
-   Get_button ("Properties_button")->Enabled = (Analysis_panel != NULL && !ChartsSummaryTableMenu->Checked);
-   Get_button ("SOI_button")->Enabled = (Selected_simulations->Count() > 0);
-
-   Path p(Application->ExeName.c_str());
-//   if (Str_i_Eq(p.Get_name_without_ext(), "whoppercropper"))
-//      OptionsEconomicMenu->Enabled = true;
+   if (Get_button ("Time_series_button") != NULL)
+      {
+      Get_button ("Time_series_button")->Enabled = (Selected_simulations->Count() > 0);
+      Get_button ("Difference_button")->Enabled = (Selected_simulations->Count() > 0);
+      Get_button ("Pie_button")->Enabled = (Selected_simulations->Count() > 0);
+      Get_button ("Box_button")->Enabled = (Selected_simulations->Count() > 0);
+      Get_button ("Frequency_button")->Enabled = (Selected_simulations->Count() > 0);
+      Get_button ("Probability_button")->Enabled = (Selected_simulations->Count() > 0);
+      Get_button ("Summary_button")->Enabled = (Selected_simulations->Count() > 0);
+      Get_button ("XY_button")->Enabled = (Selected_simulations->Count() > 0);
+      Get_button ("Properties_button")->Enabled = (Analysis_panel != NULL && !ChartsSummaryTableMenu->Checked);
+      Get_button ("SOI_button")->Enabled = (Selected_simulations->Count() > 0);
+      OptionsSOIMenu->Visible = Get_button ("SOI_button")->Visible;
+      }
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::SelectSimulations(TObject *Sender)
    {
    bool ok;
+   Drill_down_form->Simulations = Raw_data;
    ok = (Drill_down_form->ShowModal() == mrOk);
 
    if (ok)
@@ -163,7 +164,7 @@ void __fastcall TMDIChild::SelectSimulations(TObject *Sender)
 void TMDIChild::Create_chart(AnsiString Analysis_name)
    {
    Settings_form->Parent = this;
-   delete Analysis_panel;
+   TAnalysis_panel* Saved_panel = Analysis_panel;
    Analysis_panel = NULL;
 
    if (Analysis_name == "probability chart")
@@ -192,16 +193,51 @@ void TMDIChild::Create_chart(AnsiString Analysis_name)
 
    if (Analysis_panel != NULL)
       {
+      Analysis_panel->Init();
+      Hook_panel_to_this_form();
+      Hook_components_together();
+      if (!Edit_analysis_and_refresh())
+         {
+         delete Analysis_panel;
+         Analysis_panel = Saved_panel;
+         Hook_panel_to_this_form();
+         Hook_components_together();
+         }
+      else
+         {
+         delete Saved_panel;
+         Refresh_components();
+         }
+      if (Saved_panel != NULL)
+         Settings_form->Parent = Analysis_panel;
+      }
+   else
+      {
+      delete Saved_panel;
+      Hook_components_together();
+      Refresh_components();
+      }
+   if (Settings_form->Visible)
+      Settings_form->Show();
+   Enable_options();
+   }
+//---------------------------------------------------------------------------
+void TMDIChild::Hook_panel_to_this_form (void)
+   {
+   if (Analysis_panel != NULL)
+      {
       Analysis_panel->Parent = this;
       Analysis_panel->Align = alClient;
       Analysis_panel->Large_fonts = Large_fonts;
-      Analysis_panel->Init();
-      Settings_form->Parent = Analysis_panel;
-      }
 
-   Hook_components_together();
-   Edit_analysis_and_refresh();
-   Enable_options();
+      Path p(Application->ExeName.c_str());
+      p.Set_extension(".ini");
+      Ini_file Ini;
+      Ini.Set_file_name(p.Get_path().c_str());
+      string Option;
+      Ini.Read (OPTIONS_SECTION, "colour_background", Option);
+      Analysis_panel->Colour_background = !Str_i_Eq(Option, "off");
+      }
    }
 
 //---------------------------------------------------------------------------
@@ -212,19 +248,19 @@ void TMDIChild::Hook_components_together (void)
       {
       SOI->Source_dataset = Raw_data;
       if (GM_on)
-         GM->Source_dataset = SOI;
+         DamEasy->Source_dataset = SOI;
       }
    else
       {
       if (GM_on)
-         GM->Source_dataset = Raw_data;
+         DamEasy->Source_dataset = Raw_data;
       }
 
    // setup the analysis component.
    if (Analysis_panel != NULL)
       {
       if (GM_on)
-         Analysis_panel->Source_data = GM;
+         Analysis_panel->Source_data = DamEasy;
       else if (SOI_on)
          Analysis_panel->Source_data = SOI;
       else
@@ -235,7 +271,7 @@ void TMDIChild::Hook_components_together (void)
    if (Analysis_panel != NULL)
       APSTable_2_TDataSet->APSTable =  Analysis_panel->Destination_data;
    else if (GM_on)
-      APSTable_2_TDataSet->APSTable = GM;
+      APSTable_2_TDataSet->APSTable = DamEasy;
    else if (SOI_on)
       APSTable_2_TDataSet->APSTable = SOI;
    else
@@ -247,12 +283,11 @@ void TMDIChild::Refresh_components(void)
    if (SOI_on)
       SOI->Refresh();
    if (GM_on)
-      GM->Refresh();
+      DamEasy->Refresh();
    if (Analysis_panel != NULL)
       Analysis_panel->Refresh();
 
-   if (Grid->Visible)
-      APSTable_2_TDataSet->Refresh();
+   APSTable_2_TDataSet->Refresh();
 
    // invalidate doesn't seem to work here!!!
    ClientWidth = ClientWidth + 1;
@@ -261,97 +296,67 @@ void TMDIChild::Refresh_components(void)
    Display_settings();
    }
 //---------------------------------------------------------------------------
-void TMDIChild::Edit_analysis_and_refresh(void)
+bool TMDIChild::Edit_analysis_and_refresh(void)
    {
+   bool UserHitOk = false;
    if (Analysis_panel != NULL)
       {
       if (SOI_on)
          SOI->Refresh();
       if (GM_on)
-         GM->Refresh();
+         DamEasy->Refresh();
       if (Analysis_panel->Edit())
+         {
          Analysis_panel->Refresh();
-      else
-         Create_chart("Raw data");
+         UserHitOk = true;
+         }
       }
    if (Grid->Visible)
       APSTable_2_TDataSet->Refresh();
    Display_settings();
+   return UserHitOk;
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::SummaryTable(TObject *Sender)
    {
-   if (!ChartsSummaryTableMenu->Checked)
-      {
-      Create_chart ("summary table");
-      Grid->Visible = false;
-      ViewData(NULL);
-      }
-   else
-      Edit_analysis_and_refresh();
+   Create_chart ("summary table");
+   Grid->Visible = false;
+   ViewData(NULL);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::TimeSeriesChart(TObject *Sender)
    {
-   if (!ChartsTimeSeriesMenu->Checked)
-      Create_chart ("time series chart");
-   else
-      Edit_analysis_and_refresh();
+   Create_chart ("time series chart");
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::PieChart(TObject *Sender)
    {
-   if (!ChartsPieMenu->Checked)
-      Create_chart ("pie chart");
-   else
-      Edit_analysis_and_refresh();
+   Create_chart ("pie chart");
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::DifferenceChart(TObject *Sender)
    {
-   if (!ChartsDifferenceMenu->Checked)
-      Create_chart ("difference chart");
-   else
-      Edit_analysis_and_refresh();
+   Create_chart ("difference chart");
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::BoxChart(TObject *Sender)
    {
-   if (!ChartsBoxMenu->Checked)
-      Create_chart ("box chart");
-   else
-      Edit_analysis_and_refresh();
+   Create_chart ("box chart");
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::FrequencyChart(TObject *Sender)
    {
-   if (!ChartsFrequencyMenu->Checked)
-      Create_chart ("frequency chart");
-   else
-      Edit_analysis_and_refresh();
+   Create_chart ("frequency chart");
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::ProbabilityChart(TObject *Sender)
    {
-   if (!ChartsProbabilityMenu->Checked)
-      Create_chart ("probability chart");
-   else
-      Edit_analysis_and_refresh();
+   Create_chart ("probability chart");
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::XYChart(TObject *Sender)
    {
-   if (!ChartsXYMenu->Checked)
-      Create_chart ("xy chart");
-   else
-      Edit_analysis_and_refresh();
-   }
-//---------------------------------------------------------------------------
-void __fastcall TMDIChild::RawData(TObject *Sender)
-   {
-   Create_chart ("raw data");
-   Grid->Visible = false;
-   ViewData(NULL);
+   Create_chart ("xy chart");
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::Properties(TObject *Sender)
@@ -361,10 +366,16 @@ void __fastcall TMDIChild::Properties(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::ViewData(TObject *Sender)
    {
-   Splitter->Visible = !Grid->Visible;
-   Grid->Visible = !Grid->Visible;
-   ChartsViewDataMenu->Checked = Grid->Visible;
+   ChartsViewDataMenu->Checked = !ChartsViewDataMenu->Checked;
+   Splitter->Visible = ChartsViewDataMenu->Checked;
+   Grid->Visible = ChartsViewDataMenu->Checked;
+   Hook_components_together();
    Refresh_components();
+   }
+//---------------------------------------------------------------------------
+void __fastcall TMDIChild::ChartsNoChartMenuClick(TObject *Sender)
+   {
+   Create_chart ("raw data");
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::SendDataToEXCEL(TObject *Sender)
@@ -415,7 +426,7 @@ void TMDIChild::Display_settings(void)
       Replace_all (Title, ";", "\r\n   ");
 
       // prefix display string with a name.
-      Text += string("Simulation") + IntToStr(Simulation_number).c_str() + ":\r\n   " + Title;
+      Text += Selected_simulation.Get_name() + ":\r\n   " + Title;
 
       // add SOI to settings list.
       if (SOI_on)
@@ -447,7 +458,10 @@ void __fastcall TMDIChild::EditCopyWithout(TObject *Sender)
 void __fastcall TMDIChild::OptionsPreferences(TObject *Sender)
    {
    if (Preferences_form->ShowModal() == mrOk)
+      {
       Read_soi_file_name();
+      Refresh_components();
+      }
    }
 //---------------------------------------------------------------------------
 void TMDIChild::Read_soi_file_name (void)
@@ -469,11 +483,14 @@ void TMDIChild::Set_toolbar (TToolBar* toolbar)
 //---------------------------------------------------------------------------
 TToolButton* TMDIChild::Get_button (const char* Button_name)
    {
-   for (int control = 0; control < Toolbar->ControlCount; control++)
+   if (Toolbar != NULL)
       {
-      TControl* Button = Toolbar->Controls[control];
-      if (Button->Name == Button_name)
-         return dynamic_cast<TToolButton*> (Button);
+      for (int control = 0; control < Toolbar->ControlCount; control++)
+         {
+         TControl* Button = Toolbar->Controls[control];
+         if (Button->Name == Button_name)
+            return dynamic_cast<TToolButton*> (Button);
+         }
       }
    return NULL;
    }
@@ -499,14 +516,13 @@ void TMDIChild::SetPresentationFonts(bool large_fonts)
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::OptionsEconomicMenuClick(TObject *Sender)
    {
-   GM_on = !GM_on;
-   if (GM_on)
+   if (DamEasy->Edit())
       {
-      GM->Simulations = Raw_data;
       GM_on = true;
+      Hook_components_together();
+      Refresh_components();
       }
-   Hook_components_together();
-   Refresh_components();
+      
    OptionsEconomicMenu->Checked = GM_on;
    }
 //---------------------------------------------------------------------------
@@ -514,6 +530,36 @@ void __fastcall TMDIChild::ChartsViewSettingsMenuClick(TObject *Sender)
    {
    ChartsViewSettingsMenu->Checked = !ChartsViewSettingsMenu->Checked;
    Settings_form->Visible = ChartsViewSettingsMenu->Checked;
+   if (Settings_form->Visible)
+      Settings_form->Show();
+   }
+//---------------------------------------------------------------------------
+void __fastcall TMDIChild::On_settings_form_close(TObject* Sender, TCloseAction& Action)
+   {
+   ChartsViewSettingsMenu->Checked = false;
+   }
+//---------------------------------------------------------------------------
+void __fastcall TMDIChild::FormActivate(TObject *Sender)
+   {
+   Enable_options();
+   ShowCursor(true);
+
+   // setup button bar event handlers.
+   if (Get_button ("Time_series_button") != NULL)
+      {
+      Get_button ("Time_series_button")->OnClick = TimeSeriesChart;
+      Get_button ("Difference_button")->OnClick = DifferenceChart;
+      Get_button ("Pie_button")->OnClick = PieChart;
+      Get_button ("Box_button")->OnClick = BoxChart;
+      Get_button ("Frequency_button")->OnClick = FrequencyChart;
+      Get_button ("Probability_button")->OnClick = ProbabilityChart;
+      Get_button ("Summary_button")->OnClick = SummaryTable;
+      Get_button ("XY_button")->OnClick = XYChart;
+      Get_button ("Select_simulation_button")->OnClick = SelectSimulations;
+      Get_button ("Properties_button")->OnClick = Properties;
+      Get_button ("SOI_button")->OnClick = SOIToggle;
+      Get_button ("GM_button")->OnClick = OptionsEconomicMenuClick;
+      }
    }
 //---------------------------------------------------------------------------
 

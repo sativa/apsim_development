@@ -2,7 +2,7 @@
 #include <vcl.h>
 #pragma hdrstop
 #include "TSplashForm.h"
-#include <general\path.h>
+#include "TSkin.h"
 USERES("ApsimOutlook.res");
 USEFORM("TPreferences_form.cpp", Preferences_form);
 USEFORM("ChildWin.cpp", MDIChild);
@@ -14,36 +14,40 @@ USELIB("general.lib");
 USEFORM("TValueSelectionForm.cpp", ValueSelectionForm);
 USEFORM("TChartSettingsForm.cpp", ChartSettingsForm);
 USEFORM("TSplashForm.cpp", SplashForm);
+USEFORM("TTabRenameForm.cpp", TabRenameForm);
+USEUNIT("TSkin.cpp");
 //---------------------------------------------------------------------------
 AnsiString CommandLine;
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
    {
    CommandLine = cmdline;
-   Path p(Application->ExeName.c_str());
-   if (Str_i_Eq(p.Get_name_without_ext(), "whoppercropper"))
-      {
-      SplashForm = new TSplashForm(NULL);
-      SplashForm->Show();
-      Application->ProcessMessages();
-      }
+
+   Skin = new TSkin;
+   Skin->DisplaySplashScreen();
 
    try
    {
       Application->Initialize();
       Application->Title = "APSIM Outlook";
       Application->Icon->Handle = LoadIcon(HInstance, "MAINICON");
+      Application->CreateHandle();
+
       Application->CreateForm(__classid(TMainForm), &MainForm);
       Application->CreateForm(__classid(TPreferences_form), &Preferences_form);
       Application->CreateForm(__classid(TDirectory_select_form), &Directory_select_form);
       Application->CreateForm(__classid(TDrill_down_form), &Drill_down_form);
       Application->CreateForm(__classid(TAboutBox), &AboutBox);
       Application->CreateForm(__classid(TValueSelectionForm), &ValueSelectionForm);
+      Application->CreateForm(__classid(TTabRenameForm), &TabRenameForm);
       Application->Run();
    }
    catch (Exception &exception)
    {
       Application->ShowException(&exception);
    }
+
+   delete Skin;
+
    return 0;
 }
 //---------------------------------------------------------------------------
