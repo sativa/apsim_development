@@ -3172,54 +3172,64 @@
      :                           - p%hum_acid_pHCa_offset(layer))
 1180  continue
 
+      g%pHca_old(:) = g%pHCa(:)
+
          !  Calculate ion balance infiltrating into the soil surface.
-         call soilpH_H_equiv_mass_flow (g%H_equiv_infiltration
-     :                                , p%pH_rain
-     :                                , e%infiltration_mm
-     :                                , c%CO2_pressure_atm
-     :                                , 0.0
-     :                                , 0.0)
+      call soilpH_H_equiv_mass_flow (g%H_equiv_infiltration
+     :                             , p%pH_rain
+     :                             , e%infiltration_mm
+     :                             , c%CO2_pressure_atm
+     :                             , 0.0
+     :                             , 0.0)
+
+      g%H_equiv_mass_flow(:) = 0.0
 
          !  Upward Flow of hydrogen ions out of each layer.
-      do 1200 layer=e%num_layers,1,-1
-         if (e%flow_water(layer) .lt .0.0) then
-            call soilpH_H_equiv_mass_flow (g%H_equiv_mass_flow(layer)
-     :                                  , g%pHCa(layer+1)
-     :                                  , e%flow_water(layer)
-     :                                  , p%CO2_pressure_soil(layer+1)
-     :                                  , p%pAl_pHca_slope(layer+1)
-     :                                  , p%pAl_pHCa_intercept(layer+1))
-         !  Net flow of hydrogen ions into each layer.
-      if (layer .eq.1) then
-         g%H_equiv_flow_net(1) = g%H_equiv_infiltration 
-     :                         - g%H_equiv_mass_flow(1)
-      else
+      do 1200 layer=e%num_layers, 2, -1
+         if (e%flow_water(layer-1) .lt .0.0) then
+            call soilpH_H_equiv_mass_flow (g%H_equiv_mass_flow(layer-1)
+     :                                  , g%pHCa(layer)
+     :                                  , e%flow_water(layer-1)
+     :                                  , p%CO2_pressure_soil(layer)
+     :                                  , p%pAl_pHca_slope(layer)
+     :                                  , p%pAl_pHCa_intercept(layer))
+         else
+            g%H_equiv_mass_flow(layer-1) = 0.0
+         endif
+            !  Net flow of hydrogen ions into each layer.
          g%H_equiv_flow_net(layer) = g%H_equiv_mass_flow(layer-1) 
      :                             - g%H_equiv_mass_flow(layer)
-      endif
 
-         !  Difference in pHCa.
+               !  Difference in pHCa.
          call soilpH_dlt_pH (
      :                g%dlt_pHCa(layer)
      :               , g%pHBC(layer)
-     :               , g%dlt_acid_N_cycle(layer)
-     :               , g%acid_excretion_root(layer)
+     :               , 0.0
+     :               , 0.0
      :               , g%H_equiv_flow_net(layer)
-     :               , g%dlt_lime_dissl(layer)
-     :               , e%ash_alk_wt_incorp(layer)
-     :               , g%dlt_acid_org_C_cycle(layer)
+     :               , 0.0
+     :               , 0.0
+     :               , 0.0
      :               , e%dlayer(layer)
-     :                        )
-         g%pHca_old(layer) = g%pHCa(layer)
+     :               )
          g%pHCa(layer) = g%pHCa(layer) + g%dlt_pHCa(layer)
-         g%lime_pool(layer) = g%lime_pool(layer)
-     :                      + g%dlt_lime_pool(layer)
-         else
-         endif
 1200  continue
+      call soilpH_dlt_pH (
+     :                g%dlt_pHCa(1)
+     :               , g%pHBC(1)
+     :               , 0.0
+     :               , 0.0
+     :               , - g%H_equiv_mass_flow(1)
+     :               , 0.0
+     :               , 0.0
+     :               , 0.0
+     :               , e%dlayer(layer)
+     :               )
+      g%pHCa(layer) = g%pHCa(1) + g%dlt_pHCa(1)
 
+      g%H_equiv_mass_flow(:) = 0.0
 
-         !  Downward Flow of hydrogen ions out of each layer.
+            !  Downward Flow of hydrogen ions out of each layer.
       do 1300 layer=1, e%num_layers
          if (e%flow_water(layer) .ge .0.0) then
             call soilpH_H_equiv_mass_flow (g%H_equiv_mass_flow(layer)
@@ -3228,34 +3238,52 @@
      :                                    , p%CO2_pressure_soil(layer)
      :                                    , p%pAl_pHca_slope(layer)
      :                                    , p%pAl_pHCa_intercept(layer))
+         else
+            g%H_equiv_mass_flow(layer) = 0.0
+         endif
+            
             !  Net flow of hydrogen ions into each layer.
          if (layer .eq.1) then
             g%H_equiv_flow_net(1) = g%H_equiv_infiltration 
-     :                           - g%H_equiv_mass_flow(1)
+     :                            - g%H_equiv_mass_flow(1)
          else
             g%H_equiv_flow_net(layer) = g%H_equiv_mass_flow(layer-1) 
      :                                - g%H_equiv_mass_flow(layer)
          endif
 
-         !  Difference in pHCa.
+            !  Difference in pHCa.
+         call soilpH_dlt_pH (
+     :                g%dlt_pHCa(layer)
+     :               , g%pHBC(layer)
+     :               , 0.0
+     :               , 0.0
+     :               , g%H_equiv_flow_net(layer)
+     :               , 0.0
+     :               , 0.0
+     :               , 0.0
+     :               , e%dlayer(layer)
+     :               )
+        g%pHCa(layer) = g%pHCa(layer) + g%dlt_pHCa(layer)
+1300  continue
+
+      do 1400 layer=1, e%num_layers
+
+            !  Difference in pHCa.
          call soilpH_dlt_pH (
      :                g%dlt_pHCa(layer)
      :               , g%pHBC(layer)
      :               , g%dlt_acid_N_cycle(layer)
      :               , g%acid_excretion_root(layer)
-     :               , g%H_equiv_flow_net(layer)
+     :               , 0.0
      :               , g%dlt_lime_dissl(layer)
      :               , e%ash_alk_wt_incorp(layer)
      :               , g%dlt_acid_org_C_cycle(layer)
      :               , e%dlayer(layer)
      :                        )
-         g%pHca_old(layer) = g%pHCa(layer)
          g%pHCa(layer) = g%pHCa(layer) + g%dlt_pHCa(layer)
-         g%lime_pool(layer) = g%lime_pool(layer)
-     :                      + g%dlt_lime_pool(layer)
-         else
-         endif
-1300  continue
+1400  continue
+
+      g%lime_pool(:) = g%lime_pool(:) + g%dlt_lime_pool(:)
 
 
  !      print*, 'soilpH:g%residue_ash_alk_wt=', g%residue_ash_alk_wt
@@ -3411,6 +3439,9 @@
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'soilpH_pHBC_Hochman')
 
+      real       lime_dissolved_fract         ! fraction of lime dissolved, 12 months after
+      parameter (lime_dissolved_fract = 0.83) ! application - Mark Conyers (0-1)
+
 *+  Local Variables
       real H_conc ! Molar concentration of H+.
       real lri    ! Lime requirement index (pH unit/tonne lime/(Ha*100mm)).
@@ -3418,6 +3449,7 @@
       real lri_tec
       real lri_Al
       real lri_C_fract ! Terms add/sub'ed to get lri.
+      real pAl_ex
  !cjh  kirsten's version
  !cjh  set lri_fdge to 0 or remove to change to correct version
  !      real lri_fudge ! Stops pHBC going to 0 as pHCa gets below 4.0.
@@ -3443,15 +3475,22 @@
  !        print *, 'lri, lri_pHCa, lri_tec, lri_Al, lri_C_fract='
  !       :                , lri, lri_pHCa, lri_tec, lri_Al, lri_C_fract
 
-         !  Calculate pH buffer capacity.
- !      if ((pHCa .le. 4.00) .or. (pHCa .ge. 8.2)) then
- !            pHBC = 9999
- !      else
-            pHBC = divide (CaCO3_t2KMol, (lri / 83.0 * 100.0), 9999.0)
- !      end if
+        !  Calculate pH buffer capacity.
+      if (pHCa .le. 4.00) then
+           ! we have Al buffering dominating
+         pAl_ex = 10**(-Al_exchangable)
+         pHBC = divide (pHCa, pAl_ex, 9999.0)
+      
+      else if (pHCa .ge. 8.2) then
+         pHBC = 9999
+      
+      else
+         pHBC = divide (CaCO3_t2KMol, (lri / lime_dissolved_fract)
+     :                 , 9999.0)
+      end if
 
  !        print *, 'pHBC,tec,al=', pHBC, tec, al
-      pHBC = bound (pHBC, 10.0, 40.0)
+      ! pHBC = bound (pHBC, 10.0, 40.0)
 
       call pop_routine (my_name)
       return
