@@ -4,6 +4,7 @@
 #pragma hdrstop
 
 #include "TGraph.h"
+#include <general\string_functions.h>
 #include <general\vcl_functions.h>
 #include <general\stl_functions.h>
 #include <general\db_functions.h>
@@ -38,7 +39,7 @@ __fastcall TGraph::TGraph(TComponent* Owner)
    : TgtQRChart(Owner)
    {
    Frame->Style = psClear;
-   dataSeriesNumber = 0; // graph all series.
+   dataSeriesNumbers = "";
    if (Chart != NULL)
       {
       // Some defaults that make the charts look better.
@@ -110,15 +111,18 @@ void __fastcall TGraph::DefineProperties(TFiler *Filer)
    Filer->DefineProperty("bottomAxisTitle", LoadStringProperty, StoreStringProperty, true);
    stRef = &footTitle;
    Filer->DefineProperty("footTitle", LoadStringProperty, StoreStringProperty, true);
+   stRef = &seriesTitle;
+   Filer->DefineProperty("seriesTitle", LoadStringProperty, StoreStringProperty, true);
    }
 //---------------------------------------------------------------------------
-// setter for the 'seriesNumber' property
+// setter for the 'seriesNumbers' property
 //---------------------------------------------------------------------------
-void __fastcall TGraph::setSeriesNumber(int seriesNumber)
+void __fastcall TGraph::setSeriesNumbers(AnsiString seriesNumbers)
    {
-   if (seriesNumber != dataSeriesNumber)
+   if (seriesNumbers != dataSeriesNumbers)
       {
-      dataSeriesNumber = seriesNumber;
+      removeTemplatedChartSeries();
+      dataSeriesNumbers = seriesNumbers;
       refresh();
       }
    }
@@ -138,6 +142,31 @@ void __fastcall TGraph::Loaded(void)
    TgtQRChart::Loaded();
    for (int s = 0; s != Chart->SeriesCount(); s++)
       Chart->Series[s]->OnBeforeAdd = onBeforeAdd;
+   addDataChangeSubscriptions();
+   }
+//---------------------------------------------------------------------------
+// Go through all series data sources and add a data subscription.
+//---------------------------------------------------------------------------
+void TGraph::addDataChangeSubscriptions(void)
+   {
+   for (int s = 0; s != Chart->SeriesCount(); s++)
+      {
+      TSEGTable* source = dynamic_cast<TSEGTable*> (Chart->Series[s]->DataSource);
+      if (source != NULL)
+         source->addDataChangeSubscription(Name + ".afterDataRefresh");
+      }
+   }
+//---------------------------------------------------------------------------
+// Remove all data subscriptions.
+//---------------------------------------------------------------------------
+void TGraph::removeDataChangeSubscriptions(void)
+   {
+   for (int s = 0; s != Chart->SeriesCount(); s++)
+      {
+      TSEGTable* source = dynamic_cast<TSEGTable*> (Chart->Series[s]->DataSource);
+      if (source != NULL)
+         source->removeDataChangeSubscription(Name + ".afterDataRefresh");
+      }
    }
 //---------------------------------------------------------------------------
 // One of the source datasets is now open - refresh chart.
@@ -153,26 +182,73 @@ void TGraph::refresh(void)
    {
    if (!ComponentState.Contains(csLoading))
       {
-      for (int s = 0; s != Chart->SeriesCount(); s++)
-         {
-         TSEGTable* source = dynamic_cast<TSEGTable*> (Chart->Series[s]->DataSource);
-         if (source != NULL)
-            source->forceRefresh();
-         }
-
+      removeTemplatedChartSeries();
+      createTemplatedChartSeries();
       Chart->Refresh();
+      for (int s = 0; s != Chart->SeriesCount(); s++)
+         Chart->Series[s]->CheckDataSource();
       scaleAxis();
       }
    }
 //---------------------------------------------------------------------------
-// remove all non template chart series
+// using the 1st chart series as a template, create a new chart series for
+// each data series.
 //---------------------------------------------------------------------------
-void TGraph::removeNonTemplateChartSeries(void)
+void TGraph::createTemplatedChartSeries(void)
    {
-   for (int chartSeriesI = Chart->SeriesCount()-1; chartSeriesI >= 0; chartSeriesI--)
+   if (dataSeriesNumbers != "" && Chart->SeriesCount() == 1)
       {
-      if (Chart->Series[chartSeriesI]->Active)
-         Chart->RemoveSeries(Chart->Series[chartSeriesI]);
+      TSEGTable* source = dynamic_cast<TSEGTable*> (Chart->Series[0]->DataSource);
+      if (source != NULL)
+         {
+         source->getSeriesNames(seriesNames);
+
+         vector<unsigned> seriesNumbers;
+         if (dataSeriesNumbers == "*")
+            {
+            for (unsigned i = 0; i != seriesNames.size(); i++)
+               seriesNumbers.push_back(i);
+            }
+         else
+            {
+            vector<string> numberStrings;
+            Split_string(dataSeriesNumbers.c_str(), " ", numberStrings);
+            for (unsigned i = 0; i != numberStrings.size(); i++)
+               seriesNumbers.push_back(StrToInt(numberStrings[i].c_str())-1);
+            }
+
+         Chart->Series[0]->Tag = seriesNumbers[0];
+         for(unsigned i = 1; i != min(seriesNumbers.size(), seriesNames.size()); i++)
+            {
+            TChartSeries* series = CloneChartSeries(Chart->Series[0]);
+            series->OnBeforeAdd = onBeforeAdd;
+            series->Tag = seriesNumbers[i];
+            series->Color = Chart->GetFreeSeriesColor();
+            }
+
+         for (int s = 0; s != Chart->SeriesCount(); s++)
+            {
+            string title = seriesTitle.c_str();
+            replaceAll(title, "$seriesName", seriesNames[seriesNumbers[s]]);
+            Chart->Series[s]->Title = title.c_str();
+            }
+         }
+      }
+   }
+//---------------------------------------------------------------------------
+// remove all templated chart series
+//---------------------------------------------------------------------------
+void TGraph::removeTemplatedChartSeries(void)
+   {
+   if (dataSeriesNumbers != "" && Chart->SeriesCount() > 1)
+      {
+      while (Chart->SeriesCount() > 1)
+         {
+         TChartSeries* series = Chart->Series[1];
+         Chart->RemoveSeries(series);
+         delete series;
+         }
+      Chart->Series[0]->Title = seriesTitle;
       }
    }
 //---------------------------------------------------------------------------
@@ -181,20 +257,11 @@ void TGraph::removeNonTemplateChartSeries(void)
 //---------------------------------------------------------------------------
 bool __fastcall TGraph::onBeforeAdd(TChartSeries* series)
    {
-   static bool replacedMacros = false;
    TSEGTable* source = dynamic_cast<TSEGTable*> (series->DataSource);
-   if (source != NULL && seriesNumber > 0)
+   if (source != NULL && dataSeriesNumbers != "")
       {
-      if (source->Bof)
-         replacedMacros = false;
-
-      bool seriesMatch = (source->getSeriesNumber() == dataSeriesNumber-1);
-      if (seriesMatch && !replacedMacros)
-         {
-         AnsiString series = source->FieldValues["series"];
-         replaceChartMacros();
-         replacedMacros = true;
-         }
+      AnsiString seriesName = source->FieldValues["Series"];
+      bool seriesMatch = (seriesNames[series->Tag] == seriesName.c_str());
       return seriesMatch;
       }
    else
@@ -223,6 +290,9 @@ void TGraph::userEdit(void)
    Chart->RightAxis->Title->Caption = rightAxisTitle;
    Chart->BottomAxis->Title->Caption = bottomAxisTitle;
    Chart->Foot->Text->Text = footTitle;
+   if (Chart->SeriesCount() == 1)
+      Chart->Series[0]->Title = seriesTitle;
+   removeDataChangeSubscriptions();
 
    TChartEditor* editor = new TChartEditor(Chart);
    editor->Chart = Chart;
@@ -235,9 +305,12 @@ void TGraph::userEdit(void)
    rightAxisTitle = Chart->RightAxis->Title->Caption;
    bottomAxisTitle = Chart->BottomAxis->Title->Caption;
    footTitle = Chart->Foot->Text->Text;
+   if (Chart->SeriesCount() == 1)
+      seriesTitle = Chart->Series[0]->Title;
 
    for (int s = 0; s != Chart->SeriesCount(); s++)
       Chart->Series[s]->OnBeforeAdd = onBeforeAdd;
+   addDataChangeSubscriptions();
    }
 
 void dummyLink(void)
