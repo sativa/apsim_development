@@ -1,11 +1,17 @@
 [apsim.sample_canopy]  
-  Module = clock    canopy.par [sample]      
-  Module = report   canopy.par [sample]      
-  Module = met      %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]      
-  module = canopy   canopy.par [sample]    ..\canopy.ini[standard]
-  Module = manager  canopy.par [sample]      
   !Module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]      
   !Module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]         %apsuite\apsim\soiln2\soiln2.ini     [standard]      
-  module = slurp(grass)    canopy.par [sample] 
-  module = slurp(tree)    canopy.par [sample] 
   !Module = fertiliz                                                      %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+version=apsim3
+module = clock    canopy.par [sample]
+module = report   canopy.par [sample]
+module = Input(Met)      %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]
+module = canopy   canopy.par [sample]    ..\canopy.ini[standard]
+module = manager  canopy.par [sample]
+module = slurp(grass)    canopy.par [sample]
+module = slurp(tree)    canopy.par [sample]
+
+title=Canopy Sample Simulation
+summaryfile=Canopy.sum
+debug_output=on
+screen_output=on
