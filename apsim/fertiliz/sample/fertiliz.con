@@ -1,8 +1,0 @@
-[apsim.sample_fertiliz]  
-  Module = clock    fertiliz.par [sample]      
-  Module = report   fertiliz.par [sample]      
-  Module = met      %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]      
-  Module = manager  fertiliz.par [sample]      
-  Module = fertiliz fertiliz.par [sample]     %apsuite\apsim\fertiliz\fertiliz.ini [standard]      
-  Module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]      
-  Module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]      

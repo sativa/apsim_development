@@ -1,9 +1,0 @@
-[Instructions]
-import   = %apsuite\apsim\infra\lib\apsimengine.imp
-include  = %apsuite\apsim\infra;%apsuite\apsim\infra\componentinterface
-module   = .
-module   = %apsuite\apsim\infra\source
-;module   = %apsuite\shared\componentinterface
-
-compile=@lf95 -c "%fi" -winconsole -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink @compiler.rsp
-link=@lf95 @%rf -exe %ex -winconsole -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink @linker.rsp

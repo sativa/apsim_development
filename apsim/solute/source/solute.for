@@ -1,312 +1,472 @@
       include 'Solute.inc'
-
 !     ===========================================================
-      subroutine alloc_dealloc_instance(doAllocate)
+      subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use SoluteModule
       implicit none
-      ml_external alloc_dealloc_instance
-
+ 
 !+  Sub-Program Arguments
-      logical, intent(in) :: doAllocate
-
+      character InstanceName*(*)       ! (INPUT) name of instance
+      integer   InstanceNo             ! (INPUT) instance number to allocate
+ 
 !+  Purpose
 !      Module instantiation routine.
 
+*+  Mission Statement
+*     Instantiate routine
+ 
 !- Implementation Section ----------------------------------
-
-      if (doAllocate) then
-         allocate(g)
-         allocate(p)
-         allocate(c)
-         allocate(ID)
-
-      else
-         deallocate(g)
-         deallocate(p)
-         deallocate(c)
-         deallocate(ID)
-
-      end if
+               
+      allocate (Instances(InstanceNo)%gptr)
+      allocate (Instances(InstanceNo)%pptr)
+      allocate (Instances(InstanceNo)%cptr)
+      Instances(InstanceNo)%Name = InstanceName
+ 
       return
       end
 
 !     ===========================================================
-      subroutine do_init1(sdml)
+      subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use SoluteModule
       implicit none
-      ml_external do_init1
-
-!+  Purpose
-!      Perform all registrations and zeroing
-
+ 
 !+  Sub-Program Arguments
-      character (len=*), intent(in) :: sdml
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module de-instantiation routine.
 
+*+  Mission Statement
+*     De-Instantiate routine
+ 
 !- Implementation Section ----------------------------------
-
-      call do_registrations(ID)
-      call solute_zero_variables()
-      call solute_read_constants ()
-      call solute_read_param ()
-
+               
+      deallocate (Instances(anInstanceNo)%gptr)
+      deallocate (Instances(anInstanceNo)%pptr)
+      deallocate (Instances(anInstanceNo)%cptr)
+ 
       return
       end
-
+     
 !     ===========================================================
-      subroutine do_commence()
+      subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
+      use SoluteModule
       implicit none
-      ml_external do_commence
-
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
 !+  Purpose
-!      Perform all registrations and zeroing
+!      Swap an instance into the global 'g' pointer
 
+*+  Mission Statement
+*     Swap an instance into global pointer
+ 
 !- Implementation Section ----------------------------------
-
+               
+      g => Instances(anInstanceNo)%gptr
+      p => Instances(anInstanceNo)%pptr
+      c => Instances(anInstanceNo)%cptr
+ 
       return
       end
 
 * ====================================================================
-      subroutine do_init2 ()
+       subroutine Main (Action, Data_string)
 * ====================================================================
       use SoluteModule
-      use ComponentInterfaceModule
       implicit none
-      ml_external do_init2
-
+      include 'const.inc'             ! Global constant definitions
+      include 'action.inc'
+      include 'error.pub'
+ 
+*+  Sub-Program Arguments
+       character Action*(*)            ! Message action to perform
+       character Data_string*(*)       ! Message data
+ 
 *+  Purpose
-*     Initialise the apswim module
-
+*      This routine is the interface between the main system and the
+*      solute module.
+ 
+*+  Mission Statement
+*     Apsim Solute
+ 
 *+  Changes
+*     SDB 5/5/99 Removed version function and presence action.
+ 
+*+  Constant Values
+      character  myname*(*)            ! name of this procedure
+      parameter (myname = 'Solute Main')
+ 
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (myname)
+ 
+      if (Action.eq.ACTION_Init) then
+         call solute_Init ()
+ 
+      else if (Action.eq.ACTION_Process) then
+         call solute_get_other_variables ()
 
-*+  Calls
-
+      else if (Action.eq.ACTION_Create) then
+         call solute_zero_variables ()
+ 
+      else if (Action.eq.ACTION_Get_variable) then
+         call solute_Send_my_variable (Data_string)
+ 
+      else if (Action.eq.ACTION_Set_variable) then
+         call Solute_Set_my_variable (data_string)
+ 
+      else
+         ! Don't use message
+         call Message_Unused ()
+      endif
+ 
+      call pop_routine (myname)
+      return
+      end
+ 
+ 
+ 
+* ====================================================================
+       subroutine solute_Init ()
+* ====================================================================
+      use SoluteModule
+      implicit none
+       include 'const.inc'             ! Constant definitions
+      include 'error.pub'
+ 
+*+  Purpose
+*      Initialise solute module
+ 
+*+  Mission Statement
+*     Initialise all internal state variables
+ 
+*+  Changes
+*     SDB 5/5/99 Removed version function.
+ 
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'solute_init')
-
+ 
 *+  Local Variables
        character Event_string*40       ! String to output
-
+ 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
-
+ 
+      call solute_zero_variables ()
+ 
+      call solute_get_other_variables ()
+ 
+      ! Notify system that we have initialised
+ 
       Event_string = 'Initialising'
       call Write_string (Event_string)
+ 
+      ! Get all parameters from parameter file
+ 
+      call solute_read_constants ()
+ 
+      call solute_read_param ()
 
-cnh Cannot do it here as we may not have soil layer specs yet
-c      call publish_SoluteProfile(ID%SolutesChanged,
-c     :     g%solute_profiles, g%num_solutes, .false.)
-     
+      call solute_notification () 
+ 
       call pop_routine (myname)
       return
       end
-
-
-!     ===========================================================
-      subroutine respondToEvent(fromID, eventID, variant)
-!     ===========================================================
-      use SoluteModule
-      use ComponentInterfaceModule
-      implicit none
-      ml_external respondToEvent
-
-!+  Purpose
-!      Event handler for all events coming into module.
-
-!+  Sub-Program Arguments
-      integer, intent(in) :: fromID
-      integer, intent(in) :: eventID
-      integer, intent(in) :: variant
-
-!- Implementation Section ----------------------------------
-
-      if (eventID .eq. ID%SoluteFluxesCalculated) then
-         call on_solute_fluxes_calculated(variant)
-
-      else if (eventID .eq. ID%SoilWaterProfileChanged) then
-         call on_soil_water_profile_changed(variant)
-         
-      else
-         call error('bad event ID',.true.)
-      endif
-      return
-      end
-!     ===========================================================
-      subroutine respondToMethod(fromID, methodID, variant)
-!     ===========================================================
-      use SoluteModule
-      use ComponentInterfaceModule
-      implicit none
-      ml_external respondToMethod
-
-!+  Purpose
-!      Method handler for all method calls coming into module.
-
-!+  Sub-Program Arguments
-      integer, intent(in) :: fromID
-      integer, intent(in) :: methodID
-      integer, intent(in) :: variant
-
-!- Implementation Section ----------------------------------
-
-      call error('bad method ID',.true.)
-
-      return
-      end
-
-!     ===========================================================
-      subroutine notify_termination()
-!     ===========================================================
-      use SoluteModule
-      implicit none
-      ml_external notify_termination
-
-!+  Purpose
-!      Prepare for termination
-
-!- Implementation Section ----------------------------------
-
-      return
-      end
-
+ 
+ 
+ 
 * ====================================================================
-       subroutine respondToGet (fromID, Variable_info)
+       subroutine solute_zero_variables ()
 * ====================================================================
       use SoluteModule
-      use ComponentInterfaceModule
       implicit none
-      ml_external respondToGet
-
-*+  Sub-Program Arguments
-      integer, intent(in) :: fromID
-      type(QueryData), intent(in) :: variable_info
-
+      include 'error.pub'
+ 
 *+  Purpose
-*      Return the value of one of our variables to caller
-
+*     Set all variables to initial state.  i.e. zero or blank.
+ 
+*+  Mission Statement
+*     Set internal state variables to zero
+ 
 *+  Changes
-*       29/08/97 NIH check for output unknown solute for 'flow_' and others
-*       02/11/99 jngh removed crop_cover
-
-*+  Calls
-
+*     <insert here>
+ 
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
-      parameter (myname = 'solute_send_my_variable')
-
+      parameter (myname = 'solute_zero_variables')
+ 
 *+  Local Variables
        integer layer
        integer solnum
-       real sol(max_layer)
-       logical found
-
+ 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
+ 
+      g%num_solutes = 0
 
-      found = .false.
-
-      do 200 solnum = 1,g%num_solutes
-
-         if (Variable_info%id .eq. g%solute_ids(solnum)) then
-
-            if (g%num_layers.eq.0) then
-               ! water balance is not initialised yet
-               g%num_layers = 1
-            else
-            endif
-
-            do 100 layer = 1,max_layer
-               sol(layer) = g%solute_profiles(solnum)
-     :                              %layer(layer)%amount
-  100       continue
-
-            call return_solute(Variable_info,
-     :                         sol,
-     :                        g%num_layers)
-
-            found = .true.
-
-         elseif (Variable_info%id .eq. g%solute_ppm_ids(solnum)) then
-
-            if (g%num_layers.eq.0) then
-               ! water balance is not initialised yet
-               g%num_layers = 1
-            else
-            endif
-
-            do layer = 1,max_layer
-
-               sol(layer) = g%solute_profiles(solnum)
-     :                          %layer(layer)%amount
-     :              * divide (100.0
-     :              ,g%soil_water_profile_layers(layer)%BulkDensity *
-     :              g%soil_water_profile_layers(layer)%thickness
-     :                             ,0.0)
-
-
-
-
-
-
-            enddo
-
-            call return_solute_ppm(Variable_info,
-     :                             sol,
-     :                             g%num_layers)
-
-            found = .true.
-         else
-
-         endif
+      do 200 solnum = 1, max_solutes
+         do 100 layer = 1, max_layer
+            g%solute(solnum,layer) = 0.0
+  100    continue
+         p%solute_names(solnum) = ' '
   200 continue
-
-      if (.not. found) then
-         ! We have checked all solutes and we did not respond to anything
-         call error('Bad solute id', .true.)
-      else
-         ! we found the solute so no error
-      endif
-
+ 
       call pop_routine (myname)
-
       return
       end
+ 
+ 
+ 
 * ====================================================================
-      logical function respondToSet (fromID, VariableID, variant)
+       subroutine solute_get_other_variables ()
 * ====================================================================
       use SoluteModule
-      use ComponentInterfaceModule
-
       implicit none
-      ml_external respondToSet
-
-!+  Sub-Program Arguments
-      integer, intent(in) :: fromID
-      integer, intent(in)     :: VariableID
-      integer, intent(in out) :: variant
-
-
+       include 'const.inc'             ! Constant definitions
+      include 'intrface.pub'
+      include 'error.pub'
+ 
+*+  Purpose
+*      Get the values of variables from other modules
+ 
+*+  Mission Statement
+*     Get external state values from other modules
+ 
+*+  Changes
+*     <insert here>
+ 
+*+  Constant Values
+      character  myname*(*)            ! name of this procedure
+      parameter (myname = 'solute_get_other_variables')
+ 
+*+  Local Variables
+       integer numvals              ! number of values returned
+ 
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (myname)
+ 
+      call Get_real_array (
+     :      unknown_module, ! Module that responds (Not Used)
+     :      'dlayer',       ! Variable Name
+     :      max_layer,      ! Array Size
+     :      '(mm)',         ! Units                (Not Used)
+     :      g%dlayer,       ! Variable
+     :      numvals,        ! Number of values returned
+     :      0,              ! Lower Limit for bound checking
+     :      1000.)          ! Upper Limit for bound checking
+ 
+ 
+      call pop_routine (myname)
+      return
+      end
+ 
+ 
+ 
+* ====================================================================
+       subroutine solute_Send_my_variable (Variable_name)
+* ====================================================================
+      use SoluteModule
+      implicit none
+       include 'const.inc'             ! constant definitions
+      include 'data.pub'
+      include 'intrface.pub'
+      include 'error.pub'
+ 
+*+  Sub-Program Arguments
+       character Variable_name*(*)     ! (INPUT) Variable name to search for
+ 
+*+  Purpose
+*       Return the value of one of our variables to caller.  The
+*       variable is either the solute names or the solute information.
+*       Solute information is stored in a two dimensional array
+*       so for requested solute, read layer information into a
+*       single dimension array and send to the system.
+ 
+*+  Mission Statement
+*     Supply information to requesting module
+ 
+*+  Changes
+*    130596 NIH added check for num_layers=0
+ 
+*+  Constant Values
+      character  myname*(*)            ! name of this procedure
+      parameter (myname = 'solute_send_my_variable')
+ 
+*+  Local Variables
+       integer layer
+       integer num_layers
+       integer solnum
+       real sol(max_layer)
+       logical found
+ 
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (myname)
+ 
+      found = .false.
+ 
+      do 200 solnum = 1,g%num_solutes
+ 
+         if (Variable_name .eq. p%solute_names(solnum)) then
+ 
+            num_layers = count_of_real_vals(g%dlayer,max_layer)
+ 
+            if (num_layers.eq.0) then
+               ! water balance is not initialised yet
+               num_layers = 1
+            else
+            endif
+ 
+            do 100 layer = 1,max_layer
+               sol(layer) = g%solute(solnum,layer)
+  100       continue
+ 
+            call respond2get_real_array (
+     :               p%solute_names(solnum),
+     :               '(kg/ha)',
+     :               sol,
+     :               num_layers)
+ 
+            found = .true.
+ 
+         else
+ 
+         endif
+  200 continue
+ 
+      if (.not. found) then
+         ! We have checked all solutes and we did not respond to anything
+         call Message_Unused ()
+      else
+         ! we found the solute so no message unused flag needed
+      endif
+ 
+      call pop_routine (myname)
+      return
+      end
+ 
+ 
+ 
+*     ===========================================================
+      subroutine solute_read_param ()
+*     ===========================================================
+      use SoluteModule
+      implicit none
+      include 'const.inc'              ! new_line, lu_scr_sum, blank
+      include 'read.pub'
+      include 'error.pub'
+ 
+*+  Purpose
+*       Read in all parameters from parameter file.  Solute information
+*       is stored in a two dimensional array so for each solute, read
+*       layer information into a single dimension array and insert
+*       into the two dimensional array.
+ 
+*+  Mission Statement
+*     Read parameters from parameter file
+ 
+*+  Changes
+*       NIH specified and coded
+ 
+*+  Calls
+                                       ! lu_summary_file
+ 
+*+  Constant Values
+      character  myname*(*)            ! name of this procedure
+      parameter (myname = 'solute_read_param')
+*
+      character section_name*(*)
+      parameter (section_name = 'parameters')
+ 
+*+  Local Variables
+      integer    layer
+      integer    solnum
+      integer    numvals               ! number of values read
+      real       sol(max_layer)
+ 
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (myname)
+ 
+      ! Read in solute name from parameter file
+      !         -----------
+         call read_char_array (
+     :           section_name,        ! Section header
+     :           'solute_names',      ! Keyword
+     :           max_solutes,         ! array size
+     :           '()',                ! Units
+     :           p%solute_names,      ! Array
+     :           g%num_solutes)       ! Number of values returned
+ 
+ 
+      do 200 solnum = 1, g%num_solutes
+ 
+ 
+         if (p%solute_names(solnum).ne.blank) then
+ 
+      !     Read in solute in profile from parameter file
+      !             -----------------
+            call read_real_array (
+     :           section_name,          ! Section header
+     :           p%solute_names(solnum),! Keyword
+     :           max_layer,             ! array size
+     :           '()',                  ! Units
+     :           sol,                   ! Array
+     :           numvals,               ! Number of values returned
+     :           c%lb_solute,           ! Lower Limit for bound checking
+     :           c%ub_solute)           ! Upper Limit for bound checking
+ 
+            do 100 layer = 1, numvals
+               g%solute(solnum,layer) = sol(layer)
+  100       continue
+         else
+            ! solute is blank so ignore it.
+         endif
+  200 continue
+ 
+      call pop_routine (myname)
+      return
+      end
+ 
+ 
+ 
+* ====================================================================
+       subroutine solute_set_my_variable (Variable_name)
+* ====================================================================
+      use SoluteModule
+      implicit none
+      include 'const.inc'
+      include 'intrface.pub'
+      include 'error.pub'
+ 
+*+  Sub-Program Arguments
+      character Variable_name*(*)      ! (INPUT) Variable name to search for
+ 
 *+  Purpose
 *       Set one of our variables altered by some other module.
 *       Solute information is stored in a two dimensional array
 *       so for desired solute, read updated layer information into a
 *       single dimension array and update into the two dimensional
 *       array.
-
+ 
+*+  Mission Statement
+*     Set an internal variable as requested
+ 
 *+  Changes
-*      21-06-96 NIH Changed respond2set calls to collect calls
-
-*+  Calls
-
+*    070696 nih changed respond2set calls to collect calls
+ 
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'solute_set_my_variable')
-
+ 
 *+  Local Variables
       integer layer
       integer solnum
@@ -314,380 +474,170 @@ c     :     g%solute_profiles, g%num_solutes, .false.)
       real sol(max_layer)
       real dlt_sol(max_layer)
       logical found
-
+ 
 *- Implementation Section ----------------------------------
-
+ 
       call push_routine (myname)
-      found = .false.
-
-      do 200 solnum = 1, g%num_solutes
-
-         if (VariableID .eq. g%solute_ids(solnum)) then
-
-            call Unpack_solute (Variant,
-     :                 sol,
-     :                 numvals)
-
-            do 100 layer = 1, numvals
-               g%solute_profiles(solnum)%layer(layer)%amount 
-     :             = sol(layer)
-  
-  100       continue
-            found = .true.
-
-         elseif (VariableID .eq. g%solute_ppm_ids(solnum)) then
-
-            call Unpack_solute_ppm (Variant,
-     :                 sol,
-     :                 numvals)
-
-            do 300 layer = 1, numvals
-               g%solute_profiles(solnum)%layer(layer)%amount 
-     :                                                 = sol(layer)
-     :      *  divide (g%soil_water_profile_layers(layer)%BulkDensity*
-     :       g%soil_water_profile_layers(layer)%thickness, 100., 0.0)
-  300       continue
-            found = .true.
-
-
-         else if (VariableID .eq. g%solute_dlt_ids(solnum)) then
-
-            call Unpack_dlt_solute (Variant,
-     :                 dlt_sol,
-     :                 numvals)
-
-
-            do 150 layer = 1, numvals
-            g%solute_profiles(solnum)%layer(layer)%amount
-     :        = g%solute_profiles(solnum)%layer(layer)%amount
-     :                            + dlt_sol(layer)
-  150       continue
-            found = .true.
-
+      if (g%num_solutes .eq. 0) then
+         call Message_Unused ()
+      else
+         found = .false.
+ 
+         do 200 solnum = 1, g%num_solutes
+ 
+            if (Variable_name .eq. p%solute_names(solnum)) then
+ 
+               call collect_real_array (
+     :                Variable_name,       ! variable name
+     :                max_layer,           ! array size
+     :                '(kg/ha)',           ! units
+     :                sol,                 ! array
+     :                numvals,             ! number of elements returned
+     :                c%lb_solute,         ! lower bound
+     :                c%ub_solute)         ! upper bound
+ 
+               do 100 layer = 1, numvals
+                  g%solute (solnum,layer) = sol(layer)
+  100          continue
+               found = .true.
+ 
+            elseif (Variable_name .eq. 'dlt_'//
+     :                p%solute_names(solnum)) then
+ 
+               call collect_real_array (
+     :                Variable_name,        ! variable name
+     :                max_layer,
+     :                '(kg/ha)',           ! units
+     :                dlt_sol,             ! array
+     :                numvals,             ! number of elements returned
+     :                -c%ub_solute,
+     :                c%ub_solute)
+ 
+               do 150 layer = 1, numvals
+                  g%solute (solnum,layer) = g%solute(solnum,layer)
+     :                               + dlt_sol(layer)
+  150          continue
+               found = .true.
+            else
+               ! Don't know this variable name
+            endif
+ 
+  200    continue
+ 
+         if (.not. found) then
+            call Message_Unused ()
          else
-
+            ! we found the variable so no message unused flag needed
          endif
-
-  200 continue
-
-      if (.not.found) then
-         call error('Cannot set unknown solute', .true.)
+ 
       endif
-      respondToSet = .true.
+ 
       call pop_routine (myname)
       return
       end
-
-* ====================================================================
-      subroutine on_solute_fluxes_calculated(variant) 
-* ====================================================================
-      use SoluteModule
-      use ComponentInterfaceModule
-
-      implicit none
-
-!+  Sub-Program Arguments
-      integer, intent(in out) :: variant
-
-
-*+  Purpose
-
-*+  Changes
-*      18-02-02 DSG Added
-
-*+  Calls
-
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'on_solute_fluxes_calculated')
-
-*+  Local Variables
-      type(SoluteProfileType),dimension(max_solutes)::solute_profiles
-      integer num_profiles
-      integer profilenum
-      integer solnum
-      logical found
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-       found = .false.
-      call unpack_SoluteProfile(variant,solute_profiles,num_profiles)
-
-      do 200 profilenum = 1, num_profiles
-      
-        do 100 solnum = 1,g%num_solutes
-        
-        if (solute_profiles(profilenum)%name.eq.
-     :      g%solute_profiles(solnum)%name) then
-            g%solute_profiles(solnum) = solute_profiles(profilenum)
-            found = .true.
-        endif      
-
-  100 continue        
-         
-  200 continue
-
-      if(found) then
-!    send an event
-          call publish_SoluteProfile(ID%SolutesChanged,
-     :     g%solute_profiles, g%num_solutes, .false.)
-      endif          
-
-      call pop_routine (myname)
-      return
-      end
-
-
-
-* ====================================================================
-      subroutine on_soil_water_profile_changed(variant) 
-* ====================================================================
-      use SoluteModule
-      use ComponentInterfaceModule
-
-      implicit none
-
-!+  Sub-Program Arguments
-      integer, intent(in out) :: variant
-
-*+  Purpose
-
-*+  Changes
-*      18-02-02 DSG Added
-
-*+  Calls
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'on_soil_water_profile_changed')
-
-*+  Local Variables
-      type(SoilWaterProfileLayerType)::soil_water_profile_layers
-     ! (max_layer)
-      integer solnum
-      integer layer
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      call unpack_SoilWaterProfileLayer(variant
-     :                                     ,soil_water_profile_layers
-     :                                     ,g%num_layers)
-
-c   dsg 180202    when we want to remap solutes for varying layers, insert here
-
-		 g%soil_water_profile_layers = soil_water_profile_layers
-		           
-       do 100 solnum = 1,g%num_solutes
-       g%solute_profiles(solnum)%NumLayers = g%num_layers
-       do 50 layer = 1,g%num_layers
-      g%solute_profiles(solnum)%layer(layer)%thickness  = 
-     :                        soil_water_profile_layers(layer)%thickness 
-     
- 50     continue
- 100    continue          
-
-!    send an event
-          call publish_SoluteProfile(ID%SolutesChanged,
-     :     g%solute_profiles, g%num_solutes, .false.)
-
-      call pop_routine (myname)
-      return
-      end
-
-
-* ====================================================================
-       subroutine solute_zero_variables ()
-* ====================================================================
-      use SoluteModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*     Set all variables to initial state.  i.e. zero or blank.
-
-*+  Mission Statement
-*     Set internal state variables to zero
-
-*+  Changes
-*     <insert here>
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'solute_zero_variables')
-
-*+  Local Variables
-       integer layer
-       integer solnum
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-      g%num_solutes = 0
-
-      p%solute_names(:) = ' '
-!      g%solute_profiles(:)%solute_layers(:)%amount = 0.0
-!      g%solute_profiles(:)%solute_layers(:)%thickness = 0.0
-      
-      g%soil_water_profile_layers(:)%BulkDensity = 0.0
-      g%soil_water_profile_layers(:)%thickness = 0.0
-
-
-      call pop_routine (myname)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine solute_read_param ()
-*     ===========================================================
-      use SoluteModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*       Read in all parameters from parameter file.  Solute information
-*       is stored in a two dimensional array so for each solute, read
-*       layer information into a single dimension array and insert
-*       into the two dimensional array.
-
-*+  Mission Statement
-*     Read parameters from parameter file
-
-*+  Changes
-*       NIH specified and coded
-
-*+  Calls
-                                       ! lu_summary_file
-
-*+  Constant Values
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'solute_read_param')
-*
-      character section_name*(*)
-      parameter (section_name = 'parameters')
-
-*+  Local Variables
-      integer    layer
-      integer    solnum
-      integer    numvals               ! number of values read
-      real       sol(max_layer)
-      logical ok
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (myname)
-
-
-      ! Read in solute name from parameter file
-      !         -----------
-         ok = read_parameter (
-     :           section_name,        ! Section header
-     :           'solute_names',      ! Keyword
-     :           p%solute_names,      ! Array
-     :           g%num_solutes)       ! Number of values returned
-
-
-      do 200 solnum = 1, g%num_solutes
-
-        g%solute_profiles(solnum)%name = p%solute_names(solnum)
-
-
-         if (p%solute_names(solnum).ne.blank) then
-
-      !     Read in solute in profile from parameter file
-      !             -----------------
-
-            ok = read_parameter (
-     :           section_name,          ! Section header
-     :           p%solute_names(solnum),! Keyword
-     :           sol,                   ! Array
-     :           numvals,               ! Number of values returned
-     :           c%lb_solute,           ! Lower Limit for bound checking
-     :           c%ub_solute)           ! Upper Limit for bound checking
-
-            ! register each solute as a get/set and a dlt_ solute as a set
-            g%solute_ids(solnum) = add_registration
-     :          (respondToGetSetReg,
-     :           p%solute_names(solnum),
-     :           soluteddml)
-
-            g%solute_dlt_ids(solnum) = add_registration
-     :          (respondToSetReg,
-     :           'dlt_' // p%solute_names(solnum),
-     :           dlt_soluteddml)
-
-            g%solute_ppm_ids(solnum) = add_registration
-     :          (respondToGetSetReg,
-     :           trim(p%solute_names(solnum))//'ppm',
-     :           solute_ppmddml)
-
-            do 100 layer = 1, numvals
-               g%solute_profiles(solnum)%layer(layer)%amount 
-     :             = sol(layer)
-  100       continue
-         else
-            ! solute is blank so ignore it.
-         endif
-  200 continue
-
-      call pop_routine (myname)
-      return
-      end
-
+ 
+ 
+ 
 * ====================================================================
        subroutine solute_read_constants ()
 * ====================================================================
       use SoluteModule
-      use ComponentInterfaceModule
       implicit none
-
+      include 'const.inc'
+      include 'read.pub'
+      include 'error.pub'
+ 
 *+  Purpose
 *      Read in all constants from ini file.
-
+ 
 *+  Mission Statement
 *     Read constants from ini file
-
+ 
 *+  Changes
 *     17-03-1997 - huth - Programmed and Specified
-
+ 
 *+  Constant Values
       character*(*) section_name
       parameter (section_name = 'constants')
 *
       character*(*) myname               ! name of current procedure
       parameter (myname = 'solute_read_constants')
-
+ 
 *+  Local Variables
       integer    numvals               ! number of values read from file
-      logical ok
-
+ 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
-
+ 
       call write_string (new_line//'   - Reading Constants')
-
-      ok = read_parameter (
+  
+      call read_real_var (
      :           section_name         ! Section header
      :         , 'ub_solute'          ! Keyword
+     :         , '()'                 ! Units
      :         , c%ub_solute          ! Variable
+     :         , numvals              ! Number of values returned
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1E10)                ! Upper Limit for bound checking
-
-      ok = read_parameter(
+ 
+      call read_real_var (
      :           section_name         ! Section header
      :         , 'lb_solute'          ! Keyword
+     :         , '()'                 ! Units
      :         , c%lb_solute          ! Variable
+     :         , numvals              ! Number of values returned
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1E10)                ! Upper Limit for bound checking
-
-
+ 
+ 
       call pop_routine (myname)
       return
       end
+ 
+* ====================================================================
+       subroutine solute_notification ()
+* ====================================================================
+      use SoluteModule
+      implicit none
+      include 'event.inc'
+      include 'error.pub'
+      include 'postbox.pub'
+      include 'intrface.pub'
+ 
+*+  Purpose
+*      Notify all interested modules about this module's ownership
+*      of solute information.
+ 
+*+  Mission Statement
+*     Notify other modules of ownership of solute information
+ 
+*+  Changes
+*     17-05-1999 - nih - Programmed and Specified
+ 
+*+  Constant Values
 
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'solute_notification')
+ 
+*+  Local Variables
+
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+ 
+      call new_postbox()
+
+      call post_char_array (DATA_new_solute_names
+     :                     , '()'
+     :                     , p%solute_names
+     :                     , g%num_solutes)
+
+      call event_send (EVENT_new_solute)
+
+      call delete_postbox() 
+ 
+      call pop_routine (myname)
+      return
+      end
+ 
+ 

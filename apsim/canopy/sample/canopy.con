@@ -1,17 +1,16 @@
 [apsim.sample_canopy]  
-  !Module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]      
-  !Module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]         %apsuite\apsim\soiln2\soiln2.ini     [standard]      
-  !Module = fertiliz                                                      %apsuite\apsim\fertiliz\fertiliz.ini [standard]
-version=apsim3
-module = clock    canopy.par [sample]
-module = report   canopy.par [sample]
-module = Input(Met)      %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]
-module = canopy   canopy.par [sample]    ..\canopy.ini[standard]
-module = manager  canopy.par [sample]
-module = slurp(grass)    canopy.par [sample]
-module = slurp(tree)    canopy.par [sample]
+  Module = clock    canopy.par [sample]      
+  Module = report   canopy.par [sample]      
+  Module = met      %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]      
+  Module = maize    canopy.par [sample]                                          %apsuite\apsim\maize\maize.ini [standard]
+  Module = cowpea   canopy.par[sample]                                           %apsuite\apsim\cowpea\cowpea.ini[standard]  
+  Module = manager  canopy.par [sample]      
+  Module = canopy   canopy.par [sample]      
+  Module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini [standard]      
+  Module = soiln2   %apsuite\apsim\soiln2\soiln2.ini [standard]                  %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]
 
-title=Canopy Sample Simulation
-summaryfile=Canopy.sum
-debug_output=on
-screen_output=on
+!****************************************************************************************
+! To demonstrate the canopy module's capacity for intercropping, Maize and Cowpea have been 
+! chosen for this sample simulation.  If you are not licensed to use these crop modules, 
+! please substitute your licensed crops as appropriate.
+!****************************************************************************************
