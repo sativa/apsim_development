@@ -623,7 +623,7 @@
      cum_drain180 = cum_drain180 + apswim.flow(18)
      cum_leach180 = cum_leach180 + apswim.flow_no3(18)
      sw_dep_90180 = (0.5 * sw_dep(11)) + sw_dep(12) + sw_dep(13) + sw_dep(14) + sw_dep(15) + sw_dep(16) + sw_dep(17) + sw_dep(18)
-     t            = weed1.ep + lucerne.ep + canola.ep + lupin.ep - wheat.ep + weed2.ep + weed3.ep
+     t            = weed1.ep() + lucerne.ep() + canola.ep() + lupin.ep() - wheat.ep() + weed2.ep() + weed3.ep()
      et           = apswim.es + t
      sw_dep_120    = sw_dep(1) + sw_dep(2) + sw_dep(3) + sw_dep(4)+ sw_dep(5) + sw_dep(6) + sw_dep(7) + sw_dep(8) + sw_dep(9) + sw_dep(10) + sw_dep(11) + sw_dep(12)
      netdrain120    = (met.rain + irrigate.irrigation) - et - (sw_dep_120 - oldsw_dep_120)
@@ -632,7 +632,7 @@
      cum_rain     = cum_rain + met.rain + irrigate.irrigation
      
      SECTION:- end_of_day
-     t            = weed1.ep + lucerne.ep + canola.ep + lupin.ep - wheat.ep + weed2.ep + weed3.ep
+     t            = weed1.ep() + lucerne.ep() + canola.ep() + lupin.ep() - wheat.ep() + weed2.ep() + weed3.ep()
      et           = apswim.es + t
      drain_25     = apswim.flow(6)
      drain_90     = 0.5* apswim.flow(10)+ 0.5* apswim.flow(11)
@@ -1063,14 +1063,14 @@
 ------- tracker2 Initialisation -----------------------------------------------
      Tracker variables:
         sum of met.rain since report2.reported as sum@met.rain on process
-        sum of wheat.ep since report2.reported as sum@wheat.ep[] on process
-        sum of lucerne.ep since report2.reported as sum@lucerne.ep[] on process
-        sum of canola.ep since report2.reported as sum@canola.ep[] on process
-        sum of lupin.ep since report2.reported as sum@lupin.ep[] on process
+        sum of wheat.ep() since report2.reported as sum@wheat.ep[] on process
+        sum of lucerne.ep() since report2.reported as sum@lucerne.ep[] on process
+        sum of canola.ep() since report2.reported as sum@canola.ep[] on process
+        sum of lupin.ep() since report2.reported as sum@lupin.ep[] on process
         sum of manager.T since report2.reported as sum@manager.T on process
         sum of manager.ET since report2.reported as sum@manager.ET on process
-        sum of weed1.ep since report2.reported as sum@weed1.ep[] on process
-        sum of weed2.ep since report2.reported as sum@weed2.ep[] on process
+        sum of weed1.ep() since report2.reported as sum@weed1.ep[] on process
+        sum of weed2.ep() since report2.reported as sum@weed2.ep[] on process
         sum of apswim.es since report2.reported as sum@apswim.es on process
         sum of apswim.runoff since report2.reported as sum@apswim.runoff on process
         sum of apswim.drain since report2.reported as sum@apswim.drain on process
