@@ -795,6 +795,8 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
       {
       // ??Hmmm. should probably stop dead here??
       dlt_tt_phenol = dlt_tt;
+      phase_devel = 0.0;
+      new_stage = floor(currentStage) + phase_devel;
       dltStage = 0.0;
       }
 
@@ -1443,9 +1445,7 @@ void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
       // ??Hmmm. should probably stop dead here??
       dlt_tt_phenol = dlt_tt;
       const pPhase &current = phases[currentStage];
-      float a =  current.getTT() + dlt_tt_phenol;
-      float b =  current.getTTTarget();
-      phase_devel = divide(a, b, 1.0);
+      phase_devel = 0.0;
       new_stage = floor(currentStage) + phase_devel;
       }
 
