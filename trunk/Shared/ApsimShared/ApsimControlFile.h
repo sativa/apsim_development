@@ -42,6 +42,12 @@ class __declspec(dllexport) ApsimControlFile
                                    const std::string& module) const;
 
       // ------------------------------------------------------------------
+      // Return the .ini file name for the specified instance.
+      // ------------------------------------------------------------------
+      std::string getIniFileForInstance(const std::string& section,
+                                        const std::string& instanceName) const;
+                                   
+      // ------------------------------------------------------------------
       // return a list of output/summary filenames
       // ------------------------------------------------------------------
       void getOutputFileNames(const std::string& section,
@@ -181,12 +187,11 @@ class __declspec(dllexport) ApsimControlFile
                                ParamCallbackEvent callback);
       void enumerateParametersForInstance(const std::string& section,
                                           const std::string& instanceName,
-                                          bool includeConstants,
+                                          bool constantsOnly,
                                           ParamCallbackEvent callback);
 
    private:
       IniFile* ini;
-      std::string fileName;
       mutable std::vector<IniFile*> openedParFiles;
 
       // ------------------------------------------------------------------

@@ -350,6 +350,28 @@ string ApsimControlFile::getFileForModule(const string& section,
    return "";
    }
 // ------------------------------------------------------------------
+// Return the .ini file name for the specified instance.
+// ------------------------------------------------------------------
+std::string ApsimControlFile::getIniFileForInstance(const std::string& section,
+                                                    const std::string& instanceName) const
+   {
+   vector<string> moduleLines;
+   ini->read(section, "module", moduleLines);
+   for (unsigned m = 0; m != moduleLines.size(); m++)
+      {
+      vector<ParamFile> paramFiles;
+      parseModuleLine(ini->getFileName(), moduleLines[m], paramFiles);
+      for (unsigned p = 0; p != paramFiles.size(); p++)
+         {
+         if (paramFiles[0].instanceName != instanceName)
+            break;
+         if (Str_i_Eq(Path(paramFiles[p].fileName).Get_extension(), ".ini"))
+            return paramFiles[p].fileName;
+         }
+      }
+   return "";
+   }
+// ------------------------------------------------------------------
 // Return a list of all output file names for the specified section
 // ------------------------------------------------------------------
 void ApsimControlFile::getOutputFileNames(const string& section,
@@ -622,16 +644,17 @@ void ApsimControlFile::setVersionNumber(const std::string& fileName,
 // ------------------------------------------------------------------
 // return an opened parameter file ready to read.
 // ------------------------------------------------------------------
-IniFile* ApsimControlFile::getParFile(const std::string& fileName) const
+IniFile* ApsimControlFile::getParFile(const std::string& parFileName) const
    {
-   string filePath = ExpandFileName(fileName.c_str()).c_str();
+   Path(ini->getFileName()).Change_directory();
+   string filePath = ExpandFileName(parFileName.c_str()).c_str();
    for (unsigned i = 0; i != openedParFiles.size(); i++)
       {
       if (Str_i_Eq(openedParFiles[i]->getFileName(), filePath))
          return openedParFiles[i];
       }
-   if (Path(fileName).Get_extension() != ".met" &&
-       Path(fileName).Get_extension() != ".soi")
+   if (Path(filePath).Get_extension() != ".met" &&
+       Path(filePath).Get_extension() != ".soi")
       {
       IniFile* par = new IniFile(filePath);
       openedParFiles.push_back(par);
@@ -987,22 +1010,26 @@ void ApsimControlFile::enumerateParameters(const std::string& section,
 // ------------------------------------------------------------------
 void ApsimControlFile::enumerateParametersForInstance(const std::string& section,
                                                       const std::string& instanceName,
-                                                      bool includeConstants,
+                                                      bool constantsOnly,
                                                       ParamCallbackEvent callback)
    {
    vector<ParamFile> paramFiles;
-   getParameterFilesForInstance(ini, section, instanceName, paramFiles, includeConstants);
+   getParameterFilesForInstance(ini, section, instanceName, paramFiles, constantsOnly);
    for (unsigned p = 0; p != paramFiles.size(); p++)
       {
       if (paramFiles[p].fileName != "")
          {
-         IniFile* par = getParFile(paramFiles[p].fileName);
-         if (par != NULL)
+         if (!constantsOnly
+             || Str_i_Eq(Path(paramFiles[p].fileName).Get_extension(), ".ini"))
             {
-            vector<string> paramFileSections;
-            getParFileSectionsMatching(par, paramFiles[p], paramFileSections);
-            for (unsigned s = 0; s != paramFileSections.size(); s++)
-               callback(par, paramFileSections[s]);
+            IniFile* par = getParFile(paramFiles[p].fileName);
+            if (par != NULL)
+               {
+               vector<string> paramFileSections;
+               getParFileSectionsMatching(par, paramFiles[p], paramFileSections);
+               for (unsigned s = 0; s != paramFileSections.size(); s++)
+                  callback(par, paramFileSections[s]);
+               }
             }
          }
       }
