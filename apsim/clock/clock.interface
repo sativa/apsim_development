@@ -58,9 +58,6 @@ end
 
 class APSIMClockExternal
 
-   tick                    : APSIMClockTickEvent        = Change in the simulation system time and the duration of the new time step
-   new_profile             : APSIMNewProfileEvent       = To notify all interested modules of the change in soil water profile characteristic information
-
 end
 
 class APSIMClock : APSIMComponent
