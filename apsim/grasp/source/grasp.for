@@ -1,6 +1,6 @@
       module GraspModule
       use Registrations
-      
+
 !      ====================================================================
 !      grasp_array_sizes
 !      ====================================================================
@@ -3622,6 +3622,8 @@ c     real       No3_tot               ! total No3 in the root profile (kg/ha)
 c     real       N_demand              ! sum N demand for plant parts (g/plant)
       real       temp(max_layer)
       integer    layer          ! Loop counter
+      real       ep
+      real       rwu(max_layer)
 
 *- Implementation Section ----------------------------------
 
@@ -3786,9 +3788,21 @@ cpdev. One of these is right. I don't know which...
 
       elseif (variable_name .eq. 'ep') then
          num_layers = count_of_real_vals (g%dlayer, max_layer)
-         call respond2get_real_array (
-     :        'ep',
-     :        '(mm)', g%dlt_sw_dep, num_layers)
+         ep = abs(sum(g%dlt_sw_Dep(1:num_layers)))
+         call respond2get_real_var (variable_name
+     :                               , '(mm)'
+     :                               , ep)
+
+      elseif (variable_name .eq. 'sw_uptake') then
+         num_layers = count_of_real_vals (g%dlayer, max_layer)
+         do 10 layer = 1, num_layers
+            rwu(layer) = - g%dlt_sw_dep(layer)
+   10    continue
+         call respond2get_real_array (variable_name
+     :                               , '(mm)'
+     :                               , rwu
+     :                               , num_layers)
+
 
       elseif (variable_name .eq. 'sw_pot') then
          call respond2get_real_var (
@@ -4949,11 +4963,11 @@ c     :                    , 0.0, 10000.0)
       Use infrastructure
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
-      
+
       return
       end subroutine respondToEvent
 

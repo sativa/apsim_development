@@ -984,7 +984,9 @@ c      write (*,*) 'pesw_cap = ', pesw_capacity
 
 *+  Local Variables
       integer    num_layers     ! number of layers in profile
-
+      real       rwu(max_layer)
+      real       ep
+      integer    layer
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
@@ -1023,9 +1025,21 @@ cpdev. One of these next two is right. I don't know which...
 
       elseif (variable_name .eq. 'ep') then
          num_layers = count_of_real_vals (g%dlayer, max_layer)
-         call respond2get_real_array (
-     :        'ep',
-     :        '(mm)', g%dlt_sw_dep, num_layers)
+         ep = abs(sum(g%dlt_sw_Dep(1:num_layers)))
+         call respond2get_real_var (variable_name
+     :                               , '(mm)'
+     :                               , ep)
+
+      elseif (variable_name .eq. 'sw_uptake') then
+         num_layers = count_of_real_vals (g%dlayer, max_layer)
+         do 10 layer = 1, num_layers
+            rwu(layer) = - g%dlt_sw_dep(layer)
+   10    continue
+         call respond2get_real_array (variable_name
+     :                               , '(mm)'
+     :                               , rwu
+     :                               , num_layers)
+
 
       elseif (variable_name .eq. 'total_swi') then
          call respond2get_real_var (
@@ -1543,11 +1557,11 @@ c      not have the same meaning.....
       Use infrastructure
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
-      
+
       return
       end subroutine respondToEvent
       

@@ -2614,10 +2614,10 @@ cgd   Eriks modifications for Leaf Area
      :subroutine millet_ONtick (variant)
 *     ===========================================================
       Use infrastructure
-      implicit none           
-      
+      implicit none
+
       integer, intent(in) :: variant
-      
+
 
 *+  Purpose
 *     Update internal time record and reset daily state variables.
@@ -2639,8 +2639,8 @@ cgd   Eriks modifications for Leaf Area
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call unpack_time(variant, tick)                                                 
-      call jday_to_day_of_year(dble(tick%startday), g%day_of_year, 
+      call unpack_time(variant, tick)
+      call jday_to_day_of_year(dble(tick%startday), g%day_of_year,
      .                         g%year)
 
       call pop_routine (myname)
@@ -2652,9 +2652,9 @@ cgd   Eriks modifications for Leaf Area
 *     ===========================================================
       Use infrastructure
       implicit none
-      
+
       integer, intent(in) :: variant
-      
+
 *+  Purpose
 *     Get new met data
 
@@ -3187,7 +3187,8 @@ cjh special for erik - end
       real       pconc
       real       hi
       real       stover
-
+      real       ep
+      real       rwu(max_layer)
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
@@ -3678,9 +3679,19 @@ cejvo
 
       elseif (variable_name .eq. 'ep') then
          num_layers = count_of_real_vals (g%dlayer, max_layer)
+         ep = abs(sum(g%dlt_sw_Dep(1:num_layers)))
+         call respond2get_real_var (variable_name
+     :                               , '(mm)'
+     :                               , ep)
+
+      elseif (variable_name .eq. 'sw_uptake') then
+         num_layers = count_of_real_vals (g%dlayer, max_layer)
+         do 10 layer = 1, num_layers
+            rwu(layer) = - g%dlt_sw_dep(layer)
+   10    continue
          call respond2get_real_array (variable_name
      :                               , '(mm)'
-     :                               , g%dlt_sw_dep
+     :                               , rwu
      :                               , num_layers)
 
       elseif (variable_name .eq. 'cep') then
@@ -5303,7 +5314,7 @@ cjh special for erik - end
       Use infrastructure
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
@@ -5315,4 +5326,4 @@ cjh special for erik - end
       endif
       return
       end subroutine respondToEvent
-                                   
+
