@@ -8,6 +8,7 @@ using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+using System.Collections.Specialized;
 
 
 namespace YieldProphet
@@ -32,8 +33,9 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Label lblName;
 		protected System.Web.UI.WebControls.DropDownList cboAccessType;
 		protected System.Web.UI.WebControls.Label lblAccess;
+		protected System.Web.UI.WebControls.ListBox lstConsultants;
+		protected System.Web.UI.WebControls.Label lblConsultantTwo;
 		protected System.Web.UI.WebControls.Label lblConsultant;
-		protected System.Web.UI.WebControls.DropDownList cboConsultant;
 		
 
 		#region Web Form Designer generated code
@@ -83,16 +85,17 @@ namespace YieldProphet
 				}
 			}
 		//---------------------------------------------------------------------------
-		//Fills the consultant combo box with all the consultants from the database
+		//Fills the consultant list box with all the consultants from the database
 		//---------------------------------------------------------------------------
-		private void FillConsultantCombo()
+		private void FillConsultantsListBox()
 			{
 			try
 				{
 				DataTable dtConsultants = DataAccessClass.GetAllConsultants();
-				cboConsultant.DataSource = dtConsultants;
-				cboConsultant.DataTextField = "Name";
-				cboConsultant.DataBind();
+				lstConsultants.DataSource = dtConsultants;
+				lstConsultants.DataTextField = "Name";
+				lstConsultants.DataValueField = "UserName";
+				lstConsultants.DataBind();
 				}
 			catch(Exception E)
 				{
@@ -100,33 +103,23 @@ namespace YieldProphet
 				}
 			}
 		//---------------------------------------------------------------------------
-		//Clears all the text boxes and hides the consultant combo box
+		//Makes the consultant list box and label visible to the user
 		//---------------------------------------------------------------------------
-		private void ResetForm()
-			{
-			edtName.Text = "";
-			edtUserName.Text = "";
-			edtEmail.Text = "";
-			edtPassword.Text = "";
-			cboAccessType.SelectedIndex = -1;
-			HideConsultantCombo();
-			}
-		//---------------------------------------------------------------------------
-		//Makes the consultant combo box and label visible to the user
-		//---------------------------------------------------------------------------
-		private void DisplayConsultantCombo()
+		private void DisplayConsultantListBox()
 			{
 			lblConsultant.Visible = true;
-			cboConsultant.Visible = true;
-			FillConsultantCombo();
+			lblConsultantTwo.Visible = true;
+			lstConsultants.Visible = true;
+			FillConsultantsListBox();
 			}
 		//---------------------------------------------------------------------------
-		//Hides the consultant combo box and label from the user
+		//Hides the consultant list box and label from the user
 		//---------------------------------------------------------------------------
-		private void HideConsultantCombo()
+		private void HideConsultantListBox()
 			{
 			lblConsultant.Visible = false;
-			cboConsultant.Visible = false;
+			lblConsultantTwo.Visible = false;
+			lstConsultants.Visible = false;
 			}
 		//---------------------------------------------------------------------------
 		//Saves a new user, but firstly a check is run to see what kind of
@@ -150,36 +143,18 @@ namespace YieldProphet
 						//Checks to ensure the user name isn't already in use
 						if(DataAccessClass.IsUserNameAvailable(InputValidationClass.ValidateString(edtUserName.Text)) == true)
 							{
-							//If the new user is a grower then assign them to a consultant
-							if(cboAccessType.SelectedItem.Text == FunctionsClass.szGrower)
+							if(cboAccessType.SelectedValue != "")
 								{
-								if(cboConsultant.SelectedItem.Text != "")
-									{
-									DataAccessClass.InsertGrower(InputValidationClass.ValidateString(edtName.Text), 
-										InputValidationClass.ValidateString(edtEmail.Text), 
-										InputValidationClass.ValidateString(edtUserName.Text), 
-										InputValidationClass.ValidateString(edtPassword.Text), 
-										cboConsultant.SelectedItem.Text);
-									}
-								else
-									throw new Exception("Please select a consultant");	
+								DataAccessClass.InsertUser(InputValidationClass.ValidateString(edtName.Text), 
+									InputValidationClass.ValidateString(edtEmail.Text), 
+									InputValidationClass.ValidateString(edtUserName.Text),
+									InputValidationClass.ValidateString(edtPassword.Text), 
+									cboAccessType.SelectedItem.Text, ReturnConsultantCollection());
 								}
-							//If the new user isn't a grower then just insert them into the db
 							else
-								{
-								if(cboAccessType.SelectedValue != "")
-									{
-									DataAccessClass.InsertUser(InputValidationClass.ValidateString(edtName.Text), 
-										InputValidationClass.ValidateString(edtEmail.Text), 
-										InputValidationClass.ValidateString(edtUserName.Text),
-										InputValidationClass.ValidateString(edtPassword.Text), 
-										cboAccessType.SelectedItem.Text);
-									}
-								else
-									throw new Exception("Please select an access type");	
-								}
+								throw new Exception("Please select an access type");	
 							ReportClass.CreateUsersReportDirectory(InputValidationClass.ValidateString(edtUserName.Text));
-							Server.Transfer("wfAddUser.aspx");
+							Server.Transfer("wfManageUsers.aspx");
 							}
 						else
 							throw new Exception("Username is already being used");
@@ -196,6 +171,28 @@ namespace YieldProphet
 				}
 			}
 		//---------------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------------
+		private StringCollection ReturnConsultantCollection()
+			{
+			StringCollection scConsultants = new StringCollection();
+			if(FunctionsClass.IsAdministrator(Session["UserName"].ToString()) == true)
+				{
+				foreach(ListItem lsiConsultants in lstConsultants.Items)
+					{
+					if(lsiConsultants.Selected == true)
+						{
+						scConsultants.Add(lsiConsultants.Value);
+						}
+					}
+				}
+			else if(FunctionsClass.IsConsultant(Session["UserName"].ToString()) == true)
+				{
+				scConsultants.Add(Session["UserName"].ToString());
+				}
+			return scConsultants;
+			}
+		//---------------------------------------------------------------------------
 		#endregion
 
 
@@ -210,10 +207,18 @@ namespace YieldProphet
 			if (!IsPostBack)
 				{	
 				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForAdministratorLevelPriviledges();
+				FunctionsClass.CheckForConsultantLevelPriviledges();
 				FunctionsClass.SetControlFocus("edtName", this);
 				FillAccessTypeCombo();
-				HideConsultantCombo();
+				if(FunctionsClass.IsConsultant(Session["UserName"].ToString()) == true)
+					{
+					if(cboAccessType.Items.Count > 0)
+						{
+						cboAccessType.SelectedValue = FunctionsClass.szGrower;
+						}
+					cboAccessType.Enabled = false;
+					}
+				HideConsultantListBox();
 				}
 			}
 		//---------------------------------------------------------------------------
@@ -223,13 +228,14 @@ namespace YieldProphet
 		//---------------------------------------------------------------------------
 		private void cboAccessType_SelectedIndexChanged(object sender, System.EventArgs e)
 			{
-			if(cboAccessType.SelectedItem.Text == FunctionsClass.szGrower)
+			if(cboAccessType.SelectedItem.Text == FunctionsClass.szGrower ||
+				cboAccessType.SelectedItem.Text == FunctionsClass.szVisitor)
 				{
-				DisplayConsultantCombo();
+				DisplayConsultantListBox();
 				}
 			else
 				{
-				HideConsultantCombo();
+				HideConsultantListBox();
 				}
 			}
 		//---------------------------------------------------------------------------
@@ -251,14 +257,14 @@ namespace YieldProphet
 		//---------------------------------------------------------------------------
 		private void btnCancel_Click(object sender, System.EventArgs e)
 			{
-			ResetForm();
+			Server.Transfer("wfManageUsers.aspx");
 			}
 		//---------------------------------------------------------------------------
 		//Restores the form to its original state
 		//---------------------------------------------------------------------------
 		private void btnCancelImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
 			{
-			ResetForm();
+			Server.Transfer("wfManageUsers.aspx");
 			}
 		//---------------------------------------------------------------------------
 		#endregion

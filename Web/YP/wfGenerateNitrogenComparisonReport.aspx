@@ -1,5 +1,5 @@
-<%@ Page language="c#" Codebehind="wfGenerateNitrogenComparisonReport.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfGenerateNitrogenComparisonReport" %>
 <%@ Register TagPrefix="jwg" Namespace="Janus.Web.GridEX" Assembly="Janus.Web.GridEX" %>
+<%@ Page language="c#" Codebehind="wfGenerateNitrogenComparisonReport.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfGenerateNitrogenComparisonReport" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <HTML>
 	<HEAD>
@@ -18,29 +18,29 @@
 			<asp:Panel id="pnlTop" style="Z-INDEX: 103; LEFT: 0px; POSITION: absolute; TOP: 0px" runat="server"
 				Width="100%" Height="48px" BackColor="PaleGoldenrod" HorizontalAlign="Left">
 				<DIV style="WIDTH: 184px; POSITION: relative; HEIGHT: 41px" ms_positioning="GridLayout">
-					<asp:LinkButton id="btnCancel" style="Z-INDEX: 101; LEFT: 104px; POSITION: absolute; TOP: 16px"
-						tabIndex="5" runat="server" EnableViewState="False" Font-Size="Smaller">Cancel</asp:LinkButton>
+					<asp:LinkButton id="btnCancel" style="Z-INDEX: 101; LEFT: 120px; POSITION: absolute; TOP: 16px"
+						tabIndex="5" runat="server" Font-Size="Smaller" EnableViewState="False">Cancel</asp:LinkButton>
 					<asp:Button id="btnSave" style="Z-INDEX: 112; LEFT: 32px; POSITION: absolute; TOP: 16px" runat="server"
-						Height="16px" Width="40px" BackColor="Transparent" Font-Size="Smaller" ForeColor="Blue" BorderColor="Transparent"
-						BorderStyle="None" Font-Underline="True" Text="Save" Font-Names="Times New Roman"></asp:Button>
-					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 102; LEFT: 80px; POSITION: absolute; TOP: 16px"
+						Height="16px" Width="64px" BackColor="Transparent" Font-Size="Smaller" Font-Names="Times New Roman"
+						Text="Do report" Font-Underline="True" BorderStyle="None" BorderColor="Transparent" ForeColor="Blue"></asp:Button>
+					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 102; LEFT: 96px; POSITION: absolute; TOP: 16px"
 						tabIndex="4" runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 103; LEFT: 8px; POSITION: absolute; TOP: 16px" tabIndex="2"
-						runat="server" ImageUrl="Images\save.gif"></asp:ImageButton></DIV>
+						runat="server" ImageUrl="Images\reports.gif"></asp:ImageButton></DIV>
 			</asp:Panel>
 			<jwg:gridEX id=grdScenarioOne style="Z-INDEX: 104; LEFT: 200px; POSITION: absolute; TOP: 160px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch">
 				<RootTable DataMember="Nitrogen" Key="Nitrogen">
 					<Columns>
-						<jwg:GridEXColumn UseType="System.Single" Key="ID" DataMember="ID" DefaultGroupPrefix="ID:" InvalidValueAction="DiscardChanges"
-							Caption="ID" Width="0px" Visible="False">
+						<jwg:GridEXColumn UseType="System.Single" Key="ID" HasValueList="True" DataMember="ID" DefaultGroupPrefix="ID:"
+							InvalidValueAction="DiscardChanges" Caption="ID" Width="0px" Visible="False">
 							<CellStyle Width="0px"></CellStyle>
 						</jwg:GridEXColumn>
 						<jwg:GridEXColumn UseType="System.DateTime" EditType="CalendarDropDown" Key="ApplicationDate" FormatString="dd/MM/yyyy"
-							DataMember="ApplicationDate" DefaultGroupPrefix="Application Date:" InvalidValueAction="DiscardChanges"
+							HasValueList="True" DataMember="ApplicationDate" DefaultGroupPrefix="Application Date:" InvalidValueAction="DiscardChanges"
 							Caption="Application Date" Width="140px">
 							<CellStyle Width="140px"></CellStyle>
 						</jwg:GridEXColumn>
-						<jwg:GridEXColumn UseType="System.String" Key="Rate" DataMember="Rate" DefaultGroupPrefix="Application Rate (kg/ha):"
+						<jwg:GridEXColumn UseType="System.String" Key="Rate" HasValueList="True" DataMember="Rate" DefaultGroupPrefix="Application Rate (kg/ha):"
 							InvalidValueAction="DiscardChanges" Caption="Application Rate (kg/ha)" Width="160px">
 							<CellStyle Width="160px"></CellStyle>
 						</jwg:GridEXColumn>
@@ -90,16 +90,16 @@
 			<jwg:gridEX id=grdScenarioTwo style="Z-INDEX: 105; LEFT: 200px; POSITION: absolute; TOP: 304px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch">
 				<RootTable DataMember="Nitrogen" Key="Nitrogen">
 					<Columns>
-						<jwg:GridEXColumn UseType="System.Single" Key="ID" DataMember="ID" DefaultGroupPrefix="ID:" InvalidValueAction="DiscardChanges"
-							Caption="ID" Width="0px" Visible="False">
+						<jwg:GridEXColumn UseType="System.Single" Key="ID" HasValueList="True" DataMember="ID" DefaultGroupPrefix="ID:"
+							InvalidValueAction="DiscardChanges" Caption="ID" Width="0px" Visible="False">
 							<CellStyle Width="0px"></CellStyle>
 						</jwg:GridEXColumn>
 						<jwg:GridEXColumn UseType="System.DateTime" EditType="CalendarDropDown" Key="ApplicationDate" FormatString="dd/MM/yyyy"
-							DataMember="ApplicationDate" DefaultGroupPrefix="Application Date:" InvalidValueAction="DiscardChanges"
+							HasValueList="True" DataMember="ApplicationDate" DefaultGroupPrefix="Application Date:" InvalidValueAction="DiscardChanges"
 							Caption="Application Date" Width="140px">
 							<CellStyle Width="140px"></CellStyle>
 						</jwg:GridEXColumn>
-						<jwg:GridEXColumn UseType="System.String" Key="Rate" DataMember="Rate" DefaultGroupPrefix="Application Rate (kg/ha):"
+						<jwg:GridEXColumn UseType="System.String" Key="Rate" HasValueList="True" DataMember="Rate" DefaultGroupPrefix="Application Rate (kg/ha):"
 							InvalidValueAction="DiscardChanges" Caption="Application Rate (kg/ha)" Width="160px">
 							<CellStyle Width="160px"></CellStyle>
 						</jwg:GridEXColumn>

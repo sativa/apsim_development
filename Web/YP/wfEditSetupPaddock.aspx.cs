@@ -750,7 +750,10 @@ namespace YieldProphet
 			{
 			try
 				{
-				DisplaySoilChart(SoilSampleClass.GetChartData(SoilSampleClass.CreateSoilSampleOneXmlFile(ReturnSoilSampleOneDataTable()), cboSoilType.SelectedItem.Text));
+				string szSoilSampleXML = SoilSampleClass.CreateSoilSampleOneXmlFile(ReturnSoilSampleOneDataTable());
+				double dPAWC = SoilSampleClass.GetPAWC(szSoilSampleXML, cboSoilType.SelectedItem.Text);
+				double dPAW = SoilSampleClass.GetPAW(szSoilSampleXML, cboSoilType.SelectedItem.Text);
+				DisplaySoilChart(SoilSampleClass.GetChartData(szSoilSampleXML, cboSoilType.SelectedItem.Text), dPAWC, dPAW);
 				}
 			catch(Exception E)
 				{
@@ -764,17 +767,20 @@ namespace YieldProphet
 			{
 			try
 				{
-				DataTable dtPaddocksSoilSameple =
+				DataTable dtPaddocksSoilSample =
 					DataAccessClass.GetPaddocksSoilSample("GridOne", Session["SelectedPaddockName"].ToString(), 
 					FunctionsClass.GetActiveUserName());
 				DataTable dtSoilSampleFromDB = new DataTable();
-				if(dtPaddocksSoilSameple.Rows.Count > 0)
+				if(dtPaddocksSoilSample.Rows.Count > 0)
 					{
-					DisplaySoilChart(SoilSampleClass.GetChartData(dtPaddocksSoilSameple.Rows[0]["Data"].ToString(),cboSoilType.SelectedItem.Text));
+					string szSoilSampleXML = dtPaddocksSoilSample.Rows[0]["Data"].ToString();
+					double dPAWC = SoilSampleClass.GetPAWC(szSoilSampleXML, cboSoilType.SelectedItem.Text);
+					double dPAW = SoilSampleClass.GetPAW(szSoilSampleXML, cboSoilType.SelectedItem.Text);
+					DisplaySoilChart(SoilSampleClass.GetChartData(szSoilSampleXML ,cboSoilType.SelectedItem.Text), dPAWC, dPAW);
 					}
 				else
 					{
-					DisplaySoilChart(SoilSampleClass.GetChartData("", cboSoilType.SelectedItem.Text));
+					DisplaySoilChart(SoilSampleClass.GetChartData("", cboSoilType.SelectedItem.Text), 0.0, 0.0);
 					}
 				}
 			catch(Exception E)
@@ -791,11 +797,17 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		//
 		//-------------------------------------------------------------------------
-		private void DisplaySoilChart(DataTable dtSoilData)
+		private void DisplaySoilChart(DataTable dtSoilData, double dPAWC, double dPAW)
 			{
 			//Initialise the chart
 			cscSoilChart.Visible = true;
-			//cscSoilChart.Labels[0].Text = "Depth vs Water (%)";
+			string szSoilXml = DataAccessClass.GetSoilData(cboSoilType.SelectedValue);
+			if(szSoilXml != "")
+				{
+				cscSoilChart.Labels[1].Text = "PAWC = "+Math.Round(dPAWC, 2).ToString("F2")+"mm";
+				cscSoilChart.Labels[2].Text = "PAW = "+Math.Round(dPAW, 2).ToString("F2")+"mm";
+
+				}
 			Chart chtCustomChart;
 			chtCustomChart = cscSoilChart.Charts.GetAt( 0 );
 			chtCustomChart.Series.Clear();
@@ -818,10 +830,10 @@ namespace YieldProphet
 			//Initialise the series and fill with data from the passed in DataTable
 			LineSeries bsLL15LineSeries;
 			bsLL15LineSeries = ( LineSeries )chtCustomChart.Series.Add( SeriesType.Line );
-			bsLL15LineSeries.Name = "LL15";
+			bsLL15LineSeries.Name = "LL";
 			bsLL15LineSeries.DataLabels.Mode = DataLabelsMode.None;
 			bsLL15LineSeries.LineBorder.Color = Color.Red;
-			bsLL15LineSeries.Values.FillFromDataTable(dtSoilData, "LL15");
+			bsLL15LineSeries.Values.FillFromDataTable(dtSoilData, "LL");
 			//Initialise the series and fill with data from the passed in DataTable
 			LineSeries bsAirDryLineSeries;
 			bsAirDryLineSeries = ( LineSeries )chtCustomChart.Series.Add( SeriesType.Line );

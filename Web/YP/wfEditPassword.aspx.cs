@@ -71,9 +71,16 @@ namespace YieldProphet
 					{
 					try
 						{
-						DataAccessClass.UpdateGrower("", "", InputValidationClass.ValidateString(edtPasswordOne.Text),
-							Session["UserName"].ToString());
-						Server.Transfer("wfEditUserDetails.aspx");
+						DataAccessClass.UpdateUser("", "", InputValidationClass.ValidateString(edtPasswordOne.Text),
+							FunctionsClass.GetActiveUserName(), "", null);
+						if(Session["SelectedUserName"].ToString() == FunctionsClass.GetActiveUserName())
+							{
+							Server.Transfer("wfEditUser.aspx");
+							}
+						else
+							{
+							Server.Transfer("wfEditUserDetails.aspx");
+							}
 						}
 					catch(Exception E)
 						{

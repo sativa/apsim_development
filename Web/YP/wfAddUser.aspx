@@ -17,9 +17,9 @@
 				Width="100%" Height="48px" BackColor="PaleGoldenrod" HorizontalAlign="Left">
 				<DIV style="WIDTH: 184px; POSITION: relative; HEIGHT: 41px" ms_positioning="GridLayout">
 					<asp:LinkButton id="btnCancel" style="Z-INDEX: 101; LEFT: 104px; POSITION: absolute; TOP: 16px"
-						tabIndex="10" runat="server" Font-Size="Smaller" EnableViewState="False">Cancel</asp:LinkButton>
+						tabIndex="10" runat="server" EnableViewState="False" Font-Size="Smaller">Cancel</asp:LinkButton>
 					<asp:LinkButton id="btnSave" style="Z-INDEX: 100; LEFT: 32px; POSITION: absolute; TOP: 16px" tabIndex="8"
-						runat="server" Font-Size="Smaller" EnableViewState="False">Save</asp:LinkButton>
+						runat="server" EnableViewState="False" Font-Size="Smaller">Save</asp:LinkButton>
 					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 103; LEFT: 80px; POSITION: absolute; TOP: 16px"
 						tabIndex="9" runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 104; LEFT: 8px; POSITION: absolute; TOP: 16px" tabIndex="7"
@@ -45,7 +45,9 @@
 				runat="server" Height="16px" Width="88px">Access Type:</asp:Label>
 			<asp:Label id="lblConsultant" style="Z-INDEX: 112; LEFT: 24px; POSITION: absolute; TOP: 272px"
 				runat="server" Height="16px">Consultant:</asp:Label>
-			<asp:DropDownList id="cboConsultant" style="Z-INDEX: 113; LEFT: 120px; POSITION: absolute; TOP: 272px"
-				runat="server" Width="248px" tabIndex="6" Height="24px"></asp:DropDownList></form>
+			<asp:ListBox id="lstConsultants" style="Z-INDEX: 113; LEFT: 120px; POSITION: absolute; TOP: 272px"
+				runat="server" Height="168px" Width="248px" SelectionMode="Multiple"></asp:ListBox>
+			<asp:Label id="lblConsultantTwo" style="Z-INDEX: 114; LEFT: 144px; POSITION: absolute; TOP: 440px"
+				runat="server" Height="16px" Width="216px" Font-Size="Smaller">Hold Ctrl to select multiple Consultants</asp:Label></form>
 	</body>
 </HTML>

@@ -471,6 +471,10 @@ namespace YieldProphet
 									{
 									Server.Transfer("wfGenerateSowingXVarietyReport.aspx");
 									}
+								else if(cboReport.SelectedItem.Text == ReportClass.szFallowReport)
+									{
+									Server.Transfer("wfGenerateFallowReport.aspx");
+									}
 								else
 									{
 									if(chkSown.Checked == true)

@@ -75,8 +75,9 @@ namespace YieldProphet
 						{
 						try
 							{
-							DataAccessClass.UpdateGrower(InputValidationClass.ValidateString(edtName.Text),
-							InputValidationClass.ValidateString(edtEmail.Text), "", Session["UserName"].ToString());
+							DataAccessClass.UpdateUser(InputValidationClass.ValidateString(edtName.Text), 
+								InputValidationClass.ValidateString(edtEmail.Text), "", 
+								Session["UserName"].ToString(), "", null);
 							}
 						catch(Exception E)
 							{
@@ -107,6 +108,7 @@ namespace YieldProphet
 			{
 			try
 				{
+				Session["SelectedUserName"] = "";
 				DataTable dtUserDetails = DataAccessClass.GetDetailsOfUser(Session["UserName"].ToString());
 				edtName.Text = dtUserDetails.Rows[0]["Name"].ToString();
 				edtEmail.Text = dtUserDetails.Rows[0]["Email"].ToString();

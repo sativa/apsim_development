@@ -199,7 +199,7 @@ namespace YieldProphet
 								DataAccessClass.InsertPaddock(InputValidationClass.ValidateString(edtName.Text), "", 
 									cboCultivars.SelectedItem.Text, Session["SelectedUserName"].ToString());
 								}
-							Server.Transfer("wfViewGrowers.aspx");
+							Server.Transfer("wfManageUsers.aspx");
 							}
 						else
 							{
@@ -276,7 +276,7 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void btnCancel_Click(object sender, System.EventArgs e)
 			{
-			Server.Transfer("wfViewGrowers.aspx");
+			Server.Transfer("wfManageUsers.aspx");
 			}
 		//-------------------------------------------------------------------------
 		//When the cancel image is pressed the user is sent back to the 
@@ -284,7 +284,7 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void btnCancelImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
 			{
-			Server.Transfer("wfViewGrowers.aspx");
+			Server.Transfer("wfManageUsers.aspx");
 			}
 		//-------------------------------------------------------------------------	
 		#endregion

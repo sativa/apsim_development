@@ -17,14 +17,14 @@
 			<asp:Panel id="pnlTop" style="Z-INDEX: 103; LEFT: 0px; POSITION: absolute; TOP: 0px" runat="server"
 				Width="100%" Height="48px" BackColor="PaleGoldenrod" HorizontalAlign="Left">
 				<DIV style="WIDTH: 184px; POSITION: relative; HEIGHT: 41px" ms_positioning="GridLayout">
-					<asp:LinkButton id="btnCancel" style="Z-INDEX: 101; LEFT: 104px; POSITION: absolute; TOP: 16px"
+					<asp:LinkButton id="btnCancel" style="Z-INDEX: 101; LEFT: 120px; POSITION: absolute; TOP: 16px"
 						tabIndex="5" runat="server" EnableViewState="False" Font-Size="Smaller">Cancel</asp:LinkButton>
 					<asp:LinkButton id="btnSave" style="Z-INDEX: 100; LEFT: 32px; POSITION: absolute; TOP: 16px" tabIndex="3"
-						runat="server" EnableViewState="False" Font-Size="Smaller">Save</asp:LinkButton>
-					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 103; LEFT: 80px; POSITION: absolute; TOP: 16px"
+						runat="server" EnableViewState="False" Font-Size="Smaller">Do report</asp:LinkButton>
+					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 103; LEFT: 96px; POSITION: absolute; TOP: 16px"
 						tabIndex="4" runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 104; LEFT: 8px; POSITION: absolute; TOP: 16px" tabIndex="2"
-						runat="server" ImageUrl="Images\save.gif"></asp:ImageButton></DIV>
+						runat="server" ImageUrl="Images\reports.gif"></asp:ImageButton></DIV>
 			</asp:Panel>
 		</form>
 	</body>
