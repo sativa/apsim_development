@@ -10,6 +10,7 @@ USEFORM("TImageForm.cpp", ImageForm);
 USEFORM("TObjectInspectorForm.cpp", Form1);
 USEFORM("TRichTextForm.cpp", RichTextForm);
 USEFORM("TSEGTableForm.cpp", SEGTableForm);
+USEFORM("TFilterForm.cpp", FilterForm);
 USEFORM("TSOIForm.cpp", SOIForm);
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
