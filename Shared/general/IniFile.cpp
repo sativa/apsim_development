@@ -312,7 +312,7 @@ string getKeyValue(const string& line, const string& key)
    string keyFromLine;
    string valueFromLine;
    getKeyNameAndValue(line, keyFromLine, valueFromLine);
-   if (keyFromLine == key)
+   if (Str_i_Eq(keyFromLine, key))
       return valueFromLine;
    else
       return "";
@@ -323,12 +323,12 @@ string getKeyValue(const string& line, const string& key)
 void getKeyNameAndValue(const string& line, string& key, string& value)
    {
    int posEquals = line.find('=');
-   if (posEquals > 0)
+   if (posEquals != string::npos)
       {
       key = line.substr(0, posEquals);
       Strip(key, " ");
       value = line.substr(posEquals+1);
-      Strip(key, " ");
+      Strip(value, " ");
       }
    else
       {
