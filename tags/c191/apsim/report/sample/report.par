@@ -1,0 +1,26 @@
+[sample.report.parameters]  
+title =  Report Sample Simulation   
+screen_output =  on   
+outputfile =  report.out /overwrite   
+summaryfile =  report.sum /overwrite   
+
+module_names =   clock clock  met      met      met     
+variable_names =  day  year   sum@rain avg@maxt avg@mint   
+variable_alias =  -    -      RainSum  MaxtAvg  MintAvg   
+units =          -     -      -        -        -   
+
+[sample.clock.parameters]  
+! Start and end date of run (day number of year and year)
+simulation_start_day =  1   
+simulation_start_year =  1988   
+simulation_end_day =  30   
+simulation_end_year =  1988   
+
+[sample.manager.end_of_day]  
+if days_since_last_report = 5 then
+   report do_output
+endif
+
+
+
+
