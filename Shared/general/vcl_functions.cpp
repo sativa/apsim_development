@@ -260,7 +260,7 @@ void GENERAL_EXPORT Get_field_list (TDataSet* dataset, TStringList* field_names)
       field_names->Add (dataset->Fields->Fields[i]->FieldName);
    }
 
-#if __BORLANDC__ == 0x530
+//#if __BORLANDC__ == 0x530
 // ------------------------------------------------------------------
 //  Short description:
 //      copy the structure from one dataset to another for those
@@ -422,7 +422,7 @@ TFontStyles GENERAL_EXPORT FontStringToTFontStyles (const char* StyleString)
       }
    return FontStyles;
    }
-#endif
+//#endif
 
 // ------------------------------------------------------------------
 //  Short description:
