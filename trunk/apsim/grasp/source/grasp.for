@@ -1,34 +1,3 @@
-*     ===========================================================
-      character*(*) function grasp_version ()
-*     ===========================================================
-      implicit none
-      include 'error.pub'                         
-
-*+  Purpose
-*       return version number of grasp module
-
-*+  Changes
-*       011092 jngh specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'grasp_version')
-*
-      character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V0.21 080299')
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      grasp_version = version_number
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
 *     ================================================================
       subroutine APSIM_grasp (action, data_string)
 *     ================================================================
@@ -77,17 +46,11 @@
 *      261197 pdev added swim communication
 *      170398 pdev max_n changed to distribution over profile. (EP)
 *      310398 pdev bugs in root_proportion() causing max_n weirdness
-
-*+  Calls
-                                ! mes_report
-      character  grasp_version*15
+*      190599 jngh removed reference to version and mes_presence
 
 *+  Constant Values
       character  my_name*(*)    ! name of this procedure
       parameter (my_name='grasp')
-
-*+  Local Variables
-      character  module_name*(max_module_name_size) ! module name
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -96,14 +59,7 @@
       call set_fatal_off ()
       call set_warning_off ()
  
-      if (action.eq.mes_presence) then ! report presence
-         call get_current_module (module_name)
-         write(*, *) 'module_name = '
-     :              , trim(module_name)
-     :              // blank
-     :              // grasp_version ()
- 
-      elseif (action.eq.mes_init) then
+      if (action.eq.mes_init) then
             ! zero pools
          call grasp_zero_variables ()
             ! Get constants
@@ -2647,11 +2603,8 @@ c     Bound to reasonable values:
 
 *+  Changes
 *     010994 jngh specified and programmed
+*     190599 jngh removed reference to version
 
-*+  Calls
-                                ! lu_scr_sum
-*
-      character  grasp_version*20 ! function
 
 *+  Constant Values
       character  my_name*(*)    ! name of procedure
@@ -2665,8 +2618,7 @@ c     Bound to reasonable values:
  
       call push_routine (my_name)
  
-      call report_event (' Initialising, Version : '
-     :     // grasp_version ())
+      call report_event (' Initialising: ')
  
                                 ! initialize crop variables
       call grasp_read_constants ()

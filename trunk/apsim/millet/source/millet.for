@@ -756,8 +756,7 @@
 *+  Changes
 *      250894 jngh specified and programmed
 *      220696 jngh added message_unused to else
- 
-*+  Calls
+*      190599 jngh removed reference to version and mes_presence
  
 *+  Constant Values
       character  my_name*(*)           ! name of this procedure
@@ -794,13 +793,7 @@
 !       :         // g%last_mdl_name //' ' //g%stem_class//action)
 !        g%last_mdl_name = module_name
       
-      if (action.eq.mes_presence) then      ! report presence
-         write(*, *) 'module_name = '
-     :              , trim(module_name)
-     :              // blank
-     :              // millet_version ()
- 
-      elseif (action.eq.mes_init) then
+      if (action.eq.mes_init) then
             ! zero pools
          call millet_zero_variables ()
             ! Get constants
@@ -912,50 +905,6 @@
       call pop_routine (my_name)
       return
       end subroutine
-
-
-
-*     ===========================================================
-      character*(20) function millet_version ()
-*     ===========================================================
-      implicit none
-      include 'error.pub'                         
- 
-*+  Purpose
-*       Returns version number of crop module
- 
-*+  Notes
-*
-****    Rev 2.00   26 Oct 1997
-*
- 
-*+  Changes
-*       011092 jngh specified and programmed
-*       220696 jngh removed PVCS revision numbering
-!*       280497 ejvo made breadth, skewness linear function of leafnumber
-*       140797 gd made changes to use with new util
-*       261097 gol corrected tiller appearance & update to version 2.00
- 
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'millet_version')
-*
-      character  version_number*(*)    ! version number of module
-*
-      parameter (version_number = 'V2.01 150698')
- 
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      millet_version = version_number
-*
-****     Rev 2.00   26 Oct 1997
-*
-      call pop_routine (my_name)
-      return
-      end function
-
 
 
 
@@ -1497,8 +1446,7 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
 
 *+  Changes
 *     010994 jngh specified and programmed
-
-*+  Calls
+*     190599 jngh removed reference to version
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1508,8 +1456,7 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
  
       call push_routine (my_name)
  
-      call report_event (' Initialising, '
-     :                  // millet_version ())
+      call report_event (' Initialising: ')
  
            ! initialize crop variables
  
