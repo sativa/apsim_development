@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Data.OleDb;
 using System.Web;
+using System.Collections.Specialized;
 
 namespace YieldProphet
 	{
@@ -150,56 +151,39 @@ namespace YieldProphet
 			return dtResults;
 			}
 		//---------------------------------------------------------------------
-		//Saves a new grower to the database and assigns them to the consultant
-		//that added them to the database
+		//Saves a new user to the database
 		//---------------------------------------------------------------------
-		static public void InsertGrower(string szName, string szEmail, string szUserName,
-			string szPassword, string szConsultantName)
+		static public void InsertUser(string szName, string szEmail, string szUserName,
+			string szPassword, string szAccessType, StringCollection scConsultants)
 			{
-			int iGrowerID = 0;
+			int iUserID = 0;
 			int iConsultantID = 0;
-			int iAccessType = ReturnAccessTypeID(FunctionsClass.szGrower);
 			string szSalt = FunctionsClass.CreateSalt();
+			int iAccessTypeID = ReturnAccessTypeID(szAccessType);
 
 			string szSQL = "INSERT INTO Users "+
 				"(Name, Email, UserName, Salt, Pass, AccessTypeID) VALUES "+
 				"('"+szName+"', '"+szEmail+"', '"+szUserName+"', '"+szSalt+"', '"+
-				FunctionsClass.EncryptPassword(szPassword, szSalt)+"', "+iAccessType.ToString()+")";
+				FunctionsClass.EncryptPassword(szPassword, szSalt)+"', "+iAccessTypeID.ToString()+")";
 			RunSQLStatement(szSQL);
 
-			iGrowerID = ReturnUserIDFromUserName(szUserName);
-			iConsultantID = ReturnUserIDFromName(szConsultantName);
+			iUserID = ReturnUserIDFromUserName(szUserName);
 
-			szSQL = "INSERT INTO ConsultantUserMap "+
-				"(ConsultantID, UserID) VALUES "+
-				"("+iConsultantID.ToString()+", "+iGrowerID.ToString()+")";
-			RunSQLStatement(szSQL);
-
-			}
-		//---------------------------------------------------------------------
-		//Saves a new user to the database
-		//---------------------------------------------------------------------
-		static public void InsertUser(string szName, string szEmail, string szUserName,
-			string szPassword, string szAccessType)
-			{
-			string szSalt = FunctionsClass.CreateSalt();
-			int iAccessTypeID = ReturnAccessTypeID(szAccessType);
-			try
+			for(int iIndex = 0; iIndex < scConsultants.Count; iIndex++)
 				{
-				string szSQL = "INSERT INTO Users "+
-					"(Name, Email, UserName, Salt, Pass, AccessTypeID) VALUES "+
-					"('"+szName+"', '"+szEmail+"', '"+szUserName+"', '"+szSalt+"', '"+
-					FunctionsClass.EncryptPassword(szPassword, szSalt)+"', "+iAccessTypeID.ToString()+")";
+				iConsultantID = ReturnUserIDFromName(scConsultants[iIndex]);
+
+				szSQL = "INSERT INTO ConsultantUserMap "+
+					"(ConsultantID, UserID) VALUES "+
+					"("+iConsultantID.ToString()+", "+iUserID.ToString()+")";
 				RunSQLStatement(szSQL);
 				}
-			catch(Exception)
-				{}
 			}
 		//---------------------------------------------------------------------
-		//updates an existing grower in the database
+		//updates an existing user in the database
 		//---------------------------------------------------------------------
-		static public void UpdateGrower(string szName, string szEmail,
-			string szPassword, string szUserName)
+		static public void UpdateUser(string szName, string szEmail,
+			string szPassword, string szUserName, string szAccessType, StringCollection scConsultants)
 			{
 			System.Text.StringBuilder sbSQL = new System.Text.StringBuilder();
 			sbSQL.Append("UPDATE Users SET ");
@@ -211,6 +195,11 @@ namespace YieldProphet
 				{
 				sbSQL.Append("Email = '"+szEmail+"', ");
 				}
+			if(szAccessType != null && szAccessType != "")
+				{
+				int iAccessTypeID = ReturnAccessTypeID(szAccessType);
+				sbSQL.Append("AccessTypeID = "+iAccessTypeID.ToString()+", ");
+				}
 			if(szPassword != null && szPassword != "")
 				{
 				string szSalt = FunctionsClass.CreateSalt();
@@ -220,6 +209,18 @@ namespace YieldProphet
 			sbSQL.Append("UserName = '"+szUserName+"' ");
 			sbSQL.Append("WHERE UserName = '"+szUserName+"'");
 			RunSQLStatement(sbSQL.ToString());
+
+			if(scConsultants != null)
+				{
+				if(scConsultants.Count > 0)
+					{
+					RemoveUserFromConsultantUserMap(szUserName);
+					for(int iIndex = 0; iIndex < scConsultants.Count; iIndex++)
+						{
+						InsertUserIntoConsultantUserMap(scConsultants[iIndex], szUserName);	
+						}
+					}
+				}
 			}
 		//---------------------------------------------------------------------
 		//Takes a UserName and deletes that user from the database
@@ -238,32 +239,6 @@ namespace YieldProphet
 			RunSQLStatement(szSQL);
 
 			DeleteUsersPaddocks(szUserName);
-		}
-		//---------------------------------------------------------------------
-		//Takes a UserName of a consultant and returns all the growers assigned
-		//to that consultant
-		//---------------------------------------------------------------------
-		static public DataTable GetGrowersOfConsultant(string szUserName)
-			{
-			DataTable dtResults;
-			string szSQL = "SELECT Users_1.Name, Users_1.UserName "+
-				"FROM Users AS Users_1 INNER JOIN "+
-				"(Users INNER JOIN ConsultantUserMap ON Users.ID = ConsultantUserMap.ConsultantID) "+
-				"ON Users_1.ID = ConsultantUserMap.UserID "+
-				"WHERE Users.UserName='"+szUserName+"' "+
-				"ORDER BY Users.Name";
-			dtResults = ReturnMultipleValuesFromDB(szSQL);
-			return dtResults;
-			}
-		//---------------------------------------------------------------------
-		//Returns all users from the database
-		//---------------------------------------------------------------------
-		static public DataTable GetAllUsers()
-			{
-			DataTable dtResults;
-			string szSQL = "SELECT Users.Name, Users.UserName FROM Users ORDER BY Users.Name";
-			dtResults = ReturnMultipleValuesFromDB(szSQL);
-			return dtResults;
 			}
 		//---------------------------------------------------------------------
 		//Returns all consultants from the database
@@ -271,9 +246,71 @@ namespace YieldProphet
 		static public DataTable GetAllConsultants()
 			{
 			DataTable dtResults;
-			string szSQL = "SELECT Users.Name FROM Users "+
+			string szSQL = "SELECT Users.Name, Users.UserName FROM Users "+
 				"INNER JOIN AccessTypes ON Users.AccessTypeID = AccessTypes.ID "+
-				"WHERE AccessTypes.Type = '"+FunctionsClass.szConsultant+"'";
+				"WHERE AccessTypes.Type = '"+FunctionsClass.szConsultant+"' "+
+				"ORDER BY Users.Name";
+			dtResults = ReturnMultipleValuesFromDB(szSQL);
+			return dtResults;
+			}
+		//---------------------------------------------------------------------
+		//Get a list of all the users that belong to the the passed in Consultant's
+		//user name, if no username is passed in then all users are returned
+		//---------------------------------------------------------------------
+		static public DataTable GetUsersMappedToConsultant(string szUserName)
+			{
+			DataTable dtResults;
+			System.Text.StringBuilder sbSQL = new System.Text.StringBuilder();
+			sbSQL.Append("SELECT Users_1.Name AS Name, Users_1.UserName AS UserName, ");
+			sbSQL.Append("Users_1.ID AS ID, ConsultantUserMap.ConsultantID AS ParentID, ");
+			sbSQL.Append("AccessTypes.Type AS AccessType ");
+			sbSQL.Append("FROM AccessTypes INNER JOIN ");
+			sbSQL.Append("(Users AS Users_1 INNER JOIN ");
+			sbSQL.Append("(Users INNER JOIN ConsultantUserMap ON Users.ID = ConsultantUserMap.ConsultantID) ");
+			sbSQL.Append("ON Users_1.ID = ConsultantUserMap.UserID) ");
+			sbSQL.Append("ON AccessTypes.ID = Users_1.AccessTypeID ");
+			if(szUserName != null && szUserName != "")
+				{
+				sbSQL.Append("WHERE Users.UserName='"+szUserName+"' ");
+				}
+			sbSQL.Append("ORDER BY Users_1.Name, Users.Name");
+			dtResults = ReturnMultipleValuesFromDB(sbSQL.ToString());
+			return dtResults;
+			}
+		//---------------------------------------------------------------------
+		//Get a list of all the users that do not belong to the the passed in Consultant's
+		//user name, if no username is passed in then all users that do not
+		//have consultants are returned
+		//---------------------------------------------------------------------
+		static public DataTable GetUsersNotMappedToConsultant(string szUserName)
+			{
+			DataTable dtResults;
+			System.Text.StringBuilder sbSQL = new System.Text.StringBuilder();
+			sbSQL.Append("SELECT Users.Name AS Name, Users.ID AS ID, ");
+			sbSQL.Append("Users.UserName AS UserName, AccessTypes.Type AS AccessType ");
+			sbSQL.Append("FROM Users INNER JOIN AccessTypes ");
+			sbSQL.Append("ON Users.AccessTypeID = AccessTypes.ID ");
+			sbSQL.Append("WHERE Users.ID NOT IN  (SELECT UserID FROM ConsultantUserMap) ");
+			if(szUserName != null && szUserName != "")
+				{
+				sbSQL.Append("AND Users.UserName='"+szUserName+"'");
+				}
+			sbSQL.Append("ORDER BY Users.Name");
+			dtResults = ReturnMultipleValuesFromDB(sbSQL.ToString());
+			return dtResults;
+			}
+		//---------------------------------------------------------------------
+		//Gets all the consultants linked to the user
+		//---------------------------------------------------------------------
+		static public DataTable GetUsersConsultants(string szUserName)
+			{
+			DataTable dtResults;
+			string szSQL = "SELECT Users.UserName, Users.Name "+
+				"FROM Users AS Users_1 INNER JOIN "+
+				"(Users INNER JOIN ConsultantUserMap ON Users.ID = ConsultantUserMap.ConsultantID) "+
+				"ON Users_1.ID = ConsultantUserMap.UserID "+
+				"WHERE Users_1.UserName = '"+szUserName+"'";
+
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
 			}
@@ -307,6 +344,29 @@ namespace YieldProphet
 				DeletePaddock(drPaddock["Name"].ToString(), szUserName);
 				}
 			}	
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static private void InsertUserIntoConsultantUserMap(string szConsultantUserName, string szUserName)
+			{
+			int iUserID = ReturnUserIDFromUserName(szUserName);
+			int iConsultantID = ReturnUserIDFromUserName(szConsultantUserName);
+
+			string szSQL = "INSERT INTO ConsultantUserMap "+
+				"(ConsultantID, UserID) VALUES "+
+				"("+iConsultantID.ToString()+", "+iUserID.ToString()+")";
+			RunSQLStatement(szSQL);
+			}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static private void RemoveUserFromConsultantUserMap(string szUserName)
+		{
+			int iUserID = ReturnUserIDFromUserName(szUserName);
+			string szSQL = "DELETE FROM ConsultantUserMap "+
+				"WHERE UserID = "+iUserID.ToString();
+			RunSQLStatement(szSQL);
+		}
 		//---------------------------------------------------------------------
 		//Takes a username and returns the salt value of that user
 		//---------------------------------------------------------------------
@@ -1610,7 +1670,7 @@ namespace YieldProphet
 			}
 			*/
 			#endregion
-			
+		
 
 		}//END OF CLASS
 	}//END OF NAMESPACE

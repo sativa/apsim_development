@@ -56,6 +56,7 @@ namespace YieldProphet
 			this.btnSaveImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnSaveImg_Click);
 			this.btnCancelImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnCancelImg_Click);
 			this.cboAccessType.SelectedIndexChanged += new System.EventHandler(this.cboAccessType_SelectedIndexChanged);
+			this.btnPassword.Click += new System.EventHandler(this.btnPassword_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
@@ -79,16 +80,23 @@ namespace YieldProphet
 				string szAccessType = DataAccessClass.GetAccessTypeOfUser(FunctionsClass.GetActiveUserName());
 				if(szAccessType != "")
 					cboAccessType.SelectedValue = szAccessType;
-				if(szAccessType == FunctionsClass.szGrower || szAccessType == FunctionsClass.szVisitor)
+				if(FunctionsClass.IsAdministrator(Session["UserName"].ToString()) == true)
 					{
-					DisplayConsultantListBox();
-					SelectUsersConsultants();
+					if(szAccessType == FunctionsClass.szGrower || szAccessType == FunctionsClass.szVisitor)
+						{
+						DisplayConsultantListBox();
+						SelectUsersConsultants();
+						}
+					else
+						{
+						HideConsultantListBox();
+						}
 					}
 				else
 					{
+					cboAccessType.Enabled = false;
 					HideConsultantListBox();
 					}
-				
 				}
 			catch(Exception E)
 				{
@@ -99,19 +107,19 @@ namespace YieldProphet
 		//Fills the AccessType combo box with all the access types from the database
 		//---------------------------------------------------------------------------
 		private void FillAccessTypeCombo()
-		{
-			try
 			{
+			try
+				{
 				DataTable dtAccessTypes = DataAccessClass.GetAllAccessTypes();
 				cboAccessType.DataSource = dtAccessTypes;
 				cboAccessType.DataTextField = "Type";
 				cboAccessType.DataBind();
-			}
+				}
 			catch(Exception E)
-			{
+				{
 				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
-		}
 		//---------------------------------------------------------------------------
 		//Fills the consultant list box with all the consultants from the database
 		//---------------------------------------------------------------------------
@@ -134,21 +142,21 @@ namespace YieldProphet
 		//Makes the consultant list box and label visible to the user
 		//---------------------------------------------------------------------------
 		private void DisplayConsultantListBox()
-		{
+			{
 			FillConsultantsListBox();
 			lblConsultant.Visible = true;
 			lblConsultantTwo.Visible = true;
 			lstConsultants.Visible = true;	
-		}
+			}
 		//---------------------------------------------------------------------------
 		//Hides the consultant list box and label from the user
 		//---------------------------------------------------------------------------
 		private void HideConsultantListBox()
-		{
+			{
 			lblConsultant.Visible = false;
 			lblConsultantTwo.Visible = false;
 			lstConsultants.Visible = false;
-		}
+			}
 		//-------------------------------------------------------------------------
 		//Updates the existing grower's details in the database.
 		//-------------------------------------------------------------------------
@@ -160,7 +168,7 @@ namespace YieldProphet
 					{
 					DataAccessClass.UpdateUser(InputValidationClass.ValidateString(edtName.Text), 
 						InputValidationClass.ValidateString(edtEmail.Text), "", FunctionsClass.GetActiveUserName(),
-						ReturnConsultantCollection());
+						cboAccessType.SelectedValue, ReturnConsultantCollection());
 					Session["SelectedUserName"] = "";
 					Server.Transfer("wfManageUsers.aspx");
 					}
@@ -192,7 +200,7 @@ namespace YieldProphet
 				}
 			else if(FunctionsClass.IsConsultant(Session["UserName"].ToString()) == true)
 				{
-				scConsultants.Add(Session["UserName"].ToString());
+				scConsultants = null;
 				}
 			return scConsultants;
 			}
@@ -231,14 +239,6 @@ namespace YieldProphet
 				FunctionsClass.CheckForConsultantLevelPriviledges();
 				FunctionsClass.SetControlFocus("edtName", this);
 				FillForm();
-				if(FunctionsClass.IsConsultant(Session["UserName"].ToString()) == true)
-					{
-					if(cboAccessType.Items.Count > 0)
-						{
-						cboAccessType.SelectedValue = FunctionsClass.szGrower;
-						}
-					cboAccessType.Enabled = false;
-					}
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -287,6 +287,13 @@ namespace YieldProphet
 				{
 				HideConsultantListBox();
 				}
+			}
+		//---------------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------------
+		private void btnPassword_Click(object sender, System.EventArgs e)
+			{
+			Server.Transfer("wfEditPassword.aspx");
 			}	
 		//-------------------------------------------------------------------------
 		#endregion

@@ -14,29 +14,29 @@
 			<asp:Panel id="pnlTop" style="Z-INDEX: 101; LEFT: 0px; POSITION: absolute; TOP: 0px" runat="server"
 				BackColor="PaleGoldenrod" HorizontalAlign="Left" Width="100%" Height="48px">
 				<DIV style="WIDTH: 184px; POSITION: relative; HEIGHT: 41px" ms_positioning="GridLayout">
-					<asp:LinkButton id="btnCancel" style="Z-INDEX: 100; LEFT: 104px; POSITION: absolute; TOP: 16px"
+					<asp:LinkButton id="btnCancel" style="Z-INDEX: 100; LEFT: 120px; POSITION: absolute; TOP: 16px"
 						tabIndex="5" runat="server" Font-Size="Smaller" EnableViewState="False">Cancel</asp:LinkButton>
 					<asp:Button id="btnSave" style="Z-INDEX: 104; LEFT: 32px; POSITION: absolute; TOP: 16px" runat="server"
-						Height="16px" Width="40px" BackColor="Transparent" Font-Size="Smaller" Text="Save" Font-Underline="True"
+						Height="16px" Width="64px" BackColor="Transparent" Font-Size="Smaller" Text="Do report" Font-Underline="True"
 						BorderStyle="None" BorderColor="Transparent" ForeColor="Blue" Font-Names="Times New Roman"></asp:Button>
-					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 101; LEFT: 80px; POSITION: absolute; TOP: 16px"
+					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 101; LEFT: 96px; POSITION: absolute; TOP: 16px"
 						tabIndex="4" runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 102; LEFT: 8px; POSITION: absolute; TOP: 16px" tabIndex="2"
-						runat="server" ImageUrl="Images\save.gif"></asp:ImageButton></DIV>
+						runat="server" ImageUrl="Images\reports.gif"></asp:ImageButton></DIV>
 			</asp:Panel>
 			<jwg:gridEX id=grdNitrogen style="Z-INDEX: 116; LEFT: 216px; POSITION: absolute; TOP: 192px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch">
 				<RootTable DataMember="Nitrogen" Key="Nitrogen">
 					<Columns>
-						<jwg:GridEXColumn UseType="System.Single" Key="ID" DataMember="ID" DefaultGroupPrefix="ID:" InvalidValueAction="DiscardChanges"
-							Caption="ID" Width="0px" Visible="False">
+						<jwg:GridEXColumn UseType="System.Single" Key="ID" HasValueList="True" DataMember="ID" DefaultGroupPrefix="ID:"
+							InvalidValueAction="DiscardChanges" Caption="ID" Width="0px" Visible="False">
 							<CellStyle Width="0px"></CellStyle>
 						</jwg:GridEXColumn>
 						<jwg:GridEXColumn UseType="System.DateTime" EditType="CalendarDropDown" Key="ApplicationDate" FormatString="dd/MM/yyyy"
-							DataMember="ApplicationDate" DefaultGroupPrefix="Application Date:" InvalidValueAction="DiscardChanges"
+							HasValueList="True" DataMember="ApplicationDate" DefaultGroupPrefix="Application Date:" InvalidValueAction="DiscardChanges"
 							Caption="Application Date" Width="140px">
 							<CellStyle Width="140px"></CellStyle>
 						</jwg:GridEXColumn>
-						<jwg:GridEXColumn UseType="System.String" Key="Rate" DataMember="Rate" DefaultGroupPrefix="Application Rate (kg/ha):"
+						<jwg:GridEXColumn UseType="System.String" Key="Rate" HasValueList="True" DataMember="Rate" DefaultGroupPrefix="Application Rate (kg/ha):"
 							InvalidValueAction="DiscardChanges" Caption="Application Rate (kg/ha)" Width="160px">
 							<CellStyle Width="160px"></CellStyle>
 						</jwg:GridEXColumn>
@@ -105,12 +105,12 @@
 				runat="server" Width="64px" Height="16px">Variety 2:</asp:label>
 			<asp:label id="lblVarietyThree" style="Z-INDEX: 103; LEFT: 296px; POSITION: absolute; TOP: 416px"
 				runat="server" Width="64px" Height="16px">Variety 3:</asp:label>
-			<jwg:gridEX id=grdSowDateOne style="Z-INDEX: 113; LEFT: 176px; POSITION: absolute; TOP: 336px" runat="server" Width="120px" Height="20px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsSowDate %>" DataMember="SowDate" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" ColumnHeaders="False">
+			<jwg:gridEX id=grdSowDateOne style="Z-INDEX: 113; LEFT: 176px; POSITION: absolute; TOP: 336px" runat="server" Width="120px" Height="20px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsSowDate %>" DataMember="SowDate" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" ColumnHeaders="False" UpdateMode="RowUpdateBatch">
 				<RootTable DataMember="SowDate" Key="SowDate">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.DateTime" EditType="CalendarDropDown" Key="SowDate" FormatString="dd/MM/yyyy"
-							DataMember="SowDate" DefaultGroupPrefix="SowDate:" InvalidValueAction="DiscardChanges" NullText=""
-							Caption="SowDate"></jwg:GridEXColumn>
+							HasValueList="True" DataMember="SowDate" DefaultGroupPrefix="SowDate:" InvalidValueAction="DiscardChanges"
+							NullText="" Caption="SowDate"></jwg:GridEXColumn>
 					</Columns>
 				</RootTable>
 				<NewRowFormatStyle BackColor="Window" ForeColor="WindowText" Height="20px"></NewRowFormatStyle>
@@ -160,12 +160,12 @@
 				runat="server" Width="144px" Height="16px">Sowing date scenario 2:</asp:Label>
 			<asp:Label id="lblSowingDateThree" style="Z-INDEX: 118; LEFT: 24px; POSITION: absolute; TOP: 416px"
 				runat="server" Width="144px" Height="16px">Sowing date scenario 3:</asp:Label>
-			<jwg:gridEX id=grdSowDateTwo style="Z-INDEX: 114; LEFT: 176px; POSITION: absolute; TOP: 376px" runat="server" Width="120px" Height="20px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsSowDate %>" DataMember="SowDate" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" ColumnHeaders="False">
+			<jwg:gridEX id=grdSowDateTwo style="Z-INDEX: 114; LEFT: 176px; POSITION: absolute; TOP: 376px" runat="server" Width="120px" Height="20px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsSowDate %>" DataMember="SowDate" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" ColumnHeaders="False" UpdateMode="RowUpdateBatch">
 				<RootTable DataMember="SowDate" Key="SowDate">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.DateTime" EditType="CalendarDropDown" Key="SowDate" FormatString="dd/MM/yyyy"
-							DataMember="SowDate" DefaultGroupPrefix="SowDate:" InvalidValueAction="DiscardChanges" NullText=""
-							Caption="SowDate"></jwg:GridEXColumn>
+							HasValueList="True" DataMember="SowDate" DefaultGroupPrefix="SowDate:" InvalidValueAction="DiscardChanges"
+							NullText="" Caption="SowDate"></jwg:GridEXColumn>
 					</Columns>
 				</RootTable>
 				<NewRowFormatStyle BackColor="Window" ForeColor="WindowText" Height="20px"></NewRowFormatStyle>
@@ -209,12 +209,12 @@
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
 			</jwg:gridEX>
-			<jwg:gridEX id=grdSowDateThree style="Z-INDEX: 115; LEFT: 176px; POSITION: absolute; TOP: 416px" runat="server" Width="120px" Height="20px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsSowDate %>" DataMember="SowDate" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" ColumnHeaders="False">
+			<jwg:gridEX id=grdSowDateThree style="Z-INDEX: 115; LEFT: 176px; POSITION: absolute; TOP: 416px" runat="server" Width="120px" Height="20px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsSowDate %>" DataMember="SowDate" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" ColumnHeaders="False" UpdateMode="RowUpdateBatch">
 				<RootTable DataMember="SowDate" Key="SowDate">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.DateTime" EditType="CalendarDropDown" Key="SowDate" FormatString="dd/MM/yyyy"
-							DataMember="SowDate" DefaultGroupPrefix="SowDate:" InvalidValueAction="DiscardChanges" NullText=""
-							Caption="SowDate"></jwg:GridEXColumn>
+							HasValueList="True" DataMember="SowDate" DefaultGroupPrefix="SowDate:" InvalidValueAction="DiscardChanges"
+							NullText="" Caption="SowDate"></jwg:GridEXColumn>
 					</Columns>
 				</RootTable>
 				<NewRowFormatStyle BackColor="Window" ForeColor="WindowText" Height="20px"></NewRowFormatStyle>

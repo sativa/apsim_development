@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.IO;
 namespace CSGeneral
-	{
+{
 	/// <summary>
 	/// This class implements a macro language  e.g.
 	///
@@ -23,20 +23,20 @@ namespace CSGeneral
 
 	/// </summary>
 	public class Macro
-		{
+	{
 		// -----------------------
 		//	constructor
 		// -----------------------
 		public Macro()
-			{
+		{
 
-			}
+		}
 		// ------------------------------------------------------------------
 		// Go generate all files, putting all files in the specified OutputDirectory.
 		// This method returns a list of filenames that were generated.
 		// ------------------------------------------------------------------
 		public string Go(APSIMData MacroValues, string MacroContents)
-			{
+		{
 			StringCollection AliasNames = new StringCollection();
 			APSIMData[] AliasNodes = new APSIMData[100];
 
@@ -44,37 +44,38 @@ namespace CSGeneral
 			AliasNodes[0] = MacroValues;
 
 			string Contents = MacroContents;
-            ParseIncludes(ref Contents);
+			ParseIncludes(ref Contents);
 			ParseComments(ref Contents);
 
 			Contents = ParseForEach(Contents, MacroValues, AliasNames, AliasNodes);
 			ReplaceGlobalMacros(ref Contents, MacroValues);
 			ParseIf(ref Contents);
 			return Contents;
-			}
+		}
 		// ------------------------------------------------------------------
 		// Go generate all files, putting all files in the specified OutputDirectory.
 		// This method returns a list of filenames that were generated.
 		// ------------------------------------------------------------------
 		public StringCollection Go(APSIMData MacroValues, string MacroContents, string OutputDirectory)
-			{
+		{
 			string Contents = Go(MacroValues, MacroContents);
+			Contents = ReplaceHTMLSymbols(Contents);
 			return WriteStringToFiles(Contents, OutputDirectory);
-			}
+		}
 		// ------------------------------------------------------------------
 		// Parse and remove all foreach macros from specified string.
 		// Contents is the full text to parse.
 		//
 		// ------------------------------------------------------------------
 		string ParseForEach(string Contents,
-												APSIMData ValuesNode,
-												StringCollection AliasNames,
-												APSIMData[] AliasNodes)
-			{
+			APSIMData ValuesNode,
+			StringCollection AliasNames,
+			APSIMData[] AliasNodes)
+		{
 			// Locate the next foreach macro.
 			int PosForEach = FindForEachMacro(Contents, 0);
 			while (PosForEach != -1)
-				{
+			{
 				// ok found a foreach - now parse it to get the variable alias before the 'in' keyword
 				// and the variable name after the 'in' keyword.
 				// e.g. [foreach scrop in s.crop]
@@ -105,21 +106,21 @@ namespace CSGeneral
 				string Body = "";
 				StringCollection ChildNodeNames = MacroNode.ChildList(NodeType);
 				foreach (string ChildName in ChildNodeNames)
-						{
-						AliasNames.Add(ForEachAlias);
-						AliasNodes[AliasNames.Count-1] = MacroNode.Child(ChildName);
+				{
+					AliasNames.Add(ForEachAlias);
+					AliasNodes[AliasNames.Count-1] = MacroNode.Child(ChildName);
 
-						// recurse back and create a new for each body.
-						string NewForEachBody = ParseForEach(ForEachText, ValuesNode, AliasNames, AliasNodes);
+					// recurse back and create a new for each body.
+					string NewForEachBody = ParseForEach(ForEachText, ValuesNode, AliasNames, AliasNodes);
 
-						// Replace any macros in this new text.
-						ReplaceLocalMacros(ref NewForEachBody, AliasNames, AliasNodes);
+					// Replace any macros in this new text.
+					ReplaceLocalMacros(ref NewForEachBody, AliasNames, AliasNodes);
 
-						// Remove local alias'
-						AliasNames.Remove(ForEachAlias);
+					// Remove local alias'
+					AliasNames.Remove(ForEachAlias);
 
-						Body += NewForEachBody;
-						}
+					Body += NewForEachBody;
+				}
 
 				ForEachText = Body;
 
@@ -127,18 +128,18 @@ namespace CSGeneral
 
 				// locate next for_each
 				PosForEach = FindForEachMacro(Contents, 0);
-				}
-			return Contents;
 			}
+			return Contents;
+		}
 		// ------------------------------------------------------------------
 		// Adjust the start position of a macro. This routine will remove
 		// unwanted spaces on the front of the macro if the macro has
 		// nothing before it on the line.
 		// ------------------------------------------------------------------
 		int AdjustStartPos(string Contents, int PosStartOfMacro)
-			{
+		{
 			if (PosStartOfMacro > 0)
-				{
+			{
 				int Pos = PosStartOfMacro-1;
 				while (Pos > 0 && Contents[Pos] == ' ')
 					Pos--;
@@ -147,10 +148,10 @@ namespace CSGeneral
 					return Pos + 1;
 				else
 					return PosStartOfMacro;
-				}
+			}
 			else
 				return 0;
-			}
+		}
 		// ------------------------------------------------------------------
 		// Adjust the end position of a macro. This routine will remove
 		// unwanted spaces and a carriage return on end of the macro
@@ -158,7 +159,7 @@ namespace CSGeneral
 		// the end of the line.
 		// ------------------------------------------------------------------
 		int AdjustEndPos(string Contents, int PosMacro)
-			{
+		{
 			int PosEndOfMacro = PosMacro;
 			if (Contents[PosMacro] != ']')
 				PosEndOfMacro = Contents.IndexOf(']', PosMacro);
@@ -171,14 +172,14 @@ namespace CSGeneral
 				return Pos + 1;
 			else
 				return PosEndOfMacro;
-			}
+		}
 		//---------------------------------------------------------------
 		// Find the start of a foreach macro in the specified contents.
 		//---------------------------------------------------------------
 		int FindForEachMacro(string Contents, int StartPos)
-			{
+		{
 			return Contents.IndexOf("[foreach ", StartPos);
-			}
+		}
 		// -------------------------------------------------
 		// Parses a string like: [foreach simulation.soil as s]
 		//		Returns:
@@ -187,8 +188,8 @@ namespace CSGeneral
 		//			NodeType = soil
 		// -------------------------------------------------
 		void ParseForEachMacro(string Contents, int PosForEach, out string ForEachAlias,
-															out string NodeName, out string NodeType, out int PosAfterForEach)
-			{
+			out string NodeName, out string NodeType, out int PosAfterForEach)
+		{
 			PosAfterForEach = Contents.IndexOf("]", PosForEach);
 			if (PosAfterForEach == -1)
 				throw new Exception("Expected a ']' character while trying to parse a foreach macro");
@@ -211,32 +212,32 @@ namespace CSGeneral
 
 			// Parse the alias if it exists.
 			if (words.Length == 4)
-				{
+			{
 				if (words[2] != "as")
 					throw new Exception("Expected an 'as' keyword while trying to parse a foreach macro. Got a '" + words[2] + "' instead.");
 				if (words[3] == "")
 					throw new Exception("Expected an alias after an 'as' keyword while trying to parse a foreach macro");
 				ForEachAlias = words[3];
-				}
+			}
 			else if (words.Length == 2)
 				ForEachAlias = NodeType;
 			else
 				throw new Exception("Invalid foreach macro at : " + Contents);
 			PosAfterForEach = AdjustEndPos(Contents, PosAfterForEach);
-			}
+		}
 		//---------------------------------------------------------------
 		// Parse the endfor macro and return the position to just after
 		// the macro.
 		//---------------------------------------------------------------
 		int ParseEndForMacro(string Contents, int PosEndForEach)
-			{
+		{
 			return AdjustEndPos(Contents, PosEndForEach);
-			}
+		}
 		//---------------------------------------------------------------
 		// Find the matching endfor for the specified foreach.
 		//---------------------------------------------------------------
 		int FindMatchingEndFor(string Contents, int PosForEachBody)
-			{
+		{
 			// There may be nested loops - therefore
 			// need to count #for_each and #endfor statements until
 			// count = 0
@@ -244,116 +245,116 @@ namespace CSGeneral
 			int CurrentPos = PosForEachBody;
 			int Count = 1;
 			while (Count > 0)
-				{
+			{
 				int PosForEach = FindForEachMacro(Contents, CurrentPos);
 				PosEndFor = Contents.IndexOf("[endfor]", CurrentPos);
 				if (PosForEach != -1 && PosForEach < PosEndFor)
-					{
+				{
 					Count++;
 					CurrentPos = PosForEach + 1;
-					}
+				}
 				else
-					{
+				{
 					Count--;
 					CurrentPos = PosEndFor;
-					}
-				CurrentPos++;
 				}
+				CurrentPos++;
+			}
 			if (PosEndFor == -1)
 				throw new Exception("Missing an [endfor] macro");
 
 			return PosEndFor;
-			}
+		}
 		//---------------------------------------------------------------
 		// Resolve the specified alias into an APSIMData node.
 		//---------------------------------------------------------------
 		APSIMData ResolveNode(string Alias, StringCollection AliasNames, APSIMData[] AliasNodes)
-			{
+		{
 			int PosAlias = AliasNames.IndexOf(Alias);
 			if (PosAlias == -1)
 				throw new Exception("Invalid alias specified in foreach macro: " + Alias);
 
 			return AliasNodes[PosAlias];
-			}
+		}
 		//---------------------------------------------------------------
 		// Replace all macros in the specified Contents.
 		//---------------------------------------------------------------
 		void ReplaceLocalMacros(ref string Contents, StringCollection AliasNames, APSIMData[] AliasNodes)
-			{
+		{
 			char[] delimiters = {'.'};
 
 			int PosStartMacro = Contents.IndexOf('[');
 			while (PosStartMacro != -1)
-				{
+			{
 				int PosEndMacro = Contents.IndexOf(']', PosStartMacro);
 				string Macro = Contents.Substring(PosStartMacro+1, PosEndMacro-PosStartMacro-1);
 				string[] words = Macro.Split(delimiters, 2);
 				if (words.Length == 2)
-					{
+				{
 					int PosAlias = AliasNames.IndexOf(words[0]);
 					if (PosAlias != -1)
-						{
+					{
 						APSIMData node = AliasNodes[PosAlias];
 						try
-							{
+						{
 							string Value = GetValueFromNode(node, words[1]);
 							Contents = Contents.Remove(PosStartMacro, Macro.Length+2);
 							Contents = Contents.Insert(PosStartMacro, Value);
-							}
-						catch (Exception)
-							{ }
 						}
+						catch (Exception)
+						{ }
 					}
-				PosStartMacro = Contents.IndexOf('[', PosStartMacro+1);
 				}
+				PosStartMacro = Contents.IndexOf('[', PosStartMacro+1);
 			}
+		}
 		//---------------------------------------------------------------
 		// Replace global macros in the specified Contents.
 		//---------------------------------------------------------------
 		void ReplaceGlobalMacros(ref string Contents, APSIMData Values)
-			{
+		{
 			char[] delimiters = {'.'};
 
 			int PosStartMacro = Contents.IndexOf('[');
 			while (PosStartMacro != -1)
-				{
+			{
 				int PosEndMacro = Contents.IndexOf(']', PosStartMacro);
 				string Macro = Contents.Substring(PosStartMacro+1, PosEndMacro-PosStartMacro-1);
 				int PosPeriod = Macro.IndexOf(".");
 				if (PosPeriod != -1)
-					{
+				{
 					string MacroFirstBit = Macro.Substring(0, PosPeriod);
 					if (MacroFirstBit == Values.Name)
 						Macro = Macro.Substring(PosPeriod+1);
-					}
+				}
 
 				try
-					{
+				{
 					string Value = GetValueFromNode(Values, Macro);
 					if (Value != "")
-						{
+					{
 						Contents = Contents.Remove(PosStartMacro, PosEndMacro-PosStartMacro-1+2);
 						Contents = Contents.Insert(PosStartMacro, Value);
-						}
 					}
-				catch (Exception)
-					{
-					}
-				PosStartMacro = Contents.IndexOf('[', PosStartMacro+1);
 				}
+				catch (Exception)
+				{
+				}
+				PosStartMacro = Contents.IndexOf('[', PosStartMacro+1);
 			}
+		}
 		//---------------------------------------------------------------
 		// Return a attribute value or child value from the specified child node
 		//---------------------------------------------------------------
 		string GetValueFromNode(APSIMData Child, string Macro)
-			{
+		{
 			int PosLastPeriod = Macro.LastIndexOf('.');
 			if (PosLastPeriod != -1)
-				{
+			{
 				string ChildName = Macro.Substring(0, PosLastPeriod);
 				Macro = Macro.Substring(PosLastPeriod+1);
 				Child = Child.FindChild(ChildName, '.');
-				}
+			}
 
 			string Value;
 			if (Macro == "name")
@@ -369,23 +370,23 @@ namespace CSGeneral
 			if (Macro == "xml")
 				Value = Child.XML;
 			else if (Macro == "innerxml")
-			   Value = Child.InnerXML;
+				Value = Child.InnerXML;
 			else
 				Value = Child.Child(Macro).InnerXML;
 
 			return Value;
-			}
+		}
 
 		//---------------------------------------------------------------
 		// Parse all if statements.
 		//---------------------------------------------------------------
 		void ParseIf(ref string Contents)
-			{
+		{
 			int PosElseIf = 0;
 			int PosElse = 0;
 			int PosCondition = Contents.IndexOf("[if");
 			while (PosCondition != -1 && PosCondition != Contents.Length)
-				{
+			{
 				int PosEndMacro = FindMatchingCloseBracket(ref Contents, PosCondition+1);
 				int PosEndIf = Contents.IndexOf("[endif]", PosCondition+1);
 				int PosNextElse = Contents.IndexOf("[else]", PosCondition+1);
@@ -403,13 +404,13 @@ namespace CSGeneral
 					ok = true;
 
 				else
-					{
+				{
 					int PosSpace = Contents.IndexOf(' ', PosCondition);
 
 					ok = EvaluateIf(Contents.Substring(PosSpace, PosEndMacro-PosSpace));
-					}
+				}
 				if (ok)
-					{
+				{
 					PosEndBlock = AdjustStartPos(Contents, PosEndBlock);
 					PosEndIf = AdjustEndPos(Contents, PosEndIf);
 
@@ -420,9 +421,9 @@ namespace CSGeneral
 					PosEndMacro = AdjustEndPos(Contents, PosEndMacro);
 					PosCondition = AdjustStartPos(Contents, PosCondition);
 					Contents = Contents.Remove(PosCondition, PosEndMacro-PosCondition);
-					}
+				}
 				else
-					{
+				{
 					// remove everything from start of condition down to end of block.
 					PosCondition = AdjustStartPos(Contents, PosCondition);
 					if (PosEndBlock == PosEndIf)
@@ -430,7 +431,7 @@ namespace CSGeneral
 					else
 						PosEndBlock = AdjustStartPos(Contents, PosEndBlock);
 					Contents = Contents.Remove(PosCondition, PosEndBlock-PosCondition);
-					}
+				}
 
 				int PosIf = Contents.IndexOf("[if");
 				PosElse = Contents.IndexOf("[else]");
@@ -443,37 +444,37 @@ namespace CSGeneral
 					PosElseIf = Contents.Length;
 
 				PosCondition = Math.Min(Math.Min(PosIf, PosElse), PosElseIf);
-				}
 			}
+		}
 
 		//---------------------------------------------------------------
 		// Find the matching close bracket starting from the specified
 		// position 
 		//---------------------------------------------------------------
 		int FindMatchingCloseBracket(ref string Contents, int Pos)
-			{
+		{
 			int Count = 1;
 			while (Pos < Contents.Length && Count != 0)
-				{
+			{
 				if (Contents[Pos] == '[')
 					Count++;
 				if (Contents[Pos] == ']')
 					Count--;
 				Pos++;
-				}
+			}
 			if (Count != 0)
 				throw new Exception("Badly formed if statement: " + Contents.Substring(Pos));
 			return Pos-1;
-			}
+		}
 
 		//---------------------------------------------------------------
 		// Parse all comment statements and remove.
 		//---------------------------------------------------------------
 		void ParseComments(ref string Contents)
-			{
+		{
 			int PosComment = Contents.IndexOf("[comment]");
 			while (PosComment != -1)
-				{
+			{
 				PosComment = AdjustStartPos(Contents, PosComment);
 				int PosEndComment = Contents.IndexOf("[endcomment]");
 				if (PosEndComment == -1)
@@ -481,8 +482,8 @@ namespace CSGeneral
 				PosEndComment = AdjustEndPos(Contents, PosEndComment);
 				Contents = Contents.Remove(PosComment, PosEndComment-PosComment);
 				PosComment = Contents.IndexOf("[comment]");
-				}
 			}
+		}
 		//---------------------------------------------------------------
 		// Parse all comment statements and remove.
 		//---------------------------------------------------------------
@@ -503,9 +504,9 @@ namespace CSGeneral
 				filename = filename.Replace("%apsuite",APSIMSettings.ApsimDirectory());
 				string oldtext = Contents.Substring(PosInclude,PosEndInclude-PosInclude);
 				if (!File.Exists(filename))
-   				   throw new Exception("file not found: "+filename);
-                StreamReader sr=new StreamReader(filename);
-                string newtext = sr.ReadToEnd();
+					throw new Exception("file not found: "+filename);
+				StreamReader sr=new StreamReader(filename);
+				string newtext = sr.ReadToEnd();
                 
 				Contents = Contents.Replace(oldtext,newtext);
 				PosInclude = Contents.IndexOf("[include]");
@@ -516,14 +517,14 @@ namespace CSGeneral
 		// to true.
 		//---------------------------------------------------------------
 		bool EvaluateIf(string IfMacro)
-			{
+		{
 			StringCollection s = StringManip.SplitStringHonouringQuotes(IfMacro, " ");
 
 			if (s.Count == 1)
 				return (s[0].IndexOf('[') == -1 || s[0].IndexOf(']') == -1);
 
-//			if (s.Count != 3)
-//				throw new Exception("Badly formatted if statement: " + IfMacro);
+			//			if (s.Count != 3)
+			//				throw new Exception("Badly formatted if statement: " + IfMacro);
 			char[] operators = {'<', '>'};
 			string lhs = s[0];
 			string op = s[1];
@@ -539,7 +540,7 @@ namespace CSGeneral
 
 
 			else
-				{
+			{
 				double lhsValue = Convert.ToDouble(lhs);
 				double rhsValue = Convert.ToDouble(rhs);
 				if (op == "<")
@@ -552,9 +553,9 @@ namespace CSGeneral
 					return (lhsValue >= rhsValue);
 				else
 					throw new Exception("Unknown if macro operator: " + op);
-				}
-
 			}
+
+		}
 		//---------------------------------------------------------------
 		// Write specified contents to files.
 		//---------------------------------------------------------------
@@ -589,5 +590,20 @@ namespace CSGeneral
 				}
 			return FileNamesCreated;
 			}
+		
+		//---------------------------------------------------------------
+		// Replaces HTML symbols with the correct symbols.  For example 
+		// &amp; becomes &
+		//---------------------------------------------------------------
+		string ReplaceHTMLSymbols(string Contents)
+			{
+			Contents = Contents.Replace("&amp;", "&");
+			Contents = Contents.Replace("&lt;", "<");
+			Contents = Contents.Replace("&gt;", ">");
+			Contents = Contents.Replace("&quot;", "\"");
+			Contents = Contents.Replace("&nbsp;", " ");
+			return Contents;
+			}
 		}
 	}
+

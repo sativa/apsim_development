@@ -282,22 +282,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "wfAddGrower.aspx"
-                    SubType = "Form"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "wfAddGrower.aspx.cs"
-                    DependentUpon = "wfAddGrower.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "wfAddGrower.aspx.resx"
-                    DependentUpon = "wfAddGrower.aspx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "wfAddPaddock.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
@@ -375,22 +359,6 @@
                 <File
                     RelPath = "wfEditClimateForecast.aspx.resx"
                     DependentUpon = "wfEditClimateForecast.aspx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "wfEditGrower.aspx"
-                    SubType = "Form"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "wfEditGrower.aspx.cs"
-                    DependentUpon = "wfEditGrower.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "wfEditGrower.aspx.resx"
-                    DependentUpon = "wfEditGrower.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -490,6 +458,22 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "wfEditUser.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfEditUser.aspx.cs"
+                    DependentUpon = "wfEditUser.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfEditUser.aspx.resx"
+                    DependentUpon = "wfEditUser.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "wfEditUserDetails.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
@@ -503,6 +487,22 @@
                 <File
                     RelPath = "wfEditUserDetails.aspx.resx"
                     DependentUpon = "wfEditUserDetails.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfGenerateFallowReport.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfGenerateFallowReport.aspx.cs"
+                    DependentUpon = "wfGenerateFallowReport.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfGenerateFallowReport.aspx.resx"
+                    DependentUpon = "wfGenerateFallowReport.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -567,6 +567,22 @@
                 <File
                     RelPath = "wfLogin.aspx.resx"
                     DependentUpon = "wfLogin.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfManageUsers.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfManageUsers.aspx.cs"
+                    DependentUpon = "wfManageUsers.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfManageUsers.aspx.resx"
+                    DependentUpon = "wfManageUsers.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -724,22 +740,6 @@
                 <File
                     RelPath = "wfViewDropDowns.aspx.resx"
                     DependentUpon = "wfViewDropDowns.aspx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "wfViewGrowers.aspx"
-                    SubType = "Form"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "wfViewGrowers.aspx.cs"
-                    DependentUpon = "wfViewGrowers.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "wfViewGrowers.aspx.resx"
-                    DependentUpon = "wfViewGrowers.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

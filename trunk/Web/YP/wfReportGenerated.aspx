@@ -15,7 +15,7 @@
 			<asp:LinkButton id="btnBack" style="Z-INDEX: 102; LEFT: 456px; POSITION: absolute; TOP: 312px" tabIndex="5"
 				runat="server" Font-Size="Smaller" EnableViewState="False">Back to Paddock page</asp:LinkButton>
 			<asp:Label id="lblNotice" style="Z-INDEX: 103; LEFT: 168px; POSITION: absolute; TOP: 280px"
-				runat="server">Your request was successfull.  The report is now being generated and you will recieve an email when it is completed.</asp:Label>
+				runat="server">Your request was successful.  The report is now being generated and you will receive an email when it is completed.</asp:Label>
 		</form>
 	</body>
 </HTML>

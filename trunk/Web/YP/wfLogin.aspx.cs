@@ -29,10 +29,10 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.HyperLink hylWarning;
 		protected System.Web.UI.WebControls.Label lblFurtherDetails;
 		protected System.Web.UI.WebControls.HyperLink hylEmail;
-		protected System.Web.UI.WebControls.Label Label1;
 		protected System.Web.UI.WebControls.Button RegistrationButton;
 		protected System.Web.UI.WebControls.Label lblSurvey;
 		protected System.Web.UI.WebControls.Button btnSurvey;
+		protected System.Web.UI.WebControls.Label lblRegInfo;
 		protected System.Web.UI.WebControls.Image imgSide;
 
 
@@ -73,6 +73,10 @@ namespace YieldProphet
 			{
 			try
 				{
+				Session["UserName"] = "";
+				Session["SelectedUserName"] = "";
+				Session["SelectedPaddockName"] = "";
+				Session["SelectedReportName"] = "";
 				if(DataAccessClass.AuthenticateUser(InputValidationClass.ValidateString(edtUserName.Text),
 					InputValidationClass.ValidateString(edtPassword.Text)) == true)
 					{

@@ -12,10 +12,10 @@
 	<body MS_POSITIONING="GridLayout" bgColor="palegoldenrod">
 		<form id="Form1" method="post" runat="server">
 			<asp:Panel id="pnlSideBar" style="Z-INDEX: 101; LEFT: 0px; POSITION: absolute; TOP: 0px" runat="server"
-				HorizontalAlign="Left" BackColor="PaleGoldenrod" Height="556px" Width="160px" Wrap="False"
+				HorizontalAlign="Left" BackColor="PaleGoldenrod" Height="536px" Width="160px" Wrap="False"
 				tabIndex="-1">
 				<P></P>
-				<DIV id="SidePanelGrid" style="WIDTH: 161px; POSITION: relative; HEIGHT: 546px" tabIndex="-1"
+				<DIV id="SidePanelGrid" style="WIDTH: 161px; POSITION: relative; HEIGHT: 504px" tabIndex="-1"
 					ms_positioning="GridLayout">
 					<asp:Panel id="pnlGrower" style="Z-INDEX: 101; LEFT: 0px; POSITION: absolute; TOP: 8px" tabIndex="-1"
 						runat="server" Width="160px" Height="172px" HorizontalAlign="Left">
@@ -78,10 +78,10 @@
 				runat="server" Height="84px" HorizontalAlign="Left" Width="160px" tabIndex="-1">
 				<DIV style="WIDTH: 160px; POSITION: relative; HEIGHT: 92px" tabIndex="-1" ms_positioning="GridLayout">
 					<asp:HyperLink id="hylGrowersImg" style="Z-INDEX: 101; LEFT: 8px; POSITION: absolute; TOP: 32px"
-						tabIndex="8" runat="server" Font-Size="Smaller" ImageUrl="Images\growers.gif"></asp:HyperLink>
+						tabIndex="8" runat="server" Font-Size="Smaller" NavigateUrl="wfManageUsers.aspx" ImageUrl="Images\growers.gif"></asp:HyperLink>
 					<P>
 						<asp:HyperLink id="hylGrowers" style="Z-INDEX: 102; LEFT: 40px; POSITION: absolute; TOP: 40px"
-							tabIndex="9" runat="server" Font-Size="Smaller" NavigateUrl="wfViewGrowers.aspx">Growers</asp:HyperLink>
+							tabIndex="9" runat="server" Font-Size="Smaller" NavigateUrl="wfManageUsers.aspx">Growers</asp:HyperLink>
 						<asp:HyperLink id="hylClimateForecast" style="Z-INDEX: 103; LEFT: 40px; POSITION: absolute; TOP: 72px"
 							tabIndex="11" runat="server" Font-Size="Smaller" NavigateUrl="wfEditClimateForecast.aspx">Climate Forecast</asp:HyperLink></P>
 					<P>
@@ -92,34 +92,30 @@
 			</asp:Panel>
 			<P style="BACKGROUND-IMAGE: none; BACKGROUND-COLOR: palegoldenrod">
 				<asp:Panel id="pnlAdministration" style="Z-INDEX: 103; LEFT: 0px; POSITION: absolute; TOP: 306px"
-					runat="server" Width="160px" Height="234px" tabIndex="-1"></P>
+					runat="server" Width="160px" Height="208px" tabIndex="-1"></P>
 			<P style="BACKGROUND-IMAGE: none; BACKGROUND-COLOR: palegoldenrod"></P>
-			<DIV style="WIDTH: 160px; POSITION: relative; HEIGHT: 220px" tabIndex="-1" ms_positioning="GridLayout">
-				<asp:HyperLink id="Hyperlink1" style="Z-INDEX: 101; LEFT: 8px; POSITION: absolute; TOP: 192px"
+			<DIV style="WIDTH: 160px; POSITION: relative; HEIGHT: 192px" tabIndex="-1" ms_positioning="GridLayout">
+				<asp:HyperLink id="Hyperlink1" style="Z-INDEX: 101; LEFT: 8px; POSITION: absolute; TOP: 160px"
 					tabIndex="22" runat="server" NavigateUrl="wfSQL.aspx" Font-Size="Smaller" ImageUrl="Images\sql.gif"></asp:HyperLink>
-				<asp:HyperLink id="Hyperlink2" style="Z-INDEX: 102; LEFT: 40px; POSITION: absolute; TOP: 200px"
+				<asp:HyperLink id="Hyperlink2" style="Z-INDEX: 102; LEFT: 40px; POSITION: absolute; TOP: 168px"
 					tabIndex="23" runat="server" NavigateUrl="wfSQL.aspx" Font-Size="Smaller">SQL</asp:HyperLink>
-				<asp:HyperLink id="Hyperlink3" style="Z-INDEX: 103; LEFT: 8px; POSITION: absolute; TOP: 160px"
+				<asp:HyperLink id="Hyperlink3" style="Z-INDEX: 103; LEFT: 8px; POSITION: absolute; TOP: 128px"
 					tabIndex="20" runat="server" NavigateUrl="wfViewDropDowns.aspx" Font-Size="Smaller" ImageUrl="Images\drop_downs.gif"></asp:HyperLink>
-				<asp:HyperLink id="Hyperlink4" style="Z-INDEX: 104; LEFT: 40px; POSITION: absolute; TOP: 168px"
+				<asp:HyperLink id="Hyperlink4" style="Z-INDEX: 104; LEFT: 40px; POSITION: absolute; TOP: 136px"
 					tabIndex="21" runat="server" NavigateUrl="wfViewDropDowns.aspx" Font-Size="Smaller">Drop Downs</asp:HyperLink>
-				<asp:HyperLink id="Hyperlink5" style="Z-INDEX: 105; LEFT: 8px; POSITION: absolute; TOP: 32px" tabIndex="12"
-					runat="server" NavigateUrl="wfAddUser.aspx" Font-Size="Smaller" ImageUrl="Images\growers.gif"></asp:HyperLink>
-				<asp:HyperLink id="Hyperlink6" style="Z-INDEX: 106; LEFT: 40px; POSITION: absolute; TOP: 40px"
-					tabIndex="13" runat="server" NavigateUrl="wfAddUser.aspx" Font-Size="Smaller">Add User</asp:HyperLink>
 				<asp:Label id="Label1" style="Z-INDEX: 107; LEFT: 32px; POSITION: absolute; TOP: 8px" runat="server"
 					ForeColor="Blue" Font-Bold="True">Administration</asp:Label>
-				<asp:HyperLink id="Hyperlink7" style="Z-INDEX: 110; LEFT: 8px; POSITION: absolute; TOP: 64px" tabIndex="14"
+				<asp:HyperLink id="Hyperlink7" style="Z-INDEX: 110; LEFT: 8px; POSITION: absolute; TOP: 32px" tabIndex="14"
 					runat="server" NavigateUrl="wfReportTemplate.aspx" Font-Size="Smaller" ImageUrl="Images\apsim_report_gen.gif"></asp:HyperLink>
-				<asp:HyperLink id="Hyperlink8" style="Z-INDEX: 111; LEFT: 40px; POSITION: absolute; TOP: 72px"
+				<asp:HyperLink id="Hyperlink8" style="Z-INDEX: 111; LEFT: 40px; POSITION: absolute; TOP: 40px"
 					tabIndex="15" runat="server" NavigateUrl="wfEditReportTemplate.aspx" Font-Size="Smaller">Report Templates</asp:HyperLink>
-				<asp:HyperLink id="Hyperlink9" style="Z-INDEX: 112; LEFT: 8px; POSITION: absolute; TOP: 96px" tabIndex="16"
+				<asp:HyperLink id="Hyperlink9" style="Z-INDEX: 112; LEFT: 8px; POSITION: absolute; TOP: 64px" tabIndex="16"
 					runat="server" NavigateUrl="wfViewCrops.aspx" Font-Size="Smaller" ImageUrl="Images\soils.gif"></asp:HyperLink>
-				<asp:HyperLink id="Hyperlink10" style="Z-INDEX: 113; LEFT: 40px; POSITION: absolute; TOP: 104px"
+				<asp:HyperLink id="Hyperlink10" style="Z-INDEX: 113; LEFT: 40px; POSITION: absolute; TOP: 72px"
 					tabIndex="17" runat="server" NavigateUrl="wfViewCrops.aspx" Font-Size="Smaller">Crops</asp:HyperLink>
-				<asp:HyperLink id="Hyperlink11" style="Z-INDEX: 114; LEFT: 8px; POSITION: absolute; TOP: 128px"
+				<asp:HyperLink id="Hyperlink11" style="Z-INDEX: 114; LEFT: 8px; POSITION: absolute; TOP: 96px"
 					tabIndex="18" runat="server" NavigateUrl="wfViewRegions.aspx" Font-Size="Smaller" ImageUrl="Images\metstations.gif"></asp:HyperLink>
-				<asp:HyperLink id="Hyperlink12" style="Z-INDEX: 115; LEFT: 40px; POSITION: absolute; TOP: 136px"
+				<asp:HyperLink id="Hyperlink12" style="Z-INDEX: 115; LEFT: 40px; POSITION: absolute; TOP: 104px"
 					tabIndex="19" runat="server" NavigateUrl="wfViewRegions.aspx" Font-Size="Smaller">Regions</asp:HyperLink></DIV>
 			<P style="BACKGROUND-IMAGE: none; BACKGROUND-COLOR: palegoldenrod"></asp:Panel></P>
 			</DIV>

@@ -26,6 +26,7 @@ namespace YieldProphet
 		public const string szClimateReport = "Climate report";
 		public const string szNitrogenComparisonReport = "Nitrogen comparison report";
 		public const string szSowingXVarietyReport = "Sowing X variety report";
+		public const string szFallowReport = "Fallow report";
 		//-------------------------------------------------------------------------
 		#endregion
 		
@@ -239,6 +240,7 @@ namespace YieldProphet
 			//Gets the data for the template, in XML format
 			string szReportXml = CreateReportXML(szReportName, dtOtherValues);
 			VBGeneral.APSIMData APSIMReportData = new VBGeneral.APSIMData(szReportXml);
+
 			Macro mcReportFile = new Macro();
 			//Fills the template with the data and stores the file location in 
 			//a string collection
@@ -403,6 +405,19 @@ namespace YieldProphet
 				XmlNode xmlFertiliserDate = xmlDocSoilSample.CreateNode(XmlNodeType.Element, "fert"+iIndex.ToString()+"daymonth", "");  
 				xmlPaddock.AppendChild(xmlFertiliserDate);	
 				}
+			//Adds a PAW value from the initial conditions.
+			string soilName = dtPaddocksDetails.Rows[0]["SoilName"].ToString();
+			string szSoilXml = DataAccessClass.GetSoilData(soilName);
+			if(szSoilXml != "")
+				{
+				VBGeneral.APSIMData APSIMSoilData = new VBGeneral.APSIMData(szSoilXml);
+				Soil sPaddocksDefaultSoil = new Soil(APSIMSoilData);
+				string paw = Math.Round(sPaddocksDefaultSoil.TotalPAW(), 2).ToString("F2");
+				XmlNode xmlPAW = xmlDocSoilSample.CreateNode(XmlNodeType.Element,"initialconditionspaw", "");
+				xmlPAW.InnerText = paw;
+				xmlPaddock.AppendChild(xmlPAW);	
+				}
+
 			//Adds any extra values that are report specific.
 			if(dtOtherValues != null)
 				{
@@ -868,6 +883,69 @@ namespace YieldProphet
 				}
 			return dtOtherValues;
 			}	
+		//-------------------------------------------------------------------------
+		#endregion
+
+
+		
+		#region Fallow Report Functions
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		public static DataTable CreateFallowReportOtherValues(DataTable dtNitrogen, 
+			string szVariety, string szSowingDate)
+		{	
+			DataTable dtOtherValues = new DataTable();
+			dtOtherValues.Columns.Add("Name");
+			dtOtherValues.Columns.Add("Value");
+			DataRow drOtherValue;
+
+			drOtherValue = dtOtherValues.NewRow();
+			drOtherValue["Name"] = "variety";  
+			drOtherValue["Value"] = szVariety;	
+			dtOtherValues.Rows.Add(drOtherValue);
+
+			drOtherValue = dtOtherValues.NewRow();
+			drOtherValue["Name"] = "sowingdate";  
+			drOtherValue["Value"] = szSowingDate;	
+			dtOtherValues.Rows.Add(drOtherValue);
+
+			drOtherValue = dtOtherValues.NewRow();
+			drOtherValue["Name"] = "sowingdaymonth";  
+			drOtherValue["Value"] = (DateTime.ParseExact(szSowingDate, "yyyy-MM-dd", null)).ToString("dd-MMM");
+			dtOtherValues.Rows.Add(drOtherValue);
+
+			int iMaximumNumberOfNitrogenApplications = 5;
+			//Gets all the data for the first scenario	
+			int iIndex = 1;
+			foreach(DataRow drNitrogen in dtNitrogen.Rows)
+			{
+				drOtherValue = dtOtherValues.NewRow();
+				drOtherValue["Name"] = "scenariofert"+iIndex.ToString()+"rate";  
+				drOtherValue["Value"] = drNitrogen["Rate"].ToString();	
+				dtOtherValues.Rows.Add(drOtherValue);
+				
+				drOtherValue = dtOtherValues.NewRow();
+				drOtherValue["Name"] = "scenariofert"+iIndex.ToString()+"daymonth"; 
+				drOtherValue["Value"] = ((DateTime)drNitrogen["ApplicationDate"]).ToString("dd-MMM");
+				dtOtherValues.Rows.Add(drOtherValue);
+				
+				iIndex++;
+			}
+			for(iIndex = iIndex; iIndex <= iMaximumNumberOfNitrogenApplications; iIndex++)
+			{
+				drOtherValue = dtOtherValues.NewRow();
+				drOtherValue["Name"] = "scenariofert"+iIndex.ToString()+"rate";  
+				drOtherValue["Value"] = "0";	
+				dtOtherValues.Rows.Add(drOtherValue);
+				
+				drOtherValue = dtOtherValues.NewRow();
+				drOtherValue["Name"] = "scenariofert"+iIndex.ToString()+"daymonth"; 
+				drOtherValue["Value"] = "";
+				dtOtherValues.Rows.Add(drOtherValue);
+			}
+			return dtOtherValues;
+		}	
 		//-------------------------------------------------------------------------
 		#endregion
 

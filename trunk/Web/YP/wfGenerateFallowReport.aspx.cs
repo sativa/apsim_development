@@ -12,42 +12,35 @@ using System.Web.UI.HtmlControls;
 namespace YieldProphet
 {
 	/// <summary>
-	/// Summary description for wfGenerateSowingXVarietyReport.
+	/// Summary description for wfGenerateFallowReport.
 	/// </summary>
-	public class wfGenerateSowingXVarietyReport : System.Web.UI.Page
+	public class wfGenerateFallowReport : System.Web.UI.Page
 	{
 		protected System.Web.UI.WebControls.ImageButton btnSaveImg;
 		protected System.Web.UI.WebControls.ImageButton btnCancelImg;
 		protected System.Web.UI.WebControls.Button btnSave;
 		protected System.Web.UI.WebControls.LinkButton btnCancel;
+		protected System.Web.UI.WebControls.TextBox edtReportName;
+		protected System.Web.UI.WebControls.Label lblReportName;
+		protected System.Web.UI.WebControls.DropDownList cboVariety;
+		protected System.Web.UI.WebControls.Label lblVariety;
+		protected System.Web.UI.WebControls.DropDownList cboCrops;
+		protected System.Web.UI.WebControls.Label lblCrop;
+		protected System.Web.UI.WebControls.Label lblSowingDate;
+		protected System.Web.UI.WebControls.Label lblNitrogen;
+		protected System.Data.DataSet dsSowDate;
+		protected System.Data.DataTable dtSowDate;
+		protected System.Data.DataColumn dcSowDate;
 		protected System.Data.DataSet dsNitrogen;
 		protected System.Data.DataTable dtNitrogen;
 		protected System.Data.DataColumn dcID;
 		protected System.Data.DataColumn dcApplicationDate;
 		protected System.Data.DataColumn dcRate;
-		protected System.Web.UI.WebControls.Label lblReportName;
-		protected System.Web.UI.WebControls.DropDownList cboCrops;
-		protected System.Web.UI.WebControls.Label lblCrop;
-		protected System.Web.UI.WebControls.Label lblNitrogen;
-		protected System.Web.UI.WebControls.TextBox edtReportName;
-		protected System.Web.UI.WebControls.DropDownList cboVarietyOne;
-		protected System.Web.UI.WebControls.Label lblVarietyOne;
-		protected System.Web.UI.WebControls.DropDownList cboVarietyTwo;
-		protected System.Web.UI.WebControls.DropDownList cboVarietyThree;
-		protected System.Web.UI.WebControls.Label lblVarietyTwo;
-		protected System.Web.UI.WebControls.Label lblVarietyThree;
-		protected System.Data.DataSet dsSowDate;
-		protected System.Data.DataTable dtSowDate;
-		protected System.Data.DataColumn dcSowDate;
-		protected Janus.Web.GridEX.GridEX grdSowDateOne;
-		protected System.Web.UI.WebControls.Label lblSowingDateOne;
-		protected Janus.Web.GridEX.GridEX grdSowDateTwo;
-		protected Janus.Web.GridEX.GridEX grdSowDateThree;
 		protected Janus.Web.GridEX.GridEX grdNitrogen;
-		protected System.Web.UI.WebControls.Label lblSowingDateTwo;
-		protected System.Web.UI.WebControls.Label lblSowingDateThree;
+		protected Janus.Web.GridEX.GridEX grdSowDate;
 		protected System.Web.UI.WebControls.Panel pnlTop;
 	
+
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -63,29 +56,47 @@ namespace YieldProphet
 		/// </summary>
 		private void InitializeComponent()
 		{    
+			this.dsSowDate = new System.Data.DataSet();
+			this.dtSowDate = new System.Data.DataTable();
+			this.dcSowDate = new System.Data.DataColumn();
 			this.dsNitrogen = new System.Data.DataSet();
 			this.dtNitrogen = new System.Data.DataTable();
 			this.dcID = new System.Data.DataColumn();
 			this.dcApplicationDate = new System.Data.DataColumn();
 			this.dcRate = new System.Data.DataColumn();
-			this.dsSowDate = new System.Data.DataSet();
-			this.dtSowDate = new System.Data.DataTable();
-			this.dcSowDate = new System.Data.DataColumn();
-			((System.ComponentModel.ISupportInitialize)(this.dsNitrogen)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.dtNitrogen)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dsSowDate)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dtSowDate)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dsNitrogen)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dtNitrogen)).BeginInit();
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			this.btnCancelImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnCancelImg_Click);
 			this.btnSaveImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnSaveImg_Click);
-			this.grdNitrogen.UpdatingCell += new Janus.Web.GridEX.UpdatingCellEventHandler(this.grdNitrogen_UpdatingCell);
 			this.cboCrops.SelectedIndexChanged += new System.EventHandler(this.cboCrops_SelectedIndexChanged);
+			this.grdNitrogen.UpdatingCell += new Janus.Web.GridEX.UpdatingCellEventHandler(this.grdNitrogen_UpdatingCell);
+			// 
+			// dsSowDate
+			// 
+			this.dsSowDate.DataSetName = "NewDataSet";
+			this.dsSowDate.Locale = new System.Globalization.CultureInfo("en-AU");
+			this.dsSowDate.Tables.AddRange(new System.Data.DataTable[] {
+																																	 this.dtSowDate});
+			// 
+			// dtSowDate
+			// 
+			this.dtSowDate.Columns.AddRange(new System.Data.DataColumn[] {
+																																		 this.dcSowDate});
+			this.dtSowDate.TableName = "SowDate";
+			// 
+			// dcSowDate
+			// 
+			this.dcSowDate.ColumnName = "SowDate";
+			this.dcSowDate.DataType = typeof(System.DateTime);
 			// 
 			// dsNitrogen
 			// 
 			this.dsNitrogen.DataSetName = "NewDataSet";
-			this.dsNitrogen.Locale = new System.Globalization.CultureInfo("en-AU");
+			this.dsNitrogen.Locale = new System.Globalization.CultureInfo("en-US");
 			this.dsNitrogen.Tables.AddRange(new System.Data.DataTable[] {
 																																		this.dtNitrogen});
 			// 
@@ -109,29 +120,11 @@ namespace YieldProphet
 			// dcRate
 			// 
 			this.dcRate.ColumnName = "Rate";
-			// 
-			// dsSowDate
-			// 
-			this.dsSowDate.DataSetName = "NewDataSet";
-			this.dsSowDate.Locale = new System.Globalization.CultureInfo("en-AU");
-			this.dsSowDate.Tables.AddRange(new System.Data.DataTable[] {
-																																	 this.dtSowDate});
-			// 
-			// dtSowDate
-			// 
-			this.dtSowDate.Columns.AddRange(new System.Data.DataColumn[] {
-																																		 this.dcSowDate});
-			this.dtSowDate.TableName = "SowDate";
-			// 
-			// dcSowDate
-			// 
-			this.dcSowDate.ColumnName = "SowDate";
-			this.dcSowDate.DataType = typeof(System.DateTime);
 			this.Load += new System.EventHandler(this.Page_Load);
-			((System.ComponentModel.ISupportInitialize)(this.dsNitrogen)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.dtNitrogen)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dsSowDate)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dtSowDate)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dsNitrogen)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dtNitrogen)).EndInit();
 
 		}
 		#endregion
@@ -143,12 +136,12 @@ namespace YieldProphet
 		//
 		//-------------------------------------------------------------------------
 		private void FillForm()
-			{
-			InitialiseGrids();
+		{
+			InitialiseGrid();
 			SetSowDate();
 			FillCropsCombo();
 			FillCultivarsCombo();
-			}
+		}
 		//-------------------------------------------------------------------------
 		//Stores the report type selection from the previous page in view state
 		//variables.
@@ -168,39 +161,39 @@ namespace YieldProphet
 		//Set the date shown in the sow date grid
 		//-------------------------------------------------------------------------
 		private void SetSowDate()
-			{
+		{
 			DataRow drSowDate;
 			drSowDate = dsSowDate.Tables["SowDate"].NewRow();
 			drSowDate["SowDate"] = DateTime.Today;
 			dsSowDate.Tables["SowDate"].Rows.Add(drSowDate);
 			this.DataBind();
-			}
+		}
 		//-------------------------------------------------------------------------
-		//Intitialise the grids to contain 5 blank rows
+		//Intitialise the nitrogen grid to contain 5 blank rows
 		//-------------------------------------------------------------------------
-		private void InitialiseGrids()
-			{
+		private void InitialiseGrid()
+		{
 			DataRow drNitrogen;
 			int iMaxNumberOfRows = 5;
 			for(int iIndex = dsNitrogen.Tables["Nitrogen"].Rows.Count; iIndex < iMaxNumberOfRows; iIndex++)
-				{
+			{
 				drNitrogen = dsNitrogen.Tables["Nitrogen"].NewRow();
 				drNitrogen["ID"] = 0;	
 				dsNitrogen.Tables["Nitrogen"].Rows.Add(drNitrogen);
-				}
-			this.DataBind();
 			}
+			this.DataBind();
+		}
 		//-------------------------------------------------------------------------
 		//Gets all the crops the database and fills the crops combo box with them
 		//-------------------------------------------------------------------------
 		private void FillCropsCombo()
-			{
+		{
 			DataTable dtCropList = DataAccessClass.GetAllCrops();
 			cboCrops.DataSource = dtCropList;
 			cboCrops.DataTextField = "Type";
 			cboCrops.DataValueField = "Type";
 			cboCrops.DataBind();
-			}
+		}
 		//-------------------------------------------------------------------------
 		//Gets all the cultivars for the selected crop and fills the cultivars
 		//combo box with them
@@ -210,20 +203,11 @@ namespace YieldProphet
 			if(cboCrops.SelectedItem.Text != "")
 				{
 				DataTable dtCultivarList = DataAccessClass.GetAllCultivarsOfCrop(cboCrops.SelectedItem.Text);
-				cboVarietyOne.DataSource = dtCultivarList;
-				cboVarietyOne.DataTextField = "Type";
-				cboVarietyOne.DataValueField = "Type";
-				cboVarietyOne.DataBind();
+				cboVariety.DataSource = dtCultivarList;
+				cboVariety.DataTextField = "Type";
+				cboVariety.DataValueField = "Type";
+				cboVariety.DataBind();
 
-				cboVarietyTwo.DataSource = dtCultivarList;
-				cboVarietyTwo.DataTextField = "Type";
-				cboVarietyTwo.DataValueField = "Type";
-				cboVarietyTwo.DataBind();
-
-				cboVarietyThree.DataSource = dtCultivarList;
-				cboVarietyThree.DataTextField = "Type";
-				cboVarietyThree.DataValueField = "Type";
-				cboVarietyThree.DataBind();
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -242,16 +226,12 @@ namespace YieldProphet
 						//Check that a valid crop is selected
 						if(cboCrops.SelectedItem.Text != "None")
 							{
-							if(grdSowDateOne.GetRow(0).Cells["SowDate"].Text != "" && 
-								grdSowDateTwo.GetRow(0).Cells["SowDate"].Text != "" &&
-								grdSowDateThree.GetRow(0).Cells["SowDate"].Text != "")
+							if(grdSowDate.GetRow(0).Cells["SowDate"].Text != "")
 								{
 								//Generate a data table that stores the values particular to the Sow X Variety report
 								DataTable dtOtherValues = 
-									ReportClass.CreateSowingXVarietyReportOtherValues(ReturnScenarioDataTable(grdNitrogen), 
-									cboVarietyOne.SelectedItem.Text, (DateTime.ParseExact(grdSowDateOne.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
-									cboVarietyTwo.SelectedItem.Text, (DateTime.ParseExact(grdSowDateTwo.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
-									cboVarietyThree.SelectedItem.Text, (DateTime.ParseExact(grdSowDateThree.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"));
+									ReportClass.CreateFallowReportOtherValues(ReturnScenarioDataTable(grdNitrogen), 
+									cboVariety.SelectedItem.Text, (DateTime.ParseExact(grdSowDate.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"));
 								//Generate the files needed to generate a report and then email these files to the ApsimRun machine
 								if(EmailClass.SendReportEmail(edtReportName.Text, 
 									ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], dtOtherValues) == true)
@@ -293,7 +273,7 @@ namespace YieldProphet
 					grdRow = grdSelectedGrid.GetRow(iIndex);
 					//If there is data in the dataTable then save it to the database
 					if(grdRow.Cells["ApplicationDate"].Value != null && grdRow.Cells["Rate"].Value != null)
-						{		
+					{		
 						drNitrogen = dtNitrogen.NewRow();
 						drNitrogen["ApplicationDate"] = grdRow.Cells["ApplicationDate"].Text;
 						drNitrogen["Rate"] = grdRow.Cells["Rate"].Text;
@@ -314,8 +294,7 @@ namespace YieldProphet
 
 		#region Form Events
 		//-------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the user's
-		//permissions are checked and the page is initialised
+		//
 		//-------------------------------------------------------------------------
 		private void Page_Load(object sender, System.EventArgs e)
 			{
@@ -333,27 +312,18 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
-		//When the user selects a different crop type from the crops combo box
-		//the cultivar combo box is updated with the corresponding cultivars linked
-		//to that crop
+		//
 		//-------------------------------------------------------------------------
 		private void cboCrops_SelectedIndexChanged(object sender, System.EventArgs e)
 			{
 			FillCultivarsCombo();
-			}
+			}	
 		//-------------------------------------------------------------------------
 		//
 		//-------------------------------------------------------------------------
-		private void btnCancel_Click(object sender, System.EventArgs e)
+		private void btnSaveImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
 			{
-			Server.Transfer("wfEditPaddock.aspx");
-			}
-		//-------------------------------------------------------------------------
-		//
-		//-------------------------------------------------------------------------
-		private void btnCancelImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
-			{
-			Server.Transfer("wfEditPaddock.aspx");
+			GenerateReport();
 			}
 		//-------------------------------------------------------------------------
 		//
@@ -365,9 +335,16 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		//
 		//-------------------------------------------------------------------------
-		private void btnSaveImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
+		private void btnCancelImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
 			{
-			GenerateReport();
+			Server.Transfer("wfEditPaddock.aspx");
+			}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void btnCancel_Click(object sender, System.EventArgs e)
+			{
+			Server.Transfer("wfEditPaddock.aspx");
 			}
 		//-------------------------------------------------------------------------
 		//
@@ -385,9 +362,9 @@ namespace YieldProphet
 					}
 				}
 			}
+
 		//-------------------------------------------------------------------------
 		#endregion
-
 
 		//-------------------------------------------------------------------------
 		}//END OF CLASS

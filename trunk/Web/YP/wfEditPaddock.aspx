@@ -1,5 +1,5 @@
-<%@ Page language="c#" Codebehind="wfEditPaddock.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfEditPaddock" %>
 <%@ Register TagPrefix="jwg" Namespace="Janus.Web.GridEX" Assembly="Janus.Web.GridEX" %>
+<%@ Page language="c#" Codebehind="wfEditPaddock.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfEditPaddock" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <HTML>
 	<HEAD>
@@ -13,9 +13,9 @@
 		<form id="Form1" method="post" runat="server">
 			<asp:panel id="pnlTop" style="Z-INDEX: 108; LEFT: 0px; POSITION: absolute; TOP: 0px" runat="server"
 				Width="100%" Height="48px" BackColor="PaleGoldenrod" HorizontalAlign="Left">
-				<DIV style="WIDTH: 730px; POSITION: relative; HEIGHT: 44px" ms_positioning="GridLayout">
+				<DIV style="WIDTH: 776px; POSITION: relative; HEIGHT: 44px" ms_positioning="GridLayout">
 					<asp:LinkButton id="btnCancel" style="Z-INDEX: 102; LEFT: 104px; POSITION: absolute; TOP: 16px"
-						runat="server" Font-Size="Smaller" EnableViewState="False">Cancel</asp:LinkButton>
+						runat="server" EnableViewState="False" Font-Size="Smaller">Cancel</asp:LinkButton>
 					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 103; LEFT: 80px; POSITION: absolute; TOP: 16px"
 						runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 104; LEFT: 8px; POSITION: absolute; TOP: 16px" runat="server"
@@ -24,21 +24,21 @@
 						runat="server" ImageUrl="Images\preferences.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnRainfallImg" style="Z-INDEX: 106; LEFT: 264px; POSITION: absolute; TOP: 16px"
 						runat="server" ImageUrl="Images\rainfall.gif"></asp:ImageButton>
-					<asp:ImageButton id="btnReportsImg" style="Z-INDEX: 107; LEFT: 504px; POSITION: absolute; TOP: 16px"
+					<asp:ImageButton id="btnReportsImg" style="Z-INDEX: 107; LEFT: 536px; POSITION: absolute; TOP: 16px"
 						runat="server" ImageUrl="Images\reports.gif"></asp:ImageButton>
 					<asp:LinkButton id="btnSettingUp" style="Z-INDEX: 108; LEFT: 184px; POSITION: absolute; TOP: 16px"
 						runat="server" Font-Size="Smaller">Setting Up</asp:LinkButton>
 					<asp:LinkButton id="btnRainfall" style="Z-INDEX: 109; LEFT: 288px; POSITION: absolute; TOP: 16px"
 						runat="server" Font-Size="Smaller">Rainfall</asp:LinkButton>
-					<asp:CheckBox id="chkEmail" style="Z-INDEX: 110; LEFT: 624px; POSITION: absolute; TOP: 16px" runat="server"
-						Height="16px" Font-Size="Smaller" ForeColor="Blue" Text="Email con/par"></asp:CheckBox>
-					<asp:LinkButton id="btnReport" style="Z-INDEX: 111; LEFT: 528px; POSITION: absolute; TOP: 16px"
-						runat="server" Font-Size="Smaller">Create Report</asp:LinkButton>
+					<asp:CheckBox id="chkEmail" style="Z-INDEX: 110; LEFT: 672px; POSITION: absolute; TOP: 16px" runat="server"
+						Height="16px" Font-Size="Smaller" Text="Email con/par" ForeColor="Blue"></asp:CheckBox>
+					<asp:LinkButton id="btnReport" style="Z-INDEX: 111; LEFT: 560px; POSITION: absolute; TOP: 16px"
+						runat="server" Font-Size="Smaller">Report Options</asp:LinkButton>
 					<asp:DropDownList id="cboReport" style="Z-INDEX: 112; LEFT: 352px; POSITION: absolute; TOP: 16px"
-						runat="server" Width="145px" Font-Size="Smaller"></asp:DropDownList>
+						runat="server" Width="184px" Font-Size="Smaller"></asp:DropDownList>
 					<asp:Button id="btnSave" style="Z-INDEX: 112; LEFT: 32px; POSITION: absolute; TOP: 16px" runat="server"
-						BackColor="Transparent" Height="16px" Width="40px" Font-Size="Smaller" ForeColor="Blue" Text="Save"
-						BorderColor="Transparent" BorderStyle="None" Font-Underline="True" Font-Names="Times New Roman"></asp:Button></DIV>
+						BackColor="Transparent" Height="16px" Width="40px" Font-Size="Smaller" Text="Save" ForeColor="Blue"
+						Font-Names="Times New Roman" Font-Underline="True" BorderStyle="None" BorderColor="Transparent"></asp:Button></DIV>
 			</asp:panel><asp:label id="lblCropManagement" style="Z-INDEX: 101; LEFT: 16px; POSITION: absolute; TOP: 80px"
 				runat="server" Height="16px" Width="176px">In crop management for user: </asp:label><asp:label id="lblName" style="Z-INDEX: 102; LEFT: 208px; POSITION: absolute; TOP: 80px" runat="server"
 				Height="16px">Name</asp:label><asp:checkbox id="chkSown" style="Z-INDEX: 103; LEFT: 64px; POSITION: absolute; TOP: 120px" runat="server"
@@ -52,16 +52,16 @@
 				runat="server" Height="120px" Width="302px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch">
 				<RootTable DataMember="Nitrogen" Key="Nitrogen">
 					<Columns>
-						<jwg:GridEXColumn UseType="System.Single" Key="ID" DataMember="ID" DefaultGroupPrefix="ID:" InvalidValueAction="DiscardChanges"
-							NullText="" Caption="ID" Width="0px" Visible="False">
+						<jwg:GridEXColumn UseType="System.Single" Key="ID" HasValueList="True" DataMember="ID" DefaultGroupPrefix="ID:"
+							InvalidValueAction="DiscardChanges" NullText="" Caption="ID" Width="0px" Visible="False">
 							<CellStyle Width="0px"></CellStyle>
 						</jwg:GridEXColumn>
 						<jwg:GridEXColumn UseType="System.DateTime" EditType="CalendarDropDown" Key="ApplicationDate" FormatString="dd/MM/yyyy"
-							DataMember="ApplicationDate" DefaultGroupPrefix="Application Date:" InvalidValueAction="DiscardChanges"
+							HasValueList="True" DataMember="ApplicationDate" DefaultGroupPrefix="Application Date:" InvalidValueAction="DiscardChanges"
 							NullText="" Caption="Application Date" Width="140px">
 							<CellStyle Width="140px"></CellStyle>
 						</jwg:GridEXColumn>
-						<jwg:GridEXColumn UseType="System.String" Key="Rate" DataMember="Rate" DefaultGroupPrefix="Application Rate (kg/ha):"
+						<jwg:GridEXColumn UseType="System.String" Key="Rate" HasValueList="True" DataMember="Rate" DefaultGroupPrefix="Application Rate (kg/ha):"
 							InvalidValueAction="DiscardChanges" NullText="" Caption="Application Rate (kg/ha)" Width="160px">
 							<CellStyle Width="160px"></CellStyle>
 						</jwg:GridEXColumn>
@@ -113,8 +113,8 @@
 				<RootTable DataMember="SowDate" Key="SowDate">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.DateTime" EditType="CalendarDropDown" Key="SowDate" FormatString="dd/MM/yyyy"
-							DataMember="SowDate" DefaultGroupPrefix="SowDate:" InvalidValueAction="DiscardChanges" NullText=""
-							Caption="SowDate" Width="248px">
+							HasValueList="True" DataMember="SowDate" DefaultGroupPrefix="SowDate:" InvalidValueAction="DiscardChanges"
+							NullText="" Caption="SowDate" Width="248px">
 							<CellStyle Width="248px"></CellStyle>
 						</jwg:GridEXColumn>
 					</Columns>

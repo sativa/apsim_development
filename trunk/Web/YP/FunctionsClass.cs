@@ -77,6 +77,19 @@ namespace YieldProphet
 			return bConsultant;
 			}
 		//-------------------------------------------------------------------------
+		//Checks to see if the user has consultant priviledges
+		//-------------------------------------------------------------------------
+		public static bool IsConsultant(string szUserName)
+		{
+			string szAccessType = DataAccessClass.GetAccessTypeOfUser(szUserName);
+			bool bConsultant = false;
+			if(szAccessType == szConsultant)
+			{
+				bConsultant = true;
+			}
+			return bConsultant;
+		}
+		//-------------------------------------------------------------------------
 		//Checks to see if the user is an administrator
 		//-------------------------------------------------------------------------
 		public static bool IsAdministrator(string szUserName)

@@ -53,8 +53,6 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.HyperLink Hyperlink8;
 		protected System.Web.UI.WebControls.HyperLink Hyperlink7;
 		protected System.Web.UI.WebControls.Label Label1;
-		protected System.Web.UI.WebControls.HyperLink Hyperlink6;
-		protected System.Web.UI.WebControls.HyperLink Hyperlink5;
 		protected System.Web.UI.WebControls.HyperLink Hyperlink4;
 		protected System.Web.UI.WebControls.HyperLink Hyperlink3;
 		protected System.Web.UI.WebControls.HyperLink Hyperlink2;
