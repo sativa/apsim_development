@@ -2,6 +2,7 @@
       subroutine APSIM_erosion (Action, Data_string)
 * ====================================================================
       implicit none
+      dll_export apsim_erosion
       include   'const.inc'            ! Global constant definitions
       include   'erosion.inc'          ! module_name
       include 'engine.pub'                        
