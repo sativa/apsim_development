@@ -138,7 +138,7 @@ Public Class NewDocumentForm
         ListView.LargeImageList = UIManager.LargeImageList
 
         ' Add an item for all children of this system.
-        Dim ChildList As StringCollection = UImanager.GetUserVisibleComponents(MyFile.data, "MainTreeComponents")
+        Dim ChildList As StringCollection = UImanager.GetUserVisibleComponents(MyFile.data)
         Dim ChildName As String
         For Each ChildName In ChildList
             'create new item

@@ -106,7 +106,7 @@ Public Class areaui
         ListView.LargeImageList = UIManager.LargeImageList
 
         ' Add an item for all children of this system.
-        Dim ChildList As StringCollection = UIManager.GetUserVisibleComponents(MyData, "MainTreeComponents")
+        Dim ChildList As StringCollection = UIManager.GetUserVisibleComponents(MyData)
         Dim ChildName As String
         For Each ChildName In ChildList
             'create new item
