@@ -3,23 +3,14 @@
 start_date=5/8/1994
 end_date=23/1/2000
 
-[all.residue2.parameters]
-pot_decomp_rate =  0.1
+[all.SurfaceOM.parameters]
 
 ! --- assume essentially no residue at start ---
-residue_wt =  10.0
-residue_cnr =  100.0
-residue_type =  wheat
+mass = 10.0
+cnr = 100.0
+type = wheat
 
-[all.residue2.specific_areas]
-bambatsi =           0.0005
-danthonia =          0.0005
-! Use reduced residue effect on evap in ini file
-! for effect of standing residues upon eos
-!sorghum  =           0.00025
-!wheat    =           0.00025
-!mungbean =           0.0001
-!chickpea =           0.0001
+name = wheat
 
 [all.soilwat2.parameters]
 
