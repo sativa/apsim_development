@@ -27,7 +27,8 @@ class ScreenComponent : public protocol::Component
       unsigned startDateJDay, endDateJDay;
       unsigned currentDate;
       bool inDiaryState;
-
+      int updateInterval;
+      
       void getStartEndDate(void);
       void writeLine(const FString& componentName, const FString& lines);
 
