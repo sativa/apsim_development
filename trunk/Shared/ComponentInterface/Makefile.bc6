@@ -10,18 +10,18 @@ BCB = $(MAKEDIR)\..
 OBJECTS = Component.obj \
       message.obj Type.obj TypeConverter.obj variant.obj Variants.obj \
       MessageData.obj ApsimVariant.obj ArraySpecifier.obj Registrations.obj \
-      RegistrationItem.obj ProtocolVector.obj datatypes.obj
-WRAPPEROBJECTS = $(OBJECTS) ApsimFortranWrapper.obj FORTRANComponentWrapper.obj
+      RegistrationItem.obj ProtocolVector.obj 
+WRAPPEROBJECTS = $(OBJECTS) datatypes.obj ApsimFortranWrapper.obj FORTRANComponentWrapper.obj
 
 PACKAGES = vcl.bpi rtl.bpi
 USERDEFINES =
 SYSDEFINES = NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES
-INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost
 LIBPATH = $(SYSLIBPATH)
 LIBRARIES = rtl.lib
 LIBFILES = $(APSROOT)\Shared\ApsimShared\ApsimShared.lib
 
-source: ../../Bin/ApsimFortranWrapper.dll ComponentInterface.lib SimpleWrapper.obj
+source: ../../Bin/ApsimFortranWrapper.dll ComponentInterface.lib SimpleWrapper.obj 
 
 ALLOBJ = c0d32.obj $(PACKAGES) $(WRAPPEROBJECTS)
 ALLRES = $(RESFILES)
@@ -31,7 +31,7 @@ ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib
 CFLAG1 = -WD -Od -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWD -tWM -c
 
 WARNINGS = -w-par
-LFLAGS = -aa -Tpd -x -Gn -Gi -v
+LFLAGS = $(SYSLDFLAGS) -aa -Tpd -x -Gn -Gi -v
 
 CC=$(BCB)\Bin\bcc32.exe
 RANLIB=$(BCB)\Bin\TLib.exe
@@ -55,7 +55,7 @@ $(ALLRES)
 
 ComponentInterface.lib: $(OBJECTS)
 	$(RANLIB) /u $@ @&&!
-	$(LFLAGS) $?
+	/P128 $?
 
 !
 
