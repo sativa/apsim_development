@@ -23,6 +23,15 @@ C     Last change:  E     5 Dec 2000    8:52 am
                                        ! list of all events this sequencer is going
                                        ! to publish every timestep.
          integer numTimestepEvents     ! number of timestep events.
+         integer id_start_week
+         integer id_start_month
+         integer id_start_year
+         integer id_end_week
+         integer id_end_month
+         integer id_end_year
+         integer id_end_day
+         integer id_report
+
       end type ClockData
 
       ! Constant values
@@ -47,7 +56,22 @@ C     Last change:  E     5 Dec 2000    8:52 am
       use infrastructure
 
       call doRegistrations(id)
-
+      g%id_start_week = add_registration(eventReg, 'start_week',
+     .                                   nullTypeDDML, '', '')
+      g%id_start_month = add_registration(eventReg, 'start_month',
+     .                                    nullTypeDDML, '', '')
+      g%id_start_year = add_registration(eventReg, 'start_year',
+     .                                   nullTypeDDML, '', '')
+      g%id_end_week = add_registration(eventReg, 'end_week',
+     .                                    nullTypeDDML, '', '')
+      g%id_end_month = add_registration(eventReg, 'end_month',
+     .                                  nullTypeDDML, '', '')
+      g%id_end_year = add_registration(eventReg, 'end_year',
+     .                                 nullTypeDDML, '', '')
+      g%id_end_day = add_registration(eventReg, 'end_day',
+     .                                nullTypeDDML, '', '')
+      g%id_report = add_registration(eventReg, 'report',
+     .                               nullTypeDDML, '', '')
       end subroutine
 
 * ====================================================================
@@ -606,7 +630,31 @@ C     Last change:  E     5 Dec 2000    8:52 am
       g%currentTimestepEvent = g%currentTimestepEvent + 1
       if (g%currentTimestepEvent .gt. g%numTimestepEvents .and.
      .    .not. g%end_current_run) then
+
+         if (end_week(g%day, g%year)) then
+            call publish_null(g%id_end_week)
+         endif
+         if (end_month(g%day, g%year)) then
+            call publish_null(g%id_end_month)
+         endif
+         if (end_year(g%day, g%year)) then
+            call publish_null(g%id_end_year)
+         endif
+         call publish_null(g%id_end_day)
+         call publish_null(g%id_report)
+
          call clock_advance_clock()
+
+         if (start_week(g%day, g%year)) then
+            call publish_null(g%id_start_week)
+         endif
+         if (start_month(g%day, g%year)) then
+            call publish_null(g%id_start_month)
+         endif
+         if (g%day .eq. 1) then
+            call publish_null(g%id_start_year)
+         endif
+
       endif
 
       call pop_routine (This_routine)
