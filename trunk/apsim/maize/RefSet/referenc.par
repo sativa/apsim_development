@@ -5,63 +5,63 @@ summaryfile =  referenc.sum
 outputfile =  referenc.out
 variable = clock.year
 variable = clock.day
+variable = soiln2.no3
+variable = soilwat2.sw_dep
+variable = maize.tt_tot()
+variable = maize.lai
+variable = maize.biomass
+variable = maize.root_length
+variable = maize.root_depth
+variable = tracker.avg_swdef_photo
+variable = tracker.avg_nfact_photo
+variable = maize.plant_status
+variable = maize.dm_dead()
+variable = maize.yield
+variable = maize.height
+variable = surfaceom.surfaceom_wt
+variable = surfaceom.surfaceom_n
+variable = soiln2.fom_c()
+variable = soiln2.fom_n()
+variable = maize.leaf_no
 
 
 ! [soil_nitrogen.no3]
 ! [reset_no3.no3]
-variable=soiln2.no3
 
 ! [soil_water.sw_dep]
 ! [reset_sw.sw_dep]
-variable=soilwat2.sw_dep
 
 ! [temperature.tt_tot]
 ! [photoperiod.tt_tot]
-variable=maize.tt_tot()
 
 ! [temperature.lai]
 ! [radiation.lai]
 ! [soil_moisture.lai]
 ! [soil_nitrogen.lai]
-variable=maize.lai
 
 ! [temperature.biomass]
 ! [radiation.biomass]
 ! [soil_moisture.biomass]
 ! [soil_nitrogen.biomass]
 ! [soil_nitrogen.root_length]
-variable=maize.biomass
-variable=maize.root_length
-variable=maize.root_depth
 ! [soil_moisture.swdef_photo]
-variable=tracker.avg_swdef_photo
 
 ! [soil_nitrogen.nfact_photo]
-variable=tracker.avg_nfact_photo
 
 ! [sow_msg.crop_status]
 ! [kill_crop_msg.crop_status]
 ! [end_crop_msg.crop_status]
-variable=maize.plant_status
 
 ! [kill_crop_msg.crop_status]
-variable=maize.dm_dead()
 
 ! [harvest_msg.yield]
-variable=maize.yield
-variable=maize.height
 
 ! [add_residue_msg.residue_wt]
 ! [add_residue_msg.residue_n]
-variable=residue2.residue_wt
-variable=residue2.residue_n
 
 ! [incorp_fom_msg.fom_c]
 ! [incorp_fom_msg.fom_n]
-variable=soiln2.fom_c()
-variable=soiln2.fom_n()
 
-variable=maize.leaf_no
 
 [reference.tracker.parameters]
 variable = average of maize.nfact_photo on process from reported to now as avg_nfact_photo
@@ -71,12 +71,12 @@ variable = average of maize.swdef_photo on process from reported to now as avg_s
 start_date=1/1/1993
 end_date=31/12/1994
 
-[reference.residue2.parameters]
-pot_decomp_rate =      0.10  ()
-residue_wt =           500.0 (kg/ha)
-residue_cnr =           80.0 ()
-residue_type =         maize
+[reference.SurfaceOM.parameters]
+mass = 500.0 (kg/ha)
+cnr = 80.0 ()
+type = maize
 
+name = maize
 [reference.maize.parameters]
 uptake_source =      calc
 ll =          0.100   0.100   0.100
@@ -139,7 +139,7 @@ asw_depth =      500
         soilwat2 set sw = 0.15 0.15 0.1
         soiln2   set no3 = 1 1 1          ! Reset the soil profile
         soiln2   set nh4 = 1 1 1
-        residue2 tillage type = burn      ! Remove noise from residues
+        surfaceom tillage type = burn      ! Remove noise from residues
         irrigate set crit_fr_asw = 0.9
         irrigate set asw_depth = 900
         irrigate set automatic_irrigation = on
@@ -153,7 +153,7 @@ asw_depth =      500
         soilwat2 set sw = 0.15 0.15 0.1
         soiln2   set no3 = 1 1 1          ! Reset the soil profile
         soiln2   set nh4 = 1 1 1
-        residue2 tillage type = burn      ! Remove noise from residues
+        surfaceom tillage type = burn      ! Remove noise from residues
         irrigate set crit_fr_asw = 0.9
         irrigate set asw_depth = 900
         irrigate set automatic_irrigation = on
@@ -171,7 +171,7 @@ asw_depth =      500
 !        soiln2   set no3 = 1 1 1          ! Reset the soil profile
         soiln2   set no3 = 10 1 1          ! Reset the soil profile
         soiln2   set nh4 = 1 1 1
-        residue2 tillage type = burn      ! Remove noise from residues
+        surfaceom tillage type = burn      ! Remove noise from residues
         irrigate set crit_fr_asw = 0.3
         irrigate set asw_depth = 900
         irrigate set automatic_irrigation = on
@@ -189,7 +189,7 @@ asw_depth =      500
         soilwat2 set sw = 0.25 0.25 0.2
         soiln2   set no3 = 1 1 1          ! Reset the soil profile
         soiln2   set nh4 = 1 1 1
-        residue2 tillage type = burn      ! Remove noise from residues
+        surfaceom tillage type = burn      ! Remove noise from residues
         irrigate set crit_fr_asw = 0.4
         irrigate set asw_depth = 900
         irrigate set automatic_irrigation = on
