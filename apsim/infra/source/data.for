@@ -988,6 +988,13 @@
  
 *+ Calls
       dll_import reals_are_equal
+      interface
+         logical function reals_are_equal (first, second, tolerance)
+         real, intent(in)            ::  first
+         real, intent(in)            ::  second
+         real, intent(in), optional  ::  tolerance
+         end function reals_are_equal
+      end interface
       logical reals_are_equal          ! function
  
 *+ Constant Values
@@ -2092,6 +2099,13 @@
  
 *+ Calls
       dll_import reals_are_equal
+      interface
+         logical function reals_are_equal (first, second, tolerance)
+         real, intent(in)            ::  first
+         real, intent(in)            ::  second
+         real, intent(in), optional  ::  tolerance
+         end function reals_are_equal
+      end interface
       logical    reals_are_equal           ! function
  
 *+ Local Variables
@@ -2176,14 +2190,19 @@
 
 
 *     ===========================================================
-      logical function reals_are_equal (first, second)
+      logical function reals_are_equal (first, second, tolerance)
 *     ===========================================================
       implicit none
       dll_export reals_are_equal
  
 *+ Sub-Program Arguments
       real       first                 ! (INPUT) Number to search for
+      intent(in) first
       real       second                ! (INPUT) Number to search for
+      intent(in) second
+      real       tolerance             ! (INPUT) difference tolerance
+      intent(in) tolerance
+      optional   tolerance
  
 *+ Purpose
 *     Returns true if real numbers are almost equal
@@ -2200,15 +2219,25 @@
 *+ Changes
 *       070994 jngh specified and programmed
 *       250698 jngh simplified algorithm
+*       250601 jngh added optional argument
  
 *+ Calls
       dll_import error_margin
       real       error_margin          ! function
  
+*+ Local Variables
+      real       margin
+ 
 *- Implementation Section ----------------------------------
  
+      if (present(tolerance)) then
+         margin = tolerance
+      else
+         margin = error_margin(second)
+      endif
  
-      if (abs(first-second) .le. error_margin(second)) then
+ 
+      if (abs(first-second) .le. margin) then
          reals_are_equal = .true.
  
       else
@@ -2221,14 +2250,19 @@
 
 
 *     ===========================================================
-      logical function Doubles_are_equal (first, second)
+      logical function Doubles_are_equal (first, second, tolerance)
 *     ===========================================================
       implicit none
       dll_export doubles_are_equal
  
 *+ Sub-Program Arguments
       double precision  first          ! (INPUT) Number to search for
+      intent(in) first
       double precision  second         ! (INPUT) Number to search for
+      intent(in) second
+      double precision tolerance       ! (INPUT) difference tolerance
+      intent(in) tolerance
+      optional   tolerance
  
 *+ Purpose
 *     Returns true if double numbers are almost equal
@@ -2251,9 +2285,18 @@
       double precision  double_error_margin
                                        ! function
  
+*+ Local Variables
+      double precision       margin
+
 *- Implementation Section ----------------------------------
  
-      if (abs(first-second) .le. double_error_margin(second)) then
+      if (present(tolerance)) then
+         margin = tolerance
+      else
+         margin = double_error_margin(second)
+      endif
+ 
+      if (abs(first-second) .le. margin) then
          Doubles_are_equal = .true.
  
       else
@@ -2314,7 +2357,7 @@
       end
  
 *     ===========================================================
-      real function round_to_zero (var)
+      real function round_to_zero (var, tolerance)
 *     ===========================================================
       implicit none
       dll_export round_to_zero
@@ -2322,6 +2365,10 @@
  
 *+ Sub-Program Arguments
       real       var                   ! (INPUT) variable to be rounded
+      intent(in) var
+      real       tolerance             ! (INPUT) value considered to be zero
+      intent(in) tolerance
+      optional   tolerance
  
 *+ Purpose
 *       Round a very small variable to zero
@@ -2335,12 +2382,22 @@
  
 *+ Changes
 *       151200  specified and programmed (jng hargreaves)
+*       250601  jngh added optional argument
  
 *+ Calls
  
+*+ Local Variables
+      real     apparently_zero
+ 
 *- Implementation Section ----------------------------------
  
-      if (abs(var) .le. close_enough_to_zero) then
+      if (present(tolerance)) then
+         apparently_zero = tolerance
+      else
+         apparently_zero = close_enough_to_zero
+      endif
+
+      if (abs(var) .le. apparently_zero) then
          round_to_zero = 0
       else
          round_to_zero = var
