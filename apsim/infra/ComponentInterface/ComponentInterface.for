@@ -313,29 +313,33 @@
       end
 
 ! ====================================================================
-       subroutine  Write_event (LineSt)
+       subroutine  Action_Send (ModuleName, ActionName, Dat)
 ! ====================================================================
       implicit none
+      include 'ComponentInterface.inc'
  
 !+ Sub-Program Arguments
-      character LineSt*(*)         ! (OUTPUT) current module name
+      character ModuleName*(*)          ! (INPUT) the module name
+      character ActionName*(*)          ! (INPUT) the action name
+      character Dat*(*)                 ! (INPUT) the data
  
 !+ Purpose
-!     write the specified event to summary file.
+!     send an action to all other modules
 
 !+ Changes
 !      DPH 14/7/99
  
 !+ Calls
+      dll_import Loader_SendAction
  
 !- Implementation Section ----------------------------------
 
-      call Write_string(0, LineSt)
+      call Loader_SendAction (ModuleName, ActionName, Dat);
       return
       end
 
 ! ====================================================================
-       subroutine  Action_Send (ActionName)
+       subroutine  Action_Send_to_all_comps (ActionName)
 ! ====================================================================
       implicit none
       include 'ComponentInterface.inc'
