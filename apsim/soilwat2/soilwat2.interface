@@ -45,7 +45,7 @@ class APSIMSoilwat2Public
    insoil                  : APSIMReal         = Indicator for initial soil water - evenly distributed over profile, (), SET|READ, 0.0, 10.0
    profile_fesw            : APSIMReal         = Initial fraction of esw of profile distributed from top down, (), SET|READ, 0.0, 1.0
    profile_esw_depth       : APSIMReal         = Initial depth of extractable soil water distributed from the top down, (mm), SET|READ, 0.0, 10000.0
-   profile_field_capacity_depth  : APSIMReal   = Initial depth of soil filled to drained upper limit - field capacity, (mm), SET|READ, 0.0, 10000.0
+   wet_soil_depth          : APSIMReal         = Initial depth of soil filled to drained upper limit - field capacity, (mm), SET|READ, 0.0, 10000.0
    diffus_const            : APSIMReal         = Constant term in diffusivity calculation, (), READ, 0.0, 500.0
    diffus_slope            : APSIMReal         = Slope term in diffusivity calculation, (), READ, 0.0, 100.0
    cn2_bare                : APSIMReal         = Bare soil runoff curve number, (), READ|SET, 0.0, 100.0
