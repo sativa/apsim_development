@@ -51,6 +51,8 @@ void __fastcall TApsimFileReader::setFileNames(TStrings* apsimFiles)
    string yearField = getYearFieldName();
    if (yearField != "")
       sortFields = yearField.c_str();
+   if (files->Count > 0)
+      forceRefresh();
    }
 //---------------------------------------------------------------------------
 // If we already have a report directory then the current paths will be
