@@ -67,5 +67,6 @@ source: $(SUBDIRS)
 
 $(SUBDIRS):
    cd $@
+   echo  ------Compiling $@
 	$(MAKE) -DAPSROOT=$(APSROOT) source
    cd ..
