@@ -118,7 +118,10 @@ void Series_base::Add_data (const char* X, const char* Y)
       }
    else if (x_data_type == Series_base::date)
       {
-      Par1 = TDateTime(X, TDateTime::Date);
+      GDate date;
+      date.Read(X);
+      int numDays = date-GDate(30,12,1899);
+      Par1 = TDateTime(numDays);
       }
 
    else
