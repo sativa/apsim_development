@@ -41,7 +41,7 @@ object ScreenForm: TScreenForm
   Scaled = False
   Visible = True
   OnClose = FormClose
-  PixelsPerInch = 120
+  PixelsPerInch = 96
   TextHeight = 13
   object CurrentDateLabel: TLabel
     Left = 16
@@ -140,11 +140,12 @@ object ScreenForm: TScreenForm
     BorderStyle = bsNone
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
-    Font.Height = -10
-    Font.Name = 'Courier'
+    Font.Height = -11
+    Font.Name = 'Courier New'
+    Font.Pitch = fpFixed
     Font.Style = []
     ParentFont = False
-    ScrollBars = ssVertical
+    ScrollBars = ssBoth
     TabOrder = 3
     WordWrap = False
   end

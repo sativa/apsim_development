@@ -42,9 +42,14 @@ void TScreenForm::setup(void)
 //---------------------------------------------------------------------------
 void TScreenForm::addLine(const string& line)
    {
-   static const int MAX_LINES = 100;
+   static const int MAX_LINES = 5000;
    if (Memo->Lines->Count == MAX_LINES)
-      Memo->Lines->Delete(0);
+      {
+      Memo->Lines->BeginUpdate();
+      for (int i = MAX_LINES; i >= 0 / 2; i--)
+         Memo->Lines->Delete(i);
+      Memo->Lines->EndUpdate();
+      }
    Memo->Lines->Add(line.c_str());
    }
 //---------------------------------------------------------------------------
@@ -108,7 +113,9 @@ void __fastcall TScreenForm::PauseButtonClick(TObject *Sender)
       CancelButton->Enabled = true;
       }
    else
+      {
       PauseButton->Caption = "Pause";
+      }
 
    }
 //---------------------------------------------------------------------------
