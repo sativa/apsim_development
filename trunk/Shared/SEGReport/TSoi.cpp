@@ -187,7 +187,6 @@ void TSOI::storeRecords(void) throw(runtime_error)
             FieldValues[SOI_PHASE_FIELD_NAME] = phaseName.c_str();
             FieldValues[SOI_PHASE_NUMBER_FIELD_NAME] = phase;
             Post();
-            addFactorToSeriesName("soi phase=" + phaseName);
             }
 
          source->Next();

@@ -60,6 +60,7 @@ bool TStats::createFields(void) throw(runtime_error)
    if (source != NULL && fieldNameToAnalyse != "")
       {
       FieldDefs->Clear();
+      addGroupByFieldDefsFromSource();
 
       if (stats.Contains(statMean))
          addDBField(this, "Mean", "1.0");
@@ -102,10 +103,11 @@ void TStats::storeRecords(void) throw(runtime_error)
    if (source != NULL && fieldNameToAnalyse != "")
       {
       // Loop through all series blocks and all records within that series.
-      source->firstSeries();
-      while (!source->Eof)
+      bool ok = source->firstSeries();
+      while (ok)
          {
-         string seriesName = source->getSeriesName();
+         Append();
+         addGroupByValuesFromSource();
 
          vector<double> values;
          while (!source->Eof)
@@ -119,7 +121,7 @@ void TStats::storeRecords(void) throw(runtime_error)
             source->Next();
             }
 
-         Append();
+
          if (stats.Contains(statMean))
             FieldValues["Mean"] = Calculate_mean(values);
          if (stats.Contains(statCount))
@@ -150,9 +152,8 @@ void TStats::storeRecords(void) throw(runtime_error)
             FieldValues["Decile80"] = Calculate_percentile(values, false, 80);
          if (stats.Contains(stat90))
             FieldValues["Decile90"] = Calculate_percentile(values, false, 90);
-
-         setSeriesName(seriesName);   // this does a post as well.
-         source->nextSeries();
+         Post();
+         ok = source->nextSeries();
          }
       source->cancelSeries();
       }

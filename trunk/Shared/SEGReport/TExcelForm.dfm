@@ -5,14 +5,14 @@ inherited ExcelForm: TExcelForm
   TextHeight = 16
   object Label3: TLabel [2]
     Left = 22
-    Top = 126
+    Top = 158
     Width = 59
     Height = 16
     Caption = 'Filename:'
   end
   object Label4: TLabel [3]
     Left = 10
-    Top = 152
+    Top = 184
     Width = 72
     Height = 16
     Caption = 'Sheetname:'
@@ -23,9 +23,12 @@ inherited ExcelForm: TExcelForm
   inherited NameEdit: TEdit
     Width = 176
   end
+  inherited GroupByEdit: TEdit
+    TabOrder = 6
+  end
   object FilenameEdit: TAdvFileNameEdit
     Left = 89
-    Top = 127
+    Top = 159
     Width = 177
     Height = 21
     AutoFocus = False
@@ -93,7 +96,7 @@ inherited ExcelForm: TExcelForm
   end
   object PageCombo: TComboBox
     Left = 89
-    Top = 152
+    Top = 184
     Width = 177
     Height = 24
     BevelKind = bkSoft

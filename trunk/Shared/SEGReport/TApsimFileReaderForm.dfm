@@ -12,8 +12,8 @@ inherited ApsimFileReaderForm: TApsimFileReaderForm
     Caption = 'Filenames:'
   end
   object BrowseButton: TSpeedButton [1]
-    Left = 4
-    Top = 178
+    Left = 12
+    Top = 194
     Width = 99
     Height = 24
     Caption = '&Filenames'
@@ -53,11 +53,14 @@ inherited ApsimFileReaderForm: TApsimFileReaderForm
       00FF743C00FF7E4D16FDA48A69E3EBF2F45C}
     OnClick = BrowseButtonClick
   end
+  inherited GroupByEdit: TEdit
+    TabOrder = 6
+  end
   object FilesList: TListView
     Left = 8
-    Top = 208
+    Top = 224
     Width = 255
-    Height = 201
+    Height = 185
     Anchors = [akLeft, akTop, akRight, akBottom]
     BevelInner = bvLowered
     BevelOuter = bvRaised
@@ -69,7 +72,7 @@ inherited ApsimFileReaderForm: TApsimFileReaderForm
   end
   object InterpretCheckBox: TCheckBox
     Left = 8
-    Top = 133
+    Top = 165
     Width = 104
     Height = 21
     Alignment = taLeftJustify

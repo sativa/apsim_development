@@ -187,9 +187,6 @@ void TRotationAddIn::storeRecords(void) throw(runtime_error)
       // get the name of the year field.
       AnsiString yearFieldName = source->getYearFieldName().c_str();
 
-      // get rotation name we're to process.
-      string rotationName = source->getSeriesName();
-
       // setup some storage for our values indexed by year.
       typedef map<int, YearValues> Values;
       Values values;
@@ -253,9 +250,7 @@ void TRotationAddIn::storeRecords(void) throw(runtime_error)
             for (int fieldI = 0; fieldI < source->FieldCount; fieldI++)
                {
                AnsiString name = source->Fields->Fields[fieldI]->FieldName;
-               if (fieldI == 0)
-                  setSeriesName(rotationName);
-               else
+               if (fieldI != 0)
                   Fields->Fields[fieldI]->AsString =
                      valueI->second.getValue(doTotalVariable(name), fieldI).c_str();
                }

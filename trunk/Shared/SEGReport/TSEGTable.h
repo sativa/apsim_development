@@ -32,11 +32,12 @@ class PACKAGE TSEGTable : public TkbmMemTable
    {
    private:
       TSEGTable* sourceDataset;
-      std::vector<std::string> seriesNames;
-      std::vector<std::string>::iterator currentSeriesI;
+      std::vector<std::string> groupByFilters;
+      std::vector<std::string>::iterator groupByFiltersI;
       TStringList* subscriptionComponents;
       bool addToToolbar;
       AnsiString sortFieldNames;
+      AnsiString groupByFieldNames;
       bool inForceRefresh;
 
       typedef std::vector<TDataSetNotifyEvent> SubscriptionEvents;
@@ -45,12 +46,19 @@ class PACKAGE TSEGTable : public TkbmMemTable
       void __fastcall setSourceDataset(TSEGTable* sourceDataset);
       void __fastcall setSubComponentNames(TStringList* compNames);
       void __fastcall setSortFieldNames(AnsiString sortFieldNames);
+
       void fixupSubReferences(void);
+      std::string calcGroupByFilter(void);
+      void calcGroupByFilters(void);
 
    protected:
       virtual bool createFields(void) throw(std::runtime_error) {return false;}
-      virtual void storeRecords(void) throw(std::runtime_error) {}
+      virtual void storeRecords(void) throw(std::runtime_error) { };
       virtual void __fastcall Loaded(void);
+
+      void addGroupByFieldDefsFromSource(void);
+      void addGroupByValuesFromSource(void);
+
 
    public:
       __fastcall TSEGTable(TComponent* Owner);
@@ -58,18 +66,6 @@ class PACKAGE TSEGTable : public TkbmMemTable
 
       // return the year field name from the dataset.
       std::string getYearFieldName(void) const throw(std::runtime_error);
-
-      // return a list of all unique series names.
-      void getSeriesNames(std::vector<std::string>& seriesNames);
-
-      // return the series name for the current record.
-      std::string getSeriesName(void);
-
-      // set the series name for the current record.
-      void setSeriesName(const std::string& seriesName);
-
-      // add a factor to the series name for the current record.
-      void addFactorToSeriesName(const std::string& factorName);
 
       // The next 3 series functions limit the accessible records to a
       // particular series only.  The caller still uses the
@@ -81,13 +77,7 @@ class PACKAGE TSEGTable : public TkbmMemTable
 
       void refresh (void);
       void refreshLinkedComponents();
-
-      // ------------------------------------------------------------------
-      // force refresh regardless of source.
-      // ------------------------------------------------------------------
       void forceRefresh(bool displayError = true);
-      
-      unsigned getSeriesNumber(void);  //  - zero index based.
 
       static AnsiString errorMessage;
 
@@ -106,6 +96,7 @@ class PACKAGE TSEGTable : public TkbmMemTable
       __property TStringList* subscriptionComponentNames = {read=subscriptionComponents, write=setSubComponentNames};
       __property bool addToToolBar = {read=addToToolbar, write=addToToolbar};
       __property AnsiString sortFields = {read=sortFieldNames, write=setSortFieldNames};
+      __property AnsiString groupByFields = {read=groupByFieldNames, write=groupByFieldNames};
 
       void __fastcall onSourceDataChanged(TDataSet* dataset);
    };

@@ -37,6 +37,7 @@ void TPropertyForm::setComponent(TComponent* comp)
       if (segTable->source != NULL)
          SourceCombo->Text = segTable->source->Name;
       SortFieldsEdit->Text = segTable->sortFields;
+      GroupByEdit->Text = segTable->groupByFields;
       }
    else
       {
@@ -46,7 +47,7 @@ void TPropertyForm::setComponent(TComponent* comp)
       SourceCombo->Visible = false;
       SortFieldsLabel->Visible = false;
       SortFieldsEdit->Visible = false;
-
+      GroupByEdit->Visible = false;
       }
    }
 //---------------------------------------------------------------------------
@@ -72,6 +73,12 @@ void __fastcall TPropertyForm::SortFieldsEditChange(TObject *Sender)
    {
    TSEGTable* segTable = dynamic_cast<TSEGTable*>(component);
    segTable->sortFields = SortFieldsEdit->Text;
+   }
+//---------------------------------------------------------------------------
+void __fastcall TPropertyForm::GroupByEditExit(TObject *Sender)
+   {
+   TSEGTable* segTable = dynamic_cast<TSEGTable*>(component);
+   segTable->groupByFields = GroupByEdit->Text;
    }
 //---------------------------------------------------------------------------
 

@@ -160,13 +160,15 @@ bool TREMS::createFields(void) throw(runtime_error)
       TDataSet* tds = query;
 
       FieldDefs->Clear();
+      FieldDefs->Add("experiment", ftString, 50, true);
+      FieldDefs->Add("treatment", ftString, 50, true);
+
+
       for(int i=0;i < tds->FieldDefs->Count;i++)
          {
          TFieldDef* field = FieldDefs->AddFieldDef();
          field->Assign(tds->FieldDefs->Items[i]);
          field->Attributes.Clear();
-//         field->Name = tds->FieldDefs->Items[i]->Name;
-//         field->DataType = tds->FieldDefs->Items[i]->DataType;
          }
       return (tds->FieldDefs->Count > 0);
       }
@@ -185,6 +187,8 @@ void TREMS::storeRecords(void) throw(runtime_error)
          Append();
          try
             {
+            FieldValues["experiment"] = experimentName;
+            FieldValues["treatment"] = treatmentName;
             for(int i=0;i < query->FieldCount;i++)
                Fields->Fields[i] = query->Fields->Fields[i];
             }
@@ -193,7 +197,6 @@ void TREMS::storeRecords(void) throw(runtime_error)
             ShowMessage(err.Message);
             }
          Post();
-         addFactorToSeriesName(AnsiString(experimentName + " " + treatmentName).c_str());
          query->Next();
          }
 

@@ -74,13 +74,11 @@ void TProbability::storeRecords(void) throw(runtime_error)
    if (source != NULL && fieldNameToAnalyse != "")
       {
       // Loop through all series blocks and all records within that series.
-      source->firstSeries();
-      while (!source->Eof)
+      bool ok = source->firstSeries();
+      while (ok)
          {
          vector<double> values;
          vector<double> probValues;
-         string seriesName = source->getSeriesName();
-
          getDBFieldValues(source, fieldNameToAnalyse.c_str(), values);
          Calculate_prob_dist(values, isExceedence, probValues);
 
@@ -90,9 +88,8 @@ void TProbability::storeRecords(void) throw(runtime_error)
             Append();
             FieldValues[fieldNameToAnalyse] = values[recordNum];
             FieldValues[PROBABILITY_FIELD_NAME] = probValues[recordNum];
-            setSeriesName(seriesName);   // this does a post as well.
             }
-         source->nextSeries();
+         ok = source->nextSeries();
          }
       source->cancelSeries();
       sortFields = PROBABILITY_FIELD_NAME;

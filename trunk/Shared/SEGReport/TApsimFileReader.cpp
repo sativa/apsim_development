@@ -203,7 +203,6 @@ void TApsimFileReader::readAndStoreRecords(const string& filename,
          {
          copy(factorValues.begin(), factorValues.end(), back_inserter(fieldValues));
          appendDBRecord(this, fieldNames, fieldValues);
-         addFactorToSeriesName(title);
          }
       }
    else

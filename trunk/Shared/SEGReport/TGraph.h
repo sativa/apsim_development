@@ -27,7 +27,11 @@ class PACKAGE TGraph : public TgtQRChart
       AnsiString rightAxisTitle;
       AnsiString bottomAxisTitle;
       AnsiString footTitle;
-      AnsiString seriesTitle;
+      AnsiString seriesTitle1;
+      AnsiString seriesTitle2;
+      AnsiString seriesTitle3;
+      AnsiString seriesTitle4;
+      AnsiString seriesTitle5;
       AnsiString* stRef;
       bool ourScaling;
       ReportMacros macros;
