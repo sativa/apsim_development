@@ -8945,7 +8945,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
                                   , chop_fr_sen    // senesced
                                   , chop_fr_dead   // dead
                                   , fraction_to_residue
-                                  , P_tops
+                                  , &P_tops
                                   , dlt_dm_p);
 
         plant_send_crop_chopped_event (c.crop_type
@@ -11307,8 +11307,7 @@ void Plant::plant_end_crop ()
                               , g.dlayer
                               , g.root_length
                               , g.root_depth
-                              , P_root
-                               );
+                              , &P_root);
 
         // put stover and any remaining grain into surface residue
         dm_residue =
@@ -11365,7 +11364,7 @@ void Plant::plant_end_crop ()
                                       , chop_fr  // senesced
                                       , chop_fr  // dead
                                       , fraction_to_residue
-                                      , P_residue
+                                      , &P_residue
                                       , dlt_dm_p);
 
             plant_send_crop_chopped_event ( c.crop_type
@@ -11785,7 +11784,7 @@ void Plant::plant_update_other_variables (void)
                                    , chop_fr_sen
                                    , chop_fr_dead
                                    , fraction_to_residue
-                                   , P_tops
+                                   , &P_tops
                                    , P_residue);
 
         plant_send_crop_chopped_event (c.crop_type
@@ -11822,7 +11821,7 @@ void Plant::plant_update_other_variables (void)
                            , g.dlayer
                            , g.root_length
                            , g.root_depth
-                           , P_root);
+                           , &P_root);
 
     // now dispose of dead population detachments
     for (part =0; part < max_part; part++)
@@ -11859,7 +11858,7 @@ void Plant::plant_update_other_variables (void)
                                     , chop_fr_sen
                                     , chop_fr_dead
                                     , fraction_to_residue
-                                    , P_tops
+                                    , &P_tops
                                     , P_residue);
 
         plant_send_crop_chopped_event(c.crop_type
@@ -11896,7 +11895,7 @@ void Plant::plant_update_other_variables (void)
                            , g.dlayer
                            , g.root_length
                            , g.root_depth
-                           , P_root);
+                           , &P_root);
 
     pop_routine (my_name);
     return;
