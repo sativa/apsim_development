@@ -18,10 +18,9 @@ class TLibraryForm : public TForm
 {
 __published:	// IDE-managed Components
    TTabControl *TabControl;
-   TPanel *Panel1;
-   TBitBtn *BitBtn1;
-   TBitBtn *BitBtn2;
    TFileListBoxEx *FileList;
+   TButton *OkButton;
+   TButton *Button1;
    void __fastcall FormShow(TObject *Sender);
    void __fastcall TabControlChange(TObject *Sender);
 private:	// User declarations
