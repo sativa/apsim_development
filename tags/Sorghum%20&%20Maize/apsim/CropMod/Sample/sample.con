@@ -1,0 +1,52 @@
+ 
+[apsim.wheat]
+  Module = clock               sample.man [all]
+  Module = report              report.par [wheat]      report.par  [all]
+  Module = met                 gatton.met [weather]
+  Module = manager             sample.man [wheat]
+  Module = irrigate            sample.man [wheat]
+  Module = fertiliz            sample.man [wheat]      %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+  Module = soilwat2            soil.par   [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+  Module = soiln2              soil.par   [sample]     %apsuite\apsim\soiln2\soiln2.ini     [standard]
+  Module = residue2            soil.par   [sample]     %apsuite\apsim\residue2\residue2.ini [standard]
+  Module = CropMod(wheat)      ..\wheat.ini [standard] soil.par [sample]
+
+
+[apsim.sunflower]
+  Module = clock               sample.man [all]
+  Module = report              report.par [sunflower]       report.par  [all]
+  Module = met                 gatton.met [weather]
+  Module = manager             sample.man [sunflower]
+  Module = irrigate            sample.man [sunflower]
+  Module = fertiliz            sample.man [sunflower]  %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+  Module = soilwat2            soil.par   [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+  Module = soiln2              soil.par   [sample]     %apsuite\apsim\soiln2\soiln2.ini     [standard]
+  Module = residue2            soil.par   [sample]     %apsuite\apsim\residue2\residue2.ini [standard]
+  Module = CropMod(sunflower)  ..\sunflower.ini [standard]  soil.par [sample]
+
+
+[apsim.sorghum]
+  Module = clock               sample.man [all]
+  Module = report              report.par [sorghum]       report.par  [all]
+  Module = met                 gatton.met [weather]
+  Module = manager             sample.man [sorghum]
+  Module = irrigate
+  Module = fertiliz                                    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+  Module = soilwat2            soil.par   [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+  Module = soiln2              soil.par   [sample]     %apsuite\apsim\soiln2\soiln2.ini     [standard]
+  Module = residue2            soil.par   [sample]     %apsuite\apsim\residue2\residue2.ini [standard]
+  Module = cropmod(sorghum)    ..\sorghum.ini [standard]  soil.par [sample]
+
+
+[apsim.maize]
+  Module = clock               sample.man [all]
+  Module = report              report.par [maize]       report.par  [all]
+  Module = met                 gatton.met [weather]
+  Module = manager             sample.man [maize]
+  Module = irrigate
+  Module = fertiliz                                    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+  Module = soilwat2            soil.par   [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+  Module = soiln2              soil.par   [sample]     %apsuite\apsim\soiln2\soiln2.ini     [standard]
+  Module = residue2            soil.par   [sample]     %apsuite\apsim\residue2\residue2.ini [standard]
+  Module = cropmod(maize)      ..\maize.ini [standard]  soil.par [sample]
+
