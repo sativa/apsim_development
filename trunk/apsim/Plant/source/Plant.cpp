@@ -4031,6 +4031,7 @@ void Plant::plant_update(
                           ,g_lai_canopy_green
                           ,g_cover_green
                           ,g_cover_pod);
+
     legnew_cover(g_row_spacing
                 ,c_x_row_spacing
                 ,c_y_extinct_coef_dead
@@ -4038,6 +4039,7 @@ void Plant::plant_update(
                 , canopy_fac
                 ,*g_slai
                 ,g_cover_sen);
+
     legnew_cover(g_row_spacing
                  ,c_x_row_spacing
                  ,c_y_extinct_coef_dead
@@ -4873,13 +4875,15 @@ void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
                        , g.radn
                        , &radnIntTotFruit);
 
-             // calc the green veg interception
-          float radnIntGreenVeg = 0.0;
-          float coverGreenVeg = (1.0 - (1.0-g.cover_green)/(1.0 - fruit->calcCover (c.extinct_coef_pod, paiTot)));   // FIXME temporary
-          crop_radn_int0(coverGreenVeg
-                       , g.fr_intc_radn - frIntcRadnTotFruit
+             // calc the total interception
+          float radnIntTot = 0.0;
+          crop_radn_int0(g.cover_green
+                       , g.fr_intc_radn
                        , g.radn
-                       , &radnIntGreenVeg);
+                       , &radnIntTot);
+
+             // calc the green veg interception
+          float radnIntGreenVeg = radnIntTot - radnIntTotFruit;
 
                // for now, put both interceptions into radn_int
           g.radn_int =  radnIntGreenVeg + g.radnIntGreenFruit;  // FIXME when turned into proper fruit class
