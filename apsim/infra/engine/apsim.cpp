@@ -47,7 +47,7 @@ void Run_apsim (const char* RunFilename)
          Run.Simulations.Get_names(SectionNames);
 
          // may need to write to log file - open it now.
-         ofstream log("apsim.log");
+//         ofstream log("apsim.log");
 
          // loop through all simulations and run each in turn.
          for (list<string>::iterator sim = SectionNames.begin();
@@ -63,10 +63,10 @@ void Run_apsim (const char* RunFilename)
             string Errors;
             if (!ApsimSystem().Init(*Run.Simulations.Get( (*sim).c_str()), Run.Configuration, Errors))
                {
-               log << "---------------------------------------------" << std::endl;
-               log << "Simulation: " << *sim << std::endl;
-               log << "Configuration: " << Run.Configuration.Get_filename() << std::endl;
-               log << Errors << std::endl;
+//               log << "---------------------------------------------" << std::endl;
+//               log << "Simulation: " << *sim << std::endl;
+//               log << "Configuration: " << Run.Configuration.Get_filename() << std::endl;
+//               log << Errors << std::endl;
                cout << "---------------------------------------------" << std::endl;
                cout << "Simulation: " << *sim << std::endl;
                cout << "Configuration: " << Run.Configuration.Get_filename() << std::endl;
@@ -75,7 +75,7 @@ void Run_apsim (const char* RunFilename)
             else
                ApsimSystem().Go();
 
-            // delete entire APSIM system.  Good for a cleanup.   
+            // delete entire APSIM system.  Good for a cleanup.
             delete GlobalApsimSystem;
             }
          }
