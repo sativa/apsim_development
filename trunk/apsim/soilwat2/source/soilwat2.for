@@ -2115,17 +2115,16 @@ cjh          flow_max is -ve, resulting in sw > sat.
 c dsg 260202
 c dsg    this code will stop a saturated layer difusing water into a partially saturated
 c        layer above for Water_table height calculations
-         if (g%sw_dep(layer).ge.g%dul_Dep(layer).and.
-     &       g%sw_dep(next_layer).ge.g%dul_Dep(next_layer)) then
-            flow(layer) = 0.0
-         endif
+c         if (g%sw_dep(layer).ge.g%dul_Dep(layer).and.
+c     &       g%sw_dep(next_layer).ge.g%dul_Dep(next_layer)) then
+c            flow(layer) = 0.0
+c         endif
 
 c dsg 260202
 c dsg    this code will stop unsaturated flow downwards through an impermeable layer, but will allow flow up
-         if (p%mwcon(layer).eq.0.and.flow(layer).lt.0.0) then
-            flow(layer) = 0.0
-
-         endif
+c         if (p%mwcon(layer).eq.0.and.flow(layer).lt.0.0) then
+c            flow(layer) = 0.0
+c         endif
 
 
 
@@ -2134,9 +2133,9 @@ c dsg    this code will stop unsaturated flow downwards through an impermeable l
             ! check capacity of layer below for holding water from this layer
             ! and the ability of this layer to supply the water
 
-!            next_layer_cap = l_bound (sat_dep2 - sw_dep2, 0.0)
+            next_layer_cap = l_bound (sat_dep2 - sw_dep2, 0.0)
 !    dsg 150302   limit unsaturated downflow to a max of dul in next layer
-            next_layer_cap = l_bound (dul_dep2 - sw_dep2, 0.0)
+!            next_layer_cap = l_bound (dul_dep2 - sw_dep2, 0.0)
             flow_max = l_bound (flow_max, -next_layer_cap)
 cjh
             flow_max = l_bound (flow_max, -esw_dep1)
@@ -2147,9 +2146,9 @@ cjh
             ! check capacity of this layer for holding water from layer below
             ! and the ability of the layer below to supply the water
 
-!            this_layer_cap = l_bound (dul_dep1 - (sw_dep1 - w_out), 0.0)
+            this_layer_cap = l_bound (sat_dep1 - (sw_dep1 - w_out), 0.0)
 !    dsg 150302   limit unsaturated upflow to a max of dul in this layer
-            this_layer_cap = l_bound (dul_dep1 - (sw_dep1 - w_out), 0.0)
+!            this_layer_cap = l_bound (dul_dep1 - (sw_dep1 - w_out), 0.0)
             flow_max = u_bound (flow_max, this_layer_cap)
 cjh
             flow_max = u_bound (flow_max, esw_dep2)
@@ -6192,7 +6191,7 @@ c dsg 070302 added runon
 
       call push_routine (my_name)
 
-      call collect_integer_var (DATA_sender
+      call collect_integer_var (DATA_sender_ID
      :                          ,'()'
      :                          ,sender
      :                          ,numvals
