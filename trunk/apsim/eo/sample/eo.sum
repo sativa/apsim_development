@@ -1,5 +1,5 @@
 report - Output_file=eo.out
-report - initialising,V1.6  21/8/98
+report - initialising
 Title =eo sample
 Screen output =on
  
@@ -15,9 +15,9 @@ Variables =eo_pm,ra
 Module = met
 Variables =evap
 ---------------------------------------------------------
- INPUT (met) Initialised, Version: V3.0 26/11/98
+ INPUT (met) Initialised
 ---------------------------------------------------------
- day=   1 date=  1  1 1996 manager  - Initialising, Version : V1.40  23/04/98
+ day=   1 date=  1  1 1996 manager  - Initialising
  
 Manager rules
 ------- -----
@@ -32,16 +32,16 @@ report do_output
  day=   1 date=  1  1 1996 manager  - Manager creating a new local variable : lai =    0.000000000000000
  day=   1 date=  1  1 1996 manager  - Manager creating a new local variable : cover_green =    0.000000000000000
  day=   1 date=  1  1 1996 manager  - Manager creating a new local variable : cover_tot =    0.000000000000000
- day=   1 date=  1  1 1996 eo       - Initialising Version : V1.31 16/03/98
+ day=   1 date=  1  1 1996 eo       - Initialising:
  
    - Reading Eo Parameters
  
                  Eo Parameters
      ---------------------------------------------------------
-      Albedo   Z0soil   Dflt_Wind  Dflt_Pa Dflt_instrum_ht E_method
+      Albedo   Z0soil   Dflt_Wind  Dflt_Pa Dflt_instrum_ht
        (-)       (mm)   (km/day)   (hpa)      (mm)
      ---------------------------------------------------------
-      0.13     3.000     60.00   1000.00   2000.00        pen_mon
+      0.13     3.000     60.00   1000.00   2000.00
      ---------------------------------------------------------
  
      -------------------
