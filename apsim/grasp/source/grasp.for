@@ -2927,7 +2927,7 @@ cpdev  bound required?..
      :     , g_day_of_year, numvals, 1, 366)
  
       call get_integer_var (unknown_module, 'year', '()'
-     :     , g_year, numvals, c_year_lb, c_year_ub)
+     :     , g_year, numvals, min_year, max_year)
  
                                 ! canopy
       call get_current_module (module_name)
@@ -3711,16 +3711,6 @@ cpdev. One of these is right. I don't know which...
      :                    , 'll_ub', '()'
      :                    , c_ll_ub, numvals
      :                    , 0.0, 3000.0)
- 
-      call read_integer_var (section_name
-     :                    , 'year_ub', '()'
-     :                    , c_year_ub, numvals
-     :                    , 1800, 2300)
- 
-      call read_integer_var (section_name
-     :                    , 'year_lb', '()'
-     :                    , c_year_lb, numvals
-     :                    , 1800, 2300)
  
       call read_real_var (section_name
      :                    , 'latitude_ub', '(oL)'
