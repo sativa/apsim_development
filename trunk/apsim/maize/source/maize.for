@@ -278,6 +278,7 @@
      .          c_sfac_slope,
      .          g_N_conc_crit,
      .          g_swdef_photo,
+     .          g_pfact_grain,
      .          g_swdef_expansion,
      .          g_nfact_grain_conc,
      .      g_dlt_dm_grain_demand)
@@ -339,6 +340,7 @@
      .          c_sfac_slope,
      .          g_N_conc_crit,
      .          g_swdef_photo,
+     .          g_pfact_grain,
      .          g_swdef_expansion,
      .          g_nfact_grain_conc,
      .      g_dlt_dm_grain_demand)
@@ -382,6 +384,7 @@
      .          c_sfac_slope,
      .          g_N_conc_crit,
      .          g_swdef_photo,
+     .          g_pfact_grain,
      .          g_swdef_expansion,
      .          g_nfact_grain_conc,
      .      g_dlt_dm_grain_demand)
@@ -915,6 +918,7 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      .          c_sfac_slope,
      .          g_N_conc_crit,
      .          g_swdef_photo,
+     .          g_pfact_grain,
      .          g_swdef_expansion,
      .          g_nfact_grain_conc,
      .          dlt_dm_grain_demand)
@@ -945,6 +949,7 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
        real c_sfac_slope
        real g_N_conc_crit(*)
        real g_swdef_photo
+       real g_pfact_grain
        real g_swdef_expansion
        real g_nfact_grain_conc
        real dlt_dm_grain_demand
@@ -1003,7 +1008,7 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
          sw_def_fac = (c_swdf_grain_min
      .              + (1.0 - c_swdf_grain_min) * g_swdef_photo)
  
-         fract_of_optimum = rgfill * sw_def_fac
+         fract_of_optimum = rgfill * sw_def_fac * g_pfact_grain
  
             ! now calculate the grain growth demand for the day in g/m^2
  
@@ -3299,7 +3304,7 @@ c     .          interp_sla_max)
      .          g_swdef_lai_loss,
      .          g_lai_max_possible,
      .          g_swdef_expansion,
-     .          g_nfact_expansion,
+     .          min(g_nfact_expansion,g_pfact_expansion),
      .          g_dlt_lai_pot) ! whole plant approa
  
       elseif (Option .eq. 3) then
@@ -3363,10 +3368,11 @@ c     .          interp_sla_max)
          call cproc_leaf_area_stressed1 (
      :                       g_dlt_lai_pot
      :                      ,g_swdef_expansion
-     :                      ,g_nfact_expansion
+     :                      ,min(g_nfact_expansion
+     :                          ,g_pfact_expansion)
      :                      ,g_dlt_lai_stressed
      :                      )
- 
+
       else
  
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -5169,7 +5175,8 @@ c (how do we do this w. TPLA approach?)
      :                            ,C_y_tt
      :                            ,G_maxt
      :                            ,G_mint
-     :                            ,G_nfact_pheno
+     :                            ,min(g_nfact_pheno
+     :                                ,g_pfact_pheno)
      :                            ,G_swdef_pheno
      :                            ,C_pesw_germ
      :                            ,C_fasw_emerg     !
@@ -5913,7 +5920,10 @@ cpsc need to develop leaf senescence functions for crop
      .          g_nfact_grain_conc,
      .          g_root_length,
      .          g_dlt_root_length,
-     .          g_dlt_root_length_senesced)
+     .          g_dlt_root_length_senesced,
+     .          g_plant_p,
+     .          g_dlt_plant_p)
+
 *     ===========================================================
       implicit none
       include   'convert.inc'
@@ -6015,6 +6025,8 @@ cpsc need to develop leaf senescence functions for crop
        real g_root_length
        real g_dlt_root_length(*)
        real g_dlt_root_length_senesced(*)
+       real g_plant_p
+       real g_dlt_plant_p
 
 *+  Purpose
 *       Update states
@@ -6228,6 +6240,9 @@ cglh
      :                         ,g_root_length
      :                         ,max_layer)
  
+      ! Phosphorus
+      ! ----------
+      g_plant_p = g_plant_p + g_dlt_plant_p
  
       call Maize_N_conc_limits (
      .          g_current_stage,
@@ -7040,7 +7055,7 @@ cpsc  add above
      :                        ,deepest_layer)
  
          call message_send_immediate (
-     :                              unknown_module
+     :                              All_active_modules
      :                            , 'incorp_fom'
      :                            , Blank
      :                            )
@@ -7410,7 +7425,7 @@ cpsc  add above
      .          c_rue,
      .          g_radn_int,
      .          g_temp_stress_photo,
-     .          g_nfact_photo,
+     .          min(g_nfact_photo,g_pfact_photo),
      .          g_dlt_dm_light)
  
       else
@@ -7680,3 +7695,961 @@ cpsc  add above
 
 
 
+* ====================================================================
+       subroutine Maize_P_uptake (Option)
+* ====================================================================
+ 
+*   Short description:
+*      None
+ 
+*   Assumptions:
+*      None
+ 
+*   Notes:
+*      None
+ 
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+ 
+*   Changes:
+*     26-06-1997 - huth - Programmed and Specified
+ 
+*   Calls:
+*     Pop_routine
+*     Push_routine
+ 
+* ----------------------- Declaration section ------------------------
+ 
+       implicit none
+ 
+*   Subroutine arguments
+      integer Option
+ 
+*   Global variables
+      include 'const.inc'
+      include 'convert.inc'
+      include 'maize.inc'
+ 
+      include 'data.pub'                          
+      include 'error.pub'                         
+      include 'crp_comm.pub'                      
+ 
+*   Internal variables
+      real layered_p_uptake(max_layer)
+ 
+*   Constant values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'Maize_P_uptake')
+ 
+*   Initial data values
+*      none
+ 
+* --------------------- Executable code section ----------------------
+      call push_routine (myname)
+ 
+      if (Option.eq.1) then
+         if (p_p_awareness.eq.'on') then
+            call fill_real_array (layered_p_uptake,0.0,max_layer)
+ 
+            call crop_get_ext_uptakes(
+     :                 'apsim'           ! uptake flag
+     :                ,c_crop_type       ! crop type
+     :                ,'p'               ! uptake name
+     :                ,kg2gm/ha2sm       ! unit conversion factor
+     :                ,0.0               ! uptake lbound
+     :                ,100.0             ! uptake ubound
+     :                ,layered_p_uptake  ! uptake array
+     :                ,max_layer         ! array dim
+     :                )
+ 
+            g_dlt_plant_p = sum_real_array (layered_p_uptake
+     :                                     ,max_layer)
+         else
+            g_dlt_plant_p = g_p_demand
+
+         endif
+ 
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+ 
+ 
+      call pop_routine (myname)
+      return
+      end
+*     ===========================================================
+      subroutine Maize_P_conc_limits (
+     .          g_current_stage,
+     .          c_p_stage_code,
+     .          c_stage_code_list,
+     .          g_tt_tot,
+     .          g_phase_tt,
+     .          c_P_conc_max,
+     .          c_P_conc_min,
+     .          P_conc_max,
+     .          P_conc_min)
+*     ===========================================================
+ 
+*+ Short description:
+*       Calculate the critical N concentration below which plant growth
+*       is affected.  Also minimum and maximum N concentrations below
+*       and above which it is not allowed to fall or rise.
+ 
+*+  Changes:
+*     080994 jngh specified and programmed
+ 
+*+  Declaration section -----------------------------------------------
+      implicit none
+*   Subroutine arguments
+       real g_current_stage
+       real c_p_stage_code(*)
+       real c_stage_code_list(*)
+       real g_tt_tot(*)
+       real g_phase_tt(*)
+       real c_p_conc_min(*)
+       real c_p_conc_max(*)
+      real       P_conc_max   ! (OUTPUT) maximum P conc
+                              ! (g N/g part)
+      real       P_conc_min   ! (OUTPUT) minimum P conc
+                              ! (g N/g part)
+*   Global variables
+      include   'maizcons.inc'
+ 
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
+      include 'crp_phen.pub'                      
+ 
+*   Internal variables
+      integer    numvals               ! number of values in stage code table
+      real       current_stage_code            ! interpolated current stage code
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Maize_P_conc_limits')
+ 
+*-  Executable code section -------------------------------------------
+ 
+      call push_routine (my_name)
+ 
+      if (stage_is_between (emerg, maturity, g_current_stage)) then
+ 
+         numvals = count_of_real_vals (c_P_stage_code, max_stage)
+ 
+         current_stage_code = Crop_stage_code (
+     .          c_stage_code_list,
+     .          g_tt_tot,
+     .          g_phase_tt,
+     .          g_current_stage,
+     .          c_P_stage_code,
+     .          numvals,
+     .          max_stage)
+ 
+cnh         P_conc_max = linear_interp_real (current_stage_code
+         P_conc_max = linear_interp_real (g_current_stage
+     :                                   ,c_P_stage_code
+     :                                   ,c_P_conc_max
+     :                                   ,numvals)
+ 
+cnh         P_conc_min = linear_interp_real (current_stage_code
+         P_conc_min = linear_interp_real (g_current_stage
+     :                                   ,c_P_stage_code
+     :                                   ,c_P_conc_min
+     :                                   ,numvals)
+ 
+ 
+      else
+ 
+         P_conc_max = 0.0
+         P_conc_min = 0.0
+ 
+      endif
+ 
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine maize_pfact
+     :               (
+     :                G_dm_green
+     :              , G_dm_dead
+     :              , G_dm_senesced
+     :              , max_part
+     :              , G_p_conc_max
+     :              , G_p_conc_min
+     :              , G_plant_p
+     :              , k_pfact
+     :              , pfact
+     :               )
+*     ===========================================================
+ 
+*   Short description:
+*     The concentration of P in the entire plant is used to derive a
+*     series of Phosphorus stress indices.  The stress indices for
+*     today's growth are calculated from yesterday's
+*     relative nutritional status between a critical and minimum
+*     total plant Phosphorus concentration.
+ 
+*   Assumptions:
+*       none
+ 
+*   Notes:
+*       none
+ 
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+ 
+*   Changes:
+*     270697 nih
+ 
+ 
+*   Calls:
+*     bound
+*     divide
+*     exp
+*     fatal_error
+*     pop_routine
+*     Push_routine
+ 
+* ----------------------- Declaration section ------------------------
+ 
+      implicit none
+ 
+*   Subroutine arguments
+      REAL       G_dm_green(*)    ! (INPUT)  live plant biomass (g/m2)
+      REAL       G_dm_dead(*)     ! (INPUT)  dead plant biomass (g/m2)
+      REAL       G_dm_senesced(*) ! (INPUT)  senesced plant biomass (g/m2)
+      INTEGER    max_part         ! (INPUT)  number of plant parts
+      REAL       G_p_conc_max     ! (INPUT)  max P conc (g N/g biomass)
+      REAL       G_p_conc_min     ! (INPUT)  min P conc (g N/g biomass)
+      REAL       G_plant_p        ! (INPUT)  plant P content (g N/m^2)
+      REAL       k_pfact          ! (INPUT)  k value for stress factor
+      real      pfact             ! (OUTPUT) P stress factor
+ 
+*   Global variables
+      include   'const.inc'
+ 
+      include 'data.pub'                          
+      include 'error.pub'                         
+ 
+*   Internal variables
+      real       biomass               ! total crop biomass
+      real       P_conc                ! actual P concentration (g/g)
+ 
+      real       P_def                 ! P factor (0-1)
+      real       P_conc_ratio          ! available P as fraction of P capacity
+                                       ! (0-1)
+ 
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'maize_pfact')
+ 
+*   Initial data values
+*       none
+ 
+* --------------------- Executable code section ----------------------
+ 
+      call push_routine (my_name)
+ 
+         ! calculate actual P conc
+      biomass    =  sum_real_array (g_dm_green, max_part)
+     :           +  sum_real_array (g_dm_senesced, max_part)
+     :           +  sum_real_array (g_dm_dead, max_part)
+ 
+      P_conc = divide (g_plant_p, biomass, 0.0)
+ 
+      P_conc_ratio = divide ((P_conc - g_P_conc_min)
+     :                      ,(g_P_conc_max - g_P_conc_min)
+     :                      , 0.0)
+ 
+         ! calculate 0-1 P deficiency factors
+ 
+      P_def = k_pfact * P_conc_ratio
+      pfact = bound (P_def, 0.0, 1.0)
+ 
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine maize_p_stress_photo (Option)
+*     ===========================================================
+ 
+*   Short description:
+*         Get current P stress factors (0-1)
+ 
+*   Assumptions:
+*       none
+ 
+*   Notes:
+*       none
+ 
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+ 
+*   Changes:
+*     270697 nih specified and programmed
+ 
+*   Calls:
+ 
+* ----------------------- Declaration section ------------------------
+ 
+      implicit none
+ 
+*   Subroutine arguments
+      integer    Option                ! (INPUT) option number
+ 
+*   Global variables
+      include   'const.inc'
+      include   'maize.inc'
+ 
+      include 'error.pub'                         
+ 
+*   Internal variables
+*     none
+ 
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'maize_p_stress_photo')
+ 
+*   Initial data values
+*       none
+ 
+* --------------------- Executable code section ----------------------
+ 
+      call push_routine (my_name)
+ 
+      if (Option .eq. 1) then
+ 
+         call maize_pfact
+     :               (
+     :                G_dm_green
+     :              , G_dm_dead
+     :              , G_dm_senesced
+     :              , max_part
+     :              , G_P_conc_max
+     :              , G_P_conc_min
+     :              , G_plant_p
+     :              , c_k_pfact_photo
+     :              , g_pfact_photo
+     :               )
+ 
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+ 
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine maize_p_stress_pheno (Option)
+*     ===========================================================
+ 
+*   Short description:
+*         Get current P stress factors (0-1)
+ 
+*   Assumptions:
+*       none
+ 
+*   Notes:
+*       none
+ 
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+ 
+*   Changes:
+*     270697 nih specified and programmed
+ 
+*   Calls:
+ 
+* ----------------------- Declaration section ------------------------
+ 
+      implicit none
+ 
+*   Subroutine arguments
+      integer    Option                ! (INPUT) option number
+ 
+*   Global variables
+      include   'const.inc'
+      include   'maize.inc'
+ 
+      include 'error.pub'                         
+ 
+*   Internal variables
+*     none
+ 
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'maize_p_stress_pheno')
+ 
+*   Initial data values
+*       none
+ 
+* --------------------- Executable code section ----------------------
+ 
+      call push_routine (my_name)
+ 
+      if (Option .eq. 1) then
+ 
+         call maize_pfact
+     :               (
+     :                G_dm_green
+     :              , G_dm_dead
+     :              , G_dm_senesced
+     :              , max_part
+     :              , G_P_conc_max
+     :              , G_P_conc_min
+     :              , G_plant_p
+     :              , c_k_pfact_pheno
+     :              , g_pfact_pheno
+     :               )
+ 
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+ 
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine maize_p_stress_expansion (Option)
+*     ===========================================================
+ 
+*   Short description:
+*         Get current P stress factors (0-1)
+ 
+*   Assumptions:
+*       none
+ 
+*   Notes:
+*       none
+ 
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+ 
+*   Changes:
+*     270697 nih specified and programmed
+ 
+*   Calls:
+ 
+* ----------------------- Declaration section ------------------------
+ 
+      implicit none
+ 
+*   Subroutine arguments
+      integer    Option                ! (INPUT) option number
+ 
+*   Global variables
+      include   'const.inc'
+      include   'maize.inc'
+ 
+      include 'error.pub'                         
+ 
+*   Internal variables
+*     none
+ 
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'maize_p_stress_expansion')
+ 
+*   Initial data values
+*       none
+ 
+* --------------------- Executable code section ----------------------
+ 
+      call push_routine (my_name)
+ 
+      if (Option .eq. 1) then
+ 
+         call maize_pfact
+     :               (
+     :                G_dm_green
+     :              , G_dm_dead
+     :              , G_dm_senesced
+     :              , max_part
+     :              , G_P_conc_max
+     :              , G_P_conc_min
+     :              , G_plant_p
+     :              , c_k_pfact_expansion
+     :              , g_pfact_expansion
+     :               )
+ 
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+ 
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine maize_p_stress_grain (Option)
+*     ===========================================================
+ 
+*   Short description:
+*         Get current P stress factors (0-1)
+ 
+*   Assumptions:
+*       none
+ 
+*   Notes:
+*       none
+ 
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+ 
+*   Changes:
+*     270697 nih specified and programmed
+ 
+*   Calls:
+ 
+* ----------------------- Declaration section ------------------------
+ 
+      implicit none
+ 
+*   Subroutine arguments
+      integer    Option                ! (INPUT) option number
+ 
+*   Global variables
+      include   'const.inc'
+      include   'maize.inc'
+ 
+      include 'error.pub'                         
+ 
+*   Internal variables
+*     none
+ 
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'maize_p_stress_grain')
+ 
+*   Initial data values
+*       none
+ 
+* --------------------- Executable code section ----------------------
+ 
+      call push_routine (my_name)
+ 
+      if (Option .eq. 1) then
+ 
+         call maize_pfact
+     :               (
+     :                G_dm_green
+     :              , G_dm_dead
+     :              , G_dm_senesced
+     :              , max_part
+     :              , G_P_conc_max
+     :              , G_P_conc_min
+     :              , G_plant_p
+     :              , c_k_pfact_grain
+     :              , g_pfact_grain
+     :               )
+ 
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+ 
+      call pop_routine (my_name)
+      return
+      end
+ 
+* ====================================================================
+       subroutine maize_P_demand_est (Option)
+* ====================================================================
+ 
+*   Short description:
+*      None
+ 
+*   Assumptions:
+*      None
+ 
+*   Notes:
+*      None
+ 
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+ 
+*   Changes:
+*     27-06-1997 - huth - Programmed and Specified
+ 
+*   Calls:
+*     Pop_routine
+*     Push_routine
+ 
+* ----------------------- Declaration section ------------------------
+ 
+       implicit none
+ 
+*   Subroutine arguments
+      integer Option
+ 
+*   Global variables
+      include 'const.inc'
+      include 'maize.inc'
+ 
+      include 'error.pub'                         
+ 
+*   Internal variables
+*      none
+ 
+*   Constant values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'maize_P_demand_est')
+ 
+*   Initial data values
+*      none
+ 
+* --------------------- Executable code section ----------------------
+      call push_routine (myname)
+ 
+       if (Option.eq.1) then
+          call Maize_P_demand (
+     .          g_current_stage,
+     .          g_radn_int,
+     .          c_rue,
+     .          c_ratio_root_shoot,
+     .          g_dm_green,
+     .          g_dm_senesced,
+     .          g_dm_dead,
+     .          max_part,
+     .          g_P_conc_max,
+     .          g_plant_P,
+     .          c_P_uptake_factor,
+     .          g_P_demand)
+ 
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+ 
+      call pop_routine (myname)
+      return
+      end
+*     ===========================================================
+      subroutine maize_P_demand
+     :               (
+     .          g_current_stage,
+     .          g_radn_int,
+     .          c_rue,
+     .          c_ratio_root_shoot,
+     .          g_dm_green,
+     .          g_dm_senesced,
+     .          g_dm_dead,
+     .          max_part,
+     .          g_P_conc_max,
+     .          g_plant_P,
+     .          c_p_uptake_factor,
+     .          g_P_demand)
+ 
+*     ===========================================================
+ 
+*   Short description:
+ 
+*   Assumptions:
+*       none
+ 
+*   Notes:
+ 
+ 
+ 
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+ 
+*   Changes:
+*     060495 nih taken from template
+ 
+*   Calls:
+*     bound
+*     bound_check_real_var
+*     divide
+*     l_bound
+*     pop_routine
+*     push_routine
+*     sugar_radn_int
+*     sum_real_array
+ 
+* ----------------------- Declaration section ------------------------
+ 
+      implicit none
+ 
+*   Subroutine arguments
+ 
+      REAL       g_current_stage
+      REAL       g_radn_int
+      REAL       c_rue(*)
+      REAL       c_ratio_root_shoot(*)
+      REAL       g_dm_green(*)
+      REAL       g_dm_senesced(*)
+      REAL       g_dm_dead(*)
+      INTEGER    max_part
+      REAL       g_P_conc_max
+      REAL       g_plant_P
+      REAL       c_P_uptake_Factor
+      REAL       g_P_demand
+ 
+*   Global variables
+ 
+ 
+      include 'data.pub'                          
+      include 'error.pub'                         
+ 
+*   Internal variables
+      real       biomass               ! total plant biomass (g/m2)
+      integer    current_phase         ! current growth phase
+      real       dlt_dm_pot            ! potential dm increase (g/m2)
+      real       P_demand_new          ! demand for P by new growth
+                                       ! (g/m^2)
+      real       P_demand_old          ! demand for P by old biomass
+                                       ! (g/m^2)
+      real       deficit               ! deficit of total plant p (g/m2)
+      real       p_demand_max          ! maximum P demand (g/m2)
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'maize_p_demand')
+ 
+*   Initial data values
+*       none
+ 
+* --------------------- Executable code section ----------------------
+      call push_routine (my_name)
+ 
+         ! calculate potential new shoot and root growth
+ 
+      current_phase = int (g_current_stage)
+      dlt_dm_pot = c_rue(current_phase) * g_radn_int
+     :           * (1.0 + c_ratio_root_shoot(current_phase))
+ 
+      biomass    =  sum_real_array (g_dm_green, max_part)
+     :           +  sum_real_array (g_dm_senesced, max_part)
+     :           +  sum_real_array (g_dm_dead, max_part)
+ 
+      P_demand_new = dlt_dm_pot * g_P_conc_max
+      P_demand_old = (biomass * g_P_conc_max) - g_plant_p
+ 
+      deficit = P_demand_old + P_demand_new
+      deficit = l_bound (deficit, 0.0)
+ 
+      p_demand_max = p_demand_new * c_p_uptake_factor
+ 
+      g_P_demand = u_bound (deficit, p_demand_max)
+ 
+      call pop_routine (my_name)
+      return
+      end
+* ====================================================================
+       subroutine maize_P_conc (Option)
+* ====================================================================
+ 
+*   Short description:
+*      None
+ 
+*   Assumptions:
+*      None
+ 
+*   Notes:
+*      None
+ 
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+ 
+*   Changes:
+*     27-06-1997 - huth - Programmed and Specified
+ 
+*   Calls:
+*     Pop_routine
+*     Push_routine
+ 
+* ----------------------- Declaration section ------------------------
+ 
+       implicit none
+ 
+*   Subroutine arguments
+      integer Option
+ 
+*   Global variables
+      include 'const.inc'
+      include 'maize.inc'
+ 
+      include 'error.pub'                         
+ 
+*   Internal variables
+*      none
+ 
+*   Constant values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'maize_P_conc')
+ 
+*   Initial data values
+*      none
+ 
+* --------------------- Executable code section ----------------------
+      call push_routine (myname)
+ 
+      if (Option.eq.1) then
+         call Maize_P_conc_limits (
+     .          g_current_stage,
+     .          c_p_stage_code,
+     .          c_stage_code_list,
+     .          g_tt_tot,
+     .          g_phase_tt,
+     .          c_P_conc_max,
+     .          c_P_conc_min,
+     .          g_P_conc_max,
+     .          g_P_conc_min)
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+ 
+      call pop_routine (myname)
+      return
+      end
+*     ===========================================================
+      subroutine Maize_Phos_init (Option)
+*     ===========================================================
+ 
+*+  Short description:
+*      Initialise plant Phosphorus
+ 
+*+  Changes:
+*     270697 nih specified and programmed
+ 
+*+  Declaration section -----------------------------------------------
+      implicit none
+*   Subroutine arguments
+      integer    Option                ! (INPUT) option number
+*   Global variables
+      include   'const.inc'
+      include   'Maize.inc'
+      include 'error.pub'                         
+ 
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Maize_p_init')
+ 
+*-  Executable code section -------------------------------------------
+      call push_routine (my_name)
+ 
+      if (Option .eq. 1) then
+ 
+         call Maize_P_init (
+     .          emerg,
+     .          g_current_stage,
+     .          g_days_tot,
+     .          g_dm_green,
+     .          max_part,
+     .          g_p_conc_max,
+     .          g_plant_p
+     .               )
+ 
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+ 
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine Maize_P_init (
+     .          init_stage,
+     .          g_current_stage,
+     .          g_days_tot,
+     .          g_dm_green,
+     .          max_part,
+     .          g_p_conc_max,
+     .          g_plant_p)
+*     ===========================================================
+ 
+*+  Short description:
+*     Set initial plant p
+ 
+*+  Changes:
+*     270697 nih specified and programmed
+ 
+*+  Declaration section -----------------------------------------------
+      implicit none
+ 
+*   Subroutine arguments
+      integer init_stage
+      real g_current_stage
+      real g_days_tot(*)
+      real g_dm_green(*)
+      integer max_part
+      real       g_p_conc_max
+      real       g_plant_p
+ 
+*   Global variables
+ 
+      include 'data.pub'                          
+      include 'science.pub'                       
+      include 'error.pub'                         
+ 
+*   Internal variables
+      real biomass
+ 
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Maize_P_init')
+ 
+*-  Executable code section -------------------------------------------
+ 
+      call push_routine (my_name)
+ 
+      if (on_day_of (init_stage, g_current_stage, g_days_tot)) then
+         biomass = sum_real_array (g_dm_green, max_part)
+         g_plant_p = g_p_conc_max * biomass
+      else
+      endif
+ 
+      call pop_routine (my_name)
+      return
+      end
