@@ -177,11 +177,11 @@ cum_drain_90 = cum_drain_90 + apswim.flow(9)
 cum_leach_25 = cum_leach_25 + apswim.flow_no3(4)
 cum_leach_90 = cum_leach_90 + apswim.flow_no3(9)
 cum_rain     = cum_rain + met.rain
-cum_ET       = cum_ET + apswim.es + nwheat.ep + lucerne.ep + canola.ep
+cum_ET       = cum_ET + apswim.es + wheat.ep + lucerne.ep + canola.ep
 cum_drain    = cum_drain + apswim.drain
 cum_drain180 = cum_drain180 + apswim.flow(13)
 cum_E        = cum_E + apswim.es
-cum_T        = cum_T + nwheat.ep + lucerne.ep + canola.ep
+cum_T        = cum_T + wheat.ep + lucerne.ep + canola.ep
 
 !summary terms
 no3_025      = no3(1) + no3(2) + no3(3) + no3(4)
@@ -250,7 +250,7 @@ report4 do_end_day_output
 
 [weeds.manager.start_of_day]
 if ((day = 361) and (year = 1992)) then
-   nwheat sow plants = 40, depth = 40, cultivar = weed
+   wheat sow plants = 40, depth = 40, cultivar = weed
    cult = 2
    crop_in = 1
 endif
@@ -260,14 +260,14 @@ if ((crop_in = 0) and (lucerne.plant_status = 'out')) then
       ! weeds allowed to germinate
       if ((date_within('1-dec,28-feb') and (rain[2] >= 25)) or
           (date_within('1-mar,30-apr') and (rain[2] >= 20))) then
-         nwheat sow plants = 40, depth = 40, cultivar = weed
+         wheat sow plants = 40, depth = 40, cultivar = weed
          cult = 2
          crop_in = 1
       endif
    endif
 endif
-if ((cult = 2) and ((nwheat_status = 10) or (today = date('1-may')))) then
-      nwheat harvest
+if ((cult = 2) and ((wheat.stage_name = 'harvest_ripe') or (today = date('1-may')))) then
+      wheat harvest
       crop_in = 0
       cult = 0
 endif
@@ -285,10 +285,10 @@ endif
 
 !------1993 wheat-------
 !wheat sown and DAP (17 kg N/ha, 25 kg P/ha) applied on 6/6/93
-157 1993 nwheat sow plants = 210, depth = 40, cultivar = janz
+157 1993 wheat sow plants = 210, depth = 40, cultivar = janz
 157 1993 fertiliz apply amount = 17 (kg/ha), type = nh4_n, depth = 60 (mm)
 !wheat harvest on 15/12/93
-349 1993 nwheat harvest
+349 1993 wheat harvest
 
 !-------1994 fallow-------
 !tillage: stubble burnt 13/4/94, assumed tilled not long after
@@ -354,10 +354,10 @@ endif
 
 !-------1999 triticale-------
 !tritiale sown with 120 kg/ha DAP on 21/5/99 (=25 kg N/ha, 28 kg P/ha)
-141 1999 nwheat sow plants = 194, depth = 40, cultivar = janz
+141 1999 wheat sow plants = 194, depth = 40, cultivar = janz
 141 1999 fertiliz apply amount = 25 (kg/ha), type = nh4_n, depth = 60 (mm)
 !wheat harvest on 7/12/99 or 9/12/99 - assume 8/12/99
-342 1999 nwheat harvest
+342 1999 wheat harvest
 
 !-------2000 fallow------
 !tillage - temporary assumptions due to lack of info
@@ -685,24 +685,24 @@ alpha =                             0   0    0    0   0   0   0
 beta =                              0   0    0    0   0   0   0
                   ! ---------------------------------------------
 
-!******************** Nwheat module ********************
-[all.nwheat.janz]
+!******************** wheat module ********************
+[all.wheat.janz]
 uptake_source =  apsim
 
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13      14      15      16      17      18      19      20
 !x        =        0      50     100     200     300     400     500     700     900    1100    1300    1500    1700    1900    2100    2300    2500    2700    2900    3000
-nem       =      0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4
-wr        =        1       1       1     0.9    0.75     0.5    0.35    0.15    0.05    0.01       0       0       0       0       0       0       0       0       0       0
+xf        =        1       1       1     0.9    0.75     0.5    0.35    0.15    0.05    0.01       0       0       0       0       0       0       0       0       0       0
 ll        =    0.112   0.112   0.163   0.163   0.163   0.166   0.182   0.214   0.261   0.267   0.261   0.284   0.284   0.267   0.284   0.267   0.276   0.284   0.284   0.284
+kl        =     0.07    0.07    0.07    0.07    0.05    0.05    0.04    0.04    0.04    0.04       0       0       0       0       0       0       0       0       0       0
 
-[all.nwheat.weed]
+[all.wheat.weed]
 uptake_source =  apsim
 
 !                  1       2       3       4       5       6       7       8       9      10      11      12      13      14      15      16      17      18      19      20
 !x        =        0      50     100     200     300     400     500     700     900    1100    1300    1500    1700    1900    2100    2300    2500    2700    2900    3000
-nem       =      0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4     0.4
-wr        =        1       1       1     0.9     0.7     0.4     0.1       0       0       0       0       0       0       0       0       0       0       0       0       0
+xf        =        1       1       1     0.9     0.7     0.4     0.1       0       0       0       0       0       0       0       0       0       0       0       0       0
 ll        =    0.112   0.112   0.163   0.163   0.163   0.166   0.182   0.214   0.261   0.267   0.261   0.284   0.284   0.267   0.284   0.267   0.276   0.284   0.284   0.284
+kl        =     0.07    0.07    0.07    0.07    0.05    0.05    0.04       0       0       0       0       0       0       0       0       0       0       0       0       0
 
 !********************** Canola module ********************
 [all.canola.parameters]
@@ -782,7 +782,7 @@ screen_output = off
 
 [all.tracker1.parameters]
 variable = sum of met.rain since report1.reported as sum@met_rain on post
-variable = sum of nwheat.ep since report1.reported as sum@nwheat_ep on post
+variable = sum of wheat.ep since report1.reported as sum@wheat_ep on post
 variable = sum of lucerne.ep since report1.reported as sum@lucerne_ep on post
 variable = sum of canola.ep since report1.reported as sum@canola_ep on post
 variable = sum of apswim.es since report1.reported as sum@apswim_es on post
@@ -801,7 +801,7 @@ variable = sum of canola.dlt_n_fixed since report2.reported as sum@canola_dlt_n_
 
 [all.tracker3.parameters]
 variable = sum of met.rain since report4.reported as sum@met_rain on post
-variable = sum of nwheat.ep since report4.reported as sum@nwheat_ep on post
+variable = sum of wheat.ep since report4.reported as sum@wheat_ep on post
 variable = sum of lucerne.ep since report4.reported as sum@lucerne_ep on post
 variable = sum of canola.ep since report4.reported as sum@canola_ep on post
 variable = sum of apswim.es since report4.reported as sum@apswim_es on post
