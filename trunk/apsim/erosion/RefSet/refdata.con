@@ -71,6 +71,7 @@
   Module = soiln2   gmtswim.par [gmtb0]     %apsuite\apsim\soiln2\soiln2.ini [standard]      
   Module = grasp    gmtswim.par [gmtb0]     %apsuite\apsim\grasp\grasp.ini [standard]      
   Module = surface  gmtswim.par [gmtb0]      
+  Module = canopy       
 
 [gmtb0.report.parameters]  
 
@@ -90,7 +91,7 @@ units =           -
 
 !                  [runoff.soil_loss] [fudge_cover.erosion_cover] [cover.soil_loss]
 module_names =     erosion             erosion                    soilwat2   
-variable_names =   soil_loss           erosion_cover              total_cover   
+variable_names =   soil_loss           erosion_cover              cover_surface_runoff   
 variable_alias =   -                   -                          -   
 units =            -                   -                          -   
 
