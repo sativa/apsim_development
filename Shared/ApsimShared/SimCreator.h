@@ -13,6 +13,7 @@ typedef void __fastcall (__closure *TSimCreatorEvent)(const std::string& simFile
 class __declspec(dllexport) SimCreator
    {
    public:
+      SimCreator(void) : con(NULL) {};
       SimCreator(const std::string& controlFileName);
       ~SimCreator(void);
 
@@ -44,6 +45,12 @@ class __declspec(dllexport) SimCreator
       //---------------------------------------------------------------------------
       void createSims(const std::string& simDirectory,
                       TSimCreatorEvent simCreatorEvent);
+
+      //---------------------------------------------------------------------------
+      // Treat the file passed in as an .ini file and convert it
+      // to a sim file format. Return the converted contents as a string.
+      //---------------------------------------------------------------------------
+      std::string convertIniToSim(const std::string& filename);
 
    private:
       ApsimControlFile* con;

@@ -13,6 +13,8 @@
 #include <ComponentInterface\messages.h>
 #include <Protocol\Transport.h>
 #include <Protocol\Computation.h>
+#include <ApsimShared\SimCreator.h>
+#include <ApsimShared\ApsimDirectories.h>
 
 using namespace std;
 using namespace protocol;
@@ -124,6 +126,7 @@ void Simulation::init(const string& fileName)
 
    // get dll filename for master PM.
    string dllFilename = data->getExecutableFileName();
+   replaceAll(dllFilename, "%apsuite", getApsimDirectory());
 
    // create a Master PM and give it to the transport layer.
    masterPM = new Computation("MasterPM", dllFilename, parentID, masterPMID);
@@ -134,12 +137,16 @@ void Simulation::init(const string& fileName)
    ostringstream sdml;
    sdml << in.rdbuf();
 
+   // resolve any includes.
+   string sdmlContents = sdml.str();
+   resolveIncludes(sdmlContents);
+
    // initialise the simulation
    string pmName = "MasterPM";
    Message* message = constructMessage(Init1, parentID, masterPMID , false,
-                                       memorySize(sdml.str()) + memorySize(pmName) + memorySize(true));
+                                       memorySize(sdmlContents) + memorySize(pmName) + memorySize(true));
    MessageData messageData(message);
-   messageData << sdml.str() << pmName << true;
+   messageData << sdmlContents << pmName << true;
    Transport::getTransport().deliverMessage(message);
    deleteMessage(message);
 
@@ -194,5 +201,44 @@ void Simulation::commence(void)
 void Simulation::setMessageHook(IMessageHook* hook)
    {
    Transport::getTransport().setMessageHook(hook);
+   }
+
+// ------------------------------------------------------------------
+// resolve any includes in the specified sdml.
+// ------------------------------------------------------------------
+void Simulation::resolveIncludes(string& sdml)
+   {
+   replaceAll(sdml, "%apsuite", getApsimDirectory());
+
+   unsigned posInclude = sdml.find("<include>");
+   while (posInclude != string::npos)
+      {
+      unsigned posFileName = posInclude + strlen("<include>");
+      unsigned posEndFileName = sdml.find("</include>", posFileName);
+      if (posEndFileName == string::npos)
+         throw runtime_error("Cannot find </include> tag");
+      string includeFileName = sdml.substr(posFileName, posEndFileName-posFileName);
+
+      if (!FileExists(includeFileName.c_str()))
+         throw runtime_error("Cannot find include file: " + includeFileName);
+      string contents;
+      if (includeFileName.find(".ini") != string::npos)
+         {
+         SimCreator simCreator;
+         contents = simCreator.convertIniToSim(includeFileName);
+         }
+      else
+         {
+         ostringstream buffer;
+         ifstream in(includeFileName.c_str());
+         buffer << in.rdbuf();
+         contents = buffer.str();
+         }
+
+      unsigned posEndInclude = posEndFileName + strlen("</include>");
+      sdml.replace(posInclude, posEndInclude - posInclude, contents);
+
+      posInclude = sdml.find("<include>");
+      }
    }
 
