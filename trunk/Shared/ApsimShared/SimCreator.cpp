@@ -159,6 +159,10 @@ SimCreator::SimCreator(const std::string& controlFileName)
 SimCreator::~SimCreator(void)
    {
    delete con;
+   for (Components::iterator i = components.begin();
+                             i != components.end();
+                             i++)
+      delete i->second;
    }
 //---------------------------------------------------------------------------
 // Create SIM files for the given control.  All sims are stored in the
@@ -219,6 +223,7 @@ void SimCreator::createSim(const string& sectionName,
    if (simNumber > 0)
       simulationFileName += IntToStr(simNumber).c_str();
    simulationFileName += ".sim";
+   simulationFileName = ExpandFileName(simulationFileName.c_str()).c_str();
 
    ApsimSimulationFile simulation;
    simulation.setFileName(simulationFileName);
@@ -238,6 +243,25 @@ void SimCreator::createSim(const string& sectionName,
       string dllFileName = m->dllFileName;
 
       ApsimComponentData component = simulation.addComponent(instanceName);
+
+      // See if we've already parsed the .ini file this component.
+      string iniFileName = con->getIniFileForInstance(sectionName, instanceName);
+      if (iniFileName != "")
+         {
+         Components::iterator c = components.find(iniFileName);
+         if (c != components.end())
+            component.copyAllFrom(*(c->second));
+
+         else
+            {
+            ApsimComponentData* iniComponent = new ApsimComponentData();
+            ImportSection importSection(*iniComponent, moduleName);
+            con->enumerateParametersForInstance(sectionName, instanceName, true, importSection.callback);
+            components.insert(make_pair(iniFileName, iniComponent));
+            component.copyAllFrom(*iniComponent);
+            }
+         }
+
       component.setExecutableFileName(dllFileName);
 
       if (Str_i_Eq(moduleName, "input") || Str_i_Eq(moduleName, "soi"))
@@ -249,7 +273,7 @@ void SimCreator::createSim(const string& sectionName,
       else
          {
          ImportSection importSection(component, moduleName);
-         con->enumerateParametersForInstance(sectionName, instanceName, true, importSection.callback);
+         con->enumerateParametersForInstance(sectionName, instanceName, false, importSection.callback);
          }
       }
    simulation.write();
