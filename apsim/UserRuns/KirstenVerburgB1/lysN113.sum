@@ -36,11 +36,11 @@
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
      Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
      Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
      Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
      Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
-     Component DLL          = c:\development\apsim\cropmod\lib\cropmod.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -358,7 +358,7 @@
 ------- operatns Initialisation -----------------------------------------------
      Operations Schedule
      ===================
-       350 1992  Prepare      soiln2 incorp_fom dlt_fom_wt =  10 50 200 350 500 700 500 400 450 400 250 100 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 ()
+       350 1992  Prepare      soiln2 add_roots dlt_fom_wt =  10 50 200 350 500 700 500 400 450 400 250 100 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 ()
        350 1992  Prepare      weed1 sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
         90 1993  Prepare      weed1 end_crop
         90 1993  Prepare      residue2 set pot_decomp_rate = 0.10 ()
@@ -1037,22 +1037,25 @@
         - Reading Constants
 
 ------- canola Initialisation -------------------------------------------------
-      Initialising
+      initialising
 
 ------- lucerne Initialisation ------------------------------------------------
-      Initialising
+      initialising
 
 ------- lupin Initialisation --------------------------------------------------
-      Initialising
+      initialising
 
 ------- weed1 Initialisation --------------------------------------------------
-      Initialising
+      initialising
 
 ------- weed2 Initialisation --------------------------------------------------
-      Initialising
+      initialising
 
 ------- weed3 Initialisation --------------------------------------------------
-      Initialising
+      initialising
+
+------- wheat Initialisation --------------------------------------------------
+      initialising
 
 ------- tracker1 Initialisation -----------------------------------------------
      Tracker variables:
@@ -1110,29 +1113,79 @@
         average of weed2.nfact_photo since report5.reported as avg@weed2_nfact_photo on process
         average of weed2.swdef_photo since report5.reported as avg@weed2_swdef_photo on process
         sum of weed2.sw_uptake(1-10) since report5.reported as sum@weed2_sw_uptake[1-10] on process
-
-------- wheat Initialisation --------------------------------------------------
-      Initialising, V1.0 2000.01.21
-     
-         - Reading constants
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     x_ws_root =     2.000000
-             exceeds upper limit of    1.000000
-     Component name: wheat
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 ------- Start of simulation  --------------------------------------------------
 15 December 1992(Day of year=350), operatns: 
-      Sending incorp_fom message to soiln2
-15 December 1992(Day of year=350), MasterPM: 
+      Sending add_roots message to soiln2
+      Sending sow message to weed1
+15 December 1992(Day of year=350), weed1: 
+     Crop Sow
+      - reading constants for winter_grass(weed)
+      - reading cultivar parameters
+         ------------------------------------------------
+        cultivar                   = early
+        est_days_emerg_to_init     =       83
+        cum_vernal_days            =       0.00     100.00
+        tt_emerg_to_endjuv         =     400.00     400.00
+        x_pp_endjuv_to_init        =       1.00      24.00
+        y_tt_endjuv_to_init        =     500.00     500.00
+        x_pp_init_to_flower        =       1.00      24.00
+        y_tt_init_to_flower        =      50.00      50.00
+        x_pp_flower_to_start_grain =       1.00      24.00
+        y_tt_flower_to_start_grain =     120.00     120.00
+        x_pp_start_to_end_grain    =       1.00      24.00
+        y_tt_start_to_end_grain    =     380.00     380.00
+        tt_end_grain_to_maturity   =      55.00
+        tt_maturity_to_ripe        =       1.00
+        x_stem_wt                  =       0.00       3.00
+        y_height                   =       0.00     800.00
+         ------------------------------------------------
+     
+     
+        - reading root profile parameters
+                        Root Profile
+     ---------------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+     ---------------------------------------------------
+           5.0     0.080          0.112       1.000
+          10.0     0.080          0.112       1.000
+          20.0     0.080          0.112       1.000
+          40.0     0.080          0.112       1.000
+          75.0     0.080          0.124       1.000
+         100.0     0.080          0.148       1.000
+         100.0     0.080          0.148       1.000
+         100.0     0.080          0.167       1.000
+         150.0     0.080          0.183       1.000
+         200.0     0.080          0.214       1.000
+         200.0     0.080          0.241       1.000
+         200.0     0.080          0.260       0.700
+         200.0     0.080          0.267       0.000
+         150.0     0.080          0.282       0.000
+         100.0     0.080          0.282       0.000
+          75.0     0.080          0.282       0.000
+          50.0     0.080          0.282       0.000
+          25.0     0.080          0.282       0.000
+     ---------------------------------------------------
+     
+     (Crop factor for bounding water use is set to 100.0 times eo)
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+            350   40.0   20.0  350.0   0.0   0.0 early
+         ------------------------------------------------
+     
+15 December 1992(Day of year=350), manager: 
+     Manager creating a new local real variable : reduce_status =     0.00000000000000
+15 December 1992(Day of year=350), weed1: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM  Fatal  Error
                       -------------------
-     No module responded to method call: soiln2.incorp_fom
-     Component name: MasterPM
+     invalid template option
+     Component name: weed1
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
