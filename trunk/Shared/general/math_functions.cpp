@@ -208,7 +208,8 @@ double linear_interp_real (double x,
          return y_cord[indx];
          }
       }
-   assert (false);
+//   assert (false);
+   return 0;
    }
 
 // ------------------------------------------------------------------
@@ -299,13 +300,14 @@ void Calculate_freq_dist(vector<double>& Values,
                          vector<double>& Start_values,
                          vector<double>& End_values,
                          vector<string>& Frequency_labels,
-                         vector<double>& Frequency_numbers)
+                         vector<double>& Frequency_numbers,
+                         int Label_precision)
    {
    Frequency_labels.erase (Frequency_labels.begin(), Frequency_labels.end());
    Frequency_numbers.erase (Frequency_numbers.begin(), Frequency_numbers.end());
 
    // loop through all frequency intervals.
-   for (int interval = 0; interval < Start_values.size(); interval++)
+   for (unsigned int interval = 0; interval < Start_values.size(); interval++)
       {
       double Start_of_interval = Start_values[interval];
       double End_of_interval = End_values[interval]; 
@@ -318,9 +320,56 @@ void Calculate_freq_dist(vector<double>& Values,
       // create a label for this interval.
       ostrstream out;
       out.setf(ios::fixed, ios::floatfield);
-      out << setprecision(1) << Start_of_interval << '-' << setprecision(1) << End_of_interval << ends;
+      out << '(';
+      out << setprecision(Label_precision) << Start_of_interval << " to " << setprecision(Label_precision) << End_of_interval;
+      out << ')' << ends;
       Frequency_labels.push_back (out.str());
       delete out.str();
       }
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//    round a number up or down to nearest number depending on the
+//    magnitude of the number passed in.
+
+//  Notes:
+//    eg.  if Value = 0.1   Rounds down to
+//    eg.  if Value = 369   Rounds down to 300 Rounds up to 400
+//    eg.  if Value = 1234  Rounds down to 1000 Rounds up to 2000
+//    eg.  if Value = 12345 Rounds down to 10000 Rounds up to 20000
+
+
+//  Changes:
+//    DPH 6/8/98
+
+// ------------------------------------------------------------------
+void Round_using_magnitude (double& Value, bool Round_up)
+   {
+   if (abs(Value) > 0)
+      {
+      int Magnitude = log10(abs(Value));
+      int Nearest = pow(10, Magnitude);
+      Round_to_nearest (Value, Nearest, Round_up);
+      }
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//    round a number up or down to nearest specified number
+
+//  Notes:
+//    eg.  if Value = 369 and Nearest = 200 Rounds down to 200 Rounds up to 400
+
+//  Changes:
+//    DPH 6/8/98
+
+// ------------------------------------------------------------------
+void Round_to_nearest (double& Value, double Nearest, bool Round_up)
+   {
+   Value = floor(Value / Nearest);
+   if (Round_up)
+      Value++;
+   Value *= Nearest;
    }
 

@@ -368,7 +368,39 @@ void Calculate_freq_dist(vector<double>& Values,
                          vector<double>& Start_values,
                          vector<double>& End_values,
                          vector<string>& Frequency_labels,
-                         vector<double>& Frequency_numbers);
+                         vector<double>& Frequency_numbers,
+                         int Label_precision);
+
+// ------------------------------------------------------------------
+//  Short description:
+//    round a number up or down to nearest number depending on the
+//    magnitude of the number passed in.
+
+//  Notes:
+//    eg.  if Value = 0.1   Rounds down to
+//    eg.  if Value = 369   Rounds down to 300 Rounds up to 400
+//    eg.  if Value = 1234  Rounds down to 1000 Rounds up to 2000
+//    eg.  if Value = 12345 Rounds down to 10000 Rounds up to 20000
+
+
+//  Changes:
+//    DPH 6/8/98
+
+// ------------------------------------------------------------------
+void Round_using_magnitude (double& Value, bool Round_up);
+
+// ------------------------------------------------------------------
+//  Short description:
+//    round a number up or down to nearest specified number
+
+//  Notes:
+//    eg.  if Value = 369 and Nearest = 200 Rounds down to 200 Rounds up to 400
+
+//  Changes:
+//    DPH 6/8/98
+
+// ------------------------------------------------------------------
+void Round_to_nearest (double& Value, double Nearest, bool Round_up);
 
 #endif
 

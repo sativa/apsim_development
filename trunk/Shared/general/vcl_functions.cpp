@@ -101,10 +101,11 @@ void Select_items_in_listbox(TListBox* listbox, TStrings* Items_to_select)
       for (int i = 0; i < Items_to_select->Count; i++)
          {
          int index = listbox->Items->IndexOf(Items_to_select->Strings[i]);
-         if (index < 0)
-            index = listbox->Items->Add(Items_to_select->Strings[i]);
+//         if (index < 0)
+//            index = listbox->Items->Add(Items_to_select->Strings[i]);
 
-         listbox->Selected[index] = true;
+         if (index >= 0)
+            listbox->Selected[index] = true;
          }
       }
    else if (Items_to_select->Count > 0)
@@ -123,9 +124,9 @@ void Select_items_in_listbox(TListBox* listbox, TStrings* Items_to_select)
 // ------------------------------------------------------------------
 void Get_selected_items_from_listbox(TListBox* listbox, TStrings* Selected_items)
    {
+   Selected_items->Clear();
    if (listbox->MultiSelect)
       {
-      Selected_items->Clear();
       for (int i = 0; i < listbox->Items->Count; i++)
          {
          if (listbox->Selected[i])
