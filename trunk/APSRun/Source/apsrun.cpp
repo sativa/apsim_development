@@ -18,8 +18,7 @@ using namespace std;
 // ------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
    {
-   AllocConsole();
-
+   bool console = false;
    try
       {
       string fileName;
@@ -31,9 +30,14 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
             quietRun = true;
          else if (stricmp(_argv[argIndex], "/CreateSIM") == 0)
             createSIM = true;
+         else if (stricmp(_argv[argIndex], "/Console") == 0)
+            console = true;
          else
             fileName = _argv[argIndex];
          }
+      if (console)
+         AllocConsole();
+
       if (!FileExists(fileName.c_str()))
          throw runtime_error("Cannot locate APSIM file: " + fileName);
 
@@ -91,7 +95,8 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
       MessageBox(NULL, error.what(), "Error", MB_ICONSTOP | MB_OK);
       return 1;
       }
-   FreeConsole();
+   if (console)
+      FreeConsole();
    return 0;
    }
 //---------------------------------------------------------------------------
