@@ -1,7 +1,7 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  Run 1  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 version = 3.2
 [apsim.Run 1]
-module = clock       run1.par [run1]
+module = clock       run1.par [run1] %apsuite\apsim\clock\clock.ini[standard]
 module = report      run1.par [run1]
 module = input(met)  Dalby1887_1998.met [weather]
 module = manager     run1.man [run1]
