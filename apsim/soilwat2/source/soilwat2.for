@@ -2855,37 +2855,37 @@ cjh
       call read_real_array (section_name
      :                     , 'sat', max_layer, '()'
      :                     , sat, numvals
-     :                     , 0.0, 1000.0)
+     :                     , 0.0, 1.0)
 
       call read_real_array (section_name
      :                     , 'dul', max_layer, '()'
      :                     , dul, numvals
-     :                     , 0.0, 1000.0)
+     :                     , 0.0, 1.0)
 
       call read_real_array_optional (section_name
      :                     , 'sw', max_layer, '()'
      :                     , sw, g%numvals_sw
-     :                     , 0.0, 1000.0)
+     :                     , 0.0, 1.0)
 
       call read_real_array (section_name
      :                     , 'll15', max_layer, '()'
      :                     , ll15, numvals
-     :                     , 0.0, 1000.0)
+     :                     , 0.0, 1.0)
 
       call read_real_array (section_name
      :                     , 'air_dry', max_layer, '()'
      :                     , air_dry, numvals
-     :                     , 0.0, 10.0)
+     :                     , 0.0, 1.0)
 
       call read_real_array (section_name
      :                     , 'swcon', max_layer, '()'
      :                     , p%swcon, numvals
-     :                     , 0.0, 1000.0)
+     :                     , 0.0, 1.0)
 
       call read_real_array_optional (section_name
      :                     , 'mwcon', max_layer, '()'
      :                     , p%mwcon, numvals
-     :                     , 0.0, 1000.0)
+     :                     , 0.0, 1.0)
 
 c dsg - if there is no impermeable layer specified, then mwcon must
 c       be set to '1' in all layers by default
@@ -2898,7 +2898,7 @@ c       be set to '1' in all layers by default
       call read_real_array ( section_name
      :                     , 'bd', max_layer, '(g/cc)'
      :                     , g%bd, numvals
-     :                     , 0.01, 10.0)
+     :                     , 0.01, 3.0)
 
       num_layers = count_of_real_vals (p%dlayer, max_layer)
       do 1010 layer = 1,num_layers
