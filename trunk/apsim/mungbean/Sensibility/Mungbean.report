@@ -6,8 +6,8 @@ object data: TForm
   Align = alClient
   BorderIcons = []
   BorderStyle = bsNone
-  ClientHeight = 626
-  ClientWidth = 888
+  ClientHeight = 865
+  ClientWidth = 1384
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,7 +17,7 @@ object data: TForm
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
-  object Dalby300File: TApsimFileReader
+  object Dalby600File: TApsimFileReader
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -84,7 +84,7 @@ object data: TForm
     Left = 122
     Top = 357
   end
-  object Dalby300Prob: TProbability
+  object Dalby600Prob: TProbability
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -126,14 +126,14 @@ object data: TForm
     SortID = 0
     SubLanguageID = 1
     LocaleID = 1024
-    source = Dalby300File
+    source = Dalby600File
     subscriptionComponentNames.Strings = (
       'Filter1.onSourceDataChanged')
     fieldName = 'yield'
     Left = 25
     Top = 271
   end
-  object Roma300File: TApsimFileReader
+  object Roma600File: TApsimFileReader
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -199,7 +199,7 @@ object data: TForm
     Left = 336
     Top = 192
   end
-  object Roma300Prob: TProbability
+  object Roma600Prob: TProbability
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -241,12 +241,12 @@ object data: TForm
     SortID = 0
     SubLanguageID = 1
     LocaleID = 1024
-    source = Roma300File
+    source = Roma600File
     fieldName = 'yield'
     Left = 448
     Top = 216
   end
-  object Roma900File: TApsimFileReader
+  object Roma1200File: TApsimFileReader
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -312,7 +312,7 @@ object data: TForm
     Left = 248
     Top = 88
   end
-  object Roma900Prob: TProbability
+  object Roma1200Prob: TProbability
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -354,12 +354,12 @@ object data: TForm
     SortID = 0
     SubLanguageID = 1
     LocaleID = 1024
-    source = Roma900File
+    source = Roma1200File
     fieldName = 'yield'
     Left = 112
     Top = 112
   end
-  object Dalby900File: TApsimFileReader
+  object Dalby1200File: TApsimFileReader
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -425,7 +425,7 @@ object data: TForm
     Left = 342
     Top = 79
   end
-  object Dalby900Prob: TProbability
+  object Dalby1200Prob: TProbability
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -467,14 +467,14 @@ object data: TForm
     SortID = 0
     SubLanguageID = 1
     LocaleID = 1024
-    source = Dalby900File
+    source = Dalby1200File
     fieldName = 'yield'
     Left = 417
     Top = 28
   end
 end
 object QuickRepPage1: TQuickRep
-  Left = 335
+  Left = 271
   Top = -47
   Width = 714
   Height = 1010
@@ -608,9 +608,9 @@ object QuickRepPage1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Dalby300Prob
+          DataSource = data.Dalby600Prob
           SeriesColor = clRed
-          Title = 'Dalby 300'
+          Title = 'Dalby 600'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -625,9 +625,9 @@ object QuickRepPage1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Dalby900Prob
+          DataSource = data.Dalby1200Prob
           SeriesColor = clGreen
-          Title = 'Dalby900'
+          Title = 'Dalby1200'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -642,9 +642,9 @@ object QuickRepPage1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Roma300Prob
+          DataSource = data.Roma600Prob
           SeriesColor = clYellow
-          Title = 'Roma300'
+          Title = 'Roma600'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -659,9 +659,9 @@ object QuickRepPage1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Roma900Prob
+          DataSource = data.Roma1200Prob
           SeriesColor = clBlue
-          Title = 'Roma900'
+          Title = 'Roma1200'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -744,9 +744,9 @@ object QuickRepPage1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Dalby300File
+          DataSource = data.Dalby600File
           SeriesColor = clRed
-          Title = 'Dalby 300'
+          Title = 'Dalby 600'
           ClickableLine = False
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -762,9 +762,9 @@ object QuickRepPage1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Dalby900File
+          DataSource = data.Dalby1200File
           SeriesColor = clGreen
-          Title = 'Dalby900'
+          Title = 'Dalby1200'
           ClickableLine = False
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -780,9 +780,9 @@ object QuickRepPage1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Roma300File
+          DataSource = data.Roma600File
           SeriesColor = clYellow
-          Title = 'Roma300'
+          Title = 'Roma600'
           ClickableLine = False
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -798,9 +798,9 @@ object QuickRepPage1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Roma900File
+          DataSource = data.Roma1200File
           SeriesColor = clBlue
-          Title = 'Roma900'
+          Title = 'Roma1200'
           ClickableLine = False
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -850,7 +850,7 @@ object QuickRepPage1: TQuickRep
     object Text2: TText
       Left = 83
       Top = 94
-      Width = 565
+      Width = 572
       Height = 23
       Frame.Color = clBlack
       Frame.DrawTop = False
@@ -862,7 +862,7 @@ object QuickRepPage1: TQuickRep
         67.6157407407407
         244.00462962963
         276.342592592593
-        1660.99537037037)
+        1681.57407407407)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -871,12 +871,12 @@ object QuickRepPage1: TQuickRep
       Lines.Strings = (
         
           'Mungbean yields for 1957 to 2002 for Dalby and Roma on a Waco Bl' +
-          'ack Earth for 300 or 900 mm of wet soil.')
+          'ack Earth for 600 or 1200 mm of wet soil.')
       Transparent = False
       WordWrap = True
       text = 
         'Mungbean yields for 1957 to 2002 for Dalby and Roma on a Waco Bl' +
-        'ack Earth for 300 or 900 mm of wet soil.'#13#10
+        'ack Earth for 600 or 1200 mm of wet soil.'#13#10
       FontSize = 10
     end
   end
