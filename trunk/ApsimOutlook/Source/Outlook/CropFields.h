@@ -69,6 +69,7 @@ class CropFields
       std::vector<std::string> fieldNamesMinusUnits;
       std::vector<std::string> cropAcronyms;
       Ini_file ini;
+      bool cropFieldExists;
 
       // Return true if there is any field for the specified crop, in the
       // specified record that has a non zero value.
