@@ -10,14 +10,14 @@ DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
 PROJECTS = general.lib ApsimShared.dll SEGReport.bpl StandardControls.dll \
-  DataControls.dll ApsimReport.exe ApsimExplorer.exe APSBuild.exe \
-  CreateComponentInterfaceSource.exe CreateDataTypesSource.exe APSRun.exe \
-  ComponentInterface.lib Protocol.dll apsim.exe ProtocolManager.dll Log.dll \
-  SummaryFile.dll Input.dll report.dll Screen.dll Tracker.dll APSGeneral.bpl \
-  apsdata.bpl ApsimOutlook.exe dbaddin.dll DamEasyAddin.dll FilterAddIn.dll \
-  RotationAddIn.dll soiaddin.dll WhopEconAddin.dll OutlookManager.exe \
-  FilterBarPackage.bpl SoilAPI.dll import.exe apsoil.exe Test.dll icons.dll \
-  SendToExcel.exe ApsimContextMenu.dll Misc.dll SoilWater.dll TemplatePacks.dll \
+  DataControls.dll ApsimReport.exe ApsimContextMenu.dll ApsimExplorer.exe \
+  APSBuild.exe CreateComponentInterfaceSource.exe CreateDataTypesSource.exe \
+  APSRun.exe ComponentInterface.lib Protocol.dll apsim.exe ProtocolManager.dll \
+  Log.dll SummaryFile.dll Input.dll report.dll Screen.dll Tracker.dll \
+  APSGeneral.bpl apsdata.bpl ApsimOutlook.exe dbaddin.dll DamEasyAddin.dll \
+  FilterAddIn.dll RotationAddIn.dll soiaddin.dll WhopEconAddin.dll \
+  OutlookManager.exe FilterBarPackage.bpl SoilAPI.dll import.exe apsoil.exe \
+  Test.dll icons.dll SendToExcel.exe Misc.dll SoilWater.dll TemplatePacks.dll \
   data.dll chart.dll apsvis.exe
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
