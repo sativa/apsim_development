@@ -3,18 +3,19 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.05.03"/>
-    <PROJECT value="apsim.exe"/>
+    <PROJECT value="..\..\apsim.exe"/>
     <OBJFILES value="apsim.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value="APSIMEngine.lib ..\..\..\shared\aps\aps32.lib"/>
+    <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder5\Projects\Lib\protocol.lib&quot; &quot;C:\Program Files\Borland\CBuilder5\Projects\Lib\general.lib&quot;"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="Vcl50.lib"/>
     <PACKAGES value="Vcl50.bpi Vclx50.bpi bcbsmp50.bpi Qrpt50.bpi Vcldb50.bpi Vclbde50.bpi 
-      ibsmp50.bpi vcldbx50.bpi TeeUI50.bpi TeeDB50.bpi Tee50.bpi TeeQR50.bpi 
-      VCLIB50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi Inet50.bpi NMFast50.bpi 
-      dclocx50.bpi bcb97axserver50.bpi"/>
+      ibsmp50.bpi vcldbx50.bpi VCLIB50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi 
+      Inet50.bpi NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi TeeGL4C5.bpi 
+      TEE4C5.bpi TeeQR4C5.bpi TEEDB4C5.bpi TEEUI4C5.bpi TEEPRO4C5.bpi 
+      OpenXML.bpi VCLADO50.bpi dclusr50.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -22,25 +23,24 @@
     <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="tlink32"/>
-    <USERDEFINES value="_DEBUG"/>
-    <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
+    <USERDEFINES value=""/>
+    <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="apsim.bpf"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl"/>
-    <LIBPATH value="$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\odl\;&quot;k:\aps\&quot;"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;..\protocol;&quot;k:\&quot;"/>
+    <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder5\Projects\&quot;;&quot;C:\Program Files\Borland\CBuilder5\Projects\Lib\&quot;;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl50.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC 
-      -tWM- -c"/>
-    <PFLAGS value="-$Y+ -$W -$O- -v -JPHNE -M"/>
+    <CFLAG1 value="-O2 -H=$(BCB)\lib\vcl50.csm -Hc -Vx -Ve -X- -a8 -b- -k- -vi -tWC -tWM -c"/>
+    <PFLAGS value="-$Y- -$L- -$D- -v -JPHNE -M"/>
     <RFLAGS value=""/>
-    <AFLAGS value="/mx /w2 /zi"/>
-    <LFLAGS value="-D&quot;&quot; -ap -Tpe -x -Gn -v"/>
+    <AFLAGS value="/mx /w2 /zn"/>
+    <LFLAGS value="-D&quot;&quot; -ap -Tpe -x -Gn"/>
   </OPTIONS>
   <LINKER>
-    <ALLOBJ value="c0x32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLOBJ value="c0x32.obj $(PACKAGES) $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
   </LINKER>
   <IDEOPTIONS>
 [Version Info]
@@ -70,36 +70,39 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
-[Excluded Packages]
-$(BCB)\Projects\Bpl\APSUI.bpl=APSuite user interface components
-$(BCB)\Projects\Bpl\DB.bpl=c:\program files\borland\cbuilder5\Projects\Bpl\DB
-$(BCB)\Projects\Bpl\TAChartPackage.bpl=TAChart
-
 [HistoryLists\hlIncludePath]
-Count=1
-Item0=$(BCB)\include;$(BCB)\include\vcl
+Count=5
+Item0=$(BCB)\include;$(BCB)\include\vcl;..\protocol;k:\
+Item1=D:\apsuite\apsim\infra\engine;$(BCB)\include;$(BCB)\include\vcl;..\protocol;k:\
+Item2=C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;..\protocol
+Item3=$(BCB)\include;$(BCB)\include\vcl;..\protocol
+Item4=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=5
-Item0=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\odl\;k:\aps\
-Item1=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\odl\;k:\aps;..\engine
-Item2=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\odl\
-Item3=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general;k:\odl
-Item4=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Count=4
+Item0=C:\Program Files\Borland\CBuilder5\Projects\;C:\Program Files\Borland\CBuilder5\Projects\Lib\;$(BCB)\lib\obj;$(BCB)\lib
+Item1=D:\apsuite\apsim\infra\engine;C:\Program Files\Borland\CBuilder5\Projects\;C:\Program Files\Borland\CBuilder5\Projects\Lib\;$(BCB)\lib\obj;$(BCB)\lib
+Item2=C:\Program Files\Borland\CBuilder5\Projects\Lib\;$(BCB)\lib\obj;$(BCB)\lib
+Item3=C:\Program Files\Borland\CBuilder5\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
-Count=1
-Item0=$(BCB)\source\vcl
+Count=2
+Item0=c:\program files\borland\cbuilder5\source\vcl;F:\apsim\Pasture\source\
+Item1=$(BCB)\source\vcl
 
 [HistoryLists\hlConditionals]
 Count=1
 Item0=_DEBUG
 
+[HistoryLists\hlFinalOutputDir]
+Count=1
+Item0=..\..\
+
 [Debugging]
-DebugSourceDirs=$(BCB)\source\vcl
+DebugSourceDirs=c:\program files\borland\cbuilder5\source\vcl;F:\apsim\Pasture\source\
 
 [Parameters]
-RunParams=d:\apsuite\apsim\soi\sample\run.sim
+RunParams=d:\apsuite\apsim\cropmod\sample\cropmod.sim
 HostApplication=
 RemoteHost=
 RemotePath=

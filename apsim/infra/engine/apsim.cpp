@@ -1,21 +1,33 @@
-//---------------------------------------------------------------------------
-
-#include <vcl.h>
 #pragma hdrstop
-
+#include "Simulation.h"
+#include <string>
 #include <fstream>
-#include <conio.h>
-#include "APSIMMain.h"
-using std::ofstream;
-using std::cout;
+#include <general\path.h>
+#include <dir.h>
+using namespace std;
+using namespace protocol;
 //---------------------------------------------------------------------------
-USELIB("aps32.lib");
-USELIB("general.lib");
-USELIB("odl.lib");
-USELIB("apsimengine.lib");
+void start(const char* simFilename)
+   {
+   ifstream in(simFilename);
+   if (in)
+      {
+      chdir(Path(simFilename).Get_directory().c_str());
+      string sdml;
+      getline(in, sdml, '\0');
+
+      Simulation simulation;
+      simulation.init(sdml);
+      simulation.commence();
+      simulation.term();
+      }
+   else
+      {
+      cout << "Cannot find file: " << simFilename;
+      }
+   }
 //---------------------------------------------------------------------------
-#pragma argsused
-int main(int argc, char **argv)
+int main(int argc, char* argv[])
    {
    if (argc == 3 && strcmpi(argv[1], "/q") == 0)
       start(argv[2]);
@@ -32,4 +44,5 @@ int main(int argc, char **argv)
 
    return 0;
    }
-
+//---------------------------------------------------------------------------
+ 

@@ -1,35 +1,9 @@
--implib  "protocol.dll"
--import    cstring2fstring
--import    fstring2cstring
--import    ei_create
--import    ei_free
--import    ei_getname
--import    ei_existscomponent
--import    ei_sendaction
--import    ei_broadcastaction
--import    ei_publishevent
--import    ei_getvariable
--import    ei_setvariable
--import    ei_sendvariable
--import    ei_componentresponded
--import    ei_setcomponentresponded
--import    ei_registersubscribedevent
--import    ei_changecomponentorder
-
--implib  "apsimengine.dll"
--import    apsimsystem_error_fatal
--import    apsimsystem_error_warning
--import    apsimsystem_callstack_push
--import    apsimsystem_callstack_pop
--import    summary_writeline
--import    screen_writepercentcomplete
--import    strings_equal
--import    summary_enter_diary_state
-
 -implib  "aps32.dll"
 -import    somcomponent_create
 -import    somcomponent_free
+-import    somcomponent_getName
 -import    somcomponent_getpropertynames
+-import    somcomponent_getregistrationnames
 
 -import    component_getconstant
 -import    component_freeconstant
@@ -74,6 +48,8 @@
 -import    text_getlinecount
 -import    text_getline
 
--import    getApsuiteDirectory
--import    getApsworkDirectory
-
+-import    component_getregistration
+-import    component_freeregistration
+-import    registration_getalias
+-import    registration_getdatatype
+                       
