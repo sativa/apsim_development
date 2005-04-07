@@ -298,7 +298,7 @@ void Plant::doRegistrations(protocol::Component *system)
                     &Plant::get_leaf_no, "leaves/m2", "number of leaves per square meter");
 
    setupGetVar("node_no",
-               g.node_no, "nodes/m2", "number of mainstem nodes per square meter");
+               g.node_no, "nodes/plant", "number of mainstem nodes per plant");
 
    setupGetVar("dlt_leaf_no",
                g.dlt_leaf_no, "leaves/m2", "Change in number of leaves");
