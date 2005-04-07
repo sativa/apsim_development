@@ -39,6 +39,6 @@ Public Module Humidity
 
     Public Function svp(ByVal temp_c As Single) As Single
         'Saturation Vapour Pressure
-        svp = 6.1078 * Exp(17.269 * temp_c / (237.3 + temp_c)) * 0.1
+        svp = 6.1078 * Exp(17.269 * temp_c / (237.3 + temp_c))
     End Function
 End Module
