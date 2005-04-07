@@ -686,8 +686,7 @@
             <nh4>0.1</nh4>
           </layer>
         </Nitrogen>
-        <other>
-        </other>
+        <other />
         <SoilCrop name="wheat">
           <layer name="1">
             <ll>0.04</ll>
@@ -1424,8 +1423,7 @@
             <nh4>0.1</nh4>
           </layer>
         </Nitrogen>
-        <other>
-        </other>
+        <other />
         <SoilCrop name="wheat">
           <layer name="1">
             <ll>0.03</ll>
@@ -1615,8 +1613,7 @@
             <nh4>0.1</nh4>
           </layer>
         </Nitrogen>
-        <other>
-        </other>
+        <other />
         <SoilCrop name="wheat">
           <layer name="1">
             <ll>0.08</ll>
@@ -2445,12 +2442,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Cotton">
           <layer name="1">
             <ll>0.26</ll>
@@ -2669,12 +2660,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Cotton">
           <layer name="1">
             <ll>0.27</ll>
@@ -2931,12 +2916,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Cotton">
           <layer name="1">
             <ll>0.26</ll>
@@ -3170,12 +3149,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Cotton">
           <layer name="1">
             <ll>0.22</ll>
@@ -3446,12 +3419,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Cotton">
           <layer name="1">
             <ll>0.25</ll>
@@ -3670,12 +3637,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Cotton">
           <layer name="1">
             <ll>0.22</ll>
@@ -3858,12 +3819,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Chickpea">
           <layer name="1">
             <ll>0.21</ll>
@@ -4157,12 +4112,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Chickpea">
           <layer name="1">
             <ll>0.2</ll>
@@ -4418,12 +4367,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Sorghum">
           <layer name="1">
             <ll>0.22</ll>
@@ -4763,12 +4706,6 @@
             <ec>1.01</ec>
           </layer>
         </other>
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Barley">
           <layer name="1">
             <ll>0.29</ll>
@@ -5313,12 +5250,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Barley">
           <layer name="1">
             <ll>0.23</ll>
@@ -5538,12 +5469,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Chickpea">
           <layer name="1">
             <ll>0.2</ll>
@@ -5956,12 +5881,6 @@
             <ec>1.2</ec>
           </layer>
         </other>
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Barley">
           <layer name="1">
             <ll>0.28</ll>
@@ -6392,12 +6311,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Wheat">
           <layer name="1">
             <ll>0.22</ll>
@@ -6580,12 +6493,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Sorghum">
           <layer name="1">
             <ll>0.23</ll>
@@ -6912,12 +6819,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Cotton">
           <layer name="1">
             <ll>0.21</ll>
@@ -7210,12 +7111,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Canola">
           <layer name="1">
             <ll>0.26</ll>
@@ -7546,12 +7441,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Chickpea">
           <layer name="1">
             <ll>0.2</ll>
@@ -7883,12 +7772,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Sorghum">
           <layer name="1">
             <ll>0.15</ll>
@@ -8008,12 +7891,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Maize">
           <layer name="1">
             <ll>0.2</ll>
@@ -8209,12 +8086,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Wheat">
           <layer name="1">
             <ll>0.23</ll>
@@ -8382,12 +8253,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Wheat">
           <layer name="1">
             <ll>0.25</ll>
@@ -8548,12 +8413,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Wheat">
           <layer name="1">
             <ll>0.12</ll>
@@ -8583,491 +8442,6 @@
           <layer name="6">
             <ll>0.32</ll>
             <kl>0.02</kl>
-            <xf>1</xf>
-          </layer>
-        </SoilCrop>
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
-      </soil>
-      <soil name="Greenmount,Irving (#067)">
-        <Site>Greenmount</Site>
-        <Region>South East Queensland</Region>
-        <LocalName>Irving</LocalName>
-        <SoilType>Black Vertosol</SoilType>
-        <NearestTown>Cambooya Q. 4358</NearestTown>
-        <Comment>Data provided by D Freebairn/ G Wockner, extracted from ESD</Comment>
-        <NaturalVegetation>Mountain Coolibah</NaturalVegetation>
-        <Water>
-          <Cona>3.5</Cona>
-          <DiffusConst>40</DiffusConst>
-          <DiffusSlope>16</DiffusSlope>
-          <U>6</U>
-          <Salb>0.13</Salb>
-          <Cn2Bare>73</Cn2Bare>
-          <CnRed>20</CnRed>
-          <CnCov>0.8</CnCov>
-          <layer name="1">
-            <thickness>100</thickness>
-            <bd>1</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.1</airdry>
-            <dul>0.46</dul>
-            <sat>0.59</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="2">
-            <thickness>200</thickness>
-            <bd>1.09</bd>
-            <ll15>0.31</ll15>
-            <airdry>0.28</airdry>
-            <dul>0.51</dul>
-            <sat>0.56</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="3">
-            <thickness>300</thickness>
-            <bd>1.11</bd>
-            <ll15>0.3</ll15>
-            <airdry>0.3</airdry>
-            <dul>0.5</dul>
-            <sat>0.55</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="4">
-            <thickness>300</thickness>
-            <bd>1.13</bd>
-            <ll15>0.31</ll15>
-            <airdry>0.31</airdry>
-            <dul>0.49</dul>
-            <sat>0.54</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="5">
-            <thickness>300</thickness>
-            <bd>1.18</bd>
-            <ll15>0.31</ll15>
-            <airdry>0.31</airdry>
-            <dul>0.47</dul>
-            <sat>0.52</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="6">
-            <thickness>300</thickness>
-            <bd>1.22</bd>
-            <ll15>0.34</ll15>
-            <airdry>0.34</airdry>
-            <dul>0.46</dul>
-            <sat>0.51</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="7">
-            <thickness>300</thickness>
-            <ll15>9999.99</ll15>
-            <airdry>9999.99</airdry>
-            <dul>9999.99</dul>
-            <sat>9999.99</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-        </Water>
-        <Nitrogen>
-          <CnCanopyFact>1</CnCanopyFact>
-          <RootCn>40</RootCn>
-          <RootWt>200</RootWt>
-          <SoilCn>12.5</SoilCn>
-          <EnrACoeff>7.4</EnrACoeff>
-          <EnrBCoeff>0.2</EnrBCoeff>
-          <layer name="1">
-            <fbiom>0.025</fbiom>
-            <finert>0.4</finert>
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <fbiom>0.015</fbiom>
-            <finert>0.8</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </Nitrogen>
-        <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
-        <SoilCrop name="Wheat">
-          <layer name="1">
-            <ll>0.2</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="2">
-            <ll>0.31</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="3">
-            <ll>0.3</ll>
-            <kl>0.08</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="4">
-            <ll>0.31</ll>
-            <kl>0.06</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="5">
-            <ll>0.31</ll>
-            <kl>0.04</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="6">
-            <ll>0.34</ll>
-            <kl>0.02</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="7">
-            <ll>9999.99</ll>
-            <kl>0.01</kl>
-            <xf>1</xf>
-          </layer>
-        </SoilCrop>
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
-      </soil>
-      <soil name="Jinghi,Downfall (#069)">
-        <Site>Jinghi</Site>
-        <Region>South East Queensland</Region>
-        <SoilType>Brown Sodosol</SoilType>
-        <NearestTown>Jandowae, Q 4410</NearestTown>
-        <NaturalVegetation>Poplar Box, Wilga</NaturalVegetation>
-        <Water>
-          <Cona>3.5</Cona>
-          <DiffusConst>40</DiffusConst>
-          <DiffusSlope>16</DiffusSlope>
-          <U>6</U>
-          <Salb>0.13</Salb>
-          <Cn2Bare>94</Cn2Bare>
-          <CnRed>20</CnRed>
-          <CnCov>0.8</CnCov>
-          <layer name="1">
-            <thickness>150</thickness>
-            <bd>1.5</bd>
-            <ll15>0.27</ll15>
-            <airdry>0.135</airdry>
-            <dul>0.36</dul>
-            <sat>0.41</sat>
-            <sw>9999.99</sw>
-            <swcon>0.1</swcon>
-          </layer>
-          <layer name="2">
-            <thickness>150</thickness>
-            <bd>1.44</bd>
-            <ll15>0.27</ll15>
-            <airdry>0.243</airdry>
-            <dul>0.38</dul>
-            <sat>0.43</sat>
-            <sw>9999.99</sw>
-            <swcon>0.1</swcon>
-          </layer>
-          <layer name="3">
-            <thickness>300</thickness>
-            <bd>1.43</bd>
-            <ll15>0.27</ll15>
-            <airdry>0.27</airdry>
-            <dul>0.38</dul>
-            <sat>0.43</sat>
-            <sw>9999.99</sw>
-            <swcon>0.1</swcon>
-          </layer>
-          <layer name="4">
-            <thickness>300</thickness>
-            <bd>1.45</bd>
-            <ll15>0.3</ll15>
-            <airdry>0.3</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <sw>9999.99</sw>
-            <swcon>0.1</swcon>
-          </layer>
-          <layer name="5">
-            <thickness>300</thickness>
-            <bd>1.46</bd>
-            <ll15>0.3</ll15>
-            <airdry>0.3</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <sw>9999.99</sw>
-            <swcon>0.1</swcon>
-          </layer>
-          <layer name="6">
-            <thickness>300</thickness>
-            <bd>1.52</bd>
-            <ll15>0.33</ll15>
-            <airdry>0.33</airdry>
-            <dul>0.35</dul>
-            <sat>0.4</sat>
-            <sw>9999.99</sw>
-            <swcon>0.1</swcon>
-          </layer>
-          <layer name="7">
-            <thickness>300</thickness>
-            <ll15>9999.99</ll15>
-            <airdry>9999.99</airdry>
-            <dul>9999.99</dul>
-            <sat>9999.99</sat>
-            <sw>9999.99</sw>
-            <swcon>0.1</swcon>
-          </layer>
-        </Water>
-        <Nitrogen>
-          <CnCanopyFact>1</CnCanopyFact>
-          <RootCn>50</RootCn>
-          <RootWt>200</RootWt>
-          <SoilCn>12.5</SoilCn>
-          <EnrACoeff>7.4</EnrACoeff>
-          <EnrBCoeff>0.2</EnrBCoeff>
-          <layer name="1">
-            <oc>1.3</oc>
-            <ph>8.5</ph>
-            <fbiom>0.025</fbiom>
-            <finert>0.4</finert>
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <ph>9</ph>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <ph>9.1</ph>
-            <fbiom>0.015</fbiom>
-            <finert>0.8</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <ph>9.1</ph>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <ph>9.1</ph>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <ph>9</ph>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <ph>9</ph>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </Nitrogen>
-        <other>
-          <layer name="1">
-            <ec>0.23</ec>
-            <cl>22</cl>
-          </layer>
-          <layer name="2">
-            <ec>0.34</ec>
-            <cl>61</cl>
-          </layer>
-          <layer name="3">
-            <ec>0.55</ec>
-            <cl>206</cl>
-          </layer>
-          <layer name="4">
-            <ec>0.81</ec>
-            <cl>536</cl>
-          </layer>
-          <layer name="5">
-            <ec>0.91</ec>
-            <cl>869</cl>
-          </layer>
-          <layer name="6">
-            <ec>0.89</ec>
-            <cl>778</cl>
-          </layer>
-          <layer name="7">
-            <ec>0.94</ec>
-            <cl>947</cl>
-          </layer>
-        </other>
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
-        <SoilCrop name="Millet">
-          <layer name="1">
-            <ll>0.24</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="2">
-            <ll>0.29</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="3">
-            <ll>0.3</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="4">
-            <ll>0.31</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="5">
-            <ll>0.3</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="6">
-            <ll>0.35</ll>
-            <kl>0.02</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="7">
-            <ll>9999.99</ll>
-            <kl>0.02</kl>
-            <xf>1</xf>
-          </layer>
-        </SoilCrop>
-        <SoilCrop name="Mungbean">
-          <layer name="1">
-            <ll>0.27</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="2">
-            <ll>0.27</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="3">
-            <ll>0.29</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="4">
-            <ll>0.37</ll>
-            <kl>0</kl>
-            <xf>0</xf>
-          </layer>
-          <layer name="5">
-            <ll>0.37</ll>
-            <kl>0</kl>
-            <xf>0</xf>
-          </layer>
-          <layer name="6">
-            <ll>0.35</ll>
-            <kl>0</kl>
-            <xf>0</xf>
-          </layer>
-          <layer name="7">
-            <ll>9999.99</ll>
-            <kl>0</kl>
-            <xf>0</xf>
-          </layer>
-        </SoilCrop>
-        <SoilCrop name="Wheat">
-          <layer name="1">
-            <ll>0.27</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="2">
-            <ll>0.27</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="3">
-            <ll>0.27</ll>
-            <kl>0.08</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="4">
-            <ll>0.3</ll>
-            <kl>0.06</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="5">
-            <ll>0.3</ll>
-            <kl>0.04</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="6">
-            <ll>0.33</ll>
-            <kl>0.02</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="7">
-            <ll>9999.99</ll>
-            <kl>0.01</kl>
             <xf>1</xf>
           </layer>
         </SoilCrop>
@@ -9253,12 +8627,6 @@
             <cl>1630</cl>
           </layer>
         </other>
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Mungbean">
           <layer name="1">
             <ll>0.22</ll>
@@ -9477,12 +8845,6 @@
             <cl>560</cl>
           </layer>
         </other>
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Cowpea">
           <layer name="1">
             <ll>0.25</ll>
@@ -9663,12 +9025,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Sorghum">
           <layer name="1">
             <ll>0.2</ll>
@@ -9850,12 +9206,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Cotton">
           <layer name="1">
             <ll>0.18</ll>
@@ -10112,12 +9462,6 @@
             <cl>1047</cl>
           </layer>
         </other>
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Wheat">
           <layer name="1">
             <ll>0.22</ll>
@@ -10374,150 +9718,6 @@
             <nh4>0.1</nh4>
           </layer>
           <layer name="5">
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </Nitrogen>
-        <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
-      </soil>
-      <soil name="Dulacca,Grey Vertosol (#166)">
-        <Site>Dulacca</Site>
-        <Region>South East Queensland</Region>
-        <SoilType>Grey Vertosol</SoilType>
-        <NearestTown>Dulacca, Q 4425</NearestTown>
-        <NaturalVegetation>Belah, Brigalow</NaturalVegetation>
-        <Water>
-          <Cona>3.5</Cona>
-          <DiffusConst>40</DiffusConst>
-          <DiffusSlope>16</DiffusSlope>
-          <U>6</U>
-          <Salb>0.13</Salb>
-          <Cn2Bare>73</Cn2Bare>
-          <CnRed>20</CnRed>
-          <CnCov>0.8</CnCov>
-          <layer name="1">
-            <thickness>150</thickness>
-            <bd>1.32</bd>
-            <ll15>9999.99</ll15>
-            <airdry>9999.99</airdry>
-            <dul>0.42</dul>
-            <sat>0.47</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="2">
-            <thickness>150</thickness>
-            <bd>1.36</bd>
-            <ll15>9999.99</ll15>
-            <airdry>9999.99</airdry>
-            <dul>0.41</dul>
-            <sat>0.46</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="3">
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>9999.99</ll15>
-            <airdry>9999.99</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="4">
-            <thickness>300</thickness>
-            <bd>1.42</bd>
-            <ll15>9999.99</ll15>
-            <airdry>9999.99</airdry>
-            <dul>0.38</dul>
-            <sat>0.43</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="5">
-            <thickness>300</thickness>
-            <bd>1.45</bd>
-            <ll15>9999.99</ll15>
-            <airdry>9999.99</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="6">
-            <thickness>300</thickness>
-            <bd>1.47</bd>
-            <ll15>9999.99</ll15>
-            <airdry>9999.99</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="7">
-            <thickness>300</thickness>
-            <bd>1.44</bd>
-            <ll15>9999.99</ll15>
-            <airdry>9999.99</airdry>
-            <dul>0.38</dul>
-            <sat>0.43</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-        </Water>
-        <Nitrogen>
-          <CnCanopyFact>1</CnCanopyFact>
-          <RootCn>40</RootCn>
-          <RootWt>200</RootWt>
-          <SoilCn>12.5</SoilCn>
-          <EnrACoeff>7.4</EnrACoeff>
-          <EnrBCoeff>0.2</EnrBCoeff>
-          <layer name="1">
-            <fbiom>0.025</fbiom>
-            <finert>0.4</finert>
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <fbiom>0.015</fbiom>
-            <finert>0.8</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
             <fbiom>0.01</fbiom>
             <finert>0.95</finert>
             <no3>1.7</no3>
@@ -11461,8 +10661,7 @@
             <nh4>0.11</nh4>
           </layer>
         </Nitrogen>
-        <other>
-        </other>
+        <other />
         <SoilCrop name="wheat">
           <layer name="1">
             <ll>0.114375</ll>
@@ -11675,8 +10874,7 @@
             <nh4>0.11</nh4>
           </layer>
         </Nitrogen>
-        <other>
-        </other>
+        <other />
         <SoilCrop name="wheat">
           <layer name="1">
             <ll>0.1175</ll>
@@ -11889,8 +11087,7 @@
             <nh4>0.11</nh4>
           </layer>
         </Nitrogen>
-        <other>
-        </other>
+        <other />
         <SoilCrop name="wheat">
           <layer name="1">
             <ll>0.128</ll>
@@ -12103,8 +11300,7 @@
             <nh4>0.11</nh4>
           </layer>
         </Nitrogen>
-        <other>
-        </other>
+        <other />
         <SoilCrop name="wheat">
           <layer name="1">
             <ll>0.12</ll>
@@ -12317,8 +11513,7 @@
             <nh4>0.11</nh4>
           </layer>
         </Nitrogen>
-        <other>
-        </other>
+        <other />
         <SoilCrop name="wheat">
           <layer name="1">
             <ll>0.11</ll>
@@ -12531,8 +11726,7 @@
             <nh4>0.11</nh4>
           </layer>
         </Nitrogen>
-        <other>
-        </other>
+        <other />
         <SoilCrop name="wheat">
           <layer name="1">
             <ll>0.157813</ll>
@@ -12745,8 +11939,7 @@
             <nh4>0.11</nh4>
           </layer>
         </Nitrogen>
-        <other>
-        </other>
+        <other />
         <SoilCrop name="wheat">
           <layer name="1">
             <ll>0.2</ll>
@@ -12959,8 +12152,7 @@
             <nh4>0.11</nh4>
           </layer>
         </Nitrogen>
-        <other>
-        </other>
+        <other />
         <SoilCrop name="wheat">
           <layer name="1">
             <ll>0.17</ll>
@@ -13350,12 +12542,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Cotton">
           <layer name="1">
             <ll>0.2</ll>
@@ -13558,12 +12744,6 @@
             <ec>1.18</ec>
           </layer>
         </other>
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Chickpea">
           <layer name="1">
             <ll>0.42</ll>
@@ -13857,12 +13037,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Fababean">
           <layer name="1">
             <ll>0.2</ll>
@@ -14111,12 +13285,6 @@
             <cl>553</cl>
           </layer>
         </other>
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Wheat">
           <layer name="1">
             <ll>0.2</ll>
@@ -14321,12 +13489,6 @@
             <ec>1.65</ec>
           </layer>
         </other>
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Cotton">
           <layer name="1">
             <ll>0.22</ll>
@@ -14546,12 +13708,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Sorghum">
           <layer name="1">
             <ll>0.28</ll>
@@ -14623,193 +13779,6 @@
           <layer name="7">
             <ll>0.46</ll>
             <kl>0.06</kl>
-            <xf>1</xf>
-          </layer>
-        </SoilCrop>
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
-      </soil>
-      <soil name="Terry hie hie,Grey Vertosol (#077)">
-        <Site>Terry hie hie</Site>
-        <Region>New South Wales</Region>
-        <SoilType>Grey Vertosol</SoilType>
-        <NearestTown>Moree, NSW 2400</NearestTown>
-        <NaturalVegetation>Belah, Brigalow</NaturalVegetation>
-        <Water>
-          <Cona>3.5</Cona>
-          <DiffusConst>40</DiffusConst>
-          <DiffusSlope>16</DiffusSlope>
-          <U>6</U>
-          <Salb>0.13</Salb>
-          <Cn2Bare>73</Cn2Bare>
-          <CnRed>20</CnRed>
-          <CnCov>0.8</CnCov>
-          <layer name="1">
-            <thickness>150</thickness>
-            <bd>1.26</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.13</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="2">
-            <thickness>150</thickness>
-            <bd>1.34</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.234</airdry>
-            <dul>0.42</dul>
-            <sat>0.47</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="3">
-            <thickness>300</thickness>
-            <bd>1.34</bd>
-            <ll15>0.28</ll15>
-            <airdry>0.28</airdry>
-            <dul>0.41</dul>
-            <sat>0.46</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="4">
-            <thickness>300</thickness>
-            <bd>1.34</bd>
-            <ll15>0.28</ll15>
-            <airdry>0.28</airdry>
-            <dul>0.41</dul>
-            <sat>0.46</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="5">
-            <thickness>300</thickness>
-            <bd>1.37</bd>
-            <ll15>0.29</ll15>
-            <airdry>0.29</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="6">
-            <thickness>300</thickness>
-            <bd>1.37</bd>
-            <ll15>0.29</ll15>
-            <airdry>0.29</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="7">
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>9999.99</ll15>
-            <airdry>9999.99</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-        </Water>
-        <Nitrogen>
-          <CnCanopyFact>1</CnCanopyFact>
-          <RootCn>40</RootCn>
-          <RootWt>200</RootWt>
-          <SoilCn>12.5</SoilCn>
-          <EnrACoeff>7.4</EnrACoeff>
-          <EnrBCoeff>0.2</EnrBCoeff>
-          <layer name="1">
-            <fbiom>0.025</fbiom>
-            <finert>0.4</finert>
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <fbiom>0.015</fbiom>
-            <finert>0.8</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </Nitrogen>
-        <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
-        <SoilCrop name="Sorghum">
-          <layer name="1">
-            <ll>0.26</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="2">
-            <ll>0.26</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="3">
-            <ll>0.28</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="4">
-            <ll>0.28</ll>
-            <kl>0.08</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="5">
-            <ll>0.29</ll>
-            <kl>0.06</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="6">
-            <ll>0.29</ll>
-            <kl>0.04</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="7">
-            <ll>9999.99</ll>
-            <kl>0.02</kl>
             <xf>1</xf>
           </layer>
         </SoilCrop>
@@ -15108,193 +14077,6 @@
           </percentmethod>
         </InitWater>
       </soil>
-      <soil name="Spring Ridge,Brown Sandy Clay (#096)">
-        <Site>Spring Ridge</Site>
-        <Region>New South Wales</Region>
-        <LocalName>Brown Sandy Clay</LocalName>
-        <NearestTown>Spring Ridge, NSW 2343</NearestTown>
-        <Comment>Data provided by D. Richards</Comment>
-        <NaturalVegetation>Poplar box</NaturalVegetation>
-        <Water>
-          <Cona>3.5</Cona>
-          <DiffusConst>40</DiffusConst>
-          <DiffusSlope>16</DiffusSlope>
-          <U>6</U>
-          <Salb>0.13</Salb>
-          <Cn2Bare>73</Cn2Bare>
-          <CnRed>20</CnRed>
-          <CnCov>0.8</CnCov>
-          <layer name="1">
-            <thickness>150</thickness>
-            <bd>1.55</bd>
-            <ll15>0.28</ll15>
-            <airdry>0.14</airdry>
-            <dul>0.34</dul>
-            <sat>0.39</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="2">
-            <thickness>150</thickness>
-            <bd>1.51</bd>
-            <ll15>0.3</ll15>
-            <airdry>0.27</airdry>
-            <dul>0.35</dul>
-            <sat>0.4</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="3">
-            <thickness>300</thickness>
-            <bd>1.54</bd>
-            <ll15>0.3</ll15>
-            <airdry>0.3</airdry>
-            <dul>0.34</dul>
-            <sat>0.39</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="4">
-            <thickness>300</thickness>
-            <bd>1.56</bd>
-            <ll15>0.3</ll15>
-            <airdry>0.3</airdry>
-            <dul>0.33</dul>
-            <sat>0.38</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="5">
-            <thickness>300</thickness>
-            <bd>1.53</bd>
-            <ll15>0.29</ll15>
-            <airdry>0.29</airdry>
-            <dul>0.34</dul>
-            <sat>0.39</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="6">
-            <thickness>300</thickness>
-            <bd>1.45</bd>
-            <ll15>0.31</ll15>
-            <airdry>0.31</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="7">
-            <thickness>300</thickness>
-            <ll15>9999.99</ll15>
-            <airdry>9999.99</airdry>
-            <dul>9999.99</dul>
-            <sat>9999.99</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-          </layer>
-        </Water>
-        <Nitrogen>
-          <CnCanopyFact>1</CnCanopyFact>
-          <RootCn>40</RootCn>
-          <RootWt>200</RootWt>
-          <SoilCn>12.5</SoilCn>
-          <EnrACoeff>7.4</EnrACoeff>
-          <EnrBCoeff>0.2</EnrBCoeff>
-          <layer name="1">
-            <fbiom>0.025</fbiom>
-            <finert>0.4</finert>
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <fbiom>0.015</fbiom>
-            <finert>0.8</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </Nitrogen>
-        <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
-        <SoilCrop name="Cotton">
-          <layer name="1">
-            <ll>0.28</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="2">
-            <ll>0.3</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="3">
-            <ll>0.3</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="4">
-            <ll>0.3</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="5">
-            <ll>0.29</ll>
-            <kl>0.09</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="6">
-            <ll>0.31</ll>
-            <kl>0.07</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="7">
-            <ll>9999.99</ll>
-            <kl>0.05</kl>
-            <xf>1</xf>
-          </layer>
-        </SoilCrop>
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
-      </soil>
       <soil name="Aust. Cotton Res. Instit, Myall Vale,Grey Vertosol (#097)">
         <Site>Aust. Cotton Res. Instit, Myall Vale</Site>
         <Region>New South Wales</Region>
@@ -15577,12 +14359,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Cotton">
           <layer name="1">
             <ll>0.25</ll>
@@ -15764,12 +14540,6 @@
           </layer>
         </Nitrogen>
         <other />
-        <InitWater>
-          <percentmethod>
-            <percent>1</percent>
-            <distributed>filled from top</distributed>
-          </percentmethod>
-        </InitWater>
         <SoilCrop name="Cotton">
           <layer name="1">
             <ll>0.2</ll>
@@ -16603,194 +15373,6 @@ PESTS          VInes950.PST
 SOILS          SOIL.SOL
 WEATHER        MILD9501.wth
 OUTPUT         MILD95TEST
-*SIMULATION CONTROL
-&SwitchData
-INyrs=1
-Rep=1
-Isimi='S'
-Iyrsim=95001
-TitSim='GENERALISED SIMULATION RUN'
-IswWat = 'Y'
-ISWNIT='N'
-ISWSALT='Y'
-ISWPHO='N'
-ISWPOT='N'
-ISWDIS='N'
-MEWTH='M'
-MESIC='M'
-MELI='E'
-MEEVP='R'
-MEINF='S'
-MEPHO='C'
-IPLTI='R'
-IIRRI='A'
-IFERI='N'
-IRESI='N'
-IHARI='G'
-IOX='N'
-IDETO='Y'
-IDETS='Y'
-FROP = 1
-IDETG='Y'
-IDETC='N'
-IDETW='Y'
-IDETN='Y'
-IDETP='Y'
-IDETD='N'
-IDETL='Y'
-/
-!AUTOMATIC MANAGEM
-               94155 94200   40.  100.   30.   40.   10.
-                70.0  50.0 100.0     6 IR003   -99 1.00
-                 30.   50.   25. FE001 GS000
-                100.     1   20.
-                   0 94365  100.    0.
-*EXP.DETAILS
-               Mildura  - 1995 Cabernet Franc Tall  trellis  Row by vine 330*240cm
-*TREATMENTS
-  11 0 0
-*CULTIVARS
-   VI IB0013 PINOT NOIR
-*FIELDS
-&Fielddata
-Cslope=' 1.0'
-/
-*INITIAL CONDITIONS
-      VI 94001 1200.  -99.  1.00  1.00     0
-      2  0.237    .0    .0   .0
-      7  0.237    .0    .0   .0
-     15  0.237    .0    .0   .0
-     26  0.289    .0    .0   .0
-     40  0.289    .0    .0   .0
-     57  0.289    .0    .0   .0
-     77  0.288    .0    .0   .0
-    100  0.300    .0    .0   .0
-    125  0.300    .0    .0   .0
-    150  0.352    .0    .0   .0
-    200  0.352    .0    .0   .0
-    250  0.352    .0    .0   .0
-    325  0.352    .0    .0   .0
-    400  0.352    .0    .0   .0
-    500  0.352    .0    .0   .0
-
-*PLANTING DETAILS
-       0     0   0.0   0.0                0.    0.   0.0    0.    0.   0.0   0.0
-*VINEYARD
-&VinexData
-VineMstart=95001
-InCritVD= 30
-VineRowspc =3.3
-InterVineDist =2.4
-TrellisHt =2.
-TrellisWd =1.2
-BudnoVine =190.
-TrunkDiam = -99
-VineAge =12.0
-PruningSys='SPUR'
-TrellisSys='MINIM'
-CordonNum = -99
-CaneNum = -99
-Prunewt = .0
-VineResv =  .1
-TrelTrunWr = -99
-CanRetrnDate = -99
-NewtrellsWid = -99
-NewTrellsHgt = -99
-FruitThinDate = -99
-FruitRemPct = -99
-FruitEsSw = -99
-BunchNOvine = .0
-BerryBunch = .0
-/
-*HYDROLOGY
-&HydrolData
-TruDepWt =  2
-PiezInitial =  1.5
-BotBoundFlux = 0.001
-PiezoType = 'FIXED'
-WtType = 'FLOAT'
-URzSoilEc =    .5
-LRzSoilEc =    .5
-GroundWaterEc =  4
-Drained=.True.
-TileDepth = 1.8
-/
-*IRRIGATION
-    1.00  70.0  50.0 100.0     6 IR003   -99   0.2
-
-&IrrigData
-IrAutoDefMethod='SWDRIVEN'
-IrType=' 1'
-Iron(1)=.T.,.T.,.T.,.T.,.T.
-IrManDepth(1)= 57, 57, 57, 57, 57
-IrWaterEc(1)= .2, .2, .2, .2, .2
-IrCritSw(1)= 50, 50, 50, 50, 50
-IrRefillPer(1)= 100, 100, 100, 100, 100
-IrRetnPeriod(1)= 7, 7, 7, 7, 7
-IrStageCap(1)= 1000, 1000, 1000, 1000, 1000
-IrCumNetET(1)=0.0,0.0,0.0,0.0,0.0
-IrETIrrAmt(1)=0.0,0.0,0.0,0.0,0.0
-/
-*FERTILIZERS
-*RESIDUES
-*ENVIRONMENT
-*HARVEST
-   95074     7   -99   -99  -99.
-*SOIL
-*CS00390002  SCS         CLLO    151 UNKNOWN
- MERBEIN     AUSTRALIA    -34.000  142.000 COOMEALLA ADJ LOAM
- BN     0.13   9.3  0.20    76  1.00  1.00 IB001 IB001 IB001         5.0   5.0  20.0  150
-    2. A     0.109 0.237 0.376  1.00   20.0  1.48  1.20  16.7  44.0   2.1   -99   8.6 -99.0 -99.0   1.0
-    7. A     0.109 0.237 0.376  1.00   20.0  1.48  1.20  16.7  44.0   2.1   -99   8.6 -99.0 -99.0   1.0
-   15. A     0.109 0.237 0.376  1.00   20.0  1.48  1.20  16.7  44.0   2.1   -99   8.6 -99.0 -99.0   1.0
-   26. B     0.163 0.289 0.370  0.75    5.0  1.50  1.00  19.9  39.0   2.3   -99   9.0 -99.0 -99.0   0.8
-   40. B     0.163 0.289 0.370  0.75    5.0  1.50  1.00  19.9  39.0   2.3   -99   9.0 -99.0 -99.0   0.8
-   57. B     0.163 0.289 0.370  0.75    5.0  1.50  1.00  19.9  39.0   2.3   -99   9.0 -99.0 -99.0   0.8
-   77. B1    0.166 0.288 0.353  0.35    3.0  1.55  0.90  16.1  33.0   3.2   -99   9.1 -99.0 -99.0   0.4
-  100. B2    0.182 0.300 0.352  0.20    1.0  1.55  0.40  17.7  31.0   3.8   -99   9.1 -99.0 -99.0   0.4
-  125. B2    0.182 0.300 0.352  0.20    1.0  1.55  0.40  17.7  31.0   3.8   -99   9.1 -99.0 -99.0   0.4
-  150. BC    0.230 0.352 0.364  0.10    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
-  200. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
-  250. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
-  325. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
-  400. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
-  500. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
-
-     2    .0    .0    .0    .0
-     7    .0    .0    .0    .0
-    15    .0    .0    .0    .0
-    26    .0    .0    .0    .0
-    40    .0    .0    .0    .0
-    57    .0    .0    .0    .0
-    77    .0    .0    .0    .0
-   100    .0    .0    .0    .0
-   125    .0    .0    .0    .0
-   150    .0    .0    .0    .0
-   200    .0    .0    .0    .0
-   250    .0    .0    .0    .0
-   325    .0    .0    .0    .0
-   400    .0    .0    .0    .0
-   500    .0    .0    .0    .0
-
-*CULTIVAR
-IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  0.60  1.80   1.0
-*ROOTSTOCK
-00000 VineLogic Rsk      5.    5.    5.    1.7  0.12   9.1 ]]></data>
-  </vinelogic>
-  <vinelogic name="two">
-    <data name="data"><![CDATA[*MODEL INPUT FILE            I     1    19     1     8
-*FILES
-MODEL          VInes950.exe
-FILEX
-FILEA
-FILET
-SPECIES
-ECOTYPE
-CULTIVAR       VInes950.CUL
-PESTS          VInes950.PST
-SOILS          SOIL.SOL
-WEATHER        MILD9501.wth
-OUTPUT         TwoTEST
 *SIMULATION CONTROL
 &SwitchData
 INyrs=1
