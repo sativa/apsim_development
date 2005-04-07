@@ -11,17 +11,17 @@
 
      Version                = 4.0
      Title                  = Surface Organic Matter Module Test 5
-     Component DLL          = c:\progra~1\apsim40\apsim\log\lib\log.dll
-     Component DLL          = c:\progra~1\apsim40\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\progra~1\apsim40\apsim\screen\lib\screen.dll
-     Component DLL          = c:\progra~1\apsim40\apsim\clock\lib\clock.dll
-     Component DLL          = c:\progra~1\apsim40\apsim\report\lib\report.dll
-     Component DLL          = c:\progra~1\apsim40\apsim\Input\lib\Input.dll
-     Component DLL          = c:\progra~1\apsim40\apsim\manager\lib\manager.dll
-     Component DLL          = c:\progra~1\apsim40\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = ..\lib\surfaceom.dll
-     Component DLL          = c:\progra~1\apsim40\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\progra~1\apsim40\apsim\growth\lib\growth.dll
+     Component DLL          = c:\development\apsim\log\lib\log.dll
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\screen\lib\screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\Input\lib\Input.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\growth\lib\growth.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -139,7 +139,7 @@
             CONA:                     2.50 ()
            Eo from priestly-taylor
 
-------- surfaceom Initialisation ----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
@@ -209,51 +209,6 @@
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
 ------- Start of simulation  --------------------------------------------------
-1 January 1988(Day of year=1), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 0.800000012
-      pot_N_decomp at soiln2  2 0.400000006
-      pot_N_decomp at soiln2  3 0.00000000E+00
-2 January 1988(Day of year=2), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 0.719999969
-      pot_N_decomp at soiln2  2 0.359999985
-      pot_N_decomp at soiln2  3 0.00000000E+00
-3 January 1988(Day of year=3), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 0.647999942
-      pot_N_decomp at soiln2  2 0.323999971
-      pot_N_decomp at soiln2  3 0.00000000E+00
-4 January 1988(Day of year=4), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 0.583199978
-      pot_N_decomp at soiln2  2 0.291599989
-      pot_N_decomp at soiln2  3 0.00000000E+00
-5 January 1988(Day of year=5), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 0.524879992
-      pot_N_decomp at soiln2  2 0.262439996
-      pot_N_decomp at soiln2  3 0.00000000E+00
-6 January 1988(Day of year=6), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 0.472391993
-      pot_N_decomp at soiln2  2 0.236195996
-      pot_N_decomp at soiln2  3 0.00000000E+00
-7 January 1988(Day of year=7), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 0.425152779
-      pot_N_decomp at soiln2  2 0.212576389
-      pot_N_decomp at soiln2  3 0.00000000E+00
-8 January 1988(Day of year=8), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 0.382637501
-      pot_N_decomp at soiln2  2 0.191318750
-      pot_N_decomp at soiln2  3 0.00000000E+00
-9 January 1988(Day of year=9), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 0.344373763
-      pot_N_decomp at soiln2  2 0.172186881
-      pot_N_decomp at soiln2  3 0.00000000E+00
 10 January 1988(Day of year=10), manager: 
      Manager sending message :- bambatsi establish  plants = 1000000 (/ha), init_section = dummy
 10 January 1988(Day of year=10), bambatsi: 
@@ -262,110 +217,5 @@
      Manager sending message :- bambatsi kill
 10 January 1988(Day of year=10), bambatsi: 
      Killing
-10 January 1988(Day of year=10), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347967E-02
-      pot_N_decomp at soiln2  2 1.84673984E-02
-      pot_N_decomp at soiln2  3 3.57506919
-11 January 1988(Day of year=11), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347930E-02
-      pot_N_decomp at soiln2  2 1.84673965E-02
-      pot_N_decomp at soiln2  3 3.57506871
-12 January 1988(Day of year=12), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347930E-02
-      pot_N_decomp at soiln2  2 1.84673965E-02
-      pot_N_decomp at soiln2  3 3.57506895
-13 January 1988(Day of year=13), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347930E-02
-      pot_N_decomp at soiln2  2 1.84673965E-02
-      pot_N_decomp at soiln2  3 3.57506895
-14 January 1988(Day of year=14), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347930E-02
-      pot_N_decomp at soiln2  2 1.84673965E-02
-      pot_N_decomp at soiln2  3 3.57506895
-15 January 1988(Day of year=15), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347893E-02
-      pot_N_decomp at soiln2  2 1.84673946E-02
-      pot_N_decomp at soiln2  3 3.57506847
-16 January 1988(Day of year=16), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347893E-02
-      pot_N_decomp at soiln2  2 1.84673946E-02
-      pot_N_decomp at soiln2  3 3.57506800
-17 January 1988(Day of year=17), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347818E-02
-      pot_N_decomp at soiln2  2 1.84673909E-02
-      pot_N_decomp at soiln2  3 3.57506776
-18 January 1988(Day of year=18), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347855E-02
-      pot_N_decomp at soiln2  2 1.84673928E-02
-      pot_N_decomp at soiln2  3 3.57506824
-19 January 1988(Day of year=19), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347855E-02
-      pot_N_decomp at soiln2  2 1.84673928E-02
-      pot_N_decomp at soiln2  3 3.57506824
-20 January 1988(Day of year=20), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347781E-02
-      pot_N_decomp at soiln2  2 1.84673890E-02
-      pot_N_decomp at soiln2  3 3.57506752
-21 January 1988(Day of year=21), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347818E-02
-      pot_N_decomp at soiln2  2 1.84673909E-02
-      pot_N_decomp at soiln2  3 3.57506776
-22 January 1988(Day of year=22), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347818E-02
-      pot_N_decomp at soiln2  2 1.84673909E-02
-      pot_N_decomp at soiln2  3 3.57506776
-23 January 1988(Day of year=23), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347744E-02
-      pot_N_decomp at soiln2  2 1.84673872E-02
-      pot_N_decomp at soiln2  3 3.57506752
-24 January 1988(Day of year=24), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347781E-02
-      pot_N_decomp at soiln2  2 1.84673890E-02
-      pot_N_decomp at soiln2  3 3.57506776
-25 January 1988(Day of year=25), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347744E-02
-      pot_N_decomp at soiln2  2 1.84673872E-02
-      pot_N_decomp at soiln2  3 3.57506752
-26 January 1988(Day of year=26), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347781E-02
-      pot_N_decomp at soiln2  2 1.84673890E-02
-      pot_N_decomp at soiln2  3 3.57506776
-27 January 1988(Day of year=27), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347744E-02
-      pot_N_decomp at soiln2  2 1.84673872E-02
-      pot_N_decomp at soiln2  3 3.57506728
-28 January 1988(Day of year=28), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347744E-02
-      pot_N_decomp at soiln2  2 1.84673872E-02
-      pot_N_decomp at soiln2  3 3.57506776
-29 January 1988(Day of year=29), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347744E-02
-      pot_N_decomp at soiln2  2 1.84673872E-02
-      pot_N_decomp at soiln2  3 3.57506728
-30 January 1988(Day of year=30), soiln2: 
-      num_residues =  3
-      pot_N_decomp at soiln2  1 3.69347744E-02
-      pot_N_decomp at soiln2  2 1.84673872E-02
-      pot_N_decomp at soiln2  3 3.57506728
 30 January 1988(Day of year=30), clock: 
      Simulation is terminating due to end criteria being met.
