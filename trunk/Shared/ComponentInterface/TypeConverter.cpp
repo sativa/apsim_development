@@ -349,7 +349,11 @@ class ArrayFromArray : public TypeConverter
          messageData >> numValues;
          bufferMessageData << numValues;
          for (int v = 0; v < numValues; v++)
+            {
             baseConverter->doConvert(messageData);
+            if (!bufferMessageData.isValid())
+               throw runtime_error("Too many items in array for type converter.");
+            }
          }
       virtual TypeConverter* clone(void)
          {

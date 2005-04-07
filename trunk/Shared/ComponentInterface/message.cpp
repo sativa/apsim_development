@@ -11,7 +11,7 @@ namespace protocol {
 static int runningMessageID = 0;
 
 static const unsigned MAX_NUM_MESSAGES = 20;
-static const unsigned MAX_MESSAGE_SIZE = 3000;
+static const unsigned MAX_MESSAGE_SIZE = 5000;
 Message* messages[MAX_NUM_MESSAGES]
    = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
 static unsigned nextFreeMessage = 0;
