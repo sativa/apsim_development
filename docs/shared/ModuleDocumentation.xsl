@@ -53,10 +53,10 @@
                      <tr>
                      <td><b>Name</b></td>
                      <td><b>Description</b></td>
+                     </tr>
                         <xsl:apply-templates select="../variables">
                            <xsl:sort select="@name"/>
                         </xsl:apply-templates>
-                     </tr>
                      </table>
                   </xsl:when>
                   <xsl:otherwise>
