@@ -96,7 +96,7 @@
 </table>
 <p class="Normal">&nbsp;</p>
 <p class="Title2"><strong><em>Resetting Met Variables</em></strong></p>
-<p class="Normal">The APSIM Met Module can reset the values of any state variables specified in the met file. Both keyword climate constants and data column values (apart from the time specification column values) for the current timestep can be reset using standard APSIM communication techniques. However, changing met data dynamically during a simulation must only occur at a predefined stage during daily simulation execution. </p>
+<p class="Normal">The APSIM Met Module can reset the values of any state variables specified in the met file. Both keyword climate constants and data column values (apart from the time specification column values) for the current timestep can be reset using standard APSIM communication techniques. However, changing met data dynamically during a simulation must only occur at a predefined stage during daily simulation execution. See example below.  Resetting met variables at 'start_of_day' or 'end_of_day' could result in critical modules (eg Soilwat2) missing the information due to process ordering.  Setting met variables at the 'preNewMet' stage (see example) will avoid this risk. </p>
 <p class="Normal"><strong>&nbsp; </strong></p>
 <p class="Normal"><strong>AN EXAMPLE</strong></p>
 <p class="Normal">Most modules in APSIM get their weather data from a newmet event that is produced by the MET module, so we need to change the weather variables before this event gets sent out. The MET module produces an event that makes this easy. It is called prenewmet. This event is fired just before a newmet event. So all we have to do is to trap this event and change the weather variables.</p>
