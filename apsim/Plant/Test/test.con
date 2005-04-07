@@ -63,4 +63,5 @@ module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %a
 module = plant(lablab)   test.par[test5] %apsuite\apsim\lablab\lablab.ini[standard]
 module = SummaryFile  test.par[test5]
 module = Screen  test.par[all]
+module = Log
 

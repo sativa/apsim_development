@@ -63,7 +63,7 @@ variable = lablab.lai
 variable = lablab.biomass
 variable = lablab.leaf_area()
 !variable = lablab.leaf_area(500)
-variable = lablab.leaf_area
+!variable = lablab.leaf_area(1-500)
 
 [test5.clock.parameters]
 ! Start and end date of run (day number of year and year)
