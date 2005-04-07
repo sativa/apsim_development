@@ -11,7 +11,7 @@
 
 using namespace std;
 using namespace protocol;
-char buffer[1000];
+char buffer[10000];
 MessageData bufferMD(buffer, sizeof(buffer));
 
 

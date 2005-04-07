@@ -47,10 +47,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
       parameter (Max_tokens=10000)
 
       integer Max_token_size           ! Maximum size of a token
-      parameter (Max_token_size=200)
+      parameter (Max_token_size=1000)
 
       integer        Buffer_size                 ! size of each buffer
-      parameter      (Buffer_size = 500)
+      parameter      (Buffer_size = 1000)
 
       integer        file_maximum                ! maximum tokens in file
       parameter      (file_maximum = 2000)
@@ -280,7 +280,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !- Implementation Section ----------------------------------
 
       call push_routine(This_routine)
-
       numvals = word_count(Variable_value)
 
       if (numvals.eq.1) then
@@ -1095,7 +1094,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !+  Local Variables
       logical Is_apsim_variable        ! Is the requested variable APSIM's?
       integer numvals                  ! number of values returned.
-      character Str*300                ! Dummy value returned by APSIM
+      character Str*1000                ! Dummy value returned by APSIM
       integer Variable_index           ! Index into local variable array
       character Mod_name*100           ! name of module owning variable
       character Var_name*100           ! name of variable
@@ -1246,13 +1245,14 @@ C     Last change:  P    25 Oct 2000    9:26 am
       character Variable_name*(Max_manager_var_name_size)
                                        ! variable name in set actions.
       integer Numvals                  ! Number of values returned
-      character msg*500                ! Error message
+      character msg*1000                ! Error message
       logical Data_was_stored          ! Was data stored in postbox?
       integer modNameID                ! ID for module.
       logical ok
       integer regID
 
 !- Implementation Section ----------------------------------
+
       call split_line_with_quotes (Action_string, Module_name,
      .                             Data_string, Blank)
       Data_string = adjustl(Data_string)
@@ -1280,6 +1280,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       if (index(Action_string, 'do_output') .eq. 0 .and.
      :    index(Action_string, 'do_end_day_output') .eq. 0) then
+
          write (msg, '(6a)' )
      :      'Manager sending message :- ',
      :      Trim(Module_name),
@@ -1310,6 +1311,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
           call Fatal_error(ERR_user,
      :             'INIT messages do not work anymore. Use RESET')
       else if (Action .eq. 'set') then
+
          call Get_next_variable (Data_string
      :                          , Variable_name
      :                          , value)
@@ -1325,7 +1327,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
      :               '.  Module does not exist.'
             call fatal_error(err_user, msg)
          endif
-
       else
          ! some other action
          call New_postbox ()
@@ -1469,7 +1470,7 @@ c      end subroutine
 
       character st*(*)
       character key*(100)
-      character value*(100)
+      character value*(2000)
       character newString*(2000)
       character units*(100)
       integer localIndex
@@ -3137,6 +3138,7 @@ c      end subroutine
 
           ind = ind + 1
           call assign_string (Token_array(ind), g%buffer)
+
 !          g%buffer_last = g%buffer
           Token_array2(ind) = g%token
 
@@ -3221,6 +3223,7 @@ c      end subroutine
               g%first = 0
               g%last = len_trim(g%line)
               g%ch = ';'
+
        else
               g%ch = g%line(g%first:g%first)
        end if

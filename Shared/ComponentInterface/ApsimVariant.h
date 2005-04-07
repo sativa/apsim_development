@@ -95,7 +95,7 @@ class ApsimVariant
 
    private:
       Component* parent;
-      char buffer[2000];
+      char buffer[10000];
       Type type;
       MessageData messageData;
 

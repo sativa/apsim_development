@@ -26,7 +26,7 @@ template <class T>
 class vector
    {
    public:
-      vector(unsigned maxItems = 50)
+      vector(unsigned maxItems = 200)
          : maxCount(maxItems), count(0), weOwnArray(true)
          {
          array = new T[maxItems];
