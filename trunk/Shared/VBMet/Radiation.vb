@@ -2,7 +2,7 @@ Imports System.Math
 Public Module Radiation
     Public Const itns = 10.0#
     Public Const Taz = 0.87  'Atmospheric Transmissivity at Azimuth - From Thornton and Running.
-    Public Const Alpha = 0.061 ' Decrease in Atmospheric Transmissivity per unit water vapour - From Thornton and Running
+    Public Const Alpha = 0.0061 ' Decrease in Atmospheric Transmissivity per unit water vapour - From Thornton and Running
 
     ' ------------------------------------------------------------------------
     Function day_length(ByVal day As Integer, ByVal lat As Single, ByVal sun_angle As Single) As Single
