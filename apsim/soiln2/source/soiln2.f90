@@ -2055,7 +2055,6 @@ subroutine soiln2_ONFreshOrganicMatterIncorporated(variant)
       g%no3(layer) = g%no3(layer) + FPoolProfileLayer(layer)%no3
       g%nh4(layer) = g%nh4(layer) + FPoolProfileLayer(layer)%nh4
 
-
   end do
 
   call pop_routine (my_name)
@@ -3008,7 +3007,7 @@ subroutine soiln2_process ()
    parameter (my_name = 'soiln2_process')
 
 !+  Local Variables
-!      character  error_string *80      ! error message if inadequate N
+      character  error_string *80      ! error message if inadequate N
                                     ! for immobilization
    integer    layer                 ! soil layer count
    integer    num_layers            ! number of soil layers used
@@ -3101,6 +3100,7 @@ subroutine soiln2_process ()
         g%fom_c_pool(fract, layer) = g%fom_c_pool(fract, layer)- g%dlt_fom_c_hum(fract, layer)- g%dlt_fom_c_biom(fract, layer)- g%dlt_fom_c_atm(fract, layer)
         !dsg  also perform calculation for n
         g%fom_n_pool(fract, layer) = g%fom_n_pool(fract, layer)- g%dlt_fom_n(fract,layer)
+
       end do
 
        !dsg  these 3 dlts are calculated for the benefit of soilp which needs to 'get' them
@@ -3437,6 +3437,11 @@ subroutine soiln2_min_fom (layer, dlt_c_biom, dlt_c_hum, dlt_c_atm, dlt_fom_n, d
          dlt_c_atm (fractn) = dlt_c_min_tot(fractn)* (1.0 - c%ef_fom)* scale_of
 
          dlt_fom_n(fractn)=dlt_n_min_tot(fractn)*scale_of
+
+         dlt_c_hum(fractn) = round_to_zero (dlt_c_hum(fractn))
+         dlt_c_biom(fractn) = round_to_zero (dlt_c_biom(fractn))
+         dlt_c_atm(fractn) = round_to_zero (dlt_c_atm(fractn))
+         dlt_fom_n(fractn) = round_to_zero (dlt_fom_n(fractn))
       end do
 
       dlt_n_min = (dlt_fom_n_min_tot - n_demand) * scale_of
