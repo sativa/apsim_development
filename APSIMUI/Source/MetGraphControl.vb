@@ -252,7 +252,11 @@ Public Class MetGraphControl
     End Sub
 
 #End Region
-
+    Public Overrides Sub refresh()
+        MyBase.Refresh()
+        Metfile = New APSIMInputFile
+        PopulateGraph()
+    End Sub
     Public Sub PopulateGraph()
         If Visible Then
             Try
