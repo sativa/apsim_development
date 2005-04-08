@@ -209,6 +209,7 @@ Public Class MetUI
         Try
             MyBase.Refresh()
             MetGraphControl1.Data = MyData
+            MetGraphControl1.Refresh()
             Dim filename As String = GetValue("filename")
             MetFileTextBox.Text = filename
             OpenFileDialog.InitialDirectory = Path.GetDirectoryName(filename)
