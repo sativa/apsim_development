@@ -833,7 +833,9 @@ Public Class MainUI
     End Sub
 
     Private Sub HelpMenuAbout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpMenuAbout.Click
-        MsgBox("Version 0.0 alpha - where angels fear to tread.", MsgBoxStyle.OKOnly, "APSIM")
+        'MsgBox("Version 0.0 alpha - where angels fear to tread.", MsgBoxStyle.OKOnly, "APSIM")
+        Dim helpform As New HelpAboutForm
+        helpform.ShowDialog()
     End Sub
 
 

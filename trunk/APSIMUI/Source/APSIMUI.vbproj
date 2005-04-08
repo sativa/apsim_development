@@ -317,6 +317,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "HelpAboutForm.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "HelpAboutForm.resx"
+                    DependentUpon = "HelpAboutForm.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "HypropsControl.vb"
                     SubType = "UserControl"
                     BuildAction = "Compile"
