@@ -2359,8 +2359,8 @@ cgd   Eriks modifications for Leaf Area
              p%ll_dep(layer) = ll(layer)*g%dlayer(layer)
           enddo
       else
-          call get_real_array_optional (unknown_module 
-     :                                  , 'll15' 
+          call get_real_array_optional (unknown_module
+     :                                  , 'll15'
      :                                  , max_layer, '()'
      :                                  , ll, num_layers
      :                                  , 0.0, c%ll_ub)
@@ -2371,7 +2371,7 @@ cgd   Eriks modifications for Leaf Area
              call Write_String(
      :            'Using externally supplied Lower Limit (ll15)')
           else
-             call Fatal_error (ERR_internal, 
+             call Fatal_error (ERR_internal,
      :                         'No Crop Lower Limit found')
           endif
       endif
@@ -5331,6 +5331,7 @@ cpsc
 
       elseif (Action.eq.ACTION_Create) then
          call doRegistrations(id)
+         call doSysbalRegistrations()
          call Millet_zero_all_globals ()
 
 cjh special for erik - start
@@ -5373,3 +5374,48 @@ cjh special for erik - end
       return
       end subroutine respondToEvent
 
+! ====================================================================
+! This routine registers variables needec by sysbal
+! ====================================================================
+      subroutine doSysbalRegistrations()
+      use Infrastructure
+      use DataTypes
+      type IDsType
+         sequence
+         integer :: var
+      end type IDsType
+
+      type(IDsType) :: id
+
+         ! WATER
+      id%var = add_registration(respondToGetReg, 'ep'
+     :                        , singleTypeDDML, '', '')
+
+!         ! P
+!      id%var = add_registration(respondToGetReg, 'p_green'
+!     :                        , singleTypeDDML, '', '')
+!      id%var = add_registration(respondToGetReg, 'p_senesced'
+!     :                        , singleTypeDDML, '', '')
+!      id%var = add_registration(respondToGetReg, 'p_dead'
+!     :                        , singleTypeDDML, '', '')
+
+         ! N
+      id%var = add_registration(respondToGetReg, 'n_green'
+     :                        , singleTypeDDML, '', '')
+      id%var = add_registration(respondToGetReg, 'n_senesced'
+     :                        , singleTypeDDML, '', '')
+      id%var = add_registration(respondToGetReg, 'n_dead'
+     :                        , singleTypeDDML, '', '')
+
+         ! DM
+      id%var = add_registration(respondToGetReg, 'dm_green'
+     :                        , singleTypeDDML, '', '')
+      id%var = add_registration(respondToGetReg, 'dm_senesced'
+     :                        , singleTypeDDML, '', '')
+      id%var = add_registration(respondToGetReg, 'dm_dead'
+     :                        , singleTypeDDML, '', '')
+      id%var = add_registration(respondToGetReg, 'dlt_dm_green'
+     :                        , singleTypeDDML, '', '')
+
+      return
+      end subroutine

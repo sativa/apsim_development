@@ -6159,6 +6159,7 @@ cpsc need to develop leaf senescence functions for crop
 
       else if (Action.eq.ACTION_Create) then
          call doRegistrations(id)
+         call doSysbalRegistrations()
 
       elseif (action.eq.ACTION_set_variable) then
 
@@ -6346,3 +6347,46 @@ cpsc need to develop leaf senescence functions for crop
 
       return
       end subroutine respondToEvent
+
+! ====================================================================
+! This routine registers variables needec by sysbal
+! ====================================================================
+      subroutine doSysbalRegistrations()
+      use Infrastructure
+      integer :: id
+      character DDML*128
+
+      DDML = '<type kind="single"  array="T">'
+
+         ! WATER
+      id = add_registration(respondToGetReg, 'ep'
+     :                        , singleTypeDDML, '', '')
+
+         ! P
+      id = add_registration(respondToGetReg, 'p_green'
+     :                        , DDML , '', '')
+      id = add_registration(respondToGetReg, 'p_senesced'
+     :                        , DDML, '', '')
+      id = add_registration(respondToGetReg, 'p_dead'
+     :                        , DDML, '', '')
+
+         ! N
+      id = add_registration(respondToGetReg, 'n_green'
+     :                        , DDML, '', '')
+      id = add_registration(respondToGetReg, 'n_senesced'
+     :                        , DDML, '', '')
+      id = add_registration(respondToGetReg, 'n_dead'
+     :                        , DDML, '', '')
+
+         ! DM
+      id = add_registration(respondToGetReg, 'dm_green'
+     :                        , DDML, '', '')
+      id = add_registration(respondToGetReg, 'dm_senesced'
+     :                        , DDML, '', '')
+      id = add_registration(respondToGetReg, 'dm_dead'
+     :                        , DDML, '', '')
+      id = add_registration(respondToGetReg, 'dlt_dm_green'
+     :                        , DDML, '', '')
+
+      return
+      end subroutine
