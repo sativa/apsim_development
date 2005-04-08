@@ -15,7 +15,7 @@
         <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" module="clock" variablename="dd/mm/yyyy" arrayspec="" />
       </variables>
       <events>
-        <event name="post" description="End of daily simulation time step" />
+        <event name="post" description="End of daily simulation time step" module="clock" />
       </events>
     </outputfiledescription>
   </outputfile>
@@ -5727,7 +5727,7 @@
     <ozcot />
   </folder>
   <StockScienceConverter name="StockScienceConverter" />
-  <stock name="stock">
+  <stock name="sheep">
     <type name="type">sheep</type>
     <breed name="breed">Medium Merino</breed>
     <srw name="srw">50.0</srw>
@@ -5741,7 +5741,7 @@
     <max_fibre_diam name="max_fibre_diam">20.0</max_fibre_diam>
     <fleece_yield name="fleece_yield">0.7</fleece_yield>
     <peak_milk name="peak_milk">25.0</peak_milk>
-    <sheep name="sheep">
+    <group name="sheep group">
       <number>120</number>
       <sex>wether</sex>
       <age>730.0</age>
@@ -5758,7 +5758,15 @@
       <paddock>paddock_1</paddock>
       <tag>0</tag>
       <priority>0</priority>
-    </sheep>
+    </group>
+  </stock>
+  <stock name="cattle">
+    <type name="type">cattle</type>
+    <breed name="breed" description="Name of the animal breed" type="list" listvalues="angus, ayrshire, beef shorthorn, brahman, brahman x british, brown swiss, charolais, charolais x british, charolais x friesian, charolais x holstein, chianina, dairy shorthorn, friesian, friesian x british, guernsey, hereford, holstein, holstein x british, jersey, limousin, sahiwal, simmental, south devon">Angus</breed>
+    <death_rate name="death_rate" description="Base rate of animal mortality (/year)">0.02</death_rate>
+    <group name="cattle group">
+      <number>0</number>
+    </group>
   </stock>
   <surfaceom name="wheat residue">
     <PoolName>wheat_stubble</PoolName>
