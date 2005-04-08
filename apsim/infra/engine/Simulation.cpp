@@ -8,6 +8,7 @@
 #include <fstream>
 #include <general\path.h>
 #include <ComponentInterface\MessageDataExt.h>
+#include <io.h>
 #include <dir.h>
 
 #include <ComponentInterface\messages.h>
@@ -63,7 +64,8 @@ void Simulation::go(const string& simFilename)
    // remove existing log file.
    Path logPath(simFilename);
    logPath.Set_extension(".log");
-   unlink(logPath.Get_path().c_str());
+   if (access(logPath.Get_path().c_str(), 0) == 0)
+     unlink(logPath.Get_path().c_str());
 
    try
       {
