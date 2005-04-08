@@ -1951,6 +1951,8 @@
          <variable name="ep" description ="Sugar daily crop water uptake, Ep (mm)"/>
       </variables>
       <events>
+         <event name = "harvesting"/>
+         <event name = "sowing"/>
       </events>
      <SimMacro>
          <![CDATA[
