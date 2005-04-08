@@ -21,8 +21,8 @@
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
      Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\Tracker\lib\Tracker.dll
      Component DLL          = c:\development\apsim\Sorghum\lib\Sorghum.dll
+     Component DLL          = c:\development\apsim\Tracker\lib\Tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -224,16 +224,16 @@
            Totals  150789.2 12063.1  1377.4   172.2   400.0     8.0
           ---------------------------------------------------------
 
-------- Tracker Initialisation ------------------------------------------------
-     Tracker variables:
-        sum of sorghum.ep on process from reported to now as sum_ep
-
 ------- Sorghum Initialisation ------------------------------------------------
       Initialising, V1.0 2000.01.21
      
          - Reading constants
      
          - Reading constants
+
+------- Tracker Initialisation ------------------------------------------------
+     Tracker variables:
+        sum of sorghum.ep on process from reported to now as sum_ep
 ------- Start of simulation  --------------------------------------------------
 15 October 1957(Day of year=288), manager: 
      Manager sending message :- soilwat2 reset
