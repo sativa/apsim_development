@@ -755,8 +755,8 @@
          <drop name="folder"/>
      </drops>
       <variables>
-         <variable name="dm_feed_on_offer" description="Dry matter of feed on offer (kg/ha)"/>
-         <variable name="dm_feed_removed" description="Dry matter of feed removed (kg/ha)"/>
+         <variable name="dm_feed_on_offer" description="Dry matter of feed on offer (kg/ha)" array="T" units="kg/ha" />
+         <variable name="dm_feed_removed"  description="Dry matter of feed removed (kg/ha)" array="T" units="kg/ha"/>
       </variables>
       <SimMacro>
          <![CDATA[
@@ -839,8 +839,23 @@
       <SmallIcon>Images\cow16.bmp</SmallIcon>
       <drops>
          <drop name="stock"/>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
      </drops>
    </cattle>
+   <group>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\cow32.bmp</LargeIcon>
+      <SmallIcon>Images\cow16.bmp</SmallIcon>
+      <drops>
+         <drop name="cattle"/>
+         <drop name="sheep"/>
+     </drops>
+   </group>
    <sheep>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -906,6 +921,28 @@
       <drops>
          <drop name="manager"/>
          <drop name="StockScienceConverter"/>
+         <drop name="canola"/>
+         <drop name="chickpea"/>
+         <drop name="cowpea"/>
+         <drop name="fababean"/>
+         <drop name="fieldpea"/>
+         <drop name="lablab"/>
+         <drop name="lucerne"/>
+         <drop name="lupin"/>
+         <drop name="maize"/>
+         <drop name="mucuna"/>
+         <drop name="mungbean"/>
+         <drop name="navybean"/>
+         <drop name="peanut"/>
+         <drop name="pigeonp"/>
+         <drop name="sorghum"/>
+         <drop name="soybean"/>
+         <drop name="stylo"/>
+         <drop name="sugar"/>
+         <drop name="sunflower"/>
+         <drop name="weed"/>
+         <drop name="wheat"/>
+         <drop name="ozcot"/>
      </drops>
    </rule>
    <vinelogic>
@@ -1619,6 +1656,8 @@
       <LargeIcon>Images\cubes32.png</LargeIcon>
       <SmallIcon>Images\cubes16.png</SmallIcon>
       <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
@@ -1743,6 +1782,8 @@
       <LargeIcon>Images\cubes32.png</LargeIcon>
       <SmallIcon>Images\cubes16.png</SmallIcon>
       <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
          <drop name="simulation"/>
          <drop name="folder"/>
          <drop name="area"/>
