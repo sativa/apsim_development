@@ -783,8 +783,6 @@ void Coordinator::reorderSubscriptions(::Registrations::Subscriptions& subs)
    ::Registrations::Subscriptions subsToMove = subs;
    ::Registrations::Subscriptions newSubs;
 
-   // Loop through all the component orders and make sure the subs passed in
-   // are in the same order.
    while (subsToMove.size() > 0)
       {
       ::Registrations::Subscriptions::iterator sub = subsToMove.begin();
@@ -806,7 +804,7 @@ void Coordinator::reorderSubscriptions(::Registrations::Subscriptions& subs)
                   {
                   newSubs.push_back(*s);
                   s = subsToMove.erase(s);
-                  s--;
+                  break;
                   }
                }
             }
