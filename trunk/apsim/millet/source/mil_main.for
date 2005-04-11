@@ -5379,43 +5379,40 @@ cjh special for erik - end
 ! ====================================================================
       subroutine doSysbalRegistrations()
       use Infrastructure
-      use DataTypes
-      type IDsType
-         sequence
-         integer :: var
-      end type IDsType
+      integer :: id
+      character DDML*128
 
-      type(IDsType) :: id
+      DDML = '<type kind="single"  array="T">'
 
          ! WATER
-      id%var = add_registration(respondToGetReg, 'ep'
-     :                        , singleTypeDDML, '', '')
+      id = add_registration(respondToGetReg, 'ep'
+     :         , singleTypeDDML, 'mm', 'Plant water uptake')
 
-!         ! P
-!      id%var = add_registration(respondToGetReg, 'p_green'
-!     :                        , singleTypeDDML, '', '')
-!      id%var = add_registration(respondToGetReg, 'p_senesced'
-!     :                        , singleTypeDDML, '', '')
-!      id%var = add_registration(respondToGetReg, 'p_dead'
-!     :                        , singleTypeDDML, '', '')
+         ! P
+!      id = add_registration(respondToGetReg, 'p_green'
+!     :         , DDML , 'g/m^2', 'P in green')
+!      id = add_registration(respondToGetReg, 'p_senesced'
+!     :         , DDML, 'g/m^2', 'P in senesced')
+!      id = add_registration(respondToGetReg, 'p_dead'
+!     :         , DDML, 'g/m^2', 'P in dead')
 
          ! N
-      id%var = add_registration(respondToGetReg, 'n_green'
-     :                        , singleTypeDDML, '', '')
-      id%var = add_registration(respondToGetReg, 'n_senesced'
-     :                        , singleTypeDDML, '', '')
-      id%var = add_registration(respondToGetReg, 'n_dead'
-     :                        , singleTypeDDML, '', '')
+      id = add_registration(respondToGetReg, 'n_green'
+     :         , DDML, 'g/m^2', 'N in green')
+      id = add_registration(respondToGetReg, 'n_senesced'
+     :         , DDML, 'g/m^2', 'N in senesced')
+      id = add_registration(respondToGetReg, 'n_dead'
+     :         , DDML, 'g/m^2', 'N in dead')
 
          ! DM
-      id%var = add_registration(respondToGetReg, 'dm_green'
-     :                        , singleTypeDDML, '', '')
-      id%var = add_registration(respondToGetReg, 'dm_senesced'
-     :                        , singleTypeDDML, '', '')
-      id%var = add_registration(respondToGetReg, 'dm_dead'
-     :                        , singleTypeDDML, '', '')
-      id%var = add_registration(respondToGetReg, 'dlt_dm_green'
-     :                        , singleTypeDDML, '', '')
+      id = add_registration(respondToGetReg, 'dm_green'
+     :         , DDML, 'g/m^2', 'Weight of green material')
+      id = add_registration(respondToGetReg, 'dm_senesced'
+     :         , DDML, 'g/m^2', 'Weight of senesced material')
+      id = add_registration(respondToGetReg, 'dm_dead'
+     :         , DDML, 'g/m^2', 'Weight of dead material')
+      id = add_registration(respondToGetReg, 'dlt_dm_green'
+     :         , DDML, 'g/m^2', 'change in green pool weight')
 
       return
       end subroutine
