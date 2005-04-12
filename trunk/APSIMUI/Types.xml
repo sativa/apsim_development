@@ -304,7 +304,7 @@
                [foreach outputfile.outputfiledescription as desc]
                [foreach desc.variables as vars]
                [foreach vars.variable as var]
-               [if "[var.module]" = "registrations"]
+               [if "[var.module]" = "Data outside paddock"]
                <variable>[var.variablename][var.arrayspec] as [var.name]</variable>
                [else]
                <variable>[var.module].[var.variablename][var.arrayspec] as [var.name]</variable>
