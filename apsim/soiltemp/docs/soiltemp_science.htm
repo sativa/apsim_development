@@ -19,13 +19,17 @@
 <p align="left" class="Title2"><em>Theory </em></p>
 <p align="left" class="Normal">The node/element scheme for the numerical simulation is shown in Figure 1 where the circles denote the nodes and the zigzag's show the elements. All heat storage is assumed to occur at the nodes and all resistance to heat transfer is assumed to take place within the elements. </p>
 <p align="left" class="Normal">&nbsp;</p>
-<p align="left" class="Normal">Figure 1. A diagrammatic representation of the node structure of the numerical simulation. T is temperature, Z is depth, K is thermal conductance, S is heat storage, nz is the number of nodes in the simulation, BL stands for boundary layer, T a is the air temperature, and T ave is the annual average soil temperature. </p>
 <div align="left">  
-  <p class="Normal">&nbsp;</p>
   <p align="center" class="Normal"><img width="167" height="421" src="soiltemp_science_clip_image002.gif"></p>
 </div>
 <p align="left" class="Normal">&nbsp;</p>
-<p align="left" class="Normal">We begin by defining the heat balance at a node i, where i &sup1; 1 or nz. The decrease in storage of heat at the node over a particular timestep is equal to the amount of heat leaving the node minus the amount of heat coming in all divided by the timestep so that, </p>
+<p align="left" class="Normal"><i><b>Figure 1</b>. A diagrammatic representation of the node structure of the numerical simulation. T is temperature, Z is depth, K is thermal conductance, S is heat storage, nz is the number of nodes in the simulation, BL stands for boundary layer, T<sub>a</sub> is the air temperature, and T<sub>ave</sub> is the annual average soil temperature.
+</i> </p>
+<div align="left">  
+  <p class="Normal">&nbsp;</p>
+</div>
+<p align="left" class="Normal">We begin by defining the heat balance at a node i, where i 
+&#8800; 1 or nz. The decrease in storage of heat at the node over a particular timestep is equal to the amount of heat leaving the node minus the amount of heat coming in all divided by the timestep so that, </p>
 <p align="left" class="Normal">&nbsp;</p>
 <p align="left" class="Normal"><img width="213" height="45" src="soiltemp_science_clip_image004.gif">, [1] </p>
 <p align="left" class="Normal">&nbsp;</p>
@@ -33,21 +37,22 @@
 <p align="left" class="Normal">&nbsp;</p>
 <p align="left" class="Normal"><img width="248" height="45" src="soiltemp_science_clip_image006.gif">, [2] </p>
 <p align="left" class="Normal">&nbsp;</p>
-<p align="left" class="Normal">where <em>i </em> stands for a particular node, <em>j </em> refers to the current timestep and j+1 to the next timestep, <em>T </em> is temperature ( &deg; C), <em>C </em> is the volumetric specific heat of the soil (J K -1 m -3 ), <em>A </em> is the cross-sectional area and is normally taken as 1 m 2 , and <em>z </em> is depth (m). Because all heat storage is assumed to occur at the nodes, the appropriate depth interval is half the distance to the node on either side of <em>i </em>. <em>C </em> can be calculated from the specific heats of the soil constituents so that, </p>
+<p align="left" class="Normal">where <em>i </em> stands for a particular node, <em>j </em> refers to the current timestep and j+1 to the next timestep, <em>T </em> is temperature ( &deg; C), <em>C </em> is the volumetric specific heat of the soil (J K<sup>-1</sup> m<sup>-3</sup> ), <em>A </em> is the cross-sectional area and is normally taken as 1 m<sup>2</sup> , and <em>z </em> is depth (m). Because all heat storage is assumed to occur at the nodes, the appropriate depth interval is half the distance to the node on either side of <em>i </em>. <em>C </em> can be calculated from the specific heats of the soil constituents so that, </p>
 <p align="left" class="Normal">&nbsp;</p>
 <p align="left" class="Normal"><img width="288" height="51" src="soiltemp_science_clip_image008.gif">, [3] </p>
 <p align="left" class="Normal">&nbsp;</p>
-<p align="left" class="Normal">where r is the soil bulk density (Mg m -3 ), r s is the particle density and is usually taken as 2.65 Mg m -3 , q is the volumetric water content (m 3 m -3 ), the subscripts on <em>C </em> indicate the substance. <em>C air </em> is usually assumed to be negligible while appropriate values of C for clay minerals and water are 2.39 and 4.18 MJ m -3 K -1 . Where more precise values are required, the equation can be expanded to account for organic matter and other minerals. See Campbell (1985) or Jury <em>et al. </em> (1991) for details on how to calculate C in more detail. </p>
+<p align="left" class="Normal">where r is the soil bulk density (Mg m<sup>-3</sup> ), r s is the particle density and is usually taken as 2.65 Mg m<sup>-3</sup> , q is the volumetric water content (m<sup>3</sup> m<sup>-3</sup> ), the subscripts on <em>C </em> indicate the substance. <em>C<sub>air</sub> </em> is usually assumed to be negligible while appropriate values of C for clay minerals and water are 2.39 and 4.18 MJ m<sup>-3</sup> K<sup>-1</sup> . Where more precise values are required, the equation can be expanded to account for organic matter and other minerals. See Campbell (1985) or Jury <em>et al. </em> (1991) for details on how to calculate C in more detail. </p>
 <p align="left" class="Normal">&nbsp;</p>
 <p align="left" class="Normal">Heat transfer is calculated from the standard Fickian equation where the rate of transfer is proportional to the temperature difference divided by the distance, </p>
 <p align="left" class="Normal">&nbsp;</p>
 <p align="left" class="Normal"><img width="183" height="52" src="soiltemp_science_clip_image010.gif">, [4] </p>
 <p align="left" class="Normal">&nbsp;</p>
-<p align="left" class="Normal">where l is the thermal conductivity (J s -1 m -1 K -1 ) and the overbar indicates that an appropriate average in time of temperature should be used. l can either be calculated from measurements of temperature changes in the soil (see Jury <em>et al. </em>, 1991 for an example) or can be approximated from regression equations. Below is given the scheme from Campbell (1985). First four parameters dependent on density, water content, and the amount of clay are calculated. These are, </p>
+<p align="left" class="Normal">where l is the thermal conductivity (J s<sup>-1</sup> 
+m<sup>-1</sup> K<sup>-1</sup> ) and the overbar indicates that an appropriate average in time of temperature should be used. l can either be calculated from measurements of temperature changes in the soil (see Jury <em>et al. </em>, 1991 for an example) or can be approximated from regression equations. Below is given the scheme from Campbell (1985). First four parameters dependent on density, water content, and the amount of clay are calculated. These are, </p>
 <p align="left" class="Normal">&nbsp;</p>
 <p align="left" class="Normal"><img width="167" height="125" src="soiltemp_science_clip_image012.gif">, [5] </p>
 <p align="left" class="Normal">&nbsp;</p>
-<p align="left" class="Normal">where <em>f clay </em> is the fraction of clay in the soil. These parameters are combined into the equation for l so that, </p>
+<p align="left" class="Normal">where <em>f<sub>clay</sub> </em> is the fraction of clay in the soil. These parameters are combined into the equation for l so that, </p>
 <p align="left" class="Normal">&nbsp;</p>
 <p align="left" class="Normal"><img width="184" height="28" src="soiltemp_science_clip_image014.gif">. [6] </p>
 <p align="left" class="Normal">&nbsp;</p>
@@ -87,21 +92,24 @@
 <p align="left" class="Normal">&nbsp;</p>
 <p align="left" class="Normal"><img width="552" height="79" src="soiltemp_science_clip_image032.gif">[15] </p>
 <p align="left" class="Normal">&nbsp;</p>
-<p align="left" class="Normal">If the three elements of the left-most matrix are expressed as a i , b i , and c i , and the right hand side as d i , the equation can be expanded as an example for a simulation of nz nodes, </p>
+<p align="left" class="Normal">If the three elements of the left-most matrix are expressed as a<sub>i</sub> , b<sub>i</sub> , and c<sub>i</sub> , and the right hand side as d<sub>i</sub> , the equation can be expanded as an example for a simulation of nz nodes, </p>
 <p align="left" class="Normal">&nbsp;</p>
 <p align="left" class="Normal"><img width="312" height="147" src="soiltemp_science_clip_image034.gif">. [16] </p>
 <p align="left" class="Normal">&nbsp;</p>
 <p align="left" class="Normal">We now have a tri-diagonal matrix which can be solved using the Thomas algorithm (Carnahan <em>et al. </em>, 1969). </p>
 <p align="left" class="Normal">&nbsp;</p>
-<p align="left" class="Normal">The lower boundary condition is taken as a zero flux condition, ie. constant temperature, in which T nz+1 equals a constant which is usually taken as the average annual temperature. </p>
+<p align="left" class="Normal">The lower boundary condition is taken as a zero flux condition, ie. constant temperature, in which T<sub>nz+1</sub> equals a constant which is usually taken as the average annual temperature. </p>
 <p align="left" class="Normal">&nbsp;</p>
 <p align="left" class="Normal"><img width="547" height="57" src="soiltemp_science_clip_image036.gif">[17] </p>
 <p align="left" class="Normal">&nbsp;</p>
-<p align="left" class="Normal">The upper boundary condition is more complex. Usually the known temperature is the air temperature at some height above the soil and d 1 is expressed as, </p>
+<p align="left" class="Normal">The upper boundary condition is more complex. Usually the known temperature is the air temperature at some height above the soil and d<sub>1</sub> is expressed as, </p>
 <p align="left" class="Normal">&nbsp;</p>
 <p align="left" class="Normal"><img width="491" height="55" src="soiltemp_science_clip_image038.gif">, [18] </p>
 <p align="left" class="Normal">&nbsp;</p>
-<p align="left" class="Normal">where K BL is the boundary layer conductance (J s -1 m -2 K -1 ), T air is the temperature at the top of the boundary layer, R n is the net radiative input (J s -1 m -2 ), and E soil is the evaporative loss of energy from the soil surface (J s -1 m -2 ). </p>
+<p align="left" class="Normal">where K<sub>BL</sub> is the boundary layer conductance (J 
+s<sup>-1</sup> m<sup>-2</sup> K<sup>-1</sup> ), T<sub>air</sub> is the temperature at the top of the boundary layer, R<sub>n</sub> is the net radiative input (J 
+s<sup>-1</sup> m<sup>-2</sup> ), and E<sub>soil</sub> is the evaporative loss of energy from the soil surface (J 
+s<sup>-1</sup> m<sup>-2</sup> ). </p>
 <p align="left" class="Normal">&nbsp;</p>
 <p align="left" class="Title2"><em>Implementation </em></p>
 <p align="left" class="Normal">Soiltemp is designed to independent of the Apsim timestep. To allow for the numerical solution, the equations above are solved 48 times within each Apsim timestep. This allows for a half-hourly internal time step when Apsim is running on its customary daily step, which should be more than sufficient for numerical stability. When the Apsim timestep is 24 hours Soiltemp estimates the changes in air temperature, the upper boundary condition, in the following manner. </p>
@@ -110,7 +118,8 @@
   <table cellspacing="0" cellpadding="0">
     <tr>
       <td valign="top" align="left"><p class="Normal"><img width="604" height="251" src="soiltemp_science_clip_image040.gif"></p>
-          <p class="Normal">Figure 2. Diagram showing the interpolation of air temperature within a day based on minimum and maximum temperature. </p></td>
+          <p class="Normal"><i><b>Figure 2</b>. Diagram showing the interpolation of air temperature within a day based on minimum and maximum temperature.
+          </i> </p></td>
     </tr>
   </table>
 </div>
@@ -139,19 +148,19 @@
     </tr>
     <tr>
       <td width="155" valign="top"><p class="Normal">vol_spec_heat_om </p></td>
-      <td width="89" valign="top"><p class="Normal">J m -3 K -1 </p></td>
+      <td width="89" valign="top"><p class="Normal">J m<sup>-3</sup> K<sup>-1</sup> </p></td>
       <td width="293" valign="top"><p class="Normal">volumetric specific heat of organic matter </p></td>
       <td width="83" valign="top"><p class="Normal">5.00e6 </p></td>
     </tr>
     <tr>
       <td width="155" valign="top"><p class="Normal">vol_spec_heat_water </p></td>
-      <td width="89" valign="top"><p class="Normal">J m -3 K -1 </p></td>
+      <td width="89" valign="top"><p class="Normal">J m<sup>-3</sup> K<sup>-1</sup> </p></td>
       <td width="293" valign="top"><p class="Normal">volumetric specific heat of water </p></td>
       <td width="83" valign="top"><p class="Normal">4.18e6 </p></td>
     </tr>
     <tr>
       <td width="155" valign="top"><p class="Normal">vol_spec_heat_clay </p></td>
-      <td width="89" valign="top"><p class="Normal">J m -3 K -1 </p></td>
+      <td width="89" valign="top"><p class="Normal">J m<sup>-3</sup> K<sup>-1</sup> </p></td>
       <td width="293" valign="top"><p class="Normal">volumetric specific heat of clay minerals </p></td>
       <td width="83" valign="top"><p class="Normal">2.39e6 </p></td>
     </tr>
@@ -175,14 +184,14 @@
     </tr>
     <tr>
       <td width="155" valign="top"><p class="Normal">bound_layer_cond </p></td>
-      <td width="98" valign="top"><p class="Normal">J s -1 m -2 K -1 </p></td>
+      <td width="98" valign="top"><p class="Normal">J s<sup>-1</sup> m<sup>-2</sup> K<sup>-1</sup> </p></td>
       <td width="246" valign="top"><p class="Normal">boundary layer conductance </p></td>
       <td width="120" valign="top"><p class="Normal">0.0 - 100.0 </p></td>
     </tr>
   </table>
 </div>
 <p align="left" class="Normal">&nbsp;</p>
-<p align="left" class="Normal">The higher the value of bound_layer_cond the greater the difference between air and soil surface temperature. If its value is unknown, Campbell (1986) suggests that a value of 20 J s -1 m -2 K -1 is an appropriate initial estimate. </p>
+<p align="left" class="Normal">The higher the value of bound_layer_cond the greater the difference between air and soil surface temperature. If its value is unknown, Campbell (1986) suggests that a value of 20  J s<sup>-1</sup> m<sup>-2</sup> K<sup>-1</sup> is an appropriate initial estimate. </p>
 <p align="left" class="Normal">&nbsp;</p>
 <p align="left" class="Normal">A further, optional, parameter is, </p>
 <div align="left">
@@ -227,21 +236,6 @@
       <td width="394" valign="top"><p class="Normal">Average annual temperature, used to set the initial soil temperature if soil_temp is not supplied. Also determines the temperature at the lower boundary. </p></td>
     </tr>
     <tr>
-      <td width="158" valign="top"><p class="Normal">timestep </p></td>
-      <td width="66" valign="top"><p class="Normal">min </p></td>
-      <td width="394" valign="top"><p class="Normal">Simulation timestep, converted to seconds internally. </p></td>
-    </tr>
-    <tr>
-      <td width="158" valign="top"><p class="Normal">mint_time </p></td>
-      <td width="66" valign="top"><p class="Normal">hours </p></td>
-      <td width="394" valign="top"><p class="Normal">Specifies the hour of the day when the minimum air temperature occurs. </p></td>
-    </tr>
-    <tr>
-      <td width="158" valign="top"><p class="Normal">maxt_time </p></td>
-      <td width="66" valign="top"><p class="Normal">hours </p></td>
-      <td width="394" valign="top"><p class="Normal">Specifies the hour of the day when the maximum air temperature occurs. </p></td>
-    </tr>
-    <tr>
       <td width="158" valign="top"><p class="Normal">mint </p></td>
       <td width="66" valign="top"><p class="Normal">&deg; C </p></td>
       <td width="394" valign="top"><p class="Normal">Minimum air temperature. </p></td>
@@ -250,6 +244,24 @@
       <td width="158" valign="top"><p class="Normal">maxt </p></td>
       <td width="66" valign="top"><p class="Normal">&deg; C </p></td>
       <td width="394" valign="top"><p class="Normal">Maximum air temperature. </p></td>
+    </tr>
+    <tr>
+      <td width="619" colspan="3" valign="top"><font face="Arial Narrow">Variables from the 
+      Clock module </font></td>
+    </tr>
+    <tr>
+      <td width="158" valign="top"><p class="Normal">timestep </p></td>
+      <td width="66" valign="top"><p class="Normal">min </p></td>
+      <td width="394" valign="top"><p class="Normal">Simulation timestep, converted to seconds internally. </p></td>
+    </tr>
+    <tr>
+      <td width="619" colspan="3" valign="top"><font face="Arial Narrow">
+      Variables from unknown module</font></td>
+    </tr>
+    <tr>
+      <td width="158" valign="top"><p class="Normal">maxt_time </p></td>
+      <td width="66" valign="top"><p class="Normal">hours </p></td>
+      <td width="394" valign="top"><p class="Normal">Specifies the hour of the day when the maximum air temperature occurs. </p></td>
     </tr>
     <tr>
       <td width="619" colspan="3" valign="top"><p class="Normal">Variables from the soil water module </p></td>
@@ -261,28 +273,28 @@
     </tr>
     <tr>
       <td width="158" valign="top"><p class="Normal">sw[nz] </p></td>
-      <td width="66" valign="top"><p class="Normal">m 3 m -3 </p></td>
+      <td width="66" valign="top"><p class="Normal">m<sup>3 </sup>m<sup>-3 </sup> </p></td>
       <td width="394" valign="top"><p class="Normal">Volumetric soil water content. </p></td>
     </tr>
     <tr>
       <td width="158" valign="top"><p class="Normal">bd[nz] </p></td>
-      <td width="66" valign="top"><p class="Normal">Mg m -3 </p></td>
+      <td width="66" valign="top"><p class="Normal">Mg m<sup>-3</sup> </p></td>
       <td width="394" valign="top"><p class="Normal">Soil bulk density. </p></td>
     </tr>
     <tr>
-      <td width="158" valign="top"><p class="Normal">eo </p></td>
+      <td width="158" valign="top"><p class="Normal">eos </p></td>
       <td width="66" valign="top"><p class="Normal">mm </p></td>
-      <td width="394" valign="top"><p class="Normal">Potential soil water evaporation, or the water-depth equivalent of the net radiation reaching the soil surface, converted to J s -1 m -2 K -1 internally. </p></td>
+      <td width="394" valign="top"><p class="Normal">Potential soil water evaporation, or the water-depth equivalent of the net radiation reaching the soil surface, converted to  J s<sup>-1</sup> m<sup>-2</sup> K<sup>-1</sup>&nbsp; internally. </p></td>
     </tr>
     <tr>
       <td width="158" valign="top"><p class="Normal">es </p></td>
       <td width="66" valign="top"><p class="Normal">mm </p></td>
-      <td width="394" valign="top"><p class="Normal">Actual soil water evaporation, or the water-depth equivalent of the evaporation from the soil surface, converted to J s -1 m -2 K -1 internally. </p></td>
+      <td width="394" valign="top"><p class="Normal">Actual soil water evaporation, or the water-depth equivalent of the evaporation from the soil surface, converted to  J s<sup>-1</sup> m<sup>-2</sup> K<sup>-1</sup> internally. </p></td>
     </tr>
   </table>
 </div>
 <p align="left" class="Normal">&nbsp;</p>
-<p align="left" class="Normal">To allow compatibility with modules where changes in the soil occur with time, dlayer and bd are requested at every Apsim time step. If eo and es are not available they are assumed equal to zero. </p>
+<p align="left" class="Normal">To allow compatibility with modules where changes in the soil occur with time, dlayer and bd are requested at every Apsim time step. If eos and es are not available they are assumed equal to zero. </p>
 <p align="left" class="Normal">&nbsp;</p>
 <p align="left" class="Title2"><em>Time step outputs </em></p>
 <div align="left">
@@ -334,20 +346,15 @@
     </tr>
     <tr>
       <td width="177" valign="top"><p class="Normal">therm_cond[nz] </p></td>
-      <td width="113" valign="top"><p class="Normal">J s -1 m -1 K -1 </p></td>
+      <td width="113" valign="top"><p class="Normal">J s<sup>-1</sup> m<sup>-1</sup> K<sup>-1</sup> </p></td>
       <td width="328" valign="top"><p class="Normal">Thermal conductivity for each layer. </p></td>
     </tr>
     <tr>
       <td width="177" valign="top"><p class="Normal">heat_store[nz] </p></td>
-      <td width="113" valign="top"><p class="Normal">J m -3 K -1 </p></td>
+      <td width="113" valign="top"><p class="Normal">J m<sup>-3</sup> K<sup>-1</sup> </p></td>
       <td width="328" valign="top"><p class="Normal">Volumetric specific heat for each layer. </p></td>
     </tr>
-    <tr>
-      <td width="177" valign="top"><p class="Normal">airt </p></td>
-      <td width="113" valign="top"><p class="Normal">&deg; C </p></td>
-      <td width="328" valign="top"><p class="Normal">Average air temperature during the Apsim timestep. </p></td>
-    </tr>
-  </table>
+    </table>
 </div>
 <p align="left" class="Normal">&nbsp;</p>
 <p align="left" class="Title2"><em>References </em></p>
