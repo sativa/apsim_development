@@ -13501,7 +13501,7 @@ void Plant::get_leaf_no_dead(protocol::Component *system, protocol::QueryValueDa
 void Plant::get_leaf_area(protocol::Component *system, protocol::QueryValueData &qd)
 {
     // XX can't handle big arrays..
-    system->sendVariable(qd, protocol::vector<float>(g.leaf_area, g.leaf_area+max_node));
+    system->sendVariable(qd, protocol::vector<float>(g.leaf_area, g.leaf_area+200/*max_node*/));
 }
 
 
