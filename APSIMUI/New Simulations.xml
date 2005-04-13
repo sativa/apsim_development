@@ -110,7 +110,7 @@
         <filename name="filename">ContinuousWheat.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="registrations" arrayspec="" description="Date (dd/mm/yyyy)" />
+            <variable name="Date" variablename="dd/mm/yyyy" module="Data outside paddock" arrayspec="" description="Date (dd/mm/yyyy)" />
             <variable name="biomass" description="Biomass" array="F" units="kg/ha" module="wheat" variablename="biomass" arrayspec="" />
             <variable name="yield" description="Yield" array="F" units="kg/ha" module="wheat" variablename="yield" arrayspec="" />
             <variable name="grain_protein" description="grain protein content" array="F" units="%" module="wheat" variablename="grain_protein" arrayspec="" />
@@ -812,7 +812,7 @@
         <filename name="filename">ContinuousSorghum.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="registrations" arrayspec="" description="Date (dd/mm/yyyy)" />
+            <variable name="Date" variablename="dd/mm/yyyy" module="Data outside paddock" arrayspec="" description="Date (dd/mm/yyyy)" />
             <variable name="biomass" description="Biomass" array="F" units="kg/ha" module="sorghum" variablename="biomass" arrayspec="" />
             <variable name="yield" description="Yield" array="F" units="kg/ha" module="sorghum" variablename="yield" arrayspec="" />
             <variable name="esw" array="T" description="Extractable Soil Water - all layers (mm)" module="Jimbour,Waco (#16) Water" variablename="esw" arrayspec="" />
@@ -1961,8 +1961,8 @@
         <filename name="filename">Egrandis.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="registrations" arrayspec="" description="Date (dd/mm/yyyy)" />
-            <variable name="esw" array="T" description="Extractable Soil Water - all layers (mm)" module="soilwat2" variablename="esw" arrayspec="" />
+            <variable name="Date" variablename="dd/mm/yyyy" module="Data outside paddock" arrayspec="" description="Date (dd/mm/yyyy)" />
+            <variable name="esw" array="T" description="Extractable Soil Water - all layers (mm)" module="UniformSoil Water" variablename="esw" arrayspec="" />
             <variable name="lai" description="E. grandis leaf area index" module="egrandis" variablename="lai" arrayspec="" />
             <variable name="adm_green" array="T" description="E. grandis Live Above-ground Biomass Pools" module="egrandis" variablename="adm_green" arrayspec="" />
             <variable name="fw" description="E. grandis water stress factor" module="egrandis" variablename="fw" arrayspec="" />
@@ -1970,7 +1970,7 @@
             <variable name="plants" description="E. grandis Plant Population" module="egrandis" variablename="plants" arrayspec="" />
           </variables>
           <events>
-            <event name="post" description="End of daily simulation time step" module="clock" />
+            <event name="Data outside paddock.post" description="End of daily simulation time step" module="Data outside paddock" eventname="post" />
           </events>
         </outputfiledescription>
       </outputfile>
@@ -1989,7 +1989,7 @@
 
 
 
-  <simulation name="Continuous Sugar Simulation">
+  <simulation name="Sugar Simulation">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1944</start_date>
       <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1993</end_date>
@@ -2748,7 +2748,7 @@
             <variable name="mint" description="Minimum temperature (oC)" module="Data outside paddock" variablename="mint" arrayspec="" />
           </variables>
           <events>
-            <event name="post" description="End of daily simulation time step" module="Data outside paddock" />
+            <event name="Data outside paddock.post" description="End of daily simulation time step" module="Data outside paddock" eventname="post" />
           </events>
         </outputfiledescription>
       </outputfile>
@@ -2834,13 +2834,13 @@
       </manager>
     </area>
   </simulation>
- 
 
 
 
 
 
- 
+
+
 
 
 
