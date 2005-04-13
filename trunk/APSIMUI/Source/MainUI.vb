@@ -1072,7 +1072,7 @@ Public Class MainUI
         Out.Close()
 
         Dim CommandLine As String
-        If SimFiles.Count > 0 Then
+        If SimFiles.Count = 1 Then
             CommandLine = "/run "
         Else
             CommandLine = ""
