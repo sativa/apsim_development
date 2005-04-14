@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 4.0
+     Version                = 4.1
      Title                  = site=warialda; soil=cd2; treatment=oc2; Nrate=50; RootDepth=deep; Sowing = AvgWindow
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -23,8 +23,8 @@
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
      Component DLL          = c:\development\apsim\sorghum\lib\sorghum.dll
+     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -446,6 +446,13 @@
 ------- wheat Initialisation --------------------------------------------------
      phenology model: Wheat
 
+------- sorghum Initialisation ------------------------------------------------
+      Initialising, V1.0 2000.01.21
+     
+         - Reading constants
+     
+         - Reading constants
+
 ------- tracker Initialisation ------------------------------------------------
      Tracker variables:
         maximum of wheat.yield on end_of_day from reported to now as wht_yield
@@ -464,13 +471,6 @@
         sum of soilwat2.runoff on end_of_day from reported to now as annual_runoff
         sum of soilwat2.es on end_of_day from reported to now as annual_es
         sum of soilwat2.drain on end_of_day from reported to now as annual_drain
-
-------- sorghum Initialisation ------------------------------------------------
-      Initialising, V1.0 2000.01.21
-     
-         - Reading constants
-     
-         - Reading constants
 ------- Start of simulation  --------------------------------------------------
 1 January 1957(Day of year=1), manager: 
      Manager creating a new local real variable : maw10 =     16.9999961000000
