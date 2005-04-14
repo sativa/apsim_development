@@ -340,7 +340,20 @@ void Double_container_2_string (container_type& container,
    Numbers = number_stream.str();
    delete number_stream.str();
    }
-
+// ------------------------------------------------------------------
+// Function that takes a string of numbers and returns a
+// stl container of integers.
+// NB: string entries delimited by " " (space)
+// ------------------------------------------------------------------
+template <class container_type>
+void String_2_integer_container(const std::string& St, container_type& values)
+   {
+   values.erase (values.begin(), values.end());
+   std::vector<std::string> string_container;
+   splitIntoValues(St, " ", string_container);
+   for (unsigned i = 0; i != string_container.size(); i++)
+      values.push_back (atoi(string_container[i].c_str());
+   }
 // ------------------------------------------------------------------
 //  Short description:
 //     function that takes a string and replaces all occurrances of
