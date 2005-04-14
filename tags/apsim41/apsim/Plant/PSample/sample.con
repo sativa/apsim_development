@@ -1,0 +1,18 @@
+
+version = 4.1
+[apsim.navybean]
+module = clock              sample.man [all]       %apsuite\apsim\clock\clock.ini [standard]
+module = report             report.par [navybean]  report.par [navybeanF]    report.par  [all]
+module = input(met)         gatton.met [weather]
+module = manager            sample.man [navybean]
+module = irrigate
+module = fertiliz                                  %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = soilwat2           soil.par   [sample]    %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2             soil.par   [sample]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
+module = SurfaceOM          soil.par   [sample]    %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soilp              soil.par   [sample]    %apsuite\apsim\soilp\soilp.ini [standard]
+module = plant(navybean)    soil.par   [sample]    %apsuite\apsim\navybean\navybean.ini [standard]
+module = SummaryFile        sample.man [navybean]
+module = Screen             sample.man [all]
+!module = log debug.par[debug]
+

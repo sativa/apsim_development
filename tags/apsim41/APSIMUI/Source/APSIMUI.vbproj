@@ -1,0 +1,533 @@
+<VisualStudioProject>
+    <VisualBasic
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{1955D0F0-3C58-4D2C-B5F1-0A3131E41ECC}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = "APSIM.ico"
+                AssemblyKeyContainerName = ""
+                AssemblyName = "APSIMUI"
+                AssemblyOriginatorKeyFile = ""
+                AssemblyOriginatorKeyMode = "None"
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "WinExe"
+                OptionCompare = "Binary"
+                OptionExplicit = "On"
+                OptionStrict = "Off"
+                RootNamespace = "APSIMUI"
+                StartupObject = "APSIMUI.MainUI"
+            >
+                <Config
+                    Name = "Debug"
+                    BaseAddress = "285212672"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = ""
+                    DefineDebug = "true"
+                    DefineTrace = "true"
+                    DebugSymbols = "true"
+                    IncrementalBuild = "true"
+                    Optimize = "false"
+                    OutputPath = "..\..\bin\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "1"
+                />
+                <Config
+                    Name = "Release"
+                    BaseAddress = "285212672"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = ""
+                    DefineDebug = "false"
+                    DefineTrace = "true"
+                    DebugSymbols = "false"
+                    IncrementalBuild = "false"
+                    Optimize = "true"
+                    OutputPath = "bin\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "1"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                />
+                <Reference
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                />
+                <Reference
+                    Name = "System.Windows.Forms"
+                    AssemblyName = "System.Windows.Forms"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                />
+                <Reference
+                    Name = "Interop.SHDocVw"
+                    AssemblyName = "Interop.SHDocVw"
+                    HintPath = "..\..\Bin\Interop.SHDocVw.dll"
+                />
+                <Reference
+                    Name = "AxInterop.SHDocVw"
+                    AssemblyName = "AxInterop.SHDocVw"
+                    HintPath = "..\..\Bin\AxInterop.SHDocVw.dll"
+                />
+                <Reference
+                    Name = "CSGeneral"
+                    AssemblyName = "CSGeneral"
+                    HintPath = "..\..\Bin\CSGeneral.dll"
+                    Private = "False"
+                />
+                <Reference
+                    Name = "scpl"
+                    AssemblyName = "scpl"
+                    HintPath = "..\..\..\documents and settings\hut104\my documents\visual studio projects\windowsapplication1\scpl.dll"
+                />
+                <Reference
+                    Name = "accllistbar"
+                    AssemblyName = "acclListBar"
+                    HintPath = "..\..\..\documents and settings\hut104\my documents\visual studio projects\windowsapplication1\accllistbar.dll"
+                />
+                <Reference
+                    Name = "VBGeneral"
+                    AssemblyName = "VBGeneral"
+                    HintPath = "..\..\Bin\VBGeneral.dll"
+                    Private = "False"
+                />
+                <Reference
+                    Name = "Microsoft.VisualBasic"
+                    AssemblyName = "Microsoft.VisualBasic"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\Microsoft.VisualBasic.dll"
+                />
+                <Reference
+                    Name = "System.Runtime.Serialization.Formatters.Soap"
+                    AssemblyName = "System.Runtime.Serialization.Formatters.Soap"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Runtime.Serialization.Formatters.Soap.dll"
+                />
+                <Reference
+                    Name = "System.Design"
+                    AssemblyName = "System.Design"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Design.dll"
+                />
+                <Reference
+                    Name = "System.Web"
+                    AssemblyName = "System.Web"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.dll"
+                />
+                <Reference
+                    Name = "Xceed.Grid"
+                    AssemblyName = "Xceed.Grid"
+                    HintPath = "..\..\..\..\Program Files\Xceed Components\Xceed Grid for .NET 2.2\Bin\v2.2.107.0\Xceed.Grid.dll"
+                    AssemblyFolderKey = "hklm\xceed grid for .net v2.2.107.0"
+                />
+                <Reference
+                    Name = "Xceed.Grid.UIStyle"
+                    AssemblyName = "Xceed.Grid.UIStyle"
+                    HintPath = "..\..\..\..\Program Files\Xceed Components\Xceed Grid for .NET 2.2\Bin\v2.2.107.0\Xceed.Grid.UIStyle.dll"
+                    AssemblyFolderKey = "hklm\xceed grid for .net v2.2.107.0"
+                />
+                <Reference
+                    Name = "Xceed.SmartUI.Controls"
+                    AssemblyName = "Xceed.SmartUI.Controls"
+                    HintPath = "..\..\..\..\Program Files\Xceed Components\Xceed SmartUI for .NET 3.1\Bin\v3.1.123.0\Xceed.SmartUI.Controls.dll"
+                    AssemblyFolderKey = "hklm\xceed smartui for .net v3.1.123.0"
+                />
+                <Reference
+                    Name = "Xceed.SmartUI"
+                    AssemblyName = "Xceed.SmartUI"
+                    HintPath = "..\..\..\..\Program Files\Xceed Components\Xceed SmartUI for .NET 3.1\Bin\v3.1.123.0\Xceed.SmartUI.dll"
+                    AssemblyFolderKey = "hklm\xceed smartui for .net v3.1.123.0"
+                />
+                <Reference
+                    Name = "Xceed.SmartUI.UIStyle"
+                    AssemblyName = "Xceed.SmartUI.UIStyle"
+                    HintPath = "..\..\..\..\Program Files\Xceed Components\Xceed SmartUI for .NET 3.1\Bin\v3.1.123.0\Xceed.SmartUI.UIStyle.dll"
+                    AssemblyFolderKey = "hklm\xceed smartui for .net v3.1.123.0"
+                />
+                <Reference
+                    Name = "Xceed.Chart"
+                    AssemblyName = "Xceed.Chart"
+                    HintPath = "..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.dll"
+                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
+                />
+                <Reference
+                    Name = "Xceed.Chart.Core"
+                    AssemblyName = "Xceed.Chart.Core"
+                    HintPath = "..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Core.Dll"
+                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
+                />
+                <Reference
+                    Name = "Xceed.Chart.Utilities"
+                    AssemblyName = "Xceed.Chart.Utilities"
+                    HintPath = "..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Utilities.Dll"
+                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
+                />
+                <Reference
+                    Name = "Xceed.Chart.Standard"
+                    AssemblyName = "Xceed.Chart.Standard"
+                    HintPath = "..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Standard.Dll"
+                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
+                />
+                <Reference
+                    Name = "Xceed.Chart.GLCore"
+                    AssemblyName = "Xceed.Chart.GLCore"
+                    HintPath = "..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.GLCore.Dll"
+                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
+                />
+                <Reference
+                    Name = "VBMet"
+                    AssemblyName = "VBMet"
+                    HintPath = "..\..\Bin\VBMet.dll"
+                />
+            </References>
+            <Imports>
+                <Import Namespace = "Microsoft.VisualBasic" />
+                <Import Namespace = "System" />
+                <Import Namespace = "System.Collections" />
+                <Import Namespace = "System.Data" />
+                <Import Namespace = "System.Drawing" />
+                <Import Namespace = "System.Diagnostics" />
+                <Import Namespace = "System.Windows.Forms" />
+            </Imports>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "APSIM.ico"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "AreaUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AreaUI.resx"
+                    DependentUpon = "AreaUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "AssemblyInfo.vb"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "BaseDataControl.vb"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "BaseDataControl.resx"
+                    DependentUpon = "BaseDataControl.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "BaseUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "BaseUI.resx"
+                    DependentUpon = "BaseUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "DataTree.vb"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DataTree.resx"
+                    DependentUpon = "DataTree.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "DocumentationUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DocumentationUI.resx"
+                    DependentUpon = "DocumentationUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "EmptyUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "EmptyUI.resx"
+                    DependentUpon = "EmptyUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "EventsListView.vb"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "EventsListView.resx"
+                    DependentUpon = "EventsListView.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "ExplorerUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ExplorerUI.resx"
+                    DependentUpon = "ExplorerUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "FileUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "FileUI.resx"
+                    DependentUpon = "FileUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "GenericUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "GenericUI.resx"
+                    DependentUpon = "GenericUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "HelpAboutForm.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "HelpAboutForm.resx"
+                    DependentUpon = "HelpAboutForm.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "HypropsControl.vb"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "HypropsControl.resx"
+                    DependentUpon = "HypropsControl.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "InitWaterUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "InitWaterUI.resx"
+                    DependentUpon = "InitWaterUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "LogicUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "LogicUI.resx"
+                    DependentUpon = "LogicUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "MainUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MainUI.resx"
+                    DependentUpon = "MainUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "ManagerUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ManagerUI.resx"
+                    DependentUpon = "ManagerUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "MetGraphControl.vb"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MetGraphControl.resx"
+                    DependentUpon = "MetGraphControl.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "MetUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MetUI.resx"
+                    DependentUpon = "MetUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "NewDocumentForm.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NewDocumentForm.resx"
+                    DependentUpon = "NewDocumentForm.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "OptionsForm.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "OptionsForm.resx"
+                    DependentUpon = "OptionsForm.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "OutputFileDescUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "OutputFileDescUI.resx"
+                    DependentUpon = "OutputFileDescUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "ReportVariablesListView.vb"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ReportVariablesListView.resx"
+                    DependentUpon = "ReportVariablesListView.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "RuleUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RuleUI.resx"
+                    DependentUpon = "RuleUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SimulationUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SimulationUI.resx"
+                    DependentUpon = "SimulationUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SoilUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SoilUI.resx"
+                    DependentUpon = "SoilUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SplashScreen.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SplashScreen.resx"
+                    DependentUpon = "SplashScreen.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "StartupUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "StartupUI.resx"
+                    DependentUpon = "StartupUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SwimSoilUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SwimSoilUI.resx"
+                    DependentUpon = "SwimSoilUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Toolboxes.vb"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TrackerUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TrackerUI.resx"
+                    DependentUpon = "TrackerUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "UImanager.vb"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "VineLogicUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "VineLogicUI.resx"
+                    DependentUpon = "VineLogicUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+            </Include>
+        </Files>
+    </VisualBasic>
+</VisualStudioProject>
+

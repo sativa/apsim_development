@@ -1,0 +1,226 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 4.1
+     Title                  = VENSIM/APSIM sample HTT calculator
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\VenLink\lib\VenLink.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        do_stock
+        post
+     Simulation start date =  1/01/1988
+     Simulation end date   = 31/12/1988
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.day
+        clock.year
+        VenLink.st1
+        VenLink.sw1
+        VenLink.daily_htt
+        VenLink.sum_htt
+     
+     Output file = HTTcalculator.out
+     Format = normal
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
+
+------- fertiliz Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- start_of_day
+     venlink.st1 = st(1)
+     venlink.sw1 = sw(1)
+     report do_end_day_output
+     END of rules
+     
+
+------- soilwat2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  200.  0.050  0.260  0.400  0.460  0.400  1.250  0.856  0.500
+          200.-  400.  0.100  0.260  0.400  0.460  0.400  1.250  0.135  0.500
+          400.-  600.  0.100  0.260  0.400  0.460  0.400  1.250  0.009  0.500
+          600.-  900.  0.100  0.260  0.400  0.460  0.400  1.250  0.000  0.500
+          900.- 1200.  0.100  0.300  0.400  0.460  0.400  1.250  0.000  0.500
+         1200.- 1500.  0.100  0.380  0.400  0.460  0.400  1.250  0.000  0.500
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  200.      52.00      28.00      28.00      12.00
+          200.-  400.      52.00      28.00      28.00      12.00
+          400.-  600.      52.00      28.00      28.00      12.00
+          600.-  900.      78.00      42.00      42.00      18.00
+          900.- 1200.      90.00      30.00      30.00      18.00
+         1200.- 1500.     114.00       6.00       6.00      18.00
+          ---------------------------------------------------------
+               Totals     438.00     162.00     162.00      90.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   2.00        0.10       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              70.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            4.00 (mm^0.5)
+            CONA:                     3.00 ()
+           Eo from priestly-taylor
+
+------- SurfaceOM Initialisation ----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat          500.0   200.0     2.5     0.0   0.221     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.2
+     
+
+------- soiln2 Initialisation -------------------------------------------------
+     
+        - Reading Constants
+     
+        - Reading Parameters
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     6.00  1.30    2.50    2.50    0.00
+             2     6.00  1.00    2.50    2.50    0.00
+             3     6.00  0.80    2.50    2.50    0.00
+             4     6.00  0.80    3.75    3.75    0.00
+             5     6.00  0.70    3.75    3.75    0.00
+             6     6.00  0.60    3.75    3.75    0.00
+          ------------------------------------------------
+           Totals               18.75   18.75    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      31932.0  2456.3   568.0    71.0   155.3     3.9
+             2      24815.3  1908.9   184.7    23.1   104.1     2.6
+             3      19950.5  1534.7    49.5     6.2    69.8     1.7
+             4      29955.4  2304.3    44.6     5.6    38.3     1.0
+             5      26236.9  2018.2    13.1     1.6    21.0     0.5
+             6      22494.4  1730.3     5.6     0.7    11.5     0.3
+          ---------------------------------------------------------
+           Totals  155384.6 11952.7   865.4   108.2   400.0    10.0
+          ---------------------------------------------------------
+
+------- VenLink Initialisation ------------------------------------------------
+     Portions Copyright (c) 1987-1999 Ventana Systems, Inc.
+     DLL filename: c:\development/bin/VenDLM32.dll
+     Model filename: HTTcalculator.vmf
+     VENSIM model variables:
+        st1
+        sw1
+        daily htt
+        sum htt
+     Vensim constants:
+        initial_sum_htt = 0
+        soil_temp_threshold = 20
+        soil_moisture_threshold = -0.9
+        ll15 = 0.5
+------- Start of simulation  --------------------------------------------------
+31 December 1988(Day of year=366), clock: 
+     Simulation is terminating due to end criteria being met.

@@ -1,0 +1,40 @@
+version = 4.1
+[apsim.wheat_sample]
+title=WHEAT SAMPLE Simulation
+screen_output=on
+module = clock           wheat.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report          wheat.par [sample]
+module = Input(Met)      %apsuite\apsim\met\sample\dalby.met [weather]
+module = manager         wheat.par [sample]
+module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = plant(wheat)  wheat.par [sample] %apsuite\apsim\wheat\wheat.ini [standard]
+module = Screen          wheat.par[sample]
+module = SummaryFile     wheat.par[sample]
+
+[apsim.standard_co2]
+title=Constant CO2 levels
+module = clock           co2.par [co2] %apsuite\apsim\clock\clock.ini[standard]
+module = report          co2.par [co2] co2.par [std_co2]
+module = Input(Met)      %apsuite\apsim\met\sample\goond.met [weather]
+module = manager         co2.par [co2]
+module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = plant(wheat)    wheat.par [sample] %apsuite\apsim\wheat\wheat.ini [standard]
+module = Screen          wheat.par [sample]
+module = SummaryFile     co2.par [std_co2]
+
+[apsim.rising_co2]
+title=Rising CO2 levels
+module = clock           co2.par [co2] %apsuite\apsim\clock\clock.ini[standard]
+module = report          co2.par [co2] co2.par [rising_co2]
+module = Input(Met)      %apsuite\apsim\met\sample\goond.met [weather]
+module = manager         co2.par [co2] co2.par [rising_co2]
+module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = plant(wheat)    wheat.par [sample] %apsuite\apsim\wheat\wheat.ini [standard]
+module = Screen          wheat.par [sample]
+module = SummaryFile     co2.par [rising_co2]

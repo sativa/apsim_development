@@ -1,0 +1,23 @@
+[Dependencies]
+Dependency = %licensed(surface)
+
+[Contents]
+Executable = lib\lib.apf
+Source = source\source.apf
+Sample = sample\sample.apf
+Documentation = docs\docs.apf
+
+[contacts]
+contact = Robin Connelly - Module Developer; mailto:ConnelR@dpi.qld.gov.au
+
+[apseudo]
+title=The APSIM Surface Model
+parfile=%thispath\sample\sample.par
+parshowall=yes
+inifile=
+inishowall=yes
+rddfile=
+
+heading = APSIM Surface Model; main
+
+

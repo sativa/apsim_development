@@ -1,0 +1,13 @@
+version = 4.1
+
+[apsim.sample_soiln2]  
+
+title=SoilN2 Sample Simulation
+module = clock    soiln2.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   soiln2.par [sample]
+module = Input(Met)      %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]
+module = manager  soiln2.par [sample]
+module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2   soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = screen   soiln2.par [sample]
+module = summaryfile soiln2.par [sample]

@@ -1,0 +1,33 @@
+version = 3.3
+[APSIM.run1]
+
+title = Run1 - Long Timing Test
+module = clock      timing.par[long] %apsuite\apsim\clock\clock.ini[standard]
+module = report     timing.par[long] timing.par[run1]
+module = input(met)        dalby.met[weather]
+module = manager    timing.par[long]
+module = irrigate
+module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]  %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = residue2   %apsuite\apsim\residue2\sample\residue2.par[legume_residue]  %apsuite\apsim\residue2\residue2.ini[standard]
+module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(chickpea)   timing.par[sample] %apsuite\apsim\chickpea\chickpea.ini[standard]
+module = plant(mungbean)   timing.par[sample] %apsuite\apsim\mungbean\mungbean.ini[standard]
+module = SummaryFile   timing.par[run1]
+module = Screen   timing.par[long]
+[APSIM.run2]
+
+title = Run2 - Long Timing Test
+module = clock      timing.par[long] %apsuite\apsim\clock\clock.ini[standard]
+module = report     timing.par[long] timing.par[run2]
+module = input(met)        dalby.met[weather]
+module = manager    timing.par[long]
+module = irrigate
+module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]  %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = residue2   %apsuite\apsim\residue2\sample\residue2.par[legume_residue]  %apsuite\apsim\residue2\residue2.ini[standard]
+module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(chickpea)   timing.par[sample] %apsuite\apsim\chickpea\chickpea.ini[standard]
+module = plant(mungbean)   timing.par[sample] %apsuite\apsim\mungbean\mungbean.ini[standard]
+module = SummaryFile   timing.par[run2]
+module = Screen   timing.par[long]

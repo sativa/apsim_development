@@ -1,0 +1,9 @@
+-IMPLIB "sysbal.dll"
+-NOREFLIB "sysbal.dll"
+
+-importdeclspec Main
+-importdeclspec alloc_dealloc_instance
+-importdeclspec getDescription
+-importdeclspec getInstance
+-importdeclspec respondToEvent
+-importdeclspec wrapperDLL

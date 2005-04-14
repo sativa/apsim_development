@@ -1,0 +1,463 @@
+[Changed Tracker reference to "ep()" to "ep"]
+command = SearchReplace(tracker," ep\(\)"," ep")
+
+[Changed Tracker reference to ".ep()" to ".ep"]
+command = SearchReplace(tracker,"\.ep\(\)","\.ep")
+
+[Changed Tracker1 reference to "ep()" to "ep"]
+command = SearchReplace(tracker1," ep\(\)"," ep")
+
+[Changed Tracker1 reference to ".ep()" to ".ep"]
+command = SearchReplace(tracker1,"\.ep\(\)","\.ep")
+
+[Changed Tracker2 reference to "ep()" to "ep"]
+command = SearchReplace(tracker2," ep\(\)"," ep")
+
+[Changed Tracker2 reference to ".ep()" to ".ep"]
+command = SearchReplace(tracker2,"\.ep\(\)","\.ep")
+
+[Changed manager reference to "ep()" to "ep"]
+command = SearchReplace(manager," ep\(\)"," ep")
+
+[Changed manager reference to ".ep()" to ".ep"]
+command = SearchReplace(manager,"\.ep\(\)","\.ep")
+
+[Changed report reference to "ep()" to "ep"]
+command = SearchReplace(report," ep\(\)"," ep")
+
+[Changed report reference to ".ep()" to ".ep"]
+command = SearchReplace(report,"\.ep\(\)","\.ep")
+
+[Converted 'module=cropmod(wheat)' to 'module=plant(wheat)']
+command=ChangeInstantiation(cropmod(wheat),plant(wheat))
+
+[Converted 'module=wheat' to 'module=plant(wheat)']
+command=ChangeInstantiation(wheat,plant(wheat))
+
+[Renamed Residue2 to SurfaceOM in all con and par files]
+command = RenameModule(Residue2,SurfaceOM)
+
+[Renamed Residue2 input parameter 'residue_type' to 'type']
+command = RenameParameter(SurfaceOM.residue_type,type)
+
+[Renamed Residue2 input parameter 'residue_wt' to 'mass']
+command = RenameParameter(SurfaceOM.residue_wt,mass)
+
+[Renamed Residue2 input parameter 'residue_cnr' to 'cnr']
+command = RenameParameter(SurfaceOM.residue_cnr,cnr)
+
+[Renamed Residue2 input parameter 'residue_cpr' to 'cpr']
+command = RenameParameter(SurfaceOM.residue_cpr,cpr)
+
+[Removed Residue2 input parameter 'pot_decomp_rate']
+command = DeleteParameter(SurfaceOM.pot_decomp_rate)
+
+[Added new SurfaceOM input parameter 'name']
+command = SetParameterValue(SurfaceOM.name,SurfaceOM.type,onlywhennecessary)
+
+[Changed Operatns command 'residue2 tillage' to 'surfaceom tillage']
+command = SearchReplace(operatns,residue2 tillage,surfaceom tillage)
+
+[Changed Operatns command 'residue2 reset' to 'surfaceom reset']
+command = SearchReplace(operatns,residue2 reset,surfaceom reset)
+
+[Changed Operatns command 'residue2 add_residue' to 'surfaceom add_surfaceom']
+command = SearchReplace(operatns,residue2 add_residue,surfaceom add_surfaceom)
+
+[Changed Manager 'residue2 sum_report' call to 'surfaceom sum_report']
+command = SearchReplace(manager,residue2 sum_report,surfaceom sum_report)
+
+[Changed Manager 'residue2 reset' call to 'surfaceom reset']
+command = SearchReplace(manager,residue2 reset,surfaceom reset)
+
+[Changed Manager 'residue2 tillage' call to 'surfaceom tillage']
+command = SearchReplace(manager,residue2 tillage,surfaceom tillage)
+
+[Changed Manager 'add_residue' call to 'add_surfaceom']
+command = SearchReplace(manager,residue2 add_residue,surfaceom add_surfaceom)
+
+[Changed Manager 'add_surfom' argument from 'dlt_residue_type' to 'type']
+command = SearchReplace(manager,dlt_residue_type,type)
+
+[Added new Manager 'add_surfom' argument 'name']
+command = SetManagerActionParameter(surfaceom add_surfaceom,name,type)
+
+[Changed Manager 'add_surfom' argument from 'dlt_residue_wt' to 'mass']
+command = SearchReplace(manager,dlt_residue_wt,mass)
+
+[Changed Manager 'add_surfom' argument from 'dlt_residue_cnr' to 'cnr']
+command = SearchReplace(manager,dlt_residue_cnr,cnr)
+
+[Changed Manager 'add_surfom' argument from 'dlt_residue_n' to 'n']
+command = SearchReplace(manager,dlt_residue_n,n)
+
+[Changed Manager 'add_surfom' argument from 'dlt_residue_cpr' to 'cpr']
+command = SearchReplace(manager,dlt_residue_cpr,cpr)
+
+[Changed Manager 'add_surfom' argument from 'dlt_residue_p' to 'p']
+command = SearchReplace(manager,dlt_residue_p,p)
+
+[Removed Manager 'add_surfom' argument 'use_default_p']
+command = DeleteManagerActionParameter(surfaceom add_surfaceom,use_default_p)
+
+[Removed Manager 'add_surfom' argument 'dm_type']
+command = DeleteManagerActionParameter(surfaceom add_surfaceom,dm_type)
+
+[Changed Report Variable 'residue2.residue_wt' to 'surfaceom.surfaceom_wt']
+command = SearchReplaceReportVariables(residue2.residue_wt,surfaceom.surfaceom_wt)
+
+[Changed Report Variable 'residue2.residue_cover' to 'surfaceom.surfaceom_cover']
+command = SearchReplaceReportVariables(residue2.residue_cover,surfaceom.surfaceom_cover)
+
+[Changed Report Variable 'residue2.residue_n' to 'surfaceom.surfaceom_n']
+command = SearchReplaceReportVariables(residue2.residue_n,surfaceom.surfaceom_n)
+
+[Changed Report Variable 'residue2.residue_p' to 'surfaceom.surfaceom_p']
+command = SearchReplaceReportVariables(residue2.residue_p,surfaceom.surfaceom_p)
+
+[Changed Report Variable 'residue2.residue_tf' to 'surfaceom.surfaceom_tf']
+command = SearchReplaceReportVariables(residue2.residue_tf,surfaceom.surfaceom_tf)
+
+[Changed Report Variable 'residue2.residue_wf' to 'surfaceom.surfaceom_wf']
+command = SearchReplaceReportVariables(residue2.residue_wf,surfaceom.surfaceom_wf)
+
+[Changed Report Variable 'residue2.residue_cf' to 'surfaceom.surfaceom_cf']
+command = SearchReplaceReportVariables(residue2.residue_cf,surfaceom.surfaceom_cf)
+
+[Changed Tracker Variable 'residue2.residue_wt' to 'surfaceom.surfaceom_wt']
+command = SearchReplace(tracker,residue2.residue_wt,surfaceom.surfaceom_wt)
+
+[Changed Tracker Variable 'residue2.residue_cover' to 'surfaceom.surfaceom_cover']
+command = SearchReplace(tracker,residue2.residue_cover,surfaceom.surfaceom_cover)
+
+[Changed Tracker Variable 'residue2.residue_n' to 'surfaceom.surfaceom_n']
+command = SearchReplace(tracker,residue2.residue_n,surfaceom.surfaceom_n)
+
+[Changed Tracker Variable 'residue2.residue_p' to 'surfaceom.surfaceom_p']
+command = SearchReplace(tracker,residue2.residue_p,surfaceom.surfaceom_p)
+
+[Changed Tracker Variable 'residue2.residue_tf' to 'surfaceom.surfaceom_tf']
+command = SearchReplace(tracker,residue2.residue_tf,surfaceom.surfaceom_tf)
+
+[Changed Tracker Variable 'residue2.residue_wf' to 'surfaceom.surfaceom_wf']
+command = SearchReplace(tracker,residue2.residue_wf,surfaceom.surfaceom_wf)
+
+[Changed Tracker Variable 'residue2.residue_cf' to 'surfaceom.surfaceom_cf']
+command = SearchReplace(tracker,residue2.residue_cf,surfaceom.surfaceom_cf)
+
+[Removed Report variable 'residue2.pot_c_decomp']
+command = RemoveReportVariable(residue2.pot_c_decomp)
+
+[Removed Report variable 'residue2.pot_n_decomp']
+command = RemoveReportVariable(residue2.pot_n_decomp)
+
+[Removed Report variable 'residue2.pot_p_decomp']
+command = RemoveReportVariable(residue2.pot_p_decomp)
+
+[Removed Report variable 'residue2.init_residue_type']
+command = RemoveReportVariable(residue2.init_residue_type)
+
+[Removed Report variable 'residue2.init_residue_dm_type']
+command = RemoveReportVariable(residue2.init_residue_dm_type)
+
+[Removed Report variable 'residue2.cnrf']
+command = RemoveReportVariable(residue2.cnrf)
+
+
+MANURE
+
+[Renamed Manure input parameter 'manure_type' to 'type']
+command = RenameParameter(Manure.manure_type,type)
+
+[Renamed Manure input parameter 'manure_wt' to 'mass']
+command = RenameParameter(Manure.manure_wt,mass)
+
+[Renamed Manure input parameter 'manure_report_additions' to 'report_additions']
+command = RenameParameter(Manure.manure_report_additions,report_additions)
+
+[Added new Manure input parameter 'name']
+command = SetParameterValue(Manure.name,Manure.type,onlywhennecessary)
+
+! Gidday again, Dean - the following two lines are again causing problems
+
+[Added new Manure input parameter 'cnr']
+command = SetParameterValue(manure.cnr,manure.manure_pcnt_C / manure.manure_pcnt_N,onlywhennecessary)
+
+[Added new Manure input parameter 'cpr']
+command = SetParameterValue(manure.cpr,manure.manure_pcnt_C / manure.manure_pcnt_P,onlywhennecessary)
+
+[Removed Manure input parameter 'manure_pcnt_c']
+command = DeleteParameter(Manure.manure_pcnt_c)
+
+[Removed Manure input parameter 'manure_pcnt_n']
+command = DeleteParameter(Manure.manure_pcnt_n)
+
+[Removed Manure input parameter 'manure_pcnt_p']
+command = DeleteParameter(Manure.manure_pcnt_p)
+
+[Removed Manure input parameter 'manure_po4ppm']
+command = DeleteParameter(Manure.manure_po4ppm)
+
+[Removed Manure input parameter 'manure_nh4ppm']
+command = DeleteParameter(Manure.manure_nh4ppm)
+
+[Removed Manure input parameter 'manure_no3ppm']
+command = DeleteParameter(Manure.manure_no3ppm)
+
+[Removed Manure input parameter 'manure_pot_decomp_rate']
+command = DeleteParameter(Manure.manure_pot_decomp_rate)
+
+[Added new Manager 'add_manure' argument 'name']
+command = SetManagerActionParameter(Manure add_manure,name,type)
+
+[Set new Manager 'add_manure' argument called 'mass' equal to 'wt')
+command = SetManagerActionParameter(Manure add_Manure,mass,wt)
+
+[Removed Manager 'add_manure' argument 'wt']
+command = DeleteManagerActionParameter(Manure add_Manure,wt)
+
+[Set new Manager 'add_manure' argument called 'cnr' equal to 'pcnt_c'/'pcnt_n']
+command = SetManagerActionParameter(Manure add_Manure,cnr,pcnt_c / pcnt_n)
+
+[Set new Manager 'add_manure' argument called 'cpr' equal to 'pcnt_c'/'pcnt_p']
+command = SetManagerActionParameter(Manure add_Manure,cpr,pcnt_c / pcnt_p)
+
+[Removed Manager 'add_manure' argument 'pcnt_c']
+command = DeleteManagerActionParameter(Manure add_Manure,pcnt_c)
+
+[Removed Manager 'add_manure' argument 'pcnt_n']
+command = DeleteManagerActionParameter(Manure add_Manure,pcnt_n)
+
+[Removed Manager 'add_manure' argument 'pcnt_p']
+command = DeleteManagerActionParameter(Manure add_Manure,pcnt_p)
+
+[Removed Manager 'add_manure' argument 'po4ppm']
+command = DeleteManagerActionParameter(Manure add_Manure,po4ppm)
+
+[Removed Manager 'add_manure' argument 'nh4ppm']
+command = DeleteManagerActionParameter(Manure add_Manure,nh4ppm)
+
+[Removed Manager 'add_manure' argument 'no3ppm']
+command = DeleteManagerActionParameter(Manure add_Manure,no3ppm)
+
+[Removed Manager 'add_manure' argument 'pool1_cn']
+command = DeleteManagerActionParameter(Manure add_Manure,pool1_cn)
+
+[Removed Manager 'add_manure' argument 'pool2_cn']
+command = DeleteManagerActionParameter(Manure add_Manure,pool2_cn)
+
+[Removed Manager 'add_manure' argument 'pool3_cn']
+command = DeleteManagerActionParameter(Manure add_Manure,pool3_cn)
+
+[Removed Manager 'add_manure' argument 'pool1_cp']
+command = DeleteManagerActionParameter(Manure add_Manure,pool1_cp)
+
+[Removed Manager 'add_manure' argument 'pool2_cp']
+command = DeleteManagerActionParameter(Manure add_Manure,pool2_cp)
+
+[Removed Manager 'add_manure' argument 'pool3_cp']
+command = DeleteManagerActionParameter(Manure add_Manure,pool3_cp)
+
+[Changed Operatns command 'manure tillage' to 'surfaceom tillage']
+command = SearchReplace(operatns,manure tillage,surfaceom tillage)
+
+[Changed Operatns command 'manure reset' to 'surfaceom reset']
+command = SearchReplace(operatns,manure reset,surfaceom reset)
+
+[Changed Operatns command 'manure add_manure' to 'surfaceom add_surfaceom']
+command = SearchReplace(operatns,manure add_manure,surfaceom add_surfaceom)
+
+[Changed Manager 'Manure tillage' call to 'surfaceom tillage']
+command = SearchReplace(manager,manure tillage,surfaceom tillage)
+
+[Changed Manager 'add_manure' call to 'add_surfaceom']
+command = SearchReplace(manager,manure add_manure,surfaceom add_surfaceom)
+
+[Renamed Manure to SurfaceOM in all con and par files]
+command = RenameModule(Manure,SurfaceOM)
+
+[Changed Report Variable 'Manure.manure_wt' to 'surfaceom.surfaceom_wt']
+command = SearchReplaceReportVariables(Manure.manure_wt,surfaceom.surfaceom_wt)
+
+[Changed Report Variable 'Manure.manure_orgc' to 'surfaceom.surfaceom_c']
+command = SearchReplaceReportVariables(Manure.manure_orgc,surfaceom.surfaceom_c)
+
+[Changed Report Variable 'Manure.manure_orgn' to 'surfaceom.surfaceom_n']
+command = SearchReplaceReportVariables(Manure.manure_orgn,surfaceom.surfaceom_n)
+
+[Changed Report Variable 'Manure.manure_orgp' to 'surfaceom.surfaceom_p']
+command = SearchReplaceReportVariables(Manure.manure_orgp,surfaceom.surfaceom_p)
+
+[Changed Report Variable 'Manure.manure_no3' to 'surfaceom.surfaceom_no3']
+command = SearchReplaceReportVariables(Manure.manure_orgc,surfaceom.surfaceom_c)
+
+[Changed Report Variable 'Manure.manure_nh4' to 'surfaceom.surfaceom_nh4']
+command = SearchReplaceReportVariables(Manure.manure_orgn,surfaceom.surfaceom_n)
+
+[Changed Report Variable 'Manure.manure_po4' to 'surfaceom.surfaceom_labile_p']
+command = SearchReplaceReportVariables(Manure.manure_po4,surfaceom.surfaceom_labile_p)
+
+[Changed Report Variable 'Manure.manure_orgc_pool1' to 'surfaceom.surfaceom_c1_manure']
+command = SearchReplaceReportVariables(Manure.manure_orgc_pool1,surfaceom.surfaceom_c1_manure)
+
+[Changed Report Variable 'Manure.manure_orgc_pool2' to 'surfaceom.surfaceom_c2_manure']
+command = SearchReplaceReportVariables(Manure.manure_orgc_pool2,surfaceom.surfaceom_c2_manure)
+
+[Changed Report Variable 'Manure.manure_orgc_pool3' to 'surfaceom.surfaceom_c3_manure']
+command = SearchReplaceReportVariables(Manure.manure_orgc_pool3,surfaceom.surfaceom_c3_manure)
+
+[Changed Report Variable 'Manure.manure_orgn_pool1' to 'surfaceom.surfaceom_n1_manure']
+command = SearchReplaceReportVariables(Manure.manure_orgn_pool1,surfaceom.surfaceom_n1_manure)
+
+[Changed Report Variable 'Manure.manure_orgn_pool2' to 'surfaceom.surfaceom_n2_manure']
+command = SearchReplaceReportVariables(Manure.manure_orgn_pool2,surfaceom.surfaceom_n2_manure)
+
+[Changed Report Variable 'Manure.manure_orgn_pool3' to 'surfaceom.surfaceom_n3_manure']
+command = SearchReplaceReportVariables(Manure.manure_orgn_pool3,surfaceom.surfaceom_n3_manure)
+
+[Changed Report Variable 'Manure.manure_orgp_pool1' to 'surfaceom.surfaceom_p1_manure']
+command = SearchReplaceReportVariables(Manure.manure_orgp_pool1,surfaceom.surfaceom_p1_manure)
+
+[Changed Report Variable 'Manure.manure_orgp_pool2' to 'surfaceom.surfaceom_p2_manure']
+command = SearchReplaceReportVariables(Manure.manure_orgp_pool2,surfaceom.surfaceom_p2_manure)
+
+[Changed Report Variable 'Manure.manure_orgp_pool3' to 'surfaceom.surfaceom_p3_manure']
+command = SearchReplaceReportVariables(Manure.manure_orgp_pool3,surfaceom.surfaceom_p3_manure)
+
+[Changed Report Variable 'Manure.manure_cnr_fom' to 'surfaceom.cnrf_manure']
+command = SearchReplaceReportVariables(Manure.manure_cnr_fom,surfaceom.cnrf_manure)
+
+[Changed Report Variable 'Manure.pot_c_decomp' to 'surfaceom.pot_c_decomp_manure']
+command = SearchReplaceReportVariables(Manure.pot_c_decomp,surfaceom.pot_c_decomp_manure)
+
+[Changed Report Variable 'Manure.pot_n_decomp' to 'surfaceom.pot_n_decomp_manure']
+command = SearchReplaceReportVariables(Manure.pot_n_decomp,surfaceom.pot_n_decomp_manure)
+
+[Changed Report Variable 'Manure.pot_p_decomp' to 'surfaceom.pot_p_decomp_manure']
+command = SearchReplaceReportVariables(Manure.pot_p_decomp,surfaceom.pot_p_decomp_manure)
+
+[Changed Report Variable 'Manure.manure_cover' to 'surfaceom.surfaceom_cover']
+command = SearchReplaceReportVariables(Manure.manure_cover,surfaceom.surfaceom_cover)
+
+[Changed Report Variable 'Manure.man_mf' to 'surfaceom.wf']
+command = SearchReplaceReportVariables(Manure.man_mf,surfaceom.wf)
+
+[Changed Report Variable 'Manure.man_tf' to 'surfaceom.tf']
+command = SearchReplaceReportVariables(Manure.man_tf,surfaceom.tf)
+
+[Changed Report Variable 'Manure.man_tf' to 'surfaceom.tf']
+command = SearchReplaceReportVariables(Manure.man_tf,surfaceom.tf)
+
+[Changed Report Variable 'Manure.man_cn' to 'surfaceom.cnrf_manure']
+command = SearchReplaceReportVariables(Manure.man_tf,surfaceom.tf)
+
+[Changed Tracker Variable 'Manure.manure_wt' to 'surfaceom.surfaceom_wt']
+command = SearchReplace(tracker,Manure.manure_wt,surfaceom.surfaceom_wt)
+
+[Changed Tracker Variable 'Manure.manure_orgc' to 'surfaceom.surfaceom_c']
+command = SearchReplace(tracker,Manure.manure_orgc,surfaceom.surfaceom_c)
+
+[Changed Tracker Variable 'Manure.manure_orgn' to 'surfaceom.surfaceom_n']
+command = SearchReplace(tracker,Manure.manure_orgn,surfaceom.surfaceom_n)
+
+[Changed Tracker Variable 'Manure.manure_orgp' to 'surfaceom.surfaceom_p']
+command = SearchReplace(tracker,Manure.manure_orgp,surfaceom.surfaceom_p)
+
+[Changed Tracker Variable 'Manure.manure_no3' to 'surfaceom.surfaceom_no3']
+command = SearchReplace(tracker,Manure.manure_orgc,surfaceom.surfaceom_c)
+
+[Changed Tracker Variable 'Manure.manure_nh4' to 'surfaceom.surfaceom_nh4']
+command = SearchReplace(tracker,Manure.manure_orgn,surfaceom.surfaceom_n)
+
+[Changed Tracker Variable 'Manure.manure_po4' to 'surfaceom.surfaceom_labile_p']
+command = SearchReplace(tracker,Manure.manure_po4,surfaceom.surfaceom_labile_p)
+
+[Changed Tracker Variable 'Manure.manure_orgc_pool1' to 'surfaceom.surfaceom_c1_manure']
+command = SearchReplace(tracker,Manure.manure_orgc_pool1,surfaceom.surfaceom_c1_manure)
+
+[Changed Tracker Variable 'Manure.manure_orgc_pool2' to 'surfaceom.surfaceom_c2_manure']
+command = SearchReplace(tracker,Manure.manure_orgc_pool2,surfaceom.surfaceom_c2_manure)
+
+[Changed Tracker Variable 'Manure.manure_orgc_pool3' to 'surfaceom.surfaceom_c3_manure']
+command = SearchReplace(tracker,Manure.manure_orgc_pool3,surfaceom.surfaceom_c3_manure)
+
+[Changed Tracker Variable 'Manure.manure_orgn_pool1' to 'surfaceom.surfaceom_n1_manure']
+command = SearchReplace(tracker,Manure.manure_orgn_pool1,surfaceom.surfaceom_n1_manure)
+
+[Changed Tracker Variable 'Manure.manure_orgn_pool2' to 'surfaceom.surfaceom_n2_manure']
+command = SearchReplace(tracker,Manure.manure_orgn_pool2,surfaceom.surfaceom_n2_manure)
+
+[Changed Tracker Variable 'Manure.manure_orgn_pool3' to 'surfaceom.surfaceom_n3_manure']
+command = SearchReplace(tracker,Manure.manure_orgn_pool3,surfaceom.surfaceom_n3_manure)
+
+[Changed Tracker Variable 'Manure.manure_orgp_pool1' to 'surfaceom.surfaceom_p1_manure']
+command = SearchReplace(tracker,Manure.manure_orgp_pool1,surfaceom.surfaceom_p1_manure)
+
+[Changed Tracker Variable 'Manure.manure_orgp_pool2' to 'surfaceom.surfaceom_p2_manure']
+command = SearchReplace(tracker,Manure.manure_orgp_pool2,surfaceom.surfaceom_p2_manure)
+
+[Changed Tracker Variable 'Manure.manure_orgp_pool3' to 'surfaceom.surfaceom_p3_manure']
+command = SearchReplace(tracker,Manure.manure_orgp_pool3,surfaceom.surfaceom_p3_manure)
+
+[Changed Tracker Variable 'Manure.manure_cnr_fom' to 'surfaceom.cnrf_manure']
+command = SearchReplace(tracker,Manure.manure_cnr_fom,surfaceom.cnrf_manure)
+
+[Changed Tracker Variable 'Manure.pot_c_decomp' to 'surfaceom.pot_c_decomp_manure']
+command = SearchReplace(tracker,Manure.pot_c_decomp,surfaceom.pot_c_decomp_manure)
+
+[Changed Tracker Variable 'Manure.pot_n_decomp' to 'surfaceom.pot_n_decomp_manure']
+command = SearchReplace(tracker,Manure.pot_n_decomp,surfaceom.pot_n_decomp_manure)
+
+[Changed Tracker Variable 'Manure.pot_p_decomp' to 'surfaceom.pot_p_decomp_manure']
+command = SearchReplace(tracker,Manure.pot_p_decomp,surfaceom.pot_p_decomp_manure)
+
+[Changed Tracker Variable 'Manure.manure_cover' to 'surfaceom.surfaceom_cover']
+command = SearchReplace(tracker,Manure.manure_cover,surfaceom.surfaceom_cover)
+
+[Changed Tracker Variable 'Manure.man_mf' to 'surfaceom.wf']
+command = SearchReplace(tracker,Manure.man_mf,surfaceom.wf)
+
+[Changed Tracker Variable 'Manure.man_tf' to 'surfaceom.tf']
+command = SearchReplace(tracker,Manure.man_tf,surfaceom.tf)
+
+[Changed Tracker Variable 'Manure.man_tf' to 'surfaceom.tf']
+command = SearchReplace(tracker,Manure.man_tf,surfaceom.tf)
+
+[Changed Tracker Variable 'Manure.man_cn' to 'surfaceom.cnrf_manure']
+command = SearchReplace(tracker,Manure.man_tf,surfaceom.tf)
+
+[Removed Report variable 'Manure.manure_no3ppm']
+command = RemoveReportVariable(Manure.manure_no3ppm)
+
+[Removed Report variable 'Manure.manure_nh4ppm']
+command = RemoveReportVariable(Manure.manure_nh4ppm)
+
+[Removed Report variable 'Manure.manure_po4ppm']
+command = RemoveReportVariable(Manure.manure_po4ppm)
+
+[Removed Report variable 'Manure.manure_%c']
+command = RemoveReportVariable(Manure.manure_%c)
+
+[Removed Report variable 'Manure.manure_%n']
+command = RemoveReportVariable(Manure.manure_%n)
+
+[Removed Report variable 'Manure.manure_%p']
+command = RemoveReportVariable(Manure.manure_%p)
+
+[Removed Report variable 'Manure.manure_p']
+command = RemoveReportVariable(Manure.manure_p)
+
+[Removed Report variable 'Manure.man_cumeos']
+command = RemoveReportVariable(Manure.man_cumeos)
+
+[Removed Report variable 'Manure.leach_rn_tot']
+command = RemoveReportVariable(Manure.leach_rn_tot)
+
+
+
+
+
+
+
+
+

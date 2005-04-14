@@ -1,0 +1,31 @@
+
+# May need to define the full path to these (usually c:\lf9556\bin), but
+# the lahey installation adds it to your path anyway.
+LFLM=$(FORROOT)\lm.exe
+LF95=$(FORROOT)\lf95.exe
+
+F90FLAGS=-winconsole -dll -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink
+F90LIBFLAGS=-winconsole -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink
+F90INCLUDES=-i .;$(APSROOT)\apsim\infra\source
+F90MODS=-mod .;$(APSROOT)\apsim\infra\source
+F90LIBS=-libPath $(APSROOT)\apsbuild -lib $(APSROOT)\apsim\infra\lib\apsinfra.lib
+
+F90CROPINCLUDES=-i .;$(APSROOT)\apsim\infra\source;$(APSROOT)\apsim\croptemp\source
+F90CROPMODS=-mod .;$(APSROOT)\apsim\infra\source;$(APSROOT)\apsim\croptemp\source
+F90CROPLIBS=-libPath $(APSROOT)\apsbuild -lib $(APSROOT)\apsim\infra\lib\apsinfra.lib -lib $(APSROOT)\apsim\croptemp\lib\croptemp.lib
+
+# Generic rules
+.for.obj:
+	$(ECHO) $(F90FLAGS) > compiler.tmp
+	$(ECHO) $(F90INCLUDES) >> compiler.tmp
+	$(ECHO) $(F90MODS) >> compiler.tmp
+	$(LF95) -c $< -o $@ @compiler.tmp
+	$(RM) compiler.tmp
+
+.f90.obj:
+	$(ECHO) $(F90FLAGS) > compiler.tmp
+	$(ECHO) $(F90INCLUDES) >> compiler.tmp
+	$(ECHO) $(F90MODS) >> compiler.tmp
+	$(LF95) -c $< -o $@ @compiler.tmp
+	$(RM) compiler.tmp
+

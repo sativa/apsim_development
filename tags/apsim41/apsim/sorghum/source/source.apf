@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(sorghum)
+
+[Contents]
+Registrations.f90 = Registrations.f90
+sorghum.for = sorghum.for
+
+[APSBuild]
+binary = ..\lib\sorghum.dll
+compilerfile = release.compile

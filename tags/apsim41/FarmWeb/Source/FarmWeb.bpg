@@ -1,0 +1,50 @@
+#------------------------------------------------------------------------------
+VERSION = BWS.01
+#------------------------------------------------------------------------------
+!ifndef ROOT
+ROOT = $(MAKEDIR)\..
+!endif
+#------------------------------------------------------------------------------
+MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
+DCC = $(ROOT)\bin\dcc32.exe $**
+BRCC = $(ROOT)\bin\brcc32.exe $**
+#------------------------------------------------------------------------------
+PROJECTS = general.lib FarmWebLib.lib YPApp.exe yp.dll AfloApp.exe Afloman.dll \
+  Convert.dll ConvertApp.exe
+#------------------------------------------------------------------------------
+default: $(PROJECTS)
+#------------------------------------------------------------------------------
+
+yp.dll: yp.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+YPApp.exe: YPApp.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+FarmWebLib.lib: FarmWebLib.bpr
+  $(ROOT)\bin\bpr2mak -t$(ROOT)\bin\deflib.bmk $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+general.lib: ..\..\Shared\general\general.bpr
+  $(ROOT)\bin\bpr2mak -t$(ROOT)\bin\deflib.bmk $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+AfloApp.exe: AfloApp.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+Afloman.dll: Afloman.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+Convert.dll: tools\Convert.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+ConvertApp.exe: tools\ConvertApp.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+

@@ -1,0 +1,33 @@
+[sample.report.parameters]
+outputfile =accum.out
+
+
+
+
+variable = clock.day
+variable = clock.year
+variable = accum.rain[3]
+[sample.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1988
+end_date=9/4/1988
+
+
+[sample.accum.parameters]
+! Accumulate rainfall for 5 days.
+! We can then use this variable in manager
+accum_variables =  rain[3]
+
+
+[sample.manager.start_of_day]
+! tell report module to output when accumulated rainfall is
+! greater than 20 mm.
+
+if (rain[3] >= 20) then
+   report do_output
+endif
+
+[sample.SummaryFile.parameters]
+summaryfile=accum.sum
+[sample.Screen.parameters]
+screen_output=on

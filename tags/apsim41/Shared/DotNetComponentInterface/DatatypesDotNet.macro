@@ -1,0 +1,147 @@
+##################################################
+#file datatypes.h
+#pragma once
+#include "Message.h"
+#include "MessageData.h"
+#include "Interfaces.h"
+#include "Utility.h"
+#include <string>
+using namespace System::Collections;
+using namespace System::Reflection;
+
+#for_each structure
+//-------------------- structure.name type
+#if (structure.array = T)
+[DefaultMemberAttribute(S"value")]
+#endif
+public __gc class structure.name : public IEventData #if (structure.array = T), public IEnumerable#endif
+
+   {
+   public:
+      #if (structure.array = T)
+      structure.name() : values(NULL) { }
+      structure.name(int numElements) : values(new Type*[numElements]) { }
+      __gc struct Type
+         {
+      #endif
+         #for_each structure.field
+         #if (field.ctype = std::string)
+         String* field.name;
+         #elseif (field.isStructure = T)
+         field.ctype* field.name;
+         #else
+         field.ctype field.name;
+         #endif
+         #endfor
+      #if (structure.array = T)
+         };
+		__property Type* get_value(int index) { return values[index]; }
+		__property void set_value(int index, Type* value) { values[index] = value; }
+		__property int get_Count() { return values->Count; }
+      virtual IEnumerator* GetEnumerator() {return values->GetEnumerator();}
+
+      #endif
+
+		__delegate void EventHandler(structure.name* handler);
+		EventHandler* handler;
+      void pack(Message& message)
+         {
+         #if (structure.array = T)
+         ::pack(message, values->Count);
+         for (int i = 0; i != values->Count; i++)
+            {
+            #for_each structure.field
+            #if (field.isStructure = T)
+            values[i]->field.name->pack(message);
+            #elseif (field.ctype <> char*)
+            ::pack(message, values[i]->field.name);
+            #endif
+            #endfor
+            }
+         #else
+         #for_each structure.field
+         #if (field.isStructure = T)
+         field.name->pack(message);
+         #elseif (field.ctype <> char*)
+         ::pack(message, field.name);
+         #endif
+         #endfor
+         #endif
+         }
+      void unpack(Message& message)
+         {
+         #if (structure.array = T)
+         int count;
+         ::unpack(message, count);
+         values = new Type*[count];
+         for (int i = 0; i != values->Count; i++)
+            {
+            values[i] = new Type;
+            #for_each structure.field
+            #if (field.isStructure = T)
+            field.name->unpack(message);
+            #elseif (field.ctype <> char*)
+            ::unpack(message, values[i]->field.name);
+            #endif
+            #endfor
+            }
+         #else
+         #for_each structure.field
+         #if (field.isStructure = T)
+         field.name->unpack(message);
+         #elseif (field.ctype <> char*)
+         ::unpack(message, field.name);
+         #endif
+         #endfor
+         #endif
+         }
+      #if (structure.message <> T)
+      const char* ddml()
+         {
+         return
+structure.dotnetddml;
+         }
+	virtual void invokeEvent(Message& message)
+		{
+		handler(this);
+		}
+
+      #endif
+   #if (structure.array = T)
+   private:
+      Type* values[];
+   #endif
+   };
+#endfor
+
+#endfile
+
+##################################################
+#file ApsimEvents.h
+#pragma once
+#include "datatypes.h"
+#include "ComponentInterface.h"
+#include "utility.h"
+
+public  __gc class ApsimEvents
+	{
+   private:
+      IComms* comms;
+	public:
+      ApsimEvents(IComms* _comms) : comms(_comms) { }
+
+#for_each event
+      // -----------------
+      // event.name
+      // -----------------
+		void registerevent.nameHandler(String* eventName, event.type::EventHandler* handler)
+			{
+			event.type* event = new event.type;
+			event->handler = handler;
+			comms->registerEventHandler(eventName, event);
+			};
+#endfor
+
+   };
+#endfile
+   

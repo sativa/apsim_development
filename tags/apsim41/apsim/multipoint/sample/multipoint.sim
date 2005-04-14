@@ -1,0 +1,132 @@
+<Simulation executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll">
+   <title>Simple System Simulation</title>
+   <component name="log" executable="%apsuite\apsim\log\lib\log.dll">
+      <initdata>
+         <parameters name="sample">
+            <property name="debug_output">on</property>
+            <property name="logfile">log.txt</property>
+         </parameters>
+      </initdata>
+   </component>
+
+   <component name="SummaryFile" executable="%apsuite\apsim\summaryfile\lib\summaryfile.dll">
+      <initdata>
+         <parameters name="sample">
+            <property name="summaryfile">wheat.sum</property>
+         </parameters>
+      </initdata>
+   </component>
+   <component name="Screen" executable="%apsuite\apsim\screen\lib\screen.dll">
+      <initdata>
+         <parameters name="sample">
+            <property name="screen_output">on</property>
+         </parameters>
+      </initdata>
+   </component>
+   <component name="clock" executable="%apsuite\apsim\clock\lib\clock.dll">
+      <initdata>
+         <constants name="standard">
+            <property name="timestep_events">prepare process post rep</property>
+         </constants>
+         <parameters name="sample">
+            <property name="start_date">14/6/1988</property>
+            <property name="end_date">17/11/1988</property>
+         </parameters>
+      </initdata>
+   </component>
+   <component name="report" executable="%apsuite\apsim\report\lib\report.dll">
+      <initdata>
+         <parameters name="sample">
+            <property name="outputfile">wheat.out</property>
+         </parameters>
+         <variables>
+            <variable>clock.dd/mm/yyyy as Date</variable>
+            <variable>SubSystem.rain as rain</variable>
+         </variables>
+      </initdata>
+   </component>
+   <component name="manager" executable="%apsuite\apsim\manager\lib\manager.dll">
+      <initdata>
+         <rules>
+            <rule name="sample.end_of_day" condition="end_of_day">
+               <![CDATA[if (day = 200) then[cr]   subsystem.rain = 123[cr]subsystem.dlt_sw_dep= 0 0 0 0 0 0 0 [cr]endif[cr]report do_output[cr]SubSystem do_output[cr]]]>
+            </rule>
+         </rules>
+      </initdata>
+   </component>
+
+
+   <system name="SubSystem" executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll">
+      <component name="Met" executable="%apsuite\apsim\input\lib\input.dll">
+	      <initdata>
+	         <weather name="weather">
+	            <property name="Latitude">-27.11</property>
+	            <property name="tav">19.57</property>
+	            <property name="amp">10.40</property>
+	         </weather>
+	         <parameters name="weather">
+	            <property name="filename">%apsuite\apsim\met\sample\dalby.met</property>
+	         </parameters>
+	      </initdata>
+	   </component>
+
+      <component name="report2" executable="%apsuite\apsim\report\lib\report.dll">
+         <initdata>
+            <parameters name="sample">
+               <property name="outputfile">wheat2.out</property>
+            </parameters>
+            <variables>
+               <variable>day</variable>
+               <variable>met.rain</variable>
+
+            </variables>
+         </initdata>
+      </component>
+
+	   <component name="soilwat2" executable="%apsuite\apsim\soilwat2\lib\soilwat2.dll">
+	      <initdata>
+	         <include>%apsuite\apsim\soilwat2\soilwat2.ini</include>
+	         <parameters name="black_earth">
+
+	                  <property name="profile_fesw">1</property>
+
+	            <property name="diffus_const">40</property>
+	            <property name="diffus_slope">16</property>
+	            <property name="cn2_bare">73</property>
+	            <property name="cn_red">20</property>
+	            <property name="cn_cov">0.8</property>
+	            <property name="salb">0.13</property>
+	            <property name="cona">3.5</property>
+	            <property name="u">6</property>
+	            <property name="dlayer"> 150 150 300 300 300 300 300 300 300 300 300  </property>
+	            <property name="sat">0.59 0.58 0.59 0.58 0.57 0.55 0.55 0.53 0.52 0.51 0.49 </property>
+	            <property name="dul">0.54 0.53 0.54 0.54 0.52 0.5 0.5 0.48 0.47 0.46 0.44 </property>
+	            <property name="ll15">0.29 0.29 0.29 0.29 0.3 0.31 0.32 0.33 0.34 0.35 0.36 </property>
+	            <property name="air_dry">0.145 0.26 0.29 0.29 0.3 0.31 0.32 0.33 0.34 0.35 0.36 </property>
+	            <property name="swcon">0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 </property>
+	            <property name="bd">1.02 1.03 1.02 1.02 1.06 1.11 1.12 1.15 1.18 1.2 1.25 </property>
+	         </parameters>
+	      </initdata>
+	   </component>
+
+      <registrations>
+         <event name="summaryFileWrite" type="summaryFileWrite"/>
+         <event name="error" type="string"/>
+         <respondToGet name="rain" type="rain"/>
+         <respondToSet name="dlt_sw_dep" type="single"/>
+         <respondToEvent name="tick" type="time"/>
+         <respondToEvent name="do_output" type="do_output"/>
+         <get name="day" type="integer4"/>
+         <get name="title" type="string"/>
+         <respondToSet name="rain" type="rain"/>
+      </registrations>
+      <types>
+         <type name="summaryFileWrite">
+            <field name="componentName" kind="string"/>
+            <field name="lines" kind="string"/>
+         </type>
+      </types>
+
+	</system>
+
+</Simulation>

@@ -1,0 +1,71 @@
+# (Borlandish) Makefile for apsim executable
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+DTOBJECTS=CreateDataTypesSource.obj CreateSource.obj CreateDataTypesF90.obj
+CIOBJECTS=CreateComponentInterfaceSource.obj ComponentInterfaceGenerator.obj
+
+LIBFILES = $(APSROOT)\Shared\general\general.lib \
+	$(APSROOT)\Shared\general\general_vcl.lib \
+	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+	$(BCB)\components\libxml2\win32\libxml2.lib \
+	$(BCB)\components\boost\libs\filesystem\filesystem.lib
+
+USERDEFINES =
+SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
+LIBPATH = $(SYSLIBPATH)
+
+# ---------------------------------------------------------------------------
+# 'Wizard' generated:
+#CFLAG1 = -Od -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC -tWM- -c
+
+CFLAG1 = $(SYSCFLAGS) -O2 -r- -vi- -tWM
+WARNINGS = -w-par
+LFLAGS =  -ap -Tpe -x -Gn -v
+
+STDOBJ = c0x32.obj vcl.bpi Memmgr.Lib sysinit.obj
+ALLRES = $(RESFILES)
+ALLLIB = $(LIBFILES) import32.lib cw32mti.lib
+
+CC=$(BCB)\Bin\bcc32.exe
+LD=$(BCB)\Bin\ilink32
+# ---------------------------------------------------------------------------
+
+all: $(APSROOT)\Bin\CreateDataTypesSource.exe \
+$(APSROOT)\Bin\CreateComponentInterfaceSource.exe
+
+$(APSROOT)\Bin\CreateDataTypesSource.exe: $(DTOBJECTS)
+	$(LD) @&&!
+	$(LFLAGS) -L$(LIBPATH) +
+	$(DTOBJECTS) $(STDOBJ), $<, , $(ALLLIB), $(DEFFILE), $(ALLRES)
+!
+
+$(APSROOT)\Bin\CreateComponentInterfaceSource.exe: $(CIOBJECTS)
+	$(LD) @&&!
+	$(LFLAGS) -L$(LIBPATH) +
+	$(CIOBJECTS) $(STDOBJ), $<, , $(ALLLIB), $(DEFFILE), $(ALLRES)
+!
+
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+####
+CreateDataTypesSource.obj: CreateDataTypesSource.cpp CreateSource.h CreateDataTypesF90.h
+CreateSource.obj: CreateSource.cpp CreateSource.h
+CreateComponentInterfaceSource.obj: CreateComponentInterfaceSource.cpp ComponentInterfaceGenerator.h
+ComponentInterfaceGenerator.obj: ComponentInterfaceGenerator.cpp ComponentInterfaceGenerator.h
+CreateDataTypesF90.obj: CreateDataTypesF90.cpp CreateDataTypesF90.h
+
+clean:
+	$(RM) $(DTOBJECTS) $(CIOBJECTS) \
+$(APSROOT)\Bin\CreateDataTypesSource.exe \
+$(APSROOT)\Bin\CreateComponentInterfaceSource.exe 

@@ -1,0 +1,10 @@
+version = 4.1
+[SILO sample]
+
+title=SILO Sample Simulation
+module = clock siloinput.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report siloinput.par [sample]
+module = siloinput(met) siloinput.par[sample]
+module = manager siloinput.par [sample]
+module = SummaryFile  siloinput.par[sample]
+module = Screen  siloinput.par[sample]

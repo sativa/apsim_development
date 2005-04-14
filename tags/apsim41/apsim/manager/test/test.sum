@@ -1,0 +1,59 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 4.1
+     Title                  = manager test
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\Input\lib\Input.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        do_stock
+        post
+     Simulation start date =  1/01/1988
+     Simulation end date   = 30/01/1988
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+     
+     Output file = test.out
+     Format = normal
+
+------- Met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- end_of_day
+      foo test x=1, y=2, z=3.14159
+     END of rules
+     
+------- Start of simulation  --------------------------------------------------
+1 January 1988(Day of year=1), manager: 
+     Manager sending message :- foo test  x = 1, y = 2, z = 3.14159
+1 January 1988(Day of year=1), MasterPM: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot find component foo
+     Component name: MasterPM
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     

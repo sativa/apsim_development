@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(erosion)
+
+[Contents]
+Registrations.f90 = Registrations.f90
+erosion.for = erosion.for
+
+[APSBuild]
+binary = ..\lib\erosion.dll
+compilerfile=release.compile

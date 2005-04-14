@@ -1,0 +1,206 @@
+#------------------------------------------------------------------------------
+VERSION = BWS.01
+#------------------------------------------------------------------------------
+!ifndef ROOT
+ROOT = $(MAKEDIR)\..
+!endif
+#------------------------------------------------------------------------------
+MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
+DCC = $(ROOT)\bin\dcc32.exe $**
+BRCC = $(ROOT)\bin\brcc32.exe $**
+#------------------------------------------------------------------------------
+PROJECTS = GrossMarginCalculator.dll SEGReport.dll Soil.dll APSGeneral.bpl \
+  apsdata.bpl data.dll chart.dll ApsimReport.exe ApsimContextMenu.dll \
+  ApsimOutlook.exe dbaddin.dll FilterAddIn.dll RotationAddIn.dll soiaddin.dll \
+  WhopEconAddin.dll OutlookManager.exe apsoil.exe icons.dll Misc.dll \
+  SoilWater.dll TemplatePacks.dll apsvis.exe FileGeneratorFromExcel.exe \
+  Rainfall.dll viewer.exe ConvertEconomics.exe NCAddIn.dll
+#------------------------------------------------------------------------------
+default: $(PROJECTS)
+#------------------------------------------------------------------------------
+
+general.lib: Shared\general\general.bpr
+  $(ROOT)\bin\bpr2mak -t$(ROOT)\bin\deflib.bmk $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+ApsimReport.exe: ApsimReport\source\ApsimReport.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+APSBuild.exe: APSBuild\source\APSBuild.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+APSRun.exe: APSRun\Source\APSRun.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+ProtocolManager.dll: apsim\ProtocolManager\Source\ProtocolManager.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+ApsimShared.dll: Shared\ApsimShared\ApsimShared.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+Log.dll: apsim\Log\Source\Log.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+ComponentInterface.lib: Shared\ComponentInterface\ComponentInterface.bpr
+  $(ROOT)\bin\bpr2mak -t$(ROOT)\bin\deflib.bmk $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+SummaryFile.dll: apsim\SummaryFile\Source\SummaryFile.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+Input.dll: apsim\input\source\Input.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+report.dll: apsim\report\source\report.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+Protocol.dll: Shared\Protocol\Protocol.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+Screen.dll: apsim\Screen\source\Screen.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+apsim.exe: apsim\infra\engine\apsim.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+Tracker.dll: apsim\Tracker\Source\Tracker.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+APSGeneral.bpl: Shared\Components\General\APSGeneral.bpk
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+apsdata.bpl: Shared\Components\Data\apsdata.bpk
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+ApsimOutlook.exe: ApsimOutlook\Source\Outlook\ApsimOutlook.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+dbaddin.dll: ApsimOutlook\Source\Outlook\DBAddin\dbaddin.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+FilterAddIn.dll: ApsimOutlook\Source\Outlook\FilterAddin\FilterAddIn.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+RotationAddIn.dll: ApsimOutlook\Source\Outlook\RotationAddin\RotationAddIn.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+soiaddin.dll: ApsimOutlook\Source\Outlook\SOIAddin\soiaddin.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+WhopEconAddin.dll: ApsimOutlook\Source\Outlook\WhopEconAddin\WhopEconAddin.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+OutlookManager.exe: ApsimOutlook\Source\Manager\OutlookManager.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+apsoil.exe: APSoil\Source\apsoil.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+CreateComponentInterfaceSource.exe: APSBuild\source\CreateComponentInterfaceSource.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+icons.dll: ShellExt\source\icons.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+ApsimContextMenu.dll: ShellExt\source\ApsimContextMenu.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+Misc.dll: apsfront\source\Misc\Misc.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+SoilWater.dll: apsfront\source\SoilWater\SoilWater.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+TemplatePacks.dll: apsfront\source\TemplatePacks\TemplatePacks.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+data.dll: Shared\data\data.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+chart.dll: Shared\chart\chart.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+apsvis.exe: apsvis\source\apsvis.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+VenLink.dll: apsim\VenLink\Source\VenLink.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+GrossMarginCalculator.dll: Shared\GrossMarginCalculator\GrossMarginCalculator.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+Soil.dll: Shared\Soil\Soil.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+FileGeneratorFromExcel.exe: FileGenerator\Source\FileGeneratorFromExcel.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+PatchInput.dll: apsim\PatchInput\source\PatchInput.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+SEGReport.dll: Shared\SEGReport\SEGReport.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+SiloInput.dll: apsim\SiloInput\source\SiloInput.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+Plant.dll: apsim\Plant\source\Plant.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+Rainfall.dll: Howwet\source\Rainfall\Rainfall.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+viewer.exe: viewer\source\viewer.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+ConvertEconomics.exe: ApsimOutlook\Source\Outlook\ConvertEconomics\ConvertEconomics.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+NCAddIn.dll: ApsimOutlook\Source\Outlook\NCAddin\NCAddIn.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+

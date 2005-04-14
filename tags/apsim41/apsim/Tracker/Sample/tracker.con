@@ -1,0 +1,48 @@
+version = 4.1
+
+[tracker Single Crop sample]
+title=Tracker Sample Single Crop Simulation
+module = clock    tracker.par [singlecrop_sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   tracker.par [singlecrop_sample]
+module = Input(Met)      %apsuite\apsim\met\SAMPLE\Goond.MET [weather]
+module = tracker tracker.par [singlecrop_sample]
+module = manager  tracker.par [singlecrop_sample]
+module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]        %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(wheat)  %apsuite\apsim\wheat\sample\wheat.par [sample] %apsuite\apsim\wheat\wheat.ini [standard]
+module = screen tracker.par [sample]
+module = summaryfile tracker.par [singlecrop_sample]
+
+[tracker Lucerne sample]
+title=Tracker Sample Lucerne Simulation
+module = clock    tracker.par [lucerne_sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   tracker.par [lucerne_sample]
+module = Input(Met)      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
+module = tracker tracker.par [lucerne_sample]
+module = manager  tracker.par [lucerne_sample]
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]        %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(lucerne)    %apsuite\apsim\lucerne\sample\lucerne.par[sample] %apsuite\apsim\lucerne\lucerne.ini[standard]
+module = screen tracker.par [sample]
+module = summaryfile tracker.par [lucerne_sample]
+
+
+[tracker Crop Rotation sample]
+title=Tracker Sample Rotation Simulation
+module = clock    tracker.par [rotation_sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   tracker.par [rotation_sample]
+module = Input(Met)      %apsuite\apsim\met\SAMPLE\Goond.MET [weather]
+module = tracker tracker.par [rotation_sample]
+module = manager  tracker.par [rotation_sample]
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]        %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(wheat)  %apsuite\apsim\wheat\sample\wheat.par [sample] %apsuite\apsim\wheat\wheat.ini [standard]
+module = plant(chickpea)    %apsuite\apsim\chickpea\sample\chickpea.par[sample] %apsuite\apsim\chickpea\chickpea.ini[standard]
+module = screen tracker.par [sample]
+module = summaryfile tracker.par [rotation_sample]
+
+

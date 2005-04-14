@@ -1,0 +1,23 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+USEFORM("TWebSession.cpp", WebSession); /* TIWUserSessionBase: File Type */
+USEFORM("TQuestionForm.cpp", QuestionForm); /* TIWAppForm: File Type */
+USEFORM("TDropDownManagementForm.cpp", DropDownManagementForm); /* TIWAppForm: File Type */
+USEFORM("TReportsForm.cpp", ReportsForm); /* TIWAppForm: File Type */
+USEFORM("TTemporalDataForm.cpp", TemporalDataForm); /* TIWAppForm: File Type */
+USEFORM("TTemporalDataMinMaxForm.cpp", TemporalDataMinMaxForm); /* TIWAppForm: File Type */
+USEFORM("TUserManagementForm.cpp", UserManagementForm); /* TIWAppForm: File Type */
+USEFORM("TReportManagementForm.cpp", ReportManagementForm); /* TIWAppForm: File Type */
+USEFORM("TInfoForm.cpp", InfoForm); /* TIWAppForm: File Type */
+USEFORM("TClimateForecastForm.cpp", ClimateForecastForm); /* TIWAppForm: File Type */
+USEFORM("TUserDetailsForm.cpp", UserDetailsForm); /* TIWAppForm: File Type */
+USEFORM("TMainForm.cpp", MainForm); /* TIWAppForm: File Type */
+USEFORM("TSoilsForm.cpp", SoilsForm); /* TIWAppForm: File Type */
+USEFORM("TMetStationForm.cpp", MetStationForm); /* TIWAppForm: File Type */
+//---------------------------------------------------------------------------
+#define Library
+
+// To add a file to the library use the Project menu 'Add to Project'.
+

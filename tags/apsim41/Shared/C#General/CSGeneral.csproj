@@ -1,0 +1,171 @@
+<VisualStudioProject>
+    <CSHARP
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = ""
+                AssemblyKeyContainerName = ""
+                AssemblyName = "CSGeneral"
+                AssemblyOriginatorKeyFile = ""
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "Library"
+                PreBuildEvent = ""
+                PostBuildEvent = ""
+                RootNamespace = "CSGeneral"
+                RunPostBuildEvent = "OnBuildSuccess"
+                StartupObject = ""
+            >
+                <Config
+                    Name = "Debug"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "DEBUG;TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "true"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "false"
+                    OutputPath = "..\..\bin\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+                <Config
+                    Name = "Release"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "false"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "true"
+                    OutputPath = "bin\Release\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
+                />
+                <Reference
+                    Name = "VBGeneral"
+                    AssemblyName = "VBGeneral"
+                    HintPath = "..\..\Bin\VBGeneral.dll"
+                    Private = "False"
+                />
+                <Reference
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
+                />
+                <Reference
+                    Name = "System.Windows.Forms"
+                    AssemblyName = "System.Windows.Forms"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
+                />
+            </References>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "APSIMInputFile.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ComponentDescription.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "FtpClient.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "InitWater.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ListviewAPI.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Macro.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MathUtility.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Soil.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SoilBase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SoilSample.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "StringManip.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Utility.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+            </Include>
+        </Files>
+    </CSHARP>
+</VisualStudioProject>
+

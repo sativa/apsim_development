@@ -1,0 +1,2404 @@
+Version = 2.0
+NumPages = 1
+object data: TForm
+  Left = 4
+  Top = 4
+  Align = alClient
+  BorderIcons = []
+  BorderStyle = bsNone
+  ClientHeight = 865
+  ClientWidth = 1384
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Excel1: TExcel
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'Treatment'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'Fertiliser'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'Irrigation'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'Age'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Volume'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Height'
+        DataType = ftFloat
+      end
+      item
+        Name = 'DBH'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Survival%'
+        DataType = ftInteger
+      end
+      item
+        Name = 'SPHa'
+        DataType = ftInteger
+      end
+      item
+        Name = 'StemMass'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'ObsC.onSourceDataChanged'
+      'ObsI.onSourceDataChanged'
+      'ObsF.onSourceDataChanged'
+      'ObsIF.onSourceDataChanged')
+    fileName = 
+      'C:\Program Files\Apsim32\apsim\Egrandis\Validation\ForestValidat' +
+      'ion.xls'
+    pageName = 'GympieVolume'
+    Left = 198
+    Top = 47
+  end
+  object ObsC: TFilter
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'Treatment'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'Fertiliser'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'Irrigation'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'Age'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Volume'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Height'
+        DataType = ftFloat
+      end
+      item
+        Name = 'DBH'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Survival%'
+        DataType = ftInteger
+      end
+      item
+        Name = 'SPHa'
+        DataType = ftInteger
+      end
+      item
+        Name = 'StemMass'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Excel1
+    filter = 'Treatment='#39'C'#39
+    Left = 280
+    Top = 48
+  end
+  object ObsI: TFilter
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'Treatment'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'Fertiliser'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'Irrigation'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'Age'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Volume'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Height'
+        DataType = ftFloat
+      end
+      item
+        Name = 'DBH'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Survival%'
+        DataType = ftInteger
+      end
+      item
+        Name = 'SPHa'
+        DataType = ftInteger
+      end
+      item
+        Name = 'StemMass'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Excel1
+    filter = 'Treatment='#39'I'#39
+    Left = 344
+    Top = 48
+  end
+  object ObsF: TFilter
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'Treatment'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'Fertiliser'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'Irrigation'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'Age'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Volume'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Height'
+        DataType = ftFloat
+      end
+      item
+        Name = 'DBH'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Survival%'
+        DataType = ftInteger
+      end
+      item
+        Name = 'SPHa'
+        DataType = ftInteger
+      end
+      item
+        Name = 'StemMass'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Excel1
+    filter = 'Treatment='#39'F'#39
+    Left = 400
+    Top = 48
+  end
+  object ObsIF: TFilter
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'Treatment'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'Fertiliser'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'Irrigation'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'Age'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Volume'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Height'
+        DataType = ftFloat
+      end
+      item
+        Name = 'DBH'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Survival%'
+        DataType = ftInteger
+      end
+      item
+        Name = 'SPHa'
+        DataType = ftInteger
+      end
+      item
+        Name = 'StemMass'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Excel1
+    filter = 'Treatment='#39'IF'#39
+    Left = 464
+    Top = 56
+  end
+  object C: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'day'
+        DataType = ftInteger
+      end
+      item
+        Name = 'year'
+        DataType = ftInteger
+      end
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'age'
+        DataType = ftFloat
+      end
+      item
+        Name = 'esw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.runoff'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.drain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.es'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@irrigate.irrigation'
+        DataType = ftFloat
+      end
+      item
+        Name = 'no3()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nh4()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biom_n()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'fom_n()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'hum_n()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soiln2.dlt_n_min[]'
+        DataType = ftFloat
+      end
+      item
+        Name = 'residue_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'residue_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.Fn'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.Fw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.Fvpd'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.ft'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'branch_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'bark_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'leaf_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'root_mass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'adm_sen()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.sw_demand'
+        DataType = ftFloat
+      end
+      item
+        Name = 'ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'height'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlt_stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlt_branch_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlt_bark_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlt_leaf_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'foliage_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'branch_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'bark_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.n_demand'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3[]'
+        DataType = ftFloat
+      end
+      item
+        Name = 'plants'
+        DataType = ftFloat
+      end
+      item
+        Name = 'carbon_tot(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'carbon_tot(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nit_tot(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nit_tot(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'c_n1'
+        DataType = ftFloat
+      end
+      item
+        Name = 'c_n2'
+        DataType = ftFloat
+      end
+      item
+        Name = 'oc1'
+        DataType = ftFloat
+      end
+      item
+        Name = 'oc2'
+        DataType = ftFloat
+      end
+      item
+        Name = 'volume'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.flow_no3[5]'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.flow_no3[8]'
+        DataType = ftFloat
+      end
+      item
+        Name = 'total_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nit_tot()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(3)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(4)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(5)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(6)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(7)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(8)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(3)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(4)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(5)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(6)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(7)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(8)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(3)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(4)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(5)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(6)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(7)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(8)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@micromet.interception'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@met.rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@fertiliz.fertiliser'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    filenames.Strings = (
+      'c.out')
+    Left = 224
+    Top = 148
+  end
+  object I: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'day'
+        DataType = ftInteger
+      end
+      item
+        Name = 'year'
+        DataType = ftInteger
+      end
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'age'
+        DataType = ftFloat
+      end
+      item
+        Name = 'esw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.runoff'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.drain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.es'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@irrigate.irrigation'
+        DataType = ftFloat
+      end
+      item
+        Name = 'no3()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nh4()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biom_n()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'fom_n()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'hum_n()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soiln2.dlt_n_min[]'
+        DataType = ftFloat
+      end
+      item
+        Name = 'residue_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'residue_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.Fn'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.Fw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.Fvpd'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.ft'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'branch_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'bark_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'leaf_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'root_mass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'adm_sen()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.sw_demand'
+        DataType = ftFloat
+      end
+      item
+        Name = 'ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'height'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlt_stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlt_branch_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlt_bark_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlt_leaf_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'foliage_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'branch_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'bark_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.n_demand'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3[]'
+        DataType = ftFloat
+      end
+      item
+        Name = 'plants'
+        DataType = ftFloat
+      end
+      item
+        Name = 'carbon_tot(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'carbon_tot(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nit_tot(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nit_tot(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'c_n1'
+        DataType = ftFloat
+      end
+      item
+        Name = 'c_n2'
+        DataType = ftFloat
+      end
+      item
+        Name = 'oc1'
+        DataType = ftFloat
+      end
+      item
+        Name = 'oc2'
+        DataType = ftFloat
+      end
+      item
+        Name = 'volume'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.flow_no3[5]'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.flow_no3[8]'
+        DataType = ftFloat
+      end
+      item
+        Name = 'total_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nit_tot()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(3)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(4)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(5)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(6)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(7)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(8)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(3)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(4)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(5)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(6)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(7)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(8)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(3)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(4)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(5)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(6)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(7)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(8)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@micromet.interception'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@met.rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@fertiliz.fertiliser'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    filenames.Strings = (
+      'i.out')
+    Left = 280
+    Top = 160
+  end
+  object F: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'day'
+        DataType = ftInteger
+      end
+      item
+        Name = 'year'
+        DataType = ftInteger
+      end
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'age'
+        DataType = ftFloat
+      end
+      item
+        Name = 'esw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.runoff'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.drain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.es'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@irrigate.irrigation'
+        DataType = ftFloat
+      end
+      item
+        Name = 'no3()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nh4()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biom_n()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'fom_n()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'hum_n()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soiln2.dlt_n_min[]'
+        DataType = ftFloat
+      end
+      item
+        Name = 'residue_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'residue_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.Fn'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.Fw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.Fvpd'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.ft'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'branch_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'bark_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'leaf_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'root_mass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'adm_sen()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.sw_demand'
+        DataType = ftFloat
+      end
+      item
+        Name = 'ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'height'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlt_stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlt_branch_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlt_bark_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlt_leaf_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'foliage_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'branch_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'bark_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.n_demand'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3[]'
+        DataType = ftFloat
+      end
+      item
+        Name = 'plants'
+        DataType = ftFloat
+      end
+      item
+        Name = 'carbon_tot(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'carbon_tot(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nit_tot(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nit_tot(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'c_n1'
+        DataType = ftFloat
+      end
+      item
+        Name = 'c_n2'
+        DataType = ftFloat
+      end
+      item
+        Name = 'oc1'
+        DataType = ftFloat
+      end
+      item
+        Name = 'oc2'
+        DataType = ftFloat
+      end
+      item
+        Name = 'volume'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.flow_no3[5]'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.flow_no3[8]'
+        DataType = ftFloat
+      end
+      item
+        Name = 'total_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nit_tot()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(3)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(4)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(5)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(6)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(7)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(8)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(3)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(4)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(5)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(6)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(7)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(8)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(3)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(4)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(5)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(6)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(7)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(8)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@micromet.interception'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@met.rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@fertiliz.fertiliser'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    filenames.Strings = (
+      'f.out')
+    Left = 376
+    Top = 152
+  end
+  object IF: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'day'
+        DataType = ftInteger
+      end
+      item
+        Name = 'year'
+        DataType = ftInteger
+      end
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'age'
+        DataType = ftFloat
+      end
+      item
+        Name = 'esw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.runoff'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.drain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.es'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@irrigate.irrigation'
+        DataType = ftFloat
+      end
+      item
+        Name = 'no3()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nh4()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biom_n()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'fom_n()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'hum_n()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soiln2.dlt_n_min[]'
+        DataType = ftFloat
+      end
+      item
+        Name = 'residue_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'residue_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.Fn'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.Fw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.Fvpd'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.ft'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'branch_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'bark_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'leaf_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'root_mass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'adm_sen()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'avg@Egrandis.sw_demand'
+        DataType = ftFloat
+      end
+      item
+        Name = 'ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'height'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlt_stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlt_branch_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlt_bark_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlt_leaf_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'foliage_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'branch_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'bark_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.n_demand'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3[]'
+        DataType = ftFloat
+      end
+      item
+        Name = 'plants'
+        DataType = ftFloat
+      end
+      item
+        Name = 'carbon_tot(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'carbon_tot(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nit_tot(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nit_tot(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'c_n1'
+        DataType = ftFloat
+      end
+      item
+        Name = 'c_n2'
+        DataType = ftFloat
+      end
+      item
+        Name = 'oc1'
+        DataType = ftFloat
+      end
+      item
+        Name = 'oc2'
+        DataType = ftFloat
+      end
+      item
+        Name = 'volume'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.flow_no3[5]'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@soilwat2.flow_no3[8]'
+        DataType = ftFloat
+      end
+      item
+        Name = 'total_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nit_tot()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(3)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(4)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(5)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(6)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(7)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@Egrandis.dlt_no3(8)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(3)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(4)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(5)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(6)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(7)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'rlv(8)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(1)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(2)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(3)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(4)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(5)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(6)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(7)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'dlayer(8)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@micromet.interception'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@met.rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum@fertiliz.fertiliser'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    filenames.Strings = (
+      'if.out')
+    Left = 448
+    Top = 160
+  end
+end
+object Page1: TQuickRep
+  Left = 286
+  Top = 17
+  Width = 635
+  Height = 898
+  Frame.Color = clBlack
+  Frame.DrawTop = False
+  Frame.DrawBottom = False
+  Frame.DrawLeft = False
+  Frame.DrawRight = False
+  Frame.Style = psClear
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Arial'
+  Font.Style = []
+  Functions.Strings = (
+    'PAGENUMBER'
+    'COLUMNNUMBER'
+    'REPORTTITLE')
+  Functions.DATA = (
+    '0'
+    '0'
+    #39#39)
+  Options = [FirstPageHeader, LastPageFooter]
+  Page.Columns = 1
+  Page.Orientation = poPortrait
+  Page.PaperSize = A4
+  Page.Ruler = False
+  Page.Values = (
+    0
+    2970
+    0
+    2100
+    0
+    0
+    0)
+  PrinterSettings.Copies = 1
+  PrinterSettings.Duplex = False
+  PrinterSettings.FirstPage = 0
+  PrinterSettings.LastPage = 0
+  PrinterSettings.OutputBin = Auto
+  PrintIfEmpty = True
+  SnapToGrid = True
+  Units = MM
+  Zoom = 80
+  object TitleBand1: TQRBand
+    Left = 0
+    Top = 0
+    Width = 635
+    Height = 898
+    Frame.Color = clBlack
+    Frame.DrawTop = False
+    Frame.DrawBottom = False
+    Frame.DrawLeft = False
+    Frame.DrawRight = False
+    AlignToBottom = False
+    Color = clWhite
+    ForceNewColumn = False
+    ForceNewPage = False
+    Size.Values = (
+      2970
+      2100.13020833333)
+    BandType = rbTitle
+    object Graph1: TGraph
+      Left = 62
+      Top = 102
+      Width = 525
+      Height = 294
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        973.666666666667
+        206.375
+        338.666666666667
+        1735.66666666667)
+      title = ' '
+      leftAxisTitle = ' '
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      object QRDBChart1: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        Legend.CustomPosition = True
+        Legend.Left = 100
+        Legend.LegendStyle = lsSeries
+        Legend.Top = 37
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object Series1: TPointSeries
+          Marks.ArrowLength = 0
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 0
+          Marks.Visible = False
+          DataSource = data.ObsC
+          SeriesColor = clRed
+          Title = 'C'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Age'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'Volume'
+        end
+        object Series2: TPointSeries
+          Marks.ArrowLength = 0
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 0
+          Marks.Visible = False
+          DataSource = data.ObsI
+          SeriesColor = clGreen
+          Title = 'I'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Age'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'Volume'
+        end
+        object Series3: TPointSeries
+          Marks.ArrowLength = 0
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 0
+          Marks.Visible = False
+          DataSource = data.ObsF
+          SeriesColor = clYellow
+          Title = 'F'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Age'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'Volume'
+        end
+        object Series4: TPointSeries
+          Marks.ArrowLength = 0
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 0
+          Marks.Visible = False
+          DataSource = data.ObsIF
+          SeriesColor = clBlue
+          Title = 'IF'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Age'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'Volume'
+        end
+        object Series5: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.C
+          SeriesColor = clRed
+          ShowInLegend = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'age'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'volume'
+        end
+        object Series6: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.I
+          SeriesColor = clGreen
+          ShowInLegend = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'age'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'volume'
+        end
+        object Series7: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.F
+          SeriesColor = clYellow
+          ShowInLegend = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'age'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'volume'
+        end
+        object Series8: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.IF
+          SeriesColor = clBlue
+          ShowInLegend = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'age'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'volume'
+        end
+      end
+    end
+    object Graph2: TGraph
+      Left = 62
+      Top = 410
+      Width = 525
+      Height = 294
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        973.666666666667
+        206.375
+        1354.66666666667
+        1735.66666666667)
+      title = ' '
+      leftAxisTitle = ' '
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      object QRDBChart2: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        Legend.CustomPosition = True
+        Legend.Left = 100
+        Legend.LegendStyle = lsSeries
+        Legend.Top = 37
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object PointSeries1: TPointSeries
+          Marks.ArrowLength = 0
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 0
+          Marks.Visible = False
+          DataSource = data.ObsC
+          SeriesColor = clRed
+          Title = 'C'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Age'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'SPHa'
+        end
+        object PointSeries2: TPointSeries
+          Marks.ArrowLength = 0
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 0
+          Marks.Visible = False
+          DataSource = data.ObsI
+          SeriesColor = clGreen
+          Title = 'I'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Age'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'SPHa'
+        end
+        object PointSeries3: TPointSeries
+          Marks.ArrowLength = 0
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 0
+          Marks.Visible = False
+          DataSource = data.ObsF
+          SeriesColor = clYellow
+          Title = 'F'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Age'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'SPHa'
+        end
+        object PointSeries4: TPointSeries
+          Marks.ArrowLength = 0
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 0
+          Marks.Visible = False
+          DataSource = data.ObsIF
+          SeriesColor = clBlue
+          Title = 'IF'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Age'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'SPHa'
+        end
+        object LineSeries1: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.C
+          SeriesColor = clRed
+          ShowInLegend = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'age'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'plants'
+        end
+        object LineSeries2: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.I
+          SeriesColor = clGreen
+          ShowInLegend = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'age'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'plants'
+        end
+        object LineSeries3: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.F
+          SeriesColor = clYellow
+          ShowInLegend = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'age'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'plants'
+        end
+        object LineSeries4: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.IF
+          SeriesColor = clBlue
+          ShowInLegend = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'age'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'plants'
+        end
+      end
+    end
+    object Text1: TText
+      Left = 108
+      Top = 57
+      Width = 186
+      Height = 32
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        105.833333333333
+        357.1875
+        188.515625
+        615.15625)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -24
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      Lines.Strings = (
+        'Toolara State Forest')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = 'Toolara State Forest'#13#10
+      FontSize = 18
+    end
+  end
+end

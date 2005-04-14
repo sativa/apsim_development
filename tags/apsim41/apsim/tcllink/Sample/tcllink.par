@@ -1,0 +1,61 @@
+
+[all.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1988
+end_date=31/1/1988
+
+[all.report.parameters]
+outputfile =tcllink.out
+variable = clock.day
+variable = clock.year
+variable = manager.test
+
+[all.manager.init]
+test = 0
+
+[all.SummaryFile.parameters]
+summaryfile = tcllink.sum
+
+[all.log.parameters]
+debug_output = on
+logfile = tcllink.log
+
+[all.Screen.parameters]
+screen_output = on
+
+[all.tcllink.process]
+apsimSet manager.test [apsimGet clock.day]
+
+[dbg.tcllink.init]
+package require Tk
+source c:/tcl/bin/tkcon.tcl
+set steps 1   
+update
+
+# A 4 command debugger:
+proc c {}      {uplevel #0 set steps -1}  ;# Continue
+proc s {{n 1}} {uplevel #0 set steps $n}  ;# Step n days
+proc p {var}   {apsimGet $var}            ;# print apsim variable
+proc b {cond}  {global Conds; lappend Conds $cond} ;# set break condition
+set Conds {}
+
+# Link an apsim variable
+proc link {apsimName tclName} {
+   global $tclName; set $tclName {}
+   trace variable $tclName r "getLinked $apsimName"
+   trace variable $tclName w "setLinked $apsimName"
+}
+proc getLinked {a n1 n2 op} {uplevel #0 set $n1 [apsimGet $a]}
+proc setLinked {a n1 n2 op} {apsimSet $a $n1}
+
+[dbg.tcllink.process]
+update
+foreach cond $Conds {
+  if {[expr $cond]} { 
+    set steps 1
+  }
+}
+
+incr steps -1
+if {$steps == 0} {tkwait variable steps}
+

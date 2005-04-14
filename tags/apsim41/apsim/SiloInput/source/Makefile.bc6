@@ -1,0 +1,61 @@
+# (Borlandish) Makefile for SiloInput module
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+PROJECT=..\lib\SiloInput.dll
+
+OBJFILES=SiloInput.obj SiloInputComponent.obj $(APSROOT)\apsim\input\source\InputComponent.obj $(APSROOT)\apsim\input\source\StringVariant.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
+
+LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
+	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+	$(APSROOT)\Shared\general\general.lib \
+	$(APSROOT)\Shared\Protocol\Protocol.lib \
+	$(BCB)\Components\Boost\libs\date_time\date_time.lib \
+	indy.lib
+
+USERDEFINES =
+SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
+INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface;$(APSROOT)\apsim\input\source
+LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
+
+
+# ---------------------------------------------------------------------------
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
+WARNINGS = -w-par
+LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
+
+ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)
+ALLRES = $(RESFILES)
+ALLLIB = $(LIBFILES) import32.lib cw32mti.lib
+
+CC=$(BCB)\Bin\bcc32.exe
+LD=$(BCB)\Bin\ilink32
+# ---------------------------------------------------------------------------
+source: $(PROJECT)
+
+$(PROJECT): $(OBJFILES) $(DEFFILE)
+    $(LD) @&&!
+    $(LFLAGS) -L$(LIBPATH) +
+    $(ALLOBJ), +
+    $(PROJECT),, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
+!
+
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+
+####
+SiloInput.obj: SiloInput.cpp
+SiloInputComponent.obj: SiloInputComponent.cpp SiloInputComponent.h
+
+clean:
+	del /f $(PROJECT) $(OBJFILES)

@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="..\Lib\SiloInput.dll"/>
+    <OBJFILES value="SiloInput.obj SiloInputComponent.obj ..\..\input\source\InputComponent.obj 
+      ..\..\input\source\StringVariant.obj"/>
+    <RESFILES value="SiloInput.res"/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value="..\..\..\Shared\ComponentInterface\ComponentInterface.lib 
+      ..\..\..\Shared\ApsimShared\ApsimShared.lib 
+      ..\..\..\Shared\general\general.lib &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib&quot;"/>
+    <LIBRARIES value="indy.lib TMSC6.lib VclSmp.lib"/>
+    <SPARELIBS value="rtl.lib vcl.lib vclx.lib dbrtl.lib vcldb.lib VclSmp.lib Tee6C6.lib 
+      adortl.lib TMSC6.lib indy.lib"/>
+    <PACKAGES value="rtl.bpi vcl.bpi dbrtl.bpi bdertl.bpi vcldb.bpi vclx.bpi qrpt60.bpi 
+      nmfast.bpi bcbie.bpi inet.bpi adortl.bpi bcbsmp.bpi dsnap.bpi cds.bpi 
+      dbexpress.bpi dbxcds.bpi ibxpress.bpi vclie.bpi inetdbbde.bpi 
+      inetdbxpress.bpi dclocx.bpi soaprtl.bpi TeeDB6C6.bpi Tee6C6.bpi 
+      TeeUI6C6.bpi TeeLanguage6C6.bpi TeePro6C6.bpi TeeQR6C6.bpi TeeImage6C6.bpi 
+      TeeGL6C6.bpi"/>
+    <PATHCPP value=".;..\..\input\source"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value="_DEBUG"/>
+    <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
+    <MAINSOURCE value="SiloInput.bpf"/>
+    <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;..\..\input\source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)"/>
+    <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;..\..\input\source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms"/>
+    <WARNINGS value="-w-par"/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
+      -tWD -tWM -c"/>
+    <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zd"/>
+    <LFLAGS value="-l. -D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="SiloInput.res" FORMNAME="" UNITNAME="SiloInput.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="SiloInput.bpf" FORMNAME="" UNITNAME="SiloInput" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="SiloInput.cpp" FORMNAME="" UNITNAME="SiloInput" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="SiloInputComponent.cpp" FORMNAME="" UNITNAME="SiloInputComponent" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\input\source\InputComponent.cpp" FORMNAME="" UNITNAME="InputComponent" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\input\source\StringVariant.cpp" FORMNAME="" UNITNAME="StringVariant" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\ComponentInterface\ComponentInterface.lib" FORMNAME="" UNITNAME="ComponentInterface.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib" FORMNAME="" UNITNAME="date_time.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=3081
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=9
+Item0=C:\Program Files\Borland\CBuilder6\Bin;..\..\input\source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item1=..\..\input\source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item2=C:\Program Files\Borland\CBuilder6\Bin;..\..\input\source;C:\MyData\development\apsim\SiloInput\source;..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item3=..\..\input\source;C:\MyData\development\apsim\SiloInput\source;..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item4=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item5=..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
+Item6=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
+Item7=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item8=C:\MyData\development\Shared\Soil;$(BCB)\include;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=8
+Item0=C:\Program Files\Borland\CBuilder6\Bin;..\..\input\source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item1=..\..\input\source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item2=C:\Program Files\Borland\CBuilder6\Bin;..\..\input\source;C:\MyData\development\apsim\SiloInput\source;..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item3=..\..\input\source;C:\MyData\development\apsim\SiloInput\source;..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item4=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item5=..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item6=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item7=$(BCB)\Components\TeeChart\CBuilder6\Lib;C:\MyData\development\Shared\Soil;..\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_DEBUG
+
+[HistoryLists\hlFinalOutputDir]
+Count=4
+Item0=..\Lib\
+Item1=..\Lib
+Item2=..\..\Bin\
+Item3=..\..\Bin
+
+[HistoryLists\hIBPIOutputDir]
+Count=1
+Item0=.
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=c:\mydata\development\apsim\siloinput\sample\siloinput.sim
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=c:\mydata\development\bin\apsim.exe
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+
+[Linker]
+LibPrefix=
+LibSuffix=
+LibVersion=
+  </IDEOPTIONS>
+</PROJECT>

@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="..\..\..\Bin\ApsimOutlook.exe"/>
+    <OBJFILES value="ApsimOutlook.obj about.obj childwin.obj main.obj TChartSettingsForm.obj 
+      TDrill_down_form.obj TPreferences_form.obj tskin.obj Scenarios.obj 
+      factor.obj scenario.obj addin.obj ToolBarAddIn.obj POPUPFORMUNIT.obj 
+      TValueSelectPopup.obj TOutlookSplashForm.obj TScenarioSelectForm.obj"/>
+    <RESFILES value="ApsimOutlook.res"/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES) about.dfm childwin.dfm main.dfm TChartSettingsForm.dfm 
+      TDrill_down_form.dfm TPreferences_form.dfm POPUPFORMUNIT.dfm 
+      TValueSelectPopup.dfm TOutlookSplashForm.dfm TScenarioSelectForm.dfm"/>
+    <LIBFILES value="..\..\..\Shared\general\general.lib 
+      ..\..\..\Shared\ApsimShared\ApsimShared.lib 
+      ..\..\..\Shared\general\general_vcl.lib 
+      ..\..\..\Shared\GrossMarginCalculator\GrossMarginCalculator.lib"/>
+    <LIBRARIES value="VclSmp.lib APSGeneral.lib bcbsmp.lib kbmMemC6Run.lib TMSC6.lib adortl.lib 
+      thirdparty.lib APSData.lib"/>
+    <SPARELIBS value="rtl.lib vcl.lib vclx.lib bdertl.lib dbrtl.lib vcldb.lib APSData.lib 
+      thirdparty.lib adortl.lib TMSC6.lib kbmMemC6Run.lib bcbsmp.lib 
+      APSGeneral.lib Tee7C6.lib VclSmp.lib TeeUI7C6.lib"/>
+    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi dbrtl.bpi vcldb.bpi bdertl.bpi ibsmp.bpi 
+      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi 
+      dclocx.bpi bcb97axserver.bpi TeeDB7C6.bpi Tee7C6.bpi TeeUI7C6.bpi 
+      TeeGL7C6.bpi TeeQR7C6.bpi TeeLanguage7C6.bpi TeePro7C6.bpi TeeImage7C6.bpi"/>
+    <PATHCPP value=".;"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value="_DEBUG"/>
+    <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
+    <MAINSOURCE value="ApsimOutlook.cpp"/>
+    <INCLUDEPATH value="..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(BCB)\components\teechart\cbuilder6\include;$(SHARED);$(SHARED)\components\data"/>
+    <LIBPATH value="$(BCB)\Components\TeeChart\CBuilder6\Lib;..;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\lib\debug;$(BCB)\components\thirdparty;$(BCB)\components\tms;$(BCB)\components\memtable"/>
+    <WARNINGS value="-w-par"/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
+      -tW -tWM"/>
+    <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zi"/>
+    <LFLAGS value="-l. -D&quot;&quot; -aa -Tpe -x -Gn -v"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0w32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="ApsimOutlook.cpp" FORMNAME="" UNITNAME="ApsimOutlook" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ApsimOutlook.res" FORMNAME="" UNITNAME="ApsimOutlook" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="about.cpp" FORMNAME="AboutBox" UNITNAME="about" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="childwin.cpp" FORMNAME="MDIChild" UNITNAME="ChildWin" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="main.cpp" FORMNAME="MainForm" UNITNAME="Main" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TChartSettingsForm.cpp" FORMNAME="ChartSettingsForm" UNITNAME="TChartSettingsForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TDrill_down_form.cpp" FORMNAME="Drill_down_form" UNITNAME="TDrill_down_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TPreferences_form.cpp" FORMNAME="Preferences_form" UNITNAME="TPreferences_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="tskin.cpp" FORMNAME="" UNITNAME="TSkin" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Scenarios.cpp" FORMNAME="" UNITNAME="Scenarios" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="factor.cpp" FORMNAME="" UNITNAME="factor" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="scenario.cpp" FORMNAME="" UNITNAME="Scenario" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="addin.cpp" FORMNAME="" UNITNAME="AddIn" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ApsimOutlook.todo" FORMNAME="" UNITNAME="ApsimOutlook" CONTAINERID="ToDo" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ToolBarAddIn.cpp" FORMNAME="" UNITNAME="ToolBarAddIn" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="POPUPFORMUNIT.cpp" FORMNAME="PopupForm" UNITNAME="POPUPFORMUNIT" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TValueSelectPopup.cpp" FORMNAME="ValueSelectPopup" UNITNAME="TValueSelectPopup" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TOutlookSplashForm.cpp" FORMNAME="OutlookSplashForm" UNITNAME="TOutlookSplashForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TScenarioSelectForm.cpp" FORMNAME="ScenarioSelectForm" UNITNAME="TScenarioSelectForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\GrossMarginCalculator\GrossMarginCalculator.lib" FORMNAME="" UNITNAME="GrossMarginCalculator.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=1
+AutoIncBuild=0
+MajorVer=1
+MinorVer=3
+Release=1
+Build=3
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1033
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=APSRU
+FileDescription=Apsim Outlook
+FileVersion=1.3.1.3
+InternalName=
+LegalCopyright=Copyright © 2002 APSRU / QCCA
+LegalTrademarks=
+OriginalFilename=
+ProductName=Apsim Outlook
+ProductVersion=1.2
+Comments=Build date: 4 July
+
+[HistoryLists\hlIncludePath]
+Count=17
+Item0=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(BCB)\components\teechart\cbuilder6\include;$(SHARED);$(SHARED)\components\data
+Item1=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item2=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item3=..\;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item4=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item5=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item6=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(SHARED);$(SHARED)\components\data
+Item7=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\thirdparty;$(SHARED);$(SHARED)\components\data
+Item8=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
+Item9=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item10=C:\PROGRAM FILES\BORLAND\CBUILDER5\PROJECTS\CPPBUILDERJOURNAL-MAY2001\POPUPCONTROLS\;..\..\..\3rdparty\tms;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;k:\;K:\general\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item11=C:\PROGRAM FILES\BORLAND\CBUILDER5\PROJECTS\CPPBUILDERJOURNAL-MAY2001\POPUPCONTROLS;..\..\..\3rdparty\tms;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl;k:\;K:\general\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item12=$(BCB)\include;$(BCB)\include\vcl;k:\;K:\general\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item13=c:\program files\borland\components\thirdparty;K:\general\;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item14=K:\general\;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item15=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\
+Item16=C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=22
+Item0=$(BCB)\Components\TeeChart\CBuilder6\Lib;..;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\lib\debug;$(BCB)\components\thirdparty;$(BCB)\components\tms;$(BCB)\components\memtable
+Item1=$(BCB)\Components\TeeChart\CBuilder6\Lib;..;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\lib\debug;$(BCB)\components\thirdparty;$(BCB)\components\tms
+Item2=..;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\lib\debug;$(BCB)\components\thirdparty;$(BCB)\components\tms
+Item3=..;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty;$(BCB)\components\tms
+Item4=..;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty
+Item5=..\;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty;$(SHARED)\components\general
+Item6=..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty;$(SHARED)\components\general
+Item7=..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty
+Item8=..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty
+Item9=..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\Components\General;$(BCB)\components\thirdparty
+Item10=..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\Components\General;$(BCB)\components\thirdparty
+Item11=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\Components\General;$(BCB)\components\thirdparty
+Item12=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\Components\General
+Item13=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item14=C:\PROGRAM FILES\BORLAND\CBUILDER5\PROJECTS\CPPBUILDERJOURNAL-MAY2001\POPUPCONTROLS\;..\..\..\3rdparty\tms;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
+Item15=C:\PROGRAM FILES\BORLAND\CBUILDER5\PROJECTS\CPPBUILDERJOURNAL-MAY2001\POPUPCONTROLS;..\..\..\3rdparty\tms;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
+Item16=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
+Item17=c:\program files\borland\components\thirdparty;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
+Item18=..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
+Item19=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\components\general\;k:\components\data\;k:\general\;j:\rx\units\
+Item20=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\lib\obj;$(BCB)\lib
+Item21=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=4
+Item0=c:\program files\borland\cbuilder5\source\vcl;D:\APSIMDevelopment\3rdParty\ThirdParty\;C:\APSIMDevelopment\3rdParty\TMS\
+Item1=c:\program files\borland\cbuilder5\source\vcl;D:\APSIMDevelopment\3rdParty\ThirdParty\
+Item2=..\..\;c:\program files\borland\cbuilder5\source\vcl;D:\APSIMDevelopment\3rdParty\ThirdParty\
+Item3=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_DEBUG
+
+[HistoryLists\hlFinalOutputDir]
+Count=7
+Item0=..\..\..\Bin\
+Item1=..\..\..\Bin
+Item2=L:\APSIMOutlook\
+Item3=L:\OutlookDevelopment\
+Item4=L:\OutlookDevelopment
+Item5=L:\
+Item6=..\..\
+
+[HistoryLists\hIBPIOutputDir]
+Count=1
+Item0=.
+
+[Debugging]
+DebugSourceDirs=
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>

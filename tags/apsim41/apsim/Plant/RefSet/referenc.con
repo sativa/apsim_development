@@ -1,0 +1,16 @@
+version = 4.1
+[apsim.mungbean reference data set]
+
+module = clock    referenc.par [reference] %apsuite\apsim\clock\clock.ini[standard]
+module = report   referenc.par [reference]
+module = input(met)      REFERENC.MET [reference]
+module = manager  referenc.par [reference]
+module = soilwat2 referenc.par [reference]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM   referenc.par [reference] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2   referenc.par [reference]     %apsuite\apsim\soiln2\soiln2.ini     [standard]
+module = plant(mungbean)   referenc.par [reference]     %apsuite\apsim\mungbean\mungbean.ini [standard]
+module = fertiliz                              %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = irrigate
+module = SummaryFile   referenc.par[reference]
+module = Screen   referenc.par[reference]
+module = tracker(tracker1)   referenc.par[reference]

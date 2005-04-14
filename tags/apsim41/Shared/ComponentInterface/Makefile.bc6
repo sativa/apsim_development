@@ -1,0 +1,70 @@
+# (Borlandish) Makefile for apsim ComponentInterface module
+
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+OBJECTS = Component.obj \
+      message.obj Type.obj TypeConverter.obj variant.obj Variants.obj \
+      MessageData.obj ApsimVariant.obj ArraySpecifier.obj Registrations.obj \
+      RegistrationItem.obj ProtocolVector.obj RegistrationType.obj \
+      EntryPoints.obj
+WRAPPEROBJECTS = $(OBJECTS) datatypes.obj FORTRANComponentWrapper.obj
+
+PACKAGES = vcl.bpi rtl.bpi
+USERDEFINES =
+SYSDEFINES = NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost
+LIBPATH = $(SYSLIBPATH)
+LIBRARIES = rtl.lib
+LIBFILES = $(APSROOT)\Shared\ApsimShared\ApsimShared.lib $(APSROOT)\Shared\general\general.lib
+
+source: ComponentInterface.dll SimpleWrapper.obj
+
+ALLOBJ = c0d32.obj $(PACKAGES) $(WRAPPEROBJECTS)
+ALLRES = $(RESFILES)
+ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib
+# ---------------------------------------------------------------------------
+#CFLAG1 = $(SYSCFLAGS) -x- -RT- -tWM
+CFLAG1 = -WD -Od -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWD -tWM -c
+
+WARNINGS = -w-par
+LFLAGS = $(SYSLDFLAGS) -aa -Tpd -x -Gn -Gi -v
+
+CC=$(BCB)\Bin\bcc32.exe
+LINKER=$(BCB)\Bin\ilink32.exe
+IMPDEF=$(BCB)\Bin\impdef.exe
+
+.cpp.obj:
+    $(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+
+ComponentInterface.dll: $(WRAPPEROBJECTS)
+	$(LINKER) @&&!
+$(LFLAGS) -L$(LIBPATH) +
+$(ALLOBJ), +
+ComponentInterface.dll,, +
+$(ALLLIB), +
+$(DEFFILE), +
+$(ALLRES)
+!
+	$(IMPDEF) ComponentInterface.def ComponentInterface.dll
+	$(APSROOT)\Tools\def2imp\def2imp.exe ComponentInterface.def ComponentInterface.imp
+	move /Y ComponentInterface.dll ..\..\bin
+
+
+# NB. Assumption here that we are always working within the development tree. NB.
+# Datatypes.
+datatypes.obj: datatypes.cpp datatypes.h
+datatypes.cpp datatypes.h:  $(APSROOT)\apsim\infra\datatypes.interface $(APSROOT)\APSBuild\datatypes.macro $(APSROOT)\Bin\CreateDataTypesSource.exe
+	cd $(APSROOT)\Bin
+	$(APSROOT)\Bin\CreateDataTypesSource.exe $(APSROOT)\apsim\infra\datatypes.interface $(APSROOT)\APSBuild\datatypes.macro
+   cd $(APSROOT)\Shared\ComponentInterface
+# NB. Assumption here that we are always working within the development tree. NB.
+
+clean:
+	$(RM) ComponentInterface.lib $(OBJECTS) datatypes.cpp datatypes.h FORTRANComponentWrapper.obj ComponentInterface.obj
+	

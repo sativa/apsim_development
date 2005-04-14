@@ -1,0 +1,14 @@
+version = 4.1
+
+[APSIM.sample_lupin]
+title=lupin Sample Simulation
+module = clock      lupin.par[sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report     lupin.par[sample]
+module = Input(Met)        %apsuite\apsim\met\sample\dalby.met[weather]
+module = manager    lupin.par[sample]
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]  %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(lupin)     lupin.par[sample] %apsuite\apsim\lupin\lupin.ini[standard]
+module = summaryfile lupin.par[sample]
+module = screen lupin.par[sample]
