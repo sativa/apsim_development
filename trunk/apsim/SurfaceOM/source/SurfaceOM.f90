@@ -1,7 +1,7 @@
 module SurfaceOMModule
    use ComponentInterfaceModule
    use Registrations
- 
+
 ! ====================================================================
 !     SurfaceOM constants
 ! ====================================================================
@@ -556,7 +556,7 @@ subroutine surfom_Pot_Decomp (C_decomp, N_decomp, P_decomp)
    real      tf                     ! temperature factor for decomp (0-1)
    real      cf                     ! manure/soil contact factor for decomp (0-1)
    real      cnrf                   ! C:N factor for decomp (0-1) for surfom under consideration
-   character  Err_string*80         ! Error message string
+   character  Err_string*200         ! Error message string
 
 !- Implementation Section ----------------------------------
    call push_routine (my_name)
@@ -579,13 +579,11 @@ subroutine surfom_Pot_Decomp (C_decomp, N_decomp, P_decomp)
          Fdecomp = g%SurfOM(residue)%PotDecompRate *mf*tf*cnrf*cf
       endif
 
-
       ! Now calculate pool decompositions for this residue
 
       C_decomp(residue) = Fdecomp* sum(g%SurfOM(residue)%Lying(1:MaxFr)%C)
       N_decomp(residue) = Fdecomp* sum(g%SurfOM(residue)%Lying(1:MaxFr)%N)
       P_decomp(residue) = Fdecomp* sum(g%SurfOM(residue)%Lying(1:MaxFr)%P)
-
 
    end do
 
@@ -934,6 +932,7 @@ end subroutine
    real   Pot_N_decomp(max_residues)     ! array containing the potential N decomposition for each residue
    real   Pot_P_decomp(max_residues)     ! array containing the potential P decomposition for each residue
    type (SurfaceOrganicMatterDecompType), dimension(max_residues)::SOMDecomp
+   character err_string*100
 
 !+  Constant Values
    character*(*) myname               ! name of current procedure
@@ -1121,6 +1120,7 @@ subroutine surfom_Decomp (C_decomp, N_decomp, P_decomp,residue)
 
    lying_c =   sum(g%SurfOM(residue)%Lying(1:MaxFr)%C)
    Fdecomp = divide(C_decomp,lying_c,0.0)
+   Fdecomp = bound (Fdecomp, 0.0, 1.0)
    g%SurfOM(residue)%Lying(1:MaxFr)%C =   g%SurfOM(residue)%Lying(1:MaxFr)%C * (1 - Fdecomp)
    g%SurfOM(residue)%Lying(1:MaxFr)%amount =   g%SurfOM(residue)%Lying(1:MaxFr)%amount * (1 - Fdecomp)
 
@@ -2318,7 +2318,7 @@ subroutine surfom_Sum_Report ()
       P = sum(g%SurfOM(i)%Standing(1:MaxFr)%P) + sum(g%SurfOM(i)%Lying(1:MaxFr)%P)
       cover = surfom_Cover(i)
       standfr = divide(sum(g%SurfOM(i)%Standing(1:MaxFr)%C), C, 0.0)
-      
+
       write (string, '(5x, a10, a12, 4f8.1, f8.3, f8.1)')name, somtype, mass, C, N, P, cover, standfr
       call write_string (string)
 
