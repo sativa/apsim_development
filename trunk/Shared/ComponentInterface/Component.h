@@ -429,7 +429,19 @@ class __declspec(dllexport) Component
              }
           }
        return valueString;
-       }
+       };
+
+      // Search a list of "sections" for a parameter.
+    std::string readParameter(const std::vector<std::string> &sectionNames,
+                              const std::string& variableName)
+       {
+       string result;
+       for (unsigned int i = 0; i < sectionNames.size(); i++)
+         if ((result = readParameter(sectionNames[i], variableName)) != "")
+            return result;
+       return result;
+       };
+
 
    template <class T>
    bool readParameter(const string &sectionName,
@@ -550,6 +562,72 @@ class __declspec(dllexport) Component
          numvals = vv.size();
          return result;
          };
+
+      template <class T>
+      bool readParameter(const std::vector<std::string> &sections,
+                         const std::string &variableName,
+                         T &value,
+                         double lower,
+                         double upper,
+                         bool optional=false)
+         {
+         for (unsigned int i = 0; i < sections.size(); i++) 
+           if (readParameter(sections[i], variableName, value, lower, upper, true))
+              return true;
+
+         if (!optional) 
+            {
+            std::string msg = string("Cannot find a parameter in any of the files/sections\n"
+                                     "specified in the control file.\n"
+                                     "Parameter name = ") + variableName;
+            error(msg.c_str(), true);
+            }
+         return false;
+         };
+
+      template <class T>
+      bool readParameter(const std::vector<string> &sects, 
+                         const std::string &name,
+                         T *v, int &numvals, 
+                         double lower, double upper, 
+                         bool isOptional = false)
+         {
+         for (unsigned int i = 0; i < sects.size(); i++) 
+           if (readParameter(sects[i], name,  v, numvals, lower, upper, true))
+              return true;
+
+         if (!isOptional) 
+            {
+            string msg = string("Cannot find a parameter in any of the files/sections\n"
+                                 "specified in the control file.\n"
+                                 "Parameter name = ") + name;
+            error(msg.c_str(), true);
+            }
+         return false;
+         };
+         
+      template <class T>
+      bool readParameter(const std::vector<string> &sections,
+                         const std::string &variableName,
+                         std::vector <T> &values,
+                         double lower,
+                         double upper,
+                         bool isOptional=false)
+         {
+         for (unsigned int i = 0; i < sections.size(); i++) 
+           if (readParameter(sections[i], variableName, values, lower, upper, true))
+              return true;
+
+         if (!isOptional) 
+            {
+            string msg = string("Cannot find a parameter in any of the files/sections\n"
+                                 "specified in the control file.\n"
+                                 "Parameter name = ") + variableName;
+            error(msg.c_str(), true);
+            }
+         return false;
+         };
+
 
       // Add Variables to the Get list.
       // Function
