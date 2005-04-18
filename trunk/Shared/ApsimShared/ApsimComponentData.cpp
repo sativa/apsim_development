@@ -130,23 +130,17 @@ std::string ApsimComponentData::getProperty(const std::string& propType,
    string propertyType = propType;
    char *endptr;
    strtod(propertyType.c_str(), &endptr);
-   if (endptr != propertyType.c_str())
-      propertyType = "_" + propertyType;
+   if (endptr != propertyType.c_str()) propertyType = "_" + propertyType;
 
-   XMLNode initData = getInitData();
-   for (XMLNode::iterator groupI = initData.begin();
-                          groupI != initData.end();
-                          groupI++)
-      {
-      if (Str_i_Eq(groupI->getName(), propertyType))
-         {
-         XMLNode::iterator propertyI = find_if(groupI->begin(),
-                                               groupI->end(),
-                                               NodeEquals<XMLNode>("property", name));
-         if (propertyI != groupI->end())
-            return propertyI->getValue();
-         }
-      }
+   vector<string> names, values, matches;
+   getProperties(propertyType, names, values);
+
+   for (unsigned int i = 0; i != names.size(); i++)
+      if (Str_i_Eq(names[i].c_str(), name.c_str()))
+        matches.push_back(values[i]);
+
+   if (matches.size() > 1) throw std::runtime_error("Parameter " + name + " has multiple definitions");
+   if (matches.size() == 1) return matches[0];
    return "";
    }
 // ------------------------------------------------------------------
@@ -213,7 +207,8 @@ void ApsimComponentData::setProperty(const string& propertyType,
    {
    XMLNode initData = getInitData();
    XMLNode groupNode = appendChildIfNotExist(initData, propertyType, groupName);
-   XMLNode property = appendChildIfNotExist(groupNode, "property", name);
+   XMLNode property = groupNode.appendChild("property", true);
+   property.setAttribute("name", name);
    property.setValue(value);
    }
 // ------------------------------------------------------------------
