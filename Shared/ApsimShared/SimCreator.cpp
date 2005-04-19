@@ -118,40 +118,45 @@ class ImportSection
          string propertyType, groupName;
          getPropertyTypeAndGroupName(section, propertyType, groupName);
 
-         // Loop through all keys in section.
-         vector<string> keys;
-         par->getKeysInSection(section, keys);
-         for (unsigned k = 0; k != keys.size(); k++)
-            {
-            string value;
-            par->read(section, keys[k], value);
+         // problem with XML elements starting with numbers.
+         char *endptr;
+         strtod(propertyType.c_str(), &endptr);
+         if (endptr != propertyType.c_str())
+            propertyType = "_" + propertyType;
 
-            if (keys[k] != "" && !Str_i_Eq(keys[k], "variable"))
+         // Read & parse buffer into lines
+         string buffer;
+         par->readSection(section, buffer);
+
+         vector<string> lines;
+         Split_string(buffer, "\n", lines);
+
+         // Add each key/variable value
+         for (unsigned k = 0; k != lines.size(); k++)
+            {
+            string key, value, line;
+            line = lines[k];
+            stripComments(line);
+            getKeyNameAndValue(line, key, value);  // Should grab units here..
+            if (key != "")
                {
-               // strip any units off the value.
-               unsigned posUnits = value.find('(');
-               if (posUnits != string::npos)
-                  value.erase(posUnits);
-               stripLeadingTrailing(value, " ");
-               if (value != "")
-                  {
-                  // problem with XML elements starting with numbers.
-                  char *endptr;
-                  strtod(propertyType.c_str(), &endptr);
-                  if (endptr != propertyType.c_str())
-                     propertyType = "_" + propertyType;
-                     component.setProperty(propertyType, groupName, keys[k], value);
-                  }
+               if (Str_i_Eq(key, "variable"))
+                  component.addVariable(value);
+               else
+                  component.setProperty(propertyType, groupName, key, value);
                }
             }
-         // Treat report variables differently.
-         vector<string> variables;
-         par->read(section, "variable", variables);
-         for (unsigned v = 0; v != variables.size(); v++)
-            component.addVariable(variables[v]);
-         }
-
-   };
+         };
+   // ------------------------------------------------------------------
+   // Strip all comments from a line.
+   // ------------------------------------------------------------------
+   void stripComments(std::string& line)
+      {
+      unsigned posComment = line.find_first_of("!");
+      if (posComment != string::npos)
+         line.erase(posComment);
+      }
+   }; // End class ImportSection
 //---------------------------------------------------------------------------
 // constructor
 //---------------------------------------------------------------------------
