@@ -17,6 +17,7 @@ LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\general\general.lib \
 	$(APSROOT)\Shared\Protocol\Protocol.lib \
 	$(BCB)\Components\Boost\libs\date_time\date_time.lib \
+   $(BCB)\Components\LibXml2\win32\LibXml2.lib \
 	indy.lib
 
 USERDEFINES =
