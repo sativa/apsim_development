@@ -2572,6 +2572,7 @@ c   Needs to wait until we put reads into create phase
       real    remaining_uptake
       real    remaining_available(max_layer)
       real    uptake
+      real    SumUptake
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -2596,17 +2597,23 @@ cvs      num_layers = count_of_real_vals(g%root_length, max_layer)
 
       RUF_tot = sum_real_array (RUF,num_layers)
 
+      SumUptake = 0.0
+
       do 200 layer = 1, num_layers
           uptake = divide(RUF(layer),RUF_tot,0.0)* remaining_uptake
           uptake = u_bound(uptake,available(layer))
           delta(layer) =  delta(layer) - uptake
           remaining_available(layer)   = available(layer)
      :                                 - uptake
+          SumUptake=SumUptake + uptake
   200 continue
 
-      remaining_uptake = remaining_uptake + !add because dlt is -ve
-     :          sum_real_array (delta, num_layers)
-      if (remaining_uptake.gt.tolerence) then
+      remaining_uptake = remaining_uptake -
+     :          SumUptake
+
+      if ((remaining_uptake.gt.tolerence).and.
+     :   (SumUptake.gt.tolerence) )then
+
          call Growth_uptake(remaining_uptake
      :                    ,remaining_available
      :                    ,delta
