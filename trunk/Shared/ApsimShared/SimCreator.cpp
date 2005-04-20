@@ -134,10 +134,10 @@ class ImportSection
          // Add each key/variable value
          for (unsigned k = 0; k != lines.size(); k++)
             {
-            string key, value, line;
+            string key, value, units, line;
             line = lines[k];
             stripComments(line);
-            getKeyNameAndValue(line, key, value);  // Should grab units here..
+            getKeyNameValueUnits(line, key, value, units);
             if (key != "")
                {
                if (Str_i_Eq(key, "variable"))
@@ -150,7 +150,7 @@ class ImportSection
    // ------------------------------------------------------------------
    // Strip all comments from a line.
    // ------------------------------------------------------------------
-   void stripComments(std::string& line)
+   void stripComments(std::string& line) const
       {
       unsigned posComment = line.find_first_of("!");
       if (posComment != string::npos)
