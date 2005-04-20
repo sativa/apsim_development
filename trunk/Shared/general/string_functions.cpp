@@ -335,6 +335,35 @@ void Replace_all_chars (char* St, char Char_to_replace, char Replacement_char)
          value = "";
          }
       }
+
+   void getKeyNameValueUnits(const string& line, string& key, string& value, string& units)
+      {
+      int posEquals = line.find('=');
+      if (posEquals != string::npos)
+         {
+         key = line.substr(0, posEquals);
+         stripLeadingTrailing(key, " ");
+         value = line.substr(posEquals+1);
+         int posBracket = value.find('(');
+         if (posBracket != string::npos)
+            {
+            units = value.substr(posBracket+1);
+            stripLeadingTrailing(units, " ");
+            value = value.substr(0,posBracket);
+            }
+         else 
+            {
+            units = "";
+            }
+         stripLeadingTrailing(value, " ");
+         }
+      else
+         {
+         key = "";
+         value = "";
+         units = "";
+         }
+      }
 // ------------------------------------------------------------------
 // Locate a substring within a string - case insensitive.
 // ------------------------------------------------------------------

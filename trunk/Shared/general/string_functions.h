@@ -441,6 +441,11 @@ void getKeyNameAndValue(const std::string& line,
                         std::string& key,
                         std::string& value);
 
+void getKeyNameValueUnits(const std::string& line,
+                          std::string& key,
+                          std::string& value,
+                          std::string& units);
+
 // ------------------------------------------------------------------
 // single quote the string passed in.
 // ------------------------------------------------------------------
