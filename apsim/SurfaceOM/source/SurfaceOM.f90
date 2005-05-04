@@ -787,6 +787,7 @@ subroutine surfom_Process ()
 
    call push_routine (my_name)
 
+
    call surfom_set_phosphorus_aware ()
 
    call surfom_set_vars (g%cumeos, leach_rain)
@@ -2330,7 +2331,7 @@ subroutine surfom_Sum_Report ()
    do i = 1,g%num_surfom
        cover2 = surfom_Cover(i)
        combined_cover = add_cover(cover1,cover2)
-       cover1 = cover2
+       cover1 = combined_cover
    end do
 
    string = '    '
