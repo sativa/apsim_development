@@ -30,7 +30,12 @@ class Macro
       void go(const XMLNode& macroValues,
               const std::string& macroContents,
               std::vector<std::string>& filesGenerated,
-              const std::string& outputDirectory = "");
+              const std::string& outputDirectory);
+              
+      void go(const XMLNode& macroValues,
+              const std::string& macroContents,
+              std::vector<std::string>& filesGenerated); 
+
 
    private:
       const XMLNode* macroValues;
