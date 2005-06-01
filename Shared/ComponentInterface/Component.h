@@ -428,6 +428,11 @@ class __declspec(dllexport) Component
              return readParameter(baseSection, variableName);
              }
           }
+       // remove any Units specifier "(..)" here
+       int posBracket = valueString.find('(');
+       if (posBracket != string::npos)
+         valueString = valueString.substr(0,posBracket);
+
        return valueString;
        };
 
@@ -471,7 +476,7 @@ class __declspec(dllexport) Component
       catch(boost::bad_lexical_cast &e)
          {
          string msg = string("Problem converting variable to ") +
-                             string(typeid(T).name()) + string("type.\n"
+                             string(typeid(T).name()) + string(" type.\n"
                              "Parameter name = ") + variableName + string("\n"
                              "Value          = '") + datastring + string("'");
          error(msg.c_str(), true);
@@ -571,11 +576,11 @@ class __declspec(dllexport) Component
                          double upper,
                          bool optional=false)
          {
-         for (unsigned int i = 0; i < sections.size(); i++) 
+         for (unsigned int i = 0; i < sections.size(); i++)
            if (readParameter(sections[i], variableName, value, lower, upper, true))
               return true;
 
-         if (!optional) 
+         if (!optional)
             {
             std::string msg = string("Cannot find a parameter in any of the files/sections\n"
                                      "specified in the control file.\n"
@@ -586,17 +591,17 @@ class __declspec(dllexport) Component
          };
 
       template <class T>
-      bool readParameter(const std::vector<string> &sects, 
+      bool readParameter(const std::vector<string> &sects,
                          const std::string &name,
-                         T *v, int &numvals, 
-                         double lower, double upper, 
+                         T *v, int &numvals,
+                         double lower, double upper,
                          bool isOptional = false)
          {
-         for (unsigned int i = 0; i < sects.size(); i++) 
+         for (unsigned int i = 0; i < sects.size(); i++)
            if (readParameter(sects[i], name,  v, numvals, lower, upper, true))
               return true;
 
-         if (!isOptional) 
+         if (!isOptional)
             {
             string msg = string("Cannot find a parameter in any of the files/sections\n"
                                  "specified in the control file.\n"
@@ -605,7 +610,7 @@ class __declspec(dllexport) Component
             }
          return false;
          };
-         
+
       template <class T>
       bool readParameter(const std::vector<string> &sections,
                          const std::string &variableName,
@@ -614,11 +619,11 @@ class __declspec(dllexport) Component
                          double upper,
                          bool isOptional=false)
          {
-         for (unsigned int i = 0; i < sections.size(); i++) 
+         for (unsigned int i = 0; i < sections.size(); i++)
            if (readParameter(sections[i], variableName, values, lower, upper, true))
               return true;
 
-         if (!isOptional) 
+         if (!isOptional)
             {
             string msg = string("Cannot find a parameter in any of the files/sections\n"
                                  "specified in the control file.\n"
