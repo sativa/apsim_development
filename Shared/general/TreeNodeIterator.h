@@ -2,7 +2,7 @@
 #define TreeNodeIteratorH
 
 // turn of the warnings about "Functions containing for are not expanded inline.
-//#pragma warn -inl
+#pragma warn -inl
 
 // ------------------------------------------------------------------
 // This template provides a tree iterator.
@@ -49,6 +49,8 @@ struct TreeNodeIterator
    private:
       T node;
    };
+
+
 // ------------------------------------------------------------------
 //  Short description:
 //     This template provides a aliasing tree iterator.
@@ -113,7 +115,7 @@ struct TreeNodeAliasIterator
    };
 
 // restore the warnings about "Functions containing for are not expanded inline.
-//#pragma warn .inl
+#pragma warn .inl
 
 #endif
 
