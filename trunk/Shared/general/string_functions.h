@@ -449,6 +449,7 @@ void getKeyNameValueUnits(const std::string& line,
 // ------------------------------------------------------------------
 // single quote the string passed in.
 // ------------------------------------------------------------------
+#pragma warn -inl
 inline std::string singleQuoted(const std::string& st)
    {
    return "'" + st + "'";
@@ -460,6 +461,7 @@ inline std::string doubleQuoted(const std::string& st)
    {
    return "\"" + st + "\"";
    }
+#pragma warn .inl
 // ------------------------------------------------------------------
 // Locate a substring within a string - case insensitive.
 // ------------------------------------------------------------------
