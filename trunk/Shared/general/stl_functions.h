@@ -234,7 +234,7 @@ class GetName
    private:
       CT& Container;
    public:
-      GetName(vector<std::string>& container)
+      GetName(std::vector<std::string>& container)
          : Container (container)
          { }
 

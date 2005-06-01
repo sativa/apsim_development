@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include "Macro.h"
+#include <general\TreeNodeIterator.h>
 #include <general\xml.h>
 #include <general\string_functions.h>
 #include <general\io_functions.h>
@@ -20,7 +21,7 @@ string replaceMacros(const string& originalContents,
    string stringToReplace = parentName + ".name";
    replaceAll(contents, stringToReplace, node.getAttribute("name"));
 
-   vector<string> attributes;
+   std::vector<std::string> attributes;
    node.getAttributes(attributes);
    for (unsigned i = 0; i != attributes.size(); i++)
       {
@@ -59,7 +60,7 @@ Macro::~Macro()
 // ------------------------------------------------------------------
 void Macro::go(const XMLNode& values,
                const string& macroContents,
-               vector<string>& filesGenerated,
+               std::vector<std::string>& filesGenerated,
                const std::string& outputDirectory)
    {
    macroValues = &values;
@@ -210,7 +211,7 @@ string Macro::parseForEach(const string& originalContents,
 // file name listed after the #file macro.
 // ------------------------------------------------------------------
 void Macro::writeStringToFiles(string contents,
-                               vector<string>& fileNamesCreated,
+                               std::vector<std::string>& fileNamesCreated,
                                const string& outputDirectory) const
    {
    unsigned posFile = contents.find("#file");
@@ -381,4 +382,12 @@ bool Macro::evaluateIf(const string& conditionLine) const
          throw runtime_error("Unknown #if operator: " + op);
       }
    }
+
+void Macro::go(const XMLNode& macroValues,
+               const std::string& macroContents,
+               std::vector<std::string>& filesGenerated)
+   {
+   std::string outputDirectory("");
+   go(macroValues, macroContents, filesGenerated, outputDirectory);    
+   };
 
