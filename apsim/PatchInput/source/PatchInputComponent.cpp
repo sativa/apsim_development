@@ -27,6 +27,7 @@ protocol::Component* createComponent(void)
 // constructor
 // ------------------------------------------------------------------
 PatchInputComponent::PatchInputComponent(void)
+   : patchDate(1800, 1, 1)
    {
    }
 
@@ -63,7 +64,6 @@ void PatchInputComponent::readPatchDates(void)
       {
       try
          {
-         date patchDate(1800, 1, 1);
          ApsimDataFile::iterator i = find(data.constantsBegin(), data.constantsEnd(), "start_patching_from");
          if (i != data.constantsEnd())
             patchDate = date(from_string(i->values[0]));
@@ -73,8 +73,7 @@ void PatchInputComponent::readPatchDates(void)
          maxYear = minYear;
          while (!data.eof())
             {
-            if (data.getDate().julian_day() >= patchDate)
-               patchDates.insert(make_pair(data.getDate().julian_day(), currentRecord));
+            patchDates.insert(make_pair(data.getDate().julian_day(), currentRecord));
             currentRecord++;
             maxYear = max(maxYear , data.getDate().year());
             data.next();
@@ -166,7 +165,7 @@ date PatchInputComponent::advanceToTodaysPatchData(unsigned int fromID)
                currentRecord++;
                data.next();
                }
-            return todaysDate;
+            return data.getDate();
             }
          else
             return date(pos_infin);
@@ -189,7 +188,7 @@ void PatchInputComponent::respondToEvent(unsigned int& fromID, unsigned int& eve
       todaysDate = newmet.today;
 
       fileDate = advanceToTodaysPatchData(fromID);
-      if (fileDate == todaysDate)
+      if (todaysDate == fileDate && todaysDate >= patchDate)
          {
          for (Variables::iterator v = variables.begin();
                                   v != variables.end();

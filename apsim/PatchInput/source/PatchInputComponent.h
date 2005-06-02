@@ -35,6 +35,8 @@ class PatchInputComponent : public InputComponent
       typedef std::map<unsigned, protocol::newmetType> PatchData;
       PatchData patchData;
       bool haveReadPatchData;
+      boost::gregorian::date patchDate;
+
 
 
       boost::gregorian::date advanceToTodaysPatchData(unsigned int fromID);
