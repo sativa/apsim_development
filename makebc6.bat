@@ -2,7 +2,7 @@
 REM Set up the make system for borland CBuilder6/Lahey F95 compiler suite
 set APSROOT=c:\development
 set APSMAKE=c:\PROGRA~1\Borland\CBUILD~1\Bin\make.exe -s -f makefile.bc6
-set FORROOT=C:\LF9556\bin
+set FORROOT=C:\PROGRA~1\LF9556\bin
 
 copy /y %APSROOT%\APSBuild\ApsimComponentInterface.make.bc6 %APSROOT%\APSBuild\ApsimComponentInterface.make
 copy /y %APSROOT%\APSBuild\fortran.make.bc6 %APSROOT%\APSBuild\fortran.make
