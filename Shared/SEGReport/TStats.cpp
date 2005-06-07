@@ -121,38 +121,40 @@ void TStats::storeRecords(void) throw(runtime_error)
             source->Next();
             }
 
-
-         if (stats.Contains(statMean))
-            FieldValues["Mean"] = Calculate_mean(values);
-         if (stats.Contains(statCount))
-            FieldValues["Count"] = values.size();
-         if (stats.Contains(statMin))
-            FieldValues["Minimum"] = min_element(values.begin(), values.end(),
-                                                 less<double>());
-         if (stats.Contains(statMax))
-            FieldValues["Maximum"] = max_element(values.begin(), values.end(),
-                                                 less<double>());
-         if (stats.Contains(statSum))
-            FieldValues["Sum"] = accumulate(values.begin(), values.end(), 0.0);
-         if (stats.Contains(stat10))
-            FieldValues["Decile10"] = Calculate_percentile(values, false, 10);
-         if (stats.Contains(stat20))
-            FieldValues["Decile20"] = Calculate_percentile(values, false, 20);
-         if (stats.Contains(stat30))
-            FieldValues["Decile30"] = Calculate_percentile(values, false, 30);
-         if (stats.Contains(stat40))
-            FieldValues["Decile40"] = Calculate_percentile(values, false, 40);
-         if (stats.Contains(stat50))
-            FieldValues["Decile50"] = Calculate_percentile(values, false, 50);
-         if (stats.Contains(stat60))
-            FieldValues["Decile60"] = Calculate_percentile(values, false, 60);
-         if (stats.Contains(stat70))
-            FieldValues["Decile70"] = Calculate_percentile(values, false, 70);
-         if (stats.Contains(stat80))
-            FieldValues["Decile80"] = Calculate_percentile(values, false, 80);
-         if (stats.Contains(stat90))
-            FieldValues["Decile90"] = Calculate_percentile(values, false, 90);
-         Post();
+         if (values.size() > 0)
+            {
+            if (stats.Contains(statMean))
+               FieldValues["Mean"] = Calculate_mean(values);
+            if (stats.Contains(statCount))
+               FieldValues["Count"] = values.size();
+            if (stats.Contains(statMin))
+               FieldValues["Minimum"] = min_element(values.begin(), values.end(),
+                                                    less<double>());
+            if (stats.Contains(statMax))
+               FieldValues["Maximum"] = max_element(values.begin(), values.end(),
+                                                    less<double>());
+            if (stats.Contains(statSum))
+               FieldValues["Sum"] = accumulate(values.begin(), values.end(), 0.0);
+            if (stats.Contains(stat10))
+               FieldValues["Decile10"] = Calculate_percentile(values, false, 10);
+            if (stats.Contains(stat20))
+               FieldValues["Decile20"] = Calculate_percentile(values, false, 20);
+            if (stats.Contains(stat30))
+               FieldValues["Decile30"] = Calculate_percentile(values, false, 30);
+            if (stats.Contains(stat40))
+               FieldValues["Decile40"] = Calculate_percentile(values, false, 40);
+            if (stats.Contains(stat50))
+               FieldValues["Decile50"] = Calculate_percentile(values, false, 50);
+            if (stats.Contains(stat60))
+               FieldValues["Decile60"] = Calculate_percentile(values, false, 60);
+            if (stats.Contains(stat70))
+               FieldValues["Decile70"] = Calculate_percentile(values, false, 70);
+            if (stats.Contains(stat80))
+               FieldValues["Decile80"] = Calculate_percentile(values, false, 80);
+            if (stats.Contains(stat90))
+               FieldValues["Decile90"] = Calculate_percentile(values, false, 90);
+            Post();
+            }
          ok = source->nextSeries();
          }
       source->cancelSeries();
