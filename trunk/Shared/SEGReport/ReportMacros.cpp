@@ -59,6 +59,17 @@ string ReportMacros::evaluateMacro(TComponent* owner, const string& macro, const
       date today(day_clock::local_day());
       returnValue = to_dmy(today);
       }
+   else if (macro == "$propertydaymonth")
+      {
+      date d(day_clock::local_day().year(), 1, 1);
+      string dayNumberString = evaluateMacro(owner, "$property", arguments[0]);
+      int numDays = atoi(dayNumberString.c_str());
+      if (numDays > 0)
+         d = d + date_duration(numDays - 1);
+      ostringstream out;
+      out << d.day() << '-' << getShortMonthString(d.month());
+      returnValue = out.str();
+      }
    return returnValue;
    }
 //---------------------------------------------------------------------------
