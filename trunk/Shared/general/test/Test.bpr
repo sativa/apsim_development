@@ -9,7 +9,7 @@
       ..\path.obj ..\stream_functions.obj ..\stream_processor.obj 
       ..\string_functions.obj ..\StringTokenizer.obj ..\stristr.obj ..\xml.obj 
       TestXml.obj TestIoFunctions.obj TestPathClass.obj TestMathFunctions.obj 
-      TestStringFunctions.obj TestDateClass.obj"/>
+      TestStringFunctions.obj TestDateClass.obj TestHttp.obj ..\http.obj"/>
     <RESFILES value="Test.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -23,7 +23,7 @@
       vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi 
       nmfast.bpi bcbie.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi 
       indy.bpi bcb2kaxserver.bpi"/>
-    <PATHCPP value=".;..;..;..;..;..;..;..;..;..;..;..;..;..;..;.."/>
+    <PATHCPP value=".;.."/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -33,13 +33,13 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="Test.bpf"/>
-    <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;..\;..;D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;&quot;C:\Program Files\Borland\CBuilder6\Components\Boost&quot;;&quot;C:\Program Files\Borland\CBuilder6\Components\libxml2\include&quot;;..\.."/>
-    <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;..\;..;D:\development\Shared\general\test;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="..\;&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;..;D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;&quot;C:\Program Files\Borland\CBuilder6\Components\Boost&quot;;&quot;C:\Program Files\Borland\CBuilder6\Components\libxml2\include&quot;;..\.."/>
+    <LIBPATH value="..\;&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;..;D:\development\Shared\general\test;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-Od -Vx -Ve -fp -X- -r- -a8 -b- -k -y -v -vi- -tWC -tWM -c"/>
+    <CFLAG1 value="-vGc -vGt -vGd -Od -Vx -Ve -fp -X- -r- -a8 -b- -k -y -v -vi- -tWC -tWM -c"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zd"/>
@@ -49,7 +49,7 @@
   <LINKER>
     <ALLOBJ value="c0x32.obj $(PACKAGES) $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
+    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
@@ -80,6 +80,8 @@
       <FILE FILENAME="TestMathFunctions.cpp" FORMNAME="" UNITNAME="TestMathFunctions" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TestStringFunctions.cpp" FORMNAME="" UNITNAME="TestStringFunctions" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TestDateClass.cpp" FORMNAME="" UNITNAME="TestDateClass" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TestHttp.cpp" FORMNAME="" UNITNAME="TestHttp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\http.cpp" FORMNAME="" UNITNAME="http" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -112,20 +114,25 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
+[Excluded Packages]
+c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
+
 [HistoryLists\hlIncludePath]
-Count=6
-Item0=..\;..;D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder6\Components\Boost;C:\Program Files\Borland\CBuilder6\Components\libxml2\include;..\..
-Item1=..\;..;D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder6\Components\Boost;..\..
-Item2=..\;D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder6\Components\Boost;..\..;..
-Item3=..\;D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder6\Components\Boost;..\..
-Item4=D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder6\Components\Boost;..\..
-Item5=D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl
+Count=7
+Item0=C:\Program Files\Borland\CBuilder6\Projects;..\;..;D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder6\Components\Boost;C:\Program Files\Borland\CBuilder6\Components\libxml2\include;..\..
+Item1=..\;..;D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder6\Components\Boost;C:\Program Files\Borland\CBuilder6\Components\libxml2\include;..\..
+Item2=..\;..;D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder6\Components\Boost;..\..
+Item3=..\;D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder6\Components\Boost;..\..;..
+Item4=..\;D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder6\Components\Boost;..\..
+Item5=D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder6\Components\Boost;..\..
+Item6=D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=3
-Item0=..\;..;D:\development\Shared\general\test;$(BCB)\lib\obj;$(BCB)\lib
-Item1=..\;D:\development\Shared\general\test;$(BCB)\lib\obj;$(BCB)\lib
-Item2=D:\development\Shared\general\test;$(BCB)\lib\obj;$(BCB)\lib
+Count=4
+Item0=C:\Program Files\Borland\CBuilder6\Projects;..\;..;D:\development\Shared\general\test;$(BCB)\lib\obj;$(BCB)\lib
+Item1=..\;..;D:\development\Shared\general\test;$(BCB)\lib\obj;$(BCB)\lib
+Item2=..\;D:\development\Shared\general\test;$(BCB)\lib\obj;$(BCB)\lib
+Item3=D:\development\Shared\general\test;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -153,11 +160,6 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=1
-LinkCGLIB=0
-
-[Language]
-ActiveLang=
-ProjectLang=
-RootDir=
+LinkCGLIB=1
   </IDEOPTIONS>
 </PROJECT>
