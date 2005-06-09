@@ -1,16 +1,11 @@
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-
-#include "SiloInputComponent.h"
-#include <ApsimShared\ApsimComponentData.h>
-#include <general\path.h>
+#include <stdio.h>
 #include <process.h>
-#include <IdBaseComponent.hpp>
-#include <IdComponent.hpp>
-#include <IdHTTP.hpp>
-#include <IdTCPClient.hpp>
-#include <IdTCPConnection.hpp>
+#include <general/path.h>
+#include <general/http.h>
+
+#include <ApsimShared/ApsimComponentData.h>
+#include <InputComponent.h>
+#include "SiloInputComponent.h"
 
 using namespace std;
 
@@ -28,7 +23,8 @@ protocol::Component* createComponent(void)
 SiloInputComponent::SiloInputComponent(void)
    {
    unsigned int pid = getpid();
-   fileName = Path::getTempFolder().Get_path() + "\\temp" + itoa(pid) + ".met";
+   fileName = Path::getTempFolder().Get_path() + "/temp" + itoa(pid) + ".met";
+   stationNumber = 0;
    }
 // ------------------------------------------------------------------
 // destructor
@@ -43,37 +39,25 @@ SiloInputComponent::~SiloInputComponent(void)
 // ------------------------------------------------------------------
 void SiloInputComponent::doInit2(void)
    {
-   string msg = "SILOINPUT station number: " + stationNumber;
+   string msg = "SILOINPUT station number: " + itoa(stationNumber);
    writeString(msg.c_str());
-
-/*   string title;
-   ApsimDataFile::iterator i = find(data.constantsBegin(), data.constantsEnd(),
-                                    "title");
-   if (i != data.constantsEnd() && i->values.size() > 0)
-      title = i->values[0];
-   title = "SILOINPUT station name:   " + title;
-   writeString(title.c_str());
-*/   }
+   }
 // ------------------------------------------------------------------
 // Open the input file associtated with this module.
 // ------------------------------------------------------------------
 void SiloInputComponent::openInputFile(void)
    {
-   stationNumber = componentData->getProperty("parameters", "station_number");
-   if (stationNumber == "")
-      throw "Cannot find a SILO station number parameter for module: " + string(name);
+   readParameter ("parameters", "station_number", stationNumber, 0, 100000);
 
    string requestString =
-      "http://192.168.0.60/cgi-bin/silo/getQdb.cgi?format=APSIM&station=xxxx"
-      "&ddStart=1&mmStart=1&yyyyStart=1800&ddFinish=31&mmFinish=12&yyyyFinish=2100";
-   replaceAll(requestString, "xxxx", stationNumber);
+      string("http://192.168.0.60/cgi-bin/silo/getQdb.cgi?format=APSIM&station=") +
+      itoa(stationNumber) +
+      string("&ddStart=1&mmStart=1&yyyyStart=1800&ddFinish=31&mmFinish=12&yyyyFinish=2100");
 
-   TIdHTTP* http = new TIdHTTP(NULL);
-   String contents = http->Get(requestString.c_str());
-   ofstream out(fileName.c_str(), ios::binary);
-   out << contents.c_str();
-   out.close();
+   tHTTP http;
+
+   if (http.Get(fileName, requestString) == false)
+     throw std::runtime_error("HTTP error: " + http.responseText());
+
    data.open(fileName);
-   delete http;
    }
-
