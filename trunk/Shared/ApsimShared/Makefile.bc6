@@ -29,8 +29,7 @@ RESDEPEN = $(RESFILES) TAboutForm.dfm TSplashForm.dfm TMoveParametersForm.dfm
 LIBFILES = $(APSROOT)\Shared\general\general.lib \
     $(APSROOT)\Shared\general\general_vcl.lib \
     $(BCB)\Components\Boost\libs\filesystem\filesystem.lib \
-    $(BCB)\Components\Boost\libs\date_time\date_time.lib \
-    $(BCB)\Components\LibXml2\win32\LibXml2.lib
+    $(BCB)\Components\Boost\libs\date_time\date_time.lib 
 
 LIBRARIES = xmlrtl.lib TMSC6.lib
 PACKAGES = vcl.bpi rtl.bpi
