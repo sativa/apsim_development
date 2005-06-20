@@ -452,7 +452,7 @@ void IniFile::renameSection(const string& oldSection,
       updateIndexesAfter(oldSection, newSection.length() - oldSection.length());
       *i = newSection;
 
-      unsigned z = i-sectionNames.begin();
+      //unsigned z = i-sectionNames.begin();
       unsigned posSectionName = contents.find(oldSection,
                                               sectionIndexes[i-sectionNames.begin()]);
       contents.replace(posSectionName, oldSection.length(), newSection);
