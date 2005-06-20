@@ -84,7 +84,7 @@ class StringTokenizer
      *                as tokens.
      */
      StringTokenizer(const std::string& str,
-                     const std::string& delim = " \t\n",
+                     const std::string& delim,
                      bool returnTokens = false);
 
     /*
@@ -106,7 +106,7 @@ class StringTokenizer
      */
      StringTokenizer(const std::string& str,
                      unsigned pos,
-                     const std::string& delim = " \t\n",
+                     const std::string& delim,
                      bool returnTokens = false);
 
     /*
