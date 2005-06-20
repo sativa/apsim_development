@@ -1,11 +1,17 @@
-#include "xml.h"
-#include <libxml\parser.h>
-#include <libxml\tree.h>
+#include <string>
+#include <fstream>
+#include <sstream>
+
+#include <general\TreeNodeIterator.h>
+#include <general\stl_functions.h>
+
 #include <general\stl_functions.h>
 #include <general\string_functions.h>
 #include <general\io_functions.h>
-#include <fstream>
-#include <sstream>
+#include <libxml\parser.h>
+#include <libxml\tree.h>
+
+#include "xml.h"
 //---------------------------------------------------------------------------
 // constructor
 //---------------------------------------------------------------------------
@@ -276,3 +282,82 @@ string XMLNode::write() const
    return returnString;
    }
 
+//---------------------------------------------------------------------------
+// Handy function that will append a new child node IF that node doesn't
+// already exist.
+//---------------------------------------------------------------------------
+XMLNode appendChildIfNotExist(XMLNode& node,
+                              const std::string& nodeName,
+                              const std::string& nameAttribute)
+   {
+   XMLNode::iterator childI = std::find_if(node.begin(),
+                                           node.end(),
+                                           NodeEquals<XMLNode>(nodeName, nameAttribute));
+   if (childI != node.end())
+      return XMLNode(*childI);
+   else
+      {
+      XMLNode child = node.appendChild(nodeName, true);
+      child.setAttribute("name", nameAttribute);
+      return child;
+      }
+   }
+
+// ------------------------------------------------------------------
+// Handy function that will delete all nodes with the specified name.
+// ------------------------------------------------------------------
+void eraseNodes(XMLNode node, const std::string& name)
+   {
+   XMLNode::iterator i = find_if(node.begin(),
+                                 node.end(),
+                                 EqualToName<XMLNode>(name));
+   while (i != node.end())
+      {
+      node.erase(i);
+      i = find_if(node.begin(),
+                  node.end(),
+                  EqualToName<XMLNode>(name));
+      }
+   }
+// ------------------------------------------------------------------
+// Handy function that returns a node given a fully qualified name
+// eg fqn:  root|child1|child2
+// ------------------------------------------------------------------
+XMLNode findNode(XMLNode node, const std::string& fqn)
+   {
+   unsigned posDelimiter = fqn.find('|');
+   XMLNode::iterator i = find_if(node.begin(),
+                                 node.end(),
+                                 EqualToName<XMLNode>(fqn.substr(0, posDelimiter)));
+   if (i != node.end())
+      {
+      if (posDelimiter == string::npos)
+         return XMLNode(*i);
+      else
+         return findNode(*i, fqn.substr(posDelimiter+1));
+      }
+   else
+      return XMLNode();
+   }
+
+// ------------------------------------------------------------------
+// Handy function that returns a node given a fully qualified name
+// This variant uses the 'name' attribute to search.
+// eg fqn:  root|child1|child2
+// ------------------------------------------------------------------
+XMLNode findNodeWithName(XMLNode node, const std::string& fqn)
+   {
+   unsigned posDelimiter = fqn.find('|');
+   XMLNode::iterator i = find_if(node.begin(),
+                                 node.end(),
+                                 AttributeEquals<XMLNode>("name", fqn.substr(0, posDelimiter)));
+   if (i != node.end())
+      {
+      if (posDelimiter == string::npos)
+         return XMLNode(*i);
+      else
+         return findNodeWithName(*i, fqn.substr(posDelimiter+1));
+      }
+   else
+      return XMLNode();
+   }

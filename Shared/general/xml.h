@@ -1,9 +1,10 @@
 //---------------------------------------------------------------------------
 #ifndef xmlH
 #define xmlH
-#include <string>
-#include <general\TreeNodeIterator.h>
-#include <general\stl_functions.h>
+//#include <string>
+//#include <general\TreeNodeIterator.h>
+//#include <general\stl_functions.h>
+
 class XMLNode;
 struct _xmlNode;
 struct _xmlDoc;
@@ -128,20 +129,8 @@ class NodeAttributesEquals
 //---------------------------------------------------------------------------
 XMLNode appendChildIfNotExist(XMLNode& node,
                               const std::string& nodeName,
-                              const std::string& nameAttribute)
-   {
-   XMLNode::iterator childI = std::find_if(node.begin(),
-                                           node.end(),
-                                           NodeEquals<XMLNode>(nodeName, nameAttribute));
-   if (childI != node.end())
-      return XMLNode(*childI);
-   else
-      {
-      XMLNode child = node.appendChild(nodeName, true);
-      child.setAttribute("name", nameAttribute);
-      return child;
-      }
-   }
+                              const std::string& nameAttribute);
+
 //---------------------------------------------------------------------------
 // Handy predicate that can help find a node with a particular value.
 // e.g. can be used with find_if
@@ -160,7 +149,7 @@ class ValueEquals
 //---------------------------------------------------------------------------
 // Handy functor that calls T.getAttribute("name") and stores result in a container.
 //---------------------------------------------------------------------------
-template <class T, class CT=vector<string> >
+template <class T, class CT=std::vector<std::string> >
 class GetNameAttributeFunction
    {
    private:
@@ -170,7 +159,7 @@ class GetNameAttributeFunction
          : Container (container)
          { }
 
-      void operator () (T arg)
+      void operator () (T &arg)
          {
          Container.push_back(arg.getAttribute("name"));
          };
@@ -197,19 +186,8 @@ class GetValueFunction
 // ------------------------------------------------------------------
 // Handy function that will delete all nodes with the specified name.
 // ------------------------------------------------------------------
-void eraseNodes(XMLNode node, const std::string& name)
-   {
-   XMLNode::iterator i = find_if(node.begin(),
-                                 node.end(),
-                                 EqualToName<XMLNode>(name));
-   while (i != node.end())
-      {
-      node.erase(i);
-      i = find_if(node.begin(),
-                  node.end(),
-                  EqualToName<XMLNode>(name));
-      }
-   }
+void eraseNodes(XMLNode node, const std::string& name);
+
 //---------------------------------------------------------------------------
 // Handy predicate that can help find a node with a particular name
 // and 'name' attribute.
@@ -232,43 +210,13 @@ class AttributeEquals
 // Handy function that returns a node given a fully qualified name
 // eg fqn:  root|child1|child2
 // ------------------------------------------------------------------
-XMLNode findNode(XMLNode node, const std::string& fqn)
-   {
-   unsigned posDelimiter = fqn.find('|');
-   XMLNode::iterator i = find_if(node.begin(),
-                                 node.end(),
-                                 EqualToName<XMLNode>(fqn.substr(0, posDelimiter)));
-   if (i != node.end())
-      {
-      if (posDelimiter == string::npos)
-         return XMLNode(*i);
-      else
-         return findNode(*i, fqn.substr(posDelimiter+1));
-      }
-   else
-      return XMLNode();
-   }
+XMLNode findNode(XMLNode node, const std::string& fqn);
+
 // ------------------------------------------------------------------
 // Handy function that returns a node given a fully qualified name
 // This variant uses the 'name' attribute to search.
 // eg fqn:  root|child1|child2
 // ------------------------------------------------------------------
-XMLNode findNodeWithName(XMLNode node, const std::string& fqn)
-   {
-   unsigned posDelimiter = fqn.find('|');
-   XMLNode::iterator i = find_if(node.begin(),
-                                 node.end(),
-                                 AttributeEquals<XMLNode>("name", fqn.substr(0, posDelimiter)));
-   if (i != node.end())
-      {
-      if (posDelimiter == string::npos)
-         return XMLNode(*i);
-      else
-         return findNodeWithName(*i, fqn.substr(posDelimiter+1));
-      }
-   else
-      return XMLNode();
-   }
-
+XMLNode findNodeWithName(XMLNode node, const std::string& fqn);
 
 #endif
