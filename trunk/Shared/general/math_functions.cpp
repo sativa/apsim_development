@@ -75,7 +75,7 @@ void calcRegressionStats (const vector<double>& X, const vector<double>& Y,
    stats.R2YX = 0.0;
    stats.VarRatio = 0.0;
    stats.RMSD = 0.0;
-   unsigned Num_points = X.size();
+   int Num_points = X.size();
 
    if (Num_points > 1)
       {
@@ -529,7 +529,7 @@ void Minim (vector<double>& param,
       const double C = 2.0;
 
       NOP = param.size();
-      for (unsigned i = 0; i != NOP; i++)
+      for (int i = 0; i != NOP; i++)
          {
          P[i+1] = param[i];
          STEP[i+1] = step[i];
