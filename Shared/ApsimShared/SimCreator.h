@@ -2,8 +2,7 @@
 
 #ifndef SimCreatorH
 #define SimCreatorH
-#include <string>
-#include <map>
+
 class ApsimControlFile;
 class ApsimComponentData;
 typedef void __fastcall (__closure *TSimCreatorEvent)(const std::string& simFileName);

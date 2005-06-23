@@ -1,8 +1,11 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
+#include <string>
+#include <stdexcept>
+#include <vector>
 
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+#include <general/string_functions.h>
 #include "ApsimRegistrationData.h"
 
 // ------------------------------------------------------------------

@@ -1,6 +1,7 @@
 #include <windows.h>
 #pragma hdrstop
 
+#include <stdexcept.h>
 #include "Type.h"
 using namespace protocol;
 

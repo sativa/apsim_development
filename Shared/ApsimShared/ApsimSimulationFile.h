@@ -1,11 +1,7 @@
 //---------------------------------------------------------------------------
 #ifndef ApsimSimulationFileH
 #define ApsimSimulationFileH
-#include "ApsimComponentData.h"
-#include "ApsimSystemData.h"
-#include "ApsimServiceData.h"
-#include <string>
-#include <vector>
+
 class XMLDocument;
 // ------------------------------------------------------------------
 // This class encapsulates an APSIM simulation file (.SIM)

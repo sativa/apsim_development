@@ -2,16 +2,26 @@
 #ifndef ComponentH
 #define ComponentH
 
-// oohhh this is messy
 #include <map>
-#include <boost/lexical_cast.hpp>
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
+#include <vector>
 
-#include "Messages.h"
-#include "ProtocolVector.h"
-#include "RegistrationType.h"
+#include <boost/bind.hpp>
+#include <boost/function.hpp>
+
+#include <general/stl_functions.h>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+
 #include <ApsimShared/ApsimComponentData.h>
+#include <ApsimShared/FApsimComponentData.h>
+
+#include <ComponentInterface/RegistrationType.h>
+#include <ComponentInterface/RegistrationItem.h>
+#include <ComponentInterface/Registrations.h>
+#include <ComponentInterface/Messages.h>
+#include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/ApsimVariant.h>
+#include <ComponentInterface/datatypes.h>
 
 // turn of the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl
@@ -19,9 +29,12 @@
 namespace protocol {
 
 // forward declarations of our friends.
+class Component;
 class RegistrationItem;
 class Registrations;
 class Variants;
+class QueryValueData;
+
 extern "C" _export void __stdcall messageToLogic (unsigned* instanceNumber,
                                                   Message* message,
                                                   bool* processed);
@@ -83,9 +96,9 @@ class __declspec(dllexport) varInfo : public baseInfo {
   };
 class __declspec(dllexport) stringInfo : public baseInfo {
   private:
-   string *myPtr;
+   std::string *myPtr;
   public:
-   stringInfo(const char *name, string *ptr, const char *units, const char *desc) {
+   stringInfo(const char *name, std::string *ptr, const char *units, const char *desc) {
       myName = name;
       myType = DTstring;
       myLength = 1;
@@ -121,7 +134,7 @@ class __declspec(dllexport) fnInfo : public baseInfo {
 
 typedef std::map<unsigned, baseInfo*>   UInt2InfoMap;
 typedef boost::function3<void, unsigned &, unsigned &, protocol::Variant &> pfcall;
-typedef std::multimap<unsigned, pfcall, less<unsigned> >   UInt2EventMap;
+typedef std::multimap<unsigned, pfcall, std::less<unsigned> >   UInt2EventMap;
 
 // ------------------------------------------------------------------
 // Manages a single instance of an APSIM Component
@@ -430,7 +443,7 @@ class __declspec(dllexport) Component
           }
        // remove any Units specifier "(..)" here
        int posBracket = valueString.find('(');
-       if (posBracket != string::npos)
+       if (posBracket != std::string::npos)
          valueString = valueString.substr(0,posBracket);
 
        return valueString;
@@ -440,7 +453,7 @@ class __declspec(dllexport) Component
     std::string readParameter(const std::vector<std::string> &sectionNames,
                               const std::string& variableName)
        {
-       string result;
+       std::string result;
        for (unsigned int i = 0; i < sectionNames.size(); i++)
          if ((result = readParameter(sectionNames[i], variableName)) != "")
             return result;
@@ -449,8 +462,8 @@ class __declspec(dllexport) Component
 
 
    template <class T>
-   bool readParameter(const string &sectionName,
-                      const string &variableName,
+   bool readParameter(const std::string &sectionName,
+                      const std::string &variableName,
                       T &value,
                       double lower,
                       double upper,
@@ -498,8 +511,8 @@ class __declspec(dllexport) Component
       }
 
    template <class T>
-   bool readParameter(const string &sectionName,
-                      const string &variableName,
+   bool readParameter(const std::string &sectionName,
+                      const std::string &variableName,
                       std::vector <T> &values,
                       double lower,
                       double upper,
@@ -556,7 +569,7 @@ class __declspec(dllexport) Component
 
        // C arrays
       template <class T>
-      bool readParameter(const string &sect, const string &name,
+      bool readParameter(const std::string &sect, const std::string &name,
                          T *valarray, int &numvals,
                          double lower, double upper, bool isoptional = false)
          {
@@ -576,11 +589,11 @@ class __declspec(dllexport) Component
                          double upper,
                          bool optional=false)
          {
-         for (unsigned int i = 0; i < sections.size(); i++)
+         for (unsigned int i = 0; i < sections.size(); i++) 
            if (readParameter(sections[i], variableName, value, lower, upper, true))
               return true;
 
-         if (!optional)
+         if (!optional) 
             {
             std::string msg = string("Cannot find a parameter in any of the files/sections\n"
                                      "specified in the control file.\n"
@@ -591,39 +604,39 @@ class __declspec(dllexport) Component
          };
 
       template <class T>
-      bool readParameter(const std::vector<string> &sects,
+      bool readParameter(const std::vector<std::string> &sects, 
                          const std::string &name,
-                         T *v, int &numvals,
-                         double lower, double upper,
+                         T *v, int &numvals, 
+                         double lower, double upper, 
                          bool isOptional = false)
          {
-         for (unsigned int i = 0; i < sects.size(); i++)
+         for (unsigned int i = 0; i < sects.size(); i++) 
            if (readParameter(sects[i], name,  v, numvals, lower, upper, true))
               return true;
 
-         if (!isOptional)
+         if (!isOptional) 
             {
-            string msg = string("Cannot find a parameter in any of the files/sections\n"
+            std::string msg = string("Cannot find a parameter in any of the files/sections\n"
                                  "specified in the control file.\n"
                                  "Parameter name = ") + name;
             error(msg.c_str(), true);
             }
          return false;
          };
-
+         
       template <class T>
-      bool readParameter(const std::vector<string> &sections,
+      bool readParameter(const std::vector<std::string> &sections,
                          const std::string &variableName,
                          std::vector <T> &values,
                          double lower,
                          double upper,
                          bool isOptional=false)
          {
-         for (unsigned int i = 0; i < sections.size(); i++)
+         for (unsigned int i = 0; i < sections.size(); i++) 
            if (readParameter(sections[i], variableName, values, lower, upper, true))
               return true;
 
-         if (!isOptional)
+         if (!isOptional) 
             {
             string msg = string("Cannot find a parameter in any of the files/sections\n"
                                  "specified in the control file.\n"

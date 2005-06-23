@@ -1,12 +1,17 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
 #include <vcl.h>
-#pragma hdrstop
 
-#include "ApsimDirectories.h"
-#include <general\path.h>
+#include <string>
+#include <stdexcept>
+#include <vector>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+#include <general/stl_functions.h>
+#include <general/string_functions.h>
+#include <general/path.h>
 #include "FString.h"
-#pragma package(smart_init)
+#include "FStringExt.h"
+#include "ApsimDirectories.h"
 
 using namespace std;
 extern HINSTANCE hInstance;

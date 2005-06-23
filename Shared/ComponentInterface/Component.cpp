@@ -2,13 +2,18 @@
 #include <windows.h>
 #pragma hdrstop
 #include <stdexcept>
-
-#include "Component.h"
-#include "RegistrationItem.h"
-#include "Registrations.h"
-#include <ApsimShared\FApsimComponentData.h>
-#include <ApsimShared\FStringExt.h>
 #include <limits.h>
+
+#include <string>
+
+#include <boost/lexical_cast.hpp>
+
+#include <ApsimShared/FStringExt.h>
+//#include <ApsimShared/FApsimComponentData.h>
+
+#include "ProtocolVector.h"
+#include "Component.h"
+
 #define FARPROC void*
 using namespace protocol;
 
@@ -339,14 +344,14 @@ unsigned Component::addRegistration(RegistrationType kind,
 
       unsigned id = (unsigned) reg;
 
-      string registrationName = reg->getName();
+      std::string registrationName = reg->getName();
       int destID = 0;
       if (strlen(reg->getComponentName()) > 0)
          {
          char* endPtr;
          destID = strtol(reg->getComponentName(), &endPtr, 10);
          if (*endPtr != '\0')
-            registrationName = string(reg->getComponentName()) + "." + registrationName;
+            registrationName = std::string(reg->getComponentName()) + "." + registrationName;
          }
 
       sendMessage(newRegisterMessage(componentID,
@@ -393,7 +398,7 @@ void Component::respondToEvent(unsigned int& fromID, unsigned int& eventID, Vari
   }
 // ------------------------------------------------------------------
 //  Short description:
-//     find a property in initdata.
+//     send a message to infrastructure.
 
 //  Notes:
 
@@ -405,27 +410,34 @@ bool Component::readParameter
    (const FString& sectionName, const FString& variableName,
     FString& variableValue, bool optional)
    {
-   std::string value = readParameter(asString(sectionName),
-                                     asString(variableName));
-   variableValue = value.c_str();
-
-   if (value == "")
+   if (ApsimComponentData_getProperty(componentData,
+                                      sectionName,
+                                      variableName,
+                                      variableValue))
+      return true;
+   char buffer[100];
+   FString baseSection(buffer, sizeof(buffer), CString);
+   if (ApsimComponentData_getProperty(componentData,
+                                      sectionName,
+                                      "derived_from",
+                                      baseSection))
       {
-      if (!optional)
-         {
-         char msg[200];
-         strcpy(msg, "Cannot find a parameter in any of the files/sections\n"
-                     "specified in the control file.\n"
-                     "Parameter name = ");
-         strncat(msg, variableName.f_str(), variableName.length());
-         strcat(msg, "\n");
-         strcat(msg, "Section name = ");
-         strncat(msg, sectionName.f_str(), sectionName.length());
-         error(msg, strlen(msg));
-         }
-      return false;
+         return readParameter(baseSection, variableName, variableValue, optional);
       }
-   return true;
+
+   if (!optional)
+      {
+      char msg[200];
+      strcpy(msg, "Cannot find a parameter in any of the files/sections\n"
+                  "specified in the control file.\n"
+                  "Parameter name = ");
+      strncat(msg, variableName.f_str(), variableName.length());
+      strcat(msg, "\n");
+      strcat(msg, "Section name = ");
+      strncat(msg, sectionName.f_str(), sectionName.length());
+      error(msg, strlen(msg));
+      }
+   return false;
    }
 
 // ------------------------------------------------------------------
@@ -522,8 +534,8 @@ bool Component::getVariable(unsigned int registrationID,
    if (variants->size() > 1)
       {
       RegistrationItem* regItem = (RegistrationItem*) registrationID;
-      string st;
-      st = "The module " + string(name) + " has asked for the value of the variable ";
+      std::string st;
+      st = "The module " + std::string(name) + " has asked for the value of the variable ";
       st += regItem->getName();
       st += ".\nIt received multiple responses when only 1 was expected.\nIt received values from the following modules:\n";
       for (unsigned v = 0; v != variants->size(); v++)
@@ -543,8 +555,8 @@ bool Component::getVariable(unsigned int registrationID,
    else if (!optional && variants->size() == 0)
       {
       RegistrationItem* regItem = (RegistrationItem*) registrationID;
-      string st;
-      st = "The module " + string(name) + " has asked for the value of the variable ";
+      std::string st;
+      st = "The module " + std::string(name) + " has asked for the value of the variable ";
       st += regItem->getName();
       st += ".\nIt received no responses.";
       error(st.c_str(), true);
@@ -893,7 +905,7 @@ unsigned int Component::getReg(const char *systemName,
 // Build the xml fragment that describes this variable and publish to system
 std::string baseInfo::getXML()
    {
-   string st = "   <property name=\"" + asString(myName) + "\" description=\"" + asString(myDescription) + "\" access=\"read\" init=\"F\">\n";
+   std::string st = "   <property name=\"" + asString(myName) + "\" description=\"" + asString(myDescription) + "\" access=\"read\" init=\"F\">\n";
    st += "      <type kind=\"" + asString(Type::codeToString(myType)) + "\" array=\"";
    if (myIsArray)
       st += "T";
@@ -909,7 +921,7 @@ std::string Component::getDescription()
    {
    try
       {
-      string returnString = "<describecomp name=\"" + asString(name) + "\">\n";
+      std::string returnString = "<describecomp name=\"" + asString(name) + "\">\n";
       for (UInt2InfoMap::iterator var = getVarMap.begin();
                                   var != getVarMap.end();
                                   var++)
@@ -929,7 +941,7 @@ std::string Component::getDescription()
       returnString += "\n</describecomp>\n";
       return returnString;
       }
-   catch (const exception& err)
+   catch (const std::exception& err)
       {
       MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
       return "";

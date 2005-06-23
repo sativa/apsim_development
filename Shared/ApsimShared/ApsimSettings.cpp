@@ -1,14 +1,16 @@
-//---------------------------------------------------------------------------
-#include <general\pch.h>
 #include <vcl.h>
-#pragma hdrstop
+
+#include <string>
+#include <vector>
+#include <sstream>
+
+#include <boost/lexical_cast.hpp>
+#include <general/inifile.h>
+#include <general/path.h>
 
 #include "ApsimSettings.h"
 #include "ApsimDirectories.h"
-#include <boost\lexical_cast.hpp>
-#include <general\inifile.h>
-#include <general\path.h>
-#include <sstream>
+
 using namespace std;
 using namespace boost;
 
@@ -205,49 +207,6 @@ void ApsimSettings::deleteSection(const std::string& section)
 void ApsimSettings::deleteKey(const std::string& key)
    {
    original->deleteKey(getSection(key), getKey(key));
-   }
-// ------------------------------------------------------------------
-// Save the specified form position to the apsim settings .ini file.
-// ------------------------------------------------------------------
-void saveFormPosition(TForm* form)
-   {
-   if (form->Visible)
-      {
-      string section = form->Caption.c_str();
-      unsigned posFile = section.find(" -");
-      if (posFile != string::npos)
-         section.erase(posFile);
-      section += " Pos";
-      ApsimSettings settings;
-      settings.write(section + "|FormLeft", IntToStr(form->Left).c_str());
-      settings.write(section + "|FormTop", IntToStr(form->Top).c_str());
-      settings.write(section + "|FormWidth", IntToStr(form->Width).c_str());
-      settings.write(section + "|FormHeight", IntToStr(form->Height).c_str());
-      }
-   }
-// ------------------------------------------------------------------
-// Restore the specified form position from the apsim settings .ini file.
-// ------------------------------------------------------------------
-void loadFormPosition(TForm* form)
-   {
-   string section = form->Caption.c_str();
-   unsigned posFile = section.find(" -");
-   if (posFile != string::npos)
-      section.erase(posFile);
-   section += " Pos";
-   ApsimSettings settings;
-   string leftSt, topSt, widthSt, heightSt;
-   settings.read(section + "|FormLeft", leftSt);
-   settings.read(section + "|FormTop", topSt);
-   settings.read(section + "|FormWidth", widthSt);
-   settings.read(section + "|FormHeight", heightSt);
-   if (leftSt != "" && topSt != "" && widthSt != "" && heightSt != "")
-      {
-      form->Left = atoi(leftSt.c_str());
-      form->Top = atoi(topSt.c_str());
-      form->Width = atoi(widthSt.c_str());
-      form->Height = atoi(heightSt.c_str());
-      }
    }
 
 extern "C" void _export __stdcall SettingsRead(const char* key,

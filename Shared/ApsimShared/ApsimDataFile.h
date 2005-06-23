@@ -1,10 +1,6 @@
 //---------------------------------------------------------------------------
 #ifndef ApsimDataFileH
 #define ApsimDataFileH
-#include <map>
-#include <vector>
-#include <fstream>
-#include <boost\date_time\gregorian\gregorian.hpp>
 
 //---------------------------------------------------------------------------
 // This class a single 'value' whether it be a constant or a value for
@@ -90,7 +86,7 @@ class __declspec(dllexport) ApsimDataFile
       //---------------------------------------------------------------------------
       // return the date on the current record.
       //---------------------------------------------------------------------------
-      boost::gregorian::date getDate(void) const;
+      boost::gregorian::date getDate(void) ;
 
       //---------------------------------------------------------------------------
       // advance the met file to a specified date. Throws is can't find date.
@@ -131,7 +127,7 @@ class __declspec(dllexport) ApsimDataFile
       void readAndStoreRecords(const std::string& filename) throw (std::runtime_error);
       void readApsimHeader() throw(std::runtime_error);
       bool readNextRecord() throw(std::runtime_error);
-      void lookForDateField(void);
+      void lookForDateField(void) ;
 
    };
 #endif

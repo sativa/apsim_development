@@ -49,8 +49,7 @@ class __declspec(dllexport) TypeConverter
 //  Changes:
 //    DPH 7/6/2001
 // ------------------------------------------------------------------
-bool getTypeConverter(Component* parent,
-                      const FString& name,
+bool getTypeConverter(const FString& name,
                       const Type& sourceType,
                       const Type& destType,
                       TypeConverter*& converter);
@@ -59,8 +58,7 @@ bool getTypeConverter(Component* parent,
 // Return a data type converter if possible or NULL if none
 // available.
 // ------------------------------------------------------------------
-bool protocol::getTypeConverter(Component* parent,
-                                const FString& name,
+bool protocol::getTypeConverter(const FString& name,
                                 protocol::DataTypeCode sourceTypeCode,
                                 protocol::DataTypeCode destTypeCode,
                                 bool isSourceArray,

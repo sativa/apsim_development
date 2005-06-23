@@ -7,7 +7,7 @@ BCB = $(MAKEDIR)\..
 !include $(APSROOT)\APSBuild\platform.make
 !include $(APSROOT)\APSBuild\cpp.make
 
-OBJECTS = Component.obj \
+OBJECTS = ComponentInterface.obj Component.obj \
       message.obj Type.obj TypeConverter.obj variant.obj Variants.obj \
       MessageData.obj ApsimVariant.obj ArraySpecifier.obj Registrations.obj \
       RegistrationItem.obj ProtocolVector.obj RegistrationType.obj \
@@ -16,20 +16,31 @@ WRAPPEROBJECTS = $(OBJECTS) datatypes.obj FORTRANComponentWrapper.obj
 
 PACKAGES = vcl.bpi rtl.bpi
 USERDEFINES =
-SYSDEFINES = NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES
+SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
 INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost
 LIBPATH = $(SYSLIBPATH)
 LIBRARIES = rtl.lib
-LIBFILES = $(APSROOT)\Shared\ApsimShared\ApsimShared.lib $(APSROOT)\Shared\general\general.lib
+LIBFILES = vcl.lib $(SYSLIBS) \
+   $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+   $(APSROOT)\Shared\general\general.lib \
+   $(BCB)\Components\LibXml2\win32\LibXml2.lib
+
 
 source: ComponentInterface.dll SimpleWrapper.obj
 
 ALLOBJ = c0d32.obj $(PACKAGES) $(WRAPPEROBJECTS)
 ALLRES = $(RESFILES)
-ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib
+ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
 # ---------------------------------------------------------------------------
 #CFLAG1 = $(SYSCFLAGS) -x- -RT- -tWM
-CFLAG1 = -WD -Od -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWD -tWM -c
+# pre 4.1:
+#CFLAG1 = -WD -Od -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWD -tWM -c
+# from cpp.make:  -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X-     -a8 -b- -tWM -c
+
+# For ComponentInterface.dll, use:
+CFLAG1 =  $(SYSCFLAGS) -tWD -tWM
+# Use this with lahey fortran-linked objects
+CFLAGLF95 =  -x- -RT- -r- -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k -y -v -vi- -tWD -tWM -c
 
 WARNINGS = -w-par
 LFLAGS = $(SYSLDFLAGS) -aa -Tpd -x -Gn -Gi -v
@@ -38,9 +49,11 @@ CC=$(BCB)\Bin\bcc32.exe
 LINKER=$(BCB)\Bin\ilink32.exe
 IMPDEF=$(BCB)\Bin\impdef.exe
 
+SimpleWrapper.obj: SimpleWrapper.cpp
+    $(CC) $(CFLAGLF95) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) SimpleWrapper.cpp
+
 .cpp.obj:
     $(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
-
 
 ComponentInterface.dll: $(WRAPPEROBJECTS)
 	$(LINKER) @&&!

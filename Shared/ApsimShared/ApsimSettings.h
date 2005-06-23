@@ -2,8 +2,6 @@
 #ifndef ApsimSettingsH
 #define ApsimSettingsH
 
-#include <string>
-#include <vector>
 class IniFile;
 // ------------------------------------------------------------------
 // This class looks after all storing of apsim settings.
@@ -30,7 +28,7 @@ class __declspec(dllexport) ApsimSettings
 
       // Write a setting for the specified key.
       void write(const std::string& key, const std::string& value);
-      void write(const std::string& key, const char* value) {write(key, string(value));}
+      void write(const std::string& key, const char* value) {write(key, std::string(value));}
       void write(const std::string& key, int value);
       void write(const std::string& key, bool value);
       void write(const std::string& key, double value);
@@ -55,16 +53,5 @@ class __declspec(dllexport) ApsimSettings
       std::string getSection(const std::string& key) const;
       std::string getKey(const std::string& key) const;
    };
-
-// ------------------------------------------------------------------
-// Save the specified form position to the apsim settings .ini file.
-// ------------------------------------------------------------------
-void _export saveFormPosition(TForm* form);
-
-// ------------------------------------------------------------------
-// Restore the specified form position from the apsim settings .ini file.
-// ------------------------------------------------------------------
-void _export loadFormPosition(TForm* form);
-   
 
 #endif

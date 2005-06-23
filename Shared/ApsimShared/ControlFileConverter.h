@@ -2,10 +2,6 @@
 #ifndef ControlFileConverterH
 #define ControlFileConverterH
 
-#include <string>
-#include <stdexcept>
-#include <iosfwd.h>
-#include "ApsimControlFile.h"
 class IniFile;
 
 typedef void __fastcall (__closure *TControlFileConverterEvent)(const std::string& section);

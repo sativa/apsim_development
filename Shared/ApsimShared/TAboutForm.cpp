@@ -4,7 +4,6 @@
 #pragma hdrstop
 
 #include "TAboutForm.h"
-#include "ApsimLicence.h"
 #include "ApsimVersion.h"
 #include "ApsimDirectories.h"
 #include <general\vcl_functions.h>
@@ -26,10 +25,8 @@ void __fastcall TAboutForm::FormShow(TObject *Sender)
    {
    string indent = "<IND x=\"90\">";
    string lf = "<BR>";
-   ApsimLicence key = getApsimKey();
    string details = "<B>Version:</B>" + indent + getApsimVersion() + lf;
    details += "<B>Directory:</B>" + indent + getApsimDirectory() + lf;
-   details += key.getAllDetails();
    DetailsLabel->HTMLText->Text = details.c_str();
    }
 //---------------------------------------------------------------------------

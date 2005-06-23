@@ -2,8 +2,7 @@
 #pragma hdrstop
 
 #include "ProtocolVector.h"
-#include "Component.h"
-#include "Windows.h" // for messageBox
+
 namespace protocol {
 // ------------------------------------------------------------------
 //  Short description:

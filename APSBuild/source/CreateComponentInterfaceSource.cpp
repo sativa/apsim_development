@@ -3,8 +3,6 @@
 #include <vcl.h>
 #pragma hdrstop
 #include "ComponentInterfaceGenerator.h"
-#include <ApsimShared\ApsimProject.h>
-#include <general\path.h>
 //---------------------------------------------------------------------------
 int main(int argc, char* argv[])
    {

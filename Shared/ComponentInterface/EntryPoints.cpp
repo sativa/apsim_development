@@ -1,5 +1,6 @@
+#include <stdexcept>
+#include <string>
 #include "Component.h"
-#include <ApsimShared\ApsimComponentData.h>
 
 namespace protocol {
 // ------------------------------------------------------------------
@@ -42,8 +43,8 @@ extern "C" _export void __stdcall getDescriptionInternal(char* initScript,
                                                          char* description)
    {
    ApsimComponentData componentData(initScript);
-   string dllFileName = componentData.getExecutableFileName();
-   string instanceName = componentData.getName();
+   std::string dllFileName = componentData.getExecutableFileName();
+   std::string instanceName = componentData.getName();
    //MessageBox(NULL, instanceName.c_str(), "", MB_OK);
 
    // create an instance of the module.
@@ -56,12 +57,10 @@ extern "C" _export void __stdcall getDescriptionInternal(char* initScript,
    bool processed;
    messageToLogic(&instanceNumber, init1Message, &processed);
 
-   string compDescription = ((protocol::Component*) instanceNumber)->getDescription();
+   std::string compDescription = ((protocol::Component*) instanceNumber)->getDescription();
    strcpy(description, compDescription.c_str());
 
    // delete the instance.
    deleteInstance(&instanceNumber);
    }
-
-
 } // namespace protocol

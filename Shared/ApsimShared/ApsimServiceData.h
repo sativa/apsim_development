@@ -2,7 +2,6 @@
 #ifndef ApsimServiceDataH
 #define ApsimServiceDataH
 
-#include <general\xml.h>
 // ------------------------------------------------------------------
 // This class encapsulates the data in a service section of
 // an APSIM simulation file(.SIM).

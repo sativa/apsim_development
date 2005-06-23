@@ -33,7 +33,7 @@ LFLAGS = -l. -D"" -aa -Tpe -x -Gn
 
 ALLOBJ = c0w32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJECTS)
 ALLRES = $(RESFILES)
-ALLLIB = $(LIBFILES) import32.lib cp32mti.lib
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cp32mti.lib
 
 CC=$(BCB)\Bin\bcc32.exe
 LD=$(BCB)\Bin\ilink32

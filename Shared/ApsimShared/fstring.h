@@ -2,11 +2,6 @@
 #ifndef FStringH
 #define FStringH
 
-#include <windows.h>
-
-// turn of the warnings about "Functions containing for are not expanded inline.
-#pragma warn -inl
-
 enum StringType {CString, FORString};
 
 // ------------------------------------------------------------------
@@ -22,7 +17,7 @@ enum StringType {CString, FORString};
 class FString
    {
    public:
-      static unsigned npos;
+      static const unsigned npos = -1;
 
       // default constructor that doesn't alias to anything.
       FString(void)
@@ -211,6 +206,8 @@ class FString
          }
       void error(const FString& msg1, const FString& msg2) const
          {
+         throw std::runtime_error("Internal error in FString");
+#if 0
          char* buffer = new char[msg1.length() + msg2.length() + 1];
          strncpy(buffer, msg1.text, msg1.length());
          buffer[msg1.length()] = 0;
@@ -218,10 +215,10 @@ class FString
          buffer[msg1.length() + msg2.length()] = 0;
          MessageBox(NULL, buffer, "Internal error in FString", MB_ICONERROR | MB_OK);
          delete [] buffer;
+#endif
          }
 
    };
-unsigned FString::npos = -1;
 
 //inline std::ostream& operator<< (std::ostream& out, const FString& st)
 //   {
@@ -260,7 +257,7 @@ class FStrings
          unsigned pos = 0;
          numElements = 0;
          if (strings.size() > maxNumElements)
-            MessageBox(NULL, "Too many strings for FORTRAN string array", "", MB_OK);
+            throw std::runtime_error("Too many strings for FORTRAN string array");
          for (CT::const_iterator i = strings.begin();
                                  i != strings.end();
                                  i++)
@@ -302,8 +299,5 @@ class FStrings
       unsigned elementLength;
       FString st;
    };
-
-// restore the warnings about "Functions containing for are not expanded inline.
-#pragma warn .inl
 
 #endif

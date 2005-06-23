@@ -8,14 +8,14 @@
     <RESFILES value="apsrun.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TRunForm.dfm"/>
-    <LIBFILES value="..\..\Shared\ApsimShared\ApsimShared.lib ..\..\Shared\general\general.lib
+    <LIBFILES value="..\..\Shared\ApsimShared\ApsimShared.lib ..\..\Shared\general\general.lib 
       ..\..\Shared\general\general_vcl.lib"/>
     <LIBRARIES value="TMSC6.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib"/>
-    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi bdertl.bpi
-      vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi visualdbclx.bpi
-      vclie.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi bcbie.bpi
-      soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi qrpt60.bpi ibxpress.bpi
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi bdertl.bpi 
+      vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi visualdbclx.bpi 
+      vclie.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi bcbie.bpi 
+      soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi qrpt.bpi ibxpress.bpi 
       indy.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
@@ -27,13 +27,13 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="apsrun.cpp"/>
-    <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)"/>
+    <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;..\..\Shared"/>
     <LIBPATH value="$(BCB)\Components\TeeChart\CBuilder6\Lib;&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
       -tW -tWM"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
@@ -89,16 +89,17 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-C:\MyData\development\Bin\SEGReport.bpl=SEGReport
-C:\Program Files\Borland\CBuilder6\Bin\dclclxstd60.bpl=Borland CLX Standard Components
+c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
 
 [HistoryLists\hlIncludePath]
-Count=5
-Item0=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
-Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
-Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
-Item3=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item4=..\..\apsfront\source\TemplatePacks;..\..\..\APSRun\Source;$(BCB)\include;$(BCB)\include\vcl
+Count=7
+Item0=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;..\..\Shared
+Item1=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;..\Shared
+Item2=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item3=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item4=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
+Item5=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item6=..\..\apsfront\source\TemplatePacks;..\..\..\APSRun\Source;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=5
@@ -125,7 +126,7 @@ Item1=..\..\Bin
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=c:\mydata\apsimwork\soilwater.con
+RunParams=d:\development\apsim\accum\sample\accum.con
 Launcher=
 UseLauncher=0
 DebugCWD=
@@ -139,10 +140,6 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=0
-
-[Language]
-ActiveLang=
-ProjectLang=
-RootDir=
+LinkCGLIB=0
   </IDEOPTIONS>
 </PROJECT>

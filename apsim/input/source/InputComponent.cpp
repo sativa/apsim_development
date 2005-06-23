@@ -1,20 +1,20 @@
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-
-#include "InputComponent.h"
-#include <ApsimShared\ApsimComponentData.h>
-#include <ComponentInterface\MessageDataExt.h>
-#include <ComponentInterface\ApsimVariant.h>
-#include <ComponentInterface\datatypes.h>
-#include <ApsimShared\fstringext.h>
-#include <general\string_functions.h>
-#include <general\stl_functions.h>
-#include <general\date_class.h>
-#include <list>
-#include <math.h>
-#include <boost\bind.hpp>
+#include <fstream>
 #include <stdexcept>
+
+#include <math.h> 
+#include <boost/date_time/gregorian/gregorian.hpp>
+
+#include <general/string_functions.h>
+#include <general/date_class.h>
+
+#include <ApsimShared/fstringext.h>
+
+#include <ComponentInterface/Component.h>
+
+
+#include "StringVariant.h"
+#include "InputComponent.h"
+
 
 using namespace std;
 using namespace boost;

@@ -1,6 +1,6 @@
 #include <windows.h>
 #pragma hdrstop
-
+#include <stdexcept>
 #include "variant.h"
 #include "ProtocolVector.h"
 using namespace protocol;

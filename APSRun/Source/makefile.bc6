@@ -55,7 +55,7 @@ LFLAGS = -D"" -aa -Tpe -x -Gn -v
 # ---------------------------------------------------------------------------
 ALLOBJ = c0w32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)
 ALLRES = $(RESFILES)
-ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
+ALLLIB = cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
 # ---------------------------------------------------------------------------
 !ifdef IDEOPTIONS
 

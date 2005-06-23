@@ -1,9 +1,12 @@
 //---------------------------------------------------------------------------
 #ifndef MessageDataH
 #define MessageDataH
-#include <ApsimShared\fstring.h>
+
 #include "message.h"
-//#include "debughook.h"
+#include <windows.h> // THis is a bit heavy-handed for just a few type sizes??
+
+class FString;
+class FStrings;
 
 namespace protocol {
 
@@ -47,9 +50,6 @@ inline unsigned int memorySize(const WCHAR& value)
    {
    return 2;
    }
-
-// turn of the warnings about "Functions containing for are not expanded inline.
-#pragma warn -inl
 
 class MessageData
    {
@@ -227,56 +227,13 @@ class MessageData
          }
    };
 
-// FSTRING specialisations
-inline MessageData& operator>>(MessageData& messageData, FString& value)
-   {
-   unsigned int numChars;
-   messageData >> (int)numChars;
-   value.aliasTo(messageData.ptr(), numChars);
-   messageData.movePtrBy(numChars);
-   return messageData;
-   };
-inline MessageData& operator<<(MessageData& messageData, const FString& value)
-   {
-   messageData << (int)value.length();
-   messageData.copyFrom(value.f_str(), value.length());
-   return messageData;
-   }
-inline unsigned int memorySize(const FString& value)
-   {
-   return value.length() + sizeof(int);
-   }
-// FSTRINGS specialisations
-inline MessageData& operator>> (MessageData& messageData, FStrings& strings)
-   {
-   unsigned numElements;
-   messageData >> numElements;
-   for (unsigned int i = 0; i < numElements; i++)
-      {
-      FString rhs;
-      messageData >> rhs;
-      strings.addString(rhs);
-      }
-   return messageData;
-   }
-inline MessageData& operator<< (MessageData& messageData, const FStrings& strings)
-   {
-   messageData << strings.getNumElements();
-   for (unsigned int i = 0; i < strings.getNumElements(); i++)
-      messageData << strings.getString(i);
-
-   return messageData;
-   }
-inline unsigned int memorySize(const FStrings& strings)
-   {
-   unsigned size = 4;
-   for (unsigned int i = 0; i < strings.getNumElements(); i++)
-      size += memorySize(strings.getString(i));
-   return size;
-   }
-
-// restore the warnings about "Functions containing for are not expanded inline.
-#pragma warn .inl
+   MessageData& operator>>(MessageData& messageData, FString& value);
+   MessageData& operator<<(MessageData& messageData, const FString& value);
+   unsigned int memorySize(const FString& value);
+   
+   MessageData& operator>> (MessageData& messageData, FStrings& strings);
+   MessageData& operator<< (MessageData& messageData, const FStrings& strings);
+   unsigned int memorySize(const FStrings& strings);
 
    } // end namespace protocol
 #endif

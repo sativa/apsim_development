@@ -1,12 +1,16 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
 
-#include <general\xml.h>
-#include <general\macro.h>
+#include <fstream>
+#include <sstream>
+
 #include <vector>
 #include <string>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+#include <general/macro.h>
+
+using namespace std;
+
 // ------------------------------------------------------------------
 // provide an entry point for .net and other languages.
 // ------------------------------------------------------------------

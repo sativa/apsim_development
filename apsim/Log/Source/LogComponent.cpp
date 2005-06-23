@@ -2,12 +2,23 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "LogComponent.h"
-#include <Protocol\transport.h>
-#include <ApsimShared\FStringExt.h>
-#include <general\string_functions.h>
-#include <ApsimShared\ApsimComponentData.h>
+#include <list>
+#include <fstream>
 #include <sstream>
+#include <stdexcept>
+
+#include <math.h>
+#include <boost/date_time/gregorian/gregorian.hpp>
+
+#include <general/string_functions.h>
+#include <general/date_class.h>
+
+#include <ApsimShared/FStringExt.h>
+#include <ComponentInterface/Component.h>
+#include <Protocol/transport.h>
+
+#include "LogComponent.h"
+
 using namespace std;
 using namespace protocol;
 // ------------------------------------------------------------------

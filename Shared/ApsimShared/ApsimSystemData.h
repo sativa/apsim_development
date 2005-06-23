@@ -2,7 +2,6 @@
 #ifndef ApsimSystemDataH
 #define ApsimSystemDataH
 
-#include "ApsimComponentData.h"
 // ------------------------------------------------------------------
 // This class encapsulates the data in a component section of
 // an APSIM simulation file(.SIM).

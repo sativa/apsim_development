@@ -3,7 +3,6 @@
 
 #include "Message.h"
 #include "Alloc.h"
-#include <windows.h>
 
 using namespace std;
 namespace protocol {

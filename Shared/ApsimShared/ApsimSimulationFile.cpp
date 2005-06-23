@@ -1,13 +1,17 @@
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
+#include <string>
+#include <vector>
 
+#include <general/exec.h>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+#include <general/stl_functions.h>
+#include <general/string_functions.h>
+
+#include "ApsimDirectories.h"
+#include "ApsimComponentData.h"
+#include "ApsimSystemData.h"
+#include "ApsimServiceData.h"
 #include "ApsimSimulationFile.h"
-#include <ApsimShared\ApsimDirectories.h>
-#include <general\exec.h>
-#include <general\xml.h>
-#include <general\stl_functions.h>
-#include <general\string_functions.h>
 using namespace std;
 // ------------------------------------------------------------------
 // Constructor
@@ -220,7 +224,8 @@ ApsimComponentData ApsimSimulationFile::asComponent(void)
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------
-// ------------------------------------------------------------------
+// UNUSED?????
+#if 0
 extern "C" unsigned _export __stdcall newApsimSimulationFile
    (const char* fileName)
    {
@@ -231,6 +236,7 @@ extern "C" void _export __stdcall deleteApsimSimulationFile
    {
    delete simulationFile;
    }
+
 extern "C" void _export __stdcall ApsimSimulationFile_getSystemNames
    (ApsimSimulationFile* simulationFile,
     const char* parentSystemName,
@@ -281,6 +287,7 @@ extern "C" void _export __stdcall ApsimSimulationFile_getComponentNames
       ::MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
       }
    }
+
 extern "C" void _export __stdcall ApsimSimulationFile_getExecutableFileName
    (ApsimSimulationFile* simulationFile,
     const char* componentName,
@@ -302,3 +309,4 @@ extern "C" void _export __stdcall ApsimSimulationFile_getExecutableFileName
    strcpy(executableFileName, dllFileName.c_str());
    }
 
+#endif

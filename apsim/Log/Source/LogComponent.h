@@ -1,10 +1,7 @@
 //---------------------------------------------------------------------------
 #ifndef LogComponentH
 #define LogComponentH
-#include <fstream>
-#include <ComponentInterface\interfaces.h>
-#include <ComponentInterface\component.h>
-#include <map>
+
 // ------------------------------------------------------------------
 //  Short description:
 //     Encapsulates the APSIM LOG module

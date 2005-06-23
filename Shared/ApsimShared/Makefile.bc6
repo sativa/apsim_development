@@ -13,12 +13,12 @@ IMPDEF=$(BCB)\Bin\impdef.exe
 
 TARGET = $(APSROOT)\Bin\ApsimShared.dll
 OBJECTS = ApsimShared.obj ApsimComponentData.obj ApsimControlFile.obj \
-ApsimDirectories.obj ApsimLicence.obj ApsimProject.obj ApsimRunFile.obj \
+ApsimDirectories.obj ApsimRunFile.obj \
 ApsimServiceData.obj ApsimSettings.obj ApsimSimulationFile.obj \
 ApsimSystemData.obj ApsimVersion.obj TAboutForm.obj TSplashForm.obj \
 ApsimForms.obj ApsimDataFile.obj ApsimDataTypesFile.obj \
 ApsimDataTypeData.obj ApsimRegistrationData.obj ControlFileConverter.obj \
-TMoveParametersForm.obj SimCreator.obj StarUtils.obj ApsimMacroFile.obj
+TMoveParametersForm.obj SimCreator.obj StarUtils.obj ApsimMacroFile.obj FString.obj FStringExt.obj
 
 RESFILES = ApsimShared.res
 USERDEFINES =
@@ -26,12 +26,14 @@ SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
 INCLUDEPATH = $(SYSINCLUDES);$(BCB)\Components;$(BCB)\Components\tms;$(BCB)\components\boost;$(APSROOT)\Shared
 LIBPATH =  $(SYSLIBPATH);$(BCB)\Components\tms;$(BCB)\components\Boost\libs\regex\build\bcb6
 RESDEPEN = $(RESFILES) TAboutForm.dfm TSplashForm.dfm TMoveParametersForm.dfm
-LIBFILES = $(APSROOT)\Shared\general\general.lib \
+LIBFILES = $(SYSLIBS) $(APSROOT)\Shared\general\general.lib \
     $(APSROOT)\Shared\general\general_vcl.lib \
     $(BCB)\Components\Boost\libs\filesystem\filesystem.lib \
-    $(BCB)\Components\Boost\libs\date_time\date_time.lib 
+    $(BCB)\Components\Boost\libs\date_time\date_time.lib \
+    $(BCB)\Components\LibXml2\win32\LibXml2.lib
 
-LIBRARIES = xmlrtl.lib TMSC6.lib
+
+LIBRARIES =  TMSC6.lib
 PACKAGES = vcl.bpi rtl.bpi
 
 # ---------------------------------------------------------------------------

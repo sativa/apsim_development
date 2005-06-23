@@ -4,12 +4,17 @@
 #include <fstream>
 #include <algorithm>
 #include <set>
+#include <vector>
 #include <iomanip>
 #include <sstream>
-#include <ApsimShared\ApsimDataTypesFile.h>
-#include <ApsimShared\ApsimComponentData.h>
+#include <general\TreeNodeIterator.h>
+#include <general\xml.h>
 #include <general\string_functions.h>
 #include <general\stl_functions.h>
+#include <ApsimShared\ApsimDataTypeData.h>
+#include <ApsimShared\ApsimDataTypesFile.h>
+#include <ApsimShared\ApsimComponentData.h>
+#include <ApsimShared\ApsimRegistrationData.h>
 
 #include "CreateDataTypesF90.h"
 

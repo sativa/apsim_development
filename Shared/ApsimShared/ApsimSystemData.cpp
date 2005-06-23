@@ -1,11 +1,10 @@
-//---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-
+#include <string>
+#include <vector>
+#include <general/stl_functions.h>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+#include "ApsimComponentData.h"
 #include "ApsimSystemData.h"
-#include <general\stl_functions.h>
-#pragma package(smart_init)
 
 
 // ------------------------------------------------------------------

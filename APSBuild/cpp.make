@@ -1,4 +1,5 @@
 # System wide defines for C++ compiler
+DEBUG=
 
 SYSINCLUDES = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost
 SYSLIBPATH = $(BCB)\lib\obj;$(BCB)\lib
@@ -13,12 +14,17 @@ SYSLDFLAGS =
 
 # Optimisation and debug symbols.
 !if "$(DEBUG)" == ""
-SYSCFLAGS = $(SYSCFLAGS) -O2
+SYSCFLAGS = $(SYSCFLAGS) -O2 -w-inl
 SYSLDFLAGS = $(SYSLDFLAGS)
+SYSLIBS = 
 !else
-SYSCFLAGS = $(SYSCFLAGS) -Od -v -y
-SYSLDFLAGS = $(SYSLDFLAGS) -v
+SYSCFLAGS = $(SYSCFLAGS) -Od -v -y -R -w-inl -vG
+SYSLDFLAGS = $(SYSLDFLAGS) -v 
+SYSLIBS = cg32.lib
 !endif
+
+# CodeGuard:
+## -vG, cg32.lib 
 
 # These are harvested from dean's individual bprs:
 #apsimshared

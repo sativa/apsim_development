@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 #include <windows.h>
 #pragma hdrstop
-
+#include <stdexcept>
 #include "ArraySpecifier.h"
 
 #pragma package(smart_init)

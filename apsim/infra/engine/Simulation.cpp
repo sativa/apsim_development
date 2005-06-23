@@ -3,19 +3,31 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "Simulation.h"
-#include <sstream>
-#include <fstream>
-#include <general\path.h>
-#include <ComponentInterface\MessageDataExt.h>
 #include <io.h>
 #include <dir.h>
+#include <sstream>
+#include <fstream>
 
-#include <ComponentInterface\messages.h>
-#include <Protocol\Transport.h>
-#include <Protocol\Computation.h>
-#include <ApsimShared\SimCreator.h>
-#include <ApsimShared\ApsimDirectories.h>
+#include <general/stl_functions.h>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+#include <general/path.h>
+
+#include <ApsimShared/ApsimComponentData.h>
+#include <ApsimShared/ApsimSystemData.h>
+#include <ApsimShared/ApsimServiceData.h>
+#include <ApsimShared/ApsimSimulationFile.h>
+#include <ApsimShared/SimCreator.h>
+#include <ApsimShared/ApsimDirectories.h>
+
+#include <ComponentInterface/interfaces.h>
+#include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/messages.h>
+
+#include <Protocol/Transport.h>
+#include <Protocol/Computation.h>
+
+#include "Simulation.h"
 
 using namespace std;
 using namespace protocol;
