@@ -1,12 +1,7 @@
 //---------------------------------------------------------------------------
 #ifndef CoordinatorH
 #define CoordinatorH
-#include <ComponentInterface\component.h>
-#include "ComponentAlias.h"
-#include "Registrations.h"
-#include <vector>
-#include <map>
-#include <stack>
+
 // ------------------------------------------------------------------
 //  Short description:
 //    This unit provides the functionality to manage a "system".

@@ -2,17 +2,33 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include <ComponentInterface\messageDataExt.h>
-#include "Coordinator.h"
-#include <ApsimShared\FStringExt.h>
-#include <ComponentInterface\messages.h>
 #include <assert.h>
-#include <general\stl_functions.h>
-#include <ApsimShared\ApsimSimulationFile.h>
+
 #include <sstream>
 #include <list>
 #include <functional>
 #include <memory>
+#include <stack>
+
+#include <general/string_functions.h>
+#include <general/stl_functions.h>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+
+#include <ApsimShared/FStringExt.h>
+#include <ApsimShared/ApsimComponentData.h>
+#include <ApsimShared/ApsimDataTypeData.h>
+#include <ApsimShared/ApsimSystemData.h>
+#include <ApsimShared/ApsimServiceData.h>
+#include <ApsimShared/ApsimRegistrationData.h>
+#include <ApsimShared/ApsimSimulationFile.h>
+
+#include <ComponentInterface/Component.h>
+
+#include "ComponentAlias.h"
+#include "Registrations.h"
+#include "Coordinator.h"
+
 using namespace std;
 using namespace protocol;
 

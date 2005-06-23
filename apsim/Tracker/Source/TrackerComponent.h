@@ -1,11 +1,7 @@
 //---------------------------------------------------------------------------
 #ifndef TrackerComponentH
 #define TrackerComponentH
-#include <ComponentInterface\Component.h>
-#include <string>
-#include <vector>
-#include <map>
-#include "TrackerVariable.h"
+
 // ------------------------------------------------------------------
 // TRACKER component for APSIM.
 // eg of parameter file specification:

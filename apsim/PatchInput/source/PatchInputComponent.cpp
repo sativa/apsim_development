@@ -2,14 +2,25 @@
 #include <vcl.h>
 #pragma hdrstop
 
+#include <list>
+#include <fstream>
+#include <stdexcept>
+
+#include <math.h>
+#include <boost/lexical_cast.hpp>
+
+#include <general/stristr.h>
+#include <general/string_functions.h>
+#include <general/date_class.h>
+#include <general/date_functions.h>
+
+#include <ApsimShared/FStringExt.h>
+
+#include <ComponentInterface/Component.h>
+
+#include <StringVariant.h>
+#include <InputComponent.h>
 #include "PatchInputComponent.h"
-#include <general\date_class.h>
-#include <general\string_functions.h>
-#include <general\date_functions.h>
-#include <general\stristr.h>
-#include <ComponentInterface\MessageDataExt.h>
-#include <ApsimShared\FStringExt.h>
-#include <boost\lexical_cast.hpp>
 
 using namespace std;
 using namespace boost::gregorian;

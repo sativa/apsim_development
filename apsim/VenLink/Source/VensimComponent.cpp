@@ -3,14 +3,15 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "VensimComponent.h"
-#include <ComponentInterface\MessageDataExt.h>
-#include <ApsimShared\FStringExt.h>
-#include <ApsimShared\ApsimComponentData.h>
-#include <ApsimShared\ApsimDirectories.h>
-
 #include <general\string_functions.h>
 #include <general\stristr.h>
+
+#include <ApsimShared\FStringExt.h>
+#include <ApsimShared\ApsimDirectories.h>
+
+#include <ComponentInterface\Component.h>
+#include "VensimComponent.h"
+
 #pragma package(smart_init)
 using namespace std;
 using namespace protocol;

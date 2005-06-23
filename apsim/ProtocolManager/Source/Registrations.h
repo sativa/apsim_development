@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------
-#ifndef RegistrationsH
-#define RegistrationsH
+#ifndef PROTOCOLMANAGERRegistrationsH
+#define PROTOCOLMANAGERRegistrationsH
 
 #include <set>
 #include <vector>
