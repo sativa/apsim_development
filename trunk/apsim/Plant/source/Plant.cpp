@@ -10,22 +10,26 @@
 
 #include <stdio.h>
 #include <math.h>
-#include <map>
 #include <string>
 #include <stdexcept>
 
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
+#include <map>
+#include <list>
+#include <vector>
+#include <fstream>
+#include <stdexcept>
 
-#include <ComponentInterface/Type.h>
-#include <ComponentInterface/ApsimVariant.h>
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/dataTypes.h>
-#include <ComponentInterface/Messages.h>
-#include <ComponentInterface/MessageDataExt.h>
-#include <ApsimShared/ApsimComponentData.h>
-#include <ApsimShared/FStringExt.h>
+
 #include <general/string_functions.h>
+#include <general/date_class.h>
+
+//#include <ApsimShared/ApsimDataTypeData.h>
+//#include <ApsimShared/ApsimComponentData.h>
+//#include <ApsimShared/ApsimDataFile.h>
+//#include <ApsimShared/FStringExt.h>
+
+#include <ComponentInterface/Component.h>
+#include <ComponentInterface/Type.h>
 
 #include "PlantComponent.h"
 #include "PlantLibrary.h"

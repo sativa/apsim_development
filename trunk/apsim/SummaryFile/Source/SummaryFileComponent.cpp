@@ -2,16 +2,16 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "SummaryFileComponent.h"
-#include <ComponentInterface\ApsimVariant.h>
-#include <ComponentInterface\MessageDataExt.h>
-#include <ComponentInterface\DataTypes.h>
-#include <ApsimShared\FStringExt.h>
-#include <ApsimShared\ApsimComponentData.h>
-#include <ApsimShared\ApsimVersion.h>
-#include <general\date_class.h>
 #include <sstream>
 #include <iomanip>
+#include <fstream>
+
+#include <general/date_class.h>
+#include <ApsimShared/FStringExt.h>
+#include <ApsimShared/ApsimVersion.h>
+#include <ComponentInterface/Component.h>
+#include "SummaryFileComponent.h"
+
 using namespace std;
 using namespace protocol;
 // ------------------------------------------------------------------

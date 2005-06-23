@@ -1,9 +1,13 @@
-#include <stdio.h>
+#include <stdlib.h>
 #include <process.h>
+
+#include <fstream>
 #include <general/path.h>
 #include <general/http.h>
 
-#include <ApsimShared/ApsimComponentData.h>
+#include <boost/date_time/gregorian/gregorian.hpp>
+#include <ComponentInterface/Component.h>
+#include <StringVariant.h>
 #include <InputComponent.h>
 #include "SiloInputComponent.h"
 

@@ -2,8 +2,10 @@
 #include <vcl.h>
 #pragma hdrstop
 
+#include <string>
+#include <ComponentInterface/Component.h>
+#include "TrackerVariable.h"
 #include "TrackerComponent.h"
-#include <ApsimShared\ApsimComponentData.h>
 
 #pragma package(smart_init)
 using namespace std;

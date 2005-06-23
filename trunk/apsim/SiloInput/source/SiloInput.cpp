@@ -1,7 +1,4 @@
-//---------------------------------------------------------------------------
-
 #include <vcl.h>
-#include <windows.h>
 #pragma hdrstop
 //---------------------------------------------------------------------------
 //   Important note about DLL memory management when your DLL uses the
@@ -27,7 +24,7 @@
 #pragma argsused
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void* lpReserved)
 {
-   return 1;
+        return 1;
 }
 //---------------------------------------------------------------------------
  

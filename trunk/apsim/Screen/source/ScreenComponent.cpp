@@ -15,7 +15,7 @@
 #include <general\StringTokenizer.h>
 #include <sstream>
 #include <iomanip>
-#include <variant.h>
+//#include <variant.h>
 #include "TScreenForm.h"
 #pragma package(smart_init)
 using namespace std;

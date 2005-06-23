@@ -1,7 +1,6 @@
 //---------------------------------------------------------------------------
 #ifndef VensimComponentH
 #define VensimComponentH
-#include <ComponentInterface\Component.h>
 #include <map>
 
 // ------------------------------------------------------------------

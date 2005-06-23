@@ -1,12 +1,6 @@
 //---------------------------------------------------------------------------
 #ifndef PatchInputComponentH
 #define PatchInputComponentH
-#include <ComponentInterface\Component.h>
-#include "StringVariant.h"
-#include <map>
-#include <InputComponent.h>
-#include <ApsimShared\ApsimDataFile.h>
-#include <ComponentInterface\datatypes.h>
 
 // ------------------------------------------------------------------
 // This module patches an existing input component from data read in
