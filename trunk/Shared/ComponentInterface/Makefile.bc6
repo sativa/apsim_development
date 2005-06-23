@@ -12,6 +12,7 @@ OBJECTS = ComponentInterface.obj Component.obj \
       MessageData.obj ApsimVariant.obj ArraySpecifier.obj Registrations.obj \
       RegistrationItem.obj ProtocolVector.obj RegistrationType.obj \
       EntryPoints.obj
+
 WRAPPEROBJECTS = $(OBJECTS) datatypes.obj FORTRANComponentWrapper.obj
 
 PACKAGES = vcl.bpi rtl.bpi
@@ -20,17 +21,17 @@ SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
 INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost
 LIBPATH = $(SYSLIBPATH)
 LIBRARIES = rtl.lib
-LIBFILES = vcl.lib $(SYSLIBS) \
+LIBFILES = $(SYSLIBS) \
    $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
    $(APSROOT)\Shared\general\general.lib \
    $(BCB)\Components\LibXml2\win32\LibXml2.lib
 
 
-source: ComponentInterface.dll SimpleWrapper.obj
+source: datatypes.h ComponentInterface.dll SimpleWrapper.obj
 
 ALLOBJ = c0d32.obj $(PACKAGES) $(WRAPPEROBJECTS)
 ALLRES = $(RESFILES)
-ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
+ALLLIB = vcl.lib $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
 # ---------------------------------------------------------------------------
 #CFLAG1 = $(SYSCFLAGS) -x- -RT- -tWM
 # pre 4.1:
@@ -71,7 +72,7 @@ $(ALLRES)
 
 # NB. Assumption here that we are always working within the development tree. NB.
 # Datatypes.
-datatypes.obj: datatypes.cpp datatypes.h
+datatypes.obj: datatypes.h datatypes.cpp 
 datatypes.cpp datatypes.h:  $(APSROOT)\apsim\infra\datatypes.interface $(APSROOT)\APSBuild\datatypes.macro $(APSROOT)\Bin\CreateDataTypesSource.exe
 	cd $(APSROOT)\Bin
 	$(APSROOT)\Bin\CreateDataTypesSource.exe $(APSROOT)\apsim\infra\datatypes.interface $(APSROOT)\APSBuild\datatypes.macro
