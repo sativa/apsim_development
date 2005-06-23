@@ -1,185 +1,63 @@
+#include <stdlib.h>
+#include <string.h>
+#include <stdexcept>
+
+#include <ApsimShared/fstring.h>
+
 #include "MessageData.h"
 #include "message.h"
 #include "ProtocolVector.h"
-using namespace protocol;
-/*// ------------------------------------------------------------------
-//  Short description:
-//     FORTRAN: Create a messageData object
 
-//  Changes:
-//    DPH 7/6/2001
+namespace protocol {
 
-// ------------------------------------------------------------------
-extern "C" unsigned  __stdcall new_variant(Message** message, Message** dummy)
+// FSTRING specialisations
+MessageData& _export operator>>(MessageData& messageData, FString& value)
    {
-   return (unsigned) new MessageData(*message);
+   unsigned int numChars;
+   messageData >> (int)numChars;
+   value.aliasTo(messageData.ptr(), numChars);
+   messageData.movePtrBy(numChars);
+   return messageData;
+   };
+MessageData& _export operator<<(MessageData& messageData, const FString& value)
+   {
+   messageData << (int)value.length();
+   messageData.copyFrom(value.f_str(), value.length());
+   return messageData;
+   }
+unsigned int _export memorySize(const FString& value)
+   {
+   return value.length() + sizeof(int);
    }
 
-// ------------------------------------------------------------------
-//  Short description:
-//     FORTRAN: Delete a messageData object.
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" void  __stdcall delete_variant(MessageData** messageData)
+// FSTRINGS specialisations
+MessageData& _export operator>> (MessageData& messageData, FStrings& strings)
    {
-   delete *messageData;
+   unsigned numElements;
+   messageData >> numElements;
+   for (unsigned int i = 0; i < numElements; i++)
+      {
+      FString rhs;
+      messageData >> rhs;
+      strings.addString(rhs);
+      }
+   return messageData;
+   }
+MessageData& _export operator<< (MessageData& messageData, const FStrings& strings)
+   {
+   messageData << strings.getNumElements();
+   for (unsigned int i = 0; i < strings.getNumElements(); i++)
+      messageData << strings.getString(i);
+
+   return messageData;
+   }
+unsigned int _export memorySize(const FStrings& strings)
+   {
+   unsigned size = 4;
+   for (unsigned int i = 0; i < strings.getNumElements(); i++)
+      size += memorySize(strings.getString(i));
+   return size;
    }
 
-// ------------------------------------------------------------------
-//  Short description:
-//    Store a integer*4 in message
+} // end namespace protocol
 
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" void __stdcall pack_integer4
-   (MessageData** mesData, int* value)
-   {
-   MessageData& messageData = **mesData;
-   messageData << *value;
-   }
-// ------------------------------------------------------------------
-//  Short description:
-//    store a vector of integers in message
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" void __stdcall pack_integer4_array
-   (MessageData** mesData, int* values, unsigned* numValues)
-   {
-   MessageData& messageData = **mesData;
-   vector<int> v(values, *numValues, *numValues);
-   messageData << v;
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    store a real value in message
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" void __stdcall pack_single
-   (MessageData** mesData, float* value)
-   {
-   MessageData& messageData = **mesData;
-   messageData << *value;
-   }
-// ------------------------------------------------------------------
-//  Short description:
-//    store a double precision value in message
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" void __stdcall pack_single_array
-   (MessageData** mesData, float* values, unsigned* numValues)
-   {
-   MessageData& messageData = **mesData;
-   vector<float> v(values, *numValues, *numValues);
-   messageData << v;
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    Store a string in message
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" void __stdcall pack_string
-   (MessageData** mesData, const char* value, unsigned int valueLength)
-   {
-   MessageData& messageData = **mesData;
-   messageData << FString(value, valueLength);
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    store a string array in message
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" void __stdcall pack_string_array
-   (MessageData** mesData, char* values, unsigned* numValues,
-    unsigned valuesLength)
-   {
-   FStrings strings(values, valuesLength, *numValues, *numValues);
-   (**mesData) << strings;
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    store a double precision value in message
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" void __stdcall pack_double
-   (MessageData** mesData, double* value)
-   {
-   MessageData& messageData = **mesData;
-   messageData << *value;
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    store a double precision value in message
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" void __stdcall pack_double_array
-   (MessageData** mesData, double* values, unsigned* numValues)
-   {
-   MessageData& messageData = **mesData;
-   vector<double> v(values, *numValues, *numValues);
-   messageData << v;
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    store a logical value in message
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" void __stdcall pack_boolean
-   (MessageData** mesData, unsigned int* value)
-   {
-   MessageData& messageData = **mesData;
-   messageData << (bool)*value;
-   }
-*/

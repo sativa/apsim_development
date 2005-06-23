@@ -1,12 +1,15 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
 #include <vcl.h>
-#pragma hdrstop
+
+#include <string>
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include <general/string_functions.h>
+#include <ApsimShared/ApsimSettings.h>
+
 #include "CreateSource.h"
 #include "CreateDataTypesF90.h"
-#include <ApsimShared\ApsimSettings.h>
-#include <general\string_functions.h>
-#include <fstream>
 using namespace std;
 //---------------------------------------------------------------------------
 // Main entry point into exe

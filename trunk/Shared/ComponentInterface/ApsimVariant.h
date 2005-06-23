@@ -60,8 +60,7 @@ class ApsimVariant
             bool isArray;
             messageData >> code >> isArray;
             TypeConverter* converter;
-            if (getTypeConverter(parent,
-                                 variableName,
+            if (getTypeConverter(variableName,
                                  (DataTypeCode)code, typeCode,
                                  isArray, array,
                                  converter))

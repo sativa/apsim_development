@@ -5,10 +5,13 @@
 #include "ComponentInterfaceGenerator.h"
 #include <general\path.h>
 #include <general\Macro.h>
+#include <general\TreeNodeIterator.h>
 #include <general\xml.h>
 #include <general\stl_functions.h>
 #include <ApsimShared\ApsimSettings.h>
+#include <ApsimShared\ApsimDataTypeData.h>
 #include <ApsimShared\ApsimComponentData.h>
+#include <ApsimShared\ApsimRegistrationData.h>
 #include <iostream>
 #include <vector>
 using namespace std;

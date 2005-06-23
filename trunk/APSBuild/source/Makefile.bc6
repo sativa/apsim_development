@@ -13,7 +13,7 @@ BCB = $(MAKEDIR)\..
 DTOBJECTS=CreateDataTypesSource.obj CreateSource.obj CreateDataTypesF90.obj
 CIOBJECTS=CreateComponentInterfaceSource.obj ComponentInterfaceGenerator.obj
 
-LIBFILES = $(APSROOT)\Shared\general\general.lib \
+LIBFILES = $(SYSLIBS) $(APSROOT)\Shared\general\general.lib \
 	$(APSROOT)\Shared\general\general_vcl.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
 	$(BCB)\components\libxml2\win32\libxml2.lib \
@@ -32,9 +32,9 @@ CFLAG1 = $(SYSCFLAGS) -O2 -r- -vi- -tWM
 WARNINGS = -w-par
 LFLAGS =  -ap -Tpe -x -Gn -v
 
-STDOBJ = c0x32.obj vcl.bpi Memmgr.Lib sysinit.obj
+STDOBJ = c0x32.obj vcl.lib Memmgr.Lib sysinit.obj
 ALLRES = $(RESFILES)
-ALLLIB = $(LIBFILES) import32.lib cw32mti.lib
+ALLLIB = $(LIBFILES) import32.lib cp32mti.lib
 
 CC=$(BCB)\Bin\bcc32.exe
 LD=$(BCB)\Bin\ilink32

@@ -1,8 +1,7 @@
 //---------------------------------------------------------------------------
 #ifndef ApsimRunFileH
 #define ApsimRunFileH
-#include <vector>
-#include <string>
+
 class IniFile;
 // ------------------------------------------------------------------
 // This class encapsulates a run file which is a collection of

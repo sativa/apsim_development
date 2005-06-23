@@ -1,11 +1,6 @@
 //---------------------------------------------------------------------------
 #ifndef InputComponentH
 #define InputComponentH
-#include <ComponentInterface\Component.h>
-#include "StringVariant.h"
-#include <map>
-#include <ApsimShared\ApsimDataFile.h>
-#include <boost\date_time\gregorian\gregorian.hpp>
 // ------------------------------------------------------------------
 // Encapsulates the APSIM INPUT module
 // ------------------------------------------------------------------

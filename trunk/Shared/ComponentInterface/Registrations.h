@@ -25,8 +25,11 @@ class Registrations
       // Returns NULL if not found.
       //---------------------------------------------------------------------------
       RegistrationItem* find(RegistrationType kind,
+                             const FString& name);
+
+      RegistrationItem* find(RegistrationType kind,
                              const FString& name,
-                             const FString& componentNameOrID="");
+                             const FString& componentNameOrID);
 
       //---------------------------------------------------------------------------
       // Return the number of matching registrations
@@ -41,8 +44,12 @@ class Registrations
       //---------------------------------------------------------------------------
       RegistrationItem* Registrations::add(RegistrationType kind,
                                            const FString& name,
+                                           const Type& type);
+                                           
+      RegistrationItem* Registrations::add(RegistrationType kind,
+                                           const FString& name,
                                            const Type& type,
-                                           const FString& componentNameOrID="");
+                                           const FString& componentNameOrID);
 
       //---------------------------------------------------------------------------
       // Return the total number of registrations.

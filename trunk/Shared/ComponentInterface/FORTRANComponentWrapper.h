@@ -1,8 +1,7 @@
 #ifndef FORTRANComponentWrapperH
 #define FORTRANComponentWrapperH
 
-#include "Component.h"
-#include "ApsimVariant.h"
+#include <ComponentInterface/ApsimVariant.h>
 
 // turn of the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl
@@ -221,7 +220,7 @@ class FortranWrapper : public protocol::Component
          if (inRespondToSet)
             {
             protocol::TypeConverter* converter = NULL;
-            if (getTypeConverter(this, variableName,
+            if (getTypeConverter(variableName,
                                  incomingVariant.getType().getCode(),
                                  dataType,
                                  incomingVariant.getType().isArray(),

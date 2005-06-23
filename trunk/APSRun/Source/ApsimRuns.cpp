@@ -3,15 +3,23 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "ApsimRuns.h"
-#include <ApsimShared\ControlFileConverter.h>
-#include <ApsimShared\ApsimRunFile.h>
-#include <ApsimShared\ApsimControlFile.h>
-#include <ApsimShared\SimCreator.h>
-#include <ApsimShared\ApsimDirectories.h>
-#include <ApsimShared\ApsimSettings.h>
+#include <general\TreeNodeIterator.h>
+#include <general\xml.h>
 #include <general\path.h>
 #include <general\exec.h>
+
+#include <ApsimShared\ApsimComponentData.h>
+#include <ApsimShared\ApsimServiceData.h>
+#include <ApsimShared\ApsimSystemData.h>
+#include <ApsimShared\ApsimControlFile.h>
+#include <ApsimShared\ControlFileConverter.h>
+#include <ApsimShared\ApsimRunFile.h>
+#include <ApsimShared\ApsimSimulationFile.h>
+#include <ApsimShared\ApsimSettings.h>
+#include <ApsimShared\SimCreator.h>
+#include <ApsimShared\ApsimDirectories.h>
+#include "ApsimRuns.h"
+
 #pragma package(smart_init)
 using namespace std;
 

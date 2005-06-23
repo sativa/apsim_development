@@ -1,12 +1,12 @@
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
+#include <fstream>
+#include <boost/date_time/gregorian/gregorian.hpp>
+#include <general/string_functions.h>
+#include <general/stl_functions.h>
+#include <general/math_functions.h>
+
+#include <ComponentInterface/Component.h>
 
 #include "StringVariant.h"
-#include <ComponentInterface\MessageDataExt.h>
-#include <general\string_functions.h>
-#include <general\math_functions.h>
-#include <ComponentInterface\Component.h>
 
 using namespace std;
 using namespace protocol;
@@ -59,8 +59,7 @@ void StringVariant::sendVariable(QueryValueData& queryData, bool useMainValue)
 void StringVariant::setVariable(QuerySetValueData& setValueData)
    {
    protocol::TypeConverter* converter = NULL;
-   if (getTypeConverter(parent,
-                        value->name.c_str(),
+   if (getTypeConverter(value->name.c_str(),
                         setValueData.variant.getType(),
                         protocol::Type(typeString.c_str()),
                         converter))

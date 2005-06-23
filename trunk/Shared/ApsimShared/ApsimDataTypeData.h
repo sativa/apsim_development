@@ -2,8 +2,7 @@
 
 #ifndef ApsimDataTypeDataH
 #define ApsimDataTypeDataH
-#include <general\xml.h>
-#include <general\stristr.h>
+
 // ------------------------------------------------------------------
 //  Short description:
 //     This class encapsulates a single data type.  The
@@ -16,7 +15,7 @@
 class __declspec(dllexport) ApsimDataTypeData
    {
    public:
-      ApsimDataTypeData(XMLNode n) : node(n) { }
+      ApsimDataTypeData(XMLNode &n) : node(n) { }
 
       bool isStructure(void) const;
       bool isArray(void) const;
@@ -32,8 +31,8 @@ class __declspec(dllexport) ApsimDataTypeData
       std::string getUpperBound(void) const;
       unsigned getNumFields(void) const;
       typedef TreeNodeAliasIterator< TreeNodeIterator<XMLNode>, ApsimDataTypeData> iterator;
-      iterator begin() const {return iterator(TreeNodeIterator<XMLNode>(node.begin()));}
-      iterator end() const   {return iterator(TreeNodeIterator<XMLNode>(node.end()));}
+      iterator begin(void) const ;
+      iterator end(void) const  ;
       std::string getTypeString(void) const;
       std::string getType(void) const;
    private:

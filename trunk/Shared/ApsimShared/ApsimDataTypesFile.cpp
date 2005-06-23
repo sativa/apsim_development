@@ -1,21 +1,28 @@
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
+#include <string>
+#include <vector>
+#include <algorithm>
 
+#include <stdexcept>
+
+#include <boost/filesystem/operations.hpp>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+
+#include "ApsimDataTypeData.h"
 #include "ApsimDataTypesFile.h"
 #include "ApsimDirectories.h"
-#include <general\xml.h>
 
-#pragma package(smart_init)
+using namespace std;
+
 //---------------------------------------------------------------------------
 // constructor.
 //---------------------------------------------------------------------------
 ApsimDataTypesFile::ApsimDataTypesFile(void)
-   : xmlDoc(getApsimDirectory() + "\\apsim\\infra\\datatypes.interface")
+   : xmlDoc(getApsimDirectory() + "/apsim/infra/datatypes.interface")
    {
-   fileName = getApsimDirectory() + "\\apsim\\infra\\datatypes.interface";
-   if (!FileExists(fileName.c_str()))
-      throw runtime_error("Cannot find file: " + fileName);
+   fileName = getApsimDirectory() + "/apsim/infra/datatypes.interface";
+   if (!boost::filesystem::exists(boost::filesystem::path((fileName.c_str()))))
+      throw std::runtime_error("Cannot find file: " + fileName);
    }
 //---------------------------------------------------------------------------
 // constructor.
@@ -36,8 +43,8 @@ ApsimDataTypeData ApsimDataTypesFile::getDataType(const string& name)
    if (i != xmlDoc.documentElement().end())
       return ApsimDataTypeData(*i);
 
-   throw runtime_error("Cannot find a data type: " + name
-                       + " in file: " + fileName);
+   throw std::runtime_error("Cannot find a data type: " + name
+                            + " in file: " + fileName);
    }
 //---------------------------------------------------------------------------
 // return iterator to first data type.

@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 #include <windows.h>
 #pragma hdrstop
-
+#include <stdexcept>
 #include "Registrations.h"
 
 using namespace protocol;
@@ -27,6 +27,12 @@ Registrations::~Registrations(void)
 // Find a registration item and return a pointer to it.
 // Returns NULL if not found.
 //---------------------------------------------------------------------------
+RegistrationItem* Registrations::find(RegistrationType kind,
+                                      const FString& name)
+   {
+   return(find(kind, name, FString("")));	
+   }
+
 RegistrationItem* Registrations::find(RegistrationType kind,
                                       const FString& name,
                                       const FString& componentNameOrID)
@@ -58,6 +64,13 @@ unsigned Registrations::count(RegistrationType kind,
 // Add a registration and return a pointer to it if registration was added.  If
 // the registration already exists, then return NULL.
 //---------------------------------------------------------------------------
+RegistrationItem* Registrations::add(RegistrationType kind,
+                                     const FString& name,
+                                     const Type& type)
+   {
+   return(add(kind, name, type, FString("")));
+   }
+
 RegistrationItem* Registrations::add(RegistrationType kind,
                                      const FString& name,
                                      const Type& type,

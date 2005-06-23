@@ -1,12 +1,16 @@
-//---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-
+#include <string>
+#include <vector>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+#include <general/stl_functions.h>
+#include <general/string_functions.h>
+#include <general/stristr.h>
+#include <general/path.h>
+#include <general/xml.h>
+#include "FStringExt.h"
+#include "ApsimRegistrationData.h"
 #include "ApsimDataTypeData.h"
-#include <general\string_functions.h>
 
-#pragma package(smart_init)
 
 // ------------------------------------------------------------------
 // Return the number of fields this ApsimDataTypeData has.
@@ -122,3 +126,5 @@ std::string ApsimDataTypeData::getType(void) const
    return node.getAttribute("type");
    }
 
+ApsimDataTypeData::iterator ApsimDataTypeData::begin(void) const {return iterator(TreeNodeIterator<XMLNode>(node.begin()));};
+ApsimDataTypeData::iterator ApsimDataTypeData::end(void) const  {return iterator(TreeNodeIterator<XMLNode>(node.end()));};

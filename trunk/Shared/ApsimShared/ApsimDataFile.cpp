@@ -1,18 +1,18 @@
-//---------------------------------------------------------------------------
-#include <general\pch.h>
-#pragma hdrstop
-
-#include "ApsimDataFile.h"
+#include <map>
 #include <vector>
+#include <fstream>
 #include <string>
-#include <general\string_functions.h>
-#include <general\stl_functions.h>
-#include <general\inifile.h>
-#include <boost\filesystem\operations.hpp>
-#include <boost\lexical_cast.hpp>
-#include <boost\date_time\date_parsing.hpp>
+#include <general/string_functions.h>
+#include <general/stl_functions.h>
+#include <general/inifile.h>
+
+#include <boost/filesystem/operations.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/date_time/date_parsing.hpp>
+#include <boost/date_time/gregorian/gregorian.hpp>
+
 #include "fstring.h"
-#pragma package(smart_init)
+#include "ApsimDataFile.h"
 
 using namespace std;
 using namespace boost;
@@ -233,7 +233,7 @@ bool ApsimDataFile::readNextRecord() throw(runtime_error)
 // Look at the columns names to see if we sufficient columns to
 // build a date.
 // ------------------------------------------------------------------
-void ApsimDataFile::lookForDateField(void)
+void ApsimDataFile::lookForDateField(void) 
    {
    yearI = temporalData.end();
    monthI = temporalData.end();
@@ -270,7 +270,7 @@ void ApsimDataFile::lookForDateField(void)
 // ------------------------------------------------------------------
 // return the date on the current record.
 // ------------------------------------------------------------------
-gregorian::date ApsimDataFile::getDate(void) const
+gregorian::date ApsimDataFile::getDate(void) 
    {
    if (!haveFoundDate)
       lookForDateField();
@@ -354,7 +354,7 @@ extern "C" unsigned _export __stdcall ApsimDataFile_next
       }
    catch (const runtime_error& err)
       {
-      ::MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
+      //::MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
       return false;
       }
    }

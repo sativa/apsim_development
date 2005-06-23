@@ -1,16 +1,19 @@
 #include <windows.h>
 #pragma hdrstop
 
-#include "TypeConverter.h"
-#include "Component.h"
 #include <limits.h>
 #include <stdio.h>
+
+#include <string>
+#include <stdexcept>
+#include "TypeConverter.h"
 
 // turn of the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl
 
 using namespace std;
 using namespace protocol;
+class Component;
 char buffer[10000];
 MessageData bufferMD(buffer, sizeof(buffer));
 
@@ -386,13 +389,12 @@ static TypeConverter* scalarConversionMatrix[9][9] =  {
 //  Changes:
 //    DPH 7/6/2001
 // ------------------------------------------------------------------
-bool _export protocol::getTypeConverter(Component* parent,
-                                const FString& name,
+bool _export protocol::getTypeConverter(const FString& name,
                                 const Type& sourceType,
                                 const Type& destType,
                                 TypeConverter*& converter)
    {
-   return getTypeConverter(parent, name,
+   return getTypeConverter(name,
                            sourceType.getCode(), destType.getCode(),
                            sourceType.isArray(), destType.isArray(),
                            converter);
@@ -402,8 +404,7 @@ bool _export protocol::getTypeConverter(Component* parent,
 // Return a data type converter if possible or NULL if none
 // available.
 // ------------------------------------------------------------------
-bool _export protocol::getTypeConverter(Component* parent,
-                                const FString& name,
+bool _export protocol::getTypeConverter(const FString& name,
                                 protocol::DataTypeCode sourceTypeCode,
                                 protocol::DataTypeCode destTypeCode,
                                 bool isSourceArray,
@@ -475,8 +476,7 @@ bool _export protocol::getTypeConverter(Component* parent,
                strcat(msg, " array");
             strcat(msg, "\nVariable name: ");
             strncat(msg, name.f_str(), name.length());
-            parent->error(msg, true);
-            return false;
+            throw runtime_error(msg);
             }
          else
             converter = converter->clone();

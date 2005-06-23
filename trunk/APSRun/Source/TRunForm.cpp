@@ -2,16 +2,23 @@
 #include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
+#include <iterator>
 
-#include "TRunForm.h"
-#include <ApsimShared\ControlFileConverter.h>
+#include <general\TreeNodeIterator.h>
+#include <general\xml.h>
 #include <general\path.h>
 #include <general\io_functions.h>
 #include <general\vcl_functions.h>
+
+#include <ApsimShared\ApsimComponentData.h>
+#include <ApsimShared\ApsimServiceData.h>
+#include <ApsimShared\ApsimSystemData.h>
 #include <ApsimShared\ApsimControlFile.h>
+#include <ApsimShared\ControlFileConverter.h>
 #include <ApsimShared\ApsimRunFile.h>
 #include <ApsimShared\ApsimSimulationFile.h>
-#include <iterator>
+
+#include "TRunForm.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "HTMLabel"

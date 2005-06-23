@@ -3,17 +3,25 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "SimCreator.h"
-#include <ApsimShared\ApsimControlFile.h>
-#include <ApsimShared\ApsimSimulationFile.h>
-#include <ApsimShared\ApsimDirectories.h>
-#include <ApsimShared\ApsimSettings.h>
-#include <general\path.h>
+#include <string>
+#include <map>
+
+#include <general\TreeNodeIterator.h>
+#include <general\xml.h>
 #include <general\iniFile.h>
 #include <general\stringTokenizer.h>
+#include <general\Path.h>
 #include <general\stl_functions.h>
 
-#pragma package(smart_init)
+#include "ApsimControlFile.h"
+#include "ApsimComponentData.h"
+#include "ApsimSystemData.h"
+#include "ApsimServiceData.h"
+#include "ApsimSimulationFile.h"
+#include "ApsimDirectories.h"
+#include "ApsimSettings.h"
+#include "SimCreator.h"
+
 
 // ------------------------------------------------------------------
 // This class implements a component compare method based on the

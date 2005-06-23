@@ -1,15 +1,9 @@
-//---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-
+#include <vector>
+#include <string>
+#include <general/IniFile.h>
 #include "ApsimRunFile.h"
-#include "ApsimSimulationFile.h"
-#include "ApsimControlFile.h"
-#include <general\IniFile.h>
 
 using namespace std;
-#pragma package(smart_init)
 
 static const char* SIMULATION_FILE_KEY = "Simulation_file";
 static const char* SIMULATION_KEY   = "Simulation";

@@ -2,8 +2,6 @@
 #ifndef APSIMControlFileH
 #define APSIMControlFileH
 
-#include <vector>
-#include <string>
 class IniFile;
 // ------------------------------------------------------------------
 // This class encapsulates an apsim control file.  It provides several

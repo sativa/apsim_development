@@ -1,24 +1,30 @@
-//---------------------------------------------------------------------------
-#include <general\pch.h>
 #include <vcl.h>
-#pragma hdrstop
+
+#include <set>
+#include <vector>
+#include <string>
+#include <fstream>
+#include <sstream>
+
+#include <general/string_functions.h>
+#include <general/stl_functions.h>
+#include <general/stristr.h>
+#include <general/IniFile.h>
+#include <general/path.h>
+#include <general/date_class.h>
+#include <general/StringTokenizer.h>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+
+#include <boost/regex.hpp>
+
+#include "ApsimDirectories.h"
+#include "ApsimDataTypesFile.h"
 
 #include "ApsimControlFile.h"
-#include <ApsimShared\ApsimDirectories.h>
-
-#include <general\string_functions.h>
-#include <general\stl_functions.h>
-#include <general\stristr.h>
-#include <general\IniFile.h>
-#include <general\path.h>
-#include <general\date_class.h>
-#include <general\StringTokenizer.h>
-#include <fstream>
-#include <boost\regex.hpp>
 
 using namespace std;
 using namespace boost;
-#pragma package(smart_init)
 
 struct ParamFile
    {

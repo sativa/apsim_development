@@ -1,20 +1,17 @@
-//---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-
-#include "ApsimVersion.h"
+#include <string>
+#include <vector>
+#include <stdexcept>
+#include <general/inifile.h>
 #include "ApsimDirectories.h"
-#include <general\inifile.h>
+#include "ApsimVersion.h"
 
-#pragma package(smart_init)
 //---------------------------------------------------------------------------
 // Return the APSIM version number
 //---------------------------------------------------------------------------
 std::string _export getApsimVersion(void)
    {
-   IniFile ini(getApsimDirectory() + "\\apsim.ini");
-   string versionString;
+   IniFile ini(getApsimDirectory() + "/apsim.ini");
+   std::string versionString;
    ini.read("version", "apsim", versionString);
    return versionString;
    }

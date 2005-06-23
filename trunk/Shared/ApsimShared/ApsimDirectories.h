@@ -2,7 +2,6 @@
 #ifndef ApsimDirectoriesH
 #define ApsimDirectoriesH
 
-#include <string>
 // ------------------------------------------------------------------
 // This routine provides a way for APSIM applications to get the
 // home directory.  Will throw a runtime error if the current

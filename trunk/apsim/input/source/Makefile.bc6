@@ -16,11 +16,10 @@ OBJFILES=Input.obj InputComponent.obj StringVariant.obj ..\..\..\Shared\Componen
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
 	$(APSROOT)\Shared\general\general.lib \
-	$(APSROOT)\Shared\Protocol\Protocol.lib \
 	$(BCB)\Components\Boost\libs\date_time\date_time.lib
 
 USERDEFINES =
-SYSDEFINES = _RTLDLL;NO_STRICT;_NO_VCL;USEPACKAGES
+SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
 INCLUDEPATH = $(SYSINCLUDES);$(BCB)\Components\Boost;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
 LIBPATH = $(SYSLIBPATH);$(APSROOT)\Shared\ComponentInterface
 
@@ -32,7 +31,7 @@ LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
 ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)
 ALLRES = $(RESFILES)
-ALLLIB = $(LIBFILES) import32.lib cw32mti.lib
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cp32mti.lib
 
 CC=$(BCB)\Bin\bcc32.exe
 LD=$(BCB)\Bin\ilink32

@@ -1,16 +1,18 @@
-//---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
+#include <stdlib.h>
 
-#include "ApsimComponentData.h"
-#include <general\xml.h>
-#include <general\stl_functions.h>
-#include <general\string_functions.h>
-#include <general\path.h>
+#include <string>
+#include <vector>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+#include <general/stl_functions.h>
+#include <general/string_functions.h>
+#include <general/path.h>
 #include "FStringExt.h"
-#pragma package(smart_init)
-
+#include "ApsimRegistrationData.h"
+#include "ApsimDataTypeData.h"
+#include "ApsimDataTypesFile.h"
+#include "ApsimComponentData.h"
+#include "ApsimSystemData.h"
 
 // ------------------------------------------------------------------
 // constructor

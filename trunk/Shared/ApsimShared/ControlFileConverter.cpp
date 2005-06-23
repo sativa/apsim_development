@@ -1,20 +1,28 @@
-//---------------------------------------------------------------------------
-#include <general\pch.h>
 #include <vcl.h>
-#pragma hdrstop
 
-#include "ControlFileConverter.h"
-#include "ApsimVersion.h"
-#include "ApsimDirectories.h"
-#include "TMoveParametersForm.h"
+#include <vector>
+#include <map>
+#include <string>
+#include <fstream>
+#include <stdexcept>
+#include <iosfwd.h>
+
 #include <general\stringTokenizer.h>
 #include <general\string_functions.h>
 #include <general\path.h>
 #include <general\date_class.h>
 #include <general\inifile.h>
 #include <general\stristr.h>
+
 #include <boost\lexical_cast.hpp>
-#include <ApsimShared\ApsimDirectories.h>
+
+#include "ApsimControlFile.h"
+#include "ApsimVersion.h"
+#include "ApsimDirectories.h"
+#include "TMoveParametersForm.h"
+#include "ApsimDirectories.h"
+
+#include "ControlFileConverter.h"
 
 using namespace std;
 using namespace boost;
@@ -832,7 +840,7 @@ bool ControlFileConverter::ReworkTrackerVariables(const string& arguments) throw
          if (variables[v].find(" from ") == string::npos
              && variables[v].find(" last ") == string::npos)
             {
-            StringTokenizer tokenizer(variables[v]);
+            StringTokenizer tokenizer(variables[v], " \t\n");
             string stat = tokenizer.nextToken();
             string word = tokenizer.nextToken();
             string variable = tokenizer.nextToken();

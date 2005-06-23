@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 #include <windows.h>
 #pragma hdrstop
-
+#include <stdexcept>
 #include "RegistrationItem.h"
 
 using namespace protocol;
@@ -46,7 +46,7 @@ void RegistrationItem::addReturnValueMessage(unsigned int fromID,
    if (!haveCreatedTypeConverter)
       {
       TypeConverter* converter;
-      isError = !getTypeConverter(parent, name, returnValueData.variant.getType(),
+      isError = !getTypeConverter(name, returnValueData.variant.getType(),
                                   FString(type), converter);
       if (!isError)
          variants.setTypeConverter(converter);

@@ -4,10 +4,11 @@
 // and calls them when reqd.
 #include <windows.h>
 #pragma hdrstop
-
-#include "FORTRANComponentWrapper.h"
 #include <stdlib.h>
 #include <stdio.h>
+
+#include "Component.h"
+#include "FORTRANComponentWrapper.h"
 #include "variants.h"
 #include "datatypes.h"
 

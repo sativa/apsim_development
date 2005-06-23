@@ -2,12 +2,11 @@
 #ifndef ApsimComponentDataH
 #define ApsimComponentDataH
 
-#include <general\xml.h>
-#include <vector>
-#include "ApsimRegistrationData.h"
-#include "ApsimDataTypeData.h"
-#include "ApsimDataTypesFile.h"
 class ApsimSystemData;
+class ApsimRegistrationData;
+class ApsimDataTypeData;
+class ApsimDataTypesFile;
+class XMLNode;
 // ------------------------------------------------------------------
 // This class encapsulates the data in a component section of
 // an APSIM simulation file(.SIM).
@@ -79,7 +78,7 @@ class __declspec(dllexport) ApsimComponentData
       XMLNode getInitData(void) const;
       mutable ApsimDataTypesFile* dataTypesFile;
 
-      void replaceAllMacros(XMLNode::iterator rules, string& contents) const;
+      void replaceAllMacros(XMLNode::iterator rules, std::string& contents) const;
 
       friend ApsimSystemData;  // so that ApsimSystemData::appendChild can get to node.
    };

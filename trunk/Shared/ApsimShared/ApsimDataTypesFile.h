@@ -3,10 +3,7 @@
 #ifndef ApsimDataTypesFileH
 #define ApsimDataTypesFileH
 
-#include <vector>
-#include <ApsimShared\ApsimDataTypeData.h>
-#include <general\xml.h>
-
+class ApsimDataTypeData;
 //---------------------------------------------------------------------------
 // This class encapsulates the apsim types database ie. (apsim\datatypes.interface)
 //---------------------------------------------------------------------------

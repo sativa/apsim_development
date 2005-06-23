@@ -1,9 +1,7 @@
 //---------------------------------------------------------------------------
 #ifndef SimulationH
 #define SimulationH
-#include <ComponentInterface\interfaces.h>
-#include <iostream>
-#include <ApsimShared\ApsimSimulationFile.h>
+
 namespace protocol {
 // ------------------------------------------------------------------
 //  Short description:
