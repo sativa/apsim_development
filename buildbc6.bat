@@ -1,6 +1,7 @@
 @echo off
 REM Force a build of all APSIM modules + infrastructure
 
+del /S bin\vcl60.* >NUL
 del /S apsim\*.obj >NUL
 del /S apsbuild\*.obj >NUL
 del /S apsrun\*.obj >NUL
