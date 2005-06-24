@@ -1,3 +1,4 @@
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 //---------------------------------------------------------------------------
@@ -21,7 +22,6 @@
 //   explicitly add MEMMGR.LIB as this will be done implicitly for you
 //---------------------------------------------------------------------------
 
-#pragma argsused
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void* lpReserved)
 {
         return 1;
