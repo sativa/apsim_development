@@ -1,12 +1,9 @@
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-
 #include <list>
 #include <fstream>
 #include <stdexcept>
 
 #include <math.h>
+#include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/lexical_cast.hpp>
 
 #include <general/stristr.h>
@@ -15,6 +12,7 @@
 #include <general/date_functions.h>
 
 #include <ApsimShared/FStringExt.h>
+#include <ApsimShared/ApsimDataFile.h>
 
 #include <ComponentInterface/Component.h>
 
@@ -227,7 +225,7 @@ void PatchInputComponent::respondToEvent(unsigned int& fromID, unsigned int& eve
                                                      foreignName.c_str(),
                                                      DTsingleString,
                                                      "",
-                                                     IntToStr(fromID).c_str());
+                                                     itoa(fromID).c_str());
                setVariable(variableID, var->asFloat());
 
                if (patchData.size() > 0)
