@@ -19,7 +19,7 @@ LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\Protocol\Protocol.lib \
    $(BCB)\Components\Boost\libs\date_time\date_time.lib
 USERDEFINES =
-SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
+SYSDEFINES = _RTLDLL;NO_STRICT;_NO_VCL;USEPACKAGES
 INCLUDEPATH = $(SYSINCLUDES);$(BCB)\Components\Boost;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface;$(APSROOT)\apsim\input\source
 LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
 
