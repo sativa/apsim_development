@@ -1,9 +1,12 @@
+#include <string>
+#include <vector>
 #include <fstream>
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <general/string_functions.h>
 #include <general/stl_functions.h>
 #include <general/math_functions.h>
 
+#include <ApsimShared/ApsimDataFile.h>
 #include <ComponentInterface/Component.h>
 
 #include "StringVariant.h"
@@ -181,3 +184,7 @@ void StringVariant::setTemporalValue(Value* v)
    value = v;
    }
 
+std::string StringVariant::getName(void) 
+   {
+   return value->name;
+   }

@@ -8,6 +8,7 @@
 #include <general/date_class.h>
 
 #include <ApsimShared/fstringext.h>
+#include <ApsimShared/ApsimDataFile.h>
 
 #include <ComponentInterface/Component.h>
 
