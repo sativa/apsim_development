@@ -3,9 +3,6 @@
 BCB = $(MAKEDIR)\..
 !endif
 
-# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
-#APSROOT=c:\progra~1\apsim33
-#APSROOT=c:\development
 !include $(APSROOT)\APSBuild\platform.make
 !include $(APSROOT)\APSBuild\cpp.make
 
@@ -19,13 +16,13 @@ LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(BCB)\Components\Boost\libs\date_time\date_time.lib
 
 USERDEFINES =
-SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
-INCLUDEPATH = $(SYSINCLUDES);$(BCB)\Components\Boost;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
-LIBPATH = $(SYSLIBPATH);$(APSROOT)\Shared\ComponentInterface
+SYSDEFINES = _RTLDLL;NO_STRICT;_NO_VCL;USEPACKAGES
+INCLUDEPATH = $(SYSINCLUDES);$(BCB)\Components\Boost;$(APSROOT)\Shared
+LIBPATH = $(SYSLIBPATH)
 
 
 # ---------------------------------------------------------------------------
-CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
+CFLAG1 = $(SYSCFLAGS) -tWD
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 

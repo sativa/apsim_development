@@ -2,9 +2,8 @@
 
 #ifndef StringVariantH
 #define StringVariantH
-#include <string>
-#include <vector>
-#include <ApsimShared\ApsimDataFile.h>
+
+class Value;
 namespace protocol {
    class QueryValueData;
    class QuerySetValueData;
@@ -36,7 +35,7 @@ class StringVariant
       unsigned doRegistration(void);
       float asFloat(void);
       float asInteger(void);
-      std::string getName(void) {return value->name;}
+      std::string getName(void);
       void setTemporalValue(Value* value);
 
    private:
