@@ -21,10 +21,12 @@ class LogComponent : public protocol::Component,
       virtual void doInit1(const FString& sdml);
       virtual void callback(const std::string& toName,
                             const protocol::Message* message);
+      virtual bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData);
    private:
       ofstream out;
       int previousNesting;
       int nesting;
+      unsigned debug_outputID;
 
       typedef std::pair<unsigned, unsigned> key;
       typedef std::map<key, std::string> Registrations;

@@ -18,6 +18,9 @@
 #include <Protocol/transport.h>
 
 #include "LogComponent.h"
+#include <ApsimShared\ApsimComponentData.h>
+#include <ComponentInterface\datatypes.h>
+#include <sstream>
 
 using namespace std;
 using namespace protocol;
@@ -97,6 +100,7 @@ void LogComponent::doInit1(const FString& sdml)
    {
    protocol::Component::doInit1(sdml);
 
+   debug_outputID = addRegistration(RegistrationType::respondToSet, "debug_output", "");
    string filename = componentData->getProperty("parameters", "logfile");
    if (filename == "")
       filename = "log.xml";
@@ -110,6 +114,28 @@ void LogComponent::doInit1(const FString& sdml)
    bool doOutput = (debugOutputString == "" || Str_i_Eq(debugOutputString, "on"));
    if (doOutput)
       setMessageHook(this);
+   }
+// ------------------------------------------------------------------
+// set the value of one of our variables.
+// ------------------------------------------------------------------
+bool LogComponent::respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData)
+   {
+   if (setValueData.ID == debug_outputID)
+   {
+      string stringValue;
+      setValueData.variant.unpack(stringValue);
+      if (stringValue == "off")
+      {
+//         out << "<DEBUG OUTPUT = OFF>" << endl;
+         setMessageHook(NULL);
+      }
+      else
+      {
+//         out << "<DEBUG OUTPUT = ON>" << endl;
+         setMessageHook(this);
+      }
+   }
+  return true;
    }
 // ------------------------------------------------------------------
 //  Short description:
