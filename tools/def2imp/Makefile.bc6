@@ -23,9 +23,9 @@ CFLAG1 = $(SYSCFLAGS) -O2 -vi- -tWC
 WARNINGS = -w-par
 LFLAGS =  -ap -Tpe -x -Gn -v
 
-ALLOBJ = c0x32.obj $(OBJECTS)
+ALLOBJ = c0x32.obj vcl.bpi $(OBJECTS)
 ALLRES = $(RESFILES)
-ALLLIB = $(LIBFILES) import32.lib cw32mti.lib
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
 
 CC=$(BCB)\Bin\bcc32.exe
 LD=$(BCB)\Bin\ilink32
