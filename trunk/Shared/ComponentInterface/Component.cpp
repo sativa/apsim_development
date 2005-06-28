@@ -398,7 +398,7 @@ void Component::respondToEvent(unsigned int& fromID, unsigned int& eventID, Vari
   }
 // ------------------------------------------------------------------
 //  Short description:
-//     send a message to infrastructure.
+//     Read a parameter from initialisation data.
 
 //  Notes:
 
@@ -410,34 +410,27 @@ bool Component::readParameter
    (const FString& sectionName, const FString& variableName,
     FString& variableValue, bool optional)
    {
-   if (ApsimComponentData_getProperty(componentData,
-                                      sectionName,
-                                      variableName,
-                                      variableValue))
-      return true;
-   char buffer[100];
-   FString baseSection(buffer, sizeof(buffer), CString);
-   if (ApsimComponentData_getProperty(componentData,
-                                      sectionName,
-                                      "derived_from",
-                                      baseSection))
-      {
-         return readParameter(baseSection, variableName, variableValue, optional);
-      }
+   std::string value = readParameter(asString(sectionName),
+                                     asString(variableName));
+   variableValue = value.c_str();
 
-   if (!optional)
+   if (value == "")
       {
-      char msg[200];
-      strcpy(msg, "Cannot find a parameter in any of the files/sections\n"
-                  "specified in the control file.\n"
-                  "Parameter name = ");
-      strncat(msg, variableName.f_str(), variableName.length());
-      strcat(msg, "\n");
-      strcat(msg, "Section name = ");
-      strncat(msg, sectionName.f_str(), sectionName.length());
-      error(msg, strlen(msg));
+      if (!optional)
+         {
+         char msg[200];
+         strcpy(msg, "Cannot find a parameter in any of the files/sections\n"
+                     "specified in the control file.\n"
+                     "Parameter name = ");
+         strncat(msg, variableName.f_str(), variableName.length());
+         strcat(msg, "\n");
+         strcat(msg, "Section name = ");
+         strncat(msg, sectionName.f_str(), sectionName.length());
+         error(msg, strlen(msg));
+         }
+      return false;
       }
-   return false;
+   return true;
    }
 
 // ------------------------------------------------------------------
