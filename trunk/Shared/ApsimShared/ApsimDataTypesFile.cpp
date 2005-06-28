@@ -18,10 +18,9 @@ using namespace std;
 // constructor.
 //---------------------------------------------------------------------------
 ApsimDataTypesFile::ApsimDataTypesFile(void)
-   : xmlDoc(getApsimDirectory() + "/apsim/infra/datatypes.interface")
+   : fileName(getApsimDirectory() + "/apsim/infra/datatypes.interface"), xmlDoc(fileName)
    {
-   fileName = getApsimDirectory() + "/apsim/infra/datatypes.interface";
-   if (!boost::filesystem::exists(boost::filesystem::path((fileName.c_str()))))
+   if (!xmlDoc.isValid())
       throw std::runtime_error("Cannot find file: " + fileName);
    }
 //---------------------------------------------------------------------------
