@@ -61,6 +61,11 @@ void XMLDocument::write(const std::string& fileName)
    xmlSaveFormatFile(fileName.c_str(), doc, 1);
    dirty = false;
    }
+
+bool XMLDocument::isValid(void) 
+   {
+   return (documentElement().isValid());
+   }
 //---------------------------------------------------------------------------
 // constructor for node.
 //---------------------------------------------------------------------------

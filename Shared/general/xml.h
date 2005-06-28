@@ -28,6 +28,7 @@ class XMLDocument
       void setDirty(bool d) {dirty = d;}
       bool isDirty(void) const {return dirty;}
 
+      bool isValid(void);
    private:
       _xmlDoc* doc;
       mutable bool dirty;
