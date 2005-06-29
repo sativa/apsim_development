@@ -1,9 +1,11 @@
 #include <stdlib.h>
-#include <general\string_functions.h>
-#include <tchar.h>
+
+#include <string>
 #include <sstream>
 #include <iomanip>
-#include <boost\lexical_cast.hpp> // lexical_cast<string>()
+
+#include <general\string_functions.h>
+#include <tchar.h>
 #include "stristr.h"
 
 using namespace std;
@@ -235,17 +237,12 @@ string ftoa(double Float, int Num_decplaces)
    return buf.str();
    }
 
-string itoa(int Int)
+string itoa(int intValue)
    {
-   string buf = boost::lexical_cast<string>(Int);
-   return buf;
+   ostringstream buf;
+   buf << intValue;
+   return buf.str();
    }
-// Eventually migrate to:
-//template <class T> string asc(T value)
-//   {
-//   string buf = boost::lexical_cast<string>(value);
-//   return buf;
-//   }
 
 // ------------------------------------------------------------------
 //  Short description:
