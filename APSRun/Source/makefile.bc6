@@ -3,6 +3,9 @@
 BCB = $(MAKEDIR)\..
 !endif
 
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
 # ---------------------------------------------------------------------------
 # IDE SECTION
 # ---------------------------------------------------------------------------
@@ -18,8 +21,8 @@ OBJFILES = apsrun.obj TRunForm.obj PreviousRuns.obj ApsimRuns.obj
 RESFILES = apsrun.res
 MAINSOURCE = apsrun.cpp
 RESDEPEN = $(RESFILES) TRunForm.dfm
-LIBFILES = ..\..\Shared\ApsimShared\ApsimShared.lib ..\..\Shared\general\general.lib \
-    ..\..\Shared\general\general_vcl.lib
+LIBFILES = $(APSROOT)\Shared\ApsimShared\ApsimShared.lib $(APSROOT)\Shared\general\general.lib \
+    $(APSROOT)\Shared\general\general_vcl.lib
 IDLFILES =
 IDLGENFILES =
 LIBRARIES = TMSC6.lib
@@ -45,8 +48,9 @@ PATHPAS = .;
 PATHRC = .;
 PATHOBJ = .;$(LIBPATH)
 # ---------------------------------------------------------------------------
-CFLAG1 = -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c \
-    -tW -tWM
+#CFLAG1 = -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tW -tWM
+CFLAG1 = $(SYSCFLAGS) -O2 -vi- -tWC
+
 IDLCFLAGS =
 PFLAGS = -$YD -$W -$O- -$A8 -v -JPHNE -M
 RFLAGS =
@@ -55,7 +59,7 @@ LFLAGS = -D"" -aa -Tpe -x -Gn -v
 # ---------------------------------------------------------------------------
 ALLOBJ = c0w32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)
 ALLRES = $(RESFILES)
-ALLLIB = cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
+ALLLIB = $(SYSLIBS) $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
 # ---------------------------------------------------------------------------
 !ifdef IDEOPTIONS
 
