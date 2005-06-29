@@ -2,13 +2,13 @@
 #file ../shared/componentinterface/datatypes.h
 #ifndef DataTypesH
 #define DataTypesH
-#include <ComponentInterface/MessageData.h>
-#include <ComponentInterface/MessageDataExt.h>
-#include <boost/lexical_cast.hpp>
 #include <general/stl_functions.h>
 #include <general/TreeNodeIterator.h>
 #include <general/xml.h>
-#include "Type.h"
+
+#include <ComponentInterface/MessageData.h>
+#include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/Type.h>
 
 namespace protocol {
 
@@ -57,43 +57,9 @@ inline unsigned int memorySize(const structure.nameType& data)
       + protocol::memorySize(data.field.name)
    #endfor;
    }
-void Initstructure.name(structure.nameType& data,
-                        const std::string& xml)
-   {
-   XMLDocument doc(xml, XMLDocument::xmlContents);
-   XMLNode::iterator childI = doc.documentElement();
-   #for_each structure.field
-   childI = std::find_if(doc.documentElement().begin(),
-                         doc.documentElement().end(),
-                         EqualToName<XMLNode>("field.name"));
-
-   #if (field.isArrayAndStructure = T)
-   // Don't know yet
-   #elseif (field.array = T)
-   StringToContainer<std::vector<field.ctype>, field.ctype> (childI->getValue(), data.field.name);
-
-   #elseif (field.isStructure = T)
-   // Don't know yet
-   #else
-   data.field.name = boost::lexical_cast<field.ctype> (childI->getValue());
-   #endif
-   #endfor
-   }
+void Initstructure.name(structure.nameType& data, const std::string& xml);
 #if (structure.array = T)
-void Initstructure.name(vector<structure.nameType>& values,
-                        const std::string& xml)
-   {
-   XMLDocument doc(xml, XMLDocument::xmlContents);
-   for (XMLNode::iterator childI = doc.documentElement().begin();
-                          childI != doc.documentElement().end();
-                          childI++)
-      {
-      string childXml = childI->write();
-      structure.nameType data;
-      Initstructure.name(data, childXml);
-      values.push_back(data);
-      }
-   }
+void Initstructure.name(std::vector<structure.nameType>& values, const std::string& xml);
 #endif
 
 #endfor
@@ -103,6 +69,11 @@ void Initstructure.name(vector<structure.nameType>& values,
 #endfile
 ##################################################
 #file ../shared/componentinterface/datatypes.cpp
+#include <boost/lexical_cast.hpp>
+#include <general/stl_functions.h>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+
 #include "DataTypes.h"
 #include "Component.h"
 #include "FORTRANComponentWrapper.h"
@@ -183,7 +154,43 @@ inline unsigned int memorySize(const Fstructure.nameType& data)
       #endif
    #endfor;
    }
-};
+void Initstructure.name(structure.nameType& data, const std::string& xml)
+   {
+   XMLDocument doc(xml, XMLDocument::xmlContents);
+   XMLNode::iterator childI = doc.documentElement();
+   #for_each structure.field
+   childI = std::find_if(doc.documentElement().begin(),
+                         doc.documentElement().end(),
+                         EqualToName<XMLNode>("field.name"));
+
+   #if (field.isArrayAndStructure = T)
+   // Don't know yet
+   #elseif (field.array = T)
+   StringToContainer<std::vector<field.ctype>, field.ctype> (childI->getValue(), data.field.name);
+
+   #elseif (field.isStructure = T)
+   // Don't know yet
+   #else
+   data.field.name = boost::lexical_cast<field.ctype> (childI->getValue());
+   #endif
+   #endfor
+   }
+   #if (structure.array = T)
+void Initstructure.name(std::vector<structure.nameType>& values, const std::string& xml)
+   {
+   XMLDocument doc(xml, XMLDocument::xmlContents);
+   for (XMLNode::iterator childI = doc.documentElement().begin();
+                          childI != doc.documentElement().end();
+                          childI++)
+      {
+      string childXml = childI->write();
+      structure.nameType data;
+      Initstructure.name(data, childXml);
+      values.push_back(data);
+      }
+   }
+   #endif
+}; // namespace protocol
    #if (structure.array = T)
 extern "C" __declspec(dllexport) void __stdcall publish_structure.name(unsigned* id, const protocol::Fstructure.nameType data[], unsigned* numValues)
    {
@@ -206,6 +213,7 @@ extern "C" __declspec(dllexport) void __stdcall unpack_structure.name(protocol::
    variant->unpack(*data);
    }
    #endif
+
 #endfor
 
 // restore the warnings about "Functions containing for are not expanded inline.
