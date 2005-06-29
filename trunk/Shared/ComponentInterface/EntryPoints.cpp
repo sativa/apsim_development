@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include <string>
-#include "Component.h"
+
+#include <ComponentInterface/Component.h>
 
 namespace protocol {
 // ------------------------------------------------------------------
