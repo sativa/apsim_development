@@ -7,6 +7,7 @@
 
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include <general/stl_functions.h>
 #include <general/TreeNodeIterator.h>
