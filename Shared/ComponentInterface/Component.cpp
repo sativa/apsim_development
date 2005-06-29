@@ -315,9 +315,17 @@ void Component::storeName(const FString& fqn, const FString& sdml)
 
    componentData = newApsimComponentData(sdml.f_str(), sdml.length());
    }
+
 // ------------------------------------------------------------------
 // add a registration to our internal list of registrations.
 // ------------------------------------------------------------------
+RegistrationItem* Component::addRegistrationToList(RegistrationType kind,
+                                                   const FString& name,
+                                                   const Type& type)
+{
+   return (addRegistrationToList(kind, name, type, FString("")));
+}
+                                                   
 RegistrationItem* Component::addRegistrationToList(RegistrationType kind,
                                                    const FString& name,
                                                    const Type& type,
@@ -331,6 +339,20 @@ RegistrationItem* Component::addRegistrationToList(RegistrationType kind,
 // ------------------------------------------------------------------
 // add a registration
 // ------------------------------------------------------------------
+unsigned Component::addRegistration(RegistrationType kind,
+                                    const FString& name,
+                                    const Type& type)
+{
+   return (addRegistration(kind, name, type, FString(""), FString("")));
+}
+
+unsigned Component::addRegistration(RegistrationType kind,
+                                    const FString& name,
+                                    const Type& type,
+                                    const FString& alias)
+{
+   return (addRegistration(kind, name, type, alias, FString("")));
+}
 unsigned Component::addRegistration(RegistrationType kind,
                                     const FString& regName,
                                     const Type& type,
