@@ -151,9 +151,16 @@ class __declspec(dllexport) Component
       // Add a registration.
       unsigned addRegistration(RegistrationType kind,
                                const FString& name,
+                               const Type& type);
+      unsigned addRegistration(RegistrationType kind,
+                               const FString& name,
                                const Type& type,
-                               const FString& alias = "",
-                               const FString& componentNameOrID = "");
+                               const FString& alias);
+      unsigned addRegistration(RegistrationType kind,
+                               const FString& name,
+                               const Type& type,
+                               const FString& alias,
+                               const FString& componentNameOrID);
       void deleteRegistration(RegistrationType kind,
                               unsigned int regID);
 
@@ -288,8 +295,11 @@ class __declspec(dllexport) Component
          }
       RegistrationItem* addRegistrationToList(RegistrationType kind,
                                               const FString& name,
+                                              const Type& type);
+      RegistrationItem* addRegistrationToList(RegistrationType kind,
+                                              const FString& name,
                                               const Type& type,
-                                              const FString& componentNameOrID = "");
+                                              const FString& componentNameOrID);
       Type getRegistrationType(unsigned int regID);
       const char *getRegistrationName(unsigned int regID);
       unsigned getRegistrationID(const RegistrationType& type, const FString& eventName);
