@@ -1,15 +1,15 @@
 #include <fstream>
 #include <stdexcept>
-
 #include <process.h>
-#include <general/path.h>
-#include <general/http.h>
+#include <string>
 
 #include <boost/date_time/gregorian/gregorian.hpp>
 
-#include <ApsimShared/fstringext.h>
-#include <ApsimShared/ApsimDataFile.h>
+#include <general/string_functions.h>
+#include <general/path.h>
+#include <general/http.h>
 
+#include <ApsimShared/ApsimDataFile.h>
 #include <ComponentInterface/Component.h>
 
 #include <StringVariant.h>
@@ -32,7 +32,7 @@ protocol::Component* createComponent(void)
 SiloInputComponent::SiloInputComponent(void)
    {
    unsigned int pid = getpid();
-   fileName = Path::getTempFolder().Get_path() + "/temp" + itoa(pid) + ".met";
+   fileName = Path::getTempFolder().Get_path() + string("/temp") + itoa(pid) + string(".met");
    stationNumber = 0;
    }
 // ------------------------------------------------------------------
