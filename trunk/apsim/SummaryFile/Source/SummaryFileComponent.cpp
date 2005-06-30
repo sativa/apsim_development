@@ -1,7 +1,3 @@
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-
 #include <sstream>
 #include <iomanip>
 #include <fstream>
@@ -99,7 +95,7 @@ void SummaryFileComponent::doInit1(const FString& sdml)
        out.open(fileName.c_str());
        if (!out)
           {
-          string msg = "Cannot open summary file: '" + fileName + "'";
+          string msg = "Cannot open summary file: " + fileName;
           throw std::runtime_error(msg);
           }
 
@@ -115,6 +111,7 @@ void SummaryFileComponent::doInit1(const FString& sdml)
 void SummaryFileComponent::doInit2(void)
    {
    writeInfo();
+   if (!out) terminateSimulation(); // If open() failed earlier, stop now. 
    }
 // ------------------------------------------------------------------
 // write all simulation information to summary file.
@@ -210,6 +207,8 @@ void SummaryFileComponent::respondToEvent(unsigned int& fromID, unsigned int& ev
 // ------------------------------------------------------------------
 void SummaryFileComponent::writeLine(const FString& componentName, const FString& lines)
    {
+   if (!out) return;
+   
    static string previousComponentName;
    unsigned indentation = 5;
    if (!inDiaryState)
