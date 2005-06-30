@@ -36,7 +36,7 @@ void __fastcall TDirectory_select_form::FormShow(TObject *Sender)
    settings.readSection(DATASETS_SECTION, Contents);
    Split_string (Contents, "\n", DatasetLines);
 
-   RemoveSubStringAndStore< vector<string> > RemoveEquals("=", DatasetNames);
+   RemoveSuffix< vector<string> > RemoveEquals("=", DatasetNames);
    std::for_each (DatasetLines.begin(), DatasetLines.end(), RemoveEquals);
 
   // DatasetNames.push_back("Whopper Cropper Demo");

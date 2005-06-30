@@ -15,6 +15,7 @@ USEFORM("POPUPFORMUNIT.cpp", PopupForm);
 USEFORM("TValueSelectPopup.cpp", ValueSelectPopup);
 USEFORM("TOutlookSplashForm.cpp", OutlookSplashForm);
 USEFORM("TScenarioSelectForm.cpp", ScenarioSelectForm);
+USEFORM("TStatsForm.cpp", StatsForm);
 //---------------------------------------------------------------------------
 AnsiString CommandLine;
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
@@ -36,6 +37,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
        Application->CreateForm(__classid(TPreferences_form), &Preferences_form);
        Application->CreateForm(__classid(TOutlookSplashForm), &OutlookSplashForm);
        Application->CreateForm(__classid(TScenarioSelectForm), &ScenarioSelectForm);
+       Application->CreateForm(__classid(TStatsForm), &StatsForm);
        Application->Run();
    }
    catch (Exception &exception)

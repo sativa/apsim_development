@@ -80,6 +80,8 @@ __published:
    TImage *LogoImage;
    TToolButton *NoChartButton;
    TToolButton *CalendarButton;
+   TToolButton *ToolButton6;
+   TToolButton *StatsButton;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Window_cascade(TObject *Sender);
 	void __fastcall UpdateMenuItems(TObject *Sender);

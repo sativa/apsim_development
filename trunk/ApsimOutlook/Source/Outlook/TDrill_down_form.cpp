@@ -348,11 +348,25 @@ void __fastcall TDrill_down_form::Rename1Click(TObject *Sender)
    ScenarioTree->Selected->EditText();
 }
 //---------------------------------------------------------------------------
-void __fastcall TDrill_down_form::SaveLabelClick(TObject *Sender)
+void GetListOfScenarios(vector<string>& saved)
    {
    ApsimSettings settings;
+   vector<string> sections;
+   settings.getSectionNames(sections);
+
+   // Remove all sections that don't start with "Outlook Scenario "
+   vector<string> scenarioStrings;
+   for_each(sections.begin(), sections.end(),
+            MatchPartialStringAndStore<vector<string> >("Outlook Scenario ", scenarioStrings));
+
+   for_each(scenarioStrings.begin(), scenarioStrings.end(),
+            RemoveSubStringAndStore<vector<string> >("Outlook Scenario ", saved));
+   }
+//---------------------------------------------------------------------------
+void __fastcall TDrill_down_form::SaveLabelClick(TObject *Sender)
+   {
    vector<string> saved;
-   settings.read("Outlook Saved Scenarios|saved", saved);
+   GetListOfScenarios(saved);
    AnsiString value;
    if (InputQuery("Save name", "Save scenarios under what name?", value))
       {
@@ -364,31 +378,17 @@ void __fastcall TDrill_down_form::SaveLabelClick(TObject *Sender)
          }
       else
          doSave = (MessageDlg("Overwrite existing scenario set?", mtConfirmation,
-                              TMsgDlgButtons() << mbYes << mbNo, 0) == mbYes);
+                              TMsgDlgButtons() << mbYes << mbNo, 0) == mrYes);
 
       if (doSave)
-         {
          scenarios->save(value.c_str());
-         settings.write("Outlook Saved Scenarios|saved", saved);
-         }
       }
    }
 //---------------------------------------------------------------------------
 void __fastcall TDrill_down_form::RestoreLabelClick(TObject *Sender)
    {
-   ApsimSettings settings;
-   vector<string> sections;
-   settings.getSectionNames(sections);
-
-   // Remove all sections that don't start with "Outlook Scenario "
-   vector<string> scenarioStrings;
-   for_each(sections.begin(), sections.end(),
-            MatchPartialStringAndStore<vector<string> >("Outlook Scenario ", scenarioStrings));
-
    vector<string> saved;
-   for_each(scenarioStrings.begin(), scenarioStrings.end(),
-            RemoveSubStringAndStore<vector<string> >("Outlook Scenario ", saved));
-
+   GetListOfScenarios(saved);
    Stl_2_tstrings(saved, ScenarioSelectForm->ScenarioList->Items);
    if (ScenarioSelectForm->ShowModal())
       {

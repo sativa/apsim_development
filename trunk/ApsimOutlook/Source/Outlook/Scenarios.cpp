@@ -360,6 +360,7 @@ void Scenarios::save(const string& name)
                                           scenario++)
       scenarioStates.push_back(scenario->getState());
    settings.write("Outlook Scenario " + name + "|scenario", scenarioStates);
+   settings.refresh();
    }
 //---------------------------------------------------------------------------
 // restore the previously saved state from the .ini file.

@@ -6,6 +6,7 @@
 #include "ApsimNC.h"
 #include "netcdfcpp.h"
 #include "TCSV.h"
+
                                              
 //---------------------------------------------------------------------------
 
@@ -21,6 +22,7 @@
 __fastcall ApsimNC::ApsimNC(TStringList *_Factors, TStringList **_Levels,
             TStringList *_Traits, String NCFileName)
    {
+   locked = false;
    //Set all globals to NULL
    nc = NULL;
    Factors = NULL;
@@ -48,6 +50,7 @@ __fastcall ApsimNC::ApsimNC(TStringList *_Factors, TStringList **_Levels,
 //---------------------------------------------------------------------------
 __fastcall ApsimNC::ApsimNC(String NCFileName, bool ReadOnly)
    {
+   locked = false;
    //Set all globals to NULL
    nc = NULL;
    Factors = NULL;
@@ -56,7 +59,7 @@ __fastcall ApsimNC::ApsimNC(String NCFileName, bool ReadOnly)
 
    //Set up globals
    CurrentNCFile = NCFileName;
-   if(ReadOnly)
+  if(ReadOnly)
       {
       nc = new NcFile(CurrentNCFile.c_str(), NcFile::ReadOnly);
       }
@@ -64,7 +67,6 @@ __fastcall ApsimNC::ApsimNC(String NCFileName, bool ReadOnly)
       {
       nc = new NcFile(CurrentNCFile.c_str(), NcFile::Write);
       }
-
 
    if(!nc->is_valid())
       {
@@ -176,9 +178,8 @@ bool __fastcall ApsimNC::AddFile(String ApsFileName, String YearTrait)
       delete []Data;
       return false;
       }
-
+  
    NcVar **ncvar = new NcVar *[Traits->Count];
-
    //Put data into nc
    for(int i = 0; i < Traits->Count; i++)
       {
@@ -186,9 +187,19 @@ bool __fastcall ApsimNC::AddFile(String ApsFileName, String YearTrait)
       ncvar[i]->set_cur(Coords);
       ncvar[i]->put(Data[i],Size);
       }
+   //Seems to need to change off of the last variable for it to stick.
+   //So this just redoes the first one
+   ncvar[0] = nc->get_var(Traits->Strings[0].c_str());
+   ncvar[0]->set_cur(Coords);
+   ncvar[0]->put(Data[0],Size);
+
 
    //Free memory
    delete ApsFile;
+   for(int i = 0; i < Traits->Count; i++)
+      {
+      //delete ncvar[i];
+      }
    delete []ncvar;
    delete []Coords;
    delete []Size;
@@ -197,7 +208,6 @@ bool __fastcall ApsimNC::AddFile(String ApsFileName, String YearTrait)
       delete []Data[i];
       }
    delete []Data;
-
    return true;
    }
 //---------------------------------------------------------------------------
@@ -231,6 +241,11 @@ int __fastcall ApsimNC::NumSites(void)
    {
    //Find the position of the 'site' factor in Factors
    int SitePos = FindStringInTSL(Factors, "site");
+   if(SitePos == -1)
+      {
+      //Try region
+      SitePos = FindStringInTSL(Factors, "region");
+      }
 
    return Levels[SitePos]->Count;
    }
@@ -285,12 +300,14 @@ bool __fastcall ApsimNC::CheckFirstDone(TStringList *Levs)
    if(Data[0] == NC_FILL_FLOAT)
       {
       //Free memory
+//      delete Var;
       delete [] Data;
       delete [] Coords;
       delete [] Size;
       return false;
       }
    //Free memory
+//   delete Var;
    delete [] Data;
    delete [] Coords;
    delete [] Size;
@@ -308,6 +325,11 @@ bool __fastcall ApsimNC::GetSiteList(TStringList *Sites)
    //Get the position of the 'site' factor in Factors
    int SitePos = FindStringInTSL(Factors, "site");
 
+   if(SitePos == -1)
+      {
+      //Try region
+      SitePos = FindStringInTSL(Factors, "region");
+      }
    if(SitePos == -1)
       {
       return false;
@@ -336,6 +358,12 @@ bool __fastcall ApsimNC::CheckAllDone(TStringList *Levs)
    int SitePos =                            //Holds the position of the factor
          FindStringInTSL(Factors, "site");  //'site' within the site list
 
+   if(SitePos == -1)
+      {
+      //Try region
+      SitePos = FindStringInTSL(Factors, "region");
+      }
+
    //Create dynamic mem
    Coords = new long[NumFactors()];
    Size = new long[NumFactors()];
@@ -355,11 +383,11 @@ bool __fastcall ApsimNC::CheckAllDone(TStringList *Levs)
       Coords[SitePos] = i;
       Var->set_cur(Coords);
       Var->get(Data, Size);
-
       //Check it
       if(Data[0] == NC_FILL_FLOAT)
          {
          //Free memory
+//         delete Var;
          delete [] Data;
          delete [] Coords;
          delete [] Size;
@@ -367,6 +395,7 @@ bool __fastcall ApsimNC::CheckAllDone(TStringList *Levs)
          }
       }
    //Free memory
+//   delete Var;
    delete [] Data;
    delete [] Coords;
    delete [] Size;
@@ -388,6 +417,11 @@ bool __fastcall ApsimNC::GetAllData(TStringList *Facs, String Trait, float **Dat
                                                       //in the gloabal factors TSL
    int SitePos = FindStringInTSL(Factors, "site");    //The position of the year factor
                                                       //in the gloabal factors TSL
+   if(SitePos == -1)
+      {
+      //Try region
+      SitePos = FindStringInTSL(Factors, "region");
+      }
    int VarSitePos;                                    //The position of where the
                                                       //site factor in the current Facs TSL would be.
    TStringList *TSL = new TStringList;                //A construction TSL
@@ -439,11 +473,16 @@ bool __fastcall ApsimNC::GetSiteData(TStringList *Facs, String Trait, float *Dat
 
    GetFactorCoords(Facs, Coords, Size);
 
-   NcVar *Var = nc->get_var(Trait.c_str());
+   int TraitPos = FindStringInTSL(Traits, Trait);
+
+//   NcVar *Var = nc->get_var(Trait.c_str());
+   NcVar *Var = nc->get_var(TraitPos + Factors->Count);
+
    Var->set_cur(Coords);
    Var->get(Data, Size);
 
    //Free memory
+//   delete Var;
    delete []Coords;
    delete []Size;
 
@@ -497,7 +536,7 @@ void __fastcall ApsimNC::SetAttributes(TStringList *_Factors, TStringList **_Lev
       Levels[i] = new TStringList;
       Levels[i]->Assign(_Levels[i]);
       }
-   Traits = new TStringList;
+   Traits = new TCSV;
    Traits->Assign(_Traits);
    }
 //---------------------------------------------------------------------------
@@ -508,7 +547,12 @@ void __fastcall ApsimNC::SetAttributes(TStringList *_Factors, TStringList **_Lev
 //---------------------------------------------------------------------------
 String __fastcall ApsimNC::CreateListString(TStringList *List)
    {
-   return List->CommaText;
+   TCSV *Temp = new TCSV;
+   String Out;
+   Temp->Assign(List);
+   Out = Temp->CommaText;
+   delete Temp;
+   return Out;
 
    /*//Local Vars
    int i;
@@ -530,7 +574,7 @@ String __fastcall ApsimNC::CreateListString(TStringList *List)
 //Changes:
 //    AJD 10/8/2003 created
 //---------------------------------------------------------------------------
-void __fastcall ApsimNC::FreeMem()
+void __fastcall ApsimNC::FreeMem(void)
    {
    //Free memory
    if(nc)
@@ -539,15 +583,19 @@ void __fastcall ApsimNC::FreeMem()
       delete nc;
       nc = NULL;
       }
+   if(Levels)
+      {
+      for(int i = 0; i < Factors->Count; i++)
+         {
+         delete Levels[i];
+         }
+      delete []Levels;
+      Levels = NULL;
+      }
    if(Factors)
       {
       delete Factors;
       Factors = NULL;
-      }
-   if(Levels)
-      {
-      delete []Levels;
-      Levels = NULL;
       }
    if(Traits)
       {
@@ -626,6 +674,7 @@ bool __fastcall ApsimNC::ExtractApsData(TStringList *File, String FileName, floa
          if(TraitCoords[j] > -1)
             {
             //Fill Data if the current file trait is include in the global traits list
+
             int Index = int(Line->Strings[YearTraitPos].ToDouble()) -
                      int(Levels[YearPos]->Strings[0].ToDouble());
             Data[TraitCoords[j]][Index] = float(Line->Strings[j].ToDouble());
@@ -651,7 +700,11 @@ bool __fastcall ApsimNC::GetFactorCoords(TStringList *Levs, long *Coords, long *
          FindStringInTSL(Factors, "year");       //in the Factor TSL
    int SitePos =                                 //The position of the site factor
          FindStringInTSL(Factors, "site");       //in the Factor TSL
-
+   if(SitePos == -1)
+      {
+      //Try region
+      SitePos = FindStringInTSL(Factors, "region");
+      }
    int LevelPos = 0;                             //The current position int the TSL Levs
 
    //Initialise the coords for later checking
@@ -808,60 +861,25 @@ String __fastcall ApsimNC::GetTitle(TStringList *File, String FileName)
 void __fastcall ApsimNC::ParseTitle(String Title, TStringList *Facs, TStringList *Levs)
    {
 
-   //TStringList *Params = new TStringList;
-   TCSV *Params = new TCSV;
-
-   //If title ends in ";" get rid of it
-   if(*Title.AnsiLastChar() == ';')
+  // get rid of all spaces
+   while(Title.Pos(" "))Title = StringReplace(Title," ","",TReplaceFlags() << rfReplaceAll);
+   // get rid of Title=
+   Title = StringReplace(Title,"Title=","",TReplaceFlags() << rfReplaceAll);
+   // change all = and ; to commas
+   Title = StringReplace(Title,"=",",",TReplaceFlags() << rfReplaceAll);
+   Title = StringReplace(Title,";",",",TReplaceFlags() << rfReplaceAll);
+   //
+   if(*Title.AnsiLastChar() == ',')Title.SetLength(Title.Length()-1);
+   TStringList *TSL = new TStringList;
+   TSL->CommaText = Title;
+   // break into pairs
+   for(int i=0;i < TSL->Count;i+=2)
       {
-      Title.SetLength(Title.Length() - 1);
+      Facs->Add(TSL->Strings[i]);
+      Levs->Add(TSL->Strings[i+1]);
       }
 
-   //Replace characters ' ; ' with ','
-   Title = StringReplace(Title, " ; ", "," , TReplaceFlags() << rfReplaceAll);
-
-   //Replace characters '; ' with ','
-   Title = StringReplace(Title, "; ", "," , TReplaceFlags() << rfReplaceAll);
-
-   //Replace characters ';' with ','
-   Title = StringReplace(Title, " ;", "," , TReplaceFlags() << rfReplaceAll);
-
-   //Replace characters ' = ' with ','
-   Title = StringReplace(Title, " = ", "=" , TReplaceFlags() << rfReplaceAll);
-
-   //Replace characters '= ' with ','
-   Title = StringReplace(Title, "= ", "=" , TReplaceFlags() << rfReplaceAll);
-
-   //Replace characters ' =' with ','
-   Title = StringReplace(Title, " =", "=" , TReplaceFlags() << rfReplaceAll);
-
-   //Find the position of the first '='; Should be of the form Title= .....
-   int pos = Title.Pos("=");
-
-   //Get rid of the string 'Title='. This will leave Title as name=value
-   //pairs for the factors of the simulation
-   Title = Title.SubString((pos + 1), Title.Length() - pos).Trim();
-
-   //Set the CommaText for the StringList
-   Params->CommaText = Title;
-
-   Facs->Clear();
-   if(Levs)
-      {
-      Levs->Clear();
-      }
-   //Extract factors and levels
-   for(int i = 0; i < Params->Count; i++)
-      {
-      Facs->Add(Params->Names[i]);
-      if(Levs)
-         {
-         Levs->Add(Params->Values[Params->Names[i]]);
-         }
-      }
-
-   //Free Memory
-   delete Params;
+   delete TSL;
 
    }
 //---------------------------------------------------------------------------
@@ -954,11 +972,19 @@ bool __fastcall ApsimNC::GetFileAttributes()
 
    //Get the factor list
    NcAtt *Att = nc->get_att("FactorList");
-   FileFactors->CommaText = String(Att->as_string(0));
+   char *AttString = Att->as_string(0);
+   FileFactors->CommaText = String(AttString);
+
+   delete Att;
+   delete []AttString;
 
    //Get the trait list
    Att = nc->get_att("TraitList");
-   FileTraits->CommaText = String(Att->as_string(0));
+   AttString = Att->as_string(0);
+   FileTraits->CommaText = String(AttString);
+
+   delete Att;
+   delete []AttString;
 
 
 
@@ -974,14 +1000,19 @@ bool __fastcall ApsimNC::GetFileAttributes()
       {
       NcVar *Var = nc->get_var(FileFactors->Strings[i].c_str());
       NcAtt *VarAtt = Var->get_att("LevelList");
-      FileLevels[i]->CommaText = String(VarAtt->as_string(0));
+      char *VarString = VarAtt->as_string(0);
+      FileLevels[i]->CommaText = String(VarString);
+
+      delete VarAtt;
+      delete []VarString;
+//      delete Var;
       }
 
    //Set up the global TSL's
    Factors = new TStringList;
    Factors->Assign(FileFactors);
 
-   Traits = new TStringList;
+   Traits = new TCSV;
    Traits->Assign(FileTraits);
 
    //Set up Levels
@@ -993,6 +1024,10 @@ bool __fastcall ApsimNC::GetFileAttributes()
       }
 
    //Free Memory
+   for(int i = 0; i < FileFactors->Count; i++)
+      {
+      delete FileLevels[i];
+      }
    delete FileFactors;
    delete FileTraits;
    delete []FileLevels;
@@ -1076,6 +1111,18 @@ bool __fastcall ApsimNC::Create(void)
    nc = new NcFile(CurrentNCFile.c_str(), NcFile::Write);
 
    //Free memory
+   for(int i = 0; i < Factors->Count; i++)
+      {
+      //delete Dims[i];  //Netcdf takes care of dims made with add_dim
+      }
+   for(int i = 0; i < Factors->Count; i++)
+      {
+      //delete CVars[i];  //Netcdf takes care of vars made with add_var
+      }
+   for(int i = 0; i < Traits->Count; i++)
+      {
+      //delete DVars[i];  //Netcdf takes care of vars made with add_var
+      }
    delete []Dims;
    delete []CVars;
    delete []DVars;
@@ -1152,4 +1199,59 @@ bool __fastcall ApsimNC::CheckScenario(TStringList *CheckFacs, TStringList *Chec
 
    //if it gets to here
    return true;
+   }
+
+//---------------------------------------------------------------------------
+//Description: Synchronises the Nfile* to physical disk file
+//Notes:
+//Changes:
+//    AJD 18/6/2004 created
+//---------------------------------------------------------------------------
+
+bool __fastcall ApsimNC::Synchronise(void)
+   {
+   bool Test = nc->sync();
+   if(Test)
+      {
+      return true;
+      }
+   return false;
+   }
+
+
+//---------------------------------------------------------------------------
+//Description: Kills the current ncfile and rereads the physical file from disk
+//Notes:
+//Changes:
+//    AJD 10/8/2003 created
+//---------------------------------------------------------------------------
+
+bool __fastcall ApsimNC::Refresh(void)
+   {
+   //Delete all memory
+   FreeMem();
+   //Create the new pointer
+   nc = new NcFile(CurrentNCFile.c_str(), NcFile::Write);
+
+   if(!nc->is_valid())
+      {
+      FreeMem();
+      MessageDlg("Error opening NetCDF file '" + CurrentNCFile + "'",
+         mtError, System::Set<TMsgDlgBtn,mbYes,mbHelp> () << mbOK, NULL);
+      return false;
+      }
+   else
+      {
+      GetFileAttributes();
+      }
+   return true;
+   }
+//---------------------------------------------------------------------------
+//
+//---------------------------------------------------------------------------
+void ApsimNC::SetTraits(TStringList *_Traits)
+   {
+   NcAtt *TraitList = nc->get_att("TraitList");
+   TraitList->remove();
+   nc->add_att("TraitList", CreateListString(_Traits).c_str());
    }
