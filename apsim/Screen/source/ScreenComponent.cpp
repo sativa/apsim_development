@@ -117,8 +117,13 @@ void ScreenComponent::doInit1(const FString& sdml)
    externalErrorID = addRegistration(RegistrationType::respondToEvent, "error", "");
    startDateID = addRegistration(RegistrationType::get, "simulation_start_date", doubleDDML);
    endDateID = addRegistration(RegistrationType::get, "simulation_end_date", doubleDDML);
+   screenOutput = false;
+   summaryFileWriteID = 0;
+   }
 
-   screenOutput = Str_i_Eq(componentData->getProperty("parameters", "screen_output"), "on");
+void ScreenComponent::doInit2(void)
+   {
+   screenOutput = Str_i_Eq(readParameter("parameters", "screen_output"), "on");
    if (screenOutput)
       {
 //      ScreenForm->Height = 466;
