@@ -92,16 +92,22 @@ void SummaryFileComponent::doInit1(const FString& sdml)
    titleID = addRegistration(RegistrationType::get, "title", stringDDML);
    componentsID = addRegistration(RegistrationType::get, "components", stringArrayDDML);
 
-   // read in and open our file.
-   fileName = componentData->getProperty("parameters", "summaryfile");
-   out.open(fileName.c_str());
-   if (!out)
-      {
-      string msg = "Cannot open summary file: " + fileName;
-      ::MessageBox(NULL, msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
-      }
-   else
-      writeBanner();
+   // read in and open our file. Extra care taken during init1.
+   try {
+       fileName = readParameter("parameters", "summaryfile");
+
+       out.open(fileName.c_str());
+       if (!out)
+          {
+          string msg = "Cannot open summary file: '" + fileName + "'";
+          throw std::runtime_error(msg);
+          }
+
+       writeBanner();
+   } catch (const std::exception &e)
+       {
+       ::MessageBox(NULL, e.what(), "Error", MB_ICONSTOP | MB_OK);
+       }
    }
 // ------------------------------------------------------------------
 // do INIT2 stuff.
