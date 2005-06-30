@@ -25,7 +25,7 @@ INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
 LIBPATH = $(SYSLIBPATH)
 
 ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJECTS)
-ALLLIB = $(LIBFILES) import32.lib cp32mti.lib
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cp32mti.lib
 
 # ---------------------------------------------------------------------------
 CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
