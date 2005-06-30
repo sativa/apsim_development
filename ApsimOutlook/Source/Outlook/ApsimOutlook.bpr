@@ -7,21 +7,23 @@
     <OBJFILES value="ApsimOutlook.obj about.obj childwin.obj main.obj TChartSettingsForm.obj 
       TDrill_down_form.obj TPreferences_form.obj tskin.obj Scenarios.obj 
       factor.obj scenario.obj addin.obj ToolBarAddIn.obj POPUPFORMUNIT.obj 
-      TValueSelectPopup.obj TOutlookSplashForm.obj TScenarioSelectForm.obj"/>
+      TValueSelectPopup.obj TOutlookSplashForm.obj TScenarioSelectForm.obj 
+      TStatsForm.obj"/>
     <RESFILES value="ApsimOutlook.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) about.dfm childwin.dfm main.dfm TChartSettingsForm.dfm 
       TDrill_down_form.dfm TPreferences_form.dfm POPUPFORMUNIT.dfm 
-      TValueSelectPopup.dfm TOutlookSplashForm.dfm TScenarioSelectForm.dfm"/>
+      TValueSelectPopup.dfm TOutlookSplashForm.dfm TScenarioSelectForm.dfm 
+      TStatsForm.dfm"/>
     <LIBFILES value="..\..\..\Shared\general\general.lib 
       ..\..\..\Shared\ApsimShared\ApsimShared.lib 
       ..\..\..\Shared\general\general_vcl.lib 
-      ..\..\..\Shared\GrossMarginCalculator\GrossMarginCalculator.lib"/>
+      ..\..\..\Shared\GrossMarginCalculator\GrossMarginCalculator.lib &quot;C:\Program Files\Borland\CBuilder6\Components\goose-0.0.11\src\Goose.lib&quot;"/>
     <LIBRARIES value="VclSmp.lib APSGeneral.lib bcbsmp.lib kbmMemC6Run.lib TMSC6.lib adortl.lib 
       thirdparty.lib APSData.lib"/>
     <SPARELIBS value="rtl.lib vcl.lib vclx.lib bdertl.lib dbrtl.lib vcldb.lib APSData.lib 
       thirdparty.lib adortl.lib TMSC6.lib kbmMemC6Run.lib bcbsmp.lib 
-      APSGeneral.lib Tee7C6.lib VclSmp.lib TeeUI7C6.lib"/>
+      APSGeneral.lib Tee7C6.lib VclSmp.lib TeeUI7C6.lib TeePro7C6.lib"/>
     <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi dbrtl.bpi vcldb.bpi bdertl.bpi ibsmp.bpi 
       vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi 
       dclocx.bpi bcb97axserver.bpi TeeDB7C6.bpi Tee7C6.bpi TeeUI7C6.bpi 
@@ -36,8 +38,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="ApsimOutlook.cpp"/>
-    <INCLUDEPATH value="..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(BCB)\components\teechart\cbuilder6\include;$(SHARED);$(SHARED)\components\data"/>
-    <LIBPATH value="$(BCB)\Components\TeeChart\CBuilder6\Lib;..;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\lib\debug;$(BCB)\components\thirdparty;$(BCB)\components\tms;$(BCB)\components\memtable"/>
+    <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(BCB)\components\teechart\cbuilder6\include;$(SHARED);$(SHARED)\components\data;$(BCB)\components\goose-0.0.11;$(BCB)\components\goose-0.0.11\src\containers;$(BCB)\components\goose-0.0.11\src\util;$(BCB)\components\goose-0.0.11\src\stats;$(BCB)\components\goose-0.0.11\src\specfns"/>
+    <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;$(BCB)\Components\TeeChart\CBuilder6\Lib;..;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\lib\debug;$(BCB)\components\thirdparty;$(BCB)\components\tms;$(BCB)\components\memtable"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -80,6 +82,8 @@
       <FILE FILENAME="TScenarioSelectForm.cpp" FORMNAME="ScenarioSelectForm" UNITNAME="TScenarioSelectForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\GrossMarginCalculator\GrossMarginCalculator.lib" FORMNAME="" UNITNAME="GrossMarginCalculator.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\goose-0.0.11\src\Goose.lib" FORMNAME="" UNITNAME="Goose.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TStatsForm.cpp" FORMNAME="StatsForm" UNITNAME="TStatsForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -112,25 +116,35 @@ ProductName=Apsim Outlook
 ProductVersion=1.2
 Comments=Build date: 4 July
 
+[Excluded Packages]
+D:\development\Bin\APSData.bpl=APSuite data components
+C:\Program Files\Borland\CBuilder6\Components\TeeChart\source\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
+C:\Program Files\Borland\CBuilder6\Components\MemTable\kbmMemC6Des.bpl=kbmMemC6Des
+
 [HistoryLists\hlIncludePath]
-Count=17
-Item0=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(BCB)\components\teechart\cbuilder6\include;$(SHARED);$(SHARED)\components\data
-Item1=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
-Item2=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
-Item3=..\;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
-Item4=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
-Item5=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
-Item6=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(SHARED);$(SHARED)\components\data
-Item7=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\thirdparty;$(SHARED);$(SHARED)\components\data
-Item8=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
-Item9=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item10=C:\PROGRAM FILES\BORLAND\CBUILDER5\PROJECTS\CPPBUILDERJOURNAL-MAY2001\POPUPCONTROLS\;..\..\..\3rdparty\tms;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;k:\;K:\general\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
-Item11=C:\PROGRAM FILES\BORLAND\CBUILDER5\PROJECTS\CPPBUILDERJOURNAL-MAY2001\POPUPCONTROLS;..\..\..\3rdparty\tms;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl;k:\;K:\general\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
-Item12=$(BCB)\include;$(BCB)\include\vcl;k:\;K:\general\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
-Item13=c:\program files\borland\components\thirdparty;K:\general\;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
-Item14=K:\general\;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
-Item15=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\
-Item16=C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl
+Count=22
+Item0=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(BCB)\components\teechart\cbuilder6\include;$(SHARED);$(SHARED)\components\data;$(BCB)\components\goose-0.0.11;$(BCB)\components\goose-0.0.11\src\containers;$(BCB)\components\goose-0.0.11\src\util;$(BCB)\components\goose-0.0.11\src\stats;$(BCB)\components\goose-0.0.11\src\specfns
+Item1=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(BCB)\components\teechart\cbuilder6\include;$(SHARED);$(SHARED)\components\data;$(BCB)\components\goose-0.0.11;$(BCB)\components\goose-0.0.11\src\containers;$(BCB)\components\goose-0.0.11\src\util;$(BCB)\components\goose-0.0.11\src\stats
+Item2=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(BCB)\components\teechart\cbuilder6\include;$(SHARED);$(SHARED)\components\data;$(BCB)\components\goose-0.0.11;$(BCB)\components\goose-0.0.11\src\containers
+Item3=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(BCB)\components\teechart\cbuilder6\include;$(SHARED);$(SHARED)\components\data;$(BCB)\components\goose-0.0.11
+Item4=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(BCB)\components\teechart\cbuilder6\include;$(SHARED);$(SHARED)\components\data;..$(BCB)\components\goose-0.0.11
+Item5=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(BCB)\components\teechart\cbuilder6\include;$(SHARED);$(SHARED)\components\data
+Item6=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item7=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item8=..\;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item9=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item10=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data
+Item11=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(SHARED);$(SHARED)\components\data
+Item12=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\thirdparty;$(SHARED);$(SHARED)\components\data
+Item13=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
+Item14=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item15=C:\PROGRAM FILES\BORLAND\CBUILDER5\PROJECTS\CPPBUILDERJOURNAL-MAY2001\POPUPCONTROLS\;..\..\..\3rdparty\tms;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;k:\;K:\general\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item16=C:\PROGRAM FILES\BORLAND\CBUILDER5\PROJECTS\CPPBUILDERJOURNAL-MAY2001\POPUPCONTROLS;..\..\..\3rdparty\tms;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl;k:\;K:\general\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item17=$(BCB)\include;$(BCB)\include\vcl;k:\;K:\general\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item18=c:\program files\borland\components\thirdparty;K:\general\;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item19=K:\general\;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item20=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\
+Item21=C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=22

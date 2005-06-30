@@ -526,7 +526,7 @@ class RemoveSuffix : public std::unary_function<std::string, void>
    {
    private:
       CT& container;
-      const std::string& delimiter;
+      std::string delimiter;
    public:
       RemoveSuffix(const std::string& d, CT& c)
          : delimiter(d), container(c) {}
@@ -540,6 +540,28 @@ class RemoveSuffix : public std::unary_function<std::string, void>
          }
    };
 //---------------------------------------------------------------------------
+// functor to remove all characters, preceeding and including a delimiter, from a string
+// and store in a return container.
+//---------------------------------------------------------------------------
+template <class CT>
+class RemovePrefix : public std::unary_function<std::string, void>
+   {
+   private:
+      CT& container;
+      std::string delimiter;
+   public:
+      RemovePrefix(const std::string& d, CT& c)
+         : delimiter(d), container(c) {}
+      void operator() (const std::string& st)
+         {
+         unsigned posDelimiter = st.find(delimiter);
+         if (posDelimiter != std::string::npos)
+            container.push_back(st.substr(posDelimiter+1));
+         else
+            container.push_back(st);
+         }
+   };
+//---------------------------------------------------------------------------
 // functor to remove a specified substring from a string and store in
 // a new container.
 //---------------------------------------------------------------------------
@@ -548,7 +570,7 @@ class RemoveSubStringAndStore : public std::unary_function<std::string, void>
    {
    private:
       CT& container;
-      const std::string& subString;
+      const std::string subString;
    public:
       RemoveSubStringAndStore(const std::string& subSt, CT& c)
          : subString(subSt), container(c) {}

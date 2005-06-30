@@ -219,6 +219,12 @@ void WhopEcon::doCalculations(TAPSTable& data, const Scenario& scenario)
                      float nitrogenRate = 0.0;
                      if (!cropFields.getCropValue(*record, "NRate", *cropAcronymI, nitrogenRate))
                         addWarning("Cannot find a nitrogen rate column for crop: " + cropName);
+
+                     // look for an optional second nrate and if found, add it to first rate.
+                     float nitrogenRate2 = 0.0;
+                     if (cropFields.getCropValue(*record, "NRate2", *cropAcronymI, nitrogenRate2))
+                        nitrogenRate += nitrogenRate2;
+
                      float plantingRate = 0.0;
                      if (!cropFields.getCropValue(*record, "PlantRate", *cropAcronymI, plantingRate))
                         addWarning("Cannot find a planting rate column for crop: " + cropName);

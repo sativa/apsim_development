@@ -34,6 +34,7 @@
 #include "AdvGrid.hpp"
 #include "BaseGrid.hpp"
 #include "dbadvgrd.hpp"
+#include "DBAdvGrd.hpp"
 #include <ApsimShared\ApsimSettings.h>
 
 class AddInEventMap;  // see bottom of page for class definition
@@ -75,6 +76,8 @@ __published:
    TAPSTable *working;
    TDBAdvStringGrid *Grid;
    TMenuItem *CopyScenarioMenu;
+   TMenuItem *N5;
+   TMenuItem *Stats1;
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall SelectSimulations(TObject *Sender);
    void __fastcall TimeSeriesChart(TObject *Sender);
@@ -94,11 +97,10 @@ __published:
    void __fastcall OptionsPreferences(TObject *Sender);
    void __fastcall FormShow(TObject *Sender);
    void __fastcall ChartsViewSettingsMenuClick(TObject *Sender);
-
-   void __fastcall FormResize(TObject *Sender);
    void __fastcall ChartsNoChartMenuClick(TObject *Sender);
    void __fastcall FormActivate(TObject *Sender);
    void __fastcall CopyScenarioMenuClick(TObject *Sender);
+   void __fastcall Stats1Click(TObject *Sender);
 private:
    bool Large_fonts;
    bool FirstTime;

@@ -250,16 +250,11 @@ bool CropFields::getCropValue(const TAPSRecord& record,
    string stringValue;
    if (getCropValue(record, fieldIdentifier, cropName, stringValue))
       {
-      try
-         {
-         value = StrToFloat(stringValue.c_str());
-         return true;
-         }
-      catch (Exception& error)
-         {
+      char* endptr;
+      value = strtod(stringValue.c_str(), &endptr);
+      if (endptr == stringValue.c_str())
          value = 0.0;
-         return true;
-         }
+      return true;
       }
    else
       return false;
