@@ -138,8 +138,8 @@ Public Class ChartHelper
 
         If Not IsNothing(_Chart) And Not IsNothing(_Grid) Then
             ' Get x and y values from grid.
-            Dim X() As Double = GridUtilities.DePopulateColumn(_Grid, XColumn)
-            Dim Y() As Double = GridUtilities.DePopulateColumn(_Grid, YColumn)
+            Dim X() As Double = GridUtils.GetColumnAsDoubles(_Grid, XColumn, 0)
+            Dim Y() As Double = GridUtils.GetColumnAsDoubles(_Grid, YColumn, 0)
             If X.Length <> Y.Length Then
                 Throw New System.Exception("The number of x and y values doesn't match in routine: CreateChartSeriesFromGrid")
             End If

@@ -5,8 +5,8 @@ Imports System.Collections.Specialized
 Public Class NewDocumentForm
     Inherits System.Windows.Forms.Form
     Protected SelectedData As APSIMData
-    Protected MyFile As New APSIMFile
-    Private UImanager As New UIManager
+    'Protected MyFile As New APSIMFile
+    Private UImanager As New UImanager(Nothing)
 #Region " Windows Form Designer generated code "
 
     Public Sub New()
@@ -16,7 +16,6 @@ Public Class NewDocumentForm
         InitializeComponent()
 
         'Add any initialization after the InitializeComponent() call
-        FillListView()
 
     End Sub
 
@@ -40,14 +39,14 @@ Public Class NewDocumentForm
     Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
     Friend WithEvents OKButton As System.Windows.Forms.Button
     Friend WithEvents CancelButton1 As System.Windows.Forms.Button
-    Friend WithEvents ListView As System.Windows.Forms.ListView
+    Friend WithEvents DataTree As VBGeneral.DataTree
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(NewDocumentForm))
         Me.Label1 = New System.Windows.Forms.Label
         Me.PictureBox1 = New System.Windows.Forms.PictureBox
-        Me.ListView = New System.Windows.Forms.ListView
         Me.OKButton = New System.Windows.Forms.Button
         Me.CancelButton1 = New System.Windows.Forms.Button
+        Me.DataTree = New VBGeneral.DataTree
         Me.SuspendLayout()
         '
         'Label1
@@ -68,17 +67,9 @@ Public Class NewDocumentForm
         Me.PictureBox1.TabIndex = 1
         Me.PictureBox1.TabStop = False
         '
-        'ListView
-        '
-        Me.ListView.Location = New System.Drawing.Point(128, 40)
-        Me.ListView.MultiSelect = False
-        Me.ListView.Name = "ListView"
-        Me.ListView.Size = New System.Drawing.Size(464, 320)
-        Me.ListView.TabIndex = 2
-        Me.ListView.View = System.Windows.Forms.View.List
-        '
         'OKButton
         '
+        Me.OKButton.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.OKButton.Location = New System.Drawing.Point(432, 368)
         Me.OKButton.Name = "OKButton"
         Me.OKButton.TabIndex = 3
@@ -92,14 +83,26 @@ Public Class NewDocumentForm
         Me.CancelButton1.TabIndex = 4
         Me.CancelButton1.Text = "Cancel"
         '
+        'DataTree
+        '
+        Me.DataTree.AllowDrop = True
+        Me.DataTree.ApplicationSettings = Nothing
+        Me.DataTree.Data = Nothing
+        Me.DataTree.LabelEdit = False
+        Me.DataTree.Location = New System.Drawing.Point(136, 32)
+        Me.DataTree.Name = "DataTree"
+        Me.DataTree.Size = New System.Drawing.Size(456, 328)
+        Me.DataTree.Sorted = False
+        Me.DataTree.TabIndex = 5
+        '
         'NewDocumentForm
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.CancelButton = Me.CancelButton1
         Me.ClientSize = New System.Drawing.Size(602, 400)
+        Me.Controls.Add(Me.DataTree)
         Me.Controls.Add(Me.CancelButton1)
         Me.Controls.Add(Me.OKButton)
-        Me.Controls.Add(Me.ListView)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.Label1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
@@ -115,49 +118,35 @@ Public Class NewDocumentForm
 #End Region
 
 
-    ReadOnly Property Selection() As APSIMData
-        Get
-            Return SelectedData
-        End Get
-
-    End Property
-
-    Private Sub CancelButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CancelButton1.Click
-        SelectedData = Nothing
-        Me.Hide()
-    End Sub
-
-    Private Sub OKButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OKButton.Click
-        SelectedData = MyFile.data.Child(ListView.SelectedItems(0).Text)
-        Me.Hide()
-    End Sub
-    Private Sub FillListView()
+    '-----------------------------------------------------
+    ' Document has just been displayed - set everything up
+    ' ----------------------------------------------------
+    Private Sub NewDocumentForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Dim inifile As New APSIMSettings
         Dim TemplateFile As String = inifile.GetSetting("apsimui", "new_docs")
-        MyFile.Open(TemplateFile)
-        ListView.Clear()
-        ListView.LargeImageList = UIManager.LargeImageList
-        ListView.SmallImageList = UImanager.SmallImageList
-
-        ' Add an item for all children of this system.
-        Dim ChildList As StringCollection = UImanager.GetUserVisibleComponents(MyFile.data)
-        Dim ChildName As String
-        For Each ChildName In ChildList
-            'create new item
-            Dim item As New ListViewItem(ChildName, 0)
-            item.ImageIndex = UImanager.SmallImageIndex(MyFile.data.Child(ChildName).Type)
-            ListView.Items.Add(item)
-
-        Next
+        Dim FileData As New APSIMData
+        FileData.LoadFromFile(TemplateFile)
+        DataTree.MaximumNumLevels = 1
+        DataTree.Data = FileData
+        DataTree.ApplicationSettings = UImanager
+        DataTree.CaptionLabel.Text = "Select a new simulation"
     End Sub
 
-    Private Sub ListView_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListView.SelectedIndexChanged
 
-    End Sub
+    ' -----------------------------------
+    ' Return selection to caller.
+    ' -----------------------------------
+    Public ReadOnly Property Selection() As APSIMData
+        Get
+            Return DataTree.SelectedNode()
+        End Get
+    End Property
 
-    Private Sub ListView_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles ListView.DoubleClick
-        If ListView.SelectedItems.Count <> 0 Then
-            OKButton.PerformClick()
-        End If
+
+    ' -----------------------------------
+    ' User has double clicked.
+    ' -----------------------------------
+    Private Sub DataTree_DoubleClick() Handles DataTree.DoubleClickEvent
+        OKButton.PerformClick()
     End Sub
 End Class

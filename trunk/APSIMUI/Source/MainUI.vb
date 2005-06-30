@@ -10,10 +10,9 @@ Imports CSGeneral
 
 Public Class MainUI
     Inherits System.Windows.Forms.Form
-    Private SimulationFile As New APSIMFile
-    Private SimulationExplorer As New ExplorerUI
-    Private ToolboxFile As New APSIMFile
-    Private ToolboxExplorer As New ExplorerUI
+    Private UIManager As UIManager
+    Private SimulationExplorer As ExplorerUI
+    Private ToolboxExplorer As ExplorerUI
 
 #Region " Windows Form Designer generated code "
 
@@ -48,15 +47,7 @@ Public Class MainUI
         Xceed.Chart.Licenser.LicenseKey = "CHT30-YTL57-0UXLJ-145A"
 
         'Add any initialization after the InitializeComponent() call
-        'Application.EnableVisualStyles()
 
-        Dim settings As New APSIMSettings
-        Dim documentationFile As String = settings.GetSetting("apsimui", "docfile")
-        HelpBrowser.Navigate(documentationFile)
-
-        'Tell the ui components where to send there help info
-        Me.SimulationExplorer.HelpBrowser = HelpBrowser
-        Me.ToolboxExplorer.HelpBrowser = HelpBrowser
         splash.Hide()
     End Sub
 
@@ -76,9 +67,7 @@ Public Class MainUI
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.
     'Do not modify it using the code editor.
-    Friend WithEvents MainMenu1 As System.Windows.Forms.MainMenu
     Friend WithEvents MenuItem4 As System.Windows.Forms.MenuItem
-    Friend WithEvents ToolBar1 As System.Windows.Forms.ToolBar
     Friend WithEvents ImageList1 As System.Windows.Forms.ImageList
     Friend WithEvents ButtonImageList As System.Windows.Forms.ImageList
     Friend WithEvents FileNewButton As System.Windows.Forms.ToolBarButton
@@ -90,29 +79,21 @@ Public Class MainUI
     Friend WithEvents PageSetupDialog1 As System.Windows.Forms.PageSetupDialog
     Friend WithEvents ContextMenu1 As System.Windows.Forms.ContextMenu
     Friend WithEvents TabMenuClose As System.Windows.Forms.MenuItem
-    Friend WithEvents FileMenuSave As System.Windows.Forms.MenuItem
     Friend WithEvents OpenFileDialog As System.Windows.Forms.OpenFileDialog
     Friend WithEvents FileMenu As System.Windows.Forms.MenuItem
-    Friend WithEvents FileMenuNew As System.Windows.Forms.MenuItem
-    Friend WithEvents FileMenuOpen As System.Windows.Forms.MenuItem
-    Friend WithEvents FileMenuExit As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem1 As System.Windows.Forms.MenuItem
     Friend WithEvents HelpMenu As System.Windows.Forms.MenuItem
-    Friend WithEvents HelpMenuAbout As System.Windows.Forms.MenuItem
-    Friend WithEvents ViewMenuOptions As System.Windows.Forms.MenuItem
     Friend WithEvents EditMenu As System.Windows.Forms.MenuItem
     Friend WithEvents EditMenuCut As System.Windows.Forms.MenuItem
     Friend WithEvents EditMenuCopy As System.Windows.Forms.MenuItem
     Friend WithEvents EditMenuPaste As System.Windows.Forms.MenuItem
     Friend WithEvents SimulationMenu As System.Windows.Forms.MenuItem
-    Friend WithEvents SimulationMenuMake As System.Windows.Forms.MenuItem
     Friend WithEvents UIHelpButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents ExportButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents CutButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents copyButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents PasteButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents ToolBoxButton As System.Windows.Forms.ToolBarButton
-    Friend WithEvents ViewMenuHelp As System.Windows.Forms.MenuItem
     Friend WithEvents HorizontalSplitter As System.Windows.Forms.Splitter
     Friend WithEvents toolBoxContextMenu As System.Windows.Forms.ContextMenu
     Friend WithEvents MenuItem2 As System.Windows.Forms.MenuItem
@@ -120,22 +101,15 @@ Public Class MainUI
     Friend WithEvents HelpBrowser As AxSHDocVw.AxWebBrowser
     Friend WithEvents SmallButtonImageList As System.Windows.Forms.ImageList
     Friend WithEvents HelpBrowserPanel As System.Windows.Forms.Panel
-    Friend WithEvents MenuItem5 As System.Windows.Forms.MenuItem
     Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
     Friend WithEvents SaveFileDialog As System.Windows.Forms.SaveFileDialog
     Friend WithEvents EmailButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents NewsButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents SeparatorButton As System.Windows.Forms.ToolBarButton
-    Friend WithEvents SimulationMenuRun As System.Windows.Forms.MenuItem
     Friend WithEvents HelpButtonMenu As System.Windows.Forms.ContextMenu
-    Friend WithEvents HelpMenuContents As System.Windows.Forms.MenuItem
-    Friend WithEvents HelpMenuNew As System.Windows.Forms.MenuItem
-    Friend WithEvents HelpMenuDefect As System.Windows.Forms.MenuItem
-    Friend WithEvents HelpMenuChange As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem9 As System.Windows.Forms.MenuItem
     Friend WithEvents ToolboxPanel As System.Windows.Forms.Panel
     Friend WithEvents SimulationPanel As System.Windows.Forms.Panel
-    Friend WithEvents ToolboxMenuItem As System.Windows.Forms.MenuItem
     Friend WithEvents CaptionLabel As System.Windows.Forms.Label
     Friend WithEvents HelpToolBarPanel As System.Windows.Forms.Panel
     Friend WithEvents HelpBrowsertoolBar As System.Windows.Forms.ToolBar
@@ -143,41 +117,58 @@ Public Class MainUI
     Friend WithEvents ForwardButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents CloseButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents ToolBoxSplitter As System.Windows.Forms.Splitter
-    Friend WithEvents ContentsMenuItem As System.Windows.Forms.MenuItem
-    Friend WithEvents NewsMenuItem As System.Windows.Forms.MenuItem
-    Friend WithEvents DefectMenuItem As System.Windows.Forms.MenuItem
-    Friend WithEvents ChangeMenuItem As System.Windows.Forms.MenuItem
+    Friend WithEvents FileNew As System.Windows.Forms.MenuItem
+    Friend WithEvents FileOpen As System.Windows.Forms.MenuItem
+    Friend WithEvents FileSave As System.Windows.Forms.MenuItem
+    Friend WithEvents FileSaveAs As System.Windows.Forms.MenuItem
+    Friend WithEvents FileExit As System.Windows.Forms.MenuItem
+    Friend WithEvents MainMenu As System.Windows.Forms.MainMenu
+    Friend WithEvents ToolBar As System.Windows.Forms.ToolBar
+    Friend WithEvents ViewToolboxWindow As System.Windows.Forms.MenuItem
+    Friend WithEvents ViewHelpWindow As System.Windows.Forms.MenuItem
+    Friend WithEvents ViewOptions As System.Windows.Forms.MenuItem
+    Friend WithEvents SimulationMakeSimFile As System.Windows.Forms.MenuItem
+    Friend WithEvents SimulationRun As System.Windows.Forms.MenuItem
+    Friend WithEvents HelpContents As System.Windows.Forms.MenuItem
+    Friend WithEvents HelpNews As System.Windows.Forms.MenuItem
+    Friend WithEvents HelpReportProblem As System.Windows.Forms.MenuItem
+    Friend WithEvents HelpSuggestChange As System.Windows.Forms.MenuItem
+    Friend WithEvents HelpAbout As System.Windows.Forms.MenuItem
+    Friend WithEvents HelpContentsTool As System.Windows.Forms.MenuItem
+    Friend WithEvents HelpNewsTool As System.Windows.Forms.MenuItem
+    Friend WithEvents HelpReportProblemTool As System.Windows.Forms.MenuItem
+    Friend WithEvents HelpSuggestChangeTool As System.Windows.Forms.MenuItem
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MainUI))
-        Me.MainMenu1 = New System.Windows.Forms.MainMenu
+        Me.MainMenu = New System.Windows.Forms.MainMenu
         Me.FileMenu = New System.Windows.Forms.MenuItem
-        Me.FileMenuNew = New System.Windows.Forms.MenuItem
-        Me.FileMenuOpen = New System.Windows.Forms.MenuItem
-        Me.FileMenuSave = New System.Windows.Forms.MenuItem
-        Me.MenuItem5 = New System.Windows.Forms.MenuItem
+        Me.FileNew = New System.Windows.Forms.MenuItem
+        Me.FileOpen = New System.Windows.Forms.MenuItem
+        Me.FileSave = New System.Windows.Forms.MenuItem
+        Me.FileSaveAs = New System.Windows.Forms.MenuItem
         Me.MenuItem4 = New System.Windows.Forms.MenuItem
-        Me.FileMenuExit = New System.Windows.Forms.MenuItem
+        Me.FileExit = New System.Windows.Forms.MenuItem
         Me.EditMenu = New System.Windows.Forms.MenuItem
         Me.EditMenuCut = New System.Windows.Forms.MenuItem
         Me.EditMenuCopy = New System.Windows.Forms.MenuItem
         Me.EditMenuPaste = New System.Windows.Forms.MenuItem
         Me.MenuItem1 = New System.Windows.Forms.MenuItem
-        Me.ToolboxMenuItem = New System.Windows.Forms.MenuItem
-        Me.ViewMenuHelp = New System.Windows.Forms.MenuItem
+        Me.ViewToolboxWindow = New System.Windows.Forms.MenuItem
+        Me.ViewHelpWindow = New System.Windows.Forms.MenuItem
         Me.MenuItem2 = New System.Windows.Forms.MenuItem
-        Me.ViewMenuOptions = New System.Windows.Forms.MenuItem
+        Me.ViewOptions = New System.Windows.Forms.MenuItem
         Me.SimulationMenu = New System.Windows.Forms.MenuItem
-        Me.SimulationMenuMake = New System.Windows.Forms.MenuItem
-        Me.SimulationMenuRun = New System.Windows.Forms.MenuItem
+        Me.SimulationMakeSimFile = New System.Windows.Forms.MenuItem
+        Me.SimulationRun = New System.Windows.Forms.MenuItem
         Me.HelpMenu = New System.Windows.Forms.MenuItem
-        Me.HelpMenuContents = New System.Windows.Forms.MenuItem
-        Me.HelpMenuNew = New System.Windows.Forms.MenuItem
-        Me.HelpMenuDefect = New System.Windows.Forms.MenuItem
-        Me.HelpMenuChange = New System.Windows.Forms.MenuItem
+        Me.HelpContents = New System.Windows.Forms.MenuItem
+        Me.HelpNews = New System.Windows.Forms.MenuItem
+        Me.HelpReportProblem = New System.Windows.Forms.MenuItem
+        Me.HelpSuggestChange = New System.Windows.Forms.MenuItem
         Me.MenuItem9 = New System.Windows.Forms.MenuItem
-        Me.HelpMenuAbout = New System.Windows.Forms.MenuItem
-        Me.ToolBar1 = New System.Windows.Forms.ToolBar
+        Me.HelpAbout = New System.Windows.Forms.MenuItem
+        Me.ToolBar = New System.Windows.Forms.ToolBar
         Me.FileNewButton = New System.Windows.Forms.ToolBarButton
         Me.FileOpenButton = New System.Windows.Forms.ToolBarButton
         Me.FileSaveButton = New System.Windows.Forms.ToolBarButton
@@ -195,10 +186,10 @@ Public Class MainUI
         Me.NewsButton = New System.Windows.Forms.ToolBarButton
         Me.UIHelpButton = New System.Windows.Forms.ToolBarButton
         Me.HelpButtonMenu = New System.Windows.Forms.ContextMenu
-        Me.ContentsMenuItem = New System.Windows.Forms.MenuItem
-        Me.NewsMenuItem = New System.Windows.Forms.MenuItem
-        Me.DefectMenuItem = New System.Windows.Forms.MenuItem
-        Me.ChangeMenuItem = New System.Windows.Forms.MenuItem
+        Me.HelpContentsTool = New System.Windows.Forms.MenuItem
+        Me.HelpNewsTool = New System.Windows.Forms.MenuItem
+        Me.HelpReportProblemTool = New System.Windows.Forms.MenuItem
+        Me.HelpSuggestChangeTool = New System.Windows.Forms.MenuItem
         Me.ButtonImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
@@ -226,36 +217,36 @@ Public Class MainUI
         Me.HelpToolBarPanel.SuspendLayout()
         Me.SuspendLayout()
         '
-        'MainMenu1
+        'MainMenu
         '
-        Me.MainMenu1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.FileMenu, Me.EditMenu, Me.MenuItem1, Me.SimulationMenu, Me.HelpMenu})
+        Me.MainMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.FileMenu, Me.EditMenu, Me.MenuItem1, Me.SimulationMenu, Me.HelpMenu})
         '
         'FileMenu
         '
         Me.FileMenu.Index = 0
-        Me.FileMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.FileMenuNew, Me.FileMenuOpen, Me.FileMenuSave, Me.MenuItem5, Me.MenuItem4, Me.FileMenuExit})
+        Me.FileMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.FileNew, Me.FileOpen, Me.FileSave, Me.FileSaveAs, Me.MenuItem4, Me.FileExit})
         Me.FileMenu.MergeType = System.Windows.Forms.MenuMerge.MergeItems
         Me.FileMenu.Text = "&File"
         '
-        'FileMenuNew
+        'FileNew
         '
-        Me.FileMenuNew.Index = 0
-        Me.FileMenuNew.Text = "&New ..."
+        Me.FileNew.Index = 0
+        Me.FileNew.Text = "&New ..."
         '
-        'FileMenuOpen
+        'FileOpen
         '
-        Me.FileMenuOpen.Index = 1
-        Me.FileMenuOpen.Text = "&Open ..."
+        Me.FileOpen.Index = 1
+        Me.FileOpen.Text = "&Open ..."
         '
-        'FileMenuSave
+        'FileSave
         '
-        Me.FileMenuSave.Index = 2
-        Me.FileMenuSave.Text = "&Save"
+        Me.FileSave.Index = 2
+        Me.FileSave.Text = "&Save"
         '
-        'MenuItem5
+        'FileSaveAs
         '
-        Me.MenuItem5.Index = 3
-        Me.MenuItem5.Text = "Save &As ..."
+        Me.FileSaveAs.Index = 3
+        Me.FileSaveAs.Text = "Save &As ..."
         '
         'MenuItem4
         '
@@ -263,11 +254,11 @@ Public Class MainUI
         Me.MenuItem4.MergeOrder = 2
         Me.MenuItem4.Text = "-"
         '
-        'FileMenuExit
+        'FileExit
         '
-        Me.FileMenuExit.Index = 5
-        Me.FileMenuExit.MergeOrder = 2
-        Me.FileMenuExit.Text = "E&xit"
+        Me.FileExit.Index = 5
+        Me.FileExit.MergeOrder = 2
+        Me.FileExit.Text = "E&xit"
         '
         'EditMenu
         '
@@ -299,96 +290,96 @@ Public Class MainUI
         'MenuItem1
         '
         Me.MenuItem1.Index = 2
-        Me.MenuItem1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.ToolboxMenuItem, Me.ViewMenuHelp, Me.MenuItem2, Me.ViewMenuOptions})
+        Me.MenuItem1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.ViewToolboxWindow, Me.ViewHelpWindow, Me.MenuItem2, Me.ViewOptions})
         Me.MenuItem1.Text = "&View"
         '
-        'ToolboxMenuItem
+        'ViewToolboxWindow
         '
-        Me.ToolboxMenuItem.Index = 0
-        Me.ToolboxMenuItem.Text = "Toolbox Window"
+        Me.ViewToolboxWindow.Index = 0
+        Me.ViewToolboxWindow.Text = "Toolbox Window"
         '
-        'ViewMenuHelp
+        'ViewHelpWindow
         '
-        Me.ViewMenuHelp.Checked = True
-        Me.ViewMenuHelp.Index = 1
-        Me.ViewMenuHelp.Text = "Help Window"
+        Me.ViewHelpWindow.Checked = True
+        Me.ViewHelpWindow.Index = 1
+        Me.ViewHelpWindow.Text = "Help Window"
         '
         'MenuItem2
         '
         Me.MenuItem2.Index = 2
         Me.MenuItem2.Text = "-"
         '
-        'ViewMenuOptions
+        'ViewOptions
         '
-        Me.ViewMenuOptions.Index = 3
-        Me.ViewMenuOptions.Text = "&Options ..."
+        Me.ViewOptions.Index = 3
+        Me.ViewOptions.Text = "&Options ..."
         '
         'SimulationMenu
         '
         Me.SimulationMenu.Index = 3
-        Me.SimulationMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.SimulationMenuMake, Me.SimulationMenuRun})
+        Me.SimulationMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.SimulationMakeSimFile, Me.SimulationRun})
         Me.SimulationMenu.Text = "&Simulation"
         '
-        'SimulationMenuMake
+        'SimulationMakeSimFile
         '
-        Me.SimulationMenuMake.Index = 0
-        Me.SimulationMenuMake.Text = "&Make Sim File"
+        Me.SimulationMakeSimFile.Index = 0
+        Me.SimulationMakeSimFile.Text = "&Make Sim File"
         '
-        'SimulationMenuRun
+        'SimulationRun
         '
-        Me.SimulationMenuRun.Index = 1
-        Me.SimulationMenuRun.Shortcut = System.Windows.Forms.Shortcut.F5
-        Me.SimulationMenuRun.Text = "&Run"
+        Me.SimulationRun.Index = 1
+        Me.SimulationRun.Shortcut = System.Windows.Forms.Shortcut.F5
+        Me.SimulationRun.Text = "&Run"
         '
         'HelpMenu
         '
         Me.HelpMenu.Index = 4
-        Me.HelpMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.HelpMenuContents, Me.HelpMenuNew, Me.HelpMenuDefect, Me.HelpMenuChange, Me.MenuItem9, Me.HelpMenuAbout})
+        Me.HelpMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.HelpContents, Me.HelpNews, Me.HelpReportProblem, Me.HelpSuggestChange, Me.MenuItem9, Me.HelpAbout})
         Me.HelpMenu.MergeOrder = 2
         Me.HelpMenu.Text = "&Help"
         '
-        'HelpMenuContents
+        'HelpContents
         '
-        Me.HelpMenuContents.Index = 0
-        Me.HelpMenuContents.Text = "Contents"
+        Me.HelpContents.Index = 0
+        Me.HelpContents.Text = "Contents"
         '
-        'HelpMenuNew
+        'HelpNews
         '
-        Me.HelpMenuNew.Index = 1
-        Me.HelpMenuNew.Text = "News (via APSIM.Info)"
+        Me.HelpNews.Index = 1
+        Me.HelpNews.Text = "News (via APSIM.Info)"
         '
-        'HelpMenuDefect
+        'HelpReportProblem
         '
-        Me.HelpMenuDefect.Index = 2
-        Me.HelpMenuDefect.Text = "Report problem (vio APSIM.Info)"
+        Me.HelpReportProblem.Index = 2
+        Me.HelpReportProblem.Text = "Report problem (vio APSIM.Info)"
         '
-        'HelpMenuChange
+        'HelpSuggestChange
         '
-        Me.HelpMenuChange.Index = 3
-        Me.HelpMenuChange.Text = "Suggest change (via APSIM.Info)"
+        Me.HelpSuggestChange.Index = 3
+        Me.HelpSuggestChange.Text = "Suggest change (via APSIM.Info)"
         '
         'MenuItem9
         '
         Me.MenuItem9.Index = 4
         Me.MenuItem9.Text = "-"
         '
-        'HelpMenuAbout
+        'HelpAbout
         '
-        Me.HelpMenuAbout.Index = 5
-        Me.HelpMenuAbout.Text = "&About ..."
+        Me.HelpAbout.Index = 5
+        Me.HelpAbout.Text = "&About ..."
         '
-        'ToolBar1
+        'ToolBar
         '
-        Me.ToolBar1.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
-        Me.ToolBar1.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.FileNewButton, Me.FileOpenButton, Me.FileSaveButton, Me.EmailButton, Me.Separator1, Me.CutButton, Me.copyButton, Me.PasteButton, Me.Separator2, Me.ToolBoxButton, Me.RunButton, Me.ExportButton, Me.SeparatorButton, Me.NewsButton, Me.UIHelpButton})
-        Me.ToolBar1.DropDownArrows = True
-        Me.ToolBar1.ImageList = Me.ButtonImageList
-        Me.ToolBar1.Location = New System.Drawing.Point(0, 0)
-        Me.ToolBar1.Name = "ToolBar1"
-        Me.ToolBar1.ShowToolTips = True
-        Me.ToolBar1.Size = New System.Drawing.Size(1015, 36)
-        Me.ToolBar1.TabIndex = 1
-        Me.ToolBar1.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right
+        Me.ToolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
+        Me.ToolBar.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.FileNewButton, Me.FileOpenButton, Me.FileSaveButton, Me.EmailButton, Me.Separator1, Me.CutButton, Me.copyButton, Me.PasteButton, Me.Separator2, Me.ToolBoxButton, Me.RunButton, Me.ExportButton, Me.SeparatorButton, Me.NewsButton, Me.UIHelpButton})
+        Me.ToolBar.DropDownArrows = True
+        Me.ToolBar.ImageList = Me.ButtonImageList
+        Me.ToolBar.Location = New System.Drawing.Point(0, 0)
+        Me.ToolBar.Name = "ToolBar"
+        Me.ToolBar.ShowToolTips = True
+        Me.ToolBar.Size = New System.Drawing.Size(1015, 36)
+        Me.ToolBar.TabIndex = 1
+        Me.ToolBar.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right
         '
         'FileNewButton
         '
@@ -483,27 +474,27 @@ Public Class MainUI
         '
         'HelpButtonMenu
         '
-        Me.HelpButtonMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.ContentsMenuItem, Me.NewsMenuItem, Me.DefectMenuItem, Me.ChangeMenuItem})
+        Me.HelpButtonMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.HelpContentsTool, Me.HelpNewsTool, Me.HelpReportProblemTool, Me.HelpSuggestChangeTool})
         '
-        'ContentsMenuItem
+        'HelpContentsTool
         '
-        Me.ContentsMenuItem.Index = 0
-        Me.ContentsMenuItem.Text = "Contents"
+        Me.HelpContentsTool.Index = 0
+        Me.HelpContentsTool.Text = "Contents"
         '
-        'NewsMenuItem
+        'HelpNewsTool
         '
-        Me.NewsMenuItem.Index = 1
-        Me.NewsMenuItem.Text = "News (via APSIM.Info)"
+        Me.HelpNewsTool.Index = 1
+        Me.HelpNewsTool.Text = "News (via APSIM.Info)"
         '
-        'DefectMenuItem
+        'HelpReportProblemTool
         '
-        Me.DefectMenuItem.Index = 2
-        Me.DefectMenuItem.Text = "Report a problem (via APSIM.Info)"
+        Me.HelpReportProblemTool.Index = 2
+        Me.HelpReportProblemTool.Text = "Report a problem (via APSIM.Info)"
         '
-        'ChangeMenuItem
+        'HelpSuggestChangeTool
         '
-        Me.ChangeMenuItem.Index = 3
-        Me.ChangeMenuItem.Text = "Suggest a change (via APSIM.Info)"
+        Me.HelpSuggestChangeTool.Index = 3
+        Me.HelpSuggestChangeTool.Text = "Suggest a change (via APSIM.Info)"
         '
         'ButtonImageList
         '
@@ -664,9 +655,9 @@ Public Class MainUI
         Me.Controls.Add(Me.ToolboxPanel)
         Me.Controls.Add(Me.HorizontalSplitter)
         Me.Controls.Add(Me.HelpBrowserPanel)
-        Me.Controls.Add(Me.ToolBar1)
+        Me.Controls.Add(Me.ToolBar)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Menu = Me.MainMenu1
+        Me.Menu = Me.MainMenu
         Me.Name = "MainUI"
         Me.Text = "APSIM"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
@@ -679,147 +670,63 @@ Public Class MainUI
 
 #End Region
 
-    Sub OpenAPSIMFile(Optional ByVal filename As String = "")
-        Try
-            Dim OkPressed As Boolean
-            If filename = "" Then
-                OkPressed = SimulationFile.Open()
-            Else
-                SimulationFile.Open(filename)
-                OkPressed = True
-            End If
-            If OkPressed Then
-                filename = SimulationFile.Filename
-                Directory.SetCurrentDirectory(Path.GetDirectoryName(filename))
-                SimulationExplorer.Data = SimulationFile.data
-                UpdateMainForm()
-                SimulationExplorer.UIManager.AddFileToFrequentList(filename)
-            End If
-
-
-        Catch e As System.Exception
-            MsgBox(e.Message, MsgBoxStyle.Critical, "Cannot open APSIM file")
-        End Try
-        SimulationExplorer.UIManager.CloseUI()
-    End Sub
-
-    Sub OpenNewFile()
-        Try
-            SimulationFile = New APSIMFile
-            Dim NewDocForm As New NewDocumentForm
-            NewDocForm.ShowDialog()
-            If Not IsNothing(NewDocForm.Selection) Then
-                Dim newsim As New APSIMData("simulations", "untitled")
-                newsim.Add(NewDocForm.Selection)
-                newsim.Add(New APSIMData("shared", "shared"))
-                SimulationFile.OpenNewDocument(newsim)
-                SimulationExplorer.Data = SimulationFile.data
-                UpdateMainForm()
-                NewDocForm.Close()
-            End If
-            SimulationExplorer.UIManager.CloseUI()
-
-        Catch e As System.Exception
-            MsgBox(e.Message, MsgBoxStyle.Critical, "Error openinig document template")
-        End Try
-    End Sub
-    Private Sub UpdateMainForm()
-        If SimulationFile.Filename = "" Then
-            Me.Text = "APSIM"
-        Else
-            Me.Text = SimulationFile.Filename
-        End If
-        SimulationExplorer.UIManager.MainForm = Me
-        SimulationExplorer.UIManager.ApsimFileName = SimulationFile.Filename
-    End Sub
-    Private Sub FileMenuExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuExit.Click
-        End
-    End Sub
-    Private Sub FileMenuOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuOpen.Click
-        OpenAPSIMFile()
-    End Sub
-
-    Private Sub ToolBar1_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles ToolBar1.ButtonClick
-        If e.Button Is FileNewButton Then
-            OpenNewFile()
-        ElseIf e.Button Is FileOpenButton Then
-            OpenAPSIMFile()
-        ElseIf e.Button Is FileSaveButton Then
-            SimulationExplorer.UIManager.SaveDocument()
-            SimulationFile.Save()
-            UpdateMainForm()
-        ElseIf e.Button Is UIHelpButton Then
-            UpdateHelpBrowser()
-        ElseIf e.Button Is NewsButton Then
-            GetLatestNews()
-        ElseIf e.Button Is RunButton Then
-            RunSimulations()
-        ElseIf e.Button Is ExportButton Then
-            MakeSimFiles()
-        ElseIf e.Button Is ToolBoxButton Then
-            If ToolboxMenuItem.Checked Then
-                ToolboxMenuItem.PerformClick()
-            Else
-                If Not IsNothing(toolBoxContextMenu.MenuItems(0)) Then
-                    toolBoxContextMenu.MenuItems(0).PerformClick()
-                End If
-            End If
-        End If
-
-    End Sub
-
-
-    Private Sub FileMenuSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuSave.Click
-
-        SimulationExplorer.UIManager.SaveDocument()
-        SimulationFile.Save()
-        UpdateMainForm()
-        SimulationExplorer.UIManager.AddFileToFrequentList(SimulationFile.Filename)
-    End Sub
-
 
     ' --------------------------------------------
     ' Form has been loaded - set ourselves up.
     ' --------------------------------------------
     Private Sub MainUI_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        UIManager = New UIManager(Me)
+
         ' Show the Simulation Explorer.
+        SimulationExplorer = New ExplorerUI
+        SimulationExplorer.ApplicationSettings = UIManager
         SimulationExplorer.TopLevel = False
         SimulationExplorer.Dock = DockStyle.Fill
         SimulationExplorer.Parent = SimulationPanel
         SimulationExplorer.Visible = True
+        SimulationExplorer.Setup(Me, "APSIM files (*.apsim)|*.apsim|" + _
+                                 "Toolbox files (*.xml)|*.xml|" + _
+                                 "Soils files (*.soils)|*.soils|" + _
+                                 "All files (*.*)|*.*", _
+                                 ".apsim", "apsimui")
+        SimulationExplorer.ShowUI(New StartupUI)
+        SimulationExplorer.DataTreeCaption = "Empty simulation"
 
         ' Setup but don't show the Toolbox Explorer.
+        ToolboxExplorer = New ExplorerUI
+        ToolboxExplorer.ApplicationSettings = UIManager
         ToolboxExplorer.TopLevel = False
         ToolboxExplorer.Dock = DockStyle.Fill
         ToolboxExplorer.Parent = ToolboxPanel
         ToolboxExplorer.Visible = True
         ToolboxPanel.Visible = False
+        ToolboxExplorer.Setup(Nothing, "Toolbox files (*.xml)|*.xml|" + _
+                              "All files (*.*)|*.*", _
+                              ".xml", "")
+
         Dim inifile As New APSIMSettings
         ToolboxPanel.Height = Val(inifile.GetSetting("apsimui", "toolboxheight"))
 
-        ' Declare variables.
+        ' Show some help
+        HelpContents_Click(Nothing, Nothing)
+
+        ' Load a default file if one was specified on the command line.
         Dim separators As String = " "
         Dim commands As String = Microsoft.VisualBasic.Command()
         Dim args() As String = commands.Split(separators.ToCharArray)
-        If args(0) = "" Then
-            'OpenNewFile()
-        ElseIf args.Length = 1 Then
+        If args.Length = 1 Then
             If args(0).Length() > 0 Then
                 Dim FileName As String = args(0).Replace("""", "")
-                OpenAPSIMFile(FileName)
+                SimulationExplorer.FileOpen(FileName)
             End If
-        Else
-            MsgBox("cannot handle > 1 command line arguments", MsgBoxStyle.Critical, "Error")
         End If
 
+        ' populate the toolbox menu.
         PopulateToolBoxContextMenu()
-        ReadWindowPosition()
-        UpdateMainForm()
-        ShowHelpBrowser()
-        SimulationExplorer.UIManager.ShowStartupUI()
 
-        AddHandler HelpBrowserPanel.Resize, AddressOf HelpBrowserPanel_Resize
+        ' readjust window positions based on previously saved positions.
+        ReadWindowPosition()
     End Sub
 
 
@@ -828,38 +735,179 @@ Public Class MainUI
     ' --------------------------------------------------
     Private Sub MainUI_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
         WriteWindowPosition()
-        SimulationFile.Save()
-        ToolboxFile.Save()
-    End Sub
-
-    Private Sub HelpMenuAbout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpMenuAbout.Click
-        'MsgBox("Version 0.0 alpha - where angels fear to tread.", MsgBoxStyle.OKOnly, "APSIM")
-        Dim helpform As New HelpAboutForm
-        helpform.ShowDialog()
+        SimulationExplorer.FileSave()
+        If ToolboxExplorer.Visible Then
+            ToolboxExplorer.FileSave()
+        End If
     End Sub
 
 
-    Private Sub ViewMenuOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ViewMenuOptions.Click
-        Dim optfrm As New OptionsForm
-        optfrm.ShowDialog(Me)
-        ' Repopulate tool boxes just in case options have been changed
+    ' --------------------------
+    ' User has clicked File|New
+    ' --------------------------
+    Private Sub FileNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileNew.Click
+        Dim NewData As APSIMData = UIManager.LetUserSelectNewDocument()
+        If Not IsNothing(NewData) Then
+            SimulationExplorer.FileNew(NewData)
+        End If
+    End Sub
+
+
+    ' ---------------------------
+    ' User has clicked File|Open
+    ' ---------------------------
+    Private Sub FileOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileOpen.Click
+        SimulationExplorer.FileOpen()
+    End Sub
+
+
+    ' --------------------------
+    ' User has clicked File|Save
+    ' --------------------------
+    Private Sub FileSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileSave.Click
+        SimulationExplorer.FileSave()
+    End Sub
+
+
+    ' -----------------------------
+    ' User has clicked File|SaveAs
+    ' -----------------------------
+    Private Sub FileSaveAs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileSaveAs.Click
+        SimulationExplorer.FileSaveAs()
+    End Sub
+
+
+    ' --------------------------
+    ' User has clicked File|Exit
+    ' --------------------------
+    Private Sub FileExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileExit.Click
+        Close()
+    End Sub
+
+
+    ' ---------------------------------
+    ' User has clicked a toolbar button
+    ' ---------------------------------
+    Private Sub ToolBar_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles ToolBar.ButtonClick, HelpBrowsertoolBar.ButtonClick
+        If e.Button Is FileNewButton Then
+            FileNew_Click(sender, e)
+        ElseIf e.Button Is FileOpenButton Then
+            FileOpen_Click(sender, e)
+        ElseIf e.Button Is FileSaveButton Then
+            FileSave_Click(sender, e)
+        ElseIf e.Button Is UIHelpButton Then
+            HelpContents_Click(sender, e)
+        ElseIf e.Button Is NewsButton Then
+            HelpNews_Click(sender, e)
+        ElseIf e.Button Is RunButton Then
+            SimulationRun_Click(sender, e)
+        ElseIf e.Button Is ExportButton Then
+            SimulationMakeSimFile_Click(sender, e)
+        ElseIf e.Button Is ToolBoxButton Then
+            If ViewToolboxWindow.Checked Then
+                ViewToolboxWindow.PerformClick()
+            Else
+                If Not IsNothing(toolBoxContextMenu.MenuItems(0)) Then
+                    toolBoxContextMenu.MenuItems(0).PerformClick()
+                End If
+            End If
+        ElseIf e.Button Is ForwardButton Then
+            HelpBrowser.GoForward()
+        ElseIf e.Button Is BackButton Then
+            HelpBrowser.GoBack()
+        ElseIf e.Button Is CloseButton Then
+            UIManager.ShowHelpBrowser(False)
+        End If
+
+    End Sub
+
+
+    ' -----------------------------------------
+    ' User has clicked on "View toolbox Window" item
+    ' Show/Hide toolbox window.
+    ' -----------------------------------------
+    Private Sub ViewToolboxWindow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ViewToolboxWindow.Click
+        ViewToolboxWindow.Checked = Not ViewToolboxWindow.Checked
+        ToolboxPanel.Visible = ViewToolboxWindow.Checked
+        ToolBoxSplitter.Enabled = ViewToolboxWindow.Checked
+        ToolboxExplorer.FileSave()
+    End Sub
+
+
+    ' -----------------------------------------
+    ' User has clicked on "View help Window" item
+    ' Show/Hide help window.
+    ' -----------------------------------------
+    Private Sub ViewHelpWindow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ViewHelpWindow.Click
+        ViewHelpWindow.Checked = Not ViewHelpWindow.Checked
+        UIManager.ShowHelpBrowser(ViewHelpWindow.Checked)
+    End Sub
+
+
+    ' -----------------------------------------
+    ' User has clicked on "View options" item
+    ' -----------------------------------------
+    Private Sub ViewOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ViewOptions.Click
+        Dim Form As New OptionsForm
+        Form.ShowDialog(Me)
         PopulateToolBoxContextMenu()
     End Sub
 
 
-    Private Sub SimulationMenuMake_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationMenuMake.Click
+    ' ---------------------------------------------
+    ' User has clicked on Simulation|Make Sim File
+    '  --------------------------------------------
+    Private Sub SimulationMakeSimFile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationMakeSimFile.Click
         MakeSimFiles()
     End Sub
 
-    Private Sub MenuItem6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim inifile As New APSIMSettings
-        Dim value As String
-        value = inifile.GetSetting("Apsim", "left")
-        inifile.SetSetting("Apsim", "left", value + "g")
+
+    ' ---------------------------------------------
+    ' User has clicked on Simulation|Run
+    '  --------------------------------------------
+    Private Sub SimulationRun_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationRun.Click
+        RunSimulations()
     End Sub
 
-    Private Sub UpdateHelpBrowser()
-        SimulationExplorer.UIManager.ShowHelp(APSIMSettings.ApsimDirectory + "\docs\documentation.xml")
+
+    ' ----------------------------------
+    ' User has clicked on Help|Contents
+    ' ----------------------------------
+    Private Sub HelpContents_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpContents.Click, HelpContentsTool.Click
+        UIManager.ShowHelp(APSIMSettings.ApsimDirectory + "\docs\documentation.xml")
+    End Sub
+
+
+    ' -------------------------------------
+    ' User has clicked on Help | News
+    ' -------------------------------------
+    Private Sub HelpNews_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpNews.Click, HelpNewsTool.Click
+        UIManager.ShowHelp("www.apsim.info")
+    End Sub
+
+
+    ' -----------------------------------------
+    ' User has clicked on Help | Report problem
+    ' -----------------------------------------
+    Private Sub HelpReportProblem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpReportProblem.Click, HelpReportProblemTool.Click
+        UIManager.ShowHelp("www.apsim.info/apsim/helpdesk/submit-defect.asp")
+    End Sub
+
+
+    ' -----------------------------------------
+    ' User has clicked on Help | Suggest Change
+    ' -----------------------------------------
+    Private Sub HelpSuggestChange_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpSuggestChange.Click, HelpSuggestChangeTool.Click
+        UIManager.ShowHelp("www.apsim.info/apsim/helpdesk/submit-change.asp")
+    End Sub
+
+
+    ' --------------------------------
+    ' User has clicked on Help | About
+    ' --------------------------------
+    Private Sub HelpAbout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpAbout.Click
+        Dim Form As New HelpAboutForm
+        Form.ShowDialog()
     End Sub
 
 
@@ -885,94 +933,20 @@ Public Class MainUI
     ' User has clicked on a tool box - show it
     ' --------------------------------------------
     Private Sub ToolBoxes_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        ToolboxExplorer.UIManager.CloseUI()
+        ToolboxExplorer.CloseUI()
 
         Dim toolboxes As New Toolboxes
-        ToolboxMenuItem.Checked = True
+        ViewToolboxWindow.Checked = True
         Dim inifile As New APSIMSettings
         ToolboxPanel.Height = Val(inifile.GetSetting("apsimui", "toolboxheight"))
 
         Dim filename As String = toolboxes.NameToFileName(sender.text)
-        ToolboxFile.Open(filename)
-        ToolboxExplorer.Data = ToolboxFile.data
-        ToolboxExplorer.UIManager.ShowUI(ToolboxFile.data)
+        ToolboxExplorer.FileOpen(filename)
         ToolboxPanel.Visible = True
-        ToolBoxSplitter.Enabled = ToolboxMenuItem.Checked
+        ToolBoxSplitter.Enabled = ViewToolboxWindow.Checked
 
         ToolboxPanel.Height = ToolboxPanel.Height + 1
         ToolboxPanel.Height = ToolboxPanel.Height - 1
-    End Sub
-
-
-    ' -----------------------------------------
-    ' User has clicked on "View toolbox Window" item
-    ' Show/Hide toolbox window.
-    ' -----------------------------------------
-    Private Sub ToolboxMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolboxMenuItem.Click
-        ToolboxMenuItem.Checked = Not ToolboxMenuItem.Checked
-        ToolboxPanel.Visible = ToolboxMenuItem.Checked
-        ToolBoxSplitter.Enabled = ToolboxMenuItem.Checked
-        ToolboxFile.Save()
-    End Sub
-
-
-    Private Sub ViewMenuHelp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ViewMenuHelp.Click
-        ViewMenuHelp.Checked = Not ViewMenuHelp.Checked
-        If ViewMenuHelp.Checked = True Then
-            ShowHelpBrowser()
-        Else
-            CloseHelpBrowser()
-        End If
-    End Sub
-
-    Public Sub ShowHelpBrowser()
-        ViewMenuHelp.Checked = True
-        HelpBrowserPanel.Visible = True
-        HelpBrowsertoolBar.Visible = True
-        Dim inifile As New APSIMSettings
-        HelpBrowserPanel.Height = Val(inifile.GetSetting("apsimui", "helpheight"))
-        HorizontalSplitter.Enabled = True
-    End Sub
-    Private Sub CloseHelpBrowser()
-        HelpBrowserPanel.Visible = False
-        HelpBrowsertoolBar.Visible = False
-        HorizontalSplitter.Enabled = False
-    End Sub
-
-    Private Sub GetLatestNews()
-        HelpBrowser.Navigate("www.apsim.info")
-    End Sub
-
-
-
-    Private Sub HelpBrowserToolBar_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles HelpBrowsertoolBar.ButtonClick
-        Try
-            If e.Button Is ForwardButton Then
-                HelpBrowser.GoForward()
-            ElseIf e.Button Is BackButton Then
-                HelpBrowser.GoBack()
-            ElseIf e.Button Is CloseButton Then
-                CloseHelpBrowser()
-                ViewMenuHelp.Checked = False
-            End If
-        Catch ex As System.Exception
-            ' do nothing??
-        End Try
-
-    End Sub
-
-    Private Sub FileMenuNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuNew.Click
-        OpenNewFile()
-    End Sub
-
-    Private Sub MenuItem5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem5.Click
-        SimulationFile.SaveAs()
-        UpdateMainForm()
-    End Sub
-
-
-    Private Sub SimulationMenuRun_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationMenuRun.Click
-        RunSimulations()
     End Sub
 
 
@@ -982,25 +956,24 @@ Public Class MainUI
     ' ----------------------------------------------
     Private Function MakeSimFiles() As StringCollection
         Dim inifile As New APSIMSettings
-        Dim TypesFile As New APSIMFile
-        TypesFile.Open(inifile.GetSetting("apsimui", "typesfile"))
+        Dim TypesData As New APSIMData
+        TypesData.LoadFromFile(inifile.GetSetting("apsimui", "typesfile"))
 
         Try
             Dim SimFiles As New StringCollection
-            SimulationFile.Save()
-            UpdateMainForm() ' Just in case there was a SaveAs inside of call to Save.
+            SimulationExplorer.Save()
 
             Dim M As New Macro
-            If File.Exists(SimulationFile.Filename) Then
-                Dim DirectoryName As String = Path.GetDirectoryName(SimulationFile.Filename)
+            If File.Exists(SimulationExplorer.FileName) Then
+                Dim DirectoryName As String = Path.GetDirectoryName(SimulationExplorer.FileName)
                 Dim FileName As String = inifile.GetSetting("apsimui", "macrofile")
                 If File.Exists(FileName) Then
                     For Each Sim As APSIMData In SimulationExplorer.Data.Children("simulation")
-                        Dim MacroContents As String = CreateMacroFile(TypesFile.data, Sim, 1)
-                        SimFiles = M.Go(SimulationFile.data, MacroContents, DirectoryName)
+                        Dim MacroContents As String = CreateMacroFile(TypesData, Sim, 1)
+                        SimFiles = M.Go(SimulationExplorer.Data, MacroContents, DirectoryName)
                     Next
                 Else
-                        MsgBox("Cannot find the simulation creation macro file", MsgBoxStyle.Critical, "Error")
+                    MsgBox("Cannot find the simulation creation macro file", MsgBoxStyle.Critical, "Error")
                 End If
             Else
                 ' MsgBox("Cannot make simulation until apsim file has been saved to a target location.", MsgBoxStyle.Critical, "Error")
@@ -1049,7 +1022,7 @@ Public Class MainUI
     ' Go run the currently open set of simulations
     ' -----------------------------------------------
     Private Sub RunSimulations()
-        SimulationExplorer.UIManager.SaveDocument()
+        SimulationExplorer.FileSave()
 
         ' kill old apsim processes
         Dim AllProcesses As Process() = Process.GetProcesses()
@@ -1087,6 +1060,11 @@ Public Class MainUI
 
     End Sub
 
+
+    ' --------------------------------------------
+    ' Read in position of windows and move windows
+    ' around to reflect saved locations.
+    ' --------------------------------------------
     Private Sub ReadWindowPosition()
         Try
             Dim inifile As New APSIMSettings
@@ -1110,6 +1088,11 @@ Public Class MainUI
 
         End Try
     End Sub
+
+
+    ' --------------------------------------------
+    ' Write out position of windows
+    ' --------------------------------------------
     Private Sub WriteWindowPosition()
         Try
             Dim inifile As New APSIMSettings
@@ -1124,57 +1107,27 @@ Public Class MainUI
     End Sub
 
 
-
-    Private Sub HelpBrowserPanel_Resize(ByVal sender As Object, ByVal e As System.EventArgs)
+    ' --------------------------------------------
+    ' User has repositioned the help window. Save
+    ' location.
+    ' --------------------------------------------
+    Private Sub HelpBrowserPanel_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles HelpBrowserPanel.Resize
         If HelpBrowserPanel.Visible = True Then
             Dim inifile As New APSIMSettings
             inifile.SetSetting("apsimui", "helpheight", Str(HelpBrowserPanel.Height))
         End If
     End Sub
 
+
+    ' --------------------------------------------
+    ' User has repositioned the toolbox window. Save
+    ' location.
+    ' --------------------------------------------
     Private Sub ToolBoxSplitter_LocationChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolBoxSplitter.LocationChanged
         If ToolboxPanel.Visible Then
             Dim inifile As New APSIMSettings
             inifile.SetSetting("apsimui", "toolboxheight", Str(ToolboxPanel.Height))
         End If
     End Sub
-
-    Private Sub HelpMenuContents_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpMenuContents.Click
-        ShowHelpBrowser()
-        SimulationExplorer.UIManager.ShowHelp(APSIMSettings.ApsimDirectory + "\docs\documentation.xml")
-    End Sub
-
-    Private Sub HelpMenuNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpMenuNew.Click
-        ShowHelpBrowser()
-        SimulationExplorer.UIManager.ShowHelp("www.apsim.info")
-    End Sub
-
-    Private Sub HelpMenuDefect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpMenuDefect.Click
-        ShowHelpBrowser()
-        SimulationExplorer.UIManager.ShowHelp("www.apsim.info/apsim/helpdesk/submit-defect.asp")
-    End Sub
-
-    Private Sub HelpMenuChange_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpMenuChange.Click
-        ShowHelpBrowser()
-        SimulationExplorer.UIManager.ShowHelp("www.apsim.info/apsim/helpdesk/submit-change.asp")
-    End Sub
-
-    Private Sub ContentsMenuItem_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ContentsMenuItem.Click
-        HelpMenuContents_Click(sender, e)
-    End Sub
-
-    Private Sub NewsMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewsMenuItem.Click
-        HelpMenuNew_Click(sender, e)
-    End Sub
-
-    Private Sub DefectMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DefectMenuItem.Click
-        HelpMenuDefect_Click(sender, e)
-    End Sub
-
-    Private Sub ChangeMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChangeMenuItem.Click
-        HelpMenuChange_Click(sender, e)
-    End Sub
-
-
 
 End Class

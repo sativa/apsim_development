@@ -127,12 +127,12 @@
         <Files>
             <Include>
                 <File
-                    RelPath = "APSIMData.vb"
+                    RelPath = "ApplicationSettings.vb"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "APSIMFile.vb"
+                    RelPath = "APSIMData.vb"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -147,9 +147,49 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "BaseDataControl.vb"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "BaseDataControl.resx"
+                    DependentUpon = "BaseDataControl.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "BaseUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "BaseUI.resx"
+                    DependentUpon = "BaseUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Chart.vb"
                     SubType = "Component"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DataTree.vb"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DataTree.resx"
+                    DependentUpon = "DataTree.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "ExplorerUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ExplorerUI.resx"
+                    DependentUpon = "ExplorerUI.vb"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "Grid.vb"

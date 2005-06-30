@@ -183,10 +183,10 @@ Public Class FileUI
 
 #End Region
 
-    Overrides Sub refresh()
+    Overrides Sub Refresh()
         Try
             MyBase.Refresh()
-            Dim filename As String = GetValue("filename")
+            Dim filename As String = Data.ChildValue("filename", True)
             SummaryFileTextBox.Text = filename
             OpenFileDialog.InitialDirectory = Path.GetDirectoryName(filename)
             HelpLabel.Text = "Enter the name of the file in the edit box at the top. The contents of the file will be displayed in the large window above."
@@ -195,8 +195,8 @@ Public Class FileUI
             End If
 
             Dim FullFileName As String = ""
-            If UIManager.ApsimFileName <> "" Then
-                FullFileName = Path.Combine(Path.GetDirectoryName(UIManager.ApsimFileName), filename)
+            If Explorer.FileName <> "" Then
+                FullFileName = Path.Combine(Path.GetDirectoryName(Explorer.FileName), filename)
             Else
                 FullFileName = filename
             End If
@@ -226,7 +226,7 @@ Public Class FileUI
     Private Sub SummaryFileTextBox_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SummaryFileTextBox.Leave
         Try
             If SummaryFileTextBox.Visible = True Then
-                MyData.Child("filename").Value = SummaryFileTextBox.Text
+                Data.Child("filename").Value = SummaryFileTextBox.Text
                 Me.Refresh()
             End If
         Catch ex As System.Exception
@@ -236,7 +236,7 @@ Public Class FileUI
 
     Private Sub SummaryFileTextBox_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles SummaryFileTextBox.KeyUp
         If e.KeyCode = Keys.Enter Then
-            MyData.Child("filename").Value = SummaryFileTextBox.Text
+            Data.Child("filename").Value = SummaryFileTextBox.Text
             Me.Refresh()
         End If
     End Sub
@@ -258,7 +258,7 @@ Public Class FileUI
 
             If OpenFileDialog.ShowDialog() = DialogResult.OK Then
                 SummaryFileTextBox.Text = OpenFileDialog.FileName
-                MyData.Child("filename").Value = SummaryFileTextBox.Text
+                Data.Child("filename").Value = SummaryFileTextBox.Text
                 Me.Refresh()
             Else
             End If

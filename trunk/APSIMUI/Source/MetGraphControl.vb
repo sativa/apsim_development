@@ -260,7 +260,7 @@ Public Class MetGraphControl
     Public Sub PopulateGraph()
         If Visible Then
             Try
-                Metfile.ReadFromFile(MyData.Child("filename").Value)
+                Metfile.ReadFromFile(Data.Child("filename").Value)
                 Dim FirstRow As DataRow = Metfile.Data.Rows(0)
                 Dim LastRow As DataRow = Metfile.Data.Rows(Metfile.Data.Rows.Count - 1)
                 Dim DateColumn As DataColumn = Metfile.Data.Columns("Date")
@@ -443,25 +443,24 @@ Public Class MetGraphControl
     Private Function ReadAnnualData(ByVal ColumnName As String) As Single()
         Dim temp(366) As Single
 
-        Metfile.ReadFromFile(MyData.Child("filename").Value, New Date(TrackBar.Value, 1, 1), New Date(TrackBar.Value, 12, 31))
+        Metfile.ReadFromFile(Data.Child("filename").Value, New Date(TrackBar.Value, 1, 1), New Date(TrackBar.Value, 12, 31))
 
-        Dim data As New DataTable
-        data = Metfile.Data
+        Dim MetData As New DataTable
+        MetData = Metfile.Data
         Dim TempColumn As DataColumn
-        TempColumn = data.Columns(ColumnName)
+        TempColumn = MetData.Columns(ColumnName)
 
         If Not IsNothing(TempColumn) Then
-            For i As Integer = 1 To data.Rows.Count
-                temp(i) = data.Rows(i - 1)(TempColumn)
+            For i As Integer = 1 To MetData.Rows.Count
+                temp(i) = MetData.Rows(i - 1)(TempColumn)
             Next
         End If
 
         Return temp
     End Function
     Private Function ReadAnnualDataTable() As DataTable
-        Dim Data As New DataTable
-
-        Metfile.ReadFromFile(MyData.Child("filename").Value, New Date(TrackBar.Value, 1, 1), New Date(TrackBar.Value, 12, 31))
+        
+        Metfile.ReadFromFile(Data.Child("filename").Value, New Date(TrackBar.Value, 1, 1), New Date(TrackBar.Value, 12, 31))
         Return Metfile.Data
 
     End Function

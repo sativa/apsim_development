@@ -1,7 +1,7 @@
 Imports System
 Imports System.IO
 Public Class VineLogicUI
-    Inherits BaseUI
+    Inherits VBGeneral.BaseUI
 
 #Region " Windows Form Designer generated code "
 
@@ -124,8 +124,8 @@ Public Class VineLogicUI
         Try
             MyBase.Refresh()
             HelpLabel.Text = "Parameterisation of this vinelogic component is via the standard VineLogic Input file structure shown above."
-            TextBox.Text = MyData.Child("data").Value
-            InstanceBox.Value = Val(MyData.Child("instance").Value)
+            TextBox.Text = Data.Child("data").Value
+            InstanceBox.Value = Val(Data.Child("instance").Value)
         Catch E As System.Exception
             MsgBox(E.Message, MsgBoxStyle.Critical, "Error in refreshing Summary File UI")
         End Try

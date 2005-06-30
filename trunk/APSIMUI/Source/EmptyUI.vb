@@ -3,7 +3,7 @@ Imports System.Collections
 Imports System.Collections.Specialized
 
 Public Class EmptyUI
-    Inherits APSIMUI.BaseUI
+    Inherits VBGeneral.BaseUI
 
 #Region " Windows Form Designer generated code "
 
@@ -127,27 +127,27 @@ Public Class EmptyUI
     End Sub
 
 #End Region
-    Overrides Sub refresh()
-        MainLabel.Text = mydata.Type
+    Overrides Sub Refresh()
+        MainLabel.Text = Data.Type
         HelpLabel.Text = "This module does not have any editable properties."
         Dim inifile As New APSIMSettings
-        Dim imagefile As String = UIManager.Image(MyData.Type)
+        Dim UIManager As UIManager = Explorer.ApplicationSettings
+        Dim imagefile As String = UIManager.ImageFileForType(Data.Type)
         PictureBox.Image = Image.FromFile(imagefile)
         Try
-            Label1.Text = UIManager.Description(MyData.Type)
+            Label1.Text = UIManager.DescriptionForType(Data.Type)
         Catch ex As System.Exception
-
+            ' Don't update label.
         End Try
-
     End Sub
 
     Private Sub DocumentationLink_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles DocumentationLink.LinkClicked
+        Dim UIManager As UIManager = Explorer.ApplicationSettings
         Try
-            'Dim url As String = UIManager.Documentation(mydata.Type)
-            Dim url As String = APSIMSettings.ApsimDirectory + "\apsimui\types.xml#" + mydata.Type
-            showhelp(url)
+            Dim url As String = APSIMSettings.ApsimDirectory + "\apsimui\types.xml#" + Data.Type
+            UIManager.ShowHelp(url)
         Catch ex As System.Exception
-            showhelp("www.apsim.info")
+            UIManager.ShowHelp("www.apsim.info")
         End Try
     End Sub
 End Class

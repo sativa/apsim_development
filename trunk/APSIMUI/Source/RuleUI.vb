@@ -5,7 +5,7 @@ Imports System.Collections.Specialized
 Imports System.IO
 
 Public Class RuleUI
-    Inherits APSIMUI.BaseUI
+    Inherits VBGeneral.BaseUI
     Dim InRefresh As Boolean
     Dim Cultivars As APSIMData
 
@@ -256,21 +256,21 @@ Public Class RuleUI
         If Not File.Exists(CultivarFilename) Then
             Throw New System.Exception("Cannot find cultivar file: " + CultivarFilename)
         Else
-            Dim file As New APSIMFile
-            file.Open(CultivarFilename)
-            Cultivars = file.data
+            Dim FileData As New APSIMData
+            FileData.LoadFromFile(CultivarFilename)
+            Cultivars = FileData
         End If
 
         InRefresh = True
 
         ' Fill the property grid.
-        For Each Category As APSIMData In MyData.Children("category")
+        For Each Category As APSIMData In Data.Children("category")
             AddPropertiesToGrid(Category)
         Next
         UpdateAllCultivarDropDowns()
 
         ' Create a tab for each condition.
-        For Each Condition As APSIMData In MyData.Children("condition")
+        For Each Condition As APSIMData In Data.Children("condition")
             Dim page As New TabPage(Condition.Name)
             Dim ScriptBox As New RichTextBox
             ScriptBox.Text = Condition.Value
@@ -315,9 +315,9 @@ Public Class RuleUI
     ' --------------------------------------
     ' Save the script box if it has changd.
     ' --------------------------------------
-    Overrides Sub SaveToAPSIMFile()
+    Overrides Sub Save()
         Dim index As Integer = 1
-        For Each Condition As APSIMData In MyData.Children("condition")
+        For Each Condition As APSIMData In Data.Children("condition")
             Dim page As TabPage = TabControl1.TabPages.Item(index)
             Dim ScriptBox As RichTextBox = page.Controls.Item(0)
             Condition.Value = ScriptBox.Text
@@ -333,7 +333,7 @@ Public Class RuleUI
     Private Sub CellLeavingEdit(ByVal sender As Object, ByVal e As Xceed.Grid.LeavingEditEventArgs)
         If Not InRefresh Then
             Dim Row As Xceed.Grid.DataRow = PropertyGrid.CurrentCell.ParentRow
-            Dim Category As APSIMData = MyData.Child(Row.Cells(2).Value)
+            Dim Category As APSIMData = Data.Child(Row.Cells(2).Value)
             Dim Prop As APSIMData = Category.Child(Row.Cells(3).Value)
             Prop.SetAttribute("value", e.NewValue)
             If Row.Cells(3).Value = "crop" Then
@@ -348,7 +348,7 @@ Public Class RuleUI
     ' ----------------------------------
     Sub UpdateAllCultivarDropDowns()
         Dim RowIndex As Integer = 0
-        For Each Category As APSIMData In MyData.Children("category")
+        For Each Category As APSIMData In Data.Children("category")
             For Each Prop As APSIMData In Category.Children("property")
                 If Prop.Attribute("type") = "cultivars" Then
                     PopulateCultivarDropDown(Prop, PropertyGrid.DataRows(RowIndex))
@@ -368,7 +368,7 @@ Public Class RuleUI
 
         ' Locate the crop property name to get the instance name of the crop.
         Dim InstanceName As String
-        For Each Category As APSIMData In MyData.Children("category")
+        For Each Category As APSIMData In Data.Children("category")
             For Each Prop As APSIMData In Category.Children("property")
                 If Prop.Attribute("name").ToLower = CropPropertyName Then
                     InstanceName = Prop.Attribute("value")

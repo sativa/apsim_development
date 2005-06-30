@@ -4,7 +4,7 @@ Imports System.Collections
 Imports System.Collections.Specialized
 
 Public Class GenericUI
-    Inherits APSIMUI.BaseUI
+    Inherits VBGeneral.BaseUI
     Dim InRefresh As Boolean
 
 #Region " Windows Form Designer generated code "
@@ -163,16 +163,17 @@ Public Class GenericUI
 
 #End Region
 
-    Overrides Sub refresh()
+    Overrides Sub Refresh()
         MyBase.Refresh()
 
         InRefresh = True
 
         Dim inifile As New APSIMSettings
-        Dim imagefile As String = UIManager.Image(mydata.Type)
+        Dim UIManager As UIManager = Explorer.ApplicationSettings
+        Dim imagefile As String = UIManager.ImageFileForType(Data.Type)
         PictureBox.Image = Image.FromFile(imagefile)
 
-        For Each Prop As APSIMData In MyData.Children()
+        For Each Prop As APSIMData In Data.Children()
             If Prop.Children.Count = 0 Then
                 Dim row As Xceed.Grid.DataRow = Grid.DataRows.AddNew()
                 row.BeginEdit()
@@ -201,7 +202,7 @@ Public Class GenericUI
 
     Private Sub Grid_CurrentCellChanged1(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If Me.Visible Then
-            MyData.DataTable = Grid.DataSource
+            Data.DataTable = Grid.DataSource
         End If
     End Sub
 
@@ -275,7 +276,7 @@ Public Class GenericUI
     ' The current cell has changed - update description if necessary.
     ' -------------------------------------------------------------------
     Private Sub Grid_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Grid.CurrentCellChanged
-        Dim Description As String = Mydata.Child(Grid.CurrentCell.ParentRow.Cells(0).Value).Attribute("description")
+        Dim Description As String = Data.Child(Grid.CurrentCell.ParentRow.Cells(0).Value).Attribute("description")
         If Description <> "" Then
             HelpLabel.Text = Description
         Else
@@ -291,7 +292,7 @@ Public Class GenericUI
     Private Sub CellLeavingEdit(ByVal sender As Object, ByVal e As Xceed.Grid.LeavingEditEventArgs)
         If Not InRefresh Then
             Dim Row As Xceed.Grid.DataRow = Grid.CurrentCell.ParentRow
-            Dim Prop As APSIMData = MyData.Child(Row.Cells(0).Value)
+            Dim Prop As APSIMData = Data.Child(Row.Cells(0).Value)
             Prop.Value = e.NewValue
         End If
     End Sub
@@ -299,7 +300,7 @@ Public Class GenericUI
     ' -----------------------------------------------------------------------------
     ' User is doing a run - make sure grid isn't in edit mode.
     ' -----------------------------------------------------------------------------
-    Overrides Sub SaveToAPSIMFile()
+    Overrides Sub Save()
         If Not Grid.CurrentCell Is Nothing Then
             If Grid.CurrentCell.IsBeingEdited Then
                 Grid.CurrentCell.LeaveEdit(True)
