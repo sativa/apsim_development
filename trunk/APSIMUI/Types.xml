@@ -57,6 +57,14 @@
             [foreach area.vinelogic as v1][insert vinelogic][endfor]
             [foreach area.stream][insert stream][endfor]
 
+            <component name="accum" executable="%apsuite\apsim\accum\lib\accum.dll">
+               <initdata>
+               <parameters name="sample">
+                  <property name="accum_variables">rain[15]</property>
+               </parameters>
+               </initdata>
+            </component>
+
             [foreach area.registrations][insert registrations][endfor]
          </system>
          ]]>
@@ -120,6 +128,7 @@
             <get name="tav" type="single"/>
             <get name="amp" type="single"/>
             <get name="co2" type="single"/>
+            <get name="title" type="string"/>
 
             <respondToGet name="streamflow" type="single"/>
             <respondToGet name="root_sw_uptake_vol" type="single"/>
