@@ -2,7 +2,7 @@ Imports System
 Imports System.IO
 
 Public Class MetUI
-    Inherits BaseUI
+    Inherits VBGeneral.BaseUI
 
 #Region " Windows Form Designer generated code "
 
@@ -126,7 +126,6 @@ Public Class MetUI
         Me.MetGraphControl1.Name = "MetGraphControl1"
         Me.MetGraphControl1.Size = New System.Drawing.Size(976, 339)
         Me.MetGraphControl1.TabIndex = 0
-        Me.MetGraphControl1.UIManager = Nothing
         '
         'Panel1
         '
@@ -208,9 +207,9 @@ Public Class MetUI
     Overrides Sub refresh()
         Try
             MyBase.Refresh()
-            MetGraphControl1.Data = MyData
+            MetGraphControl1.Data = Data
             MetGraphControl1.Refresh()
-            Dim filename As String = GetValue("filename")
+            Dim filename As String = Data.ChildValue("filename", True)
             MetFileTextBox.Text = filename
             OpenFileDialog.InitialDirectory = Path.GetDirectoryName(filename)
 
@@ -250,7 +249,7 @@ Public Class MetUI
 
     Private Sub GetNewMetFile()
         Try
-            MyData.Child("filename").Value = MetFileTextBox.Text
+            Data.Child("filename").Value = MetFileTextBox.Text
             Me.Refresh()
         Catch ex As System.Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in updating met file name information")

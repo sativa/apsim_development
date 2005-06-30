@@ -1,7 +1,7 @@
 Imports VBGeneral
 
 Public Class HypropsControl
-    Inherits APSIMUI.BaseDataControl
+    Inherits VBGeneral.BaseDataControl
     Private Hypropsdata As New Hyprops
 #Region " Windows Form Designer generated code "
 
@@ -37,10 +37,10 @@ Public Class HypropsControl
     Friend WithEvents MCPage As System.Windows.Forms.TabPage
     Friend WithEvents HKPage As System.Windows.Forms.TabPage
 
-    Friend WithEvents DataTree As APSIMUI.DataTree
+    Friend WithEvents DataTree As VBGeneral.DataTree
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel
-        Me.DataTree = New APSIMUI.DataTree
+        Me.DataTree = New VBGeneral.DataTree
         Me.PropertyGrid = New System.Windows.Forms.PropertyGrid
         Me.TabControl = New System.Windows.Forms.TabControl
         Me.MCPage = New System.Windows.Forms.TabPage
@@ -132,10 +132,10 @@ Public Class HypropsControl
 #End Region
 
 
-    Public Overrides Sub fill()
-        MyBase.fill()
-        Hypropsdata.Data = myData.Child("hyprops")
-        DataTree.Data = myData
+    Public Overrides Sub Refresh()
+        MyBase.Refresh()
+        Hypropsdata.Data = Data.Child("hyprops")
+        DataTree.Data = Data
         PropertyGrid.SelectedObject = Hypropsdata
     End Sub
 

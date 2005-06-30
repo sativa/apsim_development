@@ -2,12 +2,20 @@ Imports System
 Imports System.Collections
 Imports System.Collections.Specialized
 Imports System.Xml
+Imports System.IO
 
+' ----------------------------------------------------------------------
 ' This class encapsulates the way we use xml to pass information around.
-
+' ----------------------------------------------------------------------
 Public Class APSIMData
     Private Node As XmlNode
 
+    ' --------------------
+    ' constructors
+    ' --------------------
+    Sub New()
+        Node = Nothing
+    End Sub
     Sub New(ByRef DataNode As XmlNode)
         Node = DataNode
     End Sub
@@ -29,6 +37,37 @@ Public Class APSIMData
         data.LoadXml(XMLString)
         Node = data.DocumentElement
     End Sub
+
+
+    ' ----------------------------
+    ' Load from specified file
+    ' ----------------------------
+    Public Function LoadFromFile(ByVal FileName As String) As Boolean
+        Dim MyFileName As String = Path.GetFullPath(FileName)
+
+        If File.Exists(MyFileName) Then
+            Dim data As New XmlDocument
+            data.Load(MyFileName)
+            Node = data.DocumentElement
+            Return True
+        Else
+            MsgBox("Cannot find file: " + FileName)
+            Return False
+        End If
+    End Function
+
+
+    ' ----------------------------
+    ' Save to the specified file
+    ' ----------------------------
+    Public Sub SaveToFile(ByVal FileName As String)
+        Node.OwnerDocument.Save(FileName)
+    End Sub
+
+
+    ' ------------------------------------------------
+    ' Return parent node data or nothing if root node
+    ' ------------------------------------------------
     ReadOnly Property Parent() As APSIMData
         Get
             Dim A As New APSIMData(Node.ParentNode)
@@ -37,9 +76,13 @@ Public Class APSIMData
             Else
                 Return A
             End If
-
         End Get
     End Property
+
+
+    ' -----------------------------------------------
+    ' Return child node data or nothing if not found
+    ' -----------------------------------------------
     Function Child(ByVal ChildName As String) As APSIMData
         For Each ChildData As APSIMData In Me.Children
             If LCase(ChildName) = LCase(ChildData.Name) Then
@@ -48,11 +91,21 @@ Public Class APSIMData
         Next
         Return Nothing
     End Function
+
+
+    ' -------------------------------
+    ' Clear all children nodes
+    ' -------------------------------
     Public Sub Clear()
         For Each Child As String In ChildList()
             Delete(Child)
         Next
     End Sub
+
+
+    ' --------------------------------------------------
+    ' Find and return a specific child from a child path.
+    ' --------------------------------------------------
     Function FindChild(ByVal ChildPath As String, Optional ByVal Delimiter As Char = "|") As APSIMData
         Dim name As String
         Dim CurrentData As New APSIMData(Node)
@@ -135,7 +188,7 @@ Public Class APSIMData
 
     Function AttributeExists(ByVal AttributeName As String) As Boolean
         Dim A As XmlAttribute = Node.Attributes.GetNamedItem(AttributeName)
-        return Not IsNothing(A)
+        Return Not IsNothing(A)
     End Function
 
     Function Attribute(ByVal AttributeName As String) As String
@@ -196,8 +249,8 @@ Public Class APSIMData
         ElseIf Me.Attribute("shortcut") <> "" Then
             MsgBox("Cannot add data to a short cut.  You must add this data to the data source in the library.", MsgBoxStyle.Critical, "User Error")
         Else
-            Dim NewName as string = UniqueName(Data.Name, ChildList)
-            if NewName <> Data.Name then
+            Dim NewName As String = UniqueName(Data.Name, ChildList)
+            If NewName <> Data.Name Then
                 Data.Name = NewName
             End If
 
@@ -320,4 +373,31 @@ Public Class APSIMData
 
         End Set
     End Property
+
+
+    Property ChildValue(ByVal key As String, ByVal ShowError As Boolean) As String
+        Get
+            Try
+                Return Child(Trim(key)).Value
+            Catch e As System.Exception
+                If ShowError Then
+                    MsgBox("Error in returning value for child: " + Trim(key), MsgBoxStyle.Critical, "Error")
+                End If
+                Return ""
+            End Try
+        End Get
+        Set(ByVal Value As String)
+            Try
+                Child(Trim(key)).Value = Value
+            Catch e As System.Exception
+                If ShowError Then
+                    MsgBox("Error in setting value for child: " + Trim(key), MsgBoxStyle.Critical, "Error")
+                Else
+                    Add(New APSIMData(Trim(key), ""))
+                    Child(Trim(key)).Value = Value
+                End If
+            End Try
+        End Set
+    End Property
+
 End Class

@@ -1,5 +1,5 @@
 Public Class LogicUI
-    Inherits APSIMUI.BaseUI
+    Inherits VBGeneral.BaseUI
 
 #Region " Windows Form Designer generated code "
 
@@ -136,11 +136,11 @@ Public Class LogicUI
 
 #End Region
 
-    Overrides Sub refresh()
+    Overrides Sub Refresh()
         MyBase.Refresh()
-        InitTextBox.Text = Replace(GetValue("init"), "[cr]", vbCrLf)
-        StartOfDayTextBox.Text = Replace(GetValue("startofday"), "[cr]", vbCrLf)
-        EndOfDayTextBox.Text = Replace(GetValue("endofday"), "[cr]", vbCrLf)
+        InitTextBox.Text = Replace(Data.ChildValue("init", True), "[cr]", vbCrLf)
+        StartOfDayTextBox.Text = Replace(Data.ChildValue("startofday", True), "[cr]", vbCrLf)
+        EndOfDayTextBox.Text = Replace(Data.ChildValue("endofday", True), "[cr]", vbCrLf)
         HelpLabel.Text = "Enter you management logic into the edit box above."
     End Sub
 

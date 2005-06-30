@@ -40,7 +40,7 @@ Public Class OutputFileDescUI
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
     Friend WithEvents OpenFileDialog As System.Windows.Forms.OpenFileDialog
-    Friend WithEvents DataTree As APSIMUI.DataTree
+    Friend WithEvents DataTree As VBGeneral.DataTree
     Friend WithEvents RightHandPanel As System.Windows.Forms.Panel
     Friend WithEvents Splitter1 As System.Windows.Forms.Splitter
     Friend WithEvents EventsListView As APSIMUI.EventsListView
@@ -49,7 +49,7 @@ Public Class OutputFileDescUI
 
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
-        Me.DataTree = New APSIMUI.DataTree
+        Me.DataTree = New VBGeneral.DataTree
         Me.RightHandPanel = New System.Windows.Forms.Panel
         Me.Splitter2 = New System.Windows.Forms.Splitter
         Me.EventsListView = New APSIMUI.EventsListView
@@ -75,7 +75,6 @@ Public Class OutputFileDescUI
         Me.DataTree.Size = New System.Drawing.Size(256, 595)
         Me.DataTree.Sorted = False
         Me.DataTree.TabIndex = 8
-        Me.DataTree.UIManager = Nothing
         '
         'RightHandPanel
         '
@@ -105,7 +104,6 @@ Public Class OutputFileDescUI
         Me.EventsListView.Name = "EventsListView"
         Me.EventsListView.Size = New System.Drawing.Size(797, 136)
         Me.EventsListView.TabIndex = 12
-        Me.EventsListView.UIManager = Nothing
         '
         'Splitter1
         '
@@ -122,7 +120,6 @@ Public Class OutputFileDescUI
         Me.VariablesListView.Name = "VariablesListView"
         Me.VariablesListView.Size = New System.Drawing.Size(797, 456)
         Me.VariablesListView.TabIndex = 14
-        Me.VariablesListView.UIManager = Nothing
         '
         'OutputFileDescUI
         '
@@ -150,15 +147,13 @@ Public Class OutputFileDescUI
         MyBase.Refresh()
         HelpLabel.Text = "Use the variables tab to specify APSIM variables that should be written to the output file. Use the file contents tab to view the contents of the output file."
 
-        CaptionLabel.Visible = False
         DataTree.Sorted = True
         DataTree.CaptionLabel.Text = "Variable and events"
-        DataTree.UIManager = UIManager
-        DataTree.ShowAll = True
+        'DataTree.ShowAll = True
         DataTree.Data = BuildDataTree()
 
-        VariablesListView.Data = MyData
-        EventsListView.Data = MyData
+        VariablesListView.Data = Data
+        EventsListView.Data = Data
     End Sub
 
 
@@ -168,15 +163,16 @@ Public Class OutputFileDescUI
     ' ------------------------------------
     Private Function BuildDataTree() As APSIMData
         Dim VariablesXML As String = "<components/>"
+        Dim UIManager As UIManager = Explorer.ApplicationSettings
 
-        If mydata.Parent.Type = "outputfile" Then
-            Return New APSIMData(UIManager.GetOutputFileDescriptions(mydata.Parent.Parent))
+        If Data.Parent.Type = "outputfile" Then
+            Return New APSIMData(UIManager.GetOutputFileDescriptions(Data.Parent.Parent))
         Else
             Return New APSIMData("<components/>")
         End If
     End Function
 
-    Private Sub DataTree_DataSelectedEvent(ByVal sender As Object, ByVal e As VBGeneral.APSIMData) Handles DataTree.DataSelectedEvent
+    Private Sub DataTree_DataSelectedEvent(ByVal e As VBGeneral.APSIMData) Handles DataTree.DataSelectedEvent
         HelpLabel.Text = e.Attribute("description")
     End Sub
 End Class

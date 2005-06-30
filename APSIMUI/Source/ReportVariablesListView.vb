@@ -235,7 +235,7 @@ Public Class ReportVariablesListView
     ' ------------------------
     ' Fill in grid
     ' ------------------------
-    Overrides Sub fill()
+    Overrides Sub Refresh()
         InFill = True
         CaptionLabel.Text = "Output variables"
 
@@ -255,7 +255,7 @@ Public Class ReportVariablesListView
         Next cell
 
 
-        Dim VariablesNode As APSIMData = MyData.Child("variables")
+        Dim VariablesNode As APSIMData = Data.Child("variables")
         Dim row As Xceed.Grid.DataRow
         For Each child As APSIMData In VariablesNode.Children("variable")
             row = VariablesList.DataRows.AddNew()
@@ -317,7 +317,7 @@ Public Class ReportVariablesListView
         If e.KeyValue = Keys.Delete Then
             Dim Row As Xceed.Grid.DataRow = VariablesList.CurrentCell.ParentRow
             Dim name As String = Row.Cells(2).Value
-            MyData.Child("Variables").Delete(name)
+            Data.Child("Variables").Delete(name)
             VariablesList.DataRows.Remove(Row)
         End If
     End Sub
@@ -348,7 +348,7 @@ Public Class ReportVariablesListView
     Private Sub CellLeavingEdit(ByVal sender As Object, ByVal e As Xceed.Grid.EditLeftEventArgs)
         If Not InFill Then
             Dim Row As Xceed.Grid.DataRow = VariablesList.CurrentCell.ParentRow
-            Dim VariablesNode As APSIMData = MyData.Child("variables")
+            Dim VariablesNode As APSIMData = Data.Child("variables")
 
             If Row.Cells(2).Value = "" Then
                 Row.Cells(2).Value = Row.Cells(0).Value
@@ -406,7 +406,7 @@ Public Class ReportVariablesListView
                 Dim Row As Xceed.Grid.DataRow = VariablesList.CurrentCell.ParentRow
                 Dim RowNumber As Integer = Row.Index
 
-                Dim VariablesNode As APSIMData = MyData.Child("variables")
+                Dim VariablesNode As APSIMData = Data.Child("variables")
                 Dim DataString As String = VariablesNode.Children()(RowNumber).XML
 
                 ' Initialize the drag and drop operation.
@@ -451,7 +451,7 @@ Public Class ReportVariablesListView
             NewData.SetAttribute("variablename", NewData.Attribute("name"))
             NewData.SetAttribute("arrayspec", "")
 
-            Dim VariablesNode As APSIMData = MyData.Child("variables")
+            Dim VariablesNode As APSIMData = Data.Child("variables")
             Dim InsertNode As APSIMData
             If RowNumber < VariablesList.DataRows.Count - 1 Then
                 InsertNode = VariablesNode.Children()(RowNumber)
@@ -470,7 +470,7 @@ Public Class ReportVariablesListView
                 VariablesNode.AddBefore(NewData, InsertNode)
             End If
 
-            fill()
+            Refresh()
         Else
             MsgBox("You can only add variables to the output variables list.", MsgBoxStyle.Critical, "Error")
         End If

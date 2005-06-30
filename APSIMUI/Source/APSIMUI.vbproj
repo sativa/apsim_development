@@ -227,36 +227,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "BaseDataControl.vb"
-                    SubType = "UserControl"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "BaseDataControl.resx"
-                    DependentUpon = "BaseDataControl.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "BaseUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "BaseUI.resx"
-                    DependentUpon = "BaseUI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "DataTree.vb"
-                    SubType = "UserControl"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "DataTree.resx"
-                    DependentUpon = "DataTree.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "DocumentationUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -284,16 +254,6 @@
                 <File
                     RelPath = "EventsListView.resx"
                     DependentUpon = "EventsListView.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "ExplorerUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ExplorerUI.resx"
-                    DependentUpon = "ExplorerUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

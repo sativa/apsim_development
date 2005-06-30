@@ -1,5 +1,5 @@
 Public Class ManagerUI
-    Inherits APSIMUI.BaseUI
+    Inherits VBGeneral.BaseUI
 
 #Region " Windows Form Designer generated code "
 

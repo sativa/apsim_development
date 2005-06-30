@@ -66,8 +66,8 @@ Public Class Toolboxes
     ' ---------------------------------------------------
     Public Sub CreateNew(ByVal Filename As String)
         Dim sr As StreamWriter = File.CreateText(Filename)
-        sr.WriteLine("<toolbox name=""" + Path.GetFileNameWithoutExtension(Filename) + """>")
-        sr.WriteLine("</toolbox>")
+        sr.WriteLine("<folder name=""" + Path.GetFileNameWithoutExtension(Filename) + """>")
+        sr.WriteLine("</folder>")
         sr.Close()
     End Sub
 

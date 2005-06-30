@@ -4,7 +4,7 @@ Imports System.Collections
 Imports System.Collections.Specialized
 Imports System.Xml
 Public Class SimulationUI
-    Inherits BaseUI
+    Inherits VBGeneral.BaseUI
     'Inherits System.Windows.Forms.Form
     Private listview As Object
 #Region " Windows Form Designer generated code "
@@ -145,9 +145,9 @@ Public Class SimulationUI
         'filename = APSIMFile.XMLFilePath + "\" + filename
         'End If
 
-        StartDatePicker.Value = GetValue("start_date")
-        EndDatePicker.Value = GetValue("end_date")
-        TitleTextBox.Text = GetValue("title")
+        StartDatePicker.Value = Data.ChildValue("start_date", True)
+        EndDatePicker.Value = Data.ChildValue("end_date", True)
+        TitleTextBox.Text = Data.ChildValue("title", True)
 
 
 
@@ -155,7 +155,7 @@ Public Class SimulationUI
 
     Private Sub StartDatePicker_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles StartDatePicker.Leave
         Try
-            MyData.Child("start_date").Value = StartDatePicker.Value.Date
+            Data.Child("start_date").Value = StartDatePicker.Value.Date
             Me.Refresh()
 
         Catch ex as system.exception
@@ -165,7 +165,7 @@ Public Class SimulationUI
 
     Private Sub EndDatePicker_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles EndDatePicker.Leave
         Try
-            MyData.Child("end_date").Value = EndDatePicker.Value.Date
+            Data.Child("end_date").Value = EndDatePicker.Value.Date
             Me.Refresh()
 
         Catch ex as system.exception
@@ -175,7 +175,7 @@ Public Class SimulationUI
 
     Private Sub TitleTextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles TitleTextBox.Leave
         Try
-            MyData.Child("title").Value = TitleTextBox.Text
+            Data.Child("title").Value = TitleTextBox.Text
             Me.Refresh()
 
         Catch ex as system.exception
@@ -194,8 +194,7 @@ Public Class SimulationUI
             .Width = Me.Width - 2
             .Height = Me.Height - 60
             .Anchor = AnchorStyles.Bottom Or AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-            .Data = MyData ' this must be done before you can set the path
-            .UIManager = Me.UIManager
+            .Data = Data ' this must be done before you can set the path
             .TopLevel = False
             .Parent = Me
             .Show()
