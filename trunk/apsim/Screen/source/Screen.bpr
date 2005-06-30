@@ -23,21 +23,22 @@
     <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
-    <USERDEFINES value=""/>
+    <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="Screen.cpp"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;..\..\..\Shared"/>
     <LIBPATH value="..\..\..\APSoil\Source;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib"/>
     <WARNINGS value="-w-par -w-8027 -w-8026"/>
     <WARNOPTSTR value=""/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -O2 -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k- -vi -c -tWM"/>
-    <PFLAGS value="-$Y- -$L- -$D- -$A8 -v -JPHNE -M"/>
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
+      -c -tWM"/>
+    <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
-    <AFLAGS value="/mx /w2 /zn"/>
-    <LFLAGS value="-D&quot;&quot; -aa -Tpd -x -Gn -Gi"/>
+    <AFLAGS value="/mx /w2 /zi"/>
+    <LFLAGS value="-D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
@@ -87,25 +88,24 @@ Comments=
 
 [Excluded Packages]
 c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
-C:\MyData\development\Bin\APSData.bpl=APSuite data components
-c:\program files\borland\cbuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
 
 [HistoryLists\hlIncludePath]
-Count=14
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
-Item1=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components
-Item2=..\..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item3=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item4=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\general\;..\..\infra\ComponentInterface;..\..\infra\protocol
-Item5=..\..\infra\ComponentInterface;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
-Item6=k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
-Item7=k:\general;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
-Item8=k:\general;$(BCB)\include;$(BCB)\include\vcl;k:\general\;k:\;..\..\infra\engine;..\..\infra\protocol
-Item9=$(BCB)\include;$(BCB)\include\vcl;k:\general;k:\;..\..\infra\engine
-Item10=..\..\..\shared\general;$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
-Item11=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
-Item12=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source;..\..\..\shared
-Item13=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source
+Count=15
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;..\..\..\Shared
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
+Item2=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components
+Item3=..\..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item4=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item5=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\general\;..\..\infra\ComponentInterface;..\..\infra\protocol
+Item6=..\..\infra\ComponentInterface;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
+Item7=k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
+Item8=k:\general;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\engine;..\..\infra\protocol
+Item9=k:\general;$(BCB)\include;$(BCB)\include\vcl;k:\general\;k:\;..\..\infra\engine;..\..\infra\protocol
+Item10=$(BCB)\include;$(BCB)\include\vcl;k:\general;k:\;..\..\infra\engine
+Item11=..\..\..\shared\general;$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
+Item12=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\engine;..\..\..\shared
+Item13=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source;..\..\..\shared
+Item14=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\c++source
 
 [HistoryLists\hlLibraryPath]
 Count=15
@@ -150,11 +150,11 @@ Item1=..\Lib
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=c:\apswork\test\test.run
+RunParams=D:\development\apsim\UserRuns\radishbug\legume~1.sim
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=D:\apsuite\apsim\infra\cppsource\apsim.exe
+HostApplication=d:\development\bin\apsim.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=
