@@ -452,11 +452,13 @@ class __declspec(dllexport) Component
              return readParameter(baseSection, variableName);
              }
           }
-       // remove any Units specifier "(..)" here
+       // remove any Units specifier "(..)":
        int posBracket = valueString.find('(');
        if (posBracket != std::string::npos)
          valueString = valueString.substr(0,posBracket);
 
+       // And any whitespace...
+       stripLeadingTrailing(valueString, " \t");
        return valueString;
        };
 
