@@ -310,6 +310,7 @@
       character  line*(record_Length+80)
       character  record*(record_length)
       integer    recno
+      integer    iostatus
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -319,7 +320,12 @@
 
       do 100 counter = 1, g%last_record
          recno = g%op_order(counter)
-         read (g%oplun, '(A)', rec=recno) Record
+         read (g%oplun, '(A)', rec=recno, iostat=iostatus) Record
+         if (iostatus .ne. 0) then
+            call Fatal_error(ERR_user, 'Error reading operations data')
+            goto 1000
+         else
+         endif
          write(Line,'(2i5,2x,a,2x,a)')
      :                    g%op_days(recno)
      :                   ,g%op_years(recno)
@@ -327,7 +333,7 @@
      :                   ,Record
          call write_string (Line)
   100 continue
-
+ 1000 continue
       call pop_routine (my_name)
       return
       end subroutine
@@ -382,6 +388,7 @@
        CHARACTER condition*(MAX_CONDITION_SIZE)
                                        ! condition of each rule
        integer rule_index
+      integer iostatus 
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -418,7 +425,14 @@
                      call operatns_extract_date (line
      :                            , g%op_days(g%last_record)
      :                            , g%op_years(g%last_record))
-                     write (g%oplun, '(A)', rec=g%last_record) line
+                     write (g%oplun, '(A)', rec=g%last_record, 
+     :                      iostat=iostatus) line
+                     if (iostatus .ne. 0) then
+                        call Fatal_error(ERR_user, 
+     :                             'Error writing operations data')
+                        goto 200
+                     else
+                     endif
                      g%op_order(g%last_record) = g%last_record
                      g%op_phase(g%last_record) = phase_no
 
@@ -429,10 +443,10 @@
                   endif
                endif
 100         continue
-200         continue
          endif
       end do
 
+200   continue
       call pop_routine (my_name)
       return
       end subroutine
