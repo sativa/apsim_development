@@ -349,12 +349,12 @@ $(TMPDIR):
 	if not exist $(TMPDIR) mkdir $(TMPDIR)
   
 $(TCLROOT): \\thor\seg\tools\tcl\tcl$(TCLVER)\license.terms
-	if not exist $(TCLROOT) xcopy \\thor\seg\tools\tcl\tcl$(TCLVER) $(TCLROOT) /E /Y /I
+	if not exist $(TCLROOT) xcopy \\thor\seg\tools\tcl\tcl$(TCLVER) $(TCLROOT) /E /Y /I /Q
     
 $(TKROOT): \\thor\seg\tools\tcl\tk$(TCLVER)\license.terms
-	if not exist $(TKROOT) xcopy \\thor\seg\tools\tcl\tk$(TCLVER) $(TKROOT) /E /Y /I
+	if not exist $(TKROOT) xcopy \\thor\seg\tools\tcl\tk$(TCLVER) $(TKROOT) /E /Y /I /Q
 
 $(INSTLIBS): $(TCLROOT) $(TKROOT)
-	if not exist ..\lib\tcl$(VER) xcopy tcl$(TCLVER)\library ..\lib\tcl$(VER) /E /Y /I
-	if not exist ..\lib\tk$(VER) xcopy tk$(TCLVER)\library ..\lib\tk$(VER) /E /Y /I
+	if not exist ..\lib\tcl$(VER) xcopy tcl$(TCLVER)\library ..\lib\tcl$(VER) /E /Y /I /Q
+	if not exist ..\lib\tk$(VER) xcopy tk$(TCLVER)\library ..\lib\tk$(VER) /E /Y /I /Q
  
