@@ -1,5 +1,5 @@
-//---------------------------------------------------------------------------
-#include <windows.h>
+#include <general/pch.h>
+#include <vcl.h>
 
 //extern "C" void TkWinXCleanup(HINSTANCE);
 //extern "C" void TkWinXInit(HINSTANCE);

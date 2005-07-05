@@ -1,8 +1,6 @@
 //---------------------------------------------------------------------------
 #ifndef TclComponentH
 #define TclComponentH
-#include <ComponentInterface\Component.h>
-#include <map>
 
 // ------------------------------------------------------------------
 // This component acts as the interface between an instance of a
@@ -30,5 +28,6 @@ class TclComponent : public protocol::Component
       typedef std::map<unsigned, std::string> UInt2StringMap;
       UInt2StringMap rules;
       UInt2StringMap variables;
+      Tcl_Interp *Interp;
    };
 #endif

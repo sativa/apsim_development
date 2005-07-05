@@ -1,0 +1,342 @@
+# ---------------------------------------------------------------------------
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+BCC32 = bcc32
+LINKER = ilink32
+
+# ---------------------------------------------------------------------------
+PROJECT = ..\lib\TclLink.dll
+# ---------------------------------------------------------------------------
+
+NODEBUG=1
+
+# ---------------------------------------------------------------------------
+# TCL SECTION
+# ---------------------------------------------------------------------------
+TCLROOT=.\tcl8.4.1
+TKROOT=.\tk8.4.1
+TMPDIR=.\TclObjs
+
+TCLWINDIR		= $(TCLROOT)\win
+TCLGENERICDIR	= $(TCLROOT)\generic
+
+TKWINDIR      = $(TKROOT)\win
+TKGENERICDIR  = $(TKROOT)\generic
+TKXLIBDIR     = $(TKROOT)\xlib
+TKBITMAPDIR   = $(TKROOT)\bitmaps
+TKRCDIR       = $(TKWINDIR)\rc
+
+!IF "$(NODEBUG)" == "1"
+# these macros cause maximum optimization and no symbols
+cdebug	= -v- -vi- -O2 -D_DEBUG
+ldebug	=
+!ELSE
+# these macros enable debugging
+cdebug	= -k -Od -r- -v -vi- -y
+ldebug	= -v
+!ENDIF
+
+# declarations common to all compiler options
+cbase	= -c -q -3 -a4 -g0 -tWM -Ve -Vx -X-
+WARNINGS	= -w-rch -w-pch -w-par -w-dup -w-pro -w-dpu -w-ccc -w-inl
+
+
+THREADDEFINES	= -DTCL_THREADS=1
+
+TCL_INCLUDES	=  -I"$(TCLWINDIR)" -I"$(TCLGENERICDIR)"
+
+SYSDEFINES	= _MT;NO_STRICT;_NO_VCL
+TCL_DEFINES	= $(DEBUGDEFINES) $(THREADDEFINES)
+#TCL_CFLAGS	= $(cdebug) $(cbase) $(TCL_INCLUDES) $(WARNINGS) -D$(SYSDEFINES) $(TCL_DEFINES)
+TCL_CFLAGS	= $(TCL_INCLUDES) $(WARNINGS) -D$(SYSDEFINES) $(TCL_DEFINES)
+
+## declarations common to all linker options
+#LNFLAGS	= -D"" -Gn -I$(TMPDIR) -x $(ldebug) $(libpath32)
+## -Gi: create lib file (is -Gl in doc)
+## -aa: Windows app, -ap: Windows console app
+LNFLAGS_DLL	= -aa -Gi -Tpd
+
+##########
+TK_INCLUDES = -I$(TKWINDIR) -I$(TKGENERICDIR) -I$(TKBITMAPDIR) -I$(TKXLIBDIR) -I"$(TCLWINDIR)" -I"$(TCLGENERICDIR)"
+TK_DEFINES  = -D__WIN32__ $(DEBUGDEFINES) $(THREADDEFINES)
+#TK_CFLAGS   = $(cdebug) $(cbase) $(WARNINGS) -D$(SYSDEFINES) $(TK_INCLUDES) $(TK_DEFINES)
+TK_CFLAGS   = $(WARNINGS) -D$(SYSDEFINES) $(TK_INCLUDES) $(TK_DEFINES)
+
+TCLOBJS	= $(TMPDIR)\regcomp.obj \
+	$(TMPDIR)\regexec.obj \
+	$(TMPDIR)\regfree.obj \
+	$(TMPDIR)\regerror.obj \
+	$(TMPDIR)\strftime.obj \
+	$(TMPDIR)\strtoll.obj \
+	$(TMPDIR)\strtoull.obj \
+	$(TMPDIR)\tclAlloc.obj \
+	$(TMPDIR)\tclAsync.obj \
+	$(TMPDIR)\tclBasic.obj \
+	$(TMPDIR)\tclBinary.obj \
+	$(TMPDIR)\tclCkalloc.obj \
+	$(TMPDIR)\tclClock.obj \
+	$(TMPDIR)\tclCmdAH.obj \
+	$(TMPDIR)\tclCmdIL.obj \
+	$(TMPDIR)\tclCmdMZ.obj \
+	$(TMPDIR)\tclCompCmds.obj \
+	$(TMPDIR)\tclCompExpr.obj \
+	$(TMPDIR)\tclCompile.obj \
+	$(TMPDIR)\tclDate.obj \
+	$(TMPDIR)\tclEncoding.obj \
+	$(TMPDIR)\tclEnv.obj \
+	$(TMPDIR)\tclEvent.obj \
+	$(TMPDIR)\tclExecute.obj \
+	$(TMPDIR)\tclFCmd.obj \
+	$(TMPDIR)\tclFileName.obj \
+	$(TMPDIR)\tclGet.obj \
+	$(TMPDIR)\tclHash.obj \
+	$(TMPDIR)\tclHistory.obj \
+	$(TMPDIR)\tclIndexObj.obj \
+	$(TMPDIR)\tclInterp.obj \
+	$(TMPDIR)\tclIO.obj \
+	$(TMPDIR)\tclIOCmd.obj \
+	$(TMPDIR)\tclIOGT.obj \
+	$(TMPDIR)\tclIOSock.obj \
+	$(TMPDIR)\tclIOUtil.obj \
+	$(TMPDIR)\tclLink.obj \
+	$(TMPDIR)\tclLiteral.obj \
+	$(TMPDIR)\tclListObj.obj \
+	$(TMPDIR)\tclLoad.obj \
+	$(TMPDIR)\tclMain.obj \
+	$(TMPDIR)\tclNamesp.obj \
+	$(TMPDIR)\tclNotify.obj \
+	$(TMPDIR)\tclObj.obj \
+	$(TMPDIR)\tclPanic.obj \
+	$(TMPDIR)\tclParse.obj \
+	$(TMPDIR)\tclParseExpr.obj \
+	$(TMPDIR)\tclPipe.obj \
+	$(TMPDIR)\tclPkg.obj \
+	$(TMPDIR)\tclPosixStr.obj \
+	$(TMPDIR)\tclPreserve.obj \
+	$(TMPDIR)\tclProc.obj \
+	$(TMPDIR)\tclRegexp.obj \
+	$(TMPDIR)\tclResolve.obj \
+	$(TMPDIR)\tclResult.obj \
+	$(TMPDIR)\tclScan.obj \
+	$(TMPDIR)\tclStringObj.obj \
+	$(TMPDIR)\tclStubInit.obj \
+	$(TMPDIR)\tclStubLib.obj \
+	$(TMPDIR)\tclThread.obj \
+	$(TMPDIR)\tclThreadJoin.obj \
+	$(TMPDIR)\tclTimer.obj \
+	$(TMPDIR)\tclUtf.obj \
+	$(TMPDIR)\tclUtil.obj \
+	$(TMPDIR)\tclVar.obj \
+	$(TMPDIR)\tclWin32Dll.obj \
+	$(TMPDIR)\tclWinChan.obj \
+	$(TMPDIR)\tclWinConsole.obj \
+	$(TMPDIR)\tclWinSerial.obj \
+	$(TMPDIR)\tclWinError.obj \
+	$(TMPDIR)\tclWinFCmd.obj \
+	$(TMPDIR)\tclWinFile.obj \
+	$(TMPDIR)\tclWinInit.obj \
+	$(TMPDIR)\tclWinLoad.obj \
+	$(TMPDIR)\tclWinMtherr.obj \
+	$(TMPDIR)\tclWinNotify.obj \
+	$(TMPDIR)\tclWinPipe.obj \
+	$(TMPDIR)\tclWinSock.obj \
+	$(TMPDIR)\tclWinThrd.obj \
+	$(TMPDIR)\tclWinTime.obj
+
+XLIBOBJS = \
+  $(TMPDIR)\xcolors.obj \
+  $(TMPDIR)\xdraw.obj \
+  $(TMPDIR)\xgc.obj \
+  $(TMPDIR)\ximage.obj \
+  $(TMPDIR)\xutil.obj
+
+TKOBJS = \
+	$(TMPDIR)\tkConsole.obj \
+	$(TMPDIR)\tkUnixMenubu.obj \
+	$(TMPDIR)\tkUnixScale.obj \
+	$(XLIBOBJS) \
+	$(TMPDIR)\tkWin3d.obj \
+	$(TMPDIR)\tkWinButton.obj \
+	$(TMPDIR)\tkWinClipboard.obj \
+	$(TMPDIR)\tkWinColor.obj \
+	$(TMPDIR)\tkWinConfig.obj \
+	$(TMPDIR)\tkWinCursor.obj \
+	$(TMPDIR)\tkWinDialog.obj \
+	$(TMPDIR)\tkWinDraw.obj \
+	$(TMPDIR)\tkWinEmbed.obj \
+	$(TMPDIR)\tkWinFont.obj \
+	$(TMPDIR)\tkWinImage.obj \
+	$(TMPDIR)\tkWinInit.obj \
+	$(TMPDIR)\tkWinKey.obj \
+	$(TMPDIR)\tkWinMenu.obj \
+	$(TMPDIR)\tkWinPixmap.obj \
+	$(TMPDIR)\tkWinPointer.obj \
+	$(TMPDIR)\tkWinRegion.obj \
+	$(TMPDIR)\tkWinScrlbr.obj \
+	$(TMPDIR)\tkWinSend.obj \
+	$(TMPDIR)\tkWinWindow.obj \
+	$(TMPDIR)\tkWinWm.obj \
+	$(TMPDIR)\tkWinX.obj \
+	$(TMPDIR)\stubs.obj \
+	$(TMPDIR)\tk3d.obj \
+	$(TMPDIR)\tkArgv.obj \
+	$(TMPDIR)\tkAtom.obj \
+	$(TMPDIR)\tkBind.obj \
+	$(TMPDIR)\tkBitmap.obj \
+	$(TMPDIR)\tkButton.obj \
+	$(TMPDIR)\tkCanvArc.obj \
+	$(TMPDIR)\tkCanvBmap.obj \
+	$(TMPDIR)\tkCanvImg.obj \
+	$(TMPDIR)\tkCanvLine.obj \
+	$(TMPDIR)\tkCanvPoly.obj \
+	$(TMPDIR)\tkCanvPs.obj \
+	$(TMPDIR)\tkCanvText.obj \
+	$(TMPDIR)\tkCanvUtil.obj \
+	$(TMPDIR)\tkCanvWind.obj \
+	$(TMPDIR)\tkCanvas.obj \
+	$(TMPDIR)\tkClipboard.obj \
+	$(TMPDIR)\tkCmds.obj \
+	$(TMPDIR)\tkColor.obj \
+	$(TMPDIR)\tkConfig.obj \
+	$(TMPDIR)\tkCursor.obj \
+	$(TMPDIR)\tkEntry.obj \
+	$(TMPDIR)\tkError.obj \
+	$(TMPDIR)\tkEvent.obj \
+	$(TMPDIR)\tkFileFilter.obj \
+	$(TMPDIR)\tkFocus.obj \
+	$(TMPDIR)\tkFont.obj \
+	$(TMPDIR)\tkFrame.obj \
+	$(TMPDIR)\tkGC.obj \
+	$(TMPDIR)\tkGeometry.obj \
+	$(TMPDIR)\tkGet.obj \
+	$(TMPDIR)\tkGrab.obj \
+	$(TMPDIR)\tkGrid.obj \
+	$(TMPDIR)\tkImage.obj \
+	$(TMPDIR)\tkImgBmap.obj \
+	$(TMPDIR)\tkImgGIF.obj \
+	$(TMPDIR)\tkImgPPM.obj \
+	$(TMPDIR)\tkImgPhoto.obj \
+	$(TMPDIR)\tkImgUtil.obj \
+	$(TMPDIR)\tkListbox.obj \
+	$(TMPDIR)\tkMacWinMenu.obj \
+	$(TMPDIR)\tkMain.obj \
+	$(TMPDIR)\tkMenu.obj \
+	$(TMPDIR)\tkMenubutton.obj \
+	$(TMPDIR)\tkMenuDraw.obj \
+	$(TMPDIR)\tkMessage.obj \
+	$(TMPDIR)\tkPanedWindow.obj \
+	$(TMPDIR)\tkObj.obj \
+	$(TMPDIR)\tkOldConfig.obj \
+	$(TMPDIR)\tkOption.obj \
+	$(TMPDIR)\tkPack.obj \
+	$(TMPDIR)\tkPlace.obj \
+	$(TMPDIR)\tkPointer.obj \
+	$(TMPDIR)\tkRectOval.obj \
+	$(TMPDIR)\tkStyle.obj \
+	$(TMPDIR)\tkScale.obj \
+	$(TMPDIR)\tkScrollbar.obj \
+	$(TMPDIR)\tkSelect.obj \
+	$(TMPDIR)\tkText.obj \
+	$(TMPDIR)\tkTextBTree.obj \
+	$(TMPDIR)\tkTextDisp.obj \
+	$(TMPDIR)\tkTextImage.obj \
+	$(TMPDIR)\tkTextIndex.obj \
+	$(TMPDIR)\tkTextMark.obj \
+	$(TMPDIR)\tkTextTag.obj \
+	$(TMPDIR)\tkTextWind.obj \
+	$(TMPDIR)\tkTrig.obj \
+	$(TMPDIR)\tkUtil.obj \
+	$(TMPDIR)\tkVisual.obj \
+	$(TMPDIR)\tkStubInit.obj \
+	$(TMPDIR)\tkStubLib.obj \
+	$(TMPDIR)\tkUndo.obj \
+	$(TMPDIR)\tkWindow.obj 
+
+# ---------------------------------------------------------------------------
+# -----------------TCL/apsim Link 
+# ---------------------------------------------------------------------------
+
+
+OBJFILES   = TclLink.obj TclComponent.obj TclXtras.obj $(TCLOBJS) $(TKOBJS) ..\..\..\Shared\ComponentInterface\EntryPoints.obj
+
+LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
+    $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+    $(APSROOT)\Shared\general\general.lib
+
+PACKAGES = rtl.bpi vcl.bpi vclx.bpi vcljpg.bpi ibsmp.bpi dbrtl.bpi vcldb.bpi \
+    bdertl.bpi bcbsmp.bpi vcldbx.bpi dclocx.bpi qrpt.bpi
+
+# ---------------------------------------------------------------------------
+USERDEFINES = _DEBUG
+SYSDEFINES  = _RTLDLL;NO_STRICT;USEPACKAGES
+INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared;$(BCB)\Components\Boost
+LIBPATH     = $(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+
+# ---------------------------------------------------------------------------
+#CFLAG1 = -WD -O2 -H=vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -vi -c -tWM 
+#LFLAGS = -D"" -aa -Tpd -x -Gn -Gi -v
+!IF "$(NODEBUG)" == "1"
+# these macros cause maximum optimization and no symbols
+cdebug	= -v- -vi- -O2 -D_DEBUG
+ldebug	=
+!ELSE
+# these macros enable debugging
+cdebug	= -k -Od -r- -v -vi- -y
+ldebug	= -v
+!ENDIF
+
+# declarations common to all compiler options
+cbase	= -c -q -3 -a4 -g0 -tWM -Ve -Vx -X-
+WARNINGS	= -w-rch -w-pch -w-par -w-dup -w-pro -w-dpu -w-ccc -w-inl
+
+CFLAG1 = -WD -O2 -Vx -Ve -X- -r- -a8 -b- -k -vi -c -tWM -q
+LFLAGS = -D"" -aa -Tpd -x -Gn -Gi -v
+#CFLAG1= $(cdebug) $(cbase) 
+
+.autodepend
+
+source: $(PROJECT)
+
+# ---------------------------------------------------------------------------
+$(PROJECT):  $(OBJFILES) 
+    $(BCB)\BIN\$(LINKER) @&&!
+    $(LFLAGS) -L$(LIBPATH) +
+    c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES), +
+    $(PROJECT),, +
+    $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib, +
+    $(DEFFILE), +
+    $(ALLRES)
+!
+# ---------------------------------------------------------------------------
+
+{$(TCLWINDIR)}.c{$(TMPDIR)}.obj:
+	$(BCB)\BIN\$(BCC32) -DBUILD_tcl $(cdebug) $(cbase)  $(TCL_CFLAGS) -o$@ $<
+
+{$(TCLGENERICDIR)}.c{$(TMPDIR)}.obj:
+	$(BCB)\BIN\$(BCC32) -DBUILD_tcl $(cdebug) $(cbase)  $(TCL_CFLAGS) -o$@ $<
+
+{$(TCLROOT)\compat}.c{$(TMPDIR)}.obj:
+	$(BCB)\BIN\$(BCC32) -DBUILD_tcl $(cdebug) $(cbase)  $(TCL_CFLAGS) -o$@ $<
+
+{$(TKXLIBDIR)}.c{$(TMPDIR)}.obj:
+  $(BCB)\BIN\$(BCC32) -DBUILD_tk $(cdebug) $(cbase) $(TK_CFLAGS) -o$@ $<
+
+{$(TKGENERICDIR)}.c{$(TMPDIR)}.obj:
+  $(BCB)\BIN\$(BCC32) -DBUILD_tk $(cdebug) $(cbase) $(TK_CFLAGS) -o$@ $<
+
+{$(TKWINDIR)}.c{$(TMPDIR)}.obj:
+  $(BCB)\BIN\$(BCC32) -DBUILD_tk $(cdebug) $(cbase) $(TK_CFLAGS) -o$@ $<
+
+{$(TKROOT)\unix}.c{$(TMPDIR)}.obj:
+  $(BCB)\BIN\$(BCC32) -DBUILD_tk $(cdebug) $(cbase) $(TK_CFLAGS) -o$@ $<
+
+TclXtras.obj: TclXtras.cpp
+  $(BCB)\BIN\$(BCC32) $(CFLAG1) $(WARNINGS) $(TK_CFLAGS) -o$@ TclXtras.cpp
+
+.cpp.obj:
+    $(BCB)\BIN\$(BCC32) $(CFLAG1) $(WARNINGS) $(TCL_INCLUDES) -I$(INCLUDEPATH) -D$(USERDEFINES);$(TCL_DEFINES);$(SYSDEFINES) -n$(@D) {$< }
+    ##$(BCB)\BIN\$(BCC32) $(cdebug) $(cbase) $(TCL_INCLUDES) -I$(INCLUDEPATH) -D$(USERDEFINES);$(TCL_DEFINES);$(SYSDEFINES) {$< }
+
+clean:
+	del /y $(OBJFILES) vcl60.*
