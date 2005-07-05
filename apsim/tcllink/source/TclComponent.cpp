@@ -1,28 +1,26 @@
-//---------------------------------------------------------------------------
-#include <general/pch.h>
-#include <vcl.h>
+#include <string.h>
 
-#pragma hdrstop
-
-#include <ComponentInterface/MessageDataExt.h>
-#include <ComponentInterface/ApsimVariant.h>
-#include <ApsimShared/FStringExt.h>
-#include <ApsimShared/ApsimComponentData.h>
+#include <map>
 #include <general/string_functions.h>
 #include <general/stristr.h>
+
+#include <ApsimShared/FStringExt.h>
+
+#include <ComponentInterface/Component.h>
+#include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/ApsimVariant.h>
+
 #include <tcl.h>
 #include "TclComponent.h"
-
-#pragma package(smart_init)
 
 using namespace std;
 using namespace protocol;
 
-extern Tcl_Interp *StartTcl (ClientData, const char *);
+extern void StartTcl (const char *);
+extern Tcl_Interp *NewInterp (ClientData);
 extern void StopTcl(Tcl_Interp *);
 
-// The main Tcl interpreter for this dll. Set during CreateComponent()
-static Tcl_Interp *Interp = NULL;
+// The number of interpreters made so far
 static int InterpRefCnt = 0;
 
 #define intString      "<type kind=\"integer4\" array=\"F\"/>"
@@ -75,17 +73,16 @@ protocol::Component* createComponent(void)
 // ------------------------------------------------------------------
 TclComponent::TclComponent()
    {
+   Interp = NULL;
    }
 // ------------------------------------------------------------------
 // Destructor
 // ------------------------------------------------------------------
 TclComponent::~TclComponent(void)
    {
+   Tcl_DeleteInterp(Interp);
    InterpRefCnt--;
-   if (InterpRefCnt == 0)
-      {
-      StopTcl(Interp);
-      }
+   if (InterpRefCnt == 0) StopTcl(NULL); // Last one out turns off the lights..
    }
 // ------------------------------------------------------------------
 // Stage 1 initialisation. We can initialise the TCL world now that wee know where we are..
@@ -96,15 +93,18 @@ void TclComponent::doInit1(const FString& sdml)
 
    if (InterpRefCnt == 0)
       {
-      if ((Interp = StartTcl(this, protocol::Component::componentData->getExecutableFileName().c_str())) == NULL)
-          {
-          error("TCL initialisation failed", true);
-          }
+      StartTcl(Component::componentData->getExecutableFileName().c_str());
+
+      // write copyright notice(s).
+      writeString("Copyright (C) 1991-1994 The Regents of the University of California.");
+      writeString("Copyright (C) 1996-1997 Sun Microsystems, Inc.");
+      writeString("Copyright (C) 2001      ActiveState.");
       }
    InterpRefCnt++;
    //MessageBox(0,  Tcl_GetStringResult(Interp), "TCl Init Done", MB_ICONSTOP);
    //MessageBox(0,  Component::componentData->getExecutableFileName().c_str(), "Init", MB_ICONSTOP);
    }
+
 // ------------------------------------------------------------------
 // Initialise the Tcl component.
 // ------------------------------------------------------------------
@@ -112,11 +112,9 @@ void TclComponent::doInit2(void)
    {
    protocol::Component::doInit2();
 
-   // write copyright notice(s).
-   writeString("Copyright (C) 1991-1994 The Regents of the University of California.");
-   writeString("Copyright (C) 1996-1997 Sun Microsystems, Inc.");
-   writeString("Copyright (C) 2001      ActiveState.");
-
+   // Create a (slave) interpreter for this instance.
+   Interp = NewInterp(this);
+   
    string initRule;
    std::vector<string> ruleNames;
    componentData->getRuleNames(ruleNames);
@@ -126,15 +124,15 @@ void TclComponent::doInit2(void)
       {
          string condition, rule;
          componentData->getRule(ruleNames[i], condition, rule);
-         unsigned id = protocol::Component::addRegistration(protocol::respondToEventReg, condition.c_str(), "");
+         unsigned id = protocol::Component::addRegistration(RegistrationType::respondToEvent, condition.c_str(), "");
          rules.insert(UInt2StringMap::value_type(id, rule));
 
-         string msg = "Section: " + condition;
+         string msg = "--->Section: " + condition;
          writeString(msg.c_str());
          writeString(rule.c_str());
          if (condition == string("init")) {initRule = rule;}
       }
-   writeString("End");
+   writeString("--->End");
 
    // Do the init rule if specified..
    if (!initRule.empty())
@@ -156,6 +154,8 @@ void TclComponent::respondToEvent(unsigned int& /*fromID*/, unsigned int& eventI
    string rule = rules[eventID];
    if (!rule.empty())
        {
+       //char buf[80]; sprintf(buf, "this=%x\nrule=%s", this, rule.c_str());
+       //MessageBox(0,  buf, "respond", MB_ICONSTOP);
        int result = Tcl_Eval(Interp, rule.c_str());
        if (result != TCL_OK)
            {
@@ -227,7 +227,7 @@ int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname)
       }
 
    unsigned variableID = protocol::Component::addRegistration(
-                             protocol::getVariableReg,
+                             RegistrationType::get,
                              VariableName.c_str(),
                              strString,  /* This is misleading? we need to decide what type type later */
                              "",
@@ -424,7 +424,7 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
    //MessageBox(NULL, "Type 2", outGoingType->name, MB_ICONSTOP);
    if (outGoingType==intType)
       {
-      unsigned variableID = protocol::Component::addRegistration(protocol::setVariableReg,
+      unsigned variableID = protocol::Component::addRegistration(RegistrationType::set,
                           VariableName.c_str(), isArray?intStringArray:intString, "", ModuleName.c_str());
       if (isArray)
           {
@@ -451,7 +451,7 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
       }
    else if (outGoingType==dblType)
       {
-      unsigned variableID = protocol::Component::addRegistration(protocol::setVariableReg,
+      unsigned variableID = protocol::Component::addRegistration(RegistrationType::set,
                           VariableName.c_str(), isArray?fltStringArray:fltString, "", ModuleName.c_str());
       if (isArray)
           {
@@ -478,7 +478,7 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
       }
    else if (outGoingType==stringType)
       {
-      unsigned variableID = protocol::Component::addRegistration(protocol::setVariableReg,
+      unsigned variableID = protocol::Component::addRegistration(RegistrationType::set,
                           VariableName.c_str(), isArray?strStringArray:strString, "", ModuleName.c_str());
       if (isArray)
           {
@@ -511,9 +511,7 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
 
 void TclComponent::addRegistration(const string &name)
    {
-   unsigned id = protocol::Component::addRegistration(protocol::respondToGetSetReg,
-                        	      name.c_str(),
-                           	   strString);
+   unsigned id = protocol::Component::addRegistration(RegistrationType::set, name.c_str(), strString);
    variables.insert(UInt2StringMap::value_type(id, name));
    }
 
@@ -578,7 +576,7 @@ int apsimSendMessageProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * 
 void TclComponent::sendMessage(const string &moduleName, const string &actionName,
                                protocol::ApsimVariant &outgoingApsimVariant)
    {
-   unsigned actionID = protocol::Component::addRegistration(protocol::methodCallReg,
+   unsigned actionID = protocol::Component::addRegistration(RegistrationType::event,
                                                             actionName.c_str(),
                                                             "<type\>",
                                                             "",
