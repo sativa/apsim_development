@@ -229,9 +229,7 @@
       found = .false.
 
       do 200 solnum = 1,g%num_solutes
-
-         if (Variable_name .eq. p%solute_names(solnum)) then
-
+         if (strings_equal(Variable_name, p%solute_names(solnum))) then
             num_layers = count_of_real_vals(g%dlayer,max_layer)
 
             if (num_layers.eq.0) then
@@ -251,9 +249,7 @@
      :               num_layers)
 
             found = .true.
-
-        else
-
+         else
          endif
   200 continue
 
@@ -366,7 +362,6 @@
 
 
       do 200 solnum = 1, g%num_solutes
-
 
          if (p%solute_names(solnum).ne.blank) then
 
