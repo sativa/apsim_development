@@ -9,6 +9,7 @@
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/MessageDataExt.h>
 #include <ComponentInterface/ApsimVariant.h>
+#include <ComponentInterface/Messages.h>
 
 #include <tcl.h>
 #include "TclComponent.h"
@@ -168,15 +169,33 @@ void TclComponent::respondToEvent(unsigned int& /*fromID*/, unsigned int& eventI
 // ------------------------------------------------------------------
 void TclComponent::respondToGet(unsigned int& /*fromID*/, protocol::QueryValueData& queryData)
    {
-   string variable = variables[queryData.ID];
-   if (!variable.empty()) {
-      const char *result = Tcl_GetVar(Interp, variable.c_str(), TCL_GLOBAL_ONLY);
+   const char *variable = getRegistrationName(queryData.ID);
+   if (variable != NULL) 
+      {
+      const char *result = Tcl_GetVar(Interp, variable, TCL_GLOBAL_ONLY);
       if (result != NULL)
-         {
-         sendVariable(queryData, result);
-         }
+         sendVariable(queryData, FString(result));
       }
    }
+// ------------------------------------------------------------------
+// Something is asking whether we know about a variable. If we do, register it.
+// ------------------------------------------------------------------
+void TclComponent::onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData)
+   {
+   if (Interp != NULL) 
+      {
+      string variable = asString(apsimGetQueryData.name);
+      if (variable.length() > 0) {
+         const char *result = Tcl_GetVar(Interp, variable.c_str(), TCL_GLOBAL_ONLY);
+         if (result != NULL)
+            {
+            // It exists, so register it as rw..
+            protocol::Component::addRegistration(RegistrationType::respondToGetSet, variable.c_str(), strString);
+                    // XX should register type info properly here XX
+            }
+         }
+      }
+   }   
 // ------------------------------------------------------------------
 // Set the value of a variable for the specified
 // variable name.  If this module owns the variable and does
@@ -188,7 +207,7 @@ bool TclComponent::respondToSet(unsigned int& /*fromID*/, protocol::QuerySetValu
 
    setValueData.variant.unpack(newValue);
 
-   string name = variables[setValueData.ID];
+   string name = asString(getRegistrationName(setValueData.ID));
 
    const char *result = Tcl_SetVar(Interp, name.c_str(), newValue.c_str(), TCL_GLOBAL_ONLY);
    if (result != NULL)
@@ -511,8 +530,8 @@ bool TclComponent::apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *
 
 void TclComponent::addRegistration(const string &name)
    {
-   unsigned id = protocol::Component::addRegistration(RegistrationType::set, name.c_str(), strString);
-   variables.insert(UInt2StringMap::value_type(id, name));
+   protocol::Component::addRegistration(RegistrationType::set, name.c_str(), strString);
+   protocol::Component::addRegistration(RegistrationType::get, name.c_str(), strString);
    }
 
 // Called from TCL script. Tell protoman of something we own
