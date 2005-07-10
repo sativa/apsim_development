@@ -243,6 +243,11 @@ catch (const std::exception &e)
    {
    this->error(e.what(), true);
    }
+catch (const std::string& e)
+   {
+   this->error(e, true);
+   }
+
 }
 
 // ------------------------------------------------------------------
@@ -325,7 +330,7 @@ RegistrationItem* Component::addRegistrationToList(RegistrationType kind,
 {
    return (addRegistrationToList(kind, name, type, FString("")));
 }
-                                                   
+
 RegistrationItem* Component::addRegistrationToList(RegistrationType kind,
                                                    const FString& name,
                                                    const Type& type,
