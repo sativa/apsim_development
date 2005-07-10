@@ -174,7 +174,7 @@ date PatchInputComponent::advanceToTodaysPatchData(unsigned int fromID)
                currentRecord++;
                data.next();
                }
-            return data.getDate();
+            return todaysDate;
             }
          else
             return date(pos_infin);
