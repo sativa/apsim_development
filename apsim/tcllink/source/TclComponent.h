@@ -6,6 +6,8 @@
 // This component acts as the interface between an instance of a
 // Tcl interpreter and an APSIM simulation.
 // ------------------------------------------------------------------
+struct ApsimGetQueryData;
+
 class TclComponent : public protocol::Component
    {
    public:
@@ -16,7 +18,8 @@ class TclComponent : public protocol::Component
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       virtual bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData);
-
+      virtual void onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData);
+      
       int apsimGet( Tcl_Interp *interp, const string &varname);
       bool apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *obj);
 
@@ -27,7 +30,6 @@ class TclComponent : public protocol::Component
 
       typedef std::map<unsigned, std::string> UInt2StringMap;
       UInt2StringMap rules;
-      UInt2StringMap variables;
       Tcl_Interp *Interp;
    };
 #endif
