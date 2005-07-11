@@ -117,6 +117,17 @@ namespace YieldProphet
 					pnlConsultant.Visible = false;
 					pnlAdministration.Visible = false;
 					break;
+					//If the access type is that of a visitor then only the grower
+					//options are available
+				case FunctionsClass.szVisitorConsultant:
+					pnlGrower.Visible = true;
+					pnlConsultant.Visible = true;
+					btnViewReports.Enabled = false;
+					btnViewReportsImg.Enabled = false;
+					hylClimateForecast.Enabled = false;
+					hylClimateForecastImg.Enabled = false;
+					pnlAdministration.Visible = false;
+					break;
 				//If the access type is that of a visitor then only the grower
 				//options are available
 				case FunctionsClass.szVisitor:

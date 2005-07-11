@@ -160,7 +160,7 @@ namespace YieldProphet
 							throw new Exception("Error requesting report");
 						}
 					else
-						throw new Exception("Report Description contains invalid characters. Please remove any of the following characters \\\\ / : * ? \" < > |");
+						throw new Exception("Report Description contains invalid characters. Please remove any of the following characters \\\\ / : * ? \" \' # < > |");
 					}
 				else
 					throw new Exception("Please enter a report name");

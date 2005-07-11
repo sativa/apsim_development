@@ -1,5 +1,5 @@
-<%@ Register TagPrefix="jwg" Namespace="Janus.Web.GridEX" Assembly="Janus.Web.GridEX" %>
 <%@ Page language="c#" Codebehind="wfGenerateNitrogenComparisonReport.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfGenerateNitrogenComparisonReport" %>
+<%@ Register TagPrefix="jwg" Namespace="Janus.Web.GridEX" Assembly="Janus.Web.GridEX" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <HTML>
 	<HEAD>
@@ -19,16 +19,16 @@
 				Width="100%" Height="48px" BackColor="PaleGoldenrod" HorizontalAlign="Left">
 				<DIV style="WIDTH: 184px; POSITION: relative; HEIGHT: 41px" ms_positioning="GridLayout">
 					<asp:LinkButton id="btnCancel" style="Z-INDEX: 101; LEFT: 120px; POSITION: absolute; TOP: 16px"
-						tabIndex="5" runat="server" Font-Size="Smaller" EnableViewState="False">Cancel</asp:LinkButton>
+						tabIndex="5" runat="server" EnableViewState="False" Font-Size="Smaller">Cancel</asp:LinkButton>
 					<asp:Button id="btnSave" style="Z-INDEX: 112; LEFT: 32px; POSITION: absolute; TOP: 16px" runat="server"
-						Height="16px" Width="64px" BackColor="Transparent" Font-Size="Smaller" Font-Names="Times New Roman"
-						Text="Do report" Font-Underline="True" BorderStyle="None" BorderColor="Transparent" ForeColor="Blue"></asp:Button>
+						Height="16px" Width="64px" BackColor="Transparent" Font-Size="Smaller" ForeColor="Blue" BorderColor="Transparent"
+						BorderStyle="None" Font-Underline="True" Text="Do report" Font-Names="Times New Roman"></asp:Button>
 					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 102; LEFT: 96px; POSITION: absolute; TOP: 16px"
 						tabIndex="4" runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 103; LEFT: 8px; POSITION: absolute; TOP: 16px" tabIndex="2"
 						runat="server" ImageUrl="Images\reports.gif"></asp:ImageButton></DIV>
 			</asp:Panel>
-			<jwg:gridEX id=grdScenarioOne style="Z-INDEX: 104; LEFT: 200px; POSITION: absolute; TOP: 160px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch">
+			<jwg:gridEX id=grdScenarioOne style="Z-INDEX: 104; LEFT: 200px; POSITION: absolute; TOP: 160px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" AutomaticSort="False" AllowColumnDrag="False">
 				<RootTable DataMember="Nitrogen" Key="Nitrogen">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.Single" Key="ID" HasValueList="True" DataMember="ID" DefaultGroupPrefix="ID:"
@@ -87,7 +87,7 @@
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
 			</jwg:gridEX>
-			<jwg:gridEX id=grdScenarioTwo style="Z-INDEX: 105; LEFT: 200px; POSITION: absolute; TOP: 304px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch">
+			<jwg:gridEX id=grdScenarioTwo style="Z-INDEX: 105; LEFT: 200px; POSITION: absolute; TOP: 304px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" AutomaticSort="False" AllowColumnDrag="False">
 				<RootTable DataMember="Nitrogen" Key="Nitrogen">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.Single" Key="ID" HasValueList="True" DataMember="ID" DefaultGroupPrefix="ID:"
@@ -146,7 +146,7 @@
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
 			</jwg:gridEX>
-			<jwg:gridEX id=grdScenarioThree style="Z-INDEX: 106; LEFT: 200px; POSITION: absolute; TOP: 448px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch">
+			<jwg:gridEX id=grdScenarioThree style="Z-INDEX: 106; LEFT: 200px; POSITION: absolute; TOP: 448px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" AutomaticSort="False" AllowColumnDrag="False">
 				<RootTable DataMember="Nitrogen" Key="Nitrogen">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.Single" Key="ID" DataMember="ID" DefaultGroupPrefix="ID:" InvalidValueAction="DiscardChanges"

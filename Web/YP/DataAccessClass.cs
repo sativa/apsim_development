@@ -4,6 +4,8 @@ using System.Data.SqlClient;
 using System.Data.OleDb;
 using System.Web;
 using System.Collections.Specialized;
+using CSGeneral;
+using VBGeneral;
 
 namespace YieldProphet
 	{
@@ -156,8 +158,6 @@ namespace YieldProphet
 		static public void InsertUser(string szName, string szEmail, string szUserName,
 			string szPassword, string szAccessType, StringCollection scConsultants)
 			{
-			int iUserID = 0;
-			int iConsultantID = 0;
 			string szSalt = FunctionsClass.CreateSalt();
 			int iAccessTypeID = ReturnAccessTypeID(szAccessType);
 
@@ -167,16 +167,15 @@ namespace YieldProphet
 				FunctionsClass.EncryptPassword(szPassword, szSalt)+"', "+iAccessTypeID.ToString()+")";
 			RunSQLStatement(szSQL);
 
-			iUserID = ReturnUserIDFromUserName(szUserName);
-
-			for(int iIndex = 0; iIndex < scConsultants.Count; iIndex++)
+			if(scConsultants != null)
 				{
-				iConsultantID = ReturnUserIDFromName(scConsultants[iIndex]);
-
-				szSQL = "INSERT INTO ConsultantUserMap "+
-					"(ConsultantID, UserID) VALUES "+
-					"("+iConsultantID.ToString()+", "+iUserID.ToString()+")";
-				RunSQLStatement(szSQL);
+				if(scConsultants.Count > 0)
+					{
+					for(int iIndex = 0; iIndex < scConsultants.Count; iIndex++)
+						{
+						InsertUserIntoConsultantUserMap(scConsultants[iIndex], szUserName);	
+						}
+					}
 				}
 			}
 		//---------------------------------------------------------------------
@@ -248,7 +247,8 @@ namespace YieldProphet
 			DataTable dtResults;
 			string szSQL = "SELECT Users.Name, Users.UserName FROM Users "+
 				"INNER JOIN AccessTypes ON Users.AccessTypeID = AccessTypes.ID "+
-				"WHERE AccessTypes.Type = '"+FunctionsClass.szConsultant+"' "+
+				"WHERE AccessTypes.Type = '"+FunctionsClass.szConsultant+"' OR "+
+				"AccessTypes.Type = '"+FunctionsClass.szVisitorConsultant+"' "+
 				"ORDER BY Users.Name";
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
@@ -510,7 +510,7 @@ namespace YieldProphet
 		static public void UpdatePaddock(string szSowDate, string szCultivarType,
 			string szMetStaionName, string szSoilName, string szSubSoilConstraintType, 
 			string szLinkedTemporalPaddockName, string szStartOfGrowingSeason, 
-			string szPaddockName, string szUserName)
+			string szNewPaddockName, string szPaddockName, string szUserName)
 			{
 			int iPaddockID = ReturnPaddockID(szPaddockName, szUserName);
 
@@ -538,7 +538,11 @@ namespace YieldProphet
 				}
 			if(szLinkedTemporalPaddockName != null && szLinkedTemporalPaddockName != "")
 				{
-				int iLinkedTemporalPaddockID = ReturnPaddockID(szLinkedTemporalPaddockName, szUserName);
+				int iLinkedTemporalPaddockID = 0;
+				if(szLinkedTemporalPaddockName != "NONE")
+				{
+					iLinkedTemporalPaddockID = ReturnPaddockID(szLinkedTemporalPaddockName, szUserName);
+				}
 				sbSQL.Append("LinkedTemporalPaddockID = "+iLinkedTemporalPaddockID.ToString()+", ");
 				}
 			if(szSowDate != null && szSowDate != "")
@@ -549,17 +553,28 @@ namespace YieldProphet
 			{
 				sbSQL.Append("StartOfGrowingSeasonDate = '"+szStartOfGrowingSeason+"', ");
 			}
-			sbSQL.Append("Name = '"+szPaddockName+"' ");
+			if(szNewPaddockName != null && szNewPaddockName != "")
+			{
+			sbSQL.Append("Name = '"+szNewPaddockName+"', ");
+			}
 			sbSQL.Append("WHERE ID = "+iPaddockID.ToString());
-			RunSQLStatement(sbSQL.ToString());
+			string szSQL = sbSQL.ToString();
+			//Removes last , if it exists
+			int iIndex = szSQL.LastIndexOf(",");
+			if (iIndex > 0)
+			{
+				szSQL = szSQL.Remove(iIndex, 1);
+			}
+			RunSQLStatement(szSQL);
 			}
 		//-------------------------------------------------------------------------
 		//Resets the paddock information, by clearing the sow date and cultivar type
 		//-------------------------------------------------------------------------
-		static public void ResetPaddock(string szPaddockName, string szUserName)
+		static public void ResetPaddock(string szPaddockName, string szNewPaddockName, string szUserName)
 			{
 			int iUserID = ReturnUserIDFromUserName(szUserName);
 			string szSQL = "UPDATE Paddocks SET "+
+				"Name = '"+szNewPaddockName+"', "+
 				"SowDate = '', "+
 				"CultivarTypeID = 1 "+
 				"WHERE Name = '"+szPaddockName+"' "+
@@ -665,10 +680,30 @@ namespace YieldProphet
 		static public void InsertSoil(string szRegion, string szSoilName, string szSoilData)
 			{
 			int iRegionID = DataAccessClass.ReturnRegionID(szRegion);
-			string szSQL = "INSERT INTO Soils "+
-				"(RegionID, Name, Data) VALUES "+
-				"("+iRegionID.ToString()+", '"+szSoilName+"', '"+szSoilData+"')";
-			RunSQLStatement(szSQL);
+			int SoilID;
+			try
+				{
+				SoilID = ReturnSoilID(szSoilName);
+				}
+			catch (Exception)
+				{
+				SoilID = 0;
+				}
+
+			if (SoilID == 0)
+				{
+				string szSQL = "INSERT INTO Soils "+
+					"(RegionID, Name, Data) VALUES "+
+					"("+iRegionID.ToString()+", '"+szSoilName+"', '"+szSoilData+"')";
+				RunSQLStatement(szSQL);
+				}
+			else
+				{
+				string szSQL = "UPDATE Soils SET Data = '" +	szSoilData + "' " +
+					"WHERE ID = " + SoilID.ToString();
+				RunSQLStatement(szSQL);
+				}
+
 			}
 		//-------------------------------------------------------------------------
 		//Deletes the selected soil from the database
@@ -697,7 +732,7 @@ namespace YieldProphet
 		//---------------------------------------------------------------------
 		//Returns the selected soils data (stored in xml format)
 		//---------------------------------------------------------------------
-		static public string GetSoilData(string szSoilName)
+		static public Soil GetSoil(string szSoilName)
 			{
 			string szSoilData = "";
 
@@ -705,8 +740,23 @@ namespace YieldProphet
 				"WHERE Name = '"+szSoilName+"'";
 			szSoilData = ReturnSingleValueFromDB("Data", szSQL).ToString();
 
-			return szSoilData;
+			return new Soil(new APSIMData(szSoilData));
 			}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static public DataTable GetPaddocksUsingSoil(string szRegion, string szSoilName)
+		{
+			string szSQL = "SELECT Users.Name, Paddocks.Name FROM Users, Paddocks, MetStations, Regions, Soils" +
+				           " WHERE Paddocks.SoilID = Soils.ID" +
+				           "   AND MetStations.ID = Paddocks.MetStationID" +
+				           "   AND Regions.ID = MetStations.RegionID" +
+				           "   AND Users.ID = Paddocks.UserID" +
+				           "   AND Soils.Name = '"+szSoilName+"'" +
+				           "   AND Regions.Type = '"+szRegion+"'";
+			DataTable dtResults = ReturnMultipleValuesFromDB(szSQL);
+			return dtResults;
+		}
 		//---------------------------------------------------------------------
 		//Returns the ID of the specified Soil
 		//---------------------------------------------------------------------
@@ -745,7 +795,8 @@ namespace YieldProphet
 			DataTable dtResults;
 			string szSQL = "SELECT MetStations.Name FROM MetStations "+
 				"INNER JOIN Regions ON MetStations.RegionID = Regions.ID "+
-				"WHERE Regions.Type = '"+szRegion+"'";
+				"WHERE Regions.Type = '"+szRegion+"' "+
+				"ORDER BY MetStations.Name";
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
 			}
@@ -760,6 +811,25 @@ namespace YieldProphet
 				"AND Name = '"+szMetStationName+"'";
 			RunSQLStatement(szSQL);
 			}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static public bool IsMetStationInUse(string szRegion, string szMetStation)
+		{
+			int iNumberOfRecords = 0;
+			bool bInUse = true;
+
+			string szSQL = "SELECT COUNT(Paddocks.ID) AS NumberOfRecords FROM (Paddocks "+
+				"INNER JOIN MetStations ON MetStations.ID = Paddocks.MetStationID) "+
+				"INNER JOIN Regions ON Regions.ID = MetStations.RegionID "+
+				"WHERE MetStations.Name = '"+szMetStation+"' AND Regions.Type = '"+szRegion+"'";
+			iNumberOfRecords = Convert.ToInt32(ReturnSingleValueFromDB("NumberOfRecords", szSQL).ToString());
+			if(iNumberOfRecords == 0)
+			{
+				bInUse = false;
+			}
+			return bInUse;
+		}
 		//---------------------------------------------------------------------
 		//Returns the ID for the specified station name
 		//---------------------------------------------------------------------
@@ -786,7 +856,8 @@ namespace YieldProphet
 		static public DataTable GetAllCrops()
 		{
 			DataTable dtResults;
-			string szSQL = "SELECT CropTypes.Type FROM CropTypes";
+			string szSQL = "SELECT CropTypes.Type FROM CropTypes "+
+				"ORDER BY CropTypes.Type";
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
 		}
@@ -798,7 +869,8 @@ namespace YieldProphet
 			DataTable dtResults;
 			string szSQL = "SELECT CultivarTypes.Type FROM CultivarTypes "+
 				"INNER JOIN CropTypes ON CultivarTypes.CropTypeID = CropTypes.ID "+
-				"WHERE CropTypes.Type = '"+szCropType+"'";
+				"WHERE CropTypes.Type = '"+szCropType+"' "+
+				"ORDER BY CultivarTypes.Type";
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
 		}
@@ -808,7 +880,7 @@ namespace YieldProphet
 		static public void InsertCultivar(string szCropType, string szCultivarType)
 		{
 			int iCropTypeID = DataAccessClass.ReturnCropTypeID(szCropType);
-			string szSQL = "INSERT INTO Cultivars "+
+			string szSQL = "INSERT INTO CultivarTypes "+
 				"(CropTypeID, Type) VALUES "+
 				"("+iCropTypeID.ToString()+", '"+szCultivarType+"')";
 			RunSQLStatement(szSQL);

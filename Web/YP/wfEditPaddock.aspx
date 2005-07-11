@@ -1,5 +1,5 @@
-<%@ Register TagPrefix="jwg" Namespace="Janus.Web.GridEX" Assembly="Janus.Web.GridEX" %>
 <%@ Page language="c#" Codebehind="wfEditPaddock.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfEditPaddock" %>
+<%@ Register TagPrefix="jwg" Namespace="Janus.Web.GridEX" Assembly="Janus.Web.GridEX" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <HTML>
 	<HEAD>
@@ -15,7 +15,7 @@
 				Width="100%" Height="48px" BackColor="PaleGoldenrod" HorizontalAlign="Left">
 				<DIV style="WIDTH: 776px; POSITION: relative; HEIGHT: 44px" ms_positioning="GridLayout">
 					<asp:LinkButton id="btnCancel" style="Z-INDEX: 102; LEFT: 104px; POSITION: absolute; TOP: 16px"
-						runat="server" EnableViewState="False" Font-Size="Smaller">Cancel</asp:LinkButton>
+						runat="server" Font-Size="Smaller" EnableViewState="False">Cancel</asp:LinkButton>
 					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 103; LEFT: 80px; POSITION: absolute; TOP: 16px"
 						runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 104; LEFT: 8px; POSITION: absolute; TOP: 16px" runat="server"
@@ -31,25 +31,25 @@
 					<asp:LinkButton id="btnRainfall" style="Z-INDEX: 109; LEFT: 288px; POSITION: absolute; TOP: 16px"
 						runat="server" Font-Size="Smaller">Rainfall</asp:LinkButton>
 					<asp:CheckBox id="chkEmail" style="Z-INDEX: 110; LEFT: 672px; POSITION: absolute; TOP: 16px" runat="server"
-						Height="16px" Font-Size="Smaller" Text="Email con/par" ForeColor="Blue"></asp:CheckBox>
+						Height="16px" Font-Size="Smaller" ForeColor="Blue" Text="Email con/par"></asp:CheckBox>
 					<asp:LinkButton id="btnReport" style="Z-INDEX: 111; LEFT: 560px; POSITION: absolute; TOP: 16px"
 						runat="server" Font-Size="Smaller">Report Options</asp:LinkButton>
 					<asp:DropDownList id="cboReport" style="Z-INDEX: 112; LEFT: 352px; POSITION: absolute; TOP: 16px"
 						runat="server" Width="184px" Font-Size="Smaller"></asp:DropDownList>
 					<asp:Button id="btnSave" style="Z-INDEX: 112; LEFT: 32px; POSITION: absolute; TOP: 16px" runat="server"
-						BackColor="Transparent" Height="16px" Width="40px" Font-Size="Smaller" Text="Save" ForeColor="Blue"
-						Font-Names="Times New Roman" Font-Underline="True" BorderStyle="None" BorderColor="Transparent"></asp:Button></DIV>
+						BackColor="Transparent" Height="16px" Width="40px" Font-Size="Smaller" ForeColor="Blue" Text="Save"
+						BorderColor="Transparent" BorderStyle="None" Font-Underline="True" Font-Names="Times New Roman"></asp:Button></DIV>
 			</asp:panel><asp:label id="lblCropManagement" style="Z-INDEX: 101; LEFT: 16px; POSITION: absolute; TOP: 80px"
 				runat="server" Height="16px" Width="176px">In crop management for user: </asp:label><asp:label id="lblName" style="Z-INDEX: 102; LEFT: 208px; POSITION: absolute; TOP: 80px" runat="server"
-				Height="16px">Name</asp:label><asp:checkbox id="chkSown" style="Z-INDEX: 103; LEFT: 64px; POSITION: absolute; TOP: 120px" runat="server"
-				Text="Have you sown yet?" TextAlign="Left" AutoPostBack="True" tabIndex="1" Height="16px" Width="144px"></asp:checkbox><asp:dropdownlist id="cboCrops" style="Z-INDEX: 104; LEFT: 216px; POSITION: absolute; TOP: 160px"
-				runat="server" Width="248px" AutoPostBack="True" tabIndex="3" Height="24px"></asp:dropdownlist><asp:dropdownlist id="cboCultivars" style="Z-INDEX: 105; LEFT: 216px; POSITION: absolute; TOP: 200px"
-				runat="server" Width="248px" tabIndex="4" Height="24px"></asp:dropdownlist><asp:label id="lblCultivar" style="Z-INDEX: 107; LEFT: 112px; POSITION: absolute; TOP: 200px"
-				runat="server" Height="16px" Width="88px">Cultivar Type:</asp:label><asp:label id="lblCrop" style="Z-INDEX: 106; LEFT: 128px; POSITION: absolute; TOP: 160px" runat="server"
-				Height="16px" Width="72px">Crop Type:</asp:label><asp:label id="lblNitrogen" style="Z-INDEX: 109; LEFT: 16px; POSITION: absolute; TOP: 240px"
+				Height="16px">Name</asp:label><asp:checkbox id="chkSown" style="Z-INDEX: 103; LEFT: 64px; POSITION: absolute; TOP: 160px" runat="server"
+				Text="Have you sown yet?" TextAlign="Left" AutoPostBack="True" tabIndex="1" Height="16px" Width="144px"></asp:checkbox><asp:dropdownlist id="cboCrops" style="Z-INDEX: 104; LEFT: 216px; POSITION: absolute; TOP: 200px"
+				runat="server" Width="248px" AutoPostBack="True" tabIndex="3" Height="24px"></asp:dropdownlist><asp:dropdownlist id="cboCultivars" style="Z-INDEX: 105; LEFT: 216px; POSITION: absolute; TOP: 240px"
+				runat="server" Width="248px" tabIndex="4" Height="24px"></asp:dropdownlist><asp:label id="lblCultivar" style="Z-INDEX: 107; LEFT: 112px; POSITION: absolute; TOP: 240px"
+				runat="server" Height="16px" Width="88px">Cultivar Type:</asp:label><asp:label id="lblCrop" style="Z-INDEX: 106; LEFT: 128px; POSITION: absolute; TOP: 200px" runat="server"
+				Height="16px" Width="72px">Crop Type:</asp:label><asp:label id="lblNitrogen" style="Z-INDEX: 109; LEFT: 16px; POSITION: absolute; TOP: 280px"
 				runat="server"> Nitrogen fertiliser applications:</asp:label>
-			<jwg:gridEX id="grdNitrogen" style="Z-INDEX: 110; LEFT: 216px; POSITION: absolute; TOP: 240px"
-				runat="server" Height="120px" Width="302px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch">
+			<jwg:gridEX id="grdNitrogen" style="Z-INDEX: 110; LEFT: 216px; POSITION: absolute; TOP: 280px"
+				runat="server" Height="120px" Width="302px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" AutomaticSort="False" AllowColumnDrag="False">
 				<RootTable DataMember="Nitrogen" Key="Nitrogen">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.Single" Key="ID" HasValueList="True" DataMember="ID" DefaultGroupPrefix="ID:"
@@ -109,7 +109,7 @@
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
 			</jwg:gridEX>
-			<jwg:gridEX id=grdSowDate style="Z-INDEX: 111; LEFT: 216px; POSITION: absolute; TOP: 120px" runat="server" Height="20px" Width="268px" UpdateMode="RowUpdateBatch" EditorsFrameUrl="/gridex/images/blank.html" ScriptsFolderPath="/gridex/scripts" ImagesFolderPath="/gridex/images" DataMember="SowDate" DataSource="<%# dsSowDate %>" GridLineColor="ScrollBar" AllowEdit="True" GroupByBoxVisible="False" ColumnHeaders="False">
+			<jwg:gridEX id=grdSowDate style="Z-INDEX: 111; LEFT: 216px; POSITION: absolute; TOP: 160px" runat="server" Height="20px" Width="268px" UpdateMode="RowUpdateBatch" EditorsFrameUrl="/gridex/images/blank.html" ScriptsFolderPath="/gridex/scripts" ImagesFolderPath="/gridex/images" DataMember="SowDate" DataSource="<%# dsSowDate %>" GridLineColor="ScrollBar" AllowEdit="True" GroupByBoxVisible="False" ColumnHeaders="False">
 				<RootTable DataMember="SowDate" Key="SowDate">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.DateTime" EditType="CalendarDropDown" Key="SowDate" FormatString="dd/MM/yyyy"
@@ -160,6 +160,10 @@
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
 			</jwg:gridEX>
+			<asp:Label id="lblPaddockName" style="Z-INDEX: 112; LEFT: 104px; POSITION: absolute; TOP: 120px"
+				runat="server">Paddock Name:</asp:Label>
+			<asp:TextBox id="edtPaddockName" style="Z-INDEX: 113; LEFT: 216px; POSITION: absolute; TOP: 120px"
+				runat="server" Width="248px"></asp:TextBox>
 		</form>
 	</body>
 </HTML>

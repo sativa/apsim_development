@@ -1,23 +1,26 @@
 <%@ Page language="c#" Codebehind="wfEditUser.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfEditUser" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <HTML>
-  <HEAD>
+	<HEAD>
 		<title>wfEditGrower</title>
 		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
 		<meta name="CODE_LANGUAGE" Content="C#">
 		<meta name="vs_defaultClientScript" content="JavaScript">
 		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
-  </HEAD>
+	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
 			<asp:Panel id="pnlTop" style="Z-INDEX: 109; LEFT: 0px; POSITION: absolute; TOP: 0px" runat="server"
 				Width="100%" Height="48px" BackColor="PaleGoldenrod" HorizontalAlign="Left">
-<DIV style="WIDTH: 184px; POSITION: relative; HEIGHT: 40px" 
-ms_positioning="GridLayout">
-<asp:LinkButton id=btnCancel style="Z-INDEX: 102; LEFT: 112px; POSITION: absolute; TOP: 16px" tabIndex=8 runat="server" EnableViewState="False" Font-Size="Smaller">Cancel</asp:LinkButton>
-<asp:LinkButton id=btnSave style="Z-INDEX: 101; LEFT: 32px; POSITION: absolute; TOP: 16px" tabIndex=6 runat="server" EnableViewState="False" Font-Size="Smaller">Save</asp:LinkButton>
-<asp:ImageButton id=btnSaveImg style="Z-INDEX: 103; LEFT: 8px; POSITION: absolute; TOP: 16px" runat="server" ImageUrl="Images\save.gif"></asp:ImageButton>
-<asp:ImageButton id=btnCancelImg style="Z-INDEX: 104; LEFT: 88px; POSITION: absolute; TOP: 16px" runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton></DIV>
+				<DIV style="WIDTH: 184px; POSITION: relative; HEIGHT: 40px" ms_positioning="GridLayout">
+					<asp:LinkButton id="btnCancel" style="Z-INDEX: 102; LEFT: 112px; POSITION: absolute; TOP: 16px"
+						tabIndex="8" runat="server" Font-Size="Smaller" EnableViewState="False">Cancel</asp:LinkButton>
+					<asp:LinkButton id="btnSave" style="Z-INDEX: 101; LEFT: 32px; POSITION: absolute; TOP: 16px" tabIndex="6"
+						runat="server" Font-Size="Smaller" EnableViewState="False">Save</asp:LinkButton>
+					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 103; LEFT: 8px; POSITION: absolute; TOP: 16px" runat="server"
+						ImageUrl="Images\save.gif"></asp:ImageButton>
+					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 104; LEFT: 88px; POSITION: absolute; TOP: 16px"
+						runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton></DIV>
 			</asp:Panel>
 			<asp:Label id="lblName" style="Z-INDEX: 104; LEFT: 40px; POSITION: absolute; TOP: 80px" runat="server"
 				Width="48px" Height="16px" ForeColor="Black">Name:</asp:Label>

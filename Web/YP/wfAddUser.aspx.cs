@@ -160,7 +160,7 @@ namespace YieldProphet
 							throw new Exception("Username is already being used");
 						}
 					else
-						throw new Exception("Name field contains invalid characters. Please remove any of the following characters \\\\ / : * ? \" < > |");
+						throw new Exception("Name field contains invalid characters. Please remove any of the following characters \\\\ / : * ? \" \' # < > |");
 					}
 				else
 					throw new Exception("Please enter all details");

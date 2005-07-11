@@ -4,6 +4,7 @@ using System.IO;
 using System.Web;
 using System.Web.UI;
 using CSGeneral;
+using VBGeneral;
 using System.Xml;
 using System.Collections;
 using System.Collections.Specialized;
@@ -253,7 +254,7 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		//Gets the data needed for the .con and .par files needed for any 
 		//report and stores it in a xml string.
-		//-------------------------------------------------------------------------
+		//-------------------------------------------------------------------------						
 		public static string CreateReportXML(string szReportName, DataTable dtOtherValues)
 			{	
 			XmlDocument xmlDocSoilSample = new XmlDocument();
@@ -407,16 +408,21 @@ namespace YieldProphet
 				}
 			//Adds a PAW value from the initial conditions.
 			string soilName = dtPaddocksDetails.Rows[0]["SoilName"].ToString();
-			string szSoilXml = DataAccessClass.GetSoilData(soilName);
-			if(szSoilXml != "")
-				{
-				VBGeneral.APSIMData APSIMSoilData = new VBGeneral.APSIMData(szSoilXml);
-				Soil sPaddocksDefaultSoil = new Soil(APSIMSoilData);
-				string paw = Math.Round(sPaddocksDefaultSoil.TotalPAW(), 2).ToString("F2");
+			Soil PaddockSoil = DataAccessClass.GetSoil(soilName);
+
+			DataTable dtPaddocksSoilSample =
+				DataAccessClass.GetPaddocksSoilSample("GridOne", szPaddockName, dtUsersDetails.Rows[0]["UserName"].ToString());
+			if(dtPaddocksSoilSample.Rows.Count > 0)
+			{
+				SoilSample Sample = new SoilSample(new APSIMData(dtPaddocksSoilSample.Rows[0]["Data"].ToString()));
+				Sample.LinkedSoil = PaddockSoil;
+				double dPAW = MathUtility.Sum(Sample.PAW("wheat"));
+				
+				string paw = Math.Round(dPAW, 2).ToString("F2");
 				XmlNode xmlPAW = xmlDocSoilSample.CreateNode(XmlNodeType.Element,"initialconditionspaw", "");
 				xmlPAW.InnerText = paw;
 				xmlPaddock.AppendChild(xmlPAW);	
-				}
+			}
 
 			//Adds any extra values that are report specific.
 			if(dtOtherValues != null)
@@ -439,145 +445,48 @@ namespace YieldProphet
 
 		#region Soil File Functions
 		//-------------------------------------------------------------------------
-		//Create the .soil file needed for all reports
+		//Create the soil file needed for all reports
 		//-------------------------------------------------------------------------
 		static public void CreateSoilFile(string szDirectoryLocation, ref StringCollection scAttachments)
 			{
-			//Gets the data needed
+
 			DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
 			string szUsersName =  dtUsersDetails.Rows[0]["Name"].ToString();
 			string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
-			DataTable dtPaddocksDetails = DataAccessClass.GetDetailsOfPaddock(szPaddockName, FunctionsClass.GetActiveUserName());
-			string szCropType = dtPaddocksDetails.Rows[0]["CropType"].ToString();
+			DataTable dtPaddocksDetails = DataAccessClass.GetDetailsOfPaddock(szPaddockName, FunctionsClass.GetActiveUserName());			
+
 			//Gets the paddocks selected soil data in the form of an xml string and
 			//converts that data into a APSIMData variable
-			string szSoilXml = DataAccessClass.GetSoilData(dtPaddocksDetails.Rows[0]["SoilName"].ToString());
-			VBGeneral.APSIMData APSIMSoilData = new VBGeneral.APSIMData(szSoilXml);
-			Soil sPaddocksDefaultSoil = new Soil(APSIMSoilData);
-			//Gets the soil sample data from the first grid
+			Soil PaddockSoil = DataAccessClass.GetSoil(dtPaddocksDetails.Rows[0]["SoilName"].ToString());
+
+			//Gets the soil sample data from the first grid and copies it to our soil
 			DataTable dtSoilSampleOne = DataAccessClass.GetPaddocksSoilSample("GridOne", szPaddockName, FunctionsClass.GetActiveUserName());
 			string szSoilSampleOneXml = dtSoilSampleOne.Rows[0]["Data"].ToString();
 			if(szSoilSampleOneXml != "")
 				{
-				//Converts the soil sample data from the first grid into a APSIMData variable
-				VBGeneral.APSIMData APSIMSoilSampleData = new VBGeneral.APSIMData(szSoilSampleOneXml);
-				SoilSample ssPaddocksSoilSample = new SoilSample(APSIMSoilSampleData);
-				//Maps this soil sample data with the default soil data
-				ssPaddocksSoilSample.MapSampleToSoil(sPaddocksDefaultSoil);
-				if(ssPaddocksSoilSample.HasData("Water", "sw"))
-					{
-					sPaddocksDefaultSoil.SetSw(ssPaddocksSoilSample.GetSw());
-					}
-				if(ssPaddocksSoilSample.HasData("Nitrogen", "no3"))
-					{
-					sPaddocksDefaultSoil.SetNo3(ssPaddocksSoilSample.GetNo3());
-					}
-				if(ssPaddocksSoilSample.HasData("Nitrogen", "nh4"))
-					{
-					sPaddocksDefaultSoil.SetNh4(ssPaddocksSoilSample.GetNh4());
-					}
+				SoilSample PaddockSoilSample = new SoilSample(new APSIMData(szSoilSampleOneXml));
+				PaddockSoilSample.LinkedSoil = PaddockSoil;
+				PaddockSoil.SW = PaddockSoilSample.SWMapedToSoil;
+				PaddockSoil.NO3 = PaddockSoilSample.NO3MapedToSoil;
+				PaddockSoil.NH4 = PaddockSoilSample.NH4MapedToSoil;
 				}
-			//Gets the soil sample data from the second grid
+
+			//Gets the soil sample data from the second grid and copies to our soil.
 			DataTable dtSoilSampleTwo = DataAccessClass.GetPaddocksSoilSample("GridTwo", szPaddockName, FunctionsClass.GetActiveUserName());
 			string szSoilSampleTwoXml = dtSoilSampleTwo.Rows[0]["Data"].ToString();
 			if(szSoilSampleTwoXml != "")
 				{
-				//Converts the soil sample data from the first grid into a APSIMData variable
-				VBGeneral.APSIMData APSIMSoilSampleData = new VBGeneral.APSIMData(szSoilSampleTwoXml);
-				SoilSample ssPaddocksSoilSample = new SoilSample(APSIMSoilSampleData);
-				//Maps this soil sample data with the default soil data
-				ssPaddocksSoilSample.MapSampleToSoil(sPaddocksDefaultSoil);
-				if(ssPaddocksSoilSample.HasData("Nitrogen", "oc"))
-					{
-					sPaddocksDefaultSoil.SetOc(ssPaddocksSoilSample.GetOc());
-					}
-				if(ssPaddocksSoilSample.HasData("Nitrogen", "ph"))
-					{
-					sPaddocksDefaultSoil.SetPh(ssPaddocksSoilSample.GetPh());
-					}
-				if(ssPaddocksSoilSample.HasData("Other", "esp"))
-					{
-					sPaddocksDefaultSoil.SetEsp(ssPaddocksSoilSample.GetEsp());
-					}
-				if(ssPaddocksSoilSample.HasData("Other", "ec"))
-					{
-					sPaddocksDefaultSoil.SetEc(ssPaddocksSoilSample.GetEc());
-					}
+				SoilSample PaddockSoilSample = new SoilSample(new APSIMData(szSoilSampleTwoXml));
+				PaddockSoilSample.LinkedSoil = PaddockSoil;
+				PaddockSoil.OC = PaddockSoilSample.OCMapedToSoil;
+				PaddockSoil.PH = PaddockSoilSample.PHMapedToSoil;
+				PaddockSoil.EC = PaddockSoilSample.ECMapedToSoil;
 				}
-			// make sure the soil is valid.
-			sPaddocksDefaultSoil.AutoCorrect();
-			//Gets the file template
-			string szSoilFileTemplate = CreateSoilFileTemplate();
-			szSoilFileTemplate = szSoilFileTemplate.Replace("[soil.growername]", szUsersName);
-			//szSoilFileTemplate = szSoilFileTemplate.Replace("[crop.name]", szCropType.ToLower());
-			Macro mcSoilFile = new Macro();
-			sPaddocksDefaultSoil.RoundResultsTo3DecimalPlaces();
-			//Fills the template with the data and stores the file location in 
-			//a string collection
-			StringCollection scSoilFiles = mcSoilFile.Go(sPaddocksDefaultSoil.ReturnData(), szSoilFileTemplate, szDirectoryLocation);
-			for(int iIndex = 0; iIndex < scSoilFiles.Count; iIndex++)
-				{
-				scAttachments.Add(scSoilFiles[iIndex]);
-				}	
-			}
-		//-------------------------------------------------------------------------
-		//Creates the template for the soil file
-		//-------------------------------------------------------------------------
-		static public string CreateSoilFileTemplate()
-			{
-			string szSoilFileTemplate = "";
-			
-			szSoilFileTemplate = 
-				"[file grower.soil]\n"+
-				"[soil.soilwat2.parameters]\n"+//TITLE
-				"[foreach Soil.Water as water]\n"+
-				"   diffus_const = [water.DiffusConst]   ! coeffs for unsaturated water flow\n"+
-				"   diffus_slope = [water.DiffusSlope]\n"+
-				"   cn2_bare     = [water.Cn2Bare]    ! bare soil runoff curve number\n"+
-				"   cn_red       = [water.CnRed]    ! potetial reduction in curve number due to residue\n"+
-				"   cn_cov       = [water.CnCov]   ! cover for maximum reduction in curve number\n"+
-				"   salb         = [water.Salb]  ! bare soil albedo\n"+
-				"   cona         = [water.Cona]     ! stage 2 evap coef.\n"+
-				"   u            = [water.U]     ! stage 1 soil evaporation coefficient (mm)\n"+
-				"\n"+
-				"   dlayer  =[foreach water.layer as Layer]\n      [Layer.thickness][endfor]   ! layer thickness mm soil\n"+
-				"   air_dry =[foreach water.layer as Layer]\n    [Layer.airdry][endfor]   ! air dry mm water/mm soil\n"+
-				"   ll15    =[foreach water.layer as Layer]\n    [Layer.ll15][endfor]   ! lower limit mm water/mm soil\n"+
-				"   dul     =[foreach water.layer as Layer]\n    [Layer.dul][endfor]   ! drained upper limit mm water/mm soil\n"+
-				"   sat     =[foreach water.layer as Layer]\n    [Layer.sat][endfor]   ! saturation mm water/mm soil\n"+
-				"   sw      =[foreach water.layer as Layer]\n    [Layer.sw][endfor]   ! starting soil water mm water/mm soil\n"+
-				"   swcon   =[foreach water.layer as Layer]\n    [Layer.swcon][endfor]   ! drainage coefficient\n"+
-				"   bd      =[foreach water.layer as Layer]\n    [Layer.bd][endfor]   ! bulk density gm dry soil/cc moist soil\n"+
-				"[endfor]\n"+//END OF WATER FOR LOOP
-				"\n"+
-				"[soil.soiln2.parameters]\n"+//TITLE
-				"[foreach Soil.Nitrogen as nitrogen]\n"+
-				"   root_cn      = [nitrogen.rootcn]     ! C:N ratio of initial root residues\n"+
-				"   root_wt      = [nitrogen.rootwt]   ! root residues as biomass (kg/ha)\n"+
-				"   soil_cn      = [nitrogen.soilcn]   ! C:N ratio of soil\n"+
-				"   enr_a_coeff  = [nitrogen.enracoeff]\n"+
-				"   enr_b_coeff  = [nitrogen.enrbcoeff]\n"+
-				"   profile_reduction =  off\n"+ 
-				"\n"+
-				"   oc      =[foreach nitrogen.layer as Layer]\n      [Layer.oc][endfor]   ! Soil Organic Carbon\n"+
-				"   ph      =[foreach nitrogen.layer as Layer]\n      [Layer.ph][endfor]   ! pH of soil\n"+
-				"   fbiom   =[foreach nitrogen.layer as Layer]\n      [Layer.fbiom][endfor]   ! Organic C Biomass Fraction\n"+
-				"   finert  =[foreach nitrogen.layer as Layer]\n      [Layer.finert][endfor]   ! Inert Organic C Fraction\n"+
-				"   no3ppm  =[foreach nitrogen.layer as Layer]\n      [Layer.no3][endfor]   ! Nitrate Concentration\n"+
-				"   nh4ppm  =[foreach nitrogen.layer as Layer]\n      [Layer.nh4][endfor]   ! Ammonium Concentration\n"+
-				"[endfor]\n"+//END OF NITROGEN FOR LOOP
-				"\n"+
-				"[foreach Soil.SoilCrop as crop]\n"+
-				"[soil.[crop.name].parameters]\n"+//TITLE
-				"   ll      =[foreach crop.layer as Layer]\n      [Layer.ll][endfor]\n\n"+
-				"   kl      =[foreach crop.layer as Layer]\n      [Layer.kl][endfor]\n\n"+
-				"   xf      =[foreach crop.layer as Layer]\n      [Layer.xf][endfor]\n\n"+
-				"[endfor]\n"+//END OF CROP FOR LOOP
-				"[endfile]\n\n";
 
-			return szSoilFileTemplate;
-			}
-		//-------------------------------------------------------------------------
+			string FullSoilFileName = szDirectoryLocation + "\\grower.soil"; 
+			PaddockSoil.ExportToPar(FullSoilFileName);
+			scAttachments.Add(FullSoilFileName);
+			}	
 		#endregion
 
 

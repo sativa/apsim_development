@@ -34,6 +34,10 @@ namespace YieldProphet
 		protected Janus.Web.GridEX.GridEX grdUsers;
 		protected Janus.Web.GridEX.GridEX grdPaddocks;
 		protected System.Web.UI.WebControls.Panel pnlTop;
+		protected System.Web.UI.WebControls.CheckBox chkSetPosition;
+		protected System.Web.UI.WebControls.TextBox edtFind;
+		protected System.Web.UI.WebControls.Label lblFind;
+		protected System.Web.UI.WebControls.Button btnFind;
 		protected System.Web.UI.WebControls.LinkButton btnDeletePaddock;
 		
 
@@ -55,6 +59,7 @@ namespace YieldProphet
 		private void InitializeComponent()
 		{    
 			this.grdUsers.SelectionChanged += new System.EventHandler(this.grdUsers_SelectionChanged);
+			this.grdUsers.PreRender += new System.EventHandler(this.grdUsers_PreRender);
 			this.grdUsers.DataBinding += new System.EventHandler(this.grdUsers_DataBinding);
 			this.grdPaddocks.DataBinding += new System.EventHandler(this.grdPaddocks_DataBinding);
 			this.btnAddUser.Click += new System.EventHandler(this.btnAddUser_Click);
@@ -71,6 +76,7 @@ namespace YieldProphet
 			this.btnEditPaddock.Click += new System.EventHandler(this.btnEditPaddock_Click);
 			this.btnDeletePaddockImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnDeletePaddockImg_Click);
 			this.btnDeletePaddock.Click += new System.EventHandler(this.btnDeletePaddock_Click);
+			this.btnFind.Click += new System.EventHandler(this.btnFind_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
@@ -80,13 +86,16 @@ namespace YieldProphet
 
 		#region Form Functions
 		//-------------------------------------------------------------------------
-		//
+		//Sets up the page, depending on their access type. Depending
+		//on which kind of user they are returns their username.  NOTE: for adminsitrators
+		//this will return "" for all other access types it will return their username;
 		//-------------------------------------------------------------------------
 		private string SetupForm()
 			{
 			string szConsultantName = "";
+			//If the user is an administrator, allow them to see everything
 			if(FunctionsClass.IsAdministrator(Session["UserName"].ToString()) == true)
-				{
+			{
 				grdUsers.Tables[0].Columns["AccessType"].Visible = true;
 				grdUsers.Tables[0].Columns["Name"].Width = 250;
 				btnAddUser.Enabled = true;
@@ -96,9 +105,10 @@ namespace YieldProphet
 				btnEditUserImg.Enabled = true;
 				btnDeleteUser.Enabled = true;
 				btnDeleteUserImg.Enabled = true;
-				}
+			}
+			//If the user is a consultant, allow them to only edit/add/delete a paddock
 			else if(FunctionsClass.IsConsultantOrHigher(Session["UserName"].ToString()) == true)
-				{
+			{
 				grdUsers.Tables[0].Columns["AccessType"].Visible = false;
 				grdUsers.Tables[0].Columns["Name"].Width = 380;
 				btnAddUser.Enabled = false;
@@ -109,11 +119,31 @@ namespace YieldProphet
 				btnDeleteUser.Enabled = false;
 				btnDeleteUserImg.Enabled = false;
 				szConsultantName = Session["UserName"].ToString();
-				}
+			}
+			//If the user is a visitor consultant, allow them to only edit(view) a paddock
+			else if(FunctionsClass.IsVisitorConsultant(Session["UserName"].ToString()) == true)
+			{
+				grdUsers.Tables[0].Columns["AccessType"].Visible = false;
+				grdUsers.Tables[0].Columns["Name"].Width = 380;
+				btnAddUser.Enabled = false;
+				btnAddUser.Enabled = false;
+				btnAddUserImg.Enabled = false;
+				btnEditUser.Enabled = false;
+				btnEditUserImg.Enabled = false;
+				btnDeleteUser.Enabled = false;
+				btnDeleteUserImg.Enabled = false;
+				btnAddPaddock.Enabled = false;
+				btnAddPaddockImg.Enabled = false;
+				btnEditPaddock.Enabled = true;
+				btnEditPaddockImg.Enabled = true;
+				btnDeletePaddock.Enabled = false;
+				btnDeletePaddockImg.Enabled = false;
+				szConsultantName = Session["UserName"].ToString();
+			}
 			return szConsultantName;
 			}
 		//-------------------------------------------------------------------------
-		//
+		//Transfer the user to the edit user page
 		//-------------------------------------------------------------------------
 		private void EditUser()
 			{
@@ -125,12 +155,12 @@ namespace YieldProphet
 				}	
 			}
 		//-------------------------------------------------------------------------
-		//
+		//Delete the selected user from the database.
 		//-------------------------------------------------------------------------
 		private void DeleteUser()
 			{
 			if(grdUsers.SelectedItems.Count > 0)
-			{
+				{
 				int iIndex = grdUsers.SelectedItems[0].Position;
 				Session["SelectedUserName"] = grdUsers.GetRow(iIndex).Cells["UserName"].Text;
 				//If the grower the user is attempting to delete is not the current user
@@ -161,7 +191,7 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
-		//
+		//Transfer the user to the view report page
 		//-------------------------------------------------------------------------
 		private void ViewReports()
 			{
@@ -172,14 +202,14 @@ namespace YieldProphet
 				Session["SelectedUserName"] = grdUsers.GetRow(iIndex).Cells["UserName"].Text;
 				Server.Transfer("wfViewReports.aspx");
 				}
-				//If no grower is selected, then an error message is sent to the user
+			//If no grower is selected, then an error message is sent to the user
 			else
 				{
 				FunctionsClass.DisplayMessage(Page, "No Grower Selected");
 				}
 			}
 		//-------------------------------------------------------------------------
-		//
+		//Transfer the user to the add paddock page
 		//-------------------------------------------------------------------------
 		private void AddPaddock()
 		{
@@ -196,7 +226,7 @@ namespace YieldProphet
 				}
 		}
 		//-------------------------------------------------------------------------
-		//
+		//Transfer the user to the edit paddock page
 		//-------------------------------------------------------------------------
 		private void EditPaddock()
 			{
@@ -219,7 +249,7 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
-		//
+		//Delete the selected paddock
 		//-------------------------------------------------------------------------
 		private void DeletePaddock()
 			{
@@ -237,7 +267,6 @@ namespace YieldProphet
 					{
 					DataAccessClass.DeletePaddock(Session["SelectedPaddockName"].ToString(), Session["SelectedUserName"].ToString());
 					Session["SelectedPaddockName"] = "";
-					 Session["SelectedUserName"] = "";
 					Server.Transfer("wfManageUsers.aspx");
 					}
 				catch(Exception E)
@@ -252,23 +281,127 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
+		//Checks to see if the user is returning to the page, if they are, then find
+		//the grower that they had last selected.  This is achieved by using the
+		//SelectedUserName session variable and searching through the grid. 
+		//-------------------------------------------------------------------------
+		private void PreSetSelectedUser()
+		{
+			//Checks to see if a user is returning
+			if(chkSetPosition.Checked == true)
+			{
+				chkSetPosition.Checked = false;
+				//Find the row number of the selected user
+				int iRowIndex = ReturnSelectedUsersRowIndex(Session["SelectedUserName"].ToString(), "UserName");
+				SelectUserOnGrid(iRowIndex);
+			}
+		}
+		//-------------------------------------------------------------------------
+		//Find a user on the user grid.  This is achieved by using the
+		//name entered into the edit box and searching through the grid. 
+		//-------------------------------------------------------------------------
+		private void FindUser()
+		{
+			if(edtFind.Text != null && edtFind.Text != "")
+			{
+				int iRowIndex = ReturnSelectedUsersRowIndex(edtFind.Text, "Name");
+				SelectUserOnGrid(iRowIndex);
+			}
+			else
+			{
+				FunctionsClass.DisplayMessage(Page, "No name supplied");
+			}
+		}
+		//-------------------------------------------------------------------------
+		//Find the row index where the specified name is found in the specified column
+		//-------------------------------------------------------------------------
+		private int ReturnSelectedUsersRowIndex(string szUserNameToFind, string szColumnToSearch)
+		{
+			int iRowIndex = 0;
+			int iNumberOfRows = Convert.ToInt32(chkSetPosition.Text);
+			try
+			{
+				if(szUserNameToFind != "" && szUserNameToFind != null)
+				{
+					szUserNameToFind = szUserNameToFind.ToLower();
+					Janus.Web.GridEX.GridEXRow grdRow;
+					for(int iIndex = 0; iIndex < iNumberOfRows; iIndex++)
+					{
+						grdRow = grdUsers.GetRow(iIndex);
+						if(grdRow.Cells[szColumnToSearch].Text.ToLower() == szUserNameToFind)
+						{
+							iRowIndex = grdRow.Position;
+							break;
+						}			
+					}
+				}
+			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+			return iRowIndex;
+		}
+		//-------------------------------------------------------------------------
+		//Select the row on the grid with the corresponding rowindex 
+		//-------------------------------------------------------------------------
+		private void SelectUserOnGrid(int iRowIndex)
+		{
+			//Due to a problem with not being able to count the number of rows from the
+			//grid itself, we count the number of rows when we get them from the databse
+			//and we store them on the page
+			int iNumberOfRows = Convert.ToInt32(chkSetPosition.Text);
+			grdUsers.SelectedItems.Clear();
+			try
+			{
+				//Search through every row until we find the row that we need
+				Janus.Web.GridEX.GridEXRow grdRow;
+				for(int iIndex = 0; iIndex < iNumberOfRows; iIndex++)
+				{
+					grdRow = grdUsers.GetRow(iIndex);
+					//Check to see if the row we are looking for is grouped under a consultant
+					//if they are then expand this row to show the row we are looking for
+					if((grdRow.Children + grdRow.Position) >= iRowIndex)
+					{
+						grdRow.Expanded = true;
+					}
+					//If it is the row we are looking for, select it and stop the search
+					if(grdRow.Position == iRowIndex)
+					{
+						grdUsers.SelectedItems.Add(iRowIndex);
+						break;
+					}
+				}
+			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+			grdPaddocks.DataBind();
+		}	
+		//-------------------------------------------------------------------------
+
+
 		#endregion
 
 
 
 		#region Form Events
 		//-------------------------------------------------------------------------
-		//
+		//When the page loads, check the level of the user and setup the page
 		//-------------------------------------------------------------------------
 		private void Page_Load(object sender, System.EventArgs e)
 			{
 			if(!IsPostBack)
 				{	
 				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForConsultantLevelPriviledges();
-				Session["SelectedUserName"] = "";
-				Session["SelectedPaddockName"] = "";
+				FunctionsClass.CheckForVisitorConsultantLevelPriviledges();
+				//Sets up the page, by firing the events for the grids, starts with the users grid.
 				this.DataBind(); 
+				if(Session["SelectedUserName"].ToString() != "" && Session["SelectedUserName"].ToString() != null)
+				{
+					chkSetPosition.Checked = true;
+				}
 				}
 			//Adds an attribute to the four delete buttons that causes a 
 			//confirmation warning to appear when the user presses the buttons
@@ -278,7 +411,8 @@ namespace YieldProphet
 			btnDeletePaddockImg.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the selected paddock \");");
 			}
 		//-------------------------------------------------------------------------
-		//
+		//Gets all the paddocks for the specified user and then sets these
+		//to the grid
 		//-------------------------------------------------------------------------
 		private void grdPaddocks_DataBinding(object sender, System.EventArgs e)
 			{
@@ -291,23 +425,30 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
-		//
+		//When the selected user changes on the user grid changes, refresh the paddock grid
 		//-------------------------------------------------------------------------
 		private void grdUsers_SelectionChanged(object sender, System.EventArgs e)
 			{
 			if(grdUsers.SelectedItems.Count > 0)
 				{
+				//Causes the grdPaddocks_DataBinding event
 				grdPaddocks.DataBind();
 				}
 			}
 		//-------------------------------------------------------------------------
-		//
+		//Gets all the users for the specified user and then sets these to the grid
 		//-------------------------------------------------------------------------
 		private void grdUsers_DataBinding(object sender, System.EventArgs e)
 			{
+			//Sets up the form
 			string szConsultantName = SetupForm();
+			//Returns all the users assigned to the passed through username.  NOTE: for adminsitrators
+			//it passess through "" which returns all users.
 			DataTable dtAssignedUsers = DataAccessClass.GetUsersMappedToConsultant(szConsultantName);
 			DataTable dtOtherUsers = DataAccessClass.GetUsersNotMappedToConsultant(szConsultantName);
+			//If there are duplicate values, the tree view doesn't work correctly so in one table
+			//we alter the ID values.  NOTE: this means that we can not rely on ID values of users, 
+			//this shouldn't be a problem as we use UserName instead to find users.
 			int iStartValue = 10000;
 			foreach(DataRow drTempUser in dtAssignedUsers.Rows)
 				{
@@ -315,6 +456,7 @@ namespace YieldProphet
 				iStartValue++;
 				}
 			DataRow drAssignedUser;
+			//Copies across the other users datatable into the assigned users datatable
 			foreach(DataRow drOtherUser in dtOtherUsers.Rows)
 				{
 				drAssignedUser = dtAssignedUsers.NewRow();
@@ -325,14 +467,10 @@ namespace YieldProphet
 				drAssignedUser["ParentID"] = 0;
 				dtAssignedUsers.Rows.Add(drAssignedUser);
 				}
+			//Sets the number of rows onto the hidden component to store
+			//this is used for the searching functions on this page.
+			chkSetPosition.Text = dtAssignedUsers.Rows.Count.ToString();
 			this.grdUsers.DataSource =  dtAssignedUsers;
-			}
-		//-------------------------------------------------------------------------
-		//
-		//-------------------------------------------------------------------------
-		private void RadioButtonList1_SelectedIndexChanged(object sender, System.EventArgs e)
-			{
-			this.DataBind(); 
 			}
 		//-------------------------------------------------------------------------
 		//
@@ -409,7 +547,7 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void btnEditPaddock_Click(object sender, System.EventArgs e)
 			{
-			EditPaddock();
+			EditPaddock(); 
 			}
 		//-------------------------------------------------------------------------
 		//
@@ -432,6 +570,23 @@ namespace YieldProphet
 			{
 			DeletePaddock();
 			}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void grdUsers_PreRender(object sender, System.EventArgs e)
+		{
+			if(Session["SelectedUserName"].ToString() != "")
+			{
+				PreSetSelectedUser();
+			}
+		}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void btnFind_Click(object sender, System.EventArgs e)
+		{
+			FindUser();
+		}
 		//-------------------------------------------------------------------------
 		#endregion
 

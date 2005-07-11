@@ -169,7 +169,6 @@ namespace YieldProphet
 					DataAccessClass.UpdateUser(InputValidationClass.ValidateString(edtName.Text), 
 						InputValidationClass.ValidateString(edtEmail.Text), "", FunctionsClass.GetActiveUserName(),
 						cboAccessType.SelectedValue, ReturnConsultantCollection());
-					Session["SelectedUserName"] = "";
 					Server.Transfer("wfManageUsers.aspx");
 					}
 				catch(Exception E)

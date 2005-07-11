@@ -55,8 +55,7 @@ namespace YieldProphet
 			{
 			string szBody = "";
 			
-			DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
-			string szUsersName =  dtUsersDetails.Rows[0]["Name"].ToString();
+			DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(HttpContext.Current.Session["UserName"].ToString());
 			string szUserEmail = dtUsersDetails.Rows[0]["Email"].ToString();
 			string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
 			string szApplicationName = HttpContext.Current.Request.ApplicationPath;

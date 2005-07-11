@@ -1,5 +1,5 @@
-<%@ Page language="c#" Codebehind="wfManageUsers.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfManageUsers" %>
 <%@ Register TagPrefix="jwg" Namespace="Janus.Web.GridEX" Assembly="Janus.Web.GridEX" %>
+<%@ Page language="c#" Codebehind="wfManageUsers.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfManageUsers" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <HTML>
 	<HEAD>
@@ -162,6 +162,13 @@
 				runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 			<asp:LinkButton id="btnDeletePaddock" style="Z-INDEX: 118; LEFT: 720px; POSITION: absolute; TOP: 496px"
 				runat="server" Font-Size="Smaller">Delete Paddock</asp:LinkButton>
+			<asp:CheckBox id="chkSetPosition" style="Z-INDEX: 120; LEFT: 40px; POSITION: absolute; TOP: 608px"
+				runat="server" Visible="False" Enabled="False"></asp:CheckBox>
+			<asp:TextBox id="edtFind" style="Z-INDEX: 121; LEFT: 120px; POSITION: absolute; TOP: 536px" runat="server"
+				Width="256px"></asp:TextBox>
+			<asp:Label id="lblFind" style="Z-INDEX: 122; LEFT: 32px; POSITION: absolute; TOP: 536px" runat="server">User's name:</asp:Label>
+			<asp:Button id="btnFind" style="Z-INDEX: 123; LEFT: 384px; POSITION: absolute; TOP: 536px" runat="server"
+				Text="Find"></asp:Button>
 		</form>
 	</body>
 </HTML>

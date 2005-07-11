@@ -19,12 +19,25 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.LinkButton btnBack;
 		protected System.Web.UI.WebControls.Label lblNotice;
 		protected System.Timers.Timer tmrRedirect;
+		protected System.Web.UI.WebControls.LinkButton btnGrowers;
+		protected System.Web.UI.WebControls.Label lblDivider;
 		protected System.Web.UI.WebControls.Panel pnlTop;
 	
 		private void Page_Load(object sender, System.EventArgs e)
 			{
 			FunctionsClass.CheckSession();
 			FunctionsClass.CheckForGrowerLevelPriviledges();
+			if(FunctionsClass.IsConsultantOrHigher(Session["UserName"].ToString()) || 
+				FunctionsClass.IsVisitorConsultant(Session["UserName"].ToString()) == true)
+				{
+				btnGrowers.Enabled = true;
+				btnGrowers.Visible = true;
+				}
+			else
+				{
+				btnGrowers.Enabled = false;
+				btnGrowers.Visible = false;
+				}
 
 			}
 
@@ -45,6 +58,7 @@ namespace YieldProphet
 		private void InitializeComponent()
 		{    
 			this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+			this.btnGrowers.Click += new System.EventHandler(this.btnGrowers_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
@@ -54,5 +68,10 @@ namespace YieldProphet
 			{
 			Server.Transfer("wfEditPaddock.aspx");
 			}
+
+		private void btnGrowers_Click(object sender, System.EventArgs e)
+			{
+			Server.Transfer("wfManageUsers.aspx");
+			}
+		}
 	}
-}

@@ -118,7 +118,7 @@ namespace YieldProphet
 			try
 				{
 				//If a report is selected then remove it from the database
-				if(lstReports.SelectedItem.Text != null && lstReports.SelectedItem.Text != "")
+				if(lstReports.SelectedValue != null && lstReports.SelectedValue != "")
 					{
 					if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
 						{
@@ -144,7 +144,7 @@ namespace YieldProphet
 		private void RenameReport()
 			{
 			//If a report is selected then transfer the user to the edit report page
-			if(lstReports.SelectedItem.Text != null && lstReports.SelectedItem.Text != "")
+			if(lstReports.SelectedValue != null && lstReports.SelectedValue != "")
 				{
 				if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
 					{

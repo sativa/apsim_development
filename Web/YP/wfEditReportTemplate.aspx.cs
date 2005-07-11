@@ -217,8 +217,9 @@ namespace YieldProphet
 			{
 			if(cboReportTypes.SelectedItem.Text != "" && cboTemplateTypes.SelectedItem.Text != "")
 				{
+				bool bErrors = false;
 				ImportClass.ImportReportTemplate(Page, cboReportTypes.SelectedItem.Text, 
-					cboTemplateTypes.SelectedItem.Text);
+					cboTemplateTypes.SelectedItem.Text, ref bErrors);
 				Server.Transfer("wfEditReportTemplate.aspx");
 				}
 			//If no report type is selected then display an error message to the user
