@@ -10,7 +10,7 @@
              Copyright(c) APSRU               
 
      Version                = 4.1
-     Title                  = Test long array reporting
+     Title                  = Test report variables 2
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
@@ -34,14 +34,106 @@
 
 ------- report Initialisation -------------------------------------------------
      Output variables:
-        clock.day
         clock.year
-        lablab.lai
-        lablab.biomass
-        lablab.leaf_area()
+        clock.day
+        lablab.n_conc_stover
+        lablab.n_conc_root
+        lablab.n_conc_leaf
+        lablab.n_conc_stem
+        lablab.n_conc_grain
+        lablab.n_conc_meal
+        lablab.n_grain_pcnt
+        lablab.grain_protein
+        lablab.n_conc_crit
+        lablab.n_conc_crit_leaf
+        lablab.n_conc_crit_stem
+        lablab.n_conc_min
+        lablab.n_conc_min_stem
+        lablab.n_uptake_stover
+        lablab.no3_tot
+        lablab.n_demand
+        lablab.n_demand_leaf
+        lablab.n_demand_stem
+        lablab.grain_n_demand
+        lablab.n_supply_soil
+        lablab.dlt_n_fixed_pot
+        lablab.dlt_n_fixed
+        lablab.n_fixed_tops
+        lablab.nfact_photo
+        lablab.nfact_pheno
+        lablab.nfact_expan
+        lablab.nfact_grain
+        lablab.remove_biom_pheno
+        lablab.nfact_grain_tot
+        lablab.n_stress_photo
+        lablab.n_stress_pheno
+        lablab.n_stress_expan
+        lablab.n_stress_grain
+        lablab.rlv
+        lablab.rld
+        lablab.no3_demand
+        lablab.sw_demand
+        lablab.sw_demand_te
+        lablab.root_length
+        lablab.root_length_dead
+        lablab.no3gsm_uptake_pot
+        lablab.nh4gsm_uptake_pot
+        lablab.no3_swfac
+        lablab.leaves_per_node
+        lablab.no3_uptake
+        lablab.nh4_uptake
+        lablab.parasite_dm_supply
+        lablab.leaf_area_tot
+        lablab.p_green
+        lablab.p_dead
+        lablab.p_senesced
+        lablab.p_demand
+        lablab.pfact_photo
+        lablab.pfact_pheno
+        lablab.pfact_expansion
+        lablab.pfact_grain
+        lablab.p_stress_photo
+        lablab.p_stress_pheno
+        lablab.p_stress_expansion
+        lablab.p_stress_expan
+        lablab.p_stress_grain
+        lablab.biomass_p
+        lablab.p_uptake
+        lablab.green_biomass_p
+        lablab.grain_p
+        lablab.leaf_p
+        lablab.stem_p
+        lablab.root_p
+        lablab.deadleaf_p
+        lablab.head_p
+        lablab.pod_p
+        lablab.dlt_p_green
+        lablab.dlt_p_retrans
+        lablab.dlt_p_detached
+        lablab.dlt_p_dead
+        lablab.dlt_p_sen
+        lablab.p_conc_stover
+        lablab.p_conc_leaf
+        lablab.p_conc_stem
+        lablab.p_conc_grain
+        lablab.p_grain_pcnt
+        lablab.p_uptake_stover
+        lablab.grain_p_demand
+        lablab.stage
+        lablab.dlt_stage
+        lablab.stage_name
+        lablab.stage_code
+        lablab.phase_tt
+        lablab.tt_tot
+        lablab.days_tot
+        lablab.das
+        lablab.dlt_tt_phenol
+        lablab.dlt_tt
+        lablab.flowering_das
+        lablab.maturity_das
      
-     Output file = test5.out
-     Format = normal
+     Output file = test7.csv
+     Format = csv
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
