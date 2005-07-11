@@ -1,5 +1,5 @@
-<%@ Page language="c#" Codebehind="wfEditRainfall.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfEditRainfall" %>
 <%@ Register TagPrefix="jwg" Namespace="Janus.Web.GridEX" Assembly="Janus.Web.GridEX" %>
+<%@ Page language="c#" Codebehind="wfEditRainfall.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfEditRainfall" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <HTML>
 	<HEAD>
@@ -15,10 +15,10 @@
 				HorizontalAlign="Left" BackColor="PaleGoldenrod" Height="48px" Width="100%">
 				<DIV style="WIDTH: 288px; POSITION: relative; HEIGHT: 40px" ms_positioning="GridLayout">
 					<asp:LinkButton id="btnCancel" style="Z-INDEX: 100; LEFT: 104px; POSITION: absolute; TOP: 16px"
-						runat="server" EnableViewState="False" Font-Size="Smaller">Cancel</asp:LinkButton>
+						runat="server" Font-Size="Smaller" EnableViewState="False">Cancel</asp:LinkButton>
 					<asp:Button id="btnSave" style="Z-INDEX: 107; LEFT: 32px; POSITION: absolute; TOP: 16px" runat="server"
-						Width="40px" Height="16px" BackColor="Transparent" Font-Size="Smaller" Font-Underline="True"
-						ForeColor="Blue" BorderColor="Transparent" BorderStyle="None" Text="Save" Font-Names="Times New Roman"></asp:Button>
+						Width="40px" Height="16px" BackColor="Transparent" Font-Size="Smaller" Font-Names="Times New Roman"
+						Text="Save" BorderStyle="None" BorderColor="Transparent" ForeColor="Blue" Font-Underline="True"></asp:Button>
 					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 101; LEFT: 80px; POSITION: absolute; TOP: 16px"
 						runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 104; LEFT: 8px; POSITION: absolute; TOP: 16px" runat="server"
@@ -34,7 +34,7 @@
 						<asp:ListItem Value="2007">2007</asp:ListItem>
 						<asp:ListItem Value="2008">2008</asp:ListItem>
 					</asp:DropDownList></DIV>
-			</asp:panel><jwg:gridex id=grdRainfall style="Z-INDEX: 102; LEFT: 16px; POSITION: absolute; TOP: 88px" runat="server" Height="501px" Width="522px" ScriptsFolderPath="/gridex/scripts" ImagesFolderPath="/gridex/images" GridLineColor="ScrollBar" AllowEdit="True" DataSource="<%# dsRainfall %>" DataMember="Rainfall" GroupByBoxVisible="False" TotalRow="True" UpdateMode="RowUpdateBatch" EditorsFrameUrl="/gridex/images/images/blank.html">
+			</asp:panel><jwg:gridex id=grdRainfall style="Z-INDEX: 102; LEFT: 16px; POSITION: absolute; TOP: 88px" runat="server" Height="501px" Width="522px" ScriptsFolderPath="/gridex/scripts" ImagesFolderPath="/gridex/images" GridLineColor="ScrollBar" AllowEdit="True" DataSource="<%# dsRainfall %>" DataMember="Rainfall" GroupByBoxVisible="False" TotalRow="True" UpdateMode="RowUpdateBatch" EditorsFrameUrl="/gridex/images/images/blank.html" AllowColumnDrag="False" AutomaticSort="False">
 				<RootTable DataMember="Rainfall" Key="Rainfall">
 					<Columns>
 						<jwg:GridEXColumn TotalFormatMode="UseStringFormat" UseType="System.String" EditType="NoEdit" Key="Day"

@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using Xceed.Chart.Core;
 using Xceed.Chart.Server;
 using CSGeneral;
+using VBGeneral;
 
 namespace YieldProphet
 	{
@@ -38,7 +39,6 @@ namespace YieldProphet
 		protected System.Data.DataColumn dcNO3;
 		protected System.Data.DataColumn dcNH4;
 		protected System.Web.UI.WebControls.Label lblDepthOne;
-		protected System.Web.UI.WebControls.Label lblDepthTwo;
 		protected System.Web.UI.WebControls.Button btnSave;
 		protected System.Web.UI.WebControls.CheckBox chkLinkedRainfall;
 		protected System.Web.UI.WebControls.DropDownList cboLinkedRainfall;
@@ -64,6 +64,8 @@ namespace YieldProphet
 		protected Janus.Web.GridEX.GridEX grdStartOfGrowingSeason;
 		protected Xceed.Chart.Server.ChartServerControl cscSoilChart;
 		protected System.Web.UI.WebControls.Button btnUpdateGraph;
+		protected System.Web.UI.WebControls.Label lblWaterType;
+		protected System.Web.UI.WebControls.RadioButtonList rdbSWUnit;
 		protected System.Web.UI.WebControls.Panel pnlTop;
 
 
@@ -124,15 +126,15 @@ namespace YieldProphet
 			this.dsSoilSampleOne.DataSetName = "NewDataSet";
 			this.dsSoilSampleOne.Locale = new System.Globalization.CultureInfo("en-US");
 			this.dsSoilSampleOne.Tables.AddRange(new System.Data.DataTable[] {
-																																				 this.dtSoilSampleOne});
+																				 this.dtSoilSampleOne});
 			// 
 			// dtSoilSampleOne
 			// 
 			this.dtSoilSampleOne.Columns.AddRange(new System.Data.DataColumn[] {
-																																					 this.dcDepth,
-																																					 this.dcWater,
-																																					 this.dcNO3,
-																																					 this.dcNH4});
+																				   this.dcDepth,
+																				   this.dcWater,
+																				   this.dcNO3,
+																				   this.dcNH4});
 			this.dtSoilSampleOne.TableName = "SoilSampleOne";
 			// 
 			// dcDepth
@@ -160,16 +162,16 @@ namespace YieldProphet
 			this.dsSoilSampleTwo.DataSetName = "NewDataSet";
 			this.dsSoilSampleTwo.Locale = new System.Globalization.CultureInfo("en-US");
 			this.dsSoilSampleTwo.Tables.AddRange(new System.Data.DataTable[] {
-																																				 this.dtSoilSampleTwo});
+																				 this.dtSoilSampleTwo});
 			// 
 			// dtSoilSampleTwo
 			// 
 			this.dtSoilSampleTwo.Columns.AddRange(new System.Data.DataColumn[] {
-																																					 this.dataColumn1,
-																																					 this.dcOC,
-																																					 this.dcEC,
-																																					 this.dcPH,
-																																					 this.dcESP});
+																				   this.dataColumn1,
+																				   this.dcOC,
+																				   this.dcEC,
+																				   this.dcPH,
+																				   this.dcESP});
 			this.dtSoilSampleTwo.TableName = "SoilSampleTwo";
 			// 
 			// dataColumn1
@@ -202,12 +204,12 @@ namespace YieldProphet
 			this.dsInitialDate.DataSetName = "NewDataSet";
 			this.dsInitialDate.Locale = new System.Globalization.CultureInfo("en-AU");
 			this.dsInitialDate.Tables.AddRange(new System.Data.DataTable[] {
-																																			 this.dtInitialDate});
+																			   this.dtInitialDate});
 			// 
 			// dtInitialDate
 			// 
 			this.dtInitialDate.Columns.AddRange(new System.Data.DataColumn[] {
-																																				 this.dcInitialDate});
+																				 this.dcInitialDate});
 			this.dtInitialDate.TableName = "InitialDate";
 			// 
 			// dcInitialDate
@@ -220,12 +222,12 @@ namespace YieldProphet
 			this.dsStartOfGrowingSeason.DataSetName = "NewDataSet";
 			this.dsStartOfGrowingSeason.Locale = new System.Globalization.CultureInfo("en-AU");
 			this.dsStartOfGrowingSeason.Tables.AddRange(new System.Data.DataTable[] {
-																																								this.dtStartOfGrowingSeason});
+																						this.dtStartOfGrowingSeason});
 			// 
 			// dtStartOfGrowingSeason
 			// 
 			this.dtStartOfGrowingSeason.Columns.AddRange(new System.Data.DataColumn[] {
-																																									this.dcGrowingSeasonDate});
+																						  this.dcGrowingSeasonDate});
 			this.dtStartOfGrowingSeason.TableName = "StartOfGrowingSeason";
 			// 
 			// dcGrowingSeasonDate
@@ -263,26 +265,6 @@ namespace YieldProphet
 			FillLinkedRainfallCombo();
 			//Fills the sub soil combo box 
 			FillSubSoilCombo();
-			//Fills the soil sample one grid
-			FillSoilSampleOneGrid();
-			//Fills the soil sample two grid
-			FillSoilSampleTwoGrid();
-			//If ther is a soil sample record set the initial condition date
-			try
-				{
-				DataTable dtSoilSample = DataAccessClass.GetPaddocksSoilSample("GridOne", 
-					Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
-				string szInitialDate = "";
-				if(dtSoilSample.Rows.Count > 0)
-					{
-					szInitialDate = dtSoilSample.Rows[0]["SampleDate"].ToString();
-					}
-				SetInitialDate(szInitialDate);
-				}
-			catch(Exception E)
-				{
-				FunctionsClass.DisplayMessage(Page, E.Message);
-				}
 			}
 		//-------------------------------------------------------------------------
 		//Fills the form with the selected paddock's data from the database
@@ -330,6 +312,21 @@ namespace YieldProphet
 				cboSubSoil.SelectedValue = dtPaddockDetails.Rows[0]["SubSoilConstraintType"].ToString();		
 				cboWeatherStation.SelectedValue = dtPaddockDetails.Rows[0]["MetStationName"].ToString();
 				cboSoilType.SelectedValue = dtPaddockDetails.Rows[0]["SoilName"].ToString();
+
+				//Fills the soil sample one grid
+				FillSoilSampleOneGrid();
+				//Fills the soil sample two grid
+				FillSoilSampleTwoGrid();
+
+				//If ther is a soil sample record set the initial condition date
+				DataTable dtSoilSample = DataAccessClass.GetPaddocksSoilSample("GridOne", 
+					Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
+				string szInitialDate = "";
+				if(dtSoilSample.Rows.Count > 0)
+					{
+					szInitialDate = dtSoilSample.Rows[0]["SampleDate"].ToString();
+					}
+				SetInitialDate(szInitialDate);
 				}
 			catch(Exception E)
 				{
@@ -354,7 +351,7 @@ namespace YieldProphet
 				drInitialDate["InitialDate"] = DateTime.Today;
 				dsInitialDate.Tables["InitialDate"].Rows.Add(drInitialDate);
 				}
-			this.DataBind();
+			grdSampleDate.DataBind();
 			}
 		//-------------------------------------------------------------------------
 		//Set the date shown in the strart of growing season date grid
@@ -374,7 +371,7 @@ namespace YieldProphet
 				drStartOfGrowingSeason["GrowingSeasonDate"] = new DateTime(DateTime.Today.Year, 4, 1);
 				dsStartOfGrowingSeason.Tables["StartOfGrowingSeason"].Rows.Add(drStartOfGrowingSeason);
 				}
-			this.DataBind();
+			grdStartOfGrowingSeason.DataBind();
 		}
 		//-------------------------------------------------------------------------
 		//Displays the grower's name and the paddock's name on a label
@@ -527,31 +524,36 @@ namespace YieldProphet
 				DataTable dtPaddocksSoilSameple =
 					DataAccessClass.GetPaddocksSoilSample("GridOne", Session["SelectedPaddockName"].ToString(), 
 					FunctionsClass.GetActiveUserName());
-				DataTable dtSoilSampleFromDB = new DataTable();
-				if(dtPaddocksSoilSameple.Rows.Count > 0)
-					{
-					dtSoilSampleFromDB = SoilSampleClass.ConvertSoilSampleOneDataToDataTable(dtPaddocksSoilSameple.Rows[0]["Data"].ToString());
+				SoilSample Sample = new SoilSample(new APSIMData(dtPaddocksSoilSameple.Rows[0]["Data"].ToString()));
+				Sample.LinkedSoil = DataAccessClass.GetSoil(cboSoilType.SelectedValue);
+
+				double[] sw;
+				if (Sample.SWUnit == SoilSample.SWUnits.Volumetric)
+					{	
+					rdbSWUnit.SelectedValue = "VolumetricPercent";
+					sw = Sample.SW;
 					}
-				
-				DataRow drSoilSampleLevel;
-				int iMaxNumberOfRows = 8;
-				//Takes the data from the datatable and assigns it to the grid
-				foreach(DataRow drSoilSampleLevelFromDB in dtSoilSampleFromDB.Rows)
-					{
-					drSoilSampleLevel = dsSoilSampleOne.Tables["SoilSampleOne"].NewRow();
-					drSoilSampleLevel["Depth"] = drSoilSampleLevelFromDB["Depth"];	
-					drSoilSampleLevel["Water"] = drSoilSampleLevelFromDB["Water"];
-					drSoilSampleLevel["NO3"] = drSoilSampleLevelFromDB["NO3"];
-					drSoilSampleLevel["NH4"] = drSoilSampleLevelFromDB["NH4"];	
-					dsSoilSampleOne.Tables["SoilSampleOne"].Rows.Add(drSoilSampleLevel);
+				else
+					{	
+					rdbSWUnit.SelectedValue = "GravimetricPercent";
+					sw = Sample.SWGrav;
 					}
+
+				DataTableUtility.AddColumn(dsSoilSampleOne.Tables["SoilSampleOne"], "Depth", 
+					                       Sample.DepthStrings);
+				DataTableUtility.AddColumn(dsSoilSampleOne.Tables["SoilSampleOne"], "Water", 
+					                       MathUtility.Multiply_Value(sw, 100));
+				DataTableUtility.AddColumn(dsSoilSampleOne.Tables["SoilSampleOne"], "NO3", 
+					                       Sample.NO3);
+				DataTableUtility.AddColumn(dsSoilSampleOne.Tables["SoilSampleOne"], "NH4", 
+					                       Sample.NH4);
+
 				//Appends any need blank records so that the grid displays the correct number of rows
-				for(int iIndex = dsSoilSampleOne.Tables["SoilSampleOne"].Rows.Count; iIndex < iMaxNumberOfRows; iIndex++)
-					{
-					drSoilSampleLevel = dsSoilSampleOne.Tables["SoilSampleOne"].NewRow();
-					dsSoilSampleOne.Tables["SoilSampleOne"].Rows.Add(drSoilSampleLevel);
-					}
-				this.DataBind();
+				while (dsSoilSampleOne.Tables["SoilSampleOne"].Rows.Count < 8)
+					dsSoilSampleOne.Tables["SoilSampleOne"].Rows.Add(dsSoilSampleOne.Tables["SoilSampleOne"].NewRow());
+
+				grdSoilSampleOne.DataBind();
+				UpdateGraph(Sample);
 				}
 			catch(Exception E)
 				{
@@ -569,33 +571,22 @@ namespace YieldProphet
 				DataTable dtPaddocksSoilSameple =
 					DataAccessClass.GetPaddocksSoilSample("GridTwo", Session["SelectedPaddockName"].ToString(), 
 					FunctionsClass.GetActiveUserName());
-
-				DataTable dtSoilSampleFromDB = new DataTable();
-				if(dtPaddocksSoilSameple.Rows.Count > 0)
-					{
-					dtSoilSampleFromDB = SoilSampleClass.ConvertSoilSampleTwoDataToDataTable(dtPaddocksSoilSameple.Rows[0]["Data"].ToString());
-					}
+				SoilSample Sample = new SoilSample(new APSIMData(dtPaddocksSoilSameple.Rows[0]["Data"].ToString()));
 				
-				DataRow drSoilSampleLevel;
-				int iMaxNumberOfRows = 8;
-				//Takes the data from the datatable and assigns it to the grid
-				foreach(DataRow drSoilSampleLevelFromDB in dtSoilSampleFromDB.Rows)
-					{
-					drSoilSampleLevel = dsSoilSampleTwo.Tables["SoilSampleTwo"].NewRow();
-					drSoilSampleLevel["Depth"] = drSoilSampleLevelFromDB["Depth"];	
-					drSoilSampleLevel["OC"] = drSoilSampleLevelFromDB["OC"];
-					drSoilSampleLevel["EC"] = drSoilSampleLevelFromDB["EC"];	
-					drSoilSampleLevel["PH"] = drSoilSampleLevelFromDB["PH"];
-					drSoilSampleLevel["ESP"] = drSoilSampleLevelFromDB["ESP"];
-					dsSoilSampleTwo.Tables["SoilSampleTwo"].Rows.Add(drSoilSampleLevel);
-					}
+				DataTableUtility.AddColumn(dsSoilSampleTwo.Tables["SoilSampleTwo"], "Depth", 
+					                       Sample.DepthStrings);
+				DataTableUtility.AddColumn(dsSoilSampleTwo.Tables["SoilSampleTwo"], "OC", 
+					                       Sample.OC);
+				DataTableUtility.AddColumn(dsSoilSampleTwo.Tables["SoilSampleTwo"], "EC", 
+					                       Sample.EC);
+				DataTableUtility.AddColumn(dsSoilSampleTwo.Tables["SoilSampleTwo"], "PH", 
+					                       Sample.PH);
+
 				//Appends any need blank records so that the grid displays the correct number of rows
-				for(int iIndex = dsSoilSampleTwo.Tables["SoilSampleTwo"].Rows.Count; iIndex < iMaxNumberOfRows; iIndex++)
-					{
-					drSoilSampleLevel = dsSoilSampleTwo.Tables["SoilSampleTwo"].NewRow();
-					dsSoilSampleTwo.Tables["SoilSampleTwo"].Rows.Add(drSoilSampleLevel);
-					}
-				this.DataBind();
+				while (dsSoilSampleTwo.Tables["SoilSampleTwo"].Rows.Count < 8)
+					dsSoilSampleTwo.Tables["SoilSampleTwo"].Rows.Add(dsSoilSampleTwo.Tables["SoilSampleTwo"].NewRow());
+
+				grdSoilSampleTwo.DataBind();
 				}
 			catch(Exception E)
 				{
@@ -624,11 +615,15 @@ namespace YieldProphet
 						{
 						szLinkedTemporalPaddock = cboLinkedRainfall.SelectedItem.Text;
 						}
+					else
+						{
+						szLinkedTemporalPaddock = "NONE";
+						}
 					try
 						{
 						DataAccessClass.UpdatePaddock("", "", cboWeatherStation.SelectedItem.Text,  
 							cboSoilType.SelectedItem.Text, cboSubSoil.SelectedItem.Text,
-							szLinkedTemporalPaddock, szStartOfGrowingSeasonDate, 
+							szLinkedTemporalPaddock, szStartOfGrowingSeasonDate, Session["SelectedPaddockName"].ToString(), 
 							Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
 						SaveSoilSampleDetails();
 						Server.Transfer("wfEditPaddock.aspx");
@@ -657,22 +652,18 @@ namespace YieldProphet
 			{
 			try
 				{
-				//Saves the data from the first grid
-				string szSoilSampleData = SoilSampleClass.CreateSoilSampleOneXmlFile(ReturnSoilSampleOneDataTable());
 				string szSoilSampleDate = 
 					(DateTime.ParseExact(grdSampleDate.GetRow(0).Cells["InitialDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd");
-				//If the paddock doesn't have any soil sample one data stored, we insert the
-				//record into the table, it the paddock does have an existing soil sample one 
-				//we update the record
-				DataAccessClass.SetSoilSample(szSoilSampleDate, szSoilSampleData, "GridOne", 
+
+				// Save soil sample 1 grid
+				SoilSample Sample1 = GetSample1();
+				DataAccessClass.SetSoilSample(szSoilSampleDate, Sample1.Data.XML, "GridOne", 
 					Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
 
-				//Saves teh data from the second grid
-				szSoilSampleData = SoilSampleClass.CreateSoilSampleTwoXmlFile(ReturnSoilSampleTwoDataTable());
-				//If the paddock doesn't have any soil sample two data stored, we insert the
-				//record into the table, it the paddock does have an existing soil sample two 
-				//we update the record
-				DataAccessClass.SetSoilSample(szSoilSampleDate, szSoilSampleData, "GridTwo", 
+
+				// Save soil sample 2 grid.
+				SoilSample Sample2 = GetSample2();
+				DataAccessClass.SetSoilSample(szSoilSampleDate, Sample2.Data.XML, "GridTwo", 
 					Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
 				}
 			catch(Exception E)
@@ -680,203 +671,122 @@ namespace YieldProphet
 				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
 			}
-		//-------------------------------------------------------------------------
-		//Returns the data from the first grid in the form of a datatable
-		//-------------------------------------------------------------------------
-		private DataTable ReturnSoilSampleOneDataTable()
+
+
+		// ------------------------------------------------
+		// Return an instance of SoilSample for first grid.
+		// ------------------------------------------------
+		private SoilSample GetSample1()
 			{
-			DataTable dtSoilSampleData = dsSoilSampleOne.Tables["SoilSampleOne"].Copy();
-			DataRow drSoilSampleData;
-			try
-				{
-				Janus.Web.GridEX.GridEXRow grdRow;
-				for(int iIndex = 0; iIndex < grdSoilSampleOne.RowCount; iIndex++)
-					{
-					grdRow = grdSoilSampleOne.GetRow(iIndex);
-					//If there is data in the dataTable then save it to the database
-					if(grdRow.Cells["Depth"].Value != null)
-						{
-						drSoilSampleData = dtSoilSampleData.NewRow();
-						drSoilSampleData["Depth"] = grdRow.Cells["Depth"].Text;
-						drSoilSampleData["Water"] = grdRow.Cells["Water"].Text;
-						drSoilSampleData["NO3"] = grdRow.Cells["NO3"].Text;
-						drSoilSampleData["NH4"] = grdRow.Cells["NH4"].Text;
-						dtSoilSampleData.Rows.Add(drSoilSampleData);
-						}
-					}
-				}
-			catch(Exception)
-				{
-				FunctionsClass.DisplayMessage(Page, "Error storing soil sample one data");
-				}
-				return dtSoilSampleData;
+			// Save soil sample 1 grid
+			SoilSample Sample1 = new SoilSample();
+
+			int NumLayers = FunctionsClass.GetNumberOfNonBlankRows(ref grdSoilSampleOne, 0);
+			Sample1.DepthStrings = FunctionsClass.GetColumnAsStrings(grdSoilSampleOne, 0, NumLayers);
+			
+			double[] sw = FunctionsClass.GetColumnAsDoubles(grdSoilSampleOne, 1, NumLayers);
+			sw = MathUtility.Divide_Value(sw, 100);
+            if (rdbSWUnit.SelectedValue == "VolumetricPercent")
+				Sample1.SW = sw;
+			else				
+				Sample1.SWGrav = sw;
+			
+			Sample1.NO3 = FunctionsClass.GetColumnAsDoubles(grdSoilSampleOne, 2, NumLayers);
+
+			Sample1.NH4 = FunctionsClass.GetColumnAsDoubles(grdSoilSampleOne, 3, NumLayers);
+
+			return Sample1;
 			}
-		//-------------------------------------------------------------------------
-		//Returns the data from the second grid in the form of a datatable
-		//-------------------------------------------------------------------------
-		private DataTable ReturnSoilSampleTwoDataTable()
+
+
+		// ------------------------------------------------
+		// Return an instance of SoilSample for first grid.
+		// ------------------------------------------------
+		private SoilSample GetSample2()
 			{
-			DataTable dtSoilSampleData = dsSoilSampleTwo.Tables["SoilSampleTwo"].Copy();
-			DataRow drSoilSampleData;
-			try
-				{
-				Janus.Web.GridEX.GridEXRow grdRow;
-				for(int iIndex = 0; iIndex < grdSoilSampleTwo.RowCount; iIndex++)
-					{
-					grdRow = grdSoilSampleTwo.GetRow(iIndex);
-					//If there is data in the dataTable then save it to the database
-					if(grdRow.Cells["Depth"].Value != null)
-						{
-						drSoilSampleData = dtSoilSampleData.NewRow();
-						drSoilSampleData["Depth"] = grdRow.Cells["Depth"].Text;
-						drSoilSampleData["OC"] = grdRow.Cells["OC"].Text;
-						drSoilSampleData["EC"] = grdRow.Cells["EC"].Text;
-						drSoilSampleData["PH"] = grdRow.Cells["PH"].Text;
-						drSoilSampleData["ESP"] = grdRow.Cells["ESP"].Text;
-						dtSoilSampleData.Rows.Add(drSoilSampleData);
-						}
-					}
-				}
-			catch(Exception)
-				{
-				FunctionsClass.DisplayMessage(Page, "Error storing soil sample two data");
-				}
-			return dtSoilSampleData;
+			// Save soil sample 1 grid
+			int NumLayers = FunctionsClass.GetNumberOfNonBlankRows(ref grdSoilSampleTwo, 0);
+			SoilSample Sample2 = new SoilSample();
+			Sample2.DepthStrings = FunctionsClass.GetColumnAsStrings(grdSoilSampleTwo, 0, NumLayers);
+			Sample2.OC = FunctionsClass.GetColumnAsDoubles(grdSoilSampleTwo, 1, NumLayers);
+			Sample2.EC = FunctionsClass.GetColumnAsDoubles(grdSoilSampleTwo, 2, NumLayers);
+			Sample2.PH = FunctionsClass.GetColumnAsDoubles(grdSoilSampleTwo, 3, NumLayers);
+			return Sample2;
 			}
 		//-------------------------------------------------------------------------
 		//Redraws the graph on the page
 		//-------------------------------------------------------------------------
-		private void UpdateGraph()
+		private void UpdateGraph(SoilSample Sample)
 			{
 			try
 				{
-				string szSoilSampleXML = SoilSampleClass.CreateSoilSampleOneXmlFile(ReturnSoilSampleOneDataTable());
-				double dPAWC = SoilSampleClass.GetPAWC(szSoilSampleXML, cboSoilType.SelectedItem.Text);
-				double dPAW = SoilSampleClass.GetPAW(szSoilSampleXML, cboSoilType.SelectedItem.Text);
-				DisplaySoilChart(SoilSampleClass.GetChartData(szSoilSampleXML, cboSoilType.SelectedItem.Text), dPAWC, dPAW);
+                Chart WaterChart = cscSoilChart.Charts.GetAt( 0 );
+				WaterChart.Series.Clear();
+
+				// Create a sample from the first grid.
+				if (Sample == null)
+					Sample = GetSample1();
+				Sample.LinkedSoil = DataAccessClass.GetSoil(cboSoilType.SelectedValue);
+
+				// Create a SW line on chart.
+				CreateNewLineSeries(WaterChart, "SW", Color.LightBlue, 3, 
+									Xceed.Chart.Standard.LinePattern.Solid,
+					                MathUtility.Multiply_Value(Sample.SW, 100), Sample.CumThicknessMidPoints);
+
+				// Get the soil data from the currently selected soil.
+				Soil SelectedSoil = DataAccessClass.GetSoil(cboSoilType.SelectedValue);
+
+				// Create DUL, LL, AirDry and SAT lines on chart.
+				double[] Thickness = SelectedSoil.CumThicknessMidPoints;
+				CreateNewLineSeries(WaterChart, "DUL", Color.Blue, 1, 
+									Xceed.Chart.Standard.LinePattern.Solid,
+					                MathUtility.Multiply_Value(SelectedSoil.DUL, 100), Thickness);
+				CreateNewLineSeries(WaterChart, "LL", Color.Red, 1, 
+									Xceed.Chart.Standard.LinePattern.Solid,
+					                MathUtility.Multiply_Value(SelectedSoil.LL("wheat"), 100), Thickness);
+				CreateNewLineSeries(WaterChart, "AirDry", Color.Red, 1, 
+									Xceed.Chart.Standard.LinePattern.Dash,
+					                MathUtility.Multiply_Value(SelectedSoil.Airdry, 100), Thickness);
+				CreateNewLineSeries(WaterChart, "SAT", Color.Blue, 1, 
+									Xceed.Chart.Standard.LinePattern.Dash,
+					                MathUtility.Multiply_Value(SelectedSoil.SAT, 100), Thickness);
+
+				// put on pawc and paw labels.
+				double PAWC = MathUtility.Sum(SelectedSoil.PAWC("wheat"));
+				double PAW = MathUtility.Sum(Sample.PAW("wheat"));
+				cscSoilChart.Labels[0].Text = "PAWC = "+Math.Round(PAWC, 0).ToString("F0")+"mm";
+				cscSoilChart.Labels[1].Text = "PAW = "+Math.Round(PAW, 0).ToString("F0")+"mm";
 				}
 			catch(Exception E)
 				{
 				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
 			}
-		//-------------------------------------------------------------------------
-		//Draws the graph for the first time
-		//-------------------------------------------------------------------------
-		private void InitialiseGraph()
+
+		// ------------------------------------------------------------------
+		// Create a new line series for specified chart given x and y values.
+		// ------------------------------------------------------------------
+		private void CreateNewLineSeries(Xceed.Chart.Core.Chart Chart,
+			                             string SeriesName, Color SeriesColor,
+										 int SeriesWidth,
+										 Xceed.Chart.Standard.LinePattern SeriesPattern,			
+										 double[] x, double[] y)
 			{
-			try
-				{
-				DataTable dtPaddocksSoilSample =
-					DataAccessClass.GetPaddocksSoilSample("GridOne", Session["SelectedPaddockName"].ToString(), 
-					FunctionsClass.GetActiveUserName());
-				DataTable dtSoilSampleFromDB = new DataTable();
-				if(dtPaddocksSoilSample.Rows.Count > 0)
-					{
-					string szSoilSampleXML = dtPaddocksSoilSample.Rows[0]["Data"].ToString();
-					double dPAWC = SoilSampleClass.GetPAWC(szSoilSampleXML, cboSoilType.SelectedItem.Text);
-					double dPAW = SoilSampleClass.GetPAW(szSoilSampleXML, cboSoilType.SelectedItem.Text);
-					DisplaySoilChart(SoilSampleClass.GetChartData(szSoilSampleXML ,cboSoilType.SelectedItem.Text), dPAWC, dPAW);
-					}
-				else
-					{
-					DisplaySoilChart(SoilSampleClass.GetChartData("", cboSoilType.SelectedItem.Text), 0.0, 0.0);
-					}
-				}
-			catch(Exception E)
-				{
-				FunctionsClass.DisplayMessage(Page, E.Message);
-				}
+			//Initialise the SW series and fill with data from the passed in DataTable
+			LineSeries LineSeries;
+			LineSeries = ( LineSeries )Chart.Series.Add( SeriesType.Line );
+			LineSeries.Name = SeriesName;
+			LineSeries.DataLabels.Mode = DataLabelsMode.None;
+			LineSeries.LineBorder.Color = SeriesColor;
+			LineSeries.LineBorder.Width = SeriesWidth;
+			LineSeries.LineBorder.Pattern = SeriesPattern;
+			LineSeries.Values.FillFromEnumerable(y);
+			LineSeries.XValues.FillFromEnumerable(x);
+			LineSeries.UseXValues = true;
 			}
-		//-------------------------------------------------------------------------
 		#endregion
 
 	
-			
-		#region Chart Function
-		//-------------------------------------------------------------------------
-		//
-		//-------------------------------------------------------------------------
-		private void DisplaySoilChart(DataTable dtSoilData, double dPAWC, double dPAW)
-			{
-			//Initialise the chart
-			cscSoilChart.Visible = true;
-			string szSoilXml = DataAccessClass.GetSoilData(cboSoilType.SelectedValue);
-			if(szSoilXml != "")
-				{
-				cscSoilChart.Labels[1].Text = "PAWC = "+Math.Round(dPAWC, 2).ToString("F2")+"mm";
-				cscSoilChart.Labels[2].Text = "PAW = "+Math.Round(dPAW, 2).ToString("F2")+"mm";
-
-				}
-			Chart chtCustomChart;
-			chtCustomChart = cscSoilChart.Charts.GetAt( 0 );
-			chtCustomChart.Series.Clear();
-			
-			//Initialise the SW series and fill with data from the passed in DataTable
-			LineSeries bsSWLineSeries;
-			bsSWLineSeries = ( LineSeries )chtCustomChart.Series.Add( SeriesType.Line );
-			bsSWLineSeries.Name = "SW";
-			bsSWLineSeries.DataLabels.Mode = DataLabelsMode.None;
-			bsSWLineSeries.LineBorder.Color = Color.LightBlue;
-			bsSWLineSeries.LineBorder.Width = 3;
-			bsSWLineSeries.Values.FillFromDataTable(dtSoilData, "SW");
-			//Initialise the series and fill with data from the passed in DataTable
-			LineSeries bsDULLineSeries;
-			bsDULLineSeries = ( LineSeries )chtCustomChart.Series.Add( SeriesType.Line );
-			bsDULLineSeries.Name = "DUL";
-			bsDULLineSeries.DataLabels.Mode = DataLabelsMode.None;
-			bsDULLineSeries.LineBorder.Color = Color.Blue;
-			bsDULLineSeries.Values.FillFromDataTable(dtSoilData, "DUL");
-			//Initialise the series and fill with data from the passed in DataTable
-			LineSeries bsLL15LineSeries;
-			bsLL15LineSeries = ( LineSeries )chtCustomChart.Series.Add( SeriesType.Line );
-			bsLL15LineSeries.Name = "LL";
-			bsLL15LineSeries.DataLabels.Mode = DataLabelsMode.None;
-			bsLL15LineSeries.LineBorder.Color = Color.Red;
-			bsLL15LineSeries.Values.FillFromDataTable(dtSoilData, "LL");
-			//Initialise the series and fill with data from the passed in DataTable
-			LineSeries bsAirDryLineSeries;
-			bsAirDryLineSeries = ( LineSeries )chtCustomChart.Series.Add( SeriesType.Line );
-			bsAirDryLineSeries.Name = "AirDry";
-			bsAirDryLineSeries.DataLabels.Mode = DataLabelsMode.None;
-			bsAirDryLineSeries.LineBorder.Color = Color.Red;
-			bsAirDryLineSeries.LineBorder.Pattern = Xceed.Chart.Standard.LinePattern.Dash;
-			bsAirDryLineSeries.Values.FillFromDataTable(dtSoilData, "AirDry");
-			//Initialise the series and fill with data from the passed in DataTable
-			LineSeries bsSATLineSeries;
-			bsSATLineSeries = ( LineSeries )chtCustomChart.Series.Add( SeriesType.Line );
-			bsSATLineSeries.Name = "SAT";
-			bsSATLineSeries.DataLabels.Mode = DataLabelsMode.None;
-			bsSATLineSeries.LineBorder.Color = Color.Blue;
-			bsSATLineSeries.LineBorder.Pattern = Xceed.Chart.Standard.LinePattern.Dash;
-			bsSATLineSeries.Values.FillFromDataTable(dtSoilData, "SAT");
-
-			//Configure primary Y-Axis to display title, etc
-			Axis axsWater = chtCustomChart.Axis(0);
-			axsWater.Title = "Water (%)";
-			axsWater.TitleText.Orientation = 0;
-			axsWater.TitleText.OffsetY = -25;
-			axsWater.Text.OffsetY = -5;
-			//Configure the primary (bottom) X-Axis to display the dates associated with the data.
-			Axis axsDepth = chtCustomChart.Axis(2);
-			axsDepth.Labels.Clear();
-			axsDepth.TitleText.OffsetX = -35;
-			axsDepth.TitleText.Orientation = 90;
-			axsDepth.Title = "Depth (mm)";
-			axsDepth.Text.OffsetX = -10; 
-			axsDepth.NumericScale.AutoMax = true;
-			//Assign the lables to the graph
-			string szXAxisLabel = "";
-			foreach(DataRow drSoilData in dtSoilData.Rows)
-				{
-				szXAxisLabel = drSoilData["Depth"].ToString();
-				axsDepth.Labels.Add(szXAxisLabel);
-				}
-			}
-		#endregion
-		
-
-
 		#region Form Events
 		//-------------------------------------------------------------------------
 		//If the page hasn't been viewed by the user then the user's
@@ -891,7 +801,6 @@ namespace YieldProphet
 				FillNonDependantFormControls();
 				btnSave.Style.Add("cursor", "hand");
 				FillDependantFormControls();
-				InitialiseGraph();
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -970,7 +879,7 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void btnUpdateGraph_Click(object sender, System.EventArgs e)
 			{
-			UpdateGraph();
+			UpdateGraph(null);
 			}
 		//-------------------------------------------------------------------------
 		#endregion

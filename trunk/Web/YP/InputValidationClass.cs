@@ -84,7 +84,8 @@ namespace YieldProphet
 					|| szInputString[iIndex] == ':' || szInputString[iIndex] == '*'
 					|| szInputString[iIndex] == '?' || szInputString[iIndex] == '"'
 					|| szInputString[iIndex] == '<' || szInputString[iIndex] == '>'
-					|| szInputString[iIndex] == '|') == true)
+					|| szInputString[iIndex] == '|' || szInputString[iIndex] == '\''
+					|| szInputString[iIndex] == '#') == true)
 					{
 					bValidLocationString = false;
 					break;

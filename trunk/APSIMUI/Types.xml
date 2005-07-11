@@ -377,12 +377,12 @@
      <SimMacro>
          <![CDATA[
          [comment] ################ logic ################ [endcomment]
-         <component name="manager" executable="%apsuite\apsim\manager\lib\manager.dll">
+         <component name="[logic.name]" executable="%apsuite\apsim\manager\lib\manager.dll">
          <initdata>
             <rules>
-               <rule name="sample.init" condition="init"><![CDATA[[logic.init]]]&gt;</rule>
-               <rule name="sample.end_of_day" condition="end_of_day"><![CDATA[[logic.endofday]]]&gt;</rule>
-               <rule name="sample.start_of_day" condition="start_of_day"><![CDATA[[logic.startofday]]]&gt;</rule>
+               <rule name="sample.init" condition="init">[logic.init]</rule>
+               <rule name="sample.end_of_day" condition="end_of_day">[logic.endofday]</rule>
+               <rule name="sample.start_of_day" condition="start_of_day">[logic.startofday]</rule>
             </rules>
          </initdata>
          </component>
@@ -2094,7 +2094,7 @@
      <SimMacro>
          <![CDATA[
          [comment] ################ sunflower ################ [endcomment]
-         <component name="[plant.name]" executable="%apsuite\apsim\sunflower\lib\sunflower.dll">
+         <component name="[plant.name]" executable="%apsuite\apsim\cropmod\lib\cropmod.dll">
             <initdata>
                <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
                [foreach area.soil as s]

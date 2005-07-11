@@ -18,41 +18,41 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		//Imports a file that contains a list of met stations
 		//-------------------------------------------------------------------------
-		public static void ImportMetStations(Page pgPageInfo, string szRegionType)
+		public static void ImportMetStations(Page pgPageInfo, string szRegionType, ref bool bErrors)
 			{
-			HttpPostedFile hpfImportedFile = CheckForUploadedFiles(pgPageInfo);
-			UploadImportedMetStations(hpfImportedFile, pgPageInfo, szRegionType);
+			HttpPostedFile hpfImportedFile = CheckForUploadedFiles(pgPageInfo, ref bErrors);
+			UploadImportedMetStations(hpfImportedFile, pgPageInfo, szRegionType, ref bErrors);
 			}
 		//-------------------------------------------------------------------------
 		//Imports a file that contains a list of soils
 		//-------------------------------------------------------------------------
-		public static void ImportSoils(Page pgPageInfo, string szRegionType)
+		public static void ImportSoils(Page pgPageInfo, string szRegionType, ref bool bErrors)
 			{
-			HttpPostedFile hpfImportedFile = CheckForUploadedFiles(pgPageInfo);
-			UploadImportedSoils(hpfImportedFile, pgPageInfo, szRegionType);
+			HttpPostedFile hpfImportedFile = CheckForUploadedFiles(pgPageInfo, ref bErrors);
+			UploadImportedSoils(hpfImportedFile, pgPageInfo, szRegionType, ref bErrors);
 			}
 		//-------------------------------------------------------------------------
 		//Imports a file that contains a list of cultivars
 		//-------------------------------------------------------------------------
-		public static void ImportCultivars(Page pgPageInfo, string szCropType)
+		public static void ImportCultivars(Page pgPageInfo, string szCropType, ref bool bErrors)
 			{
-			HttpPostedFile hpfImportedFile = CheckForUploadedFiles(pgPageInfo);
-			UploadImportedCultivars(hpfImportedFile, pgPageInfo, szCropType);
+			HttpPostedFile hpfImportedFile = CheckForUploadedFiles(pgPageInfo, ref bErrors);
+			UploadImportedCultivars(hpfImportedFile, pgPageInfo, szCropType, ref bErrors);
 			}
 		//-------------------------------------------------------------------------
 		//Imports a file that contains a report template
 		//-------------------------------------------------------------------------
-		public static void ImportReportTemplate(Page pgPageInfo, string szReportType, string szTemplateType)
+		public static void ImportReportTemplate(Page pgPageInfo, string szReportType, string szTemplateType, ref bool bErrors)
 			{
-			HttpPostedFile hpfImportedFile = CheckForUploadedFiles(pgPageInfo);
-			UploadImportedReportTemplate(hpfImportedFile, pgPageInfo, szReportType, szTemplateType);
+			HttpPostedFile hpfImportedFile = CheckForUploadedFiles(pgPageInfo, ref bErrors);
+			UploadImportedReportTemplate(hpfImportedFile, pgPageInfo, szReportType, szTemplateType, ref bErrors);
 			}
 		//-------------------------------------------------------------------------
 		//Checks to make sure that the a file has been selected for upload and
 		//that the file isn't not empty.  If both checks are passed then the file
 		//is uploaded
 		//-------------------------------------------------------------------------
-		private static HttpPostedFile CheckForUploadedFiles(Page pgPageInfo)
+		private static HttpPostedFile CheckForUploadedFiles(Page pgPageInfo, ref bool bErrors)
 			{
 			HttpPostedFile hpfImportedFile = null;
 			HttpFileCollection hfcImportedFiles = HttpContext.Current.Request.Files;
@@ -71,6 +71,7 @@ namespace YieldProphet
 			//If there is no file to upload then display an error to the user
 			else
 				{
+				bErrors = true;
 				FunctionsClass.DisplayMessage(pgPageInfo, "Please select a file to upload");
 				}
 			return hpfImportedFile;
@@ -79,7 +80,7 @@ namespace YieldProphet
 		//Checks to make sure that the met file is in the correct format, and 
 		//if it is then upload the file.
 		//-------------------------------------------------------------------------
-		private static void UploadImportedMetStations(HttpPostedFile hpfImportedFile, Page pgPageInfo, string szRegionType)
+		private static void UploadImportedMetStations(HttpPostedFile hpfImportedFile, Page pgPageInfo, string szRegionType, ref bool bErrors)
 			{
 			try
 				{
@@ -87,22 +88,37 @@ namespace YieldProphet
 				string szContentType = hpfImportedFile.ContentType;
 				if(szContentType == "text/plain")
 					{
+					bool bDuplicateDetected = false;
 					StreamReader strImportedFile = new StreamReader(hpfImportedFile.InputStream);
-					DataTable dtMetStations = FillMetStationsDataTable(strImportedFile, szRegionType);
+					DataTable dtMetStations = FillMetStationsDataTable(strImportedFile, szRegionType, ref bErrors);
 					//Sets the data to the selected region
 					foreach(DataRow drMetStation in dtMetStations.Rows)
 						{
-						DataAccessClass.InsertMetStation(drMetStation["Region"].ToString(), drMetStation["Name"].ToString(), 
-							Convert.ToInt32(drMetStation["StationNumber"].ToString()));
+						try
+							{
+							DataAccessClass.InsertMetStation(drMetStation["Region"].ToString(), drMetStation["Name"].ToString(), 
+								Convert.ToInt32(drMetStation["StationNumber"].ToString()));
+							}
+						catch(Exception)
+							{
+							bDuplicateDetected = true;
+							}
+						}
+					if(bDuplicateDetected == true)
+						{
+						bErrors = true;
+						FunctionsClass.DisplayMessage(pgPageInfo,"At least one duplicate met station wasn't imported");
 						}
 					}
 				else
 					{
+					bErrors = true;
 					FunctionsClass.DisplayMessage(pgPageInfo,"Invalid file type");
 					}
 				}
 			catch(Exception E)
 				{
+				bErrors = true;
 				FunctionsClass.DisplayMessage(pgPageInfo, E.Message);
 				}
 			}
@@ -110,7 +126,7 @@ namespace YieldProphet
 		//Reads the met file and reads that data into a datatable which can be 
 		//inserted into a database
 		//-------------------------------------------------------------------------
-		private static DataTable FillMetStationsDataTable(StreamReader strImportedFile, string szRegionType)
+		private static DataTable FillMetStationsDataTable(StreamReader strImportedFile, string szRegionType, ref bool bErrors)
 			{
 			DataTable dtMetStations = new DataTable();
 			dtMetStations.Columns.Add("Region");
@@ -127,10 +143,13 @@ namespace YieldProphet
 				{
 				drMetStation = dtMetStations.NewRow();
 				szMetStationParts = szMetStation.Split(",".ToCharArray(), 2);
-				drMetStation["StationNumber"] = szMetStationParts[iNumberOrdinal];
-				drMetStation["Name"] = szMetStationParts[iNameOrdinal];
-				drMetStation["Region"] = szRegionType;
-				dtMetStations.Rows.Add(drMetStation);
+				if(szMetStationParts.Length == 2)
+					{
+					drMetStation["StationNumber"] = szMetStationParts[iNumberOrdinal];
+					drMetStation["Name"] = szMetStationParts[iNameOrdinal];
+					drMetStation["Region"] = szRegionType;
+					dtMetStations.Rows.Add(drMetStation);
+					}
 				}
 			return dtMetStations;
 			}
@@ -138,7 +157,7 @@ namespace YieldProphet
 		//Checks to make sure that the soil file is in the correct format, and 
 		//if it is then upload the file.
 		//-------------------------------------------------------------------------
-		private static void UploadImportedSoils(HttpPostedFile hpfImportedFile, Page pgPageInfo, string szRegionType)
+		private static void UploadImportedSoils(HttpPostedFile hpfImportedFile, Page pgPageInfo, string szRegionType, ref bool bErrors)
 			{
 			try
 				{
@@ -146,23 +165,38 @@ namespace YieldProphet
 				string szContentType = hpfImportedFile.ContentType;
 				if(szContentType == "text/xml")
 					{
+					bool bDuplicateDetected = false;
 					XmlParserContext context = new XmlParserContext(null, null, null, XmlSpace.None);
 					XmlTextReader xtrSoilSample = new XmlTextReader(hpfImportedFile.InputStream, XmlNodeType.Document, context);
-					DataTable dtSoils = FillSoilsDataTable(xtrSoilSample, szRegionType);
+					DataTable dtSoils = FillSoilsDataTable(xtrSoilSample, szRegionType, ref bErrors);
 					//Sets the data to the selected region
 					foreach(DataRow drSoil in dtSoils.Rows)
 						{
-						DataAccessClass.InsertSoil(drSoil["Region"].ToString(), drSoil["Name"].ToString(), 
-							drSoil["Data"].ToString());
+						try
+							{
+							DataAccessClass.InsertSoil(drSoil["Region"].ToString(), drSoil["Name"].ToString(), 
+								drSoil["Data"].ToString());
+							}
+						catch(Exception)
+							{
+							bDuplicateDetected = true;
+							}
+						}
+					if(bDuplicateDetected == true)
+						{
+						bErrors = true;
+						FunctionsClass.DisplayMessage(pgPageInfo,"At least one duplicate soil wasn't imported");
 						}
 					}
 				else
 					{
+					bErrors = true;
 					FunctionsClass.DisplayMessage(pgPageInfo,"Invalid file type");
 					}
 				}
 			catch(Exception E)
 				{
+				bErrors = true;
 				FunctionsClass.DisplayMessage(pgPageInfo, E.Message);
 				}
 			}
@@ -170,7 +204,7 @@ namespace YieldProphet
 		//Reads the soil file and reads that data into a datatable which can be 
 		//inserted into a database
 		//-------------------------------------------------------------------------
-		private static DataTable FillSoilsDataTable(XmlTextReader xtrSoilSample, string szRegionType)
+		private static DataTable FillSoilsDataTable(XmlTextReader xtrSoilSample, string szRegionType, ref bool bErrors)
 			{
 			DataTable dtSoils = new DataTable();
 			dtSoils.Columns.Add("Name");
@@ -200,7 +234,7 @@ namespace YieldProphet
 		//Checks to make sure that the cultivar file is in the correct format, and 
 		//if it is then upload the file.
 		//-------------------------------------------------------------------------
-		private static void UploadImportedCultivars(HttpPostedFile hpfImportedFile, Page pgPageInfo, string szCropType)
+		private static void UploadImportedCultivars(HttpPostedFile hpfImportedFile, Page pgPageInfo, string szCropType, ref bool bErrors)
 			{
 			try
 				{
@@ -208,21 +242,36 @@ namespace YieldProphet
 				string szContentType = hpfImportedFile.ContentType;
 				if(szContentType == "text/plain")
 					{
+					bool bDuplicateDetected = false;
 					StreamReader strImportedFile = new StreamReader(hpfImportedFile.InputStream);
 					DataTable dtCrops = FillCultivarsDataTable(strImportedFile, szCropType);
 					//Sets the data to the selected region
 					foreach(DataRow drCrop in dtCrops.Rows)
 						{
-						DataAccessClass.InsertCultivar(drCrop["CropType"].ToString(), drCrop["Type"].ToString());
+						try
+							{
+							DataAccessClass.InsertCultivar(drCrop["CropType"].ToString(), drCrop["Type"].ToString());
+							}
+						catch(Exception)
+							{
+							bDuplicateDetected = true;
+							}
+						}
+					if(bDuplicateDetected == true)
+						{
+						bErrors = true;
+						FunctionsClass.DisplayMessage(pgPageInfo,"At least one duplicate cultivar wasn't imported");
 						}
 					}
 				else
 					{
+					bErrors = true;
 					FunctionsClass.DisplayMessage(pgPageInfo,"Invalid file type");
 					}
 				}
 			catch(Exception E)
 				{
+				bErrors = true;
 				FunctionsClass.DisplayMessage(pgPageInfo, E.Message);
 				}
 			}
@@ -241,10 +290,13 @@ namespace YieldProphet
 			dtCultivars.Rows.Clear();
 			while((szCultivar = strImportedFile.ReadLine()) != null)
 				{
-				drCultivars = dtCultivars.NewRow();
-				drCultivars["Type"] = dtCultivars;
-				drCultivars["CropType"] = szCropType;
-				dtCultivars.Rows.Add(drCultivars);
+				if(szCultivar != "")
+					{
+					drCultivars = dtCultivars.NewRow();
+					drCultivars["Type"] = szCultivar;
+					drCultivars["CropType"] = szCropType;
+					dtCultivars.Rows.Add(drCultivars);
+					}
 				}
 
 			return dtCultivars;
@@ -254,7 +306,7 @@ namespace YieldProphet
 		//if it is then upload the file.
 		//-------------------------------------------------------------------------
 		private static void UploadImportedReportTemplate(HttpPostedFile hpfImportedFile, Page pgPageInfo, 
-			string szReportType, string szTemplateType)
+			string szReportType, string szTemplateType, ref bool bErrors)
 			{
 			try
 				{
@@ -270,11 +322,13 @@ namespace YieldProphet
 					}
 				else
 					{
+					bErrors = true;
 					FunctionsClass.DisplayMessage(pgPageInfo,"Invalid file type");
 					}
 				}
 			catch(Exception E)
 				{
+				bErrors = true;
 				FunctionsClass.DisplayMessage(pgPageInfo, E.Message);
 				}
 			}

@@ -125,32 +125,59 @@ namespace YieldProphet
 		private void DeleteValueFromRegion()
 			{
 			//If a value is selected it is removed from the database
-			if(lstValues.SelectedItem.Text != null && lstValues.SelectedItem.Text != "")
+			try
 				{
-				try
+				if(lstValues.SelectedItem.Text != null && lstValues.SelectedItem.Text != "")
 					{
 					if(cboTypes.SelectedItem.Text == "Met Stations")
 						{
-						DataAccessClass.DeleteMetStation(cboRegions.SelectedItem.Text, 
-							lstValues.SelectedItem.Text);
-						Server.Transfer("wfViewRegions.aspx");
+						if(DataAccessClass.IsMetStationInUse(cboRegions.SelectedItem.Text, 
+							lstValues.SelectedItem.Text) ==  false)
+							{
+							DataAccessClass.DeleteMetStation(cboRegions.SelectedItem.Text, 
+								lstValues.SelectedItem.Text);
+							Server.Transfer("wfViewRegions.aspx");
+							}
+						else
+							{
+							throw new Exception("Met Statition can not be deleted, as a paddock is using it");
+							}
 						}
 					else if(cboTypes.SelectedItem.Text == "Soils")
 						{
-						DataAccessClass.DeleteSoil(cboRegions.SelectedItem.Text, 
+						DataTable paddocksUsingSoil = DataAccessClass.GetPaddocksUsingSoil(cboRegions.SelectedItem.Text, 
 							lstValues.SelectedItem.Text);
-						Server.Transfer("wfViewRegions.aspx");
+						if(paddocksUsingSoil.Rows.Count == 0)
+							{
+							DataAccessClass.DeleteSoil(cboRegions.SelectedItem.Text, 
+								lstValues.SelectedItem.Text);
+							Server.Transfer("wfViewRegions.aspx");
+							}
+						else
+							{
+							string msg = "Soil can not be deleted, as the following paddocks are using it:";
+							foreach(DataRow paddock in paddocksUsingSoil.Rows)
+								{
+								msg = msg + "   User " + paddock["Users.Name"] + "(" + paddock["Paddocks.Name"] + "); ";
+								}
+
+							throw new Exception(msg);
+							}
+						}
+					else
+						{
+						throw new Exception("No type selected");
 						}
 					}
-				catch(Exception E)
+				//If no value is selected then an error message is displayed to the user
+				else
 					{
-					FunctionsClass.DisplayMessage(Page, E.Message);
+					throw new Exception("No value selected");
 					}
 				}
-			//If no value is selected then an error message is displayed to the user
-			else
+			catch(Exception E)
 				{
-				FunctionsClass.DisplayMessage(Page, "No value Selected");
+				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -162,12 +189,14 @@ namespace YieldProphet
 				{
 				if(cboTypes.SelectedItem.Text == "Met Stations")
 					{
-					ImportClass.ImportMetStations(Page, cboRegions.SelectedItem.Text);
+					bool bErrors = false;
+					ImportClass.ImportMetStations(Page, cboRegions.SelectedItem.Text, ref bErrors);
 					Server.Transfer("wfViewRegions.aspx");
 					}
 				else if(cboTypes.SelectedItem.Text == "Soils")
 					{
-					ImportClass.ImportSoils(Page, cboRegions.SelectedItem.Text);
+					bool bErrors = false;
+					ImportClass.ImportSoils(Page, cboRegions.SelectedItem.Text, ref bErrors);
 					Server.Transfer("wfViewRegions.aspx");
 					}
 					//If no type is selected then display an error message to the user
@@ -210,6 +239,7 @@ namespace YieldProphet
 		private void btnImport_Click(object sender, System.EventArgs e)
 			{
 			ImportFile();
+			Server.Transfer("wfViewRegions.aspx");
 			}
 		//-------------------------------------------------------------------------
 		//When the user presses the import image we look for a file

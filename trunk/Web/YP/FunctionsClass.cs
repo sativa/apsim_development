@@ -3,6 +3,8 @@ using System.Web;
 using System.Web.SessionState;
 using System.Web.UI;
 using System.Data;
+using VBGeneral;
+using CSGeneral;
 
 namespace YieldProphet
 {
@@ -15,7 +17,9 @@ namespace YieldProphet
 		public const string szAdministrator = "administrator";
 		public const string szGrower = "grower";
 		public const string szConsultant = "consultant";
+		public const string szVisitorConsultant = "consultant visitor";
 		public const string szVisitor = "visitor";
+		
 
 		public FunctionsClass()
 			{}
@@ -39,16 +43,17 @@ namespace YieldProphet
 		//Checks to see if the user has visitor priviledges or greater
 		//-------------------------------------------------------------------------
 		public static bool IsVisitorOrHigher(string szUserName)
-			{
+		{
 			string szAccessType = DataAccessClass.GetAccessTypeOfUser(szUserName);
 			bool bVisitor = false;
 			if(szAccessType == szAdministrator || szAccessType == szGrower ||
-				szAccessType == szConsultant || szAccessType == szVisitor)
-				{
+				szAccessType == szConsultant || szAccessType == szVisitorConsultant || 
+				szAccessType == szVisitor)
+			{
 				bVisitor = true;
-				}
-			return bVisitor;
 			}
+			return bVisitor;
+		}
 		//-------------------------------------------------------------------------
 		//Checks to see if the user has grower priviledges or greater
 		//-------------------------------------------------------------------------
@@ -76,6 +81,19 @@ namespace YieldProphet
 				}
 			return bConsultant;
 			}
+		//-------------------------------------------------------------------------
+		//Checks to see if the user has visitor constultant greater
+		//-------------------------------------------------------------------------
+		public static bool IsVisitorConsultant(string szUserName)
+		{
+			string szAccessType = DataAccessClass.GetAccessTypeOfUser(szUserName);
+			bool bVisitorConsultant = false;
+			if(szAccessType == szVisitorConsultant)
+			{
+				bVisitorConsultant = true;
+			}
+			return bVisitorConsultant;
+		}
 		//-------------------------------------------------------------------------
 		//Checks to see if the user has consultant priviledges
 		//-------------------------------------------------------------------------
@@ -135,6 +153,18 @@ namespace YieldProphet
 				HttpContext.Current.Server.Transfer("wfSessionTimeOut.aspx");
 				}
 			}
+		//-------------------------------------------------------------------------
+		//Cancels the session of a user who isn't a visitor consultant, consultant or Adminstrator
+		//This is used to stop users from accessing pages they aren't allowed to
+		//-------------------------------------------------------------------------
+		public static void CheckForVisitorConsultantLevelPriviledges()
+		{
+			if(IsConsultantOrHigher(HttpContext.Current.Session["UserName"].ToString()) == false &&
+				IsVisitorConsultant(HttpContext.Current.Session["UserName"].ToString()) == false)
+			{
+				HttpContext.Current.Server.Transfer("wfSessionTimeOut.aspx");
+			}
+		}
 		//-------------------------------------------------------------------------
 		//Cancels the session of a user who isn't a visitor
 		//This is used to stop users from accessing pages they aren't allowed to
@@ -242,8 +272,113 @@ namespace YieldProphet
 				}
 			return bIE;
 			}
+
+		//-------------------------------------------------------------------------
+		//Runs a check to ensure that the initial water and nitrogen conditions are
+		//set up for the paddocks soil sample (Depth, Water and NO3)
+		//-------------------------------------------------------------------------
+		static public bool IsSampleValid(string szPaddockName, string szUserName)
+			{
+			DataTable dtPaddocksSoilSameple =
+				DataAccessClass.GetPaddocksSoilSample("GridOne", szPaddockName,szUserName);
+			DataTable dtSoilSampleFromDB = new DataTable();
+			if(dtPaddocksSoilSameple.Rows.Count > 0)
+				{
+				SoilSample Sample = new SoilSample(new APSIMData(dtPaddocksSoilSameple.Rows[0]["Data"].ToString()));
+				if (Sample.SWUnit == SoilSample.SWUnits.Gravimetric)
+					return (Sample.Thickness.Length > 0 && Sample.SWGrav.Length > 0 && Sample.NO3.Length > 0);
+				else
+					return (Sample.Thickness != null && Sample.SW != null && Sample.NO3 != null);
+				}
+			else
+				return false;
+			}
+
 		//-------------------------------------------------------------------------		
 		#endregion	
 		
+
+		#region Janus Grid functions
+
+		// ------------------------------------------------------
+		// Populate the specified grid column with double values.
+		// ------------------------------------------------------
+		static public void SetColumnAsDoubles(Janus.Web.GridEX.GridEX Grid,
+												int ColumnIndex,
+												double[] Values,
+												string Format)
+			{
+			// Add values to column
+			for (int Row = 0; Row != Values.Length; Row++)
+				Grid.GetRow(Row).Cells[ColumnIndex].Value = Values[Row].ToString(Format);
+			}
+
+
+		// ------------------------------------------------------
+		// Populate the specified grid column with string values.
+		// ------------------------------------------------------
+		static public void SetColumnAsStrings(Janus.Web.GridEX.GridEX Grid,
+												int ColumnIndex,
+												string[] Values)
+			{
+			// Add values to column
+			for (int Row = 0; Row != Values.Length; Row++)
+				Grid.GetRow(Row).Cells[ColumnIndex].Value = Values[Row];
+			}
+
+
+		// ----------------------------------------------------------
+		// Get a column of double values from the specified grid column
+		// ----------------------------------------------------------
+		static public double[] GetColumnAsDoubles(Janus.Web.GridEX.GridEX Grid, 
+													int ColumnIndex,
+													int NumValues)
+			{
+            double[] Values = new double[NumValues];
+
+			for (int Row = 0; Row != Grid.RowCount && Row != NumValues; Row++)
+				{
+				if (Grid.GetRow(Row).Cells[ColumnIndex].Text == "")
+					Values[Row] = MathUtility.MissingValue;
+				else
+					Values[Row] = Convert.ToDouble(Grid.GetRow(Row).Cells[ColumnIndex].Text);
+				}
+			return Values;
+			}
+
+
+		// ----------------------------------------------------------
+		// Get a column of string values from the specified grid column
+		// ----------------------------------------------------------
+		static public string[] GetColumnAsStrings(Janus.Web.GridEX.GridEX Grid, 
+													int ColumnIndex,
+													int NumValues)
+			{
+            string[] Values = new string[NumValues];
+
+			for (int Row = 0; Row != Grid.RowCount && Row != NumValues; Row++)
+				Values[Row] = Grid.GetRow(Row).Cells[ColumnIndex].Text;
+			return Values;
+			}
+
+
+		// ---------------------------------------------------------------------
+		// Get number of non blank values in column of the specified grid
+		// ---------------------------------------------------------------------
+		static public int GetNumberOfNonBlankRows(ref Janus.Web.GridEX.GridEX Grid, int ColumnIndex)
+			{
+			for (int Row = Grid.RowCount-1; Row >= 0; Row--)
+				{
+				Janus.Web.GridEX.GridEXRow grdRow = Grid.GetRow(Row);
+				if (grdRow.Cells[ColumnIndex].Text != "")
+					return Row + 1;
+				}
+			return Grid.RowCount;
+			}
+
+
+		#endregion
+
+
 		}//END OF CLASS
 	}//END OF NAMESPACE

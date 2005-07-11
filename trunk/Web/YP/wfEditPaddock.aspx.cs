@@ -47,6 +47,8 @@ namespace YieldProphet
 		protected System.Data.DataTable dtSowDate;
 		protected System.Data.DataColumn dcSowDate;
 		protected Janus.Web.GridEX.GridEX grdSowDate;
+		protected System.Web.UI.WebControls.Label lblPaddockName;
+		protected System.Web.UI.WebControls.TextBox edtPaddockName;
 		protected System.Web.UI.WebControls.HyperLink HyperLink1;
 
 
@@ -157,6 +159,7 @@ namespace YieldProphet
 			{
 			DisplayGrowersName();
 			FillReportTypesCombo();
+			edtPaddockName.Text = Session["SelectedPaddockName"].ToString();
 			try
 				{
 				DataTable dtPaddockDetails = 
@@ -243,8 +246,7 @@ namespace YieldProphet
 			try
 				{
 				DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
-				lblName.Text = dtUsersDetails.Rows[0]["Name"].ToString()+ 
-					" and paddock:  "+Session["SelectedPaddockName"].ToString();
+				lblName.Text = dtUsersDetails.Rows[0]["Name"].ToString();
 				}
 			catch(Exception E)
 				{
@@ -360,44 +362,54 @@ namespace YieldProphet
 		private bool SavePaddockDetails()
 			{
 			bool bPaddockSaved = false;
+			string szPaddockName = InputValidationClass.ValidateString(edtPaddockName.Text);
 			if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
 				{
-				try
+				if(szPaddockName != "" && szPaddockName != null)
 					{
-					//If the sown check box is checked the paddock record is updated with 
-					//the details from the form
-					if(chkSown.Checked == true)
+					try
 						{
-						//If a cultivar is selected, update the paddock
-						if( cboCultivars.SelectedItem.Text != "" && 
-							cboCultivars.SelectedItem.Text != "None" && 
-							grdSowDate.GetRow(0).Cells["SowDate"].Text != "")
+						//If the sown check box is checked the paddock record is updated with 
+						//the details from the form
+						if(chkSown.Checked == true)
 							{
-							DataAccessClass.UpdatePaddock((DateTime.ParseExact(grdSowDate.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
-								cboCultivars.SelectedItem.Text, "", "", "", "", "", Session["SelectedPaddockName"].ToString(), 
-								FunctionsClass.GetActiveUserName());
-							SaveNitrogenApplications();
-							bPaddockSaved = true;
+							//If a cultivar is selected, update the paddock
+							if( cboCultivars.SelectedItem.Text != "" && 
+								cboCultivars.SelectedItem.Text != "None" && 
+								grdSowDate.GetRow(0).Cells["SowDate"].Text != "")
+								{
+								DataAccessClass.UpdatePaddock((DateTime.ParseExact(grdSowDate.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
+									cboCultivars.SelectedItem.Text, "", "", "", "", "", szPaddockName, Session["SelectedPaddockName"].ToString(), 
+									FunctionsClass.GetActiveUserName());
+								Session["SelectedPaddockName"] = szPaddockName;
+								SaveNitrogenApplications();
+								bPaddockSaved = true;
+								}
+								//If no cultivar is selected display an error to the user
+							else
+								{
+								FunctionsClass.DisplayMessage(Page,"Please ensure that all fields contain data");
+								}
 							}
-							//If no cultivar is selected display an error to the user
+							//If the sown check box hasn't been checked, the paddock is updated with default
+							//settings.
 						else
 							{
-							FunctionsClass.DisplayMessage(Page,"Please ensure that all fields contain data");
+							DataAccessClass.DeletePaddocksFertiliserApplications("Nitrogen", 
+								Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
+							DataAccessClass.ResetPaddock(Session["SelectedPaddockName"].ToString(), szPaddockName, FunctionsClass.GetActiveUserName());
+							Session["SelectedPaddockName"] = szPaddockName;
+							bPaddockSaved = true;
 							}
 						}
-					//If the sown check box hasn't been checked, the paddock is updated with default
-					//settings.
-					else
+					catch(Exception E)
 						{
-						DataAccessClass.DeletePaddocksFertiliserApplications("Nitrogen", 
-							Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
-						DataAccessClass.ResetPaddock(Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
-						bPaddockSaved = true;
+						FunctionsClass.DisplayMessage(Page, E.Message);
 						}
 					}
-				catch(Exception E)
+				else
 					{
-					FunctionsClass.DisplayMessage(Page, E.Message);
+					FunctionsClass.DisplayMessage(Page, "Missing paddock name");
 					}
 				}
 			else
@@ -446,7 +458,7 @@ namespace YieldProphet
 					{
 					if(SavePaddockDetails() == true)
 						{
-						if(SoilSampleClass.IsSampleValid(Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName()))
+						if(FunctionsClass.IsSampleValid(Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName()))
 							{	
 							//Checks that the report type is selected
 							if(cboReport.SelectedItem.Text != "")
@@ -517,6 +529,14 @@ namespace YieldProphet
 				FunctionsClass.CheckSession();
 				FillForm();
 				btnSave.Style.Add("cursor", "hand");
+				if(FunctionsClass.IsConsultantOrHigher(Session["UserName"].ToString()) == true)
+					{
+					edtPaddockName.Enabled = true;
+					}
+				else
+					{
+					edtPaddockName.Enabled = false;
+					}
 				}
 			}
 		//-------------------------------------------------------------------------

@@ -144,8 +144,10 @@ namespace YieldProphet
 				{
 				try
 					{
-					ImportClass.ImportCultivars(Page, cboCrops.SelectedItem.Text);
+					bool bErrors = false;
+					ImportClass.ImportCultivars(Page, cboCrops.SelectedItem.Text, ref bErrors);
 					Server.Transfer("wfViewCrops.aspx");
+
 					}
 				catch(Exception E)
 					{
