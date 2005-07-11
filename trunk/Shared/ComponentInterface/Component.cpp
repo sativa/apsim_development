@@ -245,7 +245,7 @@ catch (const std::exception &e)
    }
 catch (const std::string& e)
    {
-   this->error(e, true);
+   this->error(e.c_str(), true);
    }
 
 }
