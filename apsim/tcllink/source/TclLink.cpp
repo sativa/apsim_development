@@ -6,7 +6,7 @@
 //extern "C" void TclWinInit(HINSTANCE);
 
 //---------------------------------------------------------------------------
-int WINAPI DllEntryPoint(HINSTANCE /*hinst*/, unsigned long reason, void*) {
+int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*) {
 
     switch (reason) {
       case DLL_PROCESS_ATTACH:
@@ -21,8 +21,8 @@ int WINAPI DllEntryPoint(HINSTANCE /*hinst*/, unsigned long reason, void*) {
         break;
         }
       default:
-          // Threads?
-          return 0;
+        // Threads?
+        return 0;
     }
     return 1;
 }

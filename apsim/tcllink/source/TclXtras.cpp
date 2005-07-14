@@ -62,9 +62,6 @@ void StartTcl (const char *dllName)
        p++, q++;
    }
    *p = '\0';
-
-   TclWinInit(GetModuleHandle(NULL));
-   TkWinXInit(GetModuleHandle(NULL));
    }
 
 void StopTcl(Tcl_Interp *interp)
