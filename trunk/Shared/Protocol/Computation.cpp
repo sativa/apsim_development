@@ -1,5 +1,6 @@
 #include <windows.h>
 
+#include <dir.h>
 #include "Computation.h"
 #include "Transport.h"
 #include <list>
@@ -115,33 +116,34 @@ void Computation::deleteInstance(void) const
 //    dph 22/2/2000
 
 // ------------------------------------------------------------------
-string Computation::getComponentInterfaceExecutable(const string& filename) throw (runtime_error)
+void *Computation::loadDLL(const string& filename) throw (runtime_error)
    {
-   string componentInterface;
+   void *result;
+   char oldwd[MAX_PATH];
 
-   handle = LoadLibrary(filename.c_str());
-   if (handle != NULL)
+   getcwd(oldwd, MAX_PATH);
+   chdir(Path(filename).Get_directory().c_str());  // XX may need to change drive too??
+   result = LoadLibrary(filename.c_str());
+   chdir(oldwd);
+
+   if (result == NULL) 
       {
-      void _stdcall (*wrapperDll)(char* dllFileName);
-      (FARPROC) wrapperDll = GetProcAddress(handle, "wrapperDLL");
-      if (wrapperDll == NULL)
-         throw runtime_error("Cannot find entry point 'wrapperDll' in dll: " + filename);
+      // Get windows error message.
+      LPVOID lpMsgBuf;
+      FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+                    NULL,
+                    GetLastError(),
+                    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+                    (LPTSTR) &lpMsgBuf,
+                    0,
+                    NULL
+                    );
+      string errorMessage = ("Cannot load DLL: " + filename + ".\n  " + (LPTSTR) lpMsgBuf);
+      LocalFree( lpMsgBuf );
 
-      else
-         {
-         // Go get the wrapperDll filename.
-         char wrapperFilename[500];
-         (*wrapperDll)(&wrapperFilename[0]);
-         componentInterface = Path(&wrapperFilename[0]).Get_name();
-         }
-
-      if (componentInterface != "")
-         componentInterface = getApsimDirectory() + "\\bin\\" + componentInterface;
-      else
-         componentInterface = filename;
+      throw runtime_error(errorMessage);
       }
-   FreeLibrary(handle);
-   return componentInterface;
+   return result;   
    }
 
 // ------------------------------------------------------------------
@@ -163,41 +165,47 @@ bool Computation::loadComponent(const std::string& filename,
    createInstanceProc = NULL;
    deleteInstanceProc = NULL;
    messageToLogicProc = NULL;
-   if (componentInterfaceExecutable == "")
-      componentInterfaceExecutable = getComponentInterfaceExecutable(filename);
 
-   handle = LoadLibrary(componentInterfaceExecutable.c_str());
-   if (handle != NULL)
+   if (componentInterfaceExecutable != "")
+      throw runtime_error("Anachronistic use of componentInterfaceExecutable??");
+    
+   handle = loadDLL(filename); 
+
+   void _stdcall (*wrapperDll)(char* dllFileName);
+   (FARPROC) wrapperDll = GetProcAddress(handle, "wrapperDLL");
+   if (wrapperDll == NULL)
+      throw runtime_error("Cannot find entry point 'wrapperDll' in dll: " + filename);
+   
+   // Go get the wrapperDll filename.
+   char wrapperFileName[MAX_PATH];
+   (*wrapperDll)(&wrapperFileName[0]);
+   string componentInterface = Path(&wrapperFileName[0]).Get_name();
+
+   if (componentInterface != "") 
       {
-      (FARPROC) createInstanceProc = GetProcAddress(handle, "createInstance");
-      (FARPROC) deleteInstanceProc = GetProcAddress(handle, "deleteInstance");
-      (FARPROC) messageToLogicProc = GetProcAddress(handle, "messageToLogic");
-      if (createInstanceProc == NULL ||
-          deleteInstanceProc == NULL ||
-          messageToLogicProc == NULL)
-          throw runtime_error
-             ("Not a valid APSIM DLL.  Missing 1 or more entry points.  DLL=" +
-              filename);
-
-      return true;
+      // This is a wrapped dll - it has no "entry points". Load the wrapper.
+      FreeLibrary(handle);
+      componentInterface = getApsimDirectory() + "\\bin\\" + componentInterface; 
+      handle = loadDLL(componentInterface.c_str());
       }
    else
       {
-      // Get windows error message.
-      LPVOID lpMsgBuf;
-      FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-                    NULL,
-                    GetLastError(),
-                    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-                    (LPTSTR) &lpMsgBuf,
-                    0,
-                    NULL
-                    );
-      string errorMessage = ("Cannot load DLL: " + filename + ".\n  " + (LPTSTR) lpMsgBuf);
-      LocalFree( lpMsgBuf );
-
-      throw runtime_error(errorMessage);
+      // This is not a wrapped dll - it will provide entrypoints itself
       }
+
+   (FARPROC) createInstanceProc = GetProcAddress(handle, "createInstance");
+   (FARPROC) deleteInstanceProc = GetProcAddress(handle, "deleteInstance");
+   (FARPROC) messageToLogicProc = GetProcAddress(handle, "messageToLogic");
+
+   if (createInstanceProc == NULL ||
+       deleteInstanceProc == NULL ||
+       messageToLogicProc == NULL)
+      {
+      string msg = "Not a valid APSIM DLL.  Missing 1 or more entry points.  DLL="
+            + filename + ", wrapper=" + componentInterface;
+      throw runtime_error(msg);
+      }
+   return true;
    }
 
 // ------------------------------------------------------------------
