@@ -50,7 +50,7 @@ class __declspec(dllexport) Computation : public IComputation
                           unsigned int componentId,
                           unsigned int parentId);
       virtual void deleteInstance(void) const;
-      std::string getComponentInterfaceExecutable(const std::string& filename) throw(std::runtime_error);
+      void * loadDLL(const std::string& filename) throw(std::runtime_error);
 
       void _stdcall (*createInstanceProc)(const char* dllFileName,
                                           const unsigned int* componentID,
