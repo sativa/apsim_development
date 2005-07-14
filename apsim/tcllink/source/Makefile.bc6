@@ -104,7 +104,7 @@ $(TKROOT)\tk$(VER).lib: .\tk$(TCLVER)
 	$(MAKE) -f Makefile.bc 
 	cd ..\..
 
-$(INSTLIBS): #$(TCLROOT) $(TKROOT)
+$(INSTLIBS): $(TCLROOT)\tcl$(VER).lib $(TKROOT)\tk$(VER).lib
 	if not exist ..\lib\tcl$(DOTVER) xcopy tcl$(TCLVER)\library ..\lib\tcl$(DOTVER) /E /Y /I /Q
 	if not exist ..\lib\tcl84.dll copy $(TCLROOT)\tcl84.dll ..\lib
 	if not exist ..\lib\tcldde12.dll copy $(TCLROOT)\tcldde12.dll ..\lib
