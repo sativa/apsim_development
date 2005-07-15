@@ -35,7 +35,7 @@ namespace CSGeneral
 		//-------------------------------------------------------------------------
 		public static double[] Multiply(double[] value1, double[] value2)
 			{
-			double[] results = null;
+			double[] results = new double[value1.Length];
 			if(value1.Length == value2.Length)
 				{
 				results = new double[value1.Length];

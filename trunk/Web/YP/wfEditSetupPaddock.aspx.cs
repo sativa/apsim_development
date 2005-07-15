@@ -720,6 +720,13 @@ namespace YieldProphet
 			{
 			try
 				{
+				// get current crop - if any
+				DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());	
+				string szUsersName =  dtUsersDetails.Rows[0]["Name"].ToString();
+				string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
+				DataTable dtPaddocksDetails = DataAccessClass.GetDetailsOfPaddock(szPaddockName, FunctionsClass.GetActiveUserName());
+				string CropType =  dtPaddocksDetails.Rows[0]["CropType"].ToString();
+
                 Chart WaterChart = cscSoilChart.Charts.GetAt( 0 );
 				WaterChart.Series.Clear();
 
@@ -741,9 +748,14 @@ namespace YieldProphet
 				CreateNewLineSeries(WaterChart, "DUL", Color.Blue, 1, 
 									Xceed.Chart.Standard.LinePattern.Solid,
 					                MathUtility.Multiply_Value(SelectedSoil.DUL, 100), Thickness);
-				CreateNewLineSeries(WaterChart, "LL", Color.Red, 1, 
-									Xceed.Chart.Standard.LinePattern.Solid,
-					                MathUtility.Multiply_Value(SelectedSoil.LL("wheat"), 100), Thickness);
+				if (CropType == "")
+					CreateNewLineSeries(WaterChart, "LL15", Color.Red, 1, 
+										Xceed.Chart.Standard.LinePattern.Solid,
+						                MathUtility.Multiply_Value(SelectedSoil.LL15, 100), Thickness);
+				else
+					CreateNewLineSeries(WaterChart, "LL", Color.Red, 1, 
+										Xceed.Chart.Standard.LinePattern.Solid,
+										MathUtility.Multiply_Value(SelectedSoil.LL(CropType), 100), Thickness);
 				CreateNewLineSeries(WaterChart, "AirDry", Color.Red, 1, 
 									Xceed.Chart.Standard.LinePattern.Dash,
 					                MathUtility.Multiply_Value(SelectedSoil.Airdry, 100), Thickness);
@@ -752,10 +764,18 @@ namespace YieldProphet
 					                MathUtility.Multiply_Value(SelectedSoil.SAT, 100), Thickness);
 
 				// put on pawc and paw labels.
-				double PAWC = MathUtility.Sum(SelectedSoil.PAWC("wheat"));
-				double PAW = MathUtility.Sum(Sample.PAW("wheat"));
+				double PAWC;
+				double PAW = 0.0;
+				if (CropType == "")
+					PAWC = MathUtility.Sum(SelectedSoil.PAWC());
+				else
+					{
+					PAWC = MathUtility.Sum(SelectedSoil.PAWC(CropType));
+					PAW = MathUtility.Sum(Sample.PAW(CropType));
+					}
 				cscSoilChart.Labels[0].Text = "PAWC = "+Math.Round(PAWC, 0).ToString("F0")+"mm";
-				cscSoilChart.Labels[1].Text = "PAW = "+Math.Round(PAW, 0).ToString("F0")+"mm";
+				if (CropType != "")
+					cscSoilChart.Labels[1].Text = "PAW = "+Math.Round(PAW, 0).ToString("F0")+"mm";
 				}
 			catch(Exception E)
 				{
