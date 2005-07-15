@@ -415,9 +415,11 @@ namespace YieldProphet
 				DataAccessClass.GetPaddocksSoilSample("GridOne", szPaddockName, dtUsersDetails.Rows[0]["UserName"].ToString());
 			if(dtPaddocksSoilSample.Rows.Count > 0)
 			{
+				string CropType =  dtPaddocksDetails.Rows[0]["CropType"].ToString();
+
 				SoilSample Sample = new SoilSample(new APSIMData(dtPaddocksSoilSample.Rows[0]["Data"].ToString()));
 				Sample.LinkedSoil = PaddockSoil;
-				double dPAW = MathUtility.Sum(Sample.PAW("wheat"));
+				double dPAW = MathUtility.Sum(Sample.PAW(CropType));
 				
 				string paw = Math.Round(dPAW, 2).ToString("F2");
 				XmlNode xmlPAW = xmlDocSoilSample.CreateNode(XmlNodeType.Element,"initialconditionspaw", "");
