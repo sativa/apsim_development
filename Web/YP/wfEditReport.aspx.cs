@@ -112,7 +112,7 @@ namespace YieldProphet
 						}
 					else
 						{
-						FunctionsClass.DisplayMessage(Page, "New report name contains invalid characters. Please remove any of the following characters \\\\ / : * ? \" \' # < > |");
+						FunctionsClass.DisplayMessage(Page, "New report name contains invalid characters. Please remove any of the following characters \\\\ / : * \" ? \\' # < > |");
 						}
 					}
 				catch(Exception E)

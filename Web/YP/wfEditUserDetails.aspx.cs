@@ -86,7 +86,7 @@ namespace YieldProphet
 						}
 					else
 						{
-						FunctionsClass.DisplayMessage(Page, "Your name contains invalid characters. Please remove any of the following characters \\\\ / : * ? \" \' # < > |");
+						FunctionsClass.DisplayMessage(Page, "Your name contains invalid characters. Please remove any of the following characters \\\\ / : * \" ? \\' # < > |");
 						}
 					}
 				//If either of the text boxes doen't contain text then an error message

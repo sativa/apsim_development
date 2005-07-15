@@ -373,7 +373,7 @@ namespace YieldProphet
 				if (grdRow.Cells[ColumnIndex].Text != "")
 					return Row + 1;
 				}
-			return Grid.RowCount;
+			return 0;
 			}
 
 

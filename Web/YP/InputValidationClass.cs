@@ -99,7 +99,15 @@ namespace YieldProphet
 		public static bool IsInputAPositiveDecimal(string szInputString)
 		{
 			bool bPositiveDecimal = true;
-			szInputString.Replace("+", "");
+			if(szInputString.Length < 1)
+			{
+				bPositiveDecimal = false;
+				return bPositiveDecimal;
+			}
+			if(szInputString[0] == '+')
+			{
+				szInputString = szInputString.Remove(0, 1);
+			}
 			int iNumberOfDecimalCharacters = 0;
 			//Checks that all the characters are numbers (48 to 57) or
 			//decimal place (46)
@@ -125,12 +133,60 @@ namespace YieldProphet
 			return bPositiveDecimal;		
 			}
 		//-------------------------------------------------------------------------
+		//Checks to see if the inputstring can be converted to a decimal
+		//-------------------------------------------------------------------------
+		public static bool IsInputADecimal(string szInputString)
+		{
+			bool bDecimal = true;
+			if(szInputString.Length < 1)
+				{
+				bDecimal = false;
+				return bDecimal;
+				}
+			if(szInputString[0] == '+' ||
+				szInputString[0] == '-')
+				{
+				szInputString = szInputString.Remove(0, 1);
+				}
+			int iNumberOfDecimalCharacters = 0;
+			//Checks that all the characters are numbers (48 to 57) or
+			//decimal place (46)
+			for(int iIndex = 0; iIndex < szInputString.Length; iIndex++)
+			{
+				if(((szInputString[iIndex] >= 48 && szInputString[iIndex] <= 57)
+					|| szInputString[iIndex] == 46) == false)
+				{
+					bDecimal = false;
+					break;
+				}
+				//Makes sure that there aren't two decimal places in the string
+				if(szInputString[iIndex] == 46)
+				{
+					iNumberOfDecimalCharacters++;
+					if(iNumberOfDecimalCharacters > 1)
+					{
+						bDecimal = false;
+						break;
+					}
+				}
+			}
+			return bDecimal;		
+		}
+		//-------------------------------------------------------------------------
 		//Checks to see if the input string is a valid integer.
 		//-------------------------------------------------------------------------
 		public static bool IsInputAPositiveInteger(string szInputString)
 			{
 			bool bPositiveInteger = true;
-			szInputString.Replace("+", "");
+			if(szInputString.Length < 1)
+			{
+				bPositiveInteger = false;
+				return bPositiveInteger;
+			}
+			if(szInputString[0] == '+')
+			{
+				szInputString = szInputString.Remove(0, 1);
+			}
 			//Checks that all the characters are numbers (48 to 57)
 			for(int iIndex = 0; iIndex < szInputString.Length; iIndex++)
 				{

@@ -517,6 +517,21 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "wfGenerateNitrogenProfitReport.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfGenerateNitrogenProfitReport.aspx.cs"
+                    DependentUpon = "wfGenerateNitrogenProfitReport.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfGenerateNitrogenProfitReport.aspx.resx"
+                    DependentUpon = "wfGenerateNitrogenProfitReport.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "wfGenerateReport.aspx"
                     SubType = "Form"
                     BuildAction = "Content"

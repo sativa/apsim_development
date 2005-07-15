@@ -8,6 +8,14 @@ namespace CSGeneral
 	/// </summary>
 	public class MathUtility
 		{
+		//------------------------------------------------
+		// Returns true if specified value is 'missing'
+		// -----------------------------------------------
+		public static double MissingValue
+			{
+			get {return 999999;}
+			}
+
 		//-------------------------------------------------------------------------
 		//
 		//-------------------------------------------------------------------------
@@ -33,7 +41,10 @@ namespace CSGeneral
 				results = new double[value1.Length];
 				for(int iIndex = 0; iIndex < value1.Length; iIndex++)
 					{
-					results[iIndex] = (value1[iIndex] * value2[iIndex]);
+					if (value1[iIndex] == MissingValue || value2[iIndex] == MissingValue)
+						results[iIndex] = MissingValue;
+					else
+						results[iIndex] = (value1[iIndex] * value2[iIndex]);
 					}
 				}
 				return results;	
@@ -47,7 +58,10 @@ namespace CSGeneral
 			results = new double[value1.Length];
 			for(int iIndex = 0; iIndex < value1.Length; iIndex++)
 				{
-				results[iIndex] = (value1[iIndex] * value2);
+				if (value1[iIndex] == MissingValue)
+					results[iIndex] = MissingValue;
+				else
+					results[iIndex] = (value1[iIndex] * value2);
 				}
 			return results;	
 			}
@@ -62,8 +76,9 @@ namespace CSGeneral
 				results = new double[value1.Length];
 				for(int iIndex = 0; iIndex < value1.Length; iIndex++)
 					{
-					//Avoid divide by zero problems
-					if(value2[iIndex] != 0)
+					if (value1[iIndex] == MissingValue || value2[iIndex] == MissingValue)
+						results[iIndex] = MissingValue;
+					else if(value2[iIndex] != 0)
 						{
 						results[iIndex] = (value1[iIndex] / value2[iIndex]);
 						}
@@ -86,7 +101,10 @@ namespace CSGeneral
 				{
 				for(int iIndex = 0; iIndex < value1.Length; iIndex++)
 					{
-					results[iIndex] = (value1[iIndex] / value2);
+					if (value1[iIndex] == MissingValue)
+						results[iIndex] = MissingValue;
+					else
+						results[iIndex] = (value1[iIndex] / value2);
 					}
 				}
 				else
@@ -96,19 +114,34 @@ namespace CSGeneral
 			return results;	
 			}
 		//-------------------------------------------------------------------------
-		//
+		// Sum an array of numbers 
 		//-------------------------------------------------------------------------
-		public static double Accumulate(double[] dValues, int iStartIndex, int iEndIndex, double dInitialValue)
+		public static double Sum(IEnumerable Values)
+			{
+			return Sum(Values, 0, 0, 0.0);
+			}
+
+		//-------------------------------------------------------------------------
+		// Sum an array of numbers starting at startIndex up to (but not including) endIndex
+		// beginning with an initial value
+		//-------------------------------------------------------------------------
+		public static double Sum(IEnumerable Values, int iStartIndex, int iEndIndex, 
+			                     double dInitialValue)
 			{
 			double result = dInitialValue;
-			if(iEndIndex > dValues.Length || iStartIndex < 0)
+			if(iStartIndex < 0)
 				{
-				throw new Exception("MathUtility.Accumulate: End index or start index is out of range");
+				throw new Exception("MathUtility.Sum: End index or start index is out of range");
 				}
-			for(int iIndex = iStartIndex; iIndex < iEndIndex; iIndex++)
+			int iIndex = 0;
+			foreach (double Value in Values)
 				{
-				result += dValues[iIndex];
+				if ((iStartIndex == 0 && iEndIndex == 0) ||
+					(iIndex >= iStartIndex && iIndex < iEndIndex) && Value != MissingValue)
+					result += Value;
+				iIndex++;
 				}
+
 			return result;	
 			}
 		//-------------------------------------------------------------------------

@@ -40,7 +40,7 @@ namespace CSGeneral
 			StringCollection AliasNames = new StringCollection();
 			APSIMData[] AliasNodes = new APSIMData[100];
 
-			AliasNames.Add(MacroValues.Type);
+			AliasNames.Add(MacroValues.Type.ToLower());
 			AliasNodes[0] = MacroValues;
 
 			string Contents = MacroContents;
@@ -107,7 +107,7 @@ namespace CSGeneral
 				StringCollection ChildNodeNames = MacroNode.ChildList(NodeType);
 				foreach (string ChildName in ChildNodeNames)
 				{
-					AliasNames.Add(ForEachAlias);
+					AliasNames.Add(ForEachAlias.ToLower());
 					AliasNodes[AliasNames.Count-1] = MacroNode.Child(ChildName);
 
 					// recurse back and create a new for each body.
@@ -117,7 +117,7 @@ namespace CSGeneral
 					ReplaceLocalMacros(ref NewForEachBody, AliasNames, AliasNodes);
 
 					// Remove local alias'
-					AliasNames.Remove(ForEachAlias);
+					AliasNames.Remove(ForEachAlias.ToLower());
 
 					Body += NewForEachBody;
 				}
@@ -270,7 +270,7 @@ namespace CSGeneral
 		//---------------------------------------------------------------
 		APSIMData ResolveNode(string Alias, StringCollection AliasNames, APSIMData[] AliasNodes)
 		{
-			int PosAlias = AliasNames.IndexOf(Alias);
+			int PosAlias = AliasNames.IndexOf(Alias.ToLower());
 			if (PosAlias == -1)
 				throw new Exception("Invalid alias specified in foreach macro: " + Alias);
 
@@ -291,7 +291,7 @@ namespace CSGeneral
 				string[] words = Macro.Split(delimiters, 2);
 				if (words.Length == 2)
 				{
-					int PosAlias = AliasNames.IndexOf(words[0]);
+					int PosAlias = AliasNames.IndexOf(words[0].ToLower());
 					if (PosAlias != -1)
 					{
 						APSIMData node = AliasNodes[PosAlias];

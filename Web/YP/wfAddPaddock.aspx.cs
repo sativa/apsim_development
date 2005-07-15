@@ -178,7 +178,7 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void SavePaddock()
 			{
-			if(edtName.Text != "")
+			if(edtName.Text != "" && edtName.Text != null)
 				{
 				if(cboCultivars.SelectedItem.Text != "")
 					{

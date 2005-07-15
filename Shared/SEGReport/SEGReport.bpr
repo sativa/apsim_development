@@ -11,7 +11,8 @@
       TREMS.obj TREMSForm.obj TRotationAddIn.obj TSEGTable.obj TShape.obj 
       TShapeForm.obj TSoi.obj TSOIForm.obj TStats.obj TStatsForm.obj TText.obj 
       ComponentRegistration.obj ..\general\Excel.obj TWizardForm.obj 
-      TXYGraphSeries.obj TXYGraph.obj TXYForm.obj TCumulative.obj"/>
+      TXYGraphSeries.obj TXYGraph.obj TXYForm.obj TCumulative.obj TDiff.obj 
+      TDiffForm.obj"/>
     <RESFILES value="SEGReport.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TPropertyForm.dfm TTextForm.dfm TApsimFileReaderForm.dfm 
@@ -108,6 +109,8 @@
       <FILE FILENAME="TXYGraph.cpp" FORMNAME="" UNITNAME="TXYGraph" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TXYForm.cpp" FORMNAME="XYForm" UNITNAME="TXYForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TCumulative.cpp" FORMNAME="" UNITNAME="TCumulative" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TDiff.cpp" FORMNAME="" UNITNAME="TDiff" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TDiffForm.cpp" FORMNAME="" UNITNAME="TDiffForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

@@ -19,6 +19,8 @@
 #include "TTextForm.h"
 #include "TXYForm.h"
 #include "TCumulative.h"
+#include "TDiff.h"
+#include "TDiffForm.h"
 //---------------------------------------------------------------------------
 #pragma resource "*.res"
 #pragma package(smart_init)
@@ -39,15 +41,16 @@ void RegisterComponents(void)
                                   __classid(::TGraph),
                                   __classid(::TXYGraph)};
    RegisterComponents("Standard", standardClasses, 4);
-   TComponentClass dataClasses[8] = {__classid(TApsimFileReader),
+   TComponentClass dataClasses[9] = {__classid(TApsimFileReader),
                                   __classid(TSOI),
                                   __classid(TProbability),
                                   __classid(TREMS),
                                   __classid(TExcel),
                                   __classid(::TFilter),
                                   __classid(TStats),
-                                  __classid(TCumulative)};
-   RegisterComponents("Data", dataClasses, 7);
+                                  __classid(TCumulative),
+                                  __classid(TDiff)};
+   RegisterComponents("Data", dataClasses, 8);
    }
 
 //---------------------------------------------------------------------------
@@ -82,6 +85,8 @@ TForm* createComponentUI(TComponent* component, TWinControl* parent,
       form = new TFilterForm(parent);
    else if (component->ClassType() == __classid(TStats))
       form = new TStatsForm(parent);
+   else if (component->ClassType() == __classid(TDiff))
+      form = new TDiffForm(parent);
    else
       form = new TPropertyForm(parent);
 
