@@ -28,6 +28,7 @@ namespace YieldProphet
 		public const string szNitrogenComparisonReport = "Nitrogen comparison report";
 		public const string szSowingXVarietyReport = "Sowing X variety report";
 		public const string szFallowReport = "Fallow report";
+		public const string szNitrogenProfitReport = "Nitrogen profit report";
 		//-------------------------------------------------------------------------
 		#endregion
 		
@@ -702,6 +703,92 @@ namespace YieldProphet
 		#endregion
 		
 
+		
+		#region Nitrogen Profit Report Functions
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		public static DataTable CreateNitrogenProfitOtherValues(
+			string szClassification, string szPrice, 
+			string szProteinContent, string szProteinIncrement, string szFertiliserCost, 
+			string szApplicationCost, DataTable dtScenarioOne, 
+			DataTable dtScenarioTwo, DataTable dtScenarioThree)
+		{	
+			DataTable dtOtherValues = new DataTable();
+			dtOtherValues.Columns.Add("Name");
+			dtOtherValues.Columns.Add("Value");
+
+			AddValuesToTable("classification", szClassification, ref dtOtherValues);
+			AddValuesToTable("cropprice", szPrice, ref dtOtherValues);
+			AddValuesToTable("minproteincontent", szProteinContent, ref dtOtherValues);
+			AddValuesToTable("proteinincrementpay", szProteinIncrement, ref dtOtherValues);
+			AddValuesToTable("nitrogencost", szFertiliserCost, ref dtOtherValues);
+			AddValuesToTable("applicationcost", szApplicationCost, ref dtOtherValues);
+
+			int iMaximumNumberOfNitrogenApplications = 5;
+			//Gets all the data for the first scenario	
+			int iIndex = 1;
+			foreach(DataRow drScenarioOne in dtScenarioOne.Rows)
+			{
+				AddValuesToTable("scenario1fert"+iIndex.ToString()+"rate",  
+					drScenarioOne["Rate"].ToString(), ref dtOtherValues);
+				AddValuesToTable("scenario1fert"+iIndex.ToString()+"daymonth",  
+					((DateTime)drScenarioOne["ApplicationDate"]).ToString("dd-MMM"), 
+					ref dtOtherValues);
+		
+				iIndex++;
+			}
+			for(iIndex = iIndex; iIndex <= iMaximumNumberOfNitrogenApplications; iIndex++)
+			{
+				AddValuesToTable("scenario1fert"+iIndex.ToString()+"rate",  
+					"0", ref dtOtherValues);
+				AddValuesToTable("scenario1fert"+iIndex.ToString()+"daymonth",  
+					"", ref dtOtherValues);
+			}
+			//Gets all the data for the second scenario
+			iIndex = 1;
+			foreach(DataRow drScenarioTwo in dtScenarioTwo.Rows)
+			{
+				AddValuesToTable("scenario2fert"+iIndex.ToString()+"rate",  
+					drScenarioTwo["Rate"].ToString(), ref dtOtherValues);
+				AddValuesToTable("scenario2fert"+iIndex.ToString()+"daymonth",  
+					((DateTime)drScenarioTwo["ApplicationDate"]).ToString("dd-MMM"), 
+					ref dtOtherValues);
+				
+				iIndex++;
+			}
+			for(iIndex = iIndex; iIndex <= iMaximumNumberOfNitrogenApplications; iIndex++)
+			{
+				AddValuesToTable("scenario2fert"+iIndex.ToString()+"rate",  
+					"0", ref dtOtherValues);
+				AddValuesToTable("scenario2fert"+iIndex.ToString()+"daymonth",  
+					"", ref dtOtherValues);
+			}
+			//Gets all the data for the third scenario
+			iIndex = 1;
+			foreach(DataRow drScenarioThree in dtScenarioThree.Rows)
+			{
+				AddValuesToTable("scenario3fert"+iIndex.ToString()+"rate",  
+					drScenarioThree["Rate"].ToString(), ref dtOtherValues);
+				AddValuesToTable("scenario3fert"+iIndex.ToString()+"daymonth",  
+					((DateTime)drScenarioThree["ApplicationDate"]).ToString("dd-MMM"), 
+					ref dtOtherValues);
+				
+				iIndex++;
+			}
+			for(iIndex = iIndex; iIndex <= iMaximumNumberOfNitrogenApplications; iIndex++)
+			{
+				AddValuesToTable("scenario3fert"+iIndex.ToString()+"rate",  
+					"0", ref dtOtherValues);
+				AddValuesToTable("scenario3fert"+iIndex.ToString()+"daymonth",  
+					"",ref  dtOtherValues);
+			}
+			return dtOtherValues;
+		}	
+		//-------------------------------------------------------------------------
+		#endregion
+		
+
 
 		#region Sowing X Variety Report Functions
 		//-------------------------------------------------------------------------
@@ -871,6 +958,17 @@ namespace YieldProphet
 			szTemplateText = szTemplateText.Replace("#DQuote#", "\"");
 			return szTemplateText;
 			}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private static void AddValuesToTable(string szName, string szValue, 
+			ref DataTable dtOtherValues)
+		{
+			DataRow drOtherValue = dtOtherValues.NewRow();
+			drOtherValue["Name"] = szName;  
+			drOtherValue["Value"] = szValue;	
+			dtOtherValues.Rows.Add(drOtherValue);
+		}
 		//---------------------------------------------------------------------------
 		#endregion
 		

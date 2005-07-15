@@ -479,6 +479,15 @@ namespace YieldProphet
 									else
 										throw new Exception("This report requires a sowing date");
 									}
+								else if(cboReport.SelectedItem.Text == ReportClass.szNitrogenProfitReport)
+								{
+									if(chkSown.Checked == true)
+									{
+										Server.Transfer("wfGenerateNitrogenProfitReport.aspx");
+									}
+									else
+										throw new Exception("This report requires a sowing date");
+								}
 								else if(cboReport.SelectedItem.Text == ReportClass.szSowingXVarietyReport)
 									{
 									Server.Transfer("wfGenerateSowingXVarietyReport.aspx");

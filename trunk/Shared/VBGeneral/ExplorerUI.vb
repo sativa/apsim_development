@@ -305,6 +305,9 @@ Public Class ExplorerUI
     ' ----------------
     Function FileSave() As Boolean
         MyBase.Save()
+        If Not IsNothing(CurrentUI) Then
+            CurrentUI.Save()
+        End If
 
         If MyFileName.IndexOf("Untitled.") <> -1 Then
             Return FileSaveAs()
@@ -332,12 +335,8 @@ Public Class ExplorerUI
         End With
         Dim choice As DialogResult = dialog.ShowDialog
         If choice = DialogResult.OK Then
-            Data.SaveToFile(dialog.FileName)
             MyFileName = dialog.FileName
-            UpdateCaption()
-            AddFileToFrequentList(MyFileName)
-            MyDataHasChanged = False
-            Return True
+            Return FileSave()
         Else
             ' User has cancelled - do nothing
             Return False

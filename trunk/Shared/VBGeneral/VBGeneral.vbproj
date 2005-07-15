@@ -197,6 +197,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "InputDialog.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "InputDialog.resx"
+                    DependentUpon = "InputDialog.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "MacroFile.vb"
                     SubType = "Code"
                     BuildAction = "Compile"
