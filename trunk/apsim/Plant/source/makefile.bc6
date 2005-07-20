@@ -11,7 +11,7 @@ BCB = $(MAKEDIR)\..
 
 PROJECT=..\lib\Plant.dll
 
-OBJFILES=PlantComponent.obj Plant.obj PlantBiomass.obj PlantCanopy.obj PlantFail.obj PlantLibrary.obj \
+OBJFILES=PlantComponent.obj Plant.obj PlantParts.obj PlantBiomass.obj PlantCanopy.obj PlantFail.obj PlantLibrary.obj \
 PlantNitrogen.obj PlantPhenology.obj PlantRoot.obj PlantTemp.obj PlantUtility.obj PlantWater.obj \
 Data.obj Science.obj Date.obj PlantComms.obj PlantP.obj PlantFruit.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
 
@@ -20,7 +20,7 @@ LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\general\general.lib
 
 USERDEFINES =
-SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
+SYSDEFINES = _RTLDLL;NO_STRICT;_NO_VCL;USEPACKAGES
 INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost;$(APSROOT)\Shared
 LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
 
@@ -69,7 +69,7 @@ PlantRoot.obj: PlantRoot.cpp PlantLibrary.h
 PlantTemp.obj: PlantTemp.cpp PlantLibrary.h
 PlantUtility.obj: PlantUtility.cpp PlantLibrary.h
 PlantWater.obj: PlantWater.cpp PlantLibrary.h
-PlantP.obj: PlantP.cpp PlantP.h
+PlantP.obj: PlantP.cpp
 PlantFruit.obj: PlantFruit.cpp PlantFruit.h
 Data.obj: Data.cpp PlantLibrary.h
 Date.obj: Date.cpp PlantLibrary.h
