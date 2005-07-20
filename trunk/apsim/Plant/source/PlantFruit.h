@@ -92,13 +92,9 @@ class PlantFruit
             void bio_yieldpart_demand1 (float c_twilight
                                       , int   g_day_of_year
                                       , float g_latitude
-                                      , int  *yield_parts
-                                      , int   num_yield_parts
-                                      , int   root_part
-                                      , int   max_part
-                                      , float g_dlt_dm
-                                      , float *g_dm_green
-                                      , float *g_dm_senesced
+                                      , float g_dlt_dm                            // (INPUT)  the daily biomass production (
+                                      , float dm_tops                             // (INPUT)  green dry weight of tops (g/m^2)
+                                      , float dm_green_yield_parts                // (INPUT)  dry matter of yield parts (g/m^2)
                                       , float g_dm_stress_average
                                       , float *p_x_pp_hi_incr
                                       , float *p_y_hi_incr
@@ -173,7 +169,6 @@ class PlantFruit
             void bio_actual (int option /* (INPUT) option number*/);
 
             void dm_senescence1 (const int num_part
-                               , const int max_table
                                , float independant_variable
                                , float **c_x_dm_sen_frac
                                , float **c_y_dm_sen_frac

@@ -27,137 +27,19 @@ int environment_t::find_layer_no(float depth) const
    if (indx != 0 && indx==dlayer.size()) return (indx - 1); // last element in array
    return indx;                                            // index of
    }
+
 float environment_t::daylength(float sun_angle) const
 {
 	return daylength(day_of_year, sun_angle);
 }
-
-// ------------------------------------------------------------------
-// Transfer of sign - from FORTRAN.
-// The result is of the same type and kind as a. Its value is the abs(a) of a,
-// if b is greater than or equal positive zero; and -abs(a), if b is less than
-// or equal to negative zero.
-// Example a = sign (30,-2) ! a is assigned the value -30
-// ------------------------------------------------------------------
-float sign(float a, float b)
-   {
-   if (b >= 0)
-      return fabs(a);
-   else
-      return -fabs(a);
-   }
-
 float environment_t::daylength(int dyoyr, float sun_angle) const
 {
- // (INPUT) angle to measure time between such as twilight (deg).
- // angular distance between 90 deg and end of twilight - altitude
- // of sun. +ve up, -ve down.
+   return ::day_length(dyoyr, latitude, sun_angle);
+} 
 
-   //+ Purpose
-   //      return the time elasped in hours between the specified sun angle
-   //      from 90 deg in am and pm. +ve above the horizon, -ve below the horizon.
-
-   //+ Notes
-   //                    there is a small err in cos (90), thus a special
-   //                    case is made for this.
-
-   //+ Changes
-   //       020392 jngh specified and programmed
-   //       130592 jngh limited altitude for twilight to increase range_of
-   //                   of latitudes. - cr324
-   //                   limited cos of the hourangle between -1 and 1 - cr324
-   //       190592 jngh renamed day_length routine - cr323
-   //       290592 jngh set cos hourangle to +/-1 when latitude is +/- 90 - cr350
-   //                   corrected descriptions - cr352
-   //       230792 jngh corrected coshra to take account of latitude sign - cr401
-   //       200893 jngh corrected problem with precision which occurred when
-   //                   latitude is very close to tropic line and declination
-   //                   is also very close, abs(slsd-clcd) may go slightly above
-   //                   1.0, which asin doesn't like.
-   //       071293 jngh added sun (twilight) angle to arguments
-   //       270295 jngh put in function to test for equal reals.
-
-   //+ Constant Values
-   const double  aeqnox = 82.25 ;//  average day number of autumnal equinox
-
-   const double  pi = 3.14159265359 ;
-
-   const double  dg2rdn =  (2.0*pi) /360.0 ; // convert degrees to radians
-
-   const double  decsol = 23.45116 * dg2rdn ;// amplitude of declination of sun
-                                             //   - declination of sun at solstices.
-                                             // cm says here that the maximum
-                                             // declination is 23.45116 or 23 degrees
-                                             // 27 minutes.
-                                             // I have seen else_where that it should
-                                             // be 23 degrees 26 minutes 30 seconds -
-                                             // 23.44167
-   const double  dy2rdn =  (2.0*pi) /365.25 ; // convert days to radians
-   const double  rdn2hr = 24.0/(2.0*pi)  ;    // convert radians to hours
-
-   //+ Local Variables
-   double alt;    // twilight altitude limited to max/min
-                  //   sun altitudes end of twilight
-                  //   - altitude of sun. (radians)
-   double altmn;  // altitude of sun at midnight
-   double altmx;  // altitude of sun at midday
-   double clcd;   // cos of latitude * cos of declination
-   double coshra; // cos of hour angle - angle between the
-                  //   sun and the meridian.
-   double dec;    // declination of sun in radians - this
-                  //   is the angular distance at solar
-                  //   noon between the sun and the equator.
-   double hrangl; // hour angle - angle between the sun
-                  //   and the meridian (radians).
-   double hrlt;   // day_length in hours
-   double latrn;  // latitude in radians
-   double slsd;   // sin of latitude * sin of declination
-   double sun_alt;// angular distance between
-                  // sunset and end of twilight - altitude
-                  // of sun. (radians)
-                  // Twilight is defined as the interval
-                  // between sunrise or sunset and the
-                  // time when the true centre of the sun
-                  // is 6 degrees below the horizon.
-                  // Sunrise or sunset is defined as when
-                  // the true centre of the sun is 50'
-                  // below the horizon.
-
-   sun_alt = sun_angle * dg2rdn;
-
-   // calculate daylangth in hours by getting the
-   // solar declination (radians) from the day of year, then using
-   // the sin and cos of the latitude.
-
-   // declination ranges from -.41 to .41 (summer and winter solstices)
-
-   dec = decsol*sin (dy2rdn* ((double)dyoyr - aeqnox));
-
-   // get the max and min altitude of sun for today and limit
-   // the twilight altitude between these.
-
-   if (reals_are_equal(fabs(latitude), 90.0)) {
-     coshra = sign (1.0, -dec) * sign (1.0, latitude);
-   } else {
-     latrn = latitude*dg2rdn;
-     slsd = sin(latrn)*sin(dec);
-     clcd = cos(latrn)*cos(dec);
-
-     altmn = asin(min(max(slsd - clcd, -1.0), 1.0));
-     altmx = asin(min(max(slsd + clcd, -1.0), 1.0));
-     alt = min(max(sun_alt, altmn), altmx);
-
-     // get cos of the hour angle
-     coshra = (sin (alt) - slsd) /clcd;
-     coshra = min(max(coshra, -1.0), 1.0);
-   }
-
-   // now get the hour angle and the hours of light
-   hrangl = acos (coshra);
-   hrlt = hrangl*rdn2hr*2.0;
-   return hrlt;
-
-}
+bool operator == (const pPhase &a, const pPhase &b) {
+   return (a.name() == b.name());
+};
 
 // Add tt and days to the accumulator. Return a balance if too much.
 // A target of 0.0 or less indicates it's a stage that doesn't use
@@ -233,7 +115,7 @@ void PlantPhenology::initialise (PlantComponent *s, const string &section)
    string scratch = s->readParameter(section, "stage_names");
    vector<string> stage_names;
    Split_string(scratch, " ", stage_names);
-   if (stage_names.size() == 0) throw std::runtime_error("No stage code names found");
+   if (stage_names.size() == 0) throw std::runtime_error("No stage names found");
    for (vector<string>::iterator sn = stage_names.begin();
         sn !=  stage_names.end();
         sn++)
@@ -303,17 +185,21 @@ void PlantPhenology::doRegistrations (protocol::Component *s)
 #undef setupGetVar
 #undef setupGetFunction
 }
-void PlantPhenology::readSpeciesParameters (PlantComponent *s, vector<string> &sections)
+void PlantPhenology::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
    {
-   s->searchParameter (sections
+   s->readParameter (sections
                       , "twilight"//, "(o)"
                       , twilight
                       , -90.0, 90.0);
    }
 
-void PlantPhenology::prepare(const environment_t &sw)
+void PlantPhenology::zeroDeltas(void) 
    {
    dltStage = 0;
+   }
+
+void PlantPhenology::prepare(const environment_t &sw)
+   {
    previousStage = currentStage;
    }
 
@@ -459,9 +345,9 @@ float PlantPhenology::phase_fraction(float dlt_tt) //(INPUT)  daily thermal time
    result = bound(result, 0.0, 1.0);
    return result;
    }
-void PlantPhenology::zeroStateVariables(void)
+void PlantPhenology::zeroAllGlobals(void)
    {
-   previousStage = currentStage = dltStage = 0.0;
+   previousStage = currentStage = 0.0;
    for (unsigned int i=0; i < phases.size(); i++) phases[i].reset();
    day_of_year = 0;
    flowering_das = maturity_das = 0;
@@ -520,17 +406,22 @@ void PlantPhenology::get_days_tot(protocol::Component *s, protocol::QueryValueDa
    s->sendVariable(qd, t);
    }
 ///////////////////////////WHEAT///////////////////////////////////
-void WheatPhenology::zeroStateVariables(void)
+void WheatPhenology::zeroAllGlobals(void)
    {
-   PlantPhenology::zeroStateVariables();
-   das = dlt_cumvd = cumvd = vern_eff = photop_eff = dlt_tt = dlt_tt_phenol = 0.0;
+   PlantPhenology::zeroAllGlobals();
+   das = cumvd = vern_eff = photop_eff = 0.0;
+   }
+
+void WheatPhenology::zeroDeltas(void)
+   {
+   dlt_tt = dlt_tt_phenol = dlt_cumvd = 0.0;
    }
 
 void WheatPhenology::initialise (PlantComponent *s, const string &section)
    {
    s->writeString("phenology model: Wheat");
    PlantPhenology::initialise(s, section);
-   zeroStateVariables();
+   zeroAllGlobals();
 };
 
 void WheatPhenology::doRegistrations (protocol::Component *s)
@@ -573,7 +464,7 @@ void WheatPhenology::doRegistrations (protocol::Component *s)
 #undef setupEvent
    }
 
-void WheatPhenology::readSpeciesParameters(PlantComponent *s, vector<string> &sections)
+void WheatPhenology::readSpeciesParameters(protocol::Component *s, vector<string> &sections)
    {
    PlantPhenology::readSpeciesParameters (s, sections);
    iniSectionList = sections;
@@ -591,17 +482,17 @@ void WheatPhenology::readSpeciesParameters(PlantComponent *s, vector<string> &se
                "x_temp", "oC", 0.0, 100.0,
                "y_tt", "oC days", 0.0, 100.0);
 
-   s->searchParameter (sections,
+   s->readParameter (sections,
                        "shoot_lag"//, "(oc)"
                       , shoot_lag
                       , 0.0, 100.0);
 
-   s->searchParameter (sections,
+   s->readParameter (sections,
                        "shoot_rate"//, "(oc/mm)"
                       , shoot_rate
                       , 0.0, 100.0);
 
-   s->searchParameter (sections,
+   s->readParameter (sections,
                        "pesw_germ"//, "(mm/mm)"
                       , pesw_germ
                       , 0.0, 1.0);
@@ -612,7 +503,7 @@ void WheatPhenology::readSpeciesParameters(PlantComponent *s, vector<string> &se
 
    }
 
-void WheatPhenology::readCultivarParameters(PlantComponent *s, const string & cultivar)
+void WheatPhenology::readCultivarParameters(protocol::Component *s, const string & cultivar)
    {
    PlantPhenology::readCultivarParameters(s, cultivar);
    s->readParameter (cultivar
@@ -688,7 +579,7 @@ void WheatPhenology::setupTTTargets(void)
 
 void WheatPhenology::onEndCrop(unsigned &, unsigned &, protocol::Variant &)
    {
-   zeroStateVariables();
+   zeroAllGlobals();
    }
 
 void WheatPhenology::onHarvest(unsigned &, unsigned &, protocol::Variant &)
@@ -708,6 +599,7 @@ void WheatPhenology::onKillStem(unsigned &, unsigned &, protocol::Variant &)
    for (unsigned int stage = (int)currentStage; stage != phases.size(); stage++)
       phases[stage].reset();
    }
+
 
 void WheatPhenology::prepare(const environment_t &e)
    {
@@ -823,7 +715,7 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
    // get rid of any remaining tt into the next stage
    if (balance_tt > 0.0)
       phases[(int)currentStage].add(balance_days, balance_tt);
-   //if ((int)currentStage != (int)previousStage) parent->onPhenologyEvent(phases[(int)currentStage]);
+   if ((int)currentStage != (int)previousStage) parent->onPlantEvent(phases[(int)currentStage].name());
    cumvd += dlt_cumvd;
    das++;
    }
@@ -952,12 +844,13 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
    if ((unsigned int)currentStage >= phases.size() || currentStage < 0.0)
      throw std::runtime_error("stage has gone wild in WheatPhenology::process()..");
 
+   if ((int)currentStage != (int)previousStage) plant->doPlantEvent(phases[(int)currentStage].name());
    cumvd += dlt_cumvd;
    das++;
    }
 #endif
 
-void WheatPhenology::update(void)
+void WheatPhenology::update(void) 
    {
    PlantPhenology::update();
    if (on_day_of ("flowering"))
@@ -1178,7 +1071,7 @@ void LegumePhenology::onSow(unsigned &, unsigned &, protocol::Variant &v)
    }
 void LegumePhenology::onEndCrop(unsigned &, unsigned &, protocol::Variant &)
    {
-   zeroStateVariables();
+   zeroAllGlobals();
    }
 void LegumePhenology::onHarvest(unsigned &, unsigned &, protocol::Variant &)
    {
@@ -1237,7 +1130,7 @@ void LegumePhenology::onRemoveBiomass(float removeBiomPheno)
          {
             phase->add(0.0, -ttRemaining);
             currentStage = (phase_fraction(0.0) + floor(currentStage));
-            ttRemaining = 0.0;
+            //ttRemaining = 0.0; /* not used */
             break;
          }
       }
@@ -1338,7 +1231,7 @@ void LegumePhenology::initialise (PlantComponent *s, const string &section)
    {
    s->writeString("phenology model: Legume");
    PlantPhenology::initialise(s, section);
-   zeroStateVariables();
+   zeroAllGlobals();
    }
 
 void LegumePhenology::doRegistrations (protocol::Component *s)
@@ -1373,7 +1266,7 @@ void LegumePhenology::doRegistrations (protocol::Component *s)
    }
 
 
-void LegumePhenology::readCultivarParameters(PlantComponent *s, const string & cultivar)
+void LegumePhenology::readCultivarParameters(protocol::Component *s, const string & cultivar)
    {
    PlantPhenology::readCultivarParameters(s, cultivar);
 
@@ -1413,7 +1306,7 @@ void LegumePhenology::readCultivarParameters(PlantComponent *s, const string & c
                     , 0.0, tt_maturity_to_ripe_ub);
    }
 
-void LegumePhenology::readSpeciesParameters (PlantComponent *s, vector<string> &sections)
+void LegumePhenology::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
    {
    PlantPhenology::readSpeciesParameters (s, sections);
    iniSectionList = sections;
@@ -1432,12 +1325,12 @@ void LegumePhenology::readSpeciesParameters (PlantComponent *s, vector<string> &
                        "x_vernal_temp", "(oc)", -10., 60.0,
                        "y_vernal_days", "(days)", 0.0, 1.0);
 
-   s->searchParameter (sections,
+   s->readParameter (sections,
                        "shoot_lag"//, "(oc)"
                       , shoot_lag
                       , 0.0, 100.0);
 
-   s->searchParameter (sections,
+   s->readParameter (sections,
                        "shoot_rate"//, "(oc/mm)"
                       , shoot_rate
                       , 0.0, 100.0);
@@ -1446,17 +1339,17 @@ void LegumePhenology::readSpeciesParameters (PlantComponent *s, vector<string> &
                "x_temp", "oC", 0.0, 100.0,
                "y_tt", "oC days", 0.0, 100.0);
 
-   s->searchParameter (sections
+   s->readParameter (sections
                    ,"tt_emerg_to_endjuv_ub"//, "()"
                    , tt_emerg_to_endjuv_ub
                    , 0.0, 1.e6);
 
-   s->searchParameter (sections
+   s->readParameter (sections
                    ,"tt_maturity_to_ripe_ub"//, "()"
                    , tt_maturity_to_ripe_ub
                    , 0.0, 1.e6);
 
-   s->searchParameter (sections,
+   s->readParameter (sections,
                        "pesw_germ"//, "(mm/mm)"
                       , pesw_germ
                       , 0.0, 1.0);
@@ -1467,10 +1360,15 @@ void LegumePhenology::readSpeciesParameters (PlantComponent *s, vector<string> &
 
 }
 
-void LegumePhenology::zeroStateVariables(void)
+void LegumePhenology::zeroDeltas(void)
    {
-   PlantPhenology::zeroStateVariables();
-   das = dlt_cumvd = cumvd = dlt_tt = dlt_tt_phenol = 0.0;
+   dlt_tt = dlt_tt_phenol = dlt_cumvd = 0.0;
+   }
+
+void LegumePhenology::zeroAllGlobals(void)
+   {
+   PlantPhenology::zeroAllGlobals();
+   das = cumvd = 0.0;
    est_days_emerg_to_init=0;
    }
 
@@ -1558,7 +1456,7 @@ void LegumePhenology::process(const environment_t &e, const pheno_stress_t &ps)
    if (balance_tt > 0.0)
       phases[(int)currentStage].add(balance_days, balance_tt);
 
-   //if ((int)currentStage != (int)previousStage) parent->sendPhenologyEvent(stage);
+   if ((int)currentStage != (int)previousStage) parent->onPlantEvent(phases[(int)currentStage].name());
    das++;
    cumvd += dlt_cumvd;
    }
@@ -1685,12 +1583,13 @@ void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
    if ((unsigned int)currentStage >= phases.size() || currentStage < 0.0)
      throw std::runtime_error("stage has gone wild in LegumePhenology::process()..");
 
+   if ((int)currentStage != (int)previousStage) plant->doPlantEvent(phases[(int)currentStage].name());
    cumvd += dlt_cumvd;
    das++;
    }
 #endif
 
-void LegumePhenology::update(void)
+void LegumePhenology::update(void) 
    {
    PlantPhenology::update();
    if (on_day_of ("flowering"))
@@ -1704,502 +1603,6 @@ void LegumePhenology::update(void)
    }
 
 #if 0
-void LegumeCohortPhenology::init (void)
-   {
-   // initialise phenology phase targets
-   legnew_phenology_init(c.shoot_lag
-                          , c.shoot_rate
-                          , g.maxt
-                          , g.mint
-                          , c.x_vernal_temp
-                          , c.y_vernal_days
-                          , c.num_vernal_temp
-                          , &g.cum_vernal_days
-                          , p.cum_vernal_days
-                          , p.tt_emerg_to_endjuv
-                          , p.num_cum_vernal_days
-                          , c.twilight
-                          , phenology->stageNumber()
-                          , g.days_tot
-                          , g.day_of_year
-                          , g.year
-                          , g.latitude
-                          , g.sowing_depth
-                          , p.x_pp_endjuv_to_init
-                          , p.y_tt_endjuv_to_init
-                          , p.num_pp_endjuv_to_init
-                          , p.x_pp_init_to_flower
-                          , p.y_tt_init_to_flower
-                          , p.num_pp_init_to_flower
-                          , p.x_pp_flower_to_start_grain
-                          , p.y_tt_flower_to_start_grain
-                          , p.num_pp_flower_to_start_grain
-                          , p.x_pp_start_to_end_grain
-                          , p.y_tt_start_to_end_grain
-                          , p.num_pp_start_to_end_grain
-                          , p.tt_end_grain_to_maturity
-                          , p.tt_maturity_to_ripe
-                          , p.est_days_emerg_to_init
-                          , g.phase_tt);
-
-    plant_fruit_phenology_init(c.twilight
-                           , g.current_fruit_stage
-                           , g.fruit_days_tot
-                           , max_fruit_stage
-                           , max_fruit_cohorts
-                           , g.num_fruit_cohorts
-                           , g.day_of_year
-                           , g.latitude
-                           , p.x_pp_flower_to_start_grain
-                           , p.y_tt_flower_to_start_grain
-                           , p.num_pp_flower_to_start_grain
-                           , p.x_pp_fruit_start_to_end_grain
-                           , p.y_tt_fruit_start_to_end_grain
-                           , p.num_pp_fruit_start_to_end_grain
-                           , p.tt_end_grain_to_maturity
-                           , p.tt_maturity_to_ripe
-                           , g.fruit_phase_tt);
-    plant_fruit_cohort_init (
-                     initial_fruit_stage
-                   , gXXcurrent_stageXX
-                   , g.days_tot
-                   , g.current_fruit_stage
-                   , &g.num_fruit_cohorts );
-
-   }
-//+  Purpose
-//     Use temperature, photoperiod and genetic characteristics
-//     to determine when the crop begins a new growth phase.
-//     The initial daily thermal time and height are also set.
-void LegumeCohortPhenology::process (void)
-   {
-         plant_phenology3 (&g.previous_stage
-                          ,&gXXcurrent_stageXX
-                          ,sowing
-                          ,germ
-                          ,start_grain_fill
-                          ,harvest_ripe
-                          ,emerg
-                          ,flowering
-                          ,max_stage
-                          ,c.num_temp
-                          ,c.x_temp
-                          ,c.y_tt
-                          ,g.maxt
-                          ,g.mint
-                          ,min(g.nfact_pheno, phosphorus->fact_pheno())
-                          ,g.swdef_pheno
-                          ,g.swdef_pheno_flower
-                          ,g.swdef_pheno_grainfill
-                          ,c.pesw_germ
-                          ,c.fasw_emerg
-                          ,c.rel_emerg_rate
-                          ,c.num_fasw_emerg
-                          ,g.dlayer
-                          ,max_layer
-                          ,g.sowing_depth
-                          ,g.sw_dep
-                          ,g.dul_dep
-                          ,p.ll_dep
-                          ,&g.dlt_tt
-                          ,g.phase_tt
-                          ,&g.phase_devel
-                          ,&g.dlt_stage
-                          ,g.tt_tot
-                          ,g.days_tot);
-
-         plant_fruit_cohort_init (phenology->on_day_of("initial_fruit_stage"))
-                    , g.days_tot
-                    , g.current_fruit_stage
-                    , &g.num_fruit_cohorts );
-
-         plant_fruit_phenology (g.previous_fruit_stage
-                               ,g.current_fruit_stage
-                               ,initial_fruit_stage
-                               ,harvest_ripe
-                               ,start_grain_fill
-                               ,end_grain_fill
-                               ,max_fruit_stage
-                               ,max_fruit_cohorts
-                               ,g.num_fruit_cohorts
-                               ,g.dm_fruit_green
-                               ,p.dm_fruit_max
-                               ,g.fruit_no
-                               ,c.num_temp
-                               ,c.x_temp
-                               ,c.y_tt
-                               ,g.maxt
-                               ,g.mint
-                               ,g.swdef_pheno_flower
-                               ,g.swdef_pheno_grainfill
-                               ,g.fruit_phase_tt
-                               ,g.fruit_phase_devel
-                               ,g.dlt_fruit_tt
-                               ,g.dlt_fruit_stage
-                               ,g.fruit_tt_tot
-                               ,g.fruit_days_tot);
-
-         plant_fruit_phenology_update (g.previous_stage
-                                      ,&gXXcurrent_stageXX
-                                      ,g.current_fruit_stage
-                                      ,max_fruit_cohorts
-                                      ,g.num_fruit_cohorts
-                                      ,c.fruit_phen_end
-                                      ,g.fruit_no
-                                      ,&g.dlt_stage);
-
-         // update thermal time states and day count
-         accumulate (g.dlt_tt, g.tt_tot, g.previous_stage-1.0, g.dlt_stage);
-         accumulate (1.0, g.days_tot, g.previous_stage-1.0, g.dlt_stage);
-   }
-void LegumeCohortPhenology::plant_fruit_phenology_update (float g_previous_stage
-                                         ,float *g_current_stage             // output
-                                         ,float *g_current_fruit_stage
-                                         ,int   max_fruit_cohorts
-                                         ,int   g_num_fruit_cohorts
-                                         ,float c_fruit_phen_end
-                                         ,float *g_fruit_no
-                                         ,float *g_dlt_stage)                // output
-{
-   float fruit_no_cum ;
-   float fruit_no_crit ;
-   int  cohort;
-
-   const char *my_name = "plant_fruit_phenology_update";
-   push_routine (my_name);
-
-   if (phenology->inPhase ("fruit_filling"))
-      {
-      fruit_no_crit = 0.0 ;
-      if (phenology->inPhase ("grainfill"))
-         {
-         cohort = 0;
-         do {
-            if (g_current_fruit_stage[cohort] >= initial_stage)
-               {
-               fruit_no_crit = fruit_no_crit + g_fruit_no[cohort];
-               }
-            cohort++;
-            } while (cohort < g_num_fruit_cohorts);
-         // C1
-         // fprintf(stdout, "%d %d %f\n", g.day_of_year, g_num_fruit_cohorts, fruit_no_crit);
-         fruit_no_crit = fruit_no_crit * c_fruit_phen_end;
-         if (fruit_no_crit > 0.0)
-            {
-            fruit_no_cum = 0.0;
-            cohort = 0;
-            do {
-               fruit_no_cum = fruit_no_cum + g_fruit_no[cohort];
-               if (fruit_no_cum >= fruit_no_crit)
-                  {
-                  if (floor(*g_current_stage) <
-                      floor(g_current_fruit_stage[cohort]))
-                     {
-                     *g_current_stage = floor(*g_current_stage + 1.0);
-                     }
-                  else
-                     {
-                     *g_current_stage = max(*g_current_stage,
-                                            g_current_fruit_stage[cohort]);
-                     }
-                  break;
-                  }
-               cohort++;
-               } while (cohort < g_num_fruit_cohorts);
-            }
-         else
-            {
-            // no fruit
-            *g_current_stage = g_current_fruit_stage[0];
-            }
-         }
-      else  // sgf->ed
-         {
-         // we haven't reached grain fill yet
-         *g_current_stage = g_current_fruit_stage[0];
-         }
-      if (((int)*g_current_stage) != ((int)g_previous_stage))
-         {
-         *g_current_stage = (int)(*g_current_stage);
-         }
-      *g_dlt_stage = *g_current_stage - g_previous_stage;
-      } // initial-> end devel
-   else
-      {
-      // dlt_stage is calculated for us in phenology3 - >implies
-      //*g_dlt_stage = *g_dlt_stage;
-      }
-   if (*g_dlt_stage < 0.0)
-      {
-      throw std::runtime_error ("negative dlt_stage in plant_fruit_phenology_update");
-      }
-   // C2
-   //fprintf(stdout, "%d %f %f %d %d\n", g.day_of_year, *g_dlt_stage, *g_current_stage,g_num_fruit_cohorts, cohort);
-
-   pop_routine (my_name);
-}
-////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////
-// XX note *3* versions of this routine here...
-float legume_stage_code(
-                     float *c_stage_code_list //(INPUT)  list of stage numbers
-                   , float *g_phase_tt        //(INPUT)  Cumulative growing degree days required for each stage (deg days)
-                   , float *g_tt_tot          //(INPUT)  Cumulative growing degree days required for each stage (deg days)
-                   , float stage_no           //(INPUT) stage number to convert
-                   , float *stage_table       //(INPUT) table of stage codes
-                   , int numvals, int max_stage)  //(INPUT) size_of of table(s)
-  {
-//*+  Purpose
-//*       Return an interpolated stage code from a table of stage_codes
-//*       and a nominated stage number. Returns 0 if the stage number is not
-//*       found. Interpolation is done on thermal time.
-
-//*+  Mission Statement
-//*     Get the stage code from a table of stage codes
-
-   float   phase_tt;              // required thermal time between stages
-                                 //      ! (oC)
-   float   fraction_of;           //!
-   int     next_stage;            //! next stage number to use
-   float   tt_tot;                //! elapsed thermal time between stages
-                                 ///      ! (oC)
-   int     this_stage;            //! this stage to use
-   float   x_stage_code;          //! interpolated stage code
-
-
-      if (numvals >= 2)
-         {
-         // we have a valid table
-         this_stage = stage_no_of (stage_table[0]
-                                      , c_stage_code_list
-                                      , max_stage);
-
-         for (int i = 1; i < numvals; i++)
-            {
-            next_stage = stage_no_of (stage_table[i]
-                                         , c_stage_code_list
-                                         , max_stage);
-
-            if (stage_is_between (this_stage, next_stage, stage_no))
-               {
-               // we have found its place
-               tt_tot = sum_between (this_stage-1, next_stage-1, g_tt_tot);
-               phase_tt = sum_between (this_stage-1, next_stage-1, g_phase_tt);
-               fraction_of = divide (tt_tot, phase_tt, 0.0);
-               fraction_of = bound(fraction_of, 0.0, 0.999);
-               x_stage_code = stage_table[i-1]
-                           + (stage_table[i] - stage_table[i-1])
-                           * fraction_of;
-//Cx
-//fprintf(stdout, "%d,%d,%.9f,%.9f,%.9f,%.9f\n", g.day_of_year,
-//this_stage, tt_tot,phase_tt,fraction_of,x_stage_code);
-               break;
-               }
-            else
-               {
-               x_stage_code = 0.0;
-               this_stage = next_stage;
-               }
-            }
-         }
-      else
-         {
-         // we have no valid table
-         x_stage_code = 0.0;
-
-         throw std::runtime_error("Bad stage lookup table in legume_stage_code()");
-         }
-
-   return x_stage_code;
-   }
-
-
-
-//===========================================================================
-float crop_stage_code (float *c_stage_code_list,
-                       float *g_tt_tot,
-                       float *g_phase_tt,
-                       float stage_no,              // (INPUT) stage number to convert
-                       float *stage_table,           // (INPUT) table of stage codes
-                       int   numvals,                 // (INPUT) size_of of table
-                       int   max_stage)               // (INPUT) max stage number
-//===========================================================================
-
-/*  Purpose
-*       Return an interpolated stage code from a table of stage_codes
-*       and a nominated stage number. Returns 0 if the stage number is not
-*       found. Interpolation is done on thermal time.
-*
-*  Mission Statement
-*   the crop stage code for %4
-*
-*  Changes
-*       080994 jngh specified and programmed
-*       19/5/2009 ad convert to BC++
-*/
-   {
-   //  Local Variables
-   float phase_tt;               // required thermal time between stages
-                                 // (oC)
-   float fraction_of;            //
-   int i;                        // array index - counter
-   int next_stage;               // next stage number to use
-   float tt_tot;                 // elapsed thermal time between stages
-                                 // (oC)
-   int this_stage;               // this stage to use
-   float x_stage_code;           // interpolated stage code
-   // Implementation Section ----------------------------------
-
-   if (numvals > 1)
-      {
-      // we have a valid table
-      this_stage = stage_no_of (stage_table[0], c_stage_code_list, max_stage);
-
-      for(i = 1; i < numvals; i++)
-         {
-         next_stage = stage_no_of (stage_table[i], c_stage_code_list, max_stage);
-
-         if (stage_is_between (this_stage, next_stage, stage_no))
-            {
-            //we have found its place
-            tt_tot = sum_between (this_stage-1, next_stage-1, g_tt_tot);
-            phase_tt = sum_between (this_stage-1, next_stage-1, g_phase_tt);
-            fraction_of = divide (tt_tot, phase_tt, 0.0);
-            x_stage_code = stage_table[i-1]+ (stage_table[i] - stage_table[i-1]) * fraction_of;
-            break;
-            }
-         else
-            {
-            x_stage_code = 0.0;
-            }
-         this_stage = next_stage;
-         }
-      }
-   else
-      {
-      //we have no valid table
-      char  error_mess[80];
-      sprintf(error_mess, "Invalid lookup table in crop_stage_code(): number of values = %d", numvals);
-      throw std::runtime_error(error_mess);
-      }
-   return x_stage_code;
-   }
-
-//==========================================================================
-void crop_thermal_time (int    C_num_temp,          //(INPUT)  size_of table
-                        float *C_x_temp,            //(INPUT)  temperature table for photosyn
-                        float *C_y_tt,              //(INPUT)  degree days
-                        float  G_current_stage,     //(INPUT)  current phenological stage
-                        float  G_maxt,              //(INPUT)  maximum air temperature (oC)
-                        float  G_mint,              //(INPUT)  minimum air temperature (oC)
-                        int    start_stress_stage,  //(INPUT)
-                        int    end_stress_stage,    //(INPUT)
-                        float  G_nfact_pheno,       //(INPUT)
-                        float  G_swdef_pheno,       //(INPUT)
-                        float *G_dlt_tt)            //(OUTPUT) daily thermal time (oC)
-//===========================================================================
-
-/*  Purpose
-*     Growing degree day (thermal time) is calculated. Daily thermal time is reduced
-*     if water or nitrogen stresses occur.
-*
-*  Mission Statement
-*   Calculate today's thermal time, %11.
-*
-*  Notes
-*     Eight interpolations of the air temperature are
-*     calculated using a three-hour correction factor.
-*     For each air three-hour air temperature, a value of growing
-*     degree day is calculated.  The eight three-hour estimates
-*     are then averaged to obtain the daily value of growing degree
-*     days.
-
-*  Changes
-*        240498 nih specified and programmed
-*        19/5/2003 ad converted to BC++
-*/
-
-   {
-   // thermal time for the day (deg day)
-   float dly_therm_time = linint_3hrly_temp (G_maxt, G_mint, C_x_temp, C_y_tt, C_num_temp);
-
-   if (stage_is_between (start_stress_stage, end_stress_stage,G_current_stage))
-      {
-      *G_dlt_tt = dly_therm_time *  min(G_swdef_pheno, G_nfact_pheno);
-      }
-   else
-      {
-      *G_dlt_tt = dly_therm_time;
-      }
-   }
-
-
-//===========================================================================
-float crop_phase_tt(float G_dlt_tt,          //(INPUT)  daily thermal time (growing de
-                    float *G_phase_tt,       //(INPUT)  Cumulative growing degree days
-                    float *G_tt_tot,         //(INPUT)  the sum of growing degree days
-                    float current_stage)          //(INPUT) stage number
-//===========================================================================
-
-/*  Purpose
-*       Return fraction of thermal time we are through the current
-*       phenological phase (0-1)
-*
-*  Mission statement
-*   the fractional progress through growth stage %4
-*
-*  Changes
-*     010994 jngh specified and programmed
-*     19/5/2003 ad converted to BC++
-*/
-
-   {
-   //  Local Variables
-   int stage_no;
-   float dividend;
-   float divisor;
-   //Implementation Section ----------------------------------
-   stage_no = int (current_stage);
-
-   //assert(stage_no >= 0 && stage_no < max_stage);
-   dividend = G_tt_tot[stage_no-1] + G_dlt_tt;
-   divisor = G_phase_tt[stage_no-1];
-   return (divide (dividend, divisor, 1.0));
-   }
-
-//===========================================================================
-void crop_devel( float g_phase_devel,        //(INPUT)  development of current phase (
-                 float *g_dlt_stage,           //(OUTPUT) change in growth stage
-                 float *g_current_stage)       //(INPUT/OUTPUT) new stage no.
-//===========================================================================
-
-/*  Purpose
-*     Determine the curent stage of development.
-*
-*  Mission statement
-*   Determine the current stage of crop development.
-*
-*  Changes
-*     21/5/2003 ad converted to BC++
-*     010994 jngh specified and programmed
-*  Return New Stage
-*/
-
-   {
-   //mechanical operation - not to be changed
-
-   // calculate the new delta and the new stage
-   float new_stage = floor(*g_current_stage) + g_phase_devel;
-   *g_dlt_stage = new_stage - *g_current_stage;
-
-   if (g_phase_devel >= 1.0)
-      *g_current_stage = floor((*g_current_stage) + 1.0);
-   else
-      *g_current_stage = new_stage;
-   }
-#endif
-
 //+  Purpose
 //     Calculate min and max crown temperatures.
 void crop_crown_temp_nwheat( float tempmx        //Daily maximum temperature of the air (C)
@@ -2229,431 +1632,7 @@ void crop_crown_temp_nwheat( float tempmx        //Daily maximum temperature of 
         }
    }
 
-#if 0
-//==========================================================================
-void cproc_phenology1 (float  *G_previous_stage,         //   OUTPUT
-                       float  *G_current_stage,          //   OUTPUT
-                       int    sowing_stage,              //   IN
-                       int    germ_stage,                //   IN
-                       int    end_development_stage,     //   IN
-                       int    start_stress_stage,        //   IN
-                       int    end_stress_stage,          //   IN
-                       int    max_stage,                 //   IN
-                       int    C_num_temp,                //   IN
-                       float *C_x_temp,                  //   IN
-                       float *C_y_tt,                   //    IN
-                       float  G_maxt,                    //   IN
-                       float  G_mint,                    //   IN
-                       float  G_nfact_pheno,             //   IN
-                       float  G_swdef_pheno,             //   IN
-                       float  C_pesw_germ,               //   IN
-                       float *C_fasw_emerg,             //    (INPUT)
-                       float *C_rel_emerg_rate,         //    (INPUT)
-                       int    C_num_fasw_emerg,          //   (INPUT)
-                       float *G_dlayer,                 //    IN
-                       int    max_layer,                 //   IN
-                       float  G_sowing_depth,            //   IN
-                       float *G_sw_dep,                 //    IN
-                       float *G_dul_dep,                //    IN
-                       float *P_ll_dep,                 //    IN
-                       float *G_dlt_tt,                 //    OUT
-                       float *G_phase_tt,               //    OUT
-                       float *G_phase_devel,             //   OUT
-                       float *G_dlt_stage,              //    OUT
-                       float *G_tt_tot,                 //    OUT
-                       float *G_days_tot)               //    OUT
-//===========================================================================
-
-/*  Purpose
-*     Use temperature, photoperiod and genetic characteristics
-*     to determine when the crop begins a new growth phase.
-*     The initial daily thermal time and height are also set.
-*
-*  Mission Statement
-*   Calculate crop phenological development using thermal time targets.
-*
-*  Changes
-*     240498 nih specified and programmed
-*     19/5/2003 ad converted to BC++
-*
-*/
-   {
-   // Implementation Section ----------------------------------
-   *G_previous_stage = *G_current_stage;
-
-   // get thermal times
-   crop_thermal_time(C_num_temp, C_x_temp, C_y_tt, *G_current_stage, G_maxt,
-         G_mint, start_stress_stage, end_stress_stage, G_nfact_pheno, G_swdef_pheno,
-         G_dlt_tt);
-
-   crop_phase_devel(sowing_stage, germ_stage, end_development_stage, C_pesw_germ,
-         C_fasw_emerg, C_rel_emerg_rate, C_num_fasw_emerg, *G_current_stage,
-         G_days_tot, G_dlayer, max_layer, G_sowing_depth, G_sw_dep, G_dul_dep,
-         P_ll_dep, *G_dlt_tt, G_phase_tt, G_tt_tot, G_phase_devel);
-
-   crop_devel(max_stage, *G_phase_devel, G_dlt_stage, G_current_stage);
-
-   // update thermal time states and day count
-   accumulate (*G_dlt_tt, G_tt_tot, *G_previous_stage - 1.0, *G_dlt_stage);
-   accumulate (1.0,     G_days_tot, *G_previous_stage - 1.0, *G_dlt_stage);
-   }
-
-
-//=======================================================================
-void crop_germ_dlt_tt(float *C_fasw_emerg,        //(INPUT)  plant extractable soil water i
-                      float *C_rel_emerg_rate,    //(INPUT)
-                      int    C_num_fasw_emerg,    //(INPUT)
-                      float  G_current_stage,     //(INPUT)  current phenological stage
-                      int    germ_phase,          //(INPUT)
-                      float *G_dlayer,            //(INPUT)  thickness of soil layer I (mm)
-                      int    max_layer,           //(INPUT)
-                      float  G_sowing_depth,      //(INPUT)  sowing depth (mm)
-                      float *G_sw_dep,            //(INPUT)  soil water content of layer L
-                      float *P_ll_dep,            //(INPUT)  lower limit of plant-extractab
-                      float *G_dul_dep,           //(INPUT)  drained upper limit(mm)
-                      float *G_dlt_tt)            //(IN/OUTPUT)
-//===========================================================================
-
-/*  Purpose
-*      Calculate daily thermal time for germination to emergence
-*      limited by soil water availability in the seed layer.
-*
-*  Mission statement
-*   Calculate emergence adjusted thermal time (based on moisture status)
-*
-*  Changes
-*     030498 igh  changed c_num_fasw_emerg to integer
-*     19/5/2003 ad converted to BC++
-*/
-   {
-   //  Local Variables
-   int layer_no_seed;            // seedling layer number
-   float fasw_seed;
-   float rel_emerg_rate;         // relative emergence rate (0-1)
-   int current_phase;
-
-   current_phase = (int)G_current_stage;
-
-   if (current_phase == germ_phase)
-      {
-      layer_no_seed = find_layer_no (G_sowing_depth, G_dlayer, max_layer);
-      fasw_seed = divide (G_sw_dep[layer_no_seed] - P_ll_dep[layer_no_seed],
-                          G_dul_dep[layer_no_seed] - P_ll_dep[layer_no_seed], 0.0);
-      fasw_seed = bound (fasw_seed, 0.0, 1.0);
-
-      rel_emerg_rate = linear_interp_real (fasw_seed, C_fasw_emerg,
-                                           C_rel_emerg_rate, C_num_fasw_emerg);
-
-      *G_dlt_tt = *G_dlt_tt * rel_emerg_rate;
-      }
-   else
-      {
-      //*G_dlt_tt = *G_dlt_tt;
-      }
-   }
-
-
-//+  Purpose
-//       Calculate number of vernal days from daily temperature
-
-//+  Mission Statement
-//     Calculate number of vernal days from daily temperature
-
-//+  Changes
-//       101299 nih specified and programmed
-float legnew_vernal_days(float  g_maxt
-                               ,float  g_mint
-                               ,float  *c_x_vernal_temp
-                               ,float  *c_y_vernal_days
-                               ,int    c_num_vernal_temp) {
-
-
-    //+  Local Variables
-    float av_temp;
-    float result;
-    //- Implementation Section ----------------------------------
-
-
-    av_temp = (g_maxt + g_mint)/2.0;
-
-    result = linear_interp_real(av_temp
-                                ,c_x_vernal_temp
-                                ,c_y_vernal_days
-                                ,c_num_vernal_temp);
-
-    return result;
-    }
-// ==================================================================
-// Nwheat Phenology model taken from CROPMOD module
-// ==================================================================
-
-//+  Purpose
-//     Use temperature, photoperiod and genetic characteristics
-//     to determine when the crop begins a new growth phase.
-//     The initial daily thermal time and height are also set.
-
-//+  Mission Statement
-//   Calculate crop phenological development using thermal time targets.
-
-//+  Changes
-//     240498 nih specified and programmed
-//     240599 ew reprogrammed to take out the stress in thermal time
-void cproc_phenology_nw (
-     float *g_previous_stage
-    ,float *g_current_stage
-    ,int   sowing_stage
-    ,int   germ_stage
-    ,int   end_development_stage
-    ,int   start_stress_stage
-    ,int   end_stress_stage
-    ,int   end_flower_stage
-    ,int   max_stage
-    ,int   c_num_temp
-    ,float *c_x_temp
-    ,float *c_y_tt
-    ,float g_maxt
-    ,float g_mint
-    ,float g_nfact_pheno
-    ,float g_swdef_pheno
-    ,float g_swdef_pheno_flower
-    ,float g_swdef_pheno_grainfill
-    ,float g_vern_eff
-    ,float g_photop_eff
-    ,float c_pesw_germ
-    ,float *c_fasw_emerg            // (INPUT)
-    ,float *c_rel_emerg_rate        // (INPUT)
-    ,int   c_num_fasw_emerg         // (INPUT)
-    ,float *g_dlayer
-    ,int   max_layer
-    ,float g_sowing_depth
-    ,float *g_sw_dep
-    ,float *g_dul_dep
-    ,float *p_ll_dep
-    ,float *g_dlt_tt
-    ,float *g_phase_tt
-    ,float *g_phase_devel
-    ,float *g_dlt_stage
-    ,float *g_tt_tot
-    ,float *g_days_tot
-    ) {
-
-//+  Local variables
-    float fstress;
-    float g_dlt_tt_phenol;
-
-    float tempcx;                                 //maximum crown temp
-    float tempcn;                                 //minimum crown temp
-
-//- Implementation Section ----------------------------------
-
-    *g_previous_stage = *g_current_stage;
-
-// get thermal times
-    //c==============================================================================;
-    //c        call crop_thermal_time_nw (;
-    //c     :                             g_maxt,;
-    //c     :                             g_mint,;
-    //c     :                             0.0,;
-    //c     :                             26.0,;
-    //c     :                             34.0,;
-    //c     :                             g_dlt_tt);
-
-    //c==============================================================================;
-//USE CROWN TEMPERATURE AND THREE HOURS THERMAL TIME
-
-    crop_crown_temp_nwheat (g_maxt,g_mint,0.0,&tempcx,&tempcn);
-
-    *g_dlt_tt = linear_interp_real((tempcx+tempcn)/2.0
-                                  ,c_x_temp
-                                  ,c_y_tt
-                                  ,c_num_temp);
-
-    //c         call crop_thermal_time;
-    //c     :               (;
-    //c     :                c_num_temp;
-    //c     :              , c_x_temp;
-    //c     :              , c_y_tt;
-    //c     :              , g_current_stage;
-    //c     :              , tempcx           ;     //G_maxt
-    //c     :              , tempcn           ;     //G_mint
-    //c     :              , start_stress_stage;
-    //c     :              , end_stress_stage;
-    //c     :              , 1.0              ;     //G_nfact_pheno
-    //c     :              , 1.0              ;     //G_swdef_pheno
-    //c     :              , g_dlt_tt;
-    //c     :               );
-
-    //c==============================================================================;
-
-    if (stage_is_between (start_stress_stage,end_stress_stage, *g_current_stage))
-        fstress = min (g_swdef_pheno, g_nfact_pheno);
-    else if (stage_is_between (end_stress_stage,end_flower_stage, *g_current_stage))
-        fstress = g_swdef_pheno_flower;
-    else if (stage_is_between (end_flower_stage,end_development_stage, *g_current_stage))
-        fstress = g_swdef_pheno_grainfill;
-    else
-        fstress = 1.0;
-
-
-    //g_dlt_tt        = g_dlt_tt ;                      //*fstress Enli deleted the stress
-
-    g_dlt_tt_phenol = (*g_dlt_tt) * fstress * min(g_vern_eff, g_photop_eff);
-
-    crop_phase_devel (sowing_stage
-                     , germ_stage
-                     , end_development_stage
-                     , c_pesw_germ
-                     , c_fasw_emerg
-                     , c_rel_emerg_rate
-                     , c_num_fasw_emerg
-                     , *g_current_stage
-                     , g_days_tot
-                     , g_dlayer
-                     , max_layer
-                     , g_sowing_depth
-                     , g_sw_dep
-                     , g_dul_dep
-                     , p_ll_dep
-                     , g_dlt_tt_phenol
-                     , g_phase_tt
-                     , g_tt_tot
-                     , g_phase_devel);
-
-    crop_devel(max_stage
-               , *g_phase_devel
-               , g_dlt_stage
-               , g_current_stage);
-
-    // update thermal time states and day count
-    accumulate (g_dlt_tt_phenol, g_tt_tot, *g_previous_stage-1.0, *g_dlt_stage);
-    accumulate (1.0, g_days_tot, *g_previous_stage-1.0, *g_dlt_stage);
-    }
-
-
-
-void plant_phenology3 (float *g_previous_stage
-                             ,float *g_current_stage
-                             ,int   sowing_stage
-                             ,int   germ_stage
-                             ,int   end_flowering_stage
-                             ,int   end_development_stage
-                             ,int   start_stress_stage
-                             ,int   end_stress_stage
-                             ,int   max_stage
-                             ,int   c_num_temp
-                             ,float *c_x_temp
-                             ,float *c_y_tt
-                             ,float g_maxt
-                             ,float g_mint
-                             ,float g_nfact_pheno
-                             ,float g_swdef_pheno
-                             ,float g_swdef_pheno_flower
-                             ,float g_swdef_pheno_grainfill
-                             ,float c_pesw_germ
-                             ,float *c_fasw_emerg
-                             ,float *c_rel_emerg_rate
-                             ,int   c_num_fasw_emerg
-                             ,float *g_dlayer
-                             ,int   max_layer
-                             ,float g_sowing_depth
-                             ,float *g_sw_dep
-                             ,float *g_dul_dep
-                             ,float *p_ll_dep
-                             ,float *g_dlt_tt
-                             ,float *g_phase_tt
-                             ,float *g_phase_devel // OUT
-                             ,float *g_dlt_stage
-                             ,float *g_tt_tot
-                             ,float *g_days_tot)
-  {
-    //- Implementation Section ----------------------------------
-    *g_previous_stage = *g_current_stage;
-
-    if (stage_is_between(sowing_stage, end_stress_stage, *g_current_stage))
-       {
-       // get thermal times
-       crop_thermal_time(c_num_temp
-                    , c_x_temp
-                    , c_y_tt
-                    , *g_current_stage
-                    , g_maxt
-                    , g_mint
-                    , start_stress_stage
-                    , end_stress_stage
-                    , g_nfact_pheno
-                    , g_swdef_pheno
-                    , g_dlt_tt );
-       }
-    else if (stage_is_between(end_stress_stage, end_flowering_stage, *g_current_stage))
-       {
-       crop_thermal_time(c_num_temp
-                    , c_x_temp
-                    , c_y_tt
-                    , *g_current_stage
-                    , g_maxt
-                    , g_mint
-                    , start_stress_stage
-                    , end_flowering_stage
-                    , g_swdef_pheno_flower  //no nstress, so just repeat swdef stress here
-                    , g_swdef_pheno_flower
-                    , g_dlt_tt );
-       }
-    else if (stage_is_between(end_flowering_stage, end_development_stage, *g_current_stage))
-       {
-       crop_thermal_time(c_num_temp
-                    , c_x_temp
-                    , c_y_tt
-                    , *g_current_stage
-                    , g_maxt
-                    , g_mint
-                    , end_flowering_stage
-                    , end_development_stage
-                    , g_swdef_pheno_grainfill  //no nstress, so just repeat swdef stress here
-                    , g_swdef_pheno_grainfill
-                    , g_dlt_tt );
-       }
-    else
-       {
-       crop_thermal_time(c_num_temp
-                    , c_x_temp
-                    , c_y_tt
-                    , *g_current_stage
-                    , g_maxt
-                    , g_mint
-                    , start_stress_stage
-                    , end_stress_stage
-                    , g_nfact_pheno
-                    , g_swdef_pheno
-                    , g_dlt_tt );
-       }
-
-    crop_phase_devel(sowing_stage
-                       , germ_stage
-                       , end_development_stage
-                       , c_pesw_germ
-                       , c_fasw_emerg
-                       , c_rel_emerg_rate
-                       , c_num_fasw_emerg
-                       , *g_current_stage
-                       , g_days_tot
-                       , g_dlayer
-                       , max_layer
-                       , g_sowing_depth
-                       , g_sw_dep
-                       , g_dul_dep
-                       , p_ll_dep
-                       , *g_dlt_tt
-                       , g_phase_tt
-                       , g_tt_tot
-                       , g_phase_devel);
-    crop_devel(max_stage
-             , *g_phase_devel
-             , g_dlt_stage
-             , g_current_stage);
-}
-
 #endif
-
 /* Purpose
 *     returns the temperature for a 3 hour period.
 *      a 3 hourly estimate of air temperature

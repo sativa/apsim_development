@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
+
+#include <ComponentInterface/Component.h>
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
 #include "Plant.h"
@@ -277,8 +279,8 @@ void cproc_root_length_growth1(float  C_specific_root_length,      //   (INPUT) 
                                int    C_num_plant_rld,             //   (INPUT)                                                   
                                float *G_dul_dep,                   //   (INPUT)  drained upper limit soil water                   
                                float *G_sw_dep,                    //   (INPUT)  soil water content of layer L                    
-                               float *P_ll_dep,                    //   (INPUT)  lower limit of plant-extractab                   
-                               int    max_layer)                   //   (INPUT)  maximum number of soil laye                         
+                               float *P_ll_dep)                    //   (INPUT)  lower limit of plant-extractab                   
+
 //============================================================================
 
 /*  Purpose
@@ -308,7 +310,6 @@ void cproc_root_length_growth1(float  C_specific_root_length,      //   (INPUT) 
    float temp;
 
    // Implementation Section ----------------------------------
-   if (max_layer <= 0) { throw std::invalid_argument("max_layer is 0 in crop_root_length_growth1"); }
    
    float *rlv_factor = new float[max_layer];  // relative rooting factor for a layer
 
@@ -394,8 +395,7 @@ void cproc_root_length_init1 (float root_wt,
                               float c_specific_root_length, 
                               float g_root_depth, 
                               float *g_dlayer,
-                              float *g_root_length, 
-                              int   max_layer)
+                              float *g_root_length)
 //============================================================================
 
 /*  Purpose
@@ -437,8 +437,7 @@ void crop_root_dist(float *G_dlayer,          //(INPUT)  thickness of soil layer
                     float *G_root_length,     //(INPUT)                                
                     float G_root_depth,       //(INPUT)  depth of roots (mm)           
                     float *root_array,        //(OUTPUT) array to contain distributed material             
-                    float root_sum,           //(INPUT) Material to be distributed                   
-                    int   max_layer)          // (INPUT) max number of soil layers
+                    float root_sum)           //(INPUT) Material to be distributed                   
 //=========================================================================
 /*  Purpose
 *       Distribute root material over profile based upon root
@@ -478,8 +477,8 @@ void cproc_root_length_senescence1(float  C_specific_root_length,    //(INPUT)  
                                    float  G_dlt_root_dm_senesced,    //(INPUT)  plant biomass senescence  (g/m^2)
                                    float *G_root_length,             //(INPUT)                                                           
                                    float  G_root_depth,              //(INPUT)  depth of roots (mm)
-                                   float *G_dlt_root_length_senesced,//(OUTPUT) root length lost from each layer (mm/mm^2)   
-                                    int   max_layer)                 // (INPUT)  maximum layer number 
+                                   float *G_dlt_root_length_senesced)//(OUTPUT) root length lost from each layer (mm/mm^2)   
+
 //=============================================================================
 
 /*  Purpose
@@ -507,7 +506,7 @@ void cproc_root_length_senescence1(float  C_specific_root_length,    //(INPUT)  
    senesced_length = G_dlt_root_dm_senesced / sm2smm * C_specific_root_length;
 
    crop_root_dist(G_dlayer,G_root_length, G_root_depth, G_dlt_root_length_senesced,
-                  senesced_length, max_layer);
+                  senesced_length);
    }
 
 //==========================================================================
@@ -555,10 +554,10 @@ void crop_root_redistribute (float *root_length,       //  root length (mm/mm^2)
    float layer_bottom;               // depth to bottom of layer (mm)
 
    // Implementation Section ----------------------------------
-   int max_layer = max(nlayr_old,nlayr_new); 
-   if (max_layer <= 0) {throw std::invalid_argument("max_layer 0 in crop_root_length_growth1");}
-   float *cum_root_length = new float[max_layer];  //Cum Root length with depth (mm/mm2)
-   float *cum_root_depth = new float[max_layer];   //Cum Root depth (mm)
+   int maxLayer = max(nlayr_old,nlayr_new); 
+   if (maxLayer <= 0) {throw std::invalid_argument("max_layer 0 in crop_root_length_growth1");}
+   float *cum_root_length = new float[maxLayer];  //Cum Root length with depth (mm/mm2)
+   float *cum_root_depth = new float[maxLayer];   //Cum Root depth (mm)
 
    // Identify key layers
    // -------------------
@@ -633,8 +632,7 @@ void cproc_root_length_growth_new (
     ,int    c_num_plant_rld                        // (INPUT)
     ,float *g_dul_dep                              // (INPUT)  drained upper limit soil water
     ,float *g_sw_dep                               // (INPUT)  soil water content of layer L
-    ,float *p_ll_dep                               // (INPUT)  lower limit of plant-extractab
-    ,int    max_layer)                             // (INPUT)  maximum number of soil laye
+    ,float *p_ll_dep)                               // (INPUT)  lower limit of plant-extractab
     {
      //+  Local Variables
     int   deepest_layer;                          // deepest rooted later

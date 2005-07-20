@@ -63,9 +63,7 @@ class pPhase
      bool  isEmpty(void) const {return empty;};
    };
 
-bool operator == (const pPhase &a, const pPhase &b) {
-   return (a.name() == b.name());
-};
+bool operator == (const pPhase &a, const pPhase &b); 
 
 // A collection of phases (eg leaf growth phases, grain filling phases)
 class compositePhase {
@@ -81,7 +79,7 @@ class compositePhase {
 };
 
 // An abstract phenology class.
-class PlantPhenology {
+class PlantPhenology : public plantThing {
  private:
  protected:
    // The plant to talk to for "plant" things
@@ -117,15 +115,14 @@ class PlantPhenology {
    void get_tt_tot(protocol::Component *, protocol::QueryValueData &);
    void get_days_tot(protocol::Component *, protocol::QueryValueData &);
 
-   virtual void zeroStateVariables(void);
 
  public:
    PlantPhenology(plantInterface *p) {plant = p;};
    virtual void writeCultivarInfo (PlantComponent *)=0;
    virtual void initialise (PlantComponent *, const string &);                // read structure etc from constants
    virtual void doRegistrations (protocol::Component *);
-   virtual void readSpeciesParameters (PlantComponent *, vector<string> &);   // read species parameters
-   virtual void readCultivarParameters (PlantComponent *, const string &) {}; // read cv parameters from sowing line
+   virtual void readSpeciesParameters (protocol::Component *, vector<string> &);   // read species parameters
+   virtual void readCultivarParameters (protocol::Component *, const string &) {}; // read cv parameters from sowing line
 
    virtual void prepare(const environment_t &sw);
    virtual void process(const environment_t &, const pheno_stress_t &) = 0;
@@ -154,6 +151,10 @@ class PlantPhenology {
    virtual void onRemoveBiomass(float removeBiomPheno){}; // XX arg should be protocol::Variant &v
 
    virtual float get_dlt_tt(void) = 0;                          // XX remove when leaf number development is finished
+   void onPlantEvent(const string &) {};
+
+   virtual void zeroAllGlobals(void);
+   virtual void zeroDeltas(void);
 };
 
 class WheatPhenology : public PlantPhenology {
@@ -192,7 +193,6 @@ class WheatPhenology : public PlantPhenology {
 
    void vernalisation (const environment_t &);
    void setupTTTargets(void);
-   void zeroStateVariables(void);
 
    void get_zadok_stage(protocol::Component *system, protocol::QueryValueData &qd);
 
@@ -201,8 +201,8 @@ class WheatPhenology : public PlantPhenology {
 
    void initialise (PlantComponent *, const string &);              // read structure etc from constants
    void doRegistrations (protocol::Component *);
-   void readSpeciesParameters (PlantComponent *, vector<string> &); // read species parameters
-   void readCultivarParameters (PlantComponent *, const string &);  // read cv parameters from sowing line
+   void readSpeciesParameters (protocol::Component *, vector<string> &); // read species parameters
+   void readCultivarParameters (protocol::Component *, const string &);  // read cv parameters from sowing line
    void writeCultivarInfo (PlantComponent *);
 
    void prepare(const environment_t &sw);
@@ -216,6 +216,9 @@ class WheatPhenology : public PlantPhenology {
    void onRemoveBiomass(float removeBiomPheno){};
 
    float get_dlt_tt(void) {return dlt_tt;};                          // XX remove when leaves are finished
+
+   void zeroAllGlobals(void);
+   void zeroDeltas(void);
 };
 
 class LegumePhenology : public PlantPhenology {
@@ -267,7 +270,6 @@ class LegumePhenology : public PlantPhenology {
    // private members
    void setupTTTargets(void);
    void updateTTTargets(const environment_t &e);
-   void zeroStateVariables(void);
 
  public:
    LegumePhenology(plantInterface *p) : PlantPhenology(p) {};
@@ -277,8 +279,8 @@ class LegumePhenology : public PlantPhenology {
 
    void doRegistrations (protocol::Component *);
    void initialise (PlantComponent *, const string &);              // read structure etc from constants
-   void readSpeciesParameters (PlantComponent *, vector<string> &); // read species parameters
-   void readCultivarParameters (PlantComponent *, const string &);  // read cv parameters from sowing line
+   void readSpeciesParameters (protocol::Component *, vector<string> &); // read species parameters
+   void readCultivarParameters (protocol::Component *, const string &);  // read cv parameters from sowing line
    void writeCultivarInfo (PlantComponent *);
 
    void onSow(unsigned &, unsigned &, protocol::Variant &v);
@@ -288,6 +290,9 @@ class LegumePhenology : public PlantPhenology {
    void onRemoveBiomass(float removeBiomPheno);
 
    float get_dlt_tt(void) {return dlt_tt;};                          // XX remove when leaves are finished
+
+   void zeroAllGlobals(void);
+   void zeroDeltas(void);
 };
 
 class LegumeCohortPhenology : public PlantPhenology {

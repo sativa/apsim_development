@@ -38,8 +38,9 @@ using namespace std;
 
 #include "PlantLibrary.h"
 #include "PlantComponent.h"
+#include "PlantParts.h"
+#include "PlantPhenology.h"
 #include "Plant.h"
-#include "PlantP.h"
 
 
 static const char* floatType =        "<type kind=\"single\"/>";
@@ -50,217 +51,8 @@ void push_routine (const char *) {};
 void pop_routine (const char *) {};
 
 
-// default constructor
-// 	initialise data members.
-PlantP::PlantP(Plant *P)  			           // member initialisation
-{
-    plant = P;
-    zero_variables();
- //   fprintf (stdout, "constructor\n");
-}
-
-
-// copy constructor
-//	copy data members of object
-PlantP::PlantP(const PlantP &PlantP)       // member initialisation
-{
-	throw std::invalid_argument("Copy constructor NI for plantp");
-}
-
-
-// Assigment operator
-//	assign data members of object
-const PlantP &PlantP::operator=(const PlantP &other)
-{
- 	throw std::invalid_argument("Assignment operator NI for plantp");
-}
-
-// destructor
-PlantP::~PlantP()
-{
-}
-
-// Register Methods & Events
-void PlantP::doIDs(PlantComponent *systemInterface)
-{
-    // we want to send these events out
-    ids.add_residue_p = systemInterface->addRegistration(RegistrationType::event,
-                                    "add_residue_p", "",
-                                    "", "");
-    ids.incorp_fom_p = systemInterface->addRegistration(RegistrationType::event,
-                                    "incorp_fom_p", "",
-                                    "", "");
-    // we will want this variable
-    // ids.layered_p_uptake = systemInterface->addRegistration(RegistrationType::get,
-    //                                "layered_p_uptake", floatType,
-    //                                "", "");
-}
-
-// Register Gets & Sets
-void PlantP::doRegistrations(protocol::Component *systemInterface)
-   {
-#define setupGetVar systemInterface->addGettableVar
-#define setupGetFunction(name,type,length,address,units,desc) {\
-   boost::function2<void, protocol::Component *, protocol::QueryValueData &> fn;\
-   fn = boost::bind(address, this, _1, _2); \
-   systemInterface->addGettableVar(name, type, length, fn, units, desc);\
-   }
-
-   setupGetVar("p_green", max_part,
-               g.part_p_green,
-               "g/m^2", "P content of plant parts");
-
-   setupGetVar("p_sen", max_part,
-               g.part_p_sen,
-               "g/m^2", "P content of plant parts");
-
-   setupGetFunction("p_demand", protocol::DTsingle, false,
-                    &PlantP::get_p_demand,
-                    "g/m^2","");
-
-   setupGetVar("pfact_photo",
-               g.pfact_photo,
-               "", "P factor in photosynthesis");
-
-   setupGetVar("pfact_pheno",
-               g.pfact_pheno,
-               "", "P factor in phenology");
-
-   setupGetVar("pfact_expansion",
-               g.pfact_expansion,
-               "", "P factor in leaf expansion");
-
-   setupGetVar("pfact_grain",
-               g.pfact_grain,
-               "", "P factor in grain");
-
-   setupGetFunction("p_stress_photo", protocol::DTsingle, false,
-                    &PlantP::get_pstress_photo,
-                    "", "P stress in photosynthesis");
-
-   setupGetFunction("p_stress_pheno", protocol::DTsingle, false,
-                    &PlantP::get_pstress_pheno,
-                    "", "P stress in phenology");
-
-   setupGetFunction("p_stress_expansion", protocol::DTsingle, false,
-                    &PlantP::get_pstress_expansion,
-                    "", "P stress in leaf expansion");
-
-   setupGetFunction("p_stress_expan", protocol::DTsingle, false,
-                    &PlantP::get_pstress_expansion,
-                    "", "P stress in leaf expansion");
-
-   setupGetFunction("p_stress_grain", protocol::DTsingle, false,
-                    &PlantP::get_pstress_grain,
-                    "", "P stress in grain");
-
-   setupGetFunction("biomass_p", protocol::DTsingle, false,
-                    &PlantP::get_biomass_p,
-                    "g/m^2","P in biomass");
-
-   setupGetFunction("p_uptake", protocol::DTsingle, false,
-                    &PlantP::get_biomass_p,
-                    "g/m^2","P  uptake");
-
-   setupGetFunction("green_biomass_p", protocol::DTsingle, false,
-                    &PlantP::get_green_biomass_p,
-                    "g/m^2","P in green biomass");
-
-   setupGetFunction("grain_p", protocol::DTsingle, false,
-                    &PlantP::get_grain_p,
-                    "g/m^2","P in grain");
-
-   setupGetVar("leaf_p",
-               g.part_p_green[leaf],
-               "g/m^2","P in leaf");
-
-   setupGetVar("stem_p",
-               g.part_p_green[stem],
-               "g/m^2","P in stem");
-
-   setupGetVar("root_p",
-               g.part_p_green[root],
-               "g/m^2","P in roots");
-
-   setupGetVar("deadleaf_p",
-               g.part_p_sen[leaf],
-               "g/m^2","P in dead leaf");
-
-   setupGetFunction("head_p", protocol::DTsingle, false,
-                    &PlantP::get_head_p,
-                    "g/m^2","P in head");
-
-   setupGetFunction("pod_p", protocol::DTsingle, false,
-                    &PlantP::get_pod_p,
-                    "g/m^2","P in pod shell");
-
-   setupGetVar("p_senesced", max_part,
-               g.part_p_sen,
-               "g/m^2","P in senesced parts");
-
-   setupGetVar("p_dead", max_part,
-               g.part_p_dead,
-               "g/m^2","P in dead parts");
-
-   setupGetVar("dlt_p_green", max_part,
-               g.dlt_part_p_green,
-               "g/m^2","dlt P parts");
-
-   setupGetVar("dlt_p_retrans", max_part,
-               g.dlt_part_p_retrans,
-               "g/m^2","dlt P parts");
-
-// john: this was missing?
-   setupGetVar("dlt_p_det", max_part,
-               g.dlt_part_p_det,
-               "g/m^2","dlt P detached");
-
-   setupGetVar("dlt_p_detached",  max_part,
-               g.dlt_part_p_det,
-               "g/m^2","dlt P detached");
-
-   setupGetVar("dlt_p_dead", max_part,
-               g.dlt_part_p_dead,
-               "g/m^2","dlt P in dead");
-
-   setupGetVar("dlt_p_sen", max_part,
-               g.dlt_part_p_sen,
-               "g/m^2","dlt P in senesced");
-
-   setupGetFunction("p_conc_stover", protocol::DTsingle, false,
-                    &PlantP::get_p_conc_stover,
-                    "%","P in stover");
-
-   setupGetFunction("p_conc_leaf", protocol::DTsingle, false,
-                    &PlantP::get_p_conc_leaf,
-                    "%","P in leaf");
-
-   setupGetFunction("p_conc_stem", protocol::DTsingle, false,
-                    &PlantP::get_p_conc_stem,
-                    "%","P in stem");
-
-   setupGetFunction("p_conc_grain", protocol::DTsingle, false,
-                    &PlantP::get_p_conc_grain,
-                    "%","P in grain");
-
-   setupGetFunction("p_grain_pcnt", protocol::DTsingle, false,
-                    &PlantP::get_p_conc_grain,
-                    "%","P in grain");
-
-   setupGetFunction("p_uptake_stover", protocol::DTsingle, false,
-                    &PlantP::get_p_uptake_stover,
-                    "%","P in stover");
-
-   setupGetVar("grain_p_demand",
-               g.part_demand[meal],
-               "g/m^2","P demand of grain");
-
-#undef setupGetVar
-#undef setupGetFunction
-   }
-
 // =======================================
-void PlantP::zero_variables ()
+void Plant::zero_p_variables ()
 {
 //+  Purpose
 //     Set all variables in this module to zero.
@@ -269,38 +61,35 @@ void PlantP::zero_variables ()
 //     <insert here>
 
 //+  Constant Values
-   const char*  my_name = "PlantP::zero_variables";
+   const char*  my_name = "Plant::zero_p_variables";
 //- Implementation Section ----------------------------------
       push_routine (my_name);
-
       // Parameters
       // ==========
 
       // Globals
       // =======
-     g.growth_stage = 0.0;      // Reals
-      fill_real_array (g.part_p_green, 0.0, max_part);
-      fill_real_array (g.dlt_part_p_green, 0.0, max_part);
-      fill_real_array (g.part_p_sen, 0.0, max_part);
-      fill_real_array (g.part_p_dead, 0.0, max_part);
-      fill_real_array (g.dlt_part_p_dead, 0.0, max_part);
-      fill_real_array (g.dlt_part_p_sen, 0.0, max_part);
-      fill_real_array (g.dlt_part_p_det, 0.0, max_part);
-      fill_real_array (g.dlt_part_p_dead_det, 0.0, max_part);
-      fill_real_array (g.dlt_part_p_retrans, 0.0, max_part);
-      fill_real_array (g.part_demand, 0.0, max_part);
+      fill_real_array (g.p_green, 0.0, max_part);
+      fill_real_array (g.p_sen, 0.0, max_part);
+      fill_real_array (g.p_dead, 0.0, max_part);
+      fill_real_array (g.dlt_p_green, 0.0, max_part);
+      fill_real_array (g.dlt_p_dead, 0.0, max_part);
+      fill_real_array (g.dlt_p_sen, 0.0, max_part);
+      fill_real_array (g.dlt_p_det, 0.0, max_part);
+      fill_real_array (g.dlt_p_dead_det, 0.0, max_part);
+      fill_real_array (g.dlt_p_retrans, 0.0, max_part);
+      fill_real_array (g.p_demand, 0.0, max_part);
 
-      g.part_names.clear();
-
-      g.num_parts = 0;           // Integers
 
       // Constants
       // =========
-      c.stress_determinants.clear();
       fill_real_array (c.x_p_stage_code, 0.0, max_part);  // Reals
 
       for (int part = 0; part < max_part; part++)
       {
+         c.p_stress_determinants[part] = false;
+         c.p_yield_parts[part] = false;
+         c.p_retrans_parts[part] = false;
          fill_real_array (c.y_p_conc_max[part], 0.0, max_table);
       }
       for (int part = 0; part < max_part; part++)
@@ -326,153 +115,11 @@ void PlantP::zero_variables ()
  }
 
 
-// ====================================================================
-//     PlantP_Send_my_variable (const char *Variable_name)
 
-
-//+  Purpose
-//      Return the value of one of our variables to caller
-//      Called by function pointer registered through addGettableVar()
-void PlantP::get_p_demand(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float p_demand = sum_real_array(g.part_demand, max_part);
-    systemInterface->sendVariable(qd, p_demand);   //(g/m^2
-}
-
-void PlantP::get_pfact_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    systemInterface->sendVariable(qd, g.pfact_grain);  //()
-}
-
-void PlantP::get_pstress_photo(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float pstress_photo;
-    if (g.pfact_photo > 0.0)
-       pstress_photo = 1.0 - g.pfact_photo;
-    else
-       pstress_photo = 0.0;
-    systemInterface->sendVariable(qd, pstress_photo);  //()
-}
-
-void PlantP::get_pstress_pheno(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float pstress_pheno;
-    if (g.pfact_pheno > 0.0)
-       pstress_pheno = 1.0 - g.pfact_pheno;
-    else
-       pstress_pheno = 0.0;
-    systemInterface->sendVariable(qd, pstress_pheno);  //()
-}
-
-void PlantP::get_pstress_expansion(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float pstress_expansion;
-    if (g.pfact_expansion > 0.0)
-       pstress_expansion = 1.0 - g.pfact_expansion;
-    else
-       pstress_expansion = 0.0;
-    systemInterface->sendVariable(qd, pstress_expansion);  //()
-}
-
-void PlantP::get_pstress_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float pstress_grain;
-    if (g.pfact_grain > 0.0)
-       pstress_grain = 1.0 - g.pfact_grain;
-    else
-       pstress_grain = 0.0;
-    systemInterface->sendVariable(qd, pstress_grain);  //()
-}
-
-void PlantP::get_biomass_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float biomass_p = sum_real_array (g.part_p_green, max_part) - g.part_p_green[root]
-                    + sum_real_array (g.part_p_sen, max_part)   - g.part_p_sen[root]
-                    + sum_real_array (g.part_p_dead, max_part)  - g.part_p_dead[root];
-    systemInterface->sendVariable(qd, biomass_p);  //()
-}
-
-void PlantP::get_green_biomass_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float biomass_p = sum_real_array (g.part_p_green, max_part) - g.part_p_green[root];
-    systemInterface->sendVariable(qd, biomass_p);  //()
-}
-
-void PlantP::get_grain_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float grain_p = g.part_p_green[meal] + g.part_p_green[oil];
-    systemInterface->sendVariable(qd, grain_p);  //()
-}
-
-void PlantP::get_pod_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    systemInterface->sendVariable(qd, g.part_p_green[pod]);  //()
-}
-
-void PlantP::get_head_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    systemInterface->sendVariable(qd, g.part_p_green[pod] + g.part_p_green[meal]);  //()
-}
-
-void PlantP::get_p_conc_stover(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float p_conc_stover = divide (g.part_p_green[leaf] + g.part_p_green[stem] + g.part_p_green[pod]
-                                , plant->g.dm_green[leaf] + plant->g.dm_green[stem] + plant->g.dm_green[pod]
-                                , 0.0) * 100.0 ;
-    systemInterface->sendVariable(qd, p_conc_stover);  //()
-}
-
-void PlantP::get_p_conc_leaf(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float p_conc_leaf = divide (g.part_p_green[leaf]
-                              , plant->g.dm_green[leaf]
-                              , 0.0) * 100.0 ;
-    systemInterface->sendVariable(qd, p_conc_leaf);  //()
-}
-
-void PlantP::get_p_conc_stem(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float p_conc_stem = divide (g.part_p_green[stem]
-                              , plant->g.dm_green[stem]
-                              , 0.0) * 100.0 ;
-    systemInterface->sendVariable(qd, p_conc_stem);  //()
-}
-
-void PlantP::get_p_conc_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float p_conc_grain = divide (g.part_p_green[meal] + g.part_p_green[oil]
-                               , plant->g.dm_green[meal] + plant->g.dm_green[oil]
-                               , 0.0) * 100.0;
-    systemInterface->sendVariable(qd, p_conc_grain);  //()
-}
-
-void PlantP::get_p_uptake_stover(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float p_uptake_stover = g.part_p_green[leaf]+g.part_p_green[stem]+g.part_p_green[pod];
-    systemInterface->sendVariable(qd, p_uptake_stover);  //()
-}
 
 
 //     ===========================================================
-void PlantP::PlantP_read_param ()
-{
-   //+  Purpose
-   //       Read all module parameters.
-
-   //+  Changes
-   //     <insert here>
-
-   //+  Constant Values
-   const char*  my_name = "PlantP_read_param";
-   //- Implementation Section ----------------------------------
-   push_routine (my_name);
-
-   pop_routine  (my_name);
-}
-
-
-//     ===========================================================
-void PlantP::read_constants (PlantComponent *systemInterface)
+void Plant::read_p_constants (PlantComponent *systemInterface)
 {
 //+  Purpose
 //       Read all module constants.
@@ -484,88 +131,103 @@ void PlantP::read_constants (PlantComponent *systemInterface)
 //+  Local Variables
     int    numvals;                  // number of values read
     int    num_sections;             // number of sections to search
-    int    part;
     float  temp[max_table];
     string scratch;
+    vector<string> parts;
+    vector<string>::iterator part;
 //- Implementation Section ----------------------------------
 
     push_routine (my_name);
 
-    scratch = systemInterface->readParameter (section_name, "stress_determinants");
-    Split_string(scratch, " ", c.stress_determinants);
-    scratch = systemInterface->readParameter (section_name, "yield_parts");
-    Split_string(scratch, " ", c.yield_parts);
-    scratch = systemInterface->readParameter (section_name, "retrans_parts");
-    Split_string(scratch, " ", c.retrans_parts);
+    Split_string(systemInterface->readParameter (section_name, "stress_determinants"), " ", parts);
+    // Find each part and mark it..
+    for (part = parts.begin(); part != parts.end(); part++) 
+       {
+       vector<string>::iterator cpart = find(c.part_names.begin(),
+                                             c.part_names.end(), *part);
+       if (cpart != c.part_names.end()) 
+          {
+          int ipart = cpart - c.part_names.begin();
+          c.p_stress_determinants[ipart] = true;
+          }
+       }
+
+    Split_string(systemInterface->readParameter (section_name, "yield_parts"), " ", parts);
+    for (part = parts.begin(); part != parts.end(); part++) 
+       {
+       vector<string>::iterator cpart = find(c.part_names.begin(),
+                                             c.part_names.end(), *part);
+       if (cpart != c.part_names.end()) 
+          {
+          int ipart = cpart - c.part_names.begin();
+          c.p_yield_parts[ipart] = true;
+          }
+       }
+
+    Split_string(systemInterface->readParameter (section_name, "retrans_parts"), " ", parts);
+    for (part = parts.begin(); part != parts.end(); part++) 
+       {
+       vector<string>::iterator cpart = find(c.part_names.begin(),
+                                             c.part_names.end(), *part);
+       if (cpart != c.part_names.end()) 
+          {
+          int ipart = cpart - c.part_names.begin();
+          c.p_retrans_parts[ipart] = true;
+          }
+       }
+
     systemInterface->readParameter (section_name, "pfact_photo_slope",    /*"()",   */ c.pfact_photo_slope    , 0.0, 100.0);
     systemInterface->readParameter (section_name, "pfact_expansion_slope",/*"()",   */ c.pfact_expansion_slope, 0.0, 100.0);
     systemInterface->readParameter (section_name, "pfact_pheno_slope",    /*"()",   */ c.pfact_pheno_slope    , 0.0, 100.0);
     systemInterface->readParameter (section_name, "pfact_grain_slope",    /*"()",   */ c.pfact_grain_slope    , 0.0, 100.0);
-    systemInterface->readParameter (section_name, "x_p_stage_code",       /*"(g/g)",*/ c.x_p_stage_code, c.num_x_p_stage_code, 0.0, 100.0);
 
-    for (part = 0; part < g.num_parts; part++)
-    {
-       string keyword ="y_p_conc_max_" + g.part_names[part];
+    for (int ipart = 0; ipart < max_part; ipart++)
+       {
+       string keyword ="y_p_conc_max_" + c.part_names[ipart];
        systemInterface->readParameter (section_name, keyword, /*"(g/g)",*/ temp, c.num_x_p_stage_code, 0.0, 1.0);
 
        for (int i=0; i < c.num_x_p_stage_code; i++)
        {
-          c.y_p_conc_max[part][i] = temp[i];
+          c.y_p_conc_max[ipart][i] = temp[i];
        }
 
-       keyword = "y_p_conc_sen_" + g.part_names[part];
+       keyword = "y_p_conc_sen_" + c.part_names[ipart];
        systemInterface->readParameter (section_name, keyword, /*"(g/g)", */temp, c.num_x_p_stage_code, 0.0, 1.0);
 
        for (int i=0; i < c.num_x_p_stage_code; i++)
        {
-          c.y_p_conc_sen[part][i] = temp[i];
+          c.y_p_conc_sen[ipart][i] = temp[i];
        }
 
-       keyword = "y_p_conc_min_" + g.part_names[part];
+       keyword = "y_p_conc_min_" + c.part_names[ipart];
        systemInterface->readParameter (section_name, keyword, /*"(g/g)",*/ temp, c.num_x_p_stage_code, 0.0, 1.0);
 
        for (int i=0; i < c.num_x_p_stage_code; i++)
        {
-          c.y_p_conc_min[part][i] = temp[i];
+          c.y_p_conc_min[ipart][i] = temp[i];
        }
 
-       keyword = "p_conc_init_" + g.part_names[part];
-       systemInterface->readParameter (section_name, keyword, /*"(g/g)",*/ c.p_conc_init[part], 0.0, 1.0);
+       keyword = "p_conc_init_" + c.part_names[ipart];
+       systemInterface->readParameter (section_name, keyword, /*"(g/g)",*/ c.p_conc_init[ipart], 0.0, 1.0);
    }
 
    pop_routine  (my_name);
 }
 
-
-// ================================================
-void PlantP::prepare (float growth_stage
-                        , float part_wts[]
-                        , float dlt_dm_pot)
+void Plant::prepare_p(void)
 {
-//+  Purpose
-
-//+  Changes
-//
-
-//+  Constant Values
-      const char*  my_name = "PlantP_prepare";
-
-//- Implementation Section ----------------------------------
-      push_routine (my_name);
-
-      if (g.phosphorus_aware == true)
+   if (g.phosphorus_aware == true)
       {
-         PlantP_demand(growth_stage, part_wts, dlt_dm_pot);
-         PlantP_Stress(growth_stage, part_wts);
+      vector<plantPart*> allParts;
+      setupHacks(allParts);
+      PlantP_demand(allParts, g.dlt_dm_pot_rue);
+      PlantP_Stress(allParts);
+      deleteHacks(allParts);
       }
-
-      pop_routine (my_name);
 }
 
 // ====================================================================
-void PlantP::process(float growth_stage
-                           , float dm_green[]
-                           , float dlt_dm_senesced[])
+void Plant::process_p(void)
 {
 //+  Purpose
 //     <insert here>
@@ -577,47 +239,42 @@ void PlantP::process(float growth_stage
       const char*  my_name = "PlantP_process";
 
 //+  Local Variables
-      int   part;
+      vector<plantPart *>::iterator part;
 
 //- Implementation Section ----------------------------------
       push_routine (my_name);
 
       if (g.phosphorus_aware == true)
       {
-         PlantP_init_pools(dm_green);
+         vector<plantPart*> allParts;
+         setupHacks(allParts);
 
-         PlantP_partition ();
-         PlantP_senescence (growth_stage
-                          , dm_green
-                          , dlt_dm_senesced);
+         PlantP_init_pools(allParts);
 
-         for (part = 0; part < max_part; part++)
+         PlantP_partition(allParts);
+         PlantP_senescence (allParts);
+
+         for (part = allParts.begin(); part != allParts.end(); part++)
          {
-            g.part_p_green[part] = g.part_p_green[part]
-                                 + g.dlt_part_p_green[part]
-                                 - g.dlt_part_p_sen[part];
+            (*part)->g.p_green += (*part)->dlt.p_green;
+            (*part)->g.p_green -= (*part)->dlt.p_sen;
          }
 
          // Now do any retranslocation to try and keep pools
          // at target concentrations.
+         PlantP_retrans (allParts);
 
-         PlantP_retrans (growth_stage, dm_green);
-
-         for (part = 0; part < max_part; part++)
+         for (part = allParts.begin(); part != allParts.end(); part++)
          {
-            g.part_p_green[part] = g.part_p_green[part]
-                                 + g.dlt_part_p_retrans[part];
+            (*part)->g.p_green += (*part)->dlt.p_retrans;
          }
-         fprintf(stdout,"end process\n");
+         deleteHacks(allParts);
       }
       pop_routine (my_name);
 }
 
 // ====================================================================
-void PlantP::detachment(float dm_senesced[]
-                      , float dm_dead[]
-                      , float dlt_dm_detached[]
-                      , float dlt_dm_dead_detached[])
+void Plant::detachment_p(void)
 {
 //+  Purpose
 //     <insert here>
@@ -626,10 +283,9 @@ void PlantP::detachment(float dm_senesced[]
 //
 
 //+  Constant Values
-      const char*  my_name = "PlantP_detachment";
+      const char*  my_name = "detachment_p";
 
 //+  Local Variables
-      int   part;
 
 
 //- Implementation Section ----------------------------------
@@ -637,22 +293,25 @@ void PlantP::detachment(float dm_senesced[]
 
       if (g.phosphorus_aware == true)
       {
-         PlantP_detachment (dm_senesced, dm_dead, dlt_dm_detached, dlt_dm_dead_detached);
+         vector<plantPart*> allParts;
+         vector<plantPart*>::iterator part;
+         setupHacks(allParts);
 
-         for (part = 0; part < max_part; part++)
+         PlantP_detachment (allParts);
+
+         for (part = allParts.begin(); part != allParts.end(); part++)
          {
-            g.part_p_sen[part] = g.part_p_sen[part]
-                               + g.dlt_part_p_sen[part]
-                               - g.dlt_part_p_det[part];
-
-            g.part_p_dead[part] -= g.dlt_part_p_dead_det[part];
+            (*part)->g.p_sen +=  (*part)->dlt.p_sen;
+            (*part)->g.p_sen -= (*part)->dlt.p_det;
+            (*part)->g.p_dead -= (*part)->dlt.p_dead_det;
          }
+         deleteHacks(allParts);
       }
       pop_routine (my_name);
 }
 
 // ====================================================================
-void PlantP::death(float g_plants, float g_dlt_plants)
+void Plant::death_p(void)
 {
 //+  Purpose
 //     <insert here>
@@ -664,33 +323,37 @@ void PlantP::death(float g_plants, float g_dlt_plants)
       const char*  my_name = "PlantP_death";
 
 //+  Local Variables
-      int   part;
-
 
 //- Implementation Section ----------------------------------
       push_routine (my_name);
 
       if (g.phosphorus_aware == true)
       {
-          float dying_fract_plants = divide (-g_dlt_plants, g_plants, 0.0);
-          dying_fract_plants = bound (dying_fract_plants, 0.0, 1.0);
-
-         for (part = 0; part < max_part; part++)
-         {
-            float dlt_p_green_dead = g.part_p_green[part] * dying_fract_plants;
-            g.part_p_green[part] = g.part_p_green[part] - dlt_p_green_dead;
-            g.part_p_dead[part]  = g.part_p_dead[part]  + dlt_p_green_dead;
-
-            float dlt_p_senesced_dead = g.part_p_sen[part] * dying_fract_plants;
-            g.part_p_sen[part]  = g.part_p_sen[part]  - dlt_p_senesced_dead;
-            g.part_p_dead[part] = g.part_p_dead[part] + dlt_p_senesced_dead;
-         }
+         float dying_fract_plants = divide (-g.dlt_plants, g.plants, 0.0);
+         dying_fract_plants = bound (dying_fract_plants, 0.0, 1.0);
+         if (dying_fract_plants > 0.0) 
+            {
+            vector<plantPart*> parts;
+            vector<plantPart*>::iterator part;
+            setupHacks(parts);
+            for (part = parts.begin(); part != parts.end(); part++)
+                {
+                float dlt_p_green_dead = (*part)->g.p_green * dying_fract_plants;
+                (*part)->g.p_green -= dlt_p_green_dead;
+                (*part)->g.p_dead += dlt_p_green_dead;
+                
+                float dlt_p_senesced_dead = (*part)->g.p_sen * dying_fract_plants;
+                (*part)->g.p_sen  -= dlt_p_senesced_dead;
+                (*part)->g.p_dead += dlt_p_senesced_dead;
+                }
+            deleteHacks(parts);
+            }
       }
       pop_routine (my_name);
 }
 
 // ===============================
-void PlantP::PlantP_partition ()
+void Plant::PlantP_partition (vector<plantPart*>&parts)
 {
 //+  Purpose
 //     <insert here>
@@ -703,8 +366,7 @@ void PlantP::PlantP_partition ()
 
 //+  Local Variables
       vector<float> values;               // Scratch area
-      int   numvals;
-      int   part;
+      vector<plantPart*>::iterator part;
       float p_uptake;
       float total_demand;
 
@@ -712,9 +374,9 @@ void PlantP::PlantP_partition ()
 //- Implementation Section ----------------------------------
       push_routine (my_name);
 
-      if (ids.layered_p_uptake != 0)
+      if (id.layered_p_uptake != 0)
       {
-          plant->parent->getVariable(ids.layered_p_uptake, values, 0.0, 100.0);  //XXX ick..
+          parent->getVariable(id.layered_p_uptake, values, 0.0, 100.0);
           float sumValue = 0.0;
           for (unsigned int i = 0; i < values.size(); i++)
           {
@@ -724,15 +386,19 @@ void PlantP::PlantP_partition ()
       }
       else
       {
-          p_uptake = sum_real_array (g.part_demand, g.num_parts);
+          p_uptake = 0.0;
+          for (part = parts.begin(); part != parts.end(); part++)
+             p_uptake += (*part)->v.p_demand;
       }
 
-      total_demand = sum_real_array (g.part_demand, g.num_parts);
+      total_demand = 0.0;
+      for (part = parts.begin(); part != parts.end(); part++)
+          total_demand += (*part)->v.p_demand;;
 
-      for (part = 0; part < g.num_parts; part++)
+      for (part = parts.begin(); part != parts.end(); part++)
       {
-         g.dlt_part_p_green[part] = p_uptake
-                                  * divide(g.part_demand[part]
+         (*part)->dlt.p_green = p_uptake
+                                  * divide((*part)->v.p_demand
                                            ,total_demand
                                            ,0.0);
       }
@@ -740,9 +406,7 @@ void PlantP::PlantP_partition ()
 }
 
 // ====================================================================
-void PlantP::PlantP_senescence (float growth_stage
-                              , float part_wts[]
-                              , float dlt_part_sen[])
+void Plant::PlantP_senescence (vector<plantPart*>&parts)
 {
 //+  Purpose
 //     <insert here>
@@ -754,33 +418,34 @@ void PlantP::PlantP_senescence (float growth_stage
       const char*  my_name = "PlantP_senescence";
 
 //+  Local Variables
-      int   part;
+      vector<plantPart*>::iterator part;
       float p_conc_green;
       float p_conc_sen;
 
 //- Implementation Section ----------------------------------
       push_routine (my_name);
 
-      fill_real_array (g.dlt_part_p_sen, 0.0, max_part);
-
-      for (part = 0; part < g.num_parts; part++)
+      for (part = parts.begin(); part != parts.end(); part++)
+         (*part)->dlt.p_sen = 0.0;
+ 
+      for (part = parts.begin(); part != parts.end(); part++)
       {
-         if (dlt_part_sen[part] < part_wts[part])
+         if ((*part)->dlt.dm_senesced < (*part)->g.dm_green)
          {
-            p_conc_green = divide (g.part_p_green[part]
-                                  , part_wts[part]
+            p_conc_green = divide ((*part)->g.p_green
+                                  ,(*part)->g.dm_green
                                   , 0.0);
 
-            p_conc_sen = linear_interp_real (growth_stage
+            p_conc_sen = linear_interp_real (phenology->stageNumber()
                                            , c.x_p_stage_code
-                                           , c.y_p_conc_sen[part]
+                                           , c.y_p_conc_sen[0/*xxwrongpart*/]
                                            , c.num_x_p_stage_code);
 
-            g.dlt_part_p_sen[part] = min(p_conc_green, p_conc_sen) * dlt_part_sen[part];
+            (*part)->dlt.p_sen = min(p_conc_green, p_conc_sen) * (*part)->dlt.dm_senesced;
          }
          else
          {
-            g.dlt_part_p_sen[part] = g.part_p_green[part];
+            (*part)->dlt.p_sen = (*part)->g.p_green;
          }
       }
 
@@ -789,10 +454,7 @@ void PlantP::PlantP_senescence (float growth_stage
 
 
 // ====================================================================
-void PlantP::PlantP_detachment (float dm_senesced[]
-                              , float dm_dead[]
-                              , float dlt_dm_detached[]
-                              , float dlt_dm_dead_detached[])
+void Plant::PlantP_detachment (vector<plantPart*>&parts)
 {
 //+  Purpose
 
@@ -802,27 +464,24 @@ void PlantP::PlantP_detachment (float dm_senesced[]
       const char*  my_name = "PlantP_detachment";
 
 //+  Local Variables
-
+      vector<plantPart*>::iterator part;
 
 //- Implementation Section ----------------------------------
       push_routine (my_name);
 
-      fill_real_array (g.dlt_part_p_det, 0.0, max_part);
-      fill_real_array (g.dlt_part_p_dead_det, 0.0, max_part);
-
-      for (int part = 0; part < g.num_parts; part++)
+      for (part = parts.begin(); part != parts.end(); part++)
       {
-         float sen_detach_frac = divide(dlt_dm_detached[part]
-                                       , dm_senesced[part]
+         float sen_detach_frac = divide((*part)->dlt.dm_detached
+                                       , (*part)->g.dm_senesced
                                        , 0.0);
 
-         g.dlt_part_p_det[part] = g.part_p_sen[part] * sen_detach_frac;
+         (*part)->dlt.p_det = (*part)->g.p_sen * sen_detach_frac;
 
-         float dead_detach_frac = divide(dlt_dm_dead_detached[part]
-                                       , dm_dead[part]
+         float dead_detach_frac = divide((*part)->dlt.dm_dead_detached
+                                       , (*part)->g.dm_dead
                                        , 0.0);
 
-         g.dlt_part_p_dead_det[part] = g.part_p_dead[part] * dead_detach_frac;
+         (*part)->dlt.p_dead_det = (*part)->g.p_dead * dead_detach_frac;
       }
 
       pop_routine (my_name);
@@ -830,7 +489,7 @@ void PlantP::PlantP_detachment (float dm_senesced[]
 
 
 // ====================================================================
-void PlantP::zero_daily_variables ()
+void Plant::zero_daily_p_variables ()
 {
 
 //+  Purpose
@@ -840,70 +499,42 @@ void PlantP::zero_daily_variables ()
 //
 
 //+  Constant Values
-      const char*  my_name = "PlantP::zero_daily_variables";
+      const char*  my_name = "PlantP::zero_daily_p_variables";
 
 //- Implementation Section ----------------------------------
       push_routine (my_name);
 
-      fill_real_array (g.dlt_part_p_green, 0.0, max_part);
-      fill_real_array (g.dlt_part_p_dead, 0.0, max_part);
-      fill_real_array (g.dlt_part_p_sen, 0.0, max_part);
-      fill_real_array (g.dlt_part_p_det, 0.0, max_part);
-      fill_real_array (g.dlt_part_p_dead_det, 0.0, max_part);
-      fill_real_array (g.dlt_part_p_retrans, 0.0, max_part);
-      fill_real_array (g.part_demand, 0.0, max_part);
+      fill_real_array (g.dlt_p_green, 0.0, max_part);
+      fill_real_array (g.dlt_p_dead, 0.0, max_part);
+      fill_real_array (g.dlt_p_sen, 0.0, max_part);
+      fill_real_array (g.dlt_p_det, 0.0, max_part);
+      fill_real_array (g.dlt_p_dead_det, 0.0, max_part);
+      fill_real_array (g.dlt_p_retrans, 0.0, max_part);
+      fill_real_array (g.p_demand, 0.0, max_part);
 
       pop_routine (my_name);
 }
 // ====================================================================
-void PlantP::doInit (PlantComponent *systemInterface
-                   , const string   &crop_type
-                   , vector<string> &part_names)
+void Plant::doPInit (PlantComponent *systemInterface)
 {
-      g.crop_type = crop_type;
       PlantP_set_phosphorus_aware (systemInterface);
       if (g.phosphorus_aware == true)
       {
-         PlantP_Set_Up_Parts (part_names);
-         PlantP_read_param ();
-         read_constants (systemInterface);
+         read_p_constants (systemInterface);
 
-         string keyword = "uptake_p_" + crop_type;
+         string keyword = "uptake_p_" + c.crop_type;
 //    ids.layered_p_uptake = systemInterface->addRegistration(RegistrationType::get,
 //                                    "layered_p_uptake", floatType,
 //                                    "", "");
-         ids.layered_p_uptake = systemInterface->addRegistration(RegistrationType::get,
+         id.layered_p_uptake = systemInterface->addRegistration(RegistrationType::get,
                                                                keyword.c_str(), floatArrayType,
                                                                "", "");
       }
 }
 
-// ====================================================================
-void PlantP::PlantP_Set_Up_Parts (vector<string> &part_names)
-{
-
-//+  Purpose
-//      Initialise PlantP parts arrays
-
-//+  Changes
-//     <insert here>
-
-//+  Constant Values
-      const char*  my_name = "PlantP_set_up_parts";
-
-//+  Local Variables
-
-//- Implementation Section ----------------------------------
-      push_routine (my_name);
-
-      g.num_parts = part_names.size();
-      g.part_names = part_names;
-      // Put further setup stuff here.....
-      pop_routine (my_name);
-}
 
 // ====================================================================
-void PlantP::PlantP_set_phosphorus_aware (PlantComponent *systemInterface)
+void Plant::PlantP_set_phosphorus_aware (PlantComponent *systemInterface)
 {
 //+  Purpose
 //      Check that soil phosphorus is in system
@@ -934,8 +565,8 @@ const char*  my_name = "PlantP_set_phosphorus_aware";
       {
            //module is p aware
          g.phosphorus_aware = true;
-         plant->parent->writeString ("   - Module is set phosphorus aware");
-         plant->parent->writeString (" ");
+         parent->writeString ("   - Module is set phosphorus aware");
+         parent->writeString (" ");
       }
       else
       {
@@ -948,9 +579,7 @@ const char*  my_name = "PlantP_set_phosphorus_aware";
 
 
 // ====================================================================
-void PlantP::PlantP_demand (float growth_stage
-                           , float parts_wt[]
-                           , float dlt_dm_pot)
+void Plant::PlantP_demand (vector<plantPart *> &allParts, float dlt_dm_pot)
 {
 
 //+  Purpose
@@ -963,45 +592,43 @@ void PlantP::PlantP_demand (float growth_stage
       const char*  my_name = "PlantP_demand";
 
 //+  Local Variables
+      vector<plantPart *>::iterator part;
       float    deficit;
       float    p_conc_max;
       float    rel_growth_rate;
+      float    dm_green_sum;
 
 //- Implementation Section ----------------------------------
       push_routine (my_name);
 
-      fill_real_array (g.part_demand, 0.0, max_part);
-      g.growth_stage = growth_stage;
-
-      rel_growth_rate = divide(dlt_dm_pot
-                              , sum_real_array(parts_wt, g.num_parts)
-                              , 0.0);
-
-      for (int part = 0; part < g.num_parts; part++)
+      for (part = allParts.begin(); part != allParts.end(); part++) 
          {
-         if (binary_search(c.yield_parts.begin(),
-                           c.yield_parts.end(),
-                           g.part_names[part]))
+         (*part)->v.p_demand = 0.0;
+         dm_green_sum += (*part)->g.dm_green;
+         }
+      rel_growth_rate = divide(dlt_dm_pot, dm_green_sum, 0.0);
+
+      for (part = allParts.begin(); part != allParts.end(); part++) 
+         {
+         if ((*part)->c.p_yield_part)
             {
             // A yield part - does not contribute to soil demand
-            g.part_demand[part] = 0.0;
+            (*part)->v.p_demand = 0.0;
             }
          else
             {
             // Not a yield part - therefore it contributes to demand
-            p_conc_max = linear_interp_real (g.growth_stage
+            p_conc_max = linear_interp_real (phenology->stageNumber()
                                            , c.x_p_stage_code
-                                           , c.y_p_conc_max[part]
+                                           , c.y_p_conc_max[0/*part*/] //xxwrong
                                            , c.num_x_p_stage_code);
 
             // scale up to include potential new growth
             // assuming partitioning today similar to current
             // plant form - a rough approximation
+            deficit = p_conc_max * (*part)->g.dm_green * (1.0 + rel_growth_rate) - (*part)->g.p_green;
 
-            deficit = p_conc_max * parts_wt[part] * (1.0 + rel_growth_rate)
-                    - g.part_p_green[part];
-
-            g.part_demand[part] = l_bound(deficit, 0.0);
+            (*part)->v.p_demand = l_bound(deficit, 0.0);
             }
          }
       pop_routine (my_name);
@@ -1009,526 +636,7 @@ void PlantP::PlantP_demand (float growth_stage
 
 
 // ====================================================================
-float PlantP::fact_photo () const
-{
-//+  Purpose
-//      Provide value of P factor for photosynthesis
-      if (g.phosphorus_aware == true)
-         return g.pfact_photo;
-      else
-         return 1.0;
-}
-
-
-// ====================================================================
-float PlantP::fact_grain () const
-{
-//+  Purpose
-//      Provide value of P factor for grain filling
-
-      if (g.phosphorus_aware == true)
-         return g.pfact_grain;
-      else
-         return 1.0;
-}
-
-// ====================================================================
-float PlantP::fact_expansion () const
-{
-//+  Purpose
-//      Provide value of P factor for cell expansion
-      if (g.phosphorus_aware == true)
-         return g.pfact_expansion;
-      else
-         return 1.0;
-}
-
-// ====================================================================
-float PlantP::fact_pheno ()  const
-{
-//+  Purpose
-//      Provide value of P factor for phenology
-      if (g.phosphorus_aware == true)
-         return g.pfact_pheno;
-      else
-         return 1.0;
-}
-
-
-//// ====================================================================
-//void PlantP::add_residue (float chop_fr_green[]
-//                        , float chop_fr_sen[]
-//                        , float chop_fr_dead[]
-//                        , float fraction_to_residue[])
-//{
-////+  Purpose
-////      Send P to soil or residues when plants are 'chopped'
-//
-////+  Changes
-////     <insert here>
-//
-////+  Constant Values
-//      const char*  my_name = "PlantP_add_residue";
-//
-////+  Local Variables
-//      float    dlt_residue_p;
-//
-////- Implementation Section ----------------------------------
-//      push_routine (my_name);
-//
-//      dlt_residue_p = 0.0;
-//      for (int part = 0; part < g.num_parts; part++)
-//      {
-//         dlt_residue_p += (chop_fr_green[part] * g.part_p_green[part] * fraction_to_residue[part]
-//                           + chop_fr_sen[part] * g.part_p_sen[part]   * fraction_to_residue[part]
-//                           + chop_fr_dead[part] * g.part_p_dead[part]  * fraction_to_residue[part])
-//                         * gm2kg/sm2ha;
-//
-//         g.part_p_green[part] = g.part_p_green[part] * (1.0 - chop_fr_green[part]);
-//         g.part_p_sen[part]   = g.part_p_sen[part]   * (1.0 - chop_fr_sen[part]);
-//         g.part_p_dead[part]  = g.part_p_dead[part]  * (1.0 - chop_fr_dead[part]);
-//      }
-//
-//      protocol::ApsimVariant outgoingApsimVariant(plant->parent);
-//      outgoingApsimVariant.store("dlt_residue_p", protocol::DTsingle, false,
-//                                 dlt_residue_p);
-//
-//      plant->parent->publish (ids.add_residue_p, outgoingApsimVariant);
-//
-//      pop_routine (my_name);
-//}
-// ====================================================================
-void PlantP::crop_chopped (float chop_fr_green[]        //IN
-                            , float chop_fr_sen[]          //IN
-                            , float chop_fr_dead[]         //IN
-                            , float *dlt_residue_p         //OUT
-                            , float dlt_dm_p[]             //OUT
-                              )
-{
-
-//+  Purpose
-//      Calculate P to soil or residues when plants are 'chopped'
-
-//+  Changes
-//     <insert here>
-
-//+  Calls
-
-//+  Constant Values
-      const char*  my_name = "residue_chopped";
-
-//+  Local Variables
-
-//- Implementation Section ----------------------------------
-      push_routine (my_name);
-
-      if (g.phosphorus_aware == true)
-      {
-         *dlt_residue_p = 0.0;
-         for (int part = 0; part < g.num_parts; part++)
-         {
-            dlt_dm_p[part]  = (chop_fr_green[part] * g.part_p_green[part]
-                              + chop_fr_sen[part]  * g.part_p_sen[part]
-                              + chop_fr_dead[part] * g.part_p_dead[part])
-                            * gm2kg/sm2ha;
-
-            *dlt_residue_p += dlt_dm_p[part];
-
-            g.part_p_green[part] = g.part_p_green[part] * (1.0 - chop_fr_green[part]);
-            g.part_p_sen[part]   = g.part_p_sen[part]   * (1.0 - chop_fr_sen[part]);
-            g.part_p_dead[part]  = g.part_p_dead[part]  * (1.0 - chop_fr_dead[part]);
-         }
-      }
-      else
-      {
-         for (int part = 0; part <max_part; part++)
-         {
-            dlt_dm_p[part] = 0.0;
-            *dlt_residue_p = 0.0;
-         }
-      }
-
-      pop_routine (my_name);
-}
-
-// ====================================================================
-void PlantP::end_crop (float chop_fr[]        //IN
-                     , float *dlt_residue_p         //OUT
-                     , float dlt_dm_p[]             //OUT
-                      )
-{
-
-//+  Purpose
-//      Calculate P to soil or residues when plants are 'chopped'
-
-//+  Changes
-//     <insert here>
-
-//+  Calls
-
-//+  Constant Values
-      const char*  my_name = "end_crop";
-
-//+  Local Variables
-
-//- Implementation Section ----------------------------------
-      push_routine (my_name);
-
-      if (g.phosphorus_aware == true)
-      {
-         *dlt_residue_p = 0.0;
-         for (int part = 0; part < g.num_parts; part++)
-         {
-            dlt_dm_p[part]  = (g.part_p_green[part] + g.part_p_sen[part] + g.part_p_dead[part])
-                            * chop_fr[part] * gm2kg/sm2ha;
-
-            *dlt_residue_p += dlt_dm_p[part];
-
-            g.part_p_green[part] = 0.0;
-            g.part_p_sen[part]   = 0.0;
-            g.part_p_dead[part]  = 0.0;
-         }
-      }
-      else
-      {
-         for (int part = 0; part < max_part; part++)
-         {
-            dlt_dm_p[part] = 0.0;
-            *dlt_residue_p = 0.0;
-         }
-      }
-
-      pop_routine (my_name);
-}
-
-// ====================================================================
-void PlantP::detached (float chop_fr[]
-                     , float *dlt_residue_p         //OUT
-                     , float dlt_dm_p[]             //OUT
-                      )
-{
-
-//+  Purpose
-//      Calculate P to soil or residues when plants are 'chopped'
-
-//+  Changes
-//     <insert here>
-
-//+  Calls
-
-//+  Constant Values
-      const char*  my_name = "PlantP_detached";
-
-//+  Local Variables
-
-//- Implementation Section ----------------------------------
-      push_routine (my_name);
-
-      if (g.phosphorus_aware == true)
-      {
-         *dlt_residue_p = 0.0;
-         for (int part = 0; part < g.num_parts; part++)
-         {
-            dlt_dm_p[part]  = g.dlt_part_p_det[part] * chop_fr[part]
-                            * gm2kg/sm2ha;
-
-            *dlt_residue_p += dlt_dm_p[part];
-         }
-      }
-      else
-      {
-         for (int part = 0; part < max_part; part++)
-         {
-            dlt_dm_p[part] = 0.0;
-            *dlt_residue_p = 0.0;
-         }
-      }
-
-      pop_routine (my_name);
-}
-
-// ====================================================================
-void PlantP::dead_detached (float chop_fr[]
-                          , float *dlt_residue_p         //OUT
-                          , float dlt_dm_p[]             //OUT
-                           )
-{
-
-//+  Purpose
-//      Calculate P to soil or residues when plants are 'chopped'
-
-//+  Changes
-//     <insert here>
-
-//+  Calls
-
-//+  Constant Values
-      const char*  my_name = "PlantP_dead_detached";
-
-//+  Local Variables
-
-//- Implementation Section ----------------------------------
-      push_routine (my_name);
-
-      if (g.phosphorus_aware == true)
-      {
-         *dlt_residue_p = 0.0;
-         for (int part = 0; part < g.num_parts; part++)
-         {
-            dlt_dm_p[part]  = g.dlt_part_p_dead_det[part] * chop_fr[part]
-                            * gm2kg/sm2ha;
-
-            *dlt_residue_p += dlt_dm_p[part];
-         }
-      }
-      else
-      {
-         for (int part = 0; part < max_part; part++)
-         {
-            dlt_dm_p[part] = 0.0;
-            *dlt_residue_p = 0.0;
-         }
-      }
-
-      pop_routine (my_name);
-}
-
-// ====================================================================
-float PlantP::incorp_fom (float incorp_fr_green[]      //IN
-                       , float incorp_fr_sen[]        //IN
-                       , float dlayer[]               //IN
-                       , float root_length[]          //IN
-                       , float root_depth)             //IN
-{
-//+  Purpose
-//      Send P to soil or residues when plants are 'chopped'
-
-//+  Changes
-//     <insert here>
-
-//+  Constant Values
-      const char*  my_name = "PlantP_incorp_fom";
-
-//+  Local Variables
-      float    dlt_p_tot = 0.0;
-      float    dlt_fom_p[max_layer];
-      int      num_layers;
-
-//- Implementation Section ----------------------------------
-      push_routine (my_name);
-
-   if (g.phosphorus_aware == true)
-   {
-      for (int part = 0; part < g.num_parts; part++)
-      {
-         dlt_p_tot += incorp_fr_green[part] * g.part_p_green[part]
-                    + incorp_fr_sen[part]   * g.part_p_sen[part]
-                    + incorp_fr_sen[part]   * g.dlt_part_p_det[part];
-
-         g.part_p_green[part] = g.part_p_green[part] * (1.0 - incorp_fr_green[part]);
-         g.part_p_sen[part]   = g.part_p_sen[part]   * (1.0 - incorp_fr_sen[part]);
-      }
-
-      if (dlt_p_tot > 0.0)
-      {
-         crop_root_dist( dlayer
-                       , root_length
-                       , root_depth
-                       , dlt_fom_p
-                       , dlt_p_tot * gm2kg/sm2ha
-                       , max_layer);
-
-         num_layers = 1 + count_of_real_vals(root_length, max_layer);
-         if (num_layers > 0)
-         {
-            protocol::ApsimVariant outgoingApsimVariant(plant->parent);
-            outgoingApsimVariant.store("dlt_fom_p", protocol::DTsingle, true,
-                                       protocol::vector<float>(dlt_fom_p, dlt_fom_p+num_layers));
-            plant->parent->publish (ids.incorp_fom_p, outgoingApsimVariant);
-         }
-      }
-      else
-      {} // nothing to incorporate
-   }
-   else
-     {
-     // not P aware, state variables (green & sen) unchanged.
-     }
-   pop_routine (my_name);
-   return(dlt_p_tot);
-}
-
-// ====================================================================
-float PlantP::incorp_fom_dead (float incorp_fr_dead[]       //IN
-                             , float dlayer[]               //IN
-                             , float root_length_dead[]     //IN
-                             , float root_depth)            // IN
-{
-//+  Purpose
-//      Send P to soil or residues when plants are 'chopped'
-
-//+  Changes
-//     <insert here>
-
-//+  Constant Values
-      const char*  my_name = "PlantP_incorp_fom_dead";
-
-//+  Local Variables
-      float    dlt_p_tot = 0.0;
-      float    dlt_fom_p[max_layer];
-      int      num_layers;
-
-//- Implementation Section ----------------------------------
-      push_routine (my_name);
-
-   if (g.phosphorus_aware == true)
-   {
-      for (int part = 0; part < g.num_parts; part++)
-      {
-         dlt_p_tot += incorp_fr_dead[part]  * g.part_p_dead[part]
-                    + incorp_fr_dead[part]  * g.dlt_part_p_dead_det[part];
-
-         g.part_p_dead[part]  = g.part_p_dead[part]  * (1.0 - incorp_fr_dead[part]);
-      }
-
-      if (dlt_p_tot > 0.0)
-      {
-         crop_root_dist( dlayer
-                       , root_length_dead
-                       , root_depth
-                       , dlt_fom_p
-                       , dlt_p_tot * gm2kg/sm2ha
-                       , max_layer);
-
-         num_layers = 1 + count_of_real_vals(root_length_dead, max_layer);
-         if (num_layers > 0)
-         {
-            protocol::ApsimVariant outgoingApsimVariant(plant->parent);
-            outgoingApsimVariant.store("dlt_fom_p", protocol::DTsingle, true,
-                                       protocol::vector<float>(dlt_fom_p, dlt_fom_p+num_layers));
-            plant->parent->publish (ids.incorp_fom_p, outgoingApsimVariant);
-         }
-      }
-      else
-      {} // nothing to incorporate
-   }
-   else
-   {} // not P aware
-   pop_routine (my_name);
-   return(dlt_p_tot);
-}
-
-// ====================================================================
-float PlantP::incorp_fom_detached (float incorp_fr[]      //IN
-                                , float dlayer[]               //IN
-                                , float root_length[]          //IN
-                                , float root_depth)             //IN
-{
-//+  Purpose
-//      Send P to soil or residues when plants are 'chopped'
-
-//+  Changes
-//     <insert here>
-
-//+  Constant Values
-      const char*  my_name = "PlantP_incorp_fom_detached";
-
-//+  Local Variables
-      float    dlt_p_tot = 0.0;
-      float    dlt_fom_p[max_layer];
-      int      num_layers;
-
-//- Implementation Section ----------------------------------
-      push_routine (my_name);
-
-   if (g.phosphorus_aware == true)
-   {
-      for (int part = 0; part < g.num_parts; part++)
-      {
-         dlt_p_tot += g.dlt_part_p_det[part] * incorp_fr[part];
-      }
-      if (dlt_p_tot > 0.0)
-      {
-          crop_root_dist( dlayer
-                        , root_length
-                        , root_depth
-                        , dlt_fom_p
-                        , dlt_p_tot * gm2kg/sm2ha
-                        , max_layer);
-
-          num_layers = 1 + count_of_real_vals(root_length, max_layer);
-          if (num_layers > 0)
-          {
-             protocol::ApsimVariant outgoingApsimVariant(plant->parent);
-             outgoingApsimVariant.store("dlt_fom_p", protocol::DTsingle, true,
-                                        protocol::vector<float>(dlt_fom_p, dlt_fom_p+num_layers));
-             plant->parent->publish (ids.incorp_fom_p, outgoingApsimVariant);
-          }
-      }
-   }
-   else
-   {}
-   pop_routine (my_name);
-   return(dlt_p_tot);
-}
-
-// ====================================================================
-float PlantP::incorp_fom_dead_detached (float incorp_fr[]      //IN
-                                      , float dlayer[]               //IN
-                                      , float root_length[]          //IN
-                                      , float root_depth)             //IN
-{
-//+  Purpose
-//      Send P to soil or residues when plants are 'chopped'
-
-//+  Changes
-//     <insert here>
-
-//+  Constant Values
-      const char*  my_name = "incorp_fom_dead_detached";
-
-//+  Local Variables
-      float    dlt_p_tot = 0.0;
-      float    dlt_fom_p[max_layer];
-      int      num_layers;
-
-//- Implementation Section ----------------------------------
-      push_routine (my_name);
-
-   if (g.phosphorus_aware == true)
-   {
-      for (int part = 0; part < g.num_parts; part++)
-      {
-         dlt_p_tot += g.dlt_part_p_dead_det[part] * incorp_fr[part];
-      }
-      if (dlt_p_tot > 0.0)
-      {
-         crop_root_dist( dlayer
-                       , root_length
-                       , root_depth
-                       , dlt_fom_p
-                       , dlt_p_tot * gm2kg/sm2ha
-                       , max_layer);
-
-         num_layers = 1 + count_of_real_vals(root_length, max_layer);
-         if (num_layers > 0)
-         {
-            protocol::ApsimVariant outgoingApsimVariant(plant->parent);
-            outgoingApsimVariant.store("dlt_fom_p", protocol::DTsingle, true,
-                                       protocol::vector<float>(dlt_fom_p, dlt_fom_p+num_layers));
-            plant->parent->publish (ids.incorp_fom_p, outgoingApsimVariant);
-         }
-      }
-   }
-   else
-   {}
-   pop_routine (my_name);
-   return(dlt_p_tot);
-}
-
-// ====================================================================
-float PlantP::PlantP_Pfact (float growth_stage
-                           , float dm_green[])
+float Plant::PlantP_Pfact (vector<plantPart *> &allParts)
 {
 
 //+  Purpose
@@ -1551,6 +659,7 @@ float PlantP::PlantP_Pfact (float growth_stage
       float    act_p_conc;
       float    determinants_wt;
       float    pfact;
+      vector<plantPart*>::iterator part;
 
 //- Implementation Section ----------------------------------
       push_routine (my_name);
@@ -1562,28 +671,24 @@ float PlantP::PlantP_Pfact (float growth_stage
       max_p = 0.0;
       determinants_wt = 0.0;
 
-      for (unsigned int determinant = 0; determinant < c.stress_determinants.size(); determinant++)
+      for (part = allParts.begin(); part != allParts.end(); part++)
          {
-         vector<string>::iterator pos = find(g.part_names.begin(),
-                                          g.part_names.end(),
-                                          c.stress_determinants[determinant]);
-         if (pos != g.part_names.end())
+         if ((*part)->c.p_yield_part)
             {
-            int part = pos - g.part_names.begin();
-            act_p = act_p + g.part_p_green[part];
+            act_p += (*part)->g.p_green;
 
-            p_conc_max = linear_interp_real (growth_stage
+            p_conc_max = linear_interp_real (phenology->stageCode()
                                            , c.x_p_stage_code
-                                           , c.y_p_conc_max[part]      // (part,1:c.num_x_p_stage_code)
+                                           , c.y_p_conc_max[0/*xxwrongpart*/]      // (part,1:c.num_x_p_stage_code)
                                            , c.num_x_p_stage_code);
-            max_p = max_p + p_conc_max * dm_green[part];
+            max_p += p_conc_max * (*part)->g.p_green;
 
-            p_conc_min = linear_interp_real (growth_stage
+            p_conc_min = linear_interp_real (phenology->stageCode()
                                            , c.x_p_stage_code
-                                           , c.y_p_conc_min[part]      // (part,1:c.num_x_p_stage_code)
+                                           , c.y_p_conc_min[0/*xxwrongpart*/]      // (part,1:c.num_x_p_stage_code)
                                            , c.num_x_p_stage_code);
-            min_p = min_p + p_conc_min * dm_green[part];
-            determinants_wt = determinants_wt + dm_green[part];
+            min_p += p_conc_min * (*part)->g.p_green;
+            determinants_wt += (*part)->g.p_green;
             }
          }
 
@@ -1610,26 +715,12 @@ float PlantP::PlantP_Pfact (float growth_stage
       pfact = 1.0;
    }
 
-      pop_routine (my_name);
-      return pfact;
+   pop_routine (my_name);
+   return pfact;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // ====================================================================
-void PlantP::PlantP_Stress (float growth_stage
-                           , float dm_green[])
+void Plant::PlantP_Stress (vector<plantPart *> &allParts)
 {
 
 //+  Purpose
@@ -1647,7 +738,7 @@ void PlantP::PlantP_Stress (float growth_stage
 //- Implementation Section ----------------------------------
       push_routine (my_name);
 
-      pfact = PlantP_Pfact(growth_stage,dm_green);
+      pfact = PlantP_Pfact(allParts);
 
       g.pfact_photo = pfact * c.pfact_photo_slope;
       g.pfact_photo = bound(g.pfact_photo, 0.0, 1.0);
@@ -1664,7 +755,7 @@ void PlantP::PlantP_Stress (float growth_stage
       pop_routine (my_name);
 }
 // ====================================================================
-void PlantP::PlantP_init_pools (float dm_green[])
+void Plant::PlantP_init_pools (vector<plantPart*>&parts)
 {
 
 //+  Purpose
@@ -1677,26 +768,30 @@ void PlantP::PlantP_init_pools (float dm_green[])
       const char*  my_name = "PlantP_init_pools";
 
 //+  Local Variables
-
+   vector<plantPart *>::iterator part;
+   float dmSum = 0.0, pSum = 0.0; 
 
 //- Implementation Section ----------------------------------
       push_routine (my_name);
 
-      if (sum_real_array(dm_green, g.num_parts) > 0.0
-            &&
-          sum_real_array(g.part_p_green, g.num_parts) <= 0.0)
+   // This is wrong. need to initialise these on an event.
+   for (part = parts.begin(); part != parts.end(); part++) 
+      { 
+      dmSum += (*part)->g.dm_green;
+      pSum += (*part)->g.p_green;
+      }
+   if (dmSum > 0.0 && pSum <= 0.0)
          {
          // biomass has been initialised but the p pools have not
-         for (int part = 0; part < g.num_parts; part++)
+         for (part = parts.begin(); part != parts.end(); part++) 
             {
-            g.part_p_green[part] = dm_green[part] * c.p_conc_init[part];
+            (*part)->g.p_green = (*part)->g.dm_green * (*part)->c.p_init_conc;
             }
          }
-      pop_routine (my_name);
+   pop_routine (my_name);
 }
 // ====================================================================
-void PlantP::PlantP_retrans (float growth_stage
-                           , float dm_green[])
+void Plant::PlantP_retrans (vector<plantPart*>&parts)
 {
 
 //+  Purpose
@@ -1709,91 +804,85 @@ void PlantP::PlantP_retrans (float growth_stage
       const char*  my_name = "PlantP_retrans";
 
 //+  Local Variables
-      float    supply[max_part];
-      float    demand[max_part];
+      vector<float>    supply(parts.size());
+      vector<float>    demand(parts.size());
 
-      int      part;
+      unsigned int ipart;
       float    p_conc_min;
       float    min_p;
       float    p_conc_max;
       float    max_p;
       float    fraction;
+      float    totSupply, totDemand;
 
 //- Implementation Section ----------------------------------
       push_routine (my_name);
 
-      fill_real_array (g.dlt_part_p_retrans, 0.0, max_part);
-      fill_real_array (supply, 0.0, max_part);
-      fill_real_array (demand, 0.0, max_part);
-
-      for (vector<string>::iterator spart = c.retrans_parts.begin();
-           spart != c.retrans_parts.end();
-           spart++)
+      for (ipart =0; ipart != parts.size(); ipart++)
          {
-         vector<string>::iterator pos = find(g.part_names.begin(),
-                                              g.part_names.end(),
-                                              *spart);
-         if (pos != g.part_names.end())
+         if (parts[ipart]->c.p_retrans_part)
             {
-            int part = pos - g.part_names.begin();
-
-            p_conc_min = linear_interp_real (growth_stage
+            p_conc_min = linear_interp_real (phenology->stageCode()
                                         , c.x_p_stage_code
-                                        , c.y_p_conc_min[part]
+                                        , c.y_p_conc_min[0/*xxwrongpart*/]
                                         , c.num_x_p_stage_code);
-            min_p = p_conc_min * dm_green[part];
-            supply[part] = max(g.part_p_green[part] - min_p, 0.0);
+            min_p = p_conc_min * parts[ipart]->g.dm_green;
+            supply[ipart] = max(parts[ipart]->g.p_green - min_p, 0.0);
             }
+         else 
+            {
+            supply[ipart] = 0.0;
+            }   
          }
 
-      for (vector<string>::iterator ypart = c.yield_parts.begin();
-           ypart != c.yield_parts.end();
-           ypart++)
+      for (ipart =0; ipart != parts.size(); ipart++)
          {
-         vector<string>::iterator pos = find(g.part_names.begin(),
-                                              g.part_names.end(),
-                                              *ypart);
-         if (pos != g.part_names.end())
+         if (parts[ipart]->c.p_yield_part)
             {
-            int part = pos - g.part_names.begin();
-
-            p_conc_max = linear_interp_real (growth_stage
+            p_conc_max = linear_interp_real (phenology->stageCode()
                                         , c.x_p_stage_code
-                                        , c.y_p_conc_max[part]     // (part,1:c.num_x_p_stage_code)
+                                        , c.y_p_conc_max[0/*xxwrongpart*/]
                                         , c.num_x_p_stage_code);
-            max_p = p_conc_max * dm_green[part];
-            demand[part] = max(max_p - g.part_p_green[part], 0.0);
-            }
-      }
-
-      for (int part = 0; part < g.num_parts; part++)
-         {
-         if (supply[part] > 0.0)
-            {
-            fraction = divide(sum_real_array(demand, max_part)
-                            , sum_real_array(supply, max_part)
-                            , 0.0);
-            fraction = bound(fraction, 0.0, 1.0);
-            g.dlt_part_p_retrans[part] = - supply[part] * fraction;
-            }
-         else if (demand[part] > 0.0)
-            {
-            fraction = divide(sum_real_array(supply, max_part)
-                            , sum_real_array(demand, max_part)
-                            , 0.0);
-            fraction = bound(fraction, 0.0, 1.0);
-            g.dlt_part_p_retrans[part] = demand[part] * fraction;
+            max_p = p_conc_max * parts[ipart]->g.dm_green;
+            demand[ipart] = max(max_p - parts[ipart]->g.p_green, 0.0);
             }
          else
             {
-            // this part is not involved
+            demand[ipart] = 0.0;
+            }
+         }
+
+      totSupply = totDemand = 0.0;
+      for (ipart =0; ipart != parts.size(); ipart++)
+         {
+         totSupply += supply[ipart];
+         totDemand += demand[ipart];
+         }
+
+      for (ipart =0; ipart != parts.size(); ipart++)
+         {
+         if (supply[ipart] > 0.0)
+            {
+            fraction = divide(totDemand, totSupply, 0.0);
+            fraction = bound(fraction, 0.0, 1.0);
+            parts[ipart]->dlt.p_retrans = - supply[ipart] * fraction;
+            }
+         else if (demand[ipart] > 0.0)
+            {
+            fraction = divide(totSupply, totDemand, 0.0);
+            fraction = bound(fraction, 0.0, 1.0);
+            parts[ipart]->dlt.p_retrans = demand[ipart] * fraction;
+            }
+         else
+            {
+            parts[ipart]->dlt.p_retrans = 0.0;// this part is not involved
             }
          }
       pop_routine (my_name);
 }
 
 // ====================================================================
-void PlantP::summary (float dm_green[], float dm_dead[])
+void Plant::summary_p (void)
 {
 //+  Purpose
 //      Summary
@@ -1815,47 +904,45 @@ void PlantP::summary (float dm_green[], float dm_dead[])
       float       P_total;               // total gross nitrogen content (kg/ha)
       float       P_grain_conc_percent;  // grain nitrogen .
 
-//- Implementation Section ----------------------------------          g.part_p_green(1:g.num_parts)
+//- Implementation Section ----------------------------------          g.p_green(1:g.num_parts)
       push_routine (my_name);
 
    if (g.phosphorus_aware == true)
    {
        P_grain_conc_percent = divide (
-           g.part_p_green[meal] + g.part_p_dead[meal] + g.part_p_green[oil] + g.part_p_dead[oil]
-         , dm_green[meal] + dm_dead[meal] + dm_green[oil] + dm_dead[oil]
+           g.p_green[meal] + g.p_dead[meal] + g.p_green[oil] + g.p_dead[oil]
+         , g.dm_green[meal] + g.dm_dead[meal] + g.dm_green[oil] + g.dm_dead[oil]
          , 0.0) * fract2pcnt;
 
-       P_grain = (g.part_p_green[meal] + g.part_p_dead[meal]
-               +  g.part_p_green[oil]  + g.part_p_dead[oil]) * gm2kg/sm2ha;
+       P_grain = (g.p_green[meal] + g.p_dead[meal]
+               +  g.p_green[oil]  + g.p_dead[oil]) * gm2kg/sm2ha;
 
-       P_green = (sum_real_array (g.part_p_green, max_part)
-               -  g.part_p_green[root] - g.part_p_green[meal] - g.part_p_green[oil]) * gm2kg / sm2ha;
+       P_green = (sum_real_array (g.p_green, max_part)
+               -  g.p_green[root] - g.p_green[meal] - g.p_green[oil]) * gm2kg / sm2ha;
 
-       P_senesced = (sum_real_array (g.part_p_sen, max_part)
-                  -  g.part_p_sen[root] - g.part_p_sen[meal]- g.part_p_sen[oil]) * gm2kg / sm2ha;
+       P_senesced = (sum_real_array (g.p_sen, max_part)
+                  -  g.p_sen[root] - g.p_sen[meal]- g.p_sen[oil]) * gm2kg / sm2ha;
 
-       P_dead = (sum_real_array (g.part_p_dead, max_part)
-           - g.part_p_dead[root] - g.part_p_dead[meal] - g.part_p_dead[oil]) * gm2kg / sm2ha;
+       P_dead = (sum_real_array (g.p_dead, max_part)
+           - g.p_dead[root] - g.p_dead[meal] - g.p_dead[oil]) * gm2kg / sm2ha;
 
-        P_stover = P_green + P_senesced + P_dead;
-        P_total = P_grain + P_stover;
-
-
+       P_stover = P_green + P_senesced + P_dead;
+       P_total = P_grain + P_stover;
 
        sprintf (msg, "%s%10.2f%20s%s%10.2f"
                 , " grain P percent        = ", P_grain_conc_percent, " "
                 , " total P content (kg/ha)= ", P_total);
-       plant->parent->writeString (msg);
+       parent->writeString (msg);
 
        sprintf (msg, "%s%10.2f%20s%s%8.2f"
                 , " grain P uptake (kg/ha) = ", P_grain, " "
                 , " senesced P content (kg/ha)=", P_senesced);
-       plant->parent->writeString (msg);
+       parent->writeString (msg);
 
        sprintf (msg, "%s%10.2f%20s%s%10.2f"
                 , " green P content (kg/ha)= ", P_green, " "
                 , " dead P content (kg/ha) = ", P_dead);
-       plant->parent->writeString (msg);
+       parent->writeString (msg);
    }
    pop_routine (my_name);
 }
