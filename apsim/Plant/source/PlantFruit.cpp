@@ -38,6 +38,9 @@ using namespace std;
 #include "PlantFruit.h"
 #endif
 
+void push_routine (const char *) {};
+void pop_routine (const char *) {};
+
       inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
 
 // default constructor
@@ -554,13 +557,9 @@ void Plant::plant_bio_actual (int option /* (INPUT) option number*/)
 void PlantFruit::bio_yieldpart_demand1( float c_twilight                          // (INPUT)  twilight in angular distance b
                                       , int   g_day_of_year                       // (INPUT)  day of year
                                       , float g_latitude                          // (INPUT)  latitude (degrees, negative fo
-                                      , int  *yield_parts                         // (INPUT)
-                                      , int   num_yield_parts                     // (INPUT)
-                                      , int   root_part                           // (INPUT)
-                                      , int   max_part                            // (INPUT)
                                       , float g_dlt_dm                            // (INPUT)  the daily biomass production (
-                                      , float *g_dm_green                         // (INPUT)  live plant dry weight (biomass
-                                      , float *g_dm_senesced                      // (INPUT)  senesced plant dry wt (g/m^2)
+                                      , float dm_tops                             // (INPUT)  green dry weight of tops (g/m^2)
+                                      , float dm_green_yield_parts                // (INPUT)  dry matter of yield parts (g/m^2)
                                       , float g_dm_stress_average
                                       , float *p_x_pp_hi_incr                     // (INPUT)
                                       , float *p_y_hi_incr                        // (INPUT)  harvest index increment per da
@@ -587,13 +586,11 @@ void PlantFruit::bio_yieldpart_demand1( float c_twilight                        
     float dlt_dm_yield;                           // grain demand for carbohydrate (g/m^2)
     float dlt_dm_yield_unadj;                     // grain demand for carbohydrate, unadjusted
 // for energy conversion (g/m^2)
-    float dm_tops;                                // drymatter of tops (g/m^2)
     float harvest_index;                          // last harvest index (g grain/g biomass)
     float hi_max_pot;                             // max potential HI due to stress
     float dm_tops_new;                            // new drymatter  tops (g/m^2)
     float harvest_index_new;                      // next harvest index (g grain/g biomass)
     float dm_grain_new;                           // new drymatter grain (g/m^2)
-    float dm_green_yield_parts;                   // dry matter of yield parts (g/m^2)
     float energy_adjust;                          // adjustment for energy used in oil conversion.
     int   indx;                                   // loop index
     float hi_incr;                                // harvest index increment per day
@@ -619,19 +616,7 @@ void PlantFruit::bio_yieldpart_demand1( float c_twilight                        
                                     ,p_y_hi_incr
                                     ,p_num_pp_hi_incr);
 
-    // effective grain filling period
-
-        dm_tops = sum_real_array (g_dm_green, max_part)
-                         - g_dm_green[root_part]
-                         + sum_real_array (g_dm_senesced, max_part)
-                         - g_dm_senesced[root_part];
-        dm_green_yield_parts = 0.0;
-
-        for (indx = 0; indx < num_yield_parts; indx++)
-            {
-            dm_green_yield_parts = dm_green_yield_parts
-                         + g_dm_green[yield_parts[indx]];
-            }
+        // effective grain filling period
         harvest_index = divide (dm_green_yield_parts, dm_tops, 0.0);
         dm_tops_new = dm_tops + g_dlt_dm;
 
@@ -1030,7 +1015,7 @@ void PlantFruit::dm_retranslocate1(float  c_frac_pod                    // (INPU
 
 //============================================================================
 void PlantFruit::dm_senescence1 (const int num_part           //(INPUT)  number of plant parts
-                               , const int max_table          //(INPUT)  max lookup length
+
                                , float independant_variable   //(INPUT)  independant variable which
                                , float **c_x_dm_sen_frac      //(INPUT)  lookup for independant variabl   is said to drive senescence.
                                , float **c_y_dm_sen_frac      // (INPUT)  fraction of  material senescin

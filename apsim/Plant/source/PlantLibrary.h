@@ -6,37 +6,10 @@
 using namespace std;
 
 class commsInterface;
-class PlantComponent;
 
 #define min(A,B) ((A)<(B)?(A):(B))
 #define max(A,B) ((A)>(B)?(A):(B))
 
-extern const char *Blank;
-
-// Size of a message"s address char. string
-const int Mes_address_size = 8;
-
-// Size of action part of message
-const int Mes_Action_size = 20;
-
-// Size of data part of message
-const int Mes_Data_size = 50;
-
-// Message delimiter
-extern const char *Mes_delimiter;
-
-// Len. of string returned by char. fun.
-const int Function_string_len = 600;
-
-// minimum year for APSIM simulations.
-const int min_year = 1800;
-
-// maximum year for APSIM simulations.
-const int max_year = 2200;
-
-extern const char *All_active_modules;
-const int Unknown_module = 0;
-extern const char *First_active_module;
 
 /*   ================================================================
  *    Conversion constants
@@ -49,79 +22,76 @@ extern const char *First_active_module;
  // ----------------------- Declaration section ------------------------
 
  //  Constant values
-
-      // WEIGHT conversion
-      const float gm2kg = 1.0/1000.0;           // constant to convert g to kg
-      const float kg2gm = 1000.0;               // conversion of kilograms to grams
-      const float mg2gm = 1.0/1000.0;           // conversion of mg to grams
-      const float t2g = 1000.0*1000.0;          // tonnes to grams
-      const float g2t = 1.0/ t2g;               // grams to tonnes
-      const float t2kg = 1000.0;                // tonnes to kilograms
-      const float kg2t = 1.0/ t2kg;             // kilograms to tonnes
-
-
-      // AREA conversion
-      const float ha2scm = 10000.0*10000.0;     // ha to sq cm
-      const float ha2sm = 10000.0;              // conversion of hectares to sq metres
-      const float sm2ha = 1.0/10000.0;          // constant to convert m^2 to hectares
-      const float sm2smm = 1000000.0;           // conversion of square metres to square mm
-      const float smm2sm = 1.0/1000000.0;       // conversion factor of mm^2 to m^2
-      const float scm2smm = 100.0;              // conversion factor of cm^2 to mm^2
+// WEIGHT conversion
+extern const float gm2kg;           // constant to convert g to kg
+extern const float kg2gm ;          // conversion of kilograms to grams
+extern const float mg2gm ;          // conversion of mg to grams
+extern const float t2g ;            // tonnes to grams
+extern const float g2t ;            // grams to tonnes
+extern const float t2kg ;           // tonnes to kilograms
+extern const float kg2t ;           // kilograms to tonnes
 
 
-      // PRESSURE and related conversion
-      const float g2mm = 1.0e3/1.0e6;           // convert g water/m^2 to mm water
-                                                // 1 g water = 1,000 cubic mm and
-                                                // 1 sq m = 1,000,000 sq mm
-      const float mb2kpa = 100.0/1000.0;        // convert pressure mbar to kpa
-                                                // 1000 mbar = 100 kpa
-
-      // LENGTH conversion
-      const float cm2mm = 10.0;                 // cm to mm
-      const float mm2cm = 1.0/10.0;             // conversion of mm to cm
-      const float mm2m = 1.0/1000.0;            // conversion of mm to m
-      const float km2m  = 1000.0;               // conversion of km to metres
+// AREA conversion
+extern const float ha2scm ;         // ha to sq cm
+extern const float ha2sm ;          // conversion of hectares to sq metres
+extern const float sm2ha ;          // constant to convert m^2 to hectares
+extern const float sm2smm ;         // conversion of square metres to square mm
+extern const float smm2sm ;         // conversion factor of mm^2 to m^2
+extern const float scm2smm ;        // conversion factor of cm^2 to mm^2
 
 
-      // VOLUME conversion
-      const float cmm2cc = 1.0/1000.0;          // conversion of cubic mm to cubic cm
-      const float conv_gmsm2kgha = 100.0;       // convert g/sm -> kg/ha
-      const float conv_pc2fr = 0.01;            // convert %age to fraction
-      const float pcnt2fract = 1.0/100.0;       // convert percent to fraction
-      const float fract2pcnt = 100.0;           // convert fraction to percent
-      const float mm2lpsm = 1.0;                // mm depth to litres per sq m
-      const float lpsm2mm = 1.0;                // litres per sq m to mm depth
-      const float day2hr  = 24.0;               // days to hours
-      const float hr2s    = 60.0*60.0;          // hours to seconds
-      const float s2hr    = 1.0/hr2s;           // seconds to hours
+// PRESSURE and related conversion
+extern const float g2mm ;           // convert g water/m^2 to mm water
+                                          // 1 g water = 1,000 cubic mm and
+                                          // 1 sq m = 1,000,000 sq mm
+extern const float mb2kpa ;        // convert pressure mbar to kpa
+                                          // 1000 mbar = 100 kpa
 
-// An "external" function.
+// LENGTH conversion
+extern const float cm2mm;                 // cm to mm
+extern const float mm2cm ;             // conversion of mm to cm
+extern const float mm2m ;            // conversion of mm to m
+extern const float km2m  ;               // conversion of km to metres
+
+
+// VOLUME conversion
+extern const float cmm2cc ;          // conversion of cubic mm to cubic cm
+extern const float conv_gmsm2kgha ;       // convert g/sm -> kg/ha
+extern const float conv_pc2fr ;            // convert %age to fraction
+extern const float pcnt2fract ;       // convert percent to fraction
+extern const float fract2pcnt ;           // convert fraction to percent
+extern const float mm2lpsm ;                // mm depth to litres per sq m
+extern const float lpsm2mm ;                // litres per sq m to mm depth
+extern const float day2hr  ;               // days to hours
+extern const float hr2s    ;          // hours to seconds
+extern const float s2hr    ;           // seconds to hours
+
+namespace protocol {
+  class Component;
+};
+
+// An "external" function: an abstract class to encapsulate functions defined in .ini files..
 class externalFunction {
  protected:
      std::string xName, yName, xUnits, yUnits;
  public:
-   externalFunction() {};
-   ~externalFunction() {};
+   externalFunction();
+   ~externalFunction();
 
-   void read(PlantComponent *P, const string &section,
+   void read(protocol::Component *P, const string &section,
                      const char *xname, const char * xunits, float x0, float x1,
-                     const char *yname, const char * yunits, float y0, float y1)
-      {
-      vector<string> t;
-      t.push_back(section);
-      search(P, t, xname, xunits, x0, x1, yname, yunits, y0, y1);
-      };
-   virtual void search(PlantComponent *P, vector<string> &sections,
+                     const char *yname, const char * yunits, float y0, float y1);
+
+   virtual void search(protocol::Component *P, vector<string> &sections,
                        const char *xname, const char * xunits, float x0, float x1,
-                       const char *yname, const char * yunits, float y0, float y1)
-      {
-      xName = string(xname); yName = string(yname);
-      xUnits = string(xunits); yUnits = string(yunits);
-      };
+                       const char *yname, const char * yunits, float y0, float y1);
+
    virtual std::string description(void);
 
    virtual float value(float v) = 0;
    float operator [] (float arg) {return value(arg);};
+   virtual bool isInitialised(void) {return false;};
 };
 
 
@@ -132,7 +102,7 @@ class interpolationFunction : public externalFunction
    vector<float> x;
    vector<float> y;
  public:
-   void search(PlantComponent *P, vector<string> &sections,
+   void search(protocol::Component *P, vector<string> &sections,
              const char *xName, const char * xunits, float x0, float x1,
              const char *yName, const char * yunits, float y0, float y1);
    float value(float v);
@@ -143,6 +113,12 @@ class interpolationFunction : public externalFunction
    	return(y);
    };
    std::string description(void);
+   bool isInitialised(void)
+      {
+      if (x.size() == 0) return false;
+      if (y.size() == 0) return false;
+      return true;
+      };
 };
 
 // Implement table lookup functions
@@ -152,7 +128,7 @@ class lookupFunction : public externalFunction
    vector<float> x;
    vector<float> y;
  public:
-   void search(PlantComponent *P, vector<string> &sections,
+   void search(protocol::Component *P, vector<string> &sections,
              const char *xName, const char * xunits, float x0, float x1,
              const char *yName, const char * yunits, float y0, float y1);
    float value(float v);
@@ -168,9 +144,10 @@ class lookupFunction : public externalFunction
 
 // A class that observes things. Mostly report-related.
 class observer {
-	protected:
-        int n;
-	  float *myLocation, mySum;
+   protected:
+     int n;
+     float *myLocation, mySum;
+
    public:
      observer() {};
      virtual ~observer() {};
@@ -187,35 +164,25 @@ class observer {
 
 // Keep track of state variable
 class stateObserver : public observer {
-	public:
+   public:
      void update(void) {mySum += *myLocation; n++;};
 };
 
 // Factors are "1 - state" style variables
 class factorObserver : public observer {
-	public:
+   public:
      void update(void) {mySum += (1.0 - *myLocation); n++;};
 };
 
 // A subject (observer manager)
 class stageSubject {
-	private:
-	  std::list<observer *> observers;
-	public:
-	  stageSubject() {};
-	  void addObserver(observer *s) {observers.push_back(s);};
-     void update() {
-     	  for (std::list<observer*>::iterator o = observers.begin();
-     	       o !=  observers.end();
-     	       o++)
-     	      (*o)->update();
-     };
-     void reset(){
-     	  for (std::list<observer*>::iterator o = observers.begin();
-     	       o !=  observers.end();
-     	       o++)
-     	      (*o)->reset();
-     };
+   private:
+     std::list<observer *> observers;
+   public:
+     stageSubject();
+     void addObserver(observer *s) {observers.push_back(s);};
+     void update() ;
+     void reset() ;
 };
 
 
@@ -834,21 +801,18 @@ void crop_death_actual (float g_dlt_plants_failure_germ,
   void cproc_n_uptake3
     (
      float  *g_dlayer
-    ,int    max_layer
     ,float  *g_no3gsm_uptake_pot
     ,float  *g_nh4gsm_uptake_pot
     ,float  g_n_fix_pot
     ,const char   *c_n_supply_preference
-    ,float  *g_n_demand
-    ,float  *g_n_max
-    ,int    max_part
+    ,float  n_demand
+    ,float  n_max
     ,float  g_root_depth
     ,float  *dlt_no3gsm
     ,float  *dlt_nh4gsm
     ) ;
   void cproc_n_supply3 (
      float  g_dlayer[]
-    ,int    max_layer
     ,float  g_no3gsm[]
     ,float  g_no3gsm_min[]
     ,float  *g_no3gsm_uptake_pot
@@ -869,7 +833,6 @@ void crop_death_actual (float g_dlt_plants_failure_germ,
     ) ;
 void cproc_n_supply4 (float* g_dlayer  //  ! (INPUT)
                ,float* g_bd                   //
-               ,int max_layer                 //  ! (INPUT)
                ,float* g_NO3gsm               //  ! (INPUT)
                ,float* g_NO3gsm_min           //  ! (INPUT)
                ,float* G_no3gsm_uptake_pot    //
@@ -987,19 +950,16 @@ void cproc_n_senescence1 (const int num_part,         //(INPUT) number of plant 
 
 void cproc_n_uptake1(float C_no3_diffn_const,   //(INPUT)  time constant for uptake by di
                      float *G_dlayer,            //(INPUT)  thickness of soil layer I (mm)//
-                     const int max_layer,        // INPUT)  max number of soil layers
                      float *G_no3gsm_diffn_pot,  //(INPUT)  potential NO3 (supply) from so
                      float *G_no3gsm_mflow_avail,// (INPUT)  potential NO3 (supply) from
                      float G_n_fix_pot,         //(INPUT) potential N fixation (g/m2)
                      const char *C_n_supply_preference, //(INPUT)
-                     float *G_n_demand,                //(INPUT)  critical plant nitrogen demand
-                     float *G_n_max,                   //(INPUT)  maximum plant nitrogen demand
-                     const int max_part,              //(INPUT)  number of plant parts
+                     float n_demand,                //(INPUT)  critical plant nitrogen demand
+                     float n_max,                   //(INPUT)  maximum plant nitrogen demand
                      float G_root_depth,              // (INPUT)  depth of roots (mm)
                      float *dlt_no3gsm);                // (OUTPUT) actual plant N uptake from NO3 in each layer (g/m^2
 
 void cproc_n_supply1 (float *G_dlayer,                   // (INPUT)
-                      int    max_layer,               // (INPUT)
                       float *G_dlt_sw_dep,               // (INPUT)
                       float *G_NO3gsm,                   // (INPUT)
                       float *G_NO3gsm_min,               // (INPUT)
@@ -1063,7 +1023,6 @@ void crop_n_dead_detachment(int num_part,
                             float *dlt_N_dead_detached);  //(OUTPUT) change in dm of dead plants (g/m^2)
 
 void cproc_n_supply2 (float *g_dlayer,                // (INPUT)
-                      const int max_layer,            // (INPUT)
                       float *g_dlt_sw_dep,            // (INPUT)
                       float *g_NO3gsm,                // (INPUT)
                       float *g_NO3gsm_min,            // (INPUT)
@@ -1117,7 +1076,6 @@ void cproc_n_supply2 (float *g_dlayer,                // (INPUT)
     ,float *c_rel_emerg_rate        // (INPUT)
     ,int   c_num_fasw_emerg         // (INPUT)
     ,float *g_dlayer
-    ,int   max_layer
     ,float g_sowing_depth
     ,float *g_sw_dep
     ,float *g_dul_dep
@@ -1177,7 +1135,6 @@ float crop_germination(int   sowing_stage,             //(INPUT)
                        float G_current_stage,          //(INPUT)  current phenological stage
                        float *G_days_tot,              //(INPUT)  duration of each phase (days)
                        float *G_dlayer,                //(INPUT)  thickness of soil layer I (mm)
-                       int   max_layer,                //(INPUT)
                        float G_sowing_depth,           //(INPUT)  sowing depth (mm)
                        float *G_sw_dep,                //(INPUT)  soil water content of layer L
                        float *P_ll_dep);                //(INPUT)  lower limit of plant-extractab
@@ -1193,7 +1150,6 @@ void crop_phase_devel(int   sowing_stage,              //(INPUT)
                       float G_current_stage,           //(INPUT)  current phenological stage
                       float *G_days_tot,               // (INPUT)  duration of each phase (days)
                       float *G_dlayer,                 // (INPUT)  thickness of soil layer I (mm)
-                      int   max_layer,                 //(INPUT)
                       float G_sowing_depth,            //(INPUT)  sowing depth (mm)
                       float *G_sw_dep,                 // (INPUT)  soil water content of layer L
                       float *G_dul_dep,                // (INPUT)
@@ -1226,7 +1182,6 @@ void plant_phenology3 (float *g_previous_stage
                              ,float *c_rel_emerg_rate
                              ,int   c_num_fasw_emerg
                              ,float *g_dlayer
-                             ,int   max_layer
                              ,float g_sowing_depth
                              ,float *g_sw_dep
                              ,float *g_dul_dep
@@ -1258,7 +1213,6 @@ void cproc_phenology1 (float  *G_previous_stage,         //   OUTPUT
                        float *C_rel_emerg_rate,         //    (INPUT)
                        int    C_num_fasw_emerg,          //   (INPUT)
                        float *G_dlayer,                 //    IN
-                       int    max_layer,                 //   IN
                        float  G_sowing_depth,            //   IN
                        float *G_sw_dep,                 //    IN
                        float *G_dul_dep,                //    IN
@@ -1276,7 +1230,6 @@ void crop_germ_dlt_tt(float *C_fasw_emerg,        //(INPUT)  plant extractable s
                       float  G_current_stage,     //(INPUT)  current phenological stage
                       int    germ_phase,          //(INPUT)
                       float *G_dlayer,            //(INPUT)  thickness of soil layer I (mm)
-                      int    max_layer,           //(INPUT)
                       float  G_sowing_depth,      //(INPUT)  sowing depth (mm)
                       float *G_sw_dep,            //(INPUT)  soil water content of layer L
                       float *P_ll_dep,            //(INPUT)  lower limit of plant-extractab
@@ -1310,8 +1263,8 @@ void cproc_root_length_growth_new (
     ,int    c_num_plant_rld                        // (INPUT)
     ,float *g_dul_dep                              // (INPUT)  drained upper limit soil water
     ,float *g_sw_dep                               // (INPUT)  soil water content of layer L
-    ,float *p_ll_dep                               // (INPUT)  lower limit of plant-extractab
-    ,int    max_layer);                             // (INPUT)  maximum number of soil laye
+    ,float *p_ll_dep);                               // (INPUT)  lower limit of plant-extractab
+
 
 
 void cproc_root_length_senescence1(float  C_specific_root_length,    //(INPUT)  length of root per unit wt (m
@@ -1319,15 +1272,13 @@ void cproc_root_length_senescence1(float  C_specific_root_length,    //(INPUT)  
                                    float  G_dlt_root_dm_senesced,    //(INPUT)  plant biomass senescence  (g/m^2)
                                    float *G_root_length,             //(INPUT)
                                    float  G_root_depth,              //(INPUT)  depth of roots (mm)
-                                   float *G_dlt_root_length_senesced,//(OUTPUT) root length lost from each layer (mm/mm^2)
-                                    int   max_layer);                 // (INPUT)  maximum layer number
+                                   float *G_dlt_root_length_senesced);//(OUTPUT) root length lost from each layer (mm/mm^2)
 
 void cproc_root_length_init1 (float root_wt,
                               float c_specific_root_length,
                               float g_root_depth,
                               float *g_dlayer,
-                              float *g_root_length,
-                              int   max_layer);
+                              float *g_root_length);
 
 void cproc_root_length_growth1(float  C_specific_root_length,      //   (INPUT) length of root per unit wt (mm
                                float *G_dlayer,                    //   (INPUT)  thickness of soil layer I (mm)
@@ -1346,15 +1297,13 @@ void cproc_root_length_growth1(float  C_specific_root_length,      //   (INPUT) 
                                int    C_num_plant_rld,             //   (INPUT)
                                float *G_dul_dep,                   //   (INPUT)  drained upper limit soil water
                                float *G_sw_dep,                    //   (INPUT)  soil water content of layer L
-                               float *P_ll_dep,                    //   (INPUT)  lower limit of plant-extractab
-                               int    max_layer);                   //   (INPUT)  maximum number of soil laye
+                               float *P_ll_dep);                    //   (INPUT)  lower limit of plant-extractab
 
 void crop_root_dist(float *G_dlayer,          //(INPUT)  thickness of soil layer I (mm)
                     float *G_root_length,     //(INPUT)
                     float G_root_depth,       //(INPUT)  depth of roots (mm)
                     float *root_array,        //(OUTPUT) array to contain distributed material
-                    float root_sum,           //(INPUT) Material to be distributed
-                    int   max_layer);          // (INPUT) max number of soil layers
+                    float root_sum);          //(INPUT) Material to be distributed
 
 void crop_root_redistribute (float *root_length,       //  root length (mm/mm^2)
                              float  root_depth_old,    //  old root depth (mm)
@@ -1534,7 +1483,6 @@ void crop_oxdef_photo1(int   C_num_oxdef_photo,    //  (INPUT)
                        float *G_dlayer,           //  (INPUT)  thickness of soil layer I (mm)
                        float *G_root_length,      //  (INPUT)
                        float G_root_depth,        //  (INPUT)  depth of roots (mm)
-                       int   max_layer,           //  (INPUT)
                        float *oxdef_photo);        //  (OUTPUT)
 
 void cproc_sw_supply1 (commsInterface *,
@@ -1543,7 +1491,6 @@ void cproc_sw_supply1 (commsInterface *,
                        float *P_ll_dep,            //(INPUT)
                        float *G_dul_dep,           //(INPUT)
                        float *G_sw_dep,            //(INPUT)
-                       int   max_layer,            //(INPUT)
                        float G_root_depth,        //(INPUT)
                        float *P_kl,                //(INPUT)
                        float *G_sw_avail,          //(OUTPUT)
@@ -1599,7 +1546,6 @@ void crop_check_sw(commsInterface *,
                    float minsw,    // (INPUT)  lowest acceptable value for ll
                    float *dlayer,   // (INPUT)  thickness of soil layer I (mm)
                    float *dul_dep,  // (INPUT)  drained upper limit soil water content for soil layer L (mm water)
-                   int   max_layer,// (INPUT)  number of layers in profile ()
                    float *sw_dep,   // (INPUT)  soil water content of layer L (mm)
                    float *ll_dep);   // (INPUT)  lower limit of plant-extractable soil water
                                     //          for soil layer L (mm)
@@ -1642,7 +1588,12 @@ void fill_real_array (float *var, float value, int limit);
 void fill_integer_array (int *var, int value, int limit);
 
 int get_cumulative_index_real(float cum_sum, const float *array, int size_of);
-
+template <class T> T sum(vector<T> v) {
+   T result = 0.0;
+   for (unsigned int i = 0; i < v.size();  i++) result += v[i];
+   return result;
+};
+      
 float sum_real_array (float *var, int nelem);
 float sum_integer_array (int *var, int limit);
 int position_in_real_array(float Number,      //(INPUT) Number to search for
@@ -1704,8 +1655,7 @@ float day_length (int day_of_year, float latitude, float twilight);
 
 void jday_to_day_of_year(double*, int*, int*);
 
-inline bool leap_year(int year)
-   {return leap_year(&year);}
+inline bool leap_year(int year) {return leap_year(&year);};
 
 inline bool reals_are_equal(float A, float B, float C) {return(fabs(A-B)<C);}
 inline bool isEqual(float A, float B, float C) {return(fabs(A-B)<C);}
@@ -1714,20 +1664,13 @@ inline bool reals_are_equal(float A, float B) {return(fabs(A-B)<1.0E-6);}
 inline bool isEqual(float A, float B) {return(fabs(A-B)<1.0E-6);}
 
 
-std::string ftoa(double Float, char *fmtwidth=".2");
+std::string ftoa(double Float, char *fmtwidth);
 std::string itoa(int value, int width);
 
-inline bool char2any(const char *str, int &value) {
-   return (sscanf(str, "%d", &value) == 1);
-}
-inline bool char2any(const char *str, float &value) {
-   return (sscanf(str, "%f", &value) == 1);
-}
-inline std::string any2string(float value) {
-   return(ftoa(value, ".2"));
-}
-inline std::string any2string(int value) {
-   return(itoa(value, 5));
-}
+bool char2any(const char *str, int &value) ;
+bool char2any(const char *str, float &value);
+
+std::string any2string(float value) ;
+std::string any2string(int value) ;
 
 #endif

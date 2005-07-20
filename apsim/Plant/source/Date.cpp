@@ -168,6 +168,22 @@ void jday_to_date (int *day, int *month, int *year, double jday)
       }
    }
 
+// ------------------------------------------------------------------
+// Transfer of sign - from FORTRAN.
+// The result is of the same type and kind as a. Its value is the abs(a) of a,
+// if b is greater than or equal positive zero; and -abs(a), if b is less than
+// or equal to negative zero.
+// Example a = sign (30,-2) ! a is assigned the value -30
+// ------------------------------------------------------------------
+float sign(float a, float b)
+   {
+   if (b >= 0)
+      return fabs(a);
+   else
+      return -fabs(a);
+   }
+
+
 //     ===========================================================
 float day_length (int dyoyr,      // (INPUT) day of year number
                   float lat,      // (INPUT) latitude of site (deg)
@@ -268,7 +284,7 @@ float day_length (int dyoyr,      // (INPUT) day of year number
    // the twilight altitude between these.
 
    if (reals_are_equal(fabs(lat), 90.0)) {
-     //coshra = sign (1.0, -dec) * sign (1.0, lat); XXsign???
+     coshra = sign (1.0, -dec) * sign (1.0, lat); 
    } else {
      latrn = lat*dg2rdn;
      slsd = sin(latrn)*sin(dec);
@@ -369,124 +385,4 @@ int   months[13] =  {0, 31, 28,31,30,31,30,31,31,30,31,30,31};
    }
    return(1);
 }
-
-#if 0
-ATTIC
-//     ===========================================================
-extern "C" void _stdcall _export jday_to_date (int   *dayz,// (OUTPUT) day
-                   int   *monthz,// (OUTPUT) month
-                   int   *yearz,// (OUTPUT) year
-                   double *julday)// (INPUT) julian day number
-{
-//+ Purpose
-//       return a date from a julian day
-
-//+ Notes
-//            based on the algorithm by fliegel and van flandern in c.acm
-//            vol.11 (oct 1968) p.657
-
-//+  Mission Statement
-//
-
-//+ Changes
-//       100393 jngh changed day, month, year arguments to integer
-
-//+ Calls
-
-//+ Local Variables
-double day             ;// day
-double mm              ;// temp. variable
-double month           ;// month
-double work            ;// temp. variable
-double work0           ;// temp. variable
-double year            ;// year
-double yy              ;// temp `variable
-
-//- Implementation Section ----------------------------------
-
-// check julian date and option are legal
-
-      if (*julday>0.0) {
-
-// fliegel and van flanden algorithm:
-
-         work = *julday + 68569.0;
-         work0 = floor((4.0*work/146097.0));
-         work = work - floor(((146097.0*work0 + 3.0) /4.0));
-         yy = floor((4000.0* (work + 1.0) /1461001.0));
-
-         work = work - floor((1461.0*yy/4.0) + 31.0);
-         mm = floor((80.0*work/2447.0));
-         day = work - floor((2447.0*mm/80.0));
-
-         work = floor((mm/11.0));
-         month = mm + 2.0 - 12.0*work;
-         year = 100.0* (work0 - 49.0) + yy + work;
-
-         *dayz = floor(day + 0.5);
-         *monthz = floor(month+0.5);
-         *yearz = floor(year+0.5);
-
-    } else {
-         *dayz = 0;
-         *monthz = 0;
-         *yearz = 0;
-    }
-}
-
-
-// ====================================================================
-extern "C" double _stdcall _export  date_to_jday (int   *dayz,// (INPUT) Day
-                     int   *monthz,// (INPUT) Month
-                     int   *yearz)// (INPUT) Year
-{
-//+ Purpose
-//      Return a date as a Julian day number
-
-//+ Assumptions
-//      Assumes the date is after 1583. If not the function returns 0.0.
-
-//+ Notes
-//      This implementation is only valid for dates in the Gregorian
-//      calender (after 15 October 1582).
-//      THIS IS BASED ON THE ALGORITHM BY FLIEGEL AND VAN FLANDERN IN
-//      C.ACM VOL.11 (OCT,1968) P.657
-
-//+  Mission Statement
-//
-
-//+ Changes
-//      Original coding by JNGH for AUSSIM - Modified DPH 30/6/92
-//       100393  jngh changed date_to_jday arguments to integer.
-//       270295  jngh changed real to dble intrinsic function.
-
-//+ Local Variables
-double day            ;// Day
-double month          ;// Month
-double quotnt         ;// Quotient used in Fliegel calculations
-double year           ;// Year
-
-//- Implementation Section ----------------------------------
-
-    if (*yearz>1582 && check_date (dayz, monthz, yearz)) {
-
-         day = (double) *dayz;
-         month = (double) *monthz;
-         year = (double) *yearz;
-
-         quotnt = floor(((month - 14.0)/12.0));
-
-         return (double) (
-           day - 32075.0 
-         + floor(1461.0* (year + 4800.0 + quotnt) /4.0)
-         + floor(367.0* (month - 2.0 - quotnt*12.0) /12.0)
-         - floor(3.0*floor((year + 4900.0 + quotnt) /100.0) /4.0)  );
-
-     } else {
-         return( 0.0);
-     }
-/* notreached*/
-}
-/ATTIC
-#endif
 

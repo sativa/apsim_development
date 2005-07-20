@@ -4,8 +4,9 @@
 class PlantComponent;
 class PlantPhenology;
 class ApsimVariant;
-class PlantP;
+class plantPart;
 class PlantFruit;
+class plantThing;
 class Plant;
 
 typedef bool (Plant::*ptr2setFn) (protocol::QuerySetValueData&);
@@ -14,20 +15,15 @@ typedef std::map<unsigned, ptr2setFn>   UInt2SetFnMap;
 typedef std::map<unsigned, string>      UInt2StringMap;
 
 ////////////////////////
+// array size settings
+// maximum number of plant nodes 
+#define max_node 1000
 
-//   Short description:
-//      plant_tolerances
-const float  tolerance_lai = 1.0e-4 ;
-const float  tolerance_dm = 1.0e-4 ;
-const float  tolerance_fruit_no = 1.0e-2 ;
+// Maximum number of layers in soil
+#define max_layer 100
 
-//   Short description:
-//      array size_of settings
-const int  max_node = 1000 ;                      // maximum number of plant leaves
-const int  max_layer = 100 ;                      // Maximum number of layers in soil
-const int  max_table = 30 ;                       // Maximum size_of of tables
-const int  max_fruit_cohorts = 200;               //maximum number of plant fruit cohorts
-const int  max_fruit_stage = 12;                  // max number of fruit phenological stages (anachronsim)
+// Maximum size_of of tables
+#define max_table 30
 
 //      crop status names
 typedef enum {out, dead, alive} status_t;
@@ -48,13 +44,12 @@ const int  fixation = 4 ;
 //      indices of plant part names
 const int  root = 0 ;
 const int  leaf = 1 ;
-const int  stem = 2 ;
-const int  pod  = 3 ;
-const int  meal = 4 ; // excludes oil component
-const int  oil  = 5 ; // seed oil
-
+//const int  stem = 2 ;
+const int  pod  = 2 ;
+const int  meal = 3 ; // excludes oil component
+const int  oil  = 4 ; // seed oil
 // number of plant parts
-const int  max_part = 6 ; // NB. implies for (i=0; i < max_part; max_part++) usage
+const int  max_part = 5 ; // NB. implies for (i=0; i < max_part; max_part++) usage
 
 typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;
 
@@ -65,9 +60,15 @@ typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;
 class Plant : public plantInterface {
  private:
   PlantComponent *parent;                                // for interface calls to system
-  friend class PlantP;  //?? need to think this one over ?
+  friend class plantPartHack;
   stageSubject   stageObservers;            // A collection of state variable observers, reset at each new stage
   stageSubject   otherObservers;            // Another collection of state variable observers
+
+  vector <plantThing *> myThings;
+  plantPart      *stemPart;
+  PlantPhenology *phenology;
+  PlantFruit     *fruit;
+
 
  public:
   Plant(PlantComponent *P);
@@ -93,6 +94,7 @@ class Plant : public plantInterface {
   void registerClassActions(void);
   void onApsimGetQuery(protocol::ApsimGetQueryData&);
   void sendStageMessage(const char *what);
+  void doPlantEvent(const string &);
 
   void plant_bio_actual (int option /* (INPUT) option number*/);
   void plant_bio_grain_demand (int option /* (INPUT) option number */);
@@ -190,13 +192,10 @@ class Plant : public plantInterface {
     ,float *c_x_stage_code
     ,float *c_y_n_conc_crit_leaf
     ,float *c_y_n_conc_crit_pod
-    ,float *c_y_n_conc_crit_stem
     ,float *c_y_n_conc_max_leaf
     ,float *c_y_n_conc_max_pod
-    ,float *c_y_n_conc_max_stem
     ,float *c_y_n_conc_min_leaf
     ,float *c_y_n_conc_min_pod
-    ,float *c_y_n_conc_min_stem
     ,float *c_x_co2_nconc_modifier
     ,float *c_y_co2_nconc_modifier
     ,int   c_num_co2_nconc_modifier
@@ -208,13 +207,10 @@ class Plant : public plantInterface {
     ,float *c_y_extinct_coef
     ,float *c_y_extinct_coef_dead
     ,int    c_num_row_spacing
-    ,float  *g_canopy_height
     ,float  *g_canopy_width
     ,float  *g_cover_dead
     ,float  *g_cover_green
     ,float  *g_cover_sen
-    ,float  g_dlt_canopy_height
-    ,float  g_dlt_canopy_width
     ,float  g_dlt_dm
     ,float *g_dlt_dm_dead_detached
     ,float *g_dlt_dm_detached
@@ -235,8 +231,6 @@ class Plant : public plantInterface {
     ,float *g_dlt_n_senesced
     ,float *g_dlt_n_senesced_trans
     ,float *g_dlt_n_senesced_retrans
-    ,float *g_dlt_n_green_dead
-    ,float *g_dlt_n_senesced_dead
     ,float  g_dlt_plants
     ,float  g_dlt_root_depth
     ,float  g_dlt_slai
@@ -271,13 +265,9 @@ class Plant : public plantInterface {
     ,float *g_pai
     ,float g_dlt_pai
     ,float c_extinct_coef_pod
-    ,float *g_cover_pod
-    ,int   p_num_canopy_widths
-    ) ;
+    ,float *g_cover_pod) ;
   void plant_check_bounds
-    (
-     float  g_canopy_height
-    ,float  g_cover_dead
+    (float  g_cover_dead
     ,float  g_cover_green
     ,float  g_cover_sen
     ,float *g_dlayer
@@ -339,12 +329,11 @@ class Plant : public plantInterface {
   void plant_root_incorp (
      float  dlt_dm_root
     ,float  dlt_n_root
+    ,float  dlt_p_root
     ,float  *root_length)               ;
   void plant_dm_init (float  c_dm_leaf_init
 		      ,float  c_dm_root_init
-		      ,float  c_dm_stem_init
 		      ,float  c_leaf_trans_frac
-		      ,float  c_stem_trans_frac
 		      ,float  c_pod_trans_frac
 		      ,float  g_plants
 		      ,float  *dm_green
@@ -402,13 +391,10 @@ class Plant : public plantInterface {
 			     ,float  *c_x_stage_code
 			     ,float  *c_y_n_conc_crit_leaf
 			     ,float  *c_y_n_conc_crit_pod
-			     ,float  *c_y_n_conc_crit_stem
 			     ,float  *c_y_n_conc_max_leaf
 			     ,float  *c_y_n_conc_max_pod
-			     ,float  *c_y_n_conc_max_stem
 			     ,float  *c_y_n_conc_min_leaf
 			     ,float  *c_y_n_conc_min_pod
-			     ,float  *c_y_n_conc_min_stem
                              ,float  *c_x_co2_nconc_modifier
                              ,float  *c_y_co2_nconc_modifier
                              ,int    c_num_co2_nconc_modifier
@@ -490,71 +476,42 @@ class Plant : public plantInterface {
     ,float  *dm_oil_conv_retranslocate
     ,float  *dm_retranslocate
     ) ;
-  void legnew_dm_retranslocate_test
-    (
-     int    max_part
-    ,int    *supply_pools
-    ,int    num_supply_pools
-    ,float  g_dm_demand_differential
-    ,float  *g_dlt_dm_green
-    ,float  *g_dm_green
-    ,float  *g_dm_plant_min
-    ,float  g_plants
-    ,float  *dlt_dm_retrans_fruit
-    ,float  *dm_retranslocate
-    ) ;
-  void legnew_dm_retranslocate2
-    (
-     float  g_current_stage
+
+void Plant::legnew_dm_retranslocate_test
+    (vector<plantPart *> &allParts        // (INPUT) all parts of plant
+    ,vector<plantPart *> &supply_pools    // (INPUT)
+    ,float  g_dm_demand_differential      // (INPUT)  grain dm demand (g/m^2)
+    ,float  g_plants                      // (INPUT)  Plant density (plants/m^2)
+    ,float  *dlt_dm_retrans_to_fruit);    // (OUTPUT) dm retranslocated to fruit (g/m^2)
+    
+void legnew_dm_retranslocate2
+    (float  g_current_stage
     ,float  *c_x_stage_no_partition
     ,float  *c_y_frac_pod
     ,int    c_num_stage_no_partition
-    ,float  g_grain_energy
-    ,float  c_grain_oil_conc
-    ,int    pod
-    ,int    meal
-    ,int    oil
-    ,int    max_part
-    ,int    *supply_pools
-    ,int    num_supply_pools
-    ,float  g_dlt_dm_grain_demand
-    ,float  g_dlt_dm_oil_conv
-    ,float  *g_dlt_dm_green
-    ,float  *g_dm_green
-    ,float  *g_dm_plant_min
-    ,float  g_plants
-    ,float  *dm_oil_conv_retranslocate
-    ,float  *dm_retranslocate
+    ,float  g_grain_energy               // (INPUT) multiplier of grain weight to account for energy used in oil conversion.
+    ,float  c_grain_oil_conc             // (INPUT) fraction of grain that is oil
+    ,plantPart *podPart                          // (INPUT)
+    ,plantPart *mealPart                         // (INPUT)
+    ,plantPart *oilPart                          // (INPUT)
+    ,vector<plantPart *> &supply_pools     // (INPUT)
+    ,vector<plantPart *> &allParts         // (INPUT)
+    ,float  g_dlt_dm_grain_demand        // (INPUT)  grain dm demand (g/m^2)
+    ,float  g_dlt_dm_oil_conv            // (INPUT)  dm used in oil conversion (g/m^2)
+    ,float  g_plants                     // (INPUT)  Plant density (plants/m^2)
+    ,float  *dm_oil_conv_retranslocate    // (OUTPUT) assimilate used for oil conversion - energy (g/m^2)
     ) ;
-  void legnew_n_retranslocate(
-     float  *g_n_conc_crit
-    ,float  *g_n_conc_min               // (INPUT)  minimum N concentration (g N/g
-    ,float  *g_dlt_dm_green             // (INPUT)  plant biomass growth (g/m^2)
-    ,float  *g_dlt_dm_green_retrans     // (INPUT)  plant biomass growth (g/m^2)
-    ,float  *g_dm_green                 // (INPUT)  live plant dry weight (biomass
-    ,float  *g_n_conc_max               // (INPUT)  maximum N concentration (g N/g
-    ,float  *g_n_green                  // (INPUT)  plant nitrogen content (g N/m^
-    ,float   g_grain_n_demand           // INPUT
-    ,float  *dlt_n_retrans);            // (OUTPUT) plant N taken out from plant parts (g N/m^2)
+  void legnew_n_retranslocate(float g_grain_n_demand);
+//  void legnew_n_retranslocate_test( int    *supply_pools
+//                                , int    num_supply_pools
+//                                , float  *g_n_conc_min               // (INPUT)  minimum N concentration (g N/g
+//                                , float  *g_dm_green                 // (INPUT)  live plant dry weight (biomass
+//                                , float  *g_n_green                  // (INPUT)  plant nitrogen content (g N/m^
+//                                , float  g_grain_n_demand            //  INPUT
+//                                , float  dlt_n_retrans_supply        // (OUTPUT) plant N supply to fruit (g N/m^2)
+//                                , float  *dlt_n_retrans              // (OUTPUT) plant N taken out from plant parts (g N/m^2)
+//                                );
 
-void legnew_n_retranslocate_test( int    *supply_pools
-                                , int    num_supply_pools
-                                , float  *g_n_conc_min               // (INPUT)  minimum N concentration (g N/g
-                                , float  *g_dm_green                 // (INPUT)  live plant dry weight (biomass
-                                , float  *g_n_green                  // (INPUT)  plant nitrogen content (g N/m^
-                                , float  g_grain_n_demand            //  INPUT
-                                , float  dlt_n_retrans_supply        // (OUTPUT) plant N supply to fruit (g N/m^2)
-                                , float  *dlt_n_retrans              // (OUTPUT) plant N taken out from plant parts (g N/m^2)
-                                );
-
-  void plant_n_retranslocate(float *g_n_conc_crit //! (INPUT)  critical N concentration (g N/
-                           , float *g_n_conc_min                     //(INPUT)  minimum N concentration (g N/
-                           , float c_n_retrans_fraction
-                           , float *g_dm_green                       //(INPUT)  live plant dry weight (biomas
-                           , float *g_n_green                        //(INPUT)  plant nitrogen content (g N/m2)
-                           , float g_grain_n_demand                 //
-                           , float *g_dlt_n_green                    //
-                           , float *dlt_n_retrans);                   //(OUTPUT) plant N taken out from
 
   void legnew_leaf_death_leg
     (
@@ -573,7 +530,6 @@ void legnew_n_retranslocate_test( int    *supply_pools
   void legnew_retrans_init
     (
      float c_leaf_trans_frac
-    ,float c_stem_trans_frac
     ,float  g_plants
     ,float *dm_green
     ,float *dm_plant_min
@@ -608,13 +564,13 @@ void legnew_n_retranslocate_test( int    *supply_pools
       float     *grain_n_demand);
 
   void plant_grain_number (int option /*(INPUT) option number*/);
-  void plant_grain_number (float *dm_green
+  void plant_grain_number (float stem_dm
                           ,float p_grains_per_gram_stem
                           ,float *g_grain_no);
 
    void plant_root_incorp (float dlt_dm_root,
-      float dlt_n_root, float *g_dlayer, float *g_root_length, float g_root_depth,
-      const char *c_crop_type, const int max_layer);
+      float dlt_n_root, float dlt_p_root, float *g_dlayer, float *g_root_length, float g_root_depth,
+      const char *c_crop_type);
   void plant_soil_n_demand1 (float *);
   void plant_process ( void );
   void plant_dead (void);
@@ -648,15 +604,12 @@ void legnew_n_retranslocate_test( int    *supply_pools
   void plant_read_species_const ();
   void plant_harvest_report ();
   bool  plant_auto_class_change (const char *action);
-  void plant_send_crop_chopped_event (
-    const string&  crop_type
-    ,vector<string>& dm_type
-    ,float * dlt_crop_dm
-    ,float * dlt_dm_n
-    ,float * dlt_dm_p
-    ,float * fraction_to_residue
-    ,int     max_part
-    ) ;
+  void plant_send_crop_chopped_event (const string&  crop_type               // (INPUT) crop type
+                                      ,vector<string> &dm_type               // (INPUT) residue type
+                                      ,vector<float>  &dlt_crop_dm           // (INPUT) residue weight (kg/ha)
+                                      ,vector<float>  &dlt_dm_n              // (INPUT) residue N weight (kg/ha)
+                                      ,vector<float>  &dlt_dm_p              // (INPUT) residue P weight (kg/ha)
+                                      ,vector<float>  &fraction_to_residue); // (INPUT) residue fraction to residue (0-1)
   void plant_n_demand( int max_part                       // (INPUT)
        , int *demand_parts                  // (INPUT)
        , int num_demand_parts               // (INPUT)
@@ -673,88 +626,6 @@ void legnew_n_retranslocate_test( int    *supply_pools
        , float *n_demand                    // (OUTPUT) critical plant nitrogen demand  (g/m^2)
        , float *n_max);                      // (OUTPUT) max plant nitrogen demand  (g/m^2)
 
-  void legnew_bio_yieldpart_demand3(
-        int   max_fruit_cohorts,                           // (INPUT)
-        int   max_part,                                    // (INPUT)
-        int   max_fruit_stage,                             // (INPUT)
-        int   g_num_fruit_cohorts,                         // (INPUT)
-        float *g_current_stage,                            // (INPUT)
-        int   flowering,                                   // (INPUT)
-        int   start_grain_fill,                            // (INPUT)
-        int   end_grain_fill,                              // (INPUT)
-        float *y_tt_flower_to_start_grain,                 // (INPUT)
-        float *y_tt_fruit_start_to_end_grain,              // (INPUT)
-        float *g_dlt_tt,                                    // (INPUT)
-        float **g_tt_tot,                                  // (INPUT)
-        float *g_fruit_no,                                 // (INPUT)
-        float p_potential_fruit_filling_rate,              // (INPUT)
-        float p_dm_fruit_max,                              // (INPUT)
-        float **g_dm_fruit_green,                          // (INPUT)
-        float g_maxt,                                      // (INPUT)
-        float g_mint,                                      // (INPUT)
-        float *c_x_temp_grainfill,                         // (INPUT)
-        float *c_y_rel_grainfill,                          // (INPUT)
-        int   c_num_temp_grainfill,                        // (INPUT)
-        float *c_x_stage_no_partition,                                 // (INPUT)
-        float *c_y_frac_pod,                                // (INPUT)
-        int   c_num_stage_no_partition,
-        float c_tt_flower_to_start_pod,
-        float **g_fruit_phase_tt,                          // INPUT
-        float g_grain_energy,                              // (INPUT)
-        float *dlt_dm_fruit_demand,                         //(OUTPUT)
-        float *dlt_dm_grain_demand);                         //(OUTPUT)
-   void legnew_dm_partition3(float *g_current_fruit_stage        //
-                               , float *c_x_stage_no_partition
-                               , float *c_y_frac_leaf                  // (INPUT)  fraction of remaining dm allocated to leaf
-                               , float *c_y_frac_pod                   // (INPUT)  fraction of remaining dm allocated to pod
-                               , int   c_num_stage_no_partition
-                               , float  g_grain_energy               //          multiplier of grain weight to account f
-                               , float  c_grain_oil_conc             //          multiplier of grain weight to account f
-                               , float *c_y_ratio_root_shoot           // (INPUT)  root:shoot ratio of new dm ()
-                               , float  c_sla_min                    // (INPUT)  minimum specific leaf area for
-                               , const int   max_fruit_cohorts       //
-                               , const int   max_part                //
-                               , int   g_num_fruit_cohorts           //
-                               , float *g_fruit_no
-                               , float  g_dlt_dm                     // (INPUT)  the daily biomass production
-                               , float  *g_dlt_dm_grain_demand       // (INPUT)  grain dm demand (g/m^2)
-                               , float  *g_dlt_dm_fruit_demand       // (INPUT)  grain dm demand (g/m^2)
-                               , float  g_dlt_dm_parasite_demand     //          assimilate demand for parasite (g/m^2)
-                               , float  g_dlt_lai_stressed           // (INPUT)  potential change in live
-                               , float  *dlt_dm_oil_conv             // (OUTPUT) actual biomass used in conversion to oil (g/m2)
-                               , float  *dlt_dm_parasite             // (OUTPUT) actual biomass partitioned to parasite (g/m^2)
-                               , float  **dlt_dm_green);              // (OUTPUT) actual biomass partitioned
-
-  void legnew_dm_retranslocate3(
-                   float *g_current_fruit_stage     //
-                   ,float *c_x_stage_no_partition   // (INPUT) fraction of remaining dm allocated to pod
-                   ,float *c_y_frac_pod                // (INPUT) fraction of remaining dm allocated to pod
-                   ,int   c_num_stage_no_partition   // (INPUT) fraction of remaining dm allocated to pod
-                   ,float g_grain_energy             // (INPUT) multiplier of grain weight to account for energy used in oil conversion.
-                   ,float c_grain_oil_conc           // (INPUT) fraction of grain that is oil
-                   ,int   pod                        // (INPUT)
-                   ,int   meal                       // (INPUT)
-                   ,int   oil                        // (INPUT)
-                   ,int   max_part                   // (INPUT)
-                   ,int   *supply_pools              // (INPUT)
-                   ,int   num_supply_pools           // (INPUT)
-                   ,int   max_fruit_cohorts          //
-                   ,float *g_dlt_dm_grain_demand     //  (INPUT)  grain dm demand (g/m^2)
-                   ,float *g_dlt_dm_fruit_demand     //  (INPUT)  grain dm demand (g/m^2)
-                   ,float g_dlt_dm_parasite_demand   //  (INPUT)  parasite dm demand (g/m^2)
-                   ,float *g_dlt_dm_oil_conv         //  (INPUT)  dm used in oil conversion (g/m^2
-                   ,float g_dlt_dm_parasite          //  (INPUT)  parasite biomass growth (g/m^2)
-                   ,float **g_dlt_dm_green           //  (INPUT)  plant biomass growth (g/m^2)
-                   ,float *g_dm_green                //  (INPUT)  live plant dry weight (biomass
-                   ,float **g_dm_fruit_green         //  (INPUT)  plant biomass growth (g/m^2)
-                   ,float *g_dm_plant_min            //  (INPUT)  minimum weight of each plant p
-                   ,float *g_dm_fruit_pod_min        //  (INPUT)  minimum weight of each fruit pod
-                   ,float g_plants                   //  (INPUT)  Plant density (plants/m^2)
-                   ,float *g_fruit_no                //  (INPUT)  Plant density (plants/m^2)
-                   ,int   g_num_fruit_cohorts        //
-                   ,float *dm_oil_conv_retranslocate //  (OUTPUT) assimilate used for oil conversion - energy (g/m^2)
-                   ,float *dm_parasite_retranslocate //  (OUTPUT) assimilate retranslocated to parasite (g/m^2)
-                   ,float **dm_retranslocate);        //  (OUTPUT) actual change in plant part weights due to translocation (g/m^2)
 
   void plant_get_ext_uptakes (const char *uptake_source,        //(INPUT) uptake flag
                            const char *crop_type,            //(INPUT) crop type name
@@ -762,199 +633,9 @@ void legnew_n_retranslocate_test( int    *supply_pools
                            float unit_conversion_factor,     //(INPUT) unit conversion factor
                            float uptake_lbound,              //(INPUT) uptake lower limit
                            float uptake_ubound,              //(INPUT) uptake upper limit
-                           float *uptake_array,              //(OUTPUT) crop uptake array
-                           int max_layer);                    //(INPUT) max layer number
-
-  void plant_fruit_dm_init(
-                    float c_dm_leaf_init            // (INPUT)  leaf growth before emergence (
-                   ,float c_dm_root_init            // (INPUT)  root growth before emergence (
-                   ,float c_dm_stem_init            // (INPUT)  stem growth before emergence (
-                   ,float c_pod_trans_frac          // (INPUT)  fraction of pod used in trans
-                   ,int   max_part                  // (INPUT)
-                   ,int   max_fruit_cohorts         // (INPUT)
-                   ,float*g_current_fruit_stage     // (INPUT)  current cohort phenological stage
-                   ,int   g_num_fruit_cohorts       // (INPUT)
-                   ,float*g_fruit_no                // (INPUT)  Fruit density (Fruit/m^2)
-                   ,float g_plants                  // (INPUT/OUTPUT) plant part weights (g/m^2)
-                   ,float**g_fruit_sdr_daily         //
-                   ,float**dm_fruit_green           // (INPUT)  Plant density (plants/m^2)
-                   ,float*dm_fruit_pod_min);         // (OUTPUT) minimum weight of each plant part (g/plant)
-  void plant_fruit_phenology_init(
-     float c_twilight                          // (INPUT)  twilight in angular distance b
-    ,float *g_current_stage                    // (INPUT)  current phenological stage
-    ,float **g_days_tot                        // (INPUT)  duration of each phase (days)
-    ,int   max_fruit_stage
-    ,int   max_fruit_cohorts
-    ,float g_num_fruit_cohorts
-    ,float g_day_of_year                       // (INPUT)  day of year
-    ,float g_latitude                          // (INPUT)  latitude (degrees, negative fo
-    ,float *p_x_pp_flower_to_start_grain       // (INPUT)
-    ,float *p_y_tt_flower_to_start_grain       // (INPUT)
-    ,float p_num_pp_flower_to_start_grain      // (INPUT)
-    ,float *p_x_pp_start_to_end_grain          // (INPUT)
-    ,float *p_y_tt_start_to_end_grain          // (INPUT)
-    ,float p_num_pp_start_to_end_grain         // (INPUT)
-    ,float p_tt_end_grain_to_maturity          // (INPUT)
-    ,float p_tt_maturity_to_ripe               // (INPUT)  growing deg day required to fo
-    ,float **phase_tt);                         // (INPUT/OUTPUT) cumulative growing
-                                               // degree days required for
-                                               // each stage (deg days)
-void plant_fruit_phase_devel( int    initial_stage                  // (INPUT)
-                              ,int    end_development_stage          // (INPUT)
-                              ,int    start_grain_fill               // (INPUT)
-                              ,int    end_grain_fill                 // (INPUT)
-                              ,float  g_current_stage                // (INPUT)  current phenological stage
-                              ,float  *g_dm_fruit_green              // (INPUT)
-                              ,float  p_dm_fruit_max                 // (INPUT)
-                              ,float  g_fruit_no                     // (INPUT)
-                              ,float  g_dlt_tt                       // (INPUT)  daily thermal time (growing de
-                              ,float  *g_phase_tt                    // (INPUT)  Cumulative growing degree days
-                              ,float  *g_tt_tot                      // (INPUT)  the sum of growing degree days
-                              ,float  *phase_devel);                   // (OUTPUT) fraction of current phase elapsed
+                           float *uptake_array);              //(OUTPUT) crop uptake array
 
 
-void plant_fruit_cohort_init( bool
-                                    ,float *g_days_tot
-                                    ,float *g_current_fruit_stage // stage of each fruit cohort
-                                    ,int   *g_num_fruit_cohorts);     // current count of fruit cohorts
-
-void plant_fruit_phenology_update (float g_previous_stage
-                                  ,float *g_current_stage             // output
-                                  ,float *g_current_fruit_stage
-                                  ,int   initial_stage
-                                  ,int   end_development_stage
-                                  ,int   start_grain_fill
-                                  ,int   max_fruit_cohorts
-                                  ,int   g_num_fruit_cohorts
-                                  ,float c_fruit_phen_end
-                                  ,float *g_fruit_no
-                                  ,float *g_dlt_stage);                // output
-void plant_fruit_phenology (
-     float *g_previous_stage
-    ,float *g_current_stage
-    ,int   initial_stage
-    ,int   end_development_stage
-    ,int   start_grain_fill
-    ,int   end_grain_fill
-    ,int   max_stage
-    ,int   max_fruit_cohorts
-    ,int   g_num_fruit_cohorts
-    ,float **g_dm_fruit_green
-    ,int   p_dm_fruit_max
-    ,float *g_fruit_no
-    , int   c_num_temp
-    , float *c_x_temp
-    , float *c_y_tt
-    , float g_maxt
-    , float g_mint
-    , float g_swdef_pheno_flower
-    , float g_swdef_pheno_grainfill
-    ,float **g_phase_tt
-    ,float *g_phase_devel
-    , float *g_dlt_tt
-    ,float *g_dlt_stage
-    ,float **g_tt_tot
-    ,float **g_days_tot);
-
-void plant_fruit_number (int option);
-void plant_fruit_abort (int option);
-void plant_fruit_cleanup (int option);
-
-void crop_fruit_number(int flowering
-                       , int max_stage
-                       , int max_fruit_cohorts
-                       , int g_num_fruit_cohorts
-                       , float c_tt_flower_to_start_pod
-                       , float **g_tt_tot
-                       , float *g_flower_no
-                       , float *dlt_fruit_no);  // OUTPUT
-
-void crop_fruit_site_number(float g_current_stage
-                             ,int   initial_fruit_stage
-                             , int final_fruit_stage
-                             , float **g_fruit_tt_tot
-                             , float **g_fruit_phase_tt
-                             , float p_cutout_fract
-                             ,float g_plants
-                             , int max_fruit_cohorts
-                             , int max_stage
-                             ,float *p_x_node_no_fruit_sites
-                             ,float *p_y_fruit_sites_per_node
-                             ,int   p_num_node_no_fruit_sites
-                             ,float *g_node_no_first_flower      //IN & OUT
-                             ,int   start_node_app               // (INPUT)  stage of start of fruit appeara
-                             ,int   end_node_app                 // (INPUT)  stage of end of fruit appearanc
-                             ,float g_node_no                   // (INPUT)  number of fully expanded nodes
-                             ,float g_maxt
-                             ,float g_mint
-                             ,float *c_x_temp_fruit_site
-                             ,float *c_y_rel_fruit_site
-                             ,int   c_num_temp_fruit_site
-                             ,float g_dlt_node_no
-                             ,float *dlt_fruit_site_no );
-
-void plant_fruit_no_abort(
-     int   initial_stage
-    ,int   start_grain_fill
-    ,float*g_current_fruit_stage
-    ,int   max_fruit_stage
-    ,int   max_part
-    ,int   max_fruit_cohorts
-    ,int   c_days_assimilate_ave
-    ,int   g_day_of_year
-    ,int   g_year
-    ,float*g_fruit_no
-    ,int   g_num_fruit_cohorts
-    ,float *p_x_stage_sdr_min
-    ,float *p_y_sdr_min
-    ,int   p_num_sdr_min
-    ,float p_dm_fruit_max
-    ,float c_fract_dm_fruit_abort_crit
-    ,float **g_fruit_days_tot
-    ,float *g_dm_fruit_demand
-    ,float **g_dm_fruit_green
-    ,float **g_dlt_dm_fruit
-    ,float **g_dlt_dm_fruit_retrans
-    ,float **g_fruit_sdr_daily
-    ,float *g_fruit_sdr
-    ,float *dlt_fruit_no_abort
-);
-
-void plant_fruit_dm_abort(int   max_part
-                         ,float c_dm_abort_fract
-                         ,int   max_fruit_cohorts
-                         ,int   g_num_fruit_cohorts
-                         ,float *g_fruit_no
-                         ,float **g_dm_fruit_green
-                         ,float **g_dlt_dm_fruit
-                         ,float **g_dm_fruit_retranslocate
-                         ,float *g_dlt_fruit_no_abort
-                         ,float **dlt_dm_fruit_abort);
-
-void plant_fruit_update(
-     float  g_plants
-    ,float  g_dlt_plants
-    ,float  g_dlt_fruit_flower_no
-    ,float  g_dlt_fruit_site_no
-    ,float  *g_dlt_fruit_no_abort
-    ,float  **g_dlt_dm_fruit_senesced
-    ,float  **g_dlt_dm_fruit_green
-    ,float  **g_dlt_dm_fruit_retrans
-    ,float  **g_dlt_dm_fruit_abort
-    ,float  g_dlt_dm_parasite
-    ,float  **g_dm_fruit_green
-    ,float  **g_dm_fruit_dead
-    ,float  **g_dm_fruit_senesced
-    ,int    g_num_fruit_cohorts
-    ,float  *g_fruit_no
-    ,float  *g_fruit_site_no
-    ,float  g_dlt_dm
-    ,float  *g_fruit_sdr
-    ,int    g_day_of_year
-    ,int    g_year
-    ,float  *g_dlt_dm_daily
-    ,float  **g_fruit_sdr_daily
-    ,bool   *g_setting_fruit);
 
 void legnew_dm_part_demands(float c_frac_pod              // (INPUT)  fraction of remaining dm allocated to pod
                           , float g_grain_energy          // multiplier of grain weight to account f
@@ -974,53 +655,12 @@ void legnew_dm_distribute(int max_part
                         , float *dlt_dm_oil_conv       // (OUTPUT) actual biomass used in conversion to oil (g/m2)
                         , float *dlt_dm_green);       // (OUTPUT) actual biomass partitioned
 
-void crop_fruit_flower_number (
-      float p_dm_fruit_set_crit
-     ,float p_dm_fruit_set_min
-     ,float g_dlt_dm
-     ,float *g_dlt_dm_daily
-     ,int   c_days_assimilate_ave
-     ,int   g_day_of_year
-     ,int   g_year
-     ,float *g_fruit_flower_no
-     ,int   max_fruit_cohorts
-     ,float g_dlt_fruit_site_no
-     ,bool  g_setting_fruit
-     ,float *dlt_fruit_no);
-
-void plant_fruit_n_retranslocate (
-           int   max_part
-          ,float c_dm_abort_fract
-          ,int   max_fruit_cohorts
-          ,int   g_num_fruit_cohorts
-          ,float **g_dm_fruit_green
-          ,float *g_N_green
-          ,float **g_dlt_dm_fruit_abort
-          ,float *g_N_fruit_retranslocate );
-
-void fruit_phase_devel( int    initial_stage                  // (INPUT)
-                              ,int    end_development_stage          // (INPUT)
-                              ,int    start_grain_fill               // (INPUT)
-                              ,int    end_grain_fill                 // (INPUT)
-                              ,float  g_current_stage                // (INPUT)  current phenological stage
-                              ,float  *g_dm_fruit_green              // (INPUT)
-                              ,float  p_dm_fruit_max                 // (INPUT)
-                              ,float  g_fruit_no                     // (INPUT)
-                              ,float  *g_days_tot                    // (INPUT)  duration of each phase (days)
-                              ,float  g_dlt_tt                       // (INPUT)  daily thermal time (growing de
-                              ,float  *g_phase_tt                    // (INPUT)  Cumulative growing degree days
-                              ,float  *g_tt_tot                      // (INPUT)  the sum of growing degree days
-                              ,float  *phase_devel);                   // (OUTPUT) fraction of current phase elapsed
-
-  void fruit_zero_all_globals ();
-  void plant_fruit_cohort_number (int option);
-  void plant_fruit_site_number (int option);
-
   void plant_get_site_characteristics ();
   bool set_plant_crop_class(protocol::QuerySetValueData&v);
   bool set_plant_grain_oil_conc(protocol::QuerySetValueData&v);
 
   void get_plant_status(protocol::Component *, protocol::QueryValueData &) const;
+  float getStageCode(void) const ;
 
   void get_crop_type(protocol::Component *, protocol::QueryValueData &);
   void get_crop_class(protocol::Component *, protocol::QueryValueData &);
@@ -1038,6 +678,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
   void get_width(protocol::Component *, protocol::QueryValueData &);
   void get_root_depth(protocol::Component *, protocol::QueryValueData &);
   void get_plants(protocol::Component *, protocol::QueryValueData &);
+  float getPlants(void) const;
   void get_cover_green(protocol::Component *, protocol::QueryValueData &);
   void get_cover_tot(protocol::Component *, protocol::QueryValueData &);
   void get_lai_sum(protocol::Component *, protocol::QueryValueData &);
@@ -1064,11 +705,13 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
   void get_green_biomass(protocol::Component *, protocol::QueryValueData &);
   void get_biomass_wt(protocol::Component *, protocol::QueryValueData &);
   void get_green_biomass_wt(protocol::Component *, protocol::QueryValueData &);
+  void get_dm_plant_min(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_pot_rue(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_pot_te(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_grain_demand(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_green(protocol::Component *, protocol::QueryValueData &);
+//??  void get_dlt_dm_green_dead(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_green_retrans(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_detached(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_senesced(protocol::Component *, protocol::QueryValueData &);
@@ -1110,18 +753,18 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
   void get_cep(protocol::Component *, protocol::QueryValueData &);
   void get_sw_supply(protocol::Component *, protocol::QueryValueData &);
   void get_esw_layr(protocol::Component *, protocol::QueryValueData &);
+  void get_n_green(protocol::Component *, protocol::QueryValueData &);
+  void get_dlt_n_dead(protocol::Component *, protocol::QueryValueData &);
+  void get_dlt_n_senesced(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_stover(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_root(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_leaf(protocol::Component *, protocol::QueryValueData &);
-  void get_n_conc_stem(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_grain(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_meal(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_crit(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_min(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_crit_leaf(protocol::Component *, protocol::QueryValueData &);
-  void get_n_conc_crit_stem(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_min_leaf(protocol::Component *, protocol::QueryValueData &);
-  void get_n_conc_min_stem(protocol::Component *, protocol::QueryValueData &);
   void get_grain_n_demand(protocol::Component *, protocol::QueryValueData &);
 
   void get_n_uptake_stover(protocol::Component *, protocol::QueryValueData &);
@@ -1157,36 +800,76 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
 
   void get_parasite_c_gain(protocol::Component *, protocol::QueryValueData &);
   void get_leaf_area_tot(protocol::Component *, protocol::QueryValueData &);
-  void get_dlt_fruit_no(protocol::Component *, protocol::QueryValueData &);
-  void get_dlt_fruit_site_no(protocol::Component *, protocol::QueryValueData &);
-  void get_fruit_site_no(protocol::Component *, protocol::QueryValueData &);
-  void get_fruit_no(protocol::Component *, protocol::QueryValueData &);
-  void get_fruit_no_stage(protocol::Component *, protocol::QueryValueData &);
-  void get_dm_fruit_green_cohort(protocol::Component *, protocol::QueryValueData &);
-  void get_dm_fruit_green_part(protocol::Component *, protocol::QueryValueData &);
-  void get_dlt_dm_fruit_demand(protocol::Component *, protocol::QueryValueData &);
-  void get_dlt_dm_fruit_green_part(protocol::Component *, protocol::QueryValueData &);
-  void get_dm_fruit_green_stage(protocol::Component *, protocol::QueryValueData &);
-  void get_dlt_dm_fruit_green_retrans_part(protocol::Component *, protocol::QueryValueData &);
-  void get_num_fruit_cohorts(protocol::Component *, protocol::QueryValueData &);
   void get_dm_parasite_retranslocate(protocol::Component *, protocol::QueryValueData &);
-  void get_count_fruit_cohorts(protocol::Component *, protocol::QueryValueData &);
-  void get_dlt_dm_fruit_abort_cohort(protocol::Component *, protocol::QueryValueData &);
-  void get_dlt_dm_fruit_abort_part(protocol::Component *, protocol::QueryValueData &);
-  void get_dlt_fruit_no_abort(protocol::Component *, protocol::QueryValueData &);
   void get_grain_size(protocol::Component *, protocol::QueryValueData &);
   void get_grain_protein(protocol::Component *, protocol::QueryValueData &);
   void get_sw_supply_layr(protocol::Component *, protocol::QueryValueData &);
   void get_no3_uptake(protocol::Component *, protocol::QueryValueData &);
   void get_nh4_uptake(protocol::Component *, protocol::QueryValueData &);
-  void get_dlt_fruit_flower_no(protocol::Component *, protocol::QueryValueData &);
-  void get_dlt_dm_fruit_abort(protocol::Component *, protocol::QueryValueData &);
   void get_zadok_stage(protocol::Component *, protocol::QueryValueData &);
 
 
-// To transfer to Fruit class
+  void get_p_green(protocol::Component *, protocol::QueryValueData &qd);
+  void get_p_sen(protocol::Component *, protocol::QueryValueData &qd);
+  void get_p_demand(protocol::Component *, protocol::QueryValueData &qd);
+  void get_pfact_photo(protocol::Component *, protocol::QueryValueData &qd);
+  void get_pfact_pheno(protocol::Component *, protocol::QueryValueData &qd);
+  void get_pfact_expansion(protocol::Component *, protocol::QueryValueData &qd);
+  void get_pfact_expan(protocol::Component *, protocol::QueryValueData &qd);
+  void get_pfact_grain(protocol::Component *, protocol::QueryValueData &qd);
+  void get_pstress_photo(protocol::Component *, protocol::QueryValueData &qd);
+  void get_pstress_pheno(protocol::Component *, protocol::QueryValueData &qd);
+  void get_pstress_expansion(protocol::Component *, protocol::QueryValueData &qd);
+  void get_pstress_grain(protocol::Component *, protocol::QueryValueData &qd);
+  void get_biomass_p(protocol::Component *, protocol::QueryValueData &qd);
+  void get_p_uptake(protocol::Component *, protocol::QueryValueData &qd);
+  void get_green_biomass_p(protocol::Component *, protocol::QueryValueData &qd);
+  void get_grain_p(protocol::Component *, protocol::QueryValueData &qd);
+  void get_leaf_p(protocol::Component *, protocol::QueryValueData &qd);
+  void get_stem_p(protocol::Component *, protocol::QueryValueData &qd);
+  void get_root_p(protocol::Component *, protocol::QueryValueData &qd);
+  void get_deadleaf_p(protocol::Component *, protocol::QueryValueData &qd);
+  void get_pod_p(protocol::Component *, protocol::QueryValueData &qd);
+  void get_head_p(protocol::Component *, protocol::QueryValueData &qd);
+  void get_p_senesced(protocol::Component *, protocol::QueryValueData &qd);
+  void get_p_dead(protocol::Component *, protocol::QueryValueData &qd);
+  void get_dlt_p_green(protocol::Component *, protocol::QueryValueData &qd);
+  void get_dlt_p_retrans(protocol::Component *, protocol::QueryValueData &qd);
+  void get_dlt_p_detached(protocol::Component *, protocol::QueryValueData &qd);
+  void get_dlt_p_dead(protocol::Component *, protocol::QueryValueData &qd);
+  void get_dlt_p_sen(protocol::Component *, protocol::QueryValueData &qd);
+  void get_p_conc_stover(protocol::Component *, protocol::QueryValueData &qd);
+  void get_p_conc_leaf(protocol::Component *, protocol::QueryValueData &qd);
+  void get_p_conc_grain(protocol::Component *, protocol::QueryValueData &qd);
+  void get_p_grain_pcnt(protocol::Component *, protocol::QueryValueData &qd);
+  void get_p_uptake_stover(protocol::Component *, protocol::QueryValueData &qd);
+  void get_grain_p_demand(protocol::Component *, protocol::QueryValueData &qd);
+
+  // To transfer to Fruit class
   void plant_bio_distribute (int option /* (INPUT) option number */);
 
+  //Phosporousy things:
+  void zero_p_variables ();
+  void zero_daily_p_variables ();
+  void read_p_constants (PlantComponent *systemInterface);
+  void doPInit(PlantComponent *systemInterface);
+  void PlantP_set_phosphorus_aware (PlantComponent *systemInterface);
+
+  bool phosphorusAware(void) const {return g.phosphorus_aware;};
+  void prepare_p(void);
+  void process_p(void);
+  void detachment_p(void);
+  void death_p(void);
+  void summary_p (void);
+
+  void  PlantP_demand (vector<plantPart *>&, float dlt_dm_pot);
+  void  PlantP_Stress (vector<plantPart *>&);
+  void  PlantP_init_pools (vector<plantPart*>&);
+  void  PlantP_partition (vector<plantPart*>&);
+  void  PlantP_senescence (vector<plantPart*>&);
+  void  PlantP_retrans (vector<plantPart*>&);
+  void  PlantP_detachment (vector<plantPart*>&);
+  float PlantP_Pfact (vector<plantPart *>&);
 
  private:
   /* system interface: */
@@ -1196,11 +879,6 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
   //     ================================================================
   //     Plant
   //     ================================================================
-
-  PlantP *phosphorus;
-  PlantPhenology *phenology;
-  PlantFruit *fruit;
-
   struct IDS {
        // gets
        unsigned int eo;
@@ -1217,6 +895,9 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
        unsigned int maxt_soil_surface;
        unsigned int co2;
 
+       unsigned int add_residue_p;
+       unsigned int layered_p_uptake;
+
        // sets
        unsigned int dlt_no3;
        unsigned int dlt_nh4;
@@ -1225,6 +906,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
        // events.
        unsigned int crop_chopped;
        unsigned int incorp_fom;
+       unsigned int incorp_fom_p;
   } id;
   struct crop_chopped {
     string crop_type;
@@ -1285,7 +967,6 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       factorObserver cswd_photo;                     // cumulative water stress type 1
       factorObserver cswd_expansion ;                // cumulative water stress type 2
       float dlt_canopy_height;                          // change in canopy height (mm)
-      float canopy_height;                              // canopy height (mm)
       float dlt_canopy_width;                           // change in canopy height (mm)
       float canopy_width;                              // canopy height (mm)
       float plants;                                    // Plant density (plants/m^2)
@@ -1381,8 +1062,6 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float dlt_n_senesced_trans[max_part];
       float dlt_n_detached[max_part];                   // actual N loss with detached plant (g/m^2)
       float dlt_n_dead[max_part];                       // actual N loss with dead plant (g/m^2)
-      float dlt_n_green_dead[max_part];                 // plant N to dead population(g/m^2)
-      float dlt_n_senesced_dead[max_part];              // plant N to dead population(g/m^2)
       float dlt_n_dead_detached[max_part];              // actual N loss with detached dead plant (g/m^2)
       float n_dead[max_part];                           // plant N content of dead plants (g N/m^2)
       float n_green[max_part];                          // plant nitrogen content (g N/m^2)
@@ -1458,47 +1137,23 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float       dm_parasite_retranslocate;    // plant biomass retranslocated to parasite [g/m^2]
       float       dlt_dm_parasite;      // parasite biomass growth [g/m^2]
 
-         // fruit cohorts
-      int       num_fruit_cohorts;
-      bool      setting_fruit;
-      float     previous_fruit_stage[max_fruit_cohorts];
-      float     current_fruit_stage[max_fruit_cohorts];
-      float     dlt_dm_fruit_grain_demand[max_fruit_cohorts];
-      float     fruit_no [max_fruit_cohorts];
-      float     fruit_flower_no [max_fruit_cohorts];
-      float     dlt_dm_fruit_oil_conv[max_fruit_cohorts];
-      float     dlt_dm_fruit_demand[max_fruit_cohorts];
-      float     dlt_fruit_no[max_fruit_cohorts];
-      float     dlt_dm_green_abort[max_part];
+      // Phosphorous
+      float p_green[max_part];
+      float p_sen[max_part];
+      float p_dead[max_part];
+      float dlt_p_green[max_part];
+      float dlt_p_sen[max_part];
+      float dlt_p_det[max_part];
+      float dlt_p_dead_det[max_part];
+      float dlt_p_retrans[max_part];
+      float dlt_p_dead[max_part];
+      float p_demand[max_part];
+      float pfact_photo;
+      float pfact_expansion;
+      float pfact_pheno;
+      float pfact_grain;
+      bool  phosphorus_aware;
 
-      float     **dlt_dm_fruit_green;
-      float     **dlt_dm_fruit_senesced;
-      float     **dm_fruit_green;
-      float     **fruit_days_tot;
-      float     **fruit_phase_tt;
-      float     **fruit_tt_tot;
-      float     dlt_fruit_tt[max_fruit_cohorts];
-      float     **dm_fruit_dead;
-      float     **dm_fruit_senesced;
-      float     **dlt_dm_fruit_green_retrans;
-      float     **dlt_dm_fruit_abort;
-      float     **fruit_sdr_daily; //xxx
-
-      float     node_no_first_flower;
-      float     dlt_dm_daily[367];
-
-      float     fruit_site_no;
-      float     dlt_fruit_site_no;
-      float     dlt_fruit_flower_no;
-//      float     dlt_fruit_no;
-      float     dlt_fruit_stage[max_fruit_cohorts];
-      float     fruit_phase_devel[max_fruit_cohorts];
-
-      float     dlt_dm_fruit_oil_conv_retranslocate[max_fruit_cohorts];
-      float     fruit_sdr[max_fruit_cohorts];
-      float     dlt_fruit_no_abort[max_fruit_cohorts];
-      float     dm_fruit_pod_min[max_fruit_cohorts]; // minimum weight of each pod part
-                                                     // [g/fruit]
       float     co2;
     } g;   // Globals
 
@@ -1519,34 +1174,10 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float kl[max_layer];                              // root length density factor for water
       float ll_dep[max_layer];                          // lower limit of plant-extractable
                                                         // soil water for soil layer L (mm)
-      float x_stem_wt[max_table];
-      float y_height [max_table];
-      float y_width [max_table];
-      int   num_stem_wt;
-      int   num_canopy_widths;
       float xf[max_layer];                              // root exploration factor (0-1)
-      string  uptake_source;                            // source of uptake information//XXcharacter uptake_source*10
+      string  uptake_source;                            // source of uptake information
       float eo_crop_factor;                             // Crop factor for sw demand applied to Eo
 
-         // fruit cohorts
-      float    x_node_no_fruit_sites[max_table];
-      float    y_fruit_sites_per_node[max_table];
-      int      num_node_no_fruit_sites;
-      float    dm_fruit_set_min;
-      float    dm_fruit_set_crit;
-      int      fruit_stage_no_partition[max_table];
-      float    fruit_frac_pod[max_table];         // fraction of dm or grain weight allocated to pod
-      int      num_fruit_stage_no_partition;
-      float    x_pp_fruit_start_to_end_grain[max_table];
-      float    y_tt_fruit_start_to_end_grain[max_table];
-
-      int       num_pp_fruit_start_to_end_grain;
-      float     x_stage_sdr_min[max_table];
-      float     y_sdr_min[max_table];
-      int       num_sdr_min;
-      float     dm_fruit_max;
-      float     potential_fruit_filling_rate;
-      float     cutout_fract;
       float     root_distribution_pattern;    // root dist patt for root_growth_option == 2
     } p; // Parameters
 
@@ -1624,9 +1255,6 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float y_n_conc_crit_leaf[max_table];              // critical N concentration of leaf (g N/g biomass)
       float y_n_conc_max_leaf[max_table];               // maximum N concentration of leaf (g N/g biomass)
       float y_n_conc_min_leaf[max_table];               // minimum N concentration of leaf (g N/g biomass)
-      float y_n_conc_crit_stem[max_table];              // critical N concentration of stem (g N/g biomass)
-      float y_n_conc_max_stem[max_table];               // maximum N concentration of stem (g N/g biomass)
-      float y_n_conc_min_stem[max_table];               // minimum N concentration of stem (g N/g biomass)
       float y_n_conc_crit_pod[max_table];               // critical N concentration of pod(g N/g biomass)
       float y_n_conc_max_pod[max_table];                // maximum N concentration of pod (g N/g biomass)
       float y_n_conc_min_pod[max_table];                // minimum N concentration of pod (g N/g biomass)
@@ -1757,8 +1385,6 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float y_ratio_root_shoot[max_table];              // root:shoot ratio of new dm ()
 
       int   num_stage_no_partition;
-      float stem_trans_frac;                            // fraction of stem used in translocat
-                                                        // to grain
       float leaf_trans_frac;                            // fraction of leaf used in translocat
                                                         // to grain
       float pod_trans_frac;                             // fraction of pod used in translocat
@@ -1825,9 +1451,6 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float row_spacing_default;
       float skip_row_default;                           //Default skip row ()
       float skip_plant_default;                         //Default skip plant ()
-      float fr_height_cut [max_table];
-      float fr_stem_remain[max_table];
-      int   num_fr_height_cut;
       float specific_root_length;                       // as name suggests (mm/g)
       float root_die_back_fr;                           // fraction of roots dying at harvest
       float x_plant_rld [max_table];
@@ -1844,16 +1467,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float n_deficit_uptake_fraction;
       float total_n_uptake_max;
 
-      // fruit cohorts
-      int    fruit_no_option;
-      int    days_assimilate_ave;
-      float  dm_abort_fract;
-      float  fruit_phen_end;
-      float  tt_flower_to_start_pod;
-      int    root_growth_option;
-      float       x_temp_fruit_site[max_table];
-      float       y_rel_fruit_site[max_table];
-      int         num_temp_fruit_site;
+      int        root_growth_option;
 
       float      x_sw_avail_ratio_flower[max_table];
       float      y_swdef_pheno_flower [max_table];
@@ -1861,17 +1475,34 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float      y_swdef_pheno_grainfill [max_table];
       int        num_sw_avail_ratio_flower;
       int        num_sw_avail_ratio_grainfill;
-      float      fract_dm_fruit_abort_crit;
-      float swdef_pheno_flower;
-      float swdef_pheno_grainfill;
-      float co2_default;
+
+      float      co2_default;
       float      x_co2_te_modifier[max_table], y_co2_te_modifier[max_table];
       int        num_co2_te_modifier;
       float      x_co2_nconc_modifier[max_table], y_co2_nconc_modifier[max_table];
       int        num_co2_nconc_modifier;
       photosynthetic_pathway_t photosynthetic_pathway;
       string     remove_biomass_report;
+
+      bool    p_stress_determinants[max_part];           //         character stress_determinants(max_part)*32
+      bool    p_yield_parts[max_part];                   //         character yield_parts(max_part)*32
+      bool    p_retrans_parts[max_part];                 //         character retrans_parts(max_part)*32
+
+      float x_p_stage_code [max_table];
+      int   num_x_p_stage_code;
+      float y_p_conc_max [max_part][max_table];
+      float y_p_conc_min [max_part][max_table];
+      float y_p_conc_sen [max_part][max_table];
+      float p_conc_init [max_part];
+      float pfact_photo_slope;
+      float pfact_expansion_slope;
+      float pfact_pheno_slope;
+      float pfact_grain_slope;
+
       }  c;   // Constants
+
+   void setupHacks(vector<plantPart *> &parts);
+   void deleteHacks(vector<plantPart *> &parts); 
 };  // Plant
 
 #endif //PLANT_H_

@@ -159,7 +159,6 @@ void cproc_dm_senescence1 (const int num_part,           //(INPUT)  number of pl
       dlt_dm_senesced[part] = (g_dm_green[part] + g_dlt_dm_green[part] +
                                  g_dlt_dm_green_retrans[part])* fraction_senescing;
       }
-
    }
 
 //============================================================================

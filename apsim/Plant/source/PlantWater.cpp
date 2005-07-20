@@ -2,8 +2,10 @@
 #include <math.h>
 #include <vector>
 #include <string>
-#include "Plantlibrary.h"
-#include "PlantInterface.h"
+#include <ComponentInterface/Component.h>
+#include "PlantComponent.h"
+#include "PlantLibrary.h"
+#include "Plant.h"
 
 
 //===========================================================================
@@ -368,7 +370,6 @@ void crop_oxdef_photo1(int   C_num_oxdef_photo,    //  (INPUT)
                        float *G_dlayer,           //  (INPUT)  thickness of soil layer I (mm)
                        float *G_root_length,      //  (INPUT)
                        float G_root_depth,        //  (INPUT)  depth of roots (mm)
-                       int   max_layer,           //  (INPUT)
                        float *oxdef_photo)        //  (OUTPUT)
 //===========================================================================
 
@@ -396,7 +397,7 @@ void crop_oxdef_photo1(int   C_num_oxdef_photo,    //  (INPUT)
    float *root_fr = new float[max_layer];
 
    // Implementation Section ----------------------------------
-   crop_root_dist(G_dlayer, G_root_length, G_root_depth, root_fr, 1.0,  max_layer);
+   crop_root_dist(G_dlayer, G_root_length, G_root_depth, root_fr, 1.0);
 
    num_root_layers = count_of_real_vals (root_fr, max_layer);
 
@@ -427,7 +428,6 @@ void cproc_sw_supply1 (commsInterface *iface,
                        float *P_ll_dep,            //(INPUT)
                        float *G_dul_dep,           //(INPUT)
                        float *G_sw_dep,            //(INPUT)
-                       int   max_layer,            //(INPUT)
                        float G_root_depth,        //(INPUT)
                        float *P_kl,                //(INPUT)
                        float *G_sw_avail,          //(OUTPUT)
@@ -448,7 +448,7 @@ void cproc_sw_supply1 (commsInterface *iface,
 */
    {
    // Implementation Section ----------------------------------
-   crop_check_sw(iface, C_sw_lb, G_dlayer, G_dul_dep, max_layer,
+   crop_check_sw(iface, C_sw_lb, G_dlayer, G_dul_dep, 
                  G_sw_dep, P_ll_dep);
 
    crop_sw_avail_pot(max_layer, G_dlayer, G_dul_dep,
@@ -457,7 +457,7 @@ void cproc_sw_supply1 (commsInterface *iface,
    crop_sw_avail(max_layer, G_dlayer, G_root_depth, G_sw_dep,
                  P_ll_dep, G_sw_avail);                     // actual extractable sw (sw-ll)
 
-   crop_sw_supply(max_layer,G_dlayer,G_root_depth,G_sw_dep,
+   crop_sw_supply(max_layer, G_dlayer,G_root_depth,G_sw_dep,
                   P_kl, P_ll_dep, G_sw_supply);
    }
 
@@ -749,7 +749,6 @@ void crop_check_sw(commsInterface *iface,
                    float minsw,    // (INPUT)  lowest acceptable value for ll
                    float *dlayer,   // (INPUT)  thickness of soil layer I (mm)
                    float *dul_dep,  // (INPUT)  drained upper limit soil water content for soil layer L (mm water)
-                   int   max_layer,// (INPUT)  number of layers in profile ()
                    float *sw_dep,   // (INPUT)  soil water content of layer L (mm)
                    float *ll_dep)   // (INPUT)  lower limit of plant-extractable soil water
                                     //          for soil layer L (mm)
