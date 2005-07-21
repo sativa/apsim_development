@@ -1127,13 +1127,12 @@
 15 December 1992(Day of year=350), weed1: 
      Crop Sow
       - reading constants for winter_grass(weed)
-      - reading cultivar parameters
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM  Fatal  Error
                       -------------------
      Cannot find a parameter in any of the files/sections
      specified in the control file.
-     Parameter name = phyllochron
+     Parameter name = stem_n_init_conc
      Component name: weed1
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
