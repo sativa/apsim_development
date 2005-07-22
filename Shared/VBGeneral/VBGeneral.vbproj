@@ -33,7 +33,7 @@
                     DebugSymbols = "true"
                     IncrementalBuild = "false"
                     Optimize = "false"
-                    OutputPath = "..\..\bin\"
+                    OutputPath = "bin\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
                     TreatWarningsAsErrors = "false"
@@ -170,6 +170,11 @@
                     RelPath = "Chart.vb"
                     SubType = "Component"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Chart.resx"
+                    DependentUpon = "Chart.vb"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "DataTree.vb"

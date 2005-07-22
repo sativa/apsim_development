@@ -375,27 +375,61 @@ Public Class APSIMData
     End Property
 
 
-    Property ChildValue(ByVal key As String, ByVal ShowError As Boolean) As String
+    ' -----------------------------------------------------
+    ' Return a child value to caller or blank if not found.
+    ' -----------------------------------------------------
+    Property ChildValue(ByVal key As String) As String
         Get
             Try
-                Return Child(Trim(key)).Value
+                Return FindChild(key, "|").Value
             Catch e As System.Exception
-                If ShowError Then
-                    MsgBox("Error in returning value for child: " + Trim(key), MsgBoxStyle.Critical, "Error")
-                End If
                 Return ""
             End Try
+        End Get
+        Set(ByVal Value As String)
+            Dim name As String
+            Dim CurrentData As New APSIMData(Node)
+            Dim Path As String = key
+
+            Do Until Path = ""
+                If InStr(Path, "|") <> 0 Then
+                    name = Left$(Path, InStr(Path, "|") - 1)
+                    Path = Mid$(Path, InStr(Path, "|") + 1)
+                Else
+                    name = Path
+                    Path = ""
+                End If
+
+                Dim Child As APSIMData = CurrentData.Child(name)
+                If IsNothing(Child) Then
+                    CurrentData.Add(New APSIMData(name, ""))
+                    CurrentData = CurrentData.Child(name)
+                Else
+                    CurrentData = Child
+                End If
+            Loop
+
+            CurrentData.Value = Value
+        End Set
+    End Property
+
+
+    ' -----------------------------------------------------
+    ' Return a child value to caller. Shows MsgBox on error
+    ' -----------------------------------------------------
+    Property ChildValueWithError(ByVal key As String) As String
+        Get
+            Dim Value As String = ChildValue(key)
+            If Value = "" Then
+                MsgBox("Error in returning value for child: " + Trim(key), MsgBoxStyle.Critical, "Error")
+            End If
+            Return Value
         End Get
         Set(ByVal Value As String)
             Try
                 Child(Trim(key)).Value = Value
             Catch e As System.Exception
-                If ShowError Then
-                    MsgBox("Error in setting value for child: " + Trim(key), MsgBoxStyle.Critical, "Error")
-                Else
-                    Add(New APSIMData(Trim(key), ""))
-                    Child(Trim(key)).Value = Value
-                End If
+                MsgBox("Error in setting value for child: " + Trim(key), MsgBoxStyle.Critical, "Error")
             End Try
         End Set
     End Property

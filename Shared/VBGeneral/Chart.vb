@@ -74,6 +74,7 @@ Public Class ChartHelper
     ' ----------------------------------------------
     Public Function CreateChartSeries(ByVal SeriesName As String, _
                                                 ByVal Markers As Boolean, ByVal SeriesColour As Color, _
+                                                ByVal Width As Integer, ByVal LinePattern As Xceed.Chart.Standard.LinePattern, _
                                                 ByVal LinkedXAxis As StandardAxis, ByVal LinkedYAxis As StandardAxis) As LineSeries
         If Not IsNothing(_Chart) Then
             'If (System.Type.GetTypeCode(X(0)) = TypeCode.Double) Then
@@ -86,15 +87,18 @@ Public Class ChartHelper
             ' create the series.
             Dim NewSeries As LineSeries = _Chart.Charts(0).Series.Add(SeriesType.Line)
             NewSeries.DataLabels.Mode = DataLabelsMode.None
-            NewSeries.LineBorder.Color = SeriesColour
             NewSeries.LineFillEffect.Color = SeriesColour
             NewSeries.Name = SeriesName
             NewSeries.DisplayOnAxis(LinkedXAxis, True)
             NewSeries.DisplayOnAxis(LinkedYAxis, True)
             NewSeries.Markers.Visible = Markers
-            NewSeries.Markers.FillEffect.Color = SeriesColour
-            NewSeries.Markers.Border.Width = 1
             NewSeries.Markers.Border.Color = Color.Empty
+            NewSeries.LineBorder.Width = Width
+            NewSeries.LineBorder.Pattern = LinePattern
+            If Not SeriesColour.Equals(Color.Empty) Then
+                NewSeries.LineBorder.Color = SeriesColour
+                NewSeries.Markers.FillEffect.Color = SeriesColour
+            End If
 
             Return NewSeries
         End If
@@ -134,6 +138,7 @@ Public Class ChartHelper
     ' ----------------------------------------------
     Public Sub CreateChartSeriesFromGrid(ByVal SeriesName As String, ByVal XColumn As Integer, ByVal YColumn As Integer, _
                                                                 ByVal Markers As Boolean, ByVal SeriesColour As Color, _
+                                                                ByVal Width As Integer, ByVal LinePattern As Xceed.Chart.Standard.LinePattern, _
                                                                 ByVal LinkedXAxis As StandardAxis, ByVal LinkedYAxis As StandardAxis)
 
         If Not IsNothing(_Chart) And Not IsNothing(_Grid) Then
@@ -144,7 +149,7 @@ Public Class ChartHelper
                 Throw New System.Exception("The number of x and y values doesn't match in routine: CreateChartSeriesFromGrid")
             End If
 
-            Dim newseries As LineSeries = CreateChartSeries(SeriesName, Markers, SeriesColour, LinkedXAxis, LinkedYAxis)
+            Dim newseries As LineSeries = CreateChartSeries(SeriesName, Markers, SeriesColour, Width, LinePattern, LinkedXAxis, LinkedYAxis)
             PopulateChartSeries(newseries, X, Y)
         End If
     End Sub
@@ -154,6 +159,7 @@ Public Class ChartHelper
     ' ----------------------------------------------
     Public Sub CreateChartSeriesFromDataTable(ByVal SeriesName As String, ByVal XColumn As String, ByVal YColumn As String, _
                                                                 ByVal Markers As Boolean, ByVal SeriesColour As Color, _
+                                                                ByVal Width As Integer, ByVal LinePattern As Xceed.Chart.Standard.LinePattern, _
                                                                 ByVal LinkedXAxis As StandardAxis, ByVal LinkedYAxis As StandardAxis)
 
         If Not IsNothing(_Chart) And Not IsNothing(_DataTable) Then
@@ -174,7 +180,7 @@ Public Class ChartHelper
                 Throw New System.Exception("The number of x and y values doesn't match in routine: CreateChartSeriesFromGrid")
             End If
 
-            Dim NewSeries As LineSeries = CreateChartSeries(SeriesName, Markers, SeriesColour, LinkedXAxis, LinkedYAxis)
+            Dim NewSeries As LineSeries = CreateChartSeries(SeriesName, Markers, SeriesColour, Width, LinePattern, LinkedXAxis, LinkedYAxis)
             PopulateChartSeries(NewSeries, X, Y)
 
         End If
@@ -185,6 +191,7 @@ Public Class ChartHelper
     ' ----------------------------------------------
     Public Sub CreateChartSeriesFromArray(ByVal SeriesName As String, ByVal X() As Double, ByVal Y() As Double, _
                                                                 ByVal Markers As Boolean, ByVal SeriesColour As Color, _
+                                                                ByVal Width As Integer, ByVal LinePattern As Xceed.Chart.Standard.LinePattern, _
                                                                 ByVal LinkedXAxis As StandardAxis, ByVal LinkedYAxis As StandardAxis)
 
 
@@ -192,7 +199,7 @@ Public Class ChartHelper
             Throw New System.Exception("The number of x and y values doesn't match in routine: CreateChartSeriesFromGrid")
         End If
 
-        Dim NewSeries As LineSeries = CreateChartSeries(SeriesName, Markers, SeriesColour, LinkedXAxis, LinkedYAxis)
+        Dim NewSeries As LineSeries = CreateChartSeries(SeriesName, Markers, SeriesColour, Width, LinePattern, LinkedXAxis, LinkedYAxis)
         PopulateChartSeries(NewSeries, X, Y)
 
 
