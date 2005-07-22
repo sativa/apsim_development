@@ -22,7 +22,9 @@ Public Class GridUtils
         ' Add values to column
         Dim RowIndex As Integer = 0
         For Each Value As Double In Values
-            Grid.DataRows.Item(RowIndex).Cells(ColumnIndex).Value = Value.ToString(Format)
+            If Value <> 999999.0 Then
+                Grid.DataRows.Item(RowIndex).Cells(ColumnIndex).Value = Value.ToString(Format)
+            End If
             RowIndex = RowIndex + 1
         Next
 
@@ -62,8 +64,13 @@ Public Class GridUtils
         Dim Values(NumValuesToReturn-1) As Double
 
         Dim Index As Integer = 0
-        For RowIndex As Integer = 0 To NumValuesToReturn-1 
-            Values(Index) = Grid.DataRows.Item(RowIndex).Cells(ColumnIndex).Value
+        For RowIndex As Integer = 0 To NumValuesToReturn - 1
+            If Grid.DataRows.Item(RowIndex).Cells(ColumnIndex).Value <> "" Then
+                Values(Index) = Grid.DataRows.Item(RowIndex).Cells(ColumnIndex).Value
+            Else
+                Values(Index) = 999999.0
+            End If
+
             Index = Index + 1
         Next
         Return Values
@@ -93,7 +100,7 @@ Public Class GridUtils
     ' ---------------------------------------------------------------------
     Public Shared Function GetNumberOfNonBlankRows(ByRef Grid As Xceed.Grid.GridControl, _
                                                     ByVal ColumnIndex As Integer) As Integer
-        For RowIndex As Integer = Grid.DataRows.Count - 1 To RowIndex >= 0 Step -1
+        For RowIndex As Integer = Grid.DataRows.Count - 1 To 0 Step -1
             If Grid.DataRows.Item(RowIndex).Cells(ColumnIndex).Value <> "" Then
                 Return RowIndex + 1
             End If

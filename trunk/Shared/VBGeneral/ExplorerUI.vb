@@ -192,15 +192,30 @@ Public Class ExplorerUI
     End Property
 
 
+    ' -------------------------------------------
+    ' Refresh ourselves.
+    ' -------------------------------------------
+    Overrides Sub Refresh()
+        DataTree.Refresh()
+        If Not IsNothing(CurrentUI) Then
+            CurrentUI.Refresh()
+        End If
+    End Sub
+
+
     ' -------------------------------------------------
     ' Create and show a specific UI depending on the
     ' specified user interface type.
     ' -------------------------------------------------
     Sub ShowUI(ByVal Data As APSIMData)
         Dim UI As BaseUI = MyApplicationSettings.CreateUI(Data.Type)
-        UI.Explorer = Me
-        UI.Data = Data
-        ShowUI(UI)
+        If Not IsNothing(UI) Then
+            UI.Explorer = Me
+            UI.Data = Data
+            ShowUI(UI)
+        Else
+            CloseUI()
+        End If
     End Sub
 
 
@@ -431,7 +446,7 @@ Public Class ExplorerUI
                 GoodFileNames.Add(FileName)
             End If
         Next
-        Dim ReturnArray(GoodFileNames.Count-1) As String
+        Dim ReturnArray(GoodFileNames.Count - 1) As String
         GoodFileNames.CopyTo(ReturnArray, 0)
         Return ReturnArray
     End Function
