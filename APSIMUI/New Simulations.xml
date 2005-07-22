@@ -1,9 +1,4 @@
-<simulations name="New Simulations" version="4">
-
-
-
-
-
+<simulations name="New Simulations" version="2">
   <simulation name="Blank Simulation">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1940</start_date>
@@ -20,11 +15,6 @@
     </area>
   </simulation>
   <shared name="shared" />
-
-
-
-
-
   <simulation name="Continuous Wheat Simulation">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1940</start_date>
@@ -142,7 +132,7 @@
             <thickness>150</thickness>
             <bd>1.02</bd>
             <ll15>0.29</ll15>
-            <airdry>0.145</airdry>
+            <airdry>0.15</airdry>
             <dul>0.54</dul>
             <sat>0.59</sat>
             <sw>9999.99</sw>
@@ -785,16 +775,55 @@
             <xf>0</xf>
           </layer>
         </SoilCrop>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>6.50251233431099</no3>
+            <nh4>0.599196200219218</nh4>
+          </layer>
+          <layer name="2">
+            <no3>2.10081167723893</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="3">
+            <no3>2.10081167723893</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="4">
+            <no3>1.70065707205056</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="5">
+            <no3>1.70065707205057</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="6">
+            <no3>1.70065707205056</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1.70065707205056</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="8">
+            <no3>1.70065707205056</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="9">
+            <no3>1.70065707205056</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="10">
+            <no3>1.70065707205056</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="11">
+            <no3>1.70065707205056</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+        </InitNitrogen>
       </soil>
     </area>
   </simulation>
-
-
-
-
-
-
-
   <simulation name="Continuous Sorghum Simulation">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1940</start_date>
@@ -1552,15 +1581,56 @@
             <xf>0</xf>
           </layer>
         </SoilCrop>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+          </layer>
+          <layer name="2">
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="3">
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="4">
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="5">
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="6">
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="8">
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="9">
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="10">
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="11">
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+        </InitNitrogen>
       </soil>
       <sorghum />
     </area>
   </simulation>
-
-
-
-
-
   <simulation name="Eucalypt Forest Simulation">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1987</start_date>
@@ -1573,7 +1643,7 @@
       <filename name="filename">%apsuite\apsim\met\sample\Toolara.met</filename>
     </metfile>
     <area name="Block">
-      <registrations name = "Data outside paddock"/>
+      <registrations name="Data outside paddock" />
       <manager name="Manager">
         <rule name="Planting rule">
           <condition name="start_of_day">
@@ -1948,6 +2018,52 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="2">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="3">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="4">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="5">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="6">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="8">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="9">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="10">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="11">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+        </InitNitrogen>
       </soil>
       <micromet name="micromet">
         <soilalbedo name="soilalbedo">0.23</soilalbedo>
@@ -1976,19 +2092,6 @@
       </outputfile>
     </area>
   </simulation>
-
-
-
-
-
-
-
-
-
-
-
-
-
   <simulation name="Sugar Simulation">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1944</start_date>
@@ -2723,6 +2826,52 @@
             <xf>0</xf>
           </layer>
         </SoilCrop>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+          </layer>
+          <layer name="2">
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="3">
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="4">
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="5">
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="6">
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="8">
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="9">
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="10">
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="11">
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+        </InitNitrogen>
       </soil>
       <outputfile name="outputfile">
         <filename name="filename">sugar.out</filename>
@@ -2834,14 +2983,4 @@
       </manager>
     </area>
   </simulation>
-
-
-
-
-
-
-
-
-
-
 </simulations>

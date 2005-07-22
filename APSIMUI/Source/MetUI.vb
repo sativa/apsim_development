@@ -209,7 +209,7 @@ Public Class MetUI
             MyBase.Refresh()
             MetGraphControl1.Data = Data
             MetGraphControl1.Refresh()
-            Dim filename As String = Data.ChildValue("filename", True)
+            Dim filename As String = Data.ChildValueWithError("filename")
             MetFileTextBox.Text = filename
             OpenFileDialog.InitialDirectory = Path.GetDirectoryName(filename)
 

@@ -186,7 +186,7 @@ Public Class FileUI
     Overrides Sub Refresh()
         Try
             MyBase.Refresh()
-            Dim filename As String = Data.ChildValue("filename", True)
+            Dim filename As String = Data.ChildValueWithError("filename")
             SummaryFileTextBox.Text = filename
             OpenFileDialog.InitialDirectory = Path.GetDirectoryName(filename)
             HelpLabel.Text = "Enter the name of the file in the edit box at the top. The contents of the file will be displayed in the large window above."

@@ -3,6 +3,10 @@ Imports VBGeneral
 Imports System.Math
 Imports CSGeneral
 Imports VBMet
+Imports Xceed.Chart.Core
+Imports Xceed.Chart.Standard
+Imports System.Drawing
+
 Public Class MetGraphControl
     Inherits BaseDataControl
 
@@ -302,7 +306,9 @@ Public Class MetGraphControl
     Private Sub DoRainfallChart()
         ChartHelper.Clear()
         ChartHelper.DataTable = ReadAnnualDataTable()
-        ChartHelper.CreateChartSeriesFromDataTable("Rainfall", "date", "rain", False, Drawing.Color.Blue, Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.PrimaryY)
+        ChartHelper.CreateChartSeriesFromDataTable("Rainfall", "date", "rain", False, _
+            Drawing.Color.Blue, 1, Xceed.Chart.Standard.LinePattern.Solid, _
+            Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.PrimaryY)
         ChartBox.Refresh()
     End Sub
     Private Sub DoMonthlyRainfallChart()
@@ -333,16 +339,24 @@ Public Class MetGraphControl
         Next
 
         ChartHelper.Clear()
-        ChartHelper.CreateChartSeriesFromArray("Rainfall", month, r, False, Drawing.Color.Blue, Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.PrimaryY)
-        ChartHelper.CreateChartSeriesFromArray("Evaporation", month, e, False, Drawing.Color.Red, Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.PrimaryY)
+        ChartHelper.CreateChartSeriesFromArray("Rainfall", month, r, False, _
+                Color.Blue, 1, LinePattern.Solid, _
+                StandardAxis.PrimaryX, StandardAxis.PrimaryY)
+        ChartHelper.CreateChartSeriesFromArray("Evaporation", month, e, False, _
+                Color.Red, 1, LinePattern.Solid, _
+                StandardAxis.PrimaryX, StandardAxis.PrimaryY)
         ChartBox.Refresh()
 
     End Sub
     Private Sub DoTemperatureChart()
         ChartHelper.Clear()
         ChartHelper.DataTable = ReadAnnualDataTable()
-        ChartHelper.CreateChartSeriesFromDataTable("Maximum Temperature", "date", "maxt", False, Drawing.Color.Red, Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.PrimaryY)
-        ChartHelper.CreateChartSeriesFromDataTable("Minimum Temperature", "date", "mint", False, Drawing.Color.Blue, Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.PrimaryY)
+        ChartHelper.CreateChartSeriesFromDataTable("Maximum Temperature", "date", "maxt", False, _
+                Color.Red, 1, LinePattern.Solid, _
+                StandardAxis.PrimaryX, StandardAxis.PrimaryY)
+        ChartHelper.CreateChartSeriesFromDataTable("Minimum Temperature", "date", "mint", False, _
+                Color.Blue, 1, LinePattern.Solid, _
+                StandardAxis.PrimaryX, StandardAxis.PrimaryY)
         ChartBox.Refresh()
 
     End Sub
@@ -435,9 +449,15 @@ Public Class MetGraphControl
 
         ChartHelper.Clear()
         ChartHelper.DataTable = D
-        ChartHelper.CreateChartSeriesFromDataTable("Rainfall", "date", "rain", False, Drawing.Color.Blue, Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.SecondaryY)
-        ChartHelper.CreateChartSeriesFromDataTable("Radiation", "date", "radn", False, Drawing.Color.Orange, Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.PrimaryY)
-        ChartHelper.CreateChartSeriesFromDataTable("Max. Radiation", "date", "Qmax", False, Drawing.Color.Red, Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.PrimaryY)
+        ChartHelper.CreateChartSeriesFromDataTable("Rainfall", "date", "rain", False, _
+                Color.Blue, 1, LinePattern.Solid, _
+                StandardAxis.PrimaryX, StandardAxis.SecondaryY)
+        ChartHelper.CreateChartSeriesFromDataTable("Radiation", "date", "radn", False, _
+                Color.Orange, 1, LinePattern.Solid, _
+                StandardAxis.PrimaryX, StandardAxis.PrimaryY)
+        ChartHelper.CreateChartSeriesFromDataTable("Max. Radiation", "date", "Qmax", False, _
+                Color.Red, 1, LinePattern.Solid, _
+                StandardAxis.PrimaryX, StandardAxis.PrimaryY)
         ChartBox.Refresh()
     End Sub
     Private Function ReadAnnualData(ByVal ColumnName As String) As Single()

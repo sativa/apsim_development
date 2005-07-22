@@ -566,16 +566,19 @@
                   <property name="root_cn">20.</property>
                   <property name="root_wt">1000.</property>
                   <property name="soil_cn">14.5</property>
+                  <property name="enr_a_coeff">7.4</property>
+                  <property name="enr_b_coeff">0.2</property>
+                  <property name="profile_reduction">off</property>
                   <property name="oc">[foreach n.layer as l] [l.oc][endfor]</property>
                   <property name="ph">[foreach n.layer as l] [l.ph][endfor]</property>
                   <property name="fbiom">[foreach n.layer as l] [l.fbiom][endfor]</property>
                   <property name="finert">[foreach n.layer as l] [l.finert][endfor]</property>
-                  <property name="no3ppm">[foreach n.layer as l] [l.no3][endfor]</property>
-                  <property name="nh4ppm">[foreach n.layer as l] [l.nh4][endfor]</property>
                   <property name="ureappm">0  0    0    0    0    0    0</property>
-                  <property name="enr_a_coeff">7.4</property>
-                  <property name="enr_b_coeff">0.2</property>
-                  <property name="profile_reduction">off</property>
+
+                  [foreach soil.InitNitrogen as initnitrogen]
+                  <property name="no3ppm">[foreach layer.no3][no3.innerxml] [endfor]</property>
+                  <property name="nh4ppm">[foreach layer.nh4][nh4.innerxml] [endfor]</property>
+                  [endfor]
                </parameters>
             </initdata>
          </component>
@@ -591,8 +594,16 @@
       <drops>
          <drop name="soil"/>
       </drops>
-
    </InitWater>
+   <InitNitrogen>
+      <UItype>initnitrogen</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\fertiliser32.png</LargeIcon>
+      <SmallIcon>Images\fertiliser16.png</SmallIcon>
+      <drops>
+         <drop name="soil"/>
+      </drops>
+   </InitNitrogen>
    <soilp>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
