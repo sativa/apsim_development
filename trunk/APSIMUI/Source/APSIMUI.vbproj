@@ -78,38 +78,6 @@
                     AssemblyName = "System.Xml"
                 />
                 <Reference
-                    Name = "Interop.SHDocVw"
-                    AssemblyName = "Interop.SHDocVw"
-                    HintPath = "..\..\Bin\Interop.SHDocVw.dll"
-                />
-                <Reference
-                    Name = "AxInterop.SHDocVw"
-                    AssemblyName = "AxInterop.SHDocVw"
-                    HintPath = "..\..\Bin\AxInterop.SHDocVw.dll"
-                />
-                <Reference
-                    Name = "CSGeneral"
-                    AssemblyName = "CSGeneral"
-                    HintPath = "..\..\Bin\CSGeneral.dll"
-                    Private = "False"
-                />
-                <Reference
-                    Name = "scpl"
-                    AssemblyName = "scpl"
-                    HintPath = "..\..\..\documents and settings\hut104\my documents\visual studio projects\windowsapplication1\scpl.dll"
-                />
-                <Reference
-                    Name = "accllistbar"
-                    AssemblyName = "acclListBar"
-                    HintPath = "..\..\..\documents and settings\hut104\my documents\visual studio projects\windowsapplication1\accllistbar.dll"
-                />
-                <Reference
-                    Name = "VBGeneral"
-                    AssemblyName = "VBGeneral"
-                    HintPath = "..\..\Bin\VBGeneral.dll"
-                    Private = "False"
-                />
-                <Reference
                     Name = "Microsoft.VisualBasic"
                     AssemblyName = "Microsoft.VisualBasic"
                     HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\Microsoft.VisualBasic.dll"
@@ -190,9 +158,39 @@
                     AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
                 />
                 <Reference
+                    Name = "AxInterop.SHDocVw"
+                    AssemblyName = "AxInterop.SHDocVw"
+                    HintPath = "AxInterop.SHDocVw.dll"
+                />
+                <Reference
+                    Name = "Interop.SHDocVw"
+                    AssemblyName = "Interop.SHDocVw"
+                    HintPath = "Interop.SHDocVw.dll"
+                />
+                <Reference
+                    Name = "VBGeneral"
+                    AssemblyName = "VBGeneral"
+                    HintPath = "..\..\Shared\vbgeneral\bin\VBGeneral.dll"
+                />
+                <Reference
+                    Name = "CSGeneral"
+                    AssemblyName = "CSGeneral"
+                    HintPath = "..\..\Shared\c#general\obj\Debug\CSGeneral.dll"
+                />
+                <Reference
+                    Name = "ChangeTool"
+                    AssemblyName = "ChangeTool"
+                    HintPath = "..\..\Shared\ChangeTool\obj\Debug\ChangeTool.dll"
+                />
+                <Reference
+                    Name = "Soil"
+                    AssemblyName = "Soil"
+                    HintPath = "..\..\Shared\Soil\obj\Debug\Soil.dll"
+                />
+                <Reference
                     Name = "VBMet"
                     AssemblyName = "VBMet"
-                    HintPath = "..\..\Bin\VBMet.dll"
+                    HintPath = "..\..\Shared\vbmet\bin\VBMet.dll"
                 />
             </References>
             <Imports>
@@ -294,16 +292,6 @@
                 <File
                     RelPath = "HypropsControl.resx"
                     DependentUpon = "HypropsControl.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "InitWaterUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "InitWaterUI.resx"
-                    DependentUpon = "InitWaterUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -414,16 +402,6 @@
                 <File
                     RelPath = "SimulationUI.resx"
                     DependentUpon = "SimulationUI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "SoilUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SoilUI.resx"
-                    DependentUpon = "SoilUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

@@ -7,6 +7,7 @@ Imports System.io
 Imports System.IO.Path
 Imports VBGeneral
 Imports CSGeneral
+Imports ChangeTool
 
 Public Class MainUI
     Inherits System.Windows.Forms.Form
@@ -675,7 +676,6 @@ Public Class MainUI
     ' Form has been loaded - set ourselves up.
     ' --------------------------------------------
     Private Sub MainUI_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
         UIManager = New UIManager(Me)
 
         ' Show the Simulation Explorer.
@@ -758,6 +758,8 @@ Public Class MainUI
     ' ---------------------------
     Private Sub FileOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileOpen.Click
         SimulationExplorer.FileOpen()
+        APSIMChangeTool.Upgrade(SimulationExplorer.Data)
+        SimulationExplorer.Refresh()
     End Sub
 
 

@@ -138,9 +138,9 @@ Public Class LogicUI
 
     Overrides Sub Refresh()
         MyBase.Refresh()
-        InitTextBox.Text = Replace(Data.ChildValue("init", True), "[cr]", vbCrLf)
-        StartOfDayTextBox.Text = Replace(Data.ChildValue("startofday", True), "[cr]", vbCrLf)
-        EndOfDayTextBox.Text = Replace(Data.ChildValue("endofday", True), "[cr]", vbCrLf)
+        InitTextBox.Text = Replace(Data.ChildValueWithError("init"), "[cr]", vbCrLf)
+        StartOfDayTextBox.Text = Replace(Data.ChildValueWithError("startofday"), "[cr]", vbCrLf)
+        EndOfDayTextBox.Text = Replace(Data.ChildValueWithError("endofday"), "[cr]", vbCrLf)
         HelpLabel.Text = "Enter you management logic into the edit box above."
     End Sub
 

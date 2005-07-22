@@ -145,9 +145,9 @@ Public Class SimulationUI
         'filename = APSIMFile.XMLFilePath + "\" + filename
         'End If
 
-        StartDatePicker.Value = Data.ChildValue("start_date", True)
-        EndDatePicker.Value = Data.ChildValue("end_date", True)
-        TitleTextBox.Text = Data.ChildValue("title", True)
+        StartDatePicker.Value = Data.ChildValueWithError("start_date")
+        EndDatePicker.Value = Data.ChildValueWithError("end_date")
+        TitleTextBox.Text = Data.ChildValueWithError("title")
 
 
 
