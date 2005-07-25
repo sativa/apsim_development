@@ -31,6 +31,10 @@ class environment_t {
    float daylength(float) const;
    float daylength(int, float) const;
 };
+
+class protocol::Component;
+class PlantComponent;
+
 // Terminology:
 // A "stage" is a point in time.
 // A "phase" is the period between two stages.
@@ -117,9 +121,9 @@ class PlantPhenology : public plantThing {
 
 
  public:
-   PlantPhenology(plantInterface *p) {plant = p;};
+   PlantPhenology(PlantComponent *s, plantInterface *p);
    virtual void writeCultivarInfo (PlantComponent *)=0;
-   virtual void initialise (PlantComponent *, const string &);                // read structure etc from constants
+   virtual void readConstants (protocol::Component *, const string &);                // read structure etc from constants
    virtual void doRegistrations (protocol::Component *);
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);   // read species parameters
    virtual void readCultivarParameters (protocol::Component *, const string &) {}; // read cv parameters from sowing line
@@ -197,9 +201,9 @@ class WheatPhenology : public PlantPhenology {
    void get_zadok_stage(protocol::Component *system, protocol::QueryValueData &qd);
 
  public:
-   WheatPhenology(plantInterface *p) : PlantPhenology(p) {};
+   WheatPhenology(PlantComponent *s, plantInterface *p) : PlantPhenology(s, p) {};
 
-   void initialise (PlantComponent *, const string &);              // read structure etc from constants
+   void readConstants (protocol::Component *, const string &);              // read structure etc from constants
    void doRegistrations (protocol::Component *);
    void readSpeciesParameters (protocol::Component *, vector<string> &); // read species parameters
    void readCultivarParameters (protocol::Component *, const string &);  // read cv parameters from sowing line
@@ -272,13 +276,13 @@ class LegumePhenology : public PlantPhenology {
    void updateTTTargets(const environment_t &e);
 
  public:
-   LegumePhenology(plantInterface *p) : PlantPhenology(p) {};
+   LegumePhenology(PlantComponent *s, plantInterface *p) : PlantPhenology(s, p) {};
    void prepare(const environment_t &e);
    void process(const environment_t &e, const pheno_stress_t &ps);
    void update(void);
 
    void doRegistrations (protocol::Component *);
-   void initialise (PlantComponent *, const string &);              // read structure etc from constants
+   void readConstants (protocol::Component *, const string &);              // read structure etc from constants
    void readSpeciesParameters (protocol::Component *, vector<string> &); // read species parameters
    void readCultivarParameters (protocol::Component *, const string &);  // read cv parameters from sowing line
    void writeCultivarInfo (PlantComponent *);

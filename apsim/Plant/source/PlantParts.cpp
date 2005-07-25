@@ -170,8 +170,63 @@ void plantPart::zeroDeltas(void)
    v.n_max = 0.0 ;          
    v.p_demand = 0.0;        
 }  
+void plantPart::readConstants(protocol::Component *system, const string &section)
+    {
+    if (plant->phosphorusAware())
+       {
+#if 0
+       c.p_conc_min.read(system, section 
+                        , "x_p_stage_code",  "()", 0.0, 100.0 
+                        , ("y_p_conc_min_" + c.name).c_str(), "(g/g)", 0.0, 1.0);  
+   
+       c.p_conc_max.read(system, section 
+                        , "x_p_stage_code",  "()", 0.0, 100.0 
+                        , ("y_p_conc_max_" + c.name).c_str(), "(g/g)", 0.0, 1.0);  
+   
+       c.p_conc_sen.read(system, section 
+                        , "x_p_stage_code",  "()", 0.0, 100.0 
+                        , ("y_p_conc_sen_" + c.name).c_str(), "(g/g)", 0.0, 1.0);  
+
+       system->readParameter (section
+                               , c.name + "_p_conc_init"
+                               //, "(g/g)"
+                               , c.p_init_conc
+                               , 0.0, 1.0);
+#else
+       system->readParameter (section, "x_p_stage_code", /*"()",*/ c.x_p_stage_code, c.num_x_p_stage_code, 0.0, 12.0);
+
+       system->readParameter (section, ("y_p_conc_max_" + c.name).c_str(), /*"(g/g)",*/
+                              c.y_p_conc_max, c.num_x_p_stage_code, 0.0, 1.0);
+       system->readParameter (section, ("y_p_conc_sen_" + c.name).c_str(), /*"(g/g)", */
+                              c.y_p_conc_sen, c.num_x_p_stage_code, 0.0, 1.0);
+       system->readParameter (section, ("y_p_conc_min_" + c.name).c_str(), /*"(g/g)",*/
+                              c.y_p_conc_min, c.num_x_p_stage_code, 0.0, 1.0);
+       system->readParameter (section, c.name + "_p_conc_init", /*"(g/g)",*/ 
+                              c.p_init_conc, 0.0, 1.0);
+#endif   
+
+       vector<string> parts;
+       Split_string(system->readParameter (section, "stress_determinants"), " ", parts);
+       if (find(parts.begin(), parts.end(), c.name) != parts.end()) 
+          c.p_stress_determinant = true;
+       else 
+          c.p_stress_determinant = false;
+       
+       Split_string(system->readParameter (section, "yield_parts"), " ", parts);
+       if (find(parts.begin(),parts.end(), c.name) != parts.end())
+          c.p_yield_part = true;
+       else
+          c.p_yield_part = false;
+
+       Split_string(system->readParameter (section, "retrans_parts"), " ", parts);
+       if (find(parts.begin(),parts.end(), c.name) != parts.end())
+          c.p_retrans_part = true;
+       else
+          c.p_retrans_part = false;
+       }
+    }
 void plantPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
-{  
+    {
     system->readParameter (sections
                             , c.name + "_trans_frac"
                             //, "()"
@@ -233,46 +288,7 @@ void plantPart::readSpeciesParameters(protocol::Component *system, vector<string
                              , 0.0, 1.0, true) == false)
         c.n_retrans_fraction = 1.0;
 
-    if (plant->phosphorusAware()) 
-       {
-       c.p_conc_min.search(system, sections 
-                        , "x_p_stage_code",  "()", 0.0, 100.0 
-                        , ("y_p_conc_min_" + c.name).c_str(), "(g/g)", 0.0, 1.0);  
-   
-       c.p_conc_max.search(system, sections 
-                        , "x_p_stage_code",  "()", 0.0, 100.0 
-                        , ("y_p_conc_max_" + c.name).c_str(), "(g/g)", 0.0, 1.0);  
-   
-       c.p_conc_sen.search(system, sections 
-                        , "x_p_stage_code",  "()", 0.0, 100.0 
-                        , ("y_p_conc_sen_" + c.name).c_str(), "(g/g)", 0.0, 1.0);  
-   
-       system->readParameter (sections
-                               , c.name + "_p_conc_init"
-                               //, "(g/g)"
-                               , c.p_init_conc
-                               , 0.0, 1.0);
-   
-       vector<string> parts;
-       Split_string(system->readParameter (sections, "stress_determinants"), " ", parts);
-       if (find(parts.begin(), parts.end(), c.name) != parts.end()) 
-          c.p_stress_determinant = true;
-       else 
-          c.p_stress_determinant = false;
-       
-       Split_string(system->readParameter (sections, "yield_parts"), " ", parts);
-       if (find(parts.begin(),parts.end(), c.name) != parts.end())
-          c.p_yield_part = true;
-       else
-          c.p_yield_part = false;
-
-       Split_string(system->readParameter (sections, "retrans_parts"), " ", parts);
-       if (find(parts.begin(),parts.end(), c.name) != parts.end())
-          c.p_retrans_part = true;
-       else
-          c.p_retrans_part = false;
-       }
-}
+    }
 
 void plantPart::readCultivarParameters (protocol::Component *system, const string &cultivar)
 {
@@ -626,7 +642,7 @@ void plantPart::onEndCrop(vector<string> &dm_type,
 // Add detached material to the parts of a message
 //void plantPart::live_detached(vector<string> &dm_type, 
 //                              vector<float> &fraction_to_residue,
-//                              vector<float> &dm, 
+//                              vector<float> &dm,
 //                              vector<float> &dm_n,
 //                              vector<float> &dm_p)
 //{
@@ -692,6 +708,30 @@ void plantPartHack::get(void) {
       dlt.n_retrans         = myplant->g.dlt_n_retrans[part];        
       dlt.height            = myplant->g.dlt_canopy_height;           
       dlt.width             = myplant->g.dlt_canopy_width;            
+      g.p_dead              = myplant->g.p_dead[part];
+      g.p_green             = myplant->g.p_green[part];
+      g.p_sen               = myplant->g.p_sen[part];
+      dlt.p_green           = myplant->g.dlt_p_green[part];
+      dlt.p_sen             = myplant->g.dlt_p_sen[part];
+      dlt.p_det             = myplant->g.dlt_p_det[part];
+      dlt.p_dead_det        = myplant->g.dlt_p_dead_det[part];
+      dlt.p_retrans         = myplant->g.dlt_p_retrans[part];
+      dlt.p_dead            = myplant->g.dlt_p_dead[part];
+      v.p_demand            = myplant->g.p_demand[part];
+
+      c.p_stress_determinant =myplant->c.p_stress_determinants[part];
+      c.p_yield_part    = myplant->c.p_yield_parts[part];
+      c.p_retrans_part  = myplant->c.p_retrans_parts[part];
+
+      c.p_init_conc         = myplant->c.p_conc_init[part];
+      c.num_x_p_stage_code  = myplant->c.num_x_p_stage_code;
+      c.num_x_p_stage_code  = myplant->c.num_x_p_stage_code;
+      for (int i = 0; i< myplant->c.num_x_p_stage_code; i++) {
+      	  c.x_p_stage_code[i] = myplant->c.x_p_stage_code[i];
+          c.y_p_conc_max [i]  = myplant->c.y_p_conc_max  [part][i];
+          c.y_p_conc_min [i]  = myplant->c.y_p_conc_min  [part][i];
+          c.y_p_conc_sen [i]  = myplant->c.y_p_conc_sen  [part][i];
+      }   
 }
 
 void plantPartHack::put(void) {
@@ -723,6 +763,19 @@ void plantPartHack::put(void) {
       myplant->g.dlt_n_dead[part]=                   dlt.n_dead              ;
       myplant->g.dlt_n_dead_detached[part]=          dlt.n_dead_detached     ;
       myplant->g.dlt_n_retrans[part]=                dlt.n_retrans           ;
+
+      myplant->g.p_dead[part]=                       g.p_dead                ;
+      myplant->g.p_green[part]=                      g.p_green               ;
+      myplant->g.p_sen[part]=                        g.p_sen            ;
+
+      myplant->g.dlt_p_green[part]                     =dlt.p_green;
+      myplant->g.dlt_p_sen[part]                       =dlt.p_sen;
+      myplant->g.dlt_p_det[part]                       =dlt.p_det;
+      myplant->g.dlt_p_dead_det[part]                  =dlt.p_dead_det;
+      myplant->g.dlt_p_retrans[part]                   =dlt.p_retrans;
+      myplant->g.dlt_p_dead[part]                      =dlt.p_dead;
+      myplant->g.p_demand[part]                        =v.p_demand;
+
       //myplant->g.dlt_canopy_height=                   dlt.height              ;xxstem only??
       //myplant->g.dlt_canopy_width=                    dlt.width               ;
 };

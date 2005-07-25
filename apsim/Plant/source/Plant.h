@@ -812,6 +812,7 @@ void legnew_dm_distribute(int max_part
   void get_p_green(protocol::Component *, protocol::QueryValueData &qd);
   void get_p_sen(protocol::Component *, protocol::QueryValueData &qd);
   void get_p_demand(protocol::Component *, protocol::QueryValueData &qd);
+  void get_p_demand_parts(protocol::Component *, protocol::QueryValueData &qd);
   void get_pfact_photo(protocol::Component *, protocol::QueryValueData &qd);
   void get_pfact_pheno(protocol::Component *, protocol::QueryValueData &qd);
   void get_pfact_expansion(protocol::Component *, protocol::QueryValueData &qd);

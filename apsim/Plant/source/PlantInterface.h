@@ -2,12 +2,14 @@
 #ifndef PlantIfaceH
 #define PlantIfaceH
 
-// Abstract (Interface) class for communications
-class commsInterface {
+// Class for communications - a sink for messages.
+class commsInterface 
+  {
   public:
       virtual void writeString (const char *line) = 0;
       virtual void warningError (const char *msg) = 0;
-};
+  };
+
 
 namespace protocol {
   class Component;
@@ -31,6 +33,7 @@ class plantInterface {
 class plantThing {
    public:
      virtual void doRegistrations(protocol::Component *) = 0;
+     virtual void readConstants (protocol::Component *, const string &) = 0;
      virtual void readSpeciesParameters (protocol::Component *, vector<string> &) = 0;
      virtual void readCultivarParameters (protocol::Component *, const string &) = 0;
      virtual void onPlantEvent(const string &) = 0;

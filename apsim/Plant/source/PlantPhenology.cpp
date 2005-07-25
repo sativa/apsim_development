@@ -104,9 +104,14 @@ float compositePhase::getDays(void) const
    return days;
 }
 
-void PlantPhenology::initialise (PlantComponent *s, const string &section)
+PlantPhenology::PlantPhenology(PlantComponent *s, plantInterface *p) 
+   {
+   plant = p;          // "Plant" interface
+   parentPlant = s;    // "System" interface
+   }
+
+void PlantPhenology::readConstants (protocol::Component *s, const string &section)
 {
-   parentPlant = s;
    phases.push_back(pPhase("out"));
    currentStage = 0.0;
    initialOnBiomassRemove = true;
@@ -417,10 +422,10 @@ void WheatPhenology::zeroDeltas(void)
    dlt_tt = dlt_tt_phenol = dlt_cumvd = 0.0;
    }
 
-void WheatPhenology::initialise (PlantComponent *s, const string &section)
+void WheatPhenology::readConstants (protocol::Component *s, const string &section)
    {
    s->writeString("phenology model: Wheat");
-   PlantPhenology::initialise(s, section);
+   PlantPhenology::readConstants(s, section);
    zeroAllGlobals();
 };
 
@@ -1227,10 +1232,10 @@ void LegumePhenology::updateTTTargets(const environment_t &e)
       }
    }
 
-void LegumePhenology::initialise (PlantComponent *s, const string &section)
+void LegumePhenology::readConstants (protocol::Component *s, const string &section)
    {
    s->writeString("phenology model: Legume");
-   PlantPhenology::initialise(s, section);
+   PlantPhenology::readConstants(s, section);
    zeroAllGlobals();
    }
 
