@@ -86,9 +86,11 @@ class plantPart : public plantThing {
       interpolationFunction n_conc_crit;
       interpolationFunction n_conc_max;
 
-      interpolationFunction p_conc_min;
-      interpolationFunction p_conc_sen;
-      interpolationFunction p_conc_max;
+      int   num_x_p_stage_code;
+      float x_p_stage_code [max_table];
+      float y_p_conc_min[max_table];
+      float y_p_conc_sen[max_table];
+      float y_p_conc_max[max_table];
 
       interpolationFunction height;
       interpolationFunction width;
@@ -127,6 +129,7 @@ private:
    virtual ~plantPart() {};
 
    void doRegistrations(protocol::Component *);
+   void readConstants (protocol::Component *, const string &);
    void readSpeciesParameters (protocol::Component *, vector<string> &);
    void readCultivarParameters (protocol::Component *, const string &);
 

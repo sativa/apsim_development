@@ -105,9 +105,9 @@ void Plant::doInit1(protocol::Component *s)
     if (scratch == "")
        throw std::invalid_argument("The parameter 'phenology_model'\nisn't in your ini file.\n\nGet one.\n");
     else if (scratch == "legume")
-       phenology = new LegumePhenology(this);
+       phenology = new LegumePhenology(parent, this);
     else if (scratch == "wheat")
-       phenology = new WheatPhenology(this);
+       phenology = new WheatPhenology(parent, this);
     else
        throw std::invalid_argument("Unknown phenology model '" + scratch + "'");
     myThings.push_back(phenology);
@@ -119,6 +119,7 @@ void Plant::doInit1(protocol::Component *s)
 void Plant::initialise(void)
    {
    doIDs();                 // Gather IDs for getVariable requests
+   PlantP_set_phosphorus_aware(parent); // See whether a P module is plugged in
    plant_read_constants (); // Read constants
    plant_zero_variables (); // Zero global states
    plant_init ();           // Site specific init
@@ -706,8 +707,16 @@ void Plant::doRegistrations(protocol::Component *system)
                     &Plant::get_p_sen,
                     "g/m^2","P in senesced plant parts");
 
+   setupGetFunction("p_sen", protocol::DTsingle, true,
+                    &Plant::get_p_sen,
+                    "g/m^2","P in senesced plant parts");
+
    setupGetFunction("p_demand", protocol::DTsingle, false,
                     &Plant::get_p_demand,
+                    "g/m^2","");
+
+   setupGetFunction("p_demand_parts", protocol::DTsingle, true,
+                    &Plant::get_p_demand_parts,
                     "g/m^2","");
 
    setupGetVar("pfact_photo",
@@ -4713,7 +4722,6 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
                            , &dlt_dm_pot_rue_veg);
 
         g.dlt_dm_pot_rue = dlt_dm_pot_rue_veg + g.dltDmPotRueFruit;  // FIXME when fruit is made proper class
-
 //Remove
 //        plant_dm_pot_rue(&c.rue
 //                         , c.rue_pod
@@ -6785,7 +6793,6 @@ void Plant::plant_process ( void )
 
         //plant_fruit_abort(c.fruit_no_option);
         plant_plant_death (1);
-    if (c.num_node_no_app == 0) parent->writeString("node is zeor");
         }
     else
         {
@@ -7032,9 +7039,11 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     float n_residue;                              // nitrogen added to residue (kg/ha)
     float dm_root_residue;                             // dry matter added to residue (kg/ha)
     float n_root_residue;                              // nitrogen added to residue (kg/ha)
+    float p_root_residue;                              // phosp added to residue (kg/ha)
     float dm_tops_residue;                             // dry matter added to residue (kg/ha)
     float n_tops_residue;                              // nitrogen added to residue (kg/ha)
-    float P_residue;                              // phosphorus added to residue (g/m^2)
+    float p_tops_residue;                              // phosp added to residue (kg/ha)
+    float p_residue;                              // phosphorus added to residue (g/m^2)
     float dm_removed;                             // dry matter removed from system (kg/ha)
     float n_removed;                              // nitrogen removed from system (kg/ha)
     float dm_root;
@@ -7066,6 +7075,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     float dlt_p_harvest;                          // N content of dm harvested (kg/ha)
     float dlt_dm_die;                             // dry matter in dieback of roots (g/m^2)
     float dlt_n_die;                              // N content of drymatter in dieback (g/m^2)
+    float dlt_p_die;                              // P content of drymatter in dieback (g/m^2)
     float avg_leaf_area;
     float P_tops;
 
@@ -7125,6 +7135,10 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     g.n_senesced[root] = g.n_senesced[root] + dlt_n_die;
     g.n_green[root]= g.n_green[root] - dlt_n_die;
 
+    dlt_p_die =  g.p_green[root] * c.root_die_back_fr;
+    g.p_sen[root] = g.p_sen[root] + dlt_p_die;
+    g.p_green[root]= g.p_green[root] - dlt_p_die;
+
     dlt_dm_harvest = g.dm_dead[root]*chop_fr_dead 
                     + g.dm_green[root]*chop_fr_green 
                     + g.dm_senesced[root]*chop_fr_sen;
@@ -7132,23 +7146,26 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     dlt_n_harvest = g.n_dead[root]*chop_fr_dead 
                     + g.n_green[root]*chop_fr_green 
                     + g.n_senesced[root]*chop_fr_sen;
+
     dlt_p_harvest = g.p_dead[root]*chop_fr_dead 
                     + g.p_green[root]*chop_fr_green 
                     + g.p_sen[root]*chop_fr_sen;
 
-    g.dm_dead[root] = retain_fr_dead * g.dm_dead[root];
-    g.dm_senesced[root] = retain_fr_sen * g.dm_senesced[root];
-    g.dm_green[root] = retain_fr_green * g.dm_green[root];
-
-    g.n_dead[root] = retain_fr_dead * g.n_dead[root];
-    g.n_senesced[root] = retain_fr_sen * g.n_senesced[root];
-    g.n_green[root] = retain_fr_green * g.n_green[root];
+    g.dm_dead[root] *= retain_fr_dead;
+    g.dm_senesced[root] *= retain_fr_sen;
+    g.dm_green[root] *= retain_fr_green;
+    g.n_dead[root] *= retain_fr_dead;
+    g.n_senesced[root] *= retain_fr_sen;
+    g.n_green[root] *= retain_fr_green;
+    g.p_dead[root] *= retain_fr_dead;
+    g.p_sen[root] *= retain_fr_sen;
+    g.p_green[root] *= retain_fr_green;
 
     dm_type.push_back("root");
     fraction_to_residue.push_back(0.0);
     dlt_crop_dm.push_back(dlt_dm_harvest * gm2kg/sm2ha);
     dlt_dm_n.push_back(dlt_n_harvest * gm2kg/sm2ha);
-    dlt_dm_p.push_back(dlt_p_harvest);
+    dlt_dm_p.push_back(dlt_p_harvest* gm2kg/sm2ha);
 
     // Accounting for tops
     // Calculate return of biomass to surface residues
@@ -7177,11 +7194,15 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
         g.n_senesced[part] = retain_fr_sen * g.n_senesced[part];
         g.n_green[part] = retain_fr_green * g.n_green[part];
 
+        g.p_dead[part] = retain_fr_dead * g.p_dead[part];
+        g.p_sen[part] = retain_fr_sen * g.p_sen[part];
+        g.p_green[part] = retain_fr_green * g.p_green[part];
+
         dm_type.push_back(tops1Name[ipart]);
         fraction_to_residue.push_back(0.0);
         dlt_crop_dm.push_back(dlt_dm_harvest * gm2kg/sm2ha);
         dlt_dm_n.push_back(dlt_n_harvest * gm2kg/sm2ha);
-        dlt_dm_p.push_back(dlt_p_harvest);
+        dlt_dm_p.push_back(dlt_p_harvest * gm2kg/sm2ha);
         }
 
     stemPart->onHarvest(height, remove_fr, 
@@ -7217,11 +7238,15 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
         g.n_senesced[part] = retain_fr_sen * g.n_senesced[part];
         g.n_green[part] = n_init;
 
+        g.p_dead[part] = retain_fr_dead * g.p_dead[part];
+        g.p_sen[part] = retain_fr_sen * g.p_sen[part];
+        g.p_green[part] = p_init;
+
         dm_type.push_back(tops2Name[ipart]);
         fraction_to_residue.push_back(1.0 - remove_fr);
         dlt_crop_dm.push_back(dlt_dm_harvest * gm2kg/sm2ha);
         dlt_dm_n.push_back(dlt_n_harvest * gm2kg/sm2ha);
-        dlt_dm_p.push_back(dlt_p_harvest);
+        dlt_dm_p.push_back(dlt_p_harvest * gm2kg/sm2ha);
         }
     
     if (sum(dlt_crop_dm) > 0.0)
@@ -7236,17 +7261,23 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
     dm_residue = 0.0;
     for (unsigned int part=0; part < dm_type.size(); part++)
-     dm_residue = dm_residue + (dlt_crop_dm[part] * fraction_to_residue[part]);
+     dm_residue += (dlt_crop_dm[part] * fraction_to_residue[part]);
 
     n_residue = 0.0;
     for (unsigned int part=0; part < dm_type.size(); part++)
-      n_residue = n_residue + (dlt_dm_n[part] * fraction_to_residue[part]);
+      n_residue += (dlt_dm_n[part] * fraction_to_residue[part]);
+
+    p_residue = 0.0;
+    for (unsigned int part=0; part < dm_type.size(); part++)
+      p_residue += (dlt_dm_p[part] * fraction_to_residue[part]);
 
     dm_root_residue = dlt_crop_dm[0] * fraction_to_residue[0];
     n_root_residue = dlt_dm_n[0] * fraction_to_residue[0];
+    p_root_residue = dlt_dm_p[0] * fraction_to_residue[0];
 
     dm_tops_residue = dm_residue - dm_root_residue;
     n_tops_residue = n_residue - n_root_residue;
+    p_tops_residue = p_residue - p_root_residue;
 
     parent->writeString ("\nCrop harvested.");
 
@@ -7259,7 +7290,12 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
     sprintf (msg, "%48s%7.2f%24.2f", "N  (kg/ha) =               ", n_tops_residue, n_root_residue);
     parent->writeString (msg);
-
+    if (g.phosphorus_aware) 
+       {
+       sprintf (msg, "%48s%7.2f%24.2f",
+                                     "P  (kg/ha) =               ", p_tops_residue, p_root_residue);
+       parent->writeString (msg);
+       }
     parent->writeString (" ");
 
     float dm_chopped_tops = sum(dlt_crop_dm) - dlt_crop_dm[0];
@@ -7272,6 +7308,11 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     float n_removed_tops = n_chopped_tops - n_tops_residue;
     float n_removed_root = n_chopped_root - n_root_residue;
 
+    float p_chopped_tops = sum(dlt_dm_p) - dlt_dm_p[0];
+    float p_chopped_root = dlt_dm_p[0];
+    float p_removed_tops = p_chopped_tops - p_tops_residue;
+    float p_removed_root = p_chopped_root - p_root_residue;
+
     parent->writeString ("    Organic matter removed from system:-      From Tops               From Roots");
 
     sprintf (msg, "%48s%7.2f%24.2f", "DM (kg/ha) =               ", dm_removed_tops, dm_removed_root);
@@ -7279,7 +7320,12 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
     sprintf (msg, "%48s%7.2f%24.2f", "N  (kg/ha) =               ", n_removed_tops, n_removed_root);
     parent->writeString (msg);
-
+    if (g.phosphorus_aware) 
+       {
+       sprintf (msg, "%48s%7.2f%24.2f", 
+                                     "P  (kg/ha) =               ", p_removed_tops, p_removed_root);
+       parent->writeString (msg);
+       }
     parent->writeString (" ");
 
 
@@ -7416,10 +7462,11 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     int   stage_no_current;
     int   stage_no_previous;
     float dm_init;
-    float n_init;
+    float n_init, p_init;
     float temp;
     float dlt_dm_sen;                             // dry matter sened (g/m^2)
-    float dlt_n_sen;                              // N content of dm sened (g/m^2)
+    float dlt_n_sen;                              // N content of dm senesced (g/m^2)
+    float dlt_p_sen;                              // P content of dm senesced (g/m^2)
     float avg_leaf_area;
     int   numvals;
     int   leaf_no_emerged;
@@ -7460,45 +7507,64 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
 
     // XX should be part->onKillStem(...); FIXME!
     // Calculate Root Die Back
-    dlt_n_sen =  rootPart->g.dm_green * c.root_die_back_fr * c.n_sen_conc[root];
-    rootPart->g.n_senesced += dlt_n_sen;
-    rootPart->g.n_green -= dlt_n_sen;
     dlt_dm_sen = rootPart->g.dm_green * c.root_die_back_fr;
     rootPart->g.dm_senesced += dlt_dm_sen;
     rootPart->g.dm_green -= dlt_dm_sen;
-
+    dlt_n_sen =  rootPart->g.dm_green * c.root_die_back_fr * c.n_sen_conc[root];
+    rootPart->g.n_senesced += dlt_n_sen;
+    rootPart->g.n_green -= dlt_n_sen;
+    dlt_p_sen =  rootPart->g.p_green * c.root_die_back_fr;
+    rootPart->g.p_sen += dlt_p_sen;
+    rootPart->g.p_green -= dlt_p_sen;
+    
     // Leaf must be left in viable state
     dm_init = c.dm_init [leaf] * g.plants;
     n_init = dm_init * c.n_init_conc[leaf];
+    p_init = dm_init * c.p_conc_init[leaf];
     leafPart->g.dm_dead += leafPart->g.dm_green + leafPart->g.dm_senesced - dm_init;
     leafPart->g.dm_dead = l_bound (leafPart->g.dm_dead, 0.0);
     leafPart->g.dm_green = dm_init;
     leafPart->g.dm_senesced = 0.0;
+
     leafPart->g.n_dead += leafPart->g.n_green + leafPart->g.n_senesced - n_init;
     leafPart->g.n_dead = l_bound (leafPart->g.n_dead, 0.0);
     leafPart->g.n_green = n_init;
     leafPart->g.n_senesced = 0.0;
 
+    leafPart->g.p_dead += leafPart->g.p_green + leafPart->g.p_sen - p_init;
+    leafPart->g.p_dead = l_bound (leafPart->g.p_dead, 0.0);
+    leafPart->g.p_green = p_init;
+    leafPart->g.p_sen = 0.0;
+
     dm_init = stemPart->c.dm_init * g.plants;
     n_init = dm_init * stemPart->c.n_init_conc;
-    stemPart->g.n_dead += stemPart->g.n_green + stemPart->g.n_senesced - n_init;
-    stemPart->g.n_dead = l_bound (stemPart->g.n_dead, 0.0);
-    stemPart->g.n_green = n_init;
-    stemPart->g.n_senesced = 0.0;
-
+    p_init = dm_init * stemPart->c.p_init_conc;
     stemPart->g.dm_dead += stemPart->g.dm_green + stemPart->g.dm_senesced - dm_init;
     stemPart->g.dm_dead = l_bound (stemPart->g.dm_dead, 0.0);
     stemPart->g.dm_green = dm_init;
     stemPart->g.dm_senesced = 0.0;
 
+    stemPart->g.n_dead += stemPart->g.n_green + stemPart->g.n_senesced - n_init;
+    stemPart->g.n_dead = l_bound (stemPart->g.n_dead, 0.0);
+    stemPart->g.n_green = n_init;
+    stemPart->g.n_senesced = 0.0;
+
+    stemPart->g.p_dead += stemPart->g.p_green + stemPart->g.p_sen - p_init;
+    stemPart->g.p_dead = l_bound (stemPart->g.p_dead, 0.0);
+    stemPart->g.p_green = p_init;
+    stemPart->g.p_sen = 0.0;
+
     for (part = someParts.begin(); part != someParts.end(); part++)
        {
-       (*part)->g.n_dead += (*part)->g.n_green + (*part)->g.n_senesced;
-       (*part)->g.n_green = 0.0;
-       (*part)->g.n_senesced = 0.0;
        (*part)->g.dm_dead += (*part)->g.dm_green + (*part)->g.dm_senesced;
        (*part)->g.dm_green = 0.0;
        (*part)->g.dm_senesced = 0.0;
+       (*part)->g.n_dead += (*part)->g.n_green + (*part)->g.n_senesced;
+       (*part)->g.n_green = 0.0;
+       (*part)->g.n_senesced = 0.0;
+       (*part)->g.p_dead += (*part)->g.p_green + (*part)->g.p_sen;
+       (*part)->g.p_green = 0.0;
+       (*part)->g.p_sen = 0.0;
        }
     delete rootPart;
     delete leafPart;
@@ -7867,6 +7933,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
         (*part)->g.n_green -= (*part)->g.n_green * chop_fr_green;
         (*part)->g.n_senesced -= (*part)->g.n_senesced * chop_fr_sen;
         (*part)->g.n_dead -= (*part)->g.n_dead * chop_fr_dead;
+        //XX missing P->etc
         }
 
     if (c.remove_biomass_report == "on")
@@ -8666,6 +8733,9 @@ void Plant::plant_zero_variables (void)
     fill_real_array (g.n_green , 0.0, max_part);
     fill_real_array (g.n_dead , 0.0, max_part);
     fill_real_array (g.n_senesced , 0.0, max_part);
+    fill_real_array (g.p_green , 0.0, max_part);
+    fill_real_array (g.p_dead , 0.0, max_part);
+    fill_real_array (g.p_sen , 0.0, max_part);
     fill_real_array (g.dlt_n_senesced_trans , 0.0, max_part);
     fill_real_array (g.dlt_n_senesced_retrans , 0.0, max_part);
 
@@ -8730,6 +8800,11 @@ void Plant::plant_zero_variables (void)
     g.n_fixed_tops = 0.0;
 
     g.dm_parasite_retranslocate   = 0.0;
+
+    g.pfact_photo        = 1.0;
+    g.pfact_expansion    = 1.0;
+    g.pfact_pheno        = 1.0;
+    g.pfact_grain        = 1.0;
 
     pop_routine (my_name);
     return;
@@ -8834,6 +8909,10 @@ void Plant::plant_zero_daily_variables ()
 //      g.dlt_slai_light  = 0.0;
 //      g.dlt_slai_water  = 0.0;
 //      g.dlt_slai_frost  = 0.0;
+    //g.pfact_photo        = 1.0;  NO!! needed during prepare()
+    //g.pfact_expansion    = 1.0;
+    //g.pfact_pheno        = 1.0;
+    //g.pfact_grain        = 1.0;
 
     pop_routine (my_name);
     return;
@@ -9423,7 +9502,7 @@ void Plant::plant_end_crop ()
 
     float dm_residue;                             // dry matter added to residue (g/m^2)
     float n_residue;                              // nitrogen added to residue (g/m^2)
-    float P_residue;                              // phosphorus added to residue (g/m^2)
+    float p_residue;                              // phosphorus added to residue (g/m^2)
     float dm_root;                                // dry matter added to soil (g/m^2)
     float n_root;                                 // nitrogen added to soil (g/m^2)
     float p_root;                                 // phosphorus added to soil (g/m^2)
@@ -9454,24 +9533,25 @@ void Plant::plant_end_crop ()
         p_root  = g.p_green[root] + g.p_sen[root];
 
         plant_root_incorp (dm_root, n_root, p_root, g.root_length);
-        
         plant_root_incorp (g.dm_dead[root], g.n_dead[root], g.p_dead[root], g.root_length_dead);
-
 
         // put stover and any remaining grain into surface residue
         dm_residue =
              sum_real_array (g.dm_green, max_part) + stemPart->g.dm_green - g.dm_green[root]
            + sum_real_array (g.dm_senesced, max_part)  + stemPart->g.dm_senesced - g.dm_senesced[root]
            + sum_real_array (g.dm_dead, max_part) + stemPart->g.dm_dead - g.dm_dead[root];
-
         n_residue =
              sum_real_array (g.n_green, max_part) + stemPart->g.n_green - g.n_green[root]
            + sum_real_array (g.n_senesced, max_part) + stemPart->g.n_senesced - g.n_senesced[root]
            + sum_real_array (g.n_dead, max_part) + stemPart->g.n_dead - g.n_dead[root];
+        p_residue =
+             sum_real_array (g.p_green, max_part) + stemPart->g.p_green - g.p_green[root]
+           + sum_real_array (g.p_sen, max_part) + stemPart->g.p_sen - g.p_sen[root]
+           + sum_real_array (g.p_dead, max_part) + stemPart->g.p_dead - g.p_dead[root];
 
         dm_root = g.dm_green[root] + g.dm_dead[root] + g.dm_senesced[root];
-
         n_root  = g.n_green[root] + g.n_dead[root] + g.n_senesced[root];
+        p_root  = g.p_green[root] + g.p_dead[root] + g.p_sen[root];
 
        if (dm_residue > 0.0) 
           {
@@ -9523,11 +9603,14 @@ void Plant::plant_end_crop ()
         sprintf (msg, "%48s%7.2f%24.2f"
                            , "N  (kg/ha) =               ", n_residue * gm2kg /sm2ha, n_root * gm2kg /sm2ha);
         parent->writeString (msg);
-
-        sprintf (msg, "%48s%7s%24.2f"
-                           , "P  (kg/ha) =               ", " ", p_root * gm2kg /sm2ha);
-        parent->writeString (msg);
-
+        
+        if (g.phosphorus_aware) 
+           {
+           sprintf (msg, "%48s%7.2f%24.2f"
+                           , "P  (kg/ha) =               ", p_residue * gm2kg /sm2ha, p_root * gm2kg /sm2ha);
+           parent->writeString (msg);
+           }
+        
         parent->writeString (" ");
         }
     else
@@ -10120,10 +10203,14 @@ void Plant::plant_read_constants ( void )
     , c.nh4_min_lb
     , 0.0, 100000.0);
 
-    phenology->initialise(parent, section_name);
+    for (vector<plantThing *>::iterator t = myThings.begin(); 
+         t != myThings.end();
+         t++)
+      (*t)->readConstants(parent, section_name);
+
+    read_p_constants(parent);
 
     g.hasreadconstants = true;
-
     pop_routine (my_name);
     return;
     }
@@ -12539,6 +12626,20 @@ void Plant::get_p_demand(protocol::Component *systemInterface, protocol::QueryVa
    float p_demand = 0.0;
    for (part = parts.begin(); part != parts.end(); part++) 
       p_demand += (*part)->v.p_demand;
+
+   deleteHacks(parts);
+   systemInterface->sendVariable(qd, p_demand);   //(g/m^2
+}
+
+void Plant::get_p_demand_parts(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+   vector<plantPart*>::iterator part;
+   vector<plantPart*> parts;
+   vector<float>  p_demand;
+   setupHacks(parts);
+   
+   for (part = parts.begin(); part != parts.end(); part++) 
+      p_demand.push_back( (*part)->v.p_demand);
 
    deleteHacks(parts);
    systemInterface->sendVariable(qd, p_demand);   //(g/m^2

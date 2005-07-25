@@ -38,9 +38,9 @@ using namespace std;
 
 #include "PlantLibrary.h"
 #include "PlantComponent.h"
+#include "Plant.h"
 #include "PlantParts.h"
 #include "PlantPhenology.h"
-#include "Plant.h"
 
 
 static const char* floatType =        "<type kind=\"single\"/>";
@@ -83,7 +83,7 @@ void Plant::zero_p_variables ()
 
       // Constants
       // =========
-      fill_real_array (c.x_p_stage_code, 0.0, max_part);  // Reals
+      fill_real_array (c.x_p_stage_code, 0.0, max_part);
 
       for (int part = 0; part < max_part; part++)
       {
@@ -91,13 +91,7 @@ void Plant::zero_p_variables ()
          c.p_yield_parts[part] = false;
          c.p_retrans_parts[part] = false;
          fill_real_array (c.y_p_conc_max[part], 0.0, max_table);
-      }
-      for (int part = 0; part < max_part; part++)
-      {
          fill_real_array (c.y_p_conc_min[part], 0.0, max_table);
-      }
-      for (int part = 0; part < max_part; part++)
-      {
          fill_real_array (c.y_p_conc_sen[part], 0.0, max_table);
       }
       g.pfact_photo        = 1.0;
@@ -183,6 +177,8 @@ void Plant::read_p_constants (PlantComponent *systemInterface)
 
     for (int ipart = 0; ipart < max_part; ipart++)
        {
+       systemInterface->readParameter (section_name, "x_p_stage_code", /*"()",*/ c.x_p_stage_code, c.num_x_p_stage_code, 0.0, 12.0);
+
        string keyword ="y_p_conc_max_" + c.part_names[ipart];
        systemInterface->readParameter (section_name, keyword, /*"(g/g)",*/ temp, c.num_x_p_stage_code, 0.0, 1.0);
 
@@ -437,9 +433,9 @@ void Plant::PlantP_senescence (vector<plantPart*>&parts)
                                   , 0.0);
 
             p_conc_sen = linear_interp_real (phenology->stageNumber()
-                                           , c.x_p_stage_code
-                                           , c.y_p_conc_sen[0/*xxwrongpart*/]
-                                           , c.num_x_p_stage_code);
+                                           , (*part)->c.x_p_stage_code
+                                           , (*part)->c.y_p_conc_sen
+                                           , (*part)->c.num_x_p_stage_code);
 
             (*part)->dlt.p_sen = min(p_conc_green, p_conc_sen) * (*part)->dlt.dm_senesced;
          }
@@ -517,15 +513,11 @@ void Plant::zero_daily_p_variables ()
 // ====================================================================
 void Plant::doPInit (PlantComponent *systemInterface)
 {
-      PlantP_set_phosphorus_aware (systemInterface);
       if (g.phosphorus_aware == true)
       {
          read_p_constants (systemInterface);
 
          string keyword = "uptake_p_" + c.crop_type;
-//    ids.layered_p_uptake = systemInterface->addRegistration(RegistrationType::get,
-//                                    "layered_p_uptake", floatType,
-//                                    "", "");
          id.layered_p_uptake = systemInterface->addRegistration(RegistrationType::get,
                                                                keyword.c_str(), floatArrayType,
                                                                "", "");
@@ -601,6 +593,7 @@ void Plant::PlantP_demand (vector<plantPart *> &allParts, float dlt_dm_pot)
 //- Implementation Section ----------------------------------
       push_routine (my_name);
 
+      dm_green_sum = 0.0;
       for (part = allParts.begin(); part != allParts.end(); part++) 
          {
          (*part)->v.p_demand = 0.0;
@@ -619,9 +612,9 @@ void Plant::PlantP_demand (vector<plantPart *> &allParts, float dlt_dm_pot)
             {
             // Not a yield part - therefore it contributes to demand
             p_conc_max = linear_interp_real (phenology->stageNumber()
-                                           , c.x_p_stage_code
-                                           , c.y_p_conc_max[0/*part*/] //xxwrong
-                                           , c.num_x_p_stage_code);
+                                           , (*part)->c.x_p_stage_code
+                                           , (*part)->c.y_p_conc_max
+                                           , (*part)->c.num_x_p_stage_code);
 
             // scale up to include potential new growth
             // assuming partitioning today similar to current
@@ -673,22 +666,22 @@ float Plant::PlantP_Pfact (vector<plantPart *> &allParts)
 
       for (part = allParts.begin(); part != allParts.end(); part++)
          {
-         if ((*part)->c.p_yield_part)
+         if ((*part)->c.p_stress_determinant)
             {
             act_p += (*part)->g.p_green;
 
-            p_conc_max = linear_interp_real (phenology->stageCode()
-                                           , c.x_p_stage_code
-                                           , c.y_p_conc_max[0/*xxwrongpart*/]      // (part,1:c.num_x_p_stage_code)
-                                           , c.num_x_p_stage_code);
-            max_p += p_conc_max * (*part)->g.p_green;
+            p_conc_max = linear_interp_real (phenology->stageNumber()
+                                           , (*part)->c.x_p_stage_code
+                                           , (*part)->c.y_p_conc_max
+                                           , (*part)->c.num_x_p_stage_code);
+            max_p += p_conc_max * (*part)->g.dm_green;
 
-            p_conc_min = linear_interp_real (phenology->stageCode()
-                                           , c.x_p_stage_code
-                                           , c.y_p_conc_min[0/*xxwrongpart*/]      // (part,1:c.num_x_p_stage_code)
-                                           , c.num_x_p_stage_code);
-            min_p += p_conc_min * (*part)->g.p_green;
-            determinants_wt += (*part)->g.p_green;
+            p_conc_min = linear_interp_real (phenology->stageNumber()
+                                           , (*part)->c.x_p_stage_code
+                                           , (*part)->c.y_p_conc_min
+                                           , (*part)->c.num_x_p_stage_code);
+            min_p += p_conc_min * (*part)->g.dm_green;
+            determinants_wt += (*part)->g.dm_green;
             }
          }
 
@@ -774,7 +767,7 @@ void Plant::PlantP_init_pools (vector<plantPart*>&parts)
 //- Implementation Section ----------------------------------
       push_routine (my_name);
 
-   // This is wrong. need to initialise these on an event.
+   // This is wrong. need to initialise these on an event. XXXX
    for (part = parts.begin(); part != parts.end(); part++) 
       { 
       dmSum += (*part)->g.dm_green;
@@ -822,10 +815,10 @@ void Plant::PlantP_retrans (vector<plantPart*>&parts)
          {
          if (parts[ipart]->c.p_retrans_part)
             {
-            p_conc_min = linear_interp_real (phenology->stageCode()
-                                        , c.x_p_stage_code
-                                        , c.y_p_conc_min[0/*xxwrongpart*/]
-                                        , c.num_x_p_stage_code);
+            p_conc_min = linear_interp_real (phenology->stageNumber()
+                                        , parts[ipart]->c.x_p_stage_code
+                                        , parts[ipart]->c.y_p_conc_min
+                                        , parts[ipart]->c.num_x_p_stage_code);
             min_p = p_conc_min * parts[ipart]->g.dm_green;
             supply[ipart] = max(parts[ipart]->g.p_green - min_p, 0.0);
             }
@@ -839,10 +832,10 @@ void Plant::PlantP_retrans (vector<plantPart*>&parts)
          {
          if (parts[ipart]->c.p_yield_part)
             {
-            p_conc_max = linear_interp_real (phenology->stageCode()
-                                        , c.x_p_stage_code
-                                        , c.y_p_conc_max[0/*xxwrongpart*/]
-                                        , c.num_x_p_stage_code);
+            p_conc_max = linear_interp_real (phenology->stageNumber()
+                                        , parts[ipart]->c.x_p_stage_code
+                                        , parts[ipart]->c.y_p_conc_max
+                                        , parts[ipart]->c.num_x_p_stage_code);
             max_p = p_conc_max * parts[ipart]->g.dm_green;
             demand[ipart] = max(max_p - parts[ipart]->g.p_green, 0.0);
             }
@@ -917,13 +910,13 @@ void Plant::summary_p (void)
        P_grain = (g.p_green[meal] + g.p_dead[meal]
                +  g.p_green[oil]  + g.p_dead[oil]) * gm2kg/sm2ha;
 
-       P_green = (sum_real_array (g.p_green, max_part)
+       P_green = (sum_real_array (g.p_green, max_part) + stemPart->g.p_green 
                -  g.p_green[root] - g.p_green[meal] - g.p_green[oil]) * gm2kg / sm2ha;
 
-       P_senesced = (sum_real_array (g.p_sen, max_part)
+       P_senesced = (sum_real_array (g.p_sen, max_part) + stemPart->g.p_sen
                   -  g.p_sen[root] - g.p_sen[meal]- g.p_sen[oil]) * gm2kg / sm2ha;
 
-       P_dead = (sum_real_array (g.p_dead, max_part)
+       P_dead = (sum_real_array (g.p_dead, max_part) + stemPart->g.p_dead
            - g.p_dead[root] - g.p_dead[meal] - g.p_dead[oil]) * gm2kg / sm2ha;
 
        P_stover = P_green + P_senesced + P_dead;
