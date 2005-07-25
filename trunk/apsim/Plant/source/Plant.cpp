@@ -10208,7 +10208,8 @@ void Plant::plant_read_constants ( void )
          t++)
       (*t)->readConstants(parent, section_name);
 
-    read_p_constants(parent);
+    if (g.phosphorus_aware)
+       read_p_constants(parent);
 
     g.hasreadconstants = true;
     pop_routine (my_name);
