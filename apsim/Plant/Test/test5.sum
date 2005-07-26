@@ -226,8 +226,6 @@
         y_hi_incr                  =     0.0300     0.0300
         x_hi_max_pot_stress        =       0.00       1.00
         y_hi_max_pot               =       0.20       0.20
-        x_stem_wt                  =       0.00      15.00
-        y_height                   =       0.00    1200.00
          ------------------------------------------------
      
      
@@ -279,6 +277,15 @@
       stage 7.0 start_grain_fill
                      biomass =         846.30 (g/m^2)   lai          =   5.006 (m^2/m^2)
                      stover N conc =     6.84 (%)    extractable sw =   83.41 (mm)
+14 January 1989(Day of year=14), lablab: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     dm_retranslocate mass balance of fruit is off: 0.000002 vs 0.000000
+     Component name: lablab
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
 22 March 1989(Day of year=81), lablab: 
       stage 8.0 end_grain_fill
                      biomass =        1112.08 (g/m^2)   lai          =   2.920 (m^2/m^2)
