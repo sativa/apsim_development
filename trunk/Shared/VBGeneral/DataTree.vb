@@ -150,7 +150,11 @@ Public Class DataTree
     ' Return data of currently selected node
     ' ---------------------------------------
     Public Function SelectedNode() As APSIMData
-        Return GetDataForFullPath(TreeView.SelectedNode.FullPath)
+        If IsNothing(TreeView.SelectedNode) Then
+            Return Nothing
+        Else
+            Return GetDataForFullPath(TreeView.SelectedNode.FullPath)
+        End If
     End Function
 
 
@@ -390,6 +394,7 @@ Public Class DataTree
             Dim ParentNode As APSIMData = GetDataForFullPath(TreeView.SelectedNode.FullPath).Parent
             ParentNode.Delete(TreeView.SelectedNode.Text)
             TreeView.SelectedNode.Remove()
+            TreeView_AfterSelect(Nothing, New TreeViewEventArgs(TreeView.SelectedNode, TreeViewAction.ByKeyboard))
         End If
     End Sub
 

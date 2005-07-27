@@ -25,6 +25,7 @@
             [foreach area.fertiliser][insert fertiliser][endfor]
             [foreach area.surfaceom][insert surfaceom][endfor]
             [foreach area.soil][insert soil][endfor]
+            [foreach area.phosphorus][insert phosphorus][endfor]
 
             [foreach area.bambatsi as plant][insert bambatsi][endfor]
             [foreach area.canola as plant][insert canola][endfor]
@@ -554,6 +555,9 @@
                   <property name="air_dry">[foreach w.layer as l][l.airdry] [endfor]</property>
                   <property name="swcon">[foreach w.layer as l][l.swcon] [endfor]</property>
                   <property name="bd">[foreach w.layer as l][l.bd] [endfor]</property>
+      				[if [w.1.mwcon] > 0]
+                  <property name="mwcon">[foreach w.layer as l][l.mwcon] [endfor]</property>
+                  [endif]
                </parameters>
             </initdata>
          </component>
@@ -574,11 +578,11 @@
                   <property name="fbiom">[foreach n.layer as l] [l.fbiom][endfor]</property>
                   <property name="finert">[foreach n.layer as l] [l.finert][endfor]</property>
                   <property name="ureappm">0  0    0    0    0    0    0</property>
-
-                  [foreach soil.InitNitrogen as initnitrogen]
-                  <property name="no3ppm">[foreach layer.no3][no3.innerxml] [endfor]</property>
-                  <property name="nh4ppm">[foreach layer.nh4][nh4.innerxml] [endfor]</property>
+                  [foreach soil.InitNitrogen as i]
+                  <property name="no3ppm">[foreach i.layer][layer.no3] [endfor]</property>
+                  <property name="nh4ppm">[foreach i.layer][layer.nh4] [endfor]</property>
                   [endfor]
+
                </parameters>
             </initdata>
          </component>
@@ -604,14 +608,16 @@
          <drop name="soil"/>
       </drops>
    </InitNitrogen>
-   <soilp>
-      <UItype>generic</UItype>
+   <phosphorus>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/soilp/docs/soilp_science.htm</Documentation>
-      <LargeIcon>Images\cubes32.png</LargeIcon>
-      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <LargeIcon>Images\phosphorus32.bmp</LargeIcon>
+      <SmallIcon>Images\phosphorus16.png</SmallIcon>
       <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
@@ -624,7 +630,30 @@
          <variable name="fom_p" array="T" description="FOM Phosphorus - layered (kg/ha)"/>
          <variable name="soil_test_p" array="T" description="Soil Test Phosphorus - layered (kg/ha)"/>
       </variables>
-   </soilp>
+      <SimMacro>
+         <![CDATA[
+         [comment] ################ SoilP ################ [endcomment]
+         <component name="[Phosphorus.name]" executable="%apsuite\apsim\soilp\lib\soilp.dll">
+            <initdata>
+               <include>%apsuite\apsim\soilp\soilp.ini</include>
+               [foreach area.soil]
+               [foreach soil.Phosphorus as p]
+               <parameters name="sample">
+                  <property name="Labile_P">[foreach p.layer as l] [l.LabileP][endfor]</property>
+                  <property name="banded_P">[foreach p.layer as l] [l.bandedP][endfor]</property>
+                  <property name="rock_P">[foreach p.layer as l] [l.rockP][endfor]</property>
+                  <property name="sorption">[foreach p.layer as l] [l.sorption][endfor]</property>
+                  <property name="Residue_CP">[p.ResidueCP]</property>
+                  <property name="Root_CP">[p.RootCP]</property>
+                  <property name="rate_dissol_rock_P">[p.RateDissolRock]</property>
+               </parameters>
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
+   </phosphorus>
    <swimsoil>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>

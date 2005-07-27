@@ -42,11 +42,11 @@ Public Class EmptyUI
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(EmptyUI))
         Me.Panel2 = New System.Windows.Forms.Panel
-        Me.PictureBox = New System.Windows.Forms.PictureBox
         Me.Panel1 = New System.Windows.Forms.Panel
         Me.Label1 = New System.Windows.Forms.Label
         Me.DocumentationLink = New System.Windows.Forms.LinkLabel
         Me.MainLabel = New System.Windows.Forms.Label
+        Me.PictureBox = New System.Windows.Forms.PictureBox
         Me.Panel2.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
@@ -56,21 +56,10 @@ Public Class EmptyUI
         Me.Panel2.Controls.Add(Me.Panel1)
         Me.Panel2.Controls.Add(Me.PictureBox)
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel2.Location = New System.Drawing.Point(0, 23)
+        Me.Panel2.Location = New System.Drawing.Point(0, 20)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(884, 618)
+        Me.Panel2.Size = New System.Drawing.Size(753, 754)
         Me.Panel2.TabIndex = 8
-        '
-        'PictureBox
-        '
-        Me.PictureBox.Dock = System.Windows.Forms.DockStyle.Left
-        Me.PictureBox.Image = CType(resources.GetObject("PictureBox.Image"), System.Drawing.Image)
-        Me.PictureBox.Location = New System.Drawing.Point(0, 0)
-        Me.PictureBox.Name = "PictureBox"
-        Me.PictureBox.Size = New System.Drawing.Size(255, 563)
-        Me.PictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.PictureBox.TabIndex = 1
-        Me.PictureBox.TabStop = False
         '
         'Panel1
         '
@@ -80,7 +69,7 @@ Public Class EmptyUI
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(255, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(629, 618)
+        Me.Panel1.Size = New System.Drawing.Size(498, 754)
         Me.Panel1.TabIndex = 7
         '
         'Label1
@@ -89,11 +78,9 @@ Public Class EmptyUI
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label1.Location = New System.Drawing.Point(16, 64)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(566, 88)
+        Me.Label1.Size = New System.Drawing.Size(435, 88)
         Me.Label1.TabIndex = 8
-        Me.Label1.Text = "Most APSIM crop or plant modules do not require extra user input.  Crop specific " & _
-        "parameters are either provided for your chosen soil, or are captured as part of " & _
-        "the standard model validation process."
+        Me.Label1.Text = "This component does not require extra user input. "
         '
         'DocumentationLink
         '
@@ -113,10 +100,21 @@ Public Class EmptyUI
         Me.MainLabel.TabIndex = 6
         Me.MainLabel.Text = "Crop type"
         '
+        'PictureBox
+        '
+        Me.PictureBox.Dock = System.Windows.Forms.DockStyle.Left
+        Me.PictureBox.Image = CType(resources.GetObject("PictureBox.Image"), System.Drawing.Image)
+        Me.PictureBox.Location = New System.Drawing.Point(0, 0)
+        Me.PictureBox.Name = "PictureBox"
+        Me.PictureBox.Size = New System.Drawing.Size(255, 563)
+        Me.PictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.PictureBox.TabIndex = 1
+        Me.PictureBox.TabStop = False
+        '
         'EmptyUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(884, 681)
+        Me.ClientSize = New System.Drawing.Size(753, 809)
         Me.Controls.Add(Me.Panel2)
         Me.Name = "EmptyUI"
         Me.Controls.SetChildIndex(Me.Panel2, 0)

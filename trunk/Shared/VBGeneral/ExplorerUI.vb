@@ -14,6 +14,9 @@ Public Class ExplorerUI
     Private MyParentForm As Form
     Private BaseName As String
 
+    Public Event DataSelectedEvent As DataTree.DataSelectedEventHandler
+
+
 
 
 #Region " Windows Form Designer generated code "
@@ -457,6 +460,7 @@ Public Class ExplorerUI
     ' -----------------------------------------------------
     Public Sub OnDataSelected(ByVal e As VBGeneral.APSIMData) Handles DataTree.DataSelectedEvent
         ShowUI(e)
+        RaiseEvent DataSelectedEvent(e)
     End Sub
 
 
@@ -468,6 +472,14 @@ Public Class ExplorerUI
             DataTree.CaptionLabel.Text = Value
         End Set
     End Property
+
+
+    ' -----------------------------------
+    ' Return the currently selected soil.
+    ' -----------------------------------
+    Public Function GetSelectedData() As APSIMData
+        Return DataTree.SelectedNode
+    End Function
 
 
 End Class

@@ -349,33 +349,40 @@ namespace CSGeneral
 		string GetValueFromNode(APSIMData Child, string Macro)
 		{
 			int PosLastPeriod = Macro.LastIndexOf('.');
+			string FormatString = "";
 			if (PosLastPeriod != -1)
-			{
+				{
 				string ChildName = Macro.Substring(0, PosLastPeriod);
 				Macro = Macro.Substring(PosLastPeriod+1);
-				Child = Child.FindChild(ChildName, '.');
-			}
+				try
+					{
+					FormatString = "f" + Convert.ToInt32(Macro).ToString();
+					Macro = ChildName;
+					}
+				catch (Exception)
+					{
+					Child = Child.FindChild(ChildName, '.');
+					}
+				}
 
 			string Value;
 			if (Macro == "name")
-				return Child.Name;
-			if (Macro == "xmltype")
-				return Child.Type;
-
-			// try getting an attribute first.
-			if (Child.AttributeExists(Macro))
-				return Child.Attribute(Macro);
-
-			// couldn't get an attribute so try getting a value
-			if (Macro == "xml")
+				Value = Child.Name;
+			else if (Macro == "xmltype")
+				Value = Child.Type;
+			else if (Child.AttributeExists(Macro))
+				Value =  Child.Attribute(Macro);
+			else if (Macro == "xml")
 				Value = Child.XML;
 			else if (Macro == "innerxml")
 				Value = Child.InnerXML;
 			else
 				Value = Child.Child(Macro).InnerXML;
 
+			if (FormatString != "")
+				Value = Convert.ToDouble(Value).ToString(FormatString);
 			return Value;
-		}
+			}
 
 		//---------------------------------------------------------------
 		// Parse all if statements.
@@ -540,9 +547,17 @@ namespace CSGeneral
 
 
 			else
-			{
-				double lhsValue = Convert.ToDouble(lhs);
-				double rhsValue = Convert.ToDouble(rhs);
+				{
+				double lhsValue, rhsValue;
+				try
+					{
+					lhsValue = Convert.ToDouble(lhs);
+					rhsValue = Convert.ToDouble(rhs);
+					}
+				catch (Exception)
+					{
+					return false;
+					}
 				if (op == "<")
 					return (lhsValue < rhsValue);
 				else if (op == "<=")
