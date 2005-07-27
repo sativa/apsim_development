@@ -85,7 +85,7 @@ namespace CSGeneral
 			else
 				{
 				APSIMData Child = Data.Child(PropertyType);
-				if (Child != null)
+				if (Child != null && Child.Child(PropertyName) != null)
 					Child.Delete(PropertyName);
 				}
 			}

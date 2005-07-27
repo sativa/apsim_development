@@ -736,7 +736,8 @@ Public Class MainUI
     Private Sub MainUI_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
         WriteWindowPosition()
         SimulationExplorer.FileSave()
-        If ToolboxExplorer.Visible Then
+        If ToolboxExplorer.Visible And _
+            Path.GetFileNameWithoutExtension(ToolboxExplorer.FileName).ToLower() <> "standard" Then
             ToolboxExplorer.FileSave()
         End If
     End Sub

@@ -312,6 +312,7 @@
     <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
     <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
   </irrigation>
+  <phosphorus/>
   <log name="log">
     <debugoutput name="debugoutput">on</debugoutput>
     <filename name="filename">log.txt</filename>

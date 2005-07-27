@@ -45,6 +45,20 @@ namespace APSoil
 		private System.Windows.Forms.MenuItem menuItem4;
 		private System.Windows.Forms.OpenFileDialog ImportSpreadsheetDialog;
 		private System.Windows.Forms.MenuItem ImportMenuItem;
+		private System.Windows.Forms.MenuItem ImportW2N2Menu;
+		private System.Windows.Forms.MenuItem ImportW2N2Files;
+		private System.Windows.Forms.FolderBrowserDialog FolderBrowserDialog;
+		private System.Windows.Forms.MenuItem ImportParMenu;
+		private System.Windows.Forms.MenuItem ImportParFiles;
+		private System.Windows.Forms.OpenFileDialog ImportParDialog;
+		private System.Windows.Forms.MenuItem menuItem6;
+		private System.Windows.Forms.SaveFileDialog ParExportDialog;
+		private System.Windows.Forms.MenuItem menuItem3;
+		private System.Windows.Forms.MenuItem CheckForErrors;
+		private System.Windows.Forms.OpenFileDialog openFileDialog1;
+		private System.Windows.Forms.MenuItem Export;
+		private System.Windows.Forms.MenuItem ExportPar;
+		private System.Windows.Forms.SaveFileDialog SimExportDialog;
 		private System.ComponentModel.IContainer components;
 
 		// ------------------
@@ -99,7 +113,11 @@ namespace APSoil
 			this.menuItem5 = new System.Windows.Forms.MenuItem();
 			this.ImportMenuItem = new System.Windows.Forms.MenuItem();
 			this.menuItem4 = new System.Windows.Forms.MenuItem();
+			this.ImportW2N2Menu = new System.Windows.Forms.MenuItem();
+			this.ImportParMenu = new System.Windows.Forms.MenuItem();
 			this.menuItem2 = new System.Windows.Forms.MenuItem();
+			this.Export = new System.Windows.Forms.MenuItem();
+			this.menuItem6 = new System.Windows.Forms.MenuItem();
 			this.FileExit = new System.Windows.Forms.MenuItem();
 			this.SmallImages = new System.Windows.Forms.ImageList(this.components);
 			this.ButtonImageList = new System.Windows.Forms.ImageList(this.components);
@@ -111,17 +129,28 @@ namespace APSoil
 			this.ImportButton = new System.Windows.Forms.ToolBarButton();
 			this.ImportMenu = new System.Windows.Forms.ContextMenu();
 			this.ImportFromSpreadsheet = new System.Windows.Forms.MenuItem();
+			this.ImportW2N2Files = new System.Windows.Forms.MenuItem();
+			this.ImportParFiles = new System.Windows.Forms.MenuItem();
 			this.Separator1 = new System.Windows.Forms.ToolBarButton();
 			this.CutButton = new System.Windows.Forms.ToolBarButton();
 			this.CopyButton = new System.Windows.Forms.ToolBarButton();
 			this.PasteButton = new System.Windows.Forms.ToolBarButton();
 			this.ImportSpreadsheetDialog = new System.Windows.Forms.OpenFileDialog();
+			this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+			this.ImportParDialog = new System.Windows.Forms.OpenFileDialog();
+			this.ParExportDialog = new System.Windows.Forms.SaveFileDialog();
+			this.menuItem3 = new System.Windows.Forms.MenuItem();
+			this.CheckForErrors = new System.Windows.Forms.MenuItem();
+			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+			this.ExportPar = new System.Windows.Forms.MenuItem();
+			this.SimExportDialog = new System.Windows.Forms.SaveFileDialog();
 			this.SuspendLayout();
 			// 
 			// mainMenu1
 			// 
 			this.mainMenu1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					  this.menuItem1});
+																					  this.menuItem1,
+																					  this.menuItem3});
 			// 
 			// menuItem1
 			// 
@@ -134,6 +163,8 @@ namespace APSoil
 																					  this.menuItem5,
 																					  this.ImportMenuItem,
 																					  this.menuItem2,
+																					  this.Export,
+																					  this.menuItem6,
 																					  this.FileExit});
 			this.menuItem1.Text = "&File";
 			// 
@@ -170,23 +201,49 @@ namespace APSoil
 			// 
 			this.ImportMenuItem.Index = 5;
 			this.ImportMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																						   this.menuItem4});
+																						   this.menuItem4,
+																						   this.ImportW2N2Menu,
+																						   this.ImportParMenu});
 			this.ImportMenuItem.Text = "&Import";
 			// 
 			// menuItem4
 			// 
 			this.menuItem4.Index = 0;
-			this.menuItem4.Text = "From &Spreadsheet";
+			this.menuItem4.Text = "From &Spreadsheet...";
 			this.menuItem4.Click += new System.EventHandler(this.ImportFromSpreadsheet_Click);
+			// 
+			// ImportW2N2Menu
+			// 
+			this.ImportW2N2Menu.Index = 1;
+			this.ImportW2N2Menu.Text = "From &W2 / N2 files...";
+			this.ImportW2N2Menu.Click += new System.EventHandler(this.ImportW2N2Files_Click);
+			// 
+			// ImportParMenu
+			// 
+			this.ImportParMenu.Index = 2;
+			this.ImportParMenu.Text = "From Par files...";
+			this.ImportParMenu.Click += new System.EventHandler(this.ImportParFiles_Click);
 			// 
 			// menuItem2
 			// 
 			this.menuItem2.Index = 6;
 			this.menuItem2.Text = "-";
 			// 
+			// Export
+			// 
+			this.Export.Index = 7;
+			this.Export.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																				   this.ExportPar});
+			this.Export.Text = "&Export selected soil";
+			// 
+			// menuItem6
+			// 
+			this.menuItem6.Index = 8;
+			this.menuItem6.Text = "-";
+			// 
 			// FileExit
 			// 
-			this.FileExit.Index = 7;
+			this.FileExit.Index = 9;
 			this.FileExit.Text = "E&xit";
 			this.FileExit.Click += new System.EventHandler(this.FileExit_Click);
 			// 
@@ -261,13 +318,27 @@ namespace APSoil
 			// ImportMenu
 			// 
 			this.ImportMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					   this.ImportFromSpreadsheet});
+																					   this.ImportFromSpreadsheet,
+																					   this.ImportW2N2Files,
+																					   this.ImportParFiles});
 			// 
 			// ImportFromSpreadsheet
 			// 
 			this.ImportFromSpreadsheet.Index = 0;
 			this.ImportFromSpreadsheet.Text = "From &spreadsheet";
 			this.ImportFromSpreadsheet.Click += new System.EventHandler(this.ImportFromSpreadsheet_Click);
+			// 
+			// ImportW2N2Files
+			// 
+			this.ImportW2N2Files.Index = 1;
+			this.ImportW2N2Files.Text = "From &W2 / N2 files";
+			this.ImportW2N2Files.Click += new System.EventHandler(this.ImportW2N2Files_Click);
+			// 
+			// ImportParFiles
+			// 
+			this.ImportParFiles.Index = 2;
+			this.ImportParFiles.Text = "From &Par files";
+			this.ImportParFiles.Click += new System.EventHandler(this.ImportParFiles_Click);
 			// 
 			// Separator1
 			// 
@@ -297,12 +368,58 @@ namespace APSoil
 			this.ImportSpreadsheetDialog.Filter = "XLS files (*.xls)|*.xls";
 			this.ImportSpreadsheetDialog.Title = "Import soils from spreadsheet";
 			// 
+			// FolderBrowserDialog
+			// 
+			this.FolderBrowserDialog.Description = "Select the folder containing your w2, n2, p2 files";
+			this.FolderBrowserDialog.ShowNewFolderButton = false;
+			// 
+			// ImportParDialog
+			// 
+			this.ImportParDialog.DefaultExt = "par";
+			this.ImportParDialog.DereferenceLinks = false;
+			this.ImportParDialog.Filter = "Par files (*.par)|*.par|All files (*.*)|*.*";
+			this.ImportParDialog.InitialDirectory = "c:\\";
+			this.ImportParDialog.Multiselect = true;
+			this.ImportParDialog.Title = "Select one or more PAR files";
+			// 
+			// ParExportDialog
+			// 
+			this.ParExportDialog.DefaultExt = "par";
+			this.ParExportDialog.Filter = "Par files (*.par)|*.par|All files (*.*)|*.*";
+			this.ParExportDialog.Title = "Enter output file name for soil";
+			// 
+			// menuItem3
+			// 
+			this.menuItem3.Index = 1;
+			this.menuItem3.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																					  this.CheckForErrors});
+			this.menuItem3.Text = "&Tools";
+			// 
+			// CheckForErrors
+			// 
+			this.CheckForErrors.Index = 0;
+			this.CheckForErrors.Text = "&Check all soils for errors";
+			this.CheckForErrors.Click += new System.EventHandler(this.CheckForErrors_Click);
+			// 
+			// ExportPar
+			// 
+			this.ExportPar.Index = 0;
+			this.ExportPar.Text = "To &Par file...";
+			this.ExportPar.Click += new System.EventHandler(this.ExportToPar_Click);
+			// 
+			// SimExportDialog
+			// 
+			this.SimExportDialog.DefaultExt = "sim";
+			this.SimExportDialog.Filter = "Sim files (*.sim)|*.sim|All files (*.*)|*.*";
+			this.SimExportDialog.Title = "Enter output file name for soil";
+			// 
 			// MainForm
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.ClientSize = new System.Drawing.Size(800, 545);
 			this.Controls.Add(this.MainPanel);
 			this.Controls.Add(this.ToolBar);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Menu = this.mainMenu1;
 			this.Name = "MainForm";
 			this.Text = "APSoil";
@@ -347,7 +464,8 @@ namespace APSoil
 								 	 "All files (*.*)|*.*", 
 									 ".soils", "apsoil");
 			SoilExplorer.DataTreeCaption = "Empty soils database";
-			SetFunctionality();
+			SetFunctionality(SoilExplorer.GetSelectedData());
+			SoilExplorer.DataSelectedEvent += new DataTree.DataSelectedEventHandler(SetFunctionality);
 			}
 
 
@@ -359,7 +477,7 @@ namespace APSoil
 			APSIMData NewData = new APSIMData("soils", "");
 			NewData.Add(new Soil(new APSIMData("soil", "Blank soil")).Data);
 			SoilExplorer.FileNew(NewData);
-			SetFunctionality();
+			SetFunctionality(SoilExplorer.GetSelectedData());
 			}	
 
 		
@@ -368,10 +486,12 @@ namespace APSoil
 		// --------------------------------
 		private void FileOpen_Click(object sender, System.EventArgs e)
 			{
-			SoilExplorer.FileOpen();
-			APSIMChangeTool.Upgrade(SoilExplorer.Data);
-			SoilExplorer.Refresh();
-			SetFunctionality();
+			if (SoilExplorer.FileOpen())
+				{
+				APSIMChangeTool.Upgrade(SoilExplorer.Data);
+				SoilExplorer.Refresh();
+				SetFunctionality(SoilExplorer.GetSelectedData());
+				}
 			}
 
 
@@ -381,7 +501,7 @@ namespace APSoil
 		private void FileSave_Click(object sender, System.EventArgs e)
 			{
 			SoilExplorer.FileSave();
-			SetFunctionality();
+			SetFunctionality(SoilExplorer.GetSelectedData());
 			}
 
 
@@ -391,7 +511,7 @@ namespace APSoil
 		private void FileSaveAs_Click(object sender, System.EventArgs e)
 			{
 			SoilExplorer.FileSaveAs();
-			SetFunctionality();
+			SetFunctionality(SoilExplorer.GetSelectedData());
 			}
 
 
@@ -416,7 +536,7 @@ namespace APSoil
 				FileOpen_Click(sender, e);
 			else if (e.Button == FileSaveButton)
 				FileSave_Click(sender, e);
-			SetFunctionality();
+			SetFunctionality(SoilExplorer.GetSelectedData());
 			}
 
 		// ---------------------------------------
@@ -426,7 +546,6 @@ namespace APSoil
 			{
 			try
 				{
-				ImportSpreadsheetDialog.InitialDirectory = Path.GetDirectoryName(SoilExplorer.FileName);
 				if (ImportSpreadsheetDialog.ShowDialog() == DialogResult.OK)
 					{
 					SoilSpreadsheetImporter.ImportFromFile(ImportSpreadsheetDialog.FileName, SoilExplorer.Data);
@@ -446,10 +565,131 @@ namespace APSoil
 		// required. i.e. ensure program is in a 
 		// consistant state.
 		// -------------------------------------------
-		void SetFunctionality()
+		void SetFunctionality(APSIMData CurrentData)
 			{
-			ImportButton.Enabled = (Text != "APSoil");
-			ImportMenuItem.Enabled = ImportButton.Enabled;
+			bool SomethingInTree = (Text != "APSoil");
+			FileSave.Enabled = SomethingInTree;
+			FileSaveButton.Enabled = SomethingInTree;
+			FileSaveAs.Enabled = SomethingInTree;
+			ImportButton.Enabled = SomethingInTree;
+			ImportMenuItem.Enabled = SomethingInTree;
+
+			bool CurrentNodeIsASoil = (CurrentData != null &&
+				                       CurrentData.Type.ToLower() == "soil");
+			Export.Enabled = CurrentNodeIsASoil;
+			CheckForErrors.Enabled = SomethingInTree;
+			}
+
+
+		// -----------------------------------------
+		// User has clicked on import w2/n2 files.
+		// -----------------------------------------
+		private void ImportW2N2Files_Click(object sender, System.EventArgs e)
+			{
+			try
+				{
+				if (FolderBrowserDialog.ShowDialog() == DialogResult.OK)
+					{
+					string[] Files = Directory.GetFiles(FolderBrowserDialog.SelectedPath, "*.w2");
+					foreach (string File in Files)
+                        ParFileImporter.ImportW2N2P2(File, SoilExplorer.Data);
+					}
+				}
+			 catch (Exception err)
+				{
+				MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			SoilExplorer.Refresh();
+			}
+
+
+		// --------------------------------------
+		// User has clicked on import PAR files.
+		// --------------------------------------
+		private void ImportParFiles_Click(object sender, System.EventArgs e)
+			{
+			try
+				{
+				if (ImportParDialog.ShowDialog() == DialogResult.OK)
+					{
+					foreach (string File in ImportParDialog.FileNames)
+                        ParFileImporter.ImportParFile(File, SoilExplorer.Data);
+					}
+				}
+			catch (Exception err)
+				{
+				MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			SoilExplorer.Refresh();
+			}
+
+
+		// -----------------------------------------------
+		// User has clicked on export selected file to par
+		// -----------------------------------------------
+		private void ExportToPar_Click(object sender, System.EventArgs e)
+			{
+			try
+				{
+				Soil SoilToExport = new Soil(SoilExplorer.GetSelectedData());
+				string Errors = SoilToExport.CheckForErrors();
+				if (Errors != "")
+					{
+					ErrorMessageForm ErrorForm = new ErrorMessageForm();
+					ErrorForm.SetText(Errors);
+					ErrorForm.ShowDialog();
+					}
+				else if (ParExportDialog.ShowDialog() == DialogResult.OK)
+					{	
+					SoilToExport.ExportToPar(ParExportDialog.FileName);
+					MessageBox.Show("Soil has been successfully exported to " + ParExportDialog.FileName,
+						            "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					}
+				}
+			catch (Exception err)
+				{
+				MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+
+
+		// ---------------------------------------------
+		// User wants to check all soils for consistency
+		// ---------------------------------------------
+		private void CheckForErrors_Click(object sender, System.EventArgs e)
+			{
+			string ErrorMessage = "";
+			CheckAllSoils(SoilExplorer.Data, ref ErrorMessage);
+			if (ErrorMessage == "")
+				MessageBox.Show("All soils checked out ok. No problems were encountered",
+					            "No problems encountered", MessageBoxButtons.OK,
+								MessageBoxIcon.Information);
+			else
+				{
+				ErrorMessageForm ErrorForm = new ErrorMessageForm();
+				ErrorForm.SetText(ErrorMessage);
+				ErrorForm.Show();
+				}
+			}
+
+
+		// ---------------------------------------------------
+		// Check all soils and return an error message string
+		// ---------------------------------------------------
+		private void CheckAllSoils(APSIMData Data, ref string ErrorMessage)
+			{
+			foreach (APSIMData Child in Data.get_Children(null))
+				{
+				if (Child.Type.ToLower() == "folder")
+					CheckAllSoils(Child, ref ErrorMessage);
+				else if (Child.Type.ToLower() == "soil")
+					{
+					Soil ThisSoil = new Soil(Child);
+					string Errors = ThisSoil.CheckForErrors();
+					if (Errors != "")
+						ErrorMessage += "\r\n" + ThisSoil.Name + "\r\n" + StringManip.IndentText(Errors, 6);
+					}
+				}
 			}
 
 

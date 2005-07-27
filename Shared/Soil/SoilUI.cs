@@ -59,7 +59,6 @@ namespace CSGeneral
 		private Xceed.Grid.DataCell celldataRow1column9;
 		private System.Windows.Forms.TabPage GeneralPage;
 		private System.Windows.Forms.TabPage WaterPage;
-		private System.Windows.Forms.TabPage WaterPredictedPage;
 		private System.Windows.Forms.TabPage ProfilePage;
 		private System.Windows.Forms.TabPage APSIMPage;
 		private System.Windows.Forms.TabControl TabControl;
@@ -152,6 +151,39 @@ namespace CSGeneral
 		private Xceed.Grid.Column column29;
 		private Xceed.Grid.ColumnManagerCell cellcolumnManagerRow3column29;
 		private Xceed.Grid.DataCell celldataRow2column29;
+		private System.Windows.Forms.TabPage PhosphorusPage;
+		private Xceed.Grid.GridControl PhosphorusGrid;
+		private Xceed.Grid.Column column30;
+		private Xceed.Grid.Column column31;
+		private Xceed.Grid.Column column32;
+		private Xceed.Grid.Column column33;
+		private Xceed.Grid.Column column34;
+		private Xceed.Grid.DataRow dataRow4;
+		private Xceed.Grid.DataCell dataCell11;
+		private Xceed.Grid.DataCell dataCell12;
+		private Xceed.Grid.DataCell dataCell13;
+		private Xceed.Grid.DataCell dataCell14;
+		private Xceed.Grid.DataCell dataCell15;
+		private Xceed.Grid.VisualGridElementStyle visualGridElementStyle10;
+		private Xceed.Grid.ColumnManagerRow columnManagerRow5;
+		private Xceed.Grid.ColumnManagerCell columnManagerCell11;
+		private Xceed.Grid.ColumnManagerCell columnManagerCell12;
+		private Xceed.Grid.ColumnManagerCell columnManagerCell13;
+		private Xceed.Grid.ColumnManagerCell columnManagerCell14;
+		private Xceed.Grid.ColumnManagerCell columnManagerCell15;
+		private System.Windows.Forms.Splitter splitter3;
+		private System.Windows.Forms.Panel panel2;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.TextBox ResideCPEdit;
+		private System.Windows.Forms.TextBox RootCPEdit;
+		private System.Windows.Forms.TextBox RateDissolRockEdit;
+		private Xceed.Grid.GroupByRow groupByRow5;
+		private Xceed.Grid.VisualGridElementStyle visualGridElementStyle9;
+		private Xceed.Grid.Column column35;
+		private Xceed.Grid.ColumnManagerCell cellcolumnManagerRow3column35;
+		private Xceed.Grid.DataCell celldataRow2column35;
 		private System.Windows.Forms.ToolBarButton DeleteCropButton;
 
 
@@ -194,64 +226,6 @@ namespace CSGeneral
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(SoilUI));
 			this.smartStatusBar1 = new Xceed.SmartUI.Controls.StatusBar.SmartStatusBar(this.components);
 			this.TabControl = new System.Windows.Forms.TabControl();
-			this.ProfilePage = new System.Windows.Forms.TabPage();
-			this.ProfileGrid = new Xceed.Grid.GridControl();
-			this.column10 = new Xceed.Grid.Column();
-			this.column11 = new Xceed.Grid.Column();
-			this.column12 = new Xceed.Grid.Column();
-			this.column13 = new Xceed.Grid.Column();
-			this.column14 = new Xceed.Grid.Column();
-			this.column15 = new Xceed.Grid.Column();
-			this.column16 = new Xceed.Grid.Column();
-			this.column17 = new Xceed.Grid.Column();
-			this.column18 = new Xceed.Grid.Column();
-			this.column19 = new Xceed.Grid.Column();
-			this.column20 = new Xceed.Grid.Column();
-			this.column21 = new Xceed.Grid.Column();
-			this.column22 = new Xceed.Grid.Column();
-			this.column23 = new Xceed.Grid.Column();
-			this.column24 = new Xceed.Grid.Column();
-			this.column25 = new Xceed.Grid.Column();
-			this.column29 = new Xceed.Grid.Column();
-			this.dataRow2 = new Xceed.Grid.DataRow();
-			this.dataCell3 = new Xceed.Grid.DataCell();
-			this.dataCell4 = new Xceed.Grid.DataCell();
-			this.dataCell5 = new Xceed.Grid.DataCell();
-			this.dataCell6 = new Xceed.Grid.DataCell();
-			this.dataCell7 = new Xceed.Grid.DataCell();
-			this.dataCell8 = new Xceed.Grid.DataCell();
-			this.dataCell9 = new Xceed.Grid.DataCell();
-			this.celldataRow2column17 = new Xceed.Grid.DataCell();
-			this.celldataRow2column18 = new Xceed.Grid.DataCell();
-			this.celldataRow2column19 = new Xceed.Grid.DataCell();
-			this.celldataRow2column20 = new Xceed.Grid.DataCell();
-			this.celldataRow2column21 = new Xceed.Grid.DataCell();
-			this.celldataRow2column22 = new Xceed.Grid.DataCell();
-			this.celldataRow2column23 = new Xceed.Grid.DataCell();
-			this.celldataRow2column24 = new Xceed.Grid.DataCell();
-			this.celldataRow2column25 = new Xceed.Grid.DataCell();
-			this.celldataRow2column29 = new Xceed.Grid.DataCell();
-			this.visualGridElementStyle5 = new Xceed.Grid.VisualGridElementStyle();
-			this.visualGridElementStyle6 = new Xceed.Grid.VisualGridElementStyle();
-			this.groupByRow3 = new Xceed.Grid.GroupByRow();
-			this.columnManagerRow3 = new Xceed.Grid.ColumnManagerRow();
-			this.columnManagerCell3 = new Xceed.Grid.ColumnManagerCell();
-			this.columnManagerCell4 = new Xceed.Grid.ColumnManagerCell();
-			this.columnManagerCell5 = new Xceed.Grid.ColumnManagerCell();
-			this.columnManagerCell6 = new Xceed.Grid.ColumnManagerCell();
-			this.columnManagerCell7 = new Xceed.Grid.ColumnManagerCell();
-			this.columnManagerCell8 = new Xceed.Grid.ColumnManagerCell();
-			this.columnManagerCell9 = new Xceed.Grid.ColumnManagerCell();
-			this.cellcolumnManagerRow3column17 = new Xceed.Grid.ColumnManagerCell();
-			this.cellcolumnManagerRow3column18 = new Xceed.Grid.ColumnManagerCell();
-			this.cellcolumnManagerRow3column19 = new Xceed.Grid.ColumnManagerCell();
-			this.cellcolumnManagerRow3column20 = new Xceed.Grid.ColumnManagerCell();
-			this.cellcolumnManagerRow3column21 = new Xceed.Grid.ColumnManagerCell();
-			this.cellcolumnManagerRow3column22 = new Xceed.Grid.ColumnManagerCell();
-			this.cellcolumnManagerRow3column23 = new Xceed.Grid.ColumnManagerCell();
-			this.cellcolumnManagerRow3column24 = new Xceed.Grid.ColumnManagerCell();
-			this.cellcolumnManagerRow3column25 = new Xceed.Grid.ColumnManagerCell();
-			this.cellcolumnManagerRow3column29 = new Xceed.Grid.ColumnManagerCell();
 			this.GeneralPage = new System.Windows.Forms.TabPage();
 			this.GeneralGrid = new Xceed.Grid.GridControl();
 			this.column1 = new Xceed.Grid.Column();
@@ -303,7 +277,67 @@ namespace CSGeneral
 			this.AddCropButton = new System.Windows.Forms.ToolBarButton();
 			this.DeleteCropButton = new System.Windows.Forms.ToolBarButton();
 			this.ButtonImageList = new System.Windows.Forms.ImageList(this.components);
-			this.WaterPredictedPage = new System.Windows.Forms.TabPage();
+			this.ProfilePage = new System.Windows.Forms.TabPage();
+			this.ProfileGrid = new Xceed.Grid.GridControl();
+			this.column10 = new Xceed.Grid.Column();
+			this.column11 = new Xceed.Grid.Column();
+			this.column12 = new Xceed.Grid.Column();
+			this.column13 = new Xceed.Grid.Column();
+			this.column14 = new Xceed.Grid.Column();
+			this.column15 = new Xceed.Grid.Column();
+			this.column16 = new Xceed.Grid.Column();
+			this.column17 = new Xceed.Grid.Column();
+			this.column18 = new Xceed.Grid.Column();
+			this.column19 = new Xceed.Grid.Column();
+			this.column20 = new Xceed.Grid.Column();
+			this.column21 = new Xceed.Grid.Column();
+			this.column22 = new Xceed.Grid.Column();
+			this.column23 = new Xceed.Grid.Column();
+			this.column24 = new Xceed.Grid.Column();
+			this.column25 = new Xceed.Grid.Column();
+			this.column29 = new Xceed.Grid.Column();
+			this.column35 = new Xceed.Grid.Column();
+			this.dataRow2 = new Xceed.Grid.DataRow();
+			this.dataCell3 = new Xceed.Grid.DataCell();
+			this.dataCell4 = new Xceed.Grid.DataCell();
+			this.dataCell5 = new Xceed.Grid.DataCell();
+			this.dataCell6 = new Xceed.Grid.DataCell();
+			this.dataCell7 = new Xceed.Grid.DataCell();
+			this.dataCell8 = new Xceed.Grid.DataCell();
+			this.dataCell9 = new Xceed.Grid.DataCell();
+			this.celldataRow2column17 = new Xceed.Grid.DataCell();
+			this.celldataRow2column18 = new Xceed.Grid.DataCell();
+			this.celldataRow2column19 = new Xceed.Grid.DataCell();
+			this.celldataRow2column20 = new Xceed.Grid.DataCell();
+			this.celldataRow2column21 = new Xceed.Grid.DataCell();
+			this.celldataRow2column22 = new Xceed.Grid.DataCell();
+			this.celldataRow2column23 = new Xceed.Grid.DataCell();
+			this.celldataRow2column24 = new Xceed.Grid.DataCell();
+			this.celldataRow2column25 = new Xceed.Grid.DataCell();
+			this.celldataRow2column29 = new Xceed.Grid.DataCell();
+			this.celldataRow2column35 = new Xceed.Grid.DataCell();
+			this.visualGridElementStyle5 = new Xceed.Grid.VisualGridElementStyle();
+			this.visualGridElementStyle6 = new Xceed.Grid.VisualGridElementStyle();
+			this.groupByRow3 = new Xceed.Grid.GroupByRow();
+			this.columnManagerRow3 = new Xceed.Grid.ColumnManagerRow();
+			this.columnManagerCell3 = new Xceed.Grid.ColumnManagerCell();
+			this.columnManagerCell4 = new Xceed.Grid.ColumnManagerCell();
+			this.columnManagerCell5 = new Xceed.Grid.ColumnManagerCell();
+			this.columnManagerCell6 = new Xceed.Grid.ColumnManagerCell();
+			this.columnManagerCell7 = new Xceed.Grid.ColumnManagerCell();
+			this.columnManagerCell8 = new Xceed.Grid.ColumnManagerCell();
+			this.columnManagerCell9 = new Xceed.Grid.ColumnManagerCell();
+			this.cellcolumnManagerRow3column17 = new Xceed.Grid.ColumnManagerCell();
+			this.cellcolumnManagerRow3column18 = new Xceed.Grid.ColumnManagerCell();
+			this.cellcolumnManagerRow3column19 = new Xceed.Grid.ColumnManagerCell();
+			this.cellcolumnManagerRow3column20 = new Xceed.Grid.ColumnManagerCell();
+			this.cellcolumnManagerRow3column21 = new Xceed.Grid.ColumnManagerCell();
+			this.cellcolumnManagerRow3column22 = new Xceed.Grid.ColumnManagerCell();
+			this.cellcolumnManagerRow3column23 = new Xceed.Grid.ColumnManagerCell();
+			this.cellcolumnManagerRow3column24 = new Xceed.Grid.ColumnManagerCell();
+			this.cellcolumnManagerRow3column25 = new Xceed.Grid.ColumnManagerCell();
+			this.cellcolumnManagerRow3column29 = new Xceed.Grid.ColumnManagerCell();
+			this.cellcolumnManagerRow3column35 = new Xceed.Grid.ColumnManagerCell();
 			this.APSIMPage = new System.Windows.Forms.TabPage();
 			this.APSIMGrid = new Xceed.Grid.GridControl();
 			this.column26 = new Xceed.Grid.Column();
@@ -322,11 +356,37 @@ namespace CSGeneral
 			this.cellcolumnManagerRow4column28 = new Xceed.Grid.ColumnManagerCell();
 			this.group1 = new Xceed.Grid.Group();
 			this.groupManagerRow1 = new Xceed.Grid.GroupManagerRow();
+			this.PhosphorusPage = new System.Windows.Forms.TabPage();
+			this.panel2 = new System.Windows.Forms.Panel();
+			this.RateDissolRockEdit = new System.Windows.Forms.TextBox();
+			this.RootCPEdit = new System.Windows.Forms.TextBox();
+			this.ResideCPEdit = new System.Windows.Forms.TextBox();
+			this.label4 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.splitter3 = new System.Windows.Forms.Splitter();
+			this.PhosphorusGrid = new Xceed.Grid.GridControl();
+			this.column30 = new Xceed.Grid.Column();
+			this.column31 = new Xceed.Grid.Column();
+			this.column32 = new Xceed.Grid.Column();
+			this.column33 = new Xceed.Grid.Column();
+			this.column34 = new Xceed.Grid.Column();
+			this.dataRow4 = new Xceed.Grid.DataRow();
+			this.dataCell11 = new Xceed.Grid.DataCell();
+			this.dataCell12 = new Xceed.Grid.DataCell();
+			this.dataCell13 = new Xceed.Grid.DataCell();
+			this.dataCell14 = new Xceed.Grid.DataCell();
+			this.dataCell15 = new Xceed.Grid.DataCell();
+			this.visualGridElementStyle9 = new Xceed.Grid.VisualGridElementStyle();
+			this.visualGridElementStyle10 = new Xceed.Grid.VisualGridElementStyle();
+			this.groupByRow5 = new Xceed.Grid.GroupByRow();
+			this.columnManagerRow5 = new Xceed.Grid.ColumnManagerRow();
+			this.columnManagerCell11 = new Xceed.Grid.ColumnManagerCell();
+			this.columnManagerCell12 = new Xceed.Grid.ColumnManagerCell();
+			this.columnManagerCell13 = new Xceed.Grid.ColumnManagerCell();
+			this.columnManagerCell14 = new Xceed.Grid.ColumnManagerCell();
+			this.columnManagerCell15 = new Xceed.Grid.ColumnManagerCell();
 			this.TabControl.SuspendLayout();
-			this.ProfilePage.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.ProfileGrid)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataRow2)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.columnManagerRow3)).BeginInit();
 			this.GeneralPage.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.GeneralGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataRowTemplate1)).BeginInit();
@@ -336,17 +396,26 @@ namespace CSGeneral
 			((System.ComponentModel.ISupportInitialize)(this.WaterGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataRow1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.columnManagerRow2)).BeginInit();
+			this.ProfilePage.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.ProfileGrid)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dataRow2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.columnManagerRow3)).BeginInit();
 			this.APSIMPage.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.APSIMGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataRow3)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.columnManagerRow4)).BeginInit();
+			this.PhosphorusPage.SuspendLayout();
+			this.panel2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.PhosphorusGrid)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dataRow4)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.columnManagerRow5)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// smartStatusBar1
 			// 
-			this.smartStatusBar1.Location = new System.Drawing.Point(0, 701);
+			this.smartStatusBar1.Location = new System.Drawing.Point(0, 668);
 			this.smartStatusBar1.Name = "smartStatusBar1";
-			this.smartStatusBar1.Size = new System.Drawing.Size(774, 23);
+			this.smartStatusBar1.Size = new System.Drawing.Size(753, 23);
 			this.smartStatusBar1.TabIndex = 3;
 			this.smartStatusBar1.Text = "smartStatusBar1";
 			// 
@@ -354,332 +423,23 @@ namespace CSGeneral
 			// 
 			this.TabControl.Controls.Add(this.GeneralPage);
 			this.TabControl.Controls.Add(this.WaterPage);
-			this.TabControl.Controls.Add(this.WaterPredictedPage);
 			this.TabControl.Controls.Add(this.ProfilePage);
 			this.TabControl.Controls.Add(this.APSIMPage);
+			this.TabControl.Controls.Add(this.PhosphorusPage);
 			this.TabControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TabControl.Location = new System.Drawing.Point(0, 20);
 			this.TabControl.Name = "TabControl";
 			this.TabControl.SelectedIndex = 0;
-			this.TabControl.Size = new System.Drawing.Size(774, 681);
+			this.TabControl.Size = new System.Drawing.Size(753, 648);
 			this.TabControl.TabIndex = 5;
 			this.TabControl.SelectedIndexChanged += new System.EventHandler(this.TabControl_SelectedIndexChanged);
-			// 
-			// ProfilePage
-			// 
-			this.ProfilePage.Controls.Add(this.ProfileGrid);
-			this.ProfilePage.Location = new System.Drawing.Point(4, 22);
-			this.ProfilePage.Name = "ProfilePage";
-			this.ProfilePage.Size = new System.Drawing.Size(766, 655);
-			this.ProfilePage.TabIndex = 3;
-			this.ProfilePage.Text = "Profile";
-			// 
-			// ProfileGrid
-			// 
-			this.ProfileGrid.AllowDrop = true;
-			this.ProfileGrid.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(235)), ((System.Byte)(240)), ((System.Byte)(246)));
-			this.ProfileGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.ProfileGrid.Columns.Add(this.column10);
-			this.ProfileGrid.Columns.Add(this.column11);
-			this.ProfileGrid.Columns.Add(this.column12);
-			this.ProfileGrid.Columns.Add(this.column13);
-			this.ProfileGrid.Columns.Add(this.column14);
-			this.ProfileGrid.Columns.Add(this.column15);
-			this.ProfileGrid.Columns.Add(this.column16);
-			this.ProfileGrid.Columns.Add(this.column17);
-			this.ProfileGrid.Columns.Add(this.column18);
-			this.ProfileGrid.Columns.Add(this.column19);
-			this.ProfileGrid.Columns.Add(this.column20);
-			this.ProfileGrid.Columns.Add(this.column21);
-			this.ProfileGrid.Columns.Add(this.column22);
-			this.ProfileGrid.Columns.Add(this.column23);
-			this.ProfileGrid.Columns.Add(this.column24);
-			this.ProfileGrid.Columns.Add(this.column25);
-			this.ProfileGrid.Columns.Add(this.column29);
-			this.ProfileGrid.DataRowTemplate = this.dataRow2;
-			this.ProfileGrid.DataRowTemplateStyles.Add(this.visualGridElementStyle5);
-			this.ProfileGrid.DataRowTemplateStyles.Add(this.visualGridElementStyle6);
-			this.ProfileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.ProfileGrid.FixedHeaderRows.Add(this.groupByRow3);
-			this.ProfileGrid.FixedHeaderRows.Add(this.columnManagerRow3);
-			this.ProfileGrid.Font = new System.Drawing.Font("Verdana", 9F);
-			this.ProfileGrid.ForeColor = System.Drawing.Color.Black;
-			this.ProfileGrid.GridLineColor = System.Drawing.Color.FromArgb(((System.Byte)(235)), ((System.Byte)(240)), ((System.Byte)(246)));
-			this.ProfileGrid.GridLineStyle = System.Drawing.Drawing2D.DashStyle.Solid;
-			this.ProfileGrid.InactiveSelectionBackColor = System.Drawing.Color.DarkSlateBlue;
-			this.ProfileGrid.InactiveSelectionForeColor = System.Drawing.Color.White;
-			this.ProfileGrid.Location = new System.Drawing.Point(0, 0);
-			this.ProfileGrid.Name = "ProfileGrid";
-			// 
-			// ProfileGrid.RowSelectorPane
-			// 
-			this.ProfileGrid.RowSelectorPane.BackColor = System.Drawing.Color.LightSteelBlue;
-			this.ProfileGrid.RowSelectorPane.Visible = false;
-			this.ProfileGrid.SelectionBackColor = System.Drawing.Color.MediumSlateBlue;
-			this.ProfileGrid.SelectionForeColor = System.Drawing.Color.White;
-			this.ProfileGrid.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-			this.ProfileGrid.ShowUnlinkedColumns = true;
-			this.ProfileGrid.SingleClickEdit = false;
-			this.ProfileGrid.Size = new System.Drawing.Size(766, 655);
-			this.ProfileGrid.TabIndex = 2;
-			this.ProfileGrid.ValueMember = "";
-			// 
-			// column10
-			// 
-			this.column10.CanBeSorted = false;
-			this.column10.ReadOnly = true;
-			this.column10.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column10.Title = "Depth (cm)";
-			this.column10.VisibleIndex = 0;
-			this.column10.Width = 77;
-			this.column10.Initialize("column1", typeof(string));
-			// 
-			// column11
-			// 
-			this.column11.CanBeSorted = false;
-			this.column11.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column11.Title = "SWCon";
-			this.column11.VisibleIndex = 1;
-			this.column11.Width = 60;
-			this.column11.Initialize("column2", typeof(string));
-			// 
-			// column12
-			// 
-			this.column12.CanBeSorted = false;
-			this.column12.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column12.Title = "FBiom";
-			this.column12.VisibleIndex = 2;
-			this.column12.Width = 62;
-			this.column12.Initialize("column5", typeof(string));
-			// 
-			// column13
-			// 
-			this.column13.CanBeSorted = false;
-			this.column13.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column13.Title = "FInert";
-			this.column13.VisibleIndex = 3;
-			this.column13.Width = 64;
-			this.column13.Initialize("column6", typeof(string));
-			// 
-			// column14
-			// 
-			this.column14.CanBeSorted = false;
-			this.column14.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column14.Title = "OC";
-			this.column14.VisibleIndex = 4;
-			this.column14.Width = 64;
-			this.column14.Initialize("column9", typeof(string));
-			// 
-			// column15
-			// 
-			this.column15.CanBeSorted = false;
-			this.column15.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column15.Title = "EC";
-			this.column15.VisibleIndex = 5;
-			this.column15.Width = 65;
-			this.column15.Initialize("column7", typeof(string));
-			// 
-			// column16
-			// 
-			this.column16.CanBeSorted = false;
-			this.column16.ReadOnly = false;
-			this.column16.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column16.Title = "PH";
-			this.column16.VisibleIndex = 6;
-			this.column16.Width = 63;
-			this.column16.Initialize("column8", typeof(string));
-			// 
-			// column17
-			// 
-			this.column17.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column17.Title = "CL";
-			this.column17.VisibleIndex = 7;
-			this.column17.Width = 63;
-			this.column17.Initialize("column17", typeof(string));
-			// 
-			// column18
-			// 
-			this.column18.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column18.Title = "CEC";
-			this.column18.VisibleIndex = 8;
-			this.column18.Width = 67;
-			this.column18.Initialize("column18", typeof(string));
-			// 
-			// column19
-			// 
-			this.column19.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column19.Title = "Ca";
-			this.column19.VisibleIndex = 9;
-			this.column19.Width = 62;
-			this.column19.Initialize("column19", typeof(string));
-			// 
-			// column20
-			// 
-			this.column20.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column20.Title = "Mg";
-			this.column20.VisibleIndex = 10;
-			this.column20.Width = 61;
-			this.column20.Initialize("column20", typeof(string));
-			// 
-			// column21
-			// 
-			this.column21.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column21.Title = "Na";
-			this.column21.VisibleIndex = 11;
-			this.column21.Width = 58;
-			this.column21.Initialize("column21", typeof(string));
-			// 
-			// column22
-			// 
-			this.column22.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column22.Title = "K";
-			this.column22.VisibleIndex = 12;
-			this.column22.Width = 57;
-			this.column22.Initialize("column22", typeof(string));
-			// 
-			// column23
-			// 
-			this.column23.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column23.Title = "ESP";
-			this.column23.VisibleIndex = 13;
-			this.column23.Width = 58;
-			this.column23.Initialize("column23", typeof(string));
-			// 
-			// column24
-			// 
-			this.column24.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column24.Title = "Particle size sand";
-			this.column24.VisibleIndex = 14;
-			this.column24.Width = 84;
-			this.column24.Initialize("column24", typeof(string));
-			// 
-			// column25
-			// 
-			this.column25.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column25.Title = "Particle size silt";
-			this.column25.VisibleIndex = 15;
-			this.column25.Width = 78;
-			this.column25.Initialize("column25", typeof(string));
-			// 
-			// column29
-			// 
-			this.column29.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column29.Title = "Particle size clay";
-			this.column29.VisibleIndex = 16;
-			this.column29.Width = 76;
-			this.column29.Initialize("column29", typeof(string));
-			// 
-			// dataRow2
-			// 
-			this.dataRow2.AllowCellNavigation = true;
-			this.dataRow2.CanBeCurrent = true;
-			this.dataRow2.CanBeSelected = true;
-			this.dataRow2.Cells.Add(this.dataCell3);
-			this.dataRow2.Cells.Add(this.dataCell4);
-			this.dataRow2.Cells.Add(this.dataCell5);
-			this.dataRow2.Cells.Add(this.dataCell6);
-			this.dataRow2.Cells.Add(this.dataCell7);
-			this.dataRow2.Cells.Add(this.dataCell8);
-			this.dataRow2.Cells.Add(this.dataCell9);
-			this.dataRow2.Cells.Add(this.celldataRow2column17);
-			this.dataRow2.Cells.Add(this.celldataRow2column18);
-			this.dataRow2.Cells.Add(this.celldataRow2column19);
-			this.dataRow2.Cells.Add(this.celldataRow2column20);
-			this.dataRow2.Cells.Add(this.celldataRow2column21);
-			this.dataRow2.Cells.Add(this.celldataRow2column22);
-			this.dataRow2.Cells.Add(this.celldataRow2column23);
-			this.dataRow2.Cells.Add(this.celldataRow2column24);
-			this.dataRow2.Cells.Add(this.celldataRow2column25);
-			this.dataRow2.Cells.Add(this.celldataRow2column29);
-			// 
-			// dataRow2.RowSelector
-			// 
-			this.dataRow2.RowSelector.Visible = false;
-			this.dataRow2.ShowTreeLine = true;
-			this.dataCell3.Initialize("column1");
-			this.dataCell4.Initialize("column2");
-			this.dataCell5.Initialize("column5");
-			this.dataCell6.Initialize("column6");
-			this.dataCell7.Initialize("column9");
-			this.dataCell8.Initialize("column7");
-			this.dataCell9.Initialize("column8");
-			this.celldataRow2column17.Initialize("column17");
-			this.celldataRow2column18.Initialize("column18");
-			this.celldataRow2column19.Initialize("column19");
-			this.celldataRow2column20.Initialize("column20");
-			this.celldataRow2column21.Initialize("column21");
-			this.celldataRow2column22.Initialize("column22");
-			this.celldataRow2column23.Initialize("column23");
-			this.celldataRow2column24.Initialize("column24");
-			this.celldataRow2column25.Initialize("column25");
-			this.celldataRow2column29.Initialize("column29");
-			// 
-			// visualGridElementStyle5
-			// 
-			this.visualGridElementStyle5.BackColor = System.Drawing.Color.PowderBlue;
-			// 
-			// visualGridElementStyle6
-			// 
-			this.visualGridElementStyle6.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(195)), ((System.Byte)(231)), ((System.Byte)(236)));
-			// 
-			// groupByRow3
-			// 
-			this.groupByRow3.BackColor = System.Drawing.Color.LightSlateGray;
-			this.groupByRow3.CellBackColor = System.Drawing.Color.LightSteelBlue;
-			this.groupByRow3.CellFont = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold);
-			this.groupByRow3.CellLayout = Xceed.Grid.GroupByCellLayout.Hierarchical;
-			this.groupByRow3.Visible = false;
-			// 
-			// columnManagerRow3
-			// 
-			this.columnManagerRow3.BackColor = System.Drawing.Color.LightSteelBlue;
-			this.columnManagerRow3.Cells.Add(this.columnManagerCell3);
-			this.columnManagerRow3.Cells.Add(this.columnManagerCell4);
-			this.columnManagerRow3.Cells.Add(this.columnManagerCell5);
-			this.columnManagerRow3.Cells.Add(this.columnManagerCell6);
-			this.columnManagerRow3.Cells.Add(this.columnManagerCell7);
-			this.columnManagerRow3.Cells.Add(this.columnManagerCell8);
-			this.columnManagerRow3.Cells.Add(this.columnManagerCell9);
-			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column17);
-			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column18);
-			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column19);
-			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column20);
-			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column21);
-			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column22);
-			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column23);
-			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column24);
-			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column25);
-			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column29);
-			this.columnManagerRow3.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold);
-			this.columnManagerRow3.Height = 39;
-			// 
-			// columnManagerRow3.RowSelector
-			// 
-			this.columnManagerRow3.RowSelector.Visible = false;
-			this.columnManagerCell3.Initialize("column1");
-			this.columnManagerCell4.Initialize("column2");
-			this.columnManagerCell5.Initialize("column5");
-			this.columnManagerCell6.Initialize("column6");
-			this.columnManagerCell7.Initialize("column9");
-			this.columnManagerCell8.Initialize("column7");
-			this.columnManagerCell9.Initialize("column8");
-			this.cellcolumnManagerRow3column17.Initialize("column17");
-			this.cellcolumnManagerRow3column18.Initialize("column18");
-			this.cellcolumnManagerRow3column19.Initialize("column19");
-			this.cellcolumnManagerRow3column20.Initialize("column20");
-			this.cellcolumnManagerRow3column21.Initialize("column21");
-			this.cellcolumnManagerRow3column22.Initialize("column22");
-			this.cellcolumnManagerRow3column23.Initialize("column23");
-			this.cellcolumnManagerRow3column24.Initialize("column24");
-			this.cellcolumnManagerRow3column25.Initialize("column25");
-			this.cellcolumnManagerRow3column29.Initialize("column29");
 			// 
 			// GeneralPage
 			// 
 			this.GeneralPage.Controls.Add(this.GeneralGrid);
 			this.GeneralPage.Location = new System.Drawing.Point(4, 22);
 			this.GeneralPage.Name = "GeneralPage";
-			this.GeneralPage.Size = new System.Drawing.Size(766, 655);
+			this.GeneralPage.Size = new System.Drawing.Size(745, 622);
 			this.GeneralPage.TabIndex = 0;
 			this.GeneralPage.Text = "General";
 			// 
@@ -714,7 +474,7 @@ namespace CSGeneral
 			this.GeneralGrid.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
 			this.GeneralGrid.ShowUnlinkedColumns = true;
 			this.GeneralGrid.SingleClickEdit = false;
-			this.GeneralGrid.Size = new System.Drawing.Size(766, 655);
+			this.GeneralGrid.Size = new System.Drawing.Size(745, 622);
 			this.GeneralGrid.TabIndex = 0;
 			this.GeneralGrid.ValueMember = "";
 			// 
@@ -790,7 +550,7 @@ namespace CSGeneral
 			this.WaterPage.Controls.Add(this.WaterToolBar);
 			this.WaterPage.Location = new System.Drawing.Point(4, 22);
 			this.WaterPage.Name = "WaterPage";
-			this.WaterPage.Size = new System.Drawing.Size(766, 655);
+			this.WaterPage.Size = new System.Drawing.Size(745, 622);
 			this.WaterPage.TabIndex = 1;
 			this.WaterPage.Text = "Water Measured";
 			// 
@@ -808,16 +568,16 @@ namespace CSGeneral
 			this.Chart.Location = new System.Drawing.Point(0, 315);
 			this.Chart.Name = "Chart";
 			this.Chart.Settings = ((Xceed.Chart.Core.Settings)(resources.GetObject("Chart.Settings")));
-			this.Chart.Size = new System.Drawing.Size(589, 340);
+			this.Chart.Size = new System.Drawing.Size(568, 307);
 			this.Chart.TabIndex = 8;
 			this.Chart.Watermarks = ((Xceed.Chart.Standard.WatermarkCollection)(resources.GetObject("Chart.Watermarks")));
 			// 
 			// splitter2
 			// 
 			this.splitter2.Dock = System.Windows.Forms.DockStyle.Right;
-			this.splitter2.Location = new System.Drawing.Point(589, 315);
+			this.splitter2.Location = new System.Drawing.Point(568, 315);
 			this.splitter2.Name = "splitter2";
-			this.splitter2.Size = new System.Drawing.Size(6, 340);
+			this.splitter2.Size = new System.Drawing.Size(6, 307);
 			this.splitter2.TabIndex = 13;
 			this.splitter2.TabStop = false;
 			// 
@@ -826,9 +586,9 @@ namespace CSGeneral
 			this.panel1.Controls.Add(this.CropList);
 			this.panel1.Controls.Add(this.label1);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-			this.panel1.Location = new System.Drawing.Point(595, 315);
+			this.panel1.Location = new System.Drawing.Point(574, 315);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(171, 340);
+			this.panel1.Size = new System.Drawing.Size(171, 307);
 			this.panel1.TabIndex = 12;
 			// 
 			// CropList
@@ -837,7 +597,7 @@ namespace CSGeneral
 			this.CropList.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.CropList.Location = new System.Drawing.Point(0, 24);
 			this.CropList.Name = "CropList";
-			this.CropList.Size = new System.Drawing.Size(171, 304);
+			this.CropList.Size = new System.Drawing.Size(171, 274);
 			this.CropList.TabIndex = 12;
 			this.CropList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.CropList_ItemCheck);
 			// 
@@ -856,7 +616,7 @@ namespace CSGeneral
 			this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.splitter1.Location = new System.Drawing.Point(0, 312);
 			this.splitter1.Name = "splitter1";
-			this.splitter1.Size = new System.Drawing.Size(766, 3);
+			this.splitter1.Size = new System.Drawing.Size(745, 3);
 			this.splitter1.TabIndex = 9;
 			this.splitter1.TabStop = false;
 			// 
@@ -896,7 +656,7 @@ namespace CSGeneral
 			this.WaterGrid.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
 			this.WaterGrid.ShowUnlinkedColumns = true;
 			this.WaterGrid.SingleClickEdit = false;
-			this.WaterGrid.Size = new System.Drawing.Size(766, 276);
+			this.WaterGrid.Size = new System.Drawing.Size(745, 276);
 			this.WaterGrid.TabIndex = 1;
 			this.WaterGrid.ValueMember = "";
 			this.WaterGrid.CurrentCellChanged += new System.EventHandler(this.WaterGrid_CurrentCellChanged);
@@ -971,7 +731,7 @@ namespace CSGeneral
 			// 
 			this.dataRow1.AllowCellNavigation = true;
 			this.dataRow1.CanBeCurrent = true;
-			this.dataRow1.CanBeSelected = true;
+			this.dataRow1.CanBeSelected = false;
 			this.dataRow1.Cells.Add(this.dataCell1);
 			this.dataRow1.Cells.Add(this.dataCell2);
 			this.dataRow1.Cells.Add(this.celldataRow1column5);
@@ -1043,7 +803,7 @@ namespace CSGeneral
 			this.WaterToolBar.Location = new System.Drawing.Point(0, 0);
 			this.WaterToolBar.Name = "WaterToolBar";
 			this.WaterToolBar.ShowToolTips = true;
-			this.WaterToolBar.Size = new System.Drawing.Size(766, 36);
+			this.WaterToolBar.Size = new System.Drawing.Size(745, 36);
 			this.WaterToolBar.TabIndex = 7;
 			this.WaterToolBar.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right;
 			this.WaterToolBar.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.WaterToolBar_ButtonClick);
@@ -1064,20 +824,333 @@ namespace CSGeneral
 			this.ButtonImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ButtonImageList.ImageStream")));
 			this.ButtonImageList.TransparentColor = System.Drawing.Color.Transparent;
 			// 
-			// WaterPredictedPage
+			// ProfilePage
 			// 
-			this.WaterPredictedPage.Location = new System.Drawing.Point(4, 22);
-			this.WaterPredictedPage.Name = "WaterPredictedPage";
-			this.WaterPredictedPage.Size = new System.Drawing.Size(766, 655);
-			this.WaterPredictedPage.TabIndex = 2;
-			this.WaterPredictedPage.Text = "Water Predicted";
+			this.ProfilePage.Controls.Add(this.ProfileGrid);
+			this.ProfilePage.Location = new System.Drawing.Point(4, 22);
+			this.ProfilePage.Name = "ProfilePage";
+			this.ProfilePage.Size = new System.Drawing.Size(745, 622);
+			this.ProfilePage.TabIndex = 3;
+			this.ProfilePage.Text = "Soil profile properties";
+			// 
+			// ProfileGrid
+			// 
+			this.ProfileGrid.AllowDrop = true;
+			this.ProfileGrid.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(235)), ((System.Byte)(240)), ((System.Byte)(246)));
+			this.ProfileGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.ProfileGrid.Columns.Add(this.column10);
+			this.ProfileGrid.Columns.Add(this.column11);
+			this.ProfileGrid.Columns.Add(this.column12);
+			this.ProfileGrid.Columns.Add(this.column13);
+			this.ProfileGrid.Columns.Add(this.column14);
+			this.ProfileGrid.Columns.Add(this.column15);
+			this.ProfileGrid.Columns.Add(this.column16);
+			this.ProfileGrid.Columns.Add(this.column17);
+			this.ProfileGrid.Columns.Add(this.column18);
+			this.ProfileGrid.Columns.Add(this.column19);
+			this.ProfileGrid.Columns.Add(this.column20);
+			this.ProfileGrid.Columns.Add(this.column21);
+			this.ProfileGrid.Columns.Add(this.column22);
+			this.ProfileGrid.Columns.Add(this.column23);
+			this.ProfileGrid.Columns.Add(this.column24);
+			this.ProfileGrid.Columns.Add(this.column25);
+			this.ProfileGrid.Columns.Add(this.column29);
+			this.ProfileGrid.Columns.Add(this.column35);
+			this.ProfileGrid.DataRowTemplate = this.dataRow2;
+			this.ProfileGrid.DataRowTemplateStyles.Add(this.visualGridElementStyle5);
+			this.ProfileGrid.DataRowTemplateStyles.Add(this.visualGridElementStyle6);
+			this.ProfileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ProfileGrid.FixedHeaderRows.Add(this.groupByRow3);
+			this.ProfileGrid.FixedHeaderRows.Add(this.columnManagerRow3);
+			this.ProfileGrid.Font = new System.Drawing.Font("Verdana", 9F);
+			this.ProfileGrid.ForeColor = System.Drawing.Color.Black;
+			this.ProfileGrid.GridLineColor = System.Drawing.Color.FromArgb(((System.Byte)(235)), ((System.Byte)(240)), ((System.Byte)(246)));
+			this.ProfileGrid.GridLineStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+			this.ProfileGrid.InactiveSelectionBackColor = System.Drawing.Color.DarkSlateBlue;
+			this.ProfileGrid.InactiveSelectionForeColor = System.Drawing.Color.White;
+			this.ProfileGrid.Location = new System.Drawing.Point(0, 0);
+			this.ProfileGrid.Name = "ProfileGrid";
+			// 
+			// ProfileGrid.RowSelectorPane
+			// 
+			this.ProfileGrid.RowSelectorPane.BackColor = System.Drawing.Color.LightSteelBlue;
+			this.ProfileGrid.RowSelectorPane.Visible = false;
+			this.ProfileGrid.SelectionBackColor = System.Drawing.Color.MediumSlateBlue;
+			this.ProfileGrid.SelectionForeColor = System.Drawing.Color.White;
+			this.ProfileGrid.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+			this.ProfileGrid.ShowUnlinkedColumns = true;
+			this.ProfileGrid.SingleClickEdit = false;
+			this.ProfileGrid.Size = new System.Drawing.Size(745, 622);
+			this.ProfileGrid.TabIndex = 2;
+			this.ProfileGrid.ValueMember = "";
+			// 
+			// column10
+			// 
+			this.column10.CanBeSorted = false;
+			this.column10.ReadOnly = true;
+			this.column10.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column10.Title = "Depth (cm)";
+			this.column10.VisibleIndex = 0;
+			this.column10.Width = 77;
+			this.column10.Initialize("column1", typeof(string));
+			// 
+			// column11
+			// 
+			this.column11.CanBeSorted = false;
+			this.column11.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column11.Title = "SWCon";
+			this.column11.VisibleIndex = 1;
+			this.column11.Width = 60;
+			this.column11.Initialize("column2", typeof(string));
+			// 
+			// column12
+			// 
+			this.column12.CanBeSorted = false;
+			this.column12.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column12.Title = "FBiom";
+			this.column12.VisibleIndex = 3;
+			this.column12.Width = 62;
+			this.column12.Initialize("column5", typeof(string));
+			// 
+			// column13
+			// 
+			this.column13.CanBeSorted = false;
+			this.column13.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column13.Title = "FInert";
+			this.column13.VisibleIndex = 4;
+			this.column13.Width = 64;
+			this.column13.Initialize("column6", typeof(string));
+			// 
+			// column14
+			// 
+			this.column14.CanBeSorted = false;
+			this.column14.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column14.Title = "OC";
+			this.column14.VisibleIndex = 5;
+			this.column14.Width = 64;
+			this.column14.Initialize("column9", typeof(string));
+			// 
+			// column15
+			// 
+			this.column15.CanBeSorted = false;
+			this.column15.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column15.Title = "EC";
+			this.column15.VisibleIndex = 6;
+			this.column15.Width = 65;
+			this.column15.Initialize("column7", typeof(string));
+			// 
+			// column16
+			// 
+			this.column16.CanBeSorted = false;
+			this.column16.ReadOnly = false;
+			this.column16.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column16.Title = "PH";
+			this.column16.VisibleIndex = 7;
+			this.column16.Width = 63;
+			this.column16.Initialize("column8", typeof(string));
+			// 
+			// column17
+			// 
+			this.column17.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column17.Title = "CL";
+			this.column17.VisibleIndex = 8;
+			this.column17.Width = 63;
+			this.column17.Initialize("column17", typeof(string));
+			// 
+			// column18
+			// 
+			this.column18.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column18.Title = "CEC";
+			this.column18.VisibleIndex = 9;
+			this.column18.Width = 67;
+			this.column18.Initialize("column18", typeof(string));
+			// 
+			// column19
+			// 
+			this.column19.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column19.Title = "Ca";
+			this.column19.VisibleIndex = 10;
+			this.column19.Width = 62;
+			this.column19.Initialize("column19", typeof(string));
+			// 
+			// column20
+			// 
+			this.column20.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column20.Title = "Mg";
+			this.column20.VisibleIndex = 11;
+			this.column20.Width = 61;
+			this.column20.Initialize("column20", typeof(string));
+			// 
+			// column21
+			// 
+			this.column21.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column21.Title = "Na";
+			this.column21.VisibleIndex = 12;
+			this.column21.Width = 58;
+			this.column21.Initialize("column21", typeof(string));
+			// 
+			// column22
+			// 
+			this.column22.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column22.Title = "K";
+			this.column22.VisibleIndex = 13;
+			this.column22.Width = 57;
+			this.column22.Initialize("column22", typeof(string));
+			// 
+			// column23
+			// 
+			this.column23.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column23.Title = "ESP";
+			this.column23.VisibleIndex = 14;
+			this.column23.Width = 58;
+			this.column23.Initialize("column23", typeof(string));
+			// 
+			// column24
+			// 
+			this.column24.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column24.Title = "Particle size sand";
+			this.column24.VisibleIndex = 15;
+			this.column24.Width = 84;
+			this.column24.Initialize("column24", typeof(string));
+			// 
+			// column25
+			// 
+			this.column25.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column25.Title = "Particle size silt";
+			this.column25.VisibleIndex = 16;
+			this.column25.Width = 78;
+			this.column25.Initialize("column25", typeof(string));
+			// 
+			// column29
+			// 
+			this.column29.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column29.Title = "Particle size clay";
+			this.column29.VisibleIndex = 17;
+			this.column29.Width = 76;
+			this.column29.Initialize("column29", typeof(string));
+			// 
+			// column35
+			// 
+			this.column35.Title = "MWCon";
+			this.column35.VisibleIndex = 2;
+			this.column35.Width = 66;
+			this.column35.Initialize("column35", typeof(string));
+			// 
+			// dataRow2
+			// 
+			this.dataRow2.AllowCellNavigation = true;
+			this.dataRow2.CanBeCurrent = true;
+			this.dataRow2.CanBeSelected = false;
+			this.dataRow2.Cells.Add(this.dataCell3);
+			this.dataRow2.Cells.Add(this.dataCell4);
+			this.dataRow2.Cells.Add(this.dataCell5);
+			this.dataRow2.Cells.Add(this.dataCell6);
+			this.dataRow2.Cells.Add(this.dataCell7);
+			this.dataRow2.Cells.Add(this.dataCell8);
+			this.dataRow2.Cells.Add(this.dataCell9);
+			this.dataRow2.Cells.Add(this.celldataRow2column17);
+			this.dataRow2.Cells.Add(this.celldataRow2column18);
+			this.dataRow2.Cells.Add(this.celldataRow2column19);
+			this.dataRow2.Cells.Add(this.celldataRow2column20);
+			this.dataRow2.Cells.Add(this.celldataRow2column21);
+			this.dataRow2.Cells.Add(this.celldataRow2column22);
+			this.dataRow2.Cells.Add(this.celldataRow2column23);
+			this.dataRow2.Cells.Add(this.celldataRow2column24);
+			this.dataRow2.Cells.Add(this.celldataRow2column25);
+			this.dataRow2.Cells.Add(this.celldataRow2column29);
+			this.dataRow2.Cells.Add(this.celldataRow2column35);
+			// 
+			// dataRow2.RowSelector
+			// 
+			this.dataRow2.RowSelector.Visible = false;
+			this.dataRow2.ShowTreeLine = true;
+			this.dataCell3.Initialize("column1");
+			this.dataCell4.Initialize("column2");
+			this.dataCell5.Initialize("column5");
+			this.dataCell6.Initialize("column6");
+			this.dataCell7.Initialize("column9");
+			this.dataCell8.Initialize("column7");
+			this.dataCell9.Initialize("column8");
+			this.celldataRow2column17.Initialize("column17");
+			this.celldataRow2column18.Initialize("column18");
+			this.celldataRow2column19.Initialize("column19");
+			this.celldataRow2column20.Initialize("column20");
+			this.celldataRow2column21.Initialize("column21");
+			this.celldataRow2column22.Initialize("column22");
+			this.celldataRow2column23.Initialize("column23");
+			this.celldataRow2column24.Initialize("column24");
+			this.celldataRow2column25.Initialize("column25");
+			this.celldataRow2column29.Initialize("column29");
+			this.celldataRow2column35.Initialize("column35");
+			// 
+			// visualGridElementStyle5
+			// 
+			this.visualGridElementStyle5.BackColor = System.Drawing.Color.PowderBlue;
+			// 
+			// visualGridElementStyle6
+			// 
+			this.visualGridElementStyle6.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(195)), ((System.Byte)(231)), ((System.Byte)(236)));
+			// 
+			// groupByRow3
+			// 
+			this.groupByRow3.BackColor = System.Drawing.Color.LightSlateGray;
+			this.groupByRow3.CellBackColor = System.Drawing.Color.LightSteelBlue;
+			this.groupByRow3.CellFont = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold);
+			this.groupByRow3.CellLayout = Xceed.Grid.GroupByCellLayout.Hierarchical;
+			this.groupByRow3.Visible = false;
+			// 
+			// columnManagerRow3
+			// 
+			this.columnManagerRow3.BackColor = System.Drawing.Color.LightSteelBlue;
+			this.columnManagerRow3.Cells.Add(this.columnManagerCell3);
+			this.columnManagerRow3.Cells.Add(this.columnManagerCell4);
+			this.columnManagerRow3.Cells.Add(this.columnManagerCell5);
+			this.columnManagerRow3.Cells.Add(this.columnManagerCell6);
+			this.columnManagerRow3.Cells.Add(this.columnManagerCell7);
+			this.columnManagerRow3.Cells.Add(this.columnManagerCell8);
+			this.columnManagerRow3.Cells.Add(this.columnManagerCell9);
+			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column17);
+			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column18);
+			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column19);
+			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column20);
+			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column21);
+			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column22);
+			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column23);
+			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column24);
+			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column25);
+			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column29);
+			this.columnManagerRow3.Cells.Add(this.cellcolumnManagerRow3column35);
+			this.columnManagerRow3.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold);
+			this.columnManagerRow3.Height = 39;
+			// 
+			// columnManagerRow3.RowSelector
+			// 
+			this.columnManagerRow3.RowSelector.Visible = false;
+			this.columnManagerCell3.Initialize("column1");
+			this.columnManagerCell4.Initialize("column2");
+			this.columnManagerCell5.Initialize("column5");
+			this.columnManagerCell6.Initialize("column6");
+			this.columnManagerCell7.Initialize("column9");
+			this.columnManagerCell8.Initialize("column7");
+			this.columnManagerCell9.Initialize("column8");
+			this.cellcolumnManagerRow3column17.Initialize("column17");
+			this.cellcolumnManagerRow3column18.Initialize("column18");
+			this.cellcolumnManagerRow3column19.Initialize("column19");
+			this.cellcolumnManagerRow3column20.Initialize("column20");
+			this.cellcolumnManagerRow3column21.Initialize("column21");
+			this.cellcolumnManagerRow3column22.Initialize("column22");
+			this.cellcolumnManagerRow3column23.Initialize("column23");
+			this.cellcolumnManagerRow3column24.Initialize("column24");
+			this.cellcolumnManagerRow3column25.Initialize("column25");
+			this.cellcolumnManagerRow3column29.Initialize("column29");
+			this.cellcolumnManagerRow3column35.Initialize("column35");
 			// 
 			// APSIMPage
 			// 
 			this.APSIMPage.Controls.Add(this.APSIMGrid);
 			this.APSIMPage.Location = new System.Drawing.Point(4, 22);
 			this.APSIMPage.Name = "APSIMPage";
-			this.APSIMPage.Size = new System.Drawing.Size(766, 655);
+			this.APSIMPage.Size = new System.Drawing.Size(745, 622);
 			this.APSIMPage.TabIndex = 4;
 			this.APSIMPage.Text = "APSIM";
 			// 
@@ -1114,7 +1187,7 @@ namespace CSGeneral
 			this.APSIMGrid.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
 			this.APSIMGrid.ShowUnlinkedColumns = true;
 			this.APSIMGrid.SingleClickEdit = false;
-			this.APSIMGrid.Size = new System.Drawing.Size(766, 655);
+			this.APSIMGrid.Size = new System.Drawing.Size(745, 622);
 			this.APSIMGrid.TabIndex = 1;
 			this.APSIMGrid.ValueMember = "";
 			// 
@@ -1198,20 +1271,238 @@ namespace CSGeneral
 			this.group1.GroupBy = "column1";
 			this.group1.HeaderRows.Add(this.groupManagerRow1);
 			// 
+			// PhosphorusPage
+			// 
+			this.PhosphorusPage.Controls.Add(this.panel2);
+			this.PhosphorusPage.Controls.Add(this.splitter3);
+			this.PhosphorusPage.Controls.Add(this.PhosphorusGrid);
+			this.PhosphorusPage.Location = new System.Drawing.Point(4, 22);
+			this.PhosphorusPage.Name = "PhosphorusPage";
+			this.PhosphorusPage.Size = new System.Drawing.Size(745, 622);
+			this.PhosphorusPage.TabIndex = 5;
+			this.PhosphorusPage.Text = "Phosphorus";
+			// 
+			// panel2
+			// 
+			this.panel2.Controls.Add(this.RateDissolRockEdit);
+			this.panel2.Controls.Add(this.RootCPEdit);
+			this.panel2.Controls.Add(this.ResideCPEdit);
+			this.panel2.Controls.Add(this.label4);
+			this.panel2.Controls.Add(this.label3);
+			this.panel2.Controls.Add(this.label2);
+			this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel2.Location = new System.Drawing.Point(0, 283);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(745, 339);
+			this.panel2.TabIndex = 5;
+			// 
+			// RateDissolRockEdit
+			// 
+			this.RateDissolRockEdit.Location = new System.Drawing.Point(144, 97);
+			this.RateDissolRockEdit.Name = "RateDissolRockEdit";
+			this.RateDissolRockEdit.TabIndex = 5;
+			this.RateDissolRockEdit.Text = "";
+			// 
+			// RootCPEdit
+			// 
+			this.RootCPEdit.Location = new System.Drawing.Point(144, 64);
+			this.RootCPEdit.Name = "RootCPEdit";
+			this.RootCPEdit.TabIndex = 4;
+			this.RootCPEdit.Text = "";
+			// 
+			// ResideCPEdit
+			// 
+			this.ResideCPEdit.Location = new System.Drawing.Point(144, 32);
+			this.ResideCPEdit.Name = "ResideCPEdit";
+			this.ResideCPEdit.TabIndex = 3;
+			this.ResideCPEdit.Text = "";
+			// 
+			// label4
+			// 
+			this.label4.Location = new System.Drawing.Point(40, 96);
+			this.label4.Name = "label4";
+			this.label4.TabIndex = 2;
+			this.label4.Text = "Rate dissol rock:";
+			// 
+			// label3
+			// 
+			this.label3.Location = new System.Drawing.Point(40, 64);
+			this.label3.Name = "label3";
+			this.label3.TabIndex = 1;
+			this.label3.Text = "Root CP";
+			// 
+			// label2
+			// 
+			this.label2.Location = new System.Drawing.Point(40, 31);
+			this.label2.Name = "label2";
+			this.label2.TabIndex = 0;
+			this.label2.Text = "Residue CP:";
+			// 
+			// splitter3
+			// 
+			this.splitter3.Dock = System.Windows.Forms.DockStyle.Top;
+			this.splitter3.Location = new System.Drawing.Point(0, 280);
+			this.splitter3.Name = "splitter3";
+			this.splitter3.Size = new System.Drawing.Size(745, 3);
+			this.splitter3.TabIndex = 4;
+			this.splitter3.TabStop = false;
+			// 
+			// PhosphorusGrid
+			// 
+			this.PhosphorusGrid.AllowDrop = true;
+			this.PhosphorusGrid.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(235)), ((System.Byte)(240)), ((System.Byte)(246)));
+			this.PhosphorusGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.PhosphorusGrid.Columns.Add(this.column30);
+			this.PhosphorusGrid.Columns.Add(this.column31);
+			this.PhosphorusGrid.Columns.Add(this.column32);
+			this.PhosphorusGrid.Columns.Add(this.column33);
+			this.PhosphorusGrid.Columns.Add(this.column34);
+			this.PhosphorusGrid.DataRowTemplate = this.dataRow4;
+			this.PhosphorusGrid.DataRowTemplateStyles.Add(this.visualGridElementStyle9);
+			this.PhosphorusGrid.DataRowTemplateStyles.Add(this.visualGridElementStyle10);
+			this.PhosphorusGrid.Dock = System.Windows.Forms.DockStyle.Top;
+			this.PhosphorusGrid.FixedHeaderRows.Add(this.groupByRow5);
+			this.PhosphorusGrid.FixedHeaderRows.Add(this.columnManagerRow5);
+			this.PhosphorusGrid.Font = new System.Drawing.Font("Verdana", 9F);
+			this.PhosphorusGrid.ForeColor = System.Drawing.Color.Black;
+			this.PhosphorusGrid.GridLineColor = System.Drawing.Color.FromArgb(((System.Byte)(235)), ((System.Byte)(240)), ((System.Byte)(246)));
+			this.PhosphorusGrid.GridLineStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+			this.PhosphorusGrid.InactiveSelectionBackColor = System.Drawing.Color.DarkSlateBlue;
+			this.PhosphorusGrid.InactiveSelectionForeColor = System.Drawing.Color.White;
+			this.PhosphorusGrid.Location = new System.Drawing.Point(0, 0);
+			this.PhosphorusGrid.Name = "PhosphorusGrid";
+			// 
+			// PhosphorusGrid.RowSelectorPane
+			// 
+			this.PhosphorusGrid.RowSelectorPane.BackColor = System.Drawing.Color.LightSteelBlue;
+			this.PhosphorusGrid.RowSelectorPane.Visible = false;
+			this.PhosphorusGrid.SelectionBackColor = System.Drawing.Color.MediumSlateBlue;
+			this.PhosphorusGrid.SelectionForeColor = System.Drawing.Color.White;
+			this.PhosphorusGrid.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+			this.PhosphorusGrid.ShowUnlinkedColumns = true;
+			this.PhosphorusGrid.SingleClickEdit = false;
+			this.PhosphorusGrid.Size = new System.Drawing.Size(745, 280);
+			this.PhosphorusGrid.TabIndex = 3;
+			this.PhosphorusGrid.ValueMember = "";
+			// 
+			// column30
+			// 
+			this.column30.CanBeSorted = false;
+			this.column30.ReadOnly = true;
+			this.column30.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column30.Title = "Depth (cm)";
+			this.column30.VisibleIndex = 0;
+			this.column30.Width = 77;
+			this.column30.Initialize("column1", typeof(string));
+			// 
+			// column31
+			// 
+			this.column31.CanBeSorted = false;
+			this.column31.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column31.Title = "Labile P (mg/kg)";
+			this.column31.VisibleIndex = 1;
+			this.column31.Width = 80;
+			this.column31.Initialize("column2", typeof(string));
+			// 
+			// column32
+			// 
+			this.column32.CanBeSorted = false;
+			this.column32.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column32.Title = "Banded P (kg/ha)";
+			this.column32.VisibleIndex = 2;
+			this.column32.Width = 87;
+			this.column32.Initialize("column5", typeof(string));
+			// 
+			// column33
+			// 
+			this.column33.CanBeSorted = false;
+			this.column33.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column33.Title = "Rock P (kg/ha)";
+			this.column33.VisibleIndex = 3;
+			this.column33.Width = 80;
+			this.column33.Initialize("column6", typeof(string));
+			// 
+			// column34
+			// 
+			this.column34.CanBeSorted = false;
+			this.column34.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column34.Title = "Sorption";
+			this.column34.VisibleIndex = 4;
+			this.column34.Width = 77;
+			this.column34.Initialize("column9", typeof(string));
+			// 
+			// dataRow4
+			// 
+			this.dataRow4.AllowCellNavigation = true;
+			this.dataRow4.CanBeCurrent = true;
+			this.dataRow4.CanBeSelected = false;
+			this.dataRow4.Cells.Add(this.dataCell11);
+			this.dataRow4.Cells.Add(this.dataCell12);
+			this.dataRow4.Cells.Add(this.dataCell13);
+			this.dataRow4.Cells.Add(this.dataCell14);
+			this.dataRow4.Cells.Add(this.dataCell15);
+			// 
+			// dataRow4.RowSelector
+			// 
+			this.dataRow4.RowSelector.Visible = false;
+			this.dataRow4.ShowTreeLine = true;
+			this.dataCell11.Initialize("column1");
+			this.dataCell12.Initialize("column2");
+			this.dataCell13.Initialize("column5");
+			this.dataCell14.Initialize("column6");
+			this.dataCell15.Initialize("column9");
+			// 
+			// visualGridElementStyle9
+			// 
+			this.visualGridElementStyle9.BackColor = System.Drawing.Color.PowderBlue;
+			// 
+			// visualGridElementStyle10
+			// 
+			this.visualGridElementStyle10.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(195)), ((System.Byte)(231)), ((System.Byte)(236)));
+			// 
+			// groupByRow5
+			// 
+			this.groupByRow5.AccessibleName = "Group by row 1 in fixed header";
+			this.groupByRow5.BackColor = System.Drawing.Color.LightSlateGray;
+			this.groupByRow5.CellBackColor = System.Drawing.Color.LightSteelBlue;
+			this.groupByRow5.CellFont = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold);
+			this.groupByRow5.CellForeColor = System.Drawing.Color.Black;
+			this.groupByRow5.CellLayout = Xceed.Grid.GroupByCellLayout.Hierarchical;
+			this.groupByRow5.Font = new System.Drawing.Font("Verdana", 9F);
+			this.groupByRow5.ForeColor = System.Drawing.Color.Black;
+			this.groupByRow5.Indented = false;
+			this.groupByRow5.Visible = false;
+			// 
+			// columnManagerRow5
+			// 
+			this.columnManagerRow5.BackColor = System.Drawing.Color.LightSteelBlue;
+			this.columnManagerRow5.Cells.Add(this.columnManagerCell11);
+			this.columnManagerRow5.Cells.Add(this.columnManagerCell12);
+			this.columnManagerRow5.Cells.Add(this.columnManagerCell13);
+			this.columnManagerRow5.Cells.Add(this.columnManagerCell14);
+			this.columnManagerRow5.Cells.Add(this.columnManagerCell15);
+			this.columnManagerRow5.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold);
+			this.columnManagerRow5.Height = 39;
+			// 
+			// columnManagerRow5.RowSelector
+			// 
+			this.columnManagerRow5.RowSelector.Visible = false;
+			this.columnManagerCell11.Initialize("column1");
+			this.columnManagerCell12.Initialize("column2");
+			this.columnManagerCell13.Initialize("column5");
+			this.columnManagerCell14.Initialize("column6");
+			this.columnManagerCell15.Initialize("column9");
+			// 
 			// SoilUI
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(774, 759);
+			this.ClientSize = new System.Drawing.Size(753, 726);
 			this.Controls.Add(this.TabControl);
 			this.Controls.Add(this.smartStatusBar1);
 			this.Name = "SoilUI";
 			this.Controls.SetChildIndex(this.smartStatusBar1, 0);
 			this.Controls.SetChildIndex(this.TabControl, 0);
 			this.TabControl.ResumeLayout(false);
-			this.ProfilePage.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.ProfileGrid)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataRow2)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.columnManagerRow3)).EndInit();
 			this.GeneralPage.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.GeneralGrid)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataRowTemplate1)).EndInit();
@@ -1221,10 +1512,19 @@ namespace CSGeneral
 			((System.ComponentModel.ISupportInitialize)(this.WaterGrid)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataRow1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.columnManagerRow2)).EndInit();
+			this.ProfilePage.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.ProfileGrid)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dataRow2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.columnManagerRow3)).EndInit();
 			this.APSIMPage.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.APSIMGrid)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataRow3)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.columnManagerRow4)).EndInit();
+			this.PhosphorusPage.ResumeLayout(false);
+			this.panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.PhosphorusGrid)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dataRow4)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.columnManagerRow5)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -1264,6 +1564,8 @@ namespace CSGeneral
 					PopulateProfileGrid();
 				else if (TabControl.SelectedTab == APSIMPage)
 					PopulateAPSIMGrid();
+				else if (TabControl.SelectedTab == PhosphorusPage)
+					PopulatePhosphorusPage();
 				}
 			}
 
@@ -1281,6 +1583,8 @@ namespace CSGeneral
 				SaveProfileGrid();
 			else if (TabControl.SelectedTab == APSIMPage)
 				SaveAPSIMGrid();
+			else if (TabControl.SelectedTab == PhosphorusPage)
+				SavePhosphorusPage();
 			}
 
 
@@ -1453,6 +1757,7 @@ namespace CSGeneral
 			GridUtils.SetColumnAsDoubles(ref ProfileGrid, 14, MySoil.ParticleSizeSand, "f1");
 			GridUtils.SetColumnAsDoubles(ref ProfileGrid, 15, MySoil.ParticleSizeSilt, "f1");
 			GridUtils.SetColumnAsDoubles(ref ProfileGrid, 16, MySoil.ParticleSizeClay, "f1");
+			GridUtils.SetColumnAsDoubles(ref ProfileGrid, 17, MySoil.MWCON, "f1");
 			}
 
 
@@ -1478,6 +1783,7 @@ namespace CSGeneral
 			MySoil.ParticleSizeSand = GridUtils.GetColumnAsDoubles(ref ProfileGrid, 14, NumLayers);
 			MySoil.ParticleSizeSilt = GridUtils.GetColumnAsDoubles(ref ProfileGrid, 15, NumLayers);
 			MySoil.ParticleSizeClay = GridUtils.GetColumnAsDoubles(ref ProfileGrid, 16, NumLayers);
+			MySoil.MWCON  = GridUtils.GetColumnAsDoubles(ref ProfileGrid, 17, NumLayers);
 			}
 
 
@@ -1538,6 +1844,40 @@ namespace CSGeneral
 			MySoil.SoilCN = Values[10];
 			MySoil.EnrACoeff = Values[11];
 			MySoil.EnrBCoeff = Values[12];
+			}
+
+
+		// --------------------------
+		// Populate the phosphorus grid.
+		// --------------------------
+		private void PopulatePhosphorusPage()
+			{
+			GridUtils.SetColumnAsStrings(ref PhosphorusGrid, 0, MySoil.DepthStrings);
+			GridUtils.SetColumnAsDoubles(ref PhosphorusGrid, 1, MySoil.LabileP, "f1");
+			GridUtils.SetColumnAsDoubles(ref PhosphorusGrid, 2, MySoil.BandedP, "f1");
+			GridUtils.SetColumnAsDoubles(ref PhosphorusGrid, 3, MySoil.RockP, "f1");
+			GridUtils.SetColumnAsDoubles(ref PhosphorusGrid, 4, MySoil.Sorption, "f1");
+
+			ResideCPEdit.Text = DoubleToString(MySoil.ResidueCP, "f0");
+			RootCPEdit.Text = DoubleToString(MySoil.RootCP, "f0");
+			RateDissolRockEdit.Text = DoubleToString(MySoil.RateDissolRock, "f2");
+			}
+
+
+		// --------------------------
+		// Save the phosphorus grid.
+		// --------------------------
+		private void SavePhosphorusPage()
+			{
+			int NumLayers = GridUtils.GetNumberOfNonBlankRows(ref PhosphorusGrid, 0);
+			MySoil.LabileP  = GridUtils.GetColumnAsDoubles(ref PhosphorusGrid, 1, NumLayers);
+			MySoil.BandedP  = GridUtils.GetColumnAsDoubles(ref PhosphorusGrid, 2, NumLayers);
+			MySoil.RockP  = GridUtils.GetColumnAsDoubles(ref PhosphorusGrid, 3, NumLayers);
+			MySoil.Sorption  = GridUtils.GetColumnAsDoubles(ref PhosphorusGrid, 4, NumLayers);
+
+			MySoil.ResidueCP = Convert.ToDouble(ResideCPEdit.Text);
+			MySoil.RootCP = Convert.ToDouble(RootCPEdit.Text);
+			MySoil.RateDissolRock = Convert.ToDouble(RateDissolRockEdit.Text);
 			}
 
 
