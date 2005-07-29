@@ -11,30 +11,18 @@ Public Class Toolboxes
     Public Property Filenames() As StringCollection
         Get
             Dim Files As New StringCollection
-            Dim inifile As New APSIMSettings
-            Dim ToolboxesString As String = inifile.GetSetting("Toolboxes", "toolbox")
-            If (Trim(ToolboxesString) <> "") Then
-                Dim ToolBoxes() As String = Split(ToolboxesString, "|")
-
-                For i As Integer = 0 To ToolBoxes.Length - 1
-                    If File.Exists(ToolBoxes(i)) Then
-                        Files.Add(ToolBoxes(i))
-                    End If
-                Next
-            End If
+            Dim Toolboxes As StringCollection = APSIMSettings.INIReadMultiple(APSIMSettings.ApsimIniFile(), "Toolboxes", "toolbox")
+            For i As Integer = 0 To Toolboxes.Count - 1
+                If File.Exists(Toolboxes(i)) Then
+                    Files.Add(Toolboxes(i))
+                End If
+            Next
             Return Files
         End Get
         Set(ByVal Value As StringCollection)
-            Dim ToolBoxesString As String = ""
-            For Each item As String In Value
-                If ToolBoxesString = "" Then
-                    ToolBoxesString = item.ToString
-                Else
-                    ToolBoxesString = ToolBoxesString + "|" + item.ToString
-                End If
-            Next
-            Dim inifile As New APSIMSettings
-            inifile.SetSetting("Toolboxes", "toolbox", ToolBoxesString)
+            Dim Values(Value.Count) As String
+            Value.CopyTo(Values, 0)
+            APSIMSettings.INIWriteMultiple(APSIMSettings.ApsimIniFile(), "Toolboxes", "toolbox", Values)
         End Set
     End Property
 
@@ -45,17 +33,12 @@ Public Class Toolboxes
     Public ReadOnly Property Names() As StringCollection
         Get
             Dim Files As New StringCollection
-            Dim inifile As New APSIMSettings
-            Dim ToolboxesString As String = inifile.GetSetting("Toolboxes", "toolbox")
-            If (Trim(ToolboxesString) <> "") Then
-                Dim ToolBoxes() As String = Split(ToolboxesString, "|")
-
-                For i As Integer = 0 To ToolBoxes.Length - 1
-                    If File.Exists(ToolBoxes(i)) Then
-                        Files.Add(Path.GetFileNameWithoutExtension(ToolBoxes(i)))
-                    End If
-                Next
-            End If
+            Dim Toolboxes As StringCollection = APSIMSettings.INIReadMultiple(APSIMSettings.ApsimIniFile(), "Toolboxes", "toolbox")
+            For i As Integer = 0 To Toolboxes.Count - 1
+                If File.Exists(Toolboxes(i)) Then
+                    Files.Add(Path.GetFileNameWithoutExtension(Toolboxes(i)))
+                End If
+            Next
             Return Files
         End Get
     End Property

@@ -18,6 +18,7 @@ Public Class DataTree
     Public Event BeforeDataSelectedEvent As BeforeDataSelectedEventHandler
     Public Event DoubleClickEvent As DoubleClickHandler
     Private MaxNumLevels As Integer = 100
+    Private ShowAllComponents As Boolean = False
 
 
 #Region " Windows Form Designer generated code "
@@ -111,6 +112,16 @@ Public Class DataTree
     End Property
 
 
+    ' ------------------------------------------------------
+    ' Set the showall property
+    ' ------------------------------------------------------
+    WriteOnly Property ShowAll() As Boolean
+        Set(ByVal Value As Boolean)
+            ShowAllComponents = Value
+        End Set
+    End Property
+
+
     ' ----------------------------------------------
     ' Override the base fill method and populate
     ' ourselves.
@@ -188,7 +199,7 @@ Public Class DataTree
     Private Sub DisplayNode(ByVal Data As APSIMData, ByRef ParentNode As TreeNode, ByRef NumLevels As Integer)
         Try
             For Each child As APSIMData In Data.Children
-                If NumLevels < MaxNumLevels And ApplicationSettings.IsComponentVisible(child.Type) Then
+                If NumLevels < MaxNumLevels And (ShowAllComponents Or ApplicationSettings.IsComponentVisible(child.Type)) Then
                     Dim childnode As TreeNode = AddNode(child, ParentNode)
                     DisplayNode(child, childnode, NumLevels + 1)
                 End If

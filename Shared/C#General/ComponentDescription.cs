@@ -89,7 +89,7 @@ namespace CSGeneral
 			Directory.SetCurrentDirectory(CurrentDirectory);		
 
 			APSIMSettings Settings = new APSIMSettings();
-			string ProtocolToVariablesXSLFileName = Settings.GetSetting("apsimui", "ProtocolToVariablesFile");
+			string ProtocolToVariablesXSLFileName = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "ProtocolToVariablesFile");
 
 			StreamReader In = new StreamReader(ProtocolToVariablesXSLFileName);
 			string xml = CSUtility.ApplyStyleSheet(description.ToString(), In.ReadToEnd());

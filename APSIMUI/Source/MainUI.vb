@@ -705,8 +705,7 @@ Public Class MainUI
                               "All files (*.*)|*.*", _
                               ".xml", "")
 
-        Dim inifile As New APSIMSettings
-        ToolboxPanel.Height = Val(inifile.GetSetting("apsimui", "toolboxheight"))
+        ToolboxPanel.Height = Val(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "toolboxheight"))
 
         ' Show some help
         HelpContents_Click(Nothing, Nothing)
@@ -758,9 +757,10 @@ Public Class MainUI
     ' User has clicked File|Open
     ' ---------------------------
     Private Sub FileOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileOpen.Click
-        SimulationExplorer.FileOpen()
-        APSIMChangeTool.Upgrade(SimulationExplorer.Data)
-        SimulationExplorer.Refresh()
+        If SimulationExplorer.FileOpen() Then
+            APSIMChangeTool.Upgrade(SimulationExplorer.Data)
+            SimulationExplorer.Refresh()
+        End If
     End Sub
 
 
@@ -941,7 +941,7 @@ Public Class MainUI
         Dim toolboxes As New Toolboxes
         ViewToolboxWindow.Checked = True
         Dim inifile As New APSIMSettings
-        ToolboxPanel.Height = Val(inifile.GetSetting("apsimui", "toolboxheight"))
+        ToolboxPanel.Height = Val(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "toolboxheight"))
 
         Dim filename As String = toolboxes.NameToFileName(sender.text)
         ToolboxExplorer.FileOpen(filename)
@@ -960,7 +960,7 @@ Public Class MainUI
     Private Function MakeSimFiles() As StringCollection
         Dim inifile As New APSIMSettings
         Dim TypesData As New APSIMData
-        TypesData.LoadFromFile(inifile.GetSetting("apsimui", "typesfile"))
+        TypesData.LoadFromFile(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "typesfile"))
 
         Try
             Dim SimFiles As New StringCollection
@@ -969,7 +969,7 @@ Public Class MainUI
             Dim M As New Macro
             If File.Exists(SimulationExplorer.FileName) Then
                 Dim DirectoryName As String = Path.GetDirectoryName(SimulationExplorer.FileName)
-                Dim FileName As String = inifile.GetSetting("apsimui", "macrofile")
+                Dim FileName As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "macrofile")
                 If File.Exists(FileName) Then
                     For Each Sim As APSIMData In SimulationExplorer.Data.Children("simulation")
                         Dim MacroContents As String = CreateMacroFile(TypesData, Sim, 1)
@@ -1071,11 +1071,11 @@ Public Class MainUI
     Private Sub ReadWindowPosition()
         Try
             Dim inifile As New APSIMSettings
-            Dim windowstate As String = inifile.GetSetting("apsimui", "windowstate")
-            Dim top As String = inifile.GetSetting("apsimui", "top")
-            Dim left As String = inifile.GetSetting("apsimui", "left")
-            Dim height As String = inifile.GetSetting("apsimui", "height")
-            Dim width As String = inifile.GetSetting("apsimui", "width")
+            Dim windowstate As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "windowstate")
+            Dim top As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "top")
+            Dim left As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "left")
+            Dim height As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "height")
+            Dim width As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "width")
 
             If windowstate <> "" And top <> "" And left <> "" And height <> "" And width <> "" Then
                 Me.WindowState = Val(windowstate)
@@ -1099,11 +1099,11 @@ Public Class MainUI
     Private Sub WriteWindowPosition()
         Try
             Dim inifile As New APSIMSettings
-            inifile.SetSetting("apsimui", "windowstate", Str(Me.WindowState))
-            inifile.SetSetting("apsimui", "top", Str(Me.Top))
-            inifile.SetSetting("apsimui", "left", Str(Me.Left))
-            inifile.SetSetting("apsimui", "width", Str(Me.Width))
-            inifile.SetSetting("apsimui", "height", Str(Me.Height))
+            APSIMSettings.INIWrite(APSIMSettings.ApsimIniFile(), "apsimui", "windowstate", Str(Me.WindowState))
+            APSIMSettings.INIWrite(APSIMSettings.ApsimIniFile(), "apsimui", "top", Str(Me.Top))
+            APSIMSettings.INIWrite(APSIMSettings.ApsimIniFile(), "apsimui", "left", Str(Me.Left))
+            APSIMSettings.INIWrite(APSIMSettings.ApsimIniFile(), "apsimui", "width", Str(Me.Width))
+            APSIMSettings.INIWrite(APSIMSettings.ApsimIniFile(), "apsimui", "height", Str(Me.Height))
         Catch ex As System.Exception
 
         End Try
@@ -1117,7 +1117,7 @@ Public Class MainUI
     Private Sub HelpBrowserPanel_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles HelpBrowserPanel.Resize
         If HelpBrowserPanel.Visible = True Then
             Dim inifile As New APSIMSettings
-            inifile.SetSetting("apsimui", "helpheight", Str(HelpBrowserPanel.Height))
+            APSIMSettings.INIWrite(APSIMSettings.ApsimIniFile(), "apsimui", "helpheight", Str(HelpBrowserPanel.Height))
         End If
     End Sub
 
@@ -1129,7 +1129,7 @@ Public Class MainUI
     Private Sub ToolBoxSplitter_LocationChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolBoxSplitter.LocationChanged
         If ToolboxPanel.Visible Then
             Dim inifile As New APSIMSettings
-            inifile.SetSetting("apsimui", "toolboxheight", Str(ToolboxPanel.Height))
+            APSIMSettings.INIWrite(APSIMSettings.ApsimIniFile(), "apsimui", "toolboxheight", Str(ToolboxPanel.Height))
         End If
     End Sub
 
