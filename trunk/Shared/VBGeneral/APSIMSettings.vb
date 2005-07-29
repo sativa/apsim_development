@@ -1,9 +1,9 @@
 Imports System.Windows.Forms
 Imports System.IO
 Imports System.Text
+Imports System.Collections.Specialized
+
 Public Class APSIMSettings
-    Declare Ansi Sub GetAPSIMSetting Lib "APSIMShared.dll" Alias "SettingsRead" (ByVal key As String, ByVal returnstring As String, ByVal replacemacros As Integer)
-    Declare Ansi Sub SetAPSIMSetting Lib "APSIMShared.dll" Alias "SettingsWrite" (ByVal key As String, ByVal returnstring As String)
     Private Declare Unicode Function WritePrivateProfileString Lib "kernel32" _
         Alias "WritePrivateProfileStringW" (ByVal lpApplicationName As String, _
         ByVal lpKeyName As String, ByVal lpString As String, _
@@ -14,34 +14,35 @@ Public Class APSIMSettings
         ByVal lpReturnedString As String, ByVal nSize As Int32, _
         ByVal lpFileName As String) As Int32
 
-    Public Function GetSetting(ByVal section As String, ByVal keyword As String) As String
-        Try
-            Dim Setting As String = Space(Utility.MaxStringLength)
-            Dim key As String = Trim(section) + "|" + Trim(keyword)
-            GetAPSIMSetting(key, Setting, 1) '1 is true in C++
-            GetSetting = Utility.CStringToVBString(Setting)
-        Catch ex As System.Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error reading APSIM Setting")
-        End Try
-    End Function
-    Public Sub SetSetting(ByVal section As String, ByVal keyword As String, ByVal value As String)
-        Try
-            Dim key As String = Trim(section) + "|" + Trim(keyword)
-            SetAPSIMSetting(key, value)
-        Catch ex As System.Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error writting APSIM Setting")
-        End Try
-    End Sub
 
+    ' ---------------------------
+    ' Return APSIM directory root
+    ' ---------------------------
     Public Shared Function ApsimDirectory() As String
         Return Directory.GetParent(Path.GetDirectoryName(Application.ExecutablePath)).ToString
     End Function
-    Public Function ApsimVersion() As String
-        Dim version As String = GetSetting("version", "apsim")
+
+
+    ' ---------------------------
+    ' Return APSIM version number
+    ' ---------------------------
+    Public Shared Function ApsimVersion() As String
+        Dim version As String = INIRead(ApsimIniFile(), "version", "apsim")
         Return version
     End Function
 
 
+    ' ---------------------------
+    ' Return APSIM directory root
+    ' ---------------------------
+    Public Shared Function ApsimIniFile() As String
+        Return ApsimDirectory() + "\\apsim.ini"
+    End Function
+
+
+    ' ----------------------------------------
+    ' Returns a key value from an .ini file.
+    ' ----------------------------------------
     Private Overloads Shared Function INIRead(ByVal INIPath As String, _
         ByVal SectionName As String, ByVal KeyName As String, _
         ByVal DefaultValue As String) As String
@@ -52,22 +53,46 @@ Public Class APSIMSettings
         n = GetPrivateProfileString(SectionName, KeyName, DefaultValue, _
         sData, sData.Length, INIPath)
         If n > 0 Then ' return whatever it gave us
-            INIRead = sData.Substring(0, n)
+            INIRead = sData.Substring(0, n).Replace("%apsuite", ApsimDirectory())
         Else
             INIRead = ""
         End If
     End Function
 
 
+    ' ----------------------------------------
+    ' Returns a key value from an .ini file.
+    ' ----------------------------------------
     Public Overloads Shared Function INIRead(ByVal INIPath As String, _
         ByVal SectionName As String, ByVal KeyName As String) As String
-        ' assumes zero-length default
         Return INIRead(INIPath, SectionName, KeyName, "")
     End Function
 
+
+    ' --------------------------------------------------
+    ' Returns multiple key values from an .ini file.
+    ' Assumes the values use a numbering system appended
+    ' to the key name.
+    ' --------------------------------------------------
+    Public Overloads Shared Function INIReadMultiple(ByVal INIPath As String, _
+        ByVal SectionName As String, ByVal KeyName As String) As StringCollection
+        Dim Values As New StringCollection
+        Dim KeyNumber As Integer = 1
+        Dim Value As String = INIRead(INIPath, SectionName, KeyName + KeyNumber.ToString())
+        While Value <> ""
+            Values.Add(Value)
+            KeyNumber = KeyNumber + 1
+            Value = INIRead(INIPath, SectionName, KeyName + KeyNumber.ToString())
+        End While
+        Return Values
+    End Function
+
+
+    ' -----------------------------------------------------
+    ' Returns all key names from a section of an .ini file.
+    ' -----------------------------------------------------
     Public Overloads Shared Function INIReadAllKeys(ByVal INIPath As String, _
         ByVal SectionName As String) As String()
-        ' returns all keys in a given section of the given file
         Dim Value As String = INIRead(INIPath, SectionName, Nothing, "")
         Dim Values As String() = Value.Split(ControlChars.NullChar) ' change embedded NULLs to pipe chars
         Dim ReturnValues(Values.Length - 2) As String
@@ -76,6 +101,8 @@ Public Class APSIMSettings
         Next
         Return ReturnValues
     End Function
+
+
 
     Public Overloads Shared Function INIReadAllSections(ByVal INIPath As String) As String()
         ' returns all section names given just path
@@ -94,12 +121,36 @@ Public Class APSIMSettings
         Call WritePrivateProfileString(SectionName, KeyName, TheValue, INIPath)
     End Sub
 
-    Public Overloads Sub INIDeleteKey(ByVal INIPath As String, ByVal SectionName As String, _
+
+    ' --------------------------------------------------
+    ' Writes multiple key values from an .ini file.
+    ' Assumes the values use a numbering system appended
+    ' to the key name.
+    ' --------------------------------------------------
+    Public Shared Sub INIWriteMultiple(ByVal INIPath As String, _
+        ByVal SectionName As String, ByVal KeyName As String, ByVal Values As String())
+        Dim KeyNumber As Integer = 1
+        Dim Value As String = INIRead(INIPath, SectionName, KeyName + KeyNumber.ToString())
+        While Value <> ""
+            INIDeleteKey(INIPath, SectionName, KeyName + KeyNumber.ToString())
+            KeyNumber = KeyNumber + 1
+            Value = INIRead(INIPath, SectionName, KeyName + KeyNumber.ToString())
+        End While
+
+        KeyNumber = 1
+        For Each Value In Values
+            INIWrite(INIPath, SectionName, KeyName + KeyNumber.ToString(), Value)
+            KeyNumber = KeyNumber + 1
+        Next
+    End Sub
+
+
+    Public Shared Sub INIDeleteKey(ByVal INIPath As String, ByVal SectionName As String, _
     ByVal KeyName As String) ' delete single line from section
         Call WritePrivateProfileString(SectionName, KeyName, Nothing, INIPath)
     End Sub
 
-    Public Overloads Sub INIDeleteSection(ByVal INIPath As String, ByVal SectionName As String)
+    Public Shared Sub INIDeleteSection(ByVal INIPath As String, ByVal SectionName As String)
         ' delete section from INI file
         Call WritePrivateProfileString(SectionName, Nothing, Nothing, INIPath)
     End Sub

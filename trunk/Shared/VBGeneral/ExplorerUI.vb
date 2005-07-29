@@ -408,7 +408,6 @@ Public Class ExplorerUI
     Public Sub AddFileToFrequentList(ByVal filename As String)
         If FrequentListSection <> "" Then
 
-            Dim inifile As New APSIMSettings
             Dim FileNames() As String = GetFrequentList()
 
             ' Put this filename into the top of the NewFileList and
@@ -424,14 +423,7 @@ Public Class ExplorerUI
             Next
 
             ' Write NewFileList back to .ini file.
-            Dim NewFileListString As String = ""
-            For i As Integer = 0 To NewFileListIndex - 1
-                If NewFileListString.Length > 0 Then
-                    NewFileListString = NewFileListString + "|"
-                End If
-                NewFileListString = NewFileListString + NewFileList(i)
-            Next
-            inifile.SetSetting(FrequentListSection, "RecentFile", NewFileListString)
+            APSIMSettings.INIWriteMultiple(APSIMSettings.ApsimIniFile(), FrequentListSection, "RecentFile", NewFileList)
         End If
     End Sub
 
@@ -440,9 +432,7 @@ Public Class ExplorerUI
     ' Return a list of frequently accessed simulations
     ' ------------------------------------------------------
     Public Function GetFrequentList() As String()
-        Dim inifile As New APSIMSettings
-        Dim FilesString = inifile.GetSetting(FrequentListSection, "RecentFile")
-        Dim FileNames As String() = Split(FilesString, "|")
+        Dim FileNames As StringCollection = APSIMSettings.INIReadMultiple(APSIMSettings.ApsimIniFile(), FrequentListSection, "RecentFile")
         Dim GoodFileNames As New StringCollection
         For Each FileName As String In FileNames
             If File.Exists(FileName) Then

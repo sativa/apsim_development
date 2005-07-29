@@ -60,6 +60,7 @@ namespace APSoil
 		private System.Windows.Forms.MenuItem ExportPar;
 		private System.Windows.Forms.SaveFileDialog SimExportDialog;
 		private System.ComponentModel.IContainer components;
+		private string CommandLineFileName;
 
 		// ------------------
 		// constructor
@@ -433,19 +434,31 @@ namespace APSoil
 		// The main entry point for the application.
 		// -----------------------------------------
 		[STAThread]
-		static void Main() 
+		static void Main(string[] args) 
 			{
 			Application.EnableVisualStyles();
 			Application.DoEvents();
 
 			Application.DoEvents();
-			Application.Run(new MainForm());
+			MainForm Main = new MainForm();
+			if (args.Length == 1)
+				Main.LoadFile(args[0]);
+			Application.Run(Main);
 			Application.DoEvents();
 
 			Application.DoEvents();
 			}
 
 
+		// ----------------------------------------------------------------
+		// Load the specified file. Called when a command line arg is used.
+		// ----------------------------------------------------------------
+		public void LoadFile(string FileName)
+			{
+			CommandLineFileName = FileName.Replace("\"", "");
+			}
+
+		
 		// ----------------------------------------
 		// Form has been loaded - set everything up
 		// ----------------------------------------
@@ -466,6 +479,15 @@ namespace APSoil
 			SoilExplorer.DataTreeCaption = "Empty soils database";
 			SetFunctionality(SoilExplorer.GetSelectedData());
 			SoilExplorer.DataSelectedEvent += new DataTree.DataSelectedEventHandler(SetFunctionality);
+
+			// Load up the file from the command line if necessary.
+			if (CommandLineFileName != null)
+				{
+				SoilExplorer.FileOpen(CommandLineFileName);
+				APSIMChangeTool.Upgrade(SoilExplorer.Data);
+				SoilExplorer.Refresh();
+				SetFunctionality(SoilExplorer.GetSelectedData());
+				}
 			}
 
 

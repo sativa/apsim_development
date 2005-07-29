@@ -123,7 +123,7 @@ Public Class NewDocumentForm
     ' ----------------------------------------------------
     Private Sub NewDocumentForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Dim inifile As New APSIMSettings
-        Dim TemplateFile As String = inifile.GetSetting("apsimui", "new_docs")
+        Dim TemplateFile As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "new_docs")
         Dim FileData As New APSIMData
         FileData.LoadFromFile(TemplateFile)
         DataTree.MaximumNumLevels = 1

@@ -149,7 +149,8 @@ Public Class OutputFileDescUI
 
         DataTree.Sorted = True
         DataTree.CaptionLabel.Text = "Variable and events"
-        'DataTree.ShowAll = True
+        DataTree.ApplicationSettings = Explorer.ApplicationSettings
+        DataTree.ShowAll = True
         DataTree.Data = BuildDataTree()
 
         VariablesListView.Data = Data

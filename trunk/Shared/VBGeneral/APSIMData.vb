@@ -332,7 +332,13 @@ Public Class APSIMData
                         Dim nodename As String
                         nodename = Node.ChildNodes(i).Name
                         If nodename <> "#text" And nodename <> "#comment" Then
-                            If Type Is Nothing Or Type = nodename Then
+                            Dim AddChild As Boolean = IsNothing(Type)
+                            If Not AddChild Then
+                                If Type.ToLower() = nodename.ToLower() Then
+                                    AddChild = True
+                                End If
+                            End If
+                            If AddChild Then
                                 ChildrenCollection.Add(New APSIMData(Node.ChildNodes(i)))
                             End If
                         End If
