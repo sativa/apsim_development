@@ -175,27 +175,14 @@ bool ApsimRuns::performRun(const std::string& simFileName, bool moreToGo, bool c
 //---------------------------------------------------------------------------
 void ApsimRuns::createSims(void)
    {
-   string previousFileName;
-   if (fileNames.size() > 0)
-      previousFileName = fileNames[0];
-
-   vector<string> simulations;
    for (unsigned f = 0; f != fileNames.size(); f++)
       {
       string fileName = fileNames[f];
-      if (fileName == previousFileName)
-         simulations.push_back(simNames[f]);
-      else
-         {
-         if (Path(previousFileName).Get_extension() == ".con")
-            {
-            SimCreator simCreator(previousFileName);
-            simCreator.createSims(simulations, "", (TSimCreatorEvent)NULL);
-            }
-         simulations.erase(simulations.begin(), simulations.end());
-         simulations.push_back(simNames[f]);
-         previousFileName = fileName;
-         }
+      if (Path(fileName).Get_extension() == ".con")
+          {
+          SimCreator simCreator(fileName);
+          simCreator.createSims("", (TSimCreatorEvent)NULL);
+          }
       }
    }
 //---------------------------------------------------------------------------
