@@ -34,7 +34,10 @@ void processCmdLine(void)
       }
 
    if (createSIM)
+      {
+      runs.convertFiles();
       runs.createSims();
+      }
    else if (quietRun || runImmediately)
       {
       RunForm = new TRunForm(NULL);
