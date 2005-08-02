@@ -178,10 +178,11 @@ void ApsimRuns::createSims(void)
    for (unsigned f = 0; f != fileNames.size(); f++)
       {
       string fileName = fileNames[f];
+      string simName = simNames[f];
       if (Path(fileName).Get_extension() == ".con")
           {
           SimCreator simCreator(fileName);
-          simCreator.createSims("", (TSimCreatorEvent)NULL);
+          simCreator.createSim(simName, "");
           }
       }
    }
