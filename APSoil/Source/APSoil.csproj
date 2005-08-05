@@ -121,14 +121,24 @@
                     HintPath = "..\..\Shared\VBGeneral\bin\VBGeneral.dll"
                 />
                 <Reference
-                    Name = "Soil"
-                    AssemblyName = "Soil"
-                    HintPath = "..\..\Shared\Soil\obj\Debug\Soil.dll"
-                />
-                <Reference
                     Name = "CSGeneral"
                     AssemblyName = "CSGeneral"
                     HintPath = "..\..\Shared\C#General\obj\Debug\CSGeneral.dll"
+                />
+                <Reference
+                    Name = "ExcelUtility"
+                    AssemblyName = "ExcelUtility"
+                    HintPath = "..\..\Shared\Excel\obj\Debug\ExcelUtility.dll"
+                />
+                <Reference
+                    Name = "Interop.VBIDE"
+                    AssemblyName = "Interop.VBIDE"
+                    HintPath = "..\..\Bin\Interop.VBIDE.dll"
+                />
+                <Reference
+                    Name = "Interop.Excel"
+                    AssemblyName = "Interop.Excel"
+                    HintPath = "..\..\Bin\Interop.Excel.dll"
                 />
                 <Reference
                     Name = "ChangeTool"
@@ -136,9 +146,9 @@
                     HintPath = "..\..\Shared\ChangeTool\obj\Debug\ChangeTool.dll"
                 />
                 <Reference
-                    Name = "ExcelUtility"
-                    AssemblyName = "ExcelUtility"
-                    HintPath = "..\..\Shared\Excel\obj\Debug\ExcelUtility.dll"
+                    Name = "Soil"
+                    AssemblyName = "Soil"
+                    HintPath = "..\..\Shared\Soil\obj\Debug\Soil.dll"
                 />
             </References>
         </Build>
