@@ -158,16 +158,6 @@
                     AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
                 />
                 <Reference
-                    Name = "AxInterop.SHDocVw"
-                    AssemblyName = "AxInterop.SHDocVw"
-                    HintPath = "AxInterop.SHDocVw.dll"
-                />
-                <Reference
-                    Name = "Interop.SHDocVw"
-                    AssemblyName = "Interop.SHDocVw"
-                    HintPath = "Interop.SHDocVw.dll"
-                />
-                <Reference
                     Name = "VBGeneral"
                     AssemblyName = "VBGeneral"
                     HintPath = "..\..\Shared\vbgeneral\bin\VBGeneral.dll"
@@ -191,6 +181,16 @@
                     Name = "VBMet"
                     AssemblyName = "VBMet"
                     HintPath = "..\..\Shared\vbmet\bin\VBMet.dll"
+                />
+                <Reference
+                    Name = "AxInterop.SHDocVw"
+                    AssemblyName = "AxInterop.SHDocVw"
+                    HintPath = "..\..\Bin\AxInterop.SHDocVw.dll"
+                />
+                <Reference
+                    Name = "Interop.SHDocVw"
+                    AssemblyName = "Interop.SHDocVw"
+                    HintPath = "..\..\Bin\Interop.SHDocVw.dll"
                 />
             </References>
             <Imports>
