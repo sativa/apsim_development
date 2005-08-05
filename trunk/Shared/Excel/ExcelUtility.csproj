@@ -80,14 +80,6 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "VBIDE"
-                    Guid = "{0002E157-0000-0000-C000-000000000046}"
-                    VersionMajor = "5"
-                    VersionMinor = "3"
-                    Lcid = "0"
-                    WrapperTool = "tlbimp"
-                />
-                <Reference
                     Name = "Microsoft.Office.Core"
                     Guid = "{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}"
                     VersionMajor = "2"
@@ -96,17 +88,19 @@
                     WrapperTool = "primary"
                 />
                 <Reference
-                    Name = "Excel"
-                    Guid = "{00020813-0000-0000-C000-000000000046}"
-                    VersionMajor = "1"
-                    VersionMinor = "4"
-                    Lcid = "0"
-                    WrapperTool = "tlbimp"
-                />
-                <Reference
                     Name = "CSGeneral"
                     Project = "{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "Interop.VBIDE"
+                    AssemblyName = "Interop.VBIDE"
+                    HintPath = "..\..\Bin\Interop.VBIDE.dll"
+                />
+                <Reference
+                    Name = "Interop.Excel"
+                    AssemblyName = "Interop.Excel"
+                    HintPath = "..\..\Bin\Interop.Excel.dll"
                 />
             </References>
         </Build>
