@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------------
 #ifndef xmlH
 #define xmlH
-//#include <string>
-//#include <general\TreeNodeIterator.h>
-//#include <general\stl_functions.h>
+#include <string>
+#include <general\TreeNodeIterator.h>
+#include <general\stl_functions.h>
 
 class XMLNode;
 struct _xmlNode;
