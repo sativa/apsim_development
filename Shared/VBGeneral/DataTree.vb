@@ -19,6 +19,7 @@ Public Class DataTree
     Public Event DoubleClickEvent As DoubleClickHandler
     Private MaxNumLevels As Integer = 100
     Private ShowAllComponents As Boolean = False
+    Private ExpandAllNodes As Boolean = True
 
 
 #Region " Windows Form Designer generated code "
@@ -122,6 +123,16 @@ Public Class DataTree
     End Property
 
 
+    ' ------------------------------------------------------
+    ' Set the showall property
+    ' ------------------------------------------------------
+    WriteOnly Property ExpandAll() As Boolean
+        Set(ByVal Value As Boolean)
+            ExpandAllNodes = Value
+        End Set
+    End Property
+
+
     ' ----------------------------------------------
     ' Override the base fill method and populate
     ' ourselves.
@@ -133,7 +144,9 @@ Public Class DataTree
             AddNode(Data, Nothing)
             Dim RootNode As TreeNode = TreeView.Nodes(0)
             PopulateTree(Data, RootNode)
-            TreeView.CollapseAll()
+            If ExpandAllNodes Then
+                TreeView.ExpandAll()
+            End If
             RootNode.Expand()
         End If
     End Sub
@@ -143,7 +156,7 @@ Public Class DataTree
     ' Get an APSIM data for the specified full path
     ' which is delimited by '|' characters.
     ' -----------------------------------------------
-    Private Function GetDataForFullPath(ByVal FullPath As String) As APSIMData
+    Public Function GetDataForFullPath(ByVal FullPath As String) As APSIMData
         Dim PosDelimiter As Integer = FullPath.IndexOf("|")
         If PosDelimiter = -1 Then
             If FullPath = Data.Name Then
@@ -262,6 +275,25 @@ Public Class DataTree
     End Property
 
 
+    ' ---------------------------------
+    ' Select a node in the data tree.
+    ' ---------------------------------
+    Public ReadOnly Property Nodes() As TreeNodeCollection
+        Get
+            Return TreeView.Nodes
+        End Get
+    End Property
+
+
+    ' ---------------------------------
+    ' Select a node in the data tree.
+    ' ---------------------------------
+    Public Sub SelectNode(ByVal Node As TreeNode)
+        TreeView.SelectedNode = Node
+        TreeView_AfterSelect(Nothing, New System.Windows.Forms.TreeViewEventArgs(Node, TreeViewAction.ByKeyboard))
+    End Sub
+
+
     ' -----------------------------------------
     ' User is just about to select a new node.
     ' throw an event if necessary.
@@ -269,7 +301,7 @@ Public Class DataTree
     Private Sub TreeView_BeforeSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewCancelEventArgs) Handles TreeView.BeforeSelect
         RaiseEvent BeforeDataSelectedEvent()
         Dim DestinationNodeType As String = GetDataForFullPath(e.Node.FullPath).Type
-        If DestinationNodeType = "folder" Then
+        If DestinationNodeType = "folder" Or DestinationNodeType = "soils" Then
             AddFolderMenuItem.Enabled = True
         Else
             AddFolderMenuItem.Enabled = False
@@ -410,10 +442,10 @@ Public Class DataTree
     End Sub
 
     Private Sub AddFolderMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddFolderMenuItem.Click
-        Dim NewData As New APSIMData("<folder/>")
         Dim SelectedNodeData As APSIMData = GetDataForFullPath(TreeView.SelectedNode.FullPath)
         'SelectedNodeData.Add(NewData)
 
+        Dim NewData As APSIMData = New APSIMData("Folder", "New folder")
         Dim fullpath As String = TreeView.SelectedNode.FullPath
         GetDataForFullPath(fullpath).Add(NewData)
         Dim NewNode As TreeNode = AddNode(NewData, TreeView.SelectedNode)
@@ -429,28 +461,20 @@ Public Class DataTree
         TreeView.SelectedNode.Remove()
     End Sub
 
-    'Private Sub TreeView_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeView.MouseDown
-    '    Dim pt As Point
-    '    Dim DestinationNode As TreeNode
-    '    pt = New Point(e.X, e.Y)
-    '    DestinationNode = CType(sender, TreeView).GetNodeAt(pt)
-    '    If Not IsNothing(DestinationNode) Then
-    '        If e.Button = MouseButtons.Right Then
-    '            TreeView.SelectedNode = DestinationNode
-    '        Else
-    '            RaiseEvent BeforeDataSelectedEvent()
-    '        End If
-    '        Dim DestinationNodeType As String = GetDataForFullPath(DestinationNode.FullPath).Type
-    '        If DestinationNodeType = "folder" Then
-    '            AddFolderMenuItem.Enabled = True
-    '        Else
-    '            AddFolderMenuItem.Enabled = False
-    '        End If
-    '        'RaiseEvent DataSelectedEvent(Me, GetDataForFullPath(DestinationNode.FullPath))
-    '    End If
-    'End Sub
+    Private Sub TreeView_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeView.MouseDown
+        Dim pt As Point
+        Dim DestinationNode As TreeNode
+        pt = New Point(e.X, e.Y)
+        DestinationNode = CType(sender, TreeView).GetNodeAt(pt)
+        If Not IsNothing(DestinationNode) Then
+            If e.Button = MouseButtons.Right Then
+                TreeView.SelectedNode = DestinationNode
+            End If
+        End If
+    End Sub
 
     Private Sub TreeView_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles TreeView.DoubleClick
         RaiseEvent DoubleClickEvent()
     End Sub
+
 End Class

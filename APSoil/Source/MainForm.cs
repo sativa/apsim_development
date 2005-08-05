@@ -55,11 +55,14 @@ namespace APSoil
 		private System.Windows.Forms.SaveFileDialog ParExportDialog;
 		private System.Windows.Forms.MenuItem menuItem3;
 		private System.Windows.Forms.MenuItem CheckForErrors;
-		private System.Windows.Forms.OpenFileDialog openFileDialog1;
 		private System.Windows.Forms.MenuItem Export;
 		private System.Windows.Forms.MenuItem ExportPar;
 		private System.Windows.Forms.SaveFileDialog SimExportDialog;
 		private System.ComponentModel.IContainer components;
+		private System.Windows.Forms.MenuItem ImportSoilsFile;
+		private System.Windows.Forms.MenuItem ImportSoilsMenu;
+		private System.Windows.Forms.OpenFileDialog ImportSoilsDialog;
+		private System.Windows.Forms.OpenFileDialog openFileDialog2;
 		private string CommandLineFileName;
 
 		// ------------------
@@ -118,8 +121,11 @@ namespace APSoil
 			this.ImportParMenu = new System.Windows.Forms.MenuItem();
 			this.menuItem2 = new System.Windows.Forms.MenuItem();
 			this.Export = new System.Windows.Forms.MenuItem();
+			this.ExportPar = new System.Windows.Forms.MenuItem();
 			this.menuItem6 = new System.Windows.Forms.MenuItem();
 			this.FileExit = new System.Windows.Forms.MenuItem();
+			this.menuItem3 = new System.Windows.Forms.MenuItem();
+			this.CheckForErrors = new System.Windows.Forms.MenuItem();
 			this.SmallImages = new System.Windows.Forms.ImageList(this.components);
 			this.ButtonImageList = new System.Windows.Forms.ImageList(this.components);
 			this.MainPanel = new System.Windows.Forms.Panel();
@@ -140,11 +146,11 @@ namespace APSoil
 			this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.ImportParDialog = new System.Windows.Forms.OpenFileDialog();
 			this.ParExportDialog = new System.Windows.Forms.SaveFileDialog();
-			this.menuItem3 = new System.Windows.Forms.MenuItem();
-			this.CheckForErrors = new System.Windows.Forms.MenuItem();
-			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-			this.ExportPar = new System.Windows.Forms.MenuItem();
+			this.ImportSoilsDialog = new System.Windows.Forms.OpenFileDialog();
 			this.SimExportDialog = new System.Windows.Forms.SaveFileDialog();
+			this.ImportSoilsFile = new System.Windows.Forms.MenuItem();
+			this.ImportSoilsMenu = new System.Windows.Forms.MenuItem();
+			this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
 			this.SuspendLayout();
 			// 
 			// mainMenu1
@@ -204,7 +210,8 @@ namespace APSoil
 			this.ImportMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																						   this.menuItem4,
 																						   this.ImportW2N2Menu,
-																						   this.ImportParMenu});
+																						   this.ImportParMenu,
+																						   this.ImportSoilsMenu});
 			this.ImportMenuItem.Text = "&Import";
 			// 
 			// menuItem4
@@ -237,6 +244,12 @@ namespace APSoil
 																				   this.ExportPar});
 			this.Export.Text = "&Export selected soil";
 			// 
+			// ExportPar
+			// 
+			this.ExportPar.Index = 0;
+			this.ExportPar.Text = "To &Par file...";
+			this.ExportPar.Click += new System.EventHandler(this.ExportToPar_Click);
+			// 
 			// menuItem6
 			// 
 			this.menuItem6.Index = 8;
@@ -247,6 +260,19 @@ namespace APSoil
 			this.FileExit.Index = 9;
 			this.FileExit.Text = "E&xit";
 			this.FileExit.Click += new System.EventHandler(this.FileExit_Click);
+			// 
+			// menuItem3
+			// 
+			this.menuItem3.Index = 1;
+			this.menuItem3.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																					  this.CheckForErrors});
+			this.menuItem3.Text = "&Tools";
+			// 
+			// CheckForErrors
+			// 
+			this.CheckForErrors.Index = 0;
+			this.CheckForErrors.Text = "&Check all soils for errors";
+			this.CheckForErrors.Click += new System.EventHandler(this.CheckForErrors_Click);
 			// 
 			// SmallImages
 			// 
@@ -321,7 +347,8 @@ namespace APSoil
 			this.ImportMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					   this.ImportFromSpreadsheet,
 																					   this.ImportW2N2Files,
-																					   this.ImportParFiles});
+																					   this.ImportParFiles,
+																					   this.ImportSoilsFile});
 			// 
 			// ImportFromSpreadsheet
 			// 
@@ -389,30 +416,29 @@ namespace APSoil
 			this.ParExportDialog.Filter = "Par files (*.par)|*.par|All files (*.*)|*.*";
 			this.ParExportDialog.Title = "Enter output file name for soil";
 			// 
-			// menuItem3
+			// ImportSoilsDialog
 			// 
-			this.menuItem3.Index = 1;
-			this.menuItem3.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					  this.CheckForErrors});
-			this.menuItem3.Text = "&Tools";
-			// 
-			// CheckForErrors
-			// 
-			this.CheckForErrors.Index = 0;
-			this.CheckForErrors.Text = "&Check all soils for errors";
-			this.CheckForErrors.Click += new System.EventHandler(this.CheckForErrors_Click);
-			// 
-			// ExportPar
-			// 
-			this.ExportPar.Index = 0;
-			this.ExportPar.Text = "To &Par file...";
-			this.ExportPar.Click += new System.EventHandler(this.ExportToPar_Click);
+			this.ImportSoilsDialog.DefaultExt = "soils";
+			this.ImportSoilsDialog.Filter = "Soils files (*.soils)|*.soils|All files (*.*)|*.*";
+			this.ImportSoilsDialog.Multiselect = true;
+			this.ImportSoilsDialog.Title = "Select one or more .soils files to import";
 			// 
 			// SimExportDialog
 			// 
 			this.SimExportDialog.DefaultExt = "sim";
 			this.SimExportDialog.Filter = "Sim files (*.sim)|*.sim|All files (*.*)|*.*";
 			this.SimExportDialog.Title = "Enter output file name for soil";
+			// 
+			// ImportSoilsFile
+			// 
+			this.ImportSoilsFile.Index = 3;
+			this.ImportSoilsFile.Text = "From &another soils file";
+			this.ImportSoilsFile.Click += new System.EventHandler(this.ImportSoilsFile_Click);
+			// 
+			// ImportSoilsMenu
+			// 
+			this.ImportSoilsMenu.Index = 3;
+			this.ImportSoilsMenu.Text = "From &another soils file";
 			// 
 			// MainForm
 			// 
@@ -473,6 +499,7 @@ namespace APSoil
 			SoilExplorer.Dock = DockStyle.Fill;
 			SoilExplorer.Parent = MainPanel;
 			SoilExplorer.Visible = true;
+			SoilExplorer.ExpandAll = false;
 			SoilExplorer.Setup(this, "Soils files (*.soils)|*.soils|" + 
 								 	 "All files (*.*)|*.*", 
 									 ".soils", "apsoil");
@@ -646,6 +673,32 @@ namespace APSoil
 			}
 
 
+		// ----------------------------------------
+		// User has clicked on import .soils files.
+		// ----------------------------------------
+		private void ImportSoilsFile_Click(object sender, System.EventArgs e)
+			{
+			try
+				{
+				if (ImportSoilsDialog.ShowDialog() == DialogResult.OK)
+					{
+					foreach (string File in ImportSoilsDialog.FileNames)
+						{
+						APSIMData NewData = new APSIMData();
+						NewData.LoadFromFile(File);
+						APSIMChangeTool.Upgrade(NewData);
+						SoilExplorer.Data.Add(NewData);
+						}
+					}
+				}
+			catch (Exception err)
+				{
+				MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			SoilExplorer.Refresh();
+			}
+
+
 		// -----------------------------------------------
 		// User has clicked on export selected file to par
 		// -----------------------------------------------
@@ -680,6 +733,7 @@ namespace APSoil
 		// ---------------------------------------------
 		private void CheckForErrors_Click(object sender, System.EventArgs e)
 			{
+			Cursor.Current = Cursors.WaitCursor;
 			string ErrorMessage = "";
 			CheckAllSoils(SoilExplorer.Data, ref ErrorMessage);
 			if (ErrorMessage == "")
@@ -692,6 +746,7 @@ namespace APSoil
 				ErrorForm.SetText(ErrorMessage);
 				ErrorForm.Show();
 				}
+			Cursor.Current = Cursors.Default;
 			}
 
 
@@ -702,7 +757,7 @@ namespace APSoil
 			{
 			foreach (APSIMData Child in Data.get_Children(null))
 				{
-				if (Child.Type.ToLower() == "folder")
+				if (Child.Type.ToLower() == "folder" || Child.Type.ToLower() == "soils")
 					CheckAllSoils(Child, ref ErrorMessage);
 				else if (Child.Type.ToLower() == "soil")
 					{
@@ -713,6 +768,7 @@ namespace APSoil
 					}
 				}
 			}
+
 
 
 

@@ -49,15 +49,11 @@ Public Class ExplorerUI
     'Do not modify it using the code editor.
     Friend WithEvents Splitter1 As System.Windows.Forms.Splitter
     Friend WithEvents UIPanel As System.Windows.Forms.Panel
-    Friend WithEvents AddFolderMenuItem As System.Windows.Forms.MenuItem
-    Friend WithEvents ExplorerContextMenu As System.Windows.Forms.ContextMenu
     Friend WithEvents DataTree As VBGeneral.DataTree
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.DataTree = New VBGeneral.DataTree
         Me.Splitter1 = New System.Windows.Forms.Splitter
         Me.UIPanel = New System.Windows.Forms.Panel
-        Me.ExplorerContextMenu = New System.Windows.Forms.ContextMenu
-        Me.AddFolderMenuItem = New System.Windows.Forms.MenuItem
         Me.SuspendLayout()
         '
         'DataTree
@@ -69,7 +65,7 @@ Public Class ExplorerUI
         Me.DataTree.LabelEdit = True
         Me.DataTree.Location = New System.Drawing.Point(0, 20)
         Me.DataTree.Name = "DataTree"
-        Me.DataTree.Size = New System.Drawing.Size(256, 709)
+        Me.DataTree.Size = New System.Drawing.Size(256, 733)
         Me.DataTree.Sorted = False
         Me.DataTree.TabIndex = 3
         '
@@ -77,7 +73,7 @@ Public Class ExplorerUI
         '
         Me.Splitter1.Location = New System.Drawing.Point(256, 20)
         Me.Splitter1.Name = "Splitter1"
-        Me.Splitter1.Size = New System.Drawing.Size(5, 709)
+        Me.Splitter1.Size = New System.Drawing.Size(5, 733)
         Me.Splitter1.TabIndex = 4
         Me.Splitter1.TabStop = False
         '
@@ -86,22 +82,13 @@ Public Class ExplorerUI
         Me.UIPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UIPanel.Location = New System.Drawing.Point(261, 20)
         Me.UIPanel.Name = "UIPanel"
-        Me.UIPanel.Size = New System.Drawing.Size(556, 709)
+        Me.UIPanel.Size = New System.Drawing.Size(492, 733)
         Me.UIPanel.TabIndex = 5
-        '
-        'ExplorerContextMenu
-        '
-        Me.ExplorerContextMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.AddFolderMenuItem})
-        '
-        'AddFolderMenuItem
-        '
-        Me.AddFolderMenuItem.Index = 0
-        Me.AddFolderMenuItem.Text = "Add folder"
         '
         'ExplorerUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(817, 764)
+        Me.ClientSize = New System.Drawing.Size(753, 788)
         Me.Controls.Add(Me.UIPanel)
         Me.Controls.Add(Me.Splitter1)
         Me.Controls.Add(Me.DataTree)
@@ -193,6 +180,17 @@ Public Class ExplorerUI
             Return MyApplicationSettings
         End Get
     End Property
+
+
+    ' ------------------------------------------------------
+    ' Set the expandAll property
+    ' ------------------------------------------------------
+    WriteOnly Property ExpandAll() As Boolean
+        Set(ByVal Value As Boolean)
+            DataTree.ExpandAll = Value
+        End Set
+    End Property
+
 
 
     ' -------------------------------------------
@@ -472,4 +470,44 @@ Public Class ExplorerUI
     End Function
 
 
+    ' ---------------------------------
+    ' Select a node in the data tree.
+    ' ---------------------------------
+    Public Sub SelectNode(ByVal ParentNode As TreeNode, ByVal NodeNameToSelect As String)
+        For Each Node As TreeNode In ParentNode.Nodes
+            If Node.Text.ToLower() = NodeNameToSelect Then
+                DataTree.SelectNode(Node)
+                Return
+            ElseIf Node.GetNodeCount(False) > 0 Then
+                SelectNode(Node, NodeNameToSelect)
+            End If
+        Next
+    End Sub
+
+
+    ' ---------------------------------
+    ' Select a node in the data tree.
+    ' ---------------------------------
+    Public Sub SelectFirstNodeOfType(ByVal NodeType As String)
+        FindFirstNodeWithUI(DataTree.Nodes(0), NodeType)
+    End Sub
+
+
+    ' ---------------------------------
+    ' Select a node in the data tree.
+    ' ---------------------------------
+    Public Sub FindFirstNodeWithUI(ByVal ParentNode As TreeNode, ByVal NodeType As String)
+        For Each Node As TreeNode In ParentNode.Nodes
+            Dim Data As APSIMData = DataTree.GetDataForFullPath(Node.FullPath)
+            If IsNothing(CurrentUI) And Data.Type.ToLower() = NodeType.ToLower() Then
+                DataTree.SelectNode(Node)
+            Else
+                For Each Child As TreeNode In DataTree.Nodes
+                    If CurrentUI Is Nothing Then
+                        FindFirstNodeWithUI(Child, NodeType)
+                    End If
+                Next
+            End If
+        Next
+    End Sub
 End Class

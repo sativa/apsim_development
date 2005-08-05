@@ -199,7 +199,23 @@ namespace CSGeneral
 				}// END OF FOR LOOP
 				return 0.0;
 			}
-		
+
+
+		// ---------------------------------------------
+		// Reverse the contents of the specified array.
+		// ---------------------------------------------
+		static public double[] Reverse(double[] Values)
+			{
+			double[] ReturnValues = new double[Values.Length];
+
+            int Index = 0;
+			for (int Layer = Values.Length-1; Layer >= 0; Layer--)
+				{
+				ReturnValues[Index] = Values[Layer];
+				Index++;
+				}
+			return ReturnValues;
+			}
 		
 		//-------------------------------------------------------------------------
 		}
