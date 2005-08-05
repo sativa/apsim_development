@@ -119,6 +119,7 @@ namespace APSoil
 			this.menuItem4 = new System.Windows.Forms.MenuItem();
 			this.ImportW2N2Menu = new System.Windows.Forms.MenuItem();
 			this.ImportParMenu = new System.Windows.Forms.MenuItem();
+			this.ImportSoilsMenu = new System.Windows.Forms.MenuItem();
 			this.menuItem2 = new System.Windows.Forms.MenuItem();
 			this.Export = new System.Windows.Forms.MenuItem();
 			this.ExportPar = new System.Windows.Forms.MenuItem();
@@ -138,6 +139,7 @@ namespace APSoil
 			this.ImportFromSpreadsheet = new System.Windows.Forms.MenuItem();
 			this.ImportW2N2Files = new System.Windows.Forms.MenuItem();
 			this.ImportParFiles = new System.Windows.Forms.MenuItem();
+			this.ImportSoilsFile = new System.Windows.Forms.MenuItem();
 			this.Separator1 = new System.Windows.Forms.ToolBarButton();
 			this.CutButton = new System.Windows.Forms.ToolBarButton();
 			this.CopyButton = new System.Windows.Forms.ToolBarButton();
@@ -148,8 +150,6 @@ namespace APSoil
 			this.ParExportDialog = new System.Windows.Forms.SaveFileDialog();
 			this.ImportSoilsDialog = new System.Windows.Forms.OpenFileDialog();
 			this.SimExportDialog = new System.Windows.Forms.SaveFileDialog();
-			this.ImportSoilsFile = new System.Windows.Forms.MenuItem();
-			this.ImportSoilsMenu = new System.Windows.Forms.MenuItem();
 			this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
 			this.SuspendLayout();
 			// 
@@ -231,6 +231,11 @@ namespace APSoil
 			this.ImportParMenu.Index = 2;
 			this.ImportParMenu.Text = "From Par files...";
 			this.ImportParMenu.Click += new System.EventHandler(this.ImportParFiles_Click);
+			// 
+			// ImportSoilsMenu
+			// 
+			this.ImportSoilsMenu.Index = 3;
+			this.ImportSoilsMenu.Text = "From &another soils file";
 			// 
 			// menuItem2
 			// 
@@ -368,6 +373,12 @@ namespace APSoil
 			this.ImportParFiles.Text = "From &Par files";
 			this.ImportParFiles.Click += new System.EventHandler(this.ImportParFiles_Click);
 			// 
+			// ImportSoilsFile
+			// 
+			this.ImportSoilsFile.Index = 3;
+			this.ImportSoilsFile.Text = "From &another soils file";
+			this.ImportSoilsFile.Click += new System.EventHandler(this.ImportSoilsFile_Click);
+			// 
 			// Separator1
 			// 
 			this.Separator1.Style = System.Windows.Forms.ToolBarButtonStyle.Separator;
@@ -428,17 +439,6 @@ namespace APSoil
 			this.SimExportDialog.DefaultExt = "sim";
 			this.SimExportDialog.Filter = "Sim files (*.sim)|*.sim|All files (*.*)|*.*";
 			this.SimExportDialog.Title = "Enter output file name for soil";
-			// 
-			// ImportSoilsFile
-			// 
-			this.ImportSoilsFile.Index = 3;
-			this.ImportSoilsFile.Text = "From &another soils file";
-			this.ImportSoilsFile.Click += new System.EventHandler(this.ImportSoilsFile_Click);
-			// 
-			// ImportSoilsMenu
-			// 
-			this.ImportSoilsMenu.Index = 3;
-			this.ImportSoilsMenu.Text = "From &another soils file";
 			// 
 			// MainForm
 			// 

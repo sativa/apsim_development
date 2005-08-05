@@ -42,10 +42,11 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		//Imports a file that contains a report template
 		//-------------------------------------------------------------------------
-		public static void ImportReportTemplate(Page pgPageInfo, string szReportType, string szTemplateType, ref bool bErrors)
+		public static void ImportReportTemplate(Page pgPageInfo, string szReportType, 
+			string szTemplateType, string szCropType, ref bool bErrors)
 			{
 			HttpPostedFile hpfImportedFile = CheckForUploadedFiles(pgPageInfo, ref bErrors);
-			UploadImportedReportTemplate(hpfImportedFile, pgPageInfo, szReportType, szTemplateType, ref bErrors);
+			UploadImportedReportTemplate(hpfImportedFile, pgPageInfo, szReportType, szTemplateType, szCropType, ref bErrors);
 			}
 		//-------------------------------------------------------------------------
 		//Checks to make sure that the a file has been selected for upload and
@@ -306,7 +307,7 @@ namespace YieldProphet
 		//if it is then upload the file.
 		//-------------------------------------------------------------------------
 		private static void UploadImportedReportTemplate(HttpPostedFile hpfImportedFile, Page pgPageInfo, 
-			string szReportType, string szTemplateType, ref bool bErrors)
+			string szReportType, string szTemplateType, string szCropType, ref bool bErrors)
 			{
 			try
 				{
@@ -318,7 +319,7 @@ namespace YieldProphet
 					string szTemplateText = strImportedFile.ReadToEnd();
 					szTemplateText = SetUpTemplateTextForSaving(szTemplateText);
 					//Saves the template to the database
-					DataAccessClass.UpdateReportTypes(szTemplateText, szReportType, szTemplateType);		
+					DataAccessClass.UpdateReportTypes(szTemplateText, szReportType, szTemplateType, szCropType);		
 					}
 				else
 					{

@@ -31,6 +31,9 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Label lblConsultant;
 		protected System.Web.UI.WebControls.Label lblAccess;
 		protected System.Web.UI.WebControls.Button btnPassword;
+		protected System.Web.UI.WebControls.Label lblUsersCrops;
+		protected System.Web.UI.WebControls.Label lblUsersCropsTwo;
+		protected System.Web.UI.WebControls.ListBox lstUsersCrops;
 		protected System.Web.UI.WebControls.Panel pnlTop;
 
 
@@ -74,9 +77,11 @@ namespace YieldProphet
 			try
 				{
 				FillAccessTypeCombo();
+				FillCropsListBox();
 				DataTable dtUserDetails = DataAccessClass.GetDetailsOfUser(Session["SelectedUserName"].ToString());
 				edtName.Text = dtUserDetails.Rows[0]["Name"].ToString();
 				edtEmail.Text = dtUserDetails.Rows[0]["Email"].ToString();
+				SelectUsersCrops();
 				string szAccessType = DataAccessClass.GetAccessTypeOfUser(FunctionsClass.GetActiveUserName());
 				if(szAccessType != "")
 					cboAccessType.SelectedValue = szAccessType;
@@ -139,6 +144,24 @@ namespace YieldProphet
 				}
 			}
 		//---------------------------------------------------------------------------
+		//Fills the crops list box with all the crops from the database
+		//---------------------------------------------------------------------------
+		private void FillCropsListBox()
+		{
+			try
+			{
+				DataTable dtCrops = DataAccessClass.GetAllCrops();
+				lstUsersCrops.DataSource = dtCrops;
+				lstUsersCrops.DataTextField = "Type";
+				lstUsersCrops.DataValueField = "Type";
+				lstUsersCrops.DataBind();
+			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+		}
+		//---------------------------------------------------------------------------
 		//Makes the consultant list box and label visible to the user
 		//---------------------------------------------------------------------------
 		private void DisplayConsultantListBox()
@@ -168,7 +191,7 @@ namespace YieldProphet
 					{
 					DataAccessClass.UpdateUser(InputValidationClass.ValidateString(edtName.Text), 
 						InputValidationClass.ValidateString(edtEmail.Text), "", FunctionsClass.GetActiveUserName(),
-						cboAccessType.SelectedValue, ReturnConsultantCollection());
+						cboAccessType.SelectedValue, ReturnConsultantCollection(), ReturnUsersCropCollection());
 					Server.Transfer("wfManageUsers.aspx");
 					}
 				catch(Exception E)
@@ -203,6 +226,21 @@ namespace YieldProphet
 				}
 			return scConsultants;
 			}
+		//---------------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------------
+		private StringCollection ReturnUsersCropCollection()
+		{
+			StringCollection scUsersCrops = new StringCollection();
+			foreach(ListItem lsiUsersCrop in lstUsersCrops.Items)
+			{
+				if(lsiUsersCrop.Selected == true)
+				{
+					scUsersCrops.Add(lsiUsersCrop.Value);
+				}
+			}
+			return scUsersCrops;
+		}
 		//-------------------------------------------------------------------------
 		//
 		//-------------------------------------------------------------------------
@@ -220,6 +258,23 @@ namespace YieldProphet
 					}	
 				}
 			}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void SelectUsersCrops()
+		{
+			DataTable dtUsersCrops = DataAccessClass.GetUsersCrops(FunctionsClass.GetActiveUserName());
+			foreach(DataRow drUsersCrop in dtUsersCrops.Rows)
+			{
+				foreach(ListItem lsiUsersCrop in lstUsersCrops.Items)
+				{
+					if(lsiUsersCrop.Value == drUsersCrop["Type"].ToString())
+					{
+						lsiUsersCrop.Selected = true;
+					}
+				}	
+			}
+		}
 		//-------------------------------------------------------------------------
 		#endregion
 
@@ -277,8 +332,8 @@ namespace YieldProphet
 		//---------------------------------------------------------------------------
 		private void cboAccessType_SelectedIndexChanged(object sender, System.EventArgs e)
 			{
-			if(cboAccessType.SelectedItem.Text == FunctionsClass.szGrower ||
-				cboAccessType.SelectedItem.Text == FunctionsClass.szVisitor)
+			if(cboAccessType.SelectedValue == FunctionsClass.szGrower ||
+				cboAccessType.SelectedValue == FunctionsClass.szVisitor)
 				{
 				DisplayConsultantListBox();
 				}

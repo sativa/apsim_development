@@ -158,7 +158,7 @@ namespace YieldProphet
 		private void FillForm()
 			{
 			DisplayGrowersName();
-			FillReportTypesCombo();
+			
 			edtPaddockName.Text = Session["SelectedPaddockName"].ToString();
 			try
 				{
@@ -181,10 +181,13 @@ namespace YieldProphet
 					cboCrops.SelectedValue = dtPaddockDetails.Rows[0]["CropType"].ToString();
 					//Fills the cultivar combo box
 					FillCultivarsCombo();
+					//Fills the Report type combo
+					FillReportTypesCombo();
 					//Sets up and fills the nitrogen application grid
 					FillNitrogenApplicationGrid();
 					//Restores the selected crop to the crop returned from the database	
 					cboCrops.SelectedValue = dtPaddockDetails.Rows[0]["CropType"].ToString();
+					
 					//Sets the selected cultivar to the cultivar returned from the database
 					cboCultivars.SelectedValue = dtPaddockDetails.Rows[0]["CultivarType"].ToString();
 					}
@@ -194,6 +197,7 @@ namespace YieldProphet
 					ChangeEnableCropDetails(false);
 					FillNitrogenApplicationGrid();
 					FillCropsCombo();
+					FillReportTypesCombo();
 					FillCultivarsCombo();
 					SetSowDate(szSowDate);
 					}
@@ -260,10 +264,14 @@ namespace YieldProphet
 			{
 			try
 				{
-				DataTable dtReport = DataAccessClass.GetAllReportTypes("ApsimReport");
-				cboReport.DataSource = dtReport;
-				cboReport.DataTextField = "Type";
-				cboReport.DataBind();
+				if(cboCrops.SelectedValue != "")
+					{
+					DataTable dtReport = DataAccessClass.GetAllReportTypes("ApsimReport", cboCrops.SelectedValue);
+					cboReport.DataSource = dtReport;
+					cboReport.DataTextField = "Type";
+					cboReport.DataValueField = "Type";
+					cboReport.DataBind();
+					}
 				}
 			catch(Exception E)
 				{
@@ -277,7 +285,7 @@ namespace YieldProphet
 			{
 			try
 				{
-				DataTable dtCropList = DataAccessClass.GetAllCrops();
+				DataTable dtCropList = DataAccessClass.GetUsersCrops(FunctionsClass.GetActiveUserName());
 				cboCrops.DataSource = dtCropList;
 				cboCrops.DataTextField = "Type";
 				cboCrops.DataValueField = "Type";
@@ -296,9 +304,9 @@ namespace YieldProphet
 			{
 			try
 				{
-				if(cboCrops.SelectedItem.Text != "")
+				if(cboCrops.SelectedValue != "")
 					{
-					DataTable dtCultivarList = DataAccessClass.GetAllCultivarsOfCrop(cboCrops.SelectedItem.Text);
+					DataTable dtCultivarList = DataAccessClass.GetAllCultivarsOfCrop(cboCrops.SelectedValue);
 					cboCultivars.DataSource = dtCultivarList;
 					cboCultivars.DataTextField = "Type";
 					cboCultivars.DataValueField = "Type";
@@ -374,8 +382,8 @@ namespace YieldProphet
 						if(chkSown.Checked == true)
 							{
 							//If a cultivar is selected, update the paddock
-							if( cboCultivars.SelectedItem.Text != "" && 
-								cboCultivars.SelectedItem.Text != "None" && 
+							if( cboCultivars.SelectedValue != "" && 
+								cboCultivars.SelectedValue != "None" && 
 								grdSowDate.GetRow(0).Cells["SowDate"].Text != "")
 								{
 								DataAccessClass.UpdatePaddock((DateTime.ParseExact(grdSowDate.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
@@ -661,6 +669,7 @@ namespace YieldProphet
 		private void cboCrops_SelectedIndexChanged(object sender, System.EventArgs e)
 			{
 			FillCultivarsCombo();
+			FillReportTypesCombo();
 			}
 		//-------------------------------------------------------------------------
 		//On the update of the grid cell, it runs a check to make sure that the 

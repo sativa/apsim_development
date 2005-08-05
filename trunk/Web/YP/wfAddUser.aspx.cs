@@ -35,6 +35,9 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Label lblAccess;
 		protected System.Web.UI.WebControls.ListBox lstConsultants;
 		protected System.Web.UI.WebControls.Label lblConsultantTwo;
+		protected System.Web.UI.WebControls.ListBox lstUsersCrops;
+		protected System.Web.UI.WebControls.Label lblUsersCropsTwo;
+		protected System.Web.UI.WebControls.Label lblUsersCrops;
 		protected System.Web.UI.WebControls.Label lblConsultant;
 		
 
@@ -103,6 +106,24 @@ namespace YieldProphet
 				}
 			}
 		//---------------------------------------------------------------------------
+		//Fills the crops list box with all the crops from the database
+		//---------------------------------------------------------------------------
+		private void FillCropsListBox()
+		{
+			try
+			{
+				DataTable dtCrops = DataAccessClass.GetAllCrops();
+				lstUsersCrops.DataSource = dtCrops;
+				lstUsersCrops.DataTextField = "Type";
+				lstUsersCrops.DataValueField = "Type";
+				lstUsersCrops.DataBind();
+			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+		}
+		//---------------------------------------------------------------------------
 		//Makes the consultant list box and label visible to the user
 		//---------------------------------------------------------------------------
 		private void DisplayConsultantListBox()
@@ -149,7 +170,8 @@ namespace YieldProphet
 									InputValidationClass.ValidateString(edtEmail.Text), 
 									InputValidationClass.ValidateString(edtUserName.Text),
 									InputValidationClass.ValidateString(edtPassword.Text), 
-									cboAccessType.SelectedItem.Text, ReturnConsultantCollection());
+									cboAccessType.SelectedItem.Text, ReturnConsultantCollection(), 
+									ReturnUsersCropCollection());
 								}
 							else
 								throw new Exception("Please select an access type");	
@@ -193,6 +215,21 @@ namespace YieldProphet
 			return scConsultants;
 			}
 		//---------------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------------
+		private StringCollection ReturnUsersCropCollection()
+		{
+			StringCollection scUsersCrops = new StringCollection();
+			foreach(ListItem lsiUsersCrop in lstUsersCrops.Items)
+			{
+				if(lsiUsersCrop.Selected == true)
+				{
+					scUsersCrops.Add(lsiUsersCrop.Value);
+				}
+			}
+			return scUsersCrops;
+		}
+		//---------------------------------------------------------------------------
 		#endregion
 
 
@@ -210,6 +247,7 @@ namespace YieldProphet
 				FunctionsClass.CheckForConsultantLevelPriviledges();
 				FunctionsClass.SetControlFocus("edtName", this);
 				FillAccessTypeCombo();
+				FillCropsListBox();
 				if(FunctionsClass.IsConsultant(Session["UserName"].ToString()) == true)
 					{
 					if(cboAccessType.Items.Count > 0)

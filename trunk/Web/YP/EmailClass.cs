@@ -96,7 +96,7 @@ namespace YieldProphet
 		//Sends a report email that doesn't uses data from the database
 		//(IE: Climate report)
 		//-------------------------------------------------------------------------
-		public static bool SendReportEmail(string szReportName,	 
+		public static bool SendReportEmail(string szReportName,	string szCropType, 
 			string szReportType, bool bEmailConParFiles, DataTable dtOtherValues)
 			{
 			bool bReportSent = false;
@@ -109,7 +109,8 @@ namespace YieldProphet
 			string szBody = PrepareReportEmailBody(szReportName);
 			StringCollection scAttachments = new StringCollection();
 
-			scAttachments = ReportClass.PrepareReportFiles(szReportType, szReportName, dtOtherValues);
+			scAttachments = ReportClass.PrepareReportFiles(szReportType, szCropType, 
+				szReportName, dtOtherValues);
 
 			//Makes sure that all the files have been generated for the report
 			int iNumberOfFilesNeededForReport = 5;

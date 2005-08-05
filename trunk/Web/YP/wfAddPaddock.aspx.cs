@@ -140,7 +140,7 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void FillCropsCombo()
 			{
-			DataTable dtCropList = DataAccessClass.GetAllCrops();
+			DataTable dtCropList = DataAccessClass.GetUsersCrops(FunctionsClass.GetActiveUserName());
 			cboCrops.DataSource = dtCropList;
 			cboCrops.DataTextField = "Type";
 			cboCrops.DataBind();

@@ -81,13 +81,22 @@ namespace YieldProphet
 					{
 					if(InputValidationClass.IsInputAValidFileLocationString(edtReportName.Text) == true)
 						{
-						if(EmailClass.SendReportEmail(edtReportName.Text, 
-							ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], null) == true)
+						DataTable dtPaddockDetails = 
+							DataAccessClass.GetDetailsOfPaddock(Session["SelectedPaddockName"].ToString(), 
+							FunctionsClass.GetActiveUserName());
+						if(dtPaddockDetails.Rows.Count > 0)
 							{
-							Server.Transfer("wfReportGenerated.aspx");
+							string szCropType = dtPaddockDetails.Rows[0]["CropType"].ToString();
+							if(EmailClass.SendReportEmail(edtReportName.Text, szCropType, 
+								ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], null) == true)
+							{
+								Server.Transfer("wfReportGenerated.aspx");
+							}
+							else
+								throw new Exception("Error requesting report");
 							}
 						else
-							throw new Exception("Error requesting report");
+							throw new Exception("Can not access crop type");
 						}
 					else
 						throw new Exception("Report Description contains invalid characters. Please remove any of the following characters \\\\ / : * \" ? \\' # < > |");

@@ -20,10 +20,10 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.ImageButton btnCancelImg;
 		protected System.Web.UI.WebControls.LinkButton btnSave;
 		protected System.Web.UI.WebControls.LinkButton btnCancel;
-		protected System.Web.UI.WebControls.DropDownList cboTemplateTypes;
-		protected System.Web.UI.WebControls.Label lblTemplateTypes;
 		protected System.Web.UI.WebControls.Label lblReportType;
 		protected System.Web.UI.WebControls.TextBox edtReportType;
+		protected System.Web.UI.WebControls.DropDownList cboCropTypes;
+		protected System.Web.UI.WebControls.Label lblCropType;
 		protected System.Web.UI.WebControls.Panel pnlTop;
 
 
@@ -55,17 +55,24 @@ namespace YieldProphet
 
 
 		#region Form Functions
-		//-------------------------------------------------------------------------
-		//Fills the template types combo box with all the report template types
-		//from the database
-		//-------------------------------------------------------------------------
-		private void FillTemplateTypesCombo()
+		//---------------------------------------------------------------------------
+		//Fills the crops combo box with all the crops from the database
+		//---------------------------------------------------------------------------
+		private void FillCropsTypesCombo()
+		{
+			try
 			{
-			DataTable dtReportTemplateTypes = DataAccessClass.GetAllReportTemplateTypes();
-			cboTemplateTypes.DataSource = dtReportTemplateTypes;
-			cboTemplateTypes.DataTextField = "Type";
-			cboTemplateTypes.DataBind();
+				DataTable dtCrops = DataAccessClass.GetAllCrops();
+				cboCropTypes.DataSource = dtCrops;
+				cboCropTypes.DataTextField = "Type";
+				cboCropTypes.DataValueField = "Type";
+				cboCropTypes.DataBind();
 			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+		}
 		//-------------------------------------------------------------------------
 		//Saves a new report type, but firstly a check is run to ensure that
 		//a report type has been entered by the user, if this check is passed
@@ -75,10 +82,14 @@ namespace YieldProphet
 			{
 			try
 				{
-				if(cboTemplateTypes.SelectedItem.Text != "" && edtReportType.Text != "")
+				if(cboCropTypes.SelectedValue != "" && edtReportType.Text != "")
 					{
-					DataAccessClass.InsertReportType("", InputValidationClass.ValidateString(edtReportType.Text), 
-						cboTemplateTypes.SelectedItem.Text);
+					DataTable dtReportTemplateTypes = DataAccessClass.GetAllReportTemplateTypes();
+					foreach (DataRow drReportTemplateType in dtReportTemplateTypes.Rows)
+					{
+						DataAccessClass.InsertReportType("", InputValidationClass.ValidateString(edtReportType.Text), 
+							drReportTemplateType["Type"].ToString(), cboCropTypes.SelectedValue);
+					}
 					Server.Transfer("wfEditReportTemplate.aspx");
 					}
 				else
@@ -105,7 +116,7 @@ namespace YieldProphet
 				{	
 				FunctionsClass.CheckSession();
 				FunctionsClass.CheckForAdministratorLevelPriviledges();
-				FillTemplateTypesCombo();
+				FillCropsTypesCombo();
 				FunctionsClass.SetControlFocus("edtReportType", this);
 				}
 			}

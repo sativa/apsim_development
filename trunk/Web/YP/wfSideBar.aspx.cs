@@ -192,10 +192,10 @@ namespace YieldProphet
 			{
 			//If a paddock is selected, set it in as a Session variable and transfer
 			//the user to the edit paddock page
-			if(cboPaddocks.SelectedItem.Text != "" && cboPaddocks.SelectedItem.Text != null)
+			if(cboPaddocks.SelectedValue != "" && cboPaddocks.SelectedValue != null)
 				{
 				Session["SelectedUserName"] = "";
-				Session["SelectedPaddockName"] = cboPaddocks.SelectedItem.Text;
+				Session["SelectedPaddockName"] = cboPaddocks.SelectedValue;
 				Server.Transfer("wfEditPaddock.aspx");
 				}
 			//If no paddock is selected, display an error to the user
