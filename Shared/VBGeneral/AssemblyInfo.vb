@@ -32,5 +32,5 @@ Imports System.Security
 ' by using the '*' as shown below:
 
 <Assembly: AssemblyVersion("1.0.*")> 
-<Assembly: AssemblyKeyFile("keypair.snk")> 
+<Assembly: AssemblyKeyFile("\development\shared\vbgeneral\keypair.snk")> 
 <Assembly:AllowPartiallyTrustedCallersAttribute()>
