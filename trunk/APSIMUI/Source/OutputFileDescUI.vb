@@ -51,10 +51,10 @@ Public Class OutputFileDescUI
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
         Me.DataTree = New VBGeneral.DataTree
         Me.RightHandPanel = New System.Windows.Forms.Panel
+        Me.VariablesListView = New APSIMUI.ReportVariablesListView
         Me.Splitter2 = New System.Windows.Forms.Splitter
         Me.EventsListView = New APSIMUI.EventsListView
         Me.Splitter1 = New System.Windows.Forms.Splitter
-        Me.VariablesListView = New APSIMUI.ReportVariablesListView
         Me.RightHandPanel.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -68,11 +68,13 @@ Public Class OutputFileDescUI
         'DataTree
         '
         Me.DataTree.AllowDrop = True
+        Me.DataTree.ApplicationSettings = Nothing
+        Me.DataTree.Data = Nothing
         Me.DataTree.Dock = System.Windows.Forms.DockStyle.Left
         Me.DataTree.LabelEdit = False
-        Me.DataTree.Location = New System.Drawing.Point(0, 23)
+        Me.DataTree.Location = New System.Drawing.Point(0, 17)
         Me.DataTree.Name = "DataTree"
-        Me.DataTree.Size = New System.Drawing.Size(256, 595)
+        Me.DataTree.Size = New System.Drawing.Size(213, 725)
         Me.DataTree.Sorted = False
         Me.DataTree.TabIndex = 8
         '
@@ -82,49 +84,54 @@ Public Class OutputFileDescUI
         Me.RightHandPanel.Controls.Add(Me.Splitter2)
         Me.RightHandPanel.Controls.Add(Me.EventsListView)
         Me.RightHandPanel.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RightHandPanel.Location = New System.Drawing.Point(256, 23)
+        Me.RightHandPanel.Location = New System.Drawing.Point(213, 17)
         Me.RightHandPanel.Name = "RightHandPanel"
-        Me.RightHandPanel.Size = New System.Drawing.Size(797, 595)
+        Me.RightHandPanel.Size = New System.Drawing.Size(540, 725)
         Me.RightHandPanel.TabIndex = 11
+        '
+        'VariablesListView
+        '
+        Me.VariablesListView.ApplicationSettings = Nothing
+        Me.VariablesListView.Data = Nothing
+        Me.VariablesListView.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.VariablesListView.DockPadding.Left = 5
+        Me.VariablesListView.Location = New System.Drawing.Point(0, 0)
+        Me.VariablesListView.Name = "VariablesListView"
+        Me.VariablesListView.Size = New System.Drawing.Size(540, 604)
+        Me.VariablesListView.TabIndex = 14
         '
         'Splitter2
         '
         Me.Splitter2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Splitter2.Location = New System.Drawing.Point(0, 456)
+        Me.Splitter2.Location = New System.Drawing.Point(0, 604)
         Me.Splitter2.Name = "Splitter2"
-        Me.Splitter2.Size = New System.Drawing.Size(797, 3)
+        Me.Splitter2.Size = New System.Drawing.Size(540, 3)
         Me.Splitter2.TabIndex = 13
         Me.Splitter2.TabStop = False
         '
         'EventsListView
         '
         Me.EventsListView.AllowDrop = True
+        Me.EventsListView.ApplicationSettings = Nothing
+        Me.EventsListView.Data = Nothing
         Me.EventsListView.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.EventsListView.Location = New System.Drawing.Point(0, 459)
+        Me.EventsListView.Location = New System.Drawing.Point(0, 607)
         Me.EventsListView.Name = "EventsListView"
-        Me.EventsListView.Size = New System.Drawing.Size(797, 136)
+        Me.EventsListView.Size = New System.Drawing.Size(540, 118)
         Me.EventsListView.TabIndex = 12
         '
         'Splitter1
         '
-        Me.Splitter1.Location = New System.Drawing.Point(256, 23)
+        Me.Splitter1.Location = New System.Drawing.Point(213, 17)
         Me.Splitter1.Name = "Splitter1"
-        Me.Splitter1.Size = New System.Drawing.Size(3, 595)
+        Me.Splitter1.Size = New System.Drawing.Size(3, 725)
         Me.Splitter1.TabIndex = 12
         Me.Splitter1.TabStop = False
         '
-        'VariablesListView
-        '
-        Me.VariablesListView.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.VariablesListView.Location = New System.Drawing.Point(0, 0)
-        Me.VariablesListView.Name = "VariablesListView"
-        Me.VariablesListView.Size = New System.Drawing.Size(797, 456)
-        Me.VariablesListView.TabIndex = 14
-        '
         'OutputFileDescUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
-        Me.ClientSize = New System.Drawing.Size(1053, 658)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
+        Me.ClientSize = New System.Drawing.Size(753, 773)
         Me.Controls.Add(Me.Splitter1)
         Me.Controls.Add(Me.RightHandPanel)
         Me.Controls.Add(Me.DataTree)
@@ -148,11 +155,12 @@ Public Class OutputFileDescUI
         HelpLabel.Text = "Use the variables tab to specify APSIM variables that should be written to the output file. Use the file contents tab to view the contents of the output file."
 
         DataTree.Sorted = True
+        DataTree.ExpandAll = False
         DataTree.CaptionLabel.Text = "Variable and events"
         DataTree.ApplicationSettings = Explorer.ApplicationSettings
         DataTree.ShowAll = True
         DataTree.Data = BuildDataTree()
-
+        
         VariablesListView.Data = Data
         EventsListView.Data = Data
     End Sub

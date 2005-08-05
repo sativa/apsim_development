@@ -96,7 +96,9 @@ namespace CSGeneral
 		// ---------------------------------------
 		protected double[] getLayered(string propertyType, string propertyName)
 			{
-			APSIMData PropertyData = Data.Child(propertyType);
+			APSIMData PropertyData = Data;
+			if (propertyType != "")
+                PropertyData = Data.Child(propertyType);
 			if (PropertyData == null)
 				return new double[0];
 				
@@ -259,6 +261,53 @@ namespace CSGeneral
 					}
 				return MidPoints;
 				}
+			}
+
+
+		// ------------------------------------------------------------
+		// Return an array of thickness (Y) values used in depth plots.
+		// ------------------------------------------------------------
+		static public double[] CalcYForPlotting(double[] Thickness)
+			{
+			double[] ReturnValues = new double[(Thickness.Length-1)*3+2];
+
+			double CumThickness = 0;
+			int Index = 0;
+			for (int Layer = 0; Layer != Thickness.Length; Layer++)
+				{
+				ReturnValues[Index] = CumThickness;
+				CumThickness += Thickness[Layer];
+				ReturnValues[Index+1] = CumThickness;
+				Index += 2;
+				if (Layer != Thickness.Length-1)
+					{
+					ReturnValues[Index] = CumThickness;
+					Index++;
+					}
+				}
+			return ReturnValues;
+			}
+		
+		// ------------------------------------------------------------
+		// Return an array of (X) values used in depth plots.
+		// ------------------------------------------------------------
+		static public double[] CalcXForPlotting(double[] Values)
+			{
+			double[] ReturnValues = new double[(Values.Length-1)*3+2];
+
+			int Index = 0;
+			for (int Layer = 0; Layer != Values.Length; Layer++)
+				{
+				ReturnValues[Index] = Values[Layer];
+				ReturnValues[Index+1] = Values[Layer];
+				Index += 2;
+				if (Layer != Values.Length-1)
+					{
+					ReturnValues[Index] = Values[Layer+1];
+					Index++;
+					}
+				}
+			return ReturnValues;
 			}
 
 

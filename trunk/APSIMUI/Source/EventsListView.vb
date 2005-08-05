@@ -77,13 +77,15 @@ Public Class EventsListView
     Overrides Sub Refresh()
         CaptionLabel.Text = "Events (output frequency)"
         ListView.Items.Clear()
-        Dim EventsNode As APSIMData = Data.Child("events")
-        For Each child As String In EventsNode.ChildList("event")
-            Dim item As New ListViewItem
-            item.Text = EventsNode.Child(child).Attribute("name")
-            item.SubItems.Add(EventsNode.Child(child).Attribute("description"))
-            ListView.Items.Add(item)
-        Next
+        If Not IsNothing(Data) Then
+            Dim EventsNode As APSIMData = Data.Child("events")
+            For Each child As String In EventsNode.ChildList("event")
+                Dim item As New ListViewItem
+                item.Text = EventsNode.Child(child).Attribute("name")
+                item.SubItems.Add(EventsNode.Child(child).Attribute("description"))
+                ListView.Items.Add(item)
+            Next
+        End If
     End Sub
 
     Private Sub ListView_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles ListView.DragEnter
