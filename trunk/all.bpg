@@ -9,7 +9,7 @@ MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
 DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
-PROJECTS = GrossMarginCalculator.dll SEGReport.dll Soil.dll APSGeneral.bpl \
+PROJECTS = GrossMarginCalculator.dll SEGReport.dll APSGeneral.bpl \
   apsdata.bpl data.dll chart.dll ApsimReport.exe ApsimContextMenu.dll \
   ApsimOutlook.exe dbaddin.dll FilterAddIn.dll RotationAddIn.dll soiaddin.dll \
   WhopEconAddin.dll OutlookManager.exe apsoil.exe icons.dll Misc.dll \
@@ -160,10 +160,6 @@ VenLink.dll: apsim\VenLink\Source\VenLink.bpr
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 GrossMarginCalculator.dll: Shared\GrossMarginCalculator\GrossMarginCalculator.bpr
-  $(ROOT)\bin\bpr2mak $**
-  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
-
-Soil.dll: Shared\Soil\Soil.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
