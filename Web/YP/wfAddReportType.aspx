@@ -14,10 +14,6 @@
 				runat="server" Width="304px" tabIndex="2" Height="24px"></asp:TextBox>
 			<asp:Label id="lblReportType" style="Z-INDEX: 106; LEFT: 24px; POSITION: absolute; TOP: 144px"
 				runat="server">Report type:</asp:Label>
-			<asp:Label id="lblTemplateTypes" style="Z-INDEX: 107; LEFT: 24px; POSITION: absolute; TOP: 80px"
-				runat="server">Template type:</asp:Label>
-			<asp:DropDownList id="cboTemplateTypes" style="Z-INDEX: 108; LEFT: 24px; POSITION: absolute; TOP: 104px"
-				runat="server" Width="304px" AutoPostBack="True" tabIndex="1" Height="24px"></asp:DropDownList>
 			<asp:Panel id="pnlTop" style="Z-INDEX: 109; LEFT: 0px; POSITION: absolute; TOP: 0px" runat="server"
 				Width="100%" Height="48px" BackColor="PaleGoldenrod" HorizontalAlign="Left">
 				<DIV style="WIDTH: 184px; POSITION: relative; HEIGHT: 41px" ms_positioning="GridLayout">
@@ -30,6 +26,10 @@
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 105; LEFT: 8px; POSITION: absolute; TOP: 16px" tabIndex="3"
 						runat="server" ImageUrl="Images\save.gif"></asp:ImageButton></DIV>
 			</asp:Panel>
+			<asp:DropDownList id="cboCropTypes" style="Z-INDEX: 110; LEFT: 24px; POSITION: absolute; TOP: 104px"
+				tabIndex="2" runat="server" Height="24px" Width="304px" AutoPostBack="True"></asp:DropDownList>
+			<asp:Label id="lblCropType" style="Z-INDEX: 110; LEFT: 24px; POSITION: absolute; TOP: 80px"
+				runat="server" Width="104px">Crop Type:</asp:Label>
 		</form>
 	</body>
 </HTML>

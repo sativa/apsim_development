@@ -156,7 +156,8 @@ namespace YieldProphet
 		//Saves a new user to the database
 		//---------------------------------------------------------------------
 		static public void InsertUser(string szName, string szEmail, string szUserName,
-			string szPassword, string szAccessType, StringCollection scConsultants)
+			string szPassword, string szAccessType, StringCollection scConsultants, 
+			StringCollection scUsersCrops)
 			{
 			string szSalt = FunctionsClass.CreateSalt();
 			int iAccessTypeID = ReturnAccessTypeID(szAccessType);
@@ -177,12 +178,24 @@ namespace YieldProphet
 						}
 					}
 				}
+			//Save the list of crops mapped to the user
+			if(scUsersCrops != null)
+				{
+				if(scUsersCrops.Count > 0)
+					{
+					for(int iIndex = 0; iIndex < scUsersCrops.Count; iIndex++)
+						{
+						InsertUserIntoUsersCrops(scUsersCrops[iIndex], szUserName);	
+						}
+					}
+				}
 			}
 		//---------------------------------------------------------------------
 		//updates an existing user in the database
 		//---------------------------------------------------------------------
 		static public void UpdateUser(string szName, string szEmail,
-			string szPassword, string szUserName, string szAccessType, StringCollection scConsultants)
+			string szPassword, string szUserName, string szAccessType, 
+			StringCollection scConsultants, StringCollection scUsersCrops)
 			{
 			System.Text.StringBuilder sbSQL = new System.Text.StringBuilder();
 			sbSQL.Append("UPDATE Users SET ");
@@ -208,7 +221,7 @@ namespace YieldProphet
 			sbSQL.Append("UserName = '"+szUserName+"' ");
 			sbSQL.Append("WHERE UserName = '"+szUserName+"'");
 			RunSQLStatement(sbSQL.ToString());
-
+			//Save the list of consultants mapped to the user
 			if(scConsultants != null)
 				{
 				if(scConsultants.Count > 0)
@@ -220,6 +233,18 @@ namespace YieldProphet
 						}
 					}
 				}
+			//Save the list of crops mapped to the user
+			if(scUsersCrops != null)
+				{
+				if(scUsersCrops.Count > 0)
+					{
+					RemoveUserFromUsersCrops(szUserName);
+					for(int iIndex = 0; iIndex < scUsersCrops.Count; iIndex++)
+						{
+						InsertUserIntoUsersCrops(scUsersCrops[iIndex], szUserName);	
+						}
+					}
+				}
 			}
 		//---------------------------------------------------------------------
 		//Takes a UserName and deletes that user from the database
@@ -228,16 +253,18 @@ namespace YieldProphet
 			{
 			int iUserID = ReturnUserIDFromUserName(szUserName);
 
-			string szSQL = "DELETE FROM Users "+
-				"WHERE UserName = '"+szUserName+"'";
-			RunSQLStatement(szSQL);
-			
-			szSQL = "DELETE FROM ConsultantUserMap "+
+			string szSQL = "DELETE FROM ConsultantUserMap "+
 				"WHERE UserID = "+iUserID.ToString()+" "+
 				"OR ConsultantID = "+iUserID.ToString();
 			RunSQLStatement(szSQL);
 
+			RemoveUserFromUsersCrops(szUserName);
 			DeleteUsersPaddocks(szUserName);
+
+			szSQL = "DELETE FROM Users "+
+				"WHERE UserName = '"+szUserName+"'";
+			RunSQLStatement(szSQL);
+
 			}
 		//---------------------------------------------------------------------
 		//Returns all consultants from the database
@@ -315,6 +342,20 @@ namespace YieldProphet
 			return dtResults;
 			}
 		//---------------------------------------------------------------------
+		//Gets all the crops linked to the user
+		//---------------------------------------------------------------------
+		static public DataTable GetUsersCrops(string szUserName)
+			{
+			DataTable dtResults;
+			string szSQL = "SELECT CropTypes.Type "+
+				"FROM Users INNER JOIN (CropTypes INNER JOIN UsersCrops ON CropTypes.ID = UsersCrops.CropTypeID) "+
+				"ON Users.ID = UsersCrops.UserID "+
+				"WHERE Users.UserName = '"+szUserName+"'";
+
+			dtResults = ReturnMultipleValuesFromDB(szSQL);
+			return dtResults;
+			}
+		//---------------------------------------------------------------------
 		//Checks to see if the selected user name is in use or not
 		//Returns true if the username is available
 		//---------------------------------------------------------------------
@@ -364,6 +405,29 @@ namespace YieldProphet
 		{
 			int iUserID = ReturnUserIDFromUserName(szUserName);
 			string szSQL = "DELETE FROM ConsultantUserMap "+
+				"WHERE UserID = "+iUserID.ToString();
+			RunSQLStatement(szSQL);
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static private void InsertUserIntoUsersCrops(string szCropType, string szUserName)
+		{
+			int iUserID = ReturnUserIDFromUserName(szUserName);
+			int iCropTypeID = DataAccessClass.ReturnCropTypeID(szCropType);
+
+			string szSQL = "INSERT INTO UsersCrops "+
+				"(CropTypeID, UserID) VALUES "+
+				"("+iCropTypeID.ToString()+", "+iUserID.ToString()+")";
+			RunSQLStatement(szSQL);
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static private void RemoveUserFromUsersCrops(string szUserName)
+		{
+			int iUserID = ReturnUserIDFromUserName(szUserName);
+			string szSQL = "DELETE FROM UsersCrops "+
 				"WHERE UserID = "+iUserID.ToString();
 			RunSQLStatement(szSQL);
 		}
@@ -1399,13 +1463,15 @@ namespace YieldProphet
 		//Takes a ReportTemplateTypeID and returns all the report types associated
 		//with that template type
 		//---------------------------------------------------------------------
-		static public DataTable GetAllReportTypes(string szTemplateType)
+		static public DataTable GetAllReportTypes(string szTemplateType, string szCropType)
 			{
 			DataTable dtResults;
-			string szSQL = "SELECT ReportTypes.Type FROM ReportTypes "+
-				"INNER JOIN ReportTemplateTypes "+
-				"ON ReportTypes.ReportTemplateTypeID = ReportTemplateTypes.ID "+
-				"WHERE ReportTemplateTypes.Type = '"+szTemplateType+"'";
+			string szSQL = "SELECT ReportTypes.Type FROM (ReportTypes "+
+				"INNER JOIN CropTypes ON CropTypes.ID = ReportTypes.CropTypeID) "+
+				"INNER JOIN ReportTemplateTypes ON "+
+				"ReportTypes.ReportTemplateTypeID = ReportTemplateTypes.ID "+
+				"WHERE ReportTemplateTypes.Type = '"+szTemplateType+"' "+
+				"AND CropTypes.Type = '"+szCropType+"'";
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
 			}
@@ -1422,55 +1488,71 @@ namespace YieldProphet
 		//---------------------------------------------------------------------
 		//Takes a ReportTypeID and returns the template of that report type
 		//---------------------------------------------------------------------
-		static public string GetReportTypeTemplate(string szReportType, string szTemplateType)
+		static public string GetReportTypeTemplate(string szReportType, 
+			string szTemplateType, string szCropType)
 			{
 			string szReportTypeTemplate = "";
-			try
+
+			string szSQL = "SELECT ReportTypes.Template FROM (ReportTypes "+
+				"INNER JOIN CropTypes ON CropTypes.ID = ReportTypes.CropTypeID) "+
+				"INNER JOIN ReportTemplateTypes ON "+
+				"ReportTypes.ReportTemplateTypeID = ReportTemplateTypes.ID "+
+				"WHERE ReportTemplateTypes.Type = '"+szTemplateType+"' "+
+				"AND ReportTypes.Type = '"+szReportType+"' "+
+				"AND CropTypes.Type = '"+szCropType+"'";
+
+			szReportTypeTemplate = ReturnSingleValueFromDB("Template", szSQL).ToString();
+			if(szReportTypeTemplate == "System.Object")
 				{
-				string szSQL = "SELECT ReportTypes.Template FROM ReportTypes "+
-					"INNER JOIN ReportTemplateTypes "+
-					"ON ReportTypes.ReportTemplateTypeID = ReportTemplateTypes.ID "+
-					"WHERE ReportTemplateTypes.Type = '"+szTemplateType+"'"+
-					"AND ReportTypes.Type = '"+szReportType+"'";
-				szReportTypeTemplate = ReturnSingleValueFromDB("Template", szSQL).ToString();
+				szReportTypeTemplate = "";
 				}
-			catch(Exception)
-				{}
+
 			return szReportTypeTemplate;
 			}
 		//---------------------------------------------------------------------
 		//Takes a ReportType ID and the template for that report type and updates
 		//the name template of the selected report type
 		//---------------------------------------------------------------------
-		static public void UpdateReportTypes(string szTemplate, string szReportType, string szTemplateType)
+		static public void UpdateReportTypes(string szTemplate, string szReportType, 
+			string szTemplateType, string szCropType)
 			{
 			int iReportTemplateTypeID = ReturnTemplateTypeID(szTemplateType);
+			int iCropTypeID = ReturnCropTypeID(szCropType);
 			string szSQL = "UPDATE ReportTypes "+
 				"SET Template = '"+szTemplate+"' "+
 				"WHERE ReportTemplateTypeID = "+iReportTemplateTypeID.ToString()+" "+
-				"AND Type = '"+szReportType+"'";
+				"AND Type = '"+szReportType+"' "+
+				"AND CropTypeID = "+iCropTypeID.ToString();
 			RunSQLStatement(szSQL);
 			}
 		//---------------------------------------------------------------------
 		//Takes a ReportTypeID and deletes the ReportType from the database
 		//---------------------------------------------------------------------
-		static public void DeleteReportType(string szReportType, string szTemplateType)
+		static public void DeleteReportType(string szReportType, string szTemplateType, 
+			string szCropType)
 			{
 			int iReportTemplateTypeID = ReturnTemplateTypeID(szTemplateType);
+			int iCropTypeID = ReturnCropTypeID(szCropType);
+
 			string szSQL = "DELETE FROM ReportTypes "+
 				"WHERE ReportTemplateTypeID = "+iReportTemplateTypeID.ToString()+" "+
-				"AND Type = '"+szReportType+"'";
+				"AND Type = '"+szReportType+"' "+
+				"AND CropTypeID = "+iCropTypeID.ToString();
 			RunSQLStatement(szSQL);
 			}
 		//---------------------------------------------------------------------
 		//Saves a new Report Type into the database
 		//---------------------------------------------------------------------
-		static public void InsertReportType(string szTemplate, string szReportType, string szTemplateType)
+		static public void InsertReportType(string szTemplate, string szReportType, 
+			string szTemplateType, string szCropType)
 			{
 			int iReportTemplateTypeID = ReturnTemplateTypeID(szTemplateType);
+			int iCropTypeID = ReturnCropTypeID(szCropType);
+
 			string szSQL = "INSERT INTO ReportTypes "+
-				"(Type, ReportTemplateTypeID, Template) VALUES "+
-				"('"+szReportType+"', "+iReportTemplateTypeID.ToString()+", '"+szTemplate+"')";
+				"(Type, ReportTemplateTypeID, CropTypeID, Template) VALUES "+
+				"('"+szReportType+"', "+iReportTemplateTypeID.ToString()+", "+
+				iCropTypeID.ToString()+", '"+szTemplate+"')";
 			RunSQLStatement(szSQL);
 
 			}
@@ -1744,5 +1826,5 @@ namespace YieldProphet
 			#endregion
 		
 
-		}//END OF CLASS
+	}//END OF CLASS
 	}//END OF NAMESPACE

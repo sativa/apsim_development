@@ -72,7 +72,7 @@ namespace YieldProphet
 					try
 						{
 						DataAccessClass.UpdateUser("", "", InputValidationClass.ValidateString(edtPasswordOne.Text),
-							FunctionsClass.GetActiveUserName(), "", null);
+							FunctionsClass.GetActiveUserName(), "", null, null);
 						if(Session["SelectedUserName"].ToString() == FunctionsClass.GetActiveUserName())
 							{
 							Server.Transfer("wfEditUser.aspx");

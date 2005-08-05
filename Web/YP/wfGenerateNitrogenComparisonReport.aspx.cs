@@ -146,18 +146,27 @@ namespace YieldProphet
 					//Check that the name of the report won't cause a problem when it is stored in the file system
 					if(InputValidationClass.IsInputAValidFileLocationString(edtReportName.Text) == true)
 						{
-						//Generate a data table that stores the values particular to the nitrogen report
-						DataTable dtOtherValues = 
-							ReportClass.CreateNitrogenComparisonOtherValues(ReturnScenarioDataTable(grdScenarioOne), 
-							ReturnScenarioDataTable(grdScenarioTwo), ReturnScenarioDataTable(grdScenarioThree));
-						//Generate the files needed to generate a report and then email these files to the ApsimRun machine
-						if(EmailClass.SendReportEmail(edtReportName.Text, 
-							ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], dtOtherValues) == true)
+						DataTable dtPaddockDetails = 
+							DataAccessClass.GetDetailsOfPaddock(Session["SelectedPaddockName"].ToString(), 
+							FunctionsClass.GetActiveUserName());
+						if(dtPaddockDetails.Rows.Count > 0)
 							{
-							Server.Transfer("wfReportGenerated.aspx");
+							string szCropType = dtPaddockDetails.Rows[0]["CropType"].ToString();
+							//Generate a data table that stores the values particular to the nitrogen report
+							DataTable dtOtherValues = 
+								ReportClass.CreateNitrogenComparisonOtherValues(ReturnScenarioDataTable(grdScenarioOne), 
+								ReturnScenarioDataTable(grdScenarioTwo), ReturnScenarioDataTable(grdScenarioThree));
+							//Generate the files needed to generate a report and then email these files to the ApsimRun machine
+							if(EmailClass.SendReportEmail(edtReportName.Text, szCropType, 
+								ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], dtOtherValues) == true)
+								{
+								Server.Transfer("wfReportGenerated.aspx");
+								}
+							else
+								throw new Exception("Error requesting report");
 							}
 						else
-							throw new Exception("Error requesting report");
+							throw new Exception("Can not access crop type");
 						}
 					else
 						throw new Exception("Report Description contains invalid characters. Please remove any of the following characters \\\\ / : * \" ? \\' # < > |");

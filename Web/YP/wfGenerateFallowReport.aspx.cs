@@ -188,7 +188,7 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void FillCropsCombo()
 		{
-			DataTable dtCropList = DataAccessClass.GetAllCrops();
+			DataTable dtCropList = DataAccessClass.GetUsersCrops(FunctionsClass.GetActiveUserName());
 			cboCrops.DataSource = dtCropList;
 			cboCrops.DataTextField = "Type";
 			cboCrops.DataValueField = "Type";
@@ -200,9 +200,9 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void FillCultivarsCombo()
 			{
-			if(cboCrops.SelectedItem.Text != "")
+			if(cboCrops.SelectedValue != "")
 				{
-				DataTable dtCultivarList = DataAccessClass.GetAllCultivarsOfCrop(cboCrops.SelectedItem.Text);
+				DataTable dtCultivarList = DataAccessClass.GetAllCultivarsOfCrop(cboCrops.SelectedValue);
 				cboVariety.DataSource = dtCultivarList;
 				cboVariety.DataTextField = "Type";
 				cboVariety.DataValueField = "Type";
@@ -224,16 +224,17 @@ namespace YieldProphet
 					if(InputValidationClass.IsInputAValidFileLocationString(edtReportName.Text) == true)
 						{
 						//Check that a valid crop is selected
-						if(cboCrops.SelectedItem.Text != "None")
+						if(cboCrops.SelectedValue != "None" && cboVariety.SelectedValue != "" &&
+							cboVariety.SelectedValue != "None")
 							{
 							if(grdSowDate.GetRow(0).Cells["SowDate"].Text != "")
 								{
 								//Generate a data table that stores the values particular to the Sow X Variety report
 								DataTable dtOtherValues = 
 									ReportClass.CreateFallowReportOtherValues(ReturnScenarioDataTable(grdNitrogen), 
-									cboVariety.SelectedItem.Text, (DateTime.ParseExact(grdSowDate.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"));
+									cboVariety.SelectedValue, (DateTime.ParseExact(grdSowDate.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"));
 								//Generate the files needed to generate a report and then email these files to the ApsimRun machine
-								if(EmailClass.SendReportEmail(edtReportName.Text, 
+								if(EmailClass.SendReportEmail(edtReportName.Text, cboCrops.SelectedValue,  
 									ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], dtOtherValues) == true)
 									{
 									Server.Transfer("wfReportGenerated.aspx");
@@ -242,10 +243,10 @@ namespace YieldProphet
 									throw new Exception("Error requesting report");
 								}
 							else
-								throw new Exception("Plese ensure all sowing date fields contain a date");
+								throw new Exception("Please ensure all sowing date fields contain a date");
 							}
 						else
-							throw new Exception("Plese select a crop type");
+							throw new Exception("Please select a crop type and a variety type");
 						}
 					else
 						throw new Exception("Report Description contains invalid characters. Please remove any of the following characters \\\\ / : * \" ? \\' # < > |");

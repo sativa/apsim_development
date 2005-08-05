@@ -203,7 +203,7 @@ namespace YieldProphet
 		//files needed for a agronomic report to be generated
 		//-------------------------------------------------------------------------
 		public static StringCollection PrepareReportFiles(string szReportType, 
-			string szReportName, DataTable dtOtherValues)
+			string szCropType, string szReportName, DataTable dtOtherValues)
 			{
 			StringCollection scAttachments = new StringCollection();
 			string szDirectoryLocation = HttpContext.Current.Server.MapPath("/YP/")+"Temp";
@@ -215,9 +215,9 @@ namespace YieldProphet
 				}
 		
 			CreateReportFile(szDirectoryLocation, szReportType, 
-				"apsimreport", szReportName, dtOtherValues, ref scAttachments);
+				"apsimreport", szCropType, szReportName, dtOtherValues, ref scAttachments);
 			CreateReportFile(szDirectoryLocation, szReportType, 
-				"con/par", szReportName, dtOtherValues, ref scAttachments);
+				"con/par", szCropType, szReportName, dtOtherValues, ref scAttachments);
 			CreateRainfallInformationFile(szDirectoryLocation, ref scAttachments);
 			CreateSoilFile(szDirectoryLocation, ref scAttachments);
 			return scAttachments;	
@@ -232,11 +232,11 @@ namespace YieldProphet
 		//Creates the .report file for an agronomic report
 		//-----------------------------------------------------------------------
 		public static void CreateReportFile(string szDirectoryLocation, 
-			string szReportType, string szTemplateType, string szReportName, 
-			DataTable dtOtherValues, ref StringCollection scAttachments)
+			string szReportType, string szTemplateType, string szCropType, 
+			string szReportName, DataTable dtOtherValues, ref StringCollection scAttachments)
 			{
 			//Gets the report template from the database
-			string szReportTemplate = DataAccessClass.GetReportTypeTemplate(szReportType, szTemplateType);
+			string szReportTemplate = DataAccessClass.GetReportTypeTemplate(szReportType, szTemplateType, szCropType);
 			//Removes any place holders stored in the report template
 			szReportTemplate = SetUpTemplateTextForSaveToFile(szReportTemplate);
 			//Gets the data for the template, in XML format
@@ -416,6 +416,8 @@ namespace YieldProphet
 			if(dtPaddocksSoilSample.Rows.Count > 0)
 			{
 				string CropType =  dtPaddocksDetails.Rows[0]["CropType"].ToString();
+				if (CropType.ToLower() == "barley")
+					CropType = "wheat";
 
 				SoilSample Sample = new SoilSample(new APSIMData(dtPaddocksSoilSample.Rows[0]["Data"].ToString()));
 				Sample.LinkedSoil = PaddockSoil;
@@ -438,8 +440,8 @@ namespace YieldProphet
 					}
 				}
 			xmlRoot.AppendChild(xmlPaddock);	
-			string szConParXML = xmlDocSoilSample.OuterXml;
-			return szConParXML;
+			string szReportXML = xmlDocSoilSample.OuterXml;
+			return szReportXML;
 			}	
 		//-------------------------------------------------------------------------
 		#endregion

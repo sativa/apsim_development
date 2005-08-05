@@ -17,9 +17,9 @@
 				Width="100%" Height="48px" BackColor="PaleGoldenrod" HorizontalAlign="Left">
 				<DIV style="WIDTH: 184px; POSITION: relative; HEIGHT: 41px" ms_positioning="GridLayout">
 					<asp:LinkButton id="btnCancel" style="Z-INDEX: 101; LEFT: 104px; POSITION: absolute; TOP: 16px"
-						tabIndex="10" runat="server" EnableViewState="False" Font-Size="Smaller">Cancel</asp:LinkButton>
+						tabIndex="10" runat="server" Font-Size="Smaller" EnableViewState="False">Cancel</asp:LinkButton>
 					<asp:LinkButton id="btnSave" style="Z-INDEX: 100; LEFT: 32px; POSITION: absolute; TOP: 16px" tabIndex="8"
-						runat="server" EnableViewState="False" Font-Size="Smaller">Save</asp:LinkButton>
+						runat="server" Font-Size="Smaller" EnableViewState="False">Save</asp:LinkButton>
 					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 103; LEFT: 80px; POSITION: absolute; TOP: 16px"
 						tabIndex="9" runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 104; LEFT: 8px; POSITION: absolute; TOP: 16px" tabIndex="7"
@@ -39,15 +39,21 @@
 				tabIndex="4" runat="server" Width="248px" Height="24px" EnableViewState="False"></asp:TextBox>
 			<asp:Label id="lblPassword" style="Z-INDEX: 107; LEFT: 24px; POSITION: absolute; TOP: 208px"
 				runat="server" ForeColor="Black" Width="64px" Height="16px">Password:</asp:Label>
-			<asp:DropDownList id="cboAccessType" style="Z-INDEX: 110; LEFT: 120px; POSITION: absolute; TOP: 240px"
+			<asp:DropDownList id="cboAccessType" style="Z-INDEX: 110; LEFT: 120px; POSITION: absolute; TOP: 344px"
 				runat="server" Width="249px" AutoPostBack="True" tabIndex="5" Height="24px"></asp:DropDownList>
-			<asp:Label id="lblAccess" style="Z-INDEX: 111; LEFT: 24px; POSITION: absolute; TOP: 240px"
+			<asp:Label id="lblAccess" style="Z-INDEX: 111; LEFT: 24px; POSITION: absolute; TOP: 344px"
 				runat="server" Height="16px" Width="88px">Access Type:</asp:Label>
-			<asp:Label id="lblConsultant" style="Z-INDEX: 112; LEFT: 24px; POSITION: absolute; TOP: 272px"
+			<asp:Label id="lblConsultant" style="Z-INDEX: 112; LEFT: 24px; POSITION: absolute; TOP: 376px"
 				runat="server" Height="16px">Consultant:</asp:Label>
-			<asp:ListBox id="lstConsultants" style="Z-INDEX: 113; LEFT: 120px; POSITION: absolute; TOP: 272px"
+			<asp:ListBox id="lstConsultants" style="Z-INDEX: 113; LEFT: 120px; POSITION: absolute; TOP: 376px"
 				runat="server" Height="168px" Width="248px" SelectionMode="Multiple"></asp:ListBox>
-			<asp:Label id="lblConsultantTwo" style="Z-INDEX: 114; LEFT: 144px; POSITION: absolute; TOP: 440px"
-				runat="server" Height="16px" Width="216px" Font-Size="Smaller">Hold Ctrl to select multiple Consultants</asp:Label></form>
+			<asp:Label id="lblConsultantTwo" style="Z-INDEX: 114; LEFT: 144px; POSITION: absolute; TOP: 544px"
+				runat="server" Height="16px" Width="216px" Font-Size="Smaller">Hold Ctrl to select multiple Consultants</asp:Label>
+			<asp:ListBox id="lstUsersCrops" style="Z-INDEX: 107; LEFT: 120px; POSITION: absolute; TOP: 240px"
+				runat="server" Height="72px" Width="248px" SelectionMode="Multiple"></asp:ListBox>
+			<asp:Label id="lblUsersCropsTwo" style="Z-INDEX: 107; LEFT: 152px; POSITION: absolute; TOP: 312px"
+				runat="server" Height="16px" Width="184px" Font-Size="Smaller">Hold Ctrl to select multiple Crops</asp:Label>
+			<asp:Label id="lblUsersCrops" style="Z-INDEX: 106; LEFT: 24px; POSITION: absolute; TOP: 240px"
+				runat="server" Height="16px">Crops:</asp:Label></form>
 	</body>
 </HTML>
