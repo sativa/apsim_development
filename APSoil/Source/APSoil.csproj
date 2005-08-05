@@ -90,34 +90,6 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "Excel"
-                    Guid = "{00020813-0000-0000-C000-000000000046}"
-                    VersionMajor = "1"
-                    VersionMinor = "4"
-                    Lcid = "0"
-                    WrapperTool = "tlbimp"
-                />
-                <Reference
-                    Name = "CSGeneral"
-                    Project = "{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "ExcelUtility"
-                    Project = "{4E5222B2-546F-40D8-A637-A987605BCCCC}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "Soil"
-                    Project = "{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "VBGeneral"
-                    Project = "{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}"
-                    Package = "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}"
-                />
-                <Reference
                     Name = "Xceed.Grid"
                     AssemblyName = "Xceed.Grid"
                     HintPath = "C:\Program Files\Xceed Components\Xceed Grid for .NET 2.2\Bin\v2.2.201.0\Xceed.Grid.dll"
@@ -136,25 +108,37 @@
                     AssemblyFolderKey = "hklm\xceed smartui for .net v3.1.123.0"
                 />
                 <Reference
-                    Name = "ChangeTool"
-                    Project = "{416A3885-FD38-46D0-BE42-54AA33D146B7}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "VBIDE"
-                    Guid = "{0002E157-0000-0000-C000-000000000046}"
-                    VersionMajor = "5"
-                    VersionMinor = "3"
-                    Lcid = "0"
-                    WrapperTool = "tlbimp"
-                />
-                <Reference
                     Name = "Microsoft.Office.Core"
                     Guid = "{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}"
                     VersionMajor = "2"
                     VersionMinor = "2"
                     Lcid = "0"
                     WrapperTool = "primary"
+                />
+                <Reference
+                    Name = "VBGeneral"
+                    AssemblyName = "VBGeneral"
+                    HintPath = "..\..\Shared\VBGeneral\bin\VBGeneral.dll"
+                />
+                <Reference
+                    Name = "Soil"
+                    AssemblyName = "Soil"
+                    HintPath = "..\..\Shared\Soil\obj\Debug\Soil.dll"
+                />
+                <Reference
+                    Name = "CSGeneral"
+                    AssemblyName = "CSGeneral"
+                    HintPath = "..\..\Shared\C#General\obj\Debug\CSGeneral.dll"
+                />
+                <Reference
+                    Name = "ChangeTool"
+                    AssemblyName = "ChangeTool"
+                    HintPath = "..\..\Shared\ChangeTool\obj\Debug\ChangeTool.dll"
+                />
+                <Reference
+                    Name = "ExcelUtility"
+                    AssemblyName = "ExcelUtility"
+                    HintPath = "..\..\Shared\Excel\obj\Debug\ExcelUtility.dll"
                 />
             </References>
         </Build>
