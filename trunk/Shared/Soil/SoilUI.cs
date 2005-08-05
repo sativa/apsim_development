@@ -554,7 +554,7 @@ namespace CSGeneral
 			this.WaterGrid.TabIndex = 1;
 			this.WaterGrid.ValueMember = "";
 			this.WaterGrid.CurrentCellChanged += new System.EventHandler(this.WaterGrid_CurrentCellChanged);
-			this.WaterGrid.TextChanged += new System.EventHandler(this.WaterGrid_TextChanged);
+			//this.WaterGrid.CellChanged += new System.EventHandler(this.WaterGrid_TextChanged);
 			// 
 			// column3
 			// 
