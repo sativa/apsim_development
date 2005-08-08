@@ -12,7 +12,7 @@ BRCC = $(ROOT)\bin\brcc32.exe $**
 PROJECTS = GrossMarginCalculator.dll SEGReport.dll APSGeneral.bpl \
   apsdata.bpl data.dll chart.dll ApsimReport.exe ApsimContextMenu.dll \
   ApsimOutlook.exe dbaddin.dll FilterAddIn.dll RotationAddIn.dll soiaddin.dll \
-  WhopEconAddin.dll OutlookManager.exe apsoil.exe icons.dll Misc.dll \
+  WhopEconAddin.dll OutlookManager.exe icons.dll Misc.dll \
   SoilWater.dll TemplatePacks.dll apsvis.exe FileGeneratorFromExcel.exe \
   Rainfall.dll viewer.exe ConvertEconomics.exe NCAddIn.dll
 #------------------------------------------------------------------------------
@@ -112,10 +112,6 @@ WhopEconAddin.dll: ApsimOutlook\Source\Outlook\WhopEconAddin\WhopEconAddin.bpr
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 OutlookManager.exe: ApsimOutlook\Source\Manager\OutlookManager.bpr
-  $(ROOT)\bin\bpr2mak $**
-  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
-
-apsoil.exe: APSoil\Source\apsoil.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 

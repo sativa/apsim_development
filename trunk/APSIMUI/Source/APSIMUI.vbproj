@@ -158,31 +158,6 @@
                     AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
                 />
                 <Reference
-                    Name = "VBGeneral"
-                    AssemblyName = "VBGeneral"
-                    HintPath = "..\..\Shared\vbgeneral\bin\VBGeneral.dll"
-                />
-                <Reference
-                    Name = "CSGeneral"
-                    AssemblyName = "CSGeneral"
-                    HintPath = "..\..\Shared\c#general\obj\Debug\CSGeneral.dll"
-                />
-                <Reference
-                    Name = "ChangeTool"
-                    AssemblyName = "ChangeTool"
-                    HintPath = "..\..\Shared\ChangeTool\obj\Debug\ChangeTool.dll"
-                />
-                <Reference
-                    Name = "Soil"
-                    AssemblyName = "Soil"
-                    HintPath = "..\..\Shared\Soil\obj\Debug\Soil.dll"
-                />
-                <Reference
-                    Name = "VBMet"
-                    AssemblyName = "VBMet"
-                    HintPath = "..\..\Shared\vbmet\bin\VBMet.dll"
-                />
-                <Reference
                     Name = "AxInterop.SHDocVw"
                     AssemblyName = "AxInterop.SHDocVw"
                     HintPath = "..\..\Bin\AxInterop.SHDocVw.dll"
@@ -191,6 +166,36 @@
                     Name = "Interop.SHDocVw"
                     AssemblyName = "Interop.SHDocVw"
                     HintPath = "..\..\Bin\Interop.SHDocVw.dll"
+                />
+                <Reference
+                    Name = "VBGeneral"
+                    AssemblyName = "VBGeneral"
+                    HintPath = "..\..\Shared\VBGeneral\bin\VBGeneral.dll"
+                    Private = "True"
+                />
+                <Reference
+                    Name = "Soil"
+                    AssemblyName = "Soil"
+                    HintPath = "..\..\Shared\Soil\obj\Debug\Soil.dll"
+                    Private = "True"
+                />
+                <Reference
+                    Name = "CSGeneral"
+                    AssemblyName = "CSGeneral"
+                    HintPath = "..\..\Shared\C#General\obj\Debug\CSGeneral.dll"
+                    Private = "True"
+                />
+                <Reference
+                    Name = "ChangeTool"
+                    AssemblyName = "ChangeTool"
+                    HintPath = "..\..\Shared\ChangeTool\obj\Debug\ChangeTool.dll"
+                    Private = "True"
+                />
+                <Reference
+                    Name = "VBMet"
+                    AssemblyName = "VBMet"
+                    HintPath = "..\..\Shared\VBMet\bin\VBMet.dll"
+                    Private = "True"
                 />
             </References>
             <Imports>

@@ -199,17 +199,24 @@ namespace SoilPicker
 			SoilExplorer.DataTreeCaption = "Empty soils database";
 
 			// Load up the file from the command line if necessary.
-			if (CommandLineFileName != null)
+			try
 				{
-				SoilExplorer.FileOpen(CommandLineFileName);
-				APSIMChangeTool.Upgrade(SoilExplorer.Data);
-				SoilExplorer.Refresh();
-				SoilExplorer.SelectNode(DefaultSoil);
-				if (SoilExplorer.GetSelectedData() == null)
-					SoilExplorer.SelectFirstNodeOfType("soil");
+				if (CommandLineFileName != null)
+					{
+					SoilExplorer.FileOpen(CommandLineFileName);
+					APSIMChangeTool.Upgrade(SoilExplorer.Data);
+					SoilExplorer.Refresh();
+					SoilExplorer.SelectNode(DefaultSoil);
+					if (SoilExplorer.GetSelectedData() == null)
+						SoilExplorer.SelectFirstNodeOfType("soil");
+					}
+				if (QuitImmediately)
+				OkButton_Click(null, null);
 				}
-			if (QuitImmediately)
-			   OkButton_Click(null, null);
+			catch (Exception err)
+				{
+				MessageBox.Show(err.Message, "Error");
+				}
 			}
 
 

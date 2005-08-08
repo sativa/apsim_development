@@ -119,16 +119,19 @@
                     Name = "VBGeneral"
                     AssemblyName = "VBGeneral"
                     HintPath = "..\..\Shared\VBGeneral\bin\VBGeneral.dll"
+                    Private = "True"
                 />
                 <Reference
                     Name = "CSGeneral"
                     AssemblyName = "CSGeneral"
                     HintPath = "..\..\Shared\C#General\obj\Debug\CSGeneral.dll"
+                    Private = "True"
                 />
                 <Reference
                     Name = "ExcelUtility"
                     AssemblyName = "ExcelUtility"
                     HintPath = "..\..\Shared\Excel\obj\Debug\ExcelUtility.dll"
+                    Private = "True"
                 />
                 <Reference
                     Name = "Interop.VBIDE"
@@ -144,11 +147,13 @@
                     Name = "ChangeTool"
                     AssemblyName = "ChangeTool"
                     HintPath = "..\..\Shared\ChangeTool\obj\Debug\ChangeTool.dll"
+                    Private = "True"
                 />
                 <Reference
                     Name = "Soil"
                     AssemblyName = "Soil"
                     HintPath = "..\..\Shared\Soil\obj\Debug\Soil.dll"
+                    Private = "True"
                 />
             </References>
         </Build>

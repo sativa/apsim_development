@@ -31,6 +31,6 @@ Imports System.Security
 ' You can specify all the values or you can default the Build and Revision Numbers 
 ' by using the '*' as shown below:
 
-<Assembly: AssemblyVersion("1.0.*")> 
-<Assembly: AssemblyKeyFile("\development\shared\vbgeneral\keypair.snk")> 
+<Assembly: AssemblyVersion("2.0")> 
+<Assembly: AssemblyKeyFile("..\..\keypair.snk")> 
 <Assembly:AllowPartiallyTrustedCallersAttribute()>
