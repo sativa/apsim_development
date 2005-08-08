@@ -83,6 +83,7 @@
                     Name = "CSGeneral"
                     Project = "{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                    Private = "True"
                 />
                 <Reference
                     Name = "System.Windows.Forms"
@@ -155,8 +156,9 @@
                 />
                 <Reference
                     Name = "VBGeneral"
-                    Project = "{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}"
-                    Package = "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}"
+                    AssemblyName = "VBGeneral"
+                    HintPath = "..\VBGeneral\bin\VBGeneral.dll"
+                    Private = "True"
                 />
             </References>
         </Build>

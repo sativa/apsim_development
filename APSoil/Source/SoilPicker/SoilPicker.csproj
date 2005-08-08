@@ -36,7 +36,7 @@
                     NoStdLib = "false"
                     NoWarn = ""
                     Optimize = "false"
-                    OutputPath = "bin\Debug\"
+                    OutputPath = "..\..\..\bin\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
                     TreatWarningsAsErrors = "false"
@@ -86,18 +86,20 @@
                 />
                 <Reference
                     Name = "System.XML"
-                    AssemblyName = "System.XML"
+                    AssemblyName = "System.Xml"
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
                     Name = "VBGeneral"
                     AssemblyName = "VBGeneral"
                     HintPath = "..\..\..\Shared\vbgeneral\bin\VBGeneral.dll"
+                    Private = "True"
                 />
                 <Reference
                     Name = "CSGeneral"
                     AssemblyName = "CSGeneral"
                     HintPath = "..\..\..\Shared\c#general\obj\Debug\CSGeneral.dll"
+                    Private = "True"
                 />
                 <Reference
                     Name = "Xceed.Chart"
@@ -121,11 +123,13 @@
                     Name = "Soil"
                     AssemblyName = "Soil"
                     HintPath = "..\..\..\Shared\Soil\obj\Debug\Soil.dll"
+                    Private = "True"
                 />
                 <Reference
                     Name = "ChangeTool"
                     AssemblyName = "ChangeTool"
                     HintPath = "..\..\..\Shared\ChangeTool\obj\Debug\ChangeTool.dll"
+                    Private = "True"
                 />
             </References>
         </Build>
