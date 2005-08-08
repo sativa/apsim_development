@@ -4,6 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Data;
+using System.IO;
 using CSGeneral;
 using VBGeneral;
 using APSoil;
@@ -19,6 +20,8 @@ namespace SoilPicker
 		private ExplorerUI SoilExplorer;
 		private UIManager UserInterfaceManager;
 		private string CommandLineFileName;
+		private string DefaultSoil;
+		private bool QuitImmediately = false;
 
 		private System.Windows.Forms.Panel RightPanel;
 		private System.Windows.Forms.Button OkButton;
@@ -154,8 +157,11 @@ namespace SoilPicker
 			Application.EnableVisualStyles();
 			Application.DoEvents();
 			MainForm Main = new MainForm();
-			if (args.Length == 1)
-				Main.LoadFile(args[0]);
+			if (args.Length == 2)
+				Main.LoadFile(args[0], args[1], false);
+			else if (args.Length == 3)
+				Main.LoadFile(args[0], args[1], true);
+
 			Application.Run(Main);
 			}
 
@@ -164,9 +170,11 @@ namespace SoilPicker
 		// ----------------------------------------------------------------
 		// Load the specified file. Called when a command line arg is used.
 		// ----------------------------------------------------------------
-		public void LoadFile(string FileName)
+		public void LoadFile(string FileName, string SoilName, bool QuitImmediately)
 			{
 			CommandLineFileName = FileName.Replace("\"", "");
+			DefaultSoil = SoilName.Replace("\"", "");
+			this.QuitImmediately = QuitImmediately;
 			}
 
 		
@@ -189,6 +197,19 @@ namespace SoilPicker
 								 	 "All files (*.*)|*.*", 
 									 ".soils", "apsoil");
 			SoilExplorer.DataTreeCaption = "Empty soils database";
+
+			// Load up the file from the command line if necessary.
+			if (CommandLineFileName != null)
+				{
+				SoilExplorer.FileOpen(CommandLineFileName);
+				APSIMChangeTool.Upgrade(SoilExplorer.Data);
+				SoilExplorer.Refresh();
+				SoilExplorer.SelectNode(DefaultSoil);
+				if (SoilExplorer.GetSelectedData() == null)
+					SoilExplorer.SelectFirstNodeOfType("soil");
+				}
+			if (QuitImmediately)
+			   OkButton_Click(null, null);
 			}
 
 
@@ -211,7 +232,65 @@ namespace SoilPicker
 		// ---------------------------------------------------
 		private void OkButton_Click(object sender, System.EventArgs e)
 			{
-		
+			// write soil to a temporary file.
+			Soil SelectedSoil = new Soil(SoilExplorer.GetSelectedData());
+			string OutputFileName = Path.GetTempPath() + "\\temp.par";
+			SelectedSoil.ExportToPar(OutputFileName);
+
+			// Read in contents of our temporary file.
+			StreamReader FileIn = new StreamReader(OutputFileName);
+			string Contents = FileIn.ReadToEnd();
+			FileIn.Close();
+			FileIn = null;
+
+			Contents = Contents.Replace("[soil.", "[run%.");
+			int PosSoilN = Contents.IndexOf("[run%.soiln2.parameters]");
+			if (PosSoilN == -1)
+				MessageBox.Show("Bad soil file format for soil " + SelectedSoil.Name);
+			else
+				{
+				string W2FileName = Path.GetTempPath() + "\\temp.w2";
+				StreamWriter w2 = new StreamWriter(W2FileName);
+				w2.WriteLine("!Title = " + SelectedSoil.Name);
+				w2.WriteLine("[*attributes]");
+				w2.WriteLine("   module_usage  = soil_water");
+				w2.WriteLine("   must_have     = soil_water");
+				w2.WriteLine("[*contents]");
+				w2.WriteLine(Contents.Substring(0, PosSoilN));
+
+				string N2FileName = Path.GetTempPath() + "\\temp.n2";
+				StreamWriter n2 = new StreamWriter(N2FileName);
+				n2.WriteLine("!Title = " + SelectedSoil.Name);
+				n2.WriteLine("[*attributes]");
+				n2.WriteLine("   module_usage  = soil_nitrogen");
+				n2.WriteLine("   must_have     = soil_nitrogen");
+				n2.WriteLine("[*contents]");
+
+				int PosSoilP = Contents.IndexOf("[run%.soilp.parameters]");
+				if (PosSoilP == -1)
+					n2.WriteLine(Contents.Substring(PosSoilN));
+				else
+					{
+					n2.WriteLine(Contents.Substring(PosSoilN, PosSoilP-PosSoilN));
+
+					string P2FileName = Path.GetTempPath() + "\\temp.p2";
+					StreamWriter p2 = new StreamWriter(P2FileName);
+					p2.WriteLine("!Title = " + SelectedSoil.Name);
+					p2.WriteLine("[*attributes]");
+					p2.WriteLine("   module_usage  = soil_phosphorus");
+					p2.WriteLine("   must_have     = soil_phosphorus");
+					p2.WriteLine("[*contents]");
+					p2.WriteLine(Contents.Substring(PosSoilN));
+					p2.Close();
+					p2 = null;
+					}
+
+				w2.Close();
+				w2 = null;
+				n2.Close();
+				n2 = null;
+				Close();
+				}
 			}
 
 

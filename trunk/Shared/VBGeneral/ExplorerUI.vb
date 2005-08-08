@@ -463,7 +463,8 @@ Public Class ExplorerUI
 
 
     ' -----------------------------------
-    ' Return the currently selected soil.
+    ' Return the currently selected soil
+    ' or nothing if not selection.
     ' -----------------------------------
     Public Function GetSelectedData() As APSIMData
         Return DataTree.SelectedNode
@@ -473,9 +474,17 @@ Public Class ExplorerUI
     ' ---------------------------------
     ' Select a node in the data tree.
     ' ---------------------------------
+    Public Sub SelectNode(ByVal NodeNameToSelect As String)
+        SelectNode(DataTree.Nodes(0), NodeNameToSelect)
+    End Sub
+
+
+    ' ---------------------------------
+    ' Select a node in the data tree.
+    ' ---------------------------------
     Public Sub SelectNode(ByVal ParentNode As TreeNode, ByVal NodeNameToSelect As String)
         For Each Node As TreeNode In ParentNode.Nodes
-            If Node.Text.ToLower() = NodeNameToSelect Then
+            If Node.Text.ToLower() = NodeNameToSelect.ToLower() Then
                 DataTree.SelectNode(Node)
                 Return
             ElseIf Node.GetNodeCount(False) > 0 Then
@@ -489,14 +498,14 @@ Public Class ExplorerUI
     ' Select a node in the data tree.
     ' ---------------------------------
     Public Sub SelectFirstNodeOfType(ByVal NodeType As String)
-        FindFirstNodeWithUI(DataTree.Nodes(0), NodeType)
+        FindFirstNodeOfType(DataTree.Nodes(0), NodeType)
     End Sub
 
 
     ' ---------------------------------
     ' Select a node in the data tree.
     ' ---------------------------------
-    Public Sub FindFirstNodeWithUI(ByVal ParentNode As TreeNode, ByVal NodeType As String)
+    Public Sub FindFirstNodeOfType(ByVal ParentNode As TreeNode, ByVal NodeType As String)
         For Each Node As TreeNode In ParentNode.Nodes
             Dim Data As APSIMData = DataTree.GetDataForFullPath(Node.FullPath)
             If IsNothing(CurrentUI) And Data.Type.ToLower() = NodeType.ToLower() Then
@@ -504,7 +513,7 @@ Public Class ExplorerUI
             Else
                 For Each Child As TreeNode In DataTree.Nodes
                     If CurrentUI Is Nothing Then
-                        FindFirstNodeWithUI(Child, NodeType)
+                        FindFirstNodeOfType(Child, NodeType)
                     End If
                 Next
             End If

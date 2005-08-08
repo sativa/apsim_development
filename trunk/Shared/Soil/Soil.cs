@@ -418,6 +418,18 @@ namespace CSGeneral
 				"[endif]\r\n"+
 				"[endfor]\r\n"+//END OF WATER FOR LOOP
 				"\r\n"+
+				"[foreach Soil.SoilCrop as crop]\r\n"+
+				"[soil.[crop.name].parameters]\r\n"+//TITLE
+				"   ll      =[foreach crop.layer as Layer]\r\n      [Layer.ll.3][endfor]\r\n\r\n"+
+				"[if [crop.name] = ozcot]\r\n"+
+				"   Title = XXX\r\n"+
+				"   asoil = 3.0\r\n"+
+				"[else]\r\n"+
+				"   kl      =[foreach crop.layer as Layer]\r\n      [Layer.kl.3][endfor]\r\n\r\n"+
+				"   xf      =[foreach crop.layer as Layer]\r\n      [Layer.xf.3][endfor]\r\n\r\n"+
+				"[endif]\r\n"+
+				"[endfor]\r\n"+//END OF CROP FOR LOOP
+				"\r\n"+
 				"[soil.soiln2.parameters]\r\n"+//TITLE
 				"[foreach Soil.Nitrogen as nitrogen]\r\n"+
 				"   root_cn      = [nitrogen.rootcn]     ! C:N ratio of initial root residues\r\n"+
@@ -434,18 +446,6 @@ namespace CSGeneral
 				"   no3ppm  =$NO3$   ! Nitrate Concentration\r\n"+
 				"   nh4ppm  =$NH4$   ! Ammonium Concentration\r\n"+
 				"[endfor]\r\n"+//END OF NITROGEN FOR LOOP
-				"\r\n"+
-				"[foreach Soil.SoilCrop as crop]\r\n"+
-				"[soil.[crop.name].parameters]\r\n"+//TITLE
-				"   ll      =[foreach crop.layer as Layer]\r\n      [Layer.ll.3][endfor]\r\n\r\n"+
-				"[if [crop.name] = ozcot]\r\n"+
-				"   Title = XXX\r\n"+
-				"   asoil = 3.0\r\n"+
-				"[else]\r\n"+
-				"   kl      =[foreach crop.layer as Layer]\r\n      [Layer.kl.3][endfor]\r\n\r\n"+
-				"   xf      =[foreach crop.layer as Layer]\r\n      [Layer.xf.3][endfor]\r\n\r\n"+
-				"[endif]\r\n"+
-				"[endfor]\r\n"+//END OF CROP FOR LOOP
 				"\r\n"+
 				"[foreach Soil.Phosphorus]\r\n"+
 				"[soil.soilp.parameters]\r\n"+
