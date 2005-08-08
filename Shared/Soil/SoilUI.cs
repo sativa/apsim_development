@@ -185,6 +185,7 @@ namespace CSGeneral
 		private Xceed.Grid.ColumnManagerCell cellcolumnManagerRow3column35;
 		private Xceed.Grid.DataCell celldataRow2column35;
 		private System.Windows.Forms.ToolBarButton DeleteCropButton;
+		private bool InCellLeavingEdit = false;
 
 
 
@@ -226,6 +227,19 @@ namespace CSGeneral
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(SoilUI));
 			this.smartStatusBar1 = new Xceed.SmartUI.Controls.StatusBar.SmartStatusBar(this.components);
 			this.TabControl = new System.Windows.Forms.TabControl();
+			this.GeneralPage = new System.Windows.Forms.TabPage();
+			this.GeneralGrid = new Xceed.Grid.GridControl();
+			this.column1 = new Xceed.Grid.Column();
+			this.column2 = new Xceed.Grid.Column();
+			this.dataRowTemplate1 = new Xceed.Grid.DataRow();
+			this.celldataRowTemplate1column1 = new Xceed.Grid.DataCell();
+			this.celldataRowTemplate1column2 = new Xceed.Grid.DataCell();
+			this.visualGridElementStyle1 = new Xceed.Grid.VisualGridElementStyle();
+			this.visualGridElementStyle2 = new Xceed.Grid.VisualGridElementStyle();
+			this.groupByRow1 = new Xceed.Grid.GroupByRow();
+			this.columnManagerRow1 = new Xceed.Grid.ColumnManagerRow();
+			this.cellcolumnManagerRow1column1 = new Xceed.Grid.ColumnManagerCell();
+			this.cellcolumnManagerRow1column2 = new Xceed.Grid.ColumnManagerCell();
 			this.WaterPage = new System.Windows.Forms.TabPage();
 			this.Chart = new Xceed.Chart.ChartControl();
 			this.splitter2 = new System.Windows.Forms.Splitter();
@@ -264,19 +278,6 @@ namespace CSGeneral
 			this.AddCropButton = new System.Windows.Forms.ToolBarButton();
 			this.DeleteCropButton = new System.Windows.Forms.ToolBarButton();
 			this.ButtonImageList = new System.Windows.Forms.ImageList(this.components);
-			this.GeneralPage = new System.Windows.Forms.TabPage();
-			this.GeneralGrid = new Xceed.Grid.GridControl();
-			this.column1 = new Xceed.Grid.Column();
-			this.column2 = new Xceed.Grid.Column();
-			this.dataRowTemplate1 = new Xceed.Grid.DataRow();
-			this.celldataRowTemplate1column1 = new Xceed.Grid.DataCell();
-			this.celldataRowTemplate1column2 = new Xceed.Grid.DataCell();
-			this.visualGridElementStyle1 = new Xceed.Grid.VisualGridElementStyle();
-			this.visualGridElementStyle2 = new Xceed.Grid.VisualGridElementStyle();
-			this.groupByRow1 = new Xceed.Grid.GroupByRow();
-			this.columnManagerRow1 = new Xceed.Grid.ColumnManagerRow();
-			this.cellcolumnManagerRow1column1 = new Xceed.Grid.ColumnManagerCell();
-			this.cellcolumnManagerRow1column2 = new Xceed.Grid.ColumnManagerCell();
 			this.ProfilePage = new System.Windows.Forms.TabPage();
 			this.ProfileGrid = new Xceed.Grid.GridControl();
 			this.column10 = new Xceed.Grid.Column();
@@ -387,15 +388,15 @@ namespace CSGeneral
 			this.columnManagerCell14 = new Xceed.Grid.ColumnManagerCell();
 			this.columnManagerCell15 = new Xceed.Grid.ColumnManagerCell();
 			this.TabControl.SuspendLayout();
+			this.GeneralPage.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.GeneralGrid)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dataRowTemplate1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.columnManagerRow1)).BeginInit();
 			this.WaterPage.SuspendLayout();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.WaterGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataRow1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.columnManagerRow2)).BeginInit();
-			this.GeneralPage.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.GeneralGrid)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataRowTemplate1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.columnManagerRow1)).BeginInit();
 			this.ProfilePage.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ProfileGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataRow2)).BeginInit();
@@ -433,6 +434,112 @@ namespace CSGeneral
 			this.TabControl.Size = new System.Drawing.Size(753, 649);
 			this.TabControl.TabIndex = 5;
 			this.TabControl.SelectedIndexChanged += new System.EventHandler(this.TabControl_SelectedIndexChanged);
+			// 
+			// GeneralPage
+			// 
+			this.GeneralPage.Controls.Add(this.GeneralGrid);
+			this.GeneralPage.Location = new System.Drawing.Point(4, 22);
+			this.GeneralPage.Name = "GeneralPage";
+			this.GeneralPage.Size = new System.Drawing.Size(745, 623);
+			this.GeneralPage.TabIndex = 0;
+			this.GeneralPage.Text = "General";
+			// 
+			// GeneralGrid
+			// 
+			this.GeneralGrid.AllowDrop = true;
+			this.GeneralGrid.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(235)), ((System.Byte)(240)), ((System.Byte)(246)));
+			this.GeneralGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.GeneralGrid.Columns.Add(this.column1);
+			this.GeneralGrid.Columns.Add(this.column2);
+			this.GeneralGrid.DataRowTemplate = this.dataRowTemplate1;
+			this.GeneralGrid.DataRowTemplateStyles.Add(this.visualGridElementStyle1);
+			this.GeneralGrid.DataRowTemplateStyles.Add(this.visualGridElementStyle2);
+			this.GeneralGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.GeneralGrid.FixedHeaderRows.Add(this.groupByRow1);
+			this.GeneralGrid.FixedHeaderRows.Add(this.columnManagerRow1);
+			this.GeneralGrid.Font = new System.Drawing.Font("Verdana", 9F);
+			this.GeneralGrid.ForeColor = System.Drawing.Color.Black;
+			this.GeneralGrid.GridLineColor = System.Drawing.Color.FromArgb(((System.Byte)(235)), ((System.Byte)(240)), ((System.Byte)(246)));
+			this.GeneralGrid.GridLineStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+			this.GeneralGrid.InactiveSelectionBackColor = System.Drawing.Color.DarkSlateBlue;
+			this.GeneralGrid.InactiveSelectionForeColor = System.Drawing.Color.White;
+			this.GeneralGrid.Location = new System.Drawing.Point(0, 0);
+			this.GeneralGrid.Name = "GeneralGrid";
+			// 
+			// GeneralGrid.RowSelectorPane
+			// 
+			this.GeneralGrid.RowSelectorPane.BackColor = System.Drawing.Color.LightSteelBlue;
+			this.GeneralGrid.RowSelectorPane.Visible = false;
+			this.GeneralGrid.SelectionBackColor = System.Drawing.Color.MediumSlateBlue;
+			this.GeneralGrid.SelectionForeColor = System.Drawing.Color.White;
+			this.GeneralGrid.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+			this.GeneralGrid.ShowUnlinkedColumns = true;
+			this.GeneralGrid.SingleClickEdit = false;
+			this.GeneralGrid.Size = new System.Drawing.Size(745, 623);
+			this.GeneralGrid.TabIndex = 0;
+			this.GeneralGrid.ValueMember = "";
+			// 
+			// column1
+			// 
+			this.column1.BackColor = System.Drawing.Color.Aquamarine;
+			this.column1.ReadOnly = true;
+			this.column1.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column1.Title = "";
+			this.column1.VisibleIndex = 0;
+			this.column1.Width = 132;
+			this.column1.Initialize("column1", typeof(string));
+			// 
+			// column2
+			// 
+			this.column2.SortDirection = Xceed.Grid.SortDirection.None;
+			this.column2.Title = "";
+			this.column2.VisibleIndex = 1;
+			this.column2.Width = 235;
+			this.column2.Initialize("column2", typeof(string));
+			// 
+			// dataRowTemplate1
+			// 
+			this.dataRowTemplate1.AllowCellNavigation = true;
+			this.dataRowTemplate1.CanBeCurrent = true;
+			this.dataRowTemplate1.CanBeSelected = false;
+			this.dataRowTemplate1.Cells.Add(this.celldataRowTemplate1column1);
+			this.dataRowTemplate1.Cells.Add(this.celldataRowTemplate1column2);
+			// 
+			// dataRowTemplate1.RowSelector
+			// 
+			this.dataRowTemplate1.RowSelector.Visible = false;
+			this.dataRowTemplate1.ShowTreeLine = true;
+			this.celldataRowTemplate1column1.Initialize("column1");
+			this.celldataRowTemplate1column2.Initialize("column2");
+			// 
+			// visualGridElementStyle1
+			// 
+			this.visualGridElementStyle1.BackColor = System.Drawing.Color.PowderBlue;
+			// 
+			// visualGridElementStyle2
+			// 
+			this.visualGridElementStyle2.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(195)), ((System.Byte)(231)), ((System.Byte)(236)));
+			// 
+			// groupByRow1
+			// 
+			this.groupByRow1.BackColor = System.Drawing.Color.LightSlateGray;
+			this.groupByRow1.CellBackColor = System.Drawing.Color.LightSteelBlue;
+			this.groupByRow1.CellFont = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold);
+			this.groupByRow1.CellLayout = Xceed.Grid.GroupByCellLayout.Hierarchical;
+			this.groupByRow1.Visible = false;
+			// 
+			// columnManagerRow1
+			// 
+			this.columnManagerRow1.BackColor = System.Drawing.Color.LightSteelBlue;
+			this.columnManagerRow1.Cells.Add(this.cellcolumnManagerRow1column1);
+			this.columnManagerRow1.Cells.Add(this.cellcolumnManagerRow1column2);
+			this.columnManagerRow1.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold);
+			// 
+			// columnManagerRow1.RowSelector
+			// 
+			this.columnManagerRow1.RowSelector.Visible = false;
+			this.cellcolumnManagerRow1column1.Initialize("column1");
+			this.cellcolumnManagerRow1column2.Initialize("column2");
 			// 
 			// WaterPage
 			// 
@@ -553,8 +660,7 @@ namespace CSGeneral
 			this.WaterGrid.Size = new System.Drawing.Size(745, 276);
 			this.WaterGrid.TabIndex = 1;
 			this.WaterGrid.ValueMember = "";
-			this.WaterGrid.CurrentCellChanged += new System.EventHandler(this.WaterGrid_CurrentCellChanged);
-			//this.WaterGrid.CellChanged += new System.EventHandler(this.WaterGrid_TextChanged);
+
 			// 
 			// column3
 			// 
@@ -718,112 +824,6 @@ namespace CSGeneral
 			this.ButtonImageList.ImageSize = new System.Drawing.Size(24, 24);
 			this.ButtonImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ButtonImageList.ImageStream")));
 			this.ButtonImageList.TransparentColor = System.Drawing.Color.Transparent;
-			// 
-			// GeneralPage
-			// 
-			this.GeneralPage.Controls.Add(this.GeneralGrid);
-			this.GeneralPage.Location = new System.Drawing.Point(4, 22);
-			this.GeneralPage.Name = "GeneralPage";
-			this.GeneralPage.Size = new System.Drawing.Size(745, 623);
-			this.GeneralPage.TabIndex = 0;
-			this.GeneralPage.Text = "General";
-			// 
-			// GeneralGrid
-			// 
-			this.GeneralGrid.AllowDrop = true;
-			this.GeneralGrid.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(235)), ((System.Byte)(240)), ((System.Byte)(246)));
-			this.GeneralGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.GeneralGrid.Columns.Add(this.column1);
-			this.GeneralGrid.Columns.Add(this.column2);
-			this.GeneralGrid.DataRowTemplate = this.dataRowTemplate1;
-			this.GeneralGrid.DataRowTemplateStyles.Add(this.visualGridElementStyle1);
-			this.GeneralGrid.DataRowTemplateStyles.Add(this.visualGridElementStyle2);
-			this.GeneralGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.GeneralGrid.FixedHeaderRows.Add(this.groupByRow1);
-			this.GeneralGrid.FixedHeaderRows.Add(this.columnManagerRow1);
-			this.GeneralGrid.Font = new System.Drawing.Font("Verdana", 9F);
-			this.GeneralGrid.ForeColor = System.Drawing.Color.Black;
-			this.GeneralGrid.GridLineColor = System.Drawing.Color.FromArgb(((System.Byte)(235)), ((System.Byte)(240)), ((System.Byte)(246)));
-			this.GeneralGrid.GridLineStyle = System.Drawing.Drawing2D.DashStyle.Solid;
-			this.GeneralGrid.InactiveSelectionBackColor = System.Drawing.Color.DarkSlateBlue;
-			this.GeneralGrid.InactiveSelectionForeColor = System.Drawing.Color.White;
-			this.GeneralGrid.Location = new System.Drawing.Point(0, 0);
-			this.GeneralGrid.Name = "GeneralGrid";
-			// 
-			// GeneralGrid.RowSelectorPane
-			// 
-			this.GeneralGrid.RowSelectorPane.BackColor = System.Drawing.Color.LightSteelBlue;
-			this.GeneralGrid.RowSelectorPane.Visible = false;
-			this.GeneralGrid.SelectionBackColor = System.Drawing.Color.MediumSlateBlue;
-			this.GeneralGrid.SelectionForeColor = System.Drawing.Color.White;
-			this.GeneralGrid.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-			this.GeneralGrid.ShowUnlinkedColumns = true;
-			this.GeneralGrid.SingleClickEdit = false;
-			this.GeneralGrid.Size = new System.Drawing.Size(745, 623);
-			this.GeneralGrid.TabIndex = 0;
-			this.GeneralGrid.ValueMember = "";
-			// 
-			// column1
-			// 
-			this.column1.BackColor = System.Drawing.Color.Aquamarine;
-			this.column1.ReadOnly = true;
-			this.column1.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column1.Title = "";
-			this.column1.VisibleIndex = 0;
-			this.column1.Width = 132;
-			this.column1.Initialize("column1", typeof(string));
-			// 
-			// column2
-			// 
-			this.column2.SortDirection = Xceed.Grid.SortDirection.None;
-			this.column2.Title = "";
-			this.column2.VisibleIndex = 1;
-			this.column2.Width = 235;
-			this.column2.Initialize("column2", typeof(string));
-			// 
-			// dataRowTemplate1
-			// 
-			this.dataRowTemplate1.AllowCellNavigation = true;
-			this.dataRowTemplate1.CanBeCurrent = true;
-			this.dataRowTemplate1.CanBeSelected = false;
-			this.dataRowTemplate1.Cells.Add(this.celldataRowTemplate1column1);
-			this.dataRowTemplate1.Cells.Add(this.celldataRowTemplate1column2);
-			// 
-			// dataRowTemplate1.RowSelector
-			// 
-			this.dataRowTemplate1.RowSelector.Visible = false;
-			this.dataRowTemplate1.ShowTreeLine = true;
-			this.celldataRowTemplate1column1.Initialize("column1");
-			this.celldataRowTemplate1column2.Initialize("column2");
-			// 
-			// visualGridElementStyle1
-			// 
-			this.visualGridElementStyle1.BackColor = System.Drawing.Color.PowderBlue;
-			// 
-			// visualGridElementStyle2
-			// 
-			this.visualGridElementStyle2.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(195)), ((System.Byte)(231)), ((System.Byte)(236)));
-			// 
-			// groupByRow1
-			// 
-			this.groupByRow1.BackColor = System.Drawing.Color.LightSlateGray;
-			this.groupByRow1.CellBackColor = System.Drawing.Color.LightSteelBlue;
-			this.groupByRow1.CellFont = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold);
-			this.groupByRow1.CellLayout = Xceed.Grid.GroupByCellLayout.Hierarchical;
-			this.groupByRow1.Visible = false;
-			// 
-			// columnManagerRow1
-			// 
-			this.columnManagerRow1.BackColor = System.Drawing.Color.LightSteelBlue;
-			this.columnManagerRow1.Cells.Add(this.cellcolumnManagerRow1column1);
-			this.columnManagerRow1.Cells.Add(this.cellcolumnManagerRow1column2);
-			this.columnManagerRow1.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold);
-			// 
-			// columnManagerRow1.RowSelector
-			// 
-			this.columnManagerRow1.RowSelector.Visible = false;
-			this.cellcolumnManagerRow1column1.Initialize("column1");
-			this.cellcolumnManagerRow1column2.Initialize("column2");
 			// 
 			// ProfilePage
 			// 
@@ -1504,15 +1504,15 @@ namespace CSGeneral
 			this.Controls.SetChildIndex(this.smartStatusBar1, 0);
 			this.Controls.SetChildIndex(this.TabControl, 0);
 			this.TabControl.ResumeLayout(false);
+			this.GeneralPage.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.GeneralGrid)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dataRowTemplate1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.columnManagerRow1)).EndInit();
 			this.WaterPage.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.WaterGrid)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataRow1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.columnManagerRow2)).EndInit();
-			this.GeneralPage.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.GeneralGrid)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataRowTemplate1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.columnManagerRow1)).EndInit();
 			this.ProfilePage.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.ProfileGrid)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataRow2)).EndInit();
@@ -1548,6 +1548,13 @@ namespace CSGeneral
 			{
 			if (MySoil == null)
 				{
+				if (SummaryRow == null)
+					{
+					SummaryRow = new ValueRow();			
+					WaterGrid.FixedFooterRows.Add(SummaryRow);
+					}
+				SummaryRow.Cells[0].Value = "Totals:";
+
 				MySoil = new CSGeneral.Soil(Data);
 				TabControl.SelectedTab = WaterPage;
 				}
@@ -1717,6 +1724,13 @@ namespace CSGeneral
 			// make the width of the column just wide enough.
 			foreach( Column column in WaterGrid.Columns )
 				column.Width = column.GetFittedWidth();
+
+
+			// Trap the cellleavingedit event.
+			foreach (Xceed.Grid.DataRow row in WaterGrid.DataRows)
+				foreach (Xceed.Grid.DataCell cell in row.Cells)
+					cell.EditLeft += new EditLeftEventHandler(CellLeavingEdit);
+			RefreshPAWCCalculations();
 
 			PopulatingWaterGrid = false;
 			}
@@ -1934,28 +1948,22 @@ namespace CSGeneral
 		// ------------------------------------------
 		private void RefreshPAWCCalculations()
 			{
-			double[] pawc = MySoil.PAWC();
-			GridUtils.SetColumnAsDoubles(ref WaterGrid, 6, pawc, "f1");
-			
-			if (SummaryRow == null)
+			if (SummaryRow != null)
 				{
-				SummaryRow = new ValueRow();			
-				WaterGrid.FixedFooterRows.Add(SummaryRow);
-				//SummaryRow.BackColor = Color.Aquamarine;
-				}
+				double[] pawc = MySoil.PAWC();
+				GridUtils.SetColumnAsDoubles(ref WaterGrid, 6, pawc, "f1");
+				SummaryRow.Cells[6].Value = MathUtility.Sum(pawc).ToString("f1");
 
-			SummaryRow.Cells[0].Value = "Totals:";
-			SummaryRow.Cells[6].Value = MathUtility.Sum(pawc).ToString("f1");
-
-			// calculate pawc for each crop.
-			string[] CropNames = MySoil.Crops;
-			for (int CropNumber = 0; CropNumber != CropNames.Length; CropNumber++)
-				{
-				int CropCol = NUMBER_OF_STATIC_COLS + CropNumber*4;
-				string CropName = CropNames[CropNumber];
-				double[] paw = MySoil.PAWC(CropName);
-				GridUtils.SetColumnAsDoubles(ref WaterGrid, CropCol+1, paw, "f1");
-//				SummaryRow.Cells[CropCol+1].Value = MathUtility.Sum(paw).ToString("f1");
+				// calculate pawc for each crop.
+				string[] CropNames = MySoil.Crops;
+				for (int CropNumber = 0; CropNumber != CropNames.Length; CropNumber++)
+					{
+					int CropCol = NUMBER_OF_STATIC_COLS + CropNumber*4;
+					string CropName = CropNames[CropNumber];
+					double[] paw = MySoil.PAWC(CropName);
+					GridUtils.SetColumnAsDoubles(ref WaterGrid, CropCol+1, paw, "f1");
+					SummaryRow.Cells[CropCol+1].Value = MathUtility.Sum(paw).ToString("f1");
+					}
 				}
 			}
 
@@ -1963,16 +1971,18 @@ namespace CSGeneral
 		// ------------------------------------------
 		// Grid has changed - update the PAWC columns
 		// ------------------------------------------
-		private void WaterGrid_CurrentCellChanged(object sender, System.EventArgs e)
+		private void CellLeavingEdit(object sender, Xceed.Grid.EditLeftEventArgs e)
 			{
-			if (!PopulatingWaterGrid)
+			if (!InCellLeavingEdit)
 				{
+				InCellLeavingEdit = true;
 				SaveWaterGrid();
 				if (WaterGrid.CurrentCell.ParentColumn.Index == 5 ||
 					WaterGrid.CurrentCell.ParentColumn.Title.IndexOf("LL\r\n(%vol)") > 0)
 					RefreshPAWCCalculations();
 
 				PopulateWaterChart(CropsToChart());
+				InCellLeavingEdit = false;
 				}
 			}
 
