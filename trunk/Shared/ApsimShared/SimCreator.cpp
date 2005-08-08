@@ -135,6 +135,7 @@ class ImportSection
          // Read & parse buffer into lines
          string buffer;
          par->readSection(section, buffer);
+         replaceAll(buffer, "\t", " ");
 
          vector<string> lines;
          Split_string(buffer, "\n", lines);
