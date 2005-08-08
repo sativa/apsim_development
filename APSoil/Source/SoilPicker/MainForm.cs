@@ -215,7 +215,7 @@ namespace SoilPicker
 				}
 			catch (Exception err)
 				{
-				MessageBox.Show(err.Message, "Error");
+				MessageBox.Show(err.Message + "\r\nFile: " + CommandLineFileName, "Error");
 				}
 			}
 
