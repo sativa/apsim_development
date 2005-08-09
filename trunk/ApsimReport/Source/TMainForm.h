@@ -144,7 +144,7 @@ private:	// User declarations
    //---------------------------------------------------------------------------
    void populateToolBar(void);
 
-   void open(AnsiString file);
+   void open(AnsiString file, bool quiet = false);
    void save(AnsiString file);
    void saveIfNecessary(void);
    void setCaption(void);

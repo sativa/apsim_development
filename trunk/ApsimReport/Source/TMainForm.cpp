@@ -207,10 +207,10 @@ void __fastcall TMainForm::SaveAsActionExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 // Go open the specified file.
 //---------------------------------------------------------------------------
-void TMainForm::open(AnsiString file)
+void TMainForm::open(AnsiString file, bool quiet)
    {
    filename = ExpandFileName(file);
-   report.load(filename.c_str());
+   report.load(filename.c_str(), quiet);
    setCaption();
    ZoomUpDown->Position = report.getZoom();
    MRUFileList->AddItem(filename);
@@ -314,7 +314,7 @@ void TMainForm::saveIfNecessary(void)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::RefreshActionExecute(TObject *Sender)
    {
-   report.refresh();
+   report.refresh(false);
    }
 //---------------------------------------------------------------------------
 // Use has clicked on a MRU filename - load it into the report.
@@ -338,7 +338,7 @@ void TMainForm::processCommandLine(AnsiString commandLine)
       {
       string reportFileName = commandWords[0];
       stripLeadingTrailing(reportFileName, "\"");
-      open(reportFileName.c_str());
+      open(reportFileName.c_str(), true);
       if (commandWords.size() >= 2)
          {
          string outputFileName = commandWords[1];
