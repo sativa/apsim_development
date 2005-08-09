@@ -18,7 +18,7 @@ namespace APSoil
 		{
 		private ExplorerUI SoilExplorer;
 		private UIManager UserInterfaceManager;
-		
+													 
 		private System.Windows.Forms.MainMenu mainMenu1;
 		private System.Windows.Forms.MenuItem menuItem1;
 		private System.Windows.Forms.MenuItem menuItem5;

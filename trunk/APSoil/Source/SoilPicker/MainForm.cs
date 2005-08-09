@@ -28,8 +28,8 @@ namespace SoilPicker
 		private System.Windows.Forms.Panel MainPanel;
 		private System.Windows.Forms.Splitter splitter1;
 		private System.Windows.Forms.Button CancelBut;
-		private System.Windows.Forms.ImageList SmallImages;
 		private System.Windows.Forms.Button BrowseButton;
+		private System.Windows.Forms.ImageList SmallImages;
 		private System.ComponentModel.IContainer components;
 
 		// -----------------------------------------
@@ -65,12 +65,12 @@ namespace SoilPicker
 			this.components = new System.ComponentModel.Container();
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(MainForm));
 			this.RightPanel = new System.Windows.Forms.Panel();
+			this.BrowseButton = new System.Windows.Forms.Button();
 			this.CancelBut = new System.Windows.Forms.Button();
 			this.OkButton = new System.Windows.Forms.Button();
 			this.MainPanel = new System.Windows.Forms.Panel();
 			this.splitter1 = new System.Windows.Forms.Splitter();
 			this.SmallImages = new System.Windows.Forms.ImageList(this.components);
-			this.BrowseButton = new System.Windows.Forms.Button();
 			this.RightPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -84,6 +84,14 @@ namespace SoilPicker
 			this.RightPanel.Name = "RightPanel";
 			this.RightPanel.Size = new System.Drawing.Size(104, 534);
 			this.RightPanel.TabIndex = 0;
+			// 
+			// BrowseButton
+			// 
+			this.BrowseButton.Location = new System.Drawing.Point(16, 104);
+			this.BrowseButton.Name = "BrowseButton";
+			this.BrowseButton.TabIndex = 2;
+			this.BrowseButton.Text = "&Browse";
+			this.BrowseButton.Click += new System.EventHandler(this.BrowseButton_Click);
 			// 
 			// CancelBut
 			// 
@@ -125,14 +133,6 @@ namespace SoilPicker
 			this.SmallImages.ImageSize = new System.Drawing.Size(16, 16);
 			this.SmallImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("SmallImages.ImageStream")));
 			this.SmallImages.TransparentColor = System.Drawing.Color.Transparent;
-			// 
-			// BrowseButton
-			// 
-			this.BrowseButton.Location = new System.Drawing.Point(16, 104);
-			this.BrowseButton.Name = "BrowseButton";
-			this.BrowseButton.TabIndex = 2;
-			this.BrowseButton.Text = "&Browse";
-			this.BrowseButton.Click += new System.EventHandler(this.BrowseButton_Click);
 			// 
 			// MainForm
 			// 
@@ -241,63 +241,70 @@ namespace SoilPicker
 			{
 			// write soil to a temporary file.
 			Soil SelectedSoil = new Soil(SoilExplorer.GetSelectedData());
-			string OutputFileName = Path.GetTempPath() + "\\temp.par";
-			SelectedSoil.ExportToPar(OutputFileName);
-
-			// Read in contents of our temporary file.
-			StreamReader FileIn = new StreamReader(OutputFileName);
-			string Contents = FileIn.ReadToEnd();
-			FileIn.Close();
-			FileIn = null;
-
-			Contents = Contents.Replace("[soil.", "[run%.");
-			int PosSoilN = Contents.IndexOf("[run%.soiln2.parameters]");
-			if (PosSoilN == -1)
-				MessageBox.Show("Bad soil file format for soil " + SelectedSoil.Name);
-			else
+			if (SelectedSoil.CheckForErrors() == "")
 				{
-				string W2FileName = Path.GetTempPath() + "\\temp.w2";
-				StreamWriter w2 = new StreamWriter(W2FileName);
-				w2.WriteLine("!Title = " + SelectedSoil.Name);
-				w2.WriteLine("[*attributes]");
-				w2.WriteLine("   module_usage  = soil_water");
-				w2.WriteLine("   must_have     = soil_water");
-				w2.WriteLine("[*contents]");
-				w2.WriteLine(Contents.Substring(0, PosSoilN));
+				string OutputFileName = Path.GetTempPath() + "\\temp.par";
+				SelectedSoil.ExportToPar(OutputFileName);
 
-				string N2FileName = Path.GetTempPath() + "\\temp.n2";
-				StreamWriter n2 = new StreamWriter(N2FileName);
-				n2.WriteLine("!Title = " + SelectedSoil.Name);
-				n2.WriteLine("[*attributes]");
-				n2.WriteLine("   module_usage  = soil_nitrogen");
-				n2.WriteLine("   must_have     = soil_nitrogen");
-				n2.WriteLine("[*contents]");
+				// Read in contents of our temporary file.
+				StreamReader FileIn = new StreamReader(OutputFileName);
+				string Contents = FileIn.ReadToEnd();
+				FileIn.Close();
+				FileIn = null;
 
-				int PosSoilP = Contents.IndexOf("[run%.soilp.parameters]");
-				if (PosSoilP == -1)
-					n2.WriteLine(Contents.Substring(PosSoilN));
+				Contents = Contents.Replace("[soil.", "[run%.");
+				int PosSoilN = Contents.IndexOf("[run%.soiln2.parameters]");
+				if (PosSoilN == -1)
+					MessageBox.Show("Bad soil file format for soil " + SelectedSoil.Name);
 				else
 					{
-					n2.WriteLine(Contents.Substring(PosSoilN, PosSoilP-PosSoilN));
+					string W2FileName = Path.GetTempPath() + "\\temp.w2";
+					StreamWriter w2 = new StreamWriter(W2FileName);
+					w2.WriteLine("!Title = " + SelectedSoil.Name);
+					w2.WriteLine("[*attributes]");
+					w2.WriteLine("   module_usage  = soil_water");
+					w2.WriteLine("   must_have     = soil_water");
+					w2.WriteLine("[FileName]");
+					w2.WriteLine("   Filename = " + SoilExplorer.FileName);
+					w2.WriteLine("[*contents]");
+					w2.WriteLine(Contents.Substring(0, PosSoilN));
 
-					string P2FileName = Path.GetTempPath() + "\\temp.p2";
-					StreamWriter p2 = new StreamWriter(P2FileName);
-					p2.WriteLine("!Title = " + SelectedSoil.Name);
-					p2.WriteLine("[*attributes]");
-					p2.WriteLine("   module_usage  = soil_phosphorus");
-					p2.WriteLine("   must_have     = soil_phosphorus");
-					p2.WriteLine("[*contents]");
-					p2.WriteLine(Contents.Substring(PosSoilN));
-					p2.Close();
-					p2 = null;
+					string N2FileName = Path.GetTempPath() + "\\temp.n2";
+					StreamWriter n2 = new StreamWriter(N2FileName);
+					n2.WriteLine("!Title = " + SelectedSoil.Name);
+					n2.WriteLine("[*attributes]");
+					n2.WriteLine("   module_usage  = soil_nitrogen");
+					n2.WriteLine("   must_have     = soil_nitrogen");
+					n2.WriteLine("[*contents]");
+
+					int PosSoilP = Contents.IndexOf("[run%.soilp.parameters]");
+					if (PosSoilP == -1)
+						n2.WriteLine(Contents.Substring(PosSoilN));
+					else
+						{
+						n2.WriteLine(Contents.Substring(PosSoilN, PosSoilP-PosSoilN));
+
+						string P2FileName = Path.GetTempPath() + "\\temp.p2";
+						StreamWriter p2 = new StreamWriter(P2FileName);
+						p2.WriteLine("!Title = " + SelectedSoil.Name);
+						p2.WriteLine("[*attributes]");
+						p2.WriteLine("   module_usage  = soil_phosphorus");
+						p2.WriteLine("   must_have     = soil_phosphorus");
+						p2.WriteLine("[*contents]");
+						p2.WriteLine(Contents.Substring(PosSoilP));
+						p2.Close();
+						p2 = null;
+						}
+
+					w2.Close();
+					w2 = null;
+					n2.Close();
+					n2 = null;
+					Close();
 					}
-
-				w2.Close();
-				w2 = null;
-				n2.Close();
-				n2 = null;
-				Close();
 				}
+			else
+				MessageBox.Show("Cannot select this soil. Soil is not a valid APSIM soil.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 
 
