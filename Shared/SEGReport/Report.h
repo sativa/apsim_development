@@ -26,7 +26,7 @@ class __declspec(dllexport) Report
       //---------------------------------------------------------------------------
       // If the filename exists then load it into the report.
       //---------------------------------------------------------------------------
-      void load(const std::string& fileName);
+      void load(const std::string& fileName, bool quiet);
 
       //---------------------------------------------------------------------------
       // Save the report to the specified filename.
@@ -84,7 +84,7 @@ class __declspec(dllexport) Report
       //---------------------------------------------------------------------------
       // Refresh the report
       //---------------------------------------------------------------------------
-      void refresh(void);
+      void refresh(bool quiet);
 
       //---------------------------------------------------------------------------
       // Refresh all components linked to datasets but not the datasets themselves.

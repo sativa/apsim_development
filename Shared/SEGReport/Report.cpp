@@ -100,7 +100,7 @@ void Report::clear(void)
 //---------------------------------------------------------------------------
 // If the filename exists then load it into the report.
 //---------------------------------------------------------------------------
-void Report::load(const string& fileName)
+void Report::load(const string& fileName, bool quiet)
    {
    if (FileExists(fileName.c_str()))
       {
@@ -146,7 +146,7 @@ void Report::load(const string& fileName)
          loadComponents(in, components);
          }
       showPage(0);
-      refresh();
+      refresh(quiet);
       isDirty = false;
       }
    }
@@ -565,7 +565,7 @@ void Report::print(bool currentPageOnly)
 //---------------------------------------------------------------------------
 // Refresh the report
 //---------------------------------------------------------------------------
-void Report::refresh(void)
+void Report::refresh(bool quiet)
    {
    TSEGTable::errorMessage = "";
 
@@ -578,7 +578,7 @@ void Report::refresh(void)
          table->refresh();
       }
 
-   if (TSEGTable::errorMessage != "")
+   if (!quiet && TSEGTable::errorMessage != "")
       {
       ::MessageBox(NULL, TSEGTable::errorMessage.c_str(), "Errors were encountered", MB_ICONSTOP | MB_OK);
       TSEGTable::errorMessage = "";
