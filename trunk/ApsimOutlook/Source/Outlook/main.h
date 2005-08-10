@@ -82,6 +82,9 @@ __published:
    TToolButton *CalendarButton;
    TToolButton *ToolButton6;
    TToolButton *StatsButton;
+   TMenuItem *N4;
+   TMenuItem *Licencing;
+   TMenuItem *N5;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Window_cascade(TObject *Sender);
 	void __fastcall UpdateMenuItems(TObject *Sender);
@@ -109,8 +112,10 @@ __published:
    void __fastcall Evaluate(TObject *Sender);
    void __fastcall FormResize(TObject *Sender);
    void __fastcall CalendarButtonClick(TObject *Sender);
+   void __fastcall LicencingClick(TObject *Sender);
 private:
    bool FixMDI;
+   bool WhopperIsRunning;
 	void __fastcall CreateMDIChild(const String Name);
 	void __fastcall ShowHint(TObject *Sender);
    void __fastcall Close_all ();
@@ -119,6 +124,7 @@ private:
    void __fastcall FixMDIChild(void);
    unsigned findDBAddInLine(const string& contents);
    void readCommandLine(void);
+   void CheckForWhopper();
 
 public:
 	virtual __fastcall TMainForm(TComponent *Owner);

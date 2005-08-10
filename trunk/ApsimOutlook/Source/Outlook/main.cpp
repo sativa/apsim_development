@@ -14,6 +14,7 @@
 #include "TSimulation_database.h"
 #include <general\stream_functions.h>
 #include <ApsimShared\ApsimDirectories.h>
+#include <general\stristr.h>
 #include <sstream>
 #include <ole2.h>
 using namespace std;
@@ -27,6 +28,7 @@ __fastcall TMainForm::TMainForm(TComponent *Owner)
 	: TForm(Owner)
    {
    CoInitialize(NULL);
+   WhopperIsRunning = false;
    }
 //---------------------------------------------------------------------
 __fastcall TMainForm::~TMainForm()
@@ -169,7 +171,27 @@ void __fastcall TMainForm::Application_minimize (TObject* Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FileNewMenuClick(TObject *Sender)
    {
-   CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
+   if (WhopperIsRunning)
+      {
+      string LicenceDLL = getApsimDirectory() + "\\bpsadmin.dll";
+      if (!Path(LicenceDLL).Exists())
+         {
+         string msg = "Cannot find licence file: " + LicenceDLL;
+         ShowMessage(msg.c_str());
+         }
+      else
+         {
+         void* Module = LoadLibrary(LicenceDLL.c_str());
+         bool _stdcall (*CheckLic)();
+         (FARPROC) CheckLic = GetProcAddress(Module, "CheckLic");
+
+         if (CheckLic())
+            CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
+         }
+
+      }
+   else
+      CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::HelpContentsMenuClick(TObject *Sender)
@@ -191,6 +213,7 @@ void __fastcall TMainForm::FilePresentationFontsMenuClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormShow(TObject *Sender)
    {
+   CheckForWhopper();
    Skin->InitApplication();
    CalendarButton->Hint = "Day number calendar";
 
@@ -208,6 +231,8 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
       fileName = getAppHomeDirectory() + "\\" + fileName;
       LogoImage->Picture->LoadFromFile(fileName.c_str());
       }
+   Licencing->Visible = WhopperIsRunning;
+
    readCommandLine();
    }
 //---------------------------------------------------------------------------
@@ -359,4 +384,37 @@ void __fastcall TMainForm::CalendarButtonClick(TObject *Sender)
                  fileName.c_str(), NULL, "", SW_SHOW);
    }
 //---------------------------------------------------------------------------
+extern "C" void __stdcall LicManager();
+void __fastcall TMainForm::LicencingClick(TObject *Sender)
+   {
+   string LicenceDLL = getApsimDirectory() + "\\bpsadmin.dll";
+   if (!Path(LicenceDLL).Exists())
+      {
+      string msg = "Cannot find licence file: " + LicenceDLL;
+      ShowMessage(msg.c_str());
+      }
+   else
+      {
+      void* Module = LoadLibrary(LicenceDLL.c_str());
+      void _stdcall (*LicManager)();
+      (FARPROC) LicManager = GetProcAddress(Module, "LicManager");
+
+      LicManager();
+      }
+   }
+//---------------------------------------------------------------------------
+void TMainForm::CheckForWhopper()
+   {
+   WhopperIsRunning = false;
+
+   ApsimSettings settings;
+   vector<string> addIns;
+   settings.read("Outlook Addins|addin", addIns, true);
+   for (unsigned i = 0; i != addIns.size(); i++)
+      {
+      if (stristr(addIns[i].c_str(), "ncaddin.dll") != NULL)
+         WhopperIsRunning = true;
+      }
+
+   }
 
