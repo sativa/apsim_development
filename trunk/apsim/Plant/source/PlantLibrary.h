@@ -2,6 +2,9 @@
 #define PlantLibaryH
 
 #include <list>
+#include <math.h>
+#include <string>
+#include <algorithm>
 
 using namespace std;
 
@@ -119,6 +122,7 @@ class interpolationFunction : public externalFunction
       if (y.size() == 0) return false;
       return true;
       };
+   float minYval(){return *min_element(y.begin(),y.end());}
 };
 
 // Implement table lookup functions
@@ -1593,7 +1597,7 @@ template <class T> T sum(vector<T> v) {
    for (unsigned int i = 0; i < v.size();  i++) result += v[i];
    return result;
 };
-      
+
 float sum_real_array (float *var, int nelem);
 float sum_integer_array (int *var, int limit);
 int position_in_real_array(float Number,      //(INPUT) Number to search for
@@ -1652,6 +1656,9 @@ void crop_radn_int0(float cover_green,
                     float *radn_int);
 
 float day_length (int day_of_year, float latitude, float twilight);
+
+float linint_3hrly_temp (float tmax, float tmin, externalFunction *ttFn);
+float temp_3hr (float tmax, float tmin, int period);
 
 void jday_to_day_of_year(double*, int*, int*);
 

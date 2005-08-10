@@ -977,7 +977,6 @@ void plant_leaf_detachment (float *leaf_area           // OUT
       else
         {
         leaf_area[node] = leaf_area[node] - area_detached;
-        area_detached = 0.0;
         break;
         }
       }
@@ -1023,7 +1022,6 @@ void plant_leaf_removal_top (float *leaf_area           // OUT
 //        float dlt_last_node = divide(area_removed, leaf_area[node], 0.0) ;
 //        *last_node -= dlt_last_node;
         leaf_area[node] = leaf_area[node] - area_removed;
-        area_removed = 0.0;
         break;
       }
    }

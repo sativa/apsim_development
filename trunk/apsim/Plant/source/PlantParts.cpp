@@ -27,7 +27,7 @@ using namespace std;
 //////////---------------------------
 // Hacks to set up and delete part arrays
 // The "hacks" will not have usable parameter/constants, but most state variables will be OK.
-void Plant::setupHacks(vector<plantPart *> &parts) 
+void Plant::setupHacks(vector<plantPart *> &parts)
    {
    plantPart *x = new plantPartHack(this, root, "root");
    parts.push_back(x);
@@ -46,53 +46,47 @@ void Plant::setupHacks(vector<plantPart *> &parts)
    x=new plantPartHack(this, oil,  "oil");
    parts.push_back(x);
    }
-void Plant::deleteHacks(vector<plantPart *> &parts) 
+void Plant::deleteHacks(vector<plantPart *> &parts)
    {
    vector<plantPart *>::iterator part;
-   for (part = parts.begin(); part != parts.end(); part++) 
-      if ((*part)->c.name != "stem") 
+   for (part = parts.begin(); part != parts.end(); part++)
+      if ((*part)->c.name != "stem")
          delete *part;
    }
 
 
 //////////---------------------------
-void plantPart::doRegistrations(protocol::Component *system) 
+void plantPart::doRegistrations(protocol::Component *system)
 {
-#define setupGetVar system->addGettableVar
-#define setupGetFunction(name,type,length,address,units,desc) {\
-   boost::function2<void, protocol::Component *, protocol::QueryValueData &> fn;\
-   fn = boost::bind(address, this, _1, _2); \
-   system->addGettableVar(name, type, length, fn, units, desc);\
-   }
 
-   setupGetVar((c.name + "_wt").c_str(), g.dm_green, "g/m^2", ("Weight of " + c.name).c_str());
+   system->addGettableVar((c.name + "_wt").c_str(), g.dm_green, "g/m^2", ("Weight of " + c.name).c_str());
 
-   setupGetVar((c.name + "_n").c_str(),  g.n_green, "g/m^2", ("N in " + c.name).c_str());
+   system->addGettableVar((c.name + "_n").c_str(),  g.n_green, "g/m^2", ("N in " + c.name).c_str());
 
-   setupGetVar((c.name + "_p").c_str(),  g.p_green, "g/m^2", ("P in " + c.name).c_str());
+   system->addGettableVar((c.name + "_p").c_str(),  g.p_green, "g/m^2", ("P in " + c.name).c_str());
 
-   setupGetFunction(("n_conc_" + c.name).c_str(), protocol::DTsingle, false,
+   setupGetFunction(system, ("n_conc_" + c.name).c_str(), protocol::DTsingle, false,
                     &plantPart::get_n_conc, "%", ("N concentration in " + c.name).c_str());
 
-   setupGetFunction(("p_conc_" + c.name).c_str(), protocol::DTsingle, false,
+   setupGetFunction(system, ("p_conc_" + c.name).c_str(), protocol::DTsingle, false,
                     &plantPart::get_p_conc, "%", ("P concentration in " + c.name).c_str());
 
-   setupGetFunction(("n_conc_crit_" + c.name).c_str(), protocol::DTsingle, false,
+   setupGetFunction(system, ("n_conc_crit_" + c.name).c_str(), protocol::DTsingle, false,
                     &plantPart::get_n_conc_crit,
                     "%", ("critical N content in " + c.name).c_str());
 
-   setupGetFunction(("n_conc_min_" + c.name).c_str(), protocol::DTsingle, false,
+   setupGetFunction(system, ("n_conc_min_" + c.name).c_str(), protocol::DTsingle, false,
                     &plantPart::get_n_conc_min,
                     "%", ("minimum N content in " + c.name).c_str());
 
-   setupGetVar(("n_demand_" + c.name).c_str(), 
+   system->addGettableVar(("n_demand_" + c.name).c_str(),
                v.n_demand, "g/m^2", ("N demand of " + c.name).c_str());
 
-   setupGetVar(("dlt_n_retrans_" + c.name).c_str(), 
+   system->addGettableVar(("dlt_n_retrans_" + c.name).c_str(),
                dlt.n_retrans, "g/m^2", ("N retranslocated to " + c.name).c_str());
 
 #undef setupGetVar
-#undef setupGetFunction  
+#undef setupGetFunction
 }
 
 void plantPart::get_n_conc(protocol::Component *system, protocol::QueryValueData &qd)
@@ -114,78 +108,78 @@ void plantPart::get_p_conc(protocol::Component *system, protocol::QueryValueData
     system->sendVariable(qd, p_conc);
 }
 
-void plantPart::zeroAllGlobals(void) 
+void plantPart::zeroAllGlobals(void)
 {
-   g.dm_dead=0.0;     
-   g.dm_green=0.0;    
-   g.dm_senesced=0.0; 
-   g.n_dead=0.0;      
-   g.n_green=0.0;     
-   g.n_senesced=0.0;  
-   g.height=0.0;      
-   g.width=0.0;       
-   g.n_conc_crit=0.0; 
-   g.n_conc_max=0.0;  
-   g.n_conc_min=0.0;  
+   g.dm_dead=0.0;
+   g.dm_green=0.0;
+   g.dm_senesced=0.0;
+   g.n_dead=0.0;
+   g.n_green=0.0;
+   g.n_senesced=0.0;
+   g.height=0.0;
+   g.width=0.0;
+   g.n_conc_crit=0.0;
+   g.n_conc_max=0.0;
+   g.n_conc_min=0.0;
    g.dm_plant_min=0.0;
 
-   g.p_green=0.0;     
+   g.p_green=0.0;
    g.p_sen=0.0;
-   g.p_dead=0.0;      
+   g.p_dead=0.0;
 
    zeroDeltas();
 }
 
-void plantPart::zeroDeltas(void) 
-{ 
-   dlt.dm_green = 0.0;          
-   dlt.dm_senesced = 0.0;       
-   dlt.dm_detached = 0.0;       
-   dlt.dm_dead = 0.0;           
-   dlt.dm_dead_detached = 0.0;  
-   dlt.dm_green_retrans = 0.0;  
-   dlt.n_green = 0.0;           
-   dlt.n_senesced = 0.0;        
+void plantPart::zeroDeltas(void)
+{
+   dlt.dm_green = 0.0;
+   dlt.dm_senesced = 0.0;
+   dlt.dm_detached = 0.0;
+   dlt.dm_dead = 0.0;
+   dlt.dm_dead_detached = 0.0;
+   dlt.dm_green_retrans = 0.0;
+   dlt.n_green = 0.0;
+   dlt.n_senesced = 0.0;
    dlt.n_senesced_retrans = 0.0;
    dlt.n_senesced_trans = 0.0;
-   dlt.n_detached = 0.0;        
-   dlt.n_dead = 0.0;            
-   dlt.n_dead_detached = 0.0;   
-   dlt.n_retrans = 0.0;         
-   
+   dlt.n_detached = 0.0;
+   dlt.n_dead = 0.0;
+   dlt.n_dead_detached = 0.0;
+   dlt.n_retrans = 0.0;
+
    dlt.p_green = 0.0;
    dlt.p_sen = 0.0;
    dlt.p_det = 0.0;
    dlt.p_dead_det = 0.0;
    dlt.p_retrans = 0.0;
    dlt.p_dead = 0.0;
-   
-   dlt.height = 0.0;            
+
+   dlt.height = 0.0;
    dlt.width = 0.0;
 
-   v.dm_green_demand = 0.0; 
-   v.n_capacity = 0.0;      
-   v.n_demand = 0.0 ;       
-   v.soil_n_demand = 0.0;   
-   v.n_max = 0.0 ;          
-   v.p_demand = 0.0;        
-}  
+   v.dm_green_demand = 0.0;
+   v.n_capacity = 0.0;
+   v.n_demand = 0.0 ;
+   v.soil_n_demand = 0.0;
+   v.n_max = 0.0 ;
+   v.p_demand = 0.0;
+}
 void plantPart::readConstants(protocol::Component *system, const string &section)
     {
     if (plant->phosphorusAware())
        {
 #if 0
-       c.p_conc_min.read(system, section 
-                        , "x_p_stage_code",  "()", 0.0, 100.0 
-                        , ("y_p_conc_min_" + c.name).c_str(), "(g/g)", 0.0, 1.0);  
-   
-       c.p_conc_max.read(system, section 
-                        , "x_p_stage_code",  "()", 0.0, 100.0 
-                        , ("y_p_conc_max_" + c.name).c_str(), "(g/g)", 0.0, 1.0);  
-   
-       c.p_conc_sen.read(system, section 
-                        , "x_p_stage_code",  "()", 0.0, 100.0 
-                        , ("y_p_conc_sen_" + c.name).c_str(), "(g/g)", 0.0, 1.0);  
+       c.p_conc_min.read(system, section
+                        , "x_p_stage_code",  "()", 0.0, 100.0
+                        , ("y_p_conc_min_" + c.name).c_str(), "(g/g)", 0.0, 1.0);
+
+       c.p_conc_max.read(system, section
+                        , "x_p_stage_code",  "()", 0.0, 100.0
+                        , ("y_p_conc_max_" + c.name).c_str(), "(g/g)", 0.0, 1.0);
+
+       c.p_conc_sen.read(system, section
+                        , "x_p_stage_code",  "()", 0.0, 100.0
+                        , ("y_p_conc_sen_" + c.name).c_str(), "(g/g)", 0.0, 1.0);
 
        system->readParameter (section
                                , c.name + "_p_conc_init"
@@ -201,17 +195,17 @@ void plantPart::readConstants(protocol::Component *system, const string &section
                               c.y_p_conc_sen, c.num_x_p_stage_code, 0.0, 1.0);
        system->readParameter (section, ("y_p_conc_min_" + c.name).c_str(), /*"(g/g)",*/
                               c.y_p_conc_min, c.num_x_p_stage_code, 0.0, 1.0);
-       system->readParameter (section, c.name + "_p_conc_init", /*"(g/g)",*/ 
+       system->readParameter (section, c.name + "_p_conc_init", /*"(g/g)",*/
                               c.p_init_conc, 0.0, 1.0);
-#endif   
+#endif
 
        vector<string> parts;
        Split_string(system->readParameter (section, "stress_determinants"), " ", parts);
-       if (find(parts.begin(), parts.end(), c.name) != parts.end()) 
+       if (find(parts.begin(), parts.end(), c.name) != parts.end())
           c.p_stress_determinant = true;
-       else 
+       else
           c.p_stress_determinant = false;
-       
+
        Split_string(system->readParameter (section, "yield_parts"), " ", parts);
        if (find(parts.begin(),parts.end(), c.name) != parts.end())
           c.p_yield_part = true;
@@ -246,41 +240,41 @@ void plantPart::readSpeciesParameters(protocol::Component *system, vector<string
                             , 0.0, 1.0);
 
     system->readParameter (sections
-                            , c.name + "_dm_init" 
+                            , c.name + "_dm_init"
                             //,  "(g/plant)"
                             , c.dm_init
                             , 0.0, 1.0);
-                            
+
     system->readParameter (sections
-                            , c.name + "_n_init_conc" 
+                            , c.name + "_n_init_conc"
                             //,  "(g/g)"
                             , c.n_init_conc
                             , 0.0, 1.0);
 
     c.n_conc_crit.search(system, sections
                         , "x_stage_code" , "()", 1.0, 100.0
-                        , ("y_n_conc_crit_" + c.name).c_str(), "()", 0.0, 100.0); 
-    
+                        , ("y_n_conc_crit_" + c.name).c_str(), "()", 0.0, 100.0);
+
     c.n_conc_min.search(system, sections
                         , "x_stage_code" , "()", 1.0, 100.0
-                        , ("y_n_conc_min_" + c.name).c_str(), "()", 0.0, 100.0); 
+                        , ("y_n_conc_min_" + c.name).c_str(), "()", 0.0, 100.0);
 
     c.n_conc_max.search(system, sections
                         , "x_stage_code" , "()", 1.0, 100.0
-                        , ("y_n_conc_max_" + c.name).c_str(), "()", 0.0, 100.0); 
+                        , ("y_n_conc_max_" + c.name).c_str(), "()", 0.0, 100.0);
 
     c.dm_sen_frac.search(system, sections
                         , ("x_dm_sen_frac_" + c.name).c_str(), "()", 0.0, 100.0
-                        , ("y_dm_sen_frac_" + c.name).c_str(), "()", 0.0, 1.0); 
+                        , ("y_dm_sen_frac_" + c.name).c_str(), "()", 0.0, 1.0);
 
     system->readParameter (sections
                         , (c.name + "_n_sen_conc").c_str() //, "()"
                         , c.n_sen_conc
                         , 0.0, 1.0);
 
-    c.fr_remain.search(system, sections 
-                     , "fr_height_cut",  "(0-1)", 0.0, 1.0 
-                     , ("fr_"+c.name+"_remain").c_str(), "(0-1)", 0.0, 1.0);  
+    c.fr_remain.search(system, sections
+                     , "fr_height_cut",  "(0-1)", 0.0, 1.0
+                     , ("fr_"+c.name+"_remain").c_str(), "(0-1)", 0.0, 1.0);
 
     if (system->readParameter (sections
                              , (c.name + "_n_retrans_fraction").c_str() //, "()"
@@ -300,20 +294,20 @@ void plantPart::readCultivarParameters (protocol::Component *system, const strin
                 , "y_width", "(mm)", 0.0, 5000.0);
 }
 
-void plantPart::onEmergence() 
+void plantPart::onEmergence()
 {
    g.dm_green = c.dm_init * plant->getPlants();
-   g.n_green = c.n_init_conc * g.dm_green; 
+   g.n_green = c.n_init_conc * g.dm_green;
 }
 
-void plantPart::onFlowering(void) 
+void plantPart::onFlowering(void)
 {
    float dm_plant = divide (g.dm_green, plant->getPlants(), 0.0);
    g.dm_plant_min = dm_plant;
 }
 
 // set the minimum weight of part; used for retranslocation to grain
-void plantPart::onStartGrainFill(void) 
+void plantPart::onStartGrainFill(void)
 {
    float dm_plant = divide (g.dm_green, plant->getPlants(), 0.0);
    g.dm_plant_min = dm_plant * (1.0 - c.trans_frac);
@@ -335,7 +329,7 @@ void plantPart::morphology(void)
       {
       float new_height = c.height.value(dm_plant);       // new plant height (mm)
       dlt.height = l_bound(new_height - g.height, 0.0);
-      } 
+      }
    else
      {
      dlt.height = 0.0;
@@ -376,10 +370,10 @@ void plantPart::doNDemand1(float dlt_dm,             // (INPUT)  Whole plant the
     float part_fract = divide (dlt.dm_green, dlt_dm, 0.0);
     float dlt_dm_pot = dlt_dm_pot_rue * part_fract;         // potential dry weight increase (g/m^2)
     dlt_dm_pot = bound(dlt_dm_pot, 0.0, dlt_dm_pot_rue);
-    
+
     if (g.dm_green > 0.0)
         {
-        // get N demands due to difference between 
+        // get N demands due to difference between
         // actual N concentrations and critical N concentrations
         float N_crit       = g.dm_green * g.n_conc_crit;    // critical N amount (g/m^2)
         float N_potential  = g.dm_green * g.n_conc_max;     // maximum N uptake potential (g/m^2)
@@ -389,13 +383,13 @@ void plantPart::doNDemand1(float dlt_dm,             // (INPUT)  Whole plant the
                  (g.n_green + dlt.n_retrans);
         float N_max_old    = N_potential -                  // N required by old biomass to reach
                  (g.n_green + dlt.n_retrans);               // N_conc_max  (g/m^2)
-                 
+
 
         // get potential N demand (critical N) of potential growth
         float N_demand_new = dlt_dm_pot * g.n_conc_crit;     // demand for N by new growth
-                                                             // (g/m^2)                   
-        float N_max_new    = dlt_dm_pot * g.n_conc_max;      // N required by new growth to reach 
-                                                             // N_conc_max  (g/m^2)               
+                                                             // (g/m^2)
+        float N_max_new    = dlt_dm_pot * g.n_conc_max;      // N required by new growth to reach
+                                                             // N_conc_max  (g/m^2)
         v.n_demand = N_demand_old + N_demand_new;
         v.n_max    = N_max_old    + N_max_new ;
 
@@ -405,8 +399,8 @@ void plantPart::doNDemand1(float dlt_dm,             // (INPUT)  Whole plant the
      else
         {
         v.n_demand = v.n_max = 0.0;
-        }   
-}        
+        }
+}
 
 //N demand as calculated by plant_n_demand
 //+  Purpose
@@ -437,10 +431,10 @@ void plantPart::doNDemand2(float dlt_dm,             // (INPUT)  Whole plant the
     float part_fract = divide (dlt.dm_green, dlt_dm, 0.0);
     float dlt_dm_pot = dlt_dm_pot_rue * part_fract;         // potential dry weight increase (g/m^2)
     dlt_dm_pot = bound(dlt_dm_pot, 0.0, dlt_dm_pot_rue);
-    
+
     if (g.dm_green > 0.0)
         {
-        // get N demands due to difference between 
+        // get N demands due to difference between
         // actual N concentrations and critical N concentrations
         float N_crit       = g.dm_green * g.n_conc_crit;    // critical N amount (g/m^2)
         float N_potential  = g.dm_green * g.n_conc_max;     // maximum N uptake potential (g/m^2)
@@ -449,18 +443,18 @@ void plantPart::doNDemand2(float dlt_dm,             // (INPUT)  Whole plant the
         float N_demand_old = N_crit - g.n_green;            // demand for N by old biomass (g/m^2)
         if (N_demand_old > 0.0)                             // Don't allow demand to satisfy all deficit
            N_demand_old *= c_n_deficit_uptake_fraction;
-                 
+
         float N_max_old    = N_potential - g.n_green;       // N required by old biomass to reach
                                                             // N_conc_max  (g/m^2)
        if (N_max_old>0.0)
            N_max_old *= c_n_deficit_uptake_fraction;        // Don't allow demand to satisfy all deficit
-                 
+
 
         // get potential N demand (critical N) of potential growth
         float N_demand_new = dlt_dm_pot * g.n_conc_crit;     // demand for N by new growth
-                                                             // (g/m^2)                   
-        float N_max_new    = dlt_dm_pot * g.n_conc_max;      // N required by new growth to reach 
-                                                             // N_conc_max  (g/m^2)               
+                                                             // (g/m^2)
+        float N_max_new    = dlt_dm_pot * g.n_conc_max;      // N required by new growth to reach
+                                                             // N_conc_max  (g/m^2)
         v.n_demand = N_demand_old + N_demand_new;
         v.n_max    = N_max_old    + N_max_new ;
 
@@ -470,25 +464,25 @@ void plantPart::doNDemand2(float dlt_dm,             // (INPUT)  Whole plant the
      else
         {
         v.n_demand = v.n_max = 0.0;
-        }   
-}        
+        }
+}
 
-void plantPart::doSoilNDemand(void) 
+void plantPart::doSoilNDemand(void)
 {
    v.soil_n_demand = v.n_demand - dlt.n_senesced_retrans;
    v.soil_n_demand = l_bound(v.soil_n_demand,0.0);
 }
 
-void plantPart::doSenescence1(float sen_fr) 
+void plantPart::doSenescence1(float sen_fr)
 {
    float fraction_senescing = c.dm_sen_frac.value(sen_fr);
 
    fraction_senescing = bound (fraction_senescing, 0.0, 1.0);
-   dlt.dm_senesced = (g.dm_green + dlt.dm_green + dlt.dm_green_retrans) 
+   dlt.dm_senesced = (g.dm_green + dlt.dm_green + dlt.dm_green_retrans)
                           * fraction_senescing;
 }
 
-void plantPart::doSenescence2(float sen_fr) 
+void plantPart::doSenescence2(float sen_fr)
 {
    float fraction_senescing = c.dm_sen_frac.value(sen_fr);
 
@@ -496,7 +490,7 @@ void plantPart::doSenescence2(float sen_fr)
    dlt.dm_senesced = g.dm_green * fraction_senescing;
 }
 
-void plantPart::doNSenescence() 
+void plantPart::doNSenescence()
 {
    float green_n_conc = divide (g.n_green, g.dm_green, 0.0);
 
@@ -512,13 +506,13 @@ void plantPart::doNSenescence()
 }
 
 
-void plantPart::dm_detachment1(void) 
+void plantPart::dm_detachment1(void)
    {
    dlt.dm_detached = g.dm_senesced * c.sen_detach_frac;
    dlt.dm_dead_detached = g.dm_dead * c.dead_detach_frac;
    }
 
-void plantPart::n_detachment1(void) 
+void plantPart::n_detachment1(void)
    {
    dlt.n_detached = g.n_senesced * c.sen_detach_frac;
    dlt.n_dead_detached = g.n_dead * c.dead_detach_frac;
@@ -526,7 +520,7 @@ void plantPart::n_detachment1(void)
 
 /*  Purpose
 *   The concentration of Nitrogen in plant parts is used to derive a Nitrogen stress index
-*   for many processes. This stress index is calculated from today's relative nutitional 
+*   for many processes. This stress index is calculated from today's relative nutitional
 *   status between a critical and minimum Nitrogen concentration.
 *
 *  Mission Statement
@@ -535,9 +529,9 @@ void plantPart::n_detachment1(void)
 float critNFactor(vector<const plantPart *> &parts, float multiplier)
 {
    vector<const plantPart *>::iterator part;
-     
+
    float dm = 0.0, N = 0.0;
-   for (part = parts.begin(); part != parts.end(); part++) 
+   for (part = parts.begin(); part != parts.end(); part++)
       {
       dm += (*part)->g.dm_green;
       N += (*part)->g.n_green;
@@ -549,14 +543,14 @@ float critNFactor(vector<const plantPart *> &parts, float multiplier)
 
       // calculate critical N concentrations
       float N_crit = 0.0;
-      for (part = parts.begin(); part != parts.end(); part++) 
+      for (part = parts.begin(); part != parts.end(); part++)
         N_crit += (*part)->g.n_conc_crit * (*part)->g.dm_green;
 
       float N_conc_crit = divide (N_crit, dm, 0.0);
 
       // calculate minimum N concentrations
       float N_min = 0.0;
-      for (part = parts.begin(); part != parts.end(); part++) 
+      for (part = parts.begin(); part != parts.end(); part++)
         N_min += (*part)->g.n_conc_min * (*part)->g.dm_green;
 
       float N_conc_min = divide (N_min, dm, 0.0);
@@ -575,9 +569,9 @@ float critNFactor(vector<const plantPart *> &parts, float multiplier)
 // Quite stem specific...
 void plantPart::onHarvest(float cutting_height, float remove_fr,
                           vector<string> &dm_type,
-                          vector<float> &dlt_crop_dm, 
-                          vector<float> &dlt_dm_n, 
-                          vector<float> &dlt_dm_p, 
+                          vector<float> &dlt_crop_dm,
+                          vector<float> &dlt_dm_n,
+                          vector<float> &dlt_dm_p,
                           vector<float> &fraction_to_residue)
 {
     float fractToResidue = 1.0 - remove_fr;
@@ -587,20 +581,20 @@ void plantPart::onHarvest(float cutting_height, float remove_fr,
     float retain_fr_green = c.fr_remain.value(fr_height);
     float retain_fr_sen  = retain_fr_green;
     float retain_fr_dead = retain_fr_green;
-    
+
     float chop_fr_green = (1.0 - retain_fr_green);
     float chop_fr_dead = (1.0 - retain_fr_dead);
     float chop_fr_sen = (1.0 - retain_fr_sen);
-    
+
     float dlt_dm_harvest = g.dm_dead * chop_fr_dead
                          + g.dm_green * chop_fr_green
                          + g.dm_senesced * chop_fr_sen;
 
-    float dlt_n_harvest = g.n_dead * chop_fr_dead 
-                        + g.n_green * chop_fr_green 
+    float dlt_n_harvest = g.n_dead * chop_fr_dead
+                        + g.n_green * chop_fr_green
                         + g.n_senesced * chop_fr_sen;
 
-    float dlt_p_harvest = g.p_dead * chop_fr_dead 
+    float dlt_p_harvest = g.p_dead * chop_fr_dead
                         + g.p_green * chop_fr_green
                         + g.p_sen * chop_fr_sen;
 
@@ -618,7 +612,7 @@ void plantPart::onHarvest(float cutting_height, float remove_fr,
     g.p_green *= retain_fr_green;
 
     g.height = max(1.0, cutting_height);
-    
+
     dm_type.push_back(c.name);
     fraction_to_residue.push_back(fractToResidue);
     dlt_crop_dm.push_back(dlt_dm_harvest * gm2kg/sm2ha);
@@ -627,9 +621,9 @@ void plantPart::onHarvest(float cutting_height, float remove_fr,
 }
 
 void plantPart::onEndCrop(vector<string> &dm_type,
-                          vector<float> &dlt_crop_dm, 
+                          vector<float> &dlt_crop_dm,
                           vector<float> &dlt_dm_n,
-                          vector<float> &dlt_dm_p, 
+                          vector<float> &dlt_dm_p,
                           vector<float> &fraction_to_residue)
 {
     dm_type.push_back(c.name);
@@ -640,7 +634,7 @@ void plantPart::onEndCrop(vector<string> &dm_type,
 }
 
 // Add detached material to the parts of a message
-//void plantPart::live_detached(vector<string> &dm_type, 
+//void plantPart::live_detached(vector<string> &dm_type,
 //                              vector<float> &fraction_to_residue,
 //                              vector<float> &dm,
 //                              vector<float> &dm_n,
@@ -651,26 +645,26 @@ void plantPart::onEndCrop(vector<string> &dm_type,
 //    dm.push_back(dlt.dm_detached * gm2kg/sm2ha);
 //    dm_n.push_back(dlt.n_detached * gm2kg/sm2ha);
 //    dm_p.push_back(dlt.p_det * gm2kg/sm2ha);
-//}                              
+//}
 
 /*  Purpose
 *     Calculate N available for transfer to grain (g/m^2)
-*     from each plant part.  
+*     from each plant part.
 *
 *  Mission Statement
 *   Calculate the Nitrogen available for retranslocation to grain
 */
-float plantPart::availableRetranslocateN(void) 
+float plantPart::availableRetranslocateN(void)
    {
    float N_min = g.n_conc_min * g.dm_green;
    float N_avail = l_bound (g.n_green - N_min, 0.0);
    return (N_avail * c.n_retrans_fraction);
    }
 
-void plantPart::onPlantEvent(const string &event) 
+void plantPart::onPlantEvent(const string &event)
    {
-   if (event == "emergence") onEmergence();   
-   else if (event == "flowering") onFlowering();   
+   if (event == "emergence") onEmergence();
+   else if (event == "flowering") onFlowering();
    else if (event == "start_grain_fill") onStartGrainFill();
    }
 
@@ -679,35 +673,35 @@ void plantPart::onPlantEvent(const string &event)
 //-------------------Hacks-------------------------------
 void plantPartHack::get(void) {
       v.dm_green_demand     = myplant->g.dm_green_demand[part];
-      g.dm_dead             = myplant->g.dm_dead[part];           
-      g.dm_green            = myplant->g.dm_green[part];          
-      g.dm_senesced         = myplant->g.dm_senesced[part];       
-      v.n_demand            = myplant->g.n_demand[part];         
+      g.dm_dead             = myplant->g.dm_dead[part];
+      g.dm_green            = myplant->g.dm_green[part];
+      g.dm_senesced         = myplant->g.dm_senesced[part];
+      v.n_demand            = myplant->g.n_demand[part];
       v.soil_n_demand       = myplant->g.soil_n_demand[part];
-      v.n_max               = myplant->g.n_max[part];            
-      g.n_dead              = myplant->g.n_dead[part];            
-      g.n_green             = myplant->g.n_green[part];           
-      g.n_senesced          = myplant->g.n_senesced[part];        
-      g.width               = myplant->g.canopy_width;             
-      g.n_conc_crit         = myplant->g.n_conc_crit[part];       
-      g.n_conc_max          = myplant->g.n_conc_max[part];        
-      g.n_conc_min          = myplant->g.n_conc_min[part];        
-      g.dm_plant_min        = myplant->g.dm_plant_min[part];      
-      dlt.dm_green          = myplant->g.dlt_dm_green[part];         
-      dlt.dm_senesced       = myplant->g.dlt_dm_senesced[part];      
-      dlt.dm_detached       = myplant->g.dlt_dm_detached[part];      
-      dlt.dm_dead_detached  = myplant->g.dlt_dm_dead_detached[part]; 
-      dlt.dm_green_retrans  = myplant->g.dlt_dm_green_retrans[part]; 
-      dlt.n_green           = myplant->g.dlt_n_green[part];          
-      dlt.n_senesced        = myplant->g.dlt_n_senesced[part];       
+      v.n_max               = myplant->g.n_max[part];
+      g.n_dead              = myplant->g.n_dead[part];
+      g.n_green             = myplant->g.n_green[part];
+      g.n_senesced          = myplant->g.n_senesced[part];
+      g.width               = myplant->g.canopy_width;
+      g.n_conc_crit         = myplant->g.n_conc_crit[part];
+      g.n_conc_max          = myplant->g.n_conc_max[part];
+      g.n_conc_min          = myplant->g.n_conc_min[part];
+      g.dm_plant_min        = myplant->g.dm_plant_min[part];
+      dlt.dm_green          = myplant->g.dlt_dm_green[part];
+      dlt.dm_senesced       = myplant->g.dlt_dm_senesced[part];
+      dlt.dm_detached       = myplant->g.dlt_dm_detached[part];
+      dlt.dm_dead_detached  = myplant->g.dlt_dm_dead_detached[part];
+      dlt.dm_green_retrans  = myplant->g.dlt_dm_green_retrans[part];
+      dlt.n_green           = myplant->g.dlt_n_green[part];
+      dlt.n_senesced        = myplant->g.dlt_n_senesced[part];
       dlt.n_senesced_retrans= myplant->g.dlt_n_senesced_retrans[part];
-      dlt.n_senesced_trans  = myplant->g.dlt_n_senesced_trans[part]; 
-      dlt.n_detached        = myplant->g.dlt_n_detached[part];       
-      dlt.n_dead            = myplant->g.dlt_n_dead[part];           
-      dlt.n_dead_detached   = myplant->g.dlt_n_dead_detached[part];  
-      dlt.n_retrans         = myplant->g.dlt_n_retrans[part];        
-      dlt.height            = myplant->g.dlt_canopy_height;           
-      dlt.width             = myplant->g.dlt_canopy_width;            
+      dlt.n_senesced_trans  = myplant->g.dlt_n_senesced_trans[part];
+      dlt.n_detached        = myplant->g.dlt_n_detached[part];
+      dlt.n_dead            = myplant->g.dlt_n_dead[part];
+      dlt.n_dead_detached   = myplant->g.dlt_n_dead_detached[part];
+      dlt.n_retrans         = myplant->g.dlt_n_retrans[part];
+      dlt.height            = myplant->g.dlt_canopy_height;
+      dlt.width             = myplant->g.dlt_canopy_width;
       g.p_dead              = myplant->g.p_dead[part];
       g.p_green             = myplant->g.p_green[part];
       g.p_sen               = myplant->g.p_sen[part];
@@ -731,7 +725,7 @@ void plantPartHack::get(void) {
           c.y_p_conc_max [i]  = myplant->c.y_p_conc_max  [part][i];
           c.y_p_conc_min [i]  = myplant->c.y_p_conc_min  [part][i];
           c.y_p_conc_sen [i]  = myplant->c.y_p_conc_sen  [part][i];
-      }   
+      }
 }
 
 void plantPartHack::put(void) {

@@ -5,7 +5,7 @@
 
 #include <string.h>
 #include <math.h>
-
+#include <stdexcept>
 #include "PlantLibrary.h"
 
 using namespace std;
@@ -88,3 +88,96 @@ std::string any2string(float value) {
 std::string any2string(int value) {
    return(itoa(value, 5));
 }
+#if 0
+//+  Purpose
+//     Calculate min and max crown temperatures.
+void crop_crown_temp_nwheat( float tempmx        //Daily maximum temperature of the air (C)
+                            ,float tempmn        //Daily minimum temperature of the air (C)
+                            ,float snow          //Snow depth on the current day (mm)
+                            ,float *tempcx       //Daily maximum of crown temperature (C)     - OUTPUT
+                            ,float *tempcn)      //Daily minimum of crown temperature (C)     - OUTPUT
+   {
+   // Calculate max crown temperature
+   if (tempmx < 0.)
+        {
+        *tempcx = 2.0 + tempmx * (0.4 + 0.0018 * pow(snow - 15., 2));
+        }
+   else
+        {
+        *tempcx = tempmx;
+        }
+
+   // Calculate min crown temperature
+   if (tempmn < 0.)
+        {
+        *tempcn = 2.0 + tempmn * (0.4 + 0.0018 * pow(snow - 15., 2));
+        }
+   else
+        {
+        *tempcn = tempmn;
+        }
+   }
+
+#endif
+/* Purpose
+*     returns the temperature for a 3 hour period.
+*      a 3 hourly estimate of air temperature
+*/
+float temp_3hr (float tmax, float tmin, int period)
+   {
+   // Local Variables
+   float period_no;              // period number
+   float diurnal_range;          // diurnal temperature range for the
+                                 //   day (oC)
+   float t_deviation;            // deviation from day's minimum for this
+                                 //    3 hr period
+   float t_range_fract;          // fraction_of of day's range_of for this
+                                 //   3 hr period
+
+   // Implementation Section ----------------------------------
+   if (period < 1)
+      throw std::invalid_argument("3 hr. period number is below 1");
+   else if (period > 8)
+      throw std::invalid_argument("3 hr. period number is above 8");
+
+   period_no = float(period);
+   t_range_fract = 0.92105
+                   + 0.1140  * period_no
+                   - 0.0703  * pow(period_no,2)
+                   + 0.0053  * pow(period_no,3);
+
+   diurnal_range = tmax - tmin;
+   t_deviation = t_range_fract * diurnal_range;
+   return  (tmin + t_deviation);
+   }
+
+/* Purpose
+*     Eight interpolations of the air temperature are
+*     calculated using a three-hour correction factor.
+*     For each air three-hour air temperature, a value
+*     is calculated.  The eight three-hour estimates
+*     are then averaged to obtain the daily value.
+*/
+float linint_3hrly_temp (float tmax,          //(INPUT) maximum temperature (oC)
+                         float tmin,          //(INPUT) maximum temperature (oC)
+                         externalFunction *ttFn)
+   {
+   //Constants
+   const int num3hr = 24/3;     // number of 3 hourly temperatures
+
+   // Local Variables
+   int period;                  // three hourly period number
+   float tot;                   // sum_of of 3 hr interpolations
+   float y_3hour;               // 3 hr interpolated value
+
+   // Implementation Section ----------------------------------
+   tot = 0.0;
+
+   for(period = 1; period <= num3hr; period++)
+      {
+      // get mean temperature for 3 hr period (oC)
+      float tmean_3hour = temp_3hr (tmax, tmin, period);
+      tot = tot + ttFn->value(tmean_3hour);
+      }
+   return (tot / float(num3hr));
+   }
