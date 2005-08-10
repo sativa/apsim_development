@@ -39,7 +39,6 @@
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToEvent" name="error" type=""/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="get" name="simulation_start_date" type="type kind='double'\"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="get" name="simulation_end_date" type="type kind='double'\"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToEvent" name="summaryFileWrite" type=""/>
          <message3 to="MasterPM" msgtype="Complete" ack="false"/>
       </message2>
       <message2 to="MasterPM" msgtype="RequestComponentID" ack="false">
@@ -292,6 +291,7 @@
          <message3 to="MasterPM" msgtype="Complete" ack="false"/>
       </message2>
       <message2 to="screen" msgtype="Init2" ack="true">
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToEvent" name="summaryFileWrite" type=""/>
          <message3 to="MasterPM" msgtype="Complete" ack="false"/>
       </message2>
       <message2 to="clock" msgtype="Init2" ack="true">
