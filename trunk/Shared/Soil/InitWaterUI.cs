@@ -3,12 +3,13 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
+using System.Collections.Specialized;
 using CSGeneral;
 using VBGeneral;
 using Xceed.Chart;
 using Xceed.Chart.Core;
 using Xceed.Chart.Standard;
-
+									    
 namespace CSGeneral
 	{
 	public class InitWaterUI : VBGeneral.BaseUI
@@ -47,8 +48,8 @@ namespace CSGeneral
 		private System.ComponentModel.IContainer components = null;
 		private Soil SoilData;
 		internal Xceed.Grid.GridControl WaterGrid;
-		internal Xceed.Chart.ChartControl WaterChart;
 		private InitWater InitialWater;
+		private CSGeneral.WaterChartControl WaterChartControl;
 		private bool UserChange = true;
 		
 
@@ -83,7 +84,6 @@ namespace CSGeneral
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(InitWaterUI));
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.WaterGrid = new Xceed.Grid.GridControl();
 			this.Column1 = new Xceed.Grid.Column();
@@ -115,8 +115,8 @@ namespace CSGeneral
 			this.PercentEdit = new System.Windows.Forms.NumericUpDown();
 			this.DepthWetSoilRadio = new System.Windows.Forms.RadioButton();
 			this.PercentRadio = new System.Windows.Forms.RadioButton();
-			this.WaterChart = new Xceed.Chart.ChartControl();
 			this.splitter1 = new System.Windows.Forms.Splitter();
+			this.WaterChartControl = new CSGeneral.WaterChartControl();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.WaterGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataRowTemplate2)).BeginInit();
@@ -163,6 +163,8 @@ namespace CSGeneral
 			// 
 			// Column1
 			// 
+			this.Column1.CanBeSorted = false;
+			this.Column1.ReadOnly = true;
 			this.Column1.Title = "Depth(cm)";
 			this.Column1.VisibleIndex = 0;
 			this.Column1.Width = 65;
@@ -170,6 +172,8 @@ namespace CSGeneral
 			// 
 			// Column2
 			// 
+			this.Column2.CanBeSorted = false;
+			this.Column2.ReadOnly = true;
 			this.Column2.Title = "LL15 (%)";
 			this.Column2.VisibleIndex = 1;
 			this.Column2.Width = 63;
@@ -177,6 +181,8 @@ namespace CSGeneral
 			// 
 			// Column3
 			// 
+			this.Column3.CanBeSorted = false;
+			this.Column3.ReadOnly = true;
 			this.Column3.Title = "DUL (%)";
 			this.Column3.VisibleIndex = 2;
 			this.Column3.Width = 64;
@@ -184,6 +190,7 @@ namespace CSGeneral
 			// 
 			// Column4
 			// 
+			this.Column4.CanBeSorted = false;
 			this.Column4.Title = "SW (%)";
 			this.Column4.VisibleIndex = 3;
 			this.Column4.Width = 63;
@@ -354,24 +361,6 @@ namespace CSGeneral
 			this.PercentRadio.Text = "Specify a fraction of maximum available water";
 			this.PercentRadio.CheckedChanged += new System.EventHandler(this.PercentRadio_CheckedChanged);
 			// 
-			// WaterChart
-			// 
-			this.WaterChart.AutoScrollMargin = new System.Drawing.Size(0, 0);
-			this.WaterChart.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-			this.WaterChart.BackColor = System.Drawing.SystemColors.ActiveBorder;
-			this.WaterChart.Background = ((Xceed.Chart.Standard.Background)(resources.GetObject("WaterChart.Background")));
-			this.WaterChart.Charts = ((Xceed.Chart.Core.ChartCollection)(resources.GetObject("WaterChart.Charts")));
-			this.WaterChart.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.WaterChart.InteractivityOperations = ((Xceed.Chart.Standard.InteractivityOperationsCollection)(resources.GetObject("WaterChart.InteractivityOperations")));
-			this.WaterChart.Labels = ((Xceed.Chart.Standard.ChartLabelCollection)(resources.GetObject("WaterChart.Labels")));
-			this.WaterChart.Legends = ((Xceed.Chart.Core.LegendCollection)(resources.GetObject("WaterChart.Legends")));
-			this.WaterChart.Location = new System.Drawing.Point(315, 20);
-			this.WaterChart.Name = "WaterChart";
-			this.WaterChart.Settings = ((Xceed.Chart.Core.Settings)(resources.GetObject("WaterChart.Settings")));
-			this.WaterChart.Size = new System.Drawing.Size(460, 753);
-			this.WaterChart.TabIndex = 20;
-			this.WaterChart.Watermarks = ((Xceed.Chart.Standard.WatermarkCollection)(resources.GetObject("WaterChart.Watermarks")));
-			// 
 			// splitter1
 			// 
 			this.splitter1.Location = new System.Drawing.Point(312, 20);
@@ -380,17 +369,26 @@ namespace CSGeneral
 			this.splitter1.TabIndex = 21;
 			this.splitter1.TabStop = false;
 			// 
+			// WaterChartControl
+			// 
+			this.WaterChartControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.WaterChartControl.LinkedSoil = null;
+			this.WaterChartControl.Location = new System.Drawing.Point(315, 20);
+			this.WaterChartControl.Name = "WaterChartControl";
+			this.WaterChartControl.Size = new System.Drawing.Size(531, 753);
+			this.WaterChartControl.TabIndex = 22;
+			// 
 			// InitWaterUI
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(775, 808);
-			this.Controls.Add(this.WaterChart);
+			this.ClientSize = new System.Drawing.Size(846, 808);
+			this.Controls.Add(this.WaterChartControl);
 			this.Controls.Add(this.splitter1);
 			this.Controls.Add(this.panel1);
 			this.Name = "InitWaterUI";
 			this.Controls.SetChildIndex(this.panel1, 0);
 			this.Controls.SetChildIndex(this.splitter1, 0);
-			this.Controls.SetChildIndex(this.WaterChart, 0);
+			this.Controls.SetChildIndex(this.WaterChartControl, 0);
 			this.panel1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.WaterGrid)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataRowTemplate2)).EndInit();
@@ -412,11 +410,12 @@ namespace CSGeneral
 			{
 			base.Refresh();
 
-			HelpLabel.Text = "There are multiple ways of initialising soil water. Select a method by clicking one of the radio buttons above "
+			HelpLabel.Text = "There are multiple ways of initialising soil water. Select a method by clicking one of the options above "
 										+ " and then filling in the details.";
 
 			SoilData = new Soil(Data.Parent);
 			InitialWater = SoilData.InitialWater;
+			WaterChartControl.LinkedSoil = SoilData;
 
 			PopulateControls();
 			}
@@ -425,7 +424,6 @@ namespace CSGeneral
 		// -------------------------------------
 		// Populate all controls from the soil
 		// -------------------------------------
-
 		private void PopulateControls()
 			{
 			UserChange = false;
@@ -434,7 +432,6 @@ namespace CSGeneral
 			LayeredRadio.Checked = (InitialWater.Method == InitWater.MethodType.Layered);
 			PercentPanel.Visible = PercentRadio.Checked;
 			DepthWetSoilPanel.Visible = DepthWetSoilRadio.Checked;
-			WaterGrid.ReadOnly = !LayeredRadio.Checked;
 			GroupBox.Visible = !LayeredRadio.Checked;
 
 			if (InitialWater.Method == InitWater.MethodType.Percent)
@@ -486,6 +483,12 @@ namespace CSGeneral
 		private void PopulateGrid()
 			{
 			UserChange = false;
+			WaterGrid.Columns[3].ReadOnly = !LayeredRadio.Checked;
+			if (LayeredRadio.Checked)
+				WaterGrid.BackColor = SystemColors.Window;
+			else
+				WaterGrid.BackColor = SystemColors.Control;
+				
 			GridUtils.SetColumnAsStrings(ref WaterGrid, 0, SoilData.DepthStrings);
 			GridUtils.SetColumnAsDoubles(ref WaterGrid, 1, MathUtility.Multiply_Value(SoilData.LL15, 100), "f2");
 			GridUtils.SetColumnAsDoubles(ref WaterGrid, 2, MathUtility.Multiply_Value(SoilData.DUL, 100), "f2");
@@ -494,38 +497,9 @@ namespace CSGeneral
 			foreach (Xceed.Grid.DataRow Row in WaterGrid.DataRows)
 				Row.Cells[3].ValueChanged += new System.EventHandler(CellValueChanged);
 			
-			PopulateChart();
+			WaterChartControl.Refresh();
 			UserChange = true;
 			}	
-
-
-		// ---------------------------------------
-		// Populate the chart from the grid.
-		// ---------------------------------------
-		void PopulateChart()
-			{
-			ChartHelper Helper = new ChartHelper();
-			Helper.Clear();
-			Helper.Chart = WaterChart;
-			double[] depth = MathUtility.Divide_Value(SoilData.CumThicknessMidPoints, 10);
-			double[] sw = GridUtils.GetColumnAsDoubles(ref WaterGrid, 3, WaterGrid.DataRows.Count);
-			bool SomeMissingValues = false;
-			foreach (double Value in sw)
-				SomeMissingValues = (SomeMissingValues || (Value == MathUtility.MissingValue));
-            
-			Helper.CreateChartSeriesFromArray("LL15", MathUtility.Multiply_Value(SoilData.LL15, 100), depth, 
-										false, Color.Red, 1, LinePattern.Solid,
-										StandardAxis.PrimaryX, StandardAxis.PrimaryY);
-			Helper.CreateChartSeriesFromArray("DUL", MathUtility.Multiply_Value(SoilData.DUL, 100), depth, 
-										false, Color.Blue, 1, LinePattern.Solid,
-										StandardAxis.PrimaryX, StandardAxis.PrimaryY);
-
-			if (!SomeMissingValues)
-				Helper.CreateChartSeriesFromArray("SW", sw, depth, 
-											false, Color.LightSkyBlue, 3, LinePattern.Solid,
-											StandardAxis.PrimaryX, StandardAxis.PrimaryY);
-			WaterChart.Refresh();
-			}
 
 
 		// -----------------------------------------------------
@@ -536,7 +510,7 @@ namespace CSGeneral
 			if (UserChange)
 				{
 				SaveControls();
-				PopulateChart();
+				WaterChartControl.Refresh();
 				}
 			}
 
@@ -663,12 +637,6 @@ namespace CSGeneral
 				UserChange = true;
 				}
 			}
-
-
-
-
-
-
 
 
 
