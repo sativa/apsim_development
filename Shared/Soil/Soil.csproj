@@ -224,6 +224,16 @@
                     DependentUpon = "SoilUI.cs"
                     BuildAction = "EmbeddedResource"
                 />
+                <File
+                    RelPath = "WaterChartControl.cs"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WaterChartControl.resx"
+                    DependentUpon = "WaterChartControl.cs"
+                    BuildAction = "EmbeddedResource"
+                />
             </Include>
         </Files>
     </CSHARP>

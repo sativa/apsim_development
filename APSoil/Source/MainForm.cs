@@ -63,6 +63,8 @@ namespace APSoil
 		private System.Windows.Forms.MenuItem ImportSoilsMenu;
 		private System.Windows.Forms.OpenFileDialog ImportSoilsDialog;
 		private System.Windows.Forms.OpenFileDialog openFileDialog2;
+		private System.Windows.Forms.MenuItem menuItem7;
+		private System.Windows.Forms.MenuItem SortMenuItem;
 		private string CommandLineFileName;
 
 		// ------------------
@@ -151,12 +153,15 @@ namespace APSoil
 			this.ImportSoilsDialog = new System.Windows.Forms.OpenFileDialog();
 			this.SimExportDialog = new System.Windows.Forms.SaveFileDialog();
 			this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
+			this.menuItem7 = new System.Windows.Forms.MenuItem();
+			this.SortMenuItem = new System.Windows.Forms.MenuItem();
 			this.SuspendLayout();
 			// 
 			// mainMenu1
 			// 
 			this.mainMenu1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					  this.menuItem1,
+																					  this.menuItem7,
 																					  this.menuItem3});
 			// 
 			// menuItem1
@@ -268,7 +273,7 @@ namespace APSoil
 			// 
 			// menuItem3
 			// 
-			this.menuItem3.Index = 1;
+			this.menuItem3.Index = 2;
 			this.menuItem3.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					  this.CheckForErrors});
 			this.menuItem3.Text = "&Tools";
@@ -440,6 +445,19 @@ namespace APSoil
 			this.SimExportDialog.Filter = "Sim files (*.sim)|*.sim|All files (*.*)|*.*";
 			this.SimExportDialog.Title = "Enter output file name for soil";
 			// 
+			// menuItem7
+			// 
+			this.menuItem7.Index = 1;
+			this.menuItem7.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																					  this.SortMenuItem});
+			this.menuItem7.Text = "&View";
+			// 
+			// SortMenuItem
+			// 
+			this.SortMenuItem.Index = 0;
+			this.SortMenuItem.Text = "Sort soils alphabetically";
+			this.SortMenuItem.Click += new System.EventHandler(this.SortMenuItem_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
@@ -450,6 +468,7 @@ namespace APSoil
 			this.Menu = this.mainMenu1;
 			this.Name = "MainForm";
 			this.Text = "APSoil";
+			this.Closing += new System.ComponentModel.CancelEventHandler(this.MainForm_Closing);
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.ResumeLayout(false);
 
@@ -500,9 +519,12 @@ namespace APSoil
 			SoilExplorer.Parent = MainPanel;
 			SoilExplorer.Visible = true;
 			SoilExplorer.ExpandAll = false;
+			SortMenuItem.Checked = (APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "Soil", "SortByName") == "yes");
+			SoilExplorer.SortAll = SortMenuItem.Checked;
 			SoilExplorer.Setup(this, "Soils files (*.soils)|*.soils|" + 
 								 	 "All files (*.*)|*.*", 
 									 ".soils", "apsoil");
+
 			SoilExplorer.DataTreeCaption = "Empty soils database";
 			SetFunctionality(SoilExplorer.GetSelectedData());
 			SoilExplorer.DataSelectedEvent += new DataTree.DataSelectedEventHandler(SetFunctionality);
@@ -569,8 +591,17 @@ namespace APSoil
 		// --------------------------------
 		private void FileExit_Click(object sender, System.EventArgs e)
 			{
-			SoilExplorer.FileSave();
+			SoilExplorer.DoSaveAfterPrompt();
 			Close();
+			}										      
+
+
+		// --------------------------------------
+		// User is closing down - save our work.
+		// --------------------------------------
+		private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+			{
+			e.Cancel = !SoilExplorer.DoSaveAfterPrompt();
 			}
 
 
@@ -579,7 +610,9 @@ namespace APSoil
 		// ---------------------------------------
 		private void ToolBar_ButtonClick(object sender, System.Windows.Forms.ToolBarButtonClickEventArgs e)
 			{
-			if (e.Button == FileNewButton)
+			if (e.Button == ImportButton)
+				ImportMenu.Show(this.ToolBar, new Point(ImportButton.Rectangle.Left, ImportButton.Rectangle.Bottom));
+			else if (e.Button == FileNewButton)
 				FileNew_Click(sender, e);
 			else if (e.Button == FileOpenButton)
 				FileOpen_Click(sender, e);
@@ -688,6 +721,7 @@ namespace APSoil
 						NewData.LoadFromFile(File);
 						APSIMChangeTool.Upgrade(NewData);
 						SoilExplorer.Data.Add(NewData);
+						SoilExplorer.SelectNode(NewData.Name);
 						}
 					}
 				}
@@ -768,6 +802,20 @@ namespace APSoil
 					}
 				}
 			}
+
+		// ---------------------------------------------------
+		// User has changed the sort menu item.
+		// ---------------------------------------------------
+		private void SortMenuItem_Click(object sender, System.EventArgs e)
+			{
+			SortMenuItem.Checked = !SortMenuItem.Checked;
+			string SortValue = "no";
+			if (SortMenuItem.Checked)
+				SortValue = "yes";
+			APSIMSettings.INIWrite(APSIMSettings.ApsimIniFile(), "soil", "SortByName", SortValue);
+			SoilExplorer.SortAll = SortMenuItem.Checked;
+			}
+
 
 
 

@@ -20,6 +20,7 @@ Public Class DataTree
     Private MaxNumLevels As Integer = 100
     Private ShowAllComponents As Boolean = False
     Private ExpandAllNodes As Boolean = True
+    Private IsSorted As Boolean = False
 
 
 #Region " Windows Form Designer generated code "
@@ -133,6 +134,18 @@ Public Class DataTree
     End Property
 
 
+    ' ------------------------------------------------------
+    ' Set the sortall property
+    ' ------------------------------------------------------
+    WriteOnly Property SortAll() As Boolean
+        Set(ByVal Value As Boolean)
+            IsSorted = Value
+            TreeView.Sorted = IsSorted
+            Refresh()
+        End Set
+    End Property
+
+
     ' ----------------------------------------------
     ' Override the base fill method and populate
     ' ourselves.
@@ -144,6 +157,7 @@ Public Class DataTree
             AddNode(Data, Nothing)
             Dim RootNode As TreeNode = TreeView.Nodes(0)
             PopulateTree(Data, RootNode)
+            TreeView.Sorted = IsSorted
             If ExpandAllNodes Then
                 TreeView.ExpandAll()
             End If
@@ -196,6 +210,7 @@ Public Class DataTree
         TreeView.BeginUpdate()
 
         DisplayNode(Data, ParentNode, 0)
+        TreeView.Sorted = IsSorted
 
         ' Begin repainting the TreeView.
         TreeView.EndUpdate()

@@ -192,6 +192,15 @@ Public Class ExplorerUI
     End Property
 
 
+    ' ------------------------------------------------------
+    ' Set the SortAll property
+    ' ------------------------------------------------------
+    WriteOnly Property SortAll() As Boolean
+        Set(ByVal Value As Boolean)
+            DataTree.SortAll = Value
+        End Set
+    End Property
+
 
     ' -------------------------------------------
     ' Refresh ourselves.
@@ -256,10 +265,12 @@ Public Class ExplorerUI
     ' Uses the specified data as a template.
     ' -------------------------------------
     Public Sub FileNew(ByVal DataToUse As APSIMData)
-        Data = DataToUse
-        MyFileName = "Untitled" + MyExtension
-        UpdateCaption()
-        'MyDataHasChanged = True
+        If DoSaveAfterPrompt() Then
+            Data = DataToUse
+            MyFileName = "Untitled" + MyExtension
+            UpdateCaption()
+            MyDataHasChanged = True
+        End If
     End Sub
 
 
@@ -271,7 +282,7 @@ Public Class ExplorerUI
         If FileOpen(FileName) Then
             MyFileName = "Untitled" + MyExtension
             UpdateCaption()
-            'MyDataHasChanged = True
+            MyDataHasChanged = True
         End If
     End Sub
 
@@ -286,7 +297,7 @@ Public Class ExplorerUI
             MyFileName = FileName
             UpdateCaption()
             AddFileToFrequentList(MyFileName)
-            MyDataHasChanged = False
+            MyDataHasChanged = True
             Return True
         Else
             Return False
@@ -331,7 +342,7 @@ Public Class ExplorerUI
             Data.SaveToFile(MyFileName)
             UpdateCaption()
             AddFileToFrequentList(MyFileName)
-            MyDataHasChanged = False
+            MyDataHasChanged = True
             Return True
         End If
     End Function
@@ -379,18 +390,19 @@ Public Class ExplorerUI
     ' user is happy or false if user pressed
     ' cancel.
     ' -----------------------------------------
-    Private Function DoSaveAfterPrompt() As Boolean
+    Public Function DoSaveAfterPrompt() As Boolean
         If MyDataHasChanged Then
-            Dim DoSave As Integer = MsgBox("Do you want to save your work?", MsgBoxStyle.YesNoCancel, "Question")
+            Dim DoSave As Integer = MessageBox.Show("The current file has changed. Do you want to save it before proceeding?", _
+                                                    "Save?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
             Select Case DoSave
-                Case MsgBoxResult.Yes
+                Case DialogResult.Yes
                     ' Save the file
                     FileSave()
 
-                Case MsgBoxResult.No
+                Case DialogResult.No
                     ' Do not save
 
-                Case MsgBoxResult.Cancel
+                Case DialogResult.Cancel
                     ' Cancel pressed.
                     Return False
             End Select
@@ -505,18 +517,16 @@ Public Class ExplorerUI
     ' ---------------------------------
     ' Select a node in the data tree.
     ' ---------------------------------
-    Public Sub FindFirstNodeOfType(ByVal ParentNode As TreeNode, ByVal NodeType As String)
-        For Each Node As TreeNode In ParentNode.Nodes
-            Dim Data As APSIMData = DataTree.GetDataForFullPath(Node.FullPath)
-            If IsNothing(CurrentUI) And Data.Type.ToLower() = NodeType.ToLower() Then
-                DataTree.SelectNode(Node)
-            Else
-                For Each Child As TreeNode In DataTree.Nodes
-                    If CurrentUI Is Nothing Then
-                        FindFirstNodeOfType(Child, NodeType)
-                    End If
-                Next
-            End If
-        Next
+    Public Sub FindFirstNodeOfType(ByVal Node As TreeNode, ByVal NodeType As String)
+        Dim Data As APSIMData = DataTree.GetDataForFullPath(Node.FullPath)
+        If IsNothing(CurrentUI) And Data.Type.ToLower() = NodeType.ToLower() Then
+            DataTree.SelectNode(Node)
+        Else
+            For Each Child As TreeNode In Node.Nodes
+                If CurrentUI Is Nothing Then
+                    FindFirstNodeOfType(Child, NodeType)
+                End If
+            Next
+        End If
     End Sub
 End Class

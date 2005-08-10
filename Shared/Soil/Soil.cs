@@ -364,7 +364,10 @@ namespace CSGeneral
 			double[] DUL = this.DUL;
 			double[] PAWC = new double[Thickness.Length];
 
-			for (int layer = 0; layer != LL.Length; layer++)
+			if (Thickness.Length != DUL.Length || Thickness.Length != LL.Length)
+				return new double[0];
+
+			for (int layer = 0; layer != Thickness.Length; layer++)
 				PAWC[layer] = (DUL[layer] - LL[layer]) * Thickness[layer];
 			return PAWC;
 			}
@@ -661,6 +664,36 @@ namespace CSGeneral
 						          +  " in layer " + RealLayerNumber.ToString() + " is below air dry value of " + airdry[layer].ToString("f3")
 								  + "\r\n";
 
+				foreach (string Crop in Crops)
+					{
+					double[] ll = LL(Crop);
+					double[] kl = KL(Crop);
+					double[] xf = XF(Crop);
+
+					if (kl[layer] > 1)
+						errorMessages += "KL value of " + kl[layer].ToString("f3")
+									+  " in layer " + RealLayerNumber.ToString() + " is greater than 1"
+									+ "\r\n";
+
+					if (xf[layer] > 1)
+						errorMessages += "XF value of " + xf[layer].ToString("f3")
+									+  " in layer " + RealLayerNumber.ToString() + " is greater than 1"
+									+ "\r\n";
+
+					if (ll[layer] < airdry[layer])
+						errorMessages += "Crop lower limit of " + ll[layer].ToString("f3")
+									  + " for crop " + Crop 
+							          +  " in layer " + RealLayerNumber.ToString() + " is below air dry value of " + airdry[layer].ToString("f3")
+									  + "\r\n";
+
+					if (ll[layer] > DUL[layer])
+						errorMessages += "Crop lower limit of " + ll[layer].ToString("f3")
+									  + " for crop " + Crop 
+							          +  " in layer " + RealLayerNumber.ToString() + " is above drained upper limit of " + dul[layer].ToString("f3")
+									  + "\r\n";
+
+					}
+
 				if (dul[layer] <= ll15[layer])
 					errorMessages += "Drained upper limit of " + dul[layer].ToString("f3")
 						          +  " in layer " + RealLayerNumber.ToString() + " is at or below lower limit of " + ll15[layer].ToString("f3")
@@ -689,6 +722,11 @@ namespace CSGeneral
 				if (sw[layer] < airdry[layer])
 					errorMessages += "Soil water of " + sw[layer].ToString("f3")
 						          +  " in layer " + RealLayerNumber.ToString() + " is below air-dry value of " + airdry[layer].ToString("f3")
+								  + "\r\n";
+
+				if (bd[layer] > 2.65)
+					errorMessages += "BD value of " + bd[layer].ToString("f3")
+						          +  " in layer " + RealLayerNumber.ToString() + " is greater than the theoretical maximum of 2.65"
 								  + "\r\n";
 				}
 			return errorMessages;
