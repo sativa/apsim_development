@@ -1,9 +1,11 @@
 //---------------------------------------------------------------------------
 #ifndef PlantIfaceH
 #define PlantIfaceH
+#include <boost/function.hpp>
+#include <boost/bind.hpp>
 
 // Class for communications - a sink for messages.
-class commsInterface 
+class commsInterface
   {
   public:
       virtual void writeString (const char *line) = 0;
@@ -42,5 +44,18 @@ class plantThing {
      virtual void zeroAllGlobals(void) = 0;
      virtual void zeroDeltas(void) = 0;
 };
+
+
+#define setupEvent(s,name,type,address) {\
+   boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;\
+   fn = boost::bind(address, this, _1, _2, _3); \
+   s->addEvent(name, type, fn);\
+   }
+
+#define setupGetFunction(s,name,type,length,address,units,desc) {\
+   boost::function2<void, protocol::Component *, protocol::QueryValueData &> fn;\
+   fn = boost::bind(address, this, _1, _2); \
+   s->addGettableVar(name, type, length, fn, units, desc);\
+   }
 
 #endif

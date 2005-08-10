@@ -268,7 +268,7 @@ void PlantFruit::read_constants (Plant *systemInterface)
 //       Read all fruit constants.
 
 //+  Constant Values
-    const char*  section_name = "constants" ;
+//    const char*  section_name = "constants" ;
 
 //+  Local Variables
     int    numvals;                  // number of values read
