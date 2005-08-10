@@ -17,6 +17,9 @@
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
 #include "PlantPhenology.h"
+#include "WheatPhenology.h"
+#include "TTTPhenology.h"
+#include "TTTRatePhenology.h"
 #include "PlantFruit.h"
 #include "Plant.h"
 #include "PlantParts.h"
@@ -105,7 +108,9 @@ void Plant::doInit1(protocol::Component *s)
     if (scratch == "")
        throw std::invalid_argument("The parameter 'phenology_model'\nisn't in your ini file.\n\nGet one.\n");
     else if (scratch == "legume")
-       phenology = new LegumePhenology(parent, this);
+       phenology = new TTTPhenology(parent, this);
+    else if (scratch == "tttrate")
+       phenology = new TTTRatePhenology(parent, this);
     else if (scratch == "wheat")
        phenology = new WheatPhenology(parent, this);
     else
@@ -203,78 +208,66 @@ void Plant::doIDs(void)
 void Plant::doRegistrations(protocol::Component *system)
    {
    // Events
-#define setupEvent(name,type,address) {\
-   boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;\
-   fn = boost::bind(address, this, _1, _2, _3); \
-   system->addEvent(name, type, fn);\
-   }
+   setupEvent(parent, "prepare",     RegistrationType::respondToEvent, &Plant::doPrepare);
+   setupEvent(parent, "process",     RegistrationType::respondToEvent, &Plant::doProcess);
+   setupEvent(parent, "tick",        RegistrationType::respondToEvent, &Plant::doTick);
+   setupEvent(parent, "newmet",      RegistrationType::respondToEvent, &Plant::doNewMet);
+   setupEvent(parent, "new_profile", RegistrationType::respondToEvent, &Plant::doNewProfile);
+   setupEvent(parent, "sow",         RegistrationType::respondToEvent, &Plant::doSow);
+   setupEvent(parent, "harvest",     RegistrationType::respondToEvent, &Plant::doHarvest);
+   setupEvent(parent, "end_crop",    RegistrationType::respondToEvent, &Plant::doEndCrop);
+   setupEvent(parent, "kill_crop",   RegistrationType::respondToEvent, &Plant::doKillCrop);
+   setupEvent(parent, "end_run",     RegistrationType::respondToEvent, &Plant::doEndRun);
+   setupEvent(parent, "kill_stem",   RegistrationType::respondToEvent, &Plant::doKillStem);
+   setupEvent(parent, "remove_crop_biomass",   RegistrationType::respondToEvent, &Plant::doRemoveCropBiomass);
 
-   setupEvent("prepare",     RegistrationType::respondToEvent, &Plant::doPrepare);
-   setupEvent("process",     RegistrationType::respondToEvent, &Plant::doProcess);
-   setupEvent("tick",        RegistrationType::respondToEvent, &Plant::doTick);
-   setupEvent("newmet",      RegistrationType::respondToEvent, &Plant::doNewMet);
-   setupEvent("new_profile", RegistrationType::respondToEvent, &Plant::doNewProfile);
-   setupEvent("sow",         RegistrationType::respondToEvent, &Plant::doSow);
-   setupEvent("harvest",     RegistrationType::respondToEvent, &Plant::doHarvest);
-   setupEvent("end_crop",    RegistrationType::respondToEvent, &Plant::doEndCrop);
-   setupEvent("kill_crop",   RegistrationType::respondToEvent, &Plant::doKillCrop);
-   setupEvent("end_run",     RegistrationType::respondToEvent, &Plant::doEndRun);
-   setupEvent("kill_stem",   RegistrationType::respondToEvent, &Plant::doKillStem);
-   setupEvent("remove_crop_biomass",   RegistrationType::respondToEvent, &Plant::doRemoveCropBiomass);
-#undef setupEvent
 
    // Send My Variable
-#define setupGetVar system->addGettableVar
-#define setupGetFunction(name,type,length,address,units,desc) {\
-   boost::function2<void, protocol::Component *, protocol::QueryValueData &> fn;\
-   fn = boost::bind(address, this, _1, _2); \
-   system->addGettableVar(name, type, length, fn, units, desc);\
-   }
 
-   setupGetFunction("plant_status", protocol::DTstring, false,
+   setupGetFunction(parent, "plant_status", protocol::DTstring, false,
                      &Plant::get_plant_status, "", "Plant Status");
 
 // XXXX UGLY HACK workaround for broken coordinator in 3.4
 //   id = parent->addGettableVar("crop_type", protocol::DTstring, false, "");
 //   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_crop_type));
 
-   setupGetVar("crop_class",
+   parent->addGettableVar("crop_class",
                g.crop_class, "", "Plant crop class");
 
-   setupGetVar("flowering_date",
+   parent->addGettableVar("flowering_date",
                g.flowering_date, "doy", "Day of flowering");
 
-   setupGetVar("maturity_date",
+   parent->addGettableVar("maturity_date",
                g.maturity_date, "doy", "Day of maturity");
 
-   setupGetFunction("leaf_no", protocol::DTsingle, false,
+   setupGetFunction(parent, "leaf_no", protocol::DTsingle, false,
                     &Plant::get_leaf_no, "leaves/m2", "number of leaves per square meter");
 
-   setupGetVar("node_no",
+   parent->addGettableVar("node_no",
                g.node_no, "nodes/plant", "number of mainstem nodes per plant");
 
-   setupGetVar("dlt_leaf_no",
+   parent->addGettableVar("dlt_leaf_no",
                g.dlt_leaf_no, "leaves/m2", "Change in number of leaves");
 
-   setupGetVar("dlt_node_no",
+   parent->addGettableVar("dlt_node_no",
                g.dlt_node_no, "nodes/m2", "Change in number of nodes");
 
-   setupGetFunction("leaf_no_dead", protocol::DTsingle, false,
+   setupGetFunction(parent, "leaf_no_dead", protocol::DTsingle, false,
                      &Plant::get_leaf_no_dead, "leaves/m2", "number of dead leaves per square meter");
 
-   setupGetFunction("leaf_area", protocol::DTsingle, true,
+   setupGetFunction(parent, "leaf_area", protocol::DTsingle, true,
                     &Plant::get_leaf_area, "mm^2", "Leaf area for each node");
 
 //   id = parent->addGettableVar("height", protocol::DTsingle, false, "mm");
 //   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_height));
 
-   setupGetVar("width",
+   parent->addGettableVar("width",
                g.canopy_width, "mm", "canopy row width");
 
-   setupGetVar("root_depth",
+   parent->addGettableVar("root_depth",
                g.root_depth, "mm", "depth of roots");
 
-   setupGetVar("plants",
+   parent->addGettableVar("plants",
                g.plants, "plants/m^2", "Plant desnity");
 
 //   id = parent->addGettableVar("cover_green", protocol::DTsingle, false, "");
@@ -283,555 +276,555 @@ void Plant::doRegistrations(protocol::Component *system)
 //   id = parent->addGettableVar("cover_tot", protocol::DTsingle, false, "");
 //   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_cover_tot));
 
-   setupGetFunction("lai_sum", protocol::DTsingle, false,
+   setupGetFunction(parent, "lai_sum", protocol::DTsingle, false,
                     &Plant::get_lai_sum, "m^2/m^2", "LAI of all leaf parts");
 
-   setupGetFunction("tlai", protocol::DTsingle, false,
+   setupGetFunction(parent, "tlai", protocol::DTsingle, false,
                     &Plant::get_tlai, "m^2/m^2", "tlai");
 
-   setupGetVar("slai",
+   parent->addGettableVar("slai",
                g.slai, "m^2/m^2", "Senesced lai");
 
-   setupGetVar("lai",
+   parent->addGettableVar("lai",
                g.lai, "m^2/m^2", "Leaf area index");
 
-   setupGetVar("dlt_lai_pot",
+   parent->addGettableVar("dlt_lai_pot",
                g.dlt_lai_pot, "m^2/m^2", "Leaf area index");
 
-   setupGetVar("dlt_lai_stressed",
+   parent->addGettableVar("dlt_lai_stressed",
                g.dlt_lai_stressed, "m^2/m^2", "Leaf area index");
 
-   setupGetVar("dlt_leaf_no_pot",
+   parent->addGettableVar("dlt_leaf_no_pot",
                g.dlt_leaf_no_pot, "m^2/m^2", "Leaf no");
 
-   setupGetVar("lai_canopy_green",
+   parent->addGettableVar("lai_canopy_green",
                g.lai_canopy_green, "m^2/m^2", "Green lai");
 
-   setupGetVar("tlai_dead",
+   parent->addGettableVar("tlai_dead",
                g.tlai_dead, "m^2/m^2", "tlai dead");
 
-   setupGetVar("pai",
+   parent->addGettableVar("pai",
                g.pai, "m^2/m^2", "Pod area index");
 
-   setupGetVar("dlt_slai_age",
+   parent->addGettableVar("dlt_slai_age",
                g.dlt_slai_age, "m^2/m^2", "Change in lai via age");
 
-   setupGetVar("dlt_slai_light",
+   parent->addGettableVar("dlt_slai_light",
                g.dlt_slai_light, "m^2/m^2", "Change in lai via light");
 
-   setupGetVar("dlt_slai_water",
+   parent->addGettableVar("dlt_slai_water",
                g.dlt_slai_water, "m^2/m^2", "Change in lai via water stress");
 
-   setupGetVar("dlt_slai_frost",
+   parent->addGettableVar("dlt_slai_frost",
                g.dlt_slai_frost, "m^2/m^2", "Change in lai via low temperature");
 
-   setupGetVar("grain_no",
+   parent->addGettableVar("grain_no",
                g.grain_no, "/m^2", "Grain number");
 
-   setupGetFunction("grain_size", protocol::DTsingle, false,
+   setupGetFunction(parent, "grain_size", protocol::DTsingle, false,
                     &Plant::get_grain_size, "g", "Size of each grain");
 
-   setupGetVar("root_wt",
+   parent->addGettableVar("root_wt",
                g.dm_green[root], "g/m^2", "Weight of roots");
 
-   setupGetVar("leaf_wt",
+   parent->addGettableVar("leaf_wt",
                g.dm_green[leaf], "g/m^2", "Weight of leaf");
 
-   setupGetFunction("head_wt", protocol::DTsingle, false,
+   setupGetFunction(parent, "head_wt", protocol::DTsingle, false,
                     &Plant::get_head_wt, "g/m^2", "Weight of heads");
 
-   setupGetVar("pod_wt",
+   parent->addGettableVar("pod_wt",
                g.dm_green[pod],"g/m^2", "Weight of pods");
 
-   setupGetFunction("grain_wt", protocol::DTsingle, false,
+   setupGetFunction(parent, "grain_wt", protocol::DTsingle, false,
                     &Plant::get_grain_wt, "g/m^2", "Weight of grain");
 
-   setupGetVar("meal_wt",
+   parent->addGettableVar("meal_wt",
                g.dm_green[meal], "g/m^2", "Weight of meal");
 
-   setupGetVar("oil_wt",
+   parent->addGettableVar("oil_wt",
                g.dm_green[oil], "g/m^2", "Weight of oil");
 
-   setupGetFunction("dm_green", protocol::DTsingle, true,
+   setupGetFunction(parent, "dm_green", protocol::DTsingle, true,
                     &Plant::get_dm_green, "g/m^2", "Weight of green material");
 
-   setupGetFunction("dm_senesced", protocol::DTsingle, true,
+   setupGetFunction(parent, "dm_senesced", protocol::DTsingle, true,
                     &Plant::get_dm_senesced, "g/m^2", "Weight of senesced material");
 
-   setupGetFunction("dm_dead", protocol::DTsingle, true,
+   setupGetFunction(parent, "dm_dead", protocol::DTsingle, true,
                      &Plant::get_dm_dead, "g/m^2","Weight of dead material");
 
-   setupGetFunction("yield", protocol::DTsingle, false,
+   setupGetFunction(parent, "yield", protocol::DTsingle, false,
                     &Plant::get_yield,  "kg/ha", "Yield");
 
-   setupGetFunction("biomass", protocol::DTsingle, false,
+   setupGetFunction(parent, "biomass", protocol::DTsingle, false,
                     &Plant::get_biomass, "kg/ha", "Biomass");
 
-   setupGetFunction("biomass_wt", protocol::DTsingle, false,
+   setupGetFunction(parent, "biomass_wt", protocol::DTsingle, false,
                     &Plant::get_biomass_wt, "g/m^2", "Biomass weight");
 
-   setupGetFunction("green_biomass", protocol::DTsingle, false,
+   setupGetFunction(parent, "green_biomass", protocol::DTsingle, false,
                     &Plant::get_green_biomass, "kg/ha", "Green Biomass weight");
 
-   setupGetFunction("green_biomass_wt", protocol::DTsingle, false,
+   setupGetFunction(parent, "green_biomass_wt", protocol::DTsingle, false,
                     &Plant::get_green_biomass_wt, "g/m^2", "Green Biomass weight");
 
-   setupGetFunction("dm_plant_min", protocol::DTsingle, true,
+   setupGetFunction(parent, "dm_plant_min", protocol::DTsingle, true,
                     &Plant::get_dm_plant_min, "g/m^2", "Minimum weights");
 
 
-   setupGetVar("dlt_dm",
+   parent->addGettableVar("dlt_dm",
                g.dlt_dm, "g/m^2", "Change in dry matter");
 
-   setupGetVar("dlt_dm_pot_rue",
+   parent->addGettableVar("dlt_dm_pot_rue",
                g.dlt_dm_pot_rue, "g/m^2", "Potential dry matter production via photosynthesis");
 
-   setupGetVar("dlt_dm_pot_te",
+   parent->addGettableVar("dlt_dm_pot_te",
                g.dlt_dm_pot_te, "g/m^2", "Potential dry matter production via transpiration");
 
-   setupGetVar("dlt_dm_grain_demand",
+   parent->addGettableVar("dlt_dm_grain_demand",
                g.dlt_dm_grain_demand, "g/m^2", "??");
 
-   setupGetFunction("dlt_dm_green", protocol::DTsingle, true,
+   setupGetFunction(parent, "dlt_dm_green", protocol::DTsingle, true,
                     &Plant::get_dlt_dm_green,  "g/m^2", "change in green pool");
 
-   setupGetFunction("dlt_dm_green_retrans", protocol::DTsingle, true,
+   setupGetFunction(parent, "dlt_dm_green_retrans", protocol::DTsingle, true,
                     &Plant::get_dlt_dm_green_retrans, "g/m^2", "change in green pool from retranslocation");
 
-   setupGetFunction("dlt_dm_detached", protocol::DTsingle, true,
+   setupGetFunction(parent, "dlt_dm_detached", protocol::DTsingle, true,
                     &Plant::get_dlt_dm_detached,  "g/m^2", "change in dry matter via detachment");
 
-   setupGetFunction("dlt_dm_senesced", protocol::DTsingle, true,
+   setupGetFunction(parent, "dlt_dm_senesced", protocol::DTsingle, true,
                     &Plant::get_dlt_dm_senesced,"g/m^2", "change in dry matter via senescence");
 
-   setupGetFunction("dlt_dm_dead_detached", protocol::DTsingle, true,
+   setupGetFunction(parent, "dlt_dm_dead_detached", protocol::DTsingle, true,
                     &Plant::get_dlt_dm_dead_detached,"g/m^2", "change in dead dry matter via detachment");
 
-//??   setupGetFunction("dlt_dm_green_dead", protocol::DTsingle, true,
+//??   setupGetFunction(parent, "dlt_dm_green_dead", protocol::DTsingle, true,
 //??                    &Plant::get_dlt_dm_green_dead,  "g/m^2", "change in green dry matter via plant death");
 
-   setupGetVar("grain_oil_conc",
+   parent->addGettableVar("grain_oil_conc",
                c.grain_oil_conc, "%", "??");
 
-   setupGetVar("dlt_dm_oil_conv",
+   parent->addGettableVar("dlt_dm_oil_conv",
                g.dlt_dm_oil_conv,"g/m^2", "change in oil via ??");
 
-   setupGetVar("dlt_dm_oil_conv_retrans",
+   parent->addGettableVar("dlt_dm_oil_conv_retrans",
                g.dlt_dm_oil_conv_retranslocate, "g/m^2", "change in oil via retranslocation");
 
-   setupGetFunction("biomass_n", protocol::DTsingle, false,
+   setupGetFunction(parent, "biomass_n", protocol::DTsingle, false,
                     &Plant::get_biomass_n,  "g/m^2", "N in total biomass");
 
-   setupGetFunction("n_uptake", protocol::DTsingle, false,
+   setupGetFunction(parent, "n_uptake", protocol::DTsingle, false,
                     &Plant::get_n_uptake, "g/m^2", "N uptake");
 
-   setupGetFunction("green_biomass_n", protocol::DTsingle, false,
+   setupGetFunction(parent, "green_biomass_n", protocol::DTsingle, false,
                     &Plant::get_green_biomass_n, "g/m^2", "N in green biomass");
 
-   setupGetFunction("grain_n", protocol::DTsingle, false,
+   setupGetFunction(parent, "grain_n", protocol::DTsingle, false,
                     &Plant::get_grain_n, "g/m^2", "N in grain");
 
-   setupGetVar("leaf_n",
+   parent->addGettableVar("leaf_n",
                g.n_green[leaf],"g/m^2", "N in leaves");
 
-   setupGetVar("root_n",
+   parent->addGettableVar("root_n",
                g.n_green[root], "g/m^2", "N in roots");
 
-   setupGetVar("pod_n",
+   parent->addGettableVar("pod_n",
                g.n_green[pod], "g/m^2", "N in pods");
 
-   setupGetVar("deadleaf_n",
+   parent->addGettableVar("deadleaf_n",
                g.n_senesced[leaf], "g/m^2", "N in dead leaves");
 
-   setupGetFunction("head_n", protocol::DTsingle, false,
+   setupGetFunction(parent, "head_n", protocol::DTsingle, false,
                     &Plant::get_head_n, "g/m^2", "N in heads");
 
-   setupGetFunction("n_green", protocol::DTsingle, true,
+   setupGetFunction(parent, "n_green", protocol::DTsingle, true,
                     &Plant::get_n_green,  "g/m^2", "N in green");
 
-   setupGetFunction("n_senesced", protocol::DTsingle, true,
+   setupGetFunction(parent, "n_senesced", protocol::DTsingle, true,
                     &Plant::get_n_senesced,  "g/m^2", "N in senesced");
 
-   setupGetFunction("n_dead", protocol::DTsingle, true,
+   setupGetFunction(parent, "n_dead", protocol::DTsingle, true,
                     &Plant::get_n_dead,"g/m^2", "N in dead");
 
-   setupGetFunction("dlt_n_green", protocol::DTsingle, true,
+   setupGetFunction(parent, "dlt_n_green", protocol::DTsingle, true,
                     &Plant::get_dlt_n_green, "g/m^2", "N in delta green");
 
-   setupGetFunction("dlt_n_dead", protocol::DTsingle, true,
+   setupGetFunction(parent, "dlt_n_dead", protocol::DTsingle, true,
                     &Plant::get_dlt_n_dead, "g/m^2", "N in delta dead");
 
-   setupGetFunction("dlt_n_retrans", protocol::DTsingle, true,
+   setupGetFunction(parent, "dlt_n_retrans", protocol::DTsingle, true,
                     &Plant::get_dlt_n_retrans, "g/m^2", "N in retranslocate");
 
-   setupGetVar("dlt_n_retrans_leaf",
+   parent->addGettableVar("dlt_n_retrans_leaf",
                g.dlt_n_retrans[leaf], "g/m^2", "N in retranslocate");
 
-   setupGetFunction("dlt_n_senesced_trans", protocol::DTsingle, true,
+   setupGetFunction(parent, "dlt_n_senesced_trans", protocol::DTsingle, true,
                     &Plant::get_dlt_n_senesced_trans, "g/m^2", "N in translocate");
 
-   setupGetFunction("dlt_n_senesced_retrans", protocol::DTsingle, true,
+   setupGetFunction(parent, "dlt_n_senesced_retrans", protocol::DTsingle, true,
                     &Plant::get_dlt_n_senesced_retrans, "g/m^2", "N in retranslocate");
 
-   setupGetFunction("dlt_n_senesced", protocol::DTsingle, true,
+   setupGetFunction(parent, "dlt_n_senesced", protocol::DTsingle, true,
                     &Plant::get_dlt_n_senesced, "g/m^2", "N in delta senesced");
 
-   setupGetFunction("dlt_n_detached", protocol::DTsingle, true,
+   setupGetFunction(parent, "dlt_n_detached", protocol::DTsingle, true,
                     &Plant::get_dlt_n_detached, "g/m^2", "N in detached");
 
-   setupGetFunction("dlt_n_dead_detached", protocol::DTsingle, true,
+   setupGetFunction(parent, "dlt_n_dead_detached", protocol::DTsingle, true,
                     &Plant::get_dlt_n_dead_detached,  "g/m^2", "N in dead detached");
 
-   setupGetVar("temp_stress_photo",
+   parent->addGettableVar("temp_stress_photo",
                g.temp_stress_photo, "", "Temperature Stress in photosynthesis");
 
-   setupGetVar("swdef_pheno",
+   parent->addGettableVar("swdef_pheno",
                g.swdef_pheno, "", "Soil water deficit in phenological development");
 
-   setupGetVar("swdef_photo",
+   parent->addGettableVar("swdef_photo",
                g.swdef_photo, "", "Soil water deficit in photosynthesis");
 
-   setupGetVar("swdef_expan",
+   parent->addGettableVar("swdef_expan",
                g.swdef_expansion, "", "Soil water deficit in leaf expansion");
 
-   setupGetVar("swdef_fixation",
+   parent->addGettableVar("swdef_fixation",
                g.swdef_fixation, "", "Soil water deficit in N fixation");
 
-   setupGetVar("oxdef_photo",
+   parent->addGettableVar("oxdef_photo",
                g.oxdef_photo, "", "Oxygen deficit in photosynthesis");
 
-   setupGetFunction("sw_stress_pheno", protocol::DTsingle, false,
+   setupGetFunction(parent, "sw_stress_pheno", protocol::DTsingle, false,
                     &Plant::get_swstress_pheno,
                           "","Soil water stress for phenological development");
 
-   setupGetFunction("sw_stress_photo", protocol::DTsingle, false,
+   setupGetFunction(parent, "sw_stress_photo", protocol::DTsingle, false,
                     &Plant::get_swstress_photo,
                     "","Soil water stress for photosynthesis");
 
-   setupGetFunction("sw_stress_expan", protocol::DTsingle, false,
+   setupGetFunction(parent, "sw_stress_expan", protocol::DTsingle, false,
                     &Plant::get_swstress_expan,
                     "","Soil water stress for leaf expansion");
 
-   setupGetFunction("sw_stress_fixation", protocol::DTsingle, false,
+   setupGetFunction(parent, "sw_stress_fixation", protocol::DTsingle, false,
                     &Plant::get_swstress_fixation,
                     "","Soil water stress for N fixation");
 
-   setupGetVar("transp_eff",
+   parent->addGettableVar("transp_eff",
                g.transp_eff, "g/m2/mm", "Transpiration Efficiency");
 
-   setupGetFunction("ep", protocol::DTsingle, false,
+   setupGetFunction(parent, "ep", protocol::DTsingle, false,
                     &Plant::get_ep, "mm", "Plant water uptake");
 
-   setupGetFunction("sw_uptake", protocol::DTsingle, true,
+   setupGetFunction(parent, "sw_uptake", protocol::DTsingle, true,
                     &Plant::get_sw_uptake, "mm", "Plant water uptake per layer");
 
-   setupGetFunction("cep", protocol::DTsingle, false,
+   setupGetFunction(parent, "cep", protocol::DTsingle, false,
                     &Plant::get_cep,
                     "mm", "Cumulative plant water uptake");
 
-   setupGetFunction("sw_supply", protocol::DTsingle, false,
+   setupGetFunction(parent, "sw_supply", protocol::DTsingle, false,
                     &Plant::get_sw_supply, "mm", "Soil water supply");
 
-   setupGetFunction("sw_supply_layr", protocol::DTsingle, true,
+   setupGetFunction(parent, "sw_supply_layr", protocol::DTsingle, true,
                     &Plant::get_sw_supply_layr, "mm", "Soil water supply");
 
-   setupGetFunction("esw_layr", protocol::DTsingle, true,
+   setupGetFunction(parent, "esw_layr", protocol::DTsingle, true,
                     &Plant::get_esw_layr, "mm", "Extractable soil water");
 
-   setupGetFunction("n_conc_stover", protocol::DTsingle, false,
+   setupGetFunction(parent, "n_conc_stover", protocol::DTsingle, false,
                     &Plant::get_n_conc_stover, "%", "N concentration in stover");
 
-   setupGetFunction("n_conc_root", protocol::DTsingle, false,
+   setupGetFunction(parent, "n_conc_root", protocol::DTsingle, false,
                     &Plant::get_n_conc_root, "%", "N concentration in root");
 
-   setupGetFunction("n_conc_leaf", protocol::DTsingle, false,
+   setupGetFunction(parent, "n_conc_leaf", protocol::DTsingle, false,
                     &Plant::get_n_conc_leaf, "%", "N concentration in leaf");
 
-   setupGetFunction("n_conc_grain", protocol::DTsingle, false,
+   setupGetFunction(parent, "n_conc_grain", protocol::DTsingle, false,
                     &Plant::get_n_conc_grain, "%", "N concentration in grain");
 
-   setupGetFunction("n_grain_pcnt", protocol::DTsingle, false,
+   setupGetFunction(parent, "n_grain_pcnt", protocol::DTsingle, false,
                     &Plant::get_n_conc_grain,
                     "%", "N concentration in grain");
 
-   setupGetFunction("grain_protein", protocol::DTsingle, false,
+   setupGetFunction(parent, "grain_protein", protocol::DTsingle, false,
                     &Plant::get_grain_protein,
                     "%", "grain protein content");
 
-   setupGetFunction("n_conc_meal", protocol::DTsingle, false,
+   setupGetFunction(parent, "n_conc_meal", protocol::DTsingle, false,
                     &Plant::get_n_conc_meal, "%", "meal N content");
 
-   setupGetFunction("n_conc_crit", protocol::DTsingle, false,
+   setupGetFunction(parent, "n_conc_crit", protocol::DTsingle, false,
                     &Plant::get_n_conc_crit, "%", "critical N content");
 
-   setupGetFunction("n_conc_min", protocol::DTsingle, false,
+   setupGetFunction(parent, "n_conc_min", protocol::DTsingle, false,
                     &Plant::get_n_conc_min, "%", "minimum N content");
 
-   setupGetFunction("n_conc_crit_leaf", protocol::DTsingle, false,
+   setupGetFunction(parent, "n_conc_crit_leaf", protocol::DTsingle, false,
                     &Plant::get_n_conc_crit_leaf, "%", "critical N content in leaves");
 
-   setupGetFunction("n_conc_min_leaf", protocol::DTsingle, false,
+   setupGetFunction(parent, "n_conc_min_leaf", protocol::DTsingle, false,
                     &Plant::get_n_conc_min_leaf, "%", "mininmum N content in leaves");
 
-   setupGetFunction("n_uptake_stover", protocol::DTsingle, false,
+   setupGetFunction(parent, "n_uptake_stover", protocol::DTsingle, false,
                     &Plant::get_n_uptake_stover,
                     "g/m^2", "N taken up by agp");
 
-   setupGetFunction("no3_tot", protocol::DTsingle, false,
+   setupGetFunction(parent, "no3_tot", protocol::DTsingle, false,
                     &Plant::get_no3_tot,
                     "g/m^2", "NO3 available to plants");
 
-   setupGetFunction("n_demand", protocol::DTsingle, false,
+   setupGetFunction(parent, "n_demand", protocol::DTsingle, false,
                     &Plant::get_n_demand,
                     "g/m^2", "N demand");
 
-   setupGetVar("n_demand_leaf",
+   parent->addGettableVar("n_demand_leaf",
                     g.n_demand[leaf],
                     "g/m^2", "N demand of leaf");
 
-   setupGetVar("grain_n_demand",
+   parent->addGettableVar("grain_n_demand",
                g.grain_n_demand, "g/m^2", "N demand of grain");
 
-   setupGetFunction("n_supply_soil", protocol::DTsingle, false,
+   setupGetFunction(parent, "n_supply_soil", protocol::DTsingle, false,
                     &Plant::get_n_supply_soil,
                     "g/m^2", "N supply");
 
-   setupGetVar("dlt_n_fixed_pot",
+   parent->addGettableVar("dlt_n_fixed_pot",
                g.n_fix_pot, "g/m^2", "potential N fixation");
 
-   setupGetVar("dlt_n_fixed",
+   parent->addGettableVar("dlt_n_fixed",
                g.n_fix_uptake, "g/m^2", "N fixation");
 
-   setupGetVar("n_fixed_tops",
+   parent->addGettableVar("n_fixed_tops",
                g.n_fixed_tops, "g/m^2", "N fixation");
 
-   setupGetVar("nfact_photo",
+   parent->addGettableVar("nfact_photo",
                g.nfact_photo, "", "N factor for photosynthesis");
 
-   setupGetVar("nfact_pheno",
+   parent->addGettableVar("nfact_pheno",
                g.nfact_pheno, "", "N factor for phenology");
 
-   setupGetVar("nfact_expan",
+   parent->addGettableVar("nfact_expan",
                g.nfact_expansion, "", "N factor for leaf expansion");
 
-   setupGetVar("nfact_grain",
+   parent->addGettableVar("nfact_grain",
                g.nfact_grain_conc, "", "N factor for ??");
 
-   setupGetVar("remove_biom_pheno",
+   parent->addGettableVar("remove_biom_pheno",
                g.remove_biom_pheno, "", "biomass removal factor for phenology");
 
-   setupGetFunction("nfact_grain_tot", protocol::DTsingle, false,
+   setupGetFunction(parent, "nfact_grain_tot", protocol::DTsingle, false,
                     &Plant::get_nfact_grain_tot,
                     "", "Summed grain N factor for current stage");
 
-   setupGetFunction("n_stress_photo", protocol::DTsingle, false,
+   setupGetFunction(parent, "n_stress_photo", protocol::DTsingle, false,
                     &Plant::get_nstress_photo,
                     "","N stress for photosyntesis");
 
-   setupGetFunction("n_stress_pheno", protocol::DTsingle, false,
+   setupGetFunction(parent, "n_stress_pheno", protocol::DTsingle, false,
                     &Plant::get_nstress_pheno,
                     "","N stress for phenology");
 
-   setupGetFunction("n_stress_expan", protocol::DTsingle, false,
+   setupGetFunction(parent, "n_stress_expan", protocol::DTsingle, false,
                     &Plant::get_nstress_expan,
                     "","N stress for leaf expansion");
 
-   setupGetFunction("n_stress_grain", protocol::DTsingle, false,
+   setupGetFunction(parent, "n_stress_grain", protocol::DTsingle, false,
                     &Plant::get_nstress_grain,
                     "","N stress for grain filling");
 
-   setupGetFunction("rlv", protocol::DTsingle, true,
+   setupGetFunction(parent, "rlv", protocol::DTsingle, true,
                     &Plant::get_rlv, "mm/mm^3", "Root length density");
 
-   setupGetFunction("rld", protocol::DTsingle, true,
+   setupGetFunction(parent, "rld", protocol::DTsingle, true,
                     &Plant::get_rlv, "mm/mm^3", "Root length density");
 
-   setupGetFunction("no3_demand", protocol::DTsingle, false,
+   setupGetFunction(parent, "no3_demand", protocol::DTsingle, false,
                     &Plant::get_no3_demand,
                     "kg/ha", "Demand for NO3");
 
-   setupGetVar("sw_demand",
+   parent->addGettableVar("sw_demand",
                g.sw_demand, "mm", "Demand for sw");
 
-   setupGetVar("sw_demand_te",
+   parent->addGettableVar("sw_demand_te",
                g.sw_demand_te, "mm", "Demand for sw");
 
-   setupGetFunction("root_length", protocol::DTsingle, true,
+   setupGetFunction(parent, "root_length", protocol::DTsingle, true,
                     &Plant::get_root_length,
                     "mm/mm^2", "Root length");
 
-   setupGetFunction("root_length_dead", protocol::DTsingle, true,
+   setupGetFunction(parent, "root_length_dead", protocol::DTsingle, true,
                     &Plant::get_root_length_dead,
                           "mm/mm^2", "Dead root length");
 
-   setupGetFunction("no3gsm_uptake_pot", protocol::DTsingle, true,
+   setupGetFunction(parent, "no3gsm_uptake_pot", protocol::DTsingle, true,
                     &Plant::get_no3gsm_uptake_pot,
                     "g/m2", "Pot NO3 uptake");
 
-   setupGetFunction("nh4gsm_uptake_pot", protocol::DTsingle, true,
+   setupGetFunction(parent, "nh4gsm_uptake_pot", protocol::DTsingle, true,
                     &Plant::get_nh4gsm_uptake_pot,
                     "g/m2", "Pot NH4 uptake");
 
-   setupGetFunction("no3_swfac", protocol::DTsingle, false,
+   setupGetFunction(parent, "no3_swfac", protocol::DTsingle, false,
                     &Plant::get_no3_swfac,
                     "", "Work this out...>>");
 
-   setupGetVar("leaves_per_node",
+   parent->addGettableVar("leaves_per_node",
                g.leaves_per_node, "","");
 
-   setupGetFunction("no3_uptake", protocol::DTsingle, false,
+   setupGetFunction(parent, "no3_uptake", protocol::DTsingle, false,
                     &Plant::get_no3_uptake,
                     "","NO3 uptake");
 
-   setupGetFunction("nh4_uptake", protocol::DTsingle, false,
+   setupGetFunction(parent, "nh4_uptake", protocol::DTsingle, false,
                     &Plant::get_nh4_uptake,
                     "","NH4 uptake");
 
-   setupGetFunction("parasite_dm_supply", protocol::DTsingle, false,
+   setupGetFunction(parent, "parasite_dm_supply", protocol::DTsingle, false,
                      &Plant::get_parasite_c_gain,
                      "g/m^2", "Assimilate to parasite");
 
-   setupGetFunction("leaf_area_tot", protocol::DTsingle, false,
+   setupGetFunction(parent, "leaf_area_tot", protocol::DTsingle, false,
                     &Plant::get_leaf_area_tot,
                     "m^2", "Total plant leaf area");
 
-   setupGetFunction("p_green", protocol::DTsingle, true,
+   setupGetFunction(parent, "p_green", protocol::DTsingle, true,
                     &Plant::get_p_green,
                     "g/m^2", "P in green plant parts");
 
-   setupGetFunction("p_dead", protocol::DTsingle, true,
+   setupGetFunction(parent, "p_dead", protocol::DTsingle, true,
                     &Plant::get_p_dead,
                     "g/m^2", "P in dead plant parts");
 
-   setupGetFunction("p_senesced", protocol::DTsingle, true,
+   setupGetFunction(parent, "p_senesced", protocol::DTsingle, true,
                     &Plant::get_p_sen,
                     "g/m^2","P in senesced plant parts");
 
-   setupGetFunction("p_sen", protocol::DTsingle, true,
+   setupGetFunction(parent, "p_sen", protocol::DTsingle, true,
                     &Plant::get_p_sen,
                     "g/m^2","P in senesced plant parts");
 
-   setupGetFunction("p_demand", protocol::DTsingle, false,
+   setupGetFunction(parent, "p_demand", protocol::DTsingle, false,
                     &Plant::get_p_demand,
                     "g/m^2","");
 
-   setupGetFunction("p_demand_parts", protocol::DTsingle, true,
+   setupGetFunction(parent, "p_demand_parts", protocol::DTsingle, true,
                     &Plant::get_p_demand_parts,
                     "g/m^2","");
 
-   setupGetVar("pfact_photo",
+   parent->addGettableVar("pfact_photo",
                g.pfact_photo,
                "", "P factor in photosynthesis");
 
-   setupGetVar("pfact_pheno",
+   parent->addGettableVar("pfact_pheno",
                g.pfact_pheno,
                "", "P factor in phenology");
 
-   setupGetVar("pfact_expansion",
+   parent->addGettableVar("pfact_expansion",
                g.pfact_expansion,
                "", "P factor in leaf expansion");
 
-   setupGetVar("pfact_grain",
+   parent->addGettableVar("pfact_grain",
                g.pfact_grain,
                "", "P factor in grain");
 
-   setupGetFunction("p_stress_photo", protocol::DTsingle, false,
+   setupGetFunction(parent, "p_stress_photo", protocol::DTsingle, false,
                     &Plant::get_pstress_photo,
                     "", "P stress in photosynthesis");
 
-   setupGetFunction("p_stress_pheno", protocol::DTsingle, false,
+   setupGetFunction(parent, "p_stress_pheno", protocol::DTsingle, false,
                     &Plant::get_pstress_pheno,
                     "", "P stress in phenology");
 
-   setupGetFunction("p_stress_expansion", protocol::DTsingle, false,
+   setupGetFunction(parent, "p_stress_expansion", protocol::DTsingle, false,
                     &Plant::get_pstress_expansion,
                     "", "P stress in leaf expansion");
 
-   setupGetFunction("p_stress_expan", protocol::DTsingle, false,
+   setupGetFunction(parent, "p_stress_expan", protocol::DTsingle, false,
                     &Plant::get_pstress_expansion,
                     "", "P stress in leaf expansion");
 
-   setupGetFunction("p_stress_grain", protocol::DTsingle, false,
+   setupGetFunction(parent, "p_stress_grain", protocol::DTsingle, false,
                     &Plant::get_pstress_grain,
                     "", "P stress in grain");
 
-   setupGetFunction("biomass_p", protocol::DTsingle, false,
+   setupGetFunction(parent, "biomass_p", protocol::DTsingle, false,
                     &Plant::get_biomass_p,
                     "g/m^2","P in biomass");
 
-   setupGetFunction("p_uptake", protocol::DTsingle, false,
+   setupGetFunction(parent, "p_uptake", protocol::DTsingle, false,
                     &Plant::get_biomass_p,
                     "g/m^2","P  uptake");
 
-   setupGetFunction("green_biomass_p", protocol::DTsingle, false,
+   setupGetFunction(parent, "green_biomass_p", protocol::DTsingle, false,
                     &Plant::get_green_biomass_p,
                     "g/m^2","P in green biomass");
 
-   setupGetFunction("grain_p", protocol::DTsingle, false,
+   setupGetFunction(parent, "grain_p", protocol::DTsingle, false,
                     &Plant::get_grain_p,
                     "g/m^2","P in grain");
 
-   setupGetVar("leaf_p",
+   parent->addGettableVar("leaf_p",
                g.p_green[leaf],
                "g/m^2","P in leaf");
 
-   setupGetVar("root_p",
+   parent->addGettableVar("root_p",
                g.p_green[root],
                "g/m^2","P in roots");
 
-   setupGetVar("deadleaf_p",
+   parent->addGettableVar("deadleaf_p",
                g.p_sen[leaf],
                "g/m^2","P in dead leaf");
 
-   setupGetFunction("head_p", protocol::DTsingle, false,
+   setupGetFunction(parent, "head_p", protocol::DTsingle, false,
                     &Plant::get_head_p,
                     "g/m^2","P in head");
 
-   setupGetFunction("pod_p", protocol::DTsingle, false,
+   setupGetFunction(parent, "pod_p", protocol::DTsingle, false,
                     &Plant::get_pod_p,
                     "g/m^2","P in pod shell");
 
-   setupGetFunction("dlt_p_green", protocol::DTsingle, true,
+   setupGetFunction(parent, "dlt_p_green", protocol::DTsingle, true,
                     &Plant::get_dlt_p_green,
                     "g/m^2","dlt P parts");
 
-   setupGetFunction("dlt_p_retrans", protocol::DTsingle, true,
+   setupGetFunction(parent, "dlt_p_retrans", protocol::DTsingle, true,
                     &Plant::get_dlt_p_retrans,
                     "g/m^2","dlt P parts");
 
-   setupGetFunction("dlt_p_detached", protocol::DTsingle, true,
+   setupGetFunction(parent, "dlt_p_detached", protocol::DTsingle, true,
                     &Plant::get_dlt_p_detached,
                     "g/m^2","dlt P detached");
 
-   setupGetFunction("dlt_p_dead", protocol::DTsingle, true,
+   setupGetFunction(parent, "dlt_p_dead", protocol::DTsingle, true,
                     &Plant::get_dlt_p_dead,
                     "g/m^2","dlt P in dead");
 
-   setupGetFunction("dlt_p_sen", protocol::DTsingle, true,
+   setupGetFunction(parent, "dlt_p_sen", protocol::DTsingle, true,
                     &Plant::get_dlt_p_sen,
                     "g/m^2","dlt P in senesced");
 
-   setupGetFunction("p_conc_stover", protocol::DTsingle, false,
+   setupGetFunction(parent, "p_conc_stover", protocol::DTsingle, false,
                     &Plant::get_p_conc_stover,
                     "%","P in stover");
 
-   setupGetFunction("p_conc_leaf", protocol::DTsingle, false,
+   setupGetFunction(parent, "p_conc_leaf", protocol::DTsingle, false,
                     &Plant::get_p_conc_leaf,
                     "%","P in leaf");
 
-   setupGetFunction("p_conc_grain", protocol::DTsingle, false,
+   setupGetFunction(parent, "p_conc_grain", protocol::DTsingle, false,
                     &Plant::get_p_conc_grain,
                     "%","P in grain");
 
-   setupGetFunction("p_grain_pcnt", protocol::DTsingle, false,
+   setupGetFunction(parent, "p_grain_pcnt", protocol::DTsingle, false,
                     &Plant::get_p_conc_grain,
                     "%","P in grain");
 
-   setupGetFunction("p_uptake_stover", protocol::DTsingle, false,
+   setupGetFunction(parent, "p_uptake_stover", protocol::DTsingle, false,
                     &Plant::get_p_uptake_stover,
                     "%","P in stover");
 
-   setupGetVar("grain_p_demand",
+   parent->addGettableVar("grain_p_demand",
                g.p_demand[meal],
                "g/m^2","P demand of grain");
 
