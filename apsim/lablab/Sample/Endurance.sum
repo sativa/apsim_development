@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 4.1
+     Version                = 4.2
      Title                  = Lablab gatton dryland high density highworth
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -274,7 +274,7 @@
           ---------------------------------------------------------
 
 ------- lablab Initialisation -------------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 ------- Start of simulation  --------------------------------------------------
 26 November 1997(Day of year=330), manager: 
      Manager sending message :- lablab sow  cultivar = endurance, crop_class = small_leaf, plants = 10 (/m2), sowing_depth = 40 (mm)

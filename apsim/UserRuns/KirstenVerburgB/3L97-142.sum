@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 4.1
+     Version                = 4.2
      Title                  = 3 Years Lucerne Harvested 1997 plots
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -748,16 +748,16 @@
           ---------------------------------------------------------
 
 ------- canola Initialisation -------------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 
 ------- lucerne Initialisation ------------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 
 ------- lupin Initialisation --------------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 
 ------- weed Initialisation ---------------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 
 ------- wheat Initialisation --------------------------------------------------
      phenology model: Wheat

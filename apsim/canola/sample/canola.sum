@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 4.1
+     Version                = 4.2
      Title                  = canola Sample Simulation
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -221,7 +221,7 @@
           ---------------------------------------------------------
 
 ------- canola Initialisation -------------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 ------- Start of simulation  --------------------------------------------------
 9 May 1988(Day of year=130), manager: 
      Manager sending message :- fertiliz apply  amount = 100 (kg/ha), depth = 50 (mm), type = no3_n

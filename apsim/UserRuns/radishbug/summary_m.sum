@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 4.1
+     Version                = 4.2
      Title                  =
      Component DLL          = c:\development\apsim\log\lib\log.dll
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
@@ -360,16 +360,16 @@
           ---------------------------------------------------------
 
 ------- radish Initialisation -------------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 
 ------- radish2 Initialisation ------------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 
 ------- ryegras2 Initialisation -----------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 
 ------- ryegrass Initialisation -----------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 
 ------- wheat Initialisation --------------------------------------------------
      phenology model: Wheat

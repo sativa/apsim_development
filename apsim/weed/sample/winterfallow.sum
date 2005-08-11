@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 4.1
+     Version                = 4.2
      Title                  = Winter dicot fallow Simulation
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -210,7 +210,7 @@
           ---------------------------------------------------------
 
 ------- weed Initialisation ---------------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 ------- Start of simulation  --------------------------------------------------
 29 April 1988(Day of year=120), manager: 
      Manager sending message :- weed sow  cultivar = late, plants = 15 (/m2), crop_class = winter_dicot, sowing_depth = 40 (mm)
