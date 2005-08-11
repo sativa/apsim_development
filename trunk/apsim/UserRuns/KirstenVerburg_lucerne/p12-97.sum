@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 4.1
+     Version                = 4.2
      Title                  = south plots
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -1006,13 +1006,13 @@
         - Reading Constants
 
 ------- canola Initialisation -------------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 
 ------- lucerne Initialisation ------------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 
 ------- weed Initialisation ---------------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 
 ------- wheat Initialisation --------------------------------------------------
      phenology model: Wheat

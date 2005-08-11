@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 4.1
+     Version                = 4.2
      Title                  = Dalby 600mm wet soil
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -210,7 +210,7 @@
           ---------------------------------------------------------
 
 ------- chickpea Initialisation -----------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 
 ------- Tracker Initialisation ------------------------------------------------
      Tracker variables:

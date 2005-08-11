@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 4.1
+     Version                = 4.2
      Title                  = Tracker Sample Lucerne Simulation
      Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
      Component DLL          = c:\development\apsim\screen\lib\screen.dll
@@ -208,7 +208,7 @@
           ---------------------------------------------------------
 
 ------- lucerne Initialisation ------------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 
 ------- tracker Initialisation ------------------------------------------------
      Tracker variables:

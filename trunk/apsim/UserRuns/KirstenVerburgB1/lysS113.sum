@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 4.1
+     Version                = 4.2
      Title                  = south lysimeter
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -1029,13 +1029,13 @@
         - Reading Constants
 
 ------- canola Initialisation -------------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 
 ------- lucerne Initialisation ------------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 
 ------- lupin Initialisation --------------------------------------------------
-     phenology model: Legume
+     phenology model: TTT
 
 ------- weed1 Initialisation --------------------------------------------------
      phenology model: Wheat
