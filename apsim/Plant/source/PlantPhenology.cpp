@@ -13,9 +13,6 @@
 #include "PlantPhenology.h"
 #include "Environment.h"
 
-
-
-
 PlantPhenology::PlantPhenology(PlantComponent *s, plantInterface *p)
    {
    plant = p;          // "Plant" interface
@@ -250,7 +247,6 @@ void PlantPhenology::zeroAllGlobals(void)
    previousStage = currentStage = 0.0;
    for (unsigned int i=0; i < phases.size(); i++) phases[i].reset();
    day_of_year = 0;
-   flowering_das = maturity_das = 0;
    }
 
 //+  Purpose
@@ -305,5 +301,4 @@ void PlantPhenology::get_days_tot(protocol::Component *s, protocol::QueryValueDa
    for(unsigned int i=1; i < phases.size(); i++) t.push_back(phases[i].getDays());
    s->sendVariable(qd, t);
    }
-
 

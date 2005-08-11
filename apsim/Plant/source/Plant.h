@@ -7,6 +7,7 @@ class ApsimVariant;
 class plantPart;
 class PlantFruit;
 class plantThing;
+class eventObserver;
 class Plant;
 
 typedef bool (Plant::*ptr2setFn) (protocol::QuerySetValueData&);
@@ -69,7 +70,8 @@ class Plant : public plantInterface {
   PlantPhenology *phenology;
   PlantFruit     *fruit;
 
-
+  eventObserver *floweringEventObserver;     // Bookkeeper for flowering events
+  eventObserver *maturityEventObserver;      // Bookkeeper for maturity events
  public:
   Plant(PlantComponent *P);
   ~Plant();
@@ -295,10 +297,8 @@ class Plant : public plantInterface {
     ,float *g_dlt_n_retrans
     ,float *g_dlt_sw_dep
     ,float *g_dm_green
-    ,int   *g_flowering_date
     ,float *g_lai
     ,float *g_lai_max
-    ,int   *g_maturity_date
     ,float  *g_n_conc_act_stover_tot
     ,float  *g_n_conc_crit
     ,float  *g_n_conc_crit_stover_tot
@@ -664,10 +664,6 @@ void legnew_dm_distribute(int max_part
 
   void get_crop_type(protocol::Component *, protocol::QueryValueData &);
   void get_crop_class(protocol::Component *, protocol::QueryValueData &);
-  void get_flowering_date(protocol::Component *, protocol::QueryValueData &);
-  void get_maturity_date(protocol::Component *, protocol::QueryValueData &);
-  void get_flowering_das(protocol::Component *, protocol::QueryValueData &);
-  void get_maturity_das(protocol::Component *, protocol::QueryValueData &);
   void get_leaf_no(protocol::Component *, protocol::QueryValueData &);
   float getLeafNo(void) const;
   void get_dlt_leaf_no(protocol::Component *, protocol::QueryValueData &);
@@ -846,6 +842,8 @@ void legnew_dm_distribute(int max_part
   void get_p_uptake_stover(protocol::Component *, protocol::QueryValueData &qd);
   void get_grain_p_demand(protocol::Component *, protocol::QueryValueData &qd);
 
+  int  getDayOfYear(void) {return (g.day_of_year);};
+ 
   // To transfer to Fruit class
   void plant_bio_distribute (int option /* (INPUT) option number */);
 
@@ -1113,11 +1111,6 @@ void legnew_dm_distribute(int max_part
       float n_uptake_grain_tot;                         // sum of grain N uptake (g N/m^2)
       float n_uptake_stover_tot;                        // sum of tops N uptake (g N/m^2)
       float lai_max;                                    // maximum lai - occurs at flowering
-      int   flowering_date;                             // flowering day number
-      int   maturity_date;                              // maturity day number
-      int   flowering_das;                              // days to flowering
-      int   maturity_das;                               // days to maturity
-      int   das;                                        // days since sowing
       float dlt_root_length_dead[max_layer];                     // root length (mm/mm^2)
       float root_length[max_layer];                     // root length (mm/mm^2)
       float root_length_dead[max_layer];                // root length of dead population (mm/mm^2)

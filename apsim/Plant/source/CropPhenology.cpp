@@ -21,7 +21,6 @@ void CropPhenology::doRegistrations (protocol::Component *s)
    {
    PlantPhenology::doRegistrations(s);
 
-
    setupEvent(parentPlant, "sow", RegistrationType::respondToEvent, &CropPhenology::onSow);
    setupEvent(parentPlant, "end_crop", RegistrationType::respondToEvent, &CropPhenology::onEndCrop);
 
@@ -29,9 +28,6 @@ void CropPhenology::doRegistrations (protocol::Component *s)
    parentPlant->addGettableVar("dlt_tt_phenol", dlt_tt_phenol,"dd", "Todays thermal time (incl. stress factors)");
    parentPlant->addGettableVar("dlt_tt", dlt_tt,         "dd", "Todays thermal time (no stress factors)");
    parentPlant->addGettableVar("dlt_cumvd", dlt_cumvd,   "", "Todays vd");
-   parentPlant->addGettableVar("flowering_das", flowering_das, "days", "Days from sowing to flowering");
-   parentPlant->addGettableVar("maturity_das", maturity_das, "days", "Days from sowing to maturity");
-
    }
 
 void CropPhenology::onSow(unsigned &, unsigned &, protocol::Variant &v)
@@ -112,14 +108,6 @@ void CropPhenology::readSpeciesParameters(protocol::Component *s, vector<string>
 void CropPhenology::update(void)
    {
    PlantPhenology::update();
-   if (on_day_of ("flowering"))
-        {
-        flowering_das = das;
-        }
-   if (on_day_of ("maturity"))
-        {
-        maturity_das = das;
-        }
    }
 
 //  Purpose
