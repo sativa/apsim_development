@@ -30,6 +30,7 @@ typedef struct {
 
 class protocol::Component;
 class PlantComponent;
+class Plant;
 
 // Terminology:
 // A "stage" is a point in time.
@@ -54,7 +55,7 @@ class PlantPhenology : public plantThing {
 
    float previousStage, currentStage, dltStage;
    int   day_of_year;                                // Todays julian daynumber
-   int   flowering_das, maturity_das;
+
    // Parameters
    std::vector<string>   iniSectionList;                  // list of sections to search in ini file
    bool initialOnBiomassRemove;
@@ -72,7 +73,6 @@ class PlantPhenology : public plantThing {
    void get_phase_tt(protocol::Component *, protocol::QueryValueData &);
    void get_tt_tot(protocol::Component *, protocol::QueryValueData &);
    void get_days_tot(protocol::Component *, protocol::QueryValueData &);
-
 
  public:
    PlantPhenology(PlantComponent *s, plantInterface *p);
@@ -114,26 +114,6 @@ class PlantPhenology : public plantThing {
    virtual void zeroAllGlobals(void);
    virtual void zeroDeltas(void);
 };
-
-
-
-
-class LegumeCohortPhenology : public PlantPhenology {
- private:
- public:
-  void init(void);
-};
-
-class SorghumPhenology : public PlantPhenology {
- public:
-  void init(void);
-};
-
-class TreePhenology : public PlantPhenology {
- public:
-  void init(void);
-};
-
 
 
 #endif

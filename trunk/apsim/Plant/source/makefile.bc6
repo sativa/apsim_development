@@ -14,7 +14,7 @@ PROJECT=..\lib\Plant.dll
 OBJFILES=PlantComponent.obj Plant.obj PlantParts.obj PlantBiomass.obj PlantCanopy.obj PlantFail.obj PlantLibrary.obj \
 PlantNitrogen.obj PlantPhenology.obj PlantRoot.obj PlantTemp.obj PlantUtility.obj PlantWater.obj Phase.obj CompositePhase.obj \
 Data.obj Science.obj Date.obj PlantComms.obj PlantP.obj PlantFruit.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj \
-WheatPhenology.obj Environment.obj TTTPhenology.obj CropPhenology.obj TTTRatePhenology.obj
+WheatPhenology.obj Environment.obj TTTPhenology.obj CropPhenology.obj TTTRatePhenology.obj Observers.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
@@ -80,6 +80,7 @@ CompositePhase.obj: CompositePhase.cpp CompositePhase.h
 Phase.obj: Phase.cpp Phase.h
 WheatPhenology.obj: WheatPhenology.cpp WheatPhenology.h
 Environment.obj: Environment.cpp Environment.h
+Observers.obj: Observers.cpp Observers.h
 TTTPhenology.obj: TTTPhenology.cpp TTTPhenology.h
 CropPhenology.obj: CropPhenology.cpp CropPhenology.h
 TTTRatePhenology.obj: TTTRatePhenology.cpp TTTRatePhenology.h

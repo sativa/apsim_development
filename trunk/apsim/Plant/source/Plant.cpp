@@ -23,6 +23,7 @@
 #include "PlantFruit.h"
 #include "Plant.h"
 #include "PlantParts.h"
+#include "Observers.h"
 
 using namespace std;
 
@@ -98,6 +99,8 @@ Plant::~Plant()
     if (phenology) delete phenology;
     delete fruit;
     if (stemPart) delete stemPart;
+    if (floweringEventObserver) delete floweringEventObserver;
+    if (maturityEventObserver) delete maturityEventObserver;
     }
 
 
@@ -119,6 +122,12 @@ void Plant::doInit1(protocol::Component *s)
 
     stemPart = new plantPart(this, "stem");
     myThings.push_back(stemPart);
+
+    floweringEventObserver = new eventObserver("flowering", this);
+    myThings.push_back(floweringEventObserver);
+
+    maturityEventObserver = new eventObserver("maturity", this);
+    myThings.push_back(maturityEventObserver);
     }
 
 void Plant::initialise(void)
@@ -233,12 +242,6 @@ void Plant::doRegistrations(protocol::Component *system)
 
    parent->addGettableVar("crop_class",
                g.crop_class, "", "Plant crop class");
-
-   parent->addGettableVar("flowering_date",
-               g.flowering_date, "doy", "Day of flowering");
-
-   parent->addGettableVar("maturity_date",
-               g.maturity_date, "doy", "Day of maturity");
 
    setupGetFunction(parent, "leaf_no", protocol::DTsingle, false,
                     &Plant::get_leaf_no, "leaves/m2", "number of leaves per square meter");
@@ -3450,10 +3453,8 @@ void Plant::plant_cleanup ()
                 , g.dlt_n_retrans
                 , g.dlt_sw_dep
                 , g.dm_green
-                , &g.flowering_date
                 , &g.lai
                 , &g.lai_max
-                , &g.maturity_date
                 , &g.n_conc_act_stover_tot
                 , g.n_conc_crit
                 , &g.n_conc_crit_stover_tot
@@ -4059,10 +4060,8 @@ void Plant::plant_totals
     ,float *g_dlt_n_retrans              // (INPUT)  nitrogen retranslocated out from parts to grain (g/m^2)
     ,float *g_dlt_sw_dep                 // (INPUT)  water uptake in each layer (mm water)
     ,float *g_dm_green                   // (INPUT)  live plant dry weight (biomass) (g/m^2)
-    ,int   *g_flowering_date             // (INPUT)  flowering day number
     ,float *g_lai                        // (INPUT)  live plant green lai
     ,float *g_lai_max                    // (INPUT)  maximum lai - occurs at flowering
-    ,int   *g_maturity_date              // (INPUT)  maturity day number
     ,float  *g_n_conc_act_stover_tot           // (INPUT)  sum of tops actual N concentration (g N/g biomass)
     ,float  *g_n_conc_crit                     // (INPUT)  critical N concentration (g N/g biomass)
     ,float  *g_n_conc_crit_stover_tot          // (INPUT)  sum of tops critical N concentration (g N/g biomass)
@@ -4153,15 +4152,6 @@ void Plant::plant_totals
         }
 
     *g_lai_max = max (*g_lai_max, *g_lai);
-    if (phenology->on_day_of ("flowering"))
-        {
-        *g_flowering_date = g_day_of_year;
-
-        }
-    else if (phenology->on_day_of ("maturity"))
-        {
-        *g_maturity_date = g_day_of_year;
-        }
 // note - oil has no N, thus it is not included in calculations
 
     n_grain = g_n_green[meal] + g_n_dead[meal];
@@ -8334,10 +8324,6 @@ void Plant::plant_zero_all_globals (void)
       g.n_uptake_grain_tot = 0.0;
       g.n_uptake_stover_tot = 0.0;
       g.lai_max = 0.0;
-      g.flowering_date = 0;
-      g.maturity_date = 0;
-      g.flowering_das = 0;
-      g.maturity_das = 0;
       fill_real_array (g.root_length, 0.0, max_layer);
       fill_real_array (g.root_length_dead, 0.0, max_layer);
       fill_real_array (g.dlt_root_length_dead, 0.0, max_layer);
@@ -8744,11 +8730,6 @@ void Plant::plant_zero_variables (void)
     g.leaves_per_node = 0.0;
 
     g.dlt_plants_death_external     = 0.0;
-    g.flowering_date        = 0;
-    g.flowering_das         = 0;
-    g.maturity_date         = 0;
-    g.maturity_das          = 0;
-    g.das                   = 0;
     g.lai_max               = 0.0;
 
     g.plants                = 0.0;
@@ -9077,6 +9058,8 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
            // Bang.
            g.plant_status = alive;
            sendStageMessage("sowing");
+           for (vector<plantThing *>::iterator t = myThings.begin(); t != myThings.end(); t++)
+             (*t)->onPlantEvent("sowing");
 
            parent->writeString ("");
            parent->writeString ("                 Crop Sowing Data");
@@ -9606,6 +9589,10 @@ void Plant::plant_end_crop ()
            }
 
         parent->writeString (" ");
+
+        for (vector<plantThing *>::iterator t = myThings.begin(); t != myThings.end(); t++)
+           (*t)->onPlantEvent("end_crop");
+
         }
     else
         {
@@ -11277,12 +11264,12 @@ void Plant::plant_harvest_report ()
     parent->writeString ("");
 
     sprintf (msg, "%s%4d%26s%s%10.1f"
-             , " flowering day          = ",g.flowering_date, " "
+             , " flowering day          = ",floweringEventObserver->getDoy(), " "
              , " stover (kg/ha)         = ",stover);
     parent->writeString (msg);
 
     sprintf (msg, "%s%4d%26s%s%10.1f"
-             , " maturity day           = ", g.maturity_date, " "
+             , " maturity day           = ", maturityEventObserver->getDoy(), " "
              , " grain yield (kg/ha)    = ", yield);
     parent->writeString (msg);
 

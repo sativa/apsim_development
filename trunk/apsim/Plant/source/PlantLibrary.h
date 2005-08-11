@@ -146,7 +146,7 @@ class lookupFunction : public externalFunction
 };
 
 
-// A class that observes things. Mostly report-related.
+// A class that observes variables. Mostly report-related.
 class observer {
    protected:
      int n;
