@@ -718,29 +718,6 @@
          <component name="[micromet.name]" executable="%apsuite\apsim\micromet\lib\micromet.dll">
             <initdata>
                <include>%apsuite\apsim\micromet\micromet.ini</include>
-               <base_class name="standard">
-                  <property name="albedo">0.15</property>
-                  <property name="gsmax">0.010</property>
-                  <property name="r50">200</property>
-                  <property name="emissivity">0.96</property>
-               </base_class>
-               <crop name="standard">
-                  <property name="albedo">0.26</property>
-                  <property name="gsmax">0.011</property>
-               </crop>
-               <grass name="standard">
-                  <property name="albedo">0.23</property>
-                  <property name="gsmax">0.010</property>
-               </grass>
-               <c4grass name="standard">
-                  <property name="albedo">0.23</property>
-                  <property name="gsmax">0.015</property>
-                  <property name="r50">150</property>
-               </c4grass>
-               <tree name="standard">
-                  <property name="albedo">0.15</property>
-                  <property name="gsmax">0.005</property>
-               </tree>
                <parameters name="sample">
                   <property name="soil_albedo">[micromet.soilalbedo]</property>
                   <property name="a_interception">[micromet.a_interception]</property>
