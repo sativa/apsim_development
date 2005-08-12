@@ -1,6 +1,6 @@
 <folder name="Standard Toolbox">
   <area name="paddock">
-    <registrations name="Data outside paddock" />
+    <registrations name="global" />
   </area>
   <folder name="folder">
   </folder>
@@ -12,7 +12,7 @@
     <filename name="filename">sample.out</filename>
     <outputfiledescription name="My Variables">
       <variables>
-        <variable name="Date" variablename="dd/mm/yyyy" module="Data outside paddock" arrayspec="" description="Date (dd/mm/yyyy)" />
+        <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" />
       </variables>
       <events>
         <event name="post" description="End of daily simulation time step" module="clock" />

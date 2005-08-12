@@ -4,6 +4,10 @@ Imports System.Collections.Specialized
 Public Class ReportVariablesListView
     Inherits BaseDataControl
     Private InFill As Boolean
+    Private ComponentNames As New StringCollection
+    Private ComponentTypes As New StringCollection
+    Private UIManager As UIManager
+    Private OldName As String
 
 #Region " Windows Form Designer generated code "
 
@@ -308,6 +312,7 @@ Public Class ReportVariablesListView
         CaptionLabel.Text = "Output variables"
         Me.Tooltip.Text = "Hint: Right click on a cell to activate a popup menu for deleting variables."
         VariablesList.DataRows.Clear()
+        UIManager = Me.ApplicationSettings
 
         ' Subscribe to the necessary events to handle the copy/paste
         ' and drag and drop operations. In this loop, we will also
@@ -323,9 +328,13 @@ Public Class ReportVariablesListView
         Next cell
 
         If Not IsNothing(Data) Then
+            UIManager.CheckVariables(Data.Parent.Parent)
             Dim VariablesNode As APSIMData = Data.Child("variables")
+            UIManager.GetSiblingComponents(VariablesNode, ComponentNames, ComponentTypes)
+
             Dim row As Xceed.Grid.DataRow
             For Each child As APSIMData In VariablesNode.Children("variable")
+                AddModuleType(child)
                 row = VariablesList.DataRows.AddNew()
                 row.Cells(0).Value = child.Attribute("variablename")
                 row.Cells(1).Value = child.Attribute("module")
@@ -409,6 +418,7 @@ Public Class ReportVariablesListView
             Case 4
                 Tooltip.Text = "Enter an option description for the variable"
         End Select
+        OldName = VariablesList.CurrentCell.ParentRow.Cells(2).Value
     End Sub
 
 
@@ -424,21 +434,31 @@ Public Class ReportVariablesListView
                 Row.Cells(2).Value = Row.Cells(0).Value
             End If
 
-            Dim Child As APSIMData = VariablesNode.Child(Row.Cells(2).Value)
-            If IsNothing(Child) Then
-                Child = New APSIMData("variable", "NewReportingVariable")
-                VariablesNode.Add(Child)
-                Child = VariablesNode.Child("NewReportingVariable")
+            Dim Child As APSIMData = VariablesNode.Child(OldName)
+            If Not IsNothing(Child) Then
+                Child.SetAttribute("variablename", Row.Cells(0).Value)
+                Child.SetAttribute("module", Row.Cells(1).Value)
+                Child.SetAttribute("name", Row.Cells(2).Value)
+                Child.SetAttribute("arrayspec", Row.Cells(3).Value)
+                Child.SetAttribute("description", Row.Cells(4).Value)
+                AddModuleType(Child)
+                AddBlankRow()
             End If
-            Child.SetAttribute("variablename", Row.Cells(0).Value)
-            Child.SetAttribute("module", Row.Cells(1).Value)
-            Child.SetAttribute("name", Row.Cells(2).Value)
-            Child.SetAttribute("arrayspec", Row.Cells(3).Value)
-            Child.SetAttribute("description", Row.Cells(4).Value)
-            AddBlankRow()
+
         End If
         Me.Tooltip.Text = "Hint: Right click on a cell to activate a popup menu for deleting variables."
 
+    End Sub
+
+
+    ' ----------------------------------------------
+    ' Add a module type to the specified variable.
+    ' ----------------------------------------------
+    Private Sub AddModuleType(ByVal Variable As APSIMData)
+        Dim Index As Integer = ComponentNames.IndexOf(Variable.Attribute("Module"))
+        If Index <> -1 Then
+            Variable.SetAttribute("ModuleType", ComponentTypes(Index))
+        End If
     End Sub
 
 
@@ -536,6 +556,7 @@ Public Class ReportVariablesListView
                 m_mouseLocation = Point.Empty
             End If
 
+            AddModuleType(NewData)
             If RowNumber >= VariablesList.DataRows.Count - 1 Then
                 VariablesNode.Add(NewData)
             Else
@@ -554,8 +575,10 @@ Public Class ReportVariablesListView
     Private Sub DeleteRowMenu_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DeleteRowMenu.Click
         Dim Row As Xceed.Grid.DataRow = VariablesList.CurrentCell.ParentRow
         Dim name As String = Row.Cells(2).Value
-        Data.Child("Variables").Delete(name)
-        VariablesList.DataRows.Remove(Row)
+        If Not IsNothing(name) Then
+            Data.Child("Variables").Delete(name)
+            VariablesList.DataRows.Remove(Row)
+        End If
     End Sub
 
     Private Sub DeleteAllMenu_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DeleteAllMenu.Click

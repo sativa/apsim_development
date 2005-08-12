@@ -12,11 +12,14 @@ Public Class DataTree
     Inherits BaseDataControl
 
     Delegate Sub DataSelectedEventHandler(ByVal e As APSIMData)
-    Delegate Sub BeforeDataSelectedEventHandler()
-    Delegate Sub DoubleClickHandler()
+    Delegate Sub NotifyEventHandler()
+
     Public Event DataSelectedEvent As DataSelectedEventHandler
-    Public Event BeforeDataSelectedEvent As BeforeDataSelectedEventHandler
-    Public Event DoubleClickEvent As DoubleClickHandler
+    Public Event BeforeDataSelectedEvent As NotifyEventHandler
+    Public Event DoubleClickEvent As NotifyEventHandler
+    Public Event DataRenamedEvent As NotifyEventHandler
+    Public Event DataDeletedEvent As NotifyEventHandler
+
     Private MaxNumLevels As Integer = 100
     Private ShowAllComponents As Boolean = False
     Private ExpandAllNodes As Boolean = True
@@ -350,11 +353,8 @@ Public Class DataTree
         If newname Is Nothing Or Len(newname) = 0 Or e.CancelEdit Or LCase(e.Node.Text) = "shared" Then
             e.CancelEdit = True
         Else
-            'APSIMFile.RenameComponent(datapath, newname)
             GetDataForFullPath(path).SetAttribute("name", newname)
-            'If MainUImanager.RenameComponent(path, newname) = False Then
-            'e.CancelEdit = True
-            'End If
+            RaiseEvent DataRenamedEvent()
         End If
 
     End Sub
@@ -453,6 +453,7 @@ Public Class DataTree
             ParentNode.Delete(TreeView.SelectedNode.Text)
             TreeView.SelectedNode.Remove()
             TreeView_AfterSelect(Nothing, New TreeViewEventArgs(TreeView.SelectedNode, TreeViewAction.ByKeyboard))
+            RaiseEvent DataDeletedEvent()
         End If
     End Sub
 

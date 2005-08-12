@@ -1,4 +1,5 @@
 Imports VBGeneral
+Imports ChangeTool
 
 Public Class StartupUI
     Inherits VBGeneral.BaseUI
@@ -193,6 +194,8 @@ Public Class StartupUI
     Private Sub SimulationList_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationList.DoubleClick
         Dim SelectedFile As String = SimulationList.SelectedItems(0).Text
         Explorer.FileOpen(SelectedFile)
+        APSIMChangeTool.Upgrade(Explorer.Data)
+        Explorer.Refresh()
     End Sub
 
 
