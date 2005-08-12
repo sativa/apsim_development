@@ -17,7 +17,7 @@ typedef std::map<unsigned, string>      UInt2StringMap;
 
 ////////////////////////
 // array size settings
-// maximum number of plant nodes 
+// maximum number of plant nodes
 #define max_node 1000
 
 // Maximum number of layers in soil
@@ -483,7 +483,7 @@ void Plant::legnew_dm_retranslocate_test
     ,float  g_dm_demand_differential      // (INPUT)  grain dm demand (g/m^2)
     ,float  g_plants                      // (INPUT)  Plant density (plants/m^2)
     ,float  *dlt_dm_retrans_to_fruit);    // (OUTPUT) dm retranslocated to fruit (g/m^2)
-    
+
 void legnew_dm_retranslocate2
     (float  g_current_stage
     ,float  *c_x_stage_no_partition
@@ -1173,6 +1173,8 @@ void legnew_dm_distribute(int max_part
       float eo_crop_factor;                             // Crop factor for sw demand applied to Eo
 
       float     root_distribution_pattern;    // root dist patt for root_growth_option == 2
+      float minTempGrnFill;
+      int   daysDelayGrnFill;
     } p; // Parameters
 
 
@@ -1496,7 +1498,7 @@ void legnew_dm_distribute(int max_part
       }  c;   // Constants
 
    void setupHacks(vector<plantPart *> &parts);
-   void deleteHacks(vector<plantPart *> &parts); 
+   void deleteHacks(vector<plantPart *> &parts);
 };  // Plant
 
 #endif //PLANT_H_
