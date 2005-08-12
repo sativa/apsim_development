@@ -11,7 +11,7 @@
       <filename name="filename">C:\Program Files\Apsim40\apsim\met\sample\goond.met</filename>
     </metfile>
     <area name="paddock">
-      <registrations name="Data outside paddock" />
+      <registrations name="global" />
     </area>
   </simulation>
   <shared name="shared" />
@@ -27,7 +27,7 @@
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>
     <area name="paddock">
-      <registrations name="Data outside paddock" />
+      <registrations name="global" />
       <manager name="Manager">
         <rule name="Sowing rule">
           <condition name="start_of_day"><![CDATA[
@@ -100,7 +100,7 @@
         <filename name="filename">ContinuousWheat.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="Data outside paddock" arrayspec="" description="Date (dd/mm/yyyy)" />
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" />
             <variable name="biomass" description="Biomass" array="F" units="kg/ha" module="wheat" variablename="biomass" arrayspec="" />
             <variable name="yield" description="Yield" array="F" units="kg/ha" module="wheat" variablename="yield" arrayspec="" />
             <variable name="grain_protein" description="grain protein content" array="F" units="%" module="wheat" variablename="grain_protein" arrayspec="" />
@@ -836,12 +836,12 @@
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>
     <area name="paddock">
-      <registrations name="Data outside paddock" />
+      <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">ContinuousSorghum.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="Data outside paddock" arrayspec="" description="Date (dd/mm/yyyy)" />
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" />
             <variable name="biomass" description="Biomass" array="F" units="kg/ha" module="sorghum" variablename="biomass" arrayspec="" />
             <variable name="yield" description="Yield" array="F" units="kg/ha" module="sorghum" variablename="yield" arrayspec="" />
             <variable name="esw" array="T" description="Extractable Soil Water - all layers (mm)" module="Jimbour,Waco (#16) Water" variablename="esw" arrayspec="" />
@@ -1643,7 +1643,7 @@
       <filename name="filename">%apsuite\apsim\met\sample\Toolara.met</filename>
     </metfile>
     <area name="Block">
-      <registrations name="Data outside paddock" />
+      <registrations name="global" />
       <manager name="Manager">
         <rule name="Planting rule">
           <condition name="start_of_day">
@@ -2077,7 +2077,7 @@
         <filename name="filename">Egrandis.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="Data outside paddock" arrayspec="" description="Date (dd/mm/yyyy)" />
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" />
             <variable name="esw" array="T" description="Extractable Soil Water - all layers (mm)" module="UniformSoil Water" variablename="esw" arrayspec="" />
             <variable name="lai" description="E. grandis leaf area index" module="egrandis" variablename="lai" arrayspec="" />
             <variable name="adm_green" array="T" description="E. grandis Live Above-ground Biomass Pools" module="egrandis" variablename="adm_green" arrayspec="" />
@@ -2086,7 +2086,7 @@
             <variable name="plants" description="E. grandis Plant Population" module="egrandis" variablename="plants" arrayspec="" />
           </variables>
           <events>
-            <event name="Data outside paddock.post" description="End of daily simulation time step" module="Data outside paddock" eventname="post" />
+            <event name="Data outside paddock.post" description="End of daily simulation time step" module="global" eventname="post" />
           </events>
         </outputfiledescription>
       </outputfile>
@@ -2104,7 +2104,7 @@
       <filename name="filename">C:\Program Files\Apsim40\apsim\met\sample\ingham.met</filename>
     </metfile>
     <area name="paddock">
-      <registrations name="Data outside paddock" />
+      <registrations name="global" />
       <sugar />
       <soil name="Sample Soil">
         <Site>Jimbour</Site>
@@ -2877,7 +2877,7 @@
         <filename name="filename">sugar.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
-            <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" module="Data outside paddock" variablename="dd/mm/yyyy" arrayspec="" />
+            <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" module="global" variablename="dd/mm/yyyy" arrayspec="" />
             <variable name="biomass" variablename="biomass" module="sugar" arrayspec="" description="Sugar total above-ground biomass (green + trash) (g/m2)" />
             <variable name="cane_wt" description="Sugar cane dry weight (g/m2)" module="sugar" variablename="cane_wt" arrayspec="" />
             <variable name="sucrose_wt" description="Sugar sucrose weight (g/m2)" module="sugar" variablename="sucrose_wt" arrayspec="" />
@@ -2891,13 +2891,13 @@
             <variable name="root_depth" description="Sugar depth of roots (mm)" module="sugar" variablename="root_depth" arrayspec="" />
             <variable name="swdef_photo" description="Sugar water stress factor on photosynthesis (0-1)" module="sugar" variablename="swdef_photo" arrayspec="" />
             <variable name="canefw" description="Sugar cane fresh weight (t/ha)" module="sugar" variablename="canefw" arrayspec="" />
-            <variable name="radn" description="Solar Radiation (MJ/m2/day)" module="Data outside paddock" variablename="radn" arrayspec="" />
-            <variable name="rain" description="Rainfall (mm)" module="Data outside paddock" variablename="rain" arrayspec="" />
-            <variable name="maxt" description="Maximum temperature (oC)" module="Data outside paddock" variablename="maxt" arrayspec="" />
-            <variable name="mint" description="Minimum temperature (oC)" module="Data outside paddock" variablename="mint" arrayspec="" />
+            <variable name="radn" description="Solar Radiation (MJ/m2/day)" module="global" variablename="radn" arrayspec="" />
+            <variable name="rain" description="Rainfall (mm)" module="global" variablename="rain" arrayspec="" />
+            <variable name="maxt" description="Maximum temperature (oC)" module="global" variablename="maxt" arrayspec="" />
+            <variable name="mint" description="Minimum temperature (oC)" module="global" variablename="mint" arrayspec="" />
           </variables>
           <events>
-            <event name="Data outside paddock.post" description="End of daily simulation time step" module="Data outside paddock" eventname="post" />
+            <event name="Data outside paddock.post" description="End of daily simulation time step" module="global" eventname="post" />
           </events>
         </outputfiledescription>
       </outputfile>
