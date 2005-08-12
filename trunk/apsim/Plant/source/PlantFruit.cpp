@@ -248,6 +248,8 @@ void PlantFruit::zeroVariables()
    cover.dead  = 0.0;
    g.pai = 0.0;
    c.extinctionCoeff = 0.0;
+   g.delayGrnFill = false;
+   g.daysDelayedGrnFill = 0;
 
 //   green.shell = 0.0;
 //   green.meal = 0.0;
@@ -568,6 +570,9 @@ void PlantFruit::bio_yieldpart_demand1( float c_twilight                        
                                       , float *p_y_hi_max_pot                     // (INPUT) Potential Max HI
                                       , int   p_num_hi_max_pot                    // (INPUT) Number of lookup pairs
                                       , float g_grain_energy                      // (INPUT)
+                                      , float g_mint
+                                      , float p_minTempGrnFill
+                                      , int   p_daysDelayGrnFill
                                       , float *dlt_dm_yieldpart_demand             // (OUTPUT) grain dry matter potential (g/m^2)
                                       )
 //===========================================================================
@@ -635,12 +640,30 @@ void PlantFruit::bio_yieldpart_demand1( float c_twilight                        
 
         dlt_dm_yield = dlt_dm_yield_unadj * energy_adjust;
     //jh         dlt_dm_yield = dlt_dm_yield_unadj
+
+        if (g_mint <= p_minTempGrnFill)
+        {
+            g.delayGrnFill = true;
+        }
+        if (g.delayGrnFill)
+        {
+            dlt_dm_yield = 0.0;
+            g.daysDelayedGrnFill = g.daysDelayedGrnFill + 1;
+            if (g.daysDelayedGrnFill == p_daysDelayGrnFill)
+            {
+                  g.delayGrnFill = false ;
+                  g.daysDelayedGrnFill = 0;
+            }
+        }
         }
     else
         {
         // we are out of grain fill period
         dlt_dm_yield = 0.0;
         }
+//        ostrstream msg;
+//       msg << g_mint << g.delayGrnFill << g.daysDelayedGrnFill << endl;
+//       parent->writeString (msg.str());
 
 
     *dlt_dm_yieldpart_demand = dlt_dm_yield;

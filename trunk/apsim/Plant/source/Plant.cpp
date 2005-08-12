@@ -1073,6 +1073,9 @@ void Plant::plant_bio_grain_demand (int option /* (INPUT) option number */)
                                    , p.y_hi_max_pot
                                    , p.num_hi_max_pot
                                    , g.grain_energy
+                                   , g.mint
+                                   , p.minTempGrnFill
+                                   , p.daysDelayGrnFill
                                    , &g.dlt_dm_grain_demand);
 
         }
@@ -8349,6 +8352,8 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (p.xf, 0.0, max_layer);
       p.uptake_source = "";
       p.eo_crop_factor = 0.0;
+      p.minTempGrnFill = 0.0;
+      p.daysDelayGrnFill = 0;
 
       //       plant Constants
 	   c.grain_fill_option = 0;
@@ -9150,6 +9155,22 @@ void Plant::plant_read_cultivar_params ()
     , "y_hi_max_pot"//, "(0-1)"
     , p.y_hi_max_pot, p.num_hi_max_pot
     , 0.0, 1.0);
+
+    if (parent->readParameter (g.cultivar.c_str()
+                , "min_temp_grnfill"//, "()"
+                , p.minTempGrnFill
+                , 0.0, 20.0, true) == false)
+    {
+        p.minTempGrnFill = -100.0;
+        p.daysDelayGrnFill = 0;
+    }
+    else
+    {
+       parent->readParameter (g.cultivar.c_str()
+               , "days_delay_grnfill"//, "()"
+               , p.daysDelayGrnFill
+               , 0, 10);
+    }
 
     if (c.grain_no_option==2)
         {

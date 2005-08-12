@@ -103,6 +103,9 @@ class PlantFruit
                                       , float *p_y_hi_max_pot
                                       , int   p_num_hi_max_pot
                                       , float g_grain_energy
+                                      , float g_mint
+                                      , float p_minTempGrnFill
+                                      , int   p_daysDelayGrnFill
                                       , float *dlt_dm_yieldpart_demand
                                       ) ;
 
@@ -273,6 +276,8 @@ class PlantFruit
       struct Globals
       {
          float pai;
+         bool delayGrnFill;
+         int daysDelayedGrnFill;
       };
       Globals g;
 
