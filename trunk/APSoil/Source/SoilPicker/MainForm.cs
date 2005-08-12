@@ -201,7 +201,7 @@ namespace SoilPicker
 			// Load up the file from the command line if necessary.
 			try
 				{
-				if (CommandLineFileName != null)
+				if (CommandLineFileName != "")
 					{
 					SoilExplorer.FileOpen(CommandLineFileName);
 					APSIMChangeTool.Upgrade(SoilExplorer.Data);
@@ -209,9 +209,12 @@ namespace SoilPicker
 					SoilExplorer.SelectNode(DefaultSoil);
 					if (SoilExplorer.GetSelectedData() == null)
 						SoilExplorer.SelectFirstNodeOfType("soil");
+					if (QuitImmediately)
+						OkButton_Click(null, null);
 					}
-				if (QuitImmediately)
-				OkButton_Click(null, null);
+				else if (QuitImmediately)
+					Close();
+
 				}
 			catch (Exception err)
 				{

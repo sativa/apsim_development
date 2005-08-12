@@ -733,11 +733,13 @@ Public Class MainUI
     ' Main form is closing - save everything.
     ' --------------------------------------------------
     Private Sub MainUI_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
-        WriteWindowPosition()
-        SimulationExplorer.FileSave()
-        If ToolboxExplorer.Visible And _
-            Path.GetFileNameWithoutExtension(ToolboxExplorer.FileName).ToLower() <> "standard" Then
-            ToolboxExplorer.FileSave()
+        e.Cancel = Not SimulationExplorer.DoSaveAfterPrompt()
+        If Not e.Cancel Then
+            WriteWindowPosition()
+            If ToolboxExplorer.Visible And _
+                Path.GetFileNameWithoutExtension(ToolboxExplorer.FileName).ToLower() <> "standard" Then
+                ToolboxExplorer.FileSave()
+            End If
         End If
     End Sub
 
@@ -784,6 +786,7 @@ Public Class MainUI
     ' User has clicked File|Exit
     ' --------------------------
     Private Sub FileExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileExit.Click
+        SimulationExplorer.DoSaveAfterPrompt()
         Close()
     End Sub
 
@@ -833,7 +836,13 @@ Public Class MainUI
         ViewToolboxWindow.Checked = Not ViewToolboxWindow.Checked
         ToolboxPanel.Visible = ViewToolboxWindow.Checked
         ToolBoxSplitter.Enabled = ViewToolboxWindow.Checked
-        ToolboxExplorer.FileSave()
+
+        Dim ToolboxFile As String = Path.GetFileNameWithoutExtension(ToolboxExplorer.FileName).ToLower()
+        If ToolboxFile <> "standard.xml" And _
+           ToolboxFile <> "standardsoils.xml" And _
+           ToolboxFile <> "new simulations.xml" Then
+            ToolboxExplorer.FileSave()
+        End If
     End Sub
 
 
@@ -1132,5 +1141,7 @@ Public Class MainUI
             APSIMSettings.INIWrite(APSIMSettings.ApsimIniFile(), "apsimui", "toolboxheight", Str(ToolboxPanel.Height))
         End If
     End Sub
+
+
 
 End Class

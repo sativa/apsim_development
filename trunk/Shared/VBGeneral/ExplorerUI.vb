@@ -15,6 +15,7 @@ Public Class ExplorerUI
     Private BaseName As String
 
     Public Event DataSelectedEvent As DataTree.DataSelectedEventHandler
+    Public Event DataStructureChangedEvent As DataTree.NotifyEventHandler
 
 
 
@@ -122,6 +123,8 @@ Public Class ExplorerUI
         MyCaptionLabel.Visible = False
         MyHelpLabel.Visible = False
         MyDataHasChanged = False
+        AddHandler DataTree.DataRenamedEvent, AddressOf DataStructureChanged
+        AddHandler DataTree.DataDeletedEvent, AddressOf DataStructureChanged
     End Sub
 
 
@@ -529,4 +532,14 @@ Public Class ExplorerUI
             Next
         End If
     End Sub
+
+
+    ' ---------------------------------------------------
+    ' User has changed the structure of the data somehow.
+    ' Raise an event to that effect.
+    ' ---------------------------------------------------
+    Sub DataStructureChanged()
+        RaiseEvent DataStructureChangedEvent()
+    End Sub
+
 End Class

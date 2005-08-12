@@ -160,7 +160,8 @@ Public Class OutputFileDescUI
         DataTree.ApplicationSettings = Explorer.ApplicationSettings
         DataTree.ShowAll = True
         DataTree.Data = BuildDataTree()
-        
+
+        VariablesListView.ApplicationSettings = Explorer.ApplicationSettings
         VariablesListView.Data = Data
         EventsListView.Data = Data
     End Sub

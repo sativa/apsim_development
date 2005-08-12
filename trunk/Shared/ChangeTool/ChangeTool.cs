@@ -58,11 +58,43 @@ namespace ChangeTool
 			if (Data.Type.ToLower() == "soil")
 				{
 				Soil MySoil = new Soil(Data);
+				double[] thickness = MySoil.Thickness;
 				MySoil.UpgradeToVersion2();
+				}
+			else if (Data.Type.ToLower() == "registrations")
+				Data.Name = "global";
+			else if (Data.Type.ToLower() == "outputfile")
+				{
+				APSIMData OutputFileDescription = null;
+				foreach (APSIMData Child in Data.get_Children(null))
+					{
+					if (Child.Type.ToLower() == "outputfiledescription")
+						OutputFileDescription = Child;
+					}
+                if (OutputFileDescription != null)
+					{
+					APSIMData Variables = OutputFileDescription.Child("variables");
+					if (Variables != null)
+						RemoveDataOutsidePaddock(Variables, "variable");
+					APSIMData Events = OutputFileDescription.Child("events");
+					if (Events != null)
+						RemoveDataOutsidePaddock(Events, "event");
+					}
 				}
 			}	
 
-	
+		// ------------------------------------------
+		// Remove all 'data outside paddock' from all 
+		// children of specified data.
+		// ------------------------------------------
+		private static void RemoveDataOutsidePaddock(APSIMData Parent, string ChildType)
+			{
+			foreach (APSIMData Child in Parent.get_Children(ChildType))
+				{
+				if (Child.Attribute("module").ToLower() == "data outside paddock")
+					Child.SetAttribute("module", "global");
+				}
+			}
 
 
 		}

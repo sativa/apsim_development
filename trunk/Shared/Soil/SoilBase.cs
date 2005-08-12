@@ -113,7 +113,7 @@ namespace CSGeneral
 				else
 					{
 					values[index] = Convert.ToDouble(layer.Child(propertyName).InnerXML);
-					if (values[index] < -500 || values[index] > 500)
+					if (values[index] < -1500 || values[index] > 1500)
 						values[index] = MathUtility.MissingValue;
 					}
 				index++;

@@ -244,38 +244,55 @@ Public Class APSIMData
         End Get
     End Property
     Public Sub Add(ByVal Data As APSIMData)
-        If IsNothing(Data) Then
-            ' Do Nothing
-        ElseIf Me.Attribute("shortcut") <> "" Then
-            MsgBox("Cannot add data to a short cut.  You must add this data to the data source in the library.", MsgBoxStyle.Critical, "User Error")
-        Else
-            Dim NewName As String = UniqueName(Data.Name, ChildList)
-            If NewName <> Data.Name Then
-                Data.Name = NewName
-            End If
+        If Not IsNothing(Data) Then
+            If Me.Attribute("shortcut") <> "" Then
+                Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
+                Dim ParentData As APSIMData = New APSIMData(Node.OwnerDocument.DocumentElement)
+                ParentData = ParentData.FindChild(RemoteSource, "|")
+                If IsNothing(ParentData) Then
+                    Throw New System.Exception("Cannot find shared node.")
+                End If
+                ParentData.Add(Data)
+            Else
+                Dim NewName As String = UniqueName(Data.Name, ChildList)
+                If NewName <> Data.Name Then
+                    Data.Name = NewName
+                End If
 
-            Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
-            Node.AppendChild(newnode)
+                Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
+                Node.AppendChild(newnode)
+            End If
         End If
     End Sub
     Public Sub AddBefore(ByVal Data As APSIMData, ByVal ReferenceNode As APSIMData)
-        If IsNothing(Data) Then
-            ' Do Nothing
-        ElseIf Me.Attribute("shortcut") <> "" Then
-            MsgBox("Cannot add data to a short cut.  You must add this data to the data source in the library.", MsgBoxStyle.Critical, "User Error")
-        Else
-            Data.Name = UniqueName(Data.Name, ChildList)
-            Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
-            Node.InsertBefore(newnode, ReferenceNode.Node)
+        If Not IsNothing(Data) Then
+            If Me.Attribute("shortcut") <> "" Then
+                Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
+                Dim ParentData As APSIMData = New APSIMData(Node.OwnerDocument.DocumentElement)
+                ParentData = ParentData.FindChild(RemoteSource, "|")
+                If IsNothing(ParentData) Then
+                    Throw New System.Exception("Cannot find shared node.")
+                End If
+                ParentData.AddBefore(Data, ReferenceNode)
+            Else
+                Data.Name = UniqueName(Data.Name, ChildList)
+                Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
+                Node.InsertBefore(newnode, ReferenceNode.Node)
+            End If
         End If
     End Sub
     Public Sub Delete(ByVal ChildName As String)
         If Me.Attribute("shortcut") <> "" Then
-            MsgBox("Cannot delete data from a short cut.  You must delete this data from the data source in the library.", MsgBoxStyle.Critical, "User Error")
+            Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
+            Dim ParentData As APSIMData = New APSIMData(Node.OwnerDocument.DocumentElement)
+            ParentData = ParentData.FindChild(RemoteSource, "|")
+            If IsNothing(ParentData) Then
+                Throw New System.Exception("Cannot find shared node.")
+            End If
+            ParentData.Delete(ChildName)
         Else
             Node.RemoveChild(Child(ChildName).Node)
         End If
-
     End Sub
     Private Function UniqueName(ByVal ProposedName As String, ByVal UsedNames As StringCollection) As String
 
