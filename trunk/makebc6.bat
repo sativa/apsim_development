@@ -52,17 +52,6 @@ cd %APSROOT%\apsim
 echo ------Compiling  %APSROOT%\apsim >> %APSROOT%\build.out
 cmd /c %APSMAKE%  >> %APSROOT%\build.out
 
-rem --------- Compile GetComponentDescription
-cd %APSROOT%\tools\GetComponentDescription
-echo ------Compiling  GetComponentDescription > %APSROOT%\dotnet.out
-"C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\devenv" GetComponentDescription.csproj /rebuild debug >> %APSROOT%\build.out
-cd %APSROOT%
-
-rem --------- Compile DotNetComponentInterface
-cd %APSROOT%\Shared\DotNetComponentInterface
-call datatypes.bat
-echo ------Compiling  %APSROOT%\DotNetComponentInterface >> %APSROOT%\build.out
-"C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\devenv" DotNetComponentInterface.vcproj /rebuild debug >> %APSROOT%\build.out
 cd %APSROOT%
 
 REM -------All Done.
