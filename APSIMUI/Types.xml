@@ -1646,7 +1646,7 @@
    <navybean>
       <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphicsnavybean.jpg</Image>
+      <Image>%apsuite\ApsimUI\Graphics\navybean.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
@@ -1683,11 +1683,11 @@
    <ozcot>
       <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\cottton.jpg</Image>
+      <Image>%apsuite\ApsimUI\Graphics\cotton.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Ozcot science documentation">../apsim/ozcot/docs/ozcot_science.htm</Documentation>
-      <LargeIcon>Images\cubes32.png</LargeIcon>
-      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
