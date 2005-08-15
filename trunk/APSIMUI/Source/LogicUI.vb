@@ -138,9 +138,9 @@ Public Class LogicUI
 
     Overrides Sub Refresh()
         MyBase.Refresh()
-        InitTextBox.Text = Replace(Data.ChildValueWithError("init"), "[cr]", vbCrLf)
-        StartOfDayTextBox.Text = Replace(Data.ChildValueWithError("startofday"), "[cr]", vbCrLf)
-        EndOfDayTextBox.Text = Replace(Data.ChildValueWithError("endofday"), "[cr]", vbCrLf)
+        InitTextBox.Text = Replace(Data.ChildValue("init"), "[cr]", vbCrLf)
+        StartOfDayTextBox.Text = Replace(Data.ChildValue("startofday"), "[cr]", vbCrLf)
+        EndOfDayTextBox.Text = Replace(Data.ChildValue("endofday"), "[cr]", vbCrLf)
         HelpLabel.Text = "Enter you management logic into the edit box above."
     End Sub
 
@@ -165,5 +165,11 @@ Public Class LogicUI
             text = ""
         End If
         Data.Child("endofday").Value = text
+    End Sub
+
+    Public Overrides Sub Save()
+        InitTextBox_Leave(Nothing, Nothing)
+        StartOfDayTextBox_Leave(Nothing, Nothing)
+        EndOfDayTextBox_Leave(Nothing, Nothing)
     End Sub
 End Class

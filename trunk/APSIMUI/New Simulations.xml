@@ -5,7 +5,7 @@
       <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1989</end_date>
     </clock>
     <summaryfile name="summaryfile">
-      <filename name="filename">default.sum</filename>
+      <filename name="filename">Blank Simulation.sum</filename>
     </summaryfile>
     <metfile name="met">
       <filename name="filename">C:\Program Files\Apsim40\apsim\met\sample\goond.met</filename>
@@ -21,7 +21,7 @@
       <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1989</end_date>
     </clock>
     <summaryfile name="summaryfile">
-      <filename name="filename">ContinuousWheat.sum</filename>
+      <filename name="filename">Continuous Wheat Simulation.sum</filename>
     </summaryfile>
     <metfile name="met">
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
@@ -97,18 +97,18 @@
       </surfaceom>
       <wheat />
       <outputfile name="outputfile">
-        <filename name="filename">ContinuousWheat.out</filename>
+        <filename name="filename">Continuous Wheat Simulation.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" />
-            <variable name="biomass" description="Biomass" array="F" units="kg/ha" module="wheat" variablename="biomass" arrayspec="" />
-            <variable name="yield" description="Yield" array="F" units="kg/ha" module="wheat" variablename="yield" arrayspec="" />
-            <variable name="grain_protein" description="grain protein content" array="F" units="%" module="wheat" variablename="grain_protein" arrayspec="" />
-            <variable name="grain_size" description="Size of each grain" array="F" units="g" module="wheat" variablename="grain_size" arrayspec="" />
-            <variable name="esw" array="T" description="Extractable Soil Water - all layers (mm)" module="Jimbour,Waco (#016) Water" variablename="esw" arrayspec="" />
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="biomass" description="Biomass" array="F" units="kg/ha" module="wheat" variablename="biomass" arrayspec="" ModuleType="wheat" />
+            <variable name="yield" description="Yield" array="F" units="kg/ha" module="wheat" variablename="yield" arrayspec="" ModuleType="wheat" />
+            <variable name="grain_protein" description="grain protein content" array="F" units="%" module="wheat" variablename="grain_protein" arrayspec="" ModuleType="wheat" />
+            <variable name="grain_size" description="Size of each grain" array="F" units="g" module="wheat" variablename="grain_size" arrayspec="" ModuleType="wheat" />
+            <variable name="esw" array="F" description="Extractable Soil Water (mm)" module="Jimbour,Waco (#016)" variablename="esw" arrayspec="" ModuleType="soil" VariableType="Water" />
           </variables>
           <events>
-            <event name="harvesting" description="" module="wheat" />
+            <event name="harvesting" description="" module="wheat" ModuleType="wheat" />
           </events>
         </outputfiledescription>
       </outputfile>
@@ -830,7 +830,7 @@
       <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1989</end_date>
     </clock>
     <summaryfile name="summaryfile">
-      <filename name="filename">ContinuousSorghum.sum</filename>
+      <filename name="filename">Continuous Sorghum Simulation.sum</filename>
     </summaryfile>
     <metfile name="met">
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
@@ -838,16 +838,16 @@
     <area name="paddock">
       <registrations name="global" />
       <outputfile name="outputfile">
-        <filename name="filename">ContinuousSorghum.out</filename>
+        <filename name="filename">Continuous Sorghum Simulation.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" />
-            <variable name="biomass" description="Biomass" array="F" units="kg/ha" module="sorghum" variablename="biomass" arrayspec="" />
-            <variable name="yield" description="Yield" array="F" units="kg/ha" module="sorghum" variablename="yield" arrayspec="" />
-            <variable name="esw" array="T" description="Extractable Soil Water - all layers (mm)" module="Jimbour,Waco (#16) Water" variablename="esw" arrayspec="" />
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="biomass" description="Biomass" array="F" units="kg/ha" module="sorghum" variablename="biomass" arrayspec="" ModuleType="sorghum" />
+            <variable name="yield" description="Yield" array="F" units="kg/ha" module="sorghum" variablename="yield" arrayspec="" ModuleType="sorghum" />
+            <variable name="esw" array="F" description="Extractable Soil Water (mm)" module="Jimbour,Waco (#16)" variablename="esw" arrayspec="" ModuleType="soil" VariableType="Water" />
           </variables>
           <events>
-            <event name="harvesting" description="" module="sorghum" />
+            <event name="harvesting" description="" module="sorghum" ModuleType="sorghum" />
           </events>
         </outputfiledescription>
       </outputfile>
@@ -1637,7 +1637,7 @@
       <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1997</end_date>
     </clock>
     <summaryfile name="summaryfile">
-      <filename name="filename">Egrandis.sum</filename>
+      <filename name="filename">Eucalypt Forest Simulation.sum</filename>
     </summaryfile>
     <metfile name="met">
       <filename name="filename">%apsuite\apsim\met\sample\Toolara.met</filename>
@@ -2074,19 +2074,19 @@
       </micromet>
       <egrandis />
       <outputfile name="outputfile">
-        <filename name="filename">Egrandis.out</filename>
+        <filename name="filename">Eucalypt Forest Simulation Block.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" />
-            <variable name="esw" array="T" description="Extractable Soil Water - all layers (mm)" module="UniformSoil Water" variablename="esw" arrayspec="" />
-            <variable name="lai" description="E. grandis leaf area index" module="egrandis" variablename="lai" arrayspec="" />
-            <variable name="adm_green" array="T" description="E. grandis Live Above-ground Biomass Pools" module="egrandis" variablename="adm_green" arrayspec="" />
-            <variable name="fw" description="E. grandis water stress factor" module="egrandis" variablename="fw" arrayspec="" />
-            <variable name="fn" description="E. grandis N stress factor" module="egrandis" variablename="fn" arrayspec="" />
-            <variable name="plants" description="E. grandis Plant Population" module="egrandis" variablename="plants" arrayspec="" />
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="esw" array="F" description="Extractable Soil Water (mm)" module="UniformSoil" variablename="esw" arrayspec="" ModuleType="soil" VariableType="Water" />
+            <variable name="lai" description="E. grandis leaf area index" module="egrandis" variablename="lai" arrayspec="" ModuleType="egrandis" />
+            <variable name="adm_green" array="T" description="E. grandis Live Above-ground Biomass Pools" module="egrandis" variablename="adm_green" arrayspec="" ModuleType="egrandis" />
+            <variable name="fw" description="E. grandis water stress factor" module="egrandis" variablename="fw" arrayspec="" ModuleType="egrandis" />
+            <variable name="fn" description="E. grandis N stress factor" module="egrandis" variablename="fn" arrayspec="" ModuleType="egrandis" />
+            <variable name="plants" description="E. grandis Plant Population" module="egrandis" variablename="plants" arrayspec="" ModuleType="egrandis" />
           </variables>
           <events>
-            <event name="Data outside paddock.post" description="End of daily simulation time step" module="global" eventname="post" />
+            <event name="post" description="End of daily simulation time step" module="global" eventname="post" ModuleType="registrations" />
           </events>
         </outputfiledescription>
       </outputfile>
@@ -2098,7 +2098,7 @@
       <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1993</end_date>
     </clock>
     <summaryfile name="summaryfile">
-      <filename name="filename">sugar.sum</filename>
+      <filename name="filename">Sugar Simulation.sum</filename>
     </summaryfile>
     <metfile name="met">
       <filename name="filename">C:\Program Files\Apsim40\apsim\met\sample\ingham.met</filename>
@@ -2874,30 +2874,30 @@
         </InitNitrogen>
       </soil>
       <outputfile name="outputfile">
-        <filename name="filename">sugar.out</filename>
+        <filename name="filename">Sugar Simulation.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
-            <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" module="global" variablename="dd/mm/yyyy" arrayspec="" />
-            <variable name="biomass" variablename="biomass" module="sugar" arrayspec="" description="Sugar total above-ground biomass (green + trash) (g/m2)" />
-            <variable name="cane_wt" description="Sugar cane dry weight (g/m2)" module="sugar" variablename="cane_wt" arrayspec="" />
-            <variable name="sucrose_wt" description="Sugar sucrose weight (g/m2)" module="sugar" variablename="sucrose_wt" arrayspec="" />
-            <variable name="sw_demand" description="Sugar crop demand for water (potential uptake) (mm)" module="sugar" variablename="sw_demand" arrayspec="" />
-            <variable name="das" description="Sugar days after sowing" module="sugar" variablename="das" arrayspec="" />
-            <variable name="ratoon_no" description="Sugar Ratoon number" module="sugar" variablename="ratoon_no" arrayspec="" />
-            <variable name="crop_status" description="Sugar Crop status (dead,alive,out)" module="sugar" variablename="crop_status" arrayspec="" />
-            <variable name="esw" array="T" description="Extractable Soil Water - all layers (mm)" module="Sample Soil Water" variablename="esw" arrayspec="" />
-            <variable name="lai" description="Sugar green leaf area index" module="sugar" variablename="lai" arrayspec="" />
-            <variable name="nfact_photo" description="Sugar Nitrogen stress factor on photosynthesis (0-1)" module="sugar" variablename="nfact_photo" arrayspec="" />
-            <variable name="root_depth" description="Sugar depth of roots (mm)" module="sugar" variablename="root_depth" arrayspec="" />
-            <variable name="swdef_photo" description="Sugar water stress factor on photosynthesis (0-1)" module="sugar" variablename="swdef_photo" arrayspec="" />
-            <variable name="canefw" description="Sugar cane fresh weight (t/ha)" module="sugar" variablename="canefw" arrayspec="" />
-            <variable name="radn" description="Solar Radiation (MJ/m2/day)" module="global" variablename="radn" arrayspec="" />
-            <variable name="rain" description="Rainfall (mm)" module="global" variablename="rain" arrayspec="" />
-            <variable name="maxt" description="Maximum temperature (oC)" module="global" variablename="maxt" arrayspec="" />
-            <variable name="mint" description="Minimum temperature (oC)" module="global" variablename="mint" arrayspec="" />
+            <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" module="global" variablename="dd/mm/yyyy" arrayspec="" ModuleType="registrations" />
+            <variable name="biomass" variablename="biomass" module="sugar" arrayspec="" description="Sugar total above-ground biomass (green + trash) (g/m2)" ModuleType="sugar" />
+            <variable name="cane_wt" description="Sugar cane dry weight (g/m2)" module="sugar" variablename="cane_wt" arrayspec="" ModuleType="sugar" />
+            <variable name="sucrose_wt" description="Sugar sucrose weight (g/m2)" module="sugar" variablename="sucrose_wt" arrayspec="" ModuleType="sugar" />
+            <variable name="sw_demand" description="Sugar crop demand for water (potential uptake) (mm)" module="sugar" variablename="sw_demand" arrayspec="" ModuleType="sugar" />
+            <variable name="das" description="Sugar days after sowing" module="sugar" variablename="das" arrayspec="" ModuleType="sugar" />
+            <variable name="ratoon_no" description="Sugar Ratoon number" module="sugar" variablename="ratoon_no" arrayspec="" ModuleType="sugar" />
+            <variable name="crop_status" description="Sugar Crop status (dead,alive,out)" module="sugar" variablename="crop_status" arrayspec="" ModuleType="sugar" />
+            <variable name="esw" array="F" description="Extractable Soil Water (mm)" module="Sample Soil" variablename="esw" arrayspec="" ModuleType="soil" VariableType="Water" />
+            <variable name="lai" description="Sugar green leaf area index" module="sugar" variablename="lai" arrayspec="" ModuleType="sugar" />
+            <variable name="nfact_photo" description="Sugar Nitrogen stress factor on photosynthesis (0-1)" module="sugar" variablename="nfact_photo" arrayspec="" ModuleType="sugar" />
+            <variable name="root_depth" description="Sugar depth of roots (mm)" module="sugar" variablename="root_depth" arrayspec="" ModuleType="sugar" />
+            <variable name="swdef_photo" description="Sugar water stress factor on photosynthesis (0-1)" module="sugar" variablename="swdef_photo" arrayspec="" ModuleType="sugar" />
+            <variable name="canefw" description="Sugar cane fresh weight (t/ha)" module="sugar" variablename="canefw" arrayspec="" ModuleType="sugar" />
+            <variable name="radn" description="Solar Radiation (MJ/m2/day)" module="global" variablename="radn" arrayspec="" ModuleType="registrations" />
+            <variable name="rain" description="Rainfall (mm)" module="global" variablename="rain" arrayspec="" ModuleType="registrations" />
+            <variable name="maxt" description="Maximum temperature (oC)" module="global" variablename="maxt" arrayspec="" ModuleType="registrations" />
+            <variable name="mint" description="Minimum temperature (oC)" module="global" variablename="mint" arrayspec="" ModuleType="registrations" />
           </variables>
           <events>
-            <event name="Data outside paddock.post" description="End of daily simulation time step" module="global" eventname="post" />
+            <event name="post" description="End of daily simulation time step" module="global" eventname="post" ModuleType="registrations" />
           </events>
         </outputfiledescription>
       </outputfile>

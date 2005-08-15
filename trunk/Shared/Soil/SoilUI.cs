@@ -1932,6 +1932,7 @@ namespace CSGeneral
 				if (NewCropName != "")
 					{
 					MySoil.AddCrop(NewCropName);
+					WaterChartControl.Refresh();
 					Refresh();
 					}
 				}
@@ -1943,12 +1944,12 @@ namespace CSGeneral
 					try
 						{
 						MySoil.DeleteCrop(CropNameToDelete);
+						WaterChartControl.Refresh();
 						Refresh();
 						}
-					catch (Exception)
+					catch (Exception err)
 						{
-						MessageBox.Show("Cannot delete crop: " + CropNameToDelete, "Error", 
-							            MessageBoxButtons.OK, MessageBoxIcon.Error);
+						MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 						}
 					}
 				}

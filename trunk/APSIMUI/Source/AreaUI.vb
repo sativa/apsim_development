@@ -170,9 +170,7 @@ Public Class areaui
     ' User is trying to initiate a drag - allow drag operation
     ' --------------------------------------------------------
     Private Sub ListView_ItemDrag(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemDragEventArgs) Handles ListView.ItemDrag
-        Dim Data As APSIMData = Data.Child(ListView.SelectedItems.Item(0).Text)
-        Dim DataString As String = Data.XML
-
+        Dim DataString As String = Data.Child(ListView.SelectedItems.Item(0).Text).XML
         ListView.DoDragDrop(DataString, DragDropEffects.All)
     End Sub
 
@@ -224,11 +222,11 @@ Public Class areaui
 
     Private Sub ListView_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ListView.KeyDown
         If e.KeyCode = Keys.Delete Then
-            Dim Data As APSIMData = Data.Child(ListView.SelectedItems.Item(0).Text)
-            Dim ParentNode As APSIMData = Data.Parent
+            Dim DataToDelete As APSIMData = Data.Child(ListView.SelectedItems.Item(0).Text)
+            Dim ParentNode As APSIMData = DataToDelete.Parent
             ParentNode.Delete(ListView.SelectedItems.Item(0).Text)
-            Explorer.Refresh()
             ListView.SelectedItems.Item(0).Remove()
+            Explorer.Refresh()
         End If
     End Sub
 End Class

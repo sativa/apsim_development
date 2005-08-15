@@ -1,4 +1,5491 @@
-<soils>
+<soils version="2">
+  <folder name="Standard soils">
+    <folder name="WA">
+      <Soil name="Buntine,Deep Sand,#146">
+        <Water>
+          <Cona>2</Cona>
+          <DiffusConst>220</DiffusConst>
+          <DiffusSlope>22</DiffusSlope>
+          <U>2</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>62</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <layer name="1">
+            <thickness>150</thickness>
+            <bd>1.47</bd>
+            <ll15>0.04</ll15>
+            <airdry>0.02</airdry>
+            <dul>0.1</dul>
+            <sat>0.42</sat>
+            <sw>0.1</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <bd>1.51</bd>
+            <ll15>0.04</ll15>
+            <airdry>0.036</airdry>
+            <dul>0.1</dul>
+            <sat>0.4</sat>
+            <sw>0.1</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>300</thickness>
+            <bd>1.56</bd>
+            <ll15>0.05</ll15>
+            <airdry>0.05</airdry>
+            <dul>0.11</dul>
+            <sat>0.38</sat>
+            <sw>0.11</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>300</thickness>
+            <bd>1.61</bd>
+            <ll15>0.06</ll15>
+            <airdry>0.06</airdry>
+            <dul>0.12</dul>
+            <sat>0.36</sat>
+            <sw>0.12</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="5">
+            <thickness>300</thickness>
+            <bd>1.63</bd>
+            <ll15>0.07</ll15>
+            <airdry>0.07</airdry>
+            <dul>0.13</dul>
+            <sat>0.35</sat>
+            <sw>0.13</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <bd>1.64</bd>
+            <ll15>0.1</ll15>
+            <airdry>0.1</airdry>
+            <dul>0.13</dul>
+            <sat>0.35</sat>
+            <sw>0.13</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <bd>1.62</bd>
+            <ll15>0.11</ll15>
+            <airdry>0.11</airdry>
+            <dul>0.14</dul>
+            <sat>0.36</sat>
+            <sw>0.14</sw>
+            <swcon>0.7</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>45</RootCn>
+          <RootWt>1500</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>0.8</oc>
+            <ph>5.5</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>12</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.44</oc>
+            <ph>5.3</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>6</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.25</oc>
+            <ph>5.6</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>4</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.15</oc>
+            <ph>6.6</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>3</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.31</oc>
+            <ph>6.6</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>2</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.13</oc>
+            <ph>6.6</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>2</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.09</oc>
+            <ph>6.4</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+        </Nitrogen>
+        <other />
+        <SoilCrop name="wheat">
+          <layer name="1">
+            <ll>0.04</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.04</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.05</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.06</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.07</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.1</ll>
+            <kl>0.05</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.11</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+        </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>12</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="2">
+            <no3>6</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="3">
+            <no3>4</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="4">
+            <no3>3</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="5">
+            <no3>2</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="6">
+            <no3>2</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+        </InitNitrogen>
+      </Soil>
+      <Soil name="Buntine,Sand over gravel,#24">
+        <Water>
+          <Cona>2</Cona>
+          <DiffusConst>88</DiffusConst>
+          <DiffusSlope>35</DiffusSlope>
+          <U>2</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>84</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <layer name="1">
+            <thickness>150</thickness>
+            <bd>1.52</bd>
+            <ll15>0.07</ll15>
+            <airdry>0.035</airdry>
+            <dul>0.11</dul>
+            <sat>0.4</sat>
+            <sw>0.11</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <bd>1.6</bd>
+            <ll15>0.07</ll15>
+            <airdry>0.056</airdry>
+            <dul>0.18</dul>
+            <sat>0.37</sat>
+            <sw>0.18</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>300</thickness>
+            <bd>1.44</bd>
+            <ll15>0.08</ll15>
+            <airdry>0.08</airdry>
+            <dul>0.19</dul>
+            <sat>0.4</sat>
+            <sw>0.19</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>300</thickness>
+            <bd>1.6</bd>
+            <ll15>0.09</ll15>
+            <airdry>0.09</airdry>
+            <dul>0.2</dul>
+            <sat>0.35</sat>
+            <sw>0.2</sw>
+            <swcon>0.7</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>45</RootCn>
+          <RootWt>1500</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1.01</oc>
+            <ph>5.98</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>12</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.49</oc>
+            <ph>5.4</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.6</finert>
+            <no3>6</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.3</oc>
+            <ph>6.23</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.8</finert>
+            <no3>4</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.29</oc>
+            <ph>6.6</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.9</finert>
+            <no3>3</no3>
+            <nh4>0.1</nh4>
+          </layer>
+        </Nitrogen>
+        <other />
+        <SoilCrop name="wheat">
+          <layer name="1">
+            <ll>0.07</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.07</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.08</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.09</ll>
+            <kl>0.035</kl>
+            <xf>1</xf>
+          </layer>
+        </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>12</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="2">
+            <no3>6</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="3">
+            <no3>4</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="4">
+            <no3>3</no3>
+            <nh4>0.1</nh4>
+          </layer>
+        </InitNitrogen>
+      </Soil>
+      <Soil name="Mingenew,Deep Sand,#90">
+        <Water>
+          <Cona>2</Cona>
+          <DiffusConst>220</DiffusConst>
+          <DiffusSlope>22</DiffusSlope>
+          <U>2</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>62</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <layer name="1">
+            <thickness>150</thickness>
+            <bd>1.59</bd>
+            <ll15>0.03</ll15>
+            <airdry>0.015</airdry>
+            <dul>0.1</dul>
+            <sat>0.37</sat>
+            <sw>0.1</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <bd>1.67</bd>
+            <ll15>0.03</ll15>
+            <airdry>0.027</airdry>
+            <dul>0.07</dul>
+            <sat>0.34</sat>
+            <sw>0.07</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>300</thickness>
+            <bd>1.67</bd>
+            <ll15>0.04</ll15>
+            <airdry>0.04</airdry>
+            <dul>0.08</dul>
+            <sat>0.34</sat>
+            <sw>0.08</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>300</thickness>
+            <bd>1.67</bd>
+            <ll15>0.06</ll15>
+            <airdry>0.06</airdry>
+            <dul>0.1</dul>
+            <sat>0.34</sat>
+            <sw>0.1</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="5">
+            <thickness>300</thickness>
+            <bd>1.69</bd>
+            <ll15>0.06</ll15>
+            <airdry>0.06</airdry>
+            <dul>0.09</dul>
+            <sat>0.33</sat>
+            <sw>0.09</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <bd>1.69</bd>
+            <ll15>0.06</ll15>
+            <airdry>0.06</airdry>
+            <dul>0.1</dul>
+            <sat>0.33</sat>
+            <sw>0.1</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <bd>1.69</bd>
+            <ll15>0.06</ll15>
+            <airdry>0.06</airdry>
+            <dul>0.11</dul>
+            <sat>0.33</sat>
+            <sw>0.11</sw>
+            <swcon>0.7</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>45</RootCn>
+          <RootWt>1500</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>0.99</oc>
+            <ph>5.65</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>12</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.47</oc>
+            <ph>5.42</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>6</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.22</oc>
+            <ph>5.23</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>4</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.18</oc>
+            <ph>5.3</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>3</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.16</oc>
+            <ph>5.7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>2</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.13</oc>
+            <ph>6.08</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>2</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.12</oc>
+            <ph>6.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+        </Nitrogen>
+        <other />
+        <SoilCrop name="wheat">
+          <layer name="1">
+            <ll>0.03</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.03</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.04</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.06</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.06</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.06</ll>
+            <kl>0.05</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.06</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+        </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>12</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="2">
+            <no3>6</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="3">
+            <no3>4</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="4">
+            <no3>3</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="5">
+            <no3>2</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="6">
+            <no3>2</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+        </InitNitrogen>
+      </Soil>
+      <Soil name="Mingenew,Sandy Loam,#71">
+        <Water>
+          <Cona>2</Cona>
+          <DiffusConst>88</DiffusConst>
+          <DiffusSlope>35</DiffusSlope>
+          <U>2</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>73</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <layer name="1">
+            <thickness>150</thickness>
+            <bd>1.6</bd>
+            <ll15>0.08</ll15>
+            <airdry>0.04</airdry>
+            <dul>0.25</dul>
+            <sat>0.37</sat>
+            <sw>0.25</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <bd>1.64</bd>
+            <ll15>0.08</ll15>
+            <airdry>0.072</airdry>
+            <dul>0.3</dul>
+            <sat>0.35</sat>
+            <sw>0.3</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>300</thickness>
+            <bd>1.54</bd>
+            <ll15>0.13</ll15>
+            <airdry>0.13</airdry>
+            <dul>0.34</dul>
+            <sat>0.39</sat>
+            <sw>0.34</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>300</thickness>
+            <bd>1.65</bd>
+            <ll15>0.14</ll15>
+            <airdry>0.14</airdry>
+            <dul>0.3</dul>
+            <sat>0.35</sat>
+            <sw>0.3</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="5">
+            <thickness>300</thickness>
+            <bd>1.69</bd>
+            <ll15>0.2</ll15>
+            <airdry>0.2</airdry>
+            <dul>0.28</dul>
+            <sat>0.33</sat>
+            <sw>0.28</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <bd>1.65</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.3</dul>
+            <sat>0.35</sat>
+            <sw>0.3</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <bd>1.64</bd>
+            <ll15>0.22</ll15>
+            <airdry>0.22</airdry>
+            <dul>0.3</dul>
+            <sat>0.35</sat>
+            <sw>0.3</sw>
+            <swcon>0.7</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>45</RootCn>
+          <RootWt>1500</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>0.83</oc>
+            <ph>6.5</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>12</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.56</oc>
+            <ph>7</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>6</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.35</oc>
+            <ph>7.7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>4</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.24</oc>
+            <ph>8.4</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>3</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.18</oc>
+            <ph>8.7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>3</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.14</oc>
+            <ph>8.7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.13</oc>
+            <ph>8.7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+        </Nitrogen>
+        <other />
+        <SoilCrop name="wheat">
+          <layer name="1">
+            <ll>0.08</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.08</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.13</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.14</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.2</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.21</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.22</ll>
+            <kl>0.03</kl>
+            <xf>1</xf>
+          </layer>
+        </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>12</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="2">
+            <no3>6</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="3">
+            <no3>4</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="4">
+            <no3>3</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="5">
+            <no3>3</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="6">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+        </InitNitrogen>
+      </Soil>
+      <soil name="Sand">
+        <Water>
+          <DiffusConst>88</DiffusConst>
+          <DiffusSlope>35</DiffusSlope>
+          <Cn2Bare>62</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <Salb>0.13</Salb>
+          <Cona>3</Cona>
+          <U>0.5</U>
+          <layer name="1">
+            <thickness>150</thickness>
+            <airdry>0.01</airdry>
+            <ll15>0.011</ll15>
+            <dul>0.102</dul>
+            <sat>0.37</sat>
+            <sw>0.102</sw>
+            <swcon>0.1</swcon>
+            <bd>1.59</bd>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <airdry>0.033</airdry>
+            <ll15>0.033</ll15>
+            <dul>0.07</dul>
+            <sat>0.34</sat>
+            <sw>0.07</sw>
+            <swcon>0.1</swcon>
+            <bd>1.67</bd>
+          </layer>
+          <layer name="3">
+            <thickness>300</thickness>
+            <airdry>0.031</airdry>
+            <ll15>0.041</ll15>
+            <dul>0.083</dul>
+            <sat>0.34</sat>
+            <sw>0.083</sw>
+            <swcon>0.1</swcon>
+            <bd>1.67</bd>
+          </layer>
+          <layer name="4">
+            <thickness>300</thickness>
+            <airdry>0.021</airdry>
+            <ll15>0.061</ll15>
+            <dul>0.099</dul>
+            <sat>0.34</sat>
+            <sw>0.099</sw>
+            <swcon>0.1</swcon>
+            <bd>1.67</bd>
+          </layer>
+          <layer name="5">
+            <thickness>300</thickness>
+            <airdry>0.02</airdry>
+            <ll15>0.06</ll15>
+            <dul>0.092</dul>
+            <sat>0.33</sat>
+            <sw>0.092</sw>
+            <swcon>0.1</swcon>
+            <bd>1.69</bd>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <airdry>0.027</airdry>
+            <ll15>0.057</ll15>
+            <dul>0.099</dul>
+            <sat>0.33</sat>
+            <sw>0.099</sw>
+            <swcon>0.3</swcon>
+            <bd>1.69</bd>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <airdry>0.03</airdry>
+            <ll15>0.059</ll15>
+            <dul>0.11</dul>
+            <sat>0.33</sat>
+            <sw>0.11</sw>
+            <swcon>0.3</swcon>
+            <bd>1.69</bd>
+          </layer>
+          <layer name="8">
+            <thickness>300</thickness>
+            <airdry>0.035</airdry>
+            <ll15>0.086</ll15>
+            <dul>0.11</dul>
+            <sat>0.33</sat>
+            <sw>0.11</sw>
+            <swcon>0.3</swcon>
+            <bd>1.69</bd>
+          </layer>
+          <layer name="9">
+            <thickness>300</thickness>
+            <airdry>0.038</airdry>
+            <ll15>0.079</ll15>
+            <dul>0.11</dul>
+            <sat>0.33</sat>
+            <sw>0.11</sw>
+            <swcon>0.3</swcon>
+            <bd>1.69</bd>
+          </layer>
+          <layer name="10">
+            <thickness>300</thickness>
+            <airdry>0.042</airdry>
+            <ll15>0.073</ll15>
+            <dul>0.11</dul>
+            <sat>0.33</sat>
+            <sw>0.11</sw>
+            <swcon>0.3</swcon>
+            <bd>1.69</bd>
+          </layer>
+          <layer name="11">
+            <thickness>300</thickness>
+            <airdry>0.043</airdry>
+            <ll15>0.07</ll15>
+            <dul>0.11</dul>
+            <sat>0.33</sat>
+            <sw>0.11</sw>
+            <swcon>0.3</swcon>
+            <bd>1.69</bd>
+          </layer>
+        </Water>
+        <soilcrop name="Wheat">
+          <layer name="1">
+            <ll>0.033</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.033</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.041</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.061</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.06</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.057</ll>
+            <kl>0.05</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.059</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.086</ll>
+            <kl>0.03</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.079</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.073</ll>
+            <kl>0.01</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.07</ll>
+            <kl>0.01</kl>
+            <xf>1</xf>
+          </layer>
+        </soilcrop>
+        <Nitrogen>
+          <RootCn>50</RootCn>
+          <RootWt>1000</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>0.995</oc>
+            <ph>5.65</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>10</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.473</oc>
+            <ph>5.42</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>5.9</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.218</oc>
+            <ph>5.23</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>3</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.176</oc>
+            <ph>5.3</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>3.2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.156</oc>
+            <ph>5.7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.127</oc>
+            <ph>6.08</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.117</oc>
+            <ph>6.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+          <layer name="8">
+            <oc>0.117</oc>
+            <ph>6.4</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+          <layer name="9">
+            <oc>0.11</oc>
+            <ph>6.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+          <layer name="10">
+            <oc>0.11</oc>
+            <ph>6.5</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>0.5</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="11">
+            <oc>0.01</oc>
+            <ph>6.5</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>0.5</no3>
+            <nh4>0.01</nh4>
+          </layer>
+        </Nitrogen>
+        <Region>WA</Region>
+        <Site>Mingenew</Site>
+        <SoilType />
+        <Comment>Parameterisation from N. Dalgliesh</Comment>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>10</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <no3>5.9</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <no3>3</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <no3>3.2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="5">
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+          <layer name="6">
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+          <layer name="8">
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+          <layer name="9">
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+          <layer name="10">
+            <no3>0.5</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="11">
+            <no3>0.5</no3>
+            <nh4>0.01</nh4>
+          </layer>
+        </InitNitrogen>
+      </soil>
+      <soil name="Sandy Gravel">
+        <Water>
+          <DiffusConst>40</DiffusConst>
+          <DiffusSlope>16</DiffusSlope>
+          <Cn2Bare>64</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <Salb>0.13</Salb>
+          <Cona>3.5</Cona>
+          <U>6</U>
+          <layer name="1">
+            <thickness>100</thickness>
+            <airdry>0.023</airdry>
+            <ll15>0.046</ll15>
+            <dul>0.111</dul>
+            <sat>0.4</sat>
+            <sw>0.111</sw>
+            <swcon>1</swcon>
+            <bd>1.52</bd>
+          </layer>
+          <layer name="2">
+            <thickness>100</thickness>
+            <airdry>0.023</airdry>
+            <ll15>0.046</ll15>
+            <dul>0.111</dul>
+            <sat>0.4</sat>
+            <sw>0.111</sw>
+            <swcon>1</swcon>
+            <bd>1.52</bd>
+          </layer>
+          <layer name="3">
+            <thickness>100</thickness>
+            <airdry>0.04</airdry>
+            <ll15>0.057</ll15>
+            <dul>0.178</dul>
+            <sat>0.37</sat>
+            <sw>0.178</sw>
+            <swcon>1</swcon>
+            <bd>1.6</bd>
+          </layer>
+          <layer name="4">
+            <thickness>300</thickness>
+            <airdry>0.072</airdry>
+            <ll15>0.072</ll15>
+            <dul>0.193</dul>
+            <sat>0.4</sat>
+            <sw>0.193</sw>
+            <swcon>1</swcon>
+            <bd>1.44</bd>
+          </layer>
+          <layer name="5">
+            <thickness>300</thickness>
+            <airdry>0.068</airdry>
+            <ll15>0.068</ll15>
+            <dul>0.196</dul>
+            <sat>0.35</sat>
+            <sw>0.196</sw>
+            <swcon>1</swcon>
+            <bd>0.6</bd>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <airdry>0.079</airdry>
+            <ll15>0.079</ll15>
+            <dul>0.2</dul>
+            <sat>0.36</sat>
+            <sw>0.2</sw>
+            <swcon>1</swcon>
+            <bd>0.6</bd>
+          </layer>
+        </Water>
+        <soilcrop name="Wheat">
+          <layer name="1">
+            <ll>0.046</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.046</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.057</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.072</ll>
+            <kl>0.035</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.068</ll>
+            <kl>0.03</kl>
+            <xf>0.5</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.079</ll>
+            <kl>0.025</kl>
+            <xf>0</xf>
+          </layer>
+        </soilcrop>
+        <Nitrogen>
+          <RootCn>45</RootCn>
+          <RootWt>1500</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1.01</oc>
+            <ph>5.98</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.49</oc>
+            <ph>5.98</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.6</finert>
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.28</oc>
+            <ph>5.4</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.8</finert>
+            <no3>8</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.16</oc>
+            <ph>6.23</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.9</finert>
+            <no3>5</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.12</oc>
+            <ph>6.6</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>4.9</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.1</oc>
+            <ph>6.7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>3.2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+        </Nitrogen>
+        <Region>WA</Region>
+        <Site>Latham</Site>
+        <SoilType />
+        <Comment>Parameterisation from N. Dalgliesh</Comment>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <no3>8</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="5">
+            <no3>4.9</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <no3>3.2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+        </InitNitrogen>
+      </soil>
+      <soil name="Red Sandy Clay Loam">
+        <Water>
+          <DiffusConst>40</DiffusConst>
+          <DiffusSlope>16</DiffusSlope>
+          <Cn2Bare>82</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <Salb>0.13</Salb>
+          <Cona>3.5</Cona>
+          <U>6</U>
+          <layer name="1">
+            <thickness>150</thickness>
+            <airdry>0.012</airdry>
+            <ll15>0.084</ll15>
+            <dul>0.246</dul>
+            <sat>0.37</sat>
+            <sw>0.246</sw>
+            <swcon>0.3</swcon>
+            <bd>1.598</bd>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <airdry>0.074</airdry>
+            <ll15>0.084</ll15>
+            <dul>0.299</dul>
+            <sat>0.35</sat>
+            <sw>0.299</sw>
+            <swcon>0.3</swcon>
+            <bd>1.64</bd>
+          </layer>
+          <layer name="3">
+            <thickness>300</thickness>
+            <airdry>0.134</airdry>
+            <ll15>0.134</ll15>
+            <dul>0.338</dul>
+            <sat>0.39</sat>
+            <sw>0.338</sw>
+            <swcon>0.3</swcon>
+            <bd>1.542</bd>
+          </layer>
+          <layer name="4">
+            <thickness>300</thickness>
+            <airdry>0.14</airdry>
+            <ll15>0.14</ll15>
+            <dul>0.298</dul>
+            <sat>0.35</sat>
+            <sw>0.298</sw>
+            <swcon>0.3</swcon>
+            <bd>1.648</bd>
+          </layer>
+          <layer name="5">
+            <thickness>300</thickness>
+            <airdry>0.2</airdry>
+            <ll15>0.2</ll15>
+            <dul>0.28</dul>
+            <sat>0.33</sat>
+            <sw>0.28</sw>
+            <swcon>0.3</swcon>
+            <bd>1.69</bd>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <airdry>0.21</airdry>
+            <ll15>0.21</ll15>
+            <dul>0.3</dul>
+            <sat>0.35</sat>
+            <sw>0.3</sw>
+            <swcon>0.3</swcon>
+            <bd>1.65</bd>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <airdry>0.22</airdry>
+            <ll15>0.22</ll15>
+            <dul>0.3</dul>
+            <sat>0.35</sat>
+            <sw>0.3</sw>
+            <swcon>0.3</swcon>
+            <bd>1.64</bd>
+          </layer>
+        </Water>
+        <soilcrop name="Wheat">
+          <layer name="1">
+            <ll>0.084</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.084</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.134</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.14</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.2</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.212</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.224</ll>
+            <kl>0.03</kl>
+            <xf>1</xf>
+          </layer>
+        </soilcrop>
+        <Nitrogen>
+          <RootCn>40</RootCn>
+          <RootWt>100</RootWt>
+          <SoilCn>13</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>0.829</oc>
+            <ph>6.48</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>15</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.562</oc>
+            <ph>6.98</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>5.9</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.351</oc>
+            <ph>7.7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>4.9</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.241</oc>
+            <ph>8.43</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>3.2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.241</oc>
+            <ph>8.43</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.241</oc>
+            <ph>8.43</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.241</oc>
+            <ph>8.43</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+        </Nitrogen>
+        <Region>WA</Region>
+        <Site>Mingenew</Site>
+        <SoilType />
+        <Comment>Parameterisation from N. Dalgliesh</Comment>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>15</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <no3>5.9</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <no3>4.9</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <no3>3.2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="5">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="6">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+        </InitNitrogen>
+      </soil>
+    </folder>
+    <folder name="Qld">
+      <soil name="Warra Trial Site">
+        <Water>
+          <DiffusConst>40</DiffusConst>
+          <DiffusSlope>16</DiffusSlope>
+          <Cn2Bare>80</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <Salb>0.13</Salb>
+          <Cona>4</Cona>
+          <U>6</U>
+          <layer name="1">
+            <thickness>100</thickness>
+            <airdry>0.1</airdry>
+            <ll15>0.22</ll15>
+            <dul>0.45</dul>
+            <sat>0.5</sat>
+            <sw>0.45</sw>
+            <swcon>0.2</swcon>
+            <bd>1.3</bd>
+          </layer>
+          <layer name="2">
+            <thickness>100</thickness>
+            <airdry>0.2</airdry>
+            <ll15>0.22</ll15>
+            <dul>0.459</dul>
+            <sat>0.509</sat>
+            <sw>0.459</sw>
+            <swcon>0.2</swcon>
+            <bd>1.3</bd>
+          </layer>
+          <layer name="3">
+            <thickness>100</thickness>
+            <airdry>0.2</airdry>
+            <ll15>0.23</ll15>
+            <dul>0.45</dul>
+            <sat>0.51</sat>
+            <sw>0.45</sw>
+            <swcon>0.2</swcon>
+            <bd>1.29</bd>
+          </layer>
+          <layer name="4">
+            <thickness>300</thickness>
+            <airdry>0.2</airdry>
+            <ll15>0.24</ll15>
+            <dul>0.44</dul>
+            <sat>0.505</sat>
+            <sw>0.44</sw>
+            <swcon>0.2</swcon>
+            <bd>1.31</bd>
+          </layer>
+          <layer name="5">
+            <thickness>300</thickness>
+            <airdry>0.2</airdry>
+            <ll15>0.26</ll15>
+            <dul>0.42</dul>
+            <sat>0.49</sat>
+            <sw>0.42</sw>
+            <swcon>0.2</swcon>
+            <bd>1.35</bd>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <airdry>0.2</airdry>
+            <ll15>0.27</ll15>
+            <dul>0.41</dul>
+            <sat>0.48</sat>
+            <sw>0.41</sw>
+            <swcon>0.2</swcon>
+            <bd>1.36</bd>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <airdry>0.2</airdry>
+            <ll15>0.28</ll15>
+            <dul>0.41</dul>
+            <sat>0.48</sat>
+            <sw>0.41</sw>
+            <swcon>0.2</swcon>
+            <bd>1.36</bd>
+          </layer>
+        </Water>
+        <soilcrop name="Wheat">
+          <layer name="1">
+            <ll>0.22</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.22</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.23</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.24</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.285</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.33</ll>
+            <kl>0.03</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.39</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+        </soilcrop>
+        <Nitrogen>
+          <RootCn>40</RootCn>
+          <RootWt>10</RootWt>
+          <SoilCn>14.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1</oc>
+            <ph>8.2</ph>
+            <fbiom>0.045</fbiom>
+            <finert>0.3</finert>
+            <no3>10</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.84</oc>
+            <ph>8.5</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.5</finert>
+            <no3>5</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.77</oc>
+            <ph>8.6</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.6</finert>
+            <no3>4</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.65</oc>
+            <ph>8.6</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.75</finert>
+            <no3>2</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.54</oc>
+            <ph>7.4</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.48</oc>
+            <ph>5.3</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>1</no3>
+            <nh4>0.5</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.43</oc>
+            <ph>5</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>1</no3>
+            <nh4>0.5</nh4>
+          </layer>
+        </Nitrogen>
+        <Region>Queensland</Region>
+        <Site>Warra Long Term Trial Site</Site>
+        <SoilType />
+        <Comment>Parameterisation from M. Probert</Comment>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>10</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="2">
+            <no3>5</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="3">
+            <no3>4</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="4">
+            <no3>2</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="5">
+            <no3>1</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="6">
+            <no3>1</no3>
+            <nh4>0.5</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.5</nh4>
+          </layer>
+        </InitNitrogen>
+      </soil>
+      <soil name="Brown Vertosol">
+        <Water>
+          <DiffusConst>40</DiffusConst>
+          <DiffusSlope>16</DiffusSlope>
+          <Cn2Bare>73</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <Salb>0.13</Salb>
+          <Cona>3.5</Cona>
+          <U>6</U>
+          <layer name="1">
+            <thickness>100</thickness>
+            <airdry>0.115</airdry>
+            <ll15>0.2</ll15>
+            <dul>0.4</dul>
+            <sat>0.48</sat>
+            <sw>0.4</sw>
+            <swcon>0.3</swcon>
+            <bd>1.29</bd>
+          </layer>
+          <layer name="2">
+            <thickness>100</thickness>
+            <airdry>0.198</airdry>
+            <ll15>0.22</ll15>
+            <dul>0.41</dul>
+            <sat>0.47</sat>
+            <sw>0.41</sw>
+            <swcon>0.3</swcon>
+            <bd>1.32</bd>
+          </layer>
+          <layer name="3">
+            <thickness>200</thickness>
+            <airdry>0.24</airdry>
+            <ll15>0.24</ll15>
+            <dul>0.42</dul>
+            <sat>0.47</sat>
+            <sw>0.42</sw>
+            <swcon>0.3</swcon>
+            <bd>1.32</bd>
+          </layer>
+          <layer name="4">
+            <thickness>200</thickness>
+            <airdry>0.26</airdry>
+            <ll15>0.26</ll15>
+            <dul>0.42</dul>
+            <sat>0.47</sat>
+            <sw>0.42</sw>
+            <swcon>0.3</swcon>
+            <bd>1.33</bd>
+          </layer>
+          <layer name="5">
+            <thickness>200</thickness>
+            <airdry>0.28</airdry>
+            <ll15>0.28</ll15>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>0.4</sw>
+            <swcon>0.3</swcon>
+            <bd>1.39</bd>
+          </layer>
+        </Water>
+        <soilcrop name="Wheat">
+          <layer name="1">
+            <ll>0.2</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.22</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.24</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.26</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.28</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+        </soilcrop>
+        <Nitrogen>
+          <RootCn>40</RootCn>
+          <RootWt>200</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1.24</oc>
+            <ph>7</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+          </layer>
+          <layer name="2">
+            <oc>1.24</oc>
+            <ph>7</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>4</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="3">
+            <oc>1.25</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>3</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="4">
+            <oc>1.1</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>2</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.71</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.5</no3>
+            <nh4>0.1</nh4>
+          </layer>
+        </Nitrogen>
+        <Region>Queensland</Region>
+        <Site>Roma</Site>
+        <SoilType />
+        <Comment>Parameterisation from N. Dalgliesh</Comment>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+          </layer>
+          <layer name="2">
+            <no3>4</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="3">
+            <no3>3</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="4">
+            <no3>2</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="5">
+            <no3>1.5</no3>
+            <nh4>0.1</nh4>
+          </layer>
+        </InitNitrogen>
+      </soil>
+    </folder>
+    <folder name="Vic">
+      <Soil name="Mallee_clay_loam_A">
+        <Water>
+          <Cona>2</Cona>
+          <DiffusConst>88</DiffusConst>
+          <DiffusSlope>35.4</DiffusSlope>
+          <U>2</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>73</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <layer name="1">
+            <thickness>100</thickness>
+            <bd>1.36</bd>
+            <ll15>0.122563</ll15>
+            <airdry>0.0725625</airdry>
+            <dul>0.334075</dul>
+            <sat>0.486792</sat>
+            <sw>0.145125</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <bd>1.29333</bd>
+            <ll15>0.172042</ll15>
+            <airdry>0.146236</airdry>
+            <dul>0.34069</dul>
+            <sat>0.51195</sat>
+            <sw>0.172042</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>150</thickness>
+            <bd>1.29333</bd>
+            <ll15>0.173355</ll15>
+            <airdry>0.164687</airdry>
+            <dul>0.34069</dul>
+            <sat>0.51195</sat>
+            <sw>0.173355</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>150</thickness>
+            <bd>1.37352</bd>
+            <ll15>0.20576</ll15>
+            <airdry>0.20576</airdry>
+            <dul>0.35162</dul>
+            <sat>0.481692</sat>
+            <sw>0.20576</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="5">
+            <thickness>150</thickness>
+            <bd>1.37352</bd>
+            <ll15>0.209698</ll15>
+            <airdry>0.209698</airdry>
+            <dul>0.35037</dul>
+            <sat>0.481692</sat>
+            <sw>0.209698</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <bd>1.41178</bd>
+            <ll15>0.23789</ll15>
+            <airdry>0.23789</airdry>
+            <dul>0.35124</dul>
+            <sat>0.467254</sat>
+            <sw>0.23789</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <bd>1.42252</bd>
+            <ll15>0.249406</ll15>
+            <airdry>0.249406</airdry>
+            <dul>0.35</dul>
+            <sat>0.463202</sat>
+            <sw>0.249406</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="8">
+            <thickness>300</thickness>
+            <bd>1.45467</bd>
+            <ll15>0.276224</ll15>
+            <airdry>0.276224</airdry>
+            <dul>0.3442</dul>
+            <sat>0.451069</sat>
+            <sw>0.276224</sw>
+            <swcon>0.3</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>45</RootCn>
+          <RootWt>1500</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1</oc>
+            <ph>7</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.7</finert>
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.85</finert>
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </Nitrogen>
+        <other />
+        <SoilCrop name="wheat">
+          <layer name="1">
+            <ll>0.122563</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.172042</ll>
+            <kl>0.06</kl>
+            <xf>0.911643</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.173355</ll>
+            <kl>0.04</kl>
+            <xf>0.911643</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.20576</ll>
+            <kl>0.04</kl>
+            <xf>0.670536</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.209698</ll>
+            <kl>0.04</kl>
+            <xf>0.670536</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.23789</ll>
+            <kl>0.04</kl>
+            <xf>0.483786</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.249406</ll>
+            <kl>0.02</kl>
+            <xf>0.485571</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.276224</ll>
+            <kl>0.02</kl>
+            <xf>0.382143</xf>
+          </layer>
+        </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </InitNitrogen>
+      </Soil>
+      <Soil name="Mallee_clay_loam_B">
+        <Water>
+          <Cona>2</Cona>
+          <DiffusConst>88</DiffusConst>
+          <DiffusSlope>35.4</DiffusSlope>
+          <U>2</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>73</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <layer name="1">
+            <thickness>100</thickness>
+            <bd>1.36</bd>
+            <ll15>0.17</ll15>
+            <airdry>0.12</airdry>
+            <dul>0.386638</dul>
+            <sat>0.486792</sat>
+            <sw>0.24</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <bd>1.29333</bd>
+            <ll15>0.245423</ll15>
+            <airdry>0.208609</airdry>
+            <dul>0.377831</dul>
+            <sat>0.51195</sat>
+            <sw>0.245423</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>150</thickness>
+            <bd>1.29333</bd>
+            <ll15>0.245423</ll15>
+            <airdry>0.233152</airdry>
+            <dul>0.377831</dul>
+            <sat>0.51195</sat>
+            <sw>0.245423</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>150</thickness>
+            <bd>1.37352</bd>
+            <ll15>0.312484</ll15>
+            <airdry>0.312484</airdry>
+            <dul>0.390973</dul>
+            <sat>0.481692</sat>
+            <sw>0.312484</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="5">
+            <thickness>150</thickness>
+            <bd>1.37352</bd>
+            <ll15>0.312484</ll15>
+            <airdry>0.312484</airdry>
+            <dul>0.390973</dul>
+            <sat>0.481692</sat>
+            <sw>0.312484</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <bd>1.41178</bd>
+            <ll15>0.308995</ll15>
+            <airdry>0.308995</airdry>
+            <dul>0.374654</dul>
+            <sat>0.467254</sat>
+            <sw>0.308995</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <bd>1.42252</bd>
+            <ll15>0.307566</ll15>
+            <airdry>0.307566</airdry>
+            <dul>0.36872</dul>
+            <sat>0.463202</sat>
+            <sw>0.307566</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="8">
+            <thickness>300</thickness>
+            <bd>1.45467</bd>
+            <ll15>0.31324</ll15>
+            <airdry>0.31324</airdry>
+            <dul>0.36314</dul>
+            <sat>0.451069</sat>
+            <sw>0.31324</sw>
+            <swcon>0.3</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>45</RootCn>
+          <RootWt>1500</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1</oc>
+            <ph>7</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.7</finert>
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.85</finert>
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </Nitrogen>
+        <other />
+        <SoilCrop name="wheat">
+          <layer name="1">
+            <ll>0.17</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.245423</ll>
+            <kl>0.06</kl>
+            <xf>0.845857</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.245423</ll>
+            <kl>0.04</kl>
+            <xf>0.845857</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.312484</ll>
+            <kl>0.04</kl>
+            <xf>0.567857</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.312484</ll>
+            <kl>0.04</kl>
+            <xf>0.567857</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.308995</ll>
+            <kl>0.04</kl>
+            <xf>0.447714</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.307566</ll>
+            <kl>0.02</kl>
+            <xf>0.447714</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.31324</ll>
+            <kl>0.02</kl>
+            <xf>0.278571</xf>
+          </layer>
+        </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </InitNitrogen>
+      </Soil>
+      <Soil name="Mallee_sandy_loam">
+        <Water>
+          <Cona>2</Cona>
+          <DiffusConst>220</DiffusConst>
+          <DiffusSlope>22</DiffusSlope>
+          <U>2</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>73</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <layer name="1">
+            <thickness>100</thickness>
+            <bd>1.71551</bd>
+            <ll15>0.114375</ll15>
+            <airdry>0.064375</airdry>
+            <dul>0.218952</dul>
+            <sat>0.352639</sat>
+            <sw>0.12875</sw>
+            <swcon>0.5</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <bd>1.69417</bd>
+            <ll15>0.131055</ll15>
+            <airdry>0.111396</airdry>
+            <dul>0.227157</dul>
+            <sat>0.36069</sat>
+            <sw>0.131055</sw>
+            <swcon>0.5</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>150</thickness>
+            <bd>1.69417</bd>
+            <ll15>0.131055</ll15>
+            <airdry>0.124502</airdry>
+            <dul>0.227157</dul>
+            <sat>0.36069</sat>
+            <sw>0.131055</sw>
+            <swcon>0.5</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>150</thickness>
+            <bd>1.65036</bd>
+            <ll15>0.146253</ll15>
+            <airdry>0.146253</airdry>
+            <dul>0.244141</dul>
+            <sat>0.377223</sat>
+            <sw>0.146253</sw>
+            <swcon>0.5</swcon>
+          </layer>
+          <layer name="5">
+            <thickness>150</thickness>
+            <bd>1.65036</bd>
+            <ll15>0.146253</ll15>
+            <airdry>0.146253</airdry>
+            <dul>0.244141</dul>
+            <sat>0.377223</sat>
+            <sw>0.146253</sw>
+            <swcon>0.5</swcon>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <bd>1.64738</bd>
+            <ll15>0.16423</ll15>
+            <airdry>0.16423</airdry>
+            <dul>0.256715</dul>
+            <sat>0.378348</sat>
+            <sw>0.16423</sw>
+            <swcon>0.5</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <bd>1.65738</bd>
+            <ll15>0.207966</ll15>
+            <airdry>0.207966</airdry>
+            <dul>0.259159</dul>
+            <sat>0.374574</sat>
+            <sw>0.207966</sw>
+            <swcon>0.5</swcon>
+          </layer>
+          <layer name="8">
+            <thickness>300</thickness>
+            <bd>1.67738</bd>
+            <ll15>0.235089</ll15>
+            <airdry>0.235089</airdry>
+            <dul>0.269297</dul>
+            <sat>0.367027</sat>
+            <sw>0.235089</sw>
+            <swcon>0.5</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>45</RootCn>
+          <RootWt>1500</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1</oc>
+            <ph>7</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.7</finert>
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.85</finert>
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </Nitrogen>
+        <other />
+        <SoilCrop name="wheat">
+          <layer name="1">
+            <ll>0.114375</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.131055</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.131055</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.146253</ll>
+            <kl>0.04</kl>
+            <xf>0.924286</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.146253</ll>
+            <kl>0.04</kl>
+            <xf>0.867143</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.16423</ll>
+            <kl>0.04</kl>
+            <xf>0.679429</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.207966</ll>
+            <kl>0.02</kl>
+            <xf>0.679429</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.235089</ll>
+            <kl>0.02</kl>
+            <xf>0.587429</xf>
+          </layer>
+        </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </InitNitrogen>
+      </Soil>
+      <Soil name="Malley_sandy_clay_loam">
+        <Water>
+          <Cona>2</Cona>
+          <DiffusConst>140</DiffusConst>
+          <DiffusSlope>30</DiffusSlope>
+          <U>2</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>73</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <layer name="1">
+            <thickness>100</thickness>
+            <bd>1.51013</bd>
+            <ll15>0.1175</ll15>
+            <airdry>0.0675</airdry>
+            <dul>0.293869</dul>
+            <sat>0.43014</sat>
+            <sw>0.135</sw>
+            <swcon>0.4</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <bd>1.62438</bd>
+            <ll15>0.18282</ll15>
+            <airdry>0.155397</airdry>
+            <dul>0.291202</dul>
+            <sat>0.387027</sat>
+            <sw>0.18282</sw>
+            <swcon>0.4</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>150</thickness>
+            <bd>1.62438</bd>
+            <ll15>0.18282</ll15>
+            <airdry>0.173679</airdry>
+            <dul>0.291202</dul>
+            <sat>0.387027</sat>
+            <sw>0.18282</sw>
+            <swcon>0.4</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>150</thickness>
+            <bd>1.57127</bd>
+            <ll15>0.178057</ll15>
+            <airdry>0.178057</airdry>
+            <dul>0.325364</dul>
+            <sat>0.407066</sat>
+            <sw>0.178057</sw>
+            <swcon>0.4</swcon>
+          </layer>
+          <layer name="5">
+            <thickness>150</thickness>
+            <bd>1.57127</bd>
+            <ll15>0.178057</ll15>
+            <airdry>0.178057</airdry>
+            <dul>0.325364</dul>
+            <sat>0.407066</sat>
+            <sw>0.178057</sw>
+            <swcon>0.4</swcon>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <bd>1.55937</bd>
+            <ll15>0.215699</ll15>
+            <airdry>0.215699</airdry>
+            <dul>0.324235</dul>
+            <sat>0.411558</sat>
+            <sw>0.215699</sw>
+            <swcon>0.4</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <bd>1.55975</bd>
+            <ll15>0.269117</ll15>
+            <airdry>0.269117</airdry>
+            <dul>0.331414</dul>
+            <sat>0.411414</sat>
+            <sw>0.269117</sw>
+            <swcon>0.4</swcon>
+          </layer>
+          <layer name="8">
+            <thickness>300</thickness>
+            <bd>1.52006</bd>
+            <ll15>0.269117</ll15>
+            <airdry>0.269117</airdry>
+            <dul>0.346323</dul>
+            <sat>0.426393</sat>
+            <sw>0.269117</sw>
+            <swcon>0.4</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>45</RootCn>
+          <RootWt>1500</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1</oc>
+            <ph>7</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.7</finert>
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.85</finert>
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </Nitrogen>
+        <other />
+        <SoilCrop name="wheat">
+          <layer name="1">
+            <ll>0.1175</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.18282</ll>
+            <kl>0.06</kl>
+            <xf>0.921429</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.18282</ll>
+            <kl>0.04</kl>
+            <xf>0.921429</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.178057</ll>
+            <kl>0.04</kl>
+            <xf>0.844286</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.178057</ll>
+            <kl>0.04</kl>
+            <xf>0.844286</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.215699</ll>
+            <kl>0.04</kl>
+            <xf>0.744571</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.269117</ll>
+            <kl>0.02</kl>
+            <xf>0.744571</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.269117</ll>
+            <kl>0.02</kl>
+            <xf>0.642857</xf>
+          </layer>
+        </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </InitNitrogen>
+      </Soil>
+      <Soil name="Red_duplex">
+        <Water>
+          <Cona>2</Cona>
+          <DiffusConst>88</DiffusConst>
+          <DiffusSlope>35.4</DiffusSlope>
+          <U>2</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>84</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <layer name="1">
+            <thickness>100</thickness>
+            <bd>1.35</bd>
+            <ll15>0.128</ll15>
+            <airdry>0.078</airdry>
+            <dul>0.4</dul>
+            <sat>0.490566</sat>
+            <sw>0.156</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <bd>1.36924</bd>
+            <ll15>0.201667</ll15>
+            <airdry>0.171417</airdry>
+            <dul>0.403304</dul>
+            <sat>0.483304</sat>
+            <sw>0.201667</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>150</thickness>
+            <bd>1.36924</bd>
+            <ll15>0.201667</ll15>
+            <airdry>0.191583</airdry>
+            <dul>0.403304</dul>
+            <sat>0.483304</sat>
+            <sw>0.201667</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>150</thickness>
+            <bd>1.38319</bd>
+            <ll15>0.278333</ll15>
+            <airdry>0.278333</airdry>
+            <dul>0.398041</dul>
+            <sat>0.478041</sat>
+            <sw>0.278333</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="5">
+            <thickness>150</thickness>
+            <bd>1.38319</bd>
+            <ll15>0.278333</ll15>
+            <airdry>0.278333</airdry>
+            <dul>0.398041</dul>
+            <sat>0.478041</sat>
+            <sw>0.278333</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <bd>1.37479</bd>
+            <ll15>0.322333</ll15>
+            <airdry>0.322333</airdry>
+            <dul>0.401213</dul>
+            <sat>0.481213</sat>
+            <sw>0.322333</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <bd>1.38367</bd>
+            <ll15>0.342333</ll15>
+            <airdry>0.342333</airdry>
+            <dul>0.397862</dul>
+            <sat>0.477862</sat>
+            <sw>0.342333</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="8">
+            <thickness>300</thickness>
+            <bd>1.39056</bd>
+            <ll15>0.341667</ll15>
+            <airdry>0.341667</airdry>
+            <dul>0.395261</dul>
+            <sat>0.475261</sat>
+            <sw>0.341667</sw>
+            <swcon>0.3</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>45</RootCn>
+          <RootWt>1500</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1</oc>
+            <ph>7</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.7</finert>
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.85</finert>
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </Nitrogen>
+        <other />
+        <SoilCrop name="wheat">
+          <layer name="1">
+            <ll>0.128</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.201667</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.201667</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.278333</ll>
+            <kl>0.04</kl>
+            <xf>0.892571</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.278333</ll>
+            <kl>0.04</kl>
+            <xf>0.892571</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.322333</ll>
+            <kl>0.04</kl>
+            <xf>0.864571</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.342333</ll>
+            <kl>0.02</kl>
+            <xf>0.864571</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.341667</ll>
+            <kl>0.02</kl>
+            <xf>0.828381</xf>
+          </layer>
+        </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </InitNitrogen>
+      </Soil>
+      <Soil name="Red_duplex 2004">
+        <Water>
+          <Cona>2</Cona>
+          <DiffusConst>88</DiffusConst>
+          <DiffusSlope>35.4</DiffusSlope>
+          <U>2</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>84</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <layer name="1">
+            <thickness>100</thickness>
+            <bd>1.35</bd>
+            <ll15>0.12</ll15>
+            <airdry>0.07</airdry>
+            <dul>0.3</dul>
+            <sat>0.490566</sat>
+            <sw>0.156</sw>
+            <swcon>0.7</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <bd>1.36924</bd>
+            <ll15>0.13</ll15>
+            <airdry>0.111</airdry>
+            <dul>0.33</dul>
+            <sat>0.483304</sat>
+            <sw>0.201667</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>150</thickness>
+            <bd>1.36924</bd>
+            <ll15>0.14</ll15>
+            <airdry>0.14</airdry>
+            <dul>0.37</dul>
+            <sat>0.483304</sat>
+            <sw>0.201667</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>150</thickness>
+            <bd>1.38319</bd>
+            <ll15>0.15</ll15>
+            <airdry>0.15</airdry>
+            <dul>0.37</dul>
+            <sat>0.478041</sat>
+            <sw>0.278333</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="5">
+            <thickness>150</thickness>
+            <bd>1.38319</bd>
+            <ll15>0.25</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.37</dul>
+            <sat>0.478041</sat>
+            <sw>0.278333</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <bd>1.37479</bd>
+            <ll15>0.27</ll15>
+            <airdry>0.27</airdry>
+            <dul>0.37</dul>
+            <sat>0.481213</sat>
+            <sw>0.322333</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <bd>1.38367</bd>
+            <ll15>0.27</ll15>
+            <airdry>0.27</airdry>
+            <dul>0.37</dul>
+            <sat>0.477862</sat>
+            <sw>0.342333</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="8">
+            <thickness>300</thickness>
+            <bd>1.39056</bd>
+            <ll15>0.341667</ll15>
+            <airdry>0.341667</airdry>
+            <dul>0.37</dul>
+            <sat>0.475261</sat>
+            <sw>0.341667</sw>
+            <swcon>0.3</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>45</RootCn>
+          <RootWt>1500</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1</oc>
+            <ph>7</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.7</finert>
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.85</finert>
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </Nitrogen>
+        <other />
+        <SoilCrop name="wheat">
+          <layer name="1">
+            <ll>0.12</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.13</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.14</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.15</ll>
+            <kl>0.04</kl>
+            <xf>0.892571</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.25</ll>
+            <kl>0.04</kl>
+            <xf>0.892571</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.27</ll>
+            <kl>0.04</kl>
+            <xf>0.864571</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.27</ll>
+            <kl>0.02</kl>
+            <xf>0.864571</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.341667</ll>
+            <kl>0.02</kl>
+            <xf>0.828381</xf>
+          </layer>
+        </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </InitNitrogen>
+      </Soil>
+      <Soil name="Red_Kandosol -CSU Parna">
+        <Water>
+          <Cona>2</Cona>
+          <DiffusConst>44</DiffusConst>
+          <DiffusSlope>16</DiffusSlope>
+          <U>2</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>84</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <layer name="1">
+            <thickness>100</thickness>
+            <bd>1.48</bd>
+            <ll15>0.11</ll15>
+            <airdry>0.055</airdry>
+            <dul>0.288</dul>
+            <sat>0.35</sat>
+            <sw>0.11</sw>
+            <swcon>0.5</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <bd>1.5</bd>
+            <ll15>0.132</ll15>
+            <airdry>0.11</airdry>
+            <dul>0.269</dul>
+            <sat>0.335</sat>
+            <sw>0.132</sw>
+            <swcon>0.4</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>150</thickness>
+            <bd>1.45</bd>
+            <ll15>0.147</ll15>
+            <airdry>0.132</airdry>
+            <dul>0.252</dul>
+            <sat>0.323</sat>
+            <sw>0.147</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>150</thickness>
+            <bd>1.37</bd>
+            <ll15>0.17</ll15>
+            <airdry>0.17</airdry>
+            <dul>0.285</dul>
+            <sat>0.355</sat>
+            <sw>0.17</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="5">
+            <thickness>150</thickness>
+            <bd>1.43</bd>
+            <ll15>0.186</ll15>
+            <airdry>0.186</airdry>
+            <dul>0.292</dul>
+            <sat>0.352</sat>
+            <sw>0.186</sw>
+            <swcon>0.2</swcon>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <bd>1.55</bd>
+            <ll15>0.222</ll15>
+            <airdry>0.222</airdry>
+            <dul>0.31</dul>
+            <sat>0.342</sat>
+            <sw>0.222</sw>
+            <swcon>0.1</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <bd>1.67</bd>
+            <ll15>0.257</ll15>
+            <airdry>0.257</airdry>
+            <dul>0.314</dul>
+            <sat>0.339</sat>
+            <sw>0.257</sw>
+            <swcon>0.1</swcon>
+          </layer>
+          <layer name="8">
+            <thickness>300</thickness>
+            <bd>1.62</bd>
+            <ll15>0.275</ll15>
+            <airdry>0.275</airdry>
+            <dul>0.319</dul>
+            <sat>0.353</sat>
+            <sw>0.275</sw>
+            <swcon>0.1</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>45</RootCn>
+          <RootWt>1500</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1</oc>
+            <ph>6</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.5</oc>
+            <ph>6</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.5</oc>
+            <ph>6</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.7</finert>
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.5</oc>
+            <ph>6</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.5</oc>
+            <ph>6</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.85</finert>
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.5</oc>
+            <ph>6</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.5</oc>
+            <ph>6</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <oc>0.5</oc>
+            <ph>6</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </Nitrogen>
+        <other />
+        <SoilCrop name="wheat">
+          <layer name="1">
+            <ll>0.11</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.132</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.147</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.17</ll>
+            <kl>0.04</kl>
+            <xf>0.892571</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.186</ll>
+            <kl>0.04</kl>
+            <xf>0.892571</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.222</ll>
+            <kl>0.04</kl>
+            <xf>0.864571</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.257</ll>
+            <kl>0.02</kl>
+            <xf>0.864571</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.275</ll>
+            <kl>0.02</kl>
+            <xf>0.828381</xf>
+          </layer>
+        </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </InitNitrogen>
+      </Soil>
+      <Soil name="Wimmera_clay">
+        <Water>
+          <Cona>2</Cona>
+          <DiffusConst>40</DiffusConst>
+          <DiffusSlope>16</DiffusSlope>
+          <U>2</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>73</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <layer name="1">
+            <thickness>100</thickness>
+            <bd>1.17289</bd>
+            <ll15>0.157813</ll15>
+            <airdry>0.107813</airdry>
+            <dul>0.453196</dul>
+            <sat>0.557402</sat>
+            <sw>0.215626</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <bd>1.23115</bd>
+            <ll15>0.241585</ll15>
+            <airdry>0.205347</airdry>
+            <dul>0.429471</dul>
+            <sat>0.535414</sat>
+            <sw>0.241585</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>150</thickness>
+            <bd>1.23115</bd>
+            <ll15>0.241585</ll15>
+            <airdry>0.229506</airdry>
+            <dul>0.429471</dul>
+            <sat>0.535414</sat>
+            <sw>0.241585</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>150</thickness>
+            <bd>1.17549</bd>
+            <ll15>0.300979</ll15>
+            <airdry>0.300979</airdry>
+            <dul>0.456473</dul>
+            <sat>0.556421</sat>
+            <sw>0.300979</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="5">
+            <thickness>150</thickness>
+            <bd>1.17549</bd>
+            <ll15>0.300979</ll15>
+            <airdry>0.300979</airdry>
+            <dul>0.456473</dul>
+            <sat>0.556421</sat>
+            <sw>0.300979</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <bd>1.20138</bd>
+            <ll15>0.311208</ll15>
+            <airdry>0.311208</airdry>
+            <dul>0.454294</dul>
+            <sat>0.54665</sat>
+            <sw>0.311208</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <bd>1.25209</bd>
+            <ll15>0.320991</ll15>
+            <airdry>0.320991</airdry>
+            <dul>0.428956</dul>
+            <sat>0.527513</sat>
+            <sw>0.320991</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="8">
+            <thickness>300</thickness>
+            <bd>1.27778</bd>
+            <ll15>0.332369</ll15>
+            <airdry>0.332369</airdry>
+            <dul>0.434298</dul>
+            <sat>0.51782</sat>
+            <sw>0.332369</sw>
+            <swcon>0.3</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>45</RootCn>
+          <RootWt>1500</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1</oc>
+            <ph>7</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.7</finert>
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.85</finert>
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </Nitrogen>
+        <other />
+        <SoilCrop name="wheat">
+          <layer name="1">
+            <ll>0.157813</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.241585</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.241585</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.300979</ll>
+            <kl>0.04</kl>
+            <xf>0.959746</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.300979</ll>
+            <kl>0.04</kl>
+            <xf>0.916667</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.311208</ll>
+            <kl>0.04</kl>
+            <xf>0.80854</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.320991</ll>
+            <kl>0.02</kl>
+            <xf>0.791175</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.332369</ll>
+            <kl>0.02</kl>
+            <xf>0.679365</xf>
+          </layer>
+        </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </InitNitrogen>
+      </Soil>
+      <Soil name="Wimmera_clay 2004">
+        <Water>
+          <Cona>2</Cona>
+          <DiffusConst>40</DiffusConst>
+          <DiffusSlope>16</DiffusSlope>
+          <U>2</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>73</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <layer name="1">
+            <thickness>100</thickness>
+            <bd>1.17289</bd>
+            <ll15>0.2</ll15>
+            <airdry>0.12</airdry>
+            <dul>0.41</dul>
+            <sat>0.49</sat>
+            <sw>0.215626</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <bd>1.23115</bd>
+            <ll15>0.19</ll15>
+            <airdry>0.17</airdry>
+            <dul>0.41</dul>
+            <sat>0.49</sat>
+            <sw>0.241585</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>150</thickness>
+            <bd>1.23115</bd>
+            <ll15>0.2</ll15>
+            <airdry>0.2</airdry>
+            <dul>0.41</dul>
+            <sat>0.49</sat>
+            <sw>0.241585</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>150</thickness>
+            <bd>1.17549</bd>
+            <ll15>0.24</ll15>
+            <airdry>0.24</airdry>
+            <dul>0.41</dul>
+            <sat>0.49</sat>
+            <sw>0.300979</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="5">
+            <thickness>150</thickness>
+            <bd>1.17549</bd>
+            <ll15>0.27</ll15>
+            <airdry>0.27</airdry>
+            <dul>0.41</dul>
+            <sat>0.49</sat>
+            <sw>0.300979</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <bd>1.20138</bd>
+            <ll15>0.28</ll15>
+            <airdry>0.28</airdry>
+            <dul>0.41</dul>
+            <sat>0.49</sat>
+            <sw>0.311208</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <bd>1.25209</bd>
+            <ll15>0.320991</ll15>
+            <airdry>0.320991</airdry>
+            <dul>0.4</dul>
+            <sat>0.48</sat>
+            <sw>0.320991</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="8">
+            <thickness>300</thickness>
+            <bd>1.27778</bd>
+            <ll15>0.332369</ll15>
+            <airdry>0.332369</airdry>
+            <dul>0.4</dul>
+            <sat>0.48</sat>
+            <sw>0.332369</sw>
+            <swcon>0.3</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>45</RootCn>
+          <RootWt>1500</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1</oc>
+            <ph>7</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.7</finert>
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.85</finert>
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </Nitrogen>
+        <other />
+        <SoilCrop name="wheat">
+          <layer name="1">
+            <ll>0.2</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.19</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.2</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.24</ll>
+            <kl>0.04</kl>
+            <xf>0.959746</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.27</ll>
+            <kl>0.04</kl>
+            <xf>0.916667</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.28</ll>
+            <kl>0.04</kl>
+            <xf>0.80854</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.320991</ll>
+            <kl>0.02</kl>
+            <xf>0.791175</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.332369</ll>
+            <kl>0.02</kl>
+            <xf>0.679365</xf>
+          </layer>
+        </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </InitNitrogen>
+      </Soil>
+      <Soil name="Wimmera_clay_heavy">
+        <Water>
+          <Cona>2</Cona>
+          <DiffusConst>40</DiffusConst>
+          <DiffusSlope>16</DiffusSlope>
+          <U>2</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>73</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <layer name="1">
+            <thickness>100</thickness>
+            <bd>1.36</bd>
+            <ll15>0.17</ll15>
+            <airdry>0.12</airdry>
+            <dul>0.365</dul>
+            <sat>0.486792</sat>
+            <sw>0.24</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <bd>1.21554</bd>
+            <ll15>0.235265</ll15>
+            <airdry>0.199976</airdry>
+            <dul>0.461307</dul>
+            <sat>0.541307</sat>
+            <sw>0.235265</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>150</thickness>
+            <bd>1.21554</bd>
+            <ll15>0.235265</ll15>
+            <airdry>0.223502</airdry>
+            <dul>0.461307</dul>
+            <sat>0.541307</sat>
+            <sw>0.235265</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>150</thickness>
+            <bd>1.24</bd>
+            <ll15>0.304746</ll15>
+            <airdry>0.304746</airdry>
+            <dul>0.43</dul>
+            <sat>0.532075</sat>
+            <sw>0.304746</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="5">
+            <thickness>150</thickness>
+            <bd>1.24</bd>
+            <ll15>0.304746</ll15>
+            <airdry>0.304746</airdry>
+            <dul>0.43</dul>
+            <sat>0.532075</sat>
+            <sw>0.304746</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <bd>1.32</bd>
+            <ll15>0.342692</ll15>
+            <airdry>0.342692</airdry>
+            <dul>0.412</dul>
+            <sat>0.501887</sat>
+            <sw>0.342692</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <bd>1.37219</bd>
+            <ll15>0.342692</ll15>
+            <airdry>0.342692</airdry>
+            <dul>0.402193</dul>
+            <sat>0.482193</sat>
+            <sw>0.342692</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="8">
+            <thickness>300</thickness>
+            <bd>1.3677</bd>
+            <ll15>0.342692</ll15>
+            <airdry>0.342692</airdry>
+            <dul>0.403886</dul>
+            <sat>0.483886</sat>
+            <sw>0.342692</sw>
+            <swcon>0.3</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>45</RootCn>
+          <RootWt>1500</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1</oc>
+            <ph>7</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.7</finert>
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.85</finert>
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <oc>0.5</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </Nitrogen>
+        <other />
+        <SoilCrop name="wheat">
+          <layer name="1">
+            <ll>0.17</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.235265</ll>
+            <kl>0.06</kl>
+            <xf>0.861714</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.235265</ll>
+            <kl>0.04</kl>
+            <xf>0.861714</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.304746</ll>
+            <kl>0.04</kl>
+            <xf>0.588571</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.304746</ll>
+            <kl>0.04</kl>
+            <xf>0.588571</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.342692</ll>
+            <kl>0.04</kl>
+            <xf>0.442857</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.342692</ll>
+            <kl>0.02</kl>
+            <xf>0.442857</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.342692</ll>
+            <kl>0.02</kl>
+            <xf>0.285714</xf>
+          </layer>
+        </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <no3>15</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <no3>10</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="5">
+            <no3>4</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="6">
+            <no3>2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="8">
+            <no3>1</no3>
+            <nh4>0.11</nh4>
+          </layer>
+        </InitNitrogen>
+      </Soil>
+      <soil name="Birchip Field Site">
+        <Water>
+          <DiffusConst>40</DiffusConst>
+          <DiffusSlope>16</DiffusSlope>
+          <Cn2Bare>73</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <Salb>0.13</Salb>
+          <Cona>3</Cona>
+          <U>6</U>
+          <layer name="1">
+            <thickness>100</thickness>
+            <airdry>0.1</airdry>
+            <ll15>0.172</ll15>
+            <dul>0.38</dul>
+            <sat>0.43</sat>
+            <sw>0.38</sw>
+            <swcon>0.7</swcon>
+            <bd>1.33</bd>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <airdry>0.205</airdry>
+            <ll15>0.205</ll15>
+            <dul>0.37</dul>
+            <sat>0.42</sat>
+            <sw>0.37</sw>
+            <swcon>0.3</swcon>
+            <bd>1.36</bd>
+          </layer>
+          <layer name="3">
+            <thickness>150</thickness>
+            <airdry>0.224</airdry>
+            <ll15>0.224</ll15>
+            <dul>0.384</dul>
+            <sat>0.43</sat>
+            <sw>0.384</sw>
+            <swcon>0.3</swcon>
+            <bd>1.39</bd>
+          </layer>
+          <layer name="4">
+            <thickness>150</thickness>
+            <airdry>0.244</airdry>
+            <ll15>0.244</ll15>
+            <dul>0.386</dul>
+            <sat>0.436</sat>
+            <sw>0.386</sw>
+            <swcon>0.3</swcon>
+            <bd>1.42</bd>
+          </layer>
+          <layer name="5">
+            <thickness>150</thickness>
+            <airdry>0.274</airdry>
+            <ll15>0.274</ll15>
+            <dul>0.381</dul>
+            <sat>0.431</sat>
+            <sw>0.381</sw>
+            <swcon>0.3</swcon>
+            <bd>1.44</bd>
+          </layer>
+          <layer name="6">
+            <thickness>150</thickness>
+            <airdry>0.274</airdry>
+            <ll15>0.274</ll15>
+            <dul>0.381</dul>
+            <sat>0.431</sat>
+            <sw>0.381</sw>
+            <swcon>0.3</swcon>
+            <bd>1.43</bd>
+          </layer>
+          <layer name="7">
+            <thickness>150</thickness>
+            <airdry>0.3</airdry>
+            <ll15>0.3</ll15>
+            <dul>0.388</dul>
+            <sat>0.439</sat>
+            <sw>0.388</sw>
+            <swcon>0.3</swcon>
+            <bd>1.41</bd>
+          </layer>
+          <layer name="8">
+            <thickness>150</thickness>
+            <airdry>0.39</airdry>
+            <ll15>0.39</ll15>
+            <dul>0.391</dul>
+            <sat>0.439</sat>
+            <sw>0.391</sw>
+            <swcon>0.3</swcon>
+            <bd>1.4</bd>
+          </layer>
+        </Water>
+        <soilcrop name="Wheat">
+          <layer name="1">
+            <ll>0.172</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.205</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.224</ll>
+            <kl>0.06</kl>
+            <xf>0.786</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.244</ll>
+            <kl>0.06</kl>
+            <xf>0.504</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.274</ll>
+            <kl>0.06</kl>
+            <xf>0.339</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.274</ll>
+            <kl>0.06</kl>
+            <xf>0.305</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.3</ll>
+            <kl>0.04</kl>
+            <xf>0.305</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.39</ll>
+            <kl>0.03</kl>
+            <xf>0.191</xf>
+          </layer>
+        </soilcrop>
+        <Nitrogen>
+          <RootCn>45</RootCn>
+          <RootWt>1500</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1.05</oc>
+            <ph>8.5</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.45</oc>
+            <ph>8.8</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>10.9</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.3</oc>
+            <ph>8.9</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>2.9</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.25</oc>
+            <ph>8.9</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.2</oc>
+            <ph>8.9</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.3</no3>
+            <nh4>0.11</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.16</oc>
+            <ph>8.9</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.1</no3>
+            <nh4>0.16</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.12</oc>
+            <ph>8.9</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.16</nh4>
+          </layer>
+          <layer name="8">
+            <oc>0.12</oc>
+            <ph>8.9</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.16</nh4>
+          </layer>
+        </Nitrogen>
+        <Region>Victoria</Region>
+        <Site>Birchip Field Site</Site>
+        <SoilType />
+        <Comment>Parameterisation from P. Poulton</Comment>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>20</no3>
+            <nh4>1.24</nh4>
+          </layer>
+          <layer name="2">
+            <no3>10.9</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="3">
+            <no3>2.9</no3>
+            <nh4>0.18</nh4>
+          </layer>
+          <layer name="4">
+            <no3>1.2</no3>
+            <nh4>0.13</nh4>
+          </layer>
+          <layer name="5">
+            <no3>1.3</no3>
+            <nh4>0.11</nh4>
+          </layer>
+          <layer name="6">
+            <no3>1.1</no3>
+            <nh4>0.16</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.16</nh4>
+          </layer>
+          <layer name="8">
+            <no3>1</no3>
+            <nh4>0.16</nh4>
+          </layer>
+        </InitNitrogen>
+      </soil>
+    </folder>
+    <folder name="NSW">
+      <soil name="Red Brown Earth">
+        <Water>
+          <DiffusConst>44</DiffusConst>
+          <DiffusSlope>16</DiffusSlope>
+          <Cn2Bare>75</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <Salb>0.13</Salb>
+          <Cona>3.5</Cona>
+          <U>6</U>
+          <layer name="1">
+            <thickness>100</thickness>
+            <airdry>0.04</airdry>
+            <ll15>0.097</ll15>
+            <dul>0.256</dul>
+            <sat>0.401</sat>
+            <sw>0.256</sw>
+            <swcon>0.5</swcon>
+            <bd>1.42</bd>
+          </layer>
+          <layer name="2">
+            <thickness>300</thickness>
+            <airdry>0.1</airdry>
+            <ll15>0.13</ll15>
+            <dul>0.282</dul>
+            <sat>0.395</sat>
+            <sw>0.282</sw>
+            <swcon>0.5</swcon>
+            <bd>1.61</bd>
+          </layer>
+          <layer name="3">
+            <thickness>200</thickness>
+            <airdry>0.15</airdry>
+            <ll15>0.168</ll15>
+            <dul>0.346</dul>
+            <sat>0.46</sat>
+            <sw>0.346</sw>
+            <swcon>0.5</swcon>
+            <bd>1.37</bd>
+          </layer>
+          <layer name="4">
+            <thickness>300</thickness>
+            <airdry>0.15</airdry>
+            <ll15>0.2</ll15>
+            <dul>0.335</dul>
+            <sat>0.415</sat>
+            <sw>0.335</sw>
+            <swcon>0.5</swcon>
+            <bd>1.4</bd>
+          </layer>
+          <layer name="5">
+            <thickness>200</thickness>
+            <airdry>0.15</airdry>
+            <ll15>0.197</ll15>
+            <dul>0.341</dul>
+            <sat>0.43</sat>
+            <sw>0.341</sw>
+            <swcon>0.5</swcon>
+            <bd>1.53</bd>
+          </layer>
+          <layer name="6">
+            <thickness>400</thickness>
+            <airdry>0.15</airdry>
+            <ll15>0.183</ll15>
+            <dul>0.35</dul>
+            <sat>0.463</sat>
+            <sw>0.35</sw>
+            <swcon>0.5</swcon>
+            <bd>1.42</bd>
+          </layer>
+          <layer name="7">
+            <thickness>150</thickness>
+            <airdry>0.15</airdry>
+            <ll15>0.23</ll15>
+            <dul>0.358</dul>
+            <sat>0.435</sat>
+            <sw>0.358</sw>
+            <swcon>0.5</swcon>
+            <bd>1.49</bd>
+          </layer>
+          <layer name="8">
+            <thickness>350</thickness>
+            <airdry>0.15</airdry>
+            <ll15>0.279</ll15>
+            <dul>0.366</dul>
+            <sat>0.409</sat>
+            <sw>0.366</sw>
+            <swcon>0.5</swcon>
+            <bd>1.49</bd>
+          </layer>
+          <layer name="9">
+            <thickness>500</thickness>
+            <airdry>0.15</airdry>
+            <ll15>0.279</ll15>
+            <dul>0.366</dul>
+            <sat>0.409</sat>
+            <sw>0.366</sw>
+            <swcon>0.5</swcon>
+            <bd>1.49</bd>
+          </layer>
+          <layer name="10">
+            <thickness>500</thickness>
+            <airdry>0.15</airdry>
+            <ll15>0.279</ll15>
+            <dul>0.366</dul>
+            <sat>0.409</sat>
+            <sw>0.366</sw>
+            <swcon>0.5</swcon>
+            <bd>1.49</bd>
+          </layer>
+          <layer name="11">
+            <thickness>500</thickness>
+            <airdry>0.15</airdry>
+            <ll15>0.279</ll15>
+            <dul>0.366</dul>
+            <sat>0.409</sat>
+            <sw>0.366</sw>
+            <swcon>0.5</swcon>
+            <bd>1.49</bd>
+          </layer>
+          <layer name="12">
+            <thickness>500</thickness>
+            <airdry>0.15</airdry>
+            <ll15>0.279</ll15>
+            <dul>0.366</dul>
+            <sat>0.409</sat>
+            <sw>0.366</sw>
+            <swcon>0.5</swcon>
+            <bd>1.49</bd>
+          </layer>
+        </Water>
+        <soilcrop name="Wheat">
+          <layer name="1">
+            <ll>0.097</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.13</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.168</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.2</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.25</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.183</ll>
+            <kl>0.03</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.23</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.279</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.279</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.279</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.279</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="12">
+            <ll>0.279</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+        </soilcrop>
+        <Nitrogen>
+          <RootCn>40</RootCn>
+          <RootWt>2500</RootWt>
+          <SoilCn>9</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>0.96</oc>
+            <ph>5.8</ph>
+            <fbiom>0.05</fbiom>
+            <finert>0.1</finert>
+            <no3>5</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.59</oc>
+            <ph>5.8</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.3</finert>
+            <no3>5</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.46</oc>
+            <ph>5.8</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.75</finert>
+            <no3>1.9</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.35</oc>
+            <ph>5.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.2</oc>
+            <ph>5.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.65</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.06</oc>
+            <ph>5.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>1</no3>
+            <nh4>0.4</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.06</oc>
+            <ph>5.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>1</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="8">
+            <oc>0.06</oc>
+            <ph>5.3</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>0.9</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="9">
+            <oc>0.06</oc>
+            <ph>5.3</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>0.9</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="10">
+            <oc>0.06</oc>
+            <ph>5.3</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>0.9</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="11">
+            <oc>0.06</oc>
+            <ph>5.3</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>0.9</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="12">
+            <oc>0.06</oc>
+            <ph>5.3</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>0.9</no3>
+            <nh4>0.3</nh4>
+          </layer>
+        </Nitrogen>
+        <Region>NSW</Region>
+        <Site>CSU Wagga</Site>
+        <SoilType />
+        <Comment>Parameterisation from K. Verburg.</Comment>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>5</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="2">
+            <no3>5</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="3">
+            <no3>1.9</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="4">
+            <no3>1</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="5">
+            <no3>1</no3>
+            <nh4>0.65</nh4>
+          </layer>
+          <layer name="6">
+            <no3>1</no3>
+            <nh4>0.4</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="8">
+            <no3>0.9</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="9">
+            <no3>0.9</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="10">
+            <no3>0.9</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="11">
+            <no3>0.9</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="12">
+            <no3>0.9</no3>
+            <nh4>0.3</nh4>
+          </layer>
+        </InitNitrogen>
+      </soil>
+      <soil name="Self Mulching Black Vertosol">
+        <Water>
+          <DiffusConst>40</DiffusConst>
+          <DiffusSlope>16</DiffusSlope>
+          <Cn2Bare>72</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <Salb>0.13</Salb>
+          <Cona>5</Cona>
+          <U>6.28</U>
+          <layer name="1">
+            <thickness>100</thickness>
+            <airdry>0.154</airdry>
+            <ll15>0.307</ll15>
+            <dul>0.489</dul>
+            <sat>0.539</sat>
+            <sw>0.489</sw>
+            <swcon>0.9</swcon>
+            <bd>1.045</bd>
+          </layer>
+          <layer name="2">
+            <thickness>200</thickness>
+            <airdry>0.173</airdry>
+            <ll15>0.346</ll15>
+            <dul>0.514</dul>
+            <sat>0.544</sat>
+            <sw>0.514</sw>
+            <swcon>0.513</swcon>
+            <bd>1.128</bd>
+          </layer>
+          <layer name="3">
+            <thickness>200</thickness>
+            <airdry>0.173</airdry>
+            <ll15>0.346</ll15>
+            <dul>0.506</dul>
+            <sat>0.542</sat>
+            <sw>0.506</sw>
+            <swcon>0.232</swcon>
+            <bd>1.11</bd>
+          </layer>
+          <layer name="4">
+            <thickness>200</thickness>
+            <airdry>0.169</airdry>
+            <ll15>0.338</ll15>
+            <dul>0.503</dul>
+            <sat>0.548</sat>
+            <sw>0.503</sw>
+            <swcon>0.186</swcon>
+            <bd>1.122</bd>
+          </layer>
+          <layer name="5">
+            <thickness>200</thickness>
+            <airdry>0.17</airdry>
+            <ll15>0.34</ll15>
+            <dul>0.5</dul>
+            <sat>0.546</sat>
+            <sw>0.5</sw>
+            <swcon>0.228</swcon>
+            <bd>1.136</bd>
+          </layer>
+          <layer name="6">
+            <thickness>200</thickness>
+            <airdry>0.171</airdry>
+            <ll15>0.342</ll15>
+            <dul>0.496</dul>
+            <sat>0.539</sat>
+            <sw>0.496</sw>
+            <swcon>0.237</swcon>
+            <bd>1.158</bd>
+          </layer>
+          <layer name="7">
+            <thickness>200</thickness>
+            <airdry>0.167</airdry>
+            <ll15>0.335</ll15>
+            <dul>0.483</dul>
+            <sat>0.531</sat>
+            <sw>0.483</sw>
+            <swcon>0.222</swcon>
+            <bd>1.184</bd>
+          </layer>
+          <layer name="8">
+            <thickness>200</thickness>
+            <airdry>0.164</airdry>
+            <ll15>0.328</ll15>
+            <dul>0.464</dul>
+            <sat>0.529</sat>
+            <sw>0.464</sw>
+            <swcon>0.195</swcon>
+            <bd>1.213</bd>
+          </layer>
+          <layer name="9">
+            <thickness>200</thickness>
+            <airdry>0.161</airdry>
+            <ll15>0.322</ll15>
+            <dul>0.456</dul>
+            <sat>0.52</sat>
+            <sw>0.456</sw>
+            <swcon>0.199</swcon>
+            <bd>1.235</bd>
+          </layer>
+          <layer name="10">
+            <thickness>200</thickness>
+            <airdry>0.16</airdry>
+            <ll15>0.32</ll15>
+            <dul>0.453</dul>
+            <sat>0.517</sat>
+            <sw>0.453</sw>
+            <swcon>0.2</swcon>
+            <bd>1.244</bd>
+          </layer>
+          <layer name="11">
+            <thickness>200</thickness>
+            <airdry>0.16</airdry>
+            <ll15>0.319</ll15>
+            <dul>0.452</dul>
+            <sat>0.515</sat>
+            <sw>0.452</sw>
+            <swcon>0.2</swcon>
+            <bd>1.247</bd>
+          </layer>
+          <layer name="12">
+            <thickness>200</thickness>
+            <airdry>0.16</airdry>
+            <ll15>0.319</ll15>
+            <dul>0.452</dul>
+            <sat>0.515</sat>
+            <sw>0.452</sw>
+            <swcon>0.201</swcon>
+            <bd>1.248</bd>
+          </layer>
+          <layer name="13">
+            <thickness>200</thickness>
+            <airdry>0.179</airdry>
+            <ll15>0.358</ll15>
+            <dul>0.481</dul>
+            <sat>0.494</sat>
+            <sw>0.481</sw>
+            <swcon>0.535</swcon>
+            <bd>1.305</bd>
+          </layer>
+          <layer name="14">
+            <thickness>200</thickness>
+            <airdry>0.179</airdry>
+            <ll15>0.358</ll15>
+            <dul>0.481</dul>
+            <sat>0.494</sat>
+            <sw>0.481</sw>
+            <swcon>0.535</swcon>
+            <bd>1.305</bd>
+          </layer>
+          <layer name="15">
+            <thickness>200</thickness>
+            <airdry>0.179</airdry>
+            <ll15>0.358</ll15>
+            <dul>0.481</dul>
+            <sat>0.494</sat>
+            <sw>0.481</sw>
+            <swcon>0.535</swcon>
+            <bd>1.305</bd>
+          </layer>
+          <layer name="16">
+            <thickness>200</thickness>
+            <airdry>0.179</airdry>
+            <ll15>0.358</ll15>
+            <dul>0.481</dul>
+            <sat>0.494</sat>
+            <sw>0.481</sw>
+            <swcon>0.535</swcon>
+            <bd>1.305</bd>
+          </layer>
+        </Water>
+        <soilcrop name="Wheat">
+          <layer name="1">
+            <ll>0.307</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.346</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.346</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.338</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.34</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.342</ll>
+            <kl>0.03</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.335</ll>
+            <kl>0.03</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.355</ll>
+            <kl>0.03</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.376</ll>
+            <kl>0.03</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.373</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.372</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="12">
+            <ll>0.372</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="13">
+            <ll>0.407</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="14">
+            <ll>0.407</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="15">
+            <ll>0.407</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="16">
+            <ll>0.407</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+        </soilcrop>
+        <Nitrogen>
+          <RootCn>40</RootCn>
+          <RootWt>1000</RootWt>
+          <SoilCn>14.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1.64</oc>
+            <ph>7.4</ph>
+            <fbiom>0.03</fbiom>
+            <finert>0.45</finert>
+            <no3>3.19</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="2">
+            <oc>1.25</oc>
+            <ph>7.6</ph>
+            <fbiom>0.03</fbiom>
+            <finert>0.45</finert>
+            <no3>2.95</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="3">
+            <oc>1.03</oc>
+            <ph>7.6</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>3</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.93</oc>
+            <ph>7.6</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.7</finert>
+            <no3>2.97</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.75</oc>
+            <ph>8.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.85</finert>
+            <no3>2.93</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.53</oc>
+            <ph>8.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>2.88</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.42</oc>
+            <ph>8.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>2.82</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="8">
+            <oc>0.42</oc>
+            <ph>8.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>2.75</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="9">
+            <oc>0.42</oc>
+            <ph>8.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>0.3</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="10">
+            <oc>0.42</oc>
+            <ph>8.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>0.3</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="11">
+            <oc>0.42</oc>
+            <ph>8.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>0.3</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="12">
+            <oc>0.42</oc>
+            <ph>8.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>0.3</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="13">
+            <oc>0.42</oc>
+            <ph>8.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>0.3</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="14">
+            <oc>0.42</oc>
+            <ph>8.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>0.3</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="15">
+            <oc>0.42</oc>
+            <ph>8.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>0.3</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="16">
+            <oc>0.42</oc>
+            <ph>8.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.99</finert>
+            <no3>0.3</no3>
+            <nh4>0.3</nh4>
+          </layer>
+        </Nitrogen>
+        <Region>NSW</Region>
+        <Site>Hudson Experimental Site</Site>
+        <SoilType />
+        <Comment>Parameterisation from N. Huth.</Comment>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>3.19</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="2">
+            <no3>2.95</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="3">
+            <no3>3</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="4">
+            <no3>2.97</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="5">
+            <no3>2.93</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="6">
+            <no3>2.88</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="7">
+            <no3>2.82</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="8">
+            <no3>2.75</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="9">
+            <no3>0.3</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="10">
+            <no3>0.3</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="11">
+            <no3>0.3</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="12">
+            <no3>0.3</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="13">
+            <no3>0.3</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="14">
+            <no3>0.3</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="15">
+            <no3>0.3</no3>
+            <nh4>0.3</nh4>
+          </layer>
+          <layer name="16">
+            <no3>0.3</no3>
+            <nh4>0.3</nh4>
+          </layer>
+        </InitNitrogen>
+      </soil>
+    </folder>
+  </folder>
   <soil name="#000 SampleBlackEarth">
     <Site>Generic</Site>
     <Region>South East Queensland</Region>
@@ -1346,6 +6833,52 @@
         <xf>0</xf>
       </layer>
     </SoilCrop>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="8">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="9">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="10">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="11">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#004 - Brookstead,Cecilvale">
     <Site>Brookstead</Site>
@@ -1617,6 +7150,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#006 - Brookstead,Anchorfield">
     <Site>Brookstead</Site>
@@ -1851,6 +7414,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#016 - Jimbour,Waco">
     <Site>Jimbour</Site>
@@ -2515,6 +8108,52 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="8">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="9">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="10">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="11">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#026 - Macalister,Bongeen">
     <Site>Macalister</Site>
@@ -3064,6 +8703,52 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="8">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="9">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="10">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="11">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#069 - Jinghi,Downfall">
     <Site>Jinghi</Site>
@@ -3355,6 +9040,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#073 - Jinghi Valley,Moola">
     <Site>Jinghi Valley</Site>
@@ -3574,6 +9289,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#074 - Jinghi Valley,Millmerran">
     <Site>Jinghi Valley</Site>
@@ -3792,6 +9537,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#100 - Wallumbilla,Brigalow">
     <Site>Wallumbilla</Site>
@@ -4011,6 +9786,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#001 - Bongeen,Mywybilla">
     <Site>Bongeen</Site>
@@ -4245,6 +10050,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#002 - Bongeen,Norillee">
     <Site>Bongeen</Site>
@@ -4515,6 +10350,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#003 - Bongeen,Waco">
     <Site>Bongeen</Site>
@@ -4750,6 +10615,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#008 - Yandilla,Condamine">
     <Site>Yandilla</Site>
@@ -4947,6 +10842,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#009 - Kupunn">
     <Site>Kupunn</Site>
@@ -5255,6 +11180,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#010 - Beverley,Cecilvale">
     <Site>Beverley</Site>
@@ -5527,6 +11482,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#011 - Kaimkillenbun,Irving">
     <Site>Kaimkillenbun</Site>
@@ -5761,6 +11746,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#017 - Jandowae,Cecilvale">
     <Site>Jandowae</Site>
@@ -5996,6 +12011,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#021 - Hopelands,Kupunn">
     <Site>Hopelands</Site>
@@ -6304,6 +12349,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#030 - Wellcamp Res Stn, Wellcamp,Waco">
     <Site>Wellcamp Res Stn, Wellcamp</Site>
@@ -6502,6 +12577,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#033 - Hermitage Res Stn, Warwick,Talgai">
     <Site>Hermitage Res Stn, Warwick</Site>
@@ -6699,6 +12804,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#034 - Millwood,Moola">
     <Site>Millwood</Site>
@@ -6860,6 +12995,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#037 - UQ, Lawes,Black Vertosol">
     <Site>UQ, Lawes</Site>
@@ -7205,6 +13370,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#036 - Billa Billa,Mt Carmel">
     <Site>Billa Billa</Site>
@@ -7513,6 +13708,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#038 - UQ, Lawes,Lockyer">
     <Site>UQ, Lawes</Site>
@@ -7748,6 +13973,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#040 - Nindigully,Grey Vertosol">
     <Site>Nindigully</Site>
@@ -7872,6 +14127,28 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#044 - Banana,Dark">
     <Site>Banana</Site>
@@ -8068,6 +14345,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#046 - Banana,Rolleston">
     <Site>Banana</Site>
@@ -8208,6 +14515,20 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#047 - Jambin,Grey Vertosol">
     <Site>Jambin</Site>
@@ -8404,6 +14725,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#058 - Gurley,Grey Vertosol">
     <Site>Gurley</Site>
@@ -8623,6 +14974,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#049 - Capella,Orion">
     <Site>Capella</Site>
@@ -8797,6 +15178,32 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#052 - Croppa Creek,Red Brown Earth">
     <Site>Croppa Creek</Site>
@@ -8980,6 +15387,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#053 - Croppa Creek,Brigalow">
     <Site>Croppa Creek</Site>
@@ -9289,6 +15726,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#056 - Ashley,Cecilvale">
     <Site>Ashley</Site>
@@ -9523,6 +15990,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#060 - Moree,Belah">
     <Site>Moree</Site>
@@ -9757,6 +16254,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#062 - Spring Ridge,Black Vertosol">
     <Site>Spring Ridge</Site>
@@ -9991,6 +16518,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="2">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="5">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#066 - Billa Billa,Red Chromosol">
     <Site>Billa Billa</Site>
@@ -10164,6 +16721,32 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#067 - Greenmount,Irving">
     <Site>Greenmount</Site>
@@ -10361,6 +16944,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#075 - Inglestone,Belah/ Brigalow">
     <Site>Inglestone</Site>
@@ -10557,6 +17170,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#077 - Terry hie hie,Grey Vertosol">
     <Site>Terry hie hie</Site>
@@ -10753,6 +17396,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#081 - Moonie,Grey Vertosol">
     <Site>Moonie</Site>
@@ -10986,6 +17659,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#085 - Biniguy,Grey Vertosol">
     <Site>Biniguy</Site>
@@ -11146,6 +17849,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#095 - Spring Ridge,Black Vertosol">
     <Site>Spring Ridge</Site>
@@ -11305,6 +18038,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#096 - Spring Ridge,Brown Sandy Clay">
     <Site>Spring Ridge</Site>
@@ -11500,6 +18263,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#097 - Aust. Cotton Res. Instit, Myall Vale,Grey Vertosol">
     <Site>Aust. Cotton Res. Instit, Myall Vale</Site>
@@ -11659,6 +18452,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#155 - Dirranbandi District,Grey Vertosol">
     <Site>Dirranbandi District</Site>
@@ -11782,6 +18605,28 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#157 - Thallon District,Grey Vertosol">
     <Site>Thallon District</Site>
@@ -11906,6 +18751,28 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#163 - Breeza,Black Vertosol">
     <Site>Breeza</Site>
@@ -12102,6 +18969,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#165 - Bourke,Grey Vertosol">
     <Site>Bourke</Site>
@@ -12298,6 +19195,36 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
   <soil name="#166 - Dulacca,Grey Vertosol">
     <Site>Dulacca</Site>
@@ -12458,5 +19385,35 @@
         <distributed>filled from top</distributed>
       </percentmethod>
     </InitWater>
+    <InitNitrogen>
+      <layer name="1">
+        <no3>6.5</no3>
+        <nh4>0.6</nh4>
+      </layer>
+      <layer name="2">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="3">
+        <no3>2.1</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="4">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="5">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="6">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+      <layer name="7">
+        <no3>1.7</no3>
+        <nh4>0.1</nh4>
+      </layer>
+    </InitNitrogen>
   </soil>
 </soils>

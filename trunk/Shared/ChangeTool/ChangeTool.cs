@@ -93,6 +93,8 @@ namespace ChangeTool
 				{
 				if (Child.Attribute("module").ToLower() == "data outside paddock")
 					Child.SetAttribute("module", "global");
+				if (Child.Name.ToLower().IndexOf("data outside paddock.") == 0)
+					Child.Name = Child.Name.Remove(0, 21);
 				}
 			}
 

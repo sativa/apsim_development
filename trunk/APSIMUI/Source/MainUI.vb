@@ -692,6 +692,8 @@ Public Class MainUI
                                  ".apsim", "apsimui")
         SimulationExplorer.ShowUI(New StartupUI)
         SimulationExplorer.DataTreeCaption = "Empty simulation"
+        AddHandler SimulationExplorer.DataStructureChangedEvent, AddressOf OnDataStructureChangedEvent
+        AddHandler SimulationExplorer.AfterFileOpenEvent, AddressOf OnAfterFileOpenEvent
 
         ' Setup but don't show the Toolbox Explorer.
         ToolboxExplorer = New ExplorerUI
@@ -759,10 +761,7 @@ Public Class MainUI
     ' User has clicked File|Open
     ' ---------------------------
     Private Sub FileOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileOpen.Click
-        If SimulationExplorer.FileOpen() Then
-            APSIMChangeTool.Upgrade(SimulationExplorer.Data)
-            SimulationExplorer.Refresh()
-        End If
+        SimulationExplorer.FileOpen()
     End Sub
 
 
@@ -838,9 +837,9 @@ Public Class MainUI
         ToolBoxSplitter.Enabled = ViewToolboxWindow.Checked
 
         Dim ToolboxFile As String = Path.GetFileNameWithoutExtension(ToolboxExplorer.FileName).ToLower()
-        If ToolboxFile <> "standard.xml" And _
-           ToolboxFile <> "standardsoils.xml" And _
-           ToolboxFile <> "new simulations.xml" Then
+        If ToolboxFile <> "standard" And _
+           ToolboxFile <> "standardsoils" And _
+           ToolboxFile <> "new simulations" Then
             ToolboxExplorer.FileSave()
         End If
     End Sub
@@ -1142,6 +1141,24 @@ Public Class MainUI
         End If
     End Sub
 
+
+    ' ---------------------------------------------
+    ' File has just been opened - make sure if is
+    ' upgraded to most recent version.
+    ' ---------------------------------------------
+    Private Sub OnAfterFileOpenEvent()
+        APSIMChangeTool.Upgrade(SimulationExplorer.Data)
+        UIManager.CheckAllComponents(SimulationExplorer.Data)
+    End Sub
+
+
+    ' ----------------------------------------------
+    ' Data structure has changed ie a rename or
+    ' deletion of a component.
+    ' ----------------------------------------------
+    Private Sub OnDataStructureChangedEvent()
+        UIManager.CheckAllComponents(SimulationExplorer.Data)
+    End Sub
 
 
 End Class

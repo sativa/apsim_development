@@ -328,7 +328,6 @@ Public Class ReportVariablesListView
         Next cell
 
         If Not IsNothing(Data) Then
-            UIManager.CheckVariables(Data.Parent.Parent)
             Dim VariablesNode As APSIMData = Data.Child("variables")
             UIManager.GetSiblingComponents(VariablesNode, ComponentNames, ComponentTypes)
 
@@ -370,9 +369,13 @@ Public Class ReportVariablesListView
     ' ---------------------------------
     Sub AddBlankRow()
         Dim row As Xceed.Grid.DataRow
-        row = VariablesList.DataRows(VariablesList.DataRows.Count - 1)
-        If row.Cells(0).Value <> "" Or row.Cells(1).Value <> "" Or row.Cells(2).Value <> "" _
-            Or row.Cells(3).Value <> "" Or row.Cells(4).Value <> "" Then
+        Dim DoAddNewRow As Boolean = True
+        If VariablesList.DataRows.Count > 1 Then
+            row = VariablesList.DataRows(VariablesList.DataRows.Count - 1)
+            DoAddNewRow = (row.Cells(0).Value <> "" Or row.Cells(1).Value <> "" Or row.Cells(2).Value <> "" _
+                Or row.Cells(3).Value <> "" Or row.Cells(4).Value <> "")
+        End If
+        If DoAddNewRow Then
             row = VariablesList.DataRows.AddNew()
             AddHandler row.Cells(0).EditLeft, AddressOf Me.CellLeavingEdit
             AddHandler row.Cells(1).EditLeft, AddressOf Me.CellLeavingEdit
@@ -496,13 +499,15 @@ Public Class ReportVariablesListView
             InitiateDrag = InitiateDrag And (Math.Abs(m_mouseLocation.X - e.X) > 3 Or Math.Abs(m_mouseLocation.Y - e.Y) > 3)
             If (InitiateDrag) Then
                 Dim Row As Xceed.Grid.DataRow = VariablesList.CurrentCell.ParentRow
-                Dim RowNumber As Integer = Row.Index
+                If Not IsNothing(Row) Then
+                    Dim RowNumber As Integer = Row.Index
 
-                Dim VariablesNode As APSIMData = Data.Child("variables")
-                Dim DataString As String = VariablesNode.Children()(RowNumber).XML
-
-                ' Initialize the drag and drop operation.
-                VariablesList.DoDragDrop(DataString, DragDropEffects.Copy)
+                    Dim VariablesNode As APSIMData = Data.Child("variables")
+                    If Not IsNothing(VariablesNode) Then
+                        Dim DataString As String = VariablesNode.Children()(RowNumber).XML
+                        VariablesList.DoDragDrop(DataString, DragDropEffects.Copy)
+                    End If
+                End If
             End If
         End If
 
@@ -584,5 +589,15 @@ Public Class ReportVariablesListView
     Private Sub DeleteAllMenu_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DeleteAllMenu.Click
         VariablesList.DataRows.Clear()
         AddBlankRow()
+    End Sub
+
+    Private Sub VariablesList_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles VariablesList.Resize
+        If VariablesList.Columns.Count = 5 Then
+            Dim WidthOfOtherColumns As Integer = 0
+            For i As Integer = 0 To 3
+                WidthOfOtherColumns = WidthOfOtherColumns + VariablesList.Columns(i).Width
+            Next
+            VariablesList.Columns(4).Width = VariablesList.DisplayRectangle.Width - WidthOfOtherColumns
+        End If
     End Sub
 End Class

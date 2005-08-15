@@ -19,6 +19,7 @@ Public Class DataTree
     Public Event DoubleClickEvent As NotifyEventHandler
     Public Event DataRenamedEvent As NotifyEventHandler
     Public Event DataDeletedEvent As NotifyEventHandler
+    Public Event DataAddedEvent As NotifyEventHandler
 
     Private MaxNumLevels As Integer = 100
     Private ShowAllComponents As Boolean = False
@@ -440,6 +441,7 @@ Public Class DataTree
             Dim NewNode As TreeNode = AddNode(NewData, DestinationNode)
             PopulateTree(NewData, NewNode)
             DestinationNode.Expand()
+            RaiseEvent DataAddedEvent()
 
         Catch ex As System.Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
