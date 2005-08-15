@@ -9,7 +9,6 @@
       <SmallIcon>Images\layout_center16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
-         <drop name="area"/>
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
@@ -504,7 +503,7 @@
          <variable name="air_dry_dep" array="T" description="Air dry - layered (mm)"/>
          <variable name="sw" array="T" description="Soil water - layered (mm/mm)"/>
          <variable name="sw_dep" array="T" description="Soil water - layered (mm)"/>
-         <variable name="esw" array="T" description="Extractable Soil Water - all layers (mm)"/>
+         <variable name="esw" array="F" description="Extractable Soil Water (mm)"/>
          <variable name="es" description="Evaporation (mm)"/>
          <variable name="eo" description="Potential evapotranspiration (mm)"/>
          <variable name="eos" description="potential evaporation (mm)"/>
@@ -1098,6 +1097,7 @@
       <SmallIcon>Images\folder_closed16.png</SmallIcon>
       <drops>
          <drop name="folder"/>
+         <drop name="simulations"/>
          <drop name="toolbox"/>
      </drops>
    </folder>

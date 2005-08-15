@@ -41,9 +41,7 @@ Public Class InputDialog
         '
         'btnOK
         '
-        Me.btnOK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or _
-            System.Windows.Forms.AnchorStyles.Right), _
-            System.Windows.Forms.AnchorStyles)
+        Me.btnOK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.btnOK.Location = New System.Drawing.Point(232, 84)
         Me.btnOK.Name = "btnOK"
@@ -53,9 +51,7 @@ Public Class InputDialog
         '
         'btnCancel
         '
-        Me.btnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom _
-            Or System.Windows.Forms.AnchorStyles.Right), _
-            System.Windows.Forms.AnchorStyles)
+        Me.btnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btnCancel.Location = New System.Drawing.Point(312, 84)
         Me.btnCancel.Name = "btnCancel"
@@ -65,10 +61,8 @@ Public Class InputDialog
         '
         'txtValue
         '
-        Me.txtValue.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or _
-            System.Windows.Forms.AnchorStyles.Left) Or _
-            System.Windows.Forms.AnchorStyles.Right), _
-            System.Windows.Forms.AnchorStyles)
+        Me.txtValue.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtValue.Location = New System.Drawing.Point(8, 48)
         Me.txtValue.Name = "txtValue"
         Me.txtValue.Size = New System.Drawing.Size(376, 20)
@@ -77,10 +71,8 @@ Public Class InputDialog
         '
         'lblPrompt
         '
-        Me.lblPrompt.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or _
-            System.Windows.Forms.AnchorStyles.Left) Or _
-            System.Windows.Forms.AnchorStyles.Right), _
-            System.Windows.Forms.AnchorStyles)
+        Me.lblPrompt.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblPrompt.Location = New System.Drawing.Point(8, 8)
         Me.lblPrompt.Name = "lblPrompt"
         Me.lblPrompt.Size = New System.Drawing.Size(376, 32)
@@ -88,7 +80,9 @@ Public Class InputDialog
         '
         'InputDialog
         '
+        Me.AcceptButton = Me.btnOK
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
+        Me.CancelButton = Me.btnCancel
         Me.ClientSize = New System.Drawing.Size(392, 113)
         Me.Controls.Add(Me.btnOK)
         Me.Controls.Add(Me.btnCancel)

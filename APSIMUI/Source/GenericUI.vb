@@ -77,19 +77,20 @@ Public Class GenericUI
         Me.Grid.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Grid.FixedHeaderRows.Add(Me.GroupByRow1)
         Me.Grid.FixedHeaderRows.Add(Me.ColumnManagerRow1)
-        Me.Grid.Location = New System.Drawing.Point(88, 23)
+        Me.Grid.Location = New System.Drawing.Point(88, 20)
         Me.Grid.Name = "Grid"
         '
         'Grid.RowSelectorPane
         '
         Me.Grid.RowSelectorPane.Visible = False
         Me.Grid.SingleClickEdit = True
-        Me.Grid.Size = New System.Drawing.Size(933, 546)
+        Me.Grid.Size = New System.Drawing.Size(758, 753)
         Me.Grid.TabIndex = 2
         Me.Grid.UIStyle = Xceed.Grid.UIStyle.UIStyle.System
         '
         'NameColumn
         '
+        Me.NameColumn.CanBeSorted = False
         Me.NameColumn.Title = "Name"
         Me.NameColumn.VisibleIndex = 0
         Me.NameColumn.Width = 187
@@ -97,6 +98,7 @@ Public Class GenericUI
         '
         'ValueColumn
         '
+        Me.ValueColumn.CanBeSorted = False
         Me.ValueColumn.Title = "Value"
         Me.ValueColumn.VisibleIndex = 1
         Me.ValueColumn.Width = 267
@@ -139,16 +141,16 @@ Public Class GenericUI
         'PictureBox
         '
         Me.PictureBox.Dock = System.Windows.Forms.DockStyle.Left
-        Me.PictureBox.Location = New System.Drawing.Point(0, 23)
+        Me.PictureBox.Location = New System.Drawing.Point(0, 20)
         Me.PictureBox.Name = "PictureBox"
-        Me.PictureBox.Size = New System.Drawing.Size(88, 546)
+        Me.PictureBox.Size = New System.Drawing.Size(88, 753)
         Me.PictureBox.TabIndex = 3
         Me.PictureBox.TabStop = False
         '
         'GenericUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(1021, 609)
+        Me.ClientSize = New System.Drawing.Size(846, 808)
         Me.Controls.Add(Me.Grid)
         Me.Controls.Add(Me.PictureBox)
         Me.Name = "GenericUI"

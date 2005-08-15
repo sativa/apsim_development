@@ -159,8 +159,26 @@ namespace CSGeneral
 			{
 			if (MySoil != null)
 				{
-				CropList.Items.Clear();
-				CropList.Items.AddRange(MySoil.Crops);
+				StringCollection MyCrops = new StringCollection();
+				MyCrops.AddRange(MySoil.Crops);
+
+				// Make sure all crops are in listbox.
+				foreach (string Crop in MyCrops)
+					{
+					if (CropList.Items.IndexOf(Crop) == -1)
+						CropList.Items.Add(Crop);
+					}
+
+				// Make sure we don't have unwanted crop in listbox.
+				for (int i = 0; i != CropList.Items.Count; i++)
+					{
+					if (MyCrops.IndexOf(CropList.Items[i].ToString()) == -1)
+						{
+						CropList.Items.RemoveAt(i);
+						i--;
+						}
+					}
+				
 				LineGraphCheck.Checked = (APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), 
 																"soil", "DepthChartWithLines") == "yes");
 				PopulateWaterChart(CropsToChart());

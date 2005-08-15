@@ -16,6 +16,8 @@ Public Class ExplorerUI
 
     Public Event DataSelectedEvent As DataTree.DataSelectedEventHandler
     Public Event DataStructureChangedEvent As DataTree.NotifyEventHandler
+    Public Event AfterFileOpenEvent As DataTree.NotifyEventHandler
+    Public Event BeforeFileSaveEvent As DataTree.NotifyEventHandler
 
 
 
@@ -125,6 +127,7 @@ Public Class ExplorerUI
         MyDataHasChanged = False
         AddHandler DataTree.DataRenamedEvent, AddressOf DataStructureChanged
         AddHandler DataTree.DataDeletedEvent, AddressOf DataStructureChanged
+        AddHandler DataTree.DataAddedEvent, AddressOf DataStructureChanged
     End Sub
 
 
@@ -228,6 +231,7 @@ Public Class ExplorerUI
             ShowUI(UI)
         Else
             CloseUI()
+            CurrentUI = Nothing
         End If
     End Sub
 
@@ -301,6 +305,7 @@ Public Class ExplorerUI
             UpdateCaption()
             AddFileToFrequentList(MyFileName)
             MyDataHasChanged = True
+            RaiseEvent AfterFileOpenEvent()
             Return True
         Else
             Return False
@@ -342,6 +347,7 @@ Public Class ExplorerUI
         If MyFileName.IndexOf("Untitled.") <> -1 Then
             Return FileSaveAs()
         Else
+            RaiseEvent BeforeFileSaveEvent()
             Data.SaveToFile(MyFileName)
             UpdateCaption()
             AddFileToFrequentList(MyFileName)
@@ -379,11 +385,11 @@ Public Class ExplorerUI
     ' ----------------------------------------
     Private Sub UpdateCaption()
         If Not IsNothing(MyParentForm) Then
-            If MyDataHasChanged Then
-                MyParentForm.Text = BaseName + " - " + MyFileName + "*"
-            Else
-                MyParentForm.Text = BaseName + " - " + MyFileName
-            End If
+            'If MyDataHasChanged Then
+            'MyParentForm.Text = BaseName + " - " + MyFileName + "*"
+            'Else
+            MyParentForm.Text = BaseName + " - " + MyFileName
+            'End If
         End If
     End Sub
 
@@ -540,6 +546,9 @@ Public Class ExplorerUI
     ' ---------------------------------------------------
     Sub DataStructureChanged()
         RaiseEvent DataStructureChangedEvent()
+        If Not IsNothing(CurrentUI) Then
+            CurrentUI.Refresh()
+        End If
     End Sub
 
 End Class
