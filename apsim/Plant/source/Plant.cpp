@@ -848,7 +848,7 @@ void Plant::doRegistrations(protocol::Component *system)
    for (vector<plantThing *>::iterator t = myThings.begin();
         t != myThings.end();
         t++)
-      (*t)->doRegistrations(system);
+      (*t)->doRegistrations(parent);
    }
 
 void Plant::onApsimGetQuery(protocol::ApsimGetQueryData& apsimQueryData)

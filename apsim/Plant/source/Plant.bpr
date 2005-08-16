@@ -9,7 +9,9 @@
       PlantTemp.obj PlantUtility.obj PlantWater.obj Data.obj Date.obj 
       PlantBiomass.obj PlantP.obj 
       ..\..\..\Shared\ComponentInterface\EntryPoints.obj PlantParts.obj 
-      PlantFruit.obj"/>
+      PlantFruit.obj Phase.obj WheatPhenology.obj TTTPhenology.obj 
+      TTTRatePhenology.obj CropPhenology.obj CompositePhase.obj Environment.obj 
+      Observers.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -75,6 +77,14 @@
       <FILE FILENAME="..\..\..\Shared\ComponentInterface\EntryPoints.cpp" FORMNAME="" UNITNAME="EntryPoints" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PlantParts.cpp" FORMNAME="" UNITNAME="PlantParts" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PlantFruit.cpp" FORMNAME="" UNITNAME="PlantFruit" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Phase.cpp" FORMNAME="" UNITNAME="Phase" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="WheatPhenology.cpp" FORMNAME="" UNITNAME="WheatPhenology.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TTTPhenology.cpp" FORMNAME="" UNITNAME="TTTPhenology.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TTTRatePhenology.cpp" FORMNAME="" UNITNAME="TTTRatePhenology.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="CropPhenology.cpp" FORMNAME="" UNITNAME="CropPhenology" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="CompositePhase.cpp" FORMNAME="" UNITNAME="CompositePhase" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Environment.cpp" FORMNAME="" UNITNAME="Environment" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Observers.cpp" FORMNAME="" UNITNAME="Observers" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -176,11 +186,11 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;C:\development\Shared\ComponentInterface\;C:\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=d:\development\apsim\cowpea\psample\cowpea.sim
+RunParams=plant wheat d:\tmp\plant.xml
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=d:\development\bin\apsim.exe
+HostApplication=d:\development\bin\getcomponentdescription.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=

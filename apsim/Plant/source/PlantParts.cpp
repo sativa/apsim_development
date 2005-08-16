@@ -56,37 +56,54 @@ void Plant::deleteHacks(vector<plantPart *> &parts)
 
 
 //////////---------------------------
+string varName1, varName2, varName3, varName4, varName5, varName6;
+string varName7, varName8, varName9;
+string desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9;
 void plantPart::doRegistrations(protocol::Component *system)
 {
+   varName1 = c.name + "_wt";
+   desc1 = "Weight of " + c.name;
+   system->addGettableVar(varName1.c_str(), g.dm_green, "g/m^2", desc1.c_str());
 
-   system->addGettableVar((c.name + "_wt").c_str(), g.dm_green, "g/m^2", ("Weight of " + c.name).c_str());
+   varName2 = c.name + "_n";
+   desc2 = "N in " + c.name;
+   system->addGettableVar(varName2.c_str(),  g.n_green, "g/m^2", desc2.c_str());
 
-   system->addGettableVar((c.name + "_n").c_str(),  g.n_green, "g/m^2", ("N in " + c.name).c_str());
+   varName3 = c.name + "_p";
+   desc3 = "P in " + c.name;
+   system->addGettableVar(varName3.c_str(),  g.p_green, "g/m^2", desc3.c_str());
 
-   system->addGettableVar((c.name + "_p").c_str(),  g.p_green, "g/m^2", ("P in " + c.name).c_str());
+   varName4 =  "n_conc_" + c.name;
+   desc4 = "N concentration in " + c.name;
+   setupGetFunction(system, varName4.c_str(), protocol::DTsingle, false,
+                    &plantPart::get_n_conc, "%", desc4.c_str());
 
-   setupGetFunction(system, ("n_conc_" + c.name).c_str(), protocol::DTsingle, false,
-                    &plantPart::get_n_conc, "%", ("N concentration in " + c.name).c_str());
+   varName5 = "p_conc_" + c.name;
+   desc5 = "P concentration in " + c.name;
+   setupGetFunction(system, varName5.c_str(), protocol::DTsingle, false,
+                    &plantPart::get_p_conc, "%", desc5.c_str());
 
-   setupGetFunction(system, ("p_conc_" + c.name).c_str(), protocol::DTsingle, false,
-                    &plantPart::get_p_conc, "%", ("P concentration in " + c.name).c_str());
-
-   setupGetFunction(system, ("n_conc_crit_" + c.name).c_str(), protocol::DTsingle, false,
+   varName6 = "n_conc_crit_" + c.name;
+   desc6 = "critical N content in " + c.name;
+   setupGetFunction(system, varName6.c_str(), protocol::DTsingle, false,
                     &plantPart::get_n_conc_crit,
-                    "%", ("critical N content in " + c.name).c_str());
+                    "%", desc6.c_str());
 
-   setupGetFunction(system, ("n_conc_min_" + c.name).c_str(), protocol::DTsingle, false,
+   varName7 = "n_conc_min_" + c.name;
+   desc7 = "minimum N content in " + c.name;
+   setupGetFunction(system, varName7.c_str(), protocol::DTsingle, false,
                     &plantPart::get_n_conc_min,
-                    "%", ("minimum N content in " + c.name).c_str());
+                    "%", desc7.c_str());
 
-   system->addGettableVar(("n_demand_" + c.name).c_str(),
-               v.n_demand, "g/m^2", ("N demand of " + c.name).c_str());
+   varName8 = "n_demand_" + c.name;
+   desc8 = "N demand of " + c.name;
+   system->addGettableVar(varName8.c_str(),
+               v.n_demand, "g/m^2", desc8.c_str());
 
-   system->addGettableVar(("dlt_n_retrans_" + c.name).c_str(),
-               dlt.n_retrans, "g/m^2", ("N retranslocated to " + c.name).c_str());
-
-#undef setupGetVar
-#undef setupGetFunction
+   varName9 = "dlt_n_retrans_" + c.name;
+   desc9 = "N retranslocated to " + c.name;
+   system->addGettableVar(varName9.c_str(),
+               dlt.n_retrans, "g/m^2", desc9.c_str());
 }
 
 void plantPart::get_n_conc(protocol::Component *system, protocol::QueryValueData &qd)
