@@ -399,8 +399,10 @@ Public Class ReportVariablesListView
         If e.KeyValue = Keys.Delete Then
             Dim Row As Xceed.Grid.DataRow = VariablesList.CurrentCell.ParentRow
             Dim name As String = Row.Cells(2).Value
-            Data.Child("Variables").Delete(name)
-            VariablesList.DataRows.Remove(Row)
+            If Not IsNothing(name) Then
+                Data.Child("Variables").Delete(name)
+                VariablesList.DataRows.Remove(Row)
+            End If
         End If
     End Sub
 
@@ -438,17 +440,19 @@ Public Class ReportVariablesListView
             End If
 
             Dim Child As APSIMData = VariablesNode.Child(OldName)
-            If Not IsNothing(Child) Then
-                Child.SetAttribute("variablename", Row.Cells(0).Value)
-                Child.SetAttribute("module", Row.Cells(1).Value)
-                Child.SetAttribute("name", Row.Cells(2).Value)
-                Child.SetAttribute("arrayspec", Row.Cells(3).Value)
-                Child.SetAttribute("description", Row.Cells(4).Value)
-                AddModuleType(Child)
-                AddBlankRow()
+            If IsNothing(Child) Then
+                VariablesNode.Add(New APSIMData("variable", Row.Cells(2).Value))
+                Child = VariablesNode.Child(Row.Cells(2).Value)
             End If
-
+            Child.SetAttribute("variablename", Row.Cells(0).Value)
+            Child.SetAttribute("module", Row.Cells(1).Value)
+            Child.SetAttribute("name", Row.Cells(2).Value)
+            Child.SetAttribute("arrayspec", Row.Cells(3).Value)
+            Child.SetAttribute("description", Row.Cells(4).Value)
+            AddModuleType(Child)
+            AddBlankRow()
         End If
+
         Me.Tooltip.Text = "Hint: Right click on a cell to activate a popup menu for deleting variables."
 
     End Sub
@@ -598,6 +602,14 @@ Public Class ReportVariablesListView
                 WidthOfOtherColumns = WidthOfOtherColumns + VariablesList.Columns(i).Width
             Next
             VariablesList.Columns(4).Width = VariablesList.DisplayRectangle.Width - WidthOfOtherColumns
+        End If
+    End Sub
+
+    Public Sub Save()
+        If Not VariablesList.CurrentCell Is Nothing Then
+            If VariablesList.CurrentCell.IsBeingEdited Then
+                VariablesList.CurrentCell.LeaveEdit(True)
+            End If
         End If
     End Sub
 End Class

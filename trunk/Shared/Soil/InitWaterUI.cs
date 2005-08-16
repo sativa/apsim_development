@@ -416,6 +416,7 @@ namespace CSGeneral
 			SoilData = new Soil(Data.Parent);
 			InitialWater = SoilData.InitialWater;
 			WaterChartControl.LinkedSoil = SoilData;
+			WaterChartControl.ShowSoilWaterLine = true;
 
 			PopulateControls();
 			}

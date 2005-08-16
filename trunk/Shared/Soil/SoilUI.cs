@@ -182,9 +182,7 @@ namespace CSGeneral
 		private System.Windows.Forms.ToolBarButton DeleteCropButton;
 		private CSGeneral.WaterChartControl WaterChartControl;
 		private bool InCellLeavingEdit = false;
-
-
-
+		private int UniqueColID = 50;
 
 		// -------------
 		// constructor
@@ -1611,12 +1609,14 @@ namespace CSGeneral
 			int RequiredNumberOfColumns = CropNames.Length*4 + NUMBER_OF_STATIC_COLS;
 			while (WaterGrid.Columns.Count < RequiredNumberOfColumns)
 				{
-				int ColumnNumber = WaterGrid.Columns.Count+1;
+				UniqueColID++;
 				Column NewColumn = new Xceed.Grid.Column();
 				NewColumn.CanBeSorted = false;
 				NewColumn.Width = 84;
-				NewColumn.Initialize(ColumnNumber.ToString(), typeof(string));
+				NewColumn.Initialize(UniqueColID.ToString(), typeof(string));
 				WaterGrid.Columns.Add(NewColumn);
+				foreach (DataRow row in WaterGrid.DataRows)
+					row.Cells[UniqueColID.ToString()].Value = "";
 				}	
 			while (WaterGrid.Columns.Count > RequiredNumberOfColumns)
 				WaterGrid.Columns.RemoveAt(WaterGrid.Columns.Count-1);

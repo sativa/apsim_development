@@ -185,4 +185,8 @@ Public Class OutputFileDescUI
     Private Sub DataTree_DataSelectedEvent(ByVal e As VBGeneral.APSIMData) Handles DataTree.DataSelectedEvent
         HelpLabel.Text = e.Attribute("description")
     End Sub
+
+    Public Overrides Sub Save()
+        VariablesListView.Save()
+    End Sub
 End Class

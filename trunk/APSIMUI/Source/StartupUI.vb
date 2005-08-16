@@ -192,10 +192,13 @@ Public Class StartupUI
     ' User is wanting to open a simulation
     ' ------------------------------------
     Private Sub SimulationList_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationList.DoubleClick
-        Dim SelectedFile As String = SimulationList.SelectedItems(0).Text
-        Explorer.FileOpen(SelectedFile)
-        APSIMChangeTool.Upgrade(Explorer.Data)
-        Explorer.Refresh()
+        If SimulationList.SelectedItems.Count > 0 Then
+            Dim SelectedFile As String = SimulationList.SelectedItems(0).Text
+            Explorer.FileOpen(SelectedFile)
+            APSIMChangeTool.Upgrade(Explorer.Data)
+            Explorer.Refresh()
+
+        End If
     End Sub
 
 

@@ -22,6 +22,7 @@ namespace CSGeneral
 		private System.Windows.Forms.Splitter splitter;
 		private System.ComponentModel.Container components = null;
 		private Soil MySoil;
+		private bool ShowSW = false;
 
 		public WaterChartControl()
 			{
@@ -152,6 +153,18 @@ namespace CSGeneral
 				}		
 			}
 
+		// ---------------------------------------------
+		// ShowSW property.
+		// ---------------------------------------------
+		public bool ShowSoilWaterLine 
+			{
+			get {return ShowSW;}
+			set {
+				ShowSW = value;
+				Refresh();
+				}		
+			}
+
 		// -------------------
 		// Refresh            
 		// -------------------
@@ -196,9 +209,9 @@ namespace CSGeneral
 		private void PopulateWaterChart(StringCollection Crops)
 			{
             if (LineGraphCheck.Checked)
-				PopulateWaterChartLines(WaterChart, MySoil, Crops);
+				PopulateWaterChartLines(WaterChart, MySoil, Crops, ShowSW);
 			else
-				PopulateWaterChartBlocky(WaterChart, MySoil, Crops);
+				PopulateWaterChartBlocky(WaterChart, MySoil, Crops, ShowSW);
 			}								
 
 
@@ -206,7 +219,7 @@ namespace CSGeneral
 		// Populate the specified chart using 'blocky' style
 		// -------------------------------------------------
 		private static void PopulateWaterChartBlocky(Xceed.Chart.ChartControl Chart, Soil MySoil, 
-													StringCollection Crops)
+													StringCollection Crops, bool ShowSW)
 			{
 			ChartHelper Helper = new ChartHelper();
 			Helper.Chart = Chart;
@@ -248,6 +261,15 @@ namespace CSGeneral
 													AirDry, CumThickness,
 													false, Color.Red, 1, LinePattern.Dash,
 													StandardAxis.PrimaryX, StandardAxis.PrimaryY);
+
+				if (ShowSW && MySoil.InitialWater.SW.Length > 0)
+					{
+					double[] SW = MathUtility.Multiply_Value(SoilBase.CalcXForPlotting(MySoil.InitialWater.SW), 100);
+					Helper.CreateChartSeriesFromArray("SW", 
+														SW, CumThickness,
+														false, Color.Aquamarine, 3, LinePattern.Solid,
+														StandardAxis.PrimaryX, StandardAxis.PrimaryY);
+					}
 				
 				Color[] Colours = {Color.Green, Color.GreenYellow, Color.Pink, Color.SaddleBrown, Color.Silver};
 				int ColourIndex = 0;
@@ -273,7 +295,7 @@ namespace CSGeneral
 		// Populate the water chart.
 		// --------------------------------
 		private static void PopulateWaterChartLines(Xceed.Chart.ChartControl Chart, Soil MySoil,
-													StringCollection Crops)
+													StringCollection Crops, bool ShowSW)
 			{
 			ChartHelper Helper = new ChartHelper();
 			Helper.Chart = Chart;
@@ -298,6 +320,12 @@ namespace CSGeneral
 												MathUtility.Multiply_Value(MySoil.Airdry, 100), MathUtility.Divide_Value(MySoil.CumThicknessMidPoints, 10),
 												false, Color.Red, 1, LinePattern.Dash,
 												StandardAxis.PrimaryX, StandardAxis.PrimaryY);
+
+			if (ShowSW && MySoil.InitialWater.SW.Length > 0)
+				Helper.CreateChartSeriesFromArray("SW", 
+													MathUtility.Multiply_Value(MySoil.InitialWater.SW, 100), MathUtility.Divide_Value(MySoil.CumThicknessMidPoints, 10),
+													false, Color.Aquamarine, 3, LinePattern.Solid,
+													StandardAxis.PrimaryX, StandardAxis.PrimaryY);
 			
 			Color[] Colours = {Color.Green, Color.GreenYellow, Color.Pink, Color.SaddleBrown, Color.Silver};
 			int ColourIndex = 0;

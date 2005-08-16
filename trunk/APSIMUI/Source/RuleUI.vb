@@ -100,18 +100,18 @@ Public Class RuleUI
         '
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControl1.Location = New System.Drawing.Point(0, 23)
+        Me.TabControl1.Location = New System.Drawing.Point(0, 17)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(937, 586)
+        Me.TabControl1.Size = New System.Drawing.Size(846, 760)
         Me.TabControl1.TabIndex = 3
         '
         'TabPage1
         '
         Me.TabPage1.Controls.Add(Me.PropertyGrid)
-        Me.TabPage1.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Size = New System.Drawing.Size(929, 557)
+        Me.TabPage1.Size = New System.Drawing.Size(838, 734)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Properties"
         '
@@ -135,7 +135,7 @@ Public Class RuleUI
         Me.PropertyGrid.RowSelectorPane.Visible = False
         Me.PropertyGrid.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
         Me.PropertyGrid.SingleClickEdit = True
-        Me.PropertyGrid.Size = New System.Drawing.Size(929, 557)
+        Me.PropertyGrid.Size = New System.Drawing.Size(838, 734)
         Me.PropertyGrid.TabIndex = 3
         Me.PropertyGrid.UIStyle = Xceed.Grid.UIStyle.UIStyle.WindowsXP
         '
@@ -179,6 +179,7 @@ Public Class RuleUI
         '
         Me.dataRowTemplate1.AccessibleName = "Data row 1 in data row template"
         Me.dataRowTemplate1.BackColor = System.Drawing.SystemColors.Window
+        Me.dataRowTemplate1.CanBeSelected = False
         Me.dataRowTemplate1.Cells.Add(Me.celldataRowTemplate1Column11)
         Me.dataRowTemplate1.Cells.Add(Me.celldataRowTemplate1Column21)
         Me.dataRowTemplate1.Cells.Add(Me.celldataRowTemplate1Column3)
@@ -228,8 +229,8 @@ Public Class RuleUI
         '
         'RuleUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
-        Me.ClientSize = New System.Drawing.Size(937, 649)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
+        Me.ClientSize = New System.Drawing.Size(846, 808)
         Me.Controls.Add(Me.TabControl1)
         Me.Name = "RuleUI"
         Me.Controls.SetChildIndex(Me.TabControl1, 0)
@@ -387,9 +388,18 @@ Public Class RuleUI
         ' populate the dropdown
         Dim C As Control = Row.Cells(1).CellEditor.Control
         Dim DropDown As ComboBox = C
+        DropDown.Items.Clear()
         For Each Item As String In Values
             DropDown.Items.Add(Item)
         Next
+        If DropDown.Items.IndexOf(Row.Cells(1).Value) = -1 Then
+            If DropDown.Items.Count > 0 Then
+                Row.Cells(1).Value = DropDown.Items.Item(0)
+            Else
+                Row.Cells(1).Value = ""
+            End If
+        End If
+
     End Sub
 
 End Class
