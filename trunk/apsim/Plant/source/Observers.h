@@ -9,6 +9,8 @@ class eventObserver : public plantThing {
      string myEvent;
      int myDas, myDate, dasCounter, dayOfYear;
      Plant *myPlant;
+     std::string varName1, varName2, desc1, desc2;
+
    public:
      eventObserver(const string& eventOfInterest, Plant *);
      virtual void doRegistrations(protocol::Component *);

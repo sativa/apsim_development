@@ -23,11 +23,15 @@ eventObserver::eventObserver(const string& eventOfInterest, Plant *p)
 // Register our variables.
 void eventObserver::doRegistrations(protocol::Component *s)
    {
-   s->addGettableVar((myEvent + "_das").c_str(), myDas, 
-                     "days", ("Days from sowing to " + myEvent).c_str());
+   varName1 = myEvent + "_das";
+   desc1 = "Days from sowing to " + myEvent;
+   s->addGettableVar(varName1.c_str(), myDas,
+                     "days", desc1.c_str());
 
-   s->addGettableVar((myEvent + "_date").c_str(), myDate, 
-                     "doy", ("Day number of " + myEvent).c_str());
+   varName2 = myEvent + "_date";
+   desc2 = "Day number of " + myEvent;
+   s->addGettableVar(varName2.c_str(), myDate,
+                     "doy", desc2.c_str());
 
    setupEvent(s, "tick", RegistrationType::respondToEvent, &eventObserver::onTick);
    }
