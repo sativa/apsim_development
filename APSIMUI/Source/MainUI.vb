@@ -139,6 +139,9 @@ Public Class MainUI
     Friend WithEvents HelpNewsTool As System.Windows.Forms.MenuItem
     Friend WithEvents HelpReportProblemTool As System.Windows.Forms.MenuItem
     Friend WithEvents HelpSuggestChangeTool As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem3 As System.Windows.Forms.MenuItem
+    Friend WithEvents GraphButton As System.Windows.Forms.ToolBarButton
+    Friend WithEvents GraphMenuItem As System.Windows.Forms.MenuItem
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MainUI))
@@ -162,6 +165,8 @@ Public Class MainUI
         Me.SimulationMenu = New System.Windows.Forms.MenuItem
         Me.SimulationMakeSimFile = New System.Windows.Forms.MenuItem
         Me.SimulationRun = New System.Windows.Forms.MenuItem
+        Me.MenuItem3 = New System.Windows.Forms.MenuItem
+        Me.GraphMenuItem = New System.Windows.Forms.MenuItem
         Me.HelpMenu = New System.Windows.Forms.MenuItem
         Me.HelpContents = New System.Windows.Forms.MenuItem
         Me.HelpNews = New System.Windows.Forms.MenuItem
@@ -213,6 +218,7 @@ Public Class MainUI
         Me.ToolboxPanel = New System.Windows.Forms.Panel
         Me.ToolBoxSplitter = New System.Windows.Forms.Splitter
         Me.SimulationPanel = New System.Windows.Forms.Panel
+        Me.GraphButton = New System.Windows.Forms.ToolBarButton
         Me.HelpBrowserPanel.SuspendLayout()
         CType(Me.HelpBrowser, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.HelpToolBarPanel.SuspendLayout()
@@ -220,7 +226,7 @@ Public Class MainUI
         '
         'MainMenu
         '
-        Me.MainMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.FileMenu, Me.EditMenu, Me.MenuItem1, Me.SimulationMenu, Me.HelpMenu})
+        Me.MainMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.FileMenu, Me.EditMenu, Me.MenuItem1, Me.SimulationMenu, Me.MenuItem3, Me.HelpMenu})
         '
         'FileMenu
         '
@@ -332,9 +338,20 @@ Public Class MainUI
         Me.SimulationRun.Shortcut = System.Windows.Forms.Shortcut.F5
         Me.SimulationRun.Text = "&Run"
         '
+        'MenuItem3
+        '
+        Me.MenuItem3.Index = 4
+        Me.MenuItem3.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.GraphMenuItem})
+        Me.MenuItem3.Text = "&Tools"
+        '
+        'GraphMenuItem
+        '
+        Me.GraphMenuItem.Index = 0
+        Me.GraphMenuItem.Text = "&Graph all output files using APSVis"
+        '
         'HelpMenu
         '
-        Me.HelpMenu.Index = 4
+        Me.HelpMenu.Index = 5
         Me.HelpMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.HelpContents, Me.HelpNews, Me.HelpReportProblem, Me.HelpSuggestChange, Me.MenuItem9, Me.HelpAbout})
         Me.HelpMenu.MergeOrder = 2
         Me.HelpMenu.Text = "&Help"
@@ -372,7 +389,7 @@ Public Class MainUI
         'ToolBar
         '
         Me.ToolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
-        Me.ToolBar.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.FileNewButton, Me.FileOpenButton, Me.FileSaveButton, Me.EmailButton, Me.Separator1, Me.CutButton, Me.copyButton, Me.PasteButton, Me.Separator2, Me.ToolBoxButton, Me.RunButton, Me.ExportButton, Me.SeparatorButton, Me.NewsButton, Me.UIHelpButton})
+        Me.ToolBar.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.FileNewButton, Me.FileOpenButton, Me.FileSaveButton, Me.EmailButton, Me.Separator1, Me.GraphButton, Me.CutButton, Me.copyButton, Me.PasteButton, Me.Separator2, Me.ToolBoxButton, Me.RunButton, Me.ExportButton, Me.SeparatorButton, Me.NewsButton, Me.UIHelpButton})
         Me.ToolBar.DropDownArrows = True
         Me.ToolBar.ImageList = Me.ButtonImageList
         Me.ToolBar.Location = New System.Drawing.Point(0, 0)
@@ -416,18 +433,21 @@ Public Class MainUI
         Me.CutButton.Enabled = False
         Me.CutButton.ImageIndex = 3
         Me.CutButton.Text = "Cut"
+        Me.CutButton.Visible = False
         '
         'copyButton
         '
         Me.copyButton.Enabled = False
         Me.copyButton.ImageIndex = 4
         Me.copyButton.Text = "Copy"
+        Me.copyButton.Visible = False
         '
         'PasteButton
         '
         Me.PasteButton.Enabled = False
         Me.PasteButton.ImageIndex = 5
         Me.PasteButton.Text = "Paste"
+        Me.PasteButton.Visible = False
         '
         'Separator2
         '
@@ -647,6 +667,11 @@ Public Class MainUI
         Me.SimulationPanel.Size = New System.Drawing.Size(1015, 165)
         Me.SimulationPanel.TabIndex = 14
         '
+        'GraphButton
+        '
+        Me.GraphButton.ImageIndex = 15
+        Me.GraphButton.Text = "Graph"
+        '
         'MainUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -728,6 +753,8 @@ Public Class MainUI
 
         ' readjust window positions based on previously saved positions.
         ReadWindowPosition()
+
+        SetFunctionality(SimulationExplorer.GetSelectedData())
     End Sub
 
 
@@ -822,6 +849,8 @@ Public Class MainUI
             HelpBrowser.GoBack()
         ElseIf e.Button Is CloseButton Then
             UIManager.ShowHelpBrowser(False)
+        ElseIf e.Button Is GraphButton Then
+            GraphAllMenuItem_Click(Nothing, Nothing)
         End If
 
     End Sub
@@ -1149,6 +1178,7 @@ Public Class MainUI
     Private Sub OnAfterFileOpenEvent()
         APSIMChangeTool.Upgrade(SimulationExplorer.Data)
         UIManager.CheckAllComponents(SimulationExplorer.Data)
+        SetFunctionality(SimulationExplorer.GetSelectedData())
     End Sub
 
 
@@ -1160,5 +1190,56 @@ Public Class MainUI
         UIManager.CheckAllComponents(SimulationExplorer.Data)
     End Sub
 
+
+    ' ---------------------------------------
+    ' User wants to graph all output files.
+    ' ---------------------------------------
+    Private Sub GraphAllMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GraphMenuItem.Click
+        Dim Filename As String = Path.GetTempFileName()
+        Dim Writer As New StreamWriter(Filename)
+        Dim OutputFileNames As String = ""
+        GetAllOutputFiles(SimulationExplorer.Data, Writer)
+        Writer.Close()
+        Writer = Nothing
+
+        Dim CommandLine As String = APSIMSettings.ApsimDirectory() + "\bin\apsvis.exe"
+        Process.Start(CommandLine, Filename)
+    End Sub
+
+
+    ' --------------------------------------------------------
+    ' Recursive routine to get names of all output files.
+    ' --------------------------------------------------------
+    Private Sub GetAllOutputFiles(ByVal Data As APSIMData, ByRef OutputFileNames As StreamWriter)
+        For Each Child As APSIMData In Data.Children
+            If Child.Type.ToLower() = "area" Or Child.Type.ToLower() = "simulation" Or Child.Type.ToLower() = "simulations" Then
+                GetAllOutputFiles(Child, OutputFileNames)  ' recursion
+            ElseIf Child.Type.ToLower() = "outputfile" Then
+                Dim FullFileName As String = Child.ChildValue("filename")
+                If SimulationExplorer.FileName <> "" Then
+                    FullFileName = Path.Combine(Path.GetDirectoryName(SimulationExplorer.FileName), FullFileName)
+                End If
+                OutputFileNames.WriteLine(FullFileName)
+            End If
+        Next
+    End Sub
+
+
+    ' -------------------------------------------
+    ' Enable / Disable bits of functionality as 
+    ' required. i.e. ensure program is in a 
+    ' consistant state.
+    ' -------------------------------------------
+    Private Sub SetFunctionality(ByVal CurrentData As APSIMData)
+        Dim SomethingInTree As Boolean = (Text <> "APSIM")
+        FileSave.Enabled = SomethingInTree
+        FileSaveButton.Enabled = SomethingInTree
+        FileSaveAs.Enabled = SomethingInTree
+        GraphButton.Enabled = SomethingInTree
+        GraphMenuItem.Enabled = SomethingInTree
+        SimulationRun.Enabled = SomethingInTree
+        SimulationMakeSimFile.Enabled = SomethingInTree
+        RunButton.Enabled = SomethingInTree
+    End Sub
 
 End Class

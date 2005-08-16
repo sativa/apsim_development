@@ -282,8 +282,8 @@ namespace CSGeneral
 			{
 			UserChange = false;
 			GridUtils.SetColumnAsStrings(ref NitrogenGrid, 0, SoilData.DepthStrings);
-			GridUtils.SetColumnAsDoubles(ref NitrogenGrid, 1, InitialNitrogen.NO3KgHa, "f1");
-			GridUtils.SetColumnAsDoubles(ref NitrogenGrid, 2, InitialNitrogen.NH4KgHa, "f1");
+			GridUtils.SetColumnAsDoubles(ref NitrogenGrid, 1, InitialNitrogen.NO3KgHa, "f2");
+			GridUtils.SetColumnAsDoubles(ref NitrogenGrid, 2, InitialNitrogen.NH4KgHa, "f2");
 			
 			foreach (Xceed.Grid.DataRow Row in NitrogenGrid.DataRows)
 				{
@@ -335,8 +335,14 @@ namespace CSGeneral
                 UserChange = false;
                 if (NO3Edit.Text != "")
 					{
-					InitialNitrogen.TotalNO3KgHa = Convert.ToDouble(NO3Edit.Text);
-					GridUtils.SetColumnAsDoubles(ref NitrogenGrid, 1, InitialNitrogen.NO3KgHa, "f1");
+					try
+						{
+						InitialNitrogen.TotalNO3KgHa = Convert.ToDouble(NO3Edit.Text);
+						GridUtils.SetColumnAsDoubles(ref NitrogenGrid, 1, InitialNitrogen.NO3KgHa, "f2");
+						}
+					catch (Exception)
+						{
+						}
 					}
 				UserChange = true;
 				}
@@ -352,8 +358,14 @@ namespace CSGeneral
                 UserChange = false;
                 if (NH4Edit.Text != "")
 					{
-					InitialNitrogen.TotalNH4KgHa = Convert.ToDouble(NH4Edit.Text);
-					GridUtils.SetColumnAsDoubles(ref NitrogenGrid, 2, InitialNitrogen.NH4KgHa, "f1");
+					try
+						{
+						InitialNitrogen.TotalNH4KgHa = Convert.ToDouble(NH4Edit.Text);
+						GridUtils.SetColumnAsDoubles(ref NitrogenGrid, 2, InitialNitrogen.NH4KgHa, "f2");
+						}
+					catch (Exception)
+						{
+						}
 					}
 				UserChange = true;
 				}

@@ -64,9 +64,20 @@ namespace CSGeneral
 			get {return MathUtility.Sum(ToKgHa(NO3));}
 			set {
 				double[] no3 = NO3KgHa;
-				double Prop = value / MathUtility.Sum(no3);
-				for (int i = 0; i != no3.Length; i++)
-					no3[i] *= Prop;
+				double TotalNO3Required = value;
+				double TotalNO3Currently = MathUtility.Sum(no3);
+				if (TotalNO3Currently == 0)
+					{
+					double AmountInEachLayer = TotalNO3Required / ParentSoil.Thickness.Length;
+					for (int i = 0; i != no3.Length; i++)
+						no3[i] = AmountInEachLayer;
+					}
+				else
+					{
+					double Prop = TotalNO3Required / TotalNO3Currently;
+					for (int i = 0; i != no3.Length; i++)
+						no3[i] = no3[i] * Prop;
+					}
 				NO3KgHa = no3;
 				}
 			}
@@ -81,9 +92,18 @@ namespace CSGeneral
 				double[] nh4 = NH4KgHa;
 				double TotalNH4Required = value;
 				double TotalNH4Currently = MathUtility.Sum(nh4);
-				double Prop = TotalNH4Required / TotalNH4Currently;
-				for (int i = 0; i != nh4.Length; i++)
-					nh4[i] = nh4[i] * Prop;
+				if (TotalNH4Currently == 0)
+					{
+					double AmountInEachLayer = TotalNH4Required / ParentSoil.Thickness.Length;
+					for (int i = 0; i != nh4.Length; i++)
+						nh4[i] = AmountInEachLayer;
+					}
+				else
+					{
+					double Prop = TotalNH4Required / TotalNH4Currently;
+					for (int i = 0; i != nh4.Length; i++)
+						nh4[i] = nh4[i] * Prop;
+					}
 				NH4KgHa = nh4;
 				}
 			}

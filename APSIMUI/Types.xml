@@ -24,7 +24,7 @@
             [foreach area.fertiliser][insert fertiliser][endfor]
             [foreach area.surfaceom][insert surfaceom][endfor]
             [foreach area.soil][insert soil][endfor]
-            [foreach area.phosphorus][insert phosphorus][endfor]
+            [foreach area.phos][insert phos][endfor]
 
             [foreach area.bambatsi as plant][insert bambatsi][endfor]
             [foreach area.canola as plant][insert canola][endfor]
@@ -527,9 +527,9 @@
                <parameters name="black_earth">
                   [foreach soil.InitWater as initwater]
 
-                  [foreach initwater.layeredmethod as layer]
-                     <property name="sw">[foreach layer.sw][sw.innerxml] [endfor]</property>
-                  [endfor]
+                  [if [initwater.1.sw] > 0]
+                  <property name="sw">[foreach initwater.layer][layer.sw.innerxml] [endfor]</property>
+                  [endif]
                   [foreach initwater.percentmethod as p]
                      [if ([p.distributed] = "filled from top")]
                         <property name="profile_fesw">[p.percent]</property>
@@ -610,7 +610,7 @@
          <drop name="soil"/>
       </drops>
    </InitNitrogen>
-   <phosphorus>
+   <phos>
       <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -635,7 +635,7 @@
       <SimMacro>
          <![CDATA[
          [comment] ################ SoilP ################ [endcomment]
-         <component name="[Phosphorus.name]" executable="%apsuite\apsim\soilp\lib\soilp.dll">
+         <component name="[Phos.name]" executable="%apsuite\apsim\soilp\lib\soilp.dll">
             <initdata>
                <include>%apsuite\apsim\soilp\soilp.ini</include>
                [foreach area.soil]
@@ -655,7 +655,7 @@
          </component>
          ]]>
       </SimMacro>
-   </phosphorus>
+   </phos>
    <swimsoil>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -1045,9 +1045,8 @@
          <variable name="surfaceom_nh4" description="Total mass of ammonium"/>
          <variable name="surfaceom_labile_p" description="Total mass of labile phosphorus"/>
          <variable name="surfaceom_cover" description="Fraction of ground covered by all surface OM&quot;s"/>
-         <variable name="surfaceom_tf" description="Temperature factor for decomposition"/>
-         <variable name="surfaceom_wf" description="Water factor for decomposition"/>
-         <variable name="surfaceom_cf" description="Contact factor for decomposition"/>
+         <variable name="tf" description="Temperature factor for decomposition"/>
+         <variable name="cf" description="Contact factor for decomposition"/>
          <variable name="surfaceom_wt_xxxx" description="Mass of organic matter named &quot;xxxx&quot;"/>
          <variable name="surfaceom_c_xxxx"  description="Mass of organic carbon in &quot;xxxx&quot;"/>
          <variable name="surfaceom_n_xxxx"  description="Mass of organic nitrogen in &quot;xxxx&quot;"/>
@@ -1067,7 +1066,7 @@
          <variable name="pot_c_decomp_xxxx" description="Potential organic C decomposition in &quot;xxxx&quot;"/>
          <variable name="pot_n_decomp_xxxx" description="Potential organic N decomposition in &quot;xxxx&quot;"/>
          <variable name="pot_p_decomp_xxxx" description="Potential organic P decomposition in &quot;xxxx&quot;"/>
-         <variable name="standing_fraction_xxxx" description="Fraction of &quot;xxxx&quot; which is inert, ie not in contact with the ground"/>
+         <variable name="standing_fr_xxxx" description="Fraction of &quot;xxxx&quot; which is inert, ie not in contact with the ground"/>
          <variable name="surfaceom_cover_xxxx" description="Fraction of ground covered by &quot;xxxx&quot;"/>
          <variable name="cnrf_xxxx" description="C:N ratio factor for decomposition for &quot;xxxx&quot;"/>
       </variables>

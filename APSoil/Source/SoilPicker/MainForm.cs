@@ -201,7 +201,7 @@ namespace SoilPicker
 			// Load up the file from the command line if necessary.
 			try
 				{
-				if (CommandLineFileName != "")
+				if (CommandLineFileName != null && CommandLineFileName != "")
 					{
 					SoilExplorer.FileOpen(CommandLineFileName);
 					APSIMChangeTool.Upgrade(SoilExplorer.Data);
@@ -280,14 +280,18 @@ namespace SoilPicker
 					n2.WriteLine("   must_have     = soil_nitrogen");
 					n2.WriteLine("[*contents]");
 
+					string P2FileName = Path.GetTempPath() + "\\temp.p2";
 					int PosSoilP = Contents.IndexOf("[run%.soilp.parameters]");
 					if (PosSoilP == -1)
+						{
 						n2.WriteLine(Contents.Substring(PosSoilN));
+						if (File.Exists(P2FileName))
+							File.Delete(P2FileName);
+						}
 					else
 						{
 						n2.WriteLine(Contents.Substring(PosSoilN, PosSoilP-PosSoilN));
 
-						string P2FileName = Path.GetTempPath() + "\\temp.p2";
 						StreamWriter p2 = new StreamWriter(P2FileName);
 						p2.WriteLine("!Title = " + SelectedSoil.Name);
 						p2.WriteLine("[*attributes]");

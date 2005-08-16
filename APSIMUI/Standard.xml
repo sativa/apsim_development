@@ -42,12 +42,9 @@
       <condition name="start_of_day"><![CDATA[
       if (paddock_is_fallow() = 1) then
          if (date_within('[date1], [date2]') = 1) then
-            surface_moist = (sw(1) - ll15(1)) / (dul(1)- ll15(1))
-            if (rain[[rainnumdays]] >= raincrit AND esw >= [esw_amount] AND
-                  (surface_moist <= [surface_up] and surface_moist >= [surface_low])) OR
+            if (rain[[rainnumdays]] >= raincrit AND esw >= [esw_amount]) OR
                 ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
                [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
-
             endif
          endif
       endif
@@ -58,9 +55,7 @@
         <property name="must_sow" value="no" type="yesno" description="Must sow? : " />
         <property name="raincrit" value="30" type="text" description="Amount of rainfall : " />
         <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
-        <property name="esw_amount" value="200" type="text" description="Enter min. allowable soil water in top layer (mm) : " />
-        <property name="surface_low" value="0.7" type="text" description="Enter lowest allowable fasw in top layer (0-1) : " />
-        <property name="surface_up" value="1" type="text" description="Enter upper allowable fasw in top layer (0-1) : " />
+        <property name="esw_amount" value="200" type="text" description="Enter minimum allowable available soil water (mm) : " />
       </category>
       <category name="Sowing parameters">
         <property name="crop" value="wheat" type="modulename" description="Enter name of crop to sow : " />
@@ -70,6 +65,34 @@
         <property name="row_spacing" value="250" type="text" description="Enter row spacing (mm) : " />
       </category>
     </rule>
+        <rule name="Sorghum sowing rule">
+          <condition name="start_of_day"><![CDATA[
+      if (paddock_is_fallow() = 1) then
+         if (date_within('[date1], [date2]') = 1) then
+            if (rain[[rainnumdays]] >= raincrit AND esw >= [esw_amount]) OR
+                ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
+               sorghum sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], tiller_no_fertile = [ftn] (), skip = [skiprow]
+            endif
+         endif
+      endif
+            ]]></condition>
+          <category name="Sowing criteria">
+            <property name="date1" value="15-oct" type="text" description="Enter sowing window START date (dd-mmm) : " />
+            <property name="date2" value="10-jan" type="text" description="Enter sowing window END date (dd-mmm) : " />
+            <property name="must_sow" value="no" type="yesno" description="Must sow? : " />
+            <property name="raincrit" value="30" type="text" description="Amount of rainfall : " />
+            <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
+            <property name="esw_amount" value="200" type="text" description="Enter minimum allowable available soil water (mm) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="density" value="7" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="early" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="1" type="text" description="Enter row spacing (m) : " />
+            <property name="ftn" value="1" type="text" description="Enter Fertile Tiller No. : " />
+            <property name="skiprow" value="solid" type="list" listvalues="solid, single, double" description="Skip row : " />
+          </category>
+        </rule>
     <rule name="Sow on a fixed date">
       <condition name="start_of_day"><![CDATA[
             if (paddock_is_fallow() = 1 and today = date('[date]')) then
@@ -265,7 +288,7 @@
       </category>
       <category name="Reset details">
         <property name="soilmodule" value="" type="modulename" moduletype="soil" description="Name of your soil module : " />
-        <property name="surfaceommodule" value="wheat residue" type="modulename" moduletype="surfaceom" description="Name of your surface organic matter module : " />
+        <property name="surfaceommodule" value="surface organic matter" type="modulename" moduletype="surfaceom" description="Name of your surface organic matter module : " />
         <property name="resetWater" value="yes" type="yesno" description="Reset soil water?" />
         <property name="resetNitrogen" value="yes" type="yesno" description="Reset soil nitrogen?" />
         <property name="resetSurfaceOM" value="yes" type="yesno" description="Reset surface organic matter?" />
@@ -292,7 +315,7 @@
       </category>
       <category name="Reset details">
         <property name="soilmodule" value="" type="modulename" moduletype="soil" description="Name of your soil module : " />
-        <property name="surfaceommodule" value="wheat residue" type="modulename" moduletype="surfaceom" description="Name of your surface organic matter module : " />
+        <property name="surfaceommodule" value="surface organic matter" type="modulename" moduletype="surfaceom" description="Name of your surface organic matter module : " />
         <property name="resetWater" value="yes" type="yesno" description="Reset soil water?" />
         <property name="resetNitrogen" value="yes" type="yesno" description="Reset soil nitrogen?" />
         <property name="resetSurfaceOM" value="yes" type="yesno" description="Reset surface organic matter?" />
@@ -314,7 +337,7 @@
     <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
     <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
   </irrigation>
-  <phosphorus/>
+  <phos name="Phosphorus"/>
   <log name="log">
     <debugoutput name="debugoutput">on</debugoutput>
     <filename name="filename">log.txt</filename>
@@ -404,12 +427,12 @@
       <number>0</number>
     </group>
   </stock>
-  <surfaceom name="wheat residue">
-    <PoolName>wheat_stubble</PoolName>
-    <type>wheat</type>
-    <mass>1000.</mass>
-    <cnr>80.0</cnr>
-    <standing_fraction>0.0</standing_fraction>
+  <surfaceom name="surface organic matter">
+    <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
+    <type description="Organic Matter type">wheat</type>
+    <mass description="Initial surface residue (kg/ha)">1000.</mass>
+    <cnr description="C:N ration of initial residue">80.0</cnr>
+    <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
   </surfaceom>
   <vinelogic name="vinelogic">
     <data name="data"><![CDATA[*MODEL INPUT FILE            I     1    19     1     8

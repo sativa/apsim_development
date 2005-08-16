@@ -277,6 +277,7 @@ Public Class ExplorerUI
             MyFileName = "Untitled" + MyExtension
             UpdateCaption()
             MyDataHasChanged = True
+            RaiseEvent AfterFileOpenEvent()
         End If
     End Sub
 

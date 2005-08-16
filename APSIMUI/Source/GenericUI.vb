@@ -179,7 +179,11 @@ Public Class GenericUI
             If Prop.Children.Count = 0 Then
                 Dim row As Xceed.Grid.DataRow = Grid.DataRows.AddNew()
                 row.BeginEdit()
-                row.Cells(0).Value = Prop.Name
+                Dim Desc As String = Prop.Attribute("description")
+                If Desc = "" Then
+                    Desc = Prop.Name
+                End If
+                row.Cells(0).Value = Desc
                 row.Cells(1).Value = Prop.Value
                 Dim Editor As CustomEditor
                 Dim DefaultText As String
