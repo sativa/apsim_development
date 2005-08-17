@@ -741,11 +741,16 @@ Public Class MainUI
         Dim separators As String = " "
         Dim commands As String = Microsoft.VisualBasic.Command()
         Dim args() As String = commands.Split(separators.ToCharArray)
-        If args.Length = 1 Then
-            If args(0).Length() > 0 Then
-                Dim FileName As String = args(0).Replace("""", "")
-                SimulationExplorer.FileOpen(FileName)
+        Dim FileName As String = ""
+        For Each Part As String In args
+            If FileName <> "" Then
+                FileName = FileName + " "
             End If
+            FileName = FileName + Part
+        Next
+        If FileName.Length() > 0 Then
+            FileName = FileName.Replace("""", "")
+            SimulationExplorer.FileOpen(FileName)
         End If
 
         ' populate the toolbox menu.
