@@ -4,12 +4,12 @@ Imports System.Text
 Imports System.Collections.Specialized
 
 Public Class APSIMSettings
-    Private Declare Unicode Function WritePrivateProfileString Lib "kernel32" _
-        Alias "WritePrivateProfileStringW" (ByVal lpApplicationName As String, _
+    Private Declare Ansi Function WritePrivateProfileString Lib "kernel32" _
+        Alias "WritePrivateProfileStringA" (ByVal lpApplicationName As String, _
         ByVal lpKeyName As String, ByVal lpString As String, _
         ByVal lpFileName As String) As Int32
-    Private Declare Unicode Function GetPrivateProfileString Lib "kernel32" _
-        Alias "GetPrivateProfileStringW" (ByVal lpApplicationName As String, _
+    Private Declare Ansi Function GetPrivateProfileString Lib "kernel32" _
+        Alias "GetPrivateProfileStringA" (ByVal lpApplicationName As String, _
         ByVal lpKeyName As String, ByVal lpDefault As String, _
         ByVal lpReturnedString As String, ByVal nSize As Int32, _
         ByVal lpFileName As String) As Int32
@@ -27,7 +27,9 @@ Public Class APSIMSettings
     ' Return APSIM version number
     ' ---------------------------
     Public Shared Function ApsimVersion() As String
+        MessageBox.Show(ApsimIniFile())
         Dim version As String = INIRead(ApsimIniFile(), "version", "apsim")
+        MessageBox.Show(version)
         Return version
     End Function
 
@@ -36,7 +38,7 @@ Public Class APSIMSettings
     ' Return APSIM directory root
     ' ---------------------------
     Public Shared Function ApsimIniFile() As String
-        Return ApsimDirectory() + "\\apsim.ini"
+        Return ApsimDirectory() + "\apsim.ini"
     End Function
 
 
