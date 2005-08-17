@@ -202,3 +202,9 @@ void __fastcall TRunForm::OnRunNotifyEvent(const std::string& simFileName)
    FileNameLabel->Caption = simFileName.c_str();
    }
 
+void __fastcall TRunForm::MinimiseButtonClick(TObject *Sender)
+   {
+   this->WindowState = wsMinimized;
+   }
+//---------------------------------------------------------------------------
+

@@ -1,11 +1,11 @@
 object RunForm: TRunForm
   Left = 378
   Top = 117
-  BorderIcons = [biSystemMenu, biMinimize]
+  BorderIcons = [biMinimize]
   BorderStyle = bsSingle
   Caption = 'Running APSIM...'
   ClientHeight = 585
-  ClientWidth = 652
+  ClientWidth = 653
   Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -1025,6 +1025,16 @@ object RunForm: TRunForm
         Caption = 'Click Cancel to stop.'
       end
     end
+  end
+  object MinimiseButton: TButton
+    Left = 582
+    Top = 0
+    Width = 67
+    Height = 25
+    Caption = 'Mi&nimise'
+    Default = True
+    TabOrder = 3
+    OnClick = MinimiseButtonClick
   end
   object ImageList1: TImageList
     Left = 144

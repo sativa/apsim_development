@@ -41,10 +41,12 @@ class __declspec(dllexport) TRunForm : public TForm
       TImageList *ImageList1;
       TLabel *FileNameLabel;
       TListView *SimulationList;
+   TButton *MinimiseButton;
       void __fastcall NextButtonClick(TObject *Sender);
       void __fastcall CancelButtonClick(TObject *Sender);
       void __fastcall checkOkButtonState(TObject *Sender);
       void __fastcall simulationListClick(TObject *Sender);
+   void __fastcall MinimiseButtonClick(TObject *Sender);
    private:	// User declarations
       PreviousRuns previousRuns;
       std::vector<std::string> filesNeedingConversion;
