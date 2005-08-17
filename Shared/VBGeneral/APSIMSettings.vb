@@ -27,9 +27,7 @@ Public Class APSIMSettings
     ' Return APSIM version number
     ' ---------------------------
     Public Shared Function ApsimVersion() As String
-        MessageBox.Show(ApsimIniFile())
         Dim version As String = INIRead(ApsimIniFile(), "version", "apsim")
-        MessageBox.Show(version)
         Return version
     End Function
 
