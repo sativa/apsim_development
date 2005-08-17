@@ -462,7 +462,11 @@ namespace CSGeneral
 			else if (DepthWetSoilRadio.Checked)	
 				InitialWater.SetUsingDepthWetSoil(Convert.ToInt32(DepthEdit.Text));
 			else
-				InitialWater.SetUsingLayered(GridUtils.GetColumnAsDoubles(ref WaterGrid, 3, WaterGrid.DataRows.Count));
+				{
+				double[] sw = GridUtils.GetColumnAsDoubles(ref WaterGrid, 3, WaterGrid.DataRows.Count);
+				sw = MathUtility.Divide_Value(sw, 100);
+				InitialWater.SetUsingLayered(sw);
+				}
 			}
 
 

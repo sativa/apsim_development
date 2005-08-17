@@ -1184,6 +1184,7 @@ Public Class MainUI
         APSIMChangeTool.Upgrade(SimulationExplorer.Data)
         UIManager.CheckAllComponents(SimulationExplorer.Data)
         SetFunctionality(SimulationExplorer.GetSelectedData())
+        SimulationExplorer.Refresh()
     End Sub
 
 
