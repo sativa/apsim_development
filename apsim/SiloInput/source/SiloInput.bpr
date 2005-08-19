@@ -5,23 +5,23 @@
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\Lib\SiloInput.dll"/>
     <OBJFILES value="SiloInput.obj SiloInputComponent.obj ..\..\input\source\InputComponent.obj 
-      ..\..\input\source\StringVariant.obj"/>
+      ..\..\input\source\StringVariant.obj 
+      ..\..\..\Shared\ComponentInterface\EntryPoints.obj"/>
     <RESFILES value="SiloInput.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
     <LIBFILES value="..\..\..\Shared\ComponentInterface\ComponentInterface.lib 
       ..\..\..\Shared\ApsimShared\ApsimShared.lib 
-      ..\..\..\Shared\general\general.lib &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib&quot;"/>
-    <LIBRARIES value="indy.lib TMSC6.lib VclSmp.lib"/>
-    <SPARELIBS value="rtl.lib vcl.lib vclx.lib dbrtl.lib vcldb.lib VclSmp.lib Tee6C6.lib 
-      adortl.lib TMSC6.lib indy.lib"/>
-    <PACKAGES value="rtl.bpi vcl.bpi dbrtl.bpi bdertl.bpi vcldb.bpi vclx.bpi qrpt60.bpi 
+      ..\..\..\Shared\general\general.lib 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib&quot; 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\libxml2.lib&quot;"/>
+    <LIBRARIES value="indy.lib VclSmp.lib"/>
+    <SPARELIBS value="rtl.lib vcl.lib vclx.lib dbrtl.lib vcldb.lib VclSmp.lib adortl.lib indy.lib"/>
+    <PACKAGES value="rtl.bpi vcl.bpi dbrtl.bpi bdertl.bpi vcldb.bpi vclx.bpi qrpt.bpi 
       nmfast.bpi bcbie.bpi inet.bpi adortl.bpi bcbsmp.bpi dsnap.bpi cds.bpi 
       dbexpress.bpi dbxcds.bpi ibxpress.bpi vclie.bpi inetdbbde.bpi 
-      inetdbxpress.bpi dclocx.bpi soaprtl.bpi TeeDB6C6.bpi Tee6C6.bpi 
-      TeeUI6C6.bpi TeeLanguage6C6.bpi TeePro6C6.bpi TeeQR6C6.bpi TeeImage6C6.bpi 
-      TeeGL6C6.bpi"/>
-    <PATHCPP value=".;..\..\input\source"/>
+      inetdbxpress.bpi dclocx.bpi soaprtl.bpi"/>
+    <PATHCPP value=".;..\..\input\source;..\..\..\Shared\ComponentInterface"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -31,8 +31,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="SiloInput.bpf"/>
-    <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;..\..\input\source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)"/>
-    <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;..\..\input\source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms"/>
+    <INCLUDEPATH value="..\..\..\Shared\ComponentInterface;&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;..\..\input\source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)"/>
+    <LIBPATH value="..\..\..\Shared\ComponentInterface;&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;..\..\input\source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -62,6 +62,8 @@
       <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib" FORMNAME="" UNITNAME="date_time.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\ComponentInterface\EntryPoints.cpp" FORMNAME="" UNITNAME="EntryPoints" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\libxml2.lib" FORMNAME="" UNITNAME="libxml2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -94,28 +96,36 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
+[Excluded Packages]
+D:\development\Bin\APSGeneral.bpl=APSGeneral
+D:\development\Bin\APSData.bpl=APSuite data components
+C:\Program Files\Borland\CBuilder6\Components\TeeChart\source\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
+C:\Program Files\Borland\CBuilder6\Components\MemTable\kbmMemC6Des.bpl=kbmMemC6Des
+
 [HistoryLists\hlIncludePath]
-Count=9
-Item0=C:\Program Files\Borland\CBuilder6\Bin;..\..\input\source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
-Item1=..\..\input\source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
-Item2=C:\Program Files\Borland\CBuilder6\Bin;..\..\input\source;C:\MyData\development\apsim\SiloInput\source;..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
-Item3=..\..\input\source;C:\MyData\development\apsim\SiloInput\source;..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
-Item4=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
-Item5=..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
-Item6=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
-Item7=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item8=C:\MyData\development\Shared\Soil;$(BCB)\include;$(BCB)\include\vcl
+Count=10
+Item0=..\..\..\Shared\ComponentInterface;C:\Program Files\Borland\CBuilder6\Bin;..\..\input\source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item1=C:\Program Files\Borland\CBuilder6\Bin;..\..\input\source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item2=..\..\input\source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item3=C:\Program Files\Borland\CBuilder6\Bin;..\..\input\source;C:\MyData\development\apsim\SiloInput\source;..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item4=..\..\input\source;C:\MyData\development\apsim\SiloInput\source;..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item5=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item6=..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
+Item7=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
+Item8=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item9=C:\MyData\development\Shared\Soil;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=8
-Item0=C:\Program Files\Borland\CBuilder6\Bin;..\..\input\source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
-Item1=..\..\input\source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
-Item2=C:\Program Files\Borland\CBuilder6\Bin;..\..\input\source;C:\MyData\development\apsim\SiloInput\source;..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
-Item3=..\..\input\source;C:\MyData\development\apsim\SiloInput\source;..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
-Item4=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
-Item5=..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
-Item6=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item7=$(BCB)\Components\TeeChart\CBuilder6\Lib;C:\MyData\development\Shared\Soil;..\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Count=9
+Item0=..\..\..\Shared\ComponentInterface;C:\Program Files\Borland\CBuilder6\Bin;..\..\input\source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item1=C:\Program Files\Borland\CBuilder6\Bin;..\..\input\source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item2=..\..\input\source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item3=C:\Program Files\Borland\CBuilder6\Bin;..\..\input\source;C:\MyData\development\apsim\SiloInput\source;..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item4=..\..\input\source;C:\MyData\development\apsim\SiloInput\source;..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item5=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item6=..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item7=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item8=$(BCB)\Components\TeeChart\CBuilder6\Lib;C:\MyData\development\Shared\Soil;..\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1

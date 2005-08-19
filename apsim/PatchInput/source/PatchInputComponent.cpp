@@ -266,7 +266,7 @@ void PatchInputComponent::setPatchData()
       {
       string msg = "Cannot find patch data from INPUT component for date ";
       msg += to_iso_extended_string(todaysDate);
-      error(msg.c_str(), true);
+      error(msg.c_str(), false);
       }
    else
       {
