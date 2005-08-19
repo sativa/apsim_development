@@ -1,0 +1,10 @@
+[test.manager.start_of_day]
+
+if (today > date('31_Jan')) then
+   report do_output
+endif
+
+[test.clock.parameters]
+
+start_date=1/1/1988     ! dd/mm/yyyy
+end_date=8/4/1988     ! dd/mm/yyyy

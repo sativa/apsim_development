@@ -1,0 +1,90 @@
+!********************************************************************************
+! The manager
+[wheat.manager.start_of_day]
+if day = 169 and year = 1988 then
+    wheat sow cultivar = hartog, plants = 121.61, sowing_depth = 30 (mm)
+endif
+
+if (wheat.stage = 11) then
+    wheat harvest
+    wheat end_crop
+endif
+
+[wheat.manager.end_of_day]
+if (wheat.stage > 0 and wheat.stage <12 ) then
+    report do_output
+endif
+
+
+!===========================================================================================
+! Sunflower
+!===========================================================================================
+
+!********************************************************************************
+! The manager
+[sunflower.manager.start_of_day]
+if day = 50 and year = 1988 then
+   sunflower sow cultivar = Sunfola68-2, plants = 5, sowing_depth = 50 (mm)
+endif
+
+if (sunflower.stage = 11) then
+  sunflower harvest
+  sunflower end_crop
+endif
+
+[sunflower.manager.end_of_day]
+if (sunflower.stage > 0 and sunflower.stage <12 ) then
+     report do_output
+endif
+
+
+
+
+!********************************************************************************
+! Irrigation application schedule
+[sunflower.irrigate.parameters]
+
+!-------------------------------------------------------------------------
+! Maunal irrigation scheduling
+manual_irrigation = on
+
+!The irrigation amounts are different from that in excel file - Question?
+
+year   = 1992 1992 ()   ! year for application date
+day    =  55  100  ()   ! day  for applicaiton date
+amount =  20   20  (mm) ! amount of irrigation applied
+
+! Based on 10 mm per hour
+
+!-------------------------------------------------------------------------
+! Automatic irrigation scheduling
+
+automatic_irrigation = off
+
+crit_fr_asw = 0     (0-1) ! Critical fraction of available soil water to trigger irrigation
+asw_depth = 999     (mm)  ! Depth to use for available soil water calculations
+
+
+
+[intercropping.manager.start_of_day]
+if day = 10 and year = 1988 then
+   sunflower sow cultivar = Sunfola68-2, plants = 5, sowing_depth = 50 (mm)
+endif
+if day = 10 and year = 1988 then
+    cowpea sow cultivar = banjo, plants = 25 (/m2), sowing_depth = 40 (mm)
+endif
+
+if (sunflower.stage = 11) then
+  sunflower harvest
+  sunflower end_crop
+endif
+
+if cowpea.stage_name = 'harvest_ripe' or cowpea.plant_status = 'dead' then
+   cowpea harvest
+   cowpea end_crop
+endif
+
+if ((sunflower.stage > 0 and sunflower.stage <12) OR
+    (cowpea.stage >= 1 and cowpea.stage <= 11 )) then
+    report do_output
+endif

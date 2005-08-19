@@ -1,0 +1,372 @@
+[all.Screen.parameters]
+screen_output=off
+
+[test1.SummaryFile.parameters]
+summaryfile=test1.sum
+[test1.report.parameters]
+outputfile  =test1.out
+[test1.manager.start_of_day]
+if chickpea.stage_name = 'harvest_ripe' or chickpea.plant_status = 'dead' then
+   chickpea harvest
+   chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
+endif
+
+[test2.SummaryFile.parameters]
+summaryfile=test2.sum
+[test2.report.parameters]
+outputfile  =test2.out
+[test2.manager.start_of_day]
+if chickpea.stage_name = 'harvest_ripe' or chickpea.plant_status = 'dead' then
+   chickpea harvest
+   chickpea end_crop
+   chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
+endif
+
+[test3.SummaryFile.parameters]
+summaryfile=test3.sum
+[test3.report.parameters]
+outputfile  =test3.out
+[test3.manager.start_of_day]
+if harvest = 1 then
+   chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
+   harvest = 2
+endif
+
+if chickpea.stage_name = 'harvest_ripe' or chickpea.plant_status = 'dead' then
+   chickpea harvest
+   chickpea end_crop
+   harvest = 1
+endif
+
+[test4.SummaryFile.parameters]
+summaryfile=test4.sum
+[test4.report.parameters]
+outputfile  =test4.out
+[test4.manager.start_of_day]
+if day = 130 and year  = 1988 then
+   chickpea kill_stem
+endif
+
+[test5.SummaryFile.parameters]
+summaryfile=test5.sum
+[test5out.report.parameters]
+outputfile  =test5.out
+
+[all.report.parameters]
+variable = clock.day
+variable = clock.year
+variable = chickpea.lai
+variable = chickpea.biomass
+variable = chickpea.green_biomass
+
+[test5.report.parameters]
+variable = clock.day
+variable = clock.year
+variable = lablab.lai
+variable = lablab.biomass
+variable = lablab.leaf_area()
+!variable = lablab.leaf_area(500)
+!variable = lablab.leaf_area(1-500)
+
+[test5.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=9/5/1988
+end_date=26/10/1989
+
+[all.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=9/5/1988
+end_date=26/10/1988
+
+[all.manager.init]
+harvest = 0
+
+[all.manager.start_of_day]
+
+if day = 130 and year  = 1988 then
+   chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
+endif
+
+[test5.manager.start_of_day]
+
+if day = 270 and year  = 1988 then
+  lablab sow cultivar = highworth, plants = 10 (/m2), sowing_depth = 40 (mm)
+endif
+report do_end_day_output
+
+[all.manager.end_of_day]
+report do_end_day_output
+
+[test5.lablab.parameters]
+! for a heavy Gatton Soil
+ll   = .20  .28  .320 .300 .270 .240 .310  ! lower limit mm water/mm soil
+xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
+kl   = 0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)
+
+
+[wheat.manager.start_of_day]
+if day = 270 and year  = 1988 then
+  wheat sow cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
+endif
+if day = 365 and year  = 1988 then
+  wheat end_crop
+endif
+
+report do_end_day_output
+
+[all.chickpea.parameters]
+
+   ll    = .230 .240 .240 .250 .260 .270 .280  ! lower limit mm water/mm soil
+   xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
+   kl   = 0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)
+
+
+
+[test6.SummaryFile.parameters]
+summaryfile=test6.sum
+
+[test6.report.parameters]
+outputfile  =test6.csv
+NAString = #N/A
+format = csv
+variable = clock.year
+variable = clock.day
+variable = lablab.crop_class
+variable = lablab.crop_type
+variable = lablab.plant_status
+variable = lablab.flowering_date
+variable = lablab.maturity_date
+
+variable = lablab.root_depth
+variable = lablab.plants
+
+variable = lablab.height
+variable = lablab.width
+variable = lablab.cover_green
+variable = lablab.cover_tot
+variable = lablab.leaf_no
+variable = lablab.node_no
+variable = lablab.dlt_leaf_no
+variable = lablab.dlt_node_no
+variable = lablab.leaf_no_dead
+variable = lablab.leaf_area
+variable = lablab.lai_sum
+variable = lablab.tlai
+variable = lablab.slai
+variable = lablab.lai
+variable = lablab.dlt_lai_pot
+variable = lablab.dlt_lai_stressed
+variable = lablab.dlt_leaf_no_pot
+variable = lablab.lai_canopy_green
+variable = lablab.tlai_dead
+variable = lablab.pai
+variable = lablab.dlt_slai_age
+variable = lablab.dlt_slai_light
+variable = lablab.dlt_slai_water
+variable = lablab.dlt_slai_frost
+variable = lablab.grain_no
+variable = lablab.grain_size
+
+variable = lablab.root_wt
+variable = lablab.stem_wt
+variable = lablab.leaf_wt
+variable = lablab.head_wt
+variable = lablab.pod_wt
+variable = lablab.grain_wt
+variable = lablab.meal_wt
+variable = lablab.oil_wt
+variable = lablab.yield
+variable = lablab.biomass
+variable = lablab.biomass_wt
+variable = lablab.green_biomass
+variable = lablab.green_biomass_wt
+variable = lablab.dm_green
+variable = lablab.dm_senesced
+variable = lablab.dm_dead
+variable = lablab.dm_plant_min
+variable = lablab.dlt_dm
+variable = lablab.dlt_dm_pot_rue
+variable = lablab.dlt_dm_pot_te
+variable = lablab.dlt_dm_grain_demand
+variable = lablab.dlt_dm_green
+variable = lablab.dlt_dm_green_retrans
+variable = lablab.dlt_dm_detached
+variable = lablab.dlt_dm_senesced
+variable = lablab.dlt_dm_dead_detached
+variable = lablab.grain_oil_conc
+variable = lablab.dlt_dm_oil_conv
+variable = lablab.dlt_dm_oil_conv_retrans
+variable = lablab.biomass_n
+variable = lablab.n_uptake
+variable = lablab.green_biomass_n
+variable = lablab.grain_n
+variable = lablab.leaf_n
+variable = lablab.root_n
+variable = lablab.stem_n
+variable = lablab.pod_n
+variable = lablab.deadleaf_n
+variable = lablab.head_n
+variable = lablab.n_green
+variable = lablab.n_senesced
+variable = lablab.n_dead
+variable = lablab.dlt_n_green
+variable = lablab.dlt_n_dead
+variable = lablab.dlt_n_retrans
+variable = lablab.dlt_n_retrans_leaf
+variable = lablab.dlt_n_retrans_stem
+variable = lablab.dlt_n_senesced_trans
+variable = lablab.dlt_n_senesced_retrans
+variable = lablab.dlt_n_senesced
+variable = lablab.dlt_n_detached
+variable = lablab.dlt_n_dead_detached
+variable = lablab.temp_stress_photo
+variable = lablab.swdef_pheno
+variable = lablab.swdef_photo
+variable = lablab.swdef_expan
+variable = lablab.swdef_fixation
+variable = lablab.oxdef_photo
+variable = lablab.sw_stress_pheno
+variable = lablab.sw_stress_photo
+variable = lablab.sw_stress_expan
+variable = lablab.sw_stress_fixation
+variable = lablab.transp_eff
+variable = lablab.ep
+variable = lablab.sw_uptake
+variable = lablab.cep
+variable = lablab.sw_supply
+variable = lablab.sw_supply_layr
+variable = lablab.esw_layr
+
+[test7.SummaryFile.parameters]
+summaryfile=test7.sum
+[test7.report.parameters]
+outputfile  =test7.csv
+NAString = #N/A
+format = csv
+
+variable = clock.year
+variable = clock.day
+variable = lablab.n_conc_stover
+variable = lablab.n_conc_root
+variable = lablab.n_conc_leaf
+variable = lablab.n_conc_stem
+variable = lablab.n_conc_grain
+variable = lablab.n_conc_meal
+variable = lablab.n_grain_pcnt
+variable = lablab.grain_protein
+variable = lablab.n_conc_crit
+variable = lablab.n_conc_crit_leaf
+variable = lablab.n_conc_crit_stem
+variable = lablab.n_conc_min
+variable = lablab.n_conc_min_stem
+variable = lablab.n_uptake_stover
+variable = lablab.no3_tot
+variable = lablab.n_demand
+variable = lablab.n_demand_leaf
+variable = lablab.n_demand_stem
+variable = lablab.grain_n_demand
+variable = lablab.n_supply_soil
+variable = lablab.dlt_n_fixed_pot
+variable = lablab.dlt_n_fixed
+variable = lablab.n_fixed_tops
+variable = lablab.nfact_photo
+variable = lablab.nfact_pheno
+variable = lablab.nfact_expan
+variable = lablab.nfact_grain
+variable = lablab.remove_biom_pheno
+variable = lablab.nfact_grain_tot
+variable = lablab.n_stress_photo
+variable = lablab.n_stress_pheno
+variable = lablab.n_stress_expan
+variable = lablab.n_stress_grain
+variable = lablab.rlv
+variable = lablab.rld
+variable = lablab.no3_demand
+variable = lablab.sw_demand
+variable = lablab.sw_demand_te
+variable = lablab.root_length
+variable = lablab.root_length_dead
+variable = lablab.no3gsm_uptake_pot
+variable = lablab.nh4gsm_uptake_pot
+variable = lablab.no3_swfac
+variable = lablab.leaves_per_node
+variable = lablab.no3_uptake
+variable = lablab.nh4_uptake
+variable = lablab.parasite_dm_supply
+variable = lablab.leaf_area_tot
+variable = lablab.p_green
+variable = lablab.p_dead
+variable = lablab.p_senesced
+variable = lablab.p_demand
+variable = lablab.pfact_photo
+variable = lablab.pfact_pheno
+variable = lablab.pfact_expansion
+variable = lablab.pfact_grain
+variable = lablab.p_stress_photo
+variable = lablab.p_stress_pheno
+variable = lablab.p_stress_expansion
+variable = lablab.p_stress_expan
+variable = lablab.p_stress_grain
+variable = lablab.biomass_p
+variable = lablab.p_uptake
+variable = lablab.green_biomass_p
+variable = lablab.grain_p
+variable = lablab.leaf_p
+variable = lablab.stem_p
+variable = lablab.root_p
+variable = lablab.deadleaf_p
+variable = lablab.head_p
+variable = lablab.pod_p
+variable = lablab.dlt_p_green
+variable = lablab.dlt_p_retrans
+variable = lablab.dlt_p_detached
+variable = lablab.dlt_p_dead
+variable = lablab.dlt_p_sen
+variable = lablab.p_conc_stover
+variable = lablab.p_conc_leaf
+variable = lablab.p_conc_stem
+variable = lablab.p_conc_grain
+variable = lablab.p_grain_pcnt
+variable = lablab.p_uptake_stover
+variable = lablab.grain_p_demand
+
+variable = lablab.stage
+variable = lablab.dlt_stage
+variable = lablab.stage_name
+variable = lablab.stage_code
+variable = lablab.phase_tt
+variable = lablab.tt_tot
+variable = lablab.days_tot
+variable = lablab.das
+variable = lablab.dlt_tt_phenol
+variable = lablab.dlt_tt
+variable = lablab.flowering_das
+variable = lablab.maturity_das
+
+
+[test8.SummaryFile.parameters]
+summaryfile=test8.sum
+[test8.report.parameters]
+outputfile  =test8.csv
+NAString = #N/A
+format = csv
+
+variable = clock.year
+variable = clock.day
+variable = wheat.stage
+variable = wheat.dlt_stage
+variable = wheat.stage_name
+variable = wheat.stage_code
+variable = wheat.phase_tt
+variable = wheat.tt_tot
+variable = wheat.days_tot
+variable = wheat.das
+variable = wheat.dlt_tt_phenol
+variable = wheat.dlt_tt
+variable = wheat.flowering_das
+variable = wheat.maturity_das
+variable = wheat.cum_vernal_days
+variable = wheat.dlt_cumvd
+variable = wheat.vern_eff
+variable = wheat.photop_eff
+variable = wheat.zadok_stage

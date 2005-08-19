@@ -1,0 +1,13 @@
+version = 4.2
+[APSIM.sample_chickpea]
+title=chickpea Sample Simulation
+module = clock      chickpea.par[sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report     chickpea.par[sample]
+module = input(met)        %apsuite\apsim\met\sample\dalby.met[weather]
+module = manager    chickpea.par[sample]
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]  %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(chickpea)   chickpea.par[sample] %apsuite\apsim\chickpea\chickpea.ini[standard]
+module = SummaryFile  chickpea.par[sample]
+module = Screen  chickpea.par[sample]

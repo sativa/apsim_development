@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="apswim">
+   <registrations>
+
+      <respondToGetReg name="dlayer" type="dlayer"/>
+      <respondToGetReg name="bd" type="bd"/>
+      <respondToGetSetReg name="sw" type="sw"/>
+      <respondToGetReg name="sw_dep" type="sw_dep"/>
+      <respondToGetReg name="ll15" type="ll15"/>
+      <respondToGetReg name="ll15_dep" type="ll15_dep"/>
+      <respondToGetReg name="dul" type="dul"/>
+      <respondToGetReg name="dul_dep" type="dul_dep"/>
+      <respondToGetReg name="sat" type="sat"/>
+      <respondToGetReg name="sat_dep" type="sat_dep"/>
+      <respondToGetReg name="wp" type="wp"/>
+      <respondToGetReg name="p" type="p"/>
+      <respondToGetSetReg name="psi" type="psi"/>
+      <respondToGetReg name="daily_rain" type="daily_rain"/>
+      <read name="runoff_model" type="runoff_model"/>
+      <respondToGetReg name="runoff" type="runoff"/>
+      <respondToGetReg name="infiltration" type="infiltration"/>
+      <respondToGetReg name="es" type="es"/>
+      <respondToGetReg name="eos" type="eos"/>
+      <respondToGetReg name="drain" type="drain"/>
+      <respondToGetReg name="eo" type="eo"/>
+      <respondToGetReg name="flow" type="flow"/>
+      <respondToGetReg name="salb" type="salb"/>
+      <respondToGetReg name="hmin" type="hmin"/>
+      <respondToGetReg name="h" type="h"/>
+      <respondToGetSetReg name="scon" type="scon"/>
+      <respondToGetReg name="scon_min" type="scon_min"/>
+      <respondToGetReg name="scon_max" type="scon_max"/>
+      <respondToGetReg name="dr" type="dr"/>
+      <respondToGetReg name="dt" type="dt"/>
+      <respondToGetReg name="crop_cover" type="crop_cover"/>
+      <read name="slmin" type="slmin" />
+      <read name="slmax" type="slmax" />
+      <read name="x" type="x" />
+      <read name="theta" type="theta" />
+      <read name="soil_" type="soil_type" />
+      <read name="bypass_flow" type="bypass_flow" />
+      <read name="top_boundary_condition" type="top_boundary_condition" />
+      <read name="bottom_boundary_condition" type="bottom_boundary_condition" />
+      <read name="vapour_conductivity" type="vapour_conductivity" />
+      <read name="run_solutes" type="run_solutes" />
+      <read name="extra_solute_supply" type="extra_solute_supply" />
+      <read name="solute_exclusion" type="solute_exclusion" />
+      <read name="echo_directives" type="echo_directives" />
+      <read name="sl" type="sl" />
+      <read name="wc" type="wc" />
+      <read name="wcd" type="wcd" />
+      <read name="hkl" type="hkl" />
+      <read name="hkld" type="hkld" />
+      <read name="dtmin" type="dtmin" />
+      <read name="dtmax" type="dtmax" />
+      <read name="dtmax_sol" type="dtmax_sol" />
+      <read name="ersoil" type="ersoil" />
+      <read name="ernode" type="ernode" />
+      <read name="errex" type="errex" />
+      <read name="dppl" type="dppl" />
+      <read name="dpnl" type="dpnl" />
+      <read name="max_water_increment" type="max_water_increment" />
+      <read name="swt" type="swt" />
+      <read name="slcerr" type="slcerr" />
+      <read name="slswt" type="slswt" />
+      <read name="rainfall_source" type="rainfall_source" />
+      <read name="evap_source" type="evap_source" />
+      <read name="evap_curve" type="evap_curve" />
+      <read name="depth" type="depth" />
+      <read name="conductance" type="conductance" />
+      <read name="storage" type="storage" />
+      <read name="minimum_surface_storage" type="minimum_surface_storage" />
+      <read name="maximum_surface_storage" type="maximum_surface_storage" />
+      <read name="initial_surface_storage" type="initial_surface_storage" />
+      <read name="precipitation_constant" type="precipitation_constant" />
+      <read name="runoff_rate_factor" type="runoff_rate_factor" />
+      <read name="runoff_rate_power" type="runoff_rate_power" />
+      <read name="minimum_conductance" type="minimum_conductance" />
+      <read name="maximum_conductance" type="maximum_conductance" />
+      <read name="initial_conductance" type="initial_conductance" />
+      <read name="constant_gradient" type="constant_gradient" />
+      <read name="constant_potential" type="constant_potential" />
+      <read name="solute_name" type="solute_name" />
+      <read name="slupf" type="slupf" />
+      <read name="slos" type="slos" />
+      <read name="a" type="a" />
+      <read name="dthc" type="dthc" />
+      <read name="dthp" type="dthp" />
+      <read name="disp" type="disp" />
+      <read name="ground_water_conc" type="ground_water_conc" />
+      <read name="bulk_density" type="bulk_density" />
+      <read name="exco" type="exco" />
+      <read name="fip" type="fip" />
+      <read name="dis" type="dis" />
+      <read name="crop_name" type="crop_name" />
+      <read name="min_xylem_potential" type="min_xylem_potential" />
+      <read name="root_radius" type="root_radius" />
+      <read name="root_conductance" type="root_conductance" />
+      <read name="max_iterations" type="max_iterations" />
+      <read name="negative_conc_warn" type="negative_conc_warn" />
+      <read name="negative_conc_fatal" type="negative_conc_fatal" />
+      <read name="min_crit_temp" type="min_crit_temp" />
+      <read name="max_crit_temp" type="max_crit_temp" />
+      <read name="max_albedo" type="max_albedo" />
+      <read name="max_bitesize" type="max_bitesize" />
+      <read name="extra_supply_fraction" type="extra_supply_fraction" />
+      <read name="trf_fasw" type="trf_fasw" />
+      <read name="trf_value" type="trf_value" />
+      <read name="cover_effects" type="cover_effects" />
+      <read name="a_to_evap_fact" type="a_to_evap_fact" />
+      <read name="canopy_eos_coef" type="canopy_eos_coef" />
+      <read name="lb_exco" type="lb_exco" />
+      <read name="ub_exco" type="ub_exco" />
+      <read name="lb_fip" type="lb_fip" />
+      <read name="ub_fip" type="ub_fip" />
+      <read name="lb_dis" type="lb_dis" />
+      <read name="ub_dis" type="ub_dis" />
+      <read name="lb_slupf" type="lb_slupf" />
+      <read name="ub_slupf" type="ub_slupf" />
+      <read name="lb_slos" type="lb_slos" />
+      <read name="ub_slos" type="ub_slos" />
+      <read name="lb_d0" type="lb_d0" />
+      <read name="ub_d0" type="ub_d0" />
+      <read name="lb_a" type="lb_a" />
+      <read name="ub_a" type="ub_a" />
+      <read name="lb_dthc" type="lb_dthc" />
+      <read name="ub_dthc" type="ub_dthc" />
+      <read name="lb_dthp" type="lb_dthp" />
+      <read name="ub_dthp" type="ub_dthp" />
+      <read name="lb_disp" type="lb_disp" />
+      <read name="ub_disp" type="ub_disp" />
+      <read name="lb_solute" type="lb_solute" />
+      <read name="ub_solute" type="ub_solute" />
+      <respondToGetSetReg name="bbc_potential" type="bbc_potential"/>
+      <respondToGetSetReg name="bbc_gradient" type="bbc_gradient"/>
+
+      <getVariableReg name="radn" type="radn"/>
+      <getVariableReg name="maxt" type="maxt"/>
+      <getVariableReg name="mint" type="mint"/>
+      <getVariableReg name="cover_tot_sum" type="cover_tot_sum"/>
+      <getVariableReg name="rain" type="rain"/>
+      <getVariableReg name="rain_time" type="rain_time"/>
+      <getVariableReg name="rain_durn" type="rain_durn"/>
+      <getVariableReg name="rain_int" type="rain_int"/>
+      <getVariableReg name="cover_green_sum" type="cover_green_sum"/>
+      <getVariableReg name="cover_green" type="cover_green"/>
+      <getVariableReg name="eo_time" type="eo_time"/>
+      <getVariableReg name="eo_durn" type="eo_durn"/>
+      <getVariableReg name="obs_eo" type="obs_eo"/>
+      <getVariableReg name="residue_cover" type="residue_cover"/>
+      <getVariableReg name="interception" type="interception"/>
+      <getVariableReg name="day" type="day"/>
+      <getVariableReg name="year" type="year"/>
+
+      <setVariableReg name="solute_n" type="solute_n" autoregister="F"/>
+      <getVariableReg name="solute_n" type="solute_n" autoregister="F"/>
+      <respondToGetReg name="solute_n_flow" type="solute_n_flow" autoregister="F"/>
+      <respondToGetReg name="solute_n_leach" type="solute_n_leach" autoregister="F"/>
+      <respondToGetReg name="solute_n_conc_water" type="solute_n_conc_water" autoregister="F"/>
+      <respondToGetReg name="solute_n_conc_absorb" type="solute_n_conc_absorb" autoregister="F"/>
+
+      <respondToEventReg name="create" type="createType"/>
+      <respondToEventReg name="sysinit" type="sysinitType"/>
+      <respondToEventReg name="reset" type="resetType"/>
+      <respondToEventReg name="sum_report" type="sum_reportType"/>
+      <respondToEventReg name="tillage" type="tillageType"/>
+      <respondToEventReg name="end_run" type="end_runType"/>
+
+      <respondToEventReg name="tick" type="time"/>
+      <EventReg name="swim_timestep_preparation" type="swim_timestep_preparationType"/>
+      <EventReg name="pre_swim_timestep" type="pre_swim_timestepType"/>
+      <EventReg name="post_swim_timestep" type="post_swim_timestepType"/>
+      <EventReg name="new_profile" type="new_profile"/>
+
+      <respondToEventReg name="new_solute" type="new_soluteType"/>
+      <respondToEventReg name="irrigated" type="irrigatedType"/>
+      <respondToEventReg name="subsurfaceflow" type="SubSurfaceFlowType"/>
+      <respondToEventReg name="prepare" type="prepareType"/>
+      <respondToEventReg name="process" type="processType"/>
+      <respondToEventReg name="post" type="postType"/>
+   </registrations>
+</component>

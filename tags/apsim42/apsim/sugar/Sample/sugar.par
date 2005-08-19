@@ -1,0 +1,178 @@
+[sample.report.parameters]
+outputfile =sugar.out
+
+variable = clock.dd/mm/yyyy as Date
+variable = tracker.soil_evap
+variable = tracker.pot_soil_evap
+variable = tracker.pot_evap
+variable = tracker.drainage
+variable = tracker.infiltrat
+variable = soilwat2.esw
+variable = sugar.esw()
+variable = soiln2.no3
+variable = surfaceom.surfaceom_wt
+variable = tracker.irrig_applied
+variable = sugar.lai
+variable = sugar.biomass
+variable = sugar.green_biomass
+variable = tracker.av_swdef_photo
+variable = tracker.av_nfact_photo
+
+[sample.tracker.parameters]
+variable = sum of soilwat2.es on end_of_day from reported to now as soil_evap
+variable = sum of soilwat2.eos on end_of_day from reported to now as pot_soil_evap
+variable = sum of soilwat2.eo on end_of_day from reported to now as pot_evap
+variable = sum of soilwat2.drain on end_of_day from reported to now as drainage
+variable = sum of soilwat2.infiltration on end_of_day from reported to now as infiltrat
+variable = sum of irrigate.irrigation on end_of_day from reported to now as irrig_applied
+variable = average of sugar.swdef_photo on end_of_day from reported to now as av_swdef_photo
+variable = average of sugar.nfact_photo on end_of_day from reported to now as av_nfact_photo
+
+
+[sample.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=9/4/1980     ! dd/mm/yyyy
+end_date=10/4/1990     ! dd/mm/yyyy
+
+
+[sample.irrigate.parameters]
+automatic_irrigation =  on
+crit_fr_asw =  0.5
+asw_depth =  600
+
+[sample.sugar.parameters]
+uptake_source =    calc   ! calculate all uptakes
+ll =       .230 .240 .240 .250 .260 .270 .280   ! lower limit mm water/mm soil
+xf =      1.00 1.00 1.00 1.00 1.00 1.00 1.00   ! Weighting factor for root advance
+kl =      0.16 0.16 0.16 0.16 0.12 0.08 0.04   ! Water Extraction Parameter (0-1)
+rlv =     .005 .001 0.00 0.00 0.00 0.00 0.00   ! Root length density at emergence (mm/mm3)
+
+[sample.manager.init]
+
+! The management logic for sugar cane here is fairly self-contained.  Many management
+! scenarios can be handled by altering the management parameters below.  No changes to the
+! management rules further below will be required in many cases.
+
+NoRatoons = 4           ! Set the number of ratoons (max = 5)
+dryoff = 30             ! Set time before harvesting to stop irrigation (days)
+planting_day = 30.5 * 4 ! day of year to plant (day)
+plantlen = 30.5 * 15    ! duration of a plant crop (days) (30.5 days/month)
+ratoonlen = 30.5 * 13   ! duration of a ratoon crop (days) (30.5 days/month)
+plant_stalks = 10       ! stalk density of plant crop (/m2)
+ratoon_stalks = 10      ! stalk density of ratoon crop (/m2)
+sowing_reset = 0        ! reset at sowing flag (1=yes)
+irrigate_flag= 1        ! flag for irrigation (1=automatic,2=water budget)
+burn_flag = 1           ! flag for trash burning (1=yes)
+max_irr = 10            ! number of irrigations (50mm) allowable
+fasw_irr = 0.5          ! fasw trigger for irrigation (0-1)
+plant_lag = 1           ! lag from sowing to fertiliser application (days)
+plant_fert = 160        ! N to add per crop (kg/ha)
+ratoon_lag = 1          ! lag from sowing to fertiliser application (days)
+ratoon_fert = 160       ! N to add per crop (kg/ha)
+
+! -----------------------------------------------------------------
+! Book keeping to round days to integer values
+planting_day = nearest_int(planting_day)
+plantlen = nearest_int(plantlen)
+ratoonlen = nearest_int(ratoonlen)
+! Initialise and set a time counter for entire run
+dah = 0
+! set unused variables
+sample = 0
+num_irr = 0
+
+[sample.manager.end_of_day]
+if clock.end_month = 1 then
+   report do_output
+endif   
+
+if sugar.crop_status = 'alive' then
+   dah = 0
+   ! ----------------- THE CROP IS IN THE GROUND -----------------
+
+   ! Farmers will 'dry off' the crop by stopping irrigation some
+   ! time before harvest.
+   if (das > (plantlen - dryoff) and ratoon_no = 0) or
+      (das > (ratoonlen - dryoff) and ratoon_no > 0) then
+      ! Stop all irrigation
+      if automatic_irrigation = 'on' then
+         irrigate.automatic_irrigation = 'off'
+      endif
+   else
+      ! It is not time to 'dry off' the crop yet.
+      if (irrigate_flag = 2) and
+         (sugar.fasw < fasw_irr) and
+         (num_irr <= max_irr) then
+            irrigate apply amount = 50 (mm)
+            num_irr = num_irr + 1
+      endif
+   endif
+
+   ! Set harvest dates for each crop phase
+   if (das = plantlen and ratoon_no = 0) or
+      (das = ratoonlen and ratoon_no > 0) then
+
+      sugar harvest
+
+      if burn_flag = 1 then
+         surfaceom tillage type = burn
+      endif
+
+      if ratoon_no = NoRatoons + 1 then
+         ! plough the crop out
+         sugar kill_crop
+         sugar end_crop
+      else
+         ! Set stalk density
+         sugar.plants = ratoon_stalks
+         if sowing_reset = 1 then
+            soilwat2 reset
+            soiln2   reset
+            surfaceom reset
+         else
+         endif
+         if irrigate_flag = 1 and automatic_irrigation = 'off' then
+            irrigate.automatic_irrigation = 'on'
+         endif
+
+         num_irr = 0
+
+      endif
+   else
+      ! We have not reached the harvest date for this ratoon.
+   endif
+
+   if (das = plant_lag) and (ratoon_no = 0) then
+      fertiliz.fert_no3_n = plant_fert
+   elseif (das = ratoon_lag) and (ratoon_no > 0) then
+      fertiliz.fert_no3_n = ratoon_fert
+   else
+      ! we do not add fertiliser today
+   endif
+
+elseif (sugar.crop_status = 'dead') then
+   report do_output
+   sugar harvest
+   sugar end_crop
+   if burn_flag = 1 then
+      surfaceom tillage type = burn
+   endif
+
+elseif (sugar.crop_status = 'out') and (day = planting_day) then
+   sugar sow plants = 10 (), cultivar = q117, sowing_depth = 150
+   sugar.plants = plant_stalks
+   if (irrigate_flag = 1) then
+      irrigate.automatic_irrigation = 'on'
+   endif
+   dah = 0
+   num_irr = 0
+
+else
+   dah = dah + 1
+endif
+
+[sample.summaryfile.parameters]
+summaryfile=sugar.sum
+
+[sample.screen.parameters]
+screen_output=on

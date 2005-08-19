@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="soiln2">
+   <registrations>
+      <respondToGetSetReg name="no3" type="no3"/>
+      <respondToGetReg name="dlt_no3_net" type="dlt_no3_net"/>
+      <read name="no3ppm" type="no3ppm" readable="T"/>
+      <respondToGetSetReg name="no3ppm" type="no3ppm" readable="T"/>
+      <respondToGetReg name="no3_min" type="no3_min"/>
+      <respondToGetSetReg name="dlt_no3" type="dlt_no3"/>
+      <respondToGetSetReg name="dlt_no3ppm" type="dlt_no3ppm"/>
+      <respondToGetSetReg name="nh4" type="nh4"/>
+      <respondToGetReg name="dlt_nh4_net" type="dlt_nh4_net"/>
+      <read name="nh4ppm" type="nh4ppm" readable="T"/>
+      <respondToGetSetReg name="nh4ppm" type="nh4ppm" readable="T"/>
+      <respondToGetReg name="nh4_min" type="nh4_min"/>
+      <respondToGetSetReg name="dlt_nh4" type="dlt_nh4"/>
+      <respondToGetSetReg name="dlt_nh4ppm" type="dlt_nh4ppm"/>
+      <respondToGetSetReg name="urea" type="urea"/>
+      <read name="ureappm" type="ureappm" readable="T"/>
+      <respondToGetSetReg name="dlt_urea" type="dlt_urea"/>
+      <respondToGetReg name="fom_n" type="fom_n"/>
+      <respondToGetReg name="hum_n" type="hum_n"/>
+      <respondToGetReg name="biom_n" type="biom_n"/>
+      <respondToGetReg name="fom_c" type="fom_c"/>
+      <respondToGetReg name="hum_c" type="hum_c"/>
+      <respondToGetReg name="biom_c" type="biom_c"/>
+      <respondToGetReg name="carbon_tot" type="carbon_tot"/>
+      <respondToGetReg name="oc%" type="oc%"/>
+      <respondToGetReg name="nit_tot" type="nit_tot"/>
+      <respondToGetReg name="dlt_n_min" type="dlt_n_min"/>
+      <respondToGetReg name="dlt_n_min_res" type="dlt_n_min_res"/>
+      <respondToGetReg name="dlt_n_min_tot" type="dlt_n_min_tot"/>
+      <respondToGetReg name="nh4_transform_net" type="nh4_transform_net"/>
+      <respondToGetReg name="dlt_res_nh4_min" type="dlt_res_nh4_min"/>
+      <respondToGetReg name="dlt_fom_n_min" type="dlt_fom_n_min"/>
+      <respondToGetReg name="dlt_biom_n_min" type="dlt_biom_n_min"/>
+      <respondToGetReg name="dlt_hum_n_min" type="dlt_hum_n_min"/>
+      <respondToGetReg name="dlt_rntrf" type="dlt_rntrf"/>
+      <respondToGetReg name="dlt_urea_hydrol" type="dlt_urea_hydrol"/>
+      <respondToGetReg name="excess_nh4" type="excess_nh4"/>
+      <respondToGetReg name="no3_transform_net" type="no3_transform_net"/>
+      <respondToGetReg name="dlt_res_no3_min" type="dlt_res_no3_min"/>
+      <respondToGetReg name="dlt_no3_dnit" type="dlt_no3_dnit"/>
+      <respondToGetReg name="dnit" type="dnit"/>
+      <respondToGetReg name="dlt_c_loss_in_sed" type="dlt_c_loss_in_sed"/>
+      <respondToGetReg name="dlt_n_loss_in_sed" type="dlt_n_loss_in_sed"/>
+      <respondToGetReg name="st" type="st"/>
+      <respondToGetSetReg name="org_c_pool" type="org_c_pool"/>
+      <respondToGetReg name="org_n" type="org_n"/>
+      <respondToGetReg name="dlt_fom_c_hum" type="dlt_fom_c_hum"/>
+      <respondToGetReg name="dlt_fom_c_biom" type="dlt_fom_c_biom"/>
+      <respondToGetReg name="dlt_fom_c_atm" type="dlt_fom_c_atm"/>
+      <respondToGetReg name="dlt_hum_c_biom" type="dlt_hum_c_biom"/>
+      <respondToGetReg name="dlt_hum_c_atm" type="dlt_hum_c_atm"/>
+      <respondToGetReg name="dlt_biom_c_hum" type="dlt_biom_c_hum"/>
+      <respondToGetReg name="dlt_biom_c_atm" type="dlt_biom_c_atm"/>
+      <respondToGetReg name="dlt_res_c_biom" type="dlt_res_c_biom"/>
+      <respondToGetReg name="dlt_res_c_hum" type="dlt_res_c_hum"/>
+      <respondToGetReg name="dlt_res_c_atm" type="dlt_res_c_atm"/>
+      <read name="amp" type="amp" readable="T"/>
+      <read name="tav" type="tav" readable="T"/>
+      <read name="root_cn" type="root_cn" readable="T"/>
+      <read name="root_wt" type="root_wt" readable="T"/>
+      <read name="soil_cn" type="soil_cn" readable="T"/>
+      <read name="oc" type="oc" readable="T"/>
+      <read name="ph" type="ph" readable="T"/>
+      <read name="fbiom" type="fbiom" readable="T"/>
+      <read name="finert" type="finert" readable="T"/>
+      <read name="enr_a_coeff" type="enr_a_coeff" readable="T"/>
+      <read name="enr_b_coeff" type="enr_b_coeff" readable="T"/>
+      <read name="profile_reduction" type="profile_reduction" readable="T"/>
+      <read name="mcn" type="mcn" readable="T"/>
+      <read name="ef_fom" type="ef_fom" readable="T"/>
+      <read name="fr_fom_biom" type="fr_fom_biom" readable="T"/>
+      <read name="ef_biom" type="ef_biom" readable="T"/>
+      <read name="fr_biom_biom" type="fr_biom_biom" readable="T"/>
+      <read name="ef_hum" type="ef_hum" readable="T"/>
+      <read name="rd_biom" type="rd_biom" readable="T"/>
+      <read name="rd_hum" type="rd_hum" readable="T"/>
+      <read name="ef_res" type="ef_res" readable="T"/>
+      <read name="fr_res_biom" type="fr_res_biom" readable="T"/>
+      <read name="rd_carb" type="rd_carb" readable="T"/>
+      <read name="rd_cell" type="rd_cell" readable="T"/>
+      <read name="rd_lign" type="rd_lign" readable="T"/>
+      <read name="fom_" type="fom_type" readable="T"/>
+      <read name="fr_carb" type="fr_carb" readable="T"/>
+      <read name="fr_cell" type="fr_cell" readable="T"/>
+      <read name="fr_lign" type="fr_lign" readable="T"/>
+      <read name="oc2om_factor" type="oc2om_factor" readable="T"/>
+      <read name="fom_min" type="fom_min" readable="T"/>
+      <read name="no3ppm_min" type="no3ppm_min" readable="T"/>
+      <read name="nh4ppm_min" type="nh4ppm_min" readable="T"/>
+      <read name="min_depth" type="min_depth" readable="T"/>
+      <read name="cnrf_coeff" type="cnrf_coeff" readable="T"/>
+      <read name="cnrf_optcn" type="cnrf_optcn" readable="T"/>
+      <read name="opt_temp" type="opt_temp" readable="T"/>
+      <read name="wfmin_index" type="wfmin_index" readable="T"/>
+      <read name="wfmin_values" type="wfmin_values" readable="T"/>
+      <read name="wfnit_index" type="wfnit_index" readable="T"/>
+      <read name="wfnit_values" type="wfnit_values" readable="T"/>
+      <read name="nitrification_pot" type="nitrification_pot" readable="T"/>
+      <read name="nh4_at_half_pot" type="nh4_at_half_pot" readable="T"/>
+      <read name="phf_nit_ph" type="phf_nit_ph" readable="T"/>
+      <read name="phf_nit_values" type="phf_nit_values" readable="T"/>
+      <read name="dnit_rate_coeff" type="dnit_rate_coeff" readable="T"/>
+      <read name="dnit_wf_power" type="dnit_wf_power" readable="T"/>
+      <respondToGetSetReg name="n_reduction" type="n_reduction"/>
+      <respondToGetSetReg name="dlt_org_n" type="dlt_org_n"/>
+      <respondToGetSetReg name="dlt_org_c_pool" type="dlt_org_c_pool"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="reset" type="reset"/>
+      <respondToEventReg name="sum_report" type="sum_report"/>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="add_roots" type="incorp_fom"/>
+      <respondToEventReg name="incorp_fom" type="incorp_fom"/>
+
+      <eventReg name="new_solute" type="new_solute"/>
+      <eventReg name="n_balance" type="n_balance"/>
+      <eventReg name="c_balance" type="c_balance"/>
+      <eventReg name="ActualResidueDecompositionCalculated" type="SurfaceOrganicMatterDecomp"/>
+      <getVariableReg name="amp" type="amp"/>
+      <getVariableReg name="tav" type="tav"/>
+      <getVariableReg name="sw_dep" type="sw_dep"/>
+      <getVariableReg name="ll15_dep" type="ll15_dep"/>
+      <getVariableReg name="dul_dep" type="dul_dep"/>
+      <getVariableReg name="sat_dep" type="sat_dep"/>
+      <getVariableReg name="bd" type="bd"/>
+      <getVariableReg name="dlayer" type="dlayer"/>
+      <getVariableReg name="soil_loss" type="soil_loss"/>
+      <getVariableReg name="ph" type="ph"/>
+      <respondToEventReg name="tick" type="tick"/>
+      <respondToEventReg name="newmet" type="newmet"/>
+      <respondToEventReg name="PotentialResidueDecompositionCalculated" type="SurfaceOrganicMatterDecomp"/>
+      <respondToEventReg name="FreshOrganicMatterIncorporated" type="FPoolProfileLayer"/>
+      <respondToEventReg name="new_profile" type="new_profile"/>
+      <respondToEventReg name="process" type="process"/>
+   </registrations>
+</component>

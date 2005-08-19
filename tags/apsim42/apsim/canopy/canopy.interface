@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="canopy">
+   <registrations>
+      <read name="intercrop" type="intercrop" readable="T"/>
+      <respondToGetReg name="cover_tot_sum" type="cover_tot_sum"/>
+      <respondToGetReg name="cover_tot_all" type="cover_tot_all"/>
+      <respondToGetReg name="cover_height_all" type="cover_height_all"/>
+      <respondToGetReg name="cover_green_sum" type="cover_green_sum"/>
+      <respondToGetReg name="cover_green_all" type="cover_green_all"/>
+      <respondToGetReg name="cover_crops_all" type="cover_crops_all"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <getVariableReg name="crop_" type="crop_type"/>
+      <getVariableReg name="cover_green" type="cover_green"/>
+      <getVariableReg name="cover_tot" type="cover_tot"/>
+      <getVariableReg name="height" type="height"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="post" type="post"/>
+   </registrations>
+</component>

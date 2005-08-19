@@ -1,0 +1,107 @@
+version = 4.2
+[apsim.Test1]
+title= Surface Organic Matter Module Test 1
+module = clock    test.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test.par [test1]
+module = Input(Met)      optimum.MET [weather]
+module = manager  test.par [test1]
+module = soilwat2 test.par [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM   test.par [test1] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2   test.par [sample]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = soilp    test.par [sample]     %apsuite\apsim\soilp\soilp.ini [standard]
+module = screen   test.par [sample]
+module = summaryfile test.par [test1]
+module = log test.par[test1]
+
+[apsim.Test2]
+
+title= Surface Organic Matter Module Test 2
+module = clock    test.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test.par [test2]
+module = Input(Met)      optimum.MET [weather]
+module = manager  test.par [test2]
+module = soilwat2 test.par [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM   test.par [test2] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2   test.par [sample]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = soilp    test.par [sample]     %apsuite\apsim\soilp\soilp.ini [standard]
+module = screen   test.par [sample]
+module = summaryfile test.par [test2]
+module = log test.par[test2]
+
+[apsim.Test3]
+
+title= Surface Organic Matter Module Test 3
+module = clock    test.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test.par [test3]
+module = Input(Met)      optimum.MET [weather]
+module = manager  test.par [test3]
+module = soilwat2 test.par [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM   test.par [test3] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2   test.par [sample]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = soilp    test.par [sample]     %apsuite\apsim\soilp\soilp.ini [standard]
+module = screen   test.par [sample]
+module = summaryfile test.par [test3]
+module = log test.par[test3]
+
+[apsim.Test4]
+
+title= Surface Organic Matter Module Test 4
+module = clock    test.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test.par [test4]
+module = Input(Met)      dry.MET [weather]
+module = manager  test.par [test1]
+module = soilwat2 test.par [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM   test.par [test4] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2   test.par [sample]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = soilp    test.par [sample]     %apsuite\apsim\soilp\soilp.ini [standard]
+module = screen   test.par [sample]
+module = summaryfile test.par [test4]
+module = log test.par[test4]
+
+
+[apsim.Test5]
+
+title= Surface Organic Matter Module Test 5
+module = clock    test.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test.par [test5]
+module = Input(Met)      optimum.MET [weather]
+module = manager  test.par [test5]
+module = soilwat2 test.par [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM   test.par [test5] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2   test.par [sample]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = soilp    test.par [sample]     %apsuite\apsim\soilp\soilp.ini [standard]
+module = screen   test.par [sample]
+module = summaryfile test.par [test5]
+module = log test.par[test5]
+
+[apsim.Test6]
+
+title= Surface Organic Matter Module Test 6
+module = clock    test.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test.par [test6]
+module = Input(Met)      optimum.MET [weather]
+module = fertiliz                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = manager  test.par [test6]
+module = soilwat2 test.par [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM   test.par [test6] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2   test.par [sample]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = soilp    test.par [sample]     %apsuite\apsim\soilp\soilp.ini [standard]
+module = screen   test.par [sample]
+module = summaryfile test.par [test6]
+module = log test.par[test6]
+
+[apsim.Test7]
+
+title= SoilP reset Test
+module = clock    test.par [test7] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test.par [test7]
+module = Input(Met)      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
+module = fertiliz                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = manager  test.par [test7]
+module = soilwat2 test.par [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM   test.par [test7] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2   test.par [sample]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = soilp    test.par [sample]     %apsuite\apsim\soilp\soilp.ini [standard]
+module = screen   test.par [sample]
+module = summaryfile test.par [test7]
+module = log test.par[test6]

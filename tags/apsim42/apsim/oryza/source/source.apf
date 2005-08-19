@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(oryza)
+
+[Contents]
+Registrations.f90 = Registrations.f90
+oryza.for = oryza.for
+
+[APSBuild]
+binary = ..\lib\oryza.dll
+compilerfile=release.compile

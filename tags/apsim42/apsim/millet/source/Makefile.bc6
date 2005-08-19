@@ -1,0 +1,38 @@
+# (Borlandish) Makefile for apsim millet module
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+# Platform specific defns
+!include $(APSROOT)\APSBuild\platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)\APSBuild\fortran.make
+
+# The statically linked components of the engine interface
+!include $(APSROOT)\APSBuild\ApsimComponentInterface.make
+
+# Main target
+source: ..\lib\millet.dll
+..\lib\millet.dll: Registrations.obj mil_main.obj $(STATICLINKEDOBJECTS) 
+	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
+	$(ECHO) $(F90FLAGS) >> linker.tmp
+	$(ECHO) $(F90CROPLIBS) >> linker.tmp
+	$(LF95) mil_main.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\millet.dll @linker.tmp
+	$(RM) linker.tmp
+   
+mil_main.obj: mil_main.for mill_opt.for millet.for
+	$(ECHO) $(F90FLAGS) > compiler.tmp
+	$(ECHO) $(F90CROPINCLUDES) >> compiler.tmp
+	$(ECHO) $(F90CROPMODS) >> compiler.tmp
+	$(LF95) -c mil_main.for @compiler.tmp
+	$(RM) compiler.tmp
+
+Registrations.obj: Registrations.f90
+Registrations.f90: ..\millet.interface
+	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\millet.interface
+clean:
+	$(RM) ..\lib\millet.dll Registrations.obj Registrations.f90 millet.obj millet.imp
+

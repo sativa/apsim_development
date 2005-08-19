@@ -1,0 +1,17 @@
+version = 4.2
+[apsim.sugar_reference]  
+
+title = sugar reference run
+module = clock    referenc.par [reference] %apsuite\apsim\clock\clock.ini[standard]
+module = report   referenc.par [reference]
+module = input(met)      REFERENC.MET [reference]
+module = manager  referenc.par [reference]
+module = soilwat2 referenc.par [reference]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2   referenc.par [reference]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   referenc.par [reference] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = irrigate referenc.par [reference]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = sugar    referenc.par [reference]      %apsuite\apsim\sugar\sugar.ini [standard]
+module = SummaryFile  referenc.par[reference]
+module = Screen  referenc.par[reference]
+module = tracker  referenc.par[reference]

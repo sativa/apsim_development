@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>The APSIM Growth Module </title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../../../docs/shared/docstyle.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<p class="Title1">The APSIM Growth Module</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Introduction</p>
+<p class="Normal">The growth module is a simplified plant growth module developed for simulating pasture and forestry systems module. Whilst simplified in many respects, the major processes relating to growth, resource (water and nitrogen) use and responses to climate and resource supply, partitioning of photosynthate and links to the wider carbon and nitrogen balance are captured within the module. This document summarises the functional components of the module. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Notable features of APSIM-Growth</p>
+<ul>
+  <li>
+    <p class="Normal">A flexible method of assimilate partitioning is that is able to maintain structural (stem, branch, large roots, etc) and growth (foliage and fine root) pools. </p>
+  </li>
+  <li>
+    <p class="Normal">A whole plant light use efficiency is used. </p>
+  </li>
+  <li>
+    <p class="Normal">Soil water demand is provided by the micromet module using a Penman-Monteith formulation. </p>
+  </li>
+  <li>
+    <p class="Normal">Germination processes are not modelled, swards or plantations are established. </p>
+  </li>
+  <li>
+    <p class="Normal">Responses to nitrogen supply can be modelled in a simplistic fashion by a single ‘site index' parameter or via a full nitrogen balance and cycle. </p>
+  </li>
+  <li>
+    <p class="Normal">No ‘phenology' is modelled, although, changes in partitioning rules for photosynthate can change with plant development (i.e. size). </p>
+  </li>
+</ul>
+<p class="Title2">Example Manager Syntax </p>
+<p class="Normal"><em>Module_name </em> establish plants = <em>ppp </em> (/ha), init_section = <em>ssssss</em></p>
+<p class="Normal">This statement will establish the sward/plantation where <em>Module_name </em> is the name of the instance of the growth module within the simulation (e.g. Bambatsi or Egrandis), <em>ppp </em> is the plant population and <em>ssssss </em> is the name of the data section used to initialise the new population of plants.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><em>Module_name </em> cut foliage_remove_fr = 0.7, adm_remove_fr = 0.5</p>
+<p class="Normal">This statement will remove 70% of leaves and 50% of stem (adm = above-ground dry matter, refers to structural pools). Biomass is removed from the system.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><em>Module_name </em> thin plants_fraction = 0.1, biomass_fraction = 0.05</p>
+<p class="Normal">This statement will remove 10% of population and but only 5% of all above-ground biomass pools (i.e. thinning out of smaller than average sized individuals). Biomass is removed from the system.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><em>Module_name </em> kill</p>
+<p class="Normal">This statement will kill the model, sending any remaining biomass to the residue module.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Model Components </p>
+<p class="Normal">The APSIM Growth module is based on the lessons learned from other APSIM crop (Keating et al, 2003, Robertson et al, 2002, Wang et al, 2002) and forest (Huth et al, 2001, 2002) productivity models as well as other pasture models such as GRASP (McKeon et al). A range of APSIM modules provide daily data for meteorological conditions and uptake of water and nitrogen and so that time step is used for all growth calculations.</p>
+<p class="Normal">The APSIM Growth module contains two major classes of biomass pools: growth and structural pools. Growth pools are responsible for most growth processes (i.e. leaves intercepting radiation) and water uptake (fine roots). Structural pools are provide sinks for assimilate and nutrients and are used to describe plant properties such as plant height. Structural pools are either above or below ground. The number of structural pools for a given plant model can be user-defined but a standard configuration may only contain stem above ground and a tap root below ground. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Growth is calculated as,</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><img width="244" height="21" src="Growth_science_clip_image002.gif">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1)</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Where ?G is daily growth, R int is daily intercepted solar radiation (MJ/m 2 ), e is the light use efficiency (g/MJ) and F t , F n , F vpd and F w are growth modifiers for temperature, nitrogen, vapour pressure deficit and soil water supply respectively. R int is calculated using crown cover, leaf area, and an assumption of exponential light extinction. F t and F vpd are based on average daily temperature and vapour pressure deficit. Fn is based on leaf nitrogen concentration. Fw is calculated as the ratio of soil water demand and supply.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Partitioning of daily Growth</p>
+<p class="Normal">Unlike other APSIM modules, e is a whole plant (above and below ground) light use efficiency. As a result, the daily growh has to be partitioned into foliage, roots, above-ground structure and below-ground structure. The rules for partitioning are described via two main mechanisms: variation in root:shoot ratio and structural fraction of above-ground growth.</p>
+<p class="Normal">Stresses due to deficiency in below ground resources such as water and nutrients is often found to increase the root:shoot ratio. In this module the user can define how increasing severity of stress can increase the proportion of daily growth going into below-ground growth. This extra rooting growth can then assist the plant in accessing scarce resources, depending on the way in which APSIM is configured (e.g. use of the APSIM-SWIM water balance where root length density impacts on root water uptake). Currently, soil water supply, soil water content and plant nitrogen status can all be used to alter the root:shoot ratio of the plants.</p>
+<p class="Normal">The partitioning of above-ground growth changes throughout the growth cycle of plants. The result is the often consistent allometry observed in plants. The Growth module will allow the user to specify how the fraction of above-ground growth going into structure changes with mean plant size. For example, small plants may put proportionally more photosynthate into foliage than larger plants relfecting their need to establish a canopy as against compete with other plants via increased structural/height growth.</p>
+<p class="Normal">On a daily basis, the above two partitioning rules are evaluated. The model will then back-calculate the partitioning into leaf, roots and structure such that root:shoot ratios and growth:structure ratio are conserved..</p>
+<p class="Normal">Leaf Area growth is calculated from leaf growth and a specific leaf area. Similarly, root length calculations utilise a specific root length, with root length partitioned spatially according to supplies and demands for both water and nitrogen.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Senescence and Detachment of biomass</p>
+<p class="Normal">Each biomass pool undergoes continual senescence and the resultant senesced material is continually detached from the plant.</p>
+<p class="Normal">Senescence of growth pools (foliage and roots) is calculated using simple first order decay. The user specifies a mean residence time ( in days) which is inverted within the model to provide a decay coefficient. Senescence of foliage is often observed to also show a certain seasonality. This is achieved within the model via use of the daily temperature stress factor and the annual sinusoidal temperature curve such that the annual average mean residence time will equate to that provided by the user but that the daily value will vary around that throughout the year.</p>
+<p class="Normal">Other processes can be responsible for leaf death. Senescence of foliage can also be triggered by low temperatures (i.e. frosting). In this case, low nightly minimum temperatures can specified to fractionally decrease green leaf area. Alternatively, mutual shading of leaves in dense canopies can be specified to decrease leaf area. If total leaf senescence occurs, a small initial leaf area is maintained on the plant in order to initiate further regrowth when conditions are favourable.</p>
+<p class="Normal">Senescence of structural pools is said to follow the patterns in the growth pools. This is achieved by relating the senescence rate of above-ground pools to the senescence rate of foliage and by relating the senescence rate of below-ground pools to the senescence rate of roots. For example, a 1% loss of green leaf may result in a 0.5% loss in live stem mass.</p>
+<p class="Normal">All senesced pools (growth or structural, above or below ground) detach via a first order decay function. Above-ground biomass is added to the surface residues. Below-ground biomass is added to soil organic matter.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Plant water use</p>
+<p class="Normal">Plant water demand is calculated using the Micromet module which is developed from the work of Snow et al. [1999] and Kelliher et al. [1995], while plant water supply is calculated using one of the two soil water modules available in APSIM. Please refer to these modules for further information.</p>
+<p class="Normal">Plant water uptake is calculated within the Growth module using the assumption that uptake of water from soil follows a simple first order decay with soil drying.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><img width="129" height="41" src="Growth_science_clip_image004.gif">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(2) </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Plant nitrogen</p>
+<p class="Normal">Plant nitrogen demand is based upon the size of the biomass pools and a target nitrogen concentration for each pool. When nitrogen supply is insufficient to meet all this demand, nitrogen is partitioned according to the sink strength in each pool. If this results in a decrease in leaf nitrogen concentration the plant may experience nitrogen stress.</p>
+<p class="Normal">In extreme nutritional conditions, or in cases where fertility information is unknown, it is possible to constrain the Growth module via use of a site index. In this case, Fn is maintained at a constant value.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Uptake of nitrogen</p>
+<p class="Normal">Nitrate-nitrogen can be taken up by the plant via the uptake of water from the soil. If this is insufficient to meet daily demand a set fraction of the unmet demand can be taken up via active uptake processes. This active process is further discounted when soil water content is low.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">References</p>
+<p class="Normal">Huth, N.I., Snow, V.O. and Keating, B.A. 2001. Integrating a forest modelling capability into an Agric. production systems modelling environment - current applications and future possibilities. Proceedings of the International Congress on Modelling and Simulation, Aust. National University , Dec. 2001. pp. 1895-1900. </p>
+<p class="Normal">N. I. Huth, P. S. Carberry, P. L. Poulton, L. E. Brennan, and Brian A. Keating. &quot;A framework for simulation of agroforestry options for the low rainfall areas of Australia using APSIM.&quot; <em>European Journal of Agronomy </em> 18 (2002): 171-185.</p>
+<p class="Normal">Keating, Brian A., P. S. Carberry, G. L. Hammer, Mervyn E. Probert, M. J. Robertson, D. Holzworth, N. I. Huth, J. N. G. Hargreaves, H. Meinke, Z. Hochman, G. McLean, K. Verburg, V. O. Snow, J. P. Dimes, M. Silburn, E. Wang, Stuart Brown, K. L. Bristow, S. Asseng, S. C. Chapman, R. L. McCown, D. M. Freebairn, and C. J. Smith. &quot;An overview of APSIM, a model designed for farming systems simulation.&quot; <em>European Journal of Agronomy </em> 18 (2002): 267-288.</p>
+<p class="Normal">Kelliher, F. M., R. Leuning, M. R. Raupach, and E. D. Schulze. 1995. Maximum conductances for evaporation from global vegetation types. Agricultural and Forest Meteorology 73: 1-16.</p>
+<p class="Normal">Robertson, M. J., Carberry, P. S., Huth, N. I., Turpin, J. E., Probert, M. E., Poulton, P. L., Bell, M., Wright, G. C., Yeates, S. J. and Brinsmead, R.B. 2002. Simulation of growth and development of diverse legume species in APSIM. Aust. J. Agric. Res. 53, 429-446.</p>
+<p class="Normal">Snow, V. O., W. J. Bond, B. J. Myers, S. Theiveyanathan , C. J. Smith, and R. G. Benyon. 1999. Modelling the water balance of effluent-irrigated trees. Agricultural Water Management 39: 47-67.</p>
+<p class="Normal">Wang, E., Robertson, M. J., Hammer, G. L., Carberry, P. S., Holzworth, D. P., Meinke, H., Chapman, S. C., Hargreaves, J. N. G., Huth, N. I., and McLean, G. Development of a generic crop module template in the cropping system model APSIM. European Journal of Agronomy. 18 (2002):121-140. </p>
+</body>
+</html>

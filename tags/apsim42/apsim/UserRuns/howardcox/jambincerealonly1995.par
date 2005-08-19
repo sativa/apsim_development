@@ -1,0 +1,921 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  screen  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.screen.parameters]
+screen_output = on
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  summaryfile  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.summaryfile.parameters]
+SummaryFile = jambincerealonly1995.sum
+
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  clock  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.clock.parameters]
+Start_date = 1/1/1940
+End_date = 26/1/1989
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  report  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.report.parameters]
+Outputfile = jambincerealonly1995.out
+variable = clock.dd/mm/yyyy as Date
+variable = clock.year
+variable = soilwat2.esw as esw
+variable = soilwat2.runoff as runoff
+variable = soilwat2.drain as drain
+variable = soiln2.no3() as no3_tot
+variable = wheat.grain_n as nw_grainn
+variable = wheat.flowering_date as nw_anthesis
+variable = wheat.biomass as nw_tops_biom
+variable = wheat.yield as nw_yield
+variable = wheat.stage as nw_status
+variable = wheat.lai as nw_lai
+variable = sorghum.flower_wt as sor_flower_wt
+variable = sorghum.das as sor_das
+variable = sorghum.lai as sor_lai
+variable = sorghum.yield as sor_yield
+variable = sorghum.flowering_date as sor_flowerdate
+variable = met.rain
+variable = soilwat2.sw_dep as sw_mm_lay
+variable = soilwat2.dul_dep as dul_mm_lay
+variable = soilwat2.ll15_dep as ll15_mm_lay
+variable = manager.crop_current
+variable = manager.crop_in
+variable = manager.next_crop
+
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  manager  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.manager.init]
+   crop_in = 0
+   lucerne_in = 0
+   blank = 'fallow'
+   next_crop = blank
+   crop_current = blank
+   crop_sow = blank
+   ready_for_next = 1
+   ready_to_fert_pre_sow = 0
+   days_last_year = 365
+   fert_day_pre_sow = 0
+   ready_to_till_pre_sow = 0
+   till_day_pre_sow = 0
+   sow_year = 0
+   plant_density = 0
+
+   sorghum_to_harvest = 0
+
+   wheat_to_harvest = 0
+
+! these are needed to define the order the *variables are displayed in APSFront
+!'sf'
+!'15-mar'
+!'wf'
+!'23-aug'
+!'.'
+!'.'
+crop1 = 'wheat'
+crop2 = 'sorghum'
+crop3 = 'wf'
+crop4 = 'sorghum'
+crop5 = 'wheat'
+crop6 = 'sf'
+crop7 = 'nil'
+crop8 = 'sf'
+crop9 = 'wf'
+crop10 = 'wf'
+crop11 = 'sf'
+crop12 = 'wf'
+crop13 = 'sf'
+crop14 = 'wf'
+crop15 = 'sf'
+crop16 = 'wf'
+crop17 = 'sf'
+crop18 = 'wf'
+crop19 = 'sf'
+crop20 = 'wf'
+next = 1
+fert_tot = 0
+
+wheat = 'wheat'
+nw_yield = 0
+nw_density = 0
+plant_density = 0
+nw_ep = 0
+nw_fert = 0
+nw_gnp = 0
+
+!.
+!.
+!1-May
+!30-Jun
+!yes
+!10
+!7
+!60
+!0.85
+!0.6
+
+!.
+!.
+!80
+!30
+!.
+!.
+!hartog
+!.
+!1-Jun
+!hartog
+!7-Jun
+!hartog
+!.
+!.
+!0
+!urea_N
+!.
+!.
+!30
+!0
+!1000
+!0
+!urea_N
+
+!   .
+!   .
+!   planter
+!   0
+!   0
+!   .
+!   .
+!   0
+!   disc
+!   .
+!   0
+!   0
+
+
+
+sorghum = 'sorghum'
+sor_yield = 0
+sor_density = 0
+plant_density = 0
+sor_ep = 0
+sor_fert = 0
+
+!.
+!.
+!1-Nov
+!30-Jan
+!no
+!10
+!7
+!60
+!0.8
+!0.6
+!.
+!.
+!7.5
+!0.65
+!solid
+!30
+!.
+!.
+!0.5
+!medium
+!.
+!.
+!15-dec
+!medium
+!.
+!.
+!0
+!urea_N
+!.
+!.
+!60
+!0
+!1000
+!0
+!urea_N
+
+!   .
+!   .
+!   planter
+!   0
+!   0
+!   .
+!   .
+!   0
+!   disc
+!   .
+!   0
+!   0
+
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  manager  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.manager.start_of_day]
+
+
+if (ready_for_next = 1) then
+   if      (next = 1) THEN
+      next_crop = crop1
+      next = 2
+   elseif      (next = 2) THEN
+      next_crop = crop2
+      next = 3
+   elseif (next = 3) THEN
+      next_crop = crop3
+      next = 4
+   elseif (next = 4) THEN
+      next_crop = crop4
+      next = 5
+   elseif (next = 5) THEN
+      next_crop = crop5
+      next = 6
+   elseif (next = 6) THEN
+      next_crop = crop6
+      next = 7
+   elseif (next = 7) THEN
+      next_crop = crop7
+      next = 8
+   elseif (next = 8) THEN
+      next_crop = crop8
+      next = 9
+   elseif (next = 9) THEN
+         next_crop = crop9
+         next = 10
+   elseif (next = 10) THEN
+         next_crop = crop10
+         next = 11
+   elseif (next = 11) THEN
+         next_crop = crop11
+         next = 12
+   elseif (next = 12) THEN
+         next_crop = crop12
+         next = 13
+   elseif (next = 13) THEN
+         next_crop = crop13
+         next = 14
+   elseif (next = 14) THEN
+         next_crop = crop14
+         next = 15
+   elseif (next = 15) THEN
+         next_crop = crop15
+         next = 16
+   elseif (next = 16) THEN
+         next_crop = crop16
+         next = 17
+   elseif (next = 17) THEN
+         next_crop = crop17
+         next = 18
+   elseif (next = 18) THEN
+         next_crop = crop18
+         next = 19
+   elseif (next = 19) THEN
+         next_crop = crop19
+         next = 20
+   elseif (next = 20) THEN
+         next_crop = crop20
+         next = 1
+   endif
+   if (next_crop = 'nil' OR next_crop = blank) THEN
+      next_crop = crop1
+      next = 2
+   endif
+   ready_for_next = 0
+endif
+
+   ! treat fallow as a crop - its window starts when the other fallow finishes
+   ! assume initiation (sowing) of fallow takes place when previous fallow finishes
+   ! or when previous crop is harvested, whichever is the latest.
+   ! Assume fallow finishes (harvested) at end of fallow date.
+
+if (next_crop = 'wf') then
+      ! initiate (sow)
+   if (crop_in = 0) then
+      if (date_within('15-mar, 23-aug') then
+         crop_in = 1
+         ready_for_next = 1
+         crop_current = 'wf'
+         crop_sow = 'wf'
+         ready_to_fert_pre_sow = 0
+      endif
+   endif
+
+elseif (next_crop = 'sf') then
+     ! initiate (sow)
+   if (crop_in = 0) then
+      if (date_within('23-aug, 15-mar') then
+         crop_in = 1
+         ready_for_next = 1
+         crop_current = 'sf'
+         crop_sow = 'sf'
+         ready_to_fert_pre_sow = 0
+      endif
+   endif
+endif
+
+if (crop_current = 'wf') then
+      ! terminate (harvest)
+   if (today = date('23-aug')+1) then
+      crop_in = 0
+      crop_current = blank
+   endif
+elseif (crop_current = 'sf') then
+      ! terminate (harvest)
+   if (today = date('15-mar')+1) then
+      crop_in = 0
+      crop_current = blank
+   endif
+endif
+
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  manager  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.manager.end_of_day]
+   fert_tot = fert_tot + fertiliz.fertilizer
+
+
+days_this_year = 364 + (date('1-mar') - date('28-feb'))
+
+
+      report do_end_day_output
+
+
+
+
+   if (sorghum_to_harvest = 1) then
+      sorghum harvest
+      sorghum kill_crop
+      sorghum end_crop
+      crop_in = 0
+      sorghum_to_harvest = 0
+      fert_tot = 0
+      sow_year = 0
+      crop_current = blank
+   endif
+
+   if (sorghum.stage = 11) then
+
+      sorghum_to_harvest = 1
+   endif
+
+! IGH - check if crop has died, if so then
+! end the crop
+
+   if (sorghum.plant_status = 'dead') then
+
+
+      sorghum_to_harvest = 1
+   endif
+
+
+   if (wheat_to_harvest = 1) then
+      wheat_to_harvest = 0
+      fert_tot = 0
+      sow_year = 0
+      crop_in = 0
+      crop_current = blank
+   endif
+
+
+   if (wheat.stage_name = 'harvest_ripe') then
+      wheat harvest
+      wheat_to_harvest = 1
+   endif
+
+
+
+if (crop_current = wheat) then
+   nw_yield = wheat.yield
+   nw_ep = wheat.ep
+   nw_fert = fert_tot
+   nw_density = 80
+   plant_density = 80
+   nw_gnp = wheat.grain_n
+   fert_tot = 0.0
+else
+   nw_yield = 0
+   nw_ep = 0
+   nw_fert = 0
+   nw_density = 0
+   plant_density = 0
+   nw_gnp = 0
+endif
+
+
+
+if (crop_current = sorghum) then
+   sor_yield = sorghum.yield
+   sor_ep = sorghum.ep
+   sor_fert = fert_tot
+   sor_density = 7.5
+   plant_density = 7.5
+   fert_tot = 0.0
+else
+   sor_yield = 0
+   sor_ep = 0
+   sor_fert = 0
+   sor_density = 0
+   plant_density = 0
+endif
+
+
+                ! These LL must be above soilwat2 parameters
+                ! because of insoil being inserted by Dean.
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  manager  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.manager.process]
+   ! The date_within function returns 1 when todays date lies
+   ! between the 2 dates inclusively.
+   ! It must have its arguments enclosed in quotes.
+
+if (next_crop = wheat OR next_crop = blank) then
+      !  Presowing  fertiliser application
+
+   if (0 > 0 OR 0 > 0 ) then
+      !  calculate day to fertilise
+      fert_day_pre_sow = date('1-May') - 30
+      ! Need to correct for possible year boundary condition
+      if (fert_day_pre_sow < today) then
+         fert_day_pre_sow = days_this_year + fert_day_pre_sow
+      endif
+      if (today = fert_day_pre_sow) then
+         ready_to_fert_pre_sow = 1
+      endif
+      if (crop_in = 0 and ready_to_fert_pre_sow = 1) then
+         if (0 > 0) then
+            !   Top up soil N of top 3 layers
+            N_deficit = 0 - (no3(1) + nh4(1) + no3(2) + nh4(2) + no3(3) + nh4(3))
+            if (N_deficit < 0) then
+               ! do nothing
+               N_deficit = 0
+!            else
+!               fertiliz.fert_$fert_type_pre_sow = N_deficit
+!            endif
+            elseif (N_deficit < 20) then
+!               fertiliz apply amount = 20 (kg/ha), depth = 50 (mm), type = urea_N ()
+            elseif (N_deficit < 40) then
+               fertiliz apply amount = 20 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 20
+            elseif (N_deficit < 60) then
+               fertiliz apply amount = 40 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 40
+            elseif (N_deficit < 80) then
+               fertiliz apply amount = 60 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 60
+            elseif (N_deficit < 100) then
+               fertiliz apply amount = 80 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 80
+            elseif (N_deficit < 120) then
+               fertiliz apply amount = 100 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 100
+            elseif (N_deficit < 140) then
+               fertiliz apply amount = 120 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 120
+            elseif (N_deficit < 160) then
+               fertiliz apply amount = 140 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 140
+            elseif (N_deficit < 180) then
+               fertiliz apply amount = 160 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 160
+            elseif (N_deficit < 200) then
+               fertiliz apply amount = 180 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 180
+            else
+               ! N deficit is more than 200 kg/ha, so apply a maximum of 220.
+               fertiliz apply amount = 200 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 200
+            endif
+            if (N_deficit > 20) then
+               N_deficit = 20
+            endif
+            if (N_deficit > 16.5) then
+               fertiliz apply amount = 17 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 17
+            endif
+            if (N_deficit > 8.5) then
+               fertiliz apply amount = 9 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 9
+            endif
+            If (N_deficit > 4.5) then
+               fertiliz apply amount = 5 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 5
+            endif
+            if (N_deficit > 2.5) then
+               fertiliz apply amount = 3 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 3
+            endif
+            if (N_deficit > 1.5) then
+               fertiliz apply amount = 2 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 2
+            endif
+            if (N_deficit > 0.5) then
+               fertiliz apply amount = 1 (kg/ha), depth = 50 (mm), type = urea_N ()
+            endif
+
+         else
+            N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+            if (N_topsoil > 1000) then
+               ! enough N already in topsoil
+            else
+               ! just put on a fixed amount of N
+               fertiliz apply amount = 0 (kg/ha), depth = 50 (mm), type = urea_N ()
+            endif
+         endif
+         ready_to_fert_pre_sow = 0
+         fert_day_pre_sow = 0
+      endif
+   endif
+
+   !   Tillage - presowing seedbed preparation
+   if ( 0 > 0) then
+      ! calculate presowing tillage date
+      till_day_pre_sow = date('1-May') - 0
+      ! Need to correct for possible year boundary condition
+      if (till_day_pre_sow < today) then
+         till_day_pre_sow = days_this_year + till_day_pre_sow
+      endif
+      if (today = till_day_pre_sow) then
+         ready_to_till_pre_sow = 1
+      endif
+      if (crop_in = 0 and ready_to_till_pre_sow = 1) then
+         ! tillage
+         if ('disc' = 'user_defined') then
+             surfaceom tillage type = disc, f_incorp = 0 (), tillage_depth = 0
+         else
+             surfaceom tillage type = disc ()
+         endif
+         ready_to_till_pre_sow = 0
+         till_day_pre_sow = 0
+      endif
+   endif
+
+
+
+   if (today = date('30-Jun')) then
+      ready_for_next = 1
+   endif
+   if (crop_in = 0) then
+      if (date_within('1-May, 30-Jun') = 1) then
+         crop_sow = 'waiting'
+         surface_moist = (sw(1) - ll15(1)) / (dul(1)- ll15(1))
+         if ((rain[7] >= 10  AND  esw >= 60 AND
+               (surface_moist <= 0.85 and surface_moist >= 0.6)) OR
+             ('yes' = 'yes' AND today = date('30-Jun'))) THEN
+
+
+if (date_within('1-May, 1-Jun') = 1) then
+               wheat sow plants = 80 (/m2), sowing_depth = 30 (mm), cultivar = hartog
+            else
+               if (date_within('1-Jun, 7-Jun') = 1) then
+                  wheat sow plants = 80 (/m2), sowing_depth = 30 (mm), cultivar = hartog
+               else
+                  wheat sow plants = 80 (/m2), sowing_depth = 30 (mm), cultivar = hartog
+              endif
+            endif
+            crop_in = 1
+            ready_for_next = 1
+            crop_current = wheat
+            crop_sow = wheat
+            sow_year = clock.year
+
+            ready_to_fert_pre_sow = 0
+            if (0 > 0) then
+               fertiliz apply amount = 0 (kg/ha), depth = 50 (mm), type = urea_N ()
+            endif
+         endif
+      endif
+   endif
+
+endif
+
+
+   ! The date_within function returns 1 when todays date lies
+   ! between the 2 dates inclusively.
+   ! It must have its arguments enclosed in quotes.
+
+if (next_crop = sorghum OR next_crop = blank) then
+      !  Presowing  fertiliser application
+
+   if (0 > 0 OR 0 > 0 ) then
+      !  calculate day to fertilise
+      fert_day_pre_sow = date('1-Nov') - 60
+      ! Need to correct for possible year boundary condition
+      if (fert_day_pre_sow < today) then
+         fert_day_pre_sow = days_this_year + fert_day_pre_sow
+      endif
+      if (today = fert_day_pre_sow) then
+         ready_to_fert_pre_sow = 1
+      endif
+      if (crop_in = 0 and ready_to_fert_pre_sow = 1) then
+         if (0 > 0) then
+            !   Top up soil N of top 3 layers
+            N_deficit = 0 - (no3(1) + nh4(1) + no3(2) + nh4(2) + no3(3) + nh4(3))
+            if (N_deficit < 0) then
+               ! do nothing
+               N_deficit = 0
+!            else
+!               fertiliz.fert_$fert_type_pre_sow = N_deficit
+!            endif
+            elseif (N_deficit < 20) then
+!               fertiliz apply amount = 20 (kg/ha), depth = 50 (mm), type = urea_N ()
+            elseif (N_deficit < 40) then
+               fertiliz apply amount = 20 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 20
+            elseif (N_deficit < 60) then
+               fertiliz apply amount = 40 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 40
+            elseif (N_deficit < 80) then
+               fertiliz apply amount = 60 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 60
+            elseif (N_deficit < 100) then
+               fertiliz apply amount = 80 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 80
+            elseif (N_deficit < 120) then
+               fertiliz apply amount = 100 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 100
+            elseif (N_deficit < 140) then
+               fertiliz apply amount = 120 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 120
+            elseif (N_deficit < 160) then
+               fertiliz apply amount = 140 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 140
+            elseif (N_deficit < 180) then
+               fertiliz apply amount = 160 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 160
+            elseif (N_deficit < 200) then
+               fertiliz apply amount = 180 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 180
+            else
+               ! N deficit is more than 200 kg/ha, so apply a maximum of 220.
+               fertiliz apply amount = 200 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 200
+            endif
+            if (N_deficit > 20) then
+               N_deficit = 20
+            endif
+            if (N_deficit > 16.5) then
+               fertiliz apply amount = 17 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 17
+            endif
+            if (N_deficit > 8.5) then
+               fertiliz apply amount = 9 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 9
+            endif
+            If (N_deficit > 4.5) then
+               fertiliz apply amount = 5 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 5
+            endif
+            if (N_deficit > 2.5) then
+               fertiliz apply amount = 3 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 3
+            endif
+            if (N_deficit > 1.5) then
+               fertiliz apply amount = 2 (kg/ha), depth = 50 (mm), type = urea_N ()
+               N_deficit = N_deficit - 2
+            endif
+            if (N_deficit > 0.5) then
+               fertiliz apply amount = 1 (kg/ha), depth = 50 (mm), type = urea_N ()
+            endif
+
+         else
+            N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+            if (N_topsoil > 1000) then
+               ! enough N already in topsoil
+            else
+               ! just put on a fixed amount of N
+               fertiliz apply amount = 0 (kg/ha), depth = 50 (mm), type = urea_N ()
+            endif
+         endif
+         ready_to_fert_pre_sow = 0
+         fert_day_pre_sow = 0
+      endif
+   endif
+
+   !   Tillage - presowing seedbed preparation
+   if ( 0 > 0) then
+      ! calculate presowing tillage date
+      till_day_pre_sow = date('1-Nov') - 0
+      ! Need to correct for possible year boundary condition
+      if (till_day_pre_sow < today) then
+         till_day_pre_sow = days_this_year + till_day_pre_sow
+      endif
+      if (today = till_day_pre_sow) then
+         ready_to_till_pre_sow = 1
+      endif
+      if (crop_in = 0 and ready_to_till_pre_sow = 1) then
+         ! tillage
+         if ('disc' = 'user_defined') then
+             surfaceom tillage type = disc, f_incorp = 0 (), tillage_depth = 0
+         else
+             surfaceom tillage type = disc ()
+         endif
+         ready_to_till_pre_sow = 0
+         till_day_pre_sow = 0
+      endif
+   endif
+
+
+
+   if (today = date('30-Jan')) then
+      ready_for_next = 1
+   endif
+   if (crop_in = 0) then
+      if (date_within('1-Nov, 30-Jan') = 1) then
+         crop_sow = 'waiting'
+         surface_moist = (sw(1) - ll15(1)) / (dul(1)- ll15(1))
+         if ((rain[7] >= 10  AND  esw >= 60 AND
+               (surface_moist <= 0.8 and surface_moist >= 0.6)) OR
+             ('no' = 'yes' AND today = date('30-Jan'))) THEN
+
+
+if (date_within('1-Nov, 15-dec') = 1) then
+               sorghum sow plants = 7.5 (plants/m2), sowing_depth = 30, cultivar = medium, tiller_no_fertile = 0.5, row_spacing = 0.65, skip=solid
+            else
+               sorghum sow plants = 7.5 (plants/m2), sowing_depth = 30, cultivar = medium, tiller_no_fertile = 0.5, row_spacing = 0.65, skip=solid
+            endif
+            crop_in = 1
+            ready_for_next = 1
+            crop_current = sorghum
+            crop_sow = sorghum
+            sow_year = clock.year
+
+            ready_to_fert_pre_sow = 0
+            if (0 > 0) then
+               fertiliz apply amount = 0 (kg/ha), depth = 50 (mm), type = urea_N ()
+            endif
+         endif
+      endif
+   endif
+
+endif
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  chickpea  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.chickpea.parameters]
+   !ll   =  0.21   0.230   0.220   0.27   0.290         !Database values
+   !kl   =  0.080  0.080   0.080   0.060  0.040    ()   !
+   !xf   =  1.000  1.000   1.000   1.000  1.000    () ! root exploration factor
+
+   ll   =  0.10   0.110   0.110   0.12   0.180          !Jambin values
+   kl   =  0.080  0.080   0.080   0.060  0.040     () ! root exploration factor
+   xf   =  1.000  1.000   1.000   1.000  1.000     () ! root exploration factor
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  mungbean  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.mungbean.parameters]
+    ll   =  0.10   0.110   0.110   0.12   0.18    ! 0.160       !Jambin values
+    kl   =  0.12   0.10    0.08    0.06    0.04     ! 0.01
+    xf   =  1.000  1.000   1.000   1.000  1.000    ! 1.000  ()
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  sorghum  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.sorghum.parameters]
+   ll   =   0.10   0.11    0.11    0.12    0.18         !Jambin values
+   kl   =   0.07    0.07    0.07    0.07    0.07     ()
+   xf   =   1.0    1.0     1.0     1.0     1.0
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  wheat  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.wheat.parameters]
+    ll   =   0.10   0.11    0.11    0.12    0.18          !Jambin values
+   kl   =   0.07    0.07    0.07    0.07    0.07     ()
+   xf   =   1.0    1.0     1.0     1.0     1.0
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  ozcot  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.ozcot.parameters]
+    ll   =   0.19   0.19    0.22    0.25    0.27    0.31   !0.36      !Database values
+    title = XXXX
+    asoil = 3.0
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  fababean  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.fababean.parameters]
+ll  =  0.23    0.22    0.25    0.28    0.31    0.38    0.37
+kl  =  0.080   0.080   0.080   0.080   0.060   0.040   0.030  () ! rate of soil water extraction
+xf  =  1.000   1.000   1.000   1.000   1.000   1.000   1.000
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  lucerne  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.lucerne.parameters]
+ll  =  0.19   0.19    0.22    0.25    0.27    0.31     0.36
+kl  =  0.080   0.080   0.080   0.080   0.060   0.040   0.040  () ! rate of soil water extraction
+xf  =  1.000   1.000   1.000   1.000   1.000   1.000   1.000
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  sunflowr  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.sunflowr.parameters]
+ ll   =  0.23   0.22    0.25    0.32    0.39    0.39     0.39      !Example
+ kl =  0.070  0.070  0.070  0.070  0.070  0.070  !0.050  0.030  0.010  0.010
+
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  soilwat2  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.soilwat2.parameters]
+
+   max_evap        = 6        (mm)   ! maximum evaporation.
+   runoff_filename = blank           ! input measured runoff?
+   cona            = 3.5    ()     ! stage 2 evap coef.
+   diffus_const    =  40.0    ()     ! coeffs for dbar
+   diffus_slope    =  16.0    ()     !     "
+   u               = 6.0  (mm)   ! stage 1 soil evaporation coefficient (mm)
+   salb            =   0.13   ()     ! bare soil albedo
+
+   ! CN2b CN_red CN_cov
+   !  73   20     0.8   - cultivated cracking clays & black earths (eg. greenmount & capella)
+   !                      & well structured grey clays (ackland)
+   !  82   20     0.8   - mod. hard setting clays/brigalow (eg. Brigalow Res. Stn) ?brown clay?
+   !  85   ??     0.8   - Maranoa (rainsim) ??? ?brown clay (eg. Wallumbilla)
+   !  90   ??     0.8   - Billa Billa (rainsim)
+   !  94   28     0.8   - hard setting red brown earths (eg ICRASAT & Tippera)
+   !  94   42     0.8   - hard set pasture solodics
+
+   cn2_bare        = 73       ()     ! runoff curve number for BARE soil at AMC2
+   cn_red          = 20       ()     ! reduction in CN2_bare for "cn_cov" increase in cover
+   cn_cov          = 0.8      ()     ! frac. cover for "cn_red" reduction in cover
+                                     ! & max. cover for reduction
+
+   cn_canopy_fact = 1.0 () !  1.0 = canopy cover is fully effective in reducing runoff
+                           !  0.0 = canopy cover has no effect in reducing runoff eg tall crops & trees
+
+   ! layer       1       2       3       4       5
+   dlayer  =  150.000 150.000 300.000 300.000 300.000    (mm)    ! layer depth
+   air_dry =    0.05    0.10    0.10    0.10    0.15     (mm/mm) ! air dry
+   ll15    =    0.10    0.11    0.11    0.12    0.18     (mm/mm) ! jambin data reset 15/2/99
+   dul     =    0.250   0.260   0.270   0.28    0.28     (mm/mm) ! Jambin upper set to database
+   sat     =    0.290   0.30    0.31    0.34    0.34     (mm/mm) ! jambin saturated soil
+   !sw      =    0.200   0.200   0.250   0.180   0.200   (mm/mm) ! initial sw
+   swcon   =    0.100   0.100   0.100   0.100   0.100    ()      ! soil conductivity
+   bd      =    1.40    1.36    1.39    1.39    1.50     (g/cc)  ! bulk density gm dry soil/cc moist soil
+
+   profile_fesw = 0.61
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  soiln2  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.soiln2.parameters]
+
+   amp               =   14.2   (oC)       ! temperature amplitude (oC) - difference between highest and
+                                           ! lowest mean monthly air temperatures (Biloela RS)
+   tav               =   20.8   (oC)       ! mean annual air temperature (oC) Biloela RS
+   root_cn           =   50.0   ()         !
+   root_wt           = 1000.0   (kg/ha)    !
+   soil_cn           =   11.0   ()         ! soil humic pool C:N ratio
+
+   enr_a_coeff       =    7.4   ()
+   enr_b_coeff       =    0.2   ()
+   profile_reduction =     on              ! (on|off) whether to remap N+C if
+                                           ! soil loss occurs.
+
+      ! layer        1       2       3       4       5
+   oc      =     1.500   1.200   0.900   0.400   0.200   (%)   ! organic carbon % Jam data Kedar
+   ph      =     7.200   7.700   7.700   7.800   7.900   ()    ! ph
+   fbiom   =     0.050   0.020   0.015   0.010   0.010   ()    ! microbe fraction of hunic pool
+   finert  =     0.390   0.470   0.520   0.620   0.740   ()    ! inert fraction of humic pool
+   ureappm =     0.000   0.000   0.000   0.000   0.000   (ppm) ! ppm urea
+   no3ppm  =      15.5    5.02    5.02    4.06    4.06 (ppm) ! ppm nitrate
+   nh4ppm  =      1.31   0.218   0.218   0.218   0.218 (ppm) ! ppm ammonia
+
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  residue2  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.SurfaceOM.parameters]
+
+mass = 500.0   ()  ! surface residues as biomass (kg/ha)
+cnr = 76.0   ()  ! cn ratio of surface residues
+type = sorghum
+name = sorghum
+
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  accum  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.accum.parameters]
+
+Accum_variables = rain[10]
+
+
+
+
+
+
+

@@ -1,0 +1,117 @@
+# ---------------------------------------------------------------------------
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+CC=$(BCB)\Bin\bcc32.exe
+LINKER = $(BCB)\Bin\ilink32
+
+# ---------------------------------------------------------------------------
+PROJECT = ..\lib\TclLink.dll
+INSTLIBS = ..\lib
+# ---------------------------------------------------------------------------
+
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+NODEBUG=1   ##$(DEBUG)
+
+!IF "$(NODEBUG)" == "1"
+TMPDIRNAME	= Release
+!ELSE
+TMPDIRNAME	= Debug
+!ENDIF
+
+# ---------------------------------------------------------------------------
+# TCL SECTION
+# ---------------------------------------------------------------------------
+VER=84
+DOTVER=8.4
+PATCH=11
+TCLVER=$(DOTVER).$(PATCH)
+TCLROOT=.\tcl$(TCLVER)\$(TMPDIRNAME)
+TKROOT=.\tk$(TCLVER)\$(TMPDIRNAME)
+
+# ---------------------------------------------------------------------------
+# -----------------TCL/apsim Link 
+# ---------------------------------------------------------------------------
+
+OBJFILES = TclLink.obj TclComponent.obj TclXtras.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
+
+LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
+    $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+    $(APSROOT)\Shared\general\general.lib \
+    $(TCLROOT)\tcl$(VER).lib $(TKROOT)\tk$(VER).lib 
+
+PACKAGES = rtl.bpi vcl.bpi vclx.bpi vcljpg.bpi ibsmp.bpi dbrtl.bpi vcldb.bpi \
+    bdertl.bpi bcbsmp.bpi vcldbx.bpi dclocx.bpi qrpt.bpi
+
+# ---------------------------------------------------------------------------
+USERDEFINES = _DEBUG
+SYSDEFINES  = _RTLDLL;NO_STRICT;USEPACKAGES
+INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared;$(BCB)\Components\Boost;.\tcl$(TCLVER)\generic;.\tk$(TCLVER)\generic;.\tk$(TCLVER)\xlib
+LIBPATH     = $(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+
+# declarations common to all compiler options
+#cbase	= -c -q -3 -a4 -g0 -tWM -Ve -Vx -X-
+#WARNINGS = -w-rch -w-pch -w-par -w-dup -w-pro -w-dpu -w-ccc -w-inl
+
+#CFLAG1 = -WD -O2 -Vx -Ve -X- -r- -a8 -b- -k -vi -c -tWM -q
+#LFLAGS = -D"" -aa -Tpd -x -Gn -Gi -v
+#CFLAG1= $(cdebug) $(cbase) 
+
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
+WARNINGS = -w-par
+LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
+
+source:  .\tcl$(TCLVER) .\tk$(TCLVER) $(INSTLIBS) $(PROJECT)
+
+# ---------------------------------------------------------------------------
+ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)
+ALLRES = $(RESFILES)
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cp32mti.lib $(TCLROOT)\tcl$(VER).lib $(TKROOT)\tk$(VER).lib
+
+$(PROJECT): $(OBJFILES) $(TCLROOT)\tcl$(VER).lib $(TKROOT)\tk$(VER).lib
+    $(LINKER) @&&!
+    $(LFLAGS) -L$(LIBPATH) +
+    $(ALLOBJ), +
+    $(PROJECT),, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
+!
+
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+clean:
+	del /y $(OBJFILES) 
+
+
+.\tcl$(TCLVER): 
+	@if not exist .\tcl$(TCLVER) xcopy \\thor\seg\tools\tcl\tcl$(TCLVER) .\tcl$(TCLVER) /E /Y /I /Q
+    
+.\tk$(TCLVER): 
+	@if not exist .\tk$(TCLVER) xcopy \\thor\seg\tools\tcl\tk$(TCLVER) .\tk$(TCLVER) /E /Y /I /Q
+
+$(TCLROOT)\tcl$(VER).lib: .\tcl$(TCLVER)
+ 	cd tcl$(TCLVER)\win
+	$(MAKE) -f Makefile.bc 
+	cd ..\..
+
+$(TKROOT)\tk$(VER).lib: .\tk$(TCLVER)
+ 	cd tk$(TCLVER)\win
+	$(MAKE) -f Makefile.bc 
+	cd ..\..
+
+$(INSTLIBS): $(TCLROOT)\tcl$(VER).lib $(TKROOT)\tk$(VER).lib
+	if not exist ..\lib\tcl$(DOTVER) xcopy tcl$(TCLVER)\library ..\lib\tcl$(DOTVER) /E /Y /I /Q
+	if not exist ..\lib\tcl84.dll copy $(TCLROOT)\tcl84.dll ..\lib
+	if not exist ..\lib\tcldde12.dll copy $(TCLROOT)\tcldde12.dll ..\lib
+	if not exist ..\lib\tclpip84.dll copy $(TCLROOT)\tclpip84.dll ..\lib
+        if not exist ..\lib\tclreg11.dll copy $(TCLROOT)\tclreg11.dll ..\lib
+        if not exist ..\lib\tclsh84.exe copy $(TCLROOT)\tclsh84.exe ..\lib
+	if not exist ..\lib\tk$(DOTVER) xcopy tk$(TCLVER)\library ..\lib\tk$(DOTVER) /E /Y /I /Q
+	if not exist ..\lib\tk84.dll copy $(TKROOT)\tk84.dll ..\lib
+	if not exist ..\lib\wish84.exe copy $(TKROOT)\wish84.exe ..\lib
+ 

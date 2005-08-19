@@ -1,0 +1,62 @@
+[sample.report.parameters]
+outputfile =sorghum.out
+
+
+
+
+
+variable = clock.year
+variable = clock.dd/mm/yyyy
+variable = sorghum.das
+variable = sorghum.stage
+variable = sorghum.lai
+variable = sorghum.biomass
+variable = sorghum.yield
+variable = sorghum.biomass_n
+variable = sorghum.swdef_expan
+variable = sorghum.nfact_expan
+variable = sorghum.swdef_pheno
+variable = sorghum.nfact_pheno
+variable = sorghum.dlt_dm_light
+variable = sorghum.dlt_dm_water
+variable = sorghum.dlt_dm
+variable = sorghum.extinct_coeff
+[sample.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=27/10/1989     ! dd/mm/yyyy
+end_date=19/2/1990     ! dd/mm/yyyy
+
+[sample.manager.start_of_day]
+
+   if day = 305 and year = 1989 then
+      sorghum sow cultivar = early, plants = 10, sowing_depth = 30 (mm), tiller_no_fertile = 0 (), row_spacing = 1.0 (m)
+                ! optional skiprow arguments are: skip = solid; skip = single; skip = double
+   endif
+
+   if (sorghum.stage = 11) then
+      sorghum harvest
+      sorghum end_crop
+   endif
+
+! if crop killed due to stress, end simulation
+if (sorghum.plant_status = 'dead')  then
+      sorghum harvest
+      sorghum kill_crop
+      sorghum end_crop
+endif
+
+[sample.manager.end_of_day]
+
+ if (sorghum.stage >=1 and sorghum.stage <= 11) then
+    report do_output
+ endif
+
+[sample.sorghum.parameters]
+ll =  0.230   0.240   0.240   0.250   0.260   0.270   0.280 ()!cm3 water/cm3 soil
+kl =  0.07    0.07    0.07    0.07    0.05    0.05    0.04  ()
+XF =  1.0     1.0     1.0     1.0     1.0     1.0     1.0   ()
+[sample.Screen.parameters]
+screen_output = on
+
+[sample.summaryfile.parameters]
+summaryfile=sorghum.sum

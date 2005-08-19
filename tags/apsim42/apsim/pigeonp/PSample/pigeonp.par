@@ -1,0 +1,102 @@
+[sample.report.parameters]
+outputfile  =pigeonp.out
+
+
+
+variable = clock.day
+variable = clock.year
+variable = pigeonp.lai
+variable = pigeonp.biomass
+variable = pigeonp.green_biomass
+
+variable = pigeonp.dm_green()
+variable = pigeonp.dm_green
+variable = pigeonp.p_green()
+variable = pigeonp.p_green
+variable = pigeonp.p_sen()
+variable = pigeonp.p_sen
+variable = pigeonp.p_demand
+variable = pigeonp.pfact_photo
+variable = pigeonp.pfact_pheno
+variable = pigeonp.pfact_expansion
+variable = pigeonp.pfact_grain
+variable = pigeonp.biomass_p
+variable = pigeonp.green_biomass_p
+variable = pigeonp.grain_p
+variable = pigeonp.leaf_p
+variable = pigeonp.stem_p
+variable = pigeonp.root_p
+variable = pigeonp.deadleaf_p
+variable = pigeonp.pod_p
+variable = pigeonp.head_p
+variable = pigeonp.p_senesced()
+variable = pigeonp.p_dead()
+variable = pigeonp.dlt_p_green()
+variable = pigeonp.dlt_p_retrans()
+variable = pigeonp.dlt_p_detached()
+variable = pigeonp.dlt_p_dead()
+variable = pigeonp.dlt_p_sen()
+variable = pigeonp.p_conc_stover
+variable = pigeonp.p_conc_leaf
+variable = pigeonp.p_conc_stem
+variable = pigeonp.p_conc_grain
+variable = pigeonp.p_uptake_stover
+variable = pigeonp.grain_p_demand
+
+variable = surfaceom.surfaceom_p
+
+
+
+[all.report.parameters]
+
+variable = soilwat2.esw as esw
+variable = soilwat2.sw()
+variable = soilwat2.es
+variable = soilwat2.runoff
+variable = soilwat2.drain
+variable = soiln2.no3()
+variable = soiln2.nh4()
+
+variable = soilp.uptake_p_pigeonp()
+variable = soilp.fom_cp()
+variable = soilp.fom_p_pool3()
+variable = soilp.fom_p_pool2()
+variable = soilp.fom_p_pool1()
+variable = soilp.fom_p()
+variable = soilp.hum_p()
+variable = soilp.biom_p()
+variable = soilp.soil_test_p()
+variable = soilp.rock_p()
+variable = soilp.unavail_p()
+variable = soilp.labile_p()
+
+[sample.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=26/9/1988
+end_date=30/4/1989
+
+[sample.manager.start_of_day]
+
+if day = 290 and year  = 1988 then
+   pigeonp sow cultivar = short_duration, plants = 10 (/m2), sowing_depth = 40 (mm)
+endif
+
+if pigeonp.stage_name = 'harvest_ripe' or pigeonp.plant_status = 'dead' then
+   pigeonp harvest
+   pigeonp end_crop
+
+endif
+
+[sample.manager.end_of_day]
+report do_output
+
+
+[sample.pigeonp.parameters]
+
+   ll    = .230 .240 .240 .250 .260 .270 .280  ! lower limit mm water/mm soil
+   xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
+   kl   = 0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)
+[sample.SummaryFile.parameters]
+summaryfile=pigeonp.sum
+[sample.Screen.parameters]
+screen_output=on

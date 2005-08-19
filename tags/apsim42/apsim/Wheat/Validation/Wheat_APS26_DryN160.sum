@@ -1,0 +1,254 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 4.2
+     Title                  = Wheat_APS26_DryN160 APS26 15/06/1995 Irrigation=Dryland NRates=N160
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\Input\lib\Input.dll
+     Component DLL          = c:\development\apsim\operatns\lib\operatns.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        do_stock
+        post
+     Simulation start date = 13/06/1995
+     Simulation end date   = 31/10/1995
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.dd/mm/yyyy as date
+        clock.day
+        clock.year
+        soilwat2.sw_dep
+        soiln2.no3()
+        soiln2.nh4()
+        wheat.lai
+        wheat.leaf_wt
+        wheat.stem_wt
+        wheat.grain_wt
+        wheat.head_wt
+        wheat.head_n
+        wheat.biomass_wt
+        wheat.biomass_n
+        wheat.sla
+        wheat.grain_no
+        wheat.tiller_no
+        wheat.root_wt
+        wheat.nfact_photo
+        wheat.nfact_expan
+        wheat.swdef_photo
+        wheat.swdef_expan
+        wheat.grain_n
+        wheat.flowering_date
+        wheat.maturity_date
+        wheat.root_depth
+        wheat.node_no
+        wheat.leaves_per_node
+        wheat.dm_senesced(2) as deadleaf_wt
+        wheat.stage
+        wheat.leaf_n
+        wheat.stem_n
+        wheat.grain_n
+        wheat.deadleaf_n
+        wheat.n_conc_grain
+        wheat.sw_demand
+        wheat.ep
+        soilwat2.eo
+        wheat.no3gsm_uptake_pot()
+        wheat.n_demand
+        wheat.n_supply_soil
+        wheat.dlt_dm
+        wheat.dlt_dm_pot_rue
+        wheat.n_conc_stem
+        wheat.n_conc_crit_stem
+        wheat.n_conc_leaf
+        wheat.n_conc_crit_leaf
+        wheat.no3_swfac
+     
+     Output file = Wheat_APS26_DryN160.out
+     Format = normal
+
+------- Met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: APS26.met
+
+------- operatns Initialisation -----------------------------------------------
+     Operations Schedule
+     ===================
+       151 1995  Prepare      irrigate apply amount =  31 (mm)
+       152 1995  Prepare      irrigate apply amount =  13 (mm)
+       153 1995  Prepare      irrigate apply amount =  26 (mm)
+       156 1995  Prepare      irrigate apply amount =  26 (mm)
+       157 1995  Prepare      irrigate apply amount =  26 (mm)
+       158 1995  Prepare      irrigate apply amount =  26 (mm)
+       159 1995  Prepare      irrigate apply amount =  26 (mm)
+       166 1995  Prepare      Wheat sow plants = 120 , sowing_depth = 40, row_spacing = 250, cultivar = gatton_hartog
+       186 1995  Prepare      fertiliz apply amount = 160 (kg/ha), type = no3_n, depth = 5  (mm)
+       186 1995  Prepare      irrigate apply amount =  26 (mm)
+
+------- fertiliz Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- irrigate Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Disabled)
+           critical fraction of available soil water =  0.00
+           depth for calculating available soil water =       0.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- end_of_day
+     report do_output
+     END of rules
+     
+
+------- soilwat2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.200  0.380  0.440  0.310  1.380  0.762  0.300
+          150.-  300.  0.100  0.200  0.380  0.440  0.360  1.380  0.190  0.300
+          300.-  450.  0.100  0.200  0.380  0.440  0.370  1.380  0.048  0.300
+          450.-  600.  0.100  0.200  0.380  0.440  0.370  1.380  0.000  0.300
+          600.-  900.  0.100  0.210  0.380  0.430  0.350  1.460  0.000  0.300
+          900.- 1200.  0.100  0.190  0.400  0.420  0.340  1.510  0.000  0.300
+         1200.- 1500.  0.100  0.140  0.380  0.430  0.340  1.490  0.000  0.300
+         1500.- 1800.  0.100  0.140  0.380  0.430  0.280  1.470  0.000  0.300
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      30.00      16.50      27.00       9.00
+          150.-  300.      30.00      24.00      27.00       9.00
+          300.-  450.      30.00      25.50      27.00       9.00
+          450.-  600.      30.00      25.50      27.00       9.00
+          600.-  900.      63.00      42.00      51.00      15.00
+          900.- 1200.      57.00      45.00      63.00       6.00
+         1200.- 1500.      42.00      60.00      72.00      15.00
+         1500.- 1800.      42.00      42.00      72.00      15.00
+          ---------------------------------------------------------
+               Totals     324.00     280.50     366.00      87.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   2.00        0.13       88.00       35.40
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              60.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            6.00 (mm^0.5)
+            CONA:                     3.50 ()
+           Eo from priestly-taylor
+
+------- SurfaceOM Initialisation ----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat          500.0   200.0     2.5     0.0   0.221     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.2
+     
+
+------- soiln2 Initialisation -------------------------------------------------
+     
+        - Reading Constants
+     
+        - Reading Parameters
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot find a parameter in any of the files/sections
+     specified in the control file.
+     Parameter name = nh4ppm
+     Section name = parameters
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     

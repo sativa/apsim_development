@@ -1,0 +1,1044 @@
+
+[apsim/croptemp/lib/croptemp.dll.defs
+{crop_dm_pot_rue 1 g 6
+-current_stage 1 pRa
+-rue 2 pRa
+-radn_int 3 pRa
+-temp_stress_photo 4 pRa
+-nfact_photo 5 pRa
+-dlt_dm_pot 6 prA
+}20 d
+{crop_dm_senescence0 21 g 13
+-num_part 1 pRa
+-root 2 pRa
+-leaf 3 pRa
+-stem 4 pRa
+-dm_leaf_sen_frac 5 pRa
+-dm_root_sen_frac 6 pRa
+-dlt_dm_green 7 pRa
+-dlt_dm_green_retrans 8 pRa
+-dlt_lai 9 pRa
+-dlt_slai 10 pRa
+-dm_green 11 pRa
+-lai 12 pRa
+-dlt_dm_senesced 13 pRA
+}52 d
+{crop_dm_dead_detachment 53 g 4
+-num_part 1 pRa
+-dead_detach_frac 2 pRa
+-dm_dead 3 pRa
+-dlt_dm_dead_detached 4 prA
+}71 d
+{cproc_dm_senescence1 72 g 10
+-num_part 1 pRa
+-max_table 2 pra
+-independant_variable 3 pRa
+-c_x_dm_sen_frac 4 pRa
+-c_y_dm_sen_frac 5 pRa
+-c_num_dm_sen_frac 6 pRa
+-g_dm_green 7 pRa
+-g_dlt_dm_green 8 pRa
+-g_dlt_dm_green_retrans 9 pRa
+-dlt_dm_senesced 10 prA
+}108 d
+{cproc_dm_retranslocate1 109 g 13
+-g_current_stage 1 pRa
+-start_grnfil 2 pRa
+-end_grnfil 3 pRa
+-grain_part_no 4 pRa
+-max_part 5 pRa
+-supply_pools 6 pRa
+-num_supply_pools 7 pRa
+-g_dlt_dm_grain_demand 8 pRa
+-g_dlt_dm_green 9 pRa
+-g_dm_green 10 pRa
+-g_dm_plant_min 11 pRa
+-g_plants 12 pRa
+-dm_retranslocate 13 pRA
+}152 d
+{cproc_dm_detachment1 153 g 7
+-max_part 1 pRa
+-c_sen_detach_frac 2 pRa
+-g_dm_senesced 3 pRa
+-g_dlt_dm_detached 4 prA
+-c_dead_detach_frac 5 pRa
+-g_dm_dead 6 pRa
+-g_dlt_dm_dead_detached 7 prA
+}179 d
+{cproc_bio_yieldpart_demand1 180 g 17
+-g_current_stage 1 pRa
+-start_stress_stage 2 pRa
+-start_grainfill_stage 3 pRa
+-end_grainfill_stage 4 pRa
+-yield_part 5 pRa
+-root_part 6 pRa
+-max_part 7 pRa
+-g_dlt_dm 8 pRa
+-g_dm_green 9 pRa
+-g_dm_senesced 10 pRa
+-g_days_tot 11 pRa
+-g_dm_stress_max 12 pRa
+-p_hi_incr 13 pRa
+-p_x_hi_max_pot_stress 14 pRa
+-p_y_hi_max_pot 15 pRa
+-p_num_hi_max_pot 16 pRa
+-dlt_dm_yieldpart_demand 17 prA
+}230 d
+{cproc_yieldpart_demand_stress1 231 g 4
+-g_nfact_photo 1 pRa
+-g_swdef_photo 2 pRa
+-g_temp_stress_photo 3 pRa
+-dlt_dm_stress_max 4 prA
+}259 d
+{cproc_bio_init1 260 g 7
+-c_dm_init 1 pRa
+-init_stage 2 pRa
+-g_current_stage 3 pRa
+-g_days_tot 4 pra
+-g_plants 5 pRa
+-max_part 6 pRa
+-g_dm_green 7 prA
+}291 d
+{crop_lai_equilib_water 292 g 17
+-day_of_year 1 pRa
+-year 2 pRa
+-extinction_coef 3 pRa
+-rue 4 pRa
+-cover_green 5 pRa
+-current_stage 6 pRa
+-num_layer 7 pRa
+-dlayer 8 pRa
+-lai 9 pRa
+-nfact_photo 10 pRa
+-radn 11 pRa
+-radn_int 12 pRa
+-root_depth 13 pRa
+-sw_supply 14 pRa
+-temp_stress_photo 15 pRa
+-transp_eff 16 pRa
+-lai_equilib_water 17 prA
+}327 d
+{crop_lai_equilib_light 328 g 8
+-radn_int 1 pRa
+-cover_green 2 pRa
+-sen_radn_crit 3 pRa
+-extinction_coef 4 pRa
+-lai 5 pRa
+-day_of_year 6 pRa
+-year 7 pRa
+-lai_eqlb_light 8 prA
+}357 d
+{crop_leaf_area_sen_frost1 358 g 8
+-frost_temp 1 pRa
+-frost_fraction 2 pRa
+-num_frost_temp 3 pRa
+-lai 4 pRa
+-mint 5 pRa
+-plants 6 pRa
+-min_tpla 7 pRa
+-dlt_slai_frost 8 prA
+}382 d
+{crop_leaf_area_sen_water2 383 g 12
+-day_of_year 1 pRa
+-year 2 pRa
+-sen_threshold 3 pRa
+-sen_water_time_const 4 pRa
+-num_layer 5 pRa
+-dlayer 6 pRa
+-lai 7 pRa
+-lai_equilib_water 8 pRa
+-root_depth 9 pRa
+-sw_demand 10 pRa
+-sw_supply 11 pRa
+-dlt_slai_water 12 pRA
+}412 d
+{crop_leaf_area_sen_light2 413 g 9
+-radn_int 1 pRa
+-radn 2 pRa
+-sen_radn_crit 3 pRa
+-year 4 pRa
+-day_of_year 5 pRa
+-lai_equilib_light 6 pRa
+-lai 7 pRa
+-sen_light_time_const 8 pRa
+-dlt_slai_light 9 pRA
+}439 d
+{crop_leaf_area_sen_age1 440 g 12
+-emergence 1 pRa
+-this_stage 2 pRa
+-g_dlt_lai_stressed 3 pRa
+-g_dlt_leaf_no 4 pRa
+-g_dlt_leaf_no_dead 5 pRa
+-g_lai 6 pRa
+-g_leaf_area 7 pRa
+-g_leaf_no_dead 8 pRa
+-g_plants 9 pRa
+-g_slai 10 pRa
+-c_min_tpla 11 pRa
+-dlt_slai_age 12 prA
+}481 d
+{crop_leaf_area_sen_light1 482 g 6
+-lai_sen_light 1 pRa
+-sen_light_slope 2 pRa
+-lai 3 pRa
+-plants 4 pRa
+-min_tpla 5 pRa
+-dlt_slai_light 6 pRA
+}508 d
+{crop_leaf_area_sen_water1 509 g 6
+-sen_rate_water 1 pRa
+-lai 2 pRa
+-swdef_photo 3 pRa
+-plants 4 pRa
+-min_tpla 5 pRa
+-dlt_slai_water 6 pRA
+}530 d
+{cproc_leaf_area_sen1 531 g 24
+-emergence 1 pRa
+-this_stage 2 pRa
+-g_dlt_lai_stressed 3 pRa
+-g_dlt_leaf_no 4 pRa
+-g_dlt_leaf_no_dead 5 pRa
+-g_lai 6 pRa
+-g_leaf_area 7 pRa
+-g_leaf_no_dead 8 pRa
+-g_plants 9 pRa
+-g_slai 10 pRa
+-c_min_tpla 11 pRa
+-g_dlt_slai_age 12 pRA
+-c_lai_sen_light 13 pRa
+-c_sen_light_slope 14 pRa
+-g_dlt_slai_light 15 pRA
+-c_sen_rate_water 16 pRa
+-g_swdef_photo 17 pRa
+-g_dlt_slai_water 18 pRA
+-c_x_temp_senescence 19 pRa
+-c_y_senescence_fac 20 pRa
+-c_num_temp_senescence 21 pRa
+-g_mint 22 pRa
+-g_dlt_slai_frost 23 pRA
+-g_dlt_slai 24 prA
+}596 d
+{cproc_leaf_area_init1 597 g 6
+-c_initial_tpla 1 pRa
+-init_stage 2 pRa
+-g_current_stage 3 pRa
+-g_days_tot 4 pra
+-g_plants 5 pRa
+-lai 6 prA
+}624 d
+{cproc_lai_detachment1 625 g 7
+-leaf 1 pRa
+-c_sen_detach_frac 2 pRa
+-g_slai 3 pRa
+-g_dlt_slai_detached 4 prA
+-c_dead_detach_frac 5 pRa
+-g_tlai_dead 6 pRa
+-g_dlt_tlai_dead_detached 7 prA
+}652 d
+{cproc_canopy_height 653 g 8
+-g_canopy_height 1 pRa
+-p_x_stem_wt 2 pRa
+-p_y_height 3 pRa
+-p_num_stem_wt 4 pRa
+-g_dm_green 5 pRa
+-g_plants 6 pRa
+-stem 7 pRa
+-dlt_canopy_height 8 pRA
+}684 d
+{cproc_leaf_no_init1 685 g 6
+-c_leaf_no_at_emerg 1 pRa
+-g_current_stage 2 pRa
+-emerg 3 pRa
+-g_days_tot 4 pra
+-leaf_no 5 prA
+-node_no 6 prA
+}716 d
+{cproc_leaf_no_pot1 717 g 15
+-c_x_node_no_app 1 pRa
+-c_y_node_app_rate 2 pRa
+-c_num_node_no_app 3 pRa
+-c_x_node_no_leaf 4 pRa
+-c_y_leaves_per_node 5 pRa
+-c_num_node_no_leaf 6 pRa
+-g_current_stage 7 pRa
+-start_node_app 8 pRa
+-end_node_app 9 pRa
+-emerg 10 pRa
+-g_days_tot 11 pra
+-g_dlt_tt 12 pRa
+-g_node_no 13 pRa
+-dlt_leaf_no_pot 14 prA
+-dlt_node_no_pot 15 pRA
+}769 d
+{cproc_leaf_area_pot1 770 g 10
+-c_x_node_no 1 pRa
+-c_y_leaf_size 2 pRa
+-c_num_node_no 3 pRa
+-g_node_no 4 pRa
+-c_node_no_correction 5 pRa
+-start_node_app 6 pRa
+-now 7 pRa
+-g_dlt_leaf_no_pot 8 pRa
+-g_plants 9 pRa
+-dlt_lai_pot 10 prA
+}807 d
+{cproc_leaf_area_stressed1 808 g 4
+-g_dlt_lai_pot 1 pRa
+-g_swdef_expansion 2 pRa
+-g_nfact_expansion 3 pRa
+-g_dlt_lai_stressed 4 prA
+}831 d
+{cproc_leaf_area_actual1 832 g 7
+-c_x_lai 1 pRa
+-c_y_sla_max 2 pRa
+-c_num_lai 3 pRa
+-dlt_dm_leaf 4 pRa
+-g_dlt_lai 5 prA
+-g_dlt_lai_stressed 6 pRa
+-g_lai 7 pRa
+}863 d
+{cproc_leaf_no_actual1 864 g 9
+-c_num_lai_ratio 1 pRa
+-c_x_lai_ratio 2 pRa
+-c_y_leaf_no_frac 3 pRa
+-g_dlt_lai 4 pRa
+-g_dlt_lai_stressed 5 pRa
+-g_dlt_leaf_no 6 pRA
+-g_dlt_leaf_no_pot 7 pRa
+-g_dlt_node_no 8 prA
+-g_dlt_node_no_pot 9 pRa
+}898 d
+{cproc_leaf_no_pot2 899 g 13
+-c_x_node_no_app 1 pRa
+-c_y_node_app_rate 2 pRa
+-c_y_leaves_per_node 3 pRa
+-c_num_node_no_app 4 pRa
+-g_current_stage 5 pRa
+-start_node_app 6 pRa
+-end_node_app 7 pRa
+-emerg 8 pRa
+-g_days_tot 9 pra
+-g_dlt_tt 10 pRa
+-g_node_no 11 pRa
+-dlt_leaf_no_pot 12 prA
+-dlt_node_no_pot 13 pRA
+}947 d
+{crop_root_incorp 948 g 7
+-dlt_dm_root 1 pRa
+-dlt_n_root 2 pRa
+-g_dlayer 3 pRa
+-g_root_length 4 pRa
+-g_root_depth 5 pRa
+-c_crop_type 6 pRa
+-max_layer 7 pRa
+}977 d
+{crop_top_residue 978 g 3
+-c_crop_type 1 pRa
+-dlt_residue_weight 2 pRa
+-dlt_residue_n 3 pRa
+}997 d
+{crop_my_type 998 g 1
+-c_crop_type 1 pRa
+}1016 d
+{crop_get_ext_uptakes 1017 g 8
+-uptake_source 1 pRa
+-crop_type 2 pRa
+-uptake_type 3 pRa
+-unit_conversion_factor 4 pRa
+-uptake_lbound 5 pRa
+-uptake_ubound 6 pRa
+-uptake_array 7 pRA
+-max_layer 8 pRA
+}1051 d
+{crop_failure_germination 1052 g 8
+-sowing 1 pRa
+-germ 2 pRa
+-now 3 pRa
+-days_germ_limit 4 pRa
+-current_stage 5 pRa
+-days_tot 6 pRa
+-plants 7 pRa
+-dlt_plants 8 prA
+}1075 d
+{crop_failure_emergence 1076 g 8
+-germ 1 pRa
+-emerg 2 pRa
+-now 3 pRa
+-tt_emerg_limit 4 pRa
+-current_stage 5 pRa
+-plants 6 pRa
+-tt_tot 7 pRa
+-dlt_plants 8 prA
+}1099 d
+{crop_n_conc_ratio 1100 g 7
+-leaf 1 pRa
+-stem 2 pRa
+-dm_green 3 pRa
+-n_conc_crit 4 pRa
+-n_conc_min 5 pRa
+-n_green 6 pRa
+-n_conc_ratio 7 prA
+}1122 d
+{crop_nfact_photo 1123 g 8
+-leaf 1 pRa
+-stem 2 pRa
+-dm_green 3 pRa
+-n_conc_crit 4 pRa
+-n_conc_min 5 pRa
+-n_green 6 pRa
+-n_fact_photo 7 pRa
+-nfact 8 prA
+}1149 d
+{crop_nfact_pheno 1150 g 8
+-leaf 1 pRa
+-stem 2 pRa
+-dm_green 3 pRa
+-n_conc_crit 4 pRa
+-n_conc_min 5 pRa
+-n_green 6 pRa
+-n_fact_pheno 7 pRa
+-nfact 8 prA
+}1176 d
+{crop_nfact_grain_conc 1177 g 7
+-leaf 1 pRa
+-stem 2 pRa
+-dm_green 3 pRa
+-n_conc_crit 4 pRa
+-n_conc_min 5 pRa
+-n_green 6 pRa
+-nfact 7 prA
+}1202 d
+{crop_nfact_expansion 1203 g 7
+-leaf 1 pRa
+-dm_green 2 pRa
+-n_conc_crit 3 pRa
+-n_conc_min 4 pRa
+-n_green 5 pRa
+-n_fact_expansion 6 pRa
+-nfact 7 prA
+}1232 d
+{crop_n_dead_detachment 1233 g 4
+-num_part 1 pRa
+-dead_detach_frac 2 pRa
+-n_dead 3 pRa
+-dlt_n_dead_detached 4 prA
+}1251 d
+{crop_n_dlt_grain_conc 1252 g 11
+-grain 1 pRa
+-sfac_slope 2 pRa
+-sw_fac_max 3 pRa
+-temp_fac_min 4 pRa
+-tfac_slope 5 pRa
+-maxt 6 pRa
+-mint 7 pRa
+-nfact_grain_conc 8 pRa
+-n_conc_crit 9 pRa
+-n_conc_min 10 pRa
+-swdef_expansion 11 pRa
+}1299 d
+{crop_n_retrans_avail 1300 g 7
+-num_part 1 pRa
+-root 2 pRa
+-grain 3 pRa
+-g_n_conc_min 4 pRa
+-g_dm_green 5 pRa
+-g_n_green 6 pRa
+-n_avail 7 prA
+}1330 d
+{cproc_n_senescence1 1331 g 6
+-num_part 1 pRa
+-c_n_sen_conc 2 pRa
+-g_dlt_dm_senesced 3 pRa
+-g_n_green 4 pRa
+-g_dm_green 5 pRa
+-dlt_n_senesced 6 pRA
+}1357 d
+{cproc_n_uptake1 1358 g 12
+-c_no3_diffn_const 1 pRa
+-g_dlayer 2 pRa
+-max_layer 3 pRa
+-g_no3gsm_diffn_pot 4 pRa
+-g_no3gsm_mflow_avail 5 pRa
+-g_n_fix_pot 6 pRa
+-c_n_supply_preference 7 pRa
+-g_n_demand 8 pRa
+-g_n_max 9 pRa
+-max_part 10 pRa
+-g_root_depth 11 pRa
+-dlt_no3gsm 12 prA
+}1399 d
+{cproc_n_supply1 1400 g 15
+-g_dlayer 1 pRa
+-max_layer 2 pRa
+-g_dlt_sw_dep 3 pRa
+-g_no3gsm 4 pRa
+-g_no3gsm_min 5 pRa
+-g_root_depth 6 pRa
+-g_sw_dep 7 pRa
+-g_no3gsm_mflow_avail 8 prA
+-g_sw_avail 9 pRa
+-g_no3gsm_diffn_pot 10 prA
+-g_current_stage 11 pRa
+-c_n_fix_rate 12 pRa
+-fixation_determinant 13 pRa
+-g_swdef_fixation 14 pRa
+-g_n_fix_pot 15 prA
+}1444 d
+{crop_n_mass_flow1 1445 g 8
+-num_layer 1 pRa
+-dlayer 2 pRa
+-dlt_sw_dep 3 pRa
+-no3gsm 4 pRa
+-no3gsm_min 5 pRa
+-root_depth 6 pRa
+-sw_dep 7 pRa
+-no3gsm_mflow_pot 8 prA
+}1471 d
+{crop_n_diffusion1 1472 g 8
+-num_layer 1 pRa
+-dlayer 2 pRa
+-no3gsm 3 pRa
+-no3gsm_min 4 pRa
+-root_depth 5 pRa
+-sw_avail 6 pRa
+-sw_avail_pot 7 pRa
+-no3gsm_diffn_pot 8 prA
+}1498 d
+{crop_n_fixation_pot1 1499 g 5
+-g_current_stage 1 pRa
+-c_n_fix_rate 2 pRa
+-fixation_determinant 3 pRa
+-g_swdef_fixation 4 pRa
+-n_fix_pot 5 prA
+}1525 d
+{cproc_n_demand1 1526 g 13
+-max_part 1 pRa
+-demand_parts 2 pRa
+-num_demand_parts 3 pRa
+-g_dlt_dm 4 pRa
+-g_dlt_dm_green 5 pRa
+-g_dlt_dm_pot_rue 6 pRa
+-g_dlt_n_retrans 7 pRa
+-g_dm_green 8 pRa
+-g_n_conc_crit 9 pRa
+-g_n_conc_max 10 pRa
+-g_n_green 11 pRa
+-n_demand 12 pRA
+-n_max 13 pRA
+}1581 d
+{cproc_n_init1 1582 g 7
+-c_n_init_conc 1 pRa
+-max_part 2 pRa
+-init_stage 3 pRa
+-g_current_stage 4 pRa
+-g_days_tot 5 pra
+-g_dm_green 6 pRa
+-n_green 7 prA
+}1611 d
+{cproc_n_detachment1 1612 g 7
+-max_part 1 pRa
+-c_sen_detach_frac 2 pRa
+-g_n_senesced 3 pRa
+-g_dlt_n_detached 4 prA
+-c_dead_detach_frac 5 pRa
+-g_n_dead 6 pRa
+-g_dlt_n_dead_detached 7 prA
+}1638 d
+{cproc_n_supply2 1639 g 16
+-g_dlayer 1 pRa
+-max_layer 2 pRa
+-g_dlt_sw_dep 3 pRa
+-g_no3gsm 4 pRa
+-g_no3gsm_min 5 pRa
+-g_root_depth 6 pRa
+-g_sw_dep 7 pRa
+-g_no3gsm_mflow_avail 8 prA
+-g_sw_avail 9 pRa
+-g_sw_avail_pot 10 pRa
+-g_no3gsm_diffn_pot 11 prA
+-g_current_stage 12 pRa
+-c_n_fix_rate 13 pRa
+-fixation_determinant 14 pRa
+-g_swdef_fixation 15 pRa
+-g_n_fix_pot 16 prA
+}1685 d
+{cproc_n_demand2 1686 g 11
+-max_part 1 pRa
+-demand_parts 2 pRa
+-num_demand_parts 3 pRa
+-g_dlt_dm_green 4 pRa
+-g_dlt_n_retrans 5 pRa
+-g_dm_green 6 pRa
+-g_n_conc_crit 7 pRa
+-g_n_conc_max 8 pRa
+-g_n_green 9 pRa
+-n_demand 10 pRA
+-n_max 11 pRA
+}1737 d
+{crop_stage_code 1738 g 7
+-c_stage_code_list 1 pRa
+-g_tt_tot 2 pRa
+-g_phase_tt 3 pRa
+-stage_no 4 pRa
+-stage_table 5 pRa
+-numvals 6 pRa
+-max_stage 7 pRa
+}1766 d
+{crop_thermal_time 1767 g 11
+-c_num_temp 1 pRa
+-c_x_temp 2 pRa
+-c_y_tt 3 pRa
+-g_current_stage 4 pRa
+-g_maxt 5 pRa
+-g_mint 6 pRa
+-start_stress_stage 7 pRa
+-end_stress_stage 8 pRa
+-g_nfact_pheno 9 pRa
+-g_swdef_pheno 10 pRa
+-g_dlt_tt 11 prA
+}1812 d
+{crop_phase_tt 1813 g 4
+-g_dlt_tt 1 pRa
+-g_phase_tt 2 pRa
+-g_tt_tot 3 pRa
+-stage_no 4 pRa
+}1837 d
+{crop_devel 1838 g 5
+-g_current_stage 1 pRa
+-max_stage 2 pRa
+-g_phase_devel 3 pRa
+-dlt_stage 4 prA
+-current_stage 5 pRA
+}1862 d
+{crop_germination 1863 g 11
+-sowing_stage 1 pRa
+-germ_stage 2 pRa
+-c_pesw_germ 3 pRa
+-g_current_stage 4 pRa
+-g_days_tot 5 pra
+-g_dlayer 6 pRa
+-max_layer 7 pRa
+-g_sowing_depth 8 pRa
+-g_sw_dep 9 pRa
+-p_ll_dep 10 pRa
+-current_stage 11 pRa
+}1900 d
+{crop_phase_devel 1901 g 19
+-sowing_stage 1 pRa
+-germ_stage 2 pRa
+-end_development_stage 3 pRa
+-c_pesw_germ 4 pRa
+-c_fasw_emerg 5 pRa
+-c_rel_emerg_rate 6 pRa
+-c_num_fasw_emerg 7 pRa
+-g_current_stage 8 pRa
+-g_days_tot 9 pra
+-g_dlayer 10 pRa
+-max_layer 11 pRa
+-g_sowing_depth 12 pRa
+-g_sw_dep 13 pRa
+-g_dul_dep 14 pRa
+-p_ll_dep 15 pRa
+-g_dlt_tt 16 pRA
+-g_phase_tt 17 pRa
+-g_tt_tot 18 pRa
+-phase_devel 19 prA
+}1955 d
+{cproc_phenology1 1956 g 31
+-g_previous_stage 1 pRA
+-g_current_stage 2 pRA
+-sowing_stage 3 pRa
+-germ_stage 4 pRa
+-end_development_stage 5 pRa
+-start_stress_stage 6 pRa
+-end_stress_stage 7 pRa
+-max_stage 8 pRa
+-c_num_temp 9 pRa
+-c_x_temp 10 pRa
+-c_y_tt 11 pRa
+-g_maxt 12 pRa
+-g_mint 13 pRa
+-g_nfact_pheno 14 pRa
+-g_swdef_pheno 15 pRa
+-c_pesw_germ 16 pRa
+-c_fasw_emerg 17 pRa
+-c_rel_emerg_rate 18 pRa
+-c_num_fasw_emerg 19 pRa
+-g_dlayer 20 pRa
+-max_layer 21 pRa
+-g_sowing_depth 22 pRa
+-g_sw_dep 23 pRa
+-g_dul_dep 24 pRa
+-p_ll_dep 25 pRa
+-g_dlt_tt 26 pRA
+-g_phase_tt 27 pRa
+-g_phase_devel 28 pRA
+-g_dlt_stage 29 pRA
+-g_tt_tot 30 pRA
+-g_days_tot 31 pRA
+}2034 d
+{crop_germ_dlt_tt 2035 g 12
+-c_fasw_emerg 1 pRa
+-c_rel_emerg_rate 2 pRa
+-c_num_fasw_emerg 3 pRa
+-g_current_stage 4 pRa
+-germ_phase 5 pRa
+-g_dlayer 6 pRa
+-max_layer 7 pRa
+-g_sowing_depth 8 pRa
+-g_sw_dep 9 pRa
+-p_ll_dep 10 pRa
+-g_dul_dep 11 pRa
+-g_dlt_tt 12 pRA
+}2074 d
+{crop_sw_avail_fac 2075 g 7
+-num_sw_ratio 1 pRa
+-x_sw_ratio 2 pRa
+-y_sw_fac_root 3 pRa
+-dul_dep 4 pRa
+-sw_dep 5 pRa
+-ll_dep 6 pRa
+-layer 7 pRa
+}2100 d
+{crop_root_length_init 2101 g 9
+-stage_to_init 1 pRa
+-g_current_stage 2 pRa
+-g_days_tot 3 pra
+-root_wt 4 pRa
+-c_specific_root_length 5 pRa
+-g_root_depth 6 pRa
+-g_dlayer 7 pRa
+-g_root_length 8 prA
+-max_layer 9 pRa
+}2132 d
+{cproc_root_length_senescence1 2133 g 7
+-c_specific_root_length 1 pRa
+-g_dlayer 2 pRa
+-g_dlt_root_dm_senesced 3 pRa
+-g_root_length 4 pRa
+-g_root_depth 5 pRa
+-g_dlt_root_length_senesced 6 prA
+-max_layer 7 pRa
+}2170 d
+{cproc_root_depth1 2171 g 12
+-g_dlayer 1 pRa
+-c_num_sw_ratio 2 pRa
+-c_x_sw_ratio 3 pRa
+-c_y_sw_fac_root 4 pRa
+-g_dul_dep 5 pRa
+-g_sw_dep 6 pRa
+-p_ll_dep 7 pRa
+-c_root_depth_rate 8 pRa
+-g_current_stage 9 pRa
+-p_xf 10 pRa
+-g_dlt_root_depth 11 pRA
+-g_root_depth 12 pRa
+}2209 d
+{crop_root_depth_increase 2210 g 7
+-c_root_depth_rate 1 pRa
+-g_current_stage 2 pRa
+-g_dlayer 3 pRa
+-g_root_depth 4 pRa
+-g_sw_avail_fac_deepest_layer 5 pRa
+-p_xf 6 pRa
+-dlt_root_depth 7 pRA
+}2243 d
+{cproc_root_depth_init1 2244 g 5
+-initial_root_depth 1 pRa
+-current_stage 2 pRa
+-initialisation_stage 3 pRa
+-days_tot 4 pra
+-root_depth 5 prA
+}2269 d
+{cproc_root_length_init1 2270 g 9
+-stage_to_init 1 pRa
+-g_current_stage 2 pRa
+-g_days_tot 3 pra
+-root_wt 4 pRa
+-c_specific_root_length 5 pRa
+-g_root_depth 6 pRa
+-g_dlayer 7 pRa
+-g_root_length 8 prA
+-max_layer 9 pRa
+}2301 d
+{cproc_root_length_growth1 2302 g 19
+-c_specific_root_length 1 pRa
+-g_dlayer 2 pRa
+-g_dlt_root_wt 3 pRa
+-g_dlt_root_length 4 prA
+-g_dlt_root_depth 5 pRa
+-g_root_depth 6 pRa
+-g_root_length 7 pRa
+-g_plants 8 pRa
+-p_xf 9 pRa
+-c_num_sw_ratio 10 pRa
+-c_x_sw_ratio 11 pRa
+-c_y_sw_fac_root 12 pRa
+-c_x_plant_rld 13 pRa
+-c_y_rel_root_rate 14 pRa
+-c_num_plant_rld 15 pRa
+-g_dul_dep 16 pRa
+-g_sw_dep 17 pRa
+-p_ll_dep 18 pRa
+-max_layer 19 pRa
+}2357 d
+{crop_root_dist 2358 g 6
+-g_dlayer 1 pRa
+-g_root_length 2 pRa
+-g_root_depth 3 pRa
+-root_array 4 prA
+-root_sum 5 pRa
+-max_layer 6 pRa
+}2387 d
+{crop_root_redistribute 2388 g 7
+-root_length 1 pRA
+-root_depth_old 2 pRa
+-dlayer_old 3 pRa
+-nlayr_old 4 pRa
+-root_depth_new 5 pRa
+-dlayer_new 6 pRa
+-nlayr_new 7 pRa
+}2423 d
+{crop_temperature_stress_photo 2424 g 6
+-num_ave_temp 1 pRa
+-x_ave_temp 2 pRa
+-y_stress_photo 3 pRa
+-maxt 4 pRa
+-mint 5 pRa
+-temp_stress_photo 6 pRA
+}2446 d
+{crop_radn_int0 2447 g 4
+-cover_green 1 pRa
+-fr_intc_radn 2 pRa
+-radn 3 pRa
+-radn_int 4 prA
+}2465 d
+{crop_radn_int1 2466 g 5
+-extinction_coef 1 pRa
+-fr_intc_radn 2 pRa
+-lai 3 pRa
+-radn 4 pRa
+-radn_int 5 prA
+}2485 d
+{crop_store_value 2486 g 4
+-day_of_year 1 pRa
+-year 2 pRa
+-array 3 prA
+-value 4 pRa
+}2503 d
+{crop_running_ave 2504 g 4
+-day_of_year 1 pRa
+-year 2 pRa
+-array 3 pRa
+-number_of_days 4 pRa
+}2523 d
+{search_read_real_var 2524 g 8
+-section_names 1 pRA
+-number_of_sections 2 pRa
+-variable_name 3 pRa
+-units 4 pra
+-variable 5 pRA
+-numvals 6 pRA
+-lower 7 pRa
+-upper 8 pRa
+}2553 d
+{search_read_real_array 2554 g 9
+-section_names 1 pRA
+-number_of_sections 2 pRa
+-array_name 3 pRa
+-array_size 4 pRa
+-units 5 pra
+-array 6 pRA
+-numvals 7 pRA
+-lower 8 pRa
+-upper 9 pRa
+}2585 d
+{search_read_char_array 2586 g 7
+-section_names 1 pRA
+-number_of_sections 2 pRa
+-array_name 3 pRa
+-array_size 4 pRa
+-units 5 pra
+-array 6 pRA
+-numvals 7 pRA
+}2613 d
+{search_read_char_var 2614 g 6
+-section_names 1 pRA
+-number_of_sections 2 pRa
+-variable_name 3 pRa
+-units 4 pra
+-variable 5 prA
+-numvals 6 pRA
+}2639 d
+{search_read_integer_var 2640 g 8
+-section_names 1 pRA
+-number_of_sections 2 pRa
+-variable_name 3 pRa
+-units 4 pra
+-variable 5 pRA
+-numvals 6 pRA
+-lower 7 pRa
+-upper 8 pRa
+}2669 d
+{search_read_integer_array 2670 g 9
+-section_names 1 pRA
+-number_of_sections 2 pRa
+-array_name 3 pRa
+-array_size 4 pRa
+-units 5 pra
+-array 6 pRA
+-numvals 7 pRA
+-lower 8 pRa
+-upper 9 pRa
+}2701 d
+{crop_pool_fraction_delta 2702 g 4
+-num_part 1 pRa
+-fraction 2 pRa
+-pool 3 pRa
+-dlt_pool 4 prA
+}2722 d
+{crop_part_fraction_delta 2723 g 4
+-part_no 1 pRa
+-fraction 2 pRa
+-part 3 pRa
+-dlt_part 4 prA
+}2743 d
+{crop_sw_avail 2744 g 6
+-num_layer 1 pRa
+-dlayer 2 pRa
+-root_depth 3 pRa
+-sw_dep 4 pRa
+-ll_dep 5 pRa
+-sw_avail 6 pRA
+}2770 d
+{crop_sw_supply 2771 g 7
+-num_layer 1 pRa
+-dlayer 2 pRa
+-root_depth 3 pRa
+-sw_dep 4 pRa
+-kl 5 pRa
+-ll_dep 6 pRa
+-sw_supply 7 pRA
+}2799 d
+{crop_sw_uptake0 2800 g 6
+-num_layer 1 pRa
+-dlayer 2 pRa
+-root_depth 3 pRa
+-sw_demand 4 pRa
+-sw_supply 5 pRa
+-dlt_sw_dep 6 prA
+}2821 d
+{crop_swdef_expansion 2822 g 9
+-num_sw_demand_ratio 1 pRa
+-x_sw_demand_ratio 2 pRa
+-y_swdef_leaf 3 pRa
+-num_layer 4 pRa
+-dlayer 5 pRa
+-root_depth 6 pRa
+-sw_demand 7 pRa
+-sw_supply 8 pRa
+-swdef 9 prA
+}2848 d
+{crop_swdef_photo 2849 g 6
+-num_layer 1 pRa
+-dlayer 2 pRa
+-root_depth 3 pRa
+-sw_demand 4 pRa
+-sw_supply 5 pRa
+-swdef 6 prA
+}2870 d
+{crop_swdef_pheno 2871 g 9
+-num_sw_avail_ratio 1 pRa
+-x_sw_avail_ratio 2 pRa
+-y_swdef_pheno 3 pRa
+-num_layer 4 pRa
+-dlayer 5 pRa
+-root_depth 6 pRa
+-sw_avail 7 pRa
+-sw_avail_pot 8 pRa
+-swdef 9 prA
+}2897 d
+{crop_swdef_fixation 2898 g 9
+-num_sw_avail_fix 1 pRa
+-x_sw_avail_fix 2 pRa
+-y_swdef_fix 3 pRa
+-num_layer 4 pRa
+-dlayer 5 pRa
+-root_depth 6 pRa
+-sw_avail 7 pRa
+-sw_avail_pot 8 pRa
+-swdef 9 prA
+}2923 d
+{crop_oxdef_photo1 2924 g 11
+-c_num_oxdef_photo 1 pRa
+-c_oxdef_photo 2 pRa
+-c_oxdef_photo_rtfr 3 pRa
+-g_ll15_dep 4 pRa
+-g_sat_dep 5 pRa
+-g_sw_dep 6 pRa
+-g_dlayer 7 pRa
+-g_root_length 8 pRa
+-g_root_depth 9 pRa
+-max_layer 10 pRa
+-oxdef_photo 11 prA
+}2961 d
+{cproc_sw_supply1 2962 g 11
+-c_sw_lb 1 pRa
+-g_dlayer 2 pRa
+-p_ll_dep 3 pRa
+-g_dul_dep 4 pRa
+-g_sw_dep 5 pRa
+-max_layer 6 pRa
+-g_root_depth 7 pRa
+-p_kl 8 pRa
+-g_sw_avail 9 pRA
+-g_sw_avail_pot 10 pRA
+-g_sw_supply 11 pRA
+}2998 d
+{crop_sw_avail_pot 2999 g 6
+-num_layer 1 pRa
+-dlayer 2 pRa
+-dul_dep 3 pRa
+-root_depth 4 pRa
+-ll_dep 5 pRa
+-sw_avail_pot 6 pRA
+}3023 d
+{cproc_sw_uptake1 3024 g 6
+-num_layer 1 pRa
+-dlayer 2 pRa
+-root_depth 3 pRa
+-sw_demand 4 pRa
+-sw_supply 5 pRa
+-dlt_sw_dep 6 prA
+}3045 d
+{cproc_sw_demand1 3046 g 3
+-dlt_dm_pot_rue 1 pRa
+-transp_eff 2 pRa
+-sw_demand 3 prA
+}3062 d
+{cproc_transp_eff1 3063 g 6
+-svp_fract 1 pRa
+-transp_eff_cf 2 pRa
+-current_stage 3 pRa
+-maxt 4 pra
+-mint 5 pra
+-transp_eff 6 prA
+}3097 d
+{cproc_bio_water1 3098 g 6
+-num_layer 1 pRa
+-dlayer 2 pRa
+-root_depth 3 pRa
+-sw_supply 4 pRa
+-transp_eff 5 pRa
+-dlt_dm_pot_te 6 prA
+}3119 d
+{crop_check_sw 3120 g 6
+-minsw 1 pRa
+-dlayer 2 pRa
+-dul_dep 3 pRa
+-max_layer 4 pRa
+-sw_dep 5 pRa
+-ll_dep 6 pRa
+}3147 d
+]

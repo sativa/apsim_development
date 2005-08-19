@@ -1,0 +1,60 @@
+# (Borlandish) Makefile for general routines
+
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+CC=$(BCB)\Bin\bcc32.exe
+RANLIB=$(BCB)\Bin\TLib.exe
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:/progra~1/apsim33
+#APSROOT=c:\development
+
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+all: general.lib general_vcl.lib
+
+OBJECTS = date_class.obj exec.obj general.obj IniFile.obj \
+    io_functions.obj math_functions.obj path.obj stream_functions.obj \
+    stream_processor.obj string_functions.obj StringTokenizer.obj stristr.obj Macro.obj \
+    xml.obj http.obj
+
+BOBJS = $(BCB)\components\boost\libs\filesystem\src\path_posix_windows.obj \
+$(BCB)\components\boost\libs\filesystem\src\convenience.obj \
+$(BCB)\components\boost\libs\filesystem\src\exception.obj \
+$(BCB)\components\boost\libs\filesystem\src\operations_posix_windows.obj 
+
+#$(BCB)\Components\LibXml2\win32\LibXml2.lib
+
+VCLOBJECTS = vcl_functions.obj db_functions.obj
+LIBFILES =
+
+USERDEFINES =
+SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\components\boost;$(BCB)\components\libxml2\include
+LIBPATH = $(SYSLIBPATH)
+
+# ---------------------------------------------------------------------------
+CFLAG1 = $(SYSCFLAGS) -tWM
+WARNINGS = -w-par
+LFLAGS = /P128
+
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+general.lib: $(OBJECTS)
+    $(RANLIB) $@ $(LFLAGS) /u @&&!
+ $(OBJECTS) $(BOBJS)
+
+!
+
+general_vcl.lib: $(VCLOBJECTS)
+    $(RANLIB) /u $@ @&&!
+    $(LFLAGS) $(VCLOBJECTS)
+
+!
+
+clean:
+	$(RM) $(OBJECTS) $(TARGET)

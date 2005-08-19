@@ -1,0 +1,243 @@
+<Simulation executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll">
+   <title>lablab SAMPLE Simulation</title>
+   <component name="Log" executable="%apsuite\apsim\log\lib\log.dll">
+      <initdata>
+         <parameters name="debug">
+            <property name="logfile">debug.log</property>
+            <property name="debug_output">off</property>
+         </parameters>
+      </initdata>
+   </component>
+   <component name="SummaryFile" executable="%apsuite\apsim\SummaryFile\lib\SummaryFile.dll">
+      <initdata>
+         <parameters name="sample">
+            <property name="summaryfile">lablab.sum</property>
+         </parameters>
+      </initdata>
+   </component>
+   <component name="Screen" executable="%apsuite\apsim\Screen\lib\Screen.dll">
+      <initdata>
+         <parameters name="sample">
+            <property name="screen_output">on</property>
+         </parameters>
+      </initdata>
+   </component>
+   <component name="clock" executable="%apsuite\apsim\clock\lib\clock.dll">
+      <initdata>
+         <include>%apsuite\apsim\clock\clock.ini</include>
+         <parameters name="sample">
+            <property name="start_date">1/10/1988</property>
+            <property name="end_date">30/4/1989</property>
+         </parameters>
+      </initdata>
+   </component>
+   <component name="report" executable="%apsuite\apsim\report\lib\report.dll">
+      <initdata>
+         <parameters name="sample">
+            <property name="outputfile">lablab.out</property>
+         </parameters>
+         <variables>
+            <variable>clock.dd/mm/yyyy as Date</variable>
+            <variable>met.rain as rain</variable>
+            <variable>lablab.das</variable>
+            <variable>lablab.stage</variable>
+            <variable>lablab.lai</variable>
+            <variable>lablab.biomass</variable>
+            <variable>lablab.yield</variable>
+            <variable>lablab.root_depth</variable>
+            <variable>lablab.ep</variable>
+            <variable>lablab.height</variable>
+            <variable>lablab.dm_green(1) as dm_green_root</variable>
+            <variable>lablab.dm_green(3) as dm_green_stem</variable>
+            <variable>lablab.dm_green(2) as dm_green_leaf</variable>
+            <variable>lablab.dm_senesced(3) as dm_sen_stem</variable>
+            <variable>lablab.dm_senesced(2) as dm_sen_leaf</variable>
+            <variable>lablab.dm_dead()</variable>
+            <variable>stock.number</variable>
+            <variable>stock.sex</variable>
+            <variable>stock.age</variable>
+            <variable>stock.weight</variable>
+            <variable>stock.cond_score</variable>
+            <variable>stock.intake</variable>
+            <variable>stock.wt_change</variable>
+            <variable>stock.trampling</variable>
+            <variable>cattle.dm_feed_on_offer()</variable>
+            <variable>cattle.dm_feed_removed()</variable>
+         </variables>
+      </initdata>
+   </component>
+   <component name="Met" executable="%apsuite\apsim\Input\lib\Input.dll">
+      <initdata>
+         <parameters name="file">
+            <property name="filename">%apsuite\apsim\met\sample\dalby.met</property>
+         </parameters>
+      </initdata>
+   </component>
+   <component name="manager" executable="%apsuite\apsim\manager\lib\manager.dll">
+      <initdata>
+         <rules>
+            <rule name="sample.init" condition="init">
+               <![CDATA[area=100.0]]>
+            </rule>
+            <rule name="sample.start_of_day" condition="start_of_day">
+               <![CDATA[[cr]if day = 280 and year = 1988 then[cr]
+                 lablab sow cultivar = highworth, plants = 10 (/m2), sowing_depth = 40 (mm)[cr]endif[cr][cr][cr]
+                 if day = 330 and year = 1988 then[cr]
+                   cattle buystock number = 5 (-), sex = steer, age = 12 (months), weight = 250.0 (kg)[cr]endif[cr][cr]
+                   if lablab.stage_name = 'harvest_ripe' or lablab.plant_status = 'dead' then[cr]
+                      [cr]   endif[cr][cr]]]>
+            </rule>
+            <rule name="sample.end_of_day" condition="end_of_day">
+               <![CDATA[   report do_output[cr][cr][cr]]]>
+            </rule>
+         </rules>
+      </initdata>
+   </component>
+   <component name="soilwat2" executable="%apsuite\apsim\soilwat2\lib\soilwat2.dll">
+      <initdata>
+         <include>%apsuite\apsim\soilwat2\soilwat2.ini</include>
+         <parameters name="black_earth">
+            <property name="insoil">2.0</property>
+            <property name="diffus_const">88.</property>
+            <property name="diffus_slope">35.4</property>
+            <property name="cn2_bare">80</property>
+            <property name="cn_red">20</property>
+            <property name="cn_cov">.8</property>
+            <property name="salb">0.13</property>
+            <property name="cona">2.5</property>
+            <property name="u">4</property>
+            <property name="dlayer">150  150  300  300  300  300  300</property>
+            <property name="sat">.500 .509 .510 .505 .490 .480 .480</property>
+            <property name="dul">.450 .459  .45 .44  .42  .41  .41</property>
+            <property name="sw">.280 .364  .43 .43  .40  .41  .41</property>
+            <property name="ll15">.230 .240 .240 .250 .260 .270 .280</property>
+            <property name="air_dry">.10 .20 .20 .20 .20 .20 .20</property>
+            <property name="swcon">0.2  0.2  0.2  0.2  0.2  0.2  0.2</property>
+            <property name="bd">1.30 1.30 1.29 1.31 1.35 1.36 1.36</property>
+         </parameters>
+      </initdata>
+   </component>
+   <component name="soiln2" executable="%apsuite\apsim\soiln2\lib\soiln2.dll">
+      <initdata>
+         <include>%apsuite\apsim\soiln2\soiln2.ini</include>
+         <parameters name="black_earth">
+            <property name="amp">15.0</property>
+            <property name="tav">20.0</property>
+            <property name="root_cn">20.</property>
+            <property name="root_wt">1000.</property>
+            <property name="soil_cn">14.5</property>
+            <property name="oc">1.00 0.84 0.77 0.65 0.54 0.48 0.43</property>
+            <property name="ph">8.20 8.50 8.60 8.60 7.40 5.30 5.00</property>
+            <property name="fbiom">.035 .025 .015 0.01 0.01 0.01 0.01</property>
+            <property name="finert">0.30 0.50 0.60 0.75 0.90 0.99 0.99</property>
+            <property name="no3ppm">9.2  7.6  4.9  2.7  1.5  1.8  1.4</property>
+            <property name="nh4ppm">0.30 0.30 0.30 0.30 0.30 0.50 0.50</property>
+            <property name="ureappm">0  0    0    0    0    0    0</property>
+            <property name="enr_a_coeff">7.4</property>
+            <property name="enr_b_coeff">0.2</property>
+            <property name="profile_reduction">off</property>
+         </parameters>
+      </initdata>
+   </component>
+   <component name="lablab" executable="%apsuite\apsim\plant\lib\plant.dll">
+      <initdata>
+         <include>%apsuite\apsim\lablab\lablab.ini</include>
+         <parameters name="gatton_heavy">
+            <property name="ll">.20  .28  .320 .300 .270 .240 .310</property>
+            <property name="xf">1.00 1.00 1.00 1.00 1.00 1.00 1.00</property>
+            <property name="kl">0.08 0.08 0.08 0.08 0.05 0.03 0.01</property>
+         </parameters>
+      </initdata>
+   </component>
+   <component name="stock" executable="%apsuite\apsim\stock\lib\stock.dll">
+    <executable>"%apsuite\apsim\stock\lib\stock.dll"</executable>
+    <initdata>
+       <![CDATA[
+           <initsection>
+             <init name="published_events" array="T">
+             </init>
+             <init name="driver_connections" array="T">
+             </init>
+                 <init name="breed" kind="string">
+                   <val>Angus</val>
+                 </init>
+                 <init name="srw" kind="double" unit="kg">
+                   <val>520.0</val>
+                 </init>
+                 <init name="death_rate" kind="double" unit="/y">
+                   <val>0.01</val>
+                 </init>
+                 <init name="cattle" array="T">
+                   <element>
+                     <field name="number" kind="integer4">
+                       <val>00</val>
+                     </field>
+                     <field name="sex" kind="string">
+                       <val>steer</val>
+                     </field>
+                     <field name="age" kind="double" unit="d">
+                       <val>365.0</val>
+                     </field>
+                     <field name="weight" kind="double" unit="kg">
+                       <val>200.0</val>
+                     </field>
+                   </element>
+             </init>
+          </initsection>
+       ]]>
+     </initdata>
+   </component>
+   <component name="cattle" executable="%apsuite\apsim\stock\lib\StockScienceConverter.dll">
+      <initdata>
+         <parameters name="standard">
+            <property name="herbage_module_name">lablab</property>
+            <property name="debug">on</property>
+
+         </parameters>
+         <lablab name="standard">
+            <property name="dmdValue">0.8 0.7 0.6 0.5 0.4 0.3</property>
+
+            <property name="p_conc_green_leaf_default">0.004</property>
+            <property name="p_conc_green_stem_default">0.003</property>
+            <property name="p_conc_senesced_leaf_default">0.004</property>
+            <property name="p_conc_senesced_stem_default">0.003</property>
+            <property name="p_conc_dead_leaf_default">0.004</property>
+            <property name="p_conc_dead_stem_default">0.003</property>
+
+            <property name="ash_alk_green_leaf_default">254.0</property>
+            <property name="ash_alk_green_stem_default">96.0</property>
+            <property name="ash_alk_senesced_leaf_default">254.0</property>
+            <property name="ash_alk_senesced_stem_default">96.0</property>
+            <property name="ash_alk_dead_leaf_default">254.0</property>
+            <property name="ash_alk_dead_stem_default">96.0</property>
+
+            <property name="ns_ratio_green_leaf_default">19.0</property>
+            <property name="ns_ratio_green_stem_default">11.0</property>
+            <property name="ns_ratio_senesced_leaf_default">19.0</property>
+            <property name="ns_ratio_senesced_stem_default">11.0</property>
+            <property name="ns_ratio_dead_leaf_default">19.0</property>
+            <property name="ns_ratio_dead_stem_default">11.0</property>
+
+            <property name="np_ratio_green_leaf_default">8.0</property>
+            <property name="np_ratio_green_stem_default">8.0</property>
+            <property name="np_ratio_senesced_leaf_default">8.0</property>
+            <property name="np_ratio_senesced_stem_default">8.0</property>
+            <property name="np_ratio_dead_leaf_default">8.0</property>
+            <property name="np_ratio_dead_stem_default">8.0</property>
+
+            <property name="dmd_green_leaf">0.80 0.65 0.60</property>
+            <property name="dmd_green_stem">0.60 0.55 0.50</property>
+            <property name="dmd_senesced_leaf">0.60 0.50 0.40</property>
+            <property name="dmd_senesced_stem">0.50 0.35 0.30</property>
+            <property name="dmd_dead_leaf">0.40 0.40 0.40</property>
+            <property name="dmd_dead_stem">0.30 0.30 0.30</property>
+
+            <property name="cp_n_ratio">6.25</property>
+
+         </lablab>
+      </initdata>
+   </component>
+   <component name="sysbal" executable="%apsuite\apsim\sysbal\lib\sysbal.dll">
+      <initdata/>
+   </component>
+</Simulation>

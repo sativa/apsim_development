@@ -1,0 +1,16 @@
+version = 4.2
+[APSIM.soilt_sample]
+
+
+
+title=sample simulation
+module = clock      soilt.par[sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report     soilt.par[files]      soilt.par[variables]
+module = Input(Met)        %apsuite\apsim\met\sample\dalby.met[weather]
+module = manager    soilt.par[sample]
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2       %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]         %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = soilt
+module = screen     soilt.par[sample]
+module = summaryfile soilt.par[sample]

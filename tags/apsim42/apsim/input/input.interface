@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="input">
+   <registrations>
+      <read name="inputfile" type="inputfile" readable="T"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <eventReg name="newmet" type="newmet"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+   </registrations>
+</component>

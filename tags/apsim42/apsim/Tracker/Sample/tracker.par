@@ -1,0 +1,165 @@
+[sample.screen.parameters]
+screen_output=on
+
+! ===========================================================================
+!                    TRACKER SINGLE CROP SAMPLE
+! ===========================================================================
+
+[singlecrop_sample.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1989
+end_date=31/12/1989
+
+[singlecrop_sample.summaryfile.parameters]
+summaryfile=singlecrop_sample.sum
+
+[singlecrop_sample.report.parameters]
+outputfile =singlecrop_sample.out
+
+variable = clock.day
+variable = clock.year
+variable = tracker.accumulated_rain
+variable = wheat.lai
+variable = tracker.max_lai
+variable = wheat.yield
+variable = tracker.wheat_yield
+variable = wheat.ep
+variable = tracker.accumulated_wheat_ep
+variable = wheat.swdef_photo
+variable = tracker.wheat_weekly_stress
+
+
+[singlecrop_sample.tracker.parameters]
+variable = sum of rain on met.newmet from wheat.sowing to now as accumulated_rain
+variable = sum of rain on last 3 start_of_day as rain3
+variable = value of wheat.yield on wheat.harvesting as wheat_yield
+variable = sum of wheat.ep on end_of_day from wheat.sowing to wheat.harvesting as accumulated_wheat_ep
+variable = maximum of wheat.lai on end_of_day from wheat.sowing to wheat.harvesting as max_lai
+variable = average of wheat.swdef_photo on last 7 end_of_day from wheat.sowing to wheat.harvesting as wheat_weekly_stress
+
+[singlecrop_sample.manager.start_of_day]
+
+if tracker.rain3 >= 20 and date_within('1-may,30-jun') and wheat.plant_status = 'out' then
+   fertiliz apply amount = 200, type = no3_n, depth = 10
+   wheat sow cultivar = batavia, plants = 100 (/m2), sowing_depth = 40 (mm)
+endif
+
+if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+   wheat harvest
+   wheat end_crop
+endif
+
+[singlecrop_sample.manager.end_of_day]
+
+report do_end_day_output
+
+
+
+
+
+! ===========================================================================
+!                        TRACKER LUCERNE SAMPLE
+! ===========================================================================
+[lucerne_sample.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1988
+end_date=31/12/1989
+
+[lucerne_sample.summaryfile.parameters]
+summaryfile=lucerne_sample.sum
+
+[lucerne_sample.report.parameters]
+outputfile =lucerne_sample.out
+
+variable = clock.day
+variable = clock.year
+variable = tracker.rain3
+variable = tracker.rainfall
+variable = tracker.number_of_cuts
+variable = tracker.cut_biomass
+
+
+[lucerne_sample.tracker.parameters]
+variable = sum of rain on  last 3 start_of_day as rain3
+variable = sum of rain on start_of_day from reported to now as rainfall
+variable = count of lucerne.harvesting from reported to now as number_of_cuts
+variable = sum   of lucerne.biomass on lucerne.harvesting from reported to now as cut_biomass
+
+[lucerne_sample.manager.start_of_day]
+
+if tracker.rain3 >= 20 and date_within('1-may,30-jun') and lucerne.plant_status = 'out' then
+   lucerne sow cultivar = trifecta, plants = 200 (/m2), sowing_depth = 40 (mm)
+endif
+if lucerne.stage_name = 'flowering' or lucerne.biomass > 3000 then
+   lucerne harvest height = 50 (mm)
+endif
+
+[lucerne_sample.manager.end_of_day]
+
+if days_since_last_report = 60 then
+   report do_end_day_output
+endif
+
+! ===========================================================================
+!                        TRACKER ROTATION SAMPLE
+! ===========================================================================
+
+[rotation_sample.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1960
+end_date=31/12/1970
+
+[rotation_sample.summaryfile.parameters]
+summaryfile=rotation_sample.sum
+
+[rotation_sample.report.parameters]
+outputfile =rotation_sample.out
+
+variable = clock.day
+variable = clock.year
+variable = tracker.total_rain
+variable = tracker.wheat_yield
+variable = tracker.chickpea_yield
+variable = tracker.wheat_incrop_rain
+variable = tracker.chickpea_incrop_rain
+variable = tracker.wheat_sowing_date
+variable = tracker.chickpea_sowing_date
+
+
+[rotation_sample.tracker.parameters]
+
+variable = sum of rain on met.newmet from reported to now as total_rain
+variable = sum of rain on last 3 start_of_day as rain3
+variable = value of wheat.yield on wheat.harvesting as wheat_yield
+variable = value of chickpea.yield on chickpea.harvesting as chickpea_yield
+variable = sum of met.rain on met.newmet from wheat.sowing to wheat.harvesting as wheat_incrop_rain
+variable = sum of met.rain on met.newmet from chickpea.sowing to chickpea.harvesting as chickea_incrop_rain
+variable = count of tick from chickpea.sowing to now as days_since_chickpea_sowing
+variable = date of wheat.sowing as wheat_sowing_date
+variable = date of chickpea.sowing as chickpea_sowing_date
+
+[rotation_sample.manager.start_of_day]
+
+if tracker.rain3 >= 20 and date_within('1-may,30-jun') and wheat.plant_status = 'out' and chickpea.plant_status = 'out' then
+   if days_since_chickpea_sowing > 365 * 2 then
+      chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
+   else
+      wheat sow cultivar = hartog, plants = 100 (/m2), sowing_depth = 40 (mm)
+   endif
+endif
+
+if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+   wheat harvest
+   wheat end_crop
+endif
+if chickpea.stage_name = 'harvest_ripe' or chickpea.plant_status = 'dead' then
+   chickpea harvest
+   chickpea end_crop
+endif
+[rotation_sample.manager.end_of_day]
+
+if end_year = 1 then
+   report do_end_day_output
+endif
+
+

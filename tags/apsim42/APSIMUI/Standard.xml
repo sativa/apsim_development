@@ -1,0 +1,626 @@
+<folder name="Standard Toolbox">
+  <area name="paddock">
+    <registrations name="global" />
+  </area>
+  <folder name="folder">
+  </folder>
+  <folder name="shared">
+  </folder>
+  <clock name="clock">
+    <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1988</start_date>
+    <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1988</end_date>
+  </clock>
+  <outputfile name="outputfile">
+    <filename name="filename">sample.out</filename>
+    <outputfiledescription name="My Variables">
+      <variables>
+        <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" />
+      </variables>
+      <events>
+        <event name="Daily" description="End of daily simulation time step" module="clock" />
+      </events>
+    </outputfiledescription>
+  </outputfile>
+  <summaryfile name="summaryfile">
+    <filename name="filename">sample.sum</filename>
+  </summaryfile>
+  <metfile name="metfile">
+    <filename name="filename">C:\Program Files\Apsim40\apsim\met\sample\dalby.met</filename>
+    <climatechange>
+      <maxtmodifier description="Change in temperature in degrees celsius">0.0</maxtmodifier>
+      <mintmodifier description="Change in temperature in degrees celsius">0.0</mintmodifier>
+      <rainmodifier description="Relative change in rainfall">1.0</rainmodifier>
+      <radiationmodifier description="Relative change in radiation">1.0</radiationmodifier>
+      <co2 description="Atmospheric C02 concentration (ppm)">350</co2>
+    </climatechange>
+  </metfile>
+  <soi name="soi">
+    <filename>%apsuite\soi\phases.soi</filename>
+  </soi>
+  <manager name="Manager">
+    <rule name="Sow using a variable rule">
+      <condition name="start_of_day"><![CDATA[
+      if (paddock_is_fallow() = 1) then
+         if (date_within('[date1], [date2]') = 1) then
+            if (rain[[rainnumdays]] >= raincrit AND esw >= [esw_amount]) OR
+                ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
+               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+         endif
+      endif
+            ]]></condition>
+      <category name="Sowing criteria">
+        <property name="date1" value="15-may" type="text" description="Enter sowing window START date (dd-mmm) : " />
+        <property name="date2" value="10-jul" type="text" description="Enter sowing window END date (dd-mmm) : " />
+        <property name="must_sow" value="no" type="yesno" description="Must sow? : " />
+        <property name="raincrit" value="30" type="text" description="Amount of rainfall : " />
+        <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
+        <property name="esw_amount" value="200" type="text" description="Enter minimum allowable available soil water (mm) : " />
+      </category>
+      <category name="Sowing parameters">
+        <property name="crop" value="wheat" type="modulename" description="Enter name of crop to sow : " />
+        <property name="density" value="100" type="text" description="Enter sowing density  (plants/m2) : " />
+        <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+        <property name="cultivar" value="hartog" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+        <property name="row_spacing" value="250" type="text" description="Enter row spacing (mm) : " />
+      </category>
+    </rule>
+        <rule name="Sorghum sowing rule">
+          <condition name="start_of_day"><![CDATA[
+      if (paddock_is_fallow() = 1) then
+         if (date_within('[date1], [date2]') = 1) then
+            if (rain[[rainnumdays]] >= raincrit AND esw >= [esw_amount]) OR
+                ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
+               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], tiller_no_fertile = [ftn] (), skip = [skiprow]
+            endif
+         endif
+      endif
+            ]]></condition>
+          <category name="Sowing criteria">
+            <property name="date1" value="15-oct" type="text" description="Enter sowing window START date (dd-mmm) : " />
+            <property name="date2" value="10-jan" type="text" description="Enter sowing window END date (dd-mmm) : " />
+            <property name="must_sow" value="no" type="yesno" description="Must sow? : " />
+            <property name="raincrit" value="30" type="text" description="Amount of rainfall : " />
+            <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
+            <property name="esw_amount" value="200" type="text" description="Enter minimum allowable available soil water (mm) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="sorghum" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="7" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="early" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="1" type="text" description="Enter row spacing (m) : " />
+            <property name="ftn" value="1" type="text" description="Enter Fertile Tiller No. : " />
+            <property name="skiprow" value="solid" type="list" listvalues="solid, single, double" description="Skip row : " />
+          </category>
+        </rule>
+    <rule name="Sow on a fixed date">
+      <condition name="start_of_day"><![CDATA[
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+               ]]></condition>
+      <category name="Sowing criteria">
+        <property name="date" value="1-jan" type="text" description="Enter sowing date (dd-mmm) : " />
+      </category>
+      <category name="Sowing parameters">
+        <property name="crop" value="wheat" type="modulename" description="Enter name of crop to sow : " />
+        <property name="density" value="10" type="text" description="Enter sowing density  (plants/m2) : " />
+        <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
+        <property name="cultivar" value="" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+        <property name="row_spacing" value="500" type="text" description="Enter row spacing (mm) : " />
+      </category>
+    </rule>
+    <rule name="SUGAR management">
+      <condition name="start_of_day"><![CDATA[
+            ! -----------------------------------------------------------------
+            ! Book keeping to round days to integer values
+            plantlen = nearest_int(plantlen)
+            ratoonlen = nearest_int(ratoonlen)
+
+            ! Initialise and set a time counter for entire run
+            dah = 0
+
+            if (sugar.crop_status = 'alive') then
+               dah = 0
+
+               ! Set harvest dates for each crop phase
+               if (sugar.das = [plantlen] and ratoon_no = 0) or
+                  (sugar.das = [ratoonlen] and ratoon_no > 0) then
+
+                  sugar harvest
+
+                  if (ratoon_no = [NoRatoons] + 1) then
+                     ! plough the crop out
+                     sugar kill_crop
+                     sugar end_crop
+
+                  else
+                     ! Set stalk density
+                     sugar.plants = [ratoon_stalks]
+                  endif
+               else
+                  ! We have not reached the harvest date for this ratoon.
+               endif
+
+            elseif (sugar.crop_status = 'dead') then
+               sugar harvest
+               sugar end_crop
+
+            elseif (sugar.crop_status = 'out') and (today = date('[planting_day]') then
+               sugar sow plants = 10 (), cultivar = [variety], sowing_depth = [sowing_depth]
+               sugar.plants = [plant_stalks]
+               dah = 0
+
+            else
+               dah = dah + 1
+            endif
+               ]]></condition>
+      <category name="Sugar plant crop management parameters">
+        <property name="crop" value="sugar" type="modulename" description="Enter name of crop to sow : " />
+        <property name="planting_day" value="1-jan" type="text" description="Enter planting date (dd-mmm) : " />
+        <property name="plantlen" value="450" type="text" description="Duration of a plant crop (days) (30 days/month * 15 months) : " />
+        <property name="plant_stalks" value="10" type="text" description="Stalk density of plant crop (/m2) :" />
+        <property name="variety" value="q117" type="list" listvalues="q117,q96,q138,ts65-28,h73,q141,nco376,n12,n14,cp51,r570,m1356,m55560,q124" description="Planting variety :" />
+        <property name="sowing_depth" value="150" type="text" description="Planting depth mm) :" />
+      </category>
+      <category name="Ratoon management parameters">
+        <property name="NoRatoons" value="4" type="text" description="Number of ratoons (max = 5): " />
+        <property name="ratoonlen" value="390" type="text" description="Duration of a ratoon crop (days) (30 days/month * 13 months) : " />
+        <property name="ratoon_stalks" value="10" type="text" description="Stalk density of ratoon crop (/m2) :" />
+      </category>
+    </rule>
+    <rule name="Harvesting rule">
+      <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+      <category name="Harvesting criteria">
+        <property name="crop" value="wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+      </category>
+    </rule>
+    <rule name="Fertilise at sowing">
+      <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+      <category name="When should fertiliser be applied">
+        <property name="modulename" value="wheat" type="modulename" description="On which module should the event come from : " />
+        <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+      </category>
+      <category name="Fertiliser application details">
+        <property name="fertmodule" value="" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
+        <property name="fert_amount_sow" value="150" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+        <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+      </category>
+    </rule>
+    <rule name="Fertilise on fixed date">
+      <condition name="start_of_day"><![CDATA[
+         if (today = date('[fert_date]') then
+            N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+            if (N_topsoil < [fert_criteria]) then
+               [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+            endif
+         endif ]]></condition>
+      <category name="When should fertiliser be applied">
+        <property name="fert_date" value="dd-mmm" type="text" description="Enter fertiliser date (dd-mmm) : " />
+        <property name="fert_criteria" value="1000" type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : " />
+      </category>
+      <category name="Fertiliser application details">
+        <property name="fertmodule" value="" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
+        <property name="fert_amount" value="150" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+        <property name="fert_type" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+      </category>
+    </rule>
+    <rule name="Fertilise on fixed date - top up">
+      <condition name="start_of_day"><![CDATA[
+         if (today = date('[fert_date]') then
+            N_deficit = $fert_criteria - (no3(1) + nh4(1) + no3(2) + nh4(2) + no3(3) + nh4(3))
+            '[fertmodule]' apply amount = N_deficit (kg/ha), depth = 50 (mm), type = [fert_type] ()
+         endif ]]></condition>
+      <category name="When should fertiliser be applied">
+        <property name="fert_date" value="dd-mmm" type="text" description="Enter fertiliser date (dd-mmm) : " />
+        <property name="fert_criteria" value="1000" type="text" description="Amount of N required in top 3 layers (kg/ha) : " />
+      </category>
+      <category name="Fertiliser application details">
+        <property name="fertmodule" value="" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
+        <property name="fert_type" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+      </category>
+    </rule>
+    <rule name="Irrigate at sowing">
+      <condition name="[modulename].[eventname]"><![CDATA[
+         if ([irrig_amount_evt] > 0) then
+            '[irrigatemodule]' apply amount = [irrig_amount_evt] (mm)
+         endif
+   ]]></condition>
+      <category name="When should irrigation be applied">
+        <property name="modulename" value="" type="modulename" description="The module the event come from : " />
+        <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+      </category>
+      <category name="Irrigation application details">
+        <property name="irrigatemodule" value="" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
+        <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+      </category>
+    </rule>
+    <rule name="Tillage on fixed date">
+      <condition name="start_of_day"><![CDATA[
+         if (today = date('[tillage_date]') then
+            if ('[tillage_type]' = 'user_defined') then
+                '[surfaceommodule]' tillage type = [tillage_type], f_incorp = [tillage_f_incorp] (), tillage_depth = [tillage_depth]
+            else
+                '[surfaceommodule]' tillage type = [tillage_type]
+            endif
+            ready_to_till_pre_sow = 0
+            till_day_pre_sow = 0
+         endif
+      ]]></condition>
+      <category name="When should tillage be done">
+        <property name="tillage_date" value="dd-mmm" type="text" description="Enter tillage date (dd-mmm) : " />
+      </category>
+      <category name="Tillage application details">
+        <property name="surfaceommodule" value="" type="modulename" moduletype="surfaceom" description="Module used to apply the tillage : " />
+        <property name="tillage_type" value="disc" type="list" listvalues="user_defined, chisel, disc, planter, burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type : " />
+        <property name="tillage_depth" value="0" description="User_defined depth of seedbed preparation (mm) : " />
+        <property name="tillage_f_incorp" value="0" description="User_defined fraction of surface residues to incorporate (0-1): " />
+      </category>
+    </rule>
+    <rule name="Reset water, nitrogen and surfaceOM on fixed date">
+      <condition name="start_of_day">
+         if (today = date('[reset_date]') then
+            resetWater = '[resetWater]'
+            resetNitrogen  = '[resetNitrogen]'
+            resetSurfaceOM = '[resetSurfaceOM]'
+            if (resetWater = 'yes') then
+                '[soilmodule] Water' reset
+            endif
+            if (resetNitrogen = 'yes') then
+                '[soilmodule] Nitrogen' reset
+            endif
+            if (resetSurfaceOM = 'yes') then
+                '[surfaceommodule]' reset
+            endif
+         endif
+      </condition>
+      <category name="When should a reset be done">
+        <property name="reset_date" value="dd-mmm" type="text" description="Enter date of reset (dd-mmm) : " />
+      </category>
+      <category name="Reset details">
+        <property name="soilmodule" value="" type="modulename" moduletype="soil" description="Name of your soil module : " />
+        <property name="surfaceommodule" value="surface organic matter" type="modulename" moduletype="surfaceom" description="Name of your surface organic matter module : " />
+        <property name="resetWater" value="yes" type="yesno" description="Reset soil water?" />
+        <property name="resetNitrogen" value="yes" type="yesno" description="Reset soil nitrogen?" />
+        <property name="resetSurfaceOM" value="yes" type="yesno" description="Reset surface organic matter?" />
+      </category>
+    </rule>
+    <rule name="Reset water, nitrogen and surfaceOM on sowing">
+      <condition name="[modulename].[eventname]">
+            resetWater = '[resetWater]'
+            resetNitrogen  = '[resetNitrogen]'
+            resetSurfaceOM = '[resetSurfaceOM]'
+            if (resetWater = 'yes') then
+                '[soilmodule] Water' reset
+            endif
+            if (resetNitrogen = 'yes') then
+                '[soilmodule] Nitrogen' reset
+            endif
+            if (resetSurfaceOM = 'yes') then
+                '[surfaceommodule]' reset
+            endif
+      </condition>
+      <category name="When should a reset be done">
+        <property name="modulename" value="wheat" type="modulename" description="The module the event is to come from : " />
+        <property name="eventname" value="sowing" type="text" description="On which event should a reset be done : " />
+      </category>
+      <category name="Reset details">
+        <property name="soilmodule" value="" type="modulename" moduletype="soil" description="Name of your soil module : " />
+        <property name="surfaceommodule" value="surface organic matter" type="modulename" moduletype="surfaceom" description="Name of your surface organic matter module : " />
+        <property name="resetWater" value="yes" type="yesno" description="Reset soil water?" />
+        <property name="resetNitrogen" value="yes" type="yesno" description="Reset soil nitrogen?" />
+        <property name="resetSurfaceOM" value="yes" type="yesno" description="Reset surface organic matter?" />
+      </category>
+    </rule>
+  </manager>
+  <logic name="logic">
+    <script name="init">
+    </script>
+    <script name="startofday">
+    </script>
+    <script name="endofday">
+    </script>
+  </logic>
+  <fertiliser name="fertiliser" />
+  <irrigation name="Irrigation">
+    <property name="automatic_irrigation" type="text" description="switch">on</property>
+    <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+    <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
+    <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+  </irrigation>
+  <phos name="Phosphorus"/>
+  <log name="log">
+    <debugoutput name="debugoutput">on</debugoutput>
+    <filename name="filename">log.txt</filename>
+  </log>
+  <micromet name="micromet">
+    <soilalbedo name="soilalbedo">0.23</soilalbedo>
+    <a_interception name="a_interception">0.0</a_interception>
+    <b_interception name="b_interception">0.0</b_interception>
+    <c_interception name="c_interception">0.0</c_interception>
+    <d_interception name="d_interception">0.0</d_interception>
+  </micromet>
+  <slurp name="slurp">
+    <type name="type">wheat</type>
+    <lai name="LAI">6.0</lai>
+    <laid name="LAId">0.5</laid>
+    <Kg name="Kg">0.5</Kg>
+    <Kd name="Kd">0.4</Kd>
+    <height name="height">1000.</height>
+    <Frgr name="Frgr">1.0</Frgr>
+  </slurp>
+
+  <folder name="crops">
+    <bambatsi />
+    <canola />
+    <chickpea />
+    <cowpea />
+    <egrandis />
+    <fababean />
+    <fieldpea />
+    <lablab />
+    <lucerne />
+    <lupin />
+    <maize />
+    <mucuna />
+    <mungbean />
+    <navybean />
+    <peanut />
+    <pigeonp />
+    <sorghum />
+    <soybean />
+    <stylo />
+    <sugar />
+    <sunflower />
+    <weed />
+    <wheat />
+    <ozcot />
+  </folder>
+  <StockScienceConverter name="StockScienceConverter" />
+  <stock name="sheep">
+    <type name="type">sheep</type>
+    <breed name="breed">Medium Merino</breed>
+    <srw name="srw">50.0</srw>
+    <male_breed name="male_breed">Medium Merino</male_breed>
+    <male_srw name="male_srw">50.0</male_srw>
+    <conception1 name="conception1">0.8</conception1>
+    <conception2 name="conception2">0.15</conception2>
+    <conception3 name="conception3">0</conception3>
+    <death_rate name="death_rate">0.02</death_rate>
+    <ref_fleece_wt name="ref_fleece_wt">4.5</ref_fleece_wt>
+    <max_fibre_diam name="max_fibre_diam">20.0</max_fibre_diam>
+    <fleece_yield name="fleece_yield">0.7</fleece_yield>
+    <peak_milk name="peak_milk">25.0</peak_milk>
+    <group name="sheep group">
+      <number>120</number>
+      <sex>wether</sex>
+      <age>730.0</age>
+      <weight>50.0</weight>
+      <max_prev_wt>50.0</max_prev_wt>
+      <fleece_wt>6.0</fleece_wt>
+      <fibre_diam>20.0</fibre_diam>
+      <pregnant>0</pregnant>
+      <lactating>0</lactating>
+      <no_young>0</no_young>
+      <birth_cs>0.0</birth_cs>
+      <lamb_wt>0.0</lamb_wt>
+      <lamb_fleece_wt>0.0</lamb_fleece_wt>
+      <paddock>paddock_1</paddock>
+      <tag>0</tag>
+      <priority>0</priority>
+    </group>
+  </stock>
+  <stock name="cattle">
+    <type name="type">cattle</type>
+    <breed name="breed" description="Name of the animal breed" type="list" listvalues="angus, ayrshire, beef shorthorn, brahman, brahman x british, brown swiss, charolais, charolais x british, charolais x friesian, charolais x holstein, chianina, dairy shorthorn, friesian, friesian x british, guernsey, hereford, holstein, holstein x british, jersey, limousin, sahiwal, simmental, south devon">Angus</breed>
+    <death_rate name="death_rate" description="Base rate of animal mortality (/year)">0.02</death_rate>
+    <group name="cattle group">
+      <number>0</number>
+    </group>
+  </stock>
+  <surfaceom name="surface organic matter">
+    <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
+    <type description="Organic Matter type">wheat</type>
+    <mass description="Initial surface residue (kg/ha)">1000.</mass>
+    <cnr description="C:N ration of initial residue">80.0</cnr>
+    <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+  </surfaceom>
+  <vinelogic name="vinelogic">
+    <data name="data"><![CDATA[*MODEL INPUT FILE            I     1    19     1     8
+*FILES
+MODEL          VInes950.exe
+FILEX
+FILEA
+FILET
+SPECIES
+ECOTYPE
+CULTIVAR       VInes950.CUL
+PESTS          VInes950.PST
+SOILS          SOIL.SOL
+WEATHER        MILD9501.wth
+OUTPUT         MILD95TEST
+*SIMULATION CONTROL
+&SwitchData
+INyrs=1
+Rep=1
+Isimi='S'
+Iyrsim=95001
+TitSim='GENERALISED SIMULATION RUN'
+IswWat = 'Y'
+ISWNIT='N'
+ISWSALT='Y'
+ISWPHO='N'
+ISWPOT='N'
+ISWDIS='N'
+MEWTH='M'
+MESIC='M'
+MELI='E'
+MEEVP='R'
+MEINF='S'
+MEPHO='C'
+IPLTI='R'
+IIRRI='A'
+IFERI='N'
+IRESI='N'
+IHARI='G'
+IOX='N'
+IDETO='Y'
+IDETS='Y'
+FROP = 1
+IDETG='Y'
+IDETC='N'
+IDETW='Y'
+IDETN='Y'
+IDETP='Y'
+IDETD='N'
+IDETL='Y'
+/
+!AUTOMATIC MANAGEM
+               94155 94200   40.  100.   30.   40.   10.
+                70.0  50.0 100.0     6 IR003   -99 1.00
+                 30.   50.   25. FE001 GS000
+                100.     1   20.
+                   0 94365  100.    0.
+*EXP.DETAILS
+               Mildura  - 1995 Cabernet Franc Tall  trellis  Row by vine 330*240cm
+*TREATMENTS
+  11 0 0
+*CULTIVARS
+   VI IB0013 PINOT NOIR
+*FIELDS
+&Fielddata
+Cslope=' 1.0'
+/
+*INITIAL CONDITIONS
+      VI 94001 1200.  -99.  1.00  1.00     0
+      2  0.237    .0    .0   .0
+      7  0.237    .0    .0   .0
+     15  0.237    .0    .0   .0
+     26  0.289    .0    .0   .0
+     40  0.289    .0    .0   .0
+     57  0.289    .0    .0   .0
+     77  0.288    .0    .0   .0
+    100  0.300    .0    .0   .0
+    125  0.300    .0    .0   .0
+    150  0.352    .0    .0   .0
+    200  0.352    .0    .0   .0
+    250  0.352    .0    .0   .0
+    325  0.352    .0    .0   .0
+    400  0.352    .0    .0   .0
+    500  0.352    .0    .0   .0
+
+*PLANTING DETAILS
+       0     0   0.0   0.0                0.    0.   0.0    0.    0.   0.0   0.0
+*VINEYARD
+&VinexData
+VineMstart=95001
+InCritVD= 30
+VineRowspc =3.3
+InterVineDist =2.4
+TrellisHt =2.
+TrellisWd =1.2
+BudnoVine =190.
+TrunkDiam = -99
+VineAge =12.0
+PruningSys='SPUR'
+TrellisSys='MINIM'
+CordonNum = -99
+CaneNum = -99
+Prunewt = .0
+VineResv =  .1
+TrelTrunWr = -99
+CanRetrnDate = -99
+NewtrellsWid = -99
+NewTrellsHgt = -99
+FruitThinDate = -99
+FruitRemPct = -99
+FruitEsSw = -99
+BunchNOvine = .0
+BerryBunch = .0
+/
+*HYDROLOGY
+&HydrolData
+TruDepWt =  2
+PiezInitial =  1.5
+BotBoundFlux = 0.001
+PiezoType = 'FIXED'
+WtType = 'FLOAT'
+URzSoilEc =    .5
+LRzSoilEc =    .5
+GroundWaterEc =  4
+Drained=.True.
+TileDepth = 1.8
+/
+*IRRIGATION
+    1.00  70.0  50.0 100.0     6 IR003   -99   0.2
+
+&IrrigData
+IrAutoDefMethod='SWDRIVEN'
+IrType=' 1'
+Iron(1)=.T.,.T.,.T.,.T.,.T.
+IrManDepth(1)= 57, 57, 57, 57, 57
+IrWaterEc(1)= .2, .2, .2, .2, .2
+IrCritSw(1)= 50, 50, 50, 50, 50
+IrRefillPer(1)= 100, 100, 100, 100, 100
+IrRetnPeriod(1)= 7, 7, 7, 7, 7
+IrStageCap(1)= 1000, 1000, 1000, 1000, 1000
+IrCumNetET(1)=0.0,0.0,0.0,0.0,0.0
+IrETIrrAmt(1)=0.0,0.0,0.0,0.0,0.0
+/
+*FERTILIZERS
+*RESIDUES
+*ENVIRONMENT
+*HARVEST
+   95074     7   -99   -99  -99.
+*SOIL
+*CS00390002  SCS         CLLO    151 UNKNOWN
+ MERBEIN     AUSTRALIA    -34.000  142.000 COOMEALLA ADJ LOAM
+ BN     0.13   9.3  0.20    76  1.00  1.00 IB001 IB001 IB001         5.0   5.0  20.0  150
+    2. A     0.109 0.237 0.376  1.00   20.0  1.48  1.20  16.7  44.0   2.1   -99   8.6 -99.0 -99.0   1.0
+    7. A     0.109 0.237 0.376  1.00   20.0  1.48  1.20  16.7  44.0   2.1   -99   8.6 -99.0 -99.0   1.0
+   15. A     0.109 0.237 0.376  1.00   20.0  1.48  1.20  16.7  44.0   2.1   -99   8.6 -99.0 -99.0   1.0
+   26. B     0.163 0.289 0.370  0.75    5.0  1.50  1.00  19.9  39.0   2.3   -99   9.0 -99.0 -99.0   0.8
+   40. B     0.163 0.289 0.370  0.75    5.0  1.50  1.00  19.9  39.0   2.3   -99   9.0 -99.0 -99.0   0.8
+   57. B     0.163 0.289 0.370  0.75    5.0  1.50  1.00  19.9  39.0   2.3   -99   9.0 -99.0 -99.0   0.8
+   77. B1    0.166 0.288 0.353  0.35    3.0  1.55  0.90  16.1  33.0   3.2   -99   9.1 -99.0 -99.0   0.4
+  100. B2    0.182 0.300 0.352  0.20    1.0  1.55  0.40  17.7  31.0   3.8   -99   9.1 -99.0 -99.0   0.4
+  125. B2    0.182 0.300 0.352  0.20    1.0  1.55  0.40  17.7  31.0   3.8   -99   9.1 -99.0 -99.0   0.4
+  150. BC    0.230 0.352 0.364  0.10    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
+  200. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
+  250. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
+  325. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
+  400. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
+  500. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
+
+     2    .0    .0    .0    .0
+     7    .0    .0    .0    .0
+    15    .0    .0    .0    .0
+    26    .0    .0    .0    .0
+    40    .0    .0    .0    .0
+    57    .0    .0    .0    .0
+    77    .0    .0    .0    .0
+   100    .0    .0    .0    .0
+   125    .0    .0    .0    .0
+   150    .0    .0    .0    .0
+   200    .0    .0    .0    .0
+   250    .0    .0    .0    .0
+   325    .0    .0    .0    .0
+   400    .0    .0    .0    .0
+   500    .0    .0    .0    .0
+
+*CULTIVAR
+IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  0.60  1.80   1.0
+*ROOTSTOCK
+00000 VineLogic Rsk      5.    5.    5.    1.7  0.12   9.1 ]]></data>
+  </vinelogic>
+</folder>

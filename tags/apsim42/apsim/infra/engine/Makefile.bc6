@@ -1,0 +1,58 @@
+# (Borlandish) Makefile for apsim executable
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+PROJECT=..\..\..\Bin\apsim.exe
+
+OBJECTS=apsim.obj Simulation.obj $(APSROOT)\Shared\ComponentInterface\message.obj
+
+LIBFILES = $(APSROOT)\Shared\general\general.lib \
+	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+	$(APSROOT)\Shared\Protocol\Protocol.lib
+
+RESFILES = apsim.res
+
+USERDEFINES = 
+SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
+LIBPATH = $(SYSLIBPATH);$(APSROOT)\Shared\ComponentInterface
+
+
+# ---------------------------------------------------------------------------
+
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -tWM 
+WARNINGS = -w-par
+LFLAGS = -l. -D"" -aa -Tpe -x -Gn
+
+ALLOBJ = c0w32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJECTS)
+ALLRES = $(RESFILES)
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cp32mti.lib
+
+CC=$(BCB)\Bin\bcc32.exe
+LD=$(BCB)\Bin\ilink32
+# ---------------------------------------------------------------------------
+engine: $(PROJECT)
+
+$(PROJECT): $(OBJECTS) $(RESFILES)
+	$(LD) @&&!
+	$(LFLAGS) -L$(LIBPATH) +
+	$(ALLOBJ), $(PROJECT), , $(ALLLIB), $(DEFFILE), $(ALLRES)
+!
+
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+
+####
+apsim.obj: apsim.cpp Simulation.h
+Simulation.obj: Simulation.cpp Simulation.h
+
+clean:
+	$(RM) $(OBJECTS) $(TARGET)
