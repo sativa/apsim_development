@@ -270,16 +270,25 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
       for (unsigned i = 0; i != dataDates.size(); i++)
          {
          date dataDate(from_string(dataDates[i]));
-         data.gotoDate(dataDate);
+         try
+            {
+            data.gotoDate(dataDate);
 
-         protocol::newmetType newmet;
-         newmet.today = dataDate.julian_day();
-         newmet.maxt = getVariableValue("maxt");
-         newmet.mint = getVariableValue("mint");
-         newmet.radn = getVariableValue("radn");
-         newmet.rain = getVariableValue("rain");
-         newmet.vp = getVariableValue("vp");
-         newmets.push_back(newmet);
+            protocol::newmetType newmet;
+            newmet.today = dataDate.julian_day();
+            newmet.maxt = getVariableValue("maxt");
+            newmet.mint = getVariableValue("mint");
+            newmet.radn = getVariableValue("radn");
+            newmet.rain = getVariableValue("rain");
+            newmet.vp = getVariableValue("vp");
+            newmets.push_back(newmet);
+            }
+         catch (const exception&)
+            {
+            string msg = "Cannot find patch data in INPUT file for date ";
+            msg += to_simple_string(dataDate).c_str();
+            error(msg.c_str(), false);
+            }
          }
 
 

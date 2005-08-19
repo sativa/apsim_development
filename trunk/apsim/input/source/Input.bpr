@@ -33,8 +33,8 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -vGc -vGt -vGd -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- 
-      -k -y -v -vi- -tWD -tWM -c"/>
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
+      -tWD -tWM -c"/>
     <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zi"/>
@@ -44,7 +44,7 @@
   <LINKER>
     <ALLOBJ value="c0d32.obj $(PACKAGES) $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
@@ -90,24 +90,29 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-C:\Program Files\Borland\CBuilder6\Components\TeeChart\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
+D:\development\Bin\APSGeneral.bpl=APSGeneral
+D:\development\Bin\APSData.bpl=APSuite data components
+C:\Program Files\Borland\CBuilder6\Components\TeeChart\source\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
+C:\Program Files\Borland\CBuilder6\Components\MemTable\kbmMemC6Des.bpl=kbmMemC6Des
 
 [HistoryLists\hlIncludePath]
-Count=6
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
-Item1=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item2=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\ComponentInterface;k:\
-Item3=$(BCB)\include;$(BCB)\include\vcl;..\..\ComponentInterface;k:\
-Item4=$(BCB)\include;$(BCB)\include\vcl;..\..\ComponentInterface
-Item5=$(BCB)\include;$(BCB)\include\vcl
+Count=7
+Item0=..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
+Item2=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item3=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\ComponentInterface;k:\
+Item4=$(BCB)\include;$(BCB)\include\vcl;..\..\ComponentInterface;k:\
+Item5=$(BCB)\include;$(BCB)\include\vcl;..\..\ComponentInterface
+Item6=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=5
-Item0=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item1=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\ComponentInterface
-Item2=$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\ComponentInterface
-Item3=$(BCB)\lib\obj;$(BCB)\lib;..\..\ComponentInterface
-Item4=$(BCB)\lib\obj;$(BCB)\lib
+Count=6
+Item0=..\..\..\Shared\ComponentInterface;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item1=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item2=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\ComponentInterface
+Item3=$(BCB)\lib\obj;$(BCB)\lib;..\..\infra\ComponentInterface
+Item4=$(BCB)\lib\obj;$(BCB)\lib;..\..\ComponentInterface
+Item5=$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -140,7 +145,7 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=0
-LinkCGLIB=1
+LinkCGLIB=0
 
 [Language]
 ActiveLang=

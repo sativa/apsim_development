@@ -436,7 +436,7 @@ Public Class ExplorerUI
             NewFileList(0) = filename
             Dim NewFileListIndex As Integer = 1
             For i As Integer = 0 To FileNames.Length - 1
-                If FileNames(i) <> filename And FileNames(i) <> "" Then
+                If FileNames(i) <> filename And FileNames(i) <> "" And NewFileListIndex < MAX_NUM_FREQUENT_SIMS Then
                     NewFileList(NewFileListIndex) = FileNames(i)
                     NewFileListIndex = NewFileListIndex + 1
                 End If
