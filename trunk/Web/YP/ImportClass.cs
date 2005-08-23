@@ -42,11 +42,11 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		//Imports a file that contains a report template
 		//-------------------------------------------------------------------------
-		public static void ImportReportTemplate(Page pgPageInfo, string szReportType, 
-			string szTemplateType, string szCropType, ref bool bErrors)
+		public static void ImportReportTemplate(Page pgPageInfo, string szTemplateName, 
+			ref bool bErrors)
 			{
 			HttpPostedFile hpfImportedFile = CheckForUploadedFiles(pgPageInfo, ref bErrors);
-			UploadImportedReportTemplate(hpfImportedFile, pgPageInfo, szReportType, szTemplateType, szCropType, ref bErrors);
+			UploadImportedReportTemplate(hpfImportedFile, pgPageInfo, szTemplateName, ref bErrors);
 			}
 		//-------------------------------------------------------------------------
 		//Checks to make sure that the a file has been selected for upload and
@@ -160,46 +160,44 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private static void UploadImportedSoils(HttpPostedFile hpfImportedFile, Page pgPageInfo, string szRegionType, ref bool bErrors)
 			{
-			try
+			//Checks to make sure that the file is an xml file
+			string szContentType = hpfImportedFile.ContentType;
+			//Allows the file to be either an xml file or a soil file
+			if(szContentType == "text/xml" ||
+				szContentType == "application/octet-stream")
 				{
-				//Checks to make sure that the file is an xml file
-				string szContentType = hpfImportedFile.ContentType;
-				if(szContentType == "text/xml")
+				bool bDuplicateDetected = false;
+				XmlParserContext context = new XmlParserContext(null, null, null, XmlSpace.None);
+				XmlTextReader xtrSoilSample = new XmlTextReader(hpfImportedFile.InputStream, XmlNodeType.Document, context);
+				DataTable dtSoils = FillSoilsDataTable(xtrSoilSample, szRegionType, ref bErrors);
+				string szErrorMessage = "The following soils were not imported: ";
+				//Sets the data to the selected region
+				foreach(DataRow drSoil in dtSoils.Rows)
 					{
-					bool bDuplicateDetected = false;
-					XmlParserContext context = new XmlParserContext(null, null, null, XmlSpace.None);
-					XmlTextReader xtrSoilSample = new XmlTextReader(hpfImportedFile.InputStream, XmlNodeType.Document, context);
-					DataTable dtSoils = FillSoilsDataTable(xtrSoilSample, szRegionType, ref bErrors);
-					//Sets the data to the selected region
-					foreach(DataRow drSoil in dtSoils.Rows)
+					try
 						{
-						try
-							{
-							DataAccessClass.InsertSoil(drSoil["Region"].ToString(), drSoil["Name"].ToString(), 
-								drSoil["Data"].ToString());
-							}
-						catch(Exception)
-							{
-							bDuplicateDetected = true;
-							}
+						DataAccessClass.InsertOrEditSoil(drSoil["Region"].ToString(), drSoil["Name"].ToString(), 
+							drSoil["Data"].ToString(), drSoil["Name"].ToString());
 						}
-					if(bDuplicateDetected == true)
+					catch(Exception)
 						{
-						bErrors = true;
-						FunctionsClass.DisplayMessage(pgPageInfo,"At least one duplicate soil wasn't imported");
+						bDuplicateDetected = true;
+						szErrorMessage = szErrorMessage+drSoil["Name"].ToString()+" ";
 						}
 					}
-				else
+				if(bDuplicateDetected == true)
 					{
 					bErrors = true;
-					FunctionsClass.DisplayMessage(pgPageInfo,"Invalid file type");
+					FunctionsClass.RemoveLastCharacter(szErrorMessage, ',');
+					throw new Exception(szErrorMessage);
 					}
 				}
-			catch(Exception E)
+			else
 				{
 				bErrors = true;
-				FunctionsClass.DisplayMessage(pgPageInfo, E.Message);
+				throw new Exception("Invalid file type");
 				}
+
 			}
 		//-------------------------------------------------------------------------
 		//Reads the soil file and reads that data into a datatable which can be 
@@ -211,25 +209,30 @@ namespace YieldProphet
 			dtSoils.Columns.Add("Name");
 			dtSoils.Columns.Add("Data");
 			dtSoils.Columns.Add("Region");
-			DataRow drSoil;
 			dtSoils.Rows.Clear();
 			
 			XmlDocument xmlDoc = new XmlDocument();
 			xmlDoc.Load(xtrSoilSample);
-			XmlNode xlnRoot = xmlDoc.DocumentElement;
-			XmlNode xlnCurrentNode = xlnRoot;
+			FillSoilsDataTable(xmlDoc.DocumentElement, ref dtSoils, szRegionType);
+				
+			return dtSoils;
+			}
 
-			for(int iIndex = 0; iIndex < xlnRoot.ChildNodes.Count; iIndex++)
+		private static void FillSoilsDataTable(XmlNode node, ref DataTable dtSoils, string szRegionType)
+			{
+			if (node.Name.ToLower() == "folder" || node.Name.ToLower() == "soils")
 				{
-				drSoil = dtSoils.NewRow();
-				xlnCurrentNode = xlnRoot.ChildNodes[iIndex];
-				drSoil["Name"] = xlnCurrentNode.Attributes[0].InnerText;
-				drSoil["Data"] = xlnCurrentNode.OuterXml;
+				foreach (XmlNode Child in node.ChildNodes)
+					FillSoilsDataTable(Child, ref dtSoils, szRegionType);	  // recursion.
+				}
+			else if (node.Name.ToLower() == "soil")
+				{
+				DataRow drSoil = dtSoils.NewRow();
+				drSoil["Name"] = node.Attributes[0].InnerText;
+				drSoil["Data"] = node.OuterXml;
 				drSoil["Region"] = szRegionType;
 				dtSoils.Rows.Add(drSoil);
 				}
-				
-			return dtSoils;
 			}
 		//-------------------------------------------------------------------------
 		//Checks to make sure that the cultivar file is in the correct format, and 
@@ -307,7 +310,7 @@ namespace YieldProphet
 		//if it is then upload the file.
 		//-------------------------------------------------------------------------
 		private static void UploadImportedReportTemplate(HttpPostedFile hpfImportedFile, Page pgPageInfo, 
-			string szReportType, string szTemplateType, string szCropType, ref bool bErrors)
+			string szTemplateName, ref bool bErrors)
 			{
 			try
 				{
@@ -319,7 +322,7 @@ namespace YieldProphet
 					string szTemplateText = strImportedFile.ReadToEnd();
 					szTemplateText = SetUpTemplateTextForSaving(szTemplateText);
 					//Saves the template to the database
-					DataAccessClass.UpdateReportTypes(szTemplateText, szReportType, szTemplateType, szCropType);		
+					DataAccessClass.UpdateReportTemplate(szTemplateText, szTemplateName);		
 					}
 				else
 					{

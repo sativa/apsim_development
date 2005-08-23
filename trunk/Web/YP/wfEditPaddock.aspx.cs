@@ -49,6 +49,22 @@ namespace YieldProphet
 		protected Janus.Web.GridEX.GridEX grdSowDate;
 		protected System.Web.UI.WebControls.Label lblPaddockName;
 		protected System.Web.UI.WebControls.TextBox edtPaddockName;
+		protected System.Web.UI.WebControls.CheckBox chkTriazine;
+		protected System.Web.UI.WebControls.Label lblTriazine;
+		protected System.Data.DataSet dsIrrigation;
+		protected System.Data.DataTable dtIrrigation;
+		protected System.Data.DataColumn dcIrrigationID;
+		protected System.Data.DataColumn dcIrrigationDate;
+		protected System.Data.DataColumn dcIrrigationAmount;
+		protected System.Data.DataColumn dcIrrigationEfficency;
+		protected Janus.Web.GridEX.GridEX grdIrrigation;
+		protected System.Web.UI.WebControls.Label lblIrrigation;
+		protected System.Web.UI.WebControls.Label lblRowConfiguration;
+		protected System.Web.UI.WebControls.Label lblPopulation;
+		protected System.Web.UI.WebControls.TextBox edtPopulation;
+		protected System.Web.UI.WebControls.DropDownList cboRowConfiguration;
+		protected System.Web.UI.WebControls.Label lblPopulationUnit;
+		protected System.Web.UI.WebControls.Label Label1;
 		protected System.Web.UI.WebControls.HyperLink HyperLink1;
 
 
@@ -75,10 +91,18 @@ namespace YieldProphet
 			this.dsSowDate = new System.Data.DataSet();
 			this.dtSowDate = new System.Data.DataTable();
 			this.dcSowDate = new System.Data.DataColumn();
+			this.dsIrrigation = new System.Data.DataSet();
+			this.dtIrrigation = new System.Data.DataTable();
+			this.dcIrrigationID = new System.Data.DataColumn();
+			this.dcIrrigationDate = new System.Data.DataColumn();
+			this.dcIrrigationAmount = new System.Data.DataColumn();
+			this.dcIrrigationEfficency = new System.Data.DataColumn();
 			((System.ComponentModel.ISupportInitialize)(this.dsNitrogen)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dtNitrogen)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dsSowDate)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dtSowDate)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dsIrrigation)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dtIrrigation)).BeginInit();
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			this.btnCancelImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnCancelImg_Click);
 			this.btnSaveImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnSaveImg_Click);
@@ -92,20 +116,21 @@ namespace YieldProphet
 			this.chkSown.CheckedChanged += new System.EventHandler(this.chkSown_CheckedChanged);
 			this.cboCrops.SelectedIndexChanged += new System.EventHandler(this.cboCrops_SelectedIndexChanged);
 			this.grdNitrogen.UpdatingCell += new Janus.Web.GridEX.UpdatingCellEventHandler(this.grdNitrogen_UpdatingCell);
+			this.grdIrrigation.UpdatingCell += new Janus.Web.GridEX.UpdatingCellEventHandler(this.grdIrrigation_UpdatingCell_1);
 			// 
 			// dsNitrogen
 			// 
 			this.dsNitrogen.DataSetName = "NewDataSet";
 			this.dsNitrogen.Locale = new System.Globalization.CultureInfo("en-US");
 			this.dsNitrogen.Tables.AddRange(new System.Data.DataTable[] {
-																																		this.dtNitrogen});
+																			this.dtNitrogen});
 			// 
 			// dtNitrogen
 			// 
 			this.dtNitrogen.Columns.AddRange(new System.Data.DataColumn[] {
-																																			this.dcID,
-																																			this.dcApplicationDate,
-																																			this.dcRate});
+																			  this.dcID,
+																			  this.dcApplicationDate,
+																			  this.dcRate});
 			this.dtNitrogen.TableName = "Nitrogen";
 			// 
 			// dcID
@@ -126,23 +151,62 @@ namespace YieldProphet
 			this.dsSowDate.DataSetName = "NewDataSet";
 			this.dsSowDate.Locale = new System.Globalization.CultureInfo("en-AU");
 			this.dsSowDate.Tables.AddRange(new System.Data.DataTable[] {
-																																	 this.dtSowDate});
+																		   this.dtSowDate});
 			// 
 			// dtSowDate
 			// 
 			this.dtSowDate.Columns.AddRange(new System.Data.DataColumn[] {
-																																		 this.dcSowDate});
+																			 this.dcSowDate});
 			this.dtSowDate.TableName = "SowDate";
 			// 
 			// dcSowDate
 			// 
 			this.dcSowDate.ColumnName = "SowDate";
 			this.dcSowDate.DataType = typeof(System.DateTime);
+			// 
+			// dsIrrigation
+			// 
+			this.dsIrrigation.DataSetName = "NewDataSet";
+			this.dsIrrigation.Locale = new System.Globalization.CultureInfo("en-AU");
+			this.dsIrrigation.Tables.AddRange(new System.Data.DataTable[] {
+																			  this.dtIrrigation});
+			// 
+			// dtIrrigation
+			// 
+			this.dtIrrigation.Columns.AddRange(new System.Data.DataColumn[] {
+																				this.dcIrrigationID,
+																				this.dcIrrigationDate,
+																				this.dcIrrigationAmount,
+																				this.dcIrrigationEfficency});
+			this.dtIrrigation.TableName = "Irrigation";
+			// 
+			// dcIrrigationID
+			// 
+			this.dcIrrigationID.Caption = "ID";
+			this.dcIrrigationID.ColumnName = "ID";
+			// 
+			// dcIrrigationDate
+			// 
+			this.dcIrrigationDate.Caption = "Date";
+			this.dcIrrigationDate.ColumnName = "Date";
+			this.dcIrrigationDate.DataType = typeof(System.DateTime);
+			// 
+			// dcIrrigationAmount
+			// 
+			this.dcIrrigationAmount.Caption = "Amount (mm/ha)";
+			this.dcIrrigationAmount.ColumnName = "Amount";
+			// 
+			// dcIrrigationEfficency
+			// 
+			this.dcIrrigationEfficency.Caption = "Efficency (%)";
+			this.dcIrrigationEfficency.ColumnName = "Efficency";
 			this.Load += new System.EventHandler(this.Page_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dsNitrogen)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dtNitrogen)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dsSowDate)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dtSowDate)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dsIrrigation)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dtIrrigation)).EndInit();
 
 		}
 		#endregion
@@ -171,23 +235,44 @@ namespace YieldProphet
 					{
 					//Fills the crops combo box
 					FillCropsCombo();
+					//Fills the row configuration combo
+					FillRowConfigurationCombo();
 					//Enables all the components on the form
 					ChangeEnableCropDetails(true);
 					//Sets the selected crop to the crop returned from the database		
 					cboCrops.SelectedValue = dtPaddockDetails.Rows[0]["CropType"].ToString();
+					//Sets the selected row configuration option to the row configuration option returned from the database	
+					cboRowConfiguration.SelectedValue = dtPaddockDetails.Rows[0]["RowConfigurationType"].ToString();
 					//Set the sow date on the calander
 					chkSown.Checked = true;
+					if(dtPaddockDetails.Rows[0]["Triazine"].ToString() != null &&
+						dtPaddockDetails.Rows[0]["Triazine"].ToString() != "")
+						{
+						chkTriazine.Checked = Convert.ToBoolean(Convert.ToInt32(dtPaddockDetails.Rows[0]["Triazine"].ToString()));
+						}
+					if(dtPaddockDetails.Rows[0]["Population"].ToString() != null &&
+						dtPaddockDetails.Rows[0]["Population"].ToString() != "")
+					{
+						int population = Convert.ToInt32(dtPaddockDetails.Rows[0]["Population"]);
+						population = population * 10000;
+						edtPopulation.Text = population.ToString();
+					}
 					SetSowDate(szSowDate);
 					cboCrops.SelectedValue = dtPaddockDetails.Rows[0]["CropType"].ToString();
 					//Fills the cultivar combo box
 					FillCultivarsCombo();
 					//Fills the Report type combo
-					FillReportTypesCombo();
+					FillReportTypesCombo();		
+					//Display Crop type dependant components
+					DisplayCropTypeComponents();
 					//Sets up and fills the nitrogen application grid
 					FillNitrogenApplicationGrid();
+					//Sets up and fills the irrigation application grid
+					FillIrrigationApplicationGrid();
 					//Restores the selected crop to the crop returned from the database	
-					cboCrops.SelectedValue = dtPaddockDetails.Rows[0]["CropType"].ToString();
-					
+					cboCrops.SelectedValue = dtPaddockDetails.Rows[0]["CropType"].ToString();		
+					//Sets the selected row configuration option to the row configuration option returned from the database	
+					cboRowConfiguration.SelectedValue = dtPaddockDetails.Rows[0]["RowConfigurationType"].ToString();
 					//Sets the selected cultivar to the cultivar returned from the database
 					cboCultivars.SelectedValue = dtPaddockDetails.Rows[0]["CultivarType"].ToString();
 					}
@@ -196,10 +281,12 @@ namespace YieldProphet
 					{
 					ChangeEnableCropDetails(false);
 					FillNitrogenApplicationGrid();
+					FillIrrigationApplicationGrid();
 					FillCropsCombo();
 					FillReportTypesCombo();
 					FillCultivarsCombo();
 					SetSowDate(szSowDate);
+					DisplayCropTypeComponents();
 					}
 				if(FunctionsClass.IsAdministrator(FunctionsClass.GetActiveUserName()) == true)
 					{
@@ -211,7 +298,8 @@ namespace YieldProphet
 					}
 				//If the Linked Temporal Paddock ID is not zero then don't allow the user to enter rainfall
 				//as this paddocks rainfall events are linked another paddocks. 
-				if(dtPaddockDetails.Rows[0]["LinkedRainfallPaddockName"].ToString() != "")
+				if(dtPaddockDetails.Rows[0]["LinkedRainfallPaddockName"].ToString() != "" || 
+					Convert.ToBoolean(Convert.ToInt32(dtPaddockDetails.Rows[0]["DefaultRainfall"].ToString())) == true)
 					{
 					btnRainfall.Enabled = false;
 					btnRainfallImg.Enabled = false;
@@ -266,7 +354,7 @@ namespace YieldProphet
 				{
 				if(cboCrops.SelectedValue != "")
 					{
-					DataTable dtReport = DataAccessClass.GetAllReportTypes("ApsimReport", cboCrops.SelectedValue);
+					DataTable dtReport = DataAccessClass.GetAllReportTypesForCropType(cboCrops.SelectedValue);
 					cboReport.DataSource = dtReport;
 					cboReport.DataTextField = "Type";
 					cboReport.DataValueField = "Type";
@@ -319,6 +407,24 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
+		//Fills the row configuration combo box with all the row configuration types form the database
+		//-------------------------------------------------------------------------
+		private void FillRowConfigurationCombo()
+		{
+			try
+			{
+				DataTable dtRowConfiguration = DataAccessClass.GetAllRowConfigurationTypes();
+				cboRowConfiguration.DataSource = dtRowConfiguration;
+				cboRowConfiguration.DataTextField = "Type";
+				cboRowConfiguration.DataValueField = "Type";
+				cboRowConfiguration.DataBind();
+			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+		}
+		//-------------------------------------------------------------------------
 		//Fills the nitrogen application grid with the vales stored in the database
 		//-------------------------------------------------------------------------	
 		private void FillNitrogenApplicationGrid()
@@ -351,6 +457,40 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
+		//Fills the irrigation application grid with the vales stored in the database
+		//-------------------------------------------------------------------------	
+		private void FillIrrigationApplicationGrid()
+		{
+			try
+			{
+				//Gets the data and converts it from xml format to a datatable
+				DataTable dtIrrigationApplication =
+					DataAccessClass.GetPaddocksIrrigationApplications(Session["SelectedPaddockName"].ToString(), 
+					FunctionsClass.GetActiveUserName());
+				//Ensure that a sample has been added
+				DataRow drIrrigation;
+				int iMaxNumberOfRows = 10;
+				foreach(DataRow drIrrigationApplication in dtIrrigationApplication.Rows)
+				{
+					drIrrigation = dsIrrigation.Tables["Irrigation"].NewRow();
+					drIrrigation["Amount"] = drIrrigationApplication["Amount"];
+					drIrrigation["Date"] = DateTime.ParseExact(drIrrigationApplication["ApplicationDate"].ToString(), "yyyy-MM-dd", null);
+					drIrrigation["Efficency"] = drIrrigationApplication["Efficency"];
+					dsIrrigation.Tables["Irrigation"].Rows.Add(drIrrigation);
+				}
+				for(int iIndex = dsIrrigation.Tables["Irrigation"].Rows.Count; iIndex < iMaxNumberOfRows; iIndex++)
+				{
+					drIrrigation = dsIrrigation.Tables["Irrigation"].NewRow();
+					dsIrrigation.Tables["Irrigation"].Rows.Add(drIrrigation);
+				}
+				this.DataBind();
+			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+		}
+		//-------------------------------------------------------------------------
 		//If the page hasn't been viewed by the user then the user's
 		//permissions are checked and the page is initialised
 		//-------------------------------------------------------------------------
@@ -360,7 +500,43 @@ namespace YieldProphet
 			cboCultivars.Enabled = bEnableCropDetails;
 			grdSowDate.Enabled = bEnableCropDetails;
 			grdNitrogen.Enabled = bEnableCropDetails;
+			chkTriazine.Enabled =  bEnableCropDetails;
 			}	
+		//-------------------------------------------------------------------------
+		//Displays visual components that are dependant on the type of crop selected
+		//-------------------------------------------------------------------------
+		private void DisplayCropTypeComponents()
+		{
+			SetVisabilityOfCanolaComponents();
+			SetVisibilityOfSorgumComponents();
+		}
+		//-------------------------------------------------------------------------
+		//Sets the visibility of the triazine option depending on the crop selected
+		//-------------------------------------------------------------------------
+		private void SetVisabilityOfCanolaComponents()
+		{
+			bool bTriazineVisibility = false;
+			if(cboCrops.SelectedValue == "Canola")
+				bTriazineVisibility = true;
+
+			lblTriazine.Visible = bTriazineVisibility;
+			chkTriazine.Visible = bTriazineVisibility;
+		}	
+		//-------------------------------------------------------------------------
+		//Sets the visibility of the triazine option depending on the crop selected
+		//-------------------------------------------------------------------------
+		private void SetVisibilityOfSorgumComponents()
+		{
+			bool bSorgumComponentVisibility = false;
+			if(cboCrops.SelectedValue == "Sorghum")
+				bSorgumComponentVisibility = true;
+
+			lblRowConfiguration.Visible = bSorgumComponentVisibility;
+			cboRowConfiguration.Visible = bSorgumComponentVisibility;
+			lblPopulation.Visible = bSorgumComponentVisibility;
+			edtPopulation.Visible = bSorgumComponentVisibility;
+			lblPopulationUnit.Visible = bSorgumComponentVisibility;
+		}	
 		//-------------------------------------------------------------------------
 		//The paddock details are updated, but firstly a check is run to determine
 		//if the the sown check box is checked.  If it is, then the paddock is updated
@@ -384,13 +560,15 @@ namespace YieldProphet
 							//If a cultivar is selected, update the paddock
 							if( cboCultivars.SelectedValue != "" && 
 								cboCultivars.SelectedValue != "None" && 
+								(cboRowConfiguration.Visible == false || cboRowConfiguration.SelectedValue != "None") &&
 								grdSowDate.GetRow(0).Cells["SowDate"].Text != "")
 								{
 								DataAccessClass.UpdatePaddock((DateTime.ParseExact(grdSowDate.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
-									cboCultivars.SelectedItem.Text, "", "", "", "", "", szPaddockName, Session["SelectedPaddockName"].ToString(), 
+									cboCultivars.SelectedItem.Text, Convert.ToInt32(chkTriazine.Checked), "", "", cboRowConfiguration.SelectedValue, -1, "", "", ReturnPopulationValue(), -1, szPaddockName, Session["SelectedPaddockName"].ToString(), 
 									FunctionsClass.GetActiveUserName());
 								Session["SelectedPaddockName"] = szPaddockName;
 								SaveNitrogenApplications();
+								SaveIrrigationApplications();
 								bPaddockSaved = true;
 								}
 								//If no cultivar is selected display an error to the user
@@ -404,6 +582,8 @@ namespace YieldProphet
 						else
 							{
 							DataAccessClass.DeletePaddocksFertiliserApplications("Nitrogen", 
+								Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
+							DataAccessClass.DeletePaddocksIrrigationApplications(
 								Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
 							DataAccessClass.ResetPaddock(Session["SelectedPaddockName"].ToString(), szPaddockName, FunctionsClass.GetActiveUserName());
 							Session["SelectedPaddockName"] = szPaddockName;
@@ -454,6 +634,33 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
+		//Saves the values from the grid into the database
+		//-------------------------------------------------------------------------
+		private void SaveIrrigationApplications()
+		{
+			try
+			{
+				Janus.Web.GridEX.GridEXRow grdRow;
+				grdIrrigation.UpdateOnLeave = true;
+				DataAccessClass.DeletePaddocksIrrigationApplications(Session["SelectedPaddockName"].ToString(), 
+					FunctionsClass.GetActiveUserName());
+				for(int iIndex = 0; iIndex < grdNitrogen.RowCount; iIndex++)
+				{
+					grdRow = grdIrrigation.GetRow(iIndex);
+					//If there is data in the dataTable then save it to the database
+					if(grdRow.Cells["Amount"].Value != null && grdRow.Cells["Date"].Value != null && grdRow.Cells["Efficency"].Value != null)
+					{
+						DataAccessClass.InsertIrrigationApplication((DateTime.ParseExact(grdRow.Cells["Date"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
+							grdRow.Cells["Amount"].Text, grdRow.Cells["Efficency"].Text, Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
+					}
+				}
+			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+		}
+		//-------------------------------------------------------------------------
 		//If the user isn't a visitor then then the needed details are stored
 		//in session variables and the user is sent to the generate report page
 		//-------------------------------------------------------------------------			
@@ -475,43 +682,66 @@ namespace YieldProphet
 									{
 									ReportClass.CreateUsersReportDirectory(FunctionsClass.GetActiveUserName(), DateTime.Today.Year); 
 									}
-								//If the report is a nitrogen report send them to the nitrogen report
-								//generation page, other wise send them to the default report 
-								//generation page
-								if(cboReport.SelectedItem.Text == ReportClass.szNitrogenComparisonReport)
+
+
+								switch(cboReport.SelectedItem.Text)
 									{
-									if(chkSown.Checked == true)
+									case  ReportClass.szNitrogenComparisonReport:
+										if(chkSown.Checked == true)
+											{
+											Server.Transfer("wfGenerateNitrogenComparisonReport.aspx");
+											}
+										else
+											throw new Exception("This report requires a sowing date");
+										break;
+
+									case ReportClass.szNitrogenProfitReport:
+										if(chkSown.Checked == true)
+											{
+											Server.Transfer("wfGenerateNitrogenProfitReport.aspx");
+											}
+										else
+											throw new Exception("This report requires a sowing date");
+										break;
+
+									case ReportClass.szIrrigationComparisonReport:
+										if(chkSown.Checked == true)
 										{
-										Server.Transfer("wfGenerateNitrogenComparisonReport.aspx");
+											Server.Transfer("wfGenerateIrrigationComparisonReport.aspx");
 										}
-									else
-										throw new Exception("This report requires a sowing date");
-									}
-								else if(cboReport.SelectedItem.Text == ReportClass.szNitrogenProfitReport)
-								{
-									if(chkSown.Checked == true)
-									{
-										Server.Transfer("wfGenerateNitrogenProfitReport.aspx");
-									}
-									else
-										throw new Exception("This report requires a sowing date");
-								}
-								else if(cboReport.SelectedItem.Text == ReportClass.szSowingXVarietyReport)
-									{
-									Server.Transfer("wfGenerateSowingXVarietyReport.aspx");
-									}
-								else if(cboReport.SelectedItem.Text == ReportClass.szFallowReport)
-									{
-									Server.Transfer("wfGenerateFallowReport.aspx");
-									}
-								else
-									{
-									if(chkSown.Checked == true)
-										{
-										Server.Transfer("wfGenerateReport.aspx");
-										}
-									else
-										throw new Exception("This report requires a sowing date");
+										else
+											throw new Exception("This report requires a sowing date");
+										break;
+
+									case ReportClass.szAgronomicReport:
+										if(chkSown.Checked == true)
+											{
+											Server.Transfer("wfGenerateReport.aspx");
+											}
+										else
+											throw new Exception("This report requires a sowing date");
+										break;
+
+									case ReportClass.szClimateReport:
+										if(chkSown.Checked == true)
+											{
+											Server.Transfer("wfGenerateReport.aspx");
+											}
+										else
+											throw new Exception("This report requires a sowing date");
+										break;
+
+									case ReportClass.szSowingXVarietyReport:
+										Server.Transfer("wfGenerateSowingXVarietyReport.aspx");
+										break;
+
+
+									case ReportClass.szFallowReport:
+										Server.Transfer("wfGenerateFallowReport.aspx");
+										break;
+
+									default:
+										throw new Exception("Not a valid report type");
 									}
 								}
 							else
@@ -529,6 +759,22 @@ namespace YieldProphet
 				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
 			}
+		//-------------------------------------------------------------------------
+		//Returns the value of the Population text box after it is checked to insure 
+		//that the value is a valid integer
+		//-------------------------------------------------------------------------
+		private int ReturnPopulationValue()
+		{
+			int iPopulation = 0;
+			if(edtPopulation.Text != "")
+			{
+				if(InputValidationClass.IsInputAPositiveInteger(edtPopulation.Text))
+				{
+					iPopulation = Convert.ToInt32(edtPopulation.Text) / 10000;
+				}
+			}
+			return iPopulation;
+		}
 		//-------------------------------------------------------------------------
 		#endregion
 
@@ -670,6 +916,7 @@ namespace YieldProphet
 			{
 			FillCultivarsCombo();
 			FillReportTypesCombo();
+			DisplayCropTypeComponents();
 			}
 		//-------------------------------------------------------------------------
 		//On the update of the grid cell, it runs a check to make sure that the 
@@ -688,6 +935,23 @@ namespace YieldProphet
 					}
 				}
 			}
+		//-------------------------------------------------------------------------
+		//On the update of the grid cell, it runs a check to make sure that the 
+		//values entered are valid
+		//-------------------------------------------------------------------------
+		private void grdIrrigation_UpdatingCell_1(object sender, Janus.Web.GridEX.UpdatingCellEventArgs e)
+		{
+			if(e.Column.Key == "Amount" || e.Column.Key == "Efficency")
+			{
+				if(e.Value != null)
+				{
+					if(InputValidationClass.IsInputAPositiveDecimal(e.Value.ToString()) == false)
+					{
+						e.Value = "0";
+					}
+				}
+			}
+		}
 		//-------------------------------------------------------------------------
 		#endregion
 

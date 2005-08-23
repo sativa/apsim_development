@@ -12,19 +12,18 @@ using System.Web.UI.HtmlControls;
 namespace YieldProphet
 	{
 	/// <summary>
-	/// Summary description for wfEditPassword.
+	/// Summary description for wfAddReportTemplate.
 	/// </summary>
-	public class wfEditPassword : System.Web.UI.Page
+	public class wfAddReportTemplate : System.Web.UI.Page
 		{
-		protected System.Web.UI.WebControls.Label lblPasswordTwo;
-		protected System.Web.UI.WebControls.Label lblPasswordOne;
-		protected System.Web.UI.WebControls.Panel pnlTop;
-		protected System.Web.UI.WebControls.LinkButton btnCancel;
-		protected System.Web.UI.WebControls.TextBox edtPasswordTwo;
-		protected System.Web.UI.WebControls.TextBox edtPasswordOne;
 		protected System.Web.UI.WebControls.ImageButton btnSaveImg;
 		protected System.Web.UI.WebControls.ImageButton btnCancelImg;
 		protected System.Web.UI.WebControls.LinkButton btnSave;
+		protected System.Web.UI.WebControls.LinkButton btnCancel;
+		protected System.Web.UI.WebControls.Label lblReportType;
+		protected System.Web.UI.WebControls.TextBox edtTemplateName;
+		protected System.Web.UI.WebControls.Label lblCropType;
+		protected System.Web.UI.WebControls.Panel pnlTop;
 
 
 		#region Web Form Designer generated code
@@ -45,8 +44,8 @@ namespace YieldProphet
 		{    
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-			this.btnSaveImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnSaveImg_Click);
 			this.btnCancelImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnCancelImg_Click);
+			this.btnSaveImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnSaveImg_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
@@ -56,47 +55,25 @@ namespace YieldProphet
 
 		#region Form Functions
 		//-------------------------------------------------------------------------
-		//Updates the user's password, but firstly two checks are run, the first 
-		//is to ensure that the user has entered a password, and the second is to
-		//ensure that both the passwords entered by the user are the same.  If both
-		//checks are passed, then the new password is updated into the database
+		//Saves a new report type, but firstly a check is run to ensure that
+		//a report type has been entered by the user, if this check is passed
+		//then the report type is saved to the database.
 		//-------------------------------------------------------------------------
-		private void SavePassword()
+		private void SaveReportTemplate()
 			{
-			//If the password isn't empty run the next check
-			if(edtPasswordOne.Text != "")
+			try
 				{
-				//If both passwords are the same, save the new password into the database
-				if(edtPasswordOne.Text == edtPasswordTwo.Text)
+				if(edtTemplateName.Text != "")
 					{
-					try
-						{
-						DataAccessClass.UpdateUser("", "", "", InputValidationClass.ValidateString(edtPasswordOne.Text),
-							FunctionsClass.GetActiveUserName(), "", null, null);
-						if(Session["SelectedUserName"].ToString() == FunctionsClass.GetActiveUserName())
-							{
-							Server.Transfer("wfEditUser.aspx");
-							}
-						else
-							{
-							Server.Transfer("wfEditUserDetails.aspx");
-							}
-						}
-					catch(Exception E)
-						{
-						FunctionsClass.DisplayMessage(Page, E.Message);
-						}
+					DataAccessClass.InsertReportTemplate("", InputValidationClass.ValidateString(edtTemplateName.Text));
+					Server.Transfer("wfEditReportTemplate.aspx");
 					}
-				//If both passwords are not the same, then display an error to the user
 				else
-					{
-					FunctionsClass.DisplayMessage(Page, "Passwords do not match");
+					throw new Exception("Please enter a template name");
 					}
-				}
-			//If the password is empty, then display an error to the user
-			else
+			catch(Exception E)
 				{
-				FunctionsClass.DisplayMessage(Page, "Please enter a password");
+				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -106,52 +83,50 @@ namespace YieldProphet
 
 		#region Form Events
 		//-------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the user's
-		//permissions are checked
+		//If the page hasn't been viewed by the user then the users
+		//permissions are checked and the page is initialised
 		//-------------------------------------------------------------------------
 		private void Page_Load(object sender, System.EventArgs e)
 			{
-			if(!IsPostBack)
-				{
+			if (!IsPostBack)
+				{	
 				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForGrowerLevelPriviledges();
-				FunctionsClass.SetControlFocus("edtPasswordOne", this);
+				FunctionsClass.CheckForAdministratorLevelPriviledges();
+				FunctionsClass.SetControlFocus("edtTemplateName", this);
 				}
 			}
 		//-------------------------------------------------------------------------
-		//When the user presses the the save button the password is updated
+		//When the user presses the save button the reporttype is saved
 		//-------------------------------------------------------------------------
 		private void btnSave_Click(object sender, System.EventArgs e)
 			{
-			SavePassword();
+			SaveReportTemplate();
 			}
 		//-------------------------------------------------------------------------
-		//When the user presses the the save image the password is updated
+		//When the user presses the save button the reporttype is saved
 		//-------------------------------------------------------------------------
 		private void btnSaveImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
 			{
-			SavePassword();
+			SaveReportTemplate();
 			}
 		//-------------------------------------------------------------------------
-		//When the cancel button is pressed by the user, send the user back to the 
-		//user details page.
+		//Sends the user back to the ReportTemplate page
 		//-------------------------------------------------------------------------
 		private void btnCancel_Click(object sender, System.EventArgs e)
 			{
-			Server.Transfer("wfEditUserDetails.aspx");
+			Server.Transfer("wfEditReportTemplate.aspx");
 			}
 		//-------------------------------------------------------------------------
-		//When the cancel image is pressed by the user, send the user back to the 
-		//user details page.
+		//Sends the user back to the ReportTemplate page
 		//-------------------------------------------------------------------------
 		private void btnCancelImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
 			{
-			Server.Transfer("wfEditUserDetails.aspx");
+			Server.Transfer("wfEditReportTemplate.aspx");
 			}
-		//-------------------------------------------------------------------------
+		//---------------------------------------------------------------------------
 		#endregion
 
 
-		//-------------------------------------------------------------------------
-		}//END CLASS
-	}//END NAMESPACE
+		//---------------------------------------------------------------------------
+		}//END OF CLASS
+	}//END OF NAMESPACE

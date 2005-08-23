@@ -34,6 +34,8 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Label lblUsersCrops;
 		protected System.Web.UI.WebControls.Label lblUsersCropsTwo;
 		protected System.Web.UI.WebControls.ListBox lstUsersCrops;
+		protected System.Web.UI.WebControls.TextBox edtUserName;
+		protected System.Web.UI.WebControls.Label lblUserName;
 		protected System.Web.UI.WebControls.Panel pnlTop;
 
 
@@ -80,6 +82,7 @@ namespace YieldProphet
 				FillCropsListBox();
 				DataTable dtUserDetails = DataAccessClass.GetDetailsOfUser(Session["SelectedUserName"].ToString());
 				edtName.Text = dtUserDetails.Rows[0]["Name"].ToString();
+				edtUserName.Text = Session["SelectedUserName"].ToString();
 				edtEmail.Text = dtUserDetails.Rows[0]["Email"].ToString();
 				SelectUsersCrops();
 				string szAccessType = DataAccessClass.GetAccessTypeOfUser(FunctionsClass.GetActiveUserName());
@@ -185,13 +188,16 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void SaveExistingGrower()
 			{
-			if(edtName.Text != "" && edtEmail.Text != "")
+			if(edtName.Text != "" && edtEmail.Text != "" && edtUserName.Text != "")
 				{
 				try
 					{
 					DataAccessClass.UpdateUser(InputValidationClass.ValidateString(edtName.Text), 
-						InputValidationClass.ValidateString(edtEmail.Text), "", FunctionsClass.GetActiveUserName(),
+						InputValidationClass.ValidateString(edtEmail.Text), 
+						InputValidationClass.ValidateString(edtUserName.Text), 
+						"", FunctionsClass.GetActiveUserName(),
 						cboAccessType.SelectedValue, ReturnConsultantCollection(), ReturnUsersCropCollection());
+					Session["SelectedUserName"] = edtUserName.Text;
 					Server.Transfer("wfManageUsers.aspx");
 					}
 				catch(Exception E)

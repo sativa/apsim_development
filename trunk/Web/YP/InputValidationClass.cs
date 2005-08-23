@@ -41,6 +41,15 @@ namespace YieldProphet
 			return szInputString;		
 			}
 		//-------------------------------------------------------------------------
+		//Strips all Single Quote (') characters from a string
+		//-------------------------------------------------------------------------
+		public static string StripSingleQuote(string szInputString)
+		{
+			szInputString = szInputString.Replace("'", "");
+			return szInputString;		
+		}
+
+		//-------------------------------------------------------------------------
 		//Takes in an input string and then checks that it is in a valid depth format
 		//EG: 10-23 or 10 - 23 or 14- 30 will all pass but
 		// aa-aa or 11-1s or 111 or 40-20 or aaa wont

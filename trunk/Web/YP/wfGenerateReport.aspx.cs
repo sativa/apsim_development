@@ -64,6 +64,7 @@ namespace YieldProphet
 				wfEditPaddock EditPaddock = (wfEditPaddock) Context.Handler;
 				ViewState["ReportType"] = EditPaddock.ReturnReportType();
 				ViewState["EmailConParFiles"] = EditPaddock.ReturnEmailConParFiles();
+				edtReportName.Text = Session["SelectedPaddockName"].ToString() +" "+ ViewState["ReportType"].ToString();
 				}
 			catch(Exception E)
 				{

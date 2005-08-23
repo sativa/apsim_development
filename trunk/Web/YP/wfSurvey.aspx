@@ -10,8 +10,8 @@
 	</HEAD>
 	<body MS_POSITIONING="GridLayout">
 		<form id="Form1" method="post" runat="server">
-			<asp:Image id="imgBCGLogo" style="Z-INDEX: 101; LEFT: 152px; POSITION: absolute; TOP: 24px"
-				runat="server" ImageUrl="Images\BCG.JPG"></asp:Image>
+			<asp:Image id="imgBCGLogo" style="Z-INDEX: 101; LEFT: 112px; POSITION: absolute; TOP: 40px"
+				runat="server" ImageUrl="Images\BCG.JPG" Height="112px" Width="88px"></asp:Image>
 			<asp:TextBox id="edtEleven" style="Z-INDEX: 195; LEFT: 136px; POSITION: absolute; TOP: 3176px"
 				runat="server" Font-Size="Small" Font-Names="Tahoma" Width="528px" TextMode="MultiLine" Rows="5"
 				Height="102px"></asp:TextBox>

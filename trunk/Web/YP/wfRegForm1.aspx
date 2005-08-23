@@ -14,8 +14,8 @@
 				Font-Size="Large" Font-Bold="True" Font-Names="Arial">Yield Prophet 2005</asp:Label>
 			<asp:Label id="Label2" style="Z-INDEX: 103; LEFT: 136px; POSITION: absolute; TOP: 64px" runat="server"
 				Font-Size="Medium" Font-Bold="True" Font-Names="Arial">Registration & Delivery Information</asp:Label>
-			<asp:Image id="Image1" style="Z-INDEX: 102; LEFT: 32px; POSITION: absolute; TOP: 8px" runat="server"
-				ImageUrl="file:///D:\development\Web\YP\Images\bcg.GIF"></asp:Image>
+			<asp:Image id="Image1" style="Z-INDEX: 102; LEFT: 32px; POSITION: absolute; TOP: 16px" runat="server"
+				ImageUrl="Images\bcg.JPG" Width="88px" Height="104px"></asp:Image>
 			<DIV style="Z-INDEX: 104; LEFT: 16px; POSITION: absolute; TOP: 120px" ms_positioning="text2D">
 				<P class="MsoNormal" style="MARGIN: 0cm 0cm 0pt"><FONT size="2"><SPAN style="FONT-FAMILY: Tahoma; mso-bidi-font-family: 'Times New Roman'">To 
 							register for Yield Prophet 2005, growers will need to complete the following 
@@ -40,8 +40,8 @@
 							cost of subscription to the Yield Prophet in 2005 is <B style="mso-bidi-font-weight: normal">
 								$550</B> (including GST) for three paddocks.<SPAN style="mso-spacerun: yes">&nbsp;
 							</SPAN><B style="mso-bidi-font-weight: normal">This does not include sampling and 
-								analysis for initial soil conditions</B>. Collection of initial soil data 
-							for the paddocks chosen is the responsibility of the subscriber.<SPAN style="mso-spacerun: yes">&nbsp;
+								analysis for initial soil conditions</B>. Collection of initial soil data for 
+							the paddocks chosen is the responsibility of the subscriber.<SPAN style="mso-spacerun: yes">&nbsp;
 							</SPAN>The BCG will be offering a soil-sampling service in north-western </SPAN>
 						<st1:State>
 							<st1:place>
@@ -58,11 +58,11 @@
 				<P class="MsoNormal" style="MARGIN: 0cm 0cm 0pt"><SPAN style="FONT-FAMILY: Tahoma; mso-bidi-font-family: 'Times New Roman'">
 						<o:p>
 							<FONT size="2">&nbsp;</FONT></o:p></SPAN></P>
-				<P class="MsoList3" style="MARGIN: 0cm 0cm 0pt 18pt; TEXT-INDENT: -18pt; mso-list: l0 level1 lfo2"><SPAN style="FONT-FAMILY: Wingdings; mso-fareast-font-family: Wingdings; mso-bidi-font-family: Wingdings"><SPAN style="mso-list: Ignore"><FONT size="2">Ø</FONT><SPAN style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<P class="MsoList3" style="MARGIN: 0cm 0cm 0pt 18pt; TEXT-INDENT: -18pt; mso-list: l0 level1 lfo2"><SPAN style="FONT-FAMILY: Wingdings; mso-bidi-font-family: Wingdings; mso-fareast-font-family: Wingdings"><SPAN style="mso-list: Ignore"><FONT size="2">Ø</FONT><SPAN style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							</SPAN></SPAN></SPAN><SPAN style="FONT-FAMILY: Tahoma; mso-bidi-font-family: 'Times New Roman'">
 						<FONT size="2">Water Content (% volumetric)
 							<o:p></o:p></FONT></SPAN></P>
-				<P class="MsoList3" style="MARGIN: 0cm 0cm 0pt 18pt; TEXT-INDENT: -18pt; mso-list: l0 level1 lfo2"><SPAN style="FONT-FAMILY: Wingdings; mso-fareast-font-family: Wingdings; mso-bidi-font-family: Wingdings"><SPAN style="mso-list: Ignore"><FONT size="2">Ø</FONT><SPAN style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<P class="MsoList3" style="MARGIN: 0cm 0cm 0pt 18pt; TEXT-INDENT: -18pt; mso-list: l0 level1 lfo2"><SPAN style="FONT-FAMILY: Wingdings; mso-bidi-font-family: Wingdings; mso-fareast-font-family: Wingdings"><SPAN style="mso-list: Ignore"><FONT size="2">Ø</FONT><SPAN style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							</SPAN></SPAN></SPAN><SPAN style="FONT-FAMILY: Tahoma; mso-bidi-font-family: 'Times New Roman'">
 						<FONT size="2">Nitrate (ppm)
 							<o:p></o:p></FONT></SPAN></P>
@@ -76,15 +76,15 @@
 				<P class="MsoList3" style="MARGIN: 0cm 0cm 0pt; TEXT-INDENT: 0cm; mso-list: none; tab-stops: 36.0pt"><SPAN style="FONT-FAMILY: Tahoma; mso-bidi-font-family: 'Times New Roman'">
 						<o:p>
 							<FONT size="2">&nbsp;</FONT></o:p></SPAN></P>
-				<P class="MsoList3" style="MARGIN: 0cm 0cm 0pt 18pt; TEXT-INDENT: -18pt; mso-list: l0 level1 lfo2"><SPAN style="FONT-FAMILY: Wingdings; mso-fareast-font-family: Wingdings; mso-bidi-font-family: Wingdings"><SPAN style="mso-list: Ignore"><FONT size="2">Ø</FONT><SPAN style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<P class="MsoList3" style="MARGIN: 0cm 0cm 0pt 18pt; TEXT-INDENT: -18pt; mso-list: l0 level1 lfo2"><SPAN style="FONT-FAMILY: Wingdings; mso-bidi-font-family: Wingdings; mso-fareast-font-family: Wingdings"><SPAN style="mso-list: Ignore"><FONT size="2">Ø</FONT><SPAN style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							</SPAN></SPAN></SPAN><SPAN style="FONT-FAMILY: Tahoma; mso-bidi-font-family: 'Times New Roman'">
 						<FONT size="2">Organic carbon (topsoil only %)
 							<o:p></o:p></FONT></SPAN></P>
-				<P class="MsoList3" style="MARGIN: 0cm 0cm 0pt 18pt; TEXT-INDENT: -18pt; mso-list: l0 level1 lfo2"><SPAN style="FONT-FAMILY: Wingdings; mso-fareast-font-family: Wingdings; mso-bidi-font-family: Wingdings"><SPAN style="mso-list: Ignore"><FONT size="2">Ø</FONT><SPAN style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<P class="MsoList3" style="MARGIN: 0cm 0cm 0pt 18pt; TEXT-INDENT: -18pt; mso-list: l0 level1 lfo2"><SPAN style="FONT-FAMILY: Wingdings; mso-bidi-font-family: Wingdings; mso-fareast-font-family: Wingdings"><SPAN style="mso-list: Ignore"><FONT size="2">Ø</FONT><SPAN style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							</SPAN></SPAN></SPAN><SPAN style="FONT-FAMILY: Tahoma; mso-bidi-font-family: 'Times New Roman'">
 						<FONT size="2">EC (dS/m)
 							<o:p></o:p></FONT></SPAN></P>
-				<P class="MsoList3" style="MARGIN: 0cm 0cm 0pt 18pt; TEXT-INDENT: -18pt; mso-list: l0 level1 lfo2"><SPAN style="FONT-FAMILY: Wingdings; mso-fareast-font-family: Wingdings; mso-bidi-font-family: Wingdings"><SPAN style="mso-list: Ignore"><FONT size="2">Ø</FONT><SPAN style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<P class="MsoList3" style="MARGIN: 0cm 0cm 0pt 18pt; TEXT-INDENT: -18pt; mso-list: l0 level1 lfo2"><SPAN style="FONT-FAMILY: Wingdings; mso-bidi-font-family: Wingdings; mso-fareast-font-family: Wingdings"><SPAN style="mso-list: Ignore"><FONT size="2">Ø</FONT><SPAN style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							</SPAN></SPAN></SPAN><SPAN style="FONT-FAMILY: Tahoma; mso-bidi-font-family: 'Times New Roman'">
 						<FONT size="2">pH (CaCl<SUB>2</SUB>)
 							<o:p></o:p></FONT></SPAN></P>
@@ -93,8 +93,8 @@
 							<FONT size="2">&nbsp;</FONT></o:p></SPAN></P>
 				<P class="MsoNormal" style="MARGIN: 0cm 0cm 0pt"><SPAN style="FONT-FAMILY: Tahoma; mso-bidi-font-family: 'Times New Roman'"><FONT size="2">The 
 							accuracy of the Yield Prophet also relies on the availability of good 
-							characterisation data for a given soil type.<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>
-							Good characterisation data currently exists for the Wimmera, central and 
+							characterisation data for a given soil type.<SPAN style="mso-spacerun: yes">&nbsp;
+							</SPAN>Good characterisation data currently exists for the Wimmera, central and 
 							southern Mallee, northern and south-eastern NSW, southern QLD, and various 
 							regions of SA and WA. If a good characterisation is not available for a 
 							subscriber, the BCG will use an approximate characterisation, and the 

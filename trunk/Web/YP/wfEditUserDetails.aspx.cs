@@ -76,7 +76,7 @@ namespace YieldProphet
 						try
 							{
 							DataAccessClass.UpdateUser(InputValidationClass.ValidateString(edtName.Text), 
-								InputValidationClass.ValidateString(edtEmail.Text), "", 
+								InputValidationClass.ValidateString(edtEmail.Text), "", "", 
 								Session["UserName"].ToString(), "", null, null);
 							}
 						catch(Exception E)

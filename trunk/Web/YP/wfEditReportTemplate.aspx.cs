@@ -19,20 +19,16 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.ImageButton btnImportImg;
 		protected System.Web.UI.WebControls.LinkButton btnImport;
 		protected System.Web.UI.WebControls.Panel pnlTop;
-		protected System.Web.UI.WebControls.DropDownList cboTemplateTypes;
-		protected System.Web.UI.WebControls.Label lblTemplateType;
-		protected System.Web.UI.WebControls.DropDownList cboReportTypes;
-		protected System.Web.UI.WebControls.Label lblReportType;
 		protected System.Web.UI.WebControls.ImageButton btnSaveImg;
 		protected System.Web.UI.WebControls.LinkButton btnSave;
 		protected System.Web.UI.HtmlControls.HtmlInputFile flImport;
 		protected System.Web.UI.WebControls.TextBox edtDisplayTemplate;
-		protected System.Web.UI.WebControls.LinkButton btnDeleteReportType;
-		protected System.Web.UI.WebControls.LinkButton btnAddReportType;
-		protected System.Web.UI.WebControls.ImageButton btnAddReportTypeImg;
-		protected System.Web.UI.WebControls.Label lblCropType;
-		protected System.Web.UI.WebControls.DropDownList cboCropTypes;
-		protected System.Web.UI.WebControls.ImageButton btnDeleteReportTypeImg;
+		protected System.Web.UI.WebControls.LinkButton btnDeleteReportTemplate;
+		protected System.Web.UI.WebControls.LinkButton btnAddReportTemplate;
+		protected System.Web.UI.WebControls.ImageButton btnAddReportTemplateImg;
+		protected System.Web.UI.WebControls.ImageButton btnDeleteReportTemplateImg;
+		protected System.Web.UI.WebControls.DropDownList cboReportTemplates;
+		protected System.Web.UI.WebControls.Label lbReportlTemplate;
 
 
 
@@ -52,17 +48,15 @@ namespace YieldProphet
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.btnDeleteReportType.Click += new System.EventHandler(this.btnDeleteReportType_Click);
-			this.btnAddReportType.Click += new System.EventHandler(this.btnAddReportType_Click);
+			this.btnDeleteReportTemplate.Click += new System.EventHandler(this.btnDeleteReportTemplate_Click);
+			this.btnAddReportTemplate.Click += new System.EventHandler(this.btnAddReportTemplate_Click);
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-			this.btnAddReportTypeImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnAddReportTypeImg_Click);
+			this.btnAddReportTemplateImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnAddReportTemplateImg_Click);
 			this.btnSaveImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnSaveImg_Click);
-			this.btnDeleteReportTypeImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnDeleteReportTypeImg_Click);
+			this.btnDeleteReportTemplateImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnDeleteReportTemplateImg_Click);
 			this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
 			this.btnImportImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnImportImg_Click);
-			this.cboReportTypes.SelectedIndexChanged += new System.EventHandler(this.cboReportTypes_SelectedIndexChanged);
-			this.cboTemplateTypes.SelectedIndexChanged += new System.EventHandler(this.cboTemplateTypes_SelectedIndexChanged);
-			this.cboCropTypes.SelectedIndexChanged += new System.EventHandler(this.cboCropTypes_SelectedIndexChanged);
+			this.cboReportTemplates.SelectedIndexChanged += new System.EventHandler(this.cboReportTemplates_SelectedIndexChanged);
 			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
@@ -76,9 +70,7 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void FillForm()
 			{
-			FillCropsTypesCombo();
-			FillTemplateTypesCombo();
-			FillReportTypesCombo();
+			FillReportTemplatesCombo();
 			FillDisplayTemplateTextBox();
 			
 			}
@@ -86,68 +78,21 @@ namespace YieldProphet
 		//Fills the report types combobox with all the report types that match
 		//the selected crop type.
 		//-------------------------------------------------------------------------
-		private void FillReportTypesCombo()
-			{
-			//If there is a selected crop type, then fill the report type
-			//combo box
-			if(cboCropTypes.SelectedValue != "" &&
-				cboTemplateTypes.SelectedValue != "")
-				{	
-				try
-					{
-					DataTable dtReportTypes = 
-						DataAccessClass.GetAllReportTypes(cboTemplateTypes.SelectedValue, cboCropTypes.SelectedValue);
-					cboReportTypes.DataSource = dtReportTypes;
-					cboReportTypes.DataTextField = "Type";
-					cboReportTypes.DataBind();
-					}
-				catch(Exception E)
-					{
-					FunctionsClass.DisplayMessage(Page, E.Message);
-					}
-				}
-			//If no template type has been selected then display an error to the user
-			else
-				{
-				FunctionsClass.DisplayMessage(Page, "No template type selected");
-				}
-		}
-		//-------------------------------------------------------------------------
-		//Fills the template types combo box with all the report template types
-		//from the database
-		//-------------------------------------------------------------------------
-		private void FillTemplateTypesCombo()
+		private void FillReportTemplatesCombo()
 			{
 			try
 				{
-				DataTable dtReportTemplateTypes = DataAccessClass.GetAllReportTemplateTypes();
-				cboTemplateTypes.DataSource = dtReportTemplateTypes;
-				cboTemplateTypes.DataTextField = "Type";
-				cboTemplateTypes.DataBind();
+				DataTable dtReportTemplates = 
+					DataAccessClass.GetAllReportTemplates();
+				cboReportTemplates.DataSource = dtReportTemplates;
+				cboReportTemplates.DataTextField = "Name";
+				cboReportTemplates.DataBind();
 				}
 			catch(Exception E)
 				{
 				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
 			}
-		//---------------------------------------------------------------------------
-		//Fills the crops combo box with all the crops from the database
-		//---------------------------------------------------------------------------
-		private void FillCropsTypesCombo()
-		{
-			try
-			{
-				DataTable dtCrops = DataAccessClass.GetAllCrops();
-				cboCropTypes.DataSource = dtCrops;
-				cboCropTypes.DataTextField = "Type";
-				cboCropTypes.DataValueField = "Type";
-				cboCropTypes.DataBind();
-			}
-			catch(Exception E)
-			{
-				FunctionsClass.DisplayMessage(Page, E.Message);
-			}
-		}
 		//-------------------------------------------------------------------------
 		//Fills the disply template text box with the template type selected by
 		//the user
@@ -157,14 +102,11 @@ namespace YieldProphet
 			try
 				{
 				//If a report type has been selected, then download the report type
-				//template from the database.
-					
+				//template from the database.		
 					string szTemplateText = 
-						DataAccessClass.GetReportTypeTemplate(cboReportTypes.SelectedValue, 
-						cboTemplateTypes.SelectedValue, cboCropTypes.SelectedValue);
+						DataAccessClass.GetReportTemplate(cboReportTemplates.SelectedValue);
 					szTemplateText = SetUpTemplateTextForDisplay(szTemplateText);
-					edtDisplayTemplate.Text = szTemplateText;
-				
+					edtDisplayTemplate.Text = szTemplateText;		
 				}
 			catch(Exception E)
 				{
@@ -201,18 +143,16 @@ namespace YieldProphet
 			{
 			//If the template text box isn't empty and a report type is selected
 			//then update the template in the database
-			if(edtDisplayTemplate.Text != "" && cboReportTypes.SelectedValue != "" 
-				&& cboTemplateTypes.SelectedValue != "" && cboCropTypes.SelectedValue != "")
+			if(edtDisplayTemplate.Text != "" && cboReportTemplates.SelectedValue != "")
 				{
 				string szTemplate = SetUpTemplateTextForSaving(edtDisplayTemplate.Text);
-				DataAccessClass.UpdateReportTypes(szTemplate, cboReportTypes.SelectedValue, 
-					cboTemplateTypes.SelectedValue, cboCropTypes.SelectedValue);
+				DataAccessClass.UpdateReportTemplate(szTemplate, cboReportTemplates.SelectedValue);
 				}
 			//If the there is not text in the template text box or a report type isn't 
 			//selected then display an error message to the user.
 			else
 				{
-				FunctionsClass.DisplayMessage(Page, "Please enter some text for the template and ensure that a valid report type is selected");
+				FunctionsClass.DisplayMessage(Page, "Please enter some text for the template and ensure that a valid report template is selected");
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -222,11 +162,9 @@ namespace YieldProphet
 			{
 			//If a report type is selected, then delete that report type from the
 			//database
-			if(cboReportTypes.SelectedValue != "" && 
-				cboTemplateTypes.SelectedValue != "" && cboCropTypes.SelectedValue != "")
+			if(cboReportTemplates.SelectedValue != "")
 				{
-				DataAccessClass.DeleteReportType(cboReportTypes.SelectedValue, 
-					cboTemplateTypes.SelectedValue, cboCropTypes.SelectedValue);
+				DataAccessClass.DeleteReportTemplate(cboReportTemplates.SelectedValue);
 				//Refresh the page to show changes
 				Server.Transfer("wfEditReportTemplate.aspx");
 				}
@@ -241,12 +179,11 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void ImportFile()
 			{
-			if(cboReportTypes.SelectedValue != "" && cboTemplateTypes.SelectedValue != "" 
-				&& cboCropTypes.SelectedValue != "")
+			if(cboReportTemplates.SelectedValue != "")
 				{
 				bool bErrors = false;
-				ImportClass.ImportReportTemplate(Page, cboReportTypes.SelectedValue, 
-					cboTemplateTypes.SelectedValue, cboCropTypes.SelectedValue, ref bErrors);
+				ImportClass.ImportReportTemplate(Page, cboReportTemplates.SelectedValue, 
+					ref bErrors);
 				Server.Transfer("wfEditReportTemplate.aspx");
 				}
 			//If no report type is selected then display an error message to the user
@@ -275,8 +212,9 @@ namespace YieldProphet
 				}
 			//Adds an attribute to the delete  report type button that causes a 
 			//confirmation warning to appear when the user presses the button
-			btnDeleteReportType.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the report type \");");
-			}	
+			btnDeleteReportTemplate.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the report template \");");
+			btnDeleteReportTemplateImg.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the report template \");");
+		}	
 		//-------------------------------------------------------------------------
 		//When the user presses the save button the report is updated
 		//-------------------------------------------------------------------------
@@ -309,23 +247,23 @@ namespace YieldProphet
 		//When the user presses the add report type button, they are sent to the 
 		//Add report type page
 		//-------------------------------------------------------------------------
-		private void btnAddReportType_Click(object sender, System.EventArgs e)
+		private void btnAddReportTemplate_Click(object sender, System.EventArgs e)
 			{
-			Server.Transfer("wfAddReportType.aspx");
+			Server.Transfer("wfAddReportTemplate.aspx");
 			}
 		//-------------------------------------------------------------------------
 		//When the user presses the add report type image, they are sent to the 
 		//Add report type page
 		//-------------------------------------------------------------------------
-		private void btnAddReportTypeImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
+		private void btnAddReportTemplateImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
 			{
-			Server.Transfer("wfAddReportType.aspx");
+			Server.Transfer("wfAddReportTemplate.aspx");
 			}
 		//-------------------------------------------------------------------------
 		//When the user presses the delete report type button, the selected report 
 		//type is deleted from the database
 		//-------------------------------------------------------------------------
-		private void btnDeleteReportType_Click(object sender, System.EventArgs e)
+		private void btnDeleteReportTemplate_Click(object sender, System.EventArgs e)
 			{
 			DeleteReportType();
 			}
@@ -333,36 +271,18 @@ namespace YieldProphet
 		//When the user presses the delete report type button, the selected report 
 		//type is deleted from the database
 		//-------------------------------------------------------------------------
-		private void btnDeleteReportTypeImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
+		private void btnDeleteReportTemplateImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
 			{
 			DeleteReportType();
-			}
-		//-------------------------------------------------------------------------
-		//When the user changes the selected report template type, the report types
-		//combo and the template text box are refreshed with the corresponding values
-		//from the database
-		//-------------------------------------------------------------------------
-		private void cboTemplateTypes_SelectedIndexChanged(object sender, System.EventArgs e)
-			{
-			FillReportTypesCombo();
-			FillDisplayTemplateTextBox();
 			}
 		//-------------------------------------------------------------------------
 		//When the user changes the selected report type, the template text box is
 		//refreshed with the corresponing template from the database
 		//-------------------------------------------------------------------------
-		private void cboReportTypes_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void cboReportTemplates_SelectedIndexChanged(object sender, System.EventArgs e)
 			{
 			FillDisplayTemplateTextBox();
 			}
-		//-------------------------------------------------------------------------
-		//
-		//-------------------------------------------------------------------------
-		private void cboCropTypes_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			FillReportTypesCombo();
-			FillDisplayTemplateTextBox();
-		}
 		//-------------------------------------------------------------------------	
 		#endregion
 

@@ -8,6 +8,7 @@ using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+   
 
 namespace YieldProphet
 	{
@@ -15,7 +16,7 @@ namespace YieldProphet
 	/// Summary description for wfViewReports.
 	/// </summary>
 	public class wfViewReports : System.Web.UI.Page
-		{
+	{
 		protected System.Web.UI.WebControls.LinkButton btnRenameReport;
 		protected System.Web.UI.WebControls.ImageButton btnShowReportImg;
 		protected System.Web.UI.WebControls.LinkButton btnShowReport;
@@ -25,6 +26,9 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.ImageButton btnRenameImg;
 		protected System.Web.UI.WebControls.DropDownList cboYear;
 		protected System.Web.UI.WebControls.Label lblYear;
+		protected System.Web.UI.WebControls.Label lblMultipleSelect;
+		protected System.Web.UI.WebControls.LinkButton btnSave;
+		protected System.Web.UI.WebControls.ImageButton btnSaveImg;
 		protected System.Web.UI.WebControls.Panel pnlTop;
 
 
@@ -51,6 +55,8 @@ namespace YieldProphet
 			this.btnShowReportImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnShowReportImg_Click);
 			this.btnRenameReport.Click += new System.EventHandler(this.btnRenameReport_Click);
 			this.btnRenameImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnRenameImg_Click);
+			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+			this.btnSaveImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnSaveImg_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
@@ -63,132 +69,184 @@ namespace YieldProphet
 		//Sets the Year combo box to todays year
 		//-------------------------------------------------------------------------
 		private void SetYearComboBox(int iYear)
-			{
+		{
 			string szYear = iYear.ToString();
 			for(int iIndex = 0; iIndex < cboYear.Items.Count; iIndex++)
-				{
+			{
 				if(szYear == cboYear.Items[iIndex].Text)
-					{
+				{
 					cboYear.SelectedIndex = iIndex;
 					break;
-					}
 				}
 			}
+		}
 		//-------------------------------------------------------------------------
 		//Fills the report list with all the reports belonging to the current user
 		//-------------------------------------------------------------------------
 		private void FillReportList()
-			{
+		{
 			try
-				{
+			{
 				DataTable dtReports = ReportClass.GetReportsOfUser(FunctionsClass.GetActiveUserName(), 
 					Convert.ToInt32(cboYear.SelectedItem.Text));
 				lstReports.DataSource = dtReports;
 				lstReports.DataTextField = "Name";
 				lstReports.DataBind();
-				}
-			catch(Exception E)
-				{
-				FunctionsClass.DisplayMessage(Page, E.Message);
-				}
 			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+		}
 		//-------------------------------------------------------------------------
 		//Stores the reportID in a session variable then transfers the user to the
 		//Display report page to view the report
 		//-------------------------------------------------------------------------
 		private void DisplayReport()
-			{
+		{
 			//If a report is selected then transfer the user to the Display report page
 			if(lstReports.SelectedValue != null && lstReports.SelectedValue != "")
-				{
+			{
 
 				Server.Transfer("wfDisplayReport.aspx");
-				}
-			//If no report is selected then display an error message to the user
-			else
-				{
-				FunctionsClass.DisplayMessage(Page, "No Report Selected");
-				}
 			}
+				//If no report is selected then display an error message to the user
+			else
+			{
+				FunctionsClass.DisplayMessage(Page, "No Report Selected");
+			}
+		}
 		//-------------------------------------------------------------------------
-		//Deletes the selected report from the database and the file system.
+		//Deletes the selected reports from the database and the file system.
 		//-------------------------------------------------------------------------	
 		private void DeleteReport()
-			{
+		{
 			try
-				{
+			{
 				//If a report is selected then remove it from the database
 				if(lstReports.SelectedValue != null && lstReports.SelectedValue != "")
-					{
+				{
 					if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
+					{
+						foreach(ListItem liReport in lstReports.Items)
 						{
-						ReportClass.DeleteReport(FunctionsClass.GetActiveUserName(), 
-							lstReports.SelectedItem.Text, Convert.ToInt32(cboYear.SelectedItem.Text));
+							if(liReport.Selected == true)
+							{
+								ReportClass.DeleteReport(FunctionsClass.GetActiveUserName(), 
+									liReport.Text, Convert.ToInt32(cboYear.SelectedItem.Text));
+							}//END IF SELECTED
+						}//END FOREACH LOOP
 						Server.Transfer("wfViewReports.aspx");
-						}
+					}
 					else
 						throw new Exception("Functionality not available to visitors");
-					}
-				//If no report is selected then display an error message to the user
+				}
+					//If no report is selected then display an error message to the user
 				else
 					throw new Exception("No Report Selected");
-				}
-			catch(Exception E)
-				{
-				FunctionsClass.DisplayMessage(Page, E.Message);
-				}
 			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+		}
+		//-------------------------------------------------------------------------
+		//Save the selected reports to the user's computer
+		//-------------------------------------------------------------------------	
+		private void SaveSelectedReports()
+		{
+			try
+			{
+
+					//If a report is selected then remove it from the database
+					if(lstReports.SelectedValue != null && lstReports.SelectedValue != "")
+					{
+						foreach(ListItem liReport in lstReports.Items)
+						{
+							if(liReport.Selected == true)
+							{
+								SaveSingleReport(liReport.Text, ReturnReportYear());			
+							}//END IF SELECTED
+						}//END FOREACH LOOP
+						ViewState["SavingReports"] = false;
+					}
+						//If no report is selected then display an error message to the user
+					else
+						throw new Exception("No Report Selected");
+			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+			Server.Transfer("wfViewReports.aspx");
+		
+		
+		}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------	
+		private void SaveSingleReport(string szReportName, int iReportYear)
+		{
+			Response.ClearHeaders();
+			Response.ClearContent();
+			Response.Clear();
+			Response.ContentType = "Image/GIF";
+
+			Response.AddHeader("Content-Disposition","attachment;filename=\""+szReportName+".gif\""); 
+			Response.WriteFile(Server.MapPath("Reports\\stephen\\2005\\MS.gif"));
+			Response.End(); 
+		}
 		//-------------------------------------------------------------------------
 		//Sends the user to the EditReport page
 		//-------------------------------------------------------------------------
 		private void RenameReport()
-			{
+		{
 			//If a report is selected then transfer the user to the edit report page
 			if(lstReports.SelectedValue != null && lstReports.SelectedValue != "")
-				{
+			{
 				if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
-					{
-					Server.Transfer("wfEditReport.aspx");
-					}
-				else
-					{
-					FunctionsClass.DisplayMessage(Page, "Functionality not available to visitors");
-					}
-				}
-			//If no report is selected then display an error message to the user
-			else
 				{
-				FunctionsClass.DisplayMessage(Page, "No Report Selected");
+					Server.Transfer("wfEditReport.aspx");
+				}
+				else
+				{
+					FunctionsClass.DisplayMessage(Page, "Functionality not available to visitors");
 				}
 			}
+				//If no report is selected then display an error message to the user
+			else
+			{
+				FunctionsClass.DisplayMessage(Page, "No Report Selected");
+			}
+		}
 		//-------------------------------------------------------------------------
 		//A public function to return the selected year to another page
 		//-------------------------------------------------------------------------
 		public int ReturnReportYear()
-			{
+		{
 			int iReportYear = 0;
 			try
-				{
+			{
 				iReportYear = Convert.ToInt32(cboYear.SelectedItem.Text);
-				}
-			catch(Exception E)
-				{
-				FunctionsClass.DisplayMessage(Page, E.Message);
-				}
-			return iReportYear;
 			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+			return iReportYear;
+		}
 		//-------------------------------------------------------------------------
 		//A public function to return the selected report name to another page
 		//-------------------------------------------------------------------------
 		public string ReturnReportName()
-			{
+		{
 			string szReportName = "";
 			if(lstReports.SelectedItem.Text != null && lstReports.SelectedItem.Text != "")
-				{
+			{
 				szReportName = lstReports.SelectedItem.Text;
-				}
-			return szReportName;
 			}
+			return szReportName;
+		}
 		//-------------------------------------------------------------------------
 		#endregion
 
@@ -200,40 +258,42 @@ namespace YieldProphet
 		//permissions are checked and the page is initialised
 		//-------------------------------------------------------------------------
 		private void Page_Load(object sender, System.EventArgs e)
-			{
+		{
 			if (!IsPostBack)
-				{	
+			{	
+				//ViewState["SavingReports"] = false;
 				FunctionsClass.CheckSession();
 				FunctionsClass.CheckForVisitorLevelPriviledges();
 				SetYearComboBox(DateTime.Today.Year);
 				FillReportList();
 				//If there are no reports then show last year's report list
 				if(lstReports.Items.Count < 1)
-					{
+				{
 					SetYearComboBox(DateTime.Today.Year-1);
 					FillReportList();
-					}
 				}
+			}
 			//Adds an attribute to the delete report button that causes a 
 			//confirmation warning to appear when the user presses the button
-			btnDeleteReport.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the selected report \");");
+			btnDeleteReport.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the selected report(s) \");");
+
 			}
 		//-------------------------------------------------------------------------
 		//When the user presses the rename report button, they are transfered to the
 		// display report page
 		//-------------------------------------------------------------------------
 		private void btnShowReport_Click(object sender, System.EventArgs e)
-			{
+		{
 			DisplayReport();
-			}
+		}
 		//-------------------------------------------------------------------------
 		//When the user presses the rename report image, they are transfered to the
 		// display report page
 		//-------------------------------------------------------------------------
 		private void btnShowReportImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
-			{
+		{
 			DisplayReport();
-			}
+		}
 		//-------------------------------------------------------------------------
 		//When the user presses the delete report button, the selected report is
 		//removed from the database
@@ -247,36 +307,54 @@ namespace YieldProphet
 		//removed from the database
 		//-------------------------------------------------------------------------
 		private void btnDeleteReportImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
-			{
+		{
 			DeleteReport();
-			}
+		}
 		//-------------------------------------------------------------------------
 		//When the user presses the rename report button, they are transfered to the
 		// edit report page
 		//-------------------------------------------------------------------------
 		private void btnRenameReport_Click(object sender, System.EventArgs e)
-			{
+		{
 			RenameReport();
-			}
+		}
 		//-------------------------------------------------------------------------
 		//When the user presses the rename report image, they are transfered to the
 		// edit report page
 		//-------------------------------------------------------------------------
 		private void btnRenameImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
-			{
+		{
 			RenameReport();
-			}
+		}
+		//-------------------------------------------------------------------------
+		//When the user presses the save report button, the selected reports are
+		//saved to their computer
+		//-------------------------------------------------------------------------
+		private void btnSave_Click(object sender, System.EventArgs e)
+		{
+			ViewState["SavingReports"] = true;
+			SaveSelectedReports();
+		}
+		//-------------------------------------------------------------------------
+		//When the user presses the save report image, the selected reports are
+		//saved to their computer
+		//-------------------------------------------------------------------------
+		private void btnSaveImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
+		{
+			ViewState["SavingReports"] = true;
+			SaveSelectedReports();
+		}
 		//-------------------------------------------------------------------------
 		//When the user changes the report year, the report list is updated
 		//-------------------------------------------------------------------------
 		private void cboYear_SelectedIndexChanged(object sender, System.EventArgs e)
-			{
+		{
 			FillReportList();
-			}
+		}
 		//-------------------------------------------------------------------------
 		#endregion
 
 
 		//-------------------------------------------------------------------------
-		}//END OF CLASS
+	}//END OF CLASS
 	}//END OF NAMESPACE

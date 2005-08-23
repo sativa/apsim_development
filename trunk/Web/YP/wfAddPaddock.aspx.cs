@@ -33,6 +33,13 @@ namespace YieldProphet
 		protected System.Data.DataTable dtSowDate;
 		protected System.Data.DataColumn dcSowDate;
 		protected System.Web.UI.WebControls.Button btnSave;
+		protected System.Web.UI.WebControls.CheckBox chkTriazine;
+		protected System.Web.UI.WebControls.Label lblTriazine;
+		protected System.Web.UI.WebControls.Label lblPopulation;
+		protected System.Web.UI.WebControls.TextBox edtPopulation;
+		protected System.Web.UI.WebControls.DropDownList cboRowConfiguration;
+		protected System.Web.UI.WebControls.Label lblRowConfiguration;
+		protected System.Web.UI.WebControls.Label lblPopulationUnit;
 		protected System.Web.UI.WebControls.DropDownList cboCultivars;
 
 
@@ -99,6 +106,8 @@ namespace YieldProphet
 			ChangeEnableCropDetails(false);
 			FillCropsCombo();
 			FillCultivarsCombo();
+			FillRowConfigurationCombo();
+			DisplayCropTypeComponents();
 			SetSowDate();
 			}
 		//-------------------------------------------------------------------------
@@ -162,6 +171,24 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
+		//Fills the row configuration combo box with all the row configuration types form the database
+		//-------------------------------------------------------------------------
+		private void FillRowConfigurationCombo()
+		{
+			try
+			{
+				DataTable dtRowConfiguration = DataAccessClass.GetAllRowConfigurationTypes();
+				cboRowConfiguration.DataSource = dtRowConfiguration;
+				cboRowConfiguration.DataTextField = "Type";
+				cboRowConfiguration.DataValueField = "Type";
+				cboRowConfiguration.DataBind();
+			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+		}
+		//-------------------------------------------------------------------------
 		//If the sown check box is set to true, the components that take
 		//sowing informaition are enabled, if the checkbox is set to false
 		//then the components that take sowing information are disabled
@@ -173,6 +200,41 @@ namespace YieldProphet
 			grdSowDate.Enabled = bEnableCropDetails;
 			}	
 		//-------------------------------------------------------------------------
+		//Displays visual components that are dependant on the type of crop selected
+		//-------------------------------------------------------------------------
+		private void DisplayCropTypeComponents()
+		{
+			SetVisabilityOfCanolaComponents();
+			SetVisibilityOfSorgumComponents();
+		}
+		//-------------------------------------------------------------------------
+		//Sets the visibility of the triazine option depending on the crop selected
+		//-------------------------------------------------------------------------
+		private void SetVisabilityOfCanolaComponents()
+		{
+			bool bTriazineVisibility = false;
+			if(cboCrops.SelectedValue == "Canola")
+				bTriazineVisibility = true;
+
+			lblTriazine.Visible = bTriazineVisibility;
+			chkTriazine.Visible = bTriazineVisibility;
+		}	
+		//-------------------------------------------------------------------------
+		//Sets the visibility of the triazine option depending on the crop selected
+		//-------------------------------------------------------------------------
+		private void SetVisibilityOfSorgumComponents()
+		{
+			bool bSorgumComponentVisibility = false;
+			if(cboCrops.SelectedValue == "Sorghum")
+				bSorgumComponentVisibility = true;
+
+			lblRowConfiguration.Visible = bSorgumComponentVisibility;
+			cboRowConfiguration.Visible = bSorgumComponentVisibility;
+			lblPopulation.Visible = bSorgumComponentVisibility;
+			edtPopulation.Visible = bSorgumComponentVisibility;
+			lblPopulationUnit.Visible = bSorgumComponentVisibility;
+		}	
+		//-------------------------------------------------------------------------
 		//Saves the new paddock's details to the database and the 
 		//user is sent back to the ViewGrowers page.
 		//-------------------------------------------------------------------------
@@ -180,7 +242,7 @@ namespace YieldProphet
 			{
 			if(edtName.Text != "" && edtName.Text != null)
 				{
-				if(cboCultivars.SelectedItem.Text != "")
+				if(cboCultivars.SelectedItem.Text != "" && (cboRowConfiguration.Visible == false || cboRowConfiguration.SelectedValue != "None") )
 					{
 					try
 						{
@@ -191,19 +253,20 @@ namespace YieldProphet
 								{
 								DataAccessClass.InsertPaddock(InputValidationClass.ValidateString(edtName.Text), 
 									(DateTime.ParseExact(grdSowDate.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
-									cboCultivars.SelectedItem.Text, Session["SelectedUserName"].ToString());
+									cboCultivars.SelectedItem.Text, Convert.ToInt32(chkTriazine.Checked), cboRowConfiguration.SelectedValue, 
+									ReturnPopulationValue(), Session["SelectedUserName"].ToString());
 								}
 							//Saves only the paddock name and consultant ID
 							else
 								{
 								DataAccessClass.InsertPaddock(InputValidationClass.ValidateString(edtName.Text), "", 
-									cboCultivars.SelectedItem.Text, Session["SelectedUserName"].ToString());
+									cboCultivars.SelectedItem.Text, 0, "None", 0, Session["SelectedUserName"].ToString());
 								}
 							Server.Transfer("wfManageUsers.aspx");
 							}
 						else
 							{
-							FunctionsClass.DisplayMessage(Page, "The selected user already has a paddock with this name");
+							throw new Exception("The selected user already has a paddock with this name");
 							}
 						}
 					catch(Exception E)
@@ -213,7 +276,7 @@ namespace YieldProphet
 					}
 				else
 					{
-					FunctionsClass.DisplayMessage(Page, "Please select a cultivar");
+					FunctionsClass.DisplayMessage(Page, "Please ensure all fields are valid");
 					}
 				}
 			else
@@ -221,6 +284,22 @@ namespace YieldProphet
 				FunctionsClass.DisplayMessage(Page, "Please enter a paddock name");
 				}
 			}
+		//-------------------------------------------------------------------------
+		//Returns the value of the Population text box after it is checked to insure 
+		//that the value is a valid integer
+		//-------------------------------------------------------------------------
+		private int ReturnPopulationValue()
+		{
+			int iPopulation = 0;
+			if(edtPopulation.Text != "")
+			{
+				if(InputValidationClass.IsInputAPositiveInteger(edtPopulation.Text))
+				{
+					iPopulation = Convert.ToInt32(edtPopulation.Text);
+				}
+			}
+			return iPopulation;
+		}
 		//---------------------------------------------------------------------------
 		#endregion
 
@@ -248,6 +327,7 @@ namespace YieldProphet
 		private void cboCrops_SelectedIndexChanged(object sender, System.EventArgs e)
 			{
 			FillCultivarsCombo();
+			DisplayCropTypeComponents();
 			}
 		//-------------------------------------------------------------------------
 		//When the Sown check box is changed, the page is updated.

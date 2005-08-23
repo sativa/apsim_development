@@ -1,5 +1,5 @@
-<%@ Page language="c#" Codebehind="wfGenerateFallowReport.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfGenerateFallowReport" %>
 <%@ Register TagPrefix="jwg" Namespace="Janus.Web.GridEX" Assembly="Janus.Web.GridEX" %>
+<%@ Page language="c#" Codebehind="wfGenerateFallowReport.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfGenerateFallowReport" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <HTML>
 	<HEAD>
@@ -15,10 +15,10 @@
 				BackColor="PaleGoldenrod" HorizontalAlign="Left" Width="100%" Height="48px">
 				<DIV style="WIDTH: 184px; POSITION: relative; HEIGHT: 41px" ms_positioning="GridLayout">
 					<asp:LinkButton id="btnCancel" style="Z-INDEX: 100; LEFT: 120px; POSITION: absolute; TOP: 16px"
-						tabIndex="5" runat="server" Font-Size="Smaller" EnableViewState="False">Cancel</asp:LinkButton>
+						tabIndex="5" runat="server" EnableViewState="False" Font-Size="Smaller">Cancel</asp:LinkButton>
 					<asp:Button id="btnSave" style="Z-INDEX: 104; LEFT: 32px; POSITION: absolute; TOP: 16px" runat="server"
-						Height="16px" Width="64px" BackColor="Transparent" Font-Size="Smaller" Text="Do report" Font-Underline="True"
-						BorderStyle="None" BorderColor="Transparent" ForeColor="Blue" Font-Names="Times New Roman"></asp:Button>
+						Height="16px" Width="64px" BackColor="Transparent" Font-Size="Smaller" Font-Names="Times New Roman"
+						ForeColor="Blue" BorderColor="Transparent" BorderStyle="None" Font-Underline="True" Text="Do report"></asp:Button>
 					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 101; LEFT: 96px; POSITION: absolute; TOP: 16px"
 						tabIndex="4" runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 102; LEFT: 8px; POSITION: absolute; TOP: 16px" tabIndex="2"

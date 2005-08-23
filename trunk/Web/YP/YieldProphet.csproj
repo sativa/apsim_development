@@ -168,14 +168,19 @@
                     Private = "True"
                 />
                 <Reference
-                    Name = "VBGeneral"
-                    AssemblyName = "VBGeneral"
-                    HintPath = "..\..\Bin\VBGeneral.dll"
+                    Name = "CSGeneral"
+                    Project = "{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "CSGeneral"
-                    AssemblyName = "CSGeneral"
-                    HintPath = "..\..\Bin\CSGeneral.dll"
+                    Name = "VBGeneral"
+                    Project = "{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}"
+                    Package = "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}"
+                />
+                <Reference
+                    Name = "Soil"
+                    Project = "{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
         </Build>
@@ -293,19 +298,19 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "wfAddReportType.aspx"
+                    RelPath = "wfAddReportTemplate.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "wfAddReportType.aspx.cs"
-                    DependentUpon = "wfAddReportType.aspx"
+                    RelPath = "wfAddReportTemplate.aspx.cs"
+                    DependentUpon = "wfAddReportTemplate.aspx"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "wfAddReportType.aspx.resx"
-                    DependentUpon = "wfAddReportType.aspx.cs"
+                    RelPath = "wfAddReportTemplate.aspx.resx"
+                    DependentUpon = "wfAddReportTemplate.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -354,6 +359,22 @@
                 <File
                     RelPath = "wfEditClimateForecast.aspx.resx"
                     DependentUpon = "wfEditClimateForecast.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfEditMetStation.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfEditMetStation.aspx.cs"
+                    DependentUpon = "wfEditMetStation.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfEditMetStation.aspx.resx"
+                    DependentUpon = "wfEditMetStation.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -437,6 +458,22 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "wfEditReportTemplateMap.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfEditReportTemplateMap.aspx.cs"
+                    DependentUpon = "wfEditReportTemplateMap.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfEditReportTemplateMap.aspx.resx"
+                    DependentUpon = "wfEditReportTemplateMap.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "wfEditSetupPaddock.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
@@ -450,6 +487,22 @@
                 <File
                     RelPath = "wfEditSetupPaddock.aspx.resx"
                     DependentUpon = "wfEditSetupPaddock.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfEditSoil.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfEditSoil.aspx.cs"
+                    DependentUpon = "wfEditSoil.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfEditSoil.aspx.resx"
+                    DependentUpon = "wfEditSoil.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -501,6 +554,22 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "wfGenerateIrrigationComparisonReport.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfGenerateIrrigationComparisonReport.aspx.cs"
+                    DependentUpon = "wfGenerateIrrigationComparisonReport.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfGenerateIrrigationComparisonReport.aspx.resx"
+                    DependentUpon = "wfGenerateIrrigationComparisonReport.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "wfGenerateNitrogenComparisonReport.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
@@ -518,6 +587,7 @@
                 />
                 <File
                     RelPath = "wfGenerateNitrogenProfitReport.aspx"
+                    SubType = "Form"
                     BuildAction = "Content"
                 />
                 <File

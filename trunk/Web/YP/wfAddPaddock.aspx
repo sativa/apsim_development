@@ -35,9 +35,9 @@
 			<asp:CheckBox id="chkSown" style="Z-INDEX: 106; LEFT: 64px; POSITION: absolute; TOP: 184px" runat="server"
 				TextAlign="Left" Text="Have you sown yet?" AutoPostBack="True"></asp:CheckBox>
 			<asp:DropDownList id="cboCrops" style="Z-INDEX: 108; LEFT: 224px; POSITION: absolute; TOP: 224px"
-				runat="server" Width="248px" AutoPostBack="True" tabIndex="3" Height="24px"></asp:DropDownList>
+				runat="server" Width="184px" AutoPostBack="True" tabIndex="3" Height="24px"></asp:DropDownList>
 			<asp:DropDownList id="cboCultivars" style="Z-INDEX: 109; LEFT: 224px; POSITION: absolute; TOP: 264px"
-				runat="server" Width="248px" tabIndex="4" Height="24px"></asp:DropDownList>
+				runat="server" Width="184px" tabIndex="4" Height="24px"></asp:DropDownList>
 			<asp:Label id="lblCrop" style="Z-INDEX: 110; LEFT: 136px; POSITION: absolute; TOP: 224px" runat="server"
 				Height="22px">Crop Type:</asp:Label>
 			<asp:Label id="lblCultivar" style="Z-INDEX: 111; LEFT: 120px; POSITION: absolute; TOP: 264px"
@@ -93,6 +93,20 @@
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
 			</jwg:gridEX>
+			<asp:CheckBox id="chkTriazine" style="Z-INDEX: 114; LEFT: 224px; POSITION: absolute; TOP: 304px"
+				runat="server" Text=" "></asp:CheckBox>
+			<asp:Label id="lblTriazine" style="Z-INDEX: 115; LEFT: 152px; POSITION: absolute; TOP: 304px"
+				runat="server" Height="16px" Width="40px">Triazine:</asp:Label>
+			<asp:Label id="lblRowConfiguration" style="Z-INDEX: 122; LEFT: 432px; POSITION: absolute; TOP: 224px"
+				runat="server">Row Configuration:</asp:Label>
+			<asp:Label id="lblPopulation" style="Z-INDEX: 122; LEFT: 480px; POSITION: absolute; TOP: 264px"
+				runat="server">Population: </asp:Label>
+			<asp:TextBox id="edtPopulation" style="Z-INDEX: 122; LEFT: 560px; POSITION: absolute; TOP: 264px"
+				runat="server" Width="88px"></asp:TextBox>
+			<asp:DropDownList id="cboRowConfiguration" style="Z-INDEX: 121; LEFT: 560px; POSITION: absolute; TOP: 224px"
+				runat="server" Width="160px"></asp:DropDownList>
+			<asp:Label id="lblPopulationUnit" style="Z-INDEX: 125; LEFT: 656px; POSITION: absolute; TOP: 264px"
+				runat="server">plants/m2</asp:Label>
 		</form>
 	</body>
 </HTML>

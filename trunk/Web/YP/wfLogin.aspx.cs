@@ -16,24 +16,27 @@ namespace YieldProphet
 	/// </summary>
 	public class wfLogin : System.Web.UI.Page
 		{
-		protected System.Web.UI.WebControls.TextBox edtUserName;
-		protected System.Web.UI.WebControls.TextBox edtPassword;
-		protected System.Web.UI.WebControls.Label lblUserName;
-		protected System.Web.UI.WebControls.Label lblPassword;
 		protected System.Web.UI.WebControls.Button btnLogin;
-		protected System.Web.UI.WebControls.Label lblWelcome;
-		protected System.Web.UI.WebControls.Label lblVisiting;
-		protected System.Web.UI.WebControls.Label lblVisitingDetail;
-		protected System.Web.UI.WebControls.Label lblWarningTwo;
-		protected System.Web.UI.WebControls.Label lblWarningOne;
-		protected System.Web.UI.WebControls.HyperLink hylWarning;
-		protected System.Web.UI.WebControls.Label lblFurtherDetails;
-		protected System.Web.UI.WebControls.HyperLink hylEmail;
-		protected System.Web.UI.WebControls.Button RegistrationButton;
-		protected System.Web.UI.WebControls.Label lblSurvey;
-		protected System.Web.UI.WebControls.Button btnSurvey;
-		protected System.Web.UI.WebControls.Label lblRegInfo;
-		protected System.Web.UI.WebControls.Image imgSide;
+		protected System.Web.UI.WebControls.TextBox edtPassword;
+		protected System.Web.UI.WebControls.TextBox edtUserName;
+		protected System.Web.UI.WebControls.Label lblPassword;
+		protected System.Web.UI.WebControls.Label lblHeading;
+		protected System.Web.UI.WebControls.Label lblDescription;
+		protected System.Web.UI.WebControls.LinkButton btnFeedback;
+		protected System.Web.UI.WebControls.LinkButton btnJoin;
+		protected System.Web.UI.WebControls.HyperLink hylContactUs;
+		protected System.Web.UI.WebControls.Label lblVisitorDescription;
+		protected System.Web.UI.WebControls.Label lblNoticeOne;
+		protected System.Web.UI.WebControls.Label lblSubscribers;
+		protected System.Web.UI.WebControls.Label lblVisitors;
+		protected System.Web.UI.WebControls.Label lblNoticeTwo;
+		protected System.Web.UI.WebControls.HyperLink hylApsim;
+		protected System.Web.UI.WebControls.Image imgBCG;
+		protected System.Web.UI.WebControls.Image imgASPRU;
+		protected System.Web.UI.WebControls.Image imgDCITA;
+		protected System.Web.UI.WebControls.Image imgTents;
+		protected System.Web.UI.WebControls.HyperLink hylFurtherInfo;
+		protected System.Web.UI.WebControls.Label lblUserName;
 
 
 
@@ -54,8 +57,8 @@ namespace YieldProphet
 		private void InitializeComponent()
 		{    
 			this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
-			this.RegistrationButton.Click += new System.EventHandler(this.RegistrationButton_Click);
-			this.btnSurvey.Click += new System.EventHandler(this.btnSurvey_Click);
+			this.btnFeedback.Click += new System.EventHandler(this.btnFeedback_Click);
+			this.btnJoin.Click += new System.EventHandler(this.btnJoin_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
@@ -122,7 +125,6 @@ namespace YieldProphet
 			{
 			if (!IsPostBack)
 				{
-				imgSide.Height = Unit.Percentage(100);
 				Session["UserName"] = "";
 				ClearFormInformation();
 				FunctionsClass.SetControlFocus("edtUserName", this);
@@ -137,19 +139,19 @@ namespace YieldProphet
 			LogUserIn();
 			}
 		//---------------------------------------------------------------------
-		// User has clicked on registration info button.
+		//User has clicked the join info button
 		//---------------------------------------------------------------------
-		private void RegistrationButton_Click(object sender, System.EventArgs e)
-			{
-			Server.Transfer("wfRegForm1.aspx");
-			}
+		private void btnJoin_Click(object sender, System.EventArgs e)
+		{
+		Server.Transfer("wfRegForm1.aspx");
+		}
 		//---------------------------------------------------------------------
-		// User has clicked on the online survey button.
+		//User has clicked the feedback info button
 		//---------------------------------------------------------------------
-		private void btnSurvey_Click(object sender, System.EventArgs e)
-			{
-			Server.Transfer("wfSurvey.aspx");
-			}
+		private void btnFeedback_Click(object sender, System.EventArgs e)
+		{
+		Server.Transfer("wfSurvey.aspx");
+		}
 		//---------------------------------------------------------------------
 		#endregion
 
