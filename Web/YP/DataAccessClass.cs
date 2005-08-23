@@ -193,10 +193,12 @@ namespace YieldProphet
 		//---------------------------------------------------------------------
 		//updates an existing user in the database
 		//---------------------------------------------------------------------
-		static public void UpdateUser(string szName, string szEmail,
-			string szPassword, string szUserName, string szAccessType, 
-			StringCollection scConsultants, StringCollection scUsersCrops)
+		static public void UpdateUser(string szName, string szEmail, 
+			string szNewUserName, string szPassword, string szUserName, 
+			string szAccessType, StringCollection scConsultants, 
+			StringCollection scUsersCrops)
 			{
+			int iUserID = ReturnUserIDFromUserName(szUserName);
 			System.Text.StringBuilder sbSQL = new System.Text.StringBuilder();
 			sbSQL.Append("UPDATE Users SET ");
 			if(szName != null && szName != "")
@@ -218,16 +220,28 @@ namespace YieldProphet
 				sbSQL.Append("Salt = '"+szSalt+"', ");
 				sbSQL.Append("Pass = '"+FunctionsClass.EncryptPassword(szPassword, szSalt)+"', ");
 				}
-			sbSQL.Append("UserName = '"+szUserName+"' ");
-			sbSQL.Append("WHERE UserName = '"+szUserName+"'");
-			RunSQLStatement(sbSQL.ToString());
+			if(szNewUserName != null && szNewUserName != "")
+			{
+				sbSQL.Append("UserName = '"+szNewUserName+"', ");
+				szUserName = szNewUserName;
+			}
+			sbSQL.Append("WHERE ID = "+iUserID.ToString());
+			string szSQL = sbSQL.ToString();
+			//Removes last , if it exists
+			int iIndex = szSQL.LastIndexOf(",");
+			if (iIndex > 0)
+			{
+				szSQL = szSQL.Remove(iIndex, 1);
+			}
+			RunSQLStatement(szSQL);
+
 			//Save the list of consultants mapped to the user
 			if(scConsultants != null)
 				{
 				if(scConsultants.Count > 0)
 					{
 					RemoveUserFromConsultantUserMap(szUserName);
-					for(int iIndex = 0; iIndex < scConsultants.Count; iIndex++)
+					for(iIndex = 0; iIndex < scConsultants.Count; iIndex++)
 						{
 						InsertUserIntoConsultantUserMap(scConsultants[iIndex], szUserName);	
 						}
@@ -239,7 +253,7 @@ namespace YieldProphet
 				if(scUsersCrops.Count > 0)
 					{
 					RemoveUserFromUsersCrops(szUserName);
-					for(int iIndex = 0; iIndex < scUsersCrops.Count; iIndex++)
+					for(iIndex = 0; iIndex < scUsersCrops.Count; iIndex++)
 						{
 						InsertUserIntoUsersCrops(scUsersCrops[iIndex], szUserName);	
 						}
@@ -275,7 +289,8 @@ namespace YieldProphet
 			string szSQL = "SELECT Users.Name, Users.UserName FROM Users "+
 				"INNER JOIN AccessTypes ON Users.AccessTypeID = AccessTypes.ID "+
 				"WHERE AccessTypes.Type = '"+FunctionsClass.szConsultant+"' OR "+
-				"AccessTypes.Type = '"+FunctionsClass.szVisitorConsultant+"' "+
+				"AccessTypes.Type = '"+FunctionsClass.szVisitorConsultant+"' OR "+
+				"AccessTypes.Type = '"+FunctionsClass.szAdministrator+"' "+
 				"ORDER BY Users.Name";
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
@@ -518,14 +533,15 @@ namespace YieldProphet
 
 			string szSQL = "SELECT Paddocks.SowDate, Paddocks.StartOfGrowingSeasonDate, MetStations.Name AS MetStationName, "+
 				"MetStations.StationNumber, CultivarTypes.Type AS CultivarType, "+
-				"SubSoilConstraintTypes.Type AS SubSoilConstraintType, Soils.Name AS SoilName, "+
-				"Regions.Type AS RegionType, CropTypes.Type AS CropType, "+
-				"LinkedRainfallPaddock.Name AS LinkedRainfallPaddockName "+
+				"RowConfigurationTypes.Type AS RowConfigurationType, Soils.Name AS SoilName, "+
+				"Regions.Type AS RegionType, CropTypes.Type AS CropType, Paddocks.DefaultRainfall, "+
+				"LinkedRainfallPaddock.Name AS LinkedRainfallPaddockName, Paddocks.Triazine, "+
+				"Paddocks.RootingDepth, Paddocks.Population "+
 				"FROM Regions INNER JOIN (CropTypes INNER JOIN (Paddocks AS LinkedRainfallPaddock RIGHT JOIN "+
-				"(SubSoilConstraintTypes INNER JOIN (Soils INNER JOIN (CultivarTypes INNER JOIN (Users INNER JOIN "+
+				"(RowConfigurationTypes INNER JOIN (Soils INNER JOIN (CultivarTypes INNER JOIN (Users INNER JOIN "+
 				"(MetStations INNER JOIN Paddocks ON MetStations.ID = Paddocks.MetStationID) ON Users.ID = Paddocks.UserID) "+
 				"ON CultivarTypes.ID = Paddocks.CultivarTypeID) ON Soils.ID = Paddocks.SoilID) "+
-				"ON SubSoilConstraintTypes.ID = Paddocks.SubSoilConstraintTypeID) "+
+				"ON RowConfigurationTypes.ID = Paddocks.RowConfigurationTypeID) "+
 				"ON LinkedRainfallPaddock.ID = Paddocks.LinkedTemporalPaddockID) "+
 				"ON CropTypes.ID = CultivarTypes.CropTypeID) ON Regions.ID = MetStations.RegionID "+
 				"WHERE Paddocks.Name = '"+szPaddockName+"' AND Users.UserName ='"+szUserName+"'";
@@ -557,24 +573,27 @@ namespace YieldProphet
 		//Saves a new paddock to the database
 		//---------------------------------------------------------------------
 		static public void InsertPaddock(string szName, string szSowDate, 
-			string szCultivarType, string szUserName)
+			string szCultivarType, int iTriazine, string szRowConfigurationType, 
+			int iPopulation, string szUserName)
 			{
 			int iUserID = ReturnUserIDFromUserName(szUserName);
-			int iCultivarTypeID = DataAccessClass.ReturnCultivarTypeID(szCultivarType);
+			int iCultivarTypeID = ReturnCultivarTypeID(szCultivarType);
+			int iRowConfigurationTypeID = ReturnRowConfigurationTypeID(szRowConfigurationType);
 
 			string szSQL = "INSERT INTO Paddocks "+
-				"(Name, SowDate, CultivarTypeID, UserID) VALUES "+
-				"('"+szName+"', '"+szSowDate+"', "
-				+iCultivarTypeID.ToString()+", "+iUserID.ToString()+")";
+				"(Name, SowDate, CultivarTypeID, Triazine, RowConfigurationTypeID, Population, UserID) VALUES "+
+				"('"+szName+"', '"+szSowDate+"', "+iCultivarTypeID.ToString()+", "+iTriazine.ToString()+", "+
+				iRowConfigurationTypeID.ToString()+", "+iPopulation.ToString()+", "+iUserID.ToString()+")";
 			RunSQLStatement(szSQL);
 			}
 		//---------------------------------------------------------------------
 		//updates an existing paddock cropping details in the database
 		//---------------------------------------------------------------------
-		static public void UpdatePaddock(string szSowDate, string szCultivarType,
-			string szMetStaionName, string szSoilName, string szSubSoilConstraintType, 
-			string szLinkedTemporalPaddockName, string szStartOfGrowingSeason, 
-			string szNewPaddockName, string szPaddockName, string szUserName)
+		static public void UpdatePaddock(string szSowDate, string szCultivarType, int iTriazine, 
+			string szMetStaionName, string szSoilName, string szRowConfigurationType, 
+			int iDefaultRainfall, string szLinkedTemporalPaddockName, string szStartOfGrowingSeason, 
+			int iPopulation, int iMaxRootingDepth, string szNewPaddockName, 
+			string szPaddockName, string szUserName)
 			{
 			int iPaddockID = ReturnPaddockID(szPaddockName, szUserName);
 
@@ -585,6 +604,27 @@ namespace YieldProphet
 				int iCultivarTypeID = ReturnCultivarTypeID(szCultivarType);
 				sbSQL.Append("CultivarTypeID = "+iCultivarTypeID.ToString()+", ");
 				}
+			if(iTriazine == 1 || iTriazine == 0)
+				{
+				sbSQL.Append("Triazine = "+iTriazine.ToString()+", ");
+				}
+			if(iPopulation > -1)
+				{
+				sbSQL.Append("Population = "+iPopulation.ToString()+", ");
+				}
+			if(iMaxRootingDepth > -1)
+				{
+				sbSQL.Append("RootingDepth = "+iMaxRootingDepth.ToString()+", ");
+				}
+			if(iDefaultRainfall > -1)
+				{
+				sbSQL.Append("DefaultRainfall = "+iDefaultRainfall.ToString()+", ");
+				}
+			if(szRowConfigurationType != null && szRowConfigurationType != "")
+			{
+				int iRowConfigurationTypeID = ReturnRowConfigurationTypeID(szRowConfigurationType);
+				sbSQL.Append("RowConfigurationTypeID = "+iRowConfigurationTypeID.ToString()+", ");
+			}
 			if(szMetStaionName != null && szMetStaionName != "")
 				{
 				int iMetStationID = ReturnMetStationID(szMetStaionName);
@@ -594,11 +634,6 @@ namespace YieldProphet
 				{
 				int iSoilID = ReturnSoilID(szSoilName);
 				sbSQL.Append("SoilID = "+iSoilID.ToString()+", ");
-				}
-			if(szSubSoilConstraintType != null && szSubSoilConstraintType != "")
-				{
-				int iSubSoilConstraintTypeID = ReturnSubSoilConstraintTypeID(szSubSoilConstraintType);
-				sbSQL.Append("SubSoilConstraintTypeID = "+iSubSoilConstraintTypeID.ToString()+", ");
 				}
 			if(szLinkedTemporalPaddockName != null && szLinkedTemporalPaddockName != "")
 				{
@@ -693,7 +728,8 @@ namespace YieldProphet
 			
 			DeletePaddocksSoilSamples(iPaddockID);
 			DeletePaddocksTemporalEvents(iPaddockID);
-			DeletePaddocksFertiliserAppliations(iPaddockID);
+			DeletePaddocksFertiliserApplications(iPaddockID);
+			DeletePaddocksIrrigationApplications(iPaddockID);
 			}
 		//---------------------------------------------------------------------
 		//
@@ -741,13 +777,25 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		//Inserts a new soil into the database
 		//-------------------------------------------------------------------------
-		static public void InsertSoil(string szRegion, string szSoilName, string szSoilData)
+		static public void InsertOrEditSoil(string szRegion, string szExistingSoilName, 
+			string szSoilData, string szNewSoilName)
 			{
 			int iRegionID = DataAccessClass.ReturnRegionID(szRegion);
+
+			//Convert the cropnames to lower
+			APSIMData Data = new APSIMData(szSoilData);
+			foreach (APSIMData crop in Data.get_Children("SoilCrop"))
+				{
+				crop.Name = crop.Name.ToLower();
+				}
+
+			Soil sImportSoil = new Soil(Data);
+			szSoilData = sImportSoil.Data.XML;
+
 			int SoilID;
 			try
 				{
-				SoilID = ReturnSoilID(szSoilName);
+				SoilID = ReturnSoilID(szExistingSoilName);
 				}
 			catch (Exception)
 				{
@@ -758,16 +806,21 @@ namespace YieldProphet
 				{
 				string szSQL = "INSERT INTO Soils "+
 					"(RegionID, Name, Data) VALUES "+
-					"("+iRegionID.ToString()+", '"+szSoilName+"', '"+szSoilData+"')";
+					"("+iRegionID.ToString()+", '"+szNewSoilName+"', '"+szSoilData+"')";
 				RunSQLStatement(szSQL);
 				}
 			else
 				{
-				string szSQL = "UPDATE Soils SET Data = '" +	szSoilData + "' " +
+				string szSQL = "UPDATE Soils SET Data = '" +	szSoilData + "', " +
+					"Name = '"+szNewSoilName+"' " +
 					"WHERE ID = " + SoilID.ToString();
 				RunSQLStatement(szSQL);
 				}
 
+			string Errors = sImportSoil.CheckForErrors();
+			if (Errors != "")
+				throw new Exception(Errors);
+		
 			}
 		//-------------------------------------------------------------------------
 		//Deletes the selected soil from the database
@@ -789,7 +842,8 @@ namespace YieldProphet
 			DataTable dtResults;
 			string szSQL = "SELECT Soils.Name FROM Soils "+
 				"INNER JOIN Regions ON Soils.RegionID = Regions.ID "+
-				"WHERE Regions.Type = '"+szRegion+"'";
+				"WHERE Regions.Type = '"+szRegion+"' "+
+				"ORDER BY Soils.Name";
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
 			}
@@ -806,6 +860,19 @@ namespace YieldProphet
 
 			return new Soil(new APSIMData(szSoilData));
 			}
+		//---------------------------------------------------------------------
+		//Returns the selected soils data (stored in xml format)
+		//---------------------------------------------------------------------
+		static public string GetSoilData(string szSoilName)
+		{
+			string szSoilData = "";
+
+			string szSQL = "SELECT Data FROM Soils "+
+				"WHERE Name = '"+szSoilName+"'";
+			szSoilData = ReturnSingleValueFromDB("Data", szSQL).ToString();
+
+			return szSoilData;
+		}
 		//---------------------------------------------------------------------
 		//
 		//---------------------------------------------------------------------
@@ -834,6 +901,44 @@ namespace YieldProphet
 
 			return iSoilID;
 			}
+		//---------------------------------------------------------------------
+		//Upgrade all soils to new version
+		//---------------------------------------------------------------------
+		static public void UpgradeAllSoils()
+			{
+			string Errors = "";
+			DataTable Regions = GetAllRegions();
+			foreach (DataRow Region in Regions.Rows)
+				{
+				string RegionName = Region["Type"].ToString();
+				DataTable Soils = GetSoilsOfRegion(RegionName);
+				foreach (DataRow Soil in Soils.Rows)
+					{
+					string SoilName = Soil["Name"].ToString();
+					string SoilData = GetSoilData(SoilName);
+					if (SoilData != "")
+						{
+						try
+							{
+							APSIMData Data = new APSIMData(SoilData);
+							if (Data.Child("initwater") != null)
+								Data.Delete("initwater");
+							Soil ThisSoil = new Soil(Data);
+							ThisSoil.UpgradeToVersion2();
+							InsertOrEditSoil(RegionName, SoilName, ThisSoil.Data.XML, SoilName);
+							}
+						catch (Exception err)
+							{
+							Errors += "Cannot convert soil: " + SoilName.Replace("&", " ") + ". Error: " + err.Message.Replace("\r\n", "");
+							}
+						}
+					}
+
+				}
+			if (Errors != "")
+				throw new Exception(Errors);
+			}
+
 		//-------------------------------------------------------------------------
 		#endregion
 
@@ -851,6 +956,32 @@ namespace YieldProphet
 				"("+iRegionID.ToString()+", '"+szMetStationName+"', "+iMetStationNumber.ToString()+")";
 			RunSQLStatement(szSQL);
 			}
+		//-------------------------------------------------------------------------
+		//Updates an existing met station in the database
+		//-------------------------------------------------------------------------
+		static public void UpdateMetStation(string szRegion, string szExistingMetStationName,
+			int iMetStationNumber, string szNewMetStationName)
+		{
+			int iMetStationID = ReturnMetStationID(szExistingMetStationName);
+
+			string szSQL = "UPDATE MetStations SET Name = '" +szNewMetStationName+ "', " +
+				"StationNumber = "+iMetStationNumber+" " +
+				"WHERE ID = " + iMetStationID.ToString();
+			RunSQLStatement(szSQL);
+		}
+		//---------------------------------------------------------------------
+		//Returns the selected met station
+		//---------------------------------------------------------------------
+		static public DataTable GetMetStation(string szMetStationName)
+		{
+			DataTable dtResults;
+
+			string szSQL = "SELECT MetStations.* FROM MetStations "+
+				"WHERE Name = '"+szMetStationName+"'";
+			dtResults = ReturnMultipleValuesFromDB(szSQL);
+
+			return dtResults;
+		}
 		//---------------------------------------------------------------------
 		//Takes a RegionID and returns all the MetStations for that region
 		//---------------------------------------------------------------------
@@ -1039,7 +1170,7 @@ namespace YieldProphet
 		//---------------------------------------------------------------------
 		//Deletes all the fertiliser application records for the selected paddock
 		//---------------------------------------------------------------------
-		static private void DeletePaddocksFertiliserAppliations(int iPaddockID)
+		static private void DeletePaddocksFertiliserApplications(int iPaddockID)
 		{
 			string szSQL = "DELETE FROM FertiliserApplication "+
 				"WHERE PaddockID = "+iPaddockID.ToString();
@@ -1058,6 +1189,63 @@ namespace YieldProphet
 
 			return iFertiliserType;
 		}
+		//---------------------------------------------------------------------
+		#endregion
+
+
+
+		#region Functions to manipulate irrigation Information
+
+		//---------------------------------------------------------------------
+		//Inserts a new Fertiliser application into the database
+		//---------------------------------------------------------------------
+		static public void InsertIrrigationApplication(string szApplicationDate, string szApplicationAmount,
+			string szEfficency, string szPaddockName, string szUserName)
+		{
+			int iPaddockID = ReturnPaddockID(szPaddockName, szUserName);
+			string szSQL = "INSERT INTO IrrigationApplication "+
+				"(ApplicationDate, Amount, Efficency, PaddockID) VALUES "+
+				"('"+szApplicationDate+"', "+szApplicationAmount+", "+
+				szEfficency+", "+iPaddockID.ToString()+")";
+			RunSQLStatement(szSQL);
+		}	
+		//---------------------------------------------------------------------
+		//Returns all the irrigation applications of a selected irrigation type 
+		//for a selected paddock
+		//---------------------------------------------------------------------
+		static public DataTable GetPaddocksIrrigationApplications(string szPaddockName, 
+			string szUserName)
+		{
+			DataTable dtResults;
+			string szSQL = "SELECT IrrigationApplication.Amount, IrrigationApplication.ApplicationDate, "+
+				"IrrigationApplication.Efficency FROM Users INNER JOIN "+
+				"(Paddocks INNER JOIN  IrrigationApplication "+
+				"ON Paddocks.ID = IrrigationApplication.PaddockID) ON Users.ID = Paddocks.UserID "+
+				"WHERE Paddocks.Name ='"+szPaddockName+"' "+
+				"AND Users.UserName='"+szUserName+"'";
+			dtResults = ReturnMultipleValuesFromDB(szSQL);
+			return dtResults;
+		}
+		//---------------------------------------------------------------------
+		//Deletes a fertiliser application from the database
+		//---------------------------------------------------------------------
+		static public void DeletePaddocksIrrigationApplications(string szPaddockName, string szUserName)
+		{
+			int iPaddockID = ReturnPaddockID(szPaddockName, szUserName);
+
+			string szSQL = "DELETE FROM IrrigationApplication "+
+				"WHERE PaddockID = "+iPaddockID.ToString();
+			RunSQLStatement(szSQL);
+		}	
+		//---------------------------------------------------------------------
+		//Deletes all the fertiliser application records for the selected paddock
+		//---------------------------------------------------------------------
+		static private void DeletePaddocksIrrigationApplications(int iPaddockID)
+		{
+			string szSQL = "DELETE FROM IrrigationApplication "+
+				"WHERE PaddockID = "+iPaddockID.ToString();
+			RunSQLStatement(szSQL);
+		}	
 		//---------------------------------------------------------------------
 		#endregion
 
@@ -1195,7 +1383,7 @@ namespace YieldProphet
 				"INNER JOIN ((Users INNER JOIN Paddocks ON Users.ID = Paddocks.UserID) "+
 				"INNER JOIN TemporalEvents ON Paddocks.ID = TemporalEvents.PaddockID) "+
 				"ON TemporalEventTypes.ID = TemporalEvents.TemporalEventTypeID "+
-				"WHERE Paddocks.Name = '"+szPaddockName+"' AND TemporalEventTypes.Type = '"+szTemporalEventType+"' "+
+				"WHERE Users.UserName = '"+szUserName+"' AND Paddocks.Name = '"+szPaddockName+"' AND TemporalEventTypes.Type = '"+szTemporalEventType+"' "+
 				"AND CDate(EventDate) >= CDate(#"+szStartDate+"#) AND CDate(EventDate) <= CDate(#"+szEndDate+"#)";
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
@@ -1212,7 +1400,7 @@ namespace YieldProphet
 				"INNER JOIN ((Users INNER JOIN Paddocks ON Users.ID = Paddocks.UserID) "+
 				"INNER JOIN TemporalEvents ON Paddocks.ID = TemporalEvents.PaddockID) "+
 				"ON TemporalEventTypes.ID = TemporalEvents.TemporalEventTypeID "+
-				"WHERE Paddocks.Name = '"+szPaddockName+"' AND TemporalEventTypes.Type = '"+szTemporalEventType+"' "+
+				"WHERE Users.UserName = '"+szUserName+"' AND Paddocks.Name = '"+szPaddockName+"' AND TemporalEventTypes.Type = '"+szTemporalEventType+"' "+
 				"AND CDate(EventDate) >= CDate(#"+szStartDate+"#) AND CDate(EventDate) <= CDate(#"+szEndDate+"#)";
 			string szResult = ReturnSingleValueFromDB("TotalValues", szSQL).ToString();
 			if(szResult != "")
@@ -1280,30 +1468,30 @@ namespace YieldProphet
 
 
 
-		#region Functions to Manipulate Sub Soil Constraint Information
+		#region Functions to Manipulate Row Configuration Information
 
 		//---------------------------------------------------------------------
 		//Returns all SubSoilConstraint Types
 		//---------------------------------------------------------------------
-		static public DataTable GetAllSubSoilConstraintTypes()
+		static public DataTable GetAllRowConfigurationTypes()
 		{
 			DataTable dtResults;
-			string szSQL = "SELECT Type FROM SubSoilConstraintTypes";
+			string szSQL = "SELECT Type FROM RowConfigurationTypes";
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
 		}
 		//---------------------------------------------------------------------
 		//
 		//---------------------------------------------------------------------
-		static private int ReturnSubSoilConstraintTypeID(string szSubSoilConstraintType)
+		static private int ReturnRowConfigurationTypeID(string szRowConfigurationType)
 		{
-			int iSubSoilConstraintTypeID = 0;
+			int iRowConfigurationTypeID = 0;
 
-			string szSQL = "SELECT ID FROM SubSoilConstraintTypes "+
-				"WHERE Type = '"+szSubSoilConstraintType+"'";
-			iSubSoilConstraintTypeID = Convert.ToInt32(ReturnSingleValueFromDB("ID", szSQL).ToString());
+			string szSQL = "SELECT ID FROM RowConfigurationTypes "+
+				"WHERE Type = '"+szRowConfigurationType+"'";
+			iRowConfigurationTypeID = Convert.ToInt32(ReturnSingleValueFromDB("ID", szSQL).ToString());
 
-			return iSubSoilConstraintTypeID;
+			return iRowConfigurationTypeID;
 		}
 		//---------------------------------------------------------------------
 
@@ -1318,7 +1506,8 @@ namespace YieldProphet
 		static public DataTable GetAllRegions()
 			{
 			DataTable dtResults;
-			string szSQL = "SELECT Regions.Type FROM Regions";
+			string szSQL = "SELECT Regions.Type FROM Regions "+
+				"ORDER BY Regions.Type";
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
 			}
@@ -1460,114 +1649,232 @@ namespace YieldProphet
 		#region Functions to manipulate report information
 
 		//---------------------------------------------------------------------
-		//Takes a ReportTemplateTypeID and returns all the report types associated
-		//with that template type
+		//
 		//---------------------------------------------------------------------
-		static public DataTable GetAllReportTypes(string szTemplateType, string szCropType)
+		static public DataTable GetAllReportTypesForCropType(string szCropType)
 			{
 			DataTable dtResults;
 			string szSQL = "SELECT ReportTypes.Type FROM (ReportTypes "+
-				"INNER JOIN CropTypes ON CropTypes.ID = ReportTypes.CropTypeID) "+
-				"INNER JOIN ReportTemplateTypes ON "+
-				"ReportTypes.ReportTemplateTypeID = ReportTemplateTypes.ID "+
-				"WHERE ReportTemplateTypes.Type = '"+szTemplateType+"' "+
-				"AND CropTypes.Type = '"+szCropType+"'";
+				"INNER JOIN ReportTemplateMap ON ReportTypes.ID = ReportTemplateMap.ReportTypeID) "+
+				"INNER JOIN CropTypes ON "+
+				"ReportTemplateMap.CropTypeID = CropTypes.ID "+
+				"WHERE CropTypes.Type = '"+szCropType+"'";
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
 			}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static public DataTable GetAllReportTypes()
+		{
+			DataTable dtResults;
+			string szSQL = "SELECT ReportTypes.Type FROM ReportTypes";
+			dtResults = ReturnMultipleValuesFromDB(szSQL);
+			return dtResults;
+		}
 		//---------------------------------------------------------------------
 		//Returns all the report template types from the database
 		//---------------------------------------------------------------------
-		static public DataTable GetAllReportTemplateTypes()
+		static public DataTable GetAllReportTemplates()
 			{
 			DataTable dtResults;
-			string szSQL = "SELECT Type FROM ReportTemplateTypes";
+			string szSQL = "SELECT Name, Template FROM ReportTemplates";
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
 			}
 		//---------------------------------------------------------------------
-		//Takes a ReportTypeID and returns the template of that report type
+		//Takes a template name and returns the matching template
 		//---------------------------------------------------------------------
-		static public string GetReportTypeTemplate(string szReportType, 
-			string szTemplateType, string szCropType)
+		static public string GetReportTemplate(string szTemplateName)
 			{
-			string szReportTypeTemplate = "";
+			string szReportTemplate = "";
 
-			string szSQL = "SELECT ReportTypes.Template FROM (ReportTypes "+
-				"INNER JOIN CropTypes ON CropTypes.ID = ReportTypes.CropTypeID) "+
-				"INNER JOIN ReportTemplateTypes ON "+
-				"ReportTypes.ReportTemplateTypeID = ReportTemplateTypes.ID "+
-				"WHERE ReportTemplateTypes.Type = '"+szTemplateType+"' "+
-				"AND ReportTypes.Type = '"+szReportType+"' "+
-				"AND CropTypes.Type = '"+szCropType+"'";
+			string szSQL = "SELECT Template FROM ReportTemplates "+
+				"WHERE Name = '"+szTemplateName+"'";
 
-			szReportTypeTemplate = ReturnSingleValueFromDB("Template", szSQL).ToString();
-			if(szReportTypeTemplate == "System.Object")
+			szReportTemplate = ReturnSingleValueFromDB("Template", szSQL).ToString();
+			if(szReportTemplate == "System.Object")
 				{
-				szReportTypeTemplate = "";
+				szReportTemplate = "";
 				}
-
-			return szReportTypeTemplate;
+			return szReportTemplate;
 			}
 		//---------------------------------------------------------------------
 		//Takes a ReportType ID and the template for that report type and updates
 		//the name template of the selected report type
 		//---------------------------------------------------------------------
-		static public void UpdateReportTypes(string szTemplate, string szReportType, 
-			string szTemplateType, string szCropType)
+		static public void UpdateReportTemplate(string szReportTemplate, string szTemplateName)
 			{
-			int iReportTemplateTypeID = ReturnTemplateTypeID(szTemplateType);
-			int iCropTypeID = ReturnCropTypeID(szCropType);
-			string szSQL = "UPDATE ReportTypes "+
-				"SET Template = '"+szTemplate+"' "+
-				"WHERE ReportTemplateTypeID = "+iReportTemplateTypeID.ToString()+" "+
-				"AND Type = '"+szReportType+"' "+
-				"AND CropTypeID = "+iCropTypeID.ToString();
+			string szSQL = "UPDATE ReportTemplates "+
+				"SET Template = '"+szReportTemplate+"' "+
+				"WHERE Name = '"+szTemplateName+"'";
 			RunSQLStatement(szSQL);
 			}
 		//---------------------------------------------------------------------
 		//Takes a ReportTypeID and deletes the ReportType from the database
 		//---------------------------------------------------------------------
-		static public void DeleteReportType(string szReportType, string szTemplateType, 
-			string szCropType)
+		static public void DeleteReportTemplate(string szTemplateName)
 			{
-			int iReportTemplateTypeID = ReturnTemplateTypeID(szTemplateType);
-			int iCropTypeID = ReturnCropTypeID(szCropType);
-
-			string szSQL = "DELETE FROM ReportTypes "+
-				"WHERE ReportTemplateTypeID = "+iReportTemplateTypeID.ToString()+" "+
-				"AND Type = '"+szReportType+"' "+
-				"AND CropTypeID = "+iCropTypeID.ToString();
+			string szSQL = "DELETE FROM ReportTemplates "+
+				"WHERE Name = '"+szTemplateName+"'";
 			RunSQLStatement(szSQL);
 			}
 		//---------------------------------------------------------------------
-		//Saves a new Report Type into the database
+		//Saves a new Report Template into the database
 		//---------------------------------------------------------------------
-		static public void InsertReportType(string szTemplate, string szReportType, 
-			string szTemplateType, string szCropType)
+		static public void InsertReportTemplate(string szReportTemplate, string szTemplateName)
 			{
-			int iReportTemplateTypeID = ReturnTemplateTypeID(szTemplateType);
-			int iCropTypeID = ReturnCropTypeID(szCropType);
-
-			string szSQL = "INSERT INTO ReportTypes "+
-				"(Type, ReportTemplateTypeID, CropTypeID, Template) VALUES "+
-				"('"+szReportType+"', "+iReportTemplateTypeID.ToString()+", "+
-				iCropTypeID.ToString()+", '"+szTemplate+"')";
+			string szSQL = "INSERT INTO ReportTemplates "+
+				"(Name, Template) VALUES "+
+				"('"+szTemplateName+"', '"+szReportTemplate+"')";
 			RunSQLStatement(szSQL);
-
 			}
+		//---------------------------------------------------------------------
+		//Saves a new Report Template into the database
+		//---------------------------------------------------------------------
+		static public void SetReportTemplateMap(string szCropType, string szReportType,
+			string szConParTemplateName, string szAPSIMTemplateName)
+		{
+			if(ReturnNumberOfReportTemplateMapEntries(szCropType, szReportType) == 0)
+			{
+				InsertReportTemplateMap(szCropType, szReportType, szConParTemplateName, 
+					szAPSIMTemplateName);
+			}
+			else
+			{
+				UpdateReportTemplateMap(szCropType, szReportType, szConParTemplateName, 
+					szAPSIMTemplateName);
+			}
+		}
+		//---------------------------------------------------------------------
+		//Returns the number of climate forecast records in the database
+		//---------------------------------------------------------------------
+		static public string GetAPSIMReportTemplateName(string szCropType, string szReportType)
+		{
+			string szTemplateName;
+
+			string szSQL = "SELECT ReportTemplates.Name  FROM ((ReportTemplates "+
+				"INNER JOIN ReportTemplateMap ON ReportTemplates.ID = ReportTemplateMap.ReportTemplateID) "+
+				"INNER JOIN CropTypes ON ReportTemplateMap.CropTypeID = CropTypes.ID) "+
+				"INNER JOIN ReportTypes ON ReportTemplateMap.ReportTypeID = ReportTypes.ID "+
+				"WHERE ReportTypes.Type = '"+szReportType+"' "+
+				"AND CropTypes.Type = '"+szCropType+"'";
+
+			szTemplateName = ReturnSingleValueFromDB("Name", szSQL).ToString();
+			if(szTemplateName == "System.Object")
+			{
+				szTemplateName = "";
+			}
+			return szTemplateName;
+		}
+		//---------------------------------------------------------------------
+		//Returns the number of climate forecast records in the database
+		//---------------------------------------------------------------------
+		static public string GetConParReportTemplateName(string szCropType, string szReportType)
+		{
+			string szTemplateName;
+
+			string szSQL = "SELECT ReportTemplates.Name  FROM ((ReportTemplates "+
+				"INNER JOIN ReportTemplateMap ON ReportTemplates.ID = ReportTemplateMap.ConParTemplateID) "+
+				"INNER JOIN CropTypes ON ReportTemplateMap.CropTypeID = CropTypes.ID) "+
+				"INNER JOIN ReportTypes ON ReportTemplateMap.ReportTypeID = ReportTypes.ID "+
+				"WHERE ReportTypes.Type = '"+szReportType+"' "+
+				"AND CropTypes.Type = '"+szCropType+"'";
+
+			szTemplateName = ReturnSingleValueFromDB("Name", szSQL).ToString();
+			if(szTemplateName == "System.Object")
+			{
+				szTemplateName = "";
+			}
+			return szTemplateName;
+		}
 		//---------------------------------------------------------------------
 		//
 		//---------------------------------------------------------------------
-		static private int ReturnTemplateTypeID(string szTemplateType)
-			{
-			int iTemplateTypeID = 0;
-			string szSQL = "SELECT ID FROM ReportTemplateTypes "+
-				"WHERE Type = '"+szTemplateType+"'";
-			iTemplateTypeID = Convert.ToInt32(ReturnSingleValueFromDB("ID", szSQL).ToString());
-				
-			return iTemplateTypeID;
-			}
+		static private void UpdateReportTemplateMap(string szCropType, string szReportType,
+			string szConParTemplateName, string szAPSIMTemplateName)
+		{
+			int iCropTypeID = ReturnCropTypeID(szCropType);
+			int iReportTypeID = ReturnReportTypeID(szReportType);
+			int iConParTemplateID = ReturnReportTemplateID(szConParTemplateName);
+			int iAPSIMTemplateID = ReturnReportTemplateID(szAPSIMTemplateName);
+
+			string szSQL = "UPDATE ReportTemplateMap "+
+				"SET ConParTemplateID = "+iConParTemplateID.ToString()+", "+
+				"ReportTemplateID = "+iAPSIMTemplateID.ToString()+" "+
+				"WHERE CropTypeID = "+iCropTypeID.ToString()+" "+
+				"AND ReportTypeID = "+iReportTypeID.ToString();
+			RunSQLStatement(szSQL);
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static private void InsertReportTemplateMap(string szCropType, string szReportType,
+			string szConParTemplateName, string szAPSIMTemplateName)
+		{
+			int iCropTypeID = ReturnCropTypeID(szCropType);
+			int iReportTypeID = ReturnReportTypeID(szReportType);
+			int iConParTemplateID = ReturnReportTemplateID(szConParTemplateName);
+			int iAPSIMTemplateID = ReturnReportTemplateID(szAPSIMTemplateName);
+
+			string szSQL = "INSERT INTO ReportTemplateMap "+
+				"(CropTypeID, ReportTypeID, ConParTemplateID, ReportTemplateID) VALUES "+
+				"("+iCropTypeID.ToString()+", "+iReportTypeID.ToString()+", "+
+				iConParTemplateID.ToString()+", "+iAPSIMTemplateID.ToString()+")";
+			RunSQLStatement(szSQL);
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static public void DeleteReportTemplate(string szCropType, string szReportType)
+		{
+			int iCropTypeID = ReturnCropTypeID(szCropType);
+			int iReportTypeID = ReturnReportTypeID(szReportType);
+
+			string szSQL = "DELETE FROM ReportTemplateMap "+
+				"WHERE CropTypeID = "+iCropTypeID.ToString()+" "+
+				"AND ReportTypeID = "+iReportTypeID.ToString();
+			RunSQLStatement(szSQL);
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static private int ReturnReportTypeID(string szReportType)
+		{
+			int iReportTypeID = 0;
+			string szSQL = "SELECT ID FROM ReportTypes "+
+				"WHERE Type = '"+szReportType+"'";
+			iReportTypeID = Convert.ToInt32(ReturnSingleValueFromDB("ID", szSQL).ToString());
+			return iReportTypeID;
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static private int ReturnReportTemplateID(string szTemplateName)
+		{
+			int iReportTemplateID = 0;
+			string szSQL = "SELECT ID FROM ReportTemplates "+
+				"WHERE Name = '"+szTemplateName+"'";
+			iReportTemplateID = Convert.ToInt32(ReturnSingleValueFromDB("ID", szSQL).ToString());
+			return iReportTemplateID;
+		}
+		//---------------------------------------------------------------------
+		//Returns the number of climate forecast records in the database
+		//---------------------------------------------------------------------
+		static private int ReturnNumberOfReportTemplateMapEntries(string szCropType, string szReportType)
+		{
+			int iNumberOfRecords = 0;
+
+			string szSQL = "SELECT COUNT(ReportTemplateMap.ID) AS NumberOfRecords FROM (ReportTemplateMap "+
+				"INNER JOIN CropTypes ON ReportTemplateMap.CropTypeID = CropTypes.ID) "+
+				"INNER JOIN ReportTypes ON ReportTemplateMap.ReportTypeID = ReportTypes.ID "+
+				"WHERE ReportTypes.Type = '"+szReportType+"' "+
+				"AND CropTypes.Type = '"+szCropType+"'";
+			iNumberOfRecords = Convert.ToInt32(ReturnSingleValueFromDB("NumberOfRecords", szSQL).ToString());
+
+			return iNumberOfRecords;
+		}
+
 		//---------------------------------------------------------------------
 		#endregion
 

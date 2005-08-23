@@ -294,6 +294,17 @@ namespace YieldProphet
 				return false;
 			}
 
+		static public string RemoveLastCharacter(string szStringToCheck, char cCharacterToCheckFor)
+		{
+			//Removes last charcater if it exists
+			int iIndex = szStringToCheck.LastIndexOf(cCharacterToCheckFor.ToString());
+			if (iIndex > 0)
+			{
+				szStringToCheck = szStringToCheck.Remove(iIndex, 1);
+			}
+			return szStringToCheck;
+		}
+
 		//-------------------------------------------------------------------------		
 		#endregion	
 		

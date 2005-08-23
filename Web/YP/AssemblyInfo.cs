@@ -28,7 +28,7 @@ using System.Security;
 // by using the '*' as shown below:
 
 [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyKeyFile(@"C:\\Documents and Settings\\hol353\\VSWebCache\\SE-DHOLZ-TW\\YP\\keypair.snk")] 
+[assembly: AssemblyKeyFile(@"../../keypair.snk")] 
 [assembly:AllowPartiallyTrustedCallersAttribute()]
 
 //

@@ -66,6 +66,10 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Button btnUpdateGraph;
 		protected System.Web.UI.WebControls.Label lblWaterType;
 		protected System.Web.UI.WebControls.RadioButtonList rdbSWUnit;
+		protected System.Web.UI.WebControls.Label lblRootingDepth;
+		protected System.Web.UI.WebControls.TextBox edtRootingDepth;
+		protected System.Web.UI.WebControls.Label lblRootingDepthUnit;
+		protected System.Web.UI.WebControls.CheckBox chkDefaultRainfall;
 		protected System.Web.UI.WebControls.Panel pnlTop;
 
 
@@ -126,15 +130,15 @@ namespace YieldProphet
 			this.dsSoilSampleOne.DataSetName = "NewDataSet";
 			this.dsSoilSampleOne.Locale = new System.Globalization.CultureInfo("en-US");
 			this.dsSoilSampleOne.Tables.AddRange(new System.Data.DataTable[] {
-																				 this.dtSoilSampleOne});
+																																				 this.dtSoilSampleOne});
 			// 
 			// dtSoilSampleOne
 			// 
 			this.dtSoilSampleOne.Columns.AddRange(new System.Data.DataColumn[] {
-																				   this.dcDepth,
-																				   this.dcWater,
-																				   this.dcNO3,
-																				   this.dcNH4});
+																																					 this.dcDepth,
+																																					 this.dcWater,
+																																					 this.dcNO3,
+																																					 this.dcNH4});
 			this.dtSoilSampleOne.TableName = "SoilSampleOne";
 			// 
 			// dcDepth
@@ -162,16 +166,16 @@ namespace YieldProphet
 			this.dsSoilSampleTwo.DataSetName = "NewDataSet";
 			this.dsSoilSampleTwo.Locale = new System.Globalization.CultureInfo("en-US");
 			this.dsSoilSampleTwo.Tables.AddRange(new System.Data.DataTable[] {
-																				 this.dtSoilSampleTwo});
+																																				 this.dtSoilSampleTwo});
 			// 
 			// dtSoilSampleTwo
 			// 
 			this.dtSoilSampleTwo.Columns.AddRange(new System.Data.DataColumn[] {
-																				   this.dataColumn1,
-																				   this.dcOC,
-																				   this.dcEC,
-																				   this.dcPH,
-																				   this.dcESP});
+																																					 this.dataColumn1,
+																																					 this.dcOC,
+																																					 this.dcEC,
+																																					 this.dcPH,
+																																					 this.dcESP});
 			this.dtSoilSampleTwo.TableName = "SoilSampleTwo";
 			// 
 			// dataColumn1
@@ -204,12 +208,12 @@ namespace YieldProphet
 			this.dsInitialDate.DataSetName = "NewDataSet";
 			this.dsInitialDate.Locale = new System.Globalization.CultureInfo("en-AU");
 			this.dsInitialDate.Tables.AddRange(new System.Data.DataTable[] {
-																			   this.dtInitialDate});
+																																			 this.dtInitialDate});
 			// 
 			// dtInitialDate
 			// 
 			this.dtInitialDate.Columns.AddRange(new System.Data.DataColumn[] {
-																				 this.dcInitialDate});
+																																				 this.dcInitialDate});
 			this.dtInitialDate.TableName = "InitialDate";
 			// 
 			// dcInitialDate
@@ -222,18 +226,19 @@ namespace YieldProphet
 			this.dsStartOfGrowingSeason.DataSetName = "NewDataSet";
 			this.dsStartOfGrowingSeason.Locale = new System.Globalization.CultureInfo("en-AU");
 			this.dsStartOfGrowingSeason.Tables.AddRange(new System.Data.DataTable[] {
-																						this.dtStartOfGrowingSeason});
+																																								this.dtStartOfGrowingSeason});
 			// 
 			// dtStartOfGrowingSeason
 			// 
 			this.dtStartOfGrowingSeason.Columns.AddRange(new System.Data.DataColumn[] {
-																						  this.dcGrowingSeasonDate});
+																																									this.dcGrowingSeasonDate});
 			this.dtStartOfGrowingSeason.TableName = "StartOfGrowingSeason";
 			// 
 			// dcGrowingSeasonDate
 			// 
 			this.dcGrowingSeasonDate.ColumnName = "GrowingSeasonDate";
 			this.dcGrowingSeasonDate.DataType = typeof(System.DateTime);
+			this.chkDefaultRainfall.CheckedChanged += new System.EventHandler(this.chkDefaultRainfall_CheckedChanged);
 			this.Load += new System.EventHandler(this.Page_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dsSoilSampleOne)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dtSoilSampleOne)).EndInit();
@@ -263,8 +268,6 @@ namespace YieldProphet
 			DisplayGrowersName();
 			//Fills the linked rainfall combo box
 			FillLinkedRainfallCombo();
-			//Fills the sub soil combo box 
-			FillSubSoilCombo();
 			}
 		//-------------------------------------------------------------------------
 		//Fills the form with the selected paddock's data from the database
@@ -287,6 +290,10 @@ namespace YieldProphet
 
 				SetStartOfGrowingSeasonDate(dtPaddockDetails.Rows[0]["StartOfGrowingSeasonDate"].ToString());
 
+				chkDefaultRainfall.Checked = Convert.ToBoolean(Convert.ToInt32(dtPaddockDetails.Rows[0]["DefaultRainfall"].ToString()));
+				chkDefaultRainfall_CheckedChanged(null, null);
+
+
 				if(cboLinkedRainfall.Items.Count > 0)
 					{
 					//if a region has be previously saved it is set as the selected metstation.
@@ -304,12 +311,12 @@ namespace YieldProphet
 					}
 				else
 					{
-					chkLinkedRainfall.Enabled = false;
+					chkLinkedRainfall.Checked = false;
 					cboLinkedRainfall.Enabled = false;
 					}
 				//Set user's selections
 				cboRegion.SelectedValue = dtPaddockDetails.Rows[0]["RegionType"].ToString();		
-				cboSubSoil.SelectedValue = dtPaddockDetails.Rows[0]["SubSoilConstraintType"].ToString();		
+				edtRootingDepth.Text = dtPaddockDetails.Rows[0]["RootingDepth"].ToString();		
 				cboWeatherStation.SelectedValue = dtPaddockDetails.Rows[0]["MetStationName"].ToString();
 				cboSoilType.SelectedValue = dtPaddockDetails.Rows[0]["SoilName"].ToString();
 
@@ -401,24 +408,6 @@ namespace YieldProphet
 				cboRegion.DataTextField = "Type";
 				cboRegion.DataValueField = "Type";
 				cboRegion.DataBind();
-				}
-			catch(Exception E)
-				{
-				FunctionsClass.DisplayMessage(Page, E.Message);
-				}
-			}
-		//-------------------------------------------------------------------------
-		//Fills the sub soil combo box with all the sub soils types form the database
-		//-------------------------------------------------------------------------
-		private void FillSubSoilCombo()
-			{
-			try
-				{
-				DataTable dtSubSoilConstraints = DataAccessClass.GetAllSubSoilConstraintTypes();
-				cboSubSoil.DataSource = dtSubSoilConstraints;
-				cboSubSoil.DataTextField = "Type";
-				cboSubSoil.DataValueField = "Type";
-				cboSubSoil.DataBind();
 				}
 			catch(Exception E)
 				{
@@ -524,36 +513,41 @@ namespace YieldProphet
 				DataTable dtPaddocksSoilSameple =
 					DataAccessClass.GetPaddocksSoilSample("GridOne", Session["SelectedPaddockName"].ToString(), 
 					FunctionsClass.GetActiveUserName());
-				SoilSample Sample = new SoilSample(new APSIMData(dtPaddocksSoilSameple.Rows[0]["Data"].ToString()));
-				Sample.LinkedSoil = DataAccessClass.GetSoil(cboSoilType.SelectedValue);
+				//Ensure that a sample has been added
+				if(dtPaddocksSoilSameple.Rows.Count > 0)
+				{
+					SoilSample Sample = new SoilSample(new APSIMData(dtPaddocksSoilSameple.Rows[0]["Data"].ToString()));
+					Sample.LinkedSoil = DataAccessClass.GetSoil(cboSoilType.SelectedValue);
 
-				double[] sw;
-				if (Sample.SWUnit == SoilSample.SWUnits.Volumetric)
+					double[] sw;
+					if (Sample.SWUnit == SoilSample.SWUnits.Volumetric)
 					{	
-					rdbSWUnit.SelectedValue = "VolumetricPercent";
-					sw = Sample.SW;
+						rdbSWUnit.SelectedValue = "VolumetricPercent";
+						sw = Sample.SW;
 					}
-				else
+					else
 					{	
-					rdbSWUnit.SelectedValue = "GravimetricPercent";
-					sw = Sample.SWGrav;
+						rdbSWUnit.SelectedValue = "GravimetricPercent";
+						sw = Sample.SWGrav;
 					}
 
-				DataTableUtility.AddColumn(dsSoilSampleOne.Tables["SoilSampleOne"], "Depth", 
-					                       Sample.DepthStrings);
-				DataTableUtility.AddColumn(dsSoilSampleOne.Tables["SoilSampleOne"], "Water", 
-					                       MathUtility.Multiply_Value(sw, 100));
-				DataTableUtility.AddColumn(dsSoilSampleOne.Tables["SoilSampleOne"], "NO3", 
-					                       Sample.NO3);
-				DataTableUtility.AddColumn(dsSoilSampleOne.Tables["SoilSampleOne"], "NH4", 
-					                       Sample.NH4);
+					DataTableUtility.AddColumn(dsSoilSampleOne.Tables["SoilSampleOne"], "Depth", 
+						Sample.DepthStrings);
+					DataTableUtility.AddColumn(dsSoilSampleOne.Tables["SoilSampleOne"], "Water", 
+						MathUtility.Multiply_Value(sw, 100));
+					DataTableUtility.AddColumn(dsSoilSampleOne.Tables["SoilSampleOne"], "NO3", 
+						Sample.NO3);
+					DataTableUtility.AddColumn(dsSoilSampleOne.Tables["SoilSampleOne"], "NH4", 
+						Sample.NH4);
 
+					UpdateGraph(Sample);
+				}
 				//Appends any need blank records so that the grid displays the correct number of rows
 				while (dsSoilSampleOne.Tables["SoilSampleOne"].Rows.Count < 8)
 					dsSoilSampleOne.Tables["SoilSampleOne"].Rows.Add(dsSoilSampleOne.Tables["SoilSampleOne"].NewRow());
 
 				grdSoilSampleOne.DataBind();
-				UpdateGraph(Sample);
+				
 				}
 			catch(Exception E)
 				{
@@ -571,17 +565,20 @@ namespace YieldProphet
 				DataTable dtPaddocksSoilSameple =
 					DataAccessClass.GetPaddocksSoilSample("GridTwo", Session["SelectedPaddockName"].ToString(), 
 					FunctionsClass.GetActiveUserName());
-				SoilSample Sample = new SoilSample(new APSIMData(dtPaddocksSoilSameple.Rows[0]["Data"].ToString()));
+				//Ensure that a sample has been added
+				if(dtPaddocksSoilSameple.Rows.Count > 0)
+					{
+					SoilSample Sample = new SoilSample(new APSIMData(dtPaddocksSoilSameple.Rows[0]["Data"].ToString()));
 				
-				DataTableUtility.AddColumn(dsSoilSampleTwo.Tables["SoilSampleTwo"], "Depth", 
-					                       Sample.DepthStrings);
-				DataTableUtility.AddColumn(dsSoilSampleTwo.Tables["SoilSampleTwo"], "OC", 
-					                       Sample.OC);
-				DataTableUtility.AddColumn(dsSoilSampleTwo.Tables["SoilSampleTwo"], "EC", 
-					                       Sample.EC);
-				DataTableUtility.AddColumn(dsSoilSampleTwo.Tables["SoilSampleTwo"], "PH", 
-					                       Sample.PH);
-
+					DataTableUtility.AddColumn(dsSoilSampleTwo.Tables["SoilSampleTwo"], "Depth", 
+						Sample.DepthStrings);
+					DataTableUtility.AddColumn(dsSoilSampleTwo.Tables["SoilSampleTwo"], "OC", 
+						Sample.OC);
+					DataTableUtility.AddColumn(dsSoilSampleTwo.Tables["SoilSampleTwo"], "EC", 
+						Sample.EC);
+					DataTableUtility.AddColumn(dsSoilSampleTwo.Tables["SoilSampleTwo"], "PH", 
+						Sample.PH);
+					}
 				//Appends any need blank records so that the grid displays the correct number of rows
 				while (dsSoilSampleTwo.Tables["SoilSampleTwo"].Rows.Count < 8)
 					dsSoilSampleTwo.Tables["SoilSampleTwo"].Rows.Add(dsSoilSampleTwo.Tables["SoilSampleTwo"].NewRow());
@@ -619,11 +616,17 @@ namespace YieldProphet
 						{
 						szLinkedTemporalPaddock = "NONE";
 						}
+					//Cancel all linked rainfall options if user has selected to use default rainfall values
+					if(chkDefaultRainfall.Checked == true)
+						{
+						szLinkedTemporalPaddock = "NONE";
+						chkLinkedRainfall.Checked = false;
+						}
 					try
 						{
-						DataAccessClass.UpdatePaddock("", "", cboWeatherStation.SelectedItem.Text,  
-							cboSoilType.SelectedItem.Text, cboSubSoil.SelectedItem.Text,
-							szLinkedTemporalPaddock, szStartOfGrowingSeasonDate, Session["SelectedPaddockName"].ToString(), 
+						DataAccessClass.UpdatePaddock("", "", -1, cboWeatherStation.SelectedItem.Text,  
+							cboSoilType.SelectedItem.Text, "", Convert.ToInt32(chkDefaultRainfall.Checked),
+							szLinkedTemporalPaddock, szStartOfGrowingSeasonDate, -1, ReturnMaxRootingDepth(), Session["SelectedPaddockName"].ToString(), 
 							Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
 						SaveSoilSampleDetails();
 						Server.Transfer("wfEditPaddock.aspx");
@@ -806,6 +809,24 @@ namespace YieldProphet
 			LineSeries.XValues.FillFromEnumerable(x);
 			LineSeries.UseXValues = true;
 			}
+
+		//-------------------------------------------------------------------------
+		//Returns the value of the root depth text box after it is checked to insure 
+		//that the value is a valid integer
+		//-------------------------------------------------------------------------
+		private int ReturnMaxRootingDepth()
+		{
+			int iRootingDepth = 0;
+			if(edtRootingDepth.Text != "")
+			{
+				if(InputValidationClass.IsInputAPositiveInteger(edtRootingDepth.Text))
+				{
+					iRootingDepth = Convert.ToInt32(edtRootingDepth.Text);
+				}
+			}
+			return iRootingDepth;
+		}
+		//-------------------------------------------------------------------------
 		#endregion
 
 	
@@ -871,6 +892,22 @@ namespace YieldProphet
 		private void chkLinkedRainfall_CheckedChanged(object sender, System.EventArgs e)
 			{
 			cboLinkedRainfall.Enabled = chkLinkedRainfall.Checked;
+			}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void chkDefaultRainfall_CheckedChanged(object sender, System.EventArgs e)
+			{
+			if(chkDefaultRainfall.Checked == true)
+				{
+				chkLinkedRainfall.Checked = false;
+				chkLinkedRainfall.Enabled = false;
+				cboLinkedRainfall.Enabled = false;
+				}
+			else
+				{
+				chkLinkedRainfall.Enabled = true;
+				}
 			}
 		//-------------------------------------------------------------------------
 		//On the update of the grid cell, it runs a check to make sure that the 
