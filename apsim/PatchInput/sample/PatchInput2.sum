@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 4.2
+     Version                = 4.3
      Title                  = PatchInput2 Simulation
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -25,7 +25,8 @@
         process
         do_stock
         post
-     Using start and end dates from the met file.
+     Using start date from the met file.
+     Using end date from the met file.
      Simulation start date =  1/01/1988
      Simulation end date   = 30/04/1990
      Time step =           = 1440 (mins)
