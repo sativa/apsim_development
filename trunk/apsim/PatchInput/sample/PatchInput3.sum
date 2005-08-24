@@ -1,15 +1,15 @@
-     ###     ######     #####   #   #     #
-    #   #    #     #   #        #   ##   ##
-   #     #   #     #   #        #   ##   ##
-   #######   ######     #####   #   # # # #
-   #     #   #              #   #   #  #  #
-   #     #   #         #####    #   #  #  #
-
-
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
  The Agricultural Production Systems Simulator
-             Copyright(c) APSRU
+             Copyright(c) APSRU               
 
-     Version                = 4.2
+     Version                = 4.3
      Title                  = PatchInput3 Simulation
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -41,7 +41,7 @@
         met.mint
         met.rain
         patch.patch_rain
-
+     
      Output file = PatchInput3.out
      Format = normal
 
@@ -51,15 +51,15 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
-
+     
      SECTION:- end_of_day
      report do_output
      END of rules
-
+     
 
 ------- patch Initialisation --------------------------------------------------
      Sparse data is allowed
      INPUT File name: patch3.dat
 ------- Start of simulation  --------------------------------------------------
-30 April 1990(Day of year=120), clock:
+30 April 1990(Day of year=120), clock: 
      Simulation is terminating due to end criteria being met.

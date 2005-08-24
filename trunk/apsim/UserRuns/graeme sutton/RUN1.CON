@@ -1,5 +1,5 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  Run 1  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-version = 4.2
+version = 4.3
 [apsim.Run 1]
 module = clock       run1.par [run1] %apsuite\apsim\clock\clock.ini[standard]
 module = report      run1.par [run1]
