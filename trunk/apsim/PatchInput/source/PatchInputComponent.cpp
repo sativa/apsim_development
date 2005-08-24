@@ -227,11 +227,10 @@ void PatchInputComponent::respondToEvent(unsigned int& fromID, unsigned int& eve
                                                      "",
                                                      itoa(fromID).c_str());
                setVariable(variableID, var->asFloat());
-
-               if (patchData.size() > 0)
-                  setPatchData();
                }
             }
+         if (patchData.size() > 0)
+            setPatchData();
          }
       }
    else if (eventID == returnDataMethodID)
