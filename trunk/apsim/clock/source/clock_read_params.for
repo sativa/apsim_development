@@ -41,67 +41,66 @@
      .                       // TRIM(date_st)
      .                       //' to a valid date (dd/mm/yyyy)')
          endif
+      endif
 
-         ! go get an end date
-         call read_char_var ('parameters',
+      ! go get an end date
+      call read_char_var_optional ('parameters',
      .                       'end_date',
      .                       '(date)',
      .                       date_st,
      .                       numvals)
+      if (numvals.eq.1) then
          call String_to_jday (date_st, g%end_date, numvals, 0.0d0)
-
          if (numvals.eq.0) then
             call fatal_error (ERR_User
      .                       ,'Cannot convert the date:'
      .                       // TRIM(date_st)
      .                       //' to a valid date (dd/mm/yyyy)')
          endif
-      else 
-         ! Try start_day/month/year combo
-         call read_integer_var_optional ('parameters',
+      endif
+
+      ! Try start_day/month/year combo
+      call read_integer_var_optional ('parameters',
      .                                'start_day',
      .                                '(day)',
      .                                thisdate(1),
      .                                numvals,1,31)
-         if (numvals .eq. 1) then
-            call read_integer_var ('parameters',
+      if (numvals .eq. 1) then
+         call read_integer_var ('parameters',
      .                             'start_month',
      .                             '(day)',
      .                             thisdate(2),
      .                             numvals,1,12)
-            call read_integer_var ('parameters',
+         call read_integer_var ('parameters',
      .                             'start_year',
      .                             '(day)',
      .                             thisdate(3),
      .                             numvals,1583,4000)
-            g%start_date = Date_to_jday (thisdate(1),
+         g%start_date = Date_to_jday (thisdate(1),
      .                                   thisdate(2),
      .                                   thisdate(3))
 
-            call read_integer_var ('parameters',
+         call read_integer_var ('parameters',
      .                             'end_day',
      .                             '(day)',
      .                             thisdate(1),
      .                             numvals,1,31)
 
-            call read_integer_var ('parameters',
+         call read_integer_var ('parameters',
      .                             'end_month',
      .                             '(day)',
      .                             thisdate(2),
      .                             numvals,1,12)
-            call read_integer_var ('parameters',
+         call read_integer_var ('parameters',
      .                             'end_year',
      .                             '(day)',
      .                             thisdate(3),
      .                             numvals,1583,4000)
 
-            g%end_date = Date_to_jday (thisdate(1),
+         g%end_date = Date_to_jday (thisdate(1),
      .                                 thisdate(2),
      .                                 thisdate(3))
-         
-         else
-            ! no start/end given. Give up and get them from the met file later.
-         endif
+
       endif
       call read_integer_var_optional ('parameters',
      .                       'timestep',
