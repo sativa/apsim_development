@@ -123,19 +123,27 @@ C     Last change:  E     5 Dec 2000    8:52 am
      :                        , '()'
      :                        , start_julian_days, startdate_numvals
      :                        , 0, 10000000)
+         if (startdate_numvals .eq.  0)then
+            call fatal_error (ERR_User
+     .                       ,'Cannot find CLOCK start date:')
+         else
+            g%start_date = start_julian_days
+            call write_string(
+     .         'Using start date from the met file.')
+         endif
+      endif
+      if (g%end_date .eq. 0.0) then
          call get_integer_var(unknown_module, 'met_end_date'
      :                        , '()'
      :                        , end_julian_days, enddate_numvals
      :                        , 0, 10000000)
-
-         if (startdate_numvals .eq.  0 .or. enddate_numvals .eq. 0)then
+         if (enddate_numvals .eq.  0)then
             call fatal_error (ERR_User
-     .                       ,'Cannot find CLOCK start and end date:')
+     .                       ,'Cannot find CLOCK end date:')
          else
-            g%start_date = start_julian_days
             g%end_date = end_julian_days
             call write_string(
-     .         'Using start and end dates from the met file.')
+     .         'Using end date from the met file.')
          endif
       endif
 

@@ -33,3 +33,17 @@ summaryfile=PatchInput2.sum
 [sample2.log.parameters]
 logfile=dean.log
 debug_output=on
+
+[sample3.report.parameters]
+outputfile = PatchInput3.out
+variable = met.site
+variable = clock.year
+variable = clock.day
+variable = met.radn
+variable = met.maxt
+variable = met.mint
+variable = met.rain
+variable = patch.patch_rain
+
+[sample3.SummaryFile.parameters]
+summaryfile=PatchInput3.sum
