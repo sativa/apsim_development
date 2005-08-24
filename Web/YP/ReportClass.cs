@@ -518,48 +518,59 @@ namespace YieldProphet
 			sbFileText.Append("[grower.Rainfall.data]\n");
 			sbFileText.Append("allow_sparse_data = true ()\n");
 			sbFileText.Append("patch_all_years = true ()\n");
-			sbFileText.Append("start_patching_from = "+szPatchDate+"\n");
-			sbFileText.Append("patch_variables_long_term = maxt mint radn ()\n");
-			sbFileText.Append("           date     patch_rain\n");
-			sbFileText.Append("             ()             ()\n");
+			//sbFileText.Append("start_patching_from = "+szPatchDate+"\n");
+			if(!bUseDefalutRainfall)
+				{
+    			sbFileText.Append("patch_variables_long_term = maxt mint radn ()\n");
+				sbFileText.Append("           date     patch_rain\n");
+				sbFileText.Append("             ()             ()\n");
+				}
+			else
+				{
+    			sbFileText.Append("patch_variables_long_term = maxt mint radn rain ()\n");
+				sbFileText.Append("           date\n");
+				sbFileText.Append("             ()\n");
+				}
+			//Finds out what the earliest date from which to start the rainfall file
+			//As the Sowing Date doesn't have to be set for all reports we must test that it is a valid date, if 
+			//it isn't then set it to the highest possible date so it won't be chosen.
+			DateTime dtDateToRecord = new DateTime(DateTime.Today.Year, 01, 01);
 
+			if(dtStartOfSowingSeasonDate <= dtSowingDate && dtStartOfSowingSeasonDate <= dtInitialConditionsDate)
+			{
+				dtDateToRecord = dtStartOfSowingSeasonDate;
+			}
+			else if(dtSowingDate <= dtStartOfSowingSeasonDate && dtSowingDate <= dtInitialConditionsDate)
+			{
+				dtDateToRecord = dtSowingDate;
+			}
+			else if(dtInitialConditionsDate <= dtStartOfSowingSeasonDate && dtInitialConditionsDate <= dtSowingDate)
+			{
+				dtDateToRecord = dtInitialConditionsDate;
+			}
+
+			//Get the rainfall data from the database for the specific period.
+			string szLinkedTemporalPaddockName = dtPaddocksDetails.Rows[0]["LinkedRainfallPaddockName"].ToString();
+			if(szLinkedTemporalPaddockName != "")
+			{
+				szRainfallPaddockName = szLinkedTemporalPaddockName;
+			}
+			DataTable dtRainfall = DataAccessClass.GetPaddocksTemporalEvents(szRainfallPaddockName, FunctionsClass.GetActiveUserName(), 
+				"patch_rain", dtDateToRecord.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd"));
+
+
+			//Add blank records, for every day in the period, to the file
+			while (dtDateToRecord < DateTime.Today)
+			{
+				string record = "     "+dtDateToRecord.ToString("yyyy-MM-dd");
+				if (!bUseDefalutRainfall)
+					record += "              0";
+				record += "\n";
+				sbFileText.Append(record);
+				dtDateToRecord = dtDateToRecord.AddDays(1);
+			}
 			if(bUseDefalutRainfall == false)
 			{
-
-				//Finds out what the earliest date from which to start the rainfall file
-				//As the Sowing Date doesn't have to be set for all reports we must test that it is a valid date, if 
-				//it isn't then set it to the highest possible date so it won't be chosen.
-				DateTime dtDateToRecord = new DateTime(DateTime.Today.Year, 01, 01);
-
-				if(dtStartOfSowingSeasonDate <= dtSowingDate && dtStartOfSowingSeasonDate <= dtInitialConditionsDate)
-				{
-					dtDateToRecord = dtStartOfSowingSeasonDate;
-				}
-				else if(dtSowingDate <= dtStartOfSowingSeasonDate && dtSowingDate <= dtInitialConditionsDate)
-				{
-					dtDateToRecord = dtSowingDate;
-				}
-				else if(dtInitialConditionsDate <= dtStartOfSowingSeasonDate && dtInitialConditionsDate <= dtSowingDate)
-				{
-					dtDateToRecord = dtInitialConditionsDate;
-				}
-
-				//Get the rainfall data from the database for the specific period.
-				string szLinkedTemporalPaddockName = dtPaddocksDetails.Rows[0]["LinkedRainfallPaddockName"].ToString();
-				if(szLinkedTemporalPaddockName != "")
-				{
-					szRainfallPaddockName = szLinkedTemporalPaddockName;
-				}
-				DataTable dtRainfall = DataAccessClass.GetPaddocksTemporalEvents(szRainfallPaddockName, FunctionsClass.GetActiveUserName(), 
-					"patch_rain", dtDateToRecord.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd"));
-
-
-				//Add blank records, for every day in the period, to the file
-				while (dtDateToRecord < DateTime.Today)
-				{
-					sbFileText.Append("     "+dtDateToRecord.ToString("yyyy-MM-dd")+"              0\n");
-					dtDateToRecord = dtDateToRecord.AddDays(1);
-				}
 				//Add the rain fall information from the database
 				for(int iIndex = 0; iIndex < dtRainfall.Rows.Count; iIndex++)
 				{
