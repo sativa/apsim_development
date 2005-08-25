@@ -723,13 +723,16 @@ c        remove from the senesced pool
             if (SLN .gt. 0.4) then
                nLeafRate = 0.04 * SLN - 0.016 * (g_dlt_tt_fm / 17.0)
                LeafNAvail = min(nLeafRate * lai, ((SLN - 0.4) *  lai))
-               LeafNRequired = min(LeafNAvail,NRequired)
+               LeafNRequired = min(g_dlt_N_retrans(leaf),
+     :                             min(LeafNAvail,NRequired))
+
               NRequired = NRequired - LeafNRequired
 					! Some Leaf N possibly already retranslocated
+               
                g_dlt_N_retrans(leaf) =
-     :                           g_dlt_N_retrans(leaf) - LeafNRequired
+     :               g_dlt_N_retrans(leaf) - LeafNRequired
                g_dlt_N_retrans(grain) =
-     .                           g_dlt_N_retrans(grain) + LeafNRequired
+     .               g_dlt_N_retrans(grain) + LeafNRequired
            else
 !              need to senesce leaf to get the required N  (SLN = 0.2)
                leafSenesced =  min(lai,NRequired / 0.2)
