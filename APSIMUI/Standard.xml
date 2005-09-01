@@ -40,10 +40,11 @@
   <manager name="Manager">
     <rule name="Sow using a variable rule">
       <condition name="start_of_day"><![CDATA[
-      if (paddock_is_fallow() = 1) then
+      if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
          if (date_within('[date1], [date2]') = 1) then
-            if (rain[[rainnumdays]] >= raincrit AND esw >= [esw_amount]) OR
+            if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
                 ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
+               ChooseNextCrop = 'yes'   ! for rotations
                [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
             endif
          endif
@@ -67,10 +68,11 @@
     </rule>
         <rule name="Sorghum sowing rule">
           <condition name="start_of_day"><![CDATA[
-      if (paddock_is_fallow() = 1) then
+      if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
          if (date_within('[date1], [date2]') = 1) then
-            if (rain[[rainnumdays]] >= raincrit AND esw >= [esw_amount]) OR
+            if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
                 ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
+               ChooseNextCrop = 'yes'   ! for rotations
                [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], tiller_no_fertile = [ftn] (), skip = [skiprow]
             endif
          endif
@@ -96,7 +98,8 @@
         </rule>
     <rule name="Sow on a fixed date">
       <condition name="start_of_day"><![CDATA[
-            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+        if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
+               ChooseNextCrop = 'yes'   ! for rotations
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
             endif
                ]]></condition>
@@ -322,6 +325,128 @@
         <property name="resetSurfaceOM" value="yes" type="yesno" description="Reset surface organic matter?" />
       </category>
     </rule>
+
+    <rule name="Rotations">
+      <condition name="init">
+         NextCropIndex = 1
+         NextCrop = ' '
+         ChooseNextCrop = 'yes'
+         SummerFallowIn = 'no'
+         WinterFallowIn = 'no'
+         FallowIn = 'no'
+      </condition>
+      <condition name="start_of_day"><![CDATA[
+      if (ChooseNextCrop = 'yes') then
+         if (NextCropIndex = 1) then
+            NextCrop = '[crop1]'
+         elseif (NextCropIndex = 2) then
+            NextCrop = '[crop2]'
+         elseif (NextCropIndex = 3) then
+            NextCrop = '[crop3]'
+         elseif (NextCropIndex = 4) then
+            NextCrop = '[crop4]'
+         elseif (NextCropIndex = 5) then
+            NextCrop = '[crop5]'
+         elseif (NextCropIndex = 6) then
+            NextCrop = '[crop6]'
+         elseif (NextCropIndex = 7) then
+            NextCrop = '[crop7]'
+         elseif (NextCropIndex = 8) then
+            NextCrop = '[crop8]'
+         elseif (NextCropIndex = 9) then
+            NextCrop = '[crop9]'
+         elseif (NextCropIndex = 10) then
+            NextCrop = '[crop10]'
+         elseif (NextCropIndex = 11) then
+            NextCrop = '[crop11]'
+         elseif (NextCropIndex = 12) then
+            NextCrop = '[crop12]'
+         elseif (NextCropIndex = 13) then
+            NextCrop = '[crop13]'
+         elseif (NextCropIndex = 14) then
+            NextCrop = '[crop14]'
+         elseif (NextCropIndex = 15) then
+            NextCrop = '[crop15]'
+         elseif (NextCropIndex = 16) then
+            NextCrop = '[crop16]'
+         elseif (NextCropIndex = 17) then
+            NextCrop = '[crop17]'
+         elseif (NextCropIndex = 18) then
+            NextCrop = '[crop18]'
+         elseif (NextCropIndex = 19) then
+            NextCrop = '[crop19]'
+         elseif (NextCropIndex = 20) then
+            NextCrop = '[crop20]'
+         endif
+         if (NextCrop = 'nil' or NextCrop = ' ') then
+            NextCrop = '[crop1]'
+            NextCropIndex = 1
+         endif
+         NextCropIndex = NextCropIndex + 1
+         ChooseNextCrop = 'no'
+      endif
+      ! if the next crop is due to be a fallow and we're within the
+      ! correct date range then put a fallow in.
+      if (NextCrop = '[WinterFallowName]') then
+         if (paddock_is_fallow() = 1 and FallowIn = 'no') then
+            if (date_within('[SummerFallowEndDate], [WinterFallowEndDate]') then
+               WinterFallowIn = 'yes'
+               FallowIn = 'yes'
+               ChooseNextCrop = 'yes'
+            endif
+         endif
+      elseif (NextCrop = '[SummerFallowName]') then
+         if (paddock_is_fallow() = 1 and FallowIn = 'no') then
+            if (date_within('[WinterFallowEndDate], [SummerFallowEndDate]') then
+               SummerFallowIn = 'yes'
+               FallowIn = 'yes'
+               ChooseNextCrop = 'yes'
+            endif
+         endif
+      endif
+
+      ! if we currently have a fallow in and we're at the end of the fallow window
+      ! then remove the fallow.
+      if (WinterFallowIn = 'yes' and today = date('[WinterFallowEndDate]')+1) then
+         WinterFallowIn = 'no'
+         FallowIn = 'no'
+      endif
+      if (SummerFallowIn = 'yes' and today = date('[SummerFallowEndDate]')+1) then
+         SummerFallowIn = 'no'
+         FallowIn = 'no'
+      endif
+      ]]></condition>
+      <category name="Fallow options">
+        <property name="SummerFallowName" value="sf" type="text" description="Enter summer fallow name : " />
+        <property name="SummerFallowEndDate" value="15-mar" type="text" description="Enter summer fallow END date (dd-mmm) : " />
+        <property name="WinterFallowName" value="wf" type="text" description="Enter winter fallow name : " />
+        <property name="WinterFallowEndDate" value="23-aug" type="text" description="Enter winter fallow END date (dd-mmm) : " />
+      </category>
+      <category name="Crop rotation sequence">
+        <property name="crop1" value="nil" type="modulename" description="Enter 1st crop : " />
+        <property name="crop2" value="nil" type="modulename" description="Enter 2nd crop : " />
+        <property name="crop3" value="nil" type="modulename" description="Enter 3rd crop : " />
+        <property name="crop4" value="nil" type="modulename" description="Enter 4th crop : " />
+        <property name="crop5" value="nil" type="modulename" description="Enter 5th crop : " />
+        <property name="crop6" value="nil" type="modulename" description="Enter 6th crop : " />
+        <property name="crop7" value="nil" type="modulename" description="Enter 7th crop : " />
+        <property name="crop8" value="nil" type="modulename" description="Enter 8th crop : " />
+        <property name="crop9" value="nil" type="modulename" description="Enter 9th crop : " />
+        <property name="crop10" value="nil" type="modulename" description="Enter 10th crop : " />
+        <property name="crop11" value="nil" type="modulename" description="Enter 11th crop : " />
+        <property name="crop12" value="nil" type="modulename" description="Enter 12th crop : " />
+        <property name="crop13" value="nil" type="modulename" description="Enter 13th crop : " />
+        <property name="crop14" value="nil" type="modulename" description="Enter 14th crop : " />
+        <property name="crop15" value="nil" type="modulename" description="Enter 15th crop : " />
+        <property name="crop16" value="nil" type="modulename" description="Enter 16th crop : " />
+        <property name="crop17" value="nil" type="modulename" description="Enter 17th crop : " />
+        <property name="crop18" value="nil" type="modulename" description="Enter 18th crop : " />
+        <property name="crop19" value="nil" type="modulename" description="Enter 19th crop : " />
+        <property name="crop20" value="nil" type="modulename" description="Enter 20th crop : " />
+      </category>
+    </rule>
+
+
   </manager>
   <logic name="logic">
     <script name="init">
