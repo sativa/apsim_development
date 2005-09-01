@@ -1,0 +1,464 @@
+Version = 3.0
+NumPages = 1
+object data: TForm
+  Left = 4
+  Top = 4
+  Align = alClient
+  BorderIcons = []
+  BorderStyle = bsNone
+  ClientHeight = 770
+  ClientWidth = 1070
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object ApsimFileReader1: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'Crop'
+        DataType = ftFloat
+      end
+      item
+        Name = 'SowDay'
+        DataType = ftFloat
+      end
+      item
+        Name = 'EmeDAS'
+        DataType = ftFloat
+      end
+      item
+        Name = 'FIDAS'
+        DataType = ftFloat
+      end
+      item
+        Name = 'HMDAS'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Stover'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Head'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'BiomassWet'
+        DataType = ftFloat
+      end
+      item
+        Name = 'HeadWet'
+        DataType = ftFloat
+      end
+      item
+        Name = 'StoverWet'
+        DataType = ftFloat
+      end
+      item
+        Name = 'HeadDiam'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'XYGraph3.afterDataRefresh'
+      'XYGraph4.afterDataRefresh')
+    filenames.Strings = (
+      'GreenBeltLawes97.txt')
+    Left = 169
+    Top = 72
+  end
+end
+object Page1: TQuickRep
+  Left = 238
+  Top = 57
+  Width = 556
+  Height = 786
+  Frame.Color = clBlack
+  Frame.DrawTop = False
+  Frame.DrawBottom = False
+  Frame.DrawLeft = False
+  Frame.DrawRight = False
+  Frame.Style = psClear
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Arial'
+  Font.Style = []
+  Functions.Strings = (
+    'PAGENUMBER'
+    'COLUMNNUMBER'
+    'REPORTTITLE')
+  Functions.DATA = (
+    '0'
+    '0'
+    #39#39)
+  Options = [FirstPageHeader, LastPageFooter]
+  Page.Columns = 1
+  Page.Orientation = poPortrait
+  Page.PaperSize = A4
+  Page.Ruler = False
+  Page.Values = (
+    0
+    2970
+    0
+    2100
+    0
+    0
+    0)
+  PrinterSettings.Copies = 1
+  PrinterSettings.Duplex = False
+  PrinterSettings.FirstPage = 0
+  PrinterSettings.LastPage = 0
+  PrinterSettings.OutputBin = Auto
+  PrintIfEmpty = True
+  SnapToGrid = True
+  Units = MM
+  Zoom = 70
+  object TitleBand1: TQRBand
+    Left = 0
+    Top = 0
+    Width = 556
+    Height = 786
+    Frame.Color = clBlack
+    Frame.DrawTop = False
+    Frame.DrawBottom = False
+    Frame.DrawLeft = False
+    Frame.DrawRight = False
+    AlignToBottom = False
+    Color = clWhite
+    ForceNewColumn = False
+    ForceNewPage = False
+    Size.Values = (
+      2970
+      2101.54761904762)
+    BandType = rbTitle
+    object XYGraph3: TXYGraph
+      Left = 93
+      Top = 101
+      Width = 448
+      Height = 329
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        1243.54166666667
+        351.517857142857
+        381.755952380952
+        1693.33333333333)
+      Series = <
+        item
+          XFieldName = 'SowDay'
+          FieldNames.Strings = (
+            'FIDAS')
+          SeriesTitle = 'FIDAS'
+          YAxisLocation = left_axis
+          SeriesType = markers
+          PutLabelOnY = True
+        end
+        item
+          XFieldName = 'SowDay'
+          FieldNames.Strings = (
+            'HMDAS')
+          SeriesTitle = 'HMDAS'
+          YAxisLocation = left_axis
+          SeriesType = markers
+          PutLabelOnY = True
+        end>
+      source = data.ApsimFileReader1
+      title = ' '
+      subTitle = ' '
+      leftAxisTitle = ' '
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      seriesTitle1 = 'Days to Floral Initiation'
+      seriesTitle2 = 'Days to Harvest'
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart3: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        Title.Visible = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsFont.Height = -16
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.Automatic = False
+        LeftAxis.AutomaticMinimum = False
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsFont.Height = -16
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        Legend.CustomPosition = True
+        Legend.Font.Height = -16
+        Legend.Left = 380
+        Legend.LegendStyle = lsSeries
+        Legend.ResizeChart = False
+        Legend.Top = 365
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object TPointSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.ApsimFileReader1
+          Title = 'Days to Floral Initiation'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loNone
+          XValues.ValueSource = 'SowDay'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'FIDAS'
+        end
+        object TPointSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.ApsimFileReader1
+          Title = 'Days to Harvest'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loNone
+          XValues.ValueSource = 'SowDay'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'HMDAS'
+        end
+      end
+    end
+    object XYGraph4: TXYGraph
+      Left = 104
+      Top = 430
+      Width = 432
+      Height = 288
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        1088.57142857143
+        393.095238095238
+        1625.29761904762
+        1632.85714285714)
+      Series = <
+        item
+          XFieldName = 'SowDay'
+          FieldNames.Strings = (
+            'Head')
+          SeriesTitle = 'Head'
+          YAxisLocation = left_axis
+          SeriesType = markers
+          PutLabelOnY = True
+        end
+        item
+          XFieldName = 'SowDay'
+          FieldNames.Strings = (
+            'Biomass')
+          SeriesTitle = 'Biomass'
+          YAxisLocation = left_axis
+          SeriesType = markers
+          PutLabelOnY = True
+        end>
+      source = data.ApsimFileReader1
+      title = ' '
+      subTitle = ' '
+      leftAxisTitle = ' '
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      seriesTitle1 = 'Head Mass'
+      seriesTitle2 = 'Total Biomass'
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart4: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        Title.Visible = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsFont.Height = -16
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.Automatic = False
+        LeftAxis.AutomaticMinimum = False
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsFont.Height = -16
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        Legend.CustomPosition = True
+        Legend.Font.Height = -16
+        Legend.Left = 430
+        Legend.LegendStyle = lsSeries
+        Legend.ResizeChart = False
+        Legend.Top = 25
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object TPointSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.ApsimFileReader1
+          Title = 'Head Mass'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loNone
+          XValues.ValueSource = 'SowDay'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Head'
+        end
+        object TPointSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.ApsimFileReader1
+          Title = 'Total Biomass'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loNone
+          XValues.ValueSource = 'SowDay'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Biomass'
+        end
+      end
+    end
+    object Text1: TText
+      Left = 85
+      Top = 22
+      Width = 404
+      Height = 23
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        86.9345238095238
+        321.279761904762
+        83.1547619047619
+        1527.02380952381)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -27
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      Lines.Strings = (
+        '8 Sowings of Greenbelt, Lawes, Qld in 1997.')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = '8 Sowings of Greenbelt, Lawes, Qld in 1997.'#13#10
+      FontSize = 20
+    end
+    object Shape1: TShape
+      Left = 2
+      Top = -2
+      Width = 64
+      Height = 784
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        2963.33333333333
+        7.55952380952381
+        -7.55952380952381
+        241.904761904762)
+      Brush.Color = clMoneyGreen
+      Pen.Color = clMoneyGreen
+      Shape = qrsRectangle
+    end
+  end
+end
