@@ -27,6 +27,7 @@
             [foreach area.phos][insert phos][endfor]
 
             [foreach area.bambatsi as plant][insert bambatsi][endfor]
+            [foreach area.broccoli as plant][insert broccoli][endfor]
             [foreach area.canola as plant][insert canola][endfor]
             [foreach area.chickpea as plant][insert chickpea][endfor]
             [foreach area.cowpea as plant][insert cowpea][endfor]
@@ -1174,7 +1175,44 @@
       <events>
       </events>
    </grasp>
-
+   <broccoli>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\broccoli.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Broccoli science documentation">../apsim/broccoli/docs/broccoli_science.htm</Documentation>
+      <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ broccoli ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\plant\lib\plant.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
+   </broccoli>
    <canola>
       <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
