@@ -31,10 +31,11 @@
       <manager name="Manager">
         <rule name="Sowing rule">
           <condition name="start_of_day"><![CDATA[
-      if (paddock_is_fallow() = 1) then
+      if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
          if (date_within('[date1], [date2]') = 1) then
-            if (rain[[rainnumdays]] >= raincrit AND esw >= [esw_amount]) OR
+            if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
                 ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
+               ChooseNextCrop = 'yes'   ! for rotations
                [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
             endif
          endif
@@ -851,10 +852,11 @@
       <manager name="Manager">
         <rule name="Sorghum Sowing rule">
           <condition name="start_of_day"><![CDATA[
-      if (paddock_is_fallow() = 1) then
+      if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
          if (date_within('[date1], [date2]') = 1) then
-            if (rain[[rainnumdays]] >= raincrit AND esw >= [esw_amount]) OR
+            if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
                 ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
+               ChooseNextCrop = 'yes'   ! for rotations
                [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], tiller_no_fertile = [ftn] (), skip = [skiprow]
             endif
          endif
