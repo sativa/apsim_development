@@ -88,8 +88,10 @@ namespace YieldProphet
 						if(dtPaddockDetails.Rows.Count > 0)
 							{
 							string szCropType = dtPaddockDetails.Rows[0]["CropType"].ToString();
+							string szReportXML = 
+								ReportClass.PrepareBasicReportXML(edtReportName.Text, ViewState["ReportType"].ToString());
 							if(EmailClass.SendReportEmail(edtReportName.Text, szCropType, 
-								ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], null) == true)
+								ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], szReportXML, null) == true)
 							{
 								Server.Transfer("wfReportGenerated.aspx");
 							}
@@ -122,7 +124,7 @@ namespace YieldProphet
 		private void Page_Load(object sender, System.EventArgs e)
 			{
 			if (!IsPostBack)
-				{	
+				{
 				//View state is used to store values over post back events
 				ViewState["ReportTypeID"] = "0";
 				ViewState["ReportType"] = "";

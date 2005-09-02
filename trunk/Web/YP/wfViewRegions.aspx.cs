@@ -411,7 +411,7 @@ namespace YieldProphet
 			{
 			try
 				{
-				DataAccessClass.UpgradeAllSoils();
+				DataAccessClass.CheckAllSoils();
 				}
 			catch(Exception E)
 				{

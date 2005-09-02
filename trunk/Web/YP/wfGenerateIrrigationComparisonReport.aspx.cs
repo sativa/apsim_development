@@ -222,9 +222,12 @@ namespace YieldProphet
 							DataTable dtOtherValues = 
 								ReportClass.CreateIrrigationComparisonOtherValues(ReturnNitrogenDataSet(), 
 									ReturnIrrigationDataSet());
+							string szReportXML = 
+								ReportClass.PrepareIrrigationComparisonXML(edtReportName.Text, ViewState["ReportType"].ToString(),
+								grdNitrogenOne, grdIrrigationOne, grdNitrogenTwo, grdIrrigationTwo, grdNitrogenThree, grdIrrigationThree);
 							//Generate the files needed to generate a report and then email these files to the ApsimRun machine
 							if(EmailClass.SendReportEmail(edtReportName.Text, szCropType, 
-								ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], dtOtherValues) == true)
+								ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], szReportXML, dtOtherValues) == true)
 							{
 								Server.Transfer("wfReportGenerated.aspx");
 							}

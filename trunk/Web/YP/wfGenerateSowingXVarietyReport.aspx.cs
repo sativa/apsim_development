@@ -260,9 +260,14 @@ namespace YieldProphet
 										cboVarietyOne.SelectedValue, (DateTime.ParseExact(grdSowDateOne.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
 										cboVarietyTwo.SelectedValue, (DateTime.ParseExact(grdSowDateTwo.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
 										cboVarietyThree.SelectedValue, (DateTime.ParseExact(grdSowDateThree.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"));
+									string szReportXML = 
+										ReportClass.PrepareSowingXVarietyXML(edtReportName.Text, ViewState["ReportType"].ToString(), cboVarietyOne.SelectedValue, 
+										grdSowDateOne.GetRow(0).Cells["SowDate"].Text, cboVarietyTwo.SelectedValue, grdSowDateTwo.GetRow(0).Cells["SowDate"].Text, 
+										cboVarietyThree.SelectedValue, grdSowDateThree.GetRow(0).Cells["SowDate"].Text, cboCrops.SelectedValue, 
+										grdNitrogen);
 									//Generate the files needed to generate a report and then email these files to the ApsimRun machine
 									if(EmailClass.SendReportEmail(edtReportName.Text, szCropType, 
-										ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], dtOtherValues) == true)
+										ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], szReportXML, dtOtherValues) == true)
 										{
 										Server.Transfer("wfReportGenerated.aspx");
 										}

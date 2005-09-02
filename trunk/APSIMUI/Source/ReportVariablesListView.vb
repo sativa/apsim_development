@@ -329,7 +329,7 @@ Public Class ReportVariablesListView
 
         If Not IsNothing(Data) Then
             Dim VariablesNode As APSIMData = Data.Child("variables")
-            UIManager.GetSiblingComponents(VariablesNode, ComponentNames, ComponentTypes)
+            UIManager.GetSiblingComponents(VariablesNode.Parent.Parent, ComponentNames, ComponentTypes)
 
             Dim row As Xceed.Grid.DataRow
             For Each child As APSIMData In VariablesNode.Children("variable")
@@ -447,7 +447,12 @@ Public Class ReportVariablesListView
             Child.SetAttribute("variablename", Row.Cells(0).Value)
             Child.SetAttribute("module", Row.Cells(1).Value)
             Child.SetAttribute("name", Row.Cells(2).Value)
-            Child.SetAttribute("arrayspec", Row.Cells(3).Value)
+            OldName = Row.Cells(2).Value
+            Dim ArraySpec As String = Row.Cells(3).Value
+            If (ArraySpec Is Nothing) Then
+                ArraySpec = " "
+            End If
+            Child.SetAttribute("arrayspec", ArraySpec)
             Child.SetAttribute("description", Row.Cells(4).Value)
             AddModuleType(Child)
             AddBlankRow()
@@ -462,10 +467,11 @@ Public Class ReportVariablesListView
     ' Add a module type to the specified variable.
     ' ----------------------------------------------
     Private Sub AddModuleType(ByVal Variable As APSIMData)
-        Dim Index As Integer = ComponentNames.IndexOf(Variable.Attribute("Module"))
-        If Index <> -1 Then
-            Variable.SetAttribute("ModuleType", ComponentTypes(Index))
-        End If
+        For Index As Integer = 0 To ComponentNames.Count - 1
+            If ComponentNames(Index).ToLower() = Variable.Attribute("module").ToLower() Then
+                Variable.SetAttribute("ModuleType", ComponentTypes(Index))
+            End If
+        Next
     End Sub
 
 
@@ -550,7 +556,7 @@ Public Class ReportVariablesListView
         Dim NewData As New APSIMData(NewDataString)
         If NewData.Type = "variable" Then
             NewData.SetAttribute("variablename", NewData.Attribute("name"))
-            NewData.SetAttribute("arrayspec", "")
+            NewData.SetAttribute("arrayspec", " ")
 
             Dim VariablesNode As APSIMData = Data.Child("variables")
             Dim InsertNode As APSIMData
@@ -593,6 +599,7 @@ Public Class ReportVariablesListView
     Private Sub DeleteAllMenu_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DeleteAllMenu.Click
         VariablesList.DataRows.Clear()
         AddBlankRow()
+        Data.Child("Variables").Clear()
     End Sub
 
     Private Sub VariablesList_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles VariablesList.Resize

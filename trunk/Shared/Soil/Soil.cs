@@ -542,6 +542,13 @@ namespace CSGeneral
 			setLayered("water", "sw", new double[0]);
             setLayered("nitrogen", "no3", new double[0]);
 			setLayered("nitrogen", "nh4", new double[0]);
+
+			// Look for missing crop names.
+			foreach (string Crop in Crops)
+				{
+				if (Crop.ToLower() == "soilcrop")
+					DeleteCrop("soilcrop");
+				}
 			}
 
 	
@@ -694,12 +701,12 @@ namespace CSGeneral
 
 					}
 
-				if (dul[layer] <= ll15[layer])
+				if (dul[layer] < ll15[layer])
 					errorMessages += "Drained upper limit of " + dul[layer].ToString("f3")
 						          +  " in layer " + RealLayerNumber.ToString() + " is at or below lower limit of " + ll15[layer].ToString("f3")
 								  + "\r\n";
 
-				if (sat[layer] <= dul[layer])
+				if (sat[layer] < dul[layer])
 					errorMessages += "Saturation of " + sat[layer].ToString("f3")
 						          +  " in layer " + RealLayerNumber.ToString() + " is at or below drained upper limit of " + dul[layer].ToString("f3")
 								  + "\r\n";
@@ -709,7 +716,7 @@ namespace CSGeneral
 					double max_bd = (1.0 - sat[layer]) * specific_bd;
 					errorMessages += "Saturation of " + sat[layer].ToString("f3")
 						          +  " in layer " + RealLayerNumber.ToString() + " is above acceptable value of  " + max_sw.ToString("f3")
-								  +  " You must adjust bulk density to below " + max_bd.ToString("f3")
+								  +  ". You must adjust bulk density to below " + max_bd.ToString("f3")
 								  +  " OR saturation to below " + max_sw.ToString("f3")
 								  + "\r\n";
 					}

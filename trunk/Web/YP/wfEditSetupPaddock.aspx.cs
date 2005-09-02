@@ -70,6 +70,7 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.TextBox edtRootingDepth;
 		protected System.Web.UI.WebControls.Label lblRootingDepthUnit;
 		protected System.Web.UI.WebControls.CheckBox chkDefaultRainfall;
+		protected System.Web.UI.WebControls.Label InvalidSWLabel;
 		protected System.Web.UI.WebControls.Panel pnlTop;
 
 
@@ -124,21 +125,22 @@ namespace YieldProphet
 			this.chkLinkedRainfall.CheckedChanged += new System.EventHandler(this.chkLinkedRainfall_CheckedChanged);
 			this.grdSoilSampleTwo.UpdatingCell += new Janus.Web.GridEX.UpdatingCellEventHandler(this.grdSoilSample_UpdatingCell);
 			this.btnUpdateGraph.Click += new System.EventHandler(this.btnUpdateGraph_Click);
+			this.chkDefaultRainfall.CheckedChanged += new System.EventHandler(this.chkDefaultRainfall_CheckedChanged);
 			// 
 			// dsSoilSampleOne
 			// 
 			this.dsSoilSampleOne.DataSetName = "NewDataSet";
 			this.dsSoilSampleOne.Locale = new System.Globalization.CultureInfo("en-US");
 			this.dsSoilSampleOne.Tables.AddRange(new System.Data.DataTable[] {
-																																				 this.dtSoilSampleOne});
+																				 this.dtSoilSampleOne});
 			// 
 			// dtSoilSampleOne
 			// 
 			this.dtSoilSampleOne.Columns.AddRange(new System.Data.DataColumn[] {
-																																					 this.dcDepth,
-																																					 this.dcWater,
-																																					 this.dcNO3,
-																																					 this.dcNH4});
+																				   this.dcDepth,
+																				   this.dcWater,
+																				   this.dcNO3,
+																				   this.dcNH4});
 			this.dtSoilSampleOne.TableName = "SoilSampleOne";
 			// 
 			// dcDepth
@@ -166,16 +168,16 @@ namespace YieldProphet
 			this.dsSoilSampleTwo.DataSetName = "NewDataSet";
 			this.dsSoilSampleTwo.Locale = new System.Globalization.CultureInfo("en-US");
 			this.dsSoilSampleTwo.Tables.AddRange(new System.Data.DataTable[] {
-																																				 this.dtSoilSampleTwo});
+																				 this.dtSoilSampleTwo});
 			// 
 			// dtSoilSampleTwo
 			// 
 			this.dtSoilSampleTwo.Columns.AddRange(new System.Data.DataColumn[] {
-																																					 this.dataColumn1,
-																																					 this.dcOC,
-																																					 this.dcEC,
-																																					 this.dcPH,
-																																					 this.dcESP});
+																				   this.dataColumn1,
+																				   this.dcOC,
+																				   this.dcEC,
+																				   this.dcPH,
+																				   this.dcESP});
 			this.dtSoilSampleTwo.TableName = "SoilSampleTwo";
 			// 
 			// dataColumn1
@@ -208,12 +210,12 @@ namespace YieldProphet
 			this.dsInitialDate.DataSetName = "NewDataSet";
 			this.dsInitialDate.Locale = new System.Globalization.CultureInfo("en-AU");
 			this.dsInitialDate.Tables.AddRange(new System.Data.DataTable[] {
-																																			 this.dtInitialDate});
+																			   this.dtInitialDate});
 			// 
 			// dtInitialDate
 			// 
 			this.dtInitialDate.Columns.AddRange(new System.Data.DataColumn[] {
-																																				 this.dcInitialDate});
+																				 this.dcInitialDate});
 			this.dtInitialDate.TableName = "InitialDate";
 			// 
 			// dcInitialDate
@@ -226,19 +228,18 @@ namespace YieldProphet
 			this.dsStartOfGrowingSeason.DataSetName = "NewDataSet";
 			this.dsStartOfGrowingSeason.Locale = new System.Globalization.CultureInfo("en-AU");
 			this.dsStartOfGrowingSeason.Tables.AddRange(new System.Data.DataTable[] {
-																																								this.dtStartOfGrowingSeason});
+																						this.dtStartOfGrowingSeason});
 			// 
 			// dtStartOfGrowingSeason
 			// 
 			this.dtStartOfGrowingSeason.Columns.AddRange(new System.Data.DataColumn[] {
-																																									this.dcGrowingSeasonDate});
+																						  this.dcGrowingSeasonDate});
 			this.dtStartOfGrowingSeason.TableName = "StartOfGrowingSeason";
 			// 
 			// dcGrowingSeasonDate
 			// 
 			this.dcGrowingSeasonDate.ColumnName = "GrowingSeasonDate";
 			this.dcGrowingSeasonDate.DataType = typeof(System.DateTime);
-			this.chkDefaultRainfall.CheckedChanged += new System.EventHandler(this.chkDefaultRainfall_CheckedChanged);
 			this.Load += new System.EventHandler(this.Page_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dsSoilSampleOne)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dtSoilSampleOne)).EndInit();
@@ -318,7 +319,12 @@ namespace YieldProphet
 				cboRegion.SelectedValue = dtPaddockDetails.Rows[0]["RegionType"].ToString();		
 				edtRootingDepth.Text = dtPaddockDetails.Rows[0]["RootingDepth"].ToString();		
 				cboWeatherStation.SelectedValue = dtPaddockDetails.Rows[0]["MetStationName"].ToString();
-				cboSoilType.SelectedValue = dtPaddockDetails.Rows[0]["SoilName"].ToString();
+				try
+					{
+					cboSoilType.SelectedValue = dtPaddockDetails.Rows[0]["SoilName"].ToString();
+					}
+				catch (Exception)
+					{ }
 
 				//Fills the soil sample one grid
 				FillSoilSampleOneGrid();
@@ -626,8 +632,9 @@ namespace YieldProphet
 						{
 						DataAccessClass.UpdatePaddock("", "", -1, cboWeatherStation.SelectedItem.Text,  
 							cboSoilType.SelectedItem.Text, "", Convert.ToInt32(chkDefaultRainfall.Checked),
-							szLinkedTemporalPaddock, szStartOfGrowingSeasonDate, -1, ReturnMaxRootingDepth(), Session["SelectedPaddockName"].ToString(), 
-							Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
+							szLinkedTemporalPaddock, szStartOfGrowingSeasonDate, -1, ReturnMaxRootingDepth(), -1, -1,
+							Session["SelectedPaddockName"].ToString(), Session["SelectedPaddockName"].ToString(), 
+							FunctionsClass.GetActiveUserName());
 						SaveSoilSampleDetails();
 						Server.Transfer("wfEditPaddock.aspx");
 						}
@@ -733,12 +740,13 @@ namespace YieldProphet
 					CropType = "wheat";
 
                 Chart WaterChart = cscSoilChart.Charts.GetAt( 0 );
-				WaterChart.Series.Clear();
+				WaterChart.Series.Clear();		  
 
 				// Create a sample from the first grid.
 				if (Sample == null)
 					Sample = GetSample1();
 				Sample.LinkedSoil = DataAccessClass.GetSoil(cboSoilType.SelectedValue);
+				UpdateInvalidLabel(Sample);
 
 				// Create a SW line on chart.
 				CreateNewLineSeries(WaterChart, "SW", Color.LightBlue, 3, 
@@ -826,6 +834,12 @@ namespace YieldProphet
 			}
 			return iRootingDepth;
 		}
+
+		private void UpdateInvalidLabel(SoilSample Sample)
+			{
+			InvalidSWLabel.Visible = !DataAccessClass.IsSoilSampleOk(Sample);
+			}
+
 		//-------------------------------------------------------------------------
 		#endregion
 

@@ -245,6 +245,37 @@ namespace YieldProphet
 				}
 			return bValidDate;
 			}
+
+		//-------------------------------------------------------------------------
+		//Returns the value of a textbox as an integer
+		//-------------------------------------------------------------------------
+		public static int ReturnTextBoxValueAsInteger(System.Web.UI.WebControls.TextBox edtSelectedTextBox, int iDefaultValue)
+		{
+			int iTextBoxValue = iDefaultValue;
+			if(edtSelectedTextBox.Text != "")
+			{
+				if(IsInputAPositiveInteger(edtSelectedTextBox.Text))
+				{
+					iTextBoxValue = Convert.ToInt32(edtSelectedTextBox.Text);
+				}
+			}
+			return iTextBoxValue;
+		}
+		//-------------------------------------------------------------------------
+		//Returns the value of a textbox as a double
+		//-------------------------------------------------------------------------
+		public static double ReturnTextBoxValueAsDouble(System.Web.UI.WebControls.TextBox edtSelectedTextBox, double dDefaultValue)
+		{
+			double dTextBoxValue = dDefaultValue;
+			if(edtSelectedTextBox.Text != "")
+			{
+				if(IsInputAPositiveDecimal(edtSelectedTextBox.Text))
+				{
+					dTextBoxValue = Convert.ToDouble(edtSelectedTextBox.Text);
+				}
+			}
+			return dTextBoxValue;
+		}
 		//-------------------------------------------------------------------------
 		}//END CLASS
 	}//END NAMESPACE

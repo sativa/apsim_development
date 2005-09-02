@@ -65,6 +65,12 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.DropDownList cboRowConfiguration;
 		protected System.Web.UI.WebControls.Label lblPopulationUnit;
 		protected System.Web.UI.WebControls.Label Label1;
+		protected System.Web.UI.WebControls.TextBox edtTiller;
+		protected System.Web.UI.WebControls.Label lblTiller;
+		protected System.Web.UI.WebControls.Button btnCalculate;
+		protected System.Web.UI.WebControls.Label lblRowSpacing;
+		protected System.Web.UI.WebControls.TextBox edtRowSpacing;
+		protected System.Web.UI.WebControls.Label lblRowSpacingUnit;
 		protected System.Web.UI.WebControls.HyperLink HyperLink1;
 
 
@@ -117,20 +123,21 @@ namespace YieldProphet
 			this.cboCrops.SelectedIndexChanged += new System.EventHandler(this.cboCrops_SelectedIndexChanged);
 			this.grdNitrogen.UpdatingCell += new Janus.Web.GridEX.UpdatingCellEventHandler(this.grdNitrogen_UpdatingCell);
 			this.grdIrrigation.UpdatingCell += new Janus.Web.GridEX.UpdatingCellEventHandler(this.grdIrrigation_UpdatingCell_1);
+			this.btnCalculate.Click += new System.EventHandler(this.btnCalculate_Click);
 			// 
 			// dsNitrogen
 			// 
 			this.dsNitrogen.DataSetName = "NewDataSet";
 			this.dsNitrogen.Locale = new System.Globalization.CultureInfo("en-US");
 			this.dsNitrogen.Tables.AddRange(new System.Data.DataTable[] {
-																			this.dtNitrogen});
+																																		this.dtNitrogen});
 			// 
 			// dtNitrogen
 			// 
 			this.dtNitrogen.Columns.AddRange(new System.Data.DataColumn[] {
-																			  this.dcID,
-																			  this.dcApplicationDate,
-																			  this.dcRate});
+																																			this.dcID,
+																																			this.dcApplicationDate,
+																																			this.dcRate});
 			this.dtNitrogen.TableName = "Nitrogen";
 			// 
 			// dcID
@@ -151,12 +158,12 @@ namespace YieldProphet
 			this.dsSowDate.DataSetName = "NewDataSet";
 			this.dsSowDate.Locale = new System.Globalization.CultureInfo("en-AU");
 			this.dsSowDate.Tables.AddRange(new System.Data.DataTable[] {
-																		   this.dtSowDate});
+																																	 this.dtSowDate});
 			// 
 			// dtSowDate
 			// 
 			this.dtSowDate.Columns.AddRange(new System.Data.DataColumn[] {
-																			 this.dcSowDate});
+																																		 this.dcSowDate});
 			this.dtSowDate.TableName = "SowDate";
 			// 
 			// dcSowDate
@@ -169,15 +176,15 @@ namespace YieldProphet
 			this.dsIrrigation.DataSetName = "NewDataSet";
 			this.dsIrrigation.Locale = new System.Globalization.CultureInfo("en-AU");
 			this.dsIrrigation.Tables.AddRange(new System.Data.DataTable[] {
-																			  this.dtIrrigation});
+																																			this.dtIrrigation});
 			// 
 			// dtIrrigation
 			// 
 			this.dtIrrigation.Columns.AddRange(new System.Data.DataColumn[] {
-																				this.dcIrrigationID,
-																				this.dcIrrigationDate,
-																				this.dcIrrigationAmount,
-																				this.dcIrrigationEfficency});
+																																				this.dcIrrigationID,
+																																				this.dcIrrigationDate,
+																																				this.dcIrrigationAmount,
+																																				this.dcIrrigationEfficency});
 			this.dtIrrigation.TableName = "Irrigation";
 			// 
 			// dcIrrigationID
@@ -245,11 +252,15 @@ namespace YieldProphet
 					cboRowConfiguration.SelectedValue = dtPaddockDetails.Rows[0]["RowConfigurationType"].ToString();
 					//Set the sow date on the calander
 					chkSown.Checked = true;
+					//Checks to ensure that a triazine value is in the database, if it is set
+					//its value on the form
 					if(dtPaddockDetails.Rows[0]["Triazine"].ToString() != null &&
 						dtPaddockDetails.Rows[0]["Triazine"].ToString() != "")
 						{
 						chkTriazine.Checked = Convert.ToBoolean(Convert.ToInt32(dtPaddockDetails.Rows[0]["Triazine"].ToString()));
 						}
+					//Checks to ensure that a population value is in the database, if it is set
+					//its value on the form
 					if(dtPaddockDetails.Rows[0]["Population"].ToString() != null &&
 						dtPaddockDetails.Rows[0]["Population"].ToString() != "")
 					{
@@ -257,6 +268,21 @@ namespace YieldProphet
 						population = population * 10000;
 						edtPopulation.Text = population.ToString();
 					}
+					//Check to see if the tiller number from the db isn't null, 
+					//if it isn't then set the value of the textbox
+					if(dtPaddockDetails.Rows[0]["TillerNumber"].ToString() != null &&
+						dtPaddockDetails.Rows[0]["TillerNumber"].ToString() != "")
+						{
+						edtTiller.Text = dtPaddockDetails.Rows[0]["TillerNumber"].ToString();
+						}
+					//Check to see if the Row Spacing from the db isn't null, 
+					//if it isn't then set the value of the textbox
+					if(dtPaddockDetails.Rows[0]["RowSpacing"].ToString() != null &&
+						dtPaddockDetails.Rows[0]["RowSpacing"].ToString() != "")
+						{
+						edtRowSpacing.Text = dtPaddockDetails.Rows[0]["RowSpacing"].ToString();
+						}
+					
 					SetSowDate(szSowDate);
 					cboCrops.SelectedValue = dtPaddockDetails.Rows[0]["CropType"].ToString();
 					//Fills the cultivar combo box
@@ -536,6 +562,12 @@ namespace YieldProphet
 			lblPopulation.Visible = bSorgumComponentVisibility;
 			edtPopulation.Visible = bSorgumComponentVisibility;
 			lblPopulationUnit.Visible = bSorgumComponentVisibility;
+			edtTiller.Visible = bSorgumComponentVisibility;
+			lblTiller.Visible = bSorgumComponentVisibility;
+			btnCalculate.Visible = bSorgumComponentVisibility;
+			lblRowSpacing.Visible  = bSorgumComponentVisibility;
+			edtRowSpacing.Visible = bSorgumComponentVisibility;
+			lblRowSpacingUnit.Visible = bSorgumComponentVisibility;
 		}	
 		//-------------------------------------------------------------------------
 		//The paddock details are updated, but firstly a check is run to determine
@@ -564,7 +596,9 @@ namespace YieldProphet
 								grdSowDate.GetRow(0).Cells["SowDate"].Text != "")
 								{
 								DataAccessClass.UpdatePaddock((DateTime.ParseExact(grdSowDate.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
-									cboCultivars.SelectedItem.Text, Convert.ToInt32(chkTriazine.Checked), "", "", cboRowConfiguration.SelectedValue, -1, "", "", ReturnPopulationValue(), -1, szPaddockName, Session["SelectedPaddockName"].ToString(), 
+									cboCultivars.SelectedItem.Text, Convert.ToInt32(chkTriazine.Checked), "", "", cboRowConfiguration.SelectedValue, -1, "", "", 
+									ReturnPopulationValue(), -1, InputValidationClass.ReturnTextBoxValueAsDouble(edtTiller, 0), 
+									 InputValidationClass.ReturnTextBoxValueAsDouble(edtRowSpacing, 0), szPaddockName, Session["SelectedPaddockName"].ToString(), 
 									FunctionsClass.GetActiveUserName());
 								Session["SelectedPaddockName"] = szPaddockName;
 								SaveNitrogenApplications();
@@ -764,16 +798,46 @@ namespace YieldProphet
 		//that the value is a valid integer
 		//-------------------------------------------------------------------------
 		private int ReturnPopulationValue()
-		{
+			{
 			int iPopulation = 0;
 			if(edtPopulation.Text != "")
-			{
-				if(InputValidationClass.IsInputAPositiveInteger(edtPopulation.Text))
 				{
+				if(InputValidationClass.IsInputAPositiveInteger(edtPopulation.Text))
+					{
 					iPopulation = Convert.ToInt32(edtPopulation.Text) / 10000;
+					}
 				}
-			}
 			return iPopulation;
+			}
+		//-------------------------------------------------------------------------
+		//Calculates and displays the fertile Tiller number
+		//-------------------------------------------------------------------------
+		private void SetFertileTillerNumber()
+		{
+			try
+				{
+				DataTable dtPaddockDetails = 
+					DataAccessClass.GetDetailsOfPaddock(Session["SelectedPaddockName"].ToString(), 
+					FunctionsClass.GetActiveUserName());
+
+				if(dtPaddockDetails.Rows[0]["RegionType"].ToString() != null && 
+					dtPaddockDetails.Rows[0]["RegionType"].ToString() != "" && 
+					dtPaddockDetails.Rows[0]["RegionType"].ToString() != "None" &&
+					grdSowDate.GetRow(0).Cells["SowDate"].Text != "" &&
+					InputValidationClass.IsInputAPositiveInteger(edtPopulation.Text) == true)
+					{
+					edtTiller.Text = FunctionsClass.ReturnTillerNumber(cboRowConfiguration.SelectedValue, dtPaddockDetails.Rows[0]["RegionType"].ToString(),
+						DateTime.ParseExact(grdSowDate.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null), Convert.ToInt32(edtPopulation.Text)).ToString();
+					}
+				else
+					{
+					throw new Exception("Please ensure that a valid region is selected and a valid population is entered");
+					}
+				}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
 		}
 		//-------------------------------------------------------------------------
 		#endregion
@@ -896,8 +960,7 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void btnReportsImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
 			{
-			SavePaddockDetails();
-			SendToGenerateReportPage();
+			btnReport_Click(null, null);
 			}
 		//-------------------------------------------------------------------------
 		//When the user changes the sown check box, the components on the form are
@@ -952,6 +1015,12 @@ namespace YieldProphet
 				}
 			}
 		}
+
+		private void btnCalculate_Click(object sender, System.EventArgs e)
+		{
+			SetFertileTillerNumber();
+		}
+
 		//-------------------------------------------------------------------------
 		#endregion
 

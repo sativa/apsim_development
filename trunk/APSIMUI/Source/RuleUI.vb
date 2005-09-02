@@ -250,6 +250,7 @@ Public Class RuleUI
     ' -----------------------------------
     Overrides Sub refresh()
         MyBase.Refresh()
+        PropertyGrid.DataRows.Clear()
 
         ' Get the cultivar file
         Dim Settings As New APSIMSettings
@@ -271,6 +272,9 @@ Public Class RuleUI
         UpdateAllCultivarDropDowns()
 
         ' Create a tab for each condition.
+        While TabControl1.TabPages.Count > 1
+            TabControl1.TabPages.RemoveAt(1)
+        End While
         For Each Condition As APSIMData In Data.Children("condition")
             Dim page As New TabPage(Condition.Name)
             Dim ScriptBox As New RichTextBox

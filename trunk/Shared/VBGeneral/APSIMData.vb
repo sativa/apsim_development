@@ -9,6 +9,8 @@ Imports System.IO
 ' ----------------------------------------------------------------------
 Public Class APSIMData
     Private Node As XmlNode
+    Delegate Sub DataChangedEventHandler()
+    Public Event DataChanged As DataChangedEventHandler
 
     ' --------------------
     ' constructors
@@ -16,8 +18,9 @@ Public Class APSIMData
     Sub New()
         Node = Nothing
     End Sub
-    Sub New(ByRef DataNode As XmlNode)
+    Private Sub New(ByRef DataNode As XmlNode, ByVal ChangedHandler As DataChangedEventHandler)
         Node = DataNode
+        AddHandler DataChanged, ChangedHandler
     End Sub
     Sub New(ByVal XMLString As String)
         Dim data As New XmlDocument
@@ -49,6 +52,7 @@ Public Class APSIMData
             Dim data As New XmlDocument
             data.Load(MyFileName)
             Node = data.DocumentElement
+            RaiseEvent DataChanged()
             Return True
         Else
             MsgBox("Cannot find file: " + FileName)
@@ -70,7 +74,7 @@ Public Class APSIMData
     ' ------------------------------------------------
     ReadOnly Property Parent() As APSIMData
         Get
-            Dim A As New APSIMData(Node.ParentNode)
+            Dim A As New APSIMData(Node.ParentNode, DataChangedEvent)
             If A.Type = "#document" Then
                 Return Nothing
             Else
@@ -108,7 +112,7 @@ Public Class APSIMData
     ' --------------------------------------------------
     Function FindChild(ByVal ChildPath As String, Optional ByVal Delimiter As Char = "|") As APSIMData
         Dim name As String
-        Dim CurrentData As New APSIMData(Node)
+        Dim CurrentData As New APSIMData(Node, DataChangedEvent)
         Dim Path As String = ChildPath
 
         Do Until Path = ""
@@ -145,7 +149,7 @@ Public Class APSIMData
         Get
             If Me.Attribute("shortcut") <> "" Then
                 Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
-                Return New APSIMData(Node.OwnerDocument.DocumentElement).FindChild(RemoteSource, "|").Value
+                Return New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent).FindChild(RemoteSource, "|").Value
             Else
 
                 Return Node.InnerText.Replace("%apsuite", APSIMSettings.ApsimDirectory())
@@ -154,16 +158,17 @@ Public Class APSIMData
         Set(ByVal value As String)
             If Me.Attribute("shortcut") <> "" Then
                 Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
-                Dim RootNode As New APSIMData(Node.OwnerDocument.DocumentElement)
+                Dim RootNode As New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent)
                 RootNode.FindChild(RemoteSource, "|").Value = value
             Else
                 Dim InvalidChars As String = "&<>"
                 If value.IndexOfAny(InvalidChars.ToCharArray()) <> -1 Then
                     Dim cdata As XmlCDataSection = Node.OwnerDocument.CreateCDataSection(value)
-                    'Node.AppendChild(cdata)
-                    Node.InnerXml = cdata.OuterXml
-                Else
+                    value = cdata.OuterXml
+                End If
+                If Node.InnerXml <> value Then
                     Node.InnerXml = value
+                    RaiseEvent DataChanged()
                 End If
             End If
         End Set
@@ -202,9 +207,12 @@ Public Class APSIMData
 
 
     Sub SetAttribute(ByVal AttributeName As String, ByVal AttributeValue As String)
-        Dim attr As XmlNode = Node.OwnerDocument.CreateNode(XmlNodeType.Attribute, AttributeName, "")
-        attr.Value = AttributeValue
-        Node.Attributes.SetNamedItem(attr)
+        If Attribute(AttributeName) <> AttributeValue Then
+            Dim attr As XmlNode = Node.OwnerDocument.CreateNode(XmlNodeType.Attribute, AttributeName, "")
+            attr.Value = AttributeValue
+            Node.Attributes.SetNamedItem(attr)
+            RaiseEvent DataChanged()
+        End If
     End Sub
     ReadOnly Property Type() As String
         Get
@@ -215,7 +223,7 @@ Public Class APSIMData
         Get
             If Me.Attribute("shortcut") <> "" Then
                 Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
-                Return New APSIMData(Node.OwnerDocument.DocumentElement).FindChild(RemoteSource, "|").XML
+                Return New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent).FindChild(RemoteSource, "|").XML
             Else
                 Return Node.OuterXml()
             End If
@@ -223,21 +231,23 @@ Public Class APSIMData
         Set(ByVal value As String)
             If Me.Attribute("shortcut") <> "" Then
                 Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
-                Dim RootNode As New APSIMData(Node.OwnerDocument.DocumentElement)
+                Dim RootNode As New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent)
                 RootNode.FindChild(RemoteSource, "|").XML = value
             Else
                 Dim newnode As New APSIMData(value)
-                Node.InnerXml = newnode.Node.InnerXml
-
+                If Node.InnerXml <> newnode.Node.InnerXml Then
+                    Node.InnerXml = newnode.Node.InnerXml
+                    RaiseEvent DataChanged()
+                End If
             End If
-
+            RaiseEvent DataChanged()
         End Set
     End Property
     ReadOnly Property InnerXML() As String
         Get
             If Me.Attribute("shortcut") <> "" Then
                 Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
-                Return New APSIMData(Node.OwnerDocument.DocumentElement).FindChild(RemoteSource, "|").InnerXML
+                Return New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent).FindChild(RemoteSource, "|").InnerXML
             Else
                 Return Node.InnerXml()
             End If
@@ -247,7 +257,7 @@ Public Class APSIMData
         If Not IsNothing(Data) Then
             If Me.Attribute("shortcut") <> "" Then
                 Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
-                Dim ParentData As APSIMData = New APSIMData(Node.OwnerDocument.DocumentElement)
+                Dim ParentData As APSIMData = New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent)
                 ParentData = ParentData.FindChild(RemoteSource, "|")
                 If IsNothing(ParentData) Then
                     Throw New System.Exception("Cannot find shared node.")
@@ -261,6 +271,7 @@ Public Class APSIMData
 
                 Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
                 Node.AppendChild(newnode)
+                RaiseEvent DataChanged()
             End If
         End If
     End Sub
@@ -268,7 +279,7 @@ Public Class APSIMData
         If Not IsNothing(Data) Then
             If Me.Attribute("shortcut") <> "" Then
                 Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
-                Dim ParentData As APSIMData = New APSIMData(Node.OwnerDocument.DocumentElement)
+                Dim ParentData As APSIMData = New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent)
                 ParentData = ParentData.FindChild(RemoteSource, "|")
                 If IsNothing(ParentData) Then
                     Throw New System.Exception("Cannot find shared node.")
@@ -278,13 +289,14 @@ Public Class APSIMData
                 Data.Name = UniqueName(Data.Name, ChildList)
                 Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
                 Node.InsertBefore(newnode, ReferenceNode.Node)
+                RaiseEvent DataChanged()
             End If
         End If
     End Sub
     Public Sub Delete(ByVal ChildName As String)
         If Me.Attribute("shortcut") <> "" Then
             Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
-            Dim ParentData As APSIMData = New APSIMData(Node.OwnerDocument.DocumentElement)
+            Dim ParentData As APSIMData = New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent)
             ParentData = ParentData.FindChild(RemoteSource, "|")
             If IsNothing(ParentData) Then
                 Throw New System.Exception("Cannot find shared node.")
@@ -292,6 +304,7 @@ Public Class APSIMData
             ParentData.Delete(ChildName)
         Else
             Node.RemoveChild(Child(ChildName).Node)
+            RaiseEvent DataChanged()
         End If
     End Sub
     Private Function UniqueName(ByVal ProposedName As String, ByVal UsedNames As StringCollection) As String
@@ -356,7 +369,7 @@ Public Class APSIMData
                                 End If
                             End If
                             If AddChild Then
-                                ChildrenCollection.Add(New APSIMData(Node.ChildNodes(i)))
+                                ChildrenCollection.Add(New APSIMData(Node.ChildNodes(i), DataChangedEvent))
                             End If
                         End If
                     Next i
@@ -364,7 +377,7 @@ Public Class APSIMData
                 Else
                     ' There is a shortcut so return REMOTE children
                     Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
-                    ChildrenCollection = New APSIMData(Node.OwnerDocument.DocumentElement).FindChild(RemoteSource, "|").Children(Type)
+                    ChildrenCollection = New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent).FindChild(RemoteSource, "|").Children(Type)
                 End If
 
 
@@ -411,7 +424,7 @@ Public Class APSIMData
         End Get
         Set(ByVal Value As String)
             Dim name As String
-            Dim CurrentData As New APSIMData(Node)
+            Dim CurrentData As New APSIMData(Node, DataChangedEvent)
             Dim Path As String = key
 
             Do Until Path = ""
@@ -431,7 +444,6 @@ Public Class APSIMData
                     CurrentData = Child
                 End If
             Loop
-
             CurrentData.Value = Value
         End Set
     End Property
@@ -451,6 +463,7 @@ Public Class APSIMData
         Set(ByVal Value As String)
             Try
                 Child(Trim(key)).Value = Value
+                RaiseEvent DataChanged()
             Catch e As System.Exception
                 MsgBox("Error in setting value for child: " + Trim(key), MsgBoxStyle.Critical, "Error")
             End Try

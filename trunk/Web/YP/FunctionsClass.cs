@@ -294,6 +294,26 @@ namespace YieldProphet
 				return false;
 			}
 
+		//-------------------------------------------------------------------------
+		//Runs a check to ensure that the initial water and nitrogen conditions are
+		//set up for the paddocks soil sample (Depth, Water and NO3)
+		//-------------------------------------------------------------------------
+		static public bool IsSampleSWValid(string szPaddockName, string szUserName)
+			{
+			DataTable dtPaddocksSoilSample =
+				DataAccessClass.GetPaddocksSoilSample("GridOne", szPaddockName, szUserName);
+			DataTable dtPaddockDetails = 
+				DataAccessClass.GetDetailsOfPaddock(szPaddockName, szUserName);
+			if(dtPaddocksSoilSample.Rows.Count > 0)
+				{
+				SoilSample Sample = new SoilSample(new APSIMData(dtPaddocksSoilSample.Rows[0]["Data"].ToString()));
+				Sample.LinkedSoil = DataAccessClass.GetSoil(dtPaddockDetails.Rows[0]["SoilName"].ToString());
+				return DataAccessClass.IsSoilSampleOk(Sample);
+				}
+			else
+				return false;
+			}
+
 		static public string RemoveLastCharacter(string szStringToCheck, char cCharacterToCheckFor)
 		{
 			//Removes last charcater if it exists
@@ -388,6 +408,103 @@ namespace YieldProphet
 			}
 
 
+		#endregion
+
+		#region Tiller calculation functions
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		public static double ReturnTillerNumber(string szSkipType, string szRegion, DateTime dtSowingDate, int iPopulation)
+			{
+			double dTillerNumber = 0;
+
+			int iDensFact1 = 0;
+			int iDensFact2 = 0;
+			int iDensFact3 = 0;
+			double dDensity = (iPopulation/10000);
+
+			if(dDensity < 5.0)
+				iDensFact1 =1;
+			else if(dDensity >= 5.0 && dDensity < 10.0)
+				iDensFact2 = 1;
+			else if(dDensity >=10.0 && dDensity < 15.0)
+				iDensFact3 = 1;
+
+			switch(szSkipType)
+				{
+				case "Solid":
+					switch(szRegion)
+						{
+						case "Queensland":
+							if(dtSowingDate.DayOfYear < 319)
+								dTillerNumber = (iDensFact1*(-0.2*dDensity + 2.5) + iDensFact2*(-0.2*dDensity + 2.5) + iDensFact3*(-0.1*dDensity + 1.5));
+							else
+								dTillerNumber = (iDensFact1*(-0.2*dDensity + 2.0) + iDensFact2*(-0.15*dDensity + 1.75) + iDensFact3*(-0.05*dDensity + 0.75));
+							break;
+						case "Northern NSW":
+							if(dtSowingDate.DayOfYear < 319)
+								dTillerNumber = (iDensFact1*(-0.2*dDensity + 3.0) + iDensFact2*(-0.3*dDensity + 3.5) + iDensFact3*(-0.1*dDensity + 1.5));
+							else if(dtSowingDate.DayOfYear >= 319 && dtSowingDate.DayOfYear < 349)
+								dTillerNumber = (iDensFact1*(-0.2*dDensity + 2.5) + iDensFact2*(-0.25*dDensity + 2.75) + iDensFact3*(-0.05*dDensity + 0.75));
+							else
+								dTillerNumber = (iDensFact1*(-0.2*dDensity + 2.0) + iDensFact2*(-0.2*dDensity + 2.0) + iDensFact3*(0*dDensity + 0.0));
+							break;
+						default:
+							break;
+						}
+					break;
+
+				case "Single skip":
+					switch(szRegion)
+						{
+						case "Queensland":
+							if(dtSowingDate.DayOfYear < 319)
+								dTillerNumber = (iDensFact1*(-0.3*dDensity + 2.5) + iDensFact2*(-0.15*dDensity + 1.75) + iDensFact3*(-0.5*dDensity + 0.75));
+							else
+								dTillerNumber = (iDensFact1*(-0.25*dDensity + 1.875) + iDensFact2*(-0.1*dDensity + 1.125) + iDensFact3*(-0.025*dDensity + 0.375));
+							break;
+						case "Northern NSW":
+							if(dtSowingDate.DayOfYear < 319)
+								dTillerNumber = (iDensFact1*(-0.4*dDensity + 3.25) + iDensFact2*(-0.2*dDensity + 2.25) + iDensFact3*(-0.05*dDensity + 0.75));
+							else if(dtSowingDate.DayOfYear >= 319 && dtSowingDate.DayOfYear < 349)
+								dTillerNumber = (iDensFact1*(-0.35*dDensity + 2.625) + iDensFact2*(-0.15*dDensity + 1.625) + iDensFact3*(-0.025*dDensity + 0.375));
+							else
+								dTillerNumber = (iDensFact1*(-0.3*dDensity + 2.0) + iDensFact2*(-0.1*dDensity + 1.0) + iDensFact3*(0*dDensity + 0.0));
+							break;
+						default:
+							break;
+						}
+					break;
+
+				case "Double skip":
+					switch(szRegion)
+						{
+						case "Queensland":
+							if(dtSowingDate.DayOfYear < 319)
+								dTillerNumber = (iDensFact1*(-0.4*dDensity + 2.5) + iDensFact2*(-0.1*dDensity + 1.0) + iDensFact3*(0.0*dDensity + 0));
+							else
+								dTillerNumber = (iDensFact1*(-0.3*dDensity + 1.75) + iDensFact2*(-0.05*dDensity + 0.5) + iDensFact3*(0.0*dDensity + 0.0));
+							break;
+						case "Northern NSW":
+							if(dtSowingDate.DayOfYear < 319)
+								dTillerNumber = (iDensFact1*(-0.6*dDensity + 3.5) + iDensFact2*(-0.1*dDensity + 1.0) + iDensFact3*(0.0*dDensity + 0.0));
+							else if(dtSowingDate.DayOfYear >= 319 && dtSowingDate.DayOfYear < 349)
+								dTillerNumber = (iDensFact1*(-0.5*dDensity + 2.75) + iDensFact2*(-0.05*dDensity + 0.5) + iDensFact3*(0.0*dDensity + 0.0));
+							else
+								dTillerNumber = (iDensFact1*(-0.4*dDensity + 2.0) + iDensFact2*(0.0*dDensity + 0.0) + iDensFact3*(0*dDensity + 0.0));
+							break;
+						default:
+							break;
+						}
+					break;
+
+				default:
+					break;
+				}
+
+			return dTillerNumber;
+			}
+		//-------------------------------------------------------------------------
 		#endregion
 
 

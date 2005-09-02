@@ -157,9 +157,12 @@ namespace YieldProphet
 							DataTable dtOtherValues = 
 								ReportClass.CreateNitrogenComparisonOtherValues(ReturnScenarioDataTable(grdScenarioOne), 
 								ReturnScenarioDataTable(grdScenarioTwo), ReturnScenarioDataTable(grdScenarioThree));
+							string szReportXML = 
+								ReportClass.PrepareNitrogenComparisonXML(edtReportName.Text, ViewState["ReportType"].ToString(),
+								grdScenarioOne, grdScenarioTwo, grdScenarioThree);
 							//Generate the files needed to generate a report and then email these files to the ApsimRun machine
 							if(EmailClass.SendReportEmail(edtReportName.Text, szCropType, 
-								ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], dtOtherValues) == true)
+								ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], szReportXML, dtOtherValues) == true)
 								{
 								Server.Transfer("wfReportGenerated.aspx");
 								}
