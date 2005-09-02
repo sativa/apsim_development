@@ -54,7 +54,7 @@
             [foreach area.root][insert root][endfor]
             [foreach area.slurp][insert slurp][endfor]
             [foreach area.stock][insert stock][endfor]
-            [foreach area.StockScienceConverter as converter][insert StockScienceConverter][endfor]
+            [foreach area.stockScienceConverter as converter][insert stockScienceConverter][endfor]
             [foreach area.vinelogic as v1][insert vinelogic][endfor]
             [foreach area.stream][insert stream][endfor]
 
