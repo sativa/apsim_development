@@ -98,10 +98,9 @@
         </rule>
     <rule name="Sow on a fixed date">
       <condition name="start_of_day"><![CDATA[
-        if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
-               ChooseNextCrop = 'yes'   ! for rotations
+        if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
-            endif
+         endif
                ]]></condition>
       <category name="Sowing criteria">
         <property name="date" value="1-jan" type="text" description="Enter sowing date (dd-mmm) : " />
