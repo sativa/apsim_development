@@ -1,5 +1,5 @@
-<%@ Register TagPrefix="jwg" Namespace="Janus.Web.GridEX" Assembly="Janus.Web.GridEX" %>
 <%@ Page language="c#" Codebehind="wfAddPaddock.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfAddPaddock" %>
+<%@ Register TagPrefix="jwg" Namespace="Janus.Web.GridEX" Assembly="Janus.Web.GridEX" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <HTML>
 	<HEAD>
@@ -14,14 +14,14 @@
 			<asp:Panel id="pnlTop" style="Z-INDEX: 101; LEFT: 0px; POSITION: absolute; TOP: 0px" runat="server"
 				Width="100%" Height="48px" BackColor="PaleGoldenrod" HorizontalAlign="Left">
 				<DIV style="WIDTH: 184px; POSITION: relative; HEIGHT: 54px" ms_positioning="GridLayout">
-					<asp:LinkButton id="btnCancel" style="Z-INDEX: 102; LEFT: 104px; POSITION: absolute; TOP: 16px"
-						tabIndex="8" runat="server" Font-Size="Smaller" EnableViewState="False">Cancel</asp:LinkButton>
-					<asp:Button id="btnSave" style="Z-INDEX: 112; LEFT: 32px; POSITION: absolute; TOP: 16px" runat="server"
-						BackColor="Transparent" Height="16px" Width="32px" Font-Size="Smaller" Font-Underline="True"
-						Font-Names="Times New Roman" BorderStyle="None" BorderColor="Transparent" Text="Save" ForeColor="Purple"></asp:Button>
-					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 103; LEFT: 8px; POSITION: absolute; TOP: 16px" runat="server"
+					<asp:LinkButton id="btnCancel" style="Z-INDEX: 100; LEFT: 104px; POSITION: absolute; TOP: 16px"
+						tabIndex="8" runat="server" EnableViewState="False" Font-Size="Smaller">Cancel</asp:LinkButton>
+					<asp:Button id="btnSave" style="Z-INDEX: 103; LEFT: 32px; POSITION: absolute; TOP: 16px" runat="server"
+						BackColor="Transparent" Height="16px" Width="32px" Font-Size="Smaller" ForeColor="Purple"
+						Text="Save" BorderColor="Transparent" BorderStyle="None" Font-Names="Times New Roman" Font-Underline="True"></asp:Button>
+					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 101; LEFT: 8px; POSITION: absolute; TOP: 16px" runat="server"
 						ImageUrl="Images\save.gif"></asp:ImageButton>
-					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 104; LEFT: 80px; POSITION: absolute; TOP: 16px"
+					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 102; LEFT: 80px; POSITION: absolute; TOP: 16px"
 						runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton></DIV>
 			</asp:Panel>
 			<asp:TextBox id="edtName" style="Z-INDEX: 102; LEFT: 224px; POSITION: absolute; TOP: 136px" tabIndex="1"
@@ -99,14 +99,20 @@
 				runat="server" Height="16px" Width="40px">Triazine:</asp:Label>
 			<asp:Label id="lblRowConfiguration" style="Z-INDEX: 122; LEFT: 432px; POSITION: absolute; TOP: 224px"
 				runat="server">Row Configuration:</asp:Label>
-			<asp:Label id="lblPopulation" style="Z-INDEX: 122; LEFT: 480px; POSITION: absolute; TOP: 264px"
+			<asp:Label id="lblPopulation" style="Z-INDEX: 122; LEFT: 480px; POSITION: absolute; TOP: 304px"
 				runat="server">Population: </asp:Label>
-			<asp:TextBox id="edtPopulation" style="Z-INDEX: 122; LEFT: 560px; POSITION: absolute; TOP: 264px"
+			<asp:TextBox id="edtPopulation" style="Z-INDEX: 122; LEFT: 560px; POSITION: absolute; TOP: 304px"
 				runat="server" Width="88px"></asp:TextBox>
 			<asp:DropDownList id="cboRowConfiguration" style="Z-INDEX: 121; LEFT: 560px; POSITION: absolute; TOP: 224px"
 				runat="server" Width="160px"></asp:DropDownList>
-			<asp:Label id="lblPopulationUnit" style="Z-INDEX: 125; LEFT: 656px; POSITION: absolute; TOP: 264px"
+			<asp:Label id="lblPopulationUnit" style="Z-INDEX: 125; LEFT: 656px; POSITION: absolute; TOP: 304px"
 				runat="server">plants/m2</asp:Label>
+			<asp:Label id="lblRowSpacing" style="Z-INDEX: 107; LEFT: 464px; POSITION: absolute; TOP: 264px"
+				runat="server">Row Spacing:</asp:Label>
+			<asp:TextBox id="edtRowSpacing" style="Z-INDEX: 106; LEFT: 560px; POSITION: absolute; TOP: 264px"
+				runat="server" Width="96px"></asp:TextBox>
+			<asp:Label id="lblRowSpacingUnit" style="Z-INDEX: 105; LEFT: 664px; POSITION: absolute; TOP: 264px"
+				runat="server">m</asp:Label>
 		</form>
 	</body>
 </HTML>

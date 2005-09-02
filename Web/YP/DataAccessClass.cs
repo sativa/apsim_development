@@ -536,7 +536,7 @@ namespace YieldProphet
 				"RowConfigurationTypes.Type AS RowConfigurationType, Soils.Name AS SoilName, "+
 				"Regions.Type AS RegionType, CropTypes.Type AS CropType, Paddocks.DefaultRainfall, "+
 				"LinkedRainfallPaddock.Name AS LinkedRainfallPaddockName, Paddocks.Triazine, "+
-				"Paddocks.RootingDepth, Paddocks.Population "+
+				"Paddocks.RootingDepth, Paddocks.Population, Paddocks.TillerNumber, Paddocks.RowSpacing "+
 				"FROM Regions INNER JOIN (CropTypes INNER JOIN (Paddocks AS LinkedRainfallPaddock RIGHT JOIN "+
 				"(RowConfigurationTypes INNER JOIN (Soils INNER JOIN (CultivarTypes INNER JOIN (Users INNER JOIN "+
 				"(MetStations INNER JOIN Paddocks ON MetStations.ID = Paddocks.MetStationID) ON Users.ID = Paddocks.UserID) "+
@@ -574,16 +574,20 @@ namespace YieldProphet
 		//---------------------------------------------------------------------
 		static public void InsertPaddock(string szName, string szSowDate, 
 			string szCultivarType, int iTriazine, string szRowConfigurationType, 
-			int iPopulation, string szUserName)
+			int iPopulation, double dRowSpacing, string szUserName)
 			{
 			int iUserID = ReturnUserIDFromUserName(szUserName);
 			int iCultivarTypeID = ReturnCultivarTypeID(szCultivarType);
-			int iRowConfigurationTypeID = ReturnRowConfigurationTypeID(szRowConfigurationType);
+			int iRowConfigurationTypeID = 1;
+			if(szRowConfigurationType != "")
+			{
+				iRowConfigurationTypeID = ReturnRowConfigurationTypeID(szRowConfigurationType);
+			}
 
 			string szSQL = "INSERT INTO Paddocks "+
-				"(Name, SowDate, CultivarTypeID, Triazine, RowConfigurationTypeID, Population, UserID) VALUES "+
+				"(Name, SowDate, CultivarTypeID, Triazine, RowConfigurationTypeID, Population, RowSpacing, UserID) VALUES "+
 				"('"+szName+"', '"+szSowDate+"', "+iCultivarTypeID.ToString()+", "+iTriazine.ToString()+", "+
-				iRowConfigurationTypeID.ToString()+", "+iPopulation.ToString()+", "+iUserID.ToString()+")";
+				iRowConfigurationTypeID.ToString()+", "+iPopulation.ToString()+", "+dRowSpacing.ToString()+", "+iUserID.ToString()+")";
 			RunSQLStatement(szSQL);
 			}
 		//---------------------------------------------------------------------
@@ -592,8 +596,8 @@ namespace YieldProphet
 		static public void UpdatePaddock(string szSowDate, string szCultivarType, int iTriazine, 
 			string szMetStaionName, string szSoilName, string szRowConfigurationType, 
 			int iDefaultRainfall, string szLinkedTemporalPaddockName, string szStartOfGrowingSeason, 
-			int iPopulation, int iMaxRootingDepth, string szNewPaddockName, 
-			string szPaddockName, string szUserName)
+			int iPopulation, int iMaxRootingDepth, double dTillerNumber, double dRowSpacing, 
+			string szNewPaddockName, string szPaddockName, string szUserName)
 			{
 			int iPaddockID = ReturnPaddockID(szPaddockName, szUserName);
 
@@ -620,6 +624,14 @@ namespace YieldProphet
 				{
 				sbSQL.Append("DefaultRainfall = "+iDefaultRainfall.ToString()+", ");
 				}
+			if(dTillerNumber > -1)
+			{
+				sbSQL.Append("TillerNumber = "+dTillerNumber.ToString()+", ");
+			}
+			if(dRowSpacing > -1)
+			{
+				sbSQL.Append("RowSpacing = "+dRowSpacing.ToString()+", ");
+			}
 			if(szRowConfigurationType != null && szRowConfigurationType != "")
 			{
 				int iRowConfigurationTypeID = ReturnRowConfigurationTypeID(szRowConfigurationType);
@@ -790,6 +802,10 @@ namespace YieldProphet
 				}
 
 			Soil sImportSoil = new Soil(Data);
+			string Errors = sImportSoil.CheckForErrors();
+			if (Errors != "")
+				throw new Exception(Errors);
+
 			szSoilData = sImportSoil.Data.XML;
 
 			int SoilID;
@@ -817,9 +833,7 @@ namespace YieldProphet
 				RunSQLStatement(szSQL);
 				}
 
-			string Errors = sImportSoil.CheckForErrors();
-			if (Errors != "")
-				throw new Exception(Errors);
+
 		
 			}
 		//-------------------------------------------------------------------------
@@ -902,9 +916,9 @@ namespace YieldProphet
 			return iSoilID;
 			}
 		//---------------------------------------------------------------------
-		//Upgrade all soils to new version
+		// Check all soils 
 		//---------------------------------------------------------------------
-		static public void UpgradeAllSoils()
+		static public void CheckAllSoils()
 			{
 			string Errors = "";
 			DataTable Regions = GetAllRegions();
@@ -918,19 +932,11 @@ namespace YieldProphet
 					string SoilData = GetSoilData(SoilName);
 					if (SoilData != "")
 						{
-						try
-							{
-							APSIMData Data = new APSIMData(SoilData);
-							if (Data.Child("initwater") != null)
-								Data.Delete("initwater");
-							Soil ThisSoil = new Soil(Data);
-							ThisSoil.UpgradeToVersion2();
-							InsertOrEditSoil(RegionName, SoilName, ThisSoil.Data.XML, SoilName);
-							}
-						catch (Exception err)
-							{
-							Errors += "Cannot convert soil: " + SoilName.Replace("&", " ") + ". Error: " + err.Message.Replace("\r\n", "");
-							}
+						APSIMData Data = new APSIMData(SoilData);
+						Soil ImportSoil = new Soil(Data);
+						string msg = ImportSoil.CheckForErrors();
+						if (msg != "")
+							Errors += "Cannot convert soil: " + SoilName.Replace("&", " ") + ". Error: " + msg.Replace("\r\n", "");
 						}
 					}
 
@@ -939,7 +945,25 @@ namespace YieldProphet
 				throw new Exception(Errors);
 			}
 
+		// ----------------------------------------------
+		// Check to see if the specified sample is valid
+		// against its linked soil. Return true if sample
+		// is ok.
 		//-------------------------------------------------------------------------
+		static public bool IsSoilSampleOk(SoilSample Sample)
+			{
+			double[] sw = Sample.SWMapedToSoil;
+			double[] airdry = Sample.LinkedSoil.Airdry;
+			double[] sat = Sample.LinkedSoil.SAT;
+
+			for (int i = 0; i != sw.Length; i++)
+				{
+				if (sw[i] - airdry[i] < -0.015 || sw[i] - sat[i] > 0.015)
+					return false;
+				}
+			return true;
+			}
+
 		#endregion
 
 

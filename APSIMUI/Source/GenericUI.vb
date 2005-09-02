@@ -84,7 +84,7 @@ Public Class GenericUI
         '
         Me.Grid.RowSelectorPane.Visible = False
         Me.Grid.SingleClickEdit = True
-        Me.Grid.Size = New System.Drawing.Size(758, 753)
+        Me.Grid.Size = New System.Drawing.Size(798, 711)
         Me.Grid.TabIndex = 2
         Me.Grid.UIStyle = Xceed.Grid.UIStyle.UIStyle.System
         '
@@ -93,7 +93,7 @@ Public Class GenericUI
         Me.NameColumn.CanBeSorted = False
         Me.NameColumn.Title = "Name"
         Me.NameColumn.VisibleIndex = 0
-        Me.NameColumn.Width = 187
+        Me.NameColumn.Width = 267
         Me.NameColumn.Initialize("Name", GetType(System.String))
         '
         'ValueColumn
@@ -143,14 +143,14 @@ Public Class GenericUI
         Me.PictureBox.Dock = System.Windows.Forms.DockStyle.Left
         Me.PictureBox.Location = New System.Drawing.Point(0, 20)
         Me.PictureBox.Name = "PictureBox"
-        Me.PictureBox.Size = New System.Drawing.Size(88, 753)
+        Me.PictureBox.Size = New System.Drawing.Size(88, 711)
         Me.PictureBox.TabIndex = 3
         Me.PictureBox.TabStop = False
         '
         'GenericUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(846, 808)
+        Me.ClientSize = New System.Drawing.Size(886, 766)
         Me.Controls.Add(Me.Grid)
         Me.Controls.Add(Me.PictureBox)
         Me.Name = "GenericUI"
@@ -298,7 +298,8 @@ Public Class GenericUI
     Private Sub CellLeavingEdit(ByVal sender As Object, ByVal e As Xceed.Grid.LeavingEditEventArgs)
         If Not InRefresh Then
             Dim Row As Xceed.Grid.DataRow = Grid.CurrentCell.ParentRow
-            Dim Prop As APSIMData = Data.Child(Row.Cells(0).Value)
+            Dim RowIndex As Integer = Row.Index
+            Dim Prop As APSIMData = Data.Children()(RowIndex)
             Prop.Value = e.NewValue
         End If
     End Sub

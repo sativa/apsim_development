@@ -142,6 +142,8 @@ Public Class MainUI
     Friend WithEvents MenuItem3 As System.Windows.Forms.MenuItem
     Friend WithEvents GraphButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents GraphMenuItem As System.Windows.Forms.MenuItem
+    Friend WithEvents ApsimOutlookButton As System.Windows.Forms.ToolBarButton
+    Friend WithEvents ApsimOutlookMenuItem As System.Windows.Forms.MenuItem
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MainUI))
@@ -180,6 +182,8 @@ Public Class MainUI
         Me.FileSaveButton = New System.Windows.Forms.ToolBarButton
         Me.EmailButton = New System.Windows.Forms.ToolBarButton
         Me.Separator1 = New System.Windows.Forms.ToolBarButton
+        Me.GraphButton = New System.Windows.Forms.ToolBarButton
+        Me.ApsimOutlookButton = New System.Windows.Forms.ToolBarButton
         Me.CutButton = New System.Windows.Forms.ToolBarButton
         Me.copyButton = New System.Windows.Forms.ToolBarButton
         Me.PasteButton = New System.Windows.Forms.ToolBarButton
@@ -218,7 +222,7 @@ Public Class MainUI
         Me.ToolboxPanel = New System.Windows.Forms.Panel
         Me.ToolBoxSplitter = New System.Windows.Forms.Splitter
         Me.SimulationPanel = New System.Windows.Forms.Panel
-        Me.GraphButton = New System.Windows.Forms.ToolBarButton
+        Me.ApsimOutlookMenuItem = New System.Windows.Forms.MenuItem
         Me.HelpBrowserPanel.SuspendLayout()
         CType(Me.HelpBrowser, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.HelpToolBarPanel.SuspendLayout()
@@ -341,7 +345,7 @@ Public Class MainUI
         'MenuItem3
         '
         Me.MenuItem3.Index = 4
-        Me.MenuItem3.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.GraphMenuItem})
+        Me.MenuItem3.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.GraphMenuItem, Me.ApsimOutlookMenuItem})
         Me.MenuItem3.Text = "&Tools"
         '
         'GraphMenuItem
@@ -389,7 +393,7 @@ Public Class MainUI
         'ToolBar
         '
         Me.ToolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
-        Me.ToolBar.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.FileNewButton, Me.FileOpenButton, Me.FileSaveButton, Me.EmailButton, Me.Separator1, Me.GraphButton, Me.CutButton, Me.copyButton, Me.PasteButton, Me.Separator2, Me.ToolBoxButton, Me.RunButton, Me.ExportButton, Me.SeparatorButton, Me.NewsButton, Me.UIHelpButton})
+        Me.ToolBar.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.FileNewButton, Me.FileOpenButton, Me.FileSaveButton, Me.EmailButton, Me.Separator1, Me.GraphButton, Me.ApsimOutlookButton, Me.CutButton, Me.copyButton, Me.PasteButton, Me.Separator2, Me.ToolBoxButton, Me.RunButton, Me.ExportButton, Me.SeparatorButton, Me.NewsButton, Me.UIHelpButton})
         Me.ToolBar.DropDownArrows = True
         Me.ToolBar.ImageList = Me.ButtonImageList
         Me.ToolBar.Location = New System.Drawing.Point(0, 0)
@@ -427,6 +431,18 @@ Public Class MainUI
         'Separator1
         '
         Me.Separator1.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
+        '
+        'GraphButton
+        '
+        Me.GraphButton.ImageIndex = 15
+        Me.GraphButton.Text = "Graph"
+        Me.GraphButton.ToolTipText = "Graph using APSVis"
+        '
+        'ApsimOutlookButton
+        '
+        Me.ApsimOutlookButton.ImageIndex = 16
+        Me.ApsimOutlookButton.Text = "ApsimOutlook"
+        Me.ApsimOutlookButton.ToolTipText = "Graph using Apsim Outlook"
         '
         'CutButton
         '
@@ -667,10 +683,10 @@ Public Class MainUI
         Me.SimulationPanel.Size = New System.Drawing.Size(1015, 165)
         Me.SimulationPanel.TabIndex = 14
         '
-        'GraphButton
+        'ApsimOutlookMenuItem
         '
-        Me.GraphButton.ImageIndex = 15
-        Me.GraphButton.Text = "Graph"
+        Me.ApsimOutlookMenuItem.Index = 1
+        Me.ApsimOutlookMenuItem.Text = "Graph all output files using &APSIMOutlook"
         '
         'MainUI
         '
@@ -856,6 +872,8 @@ Public Class MainUI
             UIManager.ShowHelpBrowser(False)
         ElseIf e.Button Is GraphButton Then
             GraphAllMenuItem_Click(Nothing, Nothing)
+        ElseIf e.Button Is ApsimOutlookButton Then
+            ApsimOutlookMenuItem_Click(Nothing, Nothing)
         End If
 
     End Sub
@@ -986,6 +1004,7 @@ Public Class MainUI
         ToolboxPanel.Height = Val(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "toolboxheight"))
 
         Dim filename As String = toolboxes.NameToFileName(sender.text)
+        ToolboxExplorer.ExpandAll = False
         ToolboxExplorer.FileOpen(filename)
         ToolboxPanel.Visible = True
         ToolBoxSplitter.Enabled = ViewToolboxWindow.Checked
@@ -1048,7 +1067,7 @@ Public Class MainUI
                     For Each Child As APSIMData In Data.Children()
                         Dim ChildrenMacroString As String = CreateMacroFile(TypesData, Child, Level + 1)
                         If Not IsNothing(ChildrenMacroString) Then
-                            Dim SearchString As String = "[insert " + Child.Type + "]"
+                            Dim SearchString As String = "[insert " + Child.Type.ToLower() + "]"
                             ChildrenMacroString = ChildrenMacroString.TrimStart()
                             MacroString = MacroString.Replace(SearchString, ChildrenMacroString)
                         End If
@@ -1213,6 +1232,22 @@ Public Class MainUI
     End Sub
 
 
+    ' --------------------------------------------------
+    ' User wants to graph all output files using Oulook.
+    ' --------------------------------------------------
+    Private Sub ApsimOutlookMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ApsimOutlookMenuItem.Click
+        Dim Filename As String = Path.GetTempFileName()
+        Dim Writer As New StreamWriter(Filename)
+        Dim OutputFileNames As String = ""
+        GetAllOutputFiles(SimulationExplorer.Data, Writer)
+        Writer.Close()
+        Writer = Nothing
+
+        Dim CommandLine As String = APSIMSettings.ApsimDirectory() + "\bin\apsimoutlook.exe"
+        Process.Start(CommandLine, Filename)
+    End Sub
+
+
     ' --------------------------------------------------------
     ' Recursive routine to get names of all output files.
     ' --------------------------------------------------------
@@ -1243,9 +1278,12 @@ Public Class MainUI
         FileSaveAs.Enabled = SomethingInTree
         GraphButton.Enabled = SomethingInTree
         GraphMenuItem.Enabled = SomethingInTree
+        ApsimOutlookButton.Enabled = SomethingInTree
+        ApsimOutlookMenuItem.Enabled = SomethingInTree
         SimulationRun.Enabled = SomethingInTree
         SimulationMakeSimFile.Enabled = SomethingInTree
         RunButton.Enabled = SomethingInTree
     End Sub
+
 
 End Class

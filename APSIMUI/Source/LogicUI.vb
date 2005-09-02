@@ -140,27 +140,28 @@ Public Class LogicUI
         MyBase.Refresh()
         InitTextBox.Text = Replace(Data.ChildValue("init"), "[cr]", vbCrLf)
         StartOfDayTextBox.Text = Replace(Data.ChildValue("startofday"), "[cr]", vbCrLf)
+
         EndOfDayTextBox.Text = Replace(Data.ChildValue("endofday"), "[cr]", vbCrLf)
-        HelpLabel.Text = "Enter you management logic into the edit box above."
+        HelpLabel.Text = "Enter your management logic into the edit box above."
     End Sub
 
 
     Private Sub InitTextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles InitTextBox.Leave
-        Dim text As String = Replace(InitTextBox.Text, vbLf, "[cr]")
+        Dim text As String = Replace(InitTextBox.Text, vbCrLf, "[cr]")
         If text = Nothing Then
             text = ""
         End If
         Data.Child("init").Value = text
     End Sub
     Private Sub StartOfDayTextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles StartOfDayTextBox.Leave
-        Dim text As String = Replace(StartOfDayTextBox.Text, vbLf, "[cr]")
+        Dim text As String = Replace(StartOfDayTextBox.Text, vbCrLf, "[cr]")
         If text = Nothing Then
             text = ""
         End If
         Data.Child("startofday").Value = text
     End Sub
     Private Sub EndOfDayTextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles EndOfDayTextBox.Leave
-        Dim text As String = Replace(EndOfDayTextBox.Text, vbLf, "[cr]")
+        Dim text As String = Replace(EndOfDayTextBox.Text, vbCrLf, "[cr]")
         If text = Nothing Then
             text = ""
         End If

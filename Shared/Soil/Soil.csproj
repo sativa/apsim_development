@@ -36,7 +36,7 @@
                     NoStdLib = "false"
                     NoWarn = ""
                     Optimize = "false"
-                    OutputPath = "bin\Debug\"
+                    OutputPath = "obj\Debug\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
                     TreatWarningsAsErrors = "false"
@@ -78,12 +78,6 @@
                     Name = "System.XML"
                     AssemblyName = "System.Xml"
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
-                />
-                <Reference
-                    Name = "CSGeneral"
-                    Project = "{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                    Private = "True"
                 />
                 <Reference
                     Name = "System.Windows.Forms"
@@ -159,6 +153,11 @@
                     AssemblyName = "VBGeneral"
                     HintPath = "..\VBGeneral\bin\VBGeneral.dll"
                     Private = "True"
+                />
+                <Reference
+                    Name = "CSGeneral"
+                    AssemblyName = "CSGeneral"
+                    HintPath = "..\C#General\obj\Debug\CSGeneral.dll"
                 />
             </References>
         </Build>

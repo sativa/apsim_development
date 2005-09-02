@@ -42,7 +42,12 @@ namespace YieldProphet
 				}
 			System.Collections.Specialized.NameValueCollection settings = (System.Collections.Specialized.NameValueCollection)System.Configuration.ConfigurationSettings.GetConfig("CSIRO/YieldProphet");
 			SmtpMail.SmtpServer = Convert.ToString(settings["EmailServer"]);
-			SmtpMail.Send(mmEmailToSend);
+			try
+				{
+				SmtpMail.Send(mmEmailToSend);
+				}
+			catch (Exception)
+				{ }
 			bSent = true;
 
 			return bSent;
@@ -97,7 +102,7 @@ namespace YieldProphet
 		//(IE: Climate report)
 		//-------------------------------------------------------------------------
 		public static bool SendReportEmail(string szReportName,	string szCropType, 
-			string szReportType, bool bEmailConParFiles, DataTable dtOtherValues)
+			string szReportType, bool bEmailConParFiles, string szReportXML, DataTable dtOtherValues)
 			{
 			bool bReportSent = false;
 			System.Collections.Specialized.NameValueCollection settings = 
@@ -110,7 +115,7 @@ namespace YieldProphet
 			StringCollection scAttachments = new StringCollection();
 
 			scAttachments = ReportClass.PrepareReportFiles(szReportType, szCropType, 
-				szReportName, dtOtherValues);
+				szReportName, szReportXML, dtOtherValues);
 
 			//Makes sure that all the files have been generated for the report
 			int iNumberOfFilesNeededForReport = 5;

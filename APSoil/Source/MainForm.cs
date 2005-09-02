@@ -55,7 +55,6 @@ namespace APSoil
 		private System.Windows.Forms.SaveFileDialog ParExportDialog;
 		private System.Windows.Forms.MenuItem menuItem3;
 		private System.Windows.Forms.MenuItem CheckForErrors;
-		private System.Windows.Forms.MenuItem Export;
 		private System.Windows.Forms.MenuItem ExportPar;
 		private System.Windows.Forms.SaveFileDialog SimExportDialog;
 		private System.ComponentModel.IContainer components;
@@ -65,6 +64,13 @@ namespace APSoil
 		private System.Windows.Forms.OpenFileDialog openFileDialog2;
 		private System.Windows.Forms.MenuItem menuItem7;
 		private System.Windows.Forms.MenuItem SortMenuItem;
+		private System.Windows.Forms.ToolBarButton ExportButton;
+		private System.Windows.Forms.ContextMenu ExportMenu;
+		private System.Windows.Forms.MenuItem ExportToParMenuItem;
+		private System.Windows.Forms.MenuItem ExportToDatabaseMenuItem;
+		private System.Windows.Forms.MenuItem ExportToAnother;
+		private System.Windows.Forms.SaveFileDialog ExportSoilsDialog;
+		private System.Windows.Forms.MenuItem ExportMenuItem;
 		private string CommandLineFileName;
 
 		// ------------------
@@ -123,10 +129,12 @@ namespace APSoil
 			this.ImportParMenu = new System.Windows.Forms.MenuItem();
 			this.ImportSoilsMenu = new System.Windows.Forms.MenuItem();
 			this.menuItem2 = new System.Windows.Forms.MenuItem();
-			this.Export = new System.Windows.Forms.MenuItem();
+			this.ExportMenuItem = new System.Windows.Forms.MenuItem();
 			this.ExportPar = new System.Windows.Forms.MenuItem();
 			this.menuItem6 = new System.Windows.Forms.MenuItem();
 			this.FileExit = new System.Windows.Forms.MenuItem();
+			this.menuItem7 = new System.Windows.Forms.MenuItem();
+			this.SortMenuItem = new System.Windows.Forms.MenuItem();
 			this.menuItem3 = new System.Windows.Forms.MenuItem();
 			this.CheckForErrors = new System.Windows.Forms.MenuItem();
 			this.SmallImages = new System.Windows.Forms.ImageList(this.components);
@@ -153,8 +161,12 @@ namespace APSoil
 			this.ImportSoilsDialog = new System.Windows.Forms.OpenFileDialog();
 			this.SimExportDialog = new System.Windows.Forms.SaveFileDialog();
 			this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
-			this.menuItem7 = new System.Windows.Forms.MenuItem();
-			this.SortMenuItem = new System.Windows.Forms.MenuItem();
+			this.ExportButton = new System.Windows.Forms.ToolBarButton();
+			this.ExportMenu = new System.Windows.Forms.ContextMenu();
+			this.ExportToParMenuItem = new System.Windows.Forms.MenuItem();
+			this.ExportToDatabaseMenuItem = new System.Windows.Forms.MenuItem();
+			this.ExportToAnother = new System.Windows.Forms.MenuItem();
+			this.ExportSoilsDialog = new System.Windows.Forms.SaveFileDialog();
 			this.SuspendLayout();
 			// 
 			// mainMenu1
@@ -175,7 +187,7 @@ namespace APSoil
 																					  this.menuItem5,
 																					  this.ImportMenuItem,
 																					  this.menuItem2,
-																					  this.Export,
+																					  this.ExportMenuItem,
 																					  this.menuItem6,
 																					  this.FileExit});
 			this.menuItem1.Text = "&File";
@@ -247,16 +259,17 @@ namespace APSoil
 			this.menuItem2.Index = 6;
 			this.menuItem2.Text = "-";
 			// 
-			// Export
+			// ExportMenuItem
 			// 
-			this.Export.Index = 7;
-			this.Export.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																				   this.ExportPar});
-			this.Export.Text = "&Export selected soil";
+			this.ExportMenuItem.Index = 7;
+			this.ExportMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																						   this.ExportToAnother,
+																						   this.ExportPar});
+			this.ExportMenuItem.Text = "&Export selected soil";
 			// 
 			// ExportPar
 			// 
-			this.ExportPar.Index = 0;
+			this.ExportPar.Index = 1;
 			this.ExportPar.Text = "To &Par file...";
 			this.ExportPar.Click += new System.EventHandler(this.ExportToPar_Click);
 			// 
@@ -270,6 +283,19 @@ namespace APSoil
 			this.FileExit.Index = 9;
 			this.FileExit.Text = "E&xit";
 			this.FileExit.Click += new System.EventHandler(this.FileExit_Click);
+			// 
+			// menuItem7
+			// 
+			this.menuItem7.Index = 1;
+			this.menuItem7.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																					  this.SortMenuItem});
+			this.menuItem7.Text = "&View";
+			// 
+			// SortMenuItem
+			// 
+			this.SortMenuItem.Index = 0;
+			this.SortMenuItem.Text = "Sort soils alphabetically";
+			this.SortMenuItem.Click += new System.EventHandler(this.SortMenuItem_Click);
 			// 
 			// menuItem3
 			// 
@@ -312,6 +338,7 @@ namespace APSoil
 																					   this.FileOpenButton,
 																					   this.FileSaveButton,
 																					   this.ImportButton,
+																					   this.ExportButton,
 																					   this.Separator1,
 																					   this.CutButton,
 																					   this.CopyButton,
@@ -343,7 +370,7 @@ namespace APSoil
 			// 
 			this.FileSaveButton.ImageIndex = 2;
 			this.FileSaveButton.Text = "Save";
-			this.FileSaveButton.ToolTipText = "Save current soils";
+			this.FileSaveButton.ToolTipText = "Save soils database";
 			// 
 			// ImportButton
 			// 
@@ -445,18 +472,43 @@ namespace APSoil
 			this.SimExportDialog.Filter = "Sim files (*.sim)|*.sim|All files (*.*)|*.*";
 			this.SimExportDialog.Title = "Enter output file name for soil";
 			// 
-			// menuItem7
+			// ExportButton
 			// 
-			this.menuItem7.Index = 1;
-			this.menuItem7.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					  this.SortMenuItem});
-			this.menuItem7.Text = "&View";
+			this.ExportButton.DropDownMenu = this.ExportMenu;
+			this.ExportButton.ImageIndex = 7;
+			this.ExportButton.Style = System.Windows.Forms.ToolBarButtonStyle.DropDownButton;
+			this.ExportButton.Text = "Export";
 			// 
-			// SortMenuItem
+			// ExportMenu
 			// 
-			this.SortMenuItem.Index = 0;
-			this.SortMenuItem.Text = "Sort soils alphabetically";
-			this.SortMenuItem.Click += new System.EventHandler(this.SortMenuItem_Click);
+			this.ExportMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																					   this.ExportToDatabaseMenuItem,
+																					   this.ExportToParMenuItem});
+			// 
+			// ExportToParMenuItem
+			// 
+			this.ExportToParMenuItem.Index = 1;
+			this.ExportToParMenuItem.Text = "Selected soil to Par File";
+			this.ExportToParMenuItem.Click += new System.EventHandler(this.ExportToPar_Click);
+			// 
+			// ExportToDatabaseMenuItem
+			// 
+			this.ExportToDatabaseMenuItem.Index = 0;
+			this.ExportToDatabaseMenuItem.Text = "Selected soil to another &database";
+			this.ExportToDatabaseMenuItem.Click += new System.EventHandler(this.ExportToAnother_Click);
+			// 
+			// ExportToAnother
+			// 
+			this.ExportToAnother.Index = 0;
+			this.ExportToAnother.Text = "To &another database";
+			this.ExportToAnother.Click += new System.EventHandler(this.ExportToAnother_Click);
+			// 
+			// ExportSoilsDialog
+			// 
+			this.ExportSoilsDialog.DefaultExt = "soils";
+			this.ExportSoilsDialog.Filter = "Soils database (*.soils)|*.soils";
+			this.ExportSoilsDialog.OverwritePrompt = false;
+			this.ExportSoilsDialog.Title = "Select a soils database file to send the selected soils to.";
 			// 
 			// MainForm
 			// 
@@ -612,6 +664,8 @@ namespace APSoil
 			{
 			if (e.Button == ImportButton)
 				ImportMenu.Show(this.ToolBar, new Point(ImportButton.Rectangle.Left, ImportButton.Rectangle.Bottom));
+			else if (e.Button == ExportButton)
+				ExportMenu.Show(this.ToolBar, new Point(ExportButton.Rectangle.Left, ExportButton.Rectangle.Bottom));
 			else if (e.Button == FileNewButton)
 				FileNew_Click(sender, e);
 			else if (e.Button == FileOpenButton)
@@ -650,15 +704,19 @@ namespace APSoil
 		void SetFunctionality(APSIMData CurrentData)
 			{
 			bool SomethingInTree = (Text != "APSoil");
-			FileSave.Enabled = SomethingInTree;
-			FileSaveButton.Enabled = SomethingInTree;
+			string CurrentFileName = Path.GetFileName(SoilExplorer.FileName).ToLower();
+			bool StandardSoils = (CurrentFileName == "standardsoils.soils" ||
+				                  CurrentFileName == "apsrusoils.soils");
+			bool CurrentNodeIsASoil = (CurrentData != null &&
+				                       CurrentData.Type.ToLower() == "soil");
+
+			FileSave.Enabled = SomethingInTree && !StandardSoils;
+			FileSaveButton.Enabled = SomethingInTree && !StandardSoils;
 			FileSaveAs.Enabled = SomethingInTree;
 			ImportButton.Enabled = SomethingInTree;
 			ImportMenuItem.Enabled = SomethingInTree;
-
-			bool CurrentNodeIsASoil = (CurrentData != null &&
-				                       CurrentData.Type.ToLower() == "soil");
-			Export.Enabled = CurrentNodeIsASoil;
+			ExportButton.Enabled = (SomethingInTree && CurrentNodeIsASoil);
+			ExportMenuItem.Enabled = (SomethingInTree && CurrentNodeIsASoil);
 			CheckForErrors.Enabled = SomethingInTree;
 			}
 
@@ -814,6 +872,30 @@ namespace APSoil
 				SortValue = "yes";
 			APSIMSettings.INIWrite(APSIMSettings.ApsimIniFile(), "soil", "SortByName", SortValue);
 			SoilExplorer.SortAll = SortMenuItem.Checked;
+			}
+
+		// ---------------------------------------------------
+		// User has selected to export to another database.
+		// ---------------------------------------------------
+		private void ExportToAnother_Click(object sender, System.EventArgs e)
+			{
+			if (ExportSoilsDialog.ShowDialog() == DialogResult.OK)	
+				{
+				APSIMData ForeignSoils;
+				if (!File.Exists(ExportSoilsDialog.FileName))
+					{
+					ForeignSoils = new APSIMData("soils", "");
+					}
+				else
+					{
+					ForeignSoils = new APSIMData();
+					ForeignSoils.LoadFromFile(ExportSoilsDialog.FileName);
+					}
+				ForeignSoils.Add(SoilExplorer.GetSelectedData());
+				ForeignSoils.SaveToFile(ExportSoilsDialog.FileName);
+				MessageBox.Show("Soils have been exported to: " + ExportSoilsDialog.FileName, "For your information", 
+					            MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
 			}
 
 

@@ -26,23 +26,23 @@
 							<TR>
 								<TD vAlign="top" align="left">
 									<DIV style="WIDTH: 720px; POSITION: relative; HEIGHT: 536px" ms_positioning="GridLayout">
-										<asp:Label id="lblUserName" style="Z-INDEX: 100; LEFT: 24px; POSITION: absolute; TOP: 176px"
+										<asp:Label id="lblUserName" style="Z-INDEX: 101; LEFT: 24px; POSITION: absolute; TOP: 176px"
 											runat="server" Height="16px" Width="80px" Font-Size="Small" ForeColor="Black" Font-Names="Arial">Username:</asp:Label>
-										<asp:TextBox id="edtUserName" style="Z-INDEX: 101; LEFT: 112px; POSITION: absolute; TOP: 176px"
+										<asp:TextBox id="edtUserName" style="Z-INDEX: 102; LEFT: 112px; POSITION: absolute; TOP: 176px"
 											tabIndex="1" runat="server" Height="24px" Width="144px"></asp:TextBox>
-										<asp:TextBox id="edtPassword" style="Z-INDEX: 102; LEFT: 112px; POSITION: absolute; TOP: 208px"
+										<asp:TextBox id="edtPassword" style="Z-INDEX: 103; LEFT: 112px; POSITION: absolute; TOP: 208px"
 											tabIndex="2" runat="server" TextMode="Password" Height="24px" Width="144px"></asp:TextBox>
-										<asp:Button id="btnLogin" style="Z-INDEX: 103; LEFT: 168px; POSITION: absolute; TOP: 240px"
+										<asp:Button id="btnLogin" style="Z-INDEX: 104; LEFT: 168px; POSITION: absolute; TOP: 240px"
 											tabIndex="3" runat="server" Height="32px" Width="81px" Font-Size="Smaller" Text="Login"></asp:Button>
-										<asp:Label id="lblPassword" style="Z-INDEX: 104; LEFT: 24px; POSITION: absolute; TOP: 216px"
+										<asp:Label id="lblPassword" style="Z-INDEX: 105; LEFT: 24px; POSITION: absolute; TOP: 216px"
 											runat="server" Height="16px" Width="72px" Font-Size="Small" ForeColor="Black" Font-Names="Arial">Password:</asp:Label>
-										<asp:Label id="lblHeading" style="Z-INDEX: 105; LEFT: 160px; POSITION: absolute; TOP: 16px"
+										<asp:Label id="lblHeading" style="Z-INDEX: 106; LEFT: 160px; POSITION: absolute; TOP: 16px"
 											runat="server" Font-Size="X-Large" ForeColor="Maroon" Font-Bold="True" Font-Names="Arial">Welcome to Yield Prophet®</asp:Label>
-										<asp:Label id="lblDescription" style="Z-INDEX: 106; LEFT: 32px; POSITION: absolute; TOP: 96px"
+										<asp:Label id="lblDescription" style="Z-INDEX: 107; LEFT: 32px; POSITION: absolute; TOP: 96px"
 											runat="server" Font-Size="Small" Font-Names="Arial">Yield Prophet® is an on-line crop production model designed to provide grain growers with real-time information about the crop during growth.</asp:Label>
-										<asp:LinkButton id="btnFeedback" style="Z-INDEX: 107; LEFT: 384px; POSITION: absolute; TOP: 64px"
+										<asp:LinkButton id="btnFeedback" style="Z-INDEX: 108; LEFT: 384px; POSITION: absolute; TOP: 64px"
 											runat="server" ForeColor="Maroon" Font-Bold="True" Font-Names="Arial">Feedback</asp:LinkButton>
-										<asp:LinkButton id="btnJoin" style="Z-INDEX: 108; LEFT: 280px; POSITION: absolute; TOP: 64px" runat="server"
+										<asp:LinkButton id="btnJoin" style="Z-INDEX: 109; LEFT: 280px; POSITION: absolute; TOP: 64px" runat="server"
 											ForeColor="Maroon" Font-Bold="True" Font-Names="Arial">Join</asp:LinkButton>
 										<asp:HyperLink id="hylContactUs" style="Z-INDEX: 110; LEFT: 520px; POSITION: absolute; TOP: 64px"
 											runat="server" Font-Size="Small" ForeColor="Maroon" Font-Bold="True" NavigateUrl="mailto:james.hunt@aanet.com.au"

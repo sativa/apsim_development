@@ -40,6 +40,9 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.DropDownList cboRowConfiguration;
 		protected System.Web.UI.WebControls.Label lblRowConfiguration;
 		protected System.Web.UI.WebControls.Label lblPopulationUnit;
+		protected System.Web.UI.WebControls.Label lblRowSpacing;
+		protected System.Web.UI.WebControls.TextBox edtRowSpacing;
+		protected System.Web.UI.WebControls.Label lblRowSpacingUnit;
 		protected System.Web.UI.WebControls.DropDownList cboCultivars;
 
 
@@ -233,6 +236,9 @@ namespace YieldProphet
 			lblPopulation.Visible = bSorgumComponentVisibility;
 			edtPopulation.Visible = bSorgumComponentVisibility;
 			lblPopulationUnit.Visible = bSorgumComponentVisibility;
+			lblRowSpacing.Visible = bSorgumComponentVisibility;
+			edtRowSpacing.Visible = bSorgumComponentVisibility;
+			lblRowSpacingUnit.Visible = bSorgumComponentVisibility;
 		}	
 		//-------------------------------------------------------------------------
 		//Saves the new paddock's details to the database and the 
@@ -242,7 +248,7 @@ namespace YieldProphet
 			{
 			if(edtName.Text != "" && edtName.Text != null)
 				{
-				if(cboCultivars.SelectedItem.Text != "" && (cboRowConfiguration.Visible == false || cboRowConfiguration.SelectedValue != "None") )
+				if(cboCultivars.SelectedItem.Text != "")
 					{
 					try
 						{
@@ -254,13 +260,13 @@ namespace YieldProphet
 								DataAccessClass.InsertPaddock(InputValidationClass.ValidateString(edtName.Text), 
 									(DateTime.ParseExact(grdSowDate.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
 									cboCultivars.SelectedItem.Text, Convert.ToInt32(chkTriazine.Checked), cboRowConfiguration.SelectedValue, 
-									ReturnPopulationValue(), Session["SelectedUserName"].ToString());
+									ReturnPopulationValue(), InputValidationClass.ReturnTextBoxValueAsDouble(edtRowSpacing, 0),Session["SelectedUserName"].ToString());
 								}
 							//Saves only the paddock name and consultant ID
 							else
 								{
 								DataAccessClass.InsertPaddock(InputValidationClass.ValidateString(edtName.Text), "", 
-									cboCultivars.SelectedItem.Text, 0, "None", 0, Session["SelectedUserName"].ToString());
+									cboCultivars.SelectedItem.Text, 0, "", 0, 0, Session["SelectedUserName"].ToString());
 								}
 							Server.Transfer("wfManageUsers.aspx");
 							}
@@ -295,7 +301,7 @@ namespace YieldProphet
 			{
 				if(InputValidationClass.IsInputAPositiveInteger(edtPopulation.Text))
 				{
-					iPopulation = Convert.ToInt32(edtPopulation.Text);
+					iPopulation = Convert.ToInt32(edtPopulation.Text) / 10000;
 				}
 			}
 			return iPopulation;

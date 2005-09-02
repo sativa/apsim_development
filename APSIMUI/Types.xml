@@ -1232,7 +1232,7 @@
      <SimMacro>
          <![CDATA[
          [comment] ################ canola ################ [endcomment]
-         <component name="[plant.name]" executable="%apsuite\apsim\canola\lib\canola.dll">
+         <component name="[plant.name]" executable="%apsuite\apsim\plant\lib\plant.dll">
             <initdata>
                <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
                [foreach area.soil as s]

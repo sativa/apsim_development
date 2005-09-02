@@ -225,9 +225,14 @@ namespace YieldProphet
 									edtProteinIncrement.Text, edtFertiliserCost.Text, edtApplicationCost.Text, 
 									ReturnScenarioDataTable(grdScenarioOne), ReturnScenarioDataTable(grdScenarioTwo), 
 									ReturnScenarioDataTable(grdScenarioThree));
+								string szReportXML = 
+									ReportClass.PrepareNitrogenProfitXML(edtReportName.Text, ViewState["ReportType"].ToString(),
+									cboClassification.SelectedValue, edtPrice.Text, edtProteinContent.Text, 
+									edtProteinIncrement.Text, edtFertiliserCost.Text, edtApplicationCost.Text,
+									grdScenarioOne, grdScenarioTwo, grdScenarioThree);
 								//Generate the files needed to generate a report and then email these files to the ApsimRun machine
 								if(EmailClass.SendReportEmail(szReportName, szCropType, 
-									ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], dtOtherValues) == true)
+									ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], szReportXML, dtOtherValues) == true)
 									{
 									Server.Transfer("wfReportGenerated.aspx");
 									}

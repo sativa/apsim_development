@@ -234,9 +234,13 @@ namespace YieldProphet
 								DataTable dtOtherValues = 
 									ReportClass.CreateFallowReportOtherValues(ReturnScenarioDataTable(grdNitrogen), 
 									cboVariety.SelectedValue, (DateTime.ParseExact(grdSowDate.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"));
+								string szReportXML = 
+									ReportClass.PrepareFallowXML(edtReportName.Text, ViewState["ReportType"].ToString(),
+									cboVariety.SelectedValue, grdSowDate.GetRow(0).Cells["SowDate"].Text, 
+									cboCrops.SelectedValue, grdNitrogen);
 								//Generate the files needed to generate a report and then email these files to the ApsimRun machine
 								if(EmailClass.SendReportEmail(edtReportName.Text, cboCrops.SelectedValue,  
-									ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], dtOtherValues) == true)
+									ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], szReportXML, dtOtherValues) == true)
 									{
 									Server.Transfer("wfReportGenerated.aspx");
 									}

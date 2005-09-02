@@ -6,6 +6,7 @@ using System.Web.UI;
 using CSGeneral;
 using VBGeneral;
 using System.Xml;
+using Janus.Web.GridEX;
 using System.Collections;
 using System.Collections.Specialized;
 
@@ -204,7 +205,7 @@ namespace YieldProphet
 		//files needed for a agronomic report to be generated
 		//-------------------------------------------------------------------------
 		public static StringCollection PrepareReportFiles(string szReportType, 
-			string szCropType, string szReportName, DataTable dtOtherValues)
+			string szCropType, string szReportName, string szReportXML, DataTable dtOtherValues)
 			{
 			StringCollection scAttachments = new StringCollection();
 			string szDirectoryLocation = HttpContext.Current.Server.MapPath("/YP/")+"Temp";
@@ -218,8 +219,8 @@ namespace YieldProphet
 			string szAPSIMReportName = DataAccessClass.GetAPSIMReportTemplateName(szCropType, szReportType);
 			string szConParReportName = DataAccessClass.GetConParReportTemplateName(szCropType, szReportType);
 			
-			CreateReportFile(szDirectoryLocation, szAPSIMReportName, szReportName, szReportType, dtOtherValues, ref scAttachments);
-			CreateReportFile(szDirectoryLocation, szConParReportName, szReportName, szReportType, dtOtherValues, ref scAttachments);
+			CreateReportFile(szDirectoryLocation, szAPSIMReportName, szReportName, szReportType, szReportXML, dtOtherValues, ref scAttachments);
+			CreateReportFile(szDirectoryLocation, szConParReportName, szReportName, szReportType, szReportXML, dtOtherValues, ref scAttachments);
 
 			CreateRainfallInformationFile(szDirectoryLocation, ref scAttachments);
 			CreateSoilFile(szDirectoryLocation, ref scAttachments);
@@ -235,7 +236,8 @@ namespace YieldProphet
 		//Creates the .report file for an agronomic report
 		//-----------------------------------------------------------------------
 		public static void CreateReportFile(string szDirectoryLocation, 
-			string szTemplateName, string szReportName, string szReportType, DataTable dtOtherValues, 
+			string szTemplateName, string szReportName, string szReportType, 
+			string szReportXML, DataTable dtOtherValues, 
 			ref StringCollection scAttachments)
 			{
 			//Gets the report template from the database
@@ -243,7 +245,7 @@ namespace YieldProphet
 			//Removes any place holders stored in the report template
 			szReportTemplate = SetUpTemplateTextForSaveToFile(szReportTemplate);
 			//Gets the data for the template, in XML format
-			string szReportXml = CreateReportXML(szReportName, szReportType, dtOtherValues);
+			string szReportXml = CreateReportXML(szReportName, szReportType, dtOtherValues, szReportXML);
 			VBGeneral.APSIMData APSIMReportData = new VBGeneral.APSIMData(szReportXml);
 
 			Macro mcReportFile = new Macro();
@@ -259,7 +261,8 @@ namespace YieldProphet
 		//Gets the data needed for the .con and .par files needed for any 
 		//report and stores it in a xml string.
 		//-------------------------------------------------------------------------						
-		public static string CreateReportXML(string szReportName, string szReportType, DataTable dtOtherValues)
+		public static string CreateReportXML(string szReportName, string szReportType, 
+			DataTable dtOtherValues, string szNewReportXML)
 			{	
 			//Gets the data needed for the xml string
 			DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());	
@@ -312,6 +315,18 @@ namespace YieldProphet
 			{
 				iMaxRootingDepth = Convert.ToInt32(dtPaddocksDetails.Rows[0]["RootingDepth"].ToString());
 			}
+			double dFertileTillerNumber = 0;
+			if(dtPaddocksDetails.Rows[0]["TillerNumber"].ToString() != null &&
+				dtPaddocksDetails.Rows[0]["TillerNumber"].ToString() != "")
+			{
+				dFertileTillerNumber = Convert.ToDouble(dtPaddocksDetails.Rows[0]["TillerNumber"].ToString());
+			}
+			double dRowSpacing = 0;
+			if(dtPaddocksDetails.Rows[0]["RowSpacing"].ToString() != null &&
+				dtPaddocksDetails.Rows[0]["RowSpacing"].ToString() != "")
+			{
+				dRowSpacing = Convert.ToInt32(dtPaddocksDetails.Rows[0]["RowSpacing"].ToString());
+			}
 
 			if(dtOtherValues == null)
 			{
@@ -334,6 +349,8 @@ namespace YieldProphet
 			AddValuesToTable("rowconfiguration", szRowConfiguration, ref dtOtherValues);	
 			AddValuesToTable("rootingdepth", iMaxRootingDepth.ToString(), ref dtOtherValues);
 			AddValuesToTable("population", iPopulation.ToString(), ref dtOtherValues);
+			AddValuesToTable("ftn", dFertileTillerNumber.ToString(), ref dtOtherValues);
+			AddValuesToTable("rowspacing", dRowSpacing.ToString(), ref dtOtherValues);
 			AddValuesToTable("stationname", szMetStationName, ref dtOtherValues);
 			AddValuesToTable("stationNumber", szMetStationNumber, ref dtOtherValues);
 			AddValuesToTable("resetdate", szResetDate, ref dtOtherValues);
@@ -421,8 +438,80 @@ namespace YieldProphet
 			//Convert all the data to xml string form
 			xmlRoot.AppendChild(xmlPaddock);	
 			string szReportXML = xmlDocSoilSample.OuterXml;
+			szReportXML = MergeXMLStrings(szReportXML, szNewReportXML);
 			return szReportXML;
 			}	
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		public static XmlNode CreatePaddockXML(string szReportName, string szReportType, 
+			XmlDocument xmlDocPaddock)
+		{
+			XmlNode xmlPaddock = xmlDocPaddock.CreateNode(XmlNodeType.Element, "YPPaddock", "");  
+
+			string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
+			XmlNode xmlPaddockAttribute = xmlDocPaddock.CreateNode(XmlNodeType.Attribute, "name", "");
+			xmlPaddockAttribute.Value = szPaddockName;
+			xmlPaddock.Attributes.SetNamedItem(xmlPaddockAttribute);
+
+			DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());	
+			string szUsersName =  dtUsersDetails.Rows[0]["Name"].ToString();
+			DataTable dtPaddocksDetails = DataAccessClass.GetDetailsOfPaddock(szPaddockName, FunctionsClass.GetActiveUserName());
+			DataTable dtSoilSample = DataAccessClass.GetPaddocksSoilSample("GridOne", szPaddockName, FunctionsClass.GetActiveUserName());
+			DataTable dtFertiliserApplications = DataAccessClass.GetPaddocksFertiliserApplications("Nitrogen", szPaddockName, FunctionsClass.GetActiveUserName());
+			DataTable dtIrrigationApplications = DataAccessClass.GetPaddocksIrrigationApplications(szPaddockName, FunctionsClass.GetActiveUserName());
+			DataTable dtClimateForcast = DataAccessClass.GetClimateForecast();
+			
+			AddStringNode("reporttype", szReportType, ref xmlPaddock, xmlDocPaddock);
+			AddStringNode("reportdescription", szReportName, ref xmlPaddock, xmlDocPaddock);
+			AddStringNode("growername", szUsersName, ref xmlPaddock, xmlDocPaddock);
+			AddStringNode("yesterday_date", DateTime.Today.AddDays(-1).ToString("dd/MM/yyyy"), ref xmlPaddock, xmlDocPaddock);
+			AddDateNode("start_growing_season_date", dtPaddocksDetails.Rows[0]["StartOfGrowingSeasonDate"].ToString(), ref xmlPaddock, xmlDocPaddock);
+			AddDateNode("resetdate", dtSoilSample.Rows[0]["SampleDate"].ToString(), ref xmlPaddock, xmlDocPaddock);
+			AddStringNode("soiphase", dtClimateForcast.Rows[0]["SoiPhase"].ToString(), ref xmlPaddock, xmlDocPaddock);
+			AddStringNode("soimonth", 	(DateTime.ParseExact("2005-"+dtClimateForcast.Rows[0]["SoiMonth"].ToString()+"-1","yyyy-M-d", null)).ToString("MMMM"), ref xmlPaddock, xmlDocPaddock);
+			AddStringNode("davidsyear1", dtClimateForcast.Rows[0]["DavidsYearOne"].ToString(), ref xmlPaddock, xmlDocPaddock);
+			AddStringNode("davidsyear2", dtClimateForcast.Rows[0]["DavidsYearTwo"].ToString(), ref xmlPaddock, xmlDocPaddock);
+			AddStringNode("davidsyear3", dtClimateForcast.Rows[0]["DavidsYearThree"].ToString(), ref xmlPaddock, xmlDocPaddock);
+			AddStringNode("davidsyear4", dtClimateForcast.Rows[0]["DavidsYearFour"].ToString(), ref xmlPaddock, xmlDocPaddock);
+			AddStringNode("davidsyear5", dtClimateForcast.Rows[0]["DavidsYearFive"].ToString(), ref xmlPaddock, xmlDocPaddock);
+			AddStringNode("soidescription", dtClimateForcast.Rows[0]["SoiDescription"].ToString(), ref xmlPaddock, xmlDocPaddock);
+			AddStringNode("davidsdescription", dtClimateForcast.Rows[0]["DavidsDescription"].ToString(), ref xmlPaddock, xmlDocPaddock);
+			
+			AddDayMonthNodesToNode(ref xmlPaddock, xmlDocPaddock);
+			return xmlPaddock;
+		}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private static XmlNode CreateScenarioReportXML(XmlDocument xmlDocPaddock, 
+			GridEX grdFertiliser, GridEX grdIrrigation)
+		{	
+			XmlNode xmlScenario = xmlDocPaddock.CreateNode(XmlNodeType.Element, "scenario", "");
+
+			string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
+			DataTable dtPaddocksDetails = DataAccessClass.GetDetailsOfPaddock(szPaddockName, FunctionsClass.GetActiveUserName());
+			
+			AddStringNode("region", dtPaddocksDetails.Rows[0]["RegionType"].ToString(), ref xmlScenario, xmlDocPaddock);
+			AddStringNode("stationname", dtPaddocksDetails.Rows[0]["MetStationName"].ToString(), ref xmlScenario, xmlDocPaddock);
+			AddStringNode("cultivar", dtPaddocksDetails.Rows[0]["CultivarType"].ToString(), ref xmlScenario, xmlDocPaddock);
+			AddStringNode("crop", dtPaddocksDetails.Rows[0]["CropType"].ToString(), ref xmlScenario, xmlDocPaddock);
+			AddStringNode("stationNumber", dtPaddocksDetails.Rows[0]["StationNumber"].ToString(), ref xmlScenario, xmlDocPaddock);
+			AddStringNode("rowconfiguration", dtPaddocksDetails.Rows[0]["RowConfigurationType"].ToString(), ref xmlScenario, xmlDocPaddock);
+			AddDateNode("sowdate", dtPaddocksDetails.Rows[0]["SowDate"].ToString(), ref xmlScenario, xmlDocPaddock);
+			AddNumericalNode("triazine", dtPaddocksDetails.Rows[0]["Triazine"].ToString(), ref xmlScenario, xmlDocPaddock);
+			AddNumericalNode("population", dtPaddocksDetails.Rows[0]["Population"].ToString(), ref xmlScenario, xmlDocPaddock);
+			AddNumericalNode("rootingdepth", dtPaddocksDetails.Rows[0]["RootingDepth"].ToString(), ref xmlScenario, xmlDocPaddock);
+			AddNumericalNode("ftn", dtPaddocksDetails.Rows[0]["TillerNumber"].ToString(), ref xmlScenario, xmlDocPaddock);
+			AddNumericalNode("rowspacing", dtPaddocksDetails.Rows[0]["RowSpacing"].ToString(), ref xmlScenario, xmlDocPaddock);
+			
+			AddDayMonthNodesToNode(ref xmlScenario, xmlDocPaddock);
+			AddFertiliserNodes(grdFertiliser, ref xmlScenario, xmlDocPaddock);
+			AddIrrigationNodes(grdIrrigation, ref xmlScenario, xmlDocPaddock);
+
+			
+			return xmlScenario;
+		}
 		//-------------------------------------------------------------------------
 		#endregion
 		
@@ -452,6 +541,7 @@ namespace YieldProphet
 				SoilSample PaddockSoilSample = new SoilSample(new APSIMData(szSoilSampleOneXml));
 				PaddockSoilSample.LinkedSoil = PaddockSoil;
 				PaddockSoil.InitialWater.SetUsingLayered(PaddockSoilSample.SWMapedToSoil);
+				BoundSWValuesInSample(PaddockSoil);
 				PaddockSoil.InitialNitrogen.NO3 = PaddockSoilSample.NO3MapedToSoil;
 				PaddockSoil.InitialNitrogen.NH4 = PaddockSoilSample.NH4MapedToSoil;
 				}
@@ -472,6 +562,22 @@ namespace YieldProphet
 			PaddockSoil.ExportToPar(FullSoilFileName);
 			scAttachments.Add(FullSoilFileName);
 			}	
+
+
+		static public void BoundSWValuesInSample(Soil S)
+			{	
+			double[] sw = S.InitialWater.SW;
+			double[] airdry = S.Airdry;
+			double[] sat = S.SAT;
+
+			for (int i = 0; i != sw.Length; i++)
+				{
+				sw[i] = Math.Max(sw[i], airdry[i]);
+				sw[i] = Math.Min(sw[i], sat[i]);
+				}
+			S.InitialWater.SetUsingLayered(sw);
+			}
+
 		#endregion
 
 
@@ -600,6 +706,31 @@ namespace YieldProphet
 
 
 
+		#region Agronomic and Climate Report Functions
+		//---------------------------------------------------------------------------
+		//Prepares the xml string to be used in all basic reports such as the climate
+		//report and the agronomic report
+		//---------------------------------------------------------------------------
+		public static string PrepareBasicReportXML(string szReportName, string szReportType)
+		{
+			string szReportXML = "";
+			XmlDocument xmlDocPaddock = new XmlDocument();
+			xmlDocPaddock.LoadXml("<Paddocks></Paddocks>"); 
+			XmlElement xmlRoot = xmlDocPaddock.DocumentElement;
+
+			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock);
+			XmlNode xmlScenario = CreateScenarioReportXML(xmlDocPaddock, null, null);
+			
+			xmlPaddock.AppendChild(xmlScenario);
+			xmlRoot.AppendChild(xmlPaddock);	
+			szReportXML = xmlDocPaddock.OuterXml;
+			return szReportXML;
+		}
+		//---------------------------------------------------------------------------
+		#endregion 
+
+
+
 		#region Nitrogen Comparision Report Functions
 		//-------------------------------------------------------------------------
 		//
@@ -699,6 +830,29 @@ namespace YieldProphet
 				}
 			return dtOtherValues;
 			}	
+		//---------------------------------------------------------------------------
+		//Prepares the xml string to be used in the nitrogen comparison report
+		//---------------------------------------------------------------------------
+		public static string PrepareNitrogenComparisonXML(string szReportName, string szReportType,
+			GridEX grdNitrogenOne, GridEX grdNitrogenTwo, GridEX grdNitrogenThree)
+		{
+			string szReportXML = "";
+			XmlDocument xmlDocPaddock = new XmlDocument();
+			xmlDocPaddock.LoadXml("<Paddocks></Paddocks>"); 
+			XmlElement xmlRoot = xmlDocPaddock.DocumentElement;
+
+			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock);
+			XmlNode xmlScenarioOne = CreateScenarioReportXML(xmlDocPaddock, grdNitrogenOne, null);
+			XmlNode xmlScenarioTwo = CreateScenarioReportXML(xmlDocPaddock, grdNitrogenTwo, null);
+			XmlNode xmlScenarioThree = CreateScenarioReportXML(xmlDocPaddock, grdNitrogenThree, null);
+			
+			xmlPaddock.AppendChild(xmlScenarioOne);
+			xmlPaddock.AppendChild(xmlScenarioTwo);
+			xmlPaddock.AppendChild(xmlScenarioThree);
+			xmlRoot.AppendChild(xmlPaddock);	
+			szReportXML = xmlDocPaddock.OuterXml;
+			return szReportXML;
+		}
 		//-------------------------------------------------------------------------
 		#endregion
 		
@@ -785,6 +939,56 @@ namespace YieldProphet
 			}
 			return dtOtherValues;
 		}	
+		//---------------------------------------------------------------------------
+		//Prepares the xml string to be used in the nitrogen profit report
+		//---------------------------------------------------------------------------
+		public static string PrepareNitrogenProfitXML(string szReportName, string szReportType,
+			string szClassification, string szPrice, string szProteinContent, string szProteinIncrement, 
+			string szFertiliserCost, string szApplicationCost, GridEX grdNitrogenOne, 
+			GridEX grdNitrogenTwo, GridEX grdNitrogenThree)
+		{
+			string szReportXML = "";
+			XmlDocument xmlDocPaddock = new XmlDocument();
+			xmlDocPaddock.LoadXml("<Paddocks></Paddocks>"); 
+			XmlElement xmlRoot = xmlDocPaddock.DocumentElement;
+
+			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock);
+
+			XmlNode xmlScenarioOne = CreateScenarioReportXML(xmlDocPaddock, grdNitrogenOne, null);
+			AddNitrogenProfitScenarioNodes(szClassification, szPrice, szProteinContent, 
+				szProteinIncrement, szFertiliserCost, szApplicationCost, ref xmlScenarioOne, xmlDocPaddock);
+
+			XmlNode xmlScenarioTwo = CreateScenarioReportXML(xmlDocPaddock, grdNitrogenTwo, null);
+			AddNitrogenProfitScenarioNodes(szClassification, szPrice, szProteinContent, 
+				szProteinIncrement, szFertiliserCost, szApplicationCost, ref xmlScenarioTwo, xmlDocPaddock);
+
+			XmlNode xmlScenarioThree = CreateScenarioReportXML(xmlDocPaddock, grdNitrogenThree, null);
+			AddNitrogenProfitScenarioNodes(szClassification, szPrice, szProteinContent, 
+				szProteinIncrement, szFertiliserCost, szApplicationCost, ref xmlScenarioThree, xmlDocPaddock);
+			
+			xmlPaddock.AppendChild(xmlScenarioOne);
+			xmlPaddock.AppendChild(xmlScenarioTwo);
+			xmlPaddock.AppendChild(xmlScenarioThree);
+
+			xmlRoot.AppendChild(xmlPaddock);	
+			szReportXML = xmlDocPaddock.OuterXml;
+			return szReportXML;
+		}
+		//---------------------------------------------------------------------------
+		//Add additional scenario information required by the nitrogen profit report
+		//---------------------------------------------------------------------------
+		private static void AddNitrogenProfitScenarioNodes(string szClassification, 
+			string szPrice, string szProteinContent, string szProteinIncrement, 
+			string szFertiliserCost, string szApplicationCost, ref XmlNode xmlScenario, 
+			XmlDocument xmlDocPaddock)
+		{
+			AddStringNode("classification", szClassification, ref xmlScenario, xmlDocPaddock);
+			AddStringNode("cropprice", szPrice, ref xmlScenario, xmlDocPaddock);
+			AddStringNode("minproteincontent", szProteinContent, ref xmlScenario, xmlDocPaddock);
+			AddStringNode("proteinincrementpay", szProteinIncrement, ref xmlScenario, xmlDocPaddock);
+			AddStringNode("nitrogencost", szFertiliserCost, ref xmlScenario, xmlDocPaddock);
+			AddStringNode("applicationcost", szApplicationCost, ref xmlScenario, xmlDocPaddock);
+		}
 		//-------------------------------------------------------------------------
 		#endregion
 		
@@ -879,6 +1083,63 @@ namespace YieldProphet
 				}
 			return dtOtherValues;
 			}	
+		//---------------------------------------------------------------------------
+		//Prepares the xml string to be used in the sowing x variety report
+		//---------------------------------------------------------------------------
+		public static string PrepareSowingXVarietyXML(string szReportName, string szReportType,
+			string szVarietyOne, string szSowingDateOne, string szVarietyTwo, string szSowingDateTwo,
+			string szVarietyThree, string szSowingDateThree, string szCropType, GridEX grdNitrogen)
+		{
+			string szReportXML = "";
+			XmlDocument xmlDocPaddock = new XmlDocument();
+			xmlDocPaddock.LoadXml("<Paddocks></Paddocks>"); 
+			XmlElement xmlRoot = xmlDocPaddock.DocumentElement;
+
+			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock);
+
+			XmlNode xmlScenarioOne = CreateScenarioReportXML(xmlDocPaddock, grdNitrogen, null);
+			EditSowingXVarietyScenarioNodes(szVarietyOne, szSowingDateOne, szCropType, ref xmlScenarioOne, xmlDocPaddock);
+
+			XmlNode xmlScenarioTwo = CreateScenarioReportXML(xmlDocPaddock, grdNitrogen, null);
+			EditSowingXVarietyScenarioNodes(szVarietyTwo, szSowingDateTwo, szCropType, ref xmlScenarioTwo, xmlDocPaddock);
+
+			XmlNode xmlScenarioThree = CreateScenarioReportXML(xmlDocPaddock, grdNitrogen, null);
+			EditSowingXVarietyScenarioNodes(szVarietyThree, szSowingDateThree, szCropType, ref xmlScenarioThree, xmlDocPaddock);
+			
+			xmlPaddock.AppendChild(xmlScenarioOne);
+			xmlPaddock.AppendChild(xmlScenarioTwo);
+			xmlPaddock.AppendChild(xmlScenarioThree);
+
+			xmlRoot.AppendChild(xmlPaddock);	
+			szReportXML = xmlDocPaddock.OuterXml;
+			return szReportXML;
+		}
+		//---------------------------------------------------------------------------
+		//Add additional scenario information required by the nitrogen profit report
+		//---------------------------------------------------------------------------
+		private static void EditSowingXVarietyScenarioNodes(string szVariety, 
+			string szSowingDate, string szCropType, ref XmlNode xmlScenario, 
+			XmlDocument xmlDocPaddock)
+		{
+			foreach(XmlNode xmlChildNode in xmlScenario.ChildNodes)
+			{
+				switch(xmlChildNode.Name)
+				{
+					case "cultivar":
+						xmlChildNode.InnerText = szVariety;
+						break;
+					case "crop":
+						xmlChildNode.InnerText = szCropType;
+						break;
+					case "sowdate":
+						xmlChildNode.InnerText = szSowingDate;
+						break;
+					case "sowdaymonth":
+						xmlChildNode.InnerText = DateTime.ParseExact(szSowingDate, "dd/MM/yyyy", null).ToString("dd-MMM");
+						break;
+				}
+			}
+		}
 		//-------------------------------------------------------------------------
 		#endregion
 
@@ -942,6 +1203,54 @@ namespace YieldProphet
 			}
 			return dtOtherValues;
 		}	
+		//---------------------------------------------------------------------------
+		//Prepares the xml string to be used in the fallow report
+		//---------------------------------------------------------------------------
+		public static string PrepareFallowXML(string szReportName, string szReportType,
+			string szVariety, string szSowingDate, string szCropType, GridEX grdNitrogen)
+		{
+			string szReportXML = "";
+			XmlDocument xmlDocPaddock = new XmlDocument();
+			xmlDocPaddock.LoadXml("<Paddocks></Paddocks>"); 
+			XmlElement xmlRoot = xmlDocPaddock.DocumentElement;
+
+			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock);
+
+			XmlNode xmlScenario = CreateScenarioReportXML(xmlDocPaddock, grdNitrogen, null);
+			EditFallowScenarioNodes(szVariety, szSowingDate, szCropType, ref xmlScenario, xmlDocPaddock);
+			
+			xmlPaddock.AppendChild(xmlScenario);
+
+			xmlRoot.AppendChild(xmlPaddock);	
+			szReportXML = xmlDocPaddock.OuterXml;
+			return szReportXML;
+		}
+		//---------------------------------------------------------------------------
+		//Edit existing scenario information for fallow report
+		//---------------------------------------------------------------------------
+		private static void EditFallowScenarioNodes(string szVariety, 
+			string szSowingDate, string szCropType, ref XmlNode xmlScenario, 
+			XmlDocument xmlDocPaddock)
+		{
+			foreach(XmlNode xmlChildNode in xmlScenario.ChildNodes)
+			{
+				switch(xmlChildNode.Name)
+				{
+					case "cultivar":
+						xmlChildNode.InnerText = szVariety;
+						break;
+					case "crop":
+						xmlChildNode.InnerText = szCropType;
+						break;
+					case "sowdate":
+						xmlChildNode.InnerText = szSowingDate;
+						break;
+					case "sowdaymonth":
+						xmlChildNode.InnerText = DateTime.ParseExact(szSowingDate, "dd/MM/yyyy", null).ToString("dd-MMM");
+						break;
+				}
+			}
+		}
 		//-------------------------------------------------------------------------
 		#endregion
 
@@ -1044,6 +1353,30 @@ namespace YieldProphet
 			}
 			return dtOtherValues;
 		}	
+		//---------------------------------------------------------------------------
+		//Prepares the xml string to be used in the irrigation comparison report
+		//---------------------------------------------------------------------------
+		public static string PrepareIrrigationComparisonXML(string szReportName, string szReportType,
+			GridEX grdNitrogenOne, GridEX grdIrrigationOne, GridEX grdNitrogenTwo, GridEX grdIrrigationTwo, 
+			GridEX grdNitrogenThree, GridEX grdIrrigationThree)
+		{
+			string szReportXML = "";
+			XmlDocument xmlDocPaddock = new XmlDocument();
+			xmlDocPaddock.LoadXml("<Paddocks></Paddocks>"); 
+			XmlElement xmlRoot = xmlDocPaddock.DocumentElement;
+
+			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock);
+			XmlNode xmlScenarioOne = CreateScenarioReportXML(xmlDocPaddock, grdNitrogenOne, grdIrrigationOne);
+			XmlNode xmlScenarioTwo = CreateScenarioReportXML(xmlDocPaddock, grdNitrogenTwo, grdIrrigationTwo);
+			XmlNode xmlScenarioThree = CreateScenarioReportXML(xmlDocPaddock, grdNitrogenThree, grdIrrigationThree);
+			
+			xmlPaddock.AppendChild(xmlScenarioOne);
+			xmlPaddock.AppendChild(xmlScenarioTwo);
+			xmlPaddock.AppendChild(xmlScenarioThree);
+			xmlRoot.AppendChild(xmlPaddock);	
+			szReportXML = xmlDocPaddock.OuterXml;
+			return szReportXML;
+		}
 		//-------------------------------------------------------------------------
 		#endregion
 
@@ -1072,6 +1405,148 @@ namespace YieldProphet
 			dtOtherValues.Rows.Add(drOtherValue);
 		}
 		//---------------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------------
+		private static void AddStringNode(string szNodeName, string szNodeValue,
+			ref XmlNode xmlMainNode, XmlDocument xmlDoc)
+		{
+			XmlNode xmlNewNode = xmlDoc.CreateNode(XmlNodeType.Element, szNodeName, "");  
+			xmlNewNode.InnerText = szNodeValue;	
+			xmlMainNode.AppendChild(xmlNewNode);	
+		}
+		//---------------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------------
+		private static void AddNumericalNode(string szNodeName, string szNodeValue,
+			ref XmlNode xmlPaddock, XmlDocument xmlDocPaddock)
+		{
+			if(szNodeValue == "" || InputValidationClass.IsInputADecimal(szNodeValue) == false)
+			{
+				szNodeValue = "0";
+			}
+			AddStringNode(szNodeName, szNodeValue, ref xmlPaddock, xmlDocPaddock);
+		}
+		//---------------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------------
+		private static void AddDateNode(string szNodeName, string szNodeValue,
+			ref XmlNode xmlPaddock, XmlDocument xmlDocPaddock)
+		{
+			if(szNodeValue != "")
+			{
+				szNodeValue = (DateTime.ParseExact(szNodeValue, "yyyy-MM-dd", null)).ToString("dd/MM/yyyy");
+			}
+			AddStringNode(szNodeName, szNodeValue, ref xmlPaddock, xmlDocPaddock);
+		}
+		//---------------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------------
+		private static void AddDayMonthNodesToNode(ref XmlNode xmlSingleNode, XmlDocument xmlDoc)
+		{
+			foreach(XmlNode xmlChildNode in xmlSingleNode.ChildNodes)
+			{
+				if(xmlChildNode.Name.IndexOf("date") != -1)
+				{
+					XmlNode xmlNewNode = xmlDoc.CreateNode(XmlNodeType.Element, xmlChildNode.Name.Replace("date", "daymonth"), "");  
+					xmlNewNode.InnerText = DateTime.ParseExact(xmlChildNode.InnerText, "dd/MM/yyyy", null).ToString("dd-MMM");	
+					xmlSingleNode.AppendChild(xmlNewNode);	
+				}
+			}
+		}
+		//---------------------------------------------------------------------------
+		private static string MergeXMLStrings(string szOldReportXML, string szNewReportXML)
+		{
+			string szReportXML;
+			szNewReportXML = szNewReportXML.Replace("<Paddocks>", "");
+			szNewReportXML = szNewReportXML.Replace("</Paddocks>", "");
+
+			int iEndOfNodeIndex = szOldReportXML.IndexOf("</Paddocks>");
+			szReportXML = szOldReportXML.Insert(iEndOfNodeIndex, szNewReportXML);
+			return szReportXML;
+		}
+
+		#endregion
+
+
+
+		#region Grid Functions
+		//---------------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------------
+		private static void AddFertiliserNodes(GridEX grdFertilser, ref XmlNode xmlScenario, 
+			XmlDocument xmlDoc)
+		{	
+			XmlNode xmlFertilise;
+			
+			string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
+			DataTable dtFertiliserApplications = DataAccessClass.GetPaddocksFertiliserApplications("Nitrogen", szPaddockName, FunctionsClass.GetActiveUserName());
+			foreach(DataRow drNitrogenApplication in dtFertiliserApplications.Rows)
+			{
+				xmlFertilise = xmlDoc.CreateNode(XmlNodeType.Element, "fertilise", ""); 
+				AddDateNode("date", drNitrogenApplication["ApplicationDate"].ToString(), ref xmlFertilise, xmlDoc); 
+				AddStringNode("rate", drNitrogenApplication["Rate"].ToString(), ref xmlFertilise, xmlDoc);
+				AddDayMonthNodesToNode(ref xmlFertilise, xmlDoc);
+				xmlScenario.AppendChild(xmlFertilise);
+			}
+
+			if(grdFertilser != null)
+			{
+				Janus.Web.GridEX.GridEXRow grdRow;
+				for(int iIndex = 0; iIndex < grdFertilser.RowCount; iIndex++)
+				{
+					grdRow = grdFertilser.GetRow(iIndex);
+					//If there is data in the dataTable then save it to the database
+					if(grdRow.Cells["Rate"].Value != null && grdRow.Cells["ApplicationDate"].Value != null)
+					{
+						xmlFertilise = xmlDoc.CreateNode(XmlNodeType.Element, "fertilise", ""); 
+						AddStringNode("date", grdRow.Cells["ApplicationDate"].Text, ref xmlFertilise, xmlDoc); 
+						AddStringNode("rate", grdRow.Cells["Rate"].Text, ref xmlFertilise, xmlDoc);
+						AddDayMonthNodesToNode(ref xmlFertilise, xmlDoc);
+						xmlScenario.AppendChild(xmlFertilise);
+					}
+				}
+			}
+		}
+		//---------------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------------
+		private static void AddIrrigationNodes(GridEX grdIrrigation, ref XmlNode xmlScenario, 
+			XmlDocument xmlDoc)
+		{	
+			XmlNode xmlIrrigation;
+			
+			string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
+			DataTable dtIrrigationApplications = DataAccessClass.GetPaddocksIrrigationApplications(szPaddockName, FunctionsClass.GetActiveUserName());
+			foreach(DataRow drIrrigationApplication in dtIrrigationApplications.Rows)
+			{
+				xmlIrrigation = xmlDoc.CreateNode(XmlNodeType.Element, "irrigate", ""); 
+				AddDateNode("date", drIrrigationApplication["ApplicationDate"].ToString(), ref xmlIrrigation, xmlDoc); 
+				AddStringNode("rate", drIrrigationApplication["Amount"].ToString(), ref xmlIrrigation, xmlDoc);
+				AddStringNode("efficency", drIrrigationApplication["Efficency"].ToString(), ref xmlIrrigation, xmlDoc);
+				AddDayMonthNodesToNode(ref xmlIrrigation, xmlDoc);
+				xmlScenario.AppendChild(xmlIrrigation);
+			}
+
+			if(grdIrrigation != null)
+			{
+				Janus.Web.GridEX.GridEXRow grdRow;
+				for(int iIndex = 0; iIndex < grdIrrigation.RowCount; iIndex++)
+				{
+					grdRow = grdIrrigation.GetRow(iIndex);
+					//If there is data in the dataTable then save it to the database
+					if(grdRow.Cells["Amount"].Value != null && grdRow.Cells["Date"].Value != null && 
+						grdRow.Cells["Efficency"].Value != null)
+					{
+						xmlIrrigation = xmlDoc.CreateNode(XmlNodeType.Element, "irrigate", ""); 
+						AddStringNode("date", grdRow.Cells["Date"].Text, ref xmlIrrigation, xmlDoc); 
+						AddStringNode("rate", grdRow.Cells["Amount"].Text, ref xmlIrrigation, xmlDoc);
+						AddStringNode("efficency", grdRow.Cells["Efficency"].Text, ref xmlIrrigation, xmlDoc);
+						AddDayMonthNodesToNode(ref xmlIrrigation, xmlDoc);
+						xmlScenario.AppendChild(xmlIrrigation);
+					}
+				}
+			}
+		}
 		#endregion
 		
 		

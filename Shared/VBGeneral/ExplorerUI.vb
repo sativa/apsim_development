@@ -144,14 +144,10 @@ Public Class ExplorerUI
     ' ----------------------------------------------
     ' Provide access to our datahaschanged property
     ' ----------------------------------------------
-    Public Property DataHasChanged() As Boolean
-        Get
-            Return MyDataHasChanged
-        End Get
-        Set(ByVal Value As Boolean)
-            MyDataHasChanged = Value
-        End Set
-    End Property
+    Private Sub DataHasChanged()
+        MyDataHasChanged = True
+        UpdateCaption()
+    End Sub
 
 
     ' ------------------------------------------------
@@ -163,10 +159,12 @@ Public Class ExplorerUI
         End Get
         Set(ByVal Value As APSIMData)
             Try
+                AddHandler Value.DataChanged, AddressOf DataHasChanged
                 MyBase.Data = Value
                 DataTree.Data = MyBase.Data
                 CloseUI()
-                'MyDataHasChanged = True
+                MyDataHasChanged = False
+                UpdateCaption()
             Catch Err As System.Exception
                 MsgBox(Err.Message, MsgBoxStyle.Critical, "Error")
             End Try
@@ -224,13 +222,13 @@ Public Class ExplorerUI
     ' specified user interface type.
     ' -------------------------------------------------
     Sub ShowUI(ByVal Data As APSIMData)
+        CloseUI()
         Dim UI As BaseUI = MyApplicationSettings.CreateUI(Data.Type)
         If Not IsNothing(UI) Then
             UI.Explorer = Me
             UI.Data = Data
             ShowUI(UI)
         Else
-            CloseUI()
             CurrentUI = Nothing
         End If
     End Sub
@@ -275,9 +273,8 @@ Public Class ExplorerUI
         If DoSaveAfterPrompt() Then
             Data = DataToUse
             MyFileName = "Untitled" + MyExtension
-            UpdateCaption()
-            MyDataHasChanged = True
             RaiseEvent AfterFileOpenEvent()
+            DataHasChanged()
         End If
     End Sub
 
@@ -289,8 +286,6 @@ Public Class ExplorerUI
     Public Sub FileNew(ByVal FileName As String)
         If FileOpen(FileName) Then
             MyFileName = "Untitled" + MyExtension
-            UpdateCaption()
-            MyDataHasChanged = True
         End If
     End Sub
 
@@ -303,10 +298,10 @@ Public Class ExplorerUI
         If FileData.LoadFromFile(FileName) Then
             Data = FileData
             MyFileName = FileName
-            UpdateCaption()
             AddFileToFrequentList(MyFileName)
-            MyDataHasChanged = True
+            MyDataHasChanged = False
             RaiseEvent AfterFileOpenEvent()
+            UpdateCaption()
             Return True
         Else
             Return False
@@ -350,9 +345,9 @@ Public Class ExplorerUI
         Else
             RaiseEvent BeforeFileSaveEvent()
             Data.SaveToFile(MyFileName)
-            UpdateCaption()
             AddFileToFrequentList(MyFileName)
-            MyDataHasChanged = True
+            MyDataHasChanged = False
+            UpdateCaption()
             Return True
         End If
     End Function
@@ -386,11 +381,11 @@ Public Class ExplorerUI
     ' ----------------------------------------
     Private Sub UpdateCaption()
         If Not IsNothing(MyParentForm) Then
-            'If MyDataHasChanged Then
-            'MyParentForm.Text = BaseName + " - " + MyFileName + "*"
-            'Else
-            MyParentForm.Text = BaseName + " - " + MyFileName
-            'End If
+            If MyDataHasChanged Then
+                MyParentForm.Text = BaseName + " - " + MyFileName + "*"
+            Else
+                MyParentForm.Text = BaseName + " - " + MyFileName
+            End If
         End If
     End Sub
 
@@ -550,6 +545,7 @@ Public Class ExplorerUI
         If Not IsNothing(CurrentUI) Then
             CurrentUI.Refresh()
         End If
+        DataHasChanged()
     End Sub
 
 End Class
