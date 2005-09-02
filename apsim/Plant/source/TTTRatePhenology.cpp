@@ -10,6 +10,30 @@
 
 
 
+float TTTRatePhenology::TT(const environment_t &e)
+   {
+      if (inPhase("reproductive"))
+         {
+
+          return linint_3hrly_temp (e.maxt, e.mint, &y_tt_post_anthesis);
+         }
+      else
+         {
+            return linint_3hrly_temp (e.maxt, e.mint, &y_tt);
+         }
+   }
+
+void TTTRatePhenology::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
+   {
+   TTTPhenology::readSpeciesParameters (s, sections);
+
+   y_tt_post_anthesis.search(s, sections,
+               "x_temp_post_anthesis", "oC", 0.0, 100.0,
+               "y_tt_post_anthesis", "oC days", 0.0, 100.0);
+
+
+   }
+
 // dynamic TT targets
 void TTTRatePhenology::updateTTTargets(const environment_t &e)
    {
