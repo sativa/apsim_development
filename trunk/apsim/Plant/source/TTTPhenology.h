@@ -49,7 +49,7 @@ class TTTPhenology : public CropPhenology {
 
 
    void onRemoveBiomass(float removeBiomPheno);
-
+   virtual float TT(const environment_t &e);
    float get_dlt_tt(void) {return dlt_tt;};                          // XX remove when leaves are finished
 
    void zeroAllGlobals(void);

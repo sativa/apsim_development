@@ -182,7 +182,10 @@ void TTTPhenology::writeCultivarInfo (PlantComponent *systemInterface)
    systemInterface->writeString (s.c_str());
    }
 
-
+float TTTPhenology::TT(const environment_t &e)
+   {
+        return linint_3hrly_temp (e.maxt, e.mint, &y_tt);
+   }
 
 //+  Purpose
 //     Use temperature, photoperiod and genetic characteristics
@@ -193,7 +196,7 @@ void TTTPhenology::process (const environment_t &e, const pheno_stress_t &ps)
    {
    float phase_devel, new_stage;
 
-   dlt_tt = linint_3hrly_temp (e.maxt, e.mint, &y_tt);
+   dlt_tt = TT(e);
 
    if (inPhase("sowing"))
       {
