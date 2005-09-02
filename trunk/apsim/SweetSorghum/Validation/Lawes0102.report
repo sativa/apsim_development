@@ -686,10 +686,10 @@ object data: TForm
   end
 end
 object TQuickRep
-  Left = 223
-  Top = 64
-  Width = 571
-  Height = 739
+  Left = 306
+  Top = 0
+  Width = 653
+  Height = 845
   Frame.Color = clBlack
   Frame.DrawTop = False
   Frame.DrawBottom = False
@@ -730,12 +730,12 @@ object TQuickRep
   PrintIfEmpty = True
   SnapToGrid = True
   Units = MM
-  Zoom = 70
+  Zoom = 80
   object TitleBand1: TQRBand
     Left = 0
     Top = 0
-    Width = 571
-    Height = 739
+    Width = 653
+    Height = 845
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -747,13 +747,13 @@ object TQuickRep
     ForceNewPage = False
     Size.Values = (
       2794
-      2158.24404761905)
+      2159.66145833333)
     BandType = rbTitle
     object Shape1: TShape
       Left = -2
       Top = -2
-      Width = 64
-      Height = 736
+      Width = 73
+      Height = 841
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -770,10 +770,10 @@ object TQuickRep
       Shape = qrsRectangle
     end
     object Graph1: TGraph
-      Left = 169
-      Top = 101
-      Width = 371
-      Height = 169
+      Left = 193
+      Top = 115
+      Width = 424
+      Height = 193
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -960,10 +960,10 @@ object TQuickRep
       end
     end
     object Graph2: TGraph
-      Left = 161
-      Top = 294
-      Width = 379
-      Height = 186
+      Left = 184
+      Top = 336
+      Width = 433
+      Height = 213
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1281,10 +1281,10 @@ object TQuickRep
       end
     end
     object Graph3: TGraph
-      Left = 164
-      Top = 507
-      Width = 376
-      Height = 203
+      Left = 187
+      Top = 579
+      Width = 430
+      Height = 232
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1600,20 +1600,20 @@ object TQuickRep
       end
     end
     object Text1: TText
-      Left = 121
-      Top = 38
-      Width = 391
-      Height = 23
+      Left = 137
+      Top = 43
+      Width = 446
+      Height = 27
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        86.9345238095238
-        457.35119047619
-        143.630952380952
-        1477.8869047619)
+        89.296875
+        453.098958333333
+        142.213541666667
+        1475.05208333333)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -1633,20 +1633,20 @@ object TQuickRep
       FontSize = 20
     end
     object Text2: TText
-      Left = 195
-      Top = 83
-      Width = 81
-      Height = 16
+      Left = 223
+      Top = 95
+      Width = 93
+      Height = 19
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        60.4761904761905
-        737.053571428571
-        313.720238095238
-        306.160714285714)
+        62.8385416666667
+        737.526041666667
+        314.192708333333
+        307.578125)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -1666,20 +1666,20 @@ object TQuickRep
       FontSize = 14
     end
     object Text3: TText
-      Left = 193
-      Top = 278
-      Width = 94
-      Height = 16
+      Left = 221
+      Top = 319
+      Width = 107
+      Height = 19
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        60.4761904761905
-        729.494047619048
-        1050.77380952381
-        355.297619047619)
+        62.8385416666667
+        730.911458333333
+        1055.02604166667
+        353.880208333333)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -1699,20 +1699,20 @@ object TQuickRep
       FontSize = 14
     end
     object Text4: TText
-      Left = 195
-      Top = 493
-      Width = 153
-      Height = 16
+      Left = 223
+      Top = 563
+      Width = 175
+      Height = 19
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        60.4761904761905
-        737.053571428571
-        1863.42261904762
-        578.303571428571)
+        62.8385416666667
+        737.526041666667
+        1862.00520833333
+        578.776041666667)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
