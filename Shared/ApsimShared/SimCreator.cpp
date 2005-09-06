@@ -148,6 +148,7 @@ class ImportSection
             stripComments(line);
             //getKeyNameValueUnits(line, key, value, units);
             getKeyNameAndValue(line, key, value);
+            To_lower(key);
             if (key != "")
                {
                if (Str_i_Eq(key, "variable"))
