@@ -1,0 +1,1002 @@
+<simulations name="untitled" version="2">
+  <simulation name="GreenBelt1997">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">1/03/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">10/09/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">GreenBelt1997.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\development\apsim\Broccoli\Validation\DPI9798.met</filename>
+    </metfile>
+    <area name="Planting1">
+      <registrations name="global" />
+      <manager name="Manager">
+        <rule name="Sowing fertiliser">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+      if (today = date('[date]') then
+                    [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+        endif
+               </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="11-mar" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="6" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+          </category>
+        </rule>
+        <rule name="Harvest on a fixed date">
+          <condition name="start_of_day">
+        if (today = date('[date]') then
+                    [crop] harvest
+                    [crop] end_crop
+        endif
+               </condition>
+          <category name="Harvesting criteria">
+            <property name="date" value="8-jun" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Harvesting parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+          </category>
+        </rule>
+        <rule name="Irrigate at sowing">
+          <condition name="[modulename].[eventname]"><![CDATA[
+         if ([irrig_amount_evt] > 0) then
+            '[irrigatemodule]' apply amount = [irrig_amount_evt] (mm)
+         endif
+   ]]></condition>
+          <category name="When should irrigation be applied">
+            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+          </category>
+          <category name="Irrigation application details">
+            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
+            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+          </category>
+        </rule>
+      </manager>
+      <fertiliser name="fertiliser" />
+      <surfaceom name="surface organic matter">
+        <PoolName description="Organic Matter pool name">wheat</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">1000.</mass>
+        <cnr description="C:N ration of initial residue">80.0</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
+      <outputfile name="outputfile">
+        <filename name="filename">GreenBelt1997 Planting1.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">on</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">300.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <broccoli />
+    </area>
+    <area name="Planting2">
+      <registrations name="global" />
+      <manager name="Manager">
+        <rule name="Sowing fertiliser">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+      if (today = date('[date]') then
+                    [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+        endif
+               </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="20-mar" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="6" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+          </category>
+        </rule>
+        <rule name="Harvest on a fixed date">
+          <condition name="start_of_day">
+        if (today = date('[date]') then
+                    [crop] harvest
+                    [crop] end_crop
+        endif
+               </condition>
+          <category name="Harvesting criteria">
+            <property name="date" value="16-jun" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Harvesting parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+          </category>
+        </rule>
+        <rule name="Irrigate at sowing">
+          <condition name="[modulename].[eventname]"><![CDATA[
+         if ([irrig_amount_evt] > 0) then
+            '[irrigatemodule]' apply amount = [irrig_amount_evt] (mm)
+         endif
+   ]]></condition>
+          <category name="When should irrigation be applied">
+            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+          </category>
+          <category name="Irrigation application details">
+            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
+            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+          </category>
+        </rule>
+      </manager>
+      <fertiliser name="fertiliser" />
+      <surfaceom name="surface organic matter">
+        <PoolName description="Organic Matter pool name">wheat</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">1000.</mass>
+        <cnr description="C:N ration of initial residue">80.0</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
+      <outputfile name="outputfile">
+        <filename name="filename">GreenBelt1997 Planting2.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">on</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">300.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <broccoli />
+    </area>
+    <area name="Planting3">
+      <registrations name="global" />
+      <manager name="Manager">
+        <rule name="Sowing fertiliser">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+      if (today = date('[date]') then
+                    [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+        endif
+               </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="1-apr" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="6" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+          </category>
+        </rule>
+        <rule name="Harvest on a fixed date">
+          <condition name="start_of_day">
+        if (today = date('[date]') then
+                    [crop] harvest
+                    [crop] end_crop
+        endif
+               </condition>
+          <category name="Harvesting criteria">
+            <property name="date" value="6-jul" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Harvesting parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+          </category>
+        </rule>
+        <rule name="Irrigate at sowing">
+          <condition name="[modulename].[eventname]"><![CDATA[
+         if ([irrig_amount_evt] > 0) then
+            '[irrigatemodule]' apply amount = [irrig_amount_evt] (mm)
+         endif
+   ]]></condition>
+          <category name="When should irrigation be applied">
+            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+          </category>
+          <category name="Irrigation application details">
+            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
+            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+          </category>
+        </rule>
+      </manager>
+      <fertiliser name="fertiliser" />
+      <surfaceom name="surface organic matter">
+        <PoolName description="Organic Matter pool name">wheat</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">1000.</mass>
+        <cnr description="C:N ration of initial residue">80.0</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
+      <outputfile name="outputfile">
+        <filename name="filename">GreenBelt1997 Planting3.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">on</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">300.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <broccoli />
+    </area>
+    <area name="Planting4">
+      <registrations name="global" />
+      <manager name="Manager">
+        <rule name="Sowing fertiliser">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+      if (today = date('[date]') then
+                    [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+        endif
+               </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="10-apr" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="6" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+          </category>
+        </rule>
+        <rule name="Harvest on a fixed date">
+          <condition name="start_of_day">
+        if (today = date('[date]') then
+                    [crop] harvest
+                    [crop] end_crop
+        endif
+               </condition>
+          <category name="Harvesting criteria">
+            <property name="date" value="17-jul" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Harvesting parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+          </category>
+        </rule>
+        <rule name="Irrigate at sowing">
+          <condition name="[modulename].[eventname]"><![CDATA[
+         if ([irrig_amount_evt] > 0) then
+            '[irrigatemodule]' apply amount = [irrig_amount_evt] (mm)
+         endif
+   ]]></condition>
+          <category name="When should irrigation be applied">
+            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+          </category>
+          <category name="Irrigation application details">
+            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
+            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+          </category>
+        </rule>
+      </manager>
+      <fertiliser name="fertiliser" />
+      <surfaceom name="surface organic matter">
+        <PoolName description="Organic Matter pool name">wheat</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">1000.</mass>
+        <cnr description="C:N ration of initial residue">80.0</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
+      <outputfile name="outputfile">
+        <filename name="filename">GreenBelt1997 Planting4.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">on</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">300.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <broccoli />
+    </area>
+    <area name="Planting5">
+      <registrations name="global" />
+      <manager name="Manager">
+        <rule name="Sowing fertiliser">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+      if (today = date('[date]') then
+                    [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+        endif
+               </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="21-apr" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="6" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+          </category>
+        </rule>
+        <rule name="Harvest on a fixed date">
+          <condition name="start_of_day">
+        if (today = date('[date]') then
+                    [crop] harvest
+                    [crop] end_crop
+        endif
+               </condition>
+          <category name="Harvesting criteria">
+            <property name="date" value="28-jul" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Harvesting parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+          </category>
+        </rule>
+        <rule name="Irrigate at sowing">
+          <condition name="[modulename].[eventname]"><![CDATA[
+         if ([irrig_amount_evt] > 0) then
+            '[irrigatemodule]' apply amount = [irrig_amount_evt] (mm)
+         endif
+   ]]></condition>
+          <category name="When should irrigation be applied">
+            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+          </category>
+          <category name="Irrigation application details">
+            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
+            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+          </category>
+        </rule>
+      </manager>
+      <fertiliser name="fertiliser" />
+      <surfaceom name="surface organic matter">
+        <PoolName description="Organic Matter pool name">wheat</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">1000.</mass>
+        <cnr description="C:N ration of initial residue">80.0</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
+      <outputfile name="outputfile">
+        <filename name="filename">GreenBelt1997 Planting5.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">on</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">300.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <broccoli />
+    </area>
+    <area name="Planting6">
+      <registrations name="global" />
+      <manager name="Manager">
+        <rule name="Sowing fertiliser">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+      if (today = date('[date]') then
+                    [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+        endif
+               </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="1-may" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="6" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+          </category>
+        </rule>
+        <rule name="Harvest on a fixed date">
+          <condition name="start_of_day">
+        if (today = date('[date]') then
+                    [crop] harvest
+                    [crop] end_crop
+        endif
+               </condition>
+          <category name="Harvesting criteria">
+            <property name="date" value="12-aug" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Harvesting parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+          </category>
+        </rule>
+        <rule name="Irrigate at sowing">
+          <condition name="[modulename].[eventname]"><![CDATA[
+         if ([irrig_amount_evt] > 0) then
+            '[irrigatemodule]' apply amount = [irrig_amount_evt] (mm)
+         endif
+   ]]></condition>
+          <category name="When should irrigation be applied">
+            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+          </category>
+          <category name="Irrigation application details">
+            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
+            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+          </category>
+        </rule>
+      </manager>
+      <fertiliser name="fertiliser" />
+      <surfaceom name="surface organic matter">
+        <PoolName description="Organic Matter pool name">wheat</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">1000.</mass>
+        <cnr description="C:N ration of initial residue">80.0</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
+      <outputfile name="outputfile">
+        <filename name="filename">GreenBelt1997 Planting6.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">on</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">300.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <broccoli />
+    </area>
+    <area name="Planting7">
+      <registrations name="global" />
+      <manager name="Manager">
+        <rule name="Sowing fertiliser">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+      if (today = date('[date]') then
+                    [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+        endif
+               </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="12-may" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="6" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+          </category>
+        </rule>
+        <rule name="Harvest on a fixed date">
+          <condition name="start_of_day">
+        if (today = date('[date]') then
+                    [crop] harvest
+                    [crop] end_crop
+        endif
+               </condition>
+          <category name="Harvesting criteria">
+            <property name="date" value="25-aug" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Harvesting parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+          </category>
+        </rule>
+        <rule name="Irrigate at sowing">
+          <condition name="[modulename].[eventname]"><![CDATA[
+         if ([irrig_amount_evt] > 0) then
+            '[irrigatemodule]' apply amount = [irrig_amount_evt] (mm)
+         endif
+   ]]></condition>
+          <category name="When should irrigation be applied">
+            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+          </category>
+          <category name="Irrigation application details">
+            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
+            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+          </category>
+        </rule>
+      </manager>
+      <fertiliser name="fertiliser" />
+      <surfaceom name="surface organic matter">
+        <PoolName description="Organic Matter pool name">wheat</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">1000.</mass>
+        <cnr description="C:N ration of initial residue">80.0</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
+      <outputfile name="outputfile">
+        <filename name="filename">GreenBelt1997 Planting7.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">on</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">300.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <broccoli />
+    </area>
+    <area name="Planting8">
+      <registrations name="global" />
+      <manager name="Manager">
+        <rule name="Sowing fertiliser">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+      if (today = date('[date]') then
+                    [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+        endif
+               </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="22-may" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="6" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+          </category>
+        </rule>
+        <rule name="Harvest on a fixed date">
+          <condition name="start_of_day">
+        if (today = date('[date]') then
+                    [crop] harvest
+                    [crop] end_crop
+        endif
+               </condition>
+          <category name="Harvesting criteria">
+            <property name="date" value="4-sep" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Harvesting parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+          </category>
+        </rule>
+        <rule name="Irrigate at sowing">
+          <condition name="[modulename].[eventname]"><![CDATA[
+         if ([irrig_amount_evt] > 0) then
+            '[irrigatemodule]' apply amount = [irrig_amount_evt] (mm)
+         endif
+   ]]></condition>
+          <category name="When should irrigation be applied">
+            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+          </category>
+          <category name="Irrigation application details">
+            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
+            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+          </category>
+        </rule>
+      </manager>
+      <fertiliser name="fertiliser" />
+      <surfaceom name="surface organic matter">
+        <PoolName description="Organic Matter pool name">wheat</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">1000.</mass>
+        <cnr description="C:N ration of initial residue">80.0</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
+      <outputfile name="outputfile">
+        <filename name="filename">GreenBelt1997 Planting8.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">on</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">300.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <broccoli />
+    </area>
+  </simulation>
+  <folder name="shared">
+    <soil name="#037 - UQ, Lawes,Black Vertosol">
+      <Site>UQ, Lawes</Site>
+      <Region>Lockyer</Region>
+      <SoilType>Black Vertosol</SoilType>
+      <NearestTown>Gatton, Q 4343</NearestTown>
+      <NaturalVegetation>Blue Gum, Moreton Bay Ash, Tea Tree</NaturalVegetation>
+      <Water>
+        <Cona>3.5</Cona>
+        <DiffusConst>40</DiffusConst>
+        <DiffusSlope>16</DiffusSlope>
+        <U>6</U>
+        <Salb>0.13</Salb>
+        <Cn2Bare>73</Cn2Bare>
+        <CnRed>20</CnRed>
+        <CnCov>0.8</CnCov>
+        <layer name="1">
+          <thickness>150</thickness>
+          <bd>1.32</bd>
+          <ll15>0.26</ll15>
+          <airdry>0.13</airdry>
+          <dul>0.41</dul>
+          <sat>0.47</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+        <layer name="2">
+          <thickness>150</thickness>
+          <bd>1.3</bd>
+          <ll15>0.26</ll15>
+          <airdry>0.234</airdry>
+          <dul>0.43</dul>
+          <sat>0.48</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+        <layer name="3">
+          <thickness>300</thickness>
+          <bd>1.23</bd>
+          <ll15>0.26</ll15>
+          <airdry>0.26</airdry>
+          <dul>0.46</dul>
+          <sat>0.51</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+        <layer name="4">
+          <thickness>300</thickness>
+          <bd>1.27</bd>
+          <ll15>0.26</ll15>
+          <airdry>0.26</airdry>
+          <dul>0.44</dul>
+          <sat>0.49</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+        <layer name="5">
+          <thickness>300</thickness>
+          <bd>1.37</bd>
+          <ll15>0.25</ll15>
+          <airdry>0.25</airdry>
+          <dul>0.4</dul>
+          <sat>0.45</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+        <layer name="6">
+          <thickness>300</thickness>
+          <bd>1.35</bd>
+          <ll15>0.28</ll15>
+          <airdry>0.28</airdry>
+          <dul>0.41</dul>
+          <sat>0.46</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+        <layer name="7">
+          <thickness>300</thickness>
+          <bd>1.35</bd>
+          <ll15>0.31</ll15>
+          <airdry>0.31</airdry>
+          <dul>0.38</dul>
+          <sat>0.46</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+      </Water>
+      <Nitrogen>
+        <CnCanopyFact>1</CnCanopyFact>
+        <RootCn>40</RootCn>
+        <RootWt>200</RootWt>
+        <SoilCn>12.5</SoilCn>
+        <EnrACoeff>7.4</EnrACoeff>
+        <EnrBCoeff>0.2</EnrBCoeff>
+        <layer name="1">
+          <fbiom>0.03</fbiom>
+          <finert>0.4</finert>
+          <no3>6.5</no3>
+          <nh4>0.6</nh4>
+          <oc>1.24</oc>
+          <ph>7</ph>
+        </layer>
+        <layer name="2">
+          <fbiom>0.02</fbiom>
+          <finert>0.6</finert>
+          <no3>2.1</no3>
+          <nh4>0.1</nh4>
+          <oc>1.24</oc>
+          <ph>7</ph>
+        </layer>
+        <layer name="3">
+          <fbiom>0.01</fbiom>
+          <finert>0.8</finert>
+          <no3>2.1</no3>
+          <nh4>0.1</nh4>
+          <oc>1.25</oc>
+          <ph>7</ph>
+        </layer>
+        <layer name="4">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <no3>1.7</no3>
+          <nh4>0.1</nh4>
+          <oc>1.1</oc>
+          <ph>7</ph>
+        </layer>
+        <layer name="5">
+          <fbiom>0.01</fbiom>
+          <finert>0.95</finert>
+          <no3>1.7</no3>
+          <nh4>0.1</nh4>
+          <oc>0.71</oc>
+          <ph>7</ph>
+        </layer>
+        <layer name="6">
+          <fbiom>0.01</fbiom>
+          <finert>0.95</finert>
+          <no3>1.7</no3>
+          <nh4>0.1</nh4>
+          <oc>0.34</oc>
+          <ph>7</ph>
+        </layer>
+        <layer name="7">
+          <fbiom>0.01</fbiom>
+          <finert>0.95</finert>
+          <no3>1.7</no3>
+          <nh4>0.1</nh4>
+          <oc>0.26</oc>
+          <ph>7</ph>
+        </layer>
+      </Nitrogen>
+      <other />
+      <Comment>oc and ph not measured</Comment>
+      <InitWater>
+        <percentmethod>
+          <percent>1</percent>
+          <distributed>filled from top</distributed>
+        </percentmethod>
+      </InitWater>
+      <InitNitrogen>
+        <layer name="1">
+          <no3>6.49399399399399</no3>
+          <nh4>0.608228980322003</nh4>
+        </layer>
+        <layer name="2">
+          <no3>2.0980595980596</no3>
+          <nh4>0.101371496720334</nh4>
+        </layer>
+        <layer name="3">
+          <no3>2.0980595980596</no3>
+          <nh4>0.101371496720334</nh4>
+        </layer>
+        <layer name="4">
+          <no3>1.6984291984292</no3>
+          <nh4>0.101371496720334</nh4>
+        </layer>
+        <layer name="5">
+          <no3>1.6984291984292</no3>
+          <nh4>0.101371496720334</nh4>
+        </layer>
+        <layer name="6">
+          <no3>1.6984291984292</no3>
+          <nh4>0.101371496720334</nh4>
+        </layer>
+        <layer name="7">
+          <no3>1.6984291984292</no3>
+          <nh4>0.101371496720334</nh4>
+        </layer>
+      </InitNitrogen>
+      <SoilCrop name="Broccoli">
+        <layer name="1">
+          <ll>0.26</ll>
+          <kl>0.06</kl>
+          <xf>1</xf>
+        </layer>
+        <layer name="2">
+          <ll>0.26</ll>
+          <kl>0.06</kl>
+          <xf>1</xf>
+        </layer>
+        <layer name="3">
+          <ll>0.26</ll>
+          <kl>0</kl>
+          <xf>0</xf>
+        </layer>
+        <layer name="4">
+          <ll>0.26</ll>
+          <kl>0</kl>
+          <xf>0</xf>
+        </layer>
+        <layer name="5">
+          <ll>0.25</ll>
+          <kl>0</kl>
+          <xf>0</xf>
+        </layer>
+        <layer name="6">
+          <ll>0.28</ll>
+          <kl>0</kl>
+          <xf>0</xf>
+        </layer>
+        <layer name="7">
+          <ll>0.31</ll>
+          <kl>0</kl>
+          <xf>0</xf>
+        </layer>
+      </SoilCrop>
+    </soil>
+  </folder>
+</simulations>
