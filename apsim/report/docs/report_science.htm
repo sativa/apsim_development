@@ -47,8 +47,10 @@
 <p class="Normal">&nbsp;</p>
 <table cellspacing="0" cellpadding="0">
   <tr>
-    <td width="300" valign="top"><p class="Normal">Variable = name [as alias] </p></td>
-    <td width="359" valign="top"><p class="Normal">Name of variable to be obtained and reported to outputfile, with optional alias. </p></td>
+    <td width="300" valign="top"><p class="Normal">Variable = name [as alias] 
+    [format formatstring]</p></td>
+    <td width="359" valign="top"><p class="Normal">Name of variable to be obtained and reported to outputfile, 
+    with optional alias and date formatting string</p></td>
   </tr>
 </table>
 <p class="Normal">&nbsp;</p>
@@ -70,7 +72,8 @@
 <p class="Code">[all_treatments.report.parameters] </p>
 <p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;variable = year </p>
 <p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;variable = clock.day </p>
-<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;variable = tracker. <a href="mailto:sum@rain">sum@rain </a> as tot_rain </p>
+<p class="Code">&nbsp;&nbsp;&nbsp; variable = clock.today as date format dd/mm/yyyy</p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;variable = tracker.<a href="mailto:sum@rain">sum@rain </a> as tot_rain </p>
 <p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;variable = soilwat2.sw </p>
 <p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;variable = soilwat2.sw_dep(1) as sw(1) </p>
 <p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;variable = soilwat2.sw_dep() as totsw </p>
@@ -85,6 +88,10 @@
   <li class="Normal">Several of the output variables have been assigned aliases. For example the variable “yield” from the wheat module is given the alias “grn_yield” and this alias will be what is used in the column header of the output file. If no alias is desired then a single dash “-” is placed in the row to signify this. </li>
   <li class="Normal">The variable “sw” is an array. It cannot be identified as such by simply viewing the reporting parameters but the report module will recognise this when data is sent to it. The output file will record sw using a column for each element in the array. </li>
   <li class="Normal">The variable “sw_dep” is also an array. The example has two outputs for this variable. The first use specifies that only the first element of the array is to be output. The second use has no array index in between the brackets. In this case all elements in the array will be added together to find a sum total of the array and this will be output in a single column in the output file. </li>
+  <li class="Normal">The variable 'today' is being output with an alias of 
+  'date' and formatting of dd/mm/yyyy. The format string can contain any 
+  combination of d, dd, mm, mmm, mmmmmm, yy, yyyy in any order and with any sort 
+  of delimiter character e.g. '/' or '-' or '_'</li>
 </ul>
 <p class="Title2">Setting reporting frequency</p>
 <p class="Normal">APSIM report carries its flexibility into the area of reporting frequency. There are two main ways to tell the REPORT module to do an output.</p>

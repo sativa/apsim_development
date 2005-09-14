@@ -49,6 +49,7 @@ class PACKAGE TGraph : public TgtQRChart
       virtual void __fastcall Loaded(void);
       void replaceChartMacros(void);
       void scaleAxis(void);
+      void fixBottomAxisScaling();
 
       //---------------------------------------------------------------------------
       // using the 1st chart series as a template, create a new chart series for

@@ -23,6 +23,7 @@ class Field
       std::string VariableName;
       std::string VariableAlias;
       std::string VariableUnits;
+      std::string VariableFormat;
       std::string NAString;
       bool CSVFormat;
       unsigned variableID;

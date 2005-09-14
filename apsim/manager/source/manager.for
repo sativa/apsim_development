@@ -936,6 +936,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       integer crop
       character plant_status*100
       logical more_crops_to_check
+      integer numMonths
 
 !- Implementation Section ----------------------------------
       Is_apsim_variable = (index(variable_name, '.') .gt. 0)
@@ -1001,6 +1002,34 @@ C     Last change:  P    25 Oct 2000    9:26 am
          else
             Variable_value = '1'
          endif
+         valueIsReal = .true.
+
+      else if (variable_name(1:11) .eq. 'add_months(') then
+         call Manager_get_params (variable_name, Params)
+         call parse_get_variable(params(1), variable_value, valueIsReal)
+         call string_to_double_var(variable_value, d_var_val, numvals)
+         if (numvals .ne. 1) then
+            call fatal_error(ERR_user,
+     .           'Bad 1st argument type for function '
+     .           // 'add_months(date, NumMonths)')
+         else
+            call string_to_integer_var(params(2), numMonths,
+     .                                 numvals)
+            if (numvals .eq. 0) then
+               call parse_get_variable(params(2), variable_value,
+     .                                 valueIsReal)
+               call string_to_integer_var(variable_value, numMonths,
+     .                                    numvals)
+            endif
+            if (numvals .ne. 1) then
+               call fatal_error(ERR_user,
+     .           'Bad 2nd argument type for function '
+     .           // 'add_months(date, NumMonths)')
+            else
+               call add_months(d_var_val, numMonths);
+               call double_var_to_string (d_var_val, variable_value)
+            endif
+         end if
          valueIsReal = .true.
 
       elseif (Is_apsim_variable) then

@@ -6,7 +6,8 @@
     <PROJECT value="general.lib"/>
     <OBJFILES value="date_class.obj exec.obj general.obj IniFile.obj io_functions.obj 
       math_functions.obj path.obj stream_functions.obj stream_processor.obj 
-      string_functions.obj StringTokenizer.obj stristr.obj macro.obj xml.obj"/>
+      string_functions.obj StringTokenizer.obj stristr.obj macro.obj xml.obj 
+      http.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -55,6 +56,7 @@
       <FILE FILENAME="stristr.cpp" FORMNAME="" UNITNAME="stristr.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="macro.cpp" FORMNAME="" UNITNAME="Macro" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="xml.cpp" FORMNAME="" UNITNAME="xml" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="http.cpp" FORMNAME="" UNITNAME="http" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

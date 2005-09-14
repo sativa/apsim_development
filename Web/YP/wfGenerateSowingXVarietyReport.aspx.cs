@@ -266,7 +266,7 @@ namespace YieldProphet
 										cboVarietyThree.SelectedValue, grdSowDateThree.GetRow(0).Cells["SowDate"].Text, cboCrops.SelectedValue, 
 										grdNitrogen);
 									//Generate the files needed to generate a report and then email these files to the ApsimRun machine
-									if(EmailClass.SendReportEmail(edtReportName.Text, szCropType, 
+									if(EmailClass.SendReportEmail(edtReportName.Text, cboCrops.SelectedValue, 
 										ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], szReportXML, dtOtherValues) == true)
 										{
 										Server.Transfer("wfReportGenerated.aspx");

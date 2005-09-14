@@ -250,7 +250,7 @@ namespace YieldProphet
 
 			Macro mcReportFile = new Macro();
 			//Fills the template with the data and stores the file location in 
-			//a string collection
+			//a string collectdion
 			StringCollection scReportFiles = mcReportFile.Go(APSIMReportData, szReportTemplate, szDirectoryLocation);
 			for(int iIndex = 0; iIndex < scReportFiles.Count; iIndex++)
 				{
@@ -423,7 +423,7 @@ namespace YieldProphet
 			if(dtPaddocksSoilSample.Rows.Count > 0)
 			{
 				string CropType =  dtPaddocksDetails.Rows[0]["CropType"].ToString();
-				if (CropType.ToLower() == "barley")
+				if (CropType.ToLower() == "barley" || CropType.ToLower() == "none")
 					CropType = "wheat";
 
 				SoilSample Sample = new SoilSample(new APSIMData(dtPaddocksSoilSample.Rows[0]["Data"].ToString()));
@@ -445,7 +445,7 @@ namespace YieldProphet
 		//
 		//-------------------------------------------------------------------------
 		public static XmlNode CreatePaddockXML(string szReportName, string szReportType, 
-			XmlDocument xmlDocPaddock)
+			XmlDocument xmlDocPaddock, int NumScenarios)
 		{
 			XmlNode xmlPaddock = xmlDocPaddock.CreateNode(XmlNodeType.Element, "YPPaddock", "");  
 
@@ -477,6 +477,28 @@ namespace YieldProphet
 			AddStringNode("davidsyear5", dtClimateForcast.Rows[0]["DavidsYearFive"].ToString(), ref xmlPaddock, xmlDocPaddock);
 			AddStringNode("soidescription", dtClimateForcast.Rows[0]["SoiDescription"].ToString(), ref xmlPaddock, xmlDocPaddock);
 			AddStringNode("davidsdescription", dtClimateForcast.Rows[0]["DavidsDescription"].ToString(), ref xmlPaddock, xmlDocPaddock);
+			AddStringNode("numscenarios", NumScenarios.ToString(), ref xmlPaddock, xmlDocPaddock);
+			AddStringNode("region", dtPaddocksDetails.Rows[0]["RegionType"].ToString(), ref xmlPaddock, xmlDocPaddock);
+			AddStringNode("stationname", dtPaddocksDetails.Rows[0]["MetStationName"].ToString(), ref xmlPaddock, xmlDocPaddock);
+			AddStringNode("stationNumber", dtPaddocksDetails.Rows[0]["StationNumber"].ToString(), ref xmlPaddock, xmlDocPaddock);
+
+			DataTable dtPaddocksSoilSample =
+				DataAccessClass.GetPaddocksSoilSample("GridOne", szPaddockName, dtUsersDetails.Rows[0]["UserName"].ToString());
+			if(dtPaddocksSoilSample.Rows.Count > 0)
+				{
+				string soilName = dtPaddocksDetails.Rows[0]["SoilName"].ToString();
+				Soil PaddockSoil = DataAccessClass.GetSoil(soilName);
+				string CropType =  dtPaddocksDetails.Rows[0]["CropType"].ToString();
+				if (CropType.ToLower() == "barley" || CropType.ToLower() == "none")
+					CropType = "wheat";
+
+				SoilSample Sample = new SoilSample(new APSIMData(dtPaddocksSoilSample.Rows[0]["Data"].ToString()));
+				Sample.LinkedSoil = PaddockSoil;
+				double dPAW = MathUtility.Sum(Sample.PAW(CropType));
+				
+				string paw = Math.Round(dPAW, 2).ToString("F2");
+				AddStringNode("InitialConditionsPaw", paw, ref xmlPaddock, xmlDocPaddock);
+				}
 			
 			AddDayMonthNodesToNode(ref xmlPaddock, xmlDocPaddock);
 			return xmlPaddock;
@@ -484,19 +506,19 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		//
 		//-------------------------------------------------------------------------
-		private static XmlNode CreateScenarioReportXML(XmlDocument xmlDocPaddock, 
+		private static XmlNode CreateScenarioReportXML(XmlDocument xmlDocPaddock, string ScenarioName,
 			GridEX grdFertiliser, GridEX grdIrrigation)
 		{	
 			XmlNode xmlScenario = xmlDocPaddock.CreateNode(XmlNodeType.Element, "scenario", "");
+			XmlNode xmlScenarioAttribute = xmlDocPaddock.CreateNode(XmlNodeType.Attribute, "name", "");
+			xmlScenarioAttribute.Value = ScenarioName;
+			xmlScenario.Attributes.SetNamedItem(xmlScenarioAttribute);
 
 			string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
 			DataTable dtPaddocksDetails = DataAccessClass.GetDetailsOfPaddock(szPaddockName, FunctionsClass.GetActiveUserName());
 			
-			AddStringNode("region", dtPaddocksDetails.Rows[0]["RegionType"].ToString(), ref xmlScenario, xmlDocPaddock);
-			AddStringNode("stationname", dtPaddocksDetails.Rows[0]["MetStationName"].ToString(), ref xmlScenario, xmlDocPaddock);
 			AddStringNode("cultivar", dtPaddocksDetails.Rows[0]["CultivarType"].ToString(), ref xmlScenario, xmlDocPaddock);
 			AddStringNode("crop", dtPaddocksDetails.Rows[0]["CropType"].ToString(), ref xmlScenario, xmlDocPaddock);
-			AddStringNode("stationNumber", dtPaddocksDetails.Rows[0]["StationNumber"].ToString(), ref xmlScenario, xmlDocPaddock);
 			AddStringNode("rowconfiguration", dtPaddocksDetails.Rows[0]["RowConfigurationType"].ToString(), ref xmlScenario, xmlDocPaddock);
 			AddDateNode("sowdate", dtPaddocksDetails.Rows[0]["SowDate"].ToString(), ref xmlScenario, xmlDocPaddock);
 			AddNumericalNode("triazine", dtPaddocksDetails.Rows[0]["Triazine"].ToString(), ref xmlScenario, xmlDocPaddock);
@@ -718,8 +740,8 @@ namespace YieldProphet
 			xmlDocPaddock.LoadXml("<Paddocks></Paddocks>"); 
 			XmlElement xmlRoot = xmlDocPaddock.DocumentElement;
 
-			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock);
-			XmlNode xmlScenario = CreateScenarioReportXML(xmlDocPaddock, null, null);
+			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock, 1);
+			XmlNode xmlScenario = CreateScenarioReportXML(xmlDocPaddock, "scenario1", null, null);
 			
 			xmlPaddock.AppendChild(xmlScenario);
 			xmlRoot.AppendChild(xmlPaddock);	
@@ -841,10 +863,10 @@ namespace YieldProphet
 			xmlDocPaddock.LoadXml("<Paddocks></Paddocks>"); 
 			XmlElement xmlRoot = xmlDocPaddock.DocumentElement;
 
-			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock);
-			XmlNode xmlScenarioOne = CreateScenarioReportXML(xmlDocPaddock, grdNitrogenOne, null);
-			XmlNode xmlScenarioTwo = CreateScenarioReportXML(xmlDocPaddock, grdNitrogenTwo, null);
-			XmlNode xmlScenarioThree = CreateScenarioReportXML(xmlDocPaddock, grdNitrogenThree, null);
+			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock, 3);
+			XmlNode xmlScenarioOne = CreateScenarioReportXML(xmlDocPaddock, "scenario1", grdNitrogenOne, null);
+			XmlNode xmlScenarioTwo = CreateScenarioReportXML(xmlDocPaddock, "scenario2", grdNitrogenTwo, null);
+			XmlNode xmlScenarioThree = CreateScenarioReportXML(xmlDocPaddock, "scenario3", grdNitrogenThree, null);
 			
 			xmlPaddock.AppendChild(xmlScenarioOne);
 			xmlPaddock.AppendChild(xmlScenarioTwo);
@@ -952,17 +974,17 @@ namespace YieldProphet
 			xmlDocPaddock.LoadXml("<Paddocks></Paddocks>"); 
 			XmlElement xmlRoot = xmlDocPaddock.DocumentElement;
 
-			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock);
+			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock, 3);
 
-			XmlNode xmlScenarioOne = CreateScenarioReportXML(xmlDocPaddock, grdNitrogenOne, null);
+			XmlNode xmlScenarioOne = CreateScenarioReportXML(xmlDocPaddock, "scenario1", grdNitrogenOne, null);
 			AddNitrogenProfitScenarioNodes(szClassification, szPrice, szProteinContent, 
 				szProteinIncrement, szFertiliserCost, szApplicationCost, ref xmlScenarioOne, xmlDocPaddock);
 
-			XmlNode xmlScenarioTwo = CreateScenarioReportXML(xmlDocPaddock, grdNitrogenTwo, null);
+			XmlNode xmlScenarioTwo = CreateScenarioReportXML(xmlDocPaddock, "scenario2", grdNitrogenTwo, null);
 			AddNitrogenProfitScenarioNodes(szClassification, szPrice, szProteinContent, 
 				szProteinIncrement, szFertiliserCost, szApplicationCost, ref xmlScenarioTwo, xmlDocPaddock);
 
-			XmlNode xmlScenarioThree = CreateScenarioReportXML(xmlDocPaddock, grdNitrogenThree, null);
+			XmlNode xmlScenarioThree = CreateScenarioReportXML(xmlDocPaddock, "scenario3", grdNitrogenThree, null);
 			AddNitrogenProfitScenarioNodes(szClassification, szPrice, szProteinContent, 
 				szProteinIncrement, szFertiliserCost, szApplicationCost, ref xmlScenarioThree, xmlDocPaddock);
 			
@@ -1095,22 +1117,23 @@ namespace YieldProphet
 			xmlDocPaddock.LoadXml("<Paddocks></Paddocks>"); 
 			XmlElement xmlRoot = xmlDocPaddock.DocumentElement;
 
-			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock);
+			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock, 3);
 
-			XmlNode xmlScenarioOne = CreateScenarioReportXML(xmlDocPaddock, grdNitrogen, null);
+			XmlNode xmlScenarioOne = CreateScenarioReportXML(xmlDocPaddock, "scenario1", grdNitrogen, null);
 			EditSowingXVarietyScenarioNodes(szVarietyOne, szSowingDateOne, szCropType, ref xmlScenarioOne, xmlDocPaddock);
 
-			XmlNode xmlScenarioTwo = CreateScenarioReportXML(xmlDocPaddock, grdNitrogen, null);
+			XmlNode xmlScenarioTwo = CreateScenarioReportXML(xmlDocPaddock, "scenario2", grdNitrogen, null);
 			EditSowingXVarietyScenarioNodes(szVarietyTwo, szSowingDateTwo, szCropType, ref xmlScenarioTwo, xmlDocPaddock);
 
-			XmlNode xmlScenarioThree = CreateScenarioReportXML(xmlDocPaddock, grdNitrogen, null);
+			XmlNode xmlScenarioThree = CreateScenarioReportXML(xmlDocPaddock, "scenario3", grdNitrogen, null);
 			EditSowingXVarietyScenarioNodes(szVarietyThree, szSowingDateThree, szCropType, ref xmlScenarioThree, xmlDocPaddock);
-			
+
 			xmlPaddock.AppendChild(xmlScenarioOne);
 			xmlPaddock.AppendChild(xmlScenarioTwo);
 			xmlPaddock.AppendChild(xmlScenarioThree);
 
 			xmlRoot.AppendChild(xmlPaddock);	
+
 			szReportXML = xmlDocPaddock.OuterXml;
 			return szReportXML;
 		}
@@ -1214,11 +1237,11 @@ namespace YieldProphet
 			xmlDocPaddock.LoadXml("<Paddocks></Paddocks>"); 
 			XmlElement xmlRoot = xmlDocPaddock.DocumentElement;
 
-			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock);
+			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock, 1);
 
-			XmlNode xmlScenario = CreateScenarioReportXML(xmlDocPaddock, grdNitrogen, null);
+			XmlNode xmlScenario = CreateScenarioReportXML(xmlDocPaddock, "scenario1", grdNitrogen, null);
 			EditFallowScenarioNodes(szVariety, szSowingDate, szCropType, ref xmlScenario, xmlDocPaddock);
-			
+			AddDayMonthNodesToNode(ref xmlScenario, xmlDocPaddock);
 			xmlPaddock.AppendChild(xmlScenario);
 
 			xmlRoot.AppendChild(xmlPaddock);	
@@ -1365,10 +1388,10 @@ namespace YieldProphet
 			xmlDocPaddock.LoadXml("<Paddocks></Paddocks>"); 
 			XmlElement xmlRoot = xmlDocPaddock.DocumentElement;
 
-			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock);
-			XmlNode xmlScenarioOne = CreateScenarioReportXML(xmlDocPaddock, grdNitrogenOne, grdIrrigationOne);
-			XmlNode xmlScenarioTwo = CreateScenarioReportXML(xmlDocPaddock, grdNitrogenTwo, grdIrrigationTwo);
-			XmlNode xmlScenarioThree = CreateScenarioReportXML(xmlDocPaddock, grdNitrogenThree, grdIrrigationThree);
+			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock, 3);
+			XmlNode xmlScenarioOne = CreateScenarioReportXML(xmlDocPaddock, "scenario1", grdNitrogenOne, grdIrrigationOne);
+			XmlNode xmlScenarioTwo = CreateScenarioReportXML(xmlDocPaddock, "scenario2", grdNitrogenTwo, grdIrrigationTwo);
+			XmlNode xmlScenarioThree = CreateScenarioReportXML(xmlDocPaddock, "scenario3", grdNitrogenThree, grdIrrigationThree);
 			
 			xmlPaddock.AppendChild(xmlScenarioOne);
 			xmlPaddock.AppendChild(xmlScenarioTwo);
@@ -1448,7 +1471,8 @@ namespace YieldProphet
 				if(xmlChildNode.Name.IndexOf("date") != -1)
 				{
 					XmlNode xmlNewNode = xmlDoc.CreateNode(XmlNodeType.Element, xmlChildNode.Name.Replace("date", "daymonth"), "");  
-					xmlNewNode.InnerText = DateTime.ParseExact(xmlChildNode.InnerText, "dd/MM/yyyy", null).ToString("dd-MMM");	
+					if (xmlChildNode.InnerText != "")
+						xmlNewNode.InnerText = DateTime.ParseExact(xmlChildNode.InnerText, "dd/MM/yyyy", null).ToString("dd-MMM");	
 					xmlSingleNode.AppendChild(xmlNewNode);	
 				}
 			}
