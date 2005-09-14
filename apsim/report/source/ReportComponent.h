@@ -16,6 +16,7 @@ class Field
       void writeHeadings(std::ostream& headingOut, std::ostream& unitOut);
       void writeValue(std::ostream& out);
       void writeToSummary(void);
+      void FormatValues(void);
 
    private:
       protocol::Component* parent;
