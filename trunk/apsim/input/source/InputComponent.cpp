@@ -1,7 +1,7 @@
 #include <fstream>
 #include <stdexcept>
 
-#include <math.h> 
+#include <math.h>
 #include <boost/date_time/gregorian/gregorian.hpp>
 
 #include <general/string_functions.h>
@@ -87,6 +87,7 @@ void InputComponent::doInit1(const FString& sdml)
       protocol::Component::doInit1(sdml);
 
       static const char* getDataDDML = "<type kind=\"string\" array=\"T\"/>";
+      static const char* stringDDML = "<type kind=\"string\"/>";
 
       // register a few things.
       tickID = addRegistration(RegistrationType::respondToEvent, "tick", timeTypeDDML);
@@ -107,6 +108,11 @@ void InputComponent::doInit1(const FString& sdml)
       dateName = name;
       dateName += "_end_date";
       endDateID = addRegistration(RegistrationType::respondToGet, dateName.c_str(), endDateType);
+
+      dateName = string(name) + "_start_date_string";
+      startDateStringID = addRegistration(RegistrationType::respondToGet, dateName.c_str(), stringDDML);
+      dateName = string(name) + "_end_date_string";
+      endDateStringID = addRegistration(RegistrationType::respondToGet, dateName.c_str(), stringDDML);
 
       openInputFile();
       registerAllVariables();
@@ -223,6 +229,24 @@ void InputComponent::respondToGet(unsigned int& fromID, protocol::QueryValueData
       {
       getStartEndDate();
       sendVariable(queryData, (int) endDate.julian_day());
+      }
+
+   else if (queryData.ID == startDateStringID)
+      {
+      getStartEndDate();
+      ostringstream out;
+      out << startDate.day() << '/' << startDate.month() << '/' << startDate.year();
+      string st = out.str();
+      sendVariable(queryData, st);
+      }
+
+   else if (queryData.ID == endDateStringID)
+      {
+      getStartEndDate();
+      ostringstream out;
+      out << endDate.day() << '/' << endDate.month() << '/' << endDate.year();
+      string st = out.str();
+      sendVariable(queryData, st);
       }
 
    else if (queryData.ID == hasDataTodayID)

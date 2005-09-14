@@ -29,6 +29,8 @@ class InputComponent : public protocol::Component
       unsigned daylengthID;
       unsigned startDateID;
       unsigned endDateID;
+      unsigned startDateStringID;
+      unsigned endDateStringID;
       unsigned hasDataTodayID;
       boost::gregorian::date todaysDate;
       boost::gregorian::date fileDate;

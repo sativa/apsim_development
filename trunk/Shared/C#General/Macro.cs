@@ -104,11 +104,11 @@ namespace CSGeneral
 
 				// Loop through all matching child nodes and duplicate the foreach body for each child.
 				string Body = "";
-				StringCollection ChildNodeNames = MacroNode.ChildList(NodeType);
-				foreach (string ChildName in ChildNodeNames)
+				ArrayList ChildNodes = MacroNode.get_Children(NodeType);
+				foreach (APSIMData Child in ChildNodes)
 				{
 					AliasNames.Add(ForEachAlias.ToLower());
-					AliasNodes[AliasNames.Count-1] = MacroNode.Child(ChildName);
+					AliasNodes[AliasNames.Count-1] = Child;
 
 					// recurse back and create a new for each body.
 					string NewForEachBody = ParseForEach(ForEachText, ValuesNode, AliasNames, AliasNodes);

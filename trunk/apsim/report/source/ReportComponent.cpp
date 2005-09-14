@@ -60,6 +60,15 @@ Field::Field (protocol::Component* p,
       stripLeadingTrailing(VariableAlias, " ");
       }
 
+   unsigned posFormat = VariableName.find(" format ");
+   if (posFormat != string::npos)
+      {
+      VariableFormat = VariableName.substr(posFormat+strlen(" format "));
+      VariableName.erase(posFormat, VariableName.length()-posFormat);
+      stripLeadingTrailing(VariableName, " ");
+      stripLeadingTrailing(VariableFormat, " ");
+      }
+
    // at this stage simply register an interest in the variable.
    variableID = parent->addRegistration(RegistrationType::get,
                                         VariableName.c_str(),
@@ -100,6 +109,7 @@ bool Field::getValues(void)
                          "Variable name: " + VariableName;
             parent->error(msg.c_str(), false);
             }
+         FormatValues();
          }
       catch (const runtime_error& err)
          {
@@ -132,6 +142,26 @@ void Field::formatAsFloats(void)
          }
       }
    }
+
+// ------------------------------------------------------------------
+// Format the values according to the format string.
+// ------------------------------------------------------------------
+void Field::FormatValues(void)
+   {
+   vector<string> FormatBits;
+   splitIntoValues(VariableFormat, " ", FormatBits);
+   if (FormatBits.size() != 2)
+      throw runtime_error("Invalid reporting format: " + VariableFormat);
+
+   if (Str_i_Eq(FormatBits[0], "date"))
+      {
+      TDateTime(
+      }
+   else
+      throw runtime_error("Invalid reporting format: " + VariableFormat);
+
+   }
+
 // ------------------------------------------------------------------
 //  Short description:
 //     write this field's heading to the specified output stream.

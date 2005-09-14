@@ -200,6 +200,7 @@ void TGraph::refresh(void)
          Chart->Series[s]->CheckDataSource();
       scaleAxis();
       replaceChartMacros();
+      fixBottomAxisScaling();
       }
    }
 //---------------------------------------------------------------------------
@@ -380,3 +381,33 @@ void TGraph::scaleAxis(void)
 //   Chart->LeftAxis->
    }
 
+//---------------------------------------------------------------------------
+// When the x axis is a date time axis and it's interval is set to 1 month
+// and the data range is less than a month, then the axis doesn't show anything.
+// this method fixes that problem.
+//---------------------------------------------------------------------------
+void TGraph::fixBottomAxisScaling()
+   {
+   TChartAxis* BottomAxis = Chart->BottomAxis;
+   if (BottomAxis->Automatic && BottomAxis->ExactDateTime)
+      {
+      BottomAxis->AdjustMaxMin();
+      if (BottomAxis->Minimum > 0 && BottomAxis->Maximum > 0)
+         {
+         TDateTime MinDate = TDateTime(BottomAxis->Minimum);
+         TDateTime MaxDate = TDateTime(BottomAxis->Maximum);
+         unsigned short minYear, minMonth, minDay, maxYear, maxMonth, maxDay;
+         MinDate.DecodeDate(&minYear, &minMonth, &minDay);
+         MaxDate.DecodeDate(&maxYear, &maxMonth, &maxDay);
+         maxMonth++;
+         if (maxMonth == 13)
+            {
+            maxMonth = 1;
+            maxYear++;
+            }
+         TDateTime MinDateOnAxis = TDateTime(minYear, minMonth, 1);
+         TDateTime MaxDateOnAxis = TDateTime(maxYear, maxMonth, 1);
+         BottomAxis->SetMinMax(MinDateOnAxis, MaxDateOnAxis);
+         }
+      }
+   }

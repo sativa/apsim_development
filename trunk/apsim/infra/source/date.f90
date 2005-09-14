@@ -1308,5 +1308,32 @@ module DateModule
       end function
 
 
+   ! ===========================================================
+   subroutine add_months(julday, NumMonths)
+   ! ===========================================================
+   !+ Purpose
+   !     Adds the specified number of months to the specified julian day.
+
+   !+ Sub-Program Arguments
+   double precision julday           ! (INPUT & OUTPUT) julian date to change
+   integer NumMonths                 ! (INPUT) number of months to change julian day by.
+
+   integer day, month, year
+
+   call jday_to_date (day, month, year, julday)
+   month = month + NumMonths
+   do while (month > 12)
+       month = month - 12
+       year = year + 1
+   end do
+
+   do while (month < 1)
+      month = month + 12
+      year = year - 1
+   end do
+
+   julday = date_to_jday (day, month, year)
+   end subroutine
+
 
 end module DateModule

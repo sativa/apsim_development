@@ -13,7 +13,7 @@
 			<asp:Panel id="pnlTop" style="Z-INDEX: 101; LEFT: 0px; POSITION: absolute; TOP: 0px" runat="server"
 				BackColor="PaleGoldenrod" HorizontalAlign="Left" Width="100%" Height="48px">&nbsp;</asp:Panel>
 			<asp:LinkButton id="btnBack" style="Z-INDEX: 102; LEFT: 328px; POSITION: absolute; TOP: 320px" tabIndex="5"
-				runat="server" Font-Size="Smaller" EnableViewState="False">Back to Paddock page</asp:LinkButton>
+				runat="server" Font-Size="Smaller" EnableViewState="False" CausesValidation="False">Back to Paddock page</asp:LinkButton>
 			<asp:Label id="lblNotice" style="Z-INDEX: 103; LEFT: 168px; POSITION: absolute; TOP: 280px"
 				runat="server">Your request was successful.  The report is now being generated and you will receive an email when it is completed.</asp:Label>
 			<asp:LinkButton id="btnGrowers" style="Z-INDEX: 104; LEFT: 520px; POSITION: absolute; TOP: 320px"
