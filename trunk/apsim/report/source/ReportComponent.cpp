@@ -8,6 +8,7 @@
 #include <ApsimShared\ApsimComponentData.h>
 #include <general\math_functions.h>
 #include <general\stl_functions.h>
+#include <general\date_class.h>
 #include <general\StringTokenizer.h>
 #include <sstream>
 #include <variant.h>
@@ -39,34 +40,29 @@ Field::Field (protocol::Component* p,
    managerVariable = false;
    NAString = nastring;
    Precision = precision;
-   unsigned posPeriod = variable.find('.');
+
+   StringTokenizer tokenizer(variable, " ");
+   VariableName = tokenizer.nextToken();
+   unsigned posPeriod = VariableName.find('.');
    if (posPeriod != string::npos)
       {
-      ModuleName = variable.substr(0, posPeriod);
-      VariableName = variable.substr(posPeriod+1);
-      }
-   else
-      {
-      ModuleName = "";
-      VariableName = variable;
+      ModuleName = VariableName.substr(0, posPeriod);
+      VariableName = VariableName.substr(posPeriod+1);
       }
 
-   unsigned posAlias = VariableName.find(" as ");
-   if (posAlias != string::npos)
+   string token = tokenizer.nextToken();
+   while (token != "")
       {
-      VariableAlias = VariableName.substr(posAlias+strlen(" as "));
-      VariableName.erase(posAlias, VariableName.length()-posAlias);
-      stripLeadingTrailing(VariableName, " ");
-      stripLeadingTrailing(VariableAlias, " ");
-      }
-
-   unsigned posFormat = VariableName.find(" format ");
-   if (posFormat != string::npos)
-      {
-      VariableFormat = VariableName.substr(posFormat+strlen(" format "));
-      VariableName.erase(posFormat, VariableName.length()-posFormat);
-      stripLeadingTrailing(VariableName, " ");
-      stripLeadingTrailing(VariableFormat, " ");
+      if (Str_i_Eq(token, "as"))
+         VariableAlias = tokenizer.nextToken();
+      else if (Str_i_Eq(token, "format"))
+         {
+         VariableFormat = tokenizer.nextToken();
+         To_upper(VariableFormat);
+         }
+      else
+         throw runtime_error("Invalid report variable line: " + variable);
+      token = tokenizer.nextToken();
       }
 
    // at this stage simply register an interest in the variable.
@@ -75,7 +71,7 @@ Field::Field (protocol::Component* p,
                                         stringArrayType,
                                         "",
                                         ModuleName.c_str());
-   if (posAlias != string::npos)
+   if (VariableAlias != "")
       VariableName = VariableAlias;
    }
 
@@ -148,18 +144,16 @@ void Field::formatAsFloats(void)
 // ------------------------------------------------------------------
 void Field::FormatValues(void)
    {
-   vector<string> FormatBits;
-   splitIntoValues(VariableFormat, " ", FormatBits);
-   if (FormatBits.size() != 2)
-      throw runtime_error("Invalid reporting format: " + VariableFormat);
-
-   if (Str_i_Eq(FormatBits[0], "date"))
+   if (VariableFormat != "")
       {
-      TDateTime(
+      for (unsigned i = 0; i != values.size(); i++)
+         {
+         GDate d;
+         d.Set(atoi(values[i].c_str()));
+         d.Set_write_format(VariableFormat.c_str());
+         d.Write(values[i]);
+         }
       }
-   else
-      throw runtime_error("Invalid reporting format: " + VariableFormat);
-
    }
 
 // ------------------------------------------------------------------
