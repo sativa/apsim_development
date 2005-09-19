@@ -38,6 +38,7 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.TextBox edtFind;
 		protected System.Web.UI.WebControls.Label lblFind;
 		protected System.Web.UI.WebControls.Button btnFind;
+		protected System.Web.UI.WebControls.CheckBox chkRefreshUsersGrid;
 		protected System.Web.UI.WebControls.LinkButton btnDeletePaddock;
 		
 
@@ -304,8 +305,13 @@ namespace YieldProphet
 		{
 			if(edtFind.Text != null && edtFind.Text != "")
 			{
+				if(ViewState["PreviousSearchName"].ToString() != edtFind.Text)
+				{
+					ViewState["PreviousSearchRowIndex"] = 0;
+				}
 				int iRowIndex = ReturnSelectedUsersRowIndex(edtFind.Text, "Name");
 				SelectUserOnGrid(iRowIndex);
+				ViewState["PreviousSearchName"] = edtFind.Text;
 			}
 			else
 			{
@@ -318,6 +324,7 @@ namespace YieldProphet
 		private int ReturnSelectedUsersRowIndex(string szUserNameToFind, string szColumnToSearch)
 		{
 			int iRowIndex = 0;
+			
 			int iNumberOfRows = Convert.ToInt32(chkSetPosition.Text);
 			try
 			{
@@ -325,14 +332,20 @@ namespace YieldProphet
 				{
 					szUserNameToFind = szUserNameToFind.ToLower();
 					Janus.Web.GridEX.GridEXRow grdRow;
-					for(int iIndex = 0; iIndex < iNumberOfRows; iIndex++)
+					for(int iIndex = Convert.ToInt32(ViewState["PreviousSearchRowIndex"].ToString()); iIndex < iNumberOfRows; iIndex++)
 					{
 						grdRow = grdUsers.GetRow(iIndex);
-						if(grdRow.Cells[szColumnToSearch].Text.ToLower() == szUserNameToFind)
+						if(grdRow.Cells[szColumnToSearch].Text.ToLower().IndexOf(szUserNameToFind) >= 0)
 						{
 							iRowIndex = grdRow.Position;
+							ViewState["PreviousSearchRowIndex"] = iRowIndex+1;
 							break;
-						}			
+						}
+					}
+					if(Convert.ToInt32(ViewState["PreviousSearchRowIndex"].ToString()) > 0 && iRowIndex == 0)
+					{
+						ViewState["PreviousSearchRowIndex"] = 0;
+						throw new Exception("No more matching results");		
 					}
 				}
 			}
@@ -396,19 +409,25 @@ namespace YieldProphet
 				{	
 				FunctionsClass.CheckSession();
 				FunctionsClass.CheckForVisitorConsultantLevelPriviledges();
+				FunctionsClass.SetControlFocus("btnFind", Page);
 				//Sets up the page, by firing the events for the grids, starts with the users grid.
 				this.DataBind(); 
 				if(Session["SelectedUserName"].ToString() != "" && Session["SelectedUserName"].ToString() != null)
-				{
+					{
 					chkSetPosition.Checked = true;
+					}
+				ViewState["PreviousSearchName"] = "";
+				ViewState["PreviousSearchRowIndex"] = 0;
+				chkRefreshUsersGrid.Checked = false;
 				}
-				}
+
 			//Adds an attribute to the four delete buttons that causes a 
 			//confirmation warning to appear when the user presses the buttons
 			btnDeleteUser.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the selected grower \");");
 			btnDeleteUserImg.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the selected grower \");");
 			btnDeletePaddock.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the selected paddock \");");	
 			btnDeletePaddockImg.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the selected paddock \");");
+			
 			}
 		//-------------------------------------------------------------------------
 		//Gets all the paddocks for the specified user and then sets these
@@ -440,37 +459,40 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void grdUsers_DataBinding(object sender, System.EventArgs e)
 			{
-			//Sets up the form
-			string szConsultantName = SetupForm();
-			//Returns all the users assigned to the passed through username.  NOTE: for adminsitrators
-			//it passess through "" which returns all users.
-			DataTable dtAssignedUsers = DataAccessClass.GetUsersMappedToConsultant(szConsultantName);
-			DataTable dtOtherUsers = DataAccessClass.GetUsersNotMappedToConsultant(szConsultantName);
-			//If there are duplicate values, the tree view doesn't work correctly so in one table
-			//we alter the ID values.  NOTE: this means that we can not rely on ID values of users, 
-			//this shouldn't be a problem as we use UserName instead to find users.
-			int iStartValue = 10000;
-			foreach(DataRow drTempUser in dtAssignedUsers.Rows)
+			if(chkRefreshUsersGrid.Checked == true)
+			{
+				//Sets up the form
+				string szConsultantName = SetupForm();
+				//Returns all the users assigned to the passed through username.  NOTE: for adminsitrators
+				//it passess through "" which returns all users.
+				DataTable dtAssignedUsers = DataAccessClass.GetUsersMappedToConsultant(szConsultantName);
+				DataTable dtOtherUsers = DataAccessClass.GetUsersNotMappedToConsultant(szConsultantName);
+				//If there are duplicate values, the tree view doesn't work correctly so in one table
+				//we alter the ID values.  NOTE: this means that we can not rely on ID values of users, 
+				//this shouldn't be a problem as we use UserName instead to find users.
+				int iStartValue = 10000;
+				foreach(DataRow drTempUser in dtAssignedUsers.Rows)
 				{
-				drTempUser["ID"] = iStartValue;
-				iStartValue++;
+					drTempUser["ID"] = iStartValue;
+					iStartValue++;
 				}
-			DataRow drAssignedUser;
-			//Copies across the other users datatable into the assigned users datatable
-			foreach(DataRow drOtherUser in dtOtherUsers.Rows)
+				DataRow drAssignedUser;
+				//Copies across the other users datatable into the assigned users datatable
+				foreach(DataRow drOtherUser in dtOtherUsers.Rows)
 				{
-				drAssignedUser = dtAssignedUsers.NewRow();
-				drAssignedUser["ID"] = drOtherUser["ID"].ToString();
-				drAssignedUser["Name"] = drOtherUser["Name"].ToString();
-				drAssignedUser["AccessType"] = drOtherUser["AccessType"].ToString();
-				drAssignedUser["UserName"] = drOtherUser["UserName"].ToString();
-				drAssignedUser["ParentID"] = 0;
-				dtAssignedUsers.Rows.Add(drAssignedUser);
+					drAssignedUser = dtAssignedUsers.NewRow();
+					drAssignedUser["ID"] = drOtherUser["ID"].ToString();
+					drAssignedUser["Name"] = drOtherUser["Name"].ToString();
+					drAssignedUser["AccessType"] = drOtherUser["AccessType"].ToString();
+					drAssignedUser["UserName"] = drOtherUser["UserName"].ToString();
+					drAssignedUser["ParentID"] = 0;
+					dtAssignedUsers.Rows.Add(drAssignedUser);
 				}
-			//Sets the number of rows onto the hidden component to store
-			//this is used for the searching functions on this page.
-			chkSetPosition.Text = dtAssignedUsers.Rows.Count.ToString();
-			this.grdUsers.DataSource =  dtAssignedUsers;
+				//Sets the number of rows onto the hidden component to store
+				//this is used for the searching functions on this page.
+				chkSetPosition.Text = dtAssignedUsers.Rows.Count.ToString();
+				this.grdUsers.DataSource =  dtAssignedUsers;
+			}
 			}
 		//-------------------------------------------------------------------------
 		//

@@ -169,6 +169,8 @@
 			<asp:Label id="lblFind" style="Z-INDEX: 122; LEFT: 32px; POSITION: absolute; TOP: 536px" runat="server">User's name:</asp:Label>
 			<asp:Button id="btnFind" style="Z-INDEX: 123; LEFT: 384px; POSITION: absolute; TOP: 536px" runat="server"
 				Text="Find"></asp:Button>
+			<asp:CheckBox id="chkRefreshUsersGrid" style="Z-INDEX: 124; LEFT: 176px; POSITION: absolute; TOP: 608px"
+				runat="server" Enabled="False" Visible="False" Checked="True"></asp:CheckBox>
 		</form>
 	</body>
 </HTML>
