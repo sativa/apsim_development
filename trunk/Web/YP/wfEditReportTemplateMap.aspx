@@ -14,13 +14,13 @@
 				BackColor="PaleGoldenrod" HorizontalAlign="Left" Width="100%" Height="48px">
 				<DIV style="WIDTH: 296px; POSITION: relative; HEIGHT: 41px" ms_positioning="GridLayout">
 					<asp:LinkButton id="btnCancel" style="Z-INDEX: 101; LEFT: 104px; POSITION: absolute; TOP: 16px"
-						tabIndex="6" runat="server" EnableViewState="False" Font-Size="X-Small">Cancel</asp:LinkButton>
+						tabIndex="6" runat="server" Font-Size="X-Small" EnableViewState="False">Cancel</asp:LinkButton>
 					<asp:LinkButton id="btnEditTemplate" style="Z-INDEX: 106; LEFT: 184px; POSITION: absolute; TOP: 16px"
-						tabIndex="6" runat="server" EnableViewState="False" Font-Size="X-Small">Edit Templates</asp:LinkButton>
+						tabIndex="6" runat="server" Font-Size="X-Small" EnableViewState="False">Edit Templates</asp:LinkButton>
 					<asp:ImageButton id="btnEditTemplateImg" style="Z-INDEX: 105; LEFT: 160px; POSITION: absolute; TOP: 16px"
 						tabIndex="5" runat="server" ImageUrl="Images\rename.gif"></asp:ImageButton>
 					<asp:LinkButton id="btnSave" style="Z-INDEX: 100; LEFT: 32px; POSITION: absolute; TOP: 16px" tabIndex="4"
-						runat="server" EnableViewState="False" Font-Size="X-Small">Save</asp:LinkButton>
+						runat="server" Font-Size="X-Small" EnableViewState="False">Save</asp:LinkButton>
 					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 103; LEFT: 80px; POSITION: absolute; TOP: 16px"
 						tabIndex="5" runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 104; LEFT: 8px; POSITION: absolute; TOP: 16px" tabIndex="3"
@@ -29,7 +29,7 @@
 			<asp:DropDownList id="cboCropTypes" style="Z-INDEX: 102; LEFT: 96px; POSITION: absolute; TOP: 80px"
 				runat="server" Width="160px" AutoPostBack="True"></asp:DropDownList>
 			<asp:DropDownList id="cboReportTypes" style="Z-INDEX: 103; LEFT: 360px; POSITION: absolute; TOP: 80px"
-				runat="server" Width="160px" AutoPostBack="True"></asp:DropDownList>
+				runat="server" Width="248px" AutoPostBack="True"></asp:DropDownList>
 			<asp:DropDownList id="cboConParTemplates" style="Z-INDEX: 104; LEFT: 208px; POSITION: absolute; TOP: 152px"
 				runat="server" Width="264px"></asp:DropDownList>
 			<asp:DropDownList id="cboAPSIMTemplates" style="Z-INDEX: 105; LEFT: 208px; POSITION: absolute; TOP: 192px"

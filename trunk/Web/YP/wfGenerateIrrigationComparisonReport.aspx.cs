@@ -42,7 +42,6 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Label lblScenarioThreeApplications;
 		protected Janus.Web.GridEX.GridEX grdIrrigationTwo;
 		protected Janus.Web.GridEX.GridEX grdIrrigationThree;
-		protected System.Web.UI.WebControls.Label Label1;
 		protected System.Web.UI.WebControls.Panel pnlTop;
 	
 
@@ -91,14 +90,14 @@ namespace YieldProphet
 			this.dsNitrogen.DataSetName = "NewDataSet";
 			this.dsNitrogen.Locale = new System.Globalization.CultureInfo("en-AU");
 			this.dsNitrogen.Tables.AddRange(new System.Data.DataTable[] {
-																																		this.dtNitrogen});
+																			this.dtNitrogen});
 			// 
 			// dtNitrogen
 			// 
 			this.dtNitrogen.Columns.AddRange(new System.Data.DataColumn[] {
-																																			this.dcID,
-																																			this.dcApplicationDate,
-																																			this.dcRate});
+																			  this.dcID,
+																			  this.dcApplicationDate,
+																			  this.dcRate});
 			this.dtNitrogen.TableName = "Nitrogen";
 			// 
 			// dcID
@@ -120,15 +119,15 @@ namespace YieldProphet
 			this.dsIrrigation.DataSetName = "NewDataSet";
 			this.dsIrrigation.Locale = new System.Globalization.CultureInfo("en-AU");
 			this.dsIrrigation.Tables.AddRange(new System.Data.DataTable[] {
-																																			this.dtIrrigation});
+																			  this.dtIrrigation});
 			// 
 			// dtIrrigation
 			// 
 			this.dtIrrigation.Columns.AddRange(new System.Data.DataColumn[] {
-																																				this.dcIrrigationID,
-																																				this.dcIrrigationDate,
-																																				this.dcAmount,
-																																				this.dcIrrigationEfficency});
+																				this.dcIrrigationID,
+																				this.dcIrrigationDate,
+																				this.dcAmount,
+																				this.dcIrrigationEfficency});
 			this.dtIrrigation.TableName = "Irrigation";
 			// 
 			// dcIrrigationID

@@ -1,5 +1,5 @@
-<%@ Register TagPrefix="jwg" Namespace="Janus.Web.GridEX" Assembly="Janus.Web.GridEX" %>
 <%@ Page language="c#" Codebehind="wfEditPaddock.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfEditPaddock" %>
+<%@ Register TagPrefix="jwg" Namespace="Janus.Web.GridEX" Assembly="Janus.Web.GridEX" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <HTML>
 	<HEAD>
@@ -15,7 +15,7 @@
 				HorizontalAlign="Left" BackColor="PaleGoldenrod" Height="48px" Width="100%">
 				<DIV style="WIDTH: 776px; POSITION: relative; HEIGHT: 44px" ms_positioning="GridLayout">
 					<asp:LinkButton id="btnCancel" style="Z-INDEX: 100; LEFT: 104px; POSITION: absolute; TOP: 16px"
-						runat="server" Font-Size="Smaller" EnableViewState="False">Cancel</asp:LinkButton>
+						runat="server" EnableViewState="False" Font-Size="Smaller">Cancel</asp:LinkButton>
 					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 101; LEFT: 80px; POSITION: absolute; TOP: 16px"
 						runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 102; LEFT: 8px; POSITION: absolute; TOP: 16px" runat="server"
@@ -31,14 +31,14 @@
 					<asp:LinkButton id="btnRainfall" style="Z-INDEX: 108; LEFT: 288px; POSITION: absolute; TOP: 16px"
 						runat="server" Font-Size="Smaller">Rainfall</asp:LinkButton>
 					<asp:CheckBox id="chkEmail" style="Z-INDEX: 109; LEFT: 672px; POSITION: absolute; TOP: 16px" runat="server"
-						Height="16px" Font-Size="Smaller" ForeColor="Blue" Text="Email con/par"></asp:CheckBox>
+						Height="16px" Font-Size="Smaller" Text="Email con/par" ForeColor="Blue"></asp:CheckBox>
 					<asp:LinkButton id="btnReport" style="Z-INDEX: 110; LEFT: 560px; POSITION: absolute; TOP: 16px"
 						runat="server" Font-Size="Smaller">Report Options</asp:LinkButton>
 					<asp:DropDownList id="cboReport" style="Z-INDEX: 111; LEFT: 352px; POSITION: absolute; TOP: 16px"
 						runat="server" Width="184px" Font-Size="Smaller"></asp:DropDownList>
 					<asp:Button id="btnSave" style="Z-INDEX: 112; LEFT: 32px; POSITION: absolute; TOP: 16px" runat="server"
-						Width="40px" Height="16px" BackColor="Transparent" Font-Size="Smaller" ForeColor="Blue" Text="Save"
-						BorderColor="Transparent" BorderStyle="None" Font-Underline="True" Font-Names="Times New Roman"></asp:Button></DIV>
+						Width="40px" Height="16px" BackColor="Transparent" Font-Size="Smaller" Text="Save" ForeColor="Blue"
+						Font-Names="Times New Roman" Font-Underline="True" BorderStyle="None" BorderColor="Transparent"></asp:Button></DIV>
 			</asp:panel><asp:label id="lblCropManagement" style="Z-INDEX: 101; LEFT: 16px; POSITION: absolute; TOP: 80px"
 				runat="server" Height="16px" Width="176px">In crop management for user: </asp:label><asp:label id="lblName" style="Z-INDEX: 102; LEFT: 208px; POSITION: absolute; TOP: 80px" runat="server"
 				Height="16px">Name</asp:label><asp:checkbox id="chkSown" style="Z-INDEX: 103; LEFT: 64px; POSITION: absolute; TOP: 160px" tabIndex="1"
@@ -229,8 +229,7 @@
 				runat="server">Population: </asp:label><asp:textbox id="edtPopulation" style="Z-INDEX: 120; LEFT: 584px; POSITION: absolute; TOP: 160px"
 				runat="server" Width="96px"></asp:textbox><asp:dropdownlist id="cboRowConfiguration" style="Z-INDEX: 121; LEFT: 584px; POSITION: absolute; TOP: 200px"
 				runat="server" Width="168px"></asp:dropdownlist><asp:label id="lblPopulationUnit" style="Z-INDEX: 122; LEFT: 696px; POSITION: absolute; TOP: 160px"
-				runat="server">plants/ha</asp:label><asp:label id="Label1" style="Z-INDEX: 123; LEFT: 336px; POSITION: absolute; TOP: 448px" runat="server"
-				ForeColor="Red">Irrigation Table Not Yet Functional</asp:label><asp:textbox id="edtTiller" style="Z-INDEX: 124; LEFT: 584px; POSITION: absolute; TOP: 280px"
+				runat="server">plants/ha</asp:label><asp:textbox id="edtTiller" style="Z-INDEX: 124; LEFT: 584px; POSITION: absolute; TOP: 280px"
 				runat="server" Width="80px"></asp:textbox><asp:label id="lblTiller" style="Z-INDEX: 125; LEFT: 432px; POSITION: absolute; TOP: 280px"
 				runat="server">Number of fertile tillers:</asp:label><asp:button id="btnCalculate" style="Z-INDEX: 126; LEFT: 672px; POSITION: absolute; TOP: 280px"
 				runat="server" Text="Calculate" Width="80px"></asp:button>
