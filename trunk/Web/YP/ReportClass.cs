@@ -570,16 +570,18 @@ namespace YieldProphet
 
 			//Gets the soil sample data from the second grid and copies to our soil.
 			DataTable dtSoilSampleTwo = DataAccessClass.GetPaddocksSoilSample("GridTwo", szPaddockName, FunctionsClass.GetActiveUserName());
-			string szSoilSampleTwoXml = dtSoilSampleTwo.Rows[0]["Data"].ToString();
-			if(szSoilSampleTwoXml != "")
+			if(dtSoilSampleTwo.Rows.Count > 0)
 				{
-				SoilSample PaddockSoilSample = new SoilSample(new APSIMData(szSoilSampleTwoXml));
-				PaddockSoilSample.LinkedSoil = PaddockSoil;
-				PaddockSoil.OC = PaddockSoilSample.OCMapedToSoil;
-				PaddockSoil.PH = PaddockSoilSample.PHMapedToSoil;
-				PaddockSoil.EC = PaddockSoilSample.ECMapedToSoil;
+				string szSoilSampleTwoXml = dtSoilSampleTwo.Rows[0]["Data"].ToString();
+				if(szSoilSampleTwoXml != "")
+					{
+					SoilSample PaddockSoilSample = new SoilSample(new APSIMData(szSoilSampleTwoXml));
+					PaddockSoilSample.LinkedSoil = PaddockSoil;
+					PaddockSoil.OC = PaddockSoilSample.OCMapedToSoil;
+					PaddockSoil.PH = PaddockSoilSample.PHMapedToSoil;
+					PaddockSoil.EC = PaddockSoilSample.ECMapedToSoil;
+					}
 				}
-
 			string FullSoilFileName = szDirectoryLocation + "\\grower.soil"; 
 			PaddockSoil.ExportToPar(FullSoilFileName);
 			scAttachments.Add(FullSoilFileName);

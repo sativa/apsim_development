@@ -309,6 +309,7 @@ namespace YieldProphet
 					FillNitrogenApplicationGrid();
 					FillIrrigationApplicationGrid();
 					FillCropsCombo();
+					FillRowConfigurationCombo();
 					FillReportTypesCombo();
 					FillCultivarsCombo();
 					SetSowDate(szSowDate);
@@ -527,6 +528,11 @@ namespace YieldProphet
 			grdSowDate.Enabled = bEnableCropDetails;
 			grdNitrogen.Enabled = bEnableCropDetails;
 			chkTriazine.Enabled =  bEnableCropDetails;
+			cboRowConfiguration.Enabled = bEnableCropDetails;
+			edtPopulation.Enabled = bEnableCropDetails;
+			edtTiller.Enabled = bEnableCropDetails;
+			btnCalculate.Enabled = bEnableCropDetails;
+			edtRowSpacing.Enabled = bEnableCropDetails;
 			}	
 		//-------------------------------------------------------------------------
 		//Displays visual components that are dependant on the type of crop selected

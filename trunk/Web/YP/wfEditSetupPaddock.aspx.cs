@@ -736,7 +736,7 @@ namespace YieldProphet
 				string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
 				DataTable dtPaddocksDetails = DataAccessClass.GetDetailsOfPaddock(szPaddockName, FunctionsClass.GetActiveUserName());
 				string CropType =  dtPaddocksDetails.Rows[0]["CropType"].ToString();
-				if (CropType.ToLower() == "barley")
+				if (CropType.ToLower() == "barley" || CropType.ToLower() == "none")
 					CropType = "wheat";
 
                 Chart WaterChart = cscSoilChart.Charts.GetAt( 0 );

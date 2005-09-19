@@ -126,6 +126,18 @@ namespace YieldProphet
 					{
 					bReportSent = true;
 					}
+				//Short term fix for Peter Mckenzie
+				DataTable dtConsultants = DataAccessClass.GetUsersConsultants(HttpContext.Current.Session["UserName"].ToString());
+				foreach(DataRow drConsultant in dtConsultants.Rows)
+					{
+					if(drConsultant["Name"].ToString() == "Peter McKenzie")
+						{
+						DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(HttpContext.Current.Session["UserName"].ToString());
+						SendEmail("pmckenzie.agvance@bigpond.com", "Apsimrun@csiro.au", "Automated reply from YP", 
+							dtUsersDetails.Rows[0]["Name"].ToString() +" has requested a report", null, MailPriority.Normal);
+							break;
+						}
+					}
 				}
 			return bReportSent;
 			}
