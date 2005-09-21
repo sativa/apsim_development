@@ -779,6 +779,15 @@ namespace YieldProphet
 										Server.Transfer("wfGenerateFallowReport.aspx");
 										break;
 
+									case ReportClass.szIrrigationSchedulingReport:
+										if(chkSown.Checked == true)
+											{
+											Server.Transfer("wfGenerateReport.aspx");
+											}
+										else
+											throw new Exception("This report requires a sowing date");
+										break;
+
 									default:
 										throw new Exception("Not a valid report type");
 									}

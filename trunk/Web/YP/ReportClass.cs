@@ -31,6 +31,7 @@ namespace YieldProphet
 		public const string szFallowReport = "Fallow report";
 		public const string szNitrogenProfitReport = "Nitrogen profit report";
 		public const string szIrrigationComparisonReport = "Irrigation comparison report";
+		public const string szIrrigationSchedulingReport = "Irrigation scheduling report";
 		//-------------------------------------------------------------------------
 		#endregion
 		
@@ -516,9 +517,13 @@ namespace YieldProphet
 
 			string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
 			DataTable dtPaddocksDetails = DataAccessClass.GetDetailsOfPaddock(szPaddockName, FunctionsClass.GetActiveUserName());
-			
+
+			string CropType = dtPaddocksDetails.Rows[0]["CropType"].ToString();
+			if (CropType.ToLower() == "barley")
+				CropType = "wheat";			
+
 			AddStringNode("cultivar", dtPaddocksDetails.Rows[0]["CultivarType"].ToString(), ref xmlScenario, xmlDocPaddock);
-			AddStringNode("crop", dtPaddocksDetails.Rows[0]["CropType"].ToString(), ref xmlScenario, xmlDocPaddock);
+			AddStringNode("crop", CropType, ref xmlScenario, xmlDocPaddock);
 			AddStringNode("rowconfiguration", dtPaddocksDetails.Rows[0]["RowConfigurationType"].ToString(), ref xmlScenario, xmlDocPaddock);
 			AddDateNode("sowdate", dtPaddocksDetails.Rows[0]["SowDate"].ToString(), ref xmlScenario, xmlDocPaddock);
 			AddNumericalNode("triazine", dtPaddocksDetails.Rows[0]["Triazine"].ToString(), ref xmlScenario, xmlDocPaddock);
