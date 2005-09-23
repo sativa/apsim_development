@@ -739,6 +739,40 @@ namespace CSGeneral
 			return errorMessages;
 			}
 
+		// -------------------------------------------------
+		// Using the soil's EC values - create an XF profile
+		// -------------------------------------------------
+		public void ApplyECXFFunction(string CropName, int RootingDepth)
+			{
+			if (EC.Length > 0)
+				{
+				double[] xf = new double[Thickness.Length];
+				for (int i = 0; i != this.CumThickness.Length; i++)
+					{
+					if (EC[i] <= 0.68)
+						xf[i] = 1.0;
+					else
+						xf[i] = 2.06 / (1 + 2 * EC[i]) - 0.351;
+
+					if (CumThickness[i] > RootingDepth)
+						{
+						double Prop = CumThickness[i] - CumThickness[i-1];
+						if (CumThickness[i-1] > RootingDepth)
+							xf[i] = 0.0;
+						else
+							{
+							xf[i] = (RootingDepth - CumThickness[i-1]) / Thickness[i];
+							}
+						}
+					}
+				
+				double[] ll = LL(CropName);
+				double[] kl = LL(CropName);
+				SetCrop(CropName, ll, kl, xf);
+				}
+			}
+
+
 
 		}
 	}

@@ -159,7 +159,17 @@ namespace CSGeneral
 			}
 		public double[] ECMapedToSoil
 			{
-			get {return MapSampleToSoilUsingSpatial(EC, Thickness, MyLinkedSoil.EC, MyLinkedSoil.Thickness);}
+			get {
+				double[] soilec = null;
+				if (MyLinkedSoil.EC.Length == 0)
+					{
+					soilec = new double[MyLinkedSoil.Thickness.Length];
+					for (int i = 0; i != soilec.Length; i++)
+						soilec[i] = 0;
+					}
+				double[] ec = MapSampleToSoilUsingSpatial(EC, Thickness, soilec, MyLinkedSoil.Thickness);
+				return ec;
+				}
 			}
 
 
