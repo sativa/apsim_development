@@ -841,9 +841,10 @@ void legnew_dm_distribute(int max_part
   void get_p_grain_pcnt(protocol::Component *, protocol::QueryValueData &qd);
   void get_p_uptake_stover(protocol::Component *, protocol::QueryValueData &qd);
   void get_grain_p_demand(protocol::Component *, protocol::QueryValueData &qd);
+  void get_ll(protocol::Component *systemInterface, protocol::QueryValueData &qd);
 
   int  getDayOfYear(void) {return (g.day_of_year);};
- 
+
   // To transfer to Fruit class
   void plant_bio_distribute (int option /* (INPUT) option number */);
 

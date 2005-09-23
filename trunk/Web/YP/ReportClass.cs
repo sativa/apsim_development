@@ -587,6 +587,8 @@ namespace YieldProphet
 					PaddockSoil.EC = PaddockSoilSample.ECMapedToSoil;
 					int RootDepth = Convert.ToInt32(dtPaddocksDetails.Rows[0]["RootingDepth"]);
 					string Crop = dtPaddocksDetails.Rows[0]["CropType"].ToString();
+					if (Crop.ToLower() == "barley")
+						Crop = "wheat";
 					RootDepth *= 10;   // cm to mm
 					PaddockSoil.ApplyECXFFunction(Crop, RootDepth);
 					}

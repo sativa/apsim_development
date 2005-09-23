@@ -167,6 +167,10 @@ namespace CSGeneral
 					for (int i = 0; i != soilec.Length; i++)
 						soilec[i] = 0;
 					}
+				else
+					{
+					soilec = MyLinkedSoil.EC;
+					}
 				double[] ec = MapSampleToSoilUsingSpatial(EC, Thickness, soilec, MyLinkedSoil.Thickness);
 				return ec;
 				}

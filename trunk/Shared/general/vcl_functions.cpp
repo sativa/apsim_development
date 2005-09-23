@@ -513,7 +513,7 @@ void saveComponent(ostream& out, TComponent* component)
 // of the specified property.  Only component owned by the specified owner
 // will be found.
 //---------------------------------------------------------------------------
-AnsiString resolveComponentPropertyMacro(TComponent* owner, AnsiString text)
+AnsiString resolveComponentPropertyMacro(TComponent* owner, AnsiString text, int recNo)
    {
    AnsiString value;
 
@@ -530,6 +530,8 @@ AnsiString resolveComponentPropertyMacro(TComponent* owner, AnsiString text)
          try
             {
             // try and get a field value.
+            if (recNo > 0)
+               dataset->RecNo = recNo;
             value = dataset->FieldValues[propertyName.c_str()];
             }
          catch (Exception& error)
