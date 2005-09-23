@@ -24,9 +24,12 @@ string ReportMacros::evaluateMacro(TComponent* owner, const string& macro, const
 
    if (macro == "$property")
       {
-      if (arguments.size() == 1)
+      if (arguments.size() == 1 || arguments.size() == 2)
          {
-         returnValue = resolveComponentPropertyMacro(owner, arguments[0].c_str()).c_str();
+         int recNo = 0;
+         if (arguments.size() == 2)
+            recNo = StrToInt(arguments[1].c_str());
+         returnValue = resolveComponentPropertyMacro(owner, arguments[0].c_str(), recNo).c_str();
          if (returnValue == "")
             returnValue = "?";
 
@@ -37,9 +40,12 @@ string ReportMacros::evaluateMacro(TComponent* owner, const string& macro, const
       }
    else if (macro == "$precision")
       {
-      if (arguments.size() == 2)
+      if (arguments.size() == 2 || arguments.size() == 3)
          {
-         returnValue = resolveComponentPropertyMacro(owner, arguments[0].c_str()).c_str();
+         int recNo = 0;
+         if (arguments.size() == 3)
+            recNo = StrToInt(arguments[2].c_str());
+         returnValue = resolveComponentPropertyMacro(owner, arguments[0].c_str(), recNo).c_str();
          try
             {
             double value = StrToFloat(returnValue.c_str());
@@ -61,14 +67,31 @@ string ReportMacros::evaluateMacro(TComponent* owner, const string& macro, const
       }
    else if (macro == "$propertydaymonth")
       {
-      date d(day_clock::local_day().year(), 1, 1);
-      string dayNumberString = evaluateMacro(owner, "$property", arguments[0]);
+      string args = arguments[0];
+      if (arguments.size() == 2)
+         args += "," + arguments[1];
+      string dayNumberString = evaluateMacro(owner, "$property", args);
       int numDays = atoi(dayNumberString.c_str());
+      date d(day_clock::local_day().year(), 1, 1);
       if (numDays > 0)
          d = d + date_duration(numDays - 1);
       ostringstream out;
       out << d.day() << '-' << getShortMonthString(d.month());
       returnValue = out.str();
+      }
+   else if (macro == "$propertyshortdate")
+      {
+      string args = arguments[0];
+      if (arguments.size() == 2)
+         args += "," + arguments[1];
+      string dateString = evaluateMacro(owner, "$property", args);
+      if (dateString != "" && dateString != "?")
+         {
+          date d(fromDmyString(dateString));
+         ostringstream out;
+         out << d.day() << '-' << getShortMonthString(d.month());
+         returnValue = out.str();
+         }
       }
    return returnValue;
    }

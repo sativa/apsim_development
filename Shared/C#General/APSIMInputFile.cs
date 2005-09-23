@@ -170,7 +170,7 @@ namespace CSGeneral
 			data.Rows.Clear();
 			string Line;
 			Line = In.ReadLine();
-			while (Line != null)
+			while (Line != null && Line.Length > 0)
 				{
 				StringCollection Words = StringManip.SplitStringHonouringQuotes(Line, " \t");
 				if (Words.Count !=	Headings.Count)

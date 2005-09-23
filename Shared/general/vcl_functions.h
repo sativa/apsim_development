@@ -346,7 +346,7 @@ void saveComponent(std::ostream& out, TComponent* component);
 // of the specified property.  Only component owned by the specified owner
 // will be found.
 //---------------------------------------------------------------------------
-AnsiString resolveComponentPropertyMacro(TComponent* owner, AnsiString text);
+AnsiString resolveComponentPropertyMacro(TComponent* owner, AnsiString text, int recNo = 0);
 
 //---------------------------------------------------------------------------
 // populate a single column of a grid with the specified values.

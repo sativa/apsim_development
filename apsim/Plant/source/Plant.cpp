@@ -831,6 +831,10 @@ void Plant::doRegistrations(protocol::Component *system)
                g.p_demand[meal],
                "g/m^2","P demand of grain");
 
+   setupGetFunction(parent, "ll_dep", protocol::DTsingle, true,
+                    &Plant::get_ll,
+                    "mm","Crop lower limit");
+
 #undef setupGetVar
 #undef setupGetFunction
 
@@ -12754,6 +12758,16 @@ void Plant::get_dlt_p_sen(protocol::Component *systemInterface, protocol::QueryV
    systemInterface->sendVariable(qd, dlt_p_sen);
    deleteHacks(parts);
 }
+
+void Plant::get_ll(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+   {
+   vector<float> ll_dep;
+   int num_layers = count_of_real_vals (p.ll_dep, max_layer);
+   for(int layer = 0; layer <= num_layers; layer++)
+      ll_dep.push_back(p.ll_dep[layer]);
+   systemInterface->sendVariable(qd, ll_dep);
+}
+
 
 ///////////////
 /*  Purpose

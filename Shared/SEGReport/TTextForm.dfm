@@ -3,8 +3,8 @@ inherited TextForm: TTextForm
   Height = 527
   Caption = 'TextForm'
   OldCreateOrder = True
-  PixelsPerInch = 120
-  TextHeight = 16
+  PixelsPerInch = 96
+  TextHeight = 13
   inherited AdvPanelGroup1: TAdvPanelGroup
     Width = 270
     Height = 494
@@ -13,66 +13,67 @@ inherited TextForm: TTextForm
       Width = 254
       FullHeight = 293
       inherited NameEdit: TEdit
-        Width = 166
+        Width = 183
       end
       inherited SourceCombo: TComboBox
-        Width = 166
+        Width = 183
       end
       inherited SortFieldsEdit: TEdit
-        Width = 166
+        Width = 183
       end
       inherited GroupByEdit: TEdit
-        Width = 167
+        Width = 184
       end
     end
     inherited PropertyPanel: TAdvPanel
       Width = 254
       FullHeight = 297
       object Label6: TLabel
-        Left = 8
-        Top = 120
-        Width = 36
-        Height = 16
+        Left = 7
+        Top = 98
+        Width = 30
+        Height = 13
         Caption = 'Text:'
       end
       object Label7: TLabel
-        Left = 8
-        Top = 24
-        Width = 70
-        Height = 16
+        Left = 7
+        Top = 20
+        Width = 62
+        Height = 13
         Caption = 'Alignment:'
       end
       object Label5: TLabel
-        Left = 8
-        Top = 328
-        Width = 231
-        Height = 64
+        Left = 7
+        Top = 267
+        Width = 191
+        Height = 65
         Anchors = [akLeft, akBottom]
         Caption = 
           'E.g macros:    $precision(component.property,                   ' +
-          'decplaces)  $property(component.property)'
+          'decplaces [,recno])  $property(component.property               ' +
+          '    [,recno])'
         WordWrap = True
       end
       object FontLabel: TLabel
-        Left = 8
-        Top = 96
-        Width = 60
-        Height = 16
+        Left = 7
+        Top = 78
+        Width = 49
+        Height = 13
         Cursor = crHandPoint
         Caption = 'Edit Font'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlue
-        Font.Height = -13
+        Font.Height = -11
         Font.Name = 'Verdana'
         Font.Style = [fsUnderline]
         ParentFont = False
         OnClick = FontLabelClick
       end
       object TextEdit: TRichEdit
-        Left = 8
-        Top = 136
-        Width = 233
-        Height = 193
+        Left = 7
+        Top = 111
+        Width = 189
+        Height = 156
         Anchors = [akLeft, akTop, akRight, akBottom]
         BevelInner = bvNone
         BevelOuter = bvRaised
@@ -84,12 +85,12 @@ inherited TextForm: TTextForm
         OnExit = TextEditExit
       end
       object AlignmentCombo: TComboBox
-        Left = 8
-        Top = 40
-        Width = 176
-        Height = 24
+        Left = 7
+        Top = 33
+        Width = 143
+        Height = 21
         BevelKind = bkSoft
-        ItemHeight = 16
+        ItemHeight = 13
         TabOrder = 2
         OnChange = AlignmentComboChange
         Items.Strings = (
@@ -98,10 +99,10 @@ inherited TextForm: TTextForm
           'Right')
       end
       object AutosizeCheckBox: TCheckBox
-        Left = 8
-        Top = 72
-        Width = 119
-        Height = 21
+        Left = 7
+        Top = 59
+        Width = 96
+        Height = 17
         Alignment = taLeftJustify
         Caption = 'Autosize?'
         Ctl3D = True

@@ -5,12 +5,11 @@
     <VERSION value="BCB.06.00"/>
     <PROJECT value="FarmWebLib.lib"/>
     <OBJFILES value="Data.obj ..\..\Shared\ApsimShared\ApsimDataFileWriter.obj Utilities.obj 
-      ..\..\shared\soil\soil.obj ..\..\Shared\Soil\SoilBase.obj 
-      ..\..\Shared\Soil\SoilSample.obj TWebSession.obj TQuestionForm.obj 
-      TDropDownManagementForm.obj TReportsForm.obj TTemporalDataForm.obj 
-      TTemporalDataMinMaxForm.obj TUserManagementForm.obj 
-      TReportManagementForm.obj TInfoForm.obj TClimateForecastForm.obj 
-      TUserDetailsForm.obj TMainForm.obj TSoilsForm.obj TMetStationForm.obj"/>
+      TWebSession.obj TQuestionForm.obj TDropDownManagementForm.obj 
+      TReportsForm.obj TTemporalDataForm.obj TTemporalDataMinMaxForm.obj 
+      TUserManagementForm.obj TReportManagementForm.obj TInfoForm.obj 
+      TClimateForecastForm.obj TUserDetailsForm.obj TMainForm.obj TSoilsForm.obj 
+      TMetStationForm.obj Soil\soilSample.obj Soil\soil.obj Soil\SoilBase.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TWebSession.dfm TQuestionForm.dfm TDropDownManagementForm.dfm 
@@ -21,7 +20,7 @@
     <LIBFILES value=""/>
     <LIBRARIES value=""/>
     <PACKAGES value=""/>
-    <PATHCPP value=".;..\..\Shared\ApsimShared;..\..\shared\soil"/>
+    <PATHCPP value=".;..\..\Shared\ApsimShared;Soil"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -29,8 +28,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL"/>
     <MAINSOURCE value="FarmWebLib.bpf"/>
-    <INCLUDEPATH value="..\..\Shared\general;..\..\Shared\Soil;&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED)"/>
-    <LIBPATH value="..\..\Shared\general;..\..\Shared\Soil;&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;..\..\Shared\ApsimShared;$(BCB)\lib\obj;$(BCB)\lib;&quot;C:\Program Files\Borland\CBuilder6\Components\IntraWeb\LibCB6&quot;"/>
+    <INCLUDEPATH value="Soil;..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED);."/>
+    <LIBPATH value="Soil;..\..\Shared\general;..\..\Shared\Soil;&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;..\..\Shared\ApsimShared;$(BCB)\lib\obj;$(BCB)\lib;&quot;C:\Program Files\Borland\CBuilder6\Components\IntraWeb\LibCB6&quot;"/>
     <WARNINGS value="-w-par"/>
     <LISTFILE value=""/>
     <OTHERFILES value=""/>
@@ -53,9 +52,6 @@
       <FILE FILENAME="Data.cpp" FORMNAME="" UNITNAME="Data.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\ApsimShared\ApsimDataFileWriter.cpp" FORMNAME="" UNITNAME="ApsimDataFileWriter" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Utilities.cpp" FORMNAME="" UNITNAME="Utilities" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\..\shared\soil\soil.cpp" FORMNAME="" UNITNAME="soil" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\..\Shared\Soil\SoilBase.cpp" FORMNAME="" UNITNAME="SoilBase.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\..\Shared\Soil\SoilSample.cpp" FORMNAME="" UNITNAME="SoilSample.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TWebSession.cpp" FORMNAME="WebSession" UNITNAME="TWebSession" CONTAINERID="CCompiler" DESIGNCLASS="TIWUserSessionBase" LOCALCOMMAND=""/>
       <FILE FILENAME="TQuestionForm.cpp" FORMNAME="QuestionForm" UNITNAME="TQuestionForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
       <FILE FILENAME="TDropDownManagementForm.cpp" FORMNAME="DropDownManagementForm" UNITNAME="TDropDownManagementForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
@@ -70,6 +66,9 @@
       <FILE FILENAME="TMainForm.cpp" FORMNAME="MainForm" UNITNAME="TMainForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
       <FILE FILENAME="TSoilsForm.cpp" FORMNAME="SoilsForm" UNITNAME="TSoilsForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
       <FILE FILENAME="TMetStationForm.cpp" FORMNAME="MetStationForm" UNITNAME="TMetStationForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
+      <FILE FILENAME="Soil\soilSample.cpp" FORMNAME="" UNITNAME="soilSample.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Soil\soil.cpp" FORMNAME="" UNITNAME="soil.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Soil\SoilBase.cpp" FORMNAME="" UNITNAME="SoilBase.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -103,18 +102,30 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=5
-Item0=..\..\Shared\general;..\..\Shared\Soil;C:\Program Files\Borland\CBuilder6\Bin;..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED)
-Item1=..\..\Shared\Soil;C:\Program Files\Borland\CBuilder6\Bin;..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED);C:\Program Files\Borland\CBuilder6\Components\IntraWeb\LibCB6
-Item2=..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED)
-Item3=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost
-Item4=$(BCB)\include;$(BCB)\include\vcl
+Count=16
+Item0=Soil;..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED);.
+Item1=Soil;..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED)
+Item2=Soil;..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED);D:\development\FarmWeb\Source\Soil
+Item3=..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED);D:\development\FarmWeb\Source\Soil
+Item4=..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED);.\Soil
+Item5=..\..\shared\soil;..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED);.\Soil
+Item6=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED);.\Soil
+Item7=..\..\shared\soil;..\..\Shared\ApsimShared;($Shared)\general;($Shared)\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED)
+Item8=($Shared)\general;($Shared)\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED)
+Item9=..\..\shared\soil;..\..\Shared\general;..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED)
+Item10=..\..\Shared\general;..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED)
+Item11=..\..\Shared\general;..\..\Shared\Soil;C:\Program Files\Borland\CBuilder6\Bin;..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED)
+Item12=..\..\Shared\Soil;C:\Program Files\Borland\CBuilder6\Bin;..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED);C:\Program Files\Borland\CBuilder6\Components\IntraWeb\LibCB6
+Item13=..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED)
+Item14=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost
+Item15=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=3
-Item0=..\..\Shared\general;..\..\Shared\Soil;C:\Program Files\Borland\CBuilder6\Bin;..\..\Shared\ApsimShared;$(BCB)\lib\obj;$(BCB)\lib;C:\Program Files\Borland\CBuilder6\Components\IntraWeb\LibCB6
-Item1=..\..\Shared\Soil;C:\Program Files\Borland\CBuilder6\Bin;..\..\Shared\ApsimShared;$(BCB)\lib\obj;$(BCB)\lib;C:\Program Files\Borland\CBuilder6\Components\IntraWeb\LibCB6
-Item2=$(BCB)\lib\obj;$(BCB)\lib
+Count=4
+Item0=Soil;..\..\Shared\general;..\..\Shared\Soil;C:\Program Files\Borland\CBuilder6\Bin;..\..\Shared\ApsimShared;$(BCB)\lib\obj;$(BCB)\lib;C:\Program Files\Borland\CBuilder6\Components\IntraWeb\LibCB6
+Item1=..\..\Shared\general;..\..\Shared\Soil;C:\Program Files\Borland\CBuilder6\Bin;..\..\Shared\ApsimShared;$(BCB)\lib\obj;$(BCB)\lib;C:\Program Files\Borland\CBuilder6\Components\IntraWeb\LibCB6
+Item2=..\..\Shared\Soil;C:\Program Files\Borland\CBuilder6\Bin;..\..\Shared\ApsimShared;$(BCB)\lib\obj;$(BCB)\lib;C:\Program Files\Borland\CBuilder6\Components\IntraWeb\LibCB6
+Item3=$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
