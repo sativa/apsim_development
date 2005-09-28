@@ -46,6 +46,50 @@ namespace YieldProphet
 		protected Janus.Web.GridEX.GridEX grdNitrogen;
 		protected System.Web.UI.WebControls.Label lblSowingDateTwo;
 		protected System.Web.UI.WebControls.Label lblSowingDateThree;
+		protected System.Web.UI.WebControls.Label lblPopulation;
+		protected System.Web.UI.WebControls.CheckBox chkAutoCalculateThree;
+		protected System.Web.UI.WebControls.Label lblTillerTwo;
+		protected System.Web.UI.WebControls.Label lblRowSpacingTwo;
+		protected System.Web.UI.WebControls.Label lblRowConfigurationTwo;
+		protected System.Web.UI.WebControls.TextBox edtTillerTwo;
+		protected System.Web.UI.WebControls.Button btnReCalculateTwo;
+		protected System.Web.UI.WebControls.TextBox edtRowSpacingTwo;
+		protected System.Web.UI.WebControls.Label lblRowSpacingUnitTwo;
+		protected System.Web.UI.WebControls.DropDownList cboRowConfigurationTwo;
+		protected System.Web.UI.WebControls.Label lblPopulationUnitTwo;
+		protected System.Web.UI.WebControls.TextBox edtPopulationTwo;
+		protected System.Web.UI.WebControls.Label Label1;
+		protected System.Web.UI.WebControls.TextBox edtPopulationThree;
+		protected System.Web.UI.WebControls.Label lblPopulationUnitThree;
+		protected System.Web.UI.WebControls.DropDownList cboRowConfigurationThree;
+		protected System.Web.UI.WebControls.Label lblRowSpacingUnitThree;
+		protected System.Web.UI.WebControls.TextBox edtRowSpacingThree;
+		protected System.Web.UI.WebControls.Button btnReCalculateThree;
+		protected System.Web.UI.WebControls.TextBox edtTillerThree;
+		protected System.Web.UI.WebControls.Label lblRowConfigurationThree;
+		protected System.Web.UI.WebControls.Label lblRowSpacingThree;
+		protected System.Web.UI.WebControls.Label lblTillerThree;
+		protected System.Web.UI.WebControls.CheckBox chkAutoCalculateTwo;
+		protected System.Web.UI.WebControls.Label Label7;
+		protected System.Web.UI.WebControls.TextBox edtPopulationOne;
+		protected System.Web.UI.WebControls.Label lblPopulationUnitOne;
+		protected System.Web.UI.WebControls.DropDownList cboRowConfigurationOne;
+		protected System.Web.UI.WebControls.Label lblRowSpacingUnitOne;
+		protected System.Web.UI.WebControls.TextBox edtRowSpacingOne;
+		protected System.Web.UI.WebControls.Button btnReCalculateOne;
+		protected System.Web.UI.WebControls.TextBox edtTillerOne;
+		protected System.Web.UI.WebControls.Label lblRowConfigurationOne;
+		protected System.Web.UI.WebControls.Label lblRowSpacingOne;
+		protected System.Web.UI.WebControls.Label lblTillerOne;
+		protected System.Web.UI.WebControls.CheckBox chkAutoCalculateOne;
+		protected System.Web.UI.WebControls.Label lblScenarioOne;
+		protected System.Web.UI.WebControls.Label lblScenarioTwo;
+		protected System.Web.UI.WebControls.Label lblScenarioThree;
+		protected System.Web.UI.WebControls.Label lblPopulationTwo;
+		protected System.Web.UI.WebControls.Label lblPopulationThree;
+		protected System.Web.UI.WebControls.Label lblPopulationOne;
+		protected System.Web.UI.WebControls.Panel pnlDivideOne;
+		protected System.Web.UI.WebControls.Panel pnlDivideTwo;
 		protected System.Web.UI.WebControls.Panel pnlTop;
 	
 
@@ -81,6 +125,12 @@ namespace YieldProphet
 			this.btnSaveImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnSaveImg_Click);
 			this.grdNitrogen.UpdatingCell += new Janus.Web.GridEX.UpdatingCellEventHandler(this.grdNitrogen_UpdatingCell);
 			this.cboCrops.SelectedIndexChanged += new System.EventHandler(this.cboCrops_SelectedIndexChanged);
+			this.btnReCalculateTwo.Click += new System.EventHandler(this.btnReCalculateTwo_Click);
+			this.chkAutoCalculateTwo.CheckedChanged += new System.EventHandler(this.chkAutoCalculateTwo_CheckedChanged);
+			this.chkAutoCalculateThree.CheckedChanged += new System.EventHandler(this.chkAutoCalculateThree_CheckedChanged);
+			this.btnReCalculateThree.Click += new System.EventHandler(this.btnReCalculateThree_Click);
+			this.chkAutoCalculateOne.CheckedChanged += new System.EventHandler(this.chkAutoCalculateOne_CheckedChanged);
+			this.btnReCalculateOne.Click += new System.EventHandler(this.btnReCalculateOne_Click);
 			// 
 			// dsNitrogen
 			// 
@@ -148,6 +198,8 @@ namespace YieldProphet
 			SetSowDate();
 			FillCropsCombo();
 			FillCultivarsCombo();
+			FillRowConfigurationCombo();
+			SetVisibilityOfSorgumComponents();
 			}
 		//-------------------------------------------------------------------------
 		//Stores the report type selection from the previous page in view state
@@ -203,6 +255,34 @@ namespace YieldProphet
 			cboCrops.DataBind();
 			}
 		//-------------------------------------------------------------------------
+		//Fills the row configuration combo box with all the row configuration types form the database
+		//-------------------------------------------------------------------------
+		private void FillRowConfigurationCombo()
+		{
+			try
+			{
+				DataTable dtRowConfiguration = DataAccessClass.GetAllRowConfigurationTypes();
+				cboRowConfigurationOne.DataSource = dtRowConfiguration;
+				cboRowConfigurationOne.DataTextField = "Type";
+				cboRowConfigurationOne.DataValueField = "Type";
+				cboRowConfigurationOne.DataBind();
+
+				cboRowConfigurationTwo.DataSource = dtRowConfiguration;
+				cboRowConfigurationTwo.DataTextField = "Type";
+				cboRowConfigurationTwo.DataValueField = "Type";
+				cboRowConfigurationTwo.DataBind();
+
+				cboRowConfigurationThree.DataSource = dtRowConfiguration;
+				cboRowConfigurationThree.DataTextField = "Type";
+				cboRowConfigurationThree.DataValueField = "Type";
+				cboRowConfigurationThree.DataBind();
+			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+		}
+		//-------------------------------------------------------------------------
 		//Gets all the cultivars for the selected crop and fills the cultivars
 		//combo box with them
 		//-------------------------------------------------------------------------
@@ -253,6 +333,7 @@ namespace YieldProphet
 									FunctionsClass.GetActiveUserName());
 								if(dtPaddockDetails.Rows.Count > 0)
 									{
+									RunFTNCalculations();
 									string szCropType = dtPaddockDetails.Rows[0]["CropType"].ToString();
 									//Generate a data table that stores the values particular to the Sow X Variety report
 									DataTable dtOtherValues = 
@@ -264,6 +345,15 @@ namespace YieldProphet
 										ReportClass.PrepareSowingXVarietyXML(edtReportName.Text, ViewState["ReportType"].ToString(), cboVarietyOne.SelectedValue, 
 										grdSowDateOne.GetRow(0).Cells["SowDate"].Text, cboVarietyTwo.SelectedValue, grdSowDateTwo.GetRow(0).Cells["SowDate"].Text, 
 										cboVarietyThree.SelectedValue, grdSowDateThree.GetRow(0).Cells["SowDate"].Text, cboCrops.SelectedValue, 
+										cboRowConfigurationOne.SelectedValue, InputValidationClass.ReturnTextBoxValueAsInteger(edtPopulationOne, 0), 
+										InputValidationClass.ReturnTextBoxValueAsDouble(edtTillerOne, 0), 
+										InputValidationClass.ReturnTextBoxValueAsDouble(edtRowSpacingOne, 0),
+										cboRowConfigurationTwo.SelectedValue, InputValidationClass.ReturnTextBoxValueAsInteger(edtPopulationTwo, 0), 
+										InputValidationClass.ReturnTextBoxValueAsDouble(edtTillerTwo, 0), 
+										InputValidationClass.ReturnTextBoxValueAsDouble(edtRowSpacingTwo, 0),
+										cboRowConfigurationThree.SelectedValue, InputValidationClass.ReturnTextBoxValueAsInteger(edtPopulationThree, 0), 
+										InputValidationClass.ReturnTextBoxValueAsDouble(edtTillerThree, 0), 
+										InputValidationClass.ReturnTextBoxValueAsDouble(edtRowSpacingThree, 0),
 										grdNitrogen);
 									//Generate the files needed to generate a report and then email these files to the ApsimRun machine
 									if(EmailClass.SendReportEmail(edtReportName.Text, cboCrops.SelectedValue, 
@@ -324,6 +414,104 @@ namespace YieldProphet
 			return dtNitrogen;
 			}
 		//-------------------------------------------------------------------------
+		//Sets the visibility of the triazine option depending on the crop selected
+		//-------------------------------------------------------------------------
+		private void SetVisibilityOfSorgumComponents()
+		{
+			bool bSorgumComponentVisibility = false;
+			if(cboCrops.SelectedValue == "Sorghum")
+				bSorgumComponentVisibility = true;
+
+			lblRowConfigurationOne.Visible = bSorgumComponentVisibility;
+			cboRowConfigurationOne.Visible = bSorgumComponentVisibility;
+			lblPopulationOne.Visible = bSorgumComponentVisibility;
+			edtPopulationOne.Visible = bSorgumComponentVisibility;
+			lblPopulationUnitOne.Visible = bSorgumComponentVisibility;
+			edtTillerOne.Visible = bSorgumComponentVisibility;
+			lblTillerOne.Visible = bSorgumComponentVisibility;
+			lblRowSpacingOne.Visible  = bSorgumComponentVisibility;
+			btnReCalculateOne.Visible = bSorgumComponentVisibility;
+			edtRowSpacingOne.Visible = bSorgumComponentVisibility;
+			lblRowSpacingUnitOne.Visible = bSorgumComponentVisibility;
+			chkAutoCalculateOne.Visible = bSorgumComponentVisibility;
+
+			lblRowConfigurationTwo.Visible = bSorgumComponentVisibility;
+			cboRowConfigurationTwo.Visible = bSorgumComponentVisibility;
+			lblPopulationTwo.Visible = bSorgumComponentVisibility;
+			edtPopulationTwo.Visible = bSorgumComponentVisibility;
+			lblPopulationUnitTwo.Visible = bSorgumComponentVisibility;
+			edtTillerTwo.Visible = bSorgumComponentVisibility;
+			lblTillerTwo.Visible = bSorgumComponentVisibility;
+			lblRowSpacingTwo.Visible  = bSorgumComponentVisibility;
+			btnReCalculateTwo.Visible = bSorgumComponentVisibility;
+			edtRowSpacingTwo.Visible = bSorgumComponentVisibility;
+			lblRowSpacingUnitTwo.Visible = bSorgumComponentVisibility;
+			chkAutoCalculateTwo.Visible = bSorgumComponentVisibility;
+
+			lblRowConfigurationThree.Visible = bSorgumComponentVisibility;
+			cboRowConfigurationThree.Visible = bSorgumComponentVisibility;
+			lblPopulationThree.Visible = bSorgumComponentVisibility;
+			edtPopulationThree.Visible = bSorgumComponentVisibility;
+			lblPopulationUnitThree.Visible = bSorgumComponentVisibility;
+			edtTillerThree.Visible = bSorgumComponentVisibility;
+			lblTillerThree.Visible = bSorgumComponentVisibility;
+			lblRowSpacingThree.Visible  = bSorgumComponentVisibility;
+			btnReCalculateThree.Visible = bSorgumComponentVisibility;
+			edtRowSpacingThree.Visible = bSorgumComponentVisibility;
+			lblRowSpacingUnitThree.Visible = bSorgumComponentVisibility;
+			chkAutoCalculateThree.Visible = bSorgumComponentVisibility;
+
+			pnlDivideOne.Visible = bSorgumComponentVisibility;
+			pnlDivideTwo.Visible = bSorgumComponentVisibility;
+		}	
+		//-------------------------------------------------------------------------
+		//Checks to see if the auto calculate option is selected for each
+		//scenario and if it is runs the calculation to update the result
+		//-------------------------------------------------------------------------
+		private void RunFTNCalculations()
+		{
+			if(chkAutoCalculateOne.Checked == true)
+				SetFertileTillerNumber(edtTillerOne, edtPopulationOne.Text, 
+					cboRowConfigurationOne.SelectedValue);
+			if(chkAutoCalculateTwo.Checked == true)
+				SetFertileTillerNumber(edtTillerTwo, edtPopulationTwo.Text, 
+					cboRowConfigurationTwo.SelectedValue);
+			if(chkAutoCalculateThree.Checked == true)
+				SetFertileTillerNumber(edtTillerThree, edtPopulationThree.Text, 
+					cboRowConfigurationThree.SelectedValue);
+		}
+		//-------------------------------------------------------------------------
+		//Calculates and displays the fertile Tiller number
+		//-------------------------------------------------------------------------
+		private void SetFertileTillerNumber(TextBox edtTiller, string szPopulation, 
+			string szRowConfiguration)
+		{
+			try
+			{
+				DataTable dtPaddockDetails = 
+					DataAccessClass.GetDetailsOfPaddock(Session["SelectedPaddockName"].ToString(), 
+					FunctionsClass.GetActiveUserName());
+
+				if(dtPaddockDetails.Rows[0]["RegionType"].ToString() != null && 
+					dtPaddockDetails.Rows[0]["RegionType"].ToString() != "" && 
+					dtPaddockDetails.Rows[0]["RegionType"].ToString() != "None" &&
+					grdSowDateOne.GetRow(0).Cells["SowDate"].Text != "" &&
+					InputValidationClass.IsInputAPositiveInteger(szPopulation) == true)
+				{
+					edtTiller.Text = FunctionsClass.ReturnTillerNumber(szRowConfiguration, dtPaddockDetails.Rows[0]["RegionType"].ToString(),
+						DateTime.ParseExact(grdSowDateOne.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null), Convert.ToInt32(szPopulation)).ToString();
+				}
+				else
+				{
+					throw new Exception("Please ensure that a valid region is selected and a valid population is entered");
+				}
+			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+		}
+		//-------------------------------------------------------------------------
 		#endregion
 
 
@@ -356,6 +544,7 @@ namespace YieldProphet
 		private void cboCrops_SelectedIndexChanged(object sender, System.EventArgs e)
 			{
 			FillCultivarsCombo();
+			SetVisibilityOfSorgumComponents();
 			}
 		//-------------------------------------------------------------------------
 		//
@@ -384,6 +573,72 @@ namespace YieldProphet
 		private void btnSaveImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
 			{
 			GenerateReport();
+			}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void btnReCalculateOne_Click(object sender, System.EventArgs e)
+			{
+			SetFertileTillerNumber(edtTillerOne, edtPopulationOne.Text, 
+				cboRowConfigurationOne.SelectedValue);
+			}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void btnReCalculateTwo_Click(object sender, System.EventArgs e)
+			{
+			SetFertileTillerNumber(edtTillerTwo, edtPopulationTwo.Text, 
+				cboRowConfigurationTwo.SelectedValue);
+			}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void btnReCalculateThree_Click(object sender, System.EventArgs e)
+			{
+			SetFertileTillerNumber(edtTillerThree, edtPopulationThree.Text, 
+				cboRowConfigurationThree.SelectedValue);
+			}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void chkAutoCalculateOne_CheckedChanged(object sender, System.EventArgs e)
+			{
+			if(chkAutoCalculateOne.Checked == true)
+				{
+				edtTillerOne.Enabled = false;
+				}
+			else
+				{
+				edtTillerOne.Enabled = true;
+				}
+			}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void chkAutoCalculateTwo_CheckedChanged(object sender, System.EventArgs e)
+			{
+			if(chkAutoCalculateTwo.Checked == true)
+				{
+				edtTillerTwo.Enabled = false;
+				}
+			else
+				{
+				edtTillerTwo.Enabled = true;
+				}
+			}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void chkAutoCalculateThree_CheckedChanged(object sender, System.EventArgs e)
+			{
+			if(chkAutoCalculateThree.Checked == true)
+				{
+				edtTillerThree.Enabled = false;
+				}
+			else
+				{
+				edtTillerThree.Enabled = true;
+				}
 			}
 		//-------------------------------------------------------------------------
 		//

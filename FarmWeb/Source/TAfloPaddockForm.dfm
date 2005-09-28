@@ -16,8 +16,8 @@ object AfloPaddockForm: TAfloPaddockForm
   object IWLabel2: TIWLabel
     Left = 170
     Top = 248
-    Width = 64
-    Height = 19
+    Width = 50
+    Height = 16
     Cursor = crAuto
     IW50Hint = False
     ParentShowHint = False
@@ -38,8 +38,8 @@ object AfloPaddockForm: TAfloPaddockForm
   object IWLabel3: TIWLabel
     Left = 170
     Top = 216
-    Width = 130
-    Height = 19
+    Width = 103
+    Height = 16
     Cursor = crAuto
     IW50Hint = False
     ParentShowHint = False
@@ -139,8 +139,8 @@ object AfloPaddockForm: TAfloPaddockForm
   object IWLabel4: TIWLabel
     Left = 170
     Top = 120
-    Width = 68
-    Height = 19
+    Width = 55
+    Height = 16
     Cursor = crAuto
     IW50Hint = False
     ParentShowHint = False
@@ -161,8 +161,8 @@ object AfloPaddockForm: TAfloPaddockForm
   object IWLabel5: TIWLabel
     Left = 170
     Top = 280
-    Width = 155
-    Height = 19
+    Width = 125
+    Height = 16
     Cursor = crAuto
     IW50Hint = False
     ParentShowHint = False
@@ -236,8 +236,8 @@ object AfloPaddockForm: TAfloPaddockForm
   object IWLabel1: TIWLabel
     Left = 170
     Top = 88
-    Width = 160
-    Height = 19
+    Width = 130
+    Height = 16
     Cursor = crAuto
     IW50Hint = False
     ParentShowHint = False
@@ -395,8 +395,8 @@ object AfloPaddockForm: TAfloPaddockForm
   object UserLabel: TIWLabel
     Left = 170
     Top = 56
-    Width = 455
-    Height = 19
+    Width = 368
+    Height = 16
     Cursor = crAuto
     IW50Hint = False
     ParentShowHint = False
@@ -413,37 +413,6 @@ object AfloPaddockForm: TAfloPaddockForm
     FriendlyName = 'IWLabel1'
     Caption = 'In crop management for user: xxx and paddock: yyy.'
     RawText = False
-  end
-  object ReportCombo: TIWComboBox
-    Left = 342
-    Top = 11
-    Width = 219
-    Height = 21
-    Cursor = crAuto
-    IW50Hint = False
-    ParentShowHint = False
-    ShowHint = True
-    ZIndex = 0
-    RenderSize = True
-    BGColor = clNone
-    Font.Color = clNone
-    Font.Size = 10
-    Font.Style = []
-    FocusColor = clNone
-    AutoHideOnMenuActivation = False
-    ItemsHaveValues = False
-    NoSelectionText = '-- No Selection --'
-    Required = False
-    RequireSelection = True
-    ScriptEvents = <>
-    UseSize = True
-    DoSubmitValidation = True
-    Editable = True
-    NonEditableAsLabel = True
-    TabOrder = 18
-    ItemIndex = -1
-    Sorted = False
-    FriendlyName = 'ReportCombo'
   end
   object IWImageFile1: TIWImageFile
     Left = 168
@@ -463,7 +432,7 @@ object AfloPaddockForm: TAfloPaddockForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\disk_blue.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\disk_blue.gif'
   end
   object SaveButton: TIWLink
     Left = 195
@@ -531,10 +500,10 @@ object AfloPaddockForm: TAfloPaddockForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\rainfall.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\rainfall.gif'
   end
   object IWImageFile5: TIWImageFile
-    Left = 568
+    Left = 432
     Top = 8
     Width = 24
     Height = 24
@@ -551,10 +520,10 @@ object AfloPaddockForm: TAfloPaddockForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\column-chart.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\column-chart.gif'
   end
   object CreateReportButton: TIWLink
-    Left = 595
+    Left = 459
     Top = 11
     Width = 110
     Height = 17
@@ -577,35 +546,11 @@ object AfloPaddockForm: TAfloPaddockForm
     TabOrder = 23
     RawText = False
   end
-  object EmailFilesCheckBox: TIWCheckBox
-    Left = 704
-    Top = 8
-    Width = 121
-    Height = 21
-    Cursor = crAuto
-    IW50Hint = False
-    ParentShowHint = False
-    ShowHint = True
-    ZIndex = 0
-    RenderSize = False
-    Caption = 'Email con/par'
-    Editable = True
-    Font.Color = clWebBLUE
-    Font.FontName = 'Arial'
-    Font.Size = 10
-    Font.Style = []
-    ScriptEvents = <>
-    DoSubmitValidation = True
-    Style = stNormal
-    TabOrder = 32
-    Checked = False
-    FriendlyName = 'EmailFilesCheckBox'
-  end
   object IWLabel7: TIWLabel
-    Left = 608
+    Left = 566
     Top = 88
-    Width = 324
-    Height = 19
+    Width = 255
+    Height = 16
     Cursor = crAuto
     IW50Hint = False
     ParentShowHint = False
@@ -624,10 +569,10 @@ object AfloPaddockForm: TAfloPaddockForm
     RawText = False
   end
   object IWLabel8: TIWLabel
-    Left = 630
+    Left = 566
     Top = 112
-    Width = 265
-    Height = 19
+    Width = 260
+    Height = 16
     Cursor = crAuto
     IW50Hint = False
     ParentShowHint = False
@@ -642,29 +587,7 @@ object AfloPaddockForm: TAfloPaddockForm
     Font.Style = []
     NoWrap = False
     FriendlyName = 'IWLabel1'
-    Caption = ' select a report type and click on the'
-    RawText = False
-  end
-  object IWLabel9: TIWLabel
-    Left = 630
-    Top = 136
-    Width = 259
-    Height = 19
-    Cursor = crAuto
-    IW50Hint = False
-    ParentShowHint = False
-    ShowHint = True
-    ZIndex = 0
-    RenderSize = False
-    Alignment = taRightJustify
-    BGColor = clNone
-    Font.Color = clWebBLUE
-    Font.FontName = 'Arial'
-    Font.Size = 10
-    Font.Style = []
-    NoWrap = False
-    FriendlyName = 'IWLabel1'
-    Caption = #39'create report'#39' button at top of page.'
+    Caption = 'click on '#39'create report'#39' at the top of  this page'
     RawText = False
   end
   object HelpImage: TIWImageFile
@@ -686,7 +609,7 @@ object AfloPaddockForm: TAfloPaddockForm
     TabOrder = 22
     UseSize = True
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\help2.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\help2.gif'
   end
   object HelpButton: TIWLink
     Left = 35
@@ -711,5 +634,49 @@ object AfloPaddockForm: TAfloPaddockForm
     OnClick = HelpButtonClick
     TabOrder = 23
     RawText = False
+  end
+  object IrrigationButton: TIWLink
+    Left = 363
+    Top = 11
+    Width = 70
+    Height = 17
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Caption = 'Irrigation'
+    Color = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = [fsUnderline]
+    ScriptEvents = <>
+    DoSubmitValidation = False
+    FriendlyName = 'SaveButton'
+    OnClick = IrrigationButtonClick
+    TabOrder = 23
+    RawText = False
+  end
+  object IWImageFile2: TIWImageFile
+    Left = 336
+    Top = 8
+    Width = 21
+    Height = 22
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    BorderOptions.Color = clNone
+    BorderOptions.Width = 0
+    DoSubmitValidation = True
+    ScriptEvents = <>
+    TabOrder = 22
+    UseSize = False
+    FriendlyName = 'IWImageFile1'
+    ImageFile.Filename = 'D:\development\FarmWeb\Source\Files\irrigation.GIF'
   end
 end

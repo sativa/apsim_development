@@ -88,14 +88,14 @@ namespace YieldProphet
 			this.dsNitrogen.DataSetName = "NewDataSet";
 			this.dsNitrogen.Locale = new System.Globalization.CultureInfo("en-AU");
 			this.dsNitrogen.Tables.AddRange(new System.Data.DataTable[] {
-																			this.Nitrogen});
+																																		this.Nitrogen});
 			// 
 			// Nitrogen
 			// 
 			this.Nitrogen.Columns.AddRange(new System.Data.DataColumn[] {
-																			this.dcID,
-																			this.dcApplicationDate,
-																			this.dcRate});
+																																		this.dcID,
+																																		this.dcApplicationDate,
+																																		this.dcRate});
 			this.Nitrogen.TableName = "Nitrogen";
 			// 
 			// dcID

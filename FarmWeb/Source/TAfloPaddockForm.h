@@ -45,25 +45,25 @@ class TAfloPaddockForm: public TIWAppForm
       TIWButton *AirTempButton;
       TIWRectangle *IWRectangle1;
       TIWLabel *UserLabel;
-      TIWComboBox *ReportCombo;
       TIWImageFile *IWImageFile1;
       TIWLink *SaveButton;
       TIWLink *RainfallButton;
       TIWImageFile *IWImageFile4;
       TIWImageFile *IWImageFile5;
       TIWLink *CreateReportButton;
-      TIWCheckBox *EmailFilesCheckBox;
       TIWLabel *IWLabel7;
       TIWLabel *IWLabel8;
-      TIWLabel *IWLabel9;
    TIWImageFile *HelpImage;
    TIWLink *HelpButton;
+   TIWLink *IrrigationButton;
+   TIWImageFile *IWImageFile2;
       void __fastcall SaveButtonClick(TObject *Sender);
       void __fastcall RainfallEntryButtonClick(TObject *Sender);
       void __fastcall CreateReportButtonClick(TObject *Sender);
       void __fastcall SoilTempButtonClick(TObject *Sender);
       void __fastcall AirTempButtonClick(TObject *Sender);
    void __fastcall HelpButtonClick(TObject *Sender);
+   void __fastcall IrrigationButtonClick(TObject *Sender);
    private:
       TWebSession* webSession;
       Data* data;

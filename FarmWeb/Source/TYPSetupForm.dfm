@@ -1686,7 +1686,7 @@ object YPSetupForm: TYPSetupForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\disk_blue.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\disk_blue.gif'
   end
   object SaveButton: TIWLink
     Left = 251
@@ -1754,6 +1754,6 @@ object YPSetupForm: TYPSetupForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\nav_left_green.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\nav_left_green.gif'
   end
 end

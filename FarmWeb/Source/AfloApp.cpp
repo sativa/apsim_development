@@ -30,3 +30,5 @@ void setAsMainForm()
    TMainForm::SetAsMainForm(__classid(TMainForm));
    }
 #pragma link "IWIndy_70_60.lib"
+#pragma link "IWLicenseKey.obj"
+

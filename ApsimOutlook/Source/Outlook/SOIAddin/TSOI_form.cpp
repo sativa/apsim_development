@@ -4,6 +4,7 @@
 #pragma hdrstop
 
 #include "TSOI_form.h"
+#include <general\vcl_functions.h>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -18,21 +19,15 @@ void __fastcall TSOI_form::FormShow(TObject *Sender)
    {
    if (SOI_ptr != NULL) SOI_listbox->ItemIndex = SOI_ptr->FPhase_month - 1;
    SOI_toggleClick(Sender);
-   CheckBox1->Checked = (find(SOI_ptr->phasesToInclude.begin(),
-                              SOI_ptr->phasesToInclude.end(),
-                              1) != SOI_ptr->phasesToInclude.end());
-   CheckBox2->Checked = (find(SOI_ptr->phasesToInclude.begin(),
-                              SOI_ptr->phasesToInclude.end(),
-                              2) != SOI_ptr->phasesToInclude.end());
-   CheckBox3->Checked = (find(SOI_ptr->phasesToInclude.begin(),
-                              SOI_ptr->phasesToInclude.end(),
-                              3) != SOI_ptr->phasesToInclude.end());
-   CheckBox4->Checked = (find(SOI_ptr->phasesToInclude.begin(),
-                              SOI_ptr->phasesToInclude.end(),
-                              4) != SOI_ptr->phasesToInclude.end());
-   CheckBox5->Checked = (find(SOI_ptr->phasesToInclude.begin(),
-                              SOI_ptr->phasesToInclude.end(),
-                              5) != SOI_ptr->phasesToInclude.end());
+
+   Stl_2_tstrings(SOI_ptr->FPhase_names, PhaseCheckBox->Items);
+
+   for (unsigned i = 0; i != SOI_ptr->phasesToInclude.size(); i++)
+      {
+      int Index = SOI_ptr->phasesToInclude[i]-1;
+      if (Index < PhaseCheckBox->Items->Count)
+         PhaseCheckBox->Checked[Index] = true;
+      }
 
    AllYears->Checked = SOI_ptr->allYears;
    }
@@ -49,16 +44,12 @@ void __fastcall TSOI_form::FormClose(TObject *Sender, TCloseAction &Action)
       }
    SOI_ptr->phasesToInclude.erase(SOI_ptr->phasesToInclude.begin(),
                                   SOI_ptr->phasesToInclude.end());
-   if (CheckBox1->Checked)
-      SOI_ptr->phasesToInclude.push_back(1);
-   if (CheckBox2->Checked)
-      SOI_ptr->phasesToInclude.push_back(2);
-   if (CheckBox3->Checked)
-      SOI_ptr->phasesToInclude.push_back(3);
-   if (CheckBox4->Checked)
-      SOI_ptr->phasesToInclude.push_back(4);
-   if (CheckBox5->Checked)
-      SOI_ptr->phasesToInclude.push_back(5);
+
+   for (int i = 0; i != PhaseCheckBox->Items->Count; i++)
+      {
+      if (PhaseCheckBox->Checked[i])
+         SOI_ptr->phasesToInclude.push_back(i+1);
+      }
 
    SOI_ptr->allYears = AllYears->Checked;
    }

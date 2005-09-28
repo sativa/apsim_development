@@ -17,8 +17,8 @@
 					<asp:LinkButton id="btnCancel" style="Z-INDEX: 100; LEFT: 120px; POSITION: absolute; TOP: 16px"
 						tabIndex="5" runat="server" EnableViewState="False" Font-Size="Smaller">Cancel</asp:LinkButton>
 					<asp:Button id="btnSave" style="Z-INDEX: 104; LEFT: 32px; POSITION: absolute; TOP: 16px" runat="server"
-						Height="16px" Width="64px" BackColor="Transparent" Font-Size="Smaller" ForeColor="Blue"
-						BorderColor="Transparent" BorderStyle="None" Font-Underline="True" Text="Do report" Font-Names="Times New Roman"></asp:Button>
+						Height="16px" Width="64px" BackColor="Transparent" Font-Size="Smaller" ForeColor="Blue" BorderColor="Transparent"
+						BorderStyle="None" Font-Underline="True" Text="Do report" Font-Names="Times New Roman"></asp:Button>
 					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 101; LEFT: 96px; POSITION: absolute; TOP: 16px"
 						tabIndex="4" runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 102; LEFT: 8px; POSITION: absolute; TOP: 16px" tabIndex="2"
@@ -28,7 +28,7 @@
 				runat="server" Width="240px" Height="16px">Enter a descriptive name for the report:</asp:Label>
 			<asp:TextBox id="edtReportName" style="Z-INDEX: 104; LEFT: 24px; POSITION: absolute; TOP: 112px"
 				tabIndex="1" runat="server" Width="480px" Height="24px"></asp:TextBox>
-			<jwg:gridEX id=grdNitrogenOne style="Z-INDEX: 106; LEFT: 24px; POSITION: absolute; TOP: 448px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" AutomaticSort="False" AllowColumnDrag="False" TableHeaders="True">
+			<jwg:gridEX id=grdNitrogenOne style="Z-INDEX: 106; LEFT: 24px; POSITION: absolute; TOP: 448px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" AutomaticSort="False" AllowColumnDrag="False" TableHeaders="True" SendDataKeyValuesToClient="True">
 				<RootTable DataMember="Nitrogen" Caption="Scenario One Nitrogen" Key="Nitrogen">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.Single" Key="ID" HasValueList="True" DataMember="ID" DefaultGroupPrefix="ID:"
@@ -87,7 +87,7 @@
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
 			</jwg:gridEX>
-			<jwg:gridEX id=grdIrrigationOne style="Z-INDEX: 110; LEFT: 24px; POSITION: absolute; TOP: 192px" runat="server" Width="482px" Height="220px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsIrrigation %>" DataMember="Irrigation" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" AutomaticSort="False" AllowColumnDrag="False" TableHeaders="True" ColumnSetHeaders="False">
+			<jwg:gridEX id=grdIrrigationOne style="Z-INDEX: 110; LEFT: 24px; POSITION: absolute; TOP: 192px" runat="server" Width="482px" Height="220px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsIrrigation %>" DataMember="Irrigation" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" AutomaticSort="False" AllowColumnDrag="False" TableHeaders="True" ColumnSetHeaders="False" SendDataKeyValuesToClient="True">
 				<RootTable DataMember="Irrigation" Caption="Scenario One Irrigation" Key="Irrigation">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.String" Key="ID" DataMember="ID" DefaultGroupPrefix="ID:" InvalidValueAction="DiscardChanges"
@@ -141,7 +141,7 @@
 					Padding="4px 4px"></GroupByBoxInfoFormatStyle>
 				<TotalRowFormatStyle BackColor="Window" Height="20px"></TotalRowFormatStyle>
 				<RowFormatStyle BorderStyle="Solid" TextAlign="left" BackColor="Window" ForeColor="WindowText" Height="20px"
-					VerticalAlign="top" BorderWidth="1px"></RowFormatStyle>
+					VerticalAlign="top" BorderWidth="1px" Font-Size="Small" Padding="0"></RowFormatStyle>
 				<FilterRowFormatStyle BackColor="Window" ForeColor="WindowText"></FilterRowFormatStyle>
 				<GroupTotalRowFormatStyle BackColor="Control" Height="20px"></GroupTotalRowFormatStyle>
 				<GroupByBoxFormatStyle BackColor="ControlDark" Padding="5px 4px 5px 4px"></GroupByBoxFormatStyle>
@@ -152,7 +152,7 @@
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
 			</jwg:gridEX>
-			<jwg:gridEX id=grdNitrogenTwo style="Z-INDEX: 105; LEFT: 24px; POSITION: absolute; TOP: 904px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" AutomaticSort="False" AllowColumnDrag="False" TableHeaders="True">
+			<jwg:gridEX id=grdNitrogenTwo style="Z-INDEX: 105; LEFT: 24px; POSITION: absolute; TOP: 904px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" AutomaticSort="False" AllowColumnDrag="False" TableHeaders="True" SendDataKeyValuesToClient="True">
 				<RootTable DataMember="Nitrogen" Caption="Scenario Two Nitrogen" Key="Nitrogen">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.Single" Key="ID" HasValueList="True" DataMember="ID" DefaultGroupPrefix="ID:"
@@ -211,7 +211,7 @@
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
 			</jwg:gridEX>
-			<jwg:gridEX id=grdNitrogenThree style="Z-INDEX: 103; LEFT: 24px; POSITION: absolute; TOP: 1360px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" AutomaticSort="False" AllowColumnDrag="False" TableHeaders="True">
+			<jwg:gridEX id=grdNitrogenThree style="Z-INDEX: 103; LEFT: 24px; POSITION: absolute; TOP: 1360px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" AutomaticSort="False" AllowColumnDrag="False" TableHeaders="True" SendDataKeyValuesToClient="True">
 				<RootTable DataMember="Nitrogen" Caption="Scenario Three Nitrogen" Key="Nitrogen">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.Single" Key="ID" DataMember="ID" DefaultGroupPrefix="ID:" InvalidValueAction="DiscardChanges"
@@ -270,7 +270,7 @@
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
 			</jwg:gridEX>
-			<jwg:gridEX id=grdIrrigationTwo style="Z-INDEX: 112; LEFT: 24px; POSITION: absolute; TOP: 648px" runat="server" Width="482px" Height="220px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsIrrigation %>" DataMember="Irrigation" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" AutomaticSort="False" AllowColumnDrag="False" TableHeaders="True">
+			<jwg:gridEX id=grdIrrigationTwo style="Z-INDEX: 112; LEFT: 24px; POSITION: absolute; TOP: 648px" runat="server" Width="482px" Height="220px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsIrrigation %>" DataMember="Irrigation" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" AutomaticSort="False" AllowColumnDrag="False" TableHeaders="True" SendDataKeyValuesToClient="True">
 				<RootTable DataMember="Irrigation" Caption="Scenario Two Irrigation" Key="Irrigation">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.String" Key="ID" DataMember="ID" DefaultGroupPrefix="ID:" InvalidValueAction="DiscardChanges"
@@ -323,7 +323,7 @@
 					Padding="4px 4px"></GroupByBoxInfoFormatStyle>
 				<TotalRowFormatStyle BackColor="Window" Height="20px"></TotalRowFormatStyle>
 				<RowFormatStyle BorderStyle="Solid" TextAlign="left" BackColor="Window" ForeColor="WindowText" Height="20px"
-					VerticalAlign="top" BorderWidth="1px"></RowFormatStyle>
+					VerticalAlign="top" BorderWidth="1px" Font-Size="Small" Padding="0"></RowFormatStyle>
 				<FilterRowFormatStyle BackColor="Window" ForeColor="WindowText"></FilterRowFormatStyle>
 				<GroupTotalRowFormatStyle BackColor="Control" Height="20px"></GroupTotalRowFormatStyle>
 				<GroupByBoxFormatStyle BackColor="ControlDark" Padding="5px 4px 5px 4px"></GroupByBoxFormatStyle>
@@ -334,7 +334,7 @@
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
 			</jwg:gridEX>
-			<jwg:gridEX id=grdIrrigationThree style="Z-INDEX: 111; LEFT: 24px; POSITION: absolute; TOP: 1104px" runat="server" Width="482px" Height="220px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsIrrigation %>" DataMember="Irrigation" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" AutomaticSort="False" AllowColumnDrag="False" TableHeaders="True">
+			<jwg:gridEX id=grdIrrigationThree style="Z-INDEX: 111; LEFT: 24px; POSITION: absolute; TOP: 1104px" runat="server" Width="482px" Height="220px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsIrrigation %>" DataMember="Irrigation" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch" AutomaticSort="False" AllowColumnDrag="False" TableHeaders="True" SendDataKeyValuesToClient="True">
 				<RootTable DataMember="Irrigation" TableHeader="True" Caption="Scenario Three Irrigation" Key="Irrigation">
 					<TableHeaderFormatStyle TextAlign="Center" Font-Bold="True"></TableHeaderFormatStyle>
 					<Columns>
@@ -389,7 +389,7 @@
 					Padding="4px 4px"></GroupByBoxInfoFormatStyle>
 				<TotalRowFormatStyle BackColor="Window" Height="20px"></TotalRowFormatStyle>
 				<RowFormatStyle BorderStyle="Solid" TextAlign="left" BackColor="Window" ForeColor="WindowText" Height="20px"
-					VerticalAlign="top" BorderWidth="1px"></RowFormatStyle>
+					VerticalAlign="top" BorderWidth="1px" Font-Size="Small" Padding="0"></RowFormatStyle>
 				<FilterRowFormatStyle BackColor="Window" ForeColor="WindowText"></FilterRowFormatStyle>
 				<GroupTotalRowFormatStyle BackColor="Control" Height="20px"></GroupTotalRowFormatStyle>
 				<GroupByBoxFormatStyle BackColor="ControlDark" Padding="5px 4px 5px 4px"></GroupByBoxFormatStyle>

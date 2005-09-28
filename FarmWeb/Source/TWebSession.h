@@ -24,6 +24,7 @@ class TDropDownManagementForm;
 class TClimateForecastForm;
 class TSoilsForm;
 class TMetStationForm;
+class TGenerateForm;
 
 typedef void __fastcall (__closure *TQuestionEvent)(bool userClickedYes);
 typedef void __fastcall (__closure *TInfoEvent)(bool OkClicked,
@@ -109,6 +110,13 @@ class TWebSession : public TIWUserSessionBase
                             bool fromGrowerManagement);
 
       //---------------------------------------------------------------------------
+      // Show the irrigation form.
+      //---------------------------------------------------------------------------
+      void showIrrigationForm(const std::string& userName,
+                              const std::string& paddockName,
+                              bool fromGrowerManagement);
+
+      //---------------------------------------------------------------------------
       // Show the soil temp form.
       //---------------------------------------------------------------------------
       void showSoilTempForm(const std::string& userName,
@@ -127,6 +135,11 @@ class TWebSession : public TIWUserSessionBase
       //---------------------------------------------------------------------------
       void showReportsForm(const std::string& userName, bool readOnly,
                            bool fromUserManagement);
+
+      // -----------------------------------------
+      // Show the generate report form.
+      // -----------------------------------------
+      void showGenerateReportForm(const std::string& userName, const std::string& paddockName, bool readOnly);
 
       //---------------------------------------------------------------------------
       // Show the question form.
@@ -227,6 +240,7 @@ class TWebSession : public TIWUserSessionBase
       TClimateForecastForm* climateForecastForm;
       TSoilsForm* soilsForm;
       TMetStationForm* metStationForm;
+      TGenerateForm* generateForm;
 
       // these next 3 variables are only used during a report generation.
       AnsiString currentReportName;

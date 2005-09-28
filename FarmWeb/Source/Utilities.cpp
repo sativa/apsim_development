@@ -272,6 +272,14 @@ bool generateReport(std::string toEmailAddress,
                                         firstRainfallDate, yesterday);
          files.push_back(rainfallFileName);
 
+         // generate an irrigation file for this grower.
+         string irrigationFileName = webSession->getFilesDir() + "\\" + userName + ".irr";
+         string irrigationName[1] = {"patch_irr"};
+         data->generateCompleteDataFile(userName, paddockName, vector<string>(irrigationName, irrigationName+1),
+                                        irrigationFileName, "grower.Irrigation.data",
+                                        firstRainfallDate, yesterday);
+         files.push_back(irrigationFileName);
+
          if (generateTempFiles)
             {
             // generate a soil temperature file.

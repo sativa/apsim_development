@@ -185,7 +185,7 @@ object MetStationForm: TMetStationForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\add2.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\add2.gif'
   end
   object AddRegionButton: TIWLink
     Left = 171
@@ -229,7 +229,7 @@ object MetStationForm: TMetStationForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\delete2.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\delete2.gif'
   end
   object DeleteRegionButton: TIWLink
     Left = 291
@@ -297,7 +297,7 @@ object MetStationForm: TMetStationForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\delete2.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\delete2.gif'
   end
   object ImportButton: TIWLink
     Left = 515
@@ -341,6 +341,6 @@ object MetStationForm: TMetStationForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\import1.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\import1.gif'
   end
 end

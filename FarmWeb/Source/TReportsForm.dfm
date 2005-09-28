@@ -56,7 +56,7 @@ object ReportsForm: TReportsForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\delete2.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\delete2.gif'
   end
   object DeleteButton: TIWLink
     Left = 371
@@ -100,7 +100,7 @@ object ReportsForm: TReportsForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\nav_left_green.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\nav_left_green.gif'
   end
   object BackButton: TIWLink
     Left = 179
@@ -176,7 +176,7 @@ object ReportsForm: TReportsForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\view.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\view.gif'
   end
   object ShowButton: TIWLink
     Left = 267
@@ -221,7 +221,7 @@ object ReportsForm: TReportsForm
     TabOrder = 22
     UseSize = True
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\help2.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\help2.gif'
   end
   object HelpButton: TIWLink
     Left = 35
@@ -265,7 +265,7 @@ object ReportsForm: TReportsForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\document rename.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\document rename.gif'
   end
   object RenameButton: TIWLink
     Left = 483

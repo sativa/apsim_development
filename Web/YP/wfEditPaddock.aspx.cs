@@ -66,10 +66,11 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Label lblPopulationUnit;
 		protected System.Web.UI.WebControls.TextBox edtTiller;
 		protected System.Web.UI.WebControls.Label lblTiller;
-		protected System.Web.UI.WebControls.Button btnCalculate;
 		protected System.Web.UI.WebControls.Label lblRowSpacing;
 		protected System.Web.UI.WebControls.TextBox edtRowSpacing;
 		protected System.Web.UI.WebControls.Label lblRowSpacingUnit;
+		protected System.Web.UI.WebControls.Button btnCalculate;
+		protected System.Web.UI.WebControls.CheckBox chkAutoCalculate;
 		protected System.Web.UI.WebControls.HyperLink HyperLink1;
 
 
@@ -129,14 +130,14 @@ namespace YieldProphet
 			this.dsNitrogen.DataSetName = "NewDataSet";
 			this.dsNitrogen.Locale = new System.Globalization.CultureInfo("en-US");
 			this.dsNitrogen.Tables.AddRange(new System.Data.DataTable[] {
-																			this.dtNitrogen});
+																																		this.dtNitrogen});
 			// 
 			// dtNitrogen
 			// 
 			this.dtNitrogen.Columns.AddRange(new System.Data.DataColumn[] {
-																			  this.dcID,
-																			  this.dcApplicationDate,
-																			  this.dcRate});
+																																			this.dcID,
+																																			this.dcApplicationDate,
+																																			this.dcRate});
 			this.dtNitrogen.TableName = "Nitrogen";
 			// 
 			// dcID
@@ -157,12 +158,12 @@ namespace YieldProphet
 			this.dsSowDate.DataSetName = "NewDataSet";
 			this.dsSowDate.Locale = new System.Globalization.CultureInfo("en-AU");
 			this.dsSowDate.Tables.AddRange(new System.Data.DataTable[] {
-																		   this.dtSowDate});
+																																	 this.dtSowDate});
 			// 
 			// dtSowDate
 			// 
 			this.dtSowDate.Columns.AddRange(new System.Data.DataColumn[] {
-																			 this.dcSowDate});
+																																		 this.dcSowDate});
 			this.dtSowDate.TableName = "SowDate";
 			// 
 			// dcSowDate
@@ -175,15 +176,15 @@ namespace YieldProphet
 			this.dsIrrigation.DataSetName = "NewDataSet";
 			this.dsIrrigation.Locale = new System.Globalization.CultureInfo("en-AU");
 			this.dsIrrigation.Tables.AddRange(new System.Data.DataTable[] {
-																			  this.dtIrrigation});
+																																			this.dtIrrigation});
 			// 
 			// dtIrrigation
 			// 
 			this.dtIrrigation.Columns.AddRange(new System.Data.DataColumn[] {
-																				this.dcIrrigationID,
-																				this.dcIrrigationDate,
-																				this.dcIrrigationAmount,
-																				this.dcIrrigationEfficency});
+																																				this.dcIrrigationID,
+																																				this.dcIrrigationDate,
+																																				this.dcIrrigationAmount,
+																																				this.dcIrrigationEfficency});
 			this.dtIrrigation.TableName = "Irrigation";
 			// 
 			// dcIrrigationID
@@ -206,6 +207,7 @@ namespace YieldProphet
 			// 
 			this.dcIrrigationEfficency.Caption = "Efficency (%)";
 			this.dcIrrigationEfficency.ColumnName = "Efficency";
+			this.chkAutoCalculate.CheckedChanged += new System.EventHandler(this.chkAutoCalculate_CheckedChanged);
 			this.Load += new System.EventHandler(this.Page_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dsNitrogen)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dtNitrogen)).EndInit();
@@ -281,9 +283,17 @@ namespace YieldProphet
 						{
 						edtRowSpacing.Text = dtPaddockDetails.Rows[0]["RowSpacing"].ToString();
 						}
+					//Check to see if the auto fertile tiller number value from the db isn't null, 
+					//if it isn't then set the value of the checkbox
+					if(dtPaddockDetails.Rows[0]["AutoFTN"].ToString() != null &&
+						dtPaddockDetails.Rows[0]["AutoFTN"].ToString() != "")
+					{
+						chkAutoCalculate.Checked = Convert.ToBoolean(Convert.ToInt32(dtPaddockDetails.Rows[0]["AutoFTN"].ToString()));
+					}
 					
 					SetSowDate(szSowDate);
 					cboCrops.SelectedValue = dtPaddockDetails.Rows[0]["CropType"].ToString();
+
 					//Fills the cultivar combo box
 					FillCultivarsCombo();
 					//Fills the Report type combo
@@ -529,9 +539,10 @@ namespace YieldProphet
 			chkTriazine.Enabled =  bEnableCropDetails;
 			cboRowConfiguration.Enabled = bEnableCropDetails;
 			edtPopulation.Enabled = bEnableCropDetails;
-			edtTiller.Enabled = bEnableCropDetails;
 			btnCalculate.Enabled = bEnableCropDetails;
+			edtTiller.Enabled = bEnableCropDetails;
 			edtRowSpacing.Enabled = bEnableCropDetails;
+			chkAutoCalculate.Enabled = bEnableCropDetails;
 			}	
 		//-------------------------------------------------------------------------
 		//Displays visual components that are dependant on the type of crop selected
@@ -540,6 +551,7 @@ namespace YieldProphet
 		{
 			SetVisabilityOfCanolaComponents();
 			SetVisibilityOfSorgumComponents();
+
 		}
 		//-------------------------------------------------------------------------
 		//Sets the visibility of the triazine option depending on the crop selected
@@ -569,10 +581,11 @@ namespace YieldProphet
 			lblPopulationUnit.Visible = bSorgumComponentVisibility;
 			edtTiller.Visible = bSorgumComponentVisibility;
 			lblTiller.Visible = bSorgumComponentVisibility;
-			btnCalculate.Visible = bSorgumComponentVisibility;
 			lblRowSpacing.Visible  = bSorgumComponentVisibility;
+			btnCalculate.Visible = bSorgumComponentVisibility;
 			edtRowSpacing.Visible = bSorgumComponentVisibility;
 			lblRowSpacingUnit.Visible = bSorgumComponentVisibility;
+			chkAutoCalculate.Visible = bSorgumComponentVisibility;
 		}	
 		//-------------------------------------------------------------------------
 		//The paddock details are updated, but firstly a check is run to determine
@@ -600,10 +613,13 @@ namespace YieldProphet
 								(cboRowConfiguration.Visible == false || cboRowConfiguration.SelectedValue != "None") &&
 								grdSowDate.GetRow(0).Cells["SowDate"].Text != "")
 								{
+								if(chkAutoCalculate.Checked == true)
+									SetFertileTillerNumber();
+
 								DataAccessClass.UpdatePaddock((DateTime.ParseExact(grdSowDate.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
 									cboCultivars.SelectedItem.Text, Convert.ToInt32(chkTriazine.Checked), "", "", cboRowConfiguration.SelectedValue, -1, "", "", 
 									ReturnPopulationValue(), -1, InputValidationClass.ReturnTextBoxValueAsDouble(edtTiller, 0), 
-									 InputValidationClass.ReturnTextBoxValueAsDouble(edtRowSpacing, 0), szPaddockName, Session["SelectedPaddockName"].ToString(), 
+									 InputValidationClass.ReturnTextBoxValueAsDouble(edtRowSpacing, 0), Convert.ToInt32(chkAutoCalculate.Checked), szPaddockName, Session["SelectedPaddockName"].ToString(), 
 									FunctionsClass.GetActiveUserName());
 								Session["SelectedPaddockName"] = szPaddockName;
 								SaveNitrogenApplications();
@@ -866,20 +882,20 @@ namespace YieldProphet
 		private void Page_Load(object sender, System.EventArgs e)
 			{
 			if (!IsPostBack)
-				{	
+			{	
 				FunctionsClass.CheckSession();
 				FillForm();
 				btnSave.Style.Add("cursor", "hand");
 				if(FunctionsClass.IsConsultantOrHigher(Session["UserName"].ToString()) == true)
-					{
+				{
 					edtPaddockName.Enabled = true;
-					}
+				}
 				else
-					{
+				{
 					edtPaddockName.Enabled = false;
-					}
 				}
 			}
+		}
 		//-------------------------------------------------------------------------
 		//Returns the report type, can be called from other pages on the page load event
 		//-------------------------------------------------------------------------
@@ -1029,12 +1045,27 @@ namespace YieldProphet
 				}
 			}
 		}
-
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
 		private void btnCalculate_Click(object sender, System.EventArgs e)
-		{
+			{
 			SetFertileTillerNumber();
-		}
-
+			}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void chkAutoCalculate_CheckedChanged(object sender, System.EventArgs e)
+			{
+			if(chkAutoCalculate.Checked == true)
+				{
+				edtTiller.Enabled = false;
+				}
+			else
+				{
+				edtTiller.Enabled = true;
+				}
+			}
 		//-------------------------------------------------------------------------
 		#endregion
 

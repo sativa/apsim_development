@@ -1232,7 +1232,7 @@ object TemporalDataForm: TTemporalDataForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\disk_blue.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\disk_blue.gif'
   end
   object IWImageFile2: TIWImageFile
     Left = 152
@@ -1252,7 +1252,7 @@ object TemporalDataForm: TTemporalDataForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\nav_left_green.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\nav_left_green.gif'
   end
   object BackButton: TIWLink
     Left = 179
