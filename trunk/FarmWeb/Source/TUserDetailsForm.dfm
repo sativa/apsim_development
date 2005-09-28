@@ -200,7 +200,7 @@ object UserDetailsForm: TUserDetailsForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\disk_blue.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\disk_blue.gif'
   end
   object HelpImage: TIWImageFile
     Left = 8
@@ -221,7 +221,7 @@ object UserDetailsForm: TUserDetailsForm
     TabOrder = 22
     UseSize = True
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\help2.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\help2.gif'
   end
   object HelpButton: TIWLink
     Left = 35

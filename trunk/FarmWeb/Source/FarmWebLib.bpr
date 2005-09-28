@@ -9,14 +9,15 @@
       TReportsForm.obj TTemporalDataForm.obj TTemporalDataMinMaxForm.obj 
       TUserManagementForm.obj TReportManagementForm.obj TInfoForm.obj 
       TClimateForecastForm.obj TUserDetailsForm.obj TMainForm.obj TSoilsForm.obj 
-      TMetStationForm.obj Soil\soilSample.obj Soil\soil.obj Soil\SoilBase.obj"/>
+      TMetStationForm.obj Soil\soilSample.obj Soil\soil.obj Soil\SoilBase.obj 
+      TGenerateReportForm.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TWebSession.dfm TQuestionForm.dfm TDropDownManagementForm.dfm 
       TReportsForm.dfm TTemporalDataForm.dfm TTemporalDataMinMaxForm.dfm 
       TUserManagementForm.dfm TReportManagementForm.dfm TInfoForm.dfm 
       TClimateForecastForm.dfm TUserDetailsForm.dfm TMainForm.dfm TSoilsForm.dfm 
-      TMetStationForm.dfm"/>
+      TMetStationForm.dfm TGenerateReportForm.dfm"/>
     <LIBFILES value=""/>
     <LIBRARIES value=""/>
     <PACKAGES value=""/>
@@ -69,6 +70,7 @@
       <FILE FILENAME="Soil\soilSample.cpp" FORMNAME="" UNITNAME="soilSample.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Soil\soil.cpp" FORMNAME="" UNITNAME="soil.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Soil\SoilBase.cpp" FORMNAME="" UNITNAME="SoilBase.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TGenerateReportForm.cpp" FORMNAME="GenerateForm" UNITNAME="TGenerateReportForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

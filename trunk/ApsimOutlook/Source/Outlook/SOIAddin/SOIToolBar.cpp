@@ -13,6 +13,7 @@
 #include <Math.hpp>
 #include <ApsimShared\ApsimDirectories.h>
 #include <ApsimShared\ApsimSettings.h>
+#include <general\stristr.h>
 #pragma link "TAPSTable"
 #pragma link "TAPSTable_Form"
 #pragma link "TAPSRecord"
@@ -93,6 +94,10 @@ void SOIToolBar::load()
 
       vector<string> phaseStrings;
       settings.read(CHART_SETTINGS_KEY + "|SOIPhase", phaseStrings);
+
+      // read in all soi data from soi file.
+      Read_all_soi_data();
+
       for (unsigned i = 0; i != phaseStrings.size(); i++)
          phasesToInclude.push_back(atoi(phaseStrings[i].c_str()));
       }
@@ -215,17 +220,33 @@ void SOIToolBar::Read_all_soi_data (void)
 
    ifstream in (FSOI_data_file.c_str());
    string Line;
-   char* default_phases[6] = {"Unknown", "Negative", "Positive", "Falling", "Rising", "Zero"};
-   for (int i=0; i<ARRAYSIZE(default_phases); i++)
-      FPhase_names.push_back(default_phases[i]);
+   int minPhaseNumber = 1000;
+   int maxPhaseNumber = 0;
 
    soi soi_obj;
    while (!in.eof())
       {
       in >> soi_obj >> ws;
       soi_phases.insert (soi_obj);
+      minPhaseNumber = min(soi_obj.Phase, minPhaseNumber);
+      maxPhaseNumber = max(soi_obj.Phase, maxPhaseNumber);
       }
-}
+
+   if (stristr(FSOI_data_file.c_str(), "phases.soi") != NULL)
+      {
+      char* default_phases[5] = {"Negative", "Positive", "Falling", "Rising", "Zero"};
+      for (int i=0; i<ARRAYSIZE(default_phases); i++)
+         FPhase_names.push_back(default_phases[i]);
+      }
+   else
+      {
+      for (int i = minPhaseNumber; i <= maxPhaseNumber; i++)
+         {
+         AnsiString phaseName = "Phase " + IntToStr(i);
+         FPhase_names.push_back(phaseName.c_str());
+         }
+      }
+   }
 
 
 // ------------------------------------------------------------------
@@ -261,9 +282,9 @@ void SOIToolBar::Get_phase (int Year, int Month, unsigned& SOI_phase, string& SO
    else
       {
       SOI_phase = max((*i).Phase, 0);
-      if (SOI_phase > FPhase_names.size() - 1)
+      if (SOI_phase > FPhase_names.size())
          SOI_phase = 0;
-      SOI_phase_st = FPhase_names[SOI_phase];
+      SOI_phase_st = FPhase_names[SOI_phase-1];
       }
    }
 
@@ -286,14 +307,14 @@ void SOIToolBar::doCalculations(TAPSTable& data)
       TCursor savedCursor = Screen->Cursor;
       Screen->Cursor = crHourGlass;
 
+      // read in all soi data from soi file.
+      Read_all_soi_data();
+
       sowYearFieldName = "";
       TAPSTable* new_data;
       vector<TAPSRecord>* allData;
       try
          {
-         // read in all soi data from soi file.
-         Read_all_soi_data();
-
          // create a new table with same structure as 'data'
          new_data = new TAPSTable(NULL);
          new_data->copyFieldNamesFrom(data);
@@ -335,7 +356,7 @@ void SOIToolBar::doCalculations(TAPSTable& data)
                   string blockSuffix = string(SOI_PHASE_FIELD_NAME) + "=" + SOI_phase_st;
                   string blockForRecord = blockName + ";" + blockSuffix;
                   newRecord.setFieldValue("Simulation", blockForRecord.c_str());
-                  allData[SOI_phase].push_back(newRecord);
+                  allData[SOI_phase-1].push_back(newRecord);
                   }
 
                // store all years records.

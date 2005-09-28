@@ -200,6 +200,13 @@ namespace CSGeneral
 				return 0.0;
 			}
 
+		static public double Constrain(double dLowerLimit, double dUpperLimit, double dValue)
+		{
+			double dConstrainedValue = 0.0;
+			dConstrainedValue = Math.Min(dUpperLimit, Math.Max(dLowerLimit, dValue));
+			return dConstrainedValue;
+		}
+
 
 		// ---------------------------------------------
 		// Reverse the contents of the specified array.

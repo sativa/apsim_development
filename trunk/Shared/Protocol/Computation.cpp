@@ -161,36 +161,42 @@ bool Computation::loadComponent(const std::string& filename,
                                 std::string componentInterfaceExecutable) throw (runtime_error)
    {
    executableFileName = filename;
-   
+
    createInstanceProc = NULL;
    deleteInstanceProc = NULL;
    messageToLogicProc = NULL;
 
+   string componentInterface;
    if (componentInterfaceExecutable != "")
-      throw runtime_error("Anachronistic use of componentInterfaceExecutable??");
-    
-   handle = loadDLL(filename); 
-
-   void _stdcall (*wrapperDll)(char* dllFileName);
-   (FARPROC) wrapperDll = GetProcAddress(handle, "wrapperDLL");
-   if (wrapperDll == NULL)
-      throw runtime_error("Cannot find entry point 'wrapperDll' in dll: " + filename);
-   
-   // Go get the wrapperDll filename.
-   char wrapperFileName[MAX_PATH];
-   (*wrapperDll)(&wrapperFileName[0]);
-   string componentInterface = Path(&wrapperFileName[0]).Get_name();
-
-   if (componentInterface != "") 
       {
-      // This is a wrapped dll - it has no "entry points". Load the wrapper.
-      FreeLibrary(handle);
-      componentInterface = getApsimDirectory() + "\\bin\\" + componentInterface; 
+      componentInterface = componentInterfaceExecutable;
       handle = loadDLL(componentInterface.c_str());
       }
    else
       {
-      // This is not a wrapped dll - it will provide entrypoints itself
+      handle = loadDLL(executableFileName);
+
+      void _stdcall (*wrapperDll)(char* dllFileName);
+      (FARPROC) wrapperDll = GetProcAddress(handle, "wrapperDLL");
+      if (wrapperDll == NULL)
+         throw runtime_error("Cannot find entry point 'wrapperDll' in dll: " + filename);
+
+      // Go get the wrapperDll filename.
+      char wrapperFileName[MAX_PATH];
+      (*wrapperDll)(&wrapperFileName[0]);
+      componentInterface = Path(&wrapperFileName[0]).Get_name();
+
+      if (componentInterface != "")
+         {
+         // This is a wrapped dll - it has no "entry points". Load the wrapper.
+         FreeLibrary(handle);
+         componentInterface = getApsimDirectory() + "\\bin\\" + componentInterface;
+         handle = loadDLL(componentInterface.c_str());
+         }
+      else
+         {
+         // This is not a wrapped dll - it will provide entrypoints itself
+         }
       }
 
    (FARPROC) createInstanceProc = GetProcAddress(handle, "createInstance");

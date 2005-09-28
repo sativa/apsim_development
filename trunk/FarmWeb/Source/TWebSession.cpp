@@ -16,6 +16,7 @@
 #include "TClimateForecastForm.h"
 #include "TSoilsForm.h"
 #include "TMetStationForm.h"
+#include "TGenerateReportForm.h"
 #include "Utilities.h"
 #include <general\string_functions.h>
 
@@ -45,6 +46,7 @@ __fastcall TWebSession::TWebSession (TComponent* Owner)
    climateForecastForm = NULL;
    soilsForm = NULL;
    metStationForm = NULL;
+   generateForm = NULL;
    }
 //---------------------------------------------------------------------------
 // Session has been created - set ourselves up.
@@ -185,6 +187,28 @@ void TWebSession::showRainfallForm(const std::string& userName,
       }
    }
 //---------------------------------------------------------------------------
+// Show the irrigation form.
+//---------------------------------------------------------------------------
+void TWebSession::showIrrigationForm(const std::string& userName,
+                                     const string& paddockName,
+                                     bool fromGrowerManagement)
+   {
+   try
+      {
+      if (temporalDataForm == NULL)
+         {
+         temporalDataForm = new TTemporalDataForm(this);
+         setupForm(temporalDataForm);
+         }
+      temporalDataForm->setup(this, data, userName, paddockName, "irrigation (mm)", "patch_irr", fromGrowerManagement);
+      show(temporalDataForm);
+      }
+   catch (const exception& err)
+      {
+      webApplication->ShowMessage(err.what());
+      }
+   }
+//---------------------------------------------------------------------------
 // Show the soil temperature form.
 //---------------------------------------------------------------------------
 void TWebSession::showSoilTempForm(const std::string& userName,
@@ -310,6 +334,27 @@ void TWebSession::showReportsForm(const std::string& userName,
          }
       reportsForm->setup(this, data, userName, fromUserManagement);
       show(reportsForm);
+      }
+   catch (const exception& err)
+      {
+      webApplication->ShowMessage(err.what());
+      }
+   }
+
+// -----------------------------------------
+// Show the generate report form.
+// -----------------------------------------
+void TWebSession::showGenerateReportForm(const std::string& userName, const std::string& paddockName, bool readOnly)
+   {
+   try
+      {
+      if (generateForm == NULL)
+         {
+         generateForm = new TGenerateForm(this);
+         setupForm(generateForm);
+         }
+      generateForm->setup(this, data, userName, paddockName, readOnly);
+      show(generateForm);
       }
    catch (const exception& err)
       {

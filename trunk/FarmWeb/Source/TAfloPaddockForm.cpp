@@ -55,25 +55,12 @@ void TAfloPaddockForm::setup(TWebSession* session,
    UserLabel->Text = StringReplace(UserLabel->Text, "xxx", data->getNameOfUser(userName).c_str(), TReplaceFlags());
    UserLabel->Text = StringReplace(UserLabel->Text, "yyy",  paddockName.c_str(), TReplaceFlags());
 
-   populateReportCombo();
    populateStationNumberCombo(data, userName, paddockName, "All", WeatherStationCombo);
    populateSoilTypeCombo(data, userName, paddockName, "All", SoilTypeCombo);
    populateDatePicker(PlantingDate, data, userName, paddockName, "sowdate");
    populateCombo(CultivarCombo, data, userName, paddockName, "cultivar");
    populateCombo(StartingSWCombo, data, userName, paddockName, "startsw");
-   EmailFilesCheckBox->Visible = data->userIsOfType(webSession->getCurrentLoggedInUser(),
-                                                    Data::administrator);
    SaveButton->Enabled = (webSession->isSaveAllowed());
-   }
-//---------------------------------------------------------------------------
-// Populate the report combo.
-//---------------------------------------------------------------------------
-void TAfloPaddockForm::populateReportCombo()
-   {
-   vector<string> names;
-   data->getReportTemplateNames(names);
-   Stl_2_tstrings(names, ReportCombo->Items);
-   ReportCombo->ItemIndex = 0;
    }
 //---------------------------------------------------------------------------
 // User has clicked the save button.
@@ -124,14 +111,7 @@ void __fastcall TAfloPaddockForm::AirTempButtonClick(TObject *Sender)
 void __fastcall TAfloPaddockForm::CreateReportButtonClick(TObject *Sender)
    {
    SaveButtonClick(NULL);
-
-   Data::Properties properties;
-   webSession->onGenerateReportClick(userName.c_str(),
-                                     paddockName.c_str(),
-                                     ReportCombo->Text,
-                                     "",
-                                     properties,
-                                     EmailFilesCheckBox->Checked);
+   webSession->showGenerateReportForm(userName, paddockName, false);
    }
 //---------------------------------------------------------------------------
 // User has clicked help.
@@ -139,6 +119,13 @@ void __fastcall TAfloPaddockForm::CreateReportButtonClick(TObject *Sender)
 void __fastcall TAfloPaddockForm::HelpButtonClick(TObject *Sender)
    {
    webSession->showHelp();
+   }
+//---------------------------------------------------------------------------
+// User has clicked irrigation.
+//---------------------------------------------------------------------------
+void __fastcall TAfloPaddockForm::IrrigationButtonClick(TObject *Sender)
+   {
+   webSession->showIrrigationForm(userName, paddockName, false);
    }
 //---------------------------------------------------------------------------
 

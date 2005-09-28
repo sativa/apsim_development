@@ -164,7 +164,7 @@ object DropDownManagementForm: TDropDownManagementForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\add2.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\add2.gif'
   end
   object AddTypeButton: TIWLink
     Left = 163
@@ -232,7 +232,7 @@ object DropDownManagementForm: TDropDownManagementForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\delete2.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\delete2.gif'
   end
   object IWImageFile3: TIWImageFile
     Left = 392
@@ -252,7 +252,7 @@ object DropDownManagementForm: TDropDownManagementForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\add2.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\add2.gif'
   end
   object AddValueButton: TIWLink
     Left = 419
@@ -320,6 +320,6 @@ object DropDownManagementForm: TDropDownManagementForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\delete2.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\delete2.gif'
   end
 end

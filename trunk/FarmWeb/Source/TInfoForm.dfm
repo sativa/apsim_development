@@ -257,7 +257,7 @@ object InfoForm: TInfoForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\nav_left_green.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\nav_left_green.gif'
   end
   object BackButton: TIWLink
     Left = 35
@@ -325,6 +325,6 @@ object InfoForm: TInfoForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\check2.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\check2.gif'
   end
 end

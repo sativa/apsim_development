@@ -633,7 +633,7 @@ namespace YieldProphet
 						DataAccessClass.UpdatePaddock("", "", -1, cboWeatherStation.SelectedItem.Text,  
 							cboSoilType.SelectedItem.Text, "", Convert.ToInt32(chkDefaultRainfall.Checked),
 							szLinkedTemporalPaddock, szStartOfGrowingSeasonDate, -1, ReturnMaxRootingDepth(), -1, -1,
-							Session["SelectedPaddockName"].ToString(), Session["SelectedPaddockName"].ToString(), 
+							-1, Session["SelectedPaddockName"].ToString(), Session["SelectedPaddockName"].ToString(), 
 							FunctionsClass.GetActiveUserName());
 						SaveSoilSampleDetails();
 						Server.Transfer("wfEditPaddock.aspx");

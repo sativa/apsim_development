@@ -38,6 +38,18 @@ namespace YieldProphet
 		protected System.Data.DataColumn dcRate;
 		protected Janus.Web.GridEX.GridEX grdNitrogen;
 		protected Janus.Web.GridEX.GridEX grdSowDate;
+		protected System.Web.UI.WebControls.Label lblPopulation;
+		protected System.Web.UI.WebControls.TextBox edtTiller;
+		protected System.Web.UI.WebControls.TextBox edtRowSpacing;
+		protected System.Web.UI.WebControls.DropDownList cboRowConfiguration;
+		protected System.Web.UI.WebControls.TextBox edtPopulation;
+		protected System.Web.UI.WebControls.Label lblPopulationUnit;
+		protected System.Web.UI.WebControls.Label lblRowConfiguration;
+		protected System.Web.UI.WebControls.Label lblRowSpacing;
+		protected System.Web.UI.WebControls.Label lblTiller;
+		protected System.Web.UI.WebControls.Label lblRowSpacingUnit;
+		protected System.Web.UI.WebControls.Button btnRefresh;
+		protected System.Web.UI.WebControls.CheckBox chkAutoCalculate;
 		protected System.Web.UI.WebControls.Panel pnlTop;
 	
 
@@ -74,6 +86,8 @@ namespace YieldProphet
 			this.btnSaveImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnSaveImg_Click);
 			this.cboCrops.SelectedIndexChanged += new System.EventHandler(this.cboCrops_SelectedIndexChanged);
 			this.grdNitrogen.UpdatingCell += new Janus.Web.GridEX.UpdatingCellEventHandler(this.grdNitrogen_UpdatingCell);
+			this.chkAutoCalculate.CheckedChanged += new System.EventHandler(this.chkAutoCalculate_CheckedChanged);
+			this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
 			// 
 			// dsSowDate
 			// 
@@ -141,6 +155,8 @@ namespace YieldProphet
 			SetSowDate();
 			FillCropsCombo();
 			FillCultivarsCombo();
+			FillRowConfigurationCombo();
+			SetVisibilityOfSorgumComponents();
 		}
 		//-------------------------------------------------------------------------
 		//Stores the report type selection from the previous page in view state
@@ -208,9 +224,26 @@ namespace YieldProphet
 				cboVariety.DataTextField = "Type";
 				cboVariety.DataValueField = "Type";
 				cboVariety.DataBind();
-
 				}
 			}
+		//-------------------------------------------------------------------------
+		//Fills the row configuration combo box with all the row configuration types form the database
+		//-------------------------------------------------------------------------
+		private void FillRowConfigurationCombo()
+		{
+			try
+			{
+				DataTable dtRowConfiguration = DataAccessClass.GetAllRowConfigurationTypes();
+				cboRowConfiguration.DataSource = dtRowConfiguration;
+				cboRowConfiguration.DataTextField = "Type";
+				cboRowConfiguration.DataValueField = "Type";
+				cboRowConfiguration.DataBind();
+			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+		}
 		//-------------------------------------------------------------------------
 		//A report is generated and sent to the apsim run machine
 		//-------------------------------------------------------------------------
@@ -230,6 +263,9 @@ namespace YieldProphet
 							{
 							if(grdSowDate.GetRow(0).Cells["SowDate"].Text != "")
 								{
+								if(chkAutoCalculate.Checked == true)
+									SetFertileTillerNumber();
+
 								//Generate a data table that stores the values particular to the Sow X Variety report
 								DataTable dtOtherValues = 
 									ReportClass.CreateFallowReportOtherValues(ReturnScenarioDataTable(grdNitrogen), 
@@ -237,7 +273,9 @@ namespace YieldProphet
 								string szReportXML = 
 									ReportClass.PrepareFallowXML(edtReportName.Text, ViewState["ReportType"].ToString(),
 									cboVariety.SelectedValue, grdSowDate.GetRow(0).Cells["SowDate"].Text, 
-									cboCrops.SelectedValue, grdNitrogen);
+									cboCrops.SelectedValue, cboRowConfiguration.SelectedValue, 
+									InputValidationClass.ReturnTextBoxValueAsInteger(edtPopulation, 0), InputValidationClass.ReturnTextBoxValueAsDouble(edtTiller, 0), 
+									InputValidationClass.ReturnTextBoxValueAsDouble(edtRowSpacing, 0), grdNitrogen);
 								//Generate the files needed to generate a report and then email these files to the ApsimRun machine
 								if(EmailClass.SendReportEmail(edtReportName.Text, cboCrops.SelectedValue,  
 									ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], szReportXML, dtOtherValues) == true)
@@ -294,6 +332,58 @@ namespace YieldProphet
 			return dtNitrogen;
 			}
 		//-------------------------------------------------------------------------
+		//Sets the visibility of the triazine option depending on the crop selected
+		//-------------------------------------------------------------------------
+		private void SetVisibilityOfSorgumComponents()
+		{
+			bool bSorgumComponentVisibility = false;
+			if(cboCrops.SelectedValue == "Sorghum")
+				bSorgumComponentVisibility = true;
+
+			lblRowConfiguration.Visible = bSorgumComponentVisibility;
+			cboRowConfiguration.Visible = bSorgumComponentVisibility;
+			lblPopulation.Visible = bSorgumComponentVisibility;
+			edtPopulation.Visible = bSorgumComponentVisibility;
+			lblPopulationUnit.Visible = bSorgumComponentVisibility;
+			edtTiller.Visible = bSorgumComponentVisibility;
+			lblTiller.Visible = bSorgumComponentVisibility;
+			lblRowSpacing.Visible  = bSorgumComponentVisibility;
+			btnRefresh.Visible = bSorgumComponentVisibility;
+			edtRowSpacing.Visible = bSorgumComponentVisibility;
+			lblRowSpacingUnit.Visible = bSorgumComponentVisibility;
+			chkAutoCalculate.Visible = bSorgumComponentVisibility;
+		}	
+		//-------------------------------------------------------------------------
+		//Calculates and displays the fertile Tiller number
+		//-------------------------------------------------------------------------
+		private void SetFertileTillerNumber()
+		{
+			try
+			{
+				DataTable dtPaddockDetails = 
+					DataAccessClass.GetDetailsOfPaddock(Session["SelectedPaddockName"].ToString(), 
+					FunctionsClass.GetActiveUserName());
+
+				if(dtPaddockDetails.Rows[0]["RegionType"].ToString() != null && 
+					dtPaddockDetails.Rows[0]["RegionType"].ToString() != "" && 
+					dtPaddockDetails.Rows[0]["RegionType"].ToString() != "None" &&
+					grdSowDate.GetRow(0).Cells["SowDate"].Text != "" &&
+					InputValidationClass.IsInputAPositiveInteger(edtPopulation.Text) == true)
+				{
+					edtTiller.Text = FunctionsClass.ReturnTillerNumber(cboRowConfiguration.SelectedValue, dtPaddockDetails.Rows[0]["RegionType"].ToString(),
+						DateTime.ParseExact(grdSowDate.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null), Convert.ToInt32(edtPopulation.Text)).ToString();
+				}
+				else
+				{
+					throw new Exception("Please ensure that a valid region is selected and a valid population is entered");
+				}
+			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+		}
+		//-------------------------------------------------------------------------
 		#endregion
 
 
@@ -323,6 +413,7 @@ namespace YieldProphet
 		private void cboCrops_SelectedIndexChanged(object sender, System.EventArgs e)
 			{
 			FillCultivarsCombo();
+			SetVisibilityOfSorgumComponents();
 			}	
 		//-------------------------------------------------------------------------
 		//
@@ -368,6 +459,27 @@ namespace YieldProphet
 					}
 				}
 			}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void chkAutoCalculate_CheckedChanged(object sender, System.EventArgs e)
+		{
+			if(chkAutoCalculate.Checked == true)
+			{
+				edtTiller.Enabled = false;
+			}
+			else
+			{
+				edtTiller.Enabled = true;
+			}
+		}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void btnRefresh_Click(object sender, System.EventArgs e)
+		{
+			SetFertileTillerNumber();
+		}
 
 		//-------------------------------------------------------------------------
 		#endregion

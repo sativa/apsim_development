@@ -1054,7 +1054,7 @@ object YPNitrogenReportForm: TYPNitrogenReportForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\nav_left_green.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\nav_left_green.gif'
   end
   object IWImageFile1: TIWImageFile
     Left = 104
@@ -1074,7 +1074,7 @@ object YPNitrogenReportForm: TYPNitrogenReportForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\check2.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\check2.gif'
   end
   object OkButton: TIWLink
     Left = 131

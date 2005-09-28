@@ -213,7 +213,7 @@
 					Padding="4px 4px"></GroupByBoxInfoFormatStyle>
 				<TotalRowFormatStyle BackColor="Window" Height="20px"></TotalRowFormatStyle>
 				<RowFormatStyle BorderStyle="Solid" TextAlign="left" BackColor="Window" ForeColor="WindowText" Height="20px"
-					VerticalAlign="top" BorderWidth="1px"></RowFormatStyle>
+					VerticalAlign="top" BorderWidth="1px" Font-Size="Small" Padding="0"></RowFormatStyle>
 				<FilterRowFormatStyle BackColor="Window" ForeColor="WindowText"></FilterRowFormatStyle>
 				<GroupTotalRowFormatStyle BackColor="Control" Height="20px"></GroupTotalRowFormatStyle>
 				<GroupByBoxFormatStyle BackColor="ControlDark" Padding="5px 4px 5px 4px"></GroupByBoxFormatStyle>
@@ -224,20 +224,24 @@
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
 			</jwg:gridex><asp:label id="lblIrrigation" style="Z-INDEX: 114; LEFT: 64px; POSITION: absolute; TOP: 464px"
-				runat="server">Irrigation applications:</asp:label><asp:label id="lblRowConfiguration" style="Z-INDEX: 118; LEFT: 456px; POSITION: absolute; TOP: 200px"
-				runat="server">Row Configuration:</asp:label><asp:label id="lblPopulation" style="Z-INDEX: 119; LEFT: 504px; POSITION: absolute; TOP: 160px"
-				runat="server">Population: </asp:label><asp:textbox id="edtPopulation" style="Z-INDEX: 120; LEFT: 584px; POSITION: absolute; TOP: 160px"
-				runat="server" Width="96px"></asp:textbox><asp:dropdownlist id="cboRowConfiguration" style="Z-INDEX: 121; LEFT: 584px; POSITION: absolute; TOP: 200px"
-				runat="server" Width="168px"></asp:dropdownlist><asp:label id="lblPopulationUnit" style="Z-INDEX: 122; LEFT: 696px; POSITION: absolute; TOP: 160px"
-				runat="server">plants/ha</asp:label><asp:textbox id="edtTiller" style="Z-INDEX: 124; LEFT: 584px; POSITION: absolute; TOP: 280px"
-				runat="server" Width="80px"></asp:textbox><asp:label id="lblTiller" style="Z-INDEX: 125; LEFT: 432px; POSITION: absolute; TOP: 280px"
-				runat="server">Number of fertile tillers:</asp:label><asp:button id="btnCalculate" style="Z-INDEX: 126; LEFT: 672px; POSITION: absolute; TOP: 280px"
-				runat="server" Text="Calculate" Width="80px"></asp:button>
-			<asp:Label id="lblRowSpacing" style="Z-INDEX: 127; LEFT: 488px; POSITION: absolute; TOP: 240px"
+				runat="server">Irrigation applications:</asp:label><asp:label id="lblRowConfiguration" style="Z-INDEX: 118; LEFT: 496px; POSITION: absolute; TOP: 160px"
+				runat="server">Row Configuration:</asp:label><asp:label id="lblPopulation" style="Z-INDEX: 119; LEFT: 544px; POSITION: absolute; TOP: 120px"
+				runat="server">Population: </asp:label><asp:textbox id="edtPopulation" style="Z-INDEX: 120; LEFT: 624px; POSITION: absolute; TOP: 120px"
+				runat="server" Width="96px"></asp:textbox><asp:dropdownlist id="cboRowConfiguration" style="Z-INDEX: 121; LEFT: 624px; POSITION: absolute; TOP: 160px"
+				runat="server" Width="168px"></asp:dropdownlist><asp:label id="lblPopulationUnit" style="Z-INDEX: 122; LEFT: 736px; POSITION: absolute; TOP: 120px"
+				runat="server">plants/ha</asp:label><asp:textbox id="edtTiller" style="Z-INDEX: 123; LEFT: 560px; POSITION: absolute; TOP: 240px"
+				runat="server" Width="80px"></asp:textbox><asp:label id="lblTiller" style="Z-INDEX: 124; LEFT: 520px; POSITION: absolute; TOP: 240px"
+				runat="server">NFT:</asp:label>
+			<asp:Label id="lblRowSpacing" style="Z-INDEX: 125; LEFT: 528px; POSITION: absolute; TOP: 200px"
 				runat="server">Row Spacing:</asp:Label>
-			<asp:TextBox id="edtRowSpacing" style="Z-INDEX: 128; LEFT: 584px; POSITION: absolute; TOP: 240px"
+			<asp:TextBox id="edtRowSpacing" style="Z-INDEX: 127; LEFT: 624px; POSITION: absolute; TOP: 200px"
 				runat="server" Width="96px"></asp:TextBox>
-			<asp:Label id="lblRowSpacingUnit" style="Z-INDEX: 127; LEFT: 688px; POSITION: absolute; TOP: 240px"
-				runat="server">m</asp:Label></form>
+			<asp:Label id="lblRowSpacingUnit" style="Z-INDEX: 126; LEFT: 688px; POSITION: absolute; TOP: 240px"
+				runat="server">m</asp:Label>
+			<asp:Button id="btnCalculate" style="Z-INDEX: 129; LEFT: 648px; POSITION: absolute; TOP: 240px"
+				runat="server" Text="Re-Calculate NFT" Width="144px"></asp:Button>
+			<asp:CheckBox id="chkAutoCalculate" style="Z-INDEX: 120; LEFT: 528px; POSITION: absolute; TOP: 280px"
+				runat="server" Width="264px" Height="16px" Text="Auto Calculate Number of Fertile Tillers"
+				TextAlign="Left" AutoPostBack="True"></asp:CheckBox></form>
 	</body>
 </HTML>

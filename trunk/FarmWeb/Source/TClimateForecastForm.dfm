@@ -456,6 +456,6 @@ object ClimateForecastForm: TClimateForecastForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\disk_blue.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\disk_blue.gif'
   end
 end

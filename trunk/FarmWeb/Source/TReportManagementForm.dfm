@@ -179,7 +179,7 @@ object ReportManagementForm: TReportManagementForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\disk_blue.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\disk_blue.gif'
   end
   object IWImageFile2: TIWImageFile
     Left = 216
@@ -199,7 +199,7 @@ object ReportManagementForm: TReportManagementForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\add2.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\add2.gif'
   end
   object AddButton: TIWLink
     Left = 243
@@ -243,7 +243,7 @@ object ReportManagementForm: TReportManagementForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\delete2.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\delete2.gif'
   end
   object DeleteButton: TIWLink
     Left = 315
@@ -287,7 +287,7 @@ object ReportManagementForm: TReportManagementForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\import1.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\import1.gif'
   end
   object ImportButton: TIWLink
     Left = 403

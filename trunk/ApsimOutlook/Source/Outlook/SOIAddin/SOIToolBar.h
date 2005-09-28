@@ -34,6 +34,7 @@ class SOIToolBar : public ToolBarAddInBase
       bool SOI_enabled;
       vector<unsigned> phasesToInclude;
       bool allYears;
+      std::vector< std::string > FPhase_names;
 
    private:
       ApsimSettings settings;
@@ -49,7 +50,6 @@ class SOIToolBar : public ToolBarAddInBase
       AnsiString FSOI_data_file;
       AnsiString FYear_field_name;
       int FFontHeight;
-      std::vector< std::string > FPhase_names;
 
       void load();
       void save();

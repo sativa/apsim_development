@@ -908,7 +908,7 @@ object YPPaddockForm: TYPPaddockForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\nav_left_green.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\nav_left_green.gif'
   end
   object IWImageFile1: TIWImageFile
     Left = 216
@@ -928,7 +928,7 @@ object YPPaddockForm: TYPPaddockForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\disk_blue.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\disk_blue.gif'
   end
   object SaveButton: TIWLink
     Left = 243
@@ -972,7 +972,7 @@ object YPPaddockForm: TYPPaddockForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\preferences.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\preferences.gif'
   end
   object SetupButton: TIWLink
     Left = 323
@@ -1040,7 +1040,7 @@ object YPPaddockForm: TYPPaddockForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\rainfall.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\rainfall.gif'
   end
   object IWImageFile5: TIWImageFile
     Left = 736
@@ -1060,7 +1060,7 @@ object YPPaddockForm: TYPPaddockForm
     TabOrder = 22
     UseSize = False
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\column-chart.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\column-chart.gif'
   end
   object CreateReportButton: TIWLink
     Left = 763
@@ -1263,7 +1263,7 @@ object YPPaddockForm: TYPPaddockForm
     TabOrder = 22
     UseSize = True
     FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\help2.gif'
+    ImageFile.Filename = 'd:\development\FarmWeb\Source\Files\help2.gif'
   end
   object HelpButton: TIWLink
     Left = 35

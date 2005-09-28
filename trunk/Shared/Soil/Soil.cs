@@ -752,22 +752,31 @@ namespace CSGeneral
 					if (EC[i] <= 0.68)
 						xf[i] = 1.0;
 					else
+						{
 						xf[i] = 2.06 / (1 + 2 * EC[i]) - 0.351;
+						xf[i] = CSGeneral.MathUtility.Constrain(0.0, 1.0, xf[i]);
+						}
 
 					if (CumThickness[i] > RootingDepth)
 						{
-						double Prop = CumThickness[i] - CumThickness[i-1];
-						if (CumThickness[i-1] > RootingDepth)
+						double PreviousCumThickness = 0.0;
+						if(i > 0)
+							PreviousCumThickness = CumThickness[i-1];
+
+						double Prop = CumThickness[i] - PreviousCumThickness;
+						if (PreviousCumThickness > RootingDepth)
 							xf[i] = 0.0;
 						else
 							{
-							xf[i] = (RootingDepth - CumThickness[i-1]) / Thickness[i];
+							xf[i] = (RootingDepth - PreviousCumThickness) / Thickness[i];
+							xf[i] = CSGeneral.MathUtility.Constrain(0.0, 1.0, xf[i]);
 							}
 						}
 					}
 				
 				double[] ll = LL(CropName);
 				double[] kl = LL(CropName);
+				
 				SetCrop(CropName, ll, kl, xf);
 				}
 			}

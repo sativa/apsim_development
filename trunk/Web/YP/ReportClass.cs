@@ -326,7 +326,7 @@ namespace YieldProphet
 			if(dtPaddocksDetails.Rows[0]["RowSpacing"].ToString() != null &&
 				dtPaddocksDetails.Rows[0]["RowSpacing"].ToString() != "")
 			{
-				dRowSpacing = Convert.ToInt32(dtPaddocksDetails.Rows[0]["RowSpacing"].ToString());
+				dRowSpacing = Convert.ToDouble(dtPaddocksDetails.Rows[0]["RowSpacing"].ToString());
 			}
 
 			if(dtOtherValues == null)
@@ -531,6 +531,7 @@ namespace YieldProphet
 			AddNumericalNode("rootingdepth", dtPaddocksDetails.Rows[0]["RootingDepth"].ToString(), ref xmlScenario, xmlDocPaddock);
 			AddNumericalNode("ftn", dtPaddocksDetails.Rows[0]["TillerNumber"].ToString(), ref xmlScenario, xmlDocPaddock);
 			AddNumericalNode("rowspacing", dtPaddocksDetails.Rows[0]["RowSpacing"].ToString(), ref xmlScenario, xmlDocPaddock);
+
 			
 			AddDayMonthNodesToNode(ref xmlScenario, xmlDocPaddock);
 			AddFertiliserNodes(grdFertiliser, ref xmlScenario, xmlDocPaddock);
@@ -1123,7 +1124,10 @@ namespace YieldProphet
 		//---------------------------------------------------------------------------
 		public static string PrepareSowingXVarietyXML(string szReportName, string szReportType,
 			string szVarietyOne, string szSowingDateOne, string szVarietyTwo, string szSowingDateTwo,
-			string szVarietyThree, string szSowingDateThree, string szCropType, GridEX grdNitrogen)
+			string szVarietyThree, string szSowingDateThree, string szCropType, string szRowConfigurationOne,
+			int iPopulationOne, double dFertileTillerNumberOne, double dRowSpacingOne, string szRowConfigurationTwo,
+			int iPopulationTwo, double dFertileTillerNumberTwo, double dRowSpacingTwo, string szRowConfigurationThree,
+			int iPopulationThree, double dFertileTillerNumberThree, double dRowSpacingThree, GridEX grdNitrogen)
 		{
 			string szReportXML = "";
 			XmlDocument xmlDocPaddock = new XmlDocument();
@@ -1133,13 +1137,16 @@ namespace YieldProphet
 			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock, 3);
 
 			XmlNode xmlScenarioOne = CreateScenarioReportXML(xmlDocPaddock, "scenario1", grdNitrogen, null);
-			EditSowingXVarietyScenarioNodes(szVarietyOne, szSowingDateOne, szCropType, ref xmlScenarioOne, xmlDocPaddock);
+			EditSowingXVarietyScenarioNodes(szVarietyOne, szSowingDateOne, szCropType, szRowConfigurationOne, 
+				iPopulationOne, dFertileTillerNumberOne, dRowSpacingOne, ref xmlScenarioOne, xmlDocPaddock);
 
 			XmlNode xmlScenarioTwo = CreateScenarioReportXML(xmlDocPaddock, "scenario2", grdNitrogen, null);
-			EditSowingXVarietyScenarioNodes(szVarietyTwo, szSowingDateTwo, szCropType, ref xmlScenarioTwo, xmlDocPaddock);
+			EditSowingXVarietyScenarioNodes(szVarietyTwo, szSowingDateTwo, szCropType, szRowConfigurationTwo, 
+				iPopulationTwo, dFertileTillerNumberTwo, dRowSpacingTwo, ref xmlScenarioTwo, xmlDocPaddock);
 
 			XmlNode xmlScenarioThree = CreateScenarioReportXML(xmlDocPaddock, "scenario3", grdNitrogen, null);
-			EditSowingXVarietyScenarioNodes(szVarietyThree, szSowingDateThree, szCropType, ref xmlScenarioThree, xmlDocPaddock);
+			EditSowingXVarietyScenarioNodes(szVarietyThree, szSowingDateThree, szCropType, szRowConfigurationThree, 
+				iPopulationThree, dFertileTillerNumberThree, dRowSpacingThree, ref xmlScenarioThree, xmlDocPaddock);
 
 			xmlPaddock.AppendChild(xmlScenarioOne);
 			xmlPaddock.AppendChild(xmlScenarioTwo);
@@ -1154,8 +1161,9 @@ namespace YieldProphet
 		//Add additional scenario information required by the nitrogen profit report
 		//---------------------------------------------------------------------------
 		private static void EditSowingXVarietyScenarioNodes(string szVariety, 
-			string szSowingDate, string szCropType, ref XmlNode xmlScenario, 
-			XmlDocument xmlDocPaddock)
+			string szSowingDate, string szCropType, string szRowConfiguration,
+			int iPopulation, double dFertileTillerNumber, double dRowSpacing, 
+			ref XmlNode xmlScenario, XmlDocument xmlDocPaddock)
 		{
 			foreach(XmlNode xmlChildNode in xmlScenario.ChildNodes)
 			{
@@ -1172,6 +1180,18 @@ namespace YieldProphet
 						break;
 					case "sowdaymonth":
 						xmlChildNode.InnerText = DateTime.ParseExact(szSowingDate, "dd/MM/yyyy", null).ToString("dd-MMM");
+						break;
+					case "rowconfiguration":
+						xmlChildNode.InnerText = szRowConfiguration;
+						break;
+					case "population":
+						xmlChildNode.InnerText = iPopulation.ToString();
+						break;
+					case "ftn":
+						xmlChildNode.InnerText = dFertileTillerNumber.ToString();
+						break;
+					case "rowspacing":
+						xmlChildNode.InnerText = dRowSpacing.ToString();
 						break;
 				}
 			}
@@ -1243,7 +1263,8 @@ namespace YieldProphet
 		//Prepares the xml string to be used in the fallow report
 		//---------------------------------------------------------------------------
 		public static string PrepareFallowXML(string szReportName, string szReportType,
-			string szVariety, string szSowingDate, string szCropType, GridEX grdNitrogen)
+			string szVariety, string szSowingDate, string szCropType, string szRowConfiguration,
+			int iPopulation, double dFertileTillerNumber, double dRowSpacing, GridEX grdNitrogen)
 		{
 			string szReportXML = "";
 			XmlDocument xmlDocPaddock = new XmlDocument();
@@ -1253,7 +1274,8 @@ namespace YieldProphet
 			XmlNode xmlPaddock = CreatePaddockXML(szReportName, szReportType, xmlDocPaddock, 1);
 
 			XmlNode xmlScenario = CreateScenarioReportXML(xmlDocPaddock, "scenario1", grdNitrogen, null);
-			EditFallowScenarioNodes(szVariety, szSowingDate, szCropType, ref xmlScenario, xmlDocPaddock);
+			EditFallowScenarioNodes(szVariety, szSowingDate, szCropType, szRowConfiguration, 
+				iPopulation, dFertileTillerNumber, dRowSpacing, ref xmlScenario, xmlDocPaddock);
 			AddDayMonthNodesToNode(ref xmlScenario, xmlDocPaddock);
 			xmlPaddock.AppendChild(xmlScenario);
 
@@ -1265,8 +1287,9 @@ namespace YieldProphet
 		//Edit existing scenario information for fallow report
 		//---------------------------------------------------------------------------
 		private static void EditFallowScenarioNodes(string szVariety, 
-			string szSowingDate, string szCropType, ref XmlNode xmlScenario, 
-			XmlDocument xmlDocPaddock)
+			string szSowingDate, string szCropType, string szRowConfiguration,
+			int iPopulation, double dFertileTillerNumber, double dRowSpacing, 
+			ref XmlNode xmlScenario, XmlDocument xmlDocPaddock)
 		{
 			foreach(XmlNode xmlChildNode in xmlScenario.ChildNodes)
 			{
@@ -1283,6 +1306,18 @@ namespace YieldProphet
 						break;
 					case "sowdaymonth":
 						xmlChildNode.InnerText = DateTime.ParseExact(szSowingDate, "dd/MM/yyyy", null).ToString("dd-MMM");
+						break;
+					case "rowconfiguration":
+						xmlChildNode.InnerText = szRowConfiguration;
+						break;
+					case "population":
+						xmlChildNode.InnerText = iPopulation.ToString();
+						break;
+					case "ftn":
+						xmlChildNode.InnerText = dFertileTillerNumber.ToString();
+						break;
+					case "rowspacing":
+						xmlChildNode.InnerText = dRowSpacing.ToString();
 						break;
 				}
 			}
