@@ -586,14 +586,16 @@ namespace YieldProphet
 					PaddockSoil.OC = PaddockSoilSample.OCMapedToSoil;
 					PaddockSoil.PH = PaddockSoilSample.PHMapedToSoil;
 					PaddockSoil.EC = PaddockSoilSample.ECMapedToSoil;
-					int RootDepth = Convert.ToInt32(dtPaddocksDetails.Rows[0]["RootingDepth"]);
 					string Crop = dtPaddocksDetails.Rows[0]["CropType"].ToString();
 					if (Crop.ToLower() == "barley")
 						Crop = "wheat";
-					RootDepth *= 10;   // cm to mm
 					bool bUseEC = Convert.ToBoolean(Convert.ToInt32(dtPaddocksDetails.Rows[0]["UseEC"].ToString()));
 					if(bUseEC == true)
-						PaddockSoil.ApplyECXFFunction(Crop, RootDepth);
+						PaddockSoil.ApplyECXFFunction(Crop);
+
+					int RootDepth = Convert.ToInt32(dtPaddocksDetails.Rows[0]["RootingDepth"]);
+					RootDepth *= 10;   // cm to mm
+					PaddockSoil.ApplyMaxRootDepth(Crop, RootDepth);
 					}
 				}
 			string FullSoilFileName = szDirectoryLocation + "\\grower.soil"; 

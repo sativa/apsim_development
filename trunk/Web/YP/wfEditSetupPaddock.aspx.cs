@@ -127,21 +127,22 @@ namespace YieldProphet
 			this.grdSoilSampleTwo.UpdatingCell += new Janus.Web.GridEX.UpdatingCellEventHandler(this.grdSoilSample_UpdatingCell);
 			this.btnUpdateGraph.Click += new System.EventHandler(this.btnUpdateGraph_Click);
 			this.chkDefaultRainfall.CheckedChanged += new System.EventHandler(this.chkDefaultRainfall_CheckedChanged);
+			this.chkUseEC.CheckedChanged += new System.EventHandler(this.chkUseEC_CheckedChanged);
 			// 
 			// dsSoilSampleOne
 			// 
 			this.dsSoilSampleOne.DataSetName = "NewDataSet";
 			this.dsSoilSampleOne.Locale = new System.Globalization.CultureInfo("en-US");
 			this.dsSoilSampleOne.Tables.AddRange(new System.Data.DataTable[] {
-																																				 this.dtSoilSampleOne});
+																				 this.dtSoilSampleOne});
 			// 
 			// dtSoilSampleOne
 			// 
 			this.dtSoilSampleOne.Columns.AddRange(new System.Data.DataColumn[] {
-																																					 this.dcDepth,
-																																					 this.dcWater,
-																																					 this.dcNO3,
-																																					 this.dcNH4});
+																				   this.dcDepth,
+																				   this.dcWater,
+																				   this.dcNO3,
+																				   this.dcNH4});
 			this.dtSoilSampleOne.TableName = "SoilSampleOne";
 			// 
 			// dcDepth
@@ -169,16 +170,16 @@ namespace YieldProphet
 			this.dsSoilSampleTwo.DataSetName = "NewDataSet";
 			this.dsSoilSampleTwo.Locale = new System.Globalization.CultureInfo("en-US");
 			this.dsSoilSampleTwo.Tables.AddRange(new System.Data.DataTable[] {
-																																				 this.dtSoilSampleTwo});
+																				 this.dtSoilSampleTwo});
 			// 
 			// dtSoilSampleTwo
 			// 
 			this.dtSoilSampleTwo.Columns.AddRange(new System.Data.DataColumn[] {
-																																					 this.dataColumn1,
-																																					 this.dcOC,
-																																					 this.dcEC,
-																																					 this.dcPH,
-																																					 this.dcESP});
+																				   this.dataColumn1,
+																				   this.dcOC,
+																				   this.dcEC,
+																				   this.dcPH,
+																				   this.dcESP});
 			this.dtSoilSampleTwo.TableName = "SoilSampleTwo";
 			// 
 			// dataColumn1
@@ -211,12 +212,12 @@ namespace YieldProphet
 			this.dsInitialDate.DataSetName = "NewDataSet";
 			this.dsInitialDate.Locale = new System.Globalization.CultureInfo("en-AU");
 			this.dsInitialDate.Tables.AddRange(new System.Data.DataTable[] {
-																																			 this.dtInitialDate});
+																			   this.dtInitialDate});
 			// 
 			// dtInitialDate
 			// 
 			this.dtInitialDate.Columns.AddRange(new System.Data.DataColumn[] {
-																																				 this.dcInitialDate});
+																				 this.dcInitialDate});
 			this.dtInitialDate.TableName = "InitialDate";
 			// 
 			// dcInitialDate
@@ -229,19 +230,18 @@ namespace YieldProphet
 			this.dsStartOfGrowingSeason.DataSetName = "NewDataSet";
 			this.dsStartOfGrowingSeason.Locale = new System.Globalization.CultureInfo("en-AU");
 			this.dsStartOfGrowingSeason.Tables.AddRange(new System.Data.DataTable[] {
-																																								this.dtStartOfGrowingSeason});
+																						this.dtStartOfGrowingSeason});
 			// 
 			// dtStartOfGrowingSeason
 			// 
 			this.dtStartOfGrowingSeason.Columns.AddRange(new System.Data.DataColumn[] {
-																																									this.dcGrowingSeasonDate});
+																						  this.dcGrowingSeasonDate});
 			this.dtStartOfGrowingSeason.TableName = "StartOfGrowingSeason";
 			// 
 			// dcGrowingSeasonDate
 			// 
 			this.dcGrowingSeasonDate.ColumnName = "GrowingSeasonDate";
 			this.dcGrowingSeasonDate.DataType = typeof(System.DateTime);
-			this.chkUseEC.CheckedChanged += new System.EventHandler(this.chkUseEC_CheckedChanged);
 			this.Load += new System.EventHandler(this.Page_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dsSoilSampleOne)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dtSoilSampleOne)).EndInit();

@@ -69,7 +69,6 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Label lblRowSpacing;
 		protected System.Web.UI.WebControls.TextBox edtRowSpacing;
 		protected System.Web.UI.WebControls.Label lblRowSpacingUnit;
-		protected System.Web.UI.WebControls.Label BarleyWarning;
 		protected System.Web.UI.WebControls.Button btnCalculate;
 		protected System.Web.UI.WebControls.CheckBox chkAutoCalculate;
 		protected System.Web.UI.WebControls.HyperLink HyperLink1;
@@ -552,7 +551,6 @@ namespace YieldProphet
 		{
 			SetVisabilityOfCanolaComponents();
 			SetVisibilityOfSorgumComponents();
-			BarleyWarning.Visible =	(cboCrops.SelectedValue.ToLower() == "barley"); 
 
 		}
 		//-------------------------------------------------------------------------
