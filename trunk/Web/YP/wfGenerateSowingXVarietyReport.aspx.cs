@@ -472,19 +472,22 @@ namespace YieldProphet
 		{
 			if(chkAutoCalculateOne.Checked == true)
 				SetFertileTillerNumber(edtTillerOne, edtPopulationOne.Text, 
-					cboRowConfigurationOne.SelectedValue);
+					cboRowConfigurationOne.SelectedValue, 
+					DateTime.ParseExact(grdSowDateOne.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null));
 			if(chkAutoCalculateTwo.Checked == true)
 				SetFertileTillerNumber(edtTillerTwo, edtPopulationTwo.Text, 
-					cboRowConfigurationTwo.SelectedValue);
+					cboRowConfigurationTwo.SelectedValue, 
+					DateTime.ParseExact(grdSowDateTwo.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null));
 			if(chkAutoCalculateThree.Checked == true)
 				SetFertileTillerNumber(edtTillerThree, edtPopulationThree.Text, 
-					cboRowConfigurationThree.SelectedValue);
+					cboRowConfigurationThree.SelectedValue, 
+					DateTime.ParseExact(grdSowDateThree.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null));
 		}
 		//-------------------------------------------------------------------------
 		//Calculates and displays the fertile Tiller number
 		//-------------------------------------------------------------------------
 		private void SetFertileTillerNumber(TextBox edtTiller, string szPopulation, 
-			string szRowConfiguration)
+			string szRowConfiguration, DateTime dtSowingDate)
 		{
 			try
 			{
@@ -499,7 +502,7 @@ namespace YieldProphet
 					InputValidationClass.IsInputAPositiveInteger(szPopulation) == true)
 				{
 					edtTiller.Text = FunctionsClass.ReturnTillerNumber(szRowConfiguration, dtPaddockDetails.Rows[0]["RegionType"].ToString(),
-						DateTime.ParseExact(grdSowDateOne.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null), Convert.ToInt32(szPopulation)).ToString();
+						dtSowingDate, Convert.ToInt32(szPopulation)).ToString();
 				}
 				else
 				{
@@ -580,7 +583,8 @@ namespace YieldProphet
 		private void btnReCalculateOne_Click(object sender, System.EventArgs e)
 			{
 			SetFertileTillerNumber(edtTillerOne, edtPopulationOne.Text, 
-				cboRowConfigurationOne.SelectedValue);
+				cboRowConfigurationOne.SelectedValue, 
+				DateTime.ParseExact(grdSowDateOne.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null));
 			}
 		//-------------------------------------------------------------------------
 		//
@@ -588,7 +592,8 @@ namespace YieldProphet
 		private void btnReCalculateTwo_Click(object sender, System.EventArgs e)
 			{
 			SetFertileTillerNumber(edtTillerTwo, edtPopulationTwo.Text, 
-				cboRowConfigurationTwo.SelectedValue);
+				cboRowConfigurationTwo.SelectedValue, 
+				DateTime.ParseExact(grdSowDateTwo.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null));
 			}
 		//-------------------------------------------------------------------------
 		//
@@ -596,7 +601,8 @@ namespace YieldProphet
 		private void btnReCalculateThree_Click(object sender, System.EventArgs e)
 			{
 			SetFertileTillerNumber(edtTillerThree, edtPopulationThree.Text, 
-				cboRowConfigurationThree.SelectedValue);
+				cboRowConfigurationThree.SelectedValue, 
+				DateTime.ParseExact(grdSowDateThree.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null));
 			}
 		//-------------------------------------------------------------------------
 		//

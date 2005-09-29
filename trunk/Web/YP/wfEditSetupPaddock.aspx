@@ -1,6 +1,6 @@
-<%@ Page language="c#" Codebehind="wfEditSetupPaddock.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfEditSetupPaddock" %>
-<%@ Register TagPrefix="jwg" Namespace="Janus.Web.GridEX" Assembly="Janus.Web.GridEX" %>
 <%@ Register TagPrefix="xceedchart" Namespace="Xceed.Chart.Server" Assembly="Xceed.Chart.Server, Version=3.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" %>
+<%@ Register TagPrefix="jwg" Namespace="Janus.Web.GridEX" Assembly="Janus.Web.GridEX" %>
+<%@ Page language="c#" Codebehind="wfEditSetupPaddock.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfEditSetupPaddock" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <HTML>
 	<HEAD>
@@ -16,10 +16,10 @@
 				HorizontalAlign="Left" BackColor="PaleGoldenrod" Height="48px" Width="100%">
 				<DIV style="WIDTH: 184px; POSITION: relative; HEIGHT: 41px" ms_positioning="GridLayout">
 					<asp:LinkButton id="btnCancel" style="Z-INDEX: 100; LEFT: 104px; POSITION: absolute; TOP: 16px"
-						tabIndex="9" runat="server" EnableViewState="False" Font-Size="Smaller">Cancel</asp:LinkButton>
+						tabIndex="9" runat="server" Font-Size="Smaller" EnableViewState="False">Cancel</asp:LinkButton>
 					<asp:Button id="btnSave" style="Z-INDEX: 104; LEFT: 32px; POSITION: absolute; TOP: 16px" runat="server"
-						Width="40px" Height="16px" BackColor="Transparent" Font-Size="Smaller" Font-Names="Times New Roman"
-						BorderColor="Transparent" ForeColor="Blue" BorderStyle="None" Font-Underline="True" Text="Save"></asp:Button>
+						Width="40px" Height="16px" BackColor="Transparent" Font-Size="Smaller" Text="Save" Font-Underline="True"
+						BorderStyle="None" ForeColor="Blue" BorderColor="Transparent" Font-Names="Times New Roman"></asp:Button>
 					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 102; LEFT: 80px; POSITION: absolute; TOP: 16px"
 						tabIndex="8" runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 103; LEFT: 8px; POSITION: absolute; TOP: 16px" tabIndex="6"
@@ -32,8 +32,8 @@
 				runat="server" Height="16px" Width="48px">Region:</asp:label><asp:label id="lblWeatherStation" style="Z-INDEX: 115; LEFT: 72px; POSITION: absolute; TOP: 160px"
 				runat="server" Height="16px" Width="144px">Closest weather station:</asp:label><asp:label id="lblSoilType" style="Z-INDEX: 109; LEFT: 152px; POSITION: absolute; TOP: 200px"
 				runat="server" Height="16px" Width="64px">Soil Type:</asp:label><asp:label id="lblRootingDepth" style="Z-INDEX: 110; LEFT: 88px; POSITION: absolute; TOP: 240px"
-				runat="server" Height="16px" Width="129px">Max Rooting Depth:</asp:label><asp:label id="lblInitialConditions" style="Z-INDEX: 111; LEFT: 112px; POSITION: absolute; TOP: 384px"
-				runat="server" Height="16px" Width="104px">Initial Conditions:</asp:label><jwg:gridex id=grdSoilSampleOne style="Z-INDEX: 116; LEFT: 24px; POSITION: absolute; TOP: 496px" runat="server" Height="184px" Width="516px" AutomaticSort="False" AllowColumnDrag="False" UpdateMode="RowUpdateBatch" ImagesFolderPath="/gridex/images" EditorsFrameUrl="/gridex/images/blank.html" ScriptsFolderPath="/gridex/scripts" AllowEdit="True" GroupByBoxVisible="False" GridLineColor="ScrollBar" DataMember="SoilSampleOne" DataSource="<%# dsSoilSampleOne %>">
+				runat="server" Height="16px" Width="129px">Max Rooting Depth:</asp:label><asp:label id="lblInitialConditions" style="Z-INDEX: 111; LEFT: 112px; POSITION: absolute; TOP: 416px"
+				runat="server" Height="16px" Width="104px">Initial Conditions:</asp:label><jwg:gridex id=grdSoilSampleOne style="Z-INDEX: 116; LEFT: 24px; POSITION: absolute; TOP: 528px" runat="server" Height="184px" Width="516px" AutomaticSort="False" AllowColumnDrag="False" UpdateMode="RowUpdateBatch" ImagesFolderPath="/gridex/images" EditorsFrameUrl="/gridex/images/blank.html" ScriptsFolderPath="/gridex/scripts" AllowEdit="True" GroupByBoxVisible="False" GridLineColor="ScrollBar" DataMember="SoilSampleOne" DataSource="<%# dsSoilSampleOne %>">
 				<RootTable DataMember="SoilSampleOne" Key="SoilSample">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.String" Key="Depth" DataMember="Depth" DefaultGroupPrefix="Depth (cm):"
@@ -94,11 +94,11 @@
 					Appearance="RaisedLight" BorderWidth="1px" BorderColor="GrayText"></HeaderFormatStyle>
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
-			</jwg:gridex><asp:label id="lblDepthOne" style="Z-INDEX: 118; LEFT: 24px; POSITION: absolute; TOP: 424px"
-				runat="server">Depths should be entered as 0-10, 10-20, etc.</asp:label><asp:label id="lblWaterType" style="Z-INDEX: 119; LEFT: 24px; POSITION: absolute; TOP: 464px"
-				runat="server"> Starting water is in %</asp:label><asp:checkbox id="chkLinkedRainfall" style="Z-INDEX: 120; LEFT: 8px; POSITION: absolute; TOP: 304px"
-				runat="server" Text="Link rainfall to existing paddock" AutoPostBack="True" TextAlign="Left"></asp:checkbox><asp:dropdownlist id="cboLinkedRainfall" style="Z-INDEX: 112; LEFT: 232px; POSITION: absolute; TOP: 304px"
-				tabIndex="4" runat="server" Height="24px" Width="344px"></asp:dropdownlist><jwg:gridex id=grdSoilSampleTwo style="Z-INDEX: 117; LEFT: 24px; POSITION: absolute; TOP: 696px" runat="server" Height="184px" Width="516px" AutomaticSort="False" AllowColumnDrag="False" UpdateMode="RowUpdateBatch" ImagesFolderPath="/gridex/images" EditorsFrameUrl="/gridex/images/blank.html" ScriptsFolderPath="/gridex/scripts" AllowEdit="True" GroupByBoxVisible="False" GridLineColor="ScrollBar" DataMember="SoilSampleTwo" DataSource="<%# dsSoilSampleTwo %>">
+			</jwg:gridex><asp:label id="lblDepthOne" style="Z-INDEX: 118; LEFT: 24px; POSITION: absolute; TOP: 456px"
+				runat="server">Depths should be entered as 0-10, 10-20, etc.</asp:label><asp:label id="lblWaterType" style="Z-INDEX: 119; LEFT: 24px; POSITION: absolute; TOP: 496px"
+				runat="server"> Starting water is in %</asp:label><asp:checkbox id="chkLinkedRainfall" style="Z-INDEX: 120; LEFT: 8px; POSITION: absolute; TOP: 336px"
+				runat="server" Text="Link rainfall to existing paddock" AutoPostBack="True" TextAlign="Left"></asp:checkbox><asp:dropdownlist id="cboLinkedRainfall" style="Z-INDEX: 112; LEFT: 232px; POSITION: absolute; TOP: 336px"
+				tabIndex="4" runat="server" Height="24px" Width="344px"></asp:dropdownlist><jwg:gridex id=grdSoilSampleTwo style="Z-INDEX: 117; LEFT: 24px; POSITION: absolute; TOP: 728px" runat="server" Height="184px" Width="516px" AutomaticSort="False" AllowColumnDrag="False" UpdateMode="RowUpdateBatch" ImagesFolderPath="/gridex/images" EditorsFrameUrl="/gridex/images/blank.html" ScriptsFolderPath="/gridex/scripts" AllowEdit="True" GroupByBoxVisible="False" GridLineColor="ScrollBar" DataMember="SoilSampleTwo" DataSource="<%# dsSoilSampleTwo %>">
 				<RootTable DataMember="SoilSampleTwo" Key="SoilSample">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.String" Key="Depth" DataMember="Depth" DefaultGroupPrefix="Depth (cm):"
@@ -161,7 +161,7 @@
 					Appearance="RaisedLight" BorderWidth="1px" BorderColor="GrayText"></HeaderFormatStyle>
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
-			</jwg:gridex><jwg:gridex id=grdSampleDate style="Z-INDEX: 113; LEFT: 232px; POSITION: absolute; TOP: 384px" runat="server" Height="20px" Width="168px" UpdateMode="RowUpdateBatch" ImagesFolderPath="/gridex/images" EditorsFrameUrl="/gridex/images/blank.html" ScriptsFolderPath="/gridex/scripts" AllowEdit="True" GroupByBoxVisible="False" GridLineColor="ScrollBar" DataMember="InitialDate" DataSource="<%# dsInitialDate %>" ColumnHeaders="False">
+			</jwg:gridex><jwg:gridex id=grdSampleDate style="Z-INDEX: 113; LEFT: 232px; POSITION: absolute; TOP: 416px" runat="server" Height="20px" Width="168px" UpdateMode="RowUpdateBatch" ImagesFolderPath="/gridex/images" EditorsFrameUrl="/gridex/images/blank.html" ScriptsFolderPath="/gridex/scripts" AllowEdit="True" GroupByBoxVisible="False" GridLineColor="ScrollBar" DataMember="InitialDate" DataSource="<%# dsInitialDate %>" ColumnHeaders="False">
 				<RootTable DataMember="InitialDate" Key="SowDate">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.DateTime" EditType="CalendarDropDown" Key="InitialDate" FormatString="dd/MM/yyyy"
@@ -211,7 +211,7 @@
 					BorderWidth="1px" BorderColor="GrayText"></HeaderFormatStyle>
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
-			</jwg:gridex><jwg:gridex id=grdStartOfGrowingSeason style="Z-INDEX: 114; LEFT: 232px; POSITION: absolute; TOP: 344px" runat="server" Height="20px" Width="168px" UpdateMode="RowUpdateBatch" ImagesFolderPath="/gridex/images" EditorsFrameUrl="/gridex/images/blank.html" ScriptsFolderPath="/gridex/scripts" AllowEdit="True" GroupByBoxVisible="False" GridLineColor="ScrollBar" DataMember="StartOfGrowingSeason" DataSource="<%# dsStartOfGrowingSeason %>" ColumnHeaders="False">
+			</jwg:gridex><jwg:gridex id=grdStartOfGrowingSeason style="Z-INDEX: 114; LEFT: 232px; POSITION: absolute; TOP: 376px" runat="server" Height="20px" Width="168px" UpdateMode="RowUpdateBatch" ImagesFolderPath="/gridex/images" EditorsFrameUrl="/gridex/images/blank.html" ScriptsFolderPath="/gridex/scripts" AllowEdit="True" GroupByBoxVisible="False" GridLineColor="ScrollBar" DataMember="StartOfGrowingSeason" DataSource="<%# dsStartOfGrowingSeason %>" ColumnHeaders="False">
 				<RootTable DataMember="StartOfGrowingSeason" Key="SowDate">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.DateTime" EditType="CalendarDropDown" Key="GrowingSeasonDate" FormatString="dd/MM/yyyy"
@@ -261,8 +261,8 @@
 					BorderWidth="1px" BorderColor="GrayText"></HeaderFormatStyle>
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
-			</jwg:gridex><asp:label id="lblStartGrowingSeason" style="Z-INDEX: 121; LEFT: 64px; POSITION: absolute; TOP: 344px"
-				runat="server">Start of Growing Season:</asp:label><xceedchart:chartservercontrol id="cscSoilChart" style="Z-INDEX: 105; LEFT: 16px; POSITION: absolute; TOP: 904px"
+			</jwg:gridex><asp:label id="lblStartGrowingSeason" style="Z-INDEX: 121; LEFT: 64px; POSITION: absolute; TOP: 376px"
+				runat="server">Start of Growing Season:</asp:label><xceedchart:chartservercontrol id="cscSoilChart" style="Z-INDEX: 105; LEFT: 16px; POSITION: absolute; TOP: 936px"
 				runat="server" Height="552px" Width="592px">
 				<Xceed.Chart.Server.StringHolderCount Count="121"></Xceed.Chart.Server.StringHolderCount>
 				<Xceed.Chart.Server.StringHolder Data="&lt;State&gt;ED3D077C1455FA994D76C9A690D03B84AE821008100B288180705272846A8B93EC242C6E89BB9B40384F51B163EF0D51B1D753CF729EA77736ACD8DB8162011541383D4D13F8BFEFCDBC996F66DEDB59CED5BFF7BBD9FCF6CBCC7BDF2B5F7D6FBEF7E66D86949191B18F7CE03F7CF23C042C585CA32881515397CAB1C4A8A9D1&lt;/State&gt;"></Xceed.Chart.Server.StringHolder>
@@ -385,8 +385,8 @@
 				<Xceed.Chart.Server.StringHolder Data="&lt;State&gt;19C647228CDD0CE343110604EA29C607228C5C86F1BE08A38461BC27C298C830DE1561CC6118EF883016318CB745184186F1960823C630DE14615CC730DE1061DCCA30368A305E6118AF8B30DE6118AF8930B6318C574518BB18C62B028CDC0CB60D9E39C93C30E725BCB38C8D63F64A46158F1A93E2297BF22125B5B525130E&lt;/State&gt;"></Xceed.Chart.Server.StringHolder>
 				<Xceed.Chart.Server.StringHolder Data="&lt;State&gt;A92E1D3FA1A4668217DA99C03D2A796624A1C4E49A44B03198689A5B4FAE61BB7D7C6A3414526AE032577D0D01F6F2770857C5E1F58E838E9AE5586C845A64446AA8B4DADEF394EA20E9557548298BC5E4A659C17842ABA60F3F8B16EB0608016B89EEB6548A5C68A45405134A385E8012E2C1954A6774DFA8723E5352FFC8A0&lt;/State&gt;"></Xceed.Chart.Server.StringHolder>
 				<Xceed.Chart.Server.StringHolder Data="&lt;State&gt;31407BF161017D594F816316B4B71F6644430125F64BE76767D3973A6138C8E1403CA6C1C9FB8EFDA53FED01EF83F92906F02CAF2C1E57C2D521FA5E92049BFA60796404569EA366D1173444A2A56745C230BDC85E282DEA0CC75A69E73BE4FE1F&lt;/State&gt;"></Xceed.Chart.Server.StringHolder>
-			</xceedchart:chartservercontrol><asp:button id="btnUpdateGraph" style="Z-INDEX: 122; LEFT: 224px; POSITION: absolute; TOP: 888px"
-				runat="server" Text="Update Chart"></asp:button><asp:radiobuttonlist id="rdbSWUnit" style="Z-INDEX: 123; LEFT: 160px; POSITION: absolute; TOP: 464px"
+			</xceedchart:chartservercontrol><asp:button id="btnUpdateGraph" style="Z-INDEX: 122; LEFT: 224px; POSITION: absolute; TOP: 920px"
+				runat="server" Text="Update Chart"></asp:button><asp:radiobuttonlist id="rdbSWUnit" style="Z-INDEX: 123; LEFT: 160px; POSITION: absolute; TOP: 496px"
 				runat="server" Height="24px" Width="232px" RepeatDirection="Horizontal">
 				<asp:ListItem Value="GravimetricPercent" Selected="True">Gravimetric</asp:ListItem>
 				<asp:ListItem Value="VolumetricPercent">Volumetric</asp:ListItem>
@@ -394,9 +394,12 @@
 				runat="server" Width="312px"></asp:textbox>
 			<asp:Label id="lblRootingDepthUnit" style="Z-INDEX: 125; LEFT: 552px; POSITION: absolute; TOP: 240px"
 				runat="server">cm</asp:Label>
-			<asp:CheckBox id="chkDefaultRainfall" style="Z-INDEX: 126; LEFT: 24px; POSITION: absolute; TOP: 272px"
+			<asp:CheckBox id="chkDefaultRainfall" style="Z-INDEX: 126; LEFT: 24px; POSITION: absolute; TOP: 304px"
 				runat="server" Width="200px" Text="Use weather station's rainfall " AutoPostBack="True" TextAlign="Left"></asp:CheckBox>
-			<asp:Label id="InvalidSWLabel" style="Z-INDEX: 127; LEFT: 544px; POSITION: absolute; TOP: 536px"
-				runat="server" Width="216px" Height="136px" ForeColor="Red" Font-Bold="True" Visible="False">The water values entered in the grid don't match the soil type you have choosen. Please contact James Hunt.</asp:Label></form>
+			<asp:Label id="InvalidSWLabel" style="Z-INDEX: 127; LEFT: 544px; POSITION: absolute; TOP: 568px"
+				runat="server" Width="216px" Height="136px" ForeColor="Red" Font-Bold="True" Visible="False">The water values entered in the grid don't match the soil type you have choosen. Please contact James Hunt.</asp:Label>
+			<asp:CheckBox id="chkUseEC" style="Z-INDEX: 128; LEFT: 232px; POSITION: absolute; TOP: 272px"
+				runat="server" Width="345px" Text="Use EC / Max rooting depth to constrain crop growth" AutoPostBack="True"
+				TextAlign="Left"></asp:CheckBox></form>
 	</body>
 </HTML>

@@ -537,7 +537,7 @@ namespace YieldProphet
 				"Regions.Type AS RegionType, CropTypes.Type AS CropType, Paddocks.DefaultRainfall, "+
 				"LinkedRainfallPaddock.Name AS LinkedRainfallPaddockName, Paddocks.Triazine, "+
 				"Paddocks.RootingDepth, Paddocks.Population, Paddocks.TillerNumber, Paddocks.RowSpacing, "+
-				"Paddocks.AutoFTN "+
+				"Paddocks.AutoFTN, Paddocks.UseEC "+
 				"FROM Regions INNER JOIN (CropTypes INNER JOIN (Paddocks AS LinkedRainfallPaddock RIGHT JOIN "+
 				"(RowConfigurationTypes INNER JOIN (Soils INNER JOIN (CultivarTypes INNER JOIN (Users INNER JOIN "+
 				"(MetStations INNER JOIN Paddocks ON MetStations.ID = Paddocks.MetStationID) ON Users.ID = Paddocks.UserID) "+
@@ -598,7 +598,7 @@ namespace YieldProphet
 			string szMetStaionName, string szSoilName, string szRowConfigurationType, 
 			int iDefaultRainfall, string szLinkedTemporalPaddockName, string szStartOfGrowingSeason, 
 			int iPopulation, int iMaxRootingDepth, double dTillerNumber, double dRowSpacing, 
-			int iAutoFTN, string szNewPaddockName, string szPaddockName, string szUserName)
+			int iAutoFTN, int iUseEC, string szNewPaddockName, string szPaddockName, string szUserName)
 			{
 			int iPaddockID = ReturnPaddockID(szPaddockName, szUserName);
 
@@ -636,6 +636,10 @@ namespace YieldProphet
 			if(iAutoFTN == 1 || iAutoFTN == 0)
 			{
 				sbSQL.Append("AutoFTN = "+iAutoFTN.ToString()+", ");
+			}
+			if(iUseEC == 1 || iUseEC == 0)
+			{
+				sbSQL.Append("UseEC = "+iUseEC.ToString()+", ");
 			}
 			if(szRowConfigurationType != null && szRowConfigurationType != "")
 			{
