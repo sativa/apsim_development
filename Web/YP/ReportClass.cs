@@ -591,7 +591,9 @@ namespace YieldProphet
 					if (Crop.ToLower() == "barley")
 						Crop = "wheat";
 					RootDepth *= 10;   // cm to mm
-					PaddockSoil.ApplyECXFFunction(Crop, RootDepth);
+					bool bUseEC = Convert.ToBoolean(Convert.ToInt32(dtPaddocksDetails.Rows[0]["UseEC"].ToString()));
+					if(bUseEC == true)
+						PaddockSoil.ApplyECXFFunction(Crop, RootDepth);
 					}
 				}
 			string FullSoilFileName = szDirectoryLocation + "\\grower.soil"; 

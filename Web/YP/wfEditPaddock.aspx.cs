@@ -69,6 +69,7 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Label lblRowSpacing;
 		protected System.Web.UI.WebControls.TextBox edtRowSpacing;
 		protected System.Web.UI.WebControls.Label lblRowSpacingUnit;
+		protected System.Web.UI.WebControls.Label BarleyWarning;
 		protected System.Web.UI.WebControls.Button btnCalculate;
 		protected System.Web.UI.WebControls.CheckBox chkAutoCalculate;
 		protected System.Web.UI.WebControls.HyperLink HyperLink1;
@@ -551,6 +552,7 @@ namespace YieldProphet
 		{
 			SetVisabilityOfCanolaComponents();
 			SetVisibilityOfSorgumComponents();
+			BarleyWarning.Visible =	(cboCrops.SelectedValue.ToLower() == "barley"); 
 
 		}
 		//-------------------------------------------------------------------------
@@ -619,8 +621,8 @@ namespace YieldProphet
 								DataAccessClass.UpdatePaddock((DateTime.ParseExact(grdSowDate.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
 									cboCultivars.SelectedItem.Text, Convert.ToInt32(chkTriazine.Checked), "", "", cboRowConfiguration.SelectedValue, -1, "", "", 
 									ReturnPopulationValue(), -1, InputValidationClass.ReturnTextBoxValueAsDouble(edtTiller, 0), 
-									 InputValidationClass.ReturnTextBoxValueAsDouble(edtRowSpacing, 0), Convert.ToInt32(chkAutoCalculate.Checked), szPaddockName, Session["SelectedPaddockName"].ToString(), 
-									FunctionsClass.GetActiveUserName());
+									 InputValidationClass.ReturnTextBoxValueAsDouble(edtRowSpacing, 0), Convert.ToInt32(chkAutoCalculate.Checked), 
+									-1, szPaddockName, Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
 								Session["SelectedPaddockName"] = szPaddockName;
 								SaveNitrogenApplications();
 								SaveIrrigationApplications();
