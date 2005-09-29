@@ -742,7 +742,7 @@ namespace CSGeneral
 		// -------------------------------------------------
 		// Using the soil's EC values - create an XF profile
 		// -------------------------------------------------
-		public void ApplyECXFFunction(string CropName, int RootingDepth)
+		public void ApplyECXFFunction(string CropName)
 			{
 			if (EC.Length > 0)
 				{
@@ -756,19 +756,38 @@ namespace CSGeneral
 						xf[i] = 2.06 / (1 + 2 * EC[i]) - 0.351;
 						xf[i] = CSGeneral.MathUtility.Constrain(0.0, 1.0, xf[i]);
 						}
+					}
+				
+				double[] ll = LL(CropName);
+				double[] kl = LL(CropName);
+				
+				SetCrop(CropName, ll, kl, xf);
+				}
+			}
 
+
+		// -------------------------------------------------
+		// Using the soil's EC values - create an XF profile
+		// -------------------------------------------------
+		public void ApplyMaxRootDepth(string CropName, int RootingDepth)
+			{
+			double[] xf = XF(CropName);
+			if (xf.Length > 0)
+				{
+				for (int i = 0; i != this.CumThickness.Length; i++)
+					{
 					if (CumThickness[i] > RootingDepth)
 						{
 						double PreviousCumThickness = 0.0;
 						if(i > 0)
 							PreviousCumThickness = CumThickness[i-1];
 
-						double Prop = CumThickness[i] - PreviousCumThickness;
 						if (PreviousCumThickness > RootingDepth)
 							xf[i] = 0.0;
 						else
 							{
-							xf[i] = (RootingDepth - PreviousCumThickness) / Thickness[i];
+							double Proportion = (RootingDepth - PreviousCumThickness) / Thickness[i];
+							xf[i] = xf[i] * Proportion;
 							xf[i] = CSGeneral.MathUtility.Constrain(0.0, 1.0, xf[i]);
 							}
 						}
@@ -780,6 +799,7 @@ namespace CSGeneral
 				SetCrop(CropName, ll, kl, xf);
 				}
 			}
+
 
 
 
