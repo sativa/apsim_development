@@ -680,11 +680,13 @@
 
 
 *     ===========================================================
-      subroutine Micromet_OnNewCrop ()
+      subroutine Micromet_OnNewCrop (variant)
 *     ===========================================================
 
       Use Infrastructure
       implicit none
+
+      integer, intent(in) :: variant
 
 *+  Purpose
 *       Register presence of a new crop
@@ -703,23 +705,24 @@
       parameter (myname = 'Micromet_OnNewCrop')
 
 *+  Local Variables
+      type(new_cropType) :: new_crop
+
       integer    numvals               ! number of values read
-      character  newType*32             ! the new type of canopy
       integer    i
       logical    alreadyHaveIt
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
 
-      call collect_char_var (DATA_sender
-     :                         ,'()'
-     :                         ,newType
-     :                         ,numvals)
+      call unpack_new_crop(variant, new_crop)
 
+
+!      print*,'|',new_crop%sender,'|',new_crop%crop_type,'|'
+!      pause
       ! See if we know of it
       alreadyHaveIt = .false.
       do 100 i = 1, g%NumComponents
-        if (g%ComponentType(g%NumComponents).eq.newType)
+        if (g%ComponentType(g%NumComponents).eq.new_crop%sender)
      :            alreadyHaveIt = .true.
  100  continue
 
@@ -729,12 +732,10 @@
           call fatal_Error(ERR_Internal
      :                   ,'Too many canopy components in system')
         else
-          g%ComponentName(g%NumComponents) = newType
-          call collect_char_var ('crop_type'
-     :                         ,'()'
-     :                         ,g%ComponentType(g%NumComponents)
-     :                         ,numvals)
+          g%ComponentName(g%NumComponents) = new_crop%sender
+          g%ComponentType(g%NumComponents) = new_crop%crop_type
 
+!      print*,'there'
           ! Read Component Specific Constants
           ! ---------------------------------
           call micromet_component_constants(g%NumComponents)
@@ -742,16 +743,18 @@
       else
       endif
 
+!      print*,'end'
       call pop_routine (myname)
       return
       end subroutine
 
 *     ===========================================================
-      subroutine Micromet_OnNewCanopy ()
+      subroutine Micromet_OnNewCanopy (variant)
 *     ===========================================================
 
       Use Infrastructure
       implicit none
+      integer, intent(in) :: variant
 
 *+  Purpose
 *       Obtain updated information about a plant canopy
@@ -770,6 +773,7 @@
       parameter (myname = 'Micromet_OnNewCanopy')
 
 *+  Local Variables
+      type(newcanopyType) :: newcanopy
       integer    numvals               ! number of values read
       character  sender*32
       integer    ComponentNo
@@ -778,68 +782,28 @@
 
       call push_routine (myname)
 
-      call collect_char_var (DATA_sender
-     :                      ,'()'
-     :                      ,sender
-     :                      ,numvals)
+      call unpack_newcanopy(variant, newcanopy)
 
       ComponentNo = position_in_char_array
-     :                   (sender
+     :                   (newcanopy%sender
      :                   ,g%ComponentName
      :                   ,g%NumComponents)
 
       if (ComponentNo.eq.0) then
          call fatal_Error(ERR_Internal
-     :                   ,'Unknown Canopy Component: '//sender)
+     :                 ,'Unknown Canopy Component: '//newcanopy%sender)
 
       else
 
-         call collect_real_var ('lai'
-     :                         ,'()'
-     :                         ,g%ComponentLAI(ComponentNo)
-     :                         ,numvals
-     :                         ,0.0
-     :                         ,20.0)
-
-         call collect_real_var ('lai_tot'
-     :                         ,'()'
-     :                         ,g%ComponentLAItot(ComponentNo)
-     :                         ,numvals
-     :                         ,0.0
-     :                         ,20.0)
-
-         call collect_real_var ('cover_green'
-     :                         ,'()'
-     :                         ,g%ComponentCoverGreen(ComponentNo)
-     :                         ,numvals
-     :                         ,0.0
-     :                         ,1.0)
-
-         call collect_real_var ('cover_tot'
-     :                         ,'()'
-     :                         ,g%ComponentCoverTot(ComponentNo)
-     :                         ,numvals
-     :                         ,0.0
-     :                         ,1.0)
-
-         call collect_real_var ('height'
-     :                         ,'()'
-     :                         ,g%ComponentHeight(ComponentNo)
-     :                         ,numvals
-     :                         ,0.0
-     :                         ,100000.0)
-
-         g%ComponentHeight(ComponentNo) = g%ComponentHeight(ComponentNo)
+        g%ComponentLAI(ComponentNo) = newcanopy%lai
+        g%ComponentLAItot(ComponentNo) = newcanopy%lai_tot
+        g%ComponentCoverGreen(ComponentNo) = newcanopy%cover
+        g%ComponentCoverTot(ComponentNo) = newcanopy%cover_tot
+        g%ComponentHeight(ComponentNo) = newcanopy%height
+        g%ComponentHeight(ComponentNo) = g%ComponentHeight(ComponentNo)
      :                         / 1000.  ! to convert from mm to m
-
-         call collect_real_var ('depth'
-     :                         ,'()'
-     :                         ,g%ComponentDepth(ComponentNo)
-     :                         ,numvals
-     :                         ,0.0
-     :                         ,100000.0)
-
-         g%ComponentDepth(ComponentNo) = g%ComponentDepth(ComponentNo)
+        g%ComponentDepth(ComponentNo) = newcanopy%depth
+        g%ComponentDepth(ComponentNo) = g%ComponentDepth(ComponentNo)
      :                         / 1000.  ! to convert from mm to m
 
       endif
@@ -2710,12 +2674,6 @@
       elseif (Action.eq.ACTION_Process) then
          call Micromet_Process ()
 
-      else if (Action.eq.'new_crop') then
-         call Micromet_OnNewCrop ()
-
-      else if (Action.eq.'new_canopy') then
-         call Micromet_OnNewCanopy ()
-
       else if (Action.eq.'new_pot_growth') then
          call Micromet_OnNewPotGrowth ()
 
@@ -2774,6 +2732,10 @@
          call MicroMet_ONtick(variant)
       else if (eventID .eq. id%newmet) then
          call MicroMet_ONnewmet(variant)
+      else if (eventID .eq. id%new_crop) then
+         call Micromet_OnNewCrop (variant)
+      else if (eventID .eq. id%new_canopy) then
+         call Micromet_OnNewCanopy (variant)
       endif
       return
       end subroutine respondToEvent
