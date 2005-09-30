@@ -1657,8 +1657,20 @@
 !!  forest types!! dsg 051202
       <type name="thin" kind="????" unit="" description=""/>
       <type name="new_pot_growth" kind="????" unit="" description=""/>
-      <type name="new_canopy" kind="????" unit="" description=""/>
-      <type name="new_crop" kind="????" unit="" description=""/>
+   <type name="NewCanopy">
+      <field name="sender" kind="string"/>
+      <field name="height" kind="single"/>
+      <field name="depth" kind="single"/>
+      <field name="lai" kind="single"/>
+      <field name="lai_tot" kind="single"/>
+      <field name="cover" kind="single"/>
+      <field name="cover_tot" kind="single"/>
+   </type>
+
+      <type name="new_crop">
+         <field name="sender" kind="string"/>
+         <field name="crop_type" kind="string"/>
+      </type>
 !!  frmrpt types!!
       <type name="clear" kind="????" unit="" description="Message to FRMRPT from MANAGER"/>
 !! OLD IRRIGATE types (including variables)
