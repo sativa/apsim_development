@@ -24,8 +24,20 @@
    </type>
 
    <type name="NewCanopy">
+      <field name="sender" kind="string"/>
+      <field name="height" kind="single"/>
+      <field name="depth" kind="single"/>
       <field name="lai" kind="single"/>
+      <field name="lai_tot" kind="single"/>
+      <field name="cover" kind="single"/>
+      <field name="cover_tot" kind="single"/>
    </type>
+
+   <type name="NewCrop">
+      <field name="sender" kind="string"/>
+      <field name="crop_type" kind="string"/>
+   </type>
+
 
    <type name="Time" description="Change in the simulation system time and the duration of the new time step">
       <field name="startday" kind="integer4" description="Day number of the start of the timestep"/>
@@ -60,12 +72,24 @@
       </field>
    </type>
 
-   <type name="CanopyWaterBalance" array="T">
-      <element>
-      <field name="name" kind="string"/>
-      <field name="pet" kind="single" units="mm"/>
-      </element>
+   <type name="CanopyWaterBalance">
+      <field name="Canopy" array="T">
+         <element>
+         <field name="name" kind="string"/>
+         <field name="CropType" kind="string"/>
+         <field name="PotentialEp" kind="single"/>
+         </element>
+      </field>
+      <field name="eo" kind = "single"/>
+      <field name="interception" kind = "single"/>
    </type>
+
+
+   <type name="NewPotentialGrowth">
+      <field name="sender" kind="string"/>
+      <field name="frgr" kind="single" units=""/>
+   </type>
+
 
    <event name="Tick" type="Time"/>
 
@@ -73,6 +97,9 @@
    <event name="NewMetEvent" type="NewMet"/>
    <event name="NewCanopyEvent" type="NewCanopy"/>
    <event name="CanopyWaterBalanceEvent" type="CanopyWaterBalance"/>
+   <event name="NewPotentialGrowthEvent" type="NewPotentialGrowth"/>
+   <event name="new_crop" type="NewCrop"/>
+   <event name="NewSoilProfileEvent" type="SoilWaterProfileLayer"/>
 
 </types>
 
