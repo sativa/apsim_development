@@ -33,6 +33,27 @@ std::string ddmlKindToCPP(const std::string& kind)
       return kind;
    }
 // ------------------------------------------------------------------
+// convert a DDML 'kind' string to a CPP in .NET built in type.
+// ------------------------------------------------------------------
+std::string ddmlKindToDotNet(const std::string& kind)
+   {
+   if (Str_i_Eq(kind, "integer4"))
+      return "Int32";
+   else if (Str_i_Eq(kind, "single"))
+      return "Single";
+   else if (Str_i_Eq(kind, "double"))
+      return "Double";
+   else if (Str_i_Eq(kind, "boolean"))
+      return "Boolean";
+   else if (Str_i_Eq(kind, "char"))
+      return "Char";
+   else if (Str_i_Eq(kind, "string"))
+      return "String*";
+   else
+      return kind;   
+   }
+
+// ------------------------------------------------------------------
 // convert a DDML 'kind' string to a FOR built in type.
 // ------------------------------------------------------------------
 std::string ddmlKindToFOR(const std::string& kind)
@@ -265,6 +286,12 @@ void processField(const ApsimDataTypeData& dataType, XMLNode& node)
    {
    static set<string> structuresAlreadyDone;
    string lowerName = dataType.getName();
+   if (lowerName == "")
+      {
+      lowerName = dataType.getKind();
+      if (dataType.isArray())
+         lowerName = lowerName + "Array";
+      }
    To_lower(lowerName);
    if (structuresAlreadyDone.find(lowerName) == structuresAlreadyDone.end())
       {
@@ -272,12 +299,20 @@ void processField(const ApsimDataTypeData& dataType, XMLNode& node)
 
       // add field to a new macro.
       XMLNode child = node.appendChild("type", true);
-      child.setAttribute("name", dataType.getName());
+      child.setAttribute("name", lowerName);
       child.setAttribute("kind", dataType.getKind());
+      child.setAttribute("ckind", ddmlKindToCPP(dataType.getKind()));
+      child.setAttribute("dotnetkind", ddmlKindToDotNet(dataType.getKind()));
       if (dataType.isArray())
+         {
          child.setAttribute("array", "T");
+         child.setAttribute("dotnetarraybits", "__gc[]");
+         }
       else
+         {
          child.setAttribute("array", "F");
+         child.setAttribute("dotnetarraybits", " ");
+         }
       XMLNode cddmlNode = child.appendChild("cddml");
       cddmlNode.setValue(ddmlToCPP(dataType));
       XMLNode forddmlNode = child.appendChild("forddml");
