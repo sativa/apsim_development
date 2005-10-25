@@ -4,18 +4,18 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\Lib\report.dll"/>
-    <OBJFILES value="report.obj ReportComponent.obj 
+    <OBJFILES value="report.obj ReportComponent.obj
       ..\..\..\Shared\ComponentInterface\EntryPoints.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value="..\..\..\Shared\ApsimShared\ApsimShared.lib 
-      ..\..\..\Shared\ComponentInterface\ComponentInterface.lib 
+    <LIBFILES value="..\..\..\Shared\ApsimShared\ApsimShared.lib
+      ..\..\..\Shared\ComponentInterface\ComponentInterface.lib
       ..\..\..\Shared\general\general.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="rtl.lib vcl.lib"/>
-    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi vcljpg.bpi ibsmp.bpi dbrtl.bpi vcldb.bpi 
+    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi vcljpg.bpi ibsmp.bpi dbrtl.bpi vcldb.bpi
       bdertl.bpi bcbsmp.bpi vcldbx.bpi dclocx.bpi qrpt.bpi nmfast.bpi"/>
     <PATHCPP value=".;..\..\..\Shared\ComponentInterface"/>
     <PATHPAS value=".;"/>
@@ -34,7 +34,7 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi-
       -c -tWM"/>
     <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
@@ -45,7 +45,7 @@
   <LINKER>
     <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>

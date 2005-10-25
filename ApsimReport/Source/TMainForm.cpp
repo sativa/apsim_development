@@ -342,6 +342,7 @@ void TMainForm::processCommandLine(AnsiString commandLine)
       if (commandWords.size() >= 2)
          {
          string outputFileName = commandWords[1];
+         replaceAll(outputFileName, "\"", "");
 
          for (unsigned i = 2; i != commandWords.size(); i++)
             {

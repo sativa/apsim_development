@@ -56,11 +56,11 @@ namespace CSGeneral
 		// Go generate all files, putting all files in the specified OutputDirectory.
 		// This method returns a list of filenames that were generated.
 		// ------------------------------------------------------------------
-		public StringCollection Go(APSIMData MacroValues, string MacroContents, string OutputDirectory)
+		public StringCollection Go(APSIMData MacroValues, string MacroContents, string OutputDirectory, bool AppendToFile)
 		{
 			string Contents = Go(MacroValues, MacroContents);
 			Contents = ReplaceHTMLSymbols(Contents);
-			return WriteStringToFiles(Contents, OutputDirectory);
+			return WriteStringToFiles(Contents, OutputDirectory, AppendToFile);
 		}
 		// ------------------------------------------------------------------
 		// Parse and remove all foreach macros from specified string.
@@ -574,7 +574,7 @@ namespace CSGeneral
 		//---------------------------------------------------------------
 		// Write specified contents to files.
 		//---------------------------------------------------------------
-		StringCollection WriteStringToFiles(string Contents, string OutputDirectory)
+		StringCollection WriteStringToFiles(string Contents, string OutputDirectory, bool AppendToFile)
 			{
 			StringCollection FileNamesCreated = new StringCollection();
 			const string FileMacro = "[file";
@@ -596,7 +596,7 @@ namespace CSGeneral
 				string FileContents = Contents.Substring(PosStartFileBody, PosEndFileBody-PosStartFileBody);
 
 				// Dump the file text into the given file name
-				StreamWriter o = new StreamWriter(Filename);
+				StreamWriter o = new StreamWriter(Filename, AppendToFile);
 				o.Write(FileContents);
 				o.Close();
 				FileNamesCreated.Add(Path.GetFullPath(Filename));

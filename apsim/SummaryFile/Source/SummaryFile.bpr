@@ -4,7 +4,8 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\Lib\SummaryFile.dll"/>
-    <OBJFILES value="SummaryFile.obj SummaryFileComponent.obj"/>
+    <OBJFILES value="SummaryFile.obj SummaryFileComponent.obj 
+      ..\..\..\Shared\ComponentInterface\EntryPoints.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -16,7 +17,7 @@
     <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi qrpt.bpi dbrtl.bpi vcldb.bpi 
       bdertl.bpi ibsmp.bpi vcldbx.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi 
       nmfast.bpi dclocx.bpi bcb97axserver.bpi"/>
-    <PATHCPP value=".;"/>
+    <PATHCPP value=".;..\..\..\Shared\ComponentInterface"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -26,8 +27,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="SummaryFile.bpf"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost"/>
-    <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost"/>
+    <LIBPATH value="..\..\..\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -53,6 +54,7 @@
       <FILE FILENAME="..\..\..\Shared\ComponentInterface\ComponentInterface.lib" FORMNAME="" UNITNAME="ComponentInterface.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\ComponentInterface\EntryPoints.cpp" FORMNAME="" UNITNAME="EntryPoints" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -120,11 +122,11 @@ Item1=..\Lib
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=C:\MyData\development\apsim\accum\sample\accum.sim
+RunParams=D:\development\apsim\soilwat2\sample\soilwat2.sim
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=c:\mydata\development\bin\apsim.exe
+HostApplication=d:\development\bin\apsim.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=
