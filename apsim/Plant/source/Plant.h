@@ -233,6 +233,8 @@ class Plant : public plantInterface {
     ,float *g_dlt_n_senesced
     ,float *g_dlt_n_senesced_trans
     ,float *g_dlt_n_senesced_retrans
+    ,float *g_dlt_n_green_dead
+    ,float *g_dlt_n_senesced_dead
     ,float  g_dlt_plants
     ,float  g_dlt_root_depth
     ,float  g_dlt_slai
@@ -707,10 +709,11 @@ void legnew_dm_distribute(int max_part
   void get_dlt_dm_pot_te(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_grain_demand(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_green(protocol::Component *, protocol::QueryValueData &);
-//??  void get_dlt_dm_green_dead(protocol::Component *, protocol::QueryValueData &);
+  void get_dlt_dm_green_dead(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_green_retrans(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_detached(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_senesced(protocol::Component *, protocol::QueryValueData &);
+  void get_dlt_dm_senesced_dead(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_dead_detached(protocol::Component *, protocol::QueryValueData &);
   void get_grain_oil_conc(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_oil_conv(protocol::Component *, protocol::QueryValueData &);
@@ -731,6 +734,7 @@ void legnew_dm_distribute(int max_part
   void get_dlt_n_retrans(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_n_senesced_trans(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_n_senesced_retrans(protocol::Component *, protocol::QueryValueData &);
+  void get_dlt_n_senesced_dead(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_n_detached(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_n_dead_detached(protocol::Component *, protocol::QueryValueData &);
   void get_temp_stress_photo(protocol::Component *, protocol::QueryValueData &);
@@ -1062,6 +1066,8 @@ void legnew_dm_distribute(int max_part
       float dlt_n_senesced_trans[max_part];
       float dlt_n_detached[max_part];                   // actual N loss with detached plant (g/m^2)
       float dlt_n_dead[max_part];                       // actual N loss with dead plant (g/m^2)
+      float dlt_n_green_dead[max_part];                 // plant N to dead population(g/m^2)
+      float dlt_n_senesced_dead[max_part];              // plant N to dead population(g/m^2)
       float dlt_n_dead_detached[max_part];              // actual N loss with detached dead plant (g/m^2)
       float n_dead[max_part];                           // plant N content of dead plants (g N/m^2)
       float n_green[max_part];                          // plant nitrogen content (g N/m^2)

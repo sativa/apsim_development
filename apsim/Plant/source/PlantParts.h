@@ -6,13 +6,15 @@ class plantPart : public plantThing {
       friend class Plant;
    public: // for now
    // (global) state variables
-   struct { 
+   struct {
       float dm_dead;                      // dry wt of dead plants (g/m^2)
       float dm_green;                     // live plant dry weight (biomass) (g/m^2)
       float dm_senesced;                  // senesced plant dry wt (g/m^2)
+//      float dlt_dm_green_dead;                // plant biomass to dead population(g/m^2)
       float n_dead;                       // plant N content of dead plants (g N/m^2)
       float n_green;                      // plant nitrogen content (g N/m^2)
       float n_senesced;                   // plant N content of senesced plant (g N/m^2)
+//      float dlt_n_green_dead;                // plant biomass to dead population(g/m^2)
       float height;                       // The height of this part (mm)
       float width;                        // The width of this part (mm)
       float n_conc_crit;                  // critical N concentration (g N/g biomass)
@@ -32,6 +34,8 @@ class plantPart : public plantThing {
       float dm_detached;                  // biomass detached (g/m^2)
       float dm_dead;                      // biomass dead (g/m^2)
       float dm_dead_detached;             // biomass detached from dead plant (g/m^2)
+      float dm_green_dead;                // plant biomass to dead population(g/m^2)
+      float dm_senesced_dead;             // plant biomass to dead population(g/m^2)
       float dm_green_retrans;             // biomass retranslocated (g/m^2)
       float n_green;                      // actual N uptake into plant (g/m^2)
       float n_senesced;                   // actual N loss with senesced plant (g/m^2)
@@ -40,6 +44,8 @@ class plantPart : public plantThing {
       float n_detached;                   // actual N loss with detached plant (g/m^2)
       float n_dead;                       // actual N loss with dead plant (g/m^2)
       float n_dead_detached;              // actual N loss with detached dead plant (g/m^2)
+      float n_green_dead;                 // plant N to dead population(g/m^2)
+      float n_senesced_dead;              // plant N to dead population(g/m^2)
       float n_retrans;                    // nitrogen retranslocated out from parts to <<somewhere else??>> (g/m^2)
 
       float p_green;
@@ -100,7 +106,7 @@ class plantPart : public plantThing {
       string name;                        // What we call ourselves
    } c;
 private:
-   plantInterface *plant;                 // The plant we are attached to 
+   plantInterface *plant;                 // The plant we are attached to
 
    void onEmergence(void);
    void onFlowering(void);
@@ -112,13 +118,13 @@ private:
    void get_p_conc(protocol::Component *, protocol::QueryValueData &);
 
   public: // (for now)
-   void zeroAllGlobals(void);   
+   void zeroAllGlobals(void);
    void zeroDeltas(void);
 
-   plantPart(plantInterface *p, const string &name) 
+   plantPart(plantInterface *p, const string &name)
      {
      zeroAllGlobals();
-     plant = p; 
+     plant = p;
      c.name = name;
      c.trans_frac = 0.0;
      c.n_retrans_fraction = 1.0;
@@ -134,7 +140,7 @@ private:
    void readCultivarParameters (protocol::Component *, const string &);
 
    void onPlantEvent(const string &);
-     
+
    void prepare(void);
    void process(void);
    void update(void);
@@ -153,15 +159,15 @@ private:
 
    void onHarvest(float height, float remove_fr,
                   vector<string> &dm_type,
-                  vector<float> &dlt_crop_dm, 
+                  vector<float> &dlt_crop_dm,
                   vector<float> &dlt_dm_n,
-                  vector<float> &dlt_dm_p, 
+                  vector<float> &dlt_dm_p,
                   vector<float> &fraction_to_residue);
 
    void onEndCrop(vector<string> &dm_type,
-                  vector<float> &dlt_crop_dm, 
+                  vector<float> &dlt_crop_dm,
                   vector<float> &dlt_dm_n,
-                  vector<float> &dlt_dm_p, 
+                  vector<float> &dlt_dm_p,
                   vector<float> &fraction_to_residue);
 
    float availableRetranslocateN(void);
@@ -177,7 +183,7 @@ class plantPartHack : public plantPart {
    void get(void);
    void put(void);
  public:
-   plantPartHack(Plant *p, int ipart, const string &name) : plantPart((plantInterface *)p, name) { 
+   plantPartHack(Plant *p, int ipart, const string &name) : plantPart((plantInterface *)p, name) {
       part = ipart;
       myplant = p;
       get();
