@@ -403,8 +403,11 @@ void Plant::doRegistrations(protocol::Component *system)
    setupGetFunction(parent, "dlt_dm_dead_detached", protocol::DTsingle, true,
                     &Plant::get_dlt_dm_dead_detached,"g/m^2", "change in dead dry matter via detachment");
 
-//??   setupGetFunction(parent, "dlt_dm_green_dead", protocol::DTsingle, true,
-//??                    &Plant::get_dlt_dm_green_dead,  "g/m^2", "change in green dry matter via plant death");
+   setupGetFunction(parent, "dlt_dm_green_dead", protocol::DTsingle, true,
+                    &Plant::get_dlt_dm_green_dead,  "g/m^2", "change in green dry matter via plant death");
+
+   setupGetFunction(parent, "dlt_dm_senesced_dead", protocol::DTsingle, true,
+                    &Plant::get_dlt_dm_senesced_dead,  "g/m^2", "change in green dry matter via plant death");
 
    parent->addGettableVar("grain_oil_conc",
                c.grain_oil_conc, "%", "??");
@@ -471,6 +474,9 @@ void Plant::doRegistrations(protocol::Component *system)
 
    setupGetFunction(parent, "dlt_n_senesced", protocol::DTsingle, true,
                     &Plant::get_dlt_n_senesced, "g/m^2", "N in delta senesced");
+
+   setupGetFunction(parent, "dlt_n_senesced_dead", protocol::DTsingle, true,
+                    &Plant::get_dlt_n_senesced_dead, "g/m^2", "N in delta senesced dead");
 
    setupGetFunction(parent, "dlt_n_detached", protocol::DTsingle, true,
                     &Plant::get_dlt_n_detached, "g/m^2", "N in detached");
@@ -3397,6 +3403,8 @@ void Plant::plant_cleanup ()
                 , g.dlt_n_senesced
                 , g.dlt_n_senesced_trans
                 , g.dlt_n_senesced_retrans
+                , g.dlt_n_green_dead
+                , g.dlt_n_senesced_dead
                 , g.dlt_plants
                 , g.dlt_root_depth
                 , g.dlt_slai
@@ -3625,6 +3633,8 @@ void Plant::plant_update(
     ,float *g_dlt_n_senesced                                   // (INPUT)  actual N loss with senesced pl
     ,float *g_dlt_n_senesced_trans                             //  ??
     ,float *g_dlt_n_senesced_retrans                           //  ??
+    ,float *g_dlt_n_green_dead                                 // (INPUT)  plant N death (g/m^2)
+    ,float *g_dlt_n_senesced_dead                              // (INPUT)  plant N death (g/m^2)
     ,float  g_dlt_plants                                       // (INPUT)  change in Plant density (plant
     ,float  g_dlt_root_depth                                   // (INPUT)  increase in root depth (mm)
     ,float  g_dlt_slai                                         // (INPUT)  area of leaf that senesces fro
@@ -3751,13 +3761,13 @@ void Plant::plant_update(
 
     for (part = allParts.begin(); part != allParts.end(); part++)
        {
-       float dlt_n_green_dead = (*part)->g.n_green * dying_fract_plants;
-       (*part)->g.n_green -= dlt_n_green_dead;
-       (*part)->g.n_dead += dlt_n_green_dead;
+       (*part)->dlt.n_green_dead = (*part)->g.n_green * dying_fract_plants;
+       (*part)->g.n_green -= (*part)->dlt.n_green_dead;
+       (*part)->g.n_dead += (*part)->dlt.n_green_dead;
 
-       float dlt_n_senesced_dead = (*part)->g.n_senesced * dying_fract_plants;
-       (*part)->g.n_senesced -= dlt_n_senesced_dead;
-       (*part)->g.n_dead += dlt_n_senesced_dead;
+       (*part)->dlt.n_senesced_dead = (*part)->g.n_senesced * dying_fract_plants;
+       (*part)->g.n_senesced -= (*part)->dlt.n_senesced_dead;
+       (*part)->g.n_dead += (*part)->dlt.n_senesced_dead;
 
        (*part)->g.dm_dead -= (*part)->dlt.dm_dead_detached;
 
@@ -3768,13 +3778,13 @@ void Plant::plant_update(
        (*part)->g.dm_senesced += (*part)->dlt.dm_senesced;
        (*part)->g.dm_senesced -= (*part)->dlt.dm_detached;
 
-       float dlt_dm_green_dead = (*part)->g.dm_green * dying_fract_plants;
-       (*part)->g.dm_green -=  dlt_dm_green_dead;
-       (*part)->g.dm_dead += dlt_dm_green_dead;
+       (*part)->dlt.dm_green_dead = (*part)->g.dm_green * dying_fract_plants;
+       (*part)->g.dm_green -=  (*part)->dlt.dm_green_dead;
+       (*part)->g.dm_dead += (*part)->dlt.dm_green_dead;
 
-       float dlt_dm_senesced_dead = (*part)->g.dm_senesced * dying_fract_plants;
-       (*part)->g.dm_senesced -= dlt_dm_senesced_dead;
-       (*part)->g.dm_dead += dlt_dm_senesced_dead;
+       (*part)->dlt.dm_senesced_dead = (*part)->g.dm_senesced * dying_fract_plants;
+       (*part)->g.dm_senesced -= (*part)->dlt.dm_senesced_dead;
+       (*part)->g.dm_dead += (*part)->dlt.dm_senesced_dead;
        }
 
     delete rootPart;
@@ -12463,21 +12473,36 @@ void Plant::get_dlt_dm_dead_detached(protocol::Component *systemInterface, proto
    systemInterface->sendVariable(qd, dlt_dm_dead_detached);
    deleteHacks(parts);
 }
-//??void Plant::get_dlt_dm_green_dead(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-//??{
-//??   vector<plantPart*>::iterator part;
-//??   vector<plantPart*> parts;
-//??   vector<float>  dlt_dm_green_dead;
-//??   setupHacks(parts);
-//??
-//??   for (part = parts.begin();
-//??        part != parts.end();
-//??        part++)
-//??      dlt_dm_green_dead.push_back((*part)->dlt.dm_green_dead);
-//??
-//??   systemInterface->sendVariable(qd, dlt_dm_green_dead);
-//??   deleteHacks(parts);
-//??}
+void Plant::get_dlt_dm_green_dead(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+   vector<plantPart*>::iterator part;
+   vector<plantPart*> parts;
+   vector<float>  dlt_dm_green_dead;
+   setupHacks(parts);
+
+   for (part = parts.begin();
+        part != parts.end();
+        part++)
+      dlt_dm_green_dead.push_back((*part)->dlt.dm_green_dead);
+
+   systemInterface->sendVariable(qd, dlt_dm_green_dead);
+   deleteHacks(parts);
+}
+void Plant::get_dlt_dm_senesced_dead(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+   vector<plantPart*>::iterator part;
+   vector<plantPart*> parts;
+   vector<float>  dlt_dm_senesced_dead;
+   setupHacks(parts);
+
+   for (part = parts.begin();
+        part != parts.end();
+        part++)
+      dlt_dm_senesced_dead.push_back((*part)->dlt.dm_senesced_dead);
+
+   systemInterface->sendVariable(qd, dlt_dm_senesced_dead);
+   deleteHacks(parts);
+}
 void Plant::get_n_green(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
    vector<plantPart*>::iterator part;
@@ -12567,6 +12592,20 @@ void Plant::get_dlt_n_senesced(protocol::Component *systemInterface, protocol::Q
       n_senesced.push_back((*part)->dlt.n_senesced);
 
    systemInterface->sendVariable(qd, n_senesced);
+   deleteHacks(parts);
+}
+
+void Plant::get_dlt_n_senesced_dead(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+   vector<plantPart*>::iterator part;
+   vector<plantPart*> parts;
+   vector<float>  dlt_n_senesced_dead;
+   setupHacks(parts);
+
+   for (part = parts.begin(); part != parts.end(); part++)
+      dlt_n_senesced_dead.push_back((*part)->dlt.n_senesced_dead);
+
+   systemInterface->sendVariable(qd, dlt_n_senesced_dead);
    deleteHacks(parts);
 }
 

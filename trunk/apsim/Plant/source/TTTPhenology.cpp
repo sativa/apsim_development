@@ -335,7 +335,8 @@ void TTTPhenology::onRemoveBiomass(float removeBiomPheno)
    }
 
 
-   float ttCritical = max(0.0, ttInPhase("above_ground") - ttInPhase("emergence"));
+//   float ttCritical = max(0.0, ttInPhase("above_ground") - ttInPhase("emergence"));
+   float ttCritical = ttInPhase("above_ground");
    float removeFractPheno = y_removeFractPheno[removeBiomPheno];
    float removeTTPheno = ttCritical * removeFractPheno;
 
