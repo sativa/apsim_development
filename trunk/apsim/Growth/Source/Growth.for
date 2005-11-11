@@ -6019,6 +6019,9 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
 
 *+  Local Variables
 
+      type(newcanopyType) :: newcanopy
+
+
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -6052,38 +6055,16 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
      :              , G%crown_cover
      :              , G%cover_tot
      :               )
-      call new_postbox()
-
-      call post_real_var ('height'
-     :                   , '()'
-     :                   , g%height)
-
-      call post_real_var ('depth'
-     :                   , '()'
-     :                   , g%height)
-
-      call post_real_var ('cover_green'
-     :                   , '()'
-     :                   , g%cover_green)
 
 
-      call post_real_var ('lai'
-     :                   , '()'
-     :                   , g%lai)
-
-      ! This needs to be fixed up!!!!!
-
-      call post_real_var ('cover_tot'
-     :                   , '()'
-     :                   , g%cover_tot)
-
-      call post_real_var ('lai_tot'
-     :                   , '()'
-     :                   , g%lai + g%slai)
-
-      call event_send ('new_canopy')
-
-      call delete_postbox()
+      call get_name(newcanopy%sender)
+      newcanopy%height = g%height
+      newcanopy%depth = g%height
+      newcanopy%cover = g%cover_green
+      newcanopy%cover_tot = g%cover_tot
+      newcanopy%lai = g%lai
+      newcanopy%lai_tot = g%lai + g%slai
+      call publish_newcanopy(id%new_canopy, newcanopy)
 
       call pop_routine (myname)
       return
@@ -6112,19 +6093,16 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
 
 *+  Local Variables
 
+      type(new_cropType) :: new_crop
+
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call new_postbox()
+      call get_name(new_crop%sender)
+      new_crop%crop_type = c%crop_type
 
-      call post_char_var ('crop_type'
-     :                   , '()'
-     :                   , c%crop_type)
-
-      call event_send ('new_crop')
-
-      call delete_postbox()
+      call publish_new_crop(id%new_crop, new_crop)
 
       call pop_routine (myname)
       return
