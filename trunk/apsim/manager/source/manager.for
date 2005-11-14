@@ -728,7 +728,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
          g%lines_been_read = .true.
 
          ! Echo all lines to summary file
-         call Write_string(Line)
+         if (Line(1:12) .eq. ' ') then
+            call Write_string(Line(13:))
+         else
+            call Write_string(Line)
+         endif
 
       endif
 
