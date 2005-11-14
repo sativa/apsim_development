@@ -452,6 +452,8 @@ void ApsimControlFile::getAllModuleInstances(const std::string& section,
          instance.moduleName = paramFiles[0].moduleName;
          instance.instanceName = paramFiles[0].instanceName;
          instance.dllFileName = paramFiles[0].dllFileName;
+         for (unsigned p = 0; p != paramFiles.size(); p++)
+            instance.ParFiles.push_back(make_pair(paramFiles[p].fileName, paramFiles[p].sectionName));
 
          moduleInstances.push_back(instance);
          }

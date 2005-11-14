@@ -2,6 +2,7 @@
 #ifndef APSIMControlFileH
 #define APSIMControlFileH
 
+#include <stdexcept>
 class IniFile;
 // ------------------------------------------------------------------
 // This class encapsulates an apsim control file.  It provides several
@@ -170,6 +171,8 @@ class __declspec(dllexport) ApsimControlFile
          std::string moduleName;
          std::string instanceName;
          std::string dllFileName;
+         typedef std::pair<std::string, std::string> ParFileSection;
+         std::vector<ParFileSection> ParFiles;
          };
       typedef std::vector<ModuleInstance> ModuleInstances;
       void getAllModuleInstances(const std::string& section,
@@ -257,11 +260,11 @@ class __declspec(dllexport) ApsimControlFile
       // ------------------------------------------------------------------
       // write new module= line to control file.
       // ------------------------------------------------------------------
-      bool addModuleLine(const string& section,
-                         const string& moduleName,
-                         const string& instanceName,
-                         const string& parFileName,
-                         const string& parSectionName);
+      bool addModuleLine(const std::string& section,
+                         const std::string& moduleName,
+                         const std::string& instanceName,
+                         const std::string& parFileName,
+                         const std::string& parSectionName);
 
       // ------------------------------------------------------------------
       // convert a module name to an instance name.

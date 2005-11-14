@@ -3,36 +3,38 @@ Imports System.Collections.Specialized
 Imports System.IO
 Imports VBGeneral
 Public Class ExplorerUI
-    Inherits BaseUI
-    Private MyFileName As String
-    Private MyApplicationSettings As ApplicationSettings
-    Private CurrentUI As BaseUI
-    Private MyDialogFilter As String
-    Private MyExtension As String
-    Private FrequentListSection As String
-    Private MyDataHasChanged As Boolean
+    Inherits BaseView
+    Private MyCurrentUI As BaseView
     Private MyParentForm As Form
-    Private BaseName As String
-
-    Public Event DataSelectedEvent As DataTree.DataSelectedEventHandler
-    Public Event DataStructureChangedEvent As DataTree.NotifyEventHandler
-    Public Event AfterFileOpenEvent As DataTree.NotifyEventHandler
-    Public Event BeforeFileSaveEvent As DataTree.NotifyEventHandler
-
-
-
+    Private MyApplicationName As String
+    Private CurrentUIType As String = ""
+    
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New()
+    Public Sub New(ByVal ParentForm As Form, _
+                    ByVal App As BaseController)
         MyBase.New()
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 
-        'Add any initialization after the InitializeComponent() call
-
+        'Get application name
+        MyParentForm = ParentForm
+        MyBase.Controller = App
+        DataTree.Controller = Controller
+        If Not IsNothing(MyParentForm) Then
+            MyApplicationName = MyParentForm.Text
+        End If
+        AddHandler Controller.DataChangedEvent, AddressOf UpdateCaption
+        AddHandler Controller.SelectionChangingEvent, AddressOf OnSelectionChanging
+        AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
+        AddHandler Controller.NewDataEvent, AddressOf OnNewDataEvent
+        AddHandler Controller.RenameEvent, AddressOf OnRename
+        AddHandler Controller.BeforeSaveEvent, AddressOf OnBeforeSave
+        MyHelpLabel.Visible = False
     End Sub
+
 
     'Form overrides dispose to clean up the component list.
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
@@ -62,10 +64,8 @@ Public Class ExplorerUI
         'DataTree
         '
         Me.DataTree.AllowDrop = True
-        Me.DataTree.ApplicationSettings = Nothing
-        Me.DataTree.Data = Nothing
+        Me.DataTree.Controller = Nothing
         Me.DataTree.Dock = System.Windows.Forms.DockStyle.Left
-        Me.DataTree.LabelEdit = True
         Me.DataTree.Location = New System.Drawing.Point(0, 20)
         Me.DataTree.Name = "DataTree"
         Me.DataTree.Size = New System.Drawing.Size(256, 733)
@@ -90,7 +90,6 @@ Public Class ExplorerUI
         '
         'ExplorerUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(753, 788)
         Me.Controls.Add(Me.UIPanel)
         Me.Controls.Add(Me.Splitter1)
@@ -105,86 +104,6 @@ Public Class ExplorerUI
     End Sub
 
 #End Region
-
-
-    ' --------------------------------------
-    ' property for setting the explorer ui
-    ' --------------------------------------
-    Public Sub Setup(ByVal ParentForm As Form, _
-                     ByVal DialogFilter As String, _
-                     ByVal Extension As String, ByVal FrequentListSectionName As String)
-        MyParentForm = ParentForm
-        If Not IsNothing(MyParentForm) Then
-            BaseName = MyParentForm.Text
-        End If
-
-        MyDialogFilter = DialogFilter
-        MyExtension = Extension
-        MyFileName = "Untitled" + Extension
-        Me.FrequentListSection = FrequentListSectionName
-        MyCaptionLabel.Visible = False
-        MyHelpLabel.Visible = False
-        MyDataHasChanged = False
-        AddHandler DataTree.DataRenamedEvent, AddressOf DataStructureChanged
-        AddHandler DataTree.DataDeletedEvent, AddressOf DataStructureChanged
-        AddHandler DataTree.DataAddedEvent, AddressOf DataStructureChanged
-    End Sub
-
-
-    ' ------------------------------
-    ' Provide access to our file.
-    ' ------------------------------
-    ReadOnly Property FileName() As String
-        Get
-            Return MyFileName
-        End Get
-    End Property
-
-
-    ' ----------------------------------------------
-    ' Provide access to our datahaschanged property
-    ' ----------------------------------------------
-    Private Sub DataHasChanged()
-        MyDataHasChanged = True
-        UpdateCaption()
-    End Sub
-
-
-    ' ------------------------------------------------
-    ' Called by ExplorerUI to setup the ParentExplorer
-    ' ------------------------------------------------
-    Overrides Property Data() As APSIMData
-        Get
-            Return MyBase.Data
-        End Get
-        Set(ByVal Value As APSIMData)
-            Try
-                AddHandler Value.DataChanged, AddressOf DataHasChanged
-                MyBase.Data = Value
-                DataTree.Data = MyBase.Data
-                CloseUI()
-                MyDataHasChanged = False
-                UpdateCaption()
-            Catch Err As System.Exception
-                MsgBox(Err.Message, MsgBoxStyle.Critical, "Error")
-            End Try
-        End Set
-    End Property
-
-
-    ' -------------------------------------------
-    ' Property allowing setting of uimanager.
-    ' -------------------------------------------
-    Property ApplicationSettings() As ApplicationSettings
-        Set(ByVal Value As ApplicationSettings)
-            MyApplicationSettings = Value
-            DataTree.ApplicationSettings = MyApplicationSettings
-        End Set
-        Get
-            Return MyApplicationSettings
-        End Get
-    End Property
-
 
     ' ------------------------------------------------------
     ' Set the expandAll property
@@ -206,174 +125,44 @@ Public Class ExplorerUI
     End Property
 
 
-    ' -------------------------------------------
-    ' Refresh ourselves.
-    ' -------------------------------------------
-    Overrides Sub Refresh()
-        DataTree.Refresh()
-        If Not IsNothing(CurrentUI) Then
-            CurrentUI.Refresh()
-        End If
-    End Sub
-
-
     ' -------------------------------------------------
     ' Create and show a specific UI depending on the
     ' specified user interface type.
     ' -------------------------------------------------
-    Sub ShowUI(ByVal Data As APSIMData)
-        CloseUI()
-        Dim UI As BaseUI = MyApplicationSettings.CreateUI(Data.Type)
-        If Not IsNothing(UI) Then
-            UI.Explorer = Me
-            UI.Data = Data
-            ShowUI(UI)
-        Else
-            CurrentUI = Nothing
+    Public Sub ShowUI(ByVal Data As APSIMData)
+        If IsNothing(MyCurrentUI) OrElse CurrentUIType <> Data.Type Then
+            CloseUI()
+            MyCurrentUI = Controller.CreateUI(Data.Type)
         End If
-    End Sub
+        If Not IsNothing(MyCurrentUI) Then
+            If MyCurrentUI.Controller Is Nothing Then
+                MyCurrentUI.Controller = Controller
+            ElseIf Not MyCurrentUI.Controller Is Controller Then
+                MyCurrentUI.Controller.AllData = Data
+            End If
+            MyCurrentUI.Refresh()
+            MyCurrentUI.Parent = UIPanel
+            MyCurrentUI.Dock = DockStyle.Fill
+            MyCurrentUI.Show()
+            CurrentUIType = Data.Type
+        Else
+            MyCurrentUI = Nothing
+        End If
 
-
-    ' -------------------------------------------------
-    ' Show a specific UI.
-    ' -------------------------------------------------
-    Sub ShowUI(ByVal UserInterface As BaseUI)
-        CloseUI()
-        UserInterface.Explorer = Me
-        UserInterface.TopLevel = False
-        UserInterface.Parent = UIPanel
-        UserInterface.Dock = DockStyle.Fill
-        UserInterface.Show()
-        CurrentUI = UserInterface
-        ' force a resize so that soilui is shown properly
-        UserInterface.Width = UserInterface.Width + 1
-        UserInterface.Width = UserInterface.Width - 1
     End Sub
 
 
     ' -------------------------------------------------
     ' Close the current UI
     ' -------------------------------------------------
-    Sub CloseUI()
-        If CurrentUI Is Nothing Then
+    Private Sub CloseUI()
+        If MyCurrentUI Is Nothing Then
             'Dont need to do anthing here
         Else
-            CurrentUI.Save()
-            CurrentUI.Close()
-            CurrentUI = Nothing
+            UIPanel.Controls.Remove(MyCurrentUI)
+            MyCurrentUI = Nothing
         End If
     End Sub
-
-
-    ' -------------------------------------
-    ' Create a new document in memory only.
-    ' Uses the specified data as a template.
-    ' -------------------------------------
-    Public Sub FileNew(ByVal DataToUse As APSIMData)
-        If DoSaveAfterPrompt() Then
-            Data = DataToUse
-            MyFileName = "Untitled" + MyExtension
-            RaiseEvent AfterFileOpenEvent()
-            DataHasChanged()
-        End If
-    End Sub
-
-
-    ' -------------------------------------
-    ' Create a new document in memory only.
-    ' Uses the specified filename as a template.
-    ' -------------------------------------
-    Public Sub FileNew(ByVal FileName As String)
-        If FileOpen(FileName) Then
-            MyFileName = "Untitled" + MyExtension
-        End If
-    End Sub
-
-
-    ' ------------------------------------------------
-    ' Called to open a new file.
-    ' ------------------------------------------------
-    Public Function FileOpen(ByVal FileName As String) As Boolean
-        Dim FileData As New APSIMData
-        If FileData.LoadFromFile(FileName) Then
-            Data = FileData
-            MyFileName = FileName
-            AddFileToFrequentList(MyFileName)
-            MyDataHasChanged = False
-            RaiseEvent AfterFileOpenEvent()
-            UpdateCaption()
-            Return True
-        Else
-            Return False
-        End If
-    End Function
-
-
-    ' ------------------------------------------------
-    ' Called when the user clicks on the File | Open
-    ' menu item. Returns true if a new file was loaded.
-    ' ------------------------------------------------
-    Public Function FileOpen() As Boolean
-        If DoSaveAfterPrompt() Then
-            Dim dialog As New OpenFileDialog
-            With dialog
-                .Filter = MyDialogFilter
-                .AddExtension = True
-            End With
-            Dim choice As DialogResult = dialog.ShowDialog
-            If choice = DialogResult.OK Then
-                Return FileOpen(dialog.FileName)
-            Else
-                Return False
-            End If
-        End If
-
-    End Function
-
-
-    ' ----------------
-    ' Save everything.
-    ' ----------------
-    Function FileSave() As Boolean
-        MyBase.Save()
-        If Not IsNothing(CurrentUI) Then
-            CurrentUI.Save()
-        End If
-
-        If MyFileName.IndexOf("Untitled.") <> -1 Then
-            Return FileSaveAs()
-        Else
-            RaiseEvent BeforeFileSaveEvent()
-            Data.SaveToFile(MyFileName)
-            AddFileToFrequentList(MyFileName)
-            MyDataHasChanged = False
-            UpdateCaption()
-            Return True
-        End If
-    End Function
-
-
-    ' ------------------------------
-    ' Save everything under new name
-    ' ------------------------------
-    Function FileSaveAs() As Boolean
-        MyBase.Save()
-
-        Dim dialog As New SaveFileDialog
-        With dialog
-            .Filter = MyDialogFilter
-            .AddExtension = True
-            .OverwritePrompt = True
-        End With
-        Dim choice As DialogResult = dialog.ShowDialog
-        If choice = DialogResult.OK Then
-            MyFileName = dialog.FileName
-            Return FileSave()
-        Else
-            ' User has cancelled - do nothing
-            Return False
-        End If
-    End Function
 
 
     ' ----------------------------------------
@@ -381,171 +170,64 @@ Public Class ExplorerUI
     ' ----------------------------------------
     Private Sub UpdateCaption()
         If Not IsNothing(MyParentForm) Then
-            If MyDataHasChanged Then
-                MyParentForm.Text = BaseName + " - " + MyFileName + "*"
+            If Controller.DirtyData Then
+                MyParentForm.Text = MyApplicationName + " - " + Controller.FileName + "*"
             Else
-                MyParentForm.Text = BaseName + " - " + MyFileName
+                MyParentForm.Text = MyApplicationName + " - " + Controller.FileName
             End If
         End If
     End Sub
 
 
-    ' -----------------------------------------
-    ' Ask user to save work. Return true if 
-    ' user is happy or false if user pressed
-    ' cancel.
-    ' -----------------------------------------
-    Public Function DoSaveAfterPrompt() As Boolean
-        If MyDataHasChanged Then
-            Dim DoSave As Integer = MessageBox.Show("The current file has changed. Do you want to save it before proceeding?", _
-                                                    "Save?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
-            Select Case DoSave
-                Case DialogResult.Yes
-                    ' Save the file
-                    FileSave()
-
-                Case DialogResult.No
-                    ' Do not save
-
-                Case DialogResult.Cancel
-                    ' Cancel pressed.
-                    Return False
-            End Select
-        End If
-        Return True
-    End Function
-
-
-    Const MAX_NUM_FREQUENT_SIMS As Integer = 10
-    ' ------------------------------------------------------
-    ' Add a file to the frequently accessed simulation list.
-    ' ------------------------------------------------------
-    Public Sub AddFileToFrequentList(ByVal filename As String)
-        If FrequentListSection <> "" Then
-
-            Dim FileNames() As String = GetFrequentList()
-
-            ' Put this filename into the top of the NewFileList and
-            ' then copy all existing filenames to NewFileList
-            Dim NewFileList(MAX_NUM_FREQUENT_SIMS) As String
-            NewFileList(0) = filename
-            Dim NewFileListIndex As Integer = 1
-            For i As Integer = 0 To FileNames.Length - 1
-                If FileNames(i) <> filename And FileNames(i) <> "" And NewFileListIndex < MAX_NUM_FREQUENT_SIMS Then
-                    NewFileList(NewFileListIndex) = FileNames(i)
-                    NewFileListIndex = NewFileListIndex + 1
-                End If
-            Next
-
-            ' Write NewFileList back to .ini file.
-            APSIMSettings.INIWriteMultiple(APSIMSettings.ApsimIniFile(), FrequentListSection, "RecentFile", NewFileList)
+    ' -----------------------------------------------------
+    ' User is selecting a new node - save current UI
+    ' -----------------------------------------------------
+    Public Sub OnSelectionChanging()
+        If Not MyCurrentUI Is Nothing Then
+            MyCurrentUI.Save()
         End If
     End Sub
 
 
-    ' ------------------------------------------------------
-    ' Return a list of frequently accessed simulations
-    ' ------------------------------------------------------
-    Public Function GetFrequentList() As String()
-        Dim FileNames As StringCollection = APSIMSettings.INIReadMultiple(APSIMSettings.ApsimIniFile(), FrequentListSection, "RecentFile")
-        Dim GoodFileNames As New StringCollection
-        For Each FileName As String In FileNames
-            If File.Exists(FileName) Then
-                GoodFileNames.Add(FileName)
-            End If
-        Next
-        Dim ReturnArray(GoodFileNames.Count - 1) As String
-        GoodFileNames.CopyTo(ReturnArray, 0)
-        Return ReturnArray
-    End Function
+    ' -----------------------------------------------------
+    ' User is about to do a save.
+    ' -----------------------------------------------------
+    Public Sub OnBeforeSave()
+        If Not MyCurrentUI Is Nothing Then
+            DataTree.Focus()
+            MyCurrentUI.Save()
+        End If
+    End Sub
 
 
     ' -----------------------------------------------------
     ' User has selected a node - update user interface
     ' -----------------------------------------------------
-    Public Sub OnDataSelected(ByVal e As VBGeneral.APSIMData) Handles DataTree.DataSelectedEvent
-        ShowUI(e)
-        RaiseEvent DataSelectedEvent(e)
-    End Sub
-
-
-    ' -----------------------------------------
-    ' Allow users to set the data tree caption
-    ' -----------------------------------------
-    WriteOnly Property DataTreeCaption() As String
-        Set(ByVal Value As String)
-            DataTree.CaptionLabel.Text = Value
-        End Set
-    End Property
-
-
-    ' -----------------------------------
-    ' Return the currently selected soil
-    ' or nothing if not selection.
-    ' -----------------------------------
-    Public Function GetSelectedData() As APSIMData
-        Return DataTree.SelectedNode
-    End Function
-
-
-    ' ---------------------------------
-    ' Select a node in the data tree.
-    ' ---------------------------------
-    Public Sub SelectNode(ByVal NodeNameToSelect As String)
-        SelectNode(DataTree.Nodes(0), NodeNameToSelect)
-    End Sub
-
-
-    ' ---------------------------------
-    ' Select a node in the data tree.
-    ' ---------------------------------
-    Public Sub SelectNode(ByVal ParentNode As TreeNode, ByVal NodeNameToSelect As String)
-        For Each Node As TreeNode In ParentNode.Nodes
-            If Node.Text.ToLower() = NodeNameToSelect.ToLower() Then
-                DataTree.SelectNode(Node)
-                Return
-            ElseIf Node.GetNodeCount(False) > 0 Then
-                SelectNode(Node, NodeNameToSelect)
-            End If
-        Next
-    End Sub
-
-
-    ' ---------------------------------
-    ' Select a node in the data tree.
-    ' ---------------------------------
-    Public Sub SelectFirstNodeOfType(ByVal NodeType As String)
-        FindFirstNodeOfType(DataTree.Nodes(0), NodeType)
-    End Sub
-
-
-    ' ---------------------------------
-    ' Select a node in the data tree.
-    ' ---------------------------------
-    Public Sub FindFirstNodeOfType(ByVal Node As TreeNode, ByVal NodeType As String)
-        Dim Data As APSIMData = DataTree.GetDataForFullPath(Node.FullPath)
-        If IsNothing(CurrentUI) And Data.Type.ToLower() = NodeType.ToLower() Then
-            DataTree.SelectNode(Node)
+    Public Sub OnSelectionChanged()
+        If Controller.SelectedPaths.Count = 1 Then
+            ShowUI(Controller.Data)
         Else
-            For Each Child As TreeNode In Node.Nodes
-                If CurrentUI Is Nothing Then
-                    FindFirstNodeOfType(Child, NodeType)
-                End If
-            Next
+            CloseUI()
         End If
     End Sub
 
 
-    ' ---------------------------------------------------
-    ' User has changed the structure of the data somehow.
-    ' Raise an event to that effect.
-    ' ---------------------------------------------------
-    Sub DataStructureChanged()
-        RaiseEvent DataStructureChangedEvent()
-        If Not IsNothing(CurrentUI) Then
-            CurrentUI.Refresh()
-        End If
-        DataHasChanged()
+    ' -----------------------------------------------------
+    ' User has selected new data - refresh ourselves.
+    ' -----------------------------------------------------
+    Public Sub OnNewDataEvent()
+        UpdateCaption()
     End Sub
+
+
+    ' -----------------------------------------------
+    ' The data structure has changed - refresh the ui
+    ' -----------------------------------------------
+    Public Sub OnRename()
+        If Not IsNothing(MyCurrentUI) Then
+            MyCurrentUI.Refresh()
+        End If
+    End Sub
+
 
 End Class

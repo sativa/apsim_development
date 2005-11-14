@@ -5,8 +5,7 @@ Imports System.Collections.Specialized
 Public Class NewDocumentForm
     Inherits System.Windows.Forms.Form
     Protected SelectedData As APSIMData
-    'Protected MyFile As New APSIMFile
-    Private UImanager As New UImanager(Nothing)
+    Protected ApsimUI As New ApsimUIController("", "", "")
 #Region " Windows Form Designer generated code "
 
     Public Sub New()
@@ -18,8 +17,6 @@ Public Class NewDocumentForm
         'Add any initialization after the InitializeComponent() call
 
     End Sub
-
-    'Form overrides dispose to clean up the component list.
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing Then
             If Not (components Is Nothing) Then
@@ -28,13 +25,7 @@ Public Class NewDocumentForm
         End If
         MyBase.Dispose(disposing)
     End Sub
-
-    'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
-
-    'NOTE: The following procedure is required by the Windows Form Designer
-    'It can be modified using the Windows Form Designer.  
-    'Do not modify it using the code editor.
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
     Friend WithEvents OKButton As System.Windows.Forms.Button
@@ -63,7 +54,7 @@ Public Class NewDocumentForm
         Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
         Me.PictureBox1.Location = New System.Drawing.Point(0, 0)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(120, 400)
+        Me.PictureBox1.Size = New System.Drawing.Size(120, 398)
         Me.PictureBox1.TabIndex = 1
         Me.PictureBox1.TabStop = False
         '
@@ -86,9 +77,10 @@ Public Class NewDocumentForm
         'DataTree
         '
         Me.DataTree.AllowDrop = True
-        Me.DataTree.ApplicationSettings = Nothing
-        Me.DataTree.Data = Nothing
-        Me.DataTree.LabelEdit = False
+        Me.DataTree.AutoScroll = True
+        Me.DataTree.BackColor = System.Drawing.SystemColors.Control
+        Me.DataTree.Controller = Nothing
+        Me.DataTree.HelpText = ""
         Me.DataTree.Location = New System.Drawing.Point(136, 32)
         Me.DataTree.Name = "DataTree"
         Me.DataTree.Size = New System.Drawing.Size(456, 328)
@@ -99,10 +91,10 @@ Public Class NewDocumentForm
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.CancelButton = Me.CancelButton1
-        Me.ClientSize = New System.Drawing.Size(602, 400)
-        Me.Controls.Add(Me.DataTree)
-        Me.Controls.Add(Me.CancelButton1)
+        Me.ClientSize = New System.Drawing.Size(610, 398)
         Me.Controls.Add(Me.OKButton)
+        Me.Controls.Add(Me.CancelButton1)
+        Me.Controls.Add(Me.DataTree)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.Label1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
@@ -124,12 +116,12 @@ Public Class NewDocumentForm
     Private Sub NewDocumentForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Dim inifile As New APSIMSettings
         Dim TemplateFile As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "new_docs")
-        Dim FileData As New APSIMData
-        FileData.LoadFromFile(TemplateFile)
+        ApsimUI.FileOpen(TemplateFile)
         DataTree.MaximumNumLevels = 1
-        DataTree.Data = FileData
-        DataTree.ApplicationSettings = UImanager
-        DataTree.CaptionLabel.Text = "Select a new simulation"
+        DataTree.Controller = ApsimUI
+        DataTree.HelpText = "Select a new simulation"
+        DataTree.Dock = DockStyle.None
+        DataTree.Refresh()
     End Sub
 
 
@@ -138,7 +130,7 @@ Public Class NewDocumentForm
     ' -----------------------------------
     Public ReadOnly Property Selection() As APSIMData
         Get
-            Return DataTree.SelectedNode()
+            Return DataTree.Controller.Data
         End Get
     End Property
 

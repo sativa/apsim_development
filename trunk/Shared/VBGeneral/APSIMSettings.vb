@@ -19,7 +19,12 @@ Public Class APSIMSettings
     ' Return APSIM directory root
     ' ---------------------------
     Public Shared Function ApsimDirectory() As String
-        Return Directory.GetParent(Path.GetDirectoryName(Application.ExecutablePath)).ToString
+        Dim ExeFolder As String = Path.GetDirectoryName(Application.ExecutablePath)
+        If File.Exists(ExeFolder + "\\apsim.ini") Then
+            Return ExeFolder
+        Else
+            Return Directory.GetParent(ExeFolder).ToString
+        End If
     End Function
 
 

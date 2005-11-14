@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <types>
 
+   <type kind="string" builtin="T"/>
+   <type kind="single" builtin="T"/>
+   <type kind="integer4" builtin="T"/>
+   <type kind="single" builtin="T" array="T"/>
+
    <type name="SummaryFileWrite">
       <field name="componentName" kind="string"/>
       <field name="lines" kind="string"/>

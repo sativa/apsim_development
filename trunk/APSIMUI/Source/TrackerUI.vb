@@ -1,5 +1,5 @@
 Public Class TrackerUI
-    Inherits VBGeneral.BaseUI
+    Inherits VBGeneral.BaseView
 
 #Region " Windows Form Designer generated code "
 
@@ -107,7 +107,6 @@ Public Class TrackerUI
         '
         'TrackerUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
         Me.ClientSize = New System.Drawing.Size(940, 668)
         Me.Controls.Add(Me.AddButton)
         Me.Controls.Add(Me.RemoveButton)

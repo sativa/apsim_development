@@ -1,5 +1,5 @@
 Public Class SwimSoilUI
-    Inherits VBGeneral.BaseUI
+    Inherits VBGeneral.BaseView
 
 #Region " Windows Form Designer generated code "
 
@@ -216,7 +216,6 @@ Public Class SwimSoilUI
         '
         'SwimSoilUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(1018, 611)
         Me.Controls.Add(Me.TabControl)
         Me.Name = "SwimSoilUI"
@@ -232,7 +231,7 @@ Public Class SwimSoilUI
 
     Overrides Sub refresh()
         MyBase.Refresh()
-        HypropsControl.Data = Data
+        HypropsControl.Controller = Controller
     End Sub
 
 

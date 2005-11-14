@@ -29,7 +29,7 @@ static const char* stringArrayType = "<type kind=\"string\" array=\"T\">";
 
 // ------------------------------------------------------------------
 Field::Field (protocol::Component* p,
-              const string& variable,
+              string variable,
               bool csvformat,
               const std::string& nastring,
               unsigned int precision)
@@ -41,29 +41,39 @@ Field::Field (protocol::Component* p,
    NAString = nastring;
    Precision = precision;
 
-   StringTokenizer tokenizer(variable, " ");
-   VariableName = tokenizer.nextToken();
-   unsigned posPeriod = VariableName.find('.');
-   if (posPeriod != string::npos)
+   // look for format.
+   unsigned pos = variable.find(" format ");
+   if (pos != string::npos)
       {
-      ModuleName = VariableName.substr(0, posPeriod);
-      VariableName = VariableName.substr(posPeriod+1);
+      VariableFormat = variable.substr(pos + strlen(" format "));
+      To_upper(VariableFormat);
+      stripLeadingTrailing(VariableFormat, " ");
+      variable.erase(pos);
       }
 
-   string token = tokenizer.nextToken();
-   while (token != "")
+   // look for alias.
+   pos = variable.find(" as ");
+   if (pos != string::npos)
       {
-      if (Str_i_Eq(token, "as"))
-         VariableAlias = tokenizer.nextToken();
-      else if (Str_i_Eq(token, "format"))
-         {
-         VariableFormat = tokenizer.nextToken();
-         To_upper(VariableFormat);
-         }
-      else
-         throw runtime_error("Invalid report variable line: " + variable);
-      token = tokenizer.nextToken();
+      VariableAlias = variable.substr(pos + strlen(" as "));
+      stripLeadingTrailing(VariableAlias, " ");
+      variable.erase(pos);
       }
+
+   // look for module name.
+   pos = variable.find('.');
+   if (pos != string::npos)
+      {
+      VariableName = variable.substr(pos+1);
+      ModuleName = variable.substr(0, pos);
+      }
+   else
+      {
+      ModuleName = "";
+      VariableName = variable;
+      }
+   stripLeadingTrailing(ModuleName, " ");
+   stripLeadingTrailing(VariableName, " ");
 
    // at this stage simply register an interest in the variable.
    variableID = parent->addRegistration(RegistrationType::get,

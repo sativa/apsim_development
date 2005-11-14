@@ -115,6 +115,24 @@
                     AssemblyName = "System.Drawing"
                     HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
                 />
+                <Reference
+                    Name = "FarPoint.Win.Spread"
+                    AssemblyName = "FarPoint.Win.Spread"
+                    HintPath = "C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.Win.Spread.dll"
+                    AssemblyFolderKey = "hklm\dn\farpoint spread for windows forms 2.0.1.0"
+                />
+                <Reference
+                    Name = "FarPoint.Win"
+                    AssemblyName = "FarPoint.Win"
+                    HintPath = "C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.Win.dll"
+                    AssemblyFolderKey = "hklm\dn\farpoint spread for windows forms 2.0.1.0"
+                />
+                <Reference
+                    Name = "Xceed.SmartUI"
+                    AssemblyName = "Xceed.SmartUI"
+                    HintPath = "C:\Program Files\Xceed Components\Xceed SmartUI for .NET 3.1\Bin\v3.1.123.0\Xceed.SmartUI.dll"
+                    AssemblyFolderKey = "hklm\xceed smartui for .net v3.1.123.0"
+                />
             </References>
             <Imports>
                 <Import Namespace = "Microsoft.VisualBasic" />
@@ -126,11 +144,6 @@
         </Build>
         <Files>
             <Include>
-                <File
-                    RelPath = "ApplicationSettings.vb"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
                 <File
                     RelPath = "APSIMData.vb"
                     SubType = "Code"
@@ -147,23 +160,18 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "BaseDataControl.vb"
+                    RelPath = "BaseController.vb"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "BaseView.vb"
                     SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "BaseDataControl.resx"
-                    DependentUpon = "BaseDataControl.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "BaseUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "BaseUI.resx"
-                    DependentUpon = "BaseUI.vb"
+                    RelPath = "BaseView.resx"
+                    DependentUpon = "BaseView.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -188,7 +196,7 @@
                 />
                 <File
                     RelPath = "ExplorerUI.vb"
-                    SubType = "Form"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File

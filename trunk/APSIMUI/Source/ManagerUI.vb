@@ -1,5 +1,5 @@
 Public Class ManagerUI
-    Inherits VBGeneral.BaseUI
+    Inherits VBGeneral.BaseView
 
 #Region " Windows Form Designer generated code "
 
@@ -10,7 +10,7 @@ Public Class ManagerUI
         InitializeComponent()
 
         'Add any initialization after the InitializeComponent() call
-        HelpLabel.Text = "Drop rules from a toolbox onto the manager item in the simulation tree."
+        HelpText = "Drop rules from a toolbox onto the manager item in the simulation tree."
     End Sub
 
     'Form overrides dispose to clean up the component list.
@@ -33,7 +33,6 @@ Public Class ManagerUI
         '
         'Manager
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
         Me.ClientSize = New System.Drawing.Size(962, 674)
         Me.Name = "Manager"
 

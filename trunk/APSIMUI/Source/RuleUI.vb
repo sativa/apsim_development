@@ -1,11 +1,11 @@
 Imports VBGeneral
-Imports Xceed.Grid.Editors
 Imports System.Collections
 Imports System.Collections.Specialized
 Imports System.IO
+Imports FarPoint.Win.Spread
 
 Public Class RuleUI
-    Inherits VBGeneral.BaseUI
+    Inherits VBGeneral.BaseView
     Dim InRefresh As Boolean
     Dim Cultivars As APSIMData
 
@@ -44,52 +44,27 @@ Public Class RuleUI
     Friend WithEvents celldataRowTemplate1Column2 As Xceed.Grid.DataCell
     Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
     Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
-    Friend WithEvents PropertyGrid As Xceed.Grid.GridControl
-    Friend WithEvents Description As Xceed.Grid.Column
-    Friend WithEvents Value As Xceed.Grid.Column
-    Friend WithEvents Category As Xceed.Grid.Column
-    Friend WithEvents dataRowTemplate1 As Xceed.Grid.DataRow
-    Friend WithEvents celldataRowTemplate1Column11 As Xceed.Grid.DataCell
-    Friend WithEvents celldataRowTemplate1Column21 As Xceed.Grid.DataCell
-    Friend WithEvents celldataRowTemplate1Column3 As Xceed.Grid.DataCell
-    Friend WithEvents GroupByRow1 As Xceed.Grid.GroupByRow
-    Friend WithEvents ColumnManagerRow1 As Xceed.Grid.ColumnManagerRow
     Friend WithEvents cellColumnManagerRow1Column1 As Xceed.Grid.ColumnManagerCell
     Friend WithEvents cellColumnManagerRow1Column2 As Xceed.Grid.ColumnManagerCell
     Friend WithEvents cellColumnManagerRow1Column3 As Xceed.Grid.ColumnManagerCell
-    Friend WithEvents Group1 As Xceed.Grid.Group
-    Friend WithEvents GroupManagerRow1 As Xceed.Grid.GroupManagerRow
     Friend WithEvents cellColumnManagerRow1Column4 As Xceed.Grid.ColumnManagerCell
-    Friend WithEvents celldataRowTemplate1Column4 As Xceed.Grid.DataCell
-    Friend WithEvents NameColumn As Xceed.Grid.Column
+    Friend WithEvents FpSpread1 As FarPoint.Win.Spread.FpSpread
+    Friend WithEvents PropertyGrid As FarPoint.Win.Spread.SheetView
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.celldataRowTemplate1Column1 = New Xceed.Grid.DataCell
         Me.celldataRowTemplate1Column2 = New Xceed.Grid.DataCell
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
-        Me.PropertyGrid = New Xceed.Grid.GridControl
-        Me.Description = New Xceed.Grid.Column
-        Me.Value = New Xceed.Grid.Column
-        Me.Category = New Xceed.Grid.Column
-        Me.NameColumn = New Xceed.Grid.Column
-        Me.dataRowTemplate1 = New Xceed.Grid.DataRow
-        Me.celldataRowTemplate1Column11 = New Xceed.Grid.DataCell
-        Me.celldataRowTemplate1Column21 = New Xceed.Grid.DataCell
-        Me.celldataRowTemplate1Column3 = New Xceed.Grid.DataCell
-        Me.celldataRowTemplate1Column4 = New Xceed.Grid.DataCell
-        Me.GroupByRow1 = New Xceed.Grid.GroupByRow
-        Me.ColumnManagerRow1 = New Xceed.Grid.ColumnManagerRow
+        Me.FpSpread1 = New FarPoint.Win.Spread.FpSpread
+        Me.PropertyGrid = New FarPoint.Win.Spread.SheetView
         Me.cellColumnManagerRow1Column1 = New Xceed.Grid.ColumnManagerCell
         Me.cellColumnManagerRow1Column2 = New Xceed.Grid.ColumnManagerCell
         Me.cellColumnManagerRow1Column3 = New Xceed.Grid.ColumnManagerCell
         Me.cellColumnManagerRow1Column4 = New Xceed.Grid.ColumnManagerCell
-        Me.Group1 = New Xceed.Grid.Group
-        Me.GroupManagerRow1 = New Xceed.Grid.GroupManagerRow
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
+        CType(Me.FpSpread1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PropertyGrid, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dataRowTemplate1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ColumnManagerRow1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'celldataRowTemplate1Column1
@@ -100,145 +75,67 @@ Public Class RuleUI
         '
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControl1.Location = New System.Drawing.Point(0, 17)
+        Me.TabControl1.Location = New System.Drawing.Point(0, 40)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(846, 760)
+        Me.TabControl1.Size = New System.Drawing.Size(726, 733)
         Me.TabControl1.TabIndex = 3
         '
         'TabPage1
         '
-        Me.TabPage1.Controls.Add(Me.PropertyGrid)
+        Me.TabPage1.Controls.Add(Me.FpSpread1)
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Size = New System.Drawing.Size(838, 734)
+        Me.TabPage1.Size = New System.Drawing.Size(718, 707)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Properties"
         '
+        'FpSpread1
+        '
+        Me.FpSpread1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.FpSpread1.EditModeReplace = True
+        Me.FpSpread1.Location = New System.Drawing.Point(0, 0)
+        Me.FpSpread1.Name = "FpSpread1"
+        Me.FpSpread1.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.PropertyGrid})
+        Me.FpSpread1.Size = New System.Drawing.Size(718, 707)
+        Me.FpSpread1.TabIndex = 0
+        '
         'PropertyGrid
         '
-        Me.PropertyGrid.BackgroundImageStyle = Xceed.Grid.ImageStyle.Stretch
-        Me.PropertyGrid.Columns.Add(Me.Description)
-        Me.PropertyGrid.Columns.Add(Me.Value)
-        Me.PropertyGrid.Columns.Add(Me.Category)
-        Me.PropertyGrid.Columns.Add(Me.NameColumn)
-        Me.PropertyGrid.DataRowTemplate = Me.dataRowTemplate1
-        Me.PropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PropertyGrid.FixedHeaderRows.Add(Me.GroupByRow1)
-        Me.PropertyGrid.FixedHeaderRows.Add(Me.ColumnManagerRow1)
-        Me.PropertyGrid.GroupTemplates.Add(Me.Group1)
-        Me.PropertyGrid.Location = New System.Drawing.Point(0, 0)
-        Me.PropertyGrid.Name = "PropertyGrid"
-        '
-        'PropertyGrid.RowSelectorPane
-        '
-        Me.PropertyGrid.RowSelectorPane.Visible = False
-        Me.PropertyGrid.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
-        Me.PropertyGrid.SingleClickEdit = True
-        Me.PropertyGrid.Size = New System.Drawing.Size(838, 734)
-        Me.PropertyGrid.TabIndex = 3
-        Me.PropertyGrid.UIStyle = Xceed.Grid.UIStyle.UIStyle.WindowsXP
-        '
-        'Description
-        '
-        Me.Description.BackColor = System.Drawing.SystemColors.Window
-        Me.Description.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.Description.ReadOnly = True
-        Me.Description.SortDirection = Xceed.Grid.SortDirection.None
-        Me.Description.Title = "Description"
-        Me.Description.VisibleIndex = 0
-        Me.Description.Width = 441
-        Me.Description.Initialize("Column1", GetType(System.String))
-        '
-        'Value
-        '
-        Me.Value.BackColor = System.Drawing.SystemColors.Window
-        Me.Value.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.Value.SortDirection = Xceed.Grid.SortDirection.None
-        Me.Value.Title = "Value"
-        Me.Value.VisibleIndex = 1
-        Me.Value.Width = 158
-        Me.Value.Initialize("Column2", GetType(System.String))
-        '
-        'Category
-        '
-        Me.Category.SortDirection = Xceed.Grid.SortDirection.None
-        Me.Category.Title = "Category"
-        Me.Category.Visible = False
-        Me.Category.VisibleIndex = 2
-        Me.Category.Initialize("Column3", GetType(System.String))
-        '
-        'NameColumn
-        '
-        Me.NameColumn.Title = "Name"
-        Me.NameColumn.Visible = False
-        Me.NameColumn.VisibleIndex = 3
-        Me.NameColumn.Initialize("Column4", GetType(System.String))
-        '
-        'dataRowTemplate1
-        '
-        Me.dataRowTemplate1.AccessibleName = "Data row 1 in data row template"
-        Me.dataRowTemplate1.BackColor = System.Drawing.SystemColors.Window
-        Me.dataRowTemplate1.CanBeSelected = False
-        Me.dataRowTemplate1.Cells.Add(Me.celldataRowTemplate1Column11)
-        Me.dataRowTemplate1.Cells.Add(Me.celldataRowTemplate1Column21)
-        Me.dataRowTemplate1.Cells.Add(Me.celldataRowTemplate1Column3)
-        Me.dataRowTemplate1.Cells.Add(Me.celldataRowTemplate1Column4)
-        Me.dataRowTemplate1.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.dataRowTemplate1.Height = 18
-        Me.celldataRowTemplate1Column11.Initialize("Column1")
-        Me.celldataRowTemplate1Column21.Initialize("Column2")
-        Me.celldataRowTemplate1Column3.Initialize("Column3")
-        Me.celldataRowTemplate1Column4.Initialize("Column4")
-        '
-        'GroupByRow1
-        '
-        Me.GroupByRow1.AccessibleName = "Group by row 1 in fixed header"
-        Me.GroupByRow1.CellForeColor = System.Drawing.SystemColors.WindowText
-        Me.GroupByRow1.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.GroupByRow1.Indented = False
-        Me.GroupByRow1.Visible = False
-        '
-        'ColumnManagerRow1
-        '
-        Me.ColumnManagerRow1.AccessibleName = "Column manager row 2 in fixed header"
-        Me.ColumnManagerRow1.Cells.Add(Me.cellColumnManagerRow1Column1)
-        Me.ColumnManagerRow1.Cells.Add(Me.cellColumnManagerRow1Column2)
-        Me.ColumnManagerRow1.Cells.Add(Me.cellColumnManagerRow1Column3)
-        Me.ColumnManagerRow1.Cells.Add(Me.cellColumnManagerRow1Column4)
-        Me.ColumnManagerRow1.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.ColumnManagerRow1.Height = 19
-        Me.ColumnManagerRow1.Visible = False
+        Me.PropertyGrid.Reset()
+        'Formulas and custom names must be loaded with R1C1 reference style
+        Me.PropertyGrid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1
+        Me.PropertyGrid.ColumnCount = 4
+        Me.PropertyGrid.ColumnHeader.Visible = False
+        Me.PropertyGrid.Columns.Get(0).Width = 298.0!
+        Me.PropertyGrid.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Left
+        Me.PropertyGrid.Columns.Get(1).Width = 136.0!
+        Me.PropertyGrid.Columns.Get(2).Visible = False
+        Me.PropertyGrid.Columns.Get(3).Visible = False
+        Me.PropertyGrid.RowHeader.Columns.Default.Resizable = False
+        Me.PropertyGrid.RowHeader.Visible = False
+        Me.PropertyGrid.SheetName = "Sheet1"
+        Me.PropertyGrid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1
         '
         'cellColumnManagerRow1Column1
         '
+        Me.cellColumnManagerRow1Column1.BackColor = System.Drawing.SystemColors.Window
         Me.cellColumnManagerRow1Column1.ReadOnly = True
-        Me.cellColumnManagerRow1Column1.Initialize("Column1")
-        Me.cellColumnManagerRow1Column2.Initialize("Column2")
-        Me.cellColumnManagerRow1Column3.Initialize("Column3")
-        Me.cellColumnManagerRow1Column4.Initialize("Column4")
         '
-        'Group1
+        'cellColumnManagerRow1Column2
         '
-        Me.Group1.GroupBy = "Column3"
-        Me.Group1.HeaderRows.Add(Me.GroupManagerRow1)
-        '
-        'GroupManagerRow1
-        '
-        Me.GroupManagerRow1.TitleFormat = "%GroupTitle%"
+        Me.cellColumnManagerRow1Column2.BackColor = System.Drawing.SystemColors.Window
         '
         'RuleUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(846, 808)
         Me.Controls.Add(Me.TabControl1)
         Me.Name = "RuleUI"
+        Me.Size = New System.Drawing.Size(726, 773)
         Me.Controls.SetChildIndex(Me.TabControl1, 0)
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
+        CType(Me.FpSpread1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PropertyGrid, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dataRowTemplate1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ColumnManagerRow1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -250,7 +147,6 @@ Public Class RuleUI
     ' -----------------------------------
     Overrides Sub refresh()
         MyBase.Refresh()
-        PropertyGrid.DataRows.Clear()
 
         ' Get the cultivar file
         Dim Settings As New APSIMSettings
@@ -266,16 +162,20 @@ Public Class RuleUI
         InRefresh = True
 
         ' Fill the property grid.
-        For Each Category As APSIMData In Data.Children("category")
-            AddPropertiesToGrid(Category)
+        PropertyGrid.RowCount = 0
+        PropertyGrid.RowCount = 100
+        Dim Row As Integer = 0
+        For Each Category As APSIMData In Controller.Data.Children("category")
+            AddPropertiesToGrid(Category, Row)
         Next
+        PropertyGrid.RowCount = Row
         UpdateAllCultivarDropDowns()
 
         ' Create a tab for each condition.
         While TabControl1.TabPages.Count > 1
             TabControl1.TabPages.RemoveAt(1)
         End While
-        For Each Condition As APSIMData In Data.Children("condition")
+        For Each Condition As APSIMData In Controller.Data.Children("condition")
             Dim page As New TabPage(Condition.Name)
             Dim ScriptBox As New RichTextBox
             ScriptBox.Text = Condition.Value
@@ -291,29 +191,20 @@ Public Class RuleUI
     ' --------------------------------------------------------------------
     ' Add a group of properties to grid for the specified data category
     ' --------------------------------------------------------------------
-    Sub AddPropertiesToGrid(ByVal Data As APSIMData)
+    Sub AddPropertiesToGrid(ByVal Data As APSIMData, ByRef Row As Integer)
+        PropertyGrid.Cells(Row, 0).Value = Data.Name
+        PropertyGrid.Rows(Row).BackColor = Color.LightSteelBlue
+        PropertyGrid.Rows(Row).Locked = True
+        Row = Row + 1
+
         For Each Prop As APSIMData In Data.Children("property")
-
-            Dim row As Xceed.Grid.DataRow = PropertyGrid.DataRows.AddNew()
-            row.Cells(0).Value = Prop.Attribute("description")
-            row.Cells(1).Value = Prop.Attribute("value")
-            row.Cells(2).Value = Data.Attribute("name")
-            row.Cells(3).Value = Prop.Name
-            Dim Editor As CustomEditor
-            Dim DefaultText As String
-            GenericUI.CreateCustomEditorForColumn(Prop, Editor, DefaultText)
-            If Not IsNothing(Editor) Then
-                row.Cells(1).CellEditor = Editor
-                If row.Cells(1).Value = "" Then
-                    row.Cells(1).Value = DefaultText
-                    Prop.SetAttribute("value", DefaultText)
-                End If
-            End If
-
-            AddHandler row.Cells(1).LeavingEdit, AddressOf Me.CellLeavingEdit
-            row.EndEdit()
+            PropertyGrid.Cells(Row, 0).Value = Prop.Attribute("description")
+            PropertyGrid.Cells(Row, 1).Value = Prop.Attribute("value")
+            PropertyGrid.Cells(Row, 2).Value = Data.Attribute("name")
+            PropertyGrid.Cells(Row, 3).Value = Prop.Name
+            GenericUI.SetCellType(PropertyGrid, Row, 1, Prop)
+            Row = Row + 1
         Next
-
     End Sub
 
 
@@ -322,7 +213,7 @@ Public Class RuleUI
     ' --------------------------------------
     Overrides Sub Save()
         Dim index As Integer = 1
-        For Each Condition As APSIMData In Data.Children("condition")
+        For Each Condition As APSIMData In Controller.Data.Children("condition")
             Dim page As TabPage = TabControl1.TabPages.Item(index)
             Dim ScriptBox As RichTextBox = page.Controls.Item(0)
             Condition.Value = ScriptBox.Text
@@ -335,30 +226,32 @@ Public Class RuleUI
     ' A cell has changed values - if user has made the change then update the
     ' value in MyData
     ' -----------------------------------------------------------------------------
-    Private Sub CellLeavingEdit(ByVal sender As Object, ByVal e As Xceed.Grid.LeavingEditEventArgs)
+    Private Sub PropertyGrid_CellChanged(ByVal sender As Object, ByVal e As FarPoint.Win.Spread.SheetViewEventArgs) Handles PropertyGrid.CellChanged
         If Not InRefresh Then
-            Dim Row As Xceed.Grid.DataRow = PropertyGrid.CurrentCell.ParentRow
-            Dim Category As APSIMData = Data.Child(Row.Cells(2).Value)
-            Dim Prop As APSIMData = Category.Child(Row.Cells(3).Value)
-            Prop.SetAttribute("value", e.NewValue)
-            If Row.Cells(3).Value = "crop" Then
+            Dim Category As APSIMData = Controller.Data.Child(PropertyGrid.Cells(e.Row, 2).Value)
+            Dim Prop As APSIMData = Category.Child(PropertyGrid.Cells(e.Row, 3).Value)
+            Prop.SetAttribute("value", PropertyGrid.Cells(e.Row, 1).Value)
+            If PropertyGrid.Cells(e.Row, 3).Value = "crop" Then
                 UpdateAllCultivarDropDowns()
             End If
         End If
-    End Sub
 
+    End Sub
 
     ' ----------------------------------
     ' Update any cultivar drop downs.
     ' ----------------------------------
     Sub UpdateAllCultivarDropDowns()
-        Dim RowIndex As Integer = 0
-        For Each Category As APSIMData In Data.Children("category")
+        Dim Row As Integer = 0
+        For Each Category As APSIMData In Controller.Data.Children("category")
+            If PropertyGrid.Rows(Row).Locked Then
+                Row = Row + 1
+            End If
             For Each Prop As APSIMData In Category.Children("property")
                 If Prop.Attribute("type") = "cultivars" Then
-                    PopulateCultivarDropDown(Prop, PropertyGrid.DataRows(RowIndex))
+                    PopulateCultivarDropDown(Prop, PropertyGrid.Cells(Row, 1).CellType)
                 End If
-                RowIndex = RowIndex + 1
+                Row = Row + 1
             Next
         Next
     End Sub
@@ -367,13 +260,13 @@ Public Class RuleUI
     ' ------------------------------------------------------------------
     ' Populate a cultivar combo box
     ' ------------------------------------------------------------------
-    Sub PopulateCultivarDropDown(ByVal CultivarProp As APSIMData, ByVal Row As Xceed.Grid.DataRow)
+    Sub PopulateCultivarDropDown(ByVal CultivarProp As APSIMData, ByVal Combo As CellType.ComboBoxCellType)
         Dim Values As New StringCollection
         Dim CropPropertyName As String = CultivarProp.Attribute("croppropertyname")
 
         ' Locate the crop property name to get the instance name of the crop.
         Dim InstanceName As String
-        For Each Category As APSIMData In Data.Children("category")
+        For Each Category As APSIMData In Controller.Data.Children("category")
             For Each Prop As APSIMData In Category.Children("property")
                 If Prop.Attribute("name").ToLower = CropPropertyName Then
                     InstanceName = Prop.Attribute("value")
@@ -390,20 +283,10 @@ Public Class RuleUI
         End If
 
         ' populate the dropdown
-        Dim C As Control = Row.Cells(1).CellEditor.Control
-        Dim DropDown As ComboBox = C
-        DropDown.Items.Clear()
-        For Each Item As String In Values
-            DropDown.Items.Add(Item)
-        Next
-        If DropDown.Items.IndexOf(Row.Cells(1).Value) = -1 Then
-            If DropDown.Items.Count > 0 Then
-                Row.Cells(1).Value = DropDown.Items.Item(0)
-            Else
-                Row.Cells(1).Value = ""
-            End If
-        End If
-
+        Dim Items(Values.Count) As String
+        Values.CopyTo(Items, 0)
+        Combo.Items = Items
     End Sub
+
 
 End Class

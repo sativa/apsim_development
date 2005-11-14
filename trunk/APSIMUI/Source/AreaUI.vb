@@ -6,7 +6,7 @@ Imports CSGeneral
 Imports VBGeneral
 
 Public Class areaui
-    Inherits BaseUI
+    Inherits BaseView
 
 #Region " Windows Form Designer generated code "
 
@@ -84,7 +84,6 @@ Public Class areaui
         '
         'areaui
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
         Me.ClientSize = New System.Drawing.Size(940, 585)
         Me.Controls.Add(Me.ListView)
         Me.Name = "areaui"
@@ -101,22 +100,22 @@ Public Class areaui
     ' ----------------------------------
     Overrides Sub Refresh()
         MyBase.Refresh()
-        Dim Settings As UIManager = Explorer.ApplicationSettings
+        Dim Settings As ApsimUIController = Controller
 
         ListView.Clear()
         ListView.LargeImageList = Settings.LargeImageList
 
         ' Add an item for all children of this system.
-        For Each Child As APSIMData In Data.Children
+        For Each Child As APSIMData In Controller.Data.Children
             If Settings.IsComponentVisible(Child.Type) Then
                 'create new item
                 Dim item As New ListViewItem(Child.Name, 0)
-                item.ImageIndex = Settings.LargeImageIndex(Data.Child(Child.Name).Type)
+                item.ImageIndex = Settings.LargeImageIndex(Controller.Data.Child(Child.Name).Type)
                 ListView.Items.Add(item)
 
                 ' try and position this new item.
                 Dim x As String = Child.Attribute("x")
-                Dim y As String = child.Attribute("y")
+                Dim y As String = Child.Attribute("y")
                 If x <> "" And y <> "" Then
                     CSGeneral.ListViewAPI.SetItemPosition(ListView, item.Index, Convert.ToInt32(x), Convert.ToInt32(y))
                 End If
@@ -124,7 +123,7 @@ Public Class areaui
         Next
 
         ' Put up a background bitmap on listview.
-        Dim BitmapNode As APSIMData = Data.Child("bitmap")
+        Dim BitmapNode As APSIMData = Controller.Data.Child("bitmap")
         If Not IsNothing(BitmapNode) Then
             Dim TempFileName As String = Path.GetTempPath() + "\\apsimui.jpg"
             Dim b As Bitmap = CSUtility.DecodeStringToBitmap(BitmapNode.Value)
@@ -140,7 +139,9 @@ Public Class areaui
     ' for that item.
     ' ---------------------------------------------------------
     Private Sub ListView_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles ListView.DoubleClick
-        Explorer.ShowUI(Data.Child(ListView.SelectedItems.Item(0).Text))
+        Dim Selections As New StringCollection
+        Selections.Add(ListView.SelectedItems.Item(0).Text)
+        Controller.SelectedPaths = Selections
     End Sub
 
 
@@ -153,14 +154,14 @@ Public Class areaui
             Dim FileName As String = OpenFileDialog.FileName
             CSGeneral.ListViewAPI.SetListViewImage(ListView, FileName, ImagePosition.TopLeft)
 
-            Dim BitmapNode As APSIMData = Data.Child("bitmap")
+            Dim BitmapNode As APSIMData = Controller.Data.Child("bitmap")
             If IsNothing(BitmapNode) Then
                 BitmapNode = New APSIMData("bitmap", "bitmap")
             End If
 
             Dim b As New Bitmap(FileName)
             BitmapNode.Value = CSUtility.EncodeBitmapToString(b)
-            Data.Add(BitmapNode)
+            Controller.Data.Add(BitmapNode)
 
         End If
     End Sub
@@ -170,7 +171,7 @@ Public Class areaui
     ' User is trying to initiate a drag - allow drag operation
     ' --------------------------------------------------------
     Private Sub ListView_ItemDrag(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemDragEventArgs) Handles ListView.ItemDrag
-        Dim DataString As String = Data.Child(ListView.SelectedItems.Item(0).Text).XML
+        Dim DataString As String = Controller.Data.Child(ListView.SelectedItems.Item(0).Text).XML
         ListView.DoDragDrop(DataString, DragDropEffects.All)
     End Sub
 
@@ -197,18 +198,16 @@ Public Class areaui
         If e.Effect = DragDropEffects.Copy Then
             Dim NewDataString As String = e.Data.GetData(DataFormats.Text)
             Dim NewNode As New APSIMData(NewDataString)
-            Data.Add(NewNode)
+            Controller.Data.Add(NewNode)
             Refresh()
         Else
             For Each item As ListViewItem In ListView.SelectedItems
                 CSGeneral.ListViewAPI.SetItemPosition(ListView, ListView.SelectedItems.Item(0).Index, p.X, p.Y)
-                Dim child As APSIMData = Data.Child(item.Text)
+                Dim child As APSIMData = Controller.Data.Child(item.Text)
                 child.SetAttribute("x", p.X.ToString)
                 child.SetAttribute("y", p.Y.ToString)
             Next
         End If
-        Explorer.Refresh()
-
     End Sub
 
     Private Sub ListView_DragOver(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles ListView.DragOver
@@ -222,11 +221,10 @@ Public Class areaui
 
     Private Sub ListView_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ListView.KeyDown
         If e.KeyCode = Keys.Delete Then
-            Dim DataToDelete As APSIMData = Data.Child(ListView.SelectedItems.Item(0).Text)
+            Dim DataToDelete As APSIMData = Controller.Data.Child(ListView.SelectedItems.Item(0).Text)
             Dim ParentNode As APSIMData = DataToDelete.Parent
             ParentNode.Delete(ListView.SelectedItems.Item(0).Text)
             ListView.SelectedItems.Item(0).Remove()
-            Explorer.Refresh()
         End If
     End Sub
 End Class

@@ -143,14 +143,14 @@ Public Class ChartHelper
 
         If Not IsNothing(_Chart) And Not IsNothing(_Grid) Then
             ' Get x and y values from grid.
-            Dim X() As Double = GridUtils.GetColumnAsDoubles(_Grid, XColumn, 0)
-            Dim Y() As Double = GridUtils.GetColumnAsDoubles(_Grid, YColumn, 0)
-            If X.Length <> Y.Length Then
-                Throw New System.Exception("The number of x and y values doesn't match in routine: CreateChartSeriesFromGrid")
-            End If
+            'Dim X() As Double = GridUtils.GetColumnAsDoubles(_Grid, XColumn, 0)
+            'Dim Y() As Double = GridUtils.GetColumnAsDoubles(_Grid, YColumn, 0)
+            'If X.Length <> Y.Length Then
+            '    Throw New System.Exception("The number of x and y values doesn't match in routine: CreateChartSeriesFromGrid")
+            'End If
 
-            Dim newseries As LineSeries = CreateChartSeries(SeriesName, Markers, SeriesColour, Width, LinePattern, LinkedXAxis, LinkedYAxis)
-            PopulateChartSeries(newseries, X, Y)
+            'Dim newseries As LineSeries = CreateChartSeries(SeriesName, Markers, SeriesColour, Width, LinePattern, LinkedXAxis, LinkedYAxis)
+            'PopulateChartSeries(newseries, X, Y)
         End If
     End Sub
 

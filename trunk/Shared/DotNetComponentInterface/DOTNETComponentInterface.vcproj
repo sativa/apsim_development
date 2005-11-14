@@ -114,8 +114,6 @@
 		<AssemblyReference
 			RelativePath="mscorlib.dll"/>
 		<AssemblyReference
-			RelativePath="{ReferencesPath}\nunit.framework.dll"/>
-		<AssemblyReference
 			RelativePath="System.dll"/>
 		<AssemblyReference
 			RelativePath="System.Data.dll"/>
@@ -127,6 +125,9 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			<File
+				RelativePath=".\ApsimAttributes.cpp">
+			</File>
 			<File
 				RelativePath=".\AssemblyInfo.cpp">
 			</File>
@@ -179,10 +180,7 @@
 				RelativePath="..\general\stristr.cpp">
 			</File>
 			<File
-				RelativePath=".\TestComponentInterface.cpp">
-			</File>
-			<File
-				RelativePath=".\TestMessage.cpp">
+				RelativePath=".\TypeConverter.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -196,6 +194,9 @@
 				RelativePath=".\ApsimEvents.h">
 			</File>
 			<File
+				RelativePath=".\ApsimProperties.h">
+			</File>
+			<File
 				RelativePath=".\ComponentInterface.h">
 			</File>
 			<File
@@ -203,9 +204,6 @@
 			</File>
 			<File
 				RelativePath=".\Interfaces.h">
-			</File>
-			<File
-				RelativePath=".\ManagedComponentInterface.h">
 			</File>
 			<File
 				RelativePath=".\Message.h">
@@ -232,10 +230,7 @@
 				RelativePath=".\Stdafx.h">
 			</File>
 			<File
-				RelativePath=".\TestComponentInterface.h">
-			</File>
-			<File
-				RelativePath=".\TestMessage.h">
+				RelativePath=".\TypeConverter.h">
 			</File>
 			<File
 				RelativePath=".\Utility.h">

@@ -1,5 +1,6 @@
 #pragma once
 
+namespace ComponentInterface {
 class Message;
 // ---------------------------------------------------------------
 // This class manages the creation of different types of messages.
@@ -44,8 +45,9 @@ class MessageType
 
 					ApsimGetQuery = 40,
 					ApsimSetQuery = 41,
-					ApsimChangeOrder = 42,
-					};		
+					ApsimChangeOrder = 42
+					};
 	
 	
 	};
+};

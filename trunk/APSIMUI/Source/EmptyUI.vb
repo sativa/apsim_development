@@ -3,7 +3,7 @@ Imports System.Collections
 Imports System.Collections.Specialized
 
 Public Class EmptyUI
-    Inherits VBGeneral.BaseUI
+    Inherits VBGeneral.BaseView
 
 #Region " Windows Form Designer generated code "
 
@@ -113,7 +113,6 @@ Public Class EmptyUI
         '
         'EmptyUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(753, 809)
         Me.Controls.Add(Me.Panel2)
         Me.Name = "EmptyUI"
@@ -126,23 +125,23 @@ Public Class EmptyUI
 
 #End Region
     Overrides Sub Refresh()
-        MainLabel.Text = Data.Type
-        HelpLabel.Text = "This module does not have any editable properties."
+        MainLabel.Text = Controller.Data.Type
+        Me.HelpText = "This module does not have any editable properties."
         Dim inifile As New APSIMSettings
-        Dim UIManager As UIManager = Explorer.ApplicationSettings
-        Dim imagefile As String = UIManager.ImageFileForType(Data.Type)
+        Dim UIManager As ApsimUIController = Controller
+        Dim imagefile As String = UIManager.ImageFileForType(Controller.Data.Type)
         PictureBox.Image = Image.FromFile(imagefile)
         Try
-            Label1.Text = UIManager.DescriptionForType(Data.Type)
+            Label1.Text = UIManager.DescriptionForType(Controller.Data.Type)
         Catch ex As System.Exception
             ' Don't update label.
         End Try
     End Sub
 
     Private Sub DocumentationLink_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles DocumentationLink.LinkClicked
-        Dim UIManager As UIManager = Explorer.ApplicationSettings
+        Dim UIManager As ApsimUIController = Controller
         Try
-            Dim url As String = APSIMSettings.ApsimDirectory + "\apsimui\types.xml#" + Data.Type
+            Dim url As String = APSIMSettings.ApsimDirectory + "\apsimui\types.xml#" + Controller.Data.Type
             UIManager.ShowHelp(url)
         Catch ex As System.Exception
             UIManager.ShowHelp("www.apsim.info")

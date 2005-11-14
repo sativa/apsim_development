@@ -11,6 +11,7 @@ namespace CSGeneral
 	// ---------------------------------
 	public class Soil : SoilBase
 		{
+		private APSIMData PredLLCoeff = null;
 		public Soil(APSIMData data)	: base(data)
 			{
 			}
@@ -39,7 +40,8 @@ namespace CSGeneral
 		public string Order
 			{
 			get {return GetStringValue("", "order");}
-			set {SetValue("", "order", value);}
+			set {SetValue("", "order", value);
+				 WritePredictedCrops();}
 			}
 		public string NearestTown
 			{
@@ -91,7 +93,8 @@ namespace CSGeneral
 		public double[] DUL
 			{
 			get {return getLayered("Water", "dul");}
-			set {setLayered("Water", "dul", value);}
+			set {setLayered("Water", "dul", value);
+				 WritePredictedCrops();}
 			}
 		public double[] SAT
 			{
@@ -224,8 +227,11 @@ namespace CSGeneral
 			}
 		public bool CropExists(string CropName)
 			{
-            StringCollection Crops = Data.ChildList("SoilCrop");
-			return (Crops.IndexOf(CropName.ToLower()) != -1);
+            return (Data.Child(CropName) != null);
+			}
+		public bool CropIsPredicted(string CropName)
+			{
+			return (Data.Child(CropName).Attribute("predicted").ToLower() == "yes");
 			}
 		public void AddCrop(string CropName)
 			{
@@ -234,6 +240,7 @@ namespace CSGeneral
 		public void DeleteCrop(string CropName)
 			{
 			Data.Delete(CropName);
+			WritePredictedCrops();
 			}
 		public double[] LL(string CropName)
 			{
@@ -252,6 +259,121 @@ namespace CSGeneral
 			setLayered("SoilCrop", CropName, "ll", ll);
 			setLayered("SoilCrop", CropName, "kl", kl);
 			setLayered("SoilCrop", CropName, "xf", xf);
+			Data.Child(CropName).SetAttribute("predicted", "no");
+			if (Crops[0] == CropName)
+				WritePredictedCrops();
+			}
+		public void SetCropOrder(string[] CropNames)
+			{
+			for (int DestIndex = 0; DestIndex != CropNames.Length-1; DestIndex++)
+				{
+                int SourceIndex = -1;
+				string [] CurrentCrops = Crops;
+				for (int c = 0; c != CurrentCrops.Length; c++)
+					if (CurrentCrops[c].ToLower() == CropNames[DestIndex].ToLower())
+						SourceIndex = c;
+
+				if (SourceIndex == -1)
+					throw new Exception("Cannot find crop: " + CropNames[DestIndex] + " in method SetCropOrder");
+
+				for (int i = SourceIndex; i > DestIndex; i--)
+					Data.MoveUp(CropNames[DestIndex], "soilcrop");
+				}
+			}
+
+
+		// ------------------------------------------------------
+		// Predicted crop properties
+		// ------------------------------------------------------
+		private bool OpenPredLLCoeffFile()
+			{
+			if (PredLLCoeff == null)
+				{
+				string CoeffFileName = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "Soil", "PredLLCoeffFile");
+				if (File.Exists(CoeffFileName))
+					{
+					PredLLCoeff = new APSIMData();
+					PredLLCoeff.LoadFromFile(CoeffFileName);
+					}
+				}
+			return (PredLLCoeff != null);
+			}
+
+
+		private void WritePredictedCrops()
+			{
+			if (Crops.Length > 0 && OpenPredLLCoeffFile())
+				{
+				// get a list of all possible predicted crops.
+				StringCollection PredCrops = new StringCollection();
+				string SoilNameNoSpaces = Order.Replace(" ", "");
+				foreach (APSIMData PredSoil in PredLLCoeff.get_Children(null))
+					if (PredSoil.Name.ToLower() == SoilNameNoSpaces.ToLower())
+						foreach (string Crop in PredSoil.ChildList(null))
+							if (!CropExists(Crop) || (CropExists(Crop) && CropIsPredicted(Crop)))
+								PredCrops.Add(Crop);
+			
+				// remove all unwanted predicted crop children.
+				foreach (string Crop in Crops)
+					{
+					if (CropIsPredicted(Crop) && PredCrops.IndexOf(Crop) == -1)
+						Data.Delete(Crop);
+					}
+
+				// create ll, kl and xf values for each crop.
+				foreach (string CropName in PredCrops)
+					{
+					// Get all coefficients and convert to double arrays.
+					StringCollection AStrings = new StringCollection();
+					StringCollection BStrings = new StringCollection();
+					StringCollection LayerCentreStrings = new StringCollection();
+					foreach (APSIMData Layer in PredLLCoeff.Child(SoilNameNoSpaces).Child(CropName).get_Children("layer"))
+						{
+						AStrings.Add(Layer.get_ChildValue("a"));
+						BStrings.Add(Layer.get_ChildValue("b"));
+						LayerCentreStrings.Add(Layer.get_ChildValue("LayerCentre"));
+						}
+
+					if (AStrings.Count == 0 || AStrings.Count != BStrings.Count || AStrings.Count != LayerCentreStrings.Count)
+						throw new Exception("Invalid predicted LL coeffs found for soil: " + Order + " and crop: " + CropName);
+					double[] a = new double[AStrings.Count];
+					double[] b = new double[BStrings.Count];
+					double[] CoeffDepthCentre = new double[LayerCentreStrings.Count];
+					for (int i = 0; i != AStrings.Count; i++)
+						{
+						a[i] = Convert.ToDouble(AStrings[i]);
+						b[i] = Convert.ToDouble(BStrings[i]);
+						CoeffDepthCentre[i] = Convert.ToDouble(LayerCentreStrings[i]);
+						}
+
+					// Get some soil numbers we're going to need.
+					double[] SoilDepthCentre = this.CumThicknessMidPoints;
+					double[] SoilDUL = this.DUL;
+					double[] FirstCropLL = LL(Crops[0]);
+
+					// only continue if our soil depth depth centers are within range of
+					// the coefficient depth centers.
+					if (SoilDepthCentre[SoilDepthCentre.Length-1] <= CoeffDepthCentre[CoeffDepthCentre.Length-1])
+						{
+						double[] PredLL = new double[SoilDepthCentre.Length];
+						for (int i = 0; i != a.Length; i++)
+							{
+							bool DidInterpolate = false;
+							double A = MathUtility.LinearInterpReal(SoilDepthCentre[i], CoeffDepthCentre, a, ref DidInterpolate);
+							double B = MathUtility.LinearInterpReal(SoilDepthCentre[i], CoeffDepthCentre, b, ref DidInterpolate);
+							PredLL[i] = SoilDUL[i] * (A + B * SoilDUL[i]);
+
+							// make the top 2 layers the same as the first measured crop LL
+							if (i == 0 || i == 1)
+								PredLL[i] = FirstCropLL[i];
+							}
+						setLayered("SoilCrop", CropName, "ll", PredLL);
+						setLayered("SoilCrop", CropName, "kl", KL(Crops[0]));
+						setLayered("SoilCrop", CropName, "xf", XF(Crops[0]));
+						Data.Child(CropName).SetAttribute("predicted", "yes");
+						}
+					}
+				}
 			}
 
 
@@ -368,7 +490,11 @@ namespace CSGeneral
 				return new double[0];
 
 			for (int layer = 0; layer != Thickness.Length; layer++)
-				PAWC[layer] = (DUL[layer] - LL[layer]) * Thickness[layer];
+				if (DUL[layer] == MathUtility.MissingValue ||
+					LL[layer] == MathUtility.MissingValue)
+					PAWC[layer] = 0;
+				else
+					PAWC[layer] = (DUL[layer] - LL[layer]) * Thickness[layer];
 			return PAWC;
 			}
 		// ------------------------------------------------------------------
@@ -394,10 +520,10 @@ namespace CSGeneral
 		// ----------------------------------------------------------------
 		// Export the soil to a PAR file.
 		// ----------------------------------------------------------------
-		public void ExportToPar(string FileName)
+		public void ExportToPar(string FileName, string SectionName, bool AppendToFile)
 			{
 			string Template =		
-				"[soil.soilwat2.parameters]\r\n"+
+				"[$SECTIONNAME$.soilwat2.parameters]\r\n"+
 				"[foreach Soil.Water as water]\r\n"+
 				"   diffus_const = [water.DiffusConst]    ! coeffs for unsaturated water flow\r\n"+
 				"   diffus_slope = [water.DiffusSlope]\r\n"+
@@ -422,7 +548,10 @@ namespace CSGeneral
 				"[endfor]\r\n"+//END OF WATER FOR LOOP
 				"\r\n"+
 				"[foreach Soil.SoilCrop as crop]\r\n"+
-				"[soil.[crop.name].parameters]\r\n"+//TITLE
+				"[$SECTIONNAME$.[crop.name].parameters]\r\n"+//TITLE
+				"   [if [crop.predicted] = 'yes']"+
+				"   !These crop numbers are predicted\r\n"+
+				"   [endif]"+
 				"   ll      =[foreach crop.layer as Layer]\r\n      [Layer.ll.3][endfor]\r\n\r\n"+
 				"[if [crop.name] = ozcot]\r\n"+
 				"   Title = XXX\r\n"+
@@ -433,7 +562,7 @@ namespace CSGeneral
 				"[endif]\r\n"+
 				"[endfor]\r\n"+//END OF CROP FOR LOOP
 				"\r\n"+
-				"[soil.soiln2.parameters]\r\n"+//TITLE
+				"[$SECTIONNAME$.soiln2.parameters]\r\n"+//TITLE
 				"[foreach Soil.Nitrogen as nitrogen]\r\n"+
 				"   root_cn      = [nitrogen.rootcn]     ! C:N ratio of initial root residues\r\n"+
 				"   root_wt      = [nitrogen.rootwt]   ! root residues as biomass (kg/ha)\r\n"+
@@ -451,7 +580,7 @@ namespace CSGeneral
 				"[endfor]\r\n"+//END OF NITROGEN FOR LOOP
 				"\r\n"+
 				"[foreach Soil.Phosphorus]\r\n"+
-				"[soil.soilp.parameters]\r\n"+
+				"[$SECTIONNAME$.soilp.parameters]\r\n"+
 				"   residue_cp         =  [phosphorus.residuecp]   () !c:p ratio of residues at initialisation\r\n"+
 				"   root_cp            =  [phosphorus.rootcp]      () !c:p ratio of roots at initialisation\r\n"+
 				"   rate_dissol_rock_P =  [phosphorus.RateDissolRock] (/yr)   !rate at which rock P source becomes available\r\n"+
@@ -482,11 +611,13 @@ namespace CSGeneral
 			Template = Template.Replace("$SW$", SWLine);
 			Template = Template.Replace("$NO3$", NO3Line);
 			Template = Template.Replace("$NH4$", NH4Line);
+			Template = Template.Replace("$SECTIONNAME$", SectionName);
 
 			string szSoilFileTemplate = "[file " + Path.GetFileName(FileName) + "]\r\n" + Template;
 			Macro SoilMacro = new Macro();
 			StringCollection scSoilFiles = SoilMacro.Go(Data, szSoilFileTemplate, 
-														Path.GetDirectoryName(FileName));
+														Path.GetDirectoryName(FileName),
+														AppendToFile);
 			}
 										  
 		
@@ -551,7 +682,14 @@ namespace CSGeneral
 				}
 			}
 
-	
+		// -----------------------------------
+		// Convert old soil file to new format
+		// -----------------------------------
+		public void UpgradeToVersion3()
+			{
+			WritePredictedCrops();
+			}
+
 		//-------------------------------------------------------------------------
 		// This checks the soil for errors and returns an error message if a 
 		// problem was found. A blank string returned indicates no problems.
@@ -735,6 +873,10 @@ namespace CSGeneral
 					errorMessages += "BD value of " + bd[layer].ToString("f3")
 						          +  " in layer " + RealLayerNumber.ToString() + " is greater than the theoretical maximum of 2.65"
 								  + "\r\n";
+				if (OC[layer] < 0.01)
+					errorMessages += "OC value of " + OC[layer].ToString("f3")
+						          +  " in layer " + RealLayerNumber.ToString() + " is less than 0.01"
+								  + "\r\n";
 				}
 			return errorMessages;
 			}
@@ -800,7 +942,55 @@ namespace CSGeneral
 				}
 			}
 
+		// ----------------------
+		// Methods for cell notes
+		// ----------------------
+		public void DeleteNote(string GridName, int Col, int Row)
+			{
+			string NoteNameToDelete = "";
+			foreach (APSIMData Note in Data.get_Children("note"))
+				{
+				if (Note.get_ChildValue("grid") == GridName &&
+					Convert.ToInt32(Note.get_ChildValue("col")) == Col &&
+					Convert.ToInt32(Note.get_ChildValue("row")) == Row)
+					NoteNameToDelete = Note.Name;
+				}
+			if (NoteNameToDelete != "")
+				Data.Delete(NoteNameToDelete);
+			}
 
+		public struct Note
+			{
+			public string GridName;
+			public int Col, Row;
+			public string Text;
+			};
+
+		public void AddNote(string GridName, int Col, int Row, string Text)
+			{
+			APSIMData Note = new APSIMData("note", "note");
+			Note.set_ChildValue("grid", GridName);
+			Note.set_ChildValue("col", Col.ToString());
+			Note.set_ChildValue("row", Row.ToString());
+			Note.set_ChildValue("text", Text);
+			Data.Add(Note);
+			}
+
+		public Note[] GetNotes()
+			{
+			Note[] ReturnList = new Note[Data.get_Children("note").Count];
+			int i = 0;
+			foreach (APSIMData NoteNode in Data.get_Children("note"))
+				{
+				ReturnList[i].GridName = NoteNode.get_ChildValue("grid");
+				ReturnList[i].Col = Convert.ToInt32(NoteNode.get_ChildValue("col"));
+				ReturnList[i].Row = Convert.ToInt32(NoteNode.get_ChildValue("row"));
+				ReturnList[i].Text = NoteNode.get_ChildValue("text");
+				
+				i++;
+				}
+			return ReturnList;
+			}
 
 
 		}

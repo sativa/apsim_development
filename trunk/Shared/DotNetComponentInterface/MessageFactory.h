@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Message.h"
+namespace ComponentInterface {
 
 // ------------------------
 // Message factory
@@ -37,3 +38,4 @@ class MessageFactory
 		unsigned nextFreeMessage;
    
     };
+};

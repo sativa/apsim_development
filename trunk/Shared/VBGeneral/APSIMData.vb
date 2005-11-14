@@ -253,7 +253,7 @@ Public Class APSIMData
             End If
         End Get
     End Property
-    Public Sub Add(ByVal Data As APSIMData)
+    Public Function Add(ByVal Data As APSIMData) As APSIMData
         If Not IsNothing(Data) Then
             If Me.Attribute("shortcut") <> "" Then
                 Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
@@ -262,7 +262,7 @@ Public Class APSIMData
                 If IsNothing(ParentData) Then
                     Throw New System.Exception("Cannot find shared node.")
                 End If
-                ParentData.Add(Data)
+                Return ParentData.Add(Data)
             Else
                 Dim NewName As String = UniqueName(Data.Name, ChildList)
                 If NewName <> Data.Name Then
@@ -272,10 +272,12 @@ Public Class APSIMData
                 Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
                 Node.AppendChild(newnode)
                 RaiseEvent DataChanged()
+                Return New APSIMData(newnode, DataChangedEvent)
             End If
         End If
-    End Sub
-    Public Sub AddBefore(ByVal Data As APSIMData, ByVal ReferenceNode As APSIMData)
+        Return Nothing
+    End Function
+    Public Function AddBefore(ByVal Data As APSIMData, ByVal ReferenceNode As APSIMData) As APSIMData
         If Not IsNothing(Data) Then
             If Me.Attribute("shortcut") <> "" Then
                 Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
@@ -284,15 +286,37 @@ Public Class APSIMData
                 If IsNothing(ParentData) Then
                     Throw New System.Exception("Cannot find shared node.")
                 End If
-                ParentData.AddBefore(Data, ReferenceNode)
+                Return ParentData.AddBefore(Data, ReferenceNode)
             Else
-                Data.Name = UniqueName(Data.Name, ChildList)
                 Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
-                Node.InsertBefore(newnode, ReferenceNode.Node)
+                newnode = Node.InsertBefore(newnode, ReferenceNode.Node)
+                Dim NewData As APSIMData = New APSIMData(newnode, DataChangedEvent)
+                NewData.Name = UniqueName(Data.Name, ChildList)
                 RaiseEvent DataChanged()
+                Return NewData
             End If
         End If
-    End Sub
+    End Function
+    Public Function AddAfter(ByVal Data As APSIMData, ByVal ReferenceNode As APSIMData) As APSIMData
+        If Not IsNothing(Data) Then
+            If Me.Attribute("shortcut") <> "" Then
+                Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
+                Dim ParentData As APSIMData = New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent)
+                ParentData = ParentData.FindChild(RemoteSource, "|")
+                If IsNothing(ParentData) Then
+                    Throw New System.Exception("Cannot find shared node.")
+                End If
+                Return ParentData.AddAfter(Data, ReferenceNode)
+            Else
+                Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
+                newnode = Node.InsertAfter(newnode, ReferenceNode.Node)
+                Dim NewData As APSIMData = New APSIMData(newnode, DataChangedEvent)
+                NewData.Name = UniqueName(Data.Name, ChildList)
+                RaiseEvent DataChanged()
+                Return NewData
+            End If
+        End If
+    End Function
     Public Sub Delete(ByVal ChildName As String)
         If Me.Attribute("shortcut") <> "" Then
             Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
@@ -469,5 +493,34 @@ Public Class APSIMData
             End Try
         End Set
     End Property
+
+
+    Public Sub MoveUp(ByVal ChildName As String, ByVal ChildType As String)
+        Dim ChildData As APSIMData = Child(ChildName)
+
+        Dim ReferenceNode As XmlNode = ChildData.Node.PreviousSibling()
+        While (ChildType <> "" And ReferenceNode.Name.ToLower <> ChildType.ToLower)
+            ReferenceNode = ReferenceNode.PreviousSibling()
+        End While
+        If Not IsNothing(ReferenceNode) Then
+            Node.InsertBefore(ChildData.Node, ReferenceNode)
+            RaiseEvent DataChanged()
+        End If
+    End Sub
+
+    Public Sub MoveDown(ByVal ChildName As String, ByVal ChildType As String)
+        Dim ChildData As APSIMData = Child(ChildName)
+
+        Dim ReferenceNode As XmlNode = ChildData.Node.NextSibling()
+        While (ChildType <> "" And ReferenceNode.Name.ToLower <> ChildType.ToLower)
+            ReferenceNode = ReferenceNode.NextSibling()
+        End While
+
+        If Not IsNothing(ReferenceNode) Then
+            Node.InsertAfter(ChildData.Node, ReferenceNode)
+            RaiseEvent DataChanged()
+        End If
+    End Sub
+
 
 End Class

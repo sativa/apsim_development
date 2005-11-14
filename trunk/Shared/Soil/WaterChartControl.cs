@@ -6,7 +6,6 @@ using System.Data;
 using System.Windows.Forms;
 using CSGeneral;
 using VBGeneral;
-using Xceed.Grid;
 using Xceed.Chart.Standard;
 using Xceed.Chart.Core;
 
@@ -115,7 +114,7 @@ namespace CSGeneral
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(171, 24);
 			this.label1.TabIndex = 13;
-			this.label1.Text = "Crops to show on graph";
+			this.label1.Text = "Crops LL\'s to show on graph";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// splitter
@@ -172,26 +171,20 @@ namespace CSGeneral
 			{
 			if (MySoil != null)
 				{
-				StringCollection MyCrops = new StringCollection();
-				MyCrops.AddRange(MySoil.Crops);
+				CropList.Items.Clear();
+				CropList.Items.AddRange(MySoil.Crops);
 
-				// Make sure all crops are in listbox.
-				foreach (string Crop in MyCrops)
+				StringCollection SelectedCrops = APSIMSettings.INIReadMultiple(APSIMSettings.ApsimIniFile(),
+																	  "soil", "CropsOnGraph");
+				foreach (string Crop in SelectedCrops)
 					{
-					if (CropList.Items.IndexOf(Crop) == -1)
-						CropList.Items.Add(Crop);
+					int ItemIndex = CropList.Items.IndexOf(Crop);
+					if (ItemIndex != -1)
+						CropList.SetItemChecked(ItemIndex, true);
 					}
-
-				// Make sure we don't have unwanted crop in listbox.
-				for (int i = 0; i != CropList.Items.Count; i++)
-					{
-					if (MyCrops.IndexOf(CropList.Items[i].ToString()) == -1)
-						{
-						CropList.Items.RemoveAt(i);
-						i--;
-						}
-					}
-				
+				if (SelectedCrops.Count == 0 && CropList.CheckedItems.Count == 0 && CropList.Items.Count > 0)
+					CropList.SetItemChecked(0, true);
+                                                     
 				LineGraphCheck.Checked = (APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), 
 																"soil", "DepthChartWithLines") == "yes");
 				PopulateWaterChart(CropsToChart());
@@ -201,7 +194,7 @@ namespace CSGeneral
 				WaterChart.Legends[0].Data.HorizontalLinesProps.Width = 0;
 				}
 			}
-	
+
 
 		// ---------------------------
 		// populate water chart.
@@ -212,6 +205,8 @@ namespace CSGeneral
 				PopulateWaterChartLines(WaterChart, MySoil, Crops, ShowSW);
 			else
 				PopulateWaterChartBlocky(WaterChart, MySoil, Crops, ShowSW);
+
+			WaterChart.Labels[0].Text = MySoil.Comment;
 			}								
 
 
@@ -313,7 +308,7 @@ namespace CSGeneral
 
 			Helper.CreateChartSeriesFromArray("LL15", 
 												MathUtility.Multiply_Value(MySoil.LL15, 100), MathUtility.Divide_Value(MySoil.CumThicknessMidPoints, 10),
-												false, Color.Red, 1, LinePattern.Solid,
+												false, Color.Orange, 1, LinePattern.Solid,
 												StandardAxis.PrimaryX, StandardAxis.PrimaryY);
 
 			Helper.CreateChartSeriesFromArray("AirDry", 
@@ -370,6 +365,12 @@ namespace CSGeneral
 			else
 				Crops.Add(CropList.Items[e.Index].ToString());
 			PopulateWaterChart(Crops);            
+
+			// save crop selections.
+			string[] values = new string[Crops.Count];
+			Crops.CopyTo(values, 0);
+			APSIMSettings.INIWriteMultiple(APSIMSettings.ApsimIniFile(),
+										  "soil", "CropsOnGraph", values);
 			}
 
 		// ---------------------------------------

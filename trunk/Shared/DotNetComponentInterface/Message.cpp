@@ -4,6 +4,7 @@
 #using <mscorlib.dll>
 #include <string>
 using namespace std;
+using namespace ComponentInterface;
 
 const unsigned MAX_NUM_MESSAGES = 20;
 const unsigned MAX_MESSAGE_SIZE = 3000;

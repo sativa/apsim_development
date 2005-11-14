@@ -1,5 +1,6 @@
 #pragma once
 
+namespace ComponentInterface {
 __gc class RegisteredEventHandlers
 	{
 	public:
@@ -20,7 +21,8 @@ __gc class RegisteredEventHandlers
 	
 	private:
 		static const unsigned MAX_NUM_EVENTS = 50;
-		static IEventData __pin * events[] = new IEventData* [MAX_NUM_EVENTS];
+		static IEventData**  events = new IEventData* __nogc[MAX_NUM_EVENTS];
 		static unsigned numEvents = 0;
 			
 	};
+};

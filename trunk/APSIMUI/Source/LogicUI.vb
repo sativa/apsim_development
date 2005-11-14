@@ -1,5 +1,5 @@
 Public Class LogicUI
-    Inherits VBGeneral.BaseUI
+    Inherits VBGeneral.BaseView
 
 #Region " Windows Form Designer generated code "
 
@@ -121,7 +121,6 @@ Public Class LogicUI
         '
         'LogicUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
         Me.ClientSize = New System.Drawing.Size(940, 668)
         Me.Controls.Add(Me.TabControl)
         Me.Name = "LogicUI"
@@ -138,11 +137,11 @@ Public Class LogicUI
 
     Overrides Sub Refresh()
         MyBase.Refresh()
-        InitTextBox.Text = Replace(Data.ChildValue("init"), "[cr]", vbCrLf)
-        StartOfDayTextBox.Text = Replace(Data.ChildValue("startofday"), "[cr]", vbCrLf)
+        InitTextBox.Text = Replace(Controller.Data.ChildValue("init"), "[cr]", vbCrLf)
+        StartOfDayTextBox.Text = Replace(Controller.Data.ChildValue("startofday"), "[cr]", vbCrLf)
 
-        EndOfDayTextBox.Text = Replace(Data.ChildValue("endofday"), "[cr]", vbCrLf)
-        HelpLabel.Text = "Enter your management logic into the edit box above."
+        EndOfDayTextBox.Text = Replace(Controller.Data.ChildValue("endofday"), "[cr]", vbCrLf)
+        HelpText = "Enter your management logic into the edit box above."
     End Sub
 
 
@@ -151,21 +150,21 @@ Public Class LogicUI
         If text = Nothing Then
             text = ""
         End If
-        Data.Child("init").Value = text
+        Controller.Data.Child("init").Value = text
     End Sub
     Private Sub StartOfDayTextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles StartOfDayTextBox.Leave
         Dim text As String = Replace(StartOfDayTextBox.Text, vbCrLf, "[cr]")
         If text = Nothing Then
             text = ""
         End If
-        Data.Child("startofday").Value = text
+        Controller.Data.Child("startofday").Value = text
     End Sub
     Private Sub EndOfDayTextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles EndOfDayTextBox.Leave
         Dim text As String = Replace(EndOfDayTextBox.Text, vbCrLf, "[cr]")
         If text = Nothing Then
             text = ""
         End If
-        Data.Child("endofday").Value = text
+        Controller.Data.Child("endofday").Value = text
     End Sub
 
     Public Overrides Sub Save()

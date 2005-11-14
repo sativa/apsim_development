@@ -2,9 +2,10 @@ Imports VBGeneral
 Imports Xceed.Grid.Editors
 Imports System.Collections
 Imports System.Collections.Specialized
+Imports FarPoint.Win.Spread
 
 Public Class GenericUI
-    Inherits VBGeneral.BaseUI
+    Inherits VBGeneral.BaseView
     Dim InRefresh As Boolean
 
 #Region " Windows Form Designer generated code "
@@ -21,11 +22,6 @@ Public Class GenericUI
 
     'Form overrides dispose to clean up the component list.
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-        If Not Grid.CurrentCell Is Nothing Then
-            If Grid.CurrentCell.IsBeingEdited Then
-                Grid.CurrentCell.LeaveEdit(False)
-            End If
-        End If
         If disposing Then
             If Not (components Is Nothing) Then
                 components.Dispose()
@@ -40,125 +36,65 @@ Public Class GenericUI
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    Friend WithEvents Grid As Xceed.Grid.GridControl
-    Friend WithEvents NameColumn As Xceed.Grid.Column
-    Friend WithEvents ValueColumn As Xceed.Grid.Column
-    Friend WithEvents GroupByRow1 As Xceed.Grid.GroupByRow
-    Friend WithEvents ColumnManagerRow1 As Xceed.Grid.ColumnManagerRow
-    Friend WithEvents cellColumnManagerRow1Column1 As Xceed.Grid.ColumnManagerCell
-    Friend WithEvents dataRowTemplate1 As Xceed.Grid.DataRow
-    Friend WithEvents celldataRowTemplate1Column2 As Xceed.Grid.DataCell
-    Friend WithEvents cellColumnManagerRow1Column2 As Xceed.Grid.ColumnManagerCell
-    Friend WithEvents celldataRowTemplate1Column1 As Xceed.Grid.DataCell
     Friend WithEvents PictureBox As System.Windows.Forms.PictureBox
+    Friend WithEvents FpSpread1 As FarPoint.Win.Spread.FpSpread
+    Friend WithEvents Grid As FarPoint.Win.Spread.SheetView
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.Grid = New Xceed.Grid.GridControl
-        Me.NameColumn = New Xceed.Grid.Column
-        Me.ValueColumn = New Xceed.Grid.Column
-        Me.dataRowTemplate1 = New Xceed.Grid.DataRow
-        Me.celldataRowTemplate1Column1 = New Xceed.Grid.DataCell
-        Me.celldataRowTemplate1Column2 = New Xceed.Grid.DataCell
-        Me.GroupByRow1 = New Xceed.Grid.GroupByRow
-        Me.ColumnManagerRow1 = New Xceed.Grid.ColumnManagerRow
-        Me.cellColumnManagerRow1Column1 = New Xceed.Grid.ColumnManagerCell
-        Me.cellColumnManagerRow1Column2 = New Xceed.Grid.ColumnManagerCell
         Me.PictureBox = New System.Windows.Forms.PictureBox
+        Me.FpSpread1 = New FarPoint.Win.Spread.FpSpread
+        Me.Grid = New FarPoint.Win.Spread.SheetView
+        CType(Me.FpSpread1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Grid, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dataRowTemplate1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ColumnManagerRow1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'Grid
-        '
-        Me.Grid.CausesValidation = False
-        Me.Grid.Columns.Add(Me.NameColumn)
-        Me.Grid.Columns.Add(Me.ValueColumn)
-        Me.Grid.DataRowTemplate = Me.dataRowTemplate1
-        Me.Grid.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Grid.FixedHeaderRows.Add(Me.GroupByRow1)
-        Me.Grid.FixedHeaderRows.Add(Me.ColumnManagerRow1)
-        Me.Grid.Location = New System.Drawing.Point(88, 20)
-        Me.Grid.Name = "Grid"
-        '
-        'Grid.RowSelectorPane
-        '
-        Me.Grid.RowSelectorPane.Visible = False
-        Me.Grid.SingleClickEdit = True
-        Me.Grid.Size = New System.Drawing.Size(798, 711)
-        Me.Grid.TabIndex = 2
-        Me.Grid.UIStyle = Xceed.Grid.UIStyle.UIStyle.System
-        '
-        'NameColumn
-        '
-        Me.NameColumn.CanBeSorted = False
-        Me.NameColumn.Title = "Name"
-        Me.NameColumn.VisibleIndex = 0
-        Me.NameColumn.Width = 267
-        Me.NameColumn.Initialize("Name", GetType(System.String))
-        '
-        'ValueColumn
-        '
-        Me.ValueColumn.CanBeSorted = False
-        Me.ValueColumn.Title = "Value"
-        Me.ValueColumn.VisibleIndex = 1
-        Me.ValueColumn.Width = 267
-        Me.ValueColumn.Initialize("Column2", GetType(System.String))
-        '
-        'dataRowTemplate1
-        '
-        Me.dataRowTemplate1.AccessibleName = "Data row 1 in data row template"
-        Me.dataRowTemplate1.Cells.Add(Me.celldataRowTemplate1Column1)
-        Me.dataRowTemplate1.Cells.Add(Me.celldataRowTemplate1Column2)
-        Me.dataRowTemplate1.Height = 22
-        '
-        'celldataRowTemplate1Column1
-        '
-        Me.celldataRowTemplate1Column1.BackColor = System.Drawing.SystemColors.Window
-        Me.celldataRowTemplate1Column1.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.celldataRowTemplate1Column1.Initialize("Name")
-        '
-        'celldataRowTemplate1Column2
-        '
-        Me.celldataRowTemplate1Column2.BackColor = System.Drawing.SystemColors.Window
-        Me.celldataRowTemplate1Column2.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.celldataRowTemplate1Column2.Initialize("Column2")
-        '
-        'GroupByRow1
-        '
-        Me.GroupByRow1.AccessibleName = "Group by row 1 in fixed header"
-        Me.GroupByRow1.Indented = False
-        Me.GroupByRow1.Visible = False
-        '
-        'ColumnManagerRow1
-        '
-        Me.ColumnManagerRow1.AccessibleName = "Column manager row 2 in fixed header"
-        Me.ColumnManagerRow1.Cells.Add(Me.cellColumnManagerRow1Column1)
-        Me.ColumnManagerRow1.Cells.Add(Me.cellColumnManagerRow1Column2)
-        Me.ColumnManagerRow1.Height = 19
-        Me.cellColumnManagerRow1Column1.Initialize("Name")
-        Me.cellColumnManagerRow1Column2.Initialize("Column2")
         '
         'PictureBox
         '
         Me.PictureBox.Dock = System.Windows.Forms.DockStyle.Left
-        Me.PictureBox.Location = New System.Drawing.Point(0, 20)
+        Me.PictureBox.Location = New System.Drawing.Point(0, 40)
         Me.PictureBox.Name = "PictureBox"
-        Me.PictureBox.Size = New System.Drawing.Size(88, 711)
+        Me.PictureBox.Size = New System.Drawing.Size(88, 594)
         Me.PictureBox.TabIndex = 3
         Me.PictureBox.TabStop = False
         '
+        'FpSpread1
+        '
+        Me.FpSpread1.AllowDragDrop = True
+        Me.FpSpread1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.FpSpread1.EditModeReplace = True
+        Me.FpSpread1.Location = New System.Drawing.Point(88, 40)
+        Me.FpSpread1.Name = "FpSpread1"
+        Me.FpSpread1.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.Grid})
+        Me.FpSpread1.Size = New System.Drawing.Size(570, 594)
+        Me.FpSpread1.TabIndex = 4
+        Me.FpSpread1.TabStripPolicy = FarPoint.Win.Spread.TabStripPolicy.Never
+        '
+        'Grid
+        '
+        Me.Grid.Reset()
+        'Formulas and custom names must be loaded with R1C1 reference style
+        Me.Grid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1
+        Me.Grid.ColumnCount = 2
+        Me.Grid.ColumnHeader.Cells.Get(0, 0).Text = "Name"
+        Me.Grid.ColumnHeader.Cells.Get(0, 1).Text = "Value"
+        Me.Grid.Columns.Get(0).Label = "Name"
+        Me.Grid.Columns.Get(0).Width = 206.0!
+        Me.Grid.Columns.Get(1).Label = "Value"
+        Me.Grid.Columns.Get(1).Width = 206.0!
+        Me.Grid.RowHeader.Columns.Default.Resizable = False
+        Me.Grid.RowHeader.Visible = False
+        Me.Grid.SheetName = "Sheet1"
+        Me.Grid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1
+        '
         'GenericUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(886, 766)
-        Me.Controls.Add(Me.Grid)
+        Me.ClientSize = New System.Drawing.Size(658, 634)
+        Me.Controls.Add(Me.FpSpread1)
         Me.Controls.Add(Me.PictureBox)
         Me.Name = "GenericUI"
         Me.Controls.SetChildIndex(Me.PictureBox, 0)
-        Me.Controls.SetChildIndex(Me.Grid, 0)
+        Me.Controls.SetChildIndex(Me.FpSpread1, 0)
+        CType(Me.FpSpread1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Grid, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dataRowTemplate1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ColumnManagerRow1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -171,34 +107,24 @@ Public Class GenericUI
         InRefresh = True
 
         Dim inifile As New APSIMSettings
-        Dim UIManager As UIManager = Explorer.ApplicationSettings
-        Dim imagefile As String = UIManager.ImageFileForType(Data.Type)
+        Dim UIManager As ApsimUIController = Controller
+        Dim imagefile As String = UIManager.ImageFileForType(Controller.Data.Type)
         PictureBox.Image = Image.FromFile(imagefile)
-
-        For Each Prop As APSIMData In Data.Children()
+        Grid.RowCount = Controller.Data.ChildList.Count
+        Dim row As Integer = 0
+        For Each Prop As APSIMData In Controller.Data.Children()
             If Prop.Children.Count = 0 Then
-                Dim row As Xceed.Grid.DataRow = Grid.DataRows.AddNew()
-                row.BeginEdit()
                 Dim Desc As String = Prop.Attribute("description")
                 If Desc = "" Then
                     Desc = Prop.Name
                 End If
-                row.Cells(0).Value = Desc
-                row.Cells(1).Value = Prop.Value
+                Grid.Cells(row, 0).Value = Desc
+                Grid.Cells(row, 1).Value = Prop.Value
                 Dim Editor As CustomEditor
                 Dim DefaultText As String
-                CreateCustomEditorForColumn(Prop, Editor, DefaultText)
-                If Not IsNothing(Editor) Then
-                    row.Cells(1).CellEditor = Editor
-                    If row.Cells(1).Value = "" Then
-                        row.Cells(1).Value = DefaultText
-                        Prop.Value = DefaultText
-                    End If
-                End If
-                AddHandler row.Cells(1).LeavingEdit, AddressOf Me.CellLeavingEdit
-
-                row.EndEdit()
+                SetCellType(Grid, row, 1, Prop)
             End If
+            row = row + 1
         Next
 
         InRefresh = False
@@ -208,7 +134,7 @@ Public Class GenericUI
 
     Private Sub Grid_CurrentCellChanged1(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If Me.Visible Then
-            Data.DataTable = Grid.DataSource
+            Controller.Data.DataTable = Grid.DataSource
         End If
     End Sub
 
@@ -216,44 +142,31 @@ Public Class GenericUI
     ' --------------------------------
     ' Set the type of a grid column
     ' --------------------------------
-    Shared Sub CreateCustomEditorForColumn(ByVal Prop As APSIMData, _
-                                           ByRef Editor As CustomEditor, _
-                                           ByRef DefaultText As String)
-        DefaultText = ""
+    Shared Sub SetCellType(ByVal Grid As SheetView, _
+                            ByVal row As Integer, _
+                            ByVal col As Integer, _
+                            ByVal Prop As APSIMData)
         If Prop.Attribute("type") = "yesno" Then
-            Dim CheckCombo As New ComboBox
-            CheckCombo.Items.Add("yes")
-            CheckCombo.Items.Add("no")
-            Editor = New CustomEditor(CheckCombo, "Text", True)
+            Dim Combo As CellType.ComboBoxCellType = New CellType.ComboBoxCellType
+            Combo.Items = New String() {"yes", "no"}
+            Grid.Cells(row, col).CellType = Combo
         ElseIf Prop.Attribute("type") = "date" Then
-            Dim DateEditor As New DateTimePicker
-            DateEditor.Format = DateTimePickerFormat.Short
-            Editor = New CustomEditor(DateEditor, "Text", True)
+            Dim DateEditor As CellType.DateTimeCellType = New CellType.DateTimeCellType
+            DateEditor.DateDefault = Prop.Value
+            DateEditor.DropDownButton = True
+            Grid.Cells(row, col).CellType = DateEditor
         ElseIf Prop.Attribute("type") = "list" Then
-            Dim CheckCombo As New ComboBox
-            Dim Values() As String = Prop.Attribute("listvalues").Split(",")
-            For Each Value As String In Values
-                Value = Value.Trim
-                CheckCombo.Items.Add(Value)
-            Next
-            Editor = New CustomEditor(CheckCombo, "Text", True)
+            Dim Combo As CellType.ComboBoxCellType = New CellType.ComboBoxCellType
+            Combo.Items = Prop.Attribute("listvalues").Split(",")
+            Grid.Cells(row, col).CellType = Combo
         ElseIf Prop.Attribute("type") = "modulename" Then
-            Dim CheckCombo As New ComboBox
-            Dim Values As StringCollection = GetMatchingModuleNames(Prop)
-            For Each Value As String In Values
-                Value = Value.Trim
-                CheckCombo.Items.Add(Value)
-            Next
-            Editor = New CustomEditor(CheckCombo, "Text", True)
-            If CheckCombo.Items.Count > 0 Then
-                DefaultText = CheckCombo.Items.Item(0)
-            End If
+            Dim Combo As CellType.ComboBoxCellType = New CellType.ComboBoxCellType
+            Combo.Items = GetMatchingModuleNames(Prop)
+            Grid.Cells(row, col).CellType = Combo
         ElseIf Prop.Attribute("type") = "cultivars" Then
-            Dim CultivarCombo As New ComboBox
-            CultivarCombo.Name = Prop.Name
-            Editor = New CustomEditor(CultivarCombo, "Text", True)
-        Else
-            Editor = Nothing
+            Dim Combo As CellType.ComboBoxCellType = New CellType.ComboBoxCellType
+            Combo.Items = GetMatchingModuleNames(Prop)
+            Grid.Cells(row, col).CellType = Combo
         End If
     End Sub
 
@@ -261,7 +174,7 @@ Public Class GenericUI
     ' ------------------------------------------------------------------
     ' Return a list of instance names for the specified module name
     ' ------------------------------------------------------------------
-    Shared Function GetMatchingModuleNames(ByVal Prop As APSIMData) As StringCollection
+    Shared Function GetMatchingModuleNames(ByVal Prop As APSIMData) As String()
         Dim Values As New StringCollection
         Dim System As APSIMData = Prop.Parent
         While System.Type <> "simulation" And System.Type <> "area" And Not IsNothing(System.Parent)
@@ -273,45 +186,16 @@ Public Class GenericUI
                 Values.Add(ApsimModule.Name())
             End If
         Next
-        Return Values
-
+        Dim ReturnValues(Values.Count - 1) As String
+        Values.CopyTo(ReturnValues, 0)
+        Return ReturnValues
     End Function
 
 
-    ' -------------------------------------------------------------------
-    ' The current cell has changed - update description if necessary.
-    ' -------------------------------------------------------------------
-    Private Sub Grid_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Grid.CurrentCellChanged
-        Dim Description As String = Data.Child(Grid.CurrentCell.ParentRow.Cells(0).Value).Attribute("description")
-        If Description <> "" Then
-            HelpLabel.Text = Description
-        Else
-            HelpLabel.Text = ""
-        End If
-    End Sub
-
-
-    ' -----------------------------------------------------------------------------
-    ' A cell has changed values - if user has made the change then update the
-    ' value in MyData
-    ' -----------------------------------------------------------------------------
-    Private Sub CellLeavingEdit(ByVal sender As Object, ByVal e As Xceed.Grid.LeavingEditEventArgs)
+    Private Sub Grid_CellChanged(ByVal sender As Object, ByVal e As FarPoint.Win.Spread.SheetViewEventArgs) Handles Grid.CellChanged
         If Not InRefresh Then
-            Dim Row As Xceed.Grid.DataRow = Grid.CurrentCell.ParentRow
-            Dim RowIndex As Integer = Row.Index
-            Dim Prop As APSIMData = Data.Children()(RowIndex)
-            Prop.Value = e.NewValue
-        End If
-    End Sub
-
-    ' -----------------------------------------------------------------------------
-    ' User is doing a run - make sure grid isn't in edit mode.
-    ' -----------------------------------------------------------------------------
-    Overrides Sub Save()
-        If Not Grid.CurrentCell Is Nothing Then
-            If Grid.CurrentCell.IsBeingEdited Then
-                Grid.CurrentCell.LeaveEdit(True)
-            End If
+            Dim Prop As APSIMData = Controller.Data.Children()(e.Row)
+            Prop.Value = Grid.Cells(e.Row, e.Column).Value
         End If
     End Sub
 End Class

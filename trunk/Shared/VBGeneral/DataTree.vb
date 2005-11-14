@@ -9,22 +9,17 @@ Imports System.Drawing
 ' on an APSIMData instance.
 ' ------------------------------------------
 Public Class DataTree
-    Inherits BaseDataControl
-
-    Delegate Sub DataSelectedEventHandler(ByVal e As APSIMData)
-    Delegate Sub NotifyEventHandler()
-
-    Public Event DataSelectedEvent As DataSelectedEventHandler
-    Public Event BeforeDataSelectedEvent As NotifyEventHandler
-    Public Event DoubleClickEvent As NotifyEventHandler
-    Public Event DataRenamedEvent As NotifyEventHandler
-    Public Event DataDeletedEvent As NotifyEventHandler
-    Public Event DataAddedEvent As NotifyEventHandler
-
+    Inherits BaseView
     Private MaxNumLevels As Integer = 100
     Private ShowAllComponents As Boolean = False
     Private ExpandAllNodes As Boolean = True
     Private IsSorted As Boolean = False
+    Private LastNode As TreeNode
+    Private FirstNode As TreeNode
+    Private UserChange As Boolean = True
+    Delegate Sub NotifyEventHandler()
+    Public Event DoubleClickEvent As NotifyEventHandler
+
 
 
 #Region " Windows Form Designer generated code "
@@ -57,11 +52,25 @@ Public Class DataTree
     Friend WithEvents AddFolderMenuItem As System.Windows.Forms.MenuItem
     Friend WithEvents DeleteItemMenuItem As System.Windows.Forms.MenuItem
     Friend WithEvents ContextMenu1 As System.Windows.Forms.ContextMenu
+    Friend WithEvents MenuItem1 As System.Windows.Forms.MenuItem
+    Friend WithEvents CutMenuItem As System.Windows.Forms.MenuItem
+    Friend WithEvents CopyMenuItem As System.Windows.Forms.MenuItem
+    Friend WithEvents PasteMenuItem As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem2 As System.Windows.Forms.MenuItem
+    Friend WithEvents MoveUpMenuItem As System.Windows.Forms.MenuItem
+    Friend WithEvents MoveDownMenuItem As System.Windows.Forms.MenuItem
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.TreeView = New System.Windows.Forms.TreeView
         Me.ContextMenu1 = New System.Windows.Forms.ContextMenu
         Me.AddFolderMenuItem = New System.Windows.Forms.MenuItem
         Me.DeleteItemMenuItem = New System.Windows.Forms.MenuItem
+        Me.MenuItem1 = New System.Windows.Forms.MenuItem
+        Me.CutMenuItem = New System.Windows.Forms.MenuItem
+        Me.CopyMenuItem = New System.Windows.Forms.MenuItem
+        Me.PasteMenuItem = New System.Windows.Forms.MenuItem
+        Me.MenuItem2 = New System.Windows.Forms.MenuItem
+        Me.MoveUpMenuItem = New System.Windows.Forms.MenuItem
+        Me.MoveDownMenuItem = New System.Windows.Forms.MenuItem
         Me.SuspendLayout()
         '
         'TreeView
@@ -71,18 +80,18 @@ Public Class DataTree
         Me.TreeView.ContextMenu = Me.ContextMenu1
         Me.TreeView.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TreeView.HideSelection = False
-        Me.TreeView.HotTracking = True
         Me.TreeView.ImageIndex = -1
-        Me.TreeView.Location = New System.Drawing.Point(0, 20)
+        Me.TreeView.LabelEdit = True
+        Me.TreeView.Location = New System.Drawing.Point(0, 25)
         Me.TreeView.Name = "TreeView"
         Me.TreeView.PathSeparator = "|"
         Me.TreeView.SelectedImageIndex = -1
-        Me.TreeView.Size = New System.Drawing.Size(336, 468)
+        Me.TreeView.Size = New System.Drawing.Size(336, 463)
         Me.TreeView.TabIndex = 0
         '
         'ContextMenu1
         '
-        Me.ContextMenu1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.AddFolderMenuItem, Me.DeleteItemMenuItem})
+        Me.ContextMenu1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.AddFolderMenuItem, Me.DeleteItemMenuItem, Me.MenuItem1, Me.CutMenuItem, Me.CopyMenuItem, Me.PasteMenuItem, Me.MenuItem2, Me.MoveUpMenuItem, Me.MoveDownMenuItem})
         '
         'AddFolderMenuItem
         '
@@ -92,7 +101,48 @@ Public Class DataTree
         'DeleteItemMenuItem
         '
         Me.DeleteItemMenuItem.Index = 1
-        Me.DeleteItemMenuItem.Text = "Delete Item"
+        Me.DeleteItemMenuItem.Shortcut = System.Windows.Forms.Shortcut.Del
+        Me.DeleteItemMenuItem.Text = "&Delete"
+        '
+        'MenuItem1
+        '
+        Me.MenuItem1.Index = 2
+        Me.MenuItem1.Text = "-"
+        '
+        'CutMenuItem
+        '
+        Me.CutMenuItem.Index = 3
+        Me.CutMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlX
+        Me.CutMenuItem.Text = "Cu&t"
+        '
+        'CopyMenuItem
+        '
+        Me.CopyMenuItem.Index = 4
+        Me.CopyMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlC
+        Me.CopyMenuItem.Text = "&Copy"
+        '
+        'PasteMenuItem
+        '
+        Me.PasteMenuItem.Index = 5
+        Me.PasteMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlV
+        Me.PasteMenuItem.Text = "&Paste"
+        '
+        'MenuItem2
+        '
+        Me.MenuItem2.Index = 6
+        Me.MenuItem2.Text = "-"
+        '
+        'MoveUpMenuItem
+        '
+        Me.MoveUpMenuItem.Index = 7
+        Me.MoveUpMenuItem.ShowShortcut = False
+        Me.MoveUpMenuItem.Text = "Move &up        Ctrl+Up"
+        '
+        'MoveDownMenuItem
+        '
+        Me.MoveDownMenuItem.Index = 8
+        Me.MoveDownMenuItem.ShowShortcut = False
+        Me.MoveDownMenuItem.Text = "Move do&wn    Ctrl+Down"
         '
         'DataTree
         '
@@ -106,6 +156,26 @@ Public Class DataTree
     End Sub
 
 #End Region
+
+
+
+    ' ------------------------------------------------
+    ' Called to setup the global application object
+    ' ------------------------------------------------
+    Overrides Property Controller() As BaseController
+        Get
+            Return MyBase.Controller
+        End Get
+        Set(ByVal Value As BaseController)
+            MyBase.Controller = Value
+            If Not IsNothing(Value) Then
+                AddHandler Controller.AddEvent, AddressOf Refresh
+                AddHandler Controller.DeleteEvent, AddressOf Refresh
+                AddHandler Controller.RenameEvent, AddressOf Refresh
+                AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
+            End If
+        End Set
+    End Property
 
 
     ' ------------------------------------------------------
@@ -155,12 +225,12 @@ Public Class DataTree
     ' ourselves.
     ' ----------------------------------------------
     Overrides Sub Refresh()
-        If Not IsNothing(ApplicationSettings) And Not IsNothing(Data) Then
-            CaptionLabel.Text = Data.Name
+        If Not IsNothing(Controller) AndAlso Not Controller.AllData Is Nothing Then
+            HelpText = ""
             TreeView.Nodes.Clear()
-            AddNode(Data, Nothing)
+            AddNode(Controller.AllData, Nothing)
             Dim RootNode As TreeNode = TreeView.Nodes(0)
-            PopulateTree(Data, RootNode)
+            PopulateTree(Controller.AllData, RootNode)
             TreeView.Sorted = IsSorted
             If ExpandAllNodes Then
                 TreeView.ExpandAll()
@@ -169,43 +239,12 @@ Public Class DataTree
         End If
     End Sub
 
-
-    ' -----------------------------------------------
-    ' Get an APSIM data for the specified full path
-    ' which is delimited by '|' characters.
-    ' -----------------------------------------------
-    Public Function GetDataForFullPath(ByVal FullPath As String) As APSIMData
-        Dim PosDelimiter As Integer = FullPath.IndexOf("|")
-        If PosDelimiter = -1 Then
-            If FullPath = Data.Name Then
-                Return Data
-            Else
-                Throw New System.Exception("Cannot find parent name in GetDataForFullPath. Invalid FullPath: " + FullPath)
-            End If
-        Else
-            Return Data.FindChild(FullPath.Substring(PosDelimiter + 1))
-        End If
-    End Function
-
-
-    ' ---------------------------------------
-    ' Return data of currently selected node
-    ' ---------------------------------------
-    Public Function SelectedNode() As APSIMData
-        If IsNothing(TreeView.SelectedNode) Then
-            Return Nothing
-        Else
-            Return GetDataForFullPath(TreeView.SelectedNode.FullPath)
-        End If
-    End Function
-
-
     ' ----------------------------------------------
     ' Populate the tree using the specified data.
     ' ParentNode can be nothing
     ' ----------------------------------------------
     Private Sub PopulateTree(ByVal Data As APSIMData, ByRef ParentNode As TreeNode)
-        TreeView.ImageList = ApplicationSettings.SmallImageList
+        TreeView.ImageList = Controller.SmallImageList
 
         ' Display a wait cursor while the TreeNodes are being created.
         Cursor.Current = Cursors.WaitCursor
@@ -231,7 +270,7 @@ Public Class DataTree
     Private Sub DisplayNode(ByVal Data As APSIMData, ByRef ParentNode As TreeNode, ByRef NumLevels As Integer)
         Try
             For Each child As APSIMData In Data.Children
-                If NumLevels < MaxNumLevels And (ShowAllComponents Or ApplicationSettings.IsComponentVisible(child.Type)) Then
+                If NumLevels < MaxNumLevels And (ShowAllComponents Or Controller.IsComponentVisible(child.Type)) Then
                     Dim childnode As TreeNode = AddNode(child, ParentNode)
                     DisplayNode(child, childnode, NumLevels + 1)
                 End If
@@ -248,10 +287,10 @@ Public Class DataTree
     ' Add the specified node to the specified parent.
     ' -----------------------------------------------
     Private Function AddNode(ByVal NodeData As APSIMData, ByVal ParentNode As TreeNode) As TreeNode
-        TreeView.ImageList = ApplicationSettings.SmallImageList
+        TreeView.ImageList = Controller.SmallImageList
         Dim type As String = NodeData.Type
         Dim shortcut As String = NodeData.Attribute("shortcut")
-        Dim ImageIndex As Integer = ApplicationSettings.SmallImageIndex(NodeData.Type)
+        Dim ImageIndex As Integer = Controller.SmallImageIndex(NodeData.Type)
         Dim childnode As TreeNode
         If ParentNode Is Nothing Then
             childnode = TreeView.Nodes.Add(NodeData.Name)
@@ -269,19 +308,6 @@ Public Class DataTree
     End Function
 
     ' -------------------------
-    ' Allow drop property
-    ' -------------------------
-    Public Overrides Property AllowDrop() As Boolean
-        Get
-            Return TreeView.AllowDrop
-        End Get
-        Set(ByVal Value As Boolean)
-            TreeView.AllowDrop = Value
-        End Set
-    End Property
-
-
-    ' -------------------------
     ' Sorted property
     ' -------------------------
     Public Property Sorted() As Boolean
@@ -294,48 +320,255 @@ Public Class DataTree
     End Property
 
 
-    ' ---------------------------------
-    ' Select a node in the data tree.
-    ' ---------------------------------
-    Public ReadOnly Property Nodes() As TreeNodeCollection
-        Get
-            Return TreeView.Nodes
-        End Get
-    End Property
-
-
-    ' ---------------------------------
-    ' Select a node in the data tree.
-    ' ---------------------------------
-    Public Sub SelectNode(ByVal Node As TreeNode)
-        TreeView.SelectedNode = Node
-        TreeView_AfterSelect(Nothing, New System.Windows.Forms.TreeViewEventArgs(Node, TreeViewAction.ByKeyboard))
+    ' ---------------------------------------------
+    ' Code from TreeViewMS component.
+    ' We have specified manual painting.
+    ' ---------------------------------------------
+    Protected Overrides Sub OnPaint(ByVal pe As PaintEventArgs)
+        MyBase.OnPaint(pe)
     End Sub
 
 
-    ' -----------------------------------------
-    ' User is just about to select a new node.
-    ' throw an event if necessary.
-    ' -----------------------------------------
-    Private Sub TreeView_BeforeSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewCancelEventArgs) Handles TreeView.BeforeSelect
-        RaiseEvent BeforeDataSelectedEvent()
-        Dim DestinationNodeType As String = GetDataForFullPath(e.Node.FullPath).Type
-        If DestinationNodeType = "folder" Or DestinationNodeType = "soils" Then
-            AddFolderMenuItem.Enabled = True
+    ' ---------------------------------------------
+    ' Code from TreeViewMS component.
+    ' Does multiple selection of nodes.
+    ' ---------------------------------------------
+    Private Sub OnBeforeSelect(ByVal sender As Object, ByVal e As TreeViewCancelEventArgs) Handles TreeView.BeforeSelect
+        If UserChange Then
+            Dim Control As Boolean = (ModifierKeys = Keys.Control)
+            Dim Shift As Boolean = (ModifierKeys = Keys.Shift)
+
+            ' selecting the node twice while pressing CTRL ?
+            Dim SelectedPaths As StringCollection = Controller.SelectedPaths()
+            If Control And SelectedPaths.Contains(e.Node.FullPath) Then
+                ' unselect it (let framework know we don't want selection this time)
+                e.Cancel = True
+
+                ' update nodes
+                RemovePaintFromNodes()
+                SelectedPaths.Remove(e.Node.FullPath)
+                Controller.SelectedPaths = SelectedPaths
+                PaintSelectedNodes()
+                Return
+            End If
+
+            LastNode = e.Node
+            If Not Shift Then
+                FirstNode = e.Node ' store begin of shift sequence
+            End If
+        End If
+    End Sub
+
+
+    ' ---------------------------------------------
+    ' Code from TreeViewMS component.
+    ' Does multiple selection of nodes.
+    ' ---------------------------------------------
+    Private Sub OnAfterSelect(ByVal sender As Object, ByVal e As TreeViewEventArgs) Handles TreeView.AfterSelect
+        If UserChange Then
+            UserChange = False
+            Dim Control As Boolean = (ModifierKeys = Keys.Control)
+            Dim Shift As Boolean = (ModifierKeys = Keys.Shift)
+
+            Dim SelectedPaths As StringCollection = Controller.SelectedPaths()
+            If Control Then
+                If Not SelectedPaths.Contains(e.Node.FullPath) Then ' new node ?
+                    SelectedPaths.Add(e.Node.FullPath)
+                Else  ' not new, remove it from the collection
+                    RemovePaintFromNodes()
+                    SelectedPaths.Remove(e.Node.FullPath)
+                End If
+                PaintSelectedNodes()
+            Else
+                ' SHIFT is pressed
+                If Shift Then
+                    Dim MyQueue As New Queue
+
+                    Dim UpperNode As TreeNode = FirstNode
+                    Dim BottomNode As TreeNode = e.Node
+                    ' case 1 : begin and end nodes are parent
+                    Dim Parent As Boolean = IsParent(FirstNode, e.Node) ' is m_firstNode parent (direct or not) of e.Node
+                    If Not Parent Then
+                        Parent = IsParent(BottomNode, UpperNode)
+                        If Parent Then ' swap nodes
+
+                            Dim t As TreeNode = UpperNode
+                            UpperNode = BottomNode
+                            BottomNode = t
+                        End If
+                    End If
+                    If Parent Then
+                        Dim n As TreeNode = BottomNode
+                        While Not n Is UpperNode.Parent
+                            If Not SelectedPaths.Contains(n.FullPath) Then ' new node ?
+                                MyQueue.Enqueue(n)
+                            End If
+                            n = n.Parent
+                        End While
+                    Else
+                        ' case 2 : nor the begin nor the end node are descendant one another
+
+                        If (UpperNode.Parent Is Nothing And BottomNode.Parent Is Nothing) Or _
+                           (Not IsNothing(UpperNode.Parent) And UpperNode.Parent.Nodes.Contains(BottomNode)) Then   ' are they siblings ?
+                            Dim IndexUpper As Integer = UpperNode.Index
+                            Dim IndexBottom As Integer = BottomNode.Index
+                            If IndexBottom < IndexUpper Then ' reversed?
+
+                                Dim t As TreeNode = UpperNode
+                                UpperNode = BottomNode
+                                BottomNode = t
+                                IndexUpper = UpperNode.Index
+                                IndexBottom = BottomNode.Index
+                            End If
+
+                            Dim n As TreeNode = UpperNode
+                            While IndexUpper <= IndexBottom
+
+                                If Not SelectedPaths.Contains(n.FullPath) Then  ' new node ?
+                                    MyQueue.Enqueue(n)
+                                End If
+
+                                n = n.NextNode
+
+                                IndexUpper = IndexUpper + 1
+                            End While
+                        Else
+
+                            If Not SelectedPaths.Contains(UpperNode.FullPath) Then
+                                MyQueue.Enqueue(UpperNode)
+                            End If
+                            If Not SelectedPaths.Contains(BottomNode.FullPath) Then
+                                MyQueue.Enqueue(BottomNode)
+                            End If
+                        End If
+                    End If
+                    For Each Node As TreeNode In MyQueue
+                        SelectedPaths.Add(Node.FullPath)
+                    Next
+
+                    FirstNode = e.Node ' let us chain several SHIFTs if we like it
+                Else
+                    ' in the case of a simple click, just add this item
+                    If SelectedPaths.Count > 0 Then
+                        RemovePaintFromNodes()
+                        SelectedPaths.Clear()
+                    End If
+                    SelectedPaths.Add(e.Node.FullPath)
+                End If
+            End If
+            Controller.SelectedPaths = SelectedPaths
+            PaintSelectedNodes()
+            UserChange = True
+        End If
+    End Sub
+
+
+    ' --------------------------------------------------
+    ' Returns a tree node given a fullly delimited path.
+    ' --------------------------------------------------
+    Private Function GetNodeFromPath(ByVal ChildPath As String) As TreeNode
+        Dim name As String
+        Dim Path As String = ChildPath
+        Dim CurrentNode As TreeNode = Nothing
+        Do Until Path = ""
+            Dim PosDelimiter As Integer = Path.IndexOf("|")
+            If PosDelimiter <> -1 Then
+                name = Path.Substring(0, PosDelimiter)
+                Path = Path.Substring(PosDelimiter + 1)
+            Else
+                name = Path
+                Path = ""
+            End If
+
+            Dim ChildNode As TreeNode = Nothing
+            If CurrentNode Is Nothing Then
+                ChildNode = TreeView.Nodes(0)
+            Else
+                For Each ChildNode In CurrentNode.Nodes
+                    If ChildNode.Text = name Then
+                        Exit For
+                    End If
+                Next
+            End If
+            CurrentNode = ChildNode
+            If Not IsNothing(CurrentNode) Then
+                If CurrentNode.Text <> name Then
+                    CurrentNode = Nothing
+                End If
+            End If
+            If IsNothing(CurrentNode) Then
+                Exit Do
+            End If
+        Loop
+
+        If IsNothing(CurrentNode) Then
+            Throw New System.Exception("Cannot find tree node for path: " + ChildPath)
         Else
-            AddFolderMenuItem.Enabled = False
+            Return CurrentNode
         End If
+    End Function
 
+
+    ' ---------------------------------------------
+    ' Code from TreeViewMS component.
+    ' Paint all selected nodes in highlight colour.
+    ' ---------------------------------------------
+    Private Sub PaintSelectedNodes()
+        Dim SelectedPaths As StringCollection = Controller.SelectedPaths()
+        For Each NodePath As String In SelectedPaths
+            Dim n As TreeNode = GetNodeFromPath(NodePath)
+            n.BackColor = SystemColors.Highlight
+            n.ForeColor = SystemColors.HighlightText
+        Next
     End Sub
 
 
-    ' -----------------------------------------
-    ' User has just finished selecting a node
-    ' -----------------------------------------
-    Private Sub TreeView_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView.AfterSelect
-        If e.Action <> TreeViewAction.Unknown Then
-            RaiseEvent DataSelectedEvent(GetDataForFullPath(e.Node.FullPath))
+    ' ---------------------------------------------
+    ' Code from TreeViewMS component.
+    ' Returns true if the specified parent node is
+    ' a parent for the specified child node.
+    ' ---------------------------------------------
+    Private Function IsParent(ByVal ParentNode As TreeNode, ByVal ChildNode As TreeNode) As Boolean
+        If ParentNode Is ChildNode Then
+            Return True
         End If
+
+        Dim n As TreeNode = ChildNode
+        Dim Found As Boolean = False
+        While Not Found And Not n Is Nothing
+            n = n.Parent
+            Found = (n Is ParentNode)
+        End While
+        Return Found
+    End Function
+
+
+    ' ---------------------------------------------
+    ' Code from TreeViewMS component.
+    ' Removes the highlighting from all selected nodes.
+    ' ---------------------------------------------
+    Private Sub RemovePaintFromNodes()
+        Dim SelectedPaths As StringCollection = Controller.SelectedPaths()
+
+        If SelectedPaths.Count = 0 Then
+            Return
+        End If
+
+        Dim n0 As TreeNode = GetNodeFromPath(SelectedPaths(0))
+        Dim back As Color = n0.TreeView.BackColor
+        Dim fore As Color = n0.TreeView.ForeColor
+        For Each NodePath As String In SelectedPaths
+            Dim n As TreeNode = GetNodeFromPath(NodePath)
+            n.BackColor = back
+            n.ForeColor = fore
+        Next
+    End Sub
+
+    ' ---------------------------------------
+    ' Do we allow the rename of the node?
+    ' ---------------------------------------
+    Private Sub TreeView_BeforeLabelEdit(ByVal sender As Object, ByVal e As System.Windows.Forms.NodeLabelEditEventArgs) Handles TreeView.BeforeLabelEdit
+        e.CancelEdit = Not Controller.AllowRenameSelected()
     End Sub
 
 
@@ -343,30 +576,13 @@ Public Class DataTree
     ' User has just finished editing the label of a node.
     ' ---------------------------------------------------
     Private Sub TreeView_AfterLabelEdit(ByVal sender As Object, ByVal e As System.Windows.Forms.NodeLabelEditEventArgs) Handles TreeView.AfterLabelEdit
-        Dim oldname As String = TreeView.SelectedNode.Text
-        Dim newname As String = e.Label
-
-        Dim path As String = TreeView.SelectedNode.FullPath
-        If InStr(path, "/") > 0 Then
-            path = Mid$(path, InStr(path, "/"))
+        If Not IsNothing(e.Label) Then
+            UserChange = False
+            Controller.RenameSelected(e.Label)
+            UserChange = True
         End If
-
-        If newname Is Nothing Or Len(newname) = 0 Or e.CancelEdit Or LCase(e.Node.Text) = "shared" Then
-            e.CancelEdit = True
-        Else
-            GetDataForFullPath(path).SetAttribute("name", newname)
-            RaiseEvent DataRenamedEvent()
-        End If
-
     End Sub
-    Property LabelEdit() As Boolean
-        Get
-            Return TreeView.LabelEdit
-        End Get
-        Set(ByVal Value As Boolean)
-            TreeView.LabelEdit = Value
-        End Set
-    End Property
+
 
 
     ' -----------------------------------------------------------------
@@ -374,47 +590,66 @@ Public Class DataTree
     ' is stored as the data associated with the drag event args.
     ' -----------------------------------------------------------------
     Private Sub TreeView_ItemDrag(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemDragEventArgs) Handles TreeView.ItemDrag
-        Dim Data As APSIMData = GetDataForFullPath(e.Item.fullpath)
-        Dim DataString As String
-        Dim PosShared As Integer = e.Item.fullpath.IndexOf("|shared|")
-        If PosShared <> -1 Then
-            DataString = "<" + Data.Type + " name=""" + Data.Name + """ shortcut=""" + Data.Name + """/>"
-        Else
-            DataString = Data.XML
+        If Controller.SelectedPaths.IndexOf(e.Item.FullPath) = -1 Then
+            TreeView.SelectedNode = e.Item
         End If
-        TreeView.DoDragDrop(DataString, DragDropEffects.Copy)
+
+        If Controller.SelectedData.Count > 0 Then
+
+            Dim FullXML As String
+            For Each Data As APSIMData In Controller.SelectedData
+                FullXML = FullXML + Data.XML
+            Next
+            Dim AllowedEffects As DragDropEffects
+            If Controller.AllowChanges() Then
+                AllowedEffects = DragDropEffects.Copy Or DragDropEffects.Move
+            Else
+                AllowedEffects = DragDropEffects.Copy
+            End If
+            Dim ItemsToPotentiallyDelete As StringCollection = Controller.SelectedPaths
+            If TreeView.DoDragDrop(FullXML, AllowedEffects) = DragDropEffects.Move Then
+                Controller.Delete(ItemsToPotentiallyDelete)
+            End If
+        End If
     End Sub
 
 
-    ' -------------------------
-    ' User is dragging a node
-    ' -------------------------
-    Private Sub TreeView_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles TreeView.DragEnter
-        If AllowDrop = True Then
-            e.Effect = DragDropEffects.Copy
-        Else
-            e.Effect = DragDropEffects.None
-        End If
-    End Sub
+    '-------------------------
+    'User is dragging a node
+    '-------------------------
+    'Private Sub TreeView_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles TreeView.DragEnter
+    '    Dim Control As Boolean = (ModifierKeys = Keys.Control)
+    '    Dim Shift As Boolean = (ModifierKeys = Keys.Shift)
+    '    'If Control Then
+    '    'e.Effect = DragDropEffects.Copy
+    '    'Else
+    '    e.Effect = DragDropEffects.Move
+    '    'End If
+    'End Sub
 
 
     ' --------------------------------------------------
     ' User has dragged a node over us - allow drop?
     ' --------------------------------------------------
     Private Sub TreeView_DragOver(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles TreeView.DragOver
-        e.Effect = DragDropEffects.None
-        If AllowDrop = True Or e.Data.GetDataPresent(GetType(System.String)) Then
+        'e.Effect = DragDropEffects.None
+        If e.Data.GetDataPresent(GetType(System.String)) Then
             Dim pt As Point = TreeView.PointToClient(New Point(e.X, e.Y))
             Dim DestinationNode As TreeNode = TreeView.GetNodeAt(pt)
             If DestinationNode Is Nothing Then
                 ' do nothing
             Else
-                Dim DestinationNodeType As String = GetDataForFullPath(DestinationNode.FullPath).Type
-
-                Dim SourceDataString As String = e.Data.GetData(DataFormats.Text)
-                Dim SourceData As New APSIMData(SourceDataString)
-                If ApplicationSettings.AllowComponentAdd(SourceData.Type, DestinationNodeType) Then
-                    e.Effect = DragDropEffects.Copy
+                Dim FullXML As String = e.Data.GetData(DataFormats.Text)
+                If Controller.AllowAddXMLToData(FullXML, DestinationNode.FullPath) Then
+                    Dim Control As Boolean = (ModifierKeys = Keys.Control)
+                    Dim Shift As Boolean = (ModifierKeys = Keys.Shift)
+                    If Shift Then
+                        e.Effect = DragDropEffects.Move
+                    Else
+                        e.Effect = DragDropEffects.Copy
+                    End If
+                Else
+                    e.Effect = DragDropEffects.None
                 End If
             End If
         End If
@@ -427,72 +662,141 @@ Public Class DataTree
     ' --------------------------------------------------
     Private Sub TreeView_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles TreeView.DragDrop
         Try
-            Dim pt As Point
-            Dim DestinationNode As TreeNode
-            pt = CType(sender, TreeView).PointToClient(New Point(e.X, e.Y))
-            DestinationNode = CType(sender, TreeView).GetNodeAt(pt)
-            Dim NewDataString As String = e.Data.GetData(DataFormats.Text)
-            Dim NewData As New APSIMData(NewDataString)
-            Dim fullpath As String = DestinationNode.FullPath
-            GetDataForFullPath(fullpath).Add(NewData)
-            NewData = GetDataForFullPath(fullpath + "|" + NewData.Name)
-            'fill()
-            'DestinationNode.Nodes.Clear()
-            Dim NewNode As TreeNode = AddNode(NewData, DestinationNode)
-            PopulateTree(NewData, NewNode)
-            DestinationNode.Expand()
-            RaiseEvent DataAddedEvent()
-
+            Dim pt As Point = CType(sender, TreeView).PointToClient(New Point(e.X, e.Y))
+            Dim DestinationNode As TreeNode = CType(sender, TreeView).GetNodeAt(pt)
+            Dim FullXML As String = e.Data.GetData(DataFormats.Text)
+            TreeView.SelectedNode = DestinationNode
+            Controller.AddXMLToSelected(FullXML)
         Catch ex As System.Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
+            MessageBox.Show(ex.Message, "Cannot drop the nodes", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-
     End Sub
 
+
+    ' --------------------------------------------------
+    ' User has pressed a key.
+    ' --------------------------------------------------
     Private Sub TreeView_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TreeView.KeyDown
         If e.KeyCode = Keys.Delete Then
-            Dim ParentNode As APSIMData = GetDataForFullPath(TreeView.SelectedNode.FullPath).Parent
-            ParentNode.Delete(TreeView.SelectedNode.Text)
-            TreeView.SelectedNode.Remove()
-            TreeView_AfterSelect(Nothing, New TreeViewEventArgs(TreeView.SelectedNode, TreeViewAction.ByKeyboard))
-            RaiseEvent DataDeletedEvent()
+            Controller.Delete(Controller.SelectedPaths)
+        ElseIf e.Control And e.KeyCode = Keys.X Then
+            Controller.Cut()
+        ElseIf e.Control And e.KeyCode = Keys.C Then
+            Controller.Copy()
+        ElseIf e.Control And e.KeyCode = Keys.V Then
+            Controller.Paste()
+        ElseIf e.Control And e.KeyCode = Keys.Up Then
+            Controller.MoveSelectedUp()
+        ElseIf e.Control And e.KeyCode = Keys.Down Then
+            Controller.MoveSelectedDown()
         End If
     End Sub
 
-    Private Sub AddFolderMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddFolderMenuItem.Click
-        Dim SelectedNodeData As APSIMData = GetDataForFullPath(TreeView.SelectedNode.FullPath)
-        'SelectedNodeData.Add(NewData)
 
-        Dim NewData As APSIMData = New APSIMData("Folder", "New folder")
-        Dim fullpath As String = TreeView.SelectedNode.FullPath
-        GetDataForFullPath(fullpath).Add(NewData)
-        Dim NewNode As TreeNode = AddNode(NewData, TreeView.SelectedNode)
-        PopulateTree(NewData, NewNode)
-        TreeView.SelectedNode.Expand()
-
-
-    End Sub
-
-    Private Sub DeleteItemMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteItemMenuItem.Click
-        Dim ParentNode As APSIMData = GetDataForFullPath(TreeView.SelectedNode.FullPath).Parent
-        ParentNode.Delete(TreeView.SelectedNode.Text)
-        TreeView.SelectedNode.Remove()
-    End Sub
-
+    ' ----------------------------------------
+    ' Trap the right mouse button and perform
+    ' a node select.
+    ' ----------------------------------------
     Private Sub TreeView_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeView.MouseDown
         Dim pt As Point
         Dim DestinationNode As TreeNode
         pt = New Point(e.X, e.Y)
         DestinationNode = CType(sender, TreeView).GetNodeAt(pt)
-        If Not IsNothing(DestinationNode) Then
-            If e.Button = MouseButtons.Right Then
+        If e.Button = MouseButtons.Right And Not IsNothing(DestinationNode) Then
+            If Controller.SelectedPaths.IndexOf(DestinationNode.FullPath) = -1 Then
                 TreeView.SelectedNode = DestinationNode
             End If
         End If
     End Sub
 
+
+    ' ----------------------------------------
+    ' Selection has changed - update tree.
+    ' ----------------------------------------
+    Private Sub OnSelectionChanged()
+        If UserChange Then
+            UserChange = False
+            RemovePaintFromNodes()
+
+            Dim Selections As StringCollection = Controller.SelectedPaths()
+            If Selections.Count > 0 Then
+                TreeView.SelectedNode = GetNodeFromPath(Selections(0))
+                PaintSelectedNodes()
+            End If
+            UserChange = True
+        End If
+
+    End Sub
+
+
+    ' --------------------------------------
+    ' Context menu is about to popup 
+    ' Set functionality for it.
+    ' --------------------------------------
+    Private Sub ContextMenu1_Popup(ByVal sender As Object, ByVal e As System.EventArgs) Handles ContextMenu1.Popup
+        AddFolderMenuItem.Enabled = Controller.AllowAddFolderToSelected
+        DeleteItemMenuItem.Enabled = Controller.AllowDeleteSelected
+        CutMenuItem.Enabled = Controller.AllowCut
+        CopyMenuItem.Enabled = Controller.AllowCopy
+        PasteMenuItem.Enabled = Controller.AllowPaste
+        MoveUpMenuItem.Enabled = Controller.AllowMoveSelectedUp And Not TreeView.Sorted
+        MoveDownMenuItem.Enabled = Controller.AllowMoveSelectedDown And Not TreeView.Sorted
+    End Sub
+
+    ' ---------------------------
+    ' User wants to add a folder.
+    ' ---------------------------
+    Private Sub AddFolderMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddFolderMenuItem.Click
+        UserChange = False
+        Controller.AddXMLToSelected("<folder name=""New folder""/>")
+        Dim NewNode As TreeNode = TreeView.SelectedNode.Nodes.Add("New folder")
+        NewNode.BeginEdit()
+        UserChange = True
+    End Sub
+
+
+    ' -------------------------------------------
+    ' User wants to delete the current selection
+    ' -------------------------------------------
+    Private Sub DeleteItemMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteItemMenuItem.Click
+        Controller.Delete(Controller.SelectedPaths)
+    End Sub
+
+
+    ' -------------------------------------------
+    ' User wants to cut the current selection.
+    ' -------------------------------------------
+    Private Sub CutMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles CutMenuItem.Click
+        Controller.Cut()
+    End Sub
+
+
+    ' -------------------------------------------
+    ' User wants to copy the current selection.
+    ' -------------------------------------------
+    Private Sub CopyMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles CopyMenuItem.Click
+        Controller.Copy()
+    End Sub
+
+
+    ' -------------------------------------------
+    ' User wants to paste the current selection.
+    ' -------------------------------------------
+    Private Sub PasteMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles PasteMenuItem.Click
+        Controller.Paste()
+    End Sub
+
+
+    Private Sub MoveUpMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MoveUpMenuItem.Click
+        Controller.MoveSelectedUp()
+    End Sub
+
+    Private Sub MoveDownMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MoveDownMenuItem.Click
+        Controller.MoveSelectedDown()
+    End Sub
+
+
     Private Sub TreeView_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles TreeView.DoubleClick
         RaiseEvent DoubleClickEvent()
     End Sub
-
 End Class
