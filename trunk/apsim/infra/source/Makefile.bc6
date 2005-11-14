@@ -40,7 +40,7 @@ $(APSROOT)\shared\componentinterface\datatypes.cpp \
 dataTypes.f90 \
 dataTypesInterface.f90: $(APSROOT)\apsim\infra\datatypes.interface $(APSROOT)\APSBuild\datatypes.macro $(APSROOT)\Bin\CreateDataTypesSource.exe
 	cd $(APSROOT)\Bin
-	$(APSROOT)\Bin\CreateDataTypesSource.exe
+	$(APSROOT)\Bin\CreateDataTypesSource.exe $(APSROOT)\apsim\infra\datatypes.interface $(APSROOT)\APSBuild\datatypes.macro
    cd $(APSROOT)\apsim\infra\source
 
 # NB. Assumption here that we are always working within the development tree. NB.
