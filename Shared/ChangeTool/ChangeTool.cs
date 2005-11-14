@@ -25,8 +25,12 @@ namespace ChangeTool
 				DataVersion = Convert.ToInt32(Data.Attribute("version"));
 
 			// Upgrade from version 1 to 2.
-			if (DataVersion == 1)
+			if (DataVersion < 2)
 				Upgrade(Data, new UpgraderDelegate(UpdateToVersion2));            
+
+			// Upgrade from version 2 to 3.
+			if (DataVersion < 3)
+				Upgrade(Data, new UpgraderDelegate(UpdateToVersion3));
 
 			// All finished upgrading - write version number out.
 			Data.SetAttribute("version", CurrentVersion.ToString());
@@ -82,6 +86,19 @@ namespace ChangeTool
 					}
 				}
 			}	
+
+		// -----------------------------
+		// Upgrade the data to version 3.
+		// -----------------------------
+		private static void UpdateToVersion3(APSIMData Data)
+			{
+			if (Data.Type.ToLower() == "soil")
+				{
+				Soil MySoil = new Soil(Data);
+				MySoil.UpgradeToVersion3();
+				}
+			}	
+
 
 		// ------------------------------------------
 		// Remove all 'data outside paddock' from all 

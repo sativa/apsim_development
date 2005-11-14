@@ -3,24 +3,15 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include <string>
-#include <map>
-
-#include <general\TreeNodeIterator.h>
-#include <general\xml.h>
-#include <general\iniFile.h>
-#include <general\stringTokenizer.h>
-#include <general\Path.h>
-#include <general\stl_functions.h>
-
-#include "ApsimControlFile.h"
-#include "ApsimComponentData.h"
-#include "ApsimSystemData.h"
-#include "ApsimServiceData.h"
-#include "ApsimSimulationFile.h"
-#include "ApsimDirectories.h"
-#include "ApsimSettings.h"
 #include "SimCreator.h"
+#include <fstream>
+#include <sstream>
+#include <general\path.h>
+#include <general\stringtokenizer.h>
+#include <general\stl_functions.h>
+#include "ApsimSettings.h"
+#include <dir.h>
+#pragma package(smart_init)
 
 
 // ------------------------------------------------------------------
@@ -37,11 +28,8 @@ class ComponentOrder
       // ------------------------------------------------------------------
       ComponentOrder(void)
          {
-         string componentOrderFileName = getApsimDirectory() + "\\apsim\\component.ordering";
-         if (!FileExists(componentOrderFileName.c_str()))
-            throw runtime_error("Cannot find file: " + componentOrderFileName);
-         IniFile componentOrdering(componentOrderFileName);
-         componentOrdering.read("component_order", "component", components);
+         ApsimSettings settings;
+         settings.read("Component order|component", components);
          }
       // ------------------------------------------------------------------
       // Compare method used by sort.  Returns true if arg1 < arg2.
@@ -64,317 +52,300 @@ class ComponentOrder
    private:
       vector<string> components;
    };
-//---------------------------------------------------------------------------
-// Calculate and return a group name to write to based on the section name.
-//---------------------------------------------------------------------------
-void getPropertyTypeAndGroupName(const string& section,
-                                 string& propertyType,
-                                 string& groupName)
+
+
+// -------------------------------------------
+// Convert specified control file to a series
+// of sim files.
+// -------------------------------------------
+void SimCreator::ConToSim(const std::string& controlFileName,
+                           const std::string& outputDirectory)
    {
-   StringTokenizer tokenizer(section, ".");
-   groupName = tokenizer.nextToken();
-   tokenizer.nextToken();
-   propertyType = tokenizer.nextToken();
-   stripLeadingTrailing(propertyType, " ");
-   stripLeadingTrailing(groupName, " ");
+   vector<string> emptySectionList;
+   ConToSimInternal(controlFileName, emptySectionList, outputDirectory);
    }
-//---------------------------------------------------------------------------
-// This class imports a specific parameter section into a specific component.
-//---------------------------------------------------------------------------
-class ImportSection
+
+// -------------------------------------------
+// Convert specified control file to a series
+// of sim files.
+// -------------------------------------------
+void SimCreator::ConToSim(const std::string& controlFileName,
+                          vector<string>& sectionNames,
+                           const std::string& outputDirectory)
    {
-   public:
-      ImportSection(ApsimComponentData& c, const string& modName)
-         : component(c), moduleName(modName)
-         {
-         ApsimSettings settings;
-         settings.read("Apsim Manager Modules|module", managerModules);
-         }
-
-      void callback(IniFile* par, const string& section)
-         {
-         if (find_if(managerModules.begin(), managerModules.end(),
-                     PartialStringComparison(moduleName)) != managerModules.end())
-            importWholeSection(par, section);
-
-         else
-            importSection(par, section);
-         }
-
-   private:
-      ApsimComponentData& component;
-      const string& moduleName;
-      vector<string> managerModules;
-
-      //---------------------------------------------------------------------------
-      // Import the whole section as a rule
-      //---------------------------------------------------------------------------
-      void importWholeSection(IniFile* par, const string& section) const
-         {
-         string contents;
-         par->readSection(section, contents);
-         replaceAll(contents, "\t", "   ");
-         string propertyType, groupName;
-         getPropertyTypeAndGroupName(section, propertyType, groupName);
-         component.addRule(groupName + "." + propertyType, propertyType, contents);
-         }
-      //---------------------------------------------------------------------------
-      // Import the specified lines in to the specified operations component.
-      //---------------------------------------------------------------------------
-      void importSection(IniFile* par, const string& section) const
-         {
-         string propertyType, groupName;
-         getPropertyTypeAndGroupName(section, propertyType, groupName);
-
-         // problem with XML elements starting with numbers.
-         char *endptr;
-         strtod(propertyType.c_str(), &endptr);
-         if (endptr != propertyType.c_str())
-            propertyType = "_" + propertyType;
-
-         // Read & parse buffer into lines
-         string buffer;
-         par->readSection(section, buffer);
-         replaceAll(buffer, "\t", " ");
-
-         vector<string> lines;
-         Split_string(buffer, "\n", lines);
-
-         // Add each key/variable value
-         for (unsigned k = 0; k != lines.size(); k++)
-            {
-            string key, value, units, line;
-            line = lines[k];
-            stripComments(line);
-            //getKeyNameValueUnits(line, key, value, units);
-            getKeyNameAndValue(line, key, value);
-            To_lower(key);
-            if (key != "")
-               {
-               if (Str_i_Eq(key, "variable"))
-                  component.addVariable(value);
-               else
-                  component.setProperty(propertyType, groupName, key, value);
-               }
-            }
-         };
-   // ------------------------------------------------------------------
-   // Strip all comments from a line.
-   // ------------------------------------------------------------------
-   void stripComments(std::string& line) const
-      {
-      unsigned posComment = line.find_first_of("!");
-      if (posComment != string::npos)
-         line.erase(posComment);
-      }
-   }; // End class ImportSection
-//---------------------------------------------------------------------------
-// constructor
-//---------------------------------------------------------------------------
-SimCreator::SimCreator(const std::string& controlFileName)
-   {
-   con = new ApsimControlFile(controlFileName);
+   ConToSimInternal(controlFileName, sectionNames, outputDirectory);
    }
-//---------------------------------------------------------------------------
-// destructor
-//---------------------------------------------------------------------------
-SimCreator::~SimCreator(void)
-   {
-   delete con;
-   }
-//---------------------------------------------------------------------------
-// Create SIM files for the given control.  All sims are stored in the
-// specified sim directory.  If sim directory is null then the control file
-// directory is used. The simCreator event is called every time
-// a new sim file is created.
-//---------------------------------------------------------------------------
-void SimCreator::createSims(const std::string& simDirectory,
-                            TSimCreatorEvent simCreatorEvent)
+
+// -------------------------------------------
+// Convert specified control file to a series
+// of sim files.
+// -------------------------------------------
+void SimCreator::ConToSim(const std::string& controlFileName,
+                          const std::string& sectionName,
+                           const std::string& outputDirectory)
    {
    vector<string> sectionNames;
-   con->getAllSectionNames(sectionNames);
-   createSims(sectionNames, simDirectory, simCreatorEvent);
+   sectionNames.push_back(sectionName);
+   ConToSimInternal(controlFileName, sectionNames, outputDirectory);
    }
-//---------------------------------------------------------------------------
-// Create a single SIM file for the specified control
-// file section name.  The sim will be stored in the
-// specified sim directory.  If sim directory is null then the control file
-// directory is used
-//---------------------------------------------------------------------------
-void SimCreator::createSim(const std::string& sectionName,
-                           const std::string& simDirectory)
+
+// -------------------------------------------
+// Convert specified control file to a series
+// of sim files.
+// -------------------------------------------
+void SimCreator::ConToSimInternal(const std::string& controlFileName,
+                                  const std::vector<std::string>& conSections,
+                                  const std::string& outputDirectory)
    {
-   createSim(sectionName, 0, simDirectory, (TSimCreatorEvent)NULL);
-   }
-//---------------------------------------------------------------------------
-// Create SIM files for the given control for the specified control
-// file section names.  All sims are stored in the
-// specified sim directory.  If sim directory is null then the control file
-// directory is used. The simCreator event is called every time
-// a new sim file is created.
-//---------------------------------------------------------------------------
-void SimCreator::createSims(const std::vector<std::string>& sectionNames,
-                            const std::string& simDirectory,
-                            TSimCreatorEvent simCreatorEvent)
-   {
-   if (sectionNames.size() == 1)
-      createSim(sectionNames[0], 0, simDirectory, simCreatorEvent);
-   else
+   ApsimControlFile con(controlFileName);
+   vector<string> sectionNames = conSections;
+   if (sectionNames.size() == 0)
+      con.getAllSectionNames(sectionNames);
+   for (unsigned s = 0; s != sectionNames.size(); s++)
       {
-      for (unsigned s = 0; s != sectionNames.size(); s++)
-         createSim(sectionNames[s], s+1, simDirectory, simCreatorEvent);
-      }
-   }
-// ------------------------------------------------------------------
-// Create a SIM file for the specified section.
-// ------------------------------------------------------------------
-void SimCreator::createSim(const string& sectionName,
-                           int simNumber,
-                           const std::string& simDirectory,
-                           TSimCreatorEvent simCreatorEvent)
-   {
-   Path conPath(con->getFileName());
-   conPath.Change_directory();
-
-   // create the name of the simulation file.
-   string simulationFileName;
-   if (simDirectory == "")
-      simulationFileName = conPath.Get_directory();
-   else
-      simulationFileName = simDirectory;
-   simulationFileName += "\\" + conPath.Get_name_without_ext();
-   if (simNumber > 0)
-      simulationFileName += IntToStr(simNumber).c_str();
-   simulationFileName += ".sim";
-   simulationFileName = ExpandFileName(simulationFileName.c_str()).c_str();
-   DeleteFile(simulationFileName.c_str());
-
-   if (con->isValid(sectionName))
-      {
-      ApsimSimulationFile simulation;
-      simulation.setFileName(simulationFileName);
-
-      simulation.setExecutableFileName(getApsimDirectory() + "\\apsim\\protocolmanager\\lib\\protocolmanager.dll");
-      simulation.setTitle(con->getTitle(sectionName));
-
-      // get the names of all input modules.
-      ApsimSettings settings;
-      vector<string> inputModules;
-      settings.read("Apsim Input Modules|module", inputModules);
-
-
-      ApsimControlFile::ModuleInstances moduleInstances;
-      con->getAllModuleInstances(sectionName, moduleInstances);
-      stable_sort(moduleInstances.begin(), moduleInstances.end(), ComponentOrder());
-      for (ApsimControlFile::ModuleInstances::iterator m = moduleInstances.begin();
-                                                       m != moduleInstances.end();
-                                                       m++)
+      int simNumber = 0;
+      if (sectionNames.size() > 1)
+         simNumber = s + 1;
+      chdir(Path(controlFileName.c_str()).Get_directory().c_str());
+      string simNumberString;
+      if (simNumber > 0)
          {
-         string moduleName = m->moduleName;
-         string instanceName = m->instanceName;
-         string dllFileName = m->dllFileName;
-
-         ApsimComponentData* component;
-
-         // See if we've already parsed the .ini file this component.
-         string iniFileName = con->getIniFileForInstance(sectionName, instanceName);
-         if (iniFileName != "")
-            {
-            string componentXML;
-
-            Components::iterator c = components.find(iniFileName + ":" + instanceName);
-            if (c == components.end())
-               {
-               ApsimComponentData iniComponent;
-               ImportSection importSection(iniComponent, moduleName);
-               con->enumerateParametersForInstance(sectionName, instanceName, true, importSection.callback);
-               componentXML = iniComponent.getXML();
-               components.insert(make_pair(iniFileName + ":" + instanceName,
-                                           componentXML));
-               }
-            else
-               componentXML = c->second;
-            component = new ApsimComponentData(componentXML);
-            component->setName(instanceName);
-            *component = simulation.addComponent(*component);
-            }
-         else
-            component = new ApsimComponentData(simulation.addComponent(instanceName));
-
-         component->setExecutableFileName(dllFileName);
-
-         if (find_if(inputModules.begin(), inputModules.end(),
-                     PartialStringComparison(moduleName)) != inputModules.end())
-            {
-            string fileName = con->getFileForInstance(sectionName, instanceName);
-            component->setProperty("parameters", "file", "filename", fileName);
-            }
-
-         else
-            {
-            ImportSection importSection(*component, moduleName);
-            con->enumerateParametersForInstance(sectionName, instanceName, false, importSection.callback);
-            }
-         delete component;
+         char buffer[10];
+         itoa(simNumber, buffer, 10);
+         simNumberString = buffer;
          }
-      simulation.write();
-      if (simCreatorEvent != NULL)
-         simCreatorEvent(simulationFileName);
-      }
-   }
-//---------------------------------------------------------------------------
-// Treat the file passed in as an .ini file and convert it
-// to a sim file format. Return the converted contents as a string.
-//---------------------------------------------------------------------------
-std::string SimCreator::convertIniToSim(const std::string& filename)
-   {
-   if (filename != "" && FileExists(filename.c_str()))
-      {
-      string moduleName = Path(filename).Get_name_without_ext();
-      ApsimComponentData iniComponent;
-      ImportSection importSection(iniComponent, moduleName);
-
-      IniFile* par = new IniFile(filename, true);
-      vector<string> paramFileSections;
-
-      string sectionToMatch = "standard." + moduleName + ".";
-      par->readSectionNames(paramFileSections);
-
-      for (unsigned s = 0; s != paramFileSections.size(); s++)
-         {
-         if (Str_i_Eq(paramFileSections[s].substr(0, sectionToMatch.length()), sectionToMatch))
-            importSection.callback(par, paramFileSections[s]);
-         }
-
-
-      string contents = iniComponent.getXML();
-
-      // Only return the bit between the <initdata> and </initdata> tags.
-      const char* START_TAG = "<initdata>";
-      const char* END_TAG = "</initdata>";
-
-      unsigned startPos = contents.find(START_TAG);
-      unsigned endPos = contents.find(END_TAG);
-      if (startPos != string::npos && endPos != string::npos)
-         {
-         startPos += strlen(START_TAG);
-         contents = contents.substr(startPos, endPos-startPos);
-         }
+      string simFileName;
+      if (outputDirectory == "")
+         simFileName = Path(controlFileName).Get_name_without_ext() + simNumberString + ".sim";
       else
-         throw runtime_error("Cannot find <initdata> tags in .ini file: " + filename);
-      delete par;
-      return contents;
+         simFileName = outputDirectory + "\\" + Path(controlFileName).Get_name_without_ext() + simNumberString + ".sim";
+      ofstream out(simFileName.c_str());
+
+      out << "<?xml version=\"1.0\"?>\n";
+      out << "<simulation executable=\"%apsuite\\apsim\\protocolmanager\\lib\\protocolmanager.dll\">\n";
+      out << "   <title>" << con.getTitle(sectionNames[s]) << "</title>\n";
+
+      vector<ApsimControlFile::ModuleInstance> moduleInstances;
+      con.getAllModuleInstances(sectionNames[s], moduleInstances);
+      stable_sort(moduleInstances.begin(), moduleInstances.end(), ComponentOrder());
+
+      for (unsigned m = 0; m != moduleInstances.size(); m++)
+         ConvertConModule(moduleInstances[m], out);
+
+      out << "</simulation>\n";
       }
-   return "";
    }
-//---------------------------------------------------------------------------
-// Treat the file passed in as an .ini file and convert it
-// to a sim file format. Return the converted contents as a string.
-//---------------------------------------------------------------------------
-extern "C" void _export __stdcall convertIniToSim(const char* fileName, char* contents)
+
+// -------------------------------------------
+// Create a bit of .sim file (.xml format) for
+// the specified module instance and output it
+// to the specified output stream.
+// -------------------------------------------
+void SimCreator::ConvertConModule(ApsimControlFile::ModuleInstance& moduleInstance,
+                                   ostream& out)
    {
-   SimCreator simCreator;
-   string xml = simCreator.convertIniToSim(fileName);
-   strcpy(contents, xml.c_str());
+   out << "   <component name=\"" << moduleInstance.instanceName << "\"";
+   out << " executable = \"" << moduleInstance.dllFileName << "\">\n";
+   out << "      <initdata>\n";
+
+   if (Str_i_Eq(moduleInstance.moduleName, "input") ||
+       Str_i_Eq(moduleInstance.moduleName, "patchinput") ||
+       Str_i_Eq(moduleInstance.moduleName, "soi"))
+      {
+      if (moduleInstance.ParFiles.size() != 1)
+         throw runtime_error("An input file must have a single filename. Instance name: " + moduleInstance.instanceName);
+      if (newFormat)
+         out << "         <filename>" << moduleInstance.ParFiles[0].first << "</filename>\n";
+      else
+         {
+         out << "         <parameters>\n";
+         out << "            <property name=\"filename\">" << moduleInstance.ParFiles[0].first << "</property>\n";
+         out << "         </parameters>\n";
+         }
+      }
+   else
+      {
+      std::vector<SimCreatorSection*> sectionsToOutput;
+      for (unsigned p = 0; p != moduleInstance.ParFiles.size(); p++)
+         GetMatchingParFileSections(moduleInstance.instanceName,
+                                    moduleInstance.ParFiles[p].first,
+                                    moduleInstance.ParFiles[p].second,
+                                    sectionsToOutput);
+
+      if (newFormat)
+         writeNewFormat(sectionsToOutput, out);
+      else
+         writeOldFormat(sectionsToOutput, out);
+      }
+
+   out << "      </initdata>\n";
+   out << "   </component>\n";
+   }
+
+// --------------------------------------------
+// for the specified instance name, return the
+// matching sections in the specified file.
+// --------------------------------------------
+void SimCreator::GetMatchingParFileSections(const std::string& instanceName,
+                                             const std::string& fileName,
+                                             const std::string& sectionName,
+                                             std::vector<SimCreatorSection*>& outputSections)
+   {
+   if (fileName != "")
+      {
+      vector<ParFile*>::iterator i = find_if(convertedParFiles.begin(), convertedParFiles.end(),
+                                            PEqualToFileName<ParFile>(fileName));
+      if (i == convertedParFiles.end())
+         {
+         if (!Path(fileName).Exists())
+            throw runtime_error("Cannot find file: " + fileName);
+
+         convertedParFiles.push_back(ConvertParFile(fileName));
+         i = find_if(convertedParFiles.begin(), convertedParFiles.end(),
+                     PEqualToFileName<ParFile>(fileName));
+         }
+
+      // Now try and match the section name passed in. For all matching sections
+      // write section contents to 'out'
+      for (unsigned s = 0; s != (*i)->sections.size(); s++)
+         {
+         SimCreatorSection* section = (*i)->sections[s];
+         if (sectionIsAMatch(instanceName, sectionName, section->name))
+            {
+            bool done = false;
+            for (unsigned j = 0; j != outputSections.size(); j++)
+               if (outputSections[j]->openTag == section->openTag)
+                  {
+                  outputSections[j]->append(section);
+                  done = true;
+                  }
+            if (!done)
+               outputSections.push_back(section);
+            }
+         }
+      }
+   }
+
+// ---------------------------------------------
+// Return true if the 2 section names match
+// ---------------------------------------------
+bool SimCreator::sectionIsAMatch(const std::string& instanceName, const std::string& conSectionName, const std::string& parSectionName)
+   {
+   if (parSectionName.find('.') == string::npos)
+      return Str_i_Eq(parSectionName, conSectionName);
+   else
+      return Str_i_Eq(parSectionName, conSectionName + "." + instanceName);
+   }
+
+// --------------------------------------------
+// Convert a whole par file to XML storing an
+// entry in 'convertedparfiles' vector.
+// --------------------------------------------
+SimCreator::ParFile* SimCreator::ConvertParFile(const std::string& fileName)
+   {
+   ParFile* currentParFile = new ParFile(fileName);
+   SimCreatorSection* currentSection = NULL;
+   try
+      {
+      ifstream in(fileName.c_str());
+      string line;
+      do
+         {
+         getline(in, line);
+         unsigned posComment = line.find('!');
+         if (posComment != string::npos)
+            line.erase(posComment);
+         replaceAll(line, "\t", "   ");
+         string sectionName = getSectionName(line);
+
+         // Save the current section we've been accumulating if necessary.
+         if ( (!in || sectionName != "") && currentSection != NULL && !currentSection->isEmpty())
+            currentParFile->sections.push_back(currentSection);
+         else if (!in)
+            delete currentSection;
+
+         // Are we starting a new section? If so then create XML openning tags.
+         if (in)
+            {
+            if (sectionName != "")
+               {
+               if (newFormat)
+                  currentSection = new SimCreatorSectionNew;
+               else
+                  currentSection = new SimCreatorSectionOld;
+
+               StringTokenizer tokenizer(sectionName, ".");
+               string firstBit = tokenizer.nextToken();
+               string secondBit = tokenizer.nextToken();
+               string thirdBit = tokenizer.nextToken();
+               currentSection->open(firstBit, secondBit, thirdBit);
+               }
+
+            // Are we in the middle of a section. If so then accumulate xml for section.
+            else if (currentSection != NULL)
+               currentSection->convertLine(line);
+            }
+         }
+      while (in);
+      return currentParFile;
+      }
+   catch (...)
+      {
+      delete currentSection;
+      delete currentParFile;
+      throw;
+      }
+   }
+
+// ---------------------------------------------------
+// convert a .ini file to a bit of sim xml and return.
+// called by apsim.exe
+// ---------------------------------------------------
+std::string SimCreator::convertIniToSim(const std::string& includeFileName)
+   {
+   ParFile* par = ConvertParFile(includeFileName);
+   ostringstream out;
+   for (unsigned i = 0; i != par->sections.size(); i++)
+      par->sections[i]->writeToOut(out);
+   string returnString = out.str();
+   delete par;
+   return returnString;
+   }
+
+// ---------------------------------------------------
+// write the specified sections to the specified
+// output stream in OLD format
+// ---------------------------------------------------
+void SimCreator::writeOldFormat(vector<SimCreatorSection*>& sectionsToOutput,
+                                ostream& out)
+   {
+   bool writingRules = false;
+   for (unsigned s = 0; s != sectionsToOutput.size(); s++)
+      {
+      if (sectionsToOutput[s]->isManagerSection && !writingRules)
+         {
+         writingRules = true;
+         out << "         <rules>\n";
+         }
+      else if (!sectionsToOutput[s]->isManagerSection && writingRules)
+         {
+         writingRules = false;
+         out << "         </rules>\n";
+         }
+      sectionsToOutput[s]->writeToOut(out);
+      }
+   if (writingRules)
+      out << "         </rules>\n";
+   }
+
+// ---------------------------------------------------
+// write the specified sections to the specified
+// output stream in NEW format
+// ---------------------------------------------------
+void SimCreator::writeNewFormat(vector<SimCreatorSection*>& sectionsToOutput,
+                                ostream& out)
+   {
+   for (unsigned s = 0; s != sectionsToOutput.size(); s++)
+      sectionsToOutput[s]->writeToOut(out);
    }
 

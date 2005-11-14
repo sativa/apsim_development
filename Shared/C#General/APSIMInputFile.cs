@@ -302,7 +302,36 @@ namespace CSGeneral
 			}
 
 
+		public void GetStartEndDate(string FileName, ref DateTime StartDate, ref DateTime EndDate)
+			{	
+			if (!File.Exists(FileName))
+				throw new Exception("Cannot find file: " + FileName);
 
+			_FileName = FileName;
+			FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read);
+			StreamReader In = new StreamReader(fs);
+			ReadApsimHeader(In);
+
+			string Line;
+			Line = In.ReadLine();
+			StringCollection Words = StringManip.SplitStringHonouringQuotes(Line, " \t");
+			if (Words.Count !=	Headings.Count)
+				throw new Exception("Invalid number of values on line: " + Line + "\r\nin file: " + _FileName);
+
+			StartDate = CalcDate(Words);
+
+			fs.Seek(-1000, SeekOrigin.End);
+			In = new StreamReader(fs);
+			In.ReadLine();
+			Line = "";
+			Line = In.ReadLine();
+			while (Line != null && Line != "")
+				{
+				Words = StringManip.SplitStringHonouringQuotes(Line, " \t");
+				EndDate = CalcDate(Words);
+				Line = In.ReadLine();
+				}
+			}
 
 
 		}
