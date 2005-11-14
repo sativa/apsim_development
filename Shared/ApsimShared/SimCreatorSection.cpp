@@ -60,7 +60,8 @@ void SimCreatorSectionOld::open(const std::string& firstBit, const std::string s
                           ));
    if (isManagerSection)
       {
-      openTag = "rule condition=\"" + openTag + "\"";
+      string ruleName = firstBit + "." + thirdBit;
+      openTag = "rule name=\"" + ruleName + "\" condition=\"" + openTag + "\"";
       closeTag = "rule";
       }
    xml = "";
@@ -158,7 +159,8 @@ void SimCreatorSectionNew::open(const std::string& firstBit, const std::string s
                           ));
    if (isManagerSection)
       {
-      openTag = "rule condition=\"" + openTag + "\"";
+      string ruleName = firstBit + "." + thirdBit;
+      openTag = "rule name=\"" + ruleName + "\" condition=\"" + openTag + "\"";
       closeTag = "rule";
       }
    xml = "";
