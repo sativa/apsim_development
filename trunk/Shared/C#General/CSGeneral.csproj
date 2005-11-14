@@ -95,6 +95,18 @@
                     HintPath = "..\VBGeneral\bin\VBGeneral.dll"
                     Private = "True"
                 />
+                <Reference
+                    Name = "FarPoint.Win.Spread"
+                    AssemblyName = "FarPoint.Win.Spread"
+                    HintPath = "C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.Win.Spread.dll"
+                    AssemblyFolderKey = "hklm\dn\farpoint spread for windows forms 2.0.1.0"
+                />
+                <Reference
+                    Name = "FarPoint.Win"
+                    AssemblyName = "FarPoint.Win"
+                    HintPath = "C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.Win.dll"
+                    AssemblyFolderKey = "hklm\dn\farpoint spread for windows forms 2.0.1.0"
+                />
             </References>
         </Build>
         <Files>
