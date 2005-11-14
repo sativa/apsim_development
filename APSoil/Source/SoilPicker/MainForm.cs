@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Data;
 using System.IO;
+using System.Collections.Specialized;
 using CSGeneral;
 using VBGeneral;
 using APSoil;
@@ -18,7 +19,7 @@ namespace SoilPicker
 	public class MainForm : System.Windows.Forms.Form
 		{
 		private ExplorerUI SoilExplorer;
-		private UIManager UserInterfaceManager;
+		private SoilPickerController Apsoil;
 		private string CommandLineFileName;
 		private string DefaultSoil;
 		private bool QuitImmediately = false;
@@ -183,32 +184,28 @@ namespace SoilPicker
 		// ----------------------------------------
         private void MainForm_Load(object sender, System.EventArgs e)
 			{
-			UserInterfaceManager = new UIManager(SmallImages);
+			Apsoil = new SoilPickerController(".soils", "Soils files (*.soils)|*.soils|" + 
+												"All files (*.*)|*.*", 
+												"apsoil",
+												SmallImages);
+			Apsoil.NewDataEvent += new SoilPickerController.NotifyEventHandler(OnNewDataEvent);
 
 			// Show the Simulation Explorer.
-			SoilExplorer = new ExplorerUI();
-			SoilExplorer.ApplicationSettings = UserInterfaceManager;
-			SoilExplorer.TopLevel = false;
+			SoilExplorer = new ExplorerUI(this, Apsoil);
 			SoilExplorer.Dock = DockStyle.Fill;
 			SoilExplorer.Parent = MainPanel;
 			SoilExplorer.Visible = true;
 			SoilExplorer.ExpandAll = false;
-			SoilExplorer.Setup(this, "Soils files (*.soils)|*.soils|" + 
-								 	 "All files (*.*)|*.*", 
-									 ".soils", "apsoil");
-			SoilExplorer.DataTreeCaption = "Empty soils database";
 
 			// Load up the file from the command line if necessary.
 			try
 				{
 				if (CommandLineFileName != null && CommandLineFileName != "")
 					{
-					SoilExplorer.FileOpen(CommandLineFileName);
-					APSIMChangeTool.Upgrade(SoilExplorer.Data);
-					SoilExplorer.Refresh();
-					SoilExplorer.SelectNode(DefaultSoil);
-					if (SoilExplorer.GetSelectedData() == null)
-						SoilExplorer.SelectFirstNodeOfType("soil");
+					Apsoil.FileOpen(CommandLineFileName);
+			        StringCollection SelectedPaths = Apsoil.SelectedPaths;
+					SelectedPaths.Add(DefaultSoil);
+					Apsoil.SelectedPaths = SelectedPaths;
 					if (QuitImmediately)
 						OkButton_Click(null, null);
 					}
@@ -222,18 +219,24 @@ namespace SoilPicker
 				}
 			}
 
+             
+		// ----------------------------------
+		// New data has entered the system.
+		// This is usually caused by FileNew,
+		// FileOpen etc.
+		// ----------------------------------
+		private void OnNewDataEvent()
+			{
+			APSIMChangeTool.Upgrade(Apsoil.Data);
+			}
+
 
 		// ---------------------------------------------------
 		// User has clicked on browse. Open a new soils. file.
 		// ---------------------------------------------------
 		private void BrowseButton_Click(object sender, System.EventArgs e)
 			{
-			if (SoilExplorer.FileOpen())
-				{
-				APSIMChangeTool.Upgrade(SoilExplorer.Data);
-				SoilExplorer.Refresh();
-				SoilExplorer.SelectFirstNodeOfType("soil");
-				}
+			Apsoil.FileOpen();
 			}
 
 
@@ -243,11 +246,11 @@ namespace SoilPicker
 		private void OkButton_Click(object sender, System.EventArgs e)
 			{
 			// write soil to a temporary file.
-			Soil SelectedSoil = new Soil(SoilExplorer.GetSelectedData());
+			Soil SelectedSoil = new Soil((APSIMData) Apsoil.SelectedData[1]);
 			if (SelectedSoil.CheckForErrors() == "")
 				{
 				string OutputFileName = Path.GetTempPath() + "\\temp.par";
-				SelectedSoil.ExportToPar(OutputFileName);
+				SelectedSoil.ExportToPar(OutputFileName, "soil", false);
 
 				// Read in contents of our temporary file.
 				StreamReader FileIn = new StreamReader(OutputFileName);
@@ -268,7 +271,7 @@ namespace SoilPicker
 					w2.WriteLine("   module_usage  = soil_water");
 					w2.WriteLine("   must_have     = soil_water");
 					w2.WriteLine("[FileName]");
-					w2.WriteLine("   Filename = " + SoilExplorer.FileName);
+					w2.WriteLine("   Filename = " + Apsoil.FileName);
 					w2.WriteLine("[*contents]");
 					w2.WriteLine(Contents.Substring(0, PosSoilN));
 

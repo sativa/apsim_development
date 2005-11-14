@@ -204,6 +204,15 @@ class Field
          {
          XMLNode fieldNode = n.appendChild("field", true);
          fieldNode.setAttribute("name", name);
+         string t = dataTypeName;
+         if (t.length() > 0)
+            {
+            t.erase(1);
+            To_upper(t);
+            t = t + dataTypeName.substr(1);
+            }
+
+         fieldNode.setAttribute("KKind", t);
          fieldNode.setAttribute("ctype", ddmlKindToCPP(dataTypeName));
          fieldNode.setAttribute("fortype", ddmlKindToFOR(dataTypeName));
          if (isArray)
@@ -297,10 +306,19 @@ void processField(const ApsimDataTypeData& dataType, XMLNode& node)
       {
       structuresAlreadyDone.insert(lowerName);
 
+      string t = dataType.getKind();
+      if (t.length() > 0)
+         {
+         t.erase(1);
+         To_upper(t);
+         t = t + dataType.getKind().substr(1);
+         }
+
       // add field to a new macro.
       XMLNode child = node.appendChild("type", true);
       child.setAttribute("name", lowerName);
       child.setAttribute("kind", dataType.getKind());
+      child.setAttribute("KKind", t);
       child.setAttribute("ckind", ddmlKindToCPP(dataType.getKind()));
       child.setAttribute("dotnetkind", ddmlKindToDotNet(dataType.getKind()));
       if (dataType.isArray())

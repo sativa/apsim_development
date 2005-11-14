@@ -4,7 +4,7 @@ Imports System.Collections
 Imports System.Collections.Specialized
 Imports System.Xml
 Public Class SimulationUI
-    Inherits VBGeneral.BaseUI
+    Inherits VBGeneral.BaseView
     'Inherits System.Windows.Forms.Form
     Private listview As Object
 #Region " Windows Form Designer generated code "
@@ -123,7 +123,6 @@ Public Class SimulationUI
         '
         'SimulationUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(860, 624)
         Me.Controls.Add(Me.TitleTextBox)
         Me.Controls.Add(Me.EndDatePicker)
@@ -145,9 +144,9 @@ Public Class SimulationUI
         'filename = APSIMFile.XMLFilePath + "\" + filename
         'End If
 
-        StartDatePicker.Value = Data.ChildValueWithError("start_date")
-        EndDatePicker.Value = Data.ChildValueWithError("end_date")
-        TitleTextBox.Text = Data.ChildValueWithError("title")
+        StartDatePicker.Value = Controller.Data.ChildValueWithError("start_date")
+        EndDatePicker.Value = Controller.Data.ChildValueWithError("end_date")
+        TitleTextBox.Text = Controller.Data.ChildValueWithError("title")
 
 
 
@@ -155,7 +154,7 @@ Public Class SimulationUI
 
     Private Sub StartDatePicker_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles StartDatePicker.Leave
         Try
-            Data.Child("start_date").Value = StartDatePicker.Value.Date
+            Controller.Data.Child("start_date").Value = StartDatePicker.Value.Date
             Me.Refresh()
 
         Catch ex as system.exception
@@ -165,7 +164,7 @@ Public Class SimulationUI
 
     Private Sub EndDatePicker_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles EndDatePicker.Leave
         Try
-            Data.Child("end_date").Value = EndDatePicker.Value.Date
+            Controller.Data.Child("end_date").Value = EndDatePicker.Value.Date
             Me.Refresh()
 
         Catch ex as system.exception
@@ -175,7 +174,7 @@ Public Class SimulationUI
 
     Private Sub TitleTextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles TitleTextBox.Leave
         Try
-            Data.Child("title").Value = TitleTextBox.Text
+            Controller.Data.Child("title").Value = TitleTextBox.Text
             Me.Refresh()
 
         Catch ex as system.exception
@@ -185,21 +184,20 @@ Public Class SimulationUI
 
 
 
-    Private Sub SimulationUI_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim listview As New areaui
+    'Private Sub SimulationUI_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    '    Dim listview As New areaui
 
-        With listview
-            .Left = 1
-            .Top = 30
-            .Width = Me.Width - 2
-            .Height = Me.Height - 60
-            .Anchor = AnchorStyles.Bottom Or AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-            .Data = Data ' this must be done before you can set the path
-            .TopLevel = False
-            .Parent = Me
-            .Show()
-        End With
+    '    With listview
+    '        .Left = 1
+    '        .Top = 30
+    '        .Width = Me.Width - 2
+    '        .Height = Me.Height - 60
+    '        .Anchor = AnchorStyles.Bottom Or AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+    '        .Data = Data ' this must be done before you can set the path
+    '        .Parent = Me
+    '        .Show()
+    '    End With
 
 
-    End Sub
+    'End Sub
 End Class

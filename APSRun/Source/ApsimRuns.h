@@ -11,6 +11,10 @@ typedef void __fastcall (__closure *TApsimRunEvent)(const std::string& simFileNa
 class ApsimRuns
    {
    public:
+      ApsimRuns() : newFormat(true) { }
+      ~ApsimRuns()
+      {
+      }
       //---------------------------------------------------------------------------
       // Add simulations from the specified file to the pending list of runs.
       //---------------------------------------------------------------------------
@@ -50,8 +54,14 @@ class ApsimRuns
       // Convert all Apsim runs if necessary.
       //---------------------------------------------------------------------------
       void convertFiles();
-      
+
+      // ---------------------
+      // Set .sim file format
+      // ---------------------
+      void setSimFormat(bool NewFormat) {newFormat = NewFormat;}
+
    private:
+      bool newFormat;
       std::vector<std::string> fileNames;
       std::vector<std::string> simNames;
 

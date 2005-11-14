@@ -2,6 +2,8 @@
 
 #include "Interfaces.h"
 #include "MessageData.h"
+namespace ComponentInterface {
+
 //-------------------- GetValue type
 class GetValue
    {
@@ -9,11 +11,11 @@ class GetValue
       int id;
       void pack(Message& message)
          {
-         ::pack(message, id);
+         ApsimInteger4(id).pack(message);
          }
       void unpack(Message& message)
          {
-         ::unpack(message, id);
+         id = ApsimInteger4(message).value();
          }
 
    };
@@ -26,13 +28,13 @@ class QueryValue
       int requestedBy;
       void pack(Message& message)
          {
-         ::pack(message, id);
-         ::pack(message, requestedBy);
+         ApsimInteger4(id).pack(message);
+         ApsimInteger4(requestedBy).pack(message);
          }
       void unpack(Message& message)
          {
-         ::unpack(message, id);
-         ::unpack(message, requestedBy);
+         id = ApsimInteger4(message).value();
+         requestedBy = ApsimInteger4(message).value();
          }
 
    };
@@ -43,18 +45,16 @@ class ReplyValue
    public:
       int queryID;
       std::string type;
-      char* value;
+      /*char* value;*/
       void pack(Message& message)
          {
-         ::pack(message, queryID);
-         ::pack(message, type);
-
+         ApsimInteger4(queryID).pack(message);
+         ApsimString(type).pack(message);
          }
       void unpack(Message& message)
          {
-         ::unpack(message, queryID);
-         ::unpack(message, type);
-
+         queryID = ApsimInteger4(message).value();
+         type = ApsimString(message).value();
          }
 
    };
@@ -66,20 +66,18 @@ class ReturnValue
       int compID;
       int id;
       std::string type;
-      char* value;
+      /*char* value;*/
       void pack(Message& message)
          {
-         ::pack(message, compID);
-         ::pack(message, id);
-         ::pack(message, type);
-
+         ApsimInteger4(compID).pack(message);
+         ApsimInteger4(id).pack(message);
+         ApsimString(type).pack(message);
          }
       void unpack(Message& message)
          {
-         ::unpack(message, compID);
-         ::unpack(message, id);
-         ::unpack(message, type);
-
+         compID = ApsimInteger4(message).value();
+         id = ApsimInteger4(message).value();
+         type = ApsimString(message).value();
          }
 
    };
@@ -93,15 +91,15 @@ class Init1
       bool inStartup;
       void pack(Message& message)
          {
-         ::pack(message, sdml);
-         ::pack(message, fqn);
-         ::pack(message, inStartup);
+         ApsimString(sdml).pack(message);
+         ApsimString(fqn).pack(message);
+         ApsimBoolean(inStartup).pack(message);
          }
       void unpack(Message& message)
          {
-         ::unpack(message, sdml);
-         ::unpack(message, fqn);
-         ::unpack(message, inStartup);
+         sdml = ApsimString(message).value();
+         fqn = ApsimString(message).value();
+         inStartup = ApsimBoolean(message).value();
          }
 
    };
@@ -113,20 +111,18 @@ class Event
       int id;
       int publishedBy;
       std::string type;
-      char* params;
+      /*char* params;*/
       void pack(Message& message)
          {
-         ::pack(message, id);
-         ::pack(message, publishedBy);
-         ::pack(message, type);
-
+         ApsimInteger4(id).pack(message);
+         ApsimInteger4(publishedBy).pack(message);
+         ApsimString(type).pack(message);
          }
       void unpack(Message& message)
          {
-         ::unpack(message, id);
-         ::unpack(message, publishedBy);
-         ::unpack(message, type);
-
+         id = ApsimInteger4(message).value();
+         publishedBy = ApsimInteger4(message).value();
+         type = ApsimString(message).value();
          }
 
    };
@@ -142,19 +138,19 @@ class Register
       std::string type;
       void pack(Message& message)
          {
-         ::pack(message, kind);
-         ::pack(message, id);
-         ::pack(message, destID);
-         ::pack(message, name);
-         ::pack(message, type);
+         ApsimInteger4(kind).pack(message);
+         ApsimInteger4(id).pack(message);
+         ApsimInteger4(destID).pack(message);
+         ApsimString(name).pack(message);
+         ApsimString(type).pack(message);
          }
       void unpack(Message& message)
          {
-         ::unpack(message, kind);
-         ::unpack(message, id);
-         ::unpack(message, destID);
-         ::unpack(message, name);
-         ::unpack(message, type);
+         kind = ApsimInteger4(message).value();
+         id = ApsimInteger4(message).value();
+         destID = ApsimInteger4(message).value();
+         name = ApsimString(message).value();
+         type = ApsimString(message).value();
          }
 
    };
@@ -165,18 +161,16 @@ class PublishEvent
    public:
       int id;
       std::string type;
-      char* params;
+      /*char* params;*/
       void pack(Message& message)
          {
-         ::pack(message, id);
-         ::pack(message, type);
-
+         ApsimInteger4(id).pack(message);
+         ApsimString(type).pack(message);
          }
       void unpack(Message& message)
          {
-         ::unpack(message, id);
-         ::unpack(message, type);
-
+         id = ApsimInteger4(message).value();
+         type = ApsimString(message).value();
          }
 
    };
@@ -189,13 +183,13 @@ class QueryInfo
       int kind;
       void pack(Message& message)
          {
-         ::pack(message, name);
-         ::pack(message, kind);
+         ApsimString(name).pack(message);
+         ApsimInteger4(kind).pack(message);
          }
       void unpack(Message& message)
          {
-         ::unpack(message, name);
-         ::unpack(message, kind);
+         name = ApsimString(message).value();
+         kind = ApsimInteger4(message).value();
          }
 
    };
@@ -206,18 +200,16 @@ class RequestSetValue
    public:
       int id;
       std::string type;
-      char* value;
+      /*char* value;*/
       void pack(Message& message)
          {
-         ::pack(message, id);
-         ::pack(message, type);
-
+         ApsimInteger4(id).pack(message);
+         ApsimString(type).pack(message);
          }
       void unpack(Message& message)
          {
-         ::unpack(message, id);
-         ::unpack(message, type);
-
+         id = ApsimInteger4(message).value();
+         type = ApsimString(message).value();
          }
 
    };
@@ -230,22 +222,20 @@ class QuerySetValue
       int replyToID;
       int replyID;
       std::string type;
-      char* value;
+      /*char* value;*/
       void pack(Message& message)
          {
-         ::pack(message, id);
-         ::pack(message, replyToID);
-         ::pack(message, replyID);
-         ::pack(message, type);
-
+         ApsimInteger4(id).pack(message);
+         ApsimInteger4(replyToID).pack(message);
+         ApsimInteger4(replyID).pack(message);
+         ApsimString(type).pack(message);
          }
       void unpack(Message& message)
          {
-         ::unpack(message, id);
-         ::unpack(message, replyToID);
-         ::unpack(message, replyID);
-         ::unpack(message, type);
-
+         id = ApsimInteger4(message).value();
+         replyToID = ApsimInteger4(message).value();
+         replyID = ApsimInteger4(message).value();
+         type = ApsimString(message).value();
          }
 
    };
@@ -258,13 +248,13 @@ class NotifySetValueSuccess
       bool success;
       void pack(Message& message)
          {
-         ::pack(message, id);
-         ::pack(message, success);
+         ApsimInteger4(id).pack(message);
+         ApsimBoolean(success).pack(message);
          }
       void unpack(Message& message)
          {
-         ::unpack(message, id);
-         ::unpack(message, success);
+         id = ApsimInteger4(message).value();
+         success = ApsimBoolean(message).value();
          }
 
    };
@@ -281,22 +271,23 @@ class ReturnInfo
       int kind;
       void pack(Message& message)
          {
-         ::pack(message, queryID);
-         ::pack(message, compID);
-         ::pack(message, id);
-         ::pack(message, name);
-         ::pack(message, type);
-         ::pack(message, kind);
+         ApsimInteger4(queryID).pack(message);
+         ApsimInteger4(compID).pack(message);
+         ApsimInteger4(id).pack(message);
+         ApsimString(name).pack(message);
+         ApsimString(type).pack(message);
+         ApsimInteger4(kind).pack(message);
          }
       void unpack(Message& message)
          {
-         ::unpack(message, queryID);
-         ::unpack(message, compID);
-         ::unpack(message, id);
-         ::unpack(message, name);
-         ::unpack(message, type);
-         ::unpack(message, kind);
+         queryID = ApsimInteger4(message).value();
+         compID = ApsimInteger4(message).value();
+         id = ApsimInteger4(message).value();
+         name = ApsimString(message).value();
+         type = ApsimString(message).value();
+         kind = ApsimInteger4(message).value();
          }
 
    };
 
+};

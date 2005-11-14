@@ -8,7 +8,7 @@ class Field
    {
    public:
       Field (protocol::Component* parent,
-             const std::string& variable,
+             std::string variable,
              bool csvformat,
              const std::string& nastring,
              unsigned int precision);

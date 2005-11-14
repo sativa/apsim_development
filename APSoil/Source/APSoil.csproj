@@ -90,12 +90,6 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "Xceed.Grid"
-                    AssemblyName = "Xceed.Grid"
-                    HintPath = "C:\Program Files\Xceed Components\Xceed Grid for .NET 2.2\Bin\v2.2.201.0\Xceed.Grid.dll"
-                    AssemblyFolderKey = "hklm\xceed grid for .net v2.2.201.0"
-                />
-                <Reference
                     Name = "Xceed.Chart"
                     AssemblyName = "Xceed.Chart"
                     HintPath = "C:\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.dll"
@@ -155,6 +149,30 @@
                     HintPath = "..\..\Shared\Soil\obj\Debug\Soil.dll"
                     Private = "True"
                 />
+                <Reference
+                    Name = "Xceed.SmartUI.Controls"
+                    AssemblyName = "Xceed.SmartUI.Controls"
+                    HintPath = "C:\Program Files\Xceed Components\Xceed SmartUI for .NET 3.1\Bin\v3.1.123.0\Xceed.SmartUI.Controls.dll"
+                    AssemblyFolderKey = "hklm\xceed smartui for .net v3.1.123.0"
+                />
+                <Reference
+                    Name = "Xceed.SmartUI.UIStyle"
+                    AssemblyName = "Xceed.SmartUI.UIStyle"
+                    HintPath = "C:\Program Files\Xceed Components\Xceed SmartUI for .NET 3.1\Bin\v3.1.123.0\Xceed.SmartUI.UIStyle.dll"
+                    AssemblyFolderKey = "hklm\xceed smartui for .net v3.1.123.0"
+                />
+                <Reference
+                    Name = "TMGDevelopment.PrintForm"
+                    AssemblyName = "TMGDevelopment.PrintForm"
+                    HintPath = "c:\Program Files\TMG Development Ltd\PrintForm Printing Component\bin\TMGDevelopment.PrintForm.dll"
+                    AssemblyFolderKey = "hklm\dn\tmgdevelopment.printform"
+                />
+                <Reference
+                    Name = "TMGDevelopment.Shared"
+                    AssemblyName = "TMGDevelopment.Shared"
+                    HintPath = "c:\Program Files\Common Files\TMG Development Ltd\Shared\1.0.0.3\TMGDevelopment.Shared.dll"
+                    AssemblyFolderKey = "hklm\dn\tmgdevelopment.shared v1.0.0.3"
+                />
             </References>
         </Build>
         <Files>
@@ -195,11 +213,6 @@
                 />
                 <File
                     RelPath = "SoilSpreadsheetImporter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "UIManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

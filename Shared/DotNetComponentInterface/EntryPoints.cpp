@@ -1,22 +1,25 @@
 #include "StdAfx.h"
 
 #using <mscorlib.dll>
+#using <VBGeneral.dll>
 #include <string>
 #include <vector>
 #include "Interfaces.h"
 #include "ComponentInterface.h"
-   
+#include "ApsimComponent.h"
+using namespace ComponentInterface;
+using namespace std;   
    
 __gc class Instances
 	{
 	public:
-		static IComponent* createNewInstance(const char* dllFileName) 
+		static ApsimComponent* createNewInstance(const char* dllFileName) 
 			{
 			components[numComponents] = createInstanceOfComponent(dllFileName);
 			numComponents++;
 			return components[numComponents-1];
 			}
-		static IComponent* at(unsigned index)
+		static ApsimComponent* at(unsigned index)
 			{
 			return components[index];
 			}
@@ -24,11 +27,11 @@ __gc class Instances
 		static unsigned count() {return numComponents;}
 	
 	private:
-		static IComponent __pin * components[] = new IComponent* [50];
+		static ApsimComponent __pin * components[] = new ApsimComponent* [50];
 		static unsigned numComponents = 0;
 			
 	};
-std::vector<ComponentInterface*> componentInterfaces;
+vector<ComponentComms*> componentInterfaces;
 	
    
 // ------------------------------------------------------------------
@@ -69,12 +72,12 @@ void __stdcall createInstance
     const unsigned int* parentID,
     unsigned int* instanceNumber,
     const unsigned int* callbackArg,
-    ComponentInterface::CallbackType callback)
+    ComponentComms::CallbackType callback)
     {
-    IComponent __pin* component = Instances::createNewInstance(dllFileName);
+    ApsimComponent __pin* component = Instances::createNewInstance(dllFileName);
     *instanceNumber = Instances::count()-1;
 	
-	componentInterfaces.push_back(new ComponentInterface);
+	componentInterfaces.push_back(new ComponentComms);
     componentInterfaces[*instanceNumber]->createInstance(component, dllFileName, *compID, *parentID, 
 														 callbackArg, callback);
 	}
@@ -84,7 +87,7 @@ void __stdcall createInstance
 extern "C" __declspec( dllexport )
 void __stdcall deleteInstance (unsigned* instanceNumber)
    {
-   IComponent __pin* component = Instances::at(*instanceNumber);
+   ApsimComponent __pin* component = Instances::at(*instanceNumber);
    componentInterfaces[*instanceNumber]->deleteInstance(component);
    }
 // ------------------------------------------------------------------
@@ -93,7 +96,7 @@ void __stdcall deleteInstance (unsigned* instanceNumber)
 extern "C" __declspec( dllexport )
 void __stdcall messageToLogic (unsigned* instanceNumber, char* message, bool* processed)
    {
-   IComponent __pin* component = Instances::at(*instanceNumber);
+   ApsimComponent __pin* component = Instances::at(*instanceNumber);
    componentInterfaces[*instanceNumber]->messageToLogic(component, message);
    *processed = true;
    }

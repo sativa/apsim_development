@@ -1,13 +1,11 @@
 Imports VBGeneral
-Imports Xceed.Grid.Editors
 Imports System.Collections.Specialized
 Public Class ReportVariablesListView
-    Inherits BaseDataControl
-    Private InFill As Boolean
+    Inherits BaseView
     Private ComponentNames As New StringCollection
     Private ComponentTypes As New StringCollection
-    Private UIManager As UIManager
-    Private OldName As String
+    Private ApsimUI As ApsimUIController
+    Private UserChange As Boolean = True
 
 #Region " Windows Form Designer generated code "
 
@@ -39,149 +37,24 @@ Public Class ReportVariablesListView
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    Friend WithEvents GroupByRow1 As Xceed.Grid.GroupByRow
-    Friend WithEvents ColumnManagerRow1 As Xceed.Grid.ColumnManagerRow
-    Friend WithEvents dataRowTemplate1 As Xceed.Grid.DataRow
-    Friend WithEvents VariablesList As Xceed.Grid.GridControl
-    Friend WithEvents Column1 As Xceed.Grid.Column
-    Friend WithEvents cellColumnManagerRow1Column1 As Xceed.Grid.ColumnManagerCell
-    Friend WithEvents celldataRowTemplate1Column1 As Xceed.Grid.DataCell
-    Friend WithEvents Column2 As Xceed.Grid.Column
-    Friend WithEvents cellColumnManagerRow1Column2 As Xceed.Grid.ColumnManagerCell
-    Friend WithEvents celldataRowTemplate1Column2 As Xceed.Grid.DataCell
-    Friend WithEvents Column3 As Xceed.Grid.Column
-    Friend WithEvents cellColumnManagerRow1Column3 As Xceed.Grid.ColumnManagerCell
-    Friend WithEvents celldataRowTemplate1Column3 As Xceed.Grid.DataCell
-    Friend WithEvents Column4 As Xceed.Grid.Column
-    Friend WithEvents cellColumnManagerRow1Column4 As Xceed.Grid.ColumnManagerCell
-    Friend WithEvents celldataRowTemplate1Column4 As Xceed.Grid.DataCell
-    Friend WithEvents Column5 As Xceed.Grid.Column
-    Friend WithEvents cellColumnManagerRow1Column5 As Xceed.Grid.ColumnManagerCell
-    Friend WithEvents celldataRowTemplate1Column5 As Xceed.Grid.DataCell
-    Friend WithEvents Tooltip As System.Windows.Forms.Label
     Friend WithEvents NotifyIcon1 As System.Windows.Forms.NotifyIcon
-    Friend WithEvents VisualGridElementStyle1 As Xceed.Grid.VisualGridElementStyle
-    Friend WithEvents VisualGridElementStyle2 As Xceed.Grid.VisualGridElementStyle
     Friend WithEvents GridPopupMenu As System.Windows.Forms.ContextMenu
     Friend WithEvents DeleteRowMenu As System.Windows.Forms.MenuItem
     Friend WithEvents DeleteAllMenu As System.Windows.Forms.MenuItem
+    Friend WithEvents FpSpread As FarPoint.Win.Spread.FpSpread
+    Friend WithEvents VariablesList As FarPoint.Win.Spread.SheetView
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Me.VariablesList = New Xceed.Grid.GridControl
-        Me.Column1 = New Xceed.Grid.Column
-        Me.Column2 = New Xceed.Grid.Column
-        Me.Column3 = New Xceed.Grid.Column
-        Me.Column4 = New Xceed.Grid.Column
-        Me.Column5 = New Xceed.Grid.Column
+        Dim ComboBoxCellType1 As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
         Me.GridPopupMenu = New System.Windows.Forms.ContextMenu
         Me.DeleteRowMenu = New System.Windows.Forms.MenuItem
         Me.DeleteAllMenu = New System.Windows.Forms.MenuItem
-        Me.dataRowTemplate1 = New Xceed.Grid.DataRow
-        Me.celldataRowTemplate1Column1 = New Xceed.Grid.DataCell
-        Me.celldataRowTemplate1Column2 = New Xceed.Grid.DataCell
-        Me.celldataRowTemplate1Column3 = New Xceed.Grid.DataCell
-        Me.celldataRowTemplate1Column4 = New Xceed.Grid.DataCell
-        Me.celldataRowTemplate1Column5 = New Xceed.Grid.DataCell
-        Me.VisualGridElementStyle1 = New Xceed.Grid.VisualGridElementStyle
-        Me.VisualGridElementStyle2 = New Xceed.Grid.VisualGridElementStyle
-        Me.GroupByRow1 = New Xceed.Grid.GroupByRow
-        Me.ColumnManagerRow1 = New Xceed.Grid.ColumnManagerRow
-        Me.cellColumnManagerRow1Column1 = New Xceed.Grid.ColumnManagerCell
-        Me.cellColumnManagerRow1Column2 = New Xceed.Grid.ColumnManagerCell
-        Me.cellColumnManagerRow1Column3 = New Xceed.Grid.ColumnManagerCell
-        Me.cellColumnManagerRow1Column4 = New Xceed.Grid.ColumnManagerCell
-        Me.cellColumnManagerRow1Column5 = New Xceed.Grid.ColumnManagerCell
-        Me.Tooltip = New System.Windows.Forms.Label
         Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
+        Me.FpSpread = New FarPoint.Win.Spread.FpSpread
+        Me.VariablesList = New FarPoint.Win.Spread.SheetView
+        CType(Me.FpSpread, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.VariablesList, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dataRowTemplate1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ColumnManagerRow1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'VariablesList
-        '
-        Me.VariablesList.AllowDrop = True
-        Me.VariablesList.BackColor = System.Drawing.Color.FromArgb(CType(235, Byte), CType(240, Byte), CType(246, Byte))
-        Me.VariablesList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.VariablesList.CausesValidation = False
-        Me.VariablesList.Columns.Add(Me.Column1)
-        Me.VariablesList.Columns.Add(Me.Column2)
-        Me.VariablesList.Columns.Add(Me.Column3)
-        Me.VariablesList.Columns.Add(Me.Column4)
-        Me.VariablesList.Columns.Add(Me.Column5)
-        Me.VariablesList.ContextMenu = Me.GridPopupMenu
-        Me.VariablesList.DataRowTemplate = Me.dataRowTemplate1
-        Me.VariablesList.DataRowTemplateStyles.Add(Me.VisualGridElementStyle1)
-        Me.VariablesList.DataRowTemplateStyles.Add(Me.VisualGridElementStyle2)
-        Me.VariablesList.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.VariablesList.FixedHeaderRows.Add(Me.GroupByRow1)
-        Me.VariablesList.FixedHeaderRows.Add(Me.ColumnManagerRow1)
-        Me.VariablesList.Font = New System.Drawing.Font("Tahoma", 8.25!)
-        Me.VariablesList.ForeColor = System.Drawing.Color.Black
-        Me.VariablesList.GridLineColor = System.Drawing.Color.FromArgb(CType(235, Byte), CType(240, Byte), CType(246, Byte))
-        Me.VariablesList.GridLineStyle = System.Drawing.Drawing2D.DashStyle.Solid
-        Me.VariablesList.InactiveSelectionBackColor = System.Drawing.Color.DarkSlateBlue
-        Me.VariablesList.InactiveSelectionForeColor = System.Drawing.Color.White
-        Me.VariablesList.Location = New System.Drawing.Point(0, 20)
-        Me.VariablesList.Name = "VariablesList"
-        '
-        'VariablesList.RowSelectorPane
-        '
-        Me.VariablesList.RowSelectorPane.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.VariablesList.RowSelectorPane.Visible = False
-        Me.VariablesList.SelectionBackColor = System.Drawing.Color.MediumSlateBlue
-        Me.VariablesList.SelectionForeColor = System.Drawing.Color.White
-        Me.VariablesList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
-        Me.VariablesList.SingleClickEdit = False
-        Me.VariablesList.Size = New System.Drawing.Size(648, 293)
-        Me.VariablesList.TabIndex = 1
-        Me.VariablesList.UIStyle = Xceed.Grid.UIStyle.UIStyle.System
-        '
-        'Column1
-        '
-        Me.Column1.CanBeGrouped = False
-        Me.Column1.CanBeSorted = False
-        Me.Column1.SortDirection = Xceed.Grid.SortDirection.None
-        Me.Column1.Title = "Name"
-        Me.Column1.VisibleIndex = 0
-        Me.Column1.Initialize("Column1", GetType(System.String))
-        '
-        'Column2
-        '
-        Me.Column2.CanBeGrouped = False
-        Me.Column2.CanBeSorted = False
-        Me.Column2.SortDirection = Xceed.Grid.SortDirection.None
-        Me.Column2.Title = "Module"
-        Me.Column2.VisibleIndex = 1
-        Me.Column2.Initialize("Column2", GetType(System.String))
-        '
-        'Column3
-        '
-        Me.Column3.CanBeGrouped = False
-        Me.Column3.CanBeSorted = False
-        Me.Column3.SortDirection = Xceed.Grid.SortDirection.None
-        Me.Column3.Title = "Alias"
-        Me.Column3.VisibleIndex = 2
-        Me.Column3.Initialize("Column3", GetType(System.String))
-        '
-        'Column4
-        '
-        Me.Column4.CanBeGrouped = False
-        Me.Column4.CanBeSorted = False
-        Me.Column4.SortDirection = Xceed.Grid.SortDirection.None
-        Me.Column4.Title = "Arrayspec"
-        Me.Column4.VisibleIndex = 3
-        Me.Column4.Initialize("Column4", GetType(System.String))
-        '
-        'Column5
-        '
-        Me.Column5.CanBeGrouped = False
-        Me.Column5.CanBeSorted = False
-        Me.Column5.SortDirection = Xceed.Grid.SortDirection.None
-        Me.Column5.Title = "Description"
-        Me.Column5.VisibleIndex = 4
-        Me.Column5.Width = 229
-        Me.Column5.Initialize("Column5", GetType(System.String))
         '
         'GridPopupMenu
         '
@@ -197,426 +70,254 @@ Public Class ReportVariablesListView
         Me.DeleteAllMenu.Index = 1
         Me.DeleteAllMenu.Text = "Delete &all variables"
         '
-        'dataRowTemplate1
-        '
-        Me.dataRowTemplate1.CanBeSelected = False
-        Me.dataRowTemplate1.Cells.Add(Me.celldataRowTemplate1Column1)
-        Me.dataRowTemplate1.Cells.Add(Me.celldataRowTemplate1Column2)
-        Me.dataRowTemplate1.Cells.Add(Me.celldataRowTemplate1Column3)
-        Me.dataRowTemplate1.Cells.Add(Me.celldataRowTemplate1Column4)
-        Me.dataRowTemplate1.Cells.Add(Me.celldataRowTemplate1Column5)
-        '
-        'dataRowTemplate1.RowSelector
-        '
-        Me.dataRowTemplate1.RowSelector.Visible = False
-        '
-        'celldataRowTemplate1Column1
-        '
-        Me.celldataRowTemplate1Column1.BackColor = System.Drawing.Color.White
-        Me.celldataRowTemplate1Column1.Font = New System.Drawing.Font("Tahoma", 8.25!)
-        Me.celldataRowTemplate1Column1.Initialize("Column1")
-        '
-        'celldataRowTemplate1Column2
-        '
-        Me.celldataRowTemplate1Column2.BackColor = System.Drawing.Color.White
-        Me.celldataRowTemplate1Column2.ForeColor = System.Drawing.Color.Black
-        Me.celldataRowTemplate1Column2.Initialize("Column2")
-        '
-        'celldataRowTemplate1Column3
-        '
-        Me.celldataRowTemplate1Column3.BackColor = System.Drawing.Color.White
-        Me.celldataRowTemplate1Column3.ForeColor = System.Drawing.Color.Black
-        Me.celldataRowTemplate1Column3.Initialize("Column3")
-        '
-        'celldataRowTemplate1Column4
-        '
-        Me.celldataRowTemplate1Column4.BackColor = System.Drawing.Color.White
-        Me.celldataRowTemplate1Column4.ForeColor = System.Drawing.Color.Black
-        Me.celldataRowTemplate1Column4.Initialize("Column4")
-        '
-        'celldataRowTemplate1Column5
-        '
-        Me.celldataRowTemplate1Column5.BackColor = System.Drawing.Color.White
-        Me.celldataRowTemplate1Column5.ForeColor = System.Drawing.Color.Black
-        Me.celldataRowTemplate1Column5.Initialize("Column5")
-        '
-        'VisualGridElementStyle1
-        '
-        Me.VisualGridElementStyle1.BackColor = System.Drawing.Color.PowderBlue
-        '
-        'VisualGridElementStyle2
-        '
-        Me.VisualGridElementStyle2.BackColor = System.Drawing.Color.FromArgb(CType(195, Byte), CType(231, Byte), CType(236, Byte))
-        '
-        'GroupByRow1
-        '
-        Me.GroupByRow1.BackColor = System.Drawing.Color.LightSlateGray
-        Me.GroupByRow1.CellBackColor = System.Drawing.Color.LightSteelBlue
-        Me.GroupByRow1.CellFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.GroupByRow1.CellLayout = Xceed.Grid.GroupByCellLayout.Hierarchical
-        Me.GroupByRow1.Visible = False
-        '
-        'ColumnManagerRow1
-        '
-        Me.ColumnManagerRow1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.ColumnManagerRow1.Cells.Add(Me.cellColumnManagerRow1Column1)
-        Me.ColumnManagerRow1.Cells.Add(Me.cellColumnManagerRow1Column2)
-        Me.ColumnManagerRow1.Cells.Add(Me.cellColumnManagerRow1Column3)
-        Me.ColumnManagerRow1.Cells.Add(Me.cellColumnManagerRow1Column4)
-        Me.ColumnManagerRow1.Cells.Add(Me.cellColumnManagerRow1Column5)
-        Me.ColumnManagerRow1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.cellColumnManagerRow1Column1.Initialize("Column1")
-        Me.cellColumnManagerRow1Column2.Initialize("Column2")
-        Me.cellColumnManagerRow1Column3.Initialize("Column3")
-        Me.cellColumnManagerRow1Column4.Initialize("Column4")
-        Me.cellColumnManagerRow1Column5.Initialize("Column5")
-        '
-        'Tooltip
-        '
-        Me.Tooltip.BackColor = System.Drawing.SystemColors.Info
-        Me.Tooltip.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Tooltip.Font = New System.Drawing.Font("Tahoma", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Tooltip.ForeColor = System.Drawing.SystemColors.InfoText
-        Me.Tooltip.Location = New System.Drawing.Point(0, 313)
-        Me.Tooltip.Name = "Tooltip"
-        Me.Tooltip.Size = New System.Drawing.Size(648, 23)
-        Me.Tooltip.TabIndex = 2
-        '
         'NotifyIcon1
         '
         Me.NotifyIcon1.Text = "NotifyIcon1"
         Me.NotifyIcon1.Visible = True
         '
+        'FpSpread
+        '
+        Me.FpSpread.AllowDrop = True
+        Me.FpSpread.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.FpSpread.Location = New System.Drawing.Point(0, 40)
+        Me.FpSpread.Name = "FpSpread"
+        Me.FpSpread.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.VariablesList})
+        Me.FpSpread.Size = New System.Drawing.Size(705, 733)
+        Me.FpSpread.TabIndex = 3
+        '
+        'VariablesList
+        '
+        Me.VariablesList.Reset()
+        'Formulas and custom names must be loaded with R1C1 reference style
+        Me.VariablesList.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1
+        Me.VariablesList.ColumnCount = 5
+        Me.VariablesList.ColumnHeader.Cells.Get(0, 0).Text = "Name"
+        Me.VariablesList.ColumnHeader.Cells.Get(0, 1).Text = "Module"
+        Me.VariablesList.ColumnHeader.Cells.Get(0, 2).Text = "Alias"
+        Me.VariablesList.ColumnHeader.Cells.Get(0, 3).Text = "ArraySpec"
+        Me.VariablesList.ColumnHeader.Cells.Get(0, 4).Text = "Description"
+        Me.VariablesList.Columns.Get(0).Label = "Name"
+        Me.VariablesList.Columns.Get(0).Width = 101.0!
+        Me.VariablesList.Columns.Get(1).Label = "Module"
+        Me.VariablesList.Columns.Get(1).Width = 109.0!
+        Me.VariablesList.Columns.Get(2).Label = "Alias"
+        Me.VariablesList.Columns.Get(2).Width = 102.0!
+        ComboBoxCellType1.Editable = True
+        ComboBoxCellType1.Items = New String() {"all layers", "sum", "(1)", "(1-2)"}
+        Me.VariablesList.Columns.Get(3).CellType = ComboBoxCellType1
+        Me.VariablesList.Columns.Get(3).Label = "ArraySpec"
+        Me.VariablesList.Columns.Get(3).Width = 90.0!
+        Me.VariablesList.Columns.Get(4).Label = "Description"
+        Me.VariablesList.Columns.Get(4).Width = 256.0!
+        Me.VariablesList.RowHeader.Columns.Default.Resizable = False
+        Me.VariablesList.RowHeader.Visible = False
+        Me.VariablesList.SheetName = "Sheet1"
+        Me.VariablesList.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1
+        '
         'ReportVariablesListView
         '
-        Me.Controls.Add(Me.VariablesList)
-        Me.Controls.Add(Me.Tooltip)
+        Me.Controls.Add(Me.FpSpread)
         Me.Name = "ReportVariablesListView"
-        Me.Size = New System.Drawing.Size(648, 336)
-        Me.Controls.SetChildIndex(Me.Tooltip, 0)
-        Me.Controls.SetChildIndex(Me.VariablesList, 0)
+        Me.Size = New System.Drawing.Size(705, 773)
+        Me.Controls.SetChildIndex(Me.FpSpread, 0)
+        CType(Me.FpSpread, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.VariablesList, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dataRowTemplate1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ColumnManagerRow1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
 
 #End Region
 
-    ' ------------------------
-    ' Fill in grid
-    ' ------------------------
     Overrides Sub Refresh()
-        InFill = True
-        CaptionLabel.Text = "Output variables"
-        Me.Tooltip.Text = "Hint: Right click on a cell to activate a popup menu for deleting variables."
-        VariablesList.DataRows.Clear()
-        UIManager = Me.ApplicationSettings
+        UserChange = False
+        HelpText = "Output variables"
+        VariablesList.RowCount = 0
+        ApsimUI = Controller
 
-        ' Subscribe to the necessary events to handle the copy/paste
-        ' and drag and drop operations. In this loop, we will also
-        ' set each cell's AllowDrop property to true.
-        Dim cell As Xceed.Grid.DataCell
-        For Each cell In VariablesList.DataRowTemplate.Cells
-            'cell.AllowDrop = True
-            AddHandler cell.MouseDown, AddressOf Me.Mouse_Down
-            AddHandler cell.MouseUp, AddressOf Me.Mouse_Up
-            AddHandler cell.MouseMove, AddressOf Me.Mouse_Move
-            AddHandler cell.EditLeft, AddressOf Me.CellLeavingEdit
-            AddHandler cell.EnteringEdit, AddressOf Me.CellEnteringEdit
-        Next cell
+        If Not IsNothing(Controller.Data) Then
+            Dim VariablesNode As APSIMData = Controller.Data.Child("variables")
+            ApsimUI.GetSiblingComponents(VariablesNode.Parent.Parent, ComponentNames, ComponentTypes)
 
-        If Not IsNothing(Data) Then
-            Dim VariablesNode As APSIMData = Data.Child("variables")
-            UIManager.GetSiblingComponents(VariablesNode.Parent.Parent, ComponentNames, ComponentTypes)
-
-            Dim row As Xceed.Grid.DataRow
             For Each child As APSIMData In VariablesNode.Children("variable")
                 AddModuleType(child)
-                row = VariablesList.DataRows.AddNew()
-                row.Cells(0).Value = child.Attribute("variablename")
-                row.Cells(1).Value = child.Attribute("module")
-                row.Cells(2).Value = child.Attribute("name")
-                row.Cells(3).Value = child.Attribute("arrayspec")
-                row.Cells(4).Value = child.Attribute("description")
-
-                ' Only make the arrayspec field visible for array variables.
-                row.Cells(3).Visible = child.Attribute("array") = "T"
-
-                AddHandler row.Cells(0).EditLeft, AddressOf Me.CellLeavingEdit
-                AddHandler row.Cells(1).EditLeft, AddressOf Me.CellLeavingEdit
-                AddHandler row.Cells(2).EditLeft, AddressOf Me.CellLeavingEdit
-                AddHandler row.Cells(3).EditLeft, AddressOf Me.CellLeavingEdit
-                AddHandler row.Cells(4).EditLeft, AddressOf Me.CellLeavingEdit
-                AddHandler row.Cells(0).EnteringEdit, AddressOf Me.CellEnteringEdit
-                AddHandler row.Cells(1).EnteringEdit, AddressOf Me.CellEnteringEdit
-                AddHandler row.Cells(2).EnteringEdit, AddressOf Me.CellEnteringEdit
-                AddHandler row.Cells(3).EnteringEdit, AddressOf Me.CellEnteringEdit
-                AddHandler row.Cells(4).EnteringEdit, AddressOf Me.CellEnteringEdit
-                row.EndEdit()
+                VariablesList.RowCount = VariablesList.RowCount + 1
+                Dim Row As Integer = VariablesList.RowCount - 1
+                PopulateRowFromData(Row, child)
             Next
-
             AddBlankRow()
 
         End If
-        InFill = False
+        UserChange = True
     End Sub
+    Public Overrides Sub Save()
+        Dim Variables As APSIMData = Controller.Data.Child("variables")
+        If Variables Is Nothing Then
+            Variables = Controller.Data.Add(New APSIMData("variables", ""))
+        End If
+        Variables.Clear()
+        For Row As Integer = 0 To VariablesList.RowCount - 2
+            Dim VariableName As String = VariablesList.Cells(Row, 2).Value
+            If VariableName = "" Then
+                VariableName = VariablesList.Cells(Row, 0).Value
+            End If
+            If VariableName = "" Then
+                Throw New System.Exception("Invalid variable name found on row " + Row.ToString)
+            End If
+            Dim Variable As APSIMData = Variables.Add(New APSIMData("variable", VariableName))
+            Variable.SetAttribute("variablename", VariablesList.Cells(Row, 0).Value)
+            Variable.SetAttribute("module", VariablesList.Cells(Row, 1).Value)
 
-
-    ' ---------------------------------
-    ' Add a blank row to grid.
-    ' ---------------------------------
-    Sub AddBlankRow()
-        Dim row As Xceed.Grid.DataRow
+            Dim ArraySpec As String = VariablesList.Cells(Row, 3).Value
+            If ArraySpec = "" Or ArraySpec = "all layers" Then
+                Variable.SetAttribute("arrayspec", " ")
+            ElseIf ArraySpec = "sum" Then
+                Variable.SetAttribute("arrayspec", "()")
+            Else
+                Variable.SetAttribute("arrayspec", ArraySpec)
+            End If
+            Variable.SetAttribute("description", VariablesList.Cells(Row, 4).Value)
+            If Not VariablesList.Cells(Row, 3).Locked Then
+                Variable.SetAttribute("array", "T")
+            End If
+            AddModuleType(Variable)
+        Next
+    End Sub
+    Private Sub AddBlankRow()
+        ' Ensure there is a blank row at the bottom of the grid.
         Dim DoAddNewRow As Boolean = True
-        If VariablesList.DataRows.Count > 1 Then
-            row = VariablesList.DataRows(VariablesList.DataRows.Count - 1)
-            DoAddNewRow = (row.Cells(0).Value <> "" Or row.Cells(1).Value <> "" Or row.Cells(2).Value <> "" _
-                Or row.Cells(3).Value <> "" Or row.Cells(4).Value <> "")
+        If VariablesList.RowCount > 1 Then
+            Dim Row As Integer = VariablesList.RowCount - 1
+            DoAddNewRow = (VariablesList.Cells(Row, 0).Value <> "" Or _
+                            VariablesList.Cells(Row, 1).Value <> "" Or _
+                            VariablesList.Cells(Row, 2).Value <> "" Or _
+                            VariablesList.Cells(Row, 3).Value <> "" Or _
+                            VariablesList.Cells(Row, 4).Value <> "")
         End If
         If DoAddNewRow Then
-            row = VariablesList.DataRows.AddNew()
-            AddHandler row.Cells(0).EditLeft, AddressOf Me.CellLeavingEdit
-            AddHandler row.Cells(1).EditLeft, AddressOf Me.CellLeavingEdit
-            AddHandler row.Cells(2).EditLeft, AddressOf Me.CellLeavingEdit
-            AddHandler row.Cells(3).EditLeft, AddressOf Me.CellLeavingEdit
-            AddHandler row.Cells(4).EditLeft, AddressOf Me.CellLeavingEdit
-            AddHandler row.Cells(0).EnteringEdit, AddressOf Me.CellEnteringEdit
-            AddHandler row.Cells(1).EnteringEdit, AddressOf Me.CellEnteringEdit
-            AddHandler row.Cells(2).EnteringEdit, AddressOf Me.CellEnteringEdit
-            AddHandler row.Cells(3).EnteringEdit, AddressOf Me.CellEnteringEdit
-            AddHandler row.Cells(4).EnteringEdit, AddressOf Me.CellEnteringEdit
-            row.EndEdit()
+            VariablesList.RowCount = VariablesList.RowCount + 1
         End If
     End Sub
-
-
-    ' -------------------------------------------------
-    ' User has hit a key - see if it is a delete.
-    ' -------------------------------------------------
-    Private Sub VariablesList_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles VariablesList.KeyDown
-        If e.KeyValue = Keys.Delete Then
-            Dim Row As Xceed.Grid.DataRow = VariablesList.CurrentCell.ParentRow
-            Dim name As String = Row.Cells(2).Value
-            If Not IsNothing(name) Then
-                Data.Child("Variables").Delete(name)
-                VariablesList.DataRows.Remove(Row)
-            End If
-        End If
-    End Sub
-
-
-    ' -------------------------------------------------
-    ' User is about to modify a cell - provide help text.
-    ' -------------------------------------------------
-    Private Sub CellEnteringEdit(ByVal sender As Object, ByVal e As Xceed.Grid.EnteringEditEventArgs)
-        Select Case VariablesList.CurrentCell.ParentColumn.Index
-            Case 0
-                Tooltip.Text = "Enter the name of the APSIM variable"
-            Case 1
-                Tooltip.Text = "Enter the APSIM module name that owns the variable"
-            Case 2
-                Tooltip.Text = "Enter a column heading name for the output file"
-            Case 3
-                Tooltip.Text = "For array variables, enter an array specifier e.g. () for sum, (1-2) for first 2 elements or leave blank to output all elements"
-            Case 4
-                Tooltip.Text = "Enter an option description for the variable"
-        End Select
-        OldName = VariablesList.CurrentCell.ParentRow.Cells(2).Value
-    End Sub
-
-
-    ' -------------------------------------------------
-    ' User has modified a cell - save row.
-    ' -------------------------------------------------
-    Private Sub CellLeavingEdit(ByVal sender As Object, ByVal e As Xceed.Grid.EditLeftEventArgs)
-        If Not InFill Then
-            Dim Row As Xceed.Grid.DataRow = VariablesList.CurrentCell.ParentRow
-            Dim VariablesNode As APSIMData = Data.Child("variables")
-
-            If Row.Cells(2).Value = "" Then
-                Row.Cells(2).Value = Row.Cells(0).Value
-            End If
-
-            Dim Child As APSIMData = VariablesNode.Child(OldName)
-            If IsNothing(Child) Then
-                VariablesNode.Add(New APSIMData("variable", Row.Cells(2).Value))
-                Child = VariablesNode.Child(Row.Cells(2).Value)
-            End If
-            Child.SetAttribute("variablename", Row.Cells(0).Value)
-            Child.SetAttribute("module", Row.Cells(1).Value)
-            Child.SetAttribute("name", Row.Cells(2).Value)
-            OldName = Row.Cells(2).Value
-            Dim ArraySpec As String = Row.Cells(3).Value
-            If (ArraySpec Is Nothing) Then
-                ArraySpec = " "
-            End If
-            Child.SetAttribute("arrayspec", ArraySpec)
-            Child.SetAttribute("description", Row.Cells(4).Value)
-            AddModuleType(Child)
+    Private Sub VariablesList_CellChanged(ByVal sender As Object, ByVal e As FarPoint.Win.Spread.SheetViewEventArgs) Handles VariablesList.CellChanged
+        If UserChange Then
+            UserChange = False
+            ApsimUI.DirtyData = True
+            FixAliasForRow(e.Row)
             AddBlankRow()
+            UserChange = True
         End If
+    End Sub
 
-        Me.Tooltip.Text = "Hint: Right click on a cell to activate a popup menu for deleting variables."
-
+    Private Sub PopulateRowFromData(ByVal Row As Integer, ByVal Variable As APSIMData)
+        VariablesList.Cells(Row, 0).Value = Variable.Attribute("variablename")
+        VariablesList.Cells(Row, 1).Value = Variable.Attribute("module")
+        If Variable.Attribute("name") <> Variable.Attribute("variablename") Then
+            VariablesList.Cells(Row, 2).Value = Variable.Attribute("name")
+        End If
+        Dim ArraySpec As String = Variable.Attribute("arrayspec")
+        If ArraySpec = "()" Then
+            ArraySpec = "sum"
+        ElseIf ArraySpec = " " And Variable.Attribute("array") = "T" Then
+            ArraySpec = "all layers"
+        End If
+        VariablesList.Cells(Row, 3).Value = ArraySpec
+        VariablesList.Cells(Row, 4).Value = Variable.Attribute("description")
+        If Variable.Attribute("VariableType") <> "" Then
+            VariablesList.Cells(Row, 1).Value = VariablesList.Cells(Row, 1).Value + " " + Variable.Attribute("VariableType")
+        End If
+        ' Only make the arrayspec field visible for array variables.
+        VariablesList.Cells(Row, 3).Locked = Variable.Attribute("array") <> "T"
     End Sub
 
 
-    ' ----------------------------------------------
-    ' Add a module type to the specified variable.
-    ' ----------------------------------------------
     Private Sub AddModuleType(ByVal Variable As APSIMData)
+        ' Add a module type attribute to the specified variable.
         For Index As Integer = 0 To ComponentNames.Count - 1
             If ComponentNames(Index).ToLower() = Variable.Attribute("module").ToLower() Then
                 Variable.SetAttribute("ModuleType", ComponentTypes(Index))
             End If
         Next
     End Sub
+    Private Function FixAliasForRow(ByVal Row As Integer) As Boolean
+        ' The aim of this method is to ensure the specified row has
+        ' a unique alias when compared with all the other variables
+        ' in the grid.
 
-
-    ' -----------------------------------------------------
-    ' Manually trap the mouse down for drag and drop
-    ' ----------------------------------------------------
-    Private m_mouseLocation As Point = Point.Empty
-    Private Sub Mouse_Down(ByVal sender As Object, ByVal e As MouseEventArgs)
-        ' Get the location of the mouse when the mouse button is pressed.
-        m_mouseLocation = New Point(e.X, e.Y)
-    End Sub
-
-
-    ' -----------------------------------------------------
-    ' Manually trap the mouse up for drag and drop
-    ' ----------------------------------------------------
-    Private Sub Mouse_Up(ByVal sender As Object, ByVal e As MouseEventArgs)
-        ' Reset the location of the mouse when the mouse button is released.
-        m_mouseLocation = Point.Empty
-    End Sub
-
-
-    ' -----------------------------------------------------
-    ' Manually trap the mouse move for drag and drop
-    ' ----------------------------------------------------
-    Private Sub Mouse_Move(ByVal sender As Object, ByVal e As MouseEventArgs)
-        ' The mouse button is pressed
-        If e.Button <> MouseButtons.None Then
-
-            ' The mouse has moved!
-            Dim InitiateDrag As Boolean = True
-            If (Not IsNothing(VariablesList.CurrentCell)) Then
-                InitiateDrag = Not VariablesList.CurrentCell.IsBeingEdited
-            End If
-            InitiateDrag = InitiateDrag And (Math.Abs(m_mouseLocation.X - e.X) > 3 Or Math.Abs(m_mouseLocation.Y - e.Y) > 3)
-            If (InitiateDrag) Then
-                Dim Row As Xceed.Grid.DataRow = VariablesList.CurrentCell.ParentRow
-                If Not IsNothing(Row) Then
-                    Dim RowNumber As Integer = Row.Index
-
-                    Dim VariablesNode As APSIMData = Data.Child("variables")
-                    If Not IsNothing(VariablesNode) Then
-                        Dim DataString As String = VariablesNode.Children()(RowNumber).XML
-                        VariablesList.DoDragDrop(DataString, DragDropEffects.Copy)
-                    End If
-                End If
-            End If
+        Dim BaseAlias As String = VariablesList.Cells(Row, 2).Value
+        If BaseAlias = "" Then
+            BaseAlias = VariablesList.Cells(Row, 0).Value
         End If
 
-    End Sub
+        Dim Index As Integer = 1
+        While RowClashes(Row)
+            VariablesList.Cells(Row, 2).Value = BaseAlias + "{" + Index.ToString + "}"
+            Index = Index + 1
+        End While
+    End Function
+    Private Function RowClashes(ByVal Row As Integer) As Boolean
+        ' Loop through all rows seeing if there is another row in variableslist
+        ' that 'clashes' with the specified 'Row'
+        For r As Integer = 0 To VariablesList.RowCount - 1
+            If r <> Row And _
+                VariablesList.Cells(r, 0).Value = VariablesList.Cells(Row, 0).Value And _
+                VariablesList.Cells(r, 2).Value = VariablesList.Cells(Row, 2).Value Then
+                Return True
+            End If
+        Next
+        Return False
+    End Function
 
 
-    ' -------------------------------------------------
-    ' A drag operation has entered the variables list.
-    ' -------------------------------------------------
-    Private Sub VariablesList_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles VariablesList.DragEnter
+#Region "Drag / Drop methods"
+    Private Sub VariablesList_DragEnter(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles FpSpread.DragEnter
         If AllowDrop = True Then
             e.Effect = DragDropEffects.Copy
         Else
             e.Effect = DragDropEffects.None
         End If
     End Sub
-
-
-    ' --------------------------------
-    ' User has dragged over us.
-    ' --------------------------------
-    Private Sub VariablesList_DragOver(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles VariablesList.DragOver
+    Private Sub VariablesList_DragOver(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles FpSpread.DragOver
         e.Effect = DragDropEffects.Copy
     End Sub
+    Private Sub VariablesList_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles FpSpread.DragDrop
+        Dim Row As Integer = VariablesList.RowCount - 1
 
-
-    ' -------------------------------------------------
-    ' The user has dropped an item on us
-    ' -------------------------------------------------
-    Private Sub VariablesList_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles VariablesList.DragDrop
-        Dim DataCell As Xceed.Grid.DataCell = VariablesList.GetVisualGridElementAtPoint(VariablesList.PointToClient(New Point(e.X, e.Y)))
-        Dim DataRow As Xceed.Grid.DataRow = DataCell.ParentRow
-        Dim RowNumber As Integer = DataRow.Index
-
-        Dim NewDataString As String = e.Data.GetData(DataFormats.Text)
-        Dim NewData As New APSIMData(NewDataString)
-        If NewData.Type = "variable" Then
-            NewData.SetAttribute("variablename", NewData.Attribute("name"))
-            NewData.SetAttribute("arrayspec", " ")
-
-            Dim VariablesNode As APSIMData = Data.Child("variables")
-            Dim InsertNode As APSIMData
-            If RowNumber < VariablesList.DataRows.Count - 1 Then
-                InsertNode = VariablesNode.Children()(RowNumber)
-            End If
-            If Not m_mouseLocation.IsEmpty() Then
-                Dim Row As Xceed.Grid.DataRow = VariablesList.CurrentCell.ParentRow
-                Dim SourceRowNumber As Integer = Row.Index
-                Dim ChildToDelete As String = VariablesNode.Children()(SourceRowNumber).Name
-                VariablesNode.Delete(ChildToDelete)
-                m_mouseLocation = Point.Empty
-            End If
-
-            AddModuleType(NewData)
-            If RowNumber >= VariablesList.DataRows.Count - 1 Then
-                VariablesNode.Add(NewData)
+        Dim NewDataString As String = "<dummy>" + e.Data.GetData(DataFormats.Text) + "</dummy>"
+        Dim NewVariables As New APSIMData(NewDataString)
+        For Each NewVariable As APSIMData In NewVariables.Children
+            If NewVariable.Type = "variable" Then
+                If Row >= VariablesList.RowCount Then
+                    VariablesList.RowCount = VariablesList.RowCount + 1
+                End If
+                NewVariable.SetAttribute("variablename", NewVariable.Name)
+                PopulateRowFromData(Row, NewVariable)
+                FixAliasForRow(Row)
+                Row = Row + 1
             Else
-                VariablesNode.AddBefore(NewData, InsertNode)
+                MsgBox("You can only add variables to the output variables list.", MsgBoxStyle.Critical, "Error")
             End If
-
-            Refresh()
-        Else
-            MsgBox("You can only add variables to the output variables list.", MsgBoxStyle.Critical, "Error")
-        End If
+        Next
+        ApsimUI.DirtyData = True
     End Sub
 
-    ' ----------------------------------------
-    ' User wants to delete the current row.
-    ' ----------------------------------------
-    Private Sub DeleteRowMenu_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DeleteRowMenu.Click
-        Dim Row As Xceed.Grid.DataRow = VariablesList.CurrentCell.ParentRow
-        Dim name As String = Row.Cells(2).Value
-        If Not IsNothing(name) Then
-            Data.Child("Variables").Delete(name)
-            VariablesList.DataRows.Remove(Row)
-        End If
-    End Sub
 
-    Private Sub DeleteAllMenu_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DeleteAllMenu.Click
-        VariablesList.DataRows.Clear()
-        AddBlankRow()
-        Data.Child("Variables").Clear()
-    End Sub
+#End Region
 
-    Private Sub VariablesList_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles VariablesList.Resize
-        If VariablesList.Columns.Count = 5 Then
-            Dim WidthOfOtherColumns As Integer = 0
-            For i As Integer = 0 To 3
-                WidthOfOtherColumns = WidthOfOtherColumns + VariablesList.Columns(i).Width
-            Next
-            VariablesList.Columns(4).Width = VariablesList.DisplayRectangle.Width - WidthOfOtherColumns
-        End If
-    End Sub
 
-    Public Sub Save()
-        If Not VariablesList.CurrentCell Is Nothing Then
-            If VariablesList.CurrentCell.IsBeingEdited Then
-                VariablesList.CurrentCell.LeaveEdit(True)
+
+    Private Sub FpSpread_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles FpSpread.KeyDown
+        If e.KeyCode = Keys.Delete Then
+            If VariablesList.SelectionCount > 0 Then
+                Dim Range As FarPoint.Win.Spread.Model.CellRange = VariablesList.GetSelection(0)
+                If Range.ColumnCount = 5 Then
+                    ' delete the entire rows.
+                    VariablesList.Rows(Range.Row, Range.Row + Range.RowCount - 1).Remove()
+                Else
+                    ' just clear the cell contents.
+                    VariablesList.Cells(Range.Row, Range.Column, Range.Row + Range.RowCount - 1, Range.Column + Range.ColumnCount - 1).Value = ""
+                End If
+                AddBlankRow()
             End If
+            ApsimUI.DirtyData = True
         End If
     End Sub
 End Class

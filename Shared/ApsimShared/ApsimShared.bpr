@@ -5,12 +5,13 @@
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\Bin\ApsimShared.dll"/>
     <OBJFILES value="ApsimShared.obj ApsimComponentData.obj ApsimControlFile.obj 
-      ApsimDirectories.obj ApsimLicence.obj ApsimProject.obj ApsimRunFile.obj 
+      ApsimDirectories.obj ApsimLicence.obj ApsimRunFile.obj 
       ApsimServiceData.obj ApsimSettings.obj ApsimSimulationFile.obj 
       ApsimSystemData.obj ApsimVersion.obj TAboutForm.obj TSplashForm.obj 
       ApsimForms.obj ApsimDataFile.obj ApsimDataTypesFile.obj 
       ApsimDataTypeData.obj ApsimRegistrationData.obj ControlFileConverter.obj 
-      TMoveParametersForm.obj SimCreator.obj StarUtils.obj ApsimMacroFile.obj"/>
+      TMoveParametersForm.obj ApsimMacroFile.obj FStringExt.obj SimCreator.obj 
+      SimCreatorSection.obj"/>
     <RESFILES value="ApsimShared.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TAboutForm.dfm TSplashForm.dfm TMoveParametersForm.dfm"/>
@@ -32,20 +33,21 @@
     <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
-    <USERDEFINES value="BOOST_REGEX_STATIC_LINK"/>
+    <USERDEFINES value="BOOST_REGEX_STATIC_LINK;_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="ApsimShared.bpf"/>
-    <INCLUDEPATH value="..\..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)"/>
-    <LIBPATH value="..\..;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms;$(BCB)\components\Boost\libs\regex\build\bcb6"/>
+    <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;..\..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)"/>
+    <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;..\..;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms;$(BCB)\components\Boost\libs\regex\build\bcb6"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -O2 -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k- -vi -tWD -tWM -c"/>
-    <PFLAGS value="-$Y- -$L- -$D- -$A8 -v -JPHNE -M"/>
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
+      -tWD -tWM -c"/>
+    <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
-    <AFLAGS value="/mx /w2 /zn"/>
-    <LFLAGS value="-l. -D&quot;&quot; -aa -Tpd -x -Gn -Gi"/>
+    <AFLAGS value="/mx /w2 /zi"/>
+    <LFLAGS value="-l. -D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
@@ -62,7 +64,6 @@
       <FILE FILENAME="ApsimControlFile.cpp" FORMNAME="" UNITNAME="ApsimControlFile.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ApsimDirectories.cpp" FORMNAME="" UNITNAME="ApsimDirectories.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ApsimLicence.cpp" FORMNAME="" UNITNAME="ApsimLicence.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="ApsimProject.cpp" FORMNAME="" UNITNAME="ApsimProject.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ApsimRunFile.cpp" FORMNAME="" UNITNAME="ApsimRunFile.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ApsimServiceData.cpp" FORMNAME="" UNITNAME="ApsimServiceData.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ApsimSettings.cpp" FORMNAME="" UNITNAME="ApsimSettings.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
@@ -79,13 +80,14 @@
       <FILE FILENAME="ApsimRegistrationData.cpp" FORMNAME="" UNITNAME="ApsimRegistrationData" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ControlFileConverter.cpp" FORMNAME="" UNITNAME="ControlFileConverter" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TMoveParametersForm.cpp" FORMNAME="MoveParametersForm" UNITNAME="TMoveParametersForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="SimCreator.cpp" FORMNAME="" UNITNAME="SimCreator" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib" FORMNAME="" UNITNAME="filesystem.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="StarUtils.cpp" FORMNAME="" UNITNAME="StarUtils" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ApsimMacroFile.cpp" FORMNAME="" UNITNAME="ApsimMacroFile" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib" FORMNAME="" UNITNAME="date_time.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\LibXML2.lib" FORMNAME="" UNITNAME="LibXML2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="FStringExt.cpp" FORMNAME="" UNITNAME="FStringExt" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="SimCreator.cpp" FORMNAME="" UNITNAME="SimCreator" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="SimCreatorSection.cpp" FORMNAME="" UNITNAME="SimCreatorSection" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -118,10 +120,16 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
+[Excluded Packages]
+D:\development\Bin\APSGeneral.bpl=APSGeneral
+D:\development\Bin\APSData.bpl=APSuite data components
+C:\Program Files\Borland\CBuilder6\Components\TeeChart\source\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
+C:\Program Files\Borland\CBuilder6\Components\MemTable\kbmMemC6Des.bpl=kbmMemC6Des
+
 [HistoryLists\hlIncludePath]
 Count=7
-Item0=..\..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
-Item1=C:\Program Files\Borland\CBuilder6\Bin;..\..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item0=C:\Program Files\Borland\CBuilder6\Bin;..\..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item1=..\..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
 Item2=C:\Program Files\Borland\CBuilder6\Projects;..\..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
 Item3=..\..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(SHARED)
 Item4=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(SHARED)
@@ -129,25 +137,27 @@ Item5=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms
 Item6=Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=9
-Item0=..\..;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms;$(BCB)\components\Boost\libs\regex\build\bcb6
-Item1=..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
-Item2=C:\Program Files\Borland\CBuilder6\Bin;C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
-Item3=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
-Item4=..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item5=C:\Program Files\Borland\CBuilder6\Projects;..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item6=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item7=$(BCB)\lib\obj;$(BCB)\lib
-Item8=Shared\ApsimShared;$(BCB)\lib\obj;$(BCB)\lib
+Count=10
+Item0=C:\Program Files\Borland\CBuilder6\Bin;..\..;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms;$(BCB)\components\Boost\libs\regex\build\bcb6
+Item1=..\..;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms;$(BCB)\components\Boost\libs\regex\build\bcb6
+Item2=..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item3=C:\Program Files\Borland\CBuilder6\Bin;C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item4=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item5=..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item6=C:\Program Files\Borland\CBuilder6\Projects;..\..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item7=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item8=$(BCB)\lib\obj;$(BCB)\lib
+Item9=Shared\ApsimShared;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
 Item0=$(BCB)\source\vcl
 
 [HistoryLists\hlConditionals]
-Count=2
-Item0=BOOST_REGEX_STATIC_LINK
-Item1=_DEBUG
+Count=3
+Item0=BOOST_REGEX_STATIC_LINK;_DEBUG
+Item1=BOOST_REGEX_STATIC_LINK
+Item2=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
 Count=2
@@ -162,11 +172,11 @@ Item0=.
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=/CreateSIM c:\mydata\development\apsim\accum\sample\accum.con
+RunParams=d:\development\apsim\soilwat2\sample\soilwat2.con
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=c:\myData\development\bin\apsrun.exe
+HostApplication=d:\development\bin\apsrun.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=

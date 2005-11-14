@@ -8,93 +8,111 @@ using System.IO;
 using VBGeneral;
 using CSGeneral;
 using ChangeTool;
+using System.Reflection;
 
 namespace APSoil
 	{
 	//-----------------------------
-	// APSoil main form.
+	// Apsoil main form.
 	// ----------------------------
 	public class MainForm : System.Windows.Forms.Form
 		{
+		private ApsoilController Apsoil;
 		private ExplorerUI SoilExplorer;
-		private UIManager UserInterfaceManager;
-													 
-		private System.Windows.Forms.MainMenu mainMenu1;
-		private System.Windows.Forms.MenuItem menuItem1;
-		private System.Windows.Forms.MenuItem menuItem5;
-		private System.Windows.Forms.MenuItem FileOpen;
-		private System.Windows.Forms.MenuItem FileSave;
-		private System.Windows.Forms.MenuItem FileSaveAs;
-		private System.Windows.Forms.MenuItem FileExit;
-		private System.Windows.Forms.MenuItem FileNew;
 		private System.Windows.Forms.ImageList SmallImages;
 		internal System.Windows.Forms.ImageList ButtonImageList;
 		private System.Windows.Forms.Panel MainPanel;
-		internal System.Windows.Forms.ToolBar ToolBar;
-		internal System.Windows.Forms.ToolBarButton FileNewButton;
-		internal System.Windows.Forms.ToolBarButton FileOpenButton;
-		internal System.Windows.Forms.ToolBarButton FileSaveButton;
-		internal System.Windows.Forms.ToolBarButton Separator1;
-		internal System.Windows.Forms.ToolBarButton CutButton;
-		internal System.Windows.Forms.ToolBarButton CopyButton;
-		internal System.Windows.Forms.ToolBarButton PasteButton;
-		private System.Windows.Forms.ToolBarButton ImportButton;
-		private System.Windows.Forms.ContextMenu ImportMenu;
-		private System.Windows.Forms.MenuItem ImportFromSpreadsheet;
-		private System.Windows.Forms.MenuItem menuItem2;
-		private System.Windows.Forms.MenuItem menuItem4;
 		private System.Windows.Forms.OpenFileDialog ImportSpreadsheetDialog;
-		private System.Windows.Forms.MenuItem ImportMenuItem;
-		private System.Windows.Forms.MenuItem ImportW2N2Menu;
-		private System.Windows.Forms.MenuItem ImportW2N2Files;
 		private System.Windows.Forms.FolderBrowserDialog FolderBrowserDialog;
-		private System.Windows.Forms.MenuItem ImportParMenu;
-		private System.Windows.Forms.MenuItem ImportParFiles;
 		private System.Windows.Forms.OpenFileDialog ImportParDialog;
-		private System.Windows.Forms.MenuItem menuItem6;
 		private System.Windows.Forms.SaveFileDialog ParExportDialog;
-		private System.Windows.Forms.MenuItem menuItem3;
-		private System.Windows.Forms.MenuItem CheckForErrors;
-		private System.Windows.Forms.MenuItem ExportPar;
 		private System.Windows.Forms.SaveFileDialog SimExportDialog;
 		private System.ComponentModel.IContainer components;
-		private System.Windows.Forms.MenuItem ImportSoilsFile;
-		private System.Windows.Forms.MenuItem ImportSoilsMenu;
 		private System.Windows.Forms.OpenFileDialog ImportSoilsDialog;
 		private System.Windows.Forms.OpenFileDialog openFileDialog2;
-		private System.Windows.Forms.MenuItem menuItem7;
-		private System.Windows.Forms.MenuItem SortMenuItem;
-		private System.Windows.Forms.ToolBarButton ExportButton;
-		private System.Windows.Forms.ContextMenu ExportMenu;
-		private System.Windows.Forms.MenuItem ExportToParMenuItem;
-		private System.Windows.Forms.MenuItem ExportToDatabaseMenuItem;
-		private System.Windows.Forms.MenuItem ExportToAnother;
 		private System.Windows.Forms.SaveFileDialog ExportSoilsDialog;
-		private System.Windows.Forms.MenuItem ExportMenuItem;
+		private System.Windows.Forms.Panel MainToolbarPanel;
+		private System.Windows.Forms.ToolBar MainToolBar;
+		private System.Windows.Forms.ToolBarButton FileButton;
+		private System.Windows.Forms.ToolBarButton ImportButton;
+		private System.Windows.Forms.ToolBarButton ExportButton;
+		private System.Windows.Forms.Panel ExportToolBarPanel;
+		private System.Windows.Forms.Panel ImportToolBarPanel;
+		private System.Windows.Forms.Panel FileToolBarPanel;
+		private System.Windows.Forms.Panel SoilsToolBarPanel;
+		private System.Windows.Forms.ToolBarButton SoilsButton;
+		private System.Windows.Forms.Splitter splitter1;
+		private System.Windows.Forms.Panel SoilPanel1;
+		private System.Windows.Forms.ToolBar SoilToolBar1;
+		private System.Windows.Forms.ToolBarButton CutButton;
+		private System.Windows.Forms.ToolBarButton CopyButton;
+		private System.Windows.Forms.ToolBarButton PasteButton;
+		private System.Windows.Forms.Label SoilLabel1;
+		private System.Windows.Forms.Panel SoilPanel2;
+		private System.Windows.Forms.Label SoilLabel2;
+		private System.Windows.Forms.ToolBar SoilToolBar2;
+		private System.Windows.Forms.ToolBarButton AddCropButton;
+		private System.Windows.Forms.ToolBarButton DeleteCropButton;
+		private System.Windows.Forms.ToolBarButton ReorderCropButton;
+		private System.Windows.Forms.Panel SoilPanel3;
+		private System.Windows.Forms.Label SoilLabel3;
+		private System.Windows.Forms.Splitter splitter2;
+		private System.Windows.Forms.ToolBar SoilToolBar3;
+		private System.Windows.Forms.ToolBarButton AddNoteButton;
+		private System.Windows.Forms.ToolBarButton DeleteNoteButton;
+		private System.Windows.Forms.Splitter splitter3;
+		private System.Windows.Forms.Panel FilePanel1;
+		private System.Windows.Forms.Label FileLabel1;
+		private System.Windows.Forms.ToolBar FileToolBar1;
+		private System.Windows.Forms.Splitter splitter4;
+		private System.Windows.Forms.Panel FilePanel2;
+		private System.Windows.Forms.Label FileLabel2;
+		private System.Windows.Forms.ToolBar FileToolBar;
+		private System.Windows.Forms.ToolBarButton VersionButton;
+		private System.Windows.Forms.Splitter splitter5;
+		private System.Windows.Forms.ToolBarButton NewFileButton;
+		private System.Windows.Forms.ToolBarButton OpenFileButton;
+		private System.Windows.Forms.ToolBarButton SaveFileButton;
+		private System.Windows.Forms.ToolBarButton SaveFileAsButton;
+		private System.Windows.Forms.Panel ToolPanel1;
+		private System.Windows.Forms.ToolBar ToolToolBar;
+		private System.Windows.Forms.Label ToolLabel1;
+		private System.Windows.Forms.ToolBarButton CheckSoilsButton;
+		private System.Windows.Forms.ToolBarButton SortButton;
+		private System.Windows.Forms.Panel ImportPanel1;
+		private System.Windows.Forms.Label ImportLabel1;
+		private System.Windows.Forms.ToolBar ImportToolBar;
+		private System.Windows.Forms.ToolBarButton FromSoilsButton;
+		private System.Windows.Forms.ToolBarButton FromParButton;
+		private System.Windows.Forms.ToolBarButton FromSpreadsheetButton;
+		private System.Windows.Forms.ToolBarButton Fromw2n2Button;
+		private System.Windows.Forms.Splitter splitter6;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.ToolBar ExportToolBar;
+		private System.Windows.Forms.ToolBarButton ToSoilsButton;
+		private System.Windows.Forms.ToolBarButton ToParButton;
+		private System.Windows.Forms.Splitter splitter7;
+		private System.Windows.Forms.Panel PrintPanel;
+		private System.Windows.Forms.ToolBar PrintToolBar;
+		private System.Windows.Forms.Label PrintLabel;
+		private System.Windows.Forms.ToolBarButton PrintButton;
+		private System.Windows.Forms.Splitter splitter8;
 		private string CommandLineFileName;
 
-		// ------------------
-		// constructor
-		// ------------------
+		#region Constructor / Destructor / Main
 		public MainForm()
 			{
+		    //Xceed.SmartUI.Licenser.LicenseKey = "SUN31-9TL57-SUXL5-F4BA";
+			Xceed.Chart.Licenser.LicenseKey = "CHT30-YTL57-0UXLJ-145A";
+
 			//
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
 
-			//
-			// TODO: Add any constructor code after InitializeComponent call
-			//
-	        Xceed.Grid.Licenser.LicenseKey = "GRD22-KTL57-34ZF5-W4JA";
-		    Xceed.SmartUI.Licenser.LicenseKey = "SUN31-9TL57-SUXL5-F4BA";
-			Xceed.Chart.Licenser.LicenseKey = "CHT30-YTL57-0UXLJ-145A";
 			}
 
-
-        // -----------------------------------
-		// Clean up any resources being used.
-		// -----------------------------------
 		protected override void Dispose( bool disposing )
 			{
 			if( disposing )
@@ -107,6 +125,22 @@ namespace APSoil
 			base.Dispose( disposing );
 		}
 		
+		[STAThread]	static void Main(string[] args) 
+			{
+			Application.EnableVisualStyles();
+			Application.DoEvents();
+
+			Application.DoEvents();
+			MainForm Main = new MainForm();
+			if (args.Length == 1)
+				Main.LoadFile(args[0]);
+			Application.Run(Main);
+			Application.DoEvents();
+
+			Application.DoEvents();
+			}
+		#endregion
+
 		#region Windows Form Designer generated code
 		/// <summary>
 		/// Required method for Designer support - do not modify
@@ -116,44 +150,9 @@ namespace APSoil
 		{
 			this.components = new System.ComponentModel.Container();
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(MainForm));
-			this.mainMenu1 = new System.Windows.Forms.MainMenu();
-			this.menuItem1 = new System.Windows.Forms.MenuItem();
-			this.FileNew = new System.Windows.Forms.MenuItem();
-			this.FileOpen = new System.Windows.Forms.MenuItem();
-			this.FileSave = new System.Windows.Forms.MenuItem();
-			this.FileSaveAs = new System.Windows.Forms.MenuItem();
-			this.menuItem5 = new System.Windows.Forms.MenuItem();
-			this.ImportMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem4 = new System.Windows.Forms.MenuItem();
-			this.ImportW2N2Menu = new System.Windows.Forms.MenuItem();
-			this.ImportParMenu = new System.Windows.Forms.MenuItem();
-			this.ImportSoilsMenu = new System.Windows.Forms.MenuItem();
-			this.menuItem2 = new System.Windows.Forms.MenuItem();
-			this.ExportMenuItem = new System.Windows.Forms.MenuItem();
-			this.ExportPar = new System.Windows.Forms.MenuItem();
-			this.menuItem6 = new System.Windows.Forms.MenuItem();
-			this.FileExit = new System.Windows.Forms.MenuItem();
-			this.menuItem7 = new System.Windows.Forms.MenuItem();
-			this.SortMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem3 = new System.Windows.Forms.MenuItem();
-			this.CheckForErrors = new System.Windows.Forms.MenuItem();
 			this.SmallImages = new System.Windows.Forms.ImageList(this.components);
 			this.ButtonImageList = new System.Windows.Forms.ImageList(this.components);
 			this.MainPanel = new System.Windows.Forms.Panel();
-			this.ToolBar = new System.Windows.Forms.ToolBar();
-			this.FileNewButton = new System.Windows.Forms.ToolBarButton();
-			this.FileOpenButton = new System.Windows.Forms.ToolBarButton();
-			this.FileSaveButton = new System.Windows.Forms.ToolBarButton();
-			this.ImportButton = new System.Windows.Forms.ToolBarButton();
-			this.ImportMenu = new System.Windows.Forms.ContextMenu();
-			this.ImportFromSpreadsheet = new System.Windows.Forms.MenuItem();
-			this.ImportW2N2Files = new System.Windows.Forms.MenuItem();
-			this.ImportParFiles = new System.Windows.Forms.MenuItem();
-			this.ImportSoilsFile = new System.Windows.Forms.MenuItem();
-			this.Separator1 = new System.Windows.Forms.ToolBarButton();
-			this.CutButton = new System.Windows.Forms.ToolBarButton();
-			this.CopyButton = new System.Windows.Forms.ToolBarButton();
-			this.PasteButton = new System.Windows.Forms.ToolBarButton();
 			this.ImportSpreadsheetDialog = new System.Windows.Forms.OpenFileDialog();
 			this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.ImportParDialog = new System.Windows.Forms.OpenFileDialog();
@@ -161,154 +160,89 @@ namespace APSoil
 			this.ImportSoilsDialog = new System.Windows.Forms.OpenFileDialog();
 			this.SimExportDialog = new System.Windows.Forms.SaveFileDialog();
 			this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
-			this.ExportButton = new System.Windows.Forms.ToolBarButton();
-			this.ExportMenu = new System.Windows.Forms.ContextMenu();
-			this.ExportToParMenuItem = new System.Windows.Forms.MenuItem();
-			this.ExportToDatabaseMenuItem = new System.Windows.Forms.MenuItem();
-			this.ExportToAnother = new System.Windows.Forms.MenuItem();
 			this.ExportSoilsDialog = new System.Windows.Forms.SaveFileDialog();
+			this.SoilsToolBarPanel = new System.Windows.Forms.Panel();
+			this.ToolPanel1 = new System.Windows.Forms.Panel();
+			this.ToolToolBar = new System.Windows.Forms.ToolBar();
+			this.CheckSoilsButton = new System.Windows.Forms.ToolBarButton();
+			this.SortButton = new System.Windows.Forms.ToolBarButton();
+			this.ToolLabel1 = new System.Windows.Forms.Label();
+			this.splitter3 = new System.Windows.Forms.Splitter();
+			this.SoilPanel3 = new System.Windows.Forms.Panel();
+			this.SoilToolBar3 = new System.Windows.Forms.ToolBar();
+			this.AddNoteButton = new System.Windows.Forms.ToolBarButton();
+			this.DeleteNoteButton = new System.Windows.Forms.ToolBarButton();
+			this.SoilLabel3 = new System.Windows.Forms.Label();
+			this.splitter2 = new System.Windows.Forms.Splitter();
+			this.SoilPanel2 = new System.Windows.Forms.Panel();
+			this.SoilToolBar2 = new System.Windows.Forms.ToolBar();
+			this.AddCropButton = new System.Windows.Forms.ToolBarButton();
+			this.DeleteCropButton = new System.Windows.Forms.ToolBarButton();
+			this.ReorderCropButton = new System.Windows.Forms.ToolBarButton();
+			this.SoilLabel2 = new System.Windows.Forms.Label();
+			this.splitter1 = new System.Windows.Forms.Splitter();
+			this.SoilPanel1 = new System.Windows.Forms.Panel();
+			this.SoilToolBar1 = new System.Windows.Forms.ToolBar();
+			this.CutButton = new System.Windows.Forms.ToolBarButton();
+			this.CopyButton = new System.Windows.Forms.ToolBarButton();
+			this.PasteButton = new System.Windows.Forms.ToolBarButton();
+			this.SoilLabel1 = new System.Windows.Forms.Label();
+			this.splitter8 = new System.Windows.Forms.Splitter();
+			this.PrintPanel = new System.Windows.Forms.Panel();
+			this.PrintToolBar = new System.Windows.Forms.ToolBar();
+			this.PrintButton = new System.Windows.Forms.ToolBarButton();
+			this.PrintLabel = new System.Windows.Forms.Label();
+			this.ExportToolBarPanel = new System.Windows.Forms.Panel();
+			this.splitter7 = new System.Windows.Forms.Splitter();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.ExportToolBar = new System.Windows.Forms.ToolBar();
+			this.ToSoilsButton = new System.Windows.Forms.ToolBarButton();
+			this.ToParButton = new System.Windows.Forms.ToolBarButton();
+			this.label1 = new System.Windows.Forms.Label();
+			this.ImportToolBarPanel = new System.Windows.Forms.Panel();
+			this.splitter6 = new System.Windows.Forms.Splitter();
+			this.ImportPanel1 = new System.Windows.Forms.Panel();
+			this.ImportToolBar = new System.Windows.Forms.ToolBar();
+			this.FromSoilsButton = new System.Windows.Forms.ToolBarButton();
+			this.FromParButton = new System.Windows.Forms.ToolBarButton();
+			this.FromSpreadsheetButton = new System.Windows.Forms.ToolBarButton();
+			this.Fromw2n2Button = new System.Windows.Forms.ToolBarButton();
+			this.ImportLabel1 = new System.Windows.Forms.Label();
+			this.FileToolBarPanel = new System.Windows.Forms.Panel();
+			this.splitter5 = new System.Windows.Forms.Splitter();
+			this.FilePanel2 = new System.Windows.Forms.Panel();
+			this.FileToolBar = new System.Windows.Forms.ToolBar();
+			this.VersionButton = new System.Windows.Forms.ToolBarButton();
+			this.FileLabel2 = new System.Windows.Forms.Label();
+			this.splitter4 = new System.Windows.Forms.Splitter();
+			this.FilePanel1 = new System.Windows.Forms.Panel();
+			this.FileToolBar1 = new System.Windows.Forms.ToolBar();
+			this.NewFileButton = new System.Windows.Forms.ToolBarButton();
+			this.OpenFileButton = new System.Windows.Forms.ToolBarButton();
+			this.SaveFileButton = new System.Windows.Forms.ToolBarButton();
+			this.SaveFileAsButton = new System.Windows.Forms.ToolBarButton();
+			this.FileLabel1 = new System.Windows.Forms.Label();
+			this.MainToolbarPanel = new System.Windows.Forms.Panel();
+			this.MainToolBar = new System.Windows.Forms.ToolBar();
+			this.FileButton = new System.Windows.Forms.ToolBarButton();
+			this.SoilsButton = new System.Windows.Forms.ToolBarButton();
+			this.ImportButton = new System.Windows.Forms.ToolBarButton();
+			this.ExportButton = new System.Windows.Forms.ToolBarButton();
+			this.SoilsToolBarPanel.SuspendLayout();
+			this.ToolPanel1.SuspendLayout();
+			this.SoilPanel3.SuspendLayout();
+			this.SoilPanel2.SuspendLayout();
+			this.SoilPanel1.SuspendLayout();
+			this.PrintPanel.SuspendLayout();
+			this.ExportToolBarPanel.SuspendLayout();
+			this.panel1.SuspendLayout();
+			this.ImportToolBarPanel.SuspendLayout();
+			this.ImportPanel1.SuspendLayout();
+			this.FileToolBarPanel.SuspendLayout();
+			this.FilePanel2.SuspendLayout();
+			this.FilePanel1.SuspendLayout();
+			this.MainToolbarPanel.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// mainMenu1
-			// 
-			this.mainMenu1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					  this.menuItem1,
-																					  this.menuItem7,
-																					  this.menuItem3});
-			// 
-			// menuItem1
-			// 
-			this.menuItem1.Index = 0;
-			this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					  this.FileNew,
-																					  this.FileOpen,
-																					  this.FileSave,
-																					  this.FileSaveAs,
-																					  this.menuItem5,
-																					  this.ImportMenuItem,
-																					  this.menuItem2,
-																					  this.ExportMenuItem,
-																					  this.menuItem6,
-																					  this.FileExit});
-			this.menuItem1.Text = "&File";
-			// 
-			// FileNew
-			// 
-			this.FileNew.Index = 0;
-			this.FileNew.Text = "&New";
-			this.FileNew.Click += new System.EventHandler(this.FileNew_Click);
-			// 
-			// FileOpen
-			// 
-			this.FileOpen.Index = 1;
-			this.FileOpen.Text = "&Open...";
-			this.FileOpen.Click += new System.EventHandler(this.FileOpen_Click);
-			// 
-			// FileSave
-			// 
-			this.FileSave.Index = 2;
-			this.FileSave.Text = "&Save...";
-			this.FileSave.Click += new System.EventHandler(this.FileSave_Click);
-			// 
-			// FileSaveAs
-			// 
-			this.FileSaveAs.Index = 3;
-			this.FileSaveAs.Text = "Save &as...";
-			this.FileSaveAs.Click += new System.EventHandler(this.FileSaveAs_Click);
-			// 
-			// menuItem5
-			// 
-			this.menuItem5.Index = 4;
-			this.menuItem5.Text = "-";
-			// 
-			// ImportMenuItem
-			// 
-			this.ImportMenuItem.Index = 5;
-			this.ImportMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																						   this.menuItem4,
-																						   this.ImportW2N2Menu,
-																						   this.ImportParMenu,
-																						   this.ImportSoilsMenu});
-			this.ImportMenuItem.Text = "&Import";
-			// 
-			// menuItem4
-			// 
-			this.menuItem4.Index = 0;
-			this.menuItem4.Text = "From &Spreadsheet...";
-			this.menuItem4.Click += new System.EventHandler(this.ImportFromSpreadsheet_Click);
-			// 
-			// ImportW2N2Menu
-			// 
-			this.ImportW2N2Menu.Index = 1;
-			this.ImportW2N2Menu.Text = "From &W2 / N2 files...";
-			this.ImportW2N2Menu.Click += new System.EventHandler(this.ImportW2N2Files_Click);
-			// 
-			// ImportParMenu
-			// 
-			this.ImportParMenu.Index = 2;
-			this.ImportParMenu.Text = "From Par files...";
-			this.ImportParMenu.Click += new System.EventHandler(this.ImportParFiles_Click);
-			// 
-			// ImportSoilsMenu
-			// 
-			this.ImportSoilsMenu.Index = 3;
-			this.ImportSoilsMenu.Text = "From &another soils file";
-			// 
-			// menuItem2
-			// 
-			this.menuItem2.Index = 6;
-			this.menuItem2.Text = "-";
-			// 
-			// ExportMenuItem
-			// 
-			this.ExportMenuItem.Index = 7;
-			this.ExportMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																						   this.ExportToAnother,
-																						   this.ExportPar});
-			this.ExportMenuItem.Text = "&Export selected soil";
-			// 
-			// ExportPar
-			// 
-			this.ExportPar.Index = 1;
-			this.ExportPar.Text = "To &Par file...";
-			this.ExportPar.Click += new System.EventHandler(this.ExportToPar_Click);
-			// 
-			// menuItem6
-			// 
-			this.menuItem6.Index = 8;
-			this.menuItem6.Text = "-";
-			// 
-			// FileExit
-			// 
-			this.FileExit.Index = 9;
-			this.FileExit.Text = "E&xit";
-			this.FileExit.Click += new System.EventHandler(this.FileExit_Click);
-			// 
-			// menuItem7
-			// 
-			this.menuItem7.Index = 1;
-			this.menuItem7.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					  this.SortMenuItem});
-			this.menuItem7.Text = "&View";
-			// 
-			// SortMenuItem
-			// 
-			this.SortMenuItem.Index = 0;
-			this.SortMenuItem.Text = "Sort soils alphabetically";
-			this.SortMenuItem.Click += new System.EventHandler(this.SortMenuItem_Click);
-			// 
-			// menuItem3
-			// 
-			this.menuItem3.Index = 2;
-			this.menuItem3.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					  this.CheckForErrors});
-			this.menuItem3.Text = "&Tools";
-			// 
-			// CheckForErrors
-			// 
-			this.CheckForErrors.Index = 0;
-			this.CheckForErrors.Text = "&Check all soils for errors";
-			this.CheckForErrors.Click += new System.EventHandler(this.CheckForErrors_Click);
 			// 
 			// SmallImages
 			// 
@@ -324,114 +258,13 @@ namespace APSoil
 			// 
 			// MainPanel
 			// 
+			this.MainPanel.CausesValidation = false;
 			this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.MainPanel.Location = new System.Drawing.Point(0, 36);
+			this.MainPanel.Location = new System.Drawing.Point(0, 312);
 			this.MainPanel.Name = "MainPanel";
-			this.MainPanel.Size = new System.Drawing.Size(800, 509);
+			this.MainPanel.Size = new System.Drawing.Size(848, 266);
 			this.MainPanel.TabIndex = 0;
-			// 
-			// ToolBar
-			// 
-			this.ToolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat;
-			this.ToolBar.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
-																					   this.FileNewButton,
-																					   this.FileOpenButton,
-																					   this.FileSaveButton,
-																					   this.ImportButton,
-																					   this.ExportButton,
-																					   this.Separator1,
-																					   this.CutButton,
-																					   this.CopyButton,
-																					   this.PasteButton});
-			this.ToolBar.ButtonSize = new System.Drawing.Size(62, 30);
-			this.ToolBar.DropDownArrows = true;
-			this.ToolBar.ImageList = this.ButtonImageList;
-			this.ToolBar.Location = new System.Drawing.Point(0, 0);
-			this.ToolBar.Name = "ToolBar";
-			this.ToolBar.ShowToolTips = true;
-			this.ToolBar.Size = new System.Drawing.Size(800, 36);
-			this.ToolBar.TabIndex = 3;
-			this.ToolBar.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right;
-			this.ToolBar.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.ToolBar_ButtonClick);
-			// 
-			// FileNewButton
-			// 
-			this.FileNewButton.ImageIndex = 0;
-			this.FileNewButton.Text = "New";
-			this.FileNewButton.ToolTipText = "Create a new soils database";
-			// 
-			// FileOpenButton
-			// 
-			this.FileOpenButton.ImageIndex = 1;
-			this.FileOpenButton.Text = "Open";
-			this.FileOpenButton.ToolTipText = "Open an existing soils database";
-			// 
-			// FileSaveButton
-			// 
-			this.FileSaveButton.ImageIndex = 2;
-			this.FileSaveButton.Text = "Save";
-			this.FileSaveButton.ToolTipText = "Save soils database";
-			// 
-			// ImportButton
-			// 
-			this.ImportButton.DropDownMenu = this.ImportMenu;
-			this.ImportButton.ImageIndex = 15;
-			this.ImportButton.Style = System.Windows.Forms.ToolBarButtonStyle.DropDownButton;
-			this.ImportButton.Text = "Import";
-			// 
-			// ImportMenu
-			// 
-			this.ImportMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					   this.ImportFromSpreadsheet,
-																					   this.ImportW2N2Files,
-																					   this.ImportParFiles,
-																					   this.ImportSoilsFile});
-			// 
-			// ImportFromSpreadsheet
-			// 
-			this.ImportFromSpreadsheet.Index = 0;
-			this.ImportFromSpreadsheet.Text = "From &spreadsheet";
-			this.ImportFromSpreadsheet.Click += new System.EventHandler(this.ImportFromSpreadsheet_Click);
-			// 
-			// ImportW2N2Files
-			// 
-			this.ImportW2N2Files.Index = 1;
-			this.ImportW2N2Files.Text = "From &W2 / N2 files";
-			this.ImportW2N2Files.Click += new System.EventHandler(this.ImportW2N2Files_Click);
-			// 
-			// ImportParFiles
-			// 
-			this.ImportParFiles.Index = 2;
-			this.ImportParFiles.Text = "From &Par files";
-			this.ImportParFiles.Click += new System.EventHandler(this.ImportParFiles_Click);
-			// 
-			// ImportSoilsFile
-			// 
-			this.ImportSoilsFile.Index = 3;
-			this.ImportSoilsFile.Text = "From &another soils file";
-			this.ImportSoilsFile.Click += new System.EventHandler(this.ImportSoilsFile_Click);
-			// 
-			// Separator1
-			// 
-			this.Separator1.Style = System.Windows.Forms.ToolBarButtonStyle.Separator;
-			// 
-			// CutButton
-			// 
-			this.CutButton.Enabled = false;
-			this.CutButton.ImageIndex = 3;
-			this.CutButton.Text = "Cut";
-			// 
-			// CopyButton
-			// 
-			this.CopyButton.Enabled = false;
-			this.CopyButton.ImageIndex = 4;
-			this.CopyButton.Text = "Copy";
-			// 
-			// PasteButton
-			// 
-			this.PasteButton.Enabled = false;
-			this.PasteButton.ImageIndex = 5;
-			this.PasteButton.Text = "Paste";
+			this.MainPanel.TabStop = true;
 			// 
 			// ImportSpreadsheetDialog
 			// 
@@ -472,37 +305,6 @@ namespace APSoil
 			this.SimExportDialog.Filter = "Sim files (*.sim)|*.sim|All files (*.*)|*.*";
 			this.SimExportDialog.Title = "Enter output file name for soil";
 			// 
-			// ExportButton
-			// 
-			this.ExportButton.DropDownMenu = this.ExportMenu;
-			this.ExportButton.ImageIndex = 7;
-			this.ExportButton.Style = System.Windows.Forms.ToolBarButtonStyle.DropDownButton;
-			this.ExportButton.Text = "Export";
-			// 
-			// ExportMenu
-			// 
-			this.ExportMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					   this.ExportToDatabaseMenuItem,
-																					   this.ExportToParMenuItem});
-			// 
-			// ExportToParMenuItem
-			// 
-			this.ExportToParMenuItem.Index = 1;
-			this.ExportToParMenuItem.Text = "Selected soil to Par File";
-			this.ExportToParMenuItem.Click += new System.EventHandler(this.ExportToPar_Click);
-			// 
-			// ExportToDatabaseMenuItem
-			// 
-			this.ExportToDatabaseMenuItem.Index = 0;
-			this.ExportToDatabaseMenuItem.Text = "Selected soil to another &database";
-			this.ExportToDatabaseMenuItem.Click += new System.EventHandler(this.ExportToAnother_Click);
-			// 
-			// ExportToAnother
-			// 
-			this.ExportToAnother.Index = 0;
-			this.ExportToAnother.Text = "To &another database";
-			this.ExportToAnother.Click += new System.EventHandler(this.ExportToAnother_Click);
-			// 
 			// ExportSoilsDialog
 			// 
 			this.ExportSoilsDialog.DefaultExt = "soils";
@@ -510,221 +312,902 @@ namespace APSoil
 			this.ExportSoilsDialog.OverwritePrompt = false;
 			this.ExportSoilsDialog.Title = "Select a soils database file to send the selected soils to.";
 			// 
+			// SoilsToolBarPanel
+			// 
+			this.SoilsToolBarPanel.BackColor = System.Drawing.Color.LightSteelBlue;
+			this.SoilsToolBarPanel.Controls.Add(this.ToolPanel1);
+			this.SoilsToolBarPanel.Controls.Add(this.splitter3);
+			this.SoilsToolBarPanel.Controls.Add(this.SoilPanel3);
+			this.SoilsToolBarPanel.Controls.Add(this.splitter2);
+			this.SoilsToolBarPanel.Controls.Add(this.SoilPanel2);
+			this.SoilsToolBarPanel.Controls.Add(this.splitter1);
+			this.SoilsToolBarPanel.Controls.Add(this.SoilPanel1);
+			this.SoilsToolBarPanel.Controls.Add(this.splitter8);
+			this.SoilsToolBarPanel.Controls.Add(this.PrintPanel);
+			this.SoilsToolBarPanel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.SoilsToolBarPanel.Location = new System.Drawing.Point(0, 96);
+			this.SoilsToolBarPanel.Name = "SoilsToolBarPanel";
+			this.SoilsToolBarPanel.Size = new System.Drawing.Size(848, 74);
+			this.SoilsToolBarPanel.TabIndex = 20;
+			this.SoilsToolBarPanel.Visible = false;
+			// 
+			// ToolPanel1
+			// 
+			this.ToolPanel1.BackColor = System.Drawing.Color.Transparent;
+			this.ToolPanel1.Controls.Add(this.ToolToolBar);
+			this.ToolPanel1.Controls.Add(this.ToolLabel1);
+			this.ToolPanel1.Dock = System.Windows.Forms.DockStyle.Left;
+			this.ToolPanel1.Location = new System.Drawing.Point(583, 0);
+			this.ToolPanel1.Name = "ToolPanel1";
+			this.ToolPanel1.Size = new System.Drawing.Size(152, 74);
+			this.ToolPanel1.TabIndex = 25;
+			// 
+			// ToolToolBar
+			// 
+			this.ToolToolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat;
+			this.ToolToolBar.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
+																						   this.CheckSoilsButton,
+																						   this.SortButton});
+			this.ToolToolBar.Divider = false;
+			this.ToolToolBar.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ToolToolBar.DropDownArrows = true;
+			this.ToolToolBar.ImageList = this.ButtonImageList;
+			this.ToolToolBar.Location = new System.Drawing.Point(0, 20);
+			this.ToolToolBar.Name = "ToolToolBar";
+			this.ToolToolBar.ShowToolTips = true;
+			this.ToolToolBar.Size = new System.Drawing.Size(152, 48);
+			this.ToolToolBar.TabIndex = 16;
+			this.ToolToolBar.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.ButtonClick);
+			// 
+			// CheckSoilsButton
+			// 
+			this.CheckSoilsButton.ImageIndex = 23;
+			this.CheckSoilsButton.Text = "Chec&k soils";
+			this.CheckSoilsButton.ToolTipText = "Ensure soils are ok to run in APSIM";
+			// 
+			// SortButton
+			// 
+			this.SortButton.ImageIndex = 24;
+			this.SortButton.Text = "&Sort soils";
+			this.SortButton.ToolTipText = "Sort soils in the tree below";
+			// 
+			// ToolLabel1
+			// 
+			this.ToolLabel1.BackColor = System.Drawing.Color.SteelBlue;
+			this.ToolLabel1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.ToolLabel1.ForeColor = System.Drawing.Color.White;
+			this.ToolLabel1.Location = new System.Drawing.Point(0, 0);
+			this.ToolLabel1.Name = "ToolLabel1";
+			this.ToolLabel1.Size = new System.Drawing.Size(152, 20);
+			this.ToolLabel1.TabIndex = 15;
+			this.ToolLabel1.Text = "Tools";
+			this.ToolLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// splitter3
+			// 
+			this.splitter3.BackColor = System.Drawing.Color.LightGray;
+			this.splitter3.Enabled = false;
+			this.splitter3.Location = new System.Drawing.Point(582, 0);
+			this.splitter3.Name = "splitter3";
+			this.splitter3.Size = new System.Drawing.Size(1, 74);
+			this.splitter3.TabIndex = 24;
+			this.splitter3.TabStop = false;
+			// 
+			// SoilPanel3
+			// 
+			this.SoilPanel3.BackColor = System.Drawing.Color.Transparent;
+			this.SoilPanel3.Controls.Add(this.SoilToolBar3);
+			this.SoilPanel3.Controls.Add(this.SoilLabel3);
+			this.SoilPanel3.Dock = System.Windows.Forms.DockStyle.Left;
+			this.SoilPanel3.Location = new System.Drawing.Point(433, 0);
+			this.SoilPanel3.Name = "SoilPanel3";
+			this.SoilPanel3.Size = new System.Drawing.Size(149, 74);
+			this.SoilPanel3.TabIndex = 22;
+			// 
+			// SoilToolBar3
+			// 
+			this.SoilToolBar3.Appearance = System.Windows.Forms.ToolBarAppearance.Flat;
+			this.SoilToolBar3.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
+																							this.AddNoteButton,
+																							this.DeleteNoteButton});
+			this.SoilToolBar3.Divider = false;
+			this.SoilToolBar3.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.SoilToolBar3.DropDownArrows = true;
+			this.SoilToolBar3.ImageList = this.ButtonImageList;
+			this.SoilToolBar3.Location = new System.Drawing.Point(0, 20);
+			this.SoilToolBar3.Name = "SoilToolBar3";
+			this.SoilToolBar3.ShowToolTips = true;
+			this.SoilToolBar3.Size = new System.Drawing.Size(149, 48);
+			this.SoilToolBar3.TabIndex = 19;
+			this.SoilToolBar3.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.ButtonClick);
+			// 
+			// AddNoteButton
+			// 
+			this.AddNoteButton.ImageIndex = 29;
+			this.AddNoteButton.Text = "&Add note";
+			this.AddNoteButton.ToolTipText = "Add a note to the grid below";
+			// 
+			// DeleteNoteButton
+			// 
+			this.DeleteNoteButton.ImageIndex = 30;
+			this.DeleteNoteButton.Text = "&Delete note";
+			this.DeleteNoteButton.ToolTipText = "Delete all notes from the selected cells.";
+			// 
+			// SoilLabel3
+			// 
+			this.SoilLabel3.BackColor = System.Drawing.Color.SteelBlue;
+			this.SoilLabel3.Dock = System.Windows.Forms.DockStyle.Top;
+			this.SoilLabel3.ForeColor = System.Drawing.Color.White;
+			this.SoilLabel3.Location = new System.Drawing.Point(0, 0);
+			this.SoilLabel3.Name = "SoilLabel3";
+			this.SoilLabel3.Size = new System.Drawing.Size(149, 20);
+			this.SoilLabel3.TabIndex = 15;
+			this.SoilLabel3.Text = "Notes";
+			this.SoilLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// splitter2
+			// 
+			this.splitter2.BackColor = System.Drawing.Color.LightGray;
+			this.splitter2.Enabled = false;
+			this.splitter2.Location = new System.Drawing.Point(432, 0);
+			this.splitter2.Name = "splitter2";
+			this.splitter2.Size = new System.Drawing.Size(1, 74);
+			this.splitter2.TabIndex = 23;
+			this.splitter2.TabStop = false;
+			// 
+			// SoilPanel2
+			// 
+			this.SoilPanel2.BackColor = System.Drawing.Color.Transparent;
+			this.SoilPanel2.Controls.Add(this.SoilToolBar2);
+			this.SoilPanel2.Controls.Add(this.SoilLabel2);
+			this.SoilPanel2.Dock = System.Windows.Forms.DockStyle.Left;
+			this.SoilPanel2.Location = new System.Drawing.Point(186, 0);
+			this.SoilPanel2.Name = "SoilPanel2";
+			this.SoilPanel2.Size = new System.Drawing.Size(246, 74);
+			this.SoilPanel2.TabIndex = 20;
+			// 
+			// SoilToolBar2
+			// 
+			this.SoilToolBar2.Appearance = System.Windows.Forms.ToolBarAppearance.Flat;
+			this.SoilToolBar2.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
+																							this.AddCropButton,
+																							this.DeleteCropButton,
+																							this.ReorderCropButton});
+			this.SoilToolBar2.Divider = false;
+			this.SoilToolBar2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.SoilToolBar2.DropDownArrows = true;
+			this.SoilToolBar2.ImageList = this.ButtonImageList;
+			this.SoilToolBar2.Location = new System.Drawing.Point(0, 20);
+			this.SoilToolBar2.Name = "SoilToolBar2";
+			this.SoilToolBar2.ShowToolTips = true;
+			this.SoilToolBar2.Size = new System.Drawing.Size(246, 48);
+			this.SoilToolBar2.TabIndex = 17;
+			this.SoilToolBar2.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.ButtonClick);
+			// 
+			// AddCropButton
+			// 
+			this.AddCropButton.ImageIndex = 26;
+			this.AddCropButton.Text = "&Add crop";
+			this.AddCropButton.ToolTipText = "Add a crop to the selected soil";
+			// 
+			// DeleteCropButton
+			// 
+			this.DeleteCropButton.ImageIndex = 27;
+			this.DeleteCropButton.Text = "&Delete crops";
+			this.DeleteCropButton.ToolTipText = "Delete a crop from the selected soil";
+			// 
+			// ReorderCropButton
+			// 
+			this.ReorderCropButton.ImageIndex = 28;
+			this.ReorderCropButton.Text = "&Reorder crops";
+			this.ReorderCropButton.ToolTipText = "Reorder crops in selected soil";
+			// 
+			// SoilLabel2
+			// 
+			this.SoilLabel2.BackColor = System.Drawing.Color.SteelBlue;
+			this.SoilLabel2.Dock = System.Windows.Forms.DockStyle.Top;
+			this.SoilLabel2.ForeColor = System.Drawing.Color.White;
+			this.SoilLabel2.Location = new System.Drawing.Point(0, 0);
+			this.SoilLabel2.Name = "SoilLabel2";
+			this.SoilLabel2.Size = new System.Drawing.Size(246, 20);
+			this.SoilLabel2.TabIndex = 15;
+			this.SoilLabel2.Text = "Crops";
+			this.SoilLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// splitter1
+			// 
+			this.splitter1.BackColor = System.Drawing.Color.LightGray;
+			this.splitter1.Enabled = false;
+			this.splitter1.Location = new System.Drawing.Point(185, 0);
+			this.splitter1.Name = "splitter1";
+			this.splitter1.Size = new System.Drawing.Size(1, 74);
+			this.splitter1.TabIndex = 21;
+			this.splitter1.TabStop = false;
+			// 
+			// SoilPanel1
+			// 
+			this.SoilPanel1.BackColor = System.Drawing.Color.Transparent;
+			this.SoilPanel1.Controls.Add(this.SoilToolBar1);
+			this.SoilPanel1.Controls.Add(this.SoilLabel1);
+			this.SoilPanel1.Dock = System.Windows.Forms.DockStyle.Left;
+			this.SoilPanel1.Location = new System.Drawing.Point(49, 0);
+			this.SoilPanel1.Name = "SoilPanel1";
+			this.SoilPanel1.Size = new System.Drawing.Size(136, 74);
+			this.SoilPanel1.TabIndex = 19;
+			// 
+			// SoilToolBar1
+			// 
+			this.SoilToolBar1.Appearance = System.Windows.Forms.ToolBarAppearance.Flat;
+			this.SoilToolBar1.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
+																							this.CutButton,
+																							this.CopyButton,
+																							this.PasteButton});
+			this.SoilToolBar1.Divider = false;
+			this.SoilToolBar1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.SoilToolBar1.DropDownArrows = true;
+			this.SoilToolBar1.ImageList = this.ButtonImageList;
+			this.SoilToolBar1.Location = new System.Drawing.Point(0, 20);
+			this.SoilToolBar1.Name = "SoilToolBar1";
+			this.SoilToolBar1.ShowToolTips = true;
+			this.SoilToolBar1.Size = new System.Drawing.Size(136, 48);
+			this.SoilToolBar1.TabIndex = 16;
+			this.SoilToolBar1.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.ButtonClick);
+			// 
+			// CutButton
+			// 
+			this.CutButton.ImageIndex = 3;
+			this.CutButton.Text = "Cu&t";
+			this.CutButton.ToolTipText = "Cut the selected soil(s) to the clipboard";
+			// 
+			// CopyButton
+			// 
+			this.CopyButton.ImageIndex = 4;
+			this.CopyButton.Text = "&Copy";
+			this.CopyButton.ToolTipText = "Copy the seleted soil(s) to the clipboard";
+			// 
+			// PasteButton
+			// 
+			this.PasteButton.ImageIndex = 5;
+			this.PasteButton.Text = "&Paste";
+			this.PasteButton.ToolTipText = "Paste the soils from the clipboard";
+			// 
+			// SoilLabel1
+			// 
+			this.SoilLabel1.BackColor = System.Drawing.Color.SteelBlue;
+			this.SoilLabel1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.SoilLabel1.ForeColor = System.Drawing.Color.White;
+			this.SoilLabel1.Location = new System.Drawing.Point(0, 0);
+			this.SoilLabel1.Name = "SoilLabel1";
+			this.SoilLabel1.Size = new System.Drawing.Size(136, 20);
+			this.SoilLabel1.TabIndex = 15;
+			this.SoilLabel1.Text = "Clipboard";
+			this.SoilLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// splitter8
+			// 
+			this.splitter8.BackColor = System.Drawing.Color.LightGray;
+			this.splitter8.Enabled = false;
+			this.splitter8.Location = new System.Drawing.Point(48, 0);
+			this.splitter8.Name = "splitter8";
+			this.splitter8.Size = new System.Drawing.Size(1, 74);
+			this.splitter8.TabIndex = 27;
+			this.splitter8.TabStop = false;
+			// 
+			// PrintPanel
+			// 
+			this.PrintPanel.BackColor = System.Drawing.Color.Transparent;
+			this.PrintPanel.Controls.Add(this.PrintToolBar);
+			this.PrintPanel.Controls.Add(this.PrintLabel);
+			this.PrintPanel.Dock = System.Windows.Forms.DockStyle.Left;
+			this.PrintPanel.Location = new System.Drawing.Point(0, 0);
+			this.PrintPanel.Name = "PrintPanel";
+			this.PrintPanel.Size = new System.Drawing.Size(48, 74);
+			this.PrintPanel.TabIndex = 26;
+			// 
+			// PrintToolBar
+			// 
+			this.PrintToolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat;
+			this.PrintToolBar.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
+																							this.PrintButton});
+			this.PrintToolBar.Divider = false;
+			this.PrintToolBar.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.PrintToolBar.DropDownArrows = true;
+			this.PrintToolBar.ImageList = this.ButtonImageList;
+			this.PrintToolBar.Location = new System.Drawing.Point(0, 20);
+			this.PrintToolBar.Name = "PrintToolBar";
+			this.PrintToolBar.ShowToolTips = true;
+			this.PrintToolBar.Size = new System.Drawing.Size(48, 48);
+			this.PrintToolBar.TabIndex = 16;
+			this.PrintToolBar.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.ButtonClick);
+			// 
+			// PrintButton
+			// 
+			this.PrintButton.ImageIndex = 31;
+			this.PrintButton.Text = "&Print";
+			this.PrintButton.ToolTipText = "Print the current soil";
+			// 
+			// PrintLabel
+			// 
+			this.PrintLabel.BackColor = System.Drawing.Color.SteelBlue;
+			this.PrintLabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.PrintLabel.ForeColor = System.Drawing.Color.White;
+			this.PrintLabel.Location = new System.Drawing.Point(0, 0);
+			this.PrintLabel.Name = "PrintLabel";
+			this.PrintLabel.Size = new System.Drawing.Size(48, 20);
+			this.PrintLabel.TabIndex = 15;
+			this.PrintLabel.Text = "Printer";
+			this.PrintLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// ExportToolBarPanel
+			// 
+			this.ExportToolBarPanel.BackColor = System.Drawing.Color.LightSteelBlue;
+			this.ExportToolBarPanel.Controls.Add(this.splitter7);
+			this.ExportToolBarPanel.Controls.Add(this.panel1);
+			this.ExportToolBarPanel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.ExportToolBarPanel.Location = new System.Drawing.Point(0, 240);
+			this.ExportToolBarPanel.Name = "ExportToolBarPanel";
+			this.ExportToolBarPanel.Size = new System.Drawing.Size(848, 72);
+			this.ExportToolBarPanel.TabIndex = 19;
+			this.ExportToolBarPanel.Visible = false;
+			// 
+			// splitter7
+			// 
+			this.splitter7.BackColor = System.Drawing.Color.LightGray;
+			this.splitter7.Enabled = false;
+			this.splitter7.Location = new System.Drawing.Point(176, 0);
+			this.splitter7.Name = "splitter7";
+			this.splitter7.Size = new System.Drawing.Size(1, 72);
+			this.splitter7.TabIndex = 26;
+			this.splitter7.TabStop = false;
+			// 
+			// panel1
+			// 
+			this.panel1.BackColor = System.Drawing.Color.Transparent;
+			this.panel1.Controls.Add(this.ExportToolBar);
+			this.panel1.Controls.Add(this.label1);
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
+			this.panel1.Location = new System.Drawing.Point(0, 0);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(176, 72);
+			this.panel1.TabIndex = 21;
+			// 
+			// ExportToolBar
+			// 
+			this.ExportToolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat;
+			this.ExportToolBar.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
+																							 this.ToSoilsButton,
+																							 this.ToParButton});
+			this.ExportToolBar.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ExportToolBar.DropDownArrows = true;
+			this.ExportToolBar.ImageList = this.ButtonImageList;
+			this.ExportToolBar.Location = new System.Drawing.Point(0, 20);
+			this.ExportToolBar.Name = "ExportToolBar";
+			this.ExportToolBar.ShowToolTips = true;
+			this.ExportToolBar.Size = new System.Drawing.Size(176, 50);
+			this.ExportToolBar.TabIndex = 16;
+			this.ExportToolBar.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.ButtonClick);
+			// 
+			// ToSoilsButton
+			// 
+			this.ToSoilsButton.ImageIndex = 21;
+			this.ToSoilsButton.Text = "To &another .soils file";
+			this.ToSoilsButton.ToolTipText = "Export soils to another .soils file";
+			// 
+			// ToParButton
+			// 
+			this.ToParButton.ImageIndex = 22;
+			this.ToParButton.Text = "To .&par";
+			this.ToParButton.ToolTipText = "Export soils to an APSIM .par file";
+			// 
+			// label1
+			// 
+			this.label1.BackColor = System.Drawing.Color.SteelBlue;
+			this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.label1.ForeColor = System.Drawing.Color.White;
+			this.label1.Location = new System.Drawing.Point(0, 0);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(176, 20);
+			this.label1.TabIndex = 15;
+			this.label1.Text = "Export soils";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// ImportToolBarPanel
+			// 
+			this.ImportToolBarPanel.BackColor = System.Drawing.Color.LightSteelBlue;
+			this.ImportToolBarPanel.Controls.Add(this.splitter6);
+			this.ImportToolBarPanel.Controls.Add(this.ImportPanel1);
+			this.ImportToolBarPanel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.ImportToolBarPanel.Location = new System.Drawing.Point(0, 170);
+			this.ImportToolBarPanel.Name = "ImportToolBarPanel";
+			this.ImportToolBarPanel.Size = new System.Drawing.Size(848, 70);
+			this.ImportToolBarPanel.TabIndex = 18;
+			this.ImportToolBarPanel.Visible = false;
+			// 
+			// splitter6
+			// 
+			this.splitter6.BackColor = System.Drawing.Color.LightGray;
+			this.splitter6.Enabled = false;
+			this.splitter6.Location = new System.Drawing.Point(408, 0);
+			this.splitter6.Name = "splitter6";
+			this.splitter6.Size = new System.Drawing.Size(1, 70);
+			this.splitter6.TabIndex = 25;
+			this.splitter6.TabStop = false;
+			// 
+			// ImportPanel1
+			// 
+			this.ImportPanel1.BackColor = System.Drawing.Color.Transparent;
+			this.ImportPanel1.Controls.Add(this.ImportToolBar);
+			this.ImportPanel1.Controls.Add(this.ImportLabel1);
+			this.ImportPanel1.Dock = System.Windows.Forms.DockStyle.Left;
+			this.ImportPanel1.Location = new System.Drawing.Point(0, 0);
+			this.ImportPanel1.Name = "ImportPanel1";
+			this.ImportPanel1.Size = new System.Drawing.Size(408, 70);
+			this.ImportPanel1.TabIndex = 20;
+			// 
+			// ImportToolBar
+			// 
+			this.ImportToolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat;
+			this.ImportToolBar.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
+																							 this.FromSoilsButton,
+																							 this.FromParButton,
+																							 this.FromSpreadsheetButton,
+																							 this.Fromw2n2Button});
+			this.ImportToolBar.Divider = false;
+			this.ImportToolBar.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ImportToolBar.DropDownArrows = true;
+			this.ImportToolBar.ImageList = this.ButtonImageList;
+			this.ImportToolBar.Location = new System.Drawing.Point(0, 20);
+			this.ImportToolBar.Name = "ImportToolBar";
+			this.ImportToolBar.ShowToolTips = true;
+			this.ImportToolBar.Size = new System.Drawing.Size(408, 48);
+			this.ImportToolBar.TabIndex = 16;
+			this.ImportToolBar.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.ButtonClick);
+			// 
+			// FromSoilsButton
+			// 
+			this.FromSoilsButton.ImageIndex = 20;
+			this.FromSoilsButton.Text = "From &another .soils file";
+			this.FromSoilsButton.ToolTipText = "Import soils from another .soils file";
+			// 
+			// FromParButton
+			// 
+			this.FromParButton.ImageIndex = 18;
+			this.FromParButton.Text = "From .&par";
+			this.FromParButton.ToolTipText = "Import soils from an APSIM .par file";
+			// 
+			// FromSpreadsheetButton
+			// 
+			this.FromSpreadsheetButton.ImageIndex = 17;
+			this.FromSpreadsheetButton.Text = "From &spreadsheet";
+			this.FromSpreadsheetButton.ToolTipText = "Import soils from a spreadsheet";
+			// 
+			// Fromw2n2Button
+			// 
+			this.Fromw2n2Button.ImageIndex = 19;
+			this.Fromw2n2Button.Text = "From .&w2 / .n2";
+			this.Fromw2n2Button.ToolTipText = "Import soils from .w2 / .n2 files";
+			// 
+			// ImportLabel1
+			// 
+			this.ImportLabel1.BackColor = System.Drawing.Color.SteelBlue;
+			this.ImportLabel1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.ImportLabel1.ForeColor = System.Drawing.Color.White;
+			this.ImportLabel1.Location = new System.Drawing.Point(0, 0);
+			this.ImportLabel1.Name = "ImportLabel1";
+			this.ImportLabel1.Size = new System.Drawing.Size(408, 20);
+			this.ImportLabel1.TabIndex = 15;
+			this.ImportLabel1.Text = "Import soils";
+			this.ImportLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// FileToolBarPanel
+			// 
+			this.FileToolBarPanel.BackColor = System.Drawing.Color.LightSteelBlue;
+			this.FileToolBarPanel.Controls.Add(this.splitter5);
+			this.FileToolBarPanel.Controls.Add(this.FilePanel2);
+			this.FileToolBarPanel.Controls.Add(this.splitter4);
+			this.FileToolBarPanel.Controls.Add(this.FilePanel1);
+			this.FileToolBarPanel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.FileToolBarPanel.Location = new System.Drawing.Point(0, 25);
+			this.FileToolBarPanel.Name = "FileToolBarPanel";
+			this.FileToolBarPanel.Size = new System.Drawing.Size(848, 71);
+			this.FileToolBarPanel.TabIndex = 17;
+			// 
+			// splitter5
+			// 
+			this.splitter5.BackColor = System.Drawing.Color.LightGray;
+			this.splitter5.Enabled = false;
+			this.splitter5.Location = new System.Drawing.Point(334, 0);
+			this.splitter5.Name = "splitter5";
+			this.splitter5.Size = new System.Drawing.Size(1, 71);
+			this.splitter5.TabIndex = 23;
+			this.splitter5.TabStop = false;
+			// 
+			// FilePanel2
+			// 
+			this.FilePanel2.BackColor = System.Drawing.Color.Transparent;
+			this.FilePanel2.Controls.Add(this.FileToolBar);
+			this.FilePanel2.Controls.Add(this.FileLabel2);
+			this.FilePanel2.Dock = System.Windows.Forms.DockStyle.Left;
+			this.FilePanel2.Location = new System.Drawing.Point(273, 0);
+			this.FilePanel2.Name = "FilePanel2";
+			this.FilePanel2.Size = new System.Drawing.Size(61, 71);
+			this.FilePanel2.TabIndex = 22;
+			// 
+			// FileToolBar
+			// 
+			this.FileToolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat;
+			this.FileToolBar.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
+																						   this.VersionButton});
+			this.FileToolBar.Divider = false;
+			this.FileToolBar.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.FileToolBar.DropDownArrows = true;
+			this.FileToolBar.ImageList = this.ButtonImageList;
+			this.FileToolBar.Location = new System.Drawing.Point(0, 20);
+			this.FileToolBar.Name = "FileToolBar";
+			this.FileToolBar.ShowToolTips = true;
+			this.FileToolBar.Size = new System.Drawing.Size(61, 48);
+			this.FileToolBar.TabIndex = 16;
+			this.FileToolBar.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.ButtonClick);
+			// 
+			// VersionButton
+			// 
+			this.VersionButton.ImageIndex = 25;
+			this.VersionButton.Text = "&Version";
+			// 
+			// FileLabel2
+			// 
+			this.FileLabel2.BackColor = System.Drawing.Color.SteelBlue;
+			this.FileLabel2.Dock = System.Windows.Forms.DockStyle.Top;
+			this.FileLabel2.ForeColor = System.Drawing.Color.White;
+			this.FileLabel2.Location = new System.Drawing.Point(0, 0);
+			this.FileLabel2.Name = "FileLabel2";
+			this.FileLabel2.Size = new System.Drawing.Size(61, 20);
+			this.FileLabel2.TabIndex = 15;
+			this.FileLabel2.Text = "About";
+			this.FileLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// splitter4
+			// 
+			this.splitter4.BackColor = System.Drawing.Color.LightGray;
+			this.splitter4.Enabled = false;
+			this.splitter4.Location = new System.Drawing.Point(272, 0);
+			this.splitter4.Name = "splitter4";
+			this.splitter4.Size = new System.Drawing.Size(1, 71);
+			this.splitter4.TabIndex = 21;
+			this.splitter4.TabStop = false;
+			// 
+			// FilePanel1
+			// 
+			this.FilePanel1.BackColor = System.Drawing.Color.Transparent;
+			this.FilePanel1.Controls.Add(this.FileToolBar1);
+			this.FilePanel1.Controls.Add(this.FileLabel1);
+			this.FilePanel1.Dock = System.Windows.Forms.DockStyle.Left;
+			this.FilePanel1.Location = new System.Drawing.Point(0, 0);
+			this.FilePanel1.Name = "FilePanel1";
+			this.FilePanel1.Size = new System.Drawing.Size(272, 71);
+			this.FilePanel1.TabIndex = 20;
+			// 
+			// FileToolBar1
+			// 
+			this.FileToolBar1.Appearance = System.Windows.Forms.ToolBarAppearance.Flat;
+			this.FileToolBar1.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
+																							this.NewFileButton,
+																							this.OpenFileButton,
+																							this.SaveFileButton,
+																							this.SaveFileAsButton});
+			this.FileToolBar1.Divider = false;
+			this.FileToolBar1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.FileToolBar1.DropDownArrows = true;
+			this.FileToolBar1.ImageList = this.ButtonImageList;
+			this.FileToolBar1.Location = new System.Drawing.Point(0, 20);
+			this.FileToolBar1.Name = "FileToolBar1";
+			this.FileToolBar1.ShowToolTips = true;
+			this.FileToolBar1.Size = new System.Drawing.Size(272, 48);
+			this.FileToolBar1.TabIndex = 16;
+			this.FileToolBar1.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.ButtonClick);
+			// 
+			// NewFileButton
+			// 
+			this.NewFileButton.ImageIndex = 1;
+			this.NewFileButton.Text = "&New file";
+			this.NewFileButton.ToolTipText = "Create a new soils file";
+			// 
+			// OpenFileButton
+			// 
+			this.OpenFileButton.ImageIndex = 0;
+			this.OpenFileButton.Text = "&Open file";
+			this.OpenFileButton.ToolTipText = "Open a new soils file";
+			// 
+			// SaveFileButton
+			// 
+			this.SaveFileButton.ImageIndex = 2;
+			this.SaveFileButton.Text = "&Save file";
+			this.SaveFileButton.ToolTipText = "Save the current file";
+			// 
+			// SaveFileAsButton
+			// 
+			this.SaveFileAsButton.ImageIndex = 16;
+			this.SaveFileAsButton.Text = "Save &As file";
+			this.SaveFileAsButton.ToolTipText = "Save file under new name";
+			// 
+			// FileLabel1
+			// 
+			this.FileLabel1.BackColor = System.Drawing.Color.SteelBlue;
+			this.FileLabel1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.FileLabel1.ForeColor = System.Drawing.Color.White;
+			this.FileLabel1.Location = new System.Drawing.Point(0, 0);
+			this.FileLabel1.Name = "FileLabel1";
+			this.FileLabel1.Size = new System.Drawing.Size(272, 20);
+			this.FileLabel1.TabIndex = 15;
+			this.FileLabel1.Text = "File management";
+			this.FileLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// MainToolbarPanel
+			// 
+			this.MainToolbarPanel.BackColor = System.Drawing.Color.Gainsboro;
+			this.MainToolbarPanel.Controls.Add(this.MainToolBar);
+			this.MainToolbarPanel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.MainToolbarPanel.ForeColor = System.Drawing.SystemColors.Highlight;
+			this.MainToolbarPanel.Location = new System.Drawing.Point(0, 0);
+			this.MainToolbarPanel.Name = "MainToolbarPanel";
+			this.MainToolbarPanel.Size = new System.Drawing.Size(848, 25);
+			this.MainToolbarPanel.TabIndex = 16;
+			// 
+			// MainToolBar
+			// 
+			this.MainToolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat;
+			this.MainToolBar.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
+																						   this.FileButton,
+																						   this.SoilsButton,
+																						   this.ImportButton,
+																						   this.ExportButton});
+			this.MainToolBar.ButtonSize = new System.Drawing.Size(75, 30);
+			this.MainToolBar.Divider = false;
+			this.MainToolBar.DropDownArrows = true;
+			this.MainToolBar.Location = new System.Drawing.Point(0, 0);
+			this.MainToolBar.Name = "MainToolBar";
+			this.MainToolBar.ShowToolTips = true;
+			this.MainToolBar.Size = new System.Drawing.Size(848, 26);
+			this.MainToolBar.TabIndex = 4;
+			this.MainToolBar.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right;
+			this.MainToolBar.Wrappable = false;
+			this.MainToolBar.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.ButtonClick);
+			// 
+			// FileButton
+			// 
+			this.FileButton.Pushed = true;
+			this.FileButton.Style = System.Windows.Forms.ToolBarButtonStyle.ToggleButton;
+			this.FileButton.Text = "&File";
+			// 
+			// SoilsButton
+			// 
+			this.SoilsButton.Style = System.Windows.Forms.ToolBarButtonStyle.ToggleButton;
+			this.SoilsButton.Text = "Soi&ls";
+			// 
+			// ImportButton
+			// 
+			this.ImportButton.Style = System.Windows.Forms.ToolBarButtonStyle.ToggleButton;
+			this.ImportButton.Text = "&Import";
+			// 
+			// ExportButton
+			// 
+			this.ExportButton.Style = System.Windows.Forms.ToolBarButtonStyle.ToggleButton;
+			this.ExportButton.Text = "&Export";
+			// 
 			// MainForm
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(800, 545);
+			this.CausesValidation = false;
+			this.ClientSize = new System.Drawing.Size(848, 578);
 			this.Controls.Add(this.MainPanel);
-			this.Controls.Add(this.ToolBar);
+			this.Controls.Add(this.ExportToolBarPanel);
+			this.Controls.Add(this.ImportToolBarPanel);
+			this.Controls.Add(this.SoilsToolBarPanel);
+			this.Controls.Add(this.FileToolBarPanel);
+			this.Controls.Add(this.MainToolbarPanel);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Menu = this.mainMenu1;
+			this.KeyPreview = true;
 			this.Name = "MainForm";
-			this.Text = "APSoil";
+			this.Text = "Apsoil";
 			this.Closing += new System.ComponentModel.CancelEventHandler(this.MainForm_Closing);
 			this.Load += new System.EventHandler(this.MainForm_Load);
+			this.SoilsToolBarPanel.ResumeLayout(false);
+			this.ToolPanel1.ResumeLayout(false);
+			this.SoilPanel3.ResumeLayout(false);
+			this.SoilPanel2.ResumeLayout(false);
+			this.SoilPanel1.ResumeLayout(false);
+			this.PrintPanel.ResumeLayout(false);
+			this.ExportToolBarPanel.ResumeLayout(false);
+			this.panel1.ResumeLayout(false);
+			this.ImportToolBarPanel.ResumeLayout(false);
+			this.ImportPanel1.ResumeLayout(false);
+			this.FileToolBarPanel.ResumeLayout(false);
+			this.FilePanel2.ResumeLayout(false);
+			this.FilePanel1.ResumeLayout(false);
+			this.MainToolbarPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
 		#endregion
 
-		// -----------------------------------------
-		// The main entry point for the application.
-		// -----------------------------------------
-		[STAThread]
-		static void Main(string[] args) 
-			{
-			Application.EnableVisualStyles();
-			Application.DoEvents();
-
-			Application.DoEvents();
-			MainForm Main = new MainForm();
-			if (args.Length == 1)
-				Main.LoadFile(args[0]);
-			Application.Run(Main);
-			Application.DoEvents();
-
-			Application.DoEvents();
-			}
-
-
-		// ----------------------------------------------------------------
-		// Load the specified file. Called when a command line arg is used.
-		// ----------------------------------------------------------------
+		#region Startup methods
 		public void LoadFile(string FileName)
 			{
+			// Load the specified file. Called when a command line arg is used.
 			CommandLineFileName = FileName.Replace("\"", "");
 			}
 
-		
-		// ----------------------------------------
-		// Form has been loaded - set everything up
-		// ----------------------------------------
 		private void MainForm_Load(object sender, System.EventArgs e)
 			{
-			UserInterfaceManager = new UIManager(SmallImages);
+			// Form has been loaded - set everything up
+		
+			Apsoil = new ApsoilController(".soils", "Soils files (*.soils)|*.soils|" + 
+											"All files (*.*)|*.*", 
+											"Apsoil",
+											SmallImages);
+			Apsoil.NewDataEvent += new ApsoilController.NotifyEventHandler(OnNewDataEvent);
+			Apsoil.SelectionChangedEvent += new ApsoilController.NotifyEventHandler(SetFunctionality);
+			Apsoil.DataChangedEvent += new ApsoilController.NotifyEventHandler(SetFunctionality);
 
 			// Show the Simulation Explorer.
-			SoilExplorer = new ExplorerUI();
-			SoilExplorer.ApplicationSettings = UserInterfaceManager;
-			SoilExplorer.TopLevel = false;
+			SoilExplorer = new ExplorerUI(this, Apsoil);
 			SoilExplorer.Dock = DockStyle.Fill;
 			SoilExplorer.Parent = MainPanel;
 			SoilExplorer.Visible = true;
 			SoilExplorer.ExpandAll = false;
-			SortMenuItem.Checked = (APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "Soil", "SortByName") == "yes");
-			SoilExplorer.SortAll = SortMenuItem.Checked;
-			SoilExplorer.Setup(this, "Soils files (*.soils)|*.soils|" + 
-								 	 "All files (*.*)|*.*", 
-									 ".soils", "apsoil");
-
-			SoilExplorer.DataTreeCaption = "Empty soils database";
-			SetFunctionality(SoilExplorer.GetSelectedData());
-			SoilExplorer.DataSelectedEvent += new DataTree.DataSelectedEventHandler(SetFunctionality);
+			SortButton.Pushed = (APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "Soil", "SortByName") == "yes");
+			SoilExplorer.SortAll = SortButton.Pushed;
 
 			// Load up the file from the command line if necessary.
 			if (CommandLineFileName != null)
-				{
-				SoilExplorer.FileOpen(CommandLineFileName);
-				APSIMChangeTool.Upgrade(SoilExplorer.Data);
-				SoilExplorer.Refresh();
-				SetFunctionality(SoilExplorer.GetSelectedData());
-				}
+				Apsoil.FileOpen(CommandLineFileName);
+
+			SetFunctionality();
+			}
+		#endregion
+
+		#region Application level events
+		private void OnNewDataEvent()
+			{
+			// New data has entered the system.
+			// This is usually caused by FileNew,
+			// FileOpen etc.
+
+			APSIMChangeTool.Upgrade(Apsoil.AllData);
+			SetFunctionality();
 			}
 
-
-		// ----------------------------
-		// User has clicked on file new
-		// ----------------------------
-		private void FileNew_Click(object sender, System.EventArgs e)
+		private void SetFunctionality()
 			{
-			APSIMData NewData = new APSIMData("soils", "");
-			NewData.Add(new Soil(new APSIMData("soil", "Blank soil")).Data);
-			SoilExplorer.FileNew(NewData);
-			SetFunctionality(SoilExplorer.GetSelectedData());
-			}	
+			// User has changed something e.g. selection / new data.
+			// Enable / Disable bits of functionality as 
+			// required. i.e. ensure program is in a 
+			// consistant state.
+			bool SomethingInTree = (Apsoil.AllData != null && Apsoil.AllData.ChildList(null).Count > 0);
 
-		
-		// --------------------------------
-	    // User has clicked on file open
-		// --------------------------------
-		private void FileOpen_Click(object sender, System.EventArgs e)
-			{
-			if (SoilExplorer.FileOpen())
-				{
-				APSIMChangeTool.Upgrade(SoilExplorer.Data);
-				SoilExplorer.Refresh();
-				SetFunctionality(SoilExplorer.GetSelectedData());
-				}
+			bool OnlySoilsSelected = Apsoil.SomethingIsSelected;
+			foreach (APSIMData SelectedData in Apsoil.SelectedData)
+				OnlySoilsSelected = (SelectedData.Type.ToLower() == "soil");
+
+			SaveFileButton.Enabled = Apsoil.AllowFileSave;
+			SaveFileAsButton.Enabled = Apsoil.AllowFileSaveAs;
+			CutButton.Enabled = Apsoil.AllowCut;
+			CopyButton.Enabled = Apsoil.AllowCopy;
+			PasteButton.Enabled = Apsoil.AllowPaste;
+
+			FromSpreadsheetButton.Enabled = Apsoil.AllowChanges;
+			FromParButton.Enabled = Apsoil.AllowChanges;
+			FromSoilsButton.Enabled = Apsoil.AllowChanges;
+			Fromw2n2Button.Enabled = Apsoil.AllowChanges;
+			ToParButton.Enabled = OnlySoilsSelected;
+			ToSoilsButton.Enabled = OnlySoilsSelected;
+			CheckSoilsButton.Enabled = SomethingInTree;
+			SortButton.Enabled = SomethingInTree;
+			AddCropButton.Enabled = (OnlySoilsSelected && Apsoil.SelectedData.Count == 1);
+			DeleteCropButton.Enabled = (OnlySoilsSelected && Apsoil.SelectedData.Count == 1);
+			ReorderCropButton.Enabled = (OnlySoilsSelected && Apsoil.SelectedData.Count == 1);
+			AddNoteButton.Enabled = (OnlySoilsSelected && Apsoil.SelectedData.Count == 1);
+			DeleteNoteButton.Enabled = (OnlySoilsSelected && Apsoil.SelectedData.Count == 1);
+			PrintButton.Enabled = (OnlySoilsSelected && Apsoil.SelectedData.Count == 1);
 			}
 
-
-		// --------------------------------
-		// User has clicked on file save
-		// --------------------------------
-		private void FileSave_Click(object sender, System.EventArgs e)
-			{
-			SoilExplorer.FileSave();
-			SetFunctionality(SoilExplorer.GetSelectedData());
-			}
-
-
-		// --------------------------------
-		// User has clicked on File SaveAs
-		// --------------------------------
-		private void FileSaveAs_Click(object sender, System.EventArgs e)
-			{
-			SoilExplorer.FileSaveAs();
-			SetFunctionality(SoilExplorer.GetSelectedData());
-			}
-
-
-		// --------------------------------
-		// User has clicked on File Exit
-		// --------------------------------
-		private void FileExit_Click(object sender, System.EventArgs e)
-			{
-			SoilExplorer.DoSaveAfterPrompt();
-			Close();
-			}										      
-
-
-		// --------------------------------------
-		// User is closing down - save our work.
-		// --------------------------------------
 		private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 			{
-			e.Cancel = !SoilExplorer.DoSaveAfterPrompt();
+			// User is closing down - save our work.
+			e.Cancel = !Apsoil.FileSaveAfterPrompt();
 			}
 
-
-		// ---------------------------------------
-		// User has clicked on a toolbar button
-		// ---------------------------------------
-		private void ToolBar_ButtonClick(object sender, System.Windows.Forms.ToolBarButtonClickEventArgs e)
+		private void ButtonClick(object sender, System.Windows.Forms.ToolBarButtonClickEventArgs e)
 			{
-			if (e.Button == ImportButton)
-				ImportMenu.Show(this.ToolBar, new Point(ImportButton.Rectangle.Left, ImportButton.Rectangle.Bottom));
-			else if (e.Button == ExportButton)
-				ExportMenu.Show(this.ToolBar, new Point(ExportButton.Rectangle.Left, ExportButton.Rectangle.Bottom));
-			else if (e.Button == FileNewButton)
-				FileNew_Click(sender, e);
-			else if (e.Button == FileOpenButton)
-				FileOpen_Click(sender, e);
-			else if (e.Button == FileSaveButton)
-				FileSave_Click(sender, e);
-			SetFunctionality(SoilExplorer.GetSelectedData());
+			if (e.Button.Parent == MainToolBar)
+				{
+				// Use has clicked a top level menu button
+				foreach (ToolBarButton Button in MainToolBar.Buttons)
+					{
+					if (Button != e.Button)
+						Button.Pushed = false;
+					}
+				e.Button.Pushed = true;
+
+				FileToolBarPanel.Visible = FileButton.Pushed;
+				ImportToolBarPanel.Visible = ImportButton.Pushed;
+				ExportToolBarPanel.Visible = ExportButton.Pushed;
+				SoilsToolBarPanel.Visible = SoilsButton.Pushed;
+				}
+			else if (e.Button == NewFileButton)
+				{
+				APSIMData NewData = new APSIMData("soils", "");
+				NewData.Add(new Soil(new APSIMData("soil", "Blank soil")).Data);
+				Apsoil.FileNew(NewData);
+				}
+			else if (e.Button == OpenFileButton)
+				Apsoil.FileOpen();
+			else if (e.Button == SaveFileButton)
+				Apsoil.FileSave();
+			else if (e.Button == SaveFileAsButton)
+				Apsoil.FileSaveAs();
+			else if (e.Button == CutButton)
+				Apsoil.Cut();			
+			else if (e.Button == CopyButton)
+				Apsoil.Copy();			
+			else if (e.Button == PasteButton)
+				Apsoil.Paste();
+			else if (e.Button == VersionButton)
+				{
+				System.Version Version = Assembly.GetExecutingAssembly().GetName().Version;
+				string msg = "Version " + Version.Major.ToString() + "." + Version.Minor.ToString() + "\r\n";
+                       msg += "(Internal #: " + Version.Build.ToString() + "." + Version.Revision.ToString() + ")";
+  				MessageBox.Show(msg, "Apsoil version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+			else if (e.Button == FromSpreadsheetButton)
+				ImportFromSpreadsheet();
+			else if (e.Button == FromParButton)
+				ImportFromPar();
+			else if (e.Button == FromSoilsButton)
+				ImportFromSoils();
+			else if (e.Button == Fromw2n2Button)
+				ImportFromW2N2();
+			else if (e.Button == ToParButton)
+				ExportToPar();
+			else if (e.Button == ToSoilsButton)
+				ExportToSoils();
+			else if (e.Button == CheckSoilsButton)
+				CheckForErrors();
+			else if (e.Button == SortButton)
+				Sort();
+			else if (e.Button == AddCropButton)
+				Apsoil.AddCrop();
+			else if (e.Button == DeleteCropButton)
+				Apsoil.DeleteCrop();
+			else if (e.Button == ReorderCropButton)
+				Apsoil.ReorderCrops();
+			else if (e.Button == AddNoteButton)
+				Apsoil.AddNote();
+			else if (e.Button == DeleteNoteButton)
+				Apsoil.DeleteNote();
+			else if (e.Button == PrintButton)
+				Apsoil.Print();
 			}
 
-		// ---------------------------------------
-		// User has clicked on import spreadsheet.
-		// ---------------------------------------
-		private void ImportFromSpreadsheet_Click(object sender, System.EventArgs e)
+		#endregion
+
+		#region Import methods
+
+		private void ImportFromSpreadsheet()
 			{
 			try
 				{
 				if (ImportSpreadsheetDialog.ShowDialog() == DialogResult.OK)
-					{
-					SoilSpreadsheetImporter.ImportFromFile(ImportSpreadsheetDialog.FileName, SoilExplorer.Data);
-					MessageBox.Show("Soils successfully imported into current file.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					}
+					SoilSpreadsheetImporter.ImportFromFile(ImportSpreadsheetDialog.FileName, Apsoil.AllData);
 				}
 			catch (Exception err)
 				{
 				MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			SoilExplorer.Refresh();
-			}
+			}                  
 
-
-		// -------------------------------------------
-		// Enable / Disable bits of functionality as 
-		// required. i.e. ensure program is in a 
-		// consistant state.
-		// -------------------------------------------
-		void SetFunctionality(APSIMData CurrentData)
-			{
-			bool SomethingInTree = (Text != "APSoil");
-			string CurrentFileName = Path.GetFileName(SoilExplorer.FileName).ToLower();
-			bool StandardSoils = (CurrentFileName == "standardsoils.soils" ||
-				                  CurrentFileName == "apsrusoils.soils");
-			bool CurrentNodeIsASoil = (CurrentData != null &&
-				                       CurrentData.Type.ToLower() == "soil");
-
-			FileSave.Enabled = SomethingInTree && !StandardSoils;
-			FileSaveButton.Enabled = SomethingInTree && !StandardSoils;
-			FileSaveAs.Enabled = SomethingInTree;
-			ImportButton.Enabled = SomethingInTree;
-			ImportMenuItem.Enabled = SomethingInTree;
-			ExportButton.Enabled = (SomethingInTree && CurrentNodeIsASoil);
-			ExportMenuItem.Enabled = (SomethingInTree && CurrentNodeIsASoil);
-			CheckForErrors.Enabled = SomethingInTree;
-			}
-
-
-		// -----------------------------------------
-		// User has clicked on import w2/n2 files.
-		// -----------------------------------------
-		private void ImportW2N2Files_Click(object sender, System.EventArgs e)
+		private void ImportFromW2N2()
 			{
 			try
 				{
@@ -732,7 +1215,7 @@ namespace APSoil
 					{
 					string[] Files = Directory.GetFiles(FolderBrowserDialog.SelectedPath, "*.w2");
 					foreach (string File in Files)
-                        ParFileImporter.ImportW2N2P2(File, SoilExplorer.Data);
+                        ParFileImporter.ImportW2N2P2(File, Apsoil.AllData);
 					}
 				}
 			 catch (Exception err)
@@ -742,18 +1225,14 @@ namespace APSoil
 			SoilExplorer.Refresh();
 			}
 
-
-		// --------------------------------------
-		// User has clicked on import PAR files.
-		// --------------------------------------
-		private void ImportParFiles_Click(object sender, System.EventArgs e)
+		private void ImportFromPar()
 			{
 			try
 				{
 				if (ImportParDialog.ShowDialog() == DialogResult.OK)
 					{
 					foreach (string File in ImportParDialog.FileNames)
-                        ParFileImporter.ImportParFile(File, SoilExplorer.Data);
+                        ParFileImporter.ImportParFile(File, Apsoil.AllData);
 					}
 				}
 			catch (Exception err)
@@ -763,11 +1242,7 @@ namespace APSoil
 			SoilExplorer.Refresh();
 			}
 
-
-		// ----------------------------------------
-		// User has clicked on import .soils files.
-		// ----------------------------------------
-		private void ImportSoilsFile_Click(object sender, System.EventArgs e)
+		private void ImportFromSoils()
 			{
 			try
 				{
@@ -778,8 +1253,7 @@ namespace APSoil
 						APSIMData NewData = new APSIMData();
 						NewData.LoadFromFile(File);
 						APSIMChangeTool.Upgrade(NewData);
-						SoilExplorer.Data.Add(NewData);
-						SoilExplorer.SelectNode(NewData.Name);
+						Apsoil.AllData.Add(NewData);
 						}
 					}
 				}
@@ -790,27 +1264,32 @@ namespace APSoil
 			SoilExplorer.Refresh();
 			}
 
+		#endregion
 
-		// -----------------------------------------------
-		// User has clicked on export selected file to par
-		// -----------------------------------------------
-		private void ExportToPar_Click(object sender, System.EventArgs e)
+		#region Export methods
+		private void ExportToPar()
 			{
+			// User has clicked on export selected file to par
 			try
 				{
-				Soil SoilToExport = new Soil(SoilExplorer.GetSelectedData());
-				string Errors = SoilToExport.CheckForErrors();
-				if (Errors != "")
+				if (ParExportDialog.ShowDialog() == DialogResult.OK)
 					{
-					ErrorMessageForm ErrorForm = new ErrorMessageForm();
-					ErrorForm.SetText(Errors);
-					ErrorForm.ShowDialog();
-					}
-				else if (ParExportDialog.ShowDialog() == DialogResult.OK)
-					{	
-					SoilToExport.ExportToPar(ParExportDialog.FileName);
-					MessageBox.Show("Soil has been successfully exported to " + ParExportDialog.FileName,
-						            "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					File.Delete(ParExportDialog.FileName);
+					foreach (APSIMData SelectedData in Apsoil.SelectedData)
+						{
+						Soil SoilToExport = new Soil(SelectedData);
+						string Errors = SoilToExport.CheckForErrors();
+						if (Errors != "")
+							{
+							ErrorMessageForm ErrorForm = new ErrorMessageForm();
+							ErrorForm.SetText(Errors);
+							ErrorForm.ShowDialog();
+							}
+						else 
+							{	
+							SoilToExport.ExportToPar(ParExportDialog.FileName, SoilToExport.Name, true);
+							}
+						}
 					}
 				}
 			catch (Exception err)
@@ -819,15 +1298,39 @@ namespace APSoil
 				}
 			}
 
-
-		// ---------------------------------------------
-		// User wants to check all soils for consistency
-		// ---------------------------------------------
-		private void CheckForErrors_Click(object sender, System.EventArgs e)
+		private void ExportToSoils()
 			{
+			// User has clicked on Export selected soils to another .soils file.
+			if (ExportSoilsDialog.ShowDialog() == DialogResult.OK)	
+				{
+				APSIMData ForeignSoils;
+				if (!File.Exists(ExportSoilsDialog.FileName))
+					{
+					ForeignSoils = new APSIMData("soils", "");
+					}
+				else
+					{
+					ForeignSoils = new APSIMData();
+					ForeignSoils.LoadFromFile(ExportSoilsDialog.FileName);
+					}
+
+				foreach (APSIMData SelectedData in Apsoil.SelectedData)
+					ForeignSoils.Add(SelectedData);
+				ForeignSoils.SaveToFile(ExportSoilsDialog.FileName);
+				MessageBox.Show("Soils have been exported to: " + ExportSoilsDialog.FileName, "For your information", 
+					            MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+			}
+
+		#endregion
+
+		#region Tools methods
+		private void CheckForErrors()
+			{
+			// User wants to check all soils for consistency
 			Cursor.Current = Cursors.WaitCursor;
 			string ErrorMessage = "";
-			CheckAllSoils(SoilExplorer.Data, ref ErrorMessage);
+			CheckAllSoils(Apsoil.AllData, ref ErrorMessage);
 			if (ErrorMessage == "")
 				MessageBox.Show("All soils checked out ok. No problems were encountered",
 					            "No problems encountered", MessageBoxButtons.OK,
@@ -841,12 +1344,9 @@ namespace APSoil
 			Cursor.Current = Cursors.Default;
 			}
 
-
-		// ---------------------------------------------------
-		// Check all soils and return an error message string
-		// ---------------------------------------------------
 		private void CheckAllSoils(APSIMData Data, ref string ErrorMessage)
 			{
+			// Check all soils and return an error message string
 			foreach (APSIMData Child in Data.get_Children(null))
 				{
 				if (Child.Type.ToLower() == "folder" || Child.Type.ToLower() == "soils")
@@ -861,45 +1361,67 @@ namespace APSoil
 				}
 			}
 
-		// ---------------------------------------------------
-		// User has changed the sort menu item.
-		// ---------------------------------------------------
-		private void SortMenuItem_Click(object sender, System.EventArgs e)
+		private void Sort()
 			{
-			SortMenuItem.Checked = !SortMenuItem.Checked;
+			// User has changed the sort menu item.
+			SortButton.Pushed = !SortButton.Pushed;
 			string SortValue = "no";
-			if (SortMenuItem.Checked)
+			if (SortButton.Pushed)
 				SortValue = "yes";
 			APSIMSettings.INIWrite(APSIMSettings.ApsimIniFile(), "soil", "SortByName", SortValue);
-			SoilExplorer.SortAll = SortMenuItem.Checked;
+			SoilExplorer.SortAll = SortButton.Pushed;
 			}
 
-		// ---------------------------------------------------
-		// User has selected to export to another database.
-		// ---------------------------------------------------
-		private void ExportToAnother_Click(object sender, System.EventArgs e)
+		#endregion	
+
+		#region Keyboard shortcut handling
+		private bool LookForShortCutOnControl(Control Parent, int KeyValue)
 			{
-			if (ExportSoilsDialog.ShowDialog() == DialogResult.OK)	
+			foreach (Control c in Parent.Controls)
 				{
-				APSIMData ForeignSoils;
-				if (!File.Exists(ExportSoilsDialog.FileName))
+				Panel panel = c as Panel;
+				if (panel != null)
 					{
-					ForeignSoils = new APSIMData("soils", "");
+					if (LookForShortCutOnControl(panel, KeyValue))
+						return true;
 					}
 				else
 					{
-					ForeignSoils = new APSIMData();
-					ForeignSoils.LoadFromFile(ExportSoilsDialog.FileName);
+					ToolBar toolbar = c as ToolBar;
+					if (toolbar != null && toolbar.Visible)
+						{
+						foreach (ToolBarButton Button in toolbar.Buttons)
+							{
+							int PosShortCut = Button.Text.IndexOf("&");
+							if (PosShortCut != -1)
+								{
+								char ShortCutKey = Button.Text[PosShortCut+1];
+								if (ShortCutKey > 'a')
+									ShortCutKey = (char) (ShortCutKey - 32);
+								if (ShortCutKey == KeyValue)
+									{
+									ButtonClick(null, new ToolBarButtonClickEventArgs(Button));
+									return true;
+									}
+								}
+							}
+						}
 					}
-				ForeignSoils.Add(SoilExplorer.GetSelectedData());
-				ForeignSoils.SaveToFile(ExportSoilsDialog.FileName);
-				MessageBox.Show("Soils have been exported to: " + ExportSoilsDialog.FileName, "For your information", 
-					            MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}
+			return false;
 			}
 
-
-
+		protected override bool ProcessDialogKey(Keys KeyData)
+			{
+			if ((KeyData & Keys.Alt) == Keys.Alt)
+				{
+				int Key = (int) (KeyData & ~Keys.Alt);
+				if (LookForShortCutOnControl(this, Key))
+					return true;
+				}
+			return base.ProcessDialogKey(KeyData);
+			}
+		#endregion
 
 
 		}

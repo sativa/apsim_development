@@ -113,8 +113,8 @@ void ApsimRuns::runApsim(bool quiet, bool console, TApsimRunEvent notifyEvent)
          {
          if (filePath.Get_extension() == ".con")
             {
-            SimCreator simCreator(filePath.Get_path());
-            simCreator.createSim(simNames[f], "");
+            SimCreator simCreator(newFormat);
+            simCreator.ConToSim(filePath.Get_path(), simNames[f], "");
             filePath.Set_extension(".sim");
             }
          bool moreToGo = (f != fileNames.size()-1);
@@ -178,17 +178,17 @@ void ApsimRuns::createSims(void)
    for (unsigned f = 0; f != fileNames.size(); f++)
       {
       bool alreadyDone = 0;
-      for (unsigned g = 0; g < f; g++) 
+      for (unsigned g = 0; g < f; g++)
          {
       	 if (f != g && fileNames[f] == fileNames[g]) {alreadyDone = true;}
          }
-      if (!alreadyDone) 
+      if (!alreadyDone)
          {
          string fileName = fileNames[f];
          if (Path(fileName).Get_extension() == ".con")
              {
-             SimCreator simCreator(fileName);
-             simCreator.createSims("", (TSimCreatorEvent)NULL);
+             SimCreator simCreator(newFormat);
+             simCreator.ConToSim(fileName, "");
              }
          }
       }   
@@ -208,7 +208,7 @@ void ApsimRuns::convertFiles()
          if (filePath.Get_extension() == ".con")
             {
             converter.convert(filePath.Get_path(),
-                              (TControlFileConverterEvent)NULL);
+                               (TControlFileConverterEvent)NULL);
             }
          }
       catch (const exception& err)

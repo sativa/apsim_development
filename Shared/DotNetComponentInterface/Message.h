@@ -1,5 +1,7 @@
 #pragma once
 
+namespace ComponentInterface {
+
 class Messages;
 class MessageFactory;
 // ------------------------
@@ -95,5 +97,5 @@ class Message
 		friend MessageFactory;
 	};
 
-
+};
 

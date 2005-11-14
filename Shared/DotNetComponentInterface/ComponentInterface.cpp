@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 
+#using <VBGeneral.dll>
 #include "ComponentInterface.h"
 #include "Message.h"
 #include "MessageType.h"
@@ -10,14 +11,15 @@
 #include "DataTypes.h"
 #include "ApsimEvents.h"
 #include "RegisteredEvents.h"
-#include "ManagedComponentInterface.h"
+#include "ApsimComponent.h"
+#include "TypeConverter.h"
 #include <general\stristr.h>
 #include <string.h>
 #include <sstream>
 
 #using <System.dll>
 using namespace std;
-
+using namespace ComponentInterface;
 // ---------------------------------------------------------
 // This exception class is sent by this component interface
 // to signal to messageToLogic that an error has already
@@ -36,7 +38,7 @@ public:
 // -------------------------------
 // The createInstance entry point
 // -------------------------------
-void ComponentInterface::createInstance(IComponent* component,
+void ComponentComms::createInstance(ApsimComponent* component,
 										const char* dllFileName,
 										unsigned ourID,
 										unsigned parentID,
@@ -54,7 +56,7 @@ void ComponentInterface::createInstance(IComponent* component,
 // ---------------------------------
 // The deleteInstance entry point
 // ---------------------------------
-void ComponentInterface::deleteInstance(IComponent* component)
+void ComponentComms::deleteInstance(ApsimComponent* component)
 	{
 	
 	
@@ -64,7 +66,7 @@ void ComponentInterface::deleteInstance(IComponent* component)
 // ------------------------------
 // The messageToLogic entry point
 // ------------------------------
-void ComponentInterface::messageToLogic(IComponent* component,
+void ComponentComms::messageToLogic(ApsimComponent* component,
 										char* messageBytes)
 	{
 	try
@@ -90,10 +92,6 @@ void ComponentInterface::messageToLogic(IComponent* component,
 		{
 		error(err.what(), true);
 		}
-	catch (NUnit::Framework::AssertionException* )
-		{
-		throw;
-		}
 	catch (System::Exception* err)
 		{
 		error(stringToStdString(err->Message), true);
@@ -104,18 +102,22 @@ void ComponentInterface::messageToLogic(IComponent* component,
 // name. If name hasn't been registered then
 // use the regType to send a message to our PM.
 // --------------------------------------------
-unsigned ComponentInterface::nameToRegistrationID(const std::string& name, 
+unsigned ComponentComms::nameToRegistrationID(const std::string& name, 
+											  const std::string& units,
 													Registration::Type regType,
 													IData& data)
 	{
-	Registrations::iterator reg = registrations.find(name);
+	ostringstream regTypeString;
+	regTypeString << regType << ends;
+	string FullRegName = name + regTypeString.str();
+	Registrations::iterator reg = registrations.find(FullRegName);
 	if (reg == registrations.end())
 		{
 		Registration* newRegistration = new Registration;
-		newRegistration->name = name;
+		newRegistration->name = FullRegName;
 		newRegistration->type = regType;
 		newRegistration->data = &data;
-		registrations.insert(make_pair(name, newRegistration));
+		registrations.insert(make_pair(FullRegName, newRegistration));
 		unsigned newRegId = (unsigned) newRegistration;
 		
 		Register reg;
@@ -124,6 +126,8 @@ unsigned ComponentInterface::nameToRegistrationID(const std::string& name,
 		reg.destID = parentID;
 		reg.name = name;
 		reg.type = data.ddml();
+		if (units != "")
+			reg.type = reg.type.substr(0, reg.type.length()-2) + " units=\"" + units + "\"/>";
 		Message message = messageFactory.create(MessageType::Register);
 		reg.pack(message);
 		sendMessage(message, parentID, false);
@@ -136,14 +140,14 @@ unsigned ComponentInterface::nameToRegistrationID(const std::string& name,
 // Return a registration name for the specified
 // id. If id doesn't exist, throw exception.
 // --------------------------------------------
-ComponentInterface::Registration* ComponentInterface::idToRegistration(unsigned regID)
+ComponentComms::Registration* ComponentComms::idToRegistration(unsigned regID)
 	{
 	return (Registration*) regID;
 	}	
 // -----------------------------------
 // Converts a component id into a name
 // -----------------------------------
-std::string ComponentInterface::componentIDToName(unsigned componentID)
+std::string ComponentComms::componentIDToName(unsigned componentID)
 	{
 	Components::iterator component = components.find(componentID);
 	if (component == components.end())
@@ -154,7 +158,7 @@ std::string ComponentInterface::componentIDToName(unsigned componentID)
 		ostringstream out;
 		out << componentID;
 		queryInfo.name = out.str();
-		queryInfo.kind = ComponentInterface::component;
+		queryInfo.kind = ComponentComms::component;
 		queryInfo.pack(message);
 		sendMessage(message, parentID, false);
 		if (messages.size() == 0)
@@ -174,7 +178,7 @@ std::string ComponentInterface::componentIDToName(unsigned componentID)
 // -----------------------------------
 // Converts a component id into a name
 // -----------------------------------
-void ComponentInterface::clearMessages()
+void ComponentComms::clearMessages()
 	{
 	for (unsigned i = 0; i != messages.size(); i++)
 		delete messages[i];
@@ -184,7 +188,7 @@ void ComponentInterface::clearMessages()
 // -----------------------------
 // Handler for the Init1 message
 // -----------------------------
-void ComponentInterface::onInit1Message(IComponent* component, Message& message)
+void ComponentComms::onInit1Message(ApsimComponent* component, Message& message)
 	{	
 	Init1 init1;
 	init1.unpack(message);
@@ -204,23 +208,23 @@ void ComponentInterface::onInit1Message(IComponent* component, Message& message)
 	posCloseInitData += strlen("</initdata>");
 	string sdml;
 	sdml.assign(posOpenInitData, posCloseInitData-posOpenInitData);
-	IComms* comms = new ManagedComponentInterface(this);	// will be deleted by garbage collector
-	component->init1(name.c_str(), sdml.c_str(), comms, new ApsimEvents(comms));
+	component->Setup(this, name.c_str(), sdml.c_str());
+	component->Init1();
 	}
 	
 // -----------------------------
 // Handler for the Init2 message
 // -----------------------------
-void ComponentInterface::onInit2Message(IComponent* component, Message& message)
+void ComponentComms::onInit2Message(ApsimComponent* component, Message& message)
 	{
-	component->init2();	
+	component->Init2();	
 	}
 
 	
 // -----------------------------------
 // Called to signal an error condition
 // -----------------------------------
-void ComponentInterface::error(const string& errorMessage, bool isFatal)
+void ComponentComms::error(const string& errorMessage, bool isFatal)
 	{
 	string msg;
 	msg =  "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
@@ -236,7 +240,7 @@ void ComponentInterface::error(const string& errorMessage, bool isFatal)
 
 	Error* error = new Error;
 	error->msg = msg.c_str();
-	publish("error", *error);
+	publish("error", WrapManaged<Error*>(error));
 	if (isFatal)
 		{
 		terminateSimulation();
@@ -247,7 +251,7 @@ void ComponentInterface::error(const string& errorMessage, bool isFatal)
 // --------------------
 // Terminate simulation
 // --------------------
-void ComponentInterface::terminateSimulation(void)
+void ComponentComms::terminateSimulation(void)
 	{
 	Message message = messageFactory.create(MessageType::TerminateSimulation);
 	sendMessage(message, parentID, false);
@@ -256,7 +260,7 @@ void ComponentInterface::terminateSimulation(void)
 // --------------------
 // Send a message.
 // --------------------
-void ComponentInterface::sendMessage(Message& message, unsigned toID, bool ack)
+void ComponentComms::sendMessage(Message& message, unsigned toID, bool ack)
 	{
 	message.setAddress(ourID, toID, ack);
 	callback(callbackArg, message.byteStream());
@@ -268,20 +272,20 @@ void ComponentInterface::sendMessage(Message& message, unsigned toID, bool ack)
 // ---------------------
 // Write to summary file
 // ---------------------
-void ComponentInterface::writeToSummary(const string& line)
+void ComponentComms::writeToSummary(const string& line)
 	{
 	SummaryFileWrite* summaryFileWrite = new SummaryFileWrite;
 	summaryFileWrite->componentName = name.c_str();
 	summaryFileWrite->lines = line.c_str();
-	publish("summaryFileWrite", *summaryFileWrite);
+	publish("summaryFileWrite", WrapManaged<SummaryFileWrite*>(summaryFileWrite));
 	}
 	
 // ---------------------
 // Publish an event
 // ---------------------
-void ComponentInterface::publish(const std::string& eventName, IData& data)
+void ComponentComms::publish(const std::string& eventName, IData& data)
 	{
-	unsigned id = nameToRegistrationID(eventName, Registration::event, data);
+	unsigned id = nameToRegistrationID(eventName, "", Registration::event, data);
 	Message message = messageFactory.create(MessageType::PublishEvent);
 
 	PublishEvent publishEvent;
@@ -296,10 +300,12 @@ void ComponentInterface::publish(const std::string& eventName, IData& data)
 // -----------------------------------
 // Get a property from another module.
 // -----------------------------------
-std::string ComponentInterface::getProperty(const std::string& propertyName, IData& data)
+std::string ComponentComms::getProperty(const std::string& propertyName, 
+										const std::string& units,
+										IData& data)
 	{
 	clearMessages();
-	unsigned id = nameToRegistrationID(propertyName, Registration::get, data);
+	unsigned id = nameToRegistrationID(propertyName, units, Registration::get, data);
 	Message message = messageFactory.create(MessageType::GetValue);
 	GetValue getValue;
 	getValue.id = id;
@@ -311,7 +317,9 @@ std::string ComponentInterface::getProperty(const std::string& propertyName, IDa
 		returnValue.unpack(*messages[0]);
 		if (id != returnValue.id)
 			throw runtime_error("Invalid returnValue id");
-		data.unpack(*messages[0]);	
+
+		TypeConverter Converter;
+		Converter.unpack(*messages[0], returnValue.type, &data);
 		return componentIDToName(returnValue.compID);
 		}
 	else if (messages.size() == 0)
@@ -326,9 +334,12 @@ std::string ComponentInterface::getProperty(const std::string& propertyName, IDa
 // Return true if successful, false and a warning message
 // otherwise.
 // ------------------------------------------------------
-bool ComponentInterface::setProperty(const std::string& propertyName, IData& data)
+bool ComponentComms::setProperty(const std::string& propertyName, 
+								const std::string& units,
+								IData& data)
 	{
-	unsigned id = nameToRegistrationID(propertyName, Registration::set, data);
+	messages.erase(messages.begin(), messages.end());
+	unsigned id = nameToRegistrationID(propertyName, units, Registration::set, data);
 	Message message = messageFactory.create(MessageType::RequestSetValue);
 	RequestSetValue setValue;
 	setValue.id = id;
@@ -355,15 +366,15 @@ bool ComponentInterface::setProperty(const std::string& propertyName, IData& dat
 // ------------------------------------------------------
 // Publish an event with the specified data.
 // ------------------------------------------------------
-void ComponentInterface::publishEvent(const std::string& eventName, IData& data)
+void ComponentComms::publishEvent(const std::string& eventName, IData* data)
 	{
-	unsigned id = nameToRegistrationID(eventName, Registration::event, data);
+	unsigned id = nameToRegistrationID(eventName, "", Registration::event, *data);
 	Message message = messageFactory.create(MessageType::PublishEvent);
 	PublishEvent publishEvent;
 	publishEvent.id = id;
-	publishEvent.type = data.ddml();
+	publishEvent.type = data->ddml();
 	publishEvent.pack(message);
-	data.pack(message);
+	data->pack(message);
 	sendMessage(message, parentID, false);
 	}
 
@@ -371,25 +382,26 @@ void ComponentInterface::publishEvent(const std::string& eventName, IData& data)
 // Register the specified data so that other components can
 // get the data.
 // ---------------------------------------------------------		
-void ComponentInterface::registerProperty(const std::string& propertyName, 
-										  IComms::ReadWriteType readWrite, 
-										  IData& data)
+void ComponentComms::registerProperty(const std::string& propertyName, 
+									  const std::string& units,
+										  int readWrite, 
+										  IData* data)
 	{
 	Registration::Type regType;
-	if (readWrite == IComms::read)
+	if (readWrite == read)
 	   regType = Registration::respondToGet;
-	else if (readWrite == IComms::write)
+	else if (readWrite == write)
 		regType = Registration::respondToSet;
 	else
 		regType = Registration::respondToGetSet;
-	unsigned regID = nameToRegistrationID(propertyName, regType, data);
+	unsigned regID = nameToRegistrationID(propertyName, units, regType, *data);
 	}
 
 // ---------------------------------------------------------
 // Another component has asked for one of our variables.
 // Return the value to caller by sending a replyValue message.
 // ---------------------------------------------------------		
-void ComponentInterface::onQueryValueMessage(IComponent* component, Message& message)
+void ComponentComms::onQueryValueMessage(ApsimComponent* component, Message& message)
 	{
 	QueryValue queryValue;
 	queryValue.unpack(message);
@@ -407,15 +419,16 @@ void ComponentInterface::onQueryValueMessage(IComponent* component, Message& mes
 // Another component wants to change one  of our variables.
 // Return the true/false to caller by sending a notifySetValueSuccess message.
 // ---------------------------------------------------------		
-void ComponentInterface::onQuerySetValueMessage(IComponent* component, Message& message)
+void ComponentComms::onQuerySetValueMessage(ApsimComponent* component, Message& message)
 	{
 	QuerySetValue querySetValue;
 	querySetValue.unpack(message);
 	Registration* registration = idToRegistration(querySetValue.id);
 	if (registration->type == Registration::respondToSet || registration->type == Registration::respondToGetSet)
 		{
-		registration->data->unpack(message);
-		
+		TypeConverter Converter;
+		Converter.unpack(message, querySetValue.type, registration->data);
+				
 		Message notifySetValueSuccessMessage = messageFactory.create(MessageType::NotifySetValueSuccess);
 		NotifySetValueSuccess notifySetValueSuccess;
 		notifySetValueSuccess.id = querySetValue.replyID;
@@ -428,7 +441,7 @@ void ComponentInterface::onQuerySetValueMessage(IComponent* component, Message& 
 // ---------------------------------------------------------		
 // Register an event handler.
 // ---------------------------------------------------------		
-void ComponentInterface::registerEventHandler(const std::string& eventName, IEventData* event)
+void ComponentComms::registerEventHandler(const std::string& eventName, IEventData* event)
 	{
 	Register reg;
 	reg.kind = Registration::respondToEvent;
@@ -443,7 +456,7 @@ void ComponentInterface::registerEventHandler(const std::string& eventName, IEve
 // ---------------------------------------------------------		
 // Respond to an incoming event.
 // ---------------------------------------------------------		
-void ComponentInterface::onEventMessage(IComponent* component, Message& message)
+void ComponentComms::onEventMessage(ApsimComponent* component, Message& message)
 	{
 	Event event;
 	event.unpack(message);

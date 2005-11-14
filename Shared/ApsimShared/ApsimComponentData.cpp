@@ -142,9 +142,43 @@ std::string ApsimComponentData::getProperty(const std::string& propType,
         matches.push_back(values[i]);
 
    if (matches.size() > 1) throw std::runtime_error("Parameter " + name + " has multiple definitions");
-   if (matches.size() == 1) return matches[0];
-   return "";
+
+   // look in all tables if we can't find the parameter.
+   for (XMLNode::iterator propertyI = getInitData().begin();
+                          propertyI != getInitData().end() && matches.size() == 0;
+                          propertyI++)
+      if (Str_i_Eq(propertyI->getName(), "table"))
+         matches.push_back(getValuesFromTable(name, *propertyI));
+
+   if (matches.size() == 1)
+      return matches[0];
+   else
+      return "";
    }
+// ------------------------------------------------------------------
+// Return values from the specified table for the specific property
+// ------------------------------------------------------------------
+string ApsimComponentData::getValuesFromTable(const std::string& name, XMLNode tableNode) const
+   {
+   string returnString;
+   for (XMLNode::iterator row = tableNode.begin();
+                          row != tableNode.end();
+                          row++)
+      for (XMLNode::iterator property = row->begin();
+                             property != row->end();
+                             property++)
+         {
+         if (Str_i_Eq(property->getName(), name))
+            {
+            if (returnString != "")
+               returnString += " ";
+            returnString += property->getValue();
+            }
+         }
+
+   return returnString;
+   }
+
 // ------------------------------------------------------------------
 // Return the value of a specific property to caller.
 // ------------------------------------------------------------------
@@ -152,26 +186,20 @@ void ApsimComponentData::getProperties(const std::string& propertyType,
                                        vector<string>& names,
                                        vector<string>& values) const
    {
-   XMLNode initData = getInitData();
-   for (XMLNode::iterator groupI = initData.begin();
-                          groupI != initData.end();
-                          groupI++)
+   XMLNode parentNode = getInitData();
+   if (propertyType != "" && !Str_i_Eq(propertyType, "parameters") &&
+       !Str_i_Eq(propertyType, "constants"))
+       parentNode = findNode(getInitData(), propertyType);
+
+   for (XMLNode::iterator propertyI = parentNode.begin();
+                          propertyI != parentNode.end();
+                          propertyI++)
       {
-      if (Str_i_Eq(groupI->getName(), propertyType))
-         {
-         for (XMLNode::iterator propertyI = groupI->begin();
-                                propertyI != groupI->end();
-                                propertyI++)
-            {
-            if (Str_i_Eq(propertyI->getName(), "property"))
-               {
-               names.push_back(propertyI->getAttribute("name"));
-               values.push_back(propertyI->getValue());
-               }
-            }
-         }
+      names.push_back(propertyI->getName());
+      values.push_back(propertyI->getValue());
       }
    }
+/*
 // ------------------------------------------------------------------
 // Try and replace the value of the specified property.  Return true
 // if property was found.  False otherwise.
@@ -240,20 +268,18 @@ void ApsimComponentData::clearVariables(void)
    {
    XMLNode initData = getInitData();
    eraseNodes(initData, "variables");
-   }
+   }*/
 // ------------------------------------------------------------------
 // return a list of variables to caller.
 // ------------------------------------------------------------------
 void ApsimComponentData::getVariables(vector<string>& variables) const
    {
    XMLNode initData = getInitData();
-   XMLNode::iterator group = find_if(initData.begin(),
-                                     initData.end(),
-                                     EqualToName<XMLNode>("variables"));
-   if (group != initData.end())
-      for_each(group->begin(), group->end(),
-               GetValueFunction<vector<string>, XMLNode>(variables));
+   for_each_if(initData.begin(), initData.end(),
+               GetValueFunction<vector<string>, XMLNode>(variables),
+               EqualToName<XMLNode>("variable"));
    }
+/*
 // ------------------------------------------------------------------
 // Add a variable if it doesn't already exist.
 // ------------------------------------------------------------------
@@ -271,19 +297,15 @@ void ApsimComponentData::clearRules(void)
    {
    XMLNode initData = getInitData();
    eraseNodes(initData, "rules");
-   }
+   } */
 // ------------------------------------------------------------------
 // return a list of rule names to caller.
 // ------------------------------------------------------------------
 void ApsimComponentData::getRuleNames(vector<string>& names) const
    {
    XMLNode initData = getInitData();
-   XMLNode::iterator rules = find_if(initData.begin(),
-                                     initData.end(),
-                                     EqualToName<XMLNode>("rules"));
-   if (rules != initData.end())
-      for_each(rules->begin(), rules->end(),
-               GetNameAttributeFunction<XMLNode>(names));
+   for_each(initData.begin(), initData.end(),
+            GetNameAttributeFunction<XMLNode>(names));
    }
 // ------------------------------------------------------------------
 // return a rule to caller or blank if not found.
@@ -293,23 +315,17 @@ void ApsimComponentData::getRule(const std::string& name,
                                  std::string& contents) const
    {
    XMLNode initData = getInitData();
-   XMLNode::iterator rules = find_if(initData.begin(),
-                                     initData.end(),
-                                     EqualToName<XMLNode>("rules"));
-   if (rules != initData.end())
+   XMLNode::iterator rule = find_if(initData.begin(), initData.end(),
+                                    NodeEquals<XMLNode>("rule", name));
+   if (rule != initData.end())
       {
-      XMLNode::iterator rule = find_if(rules->begin(), rules->end(),
-                                       NodeEquals<XMLNode>("rule", name));
-      if (rule != rules->end())
-         {
-         condition = rule->getAttribute("condition");
-         contents = rule->getValue();
-         Replace_all(contents, "[cr]", "\n");
-         replaceAllMacros(rule, condition);
-         replaceAllMacros(rule, contents);
-         }
+      condition = rule->getAttribute("condition");
+      contents = rule->getValue();
+      Replace_all(contents, "[cr]", "\n");
+      replaceAllMacros(rule, condition);
+      replaceAllMacros(rule, contents);
       }
-   }
+   }  /*
 // ------------------------------------------------------------------
 // Add a rule if it doesn't already exist.  If it does exist then
 // update its contents.
@@ -337,7 +353,7 @@ void ApsimComponentData::addRule(const string& name,
       }
    else
       rule->setValue(sanitisedContents);
-   }
+   }    */
 // ------------------------------------------------------------------
 // Return the contents of this service as an xml string.
 // ------------------------------------------------------------------

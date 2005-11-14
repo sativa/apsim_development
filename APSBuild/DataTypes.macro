@@ -30,7 +30,7 @@ struct structure.nameType
    #elseif (field.array = T)
    std::vector<field.ctype> field.name;
    #elseif (field.isStructure = T)
-   field.ctype field.name;
+   field.ctypeType field.name;
    #else
    field.ctype field.name;
    #endif

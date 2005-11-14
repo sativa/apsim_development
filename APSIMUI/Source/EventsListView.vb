@@ -1,7 +1,7 @@
 Imports VBGeneral
 Imports System.Collections.Specialized
 Public Class EventsListView
-    Inherits BaseDataControl
+    Inherits BaseView
 
 #Region " Windows Form Designer generated code "
 
@@ -75,10 +75,10 @@ Public Class EventsListView
 
 #End Region
     Overrides Sub Refresh()
-        CaptionLabel.Text = "Events (output frequency)"
+        HelpText = "Events (output frequency)"
         ListView.Items.Clear()
-        If Not IsNothing(Data) Then
-            Dim EventsNode As APSIMData = Data.Child("events")
+        If Not IsNothing(Controller.Data) Then
+            Dim EventsNode As APSIMData = Controller.Data.Child("events")
             For Each child As String In EventsNode.ChildList("event")
                 Dim item As New ListViewItem
                 item.Text = EventsNode.Child(child).Attribute("name")
@@ -103,7 +103,7 @@ Public Class EventsListView
         If NewData.Type = "event" Then
             NewData.SetAttribute("eventname", NewData.Attribute("name"))
             NewData.SetAttribute("name", NewData.Attribute("module") + "." + NewData.Attribute("name"))
-            Dim EventsNode As APSIMData = Data.Child("events")
+            Dim EventsNode As APSIMData = Controller.Data.Child("events")
             EventsNode.Add(NewData)
             Refresh()
         Else
@@ -115,7 +115,7 @@ Public Class EventsListView
     Private Sub ListView_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ListView.KeyDown
         If e.KeyValue = 46 Then
             For Each item As ListViewItem In ListView.SelectedItems
-                Dim EventsNode As APSIMData = Data.Child("events")
+                Dim EventsNode As APSIMData = Controller.Data.Child("events")
                 EventsNode.Delete(item.Text)
                 ListView.Items.Remove(item)
             Next

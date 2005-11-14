@@ -1,7 +1,7 @@
 Imports VBGeneral
 
 Public Class HypropsControl
-    Inherits VBGeneral.BaseDataControl
+    Inherits VBGeneral.BaseView
     Private Hypropsdata As New Hyprops
 #Region " Windows Form Designer generated code "
 
@@ -65,7 +65,6 @@ Public Class HypropsControl
         'DataTree
         '
         Me.DataTree.Dock = System.Windows.Forms.DockStyle.Top
-        Me.DataTree.LabelEdit = False
         Me.DataTree.Location = New System.Drawing.Point(0, 0)
         Me.DataTree.Name = "DataTree"
         Me.DataTree.Size = New System.Drawing.Size(320, 248)
@@ -134,8 +133,8 @@ Public Class HypropsControl
 
     Public Overrides Sub Refresh()
         MyBase.Refresh()
-        Hypropsdata.Data = Data.Child("hyprops")
-        DataTree.Data = Data
+        Hypropsdata.Data = Controller.Data.Child("hyprops")
+        DataTree.Controller = Controller
         PropertyGrid.SelectedObject = Hypropsdata
     End Sub
 

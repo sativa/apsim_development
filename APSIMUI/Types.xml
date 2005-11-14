@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="../docs/shared/ModuleDocumentation.xsl"?>
 <Types>
+   <startup>
+      <UItype>startup</UItype>
+   </startup>
    <area>
       <UItype>area</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -18,8 +21,8 @@
          <system name="[area.name]" executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll">
             [foreach area.outputfile][insert outputfile][endfor]
             [foreach area.micromet][insert micromet][endfor]
-            [foreach area.logic][insert logic][endfor]
             [foreach area.manager][insert manager][endfor]
+            [foreach area.logic][insert logic][endfor]
             [foreach area.irrigation][insert irrigation][endfor]
             [foreach area.fertiliser][insert fertiliser][endfor]
             [foreach area.surfaceom][insert surfaceom][endfor]
@@ -60,9 +63,7 @@
 
             <component name="accum" executable="%apsuite\apsim\accum\lib\accum.dll">
                <initdata>
-               <parameters name="sample">
-                  <property name="accum_variables">rain[15]</property>
-               </parameters>
+               <accum_variables>rain[15]</accum_variables>
                </initdata>
             </component>
 
@@ -190,9 +191,7 @@
             [foreach sim.summaryfile][insert summaryfile][endfor]
             <component name="Screen" executable="%apsuite\apsim\Screen\lib\Screen.dll">
                <initdata>
-                  <parameters name="test">
-                     <property name="screen_output">on</property>
-                  </parameters>
+                  <screen_output>on</screen_output>
                </initdata>
             </component>
             [foreach sim.log][insert log][endfor]
@@ -254,10 +253,8 @@
          <component name="[clock.name]" executable="%apsuite\apsim\clock\lib\clock.dll">
             <initdata>
                <include>%apsuite\apsim\clock\clock.ini</include>
-               <parameters name="test">
-                  <property name="start_date">[clock.start_date]</property>
-                  <property name="end_date">[clock.end_date]</property>
-               </parameters>
+               <start_date>[clock.start_date]</start_date>
+               <end_date>[clock.end_date]</end_date>
             </initdata>
          </component>
          ]]>
@@ -279,9 +276,7 @@
          [comment] ################ summaryfile ################ [endcomment]
          <component name="[summaryfile.name]" executable="%apsuite\apsim\SummaryFile\lib\SummaryFile.dll">
             <initdata>
-               <parameters name="test">
-                  <property name="summaryfile">[summaryfile.filename]</property>
-               </parameters>
+               <summaryfile>[summaryfile.filename]</summaryfile>
             </initdata>
          </component>
          ]]>
@@ -305,11 +300,8 @@
          [comment] ################ outputfile ################ [endcomment]
          <component name="[outputfile.name]" executable="%apsuite\apsim\report\lib\report.dll">
             <initdata>
-               <parameters name="general">
-                  <property name="outputfile">[outputfile.filename]</property>
-                  <property name="outputfrequency">[foreach outputfile.outputfiledescription as desc][foreach desc.events][foreach events.event as e][if "[e.eventname]" = "Daily"]post[elseif "[e.module]" = "global"][e.eventname][else][e.name][endif] [endfor][endfor][endfor]</property>
-               </parameters>
-               <variables>
+               <outputfile>[outputfile.filename]</outputfile>
+               <outputfrequency>[foreach outputfile.outputfiledescription as desc][foreach desc.events][foreach events.event as e][if "[e.eventname]" = "Daily"]post[elseif "[e.module]" = "global"][e.eventname][else][e.name][endif] [endfor][endfor][endfor]</outputfrequency>
                [foreach outputfile.outputfiledescription as desc]
                [foreach desc.variables as vars]
                [foreach vars.variable as var]
@@ -325,7 +317,6 @@
                [endfor]
                [endfor]
                [endfor]
-               </variables>
             </initdata>
          </component>
          ]]>
@@ -356,9 +347,7 @@
          [comment] ################ metfile ################ [endcomment]
          <component name="[metfile.name]" executable="%apsuite\apsim\input\lib\input.dll">
             <initdata>
-               <parameters name="file">
-                  <property name="filename">[metfile.filename]</property>
-               </parameters>
+               <filename>[metfile.filename]</filename>
             </initdata>
          </component>
          [foreach metfile.climatechange as cc][insert climatechange][endfor]
@@ -383,11 +372,9 @@
          [comment] ################ logic ################ [endcomment]
          <component name="[logic.name]" executable="%apsuite\apsim\manager\lib\manager.dll">
          <initdata>
-            <rules>
-               <rule name="sample.init" condition="init">[logic.init]</rule>
-               <rule name="sample.end_of_day" condition="end_of_day">[logic.endofday]</rule>
-               <rule name="sample.start_of_day" condition="start_of_day">[logic.startofday]</rule>
-            </rules>
+            <rule name="sample.init" condition="init">[logic.init]</rule>
+            <rule name="sample.end_of_day" condition="end_of_day">[logic.endofday]</rule>
+            <rule name="sample.start_of_day" condition="start_of_day">[logic.startofday]</rule>
          </initdata>
          </component>
          ]]>
@@ -420,12 +407,10 @@
          [comment] ################ irrigation ################ [endcomment]
          <component name="[irrigation.name]" executable="%apsuite\apsim\irrigate\lib\irrigate.dll">
             <initdata>
-               <parameters name="sample">
-                 <property name="automatic_irrigation">[irrigation.automatic_irrigation]</property>
-                 <property name="asw_depth">[irrigation.asw_depth]</property>
-                 <property name="crit_fr_asw">[irrigation.crit_fr_asw]</property>
-                 <property name="irrigation_efficiency">[irrigation.irrigation_efficiency]</property>
-               </parameters>
+              <automatic_irrigation>[irrigation.automatic_irrigation]</automatic_irrigation>
+              <asw_depth>[irrigation.asw_depth]</asw_depth>
+              <crit_fr_asw>[irrigation.crit_fr_asw]</crit_fr_asw>
+              <irrigation_efficiency>[irrigation.irrigation_efficiency]</irrigation_efficiency>
             </initdata>
          </component>
          ]]>
@@ -520,48 +505,43 @@
       </variables>
       <SimMacro>
          <![CDATA[
-         [comment] ################ Soil ################ [endcomment]
          [foreach soil.Water as w]
          <component name="[soil.name] Water" executable="%apsuite\apsim\soilwat2\lib\soilwat2.dll">
             <initdata>
                <include>%apsuite\apsim\soilwat2\soilwat2.ini</include>
-               <parameters name="black_earth">
-                  [foreach soil.InitWater as initwater]
-
-                  [if [initwater.1.sw] > 0]
-                  <property name="sw">[foreach initwater.layer][layer.sw.innerxml] [endfor]</property>
-                  [endif]
-                  [foreach initwater.percentmethod as p]
-                     [if ([p.distributed] = "filled from top")]
-                        <property name="profile_fesw">[p.percent]</property>
-                     [else]
-                        <property name="insoil">[p.percent]</property>
-                     [endif]
-                  [endfor]
-                  [foreach initwater.depthwetsoilmethod as depthwetsoil]
-                     <property name="wet_soil_depth">[depthwetsoil.depth]</property>
-                  [endfor]
-
-                  [endfor]
-                  <property name="diffus_const">[w.DiffusConst]</property>
-                  <property name="diffus_slope">[w.DiffusSlope]</property>
-                  <property name="cn2_bare">[w.Cn2Bare]</property>
-                  <property name="cn_red">[w.CnRed]</property>
-                  <property name="cn_cov">[w.CnCov]</property>
-                  <property name="salb">[w.Salb]</property>
-                  <property name="cona">[w.Cona]</property>
-                  <property name="u">[w.U]</property>
-                  <property name="dlayer"> [foreach w.layer as l][l.thickness] [endfor] </property>
-                  <property name="sat">[foreach w.layer as l][l.sat] [endfor]</property>
-                  <property name="dul">[foreach w.layer as l][l.dul] [endfor]</property>
-                  <property name="ll15">[foreach w.layer as l][l.ll15] [endfor]</property>
-                  <property name="air_dry">[foreach w.layer as l][l.airdry] [endfor]</property>
-                  <property name="swcon">[foreach w.layer as l][l.swcon] [endfor]</property>
-                  <property name="bd">[foreach w.layer as l][l.bd] [endfor]</property>
-      				[if [w.1.mwcon] > 0]
-                  <property name="mwcon">[foreach w.layer as l][l.mwcon] [endfor]</property>
-                  [endif]
-               </parameters>
+               [foreach soil.InitWater as initwater]
+               [if [initwater.1.sw] > 0]
+               <sw>[foreach initwater.layer][layer.sw.innerxml] [endfor]</sw>
+               [endif]
+               [foreach initwater.percentmethod as p]
+               [if ([p.distributed] = "filled from top")]
+               <profile_fesw>[p.percent]</profile_fesw>
+               [else]
+               <insoil>[p.percent]</insoil>
+               [endif]
+               [endfor]
+               [foreach initwater.depthwetsoilmethod as depthwetsoil]
+               <wet_soil_depth>[depthwetsoil.depth]</wet_soil_depth>
+               [endfor]
+               [endfor]
+               <diffus_const>[w.DiffusConst]</diffus_const>
+               <diffus_slope>[w.DiffusSlope]</diffus_slope>
+               <cn2_bare>[w.Cn2Bare]</cn2_bare>
+               <cn_red>[w.CnRed]</cn_red>
+               <cn_cov>[w.CnCov]</cn_cov>
+               <salb>[w.Salb]</salb>
+               <cona>[w.Cona]</cona>
+               <u>[w.U]</u>
+               <dlayer> [foreach w.layer as l][l.thickness] [endfor] </dlayer>
+               <sat>[foreach w.layer as l][l.sat] [endfor]</sat>
+               <dul>[foreach w.layer as l][l.dul] [endfor]</dul>
+               <ll15>[foreach w.layer as l][l.ll15] [endfor]</ll15>
+               <air_dry>[foreach w.layer as l][l.airdry] [endfor]</air_dry>
+               <swcon>[foreach w.layer as l][l.swcon] [endfor]</swcon>
+               <bd>[foreach w.layer as l][l.bd] [endfor]</bd>
+               [if [w.1.mwcon] > 0]
+               <mwcon>[foreach w.layer as l][l.mwcon] [endfor]</mwcon>
+               [endif]
             </initdata>
          </component>
          [endfor]
@@ -569,24 +549,21 @@
          <component name="[soil.name] Nitrogen" executable="%apsuite\apsim\soiln2\lib\soiln2.dll">
             <initdata>
                <include>%apsuite\apsim\soiln2\soiln2.ini</include>
-               <parameters name="black_earth">
-                  <property name="root_cn">20.</property>
-                  <property name="root_wt">1000.</property>
-                  <property name="soil_cn">14.5</property>
-                  <property name="enr_a_coeff">7.4</property>
-                  <property name="enr_b_coeff">0.2</property>
-                  <property name="profile_reduction">off</property>
-                  <property name="oc">[foreach n.layer as l] [l.oc][endfor]</property>
-                  <property name="ph">[foreach n.layer as l] [l.ph][endfor]</property>
-                  <property name="fbiom">[foreach n.layer as l] [l.fbiom][endfor]</property>
-                  <property name="finert">[foreach n.layer as l] [l.finert][endfor]</property>
-                  <property name="ureappm">0  0    0    0    0    0    0</property>
-                  [foreach soil.InitNitrogen as i]
-                  <property name="no3ppm">[foreach i.layer][layer.no3] [endfor]</property>
-                  <property name="nh4ppm">[foreach i.layer][layer.nh4] [endfor]</property>
-                  [endfor]
-
-               </parameters>
+               <root_cn>20.</root_cn>
+               <root_wt>1000.</root_wt>
+               <soil_cn>14.5</soil_cn>
+               <enr_a_coeff>7.4</enr_a_coeff>
+               <enr_b_coeff>0.2</enr_b_coeff>
+               <profile_reduction>off</profile_reduction>
+               <oc>[foreach n.layer as l] [l.oc][endfor]</oc>
+               <ph>[foreach n.layer as l] [l.ph][endfor]</ph>
+               <fbiom>[foreach n.layer as l] [l.fbiom][endfor]</fbiom>
+               <finert>[foreach n.layer as l] [l.finert][endfor]</finert>
+               <ureappm>0  0    0    0    0    0    0</ureappm>
+               [foreach soil.InitNitrogen as i]
+               <no3ppm>[foreach i.layer][layer.no3] [endfor]</no3ppm>
+               <nh4ppm>[foreach i.layer][layer.nh4] [endfor]</nh4ppm>
+               [endfor]
             </initdata>
          </component>
          [endfor]
@@ -641,15 +618,13 @@
                <include>%apsuite\apsim\soilp\soilp.ini</include>
                [foreach area.soil]
                [foreach soil.Phosphorus as p]
-               <parameters name="sample">
-                  <property name="Labile_P">[foreach p.layer as l] [l.LabileP][endfor]</property>
-                  <property name="banded_P">[foreach p.layer as l] [l.bandedP][endfor]</property>
-                  <property name="rock_P">[foreach p.layer as l] [l.rockP][endfor]</property>
-                  <property name="sorption">[foreach p.layer as l] [l.sorption][endfor]</property>
-                  <property name="Residue_CP">[p.ResidueCP]</property>
-                  <property name="Root_CP">[p.RootCP]</property>
-                  <property name="rate_dissol_rock_P">[p.RateDissolRock]</property>
-               </parameters>
+               <Labile_P>[foreach p.layer as l] [l.LabileP][endfor]</Labile_P>
+               <banded_P>[foreach p.layer as l] [l.bandedP][endfor]</banded_P>
+               <rock_P>[foreach p.layer as l] [l.rockP][endfor]</rock_P>
+               <sorption>[foreach p.layer as l] [l.sorption][endfor]</sorption>
+               <Residue_CP>[p.ResidueCP]</Residue_CP>
+               <Root_CP>[p.RootCP]</Root_CP>
+               <rate_dissol_rock_P>[p.RateDissolRock]</rate_dissol_rock_P>
                [endfor]
                [endfor]
             </initdata>
@@ -690,10 +665,8 @@
          [comment] ################ log ################ [endcomment]
          <component name="[log.name]" executable="%apsuite\apsim\log\lib\log.dll">
             <initdata>
-               <parameters name="test">
-                  <property name="debug_output">[log.debugoutput]</property>
-                  <property name="logfile">[log.filename]</property>
-               </parameters>
+               <debug_output>[log.debugoutput]</debug_output>
+               <logfile>[log.filename]</logfile>
             </initdata>
          </component>
          ]]>
@@ -718,13 +691,11 @@
          <component name="[micromet.name]" executable="%apsuite\apsim\micromet\lib\micromet.dll">
             <initdata>
                <include>%apsuite\apsim\micromet\micromet.ini</include>
-               <parameters name="sample">
-                  <property name="soil_albedo">[micromet.soilalbedo]</property>
-                  <property name="a_interception">[micromet.a_interception]</property>
-                  <property name="b_interception">[micromet.b_interception]</property>
-                  <property name="c_interception">[micromet.c_interception]</property>
-                  <property name="d_interception">[micromet.d_interception]</property>
-               </parameters>
+               <soil_albedo>[micromet.soilalbedo]</soil_albedo>
+               <a_interception>[micromet.a_interception]</a_interception>
+               <b_interception>[micromet.b_interception]</b_interception>
+               <c_interception>[micromet.c_interception]</c_interception>
+               <d_interception>[micromet.d_interception]</d_interception>
             </initdata>
          </component>
          ]]>
@@ -792,73 +763,68 @@
          [comment] ################ StockScienceConverter ################ [endcomment]
          <component name="[converter.name]" executable="%apsuite\apsim\stock\lib\stockscienceconverter.dll">
             <initdata>
-               <parameters name="standard">
-                  <property name="herbage_module_name">[converter.herbage_module_name]</property>
-                  <property name="debug">[converter.debug]</property>
+               <herbage_module_name>[converter.herbage_module_name]</herbage_module_name>
+               <debug>[converter.debug]</debug>
+               <[converter.herbage_module_name]>
+                  <dmdValue>[converter.dmdValue]</dmdValue>
 
-               </parameters>
-               <[converter.herbage_module_name] name="standard">
-                  <property name="dmdValue">[converter.dmdValue]</property>
+                  <p_conc_green_leaf_default>[converter.p_conc_green_leaf_default]</p_conc_green_leaf_default>
+                  <p_conc_green_stem_default>[converter.p_conc_green_stem_default]</p_conc_green_stem_default>
+                  <p_conc_senesced_leaf_default>[converter.p_conc_senesced_leaf_default]</p_conc_senesced_leaf_default>
+                  <p_conc_senesced_stem_default>[converter.p_conc_senesced_stem_default]</p_conc_senesced_stem_default>
+                  <p_conc_dead_leaf_default>[converter.p_conc_dead_leaf_default]</p_conc_dead_leaf_default>
+                  <p_conc_dead_stem_default>[converter.p_conc_dead_stem_default]</p_conc_dead_stem_default>
 
-                  <property name="p_conc_green_leaf_default">[converter.p_conc_green_leaf_default]</property>
-                  <property name="p_conc_green_stem_default">[converter.p_conc_green_stem_default]</property>
-                  <property name="p_conc_senesced_leaf_default">[converter.p_conc_senesced_leaf_default]</property>
-                  <property name="p_conc_senesced_stem_default">[converter.p_conc_senesced_stem_default]</property>
-                  <property name="p_conc_dead_leaf_default">[converter.p_conc_dead_leaf_default]</property>
-                  <property name="p_conc_dead_stem_default">[converter.p_conc_dead_stem_default]</property>
+                  <ash_alk_green_leaf_default>[converter.ash_alk_green_leaf_default]</ash_alk_green_leaf_default>
+                  <ash_alk_green_stem_default>[converter.ash_alk_green_stem_default]</ash_alk_green_stem_default>
+                  <ash_alk_senesced_leaf_default>[converter.ash_alk_senesced_leaf_default]</ash_alk_senesced_leaf_default>
+                  <ash_alk_senesced_stem_default>[converter.ash_alk_senesced_stem_default]</ash_alk_senesced_stem_default>
+                  <ash_alk_dead_leaf_default>[converter.ash_alk_dead_leaf_default]</ash_alk_dead_leaf_default>
+                  <ash_alk_dead_stem_default>[converter.ash_alk_dead_stem_default]</ash_alk_dead_stem_default>
 
-                  <property name="ash_alk_green_leaf_default">[converter.ash_alk_green_leaf_default]</property>
-                  <property name="ash_alk_green_stem_default">[converter.ash_alk_green_stem_default]</property>
-                  <property name="ash_alk_senesced_leaf_default">[converter.ash_alk_senesced_leaf_default]</property>
-                  <property name="ash_alk_senesced_stem_default">[converter.ash_alk_senesced_stem_default]</property>
-                  <property name="ash_alk_dead_leaf_default">[converter.ash_alk_dead_leaf_default]</property>
-                  <property name="ash_alk_dead_stem_default">[converter.ash_alk_dead_stem_default]</property>
+                  <ns_ratio_green_leaf_default>[converter.ns_ratio_green_leaf_default]</ns_ratio_green_leaf_default>
+                  <ns_ratio_green_stem_default>[converter.ns_ratio_green_stem_default]</ns_ratio_green_stem_default>
+                  <ns_ratio_senesced_leaf_default>[converter.ns_ratio_senesced_leaf_default]</ns_ratio_senesced_leaf_default>
+                  <ns_ratio_senesced_stem_default>[converter.ns_ratio_senesced_stem_default]</ns_ratio_senesced_stem_default>
+                  <ns_ratio_dead_leaf_default>[converter.ns_ratio_dead_leaf_default]</ns_ratio_dead_leaf_default>
+                  <ns_ratio_dead_stem_default>[converter.ns_ratio_dead_stem_default]</ns_ratio_dead_stem_default>
 
-                  <property name="ns_ratio_green_leaf_default">[converter.ns_ratio_green_leaf_default]</property>
-                  <property name="ns_ratio_green_stem_default">[converter.ns_ratio_green_stem_default]</property>
-                  <property name="ns_ratio_senesced_leaf_default">[converter.ns_ratio_senesced_leaf_default]</property>
-                  <property name="ns_ratio_senesced_stem_default">[converter.ns_ratio_senesced_stem_default]</property>
-                  <property name="ns_ratio_dead_leaf_default">[converter.ns_ratio_dead_leaf_default]</property>
-                  <property name="ns_ratio_dead_stem_default">[converter.ns_ratio_dead_stem_default]</property>
+                  <np_ratio_green_leaf_default>[converter.np_ratio_green_leaf_default]</np_ratio_green_leaf_default>
+                  <np_ratio_green_stem_default>[converter.np_ratio_green_stem_default]</np_ratio_green_stem_default>
+                  <np_ratio_senesced_leaf_default>[converter.np_ratio_senesced_leaf_default]</np_ratio_senesced_leaf_default>
+                  <np_ratio_senesced_stem_default>[converter.np_ratio_senesced_stem_default]</np_ratio_senesced_stem_default>
+                  <np_ratio_dead_leaf_default>[converter.np_ratio_dead_leaf_default]</np_ratio_dead_leaf_default>
+                  <np_ratio_dead_stem_default>[converter.np_ratio_dead_stem_default]</np_ratio_dead_stem_default>
 
-                  <property name="np_ratio_green_leaf_default">[converter.np_ratio_green_leaf_default]</property>
-                  <property name="np_ratio_green_stem_default">[converter.np_ratio_green_stem_default]</property>
-                  <property name="np_ratio_senesced_leaf_default">[converter.np_ratio_senesced_leaf_default]</property>
-                  <property name="np_ratio_senesced_stem_default">[converter.np_ratio_senesced_stem_default]</property>
-                  <property name="np_ratio_dead_leaf_default">[converter.np_ratio_dead_leaf_default]</property>
-                  <property name="np_ratio_dead_stem_default">[converter.np_ratio_dead_stem_default]</property>
+                  <dmd_green_leaf>[converter.dmd_green_leaf]</dmd_green_leaf>
+                  <dmd_green_stem>[converter.dmd_green_stem]</dmd_green_stem>
+                  <dmd_senesced_leaf>[converter.dmd_senesced_leaf]</dmd_senesced_leaf>
+                  <dmd_senesced_stem>[converter.dmd_senesced_stem]</dmd_senesced_stem>
+                  <dmd_dead_leaf>[converter.dmd_dead_leaf]</dmd_dead_leaf>
+                  <dmd_dead_stem>[converter.dmd_dead_stem]</dmd_dead_stem>
 
-                  <property name="dmd_green_leaf">[converter.dmd_green_leaf]</property>
-                  <property name="dmd_green_stem">[converter.dmd_green_stem]</property>
-                  <property name="dmd_senesced_leaf">[converter.dmd_senesced_leaf]</property>
-                  <property name="dmd_senesced_stem">[converter.dmd_senesced_stem]</property>
-                  <property name="dmd_dead_leaf">[converter.dmd_dead_leaf]</property>
-                  <property name="dmd_dead_stem">[converter.dmd_dead_stem]</property>
+                  <KQ5Leaf>[converter.KQ5Leaf]</KQ5Leaf>
+                  <KQ5Stem>[converter.KQ5Stem]</KQ5Stem>
+                  <KQ4>[converter.KQ4]</KQ4>
 
-                  <property name="KQ5Leaf">[converter.KQ5Leaf]</property>
-                  <property name="KQ5Stem">[converter.KQ5Stem]</property>
-                  <property name="KQ4">[converter.KQ4]</property>
-
-                  <property name="cp_n_ratio">[converter.cp_n_ratio]</property>
+                  <cp_n_ratio>[converter.cp_n_ratio]</cp_n_ratio>
 
                </[converter.herbage_module_name]>
             </initdata>
          </component>
          <component name="[converter.name]manager" executable="%apsuite\apsim\manager\lib\manager.dll">
             <initdata>
-               <rules>
-                  [foreach converter.rule as rule]
-                  [foreach rule.condition as condition]
-                  <rule name="[rule.name] - [condition.name]" condition="[condition.name]">
-                  [condition.innerxml]
-                  [endfor]
-                  [foreach rule.category as category]
-                  [category.xml]
-                  [endfor]
-                  </rule>
+               [foreach converter.rule as rule]
+               [foreach rule.condition as condition]
+               <rule name="[rule.name] - [condition.name]" condition="[condition.name]">
+               [condition.innerxml]
+               [endfor]
+               [foreach rule.category as category]
+               [category.xml]
+               [endfor]
+               </rule>
 
-                  [endfor]
-               </rules>
+               [endfor]
             </initdata>
          </component>
          ]]>
@@ -927,10 +893,8 @@
          <![CDATA[
          [comment] ################ manager ################ [endcomment]
          <component name="manager" executable="%apsuite\apsim\manager\lib\manager.dll">
-         <initdata>
-            <rules>
-               [foreach manager.rule as rule]
-               [foreach rule.condition as condition]
+            <initdata>
+               [foreach manager.rule as rule][foreach rule.condition as condition]
                <rule name="[rule.name] - [condition.name]" condition="[condition.name]">
                [condition.innerxml]
                [foreach rule.category as category]
@@ -939,9 +903,8 @@
                </rule>
                [endfor]
                [endfor]
-            </rules>
-         </initdata>
-         </component>
+            </initdata>
+          </component>
          ]]>
      </SimMacro>
    </manager>
@@ -993,32 +956,30 @@
      <variables>
          <variable name="istage" description="Growth Stage Number"/>
          <variable name="lai" description="Leaf Area Index"/>
-			<variable name="nlayr" description="Number of Soil Layers"/>
-			<variable name="sw" array="T" description="Volumetric Soil Water"/>
-			<variable name="sw_dep" array="T" description="Total Soil Water (mm)"/>
-			<variable name="ll15_dep" array="T" description="15 bar Lower Limit (mm)"/>
-			<variable name="dul_dep" array="T" description="Drained Upper Limit (mm)"/>
-			<variable name="sat_dep" array="T" description="Saturation (mm)"/>
-			<variable name="runoff" description="Runoff (mm)"/>
-			<variable name="drain" description="Drainage (mm)"/>
-			<variable name="flowd" array="T" description="downward flow (mm)"/>
-			<variable name="irrigation" description="Irrigation (mm)"/>
-			<variable name="es" description="Soil Water Evaporation (mm)"/>
-			<variable name="ep" description="Plant Water Use (mm)"/>
-			<variable name="sw_demand" description="Plant Soil Water Demand (mm)"/>
-			<variable name="swdef_photo" description="Water Stress (photosynthesis)"/>
-			<variable name="swdef_expan" description="Water Stress (cell expansion)"/>
-			<variable name="fruit_wt" description="Fruit Weight (kg/ha)"/>
-			<variable name="fruit_fresh_wt" description="Fruit Fresh Weight (kg/ha)"/>
+         <variable name="nlayr" description="Number of Soil Layers"/>
+         <variable name="sw" array="T" description="Volumetric Soil Water"/>
+         <variable name="sw_dep" array="T" description="Total Soil Water (mm)"/>
+         <variable name="ll15_dep" array="T" description="15 bar Lower Limit (mm)"/>
+         <variable name="dul_dep" array="T" description="Drained Upper Limit (mm)"/>
+         <variable name="sat_dep" array="T" description="Saturation (mm)"/>
+         <variable name="runoff" description="Runoff (mm)"/>
+         <variable name="drain" description="Drainage (mm)"/>
+         <variable name="flowd" array="T" description="downward flow (mm)"/>
+         <variable name="irrigation" description="Irrigation (mm)"/>
+         <variable name="es" description="Soil Water Evaporation (mm)"/>
+         <variable name="ep" description="Plant Water Use (mm)"/>
+         <variable name="sw_demand" description="Plant Soil Water Demand (mm)"/>
+         <variable name="swdef_photo" description="Water Stress (photosynthesis)"/>
+         <variable name="swdef_expan" description="Water Stress (cell expansion)"/>
+         <variable name="fruit_wt" description="Fruit Weight (kg/ha)"/>
+         <variable name="fruit_fresh_wt" description="Fruit Fresh Weight (kg/ha)"/>
       </variables>
      <SimMacro>
          <![CDATA[
          [comment] ################ vinelogic ################ [endcomment]
          <component name="[vl.name]" executable="%apsuite\apsim\vinelogic\lib\vinelogic[vl.instance].dll">
             <initdata>
-               <parameters name="sample">
-                  <property name="filename">[vl.name][vl.instance].inp</property>
-               </parameters>
+               <filename>[vl.name][vl.instance].inp</filename>
             </initdata>
          </component>
          ]]>
@@ -1074,18 +1035,16 @@
      <SimMacro>
          <![CDATA[
          [comment] ################ surfaceom ################ [endcomment]
-      	<component name="[surfaceom.name]" executable="%apsuite\apsim\surfaceom\lib\surfaceom.dll">
-      	  <initdata>
+         <component name="[surfaceom.name]" executable="%apsuite\apsim\surfaceom\lib\surfaceom.dll">
+            <initdata>
                <include>%apsuite\apsim\surfaceom\surfaceom.ini</include>
-      	     <parameters name="sample">
-      	        <property name="name">[surfaceom.PoolName]</property>
-      	        <property name="type">[surfaceom.type]</property>
-      	        <property name="mass">[surfaceom.mass]</property>
-      	        <property name="cnr">[surfaceom.cnr]</property>
-      	        <property name="standing_fraction">[surfaceom.standing_fraction]</property>
-      	     </parameters>
-      	  </initdata>
-      	</component>
+               <name>[surfaceom.PoolName]</name>
+               <type>[surfaceom.type]</type>
+               <mass>[surfaceom.mass]</mass>
+               <cnr>[surfaceom.cnr]</cnr>
+               <standing_fraction>[surfaceom.standing_fraction]</standing_fraction>
+            </initdata>
+         </component>
          ]]>
       </SimMacro>
    </surfaceom>
@@ -1200,11 +1159,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -1238,11 +1195,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -1277,11 +1232,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -1315,11 +1268,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -1353,11 +1304,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -1391,11 +1340,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -1430,11 +1377,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -1468,11 +1413,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -1506,11 +1449,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -1591,11 +1532,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -1628,11 +1567,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -1667,11 +1604,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -1704,11 +1639,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -1755,11 +1688,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -1793,11 +1724,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -1831,11 +1760,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -1868,29 +1795,27 @@
          [comment] ################ slurp ################ [endcomment]
          <component name="[slurp.name]" executable="%apsuite\apsim\slurp\lib\slurp.dll">
             <initdata>
-               <parameters name="sample">
-                  <property name="crop_type">[slurp.type]</property>
-                  <property name="lai">[slurp.LAI]</property>
-                  <property name="laid">[slurp.LAId]</property>
-                  <property name="kg">[slurp.Kg]</property>
-                  <property name="kd">[slurp.Kd]</property>
-                  <property name="vpd">0 10 50</property>
-                  <property name="fvpd">1 1  1</property>
-                  <property name="height">[slurp.height]</property>
-                  <property name="frgr">[slurp.Frgr]</property>
-                  <property name="tav">5 20 25 40</property>
-                  <property name="ft">1  1  1  1</property>
-                  [foreach area.soil as s]
-                  [foreach s.SoilCrop as sc]
-                  [if [sc.name] = [slurp.type]]
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-                  <property name="RLV">0.05    0.03    0.02    0.01    0.01    0.005   0.001</property>
-                  [endif]
-                  [endfor]
-                  [endfor]
-               </parameters>
+               <crop_type>[slurp.type]</crop_type>
+               <lai>[slurp.LAI]</lai>
+               <laid>[slurp.LAId]</laid>
+               <kg>[slurp.Kg]</kg>
+               <kd>[slurp.Kd]</kd>
+               <vpd>0 10 50</vpd>
+               <fvpd>1 1  1</fvpd>
+               <height>[slurp.height]</height>
+               <frgr>[slurp.Frgr]</frgr>
+               <tav>5 20 25 40</tav>
+               <ft>1  1  1  1</ft>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [sc.name] = [slurp.type]]
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <XF>[foreach sc.layer as l] [l.xf][endfor]</XF>
+               <RLV>0.05    0.03    0.02    0.01    0.01    0.005   0.001</RLV>
+               [endif]
+               [endfor]
+               [endfor]
             </initdata>
          </component>
          ]]>
@@ -1921,11 +1846,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -1959,11 +1882,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -1996,11 +1917,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -2074,13 +1993,11 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="uptake_source">calc</property>
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-                  <property name="rlv">0.04  0.02  0.01  .005  0.00  0.00 0.00</property>
-               </parameters>
+               <uptake_source>calc</uptake_source>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
+               <rlv>0.04  0.02  0.01  .005  0.00  0.00 0.00</rlv>
                [endif]
                [endfor]
                [endfor]
@@ -2157,11 +2074,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -2195,11 +2110,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -2239,11 +2152,9 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -2405,15 +2316,13 @@
                [foreach area.soil as s]
                [foreach s.SoilCrop as sc]
                [if [plant.xmltype] = [sc.name]]
-               <parameters name="sample">
-               <property name="crop_type">grandis</property>
-               <property name="uptake_source">calc</property>
-               <property name="n_uptake_source">calc</property>
-                  <property name="rlv"> 0.01 [foreach sc.layer as l] 0.0[endfor]</property>
-                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
-                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
-                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
-               </parameters>
+               <crop_type>grandis</crop_type>
+               <uptake_source>calc</uptake_source>
+               <n_uptake_source>calc</n_uptake_source>
+               <rlv> 0.01 [foreach sc.layer as l] 0.0[endfor]</rlv>
+               <ll>[foreach sc.layer as l] [l.ll][endfor]</ll>
+               <kl>[foreach sc.layer as l] [l.kl][endfor]</kl>
+               <xf>[foreach sc.layer as l] [l.xf][endfor]</xf>
                [endif]
                [endfor]
                [endfor]
@@ -2444,9 +2353,7 @@
          [comment] ################ stream ################ [endcomment]
          <component name="[stream.name]" executable="%apsuite\apsim\stream\lib\stream.dll">
             <initdata>
-            <parameters name="sample">
-               <property name="temp">xxx</property>
-            </parameters>
+            <temp>xxx</temp>
             </initdata>
          </component>
          ]]>
@@ -2476,10 +2383,8 @@
          [comment] ################ root ################ [endcomment]
          <component name="[root.name]" executable="%apsuite\apsim\root\lib\root.dll">
             <initdata>
-               <parameters name="sample">
-                  <property name="crop_type">[root.type]</property>
-                     <property name="kl">[root.kl]</property>
-               </parameters>
+               <crop_type>[root.type]</crop_type>
+               <kl>[root.kl]</kl>
             </initdata>
          </component>
          ]]>
@@ -2526,22 +2431,20 @@
          <![CDATA[
          [comment] ################ climatechange ################ [endcomment]
          <component name="[cc.name]" executable="%apsuite\apsim\manager\lib\manager.dll">
-      	   <initdata>
-	         <rules>
-               <rule name="climatechange" condition="init">
-                  co2 = [cc.co2]
-               </rule>
-	            <rule name="climatechange" condition="prenewmet">
-	               !change met data to reflect climate change
-	               met.maxt = met.maxt + [cc.maxtmodifier]
-	               met.mint = met.mint + [cc.mintmodifier]
-	               met.rain = met.rain * [cc.rainmodifier]
-	               met.radn = met.radn * [cc.radiationmodifier]
-	            </rule>
-	         </rules>
-	         </initdata>
-	      </component>
-	      ]]>
+            <initdata>
+            <rule name="climatechange" condition="init">
+               co2 = [cc.co2]
+            </rule>
+            <rule name="climatechange" condition="prenewmet">
+               !change met data to reflect climate change
+               met.maxt = met.maxt + [cc.maxtmodifier]
+               met.mint = met.mint + [cc.mintmodifier]
+               met.rain = met.rain * [cc.rainmodifier]
+               met.radn = met.radn * [cc.radiationmodifier]
+            </rule>
+            </initdata>
+         </component>
+         ]]>
       </SimMacro>
    </climatechange>
    <soi>
@@ -2565,9 +2468,7 @@
          [comment] ################ soi ################ [endcomment]
          <component name="[soi.name]" executable="%apsuite\apsim\soi\lib\soi.dll">
             <initdata>
-               <parameters name="file">
-                  <property name="filename">[soi.filename]</property>
-               </parameters>
+               <filename>[soi.filename]</filename>
             </initdata>
          </component>
          ]]>

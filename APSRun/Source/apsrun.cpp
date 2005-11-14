@@ -8,8 +8,6 @@
 
 USEFORM("TRunForm.cpp", RunForm);
 //---------------------------------------------------------------------------
-// Process the command line.
-//---------------------------------------------------------------------------
 void processCmdLine(void)
    {
    ApsimRuns runs;
@@ -19,10 +17,16 @@ void processCmdLine(void)
    bool console = false;
    bool createSIM = false;
    bool runImmediately = false;
+   bool newSimFormat = true;
    for (int argIndex = 1; argIndex < _argc; argIndex++)
       {
       if (stricmp(_argv[argIndex], "/CreateSIM") == 0)
          createSIM = true;
+      else if (stricmp(_argv[argIndex], "/CreateOldSIM") == 0)
+         {
+         createSIM = true;
+         newSimFormat = false;
+         }
       else if (stricmp(_argv[argIndex], "/q") == 0)
          quietRun = true;
       else if (stricmp(_argv[argIndex], "/Console") == 0)
@@ -33,9 +37,10 @@ void processCmdLine(void)
          runs.addSimulationsFromFile(_argv[argIndex]);
       }
 
+   runs.setSimFormat(newSimFormat);
    if (createSIM)
       {
-      runs.convertFiles();
+      //runs.convertFiles();
       runs.createSims();
       }
    else if (quietRun || runImmediately)
@@ -71,17 +76,6 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
    catch (Exception &exception)
       {
       Application->ShowException(&exception);
-      }
-   catch (...)
-      {
-      try
-         {
-         throw Exception("");
-         }
-      catch (Exception &exception)
-         {
-         Application->ShowException(&exception);
-         }
       }
    return 0;
    }

@@ -6,19 +6,20 @@
 #include "Utility.h"
 #include <map>
 #include <vector>
-
 using namespace System;
 
+namespace ComponentInterface {
+public __gc class ApsimComponent;
 // ---------------------------------------------------
 // This class implements the Common Modelling Protocol
 // allowing components to be hooked into APSIM.
 // ---------------------------------------------------
-class ComponentInterface
+class ComponentComms
 	{
 	public:
 		typedef  void  (__stdcall *CallbackType)(const unsigned *callbackArg, char *message);	
 		
-		void createInstance(IComponent* component,
+		void createInstance(ApsimComponent* component,
 							const char* dllFileName,
 							unsigned compID,
 							unsigned parentID,
@@ -26,25 +27,32 @@ class ComponentInterface
 							CallbackType callback);
 		
 		
-		void deleteInstance(IComponent* component);
-		void messageToLogic(IComponent* component, char* message);
+		void deleteInstance(ApsimComponent* component);
+		void messageToLogic(ApsimComponent* component, char* message);
 							
 							
 		// ------------------------------------------------------
 		// Event methods - Events include initialise and commence
 		// ------------------------------------------------------
 		void registerEventHandler(const std::string& eventName, IEventData* event);
-		void publishEvent(const std::string& eventName, IData& data);
+		void publishEvent(const std::string& eventName, IData* data);
 
 		// -------------------
 		// Property methods
 		// -------------------
-		void registerProperty(const std::string& propertyName, IComms::ReadWriteType readWrite, IData& data);
-		std::string getProperty(const std::string& propertyName, IData& data);
+		enum ReadWriteType {read=1, readWrite=2, write=3};		
+		void registerProperty(const std::string& propertyName, 
+								const std::string& units,
+								int readWrite, IData* data);
+		std::string getProperty(const std::string& propertyName, 
+								const std::string& units,
+								IData& data);
 		
 		void getProperties(const std::string& propertyName, IData* data[]) { }
 
-		bool setProperty(const std::string& propertyName, IData& data);
+		bool setProperty(const std::string& propertyName, 
+						const std::string& units,
+						IData& data);
 
 		// ---------------------------------------
 		// Notify system of a warning.
@@ -74,7 +82,7 @@ class ComponentInterface
 
 				std::string name;
 				Type type;
-				gcroot<IData*> data;
+				IData* data;
 			};
 			
 		typedef std::map<std::string, Registration*> Registrations;
@@ -95,14 +103,15 @@ class ComponentInterface
 
 		
 		void error(const std::string& errorMessage, bool isFatal);
-		void onInit1Message(IComponent* component, Message& message);
-		void onInit2Message(IComponent* component, Message& message);
-		void onQueryValueMessage(IComponent* component, Message& message);
-		void onQuerySetValueMessage(IComponent* component, Message& message);
-		void onEventMessage(IComponent* component, Message& message);
+		void onInit1Message(ApsimComponent* component, Message& message);
+		void onInit2Message(ApsimComponent* component, Message& message);
+		void onQueryValueMessage(ApsimComponent* component, Message& message);
+		void onQuerySetValueMessage(ApsimComponent* component, Message& message);
+		void onEventMessage(ApsimComponent* component, Message& message);
 		
 		enum QueryType			{	component=8};
-		unsigned nameToRegistrationID(const std::string& name, 
+		unsigned nameToRegistrationID(const std::string& name,
+									  const std::string& units, 
 										Registration::Type regType,
 										IData& ddml);
 		Registration* idToRegistration(unsigned regID);
@@ -114,4 +123,4 @@ class ComponentInterface
 		void publish(const std::string& eventName, IData& data);
 		
 	};
-	
+};	

@@ -168,12 +168,6 @@
                     HintPath = "..\..\Bin\Interop.SHDocVw.dll"
                 />
                 <Reference
-                    Name = "VBGeneral"
-                    AssemblyName = "VBGeneral"
-                    HintPath = "..\..\Shared\VBGeneral\bin\VBGeneral.dll"
-                    Private = "True"
-                />
-                <Reference
                     Name = "Soil"
                     AssemblyName = "Soil"
                     HintPath = "..\..\Shared\Soil\obj\Debug\Soil.dll"
@@ -197,6 +191,41 @@
                     HintPath = "..\..\Shared\VBMet\bin\VBMet.dll"
                     Private = "True"
                 />
+                <Reference
+                    Name = "FarPoint.Win.Spread"
+                    AssemblyName = "FarPoint.Win.Spread"
+                    HintPath = "C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.Win.Spread.dll"
+                    AssemblyFolderKey = "hklm\dn\farpoint spread for windows forms 2.0.1.0"
+                />
+                <Reference
+                    Name = "FarPoint.Win"
+                    AssemblyName = "FarPoint.Win"
+                    HintPath = "C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.Win.dll"
+                    AssemblyFolderKey = "hklm\dn\farpoint spread for windows forms 2.0.1.0"
+                />
+                <Reference
+                    Name = "FarPoint.PluginCalendar.WinForms"
+                    AssemblyName = "FarPoint.PluginCalendar.WinForms"
+                    HintPath = "C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.PluginCalendar.WinForms.dll"
+                    AssemblyFolderKey = "hklm\dn\farpoint spread for windows forms 2.0.1.0"
+                />
+                <Reference
+                    Name = "FarPoint.CalcEngine"
+                    AssemblyName = "FarPoint.CalcEngine"
+                    HintPath = "C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.CalcEngine.dll"
+                    AssemblyFolderKey = "hklm\dn\farpoint spread for windows forms 2.0.1.0"
+                />
+                <Reference
+                    Name = "FarPoint.Excel"
+                    AssemblyName = "FarPoint.Excel"
+                    HintPath = "C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.Excel.dll"
+                    AssemblyFolderKey = "hklm\dn\farpoint spread for windows forms 2.0.1.0"
+                />
+                <Reference
+                    Name = "VBGeneral"
+                    AssemblyName = "VBGeneral"
+                    HintPath = "..\..\Shared\VBGeneral\bin\VBGeneral.dll"
+                />
             </References>
             <Imports>
                 <Import Namespace = "Microsoft.VisualBasic" />
@@ -215,8 +244,13 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "ApsimUIController.vb"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AreaUI.vb"
-                    SubType = "Form"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -230,18 +264,8 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "DocumentationUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "DocumentationUI.resx"
-                    DependentUpon = "DocumentationUI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "EmptyUI.vb"
-                    SubType = "Form"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -261,7 +285,7 @@
                 />
                 <File
                     RelPath = "FileUI.vb"
-                    SubType = "Form"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -271,7 +295,7 @@
                 />
                 <File
                     RelPath = "GenericUI.vb"
-                    SubType = "Form"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -300,8 +324,12 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "licenses.licx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "LogicUI.vb"
-                    SubType = "Form"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -321,7 +349,7 @@
                 />
                 <File
                     RelPath = "ManagerUI.vb"
-                    SubType = "Form"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -341,7 +369,7 @@
                 />
                 <File
                     RelPath = "MetUI.vb"
-                    SubType = "Form"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -371,7 +399,7 @@
                 />
                 <File
                     RelPath = "OutputFileDescUI.vb"
-                    SubType = "Form"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -391,7 +419,7 @@
                 />
                 <File
                     RelPath = "RuleUI.vb"
-                    SubType = "Form"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -401,7 +429,7 @@
                 />
                 <File
                     RelPath = "SimulationUI.vb"
-                    SubType = "Form"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -421,7 +449,7 @@
                 />
                 <File
                     RelPath = "StartupUI.vb"
-                    SubType = "Form"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -431,7 +459,7 @@
                 />
                 <File
                     RelPath = "SwimSoilUI.vb"
-                    SubType = "Form"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -446,7 +474,7 @@
                 />
                 <File
                     RelPath = "TrackerUI.vb"
-                    SubType = "Form"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -455,13 +483,8 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "UImanager.vb"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "VineLogicUI.vb"
-                    SubType = "Form"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File

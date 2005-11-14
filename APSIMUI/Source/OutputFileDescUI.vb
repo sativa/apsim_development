@@ -6,7 +6,7 @@ Imports VBGeneral
 Imports CSGeneral
 
 Public Class OutputFileDescUI
-    Inherits BaseUI
+    Inherits BaseView
 
 
 #Region " Windows Form Designer generated code "
@@ -68,10 +68,7 @@ Public Class OutputFileDescUI
         'DataTree
         '
         Me.DataTree.AllowDrop = True
-        Me.DataTree.ApplicationSettings = Nothing
-        Me.DataTree.Data = Nothing
         Me.DataTree.Dock = System.Windows.Forms.DockStyle.Left
-        Me.DataTree.LabelEdit = False
         Me.DataTree.Location = New System.Drawing.Point(0, 17)
         Me.DataTree.Name = "DataTree"
         Me.DataTree.Size = New System.Drawing.Size(213, 725)
@@ -91,8 +88,6 @@ Public Class OutputFileDescUI
         '
         'VariablesListView
         '
-        Me.VariablesListView.ApplicationSettings = Nothing
-        Me.VariablesListView.Data = Nothing
         Me.VariablesListView.Dock = System.Windows.Forms.DockStyle.Fill
         Me.VariablesListView.DockPadding.Left = 5
         Me.VariablesListView.Location = New System.Drawing.Point(0, 0)
@@ -112,8 +107,6 @@ Public Class OutputFileDescUI
         'EventsListView
         '
         Me.EventsListView.AllowDrop = True
-        Me.EventsListView.ApplicationSettings = Nothing
-        Me.EventsListView.Data = Nothing
         Me.EventsListView.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.EventsListView.Location = New System.Drawing.Point(0, 607)
         Me.EventsListView.Name = "EventsListView"
@@ -130,7 +123,6 @@ Public Class OutputFileDescUI
         '
         'OutputFileDescUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(753, 773)
         Me.Controls.Add(Me.Splitter1)
         Me.Controls.Add(Me.RightHandPanel)
@@ -152,18 +144,16 @@ Public Class OutputFileDescUI
     ' ----------------------------------
     Overrides Sub refresh()
         MyBase.Refresh()
-        HelpLabel.Text = "Use the variables tab to specify APSIM variables that should be written to the output file. Use the file contents tab to view the contents of the output file."
+        HelpText = "Use the variables tab to specify APSIM variables that should be written to the output file. Use the file contents tab to view the contents of the output file."
 
         DataTree.Sorted = True
         DataTree.ExpandAll = False
-        DataTree.CaptionLabel.Text = "Variable and events"
-        DataTree.ApplicationSettings = Explorer.ApplicationSettings
+        DataTree.HelpText = "Variable and events"
+        DataTree.Controller = New ApsimUIController("", "", "")
         DataTree.ShowAll = True
-        DataTree.Data = BuildDataTree()
-
-        VariablesListView.ApplicationSettings = Explorer.ApplicationSettings
-        VariablesListView.Data = Data
-        EventsListView.Data = Data
+        DataTree.Controller.AllData = BuildDataTree()
+        VariablesListView.Controller = Controller
+        EventsListView.Controller = Controller
     End Sub
 
 
@@ -173,18 +163,18 @@ Public Class OutputFileDescUI
     ' ------------------------------------
     Private Function BuildDataTree() As APSIMData
         Dim VariablesXML As String = "<components/>"
-        Dim UIManager As UIManager = Explorer.ApplicationSettings
+        Dim UIManager As ApsimUIController = Controller
 
-        If Data.Parent.Type = "outputfile" Then
-            Return New APSIMData(UIManager.GetOutputFileDescriptions(Data.Parent.Parent))
+        If Controller.Data.Parent.Type = "outputfile" Then
+            Return New APSIMData(UIManager.GetOutputFileDescriptions(Controller.Data.Parent.Parent))
         Else
             Return New APSIMData("<components/>")
         End If
     End Function
 
-    Private Sub DataTree_DataSelectedEvent(ByVal e As VBGeneral.APSIMData) Handles DataTree.DataSelectedEvent
-        HelpLabel.Text = e.Attribute("description")
-    End Sub
+    'Private Sub DataTree_DataSelectedEvent(ByVal e As VBGeneral.APSIMData) Handles DataTree.DataSelectedEvent
+    '    HelpText = e.Attribute("description")
+    'End Sub
 
     Public Overrides Sub Save()
         VariablesListView.Save()

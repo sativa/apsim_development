@@ -238,7 +238,7 @@ void Simulation::resolveIncludes(string& sdml)
       string contents;
       if (includeFileName.find(".ini") != string::npos)
          {
-         SimCreator simCreator;
+         SimCreator simCreator(true);
          contents = simCreator.convertIniToSim(includeFileName);
          }
       else

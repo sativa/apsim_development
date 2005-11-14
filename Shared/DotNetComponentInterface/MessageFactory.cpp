@@ -5,6 +5,7 @@
 
 #include <string>
 using namespace std;
+using namespace ComponentInterface;
 
 const unsigned MAX_MESSAGE_SIZE = 3000;
 const unsigned PROTOCOL_VERSION = 1;

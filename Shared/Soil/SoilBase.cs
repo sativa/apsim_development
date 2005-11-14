@@ -84,9 +84,17 @@ namespace CSGeneral
 				Data.set_ChildValue(Key, Value);
 			else
 				{
-				APSIMData Child = Data.Child(PropertyType);
-				if (Child != null && Child.Child(PropertyName) != null)
-					Child.Delete(PropertyName);
+				if (PropertyType == "")
+					{
+					if (Data.Child(PropertyName) != null)
+						Data.Delete(PropertyName);
+					}
+				else
+					{
+					APSIMData Child = Data.Child(PropertyType);
+					if (Child != null && Child.Child(PropertyName) != null)
+						Child.Delete(PropertyName);
+					}
 				}
 			}
 
@@ -113,7 +121,7 @@ namespace CSGeneral
 				else
 					{
 					values[index] = Convert.ToDouble(layer.Child(propertyName).InnerXML);
-					if (values[index] < -1500 || values[index] > 1500)
+					if (values[index] < -100000 || values[index] > 100000)
 						values[index] = MathUtility.MissingValue;
 					}
 				index++;

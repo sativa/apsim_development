@@ -1,7 +1,7 @@
 Imports System
 Imports System.IO
 Public Class VineLogicUI
-    Inherits VBGeneral.BaseUI
+    Inherits VBGeneral.BaseView
 
 #Region " Windows Form Designer generated code "
 
@@ -105,7 +105,6 @@ Public Class VineLogicUI
         '
         'VineLogicUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(1022, 563)
         Me.Controls.Add(Me.TextBox)
         Me.Controls.Add(Me.Panel1)
@@ -123,19 +122,19 @@ Public Class VineLogicUI
     Overrides Sub refresh()
         Try
             MyBase.Refresh()
-            HelpLabel.Text = "Parameterisation of this vinelogic component is via the standard VineLogic Input file structure shown above."
-            TextBox.Text = Data.Child("data").Value
-            InstanceBox.Value = Val(Data.Child("instance").Value)
+            HelpText = "Parameterisation of this vinelogic component is via the standard VineLogic Input file structure shown above."
+            TextBox.Text = Controller.Data.Child("data").Value
+            InstanceBox.Value = Val(Controller.Data.Child("instance").Value)
         Catch E As System.Exception
             MsgBox(E.Message, MsgBoxStyle.Critical, "Error in refreshing Summary File UI")
         End Try
 
     End Sub
     Private Sub TextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles TextBox.Leave
-        Data.Child("data").Value = TextBox.Text
+        Controller.Data.Child("data").Value = TextBox.Text
     End Sub
 
     Private Sub InstanceBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles InstanceBox.Leave
-        Data.Child("instance").Value = Trim(Str(InstanceBox.Value))
+        Controller.Data.Child("instance").Value = Trim(Str(InstanceBox.Value))
     End Sub
 End Class
