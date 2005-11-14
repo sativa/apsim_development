@@ -49,12 +49,15 @@ void SimCreatorSectionOld::open(const std::string& firstBit, const std::string s
    closeTag = thirdBit;
 
    replaceAll(name, " ", "");
-   isManagerSection = (Str_i_Eq(openTag, "start_of_day") ||
-                       Str_i_Eq(openTag, "end_of_day") ||
-                       Str_i_Eq(openTag, "init") ||
-                       Str_i_Eq(openTag, "prepare") ||
-                       Str_i_Eq(openTag, "process") ||
-                       Str_i_Eq(openTag, "post"));
+   isManagerSection = (!Str_i_Eq(secondBit, "apswim") &&
+                          (
+                          Str_i_Eq(openTag, "start_of_day") ||
+                          Str_i_Eq(openTag, "end_of_day") ||
+                          Str_i_Eq(openTag, "init") ||
+                          Str_i_Eq(openTag, "prepare") ||
+                          Str_i_Eq(openTag, "process") ||
+                          Str_i_Eq(openTag, "post")
+                          ));
    if (isManagerSection)
       {
       openTag = "rule condition=\"" + openTag + "\"";
@@ -144,12 +147,15 @@ void SimCreatorSectionNew::open(const std::string& firstBit, const std::string s
       }
 
    replaceAll(name, " ", "");
-   isManagerSection = (Str_i_Eq(openTag, "start_of_day") ||
-                       Str_i_Eq(openTag, "end_of_day") ||
-                       Str_i_Eq(openTag, "init") ||
-                       Str_i_Eq(openTag, "prepare") ||
-                       Str_i_Eq(openTag, "process") ||
-                       Str_i_Eq(openTag, "post"));
+   isManagerSection = (!Str_i_Eq(secondBit, "apswim") &&
+                          (
+                          Str_i_Eq(openTag, "start_of_day") ||
+                          Str_i_Eq(openTag, "end_of_day") ||
+                          Str_i_Eq(openTag, "init") ||
+                          Str_i_Eq(openTag, "prepare") ||
+                          Str_i_Eq(openTag, "process") ||
+                          Str_i_Eq(openTag, "post")
+                          ));
    if (isManagerSection)
       {
       openTag = "rule condition=\"" + openTag + "\"";
