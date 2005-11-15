@@ -48,6 +48,16 @@ void SimCreatorSectionOld::open(const std::string& firstBit, const std::string s
    openTag = thirdBit;
    closeTag = thirdBit;
 
+   // If the xml tag begins with a number then we need to put an underscore
+   // in front of it.
+   char *endptr;
+   strtod(openTag.c_str(), &endptr);
+   if (endptr != openTag.c_str())
+      {
+      openTag = "_" + openTag;
+      closeTag = openTag;
+      }
+      
    replaceAll(name, " ", "");
    isManagerSection = (!Str_i_Eq(secondBit, "apswim") &&
                           (
@@ -56,7 +66,10 @@ void SimCreatorSectionOld::open(const std::string& firstBit, const std::string s
                           Str_i_Eq(openTag, "init") ||
                           Str_i_Eq(openTag, "prepare") ||
                           Str_i_Eq(openTag, "process") ||
-                          Str_i_Eq(openTag, "post")
+                          Str_i_Eq(openTag, "post") ||
+                          Str_i_Eq(openTag, "prenewmet") ||
+                          Str_i_Eq(secondBit, "operatns") ||
+                          Str_i_Eq(secondBit, "manager")
                           ));
    if (isManagerSection)
       {
@@ -147,6 +160,16 @@ void SimCreatorSectionNew::open(const std::string& firstBit, const std::string s
       closeTag = "";
       }
 
+   // If the xml tag begins with a number then we need to put an underscore
+   // in front of it.
+   char *endptr;
+   strtod(openTag.c_str(), &endptr);
+   if (endptr != openTag.c_str())
+      {
+      openTag = "_" + openTag;
+      closeTag = openTag;
+      }
+
    replaceAll(name, " ", "");
    isManagerSection = (!Str_i_Eq(secondBit, "apswim") &&
                           (
@@ -155,7 +178,10 @@ void SimCreatorSectionNew::open(const std::string& firstBit, const std::string s
                           Str_i_Eq(openTag, "init") ||
                           Str_i_Eq(openTag, "prepare") ||
                           Str_i_Eq(openTag, "process") ||
-                          Str_i_Eq(openTag, "post")
+                          Str_i_Eq(openTag, "post") ||
+                          Str_i_Eq(openTag, "prenewmet") ||
+                          Str_i_Eq(secondBit, "operatns") ||
+                          Str_i_Eq(secondBit, "manager")
                           ));
    if (isManagerSection)
       {

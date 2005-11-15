@@ -159,15 +159,18 @@ void VensimComponent::doInit2(void)
    componentData->getProperties("constants", names, values);
    for (unsigned g = 0; g != names.size(); g++)
       {
-      writeString(string("   " + names[g] + " = " + values[g]).c_str());
-
-      // pass constant to VENSIM.
-      Replace_all(names[g], "_", " ");
-      string command = "SIMULATE>SETVAL|" + names[g] + " = " + values[g];
-      if (vensim_command(command) == 0)
+      if (!Str_i_Eq(names[g], "model_filename") && !Str_i_Eq(names[g], "variable"))
          {
-         string msg = "Cannot set VENSIM variable value.  Variable=" + names[g];
-         error(msg.c_str(), true);
+         writeString(string("   " + names[g] + " = " + values[g]).c_str());
+
+         // pass constant to VENSIM.
+         Replace_all(names[g], "_", " ");
+         string command = "SIMULATE>SETVAL|" + names[g] + " = " + values[g];
+         if (vensim_command(command) == 0)
+            {
+            string msg = "Cannot set VENSIM variable value.  Variable=" + names[g];
+            error(msg.c_str(), true);
+            }
          }
       }
 
