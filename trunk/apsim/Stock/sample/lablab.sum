@@ -75,20 +75,20 @@
      Manager rules:
      
      SECTION:- init
-                    area=100.0
+     area=100.0
      
      SECTION:- start_of_day
      if day = 280 and year = 1988 then
-                      lablab sow cultivar = highworth, plants = 10 (/m2), sowing_depth = 40 (mm)
+        lablab sow cultivar = highworth, plants = 10 (/m2), sowing_depth = 40 (mm)
      endif
-                      if day = 330 and year = 1988 then
-                        cattle buystock number = 5 (-), sex = steer, age = 12 (months), weight = 250.0 (kg)
+     if day = 330 and year = 1988 then
+        cattle buystock number = 5 (-), sex = steer, age = 12 (months), weight = 250.0 (kg)
      endif
-                        if lablab.stage_name = 'harvest_ripe' or lablab.plant_status = 'dead' then
-        endif
+     if lablab.stage_name = 'harvest_ripe' or lablab.plant_status = 'dead' then
+     endif
      
      SECTION:- end_of_day
-                       report do_output
+     report do_output
      END of rules
      
      Manager creating a new local real variable : area =     100.000000000000

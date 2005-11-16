@@ -9,13 +9,51 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
+     Version                = 4.3
+     Title                  = Continuous wheat Wagga
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\accum\lib\accum.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\soilph\lib\soilph.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
 
-------- wheat Initialisation --------------------------------------------------
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        do_stock
+        post
+     Simulation start date =  1/01/1957
+     Simulation end date   =  1/05/1998
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.day
+        clock.month
+        clock.year
+        clock.dd/mm/yyyy as date
+        tracker.avg@maxt
+        tracker.avg@mint
+        tracker.avg@radn
+        manager.crop_in
+        nwheat.emer_date
+
+------- MasterPM Initialisation -----------------------------------------------
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM  Fatal  Error
                       -------------------
-     Parameter phenology_model has multiple definitions
-     Component name: wheat
+     Cannot find component nwheat
+     Component name: MasterPM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      

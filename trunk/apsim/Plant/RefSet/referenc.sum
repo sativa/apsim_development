@@ -109,8 +109,6 @@
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
      
-     SECTION:- init
-     
      SECTION:- start_of_day
           if year = 1990 and day = 280 then
              mungbean sow crop_class = plant, cultivar = emerald, plants = 40, sowing_depth = 50

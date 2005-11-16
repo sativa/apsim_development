@@ -95,8 +95,6 @@
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
      
-     SECTION:- init
-     
      SECTION:- start_of_day
           if year = 1993 and day = 10 then
              maize sow cultivar = dekalb_xl82, plants = 10, sowing_depth = 50, tiller_no_fertile = 1
