@@ -59,7 +59,7 @@ salb = 0.13    ! bare soil albedo
 cn_red = 20     ! curve number max reduction
 cn_cov = .80     ! cover which generates max cn reduction
 cona = 2.0      ! test for sandy soil
-crop _cover = 0. ! initialisation of crop cover
+crop_cover = 0. ! initialisation of crop cover
 diffus_const = 88  ! coeffs for dbar ! jpd suggests 550 for sands
 diffus_slope = 35 ! "   "   " ! jpd suggests 26 for sands
 

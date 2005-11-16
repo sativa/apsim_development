@@ -138,20 +138,6 @@ variable = manager.cumnetdrain180
 variable = tracker1.sum@manager_netdrain180 as netdrain180
 variable = manager.period_sw
 variable = manager.period_drain
-[dailyCont.report2.parameters]
-!general parameters
-module_names =    clock clock clock  clock
-variable_names =  day   year  month  day_of_month
-variable_alias =  -     -     -      -
-
-!Evaporation parameters
-module_names =   met   soilwat2 soilwat2 soilwat2 wheat  soilwat2 soilwat2 soilwat2
-variable_names = rain  eo       eos      es       ep     esw      sw       sw_dep
-variable_alias = -     -        -        -        -      -        -        -
-
-module_names =    soiln2  soiln2 soiln2 fertiliz       manager         soiln2           soiln2
-variable_names =  no3     nh4    urea() sum@fertilizer cum_drain_180   sum@dlt_n_min(1) sum@dlt_n_min_res(1)
-variable_alias =  -       -      -      -              drain_180       -                -
 
 [dailyL.report2.parameters]
 !general parameters
