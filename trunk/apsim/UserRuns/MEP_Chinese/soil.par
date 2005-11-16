@@ -126,7 +126,6 @@ insoil =    2.0 ()  ! indicator for initial soil water
 
 max_evap        = 6       (mm)  ! maximum evaporation.
 runoff_filename = blank         ! input measured runoff
-hydrol_effective_depth =  450 (mm) 
 
 u               = 3 !5.0     (mm)  ! stage 1 soil evaporation coefficient (mm)
 cona            = 3.5 !4.5     ()    ! stage 2 soil evaporation coefficient (mm)
