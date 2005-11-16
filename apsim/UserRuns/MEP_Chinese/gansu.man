@@ -39,18 +39,18 @@ variable = sum of soilwat2.eo on end_of_day from report.reported to now as sum@s
     soilwat2 set sw = 0.22 0.22 0.20 0.14 0.14 0.15 0.15 0.17 0.18 ! based on 10 percentiles from long term run
  endif
 
-[frozen soil effect????????????????????]
+![frozen soil effect????????????????????]
 ! frozen soil reduces evaporation?
-if day = 320 then
-   u = 1.0
-   cona = 1.0
-endif
+!if day = 320 then
+!   u = 1.0
+!   cona = 1.0
+!endif
 
-if day = 55 then
+!if day = 55 then
 ! put back to normal values
-   u = 3.0
-   cona = 3.5
-endif
+!   u = 3.0
+!   cona = 3.5
+!endif
 
 
 [xifeng_wheat.manager.start_of_day]
