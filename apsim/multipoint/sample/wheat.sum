@@ -41,9 +41,9 @@
      Manager rules:
      
      SECTION:- end_of_day
-                    if (day = 200) then
+     if (day = 200) then
         subsystem.rain = 123
-     subsystem.dlt_sw_dep= 0 0 0 0 0 0 0
+        subsystem.dlt_sw_dep= 0 0 0 0 0 0 0
      endif
      report do_output
      subsystem do_output
