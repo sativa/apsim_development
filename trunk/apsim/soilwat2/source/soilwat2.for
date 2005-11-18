@@ -273,6 +273,46 @@
 
 
 *     ===========================================================
+      subroutine soilwat2_prepare
+*     ===========================================================
+      Use Infrastructure
+      implicit none
+
+*+  Purpose
+*       Calculate potential evapotranspiration
+*
+*+  Mission Statement
+*     Perform all APSIM Timestep calculations
+
+*+  Changes
+*       221090 specified (jngh)
+
+*+  Calls
+
+
+*+  Constant Values
+      character  my_name*(*)           ! this subroutine name
+      parameter (my_name = 'soilwat2_prepare')
+       character  section_name*(*)
+       parameter (section_name = 'parameters')
+
+*+  Local Variables
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+                          ! potential: sevap + transpiration:
+      call soilwat2_pot_evapotranspiration (g%eo)
+      g%real_eo = g%eo  ! store for reporting
+
+            ! end
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+
+*     ===========================================================
       subroutine soilwat2_process
 *     ===========================================================
       use LateralModule
@@ -408,7 +448,7 @@ c dsg 070302 added runon
       call soilwat2_move_solute_down ()
 
                           ! potential: sevap + transpiration:
-      call soilwat2_pot_evapotranspiration (g%eo)
+      call soilwat2_pot_evapotranspiration_effective (g%eo)
 
                           ! actual soil evaporation:
       call soilwat2_evaporation (g%es_layers, g%eos)
@@ -446,7 +486,6 @@ c dsg 070302 added runon
       call pop_routine (my_name)
       return
       end subroutine
-
 
 *     ===========================================================
       subroutine soilwat2_runoff ( rain,runon, interception, runoff )
@@ -782,7 +821,41 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
 
 !dsg we wish to retain a 'real eo' and an 'effective eo'.  The real eo is used in the reporting of eo,
 !    and the effective eo takes into account ponding evaporation, and is used in further calculations.
-           g%real_eo = eo
+
+      call pop_routine (my_name)
+      end subroutine
+
+*     ===========================================================
+      subroutine soilwat2_pot_evapotranspiration_effective (eo)
+*     ===========================================================
+      Use Infrastructure
+      implicit none
+
+*+  Sub-Program Arguments
+      real       eo                    ! (input/output) potential evapotranspiration
+
+*+  Purpose
+*       calculate potential evapotranspiration
+
+*+  Notes
+*       Eventually eo will be in a separate module entirely, and
+*       will appear to soilwat when get_other_varaibles() runs.
+*       But, for now we use either priestly-taylor, or whatever
+*       the user specified.
+
+*+  Mission Statement
+*     Calculate Potential EvapoTranspiration
+
+*+  Changes
+*        210191   specified and programmed jngh (j hargreaves
+
+*+  Constant Values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_pot_evapotranspiration_effective')
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
 
 ! dsg 270502  check to see if there is any ponding.  If there is, evaporate straight out of it and transfer
 !             any remaining potential to the soil layer 1, as per usual.  Introduce new term g%pond_evap
@@ -4890,7 +4963,7 @@ c         g%crop_module(:) = ' '               ! list of modules
 
          p%max_pond = 0.0                     ! maximum allowable surface storage (ponding) mm
          p%mwcon (:) = 0.0                    ! layer permeability factor (zero or one)
-         p%solute_conc_rain(:) = 0.0          ! solute concentrations in rainfall (optional parameter) 
+         p%solute_conc_rain(:) = 0.0          ! solute concentrations in rainfall (optional parameter)
 * ====================================================================
 * Constants
          c%hydrol_effective_depth = 0.0       ! hydrologically effective depth for
@@ -5932,11 +6005,11 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 
       do 1000 solnum = 1, g%num_solutes
          !assume all rainfall goes into layer 1
-         
+
          ! therefore mass_solute = mass_rain * g%solute_conc_rain (in ppm) / 10^6
-         
+
          mass_solute = divide(mass_rain * p%solute_conc_rain(solnum)
-     :                                        ,1000000.0,0.0)   
+     :                                        ,1000000.0,0.0)
          g%solute(solnum,1)     = g%solute(solnum,1)
      :                          + mass_solute
          g%dlt_solute(solnum,1) = g%dlt_solute(solnum,1)
@@ -6784,8 +6857,15 @@ c dsg 150302  saturated layer = layer, layer above not over dul
                ! respond to request for variable values - from modules
          call soilwat2_send_my_variable (Data_string)
 
-      else if (action.eq.ACTION_process) then
+      else if (action.eq.ACTION_prepare) then
          call soilwat2_zero_daily_variables ()
+               ! request and receive variables from owner-modules
+         call soilwat2_get_other_variables ()
+               ! do soil water balance
+         call soilwat2_prepare ()
+
+      else if (action.eq.ACTION_process) then
+!         call soilwat2_zero_daily_variables ()
                ! request and receive variables from owner-modules
          call soilwat2_get_other_variables ()
                ! do soil water balance
