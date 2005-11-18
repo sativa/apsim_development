@@ -1666,11 +1666,11 @@
       <field name="cover" kind="single"/>
       <field name="cover_tot" kind="single"/>
    </type>
-
       <type name="new_crop">
          <field name="sender" kind="string"/>
          <field name="crop_type" kind="string"/>
       </type>
+
 !!  frmrpt types!!
       <type name="clear" kind="????" unit="" description="Message to FRMRPT from MANAGER"/>
 !! OLD IRRIGATE types (including variables)
@@ -1734,6 +1734,28 @@
       <type name="cover_height_all" kind="single" unit="0-1" lower_bound="2000" description="Cover_height_all"/>
 
 !   !!!!! STOCK  types  !!!!!!!!!!!!!!!!!!!!!!
+
+      <type name = "add_excreta">
+         <type name="faeces_om">
+               <field name="weight"  unit="kg/ha"  kind="double"/>
+               <field name="n"       unit="kg/ha"  kind="double"/>
+               <field name="p"       unit="kg/ha"  kind="double"/>
+               <field name="s"       unit="kg/ha"  kind="double"/>
+               <field name="ash_alk" unit="mol/ha" kind="double"/>
+         </type>
+         <type name = "faeces_inorg">
+               <field name="n"  unit="kg/ha"  kind="double"/>
+               <field name="p"  unit="kg/ha"  kind="double"/>
+               <field name="s"  unit="kg/ha"  kind="double"/>
+         </type>
+         <type name = "urine">
+               <field name="volume"  unit="m3/ha"  kind="double"/>
+               <field name="urea"    unit="kg/ha"  kind="double"/>
+               <field name="pox"     unit="kg/ha"  kind="double"/>
+               <field name="so4"     unit="kg/ha"  kind="double"/>
+               <field name="ash_alk" unit="mol/ha" kind="double"/>
+         </type>
+      </type>
 
       <type name="plant2stock">
         <field name = "herbage" array="T">
