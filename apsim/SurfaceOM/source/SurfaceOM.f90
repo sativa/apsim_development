@@ -1440,75 +1440,79 @@ subroutine surfom_add_surfom ()
    ! Get Mass of material added
    call collect_real_var ('mass', '(kg/ha)', surfom_added, numvals, -100000.0, 100000.0)
 
-   ! Get N content of material added
-   call collect_real_var_optional ('n', '(kg/ha)', surfom_N_added, numval_n, -10000.0, 10000.0)
-   if (numval_n.eq.0) then
-      call collect_real_var_optional ('cnr', '()', surfom_cnr_added, numval_cnr, 0.0, 10000.0)
-      surfom_N_added = divide ((surfom_added * c%C_fract(SOMNo)), surfom_cnr_added, 0.0)
+   if (surfom_added .gt. 0.0) then
+      ! Get N content of material added
+      call collect_real_var_optional ('n', '(kg/ha)', surfom_N_added, numval_n, -10000.0, 10000.0)
+      if (numval_n.eq.0) then
+         call collect_real_var_optional ('cnr', '()', surfom_cnr_added, numval_cnr, 0.0, 10000.0)
+         surfom_N_added = divide ((surfom_added * c%C_fract(SOMNo)), surfom_cnr_added, 0.0)
 
-      ! If no N info provided, and no cnr info provided then throw error
-      if (numval_cnr.eq.0) then
-         Err_string = 'SurfaceOM N or SurfaceOM CN ratio not specified.'
-         call Fatal_ERROR (ERR_user, Err_string)
+         ! If no N info provided, and no cnr info provided then throw error
+         if (numval_cnr.eq.0) then
+            Err_string = 'SurfaceOM N or SurfaceOM CN ratio not specified.'
+            call Fatal_ERROR (ERR_user, Err_string)
+         else
+            ! all ok
+         endif
       else
-         ! all ok
       endif
+
+      ! collect P information from this new member
+      surfom_p_added = 0.0
+      call collect_real_var_optional ('p', '(kg/ha)', surfom_p_added, numval_p, -10000.0, 10000.0)
+      if (numval_p.eq.0) then
+         surfom_cpr_added = 0.0
+         call collect_real_var_optional ('cpr', '()', surfom_cpr_added, numval_cpr, 0.0, 10000.0)
+         surfom_P_added = divide ((surfom_added* c%C_fract(SOMNo)), surfom_cpr_added, 0.0)
+         ! If no P info provided, and no cpr info provided then
+         ! use default cpr and throw warning error to notify user
+         If (numval_CPr .eq. 0) then
+            surfom_p_added = divide ((surfom_added*c%C_fract(SOMNo)),c%default_cpr,0.0)
+            Err_string = 'SurfOM P or SurfaceOM C:P ratio not specified - Default value applied.'
+            call Warning_ERROR (ERR_user, Err_string)
+         Endif
+      else
+      endif
+
+      ! convert the ppm figures into kg/ha
+      g%SurfOM(SOMNo)%no3 = g%SurfOM(SOMNo)%no3+  c%no3ppm(SOMNo)/ 1000000.0 * surfom_added
+      g%SurfOM(SOMNo)%nh4 = g%SurfOM(SOMNo)%nh4+  c%nh4ppm(SOMNo)/ 1000000.0 * surfom_added
+      g%SurfOM(SOMNo)%po4 = g%SurfOM(SOMNo)%po4+  c%po4ppm(SOMNo)/ 1000000.0 * surfom_added
+
+
+      ! Assume all residue added is in the LYING pool, ie No STANDING component
+      g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount = g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount + surfom_added   * c%fr_pool_c(1:MaxFr,SOMNo)
+      g%SurfOM(SOMNo)%Lying(1:MaxFr)%C      = g%SurfOM(SOMNo)%Lying(1:MaxFr)%C      + surfom_added   * c%c_fract(SOMNo)* c%fr_pool_c(1:MaxFr,SOMNo)
+      g%SurfOM(SOMNo)%Lying(1:MaxFr)%N      = g%SurfOM(SOMNo)%Lying(1:MaxFr)%N      + surfom_N_added * c%fr_pool_n(1:MaxFr,SOMNo)
+      g%SurfOM(SOMNo)%Lying(1:MaxFr)%P      = g%SurfOM(SOMNo)%Lying(1:MaxFr)%P      + surfom_P_added * c%fr_pool_p(1:MaxFr,SOMNo)
+      g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk = 0.0
+
+
+      ! Report Additions
+      if (p%report_additions.eq.'yes') then
+         Write (Err_string,*)   &
+              'Added SurfaceOM', New_Line   &
+             ,'    SurfaceOM name         = '   &
+             , trim(g%SurfOM(SOMNo)%name)   &
+             , New_Line   &
+             ,'    SurfaceOM Type         = '   &
+             , trim(g%SurfOM(SOMNo)%OrganicMatterType)   &
+             , New_Line   &
+             ,'    Amount Added (kg/ha) = ', surfom_added, New_Line
+         call Write_string (Err_string)
+      else
+         ! The user has asked for no reports for additions of surfom
+         ! in the summary file.
+      endif
+
+      call residue2_Send_Res_added_Event (g%SurfOM(SOMNo)%OrganicMatterType   &
+                                          , g%SurfOM(SOMNo)%OrganicMatterType   &
+                                          , surfom_added   &
+                                          , surfom_N_added   &
+                                          , surfom_P_added)
    else
+         ! nothing to add
    endif
-
-   ! collect P information from this new member
-   surfom_p_added = 0.0
-   call collect_real_var_optional ('p', '(kg/ha)', surfom_p_added, numval_p, -10000.0, 10000.0)
-   if (numval_p.eq.0) then
-      surfom_cpr_added = 0.0
-      call collect_real_var_optional ('cpr', '()', surfom_cpr_added, numval_cpr, 0.0, 10000.0)
-      surfom_P_added = divide ((surfom_added* c%C_fract(SOMNo)), surfom_cpr_added, 0.0)
-      ! If no P info provided, and no cpr info provided then
-      ! use default cpr and throw warning error to notify user
-      If (numval_CPr .eq. 0) then
-         surfom_p_added = divide ((surfom_added*c%C_fract(SOMNo)),c%default_cpr,0.0)
-         Err_string = 'SurfOM P or SurfaceOM C:P ratio not specified - Default value applied.'
-         call Warning_ERROR (ERR_user, Err_string)
-      Endif
-   else
-   endif
-
-   ! convert the ppm figures into kg/ha
-   g%SurfOM(SOMNo)%no3 = g%SurfOM(SOMNo)%no3+  c%no3ppm(SOMNo)/ 1000000.0 * surfom_added
-   g%SurfOM(SOMNo)%nh4 = g%SurfOM(SOMNo)%nh4+  c%nh4ppm(SOMNo)/ 1000000.0 * surfom_added
-   g%SurfOM(SOMNo)%po4 = g%SurfOM(SOMNo)%po4+  c%po4ppm(SOMNo)/ 1000000.0 * surfom_added
-
-
-   ! Assume all residue added is in the LYING pool, ie No STANDING component
-   g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount = g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount + surfom_added   * c%fr_pool_c(1:MaxFr,SOMNo)
-   g%SurfOM(SOMNo)%Lying(1:MaxFr)%C      = g%SurfOM(SOMNo)%Lying(1:MaxFr)%C      + surfom_added   * c%c_fract(SOMNo)* c%fr_pool_c(1:MaxFr,SOMNo)
-   g%SurfOM(SOMNo)%Lying(1:MaxFr)%N      = g%SurfOM(SOMNo)%Lying(1:MaxFr)%N      + surfom_N_added * c%fr_pool_n(1:MaxFr,SOMNo)
-   g%SurfOM(SOMNo)%Lying(1:MaxFr)%P      = g%SurfOM(SOMNo)%Lying(1:MaxFr)%P      + surfom_P_added * c%fr_pool_p(1:MaxFr,SOMNo)
-   g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk = 0.0
-
-
-   ! Report Additions
-   if (p%report_additions.eq.'yes') then
-      Write (Err_string,*)   &
-           ' Added SurfaceOM', New_Line   &
-          ,'SurfaceOM name         = '   &
-          , trim(g%SurfOM(SOMNo)%name)   &
-          , New_Line   &
-          ,'SurfaceOM Type         = '   &
-          , trim(g%SurfOM(SOMNo)%OrganicMatterType)   &
-          , New_Line   &
-          ,'Amount Added (kg/ha) = ', surfom_added, New_Line
-      call Write_string (Err_string)
-   else
-      ! The user has asked for no reports for additions of surfom
-      ! in the summary file.
-   endif
-
-   call residue2_Send_Res_added_Event (g%SurfOM(SOMNo)%OrganicMatterType   &
-                                       , g%SurfOM(SOMNo)%OrganicMatterType   &
-                                       , surfom_added   &
-                                       , surfom_N_added   &
-                                       , surfom_P_added)
 
    call pop_routine (my_name)
    return
@@ -2078,98 +2082,105 @@ subroutine surfom_ON_Crop_chopped ()
    if (sum(fraction_to_Residue) .eq. 0.0) then
       ! no surfom in this stuff
    else
-	      call collect_char_var (DATA_crop_type, '()', crop_type, numvals)
+      call collect_char_var (DATA_crop_type, '()', crop_type, numvals)
 
 
-	   ! Find the amount of surfom to be added today
-	   dlt_crop_dm(:) = 0.0
-	   call collect_real_array (DATA_dlt_crop_dm, MaxArraySize, '()', dlt_crop_dm, numval_dm, 0.0, 100000.0)
-	   surfom_added = sum(dlt_crop_dm(:) * fraction_to_Residue(:))
+         ! Find the amount of surfom to be added today
+      dlt_crop_dm(:) = 0.0
+      call collect_real_array (DATA_dlt_crop_dm, MaxArraySize, '()', dlt_crop_dm, numval_dm, 0.0, 100000.0)
+      surfom_added = sum(dlt_crop_dm(:) * fraction_to_Residue(:))
+
+      if (surfom_added .gt. 0.0) then
+
+   	      ! Find the amount of N added in surfom today
+   	   dlt_dm_N(:) = 0.0
+   	   call collect_real_array(DATA_dlt_dm_n, MaxArraySize, '(kg/ha)', dlt_dm_n, numval_n, -10000.0, 10000.0)
+   	   surfom_N_added = sum(dlt_dm_N(:) * fraction_to_Residue(:))
+
+   	      ! Find the amount of P added in surfom today, if phosphorus aware
+
+   	   if ( g%phosphorus_aware ) then
+   	      dlt_dm_P(:) = 0.0
+   	      call collect_real_array_optional (DATA_dlt_dm_p, MaxArraySize, '(kg/ha)', dlt_dm_p, numval_p, -10000.0, 10000.0)
+   	      surfom_P_added = sum(dlt_dm_P(:) * fraction_to_Residue(:))
+   	   else
+   	      ! Not phosphorus aware
+   	      dlt_dm_P(:) = 0.0
+   	      surfom_P_added = 0.0
+   	   endif
+
+   	   ! Report Additions
+   	   if (p%report_additions.eq.'yes') then
+   !	      Write (Event_string, '(1x, 2a, 2(40x, 3a), 40x, a, f8.2, a, 40x, a, f8.5, a)' )   &
+   !	            ' Added surfom', New_Line   &
+   !	            ,'surfom Type         = ', trim(crop_type), New_Line   &
+   !	            , New_Line   &
+   !	            ,'Amount Added (kg/ha) = ', surfom_added, New_Line
+               Write (Event_string,*)   &
+                    'Added surfom', New_Line   &
+                   ,'   SurfaceOM Type         = ', trim(crop_type), New_Line   &
+                   ,'   Amount Added (kg/ha) = ', surfom_added, New_Line
+   	      call Write_string (Event_string)
+   	   else
+   	      ! The user has asked for no reports for additions of surfom
+   	      ! in the summary file.
+   	   endif
+
+         SOMNo = surfom_number(crop_type)
 
 
-	   ! Find the amount of N added in surfom today
-	   dlt_dm_N(:) = 0.0
-	   call collect_real_array(DATA_dlt_dm_n, MaxArraySize, '(kg/ha)', dlt_dm_n, numval_n, -10000.0, 10000.0)
-	   surfom_N_added = sum(dlt_dm_N(:) * fraction_to_Residue(:))
+   	   ! Assume the 'crop_type' is the unique name.  Now check whether this unique 'name' already exists in the system.
 
-	   ! Find the amount of P added in surfom today, if phosphorus aware
+   	   if (SOMNo.eq.0) then
+   	      ! THIS IS A NEW COMPONENT TO THE SYSTEM
+   	      g%num_surfom = g%num_surfom + 1
+   	      SOMNo = g%num_surfom
+   	      g%SurfOM(SOMNo)%name = crop_type
+   	      g%SurfOM(SOMNo)%OrganicMatterType = crop_type
+   	      g%SurfOM(SOMNo)%PotDecompRate=0.0
+   	      g%SurfOM(SOMNo)%no3 =0.0
+   	      g%SurfOM(SOMNo)%nh4 =0.0
+   	      g%SurfOM(SOMNo)%po4 =0.0
+   	      g%SurfOM(SOMNo)%Standing(:)%amount = 0.0
+   	      g%SurfOM(SOMNo)%Standing(:)%C = 0.0
+   	      g%SurfOM(SOMNo)%Standing(:)%N = 0.0
+   	      g%SurfOM(SOMNo)%Standing(:)%P = 0.0
+   	      g%SurfOM(SOMNo)%Standing(:)%AshAlk = 0.0
+   	      g%SurfOM(SOMNo)%Lying(:)%amount = 0.0
+   	      g%SurfOM(SOMNo)%Lying(:)%C = 0.0
+   	      g%SurfOM(SOMNo)%Lying(:)%N = 0.0
+   	      g%SurfOM(SOMNo)%Lying(:)%P = 0.0
+   	      g%SurfOM(SOMNo)%Lying(:)%AshAlk = 0.0
 
-	   if ( g%phosphorus_aware ) then
-	      dlt_dm_P(:) = 0.0
-	      call collect_real_array_optional (DATA_dlt_dm_p, MaxArraySize, '(kg/ha)', dlt_dm_p, numval_p, -10000.0, 10000.0)
-	      surfom_P_added = sum(dlt_dm_P(:) * fraction_to_Residue(:))
-	   else
-	      ! Not phosphorus aware
-	      dlt_dm_P(:) = 0.0
-	      surfom_P_added = 0.0
-	   endif
+            ! NOW UPDATE ALL VARIABLES
+            call surfom_read_type_specific_constants(g%SurfOM(SOMNo)%OrganicMatterType,SOMNo)
 
-	   ! Report Additions
-	   if (p%report_additions.eq.'yes') then
-	      Write (Event_string, '(1x, 2a, 2(40x, 3a), 40x, a, f8.2, a, 40x, a, f8.5, a)' )   &
-	            ' Added surfom', New_Line   &
-	            ,'surfom Type         = ', trim(crop_type), New_Line   &
-	            , New_Line   &
-	            ,'Amount Added (kg/ha) = ', surfom_added, New_Line
-	      call Write_string (Event_string)
-	   else
-	      ! The user has asked for no reports for additions of surfom
-	      ! in the summary file.
-	   endif
+         else
+            ! THIS ADDITION IS AN EXISTING COMPONENT OF THE SURFOM SYSTEM
+         endif
 
-      SOMNo = surfom_number(crop_type)
+         ! convert the ppm figures into kg/ha
+         g%SurfOM(SOMNo)%no3 = g%SurfOM(SOMNo)%no3+  c%no3ppm(SOMNo)/ 1000000.0 * surfom_added
+         g%SurfOM(SOMNo)%nh4 = g%SurfOM(SOMNo)%nh4+  c%nh4ppm(SOMNo)/ 1000000.0 * surfom_added
+         g%SurfOM(SOMNo)%po4 = g%SurfOM(SOMNo)%po4+  c%po4ppm(SOMNo)/ 1000000.0 * surfom_added
+
+         ! Assume all surfom added is in the LYING pool, ie No STANDING component
+         g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount =g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount+ surfom_added*c%fr_pool_c(1:MaxFr,SOMNo)
+         g%SurfOM(SOMNo)%Lying(1:MaxFr)%C =g%SurfOM(SOMNo)%Lying(1:MaxFr)%C+ surfom_added * c%c_fract(SOMNo)* c%fr_pool_c(1:MaxFr,SOMNo)
+         g%SurfOM(SOMNo)%Lying(1:MaxFr)%N =g%SurfOM(SOMNo)%Lying(1:MaxFr)%N +surfom_N_added * c%fr_pool_n(1:MaxFr,SOMNo)
+         g%SurfOM(SOMNo)%Lying(1:MaxFr)%P =g%SurfOM(SOMNo)%Lying(1:MaxFr)%P +surfom_P_added * c%fr_pool_p(1:MaxFr,SOMNo)
+         g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk = 0.0
 
 
-	   ! Assume the 'crop_type' is the unique name.  Now check whether this unique 'name' already exists in the system.
 
-	   if (SOMNo.eq.0) then
-	      ! THIS IS A NEW COMPONENT TO THE SYSTEM
-	      g%num_surfom = g%num_surfom + 1
-	      SOMNo = g%num_surfom
-	      g%SurfOM(SOMNo)%name = crop_type
-	      g%SurfOM(SOMNo)%OrganicMatterType = crop_type
-	      g%SurfOM(SOMNo)%PotDecompRate=0.0
-	      g%SurfOM(SOMNo)%no3 =0.0
-	      g%SurfOM(SOMNo)%nh4 =0.0
-	      g%SurfOM(SOMNo)%po4 =0.0
-	      g%SurfOM(SOMNo)%Standing(:)%amount = 0.0
-	      g%SurfOM(SOMNo)%Standing(:)%C = 0.0
-	      g%SurfOM(SOMNo)%Standing(:)%N = 0.0
-	      g%SurfOM(SOMNo)%Standing(:)%P = 0.0
-	      g%SurfOM(SOMNo)%Standing(:)%AshAlk = 0.0
-	      g%SurfOM(SOMNo)%Lying(:)%amount = 0.0
-	      g%SurfOM(SOMNo)%Lying(:)%C = 0.0
-	      g%SurfOM(SOMNo)%Lying(:)%N = 0.0
-	      g%SurfOM(SOMNo)%Lying(:)%P = 0.0
-	      g%SurfOM(SOMNo)%Lying(:)%AshAlk = 0.0
-
-         ! NOW UPDATE ALL VARIABLES
-         call surfom_read_type_specific_constants(g%SurfOM(SOMNo)%OrganicMatterType,SOMNo)
-
+         call residue2_Send_Res_added_Event (g%SurfOM(SOMNo)%OrganicMatterType   &
+                                            , g%SurfOM(SOMNo)%OrganicMatterType   &
+                                            , surfom_added   &
+                                            , surfom_N_added   &
+                                            , surfom_P_added)
       else
-         ! THIS ADDITION IS AN EXISTING COMPONENT OF THE SURFOM SYSTEM
+            !nothing to add
       endif
-
-      ! convert the ppm figures into kg/ha
-      g%SurfOM(SOMNo)%no3 = g%SurfOM(SOMNo)%no3+  c%no3ppm(SOMNo)/ 1000000.0 * surfom_added
-      g%SurfOM(SOMNo)%nh4 = g%SurfOM(SOMNo)%nh4+  c%nh4ppm(SOMNo)/ 1000000.0 * surfom_added
-      g%SurfOM(SOMNo)%po4 = g%SurfOM(SOMNo)%po4+  c%po4ppm(SOMNo)/ 1000000.0 * surfom_added
-
-      ! Assume all surfom added is in the LYING pool, ie No STANDING component
-      g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount =g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount+ surfom_added*c%fr_pool_c(1:MaxFr,SOMNo)
-      g%SurfOM(SOMNo)%Lying(1:MaxFr)%C =g%SurfOM(SOMNo)%Lying(1:MaxFr)%C+ surfom_added * c%c_fract(SOMNo)* c%fr_pool_c(1:MaxFr,SOMNo)
-      g%SurfOM(SOMNo)%Lying(1:MaxFr)%N =g%SurfOM(SOMNo)%Lying(1:MaxFr)%N +surfom_N_added * c%fr_pool_n(1:MaxFr,SOMNo)
-      g%SurfOM(SOMNo)%Lying(1:MaxFr)%P =g%SurfOM(SOMNo)%Lying(1:MaxFr)%P +surfom_P_added * c%fr_pool_p(1:MaxFr,SOMNo)
-      g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk = 0.0
-
-
-
-      call residue2_Send_Res_added_Event (g%SurfOM(SOMNo)%OrganicMatterType   &
-                                         , g%SurfOM(SOMNo)%OrganicMatterType   &
-                                         , surfom_added   &
-                                         , surfom_N_added   &
-                                         , surfom_P_added)
-
    endif
 
    call pop_routine (myname)
