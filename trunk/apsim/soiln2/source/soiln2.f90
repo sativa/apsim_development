@@ -4154,7 +4154,7 @@ subroutine soiln2_check_data_supply ()
 
    call push_routine (my_name)
 
-   call get_real_var_optional (unknown_module, 'st()', '(oC)', temp_var, numvals, -20.0, 80.0)
+   call get_real_var_optional (unknown_module, 'ave_soil_temp()', '(oC)', temp_var, numvals, -20.0, 80.0)
 
    if(numvals .gt. 0.0)then
       ! another module owns soil temperature
