@@ -2399,7 +2399,7 @@ subroutine soiln2_soil_temp (soil_temp)
       ! another module is supplying soil temperature
       g%soil_temp = 0.0
 
-      call get_real_array (unknown_module, 'st', max_layer, '(oC)', g%soil_temp, numvals, -20.0, 80.0)
+      call get_real_array (unknown_module, 'ave_soil_temp', max_layer, '(oC)', g%soil_temp, numvals, -20.0, 80.0)
 
 
    else
