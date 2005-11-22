@@ -2406,30 +2406,33 @@
       parameter (myname = 'Micromet_Energy_Balance_Event')
 
 *+  Local Variables
-      integer j
+      integer i,j
       real int_radn_tot
       real int_radn_green
+      type(LightProfileType) :: LightProfile
+
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call new_postbox()
+
+      LightProfile.num_Interception = g%NumComponents
 
       do 100 j=1,g%NumComponents
 
-         int_radn_tot = sum(g%Rs(1:g%NumLayers,j))
-         int_radn_green = Micromet_radn_green_fraction(j)
-     :                  * int_radn_tot
-
-         call post_real_var ('int_radn_'//Trim(g%ComponentName(j))
-     :                      , '(MJ)'
-     :                      , int_radn_green)
+         LightProfile.Interception(j).name =g%ComponentName(j)
+         LightProfile.Interception(j).croptype =g%ComponentType(j)
+         do 50 i=1,g%NumLayers
+            LightProfile.Interception(j).Layer(i).thickness
+     :              = g%DeltaZ(i)
+            LightProfile.Interception(j).Layer(i).amount
+     :              = g%Rs(i,j)*Micromet_radn_green_fraction(j)
+   50    continue
 
   100 continue
 
-      call event_send ('canopy_energy_balance')
-
-      call delete_postbox()
+      call publish_LightProfile(id%canopy_energy_balance
+     :                               , LightProfile)
 
       call pop_routine (myname)
       return
@@ -2505,38 +2508,38 @@
 
 *+  Local Variables
       integer j
+      type(CanopyWaterBalanceType) :: CanopyWaterBalance
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call new_postbox()
 
       do 100 j=1,g%NumComponents
-
-         call post_real_var ('pet_'//Trim(g%ComponentName(j))
-     :                      , '(mm)'
-     :                      , sum(g%PET(1:g%NumLayers,j)))
-
+         CanopyWaterBalance%canopy(j)%name = g%ComponentName(j)
+         CanopyWaterBalance%canopy(j)%CropType = g%ComponentType(j)
+         CanopyWaterBalance%canopy(j)%PotentialEp
+     :                       = sum(g%PET(1:g%NumLayers,j))
   100 continue
+      CanopyWaterBalance%num_canopy = g%NumComponents
 
-      call post_real_var ('interception'
-     :                   , '(mm)'
-     :                   , sum(g%Interception(:,:)))
+      CanopyWaterBalance%eo = 0.0 ! need to implement this later
+      CanopyWaterBalance%interception =
+     :       sum(g%Interception(1:max_layer,1:max_components))
 
-      call event_send ('canopy_water_balance')
-
-      call delete_postbox()
+      call publish_CanopyWaterBalance(id%canopy_water_balance
+     :                               , CanopyWaterBalance)
 
       call pop_routine (myname)
       return
       end subroutine
 
 *     ===========================================================
-      subroutine Micromet_OnNewPotGrowth ()
+      subroutine Micromet_OnNewPotGrowth (variant)
 *     ===========================================================
 
       Use Infrastructure
       implicit none
+      integer, intent(in) :: variant
 
 *+  Purpose
 *       Obtain updated information about a plant's growth capacity
@@ -2555,36 +2558,28 @@
       parameter (myname = 'Micromet_OnNewPotGrowth')
 
 *+  Local Variables
-      integer    numvals               ! number of values read
-      character  sender*32
+      type(NewPotentialGrowthType) :: NewPotentialGrowth
+
       integer    ComponentNo
 
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
 
-      call collect_char_var (DATA_sender
-     :                      ,'()'
-     :                      ,sender
-     :                      ,numvals)
+      call unpack_NewPotentialGrowth(variant, NewPotentialGrowth)
+
 
       ComponentNo = position_in_char_array
-     :                   (sender
+     :                   (NewPotentialGrowth%sender
      :                   ,g%ComponentName
      :                   ,g%NumComponents)
 
       if (ComponentNo.eq.0) then
          call fatal_Error(ERR_Internal
-     :                   ,'Unknown Canopy Component: '//sender)
+     :       ,'Unknown Canopy Component: '//NewPotentialGrowth%sender)
 
       else
-
-         call collect_real_var ('frgr'
-     :                         ,'()'
-     :                         ,g%ComponentFrgr(ComponentNo)
-     :                         ,numvals
-     :                         ,0.0
-     :                         ,1.0)
+         g%ComponentFrgr(ComponentNo) = NewPotentialGrowth%Frgr
 
       endif
 
@@ -2674,9 +2669,6 @@
       elseif (Action.eq.ACTION_Process) then
          call Micromet_Process ()
 
-      else if (Action.eq.'new_pot_growth') then
-         call Micromet_OnNewPotGrowth ()
-
       else if (Action.eq.ACTION_Get_variable) then
          call Micromet_Send_my_variable (Data_string)
 
@@ -2736,6 +2728,8 @@
          call Micromet_OnNewCrop (variant)
       else if (eventID .eq. id%new_canopy) then
          call Micromet_OnNewCanopy (variant)
+      else if (eventID .eq. id%new_pot_growth) then
+         call Micromet_OnNewPotGrowth (variant)
       endif
       return
       end subroutine respondToEvent
