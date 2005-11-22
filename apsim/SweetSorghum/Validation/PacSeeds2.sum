@@ -1,0 +1,536 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 4.3
+     Title                  = Pacific Seeds Planting Two
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\Input\lib\Input.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\surfaceom\lib\surfaceom.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        do_stock
+        post
+     Simulation start date =  1/01/2005
+     Simulation end date   = 31/05/2005
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.dd/mmm/yyyy as Date
+        met.rain as rain
+        sweetsorghum.das
+        sweetsorghum.zadok_stage
+        met.day_length
+        sweetsorghum.stage
+        sweetsorghum.lai
+        sweetsorghum.biomass
+        sweetsorghum.yield
+        sweetsorghum.root_depth
+        sweetsorghum.ep
+        sweetsorghum.swdef_photo
+        sweetsorghum.swdef_expan
+        sweetsorghum.nfact_photo
+        sweetsorghum.temp_stress_photo
+        met.maxt
+        met.mint
+        met.radn
+        sweetsorghum.tt_tot()
+        sweetsorghum.dlt_tt
+        sweetsorghum.leaf_wt
+        sweetsorghum.stem_wt
+        sweetsorghum.node_no
+        sweetsorghum.height
+        sweetsorghum.head_wt
+        sweetsorghum.dm_senesced(2) as dead_leaf
+        sweetsorghum.leaf_no_dead
+     
+     Output file = PacSeeds2.out
+     Format = normal
+
+------- Met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: lawes0405.met
+
+------- fertiliz Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- irrigate Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Enabled)
+           critical fraction of available soil water =  0.50
+           depth for calculating available soil water =     750.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- start_of_day
+          if today = date('12-jan-2005') then
+             sweetsorghum sow cultivar = sugargraze, plants = 12.7, sowing_depth = 30 (mm)
+             fertiliz apply amount = 300, type = no3_n, depth = 50
+          endif
+     
+     SECTION:- end_of_day
+          if sweetsorghum.plant_status = 'alive' then
+             report do_output
+          endif
+          if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
+             sweetsorghum harvest
+             sweetsorghum end_crop
+          endif
+     END of rules
+     
+
+------- soilwat2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.230  0.450  0.500  0.280  1.300  0.762  0.200
+          150.-  300.  0.200  0.240  0.459  0.509  0.364  1.300  0.190  0.200
+          300.-  600.  0.200  0.240  0.450  0.510  0.430  1.290  0.048  0.200
+          600.-  900.  0.200  0.250  0.440  0.505  0.430  1.310  0.000  0.200
+          900.- 1200.  0.200  0.260  0.420  0.490  0.400  1.350  0.000  0.200
+         1200.- 1500.  0.200  0.270  0.410  0.480  0.410  1.360  0.000  0.200
+         1500.- 1800.  0.200  0.280  0.410  0.480  0.410  1.360  0.000  0.200
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      34.50       7.50      33.00       7.50
+          150.-  300.      36.00      18.60      32.85       7.50
+          300.-  600.      72.00      57.00      63.00      18.00
+          600.-  900.      75.00      54.00      57.00      19.50
+          900.- 1200.      78.00      42.00      48.00      21.00
+         1200.- 1500.      81.00      42.00      42.00      21.00
+         1500.- 1800.      84.00      39.00      39.00      21.00
+          ---------------------------------------------------------
+               Totals     460.50     260.10     314.85     115.50
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   2.00        0.13       88.00       35.40
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              80.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            4.00 (mm^0.5)
+            CONA:                     2.50 ()
+           Eo from priestly-taylor
+
+------- surfaceom Initialisation ----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          mungbean  mungbean      2000.0   800.0    26.7     0.0   0.330     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.3
+     
+
+------- soiln2 Initialisation -------------------------------------------------
+     
+        - Reading Constants
+     
+        - Reading Parameters
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     8.20  1.00   17.94    0.58    0.00
+             2     8.50  0.84   14.82    0.58    0.00
+             3     8.60  0.77   18.96    1.16    0.00
+             4     8.60  0.65   10.61    1.18    0.00
+             5     7.40  0.54    6.07    1.22    0.00
+             6     5.30  0.48    7.34    2.04    0.00
+             7     5.00  0.43    5.71    2.04    0.00
+          ------------------------------------------------
+           Totals               81.46    8.81    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      19038.4  1313.0   461.6    57.7   138.9     6.9
+             2      16180.2  1115.9   199.8    25.0   108.1     5.4
+             3      29622.8  2043.0   176.2    22.0    65.6     3.3
+             4      25481.8  1757.4    63.2     7.9    39.8     2.0
+             5      21848.3  1506.8    21.7     2.7    24.1     1.2
+             6      19582.1  1350.5     1.9     0.2    14.6     0.7
+             7      17542.3  1209.8     1.7     0.2     8.9     0.4
+          ---------------------------------------------------------
+           Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
+          ---------------------------------------------------------
+
+------- sweetsorghum Initialisation -------------------------------------------
+     phenology model: TTT
+------- Start of simulation  --------------------------------------------------
+12 January 2005(Day of year=12), manager: 
+     Manager sending message :- sweetsorghum sow  cultivar = sugargraze, plants = 12.7, sowing_depth = 30 (mm)
+12 January 2005(Day of year=12), sweetsorghum: 
+     Crop Sow
+      - reading constants for plant(sweetsorghum)
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : x_temp_grainfill(3)
+     Condition : 0.00 <= 56.32 <= 40.00
+     Component name: sweetsorghum
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(5)
+     Condition : 0.00 <= 65000 <= 60000.00
+     Component name: sweetsorghum
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(6)
+     Condition : 0.00 <= 80000 <= 60000.00
+     Component name: sweetsorghum
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+      - reading cultivar parameters
+         ------------------------------------------------
+        cultivar                   = sugargraze
+        est_days_emerg_to_init     = 45 (days)
+        cum_vernal_days            =       0     100 (vd)
+        tt_emerg_to_endjuv         =      70      70 (dd)
+        x_pp_endjuv_to_init        =      13      15 (h)
+        y_tt_endjuv_to_init        =     200     700 (dd)
+        x_pp_init_to_flower        =       1      24 (h)
+        y_tt_init_to_flower        =     450     450 (dd)
+        x_pp_flower_to_start_grain =       1      24 (h)
+        y_tt_flower_to_start_grain =     150     150 (dd)
+        x_pp_start_to_end_grain    =      12      14 (h)
+        y_tt_start_to_end_grain    =     200     200 (dd)
+        tt_end_grain_to_maturity   =          5 (dd)
+        tt_maturity_to_ripe        =          5 (dd)
+        x_pp_hi_incr               =       1.00      24.00
+        y_hi_incr                  =     0.0130     0.0130
+        x_hi_max_pot_stress        =       0.00       1.00
+        y_hi_max_pot               =       0.50       0.50
+         ------------------------------------------------
+     
+     
+      - reading root profile parameters
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.070          0.230       1.000
+         150.0     0.070          0.240       1.000
+         300.0     0.070          0.240       1.000
+         300.0     0.070          0.250       1.000
+         300.0     0.050          0.260       1.000
+         300.0     0.050          0.270       1.000
+         300.0     0.040          0.280       1.000
+         -----------------------------------------------
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
+         Crop factor for bounding water use is set to   1.1 times eo.
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+             12   30.0   12.7  250.0   0.0   0.0 sugargraze
+         ------------------------------------------------
+     
+12 January 2005(Day of year=12), manager: 
+     Manager sending message :- fertiliz apply  amount = 300, type = no3_n, depth = 50
+12 January 2005(Day of year=12), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+       300.00 of N as nitrate (no3_n)
+                                              added at depth   50.00 (layer   1)
+13 January 2005(Day of year=13), sweetsorghum: 
+      stage 2.0 germination
+17 January 2005(Day of year=17), sweetsorghum: 
+      stage 3.0 emergence
+                     biomass =           0.06 (g/m^2)   lai          =   0.003 (m^2/m^2)
+                     stover N conc =     5.85 (%)    extractable sw =   29.35 (mm)
+22 January 2005(Day of year=22), sweetsorghum: 
+      stage 4.0 end_of_juvenile
+                     biomass =           0.40 (g/m^2)   lai          =   0.013 (m^2/m^2)
+                     stover N conc =     5.79 (%)    extractable sw =   67.63 (mm)
+23 January 2005(Day of year=23), sweetsorghum: 
+         0.9901    14.4485    14.4671    562.16     562.12
+         566.79     562.12
+24 January 2005(Day of year=24), sweetsorghum: 
+         0.9615    14.4294    14.4485    557.57     557.34
+         562.12     557.34
+25 January 2005(Day of year=25), sweetsorghum: 
+         0.9339    14.4098    14.4294    553.00     552.45
+         557.34     552.45
+26 January 2005(Day of year=26), sweetsorghum: 
+         0.9114    14.3898    14.4098    548.45     547.46
+         552.45     547.46
+27 January 2005(Day of year=27), sweetsorghum: 
+         0.8888    14.3694    14.3898    543.92     542.36
+         547.46     542.36
+28 January 2005(Day of year=28), sweetsorghum: 
+         0.8630    14.3486    14.3694    539.43     537.16
+         542.36     537.16
+29 January 2005(Day of year=29), sweetsorghum: 
+         0.8357    14.3275    14.3486    535.01     531.86
+         537.16     531.86
+30 January 2005(Day of year=30), sweetsorghum: 
+         0.8064    14.3059    14.3275    530.66     526.47
+         531.86     526.47
+31 January 2005(Day of year=31), sweetsorghum: 
+         0.7728    14.2839    14.3059    526.42     520.99
+         526.47     520.99
+1 February 2005(Day of year=32), sweetsorghum: 
+         0.7403    14.2617    14.2839    522.29     515.41
+         520.99     515.41
+2 February 2005(Day of year=33), sweetsorghum: 
+         0.7069    14.2390    14.2617    518.29     509.75
+         515.41     509.75
+3 February 2005(Day of year=34), sweetsorghum: 
+         0.6718    14.2160    14.2390    514.43     504.01
+         509.75     504.01
+4 February 2005(Day of year=35), sweetsorghum: 
+         0.6446    14.1927    14.2160    510.68     498.18
+         504.01     498.18
+5 February 2005(Day of year=36), sweetsorghum: 
+         0.6167    14.1691    14.1927    507.04     492.28
+         498.18     492.28
+6 February 2005(Day of year=37), sweetsorghum: 
+         0.5843    14.1452    14.1691    503.55     486.30
+         492.28     486.30
+7 February 2005(Day of year=38), sweetsorghum: 
+         0.5533    14.1210    14.1452    500.20     480.25
+         486.30     480.25
+8 February 2005(Day of year=39), sweetsorghum: 
+         0.5190    14.0965    14.1210    497.02     474.13
+         480.25     474.13
+9 February 2005(Day of year=40), sweetsorghum: 
+         0.4823    14.0718    14.0965    494.04     467.94
+         474.13     467.94
+10 February 2005(Day of year=41), sweetsorghum: 
+         0.4453    14.0468    14.0718    491.25     461.69
+         467.94     461.69
+11 February 2005(Day of year=42), sweetsorghum: 
+         0.4129    14.0215    14.0468    488.65     455.38
+         461.69     455.38
+12 February 2005(Day of year=43), sweetsorghum: 
+         0.3860    13.9960    14.0215    486.19     449.00
+         455.38     449.00
+13 February 2005(Day of year=44), sweetsorghum: 
+         0.3573    13.9703    13.9960    483.89     442.57
+         449.00     442.57
+14 February 2005(Day of year=45), sweetsorghum: 
+         0.3294    13.9444    13.9703    481.75     436.09
+         442.57     436.09
+15 February 2005(Day of year=46), sweetsorghum: 
+         0.2993    13.9182    13.9444    479.80     429.55
+         436.09     429.55
+16 February 2005(Day of year=47), sweetsorghum: 
+         0.2734    13.8919    13.9182    478.00     422.97
+         429.55     422.97
+17 February 2005(Day of year=48), sweetsorghum: 
+         0.2430    13.8653    13.8919    476.39     416.33
+         422.97     416.33
+18 February 2005(Day of year=49), sweetsorghum: 
+         0.2117    13.8386    13.8653    474.97     409.66
+         416.33     409.66
+19 February 2005(Day of year=50), sweetsorghum: 
+         0.1775    13.8118    13.8386    473.78     402.94
+         409.66     402.94
+20 February 2005(Day of year=51), sweetsorghum: 
+         0.1460    13.7847    13.8118    472.79     396.18
+         402.94     396.18
+21 February 2005(Day of year=52), sweetsorghum: 
+         0.1143    13.7575    13.7847    472.02     389.38
+         396.18     389.38
+22 February 2005(Day of year=53), sweetsorghum: 
+         0.0841    13.7302    13.7575    471.44     382.55
+         389.38     382.55
+23 February 2005(Day of year=54), sweetsorghum: 
+         0.0525    13.7027    13.7302    471.08     375.68
+         382.55     375.68
+24 February 2005(Day of year=55), sweetsorghum: 
+         0.0178    13.6751    13.7027    470.96     368.79
+         375.68     368.79
+      stage 5.0 floral_initiation
+                     biomass =         334.69 (g/m^2)   lai          =   4.269 (m^2/m^2)
+                     stover N conc =     2.96 (%)    extractable sw =  183.96 (mm)
+1 April 2005(Day of year=91), sweetsorghum: 
+      stage 6.0 flowering
+                     biomass =        1549.33 (g/m^2)   lai          =   4.691 (m^2/m^2)
+                     stover N conc =     1.43 (%)    extractable sw =  179.38 (mm)
+12 April 2005(Day of year=102), sweetsorghum: 
+      stage 7.0 start_grain_fill
+                     biomass =        1875.86 (g/m^2)   lai          =   4.414 (m^2/m^2)
+                     stover N conc =     1.19 (%)    extractable sw =  210.47 (mm)
+28 April 2005(Day of year=118), sweetsorghum: 
+      stage 8.0 end_grain_fill
+                     biomass =        2091.66 (g/m^2)   lai          =   4.205 (m^2/m^2)
+                     stover N conc =     1.16 (%)    extractable sw =  228.80 (mm)
+29 April 2005(Day of year=119), sweetsorghum: 
+      stage 9.0 maturity
+                     biomass =        2091.66 (g/m^2)   lai          =   4.196 (m^2/m^2)
+                     stover N conc =     1.16 (%)    extractable sw =  228.15 (mm)
+30 April 2005(Day of year=120), sweetsorghum: 
+      stage 10.0 harvest_ripe
+                     biomass =        2091.66 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     1.25 (%)    extractable sw =  227.46 (mm)
+30 April 2005(Day of year=120), manager: 
+     Manager sending message :- sweetsorghum harvest
+30 April 2005(Day of year=120), sweetsorghum: 
+     
+      flowering day          =   91                           stover (kg/ha)         =    18573.8
+      maturity day           =  119                           grain yield (kg/ha)    =     2342.8
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2677.5
+      grain wt (g)           =    0.023                       grains/m^2             =  10246.788
+      grains/plant           =  806.8                         maximum lai            =      5.626
+      total above ground biomass (kg/ha)    =    20916.6
+      live above ground biomass (kg/ha)     =    20916.6
+      green above ground biomass (kg/ha)    =    16613.1
+      senesced above ground biomass (kg/ha) =     4303.5
+      dead above ground biomass (kg/ha)     =        0.0
+      number of leaves       =   22.0
+      DM Root:Shoot ratio    =    0.171                       Harvest Index          =      0.112
+      Stover C:N ratio       =   35.661                       Root C:N ratio         =     20.877
+      grain N percent        =       4.28                     total N content (kg/ha)=     308.53
+      grain N uptake (kg/ha) =     100.20                     senesced N content (kg/ha)=   30.12
+      green N content (kg/ha)=     178.21                     dead N content (kg/ha) =       0.00
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.040
+         floral_initiation    to flowering               0.000        0.000        0.039        0.186
+         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.000
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               18573.71                    0.00
+                          N  (kg/ha) =                208.33                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               2342.82                    0.00
+                          N  (kg/ha) =                100.20                    0.00
+     
+      stage 11.0 end_crop
+30 April 2005(Day of year=120), manager: 
+     Manager sending message :- sweetsorghum end_crop
+30 April 2005(Day of year=120), sweetsorghum: 
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.04                 3573.53
+                          N  (kg/ha) =                  0.00                   68.47
+     
+31 May 2005(Day of year=151), clock: 
+     Simulation is terminating due to end criteria being met.
