@@ -453,6 +453,23 @@
 
       call push_routine (my_name)
 
+  ! ensure crop variables are registered with fortran modules (e.g. cropmod)
+  !-------------------------------------------------------------------------
+      call sysbal_reg_variable ('sorghum', n_green, gm2)
+      call sysbal_reg_variable ('sorghum', n_senesced, gm2)
+      call sysbal_reg_variable ('sorghum', n_dead, gm2)
+      call sysbal_reg_variable ('sorghum', dlt_n_fixed, gm2)
+
+      call sysbal_reg_variable ('maize', n_green, gm2)
+      call sysbal_reg_variable ('maize', n_senesced, gm2)
+      call sysbal_reg_variable ('maize', n_dead, gm2)
+      call sysbal_reg_variable ('maize', dlt_n_fixed, gm2)
+
+      call sysbal_reg_variable ('sunflower', n_green, gm2)
+      call sysbal_reg_variable ('sunflower', n_senesced, gm2)
+      call sysbal_reg_variable ('sunflower', n_dead, gm2)
+      call sysbal_reg_variable ('sunflower', dlt_n_fixed, gm2)
+
   ! define system states
   !---------------
 
@@ -566,6 +583,20 @@
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+
+  ! ensure crop variables are registered with fortran modules (e.g. cropmod)
+  !-------------------------------------------------------------------------
+      call sysbal_reg_variable ('sorghum', p_green, gm2)
+      call sysbal_reg_variable ('sorghum', p_senesced, gm2)
+      call sysbal_reg_variable ('sorghum', p_dead, gm2)
+
+      call sysbal_reg_variable ('maize', p_green, gm2)
+      call sysbal_reg_variable ('maize', p_senesced, gm2)
+      call sysbal_reg_variable ('maize', p_dead, gm2)
+
+      call sysbal_reg_variable ('sunflower', p_green, gm2)
+      call sysbal_reg_variable ('sunflower', p_senesced, gm2)
+      call sysbal_reg_variable ('sunflower', p_dead, gm2)
 
   ! define system states
   !---------------
@@ -681,11 +712,32 @@
       character  dlt_dm_green*30
       parameter (dlt_dm_green = 'dlt_dm_green()')
 
+
 *+  Local Variables
 
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+
+  ! ensure crop variables are registered with fortran modules (e.g. cropmod)
+  !-------------------------------------------------------------------------
+      call sysbal_reg_variable ('sorghum', dm_green, gm2)
+      call sysbal_reg_variable ('sorghum', dm_senesced, gm2)
+      call sysbal_reg_variable ('sorghum', dm_dead, gm2)
+      call sysbal_reg_variable ('sorghum', dlt_dm_oil_conv_retrans, gm2)
+      call sysbal_reg_variable ('sorghum', dlt_dm_green, gm2)
+
+      call sysbal_reg_variable ('maize', dm_green, gm2)
+      call sysbal_reg_variable ('maize', dm_senesced, gm2)
+      call sysbal_reg_variable ('maize', dm_dead, gm2)
+      call sysbal_reg_variable ('maize', dlt_dm_oil_conv_retrans, gm2)
+      call sysbal_reg_variable ('maize', dlt_dm_green, gm2)
+
+      call sysbal_reg_variable ('sunflower', dm_green, gm2)
+      call sysbal_reg_variable ('sunflower', dm_senesced, gm2)
+      call sysbal_reg_variable ('sunflower', dm_dead, gm2)
+      call sysbal_reg_variable ('sunflower',dlt_dm_oil_conv_retrans,gm2)
+      call sysbal_reg_variable ('sunflower', dlt_dm_green, gm2)
 
   ! define system states
   !---------------
@@ -808,6 +860,26 @@
 
       call push_routine (my_name)
 
+  ! ensure crop variables are registered with fortran modules (e.g. cropmod)
+  !-------------------------------------------------------------------------
+      call sysbal_reg_variable ('sorghum', dm_green, gm2)
+      call sysbal_reg_variable ('sorghum', dm_senesced, gm2)
+      call sysbal_reg_variable ('sorghum', dm_dead, gm2)
+      call sysbal_reg_variable ('sorghum', dlt_dm_oil_conv_retrans, gm2)
+      call sysbal_reg_variable ('sorghum', dlt_dm_green, gm2)
+
+      call sysbal_reg_variable ('maize', dm_green, gm2)
+      call sysbal_reg_variable ('maize', dm_senesced, gm2)
+      call sysbal_reg_variable ('maize', dm_dead, gm2)
+      call sysbal_reg_variable ('maize', dlt_dm_oil_conv_retrans, gm2)
+      call sysbal_reg_variable ('maize', dlt_dm_green, gm2)
+
+      call sysbal_reg_variable ('sunflower', dm_green, gm2)
+      call sysbal_reg_variable ('sunflower', dm_senesced, gm2)
+      call sysbal_reg_variable ('sunflower', dm_dead, gm2)
+      call sysbal_reg_variable ('sunflower',dlt_dm_oil_conv_retrans,gm2)
+      call sysbal_reg_variable ('sunflower', dlt_dm_green, gm2)
+
   ! define system states
   !---------------
 
@@ -906,6 +978,12 @@
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+
+  ! ensure crop variables are registered with fortran modules (e.g. cropmod)
+  !-------------------------------------------------------------------------
+      call sysbal_reg_variable ('sorghum', ep, mm)
+      call sysbal_reg_variable ('maize', ep, mm)
+      call sysbal_reg_variable ('sunflower', ep, mm)
 
   ! define system states
   !---------------
@@ -1007,6 +1085,51 @@
       call pop_routine (my_name)
       return
       end function
+
+*     ===========================================================
+      subroutine sysbal_reg_variable (mod_name, var_name, units)
+*     ===========================================================
+
+      Use Infrastructure
+      implicit none
+
+      character mod_name*(*)
+      character var_name*(*)
+      character units*(*)
+
+*+  Purpose
+*      Register get variables from other modules
+
+*+  Changes
+*      201093 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! procedure name
+      parameter (my_name='sysbal_reg_variable')
+
+*+  Local Variables
+      real dummy
+      integer numvals
+      logical ok
+      integer modNameID
+
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      ok = component_name_to_id(Mod_name, modNameID)
+      if (ok) then
+         call Get_real_var_optional (modNameID, trim(var_name)
+     :                             , trim(units), dummy, numvals
+     :                             , 0.0, 1.0e6)
+      else
+      endif
+
+
+      call pop_routine (my_name)
+      return
+      end subroutine
 
 *     ===========================================================
       integer function sysbal_get_last_index (var_name, units)
