@@ -78,6 +78,7 @@
          real maxt
          real eos
          real es
+         real cover_tot
       end type SoilTempExternals
 ! ====================================================================
       type SoilTempParameters
@@ -92,6 +93,7 @@
          real  vol_spec_heat_clay         !(Joules*m-3*K-1)
          real  vol_spec_heat_om           !(Joules*m-3*K-1)
          real  vol_spec_heat_water        !(Joules*m-3*K-1)
+         real  maxt_time_default          !in hours
 
       end type SoilTempConstants
 ! ====================================================================
@@ -219,7 +221,7 @@
 
          call soiltemp_therm(g%therm_cond)
 
-         call soiltemp_thomas()
+         call soiltemp_thomas ()
 
          call soiltemp_update()
 
@@ -337,6 +339,82 @@
 * ====================================================================
       Recursive
      :subroutine soiltemp_thomas ()
+* ====================================================================
+      Use infrastructure
+      implicit none
+
+*+  Purpose
+*     Numerical solution of the differential equations. Solves the
+*     tri_diagonal matrix using the Thomas algorithm, Thomas, L.H. (1946)
+*     "Elliptic problems in linear difference equations over a network"
+*     Watson Sci Comput. Lab. Report., (Columbia University, New York)"
+
+*+  Mission statement
+*     Numerical solution of the differential equations.
+
+*+  Changes
+*     27-05-1995 - vals - Programmed and Specified
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'soiltemp_thomas')
+
+*+  Local Variables
+      integer i
+      real a(max_node)
+      real b(max_node)
+      real cc(max_node)
+      real d(max_node)
+      real heat(max_node)
+      real therm(0:max_node)
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      therm(0) = g%therm_cond(0)
+      do i = 1,g%nz
+         heat(i) = g%heat_store(i) * 0.5 * (g%z(i+1) - g%z(i-1)) / g%dt   !rate of heat
+         therm(i) = g%therm_cond(i) / (g%z(i+1)-g%z(i))     !convert to thermal conduc
+      enddo
+!John's version
+      do i=1,g%nz
+         cc(i) =  -c%nu * therm(i)
+         a(i+1) =  cc(i)
+         b(i) =   c%nu * (therm(i) + therm(i-1)) + heat(i)
+         d(i) = (1-c%nu) * therm(i-1) * g%t(i-1)
+     :        + (heat(i) - (1-c%nu) * (therm(i) + therm(i-1))) * g%t(i)
+     :        + (1-c%nu) * therm(i) * g%t(i+1)
+      enddo
+      a(1) = 0.0
+      d(1) = d(1) + therm(0)* g%tn(0) * c%nu
+!      if (e%cover_tot .gt. 0.007) then
+!      e%eos = u_bound (e%eos, 3.0)
+      if ((e%eos - e%es) .gt. 0.2) then
+         d(1) = d(1) + (e%eos - e%es) * lambda / e%timestepsec
+      endif
+!last line is unfullfilled soil water evaporation
+      d(g%nz) =  d(g%nz) + therm(g%nz) * c%nu * g%tn(g%nz+1)
+
+! the Thomas algorithm
+         do i=1,g%nz-1
+            cc(i)=cc(i)/b(i)
+            d(i)=d(i)/b(i)
+            b(i+1)=b(i+1)-a(i+1)*cc(i)
+            d(i+1)=d(i+1)-a(i+1)*d(i)
+         enddo
+         g%tn(g%nz)=d(g%nz)/b(g%nz)
+         do i = g%nz-1,1,-1
+            g%tn(i)=d(i)-cc(i)*g%tn(i+1)
+         enddo
+
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
+* ====================================================================
+      Recursive
+     :subroutine soiltemp_thomas_VS ()
 * ====================================================================
       Use infrastructure
       implicit none
@@ -539,10 +617,12 @@
          e%sw(:)       = 0.0
          e%rhob(:)     = 0.0
          e%maxt_time   = 0.0
+         c%maxt_time_default   = 0.0
          e%mint        = 0.0
          e%maxt        = 0.0
          e%eos         = 0.0
          e%es          = 0.0
+         e%cover_tot   = 0.0
 
          p%clay(:)              = 0.0
 
@@ -739,6 +819,11 @@
      :          ,0.0                  !lower
      :          ,24.0)                 !upper
 
+      if (numvals .lt. 1) then
+         e%maxt_time = c%maxt_time_default   ! maxt_time wasn't found - use default
+      else
+      endif
+
 !mint
       call get_real_var (
      :      unknown_module ! module that responds (not used)
@@ -779,6 +864,18 @@
      :     ,0.0            ! lower limit for bound checking
      :     ,100.0)           ! upper limit for bound checking
       if (numvals .eq. 0) e%es = 0.0
+!      e%eos = bound (e%eos*0.5, e%es, e%eos)
+
+!cover_tot
+      call get_real_var_optional (
+     :      unknown_module ! module that responds (not used)
+     :     ,'cover_tot'          ! variable name
+     :     ,'(0-1)'        ! units                (not used)
+     :     ,e%cover_tot            ! variable
+     :     ,numvals         ! number of values returned
+     :     ,0.0            ! lower limit for bound checking
+     :     ,1.0)           ! upper limit for bound checking
+      if (numvals .eq. 0) e%cover_tot = 0.0
 
       call pop_routine (myname)
       return
@@ -1085,6 +1182,15 @@
      :          ,numvals             ! number of values returned
      :          ,1e6                  !lower
      :          ,1e7)                 !upper
+
+      call read_real_var (
+     :           section_name         ! section header
+     :          ,'maxt_time_default'               ! keyword
+     :          ,'(hrs)'             ! units
+     :          ,c%maxt_time_default                 ! array
+     :          ,numvals             ! number of values returned
+     :          ,0.0                  !lower
+     :          ,24.0)                 !upper
 
       call pop_routine (myname)
       return
