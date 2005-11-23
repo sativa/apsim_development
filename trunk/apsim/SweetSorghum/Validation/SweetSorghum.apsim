@@ -329,10 +329,10 @@
       <other />
       <Comment>oc and ph not measured</Comment>
       <InitWater>
-        <percentmethod>
-          <percent>1</percent>
-          <distributed>filled from top</distributed>
-        </percentmethod>
+        <PercentMethod>
+          <Percent>0.83</Percent>
+          <Distributed>Filled from top</Distributed>
+        </PercentMethod>
       </InitWater>
       <InitNitrogen>
         <layer name="1">
@@ -396,7 +396,7 @@
           <xf>1</xf>
         </layer>
         <layer name="7">
-          <ll>0.36</ll>
+          <ll>0.38</ll>
           <kl>0.01</kl>
           <xf>1</xf>
         </layer>
