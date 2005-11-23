@@ -840,6 +840,7 @@ module DateModule
 
       Lower_month = Lower_case(Month_string)
 
+      Month = 0
       do 10 Indx = 1, 12
          if (Month_names(Indx) .eq. Lower_month) then
             Month = Indx
