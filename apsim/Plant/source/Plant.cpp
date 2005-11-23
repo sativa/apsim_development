@@ -244,7 +244,7 @@ void Plant::doRegistrations(protocol::Component *system)
                g.crop_class, "", "Plant crop class");
 
    setupGetFunction(parent, "leaf_no", protocol::DTsingle, false,
-                    &Plant::get_leaf_no, "leaves/m2", "number of leaves per square meter");
+                    &Plant::get_leaf_no, "leaves/plant", "number of leaves per plant");
 
    parent->addGettableVar("node_no",
                g.node_no, "nodes/plant", "number of mainstem nodes per plant");
