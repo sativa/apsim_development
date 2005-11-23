@@ -197,7 +197,6 @@
          real dlt_dm_sen(max_part) ! plant death (kg/ha)
          real detach(max_part)   ! detached dm for residue (kg/ha)
          real litter             ! sum of dm for residue (kg/ha)
-         real litter_pool        ! residue pool (kg/ha)
          real biomass_yesterday  ! balance check (kg/ha)
          real soil_loss          ! soil loss from erosion (t/ha)
 
@@ -401,28 +400,31 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-      call grasp_save_yesterday () ! save for mass balance check
+      if ( g%crop_status .eq. crop_alive) then
 
-      call grasp_soil_loss ()      ! erode N from profile
-
-c     do N at start of day to calculate N indexes for growth.
-      call grasp_nitrogen ()   ! N uptake
-
-      call grasp_transpiration () ! water uptake
-
-      call grasp_phenology ()  ! phenological processes
-
-      call grasp_biomass ()    ! biomass production
-
-      call grasp_plant_death () ! see if sward has died (unused)
-
-      call grasp_store_report_vars () ! collect totals for output
-
-      call grasp_update ()     ! update pools
-
-      call grasp_balance_check () ! check we haven't gone silly
-
-      call grasp_event ()      ! do events of interest (date resets etc)
+         call grasp_save_yesterday () ! save for mass balance check
+    
+         call grasp_soil_loss ()      ! erode N from profile
+    
+c        do N at start of day to calculate N indexes for growth.
+         call grasp_nitrogen ()   ! N uptake
+    
+         call grasp_transpiration () ! water uptake
+    
+         call grasp_phenology ()  ! phenological processes
+    
+         call grasp_biomass ()    ! biomass production
+    
+         call grasp_plant_death () ! see if sward has died (unused)
+    
+         call grasp_store_report_vars () ! collect totals for output
+    
+         call grasp_update ()     ! update pools
+    
+         call grasp_balance_check () ! check we haven't gone silly
+    
+         call grasp_event ()      ! do events of interest (date resets etc)
+      endif
 
       call pop_routine (my_name)
       return
@@ -453,12 +455,14 @@ c     do N at start of day to calculate N indexes for growth.
 
       call grasp_zero_daily_variables ()
       call grasp_get_other_variables ()
-
-      call grasp_calculate_swi ()
-
-      g%out_sw_demand = grasp_sw_pot ()        !!  = f(pan)
-      g%out_total_cover = grasp_total_cover () !!  = f(pool size)
-
+      
+      if ( g%crop_status .eq. crop_alive) then
+         call grasp_calculate_swi ()
+   
+         g%out_sw_demand = grasp_sw_pot ()        !!  = f(pan)
+         g%out_total_cover = grasp_total_cover () !!  = f(pool size)
+      endif
+      
       call pop_routine (my_name)
       return
       end subroutine
@@ -2113,9 +2117,6 @@ c      need to be changed. FIXME!
          g%litter = g%litter + g%detach(part)
  1000    continue
 
-c      call grasp_add_residue (g%litter, c%litter_n * g%litter)
-
-
       call Grasp_Send_Crop_Chopped_Event (g%detach(:)
      :                                  ,g%detach(:)*c%litter_n)
 
@@ -2529,14 +2530,31 @@ c     Bound to reasonable values:
       g%day_of_year   = 0
       g%crop_status   = 0
 
-      g%fr_intc_radn = 0.0
-      g%radn         = 0.0
+      g%current_stage   = 0.0
+      g%previous_stage  = 0.0
 
-      g%mint         = 0.0
-      g%maxt         = 0.0
-      g%pan          = 0.0
-      g%vpd          = 0.0
+      call fill_real_array (g%dm_green, 0.0, max_part)
+      call fill_real_array (g%dm_dead, 0.0, max_part)
+      g%root_depth      = 0.0
+      g%canopy_height     = 0.0
 
+      call fill_real_array (g%no3, 0.0, max_layer)
+      call fill_real_array (g%no3_min, 0.0, max_layer)
+      g%N_uptake     = 0.0
+
+      g%num_layers   = 0
+      call fill_real_array (g%dlayer, 0.0, max_layer)
+      call fill_real_array (g%dul_dep, 0.0, max_layer)
+      call fill_real_array (g%ll_dep, 0.0, max_layer)
+      call fill_real_array (g%sw_dep, 0.0, max_layer)
+      call fill_real_array (g%rlv, 0.0, max_layer)
+      call fill_real_array (g%bd, 0.0, max_layer)
+      call fill_real_array (g%layer_fract, 0.0, max_layer)
+
+      c%svp_fract = 0.0
+      c%minsw     = 0.0
+      c%litter_n     = 0.0
+      c%stem_thresh      = 0.0
       call fill_real_array (c%x_sw_ratio, 0.0, max_table)
       call fill_real_array (c%y_sw_fac_root, 0.0, max_table)
       call fill_real_array (c%x_sw_demand_ratio, 0.0, max_table)
@@ -2546,75 +2564,16 @@ c     Bound to reasonable values:
       c%num_sw_ratio          = 0
       c%num_sw_demand_ratio   = 0
       c%num_sw_avail_ratio    = 0
-
-      g%dlt_stage        = 0.0
-      g%current_stage   = 0.0
-      g%previous_stage  = 0.0
-      call fill_real_array (p%stage_code_list, 0.0, max_stage)
-
-      g%dlt_dm          = 0.0
-      call fill_real_array (g%dlt_dm_plant, 0.0, max_part)
-      call fill_real_array (g%dm_green, 0.0, max_part)
-      call fill_real_array (g%dm_dead, 0.0, max_part)
-      g%dlt_root_depth  = 0.0
-      g%root_depth      = 0.0
-      g%dlt_canopy_height = 0.0
-      g%canopy_height     = 0.0
-
-
-      call fill_real_array (g%dlt_no3, 0.0, max_layer)
-      call fill_real_array (g%no3, 0.0, max_layer)
-      call fill_real_array (g%no3_min, 0.0, max_layer)
-      c%litter_n     = 0.0
-      g%N_uptake     = 0.0
-
-      call fill_real_array (p%rue, 0.0, max_stage)
-
-      p%yld_fpc50        = 0.0
-      p%yld_cov50        = 0.0
-      p%yld_cover_slope  = 0.0
-      c%stem_thresh      = 0.0
-
-      call fill_real_array (g%dlayer, 0.0, max_layer)
-      call fill_real_array (g%dlt_sw_dep, 0.0, max_layer)
-      call fill_real_array (g%dul_dep, 0.0, max_layer)
-      call fill_real_array (g%ll_dep, 0.0, max_layer)
-      call fill_real_array (g%sw_dep, 0.0, max_layer)
-      call fill_real_array (g%swi, 0.0, max_layer)
-      call fill_real_array (g%rlv, 0.0, max_layer)
-      call fill_real_array (g%bd, 0.0, max_layer)
-      call fill_real_array (g%layer_fract, 0.0, max_layer)
-
-
-       g%swi_total     = 0.0
-       g%rawswi_total = 0.0
-       g%num_layers   = 0
-
-      g%out_radn_cover     = 0.0
-      g%out_transp_cover   = 0.0
-      g%out_total_cover    = 0.0
-      g%out_clothesline    = 0.0
-      g%out_sw_pot         = 0.0
-      g%out_growth_transp  = 0.0
-      g%out_growth_regrow  = 0.0
-      g%out_growth_photo   = 0.0
-      g%out_sw_demand      = 0.0
-      call fill_real_array (g%out_death_frost, 0.0, max_part)
-      call fill_real_array (g%out_death_pheno, 0.0, max_part)
-      call fill_real_array (g%out_death_water, 0.0, max_part)
-      g%out_rfact          = 0.0
-      g%out_nfact          = 0.0
-      g%out_tfact          = 0.0
-
-      c%svp_fract = 0.0
-
-      c%minsw     = 0.0
-
       call fill_real_array (c%x_ave_temp, 0.0, max_table)
       call fill_real_array (c%y_stress_photo, 0.0, max_table)
       c%num_ave_temp     = 0
       c%num_factors      = 0
 
+      call fill_real_array (p%stage_code_list, 0.0, max_stage)
+      call fill_real_array (p%rue, 0.0, max_stage)
+      p%yld_fpc50        = 0.0
+      p%yld_cov50        = 0.0
+      p%yld_cover_slope  = 0.0
 
       c%ll_ub       = 0.0
       c%sw_dep_ub   = 0.0
@@ -2623,8 +2582,6 @@ c     Bound to reasonable values:
       c%no3_lb      = 0.0
       c%no3_min_ub  = 0.0
       c%no3_min_lb  = 0.0
-
-
       c%latitude_ub  = 0.0
       c%latitude_lb  = 0.0
       c%maxt_ub      = 0.0
@@ -2692,15 +2649,11 @@ c     Bound to reasonable values:
       g%tree_sw_demand = 0.0
       g%es = 0.0
       g%basal_area = 0.0
-      g%dlt_basal_area = 0.0
-      call fill_real_array (g%dlt_dm_sen, 0.0, max_part)
       g%acc_trans_for_N = 0.0
       g%acc_growth_for_N = 0.0
       g%acc_growth = 0.0
       call fill_real_array (g%detach, 0.0, max_part)
       g%litter = 0.0
-      g%litter_pool = 0.0
-      g%biomass_yesterday = 0.0
       g%soil_loss = 0.0
       p%enr_a_coeff = 0.0
       p%enr_b_coeff = 0.0
@@ -2758,6 +2711,30 @@ c     Bound to reasonable values:
       g%dlt_stage = 0.0
       g%litter = 0.0
       g%tree_sw_demand = 0.0
+      g%dlt_basal_area = 0.0
+      g%biomass_yesterday = 0.0
+
+      call fill_real_array (g%dlt_dm_plant, 0.0, max_part)
+      call fill_real_array (g%dlt_no3, 0.0, max_layer)
+      call fill_real_array (g%dlt_dm_sen, 0.0, max_part)
+
+      g%fr_intc_radn = 0.0
+      g%radn         = 0.0
+      g%mint         = 0.0
+      g%maxt         = 0.0
+      g%pan          = 0.0
+      g%vpd          = 0.0
+
+      g%swi_total     = 0.0
+      g%rawswi_total = 0.0
+      call fill_real_array (g%swi, 0.0, max_layer)
+
+      g%out_growth_transp  = 0.0
+      g%out_growth_regrow  = 0.0
+      g%out_growth_photo   = 0.0
+      call fill_real_array (g%out_death_frost, 0.0, max_part)
+      call fill_real_array (g%out_death_pheno, 0.0, max_part)
+      call fill_real_array (g%out_death_water, 0.0, max_part)
 
       call pop_routine (my_name)
       return
@@ -2791,7 +2768,7 @@ c     Bound to reasonable values:
 
       call push_routine (my_name)
 
-      call Write_string (' Initialising: ')
+      call Write_string ('Initialising:')
 
                                 ! initialize crop variables
       call grasp_read_constants ()
@@ -2802,89 +2779,12 @@ c     Bound to reasonable values:
 
                                 ! parameter file
       call grasp_read_parameters ()
-
-                                ! Initial conditions
-      g%dm_green(root) = p%dm_green_root_init
-      g%dm_green(stem) = p%dm_green_stem_init
-      g%dm_green(leaf) = p%dm_green_leaf_init
-
-      g%dm_dead(root) = p%dm_dead_root_init
-      g%dm_dead(stem) = p%dm_dead_stem_init
-      g%dm_dead(leaf) = p%dm_dead_leaf_init
-
-      g%basal_area = p%basal_area_init
-      g%root_depth = p%root_depth_init
-
-      g%acc_trans_for_n = p%acc_trans_for_n_init
-      g%acc_growth_for_n = p%acc_growth_for_n_init
-
-      g%current_stage = real (establishment)
-      g%crop_status = crop_alive
-
-      num_layers = count_of_real_vals (g%dlayer, max_layer)
-      do 100 layer = 1, num_layers
-         g%rlv(layer) = p%kl(layer) * p%kl2rlv
-100   continue
-
-                                ! write summary
-      call grasp_write_summary ()
-
+      call Grasp_write_summary()
+      
       call pop_routine (my_name)
       return
       end subroutine
 
-
-
-*     ===========================================================
-      subroutine grasp_add_residue (dlt_residue_weight, dlt_residue_N)
-*     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      real       dlt_residue_weight ! (INPUT) new surface residue (kg/ha)
-      real       dlt_residue_N  ! (INPUT) new surface residue N (kg/ha)
-
-*+  Purpose
-*       add residue to residue pool
-
-*+  Changes
-*       220794 jngh specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)    ! name of procedure
-      parameter (my_name  = 'grasp_add_residue')
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      if (dlt_residue_weight .gt. 0.0) then
-c         write (*,*) 'grasp is adding residue :'
-c         write (*,*) ' type = ', p%crop_type
-c         write (*,*) ' wt = ', dlt_residue_weight
-c         write (*,*) ' n = ', dlt_residue_N
-
-                                  ! send out surface residue
-         call new_postbox ()
-         call post_char_var ('dlt_residue_type',
-     :        '()', p%crop_type)
-         call post_real_var ('dlt_residue_wt',
-     :        '(kg/ha)', dlt_residue_weight)
-         call post_real_var ('dlt_residue_n',
-     :        '(kg/ha)', dlt_residue_n)
-
-         call event_send ('add_residue')
-
-         call delete_postbox ()
-
-      else
-                                ! no surface residue
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
 
 
 
@@ -3996,9 +3896,6 @@ cpdev. One of these is right. I don't know which...
 
       call push_routine (my_name)
 
-      call write_string (
-     :                  new_line//'    - Reading constants')
-
                                 ! Bounds
       call read_real_var (section_name
      :                    , 'll_ub', '()'
@@ -4242,12 +4139,14 @@ c     :                    , 0.0, 365.0)
       end subroutine
 
 
-
 *     ===========================================================
-      subroutine grasp_read_parameters ()
+      subroutine grasp_read_init_parameters (section_name)
 *     ===========================================================
       Use infrastructure
       implicit none
+
+*+  Sub-Program Arguments
+      character section_name*(*)      ! (INPUT) section name to use
 
 *+  Purpose
 *       get parameters
@@ -4255,46 +4154,13 @@ c     :                    , 0.0, 365.0)
 *+  Changes
 *       090994 jngh specified and programmed
 
-*+  Calls
-
+*+  Local Variables
+      integer numvals
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'grasp_read_parameters')
+      parameter (my_name = 'grasp_read_init_parameters')
 *
-      character  section_name*(*)
-      parameter (section_name = 'parameters')
-
-*+  Local Variables
-      integer    layer                 ! layer number
-      real       ll (max_layer)        ! lower limit of plant-extractable
-                                       !   soil water for soil layer l
-                                       !   (mm water/mm soil)
-      integer    num_layers            ! number of layers in profile
-      integer    numvals
-      real       max_n_avail            ! initial max_n_avail
-      real  max_n_avail_dist(max_layer) ! initial distribution of N
-                                        ! over profile (sum=1)
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      call write_string (
-     :                  new_line
-     :                  //'   - Reading parameters')
-
-      call read_char_var (section_name
-     :     , 'uptake_source', '()'
-     :     , p%uptake_source, numvals)
-      if (p%uptake_source .ne. 'calc' .and.
-     :     p%uptake_source .ne. 'apsim') then
-         call fatal_error(err_user, 'Unknown uptake_source.')
-      endif
-
-      call read_char_var (section_name
-     :                     , 'crop_type', '()'
-     :                     , p%crop_type, numvals)
 
                                 ! Initial values
       call read_real_var (section_name
@@ -4346,6 +4212,62 @@ c     :                    , 0.0, 365.0)
      :                   , 'acc_growth_for_n_init', '()'
      :                   , p%acc_growth_for_N_init, numvals
      :                   , 0.0, 10000.0)
+
+
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+
+*     ===========================================================
+      subroutine grasp_read_parameters ()
+*     ===========================================================
+      Use infrastructure
+      implicit none
+
+*+  Purpose
+*       get parameters
+
+*+  Changes
+*       090994 jngh specified and programmed
+
+*+  Calls
+
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'grasp_read_parameters')
+*
+      character  section_name*(*)
+      parameter (section_name = 'parameters')
+
+*+  Local Variables
+      integer    layer                 ! layer number
+      real       ll (max_layer)        ! lower limit of plant-extractable
+                                       !   soil water for soil layer l
+                                       !   (mm water/mm soil)
+      integer    num_layers            ! number of layers in profile
+      integer    numvals
+      real       max_n_avail            ! initial max_n_avail
+      real  max_n_avail_dist(max_layer) ! initial distribution of N
+                                        ! over profile (sum=1)
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      call read_char_var (section_name
+     :     , 'uptake_source', '()'
+     :     , p%uptake_source, numvals)
+      if (p%uptake_source .ne. 'calc' .and.
+     :     p%uptake_source .ne. 'apsim') then
+         call fatal_error(err_user, 'Unknown uptake_source.')
+      endif
+
+      call read_char_var (section_name
+     :                     , 'crop_type', '()'
+     :                     , p%crop_type, numvals)
 
       call read_real_var (section_name
      :                   , 'max_n_avail', '()'
@@ -4409,6 +4331,11 @@ c     :                    , 0.0, 365.0)
      :                    , 'kl2rlv', '(mm)'
      :                    , p%kl2rlv, numvals
      :                    , 0.0, 10000.0)
+
+      num_layers = count_of_real_vals (g%dlayer, max_layer)
+      do 100 layer = 1, num_layers
+         g%rlv(layer) = p%kl(layer) * p%kl2rlv
+100   continue
 
                                 ! Plant properties
 c      call read_real_var (section_name
@@ -4629,8 +4556,6 @@ c     :                    , 0.0, 10000.0)
 
       call push_routine (my_name)
 
-      call Write_string ( 'Establishing Sward')
-
       write (string, '(a)')
      :     'Parameters: '
       call write_string (string)
@@ -4692,7 +4617,40 @@ c     :                    , 0.0, 10000.0)
 2000  continue
 
       string = '    --------------------------------------------'
-      call write_string (string)
+      call write_string (string//new_line)
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+*     ===========================================================
+      subroutine grasp_write_estab_summary ()
+*     ===========================================================
+      Use infrastructure
+      implicit none
+
+*+  Purpose
+*       write summary info to summary file.
+
+*+  Changes
+*     010994 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'grasp_write_est_summary')
+
+*+  Local Variables
+      character string*200
+      character owner_module*200
+      integer   layer
+      integer   numvals
+      real      value
+      integer   owner_module_id
+      logical   ok
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
 
       write (string, '(a)')
      :     'Initial conditions:'
@@ -4763,8 +4721,6 @@ c     :                    , 0.0, 10000.0)
      :        trim(owner_module), ' module.'
       endif
       call write_string (string)
-
-      call write_string (new_line//new_line)
 
       call pop_routine (my_name)
       return
@@ -4921,6 +4877,118 @@ c     :                    , 0.0, 10000.0)
       return
       end subroutine
 
+*     ===========================================================
+      subroutine grasp_establish ()
+*     ===========================================================
+      Use infrastructure
+      implicit none
+
+*+  Purpose
+*     Establish a sward
+
+*+  Changes
+*      250894 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'grasp_establish')
+
+*+  Local Variables
+      character*(80) section_name          ! name of section with initial values
+      integer  numvals
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      ! Notify system that we have initialised
+      call Write_string ( 'Establishing Sward')
+      call Publish_null (id%establishing)
+
+      call collect_char_var('init_section', '()'
+     :                      , section_name, numvals)
+
+      call Grasp_read_init_parameters (section_name)
+
+      ! Initial conditions
+      g%dm_green(root) = p%dm_green_root_init
+      g%dm_green(stem) = p%dm_green_stem_init
+      g%dm_green(leaf) = p%dm_green_leaf_init
+
+      g%dm_dead(root) = p%dm_dead_root_init
+      g%dm_dead(stem) = p%dm_dead_stem_init
+      g%dm_dead(leaf) = p%dm_dead_leaf_init
+
+      g%basal_area = p%basal_area_init
+      g%root_depth = p%root_depth_init
+
+      g%acc_trans_for_n = p%acc_trans_for_n_init
+      g%acc_growth_for_n = p%acc_growth_for_n_init
+
+      g%current_stage = real (establishment)
+      g%crop_status = crop_alive
+
+      ! write summary
+      call grasp_write_estab_summary ()
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+*     ===========================================================
+      subroutine grasp_kill ()
+*     ===========================================================
+      Use infrastructure
+      implicit none
+
+*+  Purpose
+*       Kill a sward
+
+*+  Changes
+*      250894 jngh specified and programmed
+
+*+  Calls
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'grasp_kill')
+
+*+  Local Variables
+      real dlt_dm(max_part)
+      real dlt_n(max_part)
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      ! Notify system that we have stopped
+      call Write_string ('Killing')
+      call Publish_null (id%killing)
+
+      ! Publish an event stating biomass flows to other parts of the system
+      dlt_dm(:) = g%dm_green(:) + g%dm_dead(:)
+      dlt_n(:) = 0.0
+      dlt_n(leaf) = g%N_uptake
+
+      call Grasp_Send_Crop_Chopped_Event (dlt_dm, dlt_n)
+
+C     zero a few important state variables      
+      g%current_stage = real (crop_end)
+      g%crop_status = crop_out
+      call fill_real_array (g%dm_green, 0.0, max_part)
+      call fill_real_array (g%dm_dead, 0.0, max_part)
+      g%root_depth      = 0.0
+      g%basal_area      = 0.0
+      g%acc_trans_for_n = 0.0
+      g%acc_growth_for_n = 0.0
+
+      call grasp_zero_daily_variables ()
+
+      call grasp_store_report_vars ()
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+
 
       end module GraspModule
 
@@ -5042,6 +5110,12 @@ c     :                    , 0.0, 10000.0)
          call grasp_process ()
                                 ! send changes to owner-modules
          call grasp_set_other_variables ()
+
+      else if (Action.eq.'establish') then
+         call Grasp_establish()
+
+      else if (Action.eq.'kill') then
+         call Grasp_kill()
 
       else
          call message_unused ()
