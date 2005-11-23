@@ -941,6 +941,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       character plant_status*100
       logical more_crops_to_check
       integer numMonths
+      logical IsReal
 
 !- Implementation Section ----------------------------------
       Is_apsim_variable = (index(variable_name, '.') .gt. 0)
@@ -952,8 +953,22 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Get_char_var (Unknown_module, 'today', '', Todaystr,
      .                        numvals)
          call string_to_double_var (Todaystr, Today, numvals)
-         call Double_var_to_string (Date(Params(1), Today),
-     .                              Variable_value)
+         numvals = 0
+         call String_to_jday (Params(1), d_var_val, numvals, Today)
+         if (numvals .eq. 0) then
+            call Parse_get_variable(Params(1), Str, IsReal)
+            if (.not. IsReal) then
+               call Double_var_to_string (Date(Str, Today),
+     .                                    Variable_value)
+            else
+               ! This will give a fatal_error
+               call Double_var_to_string (Date(Params(1), Today),
+     .                                    Variable_value)
+            endif
+         else
+            call Double_var_to_string (Date(Params(1), Today),
+     .                                Variable_value)
+         endif
          valueIsReal = .false.
 
       else if (variable_name(1:12) .eq. 'date_within(') then
