@@ -24,3 +24,9 @@ cd %APSROOT%\Shared\DotNetComponentInterface
 call datatypes.bat
 echo ------Compiling  %APSROOT%\DotNetComponentInterface >> %APSROOT%\dotnet.out
 "C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\devenv" DotNetComponentInterface.vcproj /rebuild debug >> %APSROOT%\dotnet.out
+
+rem --------- Compile SLURP Module
+cd %APSROOT%\apsim\slurp
+echo ------Compiling Slurp >> %APSROOT%\dotnet.out
+"C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\devenv" Slurp.sln /rebuild debug >> %APSROOT%\dotnet.out
+cd %APSROOT%
