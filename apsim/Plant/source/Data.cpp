@@ -634,8 +634,12 @@ float bound(float var, float lower, float upper)
    float high;             //temporary variable constrained
                            //to upper limit of variable
 
+   numeric_limits<float> mathInfo;
+   float epsilon =  mathInfo.epsilon();
+
    //check that lower & upper bounds are valid
-   if (lower > upper)
+//   if (lower > upper)
+   if ((lower - epsilon) > (upper + epsilon))
       {
       // bounds are invalid
       char msg[80];
