@@ -146,6 +146,11 @@ void SimCreator::ConvertConModule(ApsimControlFile::ModuleInstance& moduleInstan
    {
    out << "   <component name=\"" << moduleInstance.instanceName << "\"";
    out << " executable = \"" << moduleInstance.dllFileName << "\">\n";
+   ApsimSettings settings;
+   string st;
+   settings.read(".net components|" + moduleInstance.moduleName, st);
+   if (Str_i_Eq(st, ".NET"))
+      out << "      <componentinterface>%apsuite\\bin\\dotnetcomponentinterface.dll</componentinterface>\n";
    out << "      <initdata>\n";
 
    if (Str_i_Eq(moduleInstance.moduleName, "input") ||
