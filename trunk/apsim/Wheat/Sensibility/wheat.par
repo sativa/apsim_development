@@ -70,28 +70,23 @@ outputfile  =RoseworthyMidLowN.out
 [RoseworthyMidLowNTopDress.report.parameters]
 outputfile  =RoseworthyMidLowNTopDress.out
 
-[MinnipaEarly.report.parameters]
-outputfile  =MinnipaEarly.out
-[MinnipaMid.report.parameters]
-outputfile  =MinnipaMid.out
-[MinnipaLate.report.parameters]
-outputfile  =MinnipaLate.out
 
-
-[WaikerieEarly.report.parameters]
-outputfile  =WaikerieEarly.out
-[WaikerieMid.report.parameters]
-outputfile  =WaikerieMid.out
-[WaikerieLate.report.parameters]
-outputfile  =WaikerieLate.out
-
-
-[ClareEarly.report.parameters]
-outputfile  =ClareEarly.out
-[ClareMid.report.parameters]
-outputfile  =ClareMid.out
-[ClareLate.report.parameters]
-outputfile  =ClareLate.out
+[Cummins.report.parameters]
+outputfile  =Cummins.out
+[Keith.report.parameters]
+outputfile  =Keith.out
+[Lameroo.report.parameters]
+outputfile  =Lameroo.out
+[Minnipa.report.parameters]
+outputfile  =Minnipa.out
+[Naracoorte.report.parameters]
+outputfile  =Naracoorte.out
+[Orroroo.report.parameters]
+outputfile  =Orroroo.out
+[Roseworthy.report.parameters]
+outputfile  =Roseworthy.out
+[Wanbi.report.parameters]
+outputfile  =Wanbi.out
 
 [sensibility.report.parameters]
 variable = clock.dd/mm/yyyy as date
@@ -120,6 +115,9 @@ variable = wheat.flowering_date
 ! Start and end date of run (day number of year and year)
 start_date=1/1/1957
 end_date=31/12/2002
+
+[sensibility.accum.parameters]
+accum_variables = rain[3]
 
 [sensibility.manager.init]
 in_crop_rain = 0
@@ -208,6 +206,46 @@ if Wheat.stage_name = 'harvest_ripe' or Wheat.plant_status = 'dead' then
 
 endif
 
+[variable.manager.start_of_day]
+
+if today = date('1-mar') then
+   soilwat2 reset
+   soiln2 reset
+   surfaceom reset
+ endif
+
+if date_within('15-apr,15-jun') and wheat.plant_status = 'out' and rain[3] > 20 then
+   fertiliz apply amount = nrate, type = no3_n, depth = 5 (mm)
+   wheat sow cultivar = cultivar, plants = 200 (/m2), sowing_depth = 30 (mm)
+   in_crop_rain = 0
+   eff_in_crop_rain = 0
+endif
+
+if today = date('15-aug') then
+    fertiliz apply amount = split_nrate, type = no3_n, depth = 5 (mm)
+ endif
+
+[variable.manager.end_of_day]
+in_crop_rain = in_crop_rain + met.rain
+eff_in_crop_rain = eff_in_crop_rain + met.rain - soilwat2.drain - soilwat2.runoff
+
+!if wheat.biomass > 1 then
+!   hi = wheat.yield/wheat.biomass
+!   nhi = wheat.grain_n/wheat.biomass_n
+!   report do_output
+!endif
+
+if Wheat.stage_name = 'harvest_ripe' or Wheat.plant_status = 'dead' then
+   if wheat.biomass > 1 then
+      hi = wheat.yield/wheat.biomass
+      nhi = wheat.grain_n/wheat.biomass_n
+      report do_output
+   endif
+   Wheat harvest
+   Wheat end_crop
+endif
+
+
 [Dalby600.SummaryFile.parameters]
 summaryfile=Dalby600.sum
 [Dalby1500.SummaryFile.parameters]
@@ -278,26 +316,24 @@ summaryfile=RoseworthyMidLowN.sum
 [RoseworthyMidLowNTopDress.SummaryFile.parameters]
 summaryfile=RoseworthyMidLowNTopDress.sum
 
-[MinnipaEarly.SummaryFile.parameters]
-summaryfile=MinnipaEarly.sum
-[MinnipaMid.SummaryFile.parameters]
-summaryfile=MinnipaMid.sum
-[MinnipaLate.SummaryFile.parameters]
-summaryfile=MinnipaLate.sum
 
-[WaikerieEarly.SummaryFile.parameters]
-summaryfile=WaikerieEarly.sum
-[WaikerieMid.SummaryFile.parameters]
-summaryfile=WaikerieMid.sum
-[WaikerieLate.SummaryFile.parameters]
-summaryfile=WaikerieLate.sum
+[Cummins.SummaryFile.parameters]
+summaryfile=Cummins.sum
+[Keith.SummaryFile.parameters]
+summaryfile=Keith.sum
+[Lameroo.SummaryFile.parameters]
+summaryfile=Lameroo.sum
+[Minnipa.SummaryFile.parameters]
+summaryfile=Minnipa.sum
+[Naracoorte.SummaryFile.parameters]
+summaryfile=Naracoorte.sum
+[Orroroo.SummaryFile.parameters]
+summaryfile=Orroroo.sum
+[Roseworthy.SummaryFile.parameters]
+summaryfile=Roseworthy.sum
+[Wanbi.SummaryFile.parameters]
+summaryfile=Wanbi.sum
 
-[ClareEarly.SummaryFile.parameters]
-summaryfile=ClareEarly.sum
-[ClareMid.SummaryFile.parameters]
-summaryfile=ClareMid.sum
-[ClareLate.SummaryFile.parameters]
-summaryfile=ClareLate.sum
 
 [sensibility.Screen.parameters]
 screen_output=on

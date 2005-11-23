@@ -1,4 +1,4 @@
-version = 4.3
+version = 4.1
 [APSIM.Dalby 600mm]
 title=Dalby 600mm wet soil
 module = clock      Wheat.par[sensibility]  %apsuite\apsim\clock\clock.ini[standard]
@@ -459,149 +459,142 @@ module = Screen  Wheat.par[sensibility]
 
 
 ! ================================================================
-! MINNIPA
+! South Australia - LUO et al.(2005) Ag For Met 132:273-285.
 ! ================================================================
 
-[APSIM.Minnipa Early]
-title=Minnipa Early Sowing
+[APSIM.Cummins]
+title=Cummins
 module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
-module = report     Wheat.par[sensibility] Wheat.par[MinnipaEarly]
+module = report     Wheat.par[sensibility] Wheat.par[Cummins]
+module = input(met)        %apsuite\apsim\common files\Cummins.met[weather]
+module = accum      wheat.par[sensibility]
+module = manager    Wheat.par[variable] Wheat.par[yitpi] Wheat.par[N040] Wheat.par[splitN000]
+module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = soilwat2   %apsuite\apsim\common files\SAsoils.par[cummins] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2     %apsuite\apsim\common files\SAsoils.par[cummins]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(Wheat)   %apsuite\apsim\common files\SAsoils.par[cummins] %apsuite\apsim\Wheat\Wheat.ini[standard]
+module = Tracker    Wheat.par[sensibility]
+module = SummaryFile  Wheat.par[Cummins]
+module = Screen  Wheat.par[sensibility]
+
+[APSIM.Keith]
+title=Keith
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
+module = report     Wheat.par[sensibility] Wheat.par[Keith]
+module = input(met)        %apsuite\apsim\common files\Keith.met[weather]
+module = accum      wheat.par[sensibility]
+module = manager    Wheat.par[variable] Wheat.par[yitpi] Wheat.par[N040] Wheat.par[splitN000]
+module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = soilwat2   %apsuite\apsim\common files\SAsoils.par[keith] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2     %apsuite\apsim\common files\SAsoils.par[keith]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(Wheat)   %apsuite\apsim\common files\SAsoils.par[keith] %apsuite\apsim\Wheat\Wheat.ini[standard]
+module = Tracker    Wheat.par[sensibility]
+module = SummaryFile  Wheat.par[Keith]
+module = Screen  Wheat.par[sensibility]
+
+[APSIM.Lameroo]
+title=Lameroo
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
+module = report     Wheat.par[sensibility] Wheat.par[Lameroo]
+module = input(met)        %apsuite\apsim\common files\Lameroo.met[weather]
+module = accum      wheat.par[sensibility]
+module = manager    Wheat.par[variable] Wheat.par[yitpi] Wheat.par[N040] Wheat.par[splitN000]
+module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = soilwat2   %apsuite\apsim\common files\SAsoils.par[Lameroo] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2     %apsuite\apsim\common files\SAsoils.par[Lameroo]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(Wheat)   %apsuite\apsim\common files\SAsoils.par[Lameroo] %apsuite\apsim\Wheat\Wheat.ini[standard]
+module = Tracker    Wheat.par[sensibility]
+module = SummaryFile  Wheat.par[Lameroo]
+module = Screen  Wheat.par[sensibility]
+
+[APSIM.Minnipa]
+title=Minnipa
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
+module = report     Wheat.par[sensibility] Wheat.par[Minnipa]
 module = input(met)        %apsuite\apsim\common files\Minnipa.met[weather]
-module = manager    Wheat.par[sensibility] Wheat.par[yitpi] Wheat.par[start_may]  Wheat.par[N040] Wheat.par[splitN000]
+module = accum      wheat.par[sensibility]
+module = manager    Wheat.par[variable] Wheat.par[yitpi] Wheat.par[N040] Wheat.par[splitN000]
 module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini[standard]
-module = soilwat2   %apsuite\apsim\common files\Minnipa.par[Minnipa] %apsuite\apsim\common files\Minnipa.par[200mm] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = soilwat2   %apsuite\apsim\common files\SAsoils.par[Minnipa] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
 module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
-module = soiln2     %apsuite\apsim\common files\Minnipa.par[Minnipa]      %apsuite\apsim\soiln2\soiln2.ini[standard]
-module = plant(Wheat)   %apsuite\apsim\common files\Minnipa.par[Minnipa] %apsuite\apsim\Wheat\Wheat.ini[standard]
+module = soiln2     %apsuite\apsim\common files\SAsoils.par[Minnipa]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(Wheat)   %apsuite\apsim\common files\SAsoils.par[Minnipa] %apsuite\apsim\Wheat\Wheat.ini[standard]
 module = Tracker    Wheat.par[sensibility]
-module = SummaryFile  Wheat.par[MinnipaEarly]
+module = SummaryFile  Wheat.par[Minnipa]
 module = Screen  Wheat.par[sensibility]
 
-[APSIM.Minnipa Mid]
-title=Minnipa Mid Sowing
+[APSIM.Naracoorte]
+title=Naracoorte
 module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
-module = report     Wheat.par[sensibility] Wheat.par[MinnipaMid]
-module = input(met)        %apsuite\apsim\common files\Minnipa.met[weather]
-module = manager    Wheat.par[sensibility] Wheat.par[yitpi] Wheat.par[end_may]  Wheat.par[N040] Wheat.par[splitN000]
+module = report     Wheat.par[sensibility] Wheat.par[Naracoorte]
+module = input(met)        %apsuite\apsim\common files\Naracoorte.met[weather]
+module = accum      wheat.par[sensibility]
+module = manager    Wheat.par[variable] Wheat.par[yitpi] Wheat.par[N040] Wheat.par[splitN000]
 module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini[standard]
-module = soilwat2   %apsuite\apsim\common files\Minnipa.par[Minnipa] %apsuite\apsim\common files\Minnipa.par[200mm] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = soilwat2   %apsuite\apsim\common files\SAsoils.par[Naracoorte] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
 module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
-module = soiln2     %apsuite\apsim\common files\Minnipa.par[Minnipa]      %apsuite\apsim\soiln2\soiln2.ini[standard]
-module = plant(Wheat)   %apsuite\apsim\common files\Minnipa.par[Minnipa] %apsuite\apsim\Wheat\Wheat.ini[standard]
+module = soiln2     %apsuite\apsim\common files\SAsoils.par[Naracoorte]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(Wheat)   %apsuite\apsim\common files\SAsoils.par[Naracoorte] %apsuite\apsim\Wheat\Wheat.ini[standard]
 module = Tracker    Wheat.par[sensibility]
-module = SummaryFile  Wheat.par[MinnipaMid]
+module = SummaryFile  Wheat.par[Naracoorte]
 module = Screen  Wheat.par[sensibility]
 
-[APSIM.Minnipa Late]
-title=Minnipa Late Sowing
+[APSIM.Orroroo]
+title=Orroroo
 module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
-module = report     Wheat.par[sensibility] Wheat.par[MinnipaLate]
-module = input(met)        %apsuite\apsim\common files\Minnipa.met[weather]
-module = manager    Wheat.par[sensibility] Wheat.par[yitpi] Wheat.par[mid_june]  Wheat.par[N040] Wheat.par[splitN000]
+module = report     Wheat.par[sensibility] Wheat.par[Orroroo]
+module = input(met)        %apsuite\apsim\common files\Orroroo.met[weather]
+module = accum      wheat.par[sensibility]
+module = manager    Wheat.par[variable] Wheat.par[yitpi] Wheat.par[N040] Wheat.par[splitN000]
 module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini[standard]
-module = soilwat2   %apsuite\apsim\common files\Minnipa.par[Minnipa] %apsuite\apsim\common files\Minnipa.par[200mm] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = soilwat2   %apsuite\apsim\common files\SAsoils.par[Orroroo] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
 module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
-module = soiln2     %apsuite\apsim\common files\Minnipa.par[Minnipa]      %apsuite\apsim\soiln2\soiln2.ini[standard]
-module = plant(Wheat)   %apsuite\apsim\common files\Minnipa.par[Minnipa] %apsuite\apsim\Wheat\Wheat.ini[standard]
+module = soiln2     %apsuite\apsim\common files\SAsoils.par[Orroroo]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(Wheat)   %apsuite\apsim\common files\SAsoils.par[Orroroo] %apsuite\apsim\Wheat\Wheat.ini[standard]
 module = Tracker    Wheat.par[sensibility]
-module = SummaryFile  Wheat.par[MinnipaLate]
+module = SummaryFile  Wheat.par[Orroroo]
 module = Screen  Wheat.par[sensibility]
 
-
-! ================================================================
-! WAIKERIE
-! ================================================================
-
-[APSIM.Waikerie Early]
-title=Waikerie Early Sowing
+[APSIM.Roseworthy]
+title=Roseworthy
 module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
-module = report     Wheat.par[sensibility] Wheat.par[WaikerieEarly]
-module = input(met)        %apsuite\apsim\common files\Waikerie.met[weather]
-module = manager    Wheat.par[sensibility] Wheat.par[yitpi] Wheat.par[start_may]  Wheat.par[N040] Wheat.par[splitN000]
+module = report     Wheat.par[sensibility] Wheat.par[Roseworthy]
+module = input(met)        %apsuite\apsim\common files\Roseworthy.met[weather]
+module = accum      wheat.par[sensibility]
+module = manager    Wheat.par[variable] Wheat.par[yitpi] Wheat.par[N040] Wheat.par[splitN000]
 module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini[standard]
-module = soilwat2   %apsuite\apsim\common files\Waikerie.par[Waikerie] %apsuite\apsim\common files\Waikerie.par[200mm] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = soilwat2   %apsuite\apsim\common files\SAsoils.par[Roseworthy] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
 module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
-module = soiln2     %apsuite\apsim\common files\Waikerie.par[Waikerie]      %apsuite\apsim\soiln2\soiln2.ini[standard]
-module = plant(Wheat)   %apsuite\apsim\common files\Waikerie.par[Waikerie] %apsuite\apsim\Wheat\Wheat.ini[standard]
+module = soiln2     %apsuite\apsim\common files\SAsoils.par[Roseworthy]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(Wheat)   %apsuite\apsim\common files\SAsoils.par[Roseworthy] %apsuite\apsim\Wheat\Wheat.ini[standard]
 module = Tracker    Wheat.par[sensibility]
-module = SummaryFile  Wheat.par[WaikerieEarly]
+module = SummaryFile  Wheat.par[Roseworthy]
 module = Screen  Wheat.par[sensibility]
 
-[APSIM.Waikerie Mid]
-title=Waikerie Mid Sowing
+[APSIM.Wanbi]
+title=Wanbi
 module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
-module = report     Wheat.par[sensibility] Wheat.par[WaikerieMid]
-module = input(met)        %apsuite\apsim\common files\Waikerie.met[weather]
-module = manager    Wheat.par[sensibility] Wheat.par[yitpi] Wheat.par[end_may]  Wheat.par[N040] Wheat.par[splitN000]
+module = report     Wheat.par[sensibility] Wheat.par[Wanbi]
+module = input(met)        %apsuite\apsim\common files\Wanbi.met[weather]
+module = accum      wheat.par[sensibility]
+module = manager    Wheat.par[variable] Wheat.par[yitpi] Wheat.par[N040] Wheat.par[splitN000]
 module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini[standard]
-module = soilwat2   %apsuite\apsim\common files\Waikerie.par[Waikerie] %apsuite\apsim\common files\Waikerie.par[200mm] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = soilwat2   %apsuite\apsim\common files\SAsoils.par[Wanbi] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
 module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
-module = soiln2     %apsuite\apsim\common files\Waikerie.par[Waikerie]      %apsuite\apsim\soiln2\soiln2.ini[standard]
-module = plant(Wheat)   %apsuite\apsim\common files\Waikerie.par[Waikerie] %apsuite\apsim\Wheat\Wheat.ini[standard]
+module = soiln2     %apsuite\apsim\common files\SAsoils.par[Wanbi]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(Wheat)   %apsuite\apsim\common files\SAsoils.par[Wanbi] %apsuite\apsim\Wheat\Wheat.ini[standard]
 module = Tracker    Wheat.par[sensibility]
-module = SummaryFile  Wheat.par[WaikerieMid]
+module = SummaryFile  Wheat.par[Wanbi]
 module = Screen  Wheat.par[sensibility]
 
-[APSIM.Waikerie Late]
-title=Waikerie Late Sowing
-module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
-module = report     Wheat.par[sensibility] Wheat.par[WaikerieLate]
-module = input(met)        %apsuite\apsim\common files\Waikerie.met[weather]
-module = manager    Wheat.par[sensibility] Wheat.par[yitpi] Wheat.par[mid_june]  Wheat.par[N040] Wheat.par[splitN000]
-module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini[standard]
-module = soilwat2   %apsuite\apsim\common files\Waikerie.par[Waikerie] %apsuite\apsim\common files\Waikerie.par[200mm] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
-module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
-module = soiln2     %apsuite\apsim\common files\Waikerie.par[Waikerie]      %apsuite\apsim\soiln2\soiln2.ini[standard]
-module = plant(Wheat)   %apsuite\apsim\common files\Waikerie.par[Waikerie] %apsuite\apsim\Wheat\Wheat.ini[standard]
-module = Tracker    Wheat.par[sensibility]
-module = SummaryFile  Wheat.par[WaikerieLate]
-module = Screen  Wheat.par[sensibility]
 
-! ================================================================
-! CLARE
-! ================================================================
 
-[APSIM.Clare Early]
-title=Clare Early Sowing
-module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
-module = report     Wheat.par[sensibility] Wheat.par[ClareEarly]
-module = input(met)        %apsuite\apsim\common files\Clare.met[weather]
-module = manager    Wheat.par[sensibility] Wheat.par[yitpi] Wheat.par[start_may]  Wheat.par[N040] Wheat.par[splitN000]
-module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini[standard]
-module = soilwat2   %apsuite\apsim\common files\Clare.par[Clare] %apsuite\apsim\common files\Clare.par[200mm] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
-module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
-module = soiln2     %apsuite\apsim\common files\Clare.par[Clare]      %apsuite\apsim\soiln2\soiln2.ini[standard]
-module = plant(Wheat)   %apsuite\apsim\common files\Clare.par[Clare] %apsuite\apsim\Wheat\Wheat.ini[standard]
-module = Tracker    Wheat.par[sensibility]
-module = SummaryFile  Wheat.par[ClareEarly]
-module = Screen  Wheat.par[sensibility]
 
-[APSIM.Clare Mid]
-title=Clare Mid Sowing
-module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
-module = report     Wheat.par[sensibility] Wheat.par[ClareMid]
-module = input(met)        %apsuite\apsim\common files\Clare.met[weather]
-module = manager    Wheat.par[sensibility] Wheat.par[yitpi] Wheat.par[end_may]  Wheat.par[N040] Wheat.par[splitN000]
-module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini[standard]
-module = soilwat2   %apsuite\apsim\common files\Clare.par[Clare] %apsuite\apsim\common files\Clare.par[200mm] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
-module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
-module = soiln2     %apsuite\apsim\common files\Clare.par[Clare]      %apsuite\apsim\soiln2\soiln2.ini[standard]
-module = plant(Wheat)   %apsuite\apsim\common files\Clare.par[Clare] %apsuite\apsim\Wheat\Wheat.ini[standard]
-module = Tracker    Wheat.par[sensibility]
-module = SummaryFile  Wheat.par[ClareMid]
-module = Screen  Wheat.par[sensibility]
 
-[APSIM.Clare Late]
-title=Clare Late Sowing
-module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
-module = report     Wheat.par[sensibility] Wheat.par[ClareLate]
-module = input(met)        %apsuite\apsim\common files\Clare.met[weather]
-module = manager    Wheat.par[sensibility] Wheat.par[yitpi] Wheat.par[mid_june]  Wheat.par[N040] Wheat.par[splitN000]
-module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini[standard]
-module = soilwat2   %apsuite\apsim\common files\Clare.par[Clare] %apsuite\apsim\common files\Clare.par[200mm] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
-module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
-module = soiln2     %apsuite\apsim\common files\Clare.par[Clare]      %apsuite\apsim\soiln2\soiln2.ini[standard]
-module = plant(Wheat)   %apsuite\apsim\common files\Clare.par[Clare] %apsuite\apsim\Wheat\Wheat.ini[standard]
-module = Tracker    Wheat.par[sensibility]
-module = SummaryFile  Wheat.par[ClareLate]
-module = Screen  Wheat.par[sensibility]
+
+
+
+
