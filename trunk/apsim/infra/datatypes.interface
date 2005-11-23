@@ -1222,7 +1222,6 @@
 
    <type name="eoscalculated" kind="single" unit="mm" description="Potential evaporation from the soil surface."/>
    <type name="canopy_energy_balance" kind="????" unit="" description=""/>
-   <type name="canopy_water_balance" kind="????" unit="" description=""/>
 
    !!!!! RESIDUE types !!!!!
 
@@ -1656,7 +1655,10 @@
       <type name="days_since_last_report" kind="integer4" unit="days" description="Number of days since last report"/>
 !!  forest types!! dsg 051202
       <type name="thin" kind="????" unit="" description=""/>
-      <type name="new_pot_growth" kind="????" unit="" description=""/>
+   <type name="NewPotentialGrowth">
+      <field name="sender" kind="string"/>
+      <field name="frgr" kind="single" units=""/>
+   </type>
    <type name="NewCanopy">
       <field name="sender" kind="string"/>
       <field name="height" kind="single"/>
