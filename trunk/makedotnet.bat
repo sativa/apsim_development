@@ -26,7 +26,7 @@ echo ------Compiling  %APSROOT%\DotNetComponentInterface >> %APSROOT%\dotnet.out
 "C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\devenv" DotNetComponentInterface.vcproj /rebuild debug >> %APSROOT%\dotnet.out
 
 rem --------- Compile SLURP Module
-cd %APSROOT%\apsim\slurp
+cd %APSROOT%\apsim\slurp\source
 echo ------Compiling Slurp >> %APSROOT%\dotnet.out
-"C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\devenv" Slurp.sln /rebuild debug >> %APSROOT%\dotnet.out
+"C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\devenv" Slurp.vbproj /rebuild debug >> %APSROOT%\dotnet.out
 cd %APSROOT%
