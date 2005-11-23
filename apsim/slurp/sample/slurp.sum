@@ -11,15 +11,16 @@
 
      Version                = 4.3
      Title                  = Slurp Sample Simulation
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\micromet\lib\micromet.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\slurp\lib\slurp.dll
+     Component DLL          = d:\development\apsim\log\lib\log.dll
+     Component DLL          = d:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = d:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = d:\development\apsim\clock\lib\clock.dll
+     Component DLL          = d:\development\apsim\report\lib\report.dll
+     Component DLL          = d:\development\apsim\input\lib\input.dll
+     Component DLL          = d:\development\apsim\micromet\lib\micromet.dll
+     Component DLL          = d:\development\apsim\manager\lib\manager.dll
+     Component DLL          = d:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = d:\development\apsim\slurp\lib\slurp.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -50,7 +51,7 @@
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\MET\SAMPLE\DALBY.MET
+     INPUT File name: d:\development\apsim\MET\SAMPLE\DALBY.MET
 
 ------- micromet Initialisation -----------------------------------------------
      Initialising
@@ -143,9 +144,6 @@
             Cuml evap (U):            4.00 (mm^0.5)
             CONA:                     2.50 ()
            Eo from priestly-taylor
-
-------- slurp Initialisation --------------------------------------------------
-     Initialising:
 ------- Start of simulation  --------------------------------------------------
 30 July 1988(Day of year=212), clock: 
      Simulation is terminating due to end criteria being met.
