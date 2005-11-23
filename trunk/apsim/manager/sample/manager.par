@@ -7,6 +7,7 @@ variable = manager.avtempi
 variable = manager.feb_or_not
 variable = manager.fixed_rain
 variable = manager.rain_amount
+variable = manager.manager_date
 variable = met.rain
 
 [sample.clock.parameters]
@@ -16,8 +17,11 @@ end_date=8/4/1988     ! dd/mm/yyyy
 [sample.manager.init]
 fixed_rain = 'no'
 rain_amount = 0
+d = '1-jun'
 
 [sample.manager.end_of_day]
+
+manager_date =date(d)
 
 ! calculate a local variable (average temperature) using
 ! mint and maxt from the met.module.

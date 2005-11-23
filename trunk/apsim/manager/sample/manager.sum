@@ -61,8 +61,10 @@
      SECTION:- init
      fixed_rain = 'no'
      rain_amount = 0
+     d = '1-jun'
      
      SECTION:- end_of_day
+     manager_date =date(d)
      avtemp = (mint + maxt) / 2
      avtempi=nearest_int(avtemp)
      feb_or_not=date_within('1-feb,28-feb')
@@ -74,8 +76,10 @@
      
      Manager creating a new local string variable : fixed_rain = no
      Manager creating a new local real variable : rain_amount =     0.00000000000000
+     Manager creating a new local string variable : d = 1-jun
 ------- Start of simulation  --------------------------------------------------
 1 January 1988(Day of year=1), manager: 
+     Manager creating a new local real variable : manager_date =     2447314.00000000
      Manager creating a new local real variable : avtemp =     25.1999988500000
      Manager creating a new local real variable : avtempi =     25.0000000000000
      Manager creating a new local real variable : feb_or_not =     0.00000000000000
