@@ -40,6 +40,7 @@
       <getVariableReg name="eos" type="eos"/>
       <getVariableReg name="dlayer" type="dlayer"/>
       <respondToEventReg name="tillage" type="tillage"/>
+      <respondToEventReg name="tillage_single" type="tillage"/>
       <respondToEventReg name="add_surfaceom" type="add_surfom"/>
       <respondToEventReg name="sysinit" type="sysinit"/>
       <respondToEventReg name="reset" type="reset"/>
