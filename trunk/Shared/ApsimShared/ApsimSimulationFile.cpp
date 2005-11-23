@@ -27,6 +27,8 @@ ApsimSimulationFile::ApsimSimulationFile(const string& filename)
    : fileName(filename)
    {
    xmlDoc = new XMLDocument(filename);
+   if (!xmlDoc->isValid())
+      throw runtime_error("Invalid XML in SIM file: " + filename);
    }
 // ------------------------------------------------------------------
 // Constructor
