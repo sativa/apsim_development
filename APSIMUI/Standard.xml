@@ -1,4 +1,49 @@
 <folder name="Standard Toolbox">
+  <bore name="bore">
+    <max_available_water>100</max_available_water>
+    <init_available_water>50</init_available_water>
+    <max_pump>10</max_pump>
+    <min_volume>2</min_volume>
+    <annual_allocation>100</annual_allocation>
+    <allocation_renewal_day>180</allocation_renewal_day>
+    <init_salt_conc>704.0</init_salt_conc>
+  </bore>
+  <channel name="channel">
+    <max_available_water>100</max_available_water>
+    <init_available_water>50</init_available_water>
+    <max_pump>10</max_pump>
+    <min_volume>2</min_volume>
+    <annual_allocation>100</annual_allocation>
+    <allocation_renewal_day>180</allocation_renewal_day>
+    <init_salt_conc>704.0</init_salt_conc>
+  </channel>
+  <dam name="dam">
+    <source_type>dam_gully</source_type>
+    <max_available_water>100</max_available_water>
+    <max_area>5</max_area>
+    <init_available_water>50</init_available_water>
+    <max_pump>10</max_pump>
+    <min_volume>2</min_volume>
+    <permeability>0.00007</permeability>
+    <seal_thickness>0.5</seal_thickness>
+    <receive_catchment_runoff>no</receive_catchment_runoff>
+    <receive_crop_runoff>no</receive_crop_runoff>
+    <init_salt_conc>704.0</init_salt_conc>
+    <receive_catchment_runoff>no</receive_catchment_runoff>
+    <catchment_area>50.0</catchment_area>
+    <catchment_runoff_factor>0.5</catchment_runoff_factor>
+    <receive_crop_runoff>yes</receive_crop_runoff>
+    <runoff_salt_conc>700.0</runoff_salt_conc>
+    <rainfall_salt_conc>20.0</rainfall_salt_conc>
+  </dam>
+  <soilwatkludge name="soilwatkludge">
+    <mwcon>1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0</mwcon>
+    <max_pond>100</max_pond>
+  </soilwatkludge>
+  <solute name="solute">
+    <solute_names>salt</solute_names>
+    <salt>491 62 1490 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000</salt>
+  </solute>
   <area name="paddock">
     <registrations name="global" />
   </area>
@@ -511,6 +556,14 @@
     <weed />
     <wheat />
     <ozcot />
+    <rice name="rice">
+      <estab>transplant</estab>
+      <sbdur>50</sbdur>
+      <nplh>10</nplh>
+      <nh>2</nh>
+      <nplsb>100</nplsb>
+      <nplds>180</nplds>
+    </rice>
   </folder>
   <StockScienceConverter name="StockScienceConverter" />
   <stock name="sheep">
