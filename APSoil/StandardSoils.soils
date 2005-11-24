@@ -5019,6 +5019,914 @@
           </layer>
         </InitNitrogen>
       </soil>
+      <soil name="Mundiwa Clay Loam">
+        <Site>Coleambally</Site>
+        <Region>Riverina NSW</Region>
+        <LocalName>Mundawindi</LocalName>
+        <SoilType>Clay Loam</SoilType>
+        <NearestTown>Coleambally</NearestTown>
+        <NaturalVegetation>Unknown</NaturalVegetation>
+        <Water>
+          <Cona>3.5</Cona>
+          <DiffusConst>40</DiffusConst>
+          <DiffusSlope>16</DiffusSlope>
+          <U>6</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>73</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <layer name="1">
+            <thickness>20</thickness>
+            <bd>1.3</bd>
+            <ll15>0.08</ll15>
+            <airdry>0.05</airdry>
+            <dul>0.21</dul>
+            <sat>0.4</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>50</thickness>
+            <bd>1.4</bd>
+            <ll15>0.09</ll15>
+            <airdry>0.05</airdry>
+            <dul>0.22</dul>
+            <sat>0.42</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>80</thickness>
+            <bd>1.4</bd>
+            <ll15>0.18</ll15>
+            <airdry>0.1</airdry>
+            <dul>0.35</dul>
+            <sat>0.43</sat>
+            <sw>9999.99</sw>
+            <swcon>0.1</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>110</thickness>
+            <bd>1.4</bd>
+            <ll15>0.27</ll15>
+            <airdry>0.2</airdry>
+            <dul>0.39</dul>
+            <sat>0.43</sat>
+            <sw>9999.99</sw>
+            <swcon>0.1</swcon>
+          </layer>
+          <layer name="5">
+            <thickness>140</thickness>
+            <bd>1.5</bd>
+            <ll15>0.27</ll15>
+            <airdry>0.2</airdry>
+            <dul>0.35</dul>
+            <sat>0.4</sat>
+            <sw>9999.99</sw>
+            <swcon>0.1</swcon>
+          </layer>
+          <layer name="6">
+            <thickness>170</thickness>
+            <bd>1.5</bd>
+            <ll15>0.27</ll15>
+            <airdry>0.2</airdry>
+            <dul>0.38</dul>
+            <sat>0.4</sat>
+            <sw>9999.99</sw>
+            <swcon>0.1</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>200</thickness>
+            <bd>1.5</bd>
+            <ll15>0.27</ll15>
+            <airdry>0.2</airdry>
+            <dul>0.38</dul>
+            <sat>0.4</sat>
+            <sw>9999.99</sw>
+            <swcon>0.1</swcon>
+          </layer>
+          <layer name="8">
+            <thickness>230</thickness>
+            <bd>1.6</bd>
+            <ll15>0.26</ll15>
+            <airdry>0.2</airdry>
+            <dul>0.36</dul>
+            <sat>0.39</sat>
+            <sw>9999.99</sw>
+            <swcon>0.1</swcon>
+          </layer>
+          <layer name="9">
+            <thickness>250</thickness>
+            <bd>1.6</bd>
+            <ll15>0.26</ll15>
+            <airdry>0.2</airdry>
+            <dul>0.36</dul>
+            <sat>0.39</sat>
+            <sw>9999.99</sw>
+            <swcon>0.1</swcon>
+          </layer>
+          <layer name="10">
+            <thickness>250</thickness>
+            <bd>1.6</bd>
+            <ll15>0.26</ll15>
+            <airdry>0.2</airdry>
+            <dul>0.36</dul>
+            <sat>0.39</sat>
+            <sw>9999.99</sw>
+            <swcon>0.1</swcon>
+          </layer>
+          <layer name="11">
+            <thickness>500</thickness>
+            <bd>1.6</bd>
+            <ll15>0.27</ll15>
+            <airdry>0.2</airdry>
+            <dul>0.37</dul>
+            <sat>0.39</sat>
+            <sw>9999.99</sw>
+            <swcon>0.1</swcon>
+          </layer>
+          <layer name="12">
+            <thickness>500</thickness>
+            <bd>1.6</bd>
+            <sat>0.4</sat>
+            <dul>0.37</dul>
+            <ll15>0.27</ll15>
+            <airdry>0.2</airdry>
+            <swcon>0.1</swcon>
+          </layer>
+          <layer name="13">
+            <thickness>750</thickness>
+            <bd>1.6</bd>
+            <sat>0.4</sat>
+            <dul>0.37</dul>
+            <ll15>0.27</ll15>
+            <airdry>0.2</airdry>
+            <swcon>0.1</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>40</RootCn>
+          <RootWt>200</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1</oc>
+            <ph>7</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>4</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.9</oc>
+            <ph>7</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>2.1</no3>
+            <nh4>3</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.9</oc>
+            <ph>7</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.8</finert>
+            <no3>2.1</no3>
+            <nh4>2</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.9</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.7</no3>
+            <nh4>2</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.8</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.4</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.5</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.3</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.5</nh4>
+          </layer>
+          <layer name="8">
+            <oc>0.2</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.5</nh4>
+          </layer>
+          <layer name="9">
+            <oc>0.2</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.5</nh4>
+          </layer>
+          <layer name="10">
+            <oc>0.1</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.5</nh4>
+          </layer>
+          <layer name="11">
+            <oc>0.1</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1</no3>
+            <nh4>0.5</nh4>
+          </layer>
+          <layer name="12">
+            <no3>1</no3>
+            <nh4>0.5</nh4>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <oc>0.1</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="13">
+            <no3>1</no3>
+            <nh4>0.5</nh4>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <oc>0.1</oc>
+            <ph>7</ph>
+          </layer>
+        </Nitrogen>
+        <other>
+          <layer name="1">
+            <ec>0.2</ec>
+          </layer>
+          <layer name="2">
+            <ec>0.2</ec>
+          </layer>
+          <layer name="3">
+            <ec>0.3</ec>
+          </layer>
+          <layer name="4">
+            <ec>0.4</ec>
+          </layer>
+          <layer name="5">
+            <ec>0.6</ec>
+          </layer>
+          <layer name="6">
+            <ec>0.8</ec>
+          </layer>
+          <layer name="7">
+            <ec>0.9</ec>
+          </layer>
+          <layer name="8">
+            <ec>1</ec>
+          </layer>
+          <layer name="9">
+            <ec>1.1</ec>
+          </layer>
+          <layer name="10">
+            <ec>1</ec>
+          </layer>
+          <layer name="11">
+            <ec>1</ec>
+          </layer>
+          <layer name="12">
+            <ec>1</ec>
+          </layer>
+          <layer name="13">
+            <ec>1</ec>
+          </layer>
+        </other>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <SoilCrop name="Barley">
+          <layer name="1">
+            <ll>0.08</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.09</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.18</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.27</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.27</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.27</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.27</ll>
+            <kl>0.01</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="12">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="13">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="Chickpea">
+          <layer name="1">
+            <ll>0.08</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.09</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.18</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.27</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.27</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.27</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.27</ll>
+            <kl>0.01</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="12">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="13">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="Lucerne">
+          <layer name="1">
+            <ll>0.08</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.09</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.18</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.27</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.27</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.27</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.27</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.26</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.26</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.26</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.27</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="12">
+            <ll>0.27</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="13">
+            <ll>0.27</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="Maize">
+          <layer name="1">
+            <ll>0.08</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.09</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.18</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.27</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.27</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.27</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.27</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="12">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="13">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="Perennial Grass">
+          <layer name="1">
+            <ll>0.08</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.09</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.18</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.27</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.27</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.27</ll>
+            <kl>0.07</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.27</ll>
+            <kl>0.05</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="12">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="13">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="Sorghum">
+          <layer name="1">
+            <ll>0.08</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.09</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.18</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.27</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.27</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.27</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.27</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="12">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="13">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="Wheat">
+          <layer name="1">
+            <ll>0.08</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.09</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.18</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.27</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.27</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.27</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.27</ll>
+            <kl>0.01</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="12">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="13">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="canola">
+          <layer name="1">
+            <ll>0.08</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.09</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.18</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.27</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.27</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.27</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.27</ll>
+            <kl>0.01</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="12">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="13">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="soybean">
+          <layer name="1">
+            <ll>0.08</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.09</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.18</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.27</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.27</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.27</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.27</ll>
+            <kl>0.01</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.26</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="12">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="13">
+            <ll>0.27</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+        </SoilCrop>
+      </soil>
       <soil name="Self Mulching Black Vertosol">
         <Water>
           <DiffusConst>40</DiffusConst>
