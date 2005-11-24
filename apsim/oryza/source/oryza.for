@@ -1,7 +1,7 @@
       module oryzaModule
       use registrations
       Use CropLibrary
-
+ 
 ! ===================================================================
 !     oryza constants
 ! ===================================================================
@@ -74,6 +74,7 @@
          REAL tmda                 ! Daily average temperature (degrees C)                 
          REAL ZRT                  ! Root length or rooting depth  !m
          REAL RLAI                 ! Rice leaf area index 
+         real max_rlai             ! maximum rice_lai achieved
          Real ETD                  ! Reference evapotranspiration (mm d-1)                
          REAL ETRD                 ! Radiation-driven part of reference evapotranspiration rate  !mm d-1 
          REAL ETAE                 ! Dryness-driven part of reference evapotranspiration rate  !mm d-1 
@@ -956,6 +957,7 @@
       g%ZRT = 0.0
       g%etd = 0.0
       g%RLAI = 0.0
+      g%max_rlai = 0.0
       g%etrd = 0.0
       g%etae = 0.0
       g%ETD = 0.0
@@ -1254,6 +1256,9 @@
 
 *+  Local Variables
        integer num_layers              ! no. of rlv layers
+       real    cover_green
+       real    cover_tot
+       real    height
 !       real ep
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -1497,6 +1502,30 @@
      :              ,'()'            ! variable units
      :              ,g%dae)            ! variable
       
+      elseif (variable_name .eq. 'cover_green') then
+
+         cover_green = 1 - exp(-0.5 * g%rlai)           
+         call respond2get_real_var (
+     :               variable_name      ! variable name
+     :              ,'()'            ! variable units
+     :              ,cover_green)            ! variable
+
+      elseif (variable_name .eq. 'cover_tot') then
+
+         cover_tot = 1 - exp(-0.5 * g%max_rlai)           
+         call respond2get_real_var (
+     :               variable_name      ! variable name
+     :              ,'()'            ! variable units
+     :              ,cover_tot)            ! variable
+
+      elseif (variable_name .eq. 'height') then
+
+         height = 500.0           
+         call respond2get_real_var (
+     :               variable_name      ! variable name
+     :              ,'(mm)'            ! variable units
+     :              ,height)            ! variable
+
       else
          call Message_Unused ()
       endif
@@ -2489,7 +2518,7 @@
           g%TNSOIL = 10000.0
       endif
 
-      call get_real_var (unknown_module, 'eo_pm', '(mm/day)'
+      call get_real_var (unknown_module, 'eo', '(mm/day)'
      :                                  , g%etd, numvals
      :                                  , 0.0, 500.0)
 
@@ -4846,7 +4875,7 @@
      :   new_line, ' NBCHK=',NBCHK, 
      :   new_line, ' NCKCFL=',NCKCFL,
      :   new_line, ' NCHKIN=',NCHKIN
-         call fatal_error(err_user, string)
+!         call fatal_error(err_user, string)
       END IF
 
        
@@ -5080,6 +5109,11 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+
+      !! Keep a track of the max lai for cover_tot calculation
+      if (g%rlai.gt.g%max_rlai) then
+          g%max_rlai = g%rlai
+      endif          
 
       !!== Termination when there is too little N in leaves
       IF (g%RLAI .GT. 1. .AND. g%FNLV .LE. 0.5*g%NMINL) THEN
