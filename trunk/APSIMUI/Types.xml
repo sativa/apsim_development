@@ -19,12 +19,17 @@
          <![CDATA[
          [comment] ################ Paddock ################ [endcomment]
          <system name="[area.name]" executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll">
+            [foreach area.summaryfile][insert summaryfile][endfor]
             [foreach area.outputfile][insert outputfile][endfor]
             [foreach area.micromet][insert micromet][endfor]
             [foreach area.manager][insert manager][endfor]
             [foreach area.logic][insert logic][endfor]
             [foreach area.irrigation][insert irrigation][endfor]
             [foreach area.fertiliser][insert fertiliser][endfor]
+            [foreach area.solute][insert solute][endfor]
+            [foreach area.dam][insert dam][endfor]
+            [foreach area.channel][insert channel][endfor]
+            [foreach area.bore][insert bore][endfor]
             [foreach area.surfaceom][insert surfaceom][endfor]
             [foreach area.soil][insert soil][endfor]
             [foreach area.phos][insert phos][endfor]
@@ -47,6 +52,7 @@
             [foreach area.ozcot as plant][insert ozcot][endfor]
             [foreach area.peanut as plant][insert peanut][endfor]
             [foreach area.pigeonpea as plant][insert pigeonpea][endfor]
+            [foreach area.rice as plant][insert rice][endfor]
             [foreach area.sorghum as plant][insert sorghum][endfor]
             [foreach area.soybean as plant][insert soybean][endfor]
             [foreach area.stylo as plant][insert stylo][endfor]
@@ -84,6 +90,7 @@
          <variable name="year" description="Year"/>
          <variable name="day" description="Day"/>
          <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)"/>
+         <variable name="dd/mmm/yyyy" description="Date (dd/mmm/yyyy)"/>
          <variable name="maxt" description="Maximum temperature (oC)"/>
          <variable name="mint" description="Minimum temperature (oC)"/>
          <variable name="rain" description="Rainfall (mm)"/>
@@ -116,11 +123,14 @@
             <respondToEvent name="water_supplied" type="null"/>
             <respondToEvent name="irrigate" type="null"/>
             <respondToEvent name="sow" type="null"/>
+            <respondToEvent name="fertilize" type="null"/>
+            <respondToEvent name="tillage" type="null"/>
 
             <get name="today" type="integer4"/>
             <get name="day" type="integer4"/>
             <get name="year" type="integer4"/>
             <get name="dd/mm/yyyy" type="string"/>
+            <get name="dd/mmm/yyyy" type="string"/>
             <get name="rain" type="single"/>
             <get name="radn" type="single"/>
             <get name="maxt" type="single"/>
@@ -130,6 +140,7 @@
             <get name="amp" type="single"/>
             <get name="co2" type="single"/>
             <get name="title" type="string"/>
+            <get name="components" type="string"/>
 
             <respondToGet name="streamflow" type="single"/>
             <respondToGet name="root_sw_uptake_vol" type="single"/>
@@ -204,7 +215,11 @@
             [foreach sim.spaceslurp][insert spaceslurp][endfor]
             [foreach sim.area][insert area][endfor]
             [foreach sim.stream][insert stream][endfor]
-            [foreach sim.WaterSupply][insert WaterSupply][endfor]
+            [foreach sim.dam][insert dam][endfor]
+            [foreach sim.bore][insert bore][endfor]
+            [foreach sim.channel][insert channel][endfor]
+            [foreach sim.solute][insert solute][endfor]
+            [foreach sim.rice][insert rice][endfor]
 
             [comment] ################ vinelogic specific files ################ [endcomment]
             [comment] Iterate through all vinelogics in the simulation, making an input file for each one [endcomment]
@@ -239,6 +254,7 @@
          <variable name="month" description="Month"/>
          <variable name="day_of_month" description="Day of month"/>
          <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)"/>
+         <variable name="dd/mmm/yyyy" description="Date (dd/mmm/yyyy)"/>
          <variable name="dd/mm" description="Date (dd/mm)"/>
          <variable name="dd_mmm" description="Date (dd_mmm  eg '1_Dec')"/>
          <variable name="month_str" description="Month string (eg 'Dec')"/>
@@ -502,6 +518,7 @@
          <variable name="pond" description="Surface ponding depth (mm)"/>
          <variable name="water_table" description="Water table depth (mm)"/>
          <variable name="infiltration" description="Infiltration (mm)"/>
+         <variable name="pond_evap" description="pond_evap (mm)"/>
       </variables>
       <SimMacro>
          <![CDATA[
@@ -939,6 +956,7 @@
          <drop name="weed"/>
          <drop name="wheat"/>
          <drop name="ozcot"/>
+         <drop name="rice"/>
      </drops>
    </rule>
    <vinelogic>
@@ -1699,6 +1717,82 @@
          ]]>
       </SimMacro>
    </ozcot>
+   <rice>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\pigeonpea.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Pigeonpea science documentation">../apsim/pigeonp/docs/pigeonpea_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+     <variables>
+         <variable name="plant_status" description ="out, alive, or dead"/>
+         <variable name="cropsta" description ="Crop stage(0-4)"/>
+         <variable name="wagt" description ="Total aboveground dry matter kg/ha"/>
+         <variable name="wso" description ="Dry weight of storage organs kg/ha"/>
+         <variable name="wst" description ="Dry weight of stems kg/ha"/>
+         <variable name="wlvg" description ="Dry weight of green leaves kg/ha"/>
+         <variable name="wlvd" description ="Dry weight of dead leaves kg/ha"/>
+         <variable name="rlai" description ="Rice leaf area index"/>
+         <variable name="zrt" description ="Root length or rooting depth"/>
+         <variable name="crop_type" description ="usually rice"/>
+         <variable name="dae" description ="Days after emergence (days)"/>
+         <variable name="dvs" description ="Development stage of crop (0-2)"/>
+         <variable name="dvr" description ="Development rate of crop   (oCd-1)"/> 
+         <variable name="hu" description ="Daily heat units effective for phenological development  (oCd d-1) "/>
+         <variable name="lrstrs" description ="Drought stress factor causing leaf rolling   "/>
+         <variable name="ldstrs" description ="Drought stress factor accelerating leaf death   !-"/>
+         <variable name="lestrs" description ="Drought stress factor reducing leaf expansion  !-"/>
+         <variable name="pcew" description ="Effect of drought stress on daily total gross CO2 assimilation of crop; reduction in potential transpiration rate  !-"/>
+         <variable name="tnsoil" description ="Daily amount of N available for uptake from soil  !kg N ha-1 d-1 "/>
+         <variable name="nflv" description ="Nitrogen fraction in leaves on leaf area basis  !g N m-2 leaf"/>
+         <variable name="fnlv" description ="Fraction of N in leaves on weight basis  !kg N kg-1 DM"/>
+         <variable name="nacr" description ="Actual nitrogen uptake rate by crop  !kg N ha-1 d-1 "/>
+         <variable name="ancr" description ="Amount of N in crop (live and dead material)  !kg N ha-1 "/>
+         <variable name="anso" description ="Amount of N in storage organs  !kg N ha-1 "/>
+         <variable name="anlv" description ="Amount of N in leaves  !kg N ha-1" />
+         <variable name="rnstrs" description ="Reduction factor on relative leaf growth rate caused by N stress  !-"/>
+         <variable name="dtga" description ="Daily total gross CO2 assimilation of crop  !kg CO2 ha-1 d-1 "/>
+         <variable name="gcr" description ="Gross growth rate of crop  !kg DM ha-1 d-1" />
+         <variable name="ssga" description ="Specific green stem area  !ha stem kg-1 stem"/>
+         <variable name="eff" description ="Initial light-use efficiency (kg CO2 ha-1 leaf h-1)(W m-2 leaf )-1 "/>
+         <variable name="etd" description ="Reference evapotranspiration (mm d-1)"/>                
+         <variable name="etrd" description ="Radiation-driven part of reference evapotranspiration rate  !mm d-1 "/>
+         <variable name="etae" description ="Dryness-driven part of reference evapotranspiration rate  !mm d-1 "/>
+         <variable name="trc"  description ="Potential transpiration rate of crop with given LAI  !mm d-1"/>
+         <variable name="cover_green"  description ="green cover from crop"/>
+         <variable name="cover_tot"  description ="total cover from crop"/>
+         <variable name="height"  description ="height of crop"/>
+     </variables>
+      <events>
+         <event name = "harvesting"/>
+         <event name = "sowing"/>
+      </events>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ rice ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\oryza\lib\oryza.dll">
+           <initdata>
+              <include>%apsuite\apsim\oryza\oryza.ini</include>
+              <direct-seed name="sample">
+                 <property name="estab">transplant</property>
+                 <property name="sbdur">[plant.sbdur]</property>
+                 <property name="nplh">[plant.nplh]</property>
+                 <property name="nh">[plant.nh]</property>
+                 <property name="nplsb">[plant.nplsb]</property>
+                 <property name="nplds">[plant.nplds]</property>
+              </direct-seed>
+           </initdata>
+         </component>
+         ]]>
+      </SimMacro>
+   </rice>
    <peanut>
       <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -2321,8 +2415,37 @@
    </soiltemp>
    <solute>
       <UItype>generic</UItype>
-      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/solute/docs/solute_science.htm</Documentation>
+      <LargeIcon>Images\drink_blue32.png</LargeIcon>
+      <SmallIcon>Images\drink_blue16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+     <variables>
+         <variable name="salt" description ="salt"/>
+         <variable name="max_salt" description ="max salt in any layer (kg/ha)"/>
+         <variable name="maxppm_salt" description ="max salt in any layer (ppm)"/>
+         <variable name="maxlayer_salt" description ="soil layer in which max_salt occurs"/>
+     </variables>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ solute ################ [endcomment]
+         <component name="[solute.name]" executable="%apsuite\apsim\solute\lib\solute.dll">
+           <initdata>
+             <include>%apsuite\apsim\solute\solute.ini</include>
+             <parameters name="sample">
+                 <property name="solute_names">[solute.solute_names]</property>
+                 <property name="salt">[solute.salt]</property>
+              </parameters>
+           </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </solute>
    <surface>
       <UItype>generic</UItype>
@@ -2349,7 +2472,7 @@
       <ShowInMainTree>No</ShowInMainTree>
       <Documentation name="Science documentation">../apsim/venlink/docs/Guide to linking APSIM with the VENSIM.htm</Documentation>
    </venlink>
-   <WaterSupply>
+   <dam>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -2358,7 +2481,9 @@
       <SmallIcon>Images\drink_blue16.png</SmallIcon>
       <drops>
          <drop name="simulation"/>
+         <drop name="area"/>
          <drop name="folder"/>
+         <drop name="toolbox"/>
      </drops>
      <variables>
          <variable name="evaporation" description ="Dam Evaporation"/>
@@ -2366,8 +2491,118 @@
          <variable name="available_water" description ="Available Dam Water"/>
          <variable name="overflow" description ="Dam Overflow"/>
          <variable name="available_depth" description ="Dam Water Depth"/>
+         <variable name="irrig_water_supplied" description ="Irrigation Water Supplied ML"/>
      </variables>
-   </WaterSupply>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ dam ################ [endcomment]
+         <component name="[dam.name]" executable="%apsuite\apsim\watersupply\lib\watersupply.dll">
+           <initdata>
+              <geometry name="standard">
+                 <property name="dam_gully">1.1</property>
+                 <property name="dam_ring">1.1</property>
+                 <property name="dam_exc">1.1</property>
+                 <property name="sump">1.1</property>
+              </geometry>
+              <parameters name="sample">
+                 <property name="source_type">[dam.source_type]</property>
+                 <property name="max_available_water">[dam.max_available_water]</property>
+                 <property name="max_area">[dam.max_area]</property>
+                 <property name="init_available_water">[dam.init_available_water]</property>
+                 <property name="max_pump">[dam.max_pump]</property>
+                 <property name="min_volume">[dam.min_volume]</property>
+                 <property name="permeability">[dam.permeability]</property>
+                 <property name="seal_thickness">[dam.seal_thickness]</property>
+                 <property name="receive_catchment_runoff">[dam.receive_catchment_runoff]</property>
+                 <property name="receive_crop_runoff">[dam.receive_crop_runoff]</property>
+                 <property name="init_salt_conc">[dam.init_salt_conc]</property>
+                 <property name="catchment_area">[dam.catchment_area]</property>
+                 <property name="catchment_runoff_factor">[dam.catchment_runoff_factor]</property>
+                 <property name="receive_crop_runoff">[dam.receive_crop_runoff]</property>
+                 <property name="runoff_salt_conc">[dam.runoff_salt_conc]</property>
+                 <property name="rainfall_salt_conc">[dam.rainfall_salt_conc]</property>
+              </parameters>
+           </initdata>
+         </component>
+         ]]>
+      </SimMacro>
+   </dam>
+
+   <bore>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/WaterSupply/docs/WaterSupply_science.htm</Documentation>
+      <LargeIcon>Images\drink_blue32.png</LargeIcon>
+      <SmallIcon>Images\drink_blue16.png</SmallIcon>
+      <drops>
+         <drop name="simulation"/>
+         <drop name="area"/>
+         <drop name="folder"/>
+         <drop name="toolbox"/>
+     </drops>
+     <variables>
+         <variable name="available_water" description ="Available Bore Water"/>
+         <variable name="irrig_water_supplied" description ="Irrigation Water Supplied ML"/>
+     </variables>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ bore ################ [endcomment]
+         <component name="[bore.name]" executable="%apsuite\apsim\watersupply\lib\watersupply.dll">
+           <initdata>
+              <parameters name="sample">
+                 <property name="source_type">bore</property>
+                 <property name="max_available_water">[bore.max_available_water]</property>
+                 <property name="init_available_water">[bore.init_available_water]</property>
+                 <property name="max_pump">[bore.max_pump]</property>
+                 <property name="min_volume">[bore.min_volume]</property>
+                 <property name="annual_allocation">[bore.annual_allocation]</property>
+                 <property name="allocation_renewal_day">[bore.allocation_renewal_day]</property>
+                 <property name="init_salt_conc">[bore.init_salt_conc]</property>
+              </parameters>
+           </initdata>
+         </component>
+         ]]>
+      </SimMacro>
+   </bore>
+
+   <channel>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/WaterSupply/docs/WaterSupply_science.htm</Documentation>
+      <LargeIcon>Images\drink_blue32.png</LargeIcon>
+      <SmallIcon>Images\drink_blue16.png</SmallIcon>
+      <drops>
+         <drop name="simulation"/>
+         <drop name="area"/>
+         <drop name="folder"/>
+         <drop name="toolbox"/>
+     </drops>
+     <variables>
+         <variable name="available_water" description ="Available channel Water"/>
+         <variable name="irrig_water_supplied" description ="Irrigation Water Supplied ML"/>
+     </variables>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ channel ################ [endcomment]
+         <component name="[channel.name]" executable="%apsuite\apsim\watersupply\lib\watersupply.dll">
+           <initdata>
+              <parameters name="sample">
+                 <property name="source_type">bore</property>
+                 <property name="max_available_water">[channel.max_available_water]</property>
+                 <property name="init_available_water">[channel.init_available_water]</property>
+                 <property name="max_pump">[channel.max_pump]</property>
+                 <property name="min_volume">[channel.min_volume]</property>
+                 <property name="annual_allocation">[channel.annual_allocation]</property>
+                 <property name="allocation_renewal_day">[channel.allocation_renewal_day]</property>
+                 <property name="init_salt_conc">[dam.init_salt_conc]</property>
+              </parameters>
+           </initdata>
+         </component>
+         ]]>
+      </SimMacro>
+   </channel>
 
    <egrandis>
       <UItype>empty</UItype>
