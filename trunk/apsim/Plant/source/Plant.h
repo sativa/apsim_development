@@ -9,6 +9,7 @@ class PlantFruit;
 class plantThing;
 class eventObserver;
 class Plant;
+class ReproStruct;
 
 typedef bool (Plant::*ptr2setFn) (protocol::QuerySetValueData&);
 
@@ -67,11 +68,43 @@ class Plant : public plantInterface {
 
   vector <plantThing *> myThings;
   plantPart      *stemPart;
+  ReproStruct    *reproStruct;
   PlantPhenology *phenology;
   PlantFruit     *fruit;
 
   eventObserver *floweringEventObserver;     // Bookkeeper for flowering events
   eventObserver *maturityEventObserver;      // Bookkeeper for maturity events
+
+  float Plant::topsGreen(void);
+  float Plant::topsSenesced(void);
+  float Plant::topsDead(void);
+  float Plant::topsTot(void);
+
+  float Plant::topsNGreen(void);
+  float Plant::topsNSenesced(void);
+  float Plant::topsNDead(void);
+  float Plant::topsNTot(void);
+
+  float Plant::stoverGreen(void);
+  float Plant::stoverSenesced(void);
+  float Plant::stoverDead(void);
+  float Plant::stoverTot(void);
+
+  float Plant::stoverNGreen(void);
+  float Plant::stoverNSenesced(void);
+  float Plant::stoverNDead(void);
+  float Plant::stoverNTot(void);
+
+  float Plant::topsPGreen(void);
+  float Plant::topsPSenesced(void);
+  float Plant::topsPDead(void);
+  float Plant::topsPTot(void);
+  float Plant::stoverPGreen(void);
+  float Plant::stoverPSenesced(void);
+  float Plant::stoverPDead(void);
+  float Plant::stoverPTot(void);
+
+
  public:
   Plant(PlantComponent *P);
   ~Plant();
@@ -1274,9 +1307,6 @@ void legnew_dm_distribute(int max_part
       interpolationFunction rue;                        // radiation use efficiency as f(stage number) (g dm/mj)
       float root_depth_rate[max_table];                 // root growth rate potential (mm depth/day)
 
-      float extinct_coef_pod;
-      float spec_pod_area;
-      float rue_pod;
       int   num_row_spacing;
       float leaf_no_crit;                               // critical number of leaves below
                                                         // which portion of the crop may
