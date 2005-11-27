@@ -16,15 +16,22 @@ namespace GetComponentDescription
 		[STAThread]
 		static void Main(string[] args)
 			{
-			if (args.Length == 3)
+			try
 				{
-				string xml = ComponentDescription.getDescriptionFromDLL(args[0], args[1]);
-				StreamWriter Out = new StreamWriter(args[2]);
-				Out.Write(xml);
-				Out.Close();
+				if (args.Length == 3)
+					{
+					string xml = ComponentDescription.getDescriptionFromDLL(args[0], args[1]);
+					StreamWriter Out = new StreamWriter(args[2]);
+					Out.Write(xml);
+					Out.Close();
+					}
+				else
+					Console.WriteLine("Usage: GetComponentDescription modulename instancename outputfilename");
 				}
-			else
-				Console.WriteLine("Usage: GetComponentDescription modulename instancename outputfilename");
+			catch (Exception err)
+				{
+				Console.WriteLine(err.Message + " Module name: " + args[0]);
+				}
 			}
 
 		}
