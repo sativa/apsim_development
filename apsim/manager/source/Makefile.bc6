@@ -16,7 +16,7 @@
 # Main target
 source: ..\lib\manager.dll
 ..\lib\manager.dll: Registrations.obj manager.obj $(STATICLINKEDOBJECTS) 
-	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
+	$(ECHO) $(STATICLINKEDOBJECTS) $(APSROOT)/shared/ApsimShared/ApsimShared.imp > linker.tmp 
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
 	$(LF95) manager.obj Registrations.obj \
