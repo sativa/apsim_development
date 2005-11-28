@@ -67,6 +67,7 @@ class Plant : public plantInterface {
   stageSubject   otherObservers;            // Another collection of state variable observers
 
   vector <plantThing *> myThings;
+  vector <plantPart *> myParts;
   plantPart      *stemPart;
   ReproStruct    *reproStruct;
   PlantPhenology *phenology;
