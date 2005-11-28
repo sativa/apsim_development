@@ -121,11 +121,14 @@ void Plant::doInit1(protocol::Component *s)
        throw std::invalid_argument("Unknown phenology model '" + scratch + "'");
     myThings.push_back(phenology);
 
+    // NB. These must work in conjunction with setupHacks()..
     stemPart = new plantPart(this, "stem");
     myThings.push_back(stemPart);
+    myParts.push_back(stemPart);
 
     reproStruct = new ReproStruct(this, "bruce");
-    myThings.push_back(reproStruct);
+    //myThings.push_back(reproStruct);
+    //myParts.push_back(reproStruct);
 
 
 
@@ -1700,8 +1703,11 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
                               , c.dead_detach_frac
                               , g.dm_dead
                               , g.dlt_dm_dead_detached);
-        stemPart->dm_detachment1();
-        reproStruct->dm_detachment1();
+
+        for (vector<plantPart *>::iterator t = myParts.begin();
+             t != myParts.end();
+             t++)
+           (*t)->dm_detachment1();
 
         cproc_n_detachment1 ( max_part
                              , c.sen_detach_frac
@@ -1710,8 +1716,10 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
                              , c.dead_detach_frac
                              , g.n_dead
                              , g.dlt_n_dead_detached);
-        stemPart->n_detachment1();
-        reproStruct->n_detachment1();
+        for (vector<plantPart *>::iterator t = myParts.begin();
+             t != myParts.end();
+             t++)
+           (*t)->n_detachment1();
         }
     else
         {
@@ -2783,9 +2791,11 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
                         , g.n_green
                         , g.n_demand
                         , g.n_max);
-         stemPart->doNDemand1(g.dlt_dm, g.dlt_dm_pot_rue);
-         reproStruct->doNDemand1(g.dlt_dm, g.dlt_dm_pot_rue);
-         }
+        for (vector<plantPart *>::iterator t = myParts.begin();
+             t != myParts.end();
+             t++)
+           (*t)->doNDemand1(g.dlt_dm, g.dlt_dm_pot_rue);
+        }
      else if (option == 2)
          {
          plant_n_demand(max_part
@@ -2803,8 +2813,10 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
                         , c.n_deficit_uptake_fraction
                         , g.n_demand
                         , g.n_max);
-        stemPart->doNDemand2(g.dlt_dm, g.dlt_dm_pot_rue);
-        reproStruct->doNDemand2(g.dlt_dm, g.dlt_dm_pot_rue);
+         for (vector<plantPart *>::iterator t = myParts.begin();
+              t != myParts.end();
+              t++)
+            (*t)->doNDemand2(g.dlt_dm, g.dlt_dm_pot_rue);
         }
     else
         {
@@ -2841,8 +2853,10 @@ void Plant::plant_soil_n_demand1 (float *g_soil_n_demand)
        g_soil_n_demand[part] = g.n_demand[part] - g.dlt_n_senesced_retrans[part];
        g_soil_n_demand[part] = l_bound(g_soil_n_demand[part],0.0);
        }
-   stemPart->doSoilNDemand();
-   reproStruct->doSoilNDemand();
+   for (vector<plantPart *>::iterator t = myParts.begin();
+        t != myParts.end();
+        t++)
+      (*t)->doSoilNDemand();
 }
 
 //+  Purpose
@@ -3069,13 +3083,14 @@ void Plant::plant_nit_demand_est (int option)
                         , n_demand
                         , n_max);
 
-        stemPart->dlt.dm_green = g.dlt_dm_pot_rue * divide (stemPart->g.dm_green, dm_green_tot, 0.0); // Estimate
-        stemPart->doNDemand1(g.dlt_dm_pot_rue, g.dlt_dm_pot_rue);
-        stemPart->dlt.dm_green = 0.0;
-
-        reproStruct->dlt.dm_green = g.dlt_dm_pot_rue * divide (stemPart->g.dm_green, dm_green_tot, 0.0); // Estimate
-        reproStruct->doNDemand1(g.dlt_dm_pot_rue, g.dlt_dm_pot_rue);
-        reproStruct->dlt.dm_green = 0.0;
+        for (vector<plantPart *>::iterator t = myParts.begin();
+             t != myParts.end();
+             t++)
+           {  
+           (*t)->dlt.dm_green = g.dlt_dm_pot_rue * divide ((*t)->g.dm_green, dm_green_tot, 0.0); // Estimate
+           (*t)->doNDemand1(g.dlt_dm_pot_rue, g.dlt_dm_pot_rue);
+           (*t)->dlt.dm_green = 0.0;
+           }
 
         g.ext_n_demand = sum_real_array (n_demand,max_part) + stemPart->v.n_demand+ reproStruct->v.n_demand;
 
@@ -3145,8 +3160,10 @@ void Plant::plant_sen_bio (int dm_senescence_option)
                               , g.dlt_dm_green
                               , g.dlt_dm_green_retrans
                               , g.dlt_dm_senesced);
-         stemPart->doSenescence1(canopy_sen_fr);
-         reproStruct->doSenescence1(canopy_sen_fr);
+        for (vector<plantPart *>::iterator t = myParts.begin();
+             t != myParts.end();
+             t++)
+           (*t)->doSenescence1(canopy_sen_fr);
 
 //        fruit->dm_senescence1 (max_part                //FIXME when fruit becomes proper class
 //                              , max_table
@@ -3172,8 +3189,10 @@ void Plant::plant_sen_bio (int dm_senescence_option)
                               , c.num_dm_sen_frac
                               , g.dm_green
                               , g.dlt_dm_senesced);
-         stemPart->doSenescence2(canopy_sen_fr);
-         reproStruct->doSenescence2(canopy_sen_fr);
+        for (vector<plantPart *>::iterator t = myParts.begin();
+             t != myParts.end();
+             t++)
+           (*t)->doSenescence2(canopy_sen_fr);
         }
 #ifdef FRUIT_COHORTS
       else if (dm_senescence_option == 3)
@@ -3190,8 +3209,11 @@ void Plant::plant_sen_bio (int dm_senescence_option)
                               , g.dlt_dm_green
                               , g.dlt_dm_green_retrans
                               , g.dlt_dm_senesced);
-        stemPart->doSenescence1(canopy_sen_fr);
-        reproStruct->doSenescence1(canopy_sen_fr);
+        for (vector<plantPart *>::iterator t = myParts.begin();
+             t != myParts.end();
+             t++)
+           (*t)->doSenescence1(canopy_sen_fr);
+
         for (int part = 0; part < max_part; part++)
           g.dlt_dm_fruit_senesced[0][part] = g.dlt_dm_senesced[part];
         }
@@ -3231,8 +3253,11 @@ void Plant::plant_sen_nit (int   option/*(INPUT) option number*/)
                             , g.dm_green
                             , g.dlt_n_senesced_trans
                             , g.dlt_n_senesced);
-        stemPart->doNSenescence();
-        reproStruct->doNSenescence();
+        for (vector<plantPart *>::iterator t = myParts.begin();
+             t != myParts.end();
+             t++)
+           (*t)->doNSenescence();
+
         }
     else if (option == 2)
         {
@@ -3811,8 +3836,10 @@ void Plant::plant_update(
     delete oilPart;
 
     //Hmmm. Don't quite know where this should be.. For now, it doesn't do much (height)..
-    stemPart->update();
-    reproStruct->update();
+    for (vector<plantPart *>::iterator t = myParts.begin();
+         t != myParts.end();
+         t++)
+       (*t)->update();
 
     // transfer plant grain no.
     dlt_grain_no_lost  = *g_grain_no * dying_fract_plants;
@@ -5265,9 +5292,11 @@ void Plant::plant_n_conc_limits
            {
            throw std::runtime_error("Aiieeee nconc_crit < nconc_min!");
            }
-        stemPart->n_conc_limits();
-        reproStruct->n_conc_limits();
-//        }
+
+        for (vector<plantPart *>::iterator t = myParts.begin();
+             t != myParts.end();
+             t++)
+           (*t)->n_conc_limits();
     }
 
 
@@ -5435,8 +5464,10 @@ void Plant::legnew_dm_partition1_test( float  c_frac_leaf                   // (
 
           // first we zero all plant component deltas
     fill_real_array (dlt_dm_green, 0.0, max_part);
-    stemPart->dlt.dm_green = 0.0;
-    reproStruct->dlt.dm_green = 0.0;
+    for (vector<plantPart *>::iterator t = myParts.begin();
+         t != myParts.end();
+         t++)
+       (*t)->dlt.dm_green = 0.0;
 
     // now we get the root delta for all stages - partition scheme
     // specified in coeff file
@@ -5447,9 +5478,11 @@ void Plant::legnew_dm_partition1_test( float  c_frac_leaf                   // (
         {
             // reproductive demand exceeds supply - distribute assimilate to those parts only
         *dlt_dm_fruit = g_dlt_dm;
-        stemPart->dlt.dm_green = 0.0;
-        reproStruct->dlt.dm_green = 0.0;
         dlt_dm_green[leaf] = 0.0;
+        for (vector<plantPart *>::iterator t = myParts.begin();
+            t != myParts.end();
+            t++)
+           (*t)->dlt.dm_green = 0.0;
         }
     else
         {
@@ -5547,8 +5580,10 @@ void Plant::legnew_dm_partition1
 
     // first we zero all plant component deltas
     fill_real_array (dlt_dm_green, 0.0, max_part);
-    stemPart->dlt.dm_green = 0.0;
-    reproStruct->dlt.dm_green = 0.0;
+    for (vector<plantPart *>::iterator t = myParts.begin();
+         t != myParts.end();
+         t++)
+       (*t)->dlt.dm_green = 0.0;
 
     // now we get the root delta for all stages - partition scheme
     // specified in coeff file
@@ -6548,8 +6583,10 @@ void Plant::plant_N_senescence (int num_part                  //(INPUT) number o
                                            , g_n_green[part]);
 
          }
-      stemPart->doNSenescence();
-      reproStruct->doNSenescence();
+      for (vector<plantPart *>::iterator t = myParts.begin();
+           t != myParts.end();
+           t++)
+         (*t)->doNSenescence();
 
       //! now get N to retranslocate out of senescing leaves
       fill_real_array(dlt_n_senesced_trans, 0.0, num_part);
@@ -6697,8 +6734,10 @@ void Plant::plant_process ( void )
 
         plant_grain_number(c.grain_no_option);
 
-        stemPart->morphology();
-        reproStruct->morphology();
+        for (vector<plantPart *>::iterator t = myParts.begin();
+             t != myParts.end();
+             t++)
+           (*t)->morphology();
 
         plant_leaf_no_init(1);
         plant_leaf_no_pot (c.leaf_no_pot_option); // plant node/leaf approach
@@ -7191,18 +7230,16 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
         dlt_dm_p.push_back(dlt_p_harvest * gm2kg/sm2ha);
         }
 
-    stemPart->onHarvest(height, remove_fr,
+    for (vector<plantPart *>::iterator t = myParts.begin();
+         t != myParts.end();
+         t++)
+       (*t)->onHarvest(height, remove_fr,
                         dm_type,
                         dlt_crop_dm,
                         dlt_dm_n,
                         dlt_dm_p,
                         fraction_to_residue);
-    reproStruct->onHarvest(height, remove_fr,
-                        dm_type,
-                        dlt_crop_dm,
-                        dlt_dm_n,
-                        dlt_dm_p,
-                        fraction_to_residue);
+
     int tops2[]={leaf, pod};
     char *tops2Name[] = {"leaf", "pod"};
     for (int ipart = 0; ipart < 2; ipart++)
@@ -7404,8 +7441,10 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
                        , g.n_conc_crit
                        , g.n_conc_max
                        , g.n_conc_min);
-    stemPart->n_conc_limits();
-    reproStruct->n_conc_limits();
+    for (vector<plantPart *>::iterator t = myParts.begin();
+         t != myParts.end();
+         t++)
+       (*t)->n_conc_limits();
 
     if (g.plant_status == alive &&
         phenology->previousStageName() != phenology->stageName())
@@ -9597,12 +9636,10 @@ void Plant::plant_end_crop ()
               fraction_to_residue.push_back(fracts[part]);
               }
 
-          stemPart->onEndCrop(part_name,
-                             dlt_dm_crop,
-                             dlt_dm_n,
-                             dlt_dm_p,
-                             fraction_to_residue);
-          reproStruct->onEndCrop(part_name,
+          for (vector<plantPart *>::iterator t = myParts.begin();
+             t != myParts.end();
+             t++)
+           (*t)->onEndCrop(part_name,
                              dlt_dm_crop,
                              dlt_dm_n,
                              dlt_dm_p,
@@ -10262,8 +10299,11 @@ void Plant::plant_prepare (void)
 //- Implementation Section ----------------------------------
     push_routine (myname);
 
-    stemPart->prepare();
-    reproStruct->prepare();
+    for (vector<plantPart *>::iterator t = myParts.begin();
+         t != myParts.end();
+         t++)
+       (*t)->prepare();
+
     plant_nit_stress (c.n_stress_option);
     plant_temp_stress (1);
     plant_light_supply_partition (1);
@@ -10348,10 +10388,10 @@ void Plant::plant_read_species_const ()
                       , c.root_growth_option
                       , 1, 2);
 
-    phenology->readSpeciesParameters(parent, search_order);
-
-    stemPart->readSpeciesParameters(parent, search_order);
-    reproStruct->readSpeciesParameters(parent, search_order);
+   for (vector<plantThing *>::iterator t = myThings.begin();
+        t != myThings.end();
+        t++)
+      (*t)->readSpeciesParameters(parent, search_order);
 
 
 //      call search_parent->readParameter (search_order, num_sections

@@ -56,11 +56,12 @@ void Plant::deleteHacks(vector<plantPart *> &parts)
 
 
 //////////---------------------------
-string varName1, varName2, varName3, varName4, varName5, varName6;
-string varName7, varName8, varName9;
-string desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9;
 void plantPart::doRegistrations(protocol::Component *system)
 {
+   string varName1, varName2, varName3, varName4, varName5, varName6;
+   string varName7, varName8, varName9;
+   string desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9;
+
    varName1 = c.name + "_wt";
    desc1 = "Weight of " + c.name;
    system->addGettableVar(varName1.c_str(), g.dm_green, "g/m^2", desc1.c_str());
