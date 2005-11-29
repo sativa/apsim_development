@@ -13,6 +13,10 @@ Public Class APSIMSettings
         ByVal lpKeyName As String, ByVal lpDefault As String, _
         ByVal lpReturnedString As String, ByVal nSize As Int32, _
         ByVal lpFileName As String) As Int32
+    Private Declare Ansi Function GetPrivateProfileSection Lib "kernel32" _
+        Alias "GetPrivateProfileSectionA" (ByVal lpApplicationName As String, _
+        ByVal lpReturnedString As String, ByVal nSize As Int32, _
+        ByVal lpFileName As String) As Int32
 
 
     ' ---------------------------
@@ -62,6 +66,26 @@ Public Class APSIMSettings
         Else
             INIRead = ""
         End If
+    End Function
+
+    ' ----------------------------------------
+    ' Returns the contents of a section
+    ' ----------------------------------------
+    Public Overloads Shared Function INIReadSection(ByVal INIPath As String, _
+        ByVal SectionName As String) As String
+        Dim n As Int32
+        Dim sData As String
+        sData = Space$(5000) ' allocate some room 
+        n = GetPrivateProfileSection(SectionName, sData, sData.Length, INIPath)
+        Dim Values As String() = sData.Split(ControlChars.NullChar) ' change embedded NULLs to pipe chars
+        Dim ReturnString As String
+        For Each Line As String In Values
+            If ReturnString <> "" Then
+                ReturnString = ReturnString + vbCrLf
+            End If
+            ReturnString = ReturnString + Line
+        Next
+        Return ReturnString
     End Function
 
 

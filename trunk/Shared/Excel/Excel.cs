@@ -3,17 +3,14 @@ using System.Data;
 using System.Collections.Specialized;
 using Microsoft.Office.Core;
 using CSGeneral;
+using System.IO;
 
 namespace ExcelUtility
 	{
 	public class ExcelHelper
 		{
 
-
-		// -----------------
-		// Import all files
-		// -----------------
-		static public DataTable ImportFromFile(string FileName, string SheetName)
+		static public DataTable GetDataFromSheet(string FileName, string SheetName)
 			{
 			Excel.Application ExcelApp = null;
 			Excel.Workbook Workbook = null;
@@ -77,12 +74,73 @@ namespace ExcelUtility
 			return Table;
 			}
 
-		// ---------------------------------------------------------
-		// Return a row of cell values to caller for specified cell.
-		// Row index starts from 1.
-		// ---------------------------------------------------------
+
+		static public void SendDataToSheet(string FileName, string SheetName, DataTable Table)
+			{
+			if (File.Exists(FileName))
+				throw new Exception("File '" + FileName + "' already exists.");
+			Excel.Application ExcelApp = null;
+			Excel.Workbook Workbook = null;
+			Excel.Worksheet WorkSheet = null;
+
+			try
+				{
+				ExcelApp = new Excel.Application();
+				if (ExcelApp == null)
+					throw new Exception("Cannot find Excel.");
+
+				Workbook = ExcelApp.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
+				WorkSheet = (Excel.Worksheet) Workbook.Worksheets.Add(
+                                             Type.Missing, 
+                                             Type.Missing, 
+                                             Type.Missing, 
+                                             Type.Missing);
+				WorkSheet.Name = SheetName;
+
+				// ok now we want send all data to sheet.
+				ExcelApp.SheetsInNewWorkbook = 1;
+				WorkSheet.Activate();
+				SetTitleRow(WorkSheet, 0, Table);
+
+				for (int Row = 0; Row != Table.Rows.Count; Row++)
+					SetExcelRow(WorkSheet, Row, Table);
+
+				ExcelApp.DisplayAlerts = false;
+				ExcelApp.ActiveWorkbook.SaveAs(
+								FileName, 
+								Excel.XlFileFormat.xlXMLSpreadsheet, 
+								Type.Missing, 
+								Type.Missing, 
+								Type.Missing, 
+								Type.Missing, 
+								Excel.XlSaveAsAccessMode.xlNoChange,
+								Type.Missing, 
+								Type.Missing, 
+								Type.Missing, 
+								Type.Missing, 
+								Type.Missing);     
+				}
+			catch (Exception)
+				{
+				if (ExcelApp != null)
+					ExcelApp.Quit();
+				WorkSheet = null;
+				Workbook = null;
+				ExcelApp = null;
+				throw;
+				}
+
+			ExcelApp.Quit();
+			WorkSheet = null;
+			Workbook = null;
+			ExcelApp = null;
+			}
+
 		private static StringCollection GetExcelRow(Excel.Worksheet Sheet, int Row)
 			{
+			// Return a row of cell values to caller for specified cell.
+			// Row index starts from 1.
+
 			int Col = 1; 
 			StringCollection Values = new StringCollection();
 			Excel.Range Cell = (Excel.Range) Sheet.Cells[Row, Col];
@@ -96,12 +154,10 @@ namespace ExcelUtility
 		
 			return Values;
 			}
-		// ---------------------------------------------------------
-		// Return a row of cell values to caller for specified cell.
-		// Row index starts from 1.
-		// ---------------------------------------------------------
 		private static bool GetExcelRow(Excel.Worksheet Sheet, int Row, int NumValues, StringCollection Values)
 			{
+			// Return a row of cell values to caller for specified cell.
+			// Row index starts from 1.
 			Values.Clear();
 
 			int Col = 1; 
@@ -120,6 +176,24 @@ namespace ExcelUtility
 				}
 		
 			return true;
+			}
+
+		private static void SetTitleRow(Excel.Worksheet Sheet, int Row, DataTable Table)
+			{
+			for (int Col = 0; Col != Table.Columns.Count; Col++)
+				{
+				Excel.Range Cell = (Excel.Range) Sheet.Cells[Row+1, Col+1];
+				Cell.Value2 = Table.Columns[Col].ColumnName;
+				Cell.Font.Bold = true;
+				}	
+			}
+		private static void SetExcelRow(Excel.Worksheet Sheet, int Row, DataTable Table)
+			{
+			for (int Col = 0; Col != Table.Columns.Count; Col++)
+				{
+				Excel.Range Cell = (Excel.Range) Sheet.Cells[Row+2, Col+1];
+				Cell.Value2 = Table.Rows[Row][Col];
+				}
 			}
 
 		}

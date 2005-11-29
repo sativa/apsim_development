@@ -72,6 +72,11 @@ class ApsimRuns
                                      const std::vector<std::string>& sims);
 
       //---------------------------------------------------------------------------
+      // Add the specified simulations from the specified .APSIM file.
+      //---------------------------------------------------------------------------
+      void addSimulationsFromApsimFile(const std::string& fileName);
+
+      //---------------------------------------------------------------------------
       // Perform a single APSIM run.
       //---------------------------------------------------------------------------
       bool performRun(const std::string& simFileName, bool moreToGo, bool console,

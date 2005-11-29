@@ -18,6 +18,7 @@
 #include <ApsimShared\ApsimSettings.h>
 #include <ApsimShared\SimCreator.h>
 #include <ApsimShared\ApsimDirectories.h>
+#include <general\xml.h>
 #include "ApsimRuns.h"
 
 #pragma package(smart_init)
@@ -55,6 +56,8 @@ void ApsimRuns::addSimulationsFromFile(const std::string& fileName)
       }
    else if (fileExtension == ".sim")
       addSimulation(fileName, Path(fileName).Get_name_without_ext());
+   else if (fileExtension == ".apsim")
+      addSimulationsFromApsimFile(fileName);
    else
       throw runtime_error("Invalid simulation file: " + fileName);
    }
@@ -80,6 +83,22 @@ void ApsimRuns::addSimulation(const std::string& fileName, const std::string& si
    {
    fileNames.push_back(fileName);
    simNames.push_back(simName);
+   }
+//---------------------------------------------------------------------------
+// Add the specified simulations from the specified .APSIM file.
+//---------------------------------------------------------------------------
+void ApsimRuns::addSimulationsFromApsimFile(const std::string& fileName)
+   {
+   vector<string> simulationNames;
+   XMLDocument doc(fileName);
+   for (XMLNode::iterator node = doc.documentElement().begin();
+                          node != doc.documentElement().end();
+                          node++)
+      if (!Str_i_Eq(node->getName(), "shared"))
+         simulationNames.push_back(node->getAttribute("name"));
+
+   for (unsigned s = 0; s != simulationNames.size(); s++)
+      addSimulation(fileName, simulationNames[s]);
    }
 //---------------------------------------------------------------------------
 // Get a list of control files that need converting.
@@ -115,6 +134,16 @@ void ApsimRuns::runApsim(bool quiet, bool console, TApsimRunEvent notifyEvent)
             {
             SimCreator simCreator(newFormat);
             simCreator.ConToSim(filePath.Get_path(), simNames[f], "");
+            filePath.Set_extension(".sim");
+            }
+         else if (filePath.Get_extension() == ".apsim")
+            {
+            Path currentDir = Path::getCurrentFolder();
+            filePath.Change_directory();
+            string commandLine = "\"" + getApsimDirectory() + "\\bin\\apsimtosim.exe\" \""
+                               + filePath.Get_name() + "\" \"" + simNames[f] + "\"";
+            Exec(commandLine.c_str(), SW_HIDE, true);
+            filePath.Set_name(simNames[f].c_str());
             filePath.Set_extension(".sim");
             }
          bool moreToGo = (f != fileNames.size()-1);
