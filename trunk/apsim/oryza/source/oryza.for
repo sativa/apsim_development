@@ -251,7 +251,7 @@
          
          LOGICAL GRAINS            ! Logical parameter indicating whether grains are formed   !- 
          LOGICAL TESTL             !Logical variable to indicate whether the difference between simulated and imposed SLA is smaller than TESTSET  !-
-                       
+         character*50 eo_source    ! system variable name of external eo source
       end type oryzaGlobals
 ! ===================================================================
       type oryzaParameters
@@ -833,6 +833,9 @@
       character*(*) myname                 ! Name of this procedure
       parameter (myname = 'oryza_init')
 
+      character section_name*(*)
+      parameter (section_name = 'parameters')
+
 *+  Local variables
       Integer I,num_layers, numvals
       REAL zrti
@@ -883,6 +886,16 @@
         call write_string('Non - limiting Soil Nitrogen conditions')
       else
         p%nitroenv=env_limited 
+      endif
+
+      call read_char_var_optional (section_name
+     :                   ,'eo_source', '()'
+     :                   , g%eo_source
+     :                   , numvals)
+      if (numvals .le. 0) then
+          g%eo_source = ' '
+      else
+          call write_string('Eo taken from '//g%eo_source)
       endif
       
       call pop_routine (myname)
@@ -1221,6 +1234,8 @@
       p%WLVGI =0.0
       p%WSTI  =0.0
       p%WRTI  =0.0
+
+      g%eo_source = ' '
 
       call pop_routine (myname)
       return
@@ -2465,6 +2480,7 @@
      :          ,p%numnsllv             ! Number of values returned
      :          ,0.0                  ! Lower Limit for bound check
      :          ,100.0)                 ! Upper Limit for bound check 
+
     
       call pop_routine  (myname)
       return
@@ -2518,9 +2534,15 @@
           g%TNSOIL = 10000.0
       endif
 
-      call get_real_var (unknown_module, 'eo', '(mm/day)'
+      if (g%eo_source .ne. ' ') then
+         call get_real_var (unknown_module, g%eo_source, '(mm)'
+     :                                , g%etd, numvals
+     :                                , 0.0, 100.0)
+      else
+         call get_real_var (unknown_module, 'eo', '(mm)'
      :                                  , g%etd, numvals
      :                                  , 0.0, 500.0)
+      endif
 
       call get_real_var_optional (unknown_module
      :                           , 'co2', '()'
