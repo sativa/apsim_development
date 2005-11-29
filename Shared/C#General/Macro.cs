@@ -312,37 +312,34 @@ namespace CSGeneral
 		// Replace global macros in the specified Contents.
 		//---------------------------------------------------------------
 		void ReplaceGlobalMacros(ref string Contents, APSIMData Values)
-		{
+			{
 			char[] delimiters = {'.'};
 
 			int PosStartMacro = Contents.IndexOf('[');
 			while (PosStartMacro != -1)
-			{
+				{
 				int PosEndMacro = Contents.IndexOf(']', PosStartMacro);
 				string Macro = Contents.Substring(PosStartMacro+1, PosEndMacro-PosStartMacro-1);
 				int PosPeriod = Macro.IndexOf(".");
 				if (PosPeriod != -1)
-				{
+					{
 					string MacroFirstBit = Macro.Substring(0, PosPeriod);
-					if (MacroFirstBit == Values.Name)
+					if (MacroFirstBit == Values.Name || MacroFirstBit == Values.Type)
 						Macro = Macro.Substring(PosPeriod+1);
-				}
+					}
 
 				try
-				{
-					string Value = GetValueFromNode(Values, Macro);
-					if (Value != "")
 					{
-						Contents = Contents.Remove(PosStartMacro, PosEndMacro-PosStartMacro-1+2);
-						Contents = Contents.Insert(PosStartMacro, Value);
+					string Value = GetValueFromNode(Values, Macro);
+					Contents = Contents.Remove(PosStartMacro, PosEndMacro-PosStartMacro-1+2);
+					Contents = Contents.Insert(PosStartMacro, Value);
 					}
-				}
 				catch (Exception)
 				{
 				}
 				PosStartMacro = Contents.IndexOf('[', PosStartMacro+1);
+				}
 			}
-		}
 		//---------------------------------------------------------------
 		// Return a attribute value or child value from the specified child node
 		//---------------------------------------------------------------

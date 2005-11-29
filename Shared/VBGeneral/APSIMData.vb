@@ -69,6 +69,8 @@ Public Class APSIMData
     End Sub
 
 
+
+
     ' ------------------------------------------------
     ' Return parent node data or nothing if root node
     ' ------------------------------------------------
@@ -253,6 +255,19 @@ Public Class APSIMData
             End If
         End Get
     End Property
+
+    ' ----------------------------
+    ' Save to the specified stream
+    ' ----------------------------
+    Public Shared Function FormatXML(ByVal XML As String) As String
+        Dim Data As New APSIMData("<dummy>" + XML + "</dummy>")
+        Dim TextWriter As New StringWriter
+        Dim Out As New XmlTextWriter(TextWriter)
+        Out.Formatting = Formatting.Indented
+        Data.Node.WriteContentTo(Out)
+        Return TextWriter.ToString
+    End Function
+
     Public Function Add(ByVal Data As APSIMData) As APSIMData
         If Not IsNothing(Data) Then
             If Me.Attribute("shortcut") <> "" Then

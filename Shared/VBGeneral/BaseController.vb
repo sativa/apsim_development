@@ -390,7 +390,7 @@ Public MustInherit Class BaseController
     End Property
     Public ReadOnly Property AllowMoveSelectedUp() As Boolean
         Get
-            If MySelectedData.Count > 0 Then
+            If MySelectedData.Count > 0 And Not Data.Parent Is Nothing Then
                 Dim FirstSelectedData As APSIMData = GetDataForFullPath(MySelectedData(0))
                 Dim ChildNames As StringCollection = Data.Parent.ChildList
                 Return FirstSelectedData.Name <> ChildNames(0) And AllSelectedNodesAreSiblings
@@ -401,7 +401,7 @@ Public MustInherit Class BaseController
     End Property
     Public ReadOnly Property AllowMoveSelectedDown() As Boolean
         Get
-            If MySelectedData.Count > 0 Then
+            If MySelectedData.Count > 0 And Not Data.Parent Is Nothing Then
                 Dim LastSelectedData As APSIMData = GetDataForFullPath(MySelectedData(MySelectedData.Count - 1))
                 Dim ChildNames As StringCollection = Data.Parent.ChildList
                 Return LastSelectedData.Name <> ChildNames(ChildNames.Count - 1) And AllSelectedNodesAreSiblings
@@ -442,19 +442,21 @@ Public MustInherit Class BaseController
         End If
     End Sub
     Public Sub Delete(ByVal FullPaths As StringCollection)
-        ' Delete all nodes as specified by FulllPaths
-        Dim HaveModifiedSelections As Boolean = False
-        For Each FullPath As String In FullPaths
-            Dim DataToDelete As APSIMData = GetDataForFullPath(FullPath)
-            DataToDelete.Parent.Delete(DataToDelete.Name)
-            If MySelectedData.IndexOf(FullPath) <> -1 Then
-                MySelectedData.Remove(FullPath)
-                HaveModifiedSelections = True
+        If Me.AllowDeleteSelected Then
+            ' Delete all nodes as specified by FulllPaths
+            Dim HaveModifiedSelections As Boolean = False
+            For Each FullPath As String In FullPaths
+                Dim DataToDelete As APSIMData = GetDataForFullPath(FullPath)
+                DataToDelete.Parent.Delete(DataToDelete.Name)
+                If MySelectedData.IndexOf(FullPath) <> -1 Then
+                    MySelectedData.Remove(FullPath)
+                    HaveModifiedSelections = True
+                End If
+            Next
+            RaiseEvent DeleteEvent()
+            If HaveModifiedSelections Then
+                RaiseEvent SelectionChangedEvent()
             End If
-        Next
-        RaiseEvent DeleteEvent()
-        If HaveModifiedSelections Then
-            RaiseEvent SelectionChangedEvent()
         End If
     End Sub
     Public Sub MoveSelectedUp()

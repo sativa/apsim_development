@@ -59,6 +59,7 @@ Public Class DataTree
     Friend WithEvents MenuItem2 As System.Windows.Forms.MenuItem
     Friend WithEvents MoveUpMenuItem As System.Windows.Forms.MenuItem
     Friend WithEvents MoveDownMenuItem As System.Windows.Forms.MenuItem
+    Friend WithEvents RenameMenuItem As System.Windows.Forms.MenuItem
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.TreeView = New System.Windows.Forms.TreeView
         Me.ContextMenu1 = New System.Windows.Forms.ContextMenu
@@ -71,6 +72,7 @@ Public Class DataTree
         Me.MenuItem2 = New System.Windows.Forms.MenuItem
         Me.MoveUpMenuItem = New System.Windows.Forms.MenuItem
         Me.MoveDownMenuItem = New System.Windows.Forms.MenuItem
+        Me.RenameMenuItem = New System.Windows.Forms.MenuItem
         Me.SuspendLayout()
         '
         'TreeView
@@ -82,16 +84,16 @@ Public Class DataTree
         Me.TreeView.HideSelection = False
         Me.TreeView.ImageIndex = -1
         Me.TreeView.LabelEdit = True
-        Me.TreeView.Location = New System.Drawing.Point(0, 25)
+        Me.TreeView.Location = New System.Drawing.Point(0, 40)
         Me.TreeView.Name = "TreeView"
         Me.TreeView.PathSeparator = "|"
         Me.TreeView.SelectedImageIndex = -1
-        Me.TreeView.Size = New System.Drawing.Size(336, 463)
+        Me.TreeView.Size = New System.Drawing.Size(705, 713)
         Me.TreeView.TabIndex = 0
         '
         'ContextMenu1
         '
-        Me.ContextMenu1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.AddFolderMenuItem, Me.DeleteItemMenuItem, Me.MenuItem1, Me.CutMenuItem, Me.CopyMenuItem, Me.PasteMenuItem, Me.MenuItem2, Me.MoveUpMenuItem, Me.MoveDownMenuItem})
+        Me.ContextMenu1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.AddFolderMenuItem, Me.DeleteItemMenuItem, Me.RenameMenuItem, Me.MenuItem1, Me.CutMenuItem, Me.CopyMenuItem, Me.PasteMenuItem, Me.MenuItem2, Me.MoveUpMenuItem, Me.MoveDownMenuItem})
         '
         'AddFolderMenuItem
         '
@@ -106,50 +108,55 @@ Public Class DataTree
         '
         'MenuItem1
         '
-        Me.MenuItem1.Index = 2
+        Me.MenuItem1.Index = 3
         Me.MenuItem1.Text = "-"
         '
         'CutMenuItem
         '
-        Me.CutMenuItem.Index = 3
+        Me.CutMenuItem.Index = 4
         Me.CutMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlX
         Me.CutMenuItem.Text = "Cu&t"
         '
         'CopyMenuItem
         '
-        Me.CopyMenuItem.Index = 4
+        Me.CopyMenuItem.Index = 5
         Me.CopyMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlC
         Me.CopyMenuItem.Text = "&Copy"
         '
         'PasteMenuItem
         '
-        Me.PasteMenuItem.Index = 5
+        Me.PasteMenuItem.Index = 6
         Me.PasteMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlV
         Me.PasteMenuItem.Text = "&Paste"
         '
         'MenuItem2
         '
-        Me.MenuItem2.Index = 6
+        Me.MenuItem2.Index = 7
         Me.MenuItem2.Text = "-"
         '
         'MoveUpMenuItem
         '
-        Me.MoveUpMenuItem.Index = 7
+        Me.MoveUpMenuItem.Index = 8
         Me.MoveUpMenuItem.ShowShortcut = False
         Me.MoveUpMenuItem.Text = "Move &up        Ctrl+Up"
         '
         'MoveDownMenuItem
         '
-        Me.MoveDownMenuItem.Index = 8
+        Me.MoveDownMenuItem.Index = 9
         Me.MoveDownMenuItem.ShowShortcut = False
         Me.MoveDownMenuItem.Text = "Move do&wn    Ctrl+Down"
+        '
+        'RenameMenuItem
+        '
+        Me.RenameMenuItem.Index = 2
+        Me.RenameMenuItem.Text = "&Rename"
         '
         'DataTree
         '
         Me.AllowDrop = True
         Me.Controls.Add(Me.TreeView)
         Me.Name = "DataTree"
-        Me.Size = New System.Drawing.Size(336, 488)
+        Me.Size = New System.Drawing.Size(705, 753)
         Me.Controls.SetChildIndex(Me.TreeView, 0)
         Me.ResumeLayout(False)
 
@@ -227,6 +234,7 @@ Public Class DataTree
     Overrides Sub Refresh()
         If Not IsNothing(Controller) AndAlso Not Controller.AllData Is Nothing Then
             HelpText = ""
+            TreeView.BeginUpdate()
             TreeView.Nodes.Clear()
             AddNode(Controller.AllData, Nothing)
             Dim RootNode As TreeNode = TreeView.Nodes(0)
@@ -236,6 +244,7 @@ Public Class DataTree
                 TreeView.ExpandAll()
             End If
             RootNode.Expand()
+            TreeView.EndUpdate()
         End If
     End Sub
 
@@ -736,6 +745,7 @@ Public Class DataTree
     Private Sub ContextMenu1_Popup(ByVal sender As Object, ByVal e As System.EventArgs) Handles ContextMenu1.Popup
         AddFolderMenuItem.Enabled = Controller.AllowAddFolderToSelected
         DeleteItemMenuItem.Enabled = Controller.AllowDeleteSelected
+        RenameMenuItem.Enabled = Controller.AllowRenameSelected
         CutMenuItem.Enabled = Controller.AllowCut
         CopyMenuItem.Enabled = Controller.AllowCopy
         PasteMenuItem.Enabled = Controller.AllowPaste
@@ -795,6 +805,11 @@ Public Class DataTree
         Controller.MoveSelectedDown()
     End Sub
 
+    Private Sub RenameMenuItemClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles RenameMenuItem.Click
+        If Not TreeView.SelectedNode Is Nothing Then
+            TreeView.SelectedNode.BeginEdit()
+        End If
+    End Sub
 
     Private Sub TreeView_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles TreeView.DoubleClick
         RaiseEvent DoubleClickEvent()

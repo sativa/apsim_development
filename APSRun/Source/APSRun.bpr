@@ -9,9 +9,9 @@
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TRunForm.dfm"/>
     <LIBFILES value="..\..\Shared\ApsimShared\ApsimShared.lib ..\..\Shared\general\general.lib 
-      ..\..\Shared\general\general_vcl.lib"/>
-    <LIBRARIES value="TMSC6.lib"/>
-    <SPARELIBS value="vcl.lib rtl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib"/>
+      ..\..\Shared\general\general_vcl.lib &quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\LibXML2.lib&quot;"/>
+    <LIBRARIES value="Tee7C6.lib VclSmp.lib TMSC6.lib"/>
+    <SPARELIBS value="vcl.lib rtl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib VclSmp.lib Tee7C6.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi bdertl.bpi 
       vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi visualdbclx.bpi 
       vclie.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi bcbie.bpi 
@@ -56,6 +56,7 @@
       <FILE FILENAME="..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ApsimRuns.cpp" FORMNAME="" UNITNAME="ApsimRuns" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\LibXML2.lib" FORMNAME="" UNITNAME="LibXML2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -126,7 +127,7 @@ Item1=..\..\Bin
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=d:\development\apsim\accum\sample\accum.con
+RunParams=d:\tmp\test.apsim
 Launcher=
 UseLauncher=0
 DebugCWD=

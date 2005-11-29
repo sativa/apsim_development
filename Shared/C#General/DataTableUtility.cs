@@ -9,26 +9,49 @@ namespace CSGeneral
 	// -----------------------------------------
 	public class DataTableUtility
 		{
+		// ---------------------------------------------------
+		// Add a value to the specified data table
+		// ---------------------------------------------------
+		static public void AddValue(DataTable Table, string ColumnName, string Value, int StartRow, int Count)
+			{
+			string[] Values = new string[Count];
+			for (int i = 0; i != Count; i++)
+				Values[i] = Value;
+			AddColumn(Table, ColumnName, Values, StartRow, Count);
+			}
+
+		// ---------------------------------------------------
+		// Add a value to the specified data table
+		// ---------------------------------------------------
+		static public void AddValue(DataTable Table, string ColumnName, double Value, int StartRow, int Count)
+			{
+			string[] Values = new string[Count];
+			for (int i = 0; i != Count; i++)
+				Values[i] = Value.ToString();
+			AddColumn(Table, ColumnName, Values, StartRow, Count);
+			}
+
 
 		// ---------------------------------------------------
 		// Add a column of values to the specified data table
 		// ---------------------------------------------------
-		static public void AddColumn(DataTable Table, string ColumnName, double[] Values)
+		static public void AddColumn(DataTable Table, string ColumnName, double[] Values, int StartRow, int Count)
 			{
 			if (Table.Columns.IndexOf(ColumnName) == -1)
 				Table.Columns.Add(ColumnName);
 
 			// Make sure there are enough values in the table.
-			while (Table.Rows.Count != Values.Length)
+			while (Table.Rows.Count < Values.Length + StartRow)
 				Table.Rows.Add(Table.NewRow());
 
-
-			for (int Row = 0; Row != Values.Length; Row++)
+			int Row = StartRow;
+			for (int Index = 0; Index != Values.Length; Index++)
 				{
-				if (Values[Row] != MathUtility.MissingValue)
-					Table.Rows[Row][ColumnName] = Values[Row];
+				if (Values[Index] != MathUtility.MissingValue)
+					Table.Rows[Row][ColumnName] = Values[Index];
 				else
 					Table.Rows[Row][ColumnName] = "";
+				Row++;
 				}
 			}
 
@@ -36,18 +59,21 @@ namespace CSGeneral
 		// ---------------------------------------------------
 		// Add a column of values to the specified data table
 		// ---------------------------------------------------
-		static public void AddColumn(DataTable Table, string ColumnName, string[] Values)
+		static public void AddColumn(DataTable Table, string ColumnName, string[] Values, int StartRow, int Count)
 			{
 			if (Table.Columns.IndexOf(ColumnName) == -1)
 				Table.Columns.Add(ColumnName);
 
 			// Make sure there are enough values in the table.
-			while (Table.Rows.Count != Values.Length)
+			while (Table.Rows.Count < Values.Length + StartRow)
 				Table.Rows.Add(Table.NewRow());
 
-
-			for (int Row = 0; Row != Values.Length; Row++)
-				Table.Rows[Row][ColumnName] = Values[Row];
+			int Row = StartRow;
+			for (int Index = 0; Index != Values.Length; Index++)
+				{
+				Table.Rows[Row][ColumnName] = Values[Index];
+				Row++;
+				}
 			}
 
 
