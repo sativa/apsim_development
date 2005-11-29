@@ -25,7 +25,7 @@ LIBFILES = $(APSROOT)\Shared\ApsimShared\ApsimShared.lib $(APSROOT)\Shared\gener
     $(APSROOT)\Shared\general\general_vcl.lib
 IDLFILES =
 IDLGENFILES =
-LIBRARIES = TMSC6.lib
+LIBRARIES = TMSC6.lib LibXml2.lib
 PACKAGES = vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi bdertl.bpi \
     vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi visualdbclx.bpi \
     vclie.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi bcbie.bpi \
@@ -40,7 +40,7 @@ RELEASELIBPATH = $(BCB)\lib\release
 USERDEFINES = _DEBUG
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
 INCLUDEPATH = "C:\Program Files\Borland\CBuilder6\Projects";$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(APSROOT)\shared
-LIBPATH = $(BCB)\Components\TeeChart\CBuilder6\Lib;"C:\Program Files\Borland\CBuilder6\Projects";$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+LIBPATH = $(BCB)\Components\TeeChart\CBuilder6\Lib;"C:\Program Files\Borland\CBuilder6\Projects";$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms;$(BCB)\Components\LibXml2\win32
 WARNINGS= -w-par
 PATHCPP = .;
 PATHASM = .;
