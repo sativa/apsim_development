@@ -30,3 +30,9 @@ cd %APSROOT%\apsim\slurp\source
 echo ------Compiling Slurp >> %APSROOT%\dotnet.out
 "C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\devenv" Slurp.vbproj /rebuild debug >> %APSROOT%\dotnet.out
 cd %APSROOT%
+
+rem --------- Compile ApsimToSim Module
+cd %APSROOT%\apsrun\ApsimToSim
+echo ------Compiling ApsimToSim >> %APSROOT%\dotnet.out
+"C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\IDE\devenv" ApsimToSim.csproj /rebuild debug >> %APSROOT%\dotnet.out
+cd %APSROOT%
