@@ -65,9 +65,7 @@ type = wheat
 
 
 name = wheat
-[gmtb0.grasp.parameters]
-crop_type =  grass
-uptake_source =  calc
+[gmtb0.grasp.seedling]
 
 ! Initial values
 root_depth_init =  350       (mm)
@@ -80,6 +78,10 @@ dm_dead_root_init =  0        (kg/ha)
 basal_area_init =  0.1       (%)
 acc_trans_for_n_init =  0        (mm)
 acc_growth_for_n_init =  0        (kg/ha)
+
+[gmtb0.grasp.parameters]
+crop_type =  grass
+uptake_source =  calc
 
 max_n_avail =      15        ()
 max_n_avail_dist =  0.8    0.1      0.05    0.05  ()
@@ -210,8 +212,19 @@ summaryfile=gmtb0c.sum
 summaryfile=gmtb0d.sum
 [gmtb0e.SummaryFile.parameters]
 summaryfile=gmtb0e.sum
-[gmt.manager.end_of_day]
 
+[gmt.manager.start_of_day]
+if (clock.day = clock.simulation_start_day and
+    clock.year = clock.simulation_start_year) then
+  grasp establish init_section = seedling
+endif
+[gmtb0.manager.start_of_day]
+if (clock.day = clock.simulation_start_day and
+    clock.year = clock.simulation_start_year) then
+  grasp establish init_section = seedling
+endif
+
+[gmt.manager.end_of_day]
 if (soil_loss > 0.0) then
   report do_output
 endif
