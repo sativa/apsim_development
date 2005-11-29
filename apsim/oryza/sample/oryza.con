@@ -4,10 +4,10 @@ title = oryza Sample Simulation - potential
 module = clock   oryza.par [sample] %apsuite\apsim\clock\clock.ini [standard]
 module = report     oryza.par [sample] oryza.par [fp]
 module = input(met) %apsuite\apsim\MET\SAMPLE\LosBanos.met [weather]
-module = micromet   oryza.par [sample] oryza.par [standard]                     %apsuite\apsim\micromet\micromet.ini[standard]
+!module = micromet   oryza.par [sample] oryza.par [standard]                     %apsuite\apsim\micromet\micromet.ini[standard]
 module = manager    oryza.par [sample]
 module = eo         %apsuite\apsim\eo\sample\eo.par [sample]                    %apsuite\apsim\eo\eo.ini [standard]
-module = oryza      oryza.par [sample] %apsuite\apsim\oryza\oryza.ini[standard]
+module = oryza      oryza.par [potential] oryza.par [sample] %apsuite\apsim\oryza\oryza.ini[standard]
 module = SummaryFile   oryza.par[fp]
 module = Screen        oryza.par[sample]
 
