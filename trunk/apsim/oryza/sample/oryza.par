@@ -78,6 +78,9 @@ endif
 report do_output
 
 
+[potential.oryza.parameters]
+eo_source = eo.eo_transp
+
 [sample.oryza.transplanted]
 estab = transplant  ! direct-seed !rice establishment method
 sbdur = 12          ! duration of seed on bed (day)
