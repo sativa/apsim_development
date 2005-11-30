@@ -274,10 +274,11 @@ namespace CSGeneral
 					string SeriesName = CropName + " CLL";
 
 					double[] LL = MathUtility.Multiply_Value(SoilBase.CalcXForPlotting(MySoil.LL(CropName)), 100);
-					Helper.CreateChartSeriesFromArray(SeriesName, 
-														LL, CumThickness,
-														false, Colours[ColourIndex], 3, LinePattern.Solid,
-														StandardAxis.PrimaryX, StandardAxis.PrimaryY);
+					if (LL.Length > 0)
+						Helper.CreateChartSeriesFromArray(SeriesName, 
+															LL, CumThickness,
+															false, Colours[ColourIndex], 3, LinePattern.Solid,
+															StandardAxis.PrimaryX, StandardAxis.PrimaryY);
 					ColourIndex++;
 					if (ColourIndex == Colours.Length) ColourIndex = 0;
 					}

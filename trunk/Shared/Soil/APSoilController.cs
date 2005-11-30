@@ -53,8 +53,12 @@ namespace CSGeneral
 				return 2;
 			else if (ComponentName.ToLower() == "initnitrogen")
 				return 3;
-			else
+			else if (ComponentName.ToLower() == "folder")
 				return 1;
+			else if (ComponentName.ToLower() == "sample")
+				return 4;
+			else
+				return -1;
 			}
 
 		// -------------------------------------------------
@@ -83,6 +87,8 @@ namespace CSGeneral
             	return (ParentComponentType.ToLower() == "soils" || ParentComponentType.ToLower() == "folder");
 			else if (ChildComponentType.ToLower() == "initwater" || ChildComponentType.ToLower() == "initnitrogen")
 				return (ParentComponentType.ToLower() == "soil");
+			else if (ChildComponentType.ToLower() == "sample")
+				return (ParentComponentType.ToLower() == "soil");
 			return true;
 			}
 
@@ -96,6 +102,7 @@ namespace CSGeneral
             switch (UIType.ToLower())
 				{
 				case "soil"         : return new SoilUI();
+				case "sample"       : return new SampleUI();
 				case "initwater"    : return new InitWaterUI();
 				case "initnitrogen" : return new InitNitrogenUI();
 				default             : return null;
@@ -158,6 +165,37 @@ namespace CSGeneral
 		public void Print()
 			{
 			PrintEvent();
+			}
+
+
+		public bool AllowInsertFolder
+			{
+			get {return (SelectedData.Count == 1 && AllowComponentAdd("folder", ((APSIMData)SelectedData[0]).Type));}
+			}
+		public bool AllowInsertSoil
+			{
+			get {return (SelectedData.Count == 1 && AllowComponentAdd("soil", ((APSIMData)SelectedData[0]).Type));}
+			}
+		public bool AllowInsertSample
+			{
+			get {return (SelectedData.Count == 1 && AllowComponentAdd("sample", ((APSIMData)SelectedData[0]).Type));}
+			}
+		public void InsertFolder()
+			{
+			if (AllowInsertFolder)
+				AddXMLToSelected("<folder name=\"NewFolder\"/>");
+			}
+
+		public void InsertSoil()
+			{
+			if (AllowInsertSoil)
+				AddXMLToSelected("<soil name=\"NewSoil\"/>");
+			}
+
+		public void InsertSample()
+			{
+			if (AllowInsertSample)
+				AddXMLToSelected("<sample name=\"NewSample\"/>");
 			}
 
 		}

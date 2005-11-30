@@ -97,6 +97,11 @@ namespace ChangeTool
 				Soil MySoil = new Soil(Data);
 				MySoil.UpgradeToVersion3();
 				}
+			else if (Data.Type.ToLower() == "sample")
+				{
+				SoilSample MySample = new SoilSample(Data);
+				MySample.UpgradeToVersion3();
+				}
 			}	
 
 

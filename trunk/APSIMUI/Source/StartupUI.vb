@@ -81,7 +81,7 @@ Public Class StartupUI
         Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
         Me.PictureBox1.Location = New System.Drawing.Point(0, 40)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(100, 733)
+        Me.PictureBox1.Size = New System.Drawing.Size(100, 697)
         Me.PictureBox1.TabIndex = 6
         Me.PictureBox1.TabStop = False
         '
@@ -103,6 +103,7 @@ Public Class StartupUI
         'SimulationList
         '
         Me.SimulationList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.SimulationList.ForeColor = System.Drawing.SystemColors.ControlText
         Me.SimulationList.Location = New System.Drawing.Point(0, 32)
         Me.SimulationList.Name = "SimulationList"
         Me.SimulationList.Size = New System.Drawing.Size(488, 272)
@@ -114,6 +115,7 @@ Public Class StartupUI
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.ForeColor = System.Drawing.SystemColors.ControlText
         Me.Label4.Location = New System.Drawing.Point(0, 8)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(280, 18)
@@ -123,7 +125,7 @@ Public Class StartupUI
         'NewButton
         '
         Me.NewButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.NewButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.NewButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.NewButton.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.NewButton.Location = New System.Drawing.Point(136, 120)
         Me.NewButton.Name = "NewButton"
@@ -134,7 +136,7 @@ Public Class StartupUI
         'OpenButton
         '
         Me.OpenButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.OpenButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.OpenButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.OpenButton.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.OpenButton.Location = New System.Drawing.Point(320, 120)
         Me.OpenButton.Name = "OpenButton"
@@ -152,7 +154,7 @@ Public Class StartupUI
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Name = "StartupUI"
-        Me.Size = New System.Drawing.Size(705, 773)
+        Me.Size = New System.Drawing.Size(895, 737)
         Me.Controls.SetChildIndex(Me.Label1, 0)
         Me.Controls.SetChildIndex(Me.Label2, 0)
         Me.Controls.SetChildIndex(Me.PictureBox1, 0)

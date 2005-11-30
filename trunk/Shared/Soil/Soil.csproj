@@ -259,6 +259,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "SampleUI.cs"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SampleUI.resx"
+                    DependentUpon = "SampleUI.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Soil.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
