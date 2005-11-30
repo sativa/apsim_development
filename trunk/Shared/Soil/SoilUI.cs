@@ -105,6 +105,10 @@ namespace CSGeneral
 			FarPoint.Win.Spread.CellType.NumberCellType numberCellType20 = new FarPoint.Win.Spread.CellType.NumberCellType();
 			FarPoint.Win.Spread.CellType.NumberCellType numberCellType21 = new FarPoint.Win.Spread.CellType.NumberCellType();
 			FarPoint.Win.Spread.CellType.NumberCellType numberCellType22 = new FarPoint.Win.Spread.CellType.NumberCellType();
+			FarPoint.Win.Spread.CellType.TextCellType textCellType1 = new FarPoint.Win.Spread.CellType.TextCellType();
+			FarPoint.Win.Spread.CellType.TextCellType textCellType2 = new FarPoint.Win.Spread.CellType.TextCellType();
+			FarPoint.Win.Spread.CellType.TextCellType textCellType3 = new FarPoint.Win.Spread.CellType.TextCellType();
+			FarPoint.Win.Spread.CellType.TextCellType textCellType4 = new FarPoint.Win.Spread.CellType.TextCellType();
 			this.ButtonImageList = new System.Windows.Forms.ImageList(this.components);
 			this.fontDialog1 = new System.Windows.Forms.FontDialog();
 			this.Grid = new FarPoint.Win.Spread.FpSpread();
@@ -157,7 +161,7 @@ namespace CSGeneral
 																			  this.SoilProfile,
 																			  this.APSIM,
 																			  this.Phosphorus});
-			this.Grid.Size = new System.Drawing.Size(895, 292);
+			this.Grid.Size = new System.Drawing.Size(728, 292);
 			this.Grid.TabIndex = 12;
 			this.Grid.TabStrip.ButtonPolicy = FarPoint.Win.Spread.TabStripButtonPolicy.AsNeeded;
 			this.Grid.TabStripPolicy = FarPoint.Win.Spread.TabStripPolicy.Always;
@@ -176,31 +180,21 @@ namespace CSGeneral
 			this.General.RowCount = 10;
 			this.General.ActiveColumnIndex = 1;
 			this.General.ActiveRowIndex = 3;
-			this.General.Cells.Get(0, 0).ParseFormatString = "G";
 			this.General.Cells.Get(0, 0).Text = "Region: ";
-			this.General.Cells.Get(1, 0).ParseFormatString = "G";
 			this.General.Cells.Get(1, 0).Text = "Site: ";
-			this.General.Cells.Get(2, 0).ParseFormatString = "G";
 			this.General.Cells.Get(2, 0).Text = "Name: ";
 			this.General.Cells.Get(2, 1).Locked = true;
-			this.General.Cells.Get(3, 0).ParseFormatString = "G";
 			this.General.Cells.Get(3, 0).Text = "Order / SubOrder: ";
 			comboBoxCellType1.Editable = true;
 			comboBoxCellType1.Items = new string[] {
 													   "Black Vertosol",
 													   "Grey Vertosol"};
 			this.General.Cells.Get(3, 1).CellType = comboBoxCellType1;
-			this.General.Cells.Get(4, 0).ParseFormatString = "G";
 			this.General.Cells.Get(4, 0).Text = "Nearest Town: ";
-			this.General.Cells.Get(5, 0).ParseFormatString = "G";
 			this.General.Cells.Get(5, 0).Text = "GPS: ";
-			this.General.Cells.Get(6, 0).ParseFormatString = "G";
 			this.General.Cells.Get(6, 0).Text = "GPS DATUM: ";
-			this.General.Cells.Get(7, 0).ParseFormatString = "G";
 			this.General.Cells.Get(7, 0).Text = "Map ID: ";
-			this.General.Cells.Get(8, 0).ParseFormatString = "G";
 			this.General.Cells.Get(8, 0).Text = "Natural Vegetation: ";
-			this.General.Cells.Get(9, 0).ParseFormatString = "G";
 			this.General.Cells.Get(9, 0).Text = "Comments: ";
 			this.General.ColumnHeader.Visible = false;
 			this.General.Columns.Get(0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
@@ -394,53 +388,35 @@ namespace CSGeneral
 			this.APSIM.RowCount = 18;
 			this.APSIM.Cells.Get(0, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.APSIM.Cells.Get(0, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-			this.APSIM.Cells.Get(0, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(0, 0).Text = "Evaporation";
 			this.APSIM.Cells.Get(0, 1).Locked = true;
 			this.APSIM.Cells.Get(1, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-			this.APSIM.Cells.Get(1, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(1, 0).Text = "U";
 			this.APSIM.Cells.Get(2, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-			this.APSIM.Cells.Get(2, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(2, 0).Text = "Cona";
 			this.APSIM.Cells.Get(3, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-			this.APSIM.Cells.Get(3, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(3, 0).Text = "Salb";
 			this.APSIM.Cells.Get(4, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.APSIM.Cells.Get(4, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(4, 0).Text = "Unsaturated Flow";
 			this.APSIM.Cells.Get(4, 1).Locked = true;
-			this.APSIM.Cells.Get(5, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(5, 0).Text = "DiffusConst";
-			this.APSIM.Cells.Get(6, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(6, 0).Text = "DiffusSlope";
 			this.APSIM.Cells.Get(7, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.APSIM.Cells.Get(7, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(7, 0).Text = "Runoff";
 			this.APSIM.Cells.Get(7, 1).Locked = true;
-			this.APSIM.Cells.Get(8, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(8, 0).Text = "CN2Bare";
-			this.APSIM.Cells.Get(9, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(9, 0).Text = "CNRed";
-			this.APSIM.Cells.Get(10, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(10, 0).Text = "CNCov";
 			this.APSIM.Cells.Get(11, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.APSIM.Cells.Get(11, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(11, 0).Text = "Organic Matter";
 			this.APSIM.Cells.Get(11, 1).Locked = true;
-			this.APSIM.Cells.Get(12, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(12, 0).Text = "RootCN";
-			this.APSIM.Cells.Get(13, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(13, 0).Text = "RootWt";
-			this.APSIM.Cells.Get(14, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(14, 0).Text = "SoilCN";
 			this.APSIM.Cells.Get(15, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.APSIM.Cells.Get(15, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(15, 0).Text = "Erosion";
 			this.APSIM.Cells.Get(15, 1).Locked = true;
-			this.APSIM.Cells.Get(16, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(16, 0).Text = "EnrACoeff";
-			this.APSIM.Cells.Get(17, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(17, 0).Text = "EnrBCoeff";
 			this.APSIM.ColumnHeader.Visible = false;
 			this.APSIM.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
@@ -460,19 +436,6 @@ namespace CSGeneral
 			this.Phosphorus.ColumnCount = 5;
 			this.Phosphorus.ColumnHeader.RowCount = 2;
 			this.Phosphorus.RowCount = 17;
-			this.Phosphorus.Cells.Get(14, 1).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-			this.Phosphorus.Cells.Get(14, 1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-			this.Phosphorus.Cells.Get(14, 1).ParseFormatString = "G";
-			this.Phosphorus.Cells.Get(14, 1).Text = "ResidueCP: ";
-			this.Phosphorus.Cells.Get(15, 1).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-			this.Phosphorus.Cells.Get(15, 1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-			this.Phosphorus.Cells.Get(15, 1).ParseFormatString = "G";
-			this.Phosphorus.Cells.Get(15, 1).Text = "Root CP: ";
-			this.Phosphorus.Cells.Get(16, 0).ColumnSpan = 2;
-			this.Phosphorus.Cells.Get(16, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-			this.Phosphorus.Cells.Get(16, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-			this.Phosphorus.Cells.Get(16, 0).ParseFormatString = "G";
-			this.Phosphorus.Cells.Get(16, 0).Text = "Rate dissol rock: ";
 			this.Phosphorus.ColumnHeader.AutoText = FarPoint.Win.Spread.HeaderAutoText.Blank;
 			this.Phosphorus.ColumnHeader.Cells.Get(0, 0).Text = "Depth";
 			this.Phosphorus.ColumnHeader.Cells.Get(0, 1).Text = "Labile P";
@@ -483,15 +446,31 @@ namespace CSGeneral
 			this.Phosphorus.ColumnHeader.Cells.Get(1, 1).Text = "(mg/kg)";
 			this.Phosphorus.ColumnHeader.Cells.Get(1, 2).Text = "(kg/ha)";
 			this.Phosphorus.ColumnHeader.Cells.Get(1, 3).Text = "(kg/ha)";
+			this.Phosphorus.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
 			this.Phosphorus.Columns.Get(0).Label = "(cm)";
 			this.Phosphorus.Columns.Get(0).Width = 70F;
+			textCellType1.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
+			textCellType1.DropDownButton = false;
+			this.Phosphorus.Columns.Get(1).CellType = textCellType1;
+			this.Phosphorus.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
 			this.Phosphorus.Columns.Get(1).Label = "(mg/kg)";
 			this.Phosphorus.Columns.Get(1).Width = 71F;
+			textCellType2.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
+			textCellType2.DropDownButton = false;
+			this.Phosphorus.Columns.Get(2).CellType = textCellType2;
+			this.Phosphorus.Columns.Get(2).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+			this.Phosphorus.Columns.Get(2).Label = "(kg/ha)";
+			textCellType3.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
+			textCellType3.DropDownButton = false;
+			this.Phosphorus.Columns.Get(3).CellType = textCellType3;
+			this.Phosphorus.Columns.Get(3).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+			this.Phosphorus.Columns.Get(3).Label = "(kg/ha)";
+			textCellType4.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
+			textCellType4.DropDownButton = false;
+			this.Phosphorus.Columns.Get(4).CellType = textCellType4;
+			this.Phosphorus.Columns.Get(4).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
 			this.Phosphorus.RowHeader.Columns.Default.Resizable = false;
 			this.Phosphorus.Rows.Get(14).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-			this.Phosphorus.Rows.Get(14).Locked = true;
-			this.Phosphorus.Rows.Get(15).Locked = true;
-			this.Phosphorus.Rows.Get(16).Locked = true;
 			this.Phosphorus.SheetName = "Phosphorus";
 			this.Phosphorus.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.Phosphorus_CellChanged);
 			this.Phosphorus.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
@@ -537,7 +516,7 @@ namespace CSGeneral
 			this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.splitter1.Location = new System.Drawing.Point(0, 356);
 			this.splitter1.Name = "splitter1";
-			this.splitter1.Size = new System.Drawing.Size(895, 3);
+			this.splitter1.Size = new System.Drawing.Size(728, 3);
 			this.splitter1.TabIndex = 13;
 			this.splitter1.TabStop = false;
 			// 
@@ -548,7 +527,7 @@ namespace CSGeneral
 			this.WaterChartControl.Location = new System.Drawing.Point(0, 359);
 			this.WaterChartControl.Name = "WaterChartControl";
 			this.WaterChartControl.ShowSoilWaterLine = false;
-			this.WaterChartControl.Size = new System.Drawing.Size(895, 378);
+			this.WaterChartControl.Size = new System.Drawing.Size(728, 378);
 			this.WaterChartControl.TabIndex = 14;
 			// 
 			// PrintForm
@@ -566,7 +545,7 @@ namespace CSGeneral
 			this.PrintPreviewDialog.Document = this.printDocument1;
 			this.PrintPreviewDialog.Enabled = true;
 			this.PrintPreviewDialog.Icon = ((System.Drawing.Icon)(resources.GetObject("PrintPreviewDialog.Icon")));
-			this.PrintPreviewDialog.Location = new System.Drawing.Point(378, 54);
+			this.PrintPreviewDialog.Location = new System.Drawing.Point(272, 17);
 			this.PrintPreviewDialog.MinimumSize = new System.Drawing.Size(375, 250);
 			this.PrintPreviewDialog.Name = "PrintPreviewDialog";
 			this.PrintPreviewDialog.TransparencyKey = System.Drawing.Color.Empty;
@@ -590,7 +569,7 @@ namespace CSGeneral
 			this.UnitPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.UnitPanel.Location = new System.Drawing.Point(0, 40);
 			this.UnitPanel.Name = "UnitPanel";
-			this.UnitPanel.Size = new System.Drawing.Size(895, 24);
+			this.UnitPanel.Size = new System.Drawing.Size(728, 24);
 			this.UnitPanel.TabIndex = 15;
 			// 
 			// label1
@@ -629,7 +608,7 @@ namespace CSGeneral
 			this.Controls.Add(this.Grid);
 			this.Controls.Add(this.UnitPanel);
 			this.Name = "SoilUI";
-			this.Size = new System.Drawing.Size(895, 737);
+			this.Size = new System.Drawing.Size(728, 737);
 			this.Controls.SetChildIndex(this.UnitPanel, 0);
 			this.Controls.SetChildIndex(this.Grid, 0);
 			this.Controls.SetChildIndex(this.splitter1, 0);
@@ -1051,13 +1030,13 @@ namespace CSGeneral
 			Phosphorus.RowCount = NumLayers + 4;
 			int FirstStaticRow = NumLayers + 1;
 			Phosphorus.Cells[FirstStaticRow,0].Value = "Residue CP:";
-			GridUtils.SetCellAsDouble(APSIM, 1, FirstStaticRow, MySoil.ResidueCP);
+			GridUtils.SetCellAsDouble(Phosphorus, 1, FirstStaticRow, MySoil.ResidueCP);
 
 			Phosphorus.Cells[FirstStaticRow+1,0].Value = "Root CP:";
-			GridUtils.SetCellAsDouble(APSIM, 1, FirstStaticRow+1, MySoil.RootCP);
+			GridUtils.SetCellAsDouble(Phosphorus, 1, FirstStaticRow+1, MySoil.RootCP);
 
 			Phosphorus.Cells[FirstStaticRow+2,0].Value = "RateDissolRock:";
-			GridUtils.SetCellAsDouble(APSIM, 1, FirstStaticRow+2, MySoil.RateDissolRock);
+			GridUtils.SetCellAsDouble(Phosphorus, 1, FirstStaticRow+2, MySoil.RateDissolRock);
 			UserChange = true;
 			}
 
@@ -1074,9 +1053,9 @@ namespace CSGeneral
 			MySoil.Sorption  = GridUtils.GetColumnAsDoubles(Phosphorus, 4, NumLayers);
 
 			int FirstStaticRow = NumLayers + 1;
-			MySoil.ResidueCP = GridUtils.GetCellAsDouble(APSIM, 1, FirstStaticRow);
-			MySoil.RootCP = GridUtils.GetCellAsDouble(APSIM, 1, FirstStaticRow+1);
-			MySoil.RateDissolRock = GridUtils.GetCellAsDouble(APSIM, 1, FirstStaticRow+2);
+			MySoil.ResidueCP = GridUtils.GetCellAsDouble(Phosphorus, 1, FirstStaticRow);
+			MySoil.RootCP = GridUtils.GetCellAsDouble(Phosphorus, 1, FirstStaticRow+1);
+			MySoil.RateDissolRock = GridUtils.GetCellAsDouble(Phosphorus, 1, FirstStaticRow+2);
 			}
 
 
@@ -1405,8 +1384,8 @@ namespace CSGeneral
 				UserChange = true;
 				}
 			}
-        	
-			
+
+
 		}
 	}
 

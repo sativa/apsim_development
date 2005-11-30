@@ -783,7 +783,7 @@ Public Class MainUI
             Next
 
             Dim ApsRunFileName As String = Path.GetDirectoryName(Application.ExecutablePath) + "\apsrun.exe"
-            Process.Start(ApsRunFileName, ApsimUI.FileName)
+            Process.Start(ApsRunFileName, """" + ApsimUI.FileName + """")
         End If
     End Sub
 #End Region
