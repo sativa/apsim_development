@@ -105,7 +105,7 @@ namespace CSGeneral
 		public void ReadFromFile(string FileName, DateTime StartDate, DateTime EndDate)
 			{
 			if (!File.Exists(FileName))
-				throw new Exception("Cannot find file: " + _FileName);
+				throw new Exception("Cannot find file: " + FileName);
 
 			_FileName = FileName;
 			StreamReader In = new StreamReader(_FileName);

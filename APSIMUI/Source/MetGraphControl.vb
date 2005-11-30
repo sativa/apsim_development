@@ -282,14 +282,15 @@ Public Class MetGraphControl
             Dim sr As StreamReader = New StreamReader(FileName)
             ContentsBox.Text = sr.ReadToEnd
             sr.Close()
+            Dim StartDate As DateTime
+            Dim EndDate As DateTime
+            Metfile.GetStartEndDate(FileName, StartDate, EndDate)
+            YearBox.Minimum = StartDate.Year
+            YearBox.Maximum = EndDate.Year
         End If
+        Controller.Data.ChildValue("filename") = FileName
         CurrentShortCut = Contents
         PopulateGraph()
-        Dim StartDate As DateTime
-        Dim EndDate As DateTime
-        Metfile.GetStartEndDate(FileName, StartDate, EndDate)
-        YearBox.Minimum = StartDate.Year
-        YearBox.Maximum = EndDate.Year
     End Sub
     Public Sub PopulateGraph()
         If File.Exists(FileName) Then
@@ -492,7 +493,7 @@ Public Class MetGraphControl
     Private Function ReadAnnualData(ByVal ColumnName As String) As Single()
         Dim temp(366) As Single
 
-        Metfile.ReadFromFile(Controller.Data.Child("filename").Value, New Date(YearBox.Value, 1, 1), New Date(YearBox.Value, 12, 31))
+        Metfile.ReadFromFile(FileName, New Date(YearBox.Value, 1, 1), New Date(YearBox.Value, 12, 31))
 
         Dim MetData As New DataTable
         MetData = Metfile.Data
@@ -509,7 +510,7 @@ Public Class MetGraphControl
     End Function
     Private Function ReadAnnualDataTable() As DataTable
 
-        Metfile.ReadFromFile(Controller.Data.Child("filename").Value, New Date(YearBox.Value, 1, 1), New Date(YearBox.Value, 12, 31))
+        Metfile.ReadFromFile(FileName, New Date(YearBox.Value, 1, 1), New Date(YearBox.Value, 12, 31))
         Return Metfile.Data
 
     End Function

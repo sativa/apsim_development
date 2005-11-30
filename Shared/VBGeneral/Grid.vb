@@ -107,7 +107,7 @@ Public Class GridUtils
     Shared Function GetCellAsDouble(ByVal Grid As SheetView, _
                                    ByVal ColumnIndex As Integer, _
                                    ByVal RowIndex As Integer) As Double
-        If (Grid.Cells(RowIndex, ColumnIndex).Value <> 999999.0) Then
+        If (Not Grid.Cells(RowIndex, ColumnIndex).Value Is Nothing) Then
             Return Grid.Cells(RowIndex, ColumnIndex).Value
         Else
             Return 999999.0

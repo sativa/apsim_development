@@ -780,6 +780,7 @@ namespace CSGeneral
                 "</component>\r\n" +
                 "[endfor]\r\n" +
                 "[foreach soil.phosphorus]\r\n" +
+				"[if [phosphorus.ResidueCP] > 0]\r\n" +
 				"<component name=\"[phosphorus.name]\" executable=\"%apsuite\\apsim\\soilp\\lib\\soilp.dll\">\r\n" +
 				"   <initdata>\r\n" +
                 "      <include>%apsuite\\apsim\\soilp\\soilp.ini</include>\r\n" +
@@ -792,6 +793,7 @@ namespace CSGeneral
                 "      <rate_dissol_rock_P>[phosphorus.RateDissolRock]</rate_dissol_rock_P>\r\n" +
                 "   </initdata>\r\n" +
                 "</component>\r\n" +
+				"[endif]\r\n" + 
                 "[endfor]";
 
 			string SWLine = "";
