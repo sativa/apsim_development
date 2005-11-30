@@ -39,6 +39,10 @@ namespace CSGeneral
 		private System.Windows.Forms.PrintPreviewDialog PrintPreviewDialog;
 		private System.Windows.Forms.PrintDialog printDialog1;
 		private System.Drawing.Printing.PrintDocument printDocument1;
+		private System.Windows.Forms.Panel UnitPanel;
+		private System.Windows.Forms.RadioButton VolumetricCheck;
+		private System.Windows.Forms.RadioButton GravimetricCheck;
+		private System.Windows.Forms.Label label1;
 		private bool UserChange = true;
 		
 		// -------------
@@ -76,6 +80,7 @@ namespace CSGeneral
 		{
 			this.components = new System.ComponentModel.Container();
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(SoilUI));
+			FarPoint.Win.Spread.CellType.ComboBoxCellType comboBoxCellType1 = new FarPoint.Win.Spread.CellType.ComboBoxCellType();
 			FarPoint.Win.BevelBorder bevelBorder1 = new FarPoint.Win.BevelBorder(FarPoint.Win.BevelBorderType.Raised);
 			FarPoint.Win.BevelBorder bevelBorder2 = new FarPoint.Win.BevelBorder(FarPoint.Win.BevelBorderType.Raised);
 			FarPoint.Win.Spread.CellType.NumberCellType numberCellType1 = new FarPoint.Win.Spread.CellType.NumberCellType();
@@ -120,12 +125,17 @@ namespace CSGeneral
 			this.PrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
 			this.printDocument1 = new System.Drawing.Printing.PrintDocument();
 			this.printDialog1 = new System.Windows.Forms.PrintDialog();
+			this.UnitPanel = new System.Windows.Forms.Panel();
+			this.label1 = new System.Windows.Forms.Label();
+			this.GravimetricCheck = new System.Windows.Forms.RadioButton();
+			this.VolumetricCheck = new System.Windows.Forms.RadioButton();
 			((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.General)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.Water)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.SoilProfile)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.APSIM)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.Phosphorus)).BeginInit();
+			this.UnitPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// ButtonImageList
@@ -139,7 +149,7 @@ namespace CSGeneral
 			this.Grid.AllowDragDrop = true;
 			this.Grid.Dock = System.Windows.Forms.DockStyle.Top;
 			this.Grid.EditModeReplace = true;
-			this.Grid.Location = new System.Drawing.Point(0, 40);
+			this.Grid.Location = new System.Drawing.Point(0, 64);
 			this.Grid.Name = "Grid";
 			this.Grid.Sheets.AddRange(new FarPoint.Win.Spread.SheetView[] {
 																			  this.General,
@@ -147,7 +157,7 @@ namespace CSGeneral
 																			  this.SoilProfile,
 																			  this.APSIM,
 																			  this.Phosphorus});
-			this.Grid.Size = new System.Drawing.Size(656, 292);
+			this.Grid.Size = new System.Drawing.Size(895, 292);
 			this.Grid.TabIndex = 12;
 			this.Grid.TabStrip.ButtonPolicy = FarPoint.Win.Spread.TabStripButtonPolicy.AsNeeded;
 			this.Grid.TabStripPolicy = FarPoint.Win.Spread.TabStripPolicy.Always;
@@ -165,7 +175,7 @@ namespace CSGeneral
 			this.General.ColumnCount = 2;
 			this.General.RowCount = 10;
 			this.General.ActiveColumnIndex = 1;
-			this.General.ActiveRowIndex = 2;
+			this.General.ActiveRowIndex = 3;
 			this.General.Cells.Get(0, 0).ParseFormatString = "G";
 			this.General.Cells.Get(0, 0).Text = "Region: ";
 			this.General.Cells.Get(1, 0).ParseFormatString = "G";
@@ -175,6 +185,11 @@ namespace CSGeneral
 			this.General.Cells.Get(2, 1).Locked = true;
 			this.General.Cells.Get(3, 0).ParseFormatString = "G";
 			this.General.Cells.Get(3, 0).Text = "Order / SubOrder: ";
+			comboBoxCellType1.Editable = true;
+			comboBoxCellType1.Items = new string[] {
+													   "Black Vertosol",
+													   "Grey Vertosol"};
+			this.General.Cells.Get(3, 1).CellType = comboBoxCellType1;
 			this.General.Cells.Get(4, 0).ParseFormatString = "G";
 			this.General.Cells.Get(4, 0).Text = "Nearest Town: ";
 			this.General.Cells.Get(5, 0).ParseFormatString = "G";
@@ -241,25 +256,25 @@ namespace CSGeneral
 			numberCellType2.DropDownButton = false;
 			this.Water.Columns.Get(2).CellType = numberCellType2;
 			this.Water.Columns.Get(2).Label = "(%vol)";
-			this.Water.Columns.Get(2).Width = 45F;
+			this.Water.Columns.Get(2).Width = 48F;
 			numberCellType3.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
 			numberCellType3.DecimalPlaces = 2;
 			numberCellType3.DropDownButton = false;
 			this.Water.Columns.Get(3).CellType = numberCellType3;
 			this.Water.Columns.Get(3).Label = "(%vol)";
-			this.Water.Columns.Get(3).Width = 45F;
+			this.Water.Columns.Get(3).Width = 49F;
 			numberCellType4.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
 			numberCellType4.DecimalPlaces = 2;
 			numberCellType4.DropDownButton = false;
 			this.Water.Columns.Get(4).CellType = numberCellType4;
 			this.Water.Columns.Get(4).Label = "(%vol)";
-			this.Water.Columns.Get(4).Width = 45F;
+			this.Water.Columns.Get(4).Width = 48F;
 			numberCellType5.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
 			numberCellType5.DecimalPlaces = 2;
 			numberCellType5.DropDownButton = false;
 			this.Water.Columns.Get(5).CellType = numberCellType5;
 			this.Water.Columns.Get(5).Label = "(%vol)";
-			this.Water.Columns.Get(5).Width = 45F;
+			this.Water.Columns.Get(5).Width = 49F;
 			this.Water.FrozenColumnCount = 6;
 			this.Water.RowHeader.Columns.Default.Resizable = false;
 			this.Water.RowHeader.Visible = false;
@@ -520,9 +535,9 @@ namespace CSGeneral
 			// splitter1
 			// 
 			this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.splitter1.Location = new System.Drawing.Point(0, 332);
+			this.splitter1.Location = new System.Drawing.Point(0, 356);
 			this.splitter1.Name = "splitter1";
-			this.splitter1.Size = new System.Drawing.Size(656, 3);
+			this.splitter1.Size = new System.Drawing.Size(895, 3);
 			this.splitter1.TabIndex = 13;
 			this.splitter1.TabStop = false;
 			// 
@@ -530,10 +545,10 @@ namespace CSGeneral
 			// 
 			this.WaterChartControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.WaterChartControl.LinkedSoil = null;
-			this.WaterChartControl.Location = new System.Drawing.Point(0, 335);
+			this.WaterChartControl.Location = new System.Drawing.Point(0, 359);
 			this.WaterChartControl.Name = "WaterChartControl";
 			this.WaterChartControl.ShowSoilWaterLine = false;
-			this.WaterChartControl.Size = new System.Drawing.Size(656, 416);
+			this.WaterChartControl.Size = new System.Drawing.Size(895, 378);
 			this.WaterChartControl.TabIndex = 14;
 			// 
 			// PrintForm
@@ -567,13 +582,55 @@ namespace CSGeneral
 			// 
 			this.printDialog1.Document = this.printDocument1;
 			// 
+			// UnitPanel
+			// 
+			this.UnitPanel.Controls.Add(this.label1);
+			this.UnitPanel.Controls.Add(this.GravimetricCheck);
+			this.UnitPanel.Controls.Add(this.VolumetricCheck);
+			this.UnitPanel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.UnitPanel.Location = new System.Drawing.Point(0, 40);
+			this.UnitPanel.Name = "UnitPanel";
+			this.UnitPanel.Size = new System.Drawing.Size(895, 24);
+			this.UnitPanel.TabIndex = 15;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(8, 4);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(139, 16);
+			this.label1.TabIndex = 2;
+			this.label1.Text = "Format for water variables:";
+			// 
+			// GravimetricCheck
+			// 
+			this.GravimetricCheck.Location = new System.Drawing.Point(304, 2);
+			this.GravimetricCheck.Name = "GravimetricCheck";
+			this.GravimetricCheck.Size = new System.Drawing.Size(104, 20);
+			this.GravimetricCheck.TabIndex = 1;
+			this.GravimetricCheck.Text = "Gravimetric %";
+			this.GravimetricCheck.Click += new System.EventHandler(this.VolGravChecked);
+			// 
+			// VolumetricCheck
+			// 
+			this.VolumetricCheck.Checked = true;
+			this.VolumetricCheck.Location = new System.Drawing.Point(168, 2);
+			this.VolumetricCheck.Name = "VolumetricCheck";
+			this.VolumetricCheck.Size = new System.Drawing.Size(104, 20);
+			this.VolumetricCheck.TabIndex = 0;
+			this.VolumetricCheck.TabStop = true;
+			this.VolumetricCheck.Text = "Volumetric %";
+			this.VolumetricCheck.Click += new System.EventHandler(this.VolGravChecked);
+			// 
 			// SoilUI
 			// 
-			this.ClientSize = new System.Drawing.Size(656, 751);
 			this.Controls.Add(this.WaterChartControl);
 			this.Controls.Add(this.splitter1);
 			this.Controls.Add(this.Grid);
+			this.Controls.Add(this.UnitPanel);
 			this.Name = "SoilUI";
+			this.Size = new System.Drawing.Size(895, 737);
+			this.Controls.SetChildIndex(this.UnitPanel, 0);
 			this.Controls.SetChildIndex(this.Grid, 0);
 			this.Controls.SetChildIndex(this.splitter1, 0);
 			this.Controls.SetChildIndex(this.WaterChartControl, 0);
@@ -583,6 +640,7 @@ namespace CSGeneral
 			((System.ComponentModel.ISupportInitialize)(this.SoilProfile)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.APSIM)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.Phosphorus)).EndInit();
+			this.UnitPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -682,13 +740,32 @@ namespace CSGeneral
 			{
 			UserChange = false;
 			Water.RowCount = 1;
+			VolumetricCheck.Checked = (MySoil.StoredWaterFormat == Soil.StoredWaterFormatType.VolumetricPercent);
+			GravimetricCheck.Checked = !VolumetricCheck.Checked;
 
 			GridUtils.SetColumnAsStrings(Water, 0, MySoil.DepthStrings);
 			GridUtils.SetColumnAsDoubles(Water, 1, MySoil.BD);
-			GridUtils.SetColumnAsDoubles(Water, 2, MySoil.SAT);
-			GridUtils.SetColumnAsDoubles(Water, 3, MySoil.DUL);
-			GridUtils.SetColumnAsDoubles(Water, 4, MySoil.Airdry);
-			GridUtils.SetColumnAsDoubles(Water, 5, MySoil.LL15);
+			string WaterUnits;
+			if (VolumetricCheck.Checked)
+				{
+				GridUtils.SetColumnAsDoubles(Water, 2, MySoil.SAT);
+				GridUtils.SetColumnAsDoubles(Water, 3, MySoil.DUL);
+				GridUtils.SetColumnAsDoubles(Water, 4, MySoil.Airdry);
+				GridUtils.SetColumnAsDoubles(Water, 5, MySoil.LL15);
+				WaterUnits = "(%vol)";
+				}
+			else
+				{
+				GridUtils.SetColumnAsDoubles(Water, 2, MySoil.SATGrav);
+				GridUtils.SetColumnAsDoubles(Water, 3, MySoil.DULGrav);
+				GridUtils.SetColumnAsDoubles(Water, 4, MySoil.AirdryGrav);
+				GridUtils.SetColumnAsDoubles(Water, 5, MySoil.LL15Grav);
+				WaterUnits = "(%grav)";
+				}
+			Water.ColumnHeader.Cells[2, 2].Text = WaterUnits;
+			Water.ColumnHeader.Cells[2, 3].Text = WaterUnits;
+			Water.ColumnHeader.Cells[2, 4].Text = WaterUnits;
+			Water.ColumnHeader.Cells[2, 5].Text = WaterUnits;
 
 			// Make sure we have the right number of crop columns.
 			string[] CropNames = MySoil.Crops;
@@ -717,8 +794,12 @@ namespace CSGeneral
 				Water.ColumnHeader.Cells[0, CropCol].ColumnSpan = 4;
 				Water.ColumnHeader.Cells[0, CropCol].HorizontalAlignment = CellHorizontalAlignment.Center;
 				Water.ColumnHeader.Cells[1, CropCol].Text = "LL";
-				Water.ColumnHeader.Cells[2, CropCol].Text = "(%vol)";
-				GridUtils.SetColumnAsDoubles(Water, CropCol, MySoil.LL(CropName));
+				Water.ColumnHeader.Cells[2, CropCol].Text = WaterUnits;
+				if (VolumetricCheck.Checked)
+					GridUtils.SetColumnAsDoubles(Water, CropCol, MySoil.LL(CropName));
+				else
+					GridUtils.SetColumnAsDoubles(Water, CropCol, MySoil.LLGrav(CropName));
+
 				if (Predicted)
 					{
 					Water.Columns[CropCol].BackColor = PredCropColor;
@@ -726,7 +807,7 @@ namespace CSGeneral
 					}
 				else
 					Water.Columns[CropCol].BackColor = CropColor;
-				Water.Columns[CropCol].Width = 45;
+				Water.Columns[CropCol].Width = 50;
 				FarPoint.Win.Spread.CellType.NumberCellType LLFormatter = new FarPoint.Win.Spread.CellType.NumberCellType();
 				LLFormatter.DecimalPlaces = 2;
 				Water.Columns[CropCol].CellType = LLFormatter;
@@ -805,22 +886,43 @@ namespace CSGeneral
 				{
 				case 0: MySoil.DepthStrings = GridUtils.GetColumnAsStrings(Water, 0, NumLayers); break;
 				case 1: MySoil.BD = GridUtils.GetColumnAsDoubles(Water, 1, NumLayers); break;
-				case 2: MySoil.SAT = GridUtils.GetColumnAsDoubles(Water, 2, NumLayers); break;
-				case 3: MySoil.DUL = GridUtils.GetColumnAsDoubles(Water, 3, NumLayers); RefreshPAWCColumns(); break;
-				case 4: MySoil.Airdry = GridUtils.GetColumnAsDoubles(Water, 4, NumLayers); break;
-				case 5: MySoil.LL15 = GridUtils.GetColumnAsDoubles(Water, 5, NumLayers); RefreshPAWCColumns(); break;
+				case 2: if (VolumetricCheck.Checked)
+							MySoil.SAT = GridUtils.GetColumnAsDoubles(Water, 2, NumLayers); 
+						else
+							MySoil.SATGrav = GridUtils.GetColumnAsDoubles(Water, 2, NumLayers); 
+						break;
+				case 3: if (VolumetricCheck.Checked)
+							MySoil.DUL = GridUtils.GetColumnAsDoubles(Water, 3, NumLayers);
+						else
+							MySoil.DULGrav = GridUtils.GetColumnAsDoubles(Water, 3, NumLayers);
+						RefreshPAWCColumns();
+						break;
+				case 4: if (VolumetricCheck.Checked)
+							MySoil.Airdry = GridUtils.GetColumnAsDoubles(Water, 4, NumLayers);
+						else
+							MySoil.AirdryGrav = GridUtils.GetColumnAsDoubles(Water, 4, NumLayers); 
+						break;
+				case 5: if (VolumetricCheck.Checked)
+							MySoil.LL15 = GridUtils.GetColumnAsDoubles(Water, 5, NumLayers);
+						else
+							MySoil.LL15Grav = GridUtils.GetColumnAsDoubles(Water, 5, NumLayers); 
+						RefreshPAWCColumns(); 
+						break;
 				default:
 					{
 					int CropCol = (ColumnIndex - NUMBER_OF_STATIC_COLS) / 4 * 4 + NUMBER_OF_STATIC_COLS;
 					string CropName = Water.ColumnHeader.Cells[0, CropCol].Text;
-					if (CropName.Substring(0, 10) != "Predicted ")
+					if (CropName.Length > 10 && CropName.Substring(0, 10) != "Predicted ")
 						{
 						string[] CropNames = MySoil.Crops;
 						// Save all crop columns
 						double[] ll = GridUtils.GetColumnAsDoubles(Water, CropCol, NumLayers);
 						double[] kl = GridUtils.GetColumnAsDoubles(Water, CropCol+2, NumLayers);
 						double[] xf = GridUtils.GetColumnAsDoubles(Water, CropCol+3, NumLayers);
-						MySoil.SetCrop(CropName, ll, kl, xf);
+						if (VolumetricCheck.Checked)
+							MySoil.SetCrop(CropName, ll, kl, xf);
+						else
+							MySoil.SetCropGrav(CropName, ll, kl, xf);
 						RefreshPAWCColumn(CropCol+1);
 						}
 					break;
@@ -839,22 +941,22 @@ namespace CSGeneral
 			SoilProfile.ClearRange(0, 0, SoilProfile.RowCount, SoilProfile.ColumnCount, true);
 			GridUtils.SetColumnAsStrings(SoilProfile, 0, MySoil.DepthStrings);
 			GridUtils.SetColumnAsDoubles(SoilProfile, 1, MySoil.SWCON);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 2, MySoil.FBIOM);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 3, MySoil.FINERT);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 4, MySoil.OC);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 5, MySoil.EC);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 6, MySoil.PH);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 7, MySoil.CL);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 8, MySoil.CEC);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 9, MySoil.Ca);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 10, MySoil.Mg);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 11, MySoil.Na);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 12, MySoil.K);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 13, MySoil.ESP);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 14, MySoil.ParticleSizeSand);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 15, MySoil.ParticleSizeSilt);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 16, MySoil.ParticleSizeClay);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 17, MySoil.MWCON);
+			GridUtils.SetColumnAsDoubles(SoilProfile, 2, MySoil.MWCON);
+			GridUtils.SetColumnAsDoubles(SoilProfile, 3, MySoil.FBIOM);
+			GridUtils.SetColumnAsDoubles(SoilProfile, 4, MySoil.FINERT);
+			GridUtils.SetColumnAsDoubles(SoilProfile, 5, MySoil.OC);
+			GridUtils.SetColumnAsDoubles(SoilProfile, 6, MySoil.EC);
+			GridUtils.SetColumnAsDoubles(SoilProfile, 7, MySoil.PH);
+			GridUtils.SetColumnAsDoubles(SoilProfile, 8, MySoil.CL);
+			GridUtils.SetColumnAsDoubles(SoilProfile, 9, MySoil.CEC);
+			GridUtils.SetColumnAsDoubles(SoilProfile, 10, MySoil.Ca);
+			GridUtils.SetColumnAsDoubles(SoilProfile, 11, MySoil.Mg);
+			GridUtils.SetColumnAsDoubles(SoilProfile, 12, MySoil.Na);
+			GridUtils.SetColumnAsDoubles(SoilProfile, 13, MySoil.K);
+			GridUtils.SetColumnAsDoubles(SoilProfile, 14, MySoil.ESP);
+			GridUtils.SetColumnAsDoubles(SoilProfile, 15, MySoil.ParticleSizeSand);
+			GridUtils.SetColumnAsDoubles(SoilProfile, 16, MySoil.ParticleSizeSilt);
+			GridUtils.SetColumnAsDoubles(SoilProfile, 17, MySoil.ParticleSizeClay);
 			UserChange = true;
 			}
 
@@ -868,22 +970,22 @@ namespace CSGeneral
 			switch (ColumnIndex)
 				{
 				case 1: MySoil.SWCON  = GridUtils.GetColumnAsDoubles(SoilProfile, 1, NumLayers); break;
-				case 2: MySoil.FBIOM  = GridUtils.GetColumnAsDoubles(SoilProfile, 2, NumLayers);  break;
-				case 3: MySoil.FINERT = GridUtils.GetColumnAsDoubles(SoilProfile, 3, NumLayers);  break;
-				case 4: MySoil.OC     = GridUtils.GetColumnAsDoubles(SoilProfile, 4, NumLayers);  break;
-				case 5: MySoil.EC     = GridUtils.GetColumnAsDoubles(SoilProfile, 5, NumLayers);  break;
-				case 6: MySoil.PH     = GridUtils.GetColumnAsDoubles(SoilProfile, 6, NumLayers);  break;
-				case 7: MySoil.CL     = GridUtils.GetColumnAsDoubles(SoilProfile, 7, NumLayers);  break;
-				case 8: MySoil.CEC    = GridUtils.GetColumnAsDoubles(SoilProfile, 8, NumLayers);  break;
-				case 9: MySoil.Ca     = GridUtils.GetColumnAsDoubles(SoilProfile, 9, NumLayers);  break;
-				case 10: MySoil.Mg     = GridUtils.GetColumnAsDoubles(SoilProfile, 10, NumLayers); break;
-				case 11: MySoil.Na     = GridUtils.GetColumnAsDoubles(SoilProfile, 11, NumLayers); break;
-				case 12: MySoil.K      = GridUtils.GetColumnAsDoubles(SoilProfile, 12, NumLayers); break;
-				case 13: MySoil.ESP    = GridUtils.GetColumnAsDoubles(SoilProfile, 13, NumLayers); break;
-				case 14: MySoil.ParticleSizeSand = GridUtils.GetColumnAsDoubles(SoilProfile, 14, NumLayers); break;
-				case 15: MySoil.ParticleSizeSilt = GridUtils.GetColumnAsDoubles(SoilProfile, 15, NumLayers); break;
-				case 16: MySoil.ParticleSizeClay = GridUtils.GetColumnAsDoubles(SoilProfile, 16, NumLayers); break;
-				case 17: MySoil.MWCON  = GridUtils.GetColumnAsDoubles(SoilProfile, 17, NumLayers); break;
+				case 2: MySoil.MWCON  = GridUtils.GetColumnAsDoubles(SoilProfile, 2, NumLayers); break;
+				case 3: MySoil.FBIOM  = GridUtils.GetColumnAsDoubles(SoilProfile, 3, NumLayers);  break;
+				case 4: MySoil.FINERT = GridUtils.GetColumnAsDoubles(SoilProfile, 4, NumLayers);  break;
+				case 5: MySoil.OC     = GridUtils.GetColumnAsDoubles(SoilProfile, 5, NumLayers);  break;
+				case 6: MySoil.EC     = GridUtils.GetColumnAsDoubles(SoilProfile, 6, NumLayers);  break;
+				case 7: MySoil.PH     = GridUtils.GetColumnAsDoubles(SoilProfile, 7, NumLayers);  break;
+				case 8: MySoil.CL     = GridUtils.GetColumnAsDoubles(SoilProfile, 8, NumLayers);  break;
+				case 9: MySoil.CEC    = GridUtils.GetColumnAsDoubles(SoilProfile, 9, NumLayers);  break;
+				case 10: MySoil.Ca     = GridUtils.GetColumnAsDoubles(SoilProfile, 10, NumLayers);  break;
+				case 11: MySoil.Mg     = GridUtils.GetColumnAsDoubles(SoilProfile, 11, NumLayers); break;
+				case 12: MySoil.Na     = GridUtils.GetColumnAsDoubles(SoilProfile, 12, NumLayers); break;
+				case 13: MySoil.K      = GridUtils.GetColumnAsDoubles(SoilProfile, 13, NumLayers); break;
+				case 14: MySoil.ESP    = GridUtils.GetColumnAsDoubles(SoilProfile, 14, NumLayers); break;
+				case 15: MySoil.ParticleSizeSand = GridUtils.GetColumnAsDoubles(SoilProfile, 15, NumLayers); break;
+				case 16: MySoil.ParticleSizeSilt = GridUtils.GetColumnAsDoubles(SoilProfile, 16, NumLayers); break;
+				case 17: MySoil.ParticleSizeClay = GridUtils.GetColumnAsDoubles(SoilProfile, 17, NumLayers); break;
 				}
 			}
 
@@ -1291,6 +1393,17 @@ namespace CSGeneral
 			e.PageSettings.Margins.Top = 50;
 			e.PageSettings.Margins.Right = 50;
 			e.PageSettings.Margins.Bottom = 50;
+			}
+
+		private void VolGravChecked(object sender, System.EventArgs e)
+			{
+			if (UserChange)
+				{
+				UserChange = false;
+				SaveWaterGrid();
+				PopulateWaterGrid();
+				UserChange = true;
+				}
 			}
         	
 			

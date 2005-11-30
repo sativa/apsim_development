@@ -301,6 +301,8 @@ namespace CSGeneral
 		// ------------------------------------------------------------
 		static public double[] CalcXForPlotting(double[] Values)
 			{
+			if (Values.Length <= 0)
+				return new double[0];
 			double[] ReturnValues = new double[(Values.Length-1)*3+2];
 
 			int Index = 0;

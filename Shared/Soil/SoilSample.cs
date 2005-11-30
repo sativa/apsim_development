@@ -8,103 +8,140 @@ namespace CSGeneral
 	// -------------------------------------------------
 	// A class for encapsulating a soil sample
 	// A soil sample can have SW values in volumetric %
-	// or gravimetric %. Default is Volumetric.
+	// or gravimetric % or wet dry %. Default is Volumetric.
+	// Assumes that data.parent is the parent soil.
+	// the parent soil is used to get BD and other
+	// soil variables when mapping a sample to a soil.
 	// -------------------------------------------------
 	public class SoilSample : SoilBase
 		{
-		private Soil MyLinkedSoil;
-
-		//-------------------------------------------------------------------------
-		//Constructor
-		//-------------------------------------------------------------------------
-		public SoilSample()	: base(new APSIMData("SoilSample", ""))
-			{
-			}
-
-
-		//-------------------------------------------------------------------------
-		//Constructor
-		//-------------------------------------------------------------------------
+		private Soil ParentSoil;
+		//public SoilSample()	: base(new APSIMData("SoilSample", ""))	{}
 		public SoilSample(APSIMData data) : base(data)
 			{
+			if (Data.Parent == null)
+				throw new Exception("Sample '" + Data.Name + "' has no parent soil.");
+			ParentSoil = new Soil(Data.Parent);
 			}
 
 
-		// ----------------------------------------------
-		// Property to link this sample to a soil.
-		// ----------------------------------------------
-		public Soil LinkedSoil
+		#region Water format methods
+		public enum StoredWaterFormatType {VolumetricPercent, GravimetricPercent, GravimetricWetDry};
+		public StoredWaterFormatType StoredWaterFormat
 			{
-			get {return MyLinkedSoil;}
-			set {MyLinkedSoil = value;}
-			}
-
-
-		// ---------------------------------------------
-		// Throw an exception if there is no linked soil
-		// ---------------------------------------------
-		private void ThrowExceptionIfNoLinkedSoil()
-			{
-			if (MyLinkedSoil == null)
-				throw new Exception("Soil sample does not have a linked soil");
-			}
-		//-------------------------------------------------------------------------
-		// Returns the SW units
-		//-------------------------------------------------------------------------
-		public enum SWUnits {Volumetric, Gravimetric};
-		public SWUnits SWUnit
-			{
-			get {if (Data.get_ChildValue("swunit").ToLower() == "volumetric")
-					return SWUnits.Volumetric;
-				 else
-					return SWUnits.Gravimetric;
-				}
-			set {
-				if (value == SWUnits.Volumetric)
-					Data.set_ChildValue("swunit", "volumetric");
+			get {
+				if (Data.get_ChildValue("WaterFormat") == "GravimetricPercent")
+					return StoredWaterFormatType.GravimetricPercent;
+				else if (Data.get_ChildValue("WaterFormat") == "GravimetricWetDry") 
+					return StoredWaterFormatType.GravimetricWetDry;
 				else
-					Data.set_ChildValue("swunit", "gravimetric");
-				}				 
+                    return StoredWaterFormatType.VolumetricPercent;
+				}
+			}
+		private void SetStoredWaterFormat(StoredWaterFormatType WaterFormat)
+			{
+			if (WaterFormat == StoredWaterFormatType.GravimetricWetDry)
+				{
+				double[] MissingValues = new double[Thickness.Length];
+				for (int i = 0; i != MissingValues.Length; i++)
+					MissingValues[i] = MathUtility.MissingValue;
+				setLayered("water", "sw", MissingValues);
+				Data.set_ChildValue("WaterFormat", "GravimetricWetDry");
+				}
+			else
+				{
+				double[] MissingValues = new double[Thickness.Length];
+				for (int i = 0; i != MissingValues.Length; i++)
+					MissingValues[i] = MathUtility.MissingValue;
+				setLayered("water", "wet", MissingValues);
+				setLayered("water", "dry", MissingValues);
+
+				if (WaterFormat == StoredWaterFormatType.GravimetricPercent)
+					Data.set_ChildValue("WaterFormat", "GravimetricPercent");
+				else if (WaterFormat == StoredWaterFormatType.VolumetricPercent)
+					Data.set_ChildValue("WaterFormat", "VolumetricPercent");
+				}
 			}
 
+		private double[] GetLayeredAsVol(string PropertyType, string PropertyName)
+			{
+			if (StoredWaterFormat == StoredWaterFormatType.VolumetricPercent)
+				return getLayered(PropertyType, PropertyName);
+			else
+				{
+				double[] BD = MapSoilToSampleUsingSpatial(ParentSoil.BD, ParentSoil.Thickness, Thickness);
+				return MathUtility.Multiply(GetLayeredAsGrav(PropertyType, PropertyName), BD);
+				}
+			}
+		private double[] GetLayeredAsGrav(string PropertyType, string PropertyName)
+			{
+			if (StoredWaterFormat == StoredWaterFormatType.VolumetricPercent)
+				{
+				double[] BD = MapSoilToSampleUsingSpatial(ParentSoil.BD, ParentSoil.Thickness, Thickness);
+				return MathUtility.Divide(getLayered(PropertyType, PropertyName),
+											BD);
+				}
+			else if (StoredWaterFormat == StoredWaterFormatType.GravimetricPercent)
+				return getLayered(PropertyType, PropertyName);
+			else
+				{
+				double[] Gravimetric = new double[Thickness.Length];
+				for (int layer = 0; layer != Thickness.Length; layer++)
+					Gravimetric[layer] = (Wet[layer] - Dry[layer]) / Dry[layer];
+				return Gravimetric;
+				}
+			}
+		#endregion
 
-		// ------------------------
-		// Layered sample properties.
-		// ------------------------
-		public double[] SW						// gets and sets volumetric.
+
+		#region Data get/set properties
+		public DateTime SampleDate
 			{
 			get {
-				if (SWUnit == SWUnits.Gravimetric)
-					{
-					ThrowExceptionIfNoLinkedSoil();
-					double[] BD = MapSoilToSampleUsingSpatial(MyLinkedSoil.BD, MyLinkedSoil.Thickness, Thickness);
-					return MathUtility.Multiply(getLayered("water", "sw"), BD);
-					}
-				 else
-					return getLayered("water", "sw");
+				string DateString = GetStringValue("", "date");
+				if (DateString == "")
+					return DateTime.Today;
+				else
+					return DateTime.Parse(DateString);
 				}
-			set {
-				setLayered("water", "sw", value);
-				SWUnit = SWUnits.Volumetric;
-				}                           				
+			set	{
+				SetValue("", "date", value.ToString());
+				}
 			}
-		public double[] SWGrav						// gets and sets gravimetric
+
+		public double[] SW
 			{
-			get {
-				if (SWUnit == SWUnits.Volumetric)
-					{
-					ThrowExceptionIfNoLinkedSoil();
-					double[] BD = MapSoilToSampleUsingSpatial(MyLinkedSoil.BD, MyLinkedSoil.Thickness, Thickness);
-					return MathUtility.Divide(getLayered("water", "sw"), BD);
-					}
-				 else
-					return getLayered("water", "sw");
-				}
+			get {return GetLayeredAsVol("water", "sw");}
 			set {
 				setLayered("water", "sw", value);
-				SWUnit = SWUnits.Gravimetric;
+				SetStoredWaterFormat(StoredWaterFormatType.VolumetricPercent);
 				}                           				
 			}
+		public double[] SWGrav
+			{
+			get {return GetLayeredAsGrav("water", "sw");}
+			set {
+				setLayered("water", "sw", value);
+				SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
+				}                           				
+			}
+		public double[] Wet
+			{
+			get {return getLayered("water", "wet");}
+			set {
+				setLayered("water", "wet", value);
+				SetStoredWaterFormat(StoredWaterFormatType.GravimetricWetDry);
+				}                           				
+			}
+		public double[] Dry
+			{
+			get {return getLayered("water", "dry");}
+			set {
+				setLayered("water", "dry", value);
+				SetStoredWaterFormat(StoredWaterFormatType.GravimetricWetDry);
+				}                           				
+			}
+
 		public double[] NO3
 			{
 			get {return getLayered("nitrogen", "no3");}
@@ -115,14 +152,15 @@ namespace CSGeneral
 			get {return getLayered("nitrogen", "nh4");}
 			set {setLayered("nitrogen", "nh4", value);}
 			}
+
 		public double[] OC
 			{
-			get {return getLayered("nitrogen", "oc");}
+			get {return getLayered("other", "oc");}
 			set {setLayered("nitrogen", "oc", value);}
 			}
 		public double[] PH
 			{
-			get {return getLayered("nitrogen", "ph");}
+			get {return getLayered("other", "ph");}
 			set {setLayered("nitrogen", "ph", value);}
 			}
 		public double[] EC
@@ -130,77 +168,54 @@ namespace CSGeneral
 			get {return getLayered("other", "ec");}
 			set {setLayered("other", "ec", value);}
 			}
+		public double[] ESP
+			{
+			get {return getLayered("other", "esp");}
+			set {setLayered("other", "esp", value);}
+			}
+		#endregion
+                    
 
+		#region Sample / soil mapping methods
 
-		
-		// -----------------------------------------------------
-		// Layered sample properties that have been maped to the
-		// linked soil.
-		// -----------------------------------------------------
-		public double[] SWMapedToSoil
+		private double[] SWMapedToSoil
 			{
-			get {return MapSampleToSoilUsingSpatial(SW, Thickness, MyLinkedSoil.InitialWater.SW, MyLinkedSoil.Thickness);}
+			get {return MapSampleToSoilUsingSpatial(SW, Thickness, ParentSoil.InitialWater.SW, ParentSoil.Thickness);}
 			}
-		public double[] NO3MapedToSoil
+		private double[] NO3MapedToSoil
 			{
-			get {return MapSampleToSoilUsingMass(NO3, Thickness, MyLinkedSoil.InitialNitrogen.NO3, MyLinkedSoil.Thickness, MyLinkedSoil.BD);}
+			get {return MapSampleToSoilUsingMass(NO3, Thickness, ParentSoil.InitialNitrogen.NO3, ParentSoil.Thickness, ParentSoil.BD);}
 			}
-		public double[] NH4MapedToSoil
+		private double[] NH4MapedToSoil
 			{
-			get {return MapSampleToSoilUsingMass(NH4, Thickness, MyLinkedSoil.InitialNitrogen.NH4, MyLinkedSoil.Thickness, MyLinkedSoil.BD);}
+			get {return MapSampleToSoilUsingMass(NH4, Thickness, ParentSoil.InitialNitrogen.NH4, ParentSoil.Thickness, ParentSoil.BD);}
 			}
-		public double[] OCMapedToSoil
+		private double[] OCMapedToSoil
 			{
-			get {return MapSampleToSoilUsingMass(OC, Thickness, MyLinkedSoil.OC, MyLinkedSoil.Thickness, MyLinkedSoil.BD);}
+			get {return MapSampleToSoilUsingMass(OC, Thickness, ParentSoil.OC, ParentSoil.Thickness, ParentSoil.BD);}
 			}
-		public double[] PHMapedToSoil
+		private double[] PHMapedToSoil
 			{
-			get {return MapSampleToSoilUsingSpatial(PH, Thickness, MyLinkedSoil.PH, MyLinkedSoil.Thickness);}
+			get {return MapSampleToSoilUsingSpatial(PH, Thickness, ParentSoil.PH, ParentSoil.Thickness);}
 			}
-		public double[] ECMapedToSoil
+		private double[] ECMapedToSoil
 			{
 			get {
 				double[] soilec = null;
-				if (MyLinkedSoil.EC.Length == 0)
+				if (ParentSoil.EC.Length == 0)
 					{
-					soilec = new double[MyLinkedSoil.Thickness.Length];
+					soilec = new double[ParentSoil.Thickness.Length];
 					for (int i = 0; i != soilec.Length; i++)
 						soilec[i] = 0;
 					}
 				else
 					{
-					soilec = MyLinkedSoil.EC;
+					soilec = ParentSoil.EC;
 					}
-				double[] ec = MapSampleToSoilUsingSpatial(EC, Thickness, soilec, MyLinkedSoil.Thickness);
+				double[] ec = MapSampleToSoilUsingSpatial(EC, Thickness, soilec, ParentSoil.Thickness);
 				return ec;
 				}
 			}
-
-
-		// ------------------------------------------------------------------
-		// return plant available water by layer (mm) given
-		// depth, lower limit and dul all in (mm).
-		// ------------------------------------------------------------------
-		public double[] PAW(string CropName)
-			{
-			if (MyLinkedSoil.CropExists(CropName))
-				{
-				double[] sw = SW;
-				double[] ll = MapSoilToSampleUsingSpatial(MyLinkedSoil.LL(CropName), MyLinkedSoil.Thickness, Thickness);
-				double[] sat = MapSoilToSampleUsingSpatial(MyLinkedSoil.SAT, MyLinkedSoil.Thickness, Thickness);
-				double[] thickness = Thickness;
-				double[] paw = new double[thickness.Length];
-				for(int i = 0; i != thickness.Length; i++)
-					{
-					sw[i] = Math.Max(sw[i], ll[i]);
-					sw[i] = Math.Min(sw[i], sat[i]);
-					paw[i] = ((sw[i]  - ll[i])* thickness[i]);
-					}
-				return paw;
-				}
-			throw new Exception("Soil is not parameterised for crop: " + CropName);
-			}
-
 
 		// ----------------------------------------------------------------
 		// Interpolate some BD values that match this sample's thicknesses.
@@ -388,64 +403,65 @@ namespace CSGeneral
 				SampleValues[i] = ReturnValues[i];
 				}
 			}
+		#endregion
 
 
-		//-------------------------------------------------------------------------
-		//Replaces any missing soil sample values with values from the soil file.
-		//This allows the user to input partial results for a soil sample and
-		//any missing values will be replaced by values from the soil file
-		//-------------------------------------------------------------------------	
-		/*private void ReplaceAnyMissingValues(double[] dSoilValues, ref ArrayList alSampleValues,
-			double[] dSoilThicknesses, ArrayList alSampleThicknesses)
+		public double[] PAW(string CropName)
 			{
-			double dCumSampleThickness = 0.0;
-			double dCumSoilThickness = 0.0;
-			int iSoilLayer = 0;
-
-			// calculate depth increments.
-			if (alSampleThicknesses.Count > 0)
+			// return plant available water by layer (mm) given
+			// depth, lower limit and dul all in (mm).
+			if (ParentSoil.CropExists(CropName))
 				{
-				if(dSoilThicknesses.Length > 0)
+				double[] sw = SW;
+				double[] ll = MapSoilToSampleUsingSpatial(ParentSoil.LL(CropName), ParentSoil.Thickness, Thickness);
+				double[] sat = MapSoilToSampleUsingSpatial(ParentSoil.SAT, ParentSoil.Thickness, Thickness);
+				double[] thickness = Thickness;
+				double[] paw = new double[thickness.Length];
+				for(int i = 0; i != thickness.Length; i++)
 					{
-					dCumSoilThickness = dSoilThicknesses[iSoilLayer];
+					sw[i] = Math.Max(sw[i], ll[i]);
+					sw[i] = Math.Min(sw[i], sat[i]);
+					paw[i] = ((sw[i]  - ll[i])* thickness[i]);
 					}
-				for (int iSampleLayer = 0; iSampleLayer < alSampleThicknesses.Count; iSampleLayer++)
-					{
-					//Check to make sure that the layers are as close as can be
-					dCumSampleThickness += Convert.ToDouble(alSampleThicknesses[iSampleLayer].ToString());
-					while((dCumSoilThickness < dCumSampleThickness) && (iSoilLayer < (dSoilThicknesses.Length-1)))
-						{
-						iSoilLayer++;
-						dCumSoilThickness += dSoilThicknesses[iSoilLayer];	
-						}
-					if(Convert.ToDouble(alSampleValues[iSampleLayer].ToString()) == MISSING_DOUBLE)
-						{
-						alSampleValues[iSampleLayer] = dSoilValues[iSoilLayer];
-						}
-					}
+				return paw;
 				}
+			throw new Exception("Soil is not parameterised for crop: " + CropName);
 			}
-		//-------------------------------------------------------------------------
-		//
-		//-------------------------------------------------------------------------
-		public double CheckLayerExists(int iLayer, double[] dValues)
+
+		public void UpgradeToVersion3()
 			{
-			double dValue = 0.0;
-			if(iLayer < dValues.Length)
+			string SWUnit = Data.get_ChildValue("swunit");
+			if (SWUnit != "")
 				{
-				dValue = dValues[iLayer];
+				if (SWUnit.ToLower() == "volumetric")
+					SetStoredWaterFormat(StoredWaterFormatType.VolumetricPercent);
+				else
+					SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
+				Data.Delete("swunit");
 				}
-			else
-				{
-				if(dValues.Length > 0)
-					{
-					dValue = dValues[dValues.Length-1];
-					}
-				}
-			return dValue;
-			}
-		  */
 
-		//-------------------------------------------------------------------------	
-		}//END OF CLASS
-	}//END OF NAMESPACE
+			double[] oc = getLayered("nitrogen", "oc");
+			if (oc.Length == 0)
+				{
+				setLayered("other", "oc", oc);    // moves to other
+
+				for (int i = 0; i != oc.Length; i++)
+					oc[i] = MathUtility.MissingValue;
+				setLayered("nitrogen", "oc", oc); // deletes old values.
+				}
+
+			double[] ph = getLayered("nitrogen", "ph");
+			if (ph.Length == 0)
+				{
+				setLayered("other", "ph", ph);    // moves to other
+
+				for (int i = 0; i != ph.Length; i++)
+					ph[i] = MathUtility.MissingValue;
+				setLayered("nitrogen", "ph", ph); // deletes old values.
+				}
+		
+			}
+
+		
+		}
+	}
