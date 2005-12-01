@@ -180,21 +180,31 @@ namespace CSGeneral
 			this.General.RowCount = 10;
 			this.General.ActiveColumnIndex = 1;
 			this.General.ActiveRowIndex = 3;
+			this.General.Cells.Get(0, 0).ParseFormatString = "G";
 			this.General.Cells.Get(0, 0).Text = "Region: ";
+			this.General.Cells.Get(1, 0).ParseFormatString = "G";
 			this.General.Cells.Get(1, 0).Text = "Site: ";
+			this.General.Cells.Get(2, 0).ParseFormatString = "G";
 			this.General.Cells.Get(2, 0).Text = "Name: ";
 			this.General.Cells.Get(2, 1).Locked = true;
+			this.General.Cells.Get(3, 0).ParseFormatString = "G";
 			this.General.Cells.Get(3, 0).Text = "Order / SubOrder: ";
 			comboBoxCellType1.Editable = true;
 			comboBoxCellType1.Items = new string[] {
 													   "Black Vertosol",
 													   "Grey Vertosol"};
 			this.General.Cells.Get(3, 1).CellType = comboBoxCellType1;
+			this.General.Cells.Get(4, 0).ParseFormatString = "G";
 			this.General.Cells.Get(4, 0).Text = "Nearest Town: ";
+			this.General.Cells.Get(5, 0).ParseFormatString = "G";
 			this.General.Cells.Get(5, 0).Text = "GPS: ";
+			this.General.Cells.Get(6, 0).ParseFormatString = "G";
 			this.General.Cells.Get(6, 0).Text = "GPS DATUM: ";
+			this.General.Cells.Get(7, 0).ParseFormatString = "G";
 			this.General.Cells.Get(7, 0).Text = "Map ID: ";
+			this.General.Cells.Get(8, 0).ParseFormatString = "G";
 			this.General.Cells.Get(8, 0).Text = "Natural Vegetation: ";
+			this.General.Cells.Get(9, 0).ParseFormatString = "G";
 			this.General.Cells.Get(9, 0).Text = "Comments: ";
 			this.General.ColumnHeader.Visible = false;
 			this.General.Columns.Get(0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
@@ -284,8 +294,7 @@ namespace CSGeneral
 			this.SoilProfile.ColumnCount = 18;
 			this.SoilProfile.ColumnHeader.RowCount = 2;
 			this.SoilProfile.RowCount = 15;
-			this.SoilProfile.ActiveColumnIndex = 3;
-			this.SoilProfile.ActiveRowIndex = 1;
+			this.SoilProfile.ActiveColumnIndex = 5;
 			this.SoilProfile.ColumnHeader.AutoText = FarPoint.Win.Spread.HeaderAutoText.Blank;
 			this.SoilProfile.ColumnHeader.Cells.Get(0, 0).Text = "Depth";
 			this.SoilProfile.ColumnHeader.Cells.Get(0, 1).Text = "SWCon";
@@ -323,7 +332,7 @@ namespace CSGeneral
 			numberCellType9.DropDownButton = false;
 			this.SoilProfile.Columns.Get(4).CellType = numberCellType9;
 			numberCellType10.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
-			numberCellType10.DecimalPlaces = 1;
+			numberCellType10.DecimalPlaces = 2;
 			numberCellType10.DropDownButton = false;
 			this.SoilProfile.Columns.Get(5).CellType = numberCellType10;
 			numberCellType11.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
@@ -388,35 +397,53 @@ namespace CSGeneral
 			this.APSIM.RowCount = 18;
 			this.APSIM.Cells.Get(0, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.APSIM.Cells.Get(0, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+			this.APSIM.Cells.Get(0, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(0, 0).Text = "Evaporation";
 			this.APSIM.Cells.Get(0, 1).Locked = true;
 			this.APSIM.Cells.Get(1, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+			this.APSIM.Cells.Get(1, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(1, 0).Text = "U";
 			this.APSIM.Cells.Get(2, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+			this.APSIM.Cells.Get(2, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(2, 0).Text = "Cona";
 			this.APSIM.Cells.Get(3, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+			this.APSIM.Cells.Get(3, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(3, 0).Text = "Salb";
 			this.APSIM.Cells.Get(4, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.APSIM.Cells.Get(4, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(4, 0).Text = "Unsaturated Flow";
 			this.APSIM.Cells.Get(4, 1).Locked = true;
+			this.APSIM.Cells.Get(5, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(5, 0).Text = "DiffusConst";
+			this.APSIM.Cells.Get(6, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(6, 0).Text = "DiffusSlope";
 			this.APSIM.Cells.Get(7, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.APSIM.Cells.Get(7, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(7, 0).Text = "Runoff";
 			this.APSIM.Cells.Get(7, 1).Locked = true;
+			this.APSIM.Cells.Get(8, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(8, 0).Text = "CN2Bare";
+			this.APSIM.Cells.Get(9, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(9, 0).Text = "CNRed";
+			this.APSIM.Cells.Get(10, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(10, 0).Text = "CNCov";
 			this.APSIM.Cells.Get(11, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.APSIM.Cells.Get(11, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(11, 0).Text = "Organic Matter";
 			this.APSIM.Cells.Get(11, 1).Locked = true;
+			this.APSIM.Cells.Get(12, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(12, 0).Text = "RootCN";
+			this.APSIM.Cells.Get(13, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(13, 0).Text = "RootWt";
+			this.APSIM.Cells.Get(14, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(14, 0).Text = "SoilCN";
 			this.APSIM.Cells.Get(15, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.APSIM.Cells.Get(15, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(15, 0).Text = "Erosion";
 			this.APSIM.Cells.Get(15, 1).Locked = true;
+			this.APSIM.Cells.Get(16, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(16, 0).Text = "EnrACoeff";
+			this.APSIM.Cells.Get(17, 0).ParseFormatString = "G";
 			this.APSIM.Cells.Get(17, 0).Text = "EnrBCoeff";
 			this.APSIM.ColumnHeader.Visible = false;
 			this.APSIM.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
@@ -891,7 +918,7 @@ namespace CSGeneral
 					{
 					int CropCol = (ColumnIndex - NUMBER_OF_STATIC_COLS) / 4 * 4 + NUMBER_OF_STATIC_COLS;
 					string CropName = Water.ColumnHeader.Cells[0, CropCol].Text;
-					if (CropName.Length > 10 && CropName.Substring(0, 10) != "Predicted ")
+					if (!CropName.StartsWith("Predicted "))
 						{
 						string[] CropNames = MySoil.Crops;
 						// Save all crop columns

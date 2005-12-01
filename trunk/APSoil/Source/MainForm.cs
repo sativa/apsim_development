@@ -226,6 +226,9 @@ namespace APSoil
 			this.ExitMenu = new Xceed.SmartUI.Controls.MenuBar.MenuItem("E&xit");
 			this.separatorTool2 = new Xceed.SmartUI.Controls.ToolBar.SeparatorTool();
 			this.SaveSmallButton = new Xceed.SmartUI.Controls.ToolBar.Tool(7);
+			this.CutSmallButton = new Xceed.SmartUI.Controls.ToolBar.Tool(9);
+			this.CopySmallButton = new Xceed.SmartUI.Controls.ToolBar.Tool(10);
+			this.PasteSmallButton = new Xceed.SmartUI.Controls.ToolBar.Tool(11);
 			this.separatorTool1 = new Xceed.SmartUI.Controls.ToolBar.SeparatorTool();
 			this.SoilsButton = new Xceed.SmartUI.Controls.ToolBar.Tool("Soi&ls");
 			this.InsertButton = new Xceed.SmartUI.Controls.ToolBar.Tool("&Insert");
@@ -233,9 +236,6 @@ namespace APSoil
 			this.ExportButton = new Xceed.SmartUI.Controls.ToolBar.Tool("&Export");
 			this.smartToolBar1 = new Xceed.SmartUI.Controls.ToolBar.SmartToolBar(this.components);
 			this.HelpSmallButton = new Xceed.SmartUI.Controls.ToolBar.Tool(12);
-			this.CutSmallButton = new Xceed.SmartUI.Controls.ToolBar.Tool(9);
-			this.CopySmallButton = new Xceed.SmartUI.Controls.ToolBar.Tool(10);
-			this.PasteSmallButton = new Xceed.SmartUI.Controls.ToolBar.Tool(11);
 			this.SoilsToolBarPanel.SuspendLayout();
 			this.ToolPanel1.SuspendLayout();
 			this.SoilPanel3.SuspendLayout();
@@ -827,8 +827,9 @@ namespace APSoil
 			// 
 			// MainToolBar
 			// 
-			this.MainToolBar.BackColor = System.Drawing.Color.Gainsboro;
+			this.MainToolBar.BackColor = System.Drawing.Color.Lavender;
 			this.MainToolBar.Cursor = System.Windows.Forms.Cursors.Default;
+			this.MainToolBar.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.MainToolBar.Items.AddRange(new object[] {
 															 this.FileMenu,
 															 this.separatorTool2,
@@ -895,6 +896,24 @@ namespace APSoil
 			this.SaveSmallButton.ToolTipText = "Save current file";
 			this.SaveSmallButton.Click += new Xceed.SmartUI.SmartItemClickEventHandler(this.SaveSmallButton_Click);
 			// 
+			// CutSmallButton
+			// 
+			this.CutSmallButton.ImageIndex = 9;
+			this.CutSmallButton.ToolTipText = "Cut the selected items to the clipboard";
+			this.CutSmallButton.Click += new Xceed.SmartUI.SmartItemClickEventHandler(this.CutSmallButton_Click);
+			// 
+			// CopySmallButton
+			// 
+			this.CopySmallButton.ImageIndex = 10;
+			this.CopySmallButton.ToolTipText = "Copy the selected items to the clipboard";
+			this.CopySmallButton.Click += new Xceed.SmartUI.SmartItemClickEventHandler(this.CopySmallButton_Click);
+			// 
+			// PasteSmallButton
+			// 
+			this.PasteSmallButton.ImageIndex = 11;
+			this.PasteSmallButton.ToolTipText = "Paste clipboard contents into file";
+			this.PasteSmallButton.Click += new Xceed.SmartUI.SmartItemClickEventHandler(this.PasteSmallButton_Click);
+			// 
 			// SoilsButton
 			// 
 			this.SoilsButton.Tag = "down";
@@ -945,24 +964,6 @@ namespace APSoil
 			this.HelpSmallButton.ImageIndex = 12;
 			this.HelpSmallButton.ToolTipText = "Display Apsoil version info";
 			this.HelpSmallButton.Click += new Xceed.SmartUI.SmartItemClickEventHandler(this.HelpButton_Click);
-			// 
-			// CutSmallButton
-			// 
-			this.CutSmallButton.ImageIndex = 9;
-			this.CutSmallButton.ToolTipText = "Cut the selected items to the clipboard";
-			this.CutSmallButton.Click += new Xceed.SmartUI.SmartItemClickEventHandler(this.CutSmallButton_Click);
-			// 
-			// CopySmallButton
-			// 
-			this.CopySmallButton.ImageIndex = 10;
-			this.CopySmallButton.ToolTipText = "Copy the selected items to the clipboard";
-			this.CopySmallButton.Click += new Xceed.SmartUI.SmartItemClickEventHandler(this.CopySmallButton_Click);
-			// 
-			// PasteSmallButton
-			// 
-			this.PasteSmallButton.ImageIndex = 11;
-			this.PasteSmallButton.ToolTipText = "Paste clipboard contents into file";
-			this.PasteSmallButton.Click += new Xceed.SmartUI.SmartItemClickEventHandler(this.PasteSmallButton_Click);
 			// 
 			// MainForm
 			// 

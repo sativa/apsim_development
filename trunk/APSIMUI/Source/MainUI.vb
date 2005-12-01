@@ -850,10 +850,10 @@ Public Class MainUI
         e.SmartPaint.DrawString(e.Item.Text, ContentAlignment.MiddleCenter)
     End Sub
     Private Sub NewFileMenu_Click(ByVal sender As Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs) Handles NewFileMenu.Click
-
-        Dim NewData As New APSIMData("soils", "")
-        NewData.Add(New Soil(New APSIMData("soil", "Blank soil")).Data)
-        ApsimUI.FileNew(NewData)
+        Dim NewData As APSIMData = ApsimUI.LetUserSelectNewDocument()
+        If Not IsNothing(NewData) Then
+            ApsimUI.FileNew(NewData)
+        End If
     End Sub
 
     Private Sub OpenFileMenu_Click(ByVal sender As Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs) Handles OpenFileMenu.Click

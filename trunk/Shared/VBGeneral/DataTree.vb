@@ -232,7 +232,7 @@ Public Class DataTree
     ' ourselves.
     ' ----------------------------------------------
     Overrides Sub Refresh()
-        If Not IsNothing(Controller) AndAlso Not Controller.AllData Is Nothing Then
+        If Not IsNothing(Controller) AndAlso Not Controller.AllData Is Nothing AndAlso UserChange Then
             HelpText = ""
             TreeView.BeginUpdate()
             TreeView.Nodes.Clear()
@@ -578,6 +578,9 @@ Public Class DataTree
     ' ---------------------------------------
     Private Sub TreeView_BeforeLabelEdit(ByVal sender As Object, ByVal e As System.Windows.Forms.NodeLabelEditEventArgs) Handles TreeView.BeforeLabelEdit
         e.CancelEdit = Not Controller.AllowRenameSelected()
+        If Not e.CancelEdit Then
+            TreeView.ContextMenu = Nothing
+        End If
     End Sub
 
 
@@ -590,6 +593,7 @@ Public Class DataTree
             Controller.RenameSelected(e.Label)
             UserChange = True
         End If
+        TreeView.ContextMenu = Me.ContextMenu1
     End Sub
 
 

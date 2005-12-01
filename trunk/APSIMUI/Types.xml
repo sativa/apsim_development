@@ -677,6 +677,18 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\manager\lib\manager.dll</dll>
+         <sim>
+            [foreach manager.rule as rule]
+            [foreach rule.condition as condition]
+            <rule name="[rule.name] - [condition.name]" condition="[condition.name]">
+            [condition.innerxml]
+            [foreach rule.category as category]
+            [category.xml]
+            [endfor]
+            </rule>
+            [endfor]
+            [endfor]
+         </sim>
       </ApsimToSim>
 
    </manager>
@@ -2307,10 +2319,10 @@
          <type>component</type>
          <dll>%apsuite\apsim\manager\lib\manager.dll</dll>
          <sim>
-            <rule name="climatechange" condition="init">
+            <rule name="ccInit" condition="init">
                co2 = [cc.co2]
             </rule>
-            <rule name="climatechange" condition="prenewmet">
+            <rule name="ccPreNewMet" condition="prenewmet">
                !change met data to reflect climate change
                met.maxt = met.maxt + [cc.maxtmodifier]
                met.mint = met.mint + [cc.mintmodifier]
