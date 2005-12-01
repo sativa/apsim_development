@@ -72,8 +72,8 @@
   <metfile name="metfile">
     <filename name="filename">C:\Program Files\Apsim40\apsim\met\sample\dalby.met</filename>
     <climatechange>
-      <maxtmodifier description="Change in temperature in degrees celsius">0.0</maxtmodifier>
-      <mintmodifier description="Change in temperature in degrees celsius">0.0</mintmodifier>
+      <maxtmodifier description="Change in maximum temperature in degrees celsius">0.0</maxtmodifier>
+      <mintmodifier description="Change in minimum temperature in degrees celsius">0.0</mintmodifier>
       <rainmodifier description="Relative change in rainfall">1.0</rainmodifier>
       <radiationmodifier description="Relative change in radiation">1.0</radiationmodifier>
       <co2 description="Atmospheric C02 concentration (ppm)">350</co2>

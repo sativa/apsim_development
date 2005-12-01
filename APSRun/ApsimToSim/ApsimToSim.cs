@@ -234,7 +234,14 @@ namespace ApsimToSim
 
 
 				if (ModuleName1 == ModuleName2)
-					return StringComparer.Compare(Data1.Name, Data2.Name);
+					{
+					int ChildIndex1 = Data1.Parent.ChildList(null).IndexOf(Data1.Name);
+					int ChildIndex2 = Data2.Parent.ChildList(null).IndexOf(Data2.Name);
+					if (ChildIndex1 < ChildIndex2)
+						return -1;
+					else
+						return 1;
+					}
 				if (Data1.Type == "title")
 					return -1;
 				for (int i = 0; i != Components.Count; i++)

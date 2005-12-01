@@ -67,15 +67,18 @@ Public MustInherit Class BaseController
         Set(ByVal Value As APSIMData)
             MyData = Value
 
-            RaiseEvent NewDataEvent()
-            AddHandler MyData.DataChanged, AddressOf OnDataChanged
-
             ' remove any selections now that we have new data.
             If MySelectedData.Count > 0 Then
                 MySelectedData.Clear()
             End If
+            RaiseEvent SelectionChangedEvent()
+
+            RaiseEvent NewDataEvent()
+            AddHandler MyData.DataChanged, AddressOf OnDataChanged
+
             MySelectedData.Add(MyData.Name)
             RaiseEvent SelectionChangedEvent()
+
         End Set
     End Property
     Private Sub OnDataChanged()

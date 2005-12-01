@@ -225,7 +225,10 @@ Public Class ExplorerUI
     ' -----------------------------------------------
     Public Sub OnRename()
         If Not IsNothing(MyCurrentUI) Then
-            MyCurrentUI.Refresh()
+            If Not MyCurrentUI.Controller Is Controller Then
+                MyCurrentUI.Controller.AllData = Controller.Data
+                MyCurrentUI.Refresh()
+            End If
         End If
     End Sub
 
