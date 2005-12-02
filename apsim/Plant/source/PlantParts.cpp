@@ -302,7 +302,7 @@ void plantPart::readSpeciesParameters(protocol::Component *system, vector<string
     if (system->readParameter (sections
                             , "n_deficit_uptake_fraction"//, "()"
                             , c.n_deficit_uptake_fraction
-                            , 0.0, 1.0) == false)
+                            , 0.0, 1.0, true) == false)
         c.n_deficit_uptake_fraction = 0.0;                    
 
     }
