@@ -103,6 +103,25 @@ void crop_part_fraction_delta (int part_no,            // (INPUT)
    *dlt_part = part * fraction[part_no];
    }
 
+void crop_part_fraction_delta (float fraction,         // (INPUT)  fraction for each part
+                               float part,             // (INPUT)  part value to use
+                               float *dlt_part)        // (OUTPUT) change in part
+//==========================================================================
+/*Purpose
+ *   Calculate change in a particular plant pool
+ *Parameters
+ *   part_no
+ *   fraction[]
+ *   part
+ *   dlt_part
+ *Calls
+ */
+
+   {
+   *dlt_part = part * fraction;
+   }
+
+
 //===========================================================================
 void crop_radn_int0(float cover_green,
                     float fr_intc_radn,

@@ -5,6 +5,8 @@ class PlantComponent;
 class PlantPhenology;
 class ApsimVariant;
 class plantPart;
+class plantStemPart;
+class plantLeafPart;
 class PlantFruit;
 class plantThing;
 class eventObserver;
@@ -45,13 +47,13 @@ const int  fixation = 4 ;
 //   Short description:
 //      indices of plant part names
 const int  root = 0 ;
-const int  leaf = 1 ;
+//const int  leaf = 1 ;
 //const int  stem = 2 ;
-const int  pod  = 2 ;
-const int  meal = 3 ; // excludes oil component
-const int  oil  = 4 ; // seed oil
+const int  pod  = 1 ;
+const int  meal = 2 ; // excludes oil component
+const int  oil  = 3 ; // seed oil
 // number of plant parts
-const int  max_part = 5 ; // NB. implies for (i=0; i < max_part; max_part++) usage
+const int  max_part = 4 ; // NB. implies for (i=0; i < max_part; max_part++) usage
 
 typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;
 
@@ -68,7 +70,8 @@ class Plant : public plantInterface {
 
   vector <plantThing *> myThings;
   vector <plantPart *> myParts;
-  plantPart      *stemPart;
+  plantStemPart  *stemPart;
+  plantLeafPart  *leafPart;
   ReproStruct    *reproStruct;
   PlantPhenology *phenology;
   PlantFruit     *fruit;
@@ -105,7 +108,10 @@ class Plant : public plantInterface {
   float Plant::stoverPDead(void);
   float Plant::stoverPTot(void);
 
-
+  float Plant::sumNMax(void);
+  float Plant::sumSoilNDemand(void);
+  float Plant::sumNDemand(void);
+    
  public:
   Plant(PlantComponent *P);
   ~Plant();
@@ -226,11 +232,8 @@ class Plant : public plantInterface {
     ,float  c_n_conc_min_meal
     ,float  c_n_conc_min_root
     ,float *c_x_stage_code
-    ,float *c_y_n_conc_crit_leaf
     ,float *c_y_n_conc_crit_pod
-    ,float *c_y_n_conc_max_leaf
     ,float *c_y_n_conc_max_pod
-    ,float *c_y_n_conc_min_leaf
     ,float *c_y_n_conc_min_pod
     ,float *c_x_co2_nconc_modifier
     ,float *c_y_co2_nconc_modifier
@@ -367,9 +370,7 @@ class Plant : public plantInterface {
     ,float  dlt_n_root
     ,float  dlt_p_root
     ,float  *root_length)               ;
-  void plant_dm_init (float  c_dm_leaf_init
-		      ,float  c_dm_root_init
-		      ,float  c_leaf_trans_frac
+  void plant_dm_init (float  c_dm_root_init
 		      ,float  c_pod_trans_frac
 		      ,float  g_plants
 		      ,float  *dm_green
@@ -425,11 +426,8 @@ class Plant : public plantInterface {
 			     ,float  c_n_conc_min_meal
 			     ,float  c_n_conc_min_root
 			     ,float  *c_x_stage_code
-			     ,float  *c_y_n_conc_crit_leaf
 			     ,float  *c_y_n_conc_crit_pod
-			     ,float  *c_y_n_conc_max_leaf
 			     ,float  *c_y_n_conc_max_pod
-			     ,float  *c_y_n_conc_min_leaf
 			     ,float  *c_y_n_conc_min_pod
                              ,float  *c_x_co2_nconc_modifier
                              ,float  *c_y_co2_nconc_modifier
@@ -562,13 +560,6 @@ void legnew_dm_retranslocate2
     ,float  *g_leaf_area
     ,float  c_min_tpla
     ,float  *dlt_leaf_no_dead
-    ) ;
-  void legnew_retrans_init
-    (
-     float c_leaf_trans_frac
-    ,float  g_plants
-    ,float *dm_green
-    ,float *dm_plant_min
     ) ;
   void plant_N_senescence (int num_part                  //(INPUT) number of plant part
                         ,float *c_n_sen_conc           //(INPUT)  N concentration of senesced materia  (g/m^2)
@@ -792,13 +783,10 @@ void legnew_dm_distribute(int max_part
   void get_dlt_n_senesced(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_stover(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_root(protocol::Component *, protocol::QueryValueData &);
-  void get_n_conc_leaf(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_grain(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_meal(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_crit(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_min(protocol::Component *, protocol::QueryValueData &);
-  void get_n_conc_crit_leaf(protocol::Component *, protocol::QueryValueData &);
-  void get_n_conc_min_leaf(protocol::Component *, protocol::QueryValueData &);
   void get_grain_n_demand(protocol::Component *, protocol::QueryValueData &);
 
   void get_n_uptake_stover(protocol::Component *, protocol::QueryValueData &);

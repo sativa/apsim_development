@@ -88,6 +88,8 @@ class plantPart : public plantThing {
       bool  p_yield_part;                 // is a P yield_part
       bool  p_retrans_part;               // is a P retrans_part
 
+      float n_deficit_uptake_fraction;    // xxxxxxxxxx
+
       interpolationFunction n_conc_min;
       interpolationFunction n_conc_crit;
       interpolationFunction n_conc_max;
@@ -105,9 +107,10 @@ class plantPart : public plantThing {
       interpolationFunction fr_remain;
       string name;                        // What we call ourselves
    } c;
-private:
+protected:
    plantInterface *plant;                 // The plant we are attached to
 
+private:
    void onEmergence(void);
    void onFlowering(void);
    void onStartGrainFill(void);
@@ -134,12 +137,12 @@ private:
      };
    virtual ~plantPart() {};
 
-   void doRegistrations(protocol::Component *);
-   void readConstants (protocol::Component *, const string &);
-   void readSpeciesParameters (protocol::Component *, vector<string> &);
-   void readCultivarParameters (protocol::Component *, const string &);
+   virtual void doRegistrations(protocol::Component *);
+   virtual void readConstants (protocol::Component *, const string &);
+   virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
+   virtual void readCultivarParameters (protocol::Component *, const string &);
 
-   void onPlantEvent(const string &);
+   virtual void onPlantEvent(const string &);
 
    void prepare(void);
    void process(void);
@@ -157,12 +160,12 @@ private:
    void dm_detachment1(void);
    void n_detachment1(void);
 
-   void onHarvest(float height, float remove_fr,
-                  vector<string> &dm_type,
-                  vector<float> &dlt_crop_dm,
-                  vector<float> &dlt_dm_n,
-                  vector<float> &dlt_dm_p,
-                  vector<float> &fraction_to_residue);
+   virtual void onHarvest(float height, float remove_fr,
+                          vector<string> &dm_type,
+                          vector<float> &dlt_crop_dm,
+                          vector<float> &dlt_dm_n,
+                          vector<float> &dlt_dm_p,
+                          vector<float> &fraction_to_residue) = 0;
 
    void onEndCrop(vector<string> &dm_type,
                   vector<float> &dlt_crop_dm,
@@ -173,6 +176,31 @@ private:
    float availableRetranslocateN(void);
    const string &name(void) {return c.name;};
 };
+
+class plantStemPart : public plantPart {
+  public: 
+   plantStemPart(plantInterface *p, const string &name) : plantPart(p, name) {};
+   ~plantStemPart() {};
+   void onHarvest(float height, float remove_fr,
+                  vector<string> &dm_type,
+                  vector<float> &dlt_crop_dm,
+                  vector<float> &dlt_dm_n,
+                  vector<float> &dlt_dm_p,
+                  vector<float> &fraction_to_residue);
+};
+
+class plantLeafPart : public plantPart {
+  public: 
+   plantLeafPart(plantInterface *p, const string &name) : plantPart(p, name) {};
+   ~plantLeafPart() {};
+   void onHarvest(float height, float remove_fr,
+                  vector<string> &dm_type,
+                  vector<float> &dlt_crop_dm,
+                  vector<float> &dlt_dm_n,
+                  vector<float> &dlt_dm_p,
+                  vector<float> &fraction_to_residue);
+};
+
 
 float critNFactor(vector<const plantPart *> &, float );
 
@@ -189,6 +217,12 @@ class plantPartHack : public plantPart {
       get();
    };
    ~plantPartHack(){put();};
+   void onHarvest(float height, float remove_fr,
+                  vector<string> &dm_type,
+                  vector<float> &dlt_crop_dm,
+                  vector<float> &dlt_dm_n,
+                  vector<float> &dlt_dm_p,
+                  vector<float> &fraction_to_residue) {};
 };
 
 #endif /* PlantPartsH */

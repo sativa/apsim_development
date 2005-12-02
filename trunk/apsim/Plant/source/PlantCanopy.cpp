@@ -433,11 +433,10 @@ void cproc_leaf_area_init1 (float c_initial_tpla,     //(INPUT)  initial plant l
    }
 
 //===========================================================================
-void cproc_lai_detachment1 (int leaf,                           //(INPUT)
-                            float *c_sen_detach_frac,           //(INPUT)
+void cproc_lai_detachment1 (float c_sen_detach_frac,           //(INPUT)
                             float g_slai,                       //(INPUT)
                             float *g_dlt_slai_detached,         //(OUTPUT)
-                            float *c_dead_detach_frac,           //(INPUT)
+                            float c_dead_detach_frac,           //(INPUT)
                             float g_tlai_dead,                  //(INPUT)
                             float *g_dlt_tlai_dead_detached)    //(OUTPUT)
 //==========================================================================
@@ -446,8 +445,8 @@ void cproc_lai_detachment1 (int leaf,                           //(INPUT)
  *   Simulate plant detachment.
  */
   {
-   crop_part_fraction_delta(leaf, c_sen_detach_frac, g_slai, g_dlt_slai_detached);
-   crop_part_fraction_delta(leaf, c_dead_detach_frac, g_tlai_dead, g_dlt_tlai_dead_detached);
+   crop_part_fraction_delta(c_sen_detach_frac, g_slai, g_dlt_slai_detached);
+   crop_part_fraction_delta(c_dead_detach_frac, g_tlai_dead, g_dlt_tlai_dead_detached);
   }
 
 //===========================================================================
