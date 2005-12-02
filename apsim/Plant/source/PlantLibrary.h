@@ -535,11 +535,10 @@ void cproc_leaf_area_init1 (float c_initial_tpla,     //(INPUT)  initial plant l
                             float  g_plants,          // (INPUT)  Plant density (plants/m^2)
                             float *lai);               //(OUTPUT) total plant leaf area
 
-void cproc_lai_detachment1 (int leaf,                           //(INPUT)
-                            float *c_sen_detach_frac,           //(INPUT)
+void cproc_lai_detachment1 (float c_sen_detach_frac,           //(INPUT)
                             float g_slai,                       //(INPUT)
                             float *g_dlt_slai_detached,         //(OUTPUT)
-                            float *c_dead_detach_frac,          //(INPUT)
+                            float c_dead_detach_frac,          //(INPUT)
                             float g_tlai_dead,                  //(INPUT)
                             float *g_dlt_tlai_dead_detached);    //(OUTPUT)
 
@@ -1411,6 +1410,10 @@ float crop_running_ave(int day_of_year,
 
 void crop_part_fraction_delta (int    part_no,
                                float *fraction,         // (INPUT)  fraction for each part
+                               float part,              // (INPUT)  part value to use
+                               float *dlt_part);        // (OUTPUT) change in part
+
+void crop_part_fraction_delta (float fraction,         // (INPUT)  fraction for each part
                                float part,              // (INPUT)  part value to use
                                float *dlt_part);        // (OUTPUT) change in part
 

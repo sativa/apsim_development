@@ -32,8 +32,7 @@ void Plant::setupHacks(vector<plantPart *> &parts)
    plantPart *x = new plantPartHack(this, root, "root");
    parts.push_back(x);
 
-   x=new plantPartHack(this, leaf, "leaf");
-   parts.push_back(x);
+   parts.push_back(leafPart);
 
    parts.push_back(stemPart);
 
@@ -50,7 +49,7 @@ void Plant::deleteHacks(vector<plantPart *> &parts)
    {
    vector<plantPart *>::iterator part;
    for (part = parts.begin(); part != parts.end(); part++)
-      if ((*part)->c.name != "stem")
+      if ((*part)->c.name != "stem" && (*part)->c.name != "leaf")
          delete *part;
    }
 
@@ -300,6 +299,12 @@ void plantPart::readSpeciesParameters(protocol::Component *system, vector<string
                              , 0.0, 1.0, true) == false)
         c.n_retrans_fraction = 1.0;
 
+    if (system->readParameter (sections
+                            , "n_deficit_uptake_fraction"//, "()"
+                            , c.n_deficit_uptake_fraction
+                            , 0.0, 1.0) == false)
+        c.n_deficit_uptake_fraction = 0.0;                    
+
     }
 
 void plantPart::readCultivarParameters (protocol::Component *system, const string &cultivar)
@@ -445,7 +450,6 @@ void plantPart::doNDemand1(float dlt_dm,             // (INPUT)  Whole plant the
 void plantPart::doNDemand2(float dlt_dm,             // (INPUT)  Whole plant the daily biomass production (g/m^2)
                           float dlt_dm_pot_rue)     // (INPUT)  Whole plant potential dry matter production (g/m^2)
 {
-    float c_n_deficit_uptake_fraction = 0.0;                // xx hack fixme!
     float part_fract = divide (dlt.dm_green, dlt_dm, 0.0);
     float dlt_dm_pot = dlt_dm_pot_rue * part_fract;         // potential dry weight increase (g/m^2)
     dlt_dm_pot = bound(dlt_dm_pot, 0.0, dlt_dm_pot_rue);
@@ -460,12 +464,12 @@ void plantPart::doNDemand2(float dlt_dm,             // (INPUT)  Whole plant the
         // retranslocation is -ve for outflows
         float N_demand_old = N_crit - g.n_green;            // demand for N by old biomass (g/m^2)
         if (N_demand_old > 0.0)                             // Don't allow demand to satisfy all deficit
-           N_demand_old *= c_n_deficit_uptake_fraction;
+           N_demand_old *= c.n_deficit_uptake_fraction;
 
         float N_max_old    = N_potential - g.n_green;       // N required by old biomass to reach
                                                             // N_conc_max  (g/m^2)
        if (N_max_old>0.0)
-           N_max_old *= c_n_deficit_uptake_fraction;        // Don't allow demand to satisfy all deficit
+           N_max_old *= c.n_deficit_uptake_fraction;        // Don't allow demand to satisfy all deficit
 
 
         // get potential N demand (critical N) of potential growth
@@ -585,20 +589,26 @@ float critNFactor(vector<const plantPart *> &parts, float multiplier)
 }
 
 // Quite stem specific...
-void plantPart::onHarvest(float cutting_height, float remove_fr,
-                          vector<string> &dm_type,
-                          vector<float> &dlt_crop_dm,
-                          vector<float> &dlt_dm_n,
-                          vector<float> &dlt_dm_p,
-                          vector<float> &fraction_to_residue)
+void plantStemPart::onHarvest(float cutting_height, float remove_fr,
+                              vector<string> &dm_type,
+                              vector<float> &dlt_crop_dm,
+                              vector<float> &dlt_dm_n,
+                              vector<float> &dlt_dm_p,
+                              vector<float> &fraction_to_residue)
 {
     float fractToResidue = 1.0 - remove_fr;
 
     // Some biomass is removed according to harvest height
     float fr_height = divide (cutting_height,g.height, 0.0);
-    float retain_fr_green = c.fr_remain.value(fr_height);
-    float retain_fr_sen  = retain_fr_green;
-    float retain_fr_dead = retain_fr_green;
+
+    float retain_fr_green, retain_fr_sen, retain_fr_dead;
+    if (c.fr_remain.isInitialised()) 
+       retain_fr_green = c.fr_remain.value(fr_height);
+    else    
+       retain_fr_green = 0.0;
+
+    retain_fr_sen  = retain_fr_green;
+    retain_fr_dead = retain_fr_green;
 
     float chop_fr_green = (1.0 - retain_fr_green);
     float chop_fr_dead = (1.0 - retain_fr_dead);
@@ -633,6 +643,46 @@ void plantPart::onHarvest(float cutting_height, float remove_fr,
 
     dm_type.push_back(c.name);
     fraction_to_residue.push_back(fractToResidue);
+    dlt_crop_dm.push_back(dlt_dm_harvest * gm2kg/sm2ha);
+    dlt_dm_n.push_back(dlt_n_harvest * gm2kg/sm2ha);
+    dlt_dm_p.push_back(dlt_p_harvest * gm2kg/sm2ha);
+}
+
+void plantLeafPart::onHarvest(float /* cutting_height */, float remove_fr,
+                              vector<string> &dm_type,
+                              vector<float> &dlt_crop_dm,
+                              vector<float> &dlt_dm_n,
+                              vector<float> &dlt_dm_p,
+                              vector<float> &fraction_to_residue)
+{
+    float retain_fr_green, retain_fr_sen, retain_fr_dead;
+
+    float dm_init = u_bound(c.dm_init * plant->getPlants(), g.dm_green);
+    float n_init = u_bound(dm_init * c.n_init_conc, g.n_green);
+    float p_init = u_bound(dm_init * c.p_init_conc, g.p_green);
+
+    retain_fr_green = divide(dm_init, g.dm_green, 0.0);
+    retain_fr_sen  = 0.0;
+    retain_fr_dead = 0.0;
+
+    float dlt_dm_harvest = g.dm_dead + g.dm_green + g.dm_senesced - dm_init;
+    float dlt_n_harvest = g.n_dead + g.n_green + g.n_senesced - n_init;
+    float dlt_p_harvest = g.p_dead + g.p_green + g.p_sen - p_init;
+
+    g.dm_dead *= retain_fr_dead;
+    g.dm_senesced *= retain_fr_sen;
+    g.dm_green *= retain_fr_green;
+
+    g.n_dead *= retain_fr_dead;
+    g.n_senesced *= retain_fr_sen;
+    g.n_green = n_init;
+
+    g.p_dead *= retain_fr_dead;
+    g.p_sen *= retain_fr_sen;
+    g.p_green = p_init;
+
+    dm_type.push_back(c.name);
+    fraction_to_residue.push_back(1.0 - remove_fr);
     dlt_crop_dm.push_back(dlt_dm_harvest * gm2kg/sm2ha);
     dlt_dm_n.push_back(dlt_n_harvest * gm2kg/sm2ha);
     dlt_dm_p.push_back(dlt_p_harvest * gm2kg/sm2ha);
