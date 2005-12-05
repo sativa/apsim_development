@@ -341,11 +341,14 @@ void TTTPhenology::onRemoveBiomass(float removeBiomPheno)
    float removeTTPheno = ttCritical * removeFractPheno;
 
    ostrstream msg;
-   msg << "Phenology change:-" << endl;
-   msg << "    Fraction DM removed  = " << removeBiomPheno << endl;
-   msg << "    Fraction TT removed  = " << removeFractPheno << endl;
-   msg << "    Critical TT          = " << ttCritical << endl;
-   msg << "    Remove TT            = " << removeTTPheno << endl;
+   if (removeBiomassReport == "on")
+   {
+      msg << "Phenology change:-" << endl;
+      msg << "    Fraction DM removed  = " << removeBiomPheno << endl;
+      msg << "    Fraction TT removed  = " << removeFractPheno << endl;
+      msg << "    Critical TT          = " << ttCritical << endl;
+      msg << "    Remove TT            = " << removeTTPheno << endl;
+   }
 
    float ttRemaining = removeTTPheno;
    vector <pPhase>::reverse_iterator phase;
@@ -372,8 +375,11 @@ void TTTPhenology::onRemoveBiomass(float removeBiomPheno)
       { // phase is empty - not interested in it
       }
    }
-   msg << "New Above ground TT = " << ttInPhase("above_ground") << endl << ends;
-   parentPlant->writeString (msg.str());
+   if (removeBiomassReport == "on")
+   {
+      msg << "New Above ground TT = " << ttInPhase("above_ground") << endl << ends;
+      parentPlant->writeString (msg.str());
+   }
 
 }
 
