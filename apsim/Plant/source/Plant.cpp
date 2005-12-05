@@ -1674,16 +1674,19 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
                              , g.dlt_n_dead_detached);
         for (vector<plantPart *>::iterator t = myParts.begin();
              t != myParts.end();
-             t++)
+             t++) 
+           {
            (*t)->n_detachment1();
+           //(*t)->p_detachment1();
+           }
         }
     else
         {
         throw std::invalid_argument ("invalid template option in detachment");
         }
 
+    detachment_p();
     pop_routine (my_name);
-    return;
     }
 
 
@@ -3492,7 +3495,6 @@ void Plant::plant_cleanup ()
     plant_check_leaf_record();
 
     pop_routine (my_name);
-    return;
     }
 
 
@@ -6627,7 +6629,6 @@ void Plant::plant_process ( void )
            plant_nit_demand (c.n_retrans_option);
            }
 
-
         plant_sen_nit (c.n_senescence_option);
         plant_soil_nit_demand (1);
         plant_nit_uptake (c.n_uptake_option);     // allows preference of N source
@@ -6660,18 +6661,15 @@ void Plant::plant_process ( void )
         }
 
     plant_detachment (1);
-    detachment_p();
 
     death_p();
 
-    //plant_fruit_cleanup(c.fruit_no_option);
     plant_cleanup();
 
     plant_water_stress (2);
     plant_nit_stress (c.n_stress_option);
 
     pop_routine (my_name);
-    return;
     }
 
 

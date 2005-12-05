@@ -175,10 +175,9 @@ void Plant::read_p_constants (PlantComponent *systemInterface)
     systemInterface->readParameter (section_name, "pfact_pheno_slope",    /*"()",   */ c.pfact_pheno_slope    , 0.0, 100.0);
     systemInterface->readParameter (section_name, "pfact_grain_slope",    /*"()",   */ c.pfact_grain_slope    , 0.0, 100.0);
 
+    systemInterface->readParameter (section_name, "x_p_stage_code", /*"()",*/ c.x_p_stage_code, c.num_x_p_stage_code, 0.0, 12.0);
     for (int ipart = 0; ipart < max_part; ipart++)
        {
-       systemInterface->readParameter (section_name, "x_p_stage_code", /*"()",*/ c.x_p_stage_code, c.num_x_p_stage_code, 0.0, 12.0);
-
        string keyword ="y_p_conc_max_" + c.part_names[ipart];
        systemInterface->readParameter (section_name, keyword, /*"(g/g)",*/ temp, c.num_x_p_stage_code, 0.0, 1.0);
 
@@ -910,13 +909,13 @@ void Plant::summary_p (void)
        P_grain = (g.p_green[meal] + g.p_dead[meal]
                +  g.p_green[oil]  + g.p_dead[oil]) * gm2kg/sm2ha;
 
-       P_green = (sum_real_array (g.p_green, max_part) + stemPart->g.p_green 
+       P_green = (sum_real_array (g.p_green, max_part) + leafPart->g.p_green + stemPart->g.p_green 
                -  g.p_green[root] - g.p_green[meal] - g.p_green[oil]) * gm2kg / sm2ha;
 
-       P_senesced = (sum_real_array (g.p_sen, max_part) + stemPart->g.p_sen
+       P_senesced = (sum_real_array (g.p_sen, max_part) + leafPart->g.p_sen + stemPart->g.p_sen
                   -  g.p_sen[root] - g.p_sen[meal]- g.p_sen[oil]) * gm2kg / sm2ha;
 
-       P_dead = (sum_real_array (g.p_dead, max_part) + stemPart->g.p_dead
+       P_dead = (sum_real_array (g.p_dead, max_part) + leafPart->g.p_dead + stemPart->g.p_dead
            - g.p_dead[root] - g.p_dead[meal] - g.p_dead[oil]) * gm2kg / sm2ha;
 
        P_stover = P_green + P_senesced + P_dead;
