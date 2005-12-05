@@ -2313,6 +2313,9 @@ c     :          ,1.0)                 ! Upper Limit for bound check
       character*(*) myname               ! name of current procedure
       parameter (myname = 'Growth_prepare')
 
+*+  Local Variables
+      type(NewPotentialGrowthType) :: NewPotentialGrowth
+      
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
@@ -2409,15 +2412,12 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 cnh Eventually want to do this in response to the new met event
 c   Needs to wait until we put reads into create phase
 
-           call new_postbox()
 
-           call post_real_var ('Frgr'
-     :                        , '()'
-     :                        , g%Frgr)
+         call get_name(NewPotentialGrowth%sender)
+         NewPotentialGrowth%Frgr = g%Frgr
 
-           call event_send ('new_pot_growth')
-
-           call delete_postbox()
+         call publish_NewPotentialGrowth(id%new_pot_growth
+     :                              ,NewPotentialGrowth)
 
       else
         ! crop is dead
@@ -5897,11 +5897,12 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
 
 
 * ====================================================================
-       subroutine Growth_on_canopy_energy_balance ()
+       subroutine Growth_on_canopy_energy_balance (variant)
 * ====================================================================
 
       implicit none
-
+      integer, intent(in) :: variant
+      
 *+  Purpose
 *      Retrieve information from the canopy energy balance event
 
@@ -5919,19 +5920,32 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
 *+  Local Variables
       character  module_name*32         ! module name
       integer    numvals
+      integer    i                      ! Interception counter
+      integer    l                      ! Layer counter
+      type(LightProfileType) :: LightProfile
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
       if (g%plant_status .eq. status_alive) then
-          call get_name (module_name)
 
-          call collect_real_var ('int_radn_'//Trim(module_name)
-     :                          ,'(MJ)'
-     :                          ,g%radn_int
-     :                          ,numvals
-     :                          ,0.0
-     :                          ,40.0)
+          call get_name (module_name)  
+          call unpack_LightProfile(variant, LightProfile)
+          
+          g%radn_int = 0.0
+          do 100 i=1, LightProfile%Num_Interception
+             if (LightProfile%Interception(i)%Name.eq.
+     :           module_name) then
+                do 200 l=1,LightProfile%Interception(i)%Num_Layer
+                   g%radn_int=g%radn_int
+     :                   +LightProfile%Interception(i)%layer(l)%amount
+  200           continue
 
+             else
+                ! try next one
+             endif
+  100     continue
+          
+  
                  call Growth_dm_pot_rue
      :                   (
      :                    c%RUE
@@ -5955,11 +5969,12 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
       end subroutine
 
 * ====================================================================
-       subroutine Growth_on_canopy_water_balance ()
+       subroutine Growth_on_canopy_water_balance (variant)
 * ====================================================================
 
       implicit none
-
+      integer, intent(in) :: variant
+      
 *+  Purpose
 *      Retrieve information from the canopy water balance event
 
@@ -5977,18 +5992,26 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
 *+  Local Variables
       character  module_name*32         ! module name
       integer    numvals
+      integer    i
+      type(CanopyWaterBalanceType) :: CanopyWaterBalance
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
       if (g%plant_status .eq. status_alive) then
           call get_name (module_name)
-          call collect_real_var ('pet_'//Trim(module_name)
-     :                          ,'(mm)'
-     :                          ,g%sw_demand
-     :                          ,numvals
-     :                          ,0.0
-     :                          ,40.0)
+
+          call unpack_CanopyWaterBalance(variant, CanopyWaterBalance)
+          
+          do 100 i=1,CanopyWaterBalance%Num_Canopy
+             if (CanopyWaterBalance%Canopy(i)%name.eq.
+     :           module_name) then
+                 g%sw_demand = CanopyWaterBalance%canopy(i)%PotentialEp
+             else
+                ! Keep looking
+             endif
+  100     continue
+
       endif
 
       call pop_routine (myname)
@@ -6289,12 +6312,6 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
       else if (Action.eq.ACTION_Set_variable) then
          call Growth_Set_my_variable (data_string)
 
-      else if (Action.eq.'canopy_energy_balance') then
-         call Growth_On_canopy_energy_balance ()
-
-      else if (Action.eq.'canopy_water_balance') then
-         call Growth_On_canopy_water_balance ()
-
       else if (Action.eq.'cut') then
          call Growth_cut()
 
@@ -6336,6 +6353,10 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
          call Growth_ONtick(variant)
       else if (eventID .eq. id%newmet) then
          call Growth_ONnewmet(variant)
+      else if (eventID .eq. id%canopy_energy_balance) then
+         call Growth_On_canopy_energy_balance(variant)
+      else if (eventID .eq. id%canopy_water_balance) then
+         call Growth_On_canopy_water_balance(variant)
       endif
       return
       end subroutine respondToEvent
