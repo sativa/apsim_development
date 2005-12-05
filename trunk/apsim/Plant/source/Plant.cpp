@@ -5296,13 +5296,13 @@ void Plant::legnew_n_partition
     //cnh mealPart->dlt.n_green = 0.0;
     oilPart.dlt.n_green = 0.0;
 
-    float mbcheck = 0.0;
-    for (part = allParts.begin(); part != allParts.end(); part++) mbcheck += (*part)->dlt.n_green;
-    if (!reals_are_equal(mbcheck - n_uptake_sum, 0.0))
+    float dlt_n_green_sum = 0.0;
+    for (part = allParts.begin(); part != allParts.end(); part++) dlt_n_green_sum += (*part)->dlt.n_green;
+    if (!reals_are_equal(dlt_n_green_sum - n_uptake_sum, 0.0))
         {
-        string msg ="dlt_n_green mass balance is off: "
-              + ftoa(mbcheck, ".6")
-              + " vs "
+        string msg ="dlt_n_green mass balance is off: dlt_n_green_sum ="
+              + ftoa(dlt_n_green_sum, ".6")
+              + " vs n_uptake_sum ="
               + ftoa(n_uptake_sum, ".6");
         parent->warningError(msg.c_str());
         }
@@ -8213,7 +8213,7 @@ void Plant::plant_zero_all_globals (void)
 
       c.crop_type = "";
       c.default_crop_class = "";
-      c.remove_biomass_report = "on";
+      c.remove_biomass_report = "off";
 
       c.n_supply_preference = "";
       fill_real_array (c.x_sw_ratio , 0.0, max_table);
@@ -8879,6 +8879,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
                {
                throw std::invalid_argument("sowing_depth not specified");
                }
+           bound_check_real_var(parent,sowing_depth, 10.0, 200.0, "sowing_depth");
 
            if (incomingApsimVariant.get("row_spacing", protocol::DTsingle, false, g.row_spacing) == false)
                {

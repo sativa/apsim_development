@@ -59,6 +59,7 @@ class PlantPhenology : public plantThing {
    // Parameters
    std::vector<string>   iniSectionList;                  // list of sections to search in ini file
    bool initialOnBiomassRemove;
+   string removeBiomassReport;
 
    float twilight;                                   // twilight in angular distance between
                                                      // sunset and end of twilight - altitude

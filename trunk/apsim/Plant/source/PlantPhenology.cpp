@@ -24,6 +24,7 @@ void PlantPhenology::readConstants (protocol::Component *s, const string &sectio
    phases.push_back(pPhase("out"));
    currentStage = 0.0;
    initialOnBiomassRemove = true;
+   removeBiomassReport = "off";
 
    // Read the sequential list of stage names
    string scratch = s->readParameter(section, "stage_names");
