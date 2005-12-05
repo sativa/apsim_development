@@ -2422,6 +2422,7 @@
 
          LightProfile.Interception(j).name =g%ComponentName(j)
          LightProfile.Interception(j).croptype =g%ComponentType(j)
+         LightProfile.Interception(j).Num_layer = g%NumLayers
          do 50 i=1,g%NumLayers
             LightProfile.Interception(j).Layer(i).thickness
      :              = g%DeltaZ(i)
