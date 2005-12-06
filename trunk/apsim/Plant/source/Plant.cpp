@@ -2468,10 +2468,11 @@ void Plant::plant_nit_init (int option /* (INPUT) option number*/)
                         , max_part
                         , g.dm_green
                         , g.n_green);
-           cproc_n_init1(c.p_conc_init  // PPPPPP
-                        , max_part
-                        , g.dm_green
-                        , g.p_green);
+           if (g.phosphorus_aware)
+              cproc_n_init1(c.p_conc_init
+                            , max_part
+                            , g.dm_green
+                            , g.p_green);
            }       
         }
     else
@@ -2904,7 +2905,7 @@ void Plant::plant_nit_partition (int option /* (INPUT) option number*/)
     setupHacks(allParts);
     plantPart *mealPart = allParts[4]; if (mealPart->c.name != "meal") throw std::invalid_argument ("Aieee: setupHacks is broken (meal)!!");
     plantPart *oilPart = allParts[5]; if (oilPart->c.name != "oil") throw std::invalid_argument ("Aieee: setupHacks is broken (oil)!!");
-    
+
     if (option == 1)
         {
         legnew_n_partition(g.dlayer
@@ -2924,7 +2925,7 @@ void Plant::plant_nit_partition (int option /* (INPUT) option number*/)
         throw std::invalid_argument ("invalid template option");
         }
 
-    PlantP_partition(allParts);
+    if (g.phosphorus_aware) PlantP_partition(allParts);
 
     deleteHacks(allParts);
     }
@@ -3718,10 +3719,12 @@ void Plant::plant_update(
        (*part)->g.n_green += (*part)->dlt.n_retrans;
        (*part)->g.n_green -= (*part)->dlt.n_senesced;
        (*part)->g.n_senesced += (*part)->dlt.n_senesced;
-
-       (*part)->g.p_green += (*part)->dlt.p_green;
-       (*part)->g.p_green -= (*part)->dlt.p_sen;
-       (*part)->g.p_green += (*part)->dlt.p_retrans;
+       if (g.phosphorus_aware) 
+           {
+           (*part)->g.p_green += (*part)->dlt.p_green;
+           (*part)->g.p_green -= (*part)->dlt.p_sen;
+           (*part)->g.p_green += (*part)->dlt.p_retrans;
+           }
        }
 
     // Let me register my surprise at how this is done on the next few lines
@@ -3771,13 +3774,16 @@ void Plant::plant_update(
        (*part)->g.dm_senesced -= (*part)->dlt.dm_senesced_dead;
        (*part)->g.dm_dead += (*part)->dlt.dm_senesced_dead;
 
-       float dlt_p_green_dead = (*part)->g.p_green * dying_fract_plants;
-       (*part)->g.p_green -= dlt_p_green_dead;
-       (*part)->g.p_dead += dlt_p_green_dead;
-       
-       float dlt_p_senesced_dead = (*part)->g.p_sen * dying_fract_plants;
-       (*part)->g.p_sen  -= dlt_p_senesced_dead;
-       (*part)->g.p_dead += dlt_p_senesced_dead;
+       if (g.phosphorus_aware) 
+           {
+           float dlt_p_green_dead = (*part)->g.p_green * dying_fract_plants;
+           (*part)->g.p_green -= dlt_p_green_dead;
+           (*part)->g.p_dead += dlt_p_green_dead;
+           
+           float dlt_p_senesced_dead = (*part)->g.p_sen * dying_fract_plants;
+           (*part)->g.p_sen  -= dlt_p_senesced_dead;
+           (*part)->g.p_dead += dlt_p_senesced_dead;
+           }
        }
 
     delete rootPart;
