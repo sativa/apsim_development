@@ -181,6 +181,19 @@ void plantPart::zeroDeltas(void)
    v.n_max = 0.0 ;
    v.p_demand = 0.0;
 }
+void plantPart::checkBounds(void)
+{
+   if (g.dm_green < 0.0) throw std::runtime_error(c.name + " dm_green pool is negative!");
+   if (g.n_green < 0.0) throw std::runtime_error(c.name + " n_green pool is negative!");
+   if (g.p_green < 0.0) throw std::runtime_error(c.name + " p_green pool is negative!");
+   if (g.dm_dead < 0.0) throw std::runtime_error(c.name + " dm_dead pool is negative!");
+   if (g.n_dead < 0.0) throw std::runtime_error(c.name + " n_dead pool is negative!");
+   if (g.p_dead < 0.0) throw std::runtime_error(c.name + " p_dead pool is negative!");
+   if (g.dm_senesced < 0.0) throw std::runtime_error(c.name + " dm_sen pool is negative!");
+   if (g.n_senesced < 0.0) throw std::runtime_error(c.name + " n_sen pool is negative!");
+   if (g.p_sen < 0.0) throw std::runtime_error(c.name + " p_sen pool is negative!");
+}
+
 void plantPart::readConstants(protocol::Component *system, const string &section)
     {
     if (plant->phosphorusAware())
@@ -321,6 +334,7 @@ void plantPart::onEmergence()
 {
    g.dm_green = c.dm_init * plant->getPlants();
    g.n_green = c.n_init_conc * g.dm_green;
+   g.p_green = c.p_init_conc * g.dm_green;
 }
 
 void plantPart::onFlowering(void)
@@ -785,7 +799,7 @@ void plantPartHack::get(void) {
       c.p_yield_part    = myplant->c.p_yield_parts[part];
       c.p_retrans_part  = myplant->c.p_retrans_parts[part];
 
-      c.p_init_conc         = myplant->c.p_conc_init[part];
+      //c.p_init_conc         = myplant->c.p_conc_init[part];
       c.num_x_p_stage_code  = myplant->c.num_x_p_stage_code;
       c.num_x_p_stage_code  = myplant->c.num_x_p_stage_code;
       for (int i = 0; i< myplant->c.num_x_p_stage_code; i++) {

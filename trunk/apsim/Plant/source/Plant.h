@@ -448,7 +448,9 @@ class Plant : public plantInterface {
     ,float  g_root_depth
     ,float  *dlt_n_green
     ,float  *n_fix_uptake
-    ) ;
+    ,vector<plantPart *> &        // (INPUT) vector of plant parts
+    ,plantPart * oilPart
+    ,plantPart * mealPart) ;
 
   void legnew_dm_partition1_test (float c_frac_leaf
                               , float c_ratio_root_shoot
@@ -883,9 +885,8 @@ void legnew_dm_distribute(int max_part
 
   bool phosphorusAware(void) const {return g.phosphorus_aware;};
   void prepare_p(void);
-  void process_p(void);
+  void plant_p_retrans (void);
   void detachment_p(void);
-  void death_p(void);
   void summary_p (void);
 
   void  PlantP_demand (vector<plantPart *>&, float dlt_dm_pot);

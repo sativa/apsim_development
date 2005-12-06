@@ -2463,10 +2463,16 @@ void Plant::plant_nit_init (int option /* (INPUT) option number*/)
                                   , g.n_conc_min);
 
         if (phenology->on_day_of("emergence"))
+           {
            cproc_n_init1(c.n_init_conc
                         , max_part
                         , g.dm_green
                         , g.n_green);
+           cproc_n_init1(c.p_conc_init  // PPPPPP
+                        , max_part
+                        , g.dm_green
+                        , g.p_green);
+           }       
         }
     else
         {
@@ -2888,18 +2894,17 @@ void Plant::plant_nit_uptake (int option/* (INPUT) option number*/)
 //       Find nitrogen partitioning.
 
 //+  Mission Statement
-//     Calculate the nitrogen partitioning in the plant
+//     Calculate the nitrogen and phosporous partitioning in the plant
 
 //+  Changes
 //      250894 jngh specified and programmed
 void Plant::plant_nit_partition (int option /* (INPUT) option number*/)
     {
-//+  Constant Values
-    const char*  my_name = "plant_nit_partition" ;
-
-//- Implementation Section ----------------------------------
-    push_routine (my_name);
-
+    vector<plantPart *> allParts;
+    setupHacks(allParts);
+    plantPart *mealPart = allParts[4]; if (mealPart->c.name != "meal") throw std::invalid_argument ("Aieee: setupHacks is broken (meal)!!");
+    plantPart *oilPart = allParts[5]; if (oilPart->c.name != "oil") throw std::invalid_argument ("Aieee: setupHacks is broken (oil)!!");
+    
     if (option == 1)
         {
         legnew_n_partition(g.dlayer
@@ -2910,7 +2915,8 @@ void Plant::plant_nit_partition (int option /* (INPUT) option number*/)
                            , g.n_max
                            , g.root_depth
                            , g.dlt_n_green
-                           , &g.n_fix_uptake);
+                           , &g.n_fix_uptake
+                           , allParts, oilPart, mealPart);
 
         }
     else
@@ -2918,8 +2924,9 @@ void Plant::plant_nit_partition (int option /* (INPUT) option number*/)
         throw std::invalid_argument ("invalid template option");
         }
 
-    pop_routine (my_name);
-    return;
+    PlantP_partition(allParts);
+
+    deleteHacks(allParts);
     }
 
 
@@ -3210,8 +3217,15 @@ void Plant::plant_sen_nit (int   option/*(INPUT) option number*/)
         throw std::invalid_argument ("invalid sen nit option");
         }
 
+    if (g.phosphorus_aware == true)
+       {
+       vector<plantPart*> allParts;
+       setupHacks(allParts);
+       PlantP_senescence(allParts);
+       deleteHacks(allParts);
+       }
+
     pop_routine (my_name);
-    return;
     }
 
 
@@ -3696,7 +3710,7 @@ void Plant::plant_update(
 // dlt_dead          -      -       +
 // dlt_detached             -       -      (outgoing only)
 
-    // transfer N
+    // transfer N & P
     for (part = allParts.begin(); part != allParts.end(); part++)
        {
        (*part)->g.n_dead -= (*part)->dlt.n_dead_detached;
@@ -3704,6 +3718,10 @@ void Plant::plant_update(
        (*part)->g.n_green += (*part)->dlt.n_retrans;
        (*part)->g.n_green -= (*part)->dlt.n_senesced;
        (*part)->g.n_senesced += (*part)->dlt.n_senesced;
+
+       (*part)->g.p_green += (*part)->dlt.p_green;
+       (*part)->g.p_green -= (*part)->dlt.p_sen;
+       (*part)->g.p_green += (*part)->dlt.p_retrans;
        }
 
     // Let me register my surprise at how this is done on the next few lines
@@ -3752,6 +3770,14 @@ void Plant::plant_update(
        (*part)->dlt.dm_senesced_dead = (*part)->g.dm_senesced * dying_fract_plants;
        (*part)->g.dm_senesced -= (*part)->dlt.dm_senesced_dead;
        (*part)->g.dm_dead += (*part)->dlt.dm_senesced_dead;
+
+       float dlt_p_green_dead = (*part)->g.p_green * dying_fract_plants;
+       (*part)->g.p_green -= dlt_p_green_dead;
+       (*part)->g.p_dead += dlt_p_green_dead;
+       
+       float dlt_p_senesced_dead = (*part)->g.p_sen * dying_fract_plants;
+       (*part)->g.p_sen  -= dlt_p_senesced_dead;
+       (*part)->g.p_dead += dlt_p_senesced_dead;
        }
 
     delete rootPart;
@@ -4024,8 +4050,15 @@ void Plant::plant_check_bounds
                          , 1.0
                          , "cover_dead");
 
+    vector<plantPart *> allParts;
+    setupHacks(allParts);
+    for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
+       {  
+       (*t)->checkBounds();
+       }
+    deleteHacks(allParts);
+
     pop_routine (my_name);
-    return;
     }
 
 
@@ -5214,23 +5247,13 @@ void Plant::legnew_n_partition
     ,float  g_root_depth        // (INPUT)  depth of roots (mm)
     ,float  *dlt_n_green         // (OUTPUT) actual plant N uptake into each plant part (g/m^2)
     ,float  *n_fix_uptake        // (OUTPUT) actual N fixation (g/m^2)
+    ,vector<plantPart *> &allParts        // (INPUT) vector of plant parts
+    ,plantPart * oilPart
+    ,plantPart * mealPart
     ) {
 
 //+  Constant Values
     const char*  my_name = "legnew_n_partition" ;
-    plantPartHack rootPart(this, root, "root");
-    plantPartHack podPart (this, pod, "pod");
-    plantPartHack mealPart(this, meal, "meal");
-    plantPartHack oilPart (this, oil, "oil");
-
-    vector<plantPart *> allParts;
-    allParts.push_back(&rootPart);
-    allParts.push_back(leafPart);
-    allParts.push_back(stemPart);
-    allParts.push_back(reproStruct);
-    allParts.push_back(&podPart);
-    allParts.push_back(&mealPart);
-    allParts.push_back(&oilPart);
 
 //+  Local Variables
     int   deepest_layer;                          // deepest layer in which the roots are growing
@@ -5268,8 +5291,8 @@ void Plant::legnew_n_partition
           {
           (*part)->v.n_capacity = (*part)->v.n_max -(*part)->v.n_demand;
           }
-        mealPart.v.n_capacity = 0.0;
-        oilPart.v.n_capacity = 0.0;
+        mealPart->v.n_capacity = 0.0;
+        oilPart->v.n_capacity = 0.0;
         }
     else
         {
@@ -5294,7 +5317,7 @@ void Plant::legnew_n_partition
             }
         }
     //cnh mealPart->dlt.n_green = 0.0;
-    oilPart.dlt.n_green = 0.0;
+    oilPart->dlt.n_green = 0.0;
 
     float dlt_n_green_sum = 0.0;
     for (part = allParts.begin(); part != allParts.end(); part++) dlt_n_green_sum += (*part)->dlt.n_green;
@@ -6639,9 +6662,9 @@ void Plant::plant_process ( void )
            // retranslocation
            plant_nit_retrans (c.n_retrans_option);
            }
-        process_p();
 
-        //plant_fruit_abort(c.fruit_no_option);
+        plant_p_retrans();
+
         plant_plant_death (1);
         }
     else
@@ -6661,8 +6684,6 @@ void Plant::plant_process ( void )
         }
 
     plant_detachment (1);
-
-    death_p();
 
     plant_cleanup();
 
@@ -12695,20 +12716,20 @@ float Plant::getPlants(void) const {return g.plants;};
 
 float Plant::topsGreen(void)
    {
-      return  (sum_real_array (g.dm_green, max_part) - g.dm_green[root])
-                         + leafPart->g.dm_green+ stemPart->g.dm_green;
+      return  g.dm_green[pod] + g.dm_green[meal] + g.dm_green[oil] 
+                         + leafPart->g.dm_green + stemPart->g.dm_green;
                     //     + reproStruct->g.dm_green;
    }
 float Plant::topsSenesced(void)
    {
-      return  (sum_real_array (g.dm_senesced, max_part) - g.dm_senesced[root])
-                         + leafPart->g.dm_senesced+ stemPart->g.dm_senesced;
+      return  g.dm_senesced[pod] + g.dm_senesced[meal] + g.dm_senesced[oil] 
+                         + leafPart->g.dm_senesced + stemPart->g.dm_senesced;
                    //      + reproStruct->g.dm_senesced;
    }
 float Plant::topsDead(void)
    {
-      return  (sum_real_array (g.dm_dead, max_part) - g.dm_dead[root])
-                         + leafPart->g.dm_dead+ stemPart->g.dm_dead;
+      return  g.dm_dead[pod] + g.dm_dead[meal] + g.dm_dead[oil] 
+                         + leafPart->g.dm_dead + stemPart->g.dm_dead;
                  //        + reproStruct->g.dm_dead;
    }
 float Plant::topsTot(void)
@@ -12742,19 +12763,19 @@ float Plant::stoverTot(void)
 
 float Plant::topsNGreen(void)
    {
-      return  (sum_real_array (g.n_green, max_part) - g.n_green[root])
+      return  g.n_green[pod] + g.n_green[meal] + g.n_green[oil] 
                         + leafPart->g.n_green + stemPart->g.n_green;
                  //        + reproStruct->g.n_green;
    }
 float Plant::topsNSenesced(void)
    {
-      return  (sum_real_array (g.n_senesced, max_part) - g.n_senesced[root])
+      return  g.n_senesced[pod] + g.n_senesced[meal] + g.n_senesced[oil]
                          + leafPart->g.n_senesced + stemPart->g.n_senesced;
                //          + reproStruct->g.n_senesced;
    }
 float Plant::topsNDead(void)
    {
-      return  (sum_real_array (g.n_dead, max_part) - g.n_dead[root])
+      return  g.n_dead[pod] + g.n_dead[meal] + g.n_dead[oil]
                          + leafPart->g.n_dead + stemPart->g.n_dead;
                        //  + reproStruct->g.n_dead;
    }
@@ -12788,19 +12809,19 @@ float Plant::stoverNTot(void)
 
 float Plant::topsPGreen(void)
    {
-      return  (sum_real_array (g.p_green, max_part) - g.p_green[root])
+      return  g.p_green[pod] + g.p_green[meal] +  g.p_green[oil] 
                          + leafPart->g.p_green + stemPart->g.p_green;
                //          + reproStruct->g.p_green;
    }
 float Plant::topsPSenesced(void)
    {
-      return  (sum_real_array (g.p_sen, max_part) - g.p_sen[root])
+      return g.p_sen[pod] + g.p_sen[meal] + g.p_sen[oil] 
                          + leafPart->g.p_sen + stemPart->g.p_sen;
                        //  + reproStruct->g.p_sen;
    }
 float Plant::topsPDead(void)
    {
-      return  (sum_real_array (g.p_dead, max_part) - g.p_dead[root])
+      return g.p_dead[pod] + g.p_dead[meal] + g.p_dead[oil] 
                          + leafPart->g.p_dead + stemPart->g.p_dead;
                      //    + reproStruct->g.p_dead;
    }
