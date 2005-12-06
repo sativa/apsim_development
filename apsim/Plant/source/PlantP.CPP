@@ -222,53 +222,6 @@ void Plant::prepare_p(void)
 }
 
 // ====================================================================
-void Plant::process_p(void)
-{
-//+  Purpose
-//     <insert here>
-
-//+  Changes
-//
-
-//+  Constant Values
-      const char*  my_name = "PlantP_process";
-
-//+  Local Variables
-      vector<plantPart *>::iterator part;
-
-//- Implementation Section ----------------------------------
-      push_routine (my_name);
-
-      if (g.phosphorus_aware == true)
-      {
-         vector<plantPart*> allParts;
-         setupHacks(allParts);
-
-         PlantP_init_pools(allParts);
-
-         PlantP_partition(allParts);
-         PlantP_senescence (allParts);
-
-         for (part = allParts.begin(); part != allParts.end(); part++)
-         {
-            (*part)->g.p_green += (*part)->dlt.p_green;
-            (*part)->g.p_green -= (*part)->dlt.p_sen;
-         }
-
-         // Now do any retranslocation to try and keep pools
-         // at target concentrations.
-         PlantP_retrans (allParts);
-
-         for (part = allParts.begin(); part != allParts.end(); part++)
-         {
-            (*part)->g.p_green += (*part)->dlt.p_retrans;
-         }
-         deleteHacks(allParts);
-      }
-      pop_routine (my_name);
-}
-
-// ====================================================================
 void Plant::detachment_p(void)
 {
 //+  Purpose
@@ -301,48 +254,6 @@ void Plant::detachment_p(void)
             (*part)->g.p_dead -= (*part)->dlt.p_dead_det;
          }
          deleteHacks(allParts);
-      }
-      pop_routine (my_name);
-}
-
-// ====================================================================
-void Plant::death_p(void)
-{
-//+  Purpose
-//     <insert here>
-
-//+  Changes
-//
-
-//+  Constant Values
-      const char*  my_name = "PlantP_death";
-
-//+  Local Variables
-
-//- Implementation Section ----------------------------------
-      push_routine (my_name);
-
-      if (g.phosphorus_aware == true)
-      {
-         float dying_fract_plants = divide (-g.dlt_plants, g.plants, 0.0);
-         dying_fract_plants = bound (dying_fract_plants, 0.0, 1.0);
-         if (dying_fract_plants > 0.0) 
-            {
-            vector<plantPart*> parts;
-            vector<plantPart*>::iterator part;
-            setupHacks(parts);
-            for (part = parts.begin(); part != parts.end(); part++)
-                {
-                float dlt_p_green_dead = (*part)->g.p_green * dying_fract_plants;
-                (*part)->g.p_green -= dlt_p_green_dead;
-                (*part)->g.p_dead += dlt_p_green_dead;
-                
-                float dlt_p_senesced_dead = (*part)->g.p_sen * dying_fract_plants;
-                (*part)->g.p_sen  -= dlt_p_senesced_dead;
-                (*part)->g.p_dead += dlt_p_senesced_dead;
-                }
-            deleteHacks(parts);
-            }
       }
       pop_routine (my_name);
 }
@@ -782,7 +693,18 @@ void Plant::PlantP_init_pools (vector<plantPart*>&parts)
          }
    pop_routine (my_name);
 }
-// ====================================================================
+
+void Plant::plant_p_retrans(void) 
+{
+   if (g.phosphorus_aware == true)
+      {
+      vector<plantPart*> allParts;
+      setupHacks(allParts);
+      PlantP_retrans (allParts);
+      deleteHacks(allParts);
+      }
+}
+
 void Plant::PlantP_retrans (vector<plantPart*>&parts)
 {
 

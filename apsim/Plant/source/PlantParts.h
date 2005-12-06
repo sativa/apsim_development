@@ -123,6 +123,7 @@ private:
   public: // (for now)
    void zeroAllGlobals(void);
    void zeroDeltas(void);
+   void checkBounds(void);
 
    plantPart(plantInterface *p, const string &name)
      {
