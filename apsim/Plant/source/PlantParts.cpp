@@ -73,6 +73,18 @@ void plantPart::doRegistrations(protocol::Component *system)
    desc3 = "P in " + c.name;
    system->addGettableVar(varName3.c_str(),  g.p_green, "g/m^2", desc3.c_str());
 
+   varName1 = "dead" + c.name + "_wt";
+   desc1 = "Weight of dead " + c.name;
+   system->addGettableVar(varName1.c_str(), g.dm_dead, "g/m^2", desc1.c_str());
+
+   varName2 = "dead" + c.name + "_n";
+   desc2 = "N in dead " + c.name;
+   system->addGettableVar(varName2.c_str(),  g.n_dead, "g/m^2", desc2.c_str());
+
+   varName3 = "dead" + c.name + "_p";
+   desc3 = "P in dead " + c.name;
+   system->addGettableVar(varName3.c_str(),  g.p_dead, "g/m^2", desc3.c_str());
+
    varName4 =  "n_conc_" + c.name;
    desc4 = "N concentration in " + c.name;
    setupGetFunction(system, varName4.c_str(), protocol::DTsingle, false,
