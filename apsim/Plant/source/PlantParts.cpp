@@ -183,15 +183,17 @@ void plantPart::zeroDeltas(void)
 }
 void plantPart::checkBounds(void)
 {
-   if (g.dm_green < 0.0) throw std::runtime_error(c.name + " dm_green pool is negative!");
-   if (g.n_green < 0.0) throw std::runtime_error(c.name + " n_green pool is negative!");
-   if (g.p_green < 0.0) throw std::runtime_error(c.name + " p_green pool is negative!");
-   if (g.dm_dead < 0.0) throw std::runtime_error(c.name + " dm_dead pool is negative!");
-   if (g.n_dead < 0.0) throw std::runtime_error(c.name + " n_dead pool is negative!");
-   if (g.p_dead < 0.0) throw std::runtime_error(c.name + " p_dead pool is negative!");
-   if (g.dm_senesced < 0.0) throw std::runtime_error(c.name + " dm_sen pool is negative!");
-   if (g.n_senesced < 0.0) throw std::runtime_error(c.name + " n_sen pool is negative!");
-   if (g.p_sen < 0.0) throw std::runtime_error(c.name + " p_sen pool is negative!");
+   // Use a small comparison tolerance here.
+   const float ctz = -0.00001;
+   if (g.dm_green < ctz) throw std::runtime_error(c.name + " dm_green pool is negative!");
+   if (g.n_green < ctz) throw std::runtime_error(c.name + " n_green pool is negative!");
+   if (g.p_green < ctz) throw std::runtime_error(c.name + " p_green pool is negative!");
+   if (g.dm_dead < ctz) throw std::runtime_error(c.name + " dm_dead pool is negative!");
+   if (g.n_dead < ctz) throw std::runtime_error(c.name + " n_dead pool is negative!");
+   if (g.p_dead < ctz) throw std::runtime_error(c.name + " p_dead pool is negative!");
+   if (g.dm_senesced < ctz) throw std::runtime_error(c.name + " dm_sen pool is negative!");
+   if (g.n_senesced < ctz) throw std::runtime_error(c.name + " n_sen pool is negative!");
+   if (g.p_sen < ctz) throw std::runtime_error(c.name + " p_sen pool is negative!");
 }
 
 void plantPart::readConstants(protocol::Component *system, const string &section)
