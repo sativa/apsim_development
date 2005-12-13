@@ -3722,8 +3722,9 @@ void Plant::plant_update(
        if (g.phosphorus_aware) 
            {
            (*part)->g.p_green += (*part)->dlt.p_green;
-           (*part)->g.p_green -= (*part)->dlt.p_sen;
            (*part)->g.p_green += (*part)->dlt.p_retrans;
+           (*part)->g.p_green -= (*part)->dlt.p_sen;
+           (*part)->g.p_green = max(0.0, (*part)->g.p_green);  // Can occur at total leaf senescence. FIXME! XXXX
            }
        }
 
