@@ -10,6 +10,7 @@
 #include <general\stringtokenizer.h>
 #include <general\stl_functions.h>
 #include "ApsimSettings.h"
+#include "ApsimVersion.h"
 #include <dir.h>
 #pragma package(smart_init)
 
@@ -122,7 +123,7 @@ void SimCreator::ConToSimInternal(const std::string& controlFileName,
       ofstream out(simFileName.c_str());
 
       out << "<?xml version=\"1.0\"?>\n";
-      out << "<simulation executable=\"%apsuite\\apsim\\protocolmanager\\lib\\protocolmanager.dll\">\n";
+      out << "<simulation executable=\"%apsuite\\apsim\\protocolmanager\\lib\\protocolmanager.dll\" version=\"" << getApsimVersion() <<  "\">\n";
       out << "   <title>" << con.getTitle(sectionNames[s]) << "</title>\n";
 
       vector<ApsimControlFile::ModuleInstance> moduleInstances;
