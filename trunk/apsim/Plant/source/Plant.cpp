@@ -3710,7 +3710,6 @@ void Plant::plant_update(
 // dlt_senesced      -      +
 // dlt_dead          -      -       +
 // dlt_detached             -       -      (outgoing only)
-
     // transfer N & P
     for (part = allParts.begin(); part != allParts.end(); part++)
        {
@@ -3743,6 +3742,7 @@ void Plant::plant_update(
        {
        (*part)->g.n_green += (*part)->dlt.n_senesced_retrans;
        (*part)->g.n_senesced -= (*part)->dlt.n_detached;
+       (*part)->g.n_green = max(0.0, (*part)->g.n_green);   // Can occur at total leaf senescence. FIXME! XXXX
        }
 
     dying_fract_plants = divide (-g_dlt_plants, *g_plants, 0.0);
