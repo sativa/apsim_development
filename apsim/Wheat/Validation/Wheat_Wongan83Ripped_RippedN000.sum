@@ -70,7 +70,7 @@
         wheat.leaf_n
         wheat.stem_n
         wheat.grain_n
-        wheat.deadleaf_n
+        wheat.n_senesced(2) as deadleaf_n
         wheat.n_conc_grain
         wheat.sw_demand
         wheat.ep
@@ -354,23 +354,23 @@
                      stover N conc =     2.29 (%)    extractable sw =   70.02 (mm)
 30 September 1983(Day of year=273), Wheat: 
       stage 6.0 flowering
-                     biomass =         332.54 (g/m^2)   lai          =   0.705 (m^2/m^2)
+                     biomass =         332.49 (g/m^2)   lai          =   0.705 (m^2/m^2)
                      stover N conc =     1.13 (%)    extractable sw =   66.94 (mm)
 6 October 1983(Day of year=279), Wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         386.31 (g/m^2)   lai          =   0.658 (m^2/m^2)
+                     biomass =         386.25 (g/m^2)   lai          =   0.657 (m^2/m^2)
                      stover N conc =     0.96 (%)    extractable sw =   82.86 (mm)
 4 November 1983(Day of year=308), Wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         588.84 (g/m^2)   lai          =   0.268 (m^2/m^2)
-                     stover N conc =     0.39 (%)    extractable sw =   32.46 (mm)
+                     biomass =         588.75 (g/m^2)   lai          =   0.268 (m^2/m^2)
+                     stover N conc =     0.39 (%)    extractable sw =   32.48 (mm)
 6 November 1983(Day of year=310), Wheat: 
       stage 9.0 maturity
-                     biomass =         590.11 (g/m^2)   lai          =   0.237 (m^2/m^2)
-                     stover N conc =     0.34 (%)    extractable sw =   30.31 (mm)
+                     biomass =         590.02 (g/m^2)   lai          =   0.237 (m^2/m^2)
+                     stover N conc =     0.34 (%)    extractable sw =   30.33 (mm)
 7 November 1983(Day of year=311), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         590.11 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     0.33 (%)    extractable sw =   30.11 (mm)
+                     biomass =         590.02 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     stover N conc =     0.33 (%)    extractable sw =   30.13 (mm)
 11 November 1983(Day of year=315), clock: 
      Simulation is terminating due to end criteria being met.

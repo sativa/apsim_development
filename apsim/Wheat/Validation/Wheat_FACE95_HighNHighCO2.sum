@@ -70,7 +70,7 @@
         wheat.leaf_n
         wheat.stem_n
         wheat.grain_n
-        wheat.deadleaf_n
+        wheat.n_senesced(2) as deadleaf_n
         wheat.n_conc_grain
         wheat.sw_demand
         wheat.ep
@@ -500,7 +500,7 @@
       Sending apply message to irrigate
 10 April 1996(Day of year=101), Wheat: 
       stage 6.0 flowering
-                     biomass =        1292.97 (g/m^2)   lai          =   4.371 (m^2/m^2)
+                     biomass =        1292.96 (g/m^2)   lai          =   4.371 (m^2/m^2)
                      stover N conc =     1.22 (%)    extractable sw =  224.52 (mm)
 11 April 1996(Day of year=102), operatns: 
       Sending apply message to fertiliz
@@ -520,7 +520,7 @@
                                               added at depth   10.00 (layer   1)
 17 April 1996(Day of year=108), Wheat: 
       stage 7.0 start_grain_fill
-                     biomass =        1497.16 (g/m^2)   lai          =   3.739 (m^2/m^2)
+                     biomass =        1497.14 (g/m^2)   lai          =   3.739 (m^2/m^2)
                      stover N conc =     1.06 (%)    extractable sw =  203.64 (mm)
 18 April 1996(Day of year=109), operatns: 
       Sending apply message to irrigate
@@ -569,15 +569,15 @@
       Sending apply message to irrigate
 12 May 1996(Day of year=133), Wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        2061.88 (g/m^2)   lai          =   0.588 (m^2/m^2)
+                     biomass =        2061.86 (g/m^2)   lai          =   0.588 (m^2/m^2)
                      stover N conc =     0.61 (%)    extractable sw =  209.57 (mm)
 14 May 1996(Day of year=135), Wheat: 
       stage 9.0 maturity
-                     biomass =        2061.96 (g/m^2)   lai          =   0.467 (m^2/m^2)
+                     biomass =        2061.95 (g/m^2)   lai          =   0.466 (m^2/m^2)
                      stover N conc =     0.56 (%)    extractable sw =  197.81 (mm)
 15 May 1996(Day of year=136), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        2061.96 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =        2061.95 (g/m^2)   lai          =   0.001 (m^2/m^2)
                      stover N conc =     0.55 (%)    extractable sw =  195.38 (mm)
 18 May 1996(Day of year=139), clock: 
      Simulation is terminating due to end criteria being met.

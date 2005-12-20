@@ -70,7 +70,7 @@
         wheat.leaf_n
         wheat.stem_n
         wheat.grain_n
-        wheat.deadleaf_n
+        wheat.n_senesced(2) as deadleaf_n
         wheat.n_conc_grain
         wheat.sw_demand
         wheat.ep
@@ -362,7 +362,7 @@
                      stover N conc =     2.06 (%)    extractable sw =   26.74 (mm)
 7 October 1984(Day of year=281), Wheat: 
       stage 6.0 flowering
-                     biomass =         531.03 (g/m^2)   lai          =   0.955 (m^2/m^2)
+                     biomass =         531.02 (g/m^2)   lai          =   0.955 (m^2/m^2)
                      stover N conc =     1.18 (%)    extractable sw =   26.73 (mm)
 14 October 1984(Day of year=288), Wheat: 
       stage 7.0 start_grain_fill
@@ -370,15 +370,15 @@
                      stover N conc =     0.86 (%)    extractable sw =   18.77 (mm)
 12 November 1984(Day of year=317), Wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         681.32 (g/m^2)   lai          =   0.276 (m^2/m^2)
+                     biomass =         681.31 (g/m^2)   lai          =   0.276 (m^2/m^2)
                      stover N conc =     0.41 (%)    extractable sw =   22.14 (mm)
 13 November 1984(Day of year=318), Wheat: 
       stage 9.0 maturity
-                     biomass =         681.32 (g/m^2)   lai          =   0.267 (m^2/m^2)
+                     biomass =         681.31 (g/m^2)   lai          =   0.267 (m^2/m^2)
                      stover N conc =     0.41 (%)    extractable sw =   20.55 (mm)
 14 November 1984(Day of year=319), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         681.32 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         681.31 (g/m^2)   lai          =   0.001 (m^2/m^2)
                      stover N conc =     0.40 (%)    extractable sw =   19.32 (mm)
 25 November 1984(Day of year=330), clock: 
      Simulation is terminating due to end criteria being met.
