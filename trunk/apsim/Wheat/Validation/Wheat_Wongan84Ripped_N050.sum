@@ -70,7 +70,7 @@
         wheat.leaf_n
         wheat.stem_n
         wheat.grain_n
-        wheat.deadleaf_n
+        wheat.n_senesced(2) as deadleaf_n
         wheat.n_conc_grain
         wheat.sw_demand
         wheat.ep
@@ -359,14 +359,14 @@
 28 August 1984(Day of year=241), Wheat: 
       stage 5.0 floral_initiation
                      biomass =         212.33 (g/m^2)   lai          =   2.994 (m^2/m^2)
-                     stover N conc =     2.21 (%)    extractable sw =   49.50 (mm)
+                     stover N conc =     2.21 (%)    extractable sw =   49.51 (mm)
 7 October 1984(Day of year=281), Wheat: 
       stage 6.0 flowering
-                     biomass =         562.39 (g/m^2)   lai          =   0.985 (m^2/m^2)
+                     biomass =         562.38 (g/m^2)   lai          =   0.985 (m^2/m^2)
                      stover N conc =     1.17 (%)    extractable sw =   22.80 (mm)
 14 October 1984(Day of year=288), Wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         600.36 (g/m^2)   lai          =   0.695 (m^2/m^2)
+                     biomass =         600.35 (g/m^2)   lai          =   0.695 (m^2/m^2)
                      stover N conc =     0.94 (%)    extractable sw =   38.20 (mm)
 12 November 1984(Day of year=317), Wheat: 
       stage 8.0 end_grain_fill

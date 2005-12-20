@@ -70,7 +70,7 @@
         wheat.leaf_n
         wheat.stem_n
         wheat.grain_n
-        wheat.deadleaf_n
+        wheat.n_senesced(2) as deadleaf_n
         wheat.n_conc_grain
         wheat.sw_demand
         wheat.ep
@@ -358,27 +358,27 @@
                      stover N conc =     5.83 (%)    extractable sw =   23.10 (mm)
 23 August 1983(Day of year=235), Wheat: 
       stage 5.0 floral_initiation
-                     biomass =         108.23 (g/m^2)   lai          =   1.502 (m^2/m^2)
+                     biomass =         108.22 (g/m^2)   lai          =   1.502 (m^2/m^2)
                      stover N conc =     2.35 (%)    extractable sw =   71.37 (mm)
 30 September 1983(Day of year=273), Wheat: 
       stage 6.0 flowering
-                     biomass =         524.67 (g/m^2)   lai          =   1.236 (m^2/m^2)
-                     stover N conc =     1.10 (%)    extractable sw =   54.94 (mm)
+                     biomass =         524.63 (g/m^2)   lai          =   1.235 (m^2/m^2)
+                     stover N conc =     1.10 (%)    extractable sw =   54.95 (mm)
 6 October 1983(Day of year=279), Wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         595.82 (g/m^2)   lai          =   1.113 (m^2/m^2)
+                     biomass =         595.78 (g/m^2)   lai          =   1.113 (m^2/m^2)
                      stover N conc =     0.94 (%)    extractable sw =   67.95 (mm)
 4 November 1983(Day of year=308), Wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         775.23 (g/m^2)   lai          =   0.389 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =   26.25 (mm)
+                     biomass =         775.17 (g/m^2)   lai          =   0.389 (m^2/m^2)
+                     stover N conc =     0.31 (%)    extractable sw =   26.26 (mm)
 6 November 1983(Day of year=310), Wheat: 
       stage 9.0 maturity
-                     biomass =         775.45 (g/m^2)   lai          =   0.339 (m^2/m^2)
+                     biomass =         775.39 (g/m^2)   lai          =   0.339 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   25.70 (mm)
 7 November 1983(Day of year=311), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         775.45 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =   25.71 (mm)
+                     biomass =         775.39 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     stover N conc =     0.30 (%)    extractable sw =   25.72 (mm)
 11 November 1983(Day of year=315), clock: 
      Simulation is terminating due to end criteria being met.
