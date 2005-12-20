@@ -571,19 +571,18 @@ void cproc_leaf_no_pot1 (float *c_x_node_no_app,            // (INPUT)
                          float *dlt_leaf_no_pot,            // (OUTPUT) new fraction of oldest expanding leaf
                          float *dlt_node_no_pot);            // (OUTPUT) new fraction of oldest expanding node on main stem
 
-void cproc_leaf_area_pot1 (float *c_x_node_no,                  //(INPUT)  node number for lookup
+float cproc_leaf_area_pot1 (float *c_x_node_no,                  //(INPUT)  node number for lookup
                            float *c_y_leaf_size,                //(INPUT)  leaf size for lookup
                            int    c_num_node_no,                //(INPUT)  lookup table size
                            float g_node_no,                    //(INPUT)  node number
                            float c_node_no_correction,         //(INPUT)  corrects for other growing lea
                            float  g_dlt_leaf_no_pot,            //(INPUT)  potential fraction of oldest l
-                           float  g_plants,                     //(INPUT)  Plant density (plants/m^2)
-                           float *dlt_lai_pot);                  //(OUTPUT) change in leaf area
+                           float  g_plants);                     //(INPUT)  Plant density (plants/m^2)
 
-void cproc_leaf_area_stressed1 (float  g_dlt_lai_pot,         //(INPUT)
+
+float cproc_leaf_area_stressed1 (float  g_dlt_lai_pot,         //(INPUT)
                                 float  g_swdef_expansion,     //(INPUT)
-                                float  g_nfact_expansion,     //(INPUT)
-                                float *g_dlt_lai_stressed);    //(OUTPUT)
+                                float  g_nfact_expansion);    //(INPUT)
 
 void cproc_leaf_area_actual1 (float *c_x_lai,
                               float *c_y_sla_max,
