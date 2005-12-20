@@ -259,7 +259,6 @@ class Plant : public plantInterface {
     ,float *g_dlt_dm_green_dead
     ,float *g_dlt_dm_senesced_dead
     ,float  g_dlt_dm_stress_max
-    ,float  g_dlt_lai
     ,float  g_dlt_leaf_no
     ,float  g_dlt_node_no
     ,float  g_dlt_leaf_no_dead
@@ -274,14 +273,11 @@ class Plant : public plantInterface {
     ,float *g_dlt_n_senesced_dead
     ,float  g_dlt_plants
     ,float  g_dlt_root_depth
-    ,float  g_dlt_slai
     ,float  g_dlt_slai_detached
-    ,float  g_dlt_tlai_dead_detached
     ,float *g_dm_dead
     ,float *g_dm_green
     ,float *g_dm_senesced
     ,float *g_grain_no
-    ,float *g_lai
     ,float *g_lai_canopy_green
     ,float *g_leaf_area
     ,float *g_leaf_no
@@ -295,9 +291,7 @@ class Plant : public plantInterface {
     ,float *g_n_senesced
     ,float *g_plants
     ,float *g_root_depth
-    ,float *g_slai
     ,float g_swdef_pheno
-    ,float *g_tlai_dead
     ,float *g_dlt_root_length_dead
     ,float *g_root_length_dead
     ,float *g_root_length
@@ -316,7 +310,6 @@ class Plant : public plantInterface {
     ,float *g_dm_green
     ,float *g_dm_senesced
     ,float  g_grain_no
-    ,float  g_lai
     ,float *g_leaf_area
     ,float *g_leaf_no
     ,float *g_leaf_no_dead
@@ -328,15 +321,12 @@ class Plant : public plantInterface {
     ,float *g_n_senesced
     ,float  g_plants
     ,float  g_root_depth
-    ,float  g_slai
-    ,float  g_tlai_dead
     ) ;
   void plant_totals(int   g_day_of_year
     ,float *g_dlayer
     ,float *g_dlt_n_retrans
     ,float *g_dlt_sw_dep
     ,float *g_dm_green
-    ,float *g_lai
     ,float *g_lai_max
     ,float  *g_n_conc_act_stover_tot
     ,float  *g_n_conc_crit
@@ -359,7 +349,6 @@ class Plant : public plantInterface {
     ,float *g_dm_dead
     ,float *g_dm_green
     ,float *g_dm_senesced
-    ,float  g_lai
     ,float *g_n_green
     ,float  g_root_depth
     ,float *g_sw_dep
@@ -456,7 +445,6 @@ class Plant : public plantInterface {
                               , float c_ratio_root_shoot
                               , float c_sla_min
                               , double g_dlt_dm
-                              , float g_dlt_lai_stressed
                               , float dm_yield_demand_fruit
                               , double *dlt_dm_fruit
                               , float *g_dlt_dm_green);
@@ -471,7 +459,6 @@ class Plant : public plantInterface {
     ,float  c_sla_min
     ,double  g_dlt_dm
     ,float  g_dlt_dm_grain_demand
-    ,float  g_dlt_lai_stressed
     ,float  *dlt_dm_oil_conv
     ,float  *dlt_dm_green
     ) ;
@@ -488,7 +475,6 @@ class Plant : public plantInterface {
     ,float  c_sla_min
     ,double  g_dlt_dm
     ,float  g_dlt_dm_grain_demand
-    ,float  g_dlt_lai_stressed
     ,float  *dlt_dm_oil_conv
     ,float  *dlt_dm_green
     ) ;
@@ -706,12 +692,7 @@ void legnew_dm_distribute(int max_part
   float getPlants(void) const;
   void get_cover_green(protocol::Component *, protocol::QueryValueData &);
   void get_cover_tot(protocol::Component *, protocol::QueryValueData &);
-  void get_lai_sum(protocol::Component *, protocol::QueryValueData &);
-  void get_tlai(protocol::Component *, protocol::QueryValueData &);
-  void get_slai(protocol::Component *, protocol::QueryValueData &);
-  void get_lai(protocol::Component *, protocol::QueryValueData &);
   void get_lai_canopy_green(protocol::Component *, protocol::QueryValueData &);
-  void get_tlai_dead(protocol::Component *, protocol::QueryValueData &);
   void get_pai(protocol::Component *, protocol::QueryValueData &);
   void get_grain_no(protocol::Component *, protocol::QueryValueData &);
   void get_root_wt(protocol::Component *, protocol::QueryValueData &);
@@ -1049,17 +1030,17 @@ void legnew_dm_distribute(int max_part
       float radnIntGreenFruit;                          // radn intercepted by fruit (mj/m^2)
       float transp_eff;                                 // transpiration efficiency (g dm/m^2/mm water)
       float transpEffFruit;                             // transpiration efficiency of fruit (g dm/m^2/mm water)
-      float slai;                                       // area of leaf that senesces from plant
-      float dlt_slai;                                   // area of leaf that senesces from plant
-      float dlt_lai;                                    // actual change in live plant lai
-      float dlt_lai_pot;                                // potential change in live plant lai
-      float dlt_lai_stressed;                           // potential change in lai  allowing for stress
-      float lai;                                        // live plant green lai
+//      float slai;                                       // area of leaf that senesces from plant
+//      float dlt_slai;                                   // area of leaf that senesces from plant
+//      float dlt_lai;                                    // actual change in live plant lai
+//      float dlt_lai_pot;                                // potential change in live plant lai
+//      float dlt_lai_stressed;                           // potential change in lai  allowing for stress
+//      float lai;                                        // live plant green lai
       float lai_canopy_green;                           // green lai of canopy
-      float tlai_dead;                                  // total lai of dead plants
+//      float tlai_dead;                                  // total lai of dead plants
+//      float dlt_tlai_dead;                              // plant lai change in dead plant
+//      float dlt_tlai_dead_detached;                     // plant lai detached from dead plant
       float dlt_slai_detached;                          // plant senesced lai detached
-      float dlt_tlai_dead;                              // plant lai change in dead plant
-      float dlt_tlai_dead_detached;                     // plant lai detached from dead plant
       float dlt_slai_age;                               // senesced lai from age
       float dlt_slai_light;                             // senesced lai from light
       float dlt_slai_water;                             // senesced lai from water

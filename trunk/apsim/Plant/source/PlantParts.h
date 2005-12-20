@@ -110,21 +110,17 @@ class plantPart : public plantThing {
 protected:
    plantInterface *plant;                 // The plant we are attached to
 
-private:
-   void onEmergence(void);
-   void onFlowering(void);
-   void onStartGrainFill(void);
+   virtual void onEmergence(void);
+   virtual void onFlowering(void);
+   virtual void onStartGrainFill(void);
 
+private:
    void get_n_conc(protocol::Component *, protocol::QueryValueData &);
    void get_n_conc_crit(protocol::Component *, protocol::QueryValueData &);
    void get_n_conc_min(protocol::Component *, protocol::QueryValueData &);
    void get_p_conc(protocol::Component *, protocol::QueryValueData &);
 
   public: // (for now)
-   void zeroAllGlobals(void);
-   void zeroDeltas(void);
-   void checkBounds(void);
-
    plantPart(plantInterface *p, const string &name)
      {
      zeroAllGlobals();
@@ -137,6 +133,10 @@ private:
      c.p_retrans_part = false;
      };
    virtual ~plantPart() {};
+
+   virtual void zeroAllGlobals(void);
+   virtual void zeroDeltas(void);
+   virtual void checkBounds(void);
 
    virtual void doRegistrations(protocol::Component *);
    virtual void readConstants (protocol::Component *, const string &);
@@ -200,6 +200,26 @@ class plantLeafPart : public plantPart {
                   vector<float> &dlt_dm_n,
                   vector<float> &dlt_dm_p,
                   vector<float> &fraction_to_residue);
+
+   void zeroAllGlobals(void);
+   void zeroDeltas(void);
+   void checkBounds(void);
+   void doRegistrations(protocol::Component *);
+   void onEmergence(void);
+
+   void get_tlai(protocol::Component *system, protocol::QueryValueData &qd);
+   void get_lai_sum(protocol::Component *system, protocol::QueryValueData &qd);
+
+   float gLAI;                                        // area of leaf 
+   float gSLAI;                                       // area of leaf senesced from plant
+   float gTLAI_dead;                                  // total lai of dead plants
+   float dltLAI;                                      // area of leaf 
+   float dltSLAI;                                     // area of leaf that senesces from plant
+   float dltLAI_pot;                                  // potential change in live plant lai
+   float dltLAI_stressed;                             // potential change in lai allowing for stress
+   float dltTLAI_dead;                                // plant lai change in dead plant
+   float dltTLAI_dead_detached;                       // plant lai detached from dead plant
+
 };
 
 

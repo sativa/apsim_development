@@ -14,7 +14,8 @@ PROJECT=..\lib\Plant.dll
 OBJFILES=PlantComponent.obj Plant.obj PlantParts.obj PlantBiomass.obj PlantCanopy.obj PlantFail.obj PlantLibrary.obj \
 PlantNitrogen.obj PlantPhenology.obj PlantRoot.obj PlantTemp.obj PlantUtility.obj PlantWater.obj Phase.obj CompositePhase.obj \
 Data.obj Science.obj Date.obj PlantComms.obj PlantP.obj PlantFruit.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj \
-WheatPhenology.obj Environment.obj TTTPhenology.obj CropPhenology.obj TTTRatePhenology.obj Observers.obj
+WheatPhenology.obj Environment.obj TTTPhenology.obj CropPhenology.obj TTTRatePhenology.obj Observers.obj \
+LeafPart.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
@@ -58,7 +59,7 @@ clean:
 	rm -f $(OBJFILES) *.bak *.csm
 
 PlantComponent.obj: PlantComponent.cpp plant.h
-Plant.obj: plant.cpp plant.h
+Plant.obj: plant.cpp plant.h PlantLibrary.h PlantPhenology.h PlantFruit.h PlantParts.h
 PlantBiomass.obj: PlantBiomass.cpp PlantLibrary.h
 PlantCanopy.obj: PlantCanopy.cpp PlantLibrary.h
 PlantComms.obj: PlantComms.cpp PlantLibrary.h
@@ -84,3 +85,4 @@ Observers.obj: Observers.cpp Observers.h
 TTTPhenology.obj: TTTPhenology.cpp TTTPhenology.h
 CropPhenology.obj: CropPhenology.cpp CropPhenology.h
 TTTRatePhenology.obj: TTTRatePhenology.cpp TTTRatePhenology.h
+LeafPart.obj: LeafPart.cpp PlantParts.h

@@ -293,32 +293,11 @@ void Plant::doRegistrations(protocol::Component *system)
 //   id = parent->addGettableVar("cover_tot", protocol::DTsingle, false, "");
 //   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_cover_tot));
 
-   setupGetFunction(parent, "lai_sum", protocol::DTsingle, false,
-                    &Plant::get_lai_sum, "m^2/m^2", "LAI of all leaf parts");
-
-   setupGetFunction(parent, "tlai", protocol::DTsingle, false,
-                    &Plant::get_tlai, "m^2/m^2", "tlai");
-
-   parent->addGettableVar("slai",
-               g.slai, "m^2/m^2", "Senesced lai");
-
-   parent->addGettableVar("lai",
-               g.lai, "m^2/m^2", "Leaf area index");
-
-   parent->addGettableVar("dlt_lai_pot",
-               g.dlt_lai_pot, "m^2/m^2", "Leaf area index");
-
-   parent->addGettableVar("dlt_lai_stressed",
-               g.dlt_lai_stressed, "m^2/m^2", "Leaf area index");
-
    parent->addGettableVar("dlt_leaf_no_pot",
                g.dlt_leaf_no_pot, "m^2/m^2", "Leaf no");
 
    parent->addGettableVar("lai_canopy_green",
                g.lai_canopy_green, "m^2/m^2", "Green lai");
-
-   parent->addGettableVar("tlai_dead",
-               g.tlai_dead, "m^2/m^2", "tlai dead");
 
    parent->addGettableVar("pai",
                g.pai, "m^2/m^2", "Pod area index");
@@ -1145,7 +1124,6 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
                               , c.ratio_root_shoot[(int)phenology->stageNumber()-1]
                               , c.sla_min
                               , dlt_dm_supply_by_veg
-                              , g.dlt_lai_stressed
                               , g.dlt_dm_yield_demand_fruit
                               , &g.dlt_dm_supply_to_fruit
                               , g.dlt_dm_green);
@@ -1164,7 +1142,6 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
                              , c.sla_min
                              , g.dlt_dm
                              , g.dlt_dm_grain_demand
-                             , g.dlt_lai_stressed
                              , &g.dlt_dm_oil_conv
                              , g.dlt_dm_green);
         }
@@ -1642,11 +1619,11 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
     if (option == 1)
         {
         cproc_lai_detachment1 (leafPart->c.sen_detach_frac
-                               , g.slai
+                               , leafPart->gSLAI
                                , &g.dlt_slai_detached
                                , leafPart->c.dead_detach_frac
-                               , g.tlai_dead
-                               , &g.dlt_tlai_dead_detached);
+                               , leafPart->gTLAI_dead
+                               , &leafPart->dltTLAI_dead_detached);
 
         plant_leaf_detachment (g.leaf_area
                                , g.dlt_slai_detached
@@ -1748,7 +1725,7 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
 //        if (phenology->inPhase("leaf_senescence"))
         if (phenology->inPhase("above_ground"))
            g.dlt_plants_failure_leaf_sen =
-                  crop_failure_leaf_sen(parent, g.lai, g.plants);
+                  crop_failure_leaf_sen(parent, leafPart->gLAI, g.plants);
         else
            g.dlt_plants_failure_leaf_sen = 0.0;
 
@@ -2130,16 +2107,14 @@ void Plant::plant_leaf_area_potential (int option /* (INPUT) option number */)
 // Plant leaf development
     if (option == 1)
         {
-        cproc_leaf_area_pot1 (c.x_node_no
+        leafPart->dltLAI_pot = 
+           cproc_leaf_area_pot1 (c.x_node_no
                               , c.y_leaf_size
                               , c.num_node_no
                               , g.node_no
                               , c.node_no_correction
                               , g.dlt_leaf_no_pot
-                              , g.plants
-                              , &g.dlt_lai_pot);
-//       fprintf(stdout, "dlt_lai_pot:%.6f %.6f %.6f\n",
-//               phenology->stageNumber(), g.dlt_leaf_no_pot, g.dlt_lai_pot);
+                              , g.plants);
         }
     else
         {
@@ -2173,12 +2148,9 @@ void Plant::plant_leaf_area_stressed (int option /* (INPUT) option number*/)
 // Plant leaf development
     if (option == 1)
         {
-        cproc_leaf_area_stressed1 (g.dlt_lai_pot
-                                   ,g.swdef_expansion
-                                   ,min(g.nfact_expansion, g.pfact_expansion)
-                                   ,&g.dlt_lai_stressed);
-//fprintf(stdout, "%f,%f,%f,%f\n", g.dlt_lai_stressed,g.swdef_expansion,g.nfact_expansion,phosphorus->fact_expansion());
-//        g.dlt_lai_stressed =  g.dlt_lai_pot * min(g.swdef_expansion, min(g.nfact_expansion, phosphorus->fact_expansion()));
+        leafPart->dltLAI_stressed =
+           cproc_leaf_area_stressed1 (leafPart->dltLAI_pot ,g.swdef_expansion
+                                     ,min(g.nfact_expansion, g.pfact_expansion));
         }
     else
         {
@@ -2214,7 +2186,7 @@ void Plant::plant_leaf_area_init (int option)
            legopt_leaf_area_init1 (c.initial_tpla
                                  , c.leaf_no_at_emerg
                                  , g.plants
-                                 , &g.lai
+                                 , &leafPart->gLAI
                                  , g.leaf_area);
         }
     else
@@ -2286,9 +2258,9 @@ void Plant::plant_leaf_area_actual (int option /* (INPUT) option number*/)
                                  , c.y_sla_max
                                  , c.num_lai
                                  , leafPart->dlt.dm_green
-                                 , &g.dlt_lai
-                                 , g.dlt_lai_stressed
-                                 , g.lai);
+                                 , &leafPart->dltLAI
+                                 , leafPart->dltLAI_stressed
+                                 , leafPart->gLAI);
         }
     else
         {
@@ -2354,8 +2326,8 @@ void Plant::plant_leaf_no_actual (int option /* (INPUT) option number*/)
         cproc_leaf_no_actual1(c.num_lai_ratio
                              , c.x_lai_ratio
                              , c.y_leaf_no_frac
-                             , g.dlt_lai
-                             , g.dlt_lai_stressed
+                             , leafPart->dltLAI
+                             , leafPart->dltLAI_stressed
                              , &g.dlt_leaf_no
                              , g.dlt_leaf_no_pot
                              , &g.dlt_node_no
@@ -3113,7 +3085,7 @@ void Plant::plant_sen_bio (int dm_senescence_option)
 
     if (dm_senescence_option == 1)
         {
-        canopy_sen_fr = divide (g.dlt_slai, g.lai + g.dlt_lai, 0.0);
+        canopy_sen_fr = divide (leafPart->dltSLAI, leafPart->gLAI + leafPart->dltLAI, 0.0);
 
         cproc_dm_senescence1 (max_part
                               , max_table
@@ -3145,7 +3117,7 @@ void Plant::plant_sen_bio (int dm_senescence_option)
     else if (dm_senescence_option == 2)
          {
          //XX this arm is redundant - not used by any ini files..????
-         canopy_sen_fr = divide (g.dlt_slai, g.lai + g.dlt_lai, 0.0);
+         canopy_sen_fr = divide (leafPart->dltSLAI, leafPart->gLAI +leafPart->dltLAI, 0.0);
          plant_dm_senescence (max_part
                               , max_table
                               , canopy_sen_fr
@@ -3294,16 +3266,16 @@ void Plant::plant_leaf_area_sen (int   option/*(INPUT) option number*/)
 
     if (option == 1)
         {
-        legopt_leaf_area_sen1  ( g.dlt_lai_stressed
+        legopt_leaf_area_sen1  ( leafPart->dltLAI_stressed
                                 , g.dlt_leaf_no
                                 , g.dlt_leaf_no_dead
-                                , g.lai
+                                , leafPart->gLAI
                                 , g.leaf_area
                                 , g.leaf_no
                                 , g.leaf_no_dead
                                 , max_node
                                 , g.plants
-                                , g.slai
+                                , leafPart->gSLAI
                                 , c.min_tpla
                                 , &g.dlt_slai_age
                                 , c.lai_sen_light
@@ -3317,7 +3289,7 @@ void Plant::plant_leaf_area_sen (int   option/*(INPUT) option number*/)
                                 , c.num_temp_senescence
                                 , g.mint
                                 , &g.dlt_slai_frost
-                                , &g.dlt_slai );
+                                , &leafPart->dltSLAI );
         }
     else
         {
@@ -3378,7 +3350,6 @@ void Plant::plant_cleanup ()
                 , g.dlt_dm_green_dead
                 , g.dlt_dm_senesced_dead
                 , g.dlt_dm_stress_max
-                , g.dlt_lai
                 , g.dlt_leaf_no
                 , g.dlt_node_no
                 , g.dlt_leaf_no_dead
@@ -3393,14 +3364,11 @@ void Plant::plant_cleanup ()
                 , g.dlt_n_senesced_dead
                 , g.dlt_plants
                 , g.dlt_root_depth
-                , g.dlt_slai
                 , g.dlt_slai_detached
-                , g.dlt_tlai_dead_detached
                 , g.dm_dead
                 , g.dm_green
                 , g.dm_senesced
                 , &g.grain_no
-                , &g.lai
                 , &g.lai_canopy_green
                 , g.leaf_area
                 , g.leaf_no
@@ -3414,9 +3382,7 @@ void Plant::plant_cleanup ()
                 , g.n_senesced
                 , &g.plants
                 , &g.root_depth
-                , &g.slai
                 , g.swdef_pheno
-                , &g.tlai_dead
                 , g.dlt_root_length_dead
                 , g.root_length_dead
                 , g.root_length
@@ -3435,7 +3401,6 @@ void Plant::plant_cleanup ()
                        , g.dm_green
                        , g.dm_senesced
                        , g.grain_no
-                       , g.lai
                        , g.leaf_area
                        , g.leaf_no
                        , g.leaf_no_dead
@@ -3446,15 +3411,12 @@ void Plant::plant_cleanup ()
                        , g.n_green
                        , g.n_senesced
                        , g.plants
-                       , g.root_depth
-                       , g.slai
-                       , g.tlai_dead);
+                       , g.root_depth);
     plant_totals(g.day_of_year
                 , g.dlayer
                 , g.dlt_n_retrans
                 , g.dlt_sw_dep
                 , g.dm_green
-                , &g.lai
                 , &g.lai_max
                 , &g.n_conc_act_stover_tot
                 , g.n_conc_crit
@@ -3482,7 +3444,6 @@ void Plant::plant_cleanup ()
                     , g.dm_dead
                     , g.dm_green
                     , g.dm_senesced
-                    , g.lai
                     , g.n_green
                     , g.root_depth
                     , g.sw_dep
@@ -3533,11 +3494,11 @@ void Plant::plant_check_leaf_record ()
     leaf_area_tot = sum_real_array (g.leaf_area, max_node)
                        * g.plants * smm2sm;
 
-    if (! reals_are_equal (leaf_area_tot, g.lai + g.slai, tolerance_lai))
+    if (! reals_are_equal (leaf_area_tot, leafPart->gLAI + leafPart->gSLAI, tolerance_lai))
       {
       ostrstream msg;
       msg << "Bad record for total leaf area. Leaf area total = ";
-      msg <<  leaf_area_tot << ". Lai total = " <<  (g.lai + g.slai) << ends;
+      msg <<  leaf_area_tot << ". Lai total = " <<  (leafPart->gLAI + leafPart->gSLAI) << ends;
       throw std::runtime_error (msg.str());
       }
 
@@ -3604,7 +3565,6 @@ void Plant::plant_update(
     ,float *g_dlt_dm_green_dead                                  // (INPUT)  plant biomass senescence (g/m^
     ,float *g_dlt_dm_senesced_dead                                  // (INPUT)  plant biomass senescence (g/m^
     ,float  g_dlt_dm_stress_max                                // (INPUT)  maximum daily stress on dm pro
-    ,float  g_dlt_lai                                          // (INPUT)  actual change in live plant la
     ,float  g_dlt_leaf_no                                      // (INPUT)  actual fraction of oldest leaf
     ,float  g_dlt_node_no                                      // (INPUT)  actual fraction of oldest node
     ,float  g_dlt_leaf_no_dead                                 // (INPUT)  fraction of oldest green leaf
@@ -3619,14 +3579,11 @@ void Plant::plant_update(
     ,float *g_dlt_n_senesced_dead                              // (INPUT)  plant N death (g/m^2)
     ,float  g_dlt_plants                                       // (INPUT)  change in Plant density (plant
     ,float  g_dlt_root_depth                                   // (INPUT)  increase in root depth (mm)
-    ,float  g_dlt_slai                                         // (INPUT)  area of leaf that senesces fro
     ,float  g_dlt_slai_detached                                // (INPUT)  plant senesced lai detached
-    ,float  g_dlt_tlai_dead_detached                           // (INPUT)  plant lai detached from dea
     ,float *g_dm_dead                                          // (INPUT)  dry wt of dead plants (g/m^2)
     ,float *g_dm_green                                         // (INPUT)  live plant dry weight (biomass
     ,float *g_dm_senesced                                      // (INPUT)  senesced plant dry wt (g/m^2)
     ,float  *g_grain_no                                         // (out/INPUT)  grain number (grains/plant)
-    ,float  *g_lai                                              // (out/INPUT)  live plant green lai
     ,float *g_lai_canopy_green                                 // (out/INPUT)  live plant green lai in canopy
     ,float *g_leaf_area                                        // (INPUT)  leaf area of each leaf (mm^2)
     ,float *g_leaf_no                                          // (INPUT)  number of fully expanded leave
@@ -3640,9 +3597,7 @@ void Plant::plant_update(
     ,float *g_n_senesced                                       // (INPUT)  plant N content of senesced pl
     ,float *g_plants                                           // (out/INPUT)  Plant density (plants/m^2)
     ,float *g_root_depth                                         // (out/INPUT)  depth of roots (mm)
-    ,float *g_slai                                               // (INPUT)  area of leaf that senesces fro
     ,float g_swdef_pheno                                        // (INPUT)
-    ,float *g_tlai_dead                                          // (INPUT)  total lai of dead plants
     ,float *g_dlt_root_length_dead                                  // (INPUT)  Change in Root length of dead population in each layer
     ,float *g_root_length_dead                                  // (INPUT)  Root length of dead population in each layer
     ,float *g_root_length                                       // (INPUT)  Root length in each layer
@@ -3803,14 +3758,14 @@ void Plant::plant_update(
     *g_grain_no -= dlt_grain_no_lost;
 
     // transfer plant leaf area
-    *g_lai +=  g_dlt_lai - g_dlt_slai;
-    *g_slai += g_dlt_slai - g_dlt_slai_detached;
+    leafPart->gLAI +=  leafPart->dltLAI - leafPart->dltSLAI;
+    leafPart->gSLAI += leafPart->dltSLAI - g_dlt_slai_detached;
 
-    dlt_lai_dead  = *g_lai  * dying_fract_plants;
-    dlt_slai_dead = *g_slai * dying_fract_plants;
-    *g_lai -=  dlt_lai_dead;
-    *g_slai -=  dlt_slai_dead;
-    *g_tlai_dead +=  dlt_lai_dead + dlt_slai_dead - g_dlt_tlai_dead_detached;
+    dlt_lai_dead  = leafPart->gLAI  * dying_fract_plants;
+    dlt_slai_dead = leafPart->gSLAI * dying_fract_plants;
+    leafPart->gLAI -=  dlt_lai_dead;
+    leafPart->gSLAI -=  dlt_slai_dead;
+    leafPart->gTLAI_dead +=  dlt_lai_dead + dlt_slai_dead - leafPart->dltTLAI_dead_detached;
 
     *g_pai = *g_pai + g_dlt_pai;
 
@@ -3835,7 +3790,7 @@ void Plant::plant_update(
                           ,c_num_row_spacing
                           ,c_extinct_coef_pod
                           , canopy_fac
-                          ,*g_lai
+                          ,leafPart->gLAI
                           ,*g_pai
                           ,g_lai_canopy_green
                           ,g_cover_green
@@ -3846,7 +3801,7 @@ void Plant::plant_update(
                 ,c_y_extinct_coef_dead
                 ,c_num_row_spacing
                 , canopy_fac
-                ,*g_slai
+                ,leafPart->gSLAI
                 ,g_cover_sen);
 
     legnew_cover(g_row_spacing
@@ -3854,14 +3809,14 @@ void Plant::plant_update(
                  ,c_y_extinct_coef_dead
                  ,c_num_row_spacing
                  , canopy_fac
-                 ,*g_tlai_dead
+                 ,leafPart->gTLAI_dead
                  ,g_cover_dead);
 
     // plant leaf development
     // need to account for truncation of partially developed leaf (add 1)
     node_no = 1.0 + *g_node_no;
 
-    dlt_leaf_area = divide (g_dlt_lai, *g_plants, 0.0) * sm2smm;
+    dlt_leaf_area = divide (leafPart->dltLAI, *g_plants, 0.0) * sm2smm;
     accumulate (dlt_leaf_area, g_leaf_area, node_no-1.0, g_dlt_node_no);
 
     // Area senescence is calculated apart from plant number death
@@ -4007,7 +3962,6 @@ void Plant::plant_check_bounds
     ,float *g_dm_green                          // (INPUT)  live plant dry weight (biomass
     ,float *g_dm_senesced                       // (INPUT)  senesced plant dry wt (g/m^2)
     ,float  g_grain_no                          // (INPUT)  grain number (grains/plant)
-    ,float  g_lai                               // (INPUT)  live plant green lai
     ,float *g_leaf_area                         // (INPUT)  leaf area of each leaf (mm^2)
     ,float *g_leaf_no                           // (INPUT)  number of fully expanded leave
     ,float *g_leaf_no_dead                      // (INPUT)  no of dead leaves ()
@@ -4019,8 +3973,6 @@ void Plant::plant_check_bounds
     ,float *g_n_senesced                        // (INPUT)  plant N content of senesced pl
     ,float  g_plants                            // (INPUT)  Plant density (plants/m^2)
     ,float  g_root_depth                        // (INPUT)  depth of roots (mm)
-    ,float  g_slai                              // (INPUT)  area of leaf that senesces fro
-    ,float  g_tlai_dead                         // (INPUT)  total lai of dead plants
     ) {
 
 //+  Constant Values
@@ -4083,7 +4035,6 @@ void Plant::plant_totals
     ,float *g_dlt_n_retrans              // (INPUT)  nitrogen retranslocated out from parts to grain (g/m^2)
     ,float *g_dlt_sw_dep                 // (INPUT)  water uptake in each layer (mm water)
     ,float *g_dm_green                   // (INPUT)  live plant dry weight (biomass) (g/m^2)
-    ,float *g_lai                        // (INPUT)  live plant green lai
     ,float *g_lai_max                    // (INPUT)  maximum lai - occurs at flowering
     ,float  *g_n_conc_act_stover_tot           // (INPUT)  sum of tops actual N concentration (g N/g biomass)
     ,float  *g_n_conc_crit                     // (INPUT)  critical N concentration (g N/g biomass)
@@ -4168,7 +4119,7 @@ void Plant::plant_totals
 
         }
 
-    *g_lai_max = max (*g_lai_max, *g_lai);
+    *g_lai_max = max (*g_lai_max, leafPart->gLAI);
 // note - oil has no N, thus it is not included in calculations
 
     n_grain = g_n_green[meal] + g_n_dead[meal];
@@ -4196,7 +4147,6 @@ void Plant::plant_event(float *g_dlayer           // (INPUT)  thickness of soil 
     ,float *g_dm_dead                     // (INPUT)  dry wt of dead plants (g/m^2)
     ,float *g_dm_green                    // (INPUT)  live plant dry weight (biomass
     ,float *g_dm_senesced                 // (INPUT)  senesced plant dry wt (g/m^2)
-    ,float  g_lai                         // live plant green lai
     ,float *g_n_green                     // (INPUT)  plant nitrogen content (g N/m^
     ,float  g_root_depth                  // (INPUT)  depth of roots (mm)
     ,float *g_sw_dep                      // (INPUT)  soil water content of layer L
@@ -4254,7 +4204,7 @@ void Plant::plant_event(float *g_dlayer           // (INPUT)  thickness of soil 
             sprintf(msg,
 "                biomass =       %8.2f (g/m^2)   lai          = %7.3f (m^2/m^2)\n"
 "                stover N conc = %8.2f (%%)    extractable sw = %7.2f (mm)",
-                biomass, g_lai, n_green_conc_percent, pesw_tot);
+                biomass, leafPart->gLAI, n_green_conc_percent, pesw_tot);
             parent->writeString (msg);
             }
     }
@@ -5367,7 +5317,6 @@ void Plant::legnew_dm_partition1_test( float  c_frac_leaf                   // (
                                      , float  c_ratio_root_shoot            // (INPUT)  root:shoot ratio of new dm ()
                                      , float  c_sla_min                     // (INPUT)  minimum specific leaf area for
                                      , double  g_dlt_dm                      // (INPUT)  the daily biomass production (
-                                     , float  g_dlt_lai_stressed            // (INPUT)  potential change in live
                                      , float g_dlt_dm_yield_demand
                                      , double *dlt_dm_fruit
                                      , float *dlt_dm_green)                  // (OUTPUT) actual biomass partitioned to plant parts (g/m^2)
@@ -5414,7 +5363,7 @@ void Plant::legnew_dm_partition1_test( float  c_frac_leaf                   // (
         leafPart->dlt.dm_green = c_frac_leaf * dm_remaining;
 
             // limit the delta leaf area to maximum
-        dlt_dm_leaf_max = divide (g_dlt_lai_stressed, c_sla_min * smm2sm, 0.0);
+        dlt_dm_leaf_max = divide (leafPart->dltLAI_stressed, c_sla_min * smm2sm, 0.0);
         leafPart->dlt.dm_green = u_bound (leafPart->dlt.dm_green, dlt_dm_leaf_max);
 
         dm_remaining -= leafPart->dlt.dm_green;
@@ -5464,7 +5413,6 @@ void Plant::legnew_dm_partition1
     ,float  c_sla_min                     // (INPUT)  minimum specific leaf area for
     ,double g_dlt_dm                      // (INPUT)  the daily biomass production (
     ,float  g_dlt_dm_grain_demand         // (INPUT)  grain dm demand (g/m^2)
-    ,float  g_dlt_lai_stressed            // (INPUT)  potential change in live
     ,float  *dlt_dm_oil_conv               // (OUTPUT) actual biomass used in conversion to oil (g/m2)
     ,float  *dlt_dm_green                  // (OUTPUT) actual biomass partitioned to plant parts (g/m^2)
     ) {
@@ -5556,7 +5504,7 @@ void Plant::legnew_dm_partition1
         leafPart->dlt.dm_green = c_frac_leaf * dm_remaining;
 
         // limit the delta leaf area to maximum
-        dlt_dm_leaf_max = divide (g_dlt_lai_stressed, c_sla_min * smm2sm, 0.0);
+        dlt_dm_leaf_max = divide (leafPart->dltLAI_stressed, c_sla_min * smm2sm, 0.0);
         leafPart->dlt.dm_green = u_bound (leafPart->dlt.dm_green, dlt_dm_leaf_max);
 
         dm_remaining -= leafPart->dlt.dm_green;
@@ -5609,7 +5557,6 @@ void Plant::legnew_dm_partition2
     ,float  c_sla_min                           // (INPUT)  minimum specific leaf area for
     ,double  g_dlt_dm                            // (INPUT)  the daily biomass production (
     ,float  g_dlt_dm_grain_demand               // (INPUT)  grain dm demand (g/m^2)
-    ,float  g_dlt_lai_stressed                  // (INPUT)  potential change in live
     ,float  *dlt_dm_oil_conv                     // (OUTPUT) actual biomass used in conversion to oil (g/m2)
     ,float  *dlt_dm_green                       // (OUTPUT) actual biomass partitioned to plant parts (g/m^2)
     ) {
@@ -5711,7 +5658,7 @@ void Plant::legnew_dm_partition2
         leafPart->dlt.dm_green = frac_leaf * dm_remaining;
 
         // limit the delta leaf area to maximum
-        dlt_dm_leaf_max = divide (g_dlt_lai_stressed, c_sla_min * smm2sm, 0.0);
+        dlt_dm_leaf_max = divide (leafPart->dltLAI_stressed, c_sla_min * smm2sm, 0.0);
         leafPart->dlt.dm_green = u_bound (leafPart->dlt.dm_green, dlt_dm_leaf_max);
 
         dm_remaining -= leafPart->dlt.dm_green;
@@ -7208,9 +7155,9 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
 
     // Initialise plant leaf area
-    g.lai = c.initial_tpla * smm2sm * g.plants;
-    g.slai = 0.0;
-    g.tlai_dead = 0.0;
+    leafPart->gLAI = c.initial_tpla * smm2sm * g.plants;
+    leafPart->gSLAI = 0.0;
+    leafPart->gTLAI_dead = 0.0;
 
     if (g.canopy_width > 0.0)
         {
@@ -7234,7 +7181,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
                           ,c.num_row_spacing
                           ,reproStruct->extinct_coef_pod
                           , canopy_fac
-                          ,g.lai
+                          ,leafPart->gLAI
                           ,g.pai
                           ,&g.lai_canopy_green
                           ,&g.cover_green
@@ -7245,14 +7192,14 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
                   ,c.y_extinct_coef_dead
                   ,c.num_row_spacing
                   , canopy_fac
-                  ,g.slai
+                  ,leafPart->gSLAI
                   ,&g.cover_sen);
     legnew_cover (g.row_spacing
                   ,c.x_row_spacing
                   ,c.y_extinct_coef_dead
                   ,c.num_row_spacing
                   , canopy_fac
-                  ,g.tlai_dead
+                  ,leafPart->gTLAI_dead
                   ,&g.cover_dead);
 
     fill_real_array (g.leaf_no, 0.0, max_node);
@@ -7296,7 +7243,6 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
                    , g.dm_dead
                    , g.dm_green
                    , g.dm_senesced
-                   , g.lai
                    , g.n_green
                    , g.root_depth
                    , g.sw_dep
@@ -7430,10 +7376,10 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     delete oilPart;
 
     // transfer plant leaf area
-    g.slai = 0.0;
-    g.tlai_dead = g.tlai_dead + g.lai;
+    leafPart->gSLAI = 0.0;
+    leafPart->gTLAI_dead += leafPart->gLAI;
     // Initialise plant leaf area
-    g.lai = c.initial_tpla * smm2sm * g.plants;
+    leafPart->gLAI = c.initial_tpla * smm2sm * g.plants;
     g.pai = 0.0;
     // JNGH need to account for dead pai
 
@@ -7462,7 +7408,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
                            , c.num_row_spacing
                            , reproStruct->extinct_coef_pod
                            , canopy_fac
-                           , g.lai
+                           , leafPart->gLAI
                            , g.pai
                            , &g.lai_canopy_green
                            , &g.cover_green
@@ -7473,14 +7419,14 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
                   , c.y_extinct_coef_dead
                   , c.num_row_spacing
                   , canopy_fac
-                  , g.slai
+                  , leafPart->gSLAI
                   , &g.cover_sen);
     legnew_cover (g.row_spacing
                   , c.x_row_spacing
                   , c.y_extinct_coef_dead
                   , c.num_row_spacing
                   , canopy_fac
-                  , g.tlai_dead
+                  , leafPart->gTLAI_dead
                   , &g.cover_dead);
     for (int node =0; node < max_node; node++)
         {
@@ -7533,7 +7479,6 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
             , g.dm_dead
             , g.dm_green
             , g.dm_senesced
-            , g.lai
             , g.n_green
             , g.root_depth
             , g.sw_dep
@@ -7827,18 +7772,18 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     delete mealPart;
     delete oilPart;
 
-    float dlt_lai = g.lai * chop_fr_green;
-    float dlt_slai = g.slai * chop_fr_sen;
-    float dlt_tlai_dead = g.tlai_dead * chop_fr_dead;
+    float dlt_lai = leafPart->gLAI * chop_fr_green;
+    leafPart->dltSLAI = leafPart->gSLAI * chop_fr_sen;
+    float dlt_tlai_dead = leafPart->gTLAI_dead * chop_fr_dead;
 
     // keep leaf area above a minimum
     float lai_init = c.initial_tpla * smm2sm * g.plants;
-    float dlt_lai_max = g.lai - lai_init;
+    float dlt_lai_max = leafPart->gLAI - lai_init;
     dlt_lai = u_bound (dlt_lai, dlt_lai_max);
 
-    g.lai = g.lai - dlt_lai;
-    g.slai = g.slai - dlt_slai;
-    g.tlai_dead = g.tlai_dead - dlt_tlai_dead;
+    leafPart->gLAI -= dlt_lai;
+    leafPart->gSLAI -= leafPart->dltSLAI;
+    leafPart->gTLAI_dead -= dlt_tlai_dead;
 
     // keep dm above a minimum
     dm_init = leafPart->c.dm_init * g.plants;
@@ -7848,7 +7793,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     leafPart->g.n_green = l_bound (leafPart->g.n_green, n_init);
 
     plant_leaf_detachment (g.leaf_area
-                            , dlt_slai
+                            , leafPart->dltSLAI
                             , g.plants, max_node);
 
 
@@ -7881,7 +7826,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
                           ,c.num_row_spacing
                           ,reproStruct->extinct_coef_pod
                           , canopy_fac
-                          ,g.lai
+                          ,leafPart->gLAI
                           ,g.pai
                           ,&g.lai_canopy_green
                           ,&g.cover_green
@@ -7892,14 +7837,14 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
                   ,c.y_extinct_coef_dead
                   ,c.num_row_spacing
                   , canopy_fac
-                  ,g.slai
+                  ,leafPart->gSLAI
                   ,&g.cover_sen);
     legnew_cover (g.row_spacing
                   ,c.x_row_spacing
                   ,c.y_extinct_coef_dead
                   ,c.num_row_spacing
                   , canopy_fac
-                  ,g.tlai_dead
+                  ,leafPart->gTLAI_dead
                   ,&g.cover_dead);
 
          // calc new node number
@@ -7993,7 +7938,6 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
             , g.dm_dead
             , g.dm_green
             , g.dm_senesced
-            , g.lai
             , g.n_green
             , g.root_depth
             , g.sw_dep
@@ -8108,17 +8052,8 @@ void Plant::plant_zero_all_globals (void)
       g.radnIntGreenFruit = 0.0;
       g.transp_eff = 0.0;
       g.transpEffFruit = 0.0;
-      g.slai = 0.0;
-      g.dlt_slai = 0.0;
-      g.dlt_lai = 0.0;
-      g.dlt_lai_pot = 0.0;
-      g.dlt_lai_stressed = 0.0;
-      g.lai = 0.0;
       g.lai_canopy_green = 0.0;
-      g.tlai_dead = 0.0;
       g.dlt_slai_detached = 0.0;
-      g.dlt_tlai_dead = 0.0;
-      g.dlt_tlai_dead_detached = 0.0;
       g.dlt_slai_age = 0.0;
       g.dlt_slai_light = 0.0;
       g.dlt_slai_water = 0.0;
@@ -8629,9 +8564,6 @@ void Plant::plant_zero_variables (void)
     g.cover_pod             = 0.0;
     g.cover_sen             = 0.0;
     g.cover_dead            = 0.0;
-    g.slai                  = 0.0;
-    g.lai                   = 0.0;
-    g.tlai_dead             = 0.0;
     g.pai                   = 0.0;
 
     g.swdef_pheno = 1.0;
@@ -8721,7 +8653,6 @@ void Plant::plant_zero_daily_variables ()
 
     g.swSupplyFruit   = 0.0;
     g.swSupplyVeg   = 0.0;
-    g.dlt_tlai_dead_detached   = 0.0;
     g.dlt_slai_detached        = 0.0;
     g.dlt_dm                   = 0.0;
     g.dlt_dm_grain_demand      = 0.0;
@@ -8733,8 +8664,6 @@ void Plant::plant_zero_daily_variables ()
     g.dlt_leaf_no_dead         = 0.0;
     g.dlt_plants               = 0.0;
     g.dlt_root_depth           = 0.0;
-    g.dlt_slai                 = 0.0;
-    g.dlt_lai                  = 0.0;
     g.dlt_pai                  = 0.0;
     g.sw_demand                = 0.0;
     g.sw_demand_te             = 0.0;
@@ -11438,20 +11367,6 @@ void Plant::get_cover_tot(protocol::Component *system, protocol::QueryValueData 
 
     system->sendVariable(qd, cover_tot);
 }
-
-
-void Plant::get_lai_sum(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    float lai_sum = g.lai + g.slai + g.tlai_dead;
-    system->sendVariable(qd, lai_sum);
-}
-
-
-void Plant::get_tlai(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    system->sendVariable(qd, g.lai + g.slai);
-}
-
 
 void Plant::get_grain_size(protocol::Component *system, protocol::QueryValueData &qd)
 {
