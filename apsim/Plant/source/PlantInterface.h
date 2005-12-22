@@ -4,6 +4,8 @@
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 
+typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;
+
 // Class for communications - a sink for messages.
 class commsInterface
   {
@@ -26,7 +28,37 @@ class plantInterface {
 
       virtual float getLeafNo (void) const = 0;           // Leaf number (leaves/m^2)
       virtual float getPlants (void) const = 0;           // Planting density (plants/m^2)
+      virtual float getCo2 (void) const = 0;              // CO2 level (ppm)
+      virtual photosynthetic_pathway_t getPhotosynthetic_pathway(void) const = 0;              // CO2 level (ppm)
       virtual float getStageCode (void) const = 0;        // Phenological stage code AAACK DIE YOU BASTARD
+//      virtual float getRadnInterceptedPod(void) const = 0;
+      virtual float getDltDMPotRueVeg(void) const = 0;
+      virtual float getDmGreenVeg(void) const = 0;
+//      virtual float getDltDmVeg(void) const = 0;
+      virtual float getWaterSupplyPod(void) const = 0;
+      virtual float getDmTops(void) const = 0;
+      virtual float getDltDm(void) const = 0;
+      virtual float getDmVeg(void) const = 0;
+
+      // temporary
+      virtual float getDlt_dm_green_pod(void) const = 0;
+      virtual float getDlt_dm_green_meal(void) const = 0;
+      virtual float getDlt_dm_green_oil(void) const = 0;
+      virtual float getDlt_dm_green_retrans_pod(void) const = 0;
+      virtual float getDlt_dm_green_retrans_meal(void) const = 0;
+      virtual float getDlt_dm_green_retrans_oil(void) const = 0;
+      virtual float getDlt_dm_senesced_pod(void) const = 0;
+      virtual float getDlt_dm_senesced_meal(void) const = 0;
+      virtual float getDlt_dm_senesced_oil(void) const = 0;
+      virtual float getDlt_dm_green_dead_pod(void) const = 0;
+      virtual float getDlt_dm_green_dead_meal(void) const = 0;
+      virtual float getDlt_dm_green_dead_oil(void) const = 0;
+
+      virtual float getTempStressPhoto(void) const = 0;
+      virtual float getNfactPhoto(void) const = 0;
+      virtual float getOxdefPhoto(void) const = 0;
+      virtual float getPfactPhoto(void) const = 0;
+      virtual float getSwdefPhoto(void) const = 0;
       virtual bool phosphorusAware(void) const = 0;       // Whether P is present in system
       virtual void doPlantEvent(const string &) = 0;      // Something is asking the plant to do something
 };

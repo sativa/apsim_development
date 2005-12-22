@@ -55,7 +55,7 @@ const int  oil  = 3 ; // seed oil
 // number of plant parts
 const int  max_part = 4 ; // NB. implies for (i=0; i < max_part; max_part++) usage
 
-typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;
+//typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;
 
 
 //   This class performs crop crop growth
@@ -74,44 +74,44 @@ class Plant : public plantInterface {
   plantLeafPart  *leafPart;
   ReproStruct    *reproStruct;
   PlantPhenology *phenology;
-  PlantFruit     *fruit;
+  PlantFruit     *fruitPart;
 
   eventObserver *floweringEventObserver;     // Bookkeeper for flowering events
   eventObserver *maturityEventObserver;      // Bookkeeper for maturity events
 
-  float Plant::topsGreen(void);
-  float Plant::topsSenesced(void);
-  float Plant::topsDead(void);
-  float Plant::topsTot(void);
+  float Plant::topsGreen(void) const;
+  float Plant::topsSenesced(void) const;
+  float Plant::topsDead(void) const;
+  float Plant::topsTot(void) const;
 
-  float Plant::topsNGreen(void);
-  float Plant::topsNSenesced(void);
-  float Plant::topsNDead(void);
-  float Plant::topsNTot(void);
+  float Plant::topsNGreen(void) const;
+  float Plant::topsNSenesced(void) const;
+  float Plant::topsNDead(void) const;
+  float Plant::topsNTot(void) const;
 
-  float Plant::stoverGreen(void);
-  float Plant::stoverSenesced(void);
-  float Plant::stoverDead(void);
-  float Plant::stoverTot(void);
+  float Plant::stoverGreen(void) const;
+  float Plant::stoverSenesced(void) const;
+  float Plant::stoverDead(void) const;
+  float Plant::stoverTot(void) const;
 
-  float Plant::stoverNGreen(void);
-  float Plant::stoverNSenesced(void);
-  float Plant::stoverNDead(void);
-  float Plant::stoverNTot(void);
+  float Plant::stoverNGreen(void) const;
+  float Plant::stoverNSenesced(void) const;
+  float Plant::stoverNDead(void) const;
+  float Plant::stoverNTot(void) const;
 
-  float Plant::topsPGreen(void);
-  float Plant::topsPSenesced(void);
-  float Plant::topsPDead(void);
-  float Plant::topsPTot(void);
-  float Plant::stoverPGreen(void);
-  float Plant::stoverPSenesced(void);
-  float Plant::stoverPDead(void);
-  float Plant::stoverPTot(void);
+  float Plant::topsPGreen(void) const;
+  float Plant::topsPSenesced(void) const;
+  float Plant::topsPDead(void) const;
+  float Plant::topsPTot(void) const;
+  float Plant::stoverPGreen(void) const;
+  float Plant::stoverPSenesced(void) const;
+  float Plant::stoverPDead(void) const;
+  float Plant::stoverPTot(void) const;
 
-  float Plant::sumNMax(void);
-  float Plant::sumSoilNDemand(void);
-  float Plant::sumNDemand(void);
-    
+  float Plant::sumNMax(void) ;
+  float Plant::sumSoilNDemand(void) ;
+  float Plant::sumNDemand(void) ;
+
  public:
   Plant(PlantComponent *P);
   ~Plant();
@@ -139,7 +139,7 @@ class Plant : public plantInterface {
   void doPlantEvent(const string &);
 
   void plant_bio_actual (int option /* (INPUT) option number*/);
-  void plant_bio_grain_demand (int option /* (INPUT) option number */);
+  void plant_bio_grain_demand (void);
   void plant_bio_grain_oil (int option /* (INPUT) option number */);
   void plant_bio_partition (int option /* (INPUT) option number */);
   void plant_bio_retrans (int option /* (INPUT) option number */);
@@ -258,7 +258,7 @@ class Plant : public plantInterface {
     ,float *g_dlt_dm_senesced
     ,float *g_dlt_dm_green_dead
     ,float *g_dlt_dm_senesced_dead
-    ,float  g_dlt_dm_stress_max
+////    ,float  g_dlt_dm_stress_max
     ,float  g_dlt_leaf_no
     ,float  g_dlt_node_no
     ,float  g_dlt_leaf_no_dead
@@ -297,9 +297,9 @@ class Plant : public plantInterface {
     ,float *g_root_length
     ,float *g_dlt_root_length
     ,float *g_dlt_root_length_senesced
-    ,float *g_pai
-    ,float g_dlt_pai
-    ,float c_extinct_coef_pod
+////    ,float *g_pai
+////    ,float g_dlt_pai
+////    ,float c_extinct_coef_pod
     ,float *g_cover_pod) ;
   void plant_check_bounds
     (float  g_cover_dead
@@ -690,6 +690,35 @@ void legnew_dm_distribute(int max_part
   void get_root_depth(protocol::Component *, protocol::QueryValueData &);
   void get_plants(protocol::Component *, protocol::QueryValueData &);
   float getPlants(void) const;
+  float getCo2(void) const;
+  photosynthetic_pathway_t getPhotosynthetic_pathway(void) const;
+//  float getRadnInterceptedPod(void) const;
+  float getDltDMPotRueVeg(void) const;
+  float getDmGreenVeg(void) const;
+//  float getDltDmVeg(void) const;
+  float getWaterSupplyPod(void) const;
+  float getDmTops(void) const;
+  float getDltDm(void) const;
+  float getDmVeg(void) const;
+  float getDlt_dm_green_pod(void) const;
+  float getDlt_dm_green_meal(void) const;
+  float getDlt_dm_green_oil(void) const;
+  float getDlt_dm_green_retrans_pod(void) const;
+  float getDlt_dm_green_retrans_meal(void) const;
+  float getDlt_dm_green_retrans_oil(void) const;
+  float getDlt_dm_senesced_pod(void) const;
+  float getDlt_dm_senesced_meal(void) const;
+  float getDlt_dm_senesced_oil(void) const;
+  float getDlt_dm_green_dead_pod(void) const;
+  float getDlt_dm_green_dead_meal(void) const;
+  float getDlt_dm_green_dead_oil(void) const;
+
+  float getTempStressPhoto(void) const;
+  float getNfactPhoto(void) const;
+  float getOxdefPhoto(void) const;
+  float getPfactPhoto(void) const;
+  float getSwdefPhoto(void) const;
+
   void get_cover_green(protocol::Component *, protocol::QueryValueData &);
   void get_cover_tot(protocol::Component *, protocol::QueryValueData &);
   void get_lai_canopy_green(protocol::Component *, protocol::QueryValueData &);
@@ -1019,8 +1048,8 @@ void legnew_dm_distribute(int max_part
       float dlt_dm_dead_detached[max_part];             // plant biomass detached from dead plant (g/m^2)
       float dlt_dm_oil_conv_retranslocate;              // retranslocated plant biomass used in conversion to oil for (g/m^2)
       float dlt_dm_green_retrans[max_part];             // plant biomass retranslocated (g/m^2)
-      stateObserver dm_stress_max;                      // sum of maximum daily stress on dm production per phase
-      float dlt_dm_stress_max;                          // maximum daily stress on dm production (0-1)
+//      stateObserver dm_stress_max;                      // sum of maximum daily stress on dm production per phase
+//      float dlt_dm_stress_max;                          // maximum daily stress on dm production (0-1)
       float dlt_dm_grain_demand;                        // grain dm demand (g/m^2)
       float dm_green_demand[max_part];                  // biomass demand of the plant parts (g/m^2)
       float dm_dead[max_part];                          // dry wt of dead plants (g/m^2)

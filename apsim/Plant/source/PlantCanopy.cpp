@@ -1105,66 +1105,6 @@ void legnew_cover (
 //+  Changes
 //     15-08-1997 - huth - Programmed and Specified
 //     10-02-1999 - huth - added pod cover component
-void legnew_cover_leaf_pod (
-     float g_row_spacing
-    ,float *c_x_row_spacing
-    ,float *c_y_extinct_coef
-    ,int   c_num_row_spacing
-    ,float c_extinct_coef_pod
-    ,float  canopy_fac
-    ,float g_lai
-    ,float g_pai
-    ,float *g_lai_canopy     // OUTPUT lai transformed to solid rows
-    ,float *g_cover_green  // OUTPUT
-    ,float *g_cover_pod    // OUTPUT
-    ) {
-
-//+  Constant Values
-//+  Local Variables
-    double extinct_coef;
-    double lai_canopy;                             // lai transformed to solid rows
-    double pai_canopy;                             // pai transformed to solid rows
-    float cover_green_canopy;                     // green cover in row
-    float cover_green_pod_canopy;                 // green pod cover in row
-
-//- Implementation Section ----------------------------------
-    extinct_coef = linear_interp_real (g_row_spacing
-                                       ,c_x_row_spacing
-                                       ,c_y_extinct_coef
-                                       ,c_num_row_spacing);
-
-    //-----light interception modified to give hedgerow effect with skip row
-    lai_canopy = g_lai * canopy_fac;     // lai in hedgerow
-    pai_canopy = g_pai * canopy_fac;
-
-    if (g_lai > 0.0 || g_pai > 0.0)
-        {
-        cover_green_canopy = 1.0 - exp(-(c_extinct_coef_pod*pai_canopy
-                                         + extinct_coef*lai_canopy));
-                                                  // interception on ground area basis
-        *g_cover_green = divide (cover_green_canopy, canopy_fac, 0.0);
-        }
-    else
-        {
-        *g_cover_green = 0.0;
-        }
-
-    if (g_pai > 0.0)
-        {
-        cover_green_pod_canopy = 1.0
-        - exp(-c_extinct_coef_pod*pai_canopy) ;   // interception on row area basis
-                                                  // interception on ground area basis
-        *g_cover_pod = divide (cover_green_pod_canopy, canopy_fac, 0.0);
-
-        }
-    else
-        {
-        *g_cover_pod = 0.0;
-        }
-    *g_lai_canopy = lai_canopy;
-    }
-
-
 
 //+  Purpose
 //       Derives number of nodes to result in given cumulative area

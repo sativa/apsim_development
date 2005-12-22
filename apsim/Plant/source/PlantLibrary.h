@@ -12,6 +12,7 @@ class commsInterface;
 
 #define min(A,B) ((A)<(B)?(A):(B))
 #define max(A,B) ((A)>(B)?(A):(B))
+#define add_covers(A,B) (1.0 - (1.0-A)*(1.0-B))
 
 
 /*   ================================================================
@@ -684,19 +685,6 @@ void plant_leaf_removal_top (float *leaf_area
                            , float plants
                            , float *last_node);
 //---------------------------------------------------------------------------
-void legnew_cover_leaf_pod (
-     float g_row_spacing
-    ,float *c_x_row_spacing
-    ,float *c_y_extinct_coef
-    ,int   c_num_row_spacing
-    ,float c_extinct_coef_pod
-    ,float  canopy_fac
-    ,float g_lai
-    ,float g_pai
-    ,float *lai_canopy
-    ,float *g_cover_green
-    ,float *g_cover_pod
-    ) ;
   void legnew_cover (
     float g_row_spacing
     ,float *c_x_row_spacing

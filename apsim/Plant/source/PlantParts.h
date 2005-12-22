@@ -160,6 +160,7 @@ private:
    void doNSenescence(void);
    void dm_detachment1(void);
    void n_detachment1(void);
+   float dmTotal(void);
 
    virtual void onHarvest(float height, float remove_fr,
                           vector<string> &dm_type,
@@ -179,7 +180,7 @@ private:
 };
 
 class plantStemPart : public plantPart {
-  public: 
+  public:
    plantStemPart(plantInterface *p, const string &name) : plantPart(p, name) {};
    ~plantStemPart() {};
    void onHarvest(float height, float remove_fr,
@@ -191,7 +192,7 @@ class plantStemPart : public plantPart {
 };
 
 class plantLeafPart : public plantPart {
-  public: 
+  public:
    plantLeafPart(plantInterface *p, const string &name) : plantPart(p, name) {};
    ~plantLeafPart() {};
    void onHarvest(float height, float remove_fr,
@@ -221,6 +222,43 @@ class plantLeafPart : public plantPart {
    float dltTLAI_dead_detached;                       // plant lai detached from dead plant
 
 };
+
+class fruitPodPart : public plantPart {
+  public:
+   fruitPodPart(plantInterface *p, const string &name) : plantPart(p, name) {};
+   ~fruitPodPart() {};
+   void onHarvest(float height, float remove_fr,
+                  vector<string> &dm_type,
+                  vector<float> &dlt_crop_dm,
+                  vector<float> &dlt_dm_n,
+                  vector<float> &dlt_dm_p,
+                  vector<float> &fraction_to_residue);
+};
+
+class fruitOilPart : public plantPart {
+  public:
+   fruitOilPart(plantInterface *p, const string &name) : plantPart(p, name) {};
+   ~fruitOilPart() {};
+   void onHarvest(float height, float remove_fr,
+                  vector<string> &dm_type,
+                  vector<float> &dlt_crop_dm,
+                  vector<float> &dlt_dm_n,
+                  vector<float> &dlt_dm_p,
+                  vector<float> &fraction_to_residue);
+};
+
+class fruitMealPart : public plantPart {
+  public:
+   fruitMealPart(plantInterface *p, const string &name) : plantPart(p, name) {};
+   ~fruitMealPart() {};
+   void onHarvest(float height, float remove_fr,
+                  vector<string> &dm_type,
+                  vector<float> &dlt_crop_dm,
+                  vector<float> &dlt_dm_n,
+                  vector<float> &dlt_dm_p,
+                  vector<float> &fraction_to_residue);
+};
+
 
 
 float critNFactor(vector<const plantPart *> &, float );

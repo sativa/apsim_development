@@ -330,7 +330,7 @@ void plantPart::readSpeciesParameters(protocol::Component *system, vector<string
                             , "n_deficit_uptake_fraction"//, "()"
                             , c.n_deficit_uptake_fraction
                             , 0.0, 1.0, true) == false)
-        c.n_deficit_uptake_fraction = 0.0;                    
+        c.n_deficit_uptake_fraction = 0.0;
 
     }
 
@@ -630,9 +630,9 @@ void plantStemPart::onHarvest(float cutting_height, float remove_fr,
     float fr_height = divide (cutting_height,g.height, 0.0);
 
     float retain_fr_green, retain_fr_sen, retain_fr_dead;
-    if (c.fr_remain.isInitialised()) 
+    if (c.fr_remain.isInitialised())
        retain_fr_green = c.fr_remain.value(fr_height);
-    else    
+    else
        retain_fr_green = 0.0;
 
     retain_fr_sen  = retain_fr_green;
@@ -677,6 +677,35 @@ void plantStemPart::onHarvest(float cutting_height, float remove_fr,
 }
 
 
+void fruitPodPart::onHarvest(float /* cutting_height */, float remove_fr,
+                              vector<string> &dm_type,
+                              vector<float> &dlt_crop_dm,
+                              vector<float> &dlt_dm_n,
+                              vector<float> &dlt_dm_p,
+                              vector<float> &fraction_to_residue)
+{
+}
+
+void fruitOilPart::onHarvest(float /* cutting_height */, float remove_fr,
+                              vector<string> &dm_type,
+                              vector<float> &dlt_crop_dm,
+                              vector<float> &dlt_dm_n,
+                              vector<float> &dlt_dm_p,
+                              vector<float> &fraction_to_residue)
+{
+}
+
+void fruitMealPart::onHarvest(float /* cutting_height */, float remove_fr,
+                              vector<string> &dm_type,
+                              vector<float> &dlt_crop_dm,
+                              vector<float> &dlt_dm_n,
+                              vector<float> &dlt_dm_p,
+                              vector<float> &fraction_to_residue)
+{
+}
+
+
+
 void plantPart::onEndCrop(vector<string> &dm_type,
                           vector<float> &dlt_crop_dm,
                           vector<float> &dlt_dm_n,
@@ -716,6 +745,11 @@ float plantPart::availableRetranslocateN(void)
    float N_min = g.n_conc_min * g.dm_green;
    float N_avail = l_bound (g.n_green - N_min, 0.0);
    return (N_avail * c.n_retrans_fraction);
+   }
+
+float plantPart::dmTotal(void)
+   {
+   return (g.dm_green + g.dm_senesced + g.dm_dead);
    }
 
 void plantPart::onPlantEvent(const string &event)
