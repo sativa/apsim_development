@@ -20,9 +20,9 @@
 #include "WheatPhenology.h"
 #include "TTTPhenology.h"
 #include "TTTRatePhenology.h"
-#include "PlantFruit.h"
 #include "Plant.h"
 #include "PlantParts.h"
+#include "PlantFruit.h"
 #include "Observers.h"
 #include "ReproStruct.h"
 
@@ -69,21 +69,19 @@ Plant::Plant(PlantComponent *P)
     c.part_names[oil] = "oil";
     phenology = NULL;
 
-    fruit = new PlantFruit(this);
-
     g.cswd_pheno.setup(&g.swdef_pheno);
     g.cswd_photo.setup(&g.swdef_photo);
     g.cnd_grain_conc.setup(&g.nfact_grain_conc);
     g.cnd_photo.setup(&g.nfact_photo);
     g.cswd_expansion.setup(&g.swdef_expansion);
-    g.dm_stress_max.setup(&g.dlt_dm_stress_max);
+////    g.dm_stress_max.setup(&g.dlt_dm_stress_max);
 
     stageObservers.addObserver(&g.cswd_photo);
     stageObservers.addObserver(&g.cswd_expansion);
     stageObservers.addObserver(&g.cnd_grain_conc);
     stageObservers.addObserver(&g.cnd_photo);
     otherObservers.addObserver(&g.cswd_pheno);
-    otherObservers.addObserver(&g.dm_stress_max);
+////    otherObservers.addObserver(&g.dm_stress_max);
     }
 
 Plant::~Plant()
@@ -95,7 +93,7 @@ Plant::~Plant()
          }
     delete [] c.x_dm_sen_frac; delete [] c.y_dm_sen_frac; delete [] c.num_dm_sen_frac;
     if (phenology) delete phenology;
-    delete fruit;
+    if (fruitPart) delete fruitPart;
     if (stemPart) delete stemPart;
     if (leafPart) delete leafPart;
     if (reproStruct) delete reproStruct;
@@ -121,6 +119,11 @@ void Plant::doInit1(protocol::Component *s)
     myThings.push_back(phenology);
 
     // NB. These must work in conjunction with setupHacks()..
+    fruitPart = new PlantFruit(this, "fruit");
+//    myThings.push_back(fruit);
+//    myParts.push_back(fruit);
+    fruitPart->doInit1();
+
     stemPart = new plantStemPart(this, "stem");
     myThings.push_back(stemPart);
     myParts.push_back(stemPart);
@@ -299,8 +302,11 @@ void Plant::doRegistrations(protocol::Component *system)
    parent->addGettableVar("lai_canopy_green",
                g.lai_canopy_green, "m^2/m^2", "Green lai");
 
-   parent->addGettableVar("pai",
-               g.pai, "m^2/m^2", "Pod area index");
+//   parent->addGettableVar("tlai_dead",
+//               g.tlai_dead, "m^2/m^2", "tlai dead");
+
+////   parent->addGettableVar("pai",
+////               g.pai, "m^2/m^2", "Pod area index");
 
    parent->addGettableVar("dlt_slai_age",
                g.dlt_slai_age, "m^2/m^2", "Change in lai via age");
@@ -375,8 +381,8 @@ void Plant::doRegistrations(protocol::Component *system)
    parent->addGettableVar("dlt_dm_pot_te",
                g.dlt_dm_pot_te, "g/m^2", "Potential dry matter production via transpiration");
 
-   parent->addGettableVar("dlt_dm_grain_demand",
-               g.dlt_dm_grain_demand, "g/m^2", "??");
+////   parent->addGettableVar("dlt_dm_grain_demand",
+////               g.dlt_dm_grain_demand, "g/m^2", "??");
 
    setupGetFunction(parent, "dlt_dm_green", protocol::DTsingle, true,
                     &Plant::get_dlt_dm_green,  "g/m^2", "change in green pool");
@@ -815,6 +821,7 @@ void Plant::doRegistrations(protocol::Component *system)
         t != myThings.end();
         t++)
       (*t)->doRegistrations(parent);
+      fruitPart->doRegistrations(parent);
    }
 
 void Plant::onApsimGetQuery(protocol::ApsimGetQueryData& apsimQueryData)
@@ -956,6 +963,7 @@ void Plant::doTick(unsigned &, unsigned &, protocol::Variant &v)
   v.unpack(tick);
   double sd = (double)tick.startday;
   jday_to_day_of_year(&sd, &g.day_of_year, &g.year);
+  fruitPart->doTick(tick);
   }
 
 // Field a NewMet event
@@ -968,6 +976,8 @@ void Plant::doNewMet(unsigned &, unsigned &, protocol::Variant &v)
      g.radn = newmet.radn;
      g.maxt = newmet.maxt;
      g.mint = newmet.mint;
+     fruitPart->doNewMet(newmet);
+
      }
   }
 
@@ -1011,50 +1021,30 @@ void Plant::plant_bio_actual (int option /* (INPUT) option number*/)
 
 //+  Changes
 //      250894 jngh specified and programmed
-void Plant::plant_bio_grain_demand (int option /* (INPUT) option number */)
+void Plant::plant_bio_grain_demand (void)
     {
     const char*  my_name = "plant_bio_grain_demand" ;
 
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
-    if (option == 1)
+    if (fruitPart->cGrain_fill_option == 1)
        {
-       float dm_tops = topsGreen()+topsSenesced();
-       float dm_greenYieldParts = g.dm_green[meal] + g.dm_green[oil];
-       fruit->bio_yieldpart_demand1(c.twilight
-                                   , g.day_of_year
-                                   , g.latitude
-                                   , g.dlt_dm
-                                   , dm_tops
-                                   , dm_greenYieldParts
-                                   , g.dm_stress_max.getAverage()
-                                   , p.x_pp_hi_incr
-                                   , p.y_hi_incr
-                                   , p.num_pp_hi_incr
-                                   , p.x_hi_max_pot_stress
-                                   , p.y_hi_max_pot
-                                   , p.num_hi_max_pot
-                                   , g.grain_energy
-                                   , g.mint
-                                   , p.minTempGrnFill
-                                   , p.daysDelayGrnFill
-                                   , &g.dlt_dm_grain_demand);
 
         }
-    else if (option == 2)
+    else if (fruitPart->cGrain_fill_option == 2)
         {
         if (phenology->inPhase("grainfill"))
            legnew_bio_yieldpart_demand2(g.grain_no,
                                         p.potential_grain_filling_rate,
                                         g.maxt,
                                         g.mint,
-                                        c.x_temp_grainfill,
-                                        c.y_rel_grainfill,
-                                        c.num_temp_grainfill,
-                                        &g.dlt_dm_grain_demand);
+                                        fruitPart->cX_temp_grainfill,
+                                        fruitPart->cY_rel_grainfill,
+                                        fruitPart->cNum_temp_grainfill,
+                                        &fruitPart->gDlt_dm_grain_demand);
         else
-           g.dlt_dm_grain_demand = 0.0;
+           fruitPart->gDlt_dm_grain_demand = 0.0;
         }
     else
         {
@@ -1081,9 +1071,7 @@ void Plant::plant_bio_grain_oil (int option /* (INPUT) option number */)
 
     if (option == 1)
         {
-        fruit->bio_grain_oil (c.grain_oil_conc
-                            , c.carbo_oil_conv_ratio
-                            , &g.grain_energy);
+////        fruitPart->bio_grain_oil (&g.grain_energy);
         }
     else
         {
@@ -1113,11 +1101,8 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
         double dlt_dm_supply_by_veg = g.dlt_dm;
         double dlt_dm_supply_by_pod = 0.0;
 
-        g.dlt_dm_yield_demand_fruit = fruit->dm_yield_demand (c.frac_pod[(int)phenology->stageNumber()-1]
-                                                            , g.grain_energy
-                                                            , dlt_dm_supply_by_veg
+        g.dlt_dm_yield_demand_fruit = fruitPart->dm_yield_demand (dlt_dm_supply_by_veg
                                                             , dlt_dm_supply_by_pod
-                                                            , g.dlt_dm_grain_demand
                                                             );
 
         legnew_dm_partition1_test (c.frac_leaf[(int)phenology->stageNumber()-1]
@@ -1136,12 +1121,12 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
                              , c.y_frac_leaf
                              , c.y_frac_pod
                              , c.num_stage_no_partition
-                             , g.grain_energy
+                             , fruitPart->grainEnergy()
                              , c.grain_oil_conc
                              , c.y_ratio_root_shoot
                              , c.sla_min
                              , g.dlt_dm
-                             , g.dlt_dm_grain_demand
+                             , fruitPart->dltDmGrainGemand()
                              , &g.dlt_dm_oil_conv
                              , g.dlt_dm_green);
         }
@@ -1205,7 +1190,7 @@ void Plant::plant_bio_retrans (int option /* (INPUT) option number */)
                                     , dm_demand_differential
                                     , g.plants
                                     , &g.dlt_dm_retrans_to_fruit);
-//         g.dlt_dm_supply_to_fruit += g.dlt_dm_retrans_to_fruit;
+//         g.dlt_dm_supply_to_fruit += g.dlt_dm_retrans_to_fruit;                 //FIXMME? when fruit made into proper class
 
 //        legnew_dm_retranslocate1(c.frac_pod[(int) phenology->stageNumber()-1]
 //                                 , g.grain_energy
@@ -1232,14 +1217,14 @@ void Plant::plant_bio_retrans (int option /* (INPUT) option number */)
                                 , c.x_stage_no_partition
                                 , c.y_frac_pod
                                 , c.num_stage_no_partition
-                                , g.grain_energy
+                                , fruitPart->grainEnergy()
                                 , c.grain_oil_conc
                                 , podPart
                                 , mealPart
                                 , oilPart
                                 , supply_pools
                                 , allParts
-                                , g.dlt_dm_grain_demand
+                                , fruitPart->dltDmGrainGemand()
                                 , g.dlt_dm_oil_conv
                                 , g.plants
                                 , &g.dlt_dm_oil_conv_retranslocate);
@@ -1274,11 +1259,7 @@ void Plant::plant_bio_distribute (int option /* (INPUT) option number */)
         double dlt_dm_supply_by_pod = 0.0;
         float dlt_dm_green_fruit[max_part];
 
-        fruit->dm_partition1 (c.frac_pod[(int)phenology->stageNumber()-1]
-                             , g.grain_energy
-                             , c.grain_oil_conc
-                             , g.dlt_dm_supply_to_fruit + dlt_dm_supply_by_pod
-                             , g.dlt_dm_grain_demand
+        fruitPart->dm_partition1 ( g.dlt_dm_supply_to_fruit + dlt_dm_supply_by_pod
                              , &g.dlt_dm_oil_conv
                              , dlt_dm_green_fruit
                              );
@@ -1289,17 +1270,13 @@ void Plant::plant_bio_distribute (int option /* (INPUT) option number */)
 
         float dlt_dm_green_retrans_fruit[max_part];
 
-        fruit->dm_retranslocate1(c.frac_pod[(int) phenology->stageNumber()-1]
-                                 , g.grain_energy
-                                 , c.grain_oil_conc
-                                 , pod
+        fruitPart->dm_retranslocate1( pod
                                  , meal
                                  , oil
                                  , max_part
                                  , g.dlt_dm_retrans_to_fruit    // this may need to be redone when fruit becomes true class
                                  , supply_pools_by_fruit
                                  , num_supply_pools_by_fruit
-                                 , g.dlt_dm_grain_demand
                                  , g.dlt_dm_oil_conv
                                  , g.dlt_dm_green
                                  , g.dm_green
@@ -1419,6 +1396,7 @@ void Plant::plant_temp_stress (int option/* (INPUT) option number*/)
         crop_temperature_stress_photo(c.num_ave_temp,
                                       c.x_ave_temp, c.y_stress_photo,
                                       g.maxt, g.mint, &g.temp_stress_photo);
+
         }
     else
         {
@@ -1463,6 +1441,8 @@ void Plant::plant_oxdef_stress (int option /* (INPUT) option number */)
                           , g.root_length
                           , g.root_depth
                           , &g.oxdef_photo);
+
+
         }
     else
         {
@@ -1490,13 +1470,13 @@ void Plant::plant_bio_water (int option /* (INPUT) option number */)
     if (option == 1)
         {
           float dltDmPotTeVeg = 0.0;
-        fruit->bio_water1 (g.swSupplyFruit, g.transpEffFruit, &g.dltDmPotTeFruit);
+        fruitPart->bio_water1 (&g.dltDmPotTeFruit);
         plant_bio_water1 (g.swSupplyVeg, g.transp_eff, &dltDmPotTeVeg);
         g.dlt_dm_pot_te = dltDmPotTeVeg + g.dltDmPotTeFruit;
 
-//Remove
-//        cproc_bio_water1 ( g.dlayer, g.root_depth,
-//                          g.dlt_sw_dep, g.transp_eff, &g.dlt_dm_pot_te);
+////Remove
+////        cproc_bio_water1 ( g.dlayer, g.root_depth,
+////                          g.dlt_sw_dep, g.transp_eff, &g.dlt_dm_pot_te);
         }
     else
         {
@@ -1553,10 +1533,7 @@ void Plant::plant_bio_grain_demand_stress (int option /* (INPUT) option number *
 
     if (option == 1)
         {
-        fruit->yieldpart_demand_stress1 (min(g.nfact_photo, g.pfact_photo)
-                                        ,g.swdef_photo
-                                        ,g.temp_stress_photo
-                                        ,&g.dlt_dm_stress_max);
+        fruitPart->yieldpart_demand_stress1 ();
         }
     else
         {
@@ -1587,8 +1564,7 @@ void Plant::plant_retrans_init (int option)
     if (option==1)
         {
 
-        fruit->retrans_init (c.pod_trans_frac
-                           , g.plants
+        fruitPart->retrans_init (g.plants
                            , g.dm_green, g.dm_plant_min);
         }
     else
@@ -1651,7 +1627,7 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
                              , g.dlt_n_dead_detached);
         for (vector<plantPart *>::iterator t = myParts.begin();
              t != myParts.end();
-             t++) 
+             t++)
            {
            (*t)->n_detachment1();
            //(*t)->p_detachment1();
@@ -2107,7 +2083,7 @@ void Plant::plant_leaf_area_potential (int option /* (INPUT) option number */)
 // Plant leaf development
     if (option == 1)
         {
-        leafPart->dltLAI_pot = 
+        leafPart->dltLAI_pot =
            cproc_leaf_area_pot1 (c.x_node_no
                               , c.y_leaf_size
                               , c.num_node_no
@@ -2290,8 +2266,9 @@ void Plant::plant_pod_area (int option /* (INPUT) option number*/)     // FIXME 
     push_routine (my_name);
 
     if (option == 1)
-        {
-        g.dlt_pai = g.dlt_dm_green[pod] * reproStruct->spec_pod_area * smm2sm;
+           {
+        fruitPart->calcDlt_pod_area ();
+////        g.dlt_pai = g.dlt_dm_green[pod] * reproStruct->spec_pod_area * smm2sm;
         }
     else
         {
@@ -2424,10 +2401,7 @@ void Plant::plant_nit_init (int option /* (INPUT) option number*/)
     if (option == 1)
         {
         if (phenology->inPhase("grainfill"))
-        fruit->n_conc_grain_limits(c.n_conc_crit_grain
-                                  , c.n_conc_max_grain
-                                  , c.n_conc_min_grain
-                                  , g.dlt_dm_green_retrans
+        fruitPart->n_conc_grain_limits( g.dlt_dm_green_retrans
                                   , g.dlt_dm_green
                                   , g.dm_green
                                   , g.n_conc_crit
@@ -2445,7 +2419,7 @@ void Plant::plant_nit_init (int option /* (INPUT) option number*/)
                             , max_part
                             , g.dm_green
                             , g.p_green);
-           }       
+           }
         }
     else
         {
@@ -2580,7 +2554,7 @@ void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
         {
         legnew_n_retranslocate(g.grain_n_demand);
 //         float dlt_n_retrans_fruit[max_part];
-//         fruit->n_retranslocate (g.n_conc_min
+//         fruitPart->n_retranslocate (g.n_conc_min
 //                               , g.dm_green
 //                               , g.n_green
 //                               , g.grain_n_demand
@@ -2624,13 +2598,7 @@ void Plant::plant_nit_grain_demand (int Option)
    {
    if (Option == 1)
       {
-      fruit->grain_n_demand1(c.sfac_slope
-                           , c.sw_fac_max
-                           , c.temp_fac_min
-                           , c.tfac_slope
-                           , g.maxt
-                           , g.mint
-                           , g.nfact_grain_conc
+      fruitPart->grain_n_demand1(g.nfact_grain_conc
                            , g.n_conc_crit
                            , g.swdef_expansion
                            , g.n_conc_min
@@ -2688,7 +2656,7 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
 
     if (option == 1)
         {
-//         fruit->n_demand(max_part
+//         fruitPart->n_demand(max_part
 //                        , demand_parts_fruit              //FIXME - to continue on this next time
 //                        , num_demand_parts_fruit
 //                        , g.dlt_dm
@@ -3023,7 +2991,7 @@ void Plant::plant_nit_demand_est (int option)
         for (vector<plantPart *>::iterator t = myParts.begin();
              t != myParts.end();
              t++)
-           {  
+           {
            (*t)->dlt.dm_green = g.dlt_dm_pot_rue * divide ((*t)->g.dm_green, dm_green_tot, 0.0); // Estimate
            (*t)->doNDemand1(g.dlt_dm_pot_rue, g.dlt_dm_pot_rue);
            (*t)->dlt.dm_green = 0.0;
@@ -3102,7 +3070,7 @@ void Plant::plant_sen_bio (int dm_senescence_option)
              t++)
            (*t)->doSenescence1(canopy_sen_fr);
 
-//        fruit->dm_senescence1 (max_part                //FIXME when fruit becomes proper class
+//        fruitPart->dm_senescence1 (max_part                //FIXME when fruit becomes proper class
 //                              , max_table
 //                              , canopy_sen_fr
 //                              , c.x_dm_sen_frac
@@ -3316,6 +3284,7 @@ void Plant::plant_cleanup ()
     push_routine (my_name);
     g.remove_biom_pheno = 1.0;
 
+    fruitPart->update();
     plant_update(c.n_conc_crit_grain
                 , c.n_conc_crit_root
                 , c.n_conc_max_grain
@@ -3349,7 +3318,7 @@ void Plant::plant_cleanup ()
                 , g.dlt_dm_senesced
                 , g.dlt_dm_green_dead
                 , g.dlt_dm_senesced_dead
-                , g.dlt_dm_stress_max
+////                , g.dlt_dm_stress_max
                 , g.dlt_leaf_no
                 , g.dlt_node_no
                 , g.dlt_leaf_no_dead
@@ -3388,9 +3357,9 @@ void Plant::plant_cleanup ()
                 , g.root_length
                 , g.dlt_root_length
                 , g.dlt_root_length_senesced
-                , &g.pai
-                , g.dlt_pai
-                , reproStruct->extinct_coef_pod
+////                , &g.pai
+////                , g.dlt_pai
+////                , reproStruct->extinct_coef_pod
                 , &g.cover_pod);
 
     plant_check_bounds(g.cover_dead
@@ -3564,7 +3533,7 @@ void Plant::plant_update(
     ,float *g_dlt_dm_senesced                                  // (INPUT)  plant biomass senescence (g/m^
     ,float *g_dlt_dm_green_dead                                  // (INPUT)  plant biomass senescence (g/m^
     ,float *g_dlt_dm_senesced_dead                                  // (INPUT)  plant biomass senescence (g/m^
-    ,float  g_dlt_dm_stress_max                                // (INPUT)  maximum daily stress on dm pro
+////    ,float  g_dlt_dm_stress_max                                // (INPUT)  maximum daily stress on dm pro
     ,float  g_dlt_leaf_no                                      // (INPUT)  actual fraction of oldest leaf
     ,float  g_dlt_node_no                                      // (INPUT)  actual fraction of oldest node
     ,float  g_dlt_leaf_no_dead                                 // (INPUT)  fraction of oldest green leaf
@@ -3603,9 +3572,9 @@ void Plant::plant_update(
     ,float *g_root_length                                       // (INPUT)  Root length in each layer
     ,float *g_dlt_root_length                                   // (INPUT)  Root growth in each layer
     ,float *g_dlt_root_length_senesced
-    ,float *g_pai
-    ,float g_dlt_pai
-    ,float c_extinct_coef_pod
+////    ,float *g_pai
+////    ,float g_dlt_pai
+////    ,float c_extinct_coef_pod
     ,float *g_cover_pod)
 {
 
@@ -3673,7 +3642,7 @@ void Plant::plant_update(
        (*part)->g.n_green += (*part)->dlt.n_retrans;
        (*part)->g.n_green -= (*part)->dlt.n_senesced;
        (*part)->g.n_senesced += (*part)->dlt.n_senesced;
-       if (g.phosphorus_aware) 
+       if (g.phosphorus_aware)
            {
            (*part)->g.p_green += (*part)->dlt.p_green;
            (*part)->g.p_green += (*part)->dlt.p_retrans;
@@ -3730,12 +3699,12 @@ void Plant::plant_update(
        (*part)->g.dm_senesced -= (*part)->dlt.dm_senesced_dead;
        (*part)->g.dm_dead += (*part)->dlt.dm_senesced_dead;
 
-       if (g.phosphorus_aware) 
+       if (g.phosphorus_aware)
            {
            float dlt_p_green_dead = (*part)->g.p_green * dying_fract_plants;
            (*part)->g.p_green -= dlt_p_green_dead;
            (*part)->g.p_dead += dlt_p_green_dead;
-           
+
            float dlt_p_senesced_dead = (*part)->g.p_sen * dying_fract_plants;
            (*part)->g.p_sen  -= dlt_p_senesced_dead;
            (*part)->g.p_dead += dlt_p_senesced_dead;
@@ -3767,7 +3736,7 @@ void Plant::plant_update(
     leafPart->gSLAI -=  dlt_slai_dead;
     leafPart->gTLAI_dead +=  dlt_lai_dead + dlt_slai_dead - leafPart->dltTLAI_dead_detached;
 
-    *g_pai = *g_pai + g_dlt_pai;
+////    *g_pai = *g_pai + g_dlt_pai;
 
     if (*g_canopy_width > 0.0)
         {
@@ -3784,17 +3753,26 @@ void Plant::plant_update(
         }
 
     // now update new canopy covers
-    legnew_cover_leaf_pod(g_row_spacing
+    float cover_green_leaf;
+    legnew_cover(g_row_spacing
                           ,c_x_row_spacing
                           ,c_y_extinct_coef
                           ,c_num_row_spacing
-                          ,c_extinct_coef_pod
                           , canopy_fac
                           ,leafPart->gLAI
-                          ,*g_pai
-                          ,g_lai_canopy_green
-                          ,g_cover_green
-                          ,g_cover_pod);
+                          ,&cover_green_leaf);
+
+    *g_cover_pod = fruitPart->calcCover(canopy_fac);
+    *g_cover_green = add_covers (cover_green_leaf, *g_cover_pod);
+
+//    legnew_cover_leaf_pod(g_row_spacing
+//                          ,c_x_row_spacing
+//                          ,c_y_extinct_coef
+//                          ,c_num_row_spacing
+//                          ,c_extinct_coef_pod
+//                          , canopy_fac
+//                          ,*g_pai
+//                          ,g_cover_pod);
 
     legnew_cover(g_row_spacing
                 ,c_x_row_spacing
@@ -3902,7 +3880,7 @@ void Plant::plant_update(
 
     // plant stress observers
     stageObservers.update();
-    if (phenology->inPhase("hi_stress_sensitive")) g.dm_stress_max.update();
+////    if (phenology->inPhase("hi_stress_sensitive")) g.dm_stress_max.update();
     if (phenology->inPhase("preflowering")) g.cswd_pheno.update();
 
     // other plant states
@@ -4012,7 +3990,7 @@ void Plant::plant_check_bounds
     vector<plantPart *> allParts;
     setupHacks(allParts);
     for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-       {  
+       {
        (*t)->checkBounds();
        }
     deleteHacks(allParts);
@@ -4390,8 +4368,7 @@ void Plant::plant_water_demand (int option /* (INPUT) option number*/)
     if (option == 1)
         {
 
-        fruit->sw_demand1 (g.dltDmPotRueFruit
-                         , g.transpEffFruit
+        fruitPart->sw_demand1 (g.dltDmPotRueFruit
                          , &g.swDemandTEFruit);
 
         float swDemandTEVeg = 0.0;                                        //
@@ -4567,11 +4544,24 @@ void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
 
     if (option == 1)
     {
+          float canopy_fac;
+          if (g.canopy_width > 0.0)
+           {
+           legnew_canopy_fac (g.row_spacing
+                              , g.plants
+                              , g.skip_row_fac
+                              , g.skip_plant_fac
+                              , g.canopy_width
+                              , &canopy_fac);
+           }
+          else
+           {
+           canopy_fac = g.skip_row_fac;
+           }
 
              // calc the green fruit interception
-          float paiGreen = g.pai;
-          float frIntcRadnGreenFruit = g.fr_intc_radn * divide (fruit->calcCover (reproStruct->extinct_coef_pod, paiGreen), g.cover_green, 0.0);
-          crop_radn_int0(fruit->calcCover (reproStruct->extinct_coef_pod, paiGreen)
+          float frIntcRadnGreenFruit = g.fr_intc_radn * divide (fruitPart->calcCover(canopy_fac), g.cover_green, 0.0);
+          crop_radn_int0(fruitPart->calcCover(canopy_fac)
                        , frIntcRadnGreenFruit
                        , g.radn
                        , &g.radnIntGreenFruit);
@@ -4579,9 +4569,8 @@ void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
              // calc the total fruit interception - what is left is transmitted to the vegetative parts)
              // fruit is considered to be at top of canopy
           float radnIntTotFruit = 0.0;
-          float paiTot = g.pai;   // for now same as green (should include sen and dead)
-          float frIntcRadnTotFruit = g.fr_intc_radn * divide (fruit->calcCover (reproStruct->extinct_coef_pod, paiTot), g.cover_green, 0.0);
-          crop_radn_int0(fruit->calcCover (reproStruct->extinct_coef_pod, paiTot)
+          float frIntcRadnTotFruit = g.fr_intc_radn * divide (fruitPart->calcCover(canopy_fac), g.cover_green, 0.0);
+          crop_radn_int0(fruitPart->calcCover(canopy_fac)
                        , frIntcRadnTotFruit
                        , g.radn
                        , &radnIntTotFruit);
@@ -4630,14 +4619,8 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
 
     if (option == 1)
         {
-        float meanT = 0.5*(g.maxt + g.mint);
 
-        fruit->dm_pot_rue( reproStruct->rue_pod
-                         , g.radnIntGreenFruit
-                         , min(min(min(g.temp_stress_photo, g.nfact_photo),
-                             g.oxdef_photo), g.pfact_photo)
-                         , g.co2
-                         , meanT
+        fruitPart->dm_pot_rue( g.radnIntGreenFruit
                          , c.photosynthetic_pathway
                          , &g.dltDmPotRueFruit);
 
@@ -4838,11 +4821,7 @@ void Plant::plant_transpiration_eff (int option /*(INPUT) option number*/)
         {
         float te_coeff = c.transp_eff_cf[(int)phenology->stageNumber()-1];
 
-        fruit->transp_eff_co2(c.svp_fract, te_coeff,
-                             g.maxt, g.mint, g.co2,
-                             c.x_co2_te_modifier, c.y_co2_te_modifier,
-                             c.num_co2_te_modifier,
-                             &g.transpEffFruit);
+        fruitPart->transp_eff_co2();
 
         cproc_transp_eff_co2(c.svp_fract, te_coeff,
                              g.maxt, g.mint, g.co2,
@@ -5666,7 +5645,7 @@ void Plant::legnew_dm_partition2
         }
 
     // do mass balance check - roots are not included
-    dlt_dm_green_tot = sum_real_array (dlt_dm_green, max_part) 
+    dlt_dm_green_tot = sum_real_array (dlt_dm_green, max_part)
       + leafPart->dlt.dm_green + stemPart->dlt.dm_green+ reproStruct->dlt.dm_green
         - dlt_dm_green[root] + *dlt_dm_oil_conv;
 
@@ -6561,10 +6540,12 @@ void Plant::plant_process ( void )
         //plant_fruit_site_number(c.fruit_no_option);   // for fruit class - process bio demand
         //plant_fruit_number(c.fruit_no_option);        // for fruit class - process bio demand
 
-        plant_bio_grain_demand_stress(1);             // for fruit class - process bio demand
+////        plant_bio_grain_demand_stress(1);             // for fruit class - process bio demand
 
-        plant_bio_grain_demand (c.grain_fill_option); // for fruit class - process bio demand
-        plant_bio_grain_oil (1);                      // for fruit class - process bio demand
+        plant_bio_grain_demand (); // for fruit class - process bio demand
+////        plant_bio_grain_oil (1);                      // for fruit class - process bio demand
+        fruitPart->processBioDemand();
+        g.grain_energy = fruitPart->grainEnergy();
 
         plant_bio_partition (c.partition_option);
 
@@ -7175,17 +7156,29 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
 // now update new canopy covers
 
-    legnew_cover_leaf_pod(g.row_spacing
+    float cover_green_leaf;
+    legnew_cover(g.row_spacing
                           ,c.x_row_spacing
                           ,c.y_extinct_coef
                           ,c.num_row_spacing
-                          ,reproStruct->extinct_coef_pod
                           , canopy_fac
                           ,leafPart->gLAI
-                          ,g.pai
-                          ,&g.lai_canopy_green
-                          ,&g.cover_green
-                          ,&g.cover_pod);
+                          ,&cover_green_leaf);
+
+    g.cover_pod = fruitPart->calcCover(canopy_fac);
+    g.cover_green = add_covers (cover_green_leaf, g.cover_pod);
+
+//    legnew_cover_leaf_pod(g.row_spacing
+//                          ,c.x_row_spacing
+//                          ,c.y_extinct_coef
+//                          ,c.num_row_spacing
+//                          ,reproStruct->extinct_coef_pod
+//                          , canopy_fac
+//                          ,g.lai
+//                          ,g.pai
+//                          ,&g.lai_canopy_green
+//                          ,&g.cover_green
+//                          ,&g.cover_pod);
 
     legnew_cover (g.row_spacing
                   ,c.x_row_spacing
@@ -7402,17 +7395,29 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
 
     // now update new canopy covers
 
-    legnew_cover_leaf_pod (g.row_spacing
-                           , c.x_row_spacing
-                           , c.y_extinct_coef
-                           , c.num_row_spacing
-                           , reproStruct->extinct_coef_pod
-                           , canopy_fac
-                           , leafPart->gLAI
-                           , g.pai
-                           , &g.lai_canopy_green
-                           , &g.cover_green
-                           , &g.cover_pod);
+    float cover_green_leaf;
+    legnew_cover(g.row_spacing
+                          ,c.x_row_spacing
+                          ,c.y_extinct_coef
+                          ,c.num_row_spacing
+                          , canopy_fac
+                          ,leafPart->gLAI
+                          ,&cover_green_leaf);
+
+    g.cover_pod = fruitPart->calcCover(canopy_fac);
+    g.cover_green = add_covers (cover_green_leaf, g.cover_pod);
+
+//    legnew_cover_leaf_pod (g.row_spacing
+//                           , c.x_row_spacing
+//                           , c.y_extinct_coef
+//                           , c.num_row_spacing
+//                           , reproStruct->extinct_coef_pod
+//                           , canopy_fac
+//                           , g.lai
+//                           , g.pai
+//                           , &g.lai_canopy_green
+//                           , &g.cover_green
+//                           , &g.cover_pod);
 
     legnew_cover (g.row_spacing
                   , c.x_row_spacing
@@ -7820,17 +7825,29 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 
 // now update new canopy covers
 
-    legnew_cover_leaf_pod(g.row_spacing
+    float cover_green_leaf;
+    legnew_cover(g.row_spacing
                           ,c.x_row_spacing
                           ,c.y_extinct_coef
                           ,c.num_row_spacing
-                          ,reproStruct->extinct_coef_pod
                           , canopy_fac
                           ,leafPart->gLAI
-                          ,g.pai
-                          ,&g.lai_canopy_green
-                          ,&g.cover_green
-                          ,&g.cover_pod);
+                          ,&cover_green_leaf);
+
+    g.cover_pod = fruitPart->calcCover(canopy_fac);
+    g.cover_green = add_covers (cover_green_leaf, g.cover_pod);
+
+//    legnew_cover_leaf_pod(g.row_spacing
+//                          ,c.x_row_spacing
+//                          ,c.y_extinct_coef
+//                          ,c.num_row_spacing
+//                          ,reproStruct->extinct_coef_pod
+//                          , canopy_fac
+//                          ,g.lai
+//                          ,g.pai
+//                          ,&g.lai_canopy_green
+//                          ,&g.cover_green
+//                          ,&g.cover_pod);
 
     legnew_cover (g.row_spacing
                   ,c.x_row_spacing
@@ -8040,8 +8057,8 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (g.dlt_dm_dead_detached, 0.0, max_part);
       g.dlt_dm_oil_conv_retranslocate = 0.0;
       fill_real_array (g.dlt_dm_green_retrans, 0.0, max_part);
-      g.dlt_dm_stress_max = 0.0;
-      g.dlt_dm_grain_demand = 0.0;
+////      g.dlt_dm_stress_max = 0.0;
+////      g.dlt_dm_grain_demand = 0.0;
       g.dlt_dm_parasite_demand = 0.0;
       g.dlt_sw_parasite_demand = 0.0;
       fill_real_array (g.dm_green_demand, 0.0, max_part);
@@ -8058,8 +8075,8 @@ void Plant::plant_zero_all_globals (void)
       g.dlt_slai_light = 0.0;
       g.dlt_slai_water = 0.0;
       g.dlt_slai_frost = 0.0;
-      g.pai = 0.0;
-      g.dlt_pai = 0.0;
+////      g.pai = 0.0;
+////      g.dlt_pai = 0.0;
       fill_real_array (g.leaf_no, 0.0, max_node);
       fill_real_array (g.leaf_no_dead, 0.0, max_node);
       g.dlt_leaf_no = 0.0;
@@ -8138,38 +8155,38 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (g.dlt_root_length_senesced, 0.0, max_layer);
       g.ext_n_demand = 0.0;
       g.ext_sw_demand = 0.0;
-      g.grain_energy = 0.0;
+////      g.grain_energy = 0.0;
       g.leaves_per_node = 0;
 
-      p.grains_per_gram_stem = 0.0;
-      p.potential_grain_filling_rate = 0.0;
-
-      fill_real_array (p.x_pp_hi_incr, 0.0, max_table);
-      fill_real_array (p.y_hi_incr, 0.0, max_table);
-      p.num_pp_hi_incr = 0;
-      p.num_hi_max_pot = 0;
-      fill_real_array (p.x_hi_max_pot_stress, 0.0, max_table);
-      fill_real_array (p.y_hi_max_pot, 0.0, max_table);
+////      p.grains_per_gram_stem = 0.0;
+////      p.potential_grain_filling_rate = 0.0;
+////
+////      fill_real_array (p.x_pp_hi_incr, 0.0, max_table);
+////      fill_real_array (p.y_hi_incr, 0.0, max_table);
+////      p.num_pp_hi_incr = 0;
+////      p.num_hi_max_pot = 0;
+////      fill_real_array (p.x_hi_max_pot_stress, 0.0, max_table);
+////      fill_real_array (p.y_hi_max_pot, 0.0, max_table);
       fill_real_array (p.kl, 0.0, max_layer);
       fill_real_array (p.ll_dep, 0.0, max_layer);
 
       fill_real_array (p.xf, 0.0, max_layer);
       p.uptake_source = "";
       p.eo_crop_factor = 0.0;
-      p.minTempGrnFill = 0.0;
-      p.daysDelayGrnFill = 0;
+////      p.minTempGrnFill = 0.0;
+////      p.daysDelayGrnFill = 0;
 
       //       plant Constants
-	   c.grain_fill_option = 0;
+////	   c.grain_fill_option = 0;
       c.n_uptake_option = 0;
       c.leaf_no_pot_option = 0;
       c.partition_option = 0;
       c.grain_no_option = 0;
 
       c.sen_start_stage = 0;
-      fill_real_array (c.x_temp_grainfill, 0.0, max_table);
-      fill_real_array (c.y_rel_grainfill, 0.0, max_table);
-      c.num_temp_grainfill = 0;
+////      fill_real_array (c.x_temp_grainfill, 0.0, max_table);
+////      fill_real_array (c.y_rel_grainfill, 0.0, max_table);
+////      c.num_temp_grainfill = 0;
 
       c.no3_uptake_max = 0.0;
       c.no3_conc_half_max = 0.0;
@@ -8197,7 +8214,7 @@ void Plant::plant_zero_all_globals (void)
       c.num_sw_demand_ratio = 0;
       c.num_sw_avail_ratio = 0;
       c.num_sw_avail_fix = 0;
-      c.twilight = 0.0;
+////      c.twilight = 0.0;
 
 
       fill_real_array (c.x_lai_ratio, 0.0, max_table);
@@ -8227,8 +8244,8 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (c.y_extinct_coef, 0.0, max_table);
       fill_real_array (c.y_extinct_coef_dead, 0.0, max_table);
       fill_real_array (c.root_depth_rate, 0.0, max_table);
-      reproStruct->extinct_coef_pod = 0.0;
-      reproStruct->spec_pod_area = 0.0;
+////      reproStruct->extinct_coef_pod = 0.0;
+////      reproStruct->spec_pod_area = 0.0;
       reproStruct->rue_pod = 0.0;
       c.num_row_spacing = 0;
       c.leaf_no_crit = 0.0;
@@ -8503,6 +8520,7 @@ void Plant::plant_zero_variables (void)
         t != myThings.end();
         t++)
        (*t)->zeroAllGlobals();
+       fruitPart->zeroAllGlobals();
 
     fill_real_array (g.leaf_no , 0.0, max_node);
     g.node_no = 0.0;
@@ -8564,7 +8582,7 @@ void Plant::plant_zero_variables (void)
     g.cover_pod             = 0.0;
     g.cover_sen             = 0.0;
     g.cover_dead            = 0.0;
-    g.pai                   = 0.0;
+////    g.pai                   = 0.0;
 
     g.swdef_pheno = 1.0;
     g.swdef_photo = 1.0;
@@ -8655,8 +8673,8 @@ void Plant::plant_zero_daily_variables ()
     g.swSupplyVeg   = 0.0;
     g.dlt_slai_detached        = 0.0;
     g.dlt_dm                   = 0.0;
-    g.dlt_dm_grain_demand      = 0.0;
-    g.dlt_dm_stress_max        = 0.0;
+////    g.dlt_dm_grain_demand      = 0.0;
+////    g.dlt_dm_stress_max        = 0.0;
     g.dlt_leaf_no              = 0.0;
 //    g.dlt_node_no              = 0.0;JNGH - need to carry this through for site no next day.
     g.dlt_leaf_no_pot          = 0.0;
@@ -8664,7 +8682,7 @@ void Plant::plant_zero_daily_variables ()
     g.dlt_leaf_no_dead         = 0.0;
     g.dlt_plants               = 0.0;
     g.dlt_root_depth           = 0.0;
-    g.dlt_pai                  = 0.0;
+////    g.dlt_pai                  = 0.0;
     g.sw_demand                = 0.0;
     g.sw_demand_te             = 0.0;
     g.swDemandTEFruit             = 0.0;
@@ -8749,7 +8767,7 @@ void Plant::plant_init (void)
        }
 
     doPInit(parent);
-    fruit->doInit(parent, phenology);
+    fruitPart->doInit(parent, phenology);
 
     pop_routine (my_name);
     return;
@@ -8932,29 +8950,29 @@ void Plant::plant_read_cultivar_params ()
 
     parent->writeString (" - reading cultivar parameters");
 
-    //  plant_dm_grain_hi
-    parent->readParameter (g.cultivar.c_str()
-    , "x_pp_hi_incr"/*,  "(h)"*/
-    , p.x_pp_hi_incr
-    , p.num_pp_hi_incr
-    , 0.0, 24.0);
-
-    parent->readParameter (g.cultivar.c_str()
-    , "y_hi_incr"/*,  "()"*/
-    , p.y_hi_incr
-    , p.num_pp_hi_incr
-    , 0.0, 1.0);
-
-    parent->readParameter (g.cultivar.c_str()
-    , "x_hi_max_pot_stress"/*,  "(0-1)"*/
-    , p.x_hi_max_pot_stress, p.num_hi_max_pot
-    , 0.0, 1.0);
-
-    parent->readParameter (g.cultivar.c_str()
-    , "y_hi_max_pot"//, "(0-1)"
-    , p.y_hi_max_pot, p.num_hi_max_pot
-    , 0.0, 1.0);
-
+////    //  plant_dm_grain_hi
+////    parent->readParameter (g.cultivar.c_str()
+////    , "x_pp_hi_incr"/*,  "(h)"*/
+////    , p.x_pp_hi_incr
+////    , p.num_pp_hi_incr
+////    , 0.0, 24.0);
+////
+////    parent->readParameter (g.cultivar.c_str()
+////    , "y_hi_incr"/*,  "()"*/
+////    , p.y_hi_incr
+////    , p.num_pp_hi_incr
+////    , 0.0, 1.0);
+////
+////    parent->readParameter (g.cultivar.c_str()
+////    , "x_hi_max_pot_stress"/*,  "(0-1)"*/
+////    , p.x_hi_max_pot_stress, p.num_hi_max_pot
+////    , 0.0, 1.0);
+////
+////    parent->readParameter (g.cultivar.c_str()
+////    , "y_hi_max_pot"//, "(0-1)"
+////    , p.y_hi_max_pot, p.num_hi_max_pot
+////    , 0.0, 1.0);
+////
     if (parent->readParameter (g.cultivar.c_str()
                 , "min_temp_grnfill"//, "()"
                 , p.minTempGrnFill
@@ -8978,7 +8996,7 @@ void Plant::plant_read_cultivar_params ()
         , p.grains_per_gram_stem
         , 0.0, 10000.0);
         }
-    if (c.grain_fill_option==2)
+    if (fruitPart->cGrain_fill_option==2)
         {
         parent->readParameter (g.cultivar.c_str()
         , "potential_grain_filling_rate"//, "(g/grain/day)"
@@ -9001,27 +9019,28 @@ void Plant::plant_read_cultivar_params ()
     parent->writeString (msg);
 
     phenology->writeCultivarInfo(parent);
+    fruitPart->readCultivarParameters(parent, g.cultivar);
 
-    // TEMPLATE OPTION
-    s = string("   x_pp_hi_incr               = ");
-    for (int i = 0; i < p.num_pp_hi_incr; i++)
-       s = s + ftoa(p.x_pp_hi_incr[i], "10.2") + " ";
-    parent->writeString (s.c_str());
-
-    s = string("   y_hi_incr                  = ");
-    for (int i = 0; i < p.num_pp_hi_incr; i++)
-       s = s + ftoa(p.y_hi_incr[i], "10.4") + " ";
-    parent->writeString (s.c_str());
-
-    s = string("   x_hi_max_pot_stress        = ");
-    for (int i = 0; i < p.num_hi_max_pot; i++)
-       s = s + ftoa(p.x_hi_max_pot_stress[i], "10.2") + " ";
-    parent->writeString (s.c_str());
-
-    s = string("   y_hi_max_pot               = ");
-    for (int i = 0; i < p.num_hi_max_pot; i++)
-       s = s + ftoa(p.y_hi_max_pot[i], "10.2") + " ";
-    parent->writeString (s.c_str());
+////    // TEMPLATE OPTION
+////    s = string("   x_pp_hi_incr               = ");
+////    for (int i = 0; i < p.num_pp_hi_incr; i++)
+////       s = s + ftoa(p.x_pp_hi_incr[i], "10.2") + " ";
+////    parent->writeString (s.c_str());
+////
+////    s = string("   y_hi_incr                  = ");
+////    for (int i = 0; i < p.num_pp_hi_incr; i++)
+////       s = s + ftoa(p.y_hi_incr[i], "10.4") + " ";
+////    parent->writeString (s.c_str());
+////
+////    s = string("   x_hi_max_pot_stress        = ");
+////    for (int i = 0; i < p.num_hi_max_pot; i++)
+////       s = s + ftoa(p.x_hi_max_pot_stress[i], "10.2") + " ";
+////    parent->writeString (s.c_str());
+////
+////    s = string("   y_hi_max_pot               = ");
+////    for (int i = 0; i < p.num_hi_max_pot; i++)
+////       s = s + ftoa(p.y_hi_max_pot[i], "10.2") + " ";
+////    parent->writeString (s.c_str());
 
 #if 0
 XXX
@@ -9677,7 +9696,7 @@ void Plant::plant_update_other_variables (void)
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
-    // DANGER WILL ROBINSON make sure this is right 
+    // DANGER WILL ROBINSON make sure this is right
     //char *names[] = {"root", "leaf", "stem", "pod","meal", "oil"};
     float fracts[] = {0.0, 1.0, 1.0, 1.0, 1.0, 1.0};
     setupHacks(parts);
@@ -9914,6 +9933,7 @@ void Plant::plant_read_constants ( void )
          t != myThings.end();
          t++)
       (*t)->readConstants(parent, section_name);
+      fruitPart->readConstants(parent, section_name);
 
     if (g.phosphorus_aware)
        read_p_constants(parent);
@@ -9959,6 +9979,7 @@ void Plant::plant_prepare (void)
     // Note actually should send total plant
     // potential growth rather than just tops - NIH
     prepare_p();
+
     pop_routine (myname);
     }
 
@@ -10036,6 +10057,7 @@ void Plant::plant_read_species_const ()
         t != myThings.end();
         t++)
       (*t)->readSpeciesParameters(parent, search_order);
+      fruitPart->readSpeciesParameters(parent, search_order);
 
 
 //      call search_parent->readParameter (search_order, num_sections
@@ -10151,15 +10173,15 @@ void Plant::plant_read_species_const ()
                      , c.y_extinct_coef_dead, c.num_row_spacing
                      , 0.0, 1.0);
 
-    parent->readParameter (search_order
-                   ,"extinct_coef_pod"//, "()"
-                   , reproStruct->extinct_coef_pod
-                   , 0.0, 1.0);
+////    parent->readParameter (search_order
+////                   ,"extinct_coef_pod"//, "()"
+////                   , reproStruct->extinct_coef_pod
+////                   , 0.0, 1.0);
 
-    parent->readParameter (search_order
-                   ,"spec_pod_area"//, "()"
-                   , reproStruct->spec_pod_area
-                   , 0.0, 100000.0);
+////    parent->readParameter (search_order
+////                   ,"spec_pod_area"//, "()"
+////                   , reproStruct->spec_pod_area
+////                   , 0.0, 100000.0);
 
     parent->readParameter (search_order
                    ,"rue_pod"//, "()"
@@ -10395,29 +10417,29 @@ void Plant::plant_read_species_const ()
                       , 1, 2);
 
     //    legume grain filling
-    parent->readParameter (search_order
-                      ,"grain_fill_option"//,/ "()"
-                      , c.grain_fill_option
-                      , 1, 3);
+////    parent->readParameter (search_order
+////                      ,"grain_fill_option"//,/ "()"
+////                      , c.grain_fill_option
+////                      , 1, 3);
 
-    if (c.grain_fill_option==2 || c.grain_fill_option==3)
-        {
-        parent->readParameter (search_order
-                         , "x_temp_grainfill"
-                         //, "(oc)"
-                         , c.x_temp_grainfill
-                         , c.num_temp_grainfill
-                         , 0.0
-                         , 40.0);
-
-        parent->readParameter (search_order
-                         ,"y_rel_grainfill"
-                         //, "(-)"
-                         , c.y_rel_grainfill
-                         , c.num_temp_grainfill
-                         , 0.0
-                         , 1.0);
-        }
+////    if (fruitPart->cGrain_fill_option==2 || fruitPart->cGrain_fill_option==3)
+////        {
+////        parent->readParameter (search_order
+////                         , "x_temp_grainfill"
+////                         //, "(oc)"
+////                         , c.x_temp_grainfill
+////                         , c.num_temp_grainfill
+////                         , 0.0
+////                         , 40.0);
+////
+////        parent->readParameter (search_order
+////                         ,"y_rel_grainfill"
+////                         //, "(-)"
+////                         , c.y_rel_grainfill
+////                         , c.num_temp_grainfill
+////                         , 0.0
+////                         , 1.0);
+////        }
 
      //    plant_n_dlt_grain_conc
      parent->readParameter (search_order
@@ -10622,11 +10644,11 @@ void Plant::plant_read_species_const ()
                    , c.sen_rate_water
                    , 0.0, 100.0);
 
-    //    plant_phenology_init
-    parent->readParameter (search_order
-                   , "twilight"//, "(o)"
-                   , c.twilight
-                   , -90.0, 90.0);
+////    //    plant_phenology_init
+////    parent->readParameter (search_order
+////                   , "twilight"//, "(o)"
+////                   , c.twilight
+////                   , -90.0, 90.0);
 
     //    plant_n_conc_limits
     parent->readParameter (search_order
@@ -10836,24 +10858,24 @@ void Plant::plant_read_species_const ()
                      , c.y_swdef_pheno_grainfill, c.num_sw_avail_ratio_grainfill
                      , 0.0, 5.0);
 
-    if (c.grain_fill_option == 3)
-        {
-        parent->readParameter (search_order
-                          , "x_temp_grainfill"
-                          //, "(oC)"
-                          , c.x_temp_grainfill
-                          , c.num_temp_grainfill
-                          , 0.0
-                          , 40.0);
-
-        parent->readParameter (search_order
-                          , "y_rel_grainfill"
-                          //, "(-)"
-                          , c.y_rel_grainfill
-                          , c.num_temp_grainfill
-                          , 0.0
-                          , 1.0);
-        }
+////    if (fruitPart->cGrain_fill_option == 3)
+////        {
+////        parent->readParameter (search_order
+////                          , "x_temp_grainfill"
+////                          //, "(oC)"
+////                          , c.x_temp_grainfill
+////                          , c.num_temp_grainfill
+////                          , 0.0
+////                          , 40.0);
+////
+////        parent->readParameter (search_order
+////                          , "y_rel_grainfill"
+////                          //, "(-)"
+////                          , c.y_rel_grainfill
+////                          , c.num_temp_grainfill
+////                          , 0.0
+////                          , 1.0);
+////        }
 
     parent->readParameter (search_order
                      , "co2_default"//, "()"
@@ -12633,145 +12655,173 @@ void Plant::plant_grain_n_demand2(
       pop_routine (my_name);
    }
 
-float Plant::getStageCode(void) const {return phenology->stageCode();};
-float Plant::getPlants(void) const {return g.plants;};
+   float Plant::getStageCode(void) const {return phenology->stageCode();}
+   float Plant::getPlants(void) const {return g.plants;}
+   float Plant::getCo2(void) const {return g.co2;}
+   photosynthetic_pathway_t Plant::getPhotosynthetic_pathway(void) const {return c.photosynthetic_pathway;}
+   //float Plant::getRadnInterceptedPod(void) const {return g.radn_int_pod;}
+   float Plant::getDltDMPotRueVeg(void) const {return g.dlt_dm_pot_rue - g.dltDmPotRueFruit;}
+   float Plant::getDmGreenVeg(void) const {return leafPart->g.dm_green + stemPart->g.dm_green;}
+   //float Plant::getDltDmVeg(void) const {return leafPart->dltDmTotal() + stemPart->dltDmTotal();}
+   float Plant::getWaterSupplyPod(void) const {return g.swSupplyFruit;}
+   float Plant::getDmTops(void) const{ return topsGreen()+topsSenesced();}
+   float Plant::getDltDm(void) const{ return g.dlt_dm;}
+   float Plant::getDmVeg(void) const {return leafPart->dmTotal() + stemPart->dmTotal();}
+   float Plant::getDlt_dm_green_pod(void) const{ return g.dlt_dm_green[pod];}
+   float Plant::getDlt_dm_green_meal(void) const{ return g.dlt_dm_green[meal];}
+   float Plant::getDlt_dm_green_oil(void) const{ return g.dlt_dm_green[oil];}
+   float Plant::getDlt_dm_green_retrans_pod(void) const{ return g.dlt_dm_green_retrans[pod];}
+   float Plant::getDlt_dm_green_retrans_meal(void) const{ return g.dlt_dm_green_retrans[meal];}
+   float Plant::getDlt_dm_green_retrans_oil(void) const{ return g.dlt_dm_green_retrans[oil];}
+   float Plant::getDlt_dm_senesced_pod(void) const{ return g.dlt_dm_senesced[pod];}
+   float Plant::getDlt_dm_senesced_meal(void) const{ return g.dlt_dm_senesced[meal];}
+   float Plant::getDlt_dm_senesced_oil(void) const{ return g.dlt_dm_senesced[oil];}
+   float Plant::getDlt_dm_green_dead_pod(void) const{ return g.dlt_dm_green_dead[pod];}
+   float Plant::getDlt_dm_green_dead_meal(void) const{ return g.dlt_dm_green_dead[meal];}
+   float Plant::getDlt_dm_green_dead_oil(void) const{ return g.dlt_dm_green_dead[oil];}
 
-float Plant::topsGreen(void)
+  float Plant::getTempStressPhoto(void) const {return g.temp_stress_photo;}
+  float Plant::getNfactPhoto(void) const {return g.nfact_photo;}
+  float Plant::getOxdefPhoto(void) const {return g.oxdef_photo;}
+  float Plant::getPfactPhoto(void) const {return g.pfact_photo;}
+  float Plant::getSwdefPhoto(void) const {return g.swdef_photo;}
+
+float Plant::topsGreen(void) const
    {
-      return  g.dm_green[pod] + g.dm_green[meal] + g.dm_green[oil] 
+      return  g.dm_green[pod] + g.dm_green[meal] + g.dm_green[oil]
                          + leafPart->g.dm_green + stemPart->g.dm_green;
                     //     + reproStruct->g.dm_green;
    }
-float Plant::topsSenesced(void)
+float Plant::topsSenesced(void) const
    {
-      return  g.dm_senesced[pod] + g.dm_senesced[meal] + g.dm_senesced[oil] 
+      return  g.dm_senesced[pod] + g.dm_senesced[meal] + g.dm_senesced[oil]
                          + leafPart->g.dm_senesced + stemPart->g.dm_senesced;
                    //      + reproStruct->g.dm_senesced;
    }
-float Plant::topsDead(void)
+float Plant::topsDead(void) const
    {
-      return  g.dm_dead[pod] + g.dm_dead[meal] + g.dm_dead[oil] 
+      return  g.dm_dead[pod] + g.dm_dead[meal] + g.dm_dead[oil]
                          + leafPart->g.dm_dead + stemPart->g.dm_dead;
                  //        + reproStruct->g.dm_dead;
    }
-float Plant::topsTot(void)
+float Plant::topsTot(void) const
    {
       return  topsGreen()+topsSenesced()+topsDead();
     }
 
-float Plant::stoverGreen(void)
+float Plant::stoverGreen(void) const
    {
       return  leafPart->g.dm_green + g.dm_green[pod]
                          + stemPart->g.dm_green;
               //           + reproStruct->g.dm_green;
     }
-float Plant::stoverSenesced(void)
+float Plant::stoverSenesced(void) const
    {
       return  leafPart->g.dm_senesced + g.dm_senesced[pod]
                          +  stemPart->g.dm_senesced;
                     //     + reproStruct->g.dm_senesced;
     }
-float Plant::stoverDead(void)
+float Plant::stoverDead(void) const
    {
       return  leafPart->g.dm_dead + g.dm_dead[pod]
                          +  stemPart->g.dm_dead;
                   //       + reproStruct->g.dm_dead;
     }
 
-float Plant::stoverTot(void)
+float Plant::stoverTot(void) const
    {
       return  stoverGreen()+stoverSenesced()+stoverDead();
     }
 
-float Plant::topsNGreen(void)
+float Plant::topsNGreen(void) const
    {
-      return  g.n_green[pod] + g.n_green[meal] + g.n_green[oil] 
+      return  g.n_green[pod] + g.n_green[meal] + g.n_green[oil]
                         + leafPart->g.n_green + stemPart->g.n_green;
                  //        + reproStruct->g.n_green;
    }
-float Plant::topsNSenesced(void)
+float Plant::topsNSenesced(void) const
    {
       return  g.n_senesced[pod] + g.n_senesced[meal] + g.n_senesced[oil]
                          + leafPart->g.n_senesced + stemPart->g.n_senesced;
                //          + reproStruct->g.n_senesced;
    }
-float Plant::topsNDead(void)
+float Plant::topsNDead(void) const
    {
       return  g.n_dead[pod] + g.n_dead[meal] + g.n_dead[oil]
                          + leafPart->g.n_dead + stemPart->g.n_dead;
                        //  + reproStruct->g.n_dead;
    }
-float Plant::topsNTot(void)
+float Plant::topsNTot(void) const
    {
       return  topsNGreen()+topsNSenesced()+topsNDead();
     }
 
-float Plant::stoverNGreen(void)
+float Plant::stoverNGreen(void) const
    {
       return  leafPart->g.n_green + g.n_green[pod]
                          + stemPart->g.n_green;
                      //    + reproStruct->g.n_green;
     }
-float Plant::stoverNSenesced(void)
+float Plant::stoverNSenesced(void) const
    {
       return  leafPart->g.n_senesced + g.n_senesced[pod]
                          + stemPart->g.n_senesced;
                    //      + reproStruct->g.n_senesced;
     }
-float Plant::stoverNDead(void)
+float Plant::stoverNDead(void) const
    {
       return  leafPart->g.n_dead + g.n_dead[pod]
                          + stemPart->g.n_dead;
                  //        + reproStruct->g.n_dead;
     }
-float Plant::stoverNTot(void)
+float Plant::stoverNTot(void) const
    {
       return  stoverNGreen()+stoverNSenesced()+stoverNDead();
     }
 
-float Plant::topsPGreen(void)
+float Plant::topsPGreen(void) const
    {
-      return  g.p_green[pod] + g.p_green[meal] +  g.p_green[oil] 
+      return  g.p_green[pod] + g.p_green[meal] +  g.p_green[oil]
                          + leafPart->g.p_green + stemPart->g.p_green;
                //          + reproStruct->g.p_green;
    }
-float Plant::topsPSenesced(void)
+float Plant::topsPSenesced(void) const
    {
-      return g.p_sen[pod] + g.p_sen[meal] + g.p_sen[oil] 
+      return g.p_sen[pod] + g.p_sen[meal] + g.p_sen[oil]
                          + leafPart->g.p_sen + stemPart->g.p_sen;
                        //  + reproStruct->g.p_sen;
    }
-float Plant::topsPDead(void)
+float Plant::topsPDead(void) const
    {
-      return g.p_dead[pod] + g.p_dead[meal] + g.p_dead[oil] 
+      return g.p_dead[pod] + g.p_dead[meal] + g.p_dead[oil]
                          + leafPart->g.p_dead + stemPart->g.p_dead;
                      //    + reproStruct->g.p_dead;
    }
 
 
-float Plant::stoverPGreen(void)
+float Plant::stoverPGreen(void) const
    {
       return  leafPart->g.p_green + g.p_green[pod]
                          + stemPart->g.p_green;
                        //  + reproStruct->g.p_green;
     }
-float Plant::stoverPSenesced(void)
+float Plant::stoverPSenesced(void) const
    {
       return  leafPart->g.p_sen + g.p_sen[pod]
                          + stemPart->g.p_sen;
                          //+ reproStruct->g.p_sen;
     }
-float Plant::stoverPDead(void)
+float Plant::stoverPDead(void) const
    {
       return  leafPart->g.p_dead + g.p_dead[pod]
                          + stemPart->g.p_dead;
                         // + reproStruct->g.p_dead;
     }
-float Plant::stoverPTot(void)
+float Plant::stoverPTot(void) const
    {
       return  stoverNGreen()+stoverNSenesced()+stoverNDead();
    }
-float Plant::topsPTot(void)
+float Plant::topsPTot(void) const
    {
       return  topsPGreen()+topsPSenesced()+topsPDead();
    }
