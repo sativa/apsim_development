@@ -150,6 +150,7 @@ void plantLeafPart::get_lai_sum(protocol::Component *system, protocol::QueryValu
 
 void plantLeafPart::zeroDeltas(void)
 {
+   plantPart::zeroDeltas();
    dltLAI = 0.0;
    dltSLAI = 0.0;
    dltLAI_pot = 0.0;
@@ -160,6 +161,7 @@ void plantLeafPart::zeroDeltas(void)
 
 void plantLeafPart::zeroAllGlobals(void)
 {
+   plantPart::zeroAllGlobals();
    gSLAI = 0.0;
    gLAI = 0.0;
    gTLAI_dead = 0.0;
