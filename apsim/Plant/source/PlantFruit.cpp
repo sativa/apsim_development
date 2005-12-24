@@ -248,6 +248,12 @@ void PlantFruit::onPlantEvent(const string &event)
 
 void PlantFruit::zeroAllGlobals(void)
 {
+
+   for (vector<plantThing *>::iterator t = myThings.begin();
+        t != myThings.end();
+        t++)
+       (*t)->zeroAllGlobals();
+
    coverPod.green = 0.0;
    coverPod.sen   = 0.0;
    coverPod.dead  = 0.0;
@@ -330,6 +336,11 @@ void PlantFruit::zeroAllGlobals(void)
 
 void PlantFruit::zeroDeltas(void)
 {
+   for (vector<plantThing *>::iterator t = myThings.begin();
+        t != myThings.end();
+        t++)
+       (*t)->zeroDeltas();
+
    gDlt_dm_green_pod = 0.0;
    gDlt_pai = 0.0;
    gDlt_dm_pot_rue_pod = 0.0;
