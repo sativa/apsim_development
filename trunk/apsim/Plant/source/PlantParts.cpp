@@ -684,6 +684,37 @@ void fruitPodPart::onHarvest(float /* cutting_height */, float remove_fr,
                               vector<float> &dlt_dm_p,
                               vector<float> &fraction_to_residue)
 {
+    float fractToResidue = 1.0 - remove_fr;
+
+    float dm_init = u_bound (plantPart::c.dm_init * plant->getPlants(), plantPart::g.dm_green);
+    float n_init  = u_bound (             dm_init * plantPart::c.n_init_conc, plantPart::g.n_green);
+    float p_init  = u_bound (             dm_init * plantPart::c.p_init_conc, plantPart::g.p_green);
+
+     float retain_fr_green = divide(dm_init, g.dm_green, 0.0);
+     float retain_fr_dead  = 0.0;
+     float retain_fr_sen   = 0.0;
+
+    float dlt_dm_harvest = g.dm_dead + g.dm_green + g.dm_senesced - dm_init;
+    float dlt_n_harvest  = g.n_dead  + g.n_green  + g.n_senesced  - n_init;
+    float dlt_p_harvest  = g.p_dead  + g.p_green  + g.p_sen       - p_init;
+
+    g.dm_dead     *= retain_fr_dead;
+    g.dm_senesced *= retain_fr_sen;
+    g.dm_green    *= retain_fr_green;
+
+    g.n_dead     *= retain_fr_dead;
+    g.n_senesced *= retain_fr_sen;
+    g.n_green    = n_init;
+
+    g.p_dead  *= retain_fr_dead;
+    g.p_sen   *= retain_fr_sen;
+    g.p_green  = p_init;
+
+    dm_type.push_back(c.name);
+    fraction_to_residue.push_back(fractToResidue);
+    dlt_crop_dm.push_back (dlt_dm_harvest * gm2kg/sm2ha);
+    dlt_dm_n.push_back    (dlt_n_harvest  * gm2kg/sm2ha);
+    dlt_dm_p.push_back    (dlt_p_harvest  * gm2kg/sm2ha);
 }
 
 void fruitOilPart::onHarvest(float /* cutting_height */, float remove_fr,
@@ -693,6 +724,49 @@ void fruitOilPart::onHarvest(float /* cutting_height */, float remove_fr,
                               vector<float> &dlt_dm_p,
                               vector<float> &fraction_to_residue)
 {
+    float fractToResidue = 0.0;
+
+     // biomass is removed
+     float retain_fr_green = 0.0;
+     float retain_fr_sen   = 0.0;
+     float retain_fr_dead  = 0.0;
+
+     float chop_fr_green = 1.0 - retain_fr_green;
+     float chop_fr_dead  = 1.0 - retain_fr_dead;
+     float chop_fr_sen   = 1.0 - retain_fr_sen;
+
+     float dlt_dm_harvest = g.dm_dead     * chop_fr_dead
+                          + g.dm_green    * chop_fr_green
+                          + g.dm_senesced * chop_fr_sen;
+
+     float dlt_n_harvest = g.n_dead     * chop_fr_dead
+                         + g.n_green    * chop_fr_green
+                         + g.n_senesced * chop_fr_sen;
+
+     float dlt_p_harvest = g.p_dead  * chop_fr_dead
+                         + g.p_green * chop_fr_green
+                         + g.p_sen   * chop_fr_sen;
+
+     g.dm_dead     *= retain_fr_dead;
+     g.dm_senesced *= retain_fr_sen;
+     g.dm_green    *= retain_fr_green;
+
+
+     g.n_dead     *= retain_fr_dead;
+     g.n_senesced *= retain_fr_sen;
+     g.n_green    *= retain_fr_green;
+
+     g.p_dead  *= retain_fr_dead;
+     g.p_sen   *= retain_fr_sen;
+     g.p_green *= retain_fr_green;
+
+
+     dm_type.push_back(c.name);
+     fraction_to_residue.push_back(fractToResidue);
+     dlt_crop_dm.push_back (dlt_dm_harvest * gm2kg/sm2ha);
+     dlt_dm_n.push_back    (dlt_n_harvest  * gm2kg/sm2ha);
+     dlt_dm_p.push_back    (dlt_p_harvest  * gm2kg/sm2ha);
+
 }
 
 void fruitMealPart::onHarvest(float /* cutting_height */, float remove_fr,
@@ -702,6 +776,48 @@ void fruitMealPart::onHarvest(float /* cutting_height */, float remove_fr,
                               vector<float> &dlt_dm_p,
                               vector<float> &fraction_to_residue)
 {
+    float fractToResidue = 0.0;
+
+     // biomass is removed
+     float retain_fr_green = 0.0;
+     float retain_fr_sen   = 0.0;
+     float retain_fr_dead  = 0.0;
+
+     float chop_fr_green = 1.0 - retain_fr_green;
+     float chop_fr_dead  = 1.0 - retain_fr_dead;
+     float chop_fr_sen   = 1.0 - retain_fr_sen;
+
+     float dlt_dm_harvest = g.dm_dead     * chop_fr_dead
+                          + g.dm_green    * chop_fr_green
+                          + g.dm_senesced * chop_fr_sen;
+
+     float dlt_n_harvest = g.n_dead     * chop_fr_dead
+                         + g.n_green    * chop_fr_green
+                         + g.n_senesced * chop_fr_sen;
+
+     float dlt_p_harvest = g.p_dead  * chop_fr_dead
+                         + g.p_green * chop_fr_green
+                         + g.p_sen   * chop_fr_sen;
+
+     g.dm_dead     *= retain_fr_dead;
+     g.dm_senesced *= retain_fr_sen;
+     g.dm_green    *= retain_fr_green;
+
+
+     g.n_dead     *= retain_fr_dead;
+     g.n_senesced *= retain_fr_sen;
+     g.n_green    *= retain_fr_green;
+
+     g.p_dead  *= retain_fr_dead;
+     g.p_sen   *= retain_fr_sen;
+     g.p_green *= retain_fr_green;
+
+
+     dm_type.push_back (c.name);
+     fraction_to_residue.push_back (fractToResidue);
+     dlt_crop_dm.push_back (dlt_dm_harvest * gm2kg/sm2ha);
+     dlt_dm_n.push_back    (dlt_n_harvest  * gm2kg/sm2ha);
+     dlt_dm_p.push_back    (dlt_p_harvest  * gm2kg/sm2ha);
 }
 
 
@@ -713,9 +829,9 @@ void plantPart::onEndCrop(vector<string> &dm_type,
                           vector<float> &fraction_to_residue)
 {
     dm_type.push_back(c.name);
-    dlt_crop_dm.push_back((g.dm_dead + g.dm_green + g.dm_senesced) * gm2kg/sm2ha);
-    dlt_dm_n.push_back((g.n_dead + g.n_green + g.n_senesced) * gm2kg/sm2ha);
-    dlt_dm_p.push_back((g.p_dead + g.p_green + g.p_sen) * gm2kg/sm2ha);
+    dlt_crop_dm.push_back ((g.dm_dead + g.dm_green + g.dm_senesced) * gm2kg/sm2ha);
+    dlt_dm_n.push_back    ((g.n_dead  + g.n_green  + g.n_senesced)  * gm2kg/sm2ha);
+    dlt_dm_p.push_back    ((g.p_dead  + g.p_green  + g.p_sen)       * gm2kg/sm2ha);
     fraction_to_residue.push_back(1.0);
 }
 
@@ -750,6 +866,11 @@ float plantPart::availableRetranslocateN(void)
 float plantPart::dmTotal(void)
    {
    return (g.dm_green + g.dm_senesced + g.dm_dead);
+   }
+
+float plantPart::dmGreen(void) const
+   {
+   return (g.dm_green);
    }
 
 void plantPart::onPlantEvent(const string &event)

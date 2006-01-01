@@ -39,20 +39,9 @@ class plantInterface {
       virtual float getDmTops(void) const = 0;
       virtual float getDltDm(void) const = 0;
       virtual float getDmVeg(void) const = 0;
+      virtual float getDmGreenStem(void) const = 0;
 
       // temporary
-      virtual float getDlt_dm_green_pod(void) const = 0;
-      virtual float getDlt_dm_green_meal(void) const = 0;
-      virtual float getDlt_dm_green_oil(void) const = 0;
-      virtual float getDlt_dm_green_retrans_pod(void) const = 0;
-      virtual float getDlt_dm_green_retrans_meal(void) const = 0;
-      virtual float getDlt_dm_green_retrans_oil(void) const = 0;
-      virtual float getDlt_dm_senesced_pod(void) const = 0;
-      virtual float getDlt_dm_senesced_meal(void) const = 0;
-      virtual float getDlt_dm_senesced_oil(void) const = 0;
-      virtual float getDlt_dm_green_dead_pod(void) const = 0;
-      virtual float getDlt_dm_green_dead_meal(void) const = 0;
-      virtual float getDlt_dm_green_dead_oil(void) const = 0;
 
       virtual float getTempStressPhoto(void) const = 0;
       virtual float getNfactPhoto(void) const = 0;
