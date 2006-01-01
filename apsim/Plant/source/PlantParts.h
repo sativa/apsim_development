@@ -37,6 +37,7 @@ class plantPart : public plantThing {
       float dm_green_dead;                // plant biomass to dead population(g/m^2)
       float dm_senesced_dead;             // plant biomass to dead population(g/m^2)
       float dm_green_retrans;             // biomass retranslocated (g/m^2)
+
       float n_green;                      // actual N uptake into plant (g/m^2)
       float n_senesced;                   // actual N loss with senesced plant (g/m^2)
       float n_senesced_retrans;
@@ -161,6 +162,7 @@ private:
    void dm_detachment1(void);
    void n_detachment1(void);
    float dmTotal(void);
+   float dmGreen(void) const;
 
    virtual void onHarvest(float height, float remove_fr,
                           vector<string> &dm_type,
@@ -211,10 +213,10 @@ class plantLeafPart : public plantPart {
    void get_tlai(protocol::Component *system, protocol::QueryValueData &qd);
    void get_lai_sum(protocol::Component *system, protocol::QueryValueData &qd);
 
-   float gLAI;                                        // area of leaf 
+   float gLAI;                                        // area of leaf
    float gSLAI;                                       // area of leaf senesced from plant
    float gTLAI_dead;                                  // total lai of dead plants
-   float dltLAI;                                      // area of leaf 
+   float dltLAI;                                      // area of leaf
    float dltSLAI;                                     // area of leaf that senesces from plant
    float dltLAI_pot;                                  // potential change in live plant lai
    float dltLAI_stressed;                             // potential change in lai allowing for stress

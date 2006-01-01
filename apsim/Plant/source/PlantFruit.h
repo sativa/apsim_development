@@ -58,6 +58,10 @@ class PlantFruit : public plantPart
 //readConstants
 //readSpeciesParameters
              void doRegistrations(protocol::Component *);
+             void get_grain_size(protocol::Component *system, protocol::QueryValueData &qd);
+             void get_grain_wt(protocol::Component *, protocol::QueryValueData &);
+             void get_head_wt(protocol::Component *, protocol::QueryValueData &);
+             void get_yield(protocol::Component *, protocol::QueryValueData &);
              void doTick(protocol::timeType &tick) ;
              void doNewMet(protocol::newmetType &newmet) ;
              void readConstants (protocol::Component *, const string &);
@@ -66,7 +70,19 @@ class PlantFruit : public plantPart
              void processBioDemand(void);
              void onPlantEvent(const string &);
 
+              void grain_number (void);
+              void grain_number (float stem_dm
+                                      ,float pGrains_per_gram_stem
+                                      ,float *gGrain_no);
+
             void onHarvest(float height, float remove_fr,
+                           vector<string> &dm_type,
+                           vector<float> &dlt_crop_dm,
+                           vector<float> &dlt_dm_n,
+                           vector<float> &dlt_dm_p,
+                           vector<float> &fraction_to_residue);
+
+            void onKillStem(float height, float remove_fr,
                            vector<string> &dm_type,
                            vector<float> &dlt_crop_dm,
                            vector<float> &dlt_dm_n,
@@ -75,7 +91,8 @@ class PlantFruit : public plantPart
 
             void zeroAllGlobals(void);
             void zeroDeltas(void);
-            void update(void);
+            void putStates(vector<plantPart *> fruitParts);
+            void update(float dying_fract_plants, vector<plantPart *> fruitParts);
 
             float coverTotal(void) const;
             float coverGreen(void) const;
@@ -84,7 +101,10 @@ class PlantFruit : public plantPart
             float interceptRadiation(float radiation);
             float grainEnergy(void) const;
             float dltDmGrainGemand(void) const;
-//		float total() const;  	// Query
+            float dltDmRetranslocate(void);
+            float dmTotal(void);
+            float dmGrainTotal(void);
+            float dmGreenGrainTotal(void);
 
 		virtual void display(ostream &os = cout) const;	// display function
 //            float calcCover (float pai);  // calc pod cover
@@ -95,8 +115,7 @@ class PlantFruit : public plantPart
             void calcDlt_pod_area (void);
 
             void dm_pot_rue (double  radn_int_pod
-                           , photosynthetic_pathway_t c_photosynthetic_pathway
-                           , float  *dlt_dm_pot_pod);                         // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+                           , photosynthetic_pathway_t c_photosynthetic_pathway);                         // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
 
             void rue_co2_modifier(photosynthetic_pathway_t photosyntheticType //!please use 'C3' or 'C4' for photosyntheticType
                                 , float co2                                   // CO2 level (ppm)
@@ -105,12 +124,13 @@ class PlantFruit : public plantPart
 
             void transp_eff_co2();      // (OUTPUT) transpiration coefficient
 
-            void sw_demand1(float dlt_dm_pot_rue      //(INPUT)  potential dry matter production with opt
-                          , float *sw_demand);        //(OUTPUT) crop water demand (mm)
+            void sw_demand1(float *sw_demand);        //(OUTPUT) crop water demand (mm)
 
-            void bio_water1(float *dlt_dm_pot_te); //(OUTPUT) potential dry matter production
+            void bio_water1(void); //(OUTPUT) potential dry matter production
                                                    //         by transpiration (g/m^2)
             void bio_grain_oil (void);
+
+            void bio_grain_demand (void);
 
             void bio_yieldpart_demand1 (void) ;
 
@@ -118,9 +138,6 @@ class PlantFruit : public plantPart
                                , float *G_n_conc_crit
                                , float G_swdef_expansion
                                , float *G_n_conc_min
-                               , float *G_dlt_dm_green
-                               , float *G_dlt_dm_green_retrans
-                               , float *G_dm_green
                                , float *G_n_conc_max
                                , float *G_n_green
                                , float *grain_n_demand
@@ -137,52 +154,24 @@ class PlantFruit : public plantPart
                                ,float  *dlt_dm_green
                                );
 
-           void dm_retranslocate1(int    pod
-                                , int    meal
-                                , int    oil
-                                , int    max_part
-                                , float  g_dlt_dm_retrans_to_fruit
-                                , int    *supply_pools
-                                , int    num_supply_pools
-                                , float  g_dlt_dm_oil_conv
-                                , float  *g_dlt_dm_green
-                                , float  *g_dm_green
+           void dm_retranslocate1(float  g_dlt_dm_retrans_to_fruit
                                 , float  *g_dm_plant_min
-                                , float  g_plants
                                 , float  *dm_oil_conv_retranslocate
                                 , float  *dm_retranslocate
                                 ) ;
 
             void bio_actual (void);
 
-            void dm_senescence1 (const int num_part
-                               , float independant_variable
-                               , float **c_x_dm_sen_frac
-                               , float **c_y_dm_sen_frac
-                               , int   *c_num_dm_sen_frac
-                               , float *g_dm_green
-                               , float *g_dlt_dm_green
-                               , float *g_dlt_dm_green_retrans
+            void dm_senescence1 (float sen_fr
                                , float *dlt_dm_senesced);       // (OUTPUT) actual biomass senesced from plant parts (g/m^2)
 
-               void retrans_init(float  g_plants
-                               , float *dm_green
-                               , float *dm_plant_min
-                               );
+               void retrans_init(float *dm_plant_min);
 
-               void n_senescence1(int num_part
-                                , float  *c_n_sen_conc
-                                , float  *g_dlt_dm_senesced
-                                , float  *g_n_green
-                                , float  *g_dm_green
-                                , float  *dlt_n_senesced_trans
+               void n_senescence1(float  *dlt_n_senesced_trans
                                 , float  *dlt_n_senesced
                                 ) ;
 
-               void n_conc_grain_limits(float  *g_dlt_dm_green_retrans
-            				  , float  *g_dlt_dm_green
-            				  , float  *g_dm_green
-            				  , float  *n_conc_crit
+               void n_conc_grain_limits(float  *n_conc_crit
             				  , float  *n_conc_max
             				  , float  *n_conc_min) ;
 
@@ -247,16 +236,23 @@ class PlantFruit : public plantPart
 //      protected:
 //         plantInterface *plant;                 // The plant we are attached to
 
-      float gDlt_dm_grain_demand;
       float cGrain_fill_option;
       float cX_temp_grainfill[max_table];
       int   cNum_temp_grainfill;
       float cY_rel_grainfill[max_table];
 
+      float gDlt_dm_grain_demand;
+      float gDlt_dm_pot_rue_pod;
+      float gDlt_dm_pot_te;
+      float gN_grain_demand;
+
+      float gGrain_no;                 // multiplier of grain weight to account for seed energy content
+
 	private:
 
       vector <plantThing *> myThings;
       vector <plantPart *> myParts;
+      vector <plantPart *> myGrainParts;
       fruitPodPart  *podPart;
       fruitOilPart  *oilPart;
       fruitMealPart  *mealPart;
@@ -280,14 +276,13 @@ class PlantFruit : public plantPart
       int gYear;
 
       float gGrain_energy;                 // multiplier of grain weight to account for seed energy content
-      float gDlt_dm_pot_rue_pod;
-      float gDlt_dm_pot_te;
-      float gDlt_dm_green;
       float gDlt_dm_oil_conv;
       float dmOil_conv_retranslocate;
       float dmRetranslocate;
-      float gDlt_dm_green_pod;
       float gDlt_dm;
+
+      stateObserver gDm_stress_max;                      // sum of maximum daily stress on dm production per phase
+      float gDlt_dm_stress_max;                          // maximum daily stress on dm production (0-1)
 
       float cSvp_fract;
       float cFrac_pod[max_table];                        // fraction of dm or grain weight allocated to pod
@@ -342,9 +337,6 @@ class PlantFruit : public plantPart
       float pY_hi_max_pot[max_table];                    // maximum harvest index (g grain/g biomass)
       float pMinTempGrnFill;
       int   pDaysDelayGrnFill;
-
-      stateObserver gDm_stress_max;                      // sum of maximum daily stress on dm production per phase
-      float gDlt_dm_stress_max;                          // maximum daily stress on dm production (0-1)
 
 
 

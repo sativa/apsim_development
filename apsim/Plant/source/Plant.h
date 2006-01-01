@@ -139,8 +139,6 @@ class Plant : public plantInterface {
   void doPlantEvent(const string &);
 
   void plant_bio_actual (int option /* (INPUT) option number*/);
-  void plant_bio_grain_demand (void);
-  void plant_bio_grain_oil (int option /* (INPUT) option number */);
   void plant_bio_partition (int option /* (INPUT) option number */);
   void plant_bio_retrans (int option /* (INPUT) option number */);
   void plant_water_stress (int option /* (INPUT) option number */);
@@ -490,7 +488,6 @@ class Plant : public plantInterface {
     ,int    *supply_pools
     ,int    num_supply_pools
     ,float  g_dlt_dm_grain_demand
-    ,float  g_dlt_dm_oil_conv
     ,float  *g_dlt_dm_green
     ,float  *g_dm_green
     ,float  *g_dm_plant_min
@@ -578,10 +575,6 @@ void legnew_dm_retranslocate2
       float     c_crit_grainfill_rate,
       float     *grain_n_demand);
 
-  void plant_grain_number (int option /*(INPUT) option number*/);
-  void plant_grain_number (float stem_dm
-                          ,float p_grains_per_gram_stem
-                          ,float *g_grain_no);
 
    void plant_root_incorp (float dlt_dm_root,
       float dlt_n_root, float dlt_p_root, float *g_dlayer, float *g_root_length, float g_root_depth,
@@ -700,18 +693,7 @@ void legnew_dm_distribute(int max_part
   float getDmTops(void) const;
   float getDltDm(void) const;
   float getDmVeg(void) const;
-  float getDlt_dm_green_pod(void) const;
-  float getDlt_dm_green_meal(void) const;
-  float getDlt_dm_green_oil(void) const;
-  float getDlt_dm_green_retrans_pod(void) const;
-  float getDlt_dm_green_retrans_meal(void) const;
-  float getDlt_dm_green_retrans_oil(void) const;
-  float getDlt_dm_senesced_pod(void) const;
-  float getDlt_dm_senesced_meal(void) const;
-  float getDlt_dm_senesced_oil(void) const;
-  float getDlt_dm_green_dead_pod(void) const;
-  float getDlt_dm_green_dead_meal(void) const;
-  float getDlt_dm_green_dead_oil(void) const;
+  float getDmGreenStem(void) const;
 
   float getTempStressPhoto(void) const;
   float getNfactPhoto(void) const;
@@ -727,15 +709,9 @@ void legnew_dm_distribute(int max_part
   void get_root_wt(protocol::Component *, protocol::QueryValueData &);
   void get_leaf_wt(protocol::Component *, protocol::QueryValueData &);
   void get_stem_wt(protocol::Component *, protocol::QueryValueData &);
-  void get_head_wt(protocol::Component *, protocol::QueryValueData &);
-  void get_pod_wt(protocol::Component *, protocol::QueryValueData &);
-  void get_grain_wt(protocol::Component *, protocol::QueryValueData &);
-  void get_meal_wt(protocol::Component *, protocol::QueryValueData &);
-  void get_oil_wt(protocol::Component *, protocol::QueryValueData &);
   void get_dm_green(protocol::Component *, protocol::QueryValueData &);
   void get_dm_senesced(protocol::Component *, protocol::QueryValueData &);
   void get_dm_dead(protocol::Component *, protocol::QueryValueData &);
-  void get_yield(protocol::Component *, protocol::QueryValueData &);
   void get_biomass(protocol::Component *, protocol::QueryValueData &);
   void get_green_biomass(protocol::Component *, protocol::QueryValueData &);
   void get_biomass_wt(protocol::Component *, protocol::QueryValueData &);
