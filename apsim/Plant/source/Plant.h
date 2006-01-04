@@ -447,6 +447,17 @@ class Plant : public plantInterface {
                               , double *dlt_dm_fruit
                               , float *g_dlt_dm_green);
 
+  void legnew_dm_partition2_test (float  g_current_stage
+                               , float  *c_x_stage_no_partition
+                               , float  *c_y_frac_leaf
+                               , int    c_num_stage_no_partition
+                               , float *c_y_ratio_root_shoot
+                               , float c_sla_min
+                               , double g_dlt_dm
+                               , float dm_yield_demand_fruit
+                               , double *dlt_dm_fruit
+                               , float *dlt_dm_green);
+
   void legnew_dm_partition1
     (
      float  c_frac_leaf
@@ -780,6 +791,7 @@ void legnew_dm_distribute(int max_part
   void get_n_uptake_stover(protocol::Component *, protocol::QueryValueData &);
   void get_no3_tot(protocol::Component *, protocol::QueryValueData &);
   void get_n_demand(protocol::Component *, protocol::QueryValueData &);
+  void get_n_demanded(protocol::Component *, protocol::QueryValueData &);
   void get_n_supply_soil(protocol::Component *, protocol::QueryValueData &);
   void get_nfact_pheno(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_n_fixed_pot(protocol::Component *, protocol::QueryValueData &);

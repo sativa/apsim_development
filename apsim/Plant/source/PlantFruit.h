@@ -69,6 +69,10 @@ class PlantFruit : public plantPart
              void readCultivarParameters (protocol::Component *, const string &);
              void processBioDemand(void);
              void onPlantEvent(const string &);
+             void doNDemand1(float, float);
+             void doNDemand2(float, float);
+             void dm_detachment1(void);
+             void n_detachment1(void);
 
               void grain_number (void);
               void grain_number (float stem_dm
@@ -92,7 +96,13 @@ class PlantFruit : public plantPart
             void zeroAllGlobals(void);
             void zeroDeltas(void);
             void putStates(vector<plantPart *> fruitParts);
+            void getDltNGreen(vector<plantPart *> fruitParts);
+            void getDltDmGrainDemand(void) const;                 //??
+            void getDltDmGreen(vector<plantPart *> fruitParts);
+            void getDltNRetrans(vector<plantPart *> fruitParts);
+            void getDltNSenescedRetrans(float navail, float n_demand_tot);
             void update(float dying_fract_plants, vector<plantPart *> fruitParts);
+            void n_conc_limits(void);
 
             float coverTotal(void) const;
             float coverGreen(void) const;
@@ -100,7 +110,7 @@ class PlantFruit : public plantPart
             float coverDead(void) const;
             float interceptRadiation(float radiation);
             float grainEnergy(void) const;
-            float dltDmGrainGemand(void) const;
+            float dltDmGrainDemand(void) const;
             float dltDmRetranslocate(void);
             float dmTotal(void);
             float dmGrainTotal(void);
@@ -147,6 +157,10 @@ class PlantFruit : public plantPart
                                   , double g_dlt_dm
                                   );
 
+            float dm_yield_demand2 ( float  g_dlt_dm_veg
+                                  , double g_dlt_dm
+                                  );
+
             void yieldpart_demand_stress1(void);
 
             void dm_partition1 (double g_dlt_dm
@@ -162,8 +176,8 @@ class PlantFruit : public plantPart
 
             void bio_actual (void);
 
-            void dm_senescence1 (float sen_fr
-                               , float *dlt_dm_senesced);       // (OUTPUT) actual biomass senesced from plant parts (g/m^2)
+            void doSenescence1 (float sen_fr);
+            void doSenescence2 (float sen_fr);
 
                void retrans_init(float *dm_plant_min);
 
@@ -250,9 +264,11 @@ class PlantFruit : public plantPart
 
 	private:
 
-      vector <plantThing *> myThings;
+//      vector <plantThing *> myThings;
       vector <plantPart *> myParts;
       vector <plantPart *> myGrainParts;
+      vector<plantPart *> supplyPools;
+
       fruitPodPart  *podPart;
       fruitOilPart  *oilPart;
       fruitMealPart  *mealPart;
@@ -286,6 +302,9 @@ class PlantFruit : public plantPart
 
       float cSvp_fract;
       float cFrac_pod[max_table];                        // fraction of dm or grain weight allocated to pod
+      float cX_stage_no_partition[max_table];
+      float cY_frac_pod[max_table];                      // fraction of dm or grain weight allocated to pod
+      int   cNum_stage_no_partition;
       float cGrain_no_option;
       float cGrain_n_option;
       float cSw_fac_max;
