@@ -531,6 +531,10 @@ void Plant::doRegistrations(protocol::Component *system)
                     &Plant::get_n_demand,
                     "g/m^2", "N demand");
 
+   setupGetFunction(parent, "n_demanded", protocol::DTsingle, true,
+                    &Plant::get_n_demanded,
+                    "g/m^2", "N demanded");
+
    parent->addGettableVar("grain_n_demand",
                g.grain_n_demand, "g/m^2", "N demand of grain");
 
@@ -821,6 +825,7 @@ void Plant::doPlantEvent(const string &e)
         t != myThings.end();
         t++)
       (*t)->onPlantEvent(e);
+      fruitPart->onPlantEvent(e);
    }
 
 // Set a variable from the system.
@@ -999,8 +1004,8 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
         double dlt_dm_supply_by_pod = 0.0;
 
         g.dlt_dm_yield_demand_fruit = fruitPart->dm_yield_demand (dlt_dm_supply_by_veg
-                                                            , dlt_dm_supply_by_pod
-                                                            );
+                                                                , dlt_dm_supply_by_pod
+                                                                );
 
         legnew_dm_partition1_test (c.frac_leaf[(int)phenology->stageNumber()-1]
                               , c.ratio_root_shoot[(int)phenology->stageNumber()-1]
@@ -1013,6 +1018,24 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
        }
     else if (option == 2)
        {
+//        double dlt_dm_supply_by_veg = g.dlt_dm;
+//        double dlt_dm_supply_by_pod = 0.0;
+//
+//        g.dlt_dm_yield_demand_fruit = fruitPart->dm_yield_demand2 (dlt_dm_supply_by_veg
+//                                                                 , dlt_dm_supply_by_pod
+//                                                                  );
+//
+//        legnew_dm_partition2_test (phenology->stageNumber()
+//                               , c.x_stage_no_partition
+//                               , c.y_frac_leaf
+//                               , c.num_stage_no_partition
+//                               , c.y_ratio_root_shoot
+//                               , c.sla_min
+//                               , dlt_dm_supply_by_veg
+//                               , g.dlt_dm_yield_demand_fruit
+//                               , &g.dlt_dm_supply_to_fruit
+//                               , g.dlt_dm_green);
+
        legnew_dm_partition2 (phenology->stageNumber()
                              , c.x_stage_no_partition
                              , c.y_frac_leaf
@@ -1023,7 +1046,7 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
                              , c.y_ratio_root_shoot
                              , c.sla_min
                              , g.dlt_dm
-                             , fruitPart->dltDmGrainGemand()
+                             , fruitPart->dltDmGrainDemand()
                              , &g.dlt_dm_oil_conv
                              , g.dlt_dm_green);
         }
@@ -1121,7 +1144,7 @@ void Plant::plant_bio_retrans (int option /* (INPUT) option number */)
                                 , oilPart
                                 , supply_pools
                                 , allParts
-                                , fruitPart->dltDmGrainGemand()
+                                , fruitPart->dltDmGrainDemand()
                                 , g.dlt_dm_oil_conv
                                 , g.plants
                                 , &g.dlt_dm_oil_conv_retranslocate);
@@ -1497,6 +1520,7 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
              t != myParts.end();
              t++)
            (*t)->dm_detachment1();
+           fruitPart->dm_detachment1();
 
         cproc_n_detachment1 ( max_part
                              , c.sen_detach_frac
@@ -1512,6 +1536,8 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
            (*t)->n_detachment1();
            //(*t)->p_detachment1();
            }
+           fruitPart->n_detachment1();
+           //fruitPart->p_detachment1();
         }
     else
         {
@@ -2454,6 +2480,7 @@ void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
         }
     else if (option == 2)
         {
+//        legnew_n_retranslocate( max(0.0, g.soil_n_demand[meal] - g.dlt_n_green[meal]));
         legnew_n_retranslocate( max(0.0, g.soil_n_demand[meal] - g.dlt_n_green[meal]));
         }
     else
@@ -2500,6 +2527,7 @@ void Plant::plant_nit_grain_demand (int Option)
                             g.n_green,
                             c.crit_grainfill_rate,
                             &g.grain_n_demand);
+      fruitPart->gN_grain_demand = g.grain_n_demand;
       }
     else
       {
@@ -2518,7 +2546,7 @@ void Plant::plant_nit_grain_demand (int Option)
 void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
     {
 //+  Constant Values
-    const int  num_demand_parts = 3 ;
+    const int  num_demand_parts = 2 ;
     const char*  my_name = "plant_nit_demand" ;
 
 //+  Local Variables
@@ -2529,33 +2557,6 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
 
     if (option == 1)
         {
-//         fruitPart->n_demand(max_part
-//                        , demand_parts_fruit              //FIXME - to continue on this next time
-//                        , num_demand_parts_fruit
-//                        , g.dlt_dm
-//                        , g.dlt_dm_green
-//                        , g.dltDmPotRueFruit
-//                        , g.dlt_n_retrans
-//                        , g.dm_green
-//                        , g.n_conc_crit
-//                        , g.n_conc_max
-//                        , g.n_green
-//                        , g.n_demand
-//                        , g.n_max);
-//
-//        cproc_n_demand1(max_part
-//                        , demand_parts_veg
-//                        , num_demand_parts_veg
-//                        , g.dlt_dm
-//                        , g.dlt_dm_green
-//                        , g.dlt_dm_pot_rue
-//                        , g.dlt_n_retrans
-//                        , g.dm_green
-//                        , g.n_conc_crit
-//                        , g.n_conc_max
-//                        , g.n_green
-//                        , g.n_demand
-//                        , g.n_max);
 
         cproc_n_demand1(max_part
                         , demand_parts
@@ -2574,7 +2575,7 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
              t != myParts.end();
              t++)
            (*t)->doNDemand1(g.dlt_dm, g.dlt_dm_pot_rue);
-//test        g.ext_n_demand = sum_real_array (g.n_demand,max_part) + leafPart->v.n_demand+ stemPart->v.n_demand+ reproStruct->v.n_demand;
+           fruitPart->doNDemand1(g.dlt_dm, g.dlt_dm_pot_rue);
         }
      else if (option == 2)
          {
@@ -2597,11 +2598,15 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
               t != myParts.end();
               t++)
             (*t)->doNDemand2(g.dlt_dm, g.dlt_dm_pot_rue);
+           fruitPart->doNDemand2(g.dlt_dm, g.dlt_dm_pot_rue);
         }
     else
         {
         throw std::invalid_argument ("invalid n demand option");
         }
+    //FIXME temp until pod etc removed       - something wrong with these n_demand &n_max
+//    g.n_demand[pod] = fruitPart->nDemand();
+//    g.n_max[pod] = fruitPart->nMax();
 
     pop_routine (my_name);
     return;
@@ -2637,6 +2642,7 @@ void Plant::plant_soil_n_demand1 (float *g_soil_n_demand)
         t != myParts.end();
         t++)
       (*t)->doSoilNDemand();
+//      fruitPart->doSoilNDemand();  ??
 }
 
 //+  Purpose
@@ -2870,6 +2876,12 @@ void Plant::plant_nit_demand_est (int option)
            (*t)->doNDemand1(g.dlt_dm_pot_rue, g.dlt_dm_pot_rue);
            (*t)->dlt.dm_green = 0.0;
            }
+           fruitPart->dlt.dm_green = g.dlt_dm_pot_rue * divide (fruitPart->g.dm_green, dm_green_tot, 0.0); // Estimate
+           fruitPart->doNDemand1(g.dlt_dm_pot_rue, g.dlt_dm_pot_rue);
+           fruitPart->dlt.dm_green = 0.0;
+   //FIXME temp until pod etc removed
+           g.n_demand[pod] = fruitPart->nDemand();
+           g.n_max[pod] = fruitPart->nMax();
 
         g.ext_n_demand = sum_real_array (n_demand,max_part) + leafPart->v.n_demand+ stemPart->v.n_demand+ reproStruct->v.n_demand;
 
@@ -2943,9 +2955,9 @@ void Plant::plant_sen_bio (int dm_senescence_option)
              t != myParts.end();
              t++)
            (*t)->doSenescence1(canopy_sen_fr);
+           fruitPart->doSenescence1(canopy_sen_fr);
 
-        fruitPart->dm_senescence1 (canopy_sen_fr
-                              , g.dlt_dm_senesced);
+        g.dlt_dm_senesced[pod] = fruitPart->dlt.dm_senesced;
 
          }
     else if (dm_senescence_option == 2)
@@ -2964,6 +2976,9 @@ void Plant::plant_sen_bio (int dm_senescence_option)
              t != myParts.end();
              t++)
            (*t)->doSenescence2(canopy_sen_fr);
+           fruitPart->doSenescence2(canopy_sen_fr);
+
+        g.dlt_dm_senesced[pod] = fruitPart->dlt.dm_senesced;
         }
     else
         {
@@ -3004,6 +3019,7 @@ void Plant::plant_sen_nit (int   option/*(INPUT) option number*/)
              t != myParts.end();
              t++)
            (*t)->doNSenescence();
+           fruitPart->doNSenescence();
 
         }
     else if (option == 2)
@@ -3501,6 +3517,11 @@ void Plant::plant_update(
     dying_fract_plants = divide (-g_dlt_plants, *g_plants, 0.0);
     dying_fract_plants = bound (dying_fract_plants, 0.0, 1.0);
 
+    //Hmmm. Don't quite know where this should be.. For now, it doesn't do much (height)..
+    for (vector<plantPart *>::iterator t = myParts.begin();
+         t != myParts.end();
+         t++)
+       (*t)->update();
     fruitPart->update(dying_fract_plants, fruitParts);
 
     // transfer N & P
@@ -3582,11 +3603,6 @@ void Plant::plant_update(
     delete mealPart;
     delete oilPart;
 
-    //Hmmm. Don't quite know where this should be.. For now, it doesn't do much (height)..
-    for (vector<plantPart *>::iterator t = myParts.begin();
-         t != myParts.end();
-         t++)
-       (*t)->update();
 
     // transfer plant grain no.
     dlt_grain_no_lost  = *g_grain_no * dying_fract_plants;
@@ -3848,6 +3864,7 @@ void Plant::plant_check_bounds
        {
        (*t)->checkBounds();
        }
+       fruitPart->checkBounds();
     deleteHacks(allParts);
 
     pop_routine (my_name);
@@ -4982,6 +4999,7 @@ void Plant::plant_n_conc_limits
              t != myParts.end();
              t++)
            (*t)->n_conc_limits();
+           fruitPart->n_conc_limits();
 
         float co2_modifier = linear_interp_real(g_co2,
                                                 c_x_co2_nconc_modifier,
@@ -5109,6 +5127,14 @@ void Plant::legnew_n_partition
          (*part)->dlt.n_green += fix_part_fract * (*n_fix_uptake);
          }
 
+    vector<plantPart *> fruitParts;
+    plantPart *podPart = allParts[5];
+    fruitParts.push_back(podPart);
+    fruitParts.push_back(mealPart);
+    fruitParts.push_back(oilPart);
+
+    fruitPart->getDltNGreen(fruitParts);
+
     pop_routine (my_name);
     }
 
@@ -5151,6 +5177,7 @@ void Plant::legnew_dm_partition1_test( float  c_frac_leaf                   // (
          t != myParts.end();
          t++)
        (*t)->dlt.dm_green = 0.0;
+       fruitPart->dlt.dm_green = 0.0;
 
     // now we get the root delta for all stages - partition scheme
     // specified in coeff file
@@ -5172,6 +5199,98 @@ void Plant::legnew_dm_partition1_test( float  c_frac_leaf                   // (
         *dlt_dm_fruit = g_dlt_dm_yield_demand;
         dm_remaining = g_dlt_dm - g_dlt_dm_yield_demand;
         leafPart->dlt.dm_green = c_frac_leaf * dm_remaining;
+
+            // limit the delta leaf area to maximum
+        dlt_dm_leaf_max = divide (leafPart->dltLAI_stressed, c_sla_min * smm2sm, 0.0);
+        leafPart->dlt.dm_green = u_bound (leafPart->dlt.dm_green, dlt_dm_leaf_max);
+
+        dm_remaining -= leafPart->dlt.dm_green;
+        // everything else to stem
+        stemPart->dlt.dm_green = dm_remaining;
+        }
+
+         // do mass balance check - roots are not included
+    dlt_dm_green_tot = sum_real_array (dlt_dm_green, max_part) + leafPart->dlt.dm_green + stemPart->dlt.dm_green+ reproStruct->dlt.dm_green
+                          - dlt_dm_green[root]
+                          + *dlt_dm_fruit;
+
+    if (!reals_are_equal(dlt_dm_green_tot, g_dlt_dm, 1.0E-4))  // XX this is probably too much slop - try doubles XX
+    {
+         string msg = "dlt_dm_green_tot mass balance is off: "
+                    + ftoa(dlt_dm_green_tot, ".6")
+                    + " vs "
+                    + ftoa(g_dlt_dm, ".6");
+      parent->warningError(msg.c_str());
+    }
+
+    // check that deltas are in legal range
+    bound_check_real_array (parent, dlt_dm_green, max_part, 0.0, g_dlt_dm, "dlt_dm_green");
+}
+
+  void Plant::legnew_dm_partition2_test (float  g_current_stage
+                                        , float  *c_x_stage_no_partition
+                                        , float  *c_y_frac_leaf
+                                        , int    c_num_stage_no_partition
+                                        , float *c_y_ratio_root_shoot
+                                        , float c_sla_min
+                                        , double g_dlt_dm
+                                        , float g_dlt_dm_yield_demand
+                                        , double *dlt_dm_fruit          // (OUTPUT)
+                                        , float *dlt_dm_green)       // (OUTPUT)
+{
+
+//+  Local Variables
+    double dlt_dm_green_tot;                       // total of partitioned dm (g/m^2)
+    double dlt_dm_leaf_max;                        // max increase in leaf dm (g/m^2)
+    double dm_remaining;                           // interim dm pool for partitioning
+
+//- Implementation Section ----------------------------------
+
+// Interpolate leaf and pod fractions
+    float frac_leaf = linear_interp_real(g_current_stage
+                                   ,c_x_stage_no_partition
+                                   ,c_y_frac_leaf
+                                   ,c_num_stage_no_partition);
+
+    float ratio_root_shoot = linear_interp_real(g_current_stage
+                                          ,c_x_stage_no_partition
+                                          ,c_y_ratio_root_shoot
+                                          ,c_num_stage_no_partition);
+
+         // Root must be satisfied. The roots don't take any of the
+         // carbohydrate produced - that is for tops only.  Here we assume
+         // that enough extra was produced to meet demand. Thus the root
+         // growth is not removed from the carbo produced by the model.
+
+          // first we zero all plant component deltas
+    fill_real_array (dlt_dm_green, 0.0, max_part);
+    for (vector<plantPart *>::iterator t = myParts.begin();
+         t != myParts.end();
+         t++)
+       (*t)->dlt.dm_green = 0.0;
+       fruitPart->dlt.dm_green = 0.0;
+
+    // now we get the root delta for all stages - partition scheme
+    // specified in coeff file
+    dlt_dm_green[root] = ratio_root_shoot * g_dlt_dm;
+
+         // now distribute the assimilate to plant parts
+    if (g_dlt_dm_yield_demand >= g_dlt_dm)
+        {
+        // reproductive demand exceeds supply - distribute assimilate to those parts only
+        *dlt_dm_fruit = g_dlt_dm;
+        }
+    else
+        {
+        // more assimilate than needed for reproductive parts
+        // distribute to all parts
+
+        // satisfy reproductive demands
+        *dlt_dm_fruit = g_dlt_dm_yield_demand;
+
+        // distribute remainder to vegetative parts
+        dm_remaining = g_dlt_dm - g_dlt_dm_yield_demand;
+        leafPart->dlt.dm_green = frac_leaf * dm_remaining;
 
             // limit the delta leaf area to maximum
         dlt_dm_leaf_max = divide (leafPart->dltLAI_stressed, c_sla_min * smm2sm, 0.0);
@@ -5349,6 +5468,25 @@ void Plant::legnew_dm_partition2
 
     // check that deltas are in legal range
     bound_check_real_array (parent,dlt_dm_green, max_part, 0.0, g_dlt_dm, "dlt_dm_green");
+
+    plantPartHack *podPart  = new plantPartHack(this, pod, "pod");
+    plantPartHack *mealPart = new plantPartHack(this, meal, "meal");
+    plantPartHack *oilPart  = new plantPartHack(this, oil, "oil");
+
+    vector<plantPart *> fruitParts;
+    fruitParts.push_back(podPart);  podPart->dlt.dm_green = dlt_dm_green[pod];
+    fruitParts.push_back(mealPart);
+    fruitParts.push_back(oilPart);
+
+    podPart->dlt.dm_green = dlt_dm_green[pod];
+    mealPart->dlt.dm_green = dlt_dm_green[meal];
+    oilPart->dlt.dm_green = dlt_dm_green[oil];
+
+    fruitPart->getDltDmGreen(fruitParts);
+
+    delete podPart;
+    delete mealPart;
+    delete oilPart;
 
     pop_routine (my_name);
     }
@@ -5906,6 +6044,14 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
                               , (string("dlt_N_retrans(") + (*part)->name() + string(")")).c_str() );
         }
 
+    vector<plantPart *> fruitParts;
+    fruitParts.push_back(podPart);
+    fruitParts.push_back(mealPart);
+    fruitParts.push_back(oilPart);
+
+    fruitPart->getDltNRetrans(fruitParts);
+
+
     pop_routine (my_name);
     delete rootPart;
     delete podPart;
@@ -6055,6 +6201,7 @@ void Plant::plant_N_senescence (int num_part                  //(INPUT) number o
            t != myParts.end();
            t++)
          (*t)->doNSenescence();
+         fruitPart->doNSenescence();
 
       //! now get N to retranslocate out of senescing leaves
       fill_real_array(dlt_n_senesced_trans, 0.0, num_part);
@@ -6062,6 +6209,7 @@ void Plant::plant_N_senescence (int num_part                  //(INPUT) number o
            t != myParts.end();
            t++)
          (*t)->dlt.n_senesced_trans = 0.0;
+         fruitPart->dlt.n_senesced_trans = 0.0;
 
       green_n_conc = divide (leafPart->g.n_green, leafPart->g.dm_green, 0.0);
       dlt_n_in_senescing_leaf = leafPart->dlt.dm_senesced * green_n_conc;
@@ -6082,6 +6230,10 @@ void Plant::plant_N_senescence (int num_part                  //(INPUT) number o
            t != myParts.end();
            t++)
          (*t)->dlt.n_senesced_retrans = navail * divide ((*t)->v.n_demand, n_demand_tot, 0.0);
+//         fruitPart->dlt.n_senesced_retrans = navail * divide (fruitPart->v.n_demand, n_demand_tot, 0.0);
+
+       fruitPart->getDltNSenescedRetrans(navail, n_demand_tot);
+
 
       pop_routine (my_name);
   }
@@ -6154,6 +6306,7 @@ void Plant::plant_process ( void )
              t != myParts.end();
              t++)
            (*t)->morphology();
+//           fruitPart->morphology();
 
         plant_leaf_no_init(1);
         plant_leaf_no_pot (c.leaf_no_pot_option); // plant node/leaf approach
@@ -6924,8 +7077,8 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
         (*part)->g.p_green = p_init;
         (*part)->g.p_sen = 0.0;
         }
-
-    for (part = someParts.begin(); part != someParts.end(); part++)
+//        fruitPart->onKillStem();
+    for (part = someParts.begin(); part != someParts.end(); part++)        // somPaarts are pod, meal and oil - only place it is used.
        {
        (*part)->g.dm_dead += (*part)->g.dm_green + (*part)->g.dm_senesced;
        (*part)->g.dm_green = 0.0;
@@ -7133,9 +7286,9 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     vector<plantPart *> topsParts;
     topsParts.push_back(leafPart);
     topsParts.push_back(stemPart);
-    //topsParts.push_back(podPart);??
-    //topsParts.push_back(mealPart);??
-    //topsParts.push_back(oilPart);??
+    //topsParts.push_back(podPart);  //??
+    //topsParts.push_back(mealPart); //??
+    //topsParts.push_back(oilPart);  //??
 
     float error_margin = 1.0e-6 ;
 
@@ -7282,7 +7435,8 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     rootPart->g.n_green= rootPart->g.n_green - dlt_n_die;
     n_removed_root = 0.0 /*dlt_n_die??xx*/;
 
-    float dm_removed_tops = 0.0, n_removed_tops = 0.0;
+    float dm_removed_tops = 0.0;
+    float n_removed_tops = 0.0;
     for (part = topsParts.begin(); part != topsParts.end(); part++)
         {
         float chop_fr_green = divide((*part)->dlt.dm_green, (*part)->g.dm_green, 0.0);
@@ -8157,6 +8311,7 @@ void Plant::plant_zero_daily_variables ()
         t != myThings.end();
         t++)
        (*t)->zeroDeltas();
+//       fruitPart->zeroDeltas();
 
 
     fill_real_array (g.dlt_dm_green , 0.0, max_part);
@@ -8403,6 +8558,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
            sendStageMessage("sowing");
            for (vector<plantThing *>::iterator t = myThings.begin(); t != myThings.end(); t++)
              (*t)->onPlantEvent("sowing");
+//             fruitPart->onPlantEvent("sowing");
 
            parent->writeString ("");
            parent->writeString ("                 Crop Sowing Data");
@@ -8485,6 +8641,7 @@ void Plant::plant_read_cultivar_params ()
        {
        (*t)->readCultivarParameters(parent, g.cultivar);
        }
+// do below       fruitPart->readCultivarParameters(parent, g.cultivar);
 
     // report
     parent->writeString ("    ------------------------------------------------");
@@ -8759,6 +8916,12 @@ void Plant::plant_end_crop ()
                              dlt_dm_p,
                              fraction_to_residue);
 
+//           fruitPart->onEndCrop(part_name,
+//                             dlt_dm_crop,
+//                             dlt_dm_n,
+//                             dlt_dm_p,
+//                             fraction_to_residue);
+
           plant_send_crop_chopped_event ( c.crop_type
                                          , part_name
                                          , dlt_dm_crop
@@ -8788,6 +8951,7 @@ void Plant::plant_end_crop ()
 
         for (vector<plantThing *>::iterator t = myThings.begin(); t != myThings.end(); t++)
            (*t)->onPlantEvent("end_crop");
+//           fruitPart->onPlantEvent("end_crop");
 
         }
     else
@@ -9420,6 +9584,7 @@ void Plant::plant_prepare (void)
          t != myParts.end();
          t++)
        (*t)->prepare();
+//       fruitPart->prepare();
 
     plant_nit_stress (c.n_stress_option);
     plant_temp_stress (1);
@@ -10994,6 +11159,19 @@ void Plant::get_n_demand(protocol::Component *system, protocol::QueryValueData &
     system->sendVariable(qd, n_demand);
 }
 
+void Plant::get_n_demanded(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+   vector<plantPart*>::iterator part;
+   vector<plantPart*> parts;
+   vector<float>  n_demanded;
+   setupHacks(parts);
+
+   for (part = parts.begin(); part != parts.end(); part++)
+      n_demanded.push_back((*part)->v.n_demand);
+
+   systemInterface->sendVariable(qd, n_demanded);
+   deleteHacks(parts);
+}
 void Plant::get_grain_n_demand(protocol::Component *system, protocol::QueryValueData &qd)
 {
     system->sendVariable(qd, g.grain_n_demand);
@@ -11947,7 +12125,7 @@ void Plant::plant_n_demand(int max_part     // (INPUT)
             }
          else
             {
-            // g_dm_green[part]<=0.0
+            // g_dm_green[part] =0.0;
             n_demand[part] = 0.0;
             n_max[part]    = 0.0;
             }
