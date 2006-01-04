@@ -61,29 +61,90 @@ void plantPart::doRegistrations(protocol::Component *system)
    string varName7, varName8, varName9;
    string desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9;
 
-   varName1 = c.name + "_wt";
+
+   varName1 = "dm_green_" + c.name;
    desc1 = "Weight of " + c.name;
    system->addGettableVar(varName1.c_str(), g.dm_green, "g/m^2", desc1.c_str());
 
-   varName2 = c.name + "_n";
+   varName2 = "n_green_" + c.name;
    desc2 = "N in " + c.name;
    system->addGettableVar(varName2.c_str(),  g.n_green, "g/m^2", desc2.c_str());
 
-   varName3 = c.name + "_p";
+   varName3 = "p_green_" + c.name;
    desc3 = "P in " + c.name;
    system->addGettableVar(varName3.c_str(),  g.p_green, "g/m^2", desc3.c_str());
 
-   varName1 = "dead" + c.name + "_wt";
+   varName1 = "dm_dead_" + c.name;
    desc1 = "Weight of dead " + c.name;
    system->addGettableVar(varName1.c_str(), g.dm_dead, "g/m^2", desc1.c_str());
 
-   varName2 = "dead" + c.name + "_n";
+   varName2 = "n_dead_" + c.name;
    desc2 = "N in dead " + c.name;
    system->addGettableVar(varName2.c_str(),  g.n_dead, "g/m^2", desc2.c_str());
 
-   varName3 = "dead" + c.name + "_p";
+   varName3 = "p_dead_" + c.name;
    desc3 = "P in dead " + c.name;
    system->addGettableVar(varName3.c_str(),  g.p_dead, "g/m^2", desc3.c_str());
+
+   varName1 = "dm_senesced_" + c.name;
+   desc1 = "Weight of senesced " + c.name;
+   system->addGettableVar(varName1.c_str(), g.dm_senesced, "g/m^2", desc1.c_str());
+
+   varName2 = "n_senesced_" + c.name;
+   desc2 = "N in senesced " + c.name;
+   system->addGettableVar(varName2.c_str(),  g.n_senesced, "g/m^2", desc2.c_str());
+
+   varName3 = "p_senesced_" + c.name;
+   desc3 = "P in senesced " + c.name;
+   system->addGettableVar(varName3.c_str(),  g.p_sen, "g/m^2", desc3.c_str());
+
+   varName1 = "dlt_dm_green_" + c.name;
+   desc1 = "Delta Weight of " + c.name;
+   system->addGettableVar(varName1.c_str(), dlt.dm_green, "g/m^2", desc1.c_str());
+
+   varName2 = "dlt_n_green_" + c.name;
+   desc2 = "Delta N in " + c.name;
+   system->addGettableVar(varName2.c_str(),  dlt.n_green, "g/m^2", desc2.c_str());
+
+   varName3 = "dlt_p_green_" + c.name;
+   desc3 = "Delta P in " + c.name;
+   system->addGettableVar(varName3.c_str(),  dlt.p_green, "g/m^2", desc3.c_str());
+
+   varName1 = "dlt_dm_dead_" + c.name;
+   desc1 = "Delta Weight of dead " + c.name;
+   system->addGettableVar(varName1.c_str(), dlt.dm_dead, "g/m^2", desc1.c_str());
+
+   varName2 = "dlt_n_dead_" + c.name;
+   desc2 = "Delta N in dead " + c.name;
+   system->addGettableVar(varName2.c_str(),  dlt.n_dead, "g/m^2", desc2.c_str());
+
+   varName3 = "dlt_p_dead_" + c.name;
+   desc3 = "Delta P in dead " + c.name;
+   system->addGettableVar(varName3.c_str(),  dlt.p_dead, "g/m^2", desc3.c_str());
+
+   varName1 = "dlt_dm_senesced_" + c.name;
+   desc1 = "Delta Weight of senesced " + c.name;
+   system->addGettableVar(varName1.c_str(), dlt.dm_senesced, "g/m^2", desc1.c_str());
+
+   varName2 = "dlt_n_senesced_" + c.name;
+   desc2 = "Delta N in senesced " + c.name;
+   system->addGettableVar(varName2.c_str(),  dlt.n_senesced, "g/m^2", desc2.c_str());
+
+   varName3 = "dlt_p_senesced_" + c.name;
+   desc3 = "Delta P in senesced " + c.name;
+   system->addGettableVar(varName3.c_str(),  dlt.p_sen, "g/m^2", desc3.c_str());
+
+   varName1 = "dlt_dm_detached_" + c.name;
+   desc1 = "Delta Weight of detached " + c.name;
+   system->addGettableVar(varName1.c_str(), dlt.dm_detached, "g/m^2", desc1.c_str());
+
+   varName2 = "dlt_n_detached_" + c.name;
+   desc2 = "Delta N in detached " + c.name;
+   system->addGettableVar(varName2.c_str(),  dlt.n_detached, "g/m^2", desc2.c_str());
+
+   varName3 = "dlt_p_detached_" + c.name;
+   desc3 = "Delta P in detached " + c.name;
+   system->addGettableVar(varName3.c_str(),  dlt.p_det, "g/m^2", desc3.c_str());
 
    varName4 =  "n_conc_" + c.name;
    desc4 = "N concentration in " + c.name;
@@ -113,9 +174,24 @@ void plantPart::doRegistrations(protocol::Component *system)
                v.n_demand, "g/m^2", desc8.c_str());
 
    varName9 = "dlt_n_retrans_" + c.name;
-   desc9 = "N retranslocated to " + c.name;
+   desc9 = "N retranslocated to/from " + c.name;
    system->addGettableVar(varName9.c_str(),
                dlt.n_retrans, "g/m^2", desc9.c_str());
+
+   varName9 = "dlt_n_senesced_retrans_" + c.name;
+   desc9 = "N retranslocated to/from senesced " + c.name;
+   system->addGettableVar(varName9.c_str(),
+               dlt.n_senesced_retrans, "g/m^2", desc9.c_str());
+
+   varName9 = "dlt_n_senesced_trans_" + c.name;
+   desc9 = "N translocated to/from senesced " + c.name;
+   system->addGettableVar(varName9.c_str(),
+               dlt.n_senesced_trans, "g/m^2", desc9.c_str());
+
+   varName9 = "dlt_dm_retrans_" + c.name;
+   desc9 = "DM retranslocated to/from " + c.name;
+   system->addGettableVar(varName9.c_str(),
+               dlt.dm_green_retrans, "g/m^2", desc9.c_str());
 }
 
 void plantPart::get_n_conc(protocol::Component *system, protocol::QueryValueData &qd)
@@ -408,6 +484,67 @@ void plantPart::update(void)
    g.width += dlt.width;
 }
 
+void plantPart::updateN(float dying_fract_plants)
+{
+// Update N
+
+    // transfer N
+       g.n_dead -= dlt.n_dead_detached;
+       g.n_green += dlt.n_green;
+       g.n_green += dlt.n_retrans;
+       g.n_green -= dlt.n_senesced;
+       g.n_senesced += dlt.n_senesced;
+       g.n_green += dlt.n_senesced_retrans;
+       g.n_senesced -= dlt.n_detached;
+       g.n_green = max(0.0, g.n_green);   // Can occur at total leaf senescence. FIXME! XXXX
+       dlt.n_green_dead = g.n_green * dying_fract_plants;
+       g.n_green -= dlt.n_green_dead;
+       g.n_dead += dlt.n_green_dead;
+
+       dlt.n_senesced_dead = g.n_senesced * dying_fract_plants;
+       g.n_senesced -= dlt.n_senesced_dead;
+       g.n_dead += dlt.n_senesced_dead;
+
+}
+
+void plantPart::updateDm(float dying_fract_plants)
+{
+
+// Update DM
+       g.dm_dead -= dlt.dm_dead_detached;
+
+       g.dm_green += dlt.dm_green;
+       g.dm_green += dlt.dm_green_retrans;
+       g.dm_green -= dlt.dm_senesced;
+
+       g.dm_senesced += dlt.dm_senesced;
+       g.dm_senesced -= dlt.dm_detached;
+
+       dlt.dm_green_dead = g.dm_green * dying_fract_plants;
+       g.dm_green -=  dlt.dm_green_dead;
+       g.dm_dead += dlt.dm_green_dead;
+
+       dlt.dm_senesced_dead = g.dm_senesced * dying_fract_plants;
+       g.dm_senesced -= dlt.dm_senesced_dead;
+       g.dm_dead += dlt.dm_senesced_dead;
+
+}
+void plantPart::updateP(float dying_fract_plants)
+{
+           g.p_green += dlt.p_green;
+           g.p_green += dlt.p_retrans;
+           g.p_green -= dlt.p_sen;
+           g.p_green = max(0.0, g.p_green);  // Can occur at total leaf senescence. FIXME! XXXX
+
+           float dlt_p_green_dead = g.p_green * dying_fract_plants;
+           g.p_green -= dlt_p_green_dead;
+           g.p_dead += dlt_p_green_dead;
+
+           float dlt_p_senesced_dead = g.p_sen * dying_fract_plants;
+           g.p_sen  -= dlt_p_senesced_dead;
+           g.p_dead += dlt_p_senesced_dead;
+}
+
 /* Purpose
 *     Return plant nitrogen demand for each plant component
 *
@@ -513,7 +650,8 @@ void plantPart::doNDemand2(float dlt_dm,             // (INPUT)  Whole plant the
         }
      else
         {
-        v.n_demand = v.n_max = 0.0;
+        v.n_demand = 0.0;
+        v.n_max = 0.0;
         }
 }
 
@@ -529,7 +667,7 @@ void plantPart::doSenescence1(float sen_fr)
 
    fraction_senescing = bound (fraction_senescing, 0.0, 1.0);
    dlt.dm_senesced = (g.dm_green + dlt.dm_green + dlt.dm_green_retrans)
-                          * fraction_senescing;
+                   * fraction_senescing;
 }
 
 void plantPart::doSenescence2(float sen_fr)
@@ -866,6 +1004,16 @@ float plantPart::availableRetranslocateN(void)
 float plantPart::dmTotal(void)
    {
    return (g.dm_green + g.dm_senesced + g.dm_dead);
+   }
+
+float plantPart::nDemand(void) const
+   {
+   return (v.n_demand);
+   }
+
+float plantPart::nMax(void) const
+   {
+   return (v.n_max);
    }
 
 float plantPart::dmGreen(void) const
