@@ -99,6 +99,7 @@ class PlantFruit : public plantPart
             void getDltNGreen(vector<plantPart *> fruitParts);
             void getDltDmGrainDemand(void) const;                 //??
             void getDltDmGreen(vector<plantPart *> fruitParts);
+            void getDltDmGreenRetrans(vector<plantPart *> fruitParts);
             void getDltNRetrans(vector<plantPart *> fruitParts);
             void getDltNSenescedRetrans(float navail, float n_demand_tot);
             void update(float dying_fract_plants, vector<plantPart *> fruitParts);
