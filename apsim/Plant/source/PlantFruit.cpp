@@ -858,75 +858,6 @@ void PlantFruit::readSpeciesParameters(protocol::Component *system, vector<strin
 
 }
 
-// Command
-//===========================================================================
-float PlantFruit::divide (float dividend, float divisor, float default_value) const
-//===========================================================================
-
-/*Definition
- *   Returns (dividend / divisor) if the division can be done
- *   without overflow or underflow.  If divisor is zero or
- *   overflow would have occurred, a specified default is returned.
- *   If underflow would have occurred, zero is returned.
- *Assumptions
- *   largest/smallest real number is 1.0e+/-30
- *Parameters
- *   dividend:     dividend
- *   divisor:      divisor
- *   defaultValue: default value to return if overflow
- *Calls
- *   reals_are_equal
- */
-
-   {
-   //Constant Values
-   const float LARGEST = 1.0e30;    //largest acceptable no. for quotient
-   const float SMALLEST = 1.0e-30;  //smallest acceptable no. for quotient
-   const float nought = 0.0;
-   const float one = 1.0;
-   const float granularity = 1.0e-6;
-
-   //Local Varialbes
-   float quotient;
-
-   //Implementation
-   if(floatsAreEqual(dividend, nought, granularity))      //multiplying by 0
-      {
-      quotient = nought;
-      }
-   else if(floatsAreEqual(divisor, nought, granularity))  //dividing by 0
-      {
-      quotient = default_value;
-      }
-   else if(fabs(divisor) < one)            //possible overflow
-      {
-      if(fabs(dividend) > fabs(LARGEST * divisor)) //overflow
-         {
-         quotient = default_value;
-         }
-      else
-         {
-         quotient = dividend / divisor;          //ok
-         }
-      }
-   else if(fabs(divisor) > one)             //possible underflow
-      {
-      if(fabs(dividend) < fabs(SMALLEST * divisor))    //underflow
-         {
-         quotient = nought;
-         }
-      else
-         {
-         quotient = dividend / divisor;                //ok
-         }
-      }
-   else
-      {
-      quotient = dividend / divisor;                   //ok
-      }
-   return quotient;
-   }
-
 
 //===========================================================================
 //void PlantFruit::setValue(float greenShell, float greenMeal, float senescedShell, float senescedMeal, float deadShell, float deadMeal)
@@ -967,6 +898,7 @@ void PlantFruit::putStates(vector<plantPart *> fruitParts)
     }
 
 }
+
 //===========================================================================
 void PlantFruit::getDltNGreen(vector<plantPart *> fruitParts)
 //===========================================================================
@@ -983,6 +915,7 @@ void PlantFruit::getDltNGreen(vector<plantPart *> fruitParts)
     }
 
 }
+
 //===========================================================================
 void PlantFruit::getDltDmGreen(vector<plantPart *> fruitParts)
 //===========================================================================
@@ -999,6 +932,24 @@ void PlantFruit::getDltDmGreen(vector<plantPart *> fruitParts)
     }
 
 }
+
+//===========================================================================
+void PlantFruit::getDltDmGreenRetrans(vector<plantPart *> fruitParts)
+//===========================================================================
+{
+    dlt.dm_green_retrans = 0.0;
+    vector<plantPart *>::iterator myPart =myParts.begin();
+
+    vector<plantPart *>::iterator part;
+    for (part = fruitParts.begin(); part != fruitParts.end(); part++)
+    {
+      (*myPart)->dlt.dm_green_retrans = (*part)->dlt.dm_green_retrans;
+      dlt.dm_green_retrans +=(*myPart)->dlt.dm_green_retrans;
+      myPart++;
+    }
+
+}
+
 //===========================================================================
 void PlantFruit::getDltNRetrans(vector<plantPart *> fruitParts)
 //===========================================================================
@@ -1015,6 +966,7 @@ void PlantFruit::getDltNRetrans(vector<plantPart *> fruitParts)
     }
 
 }
+
 //===========================================================================
 void PlantFruit::getDltNSenescedRetrans(float navail, float n_demand_tot)
 //===========================================================================
@@ -1027,51 +979,13 @@ void PlantFruit::getDltNSenescedRetrans(float navail, float n_demand_tot)
       dlt.n_senesced_retrans +=(*myPart)->dlt.n_senesced_retrans;
     }
 }
+
 //===========================================================================
 void PlantFruit::update(float dying_fract_plants, vector<plantPart *> fruitParts)
 //===========================================================================
 {
 
-// Get deltas from plant for the time being
-
-// Get DM
-
-
-    vector<plantPart *>::iterator fPart =fruitParts.begin();
-
     vector<plantPart *>::iterator part;
-    for (part = myParts.begin(); part != myParts.end(); part++)
-    {
-
-      (*part)->dlt.n_dead_detached = (*fPart)->dlt.n_dead_detached;
-      (*part)->dlt.n_green = (*fPart)->dlt.n_green;
-//      (*part)->dlt.n_retrans = (*fPart)->dlt.n_retrans;
-      (*part)->dlt.n_senesced = (*fPart)->dlt.n_senesced;
-      (*part)->dlt.n_green_dead = (*fPart)->dlt.n_green_dead;
-      (*part)->dlt.n_senesced_dead = (*fPart)->dlt.n_senesced_dead;
-      (*part)->dlt.n_dead_detached = (*fPart)->dlt.n_dead_detached;
-
-      (*part)->dlt.dm_dead_detached = (*fPart)->dlt.dm_dead_detached;
-//
-//      (*part)->dlt.dm_green = (*fPart)->dlt.dm_green;
-      (*part)->dlt.dm_green_retrans = (*fPart)->dlt.dm_green_retrans;
-//      (*part)->dlt.dm_senesced = (*fPart)->dlt.dm_senesced;
-//
-      (*part)->dlt.dm_detached = (*fPart)->dlt.dm_detached;
-      (*part)->dlt.dm_green_dead = (*fPart)->dlt.dm_green_dead;
-      (*part)->dlt.dm_senesced_dead = (*fPart)->dlt.dm_senesced_dead;
-
-       if (plant->phosphorusAware())
-       {
-         (*part)->dlt.p_green = (*fPart)->dlt.p_green;
-         (*part)->dlt.p_retrans = (*fPart)->dlt.p_retrans;
-         (*part)->dlt.p_sen = (*fPart)->dlt.p_sen;
-//         (*part)->dlt.p_senesced_dead = (*fPart)->dlt.p_senesced_dead;
-//         (*part)->dlt.p_green_dead = (*fPart)->dlt.p_green_dead;
-//         (*part)->dlt.p_dead_detached = (*fPart)->dlt.p_dead_detached;
-      }
-      fPart++;
-    }
 
 // Update N
     for (part = myParts.begin(); part != myParts.end(); part++)
@@ -2490,6 +2404,75 @@ void PlantFruit::n_detachment1(void)
            dlt.n_dead_detached += (*part)->dlt.n_dead_detached;
     }
 }
+
+// Command
+//===========================================================================
+float PlantFruit::divide (float dividend, float divisor, float default_value) const
+//===========================================================================
+
+/*Definition
+ *   Returns (dividend / divisor) if the division can be done
+ *   without overflow or underflow.  If divisor is zero or
+ *   overflow would have occurred, a specified default is returned.
+ *   If underflow would have occurred, zero is returned.
+ *Assumptions
+ *   largest/smallest real number is 1.0e+/-30
+ *Parameters
+ *   dividend:     dividend
+ *   divisor:      divisor
+ *   defaultValue: default value to return if overflow
+ *Calls
+ *   reals_are_equal
+ */
+
+   {
+   //Constant Values
+   const float LARGEST = 1.0e30;    //largest acceptable no. for quotient
+   const float SMALLEST = 1.0e-30;  //smallest acceptable no. for quotient
+   const float nought = 0.0;
+   const float one = 1.0;
+   const float granularity = 1.0e-6;
+
+   //Local Varialbes
+   float quotient;
+
+   //Implementation
+   if(floatsAreEqual(dividend, nought, granularity))      //multiplying by 0
+      {
+      quotient = nought;
+      }
+   else if(floatsAreEqual(divisor, nought, granularity))  //dividing by 0
+      {
+      quotient = default_value;
+      }
+   else if(fabs(divisor) < one)            //possible overflow
+      {
+      if(fabs(dividend) > fabs(LARGEST * divisor)) //overflow
+         {
+         quotient = default_value;
+         }
+      else
+         {
+         quotient = dividend / divisor;          //ok
+         }
+      }
+   else if(fabs(divisor) > one)             //possible underflow
+      {
+      if(fabs(dividend) < fabs(SMALLEST * divisor))    //underflow
+         {
+         quotient = nought;
+         }
+      else
+         {
+         quotient = dividend / divisor;                //ok
+         }
+      }
+   else
+      {
+      quotient = dividend / divisor;                   //ok
+      }
+   return quotient;
+   }
 
 
 

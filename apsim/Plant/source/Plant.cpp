@@ -2604,9 +2604,6 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
         {
         throw std::invalid_argument ("invalid n demand option");
         }
-    //FIXME temp until pod etc removed       - something wrong with these n_demand &n_max
-//    g.n_demand[pod] = fruitPart->nDemand();
-//    g.n_max[pod] = fruitPart->nMax();
 
     pop_routine (my_name);
     return;
@@ -5128,7 +5125,7 @@ void Plant::legnew_n_partition
          }
 
     vector<plantPart *> fruitParts;
-    plantPart *podPart = allParts[5];
+    plantPart *podPart = allParts[3];
     fruitParts.push_back(podPart);
     fruitParts.push_back(mealPart);
     fruitParts.push_back(oilPart);
@@ -5842,6 +5839,13 @@ void Plant::legnew_dm_retranslocate2
     mass_balance = dm_retranslocate + *dm_oil_conv_retranslocate;
     bound_check_real_var (parent,mass_balance, -1.0e-5, 1.0e-5
                          , "dm_retranslocate mass balance");
+    vector<plantPart *> fruitParts;
+    fruitParts.push_back(podPart);
+    fruitParts.push_back(mealPart);
+    fruitParts.push_back(oilPart);
+
+    fruitPart->getDltDmGreenRetrans(fruitParts);
+
 
     pop_routine (my_name);
     }
