@@ -155,26 +155,34 @@ private:
 
    virtual void onPlantEvent(const string &);
 
-   void prepare(void);
+   virtual void prepare(void);
    void process(void);
-   void update(void);
-   void updateDm(float dying_fract_plants);
-   void updateN(float dying_fract_plants);
-   void updateP(float dying_fract_plants);
+   virtual void update(void);
+   virtual void updateDm(float dying_fract_plants);
+   virtual void updateN(float dying_fract_plants);
+   virtual void updateP(float dying_fract_plants);
 
-   void morphology(void);
-   void n_conc_limits(void);
+   virtual void morphology(void);
+   virtual void n_conc_limits(void);
 
-   void doNDemand1(float, float);
-   void doNDemand2(float, float);
-   void doSoilNDemand(void);
-   void doSenescence1(float);
-   void doSenescence2(float);
-   void doNSenescence(void);
-   void dm_detachment1(void);
-   void n_detachment1(void);
+   virtual void doNDemand1(float, float);
+   virtual void doNDemand2(float, float);
+   virtual void doSoilNDemand(void);
+   virtual void doSenescence1(float);
+   virtual void doSenescence2(float);
+   virtual void doNSenescence(void);
+   virtual void dm_detachment1(void);
+   virtual void n_detachment1(void);
    float dmTotal(void);
    float dmGreen(void) const;
+   float dmSenesced(void) const;
+   float dmDead(void) const;
+
+   float nTotal(void);
+   float nGreen(void) const;
+   float nSenesced(void) const;
+   float nDead(void) const;
+
    float nDemand(void) const;
    float nMax(void) const;
 
@@ -185,11 +193,13 @@ private:
                           vector<float> &dlt_dm_p,
                           vector<float> &fraction_to_residue) = 0;
 
-   void onEndCrop(vector<string> &dm_type,
+   virtual void onEndCrop(vector<string> &dm_type,
                   vector<float> &dlt_crop_dm,
                   vector<float> &dlt_dm_n,
                   vector<float> &dlt_dm_p,
                   vector<float> &fraction_to_residue);
+
+   virtual void onKillStem(void);
 
    float availableRetranslocateN(void);
    const string &name(void) {return c.name;};
@@ -249,6 +259,9 @@ class fruitPodPart : public plantPart {
                   vector<float> &dlt_dm_n,
                   vector<float> &dlt_dm_p,
                   vector<float> &fraction_to_residue);
+
+   void onKillStem(void);
+
 };
 
 class fruitOilPart : public plantPart {
@@ -261,6 +274,9 @@ class fruitOilPart : public plantPart {
                   vector<float> &dlt_dm_n,
                   vector<float> &dlt_dm_p,
                   vector<float> &fraction_to_residue);
+
+   void onKillStem(void);
+
 };
 
 class fruitMealPart : public plantPart {
@@ -273,6 +289,8 @@ class fruitMealPart : public plantPart {
                   vector<float> &dlt_dm_n,
                   vector<float> &dlt_dm_p,
                   vector<float> &fraction_to_residue);
+
+   void onKillStem(void);
 };
 
 
