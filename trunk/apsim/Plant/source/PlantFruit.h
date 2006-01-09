@@ -67,10 +67,15 @@ class PlantFruit : public plantPart
              void readConstants (protocol::Component *, const string &);
              void readSpeciesParameters (protocol::Component *, vector<string> &);
              void readCultivarParameters (protocol::Component *, const string &);
+             void writeCultivarInfo (protocol::Component *);
              void processBioDemand(void);
+
+             void morphology(void);
+
              void onPlantEvent(const string &);
              void doNDemand1(float, float);
              void doNDemand2(float, float);
+             void doSoilNDemand(void);
              void dm_detachment1(void);
              void n_detachment1(void);
 
@@ -86,8 +91,9 @@ class PlantFruit : public plantPart
                            vector<float> &dlt_dm_p,
                            vector<float> &fraction_to_residue);
 
-            void onKillStem(float height, float remove_fr,
-                           vector<string> &dm_type,
+            void onKillStem(void);
+
+            void onEndCrop(vector<string> &dm_type,
                            vector<float> &dlt_crop_dm,
                            vector<float> &dlt_dm_n,
                            vector<float> &dlt_dm_p,
@@ -102,7 +108,7 @@ class PlantFruit : public plantPart
             void getDltDmGreenRetrans(vector<plantPart *> fruitParts);
             void getDltNRetrans(vector<plantPart *> fruitParts);
             void getDltNSenescedRetrans(float navail, float n_demand_tot);
-            void update(float dying_fract_plants, vector<plantPart *> fruitParts);
+            void update(float dying_fract_plants);
             void n_conc_limits(void);
 
             float coverTotal(void) const;
@@ -111,11 +117,26 @@ class PlantFruit : public plantPart
             float coverDead(void) const;
             float interceptRadiation(float radiation);
             float grainEnergy(void) const;
+            float grainNConcPercent(void) const;
             float dltDmGrainDemand(void) const;
             float dltDmRetranslocate(void);
+
             float dmTotal(void);
             float dmGrainTotal(void);
+            float dmVegTotal(void);
             float dmGreenGrainTotal(void);
+            float dmGreenVegTotal(void);
+            float dmSenescedVegTotal(void);
+            float dmDeadVegTotal(void);
+            float grainWt(void);
+
+            float nTotal(void);
+            float nGrainTotal(void);
+            float nVegTotal(void);
+            float nGreenGrainTotal(void);
+            float nGreenVegTotal(void);
+            float nSenescedVegTotal(void);
+            float nDeadVegTotal(void);
 
 		virtual void display(ostream &os = cout) const;	// display function
 //            float calcCover (float pai);  // calc pod cover
@@ -268,6 +289,7 @@ class PlantFruit : public plantPart
 //      vector <plantThing *> myThings;
       vector <plantPart *> myParts;
       vector <plantPart *> myGrainParts;
+      vector <plantPart *> myVegParts;
       vector<plantPart *> supplyPools;
 
       fruitPodPart  *podPart;

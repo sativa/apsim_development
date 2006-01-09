@@ -440,6 +440,32 @@ void plantPart::onStartGrainFill(void)
    g.dm_plant_min = dm_plant * (1.0 - c.trans_frac);
 }
 
+void plantPart::onKillStem(void)
+{
+       float dm_init = u_bound(plantPart::c.dm_init * plant->getPlants(), plantPart::g.dm_green);
+       float n_init = u_bound(dm_init * plantPart::c.n_init_conc, plantPart::g.n_green);
+       float p_init = u_bound(dm_init * plantPart::c.p_init_conc, plantPart::g.p_green);
+//        float dm_init = c.dm_init * plant->getPlants();
+//        float n_init = dm_init * c.n_init_conc;
+//        float p_init = dm_init * c.p_init_conc;
+
+        g.dm_dead += g.dm_green + g.dm_senesced - dm_init;
+        g.dm_dead = l_bound (g.dm_dead, 0.0);
+        g.dm_green = dm_init;
+        g.dm_senesced = 0.0;
+
+        g.n_dead += g.n_green + g.n_senesced - n_init;
+        g.n_dead = l_bound (g.n_dead, 0.0);
+        g.n_green = n_init;
+        g.n_senesced = 0.0;
+
+        g.p_dead += g.p_green + g.p_sen - p_init;
+        g.p_dead = l_bound (g.p_dead, 0.0);
+        g.p_green = p_init;
+        g.p_sen = 0.0;
+
+}
+
 void plantPart::n_conc_limits(void)
 {
    g.n_conc_crit = c.n_conc_crit.value(plant->getStageCode());
@@ -855,6 +881,21 @@ void fruitPodPart::onHarvest(float /* cutting_height */, float remove_fr,
     dlt_dm_p.push_back    (dlt_p_harvest  * gm2kg/sm2ha);
 }
 
+void fruitPodPart::onKillStem(void)
+{
+       g.dm_dead += g.dm_green + g.dm_senesced;
+       g.dm_green = 0.0;
+       g.dm_senesced = 0.0;
+
+       g.n_dead += g.n_green + g.n_senesced;
+       g.n_green = 0.0;
+       g.n_senesced = 0.0;
+
+       g.p_dead += g.p_green + g.p_sen;
+       g.p_green = 0.0;
+       g.p_sen = 0.0;
+}
+
 void fruitOilPart::onHarvest(float /* cutting_height */, float remove_fr,
                               vector<string> &dm_type,
                               vector<float> &dlt_crop_dm,
@@ -905,6 +946,21 @@ void fruitOilPart::onHarvest(float /* cutting_height */, float remove_fr,
      dlt_dm_n.push_back    (dlt_n_harvest  * gm2kg/sm2ha);
      dlt_dm_p.push_back    (dlt_p_harvest  * gm2kg/sm2ha);
 
+}
+
+void fruitOilPart::onKillStem(void)
+{
+       g.dm_dead += g.dm_green + g.dm_senesced;
+       g.dm_green = 0.0;
+       g.dm_senesced = 0.0;
+
+       g.n_dead += g.n_green + g.n_senesced;
+       g.n_green = 0.0;
+       g.n_senesced = 0.0;
+
+       g.p_dead += g.p_green + g.p_sen;
+       g.p_green = 0.0;
+       g.p_sen = 0.0;
 }
 
 void fruitMealPart::onHarvest(float /* cutting_height */, float remove_fr,
@@ -958,6 +1014,21 @@ void fruitMealPart::onHarvest(float /* cutting_height */, float remove_fr,
      dlt_dm_p.push_back    (dlt_p_harvest  * gm2kg/sm2ha);
 }
 
+void fruitMealPart::onKillStem(void)
+{
+       g.dm_dead += g.dm_green + g.dm_senesced;
+       g.dm_green = 0.0;
+       g.dm_senesced = 0.0;
+
+       g.n_dead += g.n_green + g.n_senesced;
+       g.n_green = 0.0;
+       g.n_senesced = 0.0;
+
+       g.p_dead += g.p_green + g.p_sen;
+       g.p_green = 0.0;
+       g.p_sen = 0.0;
+}
+
 
 
 void plantPart::onEndCrop(vector<string> &dm_type,
@@ -1001,25 +1072,18 @@ float plantPart::availableRetranslocateN(void)
    return (N_avail * c.n_retrans_fraction);
    }
 
-float plantPart::dmTotal(void)
-   {
-   return (g.dm_green + g.dm_senesced + g.dm_dead);
-   }
+float plantPart::dmTotal(void) {return (g.dm_green + g.dm_senesced + g.dm_dead);}
+float plantPart::dmGreen(void) const {return (g.dm_green);}
+float plantPart::dmSenesced(void) const {return (g.dm_senesced);}
+float plantPart::dmDead(void) const {return (g.dm_dead);}
 
-float plantPart::nDemand(void) const
-   {
-   return (v.n_demand);
-   }
+float plantPart::nDemand(void) const {return (v.n_demand);}
+float plantPart::nMax(void) const{return (v.n_max);}
 
-float plantPart::nMax(void) const
-   {
-   return (v.n_max);
-   }
-
-float plantPart::dmGreen(void) const
-   {
-   return (g.dm_green);
-   }
+float plantPart::nTotal(void) {return (g.n_green + g.n_senesced + g.n_dead);}
+float plantPart::nGreen(void) const {return (g.n_green);}
+float plantPart::nSenesced(void) const {return (g.n_senesced);}
+float plantPart::nDead(void) const {return (g.n_dead);}
 
 void plantPart::onPlantEvent(const string &event)
    {
