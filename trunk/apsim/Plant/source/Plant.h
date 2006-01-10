@@ -468,7 +468,7 @@ class Plant : public plantInterface {
     ,float  c_sla_min
     ,double  g_dlt_dm
     ,float  g_dlt_dm_grain_demand
-    ,float  *dlt_dm_oil_conv
+    ,float  dlt_dm_oil_conv
     ,float  *dlt_dm_green
     ) ;
   void legnew_dm_partition2
@@ -484,7 +484,7 @@ class Plant : public plantInterface {
     ,float  c_sla_min
     ,double  g_dlt_dm
     ,float  g_dlt_dm_grain_demand
-    ,float  *dlt_dm_oil_conv
+    ,float  dlt_dm_oil_conv
     ,float  *dlt_dm_green
     ) ;
   void legnew_dm_retranslocate1
@@ -503,7 +503,7 @@ class Plant : public plantInterface {
     ,float  *g_dm_green
     ,float  *g_dm_plant_min
     ,float  g_plants
-    ,float  *dm_oil_conv_retranslocate
+    ,float  dm_oil_conv_retranslocate
     ,float  *dm_retranslocate
     ) ;
 
@@ -529,7 +529,7 @@ void legnew_dm_retranslocate2
     ,float  g_dlt_dm_grain_demand        // (INPUT)  grain dm demand (g/m^2)
     ,float  g_dlt_dm_oil_conv            // (INPUT)  dm used in oil conversion (g/m^2)
     ,float  g_plants                     // (INPUT)  Plant density (plants/m^2)
-    ,float  *dm_oil_conv_retranslocate    // (OUTPUT) assimilate used for oil conversion - energy (g/m^2)
+    ,float  dm_oil_conv_retranslocate    // (OUTPUT) assimilate used for oil conversion - energy (g/m^2)
     ) ;
   void legnew_n_retranslocate(float g_grain_n_demand);
 //  void legnew_n_retranslocate_test( int    *supply_pools
@@ -671,7 +671,7 @@ void legnew_dm_distribute(int max_part
                         , float dlt_dm_demand_oil     // assimilate demand for reproductive parts (g/m^2)
                         , float dlt_dm_demand_pod     // assimilate demand for reproductive parts (g/m^2)
                         , float dm_oil_conv_demand    // assimilate demand for conversion to oil (g/m^2)
-                        , float *dlt_dm_oil_conv       // (OUTPUT) actual biomass used in conversion to oil (g/m2)
+                        , float dlt_dm_oil_conv       // (OUTPUT) actual biomass used in conversion to oil (g/m2)
                         , float *dlt_dm_green);       // (OUTPUT) actual biomass partitioned
 
   void plant_get_site_characteristics ();
@@ -717,7 +717,6 @@ void legnew_dm_distribute(int max_part
   void get_cover_tot(protocol::Component *, protocol::QueryValueData &);
   void get_lai_canopy_green(protocol::Component *, protocol::QueryValueData &);
   void get_pai(protocol::Component *, protocol::QueryValueData &);
-  void get_grain_no(protocol::Component *, protocol::QueryValueData &);
   void get_root_wt(protocol::Component *, protocol::QueryValueData &);
   void get_leaf_wt(protocol::Component *, protocol::QueryValueData &);
   void get_stem_wt(protocol::Component *, protocol::QueryValueData &);
@@ -732,7 +731,6 @@ void legnew_dm_distribute(int max_part
   void get_dlt_dm(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_pot_rue(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_pot_te(protocol::Component *, protocol::QueryValueData &);
-  void get_dlt_dm_grain_demand(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_green(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_green_dead(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_green_retrans(protocol::Component *, protocol::QueryValueData &);
@@ -740,19 +738,15 @@ void legnew_dm_distribute(int max_part
   void get_dlt_dm_senesced(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_senesced_dead(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_dead_detached(protocol::Component *, protocol::QueryValueData &);
-  void get_grain_oil_conc(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_oil_conv(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_oil_conv_retrans(protocol::Component *, protocol::QueryValueData &);
   void get_biomass_n(protocol::Component *, protocol::QueryValueData &);
   void get_n_uptake(protocol::Component *, protocol::QueryValueData &);
   void get_green_biomass_n(protocol::Component *, protocol::QueryValueData &);
-  void get_grain_n(protocol::Component *, protocol::QueryValueData &);
   void get_leaf_n(protocol::Component *, protocol::QueryValueData &);
   void get_stem_n(protocol::Component *, protocol::QueryValueData &);
   void get_root_n(protocol::Component *, protocol::QueryValueData &);
   void get_deadleaf_n(protocol::Component *, protocol::QueryValueData &);
-  void get_pod_n(protocol::Component *, protocol::QueryValueData &);
-  void get_head_n(protocol::Component *, protocol::QueryValueData &);
   void get_n_senesced(protocol::Component *, protocol::QueryValueData &);
   void get_n_dead(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_n_green(protocol::Component *, protocol::QueryValueData &);
@@ -783,11 +777,8 @@ void legnew_dm_distribute(int max_part
   void get_dlt_n_senesced(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_stover(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_root(protocol::Component *, protocol::QueryValueData &);
-  void get_n_conc_grain(protocol::Component *, protocol::QueryValueData &);
-  void get_n_conc_meal(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_crit(protocol::Component *, protocol::QueryValueData &);
   void get_n_conc_min(protocol::Component *, protocol::QueryValueData &);
-  void get_grain_n_demand(protocol::Component *, protocol::QueryValueData &);
 
   void get_n_uptake_stover(protocol::Component *, protocol::QueryValueData &);
   void get_no3_tot(protocol::Component *, protocol::QueryValueData &);
@@ -824,8 +815,6 @@ void legnew_dm_distribute(int max_part
   void get_parasite_c_gain(protocol::Component *, protocol::QueryValueData &);
   void get_leaf_area_tot(protocol::Component *, protocol::QueryValueData &);
   void get_dm_parasite_retranslocate(protocol::Component *, protocol::QueryValueData &);
-  void get_grain_size(protocol::Component *, protocol::QueryValueData &);
-  void get_grain_protein(protocol::Component *, protocol::QueryValueData &);
   void get_sw_supply_layr(protocol::Component *, protocol::QueryValueData &);
   void get_no3_uptake(protocol::Component *, protocol::QueryValueData &);
   void get_nh4_uptake(protocol::Component *, protocol::QueryValueData &);
@@ -848,13 +837,10 @@ void legnew_dm_distribute(int max_part
   void get_biomass_p(protocol::Component *, protocol::QueryValueData &qd);
   void get_p_uptake(protocol::Component *, protocol::QueryValueData &qd);
   void get_green_biomass_p(protocol::Component *, protocol::QueryValueData &qd);
-  void get_grain_p(protocol::Component *, protocol::QueryValueData &qd);
   void get_leaf_p(protocol::Component *, protocol::QueryValueData &qd);
   void get_stem_p(protocol::Component *, protocol::QueryValueData &qd);
   void get_root_p(protocol::Component *, protocol::QueryValueData &qd);
   void get_deadleaf_p(protocol::Component *, protocol::QueryValueData &qd);
-  void get_pod_p(protocol::Component *, protocol::QueryValueData &qd);
-  void get_head_p(protocol::Component *, protocol::QueryValueData &qd);
   void get_p_senesced(protocol::Component *, protocol::QueryValueData &qd);
   void get_p_dead(protocol::Component *, protocol::QueryValueData &qd);
   void get_dlt_p_green(protocol::Component *, protocol::QueryValueData &qd);
@@ -864,10 +850,7 @@ void legnew_dm_distribute(int max_part
   void get_dlt_p_sen(protocol::Component *, protocol::QueryValueData &qd);
   void get_p_conc_stover(protocol::Component *, protocol::QueryValueData &qd);
   void get_p_conc_leaf(protocol::Component *, protocol::QueryValueData &qd);
-  void get_p_conc_grain(protocol::Component *, protocol::QueryValueData &qd);
-  void get_p_grain_pcnt(protocol::Component *, protocol::QueryValueData &qd);
   void get_p_uptake_stover(protocol::Component *, protocol::QueryValueData &qd);
-  void get_grain_p_demand(protocol::Component *, protocol::QueryValueData &qd);
   void get_ll(protocol::Component *systemInterface, protocol::QueryValueData &qd);
 
   int  getDayOfYear(void) {return (g.day_of_year);};

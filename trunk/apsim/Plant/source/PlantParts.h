@@ -173,6 +173,7 @@ private:
    virtual void doNSenescence(void);
    virtual void dm_detachment1(void);
    virtual void n_detachment1(void);
+
    float dmTotal(void);
    float dmGreen(void) const;
    float dmSenesced(void) const;
@@ -182,6 +183,13 @@ private:
    float nGreen(void) const;
    float nSenesced(void) const;
    float nDead(void) const;
+   float nConc(void) const;
+
+   float pTotal(void);
+   float pGreen(void) const;
+   float pSenesced(void) const;
+   float pDead(void) const;
+   float pConc(void) const;
 
    float nDemand(void) const;
    float nMax(void) const;
