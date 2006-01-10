@@ -1072,7 +1072,7 @@ float plantPart::availableRetranslocateN(void)
    return (N_avail * c.n_retrans_fraction);
    }
 
-float plantPart::dmTotal(void) {return (g.dm_green + g.dm_senesced + g.dm_dead);}
+float plantPart::dmTotal(void) {return (dmGreen() + dmSenesced() + dmDead());}
 float plantPart::dmGreen(void) const {return (g.dm_green);}
 float plantPart::dmSenesced(void) const {return (g.dm_senesced);}
 float plantPart::dmDead(void) const {return (g.dm_dead);}
@@ -1080,10 +1080,25 @@ float plantPart::dmDead(void) const {return (g.dm_dead);}
 float plantPart::nDemand(void) const {return (v.n_demand);}
 float plantPart::nMax(void) const{return (v.n_max);}
 
-float plantPart::nTotal(void) {return (g.n_green + g.n_senesced + g.n_dead);}
+float plantPart::nTotal(void) {return (nGreen() + nSenesced() + nDead());}
 float plantPart::nGreen(void) const {return (g.n_green);}
 float plantPart::nSenesced(void) const {return (g.n_senesced);}
 float plantPart::nDead(void) const {return (g.n_dead);}
+float plantPart::nConc(void) const
+{
+    float n_conc = divide (g.n_green, g.dm_green, 0.0) * 100.0;
+    return n_conc;
+}
+
+float plantPart::pTotal(void) {return (pGreen() + pSenesced() + pDead());}
+float plantPart::pGreen(void) const {return (g.p_green);}
+float plantPart::pSenesced(void) const {return (g.p_sen);}
+float plantPart::pDead(void) const {return (g.p_dead);}
+float plantPart::pConc(void) const
+{
+    float p_conc = divide (g.p_green, g.dm_green, 0.0) * 100.0;
+    return p_conc;
+}
 
 void plantPart::onPlantEvent(const string &event)
    {
