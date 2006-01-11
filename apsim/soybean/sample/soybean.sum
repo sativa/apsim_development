@@ -213,6 +213,7 @@
      Crop Sow
       - reading constants for plant(soybean)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = davis
         est_days_emerg_to_init     = 20 (days)
@@ -228,7 +229,6 @@
         y_tt_start_to_end_grain    =     460     460 (dd)
         tt_end_grain_to_maturity   =         40 (dd)
         tt_maturity_to_ripe        =          5 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0110     0.0110
         x_hi_max_pot_stress        =       0.00       1.00
@@ -283,7 +283,7 @@
 8 February 1989(Day of year=39), soybean: 
       stage 7.0 start_grain_fill
                      biomass =         719.58 (g/m^2)   lai          =   5.939 (m^2/m^2)
-                     stover N conc =     3.13 (%)    extractable sw =  120.08 (mm)
+                     stover N conc =     3.15 (%)    extractable sw =  120.08 (mm)
 14 March 1989(Day of year=73), soybean: 
      Crop failure because of total leaf senescence.
      Plant death. standing above-ground dm = 9120.24 (kg/ha)

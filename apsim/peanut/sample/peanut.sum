@@ -213,6 +213,7 @@
      Crop Sow
       - reading constants for plant(peanut)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = early_bunch
         est_days_emerg_to_init     = 2 (days)
@@ -228,7 +229,6 @@
         y_tt_start_to_end_grain    =  1020.5  1020.5 (dd)
         tt_end_grain_to_maturity   =         70 (dd)
         tt_maturity_to_ripe        =          5 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0064     0.0064
         x_hi_max_pot_stress        =       0.00       1.00
@@ -283,10 +283,10 @@
 19 January 1989(Day of year=19), peanut: 
       stage 7.0 start_grain_fill
                      biomass =         371.53 (g/m^2)   lai          =   2.976 (m^2/m^2)
-                     stover N conc =     2.35 (%)    extractable sw =  213.29 (mm)
+                     stover N conc =     2.36 (%)    extractable sw =  213.29 (mm)
 14 April 1989(Day of year=104), peanut: 
       stage 8.0 end_grain_fill
                      biomass =        1096.90 (g/m^2)   lai          =   3.878 (m^2/m^2)
-                     stover N conc =     1.44 (%)    extractable sw =   66.85 (mm)
+                     stover N conc =     2.09 (%)    extractable sw =   66.85 (mm)
 20 April 1989(Day of year=110), clock: 
      Simulation is terminating due to end criteria being met.

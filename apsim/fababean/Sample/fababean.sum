@@ -213,6 +213,7 @@
      Crop Sow
       - reading constants for plant(fababean)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = fiord
         est_days_emerg_to_init     = 70 (days)
@@ -228,7 +229,6 @@
         y_tt_start_to_end_grain    =    1300     100 (dd)
         tt_end_grain_to_maturity   =         60 (dd)
         tt_maturity_to_ripe        =          1 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0100     0.0100
         x_hi_max_pot_stress        =       0.50       1.00
