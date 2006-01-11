@@ -347,6 +347,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -354,7 +355,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -477,6 +477,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -484,7 +485,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -694,7 +694,7 @@
 19 February 1960(Day of year=50), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           263.5826       lai =     1.489506
-                          stover N conc =   0.6994637       extractable sw =    37.40090
+                          stover N conc =   0.6994636       extractable sw =    37.40090
 29 February 1960(Day of year=60), sorghum: 
       stage    7.0 flowering
                           biomass =           313.1616       lai =     1.452375
@@ -717,7 +717,7 @@
       flowering day  =   60                                 stover (kg/ha) =    2878.6
       maturity day        =    0                            grain yield (kg/ha) =    1718.6
       grain % water content   =   13.0                      grain yield wet (kg/ha) =    1975.4
-      grain wt (g) =     0.019                              grains/m^2   =  9021.742
+      grain wt (g) =     0.019                              grains/m^2   =  9021.741
       grains/head =1804.3                                   maximum lai = 1.500
       total above ground biomass (kg/ha) =    4597.2
       live above ground biomass (kg/ha) =    4597.2
@@ -767,6 +767,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -774,7 +775,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -854,7 +854,7 @@
       flowering day          =  308                           stover (kg/ha)         =     2266.9
       maturity day           =  347                           grain yield (kg/ha)    =      837.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      957.0
-      grain wt (g)           =    0.023                       grains/m^2             =   3628.274
+      grain wt (g)           =    0.023                       grains/m^2             =   3628.275
       grains/plant           =   36.3                         maximum lai            =      1.761
       total above ground biomass (kg/ha)    =     3104.3
       live above ground biomass (kg/ha)     =     3104.3
@@ -992,7 +992,7 @@
 11 April 1961(Day of year=101), sorghum: 
       stage    8.0 start_grain_fill
                           biomass =           243.6034       lai =     1.174442
-                          stover N conc =   0.9708431       extractable sw =    17.97352
+                          stover N conc =   0.9708433       extractable sw =    17.97352
 23 June 1961(Day of year=174), sorghum: 
      Frost kills all leaves.
      plant death due to complete leaf senescence
@@ -1057,6 +1057,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -1064,7 +1065,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -1261,7 +1261,7 @@
 31 December 1961(Day of year=365), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           3.801629       lai =    0.3420143E-01
-                          stover N conc =    4.090769       extractable sw =    23.28772
+                          stover N conc =    4.090770       extractable sw =    23.28772
 15 January 1962(Day of year=15), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           26.10325       lai =    0.3203663
@@ -1269,7 +1269,7 @@
 27 February 1962(Day of year=58), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           118.8275       lai =    0.5321243
-                          stover N conc =    1.344747       extractable sw =    7.437487
+                          stover N conc =    1.344747       extractable sw =    7.437485
 24 March 1962(Day of year=83), sorghum: 
       stage    7.0 flowering
                           biomass =           154.9517       lai =    0.3387079
@@ -1342,6 +1342,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -1349,7 +1350,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -1429,7 +1429,7 @@
       flowering day          =  258                           stover (kg/ha)         =     2221.9
       maturity day           =  308                           grain yield (kg/ha)    =     1039.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1187.6
-      grain wt (g)           =    0.028                       grains/m^2             =   3762.941
+      grain wt (g)           =    0.028                       grains/m^2             =   3762.940
       grains/plant           =   37.6                         maximum lai            =      1.578
       total above ground biomass (kg/ha)    =     3261.1
       live above ground biomass (kg/ha)     =     3261.1
@@ -1457,7 +1457,7 @@
                           N  (kg/ha) =                  8.01                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1039.17                    0.00
+                          DM (kg/ha) =               1039.16                    0.00
                           N  (kg/ha) =                 15.74                    0.00
      
       stage 4.0 end_of_juvenile
@@ -1477,6 +1477,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -1484,7 +1485,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -1612,6 +1612,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -1619,7 +1620,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -1699,7 +1699,7 @@
       flowering day          =  307                           stover (kg/ha)         =     3402.9
       maturity day           =  346                           grain yield (kg/ha)    =     1299.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1484.8
-      grain wt (g)           =    0.022                       grains/m^2             =   5934.689
+      grain wt (g)           =    0.022                       grains/m^2             =   5934.687
       grains/plant           =   59.3                         maximum lai            =      1.428
       total above ground biomass (kg/ha)    =     4702.1
       live above ground biomass (kg/ha)     =     4702.1
@@ -1747,6 +1747,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -1754,7 +1755,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -1947,7 +1947,7 @@
 8 January 1966(Day of year=8), sorghum: 
       stage    3.0 emergence
                           biomass =           1.000000       lai =    0.1000000E-02
-                          stover N conc =    2.525000       extractable sw =    6.140831
+                          stover N conc =    2.525000       extractable sw =    6.140833
 19 January 1966(Day of year=19), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           4.222322       lai =    0.3885578E-01
@@ -1955,32 +1955,32 @@
 3 February 1966(Day of year=34), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           31.13473       lai =    0.3631078
-                          stover N conc =    2.411182       extractable sw =    57.87272
+                          stover N conc =    2.411182       extractable sw =    57.87273
 3 March 1966(Day of year=62), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           237.6250       lai =     1.607444
-                          stover N conc =    1.494694       extractable sw =    36.82402
+                          stover N conc =    1.494692       extractable sw =    36.82404
 14 March 1966(Day of year=73), sorghum: 
       stage    7.0 flowering
-                          biomass =           306.6876       lai =     1.567581
-                          stover N conc =    1.200599       extractable sw =    24.46716
+                          biomass =           306.6877       lai =     1.567581
+                          stover N conc =    1.200597       extractable sw =    24.46717
 17 March 1966(Day of year=76), sorghum: 
       stage    8.0 start_grain_fill
-                          biomass =           317.7216       lai =     1.508795
-                          stover N conc =    1.156413       extractable sw =    22.06966
+                          biomass =           317.7217       lai =     1.508795
+                          stover N conc =    1.156410       extractable sw =    22.06967
 12 May 1966(Day of year=132), sorghum: 
       stage    9.0 end_grain_fill
-                          biomass =           474.1661       lai =    0.9679277
-                          stover N conc =   0.7206146       extractable sw =    11.54362
+                          biomass =           474.1661       lai =    0.9679279
+                          stover N conc =   0.7206132       extractable sw =    11.54365
 15 May 1966(Day of year=135), sorghum: 
       stage   10.0 maturity
-                          biomass =           478.1864       lai =    0.9218104
-                          stover N conc =   0.7147509       extractable sw =    11.06098
+                          biomass =           478.1865       lai =    0.9218106
+                          stover N conc =   0.7147494       extractable sw =    11.06101
 16 May 1966(Day of year=136), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
-                          biomass =           478.1864       lai =     0.000000
-                          stover N conc =   0.8141496       extractable sw =    10.99782
+                          biomass =           478.1865       lai =     0.000000
+                          stover N conc =   0.8141478       extractable sw =    10.99785
 17 May 1966(Day of year=137), manager: 
      Manager sending message :- sorghum harvest
 17 May 1966(Day of year=137), sorghum: 
@@ -1991,7 +1991,7 @@
       flowering day  =   73                                 stover (kg/ha) =    2673.5
       maturity day        =  135                            grain yield (kg/ha) =    2108.3
       grain % water content   =   13.0                      grain yield wet (kg/ha) =    2423.4
-      grain wt (g) =     0.020                              grains/m^2   = 10537.399
+      grain wt (g) =     0.020                              grains/m^2   = 10537.401
       grains/head =2107.5                                   maximum lai = 1.613
       total above ground biomass (kg/ha) =    4781.9
       live above ground biomass (kg/ha) =    4781.9
@@ -2044,6 +2044,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -2051,7 +2052,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -2131,7 +2131,7 @@
       flowering day          =  295                           stover (kg/ha)         =     2493.8
       maturity day           =  334                           grain yield (kg/ha)    =      857.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      980.3
-      grain wt (g)           =    0.021                       grains/m^2             =   4049.316
+      grain wt (g)           =    0.021                       grains/m^2             =   4049.318
       grains/plant           =   40.5                         maximum lai            =      1.450
       total above ground biomass (kg/ha)    =     3351.5
       live above ground biomass (kg/ha)     =     3351.5
@@ -2179,6 +2179,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -2186,7 +2187,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -2266,7 +2266,7 @@
       flowering day          =  269                           stover (kg/ha)         =     3024.4
       maturity day           =  311                           grain yield (kg/ha)    =     1096.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1253.3
-      grain wt (g)           =    0.021                       grains/m^2             =   5289.524
+      grain wt (g)           =    0.021                       grains/m^2             =   5289.523
       grains/plant           =   52.9                         maximum lai            =      1.483
       total above ground biomass (kg/ha)    =     4121.1
       live above ground biomass (kg/ha)     =     4121.1
@@ -2314,6 +2314,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -2321,7 +2322,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -2401,7 +2401,7 @@
       flowering day          =  288                           stover (kg/ha)         =     2978.8
       maturity day           =  331                           grain yield (kg/ha)    =     1089.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1245.5
-      grain wt (g)           =    0.021                       grains/m^2             =   5104.495
+      grain wt (g)           =    0.021                       grains/m^2             =   5104.493
       grains/plant           =   51.0                         maximum lai            =      1.620
       total above ground biomass (kg/ha)    =     4068.7
       live above ground biomass (kg/ha)     =     4068.7
@@ -2449,6 +2449,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -2456,7 +2457,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -2584,6 +2584,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -2591,7 +2592,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -2671,7 +2671,7 @@
       flowering day          =  308                           stover (kg/ha)         =     2777.0
       maturity day           =  346                           grain yield (kg/ha)    =     1014.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1158.9
-      grain wt (g)           =    0.022                       grains/m^2             =   4531.621
+      grain wt (g)           =    0.022                       grains/m^2             =   4531.620
       grains/plant           =   45.3                         maximum lai            =      1.915
       total above ground biomass (kg/ha)    =     3791.0
       live above ground biomass (kg/ha)     =     3791.0
@@ -2719,6 +2719,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -2726,7 +2727,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -2806,7 +2806,7 @@
       flowering day          =  275                           stover (kg/ha)         =     2987.7
       maturity day           =  321                           grain yield (kg/ha)    =     1098.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1254.9
-      grain wt (g)           =    0.021                       grains/m^2             =   5132.893
+      grain wt (g)           =    0.021                       grains/m^2             =   5132.889
       grains/plant           =   51.3                         maximum lai            =      1.432
       total above ground biomass (kg/ha)    =     4085.8
       live above ground biomass (kg/ha)     =     4085.8
@@ -2817,7 +2817,7 @@
       DM Root:Shoot ratio    =    0.163                       Harvest Index          =      0.269
       Stover C:N ratio       =  125.711                       Root C:N ratio         =     48.011
       grain N percent        =       1.05                     total N content (kg/ha)=      21.09
-      grain N uptake (kg/ha) =      11.58                     senesced N content (kg/ha)=    3.27
+      grain N uptake (kg/ha) =      11.58                     senesced N content (kg/ha)=    3.28
       green N content (kg/ha)=       6.23                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -2830,7 +2830,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2987.55                    0.00
+                          DM (kg/ha) =               2987.54                    0.00
                           N  (kg/ha) =                  9.51                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -2928,51 +2928,51 @@
 14 December 1971(Day of year=348), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           4.641514       lai =    0.3395736E-01
-                          stover N conc =    3.811904       extractable sw =    30.01222
+                          stover N conc =    3.811903       extractable sw =    30.01224
 4 January 1972(Day of year=4), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           35.55600       lai =    0.3714646
-                          stover N conc =    2.337969       extractable sw =    27.53253
+                          stover N conc =    2.337968       extractable sw =    27.53255
 4 February 1972(Day of year=35), sorghum: 
       stage    6.0 flag_leaf
-                          biomass =           154.3817       lai =    0.8536827
-                          stover N conc =    1.307517       extractable sw =    12.70774
+                          biomass =           154.3818       lai =    0.8536831
+                          stover N conc =    1.307515       extractable sw =    12.70775
 21 February 1972(Day of year=52), sorghum: 
       stage    7.0 flowering
-                          biomass =           179.4015       lai =    0.4438436
-                          stover N conc =    1.166773       extractable sw =    6.774201
+                          biomass =           179.4016       lai =    0.4438439
+                          stover N conc =    1.166771       extractable sw =    6.774202
 23 February 1972(Day of year=54), sorghum: 
       stage    8.0 start_grain_fill
-                          biomass =           181.0115       lai =    0.3843913
-                          stover N conc =    1.161900       extractable sw =    6.318449
+                          biomass =           181.0116       lai =    0.3843915
+                          stover N conc =    1.161897       extractable sw =    6.318449
 4 April 1972(Day of year=95), sorghum: 
       stage    9.0 end_grain_fill
-                          biomass =           223.6778       lai =    0.2392008
-                          stover N conc =   0.8942460       extractable sw =    3.142752
+                          biomass =           223.6779       lai =    0.2392009
+                          stover N conc =   0.8942444       extractable sw =    3.142752
 6 April 1972(Day of year=97), sorghum: 
       stage   10.0 maturity
-                          biomass =           224.8656       lai =    0.2337418
-                          stover N conc =   0.8891178       extractable sw =    2.999714
+                          biomass =           224.8658       lai =    0.2337419
+                          stover N conc =   0.8891164       extractable sw =    2.999714
 7 April 1972(Day of year=98), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
-                          biomass =           224.8656       lai =     0.000000
-                          stover N conc =   0.9709711       extractable sw =    7.224814
+                          biomass =           224.8658       lai =     0.000000
+                          stover N conc =   0.9709694       extractable sw =    7.224814
 8 April 1972(Day of year=99), manager: 
      Manager sending message :- sorghum harvest
 8 April 1972(Day of year=99), sorghum: 
      
      
      
-     flowering (DAS) =   89                                maturity (DAS)  =     133
+     flowering (DAS) =   89                                maturity (DAS)  =     134
       flowering day  =   52                                 stover (kg/ha) =    1577.4
       maturity day        =   97                            grain yield (kg/ha) =     671.2
       grain % water content   =   13.0                      grain yield wet (kg/ha) =     771.5
-      grain wt (g) =     0.019                              grains/m^2   =  3570.607
+      grain wt (g) =     0.019                              grains/m^2   =  3570.611
       grains/head = 714.1                                   maximum lai = 0.974
       total above ground biomass (kg/ha) =    2248.7
       live above ground biomass (kg/ha) =    2248.7
-      green above ground biomass (kg/ha) =    1567.0
+      green above ground biomass (kg/ha) =    1567.1
       senesced above ground biomass (kg/ha) =     681.6
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  16.6
@@ -3021,6 +3021,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -3028,7 +3029,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -3237,8 +3237,8 @@
                           stover N conc =    2.621371       extractable sw =    17.16632
 3 May 1973(Day of year=123), sorghum: 
       stage    6.0 flag_leaf
-                          biomass =           131.1943       lai =    0.5764902
-                          stover N conc =   0.9209924       extractable sw =    9.849615
+                          biomass =           131.1943       lai =    0.5764903
+                          stover N conc =   0.9209917       extractable sw =    9.849615
 16 May 1973(Day of year=136), sorghum: 
      Frost kills all leaves.
      plant death due to complete leaf senescence
@@ -3303,6 +3303,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -3310,7 +3311,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -3365,7 +3365,7 @@
                      stover N conc =     1.98 (%)    extractable sw =   50.49 (mm)
 11 October 1973(Day of year=284), wheat: 
       stage 6.0 flowering
-                     biomass =         372.29 (g/m^2)   lai          =   0.864 (m^2/m^2)
+                     biomass =         372.28 (g/m^2)   lai          =   0.864 (m^2/m^2)
                      stover N conc =     0.71 (%)    extractable sw =   22.71 (mm)
 20 October 1973(Day of year=293), wheat: 
       stage 7.0 start_grain_fill
@@ -3390,7 +3390,7 @@
       flowering day          =  284                           stover (kg/ha)         =     3295.5
       maturity day           =  327                           grain yield (kg/ha)    =     1200.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1371.4
-      grain wt (g)           =    0.022                       grains/m^2             =   5360.112
+      grain wt (g)           =    0.022                       grains/m^2             =   5360.110
       grains/plant           =   53.6                         maximum lai            =      1.825
       total above ground biomass (kg/ha)    =     4495.5
       live above ground biomass (kg/ha)     =     4495.5
@@ -3438,6 +3438,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -3445,7 +3446,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -3525,7 +3525,7 @@
       flowering day          =  261                           stover (kg/ha)         =     3672.4
       maturity day           =  310                           grain yield (kg/ha)    =     1347.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1539.9
-      grain wt (g)           =    0.023                       grains/m^2             =   5801.047
+      grain wt (g)           =    0.023                       grains/m^2             =   5801.045
       grains/plant           =   58.0                         maximum lai            =      1.667
       total above ground biomass (kg/ha)    =     5019.8
       live above ground biomass (kg/ha)     =     5019.8
@@ -3642,7 +3642,7 @@
 7 December 1974(Day of year=341), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           4.063035       lai =    0.3776522E-01
-                          stover N conc =    3.970382       extractable sw =    26.12768
+                          stover N conc =    3.970381       extractable sw =    26.12769
 27 December 1974(Day of year=361), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           36.52835       lai =    0.3659475
@@ -3662,16 +3662,16 @@
 11 April 1975(Day of year=101), sorghum: 
       stage    9.0 end_grain_fill
                           biomass =           240.5464       lai =    0.2940357
-                          stover N conc =   0.8490740       extractable sw =    8.972331
+                          stover N conc =   0.8490739       extractable sw =    8.972331
 13 April 1975(Day of year=103), sorghum: 
       stage   10.0 maturity
                           biomass =           243.0441       lai =    0.2940357
-                          stover N conc =   0.8382729       extractable sw =    7.794860
+                          stover N conc =   0.8382728       extractable sw =    7.794860
 14 April 1975(Day of year=104), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           243.0441       lai =     0.000000
-                          stover N conc =   0.9280706       extractable sw =    7.274497
+                          stover N conc =   0.9280705       extractable sw =    7.274497
 15 April 1975(Day of year=105), manager: 
      Manager sending message :- sorghum harvest
 15 April 1975(Day of year=105), sorghum: 
@@ -3735,6 +3735,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -3742,7 +3743,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -3822,7 +3822,7 @@
       flowering day          =  312                           stover (kg/ha)         =     2909.4
       maturity day           =  348                           grain yield (kg/ha)    =     1117.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1277.3
-      grain wt (g)           =    0.023                       grains/m^2             =   4852.383
+      grain wt (g)           =    0.023                       grains/m^2             =   4852.386
       grains/plant           =   48.5                         maximum lai            =      1.272
       total above ground biomass (kg/ha)    =     4027.0
       live above ground biomass (kg/ha)     =     4027.0
@@ -3870,6 +3870,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -3877,7 +3878,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -3952,7 +3952,7 @@
       flowering day          =  306                           stover (kg/ha)         =     3777.1
       maturity day           =  345                           grain yield (kg/ha)    =     1617.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1848.8
-      grain wt (g)           =    0.026                       grains/m^2             =   6216.606
+      grain wt (g)           =    0.026                       grains/m^2             =   6216.607
       grains/plant           =   62.2                         maximum lai            =      2.194
       total above ground biomass (kg/ha)    =     5394.8
       live above ground biomass (kg/ha)     =     5394.8
@@ -4000,6 +4000,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -4007,7 +4008,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -4087,7 +4087,7 @@
       flowering day          =  303                           stover (kg/ha)         =     1400.9
       maturity day           =  340                           grain yield (kg/ha)    =      735.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      840.0
-      grain wt (g)           =    0.035                       grains/m^2             =   2077.968
+      grain wt (g)           =    0.035                       grains/m^2             =   2077.970
       grains/plant           =   20.8                         maximum lai            =      0.996
       total above ground biomass (kg/ha)    =     2135.9
       live above ground biomass (kg/ha)     =     2135.9
@@ -4126,7 +4126,7 @@
 8 December 1977(Day of year=342), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.19                  400.97
+                          DM (kg/ha) =                  0.19                  400.98
                           N  (kg/ha) =                  0.00                    4.82
      
 28 June 1978(Day of year=179), manager: 
@@ -4135,6 +4135,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -4142,7 +4143,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -4217,11 +4217,11 @@
       flowering day          =  292                           stover (kg/ha)         =     3226.4
       maturity day           =  334                           grain yield (kg/ha)    =     1149.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1314.2
-      grain wt (g)           =    0.021                       grains/m^2             =   5423.081
+      grain wt (g)           =    0.021                       grains/m^2             =   5423.082
       grains/plant           =   54.2                         maximum lai            =      2.281
       total above ground biomass (kg/ha)    =     4376.2
       live above ground biomass (kg/ha)     =     4376.2
-      green above ground biomass (kg/ha)    =     3378.5
+      green above ground biomass (kg/ha)    =     3378.6
       senesced above ground biomass (kg/ha) =      997.7
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   42.5
@@ -4265,6 +4265,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -4272,7 +4273,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -4352,7 +4352,7 @@
       flowering day          =  305                           stover (kg/ha)         =     1978.7
       maturity day           =  341                           grain yield (kg/ha)    =      921.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1053.5
-      grain wt (g)           =    0.029                       grains/m^2             =   3189.115
+      grain wt (g)           =    0.029                       grains/m^2             =   3189.117
       grains/plant           =   31.9                         maximum lai            =      1.667
       total above ground biomass (kg/ha)    =     2900.6
       live above ground biomass (kg/ha)     =     2900.6
@@ -4400,6 +4400,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -4407,7 +4408,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -4530,6 +4530,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -4537,7 +4538,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -4665,6 +4665,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -4672,7 +4673,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -4752,7 +4752,7 @@
       flowering day          =  278                           stover (kg/ha)         =     1819.0
       maturity day           =  317                           grain yield (kg/ha)    =      741.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      846.9
-      grain wt (g)           =    0.027                       grains/m^2             =   2700.727
+      grain wt (g)           =    0.027                       grains/m^2             =   2700.726
       grains/plant           =   27.0                         maximum lai            =      1.454
       total above ground biomass (kg/ha)    =     2560.0
       live above ground biomass (kg/ha)     =     2560.0
@@ -4868,15 +4868,15 @@
                           stover N conc =    2.525000       extractable sw =    7.238115
 15 December 1982(Day of year=349), sorghum: 
       stage    4.0 end_of_juvenile
-                          biomass =           2.936672       lai =    0.2973228E-01
-                          stover N conc =    3.735938       extractable sw =    45.12630
+                          biomass =           2.936683       lai =    0.2973241E-01
+                          stover N conc =    3.735942       extractable sw =    45.12630
 28 December 1982(Day of year=362), sorghum: 
       stage    5.0 floral_initiation
-                          biomass =           18.74455       lai =    0.3440089
-                          stover N conc =    3.187788       extractable sw =    54.23018
+                          biomass =           18.74458       lai =    0.3440090
+                          stover N conc =    3.187787       extractable sw =    54.23019
 27 January 1983(Day of year=27), sorghum: 
       stage    6.0 flag_leaf
-                          biomass =           183.6319       lai =     1.184543
+                          biomass =           183.6320       lai =     1.184543
                           stover N conc =    1.592067       extractable sw =    25.25174
 5 February 1983(Day of year=36), sorghum: 
       stage    7.0 flowering
@@ -4885,20 +4885,20 @@
 6 February 1983(Day of year=37), sorghum: 
       stage    8.0 start_grain_fill
                           biomass =           212.3817       lai =    0.9420160
-                          stover N conc =    1.414819       extractable sw =    12.54500
+                          stover N conc =    1.414818       extractable sw =    12.54501
 17 March 1983(Day of year=76), sorghum: 
       stage    9.0 end_grain_fill
                           biomass =           288.3832       lai =    0.4796809
-                          stover N conc =   0.9687598       extractable sw =    7.538993
+                          stover N conc =   0.9687599       extractable sw =    7.538996
 20 March 1983(Day of year=79), sorghum: 
       stage   10.0 maturity
-                          biomass =           294.2779       lai =    0.4796809
-                          stover N conc =   0.9456282       extractable sw =    4.390555
+                          biomass =           294.2780       lai =    0.4796809
+                          stover N conc =   0.9456282       extractable sw =    4.390558
 21 March 1983(Day of year=80), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
-                          biomass =           294.2779       lai =     0.000000
-                          stover N conc =    1.066742       extractable sw =    4.024071
+                          biomass =           294.2780       lai =     0.000000
+                          stover N conc =    1.066742       extractable sw =    4.024075
 22 March 1983(Day of year=81), manager: 
      Manager sending message :- sorghum harvest
 22 March 1983(Day of year=81), sorghum: 
@@ -4909,7 +4909,7 @@
       flowering day  =   36                                 stover (kg/ha) =    1652.5
       maturity day        =   79                            grain yield (kg/ha) =    1290.3
       grain % water content   =   13.0                      grain yield wet (kg/ha) =    1483.1
-      grain wt (g) =     0.018                              grains/m^2   =  7234.285
+      grain wt (g) =     0.018                              grains/m^2   =  7234.284
       grains/head =1446.9                                   maximum lai = 1.216
       total above ground biomass (kg/ha) =    2942.8
       live above ground biomass (kg/ha) =    2942.8
@@ -4944,7 +4944,7 @@
 22 March 1983(Day of year=81), sorghum: 
          Crop ended. Yield (dw) =     0.0
          Organic matter from crop:-      Tops to surface residue     Roots to soil FOM
-                          DM (kg/ha) =               1652.45                  795.91
+                          DM (kg/ha) =               1652.45                  795.92
                           N  (kg/ha) =                 15.23                    1.56
                           P  (kg/ha) =                  0.00                    0.00
      
@@ -4962,6 +4962,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -4969,7 +4970,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -5049,7 +5049,7 @@
       flowering day          =  278                           stover (kg/ha)         =     2252.6
       maturity day           =  319                           grain yield (kg/ha)    =      917.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1048.2
-      grain wt (g)           =    0.025                       grains/m^2             =   3686.286
+      grain wt (g)           =    0.025                       grains/m^2             =   3686.287
       grains/plant           =   36.9                         maximum lai            =      1.318
       total above ground biomass (kg/ha)    =     3169.8
       live above ground biomass (kg/ha)     =     3169.8
@@ -5165,7 +5165,7 @@
                           stover N conc =    2.292835       extractable sw =    13.71594
 9 December 1983(Day of year=343), sorghum: 
       stage    4.0 end_of_juvenile
-                          biomass =           2.307124       lai =    0.2258257E-01
+                          biomass =           2.307123       lai =    0.2258257E-01
                           stover N conc =    3.374918       extractable sw =    59.23066
 25 December 1983(Day of year=359), sorghum: 
       stage    5.0 floral_initiation
@@ -5182,7 +5182,7 @@
 11 February 1984(Day of year=42), sorghum: 
       stage    8.0 start_grain_fill
                           biomass =           216.0170       lai =    0.6284174
-                          stover N conc =   0.6262400       extractable sw =    7.672569
+                          stover N conc =   0.6262401       extractable sw =    7.672569
 28 March 1984(Day of year=88), sorghum: 
       stage    9.0 end_grain_fill
                           biomass =           264.7074       lai =    0.3794034
@@ -5190,7 +5190,7 @@
 31 March 1984(Day of year=91), sorghum: 
       stage   10.0 maturity
                           biomass =           267.6457       lai =    0.3794034
-                          stover N conc =   0.4749579       extractable sw =    6.076947
+                          stover N conc =   0.4749578       extractable sw =    6.076947
 1 April 1984(Day of year=92), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
@@ -5259,6 +5259,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -5266,7 +5267,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -5345,7 +5345,7 @@
      
       flowering day          =  280                           stover (kg/ha)         =     3973.4
       maturity day           =  319                           grain yield (kg/ha)    =     1458.2
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1666.6
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1666.5
       grain wt (g)           =    0.021                       grains/m^2             =   6862.156
       grains/plant           =   68.6                         maximum lai            =      1.954
       total above ground biomass (kg/ha)    =     5431.6
@@ -5394,6 +5394,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -5401,7 +5402,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -5481,7 +5481,7 @@
       flowering day          =  306                           stover (kg/ha)         =     2398.1
       maturity day           =  344                           grain yield (kg/ha)    =      870.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      994.6
-      grain wt (g)           =    0.021                       grains/m^2             =   4187.432
+      grain wt (g)           =    0.021                       grains/m^2             =   4187.433
       grains/plant           =   41.9                         maximum lai            =      1.312
       total above ground biomass (kg/ha)    =     3268.4
       live above ground biomass (kg/ha)     =     3268.4
@@ -5529,6 +5529,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -5536,7 +5537,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -5611,7 +5611,7 @@
       flowering day          =  268                           stover (kg/ha)         =     4933.8
       maturity day           =  315                           grain yield (kg/ha)    =     1787.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2042.9
-      grain wt (g)           =    0.022                       grains/m^2             =   8296.751
+      grain wt (g)           =    0.022                       grains/m^2             =   8296.752
       grains/plant           =   83.0                         maximum lai            =      2.511
       total above ground biomass (kg/ha)    =     6721.3
       live above ground biomass (kg/ha)     =     6721.3
@@ -5659,6 +5659,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -5666,7 +5667,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -5746,7 +5746,7 @@
       flowering day          =  262                           stover (kg/ha)         =     2922.1
       maturity day           =  307                           grain yield (kg/ha)    =     1087.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1242.6
-      grain wt (g)           =    0.022                       grains/m^2             =   5046.572
+      grain wt (g)           =    0.022                       grains/m^2             =   5046.577
       grains/plant           =   50.5                         maximum lai            =      1.368
       total above ground biomass (kg/ha)    =     4009.4
       live above ground biomass (kg/ha)     =     4009.4
@@ -5770,7 +5770,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2921.86                    0.00
+                          DM (kg/ha) =               2921.87                    0.00
                           N  (kg/ha) =                  9.10                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -5794,6 +5794,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -5801,7 +5802,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -5876,7 +5876,7 @@
       flowering day          =  262                           stover (kg/ha)         =     3486.1
       maturity day           =  305                           grain yield (kg/ha)    =     1253.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1432.6
-      grain wt (g)           =    0.022                       grains/m^2             =   5822.164
+      grain wt (g)           =    0.022                       grains/m^2             =   5822.171
       grains/plant           =   58.2                         maximum lai            =      1.784
       total above ground biomass (kg/ha)    =     4739.6
       live above ground biomass (kg/ha)     =     4739.6
@@ -5900,7 +5900,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3485.87                    0.00
+                          DM (kg/ha) =               3485.88                    0.00
                           N  (kg/ha) =                 11.42                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -5924,6 +5924,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -5931,7 +5932,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -6059,6 +6059,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -6066,7 +6067,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -6124,15 +6124,15 @@
                      stover N conc =     0.63 (%)    extractable sw =   12.99 (mm)
 8 December 1990(Day of year=342), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         353.29 (g/m^2)   lai          =   0.156 (m^2/m^2)
+                     biomass =         353.28 (g/m^2)   lai          =   0.156 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =    7.70 (mm)
 9 December 1990(Day of year=343), wheat: 
       stage 9.0 maturity
-                     biomass =         353.29 (g/m^2)   lai          =   0.142 (m^2/m^2)
+                     biomass =         353.28 (g/m^2)   lai          =   0.142 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =    7.53 (mm)
 10 December 1990(Day of year=344), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         353.29 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         353.28 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =    7.40 (mm)
 11 December 1990(Day of year=345), manager: 
      Manager sending message :- wheat harvest
@@ -6141,10 +6141,10 @@
       flowering day          =  306                           stover (kg/ha)         =     2561.1
       maturity day           =  343                           grain yield (kg/ha)    =      971.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1110.6
-      grain wt (g)           =    0.022                       grains/m^2             =   4384.317
+      grain wt (g)           =    0.022                       grains/m^2             =   4384.311
       grains/plant           =   43.8                         maximum lai            =      1.756
-      total above ground biomass (kg/ha)    =     3532.9
-      live above ground biomass (kg/ha)     =     3532.9
+      total above ground biomass (kg/ha)    =     3532.8
+      live above ground biomass (kg/ha)     =     3532.8
       green above ground biomass (kg/ha)    =     2781.7
       senesced above ground biomass (kg/ha) =      751.2
       dead above ground biomass (kg/ha)     =        0.0
@@ -6165,7 +6165,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2560.87                    0.00
+                          DM (kg/ha) =               2560.86                    0.00
                           N  (kg/ha) =                  9.13                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -6189,6 +6189,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -6196,7 +6197,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -6276,7 +6276,7 @@
       flowering day          =  281                           stover (kg/ha)         =     2064.8
       maturity day           =  321                           grain yield (kg/ha)    =      747.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      854.1
-      grain wt (g)           =    0.021                       grains/m^2             =   3577.583
+      grain wt (g)           =    0.021                       grains/m^2             =   3577.584
       grains/plant           =   35.8                         maximum lai            =      1.176
       total above ground biomass (kg/ha)    =     2812.2
       live above ground biomass (kg/ha)     =     2812.2
@@ -6394,21 +6394,21 @@
 29 December 1991(Day of year=363), sorghum: 
       stage    3.0 emergence
                           biomass =           1.000000       lai =    0.1000000E-02
-                          stover N conc =    2.376211       extractable sw =    7.070908
+                          stover N conc =    2.376211       extractable sw =    7.070907
 8 January 1992(Day of year=8), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           1.010061       lai =     0.000000
-                          stover N conc =    5.714465       extractable sw =    45.25707
+                          stover N conc =    5.714466       extractable sw =    45.25706
 24 January 1992(Day of year=24), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           1.010060       lai =     0.000000
-                          stover N conc =    5.714467       extractable sw =    55.55267
+                          stover N conc =    5.714468       extractable sw =    55.55266
 19 February 1992(Day of year=50), sorghum: 
      plant death due to complete leaf senescence
          kill. Standing above-ground dm =    10.1 (kg/ha)
       stage    6.0 flag_leaf
                           biomass =           1.010061       lai =     0.000000
-                          stover N conc =    5.714466       extractable sw =    101.7157
+                          stover N conc =    5.714467       extractable sw =    101.7157
 20 February 1992(Day of year=51), manager: 
      Manager sending message :- sorghum harvest
 20 February 1992(Day of year=51), sorghum: 
@@ -6469,6 +6469,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -6476,7 +6477,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -6551,7 +6551,7 @@
       flowering day          =  312                           stover (kg/ha)         =     3054.8
       maturity day           =  353                           grain yield (kg/ha)    =     1158.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1323.6
-      grain wt (g)           =    0.024                       grains/m^2             =   4777.859
+      grain wt (g)           =    0.024                       grains/m^2             =   4777.861
       grains/plant           =   47.8                         maximum lai            =      1.826
       total above ground biomass (kg/ha)    =     4213.0
       live above ground biomass (kg/ha)     =     4213.0
@@ -6599,6 +6599,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -6606,7 +6607,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -6686,7 +6686,7 @@
       flowering day          =  284                           stover (kg/ha)         =     3090.7
       maturity day           =  326                           grain yield (kg/ha)    =     1061.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1212.9
-      grain wt (g)           =    0.021                       grains/m^2             =   5141.021
+      grain wt (g)           =    0.021                       grains/m^2             =   5141.020
       grains/plant           =   51.4                         maximum lai            =      1.652
       total above ground biomass (kg/ha)    =     4152.0
       live above ground biomass (kg/ha)     =     4152.0
@@ -6734,6 +6734,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -6741,7 +6742,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -6933,17 +6933,17 @@
 27 January 1995(Day of year=27), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           1.014997       lai =     0.000000
-                          stover N conc =    5.762428       extractable sw =    10.04680
+                          stover N conc =    5.762429       extractable sw =    10.04680
 12 February 1995(Day of year=43), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           1.014997       lai =     0.000000
-                          stover N conc =    5.762428       extractable sw =    5.561745
+                          stover N conc =    5.762429       extractable sw =    5.561745
 16 March 1995(Day of year=75), sorghum: 
      plant death due to complete leaf senescence
          kill. Standing above-ground dm =    10.1 (kg/ha)
       stage    6.0 flag_leaf
                           biomass =           1.014997       lai =     0.000000
-                          stover N conc =    5.762428       extractable sw =    45.44075
+                          stover N conc =    5.762429       extractable sw =    45.44075
 17 March 1995(Day of year=76), manager: 
      Manager sending message :- sorghum harvest
 17 March 1995(Day of year=76), sorghum: 
@@ -7004,6 +7004,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -7011,7 +7012,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -7091,7 +7091,7 @@
       flowering day          =  302                           stover (kg/ha)         =     2405.0
       maturity day           =  340                           grain yield (kg/ha)    =      976.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1116.3
-      grain wt (g)           =    0.025                       grains/m^2             =   3905.400
+      grain wt (g)           =    0.025                       grains/m^2             =   3905.401
       grains/plant           =   39.1                         maximum lai            =      1.662
       total above ground biomass (kg/ha)    =     3381.7
       live above ground biomass (kg/ha)     =     3381.7
@@ -7208,17 +7208,17 @@
 10 January 1996(Day of year=10), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           1.011716       lai =     0.000000
-                          stover N conc =    5.859085       extractable sw =    41.85889
+                          stover N conc =    5.859085       extractable sw =    41.85890
 28 January 1996(Day of year=28), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           1.011716       lai =     0.000000
-                          stover N conc =    5.859085       extractable sw =    47.20359
+                          stover N conc =    5.859085       extractable sw =    47.20361
 24 February 1996(Day of year=55), sorghum: 
      plant death due to complete leaf senescence
          kill. Standing above-ground dm =    10.1 (kg/ha)
       stage    6.0 flag_leaf
                           biomass =           1.011716       lai =     0.000000
-                          stover N conc =    5.859086       extractable sw =    46.97946
+                          stover N conc =    5.859086       extractable sw =    46.97947
 25 February 1996(Day of year=56), manager: 
      Manager sending message :- sorghum harvest
 25 February 1996(Day of year=56), sorghum: 
@@ -7279,6 +7279,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -7286,7 +7287,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -7409,6 +7409,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -7416,7 +7417,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -7496,7 +7496,7 @@
       flowering day          =  261                           stover (kg/ha)         =     2770.8
       maturity day           =  305                           grain yield (kg/ha)    =     1005.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1148.8
-      grain wt (g)           =    0.022                       grains/m^2             =   4625.179
+      grain wt (g)           =    0.022                       grains/m^2             =   4625.180
       grains/plant           =   46.3                         maximum lai            =      1.186
       total above ground biomass (kg/ha)    =     3776.0
       live above ground biomass (kg/ha)     =     3776.0
@@ -7638,11 +7638,11 @@
 4 March 1998(Day of year=63), sorghum: 
       stage    9.0 end_grain_fill
                           biomass =           246.2497       lai =    0.2148053
-                          stover N conc =   0.7052765       extractable sw =    5.052783
+                          stover N conc =   0.7052764       extractable sw =    5.052783
 7 March 1998(Day of year=66), sorghum: 
       stage   10.0 maturity
                           biomass =           247.9457       lai =    0.1943209
-                          stover N conc =   0.7045502       extractable sw =    4.814792
+                          stover N conc =   0.7045501       extractable sw =    4.814792
 8 March 1998(Day of year=67), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
@@ -7711,6 +7711,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -7718,7 +7719,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -7914,36 +7914,36 @@
                           stover N conc =    2.330658       extractable sw =    7.795427
 20 January 1999(Day of year=20), sorghum: 
       stage    4.0 end_of_juvenile
-                          biomass =           1.972156       lai =    0.2072557E-01
+                          biomass =           1.972157       lai =    0.2072557E-01
                           stover N conc =    3.338223       extractable sw =    52.14976
 3 February 1999(Day of year=34), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           20.56480       lai =    0.3354869
-                          stover N conc =    2.879528       extractable sw =    91.56387
+                          stover N conc =    2.879528       extractable sw =    91.56389
 7 March 1999(Day of year=66), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           226.5643       lai =     1.467657
-                          stover N conc =   0.7736759       extractable sw =    29.33464
+                          stover N conc =   0.7736760       extractable sw =    29.33464
 18 March 1999(Day of year=77), sorghum: 
       stage    7.0 flowering
-                          biomass =           286.0384       lai =     1.426993
-                          stover N conc =   0.6540408       extractable sw =    46.92251
+                          biomass =           286.0385       lai =     1.426993
+                          stover N conc =   0.6540411       extractable sw =    46.92251
 20 March 1999(Day of year=79), sorghum: 
       stage    8.0 start_grain_fill
-                          biomass =           293.7427       lai =     1.419144
-                          stover N conc =   0.6400883       extractable sw =    53.89112
+                          biomass =           293.7428       lai =     1.419144
+                          stover N conc =   0.6400884       extractable sw =    53.89112
 13 May 1999(Day of year=133), sorghum: 
       stage    9.0 end_grain_fill
-                          biomass =           465.4156       lai =    0.8417448
+                          biomass =           465.4159       lai =    0.8417448
                           stover N conc =   0.3798663       extractable sw =    33.77882
 16 May 1999(Day of year=136), sorghum: 
       stage   10.0 maturity
-                          biomass =           467.1996       lai =    0.7853875
+                          biomass =           467.1998       lai =    0.7853874
                           stover N conc =   0.3781983       extractable sw =    40.28939
 17 May 1999(Day of year=137), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
-                          biomass =           467.1996       lai =     0.000000
+                          biomass =           467.1999       lai =     0.000000
                           stover N conc =   0.4268391       extractable sw =    38.99931
 18 May 1999(Day of year=138), manager: 
      Manager sending message :- sorghum harvest
@@ -7955,7 +7955,7 @@
       flowering day  =   77                                 stover (kg/ha) =    2596.5
       maturity day        =  136                            grain yield (kg/ha) =    2075.5
       grain % water content   =   13.0                      grain yield wet (kg/ha) =    2385.6
-      grain wt (g) =     0.022                              grains/m^2   =  9509.624
+      grain wt (g) =     0.022                              grains/m^2   =  9509.629
       grains/head =1901.9                                   maximum lai = 1.476
       total above ground biomass (kg/ha) =    4672.0
       live above ground biomass (kg/ha) =    4672.0
@@ -7978,7 +7978,7 @@
      
      Crop harvested.
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2075.46                    0.00
+                          DM (kg/ha) =               2075.47                    0.00
                           N  (kg/ha) =                  8.64                    0.00
      
 18 May 1999(Day of year=138), manager: 
@@ -8008,6 +8008,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -8015,7 +8016,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -8104,7 +8104,7 @@
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   38.6
       DM Root:Shoot ratio    =    0.190                       Harvest Index          =      0.269
-      Stover C:N ratio       =  113.425                       Root C:N ratio         =     36.470
+      Stover C:N ratio       =  113.424                       Root C:N ratio         =     36.470
       grain N percent        =       1.62                     total N content (kg/ha)=      23.56
       grain N uptake (kg/ha) =      14.80                     senesced N content (kg/ha)=    3.65
       green N content (kg/ha)=       5.12                     dead N content (kg/ha) =       0.00
@@ -8119,7 +8119,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2485.75                    0.00
+                          DM (kg/ha) =               2485.74                    0.00
                           N  (kg/ha) =                  8.77                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -8213,21 +8213,21 @@
 20 January 2000(Day of year=20), sorghum: 
       stage    3.0 emergence
                           biomass =           1.000000       lai =    0.1000000E-02
-                          stover N conc =    2.334818       extractable sw =    6.024121
+                          stover N conc =    2.334818       extractable sw =    6.024118
 1 February 2000(Day of year=32), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           1.010998       lai =     0.000000
-                          stover N conc =    5.953564       extractable sw =    66.85893
+                          stover N conc =    5.953563       extractable sw =    66.85893
 16 February 2000(Day of year=47), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           1.010998       lai =     0.000000
-                          stover N conc =    5.953564       extractable sw =    72.62006
+                          stover N conc =    5.953563       extractable sw =    72.62006
 20 March 2000(Day of year=80), sorghum: 
      plant death due to complete leaf senescence
          kill. Standing above-ground dm =    10.1 (kg/ha)
       stage    6.0 flag_leaf
                           biomass =           1.010998       lai =     0.000000
-                          stover N conc =    5.953564       extractable sw =    82.74387
+                          stover N conc =    5.953563       extractable sw =    82.74387
 21 March 2000(Day of year=81), manager: 
      Manager sending message :- sorghum harvest
 21 March 2000(Day of year=81), sorghum: 
@@ -8288,6 +8288,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -8295,7 +8296,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -8375,7 +8375,7 @@
       flowering day          =  304                           stover (kg/ha)         =     2416.6
       maturity day           =  341                           grain yield (kg/ha)    =      866.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      990.1
-      grain wt (g)           =    0.022                       grains/m^2             =   3872.370
+      grain wt (g)           =    0.022                       grains/m^2             =   3872.366
       grains/plant           =   38.7                         maximum lai            =      1.934
       total above ground biomass (kg/ha)    =     3282.9
       live above ground biomass (kg/ha)     =     3282.9
@@ -8488,19 +8488,19 @@
 27 January 2001(Day of year=27), sorghum: 
       stage    3.0 emergence
                           biomass =           1.000000       lai =    0.1000000E-02
-                          stover N conc =    2.487323       extractable sw =    14.01927
+                          stover N conc =    2.487324       extractable sw =    14.01927
 6 February 2001(Day of year=37), sorghum: 
       stage    4.0 end_of_juvenile
-                          biomass =           2.877245       lai =    0.3473002E-01
-                          stover N conc =    3.693316       extractable sw =    30.66003
+                          biomass =           2.877248       lai =    0.3473005E-01
+                          stover N conc =    3.693316       extractable sw =    30.66002
 23 February 2001(Day of year=54), sorghum: 
       stage    5.0 floral_initiation
-                          biomass =           19.85167       lai =    0.3210878
-                          stover N conc =    2.902047       extractable sw =    44.93951
+                          biomass =           19.85168       lai =    0.3210879
+                          stover N conc =    2.902047       extractable sw =    44.93948
 30 March 2001(Day of year=89), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           236.8304       lai =     1.429751
-                          stover N conc =   0.7877406       extractable sw =    30.83941
+                          stover N conc =   0.7877409       extractable sw =    30.83937
 8 April 2001(Day of year=98), sorghum: 
      Frost kills all leaves.
      plant death due to complete leaf senescence
@@ -8565,6 +8565,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -8572,7 +8573,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -8652,7 +8652,7 @@
       flowering day          =  309                           stover (kg/ha)         =     2135.1
       maturity day           =  349                           grain yield (kg/ha)    =      754.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      861.8
-      grain wt (g)           =    0.021                       grains/m^2             =   3560.349
+      grain wt (g)           =    0.021                       grains/m^2             =   3560.347
       grains/plant           =   35.6                         maximum lai            =      1.596
       total above ground biomass (kg/ha)    =     2889.1
       live above ground biomass (kg/ha)     =     2889.1
@@ -8700,6 +8700,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -8707,7 +8708,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -8786,8 +8786,8 @@
      
       flowering day          =  302                           stover (kg/ha)         =     1550.1
       maturity day           =  341                           grain yield (kg/ha)    =      524.2
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=      599.1
-      grain wt (g)           =    0.024                       grains/m^2             =   2190.753
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=      599.0
+      grain wt (g)           =    0.024                       grains/m^2             =   2190.752
       grains/plant           =   21.9                         maximum lai            =      1.725
       total above ground biomass (kg/ha)    =     2074.2
       live above ground biomass (kg/ha)     =     2074.2
