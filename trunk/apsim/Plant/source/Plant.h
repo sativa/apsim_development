@@ -79,38 +79,54 @@ class Plant : public plantInterface {
   eventObserver *floweringEventObserver;     // Bookkeeper for flowering events
   eventObserver *maturityEventObserver;      // Bookkeeper for maturity events
 
-  float Plant::topsGreen(void) const;
-  float Plant::topsSenesced(void) const;
-  float Plant::topsDead(void) const;
-  float Plant::topsTot(void) const;
+  float plantGreen(void) const;
+  float plantSenesced(void) const;
+  float plantDead(void) const;
+  float plantTot(void) const;
 
-  float Plant::topsNGreen(void) const;
-  float Plant::topsNSenesced(void) const;
-  float Plant::topsNDead(void) const;
-  float Plant::topsNTot(void) const;
+  float plantNGreen(void) const;
+  float plantNSenesced(void) const;
+  float plantNDead(void) const;
+  float plantNTot(void) const;
 
-  float Plant::stoverGreen(void) const;
-  float Plant::stoverSenesced(void) const;
-  float Plant::stoverDead(void) const;
-  float Plant::stoverTot(void) const;
+  float plantPGreen(void) const;
+  float plantPSenesced(void) const;
+  float plantPDead(void) const;
+  float plantPTot(void) const;
 
-  float Plant::stoverNGreen(void) const;
-  float Plant::stoverNSenesced(void) const;
-  float Plant::stoverNDead(void) const;
-  float Plant::stoverNTot(void) const;
+  float topsGreen(void) const;
+  float topsSenesced(void) const;
+  float topsDead(void) const;
+  float topsTot(void) const;
 
-  float Plant::topsPGreen(void) const;
-  float Plant::topsPSenesced(void) const;
-  float Plant::topsPDead(void) const;
-  float Plant::topsPTot(void) const;
-  float Plant::stoverPGreen(void) const;
-  float Plant::stoverPSenesced(void) const;
-  float Plant::stoverPDead(void) const;
-  float Plant::stoverPTot(void) const;
+  float topsNGreen(void) const;
+  float topsNSenesced(void) const;
+  float topsNDead(void) const;
+  float topsNTot(void) const;
 
-  float Plant::sumNMax(void) ;
-  float Plant::sumSoilNDemand(void) ;
-  float Plant::sumNDemand(void) ;
+  float topsPGreen(void) const;
+  float topsPSenesced(void) const;
+  float topsPDead(void) const;
+  float topsPTot(void) const;
+
+  float stoverGreen(void) const;
+  float stoverSenesced(void) const;
+  float stoverDead(void) const;
+  float stoverTot(void) const;
+
+  float stoverNGreen(void) const;
+  float stoverNSenesced(void) const;
+  float stoverNDead(void) const;
+  float stoverNTot(void) const;
+
+  float stoverPGreen(void) const;
+  float stoverPSenesced(void) const;
+  float stoverPDead(void) const;
+  float stoverPTot(void) const;
+
+  float sumNMax(void) ;
+  float sumSoilNDemand(void) ;
+  float sumNDemand(void) ;
 
  public:
   Plant(PlantComponent *P);
@@ -705,6 +721,7 @@ void legnew_dm_distribute(int max_part
   float getDltDm(void) const;
   float getDmVeg(void) const;
   float getDmGreenStem(void) const;
+  float getDmGreenTot(void) const;
 //  float getDyingFractionPlants(void) const;
 
   float getTempStressPhoto(void) const;
@@ -727,6 +744,7 @@ void legnew_dm_distribute(int max_part
   void get_green_biomass(protocol::Component *, protocol::QueryValueData &);
   void get_biomass_wt(protocol::Component *, protocol::QueryValueData &);
   void get_green_biomass_wt(protocol::Component *, protocol::QueryValueData &);
+  void get_stover_biomass_wt(protocol::Component *, protocol::QueryValueData &);
   void get_dm_plant_min(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_pot_rue(protocol::Component *, protocol::QueryValueData &);
