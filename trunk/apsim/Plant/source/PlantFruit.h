@@ -214,9 +214,10 @@ class PlantFruit : public plantPart
 
             void grain_n_demand1(float G_nfact_grain_conc
                                , float G_swdef_expansion
-                               , float *G_n_green
                                , float *grain_n_demand
                                );
+
+            void grain_n_demand2(float *grain_n_demand);
 
             float n_dlt_grain_conc(plantPart *grainPart
                                        , float sfac_slope      //(INPUT)  soil water stress factor slope
@@ -246,12 +247,10 @@ class PlantFruit : public plantPart
                                );
 
            void dm_retranslocate1(float  g_dlt_dm_retrans_to_fruit
-                                , float  *g_dm_plant_min
                                 , float  *dm_retranslocate
                                 ) ;
 
            void dm_retranslocate2(float  g_dlt_dm_retrans_to_fruit
-                                , float  *g_dm_plant_min
                                 , float  *dm_retranslocate
                                 ) ;
 

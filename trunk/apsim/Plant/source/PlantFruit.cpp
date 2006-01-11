@@ -2002,10 +2002,9 @@ void PlantFruit::bio_yieldpart_demand1(void)
 //===========================================================================
 void PlantFruit::grain_n_demand1(float g_nfact_grain_conc      //   (INPUT)
                                , float g_swdef_expansion       //   (INPUT)
-                               , float *g_n_green              //   (INPUT)  plant nitrogen content (g N/m^
                                , float *grain_n_demand)        //   grain N demand (g/m^2)
 //===========================================================================
-  {
+{
 //  Purpose
 //    Calculate plant n demand
 
@@ -2040,6 +2039,50 @@ void PlantFruit::grain_n_demand1(float g_nfact_grain_conc      //   (INPUT)
 
    }
 
+//===========================================================================
+void PlantFruit::grain_n_demand2 (float *grain_n_demand)
+//===========================================================================
+{
+      const char *my_name = "plant_grain_n_demand2";
+
+      float Tav ;
+      float N_potential;
+      float grain_growth;
+      float max_grain_n;
+
+      push_routine (my_name);
+
+      // default case
+      gN_grain_demand = 0.0;
+
+      if (phenology->inPhase("reproductive"))
+         {
+         // we are in grain filling stage
+         Tav = meanT();
+
+         gN_grain_demand = gGrain_no
+                               * cPotential_grain_n_filling_rate
+                               * linear_interp_real (Tav, cX_temp_grain_n_fill, cY_rel_grain_n_fill, cNum_temp_grain_n_fill);
+         }
+
+      if (phenology->inPhase("grainfill"))
+         {
+         // during grain C filling period so make sure that C filling is still
+         // going on otherwise stop putting N in now
+
+         grain_growth = divide(mealPart->dlt.dm_green + mealPart->dlt.dm_green_retrans
+                              , gGrain_no
+                              , 0.0);
+         if (grain_growth < cCrit_grainfill_rate)
+            {
+            //! grain filling has stopped - stop n flow as well
+            gN_grain_demand = 0.0;
+            }
+         }
+      *grain_n_demand = gN_grain_demand;
+
+      pop_routine (my_name);
+   }
 //==========================================================================
 float PlantFruit::n_dlt_grain_conc(plantPart *grainPart
                            , float sfac_slope      //(INPUT)  soil water stress factor slope
@@ -2402,7 +2445,6 @@ void PlantFruit::yieldpart_demand_stress1 (void)
 
 //     ===========================================================
 void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_fruit     // (INPUT)
-                                  , float  *g_dm_plant_min               // (INPUT)  minimum weight of each plant p
                                   , float  *dm_retranslocate             // (OUTPUT) actual change in plant part weights due to translocation (g/m^2)
                                   )
 //     ===========================================================
@@ -2548,7 +2590,6 @@ void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_fruit     // (INP
 
 //     ===========================================================
 void PlantFruit::dm_retranslocate2( float  g_dlt_dm_retrans_to_fruit     // (INPUT)
-                                  , float  *g_dm_plant_min               // (INPUT)  minimum weight of each plant p
                                   , float  *dm_retranslocate             // (OUTPUT) actual change in plant part weights due to translocation (g/m^2)
                                   )
 //     ===========================================================

@@ -83,11 +83,14 @@ class Plant : public plantInterface {
   float plantSenesced(void) const;
   float plantDead(void) const;
   float plantTot(void) const;
+  float plantDltDmGreen(void) const;
 
   float plantNGreen(void) const;
   float plantNSenesced(void) const;
   float plantNDead(void) const;
   float plantNTot(void) const;
+  float plantDltNRetrans(void) const;
+  float plantDltNGreen(void) const;
 
   float plantPGreen(void) const;
   float plantPSenesced(void) const;
@@ -98,6 +101,7 @@ class Plant : public plantInterface {
   float topsSenesced(void) const;
   float topsDead(void) const;
   float topsTot(void) const;
+  float topsDltDmGreen(void) const;
 
   float topsNGreen(void) const;
   float topsNSenesced(void) const;
@@ -584,24 +588,6 @@ void legnew_dm_retranslocate2
                         ,float* dlt_n_senesced_retrans //
                         ,float* dlt_n_senesced);        //  (OUTPUT) actual nitrogen senesced
                                                        //    from plant parts (g/m^2)
-
-  void plant_grain_n_demand2(
-      float     g_grain_no,
-      float     c_potential_grain_n_filling_rate,
-      float     g_maxt,
-      float     g_mint,
-      float     *c_x_temp_grain_n_fill,
-      float     *c_y_rel_grain_n_fill,
-      int       c_num_temp_grain_n_fill,
-      float     *g_n_conc_min,               // (INPUT)  minimum N concentration (g N/g
-      float     *g_n_conc_max,               // (INPUT)  maximum N concentration (g N/g
-      float     *g_dlt_dm_green,             // (INPUT)  plant biomass growth (g/m^2)
-      float     *g_dlt_dm_green_retrans,     // (INPUT)  plant biomass growth (g/m^2)
-      float     *g_dm_green,                 // (INPUT)  live plant dry weight (biomass
-      float     *g_n_green,                  // (INPUT)  plant nitrogen content (g N/m^
-      float     c_crit_grainfill_rate,
-      float     *grain_n_demand);
-
 
    void plant_root_incorp (float dlt_dm_root,
       float dlt_n_root, float dlt_p_root, float *g_dlayer, float *g_root_length, float g_root_depth,
