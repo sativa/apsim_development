@@ -99,6 +99,7 @@ class PlantFruit : public plantPart
 
              void onPlantEvent(const string &);
              void doNDemand1(float, float);
+             void doNDemand1Pot(float, float);
              void doNDemand2(float, float);
              void doSoilNDemand(void);
              void dm_detachment1(void);
@@ -126,16 +127,20 @@ class PlantFruit : public plantPart
 
             void zeroAllGlobals(void);
             void zeroDeltas(void);
+            void zeroDltNSenescedTrans(void);
             void putStates(vector<plantPart *> fruitParts);
             void getDltNGreen(vector<plantPart *> fruitParts);
             void getDltDmGrainDemand(void) const;                 //??
             void getDltDmGreen(vector<plantPart *> fruitParts);
+            void putDltDmGreen(vector<plantPart *> fruitParts);
             void getDltDmGreenRetrans(vector<plantPart *> fruitParts);
             void getDltNRetrans(vector<plantPart *> fruitParts);
             void getDltNSenescedRetrans(float navail, float n_demand_tot);
             void update(float dying_fract_plants);
             void refreshStates(void);
             void n_conc_limits(void);
+            void zeroDltDmGreen(void);
+
 
             float coverTotal(void) const;
             float coverGreen(void) const;
@@ -143,7 +148,7 @@ class PlantFruit : public plantPart
             float coverDead(void) const;
             float interceptRadiation(float radiation);
             float grainEnergy(void) const;
-            float grainNConcPercent(void) const;
+            float grainNConcPercent(void);
 
             float dltDmGrainDemand(void) const;
             float dltDmRetranslocate(void);
@@ -205,6 +210,8 @@ class PlantFruit : public plantPart
 
             void bio_yieldpart_demand1 (void) ;
 
+            void bio_yieldpart_demand2(void) ;
+
             void grain_n_demand1(float G_nfact_grain_conc
                                , float G_swdef_expansion
                                , float *G_n_green
@@ -234,7 +241,16 @@ class PlantFruit : public plantPart
                                ,float  *dlt_dm_green
                                );
 
+            void dm_partition2 (double g_dlt_dm
+                               ,float  *dlt_dm_green
+                               );
+
            void dm_retranslocate1(float  g_dlt_dm_retrans_to_fruit
+                                , float  *g_dm_plant_min
+                                , float  *dm_retranslocate
+                                ) ;
+
+           void dm_retranslocate2(float  g_dlt_dm_retrans_to_fruit
                                 , float  *g_dm_plant_min
                                 , float  *dm_retranslocate
                                 ) ;
@@ -245,10 +261,6 @@ class PlantFruit : public plantPart
             void doSenescence2 (float sen_fr);
 
                void retrans_init(float *dm_plant_min);
-
-               void n_senescence1(float  *dlt_n_senesced_trans
-                                , float  *dlt_n_senesced
-                                ) ;
 
                void n_conc_grain_limits(float  *n_conc_crit
             				  , float  *n_conc_max
@@ -269,19 +281,6 @@ class PlantFruit : public plantPart
                                   , float *g_N_green
                                   , float *N_avail);
 
-                void n_demand(const int max_part,           // (INPUT)
-                              int   *demand_parts,          // (INPUT)
-                              const int num_demand_parts,   // (INPUT)
-                              float G_dlt_dm,           // (INPUT)  the daily biomass production (g/m^2)
-                              float *G_dlt_dm_green,        // (INPUT)  plant biomass growth (g/m^2)
-                              float G_dlt_dm_pot_rue,       // (INPUT)  potential dry matter production from pods (g/m^2)
-                              float *G_dlt_n_retrans,       // (INPUT)  nitrogen retranslocated out from plant parts (g/m^2)
-                              float *G_dm_green,            // (INPUT)  live plant dry weight (biomass g/m^2)
-                              float *G_n_conc_crit,         // (INPUT)  critical N concentration (g N/g dm)
-                              float *G_n_conc_max,          // (INPUT)  maximum N concentration (g N/g dm)
-                              float *G_n_green,             // (INPUT)  plant nitrogen content (g N/m^2)
-                              float *N_demand,              // (OUTPUT) critical plant nitrogen demand (g/m^2)
-                              float *N_max);                 // (OUTPUT) max plant nitrogen demand (g/m^2)
 
 #if TEST_PlantFruit
 		virtual ~PlantFruit();							// destructor

@@ -74,6 +74,18 @@ void plantPart::doRegistrations(protocol::Component *system)
    desc3 = "P in " + c.name;
    system->addGettableVar(varName3.c_str(),  g.p_green, "g/m^2", desc3.c_str());
 
+   varName1 = c.name + "_wt";
+   desc1 = "Weight of " + c.name;
+   system->addGettableVar(varName1.c_str(), g.dm_green, "g/m^2", desc1.c_str());
+
+   varName2 = c.name + "_n";
+   desc2 = "N in " + c.name;
+   system->addGettableVar(varName2.c_str(),  g.n_green, "g/m^2", desc2.c_str());
+
+   varName3 = c.name + "_p";
+   desc3 = "P in " + c.name;
+   system->addGettableVar(varName3.c_str(),  g.p_green, "g/m^2", desc3.c_str());
+
    varName1 = "dm_dead_" + c.name;
    desc1 = "Weight of dead " + c.name;
    system->addGettableVar(varName1.c_str(), g.dm_dead, "g/m^2", desc1.c_str());
@@ -83,6 +95,18 @@ void plantPart::doRegistrations(protocol::Component *system)
    system->addGettableVar(varName2.c_str(),  g.n_dead, "g/m^2", desc2.c_str());
 
    varName3 = "p_dead_" + c.name;
+   desc3 = "P in dead " + c.name;
+   system->addGettableVar(varName3.c_str(),  g.p_dead, "g/m^2", desc3.c_str());
+
+   varName1 = "dead" + c.name + "_wt";
+   desc1 = "Weight of dead " + c.name;
+   system->addGettableVar(varName1.c_str(), g.dm_dead, "g/m^2", desc1.c_str());
+
+   varName2 = "dead" + c.name + "_n";
+   desc2 = "N in dead " + c.name;
+   system->addGettableVar(varName2.c_str(),  g.n_dead, "g/m^2", desc2.c_str());
+
+   varName3 = "dead" + c.name + "_p";
    desc3 = "P in dead " + c.name;
    system->addGettableVar(varName3.c_str(),  g.p_dead, "g/m^2", desc3.c_str());
 
