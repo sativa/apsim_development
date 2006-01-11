@@ -333,6 +333,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -340,7 +341,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -415,7 +415,7 @@
                      stover N conc =     0.67 (%)    extractable sw =    1.12 (mm)
 19 October 1957(Day of year=292), manager: 
      Manager creating a new local real variable : hi =    0.391980169487920
-     Manager creating a new local real variable : nhi =    0.706722127576740
+     Manager creating a new local real variable : nhi =    0.706722095780565
      Manager sending message :- wheat harvest
 19 October 1957(Day of year=292), Wheat: 
      
@@ -432,7 +432,7 @@
       number of leaves       =   33.4
       DM Root:Shoot ratio    =    0.110                       Harvest Index          =      0.392
       Stover C:N ratio       =   62.583                       Root C:N ratio         =     16.629
-      grain N percent        =       2.39                     total N content (kg/ha)=      87.63
+      grain N percent        =       2.39                     total N content (kg/ha)=      87.62
       grain N uptake (kg/ha) =      61.93                     senesced N content (kg/ha)=    3.42
       green N content (kg/ha)=      22.28                     dead N content (kg/ha) =       0.00
      
@@ -514,6 +514,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -521,7 +522,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -693,6 +693,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -700,7 +701,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -763,7 +763,7 @@
                      stover N conc =     1.37 (%)    extractable sw =    6.13 (mm)
 16 October 1959(Day of year=289), Wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         338.67 (g/m^2)   lai          =   0.147 (m^2/m^2)
+                     biomass =         338.66 (g/m^2)   lai          =   0.147 (m^2/m^2)
                      stover N conc =     1.45 (%)    extractable sw =    6.51 (mm)
 19 October 1959(Day of year=292), Wheat: 
       stage 9.0 maturity
@@ -872,6 +872,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -879,7 +880,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -1051,6 +1051,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -1058,7 +1059,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -1230,6 +1230,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -1237,7 +1238,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -1409,6 +1409,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -1416,7 +1417,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -1588,6 +1588,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -1595,7 +1596,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -1703,7 +1703,7 @@
                           N  (kg/ha) =                 20.78                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               4684.66                    0.00
+                          DM (kg/ha) =               4684.65                    0.00
                           N  (kg/ha) =                 89.51                    0.00
      
       stage 4.0 end_of_juvenile
@@ -1767,6 +1767,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -1774,7 +1775,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -1946,6 +1946,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -1953,7 +1954,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -2125,6 +2125,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -2132,7 +2133,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -2304,6 +2304,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -2311,7 +2312,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -2483,6 +2483,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -2490,7 +2491,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -2662,6 +2662,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -2669,7 +2670,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -2841,6 +2841,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -2848,7 +2849,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -3020,6 +3020,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -3027,7 +3028,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -3094,7 +3094,7 @@
                      stover N conc =     0.31 (%)    extractable sw =    8.43 (mm)
 13 October 1972(Day of year=287), Wheat: 
       stage 9.0 maturity
-                     biomass =         964.48 (g/m^2)   lai          =   0.445 (m^2/m^2)
+                     biomass =         964.49 (g/m^2)   lai          =   0.445 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =    8.29 (mm)
 14 October 1972(Day of year=288), Wheat: 
       stage 10.0 harvest_ripe
@@ -3199,6 +3199,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -3206,7 +3207,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -3378,6 +3378,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -3385,7 +3386,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -3557,6 +3557,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -3564,7 +3565,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -3736,6 +3736,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -3743,7 +3744,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -3915,6 +3915,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -3922,7 +3923,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -4094,6 +4094,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -4101,7 +4102,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -4273,6 +4273,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -4280,7 +4281,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -4369,7 +4369,7 @@
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   41.6
       DM Root:Shoot ratio    =    0.104                       Harvest Index          =      0.419
-      Stover C:N ratio       =   99.651                       Root C:N ratio         =     16.748
+      Stover C:N ratio       =   99.650                       Root C:N ratio         =     16.748
       grain N percent        =       2.37                     total N content (kg/ha)=     127.38
       grain N uptake (kg/ha) =     103.15                     senesced N content (kg/ha)=    5.83
       green N content (kg/ha)=      18.40                     dead N content (kg/ha) =       0.00
@@ -4452,6 +4452,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -4459,7 +4460,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -4567,7 +4567,7 @@
                           N  (kg/ha) =                 22.02                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3625.11                    0.00
+                          DM (kg/ha) =               3625.10                    0.00
                           N  (kg/ha) =                 85.82                    0.00
      
       stage 4.0 end_of_juvenile
@@ -4631,6 +4631,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -4638,7 +4639,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -4810,6 +4810,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -4817,7 +4818,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -4989,6 +4989,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -4996,7 +4997,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -5168,6 +5168,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -5175,7 +5176,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -5347,6 +5347,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -5354,7 +5355,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -5526,6 +5526,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -5533,7 +5534,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -5705,6 +5705,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -5712,7 +5713,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -5884,6 +5884,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -5891,7 +5892,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -6063,6 +6063,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -6070,7 +6071,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -6242,6 +6242,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -6249,7 +6250,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -6421,6 +6421,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -6428,7 +6429,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -6600,6 +6600,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -6607,7 +6608,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -6779,6 +6779,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -6786,7 +6787,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -6958,6 +6958,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -6965,7 +6966,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -7137,6 +7137,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -7144,7 +7145,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -7316,6 +7316,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -7323,7 +7324,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -7495,6 +7495,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -7502,7 +7503,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -7674,6 +7674,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -7681,7 +7682,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -7853,6 +7853,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -7860,7 +7861,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -8032,6 +8032,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -8039,7 +8040,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -8211,6 +8211,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -8218,7 +8219,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
@@ -8390,6 +8390,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -8397,7 +8398,6 @@
         photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0130     0.0130
         x_hi_max_pot_stress        =       0.00       1.00
