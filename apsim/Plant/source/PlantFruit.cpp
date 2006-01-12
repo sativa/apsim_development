@@ -354,6 +354,14 @@ float PlantFruit::nConcGrain(void)
 
 
 //===========================================================================
+float PlantFruit::nGrainDemand2(void)
+//===========================================================================
+{
+    return max(0.0, mealPart->v.soil_n_demand - mealPart->dlt.n_green);
+}
+
+
+//===========================================================================
 float PlantFruit::pTotal(void)
 //===========================================================================
 {
@@ -2250,7 +2258,7 @@ void PlantFruit::dm_partition1 (double g_dlt_dm                      // (INPUT) 
 
     float fracPod = cFrac_pod[(int)phenology->stageNumber()-1];
          // first we zero all plant component deltas
-    fill_real_array (dlt_dm_green, 0.0, max_part);
+    fill_real_array (dlt_dm_green, 0.0, max_part);         //FIXME - remove when array is removed
 
     // calculate demands of reproductive parts
     dm_grain_demand = divide (gDlt_dm_grain_demand, gGrain_energy, 0.0);
@@ -2277,13 +2285,14 @@ void PlantFruit::dm_partition1 (double g_dlt_dm                      // (INPUT) 
             // reproductive demand exceeds supply - distribute assimilate to those parts only
     {
             // reproductive demand exceeds supply - distribute assimilate to those parts only
-        mealPart->dlt.dm_green = g_dlt_dm * divide (dm_meal_demand, yield_demand, 0.0);
-        oilPart->dlt.dm_green  = g_dlt_dm * divide (dm_oil_demand, yield_demand, 0.0);
-        gDlt_dm_oil_conv   = g_dlt_dm * divide (dm_oil_conv_demand, yield_demand, 0.0);
+        mealPart->dlt.dm_green = g_dlt_dm * divide (dm_meal_demand    , yield_demand, 0.0);
+        oilPart->dlt.dm_green  = g_dlt_dm * divide (dm_oil_demand     , yield_demand, 0.0);
+        gDlt_dm_oil_conv       = g_dlt_dm * divide (dm_oil_conv_demand, yield_demand, 0.0);
+
         podPart->dlt.dm_green = g_dlt_dm
-                             - mealPart->dlt.dm_green
-                             - oilPart->dlt.dm_green
-                             - gDlt_dm_oil_conv;
+                              - mealPart->dlt.dm_green
+                              - oilPart->dlt.dm_green
+                              - gDlt_dm_oil_conv;
     }
     else
     {
@@ -2293,19 +2302,21 @@ void PlantFruit::dm_partition1 (double g_dlt_dm                      // (INPUT) 
         // satisfy reproductive demands
         mealPart->dlt.dm_green   = dm_meal_demand;
         oilPart->dlt.dm_green    = dm_oil_demand;
-        gDlt_dm_oil_conv     = dm_oil_conv_demand;
+        gDlt_dm_oil_conv         = dm_oil_conv_demand;
         podPart->dlt.dm_green    = dm_pod_demand;
 
 //        // distribute remainder to vegetative parts
 //        dm_remaining = g_dlt_dm - yield_demand;
     }
 
+     dltDmGreen();
+
      dlt_dm_green[meal]   = mealPart->dlt.dm_green;  //FIXME - remove when array is removed
      dlt_dm_green[oil]    = oilPart->dlt.dm_green;   //FIXME - remove when array is removed
      dlt_dm_green[pod]    = podPart->dlt.dm_green;   //FIXME - remove when array is removed
 
     // do mass balance check
-    dlt_dm_green_tot = dltDmGreen()
+    dlt_dm_green_tot = dlt.dm_green
                      + gDlt_dm_oil_conv;
 
     if (!reals_are_equal(dlt_dm_green_tot, g_dlt_dm, 1.0E-4))  // XX this is probably too much slop - try doubles XX
@@ -2354,7 +2365,7 @@ void PlantFruit::dm_partition2 (double g_dlt_dm                      // (INPUT) 
                                   ,cNum_stage_no_partition);
 
          // first we zero all plant component deltas
-    fill_real_array (dlt_dm_green, 0.0, max_part);
+    fill_real_array (dlt_dm_green, 0.0, max_part);            //FIXME - remove when array is removed
 
     // calculate demands of reproductive parts
     dm_grain_demand = divide (gDlt_dm_grain_demand, gGrain_energy, 0.0);
@@ -2381,13 +2392,14 @@ void PlantFruit::dm_partition2 (double g_dlt_dm                      // (INPUT) 
             // reproductive demand exceeds supply - distribute assimilate to those parts only
     {
             // reproductive demand exceeds supply - distribute assimilate to those parts only
-        mealPart->dlt.dm_green = g_dlt_dm * divide (dm_meal_demand, yield_demand, 0.0);
-        oilPart->dlt.dm_green  = g_dlt_dm * divide (dm_oil_demand, yield_demand, 0.0);
-        gDlt_dm_oil_conv   = g_dlt_dm * divide (dm_oil_conv_demand, yield_demand, 0.0);
+        mealPart->dlt.dm_green = g_dlt_dm * divide (dm_meal_demand    , yield_demand, 0.0);
+        oilPart->dlt.dm_green  = g_dlt_dm * divide (dm_oil_demand     , yield_demand, 0.0);
+        gDlt_dm_oil_conv       = g_dlt_dm * divide (dm_oil_conv_demand, yield_demand, 0.0);
+
         podPart->dlt.dm_green = g_dlt_dm
-                             - mealPart->dlt.dm_green
-                             - oilPart->dlt.dm_green
-                             - gDlt_dm_oil_conv;
+                              - mealPart->dlt.dm_green
+                              - oilPart->dlt.dm_green
+                              - gDlt_dm_oil_conv;
     }
     else
     {
@@ -2397,19 +2409,21 @@ void PlantFruit::dm_partition2 (double g_dlt_dm                      // (INPUT) 
         // satisfy reproductive demands
         mealPart->dlt.dm_green   = dm_meal_demand;
         oilPart->dlt.dm_green    = dm_oil_demand;
-        gDlt_dm_oil_conv     = dm_oil_conv_demand;
+        gDlt_dm_oil_conv         = dm_oil_conv_demand;
         podPart->dlt.dm_green    = dm_pod_demand;
 
 //        // distribute remainder to vegetative parts
 //        dm_remaining = g_dlt_dm - yield_demand;
     }
 
+     dltDmGreen();
+
      dlt_dm_green[meal]   = mealPart->dlt.dm_green;  //FIXME - remove when array is removed
      dlt_dm_green[oil]    = oilPart->dlt.dm_green;   //FIXME - remove when array is removed
      dlt_dm_green[pod]    = podPart->dlt.dm_green;   //FIXME - remove when array is removed
 
     // do mass balance check
-    dlt_dm_green_tot = dltDmGreen()
+    dlt_dm_green_tot = dlt.dm_green
                      + gDlt_dm_oil_conv;
 
     if (!reals_are_equal(dlt_dm_green_tot, g_dlt_dm, 1.0E-4))  // XX this is probably too much slop - try doubles XX
@@ -2538,14 +2552,14 @@ void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_fruit     // (INP
         if (yield_demand_differential > dlt_dm_retrans_total)
         {
             mealPart->dlt.dm_green_retrans = dlt_dm_retrans_total
-                                   * divide (dm_meal_demand_differential, yield_demand_differential, 0.0);
+                                           * divide (dm_meal_demand_differential, yield_demand_differential, 0.0);
             oilPart->dlt.dm_green_retrans = dlt_dm_retrans_total
-                                  * divide (dm_oil_demand_differential, yield_demand_differential, 0.0);
+                                          * divide (dm_oil_demand_differential, yield_demand_differential, 0.0);
             dmOil_conv_retranslocate = dlt_dm_retrans_total
-                                       * divide (dm_oil_conv_demand_differential, yield_demand_differential, 0.0);
+                                     * divide (dm_oil_conv_demand_differential, yield_demand_differential, 0.0);
             podPart->dlt.dm_green_retrans = dlt_dm_retrans_total
-                                  * divide (dm_pod_demand_differential, yield_demand_differential, 0.0)
-                                  + podPart->dlt.dm_green_retrans;
+                                          * divide (dm_pod_demand_differential, yield_demand_differential, 0.0)
+                                          + podPart->dlt.dm_green_retrans;
         }
         else
         {
@@ -2568,6 +2582,8 @@ void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_fruit     // (INP
         (*t)->dlt.dm_green_retrans = 0.0;
         dmOil_conv_retranslocate = 0.0;
     }
+
+    dltDmRetranslocate();
 
         dm_retranslocate[pod] = podPart->dlt.dm_green_retrans;   //FIXME - remove when array is removed
         dm_retranslocate[meal] = mealPart->dlt.dm_green_retrans; //FIXME - remove when array is removed
@@ -2718,6 +2734,7 @@ void PlantFruit::dm_retranslocate2( float  g_dlt_dm_retrans_to_fruit     // (INP
         (*t)->dlt.dm_green_retrans = 0.0;
         dmOil_conv_retranslocate = 0.0;
     }
+    dltDmRetranslocate();
 
         dm_retranslocate[pod] = podPart->dlt.dm_green_retrans;    //FIXME - remove when array is removed
         dm_retranslocate[meal] = mealPart->dlt.dm_green_retrans;  //FIXME - remove when array is removed
@@ -2880,12 +2897,66 @@ void PlantFruit::n_conc_grain_limits ( float  *n_conc_crit                    //
     }
 //FIXME not called yet
 //============================================================================
-void PlantFruit::n_retranslocate( float  *G_N_conc_min               // (INPUT)  minimum N concentration (g N/g
-                                , float  *G_dm_green                 // (INPUT)  live plant dry weight (biomass
-                                , float  *G_N_green                  // (INPUT)  plant nitrogen content (g N/m^
-                                , float  G_grain_N_demand            //  INPUT
-                                , float  *dlt_N_retrans              // (OUTPUT) plant N taken out from plant parts (g N/m^2)
-                                )
+void PlantFruit::n_retranslocate( void)
+//============================================================================
+{
+//+  Purpose
+//     Calculate the nitrogen retranslocation from the various fruit parts
+//     to the grain.
+
+//+  Mission Statement
+//     Calculate N retranslocation from various fruit parts to grain
+
+//+  Changes
+//      170703 jngh specified and programmed
+
+//+  Local Variables
+
+//- Implementation Section ----------------------------------
+    float N_avail_rep = 0.0;
+         // Get Grain N supply in this cohort
+
+    vector<plantPart *>::iterator part;
+    for (part = supplyPools.begin(); part != supplyPools.end(); part++)
+        N_avail_rep += (*part)->availableRetranslocateN();  // grain N potential (supply) from pod
+
+            // available N does not include grain
+            // this should not presume grain is 0.
+
+          // get actual grain N uptake by retransolcation
+          // limit retranslocation to total available N
+
+    for (part = myParts.begin(); part != myParts.end(); part++)
+         (*part)->dlt.n_retrans = 0.0;
+
+      if (gN_grain_demand >= N_avail_rep)
+      {
+             // demand greater than or equal to supply
+             // retranslocate all available N
+
+         for (part = supplyPools.begin(); part != supplyPools.end(); part++)
+              (*part)->dlt.n_retrans = - (*part)->availableRetranslocateN();
+         mealPart->dlt.n_retrans = N_avail_rep;
+      }
+      else
+      {
+             // supply greater than demand.
+             // Retranslocate what is needed
+
+         for (part = supplyPools.begin(); part != supplyPools.end(); part++)
+               (*part)->dlt.n_retrans = - gN_grain_demand
+                                       * divide ((*part)->availableRetranslocateN(), N_avail_rep, 0.0);
+
+         mealPart->dlt.n_retrans = gN_grain_demand;
+
+      }
+////      dlt_N_retrans[pod] = podPart->dlt.n_retrans;    //FIXME temp until pod and meal are removed from plant array
+////      dlt_N_retrans[meal] = mealPart->dlt.n_retrans;  //FIXME temp until pod and meal are removed from plant array
+////      dlt_N_retrans[oil] = oilPart->dlt.n_retrans;                       //FIXME temp until pod and meal are removed from plant array
+}
+
+//============================================================================
+void PlantFruit::n_retranslocate_test( float N_supply, float g_grain_n_demand)
 //============================================================================
 {
 //+  Purpose
@@ -2899,97 +2970,43 @@ void PlantFruit::n_retranslocate( float  *G_N_conc_min               // (INPUT) 
 //      170703 jngh specified and programmed
 
 //+  Local Variables
-      float N_avail[max_part];     // N available for transfer to grain (g/m^2)
-      float N_avail_rep;           // total N available in reproductive parts (g/m^2)
 
 //- Implementation Section ----------------------------------
-    float N_avail_stover = 0.0;
-         // Get Grain N supply in this cohort
-    vector<plantPart *>::iterator part;
-    for (part = supplyPools.begin(); part != supplyPools.end(); part++)
-        N_avail_stover += (*part)->availableRetranslocateN();  // grain N potential (supply) from pod
-
-//      N_retrans_avail (meal
-//                     , G_N_conc_min
-//                     , G_dm_green
-//                     , G_N_green
-//                     , N_avail
-//                     ) ;  // grain N potential (supply)
 
             // available N does not include grain
             // this should not presume grain is 0.
 
-      N_avail_rep  =  sum_real_array (N_avail, max_part);
-
           // get actual grain N uptake by retransolcation
           // limit retranslocation to total available N
 
-      fill_real_array (dlt_N_retrans, 0.0, max_part);
+    vector<plantPart *>::iterator part;
+    for (part = myParts.begin(); part != myParts.end(); part++)
+         (*part)->dlt.n_retrans = 0.0;
 
-      if (gN_grain_demand >= N_avail_rep)
+      if (g_grain_n_demand >= N_supply)
       {
-
              // demand greater than or equal to supply
              // retranslocate all available N
 
-         podPart->dlt.n_retrans = - N_avail[pod];
-         mealPart->dlt.n_retrans = N_avail_rep;
+         for (part = supplyPools.begin(); part != supplyPools.end(); part++)
+              (*part)->dlt.n_retrans = - (*part)->availableRetranslocateN();
+         mealPart->dlt.n_retrans = N_supply;
       }
       else
       {
              // supply greater than demand.
              // Retranslocate what is needed
 
-         podPart->dlt.n_retrans = - gN_grain_demand
-                                     * divide (N_avail[pod], N_avail_rep, 0.0);
+         for (part = supplyPools.begin(); part != supplyPools.end(); part++)
+               (*part)->dlt.n_retrans = - g_grain_n_demand
+                                       * divide ((*part)->availableRetranslocateN(), N_supply, 0.0);
 
-         mealPart->dlt.n_retrans = gN_grain_demand;
+         mealPart->dlt.n_retrans = g_grain_n_demand;
 
       }
-      dlt_N_retrans[pod] = podPart->dlt.n_retrans;    //FIXME temp until pod and meal are removed from plant array
-      dlt_N_retrans[meal] = mealPart->dlt.n_retrans;  //FIXME temp until pod and meal are removed from plant array
-}
-
-//FIXME not used yet
-//===========================================================================
-void PlantFruit::N_retrans_avail(const int meal
-                               , float *g_N_conc_min
-                               , float *g_dm_green
-                               , float *g_N_green
-                               , float *N_avail)
-//===========================================================================
-
-//  Purpose
-//    Calculate N available for transfer to grain (g/m^2)
-//    from each fruit part.  By definition, available grain N
-//    is set to 0.
-
-// Mission Statement
-//  Calculate the Nitrogen available for retranslocation to grain
-
-// Notes
-//    N available for translocation to the grain is the sum of
-//    N available in the stover.
-//    N available in stover is the difference of its N content and the minimum it's allowed to fall to.
-//    NB. No translocation from roots.
-
-// Changes
-//      080994 jngh specified and programmed
-
-
-{
-   float N_min;                  // nitrogen minimum level (g/m^2)
-
-      // get grain N potential (supply) -----------
-      // now find the available N of each part.
-   fill_real_array (N_avail, 0.0, max_part);
-//   for(int part = 0; part < max_part; part++)      // FIXME when fruit becomes proper class
-   for(int part = pod; part <= pod; part++)
-   {
-      N_min = g_N_conc_min[part] * g_dm_green[part];
-      N_avail[part] = l_bound (g_N_green[part] - N_min, 0.0);
-   }
-   N_avail[meal]  = 0.0;
+    dlt.n_retrans = 0.0;
+    for (part = myParts.begin(); part != myParts.end(); part++)
+         dlt.n_retrans += (*part)->dlt.n_retrans;
 }
 
 //============================================================================

@@ -171,6 +171,7 @@ class PlantFruit : public plantPart
             float nSenescedVegTotal(void);
             float nDeadVegTotal(void);
             float nConcGrain(void);
+            float nGrainDemand2(void);
 
             float pTotal(void);
             float pGrainTotal(void);
@@ -267,19 +268,9 @@ class PlantFruit : public plantPart
 
                void nit_init (void);
 
-               void n_retranslocate( float  *g_n_conc_min               // (INPUT)  minimum N concentration (g N/g
-                                   , float  *g_dm_green                 // (INPUT)  live plant dry weight (biomass
-                                   , float  *g_n_green                  // (INPUT)  plant nitrogen content (g N/m^
-                                   , float  g_grain_n_demand            //  INPUT
-                                   , float  *dlt_n_retrans              // (OUTPUT) plant N taken out from plant parts (g N/m^2)
-                                   );
+               void n_retranslocate(void);
 
-               void N_retrans_avail(const int meal
-                                  , float *g_N_conc_min
-                                  , float *g_dm_green
-                                  , float *g_N_green
-                                  , float *N_avail);
-
+               void n_retranslocate_test( float N_avail_rep, float g_grain_n_demand);
 
 #if TEST_PlantFruit
 		virtual ~PlantFruit();							// destructor
