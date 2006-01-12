@@ -2428,7 +2428,7 @@ void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
 
     if (option == 1)
         {
-        legnew_n_retranslocate(g.grain_n_demand);
+        legnew_n_retranslocate(fruitPart->gN_grain_demand);
 //         float dlt_n_retrans_fruit[max_part];
 //         fruitPart->n_retranslocate (g.n_conc_min
 //                               , g.dm_green
@@ -2446,7 +2446,7 @@ void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
 //                                   , g.grain_n_supply
 //                                   , g.dlt_n_retrans
 //                                   ) ;
-//
+
 //         for (int part=0; part < max_part; part++)                     //
 //            {                                                          //  FIXME remove this when fruit proper class
 //               g.dlt_n_retrans[part] += dlt_n_retrans_fruit[part];     //
@@ -2455,7 +2455,7 @@ void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
     else if (option == 2)
         {
 //        legnew_n_retranslocate( max(0.0, g.soil_n_demand[meal] - g.dlt_n_green[meal]));
-        legnew_n_retranslocate( max(0.0, g.soil_n_demand[meal] - g.dlt_n_green[meal]));  //FIXME
+        legnew_n_retranslocate( fruitPart->nGrainDemand2());  //FIXME
         }
     else
         {
@@ -5991,6 +5991,9 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
        mealPart->dlt.n_retrans = g_grain_n_demand;
       }
 
+
+    fruitPart->n_retranslocate_test(n_avail_stover, g_grain_n_demand);
+
     // check that we got (some of) the maths right.
     for (part = mbCheckParts.begin(); part != mbCheckParts.end(); part++)
         {
@@ -5999,12 +6002,12 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
                               , (string("dlt_N_retrans(") + (*part)->name() + string(")")).c_str() );
         }
 
-    vector<plantPart *> fruitParts;
-    fruitParts.push_back(podPart);
-    fruitParts.push_back(mealPart);
-    fruitParts.push_back(oilPart);
-
-    fruitPart->getDltNRetrans(fruitParts);
+//    vector<plantPart *> fruitParts;
+//    fruitParts.push_back(podPart);
+//    fruitParts.push_back(mealPart);
+//    fruitParts.push_back(oilPart);
+//
+//    fruitPart->getDltNRetrans(fruitParts);
 
 
     pop_routine (my_name);
