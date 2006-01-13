@@ -825,6 +825,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = katunga
         pesw germination           =       0.00 (0-1)
@@ -965,6 +966,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = katunga
         pesw germination           =       0.00 (0-1)
@@ -1103,6 +1105,7 @@
      Crop Sow
       - reading constants for plant(lupin)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = gungurru
         est_days_emerg_to_init     = 83 (days)
@@ -1257,6 +1260,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = katunga
         pesw germination           =       0.00 (0-1)
@@ -1418,6 +1422,7 @@
      Crop Sow
       - reading constants for plant(canola)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = oscar
         est_days_emerg_to_init     = 83 (days)
@@ -1507,19 +1512,19 @@
 26 September 1996(Day of year=270), canola: 
       stage 7.0 start_grain_fill
                      biomass =         453.26 (g/m^2)   lai          =   2.159 (m^2/m^2)
-                     stover N conc =     1.54 (%)    extractable sw =  120.55 (mm)
+                     stover N conc =     1.55 (%)    extractable sw =  120.55 (mm)
 19 November 1996(Day of year=324), canola: 
       stage 8.0 end_grain_fill
                      biomass =         627.10 (g/m^2)   lai          =   0.370 (m^2/m^2)
-                     stover N conc =     0.39 (%)    extractable sw =  145.46 (mm)
+                     stover N conc =     0.48 (%)    extractable sw =  145.46 (mm)
 20 November 1996(Day of year=325), canola: 
       stage 9.0 maturity
                      biomass =         644.85 (g/m^2)   lai          =   0.356 (m^2/m^2)
-                     stover N conc =     0.38 (%)    extractable sw =  143.72 (mm)
+                     stover N conc =     0.47 (%)    extractable sw =  143.72 (mm)
 21 November 1996(Day of year=326), canola: 
       stage 10.0 harvest_ripe
                      biomass =         644.85 (g/m^2)   lai          =   0.004 (m^2/m^2)
-                     stover N conc =     0.37 (%)    extractable sw =  137.92 (mm)
+                     stover N conc =     0.46 (%)    extractable sw =  137.92 (mm)
 8 December 1996(Day of year=343), operatns: 
       Sending harvest message to canola
 8 December 1996(Day of year=343), canola: 
@@ -1551,7 +1556,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4565.04                    0.00
+                          DM (kg/ha) =               4565.03                    0.00
                           N  (kg/ha) =                 28.02                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -1601,6 +1606,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = swift
         pesw germination           =       0.00 (0-1)
@@ -1709,7 +1715,7 @@
       flowering day          =  293                           stover (kg/ha)         =     7119.5
       maturity day           =  333                           grain yield (kg/ha)    =     2656.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3036.4
-      grain wt (g)           =    0.021                       grains/m^2             =  12517.198
+      grain wt (g)           =    0.021                       grains/m^2             =  12517.199
       grains/plant           =   63.9                         maximum lai            =      4.167
       total above ground biomass (kg/ha)    =     9776.4
       live above ground biomass (kg/ha)     =     9776.4
@@ -1769,6 +1775,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = goldmark
         pesw germination           =       0.00 (0-1)
@@ -1864,6 +1871,7 @@
      Crop Sow
       - reading constants for winter_grass(weed)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = early
         est_days_emerg_to_init     = 83 (days)
@@ -1961,7 +1969,7 @@
       flowering day          =  286                           stover (kg/ha)         =     7873.8
       maturity day           =  334                           grain yield (kg/ha)    =     3682.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4208.2
-      grain wt (g)           =    0.029                       grains/m^2             =  12548.575
+      grain wt (g)           =    0.029                       grains/m^2             =  12548.577
       grains/plant           =   56.5                         maximum lai            =      3.444
       total above ground biomass (kg/ha)    =    11556.0
       live above ground biomass (kg/ha)     =    11556.0
@@ -1989,7 +1997,7 @@
                           N  (kg/ha) =                 25.86                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3682.20                    0.00
+                          DM (kg/ha) =               3682.21                    0.00
                           N  (kg/ha) =                 54.15                    0.00
      
       stage 4.0 end_of_juvenile
@@ -2101,6 +2109,7 @@
      Crop Sow
       - reading constants for triazine(canola)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = pinnacle
         est_days_emerg_to_init     = 83 (days)
@@ -2197,11 +2206,11 @@
 5 October 1999(Day of year=278), canola: 
       stage 7.0 start_grain_fill
                      biomass =         458.35 (g/m^2)   lai          =   2.854 (m^2/m^2)
-                     stover N conc =     2.27 (%)    extractable sw =  108.37 (mm)
+                     stover N conc =     2.29 (%)    extractable sw =  108.37 (mm)
 6 December 1999(Day of year=340), canola: 
       stage 8.0 end_grain_fill
                      biomass =         705.76 (g/m^2)   lai          =   0.456 (m^2/m^2)
-                     stover N conc =     0.38 (%)    extractable sw =   59.32 (mm)
+                     stover N conc =     0.49 (%)    extractable sw =   59.32 (mm)
 7 December 1999(Day of year=341), operatns: 
       Sending harvest message to canola
 7 December 1999(Day of year=341), canola: 
