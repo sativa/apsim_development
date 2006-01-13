@@ -813,6 +813,7 @@
      Crop Sow
       - reading constants for plant(lucerne)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = trifecta
         est_days_emerg_to_init     = 30 (days)
@@ -1033,7 +1034,7 @@
       senesced above ground biomass (kg/ha) =        4.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   39.1
-      DM Root:Shoot ratio    =   39.344                       Harvest Index          =      0.241
+      DM Root:Shoot ratio    =   39.343                       Harvest Index          =      0.241
       Stover C:N ratio       =    0.527                       Root C:N ratio         =      8.001
       grain N percent        =       1.70                     total N content (kg/ha)=      15.99
       grain N uptake (kg/ha) =       0.11                     senesced N content (kg/ha)=    0.09
@@ -1239,6 +1240,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = katunga
         pesw germination           =       0.00 (0-1)
@@ -1408,6 +1410,7 @@
      Crop Sow
       - reading constants for plant(canola)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = oscar
         est_days_emerg_to_init     = 83 (days)
@@ -1501,19 +1504,19 @@
 26 September 1996(Day of year=270), canola: 
       stage 7.0 start_grain_fill
                      biomass =         520.86 (g/m^2)   lai          =   2.599 (m^2/m^2)
-                     stover N conc =     1.65 (%)    extractable sw =  111.82 (mm)
+                     stover N conc =     1.66 (%)    extractable sw =  111.82 (mm)
 19 November 1996(Day of year=324), canola: 
       stage 8.0 end_grain_fill
                      biomass =         727.31 (g/m^2)   lai          =   0.620 (m^2/m^2)
-                     stover N conc =     0.36 (%)    extractable sw =  139.84 (mm)
+                     stover N conc =     0.45 (%)    extractable sw =  139.84 (mm)
 20 November 1996(Day of year=325), canola: 
       stage 9.0 maturity
                      biomass =         744.48 (g/m^2)   lai          =   0.593 (m^2/m^2)
-                     stover N conc =     0.36 (%)    extractable sw =  138.17 (mm)
+                     stover N conc =     0.44 (%)    extractable sw =  138.17 (mm)
 21 November 1996(Day of year=326), canola: 
       stage 10.0 harvest_ripe
                      biomass =         744.48 (g/m^2)   lai          =   0.004 (m^2/m^2)
-                     stover N conc =     0.34 (%)    extractable sw =  132.59 (mm)
+                     stover N conc =     0.43 (%)    extractable sw =  132.59 (mm)
 8 December 1996(Day of year=343), operatns: 
       Sending harvest message to canola
 8 December 1996(Day of year=343), canola: 
@@ -1592,6 +1595,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = swift
         pesw germination           =       0.00 (0-1)
@@ -1697,7 +1701,7 @@
       flowering day          =  293                           stover (kg/ha)         =     5209.7
       maturity day           =  333                           grain yield (kg/ha)    =     1912.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2185.5
-      grain wt (g)           =    0.021                       grains/m^2             =   9126.823
+      grain wt (g)           =    0.021                       grains/m^2             =   9126.822
       grains/plant           =   45.9                         maximum lai            =      2.425
       total above ground biomass (kg/ha)    =     7122.0
       live above ground biomass (kg/ha)     =     7122.0
@@ -1761,6 +1765,7 @@
      Crop Sow
       - reading constants for plant(lucerne)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = trifecta
         est_days_emerg_to_init     = 30 (days)

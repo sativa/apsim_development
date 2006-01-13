@@ -816,6 +816,7 @@
      Crop Sow
       - reading constants for plant(lucerne)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = trifecta
         est_days_emerg_to_init     = 30 (days)
@@ -1673,6 +1674,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = swift
         pesw germination           =       0.00 (0-1)
@@ -1842,6 +1844,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = goldmark
         pesw germination           =       0.00 (0-1)
@@ -1934,6 +1937,7 @@
      Crop Sow
       - reading constants for winter_grass(weed)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = early
         est_days_emerg_to_init     = 83 (days)
@@ -2029,9 +2033,9 @@
 22 December 1998(Day of year=356), wheat: 
      
       flowering day          =  286                           stover (kg/ha)         =     7831.7
-      maturity day           =  334                           grain yield (kg/ha)    =     3409.1
+      maturity day           =  334                           grain yield (kg/ha)    =     3409.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3896.2
-      grain wt (g)           =    0.028                       grains/m^2             =  12057.726
+      grain wt (g)           =    0.028                       grains/m^2             =  12057.729
       grains/plant           =   50.2                         maximum lai            =      3.932
       total above ground biomass (kg/ha)    =    11240.9
       live above ground biomass (kg/ha)     =    11240.9
@@ -2172,6 +2176,7 @@
      Crop Sow
       - reading constants for triazine(canola)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = pinnacle
         est_days_emerg_to_init     = 83 (days)
@@ -2265,11 +2270,11 @@
 5 October 1999(Day of year=278), canola: 
       stage 7.0 start_grain_fill
                      biomass =         418.22 (g/m^2)   lai          =   2.470 (m^2/m^2)
-                     stover N conc =     2.21 (%)    extractable sw =  112.17 (mm)
+                     stover N conc =     2.22 (%)    extractable sw =  112.17 (mm)
 6 December 1999(Day of year=340), canola: 
       stage 8.0 end_grain_fill
                      biomass =         665.39 (g/m^2)   lai          =   0.396 (m^2/m^2)
-                     stover N conc =     0.48 (%)    extractable sw =   60.16 (mm)
+                     stover N conc =     0.61 (%)    extractable sw =   60.16 (mm)
 7 December 1999(Day of year=341), operatns: 
       Sending harvest message to canola
 7 December 1999(Day of year=341), canola: 
