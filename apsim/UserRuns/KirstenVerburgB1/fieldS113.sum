@@ -1359,6 +1359,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = janz
         pesw germination           =       0.00 (0-1)
@@ -1612,6 +1613,7 @@
      Crop Sow
       - reading constants for plant(lucerne)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hunter_river
         est_days_emerg_to_init     = 30 (days)
@@ -2175,6 +2177,7 @@
      Crop Sow
       - reading constants for plant(lucerne)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hunter_river
         est_days_emerg_to_init     = 30 (days)
@@ -2388,7 +2391,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: dlt_n_green_sum =0.005668 vs n_uptake_sum =0.015592
+     dlt_n_green mass balance is off: dlt_n_green_sum =0.005669 vs n_uptake_sum =0.015592
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2435,7 +2438,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: dlt_n_green_sum =0.002167 vs n_uptake_sum =0.003912
+     dlt_n_green mass balance is off: dlt_n_green_sum =0.002168 vs n_uptake_sum =0.003912
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2543,7 +2546,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: dlt_n_green_sum =0.033020 vs n_uptake_sum =0.036934
+     dlt_n_green mass balance is off: dlt_n_green_sum =0.033021 vs n_uptake_sum =0.036934
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2687,7 +2690,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: dlt_n_green_sum =0.004419 vs n_uptake_sum =0.004794
+     dlt_n_green mass balance is off: dlt_n_green_sum =0.004418 vs n_uptake_sum =0.004794
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3634,7 +3637,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: dlt_n_green_sum =0.018059 vs n_uptake_sum =0.021438
+     dlt_n_green mass balance is off: dlt_n_green_sum =0.018060 vs n_uptake_sum =0.021438
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -5582,6 +5585,7 @@
      Crop Sow
       - reading constants for triazine(canola)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = karoo
         est_days_emerg_to_init     = 83 (days)
@@ -5697,7 +5701,7 @@
 9 September 1998(Day of year=252), canola: 
       stage 7.0 start_grain_fill
                      biomass =         413.87 (g/m^2)   lai          =   1.981 (m^2/m^2)
-                     stover N conc =     1.50 (%)    extractable sw =   66.40 (mm)
+                     stover N conc =     1.51 (%)    extractable sw =   66.40 (mm)
 19 September 1998(Day of year=262), operatns: 
       Sending do_end_day_output message to report4
 24 September 1998(Day of year=267), operatns: 
@@ -5711,13 +5715,13 @@
 4 November 1998(Day of year=308), canola: 
       stage 8.0 end_grain_fill
                      biomass =         573.51 (g/m^2)   lai          =   1.149 (m^2/m^2)
-                     stover N conc =     0.47 (%)    extractable sw =   80.60 (mm)
+                     stover N conc =     0.57 (%)    extractable sw =   80.60 (mm)
 5 November 1998(Day of year=309), operatns: 
       Sending do_end_day_output message to report4
 5 November 1998(Day of year=309), canola: 
       stage 9.0 maturity
                      biomass =         588.69 (g/m^2)   lai          =   1.128 (m^2/m^2)
-                     stover N conc =     0.46 (%)    extractable sw =   71.35 (mm)
+                     stover N conc =     0.55 (%)    extractable sw =   71.35 (mm)
 6 November 1998(Day of year=310), operatns: 
       Sending harvest message to canola
 6 November 1998(Day of year=310), canola: 
@@ -5787,6 +5791,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = janz
         pesw germination           =       0.00 (0-1)
@@ -5932,7 +5937,7 @@
       flowering day          =  283                           stover (kg/ha)         =    11336.6
       maturity day           =  329                           grain yield (kg/ha)    =     6506.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     7435.5
-      grain wt (g)           =    0.036                       grains/m^2             =  17924.666
+      grain wt (g)           =    0.036                       grains/m^2             =  17924.668
       grains/plant           =   92.4                         maximum lai            =      7.432
       total above ground biomass (kg/ha)    =    17842.6
       live above ground biomass (kg/ha)     =    17842.6
@@ -5956,11 +5961,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               11336.14                    0.00
+                          DM (kg/ha) =               11336.15                    0.00
                           N  (kg/ha) =                 45.22                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               6506.03                    0.00
+                          DM (kg/ha) =               6506.04                    0.00
                           N  (kg/ha) =                117.79                    0.00
      
       stage 4.0 end_of_juvenile
@@ -6007,6 +6012,7 @@
      Crop Sow
       - reading constants for plant(lupin)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = merrit
         est_days_emerg_to_init     = 83 (days)
@@ -6167,7 +6173,7 @@
                      stover N conc =     1.74 (%)    extractable sw =   33.13 (mm)
 26 November 2000(Day of year=331), lupin: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 13203.22 (kg/ha)
+     Plant death. standing above-ground dm = 13203.23 (kg/ha)
 12 December 2000(Day of year=347), operatns: 
       Sending do_end_day_output message to report7
 13 December 2000(Day of year=348), operatns: 
@@ -6240,6 +6246,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = h45jl
         pesw germination           =       0.00 (0-1)
@@ -6375,7 +6382,7 @@
       flowering day          =  286                           stover (kg/ha)         =     6848.0
       maturity day           =  331                           grain yield (kg/ha)    =     3405.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3892.4
-      grain wt (g)           =    0.030                       grains/m^2             =  11230.008
+      grain wt (g)           =    0.030                       grains/m^2             =  11230.009
       grains/plant           =   93.6                         maximum lai            =      4.475
       total above ground biomass (kg/ha)    =    10253.8
       live above ground biomass (kg/ha)     =    10253.8
@@ -6449,6 +6456,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = janz
         pesw germination           =       0.00 (0-1)
