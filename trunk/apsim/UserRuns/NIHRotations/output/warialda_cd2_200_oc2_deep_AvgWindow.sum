@@ -701,6 +701,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -857,6 +858,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -1760,6 +1762,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -2102,6 +2105,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -2443,6 +2447,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -2598,6 +2603,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -2752,6 +2758,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -3281,6 +3288,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -3541,33 +3549,33 @@
                           stover N conc =    4.034479       extractable sw =    72.69411
 29 December 1972(Day of year=364), sorghum: 
       stage    5.0 floral_initiation
-                          biomass =           60.90136       lai =    0.8114590
-                          stover N conc =    2.679998       extractable sw =    66.68781
+                          biomass =           60.90136       lai =    0.8114591
+                          stover N conc =    2.679998       extractable sw =    66.68787
 21 January 1973(Day of year=21), sorghum: 
       stage    6.0 flag_leaf
-                          biomass =           280.7248       lai =     2.759240
-                          stover N conc =    2.056285       extractable sw =    49.14560
+                          biomass =           280.7249       lai =     2.759242
+                          stover N conc =    2.056285       extractable sw =    49.14565
 29 January 1973(Day of year=29), sorghum: 
       stage    7.0 flowering
-                          biomass =           332.7145       lai =     2.685459
-                          stover N conc =    1.814633       extractable sw =    65.77275
+                          biomass =           332.7147       lai =     2.685461
+                          stover N conc =    1.814634       extractable sw =    65.77278
 30 January 1973(Day of year=30), sorghum: 
       stage    8.0 start_grain_fill
-                          biomass =           340.4606       lai =     2.672290
-                          stover N conc =    1.771345       extractable sw =    61.05730
+                          biomass =           340.4608       lai =     2.672291
+                          stover N conc =    1.771345       extractable sw =    61.05733
 4 March 1973(Day of year=63), sorghum: 
       stage    9.0 end_grain_fill
-                          biomass =           640.0063       lai =     1.371824
-                          stover N conc =   0.8308384       extractable sw =    50.17927
+                          biomass =           640.0068       lai =     1.371825
+                          stover N conc =   0.8308383       extractable sw =    50.17929
 6 March 1973(Day of year=65), sorghum: 
       stage   10.0 maturity
-                          biomass =           653.1143       lai =     1.260463
-                          stover N conc =   0.8068588       extractable sw =    46.35767
+                          biomass =           653.1147       lai =     1.260464
+                          stover N conc =   0.8068588       extractable sw =    46.35768
 7 March 1973(Day of year=66), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
-                          biomass =           653.1144       lai =     0.000000
-                          stover N conc =   0.8950536       extractable sw =    44.55752
+                          biomass =           653.1147       lai =     0.000000
+                          stover N conc =   0.8950535       extractable sw =    44.55753
 8 March 1973(Day of year=67), manager: 
      Manager sending message :- sorghum harvest
 8 March 1973(Day of year=67), sorghum: 
@@ -3578,7 +3586,7 @@
       flowering day  =   29                                 stover (kg/ha) =    3607.2
       maturity day        =   65                            grain yield (kg/ha) =    2924.0
       grain % water content   =   13.0                      grain yield wet (kg/ha) =    3360.9
-      grain wt (g) =     0.022                              grains/m^2   = 13202.975
+      grain wt (g) =     0.022                              grains/m^2   = 13202.981
       grains/head =2031.2                                   maximum lai = 2.796
       total above ground biomass (kg/ha) =    6531.1
       live above ground biomass (kg/ha) =    6531.1
@@ -3733,7 +3741,7 @@
 7 January 1974(Day of year=7), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           360.1630       lai =     3.579562
-                          stover N conc =    2.063473       extractable sw =    139.3558
+                          stover N conc =    2.063473       extractable sw =    139.3559
 15 January 1974(Day of year=15), sorghum: 
       stage    7.0 flowering
                           biomass =           472.7398       lai =     3.476918
@@ -3997,6 +4005,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -4339,6 +4348,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -4494,6 +4504,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -4648,6 +4659,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -4803,6 +4815,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -5144,6 +5157,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -5299,6 +5313,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -5602,6 +5617,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -5944,6 +5960,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -6098,6 +6115,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -6362,28 +6380,28 @@
                           stover N conc =    2.795792       extractable sw =    77.25269
 4 February 1986(Day of year=35), sorghum: 
       stage    6.0 flag_leaf
-                          biomass =           290.2249       lai =     2.659674
-                          stover N conc =    1.963208       extractable sw =    54.67950
+                          biomass =           290.2250       lai =     2.659674
+                          stover N conc =    1.963208       extractable sw =    54.67951
 12 February 1986(Day of year=43), sorghum: 
       stage    7.0 flowering
-                          biomass =           340.6890       lai =     2.330767
-                          stover N conc =    1.716174       extractable sw =    38.87372
+                          biomass =           340.6891       lai =     2.330767
+                          stover N conc =    1.716174       extractable sw =    38.87373
 14 February 1986(Day of year=45), sorghum: 
       stage    8.0 start_grain_fill
-                          biomass =           353.5936       lai =     2.330767
-                          stover N conc =    1.649930       extractable sw =    37.19017
+                          biomass =           353.5937       lai =     2.330767
+                          stover N conc =    1.649930       extractable sw =    37.19018
 21 March 1986(Day of year=80), sorghum: 
       stage    9.0 end_grain_fill
-                          biomass =           455.5195       lai =    0.4998148
+                          biomass =           455.5196       lai =    0.4998148
                           stover N conc =    1.067966       extractable sw =    10.31770
 23 March 1986(Day of year=82), sorghum: 
       stage   10.0 maturity
-                          biomass =           458.2427       lai =    0.4639618
+                          biomass =           458.2428       lai =    0.4639618
                           stover N conc =    1.060789       extractable sw =    9.589996
 24 March 1986(Day of year=83), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
-                          biomass =           458.2427       lai =     0.000000
+                          biomass =           458.2428       lai =     0.000000
                           stover N conc =    1.134359       extractable sw =    9.245102
 25 March 1986(Day of year=84), manager: 
      Manager sending message :- sorghum harvest
@@ -6395,7 +6413,7 @@
       flowering day  =   43                                 stover (kg/ha) =    2628.7
       maturity day        =   82                            grain yield (kg/ha) =    1953.7
       grain % water content   =   13.0                      grain yield wet (kg/ha) =    2245.7
-      grain wt (g) =     0.015                              grains/m^2   = 13160.205
+      grain wt (g) =     0.015                              grains/m^2   = 13160.206
       grains/head =2024.6                                   maximum lai = 2.697
       total above ground biomass (kg/ha) =    4582.4
       live above ground biomass (kg/ha) =    4582.4
@@ -6440,6 +6458,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -6590,6 +6609,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -6744,6 +6764,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -7086,6 +7107,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -7240,6 +7262,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -7395,6 +7418,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -7511,6 +7535,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -7609,7 +7634,7 @@
       flowering day          =  278                           stover (kg/ha)         =     6140.8
       maturity day           =  316                           grain yield (kg/ha)    =     2782.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3180.0
-      grain wt (g)           =    0.028                       grains/m^2             =   9774.298
+      grain wt (g)           =    0.028                       grains/m^2             =   9774.291
       grains/plant           =   97.7                         maximum lai            =      3.267
       total above ground biomass (kg/ha)    =     8923.3
       live above ground biomass (kg/ha)     =     8923.3
@@ -7633,7 +7658,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6140.64                    0.00
+                          DM (kg/ha) =               6140.63                    0.00
                           N  (kg/ha) =                 82.64                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -7661,6 +7686,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -7815,6 +7841,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -8157,6 +8184,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -8258,7 +8286,7 @@
                      stover N conc =     1.79 (%)    extractable sw =   47.34 (mm)
 10 November 1996(Day of year=315), chickpea: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 3991.32 (kg/ha)
+     Plant death. standing above-ground dm = 3991.33 (kg/ha)
 11 November 1996(Day of year=316), manager: 
      Manager sending message :- chickpea harvest
 11 November 1996(Day of year=316), chickpea: 
@@ -8311,6 +8339,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -8653,6 +8682,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -8807,6 +8837,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -9149,6 +9180,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -9452,6 +9484,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
