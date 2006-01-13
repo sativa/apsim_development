@@ -701,6 +701,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -857,6 +858,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -1012,6 +1014,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -1167,6 +1170,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -1304,7 +1308,7 @@
                           N  (kg/ha) =                 41.08                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1414.32                    0.00
+                          DM (kg/ha) =               1414.33                    0.00
                           N  (kg/ha) =                 50.92                    0.00
      
 14 November 1962(Day of year=318), manager: 
@@ -1321,6 +1325,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -1476,6 +1481,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -1736,32 +1742,32 @@
 14 January 1966(Day of year=14), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           48.37531       lai =    0.9167041
-                          stover N conc =    3.303756       extractable sw =    66.58152
+                          stover N conc =    3.303757       extractable sw =    66.58155
 6 February 1966(Day of year=37), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           200.7264       lai =     1.492999
-                          stover N conc =    1.778536       extractable sw =    27.01176
+                          stover N conc =    1.778536       extractable sw =    27.01177
 14 February 1966(Day of year=45), sorghum: 
       stage    7.0 flowering
-                          biomass =           224.7531       lai =     1.130453
-                          stover N conc =    1.588737       extractable sw =    19.51023
+                          biomass =           224.7532       lai =     1.130454
+                          stover N conc =    1.588737       extractable sw =    19.51024
 15 February 1966(Day of year=46), sorghum: 
       stage    8.0 start_grain_fill
-                          biomass =           226.5490       lai =     1.062216
-                          stover N conc =    1.555493       extractable sw =    18.72075
+                          biomass =           226.5491       lai =     1.062216
+                          stover N conc =    1.555493       extractable sw =    18.72076
 20 March 1966(Day of year=79), sorghum: 
       stage    9.0 end_grain_fill
-                          biomass =           288.8685       lai =    0.3238713
-                          stover N conc =    1.056653       extractable sw =    16.62256
+                          biomass =           288.8685       lai =    0.3238715
+                          stover N conc =    1.056653       extractable sw =    16.62257
 22 March 1966(Day of year=81), sorghum: 
       stage   10.0 maturity
-                          biomass =           293.5087       lai =    0.3238713
-                          stover N conc =    1.033700       extractable sw =    13.07925
+                          biomass =           293.5088       lai =    0.3238715
+                          stover N conc =    1.033700       extractable sw =    13.07926
 23 March 1966(Day of year=82), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
-                          biomass =           293.5087       lai =     0.000000
-                          stover N conc =    1.101900       extractable sw =    11.52131
+                          biomass =           293.5088       lai =     0.000000
+                          stover N conc =    1.101900       extractable sw =    11.52132
 24 March 1966(Day of year=83), manager: 
      Manager sending message :- sorghum harvest
 24 March 1966(Day of year=83), sorghum: 
@@ -1772,7 +1778,7 @@
       flowering day  =   45                                 stover (kg/ha) =    1824.5
       maturity day        =   81                            grain yield (kg/ha) =    1110.6
       grain % water content   =   13.0                      grain yield wet (kg/ha) =    1276.5
-      grain wt (g) =     0.016                              grains/m^2   =  7033.208
+      grain wt (g) =     0.016                              grains/m^2   =  7033.212
       grains/head =1082.0                                   maximum lai = 2.098
       total above ground biomass (kg/ha) =    2935.1
       live above ground biomass (kg/ha) =    2935.1
@@ -1817,6 +1823,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -1967,6 +1974,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -2121,6 +2129,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -2373,7 +2382,7 @@
 17 November 1970(Day of year=321), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           7.377524       lai =    0.9330985E-01
-                          stover N conc =    3.639538       extractable sw =    84.12158
+                          stover N conc =    3.639539       extractable sw =    84.12158
 2 December 1970(Day of year=336), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           63.97487       lai =    0.8320107
@@ -2458,6 +2467,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -2561,7 +2571,7 @@
       flowering day          =  298                           stover (kg/ha)         =     3718.8
       maturity day           =  333                           grain yield (kg/ha)    =     1496.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1710.5
-      grain wt (g)           =    0.025                       grains/m^2             =   5996.875
+      grain wt (g)           =    0.025                       grains/m^2             =   5996.874
       grains/plant           =   60.0                         maximum lai            =      2.538
       total above ground biomass (kg/ha)    =     5215.5
       live above ground biomass (kg/ha)     =     5215.5
@@ -2715,36 +2725,36 @@
 1 December 1972(Day of year=336), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           7.927625       lai =    0.9919752E-01
-                          stover N conc =    3.824503       extractable sw =    78.85247
+                          stover N conc =    3.824503       extractable sw =    78.85252
 14 December 1972(Day of year=349), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           63.67651       lai =    0.8570914
-                          stover N conc =    2.524958       extractable sw =    91.48825
+                          stover N conc =    2.524958       extractable sw =    91.48830
 7 January 1973(Day of year=7), sorghum: 
       stage    6.0 flag_leaf
-                          biomass =           232.5984       lai =     1.763683
-                          stover N conc =    1.871789       extractable sw =    50.53162
+                          biomass =           232.5985       lai =     1.763685
+                          stover N conc =    1.871789       extractable sw =    50.53168
 15 January 1973(Day of year=15), sorghum: 
       stage    7.0 flowering
-                          biomass =           314.3139       lai =     1.763683
-                          stover N conc =    1.512426       extractable sw =    107.2351
+                          biomass =           314.3141       lai =     1.763685
+                          stover N conc =    1.512425       extractable sw =    107.2351
 16 January 1973(Day of year=16), sorghum: 
       stage    8.0 start_grain_fill
-                          biomass =           328.7933       lai =     1.763683
+                          biomass =           328.7935       lai =     1.763685
                           stover N conc =    1.440642       extractable sw =    101.1836
 15 February 1973(Day of year=46), sorghum: 
       stage    9.0 end_grain_fill
-                          biomass =           622.2718       lai =     1.187070
-                          stover N conc =   0.6937500       extractable sw =    157.2703
+                          biomass =           622.2720       lai =     1.187071
+                          stover N conc =   0.6937501       extractable sw =    157.2703
 17 February 1973(Day of year=48), sorghum: 
       stage   10.0 maturity
-                          biomass =           636.0265       lai =     1.076534
-                          stover N conc =   0.6709984       extractable sw =    150.9127
+                          biomass =           636.0268       lai =     1.076535
+                          stover N conc =   0.6709985       extractable sw =    150.9127
 18 February 1973(Day of year=49), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
-                          biomass =           636.0266       lai =     0.000000
-                          stover N conc =   0.7420784       extractable sw =    170.4055
+                          biomass =           636.0267       lai =     0.000000
+                          stover N conc =   0.7420785       extractable sw =    170.4055
 19 February 1973(Day of year=50), manager: 
      Manager sending message :- sorghum harvest
 19 February 1973(Day of year=50), sorghum: 
@@ -2755,7 +2765,7 @@
       flowering day  =   15                                 stover (kg/ha) =    3620.1
       maturity day        =   48                            grain yield (kg/ha) =    2740.2
       grain % water content   =   13.0                      grain yield wet (kg/ha) =    3149.7
-      grain wt (g) =     0.024                              grains/m^2   = 11378.670
+      grain wt (g) =     0.024                              grains/m^2   = 11378.678
       grains/head =1750.6                                   maximum lai = 2.104
       total above ground biomass (kg/ha) =    6360.3
       live above ground biomass (kg/ha) =    6360.3
@@ -2800,6 +2810,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -3056,19 +3067,19 @@
                           stover N conc =    2.525000       extractable sw =    22.27934
 15 December 1973(Day of year=349), sorghum: 
       stage    4.0 end_of_juvenile
-                          biomass =           1.882604       lai =    0.3424837E-01
-                          stover N conc =    4.082860       extractable sw =    44.72817
+                          biomass =           1.882607       lai =    0.3424841E-01
+                          stover N conc =    4.082861       extractable sw =    44.72816
 28 December 1973(Day of year=362), sorghum: 
       stage    5.0 floral_initiation
-                          biomass =           33.28294       lai =    0.6198928
-                          stover N conc =    1.811997       extractable sw =    68.61278
+                          biomass =           33.28296       lai =    0.6198929
+                          stover N conc =    1.811996       extractable sw =    68.61278
 21 January 1974(Day of year=21), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           322.6530       lai =     3.508204
                           stover N conc =    1.242122       extractable sw =    131.0261
 28 January 1974(Day of year=28), sorghum: 
       stage    7.0 flowering
-                          biomass =           404.4162       lai =     3.427256
+                          biomass =           404.4163       lai =     3.427256
                           stover N conc =    1.065722       extractable sw =    121.3228
 30 January 1974(Day of year=30), sorghum: 
       stage    8.0 start_grain_fill
@@ -3076,8 +3087,8 @@
                           stover N conc =   0.9766958       extractable sw =    119.1106
 4 March 1974(Day of year=63), sorghum: 
       stage    9.0 end_grain_fill
-                          biomass =           732.7921       lai =     1.697711
-                          stover N conc =   0.5041674       extractable sw =    40.42902
+                          biomass =           732.7921       lai =     1.697710
+                          stover N conc =   0.5041673       extractable sw =    40.42902
 6 March 1974(Day of year=65), sorghum: 
       stage   10.0 maturity
                           biomass =           741.5797       lai =     1.534798
@@ -3097,7 +3108,7 @@
       flowering day  =   28                                 stover (kg/ha) =    3530.9
       maturity day        =   65                            grain yield (kg/ha) =    3884.9
       grain % water content   =   13.0                      grain yield wet (kg/ha) =    4465.4
-      grain wt (g) =     0.021                              grains/m^2   = 18900.414
+      grain wt (g) =     0.021                              grains/m^2   = 18900.420
       grains/head =2907.8                                   maximum lai = 3.526
       total above ground biomass (kg/ha) =    7415.8
       live above ground biomass (kg/ha) =    7415.8
@@ -3142,6 +3153,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -3296,6 +3308,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -3399,7 +3412,7 @@
       flowering day          =  281                           stover (kg/ha)         =     3532.4
       maturity day           =  317                           grain yield (kg/ha)    =     1568.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1792.3
-      grain wt (g)           =    0.030                       grains/m^2             =   5315.718
+      grain wt (g)           =    0.030                       grains/m^2             =   5315.721
       grains/plant           =   53.2                         maximum lai            =      2.768
       total above ground biomass (kg/ha)    =     5100.7
       live above ground biomass (kg/ha)     =     5100.7
@@ -3451,6 +3464,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -3605,6 +3619,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -3760,6 +3775,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -4016,35 +4032,35 @@
 13 January 1979(Day of year=13), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           7.615780       lai =    0.1001828
-                          stover N conc =    4.200302       extractable sw =    48.12182
+                          stover N conc =    4.200302       extractable sw =    48.12181
 25 January 1979(Day of year=25), sorghum: 
       stage    5.0 floral_initiation
-                          biomass =           53.63889       lai =    0.8282120
-                          stover N conc =    2.608479       extractable sw =    74.85401
+                          biomass =           53.63889       lai =    0.8282119
+                          stover N conc =    2.608478       extractable sw =    74.85399
 16 February 1979(Day of year=47), sorghum: 
       stage    6.0 flag_leaf
-                          biomass =           235.9150       lai =     2.179832
-                          stover N conc =    1.829054       extractable sw =    43.11856
+                          biomass =           235.9149       lai =     2.179831
+                          stover N conc =    1.829054       extractable sw =    43.11854
 24 February 1979(Day of year=55), sorghum: 
       stage    7.0 flowering
-                          biomass =           284.9064       lai =     2.179832
+                          biomass =           284.9063       lai =     2.179831
                           stover N conc =    1.613780       extractable sw =    33.59589
 25 February 1979(Day of year=56), sorghum: 
       stage    8.0 start_grain_fill
-                          biomass =           290.6715       lai =     2.179832
+                          biomass =           290.6714       lai =     2.179831
                           stover N conc =    1.579422       extractable sw =    32.34647
 31 March 1979(Day of year=90), sorghum: 
       stage    9.0 end_grain_fill
-                          biomass =           392.3788       lai =    0.6113632
-                          stover N conc =   0.9873276       extractable sw =    9.212753
+                          biomass =           392.3788       lai =    0.6113629
+                          stover N conc =   0.9873278       extractable sw =    9.212753
 2 April 1979(Day of year=92), sorghum: 
       stage   10.0 maturity
-                          biomass =           395.5768       lai =    0.6113632
+                          biomass =           395.5767       lai =    0.6113629
                           stover N conc =   0.9770910       extractable sw =    8.546959
 3 April 1979(Day of year=93), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
-                          biomass =           395.5768       lai =     0.000000
+                          biomass =           395.5767       lai =     0.000000
                           stover N conc =    1.067845       extractable sw =    8.231155
 4 April 1979(Day of year=94), manager: 
      Manager sending message :- sorghum harvest
@@ -4056,7 +4072,7 @@
       flowering day  =   55                                 stover (kg/ha) =    2208.8
       maturity day        =   92                            grain yield (kg/ha) =    1747.0
       grain % water content   =   13.0                      grain yield wet (kg/ha) =    2008.1
-      grain wt (g) =     0.015                              grains/m^2   = 11303.344
+      grain wt (g) =     0.015                              grains/m^2   = 11303.341
       grains/head =1739.0                                   maximum lai = 2.578
       total above ground biomass (kg/ha) =    3955.8
       live above ground biomass (kg/ha) =    3955.8
@@ -4079,7 +4095,7 @@
      
      Crop harvested.
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1747.01                    0.00
+                          DM (kg/ha) =               1747.00                    0.00
                           N  (kg/ha) =                 20.62                    0.00
      
 4 April 1979(Day of year=94), manager: 
@@ -4101,6 +4117,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -4251,6 +4268,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -4587,6 +4605,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -4846,7 +4865,7 @@
                           stover N conc =    2.774865       extractable sw =    78.38249
 26 January 1984(Day of year=26), sorghum: 
       stage    6.0 flag_leaf
-                          biomass =           446.0937       lai =     3.934807
+                          biomass =           446.0938       lai =     3.934807
                           stover N conc =    1.100988       extractable sw =    154.4281
 5 February 1984(Day of year=36), sorghum: 
       stage    7.0 flowering
@@ -4859,16 +4878,16 @@
 11 March 1984(Day of year=71), sorghum: 
       stage    9.0 end_grain_fill
                           biomass =           1090.147       lai =     1.883953
-                          stover N conc =   0.4168150       extractable sw =    51.03658
+                          stover N conc =   0.4168150       extractable sw =    51.03656
 12 March 1984(Day of year=72), sorghum: 
       stage   10.0 maturity
-                          biomass =           1096.026       lai =     1.793617
-                          stover N conc =   0.4116916       extractable sw =    49.58419
+                          biomass =           1096.025       lai =     1.793617
+                          stover N conc =   0.4116916       extractable sw =    49.58418
 13 March 1984(Day of year=73), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
-                          biomass =           1096.025       lai =     0.000000
-                          stover N conc =   0.4496186       extractable sw =    47.87878
+                          biomass =           1096.026       lai =     0.000000
+                          stover N conc =   0.4496186       extractable sw =    47.87876
 14 March 1984(Day of year=74), manager: 
      Manager sending message :- sorghum harvest
 14 March 1984(Day of year=74), sorghum: 
@@ -4924,6 +4943,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -5078,6 +5098,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -5228,6 +5249,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -5382,6 +5404,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -5480,7 +5503,7 @@
       flowering day          =  275                           stover (kg/ha)         =     6214.3
       maturity day           =  311                           grain yield (kg/ha)    =     2114.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2416.6
-      grain wt (g)           =    0.022                       grains/m^2             =   9810.367
+      grain wt (g)           =    0.022                       grains/m^2             =   9810.366
       grains/plant           =   98.1                         maximum lai            =      5.357
       total above ground biomass (kg/ha)    =     8328.9
       live above ground biomass (kg/ha)     =     8328.9
@@ -5646,7 +5669,7 @@
 14 February 1992(Day of year=45), sorghum: 
       stage    7.0 flowering
                           biomass =           317.1472       lai =     2.292062
-                          stover N conc =    1.628257       extractable sw =    58.54026
+                          stover N conc =    1.628256       extractable sw =    58.54026
 16 February 1992(Day of year=47), sorghum: 
       stage    8.0 start_grain_fill
                           biomass =           338.3000       lai =     2.270533
@@ -5654,11 +5677,11 @@
 19 March 1992(Day of year=79), sorghum: 
       stage    9.0 end_grain_fill
                           biomass =           480.9635       lai =    0.8856148
-                          stover N conc =   0.9603766       extractable sw =    12.62640
+                          stover N conc =   0.9603764       extractable sw =    12.62640
 21 March 1992(Day of year=81), sorghum: 
       stage   10.0 maturity
                           biomass =           484.2452       lai =    0.8206958
-                          stover N conc =   0.9507189       extractable sw =    11.62957
+                          stover N conc =   0.9507186       extractable sw =    11.62957
 22 March 1992(Day of year=82), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
@@ -5719,6 +5742,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -5800,7 +5824,7 @@
                      stover N conc =     0.73 (%)    extractable sw =   47.16 (mm)
 8 November 1993(Day of year=312), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         742.17 (g/m^2)   lai          =   0.209 (m^2/m^2)
+                     biomass =         742.16 (g/m^2)   lai          =   0.209 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   34.12 (mm)
 10 November 1993(Day of year=314), wheat: 
       stage 9.0 maturity
@@ -5817,7 +5841,7 @@
       flowering day          =  276                           stover (kg/ha)         =     4996.7
       maturity day           =  314                           grain yield (kg/ha)    =     2425.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2771.6
-      grain wt (g)           =    0.031                       grains/m^2             =   7756.812
+      grain wt (g)           =    0.031                       grains/m^2             =   7756.808
       grains/plant           =   77.6                         maximum lai            =      3.597
       total above ground biomass (kg/ha)    =     7421.9
       live above ground biomass (kg/ha)     =     7421.9
@@ -5967,40 +5991,40 @@
 28 November 1994(Day of year=332), sorghum: 
       stage    3.0 emergence
                           biomass =           1.300000       lai =    0.1300000E-02
-                          stover N conc =    2.525000       extractable sw =    27.36587
+                          stover N conc =    2.525000       extractable sw =    27.36586
 6 December 1994(Day of year=340), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           7.084014       lai =    0.8680239E-01
-                          stover N conc =    4.186312       extractable sw =    56.99507
+                          stover N conc =    4.186312       extractable sw =    56.99506
 20 December 1994(Day of year=354), sorghum: 
       stage    5.0 floral_initiation
-                          biomass =           66.87180       lai =    0.8751121
-                          stover N conc =    2.500680       extractable sw =    84.32734
+                          biomass =           66.87179       lai =    0.8751121
+                          stover N conc =    2.500680       extractable sw =    84.32732
 11 January 1995(Day of year=11), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           289.9755       lai =     2.600163
-                          stover N conc =    1.880899       extractable sw =    65.61196
+                          stover N conc =    1.880899       extractable sw =    65.61195
 19 January 1995(Day of year=19), sorghum: 
       stage    7.0 flowering
-                          biomass =           358.4343       lai =     2.532664
-                          stover N conc =    1.641613       extractable sw =    75.21651
+                          biomass =           358.4342       lai =     2.532664
+                          stover N conc =    1.641614       extractable sw =    75.21650
 21 January 1995(Day of year=21), sorghum: 
       stage    8.0 start_grain_fill
-                          biomass =           385.4536       lai =     2.510768
-                          stover N conc =    1.524410       extractable sw =    151.5810
+                          biomass =           385.4535       lai =     2.510768
+                          stover N conc =    1.524411       extractable sw =    151.5809
 23 February 1995(Day of year=54), sorghum: 
       stage    9.0 end_grain_fill
                           biomass =           853.8403       lai =     1.206062
-                          stover N conc =   0.6000274       extractable sw =    51.69645
+                          stover N conc =   0.6000274       extractable sw =    51.69643
 25 February 1995(Day of year=56), sorghum: 
       stage   10.0 maturity
-                          biomass =           865.5178       lai =     1.090037
-                          stover N conc =   0.5857143       extractable sw =    48.28281
+                          biomass =           865.5177       lai =     1.090037
+                          stover N conc =   0.5857145       extractable sw =    48.28279
 26 February 1995(Day of year=57), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
-                          biomass =           865.5178       lai =     0.000000
-                          stover N conc =   0.6289458       extractable sw =    46.67284
+                          biomass =           865.5177       lai =     0.000000
+                          stover N conc =   0.6289458       extractable sw =    46.67281
 27 February 1995(Day of year=58), manager: 
      Manager sending message :- sorghum harvest
 27 February 1995(Day of year=58), sorghum: 
@@ -6011,7 +6035,7 @@
       flowering day  =   19                                 stover (kg/ha) =    4719.3
       maturity day        =   56                            grain yield (kg/ha) =    3935.9
       grain % water content   =   13.0                      grain yield wet (kg/ha) =    4524.0
-      grain wt (g) =     0.026                              grains/m^2   = 14988.650
+      grain wt (g) =     0.026                              grains/m^2   = 14988.646
       grains/head =2305.9                                   maximum lai = 2.641
       total above ground biomass (kg/ha) =    8655.2
       live above ground biomass (kg/ha) =    8655.2
@@ -6056,6 +6080,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -6159,7 +6184,7 @@
       flowering day          =  265                           stover (kg/ha)         =     2651.1
       maturity day           =  301                           grain yield (kg/ha)    =      986.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1127.4
-      grain wt (g)           =    0.023                       grains/m^2             =   4225.029
+      grain wt (g)           =    0.023                       grains/m^2             =   4225.028
       grains/plant           =   42.3                         maximum lai            =      1.228
       total above ground biomass (kg/ha)    =     3637.6
       live above ground biomass (kg/ha)     =     3637.6
@@ -6211,6 +6236,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -6461,37 +6487,37 @@
                           stover N conc =    2.525000       extractable sw =    29.77888
 31 December 1997(Day of year=365), sorghum: 
       stage    4.0 end_of_juvenile
-                          biomass =           6.734224       lai =    0.9106717E-01
-                          stover N conc =    4.341237       extractable sw =    49.41550
+                          biomass =           6.734225       lai =    0.9106715E-01
+                          stover N conc =    4.341236       extractable sw =    49.41550
 12 January 1998(Day of year=12), sorghum: 
       stage    5.0 floral_initiation
-                          biomass =           43.08994       lai =    0.8056089
-                          stover N conc =    3.187762       extractable sw =    80.66460
+                          biomass =           43.08992       lai =    0.8056087
+                          stover N conc =    3.187763       extractable sw =    80.66461
 5 February 1998(Day of year=36), sorghum: 
       stage    6.0 flag_leaf
-                          biomass =           222.1712       lai =     2.163918
-                          stover N conc =    2.190902       extractable sw =    54.07862
+                          biomass =           222.1713       lai =     2.163919
+                          stover N conc =    2.190902       extractable sw =    54.07860
 13 February 1998(Day of year=44), sorghum: 
       stage    7.0 flowering
-                          biomass =           296.3362       lai =     2.163918
+                          biomass =           296.3362       lai =     2.163919
                           stover N conc =    1.796163       extractable sw =    74.79709
 14 February 1998(Day of year=45), sorghum: 
       stage    8.0 start_grain_fill
-                          biomass =           305.7428       lai =     2.163918
-                          stover N conc =    1.738493       extractable sw =    70.35467
+                          biomass =           305.7428       lai =     2.163919
+                          stover N conc =    1.738494       extractable sw =    70.35467
 17 March 1998(Day of year=76), sorghum: 
       stage    9.0 end_grain_fill
                           biomass =           456.2355       lai =    0.9896010
-                          stover N conc =    1.026204       extractable sw =    17.53743
+                          stover N conc =    1.026204       extractable sw =    17.53745
 19 March 1998(Day of year=78), sorghum: 
       stage   10.0 maturity
                           biomass =           460.6898       lai =    0.9167729
-                          stover N conc =    1.009584       extractable sw =    16.16979
+                          stover N conc =    1.009584       extractable sw =    16.16981
 20 March 1998(Day of year=79), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           460.6898       lai =     0.000000
-                          stover N conc =    1.110460       extractable sw =    15.52438
+                          stover N conc =    1.110460       extractable sw =    15.52439
 21 March 1998(Day of year=80), manager: 
      Manager sending message :- sorghum harvest
 21 March 1998(Day of year=80), sorghum: 
@@ -6502,7 +6528,7 @@
       flowering day  =   44                                 stover (kg/ha) =    2289.5
       maturity day        =   78                            grain yield (kg/ha) =    2317.4
       grain % water content   =   13.0                      grain yield wet (kg/ha) =    2663.7
-      grain wt (g) =     0.019                              grains/m^2   = 12043.106
+      grain wt (g) =     0.019                              grains/m^2   = 12043.108
       grains/head =1852.8                                   maximum lai = 2.453
       total above ground biomass (kg/ha) =    4606.9
       live above ground biomass (kg/ha) =    4606.9
@@ -6547,6 +6573,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -6645,7 +6672,7 @@
       flowering day          =  270                           stover (kg/ha)         =     6588.3
       maturity day           =  310                           grain yield (kg/ha)    =     3041.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3475.7
-      grain wt (g)           =    0.029                       grains/m^2             =  10463.286
+      grain wt (g)           =    0.029                       grains/m^2             =  10463.288
       grains/plant           =  104.6                         maximum lai            =      3.626
       total above ground biomass (kg/ha)    =     9629.5
       live above ground biomass (kg/ha)     =     9629.5
@@ -6798,48 +6825,48 @@
                           stover N conc =    2.525000       extractable sw =    25.05983
 6 December 1998(Day of year=340), sorghum: 
       stage    4.0 end_of_juvenile
-                          biomass =           5.801462       lai =    0.6673235E-01
+                          biomass =           5.801459       lai =    0.6673232E-01
                           stover N conc =    3.770768       extractable sw =    70.38365
 20 December 1998(Day of year=354), sorghum: 
       stage    5.0 floral_initiation
-                          biomass =           51.86154       lai =    0.8411198
-                          stover N conc =    1.838084       extractable sw =    88.62885
+                          biomass =           51.86153       lai =    0.8411195
+                          stover N conc =    1.838085       extractable sw =    88.62883
 20 January 1999(Day of year=20), sorghum: 
       stage    6.0 flag_leaf
-                          biomass =           258.2972       lai =     2.438189
-                          stover N conc =    1.137738       extractable sw =    51.26408
+                          biomass =           258.2971       lai =     2.438189
+                          stover N conc =    1.137738       extractable sw =    51.26405
 27 January 1999(Day of year=27), sorghum: 
       stage    7.0 flowering
-                          biomass =           300.5449       lai =     2.378659
-                          stover N conc =    1.016572       extractable sw =    45.24947
+                          biomass =           300.5448       lai =     2.378658
+                          stover N conc =    1.016573       extractable sw =    45.24945
 29 January 1999(Day of year=29), sorghum: 
       stage    8.0 start_grain_fill
-                          biomass =           313.3481       lai =     2.240337
-                          stover N conc =   0.9725418       extractable sw =    42.75881
+                          biomass =           313.3480       lai =     2.240336
+                          stover N conc =   0.9725420       extractable sw =    42.75880
 2 March 1999(Day of year=61), sorghum: 
       stage    9.0 end_grain_fill
-                          biomass =           430.4442       lai =     1.244259
-                          stover N conc =   0.6366915       extractable sw =    40.01664
+                          biomass =           430.4441       lai =     1.244258
+                          stover N conc =   0.6366917       extractable sw =    40.01663
 4 March 1999(Day of year=63), sorghum: 
       stage   10.0 maturity
-                          biomass =           439.6403       lai =     1.123870
-                          stover N conc =   0.6150914       extractable sw =    63.25115
+                          biomass =           439.6402       lai =     1.123869
+                          stover N conc =   0.6150917       extractable sw =    63.25114
 5 March 1999(Day of year=64), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
-                          biomass =           439.6403       lai =     0.000000
-                          stover N conc =   0.7206157       extractable sw =    60.67560
+                          biomass =           439.6402       lai =     0.000000
+                          stover N conc =   0.7206160       extractable sw =    60.67558
 6 March 1999(Day of year=65), manager: 
      Manager sending message :- sorghum harvest
 6 March 1999(Day of year=65), sorghum: 
      
      
      
-     flowering (DAS) =   71                                maturity (DAS)  =     108
+     flowering (DAS) =   72                                maturity (DAS)  =     108
       flowering day  =   27                                 stover (kg/ha) =    2547.1
       maturity day        =   63                            grain yield (kg/ha) =    1849.3
       grain % water content   =   13.0                      grain yield wet (kg/ha) =    2125.6
-      grain wt (g) =     0.018                              grains/m^2   = 10010.903
+      grain wt (g) =     0.018                              grains/m^2   = 10010.902
       grains/head =1540.1                                   maximum lai = 2.481
       total above ground biomass (kg/ha) =    4396.4
       live above ground biomass (kg/ha) =    4396.4
@@ -6884,6 +6911,7 @@
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -7038,6 +7066,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = sunco
         pesw germination           =       0.00 (0-1)
@@ -7141,7 +7170,7 @@
       flowering day          =  274                           stover (kg/ha)         =     3673.9
       maturity day           =  311                           grain yield (kg/ha)    =     1638.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1872.1
-      grain wt (g)           =    0.028                       grains/m^2             =   5803.375
+      grain wt (g)           =    0.028                       grains/m^2             =   5803.376
       grains/plant           =   58.0                         maximum lai            =      2.925
       total above ground biomass (kg/ha)    =     5312.0
       live above ground biomass (kg/ha)     =     5312.0
@@ -7291,40 +7320,40 @@
 29 November 2000(Day of year=334), sorghum: 
       stage    3.0 emergence
                           biomass =           1.300000       lai =    0.1300000E-02
-                          stover N conc =    2.525000       extractable sw =    28.26465
+                          stover N conc =    2.525000       extractable sw =    28.26464
 8 December 2000(Day of year=343), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           7.748500       lai =    0.9471262E-01
                           stover N conc =    4.023067       extractable sw =    49.51602
 21 December 2000(Day of year=356), sorghum: 
       stage    5.0 floral_initiation
-                          biomass =           56.10054       lai =    0.7958115
+                          biomass =           56.10052       lai =    0.7958115
                           stover N conc =    1.653619       extractable sw =    74.86346
 27 January 2001(Day of year=27), sorghum: 
       stage    6.0 flag_leaf
-                          biomass =           283.6978       lai =     2.406251
-                          stover N conc =   0.8117254       extractable sw =    49.24648
+                          biomass =           283.6977       lai =     2.406250
+                          stover N conc =   0.8117253       extractable sw =    49.24648
 4 February 2001(Day of year=35), sorghum: 
       stage    7.0 flowering
-                          biomass =           336.0157       lai =     2.341126
-                          stover N conc =    1.015553       extractable sw =    61.49411
+                          biomass =           336.0156       lai =     2.341126
+                          stover N conc =    1.015553       extractable sw =    61.49412
 5 February 2001(Day of year=36), sorghum: 
       stage    8.0 start_grain_fill
-                          biomass =           344.1743       lai =     2.328049
-                          stover N conc =   0.9911120       extractable sw =    58.31893
+                          biomass =           344.1743       lai =     2.328048
+                          stover N conc =   0.9911119       extractable sw =    58.31894
 6 March 2001(Day of year=65), sorghum: 
       stage    9.0 end_grain_fill
-                          biomass =           449.3212       lai =     1.299916
-                          stover N conc =   0.7360862       extractable sw =    20.32734
+                          biomass =           449.3210       lai =     1.299916
+                          stover N conc =   0.7360864       extractable sw =    20.32734
 8 March 2001(Day of year=67), sorghum: 
       stage   10.0 maturity
-                          biomass =           453.7080       lai =     1.182415
-                          stover N conc =   0.7255063       extractable sw =    19.21320
+                          biomass =           453.7079       lai =     1.182415
+                          stover N conc =   0.7255062       extractable sw =    19.21320
 9 March 2001(Day of year=68), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
-                          biomass =           453.7080       lai =     0.000000
-                          stover N conc =   0.8663798       extractable sw =    18.68058
+                          biomass =           453.7079       lai =     0.000000
+                          stover N conc =   0.8663797       extractable sw =    18.68058
 10 March 2001(Day of year=69), manager: 
      Manager sending message :- sorghum harvest
 10 March 2001(Day of year=69), sorghum: 
@@ -7335,7 +7364,7 @@
       flowering day  =   35                                 stover (kg/ha) =    2800.0
       maturity day        =   67                            grain yield (kg/ha) =    1737.1
       grain % water content   =   13.0                      grain yield wet (kg/ha) =    1996.7
-      grain wt (g) =     0.018                              grains/m^2   =  9557.983
+      grain wt (g) =     0.018                              grains/m^2   =  9557.979
       grains/head =1470.5                                   maximum lai = 2.453
       total above ground biomass (kg/ha) =    4537.1
       live above ground biomass (kg/ha) =    4537.1
