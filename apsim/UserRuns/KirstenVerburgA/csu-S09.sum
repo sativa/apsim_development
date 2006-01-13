@@ -966,6 +966,7 @@
      Crop Sow
       - reading constants for winter_grass(weed)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = early
         est_days_emerg_to_init     = 83 (days)
@@ -1140,6 +1141,7 @@
      Crop Sow
       - reading constants for plant(wheat)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = janz
         pesw germination           =       0.00 (0-1)
@@ -1299,6 +1301,7 @@
      Crop Sow
       - reading constants for winter_grass(weed)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = early
         est_days_emerg_to_init     = 83 (days)
@@ -1518,6 +1521,7 @@
      Crop Sow
       - reading constants for plant(lucerne)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hunter_river
         est_days_emerg_to_init     = 30 (days)
@@ -1869,6 +1873,7 @@
      Crop Sow
       - reading constants for plant(lucerne)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = hunter_river
         est_days_emerg_to_init     = 30 (days)
@@ -2024,7 +2029,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: dlt_n_green_sum =0.011052 vs n_uptake_sum =0.035626
+     dlt_n_green mass balance is off: dlt_n_green_sum =0.011052 vs n_uptake_sum =0.035625
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2799,7 +2804,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: dlt_n_green_sum =0.000082 vs n_uptake_sum =0.002870
+     dlt_n_green mass balance is off: dlt_n_green_sum =0.000083 vs n_uptake_sum =0.002870
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
