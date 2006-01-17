@@ -603,37 +603,37 @@ float Plant::PlantP_Pfact (vector<plantPart *> &allParts)
       max_p = 0.0;
       determinants_wt = 0.0;
 
-      float act_px = 0.0;
-      float min_px = 0.0;
-      float max_px = 0.0;
-      float determinants_wtx = 0.0;
+//      float act_px = 0.0;
+//      float min_px = 0.0;
+//      float max_px = 0.0;
+//      float determinants_wtx = 0.0;
 
       for (part = allParts.begin(); part != allParts.end(); part++)
          {
-            act_px += (*part)->pGreenStressDeterminant();
-            max_px += (*part)->pMaxPotStressDeterminant();
-            min_px += (*part)->pMinPotStressDeterminant();
-            determinants_wtx += (*part)->dmGreenStressDeterminant();
+            act_p += (*part)->pGreenStressDeterminant();
+            max_p += (*part)->pMaxPotStressDeterminant();
+            min_p += (*part)->pMinPotStressDeterminant();
+            determinants_wt += (*part)->dmGreenStressDeterminant();
 
-         if ((*part)->c.p_stress_determinant)
-            {
-            act_p += (*part)->g.p_green;
-
-            p_conc_max = linear_interp_real (phenology->stageNumber()
-                                           , (*part)->c.x_p_stage_code
-                                           , (*part)->c.y_p_conc_max
-                                           , (*part)->c.num_x_p_stage_code);
-            max_p += p_conc_max * (*part)->g.dm_green;
-
-
-            p_conc_min = linear_interp_real (phenology->stageNumber()
-                                           , (*part)->c.x_p_stage_code
-                                           , (*part)->c.y_p_conc_min
-                                           , (*part)->c.num_x_p_stage_code);
-            min_p += p_conc_min * (*part)->g.dm_green;
-
-            determinants_wt += (*part)->g.dm_green;
-            }
+//         if ((*part)->c.p_stress_determinant)
+//            {
+//            act_p += (*part)->g.p_green;
+//
+//            p_conc_max = linear_interp_real (phenology->stageNumber()
+//                                           , (*part)->c.x_p_stage_code
+//                                           , (*part)->c.y_p_conc_max
+//                                           , (*part)->c.num_x_p_stage_code);
+//            max_p += p_conc_max * (*part)->g.dm_green;
+//
+//
+//            p_conc_min = linear_interp_real (phenology->stageNumber()
+//                                           , (*part)->c.x_p_stage_code
+//                                           , (*part)->c.y_p_conc_min
+//                                           , (*part)->c.num_x_p_stage_code);
+//            min_p += p_conc_min * (*part)->g.dm_green;
+//
+//            determinants_wt += (*part)->g.dm_green;
+//            }
          }
 
       act_p_conc = divide(act_p, determinants_wt, 0.0);
