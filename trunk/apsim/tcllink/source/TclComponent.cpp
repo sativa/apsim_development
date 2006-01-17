@@ -18,11 +18,11 @@ using namespace std;
 using namespace protocol;
 
 extern void StartTcl (const char *);
-extern Tcl_Interp *NewInterp (ClientData);
+extern Tcl_Interp *NewInterp (Tcl_Interp *, ClientData, int);
 extern void StopTcl(Tcl_Interp *);
 
-// The number of interpreters made so far
-static int InterpRefCnt = 0;
+static int initialisationState = 0;
+static Tcl_Interp *TopLevelInterp = NULL;
 
 #define intString      "<type kind=\"integer4\" array=\"F\"/>"
 #define intStringArray "<type kind=\"integer4\" array=\"T\"/>"
@@ -81,28 +81,22 @@ TclComponent::TclComponent()
 // ------------------------------------------------------------------
 TclComponent::~TclComponent(void)
    {
-   Tcl_DeleteInterp(Interp);
-   InterpRefCnt--;
-   if (InterpRefCnt == 0) StopTcl(NULL); // Last one out turns off the lights..
+   if ( Interp != TopLevelInterp ) 
+      Tcl_DeleteInterp(Interp);
+   else 
+      StopTcl(TopLevelInterp);
    }
 // ------------------------------------------------------------------
-// Stage 1 initialisation. We can initialise the TCL world now that wee know where we are..
+// Stage 1 initialisation. We can initialise the TCL world now that we know where we are..
 // ------------------------------------------------------------------
 void TclComponent::doInit1(const FString& sdml)
    {
    protocol::Component::doInit1(sdml);
 
-   if (InterpRefCnt == 0)
-      {
-      StartTcl(Component::componentData->getExecutableFileName().c_str());
-
-      // write copyright notice(s).
-      writeString("Copyright (C) 1991-1994 The Regents of the University of California.");
-      writeString("Copyright (C) 1996-1997 Sun Microsystems, Inc.");
-      writeString("Copyright (C) 2001      ActiveState.");
-      }
-   InterpRefCnt++;
-   //MessageBox(0,  Tcl_GetStringResult(Interp), "TCl Init Done", MB_ICONSTOP);
+   if (initialisationState == 0) {
+     StartTcl(Component::componentData->getExecutableFileName().c_str());
+     initialisationState = 1;
+   }
    //MessageBox(0,  Component::componentData->getExecutableFileName().c_str(), "Init", MB_ICONSTOP);
    }
 
@@ -113,8 +107,23 @@ void TclComponent::doInit2(void)
    {
    protocol::Component::doInit2();
 
-   // Create a (slave) interpreter for this instance.
-   Interp = NewInterp(this);
+   if (initialisationState == 1) {
+      // write copyright notice(s).
+      writeString("Copyright (C) 1991-1994 The Regents of the University of California.");
+      writeString("Copyright (C) 1996-1997 Sun Microsystems, Inc.");
+      writeString("Copyright (C) 2001      ActiveState.");
+      TopLevelInterp = NewInterp(NULL, this, 0);
+   } 
+   initialisationState++;
+
+   string isMaster = this->readParameter ("parameters", "master");
+   if (isMaster == string("true")) {
+      Interp = TopLevelInterp;
+      writeString("Top Level Instance");
+   } else {
+      Interp = NewInterp(TopLevelInterp, this, initialisationState);  // Create a slave interpreter for this instance.
+      writeString("1st Level Instance");
+   }
    
    string initRule;
    std::vector<string> ruleNames;
@@ -155,7 +164,7 @@ void TclComponent::respondToEvent(unsigned int& /*fromID*/, unsigned int& eventI
    string rule = rules[eventID];
    if (!rule.empty())
        {
-       //char buf[80]; sprintf(buf, "this=%x\nrule=%s", this, rule.c_str());
+       //char buf[80]; sprintf(buf, "this=%x\nInterp=%x\nrule=%s", this, Interp, rule.c_str());
        //MessageBox(0,  buf, "respond", MB_ICONSTOP);
        int result = Tcl_Eval(Interp, rule.c_str());
        if (result != TCL_OK)

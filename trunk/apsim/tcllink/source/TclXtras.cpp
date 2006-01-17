@@ -15,10 +15,16 @@ extern int apsimSendMessageProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST
 
 static char GlobalDllName[4096];
 
-Tcl_Interp *NewInterp (ClientData cd)
+Tcl_Interp *NewInterp (Tcl_Interp *topLevel, ClientData cd, int instanceNumber)
    {
-
-   Tcl_Interp *interp = Tcl_CreateInterp();
+   Tcl_Interp *interp;
+   if (topLevel == NULL) {
+      interp = Tcl_CreateInterp();
+   } else {
+      char name[40];
+      sprintf(name, "interp%d", instanceNumber);
+      interp = Tcl_CreateSlave(topLevel, name, 0);
+   }   
    Tcl_Preserve((ClientData) interp);
    Tcl_InitMemory(interp);
 
