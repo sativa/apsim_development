@@ -40,6 +40,7 @@ using namespace std;
 #include "PlantComponent.h"
 #include "Plant.h"
 #include "PlantParts.h"
+#include "PlantFruit.h"
 #include "PlantPhenology.h"
 
 
@@ -201,10 +202,9 @@ void Plant::read_p_constants (PlantComponent *systemInterface)
        {
           c.y_p_conc_min[ipart][i] = temp[i];
        }
-
-////       keyword = "p_conc_init_" + c.part_names[ipart];
-////       systemInterface->readParameter (section_name, keyword, /*"(g/g)",*/ c.p_conc_init[ipart], 0.0, 1.0);
    }
+    string keyword = "p_conc_init_root";
+    systemInterface->readParameter (section_name, keyword, /*"(g/g)",*/ c.p_conc_init[root], 0.0, 1.0);
 
    pop_routine  (my_name);
 }
@@ -214,7 +214,7 @@ void Plant::prepare_p(void)
    if (g.phosphorus_aware == true)
       {
       vector<plantPart*> allParts;
-      setupHacks(allParts);
+      setupHacks1(allParts);
       PlantP_demand(allParts, g.dlt_dm_pot_rue);
       PlantP_Stress(allParts);
       deleteHacks(allParts);
@@ -243,16 +243,18 @@ void Plant::detachment_p(void)
       {
          vector<plantPart*> allParts;
          vector<plantPart*>::iterator part;
-         setupHacks(allParts);
+         setupHacks1(allParts);
 
          PlantP_detachment (allParts);
 
          for (part = allParts.begin(); part != allParts.end(); part++)
          {
-            (*part)->g.p_sen +=  (*part)->dlt.p_sen;
-            (*part)->g.p_sen -= (*part)->dlt.p_det;
-            (*part)->g.p_dead -= (*part)->dlt.p_dead_det;
+            (*part)->updatePDet();
+//            (*part)->g.p_sen +=  (*part)->dlt.p_sen;
+//            (*part)->g.p_sen -= (*part)->dlt.p_det;
+//            (*part)->g.p_dead -= (*part)->dlt.p_dead_det;
          }
+//            fruitPart->updatePDet();
          deleteHacks(allParts);
       }
       pop_routine (my_name);
@@ -274,11 +276,16 @@ void Plant::PlantP_partition (vector<plantPart*>&parts)
       vector<float> values;               // Scratch area
       vector<plantPart*>::iterator part;
       float p_uptake;
-      float total_demand;
+      float total_p_demand;
 
 
 //- Implementation Section ----------------------------------
       push_routine (my_name);
+
+      total_p_demand = 0.0;
+      for (part = parts.begin(); part != parts.end(); part++)
+          total_p_demand += (*part)->pDemand();
+//          total_p_demand += fruitPart->pDemand();
 
       if (id.layered_p_uptake != 0)
       {
@@ -292,72 +299,78 @@ void Plant::PlantP_partition (vector<plantPart*>&parts)
       }
       else
       {
-          p_uptake = 0.0;
-          for (part = parts.begin(); part != parts.end(); part++)
-             p_uptake += (*part)->v.p_demand;
+          p_uptake = total_p_demand;
       }
-
-      total_demand = 0.0;
-      for (part = parts.begin(); part != parts.end(); part++)
-          total_demand += (*part)->v.p_demand;;
 
       for (part = parts.begin(); part != parts.end(); part++)
       {
-         (*part)->dlt.p_green = p_uptake
-                                  * divide((*part)->v.p_demand
-                                           ,total_demand
-                                           ,0.0);
+//         (*part)->dlt.p_green = p_uptake * divide((*part)->pDemand()
+//                                                 ,total_p_demand
+//                                                 ,0.0);
+         (*part)->distributeDltPGreen(p_uptake, total_p_demand);
       }
+//         fruitPart->distributeDltPGreen(p_uptake, total_p_demand);
       pop_routine (my_name);
 }
+
 
 // ====================================================================
 void Plant::PlantP_senescence (vector<plantPart*>&parts)
 {
-//+  Purpose
-//     <insert here>
-
-//+  Changes
-//
-
-//+  Constant Values
-      const char*  my_name = "PlantP_senescence";
-
-//+  Local Variables
-      vector<plantPart*>::iterator part;
-      float p_conc_green;
-      float p_conc_sen;
-
-//- Implementation Section ----------------------------------
-      push_routine (my_name);
-
-      for (part = parts.begin(); part != parts.end(); part++)
-         (*part)->dlt.p_sen = 0.0;
-
-      for (part = parts.begin(); part != parts.end(); part++)
-      {
-         if ((*part)->dlt.dm_senesced < (*part)->g.dm_green)
-         {
-            p_conc_green = divide ((*part)->g.p_green
-                                  ,(*part)->g.dm_green
-                                  , 0.0);
-
-            p_conc_sen = linear_interp_real (phenology->stageNumber()
-                                           , (*part)->c.x_p_stage_code
-                                           , (*part)->c.y_p_conc_sen
-                                           , (*part)->c.num_x_p_stage_code);
-
-            (*part)->dlt.p_sen = min(p_conc_green, p_conc_sen) * (*part)->dlt.dm_senesced;
-         }
-         else
-         {
-            (*part)->dlt.p_sen = (*part)->g.p_green;
-         }
-      }
-
-      pop_routine (my_name);
+        for (vector<plantPart *>::iterator t = parts.begin();
+             t != parts.end();
+             t++)
+           (*t)->doPSenescence();
+//           fruitPart->doPSenescence();
 }
 
+//// ====================================================================
+//void Plant::PlantP_senescence (vector<plantPart*>&parts)
+//{
+////+  Purpose
+////     <insert here>
+//
+////+  Changes
+////
+//
+////+  Constant Values
+//      const char*  my_name = "PlantP_senescence";
+//
+////+  Local Variables
+//      vector<plantPart*>::iterator part;
+//      float p_conc_green;
+//      float p_conc_sen;
+//
+////- Implementation Section ----------------------------------
+//      push_routine (my_name);
+//
+//      for (part = parts.begin(); part != parts.end(); part++)
+//         (*part)->dlt.p_sen = 0.0;
+//
+//      for (part = parts.begin(); part != parts.end(); part++)
+//      {
+//         if ((*part)->dlt.dm_senesced < (*part)->g.dm_green)
+//         {
+//            p_conc_green = divide ((*part)->g.p_green
+//                                  ,(*part)->g.dm_green
+//                                  , 0.0);
+//
+//            p_conc_sen = linear_interp_real (phenology->stageNumber()
+//                                           , (*part)->c.x_p_stage_code
+//                                           , (*part)->c.y_p_conc_sen
+//                                           , (*part)->c.num_x_p_stage_code);
+//
+//            (*part)->dlt.p_sen = min(p_conc_green, p_conc_sen) * (*part)->dlt.dm_senesced;
+//         }
+//         else
+//         {
+//            (*part)->dlt.p_sen = (*part)->g.p_green;
+//         }
+//      }
+//
+//      pop_routine (my_name);
+//}
+//
 
 // ====================================================================
 void Plant::PlantP_detachment (vector<plantPart*>&parts)
@@ -376,19 +389,21 @@ void Plant::PlantP_detachment (vector<plantPart*>&parts)
       push_routine (my_name);
 
       for (part = parts.begin(); part != parts.end(); part++)
-      {
-         float sen_detach_frac = divide((*part)->dlt.dm_detached
-                                       , (*part)->g.dm_senesced
-                                       , 0.0);
-
-         (*part)->dlt.p_det = (*part)->g.p_sen * sen_detach_frac;
-
-         float dead_detach_frac = divide((*part)->dlt.dm_dead_detached
-                                       , (*part)->g.dm_dead
-                                       , 0.0);
-
-         (*part)->dlt.p_dead_det = (*part)->g.p_dead * dead_detach_frac;
-      }
+         (*part)->p_detachment1();
+//         fruitPart->p_detachment1();
+////      {
+////         float sen_detach_frac = divide((*part)->dlt.dm_detached
+////                                       , (*part)->g.dm_senesced
+////                                       , 0.0);
+////
+////         (*part)->dlt.p_det = (*part)->g.p_sen * sen_detach_frac;
+////
+////         float dead_detach_frac = divide((*part)->dlt.dm_dead_detached
+////                                       , (*part)->g.dm_dead
+////                                       , 0.0);
+////
+////         (*part)->dlt.p_dead_det = (*part)->g.p_dead * dead_detach_frac;
+////      }
 
       pop_routine (my_name);
 }
@@ -479,7 +494,6 @@ const char*  my_name = "PlantP_set_phosphorus_aware";
 }
 
 
-
 // ====================================================================
 void Plant::PlantP_demand (vector<plantPart *> &allParts, float dlt_dm_pot)
 {
@@ -487,55 +501,70 @@ void Plant::PlantP_demand (vector<plantPart *> &allParts, float dlt_dm_pot)
 //+  Purpose
 //      Calculate plant P demands
 
-//+  Changes
-//     <insert here>
-
-//+  Constant Values
-      const char*  my_name = "PlantP_demand";
-
-//+  Local Variables
-      vector<plantPart *>::iterator part;
-      float    deficit;
-      float    p_conc_max;
-      float    rel_growth_rate;
-      float    dm_green_sum;
-
-//- Implementation Section ----------------------------------
-      push_routine (my_name);
-
-      dm_green_sum = 0.0;
-      for (part = allParts.begin(); part != allParts.end(); part++)
-         {
-         (*part)->v.p_demand = 0.0;
-         dm_green_sum += (*part)->g.dm_green;
-         }
-      rel_growth_rate = divide(dlt_dm_pot, dm_green_sum, 0.0);
-
-      for (part = allParts.begin(); part != allParts.end(); part++)
-         {
-         if ((*part)->c.p_yield_part)
-            {
-            // A yield part - does not contribute to soil demand
-            (*part)->v.p_demand = 0.0;
-            }
-         else
-            {
-            // Not a yield part - therefore it contributes to demand
-            p_conc_max = linear_interp_real (phenology->stageNumber()
-                                           , (*part)->c.x_p_stage_code
-                                           , (*part)->c.y_p_conc_max
-                                           , (*part)->c.num_x_p_stage_code);
-
-            // scale up to include potential new growth
-            // assuming partitioning today similar to current
-            // plant form - a rough approximation
-            deficit = p_conc_max * (*part)->g.dm_green * (1.0 + rel_growth_rate) - (*part)->g.p_green;
-
-            (*part)->v.p_demand = l_bound(deficit, 0.0);
-            }
-         }
-      pop_routine (my_name);
+        for (vector<plantPart *>::iterator t = allParts.begin();
+             t != allParts.end();
+             t++)
+           (*t)->doPDemand();
+//           fruitPart->doPDemand();
 }
+
+
+//// ====================================================================
+//void Plant::PlantP_demand (vector<plantPart *> &allParts, float dlt_dm_pot)
+//{
+//
+////+  Purpose
+////      Calculate plant P demands
+//
+////+  Changes
+////     <insert here>
+//
+////+  Constant Values
+//      const char*  my_name = "PlantP_demand";
+//
+////+  Local Variables
+//      vector<plantPart *>::iterator part;
+//      float    deficit;
+//      float    p_conc_max;
+//      float    rel_growth_rate;
+//      float    dm_green_sum;
+//
+////- Implementation Section ----------------------------------
+//      push_routine (my_name);
+//
+//      dm_green_sum = 0.0;
+//      for (part = allParts.begin(); part != allParts.end(); part++)
+//         {
+//         (*part)->v.p_demand = 0.0;
+//         dm_green_sum += (*part)->g.dm_green;
+//         }
+//      rel_growth_rate = divide(dlt_dm_pot, dm_green_sum, 0.0);
+//
+//      for (part = allParts.begin(); part != allParts.end(); part++)
+//         {
+//         if ((*part)->c.p_yield_part)
+//            {
+//            // A yield part - does not contribute to soil demand
+//            (*part)->v.p_demand = 0.0;
+//            }
+//         else
+//            {
+//            // Not a yield part - therefore it contributes to demand
+//            p_conc_max = linear_interp_real (phenology->stageNumber()
+//                                           , (*part)->c.x_p_stage_code
+//                                           , (*part)->c.y_p_conc_max
+//                                           , (*part)->c.num_x_p_stage_code);
+//
+//            // scale up to include potential new growth
+//            // assuming partitioning today similar to current
+//            // plant form - a rough approximation
+//            deficit = p_conc_max * (*part)->g.dm_green * (1.0 + rel_growth_rate) - (*part)->g.p_green;
+//
+//            (*part)->v.p_demand = l_bound(deficit, 0.0);
+//            }
+//         }
+//      pop_routine (my_name);
+//}
 
 
 // ====================================================================
@@ -574,8 +603,18 @@ float Plant::PlantP_Pfact (vector<plantPart *> &allParts)
       max_p = 0.0;
       determinants_wt = 0.0;
 
+      float act_px = 0.0;
+      float min_px = 0.0;
+      float max_px = 0.0;
+      float determinants_wtx = 0.0;
+
       for (part = allParts.begin(); part != allParts.end(); part++)
          {
+            act_px += (*part)->pGreenStressDeterminant();
+            max_px += (*part)->pMaxPotStressDeterminant();
+            min_px += (*part)->pMinPotStressDeterminant();
+            determinants_wtx += (*part)->dmGreenStressDeterminant();
+
          if ((*part)->c.p_stress_determinant)
             {
             act_p += (*part)->g.p_green;
@@ -586,11 +625,13 @@ float Plant::PlantP_Pfact (vector<plantPart *> &allParts)
                                            , (*part)->c.num_x_p_stage_code);
             max_p += p_conc_max * (*part)->g.dm_green;
 
+
             p_conc_min = linear_interp_real (phenology->stageNumber()
                                            , (*part)->c.x_p_stage_code
                                            , (*part)->c.y_p_conc_min
                                            , (*part)->c.num_x_p_stage_code);
             min_p += p_conc_min * (*part)->g.dm_green;
+
             determinants_wt += (*part)->g.dm_green;
             }
          }
@@ -658,7 +699,7 @@ void Plant::PlantP_Stress (vector<plantPart *> &allParts)
       pop_routine (my_name);
 }
 // ====================================================================
-void Plant::PlantP_init_pools (vector<plantPart*>&parts)
+void Plant::PlantP_init_pools (vector<plantPart*>&parts)  //FIXME - this is not referenced anywhere!!!
 {
 
 //+  Purpose
@@ -680,15 +721,24 @@ void Plant::PlantP_init_pools (vector<plantPart*>&parts)
    // This is wrong. need to initialise these on an event. XXXX
    for (part = parts.begin(); part != parts.end(); part++)
       {
-      dmSum += (*part)->g.dm_green;
-      pSum += (*part)->g.p_green;
+      dmSum += (*part)->dmGreen();
+      pSum += (*part)->pGreen();
+//      dmSum += (*part)->g.dm_green;
+//      pSum += (*part)->g.p_green;
       }
+//      dmSum += fruitPart->dmGreen();
+//      pSum += fruitPart->pGreen();
+
+
+
    if (dmSum > 0.0 && pSum <= 0.0)
          {
          // biomass has been initialised but the p pools have not
          for (part = parts.begin(); part != parts.end(); part++)
             {
-            (*part)->g.p_green = (*part)->g.dm_green * (*part)->c.p_init_conc;
+            (*part)->pInit();
+//            fruitPart->pInit();
+//            (*part)->g.p_green = (*part)->g.dm_green * (*part)->c.p_init_conc;
             }
          }
    pop_routine (my_name);
@@ -699,7 +749,7 @@ void Plant::plant_p_retrans(void)
    if (g.phosphorus_aware == true)
       {
       vector<plantPart*> allParts;
-      setupHacks(allParts);
+      setupHacks1(allParts);
       PlantP_retrans (allParts);
       deleteHacks(allParts);
       }
@@ -732,65 +782,69 @@ void Plant::PlantP_retrans (vector<plantPart*>&parts)
 //- Implementation Section ----------------------------------
       push_routine (my_name);
 
+//      for (ipart =0; ipart != parts.size(); ipart++)
+//         {
+//         if (parts[ipart]->c.p_retrans_part)
+//            {
+//            p_conc_min = linear_interp_real (phenology->stageNumber()
+//                                        , parts[ipart]->c.x_p_stage_code
+//                                        , parts[ipart]->c.y_p_conc_min
+//                                        , parts[ipart]->c.num_x_p_stage_code);
+//            min_p = p_conc_min * parts[ipart]->g.dm_green;
+//            supply[ipart] = max(parts[ipart]->g.p_green - min_p, 0.0);
+//            }
+//         else
+//            {
+//            supply[ipart] = 0.0;
+//            }
+//         }
+//
+//      for (ipart =0; ipart != parts.size(); ipart++)
+//         {
+//         if (parts[ipart]->c.p_yield_part)
+//            {
+//            p_conc_max = linear_interp_real (phenology->stageNumber()
+//                                        , parts[ipart]->c.x_p_stage_code
+//                                        , parts[ipart]->c.y_p_conc_max
+//                                        , parts[ipart]->c.num_x_p_stage_code);
+//            max_p = p_conc_max * parts[ipart]->g.dm_green;
+//            demand[ipart] = max(max_p - parts[ipart]->g.p_green, 0.0);
+//            }
+//         else
+//            {
+//            demand[ipart] = 0.0;
+//            }
+//         }
+
+      totSupply = 0.0;
+      totDemand = 0.0;
       for (ipart =0; ipart != parts.size(); ipart++)
          {
-         if (parts[ipart]->c.p_retrans_part)
-            {
-            p_conc_min = linear_interp_real (phenology->stageNumber()
-                                        , parts[ipart]->c.x_p_stage_code
-                                        , parts[ipart]->c.y_p_conc_min
-                                        , parts[ipart]->c.num_x_p_stage_code);
-            min_p = p_conc_min * parts[ipart]->g.dm_green;
-            supply[ipart] = max(parts[ipart]->g.p_green - min_p, 0.0);
-            }
-         else
-            {
-            supply[ipart] = 0.0;
-            }
+//         totSupply += supply[ipart];
+//         totDemand += demand[ipart];
+         totSupply += parts[ipart]->pRetransSupply();
+         totDemand += parts[ipart]->pRetransDemand();
          }
 
       for (ipart =0; ipart != parts.size(); ipart++)
          {
-         if (parts[ipart]->c.p_yield_part)
-            {
-            p_conc_max = linear_interp_real (phenology->stageNumber()
-                                        , parts[ipart]->c.x_p_stage_code
-                                        , parts[ipart]->c.y_p_conc_max
-                                        , parts[ipart]->c.num_x_p_stage_code);
-            max_p = p_conc_max * parts[ipart]->g.dm_green;
-            demand[ipart] = max(max_p - parts[ipart]->g.p_green, 0.0);
-            }
-         else
-            {
-            demand[ipart] = 0.0;
-            }
-         }
-
-      totSupply = totDemand = 0.0;
-      for (ipart =0; ipart != parts.size(); ipart++)
-         {
-         totSupply += supply[ipart];
-         totDemand += demand[ipart];
-         }
-
-      for (ipart =0; ipart != parts.size(); ipart++)
-         {
-         if (supply[ipart] > 0.0)
-            {
-            fraction = divide(totDemand, totSupply, 0.0);
-            fraction = bound(fraction, 0.0, 1.0);
-            parts[ipart]->dlt.p_retrans = - supply[ipart] * fraction;
-            }
-         else if (demand[ipart] > 0.0)
-            {
-            fraction = divide(totSupply, totDemand, 0.0);
-            fraction = bound(fraction, 0.0, 1.0);
-            parts[ipart]->dlt.p_retrans = demand[ipart] * fraction;
-            }
-         else
-            {
-            parts[ipart]->dlt.p_retrans = 0.0;// this part is not involved
-            }
+//         if (supply[ipart] > 0.0)
+//            {
+//            fraction = divide(totDemand, totSupply, 0.0);
+//            fraction = bound(fraction, 0.0, 1.0);
+//            parts[ipart]->dlt.p_retrans = - supply[ipart] * fraction;
+//            }
+//         else if (demand[ipart] > 0.0)
+//            {
+//            fraction = divide(totSupply, totDemand, 0.0);
+//            fraction = bound(fraction, 0.0, 1.0);
+//            parts[ipart]->dlt.p_retrans = demand[ipart] * fraction;
+//            }
+//         else
+//            {
+//            parts[ipart]->dlt.p_retrans = 0.0;// this part is not involved
+//            }
+         parts[ipart]->distributeDltPRetrans(totSupply, totDemand);
          }
       pop_routine (my_name);
 }
@@ -823,22 +877,32 @@ void Plant::summary_p (void)
 
    if (g.phosphorus_aware == true)
    {
-       P_grain_conc_percent = divide (
-           g.p_green[meal] + g.p_dead[meal] + g.p_green[oil] + g.p_dead[oil]
-         , g.dm_green[meal] + g.dm_dead[meal] + g.dm_green[oil] + g.dm_dead[oil]
-         , 0.0) * fract2pcnt;
+//       P_grain_conc_percent = divide (
+//           g.p_green[meal] + g.p_dead[meal] + g.p_green[oil] + g.p_dead[oil]
+//         , g.dm_green[meal] + g.dm_dead[meal] + g.dm_green[oil] + g.dm_dead[oil]
+//         , 0.0) * fract2pcnt;
 
-       P_grain = (g.p_green[meal] + g.p_dead[meal]
-               +  g.p_green[oil]  + g.p_dead[oil]) * gm2kg/sm2ha;
+//       P_grain = (g.p_green[meal] + g.p_dead[meal]
+//               +  g.p_green[oil]  + g.p_dead[oil]) * gm2kg/sm2ha;
+//
+//       P_green = (sum_real_array (g.p_green, max_part) + leafPart->g.p_green + stemPart->g.p_green
+//               -  g.p_green[root] - g.p_green[meal] - g.p_green[oil]) * gm2kg / sm2ha;
+//
+//       P_senesced = (sum_real_array (g.p_sen, max_part) + leafPart->g.p_sen + stemPart->g.p_sen
+//                  -  g.p_sen[root] - g.p_sen[meal]- g.p_sen[oil]) * gm2kg / sm2ha;
+//
+//       P_dead = (sum_real_array (g.p_dead, max_part) + leafPart->g.p_dead + stemPart->g.p_dead
+//           - g.p_dead[root] - g.p_dead[meal] - g.p_dead[oil]) * gm2kg / sm2ha;
 
-       P_green = (sum_real_array (g.p_green, max_part) + leafPart->g.p_green + stemPart->g.p_green
-               -  g.p_green[root] - g.p_green[meal] - g.p_green[oil]) * gm2kg / sm2ha;
+       P_grain_conc_percent = grainPConcTot();
 
-       P_senesced = (sum_real_array (g.p_sen, max_part) + leafPart->g.p_sen + stemPart->g.p_sen
-                  -  g.p_sen[root] - g.p_sen[meal]- g.p_sen[oil]) * gm2kg / sm2ha;
+       P_grain = grainPTot() * gm2kg/sm2ha;
 
-       P_dead = (sum_real_array (g.p_dead, max_part) + leafPart->g.p_dead + stemPart->g.p_dead
-           - g.p_dead[root] - g.p_dead[meal] - g.p_dead[oil]) * gm2kg / sm2ha;
+       P_green = stoverPGreen() * gm2kg / sm2ha;
+
+       P_senesced = stoverPSenesced() * gm2kg / sm2ha;
+
+       P_dead = stoverPDead() * gm2kg / sm2ha;
 
        P_stover = P_green + P_senesced + P_dead;
        P_total = P_grain + P_stover;

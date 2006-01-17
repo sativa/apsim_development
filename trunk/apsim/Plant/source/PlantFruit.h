@@ -95,6 +95,11 @@ class PlantFruit : public plantPart
               void get_pod_p(protocol::Component *, protocol::QueryValueData &qd);
               void get_head_p(protocol::Component *, protocol::QueryValueData &qd);
 
+             void get_p_demand(vector<float> &p_demand);
+             void get_dlt_p_green(vector<float> &dlt_p_green);
+             void get_dlt_p_retrans(vector<float> &dlt_p_retrans);
+             void get_p_green(vector<float> &p_green);
+
              void morphology(void);
 
              void onPlantEvent(const string &);
@@ -102,8 +107,12 @@ class PlantFruit : public plantPart
              void doNDemand1Pot(float, float);
              void doNDemand2(float, float);
              void doSoilNDemand(void);
+             void doNSenescence(void);
              void dm_detachment1(void);
              void n_detachment1(void);
+             void p_detachment1(void);
+             void doPDemand(void);
+             void doPSenescence(void);
 
               void grain_number (void);
               void grain_number (float stem_dm
@@ -134,7 +143,7 @@ class PlantFruit : public plantPart
             void getDltDmGreen(vector<plantPart *> fruitParts);
             void putDltDmGreen(vector<plantPart *> fruitParts);
             void getDltDmGreenRetrans(vector<plantPart *> fruitParts);
-            void getDltNRetrans(vector<plantPart *> fruitParts);
+            void putDltNRetrans(vector<plantPart *> fruitParts);
             void getDltNSenescedRetrans(float navail, float n_demand_tot);
             void update(float dying_fract_plants);
             void refreshStates(void);
@@ -173,14 +182,35 @@ class PlantFruit : public plantPart
             float nConcGrain(void);
             float nGrainDemand2(void);
 
+            float nMaxPot(void);
+            float nMinPot(void);
             float pTotal(void);
             float pGrainTotal(void);
             float pVegTotal(void);
             float pGreenGrainTotal(void);
+            float pDeadGrainTotal(void);
             float pGreenVegTotal(void);
+            float pSenescedGrainTotal(void);
             float pSenescedVegTotal(void);
             float pDeadVegTotal(void);
             float pConcGrain(void);
+            float pConcGrainTotal(void);
+            float pMaxPot(void);
+            float pMinPot(void);
+            void  updatePDet(void);
+
+            float pDemand(void);
+            float pRetransSupply(void);
+            float pRetransDemand(void);
+
+            void distributeDltPGreen(float p_uptake, float total_p_demand);
+            void distributeDltPRetrans(float total_p_supply, float total_p_demand);
+            void pInit(void);
+
+           float dmGreenStressDeterminant(void);
+           float pGreenStressDeterminant(void);
+           float pMaxPotStressDeterminant(void);
+           float pMinPotStressDeterminant(void);
 
 		virtual void display(ostream &os = cout) const;	// display function
 //            float calcCover (float pai);  // calc pod cover
@@ -309,6 +339,7 @@ class PlantFruit : public plantPart
       int   cNum_temp_grainfill;
       float cY_rel_grainfill[max_table];
 
+      float cGrain_oil_conc;                            // fractional oil content of grain (0-1)
       float gDlt_dm_grain_demand;
       float gDlt_dm_pot_rue_pod;
       float gDlt_dm_pot_te;
@@ -376,7 +407,6 @@ class PlantFruit : public plantPart
       float cY_rel_grain_n_fill[max_table];
       float cGrn_water_cont;
       float cCarbo_oil_conv_ratio;
-      float cGrain_oil_conc;                            // fractional oil content of grain (0-1)
       int   cNum_n_conc_stage;
       float cX_stage_code[max_table];
       float cY_n_conc_crit_pod[max_table];

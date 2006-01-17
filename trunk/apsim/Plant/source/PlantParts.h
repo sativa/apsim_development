@@ -24,6 +24,9 @@ class plantPart : public plantThing {
       float n_conc_crit;                  // critical N concentration (g N/g biomass)
       float n_conc_max;                   // maximum N concentration (g N/g biomass)
       float n_conc_min;                   // minimum N concentration (g N/g biomass)
+      float p_conc_sen;                  // critical P concentration (g N/g biomass)
+      float p_conc_max;                   // maximum P concentration (g N/g biomass)
+      float p_conc_min;                   // minimum P concentration (g N/g biomass)
       float dm_plant_min;                 // minimum weight of each plant part (g/plant)
    } g;
 
@@ -104,6 +107,9 @@ class plantPart : public plantThing {
       interpolationFunction n_conc_crit;
       interpolationFunction n_conc_max;
 
+      interpolationFunction p_conc_min;
+      interpolationFunction p_conc_sen;
+      interpolationFunction p_conc_max;
       int   num_x_p_stage_code;
       float x_p_stage_code [max_table];
       float y_p_conc_min[max_table];
@@ -174,25 +180,46 @@ private:
    virtual void dm_detachment1(void);
    virtual void n_detachment1(void);
 
-   float dmTotal(void);
-   float dmGreen(void) const;
-   float dmSenesced(void) const;
-   float dmDead(void) const;
+   virtual void p_detachment1(void);
+   virtual void doPDemand(void);
+   virtual void doPSenescence(void);
+   virtual float dmTotal(void);
+   virtual float dmGreen(void) const;
+   virtual float dmSenesced(void) const;
+   virtual float dmDead(void) const;
 
-   float nTotal(void);
-   float nGreen(void) const;
-   float nSenesced(void) const;
-   float nDead(void) const;
-   float nConc(void) const;
+   virtual float dmGreenStressDeterminant(void);
+   virtual float pGreenStressDeterminant(void);
+   virtual float pMaxPotStressDeterminant(void);
+   virtual float pMinPotStressDeterminant(void);
+   virtual float nTotal(void);
+   virtual float nGreen(void) const;
+   virtual float nSenesced(void) const;
+   virtual float nDead(void) const;
+   virtual float nConc(void) const;
 
-   float pTotal(void);
-   float pGreen(void) const;
-   float pSenesced(void) const;
-   float pDead(void) const;
-   float pConc(void) const;
+   virtual float nMaxPot(void) ;
+   virtual float nMinPot(void) ;
+   virtual float pTotal(void);
+   virtual float pGreen(void) const;
+   virtual float pSenesced(void) const;
+   virtual float pDead(void) const;
+   virtual float pConc(void) const;
 
-   float nDemand(void) const;
-   float nMax(void) const;
+   virtual float pMaxPot(void) ;
+   virtual float pMinPot(void) ;
+   virtual void updatePDet(void) ;
+
+   virtual float nDemand(void) const;
+   virtual float nMax(void) const;
+
+   virtual float pDemand(void);
+   virtual float pRetransSupply(void);
+   virtual float pRetransDemand(void);
+
+   virtual void distributeDltPGreen(float p_uptake, float total_p_demand);
+   virtual void distributeDltPRetrans(float total_p_supply, float total_p_demand);
+   virtual void pInit(void);
 
    virtual void onHarvest(float height, float remove_fr,
                           vector<string> &dm_type,
@@ -209,8 +236,13 @@ private:
 
    virtual void onKillStem(void);
 
-   float availableRetranslocateN(void);
+   virtual float availableRetranslocateN(void);
    const string &name(void) {return c.name;};
+
+   virtual void get_p_demand(vector<float> &p_demand);
+   virtual void get_dlt_p_green(vector<float> &dlt_p_green);
+   virtual void get_dlt_p_retrans(vector<float> &dlt_p_retrans);
+   virtual void get_p_green(vector<float> &p_green);
 };
 
 class plantStemPart : public plantPart {
@@ -270,6 +302,7 @@ class fruitPodPart : public plantPart {
 
    void onKillStem(void);
 
+   void fruitPodPart::onFlowering(void);
 };
 
 class fruitOilPart : public plantPart {

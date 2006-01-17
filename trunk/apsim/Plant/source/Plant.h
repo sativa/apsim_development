@@ -128,6 +128,22 @@ class Plant : public plantInterface {
   float stoverPDead(void) const;
   float stoverPTot(void) const;
 
+  float grainGreen(void) const;
+  float grainSenesced(void) const;
+  float grainDead(void) const;
+  float grainTot(void) const;
+
+  float grainNGreen(void) const;
+  float grainNSenesced(void) const;
+  float grainNDead(void) const;
+  float grainNTot(void) const;
+
+  float grainPGreen(void) const;
+  float grainPSenesced(void) const;
+  float grainPDead(void) const;
+  float grainPTot(void) const;
+  float grainPConc(void) const;
+  float grainPConcTot(void) const;
   float sumNMax(void) ;
   float sumSoilNDemand(void) ;
   float sumNDemand(void) ;
@@ -708,6 +724,7 @@ void legnew_dm_distribute(int max_part
   float getDmVeg(void) const;
   float getDmGreenStem(void) const;
   float getDmGreenTot(void) const;
+  float getRelativeGrowthRate(void);
 //  float getDyingFractionPlants(void) const;
 
   float getTempStressPhoto(void) const;
@@ -1511,6 +1528,7 @@ void legnew_dm_distribute(int max_part
       }  c;   // Constants
 
    void setupHacks(vector<plantPart *> &parts);
+   void setupHacks1(vector<plantPart *> &parts);
    void deleteHacks(vector<plantPart *> &parts);
 };  // Plant
 

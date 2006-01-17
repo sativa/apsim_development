@@ -42,6 +42,7 @@ class plantInterface {
       virtual float getDmGreenStem(void) const = 0;
       virtual float getDmGreenTot(void) const = 0;
 
+      virtual float getRelativeGrowthRate(void) = 0;
       // temporary
 
       virtual float getTempStressPhoto(void) const = 0;
