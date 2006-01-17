@@ -1539,6 +1539,23 @@ void PlantFruit::getDltNSenescedRetrans(float navail, float n_demand_tot)
 }
 
 //===========================================================================
+void PlantFruit::getPDemand(vector<plantPart *> fruitParts)
+//===========================================================================
+{
+    v.p_demand = 0.0;
+    vector<plantPart *>::iterator myPart =myParts.begin();
+
+    vector<plantPart *>::iterator part;
+    for (part = fruitParts.begin(); part != fruitParts.end(); part++) //FIXME temp untio pod and meal are removed from plant array
+    {
+      (*myPart)->v.p_demand = (*part)->v.p_demand;
+      v.p_demand +=(*myPart)->v.p_demand;
+      myPart++;
+    }
+
+}
+
+//===========================================================================
 void PlantFruit::update(float dying_fract_plants)
 //===========================================================================
 {

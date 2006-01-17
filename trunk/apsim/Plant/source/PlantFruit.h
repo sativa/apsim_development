@@ -145,6 +145,7 @@ class PlantFruit : public plantPart
             void getDltDmGreenRetrans(vector<plantPart *> fruitParts);
             void putDltNRetrans(vector<plantPart *> fruitParts);
             void getDltNSenescedRetrans(float navail, float n_demand_tot);
+            void getPDemand(vector<plantPart *> fruitParts);
             void update(float dying_fract_plants);
             void refreshStates(void);
             void n_conc_limits(void);
