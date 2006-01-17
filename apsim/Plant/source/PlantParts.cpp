@@ -21,6 +21,7 @@
 #include "PlantLibrary.h"
 #include "Plant.h"
 #include "PlantParts.h"
+#include "PlantFruit.h"
 using namespace std;
 
 
@@ -44,16 +45,27 @@ void Plant::setupHacks(vector<plantPart *> &parts)
 
    x=new plantPartHack(this, oil,  "oil");
    parts.push_back(x);
+//   parts.push_back(fruitPart);
    }
 void Plant::deleteHacks(vector<plantPart *> &parts)
    {
    vector<plantPart *>::iterator part;
    for (part = parts.begin(); part != parts.end(); part++)
-      if ((*part)->c.name != "stem" && (*part)->c.name != "leaf")
+      if ((*part)->c.name != "stem" && (*part)->c.name != "leaf" && (*part)->c.name != "fruit")
          delete *part;
    }
 
 
+void Plant::setupHacks1(vector<plantPart *> &parts)
+   {
+   plantPart *x = new plantPartHack(this, root, "root");
+
+   parts.push_back(x);
+   parts.push_back(leafPart);
+   parts.push_back(stemPart);
+   parts.push_back(fruitPart);
+
+   }
 //////////---------------------------
 void plantPart::doRegistrations(protocol::Component *system)
 {
@@ -250,6 +262,9 @@ void plantPart::zeroAllGlobals(void)
    g.n_conc_crit=0.0;
    g.n_conc_max=0.0;
    g.n_conc_min=0.0;
+   g.p_conc_sen=0.0;
+   g.p_conc_max=0.0;
+   g.p_conc_min=0.0;
    g.dm_plant_min=0.0;
 
    g.p_green=0.0;
@@ -469,7 +484,7 @@ void plantPart::onKillStem(void)
        float dm_init = u_bound(plantPart::c.dm_init * plant->getPlants(), plantPart::g.dm_green);
        float n_init = u_bound(dm_init * plantPart::c.n_init_conc, plantPart::g.n_green);
        float p_init = u_bound(dm_init * plantPart::c.p_init_conc, plantPart::g.p_green);
-//        float dm_init = c.dm_init * plant->getPlants();
+//        float dm_init = c.dm_init * plant->getPlants();           //FIXME ????
 //        float n_init = dm_init * c.n_init_conc;
 //        float p_init = dm_init * c.p_init_conc;
 
@@ -705,6 +720,37 @@ void plantPart::doNDemand2(float dlt_dm,             // (INPUT)  Whole plant the
         }
 }
 
+void plantPart::doPDemand(void)
+{
+      vector<plantPart *>::iterator part;
+      float    deficit;
+      float    p_conc_max;
+      float    rel_growth_rate;
+
+      v.p_demand = 0.0;
+      rel_growth_rate = plant->getRelativeGrowthRate();
+
+      if (c.p_yield_part)
+         {
+         // A yield part - does not contribute to soil demand
+         v.p_demand = 0.0;
+         }
+      else
+         {
+         // Not a yield part - therefore it contributes to demand
+         p_conc_max = linear_interp_real (plant->getStageCode()
+                                        , c.x_p_stage_code
+                                        , c.y_p_conc_max
+                                        , c.num_x_p_stage_code);
+
+         // scale up to include potential new growth
+         // assuming partitioning today similar to current
+         // plant form - a rough approximation
+         deficit = p_conc_max * g.dm_green * (1.0 + rel_growth_rate) - g.p_green;
+
+         v.p_demand = l_bound(deficit, 0.0);
+         }
+}
 void plantPart::doSoilNDemand(void)
 {
    v.soil_n_demand = v.n_demand - dlt.n_senesced_retrans;
@@ -728,7 +774,7 @@ void plantPart::doSenescence2(float sen_fr)
    dlt.dm_senesced = g.dm_green * fraction_senescing;
 }
 
-void plantPart::doNSenescence()
+void plantPart::doNSenescence(void)
 {
    float green_n_conc = divide (g.n_green, g.dm_green, 0.0);
 
@@ -756,6 +802,43 @@ void plantPart::n_detachment1(void)
    dlt.n_dead_detached = g.n_dead * c.dead_detach_frac;
    }
 
+void plantPart::doPSenescence(void)
+{
+   float green_p_conc = divide (g.p_green, g.dm_green, 0.0);
+
+   float sen_p_conc = linear_interp_real (plant->getStageCode()
+                                        , c.x_p_stage_code
+                                        , c.y_p_conc_sen
+                                        , c.num_x_p_stage_code);
+
+   dlt.p_sen = min(green_p_conc, sen_p_conc) * dlt.dm_senesced;
+   dlt.p_sen = u_bound (dlt.p_sen, g.p_green);
+}
+
+void plantPart::p_detachment1(void)
+   {
+//   dlt.p_det = g.p_senesced * c.sen_detach_frac;      //FIXME should be able to use these later
+//   dlt.p_dead_det = g.p_dead * c.dead_detach_frac;
+
+      float sen_detach_frac = divide(dlt.dm_detached
+                                    , g.dm_senesced
+                                    , 0.0);
+
+      dlt.p_det = g.p_sen * sen_detach_frac;
+
+      float dead_detach_frac = divide(dlt.dm_dead_detached
+                                    , g.dm_dead
+                                    , 0.0);
+
+      dlt.p_dead_det = g.p_dead * dead_detach_frac;
+   }
+
+void plantPart::updatePDet(void)
+   {
+            g.p_sen +=  dlt.p_sen;
+            g.p_sen -=  dlt.p_det;
+            g.p_dead -= dlt.p_dead_det;
+   }
 /*  Purpose
 *   The concentration of Nitrogen in plant parts is used to derive a Nitrogen stress index
 *   for many processes. This stress index is calculated from today's relative nutitional
@@ -920,6 +1003,11 @@ void fruitPodPart::onKillStem(void)
        g.p_sen = 0.0;
 }
 
+void fruitPodPart::onFlowering(void)
+{
+//   float dm_plant = divide (g.dm_green, plant->getPlants(), 0.0);
+//   g.dm_plant_min = max (dm_plant * (1.0 - c.pod_trans_frac), g.dm_plant_min);
+}
 void fruitOilPart::onHarvest(float /* cutting_height */, float remove_fr,
                               vector<string> &dm_type,
                               vector<float> &dlt_crop_dm,
@@ -1101,29 +1189,150 @@ float plantPart::dmGreen(void) const {return (g.dm_green);}
 float plantPart::dmSenesced(void) const {return (g.dm_senesced);}
 float plantPart::dmDead(void) const {return (g.dm_dead);}
 
+float plantPart::dmGreenStressDeterminant(void)
+{
+    if (c.p_stress_determinant)
+       return g.dm_green;
+    else
+       return 0.0;
+}
+
+float plantPart::pGreenStressDeterminant(void)
+{
+    if (c.p_stress_determinant)
+       return g.p_green;
+    else
+       return 0.0;
+}
+
+float plantPart::pMaxPotStressDeterminant(void)
+{
+    if (c.p_stress_determinant)
+       return pMaxPot();
+    else
+       return 0.0;
+}
+
+float plantPart::pMinPotStressDeterminant(void)
+{
+    if (c.p_stress_determinant)
+       return pMinPot();
+    else
+       return 0.0;
+}
 float plantPart::nDemand(void) const {return (v.n_demand);}
 float plantPart::nMax(void) const{return (v.n_max);}
 
+float plantPart::pDemand(void) {return (v.p_demand);}
 float plantPart::nTotal(void) {return (nGreen() + nSenesced() + nDead());}
 float plantPart::nGreen(void) const {return (g.n_green);}
 float plantPart::nSenesced(void) const {return (g.n_senesced);}
 float plantPart::nDead(void) const {return (g.n_dead);}
 float plantPart::nConc(void) const
 {
-    float n_conc = divide (g.n_green, g.dm_green, 0.0) * 100.0;
+    float n_conc = divide (g.n_green, g.dm_green, 0.0) * 100.0;     //FIXME ?? 100.0
     return n_conc;
 }
 
+float plantPart::nMaxPot(void)
+{
+//       float n_conc_max = linear_interp_real (plant->getStageCode()
+//                                           , c.x_stage_code
+//                                           , c.y_conc_max
+//                                           , c.num_x_stage_code);
+   float n_conc_max = c.n_conc_max.value(plant->getStageCode());
+    return n_conc_max * g.dm_green;
+}
+
+float plantPart::nMinPot(void)
+{
+//       float n_conc_min = linear_interp_real (plant->getStageCode()
+//                                           , c.x_stage_code
+//                                           , c.y_conc_min
+//                                           , c.num_x_stage_code);
+   float n_conc_min = c.n_conc_min.value(plant->getStageCode());
+    return n_conc_min * g.dm_green;
+}
 float plantPart::pTotal(void) {return (pGreen() + pSenesced() + pDead());}
 float plantPart::pGreen(void) const {return (g.p_green);}
 float plantPart::pSenesced(void) const {return (g.p_sen);}
 float plantPart::pDead(void) const {return (g.p_dead);}
 float plantPart::pConc(void) const
 {
-    float p_conc = divide (g.p_green, g.dm_green, 0.0) * 100.0;
+    float p_conc = divide (g.p_green, g.dm_green, 0.0) * 100.0;        //FIXME ?? 100.0
     return p_conc;
 }
 
+float plantPart::pRetransSupply(void)
+{
+    if (c.p_retrans_part)
+       return max(g.p_green - pMinPot(), 0.0);
+    else
+       return 0.0;
+}
+
+float plantPart::pRetransDemand(void)
+{
+    if (c.p_yield_part)
+       return max(pMaxPot() - g.p_green, 0.0);
+    else
+       return 0.0;
+}
+
+
+void plantPart::distributeDltPGreen(float p_uptake, float total_p_demand)
+{
+    dlt.p_green = p_uptake * divide(v.p_demand
+                                     , total_p_demand
+                                     , 0.0);
+}
+
+void plantPart::distributeDltPRetrans(float total_p_supply, float total_p_demand)
+{
+   float p_supply = pRetransSupply();
+   float p_demand = pRetransDemand();
+   if (p_supply > 0.0)
+      {
+      float fraction = divide(total_p_demand, total_p_supply, 0.0);
+      fraction = bound(fraction, 0.0, 1.0);
+      dlt.p_retrans = - p_supply * fraction;
+      }
+   else if (p_demand > 0.0)
+      {
+      float fraction = divide(total_p_supply, total_p_demand, 0.0);
+      fraction = bound(fraction, 0.0, 1.0);
+      dlt.p_retrans = p_demand * fraction;
+      }
+   else
+      {
+      dlt.p_retrans = 0.0;// this part is not involved
+      }
+}
+
+void plantPart::pInit()
+{
+   g.p_green = c.p_init_conc * g.dm_green;
+}
+
+float plantPart::pMaxPot(void)
+{
+       float p_conc_max = linear_interp_real (plant->getStageCode()
+                                           , c.x_p_stage_code
+                                           , c.y_p_conc_max
+                                           , c.num_x_p_stage_code);
+//   float p_conc_max = c.p_conc_max.value(plant->getStageCode());
+    return p_conc_max * g.dm_green;
+}
+
+float plantPart::pMinPot(void)
+{
+       float p_conc_min = linear_interp_real (plant->getStageCode()
+                                           , c.x_p_stage_code
+                                           , c.y_p_conc_min
+                                           , c.num_x_p_stage_code);
+//   float p_conc_min = c.p_conc_min.value(plant->getStageCode());
+    return p_conc_min * g.dm_green;
+}
 void plantPart::onPlantEvent(const string &event)
    {
    if (event == "emergence") onEmergence();
@@ -1132,6 +1341,26 @@ void plantPart::onPlantEvent(const string &event)
    }
 
 
+
+void plantPart::get_p_demand(vector<float> &p_demand)
+{
+   p_demand.push_back(v.p_demand);
+}
+
+void plantPart::get_dlt_p_green(vector<float> &dlt_p_green)
+{
+   dlt_p_green.push_back(dlt.p_green);
+}
+
+void plantPart::get_p_green(vector<float> &p_green)
+{
+   p_green.push_back(g.p_green);
+}
+
+void plantPart::get_dlt_p_retrans(vector<float> &dlt_p_retrans)
+{
+   dlt_p_retrans.push_back(dlt.p_retrans);
+}
 
 //-------------------Hacks-------------------------------
 void plantPartHack::get(void) {
@@ -1180,7 +1409,7 @@ void plantPartHack::get(void) {
       c.p_yield_part    = myplant->c.p_yield_parts[part];
       c.p_retrans_part  = myplant->c.p_retrans_parts[part];
 
-      //c.p_init_conc         = myplant->c.p_conc_init[part];
+      c.p_init_conc         = myplant->c.p_conc_init[part];
       c.num_x_p_stage_code  = myplant->c.num_x_p_stage_code;
       c.num_x_p_stage_code  = myplant->c.num_x_p_stage_code;
       for (int i = 0; i< myplant->c.num_x_p_stage_code; i++) {

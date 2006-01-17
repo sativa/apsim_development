@@ -739,7 +739,6 @@ void Plant::doRegistrations(protocol::Component *system)
         t != myThings.end();
         t++)
       (*t)->doRegistrations(parent);
-////      fruitPart->doRegistrations(parent);
    }
 
 void Plant::onApsimGetQuery(protocol::ApsimGetQueryData& apsimQueryData)
@@ -773,7 +772,6 @@ void Plant::doPlantEvent(const string &e)
         t != myThings.end();
         t++)
       (*t)->onPlantEvent(e);
-////      fruitPart->onPlantEvent(e);
    }
 
 // Set a variable from the system.
@@ -990,7 +988,7 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
                              , c.y_frac_pod
                              , c.num_stage_no_partition
                              , fruitPart->grainEnergy()
-                             , c.grain_oil_conc
+                             , fruitPart->cGrain_oil_conc
                              , c.y_ratio_root_shoot
                              , c.sla_min
                              , g.dlt_dm
@@ -1048,7 +1046,14 @@ void Plant::plant_bio_retrans (int option /* (INPUT) option number */)
     allParts.push_back(mealPart);
     allParts.push_back(oilPart);
 
+    vector<plantPart *> allParts1;
+    allParts1.push_back(rootPart);
+    allParts1.push_back(leafPart);
+    allParts1.push_back(stemPart);
+    allParts1.push_back(fruitPart);
+
     push_routine (my_name);
+
     if (option == 1)
         {
          float dm_demand_differential = g.dlt_dm_yield_demand_fruit
@@ -1094,7 +1099,7 @@ void Plant::plant_bio_retrans (int option /* (INPUT) option number */)
                                 , c.y_frac_pod
                                 , c.num_stage_no_partition
                                 , fruitPart->grainEnergy()
-                                , c.grain_oil_conc
+                                , fruitPart->cGrain_oil_conc
                                 , podPart
                                 , mealPart
                                 , oilPart
@@ -1494,7 +1499,6 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
              t != myParts.end();
              t++)
            (*t)->dm_detachment1();
-////           fruitPart->dm_detachment1();
 
         cproc_n_detachment1 ( max_part
                              , c.sen_detach_frac
@@ -1510,8 +1514,6 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
            (*t)->n_detachment1();
            //(*t)->p_detachment1();
            }
-////           fruitPart->n_detachment1();
-           //fruitPart->p_detachment1();
         }
     else
         {
@@ -2454,7 +2456,6 @@ void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
         }
     else if (option == 2)
         {
-//        legnew_n_retranslocate( max(0.0, g.soil_n_demand[meal] - g.dlt_n_green[meal]));
         legnew_n_retranslocate( fruitPart->nGrainDemand2());  //FIXME
         }
     else
@@ -2531,7 +2532,6 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
              t != myParts.end();
              t++)
            (*t)->doNDemand1(g.dlt_dm, g.dlt_dm_pot_rue);
-////           fruitPart->doNDemand1(g.dlt_dm, g.dlt_dm_pot_rue);
         }
      else if (option == 2)
          {
@@ -2554,7 +2554,6 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
               t != myParts.end();
               t++)
             (*t)->doNDemand2(g.dlt_dm, g.dlt_dm_pot_rue);
-////           fruitPart->doNDemand2(g.dlt_dm, g.dlt_dm_pot_rue);
         }
     else
         {
@@ -2595,7 +2594,6 @@ void Plant::plant_soil_n_demand1 (float *g_soil_n_demand)
         t != myParts.end();
         t++)
       (*t)->doSoilNDemand();
-////      fruitPart->doSoilNDemand();
 }
 
 //+  Purpose
@@ -2674,13 +2672,13 @@ void Plant::plant_nit_uptake (int option/* (INPUT) option number*/)
 //      250894 jngh specified and programmed
 void Plant::plant_nit_partition (int option /* (INPUT) option number*/)
     {
+    if (option == 1)
+        {
     vector<plantPart *> allParts;
     setupHacks(allParts);
     plantPart *mealPart = allParts[4]; if (mealPart->c.name != "meal") throw std::invalid_argument ("Aieee: setupHacks is broken (meal)!!");
     plantPart *oilPart = allParts[5]; if (oilPart->c.name != "oil") throw std::invalid_argument ("Aieee: setupHacks is broken (oil)!!");
 
-    if (option == 1)
-        {
         legnew_n_partition(g.dlayer
                            , g.dlt_no3gsm
                            , g.dlt_nh4gsm
@@ -2692,18 +2690,24 @@ void Plant::plant_nit_partition (int option /* (INPUT) option number*/)
                            , &g.n_fix_uptake
                            , allParts, oilPart, mealPart);
 
+         deleteHacks(allParts);
         }
     else
         {
         throw std::invalid_argument ("invalid template option");
         }
 
-    if (g.phosphorus_aware) PlantP_partition(allParts);
+    if (g.phosphorus_aware)
+    {
+       vector<plantPart *> allParts;
+       setupHacks1(allParts);
+       PlantP_partition(allParts);
 
     deleteHacks(allParts);
     }
 
 
+    }
 //+  Purpose
 //         Get current Nitrogen stress factors (0-1)
 
@@ -2903,7 +2907,6 @@ void Plant::plant_sen_bio (int dm_senescence_option)
              t != myParts.end();
              t++)
            (*t)->doSenescence1(canopy_sen_fr);
-////           fruitPart->doSenescence1(canopy_sen_fr);
 
         g.dlt_dm_senesced[pod] = fruitPart->dlt.dm_senesced;   //FIXME remove
 
@@ -2924,7 +2927,6 @@ void Plant::plant_sen_bio (int dm_senescence_option)
              t != myParts.end();
              t++)
            (*t)->doSenescence2(canopy_sen_fr);
-////           fruitPart->doSenescence2(canopy_sen_fr);
 
         g.dlt_dm_senesced[pod] = fruitPart->dlt.dm_senesced; //FIXME remove
         }
@@ -2967,7 +2969,6 @@ void Plant::plant_sen_nit (int   option/*(INPUT) option number*/)
              t != myParts.end();
              t++)
            (*t)->doNSenescence();
-////           fruitPart->doNSenescence();
 
         }
     else if (option == 2)
@@ -2991,7 +2992,7 @@ void Plant::plant_sen_nit (int   option/*(INPUT) option number*/)
     if (g.phosphorus_aware == true)
        {
        vector<plantPart*> allParts;
-       setupHacks(allParts);
+       setupHacks1(allParts);
        PlantP_senescence(allParts);
        deleteHacks(allParts);
        }
@@ -3435,6 +3436,7 @@ void Plant::plant_update(
     plantPartHack *podPart  = new plantPartHack(this, pod, "pod");
     plantPartHack *mealPart = new plantPartHack(this, meal, "meal");
     plantPartHack *oilPart  = new plantPartHack(this, oil, "oil");
+
     vector<plantPart *> allParts;
     allParts.push_back(rootPart);
     allParts.push_back(leafPart);
@@ -3443,6 +3445,12 @@ void Plant::plant_update(
     allParts.push_back(podPart);
     allParts.push_back(mealPart);
     allParts.push_back(oilPart);
+
+    vector<plantPart *> allParts1;
+    allParts1.push_back(rootPart);
+    allParts1.push_back(leafPart);
+    allParts1.push_back(stemPart);
+    allParts1.push_back(fruitPart);
 
     vector<plantPart *>::iterator part;
 
@@ -3807,7 +3815,6 @@ void Plant::plant_check_bounds
        {
        (*t)->checkBounds();
        }
-////       fruitPart->checkBounds();
     deleteHacks(allParts);
 
     pop_routine (my_name);
@@ -3972,15 +3979,6 @@ void Plant::plant_event(float *g_dlayer           // (INPUT)  thickness of soil 
     biomass = topsTot();
 
     // note - oil has no N, thus is not included in calculations
-    // THIS CANNOT BE RIGHT!!!!!!! XXXXXXXX
-////    dm_green = sum_real_array (g_dm_green, max_part)+ leafPart->g.dm_green+ stemPart->g.dm_green + reproStruct->g.dm_green
-////                 - g_dm_green[root]
-////                 - g_dm_green[meal];
-
-////    n_green = sum_real_array (g_n_green, max_part)+ leafPart->g.n_green+ stemPart->g.n_green+ reproStruct->g.n_green
-////                 - g_n_green[root]
-////                 - g_n_green[meal];
-
     dm_green = stoverGreen();
     n_green = stoverNGreen();
 
@@ -4897,17 +4895,6 @@ void Plant::plant_n_conc_limits
     fill_real_array (n_conc_crit, 0.0, max_part);
     fill_real_array (n_conc_min, 0.0, max_part);
 
-//    if (stage_is_between (emerg, maturity, g_current_stage))
-//        {
-
-//jh set elsewhere   N_conc_crit[meal] = c_n_conc_crit_meal
-//jh set elsewhere   N_conc_max[meal] = c_n_conc_max_meal
-//jh set elsewhere   N_conc_min[meal] = c_n_conc_min_meal
-
-////        n_conc_crit[oil] = 0.0;   //FIXME remove  - Move to plantPart??
-////        n_conc_max[oil] = 0.0;
-////        n_conc_min[oil] = 0.0;
-//
         n_conc_crit[root] = c_n_conc_crit_root;
         n_conc_max[root] = c_n_conc_max_root;
         n_conc_min[root] = c_n_conc_min_root;
@@ -4945,7 +4932,6 @@ void Plant::plant_n_conc_limits
              t != myParts.end();
              t++)
            (*t)->n_conc_limits();
-////           fruitPart->n_conc_limits();
 
         float co2_modifier = linear_interp_real(g_co2,
                                                 c_x_co2_nconc_modifier,
@@ -5930,6 +5916,13 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
     allParts.push_back(podPart);
     allParts.push_back(mealPart);
     allParts.push_back(oilPart);
+//    allParts.push_back(fruitPart);
+
+    vector<plantPart *> allParts1;
+    allParts1.push_back(rootPart);
+    allParts1.push_back(leafPart);
+    allParts1.push_back(stemPart);
+    allParts1.push_back(fruitPart);
 
     vector<plantPart *> mbCheckParts;
     mbCheckParts.push_back(rootPart);
@@ -5937,6 +5930,14 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
     mbCheckParts.push_back(stemPart);
     mbCheckParts.push_back(reproStruct);
     mbCheckParts.push_back(podPart);
+
+//    mbCheckParts.push_back(fruitPart);
+
+    vector<plantPart *> mbCheckParts1;
+    mbCheckParts1.push_back(rootPart);
+    mbCheckParts1.push_back(leafPart);
+    mbCheckParts1.push_back(stemPart);
+    mbCheckParts1.push_back(fruitPart);
 
     vector<plantPart *> stoverParts;
     stoverParts.push_back(leafPart);
@@ -5946,7 +5947,15 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
     stoverParts.push_back(oilPart);
     stoverParts.push_back(mealPart);
 
+//    stoverParts.push_back(fruitPart);
+
+    vector<plantPart *> stoverParts1;
+    stoverParts1.push_back(leafPart);
+    stoverParts1.push_back(stemPart);
+    stoverParts1.push_back(fruitPart);
+
     vector<plantPart*>::iterator part;            // plant part
+
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
@@ -5969,8 +5978,6 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
        leafPart->dlt.n_retrans = - leafPart->availableRetranslocateN();
        stemPart->dlt.n_retrans = - stemPart->availableRetranslocateN();
        reproStruct->dlt.n_retrans = - reproStruct->availableRetranslocateN();
-       podPart->dlt.n_retrans = - podPart->availableRetranslocateN();
-       mealPart->dlt.n_retrans =  n_avail_stover;
        }
     else
        {
@@ -5980,20 +5987,21 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
                              * divide (leafPart->availableRetranslocateN()
                                      , n_avail_stover, 0.0);
 
-       podPart->dlt.n_retrans = - g_grain_n_demand
-                             * divide (podPart->availableRetranslocateN()
+       stemPart->dlt.n_retrans = - g_grain_n_demand
+                             * divide (stemPart->availableRetranslocateN()
                                      , n_avail_stover, 0.0);
 
-       stemPart->dlt.n_retrans = - g_grain_n_demand
-                             - leafPart->dlt.n_retrans //  note - these are
-                             - podPart->dlt.n_retrans; //  -ve values.
-
-       mealPart->dlt.n_retrans = g_grain_n_demand;
       }
 
 
     fruitPart->n_retranslocate_test(n_avail_stover, g_grain_n_demand);
 
+    vector<plantPart *> fruitParts;
+    fruitParts.push_back(podPart);
+    fruitParts.push_back(mealPart);
+    fruitParts.push_back(oilPart);
+
+    fruitPart->putDltNRetrans(fruitParts);
     // check that we got (some of) the maths right.
     for (part = mbCheckParts.begin(); part != mbCheckParts.end(); part++)
         {
@@ -6002,12 +6010,6 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
                               , (string("dlt_N_retrans(") + (*part)->name() + string(")")).c_str() );
         }
 
-//    vector<plantPart *> fruitParts;
-//    fruitParts.push_back(podPart);
-//    fruitParts.push_back(mealPart);
-//    fruitParts.push_back(oilPart);
-//
-//    fruitPart->getDltNRetrans(fruitParts);
 
 
     pop_routine (my_name);
@@ -6159,7 +6161,6 @@ void Plant::plant_N_senescence (int num_part                  //(INPUT) number o
            t != myParts.end();
            t++)
          (*t)->doNSenescence();
-////         fruitPart->doNSenescence();
 
       //! now get N to retranslocate out of senescing leaves
       fill_real_array(dlt_n_senesced_trans, 0.0, num_part);
@@ -6188,7 +6189,6 @@ void Plant::plant_N_senescence (int num_part                  //(INPUT) number o
            t != myParts.end();
            t++)
          (*t)->dlt.n_senesced_retrans = navail * divide ((*t)->v.n_demand, n_demand_tot, 0.0);
-////         fruitPart->dlt.n_senesced_retrans = navail * divide (fruitPart->v.n_demand, n_demand_tot, 0.0);
 
        fruitPart->getDltNSenescedRetrans(navail, n_demand_tot);    // need to redo Fruit because fruit parts not dealt with in previous line
 
@@ -6264,7 +6264,6 @@ void Plant::plant_process ( void )
              t != myParts.end();
              t++)
            (*t)->morphology();
-////           fruitPart->morphology();
 
         plant_leaf_no_init(1);
         plant_leaf_no_pot (c.leaf_no_pot_option); // plant node/leaf approach
@@ -6728,12 +6727,6 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
                         dlt_dm_p,
                         fraction_to_residue);
 
-////       fruitPart->onHarvest(height, remove_fr,
-////                        dm_type,
-////                        dlt_crop_dm,
-////                        dlt_dm_n,
-////                        dlt_dm_p,
-////                        fraction_to_residue);
 
 
     plantPartHack *podPart  = new plantPartHack(this, pod, "pod");
@@ -7244,6 +7237,12 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     allParts.push_back(podPart);
     allParts.push_back(mealPart);
     allParts.push_back(oilPart);
+
+    vector<plantPart *> allParts1;
+    allParts1.push_back(rootPart);
+    allParts1.push_back(leafPart);
+    allParts1.push_back(stemPart);
+    allParts1.push_back(fruitPart);
 
     vector<plantPart *> topsParts;
     topsParts.push_back(leafPart);
@@ -8161,7 +8160,6 @@ void Plant::plant_zero_variables (void)
         t != myThings.end();
         t++)
        (*t)->zeroAllGlobals();
-////       fruitPart->zeroAllGlobals();
 
     fill_real_array (g.leaf_no , 0.0, max_node);
     g.node_no = 0.0;
@@ -8273,7 +8271,6 @@ void Plant::plant_zero_daily_variables ()
         t != myThings.end();
         t++)
        (*t)->zeroDeltas();
-////       fruitPart->zeroDeltas();
 
 
     fill_real_array (g.dlt_dm_green , 0.0, max_part);
@@ -8520,7 +8517,6 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
            sendStageMessage("sowing");
            for (vector<plantThing *>::iterator t = myThings.begin(); t != myThings.end(); t++)
              (*t)->onPlantEvent("sowing");
-////             fruitPart->onPlantEvent("sowing");
 
            parent->writeString ("");
            parent->writeString ("                 Crop Sowing Data");
@@ -8604,7 +8600,6 @@ void Plant::plant_read_cultivar_params ()
        {
        (*t)->readCultivarParameters(parent, g.cultivar);
        }
-////    fruitPart->readCultivarParameters(parent, g.cultivar);
 
     // report
     parent->writeString ("    ------------------------------------------------");
@@ -8880,12 +8875,6 @@ void Plant::plant_end_crop ()
                              dlt_dm_p,
                              fraction_to_residue);
 
-////           fruitPart->onEndCrop(part_name,
-////                             dlt_dm_crop,
-////                             dlt_dm_n,
-////                             dlt_dm_p,
-////                             fraction_to_residue);
-
           plant_send_crop_chopped_event ( c.crop_type
                                          , part_name
                                          , dlt_dm_crop
@@ -8915,7 +8904,6 @@ void Plant::plant_end_crop ()
 
         for (vector<plantThing *>::iterator t = myThings.begin(); t != myThings.end(); t++)
            (*t)->onPlantEvent("end_crop");
-////           fruitPart->onPlantEvent("end_crop");
 
         }
     else
@@ -9514,8 +9502,8 @@ void Plant::plant_read_constants ( void )
          t != myThings.end();
          t++)
       (*t)->readConstants(parent, section_name);
-////      fruitPart->readConstants(parent, section_name);
 
+////      fruitPart->readConstants(parent, section_name);
     if (g.phosphorus_aware)
        read_p_constants(parent);
 
@@ -9548,8 +9536,8 @@ void Plant::plant_prepare (void)
          t != myParts.end();
          t++)
        (*t)->prepare();
-////       fruitPart->prepare();
 
+////       fruitPart->prepare();
     plant_nit_stress (c.n_stress_option);
     plant_temp_stress (1);
     plant_light_supply_partition (1);
@@ -9639,13 +9627,8 @@ void Plant::plant_read_species_const ()
         t != myThings.end();
         t++)
       (*t)->readSpeciesParameters(parent, search_order);
-////      fruitPart->readSpeciesParameters(parent, search_order);
 
 
-//      call search_parent->readParameter (search_order, num_sections
-//     :                     , 'rue', max_stage, '(g dm/mj)'
-//     :                     , c%rue, numvals
-//     :                     , 0.0, 1000.0)
 
     c.rue.search(parent, search_order,
                  "x_stage_rue", "()", 0.0, 1000.0,
@@ -11687,11 +11670,11 @@ void Plant::get_p_demand(protocol::Component *systemInterface, protocol::QueryVa
    vector<plantPart*>::iterator part;
    vector<plantPart*> parts;
    vector<float>  p_green;
-   setupHacks(parts);
+   setupHacks1(parts);
 
    float p_demand = 0.0;
    for (part = parts.begin(); part != parts.end(); part++)
-      p_demand += (*part)->v.p_demand;
+      p_demand += (*part)->pDemand();
 
    deleteHacks(parts);
    systemInterface->sendVariable(qd, p_demand);   //(g/m^2
@@ -11702,10 +11685,11 @@ void Plant::get_p_demand_parts(protocol::Component *systemInterface, protocol::Q
    vector<plantPart*>::iterator part;
    vector<plantPart*> parts;
    vector<float>  p_demand;
-   setupHacks(parts);
+   setupHacks1(parts);
 
    for (part = parts.begin(); part != parts.end(); part++)
-      p_demand.push_back( (*part)->v.p_demand);
+      (*part)->get_p_demand(p_demand);
+//      p_demand.push_back( (*part)->v.p_demand);
 
    deleteHacks(parts);
    systemInterface->sendVariable(qd, p_demand);   //(g/m^2
@@ -11716,10 +11700,11 @@ void Plant::get_p_green(protocol::Component *systemInterface, protocol::QueryVal
    vector<plantPart*>::iterator part;
    vector<plantPart*> parts;
    vector<float>  p_green;
-   setupHacks(parts);
+   setupHacks1(parts);
 
    for (part = parts.begin(); part != parts.end(); part++)
-      p_green.push_back((*part)->g.p_green);
+      (*part)->get_p_green(p_green);
+//      p_green.push_back((*part)->g.p_green);
 
    systemInterface->sendVariable(qd, p_green);
    deleteHacks(parts);
@@ -11756,10 +11741,11 @@ void Plant::get_dlt_p_green(protocol::Component *systemInterface, protocol::Quer
    vector<plantPart*>::iterator part;
    vector<plantPart*> parts;
    vector<float>  dlt_p_green;
-   setupHacks(parts);
+   setupHacks1(parts);
 
    for (part = parts.begin(); part != parts.end(); part++)
-      dlt_p_green.push_back((*part)->dlt.p_green);
+      (*part)->get_dlt_p_green(dlt_p_green);
+//      dlt_p_green.push_back((*part)->dlt.p_green);
 
    systemInterface->sendVariable(qd, dlt_p_green);
    deleteHacks(parts);
@@ -11769,10 +11755,11 @@ void Plant::get_dlt_p_retrans(protocol::Component *systemInterface, protocol::Qu
    vector<plantPart*>::iterator part;
    vector<plantPart*> parts;
    vector<float>  dlt_p_retrans;
-   setupHacks(parts);
+   setupHacks1(parts);
 
    for (part = parts.begin(); part != parts.end(); part++)
-      dlt_p_retrans.push_back((*part)->dlt.p_retrans);
+      (*part)->get_dlt_p_retrans(dlt_p_retrans);
+//      dlt_p_retrans.push_back((*part)->dlt.p_retrans);
 
    systemInterface->sendVariable(qd, dlt_p_retrans);
    deleteHacks(parts);
@@ -12035,6 +12022,7 @@ void Plant::plant_n_demand(int max_part     // (INPUT)
    float Plant::getDmVeg(void) const {return leafPart->dmTotal() + stemPart->dmTotal();}
    float Plant::getDmGreenStem(void) const {return stemPart->g.dm_green;}
    float Plant::getDmGreenTot(void) const {return plantGreen();}
+   float Plant::getRelativeGrowthRate(void) {return divide(g.dlt_dm_pot_rue, getDmGreenTot(), 0.0);}
 //   float Plant::getDyingFractionPlants(void) const {return dying_fract_plants;}
 
   float Plant::getTempStressPhoto(void) const {return g.temp_stress_photo;}
@@ -12241,6 +12229,31 @@ float Plant::stoverPTot(void) const
       return  stoverPGreen() + stoverPSenesced() + stoverPDead();
    }
 
+float Plant::grainPGreen(void) const
+   {
+      return  fruitPart->pGreenGrainTotal();
+                       //  + reproStruct->g.p_green;
+    }
+float Plant::grainPSenesced(void) const
+   {
+      return  fruitPart->pSenescedGrainTotal();
+                         //+ reproStruct->g.p_sen;
+    }
+float Plant::grainPDead(void) const
+   {
+      return  fruitPart->pDeadGrainTotal();
+                        // + reproStruct->g.p_dead;
+    }
+float Plant::grainPTot(void) const
+   {
+      return  grainPGreen() + grainPSenesced() + grainPDead();
+   }
+
+float Plant::grainPConcTot(void) const
+   {
+      return  fruitPart->pConcGrainTotal();
+                       //  + reproStruct->g.p_green;
+    }
 float Plant::topsPTot(void) const
    {
       return  topsPGreen() + topsPSenesced() + topsPDead();
