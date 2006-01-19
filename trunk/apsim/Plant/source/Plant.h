@@ -726,7 +726,7 @@ void legnew_dm_distribute(int max_part
   float getDmGreenStem(void) const;
   float getDmGreenTot(void) const;
   float getRelativeGrowthRate(void);
-//  float getDyingFractionPlants(void) const;
+  float getDyingFractionPlants(void);
 
   float getTempStressPhoto(void) const;
   float getNfactPhoto(void) const;

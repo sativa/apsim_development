@@ -3436,8 +3436,9 @@ void Plant::plant_update(
 // dlt_dead          -      -       +
 // dlt_detached             -       -      (outgoing only)
 
-    dying_fract_plants = divide (-g_dlt_plants, *g_plants, 0.0);
-    dying_fract_plants = bound (dying_fract_plants, 0.0, 1.0);
+//    dying_fract_plants = divide (-g_dlt_plants, *g_plants, 0.0);
+//    dying_fract_plants = bound (dying_fract_plants, 0.0, 1.0);
+    dying_fract_plants = getDyingFractionPlants();
 
     //Hmmm. Don't quite know where this should be.. For now, it doesn't do much (height)..
     for (vector<plantPart *>::iterator t = myParts.begin();
@@ -4794,8 +4795,8 @@ void Plant::plant_dm_init (
 // initialisations - set up dry matter for leaf, pod, grain
 // and root
 
-    doPlantEvent(phenology->stageName());
-//    fruitPart->onPlantEvent(phenology->stageName());
+//    doPlantEvent(phenology->stageName());
+    fruitPart->onPlantEvent(phenology->stageName());
 
     vector<plantPart *>::iterator myPart;
     for (myPart = myParts.begin(); myPart != myParts.end(); myPart++)
@@ -11488,7 +11489,12 @@ void Plant::plant_n_demand(int max_part     // (INPUT)
    float Plant::getDmGreenStem(void) const {return stemPart->g.dm_green;}
    float Plant::getDmGreenTot(void) const {return plantGreen();}
    float Plant::getRelativeGrowthRate(void) {return divide(g.dlt_dm_pot_rue, getDmGreenTot(), 0.0);}
-//   float Plant::getDyingFractionPlants(void) const {return dying_fract_plants;}
+   float Plant::getDyingFractionPlants(void)
+      {
+          float dying_fract_plants = divide (-g.dlt_plants, g.plants, 0.0);
+          dying_fract_plants = bound (dying_fract_plants, 0.0, 1.0);
+          return dying_fract_plants;
+      }
 
   float Plant::getTempStressPhoto(void) const {return g.temp_stress_photo;}
   float Plant::getNfactPhoto(void) const {return g.nfact_photo;}
