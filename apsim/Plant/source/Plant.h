@@ -476,7 +476,7 @@ class Plant : public plantInterface {
     ,plantPart * oilPart
     ,plantPart * mealPart) ;
 
-  void legnew_dm_partition1_test (float c_frac_leaf
+  void legnew_dm_partition1 (float c_frac_leaf
                               , float c_ratio_root_shoot
                               , float c_sla_min
                               , double g_dlt_dm
@@ -484,7 +484,7 @@ class Plant : public plantInterface {
                               , double *dlt_dm_fruit
                               , float *g_dlt_dm_green);
 
-  void legnew_dm_partition2_test (float  g_current_stage
+  void legnew_dm_partition2 (float  g_current_stage
                                , float  *c_x_stage_no_partition
                                , float  *c_y_frac_leaf
                                , int    c_num_stage_no_partition
@@ -544,7 +544,7 @@ class Plant : public plantInterface {
     ,float  *dm_retranslocate
     ) ;
 
-void Plant::legnew_dm_retranslocate_test
+void Plant::legnew_dm_retranslocate
     (vector<plantPart *> &allParts        // (INPUT) all parts of plant
     ,vector<plantPart *> &supply_pools    // (INPUT)
     ,float  g_dm_demand_differential      // (INPUT)  grain dm demand (g/m^2)
