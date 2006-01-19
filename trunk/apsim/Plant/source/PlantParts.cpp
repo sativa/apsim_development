@@ -774,6 +774,10 @@ void plantPart::doSenescence2(float sen_fr)
    dlt.dm_senesced = g.dm_green * fraction_senescing;
 }
 
+void plantPart::doDmMin(void)
+{   // do nothing - set on events
+}
+
 void plantPart::doNSenescence(void)
 {
    float green_n_conc = divide (g.n_green, g.dm_green, 0.0);
@@ -787,6 +791,11 @@ void plantPart::doNSenescence(void)
 
    dlt.n_senesced_trans = dlt_n_in_senescing_part - dlt.n_senesced;
    dlt.n_senesced_trans = l_bound(dlt.n_senesced_trans, 0.0);
+}
+
+void plantPart::doNSenescedRetrans(float navail, float n_demand_tot)
+{
+      dlt.n_senesced_retrans = navail * divide (v.n_demand, n_demand_tot, 0.0);
 }
 
 
@@ -1005,9 +1014,22 @@ void fruitPodPart::onKillStem(void)
 
 void fruitPodPart::onFlowering(void)
 {
-//   float dm_plant = divide (g.dm_green, plant->getPlants(), 0.0);
-//   g.dm_plant_min = max (dm_plant * (1.0 - c.pod_trans_frac), g.dm_plant_min);
+     g.dm_plant_min = 0.0;
 }
+
+// set the minimum weight of part; used for retranslocation to grain
+void fruitPodPart::onStartGrainFill(void)
+{
+     g.dm_plant_min = 0.0;
+}
+
+void fruitPodPart::doDmMin(float c_pod_trans_frac)
+{
+   float dm_plant = divide (g.dm_green, plant->getPlants(), 0.0);
+   g.dm_plant_min = max (dm_plant * (1.0 - c_pod_trans_frac), g.dm_plant_min);
+}
+
+
 void fruitOilPart::onHarvest(float /* cutting_height */, float remove_fr,
                               vector<string> &dm_type,
                               vector<float> &dlt_crop_dm,
@@ -1075,6 +1097,15 @@ void fruitOilPart::onKillStem(void)
        g.p_sen = 0.0;
 }
 
+void fruitOilPart::onFlowering(void)
+{  // do nothing
+}
+
+// set the minimum weight of part; used for retranslocation to grain
+void fruitOilPart::onStartGrainFill(void)
+{  // do nothing
+}
+
 void fruitMealPart::onHarvest(float /* cutting_height */, float remove_fr,
                               vector<string> &dm_type,
                               vector<float> &dlt_crop_dm,
@@ -1139,6 +1170,15 @@ void fruitMealPart::onKillStem(void)
        g.p_dead += g.p_green + g.p_sen;
        g.p_green = 0.0;
        g.p_sen = 0.0;
+}
+
+void fruitMealPart::onFlowering(void)
+{  // do nothing
+}
+
+// set the minimum weight of part; used for retranslocation to grain
+void fruitMealPart::onStartGrainFill(void)
+{  // do nothing
 }
 
 

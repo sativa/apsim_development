@@ -69,6 +69,7 @@ class PlantFruit : public plantPart
              void readCultivarParameters (protocol::Component *, const string &);
              void writeCultivarInfo (protocol::Component *);
              void processBioDemand(void);
+             void onPlantEvent(const string &);
 
 //             bool set_plant_grain_oil_conc(protocol::QuerySetValueData&v);
 
@@ -102,7 +103,6 @@ class PlantFruit : public plantPart
 
              void morphology(void);
 
-             void onPlantEvent(const string &);
              void doNDemand1(float, float);
              void doNDemand1Pot(float, float);
              void doNDemand2(float, float);
@@ -127,6 +127,9 @@ class PlantFruit : public plantPart
                            vector<float> &fraction_to_residue);
 
             void onKillStem(void);
+//            void onEmergence(void);
+//            void onFlowering(void);
+//            void onStartGrainFill(void);
 
             void onEndCrop(vector<string> &dm_type,
                            vector<float> &dlt_crop_dm,
@@ -143,8 +146,12 @@ class PlantFruit : public plantPart
             void getDltDmGreen(vector<plantPart *> fruitParts);
             void putDltDmGreen(vector<plantPart *> fruitParts);
             void getDltDmGreenRetrans(vector<plantPart *> fruitParts);
+            void putDltDmGreenRetrans(vector<plantPart *> fruitParts);
+            void putDltDmGreenSenesced(vector<plantPart *> fruitParts);
             void putDltNRetrans(vector<plantPart *> fruitParts);
-            void getDltNSenescedRetrans(float navail, float n_demand_tot);
+            void doNSenescedRetrans(float navail, float n_demand_tot);
+            void putNConcLimits(vector<plantPart *> fruitParts);
+
             void getPDemand(vector<plantPart *> fruitParts);
             void update(float dying_fract_plants);
             void refreshStates(void);
@@ -231,17 +238,11 @@ class PlantFruit : public plantPart
                                 , float *modifier);                           // modifier (-)
 
             void transp_eff_co2();      // (OUTPUT) transpiration coefficient
-
             void sw_demand1(float *sw_demand);        //(OUTPUT) crop water demand (mm)
-
-            void bio_water1(void); //(OUTPUT) potential dry matter production
-                                                   //         by transpiration (g/m^2)
+            void bio_water1(void); //(OUTPUT) potential dry matter production by transpiration (g/m^2)
             void bio_grain_oil (void);
-
             void bio_grain_demand (void);
-
             void bio_yieldpart_demand1 (void) ;
-
             void bio_yieldpart_demand2(void) ;
 
             void grain_n_demand1(float G_nfact_grain_conc
@@ -269,28 +270,14 @@ class PlantFruit : public plantPart
                                   );
 
             void yieldpart_demand_stress1(void);
-
-            void dm_partition1 (double g_dlt_dm
-                               ,float  *dlt_dm_green
-                               );
-
-            void dm_partition2 (double g_dlt_dm
-                               ,float  *dlt_dm_green
-                               );
-
-           void dm_retranslocate1(float  g_dlt_dm_retrans_to_fruit
-                                , float  *dm_retranslocate
-                                ) ;
-
-           void dm_retranslocate2(float  g_dlt_dm_retrans_to_fruit
-                                , float  *dm_retranslocate
-                                ) ;
-
+            void dm_partition1 (double g_dlt_dm);
+            void dm_partition2 (double g_dlt_dm);
+            void dm_retranslocate1(float  g_dlt_dm_retrans_to_fruit) ;
+            void dm_retranslocate2(float  g_dlt_dm_retrans_to_fruit) ;
             void bio_actual (void);
-
             void doSenescence1 (float sen_fr);
             void doSenescence2 (float sen_fr);
-
+            void doDmMin(void);
                void retrans_init(float *dm_plant_min);
 
                void n_conc_grain_limits(float  *n_conc_crit
@@ -298,9 +285,7 @@ class PlantFruit : public plantPart
             				  , float  *n_conc_min) ;
 
                void nit_init (void);
-
                void n_retranslocate(void);
-
                void n_retranslocate_test( float N_avail_rep, float g_grain_n_demand);
 
 #if TEST_PlantFruit

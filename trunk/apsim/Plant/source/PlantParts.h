@@ -171,12 +171,14 @@ private:
    virtual void morphology(void);
    virtual void n_conc_limits(void);
 
+   virtual void doDmMin(void);
    virtual void doNDemand1(float, float);
    virtual void doNDemand2(float, float);
    virtual void doSoilNDemand(void);
    virtual void doSenescence1(float);
    virtual void doSenescence2(float);
    virtual void doNSenescence(void);
+   virtual void doNSenescedRetrans(float navail, float n_demand_tot);
    virtual void dm_detachment1(void);
    virtual void n_detachment1(void);
 
@@ -302,7 +304,9 @@ class fruitPodPart : public plantPart {
 
    void onKillStem(void);
 
-   void fruitPodPart::onFlowering(void);
+   void onFlowering(void);
+   void onStartGrainFill(void);
+   void doDmMin(float c_pod_trans_frac);
 };
 
 class fruitOilPart : public plantPart {
@@ -317,6 +321,8 @@ class fruitOilPart : public plantPart {
                   vector<float> &fraction_to_residue);
 
    void onKillStem(void);
+   void onFlowering(void);
+   void onStartGrainFill(void);
 
 };
 
@@ -332,6 +338,8 @@ class fruitMealPart : public plantPart {
                   vector<float> &fraction_to_residue);
 
    void onKillStem(void);
+   void onFlowering(void);
+   void onStartGrainFill(void);
 };
 
 
