@@ -2378,7 +2378,7 @@ float PlantFruit::dm_yield_demand2 ( float  g_dlt_dm_veg_supply           // (IN
 
          // calculate demands of reproductive parts
 
-      int g_current_stage = (int)phenology->stageNumber();
+      float g_current_stage = phenology->stageNumber();
       float fracPod = linear_interp_real(g_current_stage
                                   ,cX_stage_no_partition
                                   ,cY_frac_pod
@@ -2526,7 +2526,7 @@ void PlantFruit::dm_partition2 (double g_dlt_dm)
 
 //- Implementation Section ----------------------------------
 
-      int g_current_stage = (int)phenology->stageNumber();
+      float g_current_stage = phenology->stageNumber();
       float fracPod = linear_interp_real(g_current_stage
                                   ,cX_stage_no_partition
                                   ,cY_frac_pod
@@ -2805,7 +2805,7 @@ void PlantFruit::dm_retranslocate2( float  g_dlt_dm_retrans_to_fruit)
 
 //+  Constant Values
 
-      int current_stage = (int)phenology->stageNumber();
+      float current_stage = phenology->stageNumber();
       float fracPod = linear_interp_real(current_stage
                                   ,cX_stage_no_partition
                                   ,cY_frac_pod
@@ -3129,7 +3129,7 @@ void PlantFruit::n_retranslocate( void)
 }
 
 //============================================================================
-void PlantFruit::n_retranslocate_test( float N_supply, float g_grain_n_demand)
+void PlantFruit::n_retranslocate( float N_supply, float g_grain_n_demand)
 //============================================================================
 {
 //+  Purpose

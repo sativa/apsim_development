@@ -286,7 +286,7 @@ class PlantFruit : public plantPart
 
                void nit_init (void);
                void n_retranslocate(void);
-               void n_retranslocate_test( float N_avail_rep, float g_grain_n_demand);
+               void n_retranslocate( float N_avail_rep, float g_grain_n_demand);
 
 #if TEST_PlantFruit
 		virtual ~PlantFruit();							// destructor
