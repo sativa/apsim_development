@@ -54,6 +54,7 @@ const int  meal = 2 ; // excludes oil component
 const int  oil  = 3 ; // seed oil
 // number of plant parts
 const int  max_part = 4 ; // NB. implies for (i=0; i < max_part; max_part++) usage
+//const int  max_part = 1 ; // NB. implies for (i=0; i < max_part; max_part++) usage
 
 //typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;
 

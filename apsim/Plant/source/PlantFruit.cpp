@@ -1511,6 +1511,36 @@ void PlantFruit::getDltDmGreenRetrans(vector<plantPart *> fruitParts)
 }
 
 //===========================================================================
+void PlantFruit::putDltDmGreenRetrans(vector<plantPart *> fruitParts)
+//===========================================================================
+{
+    vector<plantPart *>::iterator myPart =myParts.begin();
+
+    vector<plantPart *>::iterator part;
+    for (part = fruitParts.begin(); part != fruitParts.end(); part++)
+    {
+      (*part)->dlt.dm_green_retrans = (*myPart)->dlt.dm_green_retrans;   //FIXME temp until pod and meal are removed from plant array
+      myPart++;
+    }
+
+}
+
+//===========================================================================
+void PlantFruit::putDltDmGreenSenesced(vector<plantPart *> fruitParts)
+//===========================================================================
+{
+    vector<plantPart *>::iterator myPart =myParts.begin();
+
+    vector<plantPart *>::iterator part;
+    for (part = fruitParts.begin(); part != fruitParts.end(); part++)
+    {
+      (*part)->dlt.dm_senesced = (*myPart)->dlt.dm_senesced;   //FIXME temp until pod and meal are removed from plant array
+      myPart++;
+    }
+
+}
+
+//===========================================================================
 void PlantFruit::putDltNRetrans(vector<plantPart *> fruitParts)
 //===========================================================================
 {
@@ -1526,16 +1556,33 @@ void PlantFruit::putDltNRetrans(vector<plantPart *> fruitParts)
 }
 
 //===========================================================================
-void PlantFruit::getDltNSenescedRetrans(float navail, float n_demand_tot)
+void PlantFruit::doNSenescedRetrans(float navail, float n_demand_tot)
 //===========================================================================
 {
     dlt.n_senesced_retrans = 0.0;
     vector<plantPart *>::iterator myPart;
     for (myPart = myParts.begin(); myPart != myParts.end(); myPart++)
     {
-      (*myPart)->dlt.n_senesced_retrans = navail * divide ((*myPart)->v.n_demand, n_demand_tot, 0.0);
+      (*myPart)->doNSenescedRetrans(navail, n_demand_tot);
       dlt.n_senesced_retrans +=(*myPart)->dlt.n_senesced_retrans;
     }
+}
+
+//===========================================================================
+void PlantFruit::putNConcLimits(vector<plantPart *> fruitParts)
+//===========================================================================
+{
+    vector<plantPart *>::iterator myPart =myParts.begin();
+
+    vector<plantPart *>::iterator part;
+    for (part = fruitParts.begin(); part != fruitParts.end(); part++)
+    {
+      (*part)->g.n_conc_crit = (*myPart)->g.n_conc_crit;   //FIXME temp until pod and meal are removed from plant array
+      (*part)->g.n_conc_min = (*myPart)->g.n_conc_min;   //FIXME temp until pod and meal are removed from plant array
+      (*part)->g.n_conc_max = (*myPart)->g.n_conc_max;   //FIXME temp until pod and meal are removed from plant array
+      myPart++;
+    }
+
 }
 
 //===========================================================================
@@ -2356,9 +2403,7 @@ float PlantFruit::dm_yield_demand2 ( float  g_dlt_dm_veg_supply           // (IN
 }
 
 //     ===========================================================
-void PlantFruit::dm_partition1 (double g_dlt_dm                      // (INPUT)  the daily biomass production (
-                               ,float  *dlt_dm_green                  // (OUTPUT) actual biomass partitioned to plant parts (g/m^2)
-                               )
+void PlantFruit::dm_partition1 (double g_dlt_dm)
 //     ===========================================================
 {
 
@@ -2381,8 +2426,13 @@ void PlantFruit::dm_partition1 (double g_dlt_dm                      // (INPUT) 
 //- Implementation Section ----------------------------------
 
     float fracPod = cFrac_pod[(int)phenology->stageNumber()-1];
-         // first we zero all plant component deltas
-    fill_real_array (dlt_dm_green, 0.0, max_part);         //FIXME - remove when array is removed
+
+     for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
+          t != myParts.end();
+          t++)
+        (*t)->dlt.dm_green = 0.0;
+
+     gDlt_dm_oil_conv = 0.0;
 
     // calculate demands of reproductive parts
     dm_grain_demand = divide (gDlt_dm_grain_demand, gGrain_energy, 0.0);
@@ -2433,11 +2483,7 @@ void PlantFruit::dm_partition1 (double g_dlt_dm                      // (INPUT) 
 //        dm_remaining = g_dlt_dm - yield_demand;
     }
 
-     dltDmGreen();
-
-     dlt_dm_green[meal]   = mealPart->dlt.dm_green;  //FIXME - remove when array is removed
-     dlt_dm_green[oil]    = oilPart->dlt.dm_green;   //FIXME - remove when array is removed
-     dlt_dm_green[pod]    = podPart->dlt.dm_green;   //FIXME - remove when array is removed
+     dltDmGreen();      // update fruit dlt.dm_green
 
     // do mass balance check
     dlt_dm_green_tot = dlt.dm_green
@@ -2453,14 +2499,12 @@ void PlantFruit::dm_partition1 (double g_dlt_dm                      // (INPUT) 
     }
 
       // check that deltas are in legal range       //FIXME need to do something about this when array is removed
-    bound_check_real_array (parentPlant, dlt_dm_green, max_part, 0.0, g_dlt_dm, "Fruit dlt.dm_green");
+//    bound_check_real_array (parentPlant, dlt_dm_green, max_part, 0.0, g_dlt_dm, "Fruit dlt.dm_green");
 
 }
 
 //     ===========================================================
-void PlantFruit::dm_partition2 (double g_dlt_dm                      // (INPUT)  the daily biomass production (
-                               ,float  *dlt_dm_green                  // (OUTPUT) actual biomass partitioned to plant parts (g/m^2)
-                               )
+void PlantFruit::dm_partition2 (double g_dlt_dm)
 //     ===========================================================
 {
 
@@ -2489,7 +2533,13 @@ void PlantFruit::dm_partition2 (double g_dlt_dm                      // (INPUT) 
                                   ,cNum_stage_no_partition);
 
          // first we zero all plant component deltas
-    fill_real_array (dlt_dm_green, 0.0, max_part);            //FIXME - remove when array is removed
+
+     for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
+          t != myParts.end();
+          t++)
+        (*t)->dlt.dm_green = 0.0;
+
+     gDlt_dm_oil_conv = 0.0;
 
     // calculate demands of reproductive parts
     dm_grain_demand = divide (gDlt_dm_grain_demand, gGrain_energy, 0.0);
@@ -2540,11 +2590,7 @@ void PlantFruit::dm_partition2 (double g_dlt_dm                      // (INPUT) 
 //        dm_remaining = g_dlt_dm - yield_demand;
     }
 
-     dltDmGreen();
-
-     dlt_dm_green[meal]   = mealPart->dlt.dm_green;  //FIXME - remove when array is removed
-     dlt_dm_green[oil]    = oilPart->dlt.dm_green;   //FIXME - remove when array is removed
-     dlt_dm_green[pod]    = podPart->dlt.dm_green;   //FIXME - remove when array is removed
+     dltDmGreen();   // update fruit dlt.dm_green
 
     // do mass balance check
     dlt_dm_green_tot = dlt.dm_green
@@ -2560,7 +2606,7 @@ void PlantFruit::dm_partition2 (double g_dlt_dm                      // (INPUT) 
     }
 
       // check that deltas are in legal range       //FIXME need to do something about this when array is removed
-    bound_check_real_array (parentPlant, dlt_dm_green, max_part, 0.0, g_dlt_dm, "Fruit dlt.dm_green");
+//    bound_check_real_array (parentPlant, dlt_dm_green, max_part, 0.0, g_dlt_dm, "Fruit dlt.dm_green");
 
 }
 
@@ -2582,9 +2628,7 @@ void PlantFruit::yieldpart_demand_stress1 (void)
 
 
 //     ===========================================================
-void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_fruit     // (INPUT)
-                                  , float  *dm_retranslocate             // (OUTPUT) actual change in plant part weights due to translocation (g/m^2)
-                                  )
+void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_fruit )
 //     ===========================================================
 {
 
@@ -2627,6 +2671,7 @@ void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_fruit     // (INP
           t != myParts.end();
           t++)
         (*t)->dlt.dm_green_retrans = 0.0;
+     dmOil_conv_retranslocate = 0.0;
 
     dlt_dm_grain = mealPart->dlt.dm_green
                  + oilPart->dlt.dm_green
@@ -2709,12 +2754,6 @@ void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_fruit     // (INP
 
     dltDmRetranslocate();
 
-        dm_retranslocate[pod] = podPart->dlt.dm_green_retrans;   //FIXME - remove when array is removed
-        dm_retranslocate[meal] = mealPart->dlt.dm_green_retrans; //FIXME - remove when array is removed
-        dm_retranslocate[oil] = oilPart->dlt.dm_green_retrans;   //FIXME - remove when array is removed
-//        part++;
-
-
     // now check that we have mass balance
     if (!reals_are_equal(-1.0 * (dltDmRetranslocate() - g_dlt_dm_retrans_to_fruit), dmOil_conv_retranslocate))
     {
@@ -2729,9 +2768,7 @@ void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_fruit     // (INP
 }
 
 //     ===========================================================
-void PlantFruit::dm_retranslocate2( float  g_dlt_dm_retrans_to_fruit     // (INPUT)
-                                  , float  *dm_retranslocate             // (OUTPUT) actual change in plant part weights due to translocation (g/m^2)
-                                  )
+void PlantFruit::dm_retranslocate2( float  g_dlt_dm_retrans_to_fruit)
 //     ===========================================================
 {
 
@@ -2779,6 +2816,7 @@ void PlantFruit::dm_retranslocate2( float  g_dlt_dm_retrans_to_fruit     // (INP
           t != myParts.end();
           t++)
         (*t)->dlt.dm_green_retrans = 0.0;
+     dmOil_conv_retranslocate = 0.0;
 
     dlt_dm_grain = mealPart->dlt.dm_green
                  + oilPart->dlt.dm_green
@@ -2858,13 +2896,7 @@ void PlantFruit::dm_retranslocate2( float  g_dlt_dm_retrans_to_fruit     // (INP
         (*t)->dlt.dm_green_retrans = 0.0;
         dmOil_conv_retranslocate = 0.0;
     }
-    dltDmRetranslocate();
-
-        dm_retranslocate[pod] = podPart->dlt.dm_green_retrans;    //FIXME - remove when array is removed
-        dm_retranslocate[meal] = mealPart->dlt.dm_green_retrans;  //FIXME - remove when array is removed
-        dm_retranslocate[oil] = oilPart->dlt.dm_green_retrans;    //FIXME - remove when array is removed
-//        part++;
-
+    dltDmRetranslocate();   // update fruit dm_retranslocate
 
     // now check that we have mass balance
     if (!reals_are_equal(-1.0 * (dltDmRetranslocate() - g_dlt_dm_retrans_to_fruit), dmOil_conv_retranslocate))
@@ -2915,6 +2947,22 @@ void PlantFruit::doSenescence2 (float sen_fr)       // (OUTPUT) actual biomass s
      (*t)->doSenescence2(sen_fr);
       dlt.dm_senesced += (*t)->dlt.dm_senesced;
    }
+}
+
+//============================================================================
+void PlantFruit::doDmMin (void)       // (OUTPUT) actual biomass senesced from plant parts (g/m^2)
+//============================================================================
+{
+   g.dm_plant_min = 0.0;
+//   for (vector<plantPart *>::iterator t = myParts.begin();
+//       t != myParts.end();
+//       t++)
+//   {
+//     (*t)->doDmMin();
+//      g.dm_plant_min += (*t)->g.dm_plant_min;
+//   }
+      podPart->doDmMin(cPod_trans_frac);
+      g.dm_plant_min += podPart->g.dm_plant_min;
 }
 
 //============================================================================
@@ -3200,7 +3248,9 @@ void PlantFruit::doNDemand2(float dlt_dm             // (INPUT)  Whole plant the
            v.n_demand += (*part)->nDemand();
            v.n_max += (*part)->nMax();
     }
+    v.n_demand -= mealPart->nDemand();
     mealPart->v.n_demand = gN_grain_demand;
+    v.n_demand += mealPart->nDemand();
 }
 
 
