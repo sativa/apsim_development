@@ -151,6 +151,8 @@ void PlantFruit::doRegistrations(protocol::Component *system)
 
    system->addGettableVar("grain_p_demand",  gP_grain_demand, "g/m^2","P demand of grain");
    system->addGettableVar("grain_oil_conc", cGrain_oil_conc, "%", "??");
+   system->addGettableVar("dlt_dm_oil_conv_retrans", dmOil_conv_retranslocate, "g/m^2", "change in oil via retranslocation");
+
 
 
    unsigned int id;
@@ -1039,6 +1041,7 @@ void PlantFruit::onKillStem(void)
        (*part)->onKillStem();
 
     refreshStates();
+    gGrain_no = 0.0;
 }
 
 // ====================================================================
@@ -1603,7 +1606,7 @@ void PlantFruit::getPDemand(vector<plantPart *> fruitParts)
 }
 
 //===========================================================================
-void PlantFruit::update(float dying_fract_plants)
+void PlantFruit::update(void)
 //===========================================================================
 {
 
@@ -1611,7 +1614,7 @@ void PlantFruit::update(float dying_fract_plants)
 
 // Update N
     for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->updateN(dying_fract_plants);
+      (*part)->updateN();
 
         g.n_green = 0.0;
         g.n_senesced = 0.0;
@@ -1632,7 +1635,7 @@ void PlantFruit::update(float dying_fract_plants)
 
 // Update DM
     for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->updateDm(dying_fract_plants);
+      (*part)->updateDm();
 
         g.dm_green = 0.0;
         g.dm_senesced = 0.0;
@@ -1655,7 +1658,7 @@ void PlantFruit::update(float dying_fract_plants)
     if (plant->phosphorusAware())
     {
     for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->updateP(dying_fract_plants);
+      (*part)->updateP();
     }
 
         g.p_green = 0.0;
@@ -1675,7 +1678,6 @@ void PlantFruit::update(float dying_fract_plants)
         }
 
     // transfer plant grain no.
-//    float dlt_grain_no_lost  = gGrain_no * dying_fract_plants;
     float dlt_grain_no_lost  = gGrain_no * plant->getDyingFractionPlants();
     gGrain_no -= dlt_grain_no_lost;
 
@@ -1782,6 +1784,7 @@ void PlantFruit::processBioDemand(void)
 }
 
 float PlantFruit::grainEnergy(void) const {return gGrain_energy;}
+float PlantFruit::grainNDemand(void) const {return gN_grain_demand;}
 float PlantFruit::grainNConcPercent(void)
 {
       return divide (nGrainTotal(), dmGrainTotal(), 0.0) * fract2pcnt;
@@ -2181,8 +2184,7 @@ void PlantFruit::bio_yieldpart_demand1(void)
 
 //===========================================================================
 void PlantFruit::grain_n_demand1(float g_nfact_grain_conc      //   (INPUT)
-                               , float g_swdef_expansion       //   (INPUT)
-                               , float *grain_n_demand)        //   grain N demand (g/m^2)
+                               , float g_swdef_expansion)        //   grain N demand (g/m^2)
 //===========================================================================
 {
 //  Purpose
@@ -2215,12 +2217,11 @@ void PlantFruit::grain_n_demand1(float g_nfact_grain_conc      //   (INPUT)
 
       gN_grain_demand = u_bound (gN_grain_demand
                                 , n_potential - mealPart->g.n_green);
-      *grain_n_demand = gN_grain_demand;
 
    }
 
 //===========================================================================
-void PlantFruit::grain_n_demand2 (float *grain_n_demand)
+void PlantFruit::grain_n_demand2 (void)
 //===========================================================================
 {
       const char *my_name = "plant_grain_n_demand2";
@@ -2259,7 +2260,6 @@ void PlantFruit::grain_n_demand2 (float *grain_n_demand)
             gN_grain_demand = 0.0;
             }
          }
-      *grain_n_demand = gN_grain_demand;
 
       pop_routine (my_name);
    }
@@ -3124,9 +3124,6 @@ void PlantFruit::n_retranslocate( void)
          mealPart->dlt.n_retrans = gN_grain_demand;
 
       }
-////      dlt_N_retrans[pod] = podPart->dlt.n_retrans;    //FIXME temp until pod and meal are removed from plant array
-////      dlt_N_retrans[meal] = mealPart->dlt.n_retrans;  //FIXME temp until pod and meal are removed from plant array
-////      dlt_N_retrans[oil] = oilPart->dlt.n_retrans;                       //FIXME temp until pod and meal are removed from plant array
 }
 
 //============================================================================

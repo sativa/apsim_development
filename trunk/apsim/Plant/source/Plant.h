@@ -293,7 +293,6 @@ class Plant : public plantInterface {
     ,float *g_dlt_dm_senesced
     ,float *g_dlt_dm_green_dead
     ,float *g_dlt_dm_senesced_dead
-////    ,float  g_dlt_dm_stress_max
     ,float  g_dlt_leaf_no
     ,float  g_dlt_node_no
     ,float  g_dlt_leaf_no_dead
@@ -312,7 +311,6 @@ class Plant : public plantInterface {
     ,float *g_dm_dead
     ,float *g_dm_green
     ,float *g_dm_senesced
-    ,float *g_grain_no
     ,float *g_lai_canopy_green
     ,float *g_leaf_area
     ,float *g_leaf_no
@@ -332,9 +330,6 @@ class Plant : public plantInterface {
     ,float *g_root_length
     ,float *g_dlt_root_length
     ,float *g_dlt_root_length_senesced
-////    ,float *g_pai
-////    ,float g_dlt_pai
-////    ,float c_extinct_coef_pod
     ,float *g_cover_pod) ;
   void plant_check_bounds
     (float  g_cover_dead
@@ -344,7 +339,6 @@ class Plant : public plantInterface {
     ,float *g_dm_dead
     ,float *g_dm_green
     ,float *g_dm_senesced
-    ,float  g_grain_no
     ,float *g_leaf_area
     ,float *g_leaf_no
     ,float *g_leaf_no_dead
@@ -371,7 +365,6 @@ class Plant : public plantInterface {
     ,float  *g_n_demand_tot
     ,float  *g_n_green
     ,float  *g_n_senesced
-    ,float  *g_n_uptake_grain_tot
     ,float  *g_n_uptake_stover_tot
     ,float  *g_n_uptake_tot
     ,float  *g_dlt_n_green
@@ -395,7 +388,7 @@ class Plant : public plantInterface {
     ,float  dlt_p_root
     ,float  *root_length)               ;
   void plant_dm_init (float  c_dm_root_init
-		      ,float  c_pod_trans_frac
+////		      ,float  c_pod_trans_frac
 		      ,float  g_plants
 		      ,float  *dm_green
 		      ,float  *dm_plant_min);
@@ -524,25 +517,6 @@ class Plant : public plantInterface {
     ,float  dlt_dm_oil_conv
     ,float  *dlt_dm_green
     ) ;
-  void legnew_dm_retranslocate1
-    (
-     float  c_frac_pod
-    ,float  g_grain_energy
-    ,float  c_grain_oil_conc
-    ,int    pod
-    ,int    meal
-    ,int    oil
-    ,int    max_part
-    ,int    *supply_pools
-    ,int    num_supply_pools
-    ,float  g_dlt_dm_grain_demand
-    ,float  *g_dlt_dm_green
-    ,float  *g_dm_green
-    ,float  *g_dm_plant_min
-    ,float  g_plants
-    ,float  dm_oil_conv_retranslocate
-    ,float  *dm_retranslocate
-    ) ;
 
 void Plant::legnew_dm_retranslocate
     (vector<plantPart *> &allParts        // (INPUT) all parts of plant
@@ -551,23 +525,6 @@ void Plant::legnew_dm_retranslocate
     ,float  g_plants                      // (INPUT)  Plant density (plants/m^2)
     ,float  *dlt_dm_retrans_to_fruit);    // (OUTPUT) dm retranslocated to fruit (g/m^2)
 
-void legnew_dm_retranslocate2
-    (float  g_current_stage
-    ,float  *c_x_stage_no_partition
-    ,float  *c_y_frac_pod
-    ,int    c_num_stage_no_partition
-    ,float  g_grain_energy               // (INPUT) multiplier of grain weight to account for energy used in oil conversion.
-    ,float  c_grain_oil_conc             // (INPUT) fraction of grain that is oil
-    ,plantPart *podPart                          // (INPUT)
-    ,plantPart *mealPart                         // (INPUT)
-    ,plantPart *oilPart                          // (INPUT)
-    ,vector<plantPart *> &supply_pools     // (INPUT)
-    ,vector<plantPart *> &allParts         // (INPUT)
-    ,float  g_dlt_dm_grain_demand        // (INPUT)  grain dm demand (g/m^2)
-    ,float  g_dlt_dm_oil_conv            // (INPUT)  dm used in oil conversion (g/m^2)
-    ,float  g_plants                     // (INPUT)  Plant density (plants/m^2)
-    ,float  dm_oil_conv_retranslocate    // (OUTPUT) assimilate used for oil conversion - energy (g/m^2)
-    ) ;
   void legnew_n_retranslocate(float g_grain_n_demand);
 //  void legnew_n_retranslocate_test( int    *supply_pools
 //                                , int    num_supply_pools
@@ -1002,7 +959,6 @@ void legnew_dm_distribute(int max_part
       float canopy_width;                              // canopy height (mm)
       float plants;                                    // Plant density (plants/m^2)
       float dlt_plants;                                 // change in Plant density (plants/m^2)
-      float grain_no;                                   // grain number (grains/plant)
       float dlt_root_depth;                             // increase in root depth (mm)
       float root_depth;                                 // depth of roots (mm)
       float cover_green;                                // fraction of radiation reaching the
@@ -1142,7 +1098,6 @@ void legnew_dm_distribute(int max_part
       float n_demand_tot;                               // sum of N demand since last output (g/m^2)
       float n_conc_act_stover_tot;                      // sum of tops actual N concentration (g N/g biomass)
       float n_conc_crit_stover_tot;                     // sum of tops critical N concentration (g N/g biomass)
-      float n_uptake_grain_tot;                         // sum of grain N uptake (g N/m^2)
       float n_uptake_stover_tot;                        // sum of tops N uptake (g N/m^2)
       float lai_max;                                    // maximum lai - occurs at flowering
       float dlt_root_length_dead[max_layer];                     // root length (mm/mm^2)
@@ -1190,8 +1145,8 @@ void legnew_dm_distribute(int max_part
 //       plant Parameters
 //     ================================================================
     struct {
-      float grains_per_gram_stem;
-      float potential_grain_filling_rate;
+//      float grains_per_gram_stem;
+//      float potential_grain_filling_rate;
 
       float x_pp_hi_incr[max_table];
       float y_hi_incr[max_table];                       // harvest index increment per day ()
@@ -1221,7 +1176,6 @@ void legnew_dm_distribute(int max_part
       int   n_uptake_option;
       int   leaf_no_pot_option;
       int   partition_option;
-      int   grain_no_option;
       int   n_retrans_option;
       int   n_stress_option;
       int   n_senescence_option;
@@ -1229,15 +1183,6 @@ void legnew_dm_distribute(int max_part
 
       float sen_start_stage;
       float n_stress_start_stage;
-      float x_temp_grainfill[max_table];
-      float y_rel_grainfill[max_table];
-      int   num_temp_grainfill;
-
-      float  potential_grain_n_filling_rate;
-      float  x_temp_grain_n_fill[max_table];
-      float  y_rel_grain_n_fill[max_table];
-      int    num_temp_grain_n_fill;
-      float  crit_grainfill_rate;
 
       float no3_uptake_max;
       float no3_conc_half_max;
@@ -1414,7 +1359,6 @@ void legnew_dm_distribute(int max_part
       int   num_stage_no_partition;
       float leaf_trans_frac;                            // fraction of leaf used in translocat
                                                         // to grain
-      float pod_trans_frac;                             // fraction of pod used in translocat
                                                         // to grain
       float htstress_coeff;                             // coeff for conversion of heat stress
                                                         // during flowering to
@@ -1441,7 +1385,6 @@ void legnew_dm_distribute(int max_part
       float x_weighted_temp[max_table];                 // temperature table for poor
                                                         // establishment
       float y_plant_death[max_table];                   // index of plant death
-      float y_grain_rate[max_table];                    // Relative grain fill
                                                         // rates for critical temperatures
                                                         // (0-1)
       int   num_temp;                                   // size_of table

@@ -153,7 +153,7 @@ class PlantFruit : public plantPart
             void putNConcLimits(vector<plantPart *> fruitParts);
 
             void getPDemand(vector<plantPart *> fruitParts);
-            void update(float dying_fract_plants);
+            void update(void);
             void refreshStates(void);
             void n_conc_limits(void);
             void zeroDltDmGreen(void);
@@ -166,6 +166,7 @@ class PlantFruit : public plantPart
             float interceptRadiation(float radiation);
             float grainEnergy(void) const;
             float grainNConcPercent(void);
+            float grainNDemand(void) const;
 
             float dltDmGrainDemand(void) const;
             float dltDmRetranslocate(void);
@@ -246,11 +247,9 @@ class PlantFruit : public plantPart
             void bio_yieldpart_demand2(void) ;
 
             void grain_n_demand1(float G_nfact_grain_conc
-                               , float G_swdef_expansion
-                               , float *grain_n_demand
-                               );
+                               , float G_swdef_expansion);
 
-            void grain_n_demand2(float *grain_n_demand);
+            void grain_n_demand2(void);
 
             float n_dlt_grain_conc(plantPart *grainPart
                                        , float sfac_slope      //(INPUT)  soil water stress factor slope

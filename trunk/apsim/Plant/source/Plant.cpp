@@ -378,9 +378,6 @@ void Plant::doRegistrations(protocol::Component *system)
    setupGetFunction(parent, "dlt_dm_senesced_dead", protocol::DTsingle, true,
                     &Plant::get_dlt_dm_senesced_dead,  "g/m^2", "change in green dry matter via plant death");
 
-   parent->addGettableVar("dlt_dm_oil_conv_retrans",
-               g.dlt_dm_oil_conv_retranslocate, "g/m^2", "change in oil via retranslocation");
-
    setupGetFunction(parent, "biomass_n", protocol::DTsingle, false,
                     &Plant::get_biomass_n,  "g/m^2", "N in total biomass");
 
@@ -1343,7 +1340,6 @@ void Plant::plant_bio_init (int option)
     if (option==1)
         {
         plant_dm_init ( c.dm_init[root]
-                       , c.pod_trans_frac
                        , g.plants
                        , g.dm_green
                        , g.dm_plant_min);
@@ -2435,13 +2431,12 @@ void Plant::plant_nit_grain_demand (int Option)
       {
         if (phenology->inPhase("grainfill"))
             fruitPart->grain_n_demand1(g.nfact_grain_conc
-                                       , g.swdef_expansion
-                                       , &g.grain_n_demand);
+                                       , g.swdef_expansion);
       }
    else if (Option == 2)
       {
        // start grain n filling immediately after flowering
-      fruitPart->grain_n_demand2(&g.grain_n_demand);
+      fruitPart->grain_n_demand2();
       }
     else
       {
@@ -2503,7 +2498,7 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
                         , g.n_conc_crit
                         , g.n_conc_max
                         , g.n_green
-                        , g.grain_n_demand
+                        , fruitPart->grainNDemand()
                         , c.n_deficit_uptake_fraction
                         , g.n_demand
                         , g.n_max);
@@ -3137,7 +3132,6 @@ void Plant::plant_cleanup ()
                 , g.dm_dead
                 , g.dm_green
                 , g.dm_senesced
-                , &g.grain_no
                 , &g.lai_canopy_green
                 , g.leaf_area
                 , g.leaf_no
@@ -3166,7 +3160,6 @@ void Plant::plant_cleanup ()
                        , g.dm_dead
                        , g.dm_green
                        , g.dm_senesced
-                       , g.grain_no
                        , g.leaf_area
                        , g.leaf_no
                        , g.leaf_no_dead
@@ -3192,7 +3185,6 @@ void Plant::plant_cleanup ()
                 , &g.n_demand_tot
                 , g.n_green
                 , g.n_senesced
-                , &g.n_uptake_grain_tot
                 , &g.n_uptake_stover_tot
                 , &g.n_uptake_tot
                 , g.dlt_n_green
@@ -3348,7 +3340,6 @@ void Plant::plant_update(
     ,float *g_dm_dead                                          // (INPUT)  dry wt of dead plants (g/m^2)
     ,float *g_dm_green                                         // (INPUT)  live plant dry weight (biomass
     ,float *g_dm_senesced                                      // (INPUT)  senesced plant dry wt (g/m^2)
-    ,float  *g_grain_no                                         // (out/INPUT)  grain number (grains/plant)
     ,float *g_lai_canopy_green                                 // (out/INPUT)  live plant green lai in canopy
     ,float *g_leaf_area                                        // (INPUT)  leaf area of each leaf (mm^2)
     ,float *g_leaf_no                                          // (INPUT)  number of fully expanded leave
@@ -3377,7 +3368,6 @@ void Plant::plant_update(
 //+  Local Variables
     float dlt_leaf_area;                          // leaf area increase (mm^2/plant)
     float dlt_leaf_dm;                            // leaf dm increase (g/plant)
-    float dlt_grain_no_lost;                      // grain no lost from barrenness
                                                   // (grains/m^2)
     float dlt_lai_dead;                           // lai of green leaf of plants dying ()
     float dlt_slai_dead;                          // lai of senesced leaf of plant dying ()
@@ -3445,7 +3435,7 @@ void Plant::plant_update(
          t != myParts.end();
          t++)
        (*t)->update();
-    fruitPart->update(dying_fract_plants);
+//    fruitPart->update();
 
     // transfer N & P
     for (part = allParts.begin(); part != allParts.end(); part++)
@@ -3526,10 +3516,6 @@ void Plant::plant_update(
     delete mealPart;
     delete oilPart;
 
-
-    // transfer plant grain no.
-    dlt_grain_no_lost  = *g_grain_no * dying_fract_plants;
-    *g_grain_no -= dlt_grain_no_lost;
 
     // transfer plant leaf area
     leafPart->gLAI +=  leafPart->dltLAI - leafPart->dltSLAI;
@@ -3733,7 +3719,6 @@ void Plant::plant_check_bounds
     ,float *g_dm_dead                           // (INPUT)  dry wt of dead plants (g/m^2)
     ,float *g_dm_green                          // (INPUT)  live plant dry weight (biomass
     ,float *g_dm_senesced                       // (INPUT)  senesced plant dry wt (g/m^2)
-    ,float  g_grain_no                          // (INPUT)  grain number (grains/plant)
     ,float *g_leaf_area                         // (INPUT)  leaf area of each leaf (mm^2)
     ,float *g_leaf_no                           // (INPUT)  number of fully expanded leave
     ,float *g_leaf_no_dead                      // (INPUT)  no of dead leaves ()
@@ -3816,7 +3801,6 @@ void Plant::plant_totals
     ,float  *g_n_demand_tot                    // (out/INPUT)  sum of N demand since last output (g/m^2)
     ,float  *g_n_green                         // (INPUT)  plant nitrogen content (g N/m^2)
     ,float  *g_n_senesced                      // (INPUT)  plant N content of senesced plant (g N/m^2)
-    ,float  *g_n_uptake_grain_tot              // (out/INPUT)  sum of grain N uptake (g N/m^2)
     ,float  *g_n_uptake_stover_tot             // (out/INPUT)  sum of tops N uptake (g N/m^2)
     ,float  *g_n_uptake_tot                    // (out/INPUT)  cumulative total N uptake (g/m^2)
     ,float  *g_dlt_n_green                     // (INPUT)  daily N uptake (g/m^2)
@@ -3865,7 +3849,6 @@ void Plant::plant_totals
         *g_n_conc_crit_stover_tot = n_conc_stover_crit;
         *g_n_demand_tot = n_green_demand;
         *g_n_uptake_stover_tot = n_uptake_stover;
-        *g_n_uptake_grain_tot = plantDltNRetrans();
 
         n_uptake_soil = plantDltNGreen();
         n_uptake_soil_tops = n_uptake_soil - g_dlt_n_green[root];
@@ -3883,7 +3866,6 @@ void Plant::plant_totals
         *g_n_conc_crit_stover_tot = n_conc_stover_crit;
         *g_n_demand_tot = (*g_n_demand_tot) + n_green_demand;
         *g_n_uptake_stover_tot = (*g_n_uptake_stover_tot) + n_uptake_stover;
-        *g_n_uptake_grain_tot =  *g_n_uptake_grain_tot + plantDltNRetrans();
 //        n_uptake_soil = sum_real_array(g_dlt_n_green,max_part) + reproStruct->dlt.n_green + stemPart->dlt.n_green + leafPart->dlt.n_green;
         n_uptake_soil = plantDltNGreen();
         n_uptake_soil_tops = n_uptake_soil - g_dlt_n_green[root];
@@ -3897,7 +3879,6 @@ void Plant::plant_totals
     n_grain = fruitPart->nGrainTotal();
 
 
-    *g_n_uptake_grain_tot = n_grain;
     *g_n_uptake_stover_tot = stoverNTot();
     *g_n_uptake_tot = n_grain + stoverNTot();
 
@@ -4780,7 +4761,6 @@ void Plant::plant_root_length_init (int option /*(INPUT) option number*/)
 //     010994 jngh specified and programmed
 void Plant::plant_dm_init (
         float  c_dm_root_init                            // (INPUT)  root growth before emergence (
-        ,float  c_pod_trans_frac                          // (INPUT)  fraction of pod used in trans
         ,float  g_plants                                  // (INPUT)  Plant density (plants/m^2)
         ,float  *dm_green                                  // (INPUT/OUTPUT) plant part weights  (g/m^2)
         ,float  *dm_plant_min                              // (OUTPUT) minimum weight of each plant part (g/plant)
@@ -5014,7 +4994,7 @@ void Plant::legnew_n_partition
     fruitParts.push_back(mealPart);
     fruitParts.push_back(oilPart);
 
-    fruitPart->getDltNGreen(fruitParts);
+    fruitPart->getDltNGreen(fruitParts);   //FIXME
 
     pop_routine (my_name);
     }
@@ -5725,7 +5705,7 @@ void Plant::plant_process ( void )
         plant_root_depth_init(1);
 
 //        plant_grain_number(c.grain_no_option);
-        fruitPart->grain_number();
+        fruitPart->grain_number();    // Calculate grain no
 
         for (vector<plantPart *>::iterator t = myParts.begin();
              t != myParts.end();
@@ -5748,13 +5728,6 @@ void Plant::plant_process ( void )
         // c1
         //fprintf(stdout, "%d,%.9f,%.9f,%.9f\n", g.day_of_year,g.dlt_dm, g.dlt_dm_pot_rue, g.dlt_dm_pot_te);
 
-        //plant_fruit_site_number(c.fruit_no_option);   // for fruit class - process bio demand
-        //plant_fruit_number(c.fruit_no_option);        // for fruit class - process bio demand
-
-////        plant_bio_grain_demand_stress(1);             // for fruit class - process bio demand
-
-////        plant_bio_grain_demand (); // for fruit class - process bio demand
-////        plant_bio_grain_oil (1);                      // for fruit class - process bio demand
         fruitPart->processBioDemand();
         g.grain_energy = fruitPart->grainEnergy();
 
@@ -6526,7 +6499,6 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     // JNGH need to account for dead pai
 
     // transfer plant grain no.
-    g.grain_no = 0.0;
 
     if (g.canopy_width > 0.0)
         {
@@ -7160,7 +7132,6 @@ void Plant::plant_zero_all_globals (void)
       g.canopy_width = 0.0;
       g.plants = 0.0;
       g.dlt_plants = 0.0;
-      g.grain_no = 0.0;
       g.dlt_root_depth = 0.0;
       g.root_depth = 0.0;
       g.cover_green = 0.0;
@@ -7177,7 +7148,6 @@ void Plant::plant_zero_all_globals (void)
       g.dlt_dm_pot_rue = 0.0;
       g.dlt_dm_pot_te = 0.0;
       g.dltDmPotRueFruit = 0.0;
-      g.dlt_dm_oil_conv = 0.0;
       g.dlt_dm_supply_to_fruit = 0.0;
       g.dlt_dm_yield_demand_fruit = 0.0;
       g.dlt_dm_retrans_to_fruit = 0.0;
@@ -7188,7 +7158,6 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (g.dlt_dm_green_dead, 0.0, max_part);
       fill_real_array (g.dlt_dm_senesced_dead, 0.0, max_part);
       fill_real_array (g.dlt_dm_dead_detached, 0.0, max_part);
-      g.dlt_dm_oil_conv_retranslocate = 0.0;
       fill_real_array (g.dlt_dm_green_retrans, 0.0, max_part);
       g.dlt_dm_parasite_demand = 0.0;
       g.dlt_sw_parasite_demand = 0.0;
@@ -7240,7 +7209,6 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (g.no3gsm_diffn_pot, 0.0, max_layer);
       fill_real_array (g.no3gsm_mflow_avail, 0.0, max_layer);
       fill_real_array (g.soil_n_demand, 0.0, max_part);
-      g.grain_n_demand = 0.0;
       g.grain_n_supply = 0.0;
       g.n_fix_pot = 0.0;
       fill_real_array (g.no3gsm_uptake_pot, 0.0, max_layer);
@@ -7274,7 +7242,6 @@ void Plant::plant_zero_all_globals (void)
       g.n_demand_tot = 0.0;
       g.n_conc_act_stover_tot = 0.0;
       g.n_conc_crit_stover_tot = 0.0;
-      g.n_uptake_grain_tot = 0.0;
       g.n_uptake_stover_tot = 0.0;
       g.lai_max = 0.0;
       fill_real_array (g.root_length, 0.0, max_layer);
@@ -7297,7 +7264,6 @@ void Plant::plant_zero_all_globals (void)
       c.n_uptake_option = 0;
       c.leaf_no_pot_option = 0;
       c.partition_option = 0;
-      c.grain_no_option = 0;
 
       c.sen_start_stage = 0;
 
@@ -7414,14 +7380,11 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (c.y_ratio_root_shoot, 0.0, max_table);
       c.num_stage_no_partition = 0;
       c.leaf_trans_frac = 0.0;
-      c.pod_trans_frac = 0.0;
       c.htstress_coeff = 0.0;
       c.temp_grain_crit_stress = 0.0;
       c.node_sen_rate = 0.0;
       c.fr_lf_sen_rate = 0.0;
       c.n_fact_lf_sen_rate = 0.0;
-      c.carbo_oil_conv_ratio = 0.0;
-      c.grain_oil_conc = 0.0;
       c.node_no_correction = 0.0;
       fill_real_array (c.x_node_no, 0.0, max_table);
       fill_real_array (c.y_leaf_size, 0.0, max_table);
@@ -7430,7 +7393,6 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (c.y_stress_photo, 0.0, max_table);
       fill_real_array (c.x_weighted_temp, 0.0, max_table);
       fill_real_array (c.y_plant_death, 0.0, max_table);
-      fill_real_array (c.y_grain_rate, 0.0, max_table);
       c.num_temp = 0;
       c.num_ave_temp = 0;
       c.num_temp_grain = 0;
@@ -7491,8 +7453,6 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (g.current_fruit_stage, 0.0, max_fruit_cohorts);
       fill_real_array (g.dlt_dm_fruit_grain_demand, 0.0, max_fruit_cohorts);
       fill_real_array (g.fruit_no, 0.0, max_fruit_cohorts);
-      fill_real_array (g.dlt_dm_fruit_oil_conv, 0.0, max_fruit_cohorts);
-      fill_real_array (g.dlt_dm_fruit_demand, 0.0, max_fruit_cohorts);
       g.node_no_first_flower= 0.0;
       fill_real_array (g.dlt_dm_daily, 0.0, 366);
       g.fruit_site_no = 0.0;
@@ -7525,7 +7485,6 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array(g.dlt_fruit_stage, 0.0, max_fruit_cohorts);
       fill_real_array (g.fruit_phase_devel, 0.0, max_fruit_cohorts);
 
-      fill_real_array (g.dlt_dm_fruit_oil_conv_retranslocate, 0.0, max_fruit_cohorts);
       fill_real_array (g.fruit_sdr, 0.0, max_fruit_cohorts);
       fill_real_array (g.dlt_fruit_no_abort, 0.0, max_fruit_cohorts);
       fill_real_array (g.dm_fruit_pod_min, 0.0, max_fruit_cohorts);
@@ -7659,7 +7618,6 @@ void Plant::plant_zero_variables (void)
     fill_real_array (g.root_length_dead, 0.0, max_layer);
     fill_real_array (g.dlt_root_length_dead, 0.0, max_layer);
 
-    g.grain_no = 0.0;
     g.leaves_per_node = 0.0;
 
     g.dlt_plants_death_external     = 0.0;
@@ -7668,12 +7626,10 @@ void Plant::plant_zero_variables (void)
     g.plants                = 0.0;
     g.root_depth            = 0.0;
     g.canopy_width         = 0.0;
-    g.grain_no              = 0.0;
     g.leaf_no_final         = 0.0;
     g.n_conc_act_stover_tot = 0.0;
     g.n_conc_crit_stover_tot = 0.0;
     g.n_demand_tot          = 0.0;
-    g.n_uptake_grain_tot    = 0.0;
     g.n_uptake_stover_tot   = 0.0;
     g.n_uptake_tot          = 0.0;
     g.transpiration_tot     = 0.0;
@@ -7749,7 +7705,6 @@ void Plant::plant_zero_daily_variables ()
     fill_real_array (g.dlt_sw_dep , 0.0, max_layer);
     fill_real_array (g.dm_green_demand , 0.0, max_part);
     fill_real_array (g.n_demand , 0.0, max_part);
-    g.grain_n_demand = 0.0;
     g.grain_n_supply = 0.0;
     fill_real_array (g.soil_n_demand , 0.0, max_part);
 
@@ -8052,14 +8007,6 @@ void Plant::plant_read_cultivar_params ()
 
     parent->writeString (" - reading cultivar parameters");
 
-    if (c.grain_no_option==2)
-        {
-        parent->readParameter (g.cultivar.c_str()
-        , "grains_per_gram_stem"//, "(/g)"
-        , p.grains_per_gram_stem
-        , 0.0, 10000.0);
-        }
-// do below       fruitPart->readCultivarParameters(parent, g.cultivar);
     //  plant thing initialisations
     for (vector<plantThing *>::iterator t = myThings.begin();
          t != myThings.end();
@@ -8970,7 +8917,6 @@ void Plant::plant_read_constants ( void )
          t++)
       (*t)->readConstants(parent, section_name);
 
-////      fruitPart->readConstants(parent, section_name);
     if (g.phosphorus_aware)
        read_p_constants(parent);
 
@@ -9004,7 +8950,6 @@ void Plant::plant_prepare (void)
          t++)
        (*t)->prepare();
 
-////       fruitPart->prepare();
     plant_nit_stress (c.n_stress_option);
     plant_temp_stress (1);
     plant_light_supply_partition (1);
@@ -9426,18 +9371,6 @@ void Plant::plant_read_species_const ()
                    , c.kl_ub
                    , 0.0, 1000.0);
 
-    //    plant_retranslocate
-    parent->readParameter (search_order
-                   ,"pod_trans_frac"//, "()"
-                   , c.pod_trans_frac
-                   , 0.0, 1.0);
-
-    //    grain number
-    parent->readParameter (search_order
-                      ,"grain_no_option"//, "()"
-                      , c.grain_no_option
-                      , 1, 2);
-
      //    plant_n_dlt_grain_conc
      parent->readParameter (search_order
                         , "grain_n_option"//, "()"
@@ -9467,31 +9400,7 @@ void Plant::plant_read_species_const ()
                         , 0.0, 100.0);
          }
      else
-         {
-         parent->readParameter (search_order
-                        , "potential_grain_n_filling_rate"//, "()"
-                        , c.potential_grain_n_filling_rate
-                        , 0.0, 1.0);
-
-         parent->readParameter (search_order
-                        , "crit_grainfill_rate"//, "(mg/grain/d)"
-                        , c.crit_grainfill_rate
-                        , 0.0, 1.0);
-
-         parent->readParameter (search_order
-                          , "x_temp_grain_n_fill"//,  "(oC)"
-                          , c.x_temp_grain_n_fill
-                          , c.num_temp_grain_n_fill
-                          , 0.0
-                          , 40.0);
-
-         parent->readParameter (search_order
-                          , "y_rel_grain_n_fill"
-                          //, "(-)"
-                          , c.y_rel_grain_n_fill
-                          , c.num_temp_grain_n_fill
-                          , 0.0
-                          , 1.0);
+         { // do nothing - read in fruitPart
          }
 
      parent->readParameter (search_order
@@ -9546,16 +9455,6 @@ void Plant::plant_read_species_const ()
                    ,"sla_min"//, "(mm^2/g)"
                    , c.sla_min
                    , 0.0, 100000.0);
-
-    parent->readParameter (search_order
-                   ,"carbo_oil_conv_ratio"//, "()"
-                   , c.carbo_oil_conv_ratio
-                   , 0.0, 20.0);
-
-    parent->readParameter (search_order
-                   ,"grain_oil_conc"//, "()"
-                   , c.grain_oil_conc
-                   , 0.0, 1.0);
 
     //    plant_dm_senescence
     parent->readParameter (search_order
