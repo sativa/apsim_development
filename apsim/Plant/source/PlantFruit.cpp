@@ -1675,7 +1675,8 @@ void PlantFruit::update(float dying_fract_plants)
         }
 
     // transfer plant grain no.
-    float dlt_grain_no_lost  = gGrain_no * dying_fract_plants;
+//    float dlt_grain_no_lost  = gGrain_no * dying_fract_plants;
+    float dlt_grain_no_lost  = gGrain_no * plant->getDyingFractionPlants();
     gGrain_no -= dlt_grain_no_lost;
 
 

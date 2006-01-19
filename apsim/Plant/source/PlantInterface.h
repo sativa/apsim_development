@@ -44,6 +44,7 @@ class plantInterface {
 
       virtual float getRelativeGrowthRate(void) = 0;
       // temporary
+      virtual float getDyingFractionPlants(void) = 0;
 
       virtual float getTempStressPhoto(void) const = 0;
       virtual float getNfactPhoto(void) const = 0;

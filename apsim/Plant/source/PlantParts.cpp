@@ -552,7 +552,7 @@ void plantPart::update(void)
 void plantPart::updateN(float dying_fract_plants)
 {
 // Update N
-
+       dying_fract_plants = plant->getDyingFractionPlants();
     // transfer N
        g.n_dead -= dlt.n_dead_detached;
        g.n_green += dlt.n_green;
@@ -575,6 +575,7 @@ void plantPart::updateN(float dying_fract_plants)
 void plantPart::updateDm(float dying_fract_plants)
 {
 
+       dying_fract_plants = plant->getDyingFractionPlants();
 // Update DM
        g.dm_dead -= dlt.dm_dead_detached;
 
@@ -596,6 +597,8 @@ void plantPart::updateDm(float dying_fract_plants)
 }
 void plantPart::updateP(float dying_fract_plants)
 {
+       dying_fract_plants = plant->getDyingFractionPlants();
+
            g.p_green += dlt.p_green;
            g.p_green += dlt.p_retrans;
            g.p_green -= dlt.p_sen;
