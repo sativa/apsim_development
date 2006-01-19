@@ -164,9 +164,9 @@ private:
    virtual void prepare(void);
    void process(void);
    virtual void update(void);
-   virtual void updateDm(float dying_fract_plants);
-   virtual void updateN(float dying_fract_plants);
-   virtual void updateP(float dying_fract_plants);
+   virtual void updateDm(void);
+   virtual void updateN(void);
+   virtual void updateP(void);
 
    virtual void morphology(void);
    virtual void n_conc_limits(void);
