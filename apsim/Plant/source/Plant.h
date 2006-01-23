@@ -55,6 +55,7 @@ const int  oil  = 3 ; // seed oil
 // number of plant parts
 const int  max_part = 4 ; // NB. implies for (i=0; i < max_part; max_part++) usage
 //const int  max_part = 1 ; // NB. implies for (i=0; i < max_part; max_part++) usage
+const int  max_part1 = 1 ; // NB. implies for (i=0; i < max_part; max_part++) usage
 
 //typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;
 
@@ -188,50 +189,50 @@ class Plant : public plantInterface {
   void plant_detachment (int option /* (INPUT) option number */);
   void plant_plant_death (int option /* (INPUT) option number*/);
   float plant_death_seedling    (
-				int    c_num_weighted_temp
-				,float  *c_x_weighted_temp
-				,float  *c_y_plant_death
-				,int    g_day_of_year
-				,float  *g_soil_temp
-				,int    g_year
-				,float  g_plants) ;
+            				int    c_num_weighted_temp
+            				,float  *c_x_weighted_temp
+            				,float  *c_y_plant_death
+            				,int    g_day_of_year
+            				,float  *g_soil_temp
+            				,int    g_year
+            				,float  g_plants) ;
   float plant_death_drought(float  c_leaf_no_crit
-			   ,float  c_swdf_photo_limit
-			   ,float  c_swdf_photo_rate
-			   ,float  g_cswd_photo
-			   ,float  *g_leaf_no
-			   ,float  g_plants
-			   ,float  g_swdef_photo) ;
+         			   ,float  c_swdf_photo_limit
+         			   ,float  c_swdf_photo_rate
+         			   ,float  g_cswd_photo
+         			   ,float  *g_leaf_no
+         			   ,float  g_plants
+         			   ,float  g_swdef_photo) ;
   void plant_death_external_action(protocol::Variant &v
-				   ,float g_plants
-				   ,float *dlt_plants
-				   ) ;
+            				   ,float g_plants
+            				   ,float *dlt_plants
+            				   ) ;
   void plant_death_crop_killed(float g_plants
-			       , status_t g_plant_status
-			       , float *dlt_plants
-			       ) ;
+      			       , status_t g_plant_status
+      			       , float *dlt_plants
+      			       ) ;
   void plant_death_actual(float g_dlt_plants_death_drought
-			  ,float *g_dlt_plants_death_external
-			  ,float g_dlt_plants_death_seedling
-			  ,float g_dlt_plants_failure_emergence
-			  ,float g_dlt_plants_failure_germ
-			  ,float g_dlt_plants_failure_leaf_sen
-			  ,float g_dlt_plants_failure_phen_delay
-			  ,float *dlt_plants
-			  ) ;
+      			  ,float *g_dlt_plants_death_external
+      			  ,float g_dlt_plants_death_seedling
+      			  ,float g_dlt_plants_failure_emergence
+      			  ,float g_dlt_plants_failure_germ
+      			  ,float g_dlt_plants_failure_leaf_sen
+      			  ,float g_dlt_plants_failure_phen_delay
+      			  ,float *dlt_plants
+      			  ) ;
   void plant_plants_temp (int    c_num_weighted_temp
-			  ,float  *c_x_weighted_temp
-			  ,float  *c_y_plant_death
-			  ,int    g_day_of_year
-			  ,float  *g_soil_temp
-			  ,int    g_year
-			  ,float  *killfr
-			  ) ;
+      			  ,float  *c_x_weighted_temp
+      			  ,float  *c_y_plant_death
+      			  ,int    g_day_of_year
+      			  ,float  *g_soil_temp
+      			  ,int    g_year
+      			  ,float  *killfr
+      			  ) ;
   void plant_kill_crop (float  *g_dm_dead
-			,float  *g_dm_green
-			,float  *g_dm_senesced
-			,status_t *g_plant_status
-			) ;
+      			,float  *g_dm_green
+      			,float  *g_dm_senesced
+      			,status_t *g_plant_status
+      			) ;
   void plant_leaf_area_potential (int option /* (INPUT) option number */);
   void plant_leaf_area_stressed (int option /* (INPUT) option number*/);
   void plant_leaf_area_init (int option);
@@ -260,133 +261,126 @@ class Plant : public plantInterface {
   void plant_cleanup ();
   void plant_check_leaf_record ();
   void plant_update
-    (float  c_n_conc_crit_meal
-    ,float  c_n_conc_crit_root
-    ,float  c_n_conc_max_meal
-    ,float  c_n_conc_max_root
-    ,float  c_n_conc_min_meal
-    ,float  c_n_conc_min_root
-    ,float *c_x_stage_code
-    ,float *c_y_n_conc_crit_pod
-    ,float *c_y_n_conc_max_pod
-    ,float *c_y_n_conc_min_pod
-    ,float *c_x_co2_nconc_modifier
-    ,float *c_y_co2_nconc_modifier
-    ,int   c_num_co2_nconc_modifier
-    ,float  g_co2
-    ,float  g_row_spacing
-    ,float  g_skip_row_fac
-    ,float  g_skip_plant_fac
-    ,float *c_x_row_spacing
-    ,float *c_y_extinct_coef
-    ,float *c_y_extinct_coef_dead
-    ,int    c_num_row_spacing
-    ,float  *g_canopy_width
-    ,float  *g_cover_dead
-    ,float  *g_cover_green
-    ,float  *g_cover_sen
-    ,float  g_dlt_dm
-    ,float *g_dlt_dm_dead_detached
-    ,float *g_dlt_dm_detached
-    ,float *g_dlt_dm_green
-    ,float *g_dlt_dm_green_retrans
-    ,float *g_dlt_dm_senesced
-    ,float *g_dlt_dm_green_dead
-    ,float *g_dlt_dm_senesced_dead
-    ,float  g_dlt_leaf_no
-    ,float  g_dlt_node_no
-    ,float  g_dlt_leaf_no_dead
-    ,float *g_dlt_n_dead_detached
-    ,float *g_dlt_n_detached
-    ,float *g_dlt_n_green
-    ,float *g_dlt_n_retrans
-    ,float *g_dlt_n_senesced
-    ,float *g_dlt_n_senesced_trans
-    ,float *g_dlt_n_senesced_retrans
-    ,float *g_dlt_n_green_dead
-    ,float *g_dlt_n_senesced_dead
-    ,float  g_dlt_plants
-    ,float  g_dlt_root_depth
-    ,float  g_dlt_slai_detached
-    ,float *g_dm_dead
-    ,float *g_dm_green
-    ,float *g_dm_senesced
-    ,float *g_lai_canopy_green
-    ,float *g_leaf_area
-    ,float *g_leaf_no
-    ,float *g_node_no
-    ,float *g_leaf_no_dead
-    ,float *g_n_conc_crit
-    ,float *g_n_conc_max
-    ,float *g_n_conc_min
-    ,float *g_n_dead
-    ,float *g_n_green
-    ,float *g_n_senesced
-    ,float *g_plants
-    ,float *g_root_depth
-    ,float g_swdef_pheno
-    ,float *g_dlt_root_length_dead
-    ,float *g_root_length_dead
-    ,float *g_root_length
-    ,float *g_dlt_root_length
-    ,float *g_dlt_root_length_senesced
-    ,float *g_cover_pod) ;
+                   (float  c_n_conc_crit_root
+                   ,float  c_n_conc_max_root
+                   ,float  c_n_conc_min_root
+                   ,float *c_x_stage_code
+                   ,float *c_x_co2_nconc_modifier
+                   ,float *c_y_co2_nconc_modifier
+                   ,int   c_num_co2_nconc_modifier
+                   ,float  g_co2
+                   ,float  g_row_spacing
+                   ,float  g_skip_row_fac
+                   ,float  g_skip_plant_fac
+                   ,float *c_x_row_spacing
+                   ,float *c_y_extinct_coef
+                   ,float *c_y_extinct_coef_dead
+                   ,int    c_num_row_spacing
+                   ,float  *g_canopy_width
+                   ,float  *g_cover_dead
+                   ,float  *g_cover_green
+                   ,float  *g_cover_sen
+                   ,float  g_dlt_dm
+                   ,float *g_dlt_dm_dead_detached
+                   ,float *g_dlt_dm_detached
+                   ,float *g_dlt_dm_green
+                   ,float *g_dlt_dm_green_retrans
+                   ,float *g_dlt_dm_senesced
+                   ,float *g_dlt_dm_green_dead
+                   ,float *g_dlt_dm_senesced_dead
+                   ,float  g_dlt_leaf_no
+                   ,float  g_dlt_node_no
+                   ,float  g_dlt_leaf_no_dead
+                   ,float *g_dlt_n_dead_detached
+                   ,float *g_dlt_n_detached
+                   ,float *g_dlt_n_green
+                   ,float *g_dlt_n_retrans
+                   ,float *g_dlt_n_senesced
+                   ,float *g_dlt_n_senesced_trans
+                   ,float *g_dlt_n_senesced_retrans
+                   ,float *g_dlt_n_green_dead
+                   ,float *g_dlt_n_senesced_dead
+                   ,float  g_dlt_plants
+                   ,float  g_dlt_root_depth
+                   ,float  g_dlt_slai_detached
+                   ,float *g_dm_dead
+                   ,float *g_dm_green
+                   ,float *g_dm_senesced
+                   ,float *g_lai_canopy_green
+                   ,float *g_leaf_area
+                   ,float *g_leaf_no
+                   ,float *g_node_no
+                   ,float *g_leaf_no_dead
+                   ,float *g_n_conc_crit
+                   ,float *g_n_conc_max
+                   ,float *g_n_conc_min
+                   ,float *g_n_dead
+                   ,float *g_n_green
+                   ,float *g_n_senesced
+                   ,float *g_plants
+                   ,float *g_root_depth
+                   ,float g_swdef_pheno
+                   ,float *g_dlt_root_length_dead
+                   ,float *g_root_length_dead
+                   ,float *g_root_length
+                   ,float *g_dlt_root_length
+                   ,float *g_dlt_root_length_senesced) ;
   void plant_check_bounds
-    (float  g_cover_dead
-    ,float  g_cover_green
-    ,float  g_cover_sen
-    ,float *g_dlayer
-    ,float *g_dm_dead
-    ,float *g_dm_green
-    ,float *g_dm_senesced
-    ,float *g_leaf_area
-    ,float *g_leaf_no
-    ,float *g_leaf_no_dead
-    ,float *g_n_conc_crit
-    ,float *g_n_conc_max
-    ,float *g_n_conc_min
-    ,float *g_n_dead
-    ,float *g_n_green
-    ,float *g_n_senesced
-    ,float  g_plants
-    ,float  g_root_depth
-    ) ;
+                         (float  g_cover_dead
+                         ,float  g_cover_green
+                         ,float  g_cover_sen
+                         ,float *g_dlayer
+                         ,float *g_dm_dead
+                         ,float *g_dm_green
+                         ,float *g_dm_senesced
+                         ,float *g_leaf_area
+                         ,float *g_leaf_no
+                         ,float *g_leaf_no_dead
+                         ,float *g_n_conc_crit
+                         ,float *g_n_conc_max
+                         ,float *g_n_conc_min
+                         ,float *g_n_dead
+                         ,float *g_n_green
+                         ,float *g_n_senesced
+                         ,float  g_plants
+                         ,float  g_root_depth
+                         ) ;
   void plant_totals(int   g_day_of_year
-    ,float *g_dlayer
-    ,float *g_dlt_n_retrans
-    ,float *g_dlt_sw_dep
-    ,float *g_dm_green
-    ,float *g_lai_max
-    ,float  *g_n_conc_act_stover_tot
-    ,float  *g_n_conc_crit
-    ,float  *g_n_conc_crit_stover_tot
-    ,float  *g_n_dead
-    ,float  *g_n_demand
-    ,float  *g_n_demand_tot
-    ,float  *g_n_green
-    ,float  *g_n_senesced
-    ,float  *g_n_uptake_stover_tot
-    ,float  *g_n_uptake_tot
-    ,float  *g_dlt_n_green
-    ,float  *g_n_fix_uptake
-    ,float  *g_n_fixed_tops
-    ,float  *g_root_depth
-    ,float  *g_transpiration_tot
-    )  ;
+                   ,float *g_dlayer
+                   ,float *g_dlt_n_retrans
+                   ,float *g_dlt_sw_dep
+                   ,float *g_dm_green
+                   ,float *g_lai_max
+                   ,float  *g_n_conc_act_stover_tot
+                   ,float  *g_n_conc_crit
+                   ,float  *g_n_conc_crit_stover_tot
+                   ,float  *g_n_dead
+                   ,float  *g_n_demand
+                   ,float  *g_n_demand_tot
+                   ,float  *g_n_green
+                   ,float  *g_n_senesced
+                   ,float  *g_n_uptake_stover_tot
+                   ,float  *g_n_uptake_tot
+                   ,float  *g_dlt_n_green
+                   ,float  *g_n_fix_uptake
+                   ,float  *g_n_fixed_tops
+                   ,float  *g_root_depth
+                   ,float  *g_transpiration_tot
+                   )  ;
   void plant_event(float *g_dlayer
-    ,float *g_dm_dead
-    ,float *g_dm_green
-    ,float *g_dm_senesced
-    ,float *g_n_green
-    ,float  g_root_depth
-    ,float *g_sw_dep
-    ,float *p_ll_dep);
+                   ,float *g_dm_dead
+                   ,float *g_dm_green
+                   ,float *g_dm_senesced
+                   ,float *g_n_green
+                   ,float  g_root_depth
+                   ,float *g_sw_dep
+                   ,float *p_ll_dep);
 
   void plant_root_incorp (
-     float  dlt_dm_root
-    ,float  dlt_n_root
-    ,float  dlt_p_root
-    ,float  *root_length)               ;
+                          float  dlt_dm_root
+                         ,float  dlt_n_root
+                         ,float  dlt_p_root
+                         ,float  *root_length)               ;
   void plant_dm_init (float  c_dm_root_init
 ////		      ,float  c_pod_trans_frac
 		      ,float  g_plants
@@ -436,24 +430,18 @@ class Plant : public plantInterface {
                               float mint,                //!daily min temp (C)
                               float *modifier);           //!modifier (-)
 
-  void plant_n_conc_limits (float  c_n_conc_crit_meal
-			     ,float  c_n_conc_crit_root
-			     ,float  c_n_conc_max_meal
-			     ,float  c_n_conc_max_root
-			     ,float  c_n_conc_min_meal
-			     ,float  c_n_conc_min_root
-			     ,float  *c_x_stage_code
-			     ,float  *c_y_n_conc_crit_pod
-			     ,float  *c_y_n_conc_max_pod
-			     ,float  *c_y_n_conc_min_pod
-                             ,float  *c_x_co2_nconc_modifier
+  void plant_n_conc_limits (float  c_n_conc_crit_root
+      			     ,float  c_n_conc_max_root
+      			     ,float  c_n_conc_min_root
+      			     ,float  *c_x_stage_code
+      	                 ,float  *c_x_co2_nconc_modifier
                              ,float  *c_y_co2_nconc_modifier
                              ,int    c_num_co2_nconc_modifier
                              ,float  g_co2
-			     ,float  g_current_stage
-			     ,float  *n_conc_crit
-			     ,float  *n_conc_max
-			     ,float  *n_conc_min) ;
+      			     ,float  g_current_stage
+      			     ,float  *n_conc_crit
+      			     ,float  *n_conc_max
+      			     ,float  *n_conc_min) ;
 
   void legnew_n_partition
     (float  *g_dlayer
@@ -684,6 +672,7 @@ void legnew_dm_distribute(int max_part
   float getDmGreenTot(void) const;
   float getRelativeGrowthRate(void);
   float getDyingFractionPlants(void);
+////  PlantComponent *system(void);
 
   float getTempStressPhoto(void) const;
   float getNfactPhoto(void) const;
@@ -1075,7 +1064,7 @@ void legnew_dm_distribute(int max_part
       float n_conc_max[max_part];                       // maximum N concentration (g N/g biomass)
       float n_conc_min[max_part];                       // minimum N concentration (g N/g biomass)
       float dm_plant_min[max_part];                     // minimum weight of each plant part (g/plant)
-      float cover_pod;
+////      float cover_pod;
       float dlayer [max_layer];                         // thickness of soil layer I (mm)
       float dlt_sw_dep[max_layer];                      // water uptake in each layer (mm water)
       float ll15_dep[max_layer];
@@ -1220,9 +1209,9 @@ void legnew_dm_distribute(int max_part
                                                         // below which leaf number is reduced ()
       float y_leaf_no_frac[max_table];                  // reduction in leaf appearance ()
       int   num_lai_ratio;                              // number of ratios in table ()
-      float n_conc_crit_grain;                          // critical N concentration of grain (g N/g biomass)
-      float n_conc_max_grain;                           // maximum N concentration of grain (g N/g biomass)
-      float n_conc_min_grain;                           // minimum N concentration of grain (g N/g biomass)
+////      float n_conc_crit_grain;                          // critical N concentration of grain (g N/g biomass)
+////      float n_conc_max_grain;                           // maximum N concentration of grain (g N/g biomass)
+////      float n_conc_min_grain;                           // minimum N concentration of grain (g N/g biomass)
       float n_conc_crit_root;                           // critical N concentration of root (g N/g biomass)
       float n_conc_max_root;                            // maximum N concentration of root (g N/g biomass)
       float n_conc_min_root;                            // minimum N concentration of root (g N/g biomass)
@@ -1230,9 +1219,9 @@ void legnew_dm_distribute(int max_part
       float y_n_conc_crit_leaf[max_table];              // critical N concentration of leaf (g N/g biomass)
       float y_n_conc_max_leaf[max_table];               // maximum N concentration of leaf (g N/g biomass)
       float y_n_conc_min_leaf[max_table];               // minimum N concentration of leaf (g N/g biomass)
-      float y_n_conc_crit_pod[max_table];               // critical N concentration of pod(g N/g biomass)
-      float y_n_conc_max_pod[max_table];                // maximum N concentration of pod (g N/g biomass)
-      float y_n_conc_min_pod[max_table];                // minimum N concentration of pod (g N/g biomass)
+////      float y_n_conc_crit_pod[max_table];               // critical N concentration of pod(g N/g biomass)
+////      float y_n_conc_max_pod[max_table];                // maximum N concentration of pod (g N/g biomass)
+////      float y_n_conc_min_pod[max_table];                // minimum N concentration of pod (g N/g biomass)
       float n_fact_photo;                               // multipler for N deficit effect on photosynthesis
       float n_fact_pheno;                               // multipler for N deficit effect on phenology
       float n_fact_expansion;

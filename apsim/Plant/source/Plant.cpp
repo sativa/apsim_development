@@ -89,7 +89,9 @@ Plant::~Plant()
          delete [] c.x_dm_sen_frac[part];
          delete [] c.y_dm_sen_frac[part];
          }
-    delete [] c.x_dm_sen_frac; delete [] c.y_dm_sen_frac; delete [] c.num_dm_sen_frac;
+    delete [] c.x_dm_sen_frac; 
+    delete [] c.y_dm_sen_frac; 
+    delete [] c.num_dm_sen_frac;
     if (phenology) delete phenology;
     if (fruitPart) delete fruitPart;
     if (stemPart) delete stemPart;
@@ -1085,7 +1087,6 @@ void Plant::plant_bio_distribute (int option /* (INPUT) option number */)
     {
         double dlt_dm_supply_by_pod = 0.0;
 
-        fruitPart->dm_partition1 ( g.dlt_dm_supply_to_fruit + dlt_dm_supply_by_pod);    // this may need to be redone when fruit becomes true class
 
           plantPartHack *podPart  = new plantPartHack(this, pod, "pod");
           plantPartHack *mealPart = new plantPartHack(this, meal, "meal");
@@ -1096,11 +1097,10 @@ void Plant::plant_bio_distribute (int option /* (INPUT) option number */)
           fruitParts.push_back(mealPart);
           fruitParts.push_back(oilPart);
 
+          fruitPart->dm_partition1 ( g.dlt_dm_supply_to_fruit + dlt_dm_supply_by_pod);    // this may need to be redone when fruit becomes true class
           fruitPart->putDltDmGreen(fruitParts);       //FIXME remove
 
-        fruitPart->dm_retranslocate1( g.dlt_dm_retrans_to_fruit);    // this may need to be redone when fruit becomes true class
-
-
+          fruitPart->dm_retranslocate1( g.dlt_dm_retrans_to_fruit);    // this may need to be redone when fruit becomes true class
           fruitPart->putDltDmGreenRetrans(fruitParts);       //FIXME remove
 
           delete podPart;
@@ -2235,9 +2235,7 @@ void Plant::plant_nit_init (int option /* (INPUT) option number*/)
     if (option == 1)
         {
         if (phenology->inPhase("grainfill"))
-        fruitPart->n_conc_grain_limits( g.n_conc_crit
-                                        , g.n_conc_max
-                                        , g.n_conc_min);
+            fruitPart->n_conc_grain_limits();
 
         if (phenology->on_day_of("emergence"))
            {
@@ -2845,7 +2843,7 @@ void Plant::plant_sen_bio (int dm_senescence_option)
         {
         canopy_sen_fr = divide (leafPart->dltSLAI, leafPart->gLAI + leafPart->dltLAI, 0.0);
 
-        cproc_dm_senescence1 (max_part
+        cproc_dm_senescence1 (max_part1
                               , max_table
                               , canopy_sen_fr
                               , c.x_dm_sen_frac
@@ -2865,7 +2863,7 @@ void Plant::plant_sen_bio (int dm_senescence_option)
          {
          //XX this arm is redundant - not used by any ini files..????
          canopy_sen_fr = divide (leafPart->dltSLAI, leafPart->gLAI +leafPart->dltLAI, 0.0);
-         plant_dm_senescence (max_part
+         plant_dm_senescence (max_part1
                               , max_table
                               , canopy_sen_fr
                               , c.x_dm_sen_frac
@@ -3081,16 +3079,10 @@ void Plant::plant_cleanup ()
     push_routine (my_name);
     g.remove_biom_pheno = 1.0;
 
-    plant_update(c.n_conc_crit_grain
-                , c.n_conc_crit_root
-                , c.n_conc_max_grain
+    plant_update(c.n_conc_crit_root
                 , c.n_conc_max_root
-                , c.n_conc_min_grain
                 , c.n_conc_min_root
                 , c.x_stage_code
-                , c.y_n_conc_crit_pod
-                , c.y_n_conc_max_pod
-                , c.y_n_conc_min_pod
                 , c.x_co2_nconc_modifier
                 , c.y_co2_nconc_modifier
                 , c.num_co2_nconc_modifier
@@ -3150,8 +3142,7 @@ void Plant::plant_cleanup ()
                 , g.root_length_dead
                 , g.root_length
                 , g.dlt_root_length
-                , g.dlt_root_length_senesced
-                , &g.cover_pod);
+                , g.dlt_root_length_senesced);
 
     plant_check_bounds(g.cover_dead
                        , g.cover_green
@@ -3289,77 +3280,70 @@ void Plant::plant_check_leaf_record ()
 //+  Changes
 //      250894 jngh specified and programmed
 void Plant::plant_update(
-     float  c_n_conc_crit_meal                     // (INPUT)  critical N concentration of gr
-    ,float  c_n_conc_crit_root                     // (INPUT)  critical N concentration of ro
-    ,float  c_n_conc_max_meal                      // (INPUT)  maximum N concentration of gra
-    ,float  c_n_conc_max_root                      // (INPUT)  maximum N concentration of roo
-    ,float  c_n_conc_min_meal                      // (INPUT)  minimum N concentration of gra
-    ,float  c_n_conc_min_root                      // (INPUT)  minimum N concentration of roo
-    ,float *c_x_stage_code                         // (INPUT)  stage table for N concentratio
-    ,float *c_y_n_conc_crit_pod                    // (INPUT)  critical N concentration of p
-    ,float *c_y_n_conc_max_pod                     // (INPUT)  maximum N concentration of pod
-    ,float *c_y_n_conc_min_pod                     // (INPUT)  minimum N concentration of pod
-    ,float *c_x_co2_nconc_modifier
-    ,float *c_y_co2_nconc_modifier
-    ,int   c_num_co2_nconc_modifier
-    ,float g_co2
-    ,float  g_row_spacing                          // (INPUT)  row spacing (m) [optional]
-    ,float  g_skip_row_fac                         // skip row factor
-    ,float  g_skip_plant_fac                       // skip plant factor
-    ,float *c_x_row_spacing
-    ,float *c_y_extinct_coef
-    ,float *c_y_extinct_coef_dead
-    ,int    c_num_row_spacing
-    ,float  *g_canopy_width                               // (INPUT)  canopy width (mm)
-    ,float  *g_cover_dead                                 // (out/INPUT)  fraction of radiation reaching
-    ,float  *g_cover_green                                // (out/INPUT)  fraction of radiation reaching
-    ,float  *g_cover_sen                                  // (out/INPUT)  fraction of radiation reaching
-    ,float  g_dlt_dm                                           // (INPUT)  the daily biomass production (
-    ,float *g_dlt_dm_dead_detached                             // (INPUT)  plant biomass detached fro
-    ,float *g_dlt_dm_detached                                  // (INPUT)  plant biomass detached (g/m^2)
-    ,float *g_dlt_dm_green                                     // (INPUT)  plant biomass growth (g/m^2)
-    ,float *g_dlt_dm_green_retrans                             // (INPUT)  plant biomass retranslocat
-    ,float *g_dlt_dm_senesced                                  // (INPUT)  plant biomass senescence (g/m^
-    ,float *g_dlt_dm_green_dead                                  // (INPUT)  plant biomass senescence (g/m^
-    ,float *g_dlt_dm_senesced_dead                                  // (INPUT)  plant biomass senescence (g/m^
-    ,float  g_dlt_leaf_no                                      // (INPUT)  actual fraction of oldest leaf
-    ,float  g_dlt_node_no                                      // (INPUT)  actual fraction of oldest node
-    ,float  g_dlt_leaf_no_dead                                 // (INPUT)  fraction of oldest green leaf
-    ,float *g_dlt_n_dead_detached                              // (INPUT)  actual N loss with detached
-    ,float *g_dlt_n_detached                                   // (INPUT)  actual N loss with detached pl
-    ,float *g_dlt_n_green                                      // (INPUT)  actual N uptake into plant (g/
-    ,float *g_dlt_n_retrans                                    // (INPUT)  nitrogen retranslocated out fr
-    ,float *g_dlt_n_senesced                                   // (INPUT)  actual N loss with senesced pl
-    ,float *g_dlt_n_senesced_trans                             //  ??
-    ,float *g_dlt_n_senesced_retrans                           //  ??
-    ,float *g_dlt_n_green_dead                                 // (INPUT)  plant N death (g/m^2)
-    ,float *g_dlt_n_senesced_dead                              // (INPUT)  plant N death (g/m^2)
-    ,float  g_dlt_plants                                       // (INPUT)  change in Plant density (plant
-    ,float  g_dlt_root_depth                                   // (INPUT)  increase in root depth (mm)
-    ,float  g_dlt_slai_detached                                // (INPUT)  plant senesced lai detached
-    ,float *g_dm_dead                                          // (INPUT)  dry wt of dead plants (g/m^2)
-    ,float *g_dm_green                                         // (INPUT)  live plant dry weight (biomass
-    ,float *g_dm_senesced                                      // (INPUT)  senesced plant dry wt (g/m^2)
-    ,float *g_lai_canopy_green                                 // (out/INPUT)  live plant green lai in canopy
-    ,float *g_leaf_area                                        // (INPUT)  leaf area of each leaf (mm^2)
-    ,float *g_leaf_no                                          // (INPUT)  number of fully expanded leave
-    ,float *g_node_no                                          // (INPUT)  number of fully expanded nodes
-    ,float *g_leaf_no_dead                                     // (INPUT)  no of dead leaves ()
-    ,float *g_n_conc_crit                                      // (out/INPUT)  critical N concentration (g N/
-    ,float *g_n_conc_max                                       // (out/INPUT)  maximum N concentration (g N/g
-    ,float *g_n_conc_min                                       // (out/INPUT)  minimum N concentration (g N/g
-    ,float *g_n_dead                                           // (INPUT)  plant N content of dead plants
-    ,float *g_n_green                                          // (INPUT)  plant nitrogen content (g N/m^
-    ,float *g_n_senesced                                       // (INPUT)  plant N content of senesced pl
-    ,float *g_plants                                           // (out/INPUT)  Plant density (plants/m^2)
-    ,float *g_root_depth                                         // (out/INPUT)  depth of roots (mm)
-    ,float g_swdef_pheno                                        // (INPUT)
-    ,float *g_dlt_root_length_dead                                  // (INPUT)  Change in Root length of dead population in each layer
-    ,float *g_root_length_dead                                  // (INPUT)  Root length of dead population in each layer
-    ,float *g_root_length                                       // (INPUT)  Root length in each layer
-    ,float *g_dlt_root_length                                   // (INPUT)  Root growth in each layer
-    ,float *g_dlt_root_length_senesced
-    ,float *g_cover_pod)
+                          float  c_n_conc_crit_root                     // (INPUT)  critical N concentration of ro
+                         ,float  c_n_conc_max_root                      // (INPUT)  maximum N concentration of roo
+                         ,float  c_n_conc_min_root                      // (INPUT)  minimum N concentration of roo
+                         ,float *c_x_stage_code                         // (INPUT)  stage table for N concentratio
+                         ,float *c_x_co2_nconc_modifier
+                         ,float *c_y_co2_nconc_modifier
+                         ,int   c_num_co2_nconc_modifier
+                         ,float g_co2
+                         ,float  g_row_spacing                          // (INPUT)  row spacing (m) [optional]
+                         ,float  g_skip_row_fac                         // skip row factor
+                         ,float  g_skip_plant_fac                       // skip plant factor
+                         ,float *c_x_row_spacing
+                         ,float *c_y_extinct_coef
+                         ,float *c_y_extinct_coef_dead
+                         ,int    c_num_row_spacing
+                         ,float  *g_canopy_width                               // (INPUT)  canopy width (mm)
+                         ,float  *g_cover_dead                                 // (out/INPUT)  fraction of radiation reaching
+                         ,float  *g_cover_green                                // (out/INPUT)  fraction of radiation reaching
+                         ,float  *g_cover_sen                                  // (out/INPUT)  fraction of radiation reaching
+                         ,float  g_dlt_dm                                           // (INPUT)  the daily biomass production (
+                         ,float *g_dlt_dm_dead_detached                             // (INPUT)  plant biomass detached fro
+                         ,float *g_dlt_dm_detached                                  // (INPUT)  plant biomass detached (g/m^2)
+                         ,float *g_dlt_dm_green                                     // (INPUT)  plant biomass growth (g/m^2)
+                         ,float *g_dlt_dm_green_retrans                             // (INPUT)  plant biomass retranslocat
+                         ,float *g_dlt_dm_senesced                                  // (INPUT)  plant biomass senescence (g/m^
+                         ,float *g_dlt_dm_green_dead                                  // (INPUT)  plant biomass senescence (g/m^
+                         ,float *g_dlt_dm_senesced_dead                                  // (INPUT)  plant biomass senescence (g/m^
+                         ,float  g_dlt_leaf_no                                      // (INPUT)  actual fraction of oldest leaf
+                         ,float  g_dlt_node_no                                      // (INPUT)  actual fraction of oldest node
+                         ,float  g_dlt_leaf_no_dead                                 // (INPUT)  fraction of oldest green leaf
+                         ,float *g_dlt_n_dead_detached                              // (INPUT)  actual N loss with detached
+                         ,float *g_dlt_n_detached                                   // (INPUT)  actual N loss with detached pl
+                         ,float *g_dlt_n_green                                      // (INPUT)  actual N uptake into plant (g/
+                         ,float *g_dlt_n_retrans                                    // (INPUT)  nitrogen retranslocated out fr
+                         ,float *g_dlt_n_senesced                                   // (INPUT)  actual N loss with senesced pl
+                         ,float *g_dlt_n_senesced_trans                             //  ??
+                         ,float *g_dlt_n_senesced_retrans                           //  ??
+                         ,float *g_dlt_n_green_dead                                 // (INPUT)  plant N death (g/m^2)
+                         ,float *g_dlt_n_senesced_dead                              // (INPUT)  plant N death (g/m^2)
+                         ,float  g_dlt_plants                                       // (INPUT)  change in Plant density (plant
+                         ,float  g_dlt_root_depth                                   // (INPUT)  increase in root depth (mm)
+                         ,float  g_dlt_slai_detached                                // (INPUT)  plant senesced lai detached
+                         ,float *g_dm_dead                                          // (INPUT)  dry wt of dead plants (g/m^2)
+                         ,float *g_dm_green                                         // (INPUT)  live plant dry weight (biomass
+                         ,float *g_dm_senesced                                      // (INPUT)  senesced plant dry wt (g/m^2)
+                         ,float *g_lai_canopy_green                                 // (out/INPUT)  live plant green lai in canopy
+                         ,float *g_leaf_area                                        // (INPUT)  leaf area of each leaf (mm^2)
+                         ,float *g_leaf_no                                          // (INPUT)  number of fully expanded leave
+                         ,float *g_node_no                                          // (INPUT)  number of fully expanded nodes
+                         ,float *g_leaf_no_dead                                     // (INPUT)  no of dead leaves ()
+                         ,float *g_n_conc_crit                                      // (out/INPUT)  critical N concentration (g N/
+                         ,float *g_n_conc_max                                       // (out/INPUT)  maximum N concentration (g N/g
+                         ,float *g_n_conc_min                                       // (out/INPUT)  minimum N concentration (g N/g
+                         ,float *g_n_dead                                           // (INPUT)  plant N content of dead plants
+                         ,float *g_n_green                                          // (INPUT)  plant nitrogen content (g N/m^
+                         ,float *g_n_senesced                                       // (INPUT)  plant N content of senesced pl
+                         ,float *g_plants                                           // (out/INPUT)  Plant density (plants/m^2)
+                         ,float *g_root_depth                                         // (out/INPUT)  depth of roots (mm)
+                         ,float g_swdef_pheno                                        // (INPUT)
+                         ,float *g_dlt_root_length_dead                                  // (INPUT)  Change in Root length of dead population in each layer
+                         ,float *g_root_length_dead                                  // (INPUT)  Root length of dead population in each layer
+                         ,float *g_root_length                                       // (INPUT)  Root length in each layer
+                         ,float *g_dlt_root_length                                   // (INPUT)  Root growth in each layer
+                         ,float *g_dlt_root_length_senesced)
 {
 
 //+  Constant Values
@@ -3413,6 +3397,9 @@ void Plant::plant_update(
     allParts1.push_back(stemPart);
     allParts1.push_back(fruitPart);
 
+    vector<plantPart *> rootParts;
+    rootParts.push_back(rootPart);
+
     vector<plantPart *>::iterator part;
 
 
@@ -3435,7 +3422,7 @@ void Plant::plant_update(
          t != myParts.end();
          t++)
        (*t)->update();
-//    fruitPart->update();
+////    fruitPart->update();
 
     // transfer N & P
     for (part = allParts.begin(); part != allParts.end(); part++)
@@ -3552,8 +3539,8 @@ void Plant::plant_update(
                           ,leafPart->gLAI
                           ,&cover_green_leaf);
 
-    *g_cover_pod = fruitPart->calcCover(canopy_fac);
-    *g_cover_green = add_covers (cover_green_leaf, *g_cover_pod);
+    float cover_pod = fruitPart->calcCover(canopy_fac);
+    *g_cover_green = add_covers (cover_green_leaf, cover_pod);
 
     legnew_cover(g_row_spacing
                 ,c_x_row_spacing
@@ -3681,16 +3668,10 @@ void Plant::plant_update(
         g_root_length_dead[layer] = g_root_length_dead[layer] + g_dlt_root_length_dead[layer];
         }
 
-    plant_n_conc_limits(c_n_conc_crit_meal
-                        , c_n_conc_crit_root
-                        , c_n_conc_max_meal
+    plant_n_conc_limits(c_n_conc_crit_root
                         , c_n_conc_max_root
-                        , c_n_conc_min_meal
                         , c_n_conc_min_root
                         , c_x_stage_code
-                        , c_y_n_conc_crit_pod
-                        , c_y_n_conc_max_pod
-                        , c_y_n_conc_min_pod
                         , c_x_co2_nconc_modifier, c_y_co2_nconc_modifier, c_num_co2_nconc_modifier
                         , g_co2
                         , phenology->stageNumber()
@@ -4776,7 +4757,8 @@ void Plant::plant_dm_init (
 // and root
 
 //    doPlantEvent(phenology->stageName());
-    fruitPart->onPlantEvent(phenology->stageName());
+   if(phenology->on_day_of(phenology->stageName()))
+       fruitPart->onDayOf(phenology->stageName());
 
     vector<plantPart *>::iterator myPart;
     for (myPart = myParts.begin(); myPart != myParts.end(); myPart++)
@@ -4804,25 +4786,19 @@ void Plant::plant_dm_init (
 //+  Changes
 //       080994 jngh specified and programmed
 void Plant::plant_n_conc_limits
-    (float  c_n_conc_crit_meal                 // (INPUT)  critical N concentration of gr
-    ,float  c_n_conc_crit_root                 // (INPUT)  critical N concentration of ro
-    ,float  c_n_conc_max_meal                  // (INPUT)  maximum N concentration of gra
-    ,float  c_n_conc_max_root                  // (INPUT)  maximum N concentration of roo
-    ,float  c_n_conc_min_meal                  // (INPUT)  minimum N concentration of gra
-    ,float  c_n_conc_min_root                  // (INPUT)  minimum N concentration of roo
-    ,float  *c_x_stage_code                     // (INPUT)  stage table for N concentratio
-    ,float  *c_y_n_conc_crit_pod                // (INPUT)  critical N concentration of p
-    ,float  *c_y_n_conc_max_pod                 // (INPUT)  maximum N concentration of pod
-    ,float  *c_y_n_conc_min_pod                 // (INPUT)  minimum N concentration of pod
-    ,float  *c_x_co2_nconc_modifier
-    ,float  *c_y_co2_nconc_modifier
-    ,int    c_num_co2_nconc_modifier
-    ,float  g_co2
-    ,float  g_current_stage                    // (INPUT)  current phenological stage
-    ,float  *n_conc_crit                        // (OUTPUT) critical N concentration  (g N/g part)
-    ,float  *n_conc_max                         // (OUTPUT) maximum N concentration   (g N/g part)
-    ,float  *n_conc_min                         // (OUTPUT) minimum N concentration    g N/g part)
-    ) {
+                               (float  c_n_conc_crit_root                 // (INPUT)  critical N concentration of ro
+                               ,float  c_n_conc_max_root                  // (INPUT)  maximum N concentration of roo
+                               ,float  c_n_conc_min_root                  // (INPUT)  minimum N concentration of roo
+                               ,float  *c_x_stage_code                     // (INPUT)  stage table for N concentratio
+                               ,float  *c_x_co2_nconc_modifier
+                               ,float  *c_y_co2_nconc_modifier
+                               ,int    c_num_co2_nconc_modifier
+                               ,float  g_co2
+                               ,float  g_current_stage                    // (INPUT)  current phenological stage
+                               ,float  *n_conc_crit                        // (OUTPUT) critical N concentration  (g N/g part)
+                               ,float  *n_conc_max                         // (OUTPUT) maximum N concentration   (g N/g part)
+                               ,float  *n_conc_min                         // (OUTPUT) minimum N concentration    g N/g part)
+                               ) {
 
 //+  Constant Values
 //+  Local Variables
@@ -5033,7 +5009,7 @@ void Plant::legnew_dm_partition1( float  c_frac_leaf                   // (INPUT
          // growth is not removed from the carbo produced by the model.
 
           // first we zero all plant component deltas
-    fill_real_array (dlt_dm_green, 0.0, max_part);
+    fill_real_array (dlt_dm_green, 0.0, max_part1);
     for (vector<plantPart *>::iterator t = myParts.begin();
          t != myParts.end();
          t++)
@@ -5083,7 +5059,7 @@ void Plant::legnew_dm_partition1( float  c_frac_leaf                   // (INPUT
     }
 
     // check that deltas are in legal range
-    bound_check_real_array (parent, dlt_dm_green, max_part, 0.0, g_dlt_dm, "dlt_dm_green");
+    bound_check_real_array (parent, dlt_dm_green, max_part1, 0.0, g_dlt_dm, "dlt_dm_green");
 }
 
   void Plant::legnew_dm_partition2 (float  g_current_stage
@@ -5122,7 +5098,7 @@ void Plant::legnew_dm_partition1( float  c_frac_leaf                   // (INPUT
          // growth is not removed from the carbo produced by the model.
 
           // first we zero all plant component deltas
-    fill_real_array (dlt_dm_green, 0.0, max_part);
+    fill_real_array (dlt_dm_green, 0.0, max_part1);
     for (vector<plantPart *>::iterator t = myParts.begin();
          t != myParts.end();
          t++)
@@ -5162,9 +5138,6 @@ void Plant::legnew_dm_partition1( float  c_frac_leaf                   // (INPUT
 
          // do mass balance check - roots are not included
     dlt_dm_green_tot = topsDltDmGreen() + *dlt_dm_fruit;
-//    dlt_dm_green_tot = sum_real_array (dlt_dm_green, max_part) + leafPart->dlt.dm_green + stemPart->dlt.dm_green+ reproStruct->dlt.dm_green
-//                          - dlt_dm_green[root]
-//                          + *dlt_dm_fruit;
 
     if (!reals_are_equal(dlt_dm_green_tot, g_dlt_dm, 1.0E-4))  // XX this is probably too much slop - try doubles XX
     {
@@ -5176,7 +5149,7 @@ void Plant::legnew_dm_partition1( float  c_frac_leaf                   // (INPUT
     }
 
     // check that deltas are in legal range
-    bound_check_real_array (parent, dlt_dm_green, max_part, 0.0, g_dlt_dm, "dlt_dm_green");
+    bound_check_real_array (parent, dlt_dm_green, max_part1, 0.0, g_dlt_dm, "dlt_dm_green");
 
 }
 
@@ -5410,42 +5383,48 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
-    for (part = allParts.begin(); part != allParts.end(); part++)
-        (*part)->dlt.n_retrans = 0.0;
+//    for (part = allParts.begin(); part != allParts.end(); part++)
+//        (*part)->dlt.n_retrans = 0.0;
 
-    //! available N does not include roots or grain
-    //! this should not presume roots and grain are 0.
-    // grain N potential (supply)
+          //! available N does not include roots or grain
+          //! this should not presume roots and grain are 0.
+          // grain N potential (supply)
     float n_avail_stover = 0.0;
-    for (part = stoverParts.begin(); part != stoverParts.end(); part++)
+    for (part = stoverParts1.begin(); part != stoverParts1.end(); part++)
         n_avail_stover += (*part)->availableRetranslocateN();
 
-    //! get actual grain N uptake
-    //! limit retranslocation to total available N
-    if (g_grain_n_demand >= n_avail_stover)
-       {
-       // demand is greater than or equal to supply.
-       // retranslocate all available N
-       leafPart->dlt.n_retrans = - leafPart->availableRetranslocateN();
-       stemPart->dlt.n_retrans = - stemPart->availableRetranslocateN();
-       reproStruct->dlt.n_retrans = - reproStruct->availableRetranslocateN();
-       }
-    else
-       {
-       // supply is greater than demand.
-       // Retranslocate only what is needed by grain
-       leafPart->dlt.n_retrans = - g_grain_n_demand
-                             * divide (leafPart->availableRetranslocateN()
-                                     , n_avail_stover, 0.0);
+////    n_avail_stover = 0.0;
+////    for (part = stoverParts.begin(); part != stoverParts.end(); part++)
+////        n_avail_stover += (*part)->availableRetranslocateN();
+//
+//          //! get actual grain N uptake
+//          //! limit retranslocation to total available N
+//    if (g_grain_n_demand >= n_avail_stover)
+//       {
+//             // demand is greater than or equal to supply.
+//             // retranslocate all available N
+//       leafPart->dlt.n_retrans = - leafPart->availableRetranslocateN();
+//       stemPart->dlt.n_retrans = - stemPart->availableRetranslocateN();
+//       reproStruct->dlt.n_retrans = - reproStruct->availableRetranslocateN();
+//       }
+//    else
+//       {
+//             // supply is greater than demand.
+//             // Retranslocate only what is needed by grain
+//       leafPart->dlt.n_retrans = - g_grain_n_demand
+//                                * divide (leafPart->availableRetranslocateN()
+//                                        , n_avail_stover, 0.0);
+//
+//       stemPart->dlt.n_retrans = - g_grain_n_demand
+//                                * divide (stemPart->availableRetranslocateN()
+//                                        , n_avail_stover, 0.0);
+//
+//      }
+//
+//    fruitPart->doNRetranslocate(n_avail_stover, g_grain_n_demand);
 
-       stemPart->dlt.n_retrans = - g_grain_n_demand
-                             * divide (stemPart->availableRetranslocateN()
-                                     , n_avail_stover, 0.0);
-
-      }
-
-
-    fruitPart->n_retranslocate(n_avail_stover, g_grain_n_demand);
+    for (part = stoverParts1.begin(); part != stoverParts1.end(); part++)
+        (*part)->doNRetranslocate(n_avail_stover, g_grain_n_demand);
 
     vector<plantPart *> fruitParts;
     fruitParts.push_back(podPart);
@@ -5453,15 +5432,13 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
     fruitParts.push_back(oilPart);
 
     fruitPart->putDltNRetrans(fruitParts);
-    // check that we got (some of) the maths right.
-    for (part = mbCheckParts.begin(); part != mbCheckParts.end(); part++)
+          // check that we got (some of) the maths right.
+    for (part = mbCheckParts1.begin(); part != mbCheckParts1.end(); part++)
         {
-        bound_check_real_var (parent,fabs((*part)->dlt.n_retrans)
+        bound_check_real_var (parent,fabs((*part)->dltNRetransOut())
                               , 0.0, (*part)->availableRetranslocateN() + tolerence
                               , (string("dlt_N_retrans(") + (*part)->name() + string(")")).c_str() );
         }
-
-
 
     pop_routine (my_name);
     delete rootPart;
@@ -6065,6 +6042,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     float dlt_p_die;                              // P content of drymatter in dieback (g/m^2)
     float avg_leaf_area;
     float P_tops;
+    float cover_pod;
 
 //- Implementation Section ----------------------------------
     push_routine (my_name);
@@ -6294,8 +6272,8 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
                           ,leafPart->gLAI
                           ,&cover_green_leaf);
 
-    g.cover_pod = fruitPart->calcCover(canopy_fac);
-    g.cover_green = add_covers (cover_green_leaf, g.cover_pod);
+    cover_pod = fruitPart->calcCover(canopy_fac);
+    g.cover_green = add_covers (cover_green_leaf, cover_pod);
 
 
     legnew_cover (g.row_spacing
@@ -6328,16 +6306,10 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     g.leaf_area[(int)c.leaf_no_at_emerg] = fmod(c.leaf_no_at_emerg,1.0) * avg_leaf_area;
 
 // other plant states
-    plant_n_conc_limits (c.n_conc_crit_grain
-                       , c.n_conc_crit_root
-                       , c.n_conc_max_grain
+    plant_n_conc_limits (c.n_conc_crit_root
                        , c.n_conc_max_root
-                       , c.n_conc_min_grain
                        , c.n_conc_min_root
                        , c.x_stage_code
-                       , c.y_n_conc_crit_pod
-                       , c.y_n_conc_max_pod
-                       , c.y_n_conc_min_pod
                        , c.x_co2_nconc_modifier
                        , c.y_co2_nconc_modifier
                        , c.num_co2_nconc_modifier
@@ -6403,6 +6375,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     int   leaf_no_emerged;
     float leaf_emerging_fract;
     float canopy_fac;
+    float cover_pod;
 
 //- Implementation Section ----------------------------------
     push_routine (my_name);
@@ -6525,8 +6498,8 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
                           ,leafPart->gLAI
                           ,&cover_green_leaf);
 
-    g.cover_pod = fruitPart->calcCover(canopy_fac);
-    g.cover_green = add_covers (cover_green_leaf, g.cover_pod);
+    cover_pod = fruitPart->calcCover(canopy_fac);
+    g.cover_green = add_covers (cover_green_leaf, cover_pod);
 
 
     legnew_cover (g.row_spacing
@@ -6568,24 +6541,18 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
         }
     g.leaf_area[leaf_no_emerged] = leaf_emerging_fract * avg_leaf_area;
 
-    plant_n_conc_limits (c.n_conc_crit_grain
-         , c.n_conc_crit_root
-         , c.n_conc_max_grain
-         , c.n_conc_max_root
-         , c.n_conc_min_grain
-         , c.n_conc_min_root
-         , c.x_stage_code
-         , c.y_n_conc_crit_pod
-         , c.y_n_conc_max_pod
-         , c.y_n_conc_min_pod
-         , c.x_co2_nconc_modifier
-         , c.y_co2_nconc_modifier
-         , c.num_co2_nconc_modifier
-         , g.co2
-         , phenology->stageNumber()
-         , g.n_conc_crit
-         , g.n_conc_max
-         , g.n_conc_min )  ;                                          // plant N concentr
+    plant_n_conc_limits (c.n_conc_crit_root
+                        , c.n_conc_max_root
+                        , c.n_conc_min_root
+                        , c.x_stage_code
+                        , c.x_co2_nconc_modifier
+                        , c.y_co2_nconc_modifier
+                        , c.num_co2_nconc_modifier
+                        , g.co2
+                        , phenology->stageNumber()
+                        , g.n_conc_crit
+                        , g.n_conc_max
+                        , g.n_conc_min )  ;                                          // plant N concentr
 
     if (g.plant_status == alive &&
         phenology->previousStageName() != phenology->stageName())
@@ -6646,6 +6613,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     vector<plantPart *>::iterator part;
 
     float remove_fr;
+    float cover_pod;
 
     float dm_init;
     float n_init;
@@ -6951,8 +6919,8 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
                           ,leafPart->gLAI
                           ,&cover_green_leaf);
 
-    g.cover_pod = fruitPart->calcCover(canopy_fac);
-    g.cover_green = add_covers (cover_green_leaf, g.cover_pod);
+    cover_pod = fruitPart->calcCover(canopy_fac);
+    g.cover_green = add_covers (cover_green_leaf, cover_pod);
 
 
     legnew_cover (g.row_spacing
@@ -7035,16 +7003,10 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     stemPart->g.height *= (1.0 - divide(stemPart->dlt.dm_green, stemPart->g.dm_green, 0.0));
     reproStruct->g.height *= (1.0 - divide(reproStruct->dlt.dm_green, reproStruct->g.dm_green, 0.0));
 
-    plant_n_conc_limits (c.n_conc_crit_grain
-                       , c.n_conc_crit_root
-                       , c.n_conc_max_grain
+    plant_n_conc_limits (c.n_conc_crit_root
                        , c.n_conc_max_root
-                       , c.n_conc_min_grain
                        , c.n_conc_min_root
                        , c.x_stage_code
-                       , c.y_n_conc_crit_pod
-                       , c.y_n_conc_max_pod
-                       , c.y_n_conc_min_pod
                        , c.x_co2_nconc_modifier
                        , c.y_co2_nconc_modifier
                        , c.num_co2_nconc_modifier
@@ -7219,7 +7181,7 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (g.n_conc_max, 0.0, max_part);
       fill_real_array (g.n_conc_min, 0.0, max_part);
       fill_real_array (g.dm_plant_min, 0.0, max_part);
-      g.cover_pod = 0.0;
+////      g.cover_pod = 0.0;
       fill_real_array (g.dlayer , 0.0, max_layer);
       fill_real_array (g.dlt_sw_dep, 0.0, max_layer);
       fill_real_array (g.ll15_dep, 0.0, max_layer);
@@ -7299,9 +7261,9 @@ void Plant::plant_zero_all_globals (void)
 
       fill_real_array (c.y_leaf_no_frac, 0.0, max_table);
       c.num_lai_ratio = 0;
-      c.n_conc_crit_grain = 0.0;
-      c.n_conc_max_grain = 0.0;
-      c.n_conc_min_grain = 0.0;
+////      c.n_conc_crit_grain = 0.0;
+////      c.n_conc_max_grain = 0.0;
+////      c.n_conc_min_grain = 0.0;
       c.n_conc_crit_root = 0.0;
       c.n_conc_max_root = 0.0;
       c.n_conc_min_root = 0.0;
@@ -7309,9 +7271,9 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (c.y_n_conc_crit_leaf, 0.0, max_table);
       fill_real_array (c.y_n_conc_max_leaf, 0.0, max_table);
       fill_real_array (c.y_n_conc_min_leaf, 0.0, max_table);
-      fill_real_array (c.y_n_conc_crit_pod, 0.0, max_table);
-      fill_real_array (c.y_n_conc_max_pod, 0.0, max_table);
-      fill_real_array (c.y_n_conc_min_pod, 0.0, max_table);
+////      fill_real_array (c.y_n_conc_crit_pod, 0.0, max_table);
+////      fill_real_array (c.y_n_conc_max_pod, 0.0, max_table);
+////      fill_real_array (c.y_n_conc_min_pod, 0.0, max_table);
       c.n_fact_photo = 0.0;
       c.n_fact_pheno = 0.0;
       c.n_fact_expansion = 0.0;
@@ -7641,7 +7603,7 @@ void Plant::plant_zero_variables (void)
     g.row_spacing           = 0.0;
 
     g.cover_green           = 0.0;
-    g.cover_pod             = 0.0;
+////    g.cover_pod             = 0.0;
     g.cover_sen             = 0.0;
     g.cover_dead            = 0.0;
 
@@ -9462,7 +9424,7 @@ void Plant::plant_read_species_const ()
                       , c.dm_senescence_option
                       , 1, 3);
 
-    for (part=0; part<max_part;part++)
+    for (part=0; part<max_part1;part++)
        {
        sprintf(name, "x_dm_sen_frac_%s", c.part_names[part].c_str());
        parent->readParameter (search_order
@@ -9546,35 +9508,35 @@ void Plant::plant_read_species_const ()
                      , c.x_stage_code, c.num_n_conc_stage
                      , 0.0, 100.0);
 
-    parent->readParameter (search_order
-                     , "y_n_conc_crit_pod"//, "()"
-                     , c.y_n_conc_crit_pod, c.num_n_conc_stage
-                     , 0.0, 100.0);
-
-    parent->readParameter (search_order
-                     , "y_n_conc_max_pod"//, "()"
-                     , c.y_n_conc_max_pod, c.num_n_conc_stage
-                     , 0.0, 100.0);
-
-    parent->readParameter (search_order
-                     , "y_n_conc_min_pod"//, "()"
-                     , c.y_n_conc_min_pod, c.num_n_conc_stage
-                     , 0.0, 100.0);
-
-    parent->readParameter (search_order
-                   , "n_conc_crit_grain"//, "()"
-                   , c.n_conc_crit_grain
-                   , 0.0, 100.0);
-
-    parent->readParameter (search_order
-                   , "n_conc_max_grain"//, "()"
-                   , c.n_conc_max_grain
-                   , 0.0, 100.0);
-
-    parent->readParameter (search_order
-                   , "n_conc_min_grain"//, "()"
-                   , c.n_conc_min_grain
-                   , 0.0, 100.0);
+////    parent->readParameter (search_order
+////                     , "y_n_conc_crit_pod"//, "()"
+////                     , c.y_n_conc_crit_pod, c.num_n_conc_stage
+////                     , 0.0, 100.0);
+////
+////    parent->readParameter (search_order
+////                     , "y_n_conc_max_pod"//, "()"
+////                     , c.y_n_conc_max_pod, c.num_n_conc_stage
+////                     , 0.0, 100.0);
+////
+////    parent->readParameter (search_order
+////                     , "y_n_conc_min_pod"//, "()"
+////                     , c.y_n_conc_min_pod, c.num_n_conc_stage
+////                     , 0.0, 100.0);
+////
+////    parent->readParameter (search_order
+////                   , "n_conc_crit_grain"//, "()"
+////                   , c.n_conc_crit_grain
+////                   , 0.0, 100.0);
+////
+////    parent->readParameter (search_order
+////                   , "n_conc_max_grain"//, "()"
+////                   , c.n_conc_max_grain
+////                   , 0.0, 100.0);
+////
+////    parent->readParameter (search_order
+////                   , "n_conc_min_grain"//, "()"
+////                   , c.n_conc_min_grain
+////                   , 0.0, 100.0);
 
     parent->readParameter (search_order
                    , "n_conc_crit_root"//, "()"
@@ -11400,6 +11362,7 @@ void Plant::plant_n_demand(int max_part     // (INPUT)
   float Plant::getOxdefPhoto(void) const {return g.oxdef_photo;}
   float Plant::getPfactPhoto(void) const {return g.pfact_photo;}
   float Plant::getSwdefPhoto(void) const {return g.swdef_photo;}
+////  PlantComponent *Plant::system(void) {return parent;}
 
 float Plant::plantGreen(void) const
    {

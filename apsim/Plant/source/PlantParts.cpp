@@ -325,6 +325,43 @@ void plantPart::checkBounds(void)
 
 void plantPart::readConstants(protocol::Component *system, const string &section)
     {
+       vector<string> parts;
+       Split_string(system->readParameter (section, "stress_determinants"), " ", parts);
+       if (find(parts.begin(), parts.end(), c.name) != parts.end())
+       {
+          c.p_stress_determinant = true;
+          c.stress_determinant = true;
+       }
+       else
+       {
+          c.p_stress_determinant = false;
+          c.stress_determinant = false;
+       }
+
+       Split_string(system->readParameter (section, "yield_parts"), " ", parts);
+       if (find(parts.begin(),parts.end(), c.name) != parts.end())
+       {
+          c.p_yield_part = true;
+          c.yield_part = true;
+       }
+       else
+       {
+          c.p_yield_part = false;
+          c.yield_part = false;
+       }
+
+       Split_string(system->readParameter (section, "retrans_parts"), " ", parts);
+       if (find(parts.begin(),parts.end(), c.name) != parts.end())
+       {
+          c.p_retrans_part = true;
+          c.retrans_part = true;
+       }
+       else
+       {
+          c.p_retrans_part = false;
+          c.retrans_part = false;
+       }
+
     if (plant->phosphorusAware())
        {
 #if 0
@@ -358,24 +395,6 @@ void plantPart::readConstants(protocol::Component *system, const string &section
                               c.p_init_conc, 0.0, 1.0);
 #endif
 
-       vector<string> parts;
-       Split_string(system->readParameter (section, "stress_determinants"), " ", parts);
-       if (find(parts.begin(), parts.end(), c.name) != parts.end())
-          c.p_stress_determinant = true;
-       else
-          c.p_stress_determinant = false;
-
-       Split_string(system->readParameter (section, "yield_parts"), " ", parts);
-       if (find(parts.begin(),parts.end(), c.name) != parts.end())
-          c.p_yield_part = true;
-       else
-          c.p_yield_part = false;
-
-       Split_string(system->readParameter (section, "retrans_parts"), " ", parts);
-       if (find(parts.begin(),parts.end(), c.name) != parts.end())
-          c.p_retrans_part = true;
-       else
-          c.p_retrans_part = false;
        }
     }
 void plantPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
@@ -547,6 +566,21 @@ void plantPart::update(void)
 {
    g.height += dlt.height;
    g.width += dlt.width;
+
+    vector<plantPart *>::iterator part;
+
+//// Update N
+//    updateN();
+//
+//// Update DM
+//    updateDm();
+//
+//// Update P
+//    if (plant->phosphorusAware())
+//    {
+//    updateP();
+//    }
+
 }
 
 void plantPart::updateN(void)
@@ -801,6 +835,31 @@ void plantPart::doNSenescedRetrans(float navail, float n_demand_tot)
       dlt.n_senesced_retrans = navail * divide (v.n_demand, n_demand_tot, 0.0);
 }
 
+
+//============================================================================
+void plantPart::doNRetranslocate( float N_supply, float g_grain_n_demand)
+//============================================================================
+{
+////   const float  tolerence = 0.001 ;
+//   if(c.retrans_part)
+//   {
+      if (g_grain_n_demand >= N_supply)
+      {      // demand greater than or equal to supply
+             // retranslocate all available N
+         dlt.n_retrans = - availableRetranslocateN();
+      }
+      else
+      {      // supply greater than demand.
+             // Retranslocate what is needed
+         dlt.n_retrans = - g_grain_n_demand * divide (availableRetranslocateN(), N_supply, 0.0);
+      }
+//        bound_check_real_var (plant->system(), fabs(dltNRetrans())
+//                              , 0.0, availableRetranslocateN() + tolerence
+//                              , (string("dlt_N_retrans(") + name() + string(")")).c_str() );
+//   }
+//   else
+//      dlt.n_retrans = 0.0;
+}
 
 void plantPart::dm_detachment1(void)
    {
@@ -1277,6 +1336,14 @@ float plantPart::nConc(void) const
     return n_conc;
 }
 
+float plantPart::dltNRetransOut(void)
+{
+   if(dlt.n_retrans < 0.0)
+      return (dlt.n_retrans);
+   else
+      return 0.0;
+}
+
 float plantPart::nMaxPot(void)
 {
 //       float n_conc_max = linear_interp_real (plant->getStageCode()
@@ -1314,11 +1381,43 @@ float plantPart::pRetransSupply(void)
        return 0.0;
 }
 
+float plantPart::nRetransSupply(void)
+{
+//    if (c.retrans_part)
+//       return max(g.n_green - nMinPot(), 0.0);
+//    else
+       return 0.0;
+}
+
+float plantPart::dmRetransSupply(void)
+{
+//    if (c.retrans_part)
+//       return max(g.dm_green - dmMinPot(), 0.0);
+//    else
+       return 0.0;
+}
+
 float plantPart::pRetransDemand(void)
 {
     if (c.p_yield_part)
        return max(pMaxPot() - g.p_green, 0.0);
     else
+       return 0.0;
+}
+
+float plantPart::nRetransDemand(void)
+{
+//    if (c.yield_part)
+//       return max(nMaxPot() - g.n_green, 0.0);
+//    else
+       return 0.0;
+}
+
+float plantPart::dmRetransDemand(void)
+{
+//    if (c.yield_part)
+//       return max(dmMaxPot() - g.dm_green, 0.0);
+//    else
        return 0.0;
 }
 
@@ -1376,13 +1475,20 @@ float plantPart::pMinPot(void)
 //   float p_conc_min = c.p_conc_min.value(plant->getStageCode());
     return p_conc_min * g.dm_green;
 }
+void plantPart::onDayOf(const string &stage)
+   {
+   if (stage == "emergence") onEmergence();
+   else if (stage == "flowering") onFlowering();
+   else if (stage == "start_grain_fill") onStartGrainFill();
+   }
+
+
 void plantPart::onPlantEvent(const string &event)
    {
    if (event == "emergence") onEmergence();
    else if (event == "flowering") onFlowering();
    else if (event == "start_grain_fill") onStartGrainFill();
    }
-
 
 
 void plantPart::get_p_demand(vector<float> &p_demand)
