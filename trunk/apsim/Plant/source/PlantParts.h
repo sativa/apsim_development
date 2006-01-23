@@ -101,6 +101,10 @@ class plantPart : public plantThing {
       bool  p_yield_part;                 // is a P yield_part
       bool  p_retrans_part;               // is a P retrans_part
 
+      bool  stress_determinant;           // is a stress_determinant
+      bool  yield_part;                   // is a yield_part
+      bool  retrans_part;                // is a retrans_part
+
       float n_deficit_uptake_fraction;    // xxxxxxxxxx
 
       interpolationFunction n_conc_min;
@@ -179,6 +183,7 @@ private:
    virtual void doSenescence2(float);
    virtual void doNSenescence(void);
    virtual void doNSenescedRetrans(float navail, float n_demand_tot);
+   virtual void doNRetranslocate( float N_supply, float g_grain_n_demand);
    virtual void dm_detachment1(void);
    virtual void n_detachment1(void);
 
@@ -189,6 +194,8 @@ private:
    virtual float dmGreen(void) const;
    virtual float dmSenesced(void) const;
    virtual float dmDead(void) const;
+   virtual float dmRetransSupply(void);
+   virtual float dmRetransDemand(void);
 
    virtual float dmGreenStressDeterminant(void);
    virtual float pGreenStressDeterminant(void);
@@ -199,6 +206,7 @@ private:
    virtual float nSenesced(void) const;
    virtual float nDead(void) const;
    virtual float nConc(void) const;
+   virtual float dltNRetransOut(void);
 
    virtual float nMaxPot(void) ;
    virtual float nMinPot(void) ;
@@ -214,6 +222,8 @@ private:
 
    virtual float nDemand(void) const;
    virtual float nMax(void) const;
+   virtual float nRetransSupply(void);
+   virtual float nRetransDemand(void);
 
    virtual float pDemand(void);
    virtual float pRetransSupply(void);
@@ -237,6 +247,7 @@ private:
                   vector<float> &fraction_to_residue);
 
    virtual void onKillStem(void);
+   virtual void onDayOf(const string &);
 
    virtual float availableRetranslocateN(void);
    const string &name(void) {return c.name;};

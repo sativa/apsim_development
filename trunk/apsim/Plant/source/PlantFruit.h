@@ -56,7 +56,7 @@ class PlantFruit : public plantPart
 //zeroAllGlobals
 //zeroDeltas
 //readCultivarParameters
-//onPlantEvent
+//onDayOf
 //readConstants
 //readSpeciesParameters
 //             bool setVariable(unsigned id, protocol::QuerySetValueData& qd) ;
@@ -69,7 +69,8 @@ class PlantFruit : public plantPart
              void readCultivarParameters (protocol::Component *, const string &);
              void writeCultivarInfo (protocol::Component *);
              void processBioDemand(void);
-             void onPlantEvent(const string &);
+             void onDayOf(const string &);
+             float availableRetranslocateN(void);
 
 //             bool set_plant_grain_oil_conc(protocol::QuerySetValueData&v);
 
@@ -180,6 +181,8 @@ class PlantFruit : public plantPart
             float dmSenescedVegTotal(void);
             float dmDeadVegTotal(void);
             float grainWt(void);
+            float dmRetransSupply(void);
+            float dmRetransDemand(void);
 
             float nTotal(void);
             float nGrainTotal(void);
@@ -190,6 +193,9 @@ class PlantFruit : public plantPart
             float nDeadVegTotal(void);
             float nConcGrain(void);
             float nGrainDemand2(void);
+            float nRetransSupply(void);
+            float nRetransDemand(void);
+            float dltNRetransOut(void);
 
             float nMaxPot(void);
             float nMinPot(void);
@@ -279,13 +285,11 @@ class PlantFruit : public plantPart
             void doDmMin(void);
                void retrans_init(float *dm_plant_min);
 
-               void n_conc_grain_limits(float  *n_conc_crit
-            				  , float  *n_conc_max
-            				  , float  *n_conc_min) ;
+               void n_conc_grain_limits(void) ;
 
                void nit_init (void);
                void n_retranslocate(void);
-               void n_retranslocate( float N_avail_rep, float g_grain_n_demand);
+               void doNRetranslocate( float N_avail_rep, float g_grain_n_demand);
 
 #if TEST_PlantFruit
 		virtual ~PlantFruit();							// destructor

@@ -867,12 +867,12 @@ void PlantFruit::writeCultivarInfo (protocol::Component *system)
 
 }
 
-void PlantFruit::onPlantEvent(const string &event)
+void PlantFruit::onDayOf(const string &stage)
 {
-   for (vector<plantPart *>::iterator t = myParts.begin();
-        t != myParts.end();
-        t++)
-       (*t)->onPlantEvent(event);
+      for (vector<plantPart *>::iterator t = myParts.begin();
+           t != myParts.end();
+           t++)
+          (*t)->onDayOf(stage);
 
     refreshStates();
 }
@@ -3017,11 +3017,19 @@ void PlantFruit::nit_init (void)
 
 }
 
+float PlantFruit::availableRetranslocateN(void)
+{
+      float nAvail = 0.0;
+      for (vector<plantPart *>::iterator t = supplyPools.begin();
+           t != supplyPools.end();
+           t++)
+          nAvail += (*t)->availableRetranslocateN();
+
+   return nAvail;
+}
+
 //============================================================================
-void PlantFruit::n_conc_grain_limits ( float  *n_conc_crit                    // (OUTPUT) critical N concentration (g N/g part)
-                                    , float  *n_conc_max                     // (OUTPUT) maximum N concentration (g N/g part)
-                                    , float  *n_conc_min                     // (OUTPUT) minimum N concentration (g N/g part)
-                                          )
+void PlantFruit::n_conc_grain_limits (void)
 //============================================================================
 {
 //+  Purpose
@@ -3064,9 +3072,9 @@ void PlantFruit::n_conc_grain_limits ( float  *n_conc_crit                    //
         mealPart->g.n_conc_max = divide (n_max_grain, dm_meal, 0.0);
         mealPart->g.n_conc_min = divide (n_min_grain, dm_meal, 0.0);
 
-        n_conc_crit[meal] = mealPart->g.n_conc_crit;  //FIXME - remove when array is removed
-        n_conc_max[meal] = mealPart->g.n_conc_max ;   //FIXME - remove when array is removed
-        n_conc_min[meal] = mealPart->g.n_conc_min ;   //FIXME - remove when array is removed
+////        n_conc_crit[meal] = mealPart->g.n_conc_crit;  //FIXME - remove when array is removed
+////        n_conc_max[meal] = mealPart->g.n_conc_max ;   //FIXME - remove when array is removed
+////        n_conc_min[meal] = mealPart->g.n_conc_min ;   //FIXME - remove when array is removed
         }
     }
 //FIXME not called yet
@@ -3127,7 +3135,7 @@ void PlantFruit::n_retranslocate( void)
 }
 
 //============================================================================
-void PlantFruit::n_retranslocate( float N_supply, float g_grain_n_demand)
+void PlantFruit::doNRetranslocate( float N_supply, float g_grain_n_demand)
 //============================================================================
 {
 //+  Purpose
@@ -3154,13 +3162,16 @@ void PlantFruit::n_retranslocate( float N_supply, float g_grain_n_demand)
     for (part = myParts.begin(); part != myParts.end(); part++)
          (*part)->dlt.n_retrans = 0.0;
 
+
+     for (part = supplyPools.begin(); part != supplyPools.end(); part++)
+        (*part)->doNRetranslocate(N_supply, g_grain_n_demand);
       if (g_grain_n_demand >= N_supply)
       {
              // demand greater than or equal to supply
              // retranslocate all available N
 
-         for (part = supplyPools.begin(); part != supplyPools.end(); part++)
-              (*part)->dlt.n_retrans = - (*part)->availableRetranslocateN();
+//         for (part = supplyPools.begin(); part != supplyPools.end(); part++)
+//              (*part)->dlt.n_retrans = - (*part)->availableRetranslocateN();
          mealPart->dlt.n_retrans = N_supply;
       }
       else
@@ -3168,15 +3179,15 @@ void PlantFruit::n_retranslocate( float N_supply, float g_grain_n_demand)
              // supply greater than demand.
              // Retranslocate what is needed
 
-         for (part = supplyPools.begin(); part != supplyPools.end(); part++)
-               (*part)->dlt.n_retrans = - g_grain_n_demand
-                                       * divide ((*part)->availableRetranslocateN(), N_supply, 0.0);
+//         for (part = supplyPools.begin(); part != supplyPools.end(); part++)
+//               (*part)->dlt.n_retrans = - g_grain_n_demand
+//                                       * divide ((*part)->availableRetranslocateN(), N_supply, 0.0);
 
          mealPart->dlt.n_retrans = g_grain_n_demand;
 
       }
     dlt.n_retrans = 0.0;
-    for (part = myParts.begin(); part != myParts.end(); part++)
+    for (part = supplyPools.begin(); part != supplyPools.end(); part++)
          dlt.n_retrans += (*part)->dlt.n_retrans;
 }
 
@@ -3378,6 +3389,71 @@ float PlantFruit::pRetransDemand(void)
             p_retrans_demand += (*part)->pRetransDemand();
     }
     return p_retrans_demand;
+}
+
+//============================================================================
+float PlantFruit::dmRetransSupply(void)
+//============================================================================
+{
+    float dm_retrans_supply = 0.0;
+    vector<plantPart *>::iterator part;
+    for (part = myParts.begin(); part != myParts.end(); part++)
+    {
+            dm_retrans_supply += (*part)->dmRetransSupply();
+    }
+    return dm_retrans_supply;
+}
+
+//============================================================================
+float PlantFruit::dmRetransDemand(void)
+//============================================================================
+{
+    float dm_retrans_demand = 0.0;
+    vector<plantPart *>::iterator part;
+    for (part = myParts.begin(); part != myParts.end(); part++)
+    {
+            dm_retrans_demand += (*part)->dmRetransDemand();
+    }
+    return dm_retrans_demand;
+}
+
+//============================================================================
+float PlantFruit::nRetransSupply(void)
+//============================================================================
+{
+    float n_retrans_supply = 0.0;
+    vector<plantPart *>::iterator part;
+    for (part = myParts.begin(); part != myParts.end(); part++)
+    {
+            n_retrans_supply += (*part)->nRetransSupply();
+    }
+    return n_retrans_supply;
+}
+
+//============================================================================
+float PlantFruit::dltNRetransOut(void)
+//============================================================================
+{
+    float dlt_n_retrans = 0.0;
+    vector<plantPart *>::iterator part;
+    for (part = myParts.begin(); part != myParts.end(); part++)
+    {
+           dlt_n_retrans += (*part)->dltNRetransOut();
+    }
+    return dlt_n_retrans;
+}
+
+//============================================================================
+float PlantFruit::nRetransDemand(void)
+//============================================================================
+{
+    float n_retrans_demand = 0.0;
+    vector<plantPart *>::iterator part;
+    for (part = myParts.begin(); part != myParts.end(); part++)
+    {
+            n_retrans_demand += (*part)->nRetransDemand();
+    }
+    return n_retrans_demand;
 }
 
 //============================================================================
