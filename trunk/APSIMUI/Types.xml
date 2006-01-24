@@ -692,6 +692,112 @@
       </ApsimToSim>
 
    </manager>
+   <tclmanager>
+      <UItype>area</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/tcllink/docs/tcllink_science.htm</Documentation>
+      <LargeIcon>Images\manager32.png</LargeIcon>
+      <SmallIcon>Images\manager16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ manager ################ [endcomment]
+         <component name="tclmanager" executable="%apsuite\apsim\tcllink\lib\tcllink.dll">
+         <initdata>
+            <master>yes</master>
+            <rules>
+               [foreach tclmanager.rule as rule]
+               [foreach rule.condition as condition]
+               <rule name="[rule.name] - [condition.name]" condition="[condition.name]">
+               [condition.innerxml]
+               [foreach rule.category as category]
+               [category.xml]
+               [endfor]
+               </rule>
+               [endfor]
+               [endfor]
+            </rules>
+         </initdata>
+         </component>
+         ]]>
+     </SimMacro>
+   </tclmanager>
+   <farmmanager>
+      <UItype>area</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/tcllink/docs/tcllink_science.htm</Documentation>
+      <LargeIcon>Images\manager32.png</LargeIcon>
+      <SmallIcon>Images\manager16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ manager ################ [endcomment]
+         <component name="tclmanager" executable="%apsuite\apsim\tcllink\lib\tcllink.dll">
+         <initdata>
+            <master>yes</master>
+            <rules>
+               [foreach farmmanager.rule as rule]
+               [foreach rule.condition as condition]
+               <rule name="[rule.name] - [condition.name]" condition="[condition.name]">
+               [condition.innerxml]
+               [foreach rule.category as category]
+               [category.xml]
+               [endfor]
+               </rule>
+               [endfor]
+               [endfor]
+            </rules>
+         </initdata>
+         </component>
+         ]]>
+     </SimMacro>
+   </farmmanager>
+   <paddockmanager>
+      <UItype>area</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/tcllink/docs/tcllink_science.htm</Documentation>
+      <LargeIcon>Images\manager32.png</LargeIcon>
+      <SmallIcon>Images\manager16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="folder"/>
+     </drops>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ manager ################ [endcomment]
+         <component name="[area.name]" executable="%apsuite\apsim\tcllink\lib\tcllink.dll">
+         <initdata>
+            <master>no</master>
+            <rules>
+               [foreach paddockmanager.rule as rule]
+               [foreach rule.condition as condition]
+               <rule name="[rule.name] - [condition.name]" condition="[condition.name]">
+               [condition.innerxml]
+               [foreach rule.category as category]
+               [category.xml]
+               [endfor]
+               </rule>
+               [endfor]
+               [endfor]
+            </rules>
+         </initdata>
+         </component>
+         ]]>
+     </SimMacro>
+   </paddockmanager>
    <rule>
       <UItype>rule</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>

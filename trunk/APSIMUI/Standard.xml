@@ -489,9 +489,33 @@
         <property name="crop20" value="nil" type="modulename" description="Enter 20th crop : " />
       </category>
     </rule>
-
-
   </manager>
+  <folder name="Tcl">
+   <tclmanager name="TCL Manager (standalone)">
+     <rule name="Logic">
+       <condition name="init"></condition>
+       <condition name="prepare"></condition>
+       <condition name="process"></condition>
+       <condition name="post"></condition>
+     </rule>
+   </tclmanager>
+   <farmmanager name="Farm Manager">
+     <rule name="Farm logic">
+       <condition name="init"></condition>
+       <condition name="prepare"></condition>
+       <condition name="process"></condition>
+       <condition name="post"></condition>
+     </rule>
+   </farmmanager>
+   <paddockmanager name="Paddock Manager">
+     <rule name="Farm logic">
+       <condition name="init"></condition>
+       <condition name="prepare"></condition>
+       <condition name="process"></condition>
+       <condition name="post"></condition>
+     </rule>
+   </paddockmanager>
+  </folder>
   <logic name="logic">
     <script name="init">
     </script>
