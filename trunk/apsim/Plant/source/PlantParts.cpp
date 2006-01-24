@@ -1324,6 +1324,14 @@ float plantPart::pMinPotStressDeterminant(void)
 }
 float plantPart::nDemand(void) const {return (v.n_demand);}
 float plantPart::nMax(void) const{return (v.n_max);}
+float plantPart::nCapacity(void)
+{
+   v.n_capacity = l_bound(v.n_max - v.n_demand, 0.0);
+   return (v.n_capacity);
+}
+
+void plantPart::nPartition(float nSupply) {dlt.n_green = nSupply;}
+void plantPart::nFix(float nSupply) {dlt.n_green += nSupply;}
 
 float plantPart::pDemand(void) {return (v.p_demand);}
 float plantPart::nTotal(void) {return (nGreen() + nSenesced() + nDead());}
@@ -1343,6 +1351,7 @@ float plantPart::dltNRetransOut(void)
    else
       return 0.0;
 }
+float plantPart::dltNGreen(void) const {return (dlt.n_green);}
 
 float plantPart::nMaxPot(void)
 {
