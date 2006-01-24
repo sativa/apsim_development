@@ -89,8 +89,8 @@ Plant::~Plant()
          delete [] c.x_dm_sen_frac[part];
          delete [] c.y_dm_sen_frac[part];
          }
-    delete [] c.x_dm_sen_frac; 
-    delete [] c.y_dm_sen_frac; 
+    delete [] c.x_dm_sen_frac;
+    delete [] c.y_dm_sen_frac;
     delete [] c.num_dm_sen_frac;
     if (phenology) delete phenology;
     if (fruitPart) delete fruitPart;
@@ -1098,10 +1098,10 @@ void Plant::plant_bio_distribute (int option /* (INPUT) option number */)
           fruitParts.push_back(oilPart);
 
           fruitPart->dm_partition1 ( g.dlt_dm_supply_to_fruit + dlt_dm_supply_by_pod);    // this may need to be redone when fruit becomes true class
-          fruitPart->putDltDmGreen(fruitParts);       //FIXME remove
+          fruitPart->putDltDmGreen(fruitParts);   // Brings pod-meal-oil from Fruit back to Plant arrays     //FIXME remove
 
           fruitPart->dm_retranslocate1( g.dlt_dm_retrans_to_fruit);    // this may need to be redone when fruit becomes true class
-          fruitPart->putDltDmGreenRetrans(fruitParts);       //FIXME remove
+          fruitPart->putDltDmGreenRetrans(fruitParts); // Brings pod-meal-oil from Fruit back to Plant arrays     //FIXME remove
 
           delete podPart;
           delete mealPart;
@@ -1124,11 +1124,11 @@ void Plant::plant_bio_distribute (int option /* (INPUT) option number */)
           fruitParts.push_back(mealPart);
           fruitParts.push_back(oilPart);
 
-          fruitPart->putDltDmGreen(fruitParts);       //FIXME remove
+          fruitPart->putDltDmGreen(fruitParts);  // Brings pod-meal-oil from Fruit back to Plant arrays     //FIXME remove
 
         fruitPart->dm_retranslocate2( g.dlt_dm_retrans_to_fruit);    // this may need to be redone when fruit becomes true class
 
-          fruitPart->putDltDmGreenRetrans(fruitParts);       //FIXME remove
+          fruitPart->putDltDmGreenRetrans(fruitParts);   // Brings pod-meal-oil from Fruit back to Plant arrays     //FIXME remove
 
           delete podPart;
           delete mealPart;
@@ -2891,7 +2891,7 @@ void Plant::plant_sen_bio (int dm_senescence_option)
           fruitParts.push_back(mealPart);
           fruitParts.push_back(oilPart);
 
-          fruitPart->putDltDmGreenSenesced(fruitParts);       //FIXME remove
+          fruitPart->putDltDmGreenSenesced(fruitParts);  // Brings pod-meal-oil from Fruit back to Plant arrays     //FIXME remove
 
           delete podPart;
           delete mealPart;
@@ -4843,7 +4843,7 @@ void Plant::plant_n_conc_limits
           fruitParts.push_back(mealPart);
           fruitParts.push_back(oilPart);
 
-          fruitPart->putNConcLimits(fruitParts);       //FIXME remove
+          fruitPart->putNConcLimits(fruitParts);  // Brings pod-meal-oil from Fruit back to Plant arrays     //FIXME remove
 
           delete podPart;
           delete mealPart;
@@ -4887,14 +4887,14 @@ void Plant::legnew_n_partition
     float n_excess;                               // N uptake above N crit (g/m^2)
     vector<float> n_capacity(allParts.size());    // amount of N that can be stored in plant part above Ncrit (g/m^2)
     float n_capacity_sum;                         // total excess N storage (g/m^2)
-    float n_demand;                               // total nitrogen demand (g/m^2)
+    float n_demand_sum;                               // total nitrogen demand (g/m^2)
     float n_fix_demand_tot;                       // total demand for N fixation (g/m^2)
     float fix_demand;                             // demand for fixed N per plant part (g/m^
     float fix_part_fract;                         // fraction of fixed N per plant part (g/m
-
 //- Implementation Section ----------------------------------
 
     push_routine (my_name);
+    float dlt_n_green_part = 0.0;
 
     // find the proportion of uptake to be distributed to
     // each plant part and distribute it.
@@ -4902,66 +4902,57 @@ void Plant::legnew_n_partition
     n_uptake_sum = - sum_real_array (g_dlt_no3gsm, deepest_layer+1)
                    - sum_real_array (g_dlt_nh4gsm, deepest_layer+1);
 
-    n_demand = 0.0;
+    n_demand_sum = 0.0;
     for (part = allParts.begin(); part != allParts.end(); part++)
-       n_demand += (*part)->v.n_demand;
+       n_demand_sum += (*part)->nDemand();
 
-    n_excess = n_uptake_sum - n_demand;
+    n_excess = n_uptake_sum - n_demand_sum;
     n_excess = l_bound (n_excess, 0.0);
-    if (n_excess>0.0)
-        {
-        for (part = allParts.begin(); part != allParts.end(); part++)
-          {
-          (*part)->v.n_capacity = (*part)->v.n_max -(*part)->v.n_demand;
-          }
-        mealPart->v.n_capacity = 0.0;
-        oilPart->v.n_capacity = 0.0;
-        }
-    else
-        {
-        for (part = allParts.begin(); part != allParts.end(); part++) (*part)->v.n_capacity = 0.0;
-        }
 
     n_capacity_sum = 0.0;
     for (part = allParts.begin(); part != allParts.end(); part++)
-       n_capacity_sum += (*part)->v.n_capacity;
+       n_capacity_sum += (*part)->nCapacity();
 
     for (part = allParts.begin(); part != allParts.end(); part++)
         {
         if (n_excess>0.0)
             {
-            plant_part_fract = divide ((*part)->v.n_capacity, n_capacity_sum, 0.0);
-            (*part)->dlt.n_green = (*part)->v.n_demand + n_excess * plant_part_fract;
+            plant_part_fract = divide ((*part)->nCapacity(), n_capacity_sum, 0.0);
+            dlt_n_green_part = (*part)->nDemand() + n_excess * plant_part_fract;
             }
         else
             {
-            plant_part_fract = divide ((*part)->v.n_demand, n_demand, 0.0);
-            (*part)->dlt.n_green = n_uptake_sum * plant_part_fract;
+            plant_part_fract = divide ((*part)->nDemand(), n_demand_sum, 0.0);
+            dlt_n_green_part = n_uptake_sum * plant_part_fract;
             }
+        (*part)->nPartition(dlt_n_green_part);
         }
-    //cnh mealPart->dlt.n_green = 0.0;
-    oilPart->dlt.n_green = 0.0;
+////    //cnh mealPart->dlt.n_green = 0.0;
+////    oilPart->dlt.n_green = 0.0;
 
     float dlt_n_green_sum = 0.0;
-    for (part = allParts.begin(); part != allParts.end(); part++) dlt_n_green_sum += (*part)->dlt.n_green;
+    for (part = allParts.begin(); part != allParts.end(); part++)
+         dlt_n_green_sum += (*part)->dltNGreen();
+
     if (!reals_are_equal(dlt_n_green_sum - n_uptake_sum, 0.0))
         {
-        string msg ="dlt_n_green mass balance is off: dlt_n_green_sum ="
+        string msg ="Crop dlt_n_green mass balance is off: dlt_n_green_sum ="
               + ftoa(dlt_n_green_sum, ".6")
               + " vs n_uptake_sum ="
               + ftoa(n_uptake_sum, ".6");
         parent->warningError(msg.c_str());
         }
 
-    n_fix_demand_tot = l_bound (n_demand - n_uptake_sum, 0.0);
+    n_fix_demand_tot = l_bound (n_demand_sum - n_uptake_sum, 0.0);
 
     *n_fix_uptake = bound (g_n_fix_pot, 0.0, n_fix_demand_tot);
 
     for (part = allParts.begin(); part != allParts.end(); part++)
          {
-         fix_demand = l_bound ((*part)->v.n_demand - (*part)->dlt.n_green, 0.0);
+         fix_demand = l_bound ((*part)->nDemand() - (*part)->dltNGreen(), 0.0);
          fix_part_fract = divide (fix_demand, n_fix_demand_tot, 0.0);
-         (*part)->dlt.n_green += fix_part_fract * (*n_fix_uptake);
+         dlt_n_green_part = fix_part_fract * (*n_fix_uptake);
+         (*part)->nFix(dlt_n_green_part);
          }
 
     vector<plantPart *> fruitParts;
@@ -4970,7 +4961,7 @@ void Plant::legnew_n_partition
     fruitParts.push_back(mealPart);
     fruitParts.push_back(oilPart);
 
-    fruitPart->getDltNGreen(fruitParts);   //FIXME
+    fruitPart->getDltNGreen(fruitParts);   // gets pod-meal-oil from Plant arrays into Fruit parts      //FIXME remove
 
     pop_routine (my_name);
     }
@@ -5014,7 +5005,7 @@ void Plant::legnew_dm_partition1( float  c_frac_leaf                   // (INPUT
          t != myParts.end();
          t++)
        (*t)->dlt.dm_green = 0.0;
-       fruitPart->zeroDltDmGreen();
+       fruitPart->zeroDltDmGreen();     //FIXME remove sometime
 
     // now we get the root delta for all stages - partition scheme
     // specified in coeff file
@@ -5431,7 +5422,7 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
     fruitParts.push_back(mealPart);
     fruitParts.push_back(oilPart);
 
-    fruitPart->putDltNRetrans(fruitParts);
+    fruitPart->putDltNRetrans(fruitParts);  // Brings pod-meal-oil from Fruit back to Plant arrays     //FIXME remove
           // check that we got (some of) the maths right.
     for (part = mbCheckParts1.begin(); part != mbCheckParts1.end(); part++)
         {
@@ -6156,7 +6147,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     fruitParts.push_back(mealPart);
     fruitParts.push_back(oilPart);
 
-    fruitPart->putStates(fruitParts);
+    fruitPart->putStates(fruitParts);  // Brings pod-meal-oil from Fruit back to Plant arrays     //FIXME remove
 
     delete podPart;
     delete mealPart;

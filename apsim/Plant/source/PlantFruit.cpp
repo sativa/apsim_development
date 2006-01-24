@@ -385,6 +385,104 @@ float PlantFruit::nGrainDemand2(void)
 }
 
 
+//============================================================================
+float PlantFruit::nDemand(void)
+//============================================================================
+{
+    float n_demand = 0.0;
+    vector<plantPart *>::iterator part;
+    for (part = myParts.begin(); part != myParts.end(); part++)
+    {
+            n_demand += (*part)->nDemand();
+    }
+    return n_demand;
+}
+
+//============================================================================
+float PlantFruit::nCapacity(void)
+//============================================================================
+{
+    v.n_capacity = 0.0;
+    vector<plantPart *>::iterator part;
+    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
+    {
+            v.n_capacity += (*part)->nCapacity();
+    }
+    return v.n_capacity;
+}
+
+//============================================================================
+void PlantFruit::nPartition(float nSupply)
+//============================================================================
+{
+    float dlt_n_green = 0.0;
+    vector<plantPart *>::iterator part;
+
+    float n_demand_sum = 0.0;
+    for (part = myParts.begin(); part != myParts.end(); part++)
+       n_demand_sum += (*part)->nDemand();
+
+    float n_excess = nSupply - n_demand_sum;
+    n_excess = l_bound (n_excess, 0.0);
+
+    float n_capacity_sum = 0.0;
+    for (part = myParts.begin(); part != myParts.end(); part++)
+       n_capacity_sum += (*part)->nCapacity();
+
+    for (part = myParts.begin(); part != myParts.end(); part++)
+        {
+        if (n_excess>0.0)
+            {
+            float plant_part_fract = divide ((*part)->nCapacity(), n_capacity_sum, 0.0);
+            dlt_n_green = (*part)->nDemand() + n_excess * plant_part_fract;
+            }
+        else
+            {
+            float plant_part_fract = divide ((*part)->nDemand(), n_demand_sum, 0.0);
+            dlt_n_green = nSupply * plant_part_fract;
+            }
+        (*part)->nPartition(dlt_n_green);
+        }
+    //cnh mealPart->dlt.n_green = 0.0;
+    oilPart->dlt.n_green = 0.0;
+
+    float dlt_n_green_sum = 0.0;
+    for (part = myParts.begin(); part != myParts.end(); part++)
+         dlt_n_green_sum += (*part)->dltNGreen();
+
+    if (!reals_are_equal(dlt_n_green_sum - nSupply, 0.0))
+        {
+        string msg ="Fruit dlt_n_green mass balance is off: dlt_n_green_sum ="
+              + ftoa(dlt_n_green_sum, ".6")
+              + " vs nSupply ="
+              + ftoa(nSupply, ".6");
+        parentPlant->warningError(msg.c_str());
+        }
+
+}
+//============================================================================
+void PlantFruit::nFix(float nSupply)
+//============================================================================
+{
+    float n_demand_sum = 0.0;
+    vector<plantPart *>::iterator part;
+
+    for (part = myParts.begin(); part != myParts.end(); part++)
+       n_demand_sum += (*part)->nDemand();
+
+    float n_fix_demand_tot = l_bound (n_demand_sum - nSupply, 0.0);
+
+    float n_fix_uptake = bound (nSupply, 0.0, n_fix_demand_tot);
+
+    for (part = myParts.begin(); part != myParts.end(); part++)
+         {
+         float fix_demand = l_bound ((*part)->nDemand() - (*part)->dltNGreen(), 0.0);
+         float fix_part_fract = divide (fix_demand, n_fix_demand_tot, 0.0);
+         float dlt_n_green = fix_part_fract * n_fix_uptake;
+         (*part)->nFix(dlt_n_green);
+         }
+}
+
 //===========================================================================
 float PlantFruit::pTotal(void)
 //===========================================================================
@@ -2808,9 +2906,9 @@ void PlantFruit::dm_retranslocate2( float  g_dlt_dm_retrans_to_fruit)
 
       float current_stage = phenology->stageNumber();
       float fracPod = linear_interp_real(current_stage
-                                  ,cX_stage_no_partition
-                                  ,cY_frac_pod
-                                  ,cNum_stage_no_partition);
+                                        ,cX_stage_no_partition
+                                        ,cY_frac_pod
+                                        ,cNum_stage_no_partition);
 
 
      for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
@@ -2867,18 +2965,17 @@ void PlantFruit::dm_retranslocate2( float  g_dlt_dm_retrans_to_fruit)
         if (yield_demand_differential > dlt_dm_retrans_total)
         {
             mealPart->dlt.dm_green_retrans = dlt_dm_retrans_total
-                                   * divide (dm_meal_demand_differential, yield_demand_differential, 0.0);
+                                           * divide (dm_meal_demand_differential, yield_demand_differential, 0.0);
             oilPart->dlt.dm_green_retrans = dlt_dm_retrans_total
-                                  * divide (dm_oil_demand_differential, yield_demand_differential, 0.0);
+                                          * divide (dm_oil_demand_differential, yield_demand_differential, 0.0);
             dmOil_conv_retranslocate = dlt_dm_retrans_total
-                                       * divide (dm_oil_conv_demand_differential, yield_demand_differential, 0.0);
+                                      * divide (dm_oil_conv_demand_differential, yield_demand_differential, 0.0);
             podPart->dlt.dm_green_retrans = dlt_dm_retrans_total
-                                  * divide (dm_pod_demand_differential, yield_demand_differential, 0.0)
-                                  + podPart->dlt.dm_green_retrans;
+                                           * divide (dm_pod_demand_differential, yield_demand_differential, 0.0)
+                                           + podPart->dlt.dm_green_retrans;
         }
         else
         {
-
             mealPart->dlt.dm_green_retrans     = dm_meal_demand_differential;
             oilPart->dlt.dm_green_retrans      = dm_oil_demand_differential;
             dmOil_conv_retranslocate           = dm_oil_conv_demand_differential;

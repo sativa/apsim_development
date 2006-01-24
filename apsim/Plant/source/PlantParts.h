@@ -207,6 +207,7 @@ private:
    virtual float nDead(void) const;
    virtual float nConc(void) const;
    virtual float dltNRetransOut(void);
+   virtual float dltNGreen(void) const;
 
    virtual float nMaxPot(void) ;
    virtual float nMinPot(void) ;
@@ -222,6 +223,9 @@ private:
 
    virtual float nDemand(void) const;
    virtual float nMax(void) const;
+   virtual float nCapacity(void);
+   virtual void  nPartition(float nSupply);
+   virtual void  nFix(float nSupply);
    virtual float nRetransSupply(void);
    virtual float nRetransDemand(void);
 

@@ -196,6 +196,10 @@ class PlantFruit : public plantPart
             float nRetransSupply(void);
             float nRetransDemand(void);
             float dltNRetransOut(void);
+            float nDemand(void);
+            float nCapacity(void);
+            void  nPartition(float nSupply);
+            void  nFix(float nSupply);
 
             float nMaxPot(void);
             float nMinPot(void);
