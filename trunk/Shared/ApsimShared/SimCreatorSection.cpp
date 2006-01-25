@@ -69,7 +69,8 @@ void SimCreatorSectionOld::open(const std::string& firstBit, const std::string s
                           Str_i_Eq(openTag, "post") ||
                           Str_i_Eq(openTag, "prenewmet") ||
                           Str_i_Eq(secondBit, "operatns") ||
-                          Str_i_Eq(secondBit, "manager")
+                          Str_i_Eq(secondBit, "manager")||
+                          Str_i_Eq(secondBit, "tcllink")
                           ));
    if (isManagerSection)
       {
@@ -181,7 +182,8 @@ void SimCreatorSectionNew::open(const std::string& firstBit, const std::string s
                           Str_i_Eq(openTag, "post") ||
                           Str_i_Eq(openTag, "prenewmet") ||
                           Str_i_Eq(secondBit, "operatns") ||
-                          Str_i_Eq(secondBit, "manager")
+                          Str_i_Eq(secondBit, "manager")||
+                          Str_i_Eq(secondBit, "tcllink")
                           ));
    if (isManagerSection)
       {
