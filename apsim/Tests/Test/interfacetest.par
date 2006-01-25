@@ -1,0 +1,240 @@
+[sample.Screen.parameters]
+screen_output=on
+[sample.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1988
+end_date=1/1/1988
+
+[dummy.dummy.parameters]
+
+[read_real_var.interfacetest.parameters]
+read_variables = real_var
+lower = 0
+upper = 1000
+real_var = 42.0
+[read_real_var.SummaryFile.parameters]
+summaryfile=read_real_var.sum
+
+[read_real_var_lbw.interfacetest.parameters]
+read_variables = real_var
+lower = 50
+upper = 1000
+real_var = 42.0
+[read_real_var_lbw.SummaryFile.parameters]
+summaryfile=read_real_var_lbw.sum
+
+[read_real_var_ubw.interfacetest.parameters]
+read_variables = real_var
+lower = 0
+upper = 40
+real_var = 42.0
+[read_real_var_ubw.SummaryFile.parameters]
+summaryfile=read_real_var_ubw.sum
+
+[read_real_var_missing.interfacetest.parameters]
+read_variables = real_var
+lower = 0
+upper = 40
+
+[read_real_var_missing.SummaryFile.parameters]
+summaryfile=read_real_var_missing.sum
+!--------------
+[get_real_var.interfacetest.parameters]
+get_variables = real_var
+lower = 0
+upper = 1000
+
+[get_real_var.SummaryFile.parameters]
+summaryfile=get_real_var.sum
+
+[get_real_var_lbw.interfacetest.parameters]
+get_variables = real_var
+lower = 50
+upper = 1000
+[get_real_var_lbw.SummaryFile.parameters]
+summaryfile=get_real_var_lbw.sum
+
+[get_real_var_ubw.interfacetest.parameters]
+get_variables = real_var
+lower = 0
+upper = 40
+[get_real_var_ubw.SummaryFile.parameters]
+summaryfile=get_real_var_ubw.sum
+
+[get_real_var_missing.interfacetest.parameters]
+get_variables = real_var_missing
+lower = 0
+upper = 40
+[get_real_var_missing.SummaryFile.parameters]
+summaryfile=get_real_var_missing.sum
+!--------------
+
+[dummy.dummy.parameters]
+
+[read_double_var.interfacetest.parameters]
+read_variables = double_var
+lower = 0.0
+upper = 1000.0
+double_var = 42.0
+[read_double_var.SummaryFile.parameters]
+summaryfile=read_double_var.sum
+
+[read_double_var_lbw.interfacetest.parameters]
+read_variables = double_var
+lower = 50.0
+upper = 1000.0
+double_var = 42.0
+[read_double_var_lbw.SummaryFile.parameters]
+summaryfile=read_double_var_lbw.sum
+
+[read_double_var_ubw.interfacetest.parameters]
+read_variables = double_var
+lower = 0.0
+upper = 40.0
+double_var = 42.0
+[read_double_var_ubw.SummaryFile.parameters]
+summaryfile=read_double_var_ubw.sum
+
+[read_double_var_missing.interfacetest.parameters]
+read_variables = double_var
+lower = 0.0
+upper = 40.0
+
+[read_double_var_missing.SummaryFile.parameters]
+summaryfile=read_double_var_missing.sum
+!--------------
+[get_double_var.interfacetest.parameters]
+get_variables = double_var
+lower = 0.0
+upper = 1000.0
+
+[get_double_var.SummaryFile.parameters]
+summaryfile=get_double_var.sum
+
+[get_double_var_lbw.interfacetest.parameters]
+get_variables = double_var
+lower = 50.0
+upper = 1000.0
+double_var = 42.0
+[get_double_var_lbw.SummaryFile.parameters]
+summaryfile=get_double_var_lbw.sum
+
+[get_double_var_ubw.interfacetest.parameters]
+get_variables = double_var
+lower = 0.0
+upper = 40.0
+double_var = 42.0
+[get_double_var_ubw.SummaryFile.parameters]
+summaryfile=get_double_var_ubw.sum
+
+[get_double_var_missing.interfacetest.parameters]
+get_variables = double_var_missing
+lower = 0.0
+upper = 40.0
+double_var = 42.0
+[get_double_var_missing.SummaryFile.parameters]
+summaryfile=get_double_var_missing.sum
+!--------------
+
+
+[dummy.dummy.parameters]
+
+[read_integer_var.interfacetest.parameters]
+read_variables = integer_var
+lower = 0
+upper = 1000
+integer_var = 42
+[read_integer_var.SummaryFile.parameters]
+summaryfile=read_integer_var.sum
+
+[read_integer_var_lbw.interfacetest.parameters]
+read_variables = integer_var
+lower = 50
+upper = 1000
+integer_var = 42
+[read_integer_var_lbw.SummaryFile.parameters]
+summaryfile=read_integer_var_lbw.sum
+
+[read_integer_var_ubw.interfacetest.parameters]
+read_variables = integer_var
+lower = 0
+upper = 40
+integer_var = 42
+[read_integer_var_ubw.SummaryFile.parameters]
+summaryfile=read_integer_var_ubw.sum
+
+[read_integer_var_missing.interfacetest.parameters]
+read_variables = integer_var
+lower = 0
+upper = 40
+
+[read_integer_var_missing.SummaryFile.parameters]
+summaryfile=read_integer_var_missing.sum
+!--------------
+[get_integer_var.interfacetest.parameters]
+get_variables = integer_var
+lower = 0
+upper = 1000
+integer_var = 42
+[get_integer_var.SummaryFile.parameters]
+summaryfile=get_integer_var.sum
+
+[get_integer_var_lbw.interfacetest.parameters]
+get_variables = integer_var
+lower = 50
+upper = 1000
+integer_var = 42
+[get_integer_var_lbw.SummaryFile.parameters]
+summaryfile=get_integer_var_lbw.sum
+
+[get_integer_var_ubw.interfacetest.parameters]
+get_variables = integer_var
+lower = 0
+upper = 40
+integer_var = 42
+[get_integer_var_ubw.SummaryFile.parameters]
+summaryfile=get_integer_var_ubw.sum
+
+[get_integer_var_missing.interfacetest.parameters]
+get_variables = integer_var_missing
+lower = 0
+upper = 40
+
+[get_integer_var_missing.SummaryFile.parameters]
+summaryfile=get_integer_var_missing.sum
+!--------------
+
+[dummy.dummy.parameters]
+
+[read_logical_var.interfacetest.parameters]
+read_variables = logical_var
+lower = 0
+upper = 1000
+logical_var = 1
+[read_logical_var.SummaryFile.parameters]
+summaryfile=read_logical_var.sum
+
+
+[read_logical_var_missing.interfacetest.parameters]
+read_variables = logical_var
+lower = 0
+upper = 40
+
+[read_logical_var_missing.SummaryFile.parameters]
+summaryfile=read_logical_var_missing.sum
+!--------------
+[get_logical_var.interfacetest.parameters]
+get_variables = logical_var
+lower = 0
+upper = 1000
+
+[get_logical_var.SummaryFile.parameters]
+summaryfile=get_logical_var.sum
+
+[get_logical_var_missing.interfacetest.parameters]
+get_variables = logical_var_missing
+lower = 0
+upper = 40
+[get_logical_var_missing.SummaryFile.parameters]
+summaryfile=get_logical_var_missing.sum
+!--------------
