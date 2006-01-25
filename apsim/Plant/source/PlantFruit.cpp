@@ -465,20 +465,22 @@ void PlantFruit::nFix(float nSupply)
 //============================================================================
 {
     float n_demand_sum = 0.0;
+    float dlt_n_green_sum = 0.0;
     vector<plantPart *>::iterator part;
 
     for (part = myParts.begin(); part != myParts.end(); part++)
+    {
        n_demand_sum += (*part)->nDemand();
+       dlt_n_green_sum += (*part)->dltNGreen();
+    }
 
-    float n_fix_demand_tot = l_bound (n_demand_sum - nSupply, 0.0);
-
-    float n_fix_uptake = bound (nSupply, 0.0, n_fix_demand_tot);
+    float n_fix_demand_tot = l_bound (n_demand_sum - dlt_n_green_sum, 0.0);
 
     for (part = myParts.begin(); part != myParts.end(); part++)
          {
          float fix_demand = l_bound ((*part)->nDemand() - (*part)->dltNGreen(), 0.0);
          float fix_part_fract = divide (fix_demand, n_fix_demand_tot, 0.0);
-         float dlt_n_green = fix_part_fract * n_fix_uptake;
+         float dlt_n_green = fix_part_fract * nSupply;
          (*part)->nFix(dlt_n_green);
          }
 }
@@ -1548,6 +1550,23 @@ void PlantFruit::getDltNGreen(vector<plantPart *> fruitParts)
 }
 
 //===========================================================================
+void PlantFruit::putDltNGreen(vector<plantPart *> fruitParts)
+//===========================================================================
+{
+    dlt.n_green = 0.0;
+    vector<plantPart *>::iterator myPart =myParts.begin();
+
+    vector<plantPart *>::iterator part;
+    for (part = fruitParts.begin(); part != fruitParts.end(); part++) //FIXME temp untio pod and meal are removed from plant array
+    {
+      (*part)->dlt.n_green = (*myPart)->dlt.n_green;
+      dlt.n_green +=(*myPart)->dlt.n_green;
+      myPart++;
+    }
+
+}
+
+//===========================================================================
 void PlantFruit::getDltDmGreen(vector<plantPart *> fruitParts)
 //===========================================================================
 {
@@ -2414,9 +2433,7 @@ float PlantFruit::n_dlt_grain_conc(plantPart *grainPart
    }
 
 //===========================================================================
-float PlantFruit::dm_yield_demand ( float  g_dlt_dm_veg_supply           // (INPUT)  the daily vegetative biomass production (g/m^2)
-                                  , double g_dlt_dm_supply_pod           // (INPUT)  the daily biomass production of pod (g/m^2)
-                                  )
+float PlantFruit::dm_yield_demand ( float  g_dlt_dm_veg_supply)
 //===========================================================================
 {
 
@@ -2434,6 +2451,8 @@ float PlantFruit::dm_yield_demand ( float  g_dlt_dm_veg_supply           // (INP
 //- Implementation Section ----------------------------------
 
          // calculate demands of reproductive parts
+      float dlt_dm_supply_by_pod = 0.0;  // FIXME
+      g_dlt_dm_veg_supply += dlt_dm_supply_by_pod;
 
       float cFracPod = cFrac_pod[(int)phenology->stageNumber()-1];
 
@@ -2450,15 +2469,13 @@ float PlantFruit::dm_yield_demand ( float  g_dlt_dm_veg_supply           // (INP
 
       dm_yield_demand = dm_pod_demand
                       + gDlt_dm_grain_demand
-                      - g_dlt_dm_supply_pod;
+                      - dlt_dm_supply_by_pod;
 
       return dm_yield_demand;
 }
 
 //===========================================================================
-float PlantFruit::dm_yield_demand2 ( float  g_dlt_dm_veg_supply           // (INPUT)  the daily vegetative biomass production (g/m^2)
-                                  , double g_dlt_dm_supply_pod           // (INPUT)  the daily biomass production of pod (g/m^2)
-                                  )
+float PlantFruit::dm_yield_demand2 ( float  g_dlt_dm_veg_supply)
 //===========================================================================
 {
 
@@ -2476,6 +2493,9 @@ float PlantFruit::dm_yield_demand2 ( float  g_dlt_dm_veg_supply           // (IN
 //- Implementation Section ----------------------------------
 
          // calculate demands of reproductive parts
+      float dlt_dm_supply_by_pod = 0.0;  // FIXME
+      g_dlt_dm_veg_supply += dlt_dm_supply_by_pod;
+
 
       float g_current_stage = phenology->stageNumber();
       float fracPod = linear_interp_real(g_current_stage
@@ -2496,7 +2516,7 @@ float PlantFruit::dm_yield_demand2 ( float  g_dlt_dm_veg_supply           // (IN
 
       dm_yield_demand = dm_pod_demand
                       + gDlt_dm_grain_demand
-                      - g_dlt_dm_supply_pod;
+                      - dlt_dm_supply_by_pod;
 
       return dm_yield_demand;
 }
@@ -2523,6 +2543,9 @@ void PlantFruit::dm_partition1 (double g_dlt_dm)
     double dm_pod_demand;                          // assimilate demand for pod (g/m^2)
 
 //- Implementation Section ----------------------------------
+
+      float dlt_dm_supply_by_pod = 0.0;  // FIXME
+      g_dlt_dm += dlt_dm_supply_by_pod;
 
     float fracPod = cFrac_pod[(int)phenology->stageNumber()-1];
 
@@ -2624,6 +2647,9 @@ void PlantFruit::dm_partition2 (double g_dlt_dm)
     double dm_pod_demand;                          // assimilate demand for pod (g/m^2)
 
 //- Implementation Section ----------------------------------
+
+      float dlt_dm_supply_by_pod = 0.0;  // FIXME
+      g_dlt_dm += dlt_dm_supply_by_pod;
 
       float g_current_stage = phenology->stageNumber();
       float fracPod = linear_interp_real(g_current_stage
@@ -3538,6 +3564,19 @@ float PlantFruit::dltNRetransOut(void)
            dlt_n_retrans += (*part)->dltNRetransOut();
     }
     return dlt_n_retrans;
+}
+
+//============================================================================
+float PlantFruit::dltNGreen(void)
+//============================================================================
+{
+    float dlt_n_green = 0.0;
+    vector<plantPart *>::iterator part;
+    for (part = myParts.begin(); part != myParts.end(); part++)
+    {
+           dlt_n_green += (*part)->dltNGreen();
+    }
+    return dlt_n_green;
 }
 
 //============================================================================

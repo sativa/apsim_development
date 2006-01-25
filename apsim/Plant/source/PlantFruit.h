@@ -143,6 +143,7 @@ class PlantFruit : public plantPart
             void zeroDltNSenescedTrans(void);
             void putStates(vector<plantPart *> fruitParts);
             void getDltNGreen(vector<plantPart *> fruitParts);
+            void putDltNGreen(vector<plantPart *> fruitParts);
             void getDltDmGrainDemand(void) const;                 //??
             void getDltDmGreen(vector<plantPart *> fruitParts);
             void putDltDmGreen(vector<plantPart *> fruitParts);
@@ -196,6 +197,7 @@ class PlantFruit : public plantPart
             float nRetransSupply(void);
             float nRetransDemand(void);
             float dltNRetransOut(void);
+            float dltNGreen(void);
             float nDemand(void);
             float nCapacity(void);
             void  nPartition(float nSupply);
@@ -270,13 +272,9 @@ class PlantFruit : public plantPart
                                        , float nfact_grain_conc// (INPUT)
                                        , float swdef_expansion); // (INPUT)
 
-            float dm_yield_demand ( float  g_dlt_dm_veg
-                                  , double g_dlt_dm
-                                  );
+            float dm_yield_demand ( float  g_dlt_dm_veg);
 
-            float dm_yield_demand2 ( float  g_dlt_dm_veg
-                                  , double g_dlt_dm
-                                  );
+            float dm_yield_demand2 ( float  g_dlt_dm_veg);
 
             void yieldpart_demand_stress1(void);
             void dm_partition1 (double g_dlt_dm);
