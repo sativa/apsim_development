@@ -24,12 +24,13 @@ class TclComponent : public protocol::Component
       bool apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *obj);
 
       void addRegistration(const string &name) ;
-      void sendMessage(const string &moduleName, const string &actionName,
+      void sendMessage(const char *moduleName, const char *actionName,
                        protocol::ApsimVariant &outgoingApsimVariant);
    private:
 
       typedef std::map<unsigned, std::string> UInt2StringMap;
       UInt2StringMap rules;
+      string     terminationRule;
       Tcl_Interp *Interp;
    };
 #endif

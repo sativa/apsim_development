@@ -12,18 +12,17 @@ extern int apsimGetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 extern int apsimSetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 extern int apsimRegisterGetSetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 extern int apsimSendMessageProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
+extern int apsimWriteToSummaryFileProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 
 static char GlobalDllName[4096];
 
-Tcl_Interp *NewInterp (Tcl_Interp *topLevel, ClientData cd, int instanceNumber)
+Tcl_Interp *NewInterp (Tcl_Interp *topLevel, ClientData cd, const char *interpName)
    {
    Tcl_Interp *interp;
    if (topLevel == NULL) {
       interp = Tcl_CreateInterp();
    } else {
-      char name[40];
-      sprintf(name, "interp%d", instanceNumber);
-      interp = Tcl_CreateSlave(topLevel, name, 0);
+      interp = Tcl_CreateSlave(topLevel, interpName, 0);
    }   
    Tcl_Preserve((ClientData) interp);
    Tcl_InitMemory(interp);
@@ -51,6 +50,7 @@ Tcl_Interp *NewInterp (Tcl_Interp *topLevel, ClientData cd, int instanceNumber)
    Tcl_CreateObjCommand(interp, "apsimSet", apsimSetProc, cd, NULL);
    Tcl_CreateObjCommand(interp, "apsimRegisterGetSet", apsimRegisterGetSetProc, cd, NULL);
    Tcl_CreateObjCommand(interp, "apsimSendMessage", apsimSendMessageProc, cd, NULL);
+   Tcl_CreateObjCommand(interp, "apsimWriteToSummaryFile", apsimWriteToSummaryFileProc, cd, NULL);
    return interp;
    }
 
