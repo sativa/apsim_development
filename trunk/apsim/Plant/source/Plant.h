@@ -453,9 +453,9 @@ class Plant : public plantInterface {
     ,float  g_root_depth
     ,float  *dlt_n_green
     ,float  *n_fix_uptake
-    ,vector<plantPart *> &        // (INPUT) vector of plant parts
-    ,plantPart * oilPart
-    ,plantPart * mealPart) ;
+    ,vector<plantPart *> &);        // (INPUT) vector of plant parts
+////    ,plantPart * oilPart
+////    ,plantPart * mealPart) ;
 
   void legnew_dm_partition1 (float c_frac_leaf
                               , float c_ratio_root_shoot
@@ -629,14 +629,14 @@ void legnew_dm_part_demands(float c_frac_pod              // (INPUT)  fraction o
                           , float *dlt_dm_demand_oil       // assimilate demand for reproductive parts (g/m^2)
                           , float *dlt_dm_demand_pod );     // assimilate demand for conversion to oil (g/m^2)
 
-void legnew_dm_distribute(int max_part
-                        , float *dm_remaining          // interim dm pool for partitioning
-                        , float dlt_dm_demand_meal    // assimilate demand for reproductive parts (g/m^2)
-                        , float dlt_dm_demand_oil     // assimilate demand for reproductive parts (g/m^2)
-                        , float dlt_dm_demand_pod     // assimilate demand for reproductive parts (g/m^2)
-                        , float dm_oil_conv_demand    // assimilate demand for conversion to oil (g/m^2)
-                        , float dlt_dm_oil_conv       // (OUTPUT) actual biomass used in conversion to oil (g/m2)
-                        , float *dlt_dm_green);       // (OUTPUT) actual biomass partitioned
+//JNGH implement? void legnew_dm_distribute(int max_part
+//JNGH implement?                         , float *dm_remaining          // interim dm pool for partitioning
+//JNGH implement?                         , float dlt_dm_demand_meal    // assimilate demand for reproductive parts (g/m^2)
+//JNGH implement?                         , float dlt_dm_demand_oil     // assimilate demand for reproductive parts (g/m^2)
+//JNGH implement?                         , float dlt_dm_demand_pod     // assimilate demand for reproductive parts (g/m^2)
+//JNGH implement?                         , float dm_oil_conv_demand    // assimilate demand for conversion to oil (g/m^2)
+//JNGH implement?                         , float dlt_dm_oil_conv       // (OUTPUT) actual biomass used in conversion to oil (g/m2)
+//JNGH implement?                         , float *dlt_dm_green);       // (OUTPUT) actual biomass partitioned
 
   void plant_get_site_characteristics ();
   bool set_plant_crop_class(protocol::QuerySetValueData&v);

@@ -1322,7 +1322,7 @@ float plantPart::pMinPotStressDeterminant(void)
     else
        return 0.0;
 }
-float plantPart::nDemand(void) const {return (v.n_demand);}
+float plantPart::nDemand(void) {return (v.n_demand);}
 float plantPart::nMax(void) const{return (v.n_max);}
 float plantPart::nCapacity(void)
 {
@@ -1351,7 +1351,7 @@ float plantPart::dltNRetransOut(void)
    else
       return 0.0;
 }
-float plantPart::dltNGreen(void) const {return (dlt.n_green);}
+float plantPart::dltNGreen(void) {return (dlt.n_green);}
 
 float plantPart::nMaxPot(void)
 {

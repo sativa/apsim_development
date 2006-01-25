@@ -946,11 +946,8 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
     if (option == 1)
     {
         double dlt_dm_supply_by_veg = g.dlt_dm;
-        double dlt_dm_supply_by_pod = 0.0;
 
-        g.dlt_dm_yield_demand_fruit = fruitPart->dm_yield_demand (dlt_dm_supply_by_veg
-                                                                , dlt_dm_supply_by_pod
-                                                                );
+        g.dlt_dm_yield_demand_fruit = fruitPart->dm_yield_demand (dlt_dm_supply_by_veg);
 
         legnew_dm_partition1 (c.frac_leaf[(int)phenology->stageNumber()-1]
                               , c.ratio_root_shoot[(int)phenology->stageNumber()-1]
@@ -964,11 +961,8 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
     else if (option == 2)
        {
         double dlt_dm_supply_by_veg = g.dlt_dm;                   //FIXME this code should replace the call to partition 2
-        double dlt_dm_supply_by_pod = 0.0;
 
-        g.dlt_dm_yield_demand_fruit = fruitPart->dm_yield_demand2 (dlt_dm_supply_by_veg
-                                                                 , dlt_dm_supply_by_pod
-                                                                  );
+        g.dlt_dm_yield_demand_fruit = fruitPart->dm_yield_demand2 (dlt_dm_supply_by_veg);
 
         legnew_dm_partition2 (phenology->stageNumber()
                                , c.x_stage_no_partition
@@ -1085,9 +1079,6 @@ void Plant::plant_bio_distribute (int option /* (INPUT) option number */)
 //- Implementation Section ----------------------------------
     if (option == 1)
     {
-        double dlt_dm_supply_by_pod = 0.0;
-
-
           plantPartHack *podPart  = new plantPartHack(this, pod, "pod");
           plantPartHack *mealPart = new plantPartHack(this, meal, "meal");
           plantPartHack *oilPart  = new plantPartHack(this, oil, "oil");
@@ -1097,7 +1088,7 @@ void Plant::plant_bio_distribute (int option /* (INPUT) option number */)
           fruitParts.push_back(mealPart);
           fruitParts.push_back(oilPart);
 
-          fruitPart->dm_partition1 ( g.dlt_dm_supply_to_fruit + dlt_dm_supply_by_pod);    // this may need to be redone when fruit becomes true class
+          fruitPart->dm_partition1 ( g.dlt_dm_supply_to_fruit);    // this may need to be redone when fruit becomes true class
           fruitPart->putDltDmGreen(fruitParts);   // Brings pod-meal-oil from Fruit back to Plant arrays     //FIXME remove
 
           fruitPart->dm_retranslocate1( g.dlt_dm_retrans_to_fruit);    // this may need to be redone when fruit becomes true class
@@ -1110,10 +1101,9 @@ void Plant::plant_bio_distribute (int option /* (INPUT) option number */)
     }
     else if (option == 2)
     {          // do nothing                //FIXME do we need this code?
-        double dlt_dm_supply_by_pod = 0.0;
         float dlt_dm_green_fruit[max_part];
 
-        fruitPart->dm_partition2 ( g.dlt_dm_supply_to_fruit + dlt_dm_supply_by_pod);    // this may need to be redone when fruit becomes true class
+        fruitPart->dm_partition2 ( g.dlt_dm_supply_to_fruit);    // this may need to be redone when fruit becomes true class
 
           plantPartHack *podPart  = new plantPartHack(this, pod, "pod");
           plantPartHack *mealPart = new plantPartHack(this, meal, "meal");
@@ -2626,8 +2616,8 @@ void Plant::plant_nit_partition (int option /* (INPUT) option number*/)
         {
     vector<plantPart *> allParts;
     setupHacks(allParts);
-    plantPart *mealPart = allParts[4]; if (mealPart->c.name != "meal") throw std::invalid_argument ("Aieee: setupHacks is broken (meal)!!");
-    plantPart *oilPart = allParts[5]; if (oilPart->c.name != "oil") throw std::invalid_argument ("Aieee: setupHacks is broken (oil)!!");
+////    plantPart *mealPart = allParts[4]; if (mealPart->c.name != "meal") throw std::invalid_argument ("Aieee: setupHacks is broken (meal)!!");
+////    plantPart *oilPart = allParts[5]; if (oilPart->c.name != "oil") throw std::invalid_argument ("Aieee: setupHacks is broken (oil)!!");
 
         legnew_n_partition(g.dlayer
                            , g.dlt_no3gsm
@@ -2638,7 +2628,7 @@ void Plant::plant_nit_partition (int option /* (INPUT) option number*/)
                            , g.root_depth
                            , g.dlt_n_green
                            , &g.n_fix_uptake
-                           , allParts, oilPart, mealPart);
+                           , allParts);////, oilPart, mealPart);
 
          deleteHacks(allParts);
         }
@@ -4871,8 +4861,8 @@ void Plant::legnew_n_partition
     ,float  *dlt_n_green         // (OUTPUT) actual plant N uptake into each plant part (g/m^2)
     ,float  *n_fix_uptake        // (OUTPUT) actual N fixation (g/m^2)
     ,vector<plantPart *> &allParts        // (INPUT) vector of plant parts
-    ,plantPart * oilPart
-    ,plantPart * mealPart
+////    ,plantPart * oilPart
+////    ,plantPart * mealPart
     ) {
 
 //+  Constant Values
@@ -4896,6 +4886,14 @@ void Plant::legnew_n_partition
     push_routine (my_name);
     float dlt_n_green_part = 0.0;
 
+//    plantPartHack *rootPart = new plantPartHack(this, root, "root");
+
+    vector<plantPart *> allParts1;            //FIXME remove
+    allParts1.push_back(allParts[0]);
+    allParts1.push_back(leafPart);
+    allParts1.push_back(stemPart);
+    allParts1.push_back(fruitPart);
+
     // find the proportion of uptake to be distributed to
     // each plant part and distribute it.
     deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer);
@@ -4903,17 +4901,17 @@ void Plant::legnew_n_partition
                    - sum_real_array (g_dlt_nh4gsm, deepest_layer+1);
 
     n_demand_sum = 0.0;
-    for (part = allParts.begin(); part != allParts.end(); part++)
+    for (part = allParts1.begin(); part != allParts1.end(); part++)
        n_demand_sum += (*part)->nDemand();
 
     n_excess = n_uptake_sum - n_demand_sum;
     n_excess = l_bound (n_excess, 0.0);
 
     n_capacity_sum = 0.0;
-    for (part = allParts.begin(); part != allParts.end(); part++)
+    for (part = allParts1.begin(); part != allParts1.end(); part++)
        n_capacity_sum += (*part)->nCapacity();
 
-    for (part = allParts.begin(); part != allParts.end(); part++)
+    for (part = allParts1.begin(); part != allParts1.end(); part++)
         {
         if (n_excess>0.0)
             {
@@ -4927,11 +4925,9 @@ void Plant::legnew_n_partition
             }
         (*part)->nPartition(dlt_n_green_part);
         }
-////    //cnh mealPart->dlt.n_green = 0.0;
-////    oilPart->dlt.n_green = 0.0;
 
     float dlt_n_green_sum = 0.0;
-    for (part = allParts.begin(); part != allParts.end(); part++)
+    for (part = allParts1.begin(); part != allParts1.end(); part++)
          dlt_n_green_sum += (*part)->dltNGreen();
 
     if (!reals_are_equal(dlt_n_green_sum - n_uptake_sum, 0.0))
@@ -4947,7 +4943,7 @@ void Plant::legnew_n_partition
 
     *n_fix_uptake = bound (g_n_fix_pot, 0.0, n_fix_demand_tot);
 
-    for (part = allParts.begin(); part != allParts.end(); part++)
+    for (part = allParts1.begin(); part != allParts1.end(); part++)
          {
          fix_demand = l_bound ((*part)->nDemand() - (*part)->dltNGreen(), 0.0);
          fix_part_fract = divide (fix_demand, n_fix_demand_tot, 0.0);
@@ -4955,13 +4951,12 @@ void Plant::legnew_n_partition
          (*part)->nFix(dlt_n_green_part);
          }
 
-    vector<plantPart *> fruitParts;
-    plantPart *podPart = allParts[3];
-    fruitParts.push_back(podPart);
-    fruitParts.push_back(mealPart);
-    fruitParts.push_back(oilPart);
+    vector<plantPart *> fruitParts;       //FIXME remov
+    fruitParts.push_back(allParts[3]);
+    fruitParts.push_back(allParts[4]);
+    fruitParts.push_back(allParts[5]);
 
-    fruitPart->getDltNGreen(fruitParts);   // gets pod-meal-oil from Plant arrays into Fruit parts      //FIXME remove
+    fruitPart->putDltNGreen(fruitParts);   // puts Fruit Parts into pod-meal-oil  Plant arrays      //FIXME remove
 
     pop_routine (my_name);
     }
@@ -5237,71 +5232,71 @@ void Plant::legnew_dm_part_demands(float c_frac_pod              // (INPUT)  fra
 //
 //  Changes
 //      010994 jngh specified and programmed      //FIXME not used yet - will need for arbitrating dm to plant parts based on demands
-void Plant::legnew_dm_distribute(int max_part
-                               , float *dm_remaining          // interim dm pool for partitioning
-                               , float dlt_dm_demand_meal    // assimilate demand for reproductive parts (g/m^2)
-                               , float dlt_dm_demand_oil     // assimilate demand for reproductive parts (g/m^2)
-                               , float dlt_dm_demand_pod     // assimilate demand for reproductive parts (g/m^2)
-                               , float dm_oil_conv_demand    // assimilate demand for conversion to oil (g/m^2)
-                               , float dlt_dm_oil_conv       // (OUTPUT) actual biomass used in conversion to oil (g/m2)
-                               , float *dlt_dm_green          // (OUTPUT) actual biomass partitioned
-                                )
-    {
-    float  yield_demand;   // sum of grain, energy & pod
-
-    if (*dm_remaining > 0.0)
-        {
-        // still have some assimilate to partition
-
-        yield_demand = dlt_dm_demand_pod
-                        + dlt_dm_demand_meal
-                        + dlt_dm_demand_oil
-                        + dm_oil_conv_demand;
-
-        if (yield_demand >= *dm_remaining)
-            {
-            // reproductive demand exceeds supply - distribute assimilate to those parts only
-            dlt_dm_green[meal] = *dm_remaining
-                           * divide (dlt_dm_demand_meal
-                                   , yield_demand, 0.0);
-            dlt_dm_green[oil] = *dm_remaining
-                            * divide (dlt_dm_demand_oil
-                                    , yield_demand, 0.0);
-            dlt_dm_oil_conv = *dm_remaining
-                           * divide (dm_oil_conv_demand
-                                   , yield_demand, 0.0);
-            dlt_dm_green[pod] = *dm_remaining
-                                    - dlt_dm_green[meal]
-                                    - dlt_dm_green[oil]
-                                    - dlt_dm_oil_conv;
-            *dm_remaining = 0.0;
-            }
-        else
-            {
-            // more than enough assimilate to go around
-            dlt_dm_green[meal] =  dlt_dm_green[meal]
-                               +  dlt_dm_demand_meal;
-            dlt_dm_green[oil]  =  dlt_dm_green[oil]
-                               +  dlt_dm_demand_oil;
-            dlt_dm_oil_conv   =  dlt_dm_oil_conv
-                              +  dm_oil_conv_demand;
-            dlt_dm_green[pod]  = dlt_dm_green[pod]
-                               + dlt_dm_demand_pod;
-
-            *dm_remaining = *dm_remaining - yield_demand;
-            }
-        }
-     else
-         {
-         // no assimilate left to partition
-         dlt_dm_green[meal] = 0.0;
-         dlt_dm_green[oil]  = 0.0;
-         dlt_dm_oil_conv   = 0.0;
-         dlt_dm_green[pod]  = 0.0;
-         }
-   }
-
-
+//JNGH Implement? void Plant::legnew_dm_distribute(int max_part
+//JNGH Implement?                                , float *dm_remaining          // interim dm pool for partitioning
+//JNGH Implement?                                , float dlt_dm_demand_meal    // assimilate demand for reproductive parts (g/m^2)
+//JNGH Implement?                                , float dlt_dm_demand_oil     // assimilate demand for reproductive parts (g/m^2)
+//JNGH Implement?                                , float dlt_dm_demand_pod     // assimilate demand for reproductive parts (g/m^2)
+//JNGH Implement?                                , float dm_oil_conv_demand    // assimilate demand for conversion to oil (g/m^2)
+//JNGH Implement?                                , float dlt_dm_oil_conv       // (OUTPUT) actual biomass used in conversion to oil (g/m2)
+//JNGH Implement?                                , float *dlt_dm_green          // (OUTPUT) actual biomass partitioned
+//JNGH Implement?                                 )
+//JNGH Implement?     {
+//JNGH Implement?     float  yield_demand;   // sum of grain, energy & pod
+//JNGH Implement?
+//JNGH Implement?     if (*dm_remaining > 0.0)
+//JNGH Implement?         {
+//JNGH Implement?         // still have some assimilate to partition
+//JNGH Implement?
+//JNGH Implement?         yield_demand = dlt_dm_demand_pod
+//JNGH Implement?                         + dlt_dm_demand_meal
+//JNGH Implement?                         + dlt_dm_demand_oil
+//JNGH Implement?                         + dm_oil_conv_demand;
+//JNGH Implement?
+//JNGH Implement?         if (yield_demand >= *dm_remaining)
+//JNGH Implement?             {
+//JNGH Implement?             // reproductive demand exceeds supply - distribute assimilate to those parts only
+//JNGH Implement?             dlt_dm_green[meal] = *dm_remaining
+//JNGH Implement?                            * divide (dlt_dm_demand_meal
+//JNGH Implement?                                    , yield_demand, 0.0);
+//JNGH Implement?             dlt_dm_green[oil] = *dm_remaining
+//JNGH Implement?                             * divide (dlt_dm_demand_oil
+//JNGH Implement?                                     , yield_demand, 0.0);
+//JNGH Implement?             dlt_dm_oil_conv = *dm_remaining
+//JNGH Implement?                            * divide (dm_oil_conv_demand
+//JNGH Implement?                                    , yield_demand, 0.0);
+//JNGH Implement?             dlt_dm_green[pod] = *dm_remaining
+//JNGH Implement?                                     - dlt_dm_green[meal]
+//JNGH Implement?                                     - dlt_dm_green[oil]
+//JNGH Implement?                                     - dlt_dm_oil_conv;
+//JNGH Implement?             *dm_remaining = 0.0;
+//JNGH Implement?             }
+//JNGH Implement?         else
+//JNGH Implement?             {
+//JNGH Implement?             // more than enough assimilate to go around
+//JNGH Implement?             dlt_dm_green[meal] =  dlt_dm_green[meal]
+//JNGH Implement?                                +  dlt_dm_demand_meal;
+//JNGH Implement?             dlt_dm_green[oil]  =  dlt_dm_green[oil]
+//JNGH Implement?                                +  dlt_dm_demand_oil;
+//JNGH Implement?             dlt_dm_oil_conv   =  dlt_dm_oil_conv
+//JNGH Implement?                               +  dm_oil_conv_demand;
+//JNGH Implement?             dlt_dm_green[pod]  = dlt_dm_green[pod]
+//JNGH Implement?                                + dlt_dm_demand_pod;
+//JNGH Implement?
+//JNGH Implement?             *dm_remaining = *dm_remaining - yield_demand;
+//JNGH Implement?             }
+//JNGH Implement?         }
+//JNGH Implement?      else
+//JNGH Implement?          {
+//JNGH Implement?          // no assimilate left to partition
+//JNGH Implement?          dlt_dm_green[meal] = 0.0;
+//JNGH Implement?          dlt_dm_green[oil]  = 0.0;
+//JNGH Implement?          dlt_dm_oil_conv   = 0.0;
+//JNGH Implement?          dlt_dm_green[pod]  = 0.0;
+//JNGH Implement?          }
+//JNGH Implement?    }
+//JNGH Implement?
+//JNGH Implement?
 //+  Purpose
 //     Calculate the nitrogen retranslocation from the various plant parts
 //     to the grain.
