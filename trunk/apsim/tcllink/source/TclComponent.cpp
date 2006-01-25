@@ -18,7 +18,7 @@ using namespace std;
 using namespace protocol;
 
 extern void StartTcl (const char *);
-extern Tcl_Interp *NewInterp (Tcl_Interp *, ClientData, int);
+extern Tcl_Interp *NewInterp (Tcl_Interp *, ClientData, const char *);
 extern void StopTcl(Tcl_Interp *);
 
 static int initialisationState = 0;
@@ -81,6 +81,8 @@ TclComponent::TclComponent()
 // ------------------------------------------------------------------
 TclComponent::~TclComponent(void)
    {
+   if (!terminationRule.empty()) { Tcl_Eval(Interp, terminationRule.c_str()); }
+
    if ( Interp != TopLevelInterp ) 
       Tcl_DeleteInterp(Interp);
    else 
@@ -112,17 +114,18 @@ void TclComponent::doInit2(void)
       writeString("Copyright (C) 1991-1994 The Regents of the University of California.");
       writeString("Copyright (C) 1996-1997 Sun Microsystems, Inc.");
       writeString("Copyright (C) 2001      ActiveState.");
-      TopLevelInterp = NewInterp(NULL, this, 0);
+      TopLevelInterp = NewInterp(NULL, this, "toplevel");
    } 
    initialisationState++;
 
    string isMaster = this->readParameter ("parameters", "master");
-   if (isMaster == string("true")) {
+   if (isMaster == string("true") || isMaster == string("yes")) {
       Interp = TopLevelInterp;
-      writeString("Top Level Instance");
+      writeString("Top Level Interpreter");
    } else {
-      Interp = NewInterp(TopLevelInterp, this, initialisationState);  // Create a slave interpreter for this instance.
-      writeString("1st Level Instance");
+      // Create a slave interpreter for this instance.
+      Interp = NewInterp(TopLevelInterp, this, this->getName());  
+      writeString((string("Interpreter name: '")+ this->getName() + "'").c_str());
    }
    
    string initRule;
@@ -141,6 +144,7 @@ void TclComponent::doInit2(void)
          writeString(msg.c_str());
          writeString(rule.c_str());
          if (condition == string("init")) {initRule = rule;}
+         if (condition == string("exit")) {terminationRule = rule;}
       }
    writeString("--->End");
 
@@ -570,27 +574,41 @@ int apsimSendMessageProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * 
          }
 
       // 1. destination
-      string moduleName = Tcl_GetStringFromObj(objv[1], NULL);
-      string actionName = Tcl_GetStringFromObj(objv[2], NULL);
+      char *moduleName = Tcl_GetStringFromObj(objv[1], NULL);
+      char *actionName = Tcl_GetStringFromObj(objv[2], NULL);
 
       // 2. build variant
       protocol::ApsimVariant outgoingApsimVariant(component);
+      outgoingApsimVariant.store(FString("sender"), protocol::DTstring, false, component->getName());
+      outgoingApsimVariant.store(FString("sender_id"), protocol::DTint4, false, component->getId());
+
       for (int i = 3; i < objc; i++)
          {
-         Tcl_Obj *firstListElement, *secondListElement;
-         if (Tcl_ListObjIndex(interp, objv[i], 0, &firstListElement) != TCL_OK &&
-             Tcl_ListObjIndex(interp, objv[i], 1, &secondListElement) != TCL_OK)
-            {
-            Tcl_SetStringObj(Tcl_GetObjResult(interp), "Can't extract value from list ", -1);
+         int check = 0;
+         if (Tcl_ListObjLength(interp, objv[i], &check) != TCL_OK) {
+            Tcl_SetResult(interp,"arg not a list??", NULL);
             return TCL_ERROR;
-            }
+         }
+         
+         if (check != 2) {
+            Tcl_SetResult(interp,"arg format error: apsimSendEvent <moduleName> <message> {<name> <value>} ...", NULL);
+            return TCL_ERROR;
+         }
+
+         Tcl_Obj *firstListElement, *secondListElement;
+         Tcl_ListObjIndex(interp, objv[i], 0, &firstListElement);
+         Tcl_ListObjIndex(interp, objv[i], 1, &secondListElement);
+         
          if (firstListElement==NULL || secondListElement==NULL)
             {
             Tcl_SetStringObj(Tcl_GetObjResult(interp), "LE is NULL??? ", -1);
             return TCL_ERROR;
             }
+
          FString variableName = FString(Tcl_GetStringFromObj(firstListElement, NULL));
+
          FString variableValue = FString(Tcl_GetStringFromObj(secondListElement, NULL));
+
          bool isArray = false;    // XX wrong.. Should test secondListElement and be sure..
 
          outgoingApsimVariant.store(variableName, protocol::DTstring, isArray, variableValue);
@@ -601,13 +619,26 @@ int apsimSendMessageProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * 
       return TCL_OK;
    }
 
-void TclComponent::sendMessage(const string &moduleName, const string &actionName,
+void TclComponent::sendMessage(const char *moduleName, const char *actionName,
                                protocol::ApsimVariant &outgoingApsimVariant)
    {
    unsigned actionID = protocol::Component::addRegistration(RegistrationType::event,
-                                                            actionName.c_str(),
+                                                            actionName,
                                                             "<type\>",
                                                             "",
-                                                            moduleName.c_str());
+                                                            moduleName);
    publish(actionID, outgoingApsimVariant);
    }
+
+int apsimWriteToSummaryFileProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[])
+{
+   TclComponent *component = (TclComponent *) cd;
+   if (objc != 2)
+         {
+         Tcl_SetResult(interp,"Wrong num args: apsimWriteToSummaryFile <message>", NULL);
+         return TCL_ERROR;
+         }
+   char *message = Tcl_GetStringFromObj(objv[1], NULL);
+   component->writeString(FString(message));
+   return TCL_OK;
+}
