@@ -2478,7 +2478,6 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
          plant_n_demand(max_part
                         , demand_parts
                         , num_demand_parts
-                        , meal
                         , g.dlt_dm
                         , g.dlt_dm_green
                         , g.dlt_dm_pot_rue
@@ -2616,8 +2615,6 @@ void Plant::plant_nit_partition (int option /* (INPUT) option number*/)
         {
     vector<plantPart *> allParts;
     setupHacks(allParts);
-////    plantPart *mealPart = allParts[4]; if (mealPart->c.name != "meal") throw std::invalid_argument ("Aieee: setupHacks is broken (meal)!!");
-////    plantPart *oilPart = allParts[5]; if (oilPart->c.name != "oil") throw std::invalid_argument ("Aieee: setupHacks is broken (oil)!!");
 
         legnew_n_partition(g.dlayer
                            , g.dlt_no3gsm
@@ -2628,7 +2625,7 @@ void Plant::plant_nit_partition (int option /* (INPUT) option number*/)
                            , g.root_depth
                            , g.dlt_n_green
                            , &g.n_fix_uptake
-                           , allParts);////, oilPart, mealPart);
+                           , allParts);
 
          deleteHacks(allParts);
         }
@@ -4376,52 +4373,6 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
     pop_routine (my_name);
     return;
     }
-//+  Purpose
-//       Potential biomass (carbohydrate) production from
-//       photosynthesis (g/m^2).  The effect of factors such
-//       temperature and nutritional status of the plant are
-//       taken into account in the radiation use efficiency.
-
-//+  Mission Statement
-//     Get the potential biomass production - limited by stress factors
-
-//+  Changes
-//       181197 nih specified and programmed
-void Plant::plant_dm_pot_rue (externalFunction *c_rue
-                             ,float  rue_pod
-                             ,float  cover_green
-                             ,float  cover_pod
-                             ,double  radn_int
-                             ,double  stress_factor
-                             ,float g_co2, float g_maxt, float g_mint
-                             ,photosynthetic_pathway_t c_photosynthetic_pathway
-                             ,float  *dlt_dm_pot)                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
-  {
-  //+  Local Variables
-  double podfr;                                  // fraction of intercepted light intercepted by pods
-  double rue_leaf;
-  float co2_modifier = 0.0;
-
-  // Assume pods are above the rest of the canopy
-  podfr = bound(divide(cover_pod,cover_green,0.0), 0.0, 1.0);
-
-  if (cover_green<cover_pod)
-        throw std::runtime_error("error in pod light interception : legnew_dm_pot_rue()");
-
-  rue_leaf = c_rue->value(phenology->stageNumber());
-
-  plant_rue_co2_modifier(c_photosynthetic_pathway,
-                         g_co2,
-                         g_maxt,
-                         g_mint,
-                         &co2_modifier);
-
-  *dlt_dm_pot = (radn_int * podfr * rue_pod +
-                 radn_int * (1.0 - podfr) * rue_leaf) *
-                stress_factor * co2_modifier;
-//  fprintf(stdout, "%f,%f,%f\n", phenology->stageNumber(), stress_factor, *dlt_dm_pot);
-  }
-
 
 //+  Purpose
 //       Potential biomass (carbohydrate) production from
@@ -4861,8 +4812,6 @@ void Plant::legnew_n_partition
     ,float  *dlt_n_green         // (OUTPUT) actual plant N uptake into each plant part (g/m^2)
     ,float  *n_fix_uptake        // (OUTPUT) actual N fixation (g/m^2)
     ,vector<plantPart *> &allParts        // (INPUT) vector of plant parts
-////    ,plantPart * oilPart
-////    ,plantPart * mealPart
     ) {
 
 //+  Constant Values
@@ -5205,26 +5154,26 @@ void Plant::legnew_dm_retranslocate
 //
 //  Changes
 //      010994 jngh specified and programmed     //FIXME need to be called
-void Plant::legnew_dm_part_demands(float c_frac_pod              // (INPUT)  fraction of remaining dm allocated to pod
-                                 , float g_grain_energy          // multiplier of grain weight to account f
-                                 , float c_grain_oil_conc        // (INPUT)  grain dm demand (g/m^2)
-                                 , float g_dlt_dm_grain_demand   // multiplier of grain weight to account f
-                                 , float *dm_oil_conv_demand      // assimilate demand for reproductive parts (g/m^2)
-                                 , float *dlt_dm_demand_meal      // assimilate demand for reproductive parts (g/m^2)
-                                 , float *dlt_dm_demand_oil       // assimilate demand for reproductive parts (g/m^2)
-                                 , float *dlt_dm_demand_pod )     // assimilate demand for conversion to oil (g/m^2)
-   {
-   float       dm_grain_demand;       // assimilate demand for grain (g/m^2)
-
-   // calculate demands of reproductive parts
-   dm_grain_demand = divide (g_dlt_dm_grain_demand, g_grain_energy, 0.0);
-   *dlt_dm_demand_meal = dm_grain_demand * (1.0 - c_grain_oil_conc);
-   *dlt_dm_demand_oil = dm_grain_demand - *dlt_dm_demand_meal;
-   *dm_oil_conv_demand= g_dlt_dm_grain_demand - dm_grain_demand;
-   *dlt_dm_demand_pod = dm_grain_demand * c_frac_pod;
-   }
-
-//  Purpose
+//JNGH Implement?void Plant::legnew_dm_part_demands(float c_frac_pod              // (INPUT)  fraction of remaining dm allocated to pod
+//JNGH Implement?                                 , float g_grain_energy          // multiplier of grain weight to account f
+//JNGH Implement?                                 , float c_grain_oil_conc        // (INPUT)  grain dm demand (g/m^2)
+//JNGH Implement?                                 , float g_dlt_dm_grain_demand   // multiplier of grain weight to account f
+//JNGH Implement?                                 , float *dm_oil_conv_demand      // assimilate demand for reproductive parts (g/m^2)
+//JNGH Implement?                                 , float *dlt_dm_demand_meal      // assimilate demand for reproductive parts (g/m^2)
+//JNGH Implement?                                 , float *dlt_dm_demand_oil       // assimilate demand for reproductive parts (g/m^2)
+//JNGH Implement?                                 , float *dlt_dm_demand_pod )     // assimilate demand for conversion to oil (g/m^2)
+//JNGH Implement?   {
+//JNGH Implement?   float       dm_grain_demand;       // assimilate demand for grain (g/m^2)
+//JNGH Implement?
+//JNGH Implement?   // calculate demands of reproductive parts
+//JNGH Implement?   dm_grain_demand = divide (g_dlt_dm_grain_demand, g_grain_energy, 0.0);
+//JNGH Implement?   *dlt_dm_demand_meal = dm_grain_demand * (1.0 - c_grain_oil_conc);
+//JNGH Implement?   *dlt_dm_demand_oil = dm_grain_demand - *dlt_dm_demand_meal;
+//JNGH Implement?   *dm_oil_conv_demand= g_dlt_dm_grain_demand - dm_grain_demand;
+//JNGH Implement?   *dlt_dm_demand_pod = dm_grain_demand * c_frac_pod;
+//JNGH Implement?   }
+//JNGH Implement?
+//JNGH Implement?//  Purpose
 //      Partitions new dm (assimilate) between plant components (g/m^2)
 //
 //  Mission Statement
@@ -5369,9 +5318,6 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
-//    for (part = allParts.begin(); part != allParts.end(); part++)
-//        (*part)->dlt.n_retrans = 0.0;
-
           //! available N does not include roots or grain
           //! this should not presume roots and grain are 0.
           // grain N potential (supply)
@@ -5379,35 +5325,6 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
     for (part = stoverParts1.begin(); part != stoverParts1.end(); part++)
         n_avail_stover += (*part)->availableRetranslocateN();
 
-////    n_avail_stover = 0.0;
-////    for (part = stoverParts.begin(); part != stoverParts.end(); part++)
-////        n_avail_stover += (*part)->availableRetranslocateN();
-//
-//          //! get actual grain N uptake
-//          //! limit retranslocation to total available N
-//    if (g_grain_n_demand >= n_avail_stover)
-//       {
-//             // demand is greater than or equal to supply.
-//             // retranslocate all available N
-//       leafPart->dlt.n_retrans = - leafPart->availableRetranslocateN();
-//       stemPart->dlt.n_retrans = - stemPart->availableRetranslocateN();
-//       reproStruct->dlt.n_retrans = - reproStruct->availableRetranslocateN();
-//       }
-//    else
-//       {
-//             // supply is greater than demand.
-//             // Retranslocate only what is needed by grain
-//       leafPart->dlt.n_retrans = - g_grain_n_demand
-//                                * divide (leafPart->availableRetranslocateN()
-//                                        , n_avail_stover, 0.0);
-//
-//       stemPart->dlt.n_retrans = - g_grain_n_demand
-//                                * divide (stemPart->availableRetranslocateN()
-//                                        , n_avail_stover, 0.0);
-//
-//      }
-//
-//    fruitPart->doNRetranslocate(n_avail_stover, g_grain_n_demand);
 
     for (part = stoverParts1.begin(); part != stoverParts1.end(); part++)
         (*part)->doNRetranslocate(n_avail_stover, g_grain_n_demand);
@@ -5581,8 +5498,7 @@ void Plant::plant_N_senescence (int num_part                  //(INPUT) number o
       for (vector<plantPart *>::iterator t = myParts.begin();
            t != myParts.end();
            t++)
-         (*t)->dlt.n_senesced_trans = 0.0;
-         fruitPart->zeroDltNSenescedTrans();
+         (*t)->zeroDltNSenescedTrans();
 
       green_n_conc = divide (leafPart->g.n_green, leafPart->g.dm_green, 0.0);
       dlt_n_in_senescing_leaf = leafPart->dlt.dm_senesced * green_n_conc;
@@ -5601,7 +5517,7 @@ void Plant::plant_N_senescence (int num_part                  //(INPUT) number o
       for (vector<plantPart *>::iterator t = myParts.begin();
            t != myParts.end();
            t++)
-         (*t)->doNSenescedRetrans(navail, n_demand_tot);    // need to redo Fruit because fruit parts not dealt with in previous line
+         (*t)->doNSenescedRetrans(navail, n_demand_tot);
 
       pop_routine (my_name);
   }
@@ -7167,7 +7083,6 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (g.n_conc_max, 0.0, max_part);
       fill_real_array (g.n_conc_min, 0.0, max_part);
       fill_real_array (g.dm_plant_min, 0.0, max_part);
-////      g.cover_pod = 0.0;
       fill_real_array (g.dlayer , 0.0, max_layer);
       fill_real_array (g.dlt_sw_dep, 0.0, max_layer);
       fill_real_array (g.ll15_dep, 0.0, max_layer);
@@ -7247,9 +7162,6 @@ void Plant::plant_zero_all_globals (void)
 
       fill_real_array (c.y_leaf_no_frac, 0.0, max_table);
       c.num_lai_ratio = 0;
-////      c.n_conc_crit_grain = 0.0;
-////      c.n_conc_max_grain = 0.0;
-////      c.n_conc_min_grain = 0.0;
       c.n_conc_crit_root = 0.0;
       c.n_conc_max_root = 0.0;
       c.n_conc_min_root = 0.0;
@@ -7257,9 +7169,6 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (c.y_n_conc_crit_leaf, 0.0, max_table);
       fill_real_array (c.y_n_conc_max_leaf, 0.0, max_table);
       fill_real_array (c.y_n_conc_min_leaf, 0.0, max_table);
-////      fill_real_array (c.y_n_conc_crit_pod, 0.0, max_table);
-////      fill_real_array (c.y_n_conc_max_pod, 0.0, max_table);
-////      fill_real_array (c.y_n_conc_min_pod, 0.0, max_table);
       c.n_fact_photo = 0.0;
       c.n_fact_pheno = 0.0;
       c.n_fact_expansion = 0.0;
@@ -7320,11 +7229,9 @@ void Plant::plant_zero_all_globals (void)
       c.grn_water_cont = 0.0;
       c.partition_rate_leaf = 0.0;
       fill_real_array (c.frac_leaf,0.0,max_table);
-      fill_real_array (c.frac_pod,0.0,max_table);
       fill_real_array (c.ratio_root_shoot, 0.0, max_table);
       fill_real_array (c.x_stage_no_partition, 0.0, max_table);
       fill_real_array (c.y_frac_leaf, 0.0, max_table);
-      fill_real_array (c.y_frac_pod, 0.0, max_table);
       fill_real_array (c.y_ratio_root_shoot, 0.0, max_table);
       c.num_stage_no_partition = 0;
       c.leaf_trans_frac = 0.0;
@@ -7443,7 +7350,6 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (p.y_fruit_sites_per_node, 0.0,max_table);
       p.dm_fruit_set_min =  0.0;
       p.num_node_no_fruit_sites  =  0;
-      fill_real_array (p.fruit_frac_pod, 0.0,max_table);
       fill_real_array (p.x_pp_fruit_start_to_end_grain, 0.0 ,max_table);
       fill_real_array (p.y_tt_fruit_start_to_end_grain, 0.0 ,max_table);
       fill_real_array (p.x_stage_sdr_min, 0.0 ,max_table);
@@ -7589,7 +7495,6 @@ void Plant::plant_zero_variables (void)
     g.row_spacing           = 0.0;
 
     g.cover_green           = 0.0;
-////    g.cover_pod             = 0.0;
     g.cover_sen             = 0.0;
     g.cover_dead            = 0.0;
 
@@ -9022,10 +8927,6 @@ void Plant::plant_read_species_const ()
                          , 0.0, 1.0);
 
         parent->readParameter (search_order
-                         ,"frac_pod"//, "()"
-                         , c.frac_pod, numvals
-                         , 0.0, 2.0);
-        parent->readParameter (search_order
                          ,"ratio_root_shoot"//, "()"
                          , c.ratio_root_shoot, numvals
                          , 0.0, 1000.0);
@@ -9043,12 +8944,6 @@ void Plant::plant_read_species_const ()
                          ,"y_frac_leaf"//,  "()"
                          , c.y_frac_leaf, numvals
                          , 0.0, 1.0);
-
-        parent->readParameter (search_order
-                         ,"y_frac_pod"//, "()"
-                         , c.y_frac_pod, numvals
-                         , 0.0, 2.0);
-
         parent->readParameter (search_order
                          ,"y_ratio_root_shoot"//, "()"
                          , c.y_ratio_root_shoot, numvals
@@ -9493,36 +9388,6 @@ void Plant::plant_read_species_const ()
                      , "x_stage_code"//, "()"
                      , c.x_stage_code, c.num_n_conc_stage
                      , 0.0, 100.0);
-
-////    parent->readParameter (search_order
-////                     , "y_n_conc_crit_pod"//, "()"
-////                     , c.y_n_conc_crit_pod, c.num_n_conc_stage
-////                     , 0.0, 100.0);
-////
-////    parent->readParameter (search_order
-////                     , "y_n_conc_max_pod"//, "()"
-////                     , c.y_n_conc_max_pod, c.num_n_conc_stage
-////                     , 0.0, 100.0);
-////
-////    parent->readParameter (search_order
-////                     , "y_n_conc_min_pod"//, "()"
-////                     , c.y_n_conc_min_pod, c.num_n_conc_stage
-////                     , 0.0, 100.0);
-////
-////    parent->readParameter (search_order
-////                   , "n_conc_crit_grain"//, "()"
-////                   , c.n_conc_crit_grain
-////                   , 0.0, 100.0);
-////
-////    parent->readParameter (search_order
-////                   , "n_conc_max_grain"//, "()"
-////                   , c.n_conc_max_grain
-////                   , 0.0, 100.0);
-////
-////    parent->readParameter (search_order
-////                   , "n_conc_min_grain"//, "()"
-////                   , c.n_conc_min_grain
-////                   , 0.0, 100.0);
 
     parent->readParameter (search_order
                    , "n_conc_crit_root"//, "()"
@@ -11217,7 +11082,6 @@ void Plant::plant_root_incorp (float dlt_dm_root,        //(INPUT) new root resi
 void Plant::plant_n_demand(int max_part     // (INPUT)
        , int *demand_parts                  // (INPUT)
        , int num_demand_parts               // (INPUT)
-       , int grain_part_no                  //
        , float g_dlt_dm                     // (INPUT)  the daily biomass production (
        , float *g_dlt_dm_green              // (INPUT)  plant biomass growth (g/m^2)
        , float g_dlt_dm_pot_rue             // (INPUT)  potential dry matter productio
@@ -11258,8 +11122,8 @@ void Plant::plant_n_demand(int max_part     // (INPUT)
          {
          part = demand_parts[counter];
 
-         //// need to calculate dm using potential rue not affected by
-         //// n and temperature
+         // need to calculate dm using potential rue not affected by
+         // n and temperature
 
          part_fract = divide (g_dlt_dm_green[part], g_dlt_dm, 0.0);
          dlt_dm_pot = g_dlt_dm_pot_rue * part_fract ;
@@ -11316,7 +11180,7 @@ void Plant::plant_n_demand(int max_part     // (INPUT)
             n_max[part]    = 0.0;
             }
       } // for
-      n_demand[grain_part_no] = g_grain_n_demand;
+      n_demand[meal] = g_grain_n_demand;
       pop_routine (my_name);
    }
 
