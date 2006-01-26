@@ -156,6 +156,7 @@ private:
 
    virtual void zeroAllGlobals(void);
    virtual void zeroDeltas(void);
+   virtual void zeroDltNSenescedTrans(void);
    virtual void checkBounds(void);
 
    virtual void doRegistrations(protocol::Component *);
