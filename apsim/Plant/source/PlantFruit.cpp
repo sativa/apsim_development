@@ -1106,7 +1106,7 @@ void PlantFruit::zeroDltNSenescedTrans(void)
    for (vector<plantPart *>::iterator t = myParts.begin();
         t != myParts.end();
         t++)
-       (*t)->dlt.n_senesced_trans = 0.0;
+       (*t)->zeroDltNSenescedTrans();
 }
 
 // ====================================================================
@@ -3194,10 +3194,6 @@ void PlantFruit::n_conc_grain_limits (void)
         mealPart->g.n_conc_crit = divide (n_crit_grain, dm_meal, 0.0);
         mealPart->g.n_conc_max = divide (n_max_grain, dm_meal, 0.0);
         mealPart->g.n_conc_min = divide (n_min_grain, dm_meal, 0.0);
-
-////        n_conc_crit[meal] = mealPart->g.n_conc_crit;  //FIXME - remove when array is removed
-////        n_conc_max[meal] = mealPart->g.n_conc_max ;   //FIXME - remove when array is removed
-////        n_conc_min[meal] = mealPart->g.n_conc_min ;   //FIXME - remove when array is removed
         }
     }
 //FIXME not called yet

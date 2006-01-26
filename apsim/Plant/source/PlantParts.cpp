@@ -308,6 +308,11 @@ void plantPart::zeroDeltas(void)
    v.n_max = 0.0 ;
    v.p_demand = 0.0;
 }
+void plantPart::zeroDltNSenescedTrans(void)
+{
+      dlt.n_senesced_trans = 0.0;
+}
+
 void plantPart::checkBounds(void)
 {
    // Use a small comparison tolerance here.

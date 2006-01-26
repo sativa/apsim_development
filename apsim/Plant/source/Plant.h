@@ -382,7 +382,6 @@ class Plant : public plantInterface {
                          ,float  dlt_p_root
                          ,float  *root_length)               ;
   void plant_dm_init (float  c_dm_root_init
-////		      ,float  c_pod_trans_frac
 		      ,float  g_plants
 		      ,float  *dm_green
 		      ,float  *dm_plant_min);
@@ -454,8 +453,6 @@ class Plant : public plantInterface {
     ,float  *dlt_n_green
     ,float  *n_fix_uptake
     ,vector<plantPart *> &);        // (INPUT) vector of plant parts
-////    ,plantPart * oilPart
-////    ,plantPart * mealPart) ;
 
   void legnew_dm_partition1 (float c_frac_leaf
                               , float c_ratio_root_shoot
@@ -596,7 +593,6 @@ void Plant::legnew_dm_retranslocate
   void plant_n_demand( int max_part                       // (INPUT)
        , int *demand_parts                  // (INPUT)
        , int num_demand_parts               // (INPUT)
-       , int grain_part_no                  //
        , float g_dlt_dm                     // (INPUT)  the daily biomass production (
        , float *g_dlt_dm_green              // (INPUT)  plant biomass growth (g/m^2)
        , float g_dlt_dm_pot_rue             // (INPUT)  potential dry matter productio
@@ -620,15 +616,15 @@ void Plant::legnew_dm_retranslocate
 
 
 
-void legnew_dm_part_demands(float c_frac_pod              // (INPUT)  fraction of remaining dm allocated to pod
-                          , float g_grain_energy          // multiplier of grain weight to account f
-                          , float c_grain_oil_conc        // (INPUT)  grain dm demand (g/m^2)
-                          , float g_dlt_dm_grain_demand   // multiplier of grain weight to account f
-                          , float *dm_oil_conv_demand      // assimilate demand for reproductive parts (g/m^2)
-                          , float *dlt_dm_demand_meal      // assimilate demand for reproductive parts (g/m^2)
-                          , float *dlt_dm_demand_oil       // assimilate demand for reproductive parts (g/m^2)
-                          , float *dlt_dm_demand_pod );     // assimilate demand for conversion to oil (g/m^2)
-
+//JNGH Implement?void legnew_dm_part_demands(float c_frac_pod              // (INPUT)  fraction of remaining dm allocated to pod
+//JNGH Implement?                          , float g_grain_energy          // multiplier of grain weight to account f
+//JNGH Implement?                          , float c_grain_oil_conc        // (INPUT)  grain dm demand (g/m^2)
+//JNGH Implement?                          , float g_dlt_dm_grain_demand   // multiplier of grain weight to account f
+//JNGH Implement?                          , float *dm_oil_conv_demand      // assimilate demand for reproductive parts (g/m^2)
+//JNGH Implement?                          , float *dlt_dm_demand_meal      // assimilate demand for reproductive parts (g/m^2)
+//JNGH Implement?                          , float *dlt_dm_demand_oil       // assimilate demand for reproductive parts (g/m^2)
+//JNGH Implement?                          , float *dlt_dm_demand_pod );     // assimilate demand for conversion to oil (g/m^2)
+//JNGH Implement?
 //JNGH implement? void legnew_dm_distribute(int max_part
 //JNGH implement?                         , float *dm_remaining          // interim dm pool for partitioning
 //JNGH implement?                         , float dlt_dm_demand_meal    // assimilate demand for reproductive parts (g/m^2)
@@ -1064,7 +1060,6 @@ void legnew_dm_part_demands(float c_frac_pod              // (INPUT)  fraction o
       float n_conc_max[max_part];                       // maximum N concentration (g N/g biomass)
       float n_conc_min[max_part];                       // minimum N concentration (g N/g biomass)
       float dm_plant_min[max_part];                     // minimum weight of each plant part (g/plant)
-////      float cover_pod;
       float dlayer [max_layer];                         // thickness of soil layer I (mm)
       float dlt_sw_dep[max_layer];                      // water uptake in each layer (mm water)
       float ll15_dep[max_layer];
@@ -1209,9 +1204,6 @@ void legnew_dm_part_demands(float c_frac_pod              // (INPUT)  fraction o
                                                         // below which leaf number is reduced ()
       float y_leaf_no_frac[max_table];                  // reduction in leaf appearance ()
       int   num_lai_ratio;                              // number of ratios in table ()
-////      float n_conc_crit_grain;                          // critical N concentration of grain (g N/g biomass)
-////      float n_conc_max_grain;                           // maximum N concentration of grain (g N/g biomass)
-////      float n_conc_min_grain;                           // minimum N concentration of grain (g N/g biomass)
       float n_conc_crit_root;                           // critical N concentration of root (g N/g biomass)
       float n_conc_max_root;                            // maximum N concentration of root (g N/g biomass)
       float n_conc_min_root;                            // minimum N concentration of root (g N/g biomass)
@@ -1219,9 +1211,6 @@ void legnew_dm_part_demands(float c_frac_pod              // (INPUT)  fraction o
       float y_n_conc_crit_leaf[max_table];              // critical N concentration of leaf (g N/g biomass)
       float y_n_conc_max_leaf[max_table];               // maximum N concentration of leaf (g N/g biomass)
       float y_n_conc_min_leaf[max_table];               // minimum N concentration of leaf (g N/g biomass)
-////      float y_n_conc_crit_pod[max_table];               // critical N concentration of pod(g N/g biomass)
-////      float y_n_conc_max_pod[max_table];                // maximum N concentration of pod (g N/g biomass)
-////      float y_n_conc_min_pod[max_table];                // minimum N concentration of pod (g N/g biomass)
       float n_fact_photo;                               // multipler for N deficit effect on photosynthesis
       float n_fact_pheno;                               // multipler for N deficit effect on phenology
       float n_fact_expansion;
