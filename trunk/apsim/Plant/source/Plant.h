@@ -49,13 +49,11 @@ const int  fixation = 4 ;
 const int  root = 0 ;
 //const int  leaf = 1 ;
 //const int  stem = 2 ;
-const int  pod  = 1 ;
-const int  meal = 2 ; // excludes oil component
-const int  oil  = 3 ; // seed oil
+//const int  pod  = 1 ;
+//const int  meal = 2 ; // excludes oil component
+//const int  oil  = 3 ; // seed oil
 // number of plant parts
-const int  max_part = 4 ; // NB. implies for (i=0; i < max_part; max_part++) usage
-//const int  max_part = 1 ; // NB. implies for (i=0; i < max_part; max_part++) usage
-const int  max_part1 = 1 ; // NB. implies for (i=0; i < max_part; max_part++) usage
+const int  max_part = 1 ; // NB. implies for (i=0; i < max_part; max_part++) usage
 
 //typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;
 
@@ -668,7 +666,6 @@ void Plant::legnew_dm_retranslocate
   float getDmGreenTot(void) const;
   float getRelativeGrowthRate(void);
   float getDyingFractionPlants(void);
-////  PlantComponent *system(void);
 
   float getTempStressPhoto(void) const;
   float getNfactPhoto(void) const;
@@ -1450,7 +1447,6 @@ void Plant::legnew_dm_retranslocate
       }  c;   // Constants
 
    void setupHacks(vector<plantPart *> &parts);
-   void setupHacks1(vector<plantPart *> &parts);
    void deleteHacks(vector<plantPart *> &parts);
 };  // Plant
 
