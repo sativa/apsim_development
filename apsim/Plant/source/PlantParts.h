@@ -178,6 +178,7 @@ private:
 
    virtual void doDmMin(void);
    virtual void doNDemand1(float, float);
+   virtual void doNDemand1Pot(float, float);
    virtual void doNDemand2(float, float);
    virtual void doSoilNDemand(void);
    virtual void doSenescence1(float);
@@ -191,6 +192,17 @@ private:
    virtual void p_detachment1(void);
    virtual void doPDemand(void);
    virtual void doPSenescence(void);
+
+   virtual void collectDetachedForResidue(vector<string> &part_name
+                                          , vector<float> &dm_residue
+                                          , vector<float> &dm_n
+                                          , vector<float> &dm_p
+                                          , vector<float> &fraction_to_residue);
+   virtual void collectDeadDetachedForResidue(vector<string> &part_name
+                                          , vector<float> &dm_dead_detached
+                                          , vector<float> &n_dead_detached
+                                          , vector<float> &p_dead_detached
+                                          , vector<float> &fraction_to_residue);
    virtual float dmTotal(void);
    virtual float dmGreen(void) const;
    virtual float dmSenesced(void) const;
@@ -261,6 +273,37 @@ private:
    virtual void get_dlt_p_green(vector<float> &dlt_p_green);
    virtual void get_dlt_p_retrans(vector<float> &dlt_p_retrans);
    virtual void get_p_green(vector<float> &p_green);
+
+   virtual void get_dlt_p_sen(vector<float> &);
+   virtual void get_dlt_p_dead(vector<float> &);
+   virtual void get_dlt_p_detached(vector<float> &);
+   virtual void get_p_sen(vector<float> &);
+   virtual void get_p_dead(vector<float> &);
+   virtual void get_dlt_n_dead_detached(vector<float> &);
+   virtual void get_dlt_n_detached(vector<float> &);
+   virtual void get_dlt_n_senesced_trans(vector<float> &);
+   virtual void get_dlt_n_senesced_retrans(vector<float> &);
+   virtual void get_dlt_n_senesced_dead(vector<float> &);
+   virtual void get_dlt_n_senesced(vector<float> &);
+   virtual void get_dlt_n_retrans(vector<float> &);
+   virtual void get_dlt_n_dead(vector<float> &);
+   virtual void get_dlt_n_green(vector<float> &);
+   virtual void get_n_dead(vector<float> &);
+   virtual void get_n_senesced(vector<float> &);
+   virtual void get_n_green(vector<float> &);
+   virtual void get_dlt_dm_senesced_dead(vector<float> &);
+   virtual void get_dlt_dm_green_dead(vector<float> &);
+   virtual void get_dlt_dm_dead_detached(vector<float> &);
+   virtual void get_dlt_dm_senesced(vector<float> &);
+   virtual void get_dlt_dm_detached(vector<float> &);
+   virtual void get_dlt_dm_green_retrans(vector<float> &);
+   virtual void get_dlt_dm_green(vector<float> &);
+   virtual void get_dm_senesced(vector<float> &);
+   virtual void get_dm_dead(vector<float> &);
+   virtual void get_dm_green(vector<float> &);
+   virtual void get_n_demanded(vector<float> &);
+   virtual void get_dm_plant_min(vector<float> &);
+
 };
 
 class plantStemPart : public plantPart {

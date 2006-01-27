@@ -25,27 +25,17 @@
 using namespace std;
 
 
-//////////---------------------------
+//////---------------------------
 // Hacks to set up and delete part arrays
 // The "hacks" will not have usable parameter/constants, but most state variables will be OK.
 void Plant::setupHacks(vector<plantPart *> &parts)
    {
    plantPart *x = new plantPartHack(this, root, "root");
-   parts.push_back(x);
 
+   parts.push_back(x);
    parts.push_back(leafPart);
-
    parts.push_back(stemPart);
-
-   x=new plantPartHack(this, pod,  "pod");
-   parts.push_back(x);
-
-   x=new plantPartHack(this, meal, "meal");
-   parts.push_back(x);
-
-   x=new plantPartHack(this, oil,  "oil");
-   parts.push_back(x);
-//   parts.push_back(fruitPart);
+   parts.push_back(fruitPart);
    }
 void Plant::deleteHacks(vector<plantPart *> &parts)
    {
@@ -55,17 +45,6 @@ void Plant::deleteHacks(vector<plantPart *> &parts)
          delete *part;
    }
 
-
-void Plant::setupHacks1(vector<plantPart *> &parts)
-   {
-   plantPart *x = new plantPartHack(this, root, "root");
-
-   parts.push_back(x);
-   parts.push_back(leafPart);
-   parts.push_back(stemPart);
-   parts.push_back(fruitPart);
-
-   }
 //////////---------------------------
 void plantPart::doRegistrations(protocol::Component *system)
 {
@@ -572,8 +551,8 @@ void plantPart::update(void)
    g.height += dlt.height;
    g.width += dlt.width;
 
-    vector<plantPart *>::iterator part;
-
+//    vector<plantPart *>::iterator part;
+//
 //// Update N
 //    updateN();
 //
@@ -659,8 +638,8 @@ void plantPart::updateP(void)
 *     Calculate the Nitrogen demand and maximum uptake for each plant pool
 *
 */
-void plantPart::doNDemand1(float dlt_dm,             // (INPUT)  Whole plant the daily biomass production (g/m^2)
-                          float dlt_dm_pot_rue)     // (INPUT)  Whole plant potential dry matter production (g/m^2)
+void plantPart::doNDemand1(float dlt_dm             // (INPUT)  Whole plant the daily biomass production (g/m^2)
+                         , float dlt_dm_pot_rue)     // (INPUT)  Whole plant potential dry matter production (g/m^2)
 {
     float part_fract = divide (dlt.dm_green, dlt_dm, 0.0);
     float dlt_dm_pot = dlt_dm_pot_rue * part_fract;         // potential dry weight increase (g/m^2)
@@ -695,6 +674,14 @@ void plantPart::doNDemand1(float dlt_dm,             // (INPUT)  Whole plant the
         {
         v.n_demand = v.n_max = 0.0;
         }
+}
+
+void plantPart::doNDemand1Pot(float dlt_dm             // (INPUT)  Whole plant the daily biomass production (g/m^2)
+                            , float dlt_dm_pot_rue)     // (INPUT)  Whole plant potential dry matter production (g/m^2)
+{
+           dlt.dm_green = dlt_dm_pot_rue * divide (g.dm_green, plant->getDmGreenTot(), 0.0); // Estimate
+           doNDemand1(dlt_dm, dlt_dm_pot_rue);
+           dlt.dm_green = 0.0;
 }
 
 //N demand as calculated by plant_n_demand
@@ -1291,6 +1278,32 @@ float plantPart::availableRetranslocateN(void)
    return (N_avail * c.n_retrans_fraction);
    }
 
+void plantPart::collectDetachedForResidue(vector<string> &part_name
+                              , vector<float> &dm_residue
+                              , vector<float> &dm_n
+                              , vector<float> &dm_p
+                              , vector<float> &fraction_to_residue)
+{
+       part_name.push_back(c.name);
+       dm_residue.push_back(dlt.dm_detached * gm2kg/sm2ha);
+       dm_n.push_back(dlt.n_detached * gm2kg/sm2ha);
+       dm_p.push_back(dlt.p_det * gm2kg/sm2ha);
+       fraction_to_residue.push_back(1.0);
+}
+
+void plantPart::collectDeadDetachedForResidue(vector<string> &part_name
+                                 , vector<float> &dm_dead_detached
+                                 , vector<float> &n_dead_detached
+                                 , vector<float> &p_dead_detached
+                                 , vector<float> &fraction_to_residue)
+{
+       part_name.push_back(c.name);
+       dm_dead_detached.push_back(dlt.dm_dead_detached * gm2kg/sm2ha);
+       n_dead_detached.push_back(dlt.n_dead_detached * gm2kg/sm2ha);
+       p_dead_detached.push_back(dlt.p_dead_det * gm2kg/sm2ha);
+       fraction_to_residue.push_back(1.0);
+}
+
 float plantPart::dmTotal(void) {return (dmGreen() + dmSenesced() + dmDead());}
 float plantPart::dmGreen(void) const {return (g.dm_green);}
 float plantPart::dmSenesced(void) const {return (g.dm_senesced);}
@@ -1504,26 +1517,39 @@ void plantPart::onPlantEvent(const string &event)
    else if (event == "start_grain_fill") onStartGrainFill();
    }
 
-
-void plantPart::get_p_demand(vector<float> &p_demand)
-{
-   p_demand.push_back(v.p_demand);
-}
-
-void plantPart::get_dlt_p_green(vector<float> &dlt_p_green)
-{
-   dlt_p_green.push_back(dlt.p_green);
-}
-
-void plantPart::get_p_green(vector<float> &p_green)
-{
-   p_green.push_back(g.p_green);
-}
-
-void plantPart::get_dlt_p_retrans(vector<float> &dlt_p_retrans)
-{
-   dlt_p_retrans.push_back(dlt.p_retrans);
-}
+void plantPart::get_p_demand(vector<float> &p_demand) {p_demand.push_back(v.p_demand);}
+void plantPart::get_dlt_p_green(vector<float> &dlt_p_green) {dlt_p_green.push_back(dlt.p_green);}
+void plantPart::get_p_green(vector<float> &p_green) {p_green.push_back(g.p_green);}
+void plantPart::get_dlt_p_retrans(vector<float> &dlt_p_retrans) {dlt_p_retrans.push_back(dlt.p_retrans);}
+void plantPart::get_dm_plant_min(vector<float> &dm_min) {dm_min.push_back(g.dm_plant_min);}
+void plantPart::get_dm_green(vector<float> &dm_green) {dm_green.push_back(g.dm_green);}
+void plantPart::get_dm_dead(vector<float> &dm_dead) {dm_dead.push_back(g.dm_dead);}
+void plantPart::get_dm_senesced(vector<float> &dm_senesced) {dm_senesced.push_back(g.dm_senesced);}
+void plantPart::get_dlt_dm_green(vector<float> &dlt_dm_green) {dlt_dm_green.push_back(dlt.dm_green);}
+void plantPart::get_dlt_dm_green_retrans(vector<float> &dlt_dm_green_retrans) {dlt_dm_green_retrans.push_back(dlt.dm_green_retrans);}
+void plantPart::get_dlt_dm_detached(vector<float> &dlt_dm_detached) {dlt_dm_detached.push_back(dlt.dm_detached);}
+void plantPart::get_dlt_dm_senesced(vector<float> &dlt_dm_senesced) {dlt_dm_senesced.push_back(dlt.dm_senesced);}
+void plantPart::get_dlt_dm_dead_detached(vector<float> &dlt_dm_dead_detached) {dlt_dm_dead_detached.push_back(dlt.dm_dead_detached);}
+void plantPart::get_dlt_dm_green_dead(vector<float> &dlt_dm_green_dead) {dlt_dm_green_dead.push_back(dlt.dm_green_dead);}
+void plantPart::get_dlt_dm_senesced_dead(vector<float> &dlt_dm_senesced_dead) {dlt_dm_senesced_dead.push_back(dlt.dm_senesced_dead);}
+void plantPart::get_n_green(vector<float> &n_green) {n_green.push_back(g.n_green);}
+void plantPart::get_n_senesced(vector<float> &n_senesced) {n_senesced.push_back(g.n_senesced);}
+void plantPart::get_n_dead(vector<float> &n_dead) {n_dead.push_back(g.n_dead);}
+void plantPart::get_n_demanded(vector<float> &n_demand) {n_demand.push_back(v.n_demand);}
+void plantPart::get_dlt_n_green(vector<float> &n_green) {n_green.push_back(dlt.n_green);}
+void plantPart::get_dlt_n_dead(vector<float> &n_dead) {n_dead.push_back(dlt.n_dead);}
+void plantPart::get_dlt_n_retrans(vector<float> &n_retrans) {n_retrans.push_back(dlt.n_retrans);}
+void plantPart::get_dlt_n_senesced(vector<float> &n_senesced) {n_senesced.push_back(dlt.n_senesced);}
+void plantPart::get_dlt_n_senesced_dead(vector<float> &dlt_n_senesced_dead) {dlt_n_senesced_dead.push_back(dlt.n_senesced_dead);}
+void plantPart::get_dlt_n_senesced_retrans(vector<float> &n_senesced_retrans) {n_senesced_retrans.push_back(dlt.n_senesced_retrans);}
+void plantPart::get_dlt_n_senesced_trans(vector<float> &n_senesced_trans) {n_senesced_trans.push_back(dlt.n_senesced_trans);}
+void plantPart::get_dlt_n_detached(vector<float> &n_detached) {n_detached.push_back(dlt.n_detached);}
+void plantPart::get_dlt_n_dead_detached(vector<float> &n_dead_detached) {n_dead_detached.push_back(dlt.n_dead_detached);}
+void plantPart::get_p_dead(vector<float> &p_dead) {p_dead.push_back(g.p_dead);}
+void plantPart::get_p_sen(vector<float> &p_sen) {p_sen.push_back(g.p_sen);}
+void plantPart::get_dlt_p_detached(vector<float> &dlt_p_detached) {dlt_p_detached.push_back(dlt.p_det);}
+void plantPart::get_dlt_p_dead(vector<float> &dlt_p_dead) {dlt_p_dead.push_back(dlt.p_dead);}
+void plantPart::get_dlt_p_sen(vector<float> &dlt_p_sen) {dlt_p_sen.push_back(dlt.p_sen);}
 
 //-------------------Hacks-------------------------------
 void plantPartHack::get(void) {

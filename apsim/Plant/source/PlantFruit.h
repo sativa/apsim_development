@@ -101,6 +101,35 @@ class PlantFruit : public plantPart
              void get_dlt_p_green(vector<float> &dlt_p_green);
              void get_dlt_p_retrans(vector<float> &dlt_p_retrans);
              void get_p_green(vector<float> &p_green);
+             void get_dlt_p_sen(vector<float> &);
+             void get_dlt_p_dead(vector<float> &);
+             void get_dlt_p_detached(vector<float> &);
+             void get_p_sen(vector<float> &);
+             void get_p_dead(vector<float> &);
+             void get_dlt_n_dead_detached(vector<float> &);
+             void get_dlt_n_detached(vector<float> &);
+             void get_dlt_n_senesced_trans(vector<float> &);
+             void get_dlt_n_senesced_retrans(vector<float> &);
+             void get_dlt_n_senesced_dead(vector<float> &);
+             void get_dlt_n_senesced(vector<float> &);
+             void get_dlt_n_retrans(vector<float> &);
+             void get_dlt_n_dead(vector<float> &);
+             void get_dlt_n_green(vector<float> &);
+             void get_n_dead(vector<float> &);
+             void get_n_senesced(vector<float> &);
+             void get_n_green(vector<float> &);
+             void get_dlt_dm_senesced_dead(vector<float> &);
+             void get_dlt_dm_green_dead(vector<float> &);
+             void get_dlt_dm_dead_detached(vector<float> &);
+             void get_dlt_dm_senesced(vector<float> &);
+             void get_dlt_dm_detached(vector<float> &);
+             void get_dlt_dm_green_retrans(vector<float> &);
+             void get_dlt_dm_green(vector<float> &);
+             void get_dm_senesced(vector<float> &);
+             void get_dm_dead(vector<float> &);
+             void get_dm_green(vector<float> &);
+             void get_n_demanded(vector<float> &);
+             void get_dm_plant_min(vector<float> &);
 
              void morphology(void);
 
@@ -141,18 +170,21 @@ class PlantFruit : public plantPart
             void zeroAllGlobals(void);
             void zeroDeltas(void);
             void zeroDltNSenescedTrans(void);
-            void putStates(vector<plantPart *> fruitParts);
             void getDltNGreen(vector<plantPart *> fruitParts);
-            void putDltNGreen(vector<plantPart *> fruitParts);
             void getDltDmGrainDemand(void) const;                 //??
             void getDltDmGreen(vector<plantPart *> fruitParts);
-            void putDltDmGreen(vector<plantPart *> fruitParts);
             void getDltDmGreenRetrans(vector<plantPart *> fruitParts);
-            void putDltDmGreenRetrans(vector<plantPart *> fruitParts);
-            void putDltDmGreenSenesced(vector<plantPart *> fruitParts);
-            void putDltNRetrans(vector<plantPart *> fruitParts);
             void doNSenescedRetrans(float navail, float n_demand_tot);
-            void putNConcLimits(vector<plantPart *> fruitParts);
+            void collectDetachedForResidue(vector<string> &part_name
+                                          , vector<float> &dm_residue
+                                          , vector<float> &dm_n
+                                          , vector<float> &dm_p
+                                          , vector<float> &fraction_to_residue);
+            void collectDeadDetachedForResidue(vector<string> &part_name
+                                          , vector<float> &dm_dead_detached
+                                          , vector<float> &n_dead_detached
+                                          , vector<float> &p_dead_detached
+                                          , vector<float> &fraction_to_residue);
 
             void getPDemand(vector<plantPart *> fruitParts);
             void update(void);
@@ -178,9 +210,12 @@ class PlantFruit : public plantPart
             float dmGrainTotal(void);
             float dmVegTotal(void);
             float dmGreenGrainTotal(void);
+            float dmGreen(void);
             float dmGreenVegTotal(void);
             float dmSenescedVegTotal(void);
+            float dmSenesced(void);
             float dmDeadVegTotal(void);
+            float dmDead(void);
             float grainWt(void);
             float dmRetransSupply(void);
             float dmRetransDemand(void);
@@ -190,8 +225,11 @@ class PlantFruit : public plantPart
             float nVegTotal(void);
             float nGreenGrainTotal(void);
             float nGreenVegTotal(void);
+            float nGreen(void);
             float nSenescedVegTotal(void);
+            float nSenesced(void);
             float nDeadVegTotal(void);
+            float nDead(void);
             float nConcGrain(void);
             float nGrainDemand2(void);
             float nRetransSupply(void);
@@ -211,9 +249,12 @@ class PlantFruit : public plantPart
             float pGreenGrainTotal(void);
             float pDeadGrainTotal(void);
             float pGreenVegTotal(void);
+            float pGreen(void);
             float pSenescedGrainTotal(void);
             float pSenescedVegTotal(void);
+            float pSenesced(void);
             float pDeadVegTotal(void);
+            float pDead(void);
             float pConcGrain(void);
             float pConcGrainTotal(void);
             float pMaxPot(void);
@@ -285,7 +326,7 @@ class PlantFruit : public plantPart
             void doSenescence1 (float sen_fr);
             void doSenescence2 (float sen_fr);
             void doDmMin(void);
-               void retrans_init(float *dm_plant_min);
+               void retrans_init(void);
 
                void n_conc_grain_limits(void) ;
 

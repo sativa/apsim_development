@@ -214,7 +214,7 @@ void Plant::prepare_p(void)
    if (g.phosphorus_aware == true)
       {
       vector<plantPart*> allParts;
-      setupHacks1(allParts);
+      setupHacks(allParts);
       PlantP_demand(allParts, g.dlt_dm_pot_rue);
       PlantP_Stress(allParts);
       deleteHacks(allParts);
@@ -243,7 +243,7 @@ void Plant::detachment_p(void)
       {
          vector<plantPart*> allParts;
          vector<plantPart*>::iterator part;
-         setupHacks1(allParts);
+         setupHacks(allParts);
 
          PlantP_detachment (allParts);
 
@@ -589,7 +589,7 @@ void Plant::plant_p_retrans(void)
    if (g.phosphorus_aware == true)
       {
       vector<plantPart*> allParts;
-      setupHacks1(allParts);
+      setupHacks(allParts);
       PlantP_retrans (allParts);
       deleteHacks(allParts);
       }

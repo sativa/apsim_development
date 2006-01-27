@@ -5,7 +5,6 @@
 #include <boost/bind.hpp>
 
 typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;
-////class PlantComponent;
 
 // Class for communications - a sink for messages.
 class commsInterface
@@ -42,7 +41,6 @@ class plantInterface {
       virtual float getDmVeg(void) const = 0;
       virtual float getDmGreenStem(void) const = 0;
       virtual float getDmGreenTot(void) const = 0;
-////      PlantComponent *system(void) const;
 
       virtual float getRelativeGrowthRate(void) = 0;
       // temporary
