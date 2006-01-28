@@ -27,15 +27,6 @@ class fruitMealPart;
 //typedef bool (PlantFruit::*ptr2setFn) (protocol::QuerySetValueData&);
 
 
-      //*****        FIXME when this becomes proper class
-//   Short description:
-//      indices of plant part names
-//const int  pod  = 0 ;
-//const int  meal = 1 ; // excludes oil component
-//const int  oil  = 2 ; // seed oil
-// number of plant parts
-//const int  max_part = 3 ; // NB. implies for (i=0; i < max_part; max_part++) usage
-
 class PlantFruit : public plantPart
 {
    typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;    //  FIXME temporary until proper fruit class
@@ -170,10 +161,6 @@ class PlantFruit : public plantPart
             void zeroAllGlobals(void);
             void zeroDeltas(void);
             void zeroDltNSenescedTrans(void);
-            void getDltNGreen(vector<plantPart *> fruitParts);
-            void getDltDmGrainDemand(void) const;                 //??
-            void getDltDmGreen(vector<plantPart *> fruitParts);
-            void getDltDmGreenRetrans(vector<plantPart *> fruitParts);
             void doNSenescedRetrans(float navail, float n_demand_tot);
             void collectDetachedForResidue(vector<string> &part_name
                                           , vector<float> &dm_residue
@@ -186,7 +173,6 @@ class PlantFruit : public plantPart
                                           , vector<float> &p_dead_detached
                                           , vector<float> &fraction_to_residue);
 
-            void getPDemand(vector<plantPart *> fruitParts);
             void update(void);
             void refreshStates(void);
             void n_conc_limits(void);
@@ -199,12 +185,15 @@ class PlantFruit : public plantPart
             float coverDead(void) const;
             float interceptRadiation(float radiation);
             float grainEnergy(void) const;
+            float grainNo(void) const;
             float grainNConcPercent(void);
             float grainNDemand(void) const;
 
             float dltDmGrainDemand(void) const;
             float dltDmRetranslocate(void);
             float dltDmGreen(void);
+            float dltDmPotTe(void);
+            float dltDmPotRuePod(void);
 
             float dmTotal(void);
             float dmGrainTotal(void);
@@ -237,11 +226,13 @@ class PlantFruit : public plantPart
             float dltNRetransOut(void);
             float dltNGreen(void);
             float nDemand(void);
+            float soilNDemand(void);
             float nCapacity(void);
             void  nPartition(float nSupply);
             void  nFix(float nSupply);
 
             float nMaxPot(void);
+            float nMax(void);
             float nMinPot(void);
             float pTotal(void);
             float pGrainTotal(void);
@@ -366,6 +357,21 @@ class PlantFruit : public plantPart
 //      protected:
 //         plantInterface *plant;                 // The plant we are attached to
 
+	private:
+        /* system interface: */
+        UInt2SetFnMap   IDtoSetFn;    /* setVariable */
+
+      vector <plantPart *> myParts;
+      vector <plantPart *> myGrainParts;
+      vector <plantPart *> myVegParts;
+      vector<plantPart *> supplyPools;
+
+      fruitPodPart  *podPart;
+      fruitOilPart  *oilPart;
+      fruitMealPart  *mealPart;
+
+      unsigned int idLatitude;
+//
       float cGrain_fill_option;
       float cX_temp_grainfill[max_table];
       int   cNum_temp_grainfill;
@@ -382,22 +388,7 @@ class PlantFruit : public plantPart
 
       float gGrain_no;                 // multiplier of grain weight to account for seed energy content
 
-	private:
-        /* system interface: */
-        UInt2SetFnMap   IDtoSetFn;    /* setVariable */
-
-//      vector <plantThing *> myThings;
-      vector <plantPart *> myParts;
-      vector <plantPart *> myGrainParts;
-      vector <plantPart *> myVegParts;
-      vector<plantPart *> supplyPools;
-
-      fruitPodPart  *podPart;
-      fruitOilPart  *oilPart;
-      fruitMealPart  *mealPart;
-
-      unsigned int idLatitude;
-
+//
       float cExtinctionCoeffPod;
       float cSpec_pod_area;
       float cRue_pod;

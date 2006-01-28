@@ -70,6 +70,7 @@ class Plant : public plantInterface {
 
   vector <plantThing *> myThings;
   vector <plantPart *> myParts;
+  vector <plantPart *> myStoverParts;
   plantStemPart  *stemPart;
   plantLeafPart  *leafPart;
   ReproStruct    *reproStruct;

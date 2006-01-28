@@ -211,23 +211,24 @@ void plantPart::doRegistrations(protocol::Component *system)
 
 void plantPart::get_n_conc(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    float n_conc = divide (g.n_green, g.dm_green, 0.0) * 100.0;
+    float n_conc = divide (g.n_green, g.dm_green, 0.0) * fract2pcnt;
     system->sendVariable(qd, n_conc);
 }
 void plantPart::get_n_conc_crit(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, (float) (g.n_conc_crit * 100.0));
+    system->sendVariable(qd, (float) (g.n_conc_crit * fract2pcnt));
 }
 void plantPart::get_n_conc_min(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, (float) (g.n_conc_min * 100.0));
+    system->sendVariable(qd, (float) (g.n_conc_min * fract2pcnt));
 }
 void plantPart::get_p_conc(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    float p_conc = divide (g.p_green, g.dm_green, 0.0) * 100.0;
+    float p_conc = divide (g.p_green, g.dm_green, 0.0) * fract2pcnt;
     system->sendVariable(qd, p_conc);
 }
 
+void plantPart::zeroDltDmGreen(void) {dlt.dm_green = 0.0;}
 void plantPart::zeroAllGlobals(void)
 {
    g.dm_dead=0.0;
@@ -579,7 +580,7 @@ void plantPart::updateN(void)
        g.n_senesced += dlt.n_senesced;
        g.n_green += dlt.n_senesced_retrans;
        g.n_senesced -= dlt.n_detached;
-       g.n_green = max(0.0, g.n_green);   // Can occur at total leaf senescence. FIXME! XXXX
+       g.n_green = l_bound(g.n_green, 0.0);   // Can occur at total leaf senescence. FIXME! XXXX
        dlt.n_green_dead = g.n_green * dying_fract_plants;
        g.n_green -= dlt.n_green_dead;
        g.n_dead += dlt.n_green_dead;
@@ -620,7 +621,7 @@ void plantPart::updateP(void)
            g.p_green += dlt.p_green;
            g.p_green += dlt.p_retrans;
            g.p_green -= dlt.p_sen;
-           g.p_green = max(0.0, g.p_green);  // Can occur at total leaf senescence. FIXME! XXXX
+           g.p_green = l_bound(g.p_green, 0.0);  // Can occur at total leaf senescence. FIXME! XXXX
 
            float dlt_p_green_dead = g.p_green * dying_fract_plants;
            g.p_green -= dlt_p_green_dead;
@@ -874,7 +875,7 @@ void plantPart::doPSenescence(void)
                                         , c.y_p_conc_sen
                                         , c.num_x_p_stage_code);
 
-   dlt.p_sen = min(green_p_conc, sen_p_conc) * dlt.dm_senesced;
+   dlt.p_sen = u_bound(sen_p_conc, green_p_conc) * dlt.dm_senesced;
    dlt.p_sen = u_bound (dlt.p_sen, g.p_green);
 }
 
@@ -1001,7 +1002,7 @@ void plantStemPart::onHarvest(float cutting_height, float remove_fr,
     g.p_sen *= retain_fr_sen;
     g.p_green *= retain_fr_green;
 
-    g.height = max(1.0, cutting_height);
+    g.height = l_bound(cutting_height, 1.0);
 
     dm_type.push_back(c.name);
     fraction_to_residue.push_back(fractToResidue);
@@ -1305,9 +1306,10 @@ void plantPart::collectDeadDetachedForResidue(vector<string> &part_name
 }
 
 float plantPart::dmTotal(void) {return (dmGreen() + dmSenesced() + dmDead());}
-float plantPart::dmGreen(void) const {return (g.dm_green);}
-float plantPart::dmSenesced(void) const {return (g.dm_senesced);}
-float plantPart::dmDead(void) const {return (g.dm_dead);}
+float plantPart::dmGreen(void) {return (g.dm_green);}
+float plantPart::dltDmGreen(void) {return (dlt.dm_green);}
+float plantPart::dmSenesced(void) {return (g.dm_senesced);}
+float plantPart::dmDead(void) {return (g.dm_dead);}
 
 float plantPart::dmGreenStressDeterminant(void)
 {
@@ -1340,8 +1342,9 @@ float plantPart::pMinPotStressDeterminant(void)
     else
        return 0.0;
 }
+float plantPart::soilNDemand(void) {return (v.soil_n_demand);}
 float plantPart::nDemand(void) {return (v.n_demand);}
-float plantPart::nMax(void) const{return (v.n_max);}
+float plantPart::nMax(void){return (v.n_max);}
 float plantPart::nCapacity(void)
 {
    v.n_capacity = l_bound(v.n_max - v.n_demand, 0.0);
@@ -1353,12 +1356,12 @@ void plantPart::nFix(float nSupply) {dlt.n_green += nSupply;}
 
 float plantPart::pDemand(void) {return (v.p_demand);}
 float plantPart::nTotal(void) {return (nGreen() + nSenesced() + nDead());}
-float plantPart::nGreen(void) const {return (g.n_green);}
-float plantPart::nSenesced(void) const {return (g.n_senesced);}
-float plantPart::nDead(void) const {return (g.n_dead);}
-float plantPart::nConc(void) const
+float plantPart::nGreen(void) {return (g.n_green);}
+float plantPart::nSenesced(void) {return (g.n_senesced);}
+float plantPart::nDead(void) {return (g.n_dead);}
+float plantPart::nConc(void)
 {
-    float n_conc = divide (g.n_green, g.dm_green, 0.0) * 100.0;     //FIXME ?? 100.0
+    float n_conc = divide (g.n_green, g.dm_green, 0.0) * fract2pcnt;
     return n_conc;
 }
 
@@ -1391,19 +1394,19 @@ float plantPart::nMinPot(void)
     return n_conc_min * g.dm_green;
 }
 float plantPart::pTotal(void) {return (pGreen() + pSenesced() + pDead());}
-float plantPart::pGreen(void) const {return (g.p_green);}
-float plantPart::pSenesced(void) const {return (g.p_sen);}
-float plantPart::pDead(void) const {return (g.p_dead);}
-float plantPart::pConc(void) const
+float plantPart::pGreen(void) {return (g.p_green);}
+float plantPart::pSenesced(void) {return (g.p_sen);}
+float plantPart::pDead(void) {return (g.p_dead);}
+float plantPart::pConc(void)
 {
-    float p_conc = divide (g.p_green, g.dm_green, 0.0) * 100.0;        //FIXME ?? 100.0
+    float p_conc = divide (g.p_green, g.dm_green, 0.0) * fract2pcnt;
     return p_conc;
 }
 
 float plantPart::pRetransSupply(void)
 {
     if (c.p_retrans_part)
-       return max(g.p_green - pMinPot(), 0.0);
+       return l_bound(g.p_green - pMinPot(), 0.0);
     else
        return 0.0;
 }
@@ -1411,7 +1414,7 @@ float plantPart::pRetransSupply(void)
 float plantPart::nRetransSupply(void)
 {
 //    if (c.retrans_part)
-//       return max(g.n_green - nMinPot(), 0.0);
+//       return l_bound(g.n_green - nMinPot(), 0.0);
 //    else
        return 0.0;
 }
@@ -1419,7 +1422,7 @@ float plantPart::nRetransSupply(void)
 float plantPart::dmRetransSupply(void)
 {
 //    if (c.retrans_part)
-//       return max(g.dm_green - dmMinPot(), 0.0);
+//       return l_bound(g.dm_green - dmMinPot(), 0.0);
 //    else
        return 0.0;
 }
@@ -1427,7 +1430,7 @@ float plantPart::dmRetransSupply(void)
 float plantPart::pRetransDemand(void)
 {
     if (c.p_yield_part)
-       return max(pMaxPot() - g.p_green, 0.0);
+       return l_bound(pMaxPot() - g.p_green, 0.0);
     else
        return 0.0;
 }
@@ -1435,7 +1438,7 @@ float plantPart::pRetransDemand(void)
 float plantPart::nRetransDemand(void)
 {
 //    if (c.yield_part)
-//       return max(nMaxPot() - g.n_green, 0.0);
+//       return l_bound(nMaxPot() - g.n_green, 0.0);
 //    else
        return 0.0;
 }
@@ -1443,7 +1446,7 @@ float plantPart::nRetransDemand(void)
 float plantPart::dmRetransDemand(void)
 {
 //    if (c.yield_part)
-//       return max(dmMaxPot() - g.dm_green, 0.0);
+//       return l_bound(dmMaxPot() - g.dm_green, 0.0);
 //    else
        return 0.0;
 }

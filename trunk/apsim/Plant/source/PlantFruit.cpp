@@ -408,6 +408,17 @@ float PlantFruit::nMaxPot(void)
 }
 
 //===========================================================================
+float PlantFruit::nMax(void)
+//===========================================================================
+{
+    v.n_max = 0.0;
+    vector<plantPart *>::iterator part;
+    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
+      v.n_max += (*part)->nMax();
+   return v.n_max;
+}
+
+//===========================================================================
 float PlantFruit::nMinPot(void)
 //===========================================================================
 {
@@ -422,7 +433,7 @@ float PlantFruit::nMinPot(void)
 float PlantFruit::nConcGrain(void)
 //===========================================================================
 {
-    float n_conc = divide (nGreenGrainTotal() , dmGreenGrainTotal() , 0.0) * 100.0;
+    float n_conc = divide (nGreenGrainTotal() , dmGreenGrainTotal() , 0.0) * fract2pcnt;
     return n_conc;
 }
 
@@ -431,9 +442,22 @@ float PlantFruit::nConcGrain(void)
 float PlantFruit::nGrainDemand2(void)
 //===========================================================================
 {
-    return max(0.0, mealPart->v.soil_n_demand - mealPart->dlt.n_green);
+    return l_bound(mealPart->v.soil_n_demand - mealPart->dlt.n_green, 0.0);
 }
 
+
+//============================================================================
+float PlantFruit::soilNDemand(void)
+//============================================================================
+{
+    v.soil_n_demand = 0.0;
+    vector<plantPart *>::iterator part;
+    for (part = myParts.begin(); part != myParts.end(); part++)
+    {
+            v.soil_n_demand += (*part)->soilNDemand();
+    }
+    return v.soil_n_demand;
+}
 
 //============================================================================
 float PlantFruit::nDemand(void)
@@ -760,7 +784,7 @@ void PlantFruit::get_grain_n_demand(protocol::Component *system, protocol::Query
 }
 
 //===========================================================================
-void PlantFruit::get_n_conc_grain(protocol::Component *system, protocol::QueryValueData &qd)  //FIXME move to fruit
+void PlantFruit::get_n_conc_grain(protocol::Component *system, protocol::QueryValueData &qd)
 //===========================================================================
 {
     float n_conc = nConcGrain();
@@ -768,10 +792,10 @@ void PlantFruit::get_n_conc_grain(protocol::Component *system, protocol::QueryVa
 }
 
 //===========================================================================
-void PlantFruit::get_grain_protein(protocol::Component *system, protocol::QueryValueData &qd) //FIXME
+void PlantFruit::get_grain_protein(protocol::Component *system, protocol::QueryValueData &qd)
 //===========================================================================
 {
-    float gp = nConcGrain() * 100.0 * 5.71;
+    float gp = nConcGrain() * fract2pcnt * 5.71;
     system->sendVariable(qd, gp);
 }
 
@@ -791,7 +815,7 @@ void PlantFruit::get_yield(protocol::Component *system, protocol::QueryValueData
 }
 
 //===========================================================================
-void PlantFruit::get_grain_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)   //FIXME
+void PlantFruit::get_grain_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 //===========================================================================
 {
     float grain_p = pGreenGrainTotal();
@@ -820,7 +844,7 @@ void PlantFruit::get_head_p(protocol::Component *systemInterface, protocol::Quer
 }
 
 //===========================================================================
-void PlantFruit::get_p_conc_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)  //FIXME
+void PlantFruit::get_p_conc_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 //===========================================================================
 {
     float p_conc_grain = pConcGrain();
@@ -1405,7 +1429,7 @@ void PlantFruit::zeroDltDmGreen(void)
    for (vector<plantPart *>::iterator t = myParts.begin();
         t != myParts.end();
         t++)
-       (*t)->dlt.dm_green = 0.0;
+       (*t)->zeroDltDmGreen();
 }
 
 void PlantFruit::zeroDltNSenescedTrans(void)
@@ -1802,40 +1826,6 @@ void PlantFruit::readSpeciesParameters(protocol::Component *system, vector<strin
 
 
 //===========================================================================
-void PlantFruit::getDltNGreen(vector<plantPart *> fruitParts)
-//===========================================================================
-{
-    dlt.n_green = 0.0;
-    vector<plantPart *>::iterator myPart =myParts.begin();
-
-    vector<plantPart *>::iterator part;
-    for (part = fruitParts.begin(); part != fruitParts.end(); part++) //FIXME temp untio pod and meal are removed from plant array
-    {
-      (*myPart)->dlt.n_green = (*part)->dlt.n_green;
-      dlt.n_green +=(*myPart)->dlt.n_green;
-      myPart++;
-    }
-
-}
-
-//===========================================================================
-void PlantFruit::getDltDmGreen(vector<plantPart *> fruitParts)
-//===========================================================================
-{
-    dlt.dm_green = 0.0;
-    vector<plantPart *>::iterator myPart =myParts.begin();
-
-    vector<plantPart *>::iterator part;
-    for (part = fruitParts.begin(); part != fruitParts.end(); part++) //FIXME temp untio pod and meal are removed from plant array
-    {
-      (*myPart)->dlt.dm_green = (*part)->dlt.dm_green;
-      dlt.dm_green +=(*myPart)->dlt.dm_green;
-      myPart++;
-    }
-
-}
-
-//===========================================================================
 float PlantFruit::dmGreen(void)
 //===========================================================================
 {
@@ -1862,23 +1852,6 @@ float PlantFruit::dltDmGreen(void)
 }
 
 //===========================================================================
-void PlantFruit::getDltDmGreenRetrans(vector<plantPart *> fruitParts)
-//===========================================================================
-{
-    dlt.dm_green_retrans = 0.0;
-    vector<plantPart *>::iterator myPart =myParts.begin();
-
-    vector<plantPart *>::iterator part;
-    for (part = fruitParts.begin(); part != fruitParts.end(); part++)     //FIXME temp untio pod and meal are removed from plant array
-    {
-      (*myPart)->dlt.dm_green_retrans = (*part)->dlt.dm_green_retrans;
-      dlt.dm_green_retrans +=(*myPart)->dlt.dm_green_retrans;
-      myPart++;
-    }
-
-}
-
-//===========================================================================
 void PlantFruit::doNSenescedRetrans(float navail, float n_demand_tot)
 //===========================================================================
 {
@@ -1892,23 +1865,6 @@ void PlantFruit::doNSenescedRetrans(float navail, float n_demand_tot)
 }
 
 //===========================================================================
-void PlantFruit::getPDemand(vector<plantPart *> fruitParts)
-//===========================================================================
-{
-    v.p_demand = 0.0;
-    vector<plantPart *>::iterator myPart =myParts.begin();
-
-    vector<plantPart *>::iterator part;
-    for (part = fruitParts.begin(); part != fruitParts.end(); part++) //FIXME temp untio pod and meal are removed from plant array
-    {
-      (*myPart)->v.p_demand = (*part)->v.p_demand;
-      v.p_demand +=(*myPart)->v.p_demand;
-      myPart++;
-    }
-
-}
-
-//===========================================================================
 void PlantFruit::collectDetachedForResidue(vector<string> &part_name
                                           , vector<float> &dm_residue
                                           , vector<float> &dm_n
@@ -1917,7 +1873,7 @@ void PlantFruit::collectDetachedForResidue(vector<string> &part_name
 //===========================================================================
 {
     vector<plantPart *>::iterator part;
-    for (part = myParts.begin(); part != myParts.end(); part++) //FIXME temp untio pod and meal are removed from plant array
+    for (part = myParts.begin(); part != myParts.end(); part++)
     {
       (*part)->collectDetachedForResidue(part_name
                                       , dm_residue
@@ -1936,7 +1892,7 @@ void PlantFruit::collectDeadDetachedForResidue(vector<string> &part_name
 //===========================================================================
 {
     vector<plantPart *>::iterator part;
-    for (part = myParts.begin(); part != myParts.end(); part++) //FIXME temp untio pod and meal are removed from plant array
+    for (part = myParts.begin(); part != myParts.end(); part++)
     {
       (*part)->collectDetachedForResidue(part_name
                                       , dm_dead_detached
@@ -2124,20 +2080,19 @@ void PlantFruit::processBioDemand(void)
     return;
 }
 
+float PlantFruit::grainNo(void) const {return gGrain_no;}
 float PlantFruit::grainEnergy(void) const {return gGrain_energy;}
 float PlantFruit::grainNDemand(void) const {return gN_grain_demand;}
-float PlantFruit::grainNConcPercent(void)
-{
-      return divide (nGrainTotal(), dmGrainTotal(), 0.0) * fract2pcnt;
-}
-
+float PlantFruit::dltDmPotTe(void) {return gDlt_dm_pot_te;}
+float PlantFruit::dltDmPotRuePod(void) {return gDlt_dm_pot_rue_pod;}
+float PlantFruit::grainNConcPercent(void) {return divide (nGrainTotal(), dmGrainTotal(), 0.0) * fract2pcnt;}
 float PlantFruit::dltDmGrainDemand(void) const {return gDlt_dm_grain_demand;}
 
 //===========================================================================
 void PlantFruit::calcDlt_pod_area (void)
 //===========================================================================
 {
-        gDlt_pai = podPart->dlt.dm_green * cSpec_pod_area * smm2sm;  //FIXME when these data members are put in
+        gDlt_pai = podPart->dltDmGreen() * cSpec_pod_area * smm2sm;  //FIXME when these data members are put in
 }
 //===========================================================================
 float PlantFruit::meanT (void)
@@ -2319,7 +2274,7 @@ void PlantFruit::bio_water1 (void)  //(OUTPUT) potential dry matter production
 
    // potential (supply) by transpiration
 
-   gDlt_dm_pot_te= plant->getWaterSupplyPod() * gTranspEff;
+   gDlt_dm_pot_te = plant->getWaterSupplyPod() * gTranspEff;
 
        // Capping of sw demand will create an effective TE- recalculate it here       //FIXME
        // In an ideal world this should NOT be changed here - NIH
@@ -2418,7 +2373,7 @@ void PlantFruit::bio_actual (void)
 //- Implementation Section ----------------------------------
 
         // use whichever is limiting
-        gDlt_dm = min (gDlt_dm_pot_rue_pod, gDlt_dm_pot_te);   //FIXME when these data members are put in
+        gDlt_dm = min (gDlt_dm_pot_rue_pod, gDlt_dm_pot_te);
 
 }
 
@@ -2881,7 +2836,7 @@ void PlantFruit::dm_partition2 (double g_dlt_dm)
      for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
           t != myParts.end();
           t++)
-        (*t)->dlt.dm_green = 0.0;
+        (*t)->zeroDltDmGreen();
 
      gDlt_dm_oil_conv = 0.0;
 
@@ -3049,7 +3004,7 @@ void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_fruit )
         {
            dm_part_pot = (*fPart)->g.dm_green + (*fPart)->dlt.dm_green_retrans;
            dm_part_avail = dm_part_pot
-                         - (*fPart)->g.dm_plant_min * plant->getPlants();       //FIXME something wrong with dm_plant_min
+                         - (*fPart)->g.dm_plant_min * plant->getPlants();
            dm_part_avail = l_bound (dm_part_avail, 0.0);
 
            dlt_dm_retrans_part = min (demand_differential, dm_part_avail);
@@ -3194,7 +3149,7 @@ void PlantFruit::dm_retranslocate2( float  g_dlt_dm_retrans_to_fruit)
         {
            dm_part_pot = (*fPart)->g.dm_green + (*fPart)->dlt.dm_green_retrans;
            dm_part_avail = dm_part_pot
-                         - (*fPart)->g.dm_plant_min * plant->getPlants();       //FIXME something wrong with dm_plant_min
+                         - (*fPart)->g.dm_plant_min * plant->getPlants();
            dm_part_avail = l_bound (dm_part_avail, 0.0);
 
            dlt_dm_retrans_part = min (demand_differential, dm_part_avail);
