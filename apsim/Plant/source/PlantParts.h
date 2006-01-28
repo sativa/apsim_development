@@ -192,6 +192,7 @@ private:
    virtual void p_detachment1(void);
    virtual void doPDemand(void);
    virtual void doPSenescence(void);
+   virtual void zeroDltDmGreen(void);
 
    virtual void collectDetachedForResidue(vector<string> &part_name
                                           , vector<float> &dm_residue
@@ -204,9 +205,10 @@ private:
                                           , vector<float> &p_dead_detached
                                           , vector<float> &fraction_to_residue);
    virtual float dmTotal(void);
-   virtual float dmGreen(void) const;
-   virtual float dmSenesced(void) const;
-   virtual float dmDead(void) const;
+   virtual float dmGreen(void);
+   virtual float dltDmGreen(void);
+   virtual float dmSenesced(void);
+   virtual float dmDead(void);
    virtual float dmRetransSupply(void);
    virtual float dmRetransDemand(void);
 
@@ -215,27 +217,28 @@ private:
    virtual float pMaxPotStressDeterminant(void);
    virtual float pMinPotStressDeterminant(void);
    virtual float nTotal(void);
-   virtual float nGreen(void) const;
-   virtual float nSenesced(void) const;
-   virtual float nDead(void) const;
-   virtual float nConc(void) const;
+   virtual float nGreen(void);
+   virtual float nSenesced(void);
+   virtual float nDead(void);
+   virtual float nConc(void);
    virtual float dltNRetransOut(void);
    virtual float dltNGreen(void);
 
    virtual float nMaxPot(void) ;
    virtual float nMinPot(void) ;
    virtual float pTotal(void);
-   virtual float pGreen(void) const;
-   virtual float pSenesced(void) const;
-   virtual float pDead(void) const;
-   virtual float pConc(void) const;
+   virtual float pGreen(void);
+   virtual float pSenesced(void);
+   virtual float pDead(void);
+   virtual float pConc(void);
 
    virtual float pMaxPot(void) ;
    virtual float pMinPot(void) ;
    virtual void updatePDet(void) ;
 
+   virtual float soilNDemand(void);
    virtual float nDemand(void);
-   virtual float nMax(void) const;
+   virtual float nMax(void);
    virtual float nCapacity(void);
    virtual void  nPartition(float nSupply);
    virtual void  nFix(float nSupply);
