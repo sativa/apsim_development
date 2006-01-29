@@ -1316,36 +1316,36 @@ void Plant::plant_bio_grain_demand_stress (int option /* (INPUT) option number *
     }
 
 
-//+  Purpose
-//       Initialise plant weights and plant weight minimums
-//       at required instances.
-
-//+  Mission Statement
-//     Initialise plant weights and plant weight minimums at required instances.
-
-//+  Changes
-//     21-04-1998 - unknown - Programmed and Specified
-void Plant::plant_retrans_init (int option)
-    {
-    const char*  myname = "plant_retrans_init" ;
-
-//- Implementation Section ----------------------------------
-    push_routine (myname);
-
-    if (option==1)
-        {
-
-        fruitPart->retrans_init ();
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template option in  retrans_init");
-        }
-
-    pop_routine (myname);
-    return;
-    }
-
+//////+  Purpose
+//////       Initialise plant weights and plant weight minimums
+//////       at required instances.
+////
+//////+  Mission Statement
+//////     Initialise plant weights and plant weight minimums at required instances.
+////
+//////+  Changes
+//////     21-04-1998 - unknown - Programmed and Specified
+////void Plant::plant_retrans_init (int option)
+////    {
+////    const char*  myname = "plant_retrans_init" ;
+////
+//////- Implementation Section ----------------------------------
+////    push_routine (myname);
+////
+////    if (option==1)
+////        {
+////
+////////        fruitPart->retrans_init ();
+////        }
+////    else
+////        {
+////        throw std::invalid_argument ("invalid template option in  retrans_init");
+////        }
+////
+////    pop_routine (myname);
+////    return;
+////    }
+////
 
 //+  Purpose
 //       Simulate plant detachment.
@@ -3567,10 +3567,7 @@ void Plant::plant_update(
     plant_n_conc_limits(c_n_conc_crit_root
                         , c_n_conc_max_root
                         , c_n_conc_min_root
-                        , c_x_stage_code
-                        , c_x_co2_nconc_modifier, c_y_co2_nconc_modifier, c_num_co2_nconc_modifier
-                        , g_co2
-                        , phenology->stageNumber()
+                        , g.co2_modifier_n_conc
                         , g_n_conc_crit
                         , g_n_conc_max
                         , g_n_conc_min);
@@ -4256,8 +4253,7 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
     if (option == 1)
         {
 
-        fruitPart->dm_pot_rue( g.radnIntGreenFruit
-                         , c.photosynthetic_pathway);
+        fruitPart->dm_pot_rue( g.radnIntGreenFruit);
 
 
         float radnIntGreenVeg = g.radn_int - g.radnIntGreenFruit;  //  FIXME temporary until proper fruit class
@@ -4267,9 +4263,9 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
                            , radnIntGreenVeg
                            , min(min(min(g.temp_stress_photo, g.nfact_photo),
                                g.oxdef_photo), g.pfact_photo)
-                           , g.co2
-                           , g.maxt, g.mint
-                           , c.photosynthetic_pathway
+////                           , g.co2
+////                           , g.maxt, g.mint
+////                           , c.photosynthetic_pathway
                            , &dlt_dm_pot_rue_veg);
 
         g.dlt_dm_pot_rue = dlt_dm_pot_rue_veg + fruitPart->dltDmPotRuePod();  // FIXME when fruit is made proper class
@@ -4297,28 +4293,58 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
 void Plant::plant_dm_pot_rue_veg (externalFunction *c_rue
                                 , double  radn_int
                                 , double  stress_factor
-                                , float g_co2
-                                , float g_maxt
-                                , float g_mint
-                                , photosynthetic_pathway_t c_photosynthetic_pathway
+////                                , float g_co2
+////                                , float g_maxt
+////                                , float g_mint
+////                                , photosynthetic_pathway_t c_photosynthetic_pathway
                                 , float  *dlt_dm_pot)                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
   {
   //+  Local Variables
   double rue_leaf;
-  float co2_modifier = 0.0;
+////  float co2_modifier = 0.0;
 
   rue_leaf = c_rue->value(phenology->stageNumber());
 
-  plant_rue_co2_modifier(c_photosynthetic_pathway,
-                         g_co2,
-                         g_maxt,
-                         g_mint,
-                         &co2_modifier);
+////  plant_rue_co2_modifier(c_photosynthetic_pathway,
+////                         g_co2,
+////                         g_maxt,
+////                         g_mint,
+////                         &co2_modifier);
 
-  *dlt_dm_pot = (radn_int * rue_leaf) * stress_factor * co2_modifier;
+  *dlt_dm_pot = (radn_int * rue_leaf) * stress_factor * g.co2_modifier_rue;
 
 //  fprintf(stdout, "%f,%f,%f\n", phenology->stageNumber(), stress_factor, *dlt_dm_pot);
   }
+
+void Plant::plant_co2_modifier_rue(void)
+{
+  plant_rue_co2_modifier(c.photosynthetic_pathway,
+                         g.co2,
+                         g.maxt,
+                         g.mint,
+                         &g.co2_modifier_rue);
+}
+
+void Plant::plant_co2_modifier_te(void)
+{
+   g.co2_modifier_te = linear_interp_real (g.co2
+                                         , c.x_co2_te_modifier
+                                         , c.y_co2_te_modifier
+                                         , c.num_co2_te_modifier);
+}
+
+void Plant::plant_co2_modifier_n_conc(void)
+{
+   g.co2_modifier_n_conc = linear_interp_real (g.co2
+                                         , c.x_co2_nconc_modifier
+                                         , c.y_co2_nconc_modifier
+                                         , c.num_co2_nconc_modifier);
+}
+
+void Plant::plant_vpd (float c_svp_fract, float g_maxt, float g_mint)
+{
+   g.vpd = vpd(c_svp_fract, g_maxt, g_mint);
+}
 
 
 //==========================================================================
@@ -4635,16 +4661,10 @@ void Plant::plant_dm_init (
 
 //+  Changes
 //       080994 jngh specified and programmed
-void Plant::plant_n_conc_limits
-                               (float  c_n_conc_crit_root                 // (INPUT)  critical N concentration of ro
+void Plant::plant_n_conc_limits(float  c_n_conc_crit_root                 // (INPUT)  critical N concentration of ro
                                ,float  c_n_conc_max_root                  // (INPUT)  maximum N concentration of roo
                                ,float  c_n_conc_min_root                  // (INPUT)  minimum N concentration of roo
-                               ,float  *c_x_stage_code                     // (INPUT)  stage table for N concentratio
-                               ,float  *c_x_co2_nconc_modifier
-                               ,float  *c_y_co2_nconc_modifier
-                               ,int    c_num_co2_nconc_modifier
-                               ,float  g_co2
-                               ,float  g_current_stage                    // (INPUT)  current phenological stage
+                               ,float  g_co2_modifier_n_conc
                                ,float  *n_conc_crit                        // (OUTPUT) critical N concentration  (g N/g part)
                                ,float  *n_conc_max                         // (OUTPUT) maximum N concentration   (g N/g part)
                                ,float  *n_conc_min                         // (OUTPUT) minimum N concentration    g N/g part)
@@ -4674,11 +4694,7 @@ void Plant::plant_n_conc_limits
              t++)
            (*t)->n_conc_limits();
 
-        float co2_modifier = linear_interp_real(g_co2,
-                                                c_x_co2_nconc_modifier,
-                                                c_y_co2_nconc_modifier,
-                                                c_num_co2_nconc_modifier);
-        leafPart->g.n_conc_crit *= co2_modifier;
+        leafPart->g.n_conc_crit *= g_co2_modifier_n_conc;
         if (leafPart->g.n_conc_crit <= leafPart->g.n_conc_min)
            {
            throw std::runtime_error("Aiieeee nconc_crit < nconc_min!");
@@ -5442,11 +5458,11 @@ void Plant::plant_process ( void )
         //fprintf(stdout, "%d,%.9f,%.9f,%.9f\n", g.day_of_year,g.dlt_dm, g.dlt_dm_pot_rue, g.dlt_dm_pot_te);
 
         fruitPart->processBioDemand();
-        g.grain_energy = fruitPart->grainEnergy();
+////        g.grain_energy = fruitPart->grainEnergy();
 
         plant_bio_partition (c.partition_option);
 
-        plant_retrans_init(1);
+//        plant_retrans_init(1);
 
         plant_bio_retrans (c.partition_option);
 
@@ -6028,12 +6044,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     plant_n_conc_limits (c.n_conc_crit_root
                        , c.n_conc_max_root
                        , c.n_conc_min_root
-                       , c.x_stage_code
-                       , c.x_co2_nconc_modifier
-                       , c.y_co2_nconc_modifier
-                       , c.num_co2_nconc_modifier
-                       , g.co2
-                       , phenology->stageNumber()
+                       , g.co2_modifier_n_conc
                        , g.n_conc_crit
                        , g.n_conc_max
                        , g.n_conc_min);
@@ -6254,12 +6265,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     plant_n_conc_limits (c.n_conc_crit_root
                         , c.n_conc_max_root
                         , c.n_conc_min_root
-                        , c.x_stage_code
-                        , c.x_co2_nconc_modifier
-                        , c.y_co2_nconc_modifier
-                        , c.num_co2_nconc_modifier
-                        , g.co2
-                        , phenology->stageNumber()
+                        , g.co2_modifier_n_conc
                         , g.n_conc_crit
                         , g.n_conc_max
                         , g.n_conc_min )  ;                                          // plant N concentr
@@ -6701,12 +6707,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     plant_n_conc_limits (c.n_conc_crit_root
                        , c.n_conc_max_root
                        , c.n_conc_min_root
-                       , c.x_stage_code
-                       , c.x_co2_nconc_modifier
-                       , c.y_co2_nconc_modifier
-                       , c.num_co2_nconc_modifier
-                       , g.co2
-                       , phenology->stageNumber()
+                       , g.co2_modifier_n_conc
                        , g.n_conc_crit
                        , g.n_conc_max
                        , g.n_conc_min);
@@ -6753,6 +6754,10 @@ void Plant::plant_zero_all_globals (void)
   memset (&p, 0xdeadbeef, sizeof(p));
   memset (&c, 0xdeadbeef, sizeof(c)); //not for <x>_dm_sen_frac
 #endif
+      g.vpd = 0.0;
+      g.co2_modifier_te = 0.0;
+      g.co2_modifier_n_conc = 0.0;
+      g.co2_modifier_rue = 0.0;
       g.hasreadconstants = false;
       g.plant_status_out_today = false;
       g.module_name = "";
@@ -6825,7 +6830,6 @@ void Plant::plant_zero_all_globals (void)
       g.radn_int = 0.0;
       g.radnIntGreenFruit = 0.0;
       g.transp_eff = 0.0;
-      g.transpEffFruit = 0.0;
       g.lai_canopy_green = 0.0;
       g.dlt_slai_detached = 0.0;
       g.dlt_slai_age = 0.0;
@@ -8594,6 +8598,11 @@ void Plant::plant_prepare (void)
 
 //- Implementation Section ----------------------------------
     push_routine (myname);
+
+    plant_co2_modifier_rue ();
+    plant_co2_modifier_te ();
+    plant_co2_modifier_n_conc ();
+    plant_vpd (c.svp_fract, g.maxt, g.mint);
 
     for (vector<plantPart *>::iterator t = myParts.begin();
          t != myParts.end();
@@ -10994,6 +11003,10 @@ void Plant::plant_n_demand(int max_part     // (INPUT)
           return dying_fract_plants;
       }
 
+  float Plant::getCo2ModifierRue(void) const {return g.co2_modifier_rue;}
+  float Plant::getCo2ModifierTe(void) const {return g.co2_modifier_te;}
+  float Plant::getCo2ModifierNConc(void) const {return g.co2_modifier_n_conc;}
+  float Plant::getVpd(void) const {return g.vpd;}
   float Plant::getTempStressPhoto(void) const {return g.temp_stress_photo;}
   float Plant::getNfactPhoto(void) const {return g.nfact_photo;}
   float Plant::getOxdefPhoto(void) const {return g.oxdef_photo;}
