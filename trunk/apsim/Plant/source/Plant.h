@@ -174,6 +174,10 @@ class Plant : public plantInterface {
   void onApsimGetQuery(protocol::ApsimGetQueryData&);
   void sendStageMessage(const char *what);
   void doPlantEvent(const string &);
+  void plant_co2_modifier_rue(void);
+  void plant_co2_modifier_te(void);
+  void plant_co2_modifier_n_conc(void);
+  void plant_vpd (float c_svp_fract, float g_maxt, float g_min);
 
   void plant_bio_actual (int option /* (INPUT) option number*/);
   void plant_bio_partition (int option /* (INPUT) option number */);
@@ -403,23 +407,23 @@ class Plant : public plantInterface {
                                   , float *swSupplyVeg
                                   , float *swSupplyFruit);
 
- void plant_dm_pot_rue (externalFunction *c_rue
-                         ,float  rue_pod
-                         ,float  cover_green
-                         ,float  cover_pod
-                         ,double  radn_int
-                         ,double  stress_factor
-                         ,float g_co2, float g_maxt, float g_mint
-                         ,photosynthetic_pathway_t photosynthetic_pathway
-                         ,float  *dlt_dm_pot);
+//// void plant_dm_pot_rue (externalFunction *c_rue
+////                         ,float  rue_pod
+////                         ,float  cover_green
+////                         ,float  cover_pod
+////                         ,double  radn_int
+////                         ,double  stress_factor
+////                         ,float g_co2, float g_maxt, float g_mint
+////                         ,photosynthetic_pathway_t photosynthetic_pathway
+////                         ,float  *dlt_dm_pot);
 
  void plant_dm_pot_rue_veg (externalFunction *c_rue
                           , double  radn_int
                           , double  stress_factor
-                          , float g_co2
-                          , float g_maxt
-                          , float g_mint
-                          , photosynthetic_pathway_t photosynthetic_pathway
+////                          , float g_co2
+////                          , float g_maxt
+////                          , float g_mint
+////                          , photosynthetic_pathway_t photosynthetic_pathway
                           , float  *dlt_dm_pot);
 
   void plant_rue_co2_modifier(photosynthetic_pathway_t,  //!please use 'C3' or 'C4' for crop_type
@@ -431,12 +435,7 @@ class Plant : public plantInterface {
   void plant_n_conc_limits (float  c_n_conc_crit_root
       			     ,float  c_n_conc_max_root
       			     ,float  c_n_conc_min_root
-      			     ,float  *c_x_stage_code
-      	                 ,float  *c_x_co2_nconc_modifier
-                             ,float  *c_y_co2_nconc_modifier
-                             ,int    c_num_co2_nconc_modifier
-                             ,float  g_co2
-      			     ,float  g_current_stage
+                             ,float  g_co2_modifier_n_conc
       			     ,float  *n_conc_crit
       			     ,float  *n_conc_max
       			     ,float  *n_conc_min) ;
@@ -667,6 +666,10 @@ void Plant::legnew_dm_retranslocate
   float getDmGreenTot(void) const;
   float getRelativeGrowthRate(void);
   float getDyingFractionPlants(void);
+  float getCo2ModifierRue(void) const;
+  float getCo2ModifierTe(void) const;
+  float getCo2ModifierNConc(void) const;
+  float getVpd(void) const;
 
   float getTempStressPhoto(void) const;
   float getNfactPhoto(void) const;
@@ -1120,6 +1123,10 @@ void Plant::legnew_dm_retranslocate
       bool  phosphorus_aware;
 
       float     co2;
+      float     co2_modifier_rue;
+      float     co2_modifier_te;
+      float     co2_modifier_n_conc;
+      float     vpd;
     } g;   // Globals
 
 

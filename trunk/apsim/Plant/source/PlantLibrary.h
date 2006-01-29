@@ -1516,6 +1516,7 @@ void cproc_sw_demand_bound (float sw_demand_unbounded,  //(INPUT)  Unbounded sw 
                             float *sw_demand_bounded);    //(OUTPUT) bounded sw demand (mm)
 
 float svp(float temp); //(INPUT)  fraction of distance between svp at mi
+float vpd(float svp_fract, float maxt, float mint); //(INPUT)
 
 void cproc_transp_eff1(float svp_fract,          // (INPUT)  fraction of distance between svp at mi
                        float transp_eff_cf,     //  (INPUT)  transpiration efficiency coefficien
@@ -1552,6 +1553,11 @@ void cproc_transp_eff_co2(float svp_fract,        // (INPUT)  fraction of distan
                           float *co2_level_te,     // (INPUT)  co2 levels (ppm)
                           float *te_co2_modifier,  // (INPUT)  te modifiers of co2 levels (0-1)
                           int   num_co2_level_te,   // (INPUT)  number of table elements in co2-te modifier table
+                          float *transp_eff);       // (OUTPUT) transpiration coefficient
+
+void cproc_transp_eff_co2_1(float vpd,        // (INPUT)
+                          float transp_eff_cf,    // (INPUT)  transpiration efficiency coefficien
+                          float co2_modifier,     // (INPUT)  te modifier of co2 level (0-1)
                           float *transp_eff);       // (OUTPUT) transpiration coefficient
 
 double divide (double dividend, double divisor, double default_value);

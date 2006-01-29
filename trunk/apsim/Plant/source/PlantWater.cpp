@@ -448,7 +448,7 @@ void cproc_sw_supply1 (commsInterface *iface,
 */
    {
    // Implementation Section ----------------------------------
-   crop_check_sw(iface, C_sw_lb, G_dlayer, G_dul_dep, 
+   crop_check_sw(iface, C_sw_lb, G_dlayer, G_dul_dep,
                  G_sw_dep, P_ll_dep);
 
    crop_sw_avail_pot(max_layer, G_dlayer, G_dul_dep,
@@ -638,6 +638,14 @@ float svp(float temp) //(INPUT)  fraction of distance between svp at mi
             mb2kpa;
    return val;
    }
+
+//=========================================================================
+float vpd(float svp_fract, float maxt, float mint) //(INPUT)
+//==========================================================================
+{
+      float vpd = svp_fract * (svp(maxt) - svp(mint));
+      return vpd;
+}
 
 //==========================================================================
 void cproc_transp_eff1(float svp_fract,         ///  (INPUT)  fraction of distance between svp at mi
@@ -878,6 +886,53 @@ void cproc_transp_eff_co2(float svp_fract,        // (INPUT)  fraction of distan
 
    co2_modifier = linear_interp_real(co2level, co2_level_te, te_co2_modifier,
                                      num_co2_level_te);
+
+   *transp_eff = *transp_eff * co2_modifier;
+   }
+
+//==========================================================================
+void cproc_transp_eff_co2_1(float vpd,        // (INPUT)
+                          float transp_eff_cf,    // (INPUT)  transpiration efficiency coefficien
+                          float co2_modifier,     // (INPUT)  te modifier of co2 level (0-1)
+                          float *transp_eff)       // (OUTPUT) transpiration coefficient
+//=========================================================================
+/*  Purpose
+*       Calculate today's transpiration efficiency from min,max temperatures and co2 level
+*       and converting mm water to g dry matter (g dm/m^2/mm water)
+*
+*  Mission Statement
+*       Calculate today's transpiration efficiency from VPD and CO2 level
+*
+*  Assumptions
+*       the temperatures are > -237.3 oC for the svp function.
+*       if co2_level=0.0 then co2_level=350ppm
+*
+*  Notes
+*       Average saturation vapour pressure for ambient temperature
+*       during transpiration is calculated as part-way between that
+*       for minimum temperature and that for the maximum temperature.
+*       Tanner & Sinclair (1983) used .75 and .67 of the distance as
+*       representative of the positive net radiation (rn).  Daily SVP
+*       should be integrated from about 0900 hours to evening when Radn
+*       becomes negative.
+*
+*  Changes
+*       21/5/2003 ad converted to BC++
+*       20000721 ew developed from crop_transp_eff1 and added co2 effect on transp_eff
+*
+*  Sub-Program Arguments
+*/
+   {
+   //  Local Variables
+   float temp_arg;      // dummy temperature for function (oC)
+   float tolerance;
+
+   // Implementation Section ----------------------------------
+   //get vapour pressure deficit when net radiation is positive.
+
+   vpd = l_bound (vpd, 0.01);
+
+   *transp_eff = divide (transp_eff_cf, vpd, 0.0) / g2mm;
 
    *transp_eff = *transp_eff * co2_modifier;
    }

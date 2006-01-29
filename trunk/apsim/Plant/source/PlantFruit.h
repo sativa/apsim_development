@@ -29,7 +29,6 @@ class fruitMealPart;
 
 class PlantFruit : public plantPart
 {
-   typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;    //  FIXME temporary until proper fruit class
    friend ostream &operator<<(ostream &, const PlantFruit &);
 	public:												// member functions
             PlantFruit(plantInterface *p, const string &name);
@@ -183,7 +182,7 @@ class PlantFruit : public plantPart
             float coverGreen(void) const;
             float coverSen(void) const;
             float coverDead(void) const;
-            float interceptRadiation(float radiation);
+            float interceptRadiation(float radiation);        //FIXME
             float grainEnergy(void) const;
             float grainNo(void) const;
             float grainNConcPercent(void);
@@ -192,8 +191,8 @@ class PlantFruit : public plantPart
             float dltDmGrainDemand(void) const;
             float dltDmRetranslocate(void);
             float dltDmGreen(void);
-            float dltDmPotTe(void);
-            float dltDmPotRuePod(void);
+            float dltDmPotTe(void);            //FIXME
+            float dltDmPotRuePod(void);        //FIXME
 
             float dmTotal(void);
             float dmGrainTotal(void);
@@ -267,24 +266,18 @@ class PlantFruit : public plantPart
 
 		virtual void display(ostream &os = cout) const;	// display function
 //            float calcCover (float pai);  // calc pod cover
-            float calcCover (float canopy_fac);  // return pod cover
+            float calcCover (float canopy_fac);  // return pod cover   //FIXME
 
             float divide (float dividend, float divisor, float default_value) const;  // Command
 
-            void calcDlt_pod_area (void);
+            void calcDlt_pod_area (void);   //FIXME
             float meanT (void);
 
-            void dm_pot_rue (double  radn_int_pod
-                           , photosynthetic_pathway_t c_photosynthetic_pathway);                         // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
-
-            void rue_co2_modifier(photosynthetic_pathway_t photosyntheticType //!please use 'C3' or 'C4' for photosyntheticType
-                                , float co2                                   // CO2 level (ppm)
-                                , float meanT                                 // daily mean temp (oC)
-                                , float *modifier);                           // modifier (-)
-
-            void transp_eff_co2();      // (OUTPUT) transpiration coefficient
-            void sw_demand1(float *sw_demand);        //(OUTPUT) crop water demand (mm)
-            void bio_water1(void); //(OUTPUT) potential dry matter production by transpiration (g/m^2)
+            void dm_pot_rue (double  radn_int_pod);                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+                                                                                                      //FIXME
+            void transp_eff_co2();      // (OUTPUT) transpiration coefficient                         //FIXME
+            void sw_demand1(float *sw_demand);        //(OUTPUT) crop water demand (mm)               //FIXME
+            void bio_water1(void); //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
             void bio_grain_oil (void);
             void bio_grain_demand (void);
             void bio_yieldpart_demand1 (void) ;
@@ -317,7 +310,7 @@ class PlantFruit : public plantPart
             void doSenescence1 (float sen_fr);
             void doSenescence2 (float sen_fr);
             void doDmMin(void);
-               void retrans_init(void);
+////               void retrans_init(void);
 
                void n_conc_grain_limits(void) ;
 
@@ -335,14 +328,14 @@ class PlantFruit : public plantPart
 //      float cover_sen
 //      float cover_dead
 
-      struct Cover
-      {
-         float green;
-         float sen;
-         float dead;
-      };
-
-      Cover coverPod;
+      struct Cover         //FIXME
+      {                    //FIXME
+         float green;      //FIXME
+         float sen;        //FIXME
+         float dead;       //FIXME
+      };                   //FIXME
+                           //FIXME
+      Cover coverPod;      //FIXME
 
 //      struct PlantPartType
 //         {
@@ -379,8 +372,8 @@ class PlantFruit : public plantPart
 
       float cGrain_oil_conc;                            // fractional oil content of grain (0-1)
       float gDlt_dm_grain_demand;
-      float gDlt_dm_pot_rue_pod;
-      float gDlt_dm_pot_te;
+      float gDlt_dm_pot_rue_pod;      // FIXME
+      float gDlt_dm_pot_te;           // FIXME
       float gN_grain_demand;
       float gP_grain_demand;
       float gDlt_dm_oil_conv;
@@ -389,15 +382,15 @@ class PlantFruit : public plantPart
       float gGrain_no;                 // multiplier of grain weight to account for seed energy content
 
 //
-      float cExtinctionCoeffPod;
-      float cSpec_pod_area;
-      float cRue_pod;
+      float cExtinctionCoeffPod;      // FIXME
+      float cSpec_pod_area;           // FIXME
+      float cRue_pod;                 // FIXME
 
-      float gPai;
-      float gDlt_pai;
+      float gPai;                     // FIXME
+      float gDlt_pai;                 // FIXME
       bool  gDelayGrnFill;
       int   gDaysDelayedGrnFill;
-      float gTranspEff;                             // transpiration efficiency of fruit (g dm/m^2/mm water)
+
       bool  gHasreadconstants;
       float gMaxt;
       float gMint;
@@ -412,11 +405,11 @@ class PlantFruit : public plantPart
       stateObserver gDm_stress_max;                      // sum of maximum daily stress on dm production per phase
       float gDlt_dm_stress_max;                          // maximum daily stress on dm production (0-1)
 
-      float cSvp_fract;
-      float cFrac_pod[max_table];                        // fraction of dm or grain weight allocated to pod
-      float cX_stage_no_partition[max_table];
-      float cY_frac_pod[max_table];                      // fraction of dm or grain weight allocated to pod
-      int   cNum_stage_no_partition;
+      float cSvp_fract;                         // FIXME
+      float cFrac_pod[max_table];               // FIXME         // fraction of dm or grain weight allocated to pod
+      float cX_stage_no_partition[max_table];   // FIXME
+      float cY_frac_pod[max_table];             // FIXME         // fraction of dm or grain weight allocated to pod
+      int   cNum_stage_no_partition;            // FIXME
       float cGrain_no_option;
       float cGrain_n_option;
       float cSw_fac_max;
@@ -432,21 +425,22 @@ class PlantFruit : public plantPart
       float cCarbo_oil_conv_ratio;
       int   cNum_n_conc_stage;
       float cX_stage_code[max_table];
-      float cY_n_conc_crit_pod[max_table];
-      float cY_n_conc_max_pod[max_table];
-      float cY_n_conc_min_pod[max_table];
+////      float cY_n_conc_crit_pod[max_table];
+////      float cY_n_conc_max_pod[max_table];
+////      float cY_n_conc_min_pod[max_table];
       float cN_conc_crit_grain;
       float cN_conc_max_grain;
       float cN_conc_min_grain;
       float cTwilight;                                   // twilight in angular distance between
                                                         // sunset and end of twilight - altitude
                                                         // of sun. (deg)
-      float cPod_trans_frac;                             // fraction of pod used in translocat
+      float cPod_trans_frac;               // FIXME              // fraction of pod used in translocat
                                                         // to grain
       float cX_co2_te_modifier[max_table];
       float cY_co2_te_modifier[max_table];
       int   cNum_co2_te_modifier;
-      float cTransp_eff_cf[max_table];                   // transpiration efficiency coefficient
+      float gTranspEff;
+      float cTransp_eff_cf[max_table];    // FIXME               // transpiration efficiency coefficient
                                                         // to convert vpd to
                                                         // transpiration efficiency (kpa)
                                                         // although this is expressed as a
