@@ -1318,9 +1318,9 @@ void PlantFruit::zeroAllGlobals(void)
 {
    plantPart::zeroAllGlobals();
 
-   coverPod.green = 0.0;
-   coverPod.sen   = 0.0;
-   coverPod.dead  = 0.0;
+   coverPod.green = 0.0;          //FIXME
+   coverPod.sen   = 0.0;          //FIXME
+   coverPod.dead  = 0.0;          //FIXME
 
    gHasreadconstants = false;
    gLatitude = 0.0;
@@ -1358,7 +1358,7 @@ void PlantFruit::zeroAllGlobals(void)
    cN_conc_max_grain  = 0.0;
    cN_conc_min_grain  = 0.0;
    cCarbo_oil_conv_ratio = 0.0;
-   cPod_trans_frac = 0.0;
+////   cPod_trans_frac = 0.0;
    fill_real_array (cX_co2_te_modifier, 0.0, max_table);
    fill_real_array (cY_co2_te_modifier, 0.0, max_table);
    cNum_co2_te_modifier = 0;
@@ -1595,10 +1595,10 @@ void PlantFruit::readSpeciesParameters(protocol::Component *system, vector<strin
                      , 0.0, 10.0);
 
     //    plant_retranslocate
-    system->readParameter (sections
-                   ,"pod_trans_frac"//, "()"
-                   , cPod_trans_frac
-                   , 0.0, 1.0);
+////    system->readParameter (sections
+////                   ,"pod_trans_frac"//, "()"
+////                   , cPod_trans_frac
+////                   , 0.0, 1.0);
 
     //    plant_phenology_init
     system->readParameter (sections
@@ -1606,52 +1606,52 @@ void PlantFruit::readSpeciesParameters(protocol::Component *system, vector<strin
                    , cTwilight
                    , -90.0, 90.0);
 
-    system->readParameter (sections
-                   ,"extinct_coef_pod"//, "()"
-                   , cExtinctionCoeffPod
-                   , 0.0, 1.0);
+    system->readParameter (sections                //FIXME
+                   ,"extinct_coef_pod"//, "()"     //FIXME
+                   , cExtinctionCoeffPod           //FIXME
+                   , 0.0, 1.0);                    //FIXME
+                                                   //FIXME
+    system->readParameter (sections                //FIXME
+                   ,"spec_pod_area"//, "()"        //FIXME
+                   , cSpec_pod_area                //FIXME
+                   , 0.0, 100000.0);               //FIXME
+                                                   //FIXME
+    system->readParameter (sections                //FIXME
+                   ,"rue_pod"//, "()"              //FIXME
+                   , cRue_pod                      //FIXME
+                   , 0.0, 3.0);                    //FIXME
+                                                   //FIXME
+//    plant_transp_eff                             //FIXME
+                                                   //FIXME
+    system->readParameter (sections                //FIXME
+                   ,"svp_fract"//, "()"            //FIXME
+                   , cSvp_fract                    //FIXME
+                   , 0.0, 1.0);                    //FIXME
+                                                   //FIXME
+    int cPartition_option = 0;                     //FIXME
+    system->readParameter (sections,               //FIXME
+                       "partition_option"//, "()"  //FIXME
+                      , cPartition_option          //FIXME
+                      , 1, 3);                     //FIXME
 
-    system->readParameter (sections
-                   ,"spec_pod_area"//, "()"
-                   , cSpec_pod_area
-                   , 0.0, 100000.0);
-
-    system->readParameter (sections
-                   ,"rue_pod"//, "()"
-                   , cRue_pod
-                   , 0.0, 3.0);
-
-//    plant_transp_eff
-
-    system->readParameter (sections
-                   ,"svp_fract"//, "()"
-                   , cSvp_fract
-                   , 0.0, 1.0);
-
-    int cPartition_option = 0;
-    system->readParameter (sections,
-                       "partition_option"//, "()"
-                      , cPartition_option
-                      , 1, 3);
-
-    if (cPartition_option==1 )
-         system->readParameter (sections
-                         ,"frac_pod"//, "()"
-                         , cFrac_pod, numvals
-                         , 0.0, 2.0);
-
-    else if (cPartition_option==2)
-        {
-        system->readParameter (sections
-                         ,"x_stage_no_partition"//, "()"
-                         , cX_stage_no_partition
-                         , cNum_stage_no_partition
-                         , 0.0, 20.0);
-
-        system->readParameter (sections
-                         ,"y_frac_pod"//, "()"
-                         , cY_frac_pod, numvals
-                         , 0.0, 2.0);
+    if (cPartition_option==1 )                             //FIXME
+         system->readParameter (sections                   //FIXME
+                         ,"frac_pod"//, "()"               //FIXME
+                         , cFrac_pod, numvals              //FIXME
+                         , 0.0, 2.0);                      //FIXME
+                                                           //FIXME
+    else if (cPartition_option==2)                         //FIXME
+        {                                                  //FIXME
+        system->readParameter (sections                    //FIXME
+                         ,"x_stage_no_partition"//, "()"   //FIXME
+                         , cX_stage_no_partition           //FIXME
+                         , cNum_stage_no_partition         //FIXME
+                         , 0.0, 20.0);                     //FIXME
+                                                           //FIXME
+        system->readParameter (sections                    //FIXME
+                         ,"y_frac_pod"//, "()"             //FIXME
+                         , cY_frac_pod, numvals            //FIXME
+                         , 0.0, 2.0);                      //FIXME
 
         }
     else if (cPartition_option==3)
@@ -1767,20 +1767,20 @@ void PlantFruit::readSpeciesParameters(protocol::Component *system, vector<strin
                      , cX_stage_code, cNum_n_conc_stage
                      , 0.0, 100.0);
 
-    system->readParameter (sections
-                     , "y_n_conc_crit_pod"//, "()"
-                     , cY_n_conc_crit_pod, cNum_n_conc_stage
-                     , 0.0, 100.0);
-
-    system->readParameter (sections
-                     , "y_n_conc_max_pod"//, "()"
-                     , cY_n_conc_max_pod, cNum_n_conc_stage
-                     , 0.0, 100.0);
-
-    system->readParameter (sections
-                     , "y_n_conc_min_pod"//, "()"
-                     , cY_n_conc_min_pod, cNum_n_conc_stage
-                     , 0.0, 100.0);
+////    system->readParameter (sections
+////                     , "y_n_conc_crit_pod"//, "()"
+////                     , cY_n_conc_crit_pod, cNum_n_conc_stage
+////                     , 0.0, 100.0);
+////
+////    system->readParameter (sections
+////                     , "y_n_conc_max_pod"//, "()"
+////                     , cY_n_conc_max_pod, cNum_n_conc_stage
+////                     , 0.0, 100.0);
+////
+////    system->readParameter (sections
+////                     , "y_n_conc_min_pod"//, "()"
+////                     , cY_n_conc_min_pod, cNum_n_conc_stage
+////                     , 0.0, 100.0);
 
     system->readParameter (sections
                    , "n_conc_crit_grain"//, "()"
@@ -1997,25 +1997,25 @@ void PlantFruit::n_conc_limits(void)
 
 
 // Query
-float PlantFruit::coverTotal() const
-{
-   return 1.0 - (1.0 - coverPod.green) * (1.0 - coverPod.sen) * (1.0 - coverPod.dead);
-}
-
-float PlantFruit::coverGreen() const
-{
-   return coverPod.green;
-}
-
-float PlantFruit::coverDead() const
-{
-   return coverPod.dead;
-}
-
-float PlantFruit::coverSen() const
-{
-   return coverPod.sen;
-}
+float PlantFruit::coverTotal(void) const                                                 //FIXME
+{                                                                                        //FIXME
+   return 1.0 - (1.0 - coverPod.green) * (1.0 - coverPod.sen) * (1.0 - coverPod.dead);   //FIXME
+}                                                                                        //FIXME
+                                                                                         //FIXME
+float PlantFruit::coverGreen(void) const                                                 //FIXME
+{                                                                                        //FIXME
+   return coverPod.green;                                                                //FIXME
+}                                                                                        //FIXME
+                                                                                         //FIXME
+float PlantFruit::coverDead(void) const                                                  //FIXME
+{                                                                                        //FIXME
+   return coverPod.dead;                                                                 //FIXME
+}                                                                                        //FIXME
+                                                                                         //FIXME
+float PlantFruit::coverSen(void) const                                                   //FIXME
+{                                                                                        //FIXME
+   return coverPod.sen;                                                                  //FIXME
+}                                                                                        //FIXME
 
 //float PlantFruit::total() const
 //{
@@ -2039,33 +2039,33 @@ void PlantFruit::display(ostream &os) const
 }
 
 
-//===========================================================================
-float PlantFruit::calcCover (float canopy_fac)
-//===========================================================================
-{
-
-//+  Purpose
-//     Calculate pod cover
-
-//+  Changes
-//     02 Feb 2005 JNGH - Programmed and Specified
-
-//+  Local Variables
-    float cover;                // pod cover in canopy
-    float coverA;
-
-//- Implementation Section ----------------------------------
-    if (gPai > 0.0)
-    {
-        coverA = 1.0 - exp(-cExtinctionCoeffPod * gPai*canopy_fac);
-        cover = divide (coverA, canopy_fac, 0.0);
-    }
-    else
-        cover = 0.0;
-
-    coverPod.green = cover;
-    return cover;
-}
+//===========================================================================   //FIXME
+float PlantFruit::calcCover (float canopy_fac)                                  //FIXME
+//===========================================================================   //FIXME
+{                                                                               //FIXME
+                                                                                //FIXME
+//+  Purpose                                                                    //FIXME
+//     Calculate pod cover                                                      //FIXME
+                                                                                //FIXME
+//+  Changes                                                                    //FIXME
+//     02 Feb 2005 JNGH - Programmed and Specified                              //FIXME
+                                                                                //FIXME
+//+  Local Variables                                                            //FIXME
+    float cover;                // pod cover in canopy                          //FIXME
+    float coverA;                                                               //FIXME
+                                                                                //FIXME
+//- Implementation Section ----------------------------------                   //FIXME
+    if (gPai > 0.0)                                                             //FIXME
+    {                                                                           //FIXME
+        coverA = 1.0 - exp(-cExtinctionCoeffPod * gPai*canopy_fac);             //FIXME
+        cover = divide (coverA, canopy_fac, 0.0);                               //FIXME
+    }                                                                           //FIXME
+    else                                                                        //FIXME
+        cover = 0.0;                                                            //FIXME
+                                                                                //FIXME
+    coverPod.green = cover;                                                     //FIXME
+    return cover;                                                               //FIXME
+}                                                                               //FIXME
 
 //===========================================================================
 void PlantFruit::processBioDemand(void)
@@ -2083,17 +2083,17 @@ void PlantFruit::processBioDemand(void)
 float PlantFruit::grainNo(void) const {return gGrain_no;}
 float PlantFruit::grainEnergy(void) const {return gGrain_energy;}
 float PlantFruit::grainNDemand(void) const {return gN_grain_demand;}
-float PlantFruit::dltDmPotTe(void) {return gDlt_dm_pot_te;}
-float PlantFruit::dltDmPotRuePod(void) {return gDlt_dm_pot_rue_pod;}
+float PlantFruit::dltDmPotTe(void) {return gDlt_dm_pot_te;}           //FIXME
+float PlantFruit::dltDmPotRuePod(void) {return gDlt_dm_pot_rue_pod;}  //FIXME
 float PlantFruit::grainNConcPercent(void) {return divide (nGrainTotal(), dmGrainTotal(), 0.0) * fract2pcnt;}
 float PlantFruit::dltDmGrainDemand(void) const {return gDlt_dm_grain_demand;}
 
-//===========================================================================
-void PlantFruit::calcDlt_pod_area (void)
-//===========================================================================
-{
+//===========================================================================   //FIXME
+void PlantFruit::calcDlt_pod_area (void)                                        //FIXME
+//===========================================================================   //FIXME
+{                                                                               //FIXME
         gDlt_pai = podPart->dltDmGreen() * cSpec_pod_area * smm2sm;  //FIXME when these data members are put in
-}
+}                                                                               //FIXME
 //===========================================================================
 float PlantFruit::meanT (void)
 //===========================================================================
@@ -2113,173 +2113,110 @@ float PlantFruit::dltDmRetranslocate(void)
   return dlt.dm_green_retrans;
 }
 
-//===========================================================================
-float PlantFruit::interceptRadiation (float radiation)    // incident radiation on pods
-//===========================================================================
-{
+//===========================================================================                          //FIXME
+float PlantFruit::interceptRadiation (float radiation)    // incident radiation on pods                //FIXME
+//===========================================================================                          //FIXME
+{                                                                                                      //FIXME
+                                                                                                       //FIXME
+//+  Purpose                                                                                           //FIXME
+//     Calculate pod total radiation interception and return transmitted radiation                     //FIXME
+                                                                                                       //FIXME
+//+  Changes                                                                                           //FIXME
+//     02 Feb 2005 JNGH - Programmed and Specified                                                     //FIXME
+                                                                                                       //FIXME
+                                                                                                       //FIXME
+//- Implementation Section ----------------------------------                                          //FIXME
+                                                                                                       //FIXME
+   float radiationIntercepted = coverTotal() * radiation;                                              //FIXME
+   return radiation - radiationIntercepted;                                                            //FIXME
+}                                                                                                      //FIXME
+                                                                                                       //FIXME
+//===========================================================================                          //FIXME
+void PlantFruit::dm_pot_rue (double  radn_int_pod )                        //FIXME      // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+//===========================================================================                          //FIXME
+{                                                                                                      //FIXME
+//+  Purpose                                                                                           //FIXME
+//       Potential biomass (carbohydrate) production from                                              //FIXME
+//       photosynthesis (g/m^2).  The effect of factors such                                           //FIXME
+//       temperature and nutritional status of the plant are                                           //FIXME
+//       taken into account in the radiation use efficiency.                                           //FIXME
+                                                                                                       //FIXME
+//+  Mission Statement                                                                                 //FIXME
+//     Get the potential biomass production - limited by stress factors                                //FIXME
+                                                                                                       //FIXME
+//+  Changes                                                                                           //FIXME
+//       181197 nih specified and programmed                                                           //FIXME
+//+  Local Variables                                                                                   //FIXME
+  double podfr;            // fraction of intercepted light intercepted by pods                        //FIXME
+  double rue_leaf;                                                                                     //FIXME
+                                                                                                       //FIXME
+//- Implementation Section ----------------------------------                                          //FIXME
+                                                                                                       //FIXME
+  double stress_factor = min(min(min(plant->getTempStressPhoto(), plant->getNfactPhoto())              //FIXME
+                                  , plant->getOxdefPhoto()), plant->getPfactPhoto());                  //FIXME
+                                                                                                       //FIXME
+  gDlt_dm_pot_rue_pod = (radn_int_pod * cRue_pod) * stress_factor * plant->getCo2ModifierRue();                      //FIXME
+  }                                                                                                    //FIXME
+                                                                                                       //FIXME
+                                                                                                       //FIXME
+//==========================================================================                           //FIXME
+void PlantFruit::transp_eff_co2()          // (OUTPUT) transpiration coefficient                       //FIXME
+//==========================================================================                           //FIXME
+{                                                                                                      //FIXME
+   cproc_transp_eff_co2_1(plant->getVpd()                                                                     //FIXME
+                      , cTransp_eff_cf[(int)phenology->stageNumber()-1]                                //FIXME
+                      , plant->getCo2ModifierTe()                                                           //FIXME
+                      , &gTranspEff);                                                                  //FIXME
+}                                                                                                      //FIXME
 
-//+  Purpose
-//     Calculate pod total radiation interception and return transmitted radiation
-
-//+  Changes
-//     02 Feb 2005 JNGH - Programmed and Specified
-
-
-//- Implementation Section ----------------------------------
-
-   float radiationIntercepted = coverTotal() * radiation;
-   return radiation - radiationIntercepted;
-}
-
-//===========================================================================
-void PlantFruit::dm_pot_rue (double  radn_int_pod
-                           , photosynthetic_pathway_t c_photosynthetic_pathway)                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
-//===========================================================================
-{
-//+  Purpose
-//       Potential biomass (carbohydrate) production from
-//       photosynthesis (g/m^2).  The effect of factors such
-//       temperature and nutritional status of the plant are
-//       taken into account in the radiation use efficiency.
-
-//+  Mission Statement
-//     Get the potential biomass production - limited by stress factors
-
-//+  Changes
-//       181197 nih specified and programmed
-//+  Local Variables
-  double podfr;                                  // fraction of intercepted light intercepted by pods
-  double rue_leaf;
-  float co2_modifier = 0.0;
-
-//- Implementation Section ----------------------------------
-
-  float meanT = 0.5*(gMaxt + gMint);
-  rue_co2_modifier(plant->getPhotosynthetic_pathway()
-                 , plant->getCo2()
-                 , meanT
-                 , &co2_modifier);
-  double stress_factor = min(min(min(plant->getTempStressPhoto(), plant->getNfactPhoto())
-                                  , plant->getOxdefPhoto()), plant->getPfactPhoto());
-
-  gDlt_dm_pot_rue_pod = (radn_int_pod * cRue_pod) * stress_factor * co2_modifier;
-  }
-
-
-//==========================================================================
-void PlantFruit::rue_co2_modifier(photosynthetic_pathway_t photosyntheticType // Photosynthetic pathway
-                                , float co2                                   // CO2 level (ppm)
-                                , float meanT                                 // daily mean temp (oC)
-                                , float *modifier)                            // modifier (-)
-//==========================================================================
-{
-//  Purpose
-//     Calculation of the CO2 modification on rue
-
-//     References
-//     Reyenga, Howden, Meinke, Mckeon (1999), Modelling global change impact on wheat cropping in
-//              south-east Queensland, Australia. Enivironmental Modelling & Software 14:297-306
-
-
-//  Purpose
-//     Calculation of the CO2 modification on rue
-
-//  Changes
-//     20000717   ew programmed
-
-//  Local Variables
-      float TT;               // co2 compensation point (ppm)
-      float dividend;         // Temp vars for passing composite arg to a func
-      float divisor;          // expecting a pointer
-
-// Implementation Section ----------------------------------
-
-   switch (photosyntheticType)
-      {
-      pw_C3:
-        {
-        TT  = divide(163.0 - meanT, 5.0 - 0.1 * meanT, 0.0);
-
-        dividend = (co2 - TT) * (350.0 + 2.0 * TT);
-        divisor = (co2 + 2.0 * TT)*(350.0 - TT);
-        *modifier = divide( dividend, divisor, 1.0);
-        break;
-        }
-      pw_C4:
-        {
-        *modifier = 0.000143 * co2 + 0.95; //Mark Howden, personal communication
-        break;
-        }
-      default:
-        {
-        throw std::invalid_argument ("Unknown photosynthetic pathway in fruit rue_co2_modifier()");
-        }
-      }
-}
-
-//==========================================================================
-void PlantFruit::transp_eff_co2()          // (OUTPUT) transpiration coefficient
-//==========================================================================
-{
-   cproc_transp_eff_co2(cSvp_fract
-                      , cTransp_eff_cf[(int)phenology->stageNumber()-1]
-                      , gMaxt
-                      , gMint
-                      , plant->getCo2()
-                      , cX_co2_te_modifier
-                      , cY_co2_te_modifier
-                      , cNum_co2_te_modifier
-                      , &gTranspEff);
-}
-
-//===========================================================================
-void PlantFruit::sw_demand1(float *sw_demand)         //(OUTPUT) crop water demand (mm)
-//===========================================================================
-/*  Purpose
-*       Return crop water demand from soil by the crop (mm) calculated by
-*       dividing biomass production limited by radiation by transpiration efficiency.
-*
-*  Mission Statement
-*   Calculate the crop demand for soil water (based upon transpiration efficiency)
-*
-*  Changes
-*       21/5/2003 ad converted to BC++
-*       010994 jngh specified and programmed
-*       970216 slw generalised
-*
-*/
-   {
-   // get potential transpiration from potential
-   // carbohydrate production and transpiration efficiency
-        cproc_sw_demand1 (gDlt_dm_pot_rue_pod
-                         , gTranspEff
-                         , sw_demand);
-   }
-
-//===========================================================================
-void PlantFruit::bio_water1 (void)  //(OUTPUT) potential dry matter production
-                                                    //         by transpiration (g/m^2)
-//===========================================================================
-//  Purpose
-//   Calculate the potential biomass production based upon today's water supply.
-
-//  Mission Statement
-//   Calculate the potential biomass production based upon today's water supply.
-
-//  Changes
-//       090994 jngh specified and programmed
-
-{
-   // Implementation Section ----------------------------------
-
-   // potential (supply) by transpiration
-
-   gDlt_dm_pot_te = plant->getWaterSupplyPod() * gTranspEff;
-
-       // Capping of sw demand will create an effective TE- recalculate it here       //FIXME
-       // In an ideal world this should NOT be changed here - NIH
-//       g.transp_eff = g.transp_eff * divide(g.sw_demand_te,g.sw_demand, 1.0);
-//       g.swDemandTEFruit = g.swDemandTEFruit * divide(g.sw_demand,g.sw_demand_te, 1.0);  // Hack to correct TE for fruit
+//===========================================================================                  //FIXME
+void PlantFruit::sw_demand1(float *sw_demand)         //(OUTPUT) crop water demand (mm)        //FIXME
+//===========================================================================                  //FIXME
+/*  Purpose                                                                                    //FIXME
+*       Return crop water demand from soil by the crop (mm) calculated by                      //FIXME
+*       dividing biomass production limited by radiation by transpiration efficiency.          //FIXME
+*                                                                                              //FIXME
+*  Mission Statement                                                                           //FIXME
+*   Calculate the crop demand for soil water (based upon transpiration efficiency)             //FIXME
+*                                                                                              //FIXME
+*  Changes                                                                                     //FIXME
+*       21/5/2003 ad converted to BC++                                                         //FIXME
+*       010994 jngh specified and programmed                                                   //FIXME
+*       970216 slw generalised                                                                 //FIXME
+*                                                                                              //FIXME
+*/                                                                                             //FIXME
+   {                                                                                           //FIXME
+   // get potential transpiration from potential                                               //FIXME
+   // carbohydrate production and transpiration efficiency                                     //FIXME
+        cproc_sw_demand1 (gDlt_dm_pot_rue_pod                                                  //FIXME
+                         , gTranspEff                                                          //FIXME
+                         , sw_demand);                                                         //FIXME
+   }                                                                                           //FIXME
+                                                                                               //FIXME
+//===========================================================================                  //FIXME
+void PlantFruit::bio_water1 (void)  //(OUTPUT) potential dry matter production                 //FIXME
+                                                    //         by transpiration (g/m^2)        //FIXME
+//===========================================================================                  //FIXME
+//  Purpose                                                                                    //FIXME
+//   Calculate the potential biomass production based upon today's water supply.               //FIXME
+                                                                                               //FIXME
+//  Mission Statement                                                                          //FIXME
+//   Calculate the potential biomass production based upon today's water supply.               //FIXME
+                                                                                               //FIXME
+//  Changes                                                                                    //FIXME
+//       090994 jngh specified and programmed                                                  //FIXME
+                                                                                               //FIXME
+{                                                                                              //FIXME
+   // Implementation Section ----------------------------------                                //FIXME
+                                                                                               //FIXME
+   // potential (supply) by transpiration                                                      //FIXME
+                                                                                               //FIXME
+   gDlt_dm_pot_te = plant->getWaterSupplyPod() * gTranspEff;                                   //FIXME
+                                                                                               //FIXME
+       // Capping of sw demand will create an effective TE- recalculate it here       //FIXME  //FIXME
+       // In an ideal world this should NOT be changed here - NIH                              //FIXME
+//       g.transp_eff = g.transp_eff * divide(g.sw_demand_te,g.sw_demand, 1.0);                //FIXME
+//       g.swDemandTEFruit = g.swDemandTEFruit * divide(g.sw_demand,g.sw_demand_te, 1.0);      //FIXME           // Hack to correct TE for fruit
 }
 
 //===========================================================================
@@ -2355,27 +2292,27 @@ void PlantFruit::bio_yieldpart_demand2(void)
 
 }
 
-//===========================================================================
-void PlantFruit::bio_actual (void)
-//===========================================================================
-{
-//+  Purpose
-//       Takes the minimum of biomass production limited by radiation and
-//       biomass production limited by water.
-
-//+  Mission Statement
-//     Takes the minimum of biomass production limited by radiation and
-//     biomass production limited by water.
-
-//+  Changes
-//      250894 jngh specified and programmed
-
-//- Implementation Section ----------------------------------
-
-        // use whichever is limiting
-        gDlt_dm = min (gDlt_dm_pot_rue_pod, gDlt_dm_pot_te);
-
-}
+//===========================================================================  //FIXME
+void PlantFruit::bio_actual (void)                                             //FIXME
+//===========================================================================  //FIXME
+{                                                                              //FIXME
+//+  Purpose                                                                   //FIXME
+//       Takes the minimum of biomass production limited by radiation and      //FIXME
+//       biomass production limited by water.                                  //FIXME
+                                                                               //FIXME
+//+  Mission Statement                                                         //FIXME
+//     Takes the minimum of biomass production limited by radiation and        //FIXME
+//     biomass production limited by water.                                    //FIXME
+                                                                               //FIXME
+//+  Changes                                                                   //FIXME
+//      250894 jngh specified and programmed                                   //FIXME
+                                                                               //FIXME
+//- Implementation Section ----------------------------------                  //FIXME
+                                                                               //FIXME
+        // use whichever is limiting                                           //FIXME
+        gDlt_dm = min (gDlt_dm_pot_rue_pod, gDlt_dm_pot_te);                   //FIXME
+                                                                               //FIXME
+}                                                                              //FIXME
 
 //===========================================================================
 void PlantFruit::bio_yieldpart_demand1(void)
@@ -3252,42 +3189,42 @@ void PlantFruit::doDmMin (void)       // (OUTPUT) actual biomass senesced from p
 //============================================================================
 {
    g.dm_plant_min = 0.0;
-//   for (vector<plantPart *>::iterator t = myParts.begin();
-//       t != myParts.end();
-//       t++)
-//   {
-//     (*t)->doDmMin();
-//      g.dm_plant_min += (*t)->g.dm_plant_min;
-//   }
-      podPart->doDmMin(cPod_trans_frac);
-      g.dm_plant_min += podPart->g.dm_plant_min;
+   for (vector<plantPart *>::iterator t = myParts.begin();
+       t != myParts.end();
+       t++)
+   {
+     (*t)->doDmMin();
+      g.dm_plant_min += (*t)->g.dm_plant_min;
+   }
+////      podPart->doDmMin();
+////      g.dm_plant_min += podPart->g.dm_plant_min;
 }
 
-//============================================================================
-void PlantFruit::retrans_init (void)
-//============================================================================
-{
-//+  Purpose
-//       Initialise pod weight minimum
-//       at required instances.
-
-//+  Mission Statement
-//     Initialise pod weight minimums at required instances.
-
-//+  Changes
-//     010994 jngh specified and programmed
-
-//+  Local Variables
-    float dm_plant_pod;                           // dry matter in pods (g/plant)
-
-//- Implementation Section ----------------------------------
-
-    // initialise pod weight minimum
-    dm_plant_pod = divide (podPart->g.dm_green, plant->getPlants(), 0.0);
-    podPart->g.dm_plant_min = max (dm_plant_pod * (1.0 - cPod_trans_frac), podPart->g.dm_plant_min);
-    g.dm_plant_min = podPart->g.dm_plant_min;
-
-}
+//////============================================================================
+////void PlantFruit::retrans_init (void)
+//////============================================================================
+////{
+//////+  Purpose
+//////       Initialise pod weight minimum
+//////       at required instances.
+////
+//////+  Mission Statement
+//////     Initialise pod weight minimums at required instances.
+////
+//////+  Changes
+//////     010994 jngh specified and programmed
+////
+//////+  Local Variables
+////    float dm_plant_pod;                           // dry matter in pods (g/plant)
+////
+//////- Implementation Section ----------------------------------
+////
+////    // initialise pod weight minimum
+////    dm_plant_pod = divide (podPart->g.dm_green, plant->getPlants(), 0.0);
+////    podPart->g.dm_plant_min = max (dm_plant_pod * (1.0 - cPod_trans_frac), podPart->g.dm_plant_min);
+////    g.dm_plant_min = podPart->g.dm_plant_min;
+////
+////}
 
 //============================================================================
 void PlantFruit::nit_init (void)

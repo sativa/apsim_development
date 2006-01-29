@@ -368,7 +368,53 @@ class fruitPodPart : public plantPart {
 
    void onFlowering(void);
    void onStartGrainFill(void);
-   void doDmMin(float c_pod_trans_frac);
+   void doDmMin(void);
+   void readSpeciesParameters (protocol::Component *, vector<string> &);
+
+////   float retrans_init (void);
+   void zeroAllGlobals(void);
+   void zeroDeltas(void);
+   float interceptRadiation(float radiation);        //FIXME
+   float coverTotal(void) const;
+   float coverGreen(void) const;
+   float coverSen(void) const;
+   float coverDead(void) const;
+   float calcCover (float canopy_fac);
+   float dltDmPotTe(void);
+   float dltDmPotRuePod(void);
+   void calcDlt_pod_area (void);   //FIXME
+   void dm_pot_rue (double  radn_int_pod);                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+                                                                                             //FIXME
+   void transp_eff_co2();      // (OUTPUT) transpiration coefficient                         //FIXME
+   void sw_demand1(float *sw_demand);        //(OUTPUT) crop water demand (mm)               //FIXME
+   void bio_water1(void); //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
+   void bio_actual (void);
+
+   private:
+      float gDlt_dm_pot_rue_pod;      // FIXME
+      float gDlt_dm_pot_te;           // FIXME
+      float cExtinctionCoeffPod;      // FIXME
+      float cSpec_pod_area;           // FIXME
+      float cRue_pod;                 // FIXME
+
+      float gPai;                     // FIXME
+      float gDlt_pai;                 // FIXME
+      float cSvp_fract;
+      float cFrac_pod[max_table];               // FIXME         // fraction of dm or grain weight allocated to pod
+      float cX_stage_no_partition[max_table];   // FIXME
+      float cY_frac_pod[max_table];             // FIXME         // fraction of dm or grain weight allocated to pod
+      int   cNum_stage_no_partition;            // FIXME
+      float cPod_trans_frac;               // FIXME              // fraction of pod used in translocat
+      float cTransp_eff_cf[max_table];    // FIXME               // transpiration efficiency coefficient
+      float gTranspEff;
+      struct Cover
+      {
+         float green;
+         float sen;
+         float dead;
+      };
+
+      Cover coverPod;
 };
 
 class fruitOilPart : public plantPart {
