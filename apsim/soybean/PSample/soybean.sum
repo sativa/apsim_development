@@ -279,6 +279,7 @@
      Crop Sow
       - reading constants for plant(soybean)
       - reading cultivar parameters
+      - reading fruit cultivar parameters
          ------------------------------------------------
         cultivar                   = davis
         est_days_emerg_to_init     = 20 (days)
@@ -294,7 +295,6 @@
         y_tt_start_to_end_grain    =     460     460 (dd)
         tt_end_grain_to_maturity   =         40 (dd)
         tt_maturity_to_ripe        =          5 (dd)
-      - reading fruit cultivar parameters
         x_pp_hi_incr               =       1.00      24.00
         y_hi_incr                  =     0.0110     0.0110
         x_hi_max_pot_stress        =       0.00       1.00
@@ -349,7 +349,7 @@
 8 February 1989(Day of year=39), soybean: 
       stage 7.0 start_grain_fill
                      biomass =         213.97 (g/m^2)   lai          =   2.225 (m^2/m^2)
-                     stover N conc =     3.11 (%)    extractable sw =  284.83 (mm)
+                     stover N conc =     3.13 (%)    extractable sw =  284.83 (mm)
 13 March 1989(Day of year=72), soybean: 
      Crop failure because of total leaf senescence.
      Plant death. standing above-ground dm = 3043.08 (kg/ha)
@@ -373,9 +373,9 @@
       grain N percent        =       6.50                     total N content (kg/ha)=     110.54
       grain N uptake (kg/ha) =      70.37                     senesced N content (kg/ha)=    0.00
       green N content (kg/ha)=       0.00                     dead N content (kg/ha) =      40.17
-      grain P percent        =       0.27                     total P content (kg/ha)=       7.01
+      grain P percent        =       0.27                     total P content (kg/ha)=       6.99
       grain P uptake (kg/ha) =       2.96                     senesced P content (kg/ha)=    0.00
-      green P content (kg/ha)=       0.00                     dead P content (kg/ha) =       4.05
+      green P content (kg/ha)=       0.00                     dead P content (kg/ha) =       4.03
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.007
@@ -388,7 +388,7 @@
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =               1959.61                    0.00
                           N  (kg/ha) =                 40.17                    0.00
-                          P  (kg/ha) =                  4.05                    0.00
+                          P  (kg/ha) =                  4.03                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               1082.60                    0.00
