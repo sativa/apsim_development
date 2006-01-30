@@ -399,7 +399,7 @@
                      biomass =         657.03 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.29 (%)    extractable sw =   14.97 (mm)
 14 September 1957(Day of year=257), manager: 
-     Manager creating a new local real variable : hi =    0.274197952002130
+     Manager creating a new local real variable : hi =    0.274197970266040
      Manager creating a new local real variable : nhi =    0.709484738179673
      Manager sending message :- wheat harvest
 14 September 1957(Day of year=257), Wheat: 
@@ -1800,7 +1800,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000001
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000001
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3584,7 +3584,7 @@
       flowering day          =  210                           stover (kg/ha)         =     2759.3
       maturity day           =  249                           grain yield (kg/ha)    =      821.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      938.3
-      grain wt (g)           =    0.017                       grains/m^2             =   4744.012
+      grain wt (g)           =    0.017                       grains/m^2             =   4744.013
       grains/plant           =   47.4                         maximum lai            =      1.915
       total above ground biomass (kg/ha)    =     3580.3
       live above ground biomass (kg/ha)     =     3580.3
@@ -5520,7 +5520,7 @@
       flowering day          =  208                           stover (kg/ha)         =     4995.7
       maturity day           =  250                           grain yield (kg/ha)    =     1857.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2122.4
-      grain wt (g)           =    0.022                       grains/m^2             =   8404.421
+      grain wt (g)           =    0.022                       grains/m^2             =   8404.420
       grains/plant           =   84.0                         maximum lai            =      3.395
       total above ground biomass (kg/ha)    =     6852.8
       live above ground biomass (kg/ha)     =     6852.8
@@ -7443,11 +7443,11 @@
                      stover N conc =     0.90 (%)    extractable sw =    0.13 (mm)
 7 September 1997(Day of year=250), Wheat: 
       stage 9.0 maturity
-                     biomass =         287.57 (g/m^2)   lai          =   0.010 (m^2/m^2)
+                     biomass =         287.58 (g/m^2)   lai          =   0.010 (m^2/m^2)
                      stover N conc =     0.82 (%)    extractable sw =    0.11 (mm)
 8 September 1997(Day of year=251), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         287.57 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         287.58 (g/m^2)   lai          =   0.001 (m^2/m^2)
                      stover N conc =     0.82 (%)    extractable sw =    0.10 (mm)
 8 September 1997(Day of year=251), manager: 
      Manager sending message :- wheat harvest
@@ -7458,8 +7458,8 @@
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      588.8
       grain wt (g)           =    0.015                       grains/m^2             =   3465.778
       grains/plant           =   34.7                         maximum lai            =      2.796
-      total above ground biomass (kg/ha)    =     2875.7
-      live above ground biomass (kg/ha)     =     2875.7
+      total above ground biomass (kg/ha)    =     2875.8
+      live above ground biomass (kg/ha)     =     2875.8
       green above ground biomass (kg/ha)    =     1619.4
       senesced above ground biomass (kg/ha) =     1256.4
       dead above ground biomass (kg/ha)     =        0.0
@@ -7632,7 +7632,7 @@
       flowering day          =  207                           stover (kg/ha)         =     4011.0
       maturity day           =  245                           grain yield (kg/ha)    =     1667.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1905.9
-      grain wt (g)           =    0.025                       grains/m^2             =   6560.131
+      grain wt (g)           =    0.025                       grains/m^2             =   6560.130
       grains/plant           =   65.6                         maximum lai            =      2.870
       total above ground biomass (kg/ha)    =     5678.7
       live above ground biomass (kg/ha)     =     5678.7
@@ -8169,7 +8169,7 @@
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   50.8
       DM Root:Shoot ratio    =    0.241                       Harvest Index          =      0.208
-      Stover C:N ratio       =   71.743                       Root C:N ratio         =     23.767
+      Stover C:N ratio       =   71.743                       Root C:N ratio         =     23.768
       grain N percent        =       3.32                     total N content (kg/ha)=      27.82
       grain N uptake (kg/ha) =      16.97                     senesced N content (kg/ha)=    3.85
       green N content (kg/ha)=       7.00                     dead N content (kg/ha) =       0.00
