@@ -310,7 +310,6 @@ class PlantFruit : public plantPart
             void doSenescence1 (float sen_fr);
             void doSenescence2 (float sen_fr);
             void doDmMin(void);
-////               void retrans_init(void);
 
                void n_conc_grain_limits(void) ;
 
@@ -324,28 +323,6 @@ class PlantFruit : public plantPart
 	     ~PlantFruit();
 #endif
 
-//      float cover_green
-//      float cover_sen
-//      float cover_dead
-
-      struct Cover         //FIXME
-      {                    //FIXME
-         float green;      //FIXME
-         float sen;        //FIXME
-         float dead;       //FIXME
-      };                   //FIXME
-                           //FIXME
-      Cover coverPod;      //FIXME
-
-//      struct PlantPartType
-//         {
-//         float leaf;
-//         float stem;
-//         };
-//
-//         PlantPartType green;
-//         PlantPartType senesced;
-//         PlantPartType dead;
 
 //      protected:
 //         plantInterface *plant;                 // The plant we are attached to
@@ -364,7 +341,6 @@ class PlantFruit : public plantPart
       fruitMealPart  *mealPart;
 
       unsigned int idLatitude;
-//
       float cGrain_fill_option;
       float cX_temp_grainfill[max_table];
       int   cNum_temp_grainfill;
@@ -372,8 +348,6 @@ class PlantFruit : public plantPart
 
       float cGrain_oil_conc;                            // fractional oil content of grain (0-1)
       float gDlt_dm_grain_demand;
-      float gDlt_dm_pot_rue_pod;      // FIXME
-      float gDlt_dm_pot_te;           // FIXME
       float gN_grain_demand;
       float gP_grain_demand;
       float gDlt_dm_oil_conv;
@@ -381,13 +355,6 @@ class PlantFruit : public plantPart
 
       float gGrain_no;                 // multiplier of grain weight to account for seed energy content
 
-//
-      float cExtinctionCoeffPod;      // FIXME
-      float cSpec_pod_area;           // FIXME
-      float cRue_pod;                 // FIXME
-
-      float gPai;                     // FIXME
-      float gDlt_pai;                 // FIXME
       bool  gDelayGrnFill;
       int   gDaysDelayedGrnFill;
 
@@ -405,11 +372,6 @@ class PlantFruit : public plantPart
       stateObserver gDm_stress_max;                      // sum of maximum daily stress on dm production per phase
       float gDlt_dm_stress_max;                          // maximum daily stress on dm production (0-1)
 
-      float cSvp_fract;                         // FIXME
-      float cFrac_pod[max_table];               // FIXME         // fraction of dm or grain weight allocated to pod
-      float cX_stage_no_partition[max_table];   // FIXME
-      float cY_frac_pod[max_table];             // FIXME         // fraction of dm or grain weight allocated to pod
-      int   cNum_stage_no_partition;            // FIXME
       float cGrain_no_option;
       float cGrain_n_option;
       float cSw_fac_max;
@@ -425,30 +387,17 @@ class PlantFruit : public plantPart
       float cCarbo_oil_conv_ratio;
       int   cNum_n_conc_stage;
       float cX_stage_code[max_table];
-////      float cY_n_conc_crit_pod[max_table];
-////      float cY_n_conc_max_pod[max_table];
-////      float cY_n_conc_min_pod[max_table];
       float cN_conc_crit_grain;
       float cN_conc_max_grain;
       float cN_conc_min_grain;
       float cTwilight;                                   // twilight in angular distance between
                                                         // sunset and end of twilight - altitude
                                                         // of sun. (deg)
-      float cPod_trans_frac;               // FIXME              // fraction of pod used in translocat
                                                         // to grain
       float cX_co2_te_modifier[max_table];
       float cY_co2_te_modifier[max_table];
       int   cNum_co2_te_modifier;
       float gTranspEff;
-      float cTransp_eff_cf[max_table];    // FIXME               // transpiration efficiency coefficient
-                                                        // to convert vpd to
-                                                        // transpiration efficiency (kpa)
-                                                        // although this is expressed as a
-                                                        // pressure it is really in the form
-                                                        // kpa*g carbo per m^2 / g water per m^2
-                                                        // and this can be converted to
-                                                        // kpa*g carbo per m^2 / mm water
-                                                        // because 1g water = 1 cm^3 water
 
       float pGrains_per_gram_stem;
       float pPotential_grain_filling_rate;

@@ -407,23 +407,9 @@ class Plant : public plantInterface {
                                   , float *swSupplyVeg
                                   , float *swSupplyFruit);
 
-//// void plant_dm_pot_rue (externalFunction *c_rue
-////                         ,float  rue_pod
-////                         ,float  cover_green
-////                         ,float  cover_pod
-////                         ,double  radn_int
-////                         ,double  stress_factor
-////                         ,float g_co2, float g_maxt, float g_mint
-////                         ,photosynthetic_pathway_t photosynthetic_pathway
-////                         ,float  *dlt_dm_pot);
-
  void plant_dm_pot_rue_veg (externalFunction *c_rue
                           , double  radn_int
                           , double  stress_factor
-////                          , float g_co2
-////                          , float g_maxt
-////                          , float g_mint
-////                          , photosynthetic_pathway_t photosynthetic_pathway
                           , float  *dlt_dm_pot);
 
   void plant_rue_co2_modifier(photosynthetic_pathway_t,  //!please use 'C3' or 'C4' for crop_type
@@ -638,6 +624,7 @@ void Plant::legnew_dm_retranslocate
 
   void get_plant_status(protocol::Component *, protocol::QueryValueData &) const;
   float getStageCode(void) const ;
+  float getStageNumber(void) const ;
 
   void get_crop_type(protocol::Component *, protocol::QueryValueData &);
   void get_crop_class(protocol::Component *, protocol::QueryValueData &);

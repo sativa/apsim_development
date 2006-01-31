@@ -1011,6 +1011,22 @@ void plantStemPart::onHarvest(float cutting_height, float remove_fr,
     dlt_dm_p.push_back(dlt_p_harvest * gm2kg/sm2ha);
 }
 
+void fruitPodPart::doRegistrations(protocol::Component *system)
+{
+   plantPart::doRegistrations(system);
+
+   system->addGettableVar("pai", gPai, "m^2/m^2", "Pod area index");
+   system->addGettableVar("dlt_pai", gDlt_pai, "m^2/m^2", "Delta Pod area index");
+   system->addGettableVar("dlt_dm_pot_rue_pod", gDlt_dm_pot_rue, "g/m^2", "Potential dry matter production via photosynthesis");
+   system->addGettableVar("dlt_dm_pot_te_pod", gDlt_dm_pot_te, "g/m^2", "Potential dry matter production via transpiration");
+
+}
+
+void fruitPodPart::update(void)
+{
+      plantPart::update();
+      gPai += gDlt_pai;
+}
 
 void fruitPodPart::onHarvest(float /* cutting_height */, float remove_fr,
                               vector<string> &dm_type,
@@ -1092,7 +1108,11 @@ void fruitPodPart::zeroAllGlobals(void)
    coverPod.sen   = 0.0;
    coverPod.dead  = 0.0;
    gTranspEff = 0.0;
-
+   gPai = 0.0;
+   fill_real_array (cTransp_eff_cf, 0.0, max_table);
+   fill_real_array (cX_co2_te_modifier, 0.0, max_table);
+   fill_real_array (cY_co2_te_modifier, 0.0, max_table);
+   cNum_co2_te_modifier = 0;
 }
 
 void fruitPodPart::zeroDeltas(void)
@@ -1100,7 +1120,8 @@ void fruitPodPart::zeroDeltas(void)
    plantPart::zeroDeltas();
 
    gDlt_pai = 0.0;
-   gDlt_dm_pot_rue_pod = 0.0;
+   gDlt_dm = 0.0;
+   gDlt_dm_pot_rue = 0.0;
    gDlt_dm_pot_te = 0.0;
 }
 
@@ -1110,6 +1131,21 @@ void fruitPodPart::readSpeciesParameters(protocol::Component *system, vector<str
     plantPart::readSpeciesParameters(system, sections);
 
     int   numvals;                                // number of values returned
+
+     system->readParameter (sections,
+                      "transp_eff_cf"//, "(kpa)"
+                     , cTransp_eff_cf, numvals
+                     , 0.0, 1.0);
+
+    system->readParameter (sections
+                     , "x_co2_te_modifier"//, "()"
+                     , cX_co2_te_modifier, cNum_co2_te_modifier
+                     , 0.0, 1000.0);
+
+    system->readParameter (sections
+                     , "y_co2_te_modifier"//, "()"
+                     , cY_co2_te_modifier, cNum_co2_te_modifier
+                     , 0.0, 10.0);
 
     system->readParameter (sections
                    ,"extinct_coef_pod"//, "()"
@@ -1210,35 +1246,56 @@ float fruitPodPart::calcCover (float canopy_fac)
 }
 
 float fruitPodPart::dltDmPotTe(void) {return gDlt_dm_pot_te;}
-float fruitPodPart::dltDmPotRuePod(void) {return gDlt_dm_pot_rue_pod;}
+float fruitPodPart::dltDmPotRuePod(void) {return gDlt_dm_pot_rue;}
+
+//===========================================================================
+float fruitPodPart::fracPod (void)
+//===========================================================================
+{
+
+      float g_current_stage = plant->getStageNumber();
+      float fracPod = linear_interp_real(g_current_stage
+                                  ,cX_stage_no_partition
+                                  ,cY_frac_pod
+                                  ,cNum_stage_no_partition);
+      return fracPod;
+}
+
+//===========================================================================
+float fruitPodPart::fracPod1 (void)
+//===========================================================================
+{
+      return cFrac_pod[(int)plant->getStageNumber()-1];
+}
 
 
-//===========================================================================  //FIXME
-void PlantFruit::bio_actual (void)                                             //FIXME
-//===========================================================================  //FIXME
-{                                                                              //FIXME
-//+  Purpose                                                                   //FIXME
-//       Takes the minimum of biomass production limited by radiation and      //FIXME
-//       biomass production limited by water.                                  //FIXME
-                                                                               //FIXME
-//+  Mission Statement                                                         //FIXME
-//     Takes the minimum of biomass production limited by radiation and        //FIXME
-//     biomass production limited by water.                                    //FIXME
-                                                                               //FIXME
-//+  Changes                                                                   //FIXME
-//      250894 jngh specified and programmed                                   //FIXME
-                                                                               //FIXME
-//- Implementation Section ----------------------------------                  //FIXME
-                                                                               //FIXME
-        // use whichever is limiting                                           //FIXME
-        gDlt_dm = min (gDlt_dm_pot_rue_pod, gDlt_dm_pot_te);                   //FIXME
-                                                                               //FIXME
-}                                                                              //FIXME
+//===========================================================================
+void fruitPodPart::bio_actual (void)                                             //FIXME
+//===========================================================================
+{
+//+  Purpose
+//       Takes the minimum of biomass production limited by radiation and
+//       biomass production limited by water.
+
+//+  Mission Statement
+//     Takes the minimum of biomass production limited by radiation and
+//     biomass production limited by water.
+
+//+  Changes
+//      250894 jngh specified and programmed
+
+//- Implementation Section ----------------------------------
+
+        // use whichever is limiting
+        gDlt_dm = min (gDlt_dm_pot_rue, gDlt_dm_pot_te);
+
+}
+
 //===========================================================================
 void fruitPodPart::calcDlt_pod_area (void)
 //===========================================================================
 {
-        gDlt_pai = dltDmGreen() * cSpec_pod_area * smm2sm;  //FIXME when these data members are put in
+        gDlt_pai = dltDmGreen() * cSpec_pod_area * smm2sm;
 }
 
 //===========================================================================
@@ -1283,7 +1340,7 @@ void fruitPodPart::dm_pot_rue (double  radn_int_pod)                    // (OUTP
   double stress_factor = min(min(min(plant->getTempStressPhoto(), plant->getNfactPhoto())
                                   , plant->getOxdefPhoto()), plant->getPfactPhoto());
 
-  gDlt_dm_pot_rue_pod = (radn_int_pod * cRue_pod) * stress_factor * plant->getCo2ModifierRue();
+  gDlt_dm_pot_rue = (radn_int_pod * cRue_pod) * stress_factor * plant->getCo2ModifierRue();
   }
 
 
@@ -1291,29 +1348,61 @@ void fruitPodPart::dm_pot_rue (double  radn_int_pod)                    // (OUTP
 void fruitPodPart::transp_eff_co2()          // (OUTPUT) transpiration coefficient
 //==========================================================================
 {
-   cproc_transp_eff_co2_1(plant->getVpd()                                                                     //FIXME
-                      , cTransp_eff_cf[(int)plant->getStageCode()-1]                                //FIXME
-                      , plant->getCo2ModifierTe()                                                           //FIXME
-                      , &gTranspEff);                                                                  //FIXME
-}                                                                                                      //FIXME
+   cproc_transp_eff_co2_1(plant->getVpd()
+                      , cTransp_eff_cf[(int)plant->getStageNumber()-1]
+                      , plant->getCo2ModifierTe()
+                      , &gTranspEff);
+}
 
-//////============================================================================
-////float fruitPodPart::retrans_init (void)
-//////============================================================================
-////{
-//////+  Purpose
-//////       Initialise pod weight minimum
-//////       at required instances.
-////
-////    float dm_plant_pod;                           // dry matter in pods (g/plant)
-////
-//////- Implementation Section ----------------------------------
-////
-////    // initialise pod weight minimum
-////    dm_plant_pod = divide (g.dm_green, plant->getPlants(), 0.0);
-////    g.dm_plant_min = max (dm_plant_pod * (1.0 - c.trans_frac), g.dm_plant_min);
-////    return g.dm_plant_min;
-////}
+//===========================================================================
+void fruitPodPart::sw_demand1(float *sw_demand)         //(OUTPUT) crop water demand (mm)
+//===========================================================================
+/*  Purpose
+*       Return crop water demand from soil by the crop (mm) calculated by
+*       dividing biomass production limited by radiation by transpiration efficiency.
+*
+*  Mission Statement
+*   Calculate the crop demand for soil water (based upon transpiration efficiency)
+*
+*  Changes
+*       21/5/2003 ad converted to BC++
+*       010994 jngh specified and programmed
+*       970216 slw generalised
+*
+*/
+   {
+   // get potential transpiration from potential
+   // carbohydrate production and transpiration efficiency
+        cproc_sw_demand1 (gDlt_dm_pot_rue
+                         , gTranspEff
+                         , sw_demand);
+   }
+
+//===========================================================================
+void fruitPodPart::bio_water1 (void)  //(OUTPUT) potential dry matter production
+                                                    //         by transpiration (g/m^2)
+//===========================================================================
+//  Purpose
+//   Calculate the potential biomass production based upon today's water supply.
+
+//  Mission Statement
+//   Calculate the potential biomass production based upon today's water supply.
+
+//  Changes
+//       090994 jngh specified and programmed
+
+{
+   // Implementation Section ----------------------------------
+
+   // potential (supply) by transpiration
+
+   gDlt_dm_pot_te = plant->getWaterSupplyPod() * gTranspEff;
+
+       // Capping of sw demand will create an effective TE- recalculate it here       //FIXME
+       // In an ideal world this should NOT be changed here - NIH
+//       g.transp_eff = g.transp_eff * divide(g.sw_demand_te,g.sw_demand, 1.0);
+//       g.swDemandTEFruit = g.swDemandTEFruit * divide(g.sw_demand,g.sw_demand_te, 1.0);          // Hack to correct TE for fruit
+}
 
 
 void fruitOilPart::onHarvest(float /* cutting_height */, float remove_fr,
