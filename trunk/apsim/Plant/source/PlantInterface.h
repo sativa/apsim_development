@@ -31,6 +31,7 @@ class plantInterface {
       virtual float getCo2 (void) const = 0;              // CO2 level (ppm)
       virtual photosynthetic_pathway_t getPhotosynthetic_pathway(void) const = 0;              // CO2 level (ppm)
       virtual float getStageCode (void) const = 0;        // Phenological stage code AAACK DIE YOU BASTARD
+      virtual float getStageNumber (void) const = 0;        // Phenological stage code AAACK DIE YOU BASTARD
 //      virtual float getRadnInterceptedPod(void) const = 0;
       virtual float getDltDMPotRueVeg(void) const = 0;
       virtual float getDmGreenVeg(void) const = 0;

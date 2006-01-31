@@ -1315,38 +1315,6 @@ void Plant::plant_bio_grain_demand_stress (int option /* (INPUT) option number *
     return;
     }
 
-
-//////+  Purpose
-//////       Initialise plant weights and plant weight minimums
-//////       at required instances.
-////
-//////+  Mission Statement
-//////     Initialise plant weights and plant weight minimums at required instances.
-////
-//////+  Changes
-//////     21-04-1998 - unknown - Programmed and Specified
-////void Plant::plant_retrans_init (int option)
-////    {
-////    const char*  myname = "plant_retrans_init" ;
-////
-//////- Implementation Section ----------------------------------
-////    push_routine (myname);
-////
-////    if (option==1)
-////        {
-////
-////////        fruitPart->retrans_init ();
-////        }
-////    else
-////        {
-////        throw std::invalid_argument ("invalid template option in  retrans_init");
-////        }
-////
-////    pop_routine (myname);
-////    return;
-////    }
-////
-
 //+  Purpose
 //       Simulate plant detachment.
 
@@ -4263,9 +4231,6 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
                            , radnIntGreenVeg
                            , min(min(min(g.temp_stress_photo, g.nfact_photo),
                                g.oxdef_photo), g.pfact_photo)
-////                           , g.co2
-////                           , g.maxt, g.mint
-////                           , c.photosynthetic_pathway
                            , &dlt_dm_pot_rue_veg);
 
         g.dlt_dm_pot_rue = dlt_dm_pot_rue_veg + fruitPart->dltDmPotRuePod();  // FIXME when fruit is made proper class
@@ -4293,23 +4258,12 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
 void Plant::plant_dm_pot_rue_veg (externalFunction *c_rue
                                 , double  radn_int
                                 , double  stress_factor
-////                                , float g_co2
-////                                , float g_maxt
-////                                , float g_mint
-////                                , photosynthetic_pathway_t c_photosynthetic_pathway
                                 , float  *dlt_dm_pot)                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
   {
   //+  Local Variables
   double rue_leaf;
-////  float co2_modifier = 0.0;
 
   rue_leaf = c_rue->value(phenology->stageNumber());
-
-////  plant_rue_co2_modifier(c_photosynthetic_pathway,
-////                         g_co2,
-////                         g_maxt,
-////                         g_mint,
-////                         &co2_modifier);
 
   *dlt_dm_pot = (radn_int * rue_leaf) * stress_factor * g.co2_modifier_rue;
 
@@ -4723,9 +4677,6 @@ void Plant::legnew_n_partition
     ,float  *n_fix_uptake        // (OUTPUT) actual N fixation (g/m^2)
     ,vector<plantPart *> &allParts        // (INPUT) vector of plant parts
     ) {
-
-//+  Constant Values
-    const char*  my_name = "legnew_n_partition" ;
 
 //+  Local Variables
     int   deepest_layer;                          // deepest layer in which the roots are growing
@@ -5458,7 +5409,6 @@ void Plant::plant_process ( void )
         //fprintf(stdout, "%d,%.9f,%.9f,%.9f\n", g.day_of_year,g.dlt_dm, g.dlt_dm_pot_rue, g.dlt_dm_pot_te);
 
         fruitPart->processBioDemand();
-////        g.grain_energy = fruitPart->grainEnergy();
 
         plant_bio_partition (c.partition_option);
 
@@ -7909,8 +7859,8 @@ void Plant::plant_end_crop ()
           vector<float> dlt_dm_n;                      // N content of changeed dry matter (kg/ha)
           vector<float> dlt_dm_p;                      // P content of changeed dry matter (kg/ha)
 
-////          char *names[] = {"root", "pod","meal", "oil"};
-////          float fracts[] = {0.0, 1.0, 1.0, 1.0};
+//          char *names[] = {"root", "pod","meal", "oil"};
+//          float fracts[] = {0.0, 1.0, 1.0, 1.0};
           char *names[] = {"root"};
           float fracts[] = {0.0};
           for (part = 0; part < 1; part++)
@@ -8330,7 +8280,7 @@ void Plant::plant_update_other_variables (void)
 
     // DANGER WILL ROBINSON make sure this is right
     //char *names[] = {"root", "leaf", "stem", "pod","meal", "oil"};
-////    float fracts[] = {0.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+    //    float fracts[] = {0.0, 1.0, 1.0, 1.0, 1.0, 1.0};
     setupHacks(parts);
 
     // dispose of detached material from senesced parts in the live population
@@ -10982,6 +10932,7 @@ void Plant::plant_n_demand(int max_part     // (INPUT)
 
 
    float Plant::getStageCode(void) const {return phenology->stageCode();}
+   float Plant::getStageNumber(void) const {return phenology->stageNumber();}
    float Plant::getPlants(void) const {return g.plants;}
    float Plant::getCo2(void) const {return g.co2;}
    photosynthetic_pathway_t Plant::getPhotosynthetic_pathway(void) const {return c.photosynthetic_pathway;}
