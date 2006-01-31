@@ -5352,6 +5352,12 @@ void Plant::plant_process ( void )
     //!!!!!!!! check order dependency of deltas
     push_routine (my_name);
 
+    plant_co2_modifier_rue ();
+    plant_co2_modifier_te ();
+    plant_co2_modifier_n_conc ();
+    plant_vpd (c.svp_fract, g.maxt, g.mint);
+
+
 //      call plant_root_depth (1)  !1 = xf added
     plant_root_depth (2);
     plant_water_supply (1);
