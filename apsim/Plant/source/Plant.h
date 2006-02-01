@@ -765,7 +765,6 @@ void Plant::legnew_dm_retranslocate
 
   bool on_day_of(const string &what) ;
   bool inPhase(const string &what) ;
-  float phenologicalStageNumber(void);
   int  getDayOfYear(void) {return (g.day_of_year);};
 
   // To transfer to Fruit class
