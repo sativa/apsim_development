@@ -23,7 +23,273 @@
 #include "PlantParts.h"
 using namespace std;
 
+const float  tolerance_lai = 1.0e-4 ;
 
+// Read Constants 
+void plantLeafPart::readConstants (protocol::Component *system, const string &section)
+{
+    plantPart::readConstants(system, section);
+    // Nothing to do here..
+}
+
+// Read species specific parameters
+void plantLeafPart::readSpeciesParameters (protocol::Component *system, vector<string> &search_order)
+{
+    plantPart::readSpeciesParameters(system, search_order);
+    system->readParameter (search_order
+                           ,"leaf_no_at_emerg"//, "()"
+                           , cLeafNumberAtEmerg
+                           , 0.0, 100.0);
+
+    system->readParameter (search_order
+                   ,"initial_tpla"//, "(mm^2)"
+                   , cInitialTPLA
+                   , 0.0, 100000.0);
+
+    system->readParameter (search_order
+                   ,"min_tpla"//, "(mm^2)"
+                   , cMinTPLA
+                   , 0.0, 100000.0);
+
+    system->readParameter (search_order
+                   ,"sla_min"//, "(mm^2/g)"
+                   , cSLAMin
+                   , 0.0, 100000.0);
+
+    system->readParameter (search_order
+                     ,"sen_start_stage"//, "()"
+                     , cSenStartStage
+                     , 0.0, 100.0);
+
+    system->readParameter (search_order
+                    ,"fr_lf_sen_rate"//, "(/degday)"
+                    , cFrLeafSenRate
+                    , 0.0, 1.0);
+
+    system->readParameter (search_order
+                    ,"node_sen_rate"//, "(degday)"
+                    , cNodeSenRate
+                    , 0.0, 1000.0);
+
+    system->readParameter (search_order
+                   , "n_fact_lf_sen_rate"//, "(/degday)"
+                   , cNFactLeafSenRate
+                   , 0.0, 5.0);
+
+    system->readParameter (search_order
+                   , "node_no_correction"//, "()"
+                   , cNodeNoCorrection
+                   , 0.0, 10.0);
+
+    cSLAMax.search(system, search_order
+                   , "x_lai",  "(mm2/mm2)", 0.0, 15.0
+                   , "y_sla_max", "(mm2/g)", 0.0, 2.e5);
+
+    cLeafNoFrac.search(system, search_order
+                     ,"x_lai_ratio", "()", 0.0, 1.0
+                     ,"y_leaf_no_frac", "()", 0.0, 1.0);
+
+    system->readParameter (search_order
+                   , "lai_sen_light"//, "(m^2/m^2)"
+                   , cLAISenLight
+                   , 3.0, 20.0);
+
+    system->readParameter (search_order
+                   , "sen_light_slope"//, "()"
+                   , cSenLightSlope
+                   , 0.0, 100.0);
+
+    system->readParameter (search_order
+                   , "sen_rate_water"//, "()"
+                   , cSenRateWater
+                   , 0.0, 100.0);
+
+    cSenescenceFac.search (system, search_order
+                     , "x_temp_senescence", "(oc)", -20.0, 20.0
+                     , "y_senescence_fac", "()", 0.0, 1.0);
+
+    cLeafSize.search(system, search_order
+                        , "x_node_no",  "()", 0.0, 100.0
+                        , "y_leaf_size", "(mm2)", 0.0, 60000.0);
+
+    cNodeAppRate.search(system, search_order
+                        , "x_node_no_app",  "()", 0.0, 200.0
+                        , "y_node_app_rate", "()", 0.0, 400.0);
+
+    cLeavesPerNode.search(system, search_order
+                        , "x_node_no_leaf",  "()", 0.0, 200.0
+                        , "y_leaves_per_node", "()", 0.0, 50.0);
+
+}
+
+// Connect our bits to the system
+void plantLeafPart::doRegistrations(protocol::Component *system)
+{
+   plantPart::doRegistrations(system);
+   setupGetFunction(system, "leaf_no", protocol::DTsingle, false,
+                    &plantLeafPart::get_leaf_no, "leaves/plant", "Number of leaves per plant");
+
+   system->addGettableVar("node_no", gNodeNo, "nodes/plant", "Number of mainstem nodes per plant");
+
+   setupGetFunction(system, "leaf_no_dead", protocol::DTsingle, false,
+                     &plantLeafPart::get_leaf_no_dead, "leaves/m2", "Number of dead leaves per square meter");
+
+   setupGetFunction(system, "leaf_area", protocol::DTsingle, true,
+                    &plantLeafPart::get_leaf_area, "mm^2", "Leaf area for each node");
+
+   setupGetFunction(system, "leaf_area_tot", protocol::DTsingle, false,
+                    &plantLeafPart::get_leaf_area_tot, "m^2", "Total plant leaf area");
+
+   setupGetFunction(system, "lai_sum", protocol::DTsingle, false,
+                    &plantLeafPart::get_lai_sum, "m^2/m^2", "LAI of all leaf components");
+
+   setupGetFunction(system, "tlai", protocol::DTsingle, false,
+                    &plantLeafPart::get_tlai, "m^2/m^2", "Total lai");
+
+   system->addGettableVar("slai", gSLAI, "m^2/m^2", "Senesced lai");
+
+   system->addGettableVar("lai", gLAI, "m^2/m^2", "Leaf area index");
+
+   system->addGettableVar("dlt_lai_pot", dltLAI_pot, "m^2/m^2", "Potential change in live plant lai");
+
+   system->addGettableVar("dlt_lai_stressed", dltLAI_stressed, "m^2/m^2", "Potential change in lai allowing for stress");
+
+   system->addGettableVar("dlt_leaf_no", dltLeafNo, "leaves/m2", "Change in number of leaves");
+
+   system->addGettableVar("dlt_node_no", dltNodeNo, "nodes/m2", "Change in number of nodes");
+
+   system->addGettableVar("dlt_leaf_no_pot", dltLeafNoPot, "m^2/m^2", "Potential Leaf no");
+
+   system->addGettableVar("tlai_dead", gTLAI_dead, "m^2/m^2", "tlai dead");
+
+   system->addGettableVar("dlt_slai_age", dltSLAI_age, "m^2/m^2", "Change in lai via age");
+
+   system->addGettableVar("dlt_slai_light", dltSLAI_light, "m^2/m^2", "Change in lai via light");
+
+   system->addGettableVar("dlt_slai_water", dltSLAI_water, "m^2/m^2", "Change in lai via water stress");
+
+   system->addGettableVar("dlt_slai_frost", dltSLAI_frost, "m^2/m^2", "Change in lai via low temperature");
+
+   system->addGettableVar("leaves_per_node", gLeavesPerNode, "","");
+
+}
+
+void plantLeafPart::get_tlai(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    float tlai = gLAI + gSLAI;
+    system->sendVariable(qd, tlai);
+}
+
+void plantLeafPart::get_lai_sum(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    float lai_sum = gLAI + gSLAI + gTLAI_dead;
+    system->sendVariable(qd, lai_sum);
+}
+void plantLeafPart::get_leaf_no(protocol::Component *system, protocol::QueryValueData &qd)
+{
+   system->sendVariable(qd, this->getLeafNo());
+}
+float plantLeafPart::getLeafNo(void) const
+{
+   float sum = 0.0;
+   for (int i = 0; i < max_node; i++) sum += gLeafNo[i];
+   return sum;
+}
+
+void plantLeafPart::get_leaf_area_tot(protocol::Component *system, protocol::QueryValueData &qd)
+{
+   float sum = 0.0;
+   for (int i = 0; i < max_node; i++) sum += gLeafArea[i];
+   system->sendVariable(qd, sum);
+}
+
+void plantLeafPart::get_leaf_no_dead(protocol::Component *system, protocol::QueryValueData &qd)
+{
+   float sum = 0.0;
+   for (int i = 0; i < max_node; i++) sum += gLeafNoDead[i];
+   system->sendVariable(qd, sum);
+}
+
+void plantLeafPart::get_leaf_area(protocol::Component *system, protocol::QueryValueData &qd)
+{
+   system->sendVariable(qd, protocol::vector<float>(gLeafArea, gLeafArea+20/*max_node*/)); // XX system can't handle big arrays..
+}
+
+// Clean out yesterday's rate calculations
+void plantLeafPart::zeroDeltas(void)
+{
+   plantPart::zeroDeltas();
+   dltLAI = 0.0;
+   dltSLAI = 0.0;
+   dltLAI_pot = 0.0;
+   dltLAI_stressed = 0.0;
+   dltTLAI_dead = 0.0;
+   dltTLAI_dead_detached = 0.0;
+   dltSLAI_detached = 0.0;
+   dltSLAI_age = 0.0;
+   dltSLAI_light = 0.0;
+   dltSLAI_water = 0.0;
+   dltSLAI_frost = 0.0;
+   dltLeafNo              = 0.0;
+//    g.dlt_node_no              = 0.0; JNGH - need to carry this through for site no next day.
+   dltLeafNoPot = 0.0;
+   dltNodeNoPot = 0.0;
+}
+
+// Initialise all constants & parameters
+void plantLeafPart::zeroAllGlobals(void)
+{
+   plantPart::zeroAllGlobals();
+   cLeafNumberAtEmerg = 0.0;
+   cSLAMin = 0.0;
+   cInitialTPLA = 0.0;
+   cNodeNoCorrection = 0.0;
+   cLAISenLight = 0.0;
+   cSenLightSlope = 0.0;
+
+   gSLAI = 0.0;
+   gLAI = 0.0;
+   gTLAI_dead = 0.0;
+   fill_real_array (gLeafNo , 0.0, max_node);
+   fill_real_array (gLeafNoDead , 0.0, max_node);
+   fill_real_array (gLeafArea , 0.0, max_node);
+   gNodeNo = 0.0;
+   gLeavesPerNode = 0.0;
+   dltNodeNo = 0.0;
+}
+
+// Leaf, Node number and area initialisation
+void plantLeafPart::onEmergence(void)
+   {
+   plantPart::onEmergence();
+
+   gNodeNo = cLeafNumberAtEmerg;
+
+   fill_real_array (gLeafNo, 0.0, max_node);
+   fill_real_array (gLeafNoDead, 0.0, max_node);
+
+   int   leaf_no_emerged = (int) cLeafNumberAtEmerg;
+   float leaf_emerging_fract = fmod(cLeafNumberAtEmerg, 1.0);
+   for (int leaf = 0; leaf < leaf_no_emerged; leaf++)
+      {
+      gLeafNo[leaf] = 1.0;
+      }
+   gLeafNo[leaf_no_emerged] = leaf_emerging_fract;
+
+   fill_real_array (gLeafArea, 0.0, max_node);
+   float avg_leaf_area = divide (cInitialTPLA, cLeafNumberAtEmerg, 0.0);
+   for (int leaf = 0; leaf < leaf_no_emerged; leaf++)
+      {
+      gLeafArea[leaf] = avg_leaf_area;
+      }
+   gLeafArea[leaf_no_emerged] = leaf_emerging_fract * avg_leaf_area;
+
+   gLAI = cInitialTPLA * smm2sm * plant->getPlants();
+   gSLAI = 0.0;
+   gTLAI_dead = 0.0;
+   }
+
+// Harvest event
 void plantLeafPart::onHarvest(float /* cutting_height */, float remove_fr,
                               vector<string> &dm_type,
                               vector<float> &dlt_crop_dm,
@@ -64,230 +330,369 @@ void plantLeafPart::onHarvest(float /* cutting_height */, float remove_fr,
     dlt_dm_p.push_back(dlt_p_harvest * gm2kg/sm2ha);
 }
 
-#if 0   
-void plantLeafPart::readSpeciesParameters (protocol::Component *system, vector<string> &search_order)
-{
-    system->readParameter (search_order
-                           ,"cLeafNumberAtEmerg"//, "()"
-                           , cLeafNumberAtEmerg
-                           , 0.0, 100.0);
-
-}
-#endif
-
-
-void plantLeafPart::doRegistrations(protocol::Component *system)
-{
-   plantPart::doRegistrations(system);
-//   setupGetFunction(system, "leaf_no", protocol::DTsingle, false,
-//                    &Plant::get_leaf_no, "leaves/plant", "number of leaves per plant");
-//
-//   system->addGettableVar("node_no",
-//               g.node_no, "nodes/plant", "number of mainstem nodes per plant");
-//
-//   system->addGettableVar("dlt_leaf_no",
-//               g.dlt_leaf_no, "leaves/m2", "Change in number of leaves");
-//
-//   system->addGettableVar("dlt_node_no",
-//               g.dlt_node_no, "nodes/m2", "Change in number of nodes");
-//
-//   setupGetFunction(system, "leaf_no_dead", protocol::DTsingle, false,
-//                     &Plant::get_leaf_no_dead, "leaves/m2", "number of dead leaves per square meter");
-//
-//   setupGetFunction(system, "leaf_area", protocol::DTsingle, true,
-//                    &Plant::get_leaf_area, "mm^2", "Leaf area for each node");
-//
-   setupGetFunction(system, "lai_sum", protocol::DTsingle, false,
-                    &plantLeafPart::get_lai_sum, "m^2/m^2", "LAI of all leaf parts");
-
-   setupGetFunction(system, "tlai", protocol::DTsingle, false,
-                    &plantLeafPart::get_tlai, "m^2/m^2", "tlai");
-
-   system->addGettableVar("slai", gSLAI, "m^2/m^2", "Senesced lai");
-
-   system->addGettableVar("lai", gLAI, "m^2/m^2", "Leaf area index");
-
-   system->addGettableVar("dlt_lai_pot", dltLAI_pot, "m^2/m^2", "Potential change in live plant lai");
-
-   system->addGettableVar("dlt_lai_stressed", dltLAI_stressed, "m^2/m^2", "Potential change in lai allowing for stress");
-
-//   parent->addGettableVar("dlt_leaf_no_pot",
-//               g.dlt_leaf_no_pot, "m^2/m^2", "Leaf no");
-//
-   system->addGettableVar("tlai_dead", gTLAI_dead, "m^2/m^2", "tlai dead");
-
-//   parent->addGettableVar("dlt_slai_age",
-//               g.dlt_slai_age, "m^2/m^2", "Change in lai via age");
-//
-//   parent->addGettableVar("dlt_slai_light",
-//               g.dlt_slai_light, "m^2/m^2", "Change in lai via light");
-//
-//   parent->addGettableVar("dlt_slai_water",
-//               g.dlt_slai_water, "m^2/m^2", "Change in lai via water stress");
-//
-//   parent->addGettableVar("dlt_slai_frost",
-//               g.dlt_slai_frost, "m^2/m^2", "Change in lai via low temperature");
-//
-//   parent->addGettableVar("leaves_per_node",
-//               g.leaves_per_node, "","");
-//
-//   setupGetFunction(parent, "leaf_area_tot", protocol::DTsingle, false,
-//                    &Plant::get_leaf_area_tot,
-//                    "m^2", "Total plant leaf area");
-//
-}
-
-void plantLeafPart::get_tlai(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    system->sendVariable(qd, gLAI + gSLAI);
-}
-
-void plantLeafPart::get_lai_sum(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    float lai_sum = gLAI + gSLAI + gTLAI_dead;
-    system->sendVariable(qd, lai_sum);
-}
-
-void plantLeafPart::zeroDeltas(void)
-{
-   plantPart::zeroDeltas();
-   dltLAI = 0.0;
-   dltSLAI = 0.0;
-   dltLAI_pot = 0.0;
-   dltLAI_stressed = 0.0;
-   dltTLAI_dead = 0.0;
-   dltTLAI_dead_detached = 0.0;
-}
-
-void plantLeafPart::zeroAllGlobals(void)
-{
-   plantPart::zeroAllGlobals();
-   gSLAI = 0.0;
-   gLAI = 0.0;
-   gTLAI_dead = 0.0;
-}
-
-//+  Purpose
-//       Leaf number initialisation
-void plantLeafPart::onEmergence(void)
-   {
-   plantPart::onEmergence();
-
-   }
-
+// Sanity checks
 void plantLeafPart::checkBounds(void)
 {
-   if (gLAI < 0.0) std::runtime_error(c.name + " LAI is negative! " + ftoa(gLAI,".6"));
-   if (gSLAI < 0.0) std::runtime_error(c.name + " SLAI is negative! " + ftoa(gSLAI,".6"));
-   if (gTLAI_dead < 0.0) std::runtime_error(c.name + " SLAI is negative! " + ftoa(gSLAI,".6"));
+   if (gLAI < 0.0) throw std::runtime_error(c.name + " LAI is negative! (" + ftoa(gLAI,".6") + ")");
+   if (gSLAI < 0.0) throw std::runtime_error(c.name + " SLAI is negative! (" + ftoa(gSLAI,".6") + ")");
+   if (gTLAI_dead < 0.0) throw std::runtime_error(c.name + " gTLAI_dead is negative! (" + ftoa(gTLAI_dead,".6") + ")");
+   if (gNodeNo < 0) throw std::runtime_error(c.name + " node number is negative! (" + ftoa(gNodeNo,".6") + ")");
+   if (gNodeNo >= max_node) throw std::runtime_error(c.name + " node number exceeds array size! (" + ftoa(gNodeNo,".6") + ")");
+
+   //     Check that leaf records agree
+   float leaf_area_tot = sum_real_array (gLeafArea, max_node) * plant->getPlants() * smm2sm;
+
+   if (! reals_are_equal (leaf_area_tot, gLAI + gSLAI, tolerance_lai))
+     {
+     ostrstream msg;
+     msg << "Total leaf area doesn't match LAI. LAI = ";
+     msg <<  leaf_area_tot << ". Lai total = " <<  (gLAI + gSLAI) << ends;
+     throw std::runtime_error (msg.str());
+     }
+
+//    leaf_area_tot = 0.0;
+//    for (int node = 0; node < max_node; node++)
+//      {
+//      leaf_area_tot += 
+//                  divide (gLeafNoDead[node], gLeafNo[node], 0.0)
+//                     * gLeafArea[node]
+//                     * plant->getPlants() * smm2sm;
+//      }
+//
+//    if (! reals_are_equal (leaf_area_tot, gLAI + gSLAI + gTLAI_dead, tolerance_lai))
+//      {
+//      ostrstream msg;
+//      msg << "total leaf area doesn't match TPLA. LAI = ";
+//      msg <<  leaf_area_tot << ". Lai total = " <<  (gLAI + gSLAI + gTLAI_dead) << ends;
+//      throw std::runtime_error (msg.str());
+//      }
+
+   if (sum_real_array(gLeafNoDead, max_node) >
+       sum_real_array(gLeafNo, max_node))
+       {
+       throw std::runtime_error ("Too much dead leaf number - exceeds live leaves");
+       }
 }
 
-#if 0
-void plantLeafPart::detachment(void)
+// Calculate deltas from potential and stresses
+void plantLeafPart::actual(void)
+   {
+   this->leaf_area_actual ();
+   this->leaf_no_actual ();
+   }
+   
+//Purpose
+//   Simulate actual crop leaf area development - checks that leaf area
+//   development matches D_m production via a maximum specific leaf area
+//   for the daily increase in LAI. SLA_max changes as a function of LAI.
+//
+void plantLeafPart::leaf_area_actual(void)
 {
+   float sla_max = cSLAMax.value(gLAI);                    //calculated daily max spec leaf area
 
+   float dltLAI_carbon = dlt.dm_green * sla_max * smm2sm;  //maximum daily increase in leaf area
+                                                           //index from carbon supply
+   dltLAI = min(dltLAI_carbon, dltLAI_stressed);
 }
+
+//Purpose
+//   Simulate actual leaf number increase as limited by dry matter production.
+void plantLeafPart::leaf_no_actual (void)
+   {
+   //ratio of actual to potential lai 
+   float lai_ratio = divide (dltLAI, dltLAI_stressed, 0.0);
+
+   //ratio of actual to potential leaf appearance
+   float leaf_no_frac= cLeafNoFrac.value(lai_ratio);
+
+   dltLeafNo = dltLeafNoPot * leaf_no_frac;
+
+   if (dltLeafNo < dltNodeNoPot)
+      {
+      dltNodeNo = dltLeafNo;
+      }
+   else
+      {
+      dltNodeNo = dltNodeNoPot;
+      }
+   }
+
 
 //+  Purpose
-//       Simulate potential crop leaf area development - may be limited by
-//       DM production in subsequent routine
-v//+  Purpose
-//       Simulate potential stressed crop leaf area development - may
-//       be limited by DM production in subsequent routine
+//     Calculate the fractional death of oldest green leaf.
+void plantLeafPart::leaf_death (float  g_nfact_expansion, float  g_dlt_tt)
+   {
+   float leaf_no_now;                            // total number of leaves yesterday
+   float leaf_no_dead_now;                       // total number of dead leaves yesterday
+   float leaf_death_rate;                        // thermal time for senescence of another leaf (oCd)
+   float leaf_per_node;                          // no. of leaves senescing per node
+   float tpla_now;                               //
+   float max_sleaf_no_now;                       // max number of senesced leaves allowable
+   float max_sen_area;                           // max area that can be senesced
+   float node_sen_rate;
 
-void plantLeafPart::leaf_area(void)
-{
-	// Potential
-        cproc_leaf_area_pot1 (c.x_node_no
-                              , c.y_leaf_size
-                              , c.num_node_no
-                              , g.node_no
-                              , c.node_no_correction
-                              , g.dlt_leaf_no_pot
-                              , g.plants
-                              , &g.dlt_lai_pot);
-        // Stressed 
-        cproc_leaf_area_stressed1 (g.dlt_lai_pot
-                                   ,g.swdef_expansion
-                                   ,min(g.nfact_expansion, g.pfact_expansion)
-                                   ,&g.dlt_lai_stressed);
 
-}
+   leaf_no_now = sum_real_array (gLeafNo, max_node);
+
+   leaf_per_node = leaf_no_now * cFrLeafSenRate;
+
+   node_sen_rate = divide( cNodeSenRate
+                          , 1.0 + cNFactLeafSenRate * (1.0 - g_nfact_expansion)
+                          , 0.0);
+
+   leaf_death_rate = divide (node_sen_rate, leaf_per_node, 0.0);
+
+   if (plant->on_day_of("harvest_ripe"))
+       {
+       // Constrain leaf death to remaining leaves
+       //cnh do we really want to do this?;  XXXX
+       leaf_no_dead_now = sum_real_array (gLeafNoDead,max_node);
+       dltLeafNoDead = l_bound (leaf_no_now - leaf_no_dead_now, 0.0);
+       }
+   else if (plant->phenologicalStageNumber() > cSenStartStage
+       /*XXXX should be phenology->inPhase("leaf_senescence") !!!!!*/)
+       {
+       dltLeafNoDead = divide (g_dlt_tt, leaf_death_rate, 0.0);
+
+       // Ensure minimum leaf area remains
+       tpla_now = sum_real_array (gLeafArea, max_node);
+       max_sen_area = l_bound (tpla_now - cMinTPLA, 0.0);
+       max_sleaf_no_now = legnew_leaf_no_from_area (gLeafArea
+                                                    , gLeafNo
+                                                    , max_node
+                                                    , max_sen_area);
+
+       // Constrain leaf death to remaining leaves
+       leaf_no_dead_now = sum_real_array (gLeafNoDead, max_node);
+       dltLeafNoDead = u_bound (dltLeafNoDead, max_sleaf_no_now - leaf_no_dead_now);
+       }
+   else
+       {
+       dltLeafNoDead = 0.0;
+       }
+   }
+
+// Public interface to calculate potentials
+void plantLeafPart::potential (int leaf_no_pot_option /* (INPUT) option number*/
+                              , float stressFactor    /* (INPUT) stress factor */
+                              , float dlt_tt)         /* (INPUT) Thermal Time */
+   {
+   this->leaf_no_pot (leaf_no_pot_option, stressFactor, dlt_tt);
+   this->leaf_area_potential ();
+   }
 
 //+  Purpose
-//       Leaf number development
-void plantLeafPart::leaf_number(void)
-{
-    // plant node/leaf approach
-    if (c.leaf_no_pot_option == 1)
+//     Calculate leaf number development
+void plantLeafPart::leaf_no_pot (int option, float stressFactor, float dlt_tt)
+    {
+    if (option == 1)
         {
-        cproc_leaf_no_pot1(c.x_node_no_app
-                           , c.y_node_app_rate
-                           , c.num_node_no_app
-                           , c.x_node_no_leaf
-                           , c.y_leaves_per_node
-                           ,  c.num_node_no_leaf
-                           , phenology->inPhase("node_formation")
-                           , phenology->on_day_of("emergence")
-                           , g.node_no
-                           , phenology->get_dlt_tt()
-                           , &g.dlt_leaf_no_pot
-                           , &g.dlt_node_no_pot);
+        cproc_leaf_no_pot1(cNodeAppRate
+                           , cLeavesPerNode
+                           , plant->inPhase("node_formation")
+                           , plant->on_day_of("emergence")
+                           , gNodeNo
+                           , dlt_tt
+                           , &dltLeafNoPot
+                           , &dltNodeNoPot);
         }
-    else if (c.leaf_no_pot_option == 2)
+    else if (option == 2)
         {
         //wheat
-        float tiller_no_now =  g.node_no;
-        cproc_leaf_no_pot3  (c.x_node_no_app
-                             , c.y_node_app_rate
-                             , c.num_node_no_app
-                             , c.x_node_no_leaf
-                             , c.y_leaves_per_node
-                             , c.num_node_no_leaf
-                             , phenology->inPhase("tiller_formation")
-                             , phenology->on_day_of("emergence")
+        float tiller_no_now =  gNodeNo;
+        cproc_leaf_no_pot3  (cNodeAppRate
+                             , cLeavesPerNode
+                             , plant->inPhase("tiller_formation")
+                             , plant->on_day_of("emergence")
                              , tiller_no_now
-                             , phenology->get_dlt_tt()
-                             , min(g.nfact_expansion, g.pfact_expansion)
-                             , g.swdef_expansion
-                             , &g.leaves_per_node
-                             , &g.dlt_leaf_no_pot
-                             , &g.dlt_node_no_pot);
+                             , dlt_tt
+                             , stressFactor
+                             , &gLeavesPerNode
+                             , &dltLeafNoPot
+                             , &dltNodeNoPot);
         }
     else
         {
-        throw std::invalid_argument ("invalid template option");
+        throw std::invalid_argument ("invalid template option in leaf_no_pot");
         }
-}
+    }
 
 //+  Purpose
-//       Simulate actual crop leaf area development - checks that leaf area
-//       development matches DM production.
-void plantLeafPart::leaf_area_actual(void)
-{
-        // limit the delta leaf area by carbon supply
-        cproc_leaf_area_actual1 (c.x_lai
-                                 , c.y_sla_max
-                                 , c.num_lai
-                                 , leafPart->dlt.dm_green
-                                 , &g.dlt_lai
-                                 , g.dlt_lai_stressed
-                                 , g.lai);
-}
+//  Calculate the potential increase in leaf area development (mm^2)
+//  on an individual leaf basis, with account taken of the area of 
+//  currently expanding leaves (node_no_correction).
+void plantLeafPart::leaf_area_potential ()
+   {
+   float node_no_now = gNodeNo + cNodeNoCorrection;
+
+   float leaf_size = cLeafSize.value (node_no_now);
+
+   dltLAI_pot =  dltLeafNoPot * leaf_size * smm2sm * plant->getPlants();
+   }
+
 
 //+  Purpose
-//       Simulate actual crop leaf area development - checks that leaf area
-//       development matches DM production.
-void plantLeafPart::leaf_no_actual(void)
+//   Calculate the biomass non-limiting leaf area development from the
+//   potential daily increase in lai and stress factors (water &
+//   nitrogen)
+void plantLeafPart::leaf_area_stressed (float stressFactor)
+    {
+    dltLAI_stressed = dltLAI_pot * stressFactor;
+    }
+
+void plantLeafPart::detachment (void)
+   {
+        cproc_lai_detachment1 (c.sen_detach_frac
+                               , gSLAI
+                               , &dltSLAI_detached
+                               , c.dead_detach_frac
+                               , gTLAI_dead
+                               , &dltTLAI_dead_detached);
+
+        plant_leaf_detachment (gLeafArea
+                               , dltSLAI_detached
+                               , plant->getPlants()
+                               , max_node);
+   }
+   
+//   Calculate todays leaf area senescence
+void plantLeafPart::leaf_area_sen(float swdef_photo , float mint) 
 {
-        cproc_leaf_no_actual1(c.num_lai_ratio
-                             , c.x_lai_ratio
-                             , c.y_leaf_no_frac
-                             , g.dlt_lai
-                             , g.dlt_lai_stressed
-                             , &g.dlt_leaf_no
-                             , g.dlt_leaf_no_pot
-                             , &g.dlt_node_no
-                             , g.dlt_node_no_pot);
+    float plants = plant->getPlants();
+    
+    dltSLAI_age = legopt_leaf_area_sen_age1( gLeafNo
+                              , gLeafNoDead
+                              , dltLeafNoDead
+                              , max_node
+                              , gLAI
+                              , gSLAI
+                              , cMinTPLA
+                              , gLeafArea
+                              , plants);
+
+    dltSLAI_light = crop_leaf_area_sen_light1 (cLAISenLight, cSenLightSlope, gLAI, plants, cMinTPLA);
+
+
+    dltSLAI_water = crop_leaf_area_sen_water1 (cSenRateWater,
+                               gLAI,
+                               swdef_photo,
+                               plants,
+                               cMinTPLA);
+
+    dltSLAI_frost = crop_leaf_area_sen_frost1(cSenescenceFac,
+                              gLAI,
+                              mint,
+                              plants,
+                              cMinTPLA);
+
+    dltSLAI = max(max(max(dltSLAI_age, dltSLAI_light), dltSLAI_water), dltSLAI_frost);
 }
-#endif
+
+// Update state variables
+void plantLeafPart::update(void)
+{
+    plantPart::update();
+    // need to account for truncation of partially developed leaf (add 1)
+    float node_no = 1.0 + gNodeNo;
+
+    float dlt_leaf_area = divide (dltLAI, plant->getPlants(), 0.0) * sm2smm;
+    accumulate (dlt_leaf_area, gLeafArea, node_no-1.0, dltNodeNo);
+
+    // Area senescence is calculated apart from plant number death
+    // so any decrease in plant number will mean an increase in average
+    // plant size as far as the leaf size record is concerned.
+    if ((plant->getPlants() /*+ g_dlt_plants*/)<=0.0)   //XXXX FIXME!!
+        {
+        fill_real_array(gLeafArea, 0.0, max_node);
+        }
+
+    accumulate (dltLeafNo, gLeafNo, node_no-1.0, dltNodeNo);
+
+    float leaf_no_dead_tot = sum_real_array(gLeafNoDead, max_node) + dltLeafNoDead;
+
+    for (int node = 0; node < max_node; node++)
+        {
+        if (leaf_no_dead_tot > gLeafNo[node])
+            {
+            leaf_no_dead_tot -=  gLeafNo[node];
+            gLeafNoDead[node] = gLeafNo[node];
+            }
+        else
+            {
+            gLeafNoDead[node] = leaf_no_dead_tot;
+            leaf_no_dead_tot = 0.0;
+            }
+        }
+    gNodeNo += dltNodeNo;
+}
+
+// Transfer dead leaf areas
+void plantLeafPart::update2(float dying_fract_plants)
+{
+    // transfer plant leaf area
+    gLAI +=  dltLAI - dltSLAI;
+    gSLAI += dltSLAI - dltSLAI_detached;
+
+    float dlt_lai_dead  = gLAI  * dying_fract_plants;
+    float dlt_slai_dead = gSLAI * dying_fract_plants;
+    gLAI -=  dlt_lai_dead;
+    gSLAI -=  dlt_slai_dead;
+    gTLAI_dead +=  dlt_lai_dead + dlt_slai_dead - dltTLAI_dead_detached;
+}
+
+// Remove detachment from leaf area record
+void plantLeafPart::remove_detachment (float dlt_slai_detached, float dlt_lai_removed )
+    {
+    // Remove detachment from leaf area record from bottom upwards
+    float area_detached = dlt_slai_detached / plant->getPlants() * sm2smm;  // (mm2/plant)
+
+    for (int node = 0; node < max_node; node++)
+      {
+      if(area_detached > gLeafArea[node])
+        {
+        area_detached = area_detached - gLeafArea[node];
+        gLeafArea[node] = 0.0;
+        }
+      else
+        {
+        gLeafArea[node] = gLeafArea[node] - area_detached;
+        break;
+        }
+      }
+
+    // Remove detachment from leaf area record from top downwards
+    float area_removed = dlt_lai_removed / plant->getPlants() * sm2smm;  // (mm2/plant)
+
+    for (int node = (int)gNodeNo; node >= 0 ; node--)
+    {
+      if(area_removed > gLeafArea[node])
+      {
+        area_removed = area_removed - gLeafArea[node];
+        gLeafArea[node] = 0.0;
+      }
+      else
+      {
+        gLeafArea[node] = gLeafArea[node] - area_removed;
+        break;
+      }
+   }
+
+   // calc new node number
+   for (int node = max_node - 1; node >= 0; node--)
+      {
+      if (!reals_are_equal(gLeafArea[node], 0.0, 1.0E-4))    // Slop?
+         {
+         gNodeNo = (float)node;  //FIXME - need adjustment for leafs remaining in for this node
+         break;
+         }
+      }
+  
+   // calc new leaf number
+   int newNodeNo = 1.0 + gNodeNo;
+   for (int node = newNodeNo - 1; node < max_node; node++)
+      {
+      gLeafNo[node] = 0.0;
+      gLeafNoDead[node] = 0.0;
+      }
+}
+
