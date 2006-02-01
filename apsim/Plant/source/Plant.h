@@ -20,9 +20,6 @@ typedef std::map<unsigned, string>      UInt2StringMap;
 
 ////////////////////////
 // array size settings
-// maximum number of plant nodes
-#define max_node 1000
-
 // Maximum number of layers in soil
 #define max_layer 100
 
@@ -200,12 +197,11 @@ class Plant : public plantInterface {
             				,int    g_year
             				,float  g_plants) ;
   float plant_death_drought(float  c_leaf_no_crit
-         			   ,float  c_swdf_photo_limit
-         			   ,float  c_swdf_photo_rate
-         			   ,float  g_cswd_photo
-         			   ,float  *g_leaf_no
-         			   ,float  g_plants
-         			   ,float  g_swdef_photo) ;
+			   ,float  c_swdf_photo_limit
+			   ,float  c_swdf_photo_rate
+			   ,float  g_cswd_photo
+			   ,float  g_plants
+			   ,float  g_swdef_photo) ;
   void plant_death_external_action(protocol::Variant &v
             				   ,float g_plants
             				   ,float *dlt_plants
@@ -239,11 +235,9 @@ class Plant : public plantInterface {
   void plant_leaf_area_potential (int option /* (INPUT) option number */);
   void plant_leaf_area_stressed (int option /* (INPUT) option number*/);
   void plant_leaf_area_init (int option);
-  void plant_leaf_no_init (int option);
   void plant_leaf_area_actual (int option /* (INPUT) option number*/);
   void plant_pod_area (int option /* (INPUT) option number*/);
   void plant_leaf_no_actual (int option /* (INPUT) option number*/);
-  void plant_leaf_no_pot (int option /* (INPUT) option number*/);
   void plant_nit_init (int option /* (INPUT) option number*/);
   void plant_nit_supply (int option /* (INPUT) option number*/);
   void plant_nit_retrans (int option/* (INPUT) option number*/);
@@ -262,9 +256,7 @@ class Plant : public plantInterface {
   void plant_leaf_death (int   option/*(INPUT) option number*/);
   void plant_leaf_area_sen (int   option/*(INPUT) option number*/);
   void plant_cleanup ();
-  void plant_check_leaf_record ();
-  void plant_update
-                   (float  c_n_conc_crit_root
+  void plant_update(float  c_n_conc_crit_root
                    ,float  c_n_conc_max_root
                    ,float  c_n_conc_min_root
                    ,float *c_x_stage_code
@@ -291,9 +283,6 @@ class Plant : public plantInterface {
                    ,float *g_dlt_dm_senesced
                    ,float *g_dlt_dm_green_dead
                    ,float *g_dlt_dm_senesced_dead
-                   ,float  g_dlt_leaf_no
-                   ,float  g_dlt_node_no
-                   ,float  g_dlt_leaf_no_dead
                    ,float *g_dlt_n_dead_detached
                    ,float *g_dlt_n_detached
                    ,float *g_dlt_n_green
@@ -305,15 +294,10 @@ class Plant : public plantInterface {
                    ,float *g_dlt_n_senesced_dead
                    ,float  g_dlt_plants
                    ,float  g_dlt_root_depth
-                   ,float  g_dlt_slai_detached
                    ,float *g_dm_dead
                    ,float *g_dm_green
                    ,float *g_dm_senesced
                    ,float *g_lai_canopy_green
-                   ,float *g_leaf_area
-                   ,float *g_leaf_no
-                   ,float *g_node_no
-                   ,float *g_leaf_no_dead
                    ,float *g_n_conc_crit
                    ,float *g_n_conc_max
                    ,float *g_n_conc_min
@@ -328,17 +312,13 @@ class Plant : public plantInterface {
                    ,float *g_root_length
                    ,float *g_dlt_root_length
                    ,float *g_dlt_root_length_senesced) ;
-  void plant_check_bounds
-                         (float  g_cover_dead
+  void plant_check_bounds(float  g_cover_dead
                          ,float  g_cover_green
                          ,float  g_cover_sen
                          ,float *g_dlayer
                          ,float *g_dm_dead
                          ,float *g_dm_green
                          ,float *g_dm_senesced
-                         ,float *g_leaf_area
-                         ,float *g_leaf_no
-                         ,float *g_leaf_no_dead
                          ,float *g_n_conc_crit
                          ,float *g_n_conc_max
                          ,float *g_n_conc_min
@@ -348,6 +328,7 @@ class Plant : public plantInterface {
                          ,float  g_plants
                          ,float  g_root_depth
                          ) ;
+
   void plant_totals(int   g_day_of_year
                    ,float *g_dlayer
                    ,float *g_dlt_n_retrans
@@ -440,7 +421,6 @@ class Plant : public plantInterface {
 
   void legnew_dm_partition1 (float c_frac_leaf
                               , float c_ratio_root_shoot
-                              , float c_sla_min
                               , double g_dlt_dm
                               , float dm_yield_demand_fruit
                               , double *dlt_dm_fruit
@@ -451,7 +431,6 @@ class Plant : public plantInterface {
                                , float  *c_y_frac_leaf
                                , int    c_num_stage_no_partition
                                , float *c_y_ratio_root_shoot
-                               , float c_sla_min
                                , double g_dlt_dm
                                , float dm_yield_demand_fruit
                                , double *dlt_dm_fruit
@@ -464,7 +443,6 @@ class Plant : public plantInterface {
     ,float  g_grain_energy
     ,float  c_grain_oil_conc
     ,float  c_ratio_root_shoot
-    ,float  c_sla_min
     ,double  g_dlt_dm
     ,float  g_dlt_dm_grain_demand
     ,float  dlt_dm_oil_conv
@@ -480,7 +458,6 @@ class Plant : public plantInterface {
     ,float  g_grain_energy
     ,float  c_grain_oil_conc
     ,float  *c_y_ratio_root_shoot
-    ,float  c_sla_min
     ,double  g_dlt_dm
     ,float  g_dlt_dm_grain_demand
     ,float  dlt_dm_oil_conv
@@ -506,20 +483,6 @@ void Plant::legnew_dm_retranslocate
 //                                );
 
 
-  void legnew_leaf_death_leg
-    (
-     float  c_sen_start_stage
-    ,float  c_fr_lf_sen_rate
-    ,float  c_node_sen_rate
-    ,float  g_nfact_expansion
-    ,float  c_n_fact_lf_sen_rate
-    ,float  g_dlt_tt
-    ,float  *g_leaf_no
-    ,float  *g_leaf_no_dead
-    ,float  *g_leaf_area
-    ,float  c_min_tpla
-    ,float  *dlt_leaf_no_dead
-    ) ;
   void plant_N_senescence (int num_part                  //(INPUT) number of plant part
                         ,float *c_n_sen_conc           //(INPUT)  N concentration of senesced materia  (g/m^2)
                         ,float *g_n_conc_max           //(INPUT) critical N conc
@@ -758,11 +721,6 @@ void Plant::legnew_dm_retranslocate
   void get_no3gsm_uptake_pot(protocol::Component *, protocol::QueryValueData &);
   void get_nh4gsm_uptake_pot(protocol::Component *, protocol::QueryValueData &);
   void get_no3_swfac(protocol::Component *, protocol::QueryValueData &);
-  void get_leaves_per_node(protocol::Component *, protocol::QueryValueData &);
-  void get_dlt_slai_age(protocol::Component *, protocol::QueryValueData &);
-  void get_dlt_slai_light(protocol::Component *, protocol::QueryValueData &);
-  void get_dlt_slai_water(protocol::Component *, protocol::QueryValueData &);
-  void get_dlt_slai_frost(protocol::Component *, protocol::QueryValueData &);
 
   void get_parasite_c_gain(protocol::Component *, protocol::QueryValueData &);
   void get_leaf_area_tot(protocol::Component *, protocol::QueryValueData &);
@@ -805,6 +763,9 @@ void Plant::legnew_dm_retranslocate
   void get_p_uptake_stover(protocol::Component *, protocol::QueryValueData &qd);
   void get_ll(protocol::Component *systemInterface, protocol::QueryValueData &qd);
 
+  bool on_day_of(const string &what) ;
+  bool inPhase(const string &what) ;
+  float phenologicalStageNumber(void);
   int  getDayOfYear(void) {return (g.day_of_year);};
 
   // To transfer to Fruit class
@@ -982,33 +943,12 @@ void Plant::legnew_dm_retranslocate
       float radnIntGreenFruit;                          // radn intercepted by fruit (mj/m^2)
       float transp_eff;                                 // transpiration efficiency (g dm/m^2/mm water)
       float transpEffFruit;                             // transpiration efficiency of fruit (g dm/m^2/mm water)
-//      float slai;                                       // area of leaf that senesces from plant
-//      float dlt_slai;                                   // area of leaf that senesces from plant
-//      float dlt_lai;                                    // actual change in live plant lai
-//      float dlt_lai_pot;                                // potential change in live plant lai
-//      float dlt_lai_stressed;                           // potential change in lai  allowing for stress
-//      float lai;                                        // live plant green lai
+
       float lai_canopy_green;                           // green lai of canopy
-//      float tlai_dead;                                  // total lai of dead plants
-//      float dlt_tlai_dead;                              // plant lai change in dead plant
-//      float dlt_tlai_dead_detached;                     // plant lai detached from dead plant
-      float dlt_slai_detached;                          // plant senesced lai detached
-      float dlt_slai_age;                               // senesced lai from age
-      float dlt_slai_light;                             // senesced lai from light
-      float dlt_slai_water;                             // senesced lai from water
-      float dlt_slai_frost;                             // senesced lai from frost
       float pai;
       float dlt_pai;
-      float leaf_no[max_node];                          // number of fully expanded leaves ()
-      float node_no;                                    // number of fully expanded nodes ()
-      float leaf_no_dead[max_node];                     // no of dead leaves ()
-      float dlt_leaf_no;                                // actual fraction of oldest leaf expanding ()
-      float dlt_node_no;                                // actual fraction of oldest node expanding ()
-      float dlt_leaf_no_pot;                            // potential fraction of oldest leaf expanding ()
-      float dlt_node_no_pot;                            // potential fraction of oldest leaf expanding ()
-      float dlt_leaf_no_dead;                           // fraction of oldest green leaf senesced ()
+
       float leaf_no_final;                              // total number of leaves the plant produces
-      float leaf_area[max_node];                        // leaf area of each leaf (mm^2)
       float lai_equilib_light[366+1];                     // lai threshold for light senescence
       float lai_equilib_water[366+1];                     // lai threshold for water senescence
       float n_demand [max_part];                        // critical plant nitrogen demand (g/m^2)
@@ -1080,8 +1020,7 @@ void Plant::legnew_dm_retranslocate
       float ext_n_demand;
       float ext_sw_demand;                              // Note: currently unused - use sw_demand
       float grain_energy;                               // multiplier of grain weight to account
-      // for seed energy content
-      float leaves_per_node;
+                                                        // for seed energy content
 
       float swdef_pheno_flower;
       float swdef_pheno_grainfill;
@@ -1157,7 +1096,6 @@ void Plant::legnew_dm_retranslocate
       int   n_senescence_option;
       int   dm_senescence_option;
 
-      float sen_start_stage;
       float n_stress_start_stage;
 
       float no3_uptake_max;
@@ -1192,10 +1130,6 @@ void Plant::legnew_dm_retranslocate
       float twilight;                                   // twilight in angular distance between
                                                         // sunset and end of twilight - altitude
                                                         // of sun. (deg)
-      float x_lai_ratio[max_table];                     // ratio table for critical leaf size
-                                                        // below which leaf number is reduced ()
-      float y_leaf_no_frac[max_table];                  // reduction in leaf appearance ()
-      int   num_lai_ratio;                              // number of ratios in table ()
       float n_conc_crit_root;                           // critical N concentration of root (g N/g biomass)
       float n_conc_max_root;                            // maximum N concentration of root (g N/g biomass)
       float n_conc_min_root;                            // minimum N concentration of root (g N/g biomass)
@@ -1233,12 +1167,6 @@ void Plant::legnew_dm_retranslocate
       float swdf_photo_rate;                            // rate of plant reduction with
                                                         // photosynthesis water stress
       float initial_root_depth;                         // initial depth of roots (mm)
-      float x_lai [max_table];                          // lookup for sla max
-      float y_sla_max[max_table];                       // lookup for sla max
-      float sla_min;                                    // minimum specific leaf area for
-                                                        // new leaf area (mm^2/g)
-      float initial_tpla;                               // initial plant leaf area (mm^2)
-      float min_tpla;                                   // minimum plant leaf area(mm2/plant)
       float svp_fract;                                  // fraction of distance between svp at
                                                         // min temp and svp at max temp where
                                                         // average svp during transpiration
@@ -1252,11 +1180,9 @@ void Plant::legnew_dm_retranslocate
                                                         // and this can be converted to
                                                         // kpa*g carbo per m^2 / mm water
                                                         // because 1g water = 1 cm^3 water
-      int   num_lai;
       float grain_n_conc_min;                           // minimum nitrogen concentration of grain
 
       float seed_wt_min;                                // minimum grain weight (g/kernel)
-      float leaf_no_at_emerg;                           // leaf number at emergence ()
       float no3_diffn_const;                            // time constant for uptake by
                                                         // diffusion (days). H van Keulen &
                                                         // NG Seligman. Purdoe 1987. This is the
@@ -1265,10 +1191,6 @@ void Plant::legnew_dm_retranslocate
                                                         // it wasn't depleted between time steps
       float n_fix_rate[max_table];                      // potential rate of N fixation (g N fixed
                                                         // per g above ground biomass
-      float x_node_no_app[max_table];
-      float y_node_app_rate[max_table];
-      float x_node_no_leaf[max_table];
-      float y_leaves_per_node[max_table];
       float dm_init [max_part];                         // initial dm (g/plant)
       float leaf_init_rate;                             // growing degree days to initiate each le
                                                         // primordium until fl_initling (deg day)
@@ -1283,35 +1205,18 @@ void Plant::legnew_dm_retranslocate
       float sen_detach_frac[max_part];                  // fraction of dead plant parts
                                                         // detaching each day (0-1)
 
-      int   num_node_no_app;
-      int   num_node_no_leaf;
       float swdf_grain_min;                             // minimum of water stress factor
       float hi_min;                                     // minimum harvest index (g grain/
                                                         // g biomass)
       float sfac_slope;                                 // soil water stress factor slope
       float tfac_slope;                                 // temperature stress factor slope
-      float lai_sen_light;                              // critical lai above which light
       float sw_fac_max;                                 // soil water stress factor maximum
-      float x_temp_senescence[max_table];               // temperature senescence
-                                                        // table (oC)
-      float y_senescence_fac[max_table];                // temperature factor
-                                                        // senescence table (0-1)
       float temp_fac_min;                               // temperature stress factor minimum
                                                         // optimum temp
       float spla_slope;                                 // regression slope for calculating
                                                         // inflection point for leaf senescence
       float sen_threshold;                              // supply:demand ratio for onset of
                                                         // water senescence
-      float sen_rate_water;                             // slope in linear eqn
-                                                        // relating soil water
-                                                        // stress during photosynthesis
-                                                        // to leaf senesense rate
-      float sen_light_slope;                            // slope of linear relationship
-                                                        // between lai and
-                                                        // light competition factor for
-                                                        // determining leaf senesence rate.
-      int   num_temp_senescence;                        // number of temperatures in
-                                                        // senescence table
       float grn_water_cont;                             // water content of grain g/g
       float partition_rate_leaf;                        // rate coefficient of sigmoidal
                                                         // function between leaf partition
@@ -1336,15 +1241,9 @@ void Plant::legnew_dm_retranslocate
                                                         // development.
       float temp_grain_crit_stress;                     // temperature above which heat stress
                                                         // occurs
-      float node_sen_rate;
-      float fr_lf_sen_rate;
       float n_fact_lf_sen_rate;
       float carbo_oil_conv_ratio;                       // Carbohydrate:oil conversion ratio (>= 1.0)
       float grain_oil_conc;                             // fractional oil content of grain (0-1)
-      float node_no_correction;
-      float x_node_no[max_table];                       // lookup for leaf size
-      float y_leaf_size[max_table];                     // lookup for leaf size
-      int   num_node_no;
       float x_ave_temp[max_table];                      // critical temperatures for
                                                         // photosynthesis (oC)
       float y_stress_photo[max_table];                  // Factors for critical temperatures

@@ -109,14 +109,11 @@ void crop_lai_equilib_light ( float radn_int,
    }
 
 //===========================================================================
-void crop_leaf_area_sen_frost1(float *frost_temp,           //(INPUT)
-                               float *frost_fraction,       //(INPUT)
-                               int   num_frost_temp,        //(INPUT)
+float crop_leaf_area_sen_frost1(interpolationFunction &frost_fraction,       //(INPUT)
                                float lai,                   //(INPUT)  live plant green lai
                                float mint,                  //(INPUT)  minimum air temperature (o_c)
                                float plants,                //(INPUT)
-                               float min_tpla,              //(INPUT)
-                               float *dlt_slai_frost)       //(OUTPUT) lai frosted today
+                               float min_tpla)              //(INPUT)
 //===========================================================================
 
 /*Purpose
@@ -131,12 +128,12 @@ void crop_leaf_area_sen_frost1(float *frost_temp,           //(INPUT)
    float max_sen;
 
    //low temperature factor
-   sen_fac_temp = linear_interp_real(mint, frost_temp, frost_fraction, num_frost_temp);
+   sen_fac_temp = frost_fraction.value(mint);
 
    dlt_slai_low_temp = sen_fac_temp * lai;
    min_lai = min_tpla * plants * smm2sm;
    max_sen = l_bound (lai - min_lai, 0.0);
-   *dlt_slai_frost = bound (dlt_slai_low_temp, 0.0, max_sen);
+   return( bound (dlt_slai_low_temp, 0.0, max_sen));
    }
 
 //===========================================================================
@@ -282,14 +279,11 @@ void crop_leaf_area_sen_age1 (int emergence,                   //(INPUT)  emerge
    *dlt_slai_age = bound (slai_age - g_slai, 0.0, max_sen);
    }
 
-//===========================================================================
-void crop_leaf_area_sen_light1 (float lai_sen_light,
+float crop_leaf_area_sen_light1 (float lai_sen_light,
                                 float sen_light_slope,
                                 float lai,
                                 float plants,
-                                float min_tpla,
-                                float *dlt_slai_light)   //(OUTPUT) lai senesced by low light
-//===========================================================================
+                                float min_tpla)   //(OUTPUT) lai senesced by low light
 
 /*Purpose
  *   Return the lai that would senesce on the current day due to shading
@@ -319,17 +313,17 @@ void crop_leaf_area_sen_light1 (float lai_sen_light,
       }
    min_lai = min_tpla * plants * smm2sm;
    max_sen = l_bound (lai - min_lai, 0.0);
-   *dlt_slai_light = lai * slai_light_fac;
-   *dlt_slai_light = bound (*dlt_slai_light, 0.0, max_sen);
+
+   return (bound (lai * slai_light_fac, 0.0, max_sen));
    }
 
+
 //===========================================================================
-void crop_leaf_area_sen_water1 (float sen_rate_water,    //(INPUT)  slope in linear eqn relating soil wat
+float crop_leaf_area_sen_water1 (float sen_rate_water,    //(INPUT)  slope in linear eqn relating soil wat
                                 float lai,               //(INPUT)  live plant green lai
                                 float swdef_photo,       //(INPUT)
                                 float plants,            //(INPUT)
-                                float min_tpla,          //(INPUT)
-                                float *dlt_slai_water)    //(OUTPUT) water stress senescense
+                                float min_tpla)          //(INPUT)
 //===========================================================================
 
 /*Purpose
@@ -341,17 +335,19 @@ void crop_leaf_area_sen_water1 (float sen_rate_water,    //(INPUT)  slope in lin
    float slai_water_fac;  // drought stress factor (0-1)
    float max_sen;
    float min_lai;
-
+   float dlt_slai_water;
+   
    //Implementation Section ----------------------------------
 
    // drought stress factor
    slai_water_fac = sen_rate_water * (1.0 - swdef_photo);
-   *dlt_slai_water = lai * slai_water_fac;
+   dlt_slai_water = lai * slai_water_fac;
    min_lai = min_tpla * plants * smm2sm;
    max_sen = l_bound (lai - min_lai, 0.0);
-   *dlt_slai_water = bound (*dlt_slai_water, 0.0, max_sen);
+   dlt_slai_water = bound (dlt_slai_water, 0.0, max_sen);
+   return(dlt_slai_water);
    }
-
+#if 0
 //===========================================================================
 void cproc_leaf_area_sen1 (int emergence,                 // (INPUT)  emergence stage no.
                            int this_stage,                // (INPUT)  This current stage
@@ -395,15 +391,15 @@ void cproc_leaf_area_sen1 (int emergence,                 // (INPUT)  emergence 
                           g_leaf_area, g_leaf_no_dead, g_plants, g_slai,
                           c_min_tpla, g_dlt_slai_age);
 
-   crop_leaf_area_sen_light1 (c_lai_sen_light, c_sen_light_slope, g_lai,
-                            g_plants, c_min_tpla, g_dlt_slai_light);
+   *g_dlt_slai_light = crop_leaf_area_sen_light1 (c_lai_sen_light, c_sen_light_slope, g_lai,
+                            g_plants, c_min_tpla);
 
-   crop_leaf_area_sen_water1 (c_sen_rate_water, g_lai, g_swdef_photo,
-                              g_plants, c_min_tpla, g_dlt_slai_water);
+   *g_dlt_slai_water = crop_leaf_area_sen_water1 (c_sen_rate_water, g_lai, g_swdef_photo,
+                                                 g_plants, c_min_tpla);
 
-   crop_leaf_area_sen_frost1 (cXTempSenescence, cYSenescenceFac,
+   *g_dlt_slai_frost = crop_leaf_area_sen_frost1 (cXTempSenescence, cYSenescenceFac,
                               c_num_temp_senescence, g_lai, g_mint,
-                              g_plants, c_min_tpla, g_dlt_slai_frost);
+                              g_plants, c_min_tpla);
 
    max1 = max(*g_dlt_slai_age, *g_dlt_slai_light);
 
@@ -411,7 +407,7 @@ void cproc_leaf_area_sen1 (int emergence,                 // (INPUT)  emergence 
 
    *g_dlt_slai = max(max1, max2);
    }
-
+#endif
 //===========================================================================
 void cproc_leaf_area_init1 (float c_initial_tpla,     //(INPUT)  initial plant leaf area (mm^2)
                             int   init_stage,         //(INPUT)  initialisation stage
@@ -510,12 +506,8 @@ void cproc_leaf_no_init1 (float c_leaf_no_at_emerg,       //(INPUT)  leaf number
  *   Note ! this does not take account of the other younger leaves
  *   that are currently expanding
  */
-void cproc_leaf_no_pot1 (float *c_x_node_no_app,            // (INPUT)
-                         float *c_y_node_app_rate,          // (INPUT)
-                         int    c_num_node_no_app,          //  (INPUT)
-                         float *c_x_node_no_leaf,           //  (INPUT)
-                         float *c_y_leaves_per_node,        //  (INPUT)
-                         int    c_num_node_no_leaf,         // (INPUT)
+void cproc_leaf_no_pot1 (interpolationFunction &node_app_rate_fn,          // (INPUT)
+                         interpolationFunction &leaves_per_node_fn,
                          bool   inNodeFormationPhase,
                          bool   inEmergenceDay,
                          float  node_no_now,                // (INPUT) current number of nodes
@@ -525,8 +517,7 @@ void cproc_leaf_no_pot1 (float *c_x_node_no_app,            // (INPUT)
    {
    if (inNodeFormationPhase)
       {
-      float node_app_rate = linear_interp_real(node_no_now, c_x_node_no_app,
-                                               c_y_node_app_rate, c_num_node_no_app);
+      float node_app_rate = node_app_rate_fn.value(node_no_now);
       *dlt_node_no_pot = divide (g_dlt_tt, node_app_rate, 0.0);
       }
    else
@@ -541,8 +532,7 @@ void cproc_leaf_no_pot1 (float *c_x_node_no_app,            // (INPUT)
       }
    else if (inNodeFormationPhase)
       {
-      float leaves_per_node = linear_interp_real(node_no_now, c_x_node_no_leaf,
-                                                 c_y_leaves_per_node, c_num_node_no_leaf);
+      float leaves_per_node = leaves_per_node_fn.value(node_no_now);
       *dlt_leaf_no_pot = *dlt_node_no_pot * leaves_per_node;
       }
    else
@@ -550,15 +540,14 @@ void cproc_leaf_no_pot1 (float *c_x_node_no_app,            // (INPUT)
       *dlt_leaf_no_pot = 0.0;
       }
    }
+#if 0
 
 //===========================================================================
-float cproc_leaf_area_pot1 (float *c_x_node_no,                  //(INPUT)  node number for lookup
-                           float *c_y_leaf_size,                //(INPUT)  leaf size for lookup
-                           int    c_num_node_no,                //(INPUT)  lookup table size
-                           float  g_node_no,                    //(INPUT)  node number
-                           float  c_node_no_correction,         //(INPUT)  corrects for other growing lea
-                           float  g_dlt_leaf_no_pot,            //(INPUT)  potential fraction of oldest l
-                           float  g_plants)                     //(INPUT)  Plant density (plants/m^2)
+float cproc_leaf_area_pot1 (interpolationFunction &leaf_size_fn, //(INPUT)  leaf size for lookup
+                           float  g_node_no,                     //(INPUT)  node number
+                           float  c_node_no_correction,          //(INPUT)  corrects for other growing lea
+                           float  g_dlt_leaf_no_pot,             //(INPUT)  potential fraction of oldest l
+                           float  g_plants)                      //(INPUT)  Plant density (plants/m^2)
 //===========================================================================
 
 /*Purpose
@@ -574,33 +563,13 @@ float cproc_leaf_area_pot1 (float *c_x_node_no,                  //(INPUT)  node
 
    node_no_now = g_node_no + c_node_no_correction;
 
-   leaf_size = linear_interp_real (node_no_now, c_x_node_no,
-                                   c_y_leaf_size, c_num_node_no);
+   leaf_size = leaf_size_fn.value (node_no_now);
 
    return (g_dlt_leaf_no_pot * leaf_size * smm2sm * g_plants);
    }
 
 //===========================================================================
-float cproc_leaf_area_stressed1 (float  g_dlt_lai_pot,         //(INPUT)
-                                float  g_swdef_expansion,     //(INPUT)
-                                float  g_nfact_expansion)     //(INPUT)
-//===========================================================================
-
-/*Purpose
- *   Calculate the biomass non-limiting leaf area development from the
- *   potential daily increase in lai and the stress factors for water
- *   and nitrogen.
- */
-
-   {
-   return ( g_dlt_lai_pot * min(g_swdef_expansion, g_nfact_expansion));
-   }
-
-//===========================================================================
-
-void cproc_leaf_area_actual1 (float *c_x_lai,
-                              float *c_y_sla_max,
-                              int    c_num_lai,
+void cproc_leaf_area_actual1 (interpolationFunction &sla_max_fn,
                               float  dlt_dm_leaf,        //(INPUT)  leaf biomass growth (g/m^2)
                               float *g_dlt_lai,          //(OUTPUT)  actual change in live plant la
                               float  g_dlt_lai_stressed, //(INPUT)  potential change in live
@@ -620,53 +589,12 @@ void cproc_leaf_area_actual1 (float *c_x_lai,
                                  //index from carbon supply
 
    //Implementation Section ----------------------------------
-   sla_max = linear_interp_real (g_lai, c_x_lai, c_y_sla_max, c_num_lai);
+   sla_max = sla_max_fn.value (g_lai);
 
    dlt_lai_carbon = dlt_dm_leaf * sla_max * smm2sm;
    *g_dlt_lai = min(g_dlt_lai_stressed, dlt_lai_carbon);
    }
-
-//===========================================================================
-void cproc_leaf_no_actual1 (int   c_num_lai_ratio,           //(INPUT)  number of ratios in table ()
-                            float *c_x_lai_ratio,            //(INPUT)  ratio table for critical leaf
-                            float *c_y_leaf_no_frac,         //(INPUT)  reduction in leaf appearance (
-                            float g_dlt_lai,                 //(INPUT)  actual change in live plant la
-                            float g_dlt_lai_stressed,        //(INPUT)  potential change in live
-                            float *g_dlt_leaf_no,            //(OUTPUT) actual fraction of oldest leaf
-                            float g_dlt_leaf_no_pot,         //(INPUT)  potential fraction of oldest l
-                            float *g_dlt_node_no,            //(OUTPUT) actual fraction of oldest node
-                            float g_dlt_node_no_pot)         //(INPUT)  pot fraction of oldest node
-//===========================================================================
-
-/*Purpose
- *   Simulate actual leaf number increase as limited by dry matter production.
- */
-
-   {
-   //Local Variables
-   float lai_ratio;    //ratio of actual to potential lai ()
-   float leaf_no_frac; //ratio of actual to potential leaf appearance ()
-
-   //Implementation Section ----------------------------------
-
-   //limit the delta leaf no by carbon supply
-
-   lai_ratio = divide (g_dlt_lai, g_dlt_lai_stressed, 0.0);
-
-   leaf_no_frac= linear_interp_real (lai_ratio, c_x_lai_ratio,
-                                     c_y_leaf_no_frac, c_num_lai_ratio);
-
-   *g_dlt_leaf_no = g_dlt_leaf_no_pot * leaf_no_frac;
-
-   if (*g_dlt_leaf_no < g_dlt_node_no_pot)
-      {
-      *g_dlt_node_no = *g_dlt_leaf_no;
-      }
-   else
-      {
-      *g_dlt_node_no = g_dlt_node_no_pot;
-      }
-   }
+#endif
 
 //===========================================================================
 void cproc_leaf_no_pot2 (float *c_x_node_no_app,       //(INPUT)
@@ -943,88 +871,6 @@ void cproc_leaf_area_pot_bellshapecurve (int  begin_stage,             //
 
 
 //+  Purpose
-//      Remove detachment from leaf area record from bottom upwards
-
-//+  Mission Statement
-//     Remove detachment from leaf area record
-
-//+  Changes
-//       050199 nih specified and programmed
-void plant_leaf_detachment (float *leaf_area           // OUT
-                                   ,float dlt_slai_detached   // IN
-                                   ,float plants              // IN
-                                   , int max_node)            //IN
-    {
-//+  Local Variables
-    float area_detached;                          // (mm2/plant)
-    int   node;
-
-//- Implementation Section ----------------------------------
-
-
-    area_detached = dlt_slai_detached / plants * sm2smm;
-
-    for (node = 0; node < max_node; node++)
-      {
-      if(area_detached > leaf_area[node])
-        {
-        area_detached = area_detached - leaf_area[node];
-        leaf_area[node] = 0.0;
-        }
-      else
-        {
-        leaf_area[node] = leaf_area[node] - area_detached;
-        break;
-        }
-      }
-
-    return;
-    }
-
-
-//===========================================================================
-void plant_leaf_removal_top (float *leaf_area           // OUT
-                           , float dlt_lai_removed   // IN
-                           , float plants              // IN
-                           , float *last_node)            // IN
-//===========================================================================
-{
-//+  Purpose
-//      Remove detachment from leaf area record from top downwards
-
-//+  Mission Statement
-//     Remove detachment from leaf area record
-
-//+  Changes
-//       050199 nih specified and programmed
-
-//+  Local*last_node Variables
-    float area_removed;                          // (mm2/plant)
-    int   node;
-
-//- Implementation Section ----------------------------------
-
-    area_removed = dlt_lai_removed / plants * sm2smm;
-
-    for (node = (int)*last_node; node >= 0 ; node--)
-    {
-      if(area_removed > leaf_area[node])
-      {
-//        *last_node -= 1.0;
-        area_removed = area_removed - leaf_area[node];
-        leaf_area[node] = 0.0;
-      }
-      else
-      {
-//        float dlt_last_node = divide(area_removed, leaf_area[node], 0.0) ;
-//        *last_node -= dlt_last_node;
-        leaf_area[node] = leaf_area[node] - area_removed;
-        break;
-      }
-   }
-}
-
-//+  Purpose
 //     Calculate extinction coefficient as a function of row spacing
 
 //+  Mission Statement
@@ -1280,18 +1126,13 @@ void plant_canopy_width
 //+  Changes
 //       270598 nih specified and programmed
 void cproc_leaf_no_pot3(
-     float  *c_x_node_no_app                  //(INPUT)
-    ,float  *c_y_node_app_rate                //(INPUT)
-    ,int    c_num_node_no_app                 // (INPUT)
-    ,float  *c_x_node_no_leaf                 // (INPUT)
-    ,float  *c_y_leaves_per_node              // (INPUT)
-    ,int    c_num_node_no_leaf                // (INPUT)
+     interpolationFunction &node_app_rate_fn                //(INPUT)
+    ,interpolationFunction &leaves_per_node_fn              // (INPUT)
     ,bool   inNodeFormationPhase
     ,bool   inEmergenceDay
     ,float  node_no_now                 // (INPUT) current number of nodes
     ,float  g_dlt_tt                          // (INPUT)  daily thermal time (growing de
-    ,float  g_nfact_expansion
-    ,float  g_swdef_expansion
+    ,float  stressFactor
     ,float  *g_leaves_per_node                 // OUTPUT
     ,float  *dlt_leaf_no_pot                   // (OUTPUT) new fraction of oldest expanding leaf
     ,float  *dlt_node_no_pot                   // (OUTPUT) new fraction of oldest expanding node on main stem
@@ -1306,10 +1147,7 @@ void cproc_leaf_no_pot3(
 
     if (inNodeFormationPhase)
         {
-        node_app_rate = linear_interp_real(node_no_now
-                                          ,c_x_node_no_app
-                                          ,c_y_node_app_rate
-                                          ,c_num_node_no_app);
+        node_app_rate = node_app_rate_fn.value(node_no_now);
         *dlt_node_no_pot = divide (g_dlt_tt, node_app_rate, 0.0);
         }
     else
@@ -1322,10 +1160,7 @@ void cproc_leaf_no_pot3(
         // no leaf growth on first day because initialised elsewhere ???
         *dlt_leaf_no_pot = 0.0;
 
-        *g_leaves_per_node = linear_interp_real(node_no_now
-                                                ,c_x_node_no_leaf
-                                                ,c_y_leaves_per_node
-                                                ,c_num_node_no_leaf);
+        *g_leaves_per_node = leaves_per_node_fn.value(node_no_now);
         }
     else if (inNodeFormationPhase)
         {
@@ -1333,20 +1168,14 @@ void cproc_leaf_no_pot3(
         // so make sure that we don't get ahead of ourselves
         // of node number does not increase at potential rate
 
-        leaves_per_node_now = linear_interp_real(node_no_now
-                                                 ,c_x_node_no_leaf
-                                                 ,c_y_leaves_per_node
-                                                 ,c_num_node_no_leaf);
+        leaves_per_node_now = leaves_per_node_fn.value(node_no_now);
 
         *g_leaves_per_node = min(*g_leaves_per_node, leaves_per_node_now);
 
-        dlt_leaves_per_node = linear_interp_real( node_no_now+(*dlt_node_no_pot)
-                                                ,c_x_node_no_leaf
-                                                ,c_y_leaves_per_node
-                                                ,c_num_node_no_leaf)
+        dlt_leaves_per_node = leaves_per_node_fn.value(node_no_now + *dlt_node_no_pot)
                                  - leaves_per_node_now;
 
-        *g_leaves_per_node = (*g_leaves_per_node) + dlt_leaves_per_node * min(pow(g_nfact_expansion,2),g_swdef_expansion);
+        *g_leaves_per_node = (*g_leaves_per_node) + dlt_leaves_per_node * stressFactor;
 
         *dlt_leaf_no_pot = (*dlt_node_no_pot) * (*g_leaves_per_node);
         }
@@ -1356,7 +1185,7 @@ void cproc_leaf_no_pot3(
         }
     }
 
-
+#if 0
 //+  Purpose
 //       Return the lai that would senesce on the
 //       current day.
@@ -1404,35 +1233,32 @@ void legopt_leaf_area_sen1
                               , g_leaf_area
                               , g_plants);
 
-    crop_leaf_area_sen_light1(c_lai_sen_light
+    
+    *g_dlt_slai_light = crop_leaf_area_sen_light1(c_lai_sen_light
                               , c_sen_light_slope
                               , g_lai
                               , g_plants
-                              , c_min_tpla
-                              , g_dlt_slai_light);
+                              , c_min_tpla);
 
-    crop_leaf_area_sen_water1 (c_sen_rate_water,
+    *g_dlt_slai_water = crop_leaf_area_sen_water1 (c_sen_rate_water,
                                g_lai,
                                g_swdef_photo,
                                g_plants,
-                               c_min_tpla,
-                               g_dlt_slai_water);
+                               c_min_tpla);
 
-    crop_leaf_area_sen_frost1(c_x_temp_senescence,
+    *g_dlt_slai_frost = crop_leaf_area_sen_frost1(c_x_temp_senescence,
                               c_y_senescence_fac,
                               c_num_temp_senescence,
                               g_lai,
                               g_mint,
                               g_plants,
-                              c_min_tpla,
-                              g_dlt_slai_frost);
+                              c_min_tpla);
 //    fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n",
 //                g.day_of_year,*g_dlt_slai_age, *g_dlt_slai_light, *g_dlt_slai_water, *g_dlt_slai_frost);
 
     *g_dlt_slai = max(max(max(*g_dlt_slai_age, *g_dlt_slai_light), *g_dlt_slai_water), *g_dlt_slai_frost);
 
     }
-
 
 //+  Purpose
 //       Initialise leaf area.
@@ -1483,6 +1309,7 @@ void legopt_leaf_no_init1
    fill_real_array (leaf_no, 1.0, int(c_leaf_no_at_emerg));
    leaf_no[(int)c_leaf_no_at_emerg]= fmod(c_leaf_no_at_emerg,1.0);
    }
+#endif
 
 
 
@@ -1534,3 +1361,33 @@ float legopt_leaf_area_sen_age1
 
 
 
+void plant_leaf_detachment (float *leaf_area           // OUT
+                                   ,float dlt_slai_detached   // IN
+                                   ,float plants              // IN
+                                   , int max_node)            //IN
+    {
+//+  Local Variables
+    float area_detached;                          // (mm2/plant)
+    int   node;
+
+//- Implementation Section ----------------------------------
+
+
+    area_detached = dlt_slai_detached / plants * sm2smm;
+
+    for (node = 0; node < max_node; node++)
+      {
+      if(area_detached > leaf_area[node])
+        {
+        area_detached = area_detached - leaf_area[node];
+        leaf_area[node] = 0.0;
+        }
+      else
+        {
+        leaf_area[node] = leaf_area[node] - area_detached;
+        break;
+        }
+      }
+
+    return;
+    }

@@ -449,7 +449,7 @@ void plantLeafPart::leaf_death (float  g_nfact_expansion, float  g_dlt_tt)
        leaf_no_dead_now = sum_real_array (gLeafNoDead,max_node);
        dltLeafNoDead = l_bound (leaf_no_now - leaf_no_dead_now, 0.0);
        }
-   else if (plant->phenologicalStageNumber() > cSenStartStage
+   else if (plant->getStageNumber() > cSenStartStage
        /*XXXX should be phenology->inPhase("leaf_senescence") !!!!!*/)
        {
        dltLeafNoDead = divide (g_dlt_tt, leaf_death_rate, 0.0);
