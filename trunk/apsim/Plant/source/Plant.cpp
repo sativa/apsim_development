@@ -10184,4 +10184,3 @@ float Plant::sumNMax(void)
 
 bool  Plant::on_day_of(const string &what) {return (phenology->on_day_of(what));};
 bool  Plant::inPhase(const string &what) {return (phenology->inPhase(what));};
-float Plant::phenologicalStageNumber(void) {return (phenology->stageNumber());};
