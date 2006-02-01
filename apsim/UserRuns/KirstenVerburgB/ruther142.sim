@@ -897,7 +897,7 @@
          <kl>0.08   0.08   0.04   0.04    0.02    0.02      0.01     0.01     0        0        0        0        0        0        0        0        0       0        0        0        0        0        0        0        0        0        0     ()</kl>
          <crop_type>canola</crop_type>
          <default_crop_class>plant</default_crop_class>
-         <part_names>root leaf pod meal oil</part_names>
+         <part_names>root leaf</part_names>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
          <year_ub>2000      ()</year_ub>
@@ -999,7 +999,7 @@
             <rue_pod>1.35  (g/MJ)</rue_pod>
             <x_ave_temp>0  10 22 30 (oC)</x_ave_temp>
             <y_stress_photo>0  1  1  0  ()</y_stress_photo>
-            <dm_init>0.2   0      0    0 (g/plant)</dm_init>
+            <dm_init>0.2   (g/plant)</dm_init>
             <leaf_dm_init>0.03 (g/plant)</leaf_dm_init>
             <stem_dm_init>0.0 (g/plant)</stem_dm_init>
             <pod_dm_init>0.0</pod_dm_init>
@@ -1084,13 +1084,13 @@
             <y_n_conc_min_oil>0.0     0.0     0.0         0.0    0.0    0.0    0.0   ()</y_n_conc_min_oil>
             <y_n_conc_crit_oil>0.0     0.0     0.0         0.0    0.0    0.0    0.0   ()</y_n_conc_crit_oil>
             <y_n_conc_max_oil>0.0     0.0     0.0         0.0    0.0    0.0    0.0   ()</y_n_conc_max_oil>
-            <n_init_conc>0.010  0.000  0.000 0</n_init_conc>
+            <n_init_conc>0.010</n_init_conc>
             <leaf_n_init_conc>0.065</leaf_n_init_conc>
             <stem_n_init_conc>0.040</stem_n_init_conc>
             <pod_n_init_conc>0.0</pod_n_init_conc>
             <meal_n_init_conc>0.0</meal_n_init_conc>
             <oil_n_init_conc>0.0</oil_n_init_conc>
-            <n_sen_conc>0.008 0.000  0.000 0</n_sen_conc>
+            <n_sen_conc>0.008</n_sen_conc>
             <leaf_n_sen_conc>0.015</leaf_n_sen_conc>
             <stem_n_sen_conc>0.000</stem_n_sen_conc>
             <pod_n_sen_conc>0.0</pod_n_sen_conc>
@@ -1119,8 +1119,8 @@
             <x_temp_senescence>-15.0 -5.0</x_temp_senescence>
             <y_senescence_fac>1    0</y_senescence_fac>
             <sen_rate_water>0.10 ()</sen_rate_water>
-            <dead_detach_frac>0 0 0 0  ()</dead_detach_frac>
-            <sen_detach_frac>1 0 0 0  ()</sen_detach_frac>
+            <dead_detach_frac>0  ()</dead_detach_frac>
+            <sen_detach_frac>1   ()</sen_detach_frac>
             <leaf_dead_detach_frac>0.0</leaf_dead_detach_frac>
             <leaf_sen_detach_frac>0.0</leaf_sen_detach_frac>
             <stem_dead_detach_frac>0.0</stem_dead_detach_frac>
@@ -1720,7 +1720,7 @@
          <xf>1.00   1.00   1.00   1.00    1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00    1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00  ()</xf>
          <crop_type>lucerne</crop_type>
          <default_crop_class>plant</default_crop_class>
-         <part_names>root leaf pod meal oil</part_names>
+         <part_names>root leaf</part_names>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
          <year_ub>2000      ()</year_ub>
@@ -1823,7 +1823,7 @@
             <rue_pod>0   (g/MJ)</rue_pod>
             <x_ave_temp>0.0  8.0 20.0 25.0  40.0 (oC)</x_ave_temp>
             <y_stress_photo>0.0  1.0  1.0  1.0   0.0  (0-1)</y_stress_photo>
-            <dm_init>0.002  0       0    0    (g/plant)</dm_init>
+            <dm_init>0.002    (g/plant)</dm_init>
             <leaf_dm_init>0.005 (g/plant)</leaf_dm_init>
             <stem_dm_init>0.0 (g/plant)</stem_dm_init>
             <pod_dm_init>0.0</pod_dm_init>
@@ -1908,13 +1908,13 @@
             <y_n_conc_min_oil>0.0      0.0     0.0      0.0    ()</y_n_conc_min_oil>
             <y_n_conc_crit_oil>0.0      0.0     0.0      0.0    ()</y_n_conc_crit_oil>
             <y_n_conc_max_oil>0.0      0.0     0.0      0.0    ()</y_n_conc_max_oil>
-            <n_init_conc>0.025     0       0     0</n_init_conc>
+            <n_init_conc>0.025</n_init_conc>
             <leaf_n_init_conc>0.060</leaf_n_init_conc>
             <stem_n_init_conc>0.060</stem_n_init_conc>
             <pod_n_init_conc>0.0</pod_n_init_conc>
             <meal_n_init_conc>0.0</meal_n_init_conc>
             <oil_n_init_conc>0.0</oil_n_init_conc>
-            <n_sen_conc>0.01   0      0    0</n_sen_conc>
+            <n_sen_conc>0.01</n_sen_conc>
             <leaf_n_sen_conc>0.02</leaf_n_sen_conc>
             <stem_n_sen_conc>0.02</stem_n_sen_conc>
             <pod_n_sen_conc>0.0</pod_n_sen_conc>
@@ -1943,8 +1943,8 @@
             <x_temp_senescence>-15.0  0.0</x_temp_senescence>
             <y_senescence_fac>1     0</y_senescence_fac>
             <sen_rate_water>0.01 ()</sen_rate_water>
-            <dead_detach_frac>0     0     0    0  ()</dead_detach_frac>
-            <sen_detach_frac>1     0     0    0  ()</sen_detach_frac>
+            <dead_detach_frac>0   ()</dead_detach_frac>
+            <sen_detach_frac>1   ()</sen_detach_frac>
             <leaf_dead_detach_frac>0    ()</leaf_dead_detach_frac>
             <leaf_sen_detach_frac>0.07 ()</leaf_sen_detach_frac>
             <stem_dead_detach_frac>0    ()</stem_dead_detach_frac>
@@ -2201,7 +2201,7 @@
          <kl>0.08   0.08   0.04   0.04    0.02    0.02      0.01     0.01     0        0        0        0        0        0        0        0        0       0        0        0        0        0        0        0        0        0        0     ()</kl>
          <crop_type>lupin</crop_type>
          <default_crop_class>plant</default_crop_class>
-         <part_names>root leaf pod meal oil</part_names>
+         <part_names>root leaf</part_names>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
          <year_ub>2000      ()</year_ub>
@@ -2301,7 +2301,7 @@
             <rue_pod>0.0   (g/MJ)</rue_pod>
             <x_ave_temp>0.0  10.0  22.0  40.0 (oC)</x_ave_temp>
             <y_stress_photo>0.0   1.0   1.0   0.0  ()</y_stress_photo>
-            <dm_init>0.2   0      0    0 (g/plant)</dm_init>
+            <dm_init>0.2   (g/plant)</dm_init>
             <leaf_dm_init>0.2</leaf_dm_init>
             <stem_dm_init>0.0</stem_dm_init>
             <pod_dm_init>0.0</pod_dm_init>
@@ -2386,13 +2386,13 @@
             <y_n_conc_min_oil>0.0     0.0    0.0     0.0      0.0    ()</y_n_conc_min_oil>
             <y_n_conc_crit_oil>0.0     0.0    0.0     0.0      0.0    ()</y_n_conc_crit_oil>
             <y_n_conc_max_oil>0.0     0.0    0.0     0.0      0.0    ()</y_n_conc_max_oil>
-            <n_init_conc>0.015    0       0     0</n_init_conc>
+            <n_init_conc>0.015</n_init_conc>
             <leaf_n_init_conc>0.06</leaf_n_init_conc>
             <stem_n_init_conc>0.06</stem_n_init_conc>
             <pod_n_init_conc>0.0</pod_n_init_conc>
             <meal_n_init_conc>0.0</meal_n_init_conc>
             <oil_n_init_conc>0.0</oil_n_init_conc>
-            <n_sen_conc>0.008  0      0     0</n_sen_conc>
+            <n_sen_conc>0.008</n_sen_conc>
             <leaf_n_sen_conc>0.005</leaf_n_sen_conc>
             <stem_n_sen_conc>0.0</stem_n_sen_conc>
             <pod_n_sen_conc>0.0</pod_n_sen_conc>
@@ -2421,8 +2421,8 @@
             <x_temp_senescence>-15.0 -5.0</x_temp_senescence>
             <y_senescence_fac>1    0</y_senescence_fac>
             <sen_rate_water>0.05 ()</sen_rate_water>
-            <dead_detach_frac>0 0 0 0  ()</dead_detach_frac>
-            <sen_detach_frac>1 0 0 0  ()</sen_detach_frac>
+            <dead_detach_frac>0  ()</dead_detach_frac>
+            <sen_detach_frac>1  ()</sen_detach_frac>
             <leaf_dead_detach_frac>0.0</leaf_dead_detach_frac>
             <leaf_sen_detach_frac>0.0</leaf_sen_detach_frac>
             <stem_dead_detach_frac>0.0</stem_dead_detach_frac>
@@ -2702,7 +2702,7 @@
          <p_conc_init_oil>0.0</p_conc_init_oil>
          <crop_type>weed</crop_type>
          <default_crop_class>plant</default_crop_class>
-         <part_names>root pod meal oil</part_names>
+         <part_names>root</part_names>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
          <year_ub>2000      ()</year_ub>
@@ -2800,7 +2800,7 @@
             <extinct_coef_pod>0.8 ()</extinct_coef_pod>
             <spec_pod_area>10000 (mm^2/g)</spec_pod_area>
             <rue_pod>1.1 (g/MJ)</rue_pod>
-            <dm_init>0.06  0      0   0  (g/plant)</dm_init>
+            <dm_init>0.06  (g/plant)</dm_init>
             <leaf_dm_init>0.05</leaf_dm_init>
             <stem_dm_init>0.01</stem_dm_init>
             <pod_dm_init>0.0</pod_dm_init>
@@ -2858,7 +2858,7 @@
             <N_fact_photo>1.5      ()</N_fact_photo>
             <N_fact_expansion>1.00</N_fact_expansion>
             <N_fact_pheno>50       ()</N_fact_pheno>
-            <n_sen_conc>0.0075   0      0    0  (g/g)</n_sen_conc>
+            <n_sen_conc>0.0075   (g/g)</n_sen_conc>
             <leaf_n_sen_conc>0.005</leaf_n_sen_conc>
             <stem_n_sen_conc>0</stem_n_sen_conc>
             <pod_n_sen_conc>0.0</pod_n_sen_conc>
@@ -2884,8 +2884,8 @@
             <lai_sen_light>4.0       (m^2/m^2)</lai_sen_light>
             <sen_light_slope>0.008     ()</sen_light_slope>
             <sen_rate_water>0.05        ()</sen_rate_water>
-            <dead_detach_frac>0    0      0     0    (0-1)</dead_detach_frac>
-            <sen_detach_frac>1    0      0     0    (0-1)</sen_detach_frac>
+            <dead_detach_frac>0      (0-1)</dead_detach_frac>
+            <sen_detach_frac>1      (0-1)</sen_detach_frac>
             <leaf_dead_detach_frac>0</leaf_dead_detach_frac>
             <leaf_sen_detach_frac>0</leaf_sen_detach_frac>
             <stem_dead_detach_frac>0</stem_dead_detach_frac>
@@ -3081,7 +3081,7 @@
          <xf>0.60   0.60   0.60   0.60    0.60    0.60      0.60     0.60     0        0        0        0        0        0        0        0        0       0        0        0        0        0        0        0        0        0        0     ()</xf>
          <crop_type>wheat</crop_type>
          <default_crop_class>plant</default_crop_class>
-         <part_names>root leaf pod meal oil</part_names>
+         <part_names>root leaf</part_names>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
          <year_ub>2000      ()</year_ub>
@@ -3204,7 +3204,7 @@
             <rue_pod>0.0   (g/MJ)</rue_pod>
             <x_ave_temp>0  10 25 35 (oC)</x_ave_temp>
             <y_stress_photo>0  1  1  0  ()</y_stress_photo>
-            <dm_init>0.010  0      0      0    (g/plant)</dm_init>
+            <dm_init>0.010     (g/plant)</dm_init>
             <leaf_dm_init>0.003</leaf_dm_init>
             <stem_dm_init>0.0016</stem_dm_init>
             <pod_dm_init>0.0</pod_dm_init>
@@ -3298,14 +3298,14 @@
             <y_n_conc_min_oil>0.0     0.0     0.0    0.0    0.0    0.0   ()</y_n_conc_min_oil>
             <y_n_conc_crit_oil>0.0     0.0     0.0    0.0    0.0    0.0   ()</y_n_conc_crit_oil>
             <y_n_conc_max_oil>0.0     0.0     0.0    0.0    0.0    0.0   ()</y_n_conc_max_oil>
-            <n_init_conc>0.020  0.063   0.000</n_init_conc>
+            <n_init_conc>0.020</n_init_conc>
             <leaf_n_init_conc>0.063</leaf_n_init_conc>
             <stem_n_init_conc>0.050</stem_n_init_conc>
             <pod_n_init_conc>0.063</pod_n_init_conc>
             <meal_n_init_conc>0.0</meal_n_init_conc>
             <oil_n_init_conc>0.0</oil_n_init_conc>
             <n_senescence_option>2</n_senescence_option>
-            <n_sen_conc>0.005 0.007  0.014</n_sen_conc>
+            <n_sen_conc>0.005</n_sen_conc>
             <leaf_n_sen_conc>0.005</leaf_n_sen_conc>
             <stem_n_sen_conc>0.0025</stem_n_sen_conc>
             <pod_n_sen_conc>0.007</pod_n_sen_conc>
@@ -3335,8 +3335,8 @@
             <x_temp_senescence>-15.0 -5.0</x_temp_senescence>
             <y_senescence_fac>1    0</y_senescence_fac>
             <sen_rate_water>0.10 ()</sen_rate_water>
-            <dead_detach_frac>0 0 0 0  ()</dead_detach_frac>
-            <sen_detach_frac>1 0 0 0  ()</sen_detach_frac>
+            <dead_detach_frac>0   ()</dead_detach_frac>
+            <sen_detach_frac>1   ()</sen_detach_frac>
             <leaf_dead_detach_frac>0.0</leaf_dead_detach_frac>
             <leaf_sen_detach_frac>0.0</leaf_sen_detach_frac>
             <stem_dead_detach_frac>0.0</stem_dead_detach_frac>
