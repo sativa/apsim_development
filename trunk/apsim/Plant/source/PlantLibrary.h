@@ -341,20 +341,20 @@ void crop_dm_pot_rue_co2 (float current_stage,
     ,float  *g_leaf_area
     ,float  g_plants);
 
-  void legopt_leaf_no_init1
-    (
-     float  c_leaf_no_at_emerg
-    ,float  *leaf_no
-    ,float  *node_no
-    ) ;
-  void legopt_leaf_area_init1
-    (
-     float  c_initial_tpla
-    ,float  c_leaf_no_at_emerg
-    ,float  g_plants
-    ,float  *lai
-    ,float  *leaf_area
-    ) ;
+//  void legopt_leaf_no_init1
+//    (
+//     float  c_leaf_no_at_emerg
+//    ,float  *leaf_no
+//    ,float  *node_no
+//    ) ;
+//  void legopt_leaf_area_init1
+//    (
+//     float  c_initial_tpla
+//    ,float  c_leaf_no_at_emerg
+//    ,float  g_plants
+//    ,float  *lai
+//    ,float  *leaf_area
+//    ) ;
   void legopt_leaf_area_sen1
     (float  g_dlt_lai_stressed
     ,float  g_dlt_leaf_no
@@ -382,18 +382,13 @@ void crop_dm_pot_rue_co2 (float current_stage,
     ,float  *g_dlt_slai
     ) ;
 void cproc_leaf_no_pot3(
-     float  *c_x_node_no_app                  //(INPUT)
-    ,float  *c_y_node_app_rate                //(INPUT)
-    ,int    c_num_node_no_app                 // (INPUT)
-    ,float  *c_x_node_no_leaf                 // (INPUT)
-    ,float  *c_y_leaves_per_node              // (INPUT)
-    ,int    c_num_node_no_leaf                // (INPUT)
+     interpolationFunction &
+    ,interpolationFunction &
     ,bool   inNodeFormationPhase
     ,bool   inEmergenceDay
     ,float  node_no_now                       // (INPUT) current number of nodes
     ,float  g_dlt_tt                          // (INPUT)  daily thermal time (growing de
-    ,float  g_nfact_expansion
-    ,float  g_swdef_expansion
+    ,float  stressFactor
     ,float  *g_leaves_per_node                 // OUTPUT
     ,float  *dlt_leaf_no_pot                   // (OUTPUT) new fraction of oldest expanding leaf
     ,float  *dlt_node_no_pot                   // (OUTPUT) new fraction of oldest expanding node on main stem
@@ -445,14 +440,11 @@ void crop_lai_equilib_light ( float radn_int,
                               int   year,
                               float *lai_eqlb_light);     //(INPUT/OUTPUT) lai threshold for light senescence
 
-void crop_leaf_area_sen_frost1(float *frost_temp,           //(INPUT)
-                               float *frost_fraction,       //(INPUT)
-                               int   num_frost_temp,        //(INPUT)
+float crop_leaf_area_sen_frost1(interpolationFunction &frost_fraction,        //(INPUT)
                                float lai,                   //(INPUT)  live plant green lai
                                float mint,                  //(INPUT)  minimum air temperature (o_c)
                                float plants,                //(INPUT)
-                               float min_tpla,              //(INPUT)
-                               float *dlt_slai_frost);       //(OUTPUT) lai frosted today
+                               float min_tpla);              //(INPUT)
 
 void crop_leaf_area_sen_water2(int   day_of_year,                //(INPUT)  day of year
                                int   year,                       //(INPUT)  year
@@ -490,19 +482,17 @@ void crop_leaf_area_sen_age1 (int emergence,                   //(INPUT)  emerge
                               float c_min_tpla,                //(INPUT)
                               float *dlt_slai_age);             //(OUTPUT) new senesced lai from phasic devel.
 
-void crop_leaf_area_sen_light1 (float lai_sen_light,
+float crop_leaf_area_sen_light1 (float lai_sen_light,
                                 float sen_light_slope,
                                 float lai,
                                 float plants,
-                                float min_tpla,
-                                float *dlt_slai_light);   //(OUTPUT) lai senesced by low light
+                                float min_tpla);               // return lai senesced by low light
 
-void crop_leaf_area_sen_water1 (float sen_rate_water,    //(INPUT)  slope in linear eqn relating soil wat
+float crop_leaf_area_sen_water1 (float sen_rate_water,    //(INPUT)  slope in linear eqn relating soil wat
                                 float lai,               //(INPUT)  live plant green lai
                                 float swdef_photo,       //(INPUT)
                                 float plants,            //(INPUT)
-                                float min_tpla,          //(INPUT)
-                                float *dlt_slai_water);    //(OUTPUT) water stress senescense
+                                float min_tpla);          //(INPUT)
 
 void cproc_leaf_area_sen1 (int emergence,                 // (INPUT)  emergence stage no.
                            int this_stage,                // (INPUT)  This current stage
@@ -529,12 +519,12 @@ void cproc_leaf_area_sen1 (int emergence,                 // (INPUT)  emergence 
                            float *g_dlt_slai_frost,       // (OUTPUT)
                            float *g_dlt_slai);            // (OUTPUT)
 
-void cproc_leaf_area_init1 (float c_initial_tpla,     //(INPUT)  initial plant leaf area (mm^2)
-                            int   init_stage,         //(INPUT)  initialisation stage
-                            float g_current_stage,    //(INPUT)  current phenological stage
-                            float *g_days_tot,        // (INPUT)  duration of each phase (days)
-                            float  g_plants,          // (INPUT)  Plant density (plants/m^2)
-                            float *lai);               //(OUTPUT) total plant leaf area
+//void cproc_leaf_area_init1 (float c_initial_tpla,     //(INPUT)  initial plant leaf area (mm^2)
+//                            int   init_stage,         //(INPUT)  initialisation stage
+//                            float g_current_stage,    //(INPUT)  current phenological stage
+//                            float *g_days_tot,        // (INPUT)  duration of each phase (days)
+//                            float  g_plants,          // (INPUT)  Plant density (plants/m^2)
+//                            float *lai);               //(OUTPUT) total plant leaf area
 
 void cproc_lai_detachment1 (float c_sen_detach_frac,           //(INPUT)
                             float g_slai,                       //(INPUT)
@@ -552,19 +542,15 @@ void cproc_canopy_height (float g_canopy_height,          // (INPUT)  canopy hei
                           int   stem,                     // (INPUT)  plant part no for stem
                           float *dlt_canopy_height);       //(OUTPUT) canopy height change (mm)
 
-void cproc_leaf_no_init1 (float c_leaf_no_at_emerg,       //(INPUT)  leaf number at emergence ()
-                          float g_current_stage,          //(INPUT)  current phenological stage
-                          int   emerg,                    //(INPUT)  emergence stage no
-                          float *g_days_tot,               //(INPUT)  duration of each phase (days)
-                          float *leaf_no,                  //(OUTPUT) initial leaf number
-                          float *node_no);                  //(OUTPUT) initial node number
-
-void cproc_leaf_no_pot1 (float *c_x_node_no_app,            // (INPUT)
-                         float *c_y_node_app_rate,          // (INPUT)
-                         int    c_num_node_no_app,            //  (INPUT)
-                         float *c_x_node_no_leaf,           //  (INPUT)
-                         float *c_y_leaves_per_node,        //  (INPUT)
-                         int    c_num_node_no_leaf,           // (INPUT)
+//void cproc_leaf_no_init1 (float c_leaf_no_at_emerg,       //(INPUT)  leaf number at emergence ()
+//                          float g_current_stage,          //(INPUT)  current phenological stage
+//                          int   emerg,                    //(INPUT)  emergence stage no
+//                          float *g_days_tot,               //(INPUT)  duration of each phase (days)
+//                          float *leaf_no,                  //(OUTPUT) initial leaf number
+//                          float *node_no);                  //(OUTPUT) initial node number
+//
+void cproc_leaf_no_pot1 (interpolationFunction &,
+                         interpolationFunction &,            
                          bool   inNodeFormationPhase,
                          bool   inEmergenceDay,
                          float  node_no_now,                // (INPUT) current number of nodes
@@ -572,9 +558,7 @@ void cproc_leaf_no_pot1 (float *c_x_node_no_app,            // (INPUT)
                          float *dlt_leaf_no_pot,            // (OUTPUT) new fraction of oldest expanding leaf
                          float *dlt_node_no_pot);            // (OUTPUT) new fraction of oldest expanding node on main stem
 
-float cproc_leaf_area_pot1 (float *c_x_node_no,                  //(INPUT)  node number for lookup
-                           float *c_y_leaf_size,                //(INPUT)  leaf size for lookup
-                           int    c_num_node_no,                //(INPUT)  lookup table size
+float cproc_leaf_area_pot1 (interpolationFunction &leaf_size_fn, //(INPUT)  leaf size for lookup
                            float g_node_no,                    //(INPUT)  node number
                            float c_node_no_correction,         //(INPUT)  corrects for other growing lea
                            float  g_dlt_leaf_no_pot,            //(INPUT)  potential fraction of oldest l
@@ -585,23 +569,11 @@ float cproc_leaf_area_stressed1 (float  g_dlt_lai_pot,         //(INPUT)
                                 float  g_swdef_expansion,     //(INPUT)
                                 float  g_nfact_expansion);    //(INPUT)
 
-void cproc_leaf_area_actual1 (float *c_x_lai,
-                              float *c_y_sla_max,
-                              int    c_num_lai,
+void cproc_leaf_area_actual1 (interpolationFunction &sla_max_fn,
                               float  dlt_dm_leaf,        //(INPUT)  leaf biomass growth (g/m^2)
                               float *g_dlt_lai,          //(OUTPUT)  actual change in live plant la
                               float  g_dlt_lai_stressed, //(INPUT)  potential change in live
                               float  g_lai);              //(INPUT)  live plant green lai
-
-void cproc_leaf_no_actual1 (int   c_num_lai_ratio,           //(INPUT)  number of ratios in table ()
-                            float *c_x_lai_ratio,            //(INPUT)  ratio table for critical leaf
-                            float *c_y_leaf_no_frac,         //(INPUT)  reduction in leaf appearance (
-                            float g_dlt_lai,                 //(INPUT)  actual change in live plant la
-                            float g_dlt_lai_stressed,        //(INPUT)  potential change in live
-                            float *g_dlt_leaf_no,            //(OUTPUT) actual fraction of oldest leaf
-                            float g_dlt_leaf_no_pot,         //(INPUT)  potential fraction of oldest l
-                            float *g_dlt_node_no,            //(OUTPUT) actual fraction of oldest node
-                            float g_dlt_node_no_pot);         //(INPUT)  pot fraction of oldest node
 
 void cproc_leaf_no_pot2 (float *c_x_node_no_app,       //(INPUT)
                          float *c_y_node_app_rate,     //(INPUT)
