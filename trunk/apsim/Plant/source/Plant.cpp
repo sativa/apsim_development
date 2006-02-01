@@ -2842,12 +2842,6 @@ void Plant::plant_update(
        }
 
     delete rootPart;
-
-    for (vector<plantPart *>::iterator t = myParts.begin();   // ?? mythings??? XXX
-         t != myParts.end();
-         t++)
-       (*t)->update();
-
     leafPart->update2(dying_fract_plants);
 
     if (*g_canopy_width > 0.0)
