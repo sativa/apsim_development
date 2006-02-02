@@ -329,6 +329,7 @@ class plantLeafPart : public plantPart {
    void leaf_area_potential(void);
    void leaf_area_actual(void);
    void leaf_no_actual (void);
+   void initialiseAreas(void);
 
   public: 
    plantLeafPart(plantInterface *p, const string &name) : plantPart(p, name) {};
