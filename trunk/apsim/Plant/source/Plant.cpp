@@ -5258,8 +5258,6 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
                   ,leafPart->gTLAI_dead
                   ,&g.cover_dead);
 
-    leafPart->onEmergence();
-
 // other plant states
     plant_n_conc_limits (c.n_conc_crit_root
                        , c.n_conc_max_root

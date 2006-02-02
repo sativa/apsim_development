@@ -262,7 +262,12 @@ void plantLeafPart::zeroAllGlobals(void)
 void plantLeafPart::onEmergence(void)
    {
    plantPart::onEmergence();
+   initialiseAreas();
+   }
 
+// Initialise leaf areas to a newly emerged state.
+void plantLeafPart::initialiseAreas(void)
+   {
    gNodeNo = cLeafNumberAtEmerg;
 
    fill_real_array (gLeafNo, 0.0, max_node);
@@ -322,6 +327,8 @@ void plantLeafPart::onHarvest(float /* cutting_height */, float remove_fr,
     g.p_dead *= retain_fr_dead;
     g.p_sen *= retain_fr_sen;
     g.p_green = p_init;
+
+    initialiseAreas();
 
     dm_type.push_back(c.name);
     fraction_to_residue.push_back(1.0 - remove_fr);
