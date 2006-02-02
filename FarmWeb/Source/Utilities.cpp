@@ -106,6 +106,79 @@ void saveDatePicker(TTIWDatePicker* datePicker,
    string value = datePicker->Date.FormatString("yyyy-mm-dd").c_str();
    data->setProperty(userName, paddockName, dataName, value);
    }
+// -------------------------------------------
+// create a job xml file and return it's name
+// -------------------------------------------
+string createJobXML(const string& userName, const string& paddockName, const string& reportDescription)
+   {
+   string jobXml = webSession->getFilesDir() + "\\" + userName + ".xml";
+   ofstream out(jobXml.c_str());
+   out << "<job name=\"" + JobName + "\" owner=\"" + UserName + "\" folder=\"" + JobFolder + "\">\r\n" +
+		 << "   <cluster>\r\n";
+			int CommandNumber = 1;
+			foreach (string File in Directory.GetFiles(JobFolder, "*.sim"))
+				{
+				JobXML += "      <commandline>job.bat " + Path.GetFileName(File) + " " + CommandNumber.ToString() + "</commandline>\r\n";
+				CommandNumber++;
+				}
+
+			string ftpSite = ExtractParamFromMessage(MailItem, "applicationftp");
+			string ftpLoginName = "apsru";
+			string ftpFolder = ExtractParamFromMessage(MailItem, "reportdirectory");
+			if (ftpSite == "")
+				{
+				// For Afloman only.
+				ftpSite = "www.apsim.info";
+				ftpLoginName = "vs27262";
+				ftpFolder = "/apsim/farmweb/data/files";
+				string ReportDescription = ExtractParamFromMessage(MailItem, "reportdescription");
+				GIFFileName = UserName + " - " + ReportDescription + " - " + DateString + "(" + TimeString + ").gif";
+				GIFFileName = GIFFileName.Replace(":", "");
+				}
+
+			JobXML +=
+				"   </cluster>\r\n" +
+				"   <localcommand>\r\n" +
+				"	   <commandline>\"c:\\program files\\apsim42\\bin\\apsimreport.exe\" \"" + JobFolder + "\\" + ReportFileName + "\" \"" + GIFFileName + "\"</commandline>\r\n" +
+				"   </localcommand>\r\n" +
+				"	<ftp>\r\n" +
+				"		<from>" + GIFFileName + "</from>\r\n" +
+				"       <tosite>" + ftpSite + "</tosite>\r\n"+
+			    "       <loginname>" + ftpLoginName + "</loginname>\r\n"+
+				"       <loginpassword>Thor19216805</loginpassword>\r\n"+
+				"       <tofolder>" + ftpFolder + "</tofolder>\r\n"+
+				"	</ftp>\r\n" +
+				"	<email>\r\n" +
+				"		<to>" + ExtractParamFromMessage(MailItem, "useremail") + "</to>\r\n" +
+				"		<subject>Automated reply from " + ExtractParamFromMessage(MailItem, "applicationname") + "</subject>\r\n" +
+				"		<body>Your report has been generated and stored on your web page.</body>\r\n" +
+				"	</email>\r\n" +
+				"	<archive>\r\n" +
+				"		<to>" + ArchiveFile + "</to>\r\n" +
+				"		<description>" + ExtractParamFromMessage(MailItem, "reportdescription") + "</description>\r\n" +
+				"	</archive>\r\n" +
+				"</job>\r\n";
+
+
+
+   vector<string> consultantEmails;
+   data->getConsultantEmailAddresses(userName, consultantEmails);
+   string applicationftp = "www.apsim.info";
+   string reportUrl = "/apsim/farmweb/reports/" + userName;
+   string reportDirectory = webSession->getFilesDir() + "..\\reports\\" + userName;
+   CreateDirectory(reportDirectory);
+   string body = "JMail.AppendText \"username=" + userName + "~~\" & vbCrLf\n"
+               + "JMail.AppendText \"paddockname=" + paddockName + "~~\" & vbCrLf\n"
+               + "JMail.AppendText \"useremail=" + data->getUserEmail(userName) + "~~\" & vbCrLf\n"
+               + "JMail.AppendText \"applicationname=" + webSession->getApplicationName() + "~~\" & vbCrLf\n"
+               + "JMail.AppendText \"applicationurl=" + webSession->getApplicationUrl() + "~~\" & vbCrLf\n"
+               + "JMail.AppendText \"reportdescription=" + reportDescription + "~~\" & vbCrLf\n"
+               + "JMail.AppendText \"applicationftp=" + applicationFtp + "~~\" & vbCrLf\n"
+               + "JMail.AppendText \"reportdirectory=" + reportUrl + "~~\" & vbCrLf\n";
+   for (unsigned i = 0; i != consultantEmails.size(); i++)
+      body += "JMail.AppendText \"consultantemail" + lexical_cast<string>(i+1) + "=" + consultantEmails[i] + "~~\" & vbCrLf\n";
+
+   }
 //---------------------------------------------------------------------------
 // Send an email requesting a report.
 //---------------------------------------------------------------------------
@@ -133,8 +206,7 @@ void sendEmail(TWebSession* webSession,
        "JMail.AddHeader \"X-Originating-URL\", Request.ServerVariables(\"URL\")\n"
        "JMail.Priority = 1\n"
        "JMail.Subject = \"APSIM run\"\n"
-       "yyyy"
-       "XXXX"
+       "$ATTACHMENTS$"
        "JMail.Send (\"smtp-au.server-mail.com\")\n"
 //       "Response.Write \"<PRE>\" & vbCRLF\n"
 //       "Response.Write (JMail.Log)\n"
@@ -147,7 +219,9 @@ void sendEmail(TWebSession* webSession,
        "</BODY>\n"
        "</HTML>\n";
 
-   // replace the xxxx macro with a list of attachments.
+   files.push_back(createJobXML(userName, paddockName, reportDescription));
+
+   // replace the $ATTACHMENTS$ macro with a list of attachments.
    string attachmentsString;
    for (unsigned i = 0; i != files.size(); i++)
       {
@@ -179,20 +253,8 @@ void sendEmail(TWebSession* webSession,
       attachmentsString += "JMail.AddURLAttachment " + doubleQuoted(fileUrlNoSpaces)
                         + ", " + doubleQuoted(file) + "\n";
       }
-   replaceAll(emailScript, "XXXX", attachmentsString);
+   replaceAll(emailScript, "$ATTACHMENTS$", attachmentsString);
 
-   // replace the yyyy macro with the body of the email.
-   vector<string> consultantEmails;
-   data->getConsultantEmailAddresses(userName, consultantEmails);
-   string body = "JMail.AppendText \"username=" + userName + "~~\" & vbCrLf\n"
-               + "JMail.AppendText \"paddockname=" + paddockName + "~~\" & vbCrLf\n"
-               + "JMail.AppendText \"useremail=" + data->getUserEmail(userName) + "~~\" & vbCrLf\n"
-               + "JMail.AppendText \"applicationname=" + webSession->getApplicationName() + "~~\" & vbCrLf\n"
-               + "JMail.AppendText \"applicationurl=" + webSession->getApplicationUrl() + "~~\" & vbCrLf\n"
-               + "JMail.AppendText \"reportdescription=" + reportDescription + "~~\" & vbCrLf\n";
-   for (unsigned i = 0; i != consultantEmails.size(); i++)
-      body += "JMail.AppendText \"consultantemail" + lexical_cast<string>(i+1) + "=" + consultantEmails[i] + "~~\" & vbCrLf\n";
-   replaceAll(emailScript, "yyyy", body);
 
    // replace zzzz macro with recipients.
    string recipString;
@@ -222,6 +284,7 @@ void sendEmail(TWebSession* webSession,
    string emailScriptURL = webSession->getBaseURL() + "/files/" + userName + "Mail.asp";
    webSession->newWindow(emailScriptURL.c_str(), "SendMail");
    }
+
 //---------------------------------------------------------------------------
 // Email all report files to specified addresses. Return true if the
 // soil water parameters were bounded.
