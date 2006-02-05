@@ -172,6 +172,8 @@ Public Class ExplorerUI
         If Not IsNothing(MyParentForm) Then
             If Controller.DirtyData Then
                 MyParentForm.Text = MyApplicationName + " - " + Controller.FileName + "*"
+            ElseIf Not Controller.AllowChanges Then
+                MyParentForm.Text = MyApplicationName + " - " + Controller.FileName + " [readonly]"
             Else
                 MyParentForm.Text = MyApplicationName + " - " + Controller.FileName
             End If
