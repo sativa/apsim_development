@@ -14,6 +14,7 @@ Public MustInherit Class BaseController
     Private MyFrequentListSection As String
     Private MySelectedData As New StringCollection
     Private Updating As Boolean
+    Private IsReadOnly As Boolean
 
     Delegate Sub NotifyEventHandler()
     Public Event NewDataEvent As NotifyEventHandler
@@ -24,6 +25,7 @@ Public MustInherit Class BaseController
     Public Event BeforeSaveEvent As NotifyEventHandler
     Public Event SelectionChangingEvent As NotifyEventHandler
     Public Event SelectionChangedEvent As NotifyEventHandler
+    Public Event ReadonlyEvent As NotifyEventHandler
 
     Sub New(ByVal DefaultExtension As String, _
             ByVal DialogFilter As String, _
@@ -118,6 +120,7 @@ Public MustInherit Class BaseController
             MyFileName = "Untitled" + MyDefaultExtension
             DirtyData = True
             AllData = DataToUse
+            IsReadOnly = False
         End If
     End Sub
     Public Sub FileNew(ByVal FileName As String)
@@ -126,6 +129,7 @@ Public MustInherit Class BaseController
             MyFileName = "Untitled" + MyDefaultExtension
             DirtyData = True
             AllData = FileData
+            IsReadOnly = False
         End If
     End Sub
     Public Sub FileOpen()
@@ -143,6 +147,12 @@ Public MustInherit Class BaseController
 
     End Sub
     Public Function FileOpen(ByVal FileName As String) As Boolean
+        If (File.GetAttributes(FileName) And FileAttributes.ReadOnly) = FileAttributes.ReadOnly Then
+            MessageBox.Show("The file: " + FileName + " is readonly. All editing capability is disabled.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            IsReadOnly = True
+        Else
+            IsReadOnly = False
+        End If
         Dim FileData As New APSIMData
         If FileData.LoadFromFile(FileName) Then
             MyFileName = FileName
@@ -355,7 +365,7 @@ Public MustInherit Class BaseController
         Get
             If FileName <> "" Then
                 Dim Name As String = Path.GetFileName(FileName).ToLower
-                Return Name <> "standardsoils.soils" And Name <> "apsrusoils.soils" And Name <> "standard.xml"
+                Return Not IsReadOnly And Name <> "standardsoils.soils" And Name <> "apsrusoils.soils" And Name <> "standard.xml"
             Else
                 Return False
             End If
@@ -372,14 +382,18 @@ Public MustInherit Class BaseController
         End Get
     End Property
     Public Function AllowAddXMLToData(ByVal XML As String, ByVal ParentPath As String) As Boolean
-        ' Do we allow the specified xml to be added to the selected node?
-        Dim ParentData As APSIMData = GetDataForFullPath(ParentPath)
-        Dim NewData As New APSIMData("<dummy>" + XML + "</dummy>")
-        Dim ok As Boolean = True
-        For Each Child As APSIMData In NewData.Children
-            ok = ok And Me.AllowComponentAdd(Child.Type, ParentData.Type)
-        Next
-        Return ok And NewData.Children.Count > 0
+        If Not AllowChanges Then
+            Return False
+        Else
+            ' Do we allow the specified xml to be added to the selected node?
+            Dim ParentData As APSIMData = GetDataForFullPath(ParentPath)
+            Dim NewData As New APSIMData("<dummy>" + XML + "</dummy>")
+            Dim ok As Boolean = True
+            For Each Child As APSIMData In NewData.Children
+                ok = ok And Me.AllowComponentAdd(Child.Type, ParentData.Type)
+            Next
+            Return ok And NewData.Children.Count > 0
+        End If
     End Function
     Public ReadOnly Property AllowAddFolderToSelected() As Boolean
         Get
@@ -393,7 +407,7 @@ Public MustInherit Class BaseController
     End Property
     Public ReadOnly Property AllowMoveSelectedUp() As Boolean
         Get
-            If MySelectedData.Count > 0 And Not Data.Parent Is Nothing Then
+            If AllowChanges And MySelectedData.Count > 0 And Not Data.Parent Is Nothing Then
                 Dim FirstSelectedData As APSIMData = GetDataForFullPath(MySelectedData(0))
                 Dim ChildNames As StringCollection = Data.Parent.ChildList
                 Return FirstSelectedData.Name <> ChildNames(0) And AllSelectedNodesAreSiblings
@@ -404,7 +418,7 @@ Public MustInherit Class BaseController
     End Property
     Public ReadOnly Property AllowMoveSelectedDown() As Boolean
         Get
-            If MySelectedData.Count > 0 And Not Data.Parent Is Nothing Then
+            If AllowChanges And MySelectedData.Count > 0 And Not Data.Parent Is Nothing Then
                 Dim LastSelectedData As APSIMData = GetDataForFullPath(MySelectedData(MySelectedData.Count - 1))
                 Dim ChildNames As StringCollection = Data.Parent.ChildList
                 Return LastSelectedData.Name <> ChildNames(ChildNames.Count - 1) And AllSelectedNodesAreSiblings
@@ -450,11 +464,11 @@ Public MustInherit Class BaseController
             Dim HaveModifiedSelections As Boolean = False
             For Each FullPath As String In FullPaths
                 Dim DataToDelete As APSIMData = GetDataForFullPath(FullPath)
-                DataToDelete.Parent.Delete(DataToDelete.Name)
                 If MySelectedData.IndexOf(FullPath) <> -1 Then
                     MySelectedData.Remove(FullPath)
                     HaveModifiedSelections = True
                 End If
+                DataToDelete.Parent.Delete(DataToDelete.Name)
             Next
             RaiseEvent DeleteEvent()
             If HaveModifiedSelections Then

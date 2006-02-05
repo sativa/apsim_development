@@ -169,7 +169,6 @@ namespace CSGeneral
 			this.Grid.SetViewportLeftColumn(0, 1);
 			this.Grid.SetViewportLeftColumn(1, 0, 6);
 			this.Grid.SetActiveViewport(1, 0, -1);
-			this.Grid.ActiveSheetIndex = 1;
 			// 
 			// General
 			// 
@@ -692,6 +691,15 @@ namespace CSGeneral
 				PopulateAPSIMGrid();
 				PopulatePhosphorusGrid();
 				SetupCellNotes();
+				OperationMode mode = OperationMode.Normal;
+				if (!Apsoil.AllowChanges)
+					mode = OperationMode.ReadOnly;
+					
+				General.OperationMode = mode;
+				Water.OperationMode = mode;
+				SoilProfile.OperationMode = mode;
+				APSIM.OperationMode = mode;
+				Phosphorus.OperationMode = mode;
 				}
 			catch (Exception err)
 				{

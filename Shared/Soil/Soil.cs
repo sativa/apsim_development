@@ -36,8 +36,8 @@ namespace CSGeneral
 			}
 		public string Order
 			{
-			get {return GetStringValue("", "order");}
-			set {SetValue("", "order", value);}
+			get {return GetStringValue("", "SoilType");}
+			set {SetValue("", "SoilType", value);}
 			}
 		public string NearestTown
 			{
@@ -339,7 +339,7 @@ namespace CSGeneral
 			if (CropExists(CropName))
 				return getLayered(CropName, "kl");
 			else
-				return PredictedLL(CropName);
+				return PredictedKL(CropName);
 			}
 		public double[] XF(string CropName)
 			{
@@ -398,7 +398,7 @@ namespace CSGeneral
 
 
 		private StringCollection PredictedCrops
-			{	
+			{
 			get {
 				StringCollection PredCrops = new StringCollection();
 				if (Data.ChildList("SoilCrop").Count > 0 && OpenPredLLCoeffFile())
@@ -445,26 +445,28 @@ namespace CSGeneral
 
 				// Get some soil numbers we're going to need.
 				double[] SoilDepthCentre = this.CumThicknessMidPoints;
-				double[] SoilDUL = this.DUL;
+				double[] SoilDUL = MathUtility.Multiply_Value(this.DUL, 100);
 				double[] FirstCropLL = LL(Crops[0]);
-
-				// only continue if our soil depth depth centers are within range of
-				// the coefficient depth centers.
-				if (SoilDepthCentre[SoilDepthCentre.Length-1] <= CoeffDepthCentre[CoeffDepthCentre.Length-1])
+				if (FirstCropLL.Length > 0)
 					{
-					double[] PredLL = new double[SoilDepthCentre.Length];
-					for (int i = 0; i != a.Length; i++)
+					// only continue if our soil depth depth centers are within range of
+					// the coefficient depth centers.
+					if (SoilDepthCentre[SoilDepthCentre.Length-1] <= CoeffDepthCentre[CoeffDepthCentre.Length-1])
 						{
-						bool DidInterpolate = false;
-						double A = MathUtility.LinearInterpReal(SoilDepthCentre[i], CoeffDepthCentre, a, ref DidInterpolate);
-						double B = MathUtility.LinearInterpReal(SoilDepthCentre[i], CoeffDepthCentre, b, ref DidInterpolate);
-						PredLL[i] = SoilDUL[i] * (A + B * SoilDUL[i]);
+						double[] PredLL = new double[SoilDepthCentre.Length];
+						for (int i = 0; i != a.Length; i++)
+							{
+							bool DidInterpolate = false;
+							double A = MathUtility.LinearInterpReal(SoilDepthCentre[i], CoeffDepthCentre, a, ref DidInterpolate);
+							double B = MathUtility.LinearInterpReal(SoilDepthCentre[i], CoeffDepthCentre, b, ref DidInterpolate);
+							PredLL[i] = SoilDUL[i] * (A + B * SoilDUL[i]) / 100.0;
 
-						// make the top 2 layers the same as the first measured crop LL
-						if (i == 0 || i == 1)
-							PredLL[i] = FirstCropLL[i];
+							// make the top 2 layers the same as the first measured crop LL
+							if (i == 0 || i == 1)
+								PredLL[i] = FirstCropLL[i];
+							}
+						return PredLL;
 						}
-					return PredLL;
 					}
 				}
 			return new double[0];
@@ -732,7 +734,7 @@ namespace CSGeneral
 
 		public void ExportToSim(TextWriter Out)
 			{
-			string Template = 
+			string Template =
 				"[foreach soil.water]\r\n" +
 				"<component name=\"[soil.name] Water\" executable=\"%apsuite\\apsim\\soilwat2\\lib\\soilwat2.dll\">\r\n" +
 				"   <initdata>\r\n" +
@@ -755,7 +757,7 @@ namespace CSGeneral
                 "      [if [water.1.mwcon] > 0]\r\n" +
                 "      <mwcon>[foreach water.layer as l][l.mwcon] [endfor]</mwcon>\r\n" +
                 "      [endif]\r\n" +
-				"      <sw>$SW$</sw>\r\n" + 
+				"      <sw>$SW$</sw>\r\n" +
 				"   </initdata>\r\n" +
 				"</component>\r\n" +
 				"[endfor]\r\n" +
@@ -793,7 +795,7 @@ namespace CSGeneral
                 "      <rate_dissol_rock_P>[phosphorus.RateDissolRock]</rate_dissol_rock_P>\r\n" +
                 "   </initdata>\r\n" +
                 "</component>\r\n" +
-				"[endif]\r\n" + 
+				"[endif]\r\n" +
                 "[endfor]";
 
 			string SWLine = "";
@@ -810,24 +812,24 @@ namespace CSGeneral
 				NO3Line += "      " + no3[i].ToString("f3");
 				NH4Line += "      " + nh4[i].ToString("f3");
 				}
-		
+
 			try
 				{
 				Template = Template.Replace("$SW$", SWLine);
 				Template = Template.Replace("$NO3$", NO3Line);
 				Template = Template.Replace("$NH4$", NH4Line);
 				Macro SoilMacro = new Macro();
-				Out.Write(SoilMacro.Go(Data, Template));				
+				Out.Write(SoilMacro.Go(Data, Template));
 				}
 			catch (Exception err)
 				{
 				Out.Write(err.Message);
 				}
 			}
-				
+
 		public void ExportCropToSim(TextWriter Out, string CropName)
 			{
-			string Template = 
+			string Template =
 				"<ll>$LL$</ll>\r\n" +
 				"<kl>$KL$</kl>\r\n" +
 				"<xf>$XF$</xf>";
@@ -1131,7 +1133,7 @@ namespace CSGeneral
 					}
 
 				double[] ll = LL(CropName);
-				double[] kl = LL(CropName);
+				double[] kl = KL(CropName);
 
 				SetCrop(CropName, ll, kl, xf);
 				}
@@ -1166,7 +1168,7 @@ namespace CSGeneral
 					}
 
 				double[] ll = LL(CropName);
-				double[] kl = LL(CropName);
+				double[] kl = KL(CropName);
 
 				SetCrop(CropName, ll, kl, xf);
 				}

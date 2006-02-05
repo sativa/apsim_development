@@ -792,7 +792,7 @@ Public Class MainUI
         Dim Filename As String = Path.GetTempFileName()
         Dim Writer As New StreamWriter(Filename)
         Dim OutputFileNames As String = ""
-        GetAllOutputFiles(ApsimUI.Data, Writer)
+        GetAllOutputFiles(ApsimUI.AllData, Writer)
         Writer.Close()
         Writer = Nothing
 
@@ -803,7 +803,7 @@ Public Class MainUI
         Dim Filename As String = Path.GetTempFileName()
         Dim Writer As New StreamWriter(Filename)
         Dim OutputFileNames As String = ""
-        GetAllOutputFiles(ApsimUI.Data, Writer)
+        GetAllOutputFiles(ApsimUI.AllData, Writer)
         Writer.Close()
         Writer = Nothing
 

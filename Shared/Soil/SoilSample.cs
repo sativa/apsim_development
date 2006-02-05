@@ -23,6 +23,10 @@ namespace CSGeneral
 				throw new Exception("Sample '" + Data.Name + "' has no parent soil.");
 			ParentSoil = new Soil(Data.Parent);
 			}
+		public SoilSample(APSIMData data, Soil ParentSoil) : base(data)
+			{
+			this.ParentSoil = ParentSoil;
+			}
 
 
 		#region Water format methods
@@ -178,27 +182,27 @@ namespace CSGeneral
 
 		#region Sample / soil mapping methods
 
-		private double[] SWMapedToSoil
+		public double[] SWMapedToSoil
 			{
 			get {return MapSampleToSoilUsingSpatial(SW, Thickness, ParentSoil.InitialWater.SW, ParentSoil.Thickness);}
 			}
-		private double[] NO3MapedToSoil
+		public double[] NO3MapedToSoil
 			{
 			get {return MapSampleToSoilUsingMass(NO3, Thickness, ParentSoil.InitialNitrogen.NO3, ParentSoil.Thickness, ParentSoil.BD);}
 			}
-		private double[] NH4MapedToSoil
+		public double[] NH4MapedToSoil
 			{
 			get {return MapSampleToSoilUsingMass(NH4, Thickness, ParentSoil.InitialNitrogen.NH4, ParentSoil.Thickness, ParentSoil.BD);}
 			}
-		private double[] OCMapedToSoil
+		public double[] OCMapedToSoil
 			{
 			get {return MapSampleToSoilUsingMass(OC, Thickness, ParentSoil.OC, ParentSoil.Thickness, ParentSoil.BD);}
 			}
-		private double[] PHMapedToSoil
+		public double[] PHMapedToSoil
 			{
 			get {return MapSampleToSoilUsingSpatial(PH, Thickness, ParentSoil.PH, ParentSoil.Thickness);}
 			}
-		private double[] ECMapedToSoil
+		public double[] ECMapedToSoil
 			{
 			get {
 				double[] soilec = null;
@@ -439,9 +443,11 @@ namespace CSGeneral
 					SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
 				Data.Delete("swunit");
 				}
+			else
+				SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
 
 			double[] oc = getLayered("nitrogen", "oc");
-			if (oc.Length == 0)
+			if (oc.Length > 0)
 				{
 				setLayered("other", "oc", oc);    // moves to other
 
@@ -451,7 +457,7 @@ namespace CSGeneral
 				}
 
 			double[] ph = getLayered("nitrogen", "ph");
-			if (ph.Length == 0)
+			if (ph.Length > 0)
 				{
 				setLayered("other", "ph", ph);    // moves to other
 
