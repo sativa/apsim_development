@@ -74,6 +74,8 @@ class Plant : public plantInterface {
   PlantPhenology *phenology;
   PlantFruit     *fruitPart;
 
+  eventObserver *sowingEventObserver;     // Bookkeeper for Sowing events
+  eventObserver *FIEventObserver;     // Bookkeeper for Floral Initiation events
   eventObserver *floweringEventObserver;     // Bookkeeper for flowering events
   eventObserver *maturityEventObserver;      // Bookkeeper for maturity events
 

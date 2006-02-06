@@ -70,12 +70,6 @@ void TTTRatePhenology::updateTTTargets(const environment_t &e)
       float newTarget = endjuv_to_init->getTTTarget() + fraction*(tt_endjuv_to_init[photoperiod] - tt_endjuv_to_init[photoperiodYesterday]);
       endjuv_to_init->setTarget(newTarget);
 
-   string s;
-   s =  ftoa(fraction, "10.4") + " " + ftoa(photoperiod, "10.4") + " " + ftoa(photoperiodYesterday, "10.4")+ ftoa(endjuv_to_init->getTTTarget(), "10.2") + " " + ftoa(tt_endjuv_to_init[photoperiod], "10.2");
-   parentPlant->writeString (s.c_str());
-   s =  ftoa(tt_endjuv_to_init[photoperiodYesterday], "10.2") + " " + ftoa(tt_endjuv_to_init[photoperiod], "10.2");
-   parentPlant->writeString (s.c_str());
-
       pPhase *init_to_flower = getStage("floral_initiation");
       init_to_flower->setTarget(tt_init_to_flower[photoperiod]);
       }

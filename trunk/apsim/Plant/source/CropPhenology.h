@@ -21,9 +21,9 @@ class CropPhenology : public PlantPhenology
        virtual bool plant_germination(float pesw_germ, float sowing_depth, const environment_t &sw);
 
        int   das;
-       float cumvd;                                      // cumulative v days
+                                    // cumulative v days
        // Rates
-       float dlt_cumvd;
+
        float dlt_tt;
        float dlt_tt_phenol;
        // Parameters

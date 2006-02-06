@@ -10,8 +10,8 @@ class WheatPhenology : public CropPhenology {
    float vern_eff;
    float photop_eff;
 
-
-
+       float cumvd;
+       float dlt_cumvd;
 
    //parameters
    float phyllochron, startgf_to_mat, vern_sens, photop_sens;
@@ -41,7 +41,7 @@ class WheatPhenology : public CropPhenology {
    float get_dlt_tt(void) {return dlt_tt;};                          // XX remove when leaves are finished
 
    void zeroAllGlobals(void);
-
+   virtual void zeroDeltas(void);
 };
 
 #endif

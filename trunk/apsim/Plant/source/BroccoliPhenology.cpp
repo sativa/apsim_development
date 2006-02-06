@@ -1,4 +1,4 @@
-#include "TTTphenology.h"
+#include "BroccoliPhenology.h"
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/dataTypes.h>
 #include <ComponentInterface/ApsimVariant.h>
@@ -8,18 +8,18 @@
 #include "PlantPhenology.h"
 #include "Environment.h"
 
-void TTTPhenology::zeroDeltas(void)
+void BroccoliPhenology::zeroAllGlobals(void)
+   {
+   CropPhenology::zeroAllGlobals();
+   est_days_emerg_to_init=0;
+   cumvd = 0.0;
+   }
+void BroccoliPhenology::zeroDeltas(void)
    {
    dlt_cumvd = 0.0;
    }
-void TTTPhenology::zeroAllGlobals(void)
-   {
-   CropPhenology::zeroAllGlobals();
-   est_days_emerg_to_init=cumvd =0;
-   }
 
-
-void TTTPhenology::readConstants (protocol::Component *s, const string &section)
+void BroccoliPhenology::readConstants (protocol::Component *s, const string &section)
    {
    CropPhenology::readConstants(s, section);
    s->writeString("phenology model: TTT");
@@ -30,22 +30,23 @@ void TTTPhenology::readConstants (protocol::Component *s, const string &section)
 
 
 // static TT targets (called at sowing)
-void TTTPhenology::setupTTTargets(void)
+void BroccoliPhenology::setupTTTargets(void)
    {
    pPhase *germ_to_emerg = getStage("germination");
    germ_to_emerg->setTarget(shoot_lag + sowing_depth * shoot_rate);
 
-   pPhase *end_grain_to_maturity = getStage("end_grain_fill");
-   end_grain_to_maturity->setTarget(tt_end_grain_to_maturity);
+   pPhase *init_to_buttoning = getStage("floral_initiation");
+   init_to_buttoning->setTarget(tt_init_to_buttoning);
 
-   pPhase *maturity_to_ripe = getStage("maturity");
-   maturity_to_ripe->setTarget(tt_maturity_to_ripe);
+   pPhase *buttoning_to_maturity = getStage("buttoning");
+   buttoning_to_maturity->setTarget(tt_buttoning_to_maturity);
    }
 
 // dynamic TT targets
-void TTTPhenology::updateTTTargets(const environment_t &e)
+void BroccoliPhenology::updateTTTargets(const environment_t &e)
    {
    dlt_cumvd = vernal_days.value((e.maxt + e.mint)*0.5);
+   //dlt_cumvd = VernalDays(e);
 
    if (inPhase("germination"))
       {
@@ -74,29 +75,6 @@ void TTTPhenology::updateTTTargets(const environment_t &e)
       pPhase *endjuv_to_init = getStage("end_of_juvenile");
       endjuv_to_init->setTarget(tt_endjuv_to_init[photoperiod]);
 
-      pPhase *init_to_flower = getStage("floral_initiation");
-      init_to_flower->setTarget(tt_init_to_flower[photoperiod]);
-      }
-   else if (inPhase("floral_initiation"))
-      {
-      pPhase *init_to_flower = getStage("floral_initiation");
-      init_to_flower->setTarget(tt_init_to_flower[photoperiod]);
-
-      pPhase *flower_to_start_grain = getStage("flowering");
-      flower_to_start_grain->setTarget(tt_flower_to_start_grain[photoperiod]);
-      }
-   else if (inPhase("flowering"))
-      {
-      pPhase *flower_to_start_grain = getStage("flowering");
-      flower_to_start_grain->setTarget(tt_flower_to_start_grain[photoperiod]);
-
-      pPhase *start_to_end_grain = getStage("start_grain_fill");
-      start_to_end_grain->setTarget(tt_start_to_end_grain[photoperiod]);
-      }
-   else if (inPhase("start_grain_fill"))
-      {
-      pPhase *start_to_end_grain = getStage("start_grain_fill");
-      start_to_end_grain->setTarget(tt_start_to_end_grain[photoperiod]);
       }
    else
       {
@@ -108,7 +86,7 @@ void TTTPhenology::updateTTTargets(const environment_t &e)
 
 
 
-void TTTPhenology::readCultivarParameters(protocol::Component *s, const string & cultivar)
+void BroccoliPhenology::readCultivarParameters(protocol::Component *s, const string & cultivar)
    {
    CropPhenology::readCultivarParameters(s, cultivar);
 
@@ -125,30 +103,19 @@ void TTTPhenology::readCultivarParameters(protocol::Component *s, const string &
                           , "x_pp_endjuv_to_init", "h", 0.0, 24.0
                           , "y_tt_endjuv_to_init", "dd", 0.0, 1e6);
 
-   tt_init_to_flower.read(s, cultivar
-                          , "x_pp_init_to_flower", "h", 0.0, 24.0
-                          , "y_tt_init_to_flower", "dd", 0.0, 1e6);
-
-   tt_flower_to_start_grain.read(s, cultivar
-                          , "x_pp_flower_to_start_grain", "h", 0.0, 24.0
-                          , "y_tt_flower_to_start_grain", "dd", 0.0, 1e6);
-
-   tt_start_to_end_grain.read(s, cultivar
-                          , "x_pp_start_to_end_grain", "h", 0.0, 24.0
-                          , "y_tt_start_to_end_grain", "dd", 0.0, 1e6);
 
    s->readParameter (cultivar
-                    , "tt_end_grain_to_maturity"//, "()"
-                    , tt_end_grain_to_maturity
+                    , "tt_init_to_buttoning"//, "()"
+                    , tt_init_to_buttoning
                     , 0.0, 1e6);
 
    s->readParameter (cultivar
-                    , "tt_maturity_to_ripe"//, "()"
-                    , tt_maturity_to_ripe
-                    , 0.0, tt_maturity_to_ripe_ub);
+                    , "tt_buttoning_to_maturity"//, "()"
+                    , tt_buttoning_to_maturity
+                    , 0.0, 1e6);
    }
 
-void TTTPhenology::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
+void BroccoliPhenology::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
    {
    CropPhenology::readSpeciesParameters (s, sections);
 
@@ -161,42 +128,37 @@ void TTTPhenology::readSpeciesParameters (protocol::Component *s, vector<string>
                    , tt_emerg_to_endjuv_ub
                    , 0.0, 1.e6);
 
-   s->readParameter (sections
-                   ,"tt_maturity_to_ripe_ub"//, "()"
-                   , tt_maturity_to_ripe_ub
-                   , 0.0, 1.e6);
-
 }
 
 
 
 
 
-void TTTPhenology::writeCultivarInfo (PlantComponent *systemInterface)
+void BroccoliPhenology::writeCultivarInfo (PlantComponent *systemInterface)
    {
    string s;
    s =  "   est_days_emerg_to_init     = " + itoa(est_days_emerg_to_init) + " (days)\n";
    s += tt_emerg_to_endjuv.description();
    s += tt_endjuv_to_init.description();
-   s += tt_init_to_flower.description();
-   s += tt_flower_to_start_grain.description();
-   s += tt_start_to_end_grain.description();
-   s += "   tt_end_grain_to_maturity   = " + ftoa(tt_end_grain_to_maturity, "10.0") + " (dd)\n";
-   s += "   tt_maturity_to_ripe        = " + ftoa(tt_maturity_to_ripe, "10.0") + " (dd)";
+   s += "   tt_init_to_buttoning   = " + ftoa(tt_init_to_buttoning, "10.0") + " (dd)\n";
+   s += "   tt_buttoning_to_maturity        = " + ftoa(tt_buttoning_to_maturity, "10.0") + " (dd)";
    systemInterface->writeString (s.c_str());
    }
 
-float TTTPhenology::TT(const environment_t &e)
+float BroccoliPhenology::TT(const environment_t &e)
    {
         return linint_3hrly_temp (e.maxt, e.mint, &y_tt);
    }
-
+float BroccoliPhenology::VernalDays(const environment_t &e)
+   {
+        return linint_3hrly_temp (e.maxt, e.mint, &vernal_days);
+   }
 //+  Purpose
 //     Use temperature, photoperiod and genetic characteristics
 //     to determine when the crop begins a new growth phase.
 //     The initial daily thermal time and height are also set.
 
-void TTTPhenology::process (const environment_t &e, const pheno_stress_t &ps)
+void BroccoliPhenology::process (const environment_t &e, const pheno_stress_t &ps)
    {
    float phase_devel, new_stage;
 
@@ -243,18 +205,9 @@ void TTTPhenology::process (const environment_t &e, const pheno_stress_t &ps)
       phase_devel = divide(a, b, 1.0);
       new_stage = floor(currentStage) + phase_devel;
       }
-    else if (inPhase("flowering"))
+    else if (inPhase("buttoning"))
       {
-      dlt_tt_phenol = dlt_tt *  ps.swdef_flower;          //no nstress
-      const pPhase *current = phases[currentStage];
-      float a =  current->getTT() + dlt_tt_phenol;
-      float b =  current->getTTTarget();
-      phase_devel = divide(a, b, 1.0);
-      new_stage = floor(currentStage) + phase_devel;
-      }
-    else if (inPhase("start_grain_fill2harvest_ripe"))
-      {
-      dlt_tt_phenol = dlt_tt *  ps.swdef_grainfill;       //no nstress
+      dlt_tt_phenol = dlt_tt *  ps.swdef;          //no nstress
       const pPhase *current = phases[currentStage];
       float a =  current->getTT() + dlt_tt_phenol;
       float b =  current->getTTTarget();
@@ -318,14 +271,14 @@ void TTTPhenology::process (const environment_t &e, const pheno_stress_t &ps)
       currentStage = new_stage;
 
    if ((unsigned int)currentStage >= phases.size() || currentStage < 0.0)
-     throw std::runtime_error("stage has gone wild in TTTPhenology::process()..");
+     throw std::runtime_error("stage has gone wild in BroccoliPhenology::process()..");
 
    if ((int)currentStage != (int)previousStage) plant->doPlantEvent(phases[(int)currentStage]->name());
    cumvd += dlt_cumvd;
    das++;
    }
 
-void TTTPhenology::onRemoveBiomass(float removeBiomPheno)
+void BroccoliPhenology::onRemoveBiomass(float removeBiomPheno)
 {
    if (initialOnBiomassRemove == true)
    {
@@ -382,7 +335,7 @@ void TTTPhenology::onRemoveBiomass(float removeBiomPheno)
 
 }
 
-void TTTPhenology::prepare (const environment_t &e)
+void BroccoliPhenology::prepare (const environment_t &e)
    {
    CropPhenology::prepare(e);
    photoperiod = e.daylength (twilight);
@@ -390,8 +343,8 @@ void TTTPhenology::prepare (const environment_t &e)
    updateTTTargets(e);
    }
 
-void TTTPhenology::doRegistrations (protocol::Component *s)
+void BroccoliPhenology::doRegistrations (protocol::Component *s)
    {
    CropPhenology::doRegistrations(s);
-   parentPlant->addGettableVar("dlt_cumvd", dlt_cumvd,   "", "Todays vd");
+   parentPlant->addGettableVar("cum_vernal_days", cumvd, "vd", "Cumulative vernalisation");
    }

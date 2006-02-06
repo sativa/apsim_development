@@ -2,7 +2,7 @@
   <simulation name="GreenBelt1997">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">1/03/1997</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date">10/09/1997</end_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">10/11/1997</end_date>
     </clock>
     <summaryfile name="summaryfile">
       <filename name="filename">GreenBelt1997.sum</filename>
@@ -44,15 +44,15 @@
             <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
           </category>
         </rule>
-        <rule name="Harvest on a fixed date">
+        <rule name="Harvest on a Growth Stage">
           <condition name="start_of_day">
-        if (today = date('[date]') then
+        if ([crop].stage_name = '[stage]') then
                     [crop] harvest
                     [crop] end_crop
         endif
                </condition>
           <category name="Harvesting criteria">
-            <property name="date" value="8-jun" type="text" description="Enter sowing date (dd-mmm) : " />
+            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
           </category>
           <category name="Harvesting parameters">
             <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
@@ -88,9 +88,20 @@
         <outputfiledescription name="My Variables">
           <variables>
             <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="das" description="Days after Sowing" array="F" units="d" module="broccoli" variablename="das" arrayspec=" " ModuleType="broccoli" />
             <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="node_no" description="number of mainstem nodes per plant" array="F" units="nodes/plant" module="broccoli" variablename="node_no" arrayspec=" " ModuleType="broccoli" />
             <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
             <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
+            <variable name="floral_initiation_das" description="Days from sowing to floral initiation" array="F" units="days" module="broccoli" variablename="floral_initiation_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="maturity_das" description="Days from sowing to maturity" array="F" units="days" module="broccoli" variablename="maturity_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="stage" description="Plant stage" array="F" units="" module="broccoli" variablename="stage" arrayspec=" " ModuleType="broccoli" />
+            <variable name="cum_vernal_days" description="Cumulative vernalisation" array="F" units="vd" module="broccoli" variablename="cum_vernal_days" arrayspec=" " ModuleType="broccoli" />
+            <variable name="tt_tot" description="Thermal time spent in each crop stage" array="T" units="dd" module="broccoli" variablename="tt_tot" arrayspec=" " ModuleType="broccoli" />
+            <variable name="dlt_cumvd" description="Todays vd" array="F" units="" module="broccoli" variablename="dlt_cumvd" arrayspec=" " ModuleType="broccoli" />
+            <variable name="swdef_photo" description="Soil water deficit in photosynthesis" array="F" units="" module="broccoli" variablename="swdef_photo" arrayspec=" " ModuleType="broccoli" />
+            <variable name="nfact_photo" description="N factor for photosynthesis" array="F" units="" module="broccoli" variablename="nfact_photo" arrayspec=" " ModuleType="broccoli" />
+            <variable name="temp_stress_photo" description="Temperature Stress in photosynthesis" array="F" units="" module="broccoli" variablename="temp_stress_photo" arrayspec=" " ModuleType="broccoli" />
           </variables>
           <events>
             <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
@@ -100,10 +111,27 @@
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">on</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">300.0</property>
-        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
       <broccoli />
+      <outputfile name="final">
+        <filename name="filename">GreenBelt1997 Planting1 final.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="sowing_date" description="sowing date" array="F" units="days" module="broccoli" variablename="sowing_date" arrayspec=" " ModuleType="broccoli" />
+            <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" module="global" variablename="dd/mm/yyyy" arrayspec=" " ModuleType="registrations" />
+            <variable name="floral_initiation_das" description="Days from sowing to floral initiation" array="F" units="days" module="broccoli" variablename="floral_initiation_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="maturity_das" description="Days from sowing to maturity" array="F" units="days" module="broccoli" variablename="maturity_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="green_biomass_wt" description="Green Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="green_biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="pod_wt" description="Weight of pods" array="F" units="g/m^2" module="broccoli" variablename="pod_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="broccoli.harvesting" description="" module="broccoli" eventname="harvesting" ModuleType="broccoli" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
     </area>
     <area name="Planting2">
       <registrations name="global" />
@@ -139,20 +167,6 @@
             <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
           </category>
         </rule>
-        <rule name="Harvest on a fixed date">
-          <condition name="start_of_day">
-        if (today = date('[date]') then
-                    [crop] harvest
-                    [crop] end_crop
-        endif
-               </condition>
-          <category name="Harvesting criteria">
-            <property name="date" value="16-jun" type="text" description="Enter sowing date (dd-mmm) : " />
-          </category>
-          <category name="Harvesting parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
-          </category>
-        </rule>
         <rule name="Irrigate at sowing">
           <condition name="[modulename].[eventname]"><![CDATA[
          if ([irrig_amount_evt] > 0) then
@@ -168,6 +182,20 @@
             <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
           </category>
         </rule>
+        <rule name="Harvest on a Growth Stage">
+          <condition name="start_of_day">
+        if ([crop].stage_name = '[stage]') then
+                    [crop] harvest
+                    [crop] end_crop
+        endif
+               </condition>
+          <category name="Harvesting criteria">
+            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
+          </category>
+          <category name="Harvesting parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+          </category>
+        </rule>
       </manager>
       <fertiliser name="fertiliser" />
       <surfaceom name="surface organic matter">
@@ -178,20 +206,6 @@
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
-      <outputfile name="outputfile">
-        <filename name="filename">GreenBelt1997 Planting2.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
-            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
-      </outputfile>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">on</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">300.0</property>
@@ -199,6 +213,48 @@
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
       <broccoli />
+      <outputfile name="final">
+        <filename name="filename">GreenBelt1997 Planting2 final.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="sowing_date" description="sowing date" array="F" units="days" module="broccoli" variablename="sowing_date" arrayspec=" " ModuleType="broccoli" />
+            <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" module="global" variablename="dd/mm/yyyy" arrayspec=" " ModuleType="registrations" />
+            <variable name="floral_initiation_das" description="Days from sowing to floral initiation" array="F" units="days" module="broccoli" variablename="floral_initiation_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="maturity_das" description="Days from sowing to maturity" array="F" units="days" module="broccoli" variablename="maturity_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="green_biomass_wt" description="Green Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="green_biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="pod_wt" description="Weight of pods" array="F" units="g/m^2" module="broccoli" variablename="pod_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="broccoli.harvesting" description="" module="broccoli" eventname="harvesting" ModuleType="broccoli" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <outputfile name="outputfile">
+        <filename name="filename">GreenBelt1997 Planting2.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="das" description="Days after Sowing" array="F" units="d" module="broccoli" variablename="das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="node_no" description="number of mainstem nodes per plant" array="F" units="nodes/plant" module="broccoli" variablename="node_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
+            <variable name="floral_initiation_das" description="Days from sowing to floral initiation" array="F" units="days" module="broccoli" variablename="floral_initiation_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="maturity_das" description="Days from sowing to maturity" array="F" units="days" module="broccoli" variablename="maturity_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="stage" description="Plant stage" array="F" units="" module="broccoli" variablename="stage" arrayspec=" " ModuleType="broccoli" />
+            <variable name="cum_vernal_days" description="Cumulative vernalisation" array="F" units="vd" module="broccoli" variablename="cum_vernal_days" arrayspec=" " ModuleType="broccoli" />
+            <variable name="tt_tot" description="Thermal time spent in each crop stage" array="T" units="dd" module="broccoli" variablename="tt_tot" arrayspec=" " ModuleType="broccoli" />
+            <variable name="dlt_cumvd" description="Todays vd" array="F" units="" module="broccoli" variablename="dlt_cumvd" arrayspec=" " ModuleType="broccoli" />
+            <variable name="swdef_photo" description="Soil water deficit in photosynthesis" array="F" units="" module="broccoli" variablename="swdef_photo" arrayspec=" " ModuleType="broccoli" />
+            <variable name="nfact_photo" description="N factor for photosynthesis" array="F" units="" module="broccoli" variablename="nfact_photo" arrayspec=" " ModuleType="broccoli" />
+            <variable name="temp_stress_photo" description="Temperature Stress in photosynthesis" array="F" units="" module="broccoli" variablename="temp_stress_photo" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
     </area>
     <area name="Planting3">
       <registrations name="global" />
@@ -234,20 +290,6 @@
             <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
           </category>
         </rule>
-        <rule name="Harvest on a fixed date">
-          <condition name="start_of_day">
-        if (today = date('[date]') then
-                    [crop] harvest
-                    [crop] end_crop
-        endif
-               </condition>
-          <category name="Harvesting criteria">
-            <property name="date" value="6-jul" type="text" description="Enter sowing date (dd-mmm) : " />
-          </category>
-          <category name="Harvesting parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
-          </category>
-        </rule>
         <rule name="Irrigate at sowing">
           <condition name="[modulename].[eventname]"><![CDATA[
          if ([irrig_amount_evt] > 0) then
@@ -263,6 +305,20 @@
             <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
           </category>
         </rule>
+        <rule name="Harvest on a Growth Stage">
+          <condition name="start_of_day">
+        if ([crop].stage_name = '[stage]') then
+                    [crop] harvest
+                    [crop] end_crop
+        endif
+               </condition>
+          <category name="Harvesting criteria">
+            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
+          </category>
+          <category name="Harvesting parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+          </category>
+        </rule>
       </manager>
       <fertiliser name="fertiliser" />
       <surfaceom name="surface organic matter">
@@ -273,20 +329,6 @@
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
-      <outputfile name="outputfile">
-        <filename name="filename">GreenBelt1997 Planting3.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
-            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
-      </outputfile>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">on</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">300.0</property>
@@ -294,6 +336,48 @@
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
       <broccoli />
+      <outputfile name="final">
+        <filename name="filename">GreenBelt1997 Planting3 final.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="sowing_date" description="sowing date" array="F" units="days" module="broccoli" variablename="sowing_date" arrayspec=" " ModuleType="broccoli" />
+            <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" module="global" variablename="dd/mm/yyyy" arrayspec=" " ModuleType="registrations" />
+            <variable name="floral_initiation_das" description="Days from sowing to floral initiation" array="F" units="days" module="broccoli" variablename="floral_initiation_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="maturity_das" description="Days from sowing to maturity" array="F" units="days" module="broccoli" variablename="maturity_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="green_biomass_wt" description="Green Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="green_biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="pod_wt" description="Weight of pods" array="F" units="g/m^2" module="broccoli" variablename="pod_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="broccoli.harvesting" description="" module="broccoli" eventname="harvesting" ModuleType="broccoli" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <outputfile name="outputfile">
+        <filename name="filename">GreenBelt1997 Planting3.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="das" description="Days after Sowing" array="F" units="d" module="broccoli" variablename="das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="node_no" description="number of mainstem nodes per plant" array="F" units="nodes/plant" module="broccoli" variablename="node_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
+            <variable name="floral_initiation_das" description="Days from sowing to floral initiation" array="F" units="days" module="broccoli" variablename="floral_initiation_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="maturity_das" description="Days from sowing to maturity" array="F" units="days" module="broccoli" variablename="maturity_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="stage" description="Plant stage" array="F" units="" module="broccoli" variablename="stage" arrayspec=" " ModuleType="broccoli" />
+            <variable name="cum_vernal_days" description="Cumulative vernalisation" array="F" units="vd" module="broccoli" variablename="cum_vernal_days" arrayspec=" " ModuleType="broccoli" />
+            <variable name="tt_tot" description="Thermal time spent in each crop stage" array="T" units="dd" module="broccoli" variablename="tt_tot" arrayspec=" " ModuleType="broccoli" />
+            <variable name="dlt_cumvd" description="Todays vd" array="F" units="" module="broccoli" variablename="dlt_cumvd" arrayspec=" " ModuleType="broccoli" />
+            <variable name="swdef_photo" description="Soil water deficit in photosynthesis" array="F" units="" module="broccoli" variablename="swdef_photo" arrayspec=" " ModuleType="broccoli" />
+            <variable name="nfact_photo" description="N factor for photosynthesis" array="F" units="" module="broccoli" variablename="nfact_photo" arrayspec=" " ModuleType="broccoli" />
+            <variable name="temp_stress_photo" description="Temperature Stress in photosynthesis" array="F" units="" module="broccoli" variablename="temp_stress_photo" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
     </area>
     <area name="Planting4">
       <registrations name="global" />
@@ -329,20 +413,6 @@
             <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
           </category>
         </rule>
-        <rule name="Harvest on a fixed date">
-          <condition name="start_of_day">
-        if (today = date('[date]') then
-                    [crop] harvest
-                    [crop] end_crop
-        endif
-               </condition>
-          <category name="Harvesting criteria">
-            <property name="date" value="17-jul" type="text" description="Enter sowing date (dd-mmm) : " />
-          </category>
-          <category name="Harvesting parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
-          </category>
-        </rule>
         <rule name="Irrigate at sowing">
           <condition name="[modulename].[eventname]"><![CDATA[
          if ([irrig_amount_evt] > 0) then
@@ -358,6 +428,20 @@
             <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
           </category>
         </rule>
+        <rule name="Harvest on a Growth Stage">
+          <condition name="start_of_day">
+        if ([crop].stage_name = '[stage]') then
+                    [crop] harvest
+                    [crop] end_crop
+        endif
+               </condition>
+          <category name="Harvesting criteria">
+            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
+          </category>
+          <category name="Harvesting parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+          </category>
+        </rule>
       </manager>
       <fertiliser name="fertiliser" />
       <surfaceom name="surface organic matter">
@@ -368,20 +452,6 @@
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
-      <outputfile name="outputfile">
-        <filename name="filename">GreenBelt1997 Planting4.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
-            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
-      </outputfile>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">on</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">300.0</property>
@@ -389,6 +459,48 @@
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
       <broccoli />
+      <outputfile name="final">
+        <filename name="filename">GreenBelt1997 Planting4 final.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="sowing_date" description="sowing date" array="F" units="days" module="broccoli" variablename="sowing_date" arrayspec=" " ModuleType="broccoli" />
+            <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" module="global" variablename="dd/mm/yyyy" arrayspec=" " ModuleType="registrations" />
+            <variable name="floral_initiation_das" description="Days from sowing to floral initiation" array="F" units="days" module="broccoli" variablename="floral_initiation_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="maturity_das" description="Days from sowing to maturity" array="F" units="days" module="broccoli" variablename="maturity_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="green_biomass_wt" description="Green Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="green_biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="pod_wt" description="Weight of pods" array="F" units="g/m^2" module="broccoli" variablename="pod_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="broccoli.harvesting" description="" module="broccoli" eventname="harvesting" ModuleType="broccoli" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <outputfile name="outputfile">
+        <filename name="filename">GreenBelt1997 Planting4.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="das" description="Days after Sowing" array="F" units="d" module="broccoli" variablename="das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="node_no" description="number of mainstem nodes per plant" array="F" units="nodes/plant" module="broccoli" variablename="node_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
+            <variable name="floral_initiation_das" description="Days from sowing to floral initiation" array="F" units="days" module="broccoli" variablename="floral_initiation_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="maturity_das" description="Days from sowing to maturity" array="F" units="days" module="broccoli" variablename="maturity_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="stage" description="Plant stage" array="F" units="" module="broccoli" variablename="stage" arrayspec=" " ModuleType="broccoli" />
+            <variable name="cum_vernal_days" description="Cumulative vernalisation" array="F" units="vd" module="broccoli" variablename="cum_vernal_days" arrayspec=" " ModuleType="broccoli" />
+            <variable name="tt_tot" description="Thermal time spent in each crop stage" array="T" units="dd" module="broccoli" variablename="tt_tot" arrayspec=" " ModuleType="broccoli" />
+            <variable name="dlt_cumvd" description="Todays vd" array="F" units="" module="broccoli" variablename="dlt_cumvd" arrayspec=" " ModuleType="broccoli" />
+            <variable name="swdef_photo" description="Soil water deficit in photosynthesis" array="F" units="" module="broccoli" variablename="swdef_photo" arrayspec=" " ModuleType="broccoli" />
+            <variable name="nfact_photo" description="N factor for photosynthesis" array="F" units="" module="broccoli" variablename="nfact_photo" arrayspec=" " ModuleType="broccoli" />
+            <variable name="temp_stress_photo" description="Temperature Stress in photosynthesis" array="F" units="" module="broccoli" variablename="temp_stress_photo" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
     </area>
     <area name="Planting5">
       <registrations name="global" />
@@ -424,20 +536,6 @@
             <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
           </category>
         </rule>
-        <rule name="Harvest on a fixed date">
-          <condition name="start_of_day">
-        if (today = date('[date]') then
-                    [crop] harvest
-                    [crop] end_crop
-        endif
-               </condition>
-          <category name="Harvesting criteria">
-            <property name="date" value="28-jul" type="text" description="Enter sowing date (dd-mmm) : " />
-          </category>
-          <category name="Harvesting parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
-          </category>
-        </rule>
         <rule name="Irrigate at sowing">
           <condition name="[modulename].[eventname]"><![CDATA[
          if ([irrig_amount_evt] > 0) then
@@ -453,6 +551,20 @@
             <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
           </category>
         </rule>
+        <rule name="Harvest on a Growth Stage">
+          <condition name="start_of_day">
+        if ([crop].stage_name = '[stage]') then
+                    [crop] harvest
+                    [crop] end_crop
+        endif
+               </condition>
+          <category name="Harvesting criteria">
+            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
+          </category>
+          <category name="Harvesting parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+          </category>
+        </rule>
       </manager>
       <fertiliser name="fertiliser" />
       <surfaceom name="surface organic matter">
@@ -463,20 +575,6 @@
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
-      <outputfile name="outputfile">
-        <filename name="filename">GreenBelt1997 Planting5.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
-            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
-      </outputfile>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">on</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">300.0</property>
@@ -484,6 +582,48 @@
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
       <broccoli />
+      <outputfile name="final">
+        <filename name="filename">GreenBelt1997 Planting5 final.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="sowing_date" description="sowing date" array="F" units="days" module="broccoli" variablename="sowing_date" arrayspec=" " ModuleType="broccoli" />
+            <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" module="global" variablename="dd/mm/yyyy" arrayspec=" " ModuleType="registrations" />
+            <variable name="floral_initiation_das" description="Days from sowing to floral initiation" array="F" units="days" module="broccoli" variablename="floral_initiation_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="maturity_das" description="Days from sowing to maturity" array="F" units="days" module="broccoli" variablename="maturity_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="green_biomass_wt" description="Green Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="green_biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="pod_wt" description="Weight of pods" array="F" units="g/m^2" module="broccoli" variablename="pod_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="broccoli.harvesting" description="" module="broccoli" eventname="harvesting" ModuleType="broccoli" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <outputfile name="outputfile">
+        <filename name="filename">GreenBelt1997 Planting5.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="das" description="Days after Sowing" array="F" units="d" module="broccoli" variablename="das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="node_no" description="number of mainstem nodes per plant" array="F" units="nodes/plant" module="broccoli" variablename="node_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
+            <variable name="floral_initiation_das" description="Days from sowing to floral initiation" array="F" units="days" module="broccoli" variablename="floral_initiation_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="maturity_das" description="Days from sowing to maturity" array="F" units="days" module="broccoli" variablename="maturity_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="stage" description="Plant stage" array="F" units="" module="broccoli" variablename="stage" arrayspec=" " ModuleType="broccoli" />
+            <variable name="cum_vernal_days" description="Cumulative vernalisation" array="F" units="vd" module="broccoli" variablename="cum_vernal_days" arrayspec=" " ModuleType="broccoli" />
+            <variable name="tt_tot" description="Thermal time spent in each crop stage" array="T" units="dd" module="broccoli" variablename="tt_tot" arrayspec=" " ModuleType="broccoli" />
+            <variable name="dlt_cumvd" description="Todays vd" array="F" units="" module="broccoli" variablename="dlt_cumvd" arrayspec=" " ModuleType="broccoli" />
+            <variable name="swdef_photo" description="Soil water deficit in photosynthesis" array="F" units="" module="broccoli" variablename="swdef_photo" arrayspec=" " ModuleType="broccoli" />
+            <variable name="nfact_photo" description="N factor for photosynthesis" array="F" units="" module="broccoli" variablename="nfact_photo" arrayspec=" " ModuleType="broccoli" />
+            <variable name="temp_stress_photo" description="Temperature Stress in photosynthesis" array="F" units="" module="broccoli" variablename="temp_stress_photo" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
     </area>
     <area name="Planting6">
       <registrations name="global" />
@@ -519,20 +659,6 @@
             <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
           </category>
         </rule>
-        <rule name="Harvest on a fixed date">
-          <condition name="start_of_day">
-        if (today = date('[date]') then
-                    [crop] harvest
-                    [crop] end_crop
-        endif
-               </condition>
-          <category name="Harvesting criteria">
-            <property name="date" value="12-aug" type="text" description="Enter sowing date (dd-mmm) : " />
-          </category>
-          <category name="Harvesting parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
-          </category>
-        </rule>
         <rule name="Irrigate at sowing">
           <condition name="[modulename].[eventname]"><![CDATA[
          if ([irrig_amount_evt] > 0) then
@@ -548,6 +674,20 @@
             <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
           </category>
         </rule>
+        <rule name="Harvest on a Growth Stage">
+          <condition name="start_of_day">
+        if ([crop].stage_name = '[stage]') then
+                    [crop] harvest
+                    [crop] end_crop
+        endif
+               </condition>
+          <category name="Harvesting criteria">
+            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
+          </category>
+          <category name="Harvesting parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+          </category>
+        </rule>
       </manager>
       <fertiliser name="fertiliser" />
       <surfaceom name="surface organic matter">
@@ -558,20 +698,6 @@
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
-      <outputfile name="outputfile">
-        <filename name="filename">GreenBelt1997 Planting6.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
-            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
-      </outputfile>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">on</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">300.0</property>
@@ -579,6 +705,48 @@
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
       <broccoli />
+      <outputfile name="final">
+        <filename name="filename">GreenBelt1997 Planting6 final.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="sowing_date" description="sowing date" array="F" units="days" module="broccoli" variablename="sowing_date" arrayspec=" " ModuleType="broccoli" />
+            <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" module="global" variablename="dd/mm/yyyy" arrayspec=" " ModuleType="registrations" />
+            <variable name="floral_initiation_das" description="Days from sowing to floral initiation" array="F" units="days" module="broccoli" variablename="floral_initiation_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="maturity_das" description="Days from sowing to maturity" array="F" units="days" module="broccoli" variablename="maturity_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="green_biomass_wt" description="Green Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="green_biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="pod_wt" description="Weight of pods" array="F" units="g/m^2" module="broccoli" variablename="pod_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="broccoli.harvesting" description="" module="broccoli" eventname="harvesting" ModuleType="broccoli" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <outputfile name="outputfile">
+        <filename name="filename">GreenBelt1997 Planting6.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="das" description="Days after Sowing" array="F" units="d" module="broccoli" variablename="das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="node_no" description="number of mainstem nodes per plant" array="F" units="nodes/plant" module="broccoli" variablename="node_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
+            <variable name="floral_initiation_das" description="Days from sowing to floral initiation" array="F" units="days" module="broccoli" variablename="floral_initiation_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="maturity_das" description="Days from sowing to maturity" array="F" units="days" module="broccoli" variablename="maturity_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="stage" description="Plant stage" array="F" units="" module="broccoli" variablename="stage" arrayspec=" " ModuleType="broccoli" />
+            <variable name="cum_vernal_days" description="Cumulative vernalisation" array="F" units="vd" module="broccoli" variablename="cum_vernal_days" arrayspec=" " ModuleType="broccoli" />
+            <variable name="tt_tot" description="Thermal time spent in each crop stage" array="T" units="dd" module="broccoli" variablename="tt_tot" arrayspec=" " ModuleType="broccoli" />
+            <variable name="dlt_cumvd" description="Todays vd" array="F" units="" module="broccoli" variablename="dlt_cumvd" arrayspec=" " ModuleType="broccoli" />
+            <variable name="swdef_photo" description="Soil water deficit in photosynthesis" array="F" units="" module="broccoli" variablename="swdef_photo" arrayspec=" " ModuleType="broccoli" />
+            <variable name="nfact_photo" description="N factor for photosynthesis" array="F" units="" module="broccoli" variablename="nfact_photo" arrayspec=" " ModuleType="broccoli" />
+            <variable name="temp_stress_photo" description="Temperature Stress in photosynthesis" array="F" units="" module="broccoli" variablename="temp_stress_photo" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
     </area>
     <area name="Planting7">
       <registrations name="global" />
@@ -614,20 +782,6 @@
             <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
           </category>
         </rule>
-        <rule name="Harvest on a fixed date">
-          <condition name="start_of_day">
-        if (today = date('[date]') then
-                    [crop] harvest
-                    [crop] end_crop
-        endif
-               </condition>
-          <category name="Harvesting criteria">
-            <property name="date" value="25-aug" type="text" description="Enter sowing date (dd-mmm) : " />
-          </category>
-          <category name="Harvesting parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
-          </category>
-        </rule>
         <rule name="Irrigate at sowing">
           <condition name="[modulename].[eventname]"><![CDATA[
          if ([irrig_amount_evt] > 0) then
@@ -643,6 +797,20 @@
             <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
           </category>
         </rule>
+        <rule name="Harvest on a Growth Stage">
+          <condition name="start_of_day">
+        if ([crop].stage_name = '[stage]') then
+                    [crop] harvest
+                    [crop] end_crop
+        endif
+               </condition>
+          <category name="Harvesting criteria">
+            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
+          </category>
+          <category name="Harvesting parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+          </category>
+        </rule>
       </manager>
       <fertiliser name="fertiliser" />
       <surfaceom name="surface organic matter">
@@ -653,20 +821,6 @@
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
-      <outputfile name="outputfile">
-        <filename name="filename">GreenBelt1997 Planting7.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
-            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
-      </outputfile>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">on</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">300.0</property>
@@ -674,6 +828,48 @@
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
       <broccoli />
+      <outputfile name="final">
+        <filename name="filename">GreenBelt1997 Planting7 final.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="sowing_date" description="sowing date" array="F" units="days" module="broccoli" variablename="sowing_date" arrayspec=" " ModuleType="broccoli" />
+            <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" module="global" variablename="dd/mm/yyyy" arrayspec=" " ModuleType="registrations" />
+            <variable name="floral_initiation_das" description="Days from sowing to floral initiation" array="F" units="days" module="broccoli" variablename="floral_initiation_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="maturity_das" description="Days from sowing to maturity" array="F" units="days" module="broccoli" variablename="maturity_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="green_biomass_wt" description="Green Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="green_biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="pod_wt" description="Weight of pods" array="F" units="g/m^2" module="broccoli" variablename="pod_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="broccoli.harvesting" description="" module="broccoli" eventname="harvesting" ModuleType="broccoli" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <outputfile name="outputfile">
+        <filename name="filename">GreenBelt1997 Planting7.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="das" description="Days after Sowing" array="F" units="d" module="broccoli" variablename="das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="node_no" description="number of mainstem nodes per plant" array="F" units="nodes/plant" module="broccoli" variablename="node_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
+            <variable name="floral_initiation_das" description="Days from sowing to floral initiation" array="F" units="days" module="broccoli" variablename="floral_initiation_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="maturity_das" description="Days from sowing to maturity" array="F" units="days" module="broccoli" variablename="maturity_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="stage" description="Plant stage" array="F" units="" module="broccoli" variablename="stage" arrayspec=" " ModuleType="broccoli" />
+            <variable name="cum_vernal_days" description="Cumulative vernalisation" array="F" units="vd" module="broccoli" variablename="cum_vernal_days" arrayspec=" " ModuleType="broccoli" />
+            <variable name="tt_tot" description="Thermal time spent in each crop stage" array="T" units="dd" module="broccoli" variablename="tt_tot" arrayspec=" " ModuleType="broccoli" />
+            <variable name="dlt_cumvd" description="Todays vd" array="F" units="" module="broccoli" variablename="dlt_cumvd" arrayspec=" " ModuleType="broccoli" />
+            <variable name="swdef_photo" description="Soil water deficit in photosynthesis" array="F" units="" module="broccoli" variablename="swdef_photo" arrayspec=" " ModuleType="broccoli" />
+            <variable name="nfact_photo" description="N factor for photosynthesis" array="F" units="" module="broccoli" variablename="nfact_photo" arrayspec=" " ModuleType="broccoli" />
+            <variable name="temp_stress_photo" description="Temperature Stress in photosynthesis" array="F" units="" module="broccoli" variablename="temp_stress_photo" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
     </area>
     <area name="Planting8">
       <registrations name="global" />
@@ -709,20 +905,6 @@
             <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
           </category>
         </rule>
-        <rule name="Harvest on a fixed date">
-          <condition name="start_of_day">
-        if (today = date('[date]') then
-                    [crop] harvest
-                    [crop] end_crop
-        endif
-               </condition>
-          <category name="Harvesting criteria">
-            <property name="date" value="4-sep" type="text" description="Enter sowing date (dd-mmm) : " />
-          </category>
-          <category name="Harvesting parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
-          </category>
-        </rule>
         <rule name="Irrigate at sowing">
           <condition name="[modulename].[eventname]"><![CDATA[
          if ([irrig_amount_evt] > 0) then
@@ -738,6 +920,20 @@
             <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
           </category>
         </rule>
+        <rule name="Harvest on a Growth Stage">
+          <condition name="start_of_day">
+        if ([crop].stage_name = '[stage]') then
+                    [crop] harvest
+                    [crop] end_crop
+        endif
+               </condition>
+          <category name="Harvesting criteria">
+            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
+          </category>
+          <category name="Harvesting parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+          </category>
+        </rule>
       </manager>
       <fertiliser name="fertiliser" />
       <surfaceom name="surface organic matter">
@@ -748,20 +944,6 @@
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
-      <outputfile name="outputfile">
-        <filename name="filename">GreenBelt1997 Planting8.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
-            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
-      </outputfile>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">on</property>
         <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">300.0</property>
@@ -769,7 +951,53 @@
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
       <broccoli />
+      <outputfile name="final">
+        <filename name="filename">GreenBelt1997 Planting8 final.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="sowing_date" description="sowing date" array="F" units="days" module="broccoli" variablename="sowing_date" arrayspec=" " ModuleType="broccoli" />
+            <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" module="global" variablename="dd/mm/yyyy" arrayspec=" " ModuleType="registrations" />
+            <variable name="floral_initiation_das" description="Days from sowing to floral initiation" array="F" units="days" module="broccoli" variablename="floral_initiation_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="maturity_das" description="Days from sowing to maturity" array="F" units="days" module="broccoli" variablename="maturity_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="green_biomass_wt" description="Green Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="green_biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="pod_wt" description="Weight of pods" array="F" units="g/m^2" module="broccoli" variablename="pod_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="broccoli.harvesting" description="" module="broccoli" eventname="harvesting" ModuleType="broccoli" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <outputfile name="outputfile">
+        <filename name="filename">GreenBelt1997 Planting8.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="das" description="Days after Sowing" array="F" units="d" module="broccoli" variablename="das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="node_no" description="number of mainstem nodes per plant" array="F" units="nodes/plant" module="broccoli" variablename="node_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
+            <variable name="floral_initiation_das" description="Days from sowing to floral initiation" array="F" units="days" module="broccoli" variablename="floral_initiation_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="maturity_das" description="Days from sowing to maturity" array="F" units="days" module="broccoli" variablename="maturity_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="stage" description="Plant stage" array="F" units="" module="broccoli" variablename="stage" arrayspec=" " ModuleType="broccoli" />
+            <variable name="cum_vernal_days" description="Cumulative vernalisation" array="F" units="vd" module="broccoli" variablename="cum_vernal_days" arrayspec=" " ModuleType="broccoli" />
+            <variable name="tt_tot" description="Thermal time spent in each crop stage" array="T" units="dd" module="broccoli" variablename="tt_tot" arrayspec=" " ModuleType="broccoli" />
+            <variable name="dlt_cumvd" description="Todays vd" array="F" units="" module="broccoli" variablename="dlt_cumvd" arrayspec=" " ModuleType="broccoli" />
+            <variable name="swdef_photo" description="Soil water deficit in photosynthesis" array="F" units="" module="broccoli" variablename="swdef_photo" arrayspec=" " ModuleType="broccoli" />
+            <variable name="nfact_photo" description="N factor for photosynthesis" array="F" units="" module="broccoli" variablename="nfact_photo" arrayspec=" " ModuleType="broccoli" />
+            <variable name="temp_stress_photo" description="Temperature Stress in photosynthesis" array="F" units="" module="broccoli" variablename="temp_stress_photo" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
     </area>
+    <log name="log">
+      <debugoutput name="debugoutput">on</debugoutput>
+      <filename name="filename">log.txt</filename>
+    </log>
   </simulation>
   <folder name="shared">
     <soil name="#037 - UQ, Lawes,Black Vertosol">
@@ -973,13 +1201,13 @@
         </layer>
         <layer name="3">
           <ll>0.26</ll>
-          <kl>0</kl>
-          <xf>0</xf>
+          <kl>0.06</kl>
+          <xf>1</xf>
         </layer>
         <layer name="4">
           <ll>0.26</ll>
-          <kl>0</kl>
-          <xf>0</xf>
+          <kl>0.01</kl>
+          <xf>1</xf>
         </layer>
         <layer name="5">
           <ll>0.25</ll>
@@ -999,4 +1227,138 @@
       </SoilCrop>
     </soil>
   </folder>
+  <simulation name="Mulgowie2005">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">1/03/2005</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">10/11/2005</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Mulgowie2005.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\development\apsim\Broccoli\Validation\UQG2005.met</filename>
+    </metfile>
+    <area name="Planting1">
+      <registrations name="global" />
+      <manager name="Manager">
+        <rule name="Sowing fertiliser">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+      if (today = date('[date]') then
+                    [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+        endif
+               </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="11-mar" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="6" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+          </category>
+        </rule>
+        <rule name="Harvest on a Growth Stage">
+          <condition name="start_of_day">
+        if ([crop].stage_name = '[stage]') then
+                    [crop] harvest
+                    [crop] end_crop
+        endif
+               </condition>
+          <category name="Harvesting criteria">
+            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
+          </category>
+          <category name="Harvesting parameters">
+            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+          </category>
+        </rule>
+        <rule name="Irrigate at sowing">
+          <condition name="[modulename].[eventname]"><![CDATA[
+         if ([irrig_amount_evt] > 0) then
+            '[irrigatemodule]' apply amount = [irrig_amount_evt] (mm)
+         endif
+   ]]></condition>
+          <category name="When should irrigation be applied">
+            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+          </category>
+          <category name="Irrigation application details">
+            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
+            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+          </category>
+        </rule>
+      </manager>
+      <fertiliser name="fertiliser" />
+      <surfaceom name="surface organic matter">
+        <PoolName description="Organic Matter pool name">wheat</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">1000.</mass>
+        <cnr description="C:N ration of initial residue">80.0</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
+      <outputfile name="outputfile">
+        <filename name="filename">Mulgowie2005 Planting1.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="broccoli" variablename="lai" arrayspec=" " ModuleType="broccoli" />
+            <variable name="floral_initiation_das" description="Days from sowing to floral initiation" array="F" units="days" module="broccoli" variablename="floral_initiation_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="maturity_das" description="Days from sowing to maturity" array="F" units="days" module="broccoli" variablename="maturity_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="stage" description="Plant stage" array="F" units="" module="broccoli" variablename="stage" arrayspec=" " ModuleType="broccoli" />
+            <variable name="cum_vernal_days" description="Cumulative vernalisation" array="F" units="vd" module="broccoli" variablename="cum_vernal_days" arrayspec=" " ModuleType="broccoli" />
+            <variable name="tt_tot" description="Thermal time spent in each crop stage" array="T" units="dd" module="broccoli" variablename="tt_tot" arrayspec=" " ModuleType="broccoli" />
+            <variable name="dlt_cumvd" description="Todays vd" array="F" units="" module="broccoli" variablename="dlt_cumvd" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">on</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">300.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <broccoli />
+      <outputfile name="final">
+        <filename name="filename">Mulgowie2005 Planting1 final.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="sowing_date" description="sowing date" array="F" units="days" module="broccoli" variablename="sowing_date" arrayspec=" " ModuleType="broccoli" />
+            <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" module="global" variablename="dd/mm/yyyy" arrayspec=" " ModuleType="registrations" />
+            <variable name="floral_initiation_das" description="Days from sowing to floral initiation" array="F" units="days" module="broccoli" variablename="floral_initiation_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="maturity_das" description="Days from sowing to maturity" array="F" units="days" module="broccoli" variablename="maturity_das" arrayspec=" " ModuleType="broccoli" />
+            <variable name="green_biomass_wt" description="Green Biomass weight" array="F" units="g/m^2" module="broccoli" variablename="green_biomass_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="pod_wt" description="Weight of pods" array="F" units="g/m^2" module="broccoli" variablename="pod_wt" arrayspec=" " ModuleType="broccoli" />
+            <variable name="leaf_no" description="number of leaves per square meter" array="F" units="leaves/m2" module="broccoli" variablename="leaf_no" arrayspec=" " ModuleType="broccoli" />
+          </variables>
+          <events>
+            <event name="broccoli.harvesting" description="" module="broccoli" eventname="harvesting" ModuleType="broccoli" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+    </area>
+    <log name="log">
+      <debugoutput name="debugoutput">off</debugoutput>
+      <filename name="filename">log.txt</filename>
+    </log>
+  </simulation>
 </simulations>
