@@ -48,7 +48,7 @@ class PlantPhenology : public plantThing {
    PlantComponent *parentPlant;
 
    // State variables
-   std::vector<pPhase>     phases;                        // The list of phases that this plant goes through
+   std::vector<pPhase*>     phases;                        // The list of phases that this plant goes through
 
    typedef std::map<string, compositePhase> string2composite;
    string2composite   composites;                    // Composite phases we know about
@@ -59,7 +59,6 @@ class PlantPhenology : public plantThing {
    // Parameters
    std::vector<string>   iniSectionList;                  // list of sections to search in ini file
    bool initialOnBiomassRemove;
-   string removeBiomassReport;
 
    float twilight;                                   // twilight in angular distance between
                                                      // sunset and end of twilight - altitude
@@ -74,6 +73,7 @@ class PlantPhenology : public plantThing {
    void get_phase_tt(protocol::Component *, protocol::QueryValueData &);
    void get_tt_tot(protocol::Component *, protocol::QueryValueData &);
    void get_days_tot(protocol::Component *, protocol::QueryValueData &);
+   pPhase* find(const string& phase_name);
 
  public:
    PlantPhenology(PlantComponent *s, plantInterface *p);

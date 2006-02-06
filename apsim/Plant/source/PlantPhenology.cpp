@@ -12,6 +12,8 @@
 #include "PlantLibrary.h"
 #include "PlantPhenology.h"
 #include "Environment.h"
+#include "FixedPhase.h"
+#include "VernalPhase.h"
 
 PlantPhenology::PlantPhenology(PlantComponent *s, plantInterface *p)
    {
@@ -21,21 +23,40 @@ PlantPhenology::PlantPhenology(PlantComponent *s, plantInterface *p)
 
 void PlantPhenology::readConstants (protocol::Component *s, const string &section)
 {
-   phases.push_back(pPhase("out"));
+
+   phases.push_back(new pPhase("out"));
    currentStage = 0.0;
    initialOnBiomassRemove = true;
-   removeBiomassReport = "off";
 
    // Read the sequential list of stage names
    string scratch = s->readParameter(section, "stage_names");
+   string ptypes = s->readParameter(section, "phase_type");
+   string pnames = s->readParameter(section, "phase_names");
+
    vector<string> stage_names;
+   vector<string> phase_types;
+   vector<string> phase_names;
    Split_string(scratch, " ", stage_names);
+   Split_string(ptypes, " ", phase_types);
+   Split_string(pnames, " ", phase_names);
+
    if (stage_names.size() == 0) throw std::runtime_error("No stage names found");
-   for (vector<string>::iterator sn = stage_names.begin();
-        sn !=  stage_names.end();
-        sn++)
+   for (unsigned i=0;i!=phase_names.size();i++)
       {
-      phases.push_back(*sn);
+      if(phase_types[i]=="generic")
+         {
+         phases.push_back(new pPhase(phase_names[i]));
+         }
+      else if(phase_types[i]=="vernal")
+         {
+         VernalPhase* vernal = new VernalPhase(phase_names[i]);
+         phases.push_back(vernal);
+         }
+      else
+         {
+         pPhase* newPhase = new FixedPhase(phase_names[i]);
+         phases.push_back(newPhase);
+         }
       }
 
    //XX composites need to be defined as "start stage, end stage" pairs.
@@ -55,8 +76,8 @@ void PlantPhenology::readConstants (protocol::Component *s, const string &sectio
            phase !=  composite_names.end();
            phase++)
          {
-         pPhase *p = find(phases.begin(), phases.end(), *phase);
-         if (p != phases.end())
+         pPhase *p = find(*phase);
+         if (p != NULL)
            composite.add(p);
          else
            throw std::invalid_argument("Unknown phase name '" + (*phase) + "'");
@@ -67,10 +88,20 @@ void PlantPhenology::readConstants (protocol::Component *s, const string &sectio
    // Register stage names as events (eg. flowering)
    for (unsigned i = 0; i != phases.size(); i++)
       {
-      s->addRegistration(RegistrationType::event, phases[i].name().c_str(),
+      s->addRegistration(RegistrationType::event, phases[i]->name().c_str(),
                          "", "", "");
       }
 };
+
+pPhase* PlantPhenology::find(const string& PhaseName)
+   {
+   for(unsigned i=0; i!=phases.size();i++)
+      {
+      if(phases[i]->name()==PhaseName)
+         return phases[i];
+      }
+      return NULL;
+   }
 
 void PlantPhenology::doRegistrations (protocol::Component *s)
 {
@@ -112,7 +143,7 @@ void PlantPhenology::prepare(const environment_t &sw)
 
 void PlantPhenology::update(void)
    {
-   phases[(int)currentStage].update();
+   phases[(int)currentStage]->update();
    }
 
 
@@ -120,8 +151,10 @@ void PlantPhenology::update(void)
 bool PlantPhenology::on_day_of(const string &stageName)
    {
    const pPhase *trial = getStage(stageName);
-   const pPhase &current = phases[(int)currentStage];
-   if (current == *trial)
+   if (trial == NULL) return false;
+
+   const pPhase *current = phases[(int)currentStage];
+   if (*current == *trial)
       return (trial->isFirstDay());
    return false;
    }
@@ -132,35 +165,28 @@ bool PlantPhenology::inPhase(const string &phase_name)
    // See if it's a composite
    compositePhase phase = composites[phase_name];
    if (!phase.isEmpty())
-   	 return phase.contains(phases[(int)currentStage]);
+   	 return phase.contains(*phases[(int)currentStage]);
 
    // No, see if the stage is known at all to us
-   pPhase *test = find(phases.begin(), phases.end(), pPhase(phase_name));
-   if (test == phases.end()) { throw std::runtime_error("unknown phase name " + phase_name);}
-   const pPhase &current = phases[(int)currentStage];
-   return(current == *test);
+   pPhase *test = find(phase_name);
+   // Do not check in with this commented out - NIH
+   //if (test == phases.end()) { throw std::runtime_error("unknown phase name1 " + phase_name);}
+   const pPhase *current = phases[(int)currentStage];
+   return(*current == *test);
    }
 
 pPhase *PlantPhenology::getStage(const string &name)
    {
-   pPhase test(name);
-   for (vector<pPhase>::iterator s = phases.begin();
-        s != phases.end();
-        s++)
-       {
-       if (*s == test) return s;
-       }
-   throw std::runtime_error(string("Can't find a stage called ") + name);
-// Alternate:
-//	pStage *pos = find(phases.begin(), phases.end(), pPhase(name));
-//	if (pos == phases.end()) throw std::runtime_error(string("Can't find stage ") + stage);
-//   return pos;
+	pPhase *pos = find(name);
+   // Do not check in with this commented out - NIH
+	//if (pos == NULL) throw std::runtime_error(string("Can't find stage ") + name);
+   return pos;
    }
 
 int PlantPhenology::daysInCurrentPhase(void)
    {
-   const pPhase &current = phases[currentStage];
-   return current.getDays();
+   const pPhase *current = phases[currentStage];
+   return current->getDays();
    }
 
 float PlantPhenology::ttInPhase(const string &phaseName)
@@ -174,10 +200,10 @@ float PlantPhenology::ttInPhase(const string &phaseName)
       else
       {
          // No, see if the stage is known at all to us
-         pPhase *phase = find(phases.begin(), phases.end(), pPhase(phaseName));
-         if (phase == phases.end())
+         pPhase *phase = find(phaseName);
+         if (phase == NULL)
          {
-            throw std::runtime_error("unknown phase name " + phaseName);
+            throw std::runtime_error("unknown phase name2 " + phaseName);
          }
          else
          {
@@ -188,8 +214,8 @@ float PlantPhenology::ttInPhase(const string &phaseName)
 
 float PlantPhenology::ttInCurrentPhase(void)
    {
-	const pPhase &current = phases[currentStage];
-	return current.getTT();
+	const pPhase *current = phases[currentStage];
+	return current->getTT();
    }
 
 int PlantPhenology::daysInPhase(const string &phaseName)
@@ -203,10 +229,10 @@ int PlantPhenology::daysInPhase(const string &phaseName)
       else
       {
          // No, see if the stage is known at all to us
-         pPhase *phase = find(phases.begin(), phases.end(), pPhase(phaseName));
-         if (phase == phases.end())
+         pPhase *phase = find(phaseName);
+         if (phase == NULL)
          {
-            throw std::runtime_error("unknown phase name " + phaseName);
+            throw std::runtime_error("unknown phase name3 " + phaseName);
          }
          else
          {
@@ -218,16 +244,16 @@ int PlantPhenology::daysInPhase(const string &phaseName)
 string PlantPhenology::stageName(void)
    {
    unsigned int stage_no = (unsigned int) currentStage;
-   return string(phases[stage_no].name());
+   return string(phases[stage_no]->name());
    }
 string PlantPhenology::stageName(int n)
    {
-   return phases[n].name();
+   return phases[n]->name();
    }
 string PlantPhenology::previousStageName(void)
    {
    unsigned int stage_no = (unsigned int) previousStage;
-   return string(phases[stage_no].name());
+   return string(phases[stage_no]->name());
    }
 
 //  Purpose
@@ -235,10 +261,10 @@ string PlantPhenology::previousStageName(void)
 //       phenological phase (0-1)
 float PlantPhenology::phase_fraction(float dlt_tt) //(INPUT)  daily thermal time (growing degree days)
    {
-   const pPhase &current = phases[(int) currentStage];
+   const pPhase *current = phases[(int) currentStage];
 
-   float dividend = current.getTT() + dlt_tt;
-   float divisor = current.getTTTarget();
+   float dividend = current->getTT() + dlt_tt;
+   float divisor = current->getTTTarget();
    float result = divide (dividend, divisor, 0.0);
    result = bound(result, 0.0, 1.0);
    return result;
@@ -246,7 +272,7 @@ float PlantPhenology::phase_fraction(float dlt_tt) //(INPUT)  daily thermal time
 void PlantPhenology::zeroAllGlobals(void)
    {
    previousStage = currentStage = 0.0;
-   for (unsigned int i=0; i < phases.size(); i++) phases[i].reset();
+   for (unsigned int i=0; i < phases.size(); i++) phases[i]->reset();
    day_of_year = 0;
    }
 
@@ -258,10 +284,10 @@ void PlantPhenology::zeroAllGlobals(void)
 float PlantPhenology::stageCode (void)
     {
     if (currentStage < 3.0) return 3.0;
-    if (phases[currentStage].isFirstDay())
+    if (phases[currentStage]->isFirstDay())
         {
-        float tt_tot = phases[currentStage].getTT();
-        float phase_tt = phases[currentStage].getTTTarget();
+        float tt_tot = phases[currentStage]->getTT();
+        float phase_tt = phases[currentStage]->getTTTarget();
         float fraction_of = divide (tt_tot, phase_tt, 0.0);
         fraction_of = bound(fraction_of, 0.0, 0.999);
         return((int)currentStage +  fraction_of);
@@ -274,7 +300,7 @@ float PlantPhenology::stageCode (void)
 void PlantPhenology::get_stage_name(protocol::Component *s, protocol::QueryValueData &qd)
    {
    unsigned int stage_no = (unsigned int) currentStage;
-   s->sendVariable(qd, phases[stage_no].name());
+   s->sendVariable(qd, phases[stage_no]->name());
    }
 void PlantPhenology::get_stage_code(protocol::Component *s, protocol::QueryValueData &qd)
    {
@@ -287,19 +313,19 @@ void PlantPhenology::get_stage_code(protocol::Component *s, protocol::QueryValue
 void PlantPhenology::get_phase_tt(protocol::Component *s, protocol::QueryValueData &qd)
    {
    vector<float> t;
-   for(unsigned int i=1; i < phases.size(); i++) t.push_back(phases[i].getTTTarget());
+   for(unsigned int i=1; i < phases.size(); i++) t.push_back(phases[i]->getTTTarget());
    s->sendVariable(qd, t);
    }
 void PlantPhenology::get_tt_tot(protocol::Component *s, protocol::QueryValueData &qd)
    {
    vector<float> t;
-   for(unsigned int i=1; i < phases.size(); i++) t.push_back(phases[i].getTT());
+   for(unsigned int i=1; i < phases.size(); i++) t.push_back(phases[i]->getTT());
    s->sendVariable(qd, t);
    }
 void PlantPhenology::get_days_tot(protocol::Component *s, protocol::QueryValueData &qd)
    {
    vector<float> t;
-   for(unsigned int i=1; i < phases.size(); i++) t.push_back(phases[i].getDays());
+   for(unsigned int i=1; i < phases.size(); i++) t.push_back(phases[i]->getDays());
    s->sendVariable(qd, t);
    }
 

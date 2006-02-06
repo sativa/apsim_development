@@ -5,12 +5,12 @@ using namespace std;
 
 void CropPhenology::zeroDeltas(void)
    {
-   dlt_tt = dlt_tt_phenol = dlt_cumvd = 0.0;
+   dlt_tt = dlt_tt_phenol  = 0.0;
    }
 void CropPhenology::zeroAllGlobals(void)
    {
    PlantPhenology::zeroAllGlobals();
-   das = cumvd = 0.0;
+   das = 0.0;
    }
 void CropPhenology::readConstants (protocol::Component *s, const string &section)
    {
@@ -27,7 +27,7 @@ void CropPhenology::doRegistrations (protocol::Component *s)
    parentPlant->addGettableVar("das", das,               "d", "Days after Sowing");
    parentPlant->addGettableVar("dlt_tt_phenol", dlt_tt_phenol,"dd", "Todays thermal time (incl. stress factors)");
    parentPlant->addGettableVar("dlt_tt", dlt_tt,         "dd", "Todays thermal time (no stress factors)");
-   parentPlant->addGettableVar("dlt_cumvd", dlt_cumvd,   "", "Todays vd");
+
    }
 
 void CropPhenology::onSow(unsigned &, unsigned &, protocol::Variant &v)
@@ -55,7 +55,7 @@ void CropPhenology::onHarvest(unsigned &, unsigned &, protocol::Variant &)
    previousStage = currentStage;
    currentStage = stage_reduction_harvest[currentStage];
    for (unsigned int stage = currentStage; stage != phases.size(); stage++)
-      phases[stage].reset();
+      phases[stage]->reset();
    }
 
 void CropPhenology::onKillStem(unsigned &, unsigned &, protocol::Variant &)
@@ -63,7 +63,7 @@ void CropPhenology::onKillStem(unsigned &, unsigned &, protocol::Variant &)
    previousStage = currentStage;
    currentStage = stage_reduction_kill_stem[currentStage];
    for (unsigned int stage = (int)currentStage; stage != phases.size(); stage++)
-      phases[stage].reset();
+      phases[stage]->reset();
    }
 
 void CropPhenology::readSpeciesParameters(protocol::Component *s, vector<string> &sections)

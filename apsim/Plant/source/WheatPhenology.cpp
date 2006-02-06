@@ -8,10 +8,14 @@
 #include "PlantPhenology.h"
 #include "Environment.h"
 ///////////////////////////WHEAT///////////////////////////////////
+void WheatPhenology::zeroDeltas(void)
+   {
+   dlt_cumvd = 0.0;
+   }
 void WheatPhenology::zeroAllGlobals(void)
    {
    CropPhenology::zeroAllGlobals();
-   vern_eff = photop_eff = 0.0;
+   vern_eff = photop_eff = cumvd = 0.0;
    }
 
 void WheatPhenology::readConstants (protocol::Component *s, const string &section)
@@ -195,8 +199,8 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
                        min(vern_eff, photop_eff) *
                        rel_emerg_rate[fasw_seed];
 
-      const pPhase &current = phases[currentStage];
-      phase_devel = divide(current.getTT() + dlt_tt_phenol, current.getTTTarget(), 1.0);
+      const pPhase *current = phases[currentStage];
+      phase_devel = divide(current->getTT() + dlt_tt_phenol, current->getTTTarget(), 1.0);
       new_stage = floor(currentStage) + phase_devel;
       }
    else if (inPhase("above_ground"))
@@ -214,8 +218,8 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
                       fstress *
                       min(vern_eff, photop_eff);
 
-      const pPhase &current = phases[currentStage];
-      phase_devel = divide(current.getTT() + dlt_tt_phenol, current.getTTTarget(), 1.0);
+      const pPhase *current = phases[currentStage];
+      phase_devel = divide(current->getTT() + dlt_tt_phenol, current->getTTTarget(), 1.0);
       new_stage = floor(currentStage) + phase_devel;
       }
    else
@@ -255,8 +259,8 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
          if (reals_are_equal(fmod(p_index,1.0),0.0))
             {
             fract_in_old = 1.0 - divide(index_devel - 1.0, dlt_index, 0.0);
-            portion_in_old = fract_in_old * (value + phases[current_index].getTT())-
-                                 phases[current_index].getTT();
+            portion_in_old = fract_in_old * (value + phases[current_index]->getTT())-
+                                 phases[current_index]->getTT();
             }
          else
             {
@@ -264,12 +268,12 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
             portion_in_old = fract_in_old * value;
             }
          portion_in_new = value - portion_in_old;
-         phases[current_index].add(fract_in_old, portion_in_old);
-         phases[new_index].add(1.0-fract_in_old, portion_in_new);
+         phases[current_index]->add(fract_in_old, portion_in_old);
+         phases[new_index]->add(1.0-fract_in_old, portion_in_new);
          }
       else
          {
-         phases[current_index].add(1.0, value);
+         phases[current_index]->add(1.0, value);
          }
       }
    }
@@ -282,7 +286,7 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
    if ((unsigned int)currentStage >= phases.size() || currentStage < 0.0)
      throw std::runtime_error("stage has gone wild in WheatPhenology::process()..");
 
-   if ((int)currentStage != (int)previousStage) plant->doPlantEvent(phases[(int)currentStage].name());
+   if ((int)currentStage != (int)previousStage) plant->doPlantEvent(phases[(int)currentStage]->name());
    cumvd += dlt_cumvd;
    das++;
    }
@@ -443,10 +447,11 @@ void WheatPhenology::doRegistrations (protocol::Component *s)
    parentPlant->addGettableVar("cum_vernal_days", cumvd, "vd", "Cumulative vernalisation");
    parentPlant->addGettableVar("vern_eff", vern_eff,     "", "Vernalisation effect");
    parentPlant->addGettableVar("photop_eff", photop_eff, "", "Photoperiod effect");
-
+   parentPlant->addGettableVar("dlt_cumvd", dlt_cumvd,   "", "Todays vd");
 
    setupGetFunction(parentPlant, "zadok_stage", protocol::DTsingle, false,
                     &WheatPhenology::get_zadok_stage,
                     "0-100", "Zadok's growth developmental stage");
 
    }
+   
