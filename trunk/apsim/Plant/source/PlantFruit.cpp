@@ -1966,7 +1966,7 @@ float PlantFruit::dltDmRetranslocate(void)
   return dlt.dm_green_retrans;
 }
 
-float PlantFruit::interceptRadiation (float radiation) {podPart->interceptRadiation(radiation);}
+float PlantFruit::interceptRadiation (float radiation) {return podPart->interceptRadiation(radiation);}
 void PlantFruit::dm_pot_rue (double  radn_int_pod ) {podPart->dm_pot_rue(radn_int_pod);}
 void PlantFruit::transp_eff_co2() {podPart->transp_eff_co2();}
 void PlantFruit::sw_demand1(float *sw_demand) {podPart->sw_demand1(sw_demand);}

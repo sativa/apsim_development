@@ -4188,7 +4188,7 @@ void Plant::legnew_dm_partition1( float  c_frac_leaf                   // (INPUT
         leafPart->dlt.dm_green = c_frac_leaf * dm_remaining;
 
             // limit the delta leaf area to maximum
-        dlt_dm_leaf_max = leafPart->dltDmCapacity(); 
+        dlt_dm_leaf_max = leafPart->dltDmCapacity();
         leafPart->dlt.dm_green = u_bound (leafPart->dlt.dm_green, dlt_dm_leaf_max);
 
         dm_remaining -= leafPart->dlt.dm_green;
@@ -4277,7 +4277,7 @@ void Plant::legnew_dm_partition1( float  c_frac_leaf                   // (INPUT
         leafPart->dlt.dm_green = frac_leaf * dm_remaining;
 
         // limit the delta leaf area to maximum
-        dlt_dm_leaf_max = leafPart->dltDmCapacity(); 
+        dlt_dm_leaf_max = leafPart->dltDmCapacity();
         leafPart->dlt.dm_green = u_bound (leafPart->dlt.dm_green, dlt_dm_leaf_max);
 
         dm_remaining -= leafPart->dlt.dm_green;
@@ -5406,7 +5406,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     float deadLAI = leafPart->gTLAI_dead + leafPart->gLAI; // Save
     leafPart->onEmergence();
     leafPart->gTLAI_dead = deadLAI;
-    
+
     // JNGH need to account for dead pai
     g.pai = 0.0;
 
@@ -9492,8 +9492,8 @@ void Plant::get_dlt_n_senesced_dead(protocol::Component *systemInterface, protoc
    vector<float>  dlt_n_senesced_dead;
    setupHacks(parts);
 
+   for (part = parts.begin(); part != parts.end(); part++)
       (*part)->get_dlt_n_senesced_dead(dlt_n_senesced_dead);
-      dlt_n_senesced_dead.push_back((*part)->dlt.n_senesced_dead);
 
    systemInterface->sendVariable(qd, dlt_n_senesced_dead);
    deleteHacks(parts);
