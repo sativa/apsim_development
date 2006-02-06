@@ -1,0 +1,183 @@
+!********************************************************************************
+[sample.report.parameters]
+outputfile    =barley.out
+
+
+variable = clock.dd/mm/yyyy as Date
+variable = met.rain as rain
+variable = barley.das
+variable = barley.stage
+variable = barley.lai
+variable = barley.biomass
+variable = barley.yield
+variable = barley.root_depth
+variable = barley.ep
+variable = barley.dm_green(1)
+variable = barley.dm_green(2)
+variable = barley.dm_green_leaf
+variable = barley.dm_green(3)
+variable = barley.dm_green_stem
+variable = barley.dm_green(4)
+variable = barley.dm_green_pod
+variable = barley.dm_green(5)
+variable = barley.dm_green_meal
+variable = barley.dm_green(6)
+variable = barley.dm_green_oil
+variable = barley.dlt_dm_green_retrans
+variable = barley.dm_senesced
+variable = barley.dm_dead
+variable = barley.dm_plant_min
+variable = barley.dlt_dm_green(1)
+variable = barley.dlt_dm_green(2)
+variable = barley.dlt_dm_green_leaf
+variable = barley.dlt_dm_green(3)
+variable = barley.dlt_dm_green_stem
+variable = barley.dlt_dm_green(4)
+variable = barley.dlt_dm_green_pod
+variable = barley.dlt_dm_green(5)
+variable = barley.dlt_dm_green_meal
+variable = barley.dlt_dm_green(6)
+variable = barley.dlt_dm_green_oil
+variable = barley.dlt_dm_green_retrans
+variable = barley.dlt_dm_detached
+variable = barley.dlt_dm_senesced
+variable = barley.grain_no
+variable = barley.grain_size
+variable = barley.pod_wt
+variable = barley.grain_wt
+variable = barley.meal_wt
+variable = barley.oil_wt
+variable = barley.head_wt
+variable = barley.yield
+variable = barley.n_green(1)
+variable = barley.n_green(2)
+variable = barley.n_green_leaf
+variable = barley.n_green(3)
+variable = barley.n_green_stem
+variable = barley.n_green(4)
+variable = barley.n_green_pod
+variable = barley.n_green(5)
+variable = barley.n_green_meal
+variable = barley.n_green(6)
+variable = barley.n_green_oil
+variable = barley.n_green_fruit
+variable = barley.n_senesced(1)
+variable = barley.n_senesced(2)
+variable = barley.n_senesced_leaf
+variable = barley.n_senesced(3)
+variable = barley.n_senesced_stem
+variable = barley.n_senesced(4)
+variable = barley.n_senesced_pod
+variable = barley.n_senesced(5)
+variable = barley.n_senesced_meal
+variable = barley.n_senesced(6)
+variable = barley.n_senesced_oil
+variable = barley.n_senesced_fruit
+variable = barley.dlt_n_green(1)
+variable = barley.dlt_n_green(2)
+variable = barley.dlt_n_green_leaf
+variable = barley.dlt_n_green(3)
+variable = barley.dlt_n_green_stem
+variable = barley.dlt_n_green(4)
+variable = barley.dlt_n_green_pod
+variable = barley.dlt_n_green(5)
+variable = barley.dlt_n_green_meal
+variable = barley.dlt_n_green(6)
+variable = barley.dlt_n_green_oil
+variable = barley.dlt_n_green_fruit
+variable = barley.dlt_n_retrans(1)
+variable = barley.dlt_n_retrans(2)
+variable = barley.dlt_n_retrans_leaf
+variable = barley.dlt_n_retrans(3)
+variable = barley.dlt_n_retrans_stem
+variable = barley.dlt_n_retrans(4)
+variable = barley.dlt_n_retrans_pod
+variable = barley.dlt_n_retrans(5)
+variable = barley.dlt_n_retrans_meal
+variable = barley.dlt_n_retrans(6)
+variable = barley.dlt_n_retrans_oil
+variable = barley.dlt_n_retrans_fruit
+!variable = barley.dlt_n_senesced_trans
+variable = barley.dlt_n_senesced_trans(1)
+variable = barley.dlt_n_senesced_trans(2)
+variable = barley.dlt_n_senesced_trans_leaf
+variable = barley.dlt_n_senesced_trans(3)
+variable = barley.dlt_n_senesced_trans_stem
+variable = barley.dlt_n_senesced_trans(4)
+variable = barley.dlt_n_senesced_trans_pod
+variable = barley.dlt_n_senesced_trans(5)
+variable = barley.dlt_n_senesced_trans_meal
+variable = barley.dlt_n_senesced_trans(6)
+variable = barley.dlt_n_senesced_trans_oil
+variable = barley.dlt_n_senesced_trans_fruit
+variable = barley.dlt_n_senesced_retrans(1)
+variable = barley.dlt_n_senesced_retrans(2)
+variable = barley.dlt_n_senesced_retrans_leaf
+variable = barley.dlt_n_senesced_retrans(3)
+variable = barley.dlt_n_senesced_retrans_stem
+variable = barley.dlt_n_senesced_retrans(4)
+variable = barley.dlt_n_senesced_retrans_pod
+variable = barley.dlt_n_senesced_retrans(5)
+variable = barley.dlt_n_senesced_retrans_meal
+variable = barley.dlt_n_senesced_retrans(6)
+variable = barley.dlt_n_senesced_retrans_oil
+variable = barley.dlt_n_senesced_retrans_fruit
+variable = barley.dlt_n_senesced(1)
+variable = barley.dlt_n_senesced(2)
+variable = barley.dlt_n_senesced_leaf
+variable = barley.dlt_n_senesced(3)
+variable = barley.dlt_n_senesced_stem
+variable = barley.dlt_n_senesced(4)
+variable = barley.dlt_n_senesced_pod
+variable = barley.dlt_n_senesced(5)
+variable = barley.dlt_n_senesced_meal
+variable = barley.dlt_n_senesced(6)
+variable = barley.dlt_n_senesced_oil
+variable = barley.dlt_n_senesced_fruit
+variable = barley.n_demand
+variable = barley.n_demanded(1)
+variable = barley.n_demanded(2)
+variable = barley.n_demand_leaf
+variable = barley.n_demanded(3)
+variable = barley.n_demand_stem
+variable = barley.n_demanded(4)
+variable = barley.n_demand_pod
+variable = barley.n_demanded(5)
+variable = barley.n_demand_meal
+variable = barley.n_demanded(6)
+variable = barley.n_demand_oil
+variable = barley.n_demand_fruit
+vvariable = barley.grain_n_demand
+variable = barley.nfact_grain
+
+
+[sample.clock.parameters]
+start_date=14/6/1988     ! dd/mm/yyyy
+end_date=17/11/1988     ! dd/mm/yyyy
+
+
+[sample.manager.start_of_day]
+
+if day = 169 and year = 1988 then
+   barley sow cultivar = strzelecki, plants = 120, sowing_depth = 30 (mm)
+endif
+
+if barley.stage_name = 'harvest_ripe' or barley.plant_status = 'dead' then
+   barley harvest
+   barley end_crop
+endif
+
+[sample.manager.end_of_day]
+   report do_output
+
+
+[sample.barley.parameters]
+ll =  0.230   0.240   0.240   0.250   0.260   0.270   0.280 ()!cm3 water/cm3 soil
+kl =  0.07    0.07    0.07    0.07    0.05    0.05    0.04  ()
+XF =  1.0     1.0     1.0     1.0     1.0     1.0     1.0   ()
+
+[sample.Screen.parameters]
+screen_output = on
+
+[sample.summaryfile.parameters]
+summaryfile=barley.sum
