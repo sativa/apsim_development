@@ -20,12 +20,12 @@
 #include "PlantInterface.h"
 #include "PlantLibrary.h"
 #include "Plant.h"
-#include "PlantParts.h"
+#include "LeafPart.h"
 using namespace std;
 
 const float  tolerance_lai = 1.0e-4 ;
 
-// Read Constants 
+// Read Constants
 void plantLeafPart::readConstants (protocol::Component *system, const string &section)
 {
     plantPart::readConstants(system, section);
@@ -360,7 +360,7 @@ void plantLeafPart::checkBounds(void)
 //    leaf_area_tot = 0.0;
 //    for (int node = 0; node < max_node; node++)
 //      {
-//      leaf_area_tot += 
+//      leaf_area_tot +=
 //                  divide (gLeafNoDead[node], gLeafNo[node], 0.0)
 //                     * gLeafArea[node]
 //                     * plant->getPlants() * smm2sm;
@@ -387,7 +387,7 @@ void plantLeafPart::actual(void)
    this->leaf_area_actual ();
    this->leaf_no_actual ();
    }
-   
+
 //Purpose
 //   Simulate actual crop leaf area development - checks that leaf area
 //   development matches D_m production via a maximum specific leaf area
@@ -406,7 +406,7 @@ void plantLeafPart::leaf_area_actual(void)
 //   Simulate actual leaf number increase as limited by dry matter production.
 void plantLeafPart::leaf_no_actual (void)
    {
-   //ratio of actual to potential lai 
+   //ratio of actual to potential lai
    float lai_ratio = divide (dltLAI, dltLAI_stressed, 0.0);
 
    //ratio of actual to potential leaf appearance
@@ -526,7 +526,7 @@ void plantLeafPart::leaf_no_pot (int option, float stressFactor, float dlt_tt)
 
 //+  Purpose
 //  Calculate the potential increase in leaf area development (mm^2)
-//  on an individual leaf basis, with account taken of the area of 
+//  on an individual leaf basis, with account taken of the area of
 //  currently expanding leaves (node_no_correction).
 void plantLeafPart::leaf_area_potential ()
    {
@@ -561,12 +561,12 @@ void plantLeafPart::detachment (void)
                                , plant->getPlants()
                                , max_node);
    }
-   
+
 //   Calculate todays leaf area senescence
-void plantLeafPart::leaf_area_sen(float swdef_photo , float mint) 
+void plantLeafPart::leaf_area_sen(float swdef_photo , float mint)
 {
     float plants = plant->getPlants();
-    
+
     dltSLAI_age = legopt_leaf_area_sen_age1( gLeafNo
                               , gLeafNoDead
                               , dltLeafNoDead
@@ -693,7 +693,7 @@ void plantLeafPart::remove_detachment (float dlt_slai_detached, float dlt_lai_re
          break;
          }
       }
-  
+
    // calc new leaf number
    int newNodeNo = 1.0 + gNodeNo;
    for (int node = newNodeNo - 1; node < max_node; node++)

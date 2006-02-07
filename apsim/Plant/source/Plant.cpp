@@ -22,6 +22,11 @@
 #include "Plant.h"
 #include "PlantParts.h"
 #include "PlantFruit.h"
+#include "StemPart.h"
+#include "LeafPart.h"
+#include "PodPart.h"
+#include "MealPart.h"
+#include "OilPart.h"
 #include "Observers.h"
 #include "ReproStruct.h"
 #include "MaizePhenology.h"
@@ -50,6 +55,28 @@ void push_routine (const char *) {};
 void pop_routine (const char *) {};
 
 /////////////////////////
+//////---------------------------
+// Hacks to set up and delete part arrays
+// The "hacks" will not have usable parameter/constants, but most state variables will be OK.
+void Plant::setupHacks(vector<plantPart *> &parts)
+   {
+   plantPart *x = new plantPartHack(this, root, "root");
+
+   parts.push_back(x);
+   parts.push_back(leafPart);
+   parts.push_back(stemPart);
+   parts.push_back(fruitPart);
+   }
+void Plant::deleteHacks(vector<plantPart *> &parts)
+   {
+   vector<plantPart *>::iterator part;
+   for (part = parts.begin(); part != parts.end(); part++)
+      if ((*part)->c.name != "stem" && (*part)->c.name != "leaf" && (*part)->c.name != "fruit")
+         delete *part;
+   }
+
+//////////---------------------------
+
 Plant::Plant(PlantComponent *P)
     {
     parent = P;

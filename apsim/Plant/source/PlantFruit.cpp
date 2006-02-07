@@ -27,8 +27,8 @@
 #include "Plant.h"
 #include "PlantParts.h"
 #include "PlantInterface.h"
-
 #include "PlantFruit.h"
+
 
 using namespace std;
 
@@ -71,6 +71,7 @@ PlantFruit::~PlantFruit()
     if (podPart) delete podPart;
     if (oilPart) delete oilPart;
     if (mealPart) delete mealPart;
+    if (grainPart) delete grainPart;
 
 }
 
@@ -514,7 +515,7 @@ void PlantFruit::nPartition(float nSupply)
         (*part)->nPartition(dlt_n_green);
         }
     //cnh mealPart->dlt.n_green = 0.0;
-    oilPart->dlt.n_green = 0.0;
+    oilPart->dlt.n_green = 0.0;      //remove
 
     float dlt_n_green_sum = 0.0;
     for (part = myParts.begin(); part != myParts.end(); part++)
@@ -1155,12 +1156,12 @@ void PlantFruit::grain_number (float stem_dm_green
 //+  Purpose
 //       Perform grain number calculations
 {
-  if (phenology->on_day_of ("emergence"))
+  if (plant->on_day_of ("emergence"))
         {
         // seedling has just emerged.
         *g_grain_no = 0.0;
         }
-  else if (phenology->on_day_of ("flowering"))
+  else if (plant->on_day_of ("flowering"))
       {
       // we are at first day of grainfill.
       *g_grain_no = p_grains_per_gram_stem * stem_dm_green;
@@ -1533,6 +1534,12 @@ void PlantFruit::doInit1 ()
     myParts.push_back(oilPart);
     myGrainParts.push_back(oilPart);
 
+    grainPart = new fruitGrainPart(plant, "grain");
+//    myParts.push_back(grainPart);
+//    myGrainParts.push_back(grainPart);
+
+    grainPart->doInit1();
+
 }
 
 
@@ -1884,7 +1891,7 @@ void PlantFruit::update(void)
     gGrain_no -= dlt_grain_no_lost;
 
 
-    if (phenology->inPhase("hi_stress_sensitive")) gDm_stress_max.update();
+    if (plant->inPhase("hi_stress_sensitive")) gDm_stress_max.update();
 }
 
 //===========================================================================
@@ -2009,7 +2016,7 @@ void PlantFruit::bio_grain_demand (void)
         }
     else if (cGrain_fill_option == 2)
         {
-        if (phenology->inPhase("grainfill"))
+        if (plant->inPhase("grainfill"))
            bio_yieldpart_demand2();
         else
            gDlt_dm_grain_demand = 0.0;
@@ -2077,7 +2084,7 @@ void PlantFruit::bio_yieldpart_demand1(void)
 
 //- Implementation Section ----------------------------------
 
-    if (phenology->inPhase("grainfill"))
+    if (plant->inPhase("grainfill"))
         {
 
 //        ave_stress = divide ((*g_dm_stress_max).getSum(),
@@ -2096,7 +2103,8 @@ void PlantFruit::bio_yieldpart_demand1(void)
                                     ,pNum_pp_hi_incr);
 
         // effective grain filling period
-        float dm_green_yield_parts = mealPart->g.dm_green + oilPart->g.dm_green;
+        float dm_green_yield_parts = grainPart->dmGreen();
+         dm_green_yield_parts = mealPart->dmGreen() + oilPart->dmGreen();   //remove
 
         harvest_index = divide (dm_green_yield_parts, plant->getDmTops(), 0.0);
         dm_tops_new = plant->getDmTops() + plant->getDltDm();
@@ -2197,7 +2205,7 @@ void PlantFruit::grain_n_demand2 (void)
       // default case
       gN_grain_demand = 0.0;
 
-      if (phenology->inPhase("reproductive"))
+      if (plant->inPhase("reproductive"))
          {
          // we are in grain filling stage
          Tav = meanT();
@@ -2207,7 +2215,7 @@ void PlantFruit::grain_n_demand2 (void)
                                * linear_interp_real (Tav, cX_temp_grain_n_fill, cY_rel_grain_n_fill, cNum_temp_grain_n_fill);
          }
 
-      if (phenology->inPhase("grainfill"))
+      if (plant->inPhase("grainfill"))
          {
          // during grain C filling period so make sure that C filling is still
          // going on otherwise stop putting N in now
@@ -2302,14 +2310,14 @@ float PlantFruit::dm_yield_demand ( float  g_dlt_dm_veg_supply)
 
       dm_grain_demand = divide (gDlt_dm_grain_demand, gGrain_energy, 0.0);
 
-      if (dm_grain_demand > 0.0)
-      {
-         dm_pod_demand = dm_grain_demand * cFracPod;
-      }
-      else
-      {
-         dm_pod_demand = g_dlt_dm_veg_supply * cFracPod;        // fix
-      }
+      if (dm_grain_demand > 0.0)                                        //belongs in podPart FIXME
+      {                                                                 //belongs in podPart FIXME
+         dm_pod_demand = dm_grain_demand * cFracPod;                    //belongs in podPart FIXME
+      }                                                                 //belongs in podPart FIXME
+      else                                                              //belongs in podPart FIXME
+      {                                                                 //belongs in podPart FIXME
+         dm_pod_demand = g_dlt_dm_veg_supply * cFracPod;        // fix  //belongs in podPart FIXME
+      }                                                                 //belongs in podPart FIXME
 
       dm_yield_demand = dm_pod_demand
                       + gDlt_dm_grain_demand
@@ -2345,14 +2353,14 @@ float PlantFruit::dm_yield_demand2 ( float  g_dlt_dm_veg_supply)
 
       dm_grain_demand = divide (gDlt_dm_grain_demand, gGrain_energy, 0.0);
 
-      if (dm_grain_demand > 0.0)
-      {
-         dm_pod_demand = dm_grain_demand * fracPod;
-      }
-      else
-      {
-         dm_pod_demand = g_dlt_dm_veg_supply * fracPod;        // fix
-      }
+      if (dm_grain_demand > 0.0)                                         //belongs in podPart FIXME
+      {                                                                  //belongs in podPart FIXME
+         dm_pod_demand = dm_grain_demand * fracPod;                      //belongs in podPart FIXME
+      }                                                                  //belongs in podPart FIXME
+      else                                                               //belongs in podPart FIXME
+      {                                                                  //belongs in podPart FIXME
+         dm_pod_demand = g_dlt_dm_veg_supply * fracPod;        // fix    //belongs in podPart FIXME
+      }                                                                  //belongs in podPart FIXME
 
       dm_yield_demand = dm_pod_demand
                       + gDlt_dm_grain_demand
@@ -2397,33 +2405,38 @@ void PlantFruit::dm_partition1 (double g_dlt_dm)
      gDlt_dm_oil_conv = 0.0;
 
     // calculate demands of reproductive parts
-    dm_grain_demand = divide (gDlt_dm_grain_demand, gGrain_energy, 0.0);
+    dm_grain_demand = grainPart->dm_yield_demand();
+    dm_grain_demand = divide (gDlt_dm_grain_demand, gGrain_energy, 0.0);   //remove
 
     dm_meal_demand = dm_grain_demand * (1.0 - cGrain_oil_conc);
     dm_oil_demand = dm_grain_demand - dm_meal_demand;
     dm_oil_conv_demand = gDlt_dm_grain_demand - dm_grain_demand;
 
-    if (dm_grain_demand > 0.0)
-    {
-        dm_pod_demand = dm_grain_demand * fracPod;
-    }
-    else
-    {
-        dm_pod_demand = g_dlt_dm;
-    }
+    if (dm_grain_demand > 0.0)                          //belongs in podPart FIXME
+    {                                                   //belongs in podPart FIXME
+        dm_pod_demand = dm_grain_demand * fracPod;      //belongs in podPart FIXME
+    }                                                   //belongs in podPart FIXME
+    else                                                //belongs in podPart FIXME
+    {                                                   //belongs in podPart FIXME
+        dm_pod_demand = g_dlt_dm;                       //belongs in podPart FIXME
+    }                                                   //belongs in podPart FIXME
     yield_demand = dm_pod_demand
-                 + dm_meal_demand
-                 + dm_oil_demand
-                 + dm_oil_conv_demand;
+                 + dm_grain_demand;
+
+    yield_demand = dm_pod_demand            //remove
+                 + dm_meal_demand           //remove
+                 + dm_oil_demand            //remove
+                 + dm_oil_conv_demand;      //remove
 
          // now distribute the assimilate to plant parts
     if (yield_demand >= g_dlt_dm)
             // reproductive demand exceeds supply - distribute assimilate to those parts only
     {
             // reproductive demand exceeds supply - distribute assimilate to those parts only
-        mealPart->dlt.dm_green = g_dlt_dm * divide (dm_meal_demand    , yield_demand, 0.0);
-        oilPart->dlt.dm_green  = g_dlt_dm * divide (dm_oil_demand     , yield_demand, 0.0);
-        gDlt_dm_oil_conv       = g_dlt_dm * divide (dm_oil_conv_demand, yield_demand, 0.0);
+        grainPart->dlt.dm_green = g_dlt_dm * divide (dm_grain_demand    , yield_demand, 0.0);
+        mealPart->dlt.dm_green = g_dlt_dm * divide (dm_meal_demand    , yield_demand, 0.0);     //remove
+        oilPart->dlt.dm_green  = g_dlt_dm * divide (dm_oil_demand     , yield_demand, 0.0);     //remove
+        gDlt_dm_oil_conv       = g_dlt_dm * divide (dm_oil_conv_demand, yield_demand, 0.0);     //remove
 
         podPart->dlt.dm_green = g_dlt_dm
                               - mealPart->dlt.dm_green
@@ -2436,20 +2449,26 @@ void PlantFruit::dm_partition1 (double g_dlt_dm)
         // distribute to all parts
 
         // satisfy reproductive demands
-        mealPart->dlt.dm_green   = dm_meal_demand;
-        oilPart->dlt.dm_green    = dm_oil_demand;
-        gDlt_dm_oil_conv         = dm_oil_conv_demand;
+        grainPart->dlt.dm_green   = dm_grain_demand;
+        mealPart->dlt.dm_green   = dm_meal_demand;        //remove
+        oilPart->dlt.dm_green    = dm_oil_demand;         //remove
+        gDlt_dm_oil_conv         = dm_oil_conv_demand;    //remove
         podPart->dlt.dm_green    = dm_pod_demand;
 
 //        // distribute remainder to vegetative parts
 //        dm_remaining = g_dlt_dm - yield_demand;
     }
 
+////     for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
+////          t != myParts.end();
+////          t++)
+////        (*t)->dm_partition1 (g_dlt_dm);
+
      dltDmGreen();      // update fruit dlt.dm_green
 
     // do mass balance check
     dlt_dm_green_tot = dlt.dm_green
-                     + gDlt_dm_oil_conv;
+                     + gDlt_dm_oil_conv;      //FIXME
 
     if (!reals_are_equal(dlt_dm_green_tot, g_dlt_dm, 1.0E-4))  // XX this is probably too much slop - try doubles XX
     {
@@ -2503,33 +2522,38 @@ void PlantFruit::dm_partition2 (double g_dlt_dm)
      gDlt_dm_oil_conv = 0.0;
 
     // calculate demands of reproductive parts
-    dm_grain_demand = divide (gDlt_dm_grain_demand, gGrain_energy, 0.0);
+    dm_grain_demand = grainPart->dm_yield_demand();
+    dm_grain_demand = divide (gDlt_dm_grain_demand, gGrain_energy, 0.0);   //remove
 
     dm_meal_demand = dm_grain_demand * (1.0 - cGrain_oil_conc);
     dm_oil_demand = dm_grain_demand - dm_meal_demand;
     dm_oil_conv_demand = gDlt_dm_grain_demand - dm_grain_demand;
 
-    if (dm_grain_demand > 0.0)
-    {
-        dm_pod_demand = dm_grain_demand * fracPod;
-    }
-    else
-    {
-        dm_pod_demand = g_dlt_dm;
-    }
+    if (dm_grain_demand > 0.0)                        //belongs in podPart FIXME
+    {                                                 //belongs in podPart FIXME
+        dm_pod_demand = dm_grain_demand * fracPod;    //belongs in podPart FIXME
+    }                                                 //belongs in podPart FIXME
+    else                                              //belongs in podPart FIXME
+    {                                                 //belongs in podPart FIXME
+        dm_pod_demand = g_dlt_dm;                     //belongs in podPart FIXME
+    }                                                 //belongs in podPart FIXME
     yield_demand = dm_pod_demand
-                 + dm_meal_demand
-                 + dm_oil_demand
-                 + dm_oil_conv_demand;
+                 + dm_grain_demand;
+
+    yield_demand = dm_pod_demand          //remove
+                 + dm_meal_demand         //remove
+                 + dm_oil_demand          //remove
+                 + dm_oil_conv_demand;    //remove
 
          // now distribute the assimilate to plant parts
     if (yield_demand >= g_dlt_dm)
             // reproductive demand exceeds supply - distribute assimilate to those parts only
     {
             // reproductive demand exceeds supply - distribute assimilate to those parts only
-        mealPart->dlt.dm_green = g_dlt_dm * divide (dm_meal_demand    , yield_demand, 0.0);
-        oilPart->dlt.dm_green  = g_dlt_dm * divide (dm_oil_demand     , yield_demand, 0.0);
-        gDlt_dm_oil_conv       = g_dlt_dm * divide (dm_oil_conv_demand, yield_demand, 0.0);
+        grainPart->dlt.dm_green = g_dlt_dm * divide (dm_grain_demand    , yield_demand, 0.0);
+        mealPart->dlt.dm_green = g_dlt_dm * divide (dm_meal_demand    , yield_demand, 0.0);    //remove
+        oilPart->dlt.dm_green  = g_dlt_dm * divide (dm_oil_demand     , yield_demand, 0.0);    //remove
+        gDlt_dm_oil_conv       = g_dlt_dm * divide (dm_oil_conv_demand, yield_demand, 0.0);    //remove
 
         podPart->dlt.dm_green = g_dlt_dm
                               - mealPart->dlt.dm_green
@@ -2542,9 +2566,10 @@ void PlantFruit::dm_partition2 (double g_dlt_dm)
         // distribute to all parts
 
         // satisfy reproductive demands
-        mealPart->dlt.dm_green   = dm_meal_demand;
-        oilPart->dlt.dm_green    = dm_oil_demand;
-        gDlt_dm_oil_conv         = dm_oil_conv_demand;
+        grainPart->dlt.dm_green   = dm_grain_demand;
+        mealPart->dlt.dm_green   = dm_meal_demand;         //remove
+        oilPart->dlt.dm_green    = dm_oil_demand;          //remove
+        gDlt_dm_oil_conv         = dm_oil_conv_demand;     //remove
         podPart->dlt.dm_green    = dm_pod_demand;
 
 //        // distribute remainder to vegetative parts
@@ -2555,7 +2580,7 @@ void PlantFruit::dm_partition2 (double g_dlt_dm)
 
     // do mass balance check
     dlt_dm_green_tot = dlt.dm_green
-                     + gDlt_dm_oil_conv;
+                     + gDlt_dm_oil_conv;    //FIXME
 
     if (!reals_are_equal(dlt_dm_green_tot, g_dlt_dm, 1.0E-4))  // XX this is probably too much slop - try doubles XX
     {
@@ -2634,9 +2659,10 @@ void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_fruit )
         (*t)->dlt.dm_green_retrans = 0.0;
      dmOil_conv_retranslocate = 0.0;
 
-    dlt_dm_grain = mealPart->dlt.dm_green
-                 + oilPart->dlt.dm_green
-                 + gDlt_dm_oil_conv;
+    dlt_dm_grain = grainPart->dlt.dm_green;
+    dlt_dm_grain = mealPart->dlt.dm_green   //remove
+                 + oilPart->dlt.dm_green    //remove
+                 + gDlt_dm_oil_conv;        //remove
 
     if (gDlt_dm_grain_demand > dlt_dm_grain)
     {
@@ -2645,12 +2671,18 @@ void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_fruit )
 
             // calculate demands for each reproductive part
 
-        dm_demand_differential          = gDlt_dm_grain_demand - dlt_dm_grain;
-        dm_grain_demand_differential    = divide (dm_demand_differential, gGrain_energy, 0.0);
-        dm_meal_demand_differential     = dm_grain_demand_differential * (1.0 - cGrain_oil_conc);
-        dm_oil_demand_differential      = dm_grain_demand_differential - dm_meal_demand_differential;
-        dm_oil_conv_demand_differential = dm_demand_differential - dm_grain_demand_differential;
-        dm_pod_demand_differential      = dm_grain_demand_differential * fracPod;
+        dm_grain_demand_differential    = gDlt_dm_grain_demand - dlt_dm_grain;                      //FIXME
+        dm_demand_differential          = gDlt_dm_grain_demand - dlt_dm_grain;                      //FIXME
+        dm_grain_demand_differential    = divide (dm_demand_differential, gGrain_energy, 0.0);      //FIXME
+        dm_meal_demand_differential     = dm_grain_demand_differential * (1.0 - cGrain_oil_conc);     //FIXME
+        dm_oil_demand_differential      = dm_grain_demand_differential - dm_meal_demand_differential;  //FIXME
+        dm_oil_conv_demand_differential = dm_demand_differential - dm_grain_demand_differential;       //FIXME
+        dm_pod_demand_differential      = dm_grain_demand_differential * fracPod;                  //FIXME
+
+        yield_demand_differential  = dm_pod_demand_differential
+                                   + dm_grain_demand_differential
+                                   + dm_oil_demand_differential
+                                   + dm_oil_conv_demand_differential;
 
         yield_demand_differential  = dm_pod_demand_differential
                                    + dm_meal_demand_differential
@@ -2791,7 +2823,7 @@ void PlantFruit::dm_retranslocate2( float  g_dlt_dm_retrans_to_fruit)
         dm_meal_demand_differential     = dm_grain_demand_differential * (1.0 - cGrain_oil_conc);
         dm_oil_demand_differential      = dm_grain_demand_differential - dm_meal_demand_differential;
         dm_oil_conv_demand_differential = dm_demand_differential - dm_grain_demand_differential;
-        dm_pod_demand_differential      = dm_grain_demand_differential * fracPod;
+        dm_pod_demand_differential      = dm_grain_demand_differential * fracPod;    //FIXME
 
         yield_demand_differential  = dm_pod_demand_differential
                                    + dm_meal_demand_differential
@@ -2935,14 +2967,16 @@ void PlantFruit::nit_init (void)
 //- Implementation Section ----------------------------------
 
 
-//   if (phenology->inPhase("grainfill"))            //FIXME when these data members are put in
+//   if (plant->inPhase("grainfill"))            //FIXME when these data members are put in
 //      n_conc_grain_limits(gN_conc_crit
 //                        , gN_conc_max
 //                        , gN_conc_min);
 
 }
 
+//============================================================================
 float PlantFruit::availableRetranslocateN(void)
+//============================================================================
 {
       float nAvail = 0.0;
       for (vector<plantPart *>::iterator t = supplyPools.begin();
@@ -2979,7 +3013,7 @@ void PlantFruit::n_conc_grain_limits (void)
     float n_min_grain;                            // minimum mass of grain N (g/m2)
 
 //- Implementation Section ----------------------------------
-    if (phenology->inPhase ("grainfill"))
+    if (plant->inPhase ("grainfill"))
         {
         dm_oil = oilPart->g.dm_green
                + oilPart->dlt.dm_green

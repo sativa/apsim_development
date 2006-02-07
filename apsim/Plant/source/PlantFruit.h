@@ -14,15 +14,15 @@
 #endif
 
 class PlantComponent;
-class PlantPhenology;
 class ApsimVariant;
-class plantPart;
 class plantThing;
 class eventObserver;
 class Plant;
-class fruitPodPart;
-class fruitOilPart;
-class fruitMealPart;
+#include "PlantParts.h"
+#include "FruitGrainPart.h"
+#include "OilPart.h"
+#include "MealPart.h"
+#include "PodPart.h"
 
 //typedef bool (PlantFruit::*ptr2setFn) (protocol::QuerySetValueData&);
 
@@ -339,6 +339,7 @@ class PlantFruit : public plantPart
       fruitPodPart  *podPart;
       fruitOilPart  *oilPart;
       fruitMealPart  *mealPart;
+      fruitGrainPart  *grainPart;
 
       unsigned int idLatitude;
       float cGrain_fill_option;
